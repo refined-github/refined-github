@@ -7,7 +7,11 @@
   },
   "xo": {
     "envs": [
-      "browser"
+      "browser",
+      "jquery"
+    ],
+    "ignores": [
+      "extension/vendor/**"
     ]
   }
 }
