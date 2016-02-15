@@ -16,6 +16,22 @@
 	display: none !important;
 }
 
+/* remove the toolbar from the right repo box on the dashboard */
+#your_repos > h3,
+#your_repos > .boxed-group-action {
+	display: none !important;
+}
+#your_repos .boxed-group-inner {
+	border-radius: 3px !important;
+}
+#your_repos .filter-repos {
+	border-top-left-radius: 3px !important;
+	border-top-right-radius: 3px !important;
+}
+#your_repos .repo-icon {
+	opacity: 0.6 !important;
+}
+
 /* remove border between dashboard news items */
 .news .alert {
 	border: 0 !important;
