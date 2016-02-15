@@ -22,6 +22,8 @@
 				"custom.css"
 			],
 			"js": [
+				"vendor/sprint.min.js",
+				"vendor/gh-injection.js",
 				"content.js"
 			]
 		}

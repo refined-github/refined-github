@@ -105,3 +105,9 @@
 .file-navigation a[href$="/pull/new/master"] {
 	display: none !important;
 }
+
+/* add hover underline for `content.js` linkified branch refs in pull requests */
+.commit-ref:hover,
+.commit-ref:hover span {
+	text-decoration: underline !important;
+}
