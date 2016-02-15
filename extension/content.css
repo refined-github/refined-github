@@ -105,3 +105,9 @@
 .file-navigation a[href$="/pull/new/master"] {
 	display: none !important;
 }
+
+/* increase the font size of code */
+.blob-code-inner {
+	font-size: 16px !important;
+	line-height: 24px;
+}
