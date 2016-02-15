@@ -42,6 +42,14 @@ Install it from the [Chrome Web Store](https://chrome.google.com/webstore/detail
 I'm happy to receive suggestions and contributions, but be aware this is a highly opinionated project. I'm not interested in adding options. If you disagree with something just fork it.
 
 
+## Related
+
+- [Tab Size on GitHub extension](https://github.com/sindresorhus/tab-size-on-github)
+- [Notifier for GitHub extension](https://github.com/sindresorhus/notifier-for-github-chrome)
+- [Hide Files on GitHub extension](https://github.com/sindresorhus/hide-files-on-github)
+- [Show All GitHub Issues extension](https://github.com/sindresorhus/show-all-github-issues)
+
+
 ## License
 
 MIT © [Sindre Sorhus](https://sindresorhus.com)
