@@ -49,6 +49,7 @@ I'm happy to receive suggestions and contributions, but be aware this is a highl
 - [Notifier for GitHub extension](https://github.com/sindresorhus/notifier-for-github-chrome)
 - [Hide Files on GitHub extension](https://github.com/sindresorhus/hide-files-on-github)
 - [Show All GitHub Issues extension](https://github.com/sindresorhus/show-all-github-issues)
+- [Canned Responses on GitHub extension](https://github.com/notwaldorf/github-canned-responses)
 
 
 ## License
