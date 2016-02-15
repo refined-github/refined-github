@@ -12,7 +12,7 @@
 }
 
 /* remove "Repositories you contribute to" dashboard sidebar box */
-.dashboard-sidebar > div:first-child {
+.dashboard-sidebar > .boxed-group[role="navigation"]:not(.repos) {
 	display: none !important;
 }
 
@@ -110,4 +110,14 @@
 .commit-ref:hover,
 .commit-ref:hover span {
 	text-decoration: underline !important;
+}
+
+/* remove the "new feature" notification box */
+.js-notice {
+	display: none !important;
+}
+
+/* hide jobs ads from the dashboard */
+.github-jobs-promotion {
+	display: none !important;
 }
