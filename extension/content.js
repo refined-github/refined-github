@@ -31,6 +31,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			new MutationObserver(() => hideStarsOwnRepos())
 				.observe($('#dashboard .news').get(0), {childList: true});
+				//
+			// Fix empty whitespace between dashboard sidebar items
+			document.querySelector('.dashboard-sidebar [role="navigation"]').style.marginBottom = "-30px";
 		}
 
 		// expand all the news feed pages
