@@ -2,21 +2,29 @@
 'use strict';
 const path = location.pathname;
 const isDashboard = path === '/';
-const isRepo = /^\/[^/]+\/[^/]+/.test(location.pathname);
-const isPR = () => /^\/[^/]+\/[^/]+\/pull\/\d+$/.test(location.pathname);
+const isRepo = /^\/[^/]+\/[^/]+/.test(path);
 const repoName = path.split('/')[2];
+const isPR = () => /^\/[^/]+\/[^/]+\/pull\/\d+$/.test(location.pathname);
+const getUsername = () => $('meta[name="user-login"]').attr('content');
 
 function linkifyBranchRefs() {
 	$('.commit-ref').each((i, el) => {
 		const parts = $(el).find('.css-truncate-target');
-		const username = parts.eq(0).text();
-		const branch = parts.eq(1).text();
+		let username = parts.eq(0).text();
+		let branch = parts.eq(1).text();
+
+		// both branches are from the current repo
+		if (!branch) {
+			branch = username;
+			username = getUsername();
+		}
+
 		$(el).wrap(`<a href="https://github.com/${username}/${repoName}/tree/${branch}">`);
 	});
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-	const username = $('meta[name="user-login"]').attr('content');
+	const username = getUsername();
 
 	if (isDashboard) {
 		// hide other users starring/forking your repos
