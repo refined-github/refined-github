@@ -1,0 +1,29 @@
+{
+	"name": "Refined GitHub",
+	"version": "0.0.0",
+	"description": "Simplifies the GitHub interface and adds useful features",
+	"homepage_url": "https://github.com/sindresorhus/refined-github",
+	"manifest_version": 2,
+	"minimum_chrome_version": "48",
+	"permissions": [
+		"https://github.com/*"
+	],
+	"icons": {
+		"128": "icon.png"
+	},
+	"content_scripts": [
+		{
+			"run_at": "document_start",
+			"matches": [
+				"https://github.com/*"
+			],
+			"css": [
+				"content.css",
+				"custom.css"
+			],
+			"js": [
+				"content.js"
+			]
+		}
+	]
+}

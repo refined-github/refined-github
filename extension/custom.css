@@ -1,0 +1,13 @@
+/*
+	highly opinionated changes
+*/
+
+/* remove clone in desktop button */
+.file-navigation-options a[href^="github-mac"] {
+	display: none !important;
+}
+
+/* remove "Pulse" repo tab */
+.reponav a[href$="/pulse"] {
+	display: none !important;
+}

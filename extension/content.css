@@ -1,0 +1,107 @@
+.subscribe-feed {
+	display: none !important;
+}
+
+/* allow for absolute positioning relative to the dashboard */
+#dashboard {
+	position: relative;
+}
+
+#dashboard .new-repo {
+	display: none !important;
+}
+
+/* remove "Repositories you contribute to" dashboard sidebar box */
+.dashboard-sidebar > div:first-child {
+	display: none !important;
+}
+
+/* remove border between dashboard news items */
+.news .alert {
+	border: 0 !important;
+}
+
+/* remove tooltips */
+.tooltipped:before,
+.tooltipped:after {
+	display: none !important;
+}
+
+/* fade out the file icons */
+.file-wrap .files .octicon {
+	opacity: 0.6;
+}
+
+/* remove annoying hover in the repo file list */
+.file-wrap .files .navigation-focus td {
+	background: none !important;
+}
+
+#readme > h3 {
+	display: none !important;
+}
+
+#readme .markdown-body {
+	border-radius: 3px !important;
+	border-radius: 3px !important;
+}
+
+.paginate-protip {
+	display: none !important;
+}
+
+.site-footer {
+	visibility: hidden;
+}
+
+/* remove useless message on the right side of the PR merge box */
+.alt-merge-options {
+	display: none !important;
+}
+
+/* remove top buttons on comment box */
+.tabnav-extra {
+	display: none !important;
+}
+
+/* remove commentbox toolbar */
+.toolbar-commenting {
+	display: none !important;
+}
+
+/* remove upload message on comment box */
+.write-content .drag-and-drop {
+	display: none !important;
+}
+.upload-enabled textarea {
+	border-bottom: 1px solid #ccc !important;
+	border-radius: 3px !important;
+}
+
+/* remove random protip at the bottom of the page */
+.protip {
+	display: none !important;
+}
+
+/* remove message under the `Unsubscribe` button */
+.sidebar-notifications .reason {
+	display: none !important;
+}
+
+/* move the dashboard organization switcher to the right column */
+.account-switcher {
+	position: absolute !important;
+	right: 10px !important;
+}
+.account-switcher button {
+	width: 313px !important;
+}
+.user-repos {
+	position: relative;
+	top: 50px;
+}
+
+/* remove "New pull request" button on repo page */
+.file-navigation a[href$="/pull/new/master"] {
+	display: none !important;
+}
