@@ -3,7 +3,7 @@
 const path = location.pathname;
 const isDashboard = path === '/';
 const isRepo = /^\/[^/]+\/[^/]+/.test(path);
-let repoName = path.split('/')[2];
+const repoName = path.split('/')[2];
 const isPR = () => /^\/[^/]+\/[^/]+\/pull\/\d+$/.test(location.pathname);
 const getUsername = () => $('meta[name="user-login"]').attr('content');
 
@@ -14,7 +14,7 @@ function linkifyBranchRefs() {
 		let branch = parts.eq(1).text();
 
 		// forked repos can have their name changed; grab it from first commit in PR
-		const forkName = document.querySelectorAll('.commit-id')[0].href.split('/')[4];
+		const branchRepo = path.includes(username) ? repoName : $('.commit-id').attr('href').split('/')[2];
 
 		// both branches are from the current repo
 		if (!branch) {
@@ -22,12 +22,7 @@ function linkifyBranchRefs() {
 			username = getUsername();
 		}
 
-		// if this is the forked version, use the forked repo's name
-		if (!path.includes(username)) {
-			repoName = forkName;
-		}
-
-		$(el).wrap(`<a href="https://github.com/${username}/${repoName}/tree/${branch}">`);
+		$(el).wrap(`<a href="https://github.com/${username}/${branchRepo}/tree/${branch}">`);
 	});
 }
 
