@@ -3,8 +3,9 @@
 }
 
 /* allow for absolute positioning relative to the dashboard */
-#dashboard {
-	position: relative;
+#dashboard,
+.orgpage > .container {
+	position: relative !important;
 }
 
 #dashboard .new-repo {
@@ -17,18 +18,18 @@
 }
 
 /* remove the toolbar from the right repo box on the dashboard */
-#your_repos > h3,
-#your_repos > .boxed-group-action {
+.dashboard-sidebar .user-repos > h3,
+.dashboard-sidebar .user-repos > .boxed-group-action {
 	display: none !important;
 }
-#your_repos .boxed-group-inner {
+.dashboard-sidebar .user-repos .boxed-group-inner {
 	border-radius: 3px !important;
 }
-#your_repos .filter-repos {
+.dashboard-sidebar .user-repos .filter-repos {
 	border-top-left-radius: 3px !important;
 	border-top-right-radius: 3px !important;
 }
-#your_repos .repo-icon {
+.dashboard-sidebar .user-repos .repo-icon {
 	opacity: 0.6 !important;
 }
 
@@ -108,13 +109,27 @@
 .account-switcher {
 	position: absolute !important;
 	right: 10px !important;
+	margin-top: 0 !important;
 }
 .account-switcher button {
 	width: 313px !important;
 }
 .user-repos {
-	position: relative;
-	top: 50px;
+	position: relative !important;
+	top: 50px !important;
+}
+/* organization dashboard */
+.orgpage .pagehead-nav {
+	float: left !important;
+}
+.orgpage .account-switcher {
+	right: 0 !important;
+}
+.orgpage .user-repos {
+	position: static !important;
+}
+#org_your_repos {
+	top: 0 !important;
 }
 
 /* remove "New pull request" button on repo page */
