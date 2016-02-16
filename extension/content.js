@@ -23,8 +23,9 @@ function linkifyBranchRefs() {
 		}
 
 		// if this is the forked version, use the forked repo's name
-		if (!path.includes(username))
-			repoName = forkName
+		if (!path.includes(username)) {
+			repoName = forkName;
+		}
 
 		$(el).wrap(`<a href="https://github.com/${username}/${repoName}/tree/${branch}">`);
 	});
