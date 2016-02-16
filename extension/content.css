@@ -152,3 +152,8 @@
 .github-jobs-promotion {
 	display: none !important;
 }
+
+/* remove useless tip in the organization news feed */
+#dashboard .alert.git_hub {
+	display: none !important;
+}
