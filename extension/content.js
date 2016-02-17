@@ -5,7 +5,12 @@ const isDashboard = path === '/';
 const isRepo = /^\/[^/]+\/[^/]+/.test(path);
 const repoName = path.split('/')[2];
 const isPR = () => /^\/[^/]+\/[^/]+\/pull\/\d+$/.test(location.pathname);
+const isIssue = () => /^\/[^/]+\/[^/]+\/issues\/\d+$/.test(location.pathname);
 const getUsername = () => $('meta[name="user-login"]').attr('content');
+const uselessContent = {
+	like: {text: ['+1\n'], emoji: [':+1:']},
+	dislike: {text: ['-1\n'], emoji: [':-1:']}
+};
 
 function linkifyBranchRefs() {
 	$('.commit-ref').each((i, el) => {
@@ -24,6 +29,55 @@ function linkifyBranchRefs() {
 
 		$(el).wrap(`<a href="https://github.com/${username}/${branchRepo}/tree/${branch}">`);
 	});
+}
+
+function commentIsUseless(type, el) {
+	if (uselessContent[type].text.indexOf(el.innerText) >= 0) {
+		return true;
+	}
+	// check if there is exactly one child element, that has one other child node
+	// using `childNodes` because this also includes text
+	if (el.children.length === 1 && el.children[0].childNodes.length === 1) {
+		const onlyChild = el.children[0].childNodes[0];
+		if (onlyChild.tagName === 'IMG' && uselessContent[type].emoji.indexOf(onlyChild.title) >= 0) {
+			return true;
+		}
+	}
+}
+
+function renderLikeCount(type, count) {
+	const sidebar = document.querySelector('#partial-discussion-sidebar');
+	const likeElement = document.createElement('div');
+	const likeHeading = document.createElement('h3');
+
+	likeElement.className = 'discussion-sidebar-item';
+	likeHeading.className = 'discussion-sidebar-heading';
+	likeHeading.textContent = count + ' ' + type;
+	likeElement.appendChild(likeHeading);
+	sidebar.appendChild(likeElement);
+}
+
+function moveLikes() {
+	let likeCount = 0;
+	let dislikeCount = 0;
+	$('.js-comment-body').each((i, el) => {
+		const isLike = commentIsUseless('like', el);
+		const isDislike = commentIsUseless('dislike', el);
+
+		if (isLike || isDislike) {
+			const commentContainer = el.closest('.js-comment-container');
+			commentContainer.parentNode.removeChild(commentContainer);
+
+			likeCount += isLike ? 1 : 0;
+			dislikeCount += isDislike ? 1 : 0;
+		}
+	});
+	if (likeCount > 0) {
+		renderLikeCount('likes', likeCount);
+	}
+	if (dislikeCount > 0) {
+		renderLikeCount('dislikes', dislikeCount);
+	}
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -61,6 +115,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		gitHubInjection(window, () => {
 			if (isPR()) {
 				linkifyBranchRefs();
+			}
+			if (isPR() || isIssue()) {
+				moveLikes();
 			}
 		});
 	}
