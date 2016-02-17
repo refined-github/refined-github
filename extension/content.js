@@ -6,7 +6,7 @@ const isRepo = /^\/[^/]+\/[^/]+/.test(path);
 const username = path.split('/')[1];
 const repoName = path.split('/')[2];
 const isPR = () => /^\/[^/]+\/[^/]+\/pull\/\d+$/.test(location.pathname);
-const isReleases = () => isRepo && /^\/[^/]+\/[^/]+\/releases/.test(location.pathname);
+const isReleases = () => isRepo && /^\/[^/]+\/[^/]+\/(releases|tags)/.test(location.pathname);
 const getUsername = () => $('meta[name="user-login"]').attr('content');
 
 function linkifyBranchRefs() {
