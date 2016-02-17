@@ -8,8 +8,8 @@ const isPR = () => /^\/[^/]+\/[^/]+\/pull\/\d+$/.test(location.pathname);
 const isIssue = () => /^\/[^/]+\/[^/]+\/issues\/\d+$/.test(location.pathname);
 const getUsername = () => $('meta[name="user-login"]').attr('content');
 const uselessContent = {
-	like: {text: ['+1\n'], emoji: [':+1:']},
-	dislike: {text: ['-1\n'], emoji: [':-1:']}
+	upvote: {text: ['+1\n'], emoji: [':+1:']},
+	downvote: {text: ['-1\n'], emoji: [':-1:']}
 };
 
 function linkifyBranchRefs() {
@@ -45,38 +45,38 @@ function commentIsUseless(type, el) {
 	}
 }
 
-function renderLikeCount(type, count) {
+function renderVoteCount(type, count) {
 	const sidebar = document.querySelector('#partial-discussion-sidebar');
-	const likeElement = document.createElement('div');
-	const likeHeading = document.createElement('h3');
+	const voteElement = document.createElement('div');
+	const voteHeading = document.createElement('h3');
 
-	likeElement.className = 'discussion-sidebar-item';
-	likeHeading.className = 'discussion-sidebar-heading';
-	likeHeading.textContent = count + ' ' + type;
-	likeElement.appendChild(likeHeading);
-	sidebar.appendChild(likeElement);
+	voteElement.className = 'discussion-sidebar-item';
+	voteHeading.className = 'discussion-sidebar-heading';
+	voteHeading.textContent = count + ' ' + type;
+	voteElement.appendChild(voteHeading);
+	sidebar.appendChild(voteElement);
 }
 
-function moveLikes() {
-	let likeCount = 0;
-	let dislikeCount = 0;
+function moveVotes() {
+	let upCount = 0;
+	let downCount = 0;
 	$('.js-comment-body').each((i, el) => {
-		const isLike = commentIsUseless('like', el);
-		const isDislike = commentIsUseless('dislike', el);
+		const isUp = commentIsUseless('upvote', el);
+		const isDown = commentIsUseless('downvote', el);
 
-		if (isLike || isDislike) {
+		if (isUp || isDown) {
 			const commentContainer = el.closest('.js-comment-container');
 			commentContainer.parentNode.removeChild(commentContainer);
 
-			likeCount += isLike ? 1 : 0;
-			dislikeCount += isDislike ? 1 : 0;
+			upCount += isUp ? 1 : 0;
+			downCount += isDown ? 1 : 0;
 		}
 	});
-	if (likeCount > 0) {
-		renderLikeCount('likes', likeCount);
+	if (upCount > 0) {
+		renderVoteCount('upvotes', upCount);
 	}
-	if (dislikeCount > 0) {
-		renderLikeCount('dislikes', dislikeCount);
+	if (downCount > 0) {
+		renderVoteCount('downvotes', downCount);
 	}
 }
 
@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				linkifyBranchRefs();
 			}
 			if (isPR() || isIssue()) {
-				moveLikes();
+				moveVotes();
 			}
 		});
 	}
