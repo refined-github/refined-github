@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	if (isRepo) {
-		gitHubInjection(window, () => {
+		gitHubInjection(window, {wait: 1}, () => {
 			addReleasesTab();
 			if (isPR()) {
 				linkifyBranchRefs();
