@@ -7,9 +7,10 @@ I use GitHub a lot and notice many dumb annoyances I want to fix. So here be dra
 
 ## Highlights
 
-- Hides other users starring/forking your repos from the newsfeed
+- [Linkifies branch references in pull requests](https://github.com/sindresorhus/refined-github/issues/1)
+- [Adds a 'Releases' tab to repos](https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png) *(<kbd>g</kbd> <kbd>r</kbd> hotkey)*
 - Automagically expands all the news feed pages
-- [Linkifies branch references](https://github.com/sindresorhus/refined-github/issues/1) in pull requests
+- Hides other users starring/forking your repos from the newsfeed
 - Removes tooltips
 - Removes annoying hover effect in the repo file browser
 - Removes the comment box toolbar
