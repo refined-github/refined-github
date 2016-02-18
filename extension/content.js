@@ -71,13 +71,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		// expand all the news feed pages
 		(function more() {
-			const btn = $('.ajax-pagination-btn').get(0);
+			const form = $('.js-ajax-pagination').get(0);
 
-			if (!btn) {
+			if (!form) {
 				return;
 			}
 
-			btn.click();
+			form.submit();
 			setTimeout(more, 200);
 		})();
 	}
