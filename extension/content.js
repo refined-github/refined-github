@@ -16,7 +16,8 @@ function linkifyBranchRefs() {
 		let branch = parts.eq(1).text();
 
 		// forked repos can have their name changed; grab it from first commit in PR
-		const branchRepo = path.includes(username) ? repoName : $('.commit-id').attr('href').split('/')[2];
+		// the regex matches '/[any word]/' at the beginning, or '/commit/[40 char hash]' at the end of the string
+		const branchRepo = path.includes(username) ? repoName : $('.commit-id').attr('href').replace(/(^\/\w+\/)|(\/(commit)\/\w{40}$)/g, '');
 
 		// both branches are from the current repo
 		if (!branch) {
