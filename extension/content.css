@@ -158,3 +158,8 @@
 #dashboard .alert.git_hub {
 	display: none !important;
 }
+
+/* remove Upload files button; drag and drop is available anyway */
+.file-navigation a[href$="/upload"] {
+	display: none !important;
+}
