@@ -1,51 +1,22 @@
+// https://github.com/octo-linker/injection 0.2.0
 'use strict';
-// https://github.com/octo-linker/injection
 
-// Grabbed from underscore.js
-// http://underscorejs.org/#debounce
-function debounce(func, wait, immediate) {
-  var timeout;
-  return function() {
-    var context = this, args = arguments;
-    var later = function() {
-      timeout = null;
-      if (!immediate) {
-        func.apply(context, args);
-      }
-    };
-    var callNow = immediate && !timeout;
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-    if (callNow) {
-      func.apply(context, args);
-    }
-  };
-}
-
-var gitHubInjection = function (global, options, cb) {
+var gitHubInjection = function (global, cb) {
   if (!global) {
     throw new Error('Missing argument global');
   }
+
   if (!global.document || !global.document.getElementById) {
     throw new Error('The given argument global is not a valid window object');
-  }
-
-  if (!cb) {
-    cb = options;
-    options = {};
-  } else if (typeof cb !== 'function') {
-    throw new Error('Callback is not a function');
   }
 
   if (!cb) {
     throw new Error('Missing argument callback');
   }
 
-  options = options || {};
-  options.context = options.context || null;
-  options.wait = options.wait || 250;
-
-  cb = debounce(cb, options.wait).bind(options.context);
+  if (typeof cb !== 'function') {
+    throw new Error('Callback is not a function');
+  }
 
   var domElement = global.document.getElementById('js-repo-pjax-container');
   if (!domElement || !global.MutationObserver) {

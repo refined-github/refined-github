@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	if (isRepo) {
-		gitHubInjection(window, {wait: 1}, () => {
+		gitHubInjection(window, () => {
 			addReleasesTab();
 
 			if (isPR()) {
