@@ -12,8 +12,12 @@ const getUsername = () => $('meta[name="user-login"]').attr('content');
 function linkifyBranchRefs() {
 	$('.commit-ref').each((i, el) => {
 		const parts = $(el).find('.css-truncate-target');
-		let username = parts.eq(0).text();
-		let branch = parts.eq(1).text();
+		let branch = parts.eq(parts.length - 1).text();
+
+		// if there are two parts the first part is the username
+		if (parts.length > 1) {
+			let username = parts.eq(0).text();
+		}
 
 		// forked repos can have their name changed; grab it from first commit in PR
 		// the regex matches '/[any word]/' at the beginning, or '/commit/[40 char hash]' at the end of the string
