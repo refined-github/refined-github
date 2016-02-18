@@ -51,6 +51,7 @@ I'm happy to receive suggestions and contributions, but be aware this is a highl
 - [Hide Files on GitHub extension](https://github.com/sindresorhus/hide-files-on-github)
 - [Show All GitHub Issues extension](https://github.com/sindresorhus/show-all-github-issues)
 - [Canned Responses on GitHub extension](https://github.com/notwaldorf/github-canned-responses)
+- [Filter files in pull requests](https://github.com/danielhusar/github-pr-filter)
 
 
 ## License
