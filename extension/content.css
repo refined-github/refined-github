@@ -113,6 +113,7 @@
 }
 .account-switcher button {
 	width: 313px !important;
+	z-index: 0 !important;
 }
 .user-repos {
 	position: relative !important;
