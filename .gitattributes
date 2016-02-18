@@ -1,2 +1,4 @@
 * text=auto
 *.ai binary
+readme.md merge=union
+extension/content.css merge=union
