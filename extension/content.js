@@ -48,8 +48,19 @@ function commentIsUseless(type, el) {
 }
 
 function renderVoteCount(type, count) {
+	let iconUrl;
+	if (type === 'upvote') {
+		iconUrl = 'https://assets-cdn.github.com/images/icons/emoji/unicode/1f44d.png';
+	}
+	if (type === 'downvote') {
+		iconUrl = 'https://assets-cdn.github.com/images/icons/emoji/unicode/1f44e.png';
+	}
 	const $sidebar = $('#partial-discussion-sidebar');
-	$sidebar.append(`<div class="discussion-sidebar-item"><h3 class="discussion-sidebar-heading">${count} ${type}</h3></div>`);
+	$sidebar.append(`<div class="discussion-sidebar-item">
+			<h3 class="discussion-sidebar-heading">
+				${count} <img class="emoji" alt="${type}" height="20" width="20" align="absmiddle" src="${iconUrl}">
+			</h3>
+		</div>`);
 }
 
 function moveVotes() {
@@ -67,10 +78,10 @@ function moveVotes() {
 		}
 	});
 	if (upCount > 0) {
-		renderVoteCount('upvotes', upCount);
+		renderVoteCount('upvote', upCount);
 	}
 	if (downCount > 0) {
-		renderVoteCount('downvotes', downCount);
+		renderVoteCount('downvote', downCount);
 	}
 }
 
