@@ -34,29 +34,22 @@ function linkifyBranchRefs() {
 }
 
 function commentIsUseless(type, el) {
-	if (uselessContent[type].text.indexOf(el.innerText) >= 0) {
+	if (uselessContent[type].text.includes(el.innerText)) {
 		return true;
 	}
 	// check if there is exactly one child element, that has one other child node
 	// using `childNodes` because this also includes text
 	if (el.children.length === 1 && el.children[0].childNodes.length === 1) {
 		const onlyChild = el.children[0].childNodes[0];
-		if (onlyChild.tagName === 'IMG' && uselessContent[type].emoji.indexOf(onlyChild.title) >= 0) {
+		if (onlyChild.tagName === 'IMG' && uselessContent[type].emoji.includes(onlyChild.title)) {
 			return true;
 		}
 	}
 }
 
 function renderVoteCount(type, count) {
-	const sidebar = document.querySelector('#partial-discussion-sidebar');
-	const voteElement = document.createElement('div');
-	const voteHeading = document.createElement('h3');
-
-	voteElement.className = 'discussion-sidebar-item';
-	voteHeading.className = 'discussion-sidebar-heading';
-	voteHeading.textContent = count + ' ' + type;
-	voteElement.appendChild(voteHeading);
-	sidebar.appendChild(voteElement);
+	const $sidebar = $('#partial-discussion-sidebar');
+	$sidebar.append(`<div class="discussion-sidebar-item"><h3 class="discussion-sidebar-heading">${count} ${type}</h3></div>`);
 }
 
 function moveVotes() {
@@ -67,8 +60,7 @@ function moveVotes() {
 		const isDown = commentIsUseless('downvote', el);
 
 		if (isUp || isDown) {
-			const commentContainer = el.closest('.js-comment-container');
-			commentContainer.parentNode.removeChild(commentContainer);
+			el.closest('.js-comment-container').remove();
 
 			upCount += isUp ? 1 : 0;
 			downCount += isDown ? 1 : 0;
