@@ -37,12 +37,16 @@ function commentIsUseless(type, el) {
 	if (uselessContent[type].text.includes(el.innerText)) {
 		return true;
 	}
-	// check if there is exactly one child element, that has one other child node
-	// using `childNodes` because this also includes text
-	if (el.children.length === 1 && el.children[0].childNodes.length === 1) {
-		const onlyChild = el.children[0].childNodes[0];
-		if (onlyChild.tagName === 'IMG' && uselessContent[type].emoji.includes(onlyChild.title)) {
-			return true;
+	// check if there is exactly one child element, that has one or two child nodes;
+	// sometimes a second child node can contain a useless space
+	// using `childNodes` because this also includes text nodes
+	if (el.children.length === 1) {
+		const children = el.children[0].childNodes;
+		if (children.length === 1 || (children.length === 2 && !children[1].textContent.trim())) {
+			const onlyChild = children[0];
+			if (onlyChild.tagName === 'IMG' && uselessContent[type].emoji.includes(onlyChild.title)) {
+				return true;
+			}
 		}
 	}
 }
