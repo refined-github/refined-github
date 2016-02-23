@@ -4,6 +4,8 @@
 
 I use GitHub a lot and notice many dumb annoyances I want to fix. So here be dragons.
 
+My hope is that GitHub will notice and implement some of these much needed improvements. So if you like any of these features, please email [GitHub support](mailto:support@github.com) about adding it.
+
 
 ## Highlights
 
@@ -42,7 +44,7 @@ Install it from the [Chrome Web Store](https://chrome.google.com/webstore/detail
 
 ## Contribute
 
-I'm happy to receive suggestions and contributions, but be aware this is a highly opinionated project. I'm not interested in adding options. If you disagree with something just fork it.
+I'm happy to receive suggestions and contributions, but be aware this is a highly opinionated project. I'm not interested in adding options as it's a slippery slope into adding options for everything. Users will always disagree with something. That being said, I'm open to discussing things.
 
 
 ## Related
