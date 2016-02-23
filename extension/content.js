@@ -1,7 +1,7 @@
 /* globals gitHubInjection */
 'use strict';
 const path = location.pathname;
-const isDashboard = path === '/';
+const isDashboard = path === '/' || /(^\/(dashboard))/.test(path) || /(^\/(orgs)\/)(\w|-)+\/(dashboard)/.test(path);
 const isRepo = /^\/[^/]+\/[^/]+/.test(path);
 const ownerName = path.split('/')[1];
 const repoName = path.split('/')[2];
@@ -51,6 +51,27 @@ function addReleasesTab() {
 	}
 }
 
+function infinitelyMore() {
+	const btn = $('.ajax-pagination-btn').get(0);
+
+	// if there's no more button remove unnecessary event listeners
+	if (!btn) {
+		window.removeEventListener('scroll', infinitelyMore);
+		window.removeEventListener('resize', infinitelyMore);
+		return;
+	}
+
+	// grab dimensions to see if we should load
+	const wHeight = window.innerHeight;
+	const wScroll = window.pageYOffset || document.scrollTop;
+	const btnOffset = $('.ajax-pagination-btn').offset().top;
+
+	// mash the button if it's coming close to being in view
+	if (wScroll > (btnOffset - wHeight)) {
+		btn.click();
+	}
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 	const username = getUsername();
 
@@ -69,17 +90,9 @@ document.addEventListener('DOMContentLoaded', () => {
 				.observe($('#dashboard .news').get(0), {childList: true});
 		}
 
-		// expand all the news feed pages
-		(function more() {
-			const btn = $('.ajax-pagination-btn').get(0);
-
-			if (!btn) {
-				return;
-			}
-
-			btn.click();
-			setTimeout(more, 200);
-		})();
+		// event binding for infinite scroll
+		window.addEventListener('scroll', infinitelyMore);
+		window.addEventListener('resize', infinitelyMore);
 	}
 
 	if (isRepo) {
