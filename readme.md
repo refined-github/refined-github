@@ -9,6 +9,7 @@ I use GitHub a lot and notice many dumb annoyances I want to fix. So here be dra
 
 - [Linkifies branch references in pull requests](https://github.com/sindresorhus/refined-github/issues/1)
 - [Adds a 'Releases' tab to repos](https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png) *(<kbd>g</kbd> <kbd>r</kbd> hotkey)*
+- [Hides :+1: :-1: comments and shows their count in the sidebar](https://cloud.githubusercontent.com/assets/170270/13241396/0b708ae8-da1d-11e5-8c01-94eae501034c.png)
 - Automagically expands the news feed when you scroll down
 - Hides other users starring/forking your repos from the newsfeed
 - Removes tooltips
