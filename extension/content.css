@@ -77,7 +77,7 @@
 }
 
 /* remove top buttons on comment box */
-.tabnav-extra {
+.timeline-comment-wrapper .tabnav-extra {
 	display: none !important;
 }
 
