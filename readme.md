@@ -54,6 +54,15 @@ I'm happy to receive suggestions and contributions, but be aware this is a highl
 - [Canned Responses on GitHub extension](https://github.com/notwaldorf/github-canned-responses)
 
 
+## Created by
+
+- [Sindre Sorhus](https://sindresorhus.com)
+- [Haralan Dobrev](http://hkdobrev.com)
+- [Paul Molluzzo](http://paul.molluzzo.com)
+- [Kees Kluskens](https://webduck.nl)
+- [And our awesome contributors](https://github.com/sindresorhus/refined-github/graphs/contributors)
+
+
 ## License
 
 MIT © [Sindre Sorhus](https://sindresorhus.com)
