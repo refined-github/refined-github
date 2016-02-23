@@ -88,6 +88,62 @@ function moveVotes() {
 	}
 }
 
+function commentIsUseless(type, el) {
+	if (uselessContent[type].text.includes(el.innerText)) {
+		return true;
+	}
+	// check if there is exactly one child element, that has one or two child nodes;
+	// sometimes a second child node can contain a useless space
+	// using `childNodes` because this also includes text nodes
+	if (el.children.length === 1) {
+		const children = el.children[0].childNodes;
+		if (children.length === 1 || (children.length === 2 && !children[1].textContent.trim())) {
+			const onlyChild = children[0];
+			if (onlyChild.tagName === 'IMG' && uselessContent[type].emoji.includes(onlyChild.title)) {
+				return true;
+			}
+		}
+	}
+}
+
+function renderVoteCount(type, count) {
+	let iconUrl;
+	if (type === 'upvote') {
+		iconUrl = 'https://assets-cdn.github.com/images/icons/emoji/unicode/1f44d.png';
+	}
+	if (type === 'downvote') {
+		iconUrl = 'https://assets-cdn.github.com/images/icons/emoji/unicode/1f44e.png';
+	}
+	const $sidebar = $('#partial-discussion-sidebar');
+	$sidebar.append(`<div class="discussion-sidebar-item">
+			<h3 class="discussion-sidebar-heading">
+				${count} <img class="emoji" alt="${type}" height="20" width="20" align="absmiddle" src="${iconUrl}">
+			</h3>
+		</div>`);
+}
+
+function moveVotes() {
+	let upCount = 0;
+	let downCount = 0;
+	$('.js-comment-body').each((i, el) => {
+		const isUp = commentIsUseless('upvote', el);
+		const isDown = commentIsUseless('downvote', el);
+
+		if (isUp || isDown) {
+			el.closest('.js-comment-container').remove();
+
+			upCount += isUp ? 1 : 0;
+			downCount += isDown ? 1 : 0;
+		}
+	});
+	if (upCount > 0) {
+		renderVoteCount('upvote', upCount);
+	}
+	if (downCount > 0) {
+		renderVoteCount('downvote', downCount);
+	}
+}
+
 function addReleasesTab() {
 	const $repoNav = $('.js-repo-nav');
 	let $releasesTab = $repoNav.children('[data-selected-links~="repo_releases"]');
