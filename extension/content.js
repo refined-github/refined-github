@@ -133,6 +133,29 @@ function infinitelyMore() {
 	}
 }
 
+function addEditButtons() {
+	var dirListItems = $('tr.js-navigation-item');
+
+	dirListItems.each((index, element) => {
+		// Add edit link to each list item.
+
+		var isFile = $(element).find('td.icon > svg.octicon-file-text').size() === 1;
+		if (isFile) {
+			var editHref = $(element).find('td.content > span > a').attr('href').replace('blob', 'edit');
+			var editButtonHtml =
+				'<td class="icon" style="padding-left:9px;">' +
+					'<a href="' + editHref + '">' +
+						'<svg aria-hidden="true" class="octicon octicon-pencil" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14">' +
+							'<path d="M0 12v3h3l8-8-3-3L0 12z m3 2H1V12h1v1h1v1z m10.3-9.3l-1.3 1.3-3-3 1.3-1.3c0.39-0.39 1.02-0.39 1.41 0l1.59 1.59c0.39 0.39 0.39 1.02 0 1.41z">' +
+							'</path>' +
+						'</svg>' +
+					'</a>' +
+				'</td>';
+			$(element).children('td.icon').replaceWith(editButtonHtml);
+		}
+	});
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 	const username = getUsername();
 
@@ -158,6 +181,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	if (isRepo) {
 		gitHubInjection(window, () => {
+			const isRepoTree = window.location.href.split('/').length === 5 || window.location.href.split('/')[5] === 'tree';
+
 			addReleasesTab();
 
 			if (isPR()) {
@@ -165,6 +190,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 			if (isPR() || isIssue()) {
 				moveVotes();
+			}
+			if (isRepoTree) {
+				addEditButtons();
 			}
 		});
 	}
