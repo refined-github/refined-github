@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		{
 			const hideStarsOwnRepos = () => {
 				$('#dashboard .news .watch_started, #dashboard .news .fork')
-					.has(`.title a[href^="/${username}"`)
+					.has(`.title a[href^="/${username}"]`)
 					.css('display', 'none');
 			};
 
