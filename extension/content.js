@@ -151,7 +151,7 @@ function addEditButtons() {
 						'</svg>' +
 					'</a>' +
 				'</td>';
-			$(element).children("td.icon").replaceWith(editButtonHtml);
+			$(element).children('td.icon').replaceWith(editButtonHtml);
 		}
 	});
 }
