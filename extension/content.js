@@ -181,6 +181,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	if (isRepo) {
 		gitHubInjection(window, () => {
+			const isRepoTree = window.location.href.split('/').length === 5 || window.location.href.split('/')[5] === 'tree';
+
 			addReleasesTab();
 
 			if (isPR()) {
@@ -189,8 +191,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (isPR() || isIssue()) {
 				moveVotes();
 			}
-			const isRepoTree = window.location.href.split('/').length === 5 || window.location.href.split('/')[5] === 'tree';
-
 			if (isRepoTree) {
 				addEditButtons();
 			}
