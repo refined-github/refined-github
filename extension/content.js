@@ -10,7 +10,7 @@ const isIssue = () => /^\/[^/]+\/[^/]+\/issues\/\d+$/.test(location.pathname);
 const isReleases = () => isRepo && /^\/[^/]+\/[^/]+\/(releases|tags)/.test(location.pathname);
 const getUsername = () => $('meta[name="user-login"]').attr('content');
 const uselessContent = {
-	upvote: {text: ['+1\n'], emoji: [':+1:']},
+	upvote: {text: ['+1\n'], emoji: [':+1:', ':100:']},
 	downvote: {text: ['-1\n'], emoji: [':-1:']}
 };
 
@@ -48,6 +48,8 @@ function commentIsUseless(type, el) {
 			}
 		}
 	}
+
+	return false;
 }
 
 function renderVoteCount(type, count) {
@@ -67,24 +69,36 @@ function renderVoteCount(type, count) {
 }
 
 function moveVotes() {
-	let upCount = 0;
-	let downCount = 0;
+	const upVoters = new Set();
+	const downVoters = new Set();
 	$('.js-comment-body').each((i, el) => {
 		const isUp = commentIsUseless('upvote', el);
 		const isDown = commentIsUseless('downvote', el);
+		const commenter = el.closest('.js-comment-container').getElementsByClassName('author')[0].innerHTML;
 
 		if (isUp || isDown) {
-			el.closest('.js-comment-container').remove();
+			// remove from both arrays
+			upVoters.delete(commenter);
+			downVoters.delete(commenter);
 
-			upCount += isUp ? 1 : 0;
-			downCount += isDown ? 1 : 0;
+			// add to upvoters if it's an upvote
+			if (isUp) {
+				upVoters.add(commenter);
+			}
+
+			// add to upvoters if it's an upvote
+			if (isDown) {
+				downVoters.add(commenter);
+			}
+
+			el.closest('.js-comment-container').remove();
 		}
 	});
-	if (upCount > 0) {
-		renderVoteCount('upvote', upCount);
+	if (upVoters.size > 0) {
+		renderVoteCount('upvote', upVoters.size);
 	}
-	if (downCount > 0) {
-		renderVoteCount('downvote', downCount);
+	if (downVoters.size > 0) {
+		renderVoteCount('downvote', downVoters.size);
 	}
 }
 
