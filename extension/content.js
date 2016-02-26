@@ -10,7 +10,7 @@ const isIssue = () => /^\/[^/]+\/[^/]+\/issues\/\d+$/.test(location.pathname);
 const isReleases = () => isRepo && /^\/[^/]+\/[^/]+\/(releases|tags)/.test(location.pathname);
 const getUsername = () => $('meta[name="user-login"]').attr('content');
 const uselessContent = {
-	upvote: {text: ['+1\n'], emoji: [':+1:', ':100:']},
+	upvote: {text: ['+1\n'], emoji: [':+1:', ':100:', ':ok_hand:']},
 	downvote: {text: ['-1\n'], emoji: [':-1:']}
 };
 
@@ -72,6 +72,11 @@ function moveVotes() {
 	const upVoters = new Set();
 	const downVoters = new Set();
 	$('.js-comment-body').each((i, el) => {
+		// this is a comment not in the usual container - found on inline comments
+		if (!el.closest('.js-comment-container')) {
+			return;
+		}
+
 		const isUp = commentIsUseless('upvote', el);
 		const isDown = commentIsUseless('downvote', el);
 		const commenter = el.closest('.js-comment-container').getElementsByClassName('author')[0].innerHTML;
