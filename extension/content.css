@@ -165,9 +165,14 @@
 }
 
 /* style for edit README button */
-
-#readme:hover #refined-readme-edit-link {
+#readme #refined-github-readme-edit-link {
 	position: absolute;
 	top: 10px;
-	left: 10px;
+	right: 10px;
+	opacity: 0;
+	transition: opacity 250ms;
+}
+
+#readme:hover #refined-github-readme-edit-link {
+	opacity: 1;
 }
