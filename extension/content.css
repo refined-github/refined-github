@@ -163,3 +163,11 @@
 .file-navigation a[href$="/upload"] {
 	display: none !important;
 }
+
+/* style for edit README button */
+
+#readme:hover #refined-readme-edit-link {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+}
