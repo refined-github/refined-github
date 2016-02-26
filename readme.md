@@ -57,6 +57,13 @@ I'm happy to receive suggestions and contributions, but be aware this is a highl
 - [Canned Responses on GitHub extension](https://github.com/notwaldorf/github-canned-responses)
 
 
+## Community tweaks
+
+*Stuff that didn't get included, but might be useful.*
+
+- [Quickly edit files in the repo file browser](https://github.com/devkhan/refined-github/commit/51fdf4998fc9392950e932e18018fda870f34666)
+
+
 ## Created by
 
 - [Sindre Sorhus](https://sindresorhus.com)
