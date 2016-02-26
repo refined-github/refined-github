@@ -18,6 +18,7 @@ My hope is that GitHub will notice and implement some of these much needed impro
 - Removes annoying hover effect in the repo file browser
 - Removes the comment box toolbar
 - Moves the dashboard organization switcher to the right column
+- Adds blame links for parent commits in blame view
 
 And [lots](extension/content.css) [more...](extension/content.js)
 

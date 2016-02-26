@@ -8,6 +8,7 @@ const repoName = path.split('/')[2];
 const isPR = () => /^\/[^/]+\/[^/]+\/pull\/\d+$/.test(location.pathname);
 const isIssue = () => /^\/[^/]+\/[^/]+\/issues\/\d+$/.test(location.pathname);
 const isReleases = () => isRepo && /^\/[^/]+\/[^/]+\/(releases|tags)/.test(location.pathname);
+const isBlame = () => isRepo && /^\/[^/]+\/[^/]+\/blame\//.test(location.pathname);
 const getUsername = () => $('meta[name="user-login"]').attr('content');
 const uselessContent = {
 	upvote: {text: ['+1\n'], emoji: [':+1:']},
@@ -133,6 +134,23 @@ function infinitelyMore() {
 	}
 }
 
+function addBlameParentLinks() {
+	$('.blame-sha').each((index, commitLink) => {
+		const $commitLink = $(commitLink);
+		const $blameParentLink = $commitLink.clone();
+		const commitSha = /\w{40}$/.exec(commitLink.href)[0];
+
+		$blameParentLink
+			.text('Blame ^')
+			.prop('href', location.pathname.replace(
+				/(\/blame\/)[^\/]+/,
+				'$1' + commitSha + encodeURI('^')
+			));
+
+		$commitLink.nextAll('.blame-commit-meta').append($blameParentLink);
+	});
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 	const username = getUsername();
 
@@ -165,6 +183,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 			if (isPR() || isIssue()) {
 				moveVotes();
+			}
+			if (isBlame()) {
+				addBlameParentLinks();
 			}
 		});
 	}
