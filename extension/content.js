@@ -74,7 +74,7 @@ function moveVotes() {
 	const downVoters = new Set();
 	$('.js-comment-body').each((i, el) => {
 		// this is a comment not in the usual container - found on inline comments
-		if (!$(el).closest('.js-comment-container')) {
+		if ($(el).closest('.js-comment-container').find('.author').length === 0) {
 			return;
 		}
 
