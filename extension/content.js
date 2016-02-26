@@ -73,13 +73,13 @@ function moveVotes() {
 	const downVoters = new Set();
 	$('.js-comment-body').each((i, el) => {
 		// this is a comment not in the usual container - found on inline comments
-		if (!el.closest('.js-comment-container')) {
+		if (!$(el).closest('.js-comment-container')) {
 			return;
 		}
 
 		const isUp = commentIsUseless('upvote', el);
 		const isDown = commentIsUseless('downvote', el);
-		const commenter = el.closest('.js-comment-container').getElementsByClassName('author')[0].innerHTML;
+		const commenter = $(el).closest('.js-comment-container').find('.author').get(0).innerHTML;
 
 		if (isUp || isDown) {
 			// remove from both arrays
