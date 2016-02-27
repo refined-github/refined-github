@@ -173,8 +173,8 @@ function addBlameParentLinks() {
 function addReadmeEditButton() {
 	const readmeContainer = $('#readme');
 	const readmeName = $('#readme > h3').text().trim();
-	const currentBranch = $('#branch').attr('value');
-	const editHref = `${location.href.replace(/\/$/, '')}/edit/${currentBranch}/${readmeName}`;
+	const currentBranch = $('.file-navigation .select-menu.left button.select-menu-button').attr('title');
+	const editHref = `/${ownerName}/${repoName}/edit/${currentBranch}/${readmeName}`;
 	const editButtonHtml = `<div id="refined-github-readme-edit-link">
 														<a href="${editHref}">
 															<svg class="octicon octicon-pencil" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path d="M0 12v3h3l8-8-3-3L0 12z m3 2H1V12h1v1h1v1z m10.3-9.3l-1.3 1.3-3-3 1.3-1.3c0.39-0.39 1.02-0.39 1.41 0l1.59 1.59c0.39 0.39 0.39 1.02 0 1.41z"></path></svg>
@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	if (isRepo) {
-		const isRepoRoot = location.pathname.replace(/\/$/, '') === `/${ownerName}/${repoName}`;
+		const isRepoRoot = location.pathname.replace(/\/$/, '') === `/${ownerName}/${repoName}` || /(\/tree\/)(\w|\d|\.)+(\/$|$)/.test(location.href);
 
 		gitHubInjection(window, () => {
 			addReleasesTab();
