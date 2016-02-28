@@ -19,6 +19,7 @@ My hope is that GitHub will notice and implement some of these much needed impro
 - Removes annoying hover effect in the repo file browser
 - Removes the comment box toolbar
 - Moves the dashboard organization switcher to the right column
+- Adds button to README to quickly edit on GitHub
 
 And [lots](extension/content.css) [more...](extension/content.js)
 
@@ -37,6 +38,9 @@ And [lots](extension/content.css) [more...](extension/content.js)
 
 <img src="screenshot-comment-box.png" width="795">
 
+### Edit README
+
+![](screenshot-edit-readme.png)
 
 ## Install
 
