@@ -134,7 +134,7 @@
 }
 
 /* remove "New pull request" button on repo page */
-.file-navigation a[href$="/pull/new/master"] {
+.file-navigation .new-pull-request-btn {
 	display: none !important;
 }
 
