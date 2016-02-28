@@ -163,3 +163,16 @@
 .file-navigation a[href$="/upload"] {
 	display: none !important;
 }
+
+/* style for edit README button */
+#refined-github-readme-edit-link {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	opacity: 0.2;
+	transition: opacity 250ms;
+}
+
+#refined-github-readme-edit-link:hover {
+	opacity: 1;
+}
