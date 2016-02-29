@@ -115,6 +115,11 @@
 	width: 313px !important;
 	z-index: 0 !important;
 }
+.account-switcher .select-menu-button-gravatar {
+	float: none !important;
+	display: inline-block !important;
+	vertical-align: top !important;
+}
 .user-repos {
 	position: relative !important;
 	top: 50px !important;
