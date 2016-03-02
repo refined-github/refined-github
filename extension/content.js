@@ -58,6 +58,7 @@ function addMinimizeMaximize() {
 
 		$('.file-header').on('click', (e) => {
 			$(e.target).parent().find('div.data').toggleClass('hidden');
+			$(e.target).toggleClass('refined-github-minimized');
 		});
 	}
 }

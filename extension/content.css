@@ -186,3 +186,9 @@
 .btn-group.refined-github-btn-group {
     margin-right: 25px;
 }
+.file-header {
+    cursor: zoom-out;
+}
+.file-header.refined-github-minimized {
+    cursor: zoom-in;
+}
