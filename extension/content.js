@@ -35,17 +35,17 @@ function linkifyBranchRefs() {
 
 function addMinimizeMaximize() {
 	if (!$('#toc .refined-github-btn-group').length && $('#toc .btn-group').length) {
-		const buttonGroup = $('<div/>').addClass('btn-group right refined-github-btn-group'),
-			buttonHideAll = $('<a/>').addClass('btn btn-sm').text('Minimize All').attr('id', 'hide_all'),
-			buttonShowAll = $('<a/>').addClass('btn btn-sm').text('Maximize All').attr('id', 'show_all');
+		const buttonGroup = $('<div/>').addClass('btn-group right refined-github-btn-group');
+		const buttonHideAll = $('<a/>').addClass('btn btn-sm').text('Minimize All').attr('id', 'hide_all');
+		const buttonShowAll = $('<a/>').addClass('btn btn-sm').text('Maximize All').attr('id', 'show_all');
 
-		buttonHideAll.on('click', function(e) {
+		buttonHideAll.on('click', (e) => {
 			e.preventDefault();
 			e.stopPropagation();
 			$('div.data').addClass('hidden');
 		});
 
-		buttonShowAll.on('click', function(e) {
+		buttonShowAll.on('click', (e) => {
 			e.preventDefault();
 			e.stopPropagation();
 			$('div.data').removeClass('hidden');
@@ -56,8 +56,8 @@ function addMinimizeMaximize() {
 			.append(buttonShowAll)
 			.insertAfter('#toc .btn-group');
 
-		$('.file-header').on('click', function(e) {
-			$(this).parent().find('div.data').toggleClass('hidden');
+		$('.file-header').on('click', (e) => {
+			$(e.target).parent().find('div.data').toggleClass('hidden');
 		});
 	}
 }
