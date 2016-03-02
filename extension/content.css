@@ -181,3 +181,8 @@
 #refined-github-readme-edit-link:hover {
 	opacity: 1;
 }
+
+/* style for minimize/maximize button group */
+.btn-group.refined-github-btn-group {
+    margin-right: 25px;
+}

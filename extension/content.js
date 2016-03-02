@@ -5,7 +5,7 @@ const isDashboard = path === '/' || /(^\/(dashboard))/.test(path) || /(^\/(orgs)
 const isRepo = /^\/[^/]+\/[^/]+/.test(path);
 const ownerName = path.split('/')[1];
 const repoName = path.split('/')[2];
-const isPR = () => /^\/[^/]+\/[^/]+\/pull\/\d+$/.test(location.pathname);
+const isPR = () => /^\/[^/]+\/[^/]+\/pull\/\d+/.test(location.pathname);
 const isIssue = () => /^\/[^/]+\/[^/]+\/issues\/\d+$/.test(location.pathname);
 const isReleases = () => isRepo && /^\/[^/]+\/[^/]+\/(releases|tags)/.test(location.pathname);
 const isBlame = () => isRepo && /^\/[^/]+\/[^/]+\/blame\//.test(location.pathname);
@@ -31,6 +31,35 @@ function linkifyBranchRefs() {
 
 		$(el).wrap(`<a href="https://github.com/${username}/${branchRepo}/tree/${branch}">`);
 	});
+}
+
+function addMinimizeMaximize() {
+	if (!$('#toc .refined-github-btn-group').length && $('#toc .btn-group').length) {
+		const buttonGroup = $('<div/>').addClass('btn-group right refined-github-btn-group'),
+			buttonHideAll = $('<a/>').addClass('btn btn-sm').text('Minimize All').attr('id', 'hide_all'),
+			buttonShowAll = $('<a/>').addClass('btn btn-sm').text('Maximize All').attr('id', 'show_all');
+
+		buttonHideAll.on('click', function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			$('div.data').addClass('hidden');
+		});
+
+		buttonShowAll.on('click', function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			$('div.data').removeClass('hidden');
+		});
+
+		buttonGroup
+			.append(buttonHideAll)
+			.append(buttonShowAll)
+			.insertAfter('#toc .btn-group');
+
+		$('.file-header').on('click', function(e) {
+			$(this).parent().find('div.data').toggleClass('hidden');
+		});
+	}
 }
 
 function commentIsUseless(type, el) {
@@ -215,7 +244,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (isPR()) {
 				linkifyBranchRefs();
+				addMinimizeMaximize();
 			}
+
 			if (isPR() || isIssue()) {
 				moveVotes();
 			}
