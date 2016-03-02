@@ -43,12 +43,14 @@ function addMinimizeMaximize() {
 			e.preventDefault();
 			e.stopPropagation();
 			$('div.data').addClass('hidden');
+			$('.file-header').addClass('refined-github-minimized');
 		});
 
 		buttonShowAll.on('click', (e) => {
 			e.preventDefault();
 			e.stopPropagation();
 			$('div.data').removeClass('hidden');
+			$('.file-header').removeClass('refined-github-minimized');
 		});
 
 		buttonGroup
