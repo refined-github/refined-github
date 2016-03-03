@@ -189,6 +189,10 @@
 .file-header {
     cursor: zoom-out;
 }
-.file-header.refined-github-minimized {
+.refined-github-minimized.file-header {
     cursor: zoom-in;
+}
+
+.refined-github-minimized .data {
+    display: none !important;
 }

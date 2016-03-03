@@ -42,15 +42,13 @@ function addMinimizeMaximize() {
 		buttonHideAll.on('click', (e) => {
 			e.preventDefault();
 			e.stopPropagation();
-			$('div.data').addClass('hidden');
-			$('.file-header').addClass('refined-github-minimized');
+			$('.file-header').parent().addClass('refined-github-minimized');
 		});
 
 		buttonShowAll.on('click', (e) => {
 			e.preventDefault();
 			e.stopPropagation();
-			$('div.data').removeClass('hidden');
-			$('.file-header').removeClass('refined-github-minimized');
+			$('.file-header').parent().removeClass('refined-github-minimized');
 		});
 
 		buttonGroup
@@ -58,9 +56,12 @@ function addMinimizeMaximize() {
 			.append(buttonShowAll)
 			.insertAfter('#toc .btn-group');
 
+		$('.file-header .file-actions').on('click', (e) => {
+			e.stopPropagation();
+		});
+
 		$('.file-header').on('click', (e) => {
-			$(e.target).parent().find('div.data').toggleClass('hidden');
-			$(e.target).toggleClass('refined-github-minimized');
+			$(e.target).closest('.js-details-container').toggleClass('refined-github-minimized');
 		});
 	}
 }
