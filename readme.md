@@ -14,6 +14,7 @@ My hope is that GitHub will notice and implement some of these much needed impro
 - [Adds a 'Releases' tab to repos](https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png) *(<kbd>g</kbd> <kbd>r</kbd> hotkey)*
 - [Adds a quick edit button to the readme](https://cloud.githubusercontent.com/assets/170270/13379292/61cd4c42-de54-11e5-8829-f4b82ba8c2bc.png)
 - [Adds blame links for parent commits in blame view](https://github.com/sindresorhus/refined-github/issues/2#issuecomment-189141373)
+- [Adds a shortcut to quickly delete a fork repo](https://github.com/sindresorhus/refined-github/issues/48#issuecomment-191177270)
 - Automagically expands the news feed when you scroll down
 - Hides other users starring/forking your repos from the newsfeed
 - Removes tooltips
@@ -38,6 +39,9 @@ And [lots](extension/content.css) [more...](extension/content.js)
 
 <img src="screenshot-comment-box.png" width="795">
 
+### Shortcut to Delete Fork
+
+![](screenshot-delete-fork.png)
 
 ## Install
 
