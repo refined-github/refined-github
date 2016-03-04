@@ -34,36 +34,38 @@ function linkifyBranchRefs() {
 }
 
 function addMinimizeMaximize() {
-	if (!$('#toc .refined-github-btn-group').length && $('#toc .btn-group').length) {
-		const buttonGroup = $('<div/>').addClass('btn-group right refined-github-btn-group');
-		const buttonHideAll = $('<a/>').addClass('btn btn-sm').text('Minimize All').attr('id', 'hide_all');
-		const buttonShowAll = $('<a/>').addClass('btn btn-sm').text('Maximize All').attr('id', 'show_all');
-
-		buttonHideAll.on('click', (e) => {
-			e.preventDefault();
-			e.stopPropagation();
-			$('.file-header').parent().addClass('refined-github-minimized');
-		});
-
-		buttonShowAll.on('click', (e) => {
-			e.preventDefault();
-			e.stopPropagation();
-			$('.file-header').parent().removeClass('refined-github-minimized');
-		});
-
-		buttonGroup
-			.append(buttonHideAll)
-			.append(buttonShowAll)
-			.insertAfter('#toc .btn-group');
-
-		$('.file-header .file-actions').on('click', (e) => {
-			e.stopPropagation();
-		});
-
-		$('.file-header').on('click', (e) => {
-			$(e.target).closest('.js-details-container').toggleClass('refined-github-minimized');
-		});
+	if ($('#toc .refined-github-btn-group').length) {
+		return;
 	}
+
+	const buttonGroup = $('<div>').addClass('btn-group right refined-github-btn-group');
+	const buttonHideAll = $('<a>').addClass('btn btn-sm').text('Minimize All').attr('id', 'hide_all');
+	const buttonShowAll = $('<a>').addClass('btn btn-sm').text('Maximize All').attr('id', 'show_all');
+
+	buttonHideAll.on('click', e => {
+		e.preventDefault();
+		e.stopPropagation();
+		$('.file-header').parent().addClass('refined-github-minimized');
+	});
+
+	buttonShowAll.on('click', e => {
+		e.preventDefault();
+		e.stopPropagation();
+		$('.file-header').parent().removeClass('refined-github-minimized');
+	});
+
+	buttonGroup
+		.append(buttonHideAll)
+		.append(buttonShowAll)
+		.insertAfter('#toc .btn-group');
+
+	$('.file-header .file-actions').on('click', e => {
+		e.stopPropagation();
+	});
+
+	$('.file-header').on('click', e => {
+		$(e.target).closest('.js-details-container').toggleClass('refined-github-minimized');
+	});
 }
 
 function commentIsUseless(type, el) {

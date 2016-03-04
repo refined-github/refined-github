@@ -186,11 +186,11 @@
 .btn-group.refined-github-btn-group {
     margin-right: 25px;
 }
-.file-header {
-    cursor: zoom-out;
+.file-header, .file-header .file-info * {
+    cursor: zoom-out !important;
 }
-.refined-github-minimized .file-header {
-    cursor: zoom-in;
+.refined-github-minimized .file-header, .refined-github-minimized .file-header .file-info * {
+    cursor: zoom-in !important;
 }
 
 .refined-github-minimized .data {
