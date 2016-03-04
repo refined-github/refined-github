@@ -52,6 +52,7 @@ I'm happy to receive suggestions and contributions, but be aware this is a highl
 
 ## Related
 
+- [Safari version of this extension](https://github.com/fantattitude/refined-github-safari)
 - [Tab Size on GitHub extension](https://github.com/sindresorhus/tab-size-on-github)
 - [Notifier for GitHub extension](https://github.com/sindresorhus/notifier-for-github-chrome)
 - [Hide Files on GitHub extension](https://github.com/sindresorhus/hide-files-on-github)
