@@ -196,3 +196,18 @@
 .refined-github-minimized .data {
     display: none !important;
 }
+/* style for delete fork link */
+.post-merge-message {
+	min-height: 85px;
+}
+
+#refined-github-delete-fork-link {
+	position: absolute;
+	top: 35px;
+	right: 30px;
+	padding: 10px 10px 0;
+}
+
+#refined-github-delete-fork-link a {
+	color: #df3e3e;
+}
