@@ -5,7 +5,7 @@ const isDashboard = path === '/' || /(^\/(dashboard))/.test(path) || /(^\/(orgs)
 const isRepo = /^\/[^/]+\/[^/]+/.test(path);
 const ownerName = path.split('/')[1];
 const repoName = path.split('/')[2];
-const isPR = () => /^\/[^/]+\/[^/]+\/pull\/\d+$/.test(location.pathname);
+const isPR = () => /^\/[^/]+\/[^/]+\/pull\/\d+/.test(location.pathname);
 const isIssue = () => /^\/[^/]+\/[^/]+\/issues\/\d+$/.test(location.pathname);
 const isReleases = () => isRepo && /^\/[^/]+\/[^/]+\/(releases|tags)/.test(location.pathname);
 const isBlame = () => isRepo && /^\/[^/]+\/[^/]+\/blame\//.test(location.pathname);
@@ -30,6 +30,41 @@ function linkifyBranchRefs() {
 		const branchRepo = path.includes(username) ? repoName : $('.commit-id').attr('href').split('/')[2];
 
 		$(el).wrap(`<a href="https://github.com/${username}/${branchRepo}/tree/${branch}">`);
+	});
+}
+
+function addMinimizeMaximize() {
+	if ($('#toc .refined-github-btn-group').length) {
+		return;
+	}
+
+	const buttonGroup = $('<div>').addClass('btn-group right refined-github-btn-group');
+	const buttonHideAll = $('<a>').addClass('btn btn-sm').text('Minimize All').attr('id', 'hide_all');
+	const buttonShowAll = $('<a>').addClass('btn btn-sm').text('Maximize All').attr('id', 'show_all');
+
+	buttonHideAll.on('click', e => {
+		e.preventDefault();
+		e.stopPropagation();
+		$('.file-header').parent().addClass('refined-github-minimized');
+	});
+
+	buttonShowAll.on('click', e => {
+		e.preventDefault();
+		e.stopPropagation();
+		$('.file-header').parent().removeClass('refined-github-minimized');
+	});
+
+	buttonGroup
+		.append(buttonHideAll)
+		.append(buttonShowAll)
+		.insertAfter('#toc .btn-group');
+
+	$('.file-header .file-actions').on('click', e => {
+		e.stopPropagation();
+	});
+
+	$('.file-header').on('click', e => {
+		$(e.target).closest('.js-details-container').toggleClass('refined-github-minimized');
 	});
 }
 
@@ -236,7 +271,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (isPR()) {
 				linkifyBranchRefs();
 				addDeleteForkLink();
+				addMinimizeMaximize();
 			}
+
 			if (isPR() || isIssue()) {
 				moveVotes();
 			}
