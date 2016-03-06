@@ -197,3 +197,41 @@
 #refined-github-delete-fork-link a {
 	color: #df3e3e;
 }
+
+/* hide news items when people pushed to a branch */
+.news .alert.push {
+	display: none;
+}
+
+/* hide news items when people create a branch */
+.news .alert.create.simple {
+	display: none;
+}
+
+/* hide news items when people delete a branch */
+.news .alert.delete.simple {
+	display: none;
+}
+
+/* increase visibility of news item when someone stars a repo */
+.watch_started.simple .body {
+	min-height: 40px;
+}
+
+svg.octicon.octicon-star.dashboard-event-icon {
+	height: 32px !important;
+	width: 28px !important;
+}
+
+.watch_started .time {
+	position: absolute;
+	top: 10px;
+	left: 45px;
+}
+
+.watch_started.simple.alert .simple .title {
+	position: absolute;
+	top: 26px;
+	font-size: 14px !important;
+	font-weight: bold;
+}
