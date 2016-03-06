@@ -248,4 +248,5 @@ svg.octicon.octicon-star.dashboard-event-icon {
 	top: 26px;
 	font-size: 14px !important;
 	font-weight: bold;
+	color: inherit !important;
 }
