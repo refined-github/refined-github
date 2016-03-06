@@ -243,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 
 		if (!existing.length) {
-			fetch(`https://github-npm-profile.herokuapp.com/${ownerName}`)
+			fetch(`https://get-twitter-username.herokuapp.com/${ownerName}`)
 				.then(res => res.json())
 				.then(profile => sanitizedTwitterHandle(profile))
 				.then(username => {
@@ -278,9 +278,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	}
 
-	function sanitizedTwitterHandle(profile) {
+	function sanitizedTwitterHandle(username) {
 		const rhandle = /^[A-z0-9_]+$/;
-		const handle = profile && profile.twitter || '';
+		const handle = username && username || '';
 		return rhandle.test(handle) ? handle : null;
 	}
 
