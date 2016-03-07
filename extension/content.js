@@ -239,6 +239,18 @@ function addDeleteForkLink() {
 	}
 }
 
+function linkifyIssuesInTitles() {
+	const $title = $('.js-issue-title');
+	const titleText = $title.text();
+
+	if (/(#\d+)/.test(titleText)) {
+		$title.html(titleText.replace(
+			/#(\d+)/g,
+			`<a href="https://github.com/${ownerName}/${repoName}/issues/$1">#$1</a>`
+		));
+	}
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 	const username = getUsername();
 
@@ -276,6 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (isPR() || isIssue()) {
 				moveVotes();
+				linkifyIssuesInTitles();
 			}
 
 			if (isBlame()) {
