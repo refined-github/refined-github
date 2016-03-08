@@ -170,6 +170,10 @@
 }
 
 /* style for edit README button */
+#readme.blob #refined-github-readme-edit-link {
+	display: none;
+}
+
 #refined-github-readme-edit-link {
 	position: absolute;
 	top: 10px;
