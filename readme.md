@@ -17,6 +17,7 @@ My hope is that GitHub will notice and implement some of these much needed impro
 - [Adds blame links for parent commits in blame view](https://github.com/sindresorhus/refined-github/issues/2#issuecomment-189141373)
 - [Adds a shortcut to quickly delete a forked repo](https://cloud.githubusercontent.com/assets/170270/13520281/b2c9335c-e211-11e5-9e36-b0f325166356.png)
 - [Adds ability to minimize/maximize files in a pull request diff](https://cloud.githubusercontent.com/assets/170270/13552719/ccadcae0-e3a0-11e5-8b27-8b860c225d9f.png)
+- [Adds links to patch and diff for each commit](https://cloud.githubusercontent.com/assets/737065/13604862/d285d0de-e512-11e5-8679-7cabc85bf5a5.png)
 - Automagically expands the news feed when you scroll down
 - Hides other users starring/forking your repos from the newsfeed
 - Removes tooltips
