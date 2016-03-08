@@ -257,10 +257,8 @@ function addPatchDiffLinks() {
 
 	$(commitMeta).append(`
 		<span class="sha-block">
-			<a href="${commitUrl}.patch" class="sha">[.patch]</a>
-			</span>
-		<span class="sha-block">
-			<a href="${commitUrl}.diff" class="sha">[.diff]</a>
+			<a href="${commitUrl}.patch" class="sha">.patch</a>
+			<a href="${commitUrl}.diff" class="sha">.diff</a>
 		</span>
 	`);
 }
