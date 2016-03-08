@@ -22,6 +22,7 @@ My hope is that GitHub will notice and implement some of these much needed impro
 - Removes annoying hover effect in the repo file browser
 - Removes the comment box toolbar
 - Moves the dashboard organization switcher to the right column
+- Links issue and PR references in issue and PR titles
 
 And [lots](extension/content.css) [more...](extension/content.js)
 
