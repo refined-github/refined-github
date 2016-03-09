@@ -7,6 +7,7 @@ const isCompare = /^\/[^/]+\/[^/]+\/compare/.test(path);
 const ownerName = path.split('/')[1];
 const repoName = path.split('/')[2];
 const isPR = () => /^\/[^/]+\/[^/]+\/pull\/\d+/.test(location.pathname);
+const isCommit = () => /^\/[^/]+\/[^/]+\/commit/.test(path);
 const isIssue = () => /^\/[^/]+\/[^/]+\/issues\/\d+$/.test(location.pathname);
 const isReleases = () => isRepo && /^\/[^/]+\/[^/]+\/(releases|tags)/.test(location.pathname);
 const isBlame = () => isRepo && /^\/[^/]+\/[^/]+\/blame\//.test(location.pathname);
@@ -289,7 +290,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	if (isRepo) {
 		const isRepoRoot = location.pathname.replace(/\/$/, '') === `/${ownerName}/${repoName}` || /(\/tree\/)(\w|\d|\.)+(\/$|$)/.test(location.href);
-		const isCommit = path.split('/')[3] === 'commit';
 
 		gitHubInjection(window, () => {
 			addReleasesTab();
@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				linkifyIssuesInTitles();
 			}
 
-			if (isPR() || isCommit || isCompare) {
+			if (isPR() || isCommit() || isCompare) {
 				addMinimizeMaximize();
 			}
 
@@ -316,7 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				addReadmeEditButton();
 			}
 
-			if (isCommit) {
+			if (isCommit()) {
 				addPatchDiffLinks();
 			}
 		});
