@@ -251,6 +251,18 @@ function linkifyIssuesInTitles() {
 	}
 }
 
+function addPatchDiffLinks() {
+	const commitUrl = location.href.replace(/\/$/, '');
+	const commitMeta = $('.commit-meta span.right').get(0);
+
+	$(commitMeta).append(`
+		<span class="sha-block">
+			<a href="${commitUrl}.patch" class="sha">.patch</a>
+			<a href="${commitUrl}.diff" class="sha">.diff</a>
+		</span>
+	`);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 	const username = getUsername();
 
@@ -276,6 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	if (isRepo) {
 		const isRepoRoot = location.pathname.replace(/\/$/, '') === `/${ownerName}/${repoName}` || /(\/tree\/)(\w|\d|\.)+(\/$|$)/.test(location.href);
+		const isCommit = path.split('/')[3] === 'commit';
 
 		gitHubInjection(window, () => {
 			addReleasesTab();
@@ -297,6 +310,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (isRepoRoot) {
 				addReadmeEditButton();
+			}
+
+			if (isCommit) {
+				addPatchDiffLinks();
 			}
 		});
 	}

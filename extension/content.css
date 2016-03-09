@@ -254,3 +254,13 @@ svg.octicon.octicon-star.dashboard-event-icon {
 	font-weight: bold;
 	color: inherit !important;
 }
+
+/* remove margin for added patch and diff links */
+.commit-meta span.right .sha-block {
+	margin-left: 5px;
+}
+
+.commit-meta span.right .sha-block:first-child,
+.commit-meta span.right .sha-block:last-child {
+	margin-left: 0;
+}
