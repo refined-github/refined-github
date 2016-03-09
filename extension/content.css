@@ -190,10 +190,10 @@
 .btn-group.refined-github-btn-group {
     margin-right: 25px;
 }
-.file-header, .file-header .file-info * {
+.file-header[data-path], .file-header[data-path] .diffstat {
     cursor: zoom-out !important;
 }
-.refined-github-minimized .file-header, .refined-github-minimized .file-header .file-info * {
+.refined-github-minimized .file-header[data-path], .refined-github-minimized .file-header[data-path] .diffstat {
     cursor: zoom-in !important;
 }
 
