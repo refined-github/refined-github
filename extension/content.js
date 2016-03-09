@@ -3,6 +3,7 @@
 const path = location.pathname;
 const isDashboard = path === '/' || /(^\/(dashboard))/.test(path) || /(^\/(orgs)\/)(\w|-)+\/(dashboard)/.test(path);
 const isRepo = /^\/[^/]+\/[^/]+/.test(path);
+const isCompare = /^\/[^/]+\/[^/]+\/compare/.test(path);
 const ownerName = path.split('/')[1];
 const repoName = path.split('/')[2];
 const isPR = () => /^\/[^/]+\/[^/]+\/pull\/\d+/.test(location.pathname);
@@ -296,12 +297,15 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (isPR()) {
 				linkifyBranchRefs();
 				addDeleteForkLink();
-				addMinimizeMaximize();
 			}
 
 			if (isPR() || isIssue()) {
 				moveVotes();
 				linkifyIssuesInTitles();
+			}
+
+			if (isPR() || isCommit || isCompare) {
+				addMinimizeMaximize();
 			}
 
 			if (isBlame()) {
