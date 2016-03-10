@@ -90,7 +90,7 @@ function commentIsUseless(type, el) {
 	return false;
 }
 
-function renderVoteCount(type, count) {
+function renderVoteCount(type, voters) {
 	let iconUrl;
 	if (type === 'upvote') {
 		iconUrl = 'https://assets-cdn.github.com/images/icons/emoji/unicode/1f44d.png';
@@ -99,10 +99,26 @@ function renderVoteCount(type, count) {
 		iconUrl = 'https://assets-cdn.github.com/images/icons/emoji/unicode/1f44e.png';
 	}
 	const $sidebar = $('#partial-discussion-sidebar');
+	let avatars = '';
+
+	for (const val of voters) {
+		avatars += val;
+	}
+
+	avatars = avatars.replace(/height="48"/g, 'height="20"')
+										.replace(/width="48"/g, 'width="20"')
+										.replace(/<a href/g, '<a class="participant-avatar" href')
+										.replace(/timeline-comment-avatar/g, 'avatar');
+
 	$sidebar.append(`<div class="discussion-sidebar-item">
-			<h3 class="discussion-sidebar-heading">
-				${count} <img class="emoji" alt="${type}" height="20" width="20" align="absmiddle" src="${iconUrl}">
-			</h3>
+			<div class="participation">
+				<h3 class="discussion-sidebar-heading">
+					${voters.size} <img class="emoji" alt="${type}" height="20" width="20" align="absmiddle" src="${iconUrl}">
+				</h3>
+				<div class="participation-avatars">
+					${avatars}
+				</div>
+			</div>
 		</div>`);
 }
 
@@ -117,9 +133,11 @@ function moveVotes() {
 
 		const isUp = commentIsUseless('upvote', el);
 		const isDown = commentIsUseless('downvote', el);
-		const commenter = $(el).closest('.js-comment-container').find('.author').get(0).innerHTML;
 
 		if (isUp || isDown) {
+			// grab avatar and wrapping a tag for commenter
+			const commenter = $($(el).closest('.js-comment-container').find('a').get(0)).wrap('<div>').parent().html();
+
 			// remove from both arrays
 			upVoters.delete(commenter);
 			downVoters.delete(commenter);
@@ -138,10 +156,10 @@ function moveVotes() {
 		}
 	});
 	if (upVoters.size > 0) {
-		renderVoteCount('upvote', upVoters.size);
+		renderVoteCount('upvote', upVoters);
 	}
 	if (downVoters.size > 0) {
-		renderVoteCount('downvote', downVoters.size);
+		renderVoteCount('downvote', downVoters);
 	}
 }
 
