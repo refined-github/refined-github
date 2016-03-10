@@ -6,6 +6,7 @@
     "xo": "*"
   },
   "xo": {
+    "esnext": true,
     "envs": [
       "browser",
       "jquery"

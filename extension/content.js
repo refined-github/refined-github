@@ -18,7 +18,7 @@ const uselessContent = {
 function linkifyBranchRefs() {
 	$('.commit-ref').each((i, el) => {
 		const parts = $(el).find('.css-truncate-target');
-		let branch = parts.eq(parts.length - 1).text();
+		const branch = parts.eq(parts.length - 1).text();
 		let username = ownerName;
 
 		// if there are two parts the first part is the username
@@ -198,7 +198,7 @@ function addBlameParentLinks() {
 			.text('Blame ^')
 			.prop('href', location.pathname.replace(
 				/(\/blame\/)[^\/]+/,
-				'$1' + commitSha + encodeURI('^')
+				`$1${commitSha}${encodeURI('^')}`
 			));
 
 		$commitLink.nextAll('.blame-commit-meta').append($blameParentLink);
