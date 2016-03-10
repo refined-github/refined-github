@@ -190,13 +190,14 @@
 .btn-group.refined-github-btn-group {
     margin-right: 25px;
 }
-.file-header, .file-header .file-info * {
+.pull-request-tab-content .file-header,
+.pull-request-tab-content .file-header .file-info * {
     cursor: zoom-out !important;
 }
-.refined-github-minimized .file-header, .refined-github-minimized .file-header .file-info * {
+.pull-request-tab-content .refined-github-minimized .file-header,
+.pull-request-tab-content .refined-github-minimized .file-header .file-info * {
     cursor: zoom-in !important;
 }
-
 .refined-github-minimized .data {
     display: none !important;
 }
