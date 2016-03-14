@@ -149,6 +149,11 @@
 	text-decoration: underline !important;
 }
 
+/* No padding around the clippy icons added to branch names */
+.gh-header-meta .zeroclipboard-button {
+	padding: 0 3px !important;
+}
+
 /* remove the "new feature" notification box */
 .js-notice {
 	display: none !important;
