@@ -28,10 +28,7 @@ function linkifyBranchRefs() {
 			username = parts.eq(0).text();
 		}
 
-		// forked repos can have their name changed; grab it from first commit in PR
-		const branchRepo = path.includes(username) ? repoName : $('.commit-id').attr('href').split('/')[2];
-
-		$(el).wrap(`<a href="https://github.com/${username}/${branchRepo}/tree/${branch}">`);
+		$(el).wrap(`<a href="https://github.com/${username}/${repoName}/tree/${branch}">`);
 	});
 }
 
