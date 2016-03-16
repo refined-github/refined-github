@@ -1,16 +1,17 @@
 /* globals gitHubInjection */
 'use strict';
 const path = location.pathname;
-const isDashboard = path === '/' || /(^\/(dashboard))/.test(path) || /(^\/(orgs)\/)(\w|-)+\/(dashboard)/.test(path);
-const isRepo = /^\/[^/]+\/[^/]+/.test(path);
-const isCompare = /^\/[^/]+\/[^/]+\/compare/.test(path);
 const ownerName = path.split('/')[1];
 const repoName = path.split('/')[2];
-const isPR = () => /^\/[^/]+\/[^/]+\/pull\/\d+/.test(location.pathname);
-const isCommit = () => /^\/[^/]+\/[^/]+\/commit/.test(path);
+const isDashboard = () => location.pathname === '/' || /(^\/(dashboard))/.test(location.pathname) || /(^\/(orgs)\/)(\w|-)+\/(dashboard)/.test(location.pathname);
+const isRepo = () => /^\/[^/]+\/[^/]+/.test(location.pathname);
+const isRepoRoot = () => location.pathname.replace(/\/$/, '') === `/${ownerName}/${repoName}` || /(\/tree\/)(\w|\d|\.)+(\/$|$)/.test(location.href);
+const isCompare = () => /^\/[^/]+\/[^/]+\/compare/.test(location.pathname);
+const isPR = () => /^\/[^/]+\/[^/]+\/pull\/\d+/.test(location.pathname) || /^\/[^/]+\/[^/]+\/pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(location.pathname);
+const isCommit = () => /^\/[^/]+\/[^/]+\/commit\/[0-9a-f]{5,40}/.test(location.pathname) || /^\/[^/]+\/[^/]+\/pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(location.pathname);
 const isIssue = () => /^\/[^/]+\/[^/]+\/issues\/\d+$/.test(location.pathname);
-const isReleases = () => isRepo && /^\/[^/]+\/[^/]+\/(releases|tags)/.test(location.pathname);
-const isBlame = () => isRepo && /^\/[^/]+\/[^/]+\/blame\//.test(location.pathname);
+const isReleases = () => /^\/[^/]+\/[^/]+\/(releases|tags)/.test(location.pathname);
+const isBlame = () => /^\/[^/]+\/[^/]+\/blame\//.test(location.pathname);
 const getUsername = () => $('meta[name="user-login"]').attr('content');
 const uselessContent = {
 	upvote: {text: ['+1\n'], emoji: [':+1:', ':100:', ':ok_hand:']},
@@ -265,29 +266,25 @@ function addPatchDiffLinks() {
 document.addEventListener('DOMContentLoaded', () => {
 	const username = getUsername();
 
-	if (isDashboard) {
+	if (isDashboard()) {
 		// hide other users starring/forking your repos
-		{
-			const hideStarsOwnRepos = () => {
-				$('#dashboard .news .watch_started, #dashboard .news .fork')
-					.has(`.title a[href^="/${username}"]`)
-					.css('display', 'none');
-			};
+		const hideStarsOwnRepos = () => {
+			$('#dashboard .news .watch_started, #dashboard .news .fork')
+				.has(`.title a[href^="/${username}"]`)
+				.css('display', 'none');
+		};
 
-			hideStarsOwnRepos();
+		hideStarsOwnRepos();
 
-			new MutationObserver(() => hideStarsOwnRepos())
-				.observe($('#dashboard .news').get(0), {childList: true});
-		}
+		new MutationObserver(() => hideStarsOwnRepos())
+			.observe($('#dashboard .news').get(0), {childList: true});
 
 		// event binding for infinite scroll
 		window.addEventListener('scroll', infinitelyMore);
 		window.addEventListener('resize', infinitelyMore);
 	}
 
-	if (isRepo) {
-		const isRepoRoot = location.pathname.replace(/\/$/, '') === `/${ownerName}/${repoName}` || /(\/tree\/)(\w|\d|\.)+(\/$|$)/.test(location.href);
-
+	if (isRepo()) {
 		gitHubInjection(window, () => {
 			addReleasesTab();
 
@@ -301,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				linkifyIssuesInTitles();
 			}
 
-			if (isPR() || isCommit() || isCompare) {
+			if (isPR() || isCommit() || isCompare()) {
 				addMinimizeMaximize();
 			}
 
@@ -309,7 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				addBlameParentLinks();
 			}
 
-			if (isRepoRoot) {
+			if (isRepoRoot()) {
 				addReadmeEditButton();
 			}
 
