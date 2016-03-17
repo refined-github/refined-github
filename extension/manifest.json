@@ -1,6 +1,6 @@
 {
 	"name": "Refined GitHub",
-	"version": "0.9.0",
+	"version": "0.9.1",
 	"description": "Simplifies the GitHub interface and adds useful features",
 	"homepage_url": "https://github.com/sindresorhus/refined-github",
 	"manifest_version": 2,
