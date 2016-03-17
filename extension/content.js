@@ -262,6 +262,25 @@ function addPatchDiffLinks() {
 	`);
 }
 
+// Prompt user to confirm erasing a comment with the Cancel button
+$(document).on('click', event => {
+	// Check event.target instead of using a delegate, because Sprint doesn't support them
+	if (!event.target.classList.contains('js-hide-inline-comment-form')) {
+		return;
+	}
+
+	// Do not prompt if textarea is empty
+	const text = $(event.target).closest('.js-inline-comment-form').find('.js-comment-field').val();
+	if (text.length === 0) {
+		return;
+	}
+
+	if (window.confirm('Are you sure you want to discard your unsaved changes?') === false) { // eslint-disable-line no-alert
+		event.stopPropagation();
+		event.stopImmediatePropagation();
+	}
+});
+
 document.addEventListener('DOMContentLoaded', () => {
 	const username = getUsername();
 
