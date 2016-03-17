@@ -20,6 +20,7 @@ My hope is that GitHub will notice and implement some of these much needed impro
 - [Adds links to patch and diff for each commit](https://cloud.githubusercontent.com/assets/737065/13605562/22faa79e-e516-11e5-80db-2da6aa7965ac.png)
 - Automagically expands the news feed when you scroll down
 - Hides other users starring/forking your repos from the newsfeed
+- Prompts you when pressing `Cancel` on an inline comment in case it was a mistake
 - Removes tooltips
 - Removes annoying hover effect in the repo file browser
 - Removes the comment box toolbar
