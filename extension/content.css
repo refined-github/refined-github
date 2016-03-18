@@ -264,3 +264,8 @@ svg.octicon.octicon-star.dashboard-event-icon {
 .commit-meta span.right .sha-block:last-child {
 	margin-left: 0;
 }
+
+/* remove `Developer Program Member` from profile page */
+.page-profile .member-badge {
+	display: none !important;
+}
