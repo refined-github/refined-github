@@ -6,7 +6,6 @@ const repoName = path.split('/')[2];
 const isDashboard = () => location.pathname === '/' || /(^\/(dashboard))/.test(location.pathname) || /(^\/(orgs)\/)(\w|-)+\/(dashboard)/.test(location.pathname);
 const isRepo = () => /^\/[^/]+\/[^/]+/.test(location.pathname);
 const isRepoRoot = () => location.pathname.replace(/\/$/, '') === `/${ownerName}/${repoName}` || /(\/tree\/)(\w|\d|\.)+(\/$|$)/.test(location.href);
-const isCompare = () => /^\/[^/]+\/[^/]+\/compare/.test(location.pathname);
 const isPR = () => /^\/[^/]+\/[^/]+\/pull\/\d+/.test(location.pathname) || /^\/[^/]+\/[^/]+\/pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(location.pathname);
 const isCommit = () => /^\/[^/]+\/[^/]+\/commit\/[0-9a-f]{5,40}/.test(location.pathname) || /^\/[^/]+\/[^/]+\/pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(location.pathname);
 const isIssue = () => /^\/[^/]+\/[^/]+\/issues\/\d+$/.test(location.pathname);
@@ -30,41 +29,6 @@ function linkifyBranchRefs() {
 		}
 
 		$(el).wrap(`<a href="https://github.com/${username}/${repoName}/tree/${branch}">`);
-	});
-}
-
-function addMinimizeMaximize() {
-	if ($('#toc .refined-github-btn-group').length) {
-		return;
-	}
-
-	const buttonGroup = $('<div>').addClass('btn-group right refined-github-btn-group');
-	const buttonHideAll = $('<a>').addClass('btn btn-sm').text('Minimize All').attr('id', 'hide_all');
-	const buttonShowAll = $('<a>').addClass('btn btn-sm').text('Maximize All').attr('id', 'show_all');
-
-	buttonHideAll.on('click', e => {
-		e.preventDefault();
-		e.stopPropagation();
-		$('.file-header').parent().addClass('refined-github-minimized');
-	});
-
-	buttonShowAll.on('click', e => {
-		e.preventDefault();
-		e.stopPropagation();
-		$('.file-header').parent().removeClass('refined-github-minimized');
-	});
-
-	buttonGroup
-		.append(buttonHideAll)
-		.append(buttonShowAll)
-		.insertAfter('#toc .btn-group');
-
-	$('.file-header .file-actions').on('click', e => {
-		e.stopPropagation();
-	});
-
-	$('.file-header').on('click', e => {
-		$(e.target).closest('.js-details-container').toggleClass('refined-github-minimized');
 	});
 }
 
@@ -284,12 +248,13 @@ function addPatchDiffLinks() {
 // Prompt user to confirm erasing a comment with the Cancel button
 $(document).on('click', event => {
 	// Check event.target instead of using a delegate, because Sprint doesn't support them
-	if (!event.target.classList.contains('js-hide-inline-comment-form')) {
+	const $target = $(event.target);
+	if (!$target.hasClass('js-hide-inline-comment-form')) {
 		return;
 	}
 
 	// Do not prompt if textarea is empty
-	const text = $(event.target).closest('.js-inline-comment-form').find('.js-comment-field').val();
+	const text = $target.closest('.js-inline-comment-form').find('.js-comment-field').val();
 	if (text.length === 0) {
 		return;
 	}
@@ -298,6 +263,17 @@ $(document).on('click', event => {
 		event.stopPropagation();
 		event.stopImmediatePropagation();
 	}
+});
+
+// Collapse file diffs when clicking the file header
+$(document).on('click', event => {
+	// Check event.target instead of using a delegate, because Sprint doesn't support them
+	const $target = $(event.target);
+	if (!($target.closest('.file-header').length > 0 && $target.closest('.file-actions').length === 0)) {
+		return;
+	}
+
+	$target.closest('.js-details-container').toggleClass('refined-github-minimized');
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -333,10 +309,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (isPR() || isIssue()) {
 				moveVotes();
 				linkifyIssuesInTitles();
-			}
-
-			if (isPR() || isCommit() || isCompare()) {
-				addMinimizeMaximize();
 			}
 
 			if (isBlame()) {

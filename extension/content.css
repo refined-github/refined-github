@@ -186,10 +186,7 @@
 	opacity: 1;
 }
 
-/* style for minimize/maximize button group */
-.btn-group.refined-github-btn-group {
-    margin-right: 25px;
-}
+/* indicate collapsible file headers with zoom cursor */
 .file-header[data-path], .file-header[data-path] .diffstat {
     cursor: zoom-out !important;
 }
