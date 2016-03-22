@@ -1,4 +1,4 @@
-/* globals gitHubInjection, pageDetect, diffFileHeader */
+/* globals gitHubInjection, pageDetect, diffFileHeader, addReactionParticipants */
 'use strict';
 const [, ownerName, repoName] = location.pathname.split('/');
 const repoUrl = `${ownerName}/${repoName}`;
@@ -372,6 +372,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (pageDetect.isPR() || pageDetect.isIssue()) {
 				moveVotes();
 				linkifyIssuesInTitles();
+				addReactionParticipants(username);
 			}
 
 			if (pageDetect.isBlame()) {

@@ -339,3 +339,29 @@ svg.octicon.octicon-star.dashboard-event-icon {
 .comment-form-textarea {
 	height: 200px !important;
 }
+
+/* styles for reaction avatars */
+.reaction-summary-item {
+	padding-left: 10px !important;
+	padding-right: 10px !important;
+}
+
+.reaction-summary-item.add-reaction-btn {
+	padding-right: 0 !important;
+}
+
+.reaction-summary-item div,
+.reaction-summary-item div img {
+	display: inline-block;
+}
+
+.reaction-summary-item div img,
+.reaction-summary-item div span {
+	width: 20px;
+	height: 20px;
+	margin-left: 3px;
+	vertical-align: middle;
+}
+.reaction-summary-item div img {
+	border-radius: 3px;
+}
