@@ -5,7 +5,7 @@ const ownerName = path.split('/')[1];
 const repoName = path.split('/')[2];
 const isDashboard = () => location.pathname === '/' || /(^\/(dashboard))/.test(location.pathname) || /(^\/(orgs)\/)(\w|-)+\/(dashboard)/.test(location.pathname);
 const isRepo = () => /^\/[^/]+\/[^/]+/.test(location.pathname);
-const isRepoRoot = () => location.pathname.replace(/\/$/, '') === `/${ownerName}/${repoName}` || /(\/tree\/)(\w|\d|\.)+(\/$|$)/.test(location.href);
+const isRepoRoot = () => location.pathname.replace(/\/$/, '') === `/${ownerName}/${repoName}` || (/\/tree\/$/.test(location.href) && $('.repository-meta-content').length);
 const isPR = () => /^\/[^/]+\/[^/]+\/pull\/\d+/.test(location.pathname) || /^\/[^/]+\/[^/]+\/pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(location.pathname);
 const isCommit = () => {
 	if (/^\/[^/]+\/[^/]+\/commit\/[0-9a-f]{5,40}/.test(location.pathname) || /^\/[^/]+\/[^/]+\/pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(location.pathname)) {
