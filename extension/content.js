@@ -7,7 +7,13 @@ const isDashboard = () => location.pathname === '/' || /(^\/(dashboard))/.test(l
 const isRepo = () => /^\/[^/]+\/[^/]+/.test(location.pathname);
 const isRepoRoot = () => location.pathname.replace(/\/$/, '') === `/${ownerName}/${repoName}` || /(\/tree\/)(\w|\d|\.)+(\/$|$)/.test(location.href);
 const isPR = () => /^\/[^/]+\/[^/]+\/pull\/\d+/.test(location.pathname) || /^\/[^/]+\/[^/]+\/pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(location.pathname);
-const isCommit = () => /^\/[^/]+\/[^/]+\/commit\/[0-9a-f]{5,40}/.test(location.pathname) || /^\/[^/]+\/[^/]+\/pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(location.pathname);
+const isCommit = () => {
+	if (/^\/[^/]+\/[^/]+\/commit\/[0-9a-f]{5,40}/.test(location.pathname) || /^\/[^/]+\/[^/]+\/pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(location.pathname)) {
+		return true;
+	}
+
+	return /^\/[^/]+\/[^/]+\/pull\/\d+\/files/.test(location.pathname) && $('.full-commit').length > 0;
+};
 const isIssue = () => /^\/[^/]+\/[^/]+\/issues\/\d+$/.test(location.pathname);
 const isReleases = () => /^\/[^/]+\/[^/]+\/(releases|tags)/.test(location.pathname);
 const isBlame = () => /^\/[^/]+\/[^/]+\/blame\//.test(location.pathname);
