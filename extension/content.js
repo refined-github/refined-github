@@ -3,9 +3,10 @@
 const path = location.pathname;
 const ownerName = path.split('/')[1];
 const repoName = path.split('/')[2];
+const repoUrl = `${ownerName}/${repoName}`;
 const isDashboard = () => location.pathname === '/' || /(^\/(dashboard))/.test(location.pathname) || /(^\/(orgs)\/)(\w|-)+\/(dashboard)/.test(location.pathname);
 const isRepo = () => /^\/[^/]+\/[^/]+/.test(location.pathname);
-const isRepoRoot = () => location.pathname.replace(/\/$/, '') === `/${ownerName}/${repoName}` || (/\/tree\/$/.test(location.href) && $('.repository-meta-content').length);
+const isRepoRoot = () => location.pathname.replace(/\/$/, '') === `/${repoUrl}` || (/\/tree\/$/.test(location.href) && $('.repository-meta-content').length);
 const isPR = () => /^\/[^/]+\/[^/]+\/pull\/\d+/.test(location.pathname) || /^\/[^/]+\/[^/]+\/pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(location.pathname);
 const isCommit = () => {
 	if (/^\/[^/]+\/[^/]+\/commit\/[0-9a-f]{5,40}/.test(location.pathname) || /^\/[^/]+\/[^/]+\/pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(location.pathname)) {
@@ -137,7 +138,8 @@ function addReleasesTab() {
 	const hasReleases = $releasesTab.length > 0;
 
 	if (!hasReleases) {
-		$releasesTab = $(`<a href="/${ownerName}/${repoName}/releases" class="reponav-item" data-hotkey="g r" data-selected-links="repo_releases /${ownerName}/${repoName}/releases">
+
+		$releasesTab = $(`<a href="/${repoUrl}/releases" class="reponav-item" data-hotkey="g r" data-selected-links="repo_releases /${repoUrl}/releases">
 			<svg class="octicon octicon-tag" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path d="M6.73 2.73c-0.47-0.47-1.11-0.73-1.77-0.73H2.5C1.13 2 0 3.13 0 4.5v2.47c0 0.66 0.27 1.3 0.73 1.77l6.06 6.06c0.39 0.39 1.02 0.39 1.41 0l4.59-4.59c0.39-0.39 0.39-1.02 0-1.41L6.73 2.73zM1.38 8.09c-0.31-0.3-0.47-0.7-0.47-1.13V4.5c0-0.88 0.72-1.59 1.59-1.59h2.47c0.42 0 0.83 0.16 1.13 0.47l6.14 6.13-4.73 4.73L1.38 8.09z m0.63-4.09h2v2H2V4z"></path></svg>
 			Releases
 		</a>`);
@@ -197,7 +199,7 @@ function addReadmeEditButton() {
 	const readmeContainer = $('#readme');
 	const readmeName = $('#readme > h3').text().trim();
 	const currentBranch = $('.file-navigation .select-menu.left button.select-menu-button').attr('title');
-	const editHref = `/${ownerName}/${repoName}/edit/${currentBranch}/${readmeName}`;
+	const editHref = `/${repoUrl}/edit/${currentBranch}/${readmeName}`;
 	const editButtonHtml = `<div id="refined-github-readme-edit-link">
 														<a href="${editHref}">
 															<svg class="octicon octicon-pencil" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path d="M0 12v3h3l8-8-3-3L0 12z m3 2H1V12h1v1h1v1z m10.3-9.3l-1.3 1.3-3-3 1.3-1.3c0.39-0.39 1.02-0.39 1.41 0l1.59 1.59c0.39 0.39 0.39 1.02 0 1.41z"></path></svg>
@@ -214,7 +216,7 @@ function addDeleteForkLink() {
 		const postMergeDescription = $(postMergeContainer).find('.merge-branch-description').get(0);
 		const forkPath = $(postMergeContainer).attr('data-channel').split(':')[0];
 
-		if (forkPath !== `${ownerName}/${repoName}`) {
+		if (forkPath !== repoUrl) {
 			$(postMergeDescription).append(
 				`<p id="refined-github-delete-fork-link">
 					<a href="https://github.com/${forkPath}/settings">
@@ -234,7 +236,7 @@ function linkifyIssuesInTitles() {
 	if (/(#\d+)/.test(titleText)) {
 		$title.html(titleText.replace(
 			/#(\d+)/g,
-			`<a href="https://github.com/${ownerName}/${repoName}/issues/$1">#$1</a>`
+			`<a href="https://github.com/${repoUrl}/issues/$1">#$1</a>`
 		));
 	}
 }
