@@ -39,8 +39,8 @@
 }
 
 /* remove tooltips */
-.tooltipped:before,
-.tooltipped:after {
+.tooltipped:not(.reaction-summary-item):before,
+.tooltipped:not(.reaction-summary-item):after {
 	display: none !important;
 }
 
