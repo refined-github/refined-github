@@ -15,6 +15,7 @@ const isCommit = () => {
 
 	return /^\/[^/]+\/[^/]+\/pull\/\d+\/files/.test(location.pathname) && $('.full-commit').length > 0;
 };
+const isCommitList = () => /^\/[^/]+\/[^/]+\/commits\//.test(location.pathname);
 const isIssue = () => /^\/[^/]+\/[^/]+\/issues\/\d+$/.test(location.pathname);
 const isReleases = () => /^\/[^/]+\/[^/]+\/(releases|tags)/.test(location.pathname);
 const isBlame = () => /^\/[^/]+\/[^/]+\/blame\//.test(location.pathname);
@@ -277,6 +278,16 @@ function addPatchDiffLinks() {
 	`);
 }
 
+function markMergeCommitsInList() {
+	$('.commit.commits-list-item.table-list-item').each((index, element) => {
+		const $element = $(element);
+		const messageText = $element.find('.commit-title').text();
+		if (/Merge pull request #/.test(messageText)) {
+			$element.addClass('refined-github-merge-commit');
+		}
+	});
+}
+
 // Prompt user to confirm erasing a comment with the Cancel button
 $(document).on('click', event => {
 	// Check event.target instead of using a delegate, because Sprint doesn't support them
@@ -353,6 +364,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (isCommit()) {
 				addPatchDiffLinks();
+			}
+
+			if (isCommitList()) {
+				markMergeCommitsInList();
 			}
 		});
 	}
