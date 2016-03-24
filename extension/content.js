@@ -4,7 +4,6 @@ const path = location.pathname;
 const ownerName = path.split('/')[1];
 const repoName = path.split('/')[2];
 const repoUrl = `${ownerName}/${repoName}`;
-const releasesCountCacheKey = `${repoUrl}-releases-count`;
 const isDashboard = () => location.pathname === '/' || /(^\/(dashboard))/.test(location.pathname) || /(^\/(orgs)\/)(\w|-)+\/(dashboard)/.test(location.pathname);
 const isRepo = () => /^\/[^/]+\/[^/]+/.test(location.pathname);
 const isRepoRoot = () => location.pathname.replace(/\/$/, '') === `/${repoUrl}` || (/\/tree\/$/.test(location.href) && $('.repository-meta-content').length);
@@ -20,6 +19,7 @@ const isIssue = () => /^\/[^/]+\/[^/]+\/issues\/\d+$/.test(location.pathname);
 const isReleases = () => /^\/[^/]+\/[^/]+\/(releases|tags)/.test(location.pathname);
 const isBlame = () => /^\/[^/]+\/[^/]+\/blame\//.test(location.pathname);
 const getUsername = () => $('meta[name="user-login"]').attr('content');
+
 const uselessContent = {
 	upvote: {text: ['+1\n'], emoji: [':+1:', ':100:', ':ok_hand:']},
 	downvote: {text: ['-1\n'], emoji: [':-1:']}
@@ -142,6 +142,8 @@ function appendReleasesCount(count) {
 }
 
 function cacheReleasesCount() {
+	const releasesCountCacheKey = `${repoUrl}-releases-count`;
+
 	if (isRepoRoot()) {
 		const releasesCount = $('.numbers-summary a[href$="/releases"] .num').text().trim();
 		appendReleasesCount(releasesCount);
