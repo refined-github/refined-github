@@ -27,6 +27,7 @@
 			"js": [
 				"vendor/sprint.min.js",
 				"vendor/gh-injection.js",
+				"diffheader.js",
 				"content.js"
 			]
 		}

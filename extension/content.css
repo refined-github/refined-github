@@ -291,3 +291,12 @@ svg.octicon.octicon-star.dashboard-event-icon {
 	width: 16px !important;
 	height: 16px !important;
 }
+
+/* Hide current filename in PR header when not sticky (top of page) */
+.js-sticky-offset-scroll:not(.is-stuck) .diff-toolbar-filename {
+	display: none;
+}
+
+.diff-toolbar-filename {
+	font-weight: bold;
+}
