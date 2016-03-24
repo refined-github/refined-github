@@ -9,7 +9,8 @@
     "esnext": true,
     "envs": [
       "browser",
-      "jquery"
+      "jquery",
+      "webextensions"
     ],
     "ignores": [
       "extension/vendor/**"
