@@ -7,6 +7,7 @@
 	"minimum_chrome_version": "48",
 	"permissions": [
 		"https://github.com/*",
+		"https://gist.github.com/*",
 		"storage"
 	],
 	"icons": {
@@ -16,7 +17,8 @@
 		{
 			"run_at": "document_start",
 			"matches": [
-				"https://github.com/*"
+				"https://github.com/*",
+				"https://gist.github.com/*"
 			],
 			"css": [
 				"content.css",

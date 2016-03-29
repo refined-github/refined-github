@@ -4,8 +4,9 @@ const path = location.pathname;
 const ownerName = path.split('/')[1];
 const repoName = path.split('/')[2];
 const repoUrl = `${ownerName}/${repoName}`;
+const isGist = location.hostname === 'gist.github.com';
 const isDashboard = () => location.pathname === '/' || /(^\/(dashboard))/.test(location.pathname) || /(^\/(orgs)\/)(\w|-)+\/(dashboard)/.test(location.pathname);
-const isRepo = () => /^\/[^/]+\/[^/]+/.test(location.pathname);
+const isRepo = () => !isGist && /^\/[^/]+\/[^/]+/.test(location.pathname);
 const isRepoRoot = () => location.pathname.replace(/\/$/, '') === `/${repoUrl}` || (/\/tree\/$/.test(location.href) && $('.repository-meta-content').length);
 const isPR = () => /^\/[^/]+\/[^/]+\/pull\/\d+/.test(location.pathname) || /^\/[^/]+\/[^/]+\/pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(location.pathname);
 const isCommit = () => {
