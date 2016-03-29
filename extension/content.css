@@ -228,6 +228,11 @@
 	display: none;
 }
 
+/* hide "a_user added another_user to org/repo" notifications */
+.news .member_add {
+	display: none !important;
+}
+
 /* increase visibility of news item when someone stars a repo */
 .watch_started.simple .body {
 	min-height: 40px;
