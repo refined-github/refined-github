@@ -266,3 +266,23 @@ svg.octicon.octicon-star.dashboard-event-icon {
 .page-profile .member-badge {
 	display: none !important;
 }
+
+/* fade out merge commits from commit list */
+.refined-github-merge-commit .commit-title {
+	font-size: 12px !important;
+	margin-top: 4px !important;
+}
+
+.refined-github-merge-commit .commit-author-section {
+	font-size: 11.4px !important;
+}
+
+.refined-github-merge-commit .commit-avatar-cell svg {
+	color: #4078c0;
+	margin-left: 9px;
+}
+
+.refined-github-merge-commit .avatar-parent-child img.avatar-child {
+	width: 16px !important;
+	height: 16px !important;
+}
