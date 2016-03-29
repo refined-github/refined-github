@@ -18,6 +18,7 @@ My hope is that GitHub will notice and implement some of these much needed impro
 - [Adds a shortcut to quickly delete a forked repo](https://cloud.githubusercontent.com/assets/170270/13520281/b2c9335c-e211-11e5-9e36-b0f325166356.png)
 - [Adds ability to minimize/maximize files in a pull request diff](https://cloud.githubusercontent.com/assets/170270/13954167/40caa604-f072-11e5-89ba-3145217c4e28.png)
 - [Adds links to patch and diff for each commit](https://cloud.githubusercontent.com/assets/737065/13605562/22faa79e-e516-11e5-80db-2da6aa7965ac.png)
+- [Differentiates merge commits from regular commits](https://cloud.githubusercontent.com/assets/170270/14101222/2fe2c24a-f5bd-11e5-8b1f-4e589917d4c4.png)
 - Automagically expands the news feed when you scroll down
 - Hides other users starring/forking your repos from the newsfeed
 - Prompts you when pressing `Cancel` on an inline comment in case it was a mistake
