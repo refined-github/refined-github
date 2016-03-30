@@ -213,23 +213,18 @@
 	color: #df3e3e;
 }
 
-/* hide news items when people pushed to a branch */
-.news .alert.push {
-	display: none;
-}
-
-/* hide news items when people create a branch */
-.news .alert.create.simple {
-	display: none;
-}
-
-/* hide news items when people delete a branch */
-.news .alert.delete.simple {
-	display: none;
-}
-
-/* hide "a_user added another_user to org/repo" notifications */
-.news .member_add {
+/* hide news items when people:
+pushed to a branch
+created a branch
+deleted a branch
+added someone as a collaborator
+forked a repo
+*/
+.news .alert.push,
+.news .alert.create.simple,
+.news .alert.delete.simple,
+.news .member_add,
+.news .alert.fork.simple {
 	display: none !important;
 }
 
