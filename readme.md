@@ -80,6 +80,7 @@ I'm happy to receive suggestions and contributions, but be aware this is a highl
 - [Sindre Sorhus](https://sindresorhus.com)
 - [Haralan Dobrev](http://hkdobrev.com)
 - [Paul Molluzzo](http://paul.molluzzo.com)
+- [Andrew Levine](https://github.com/DrewML)
 - [Kees Kluskens](https://webduck.nl)
 - [And our awesome contributors](https://github.com/sindresorhus/refined-github/graphs/contributors)
 
