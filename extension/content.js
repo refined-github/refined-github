@@ -1,4 +1,4 @@
-/* globals gitHubInjection */
+/* globals gitHubInjection, diffFileHeader */
 'use strict';
 const path = location.pathname;
 const ownerName = path.split('/')[1];
@@ -9,8 +9,9 @@ const isDashboard = () => location.pathname === '/' || /(^\/(dashboard))/.test(l
 const isRepo = () => !isGist && /^\/[^/]+\/[^/]+/.test(location.pathname);
 const isRepoRoot = () => location.pathname.replace(/\/$/, '') === `/${repoUrl}` || (/\/tree\/$/.test(location.href) && $('.repository-meta-content').length);
 const isPR = () => /^\/[^/]+\/[^/]+\/pull\/\d+/.test(location.pathname) || /^\/[^/]+\/[^/]+\/pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(location.pathname);
+const isPRCommit = () => /^\/[^/]+\/[^/]+\/pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(location.pathname);
 const isCommit = () => {
-	if (/^\/[^/]+\/[^/]+\/commit\/[0-9a-f]{5,40}/.test(location.pathname) || /^\/[^/]+\/[^/]+\/pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(location.pathname)) {
+	if (/^\/[^/]+\/[^/]+\/commit\/[0-9a-f]{5,40}/.test(location.pathname) || isPRCommit()) {
 		return true;
 	}
 
@@ -20,6 +21,7 @@ const isCommitList = () => /^\/[^/]+\/[^/]+\/commits\//.test(location.pathname);
 const isIssue = () => /^\/[^/]+\/[^/]+\/issues\/\d+$/.test(location.pathname);
 const isReleases = () => /^\/[^/]+\/[^/]+\/(releases|tags)/.test(location.pathname);
 const isBlame = () => /^\/[^/]+\/[^/]+\/blame\//.test(location.pathname);
+const isPRFiles = () => /pull\/\d+\/files/.test(location.pathname);
 const getUsername = () => $('meta[name="user-login"]').attr('content');
 
 const uselessContent = {
@@ -349,6 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	if (isRepo()) {
 		gitHubInjection(window, () => {
 			addReleasesTab();
+			diffFileHeader.destroy();
 
 			if (isPR()) {
 				linkifyBranchRefs();
@@ -374,6 +377,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (isCommitList()) {
 				markMergeCommitsInList();
+			}
+
+			if (isPRFiles() || isPRCommit()) {
+				diffFileHeader.setup();
 			}
 		});
 	}
