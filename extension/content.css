@@ -230,7 +230,7 @@ forked a repo
 
 /* increase visibility of news item when someone stars a repo */
 .watch_started.simple .body {
-	min-height: 40px;
+	min-height: 55px;
 }
 
 svg.octicon.octicon-star.dashboard-event-icon {
