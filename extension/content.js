@@ -1,27 +1,7 @@
-/* globals gitHubInjection, diffFileHeader */
+/* globals gitHubInjection, pageDetect, diffFileHeader */
 'use strict';
-const path = location.pathname;
-const ownerName = path.split('/')[1];
-const repoName = path.split('/')[2];
+const [, ownerName, repoName] = location.pathname.split('/');
 const repoUrl = `${ownerName}/${repoName}`;
-const isGist = location.hostname === 'gist.github.com';
-const isDashboard = () => location.pathname === '/' || /(^\/(dashboard))/.test(location.pathname) || /(^\/(orgs)\/)(\w|-)+\/(dashboard)/.test(location.pathname);
-const isRepo = () => !isGist && /^\/[^/]+\/[^/]+/.test(location.pathname);
-const isRepoRoot = () => location.pathname.replace(/\/$/, '') === `/${repoUrl}` || (/\/tree\/$/.test(location.href) && $('.repository-meta-content').length);
-const isPR = () => /^\/[^/]+\/[^/]+\/pull\/\d+/.test(location.pathname) || /^\/[^/]+\/[^/]+\/pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(location.pathname);
-const isPRCommit = () => /^\/[^/]+\/[^/]+\/pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(location.pathname);
-const isCommit = () => {
-	if (/^\/[^/]+\/[^/]+\/commit\/[0-9a-f]{5,40}/.test(location.pathname) || isPRCommit()) {
-		return true;
-	}
-
-	return /^\/[^/]+\/[^/]+\/pull\/\d+\/files/.test(location.pathname) && $('.full-commit').length > 0;
-};
-const isCommitList = () => /^\/[^/]+\/[^/]+\/commits\//.test(location.pathname);
-const isIssue = () => /^\/[^/]+\/[^/]+\/issues\/\d+$/.test(location.pathname);
-const isReleases = () => /^\/[^/]+\/[^/]+\/(releases|tags)/.test(location.pathname);
-const isBlame = () => /^\/[^/]+\/[^/]+\/blame\//.test(location.pathname);
-const isPRFiles = () => /pull\/\d+\/files/.test(location.pathname);
 const getUsername = () => $('meta[name="user-login"]').attr('content');
 
 const uselessContent = {
@@ -148,7 +128,7 @@ function appendReleasesCount(count) {
 function cacheReleasesCount() {
 	const releasesCountCacheKey = `${repoUrl}-releases-count`;
 
-	if (isRepoRoot()) {
+	if (pageDetect.isRepoRoot()) {
 		const releasesCount = $('.numbers-summary a[href$="/releases"] .num').text().trim();
 		appendReleasesCount(releasesCount);
 		chrome.storage.local.set({[releasesCountCacheKey]: releasesCount});
@@ -171,7 +151,7 @@ function addReleasesTab() {
 		</a>`);
 	}
 
-	if (isReleases()) {
+	if (pageDetect.isReleases()) {
 		$repoNav.find('.selected')
 			.removeClass('js-selected-navigation-item selected');
 
@@ -274,8 +254,8 @@ function addPatchDiffLinks() {
 		return;
 	}
 
-	let commitUrl = location.href.replace(/\/$/, '');
-	if (isPRCommit()) {
+	let commitUrl = location.pathname.replace(/\/$/, '');
+	if (pageDetect.isPRCommit()) {
 		commitUrl = commitUrl.replace(/\/pull\/\d+\/commits/, '/commit');
 	}
 	const commitMeta = $('.commit-meta span.right').get(0);
@@ -361,7 +341,7 @@ $(document).on('click', event => {
 document.addEventListener('DOMContentLoaded', () => {
 	const username = getUsername();
 
-	if (isDashboard()) {
+	if (pageDetect.isDashboard()) {
 		// hide other users starring/forking your repos
 		const hideStarsOwnRepos = () => {
 			$('#dashboard .news .watch_started, #dashboard .news .fork')
@@ -379,38 +359,38 @@ document.addEventListener('DOMContentLoaded', () => {
 		window.addEventListener('resize', infinitelyMore);
 	}
 
-	if (isRepo()) {
+	if (pageDetect.isRepo()) {
 		gitHubInjection(window, () => {
 			addReleasesTab();
 			diffFileHeader.destroy();
 
-			if (isPR()) {
+			if (pageDetect.isPR()) {
 				linkifyBranchRefs();
 				addDeleteForkLink();
 			}
 
-			if (isPR() || isIssue()) {
+			if (pageDetect.isPR() || pageDetect.isIssue()) {
 				moveVotes();
 				linkifyIssuesInTitles();
 			}
 
-			if (isBlame()) {
+			if (pageDetect.isBlame()) {
 				addBlameParentLinks();
 			}
 
-			if (isRepoRoot()) {
+			if (pageDetect.isRepoRoot()) {
 				addReadmeEditButton();
 			}
 
-			if (isCommit()) {
+			if (pageDetect.isCommit()) {
 				addPatchDiffLinks();
 			}
 
-			if (isCommitList()) {
+			if (pageDetect.isCommitList()) {
 				markMergeCommitsInList();
 			}
 
-			if (isPRFiles() || isPRCommit()) {
+			if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
 				diffFileHeader.setup();
 			}
 		});

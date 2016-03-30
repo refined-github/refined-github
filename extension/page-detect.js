@@ -1,0 +1,53 @@
+window.pageDetect = (() => {
+	const isGistCheck = location.hostname === 'gist.github.com';
+
+	const isGist = () => isGistCheck;
+
+	const isDashboard = () => location.pathname === '/' || /^(\/orgs\/[^\/]+)?\/dashboard/.test(location.pathname);
+
+	const isRepo = () => !isGist() && /^\/[^/]+\/[^/]+/.test(location.pathname);
+
+	const getRepoPath = () => location.pathname.replace(/^\/[^/]+\/[^/]+/, '');
+
+	const isRepoRoot = () => isRepo() && /^(\/?$|\/tree\/)/.test(getRepoPath()) && $('.repository-meta-content').length > 0;
+
+	const isIssueList = () => isRepo() && /^\/issues\/?$/.test(getRepoPath());
+
+	const isIssue = () => isRepo() && /^\/issues\/\d+/.test(getRepoPath());
+
+	const isPRList = () => isRepo() && /^\/pulls\/?$/.test(getRepoPath());
+
+	const isPR = () => isRepo() && /^\/pull\/\d+/.test(getRepoPath());
+
+	const isPRFiles = () => isRepo() && /^\/pull\/\d+\/files/.test(getRepoPath());
+
+	const isPRCommit = () => isRepo() && /^\/pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(getRepoPath());
+
+	const isCommitList = () => isRepo() && /^\/commits\//.test(getRepoPath());
+
+	const isSingleCommit = () => isRepo() && /^\/commit\/[0-9a-f]{5,40}/.test(getRepoPath());
+
+	const isCommit = () => isSingleCommit() || isPRCommit() || (isPRFiles() && $('.full-commit').length > 0);
+
+	const isReleases = () => isRepo() && /^\/(releases|tags)/.test(getRepoPath());
+
+	const isBlame = () => isRepo() && /^\/blame\//.test(getRepoPath());
+
+	return {
+		isGist,
+		isDashboard,
+		isRepo,
+		isRepoRoot,
+		isIssueList,
+		isIssue,
+		isPRList,
+		isPR,
+		isPRFiles,
+		isPRCommit,
+		isCommitList,
+		isSingleCommit,
+		isCommit,
+		isReleases,
+		isBlame
+	};
+})();

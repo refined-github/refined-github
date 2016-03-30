@@ -4,7 +4,7 @@
 	"description": "Simplifies the GitHub interface and adds useful features",
 	"homepage_url": "https://github.com/sindresorhus/refined-github",
 	"manifest_version": 2,
-	"minimum_chrome_version": "48",
+	"minimum_chrome_version": "49",
 	"permissions": [
 		"https://github.com/*",
 		"https://gist.github.com/*",
@@ -27,6 +27,7 @@
 			"js": [
 				"vendor/sprint.min.js",
 				"vendor/gh-injection.js",
+				"page-detect.js",
 				"diffheader.js",
 				"content.js"
 			]
