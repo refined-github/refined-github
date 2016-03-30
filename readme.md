@@ -64,6 +64,7 @@ I'm happy to receive suggestions and contributions, but be aware this is a highl
 - [Show All GitHub Issues extension](https://github.com/sindresorhus/show-all-github-issues)
 - [Canned Responses on GitHub extension](https://github.com/notwaldorf/github-canned-responses)
 - [Contributors on GitHub extension](https://github.com/hzoo/contributors-on-github)
+- [Twitter for GitHub extension](https://github.com/bevacqua/twitter-for-github)
 
 
 ## Community tweaks
