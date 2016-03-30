@@ -280,7 +280,7 @@ function addPatchDiffLinks() {
 }
 
 function markMergeCommitsInList() {
-	$('.commit.commits-list-item.table-list-item').each((index, element) => {
+	$('.commit.commits-list-item.table-list-item:not(.refined-github-merge-commit)').each((index, element) => {
 		const $element = $(element);
 		const messageText = $element.find('.commit-title').text();
 		if (/Merge pull request #/.test(messageText)) {
