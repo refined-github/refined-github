@@ -27,6 +27,7 @@ My hope is that GitHub will notice and implement some of these much needed impro
 - Removes annoying hover effect in the repo file browser
 - Removes the comment box toolbar
 - Moves the dashboard organization switcher to the right column
+- Supports indenting with the tab key in textareas
 
 And [lots](extension/content.css) [more...](extension/content.js)
 

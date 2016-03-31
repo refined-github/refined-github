@@ -299,6 +299,30 @@ function markMergeCommitsInList() {
 	});
 }
 
+function indentInput(el, size = 4) {
+	el.focus();
+	const value = el.value;
+	const selectionStart = el.selectionStart;
+	const indentSize = (size - el.selectionEnd % size) || size;
+	const indentationText = ' '.repeat(indentSize);
+	el.value = value.slice(0, selectionStart) + indentationText + value.slice(el.selectionEnd);
+	el.selectionEnd = el.selectionStart = selectionStart + indentationText.length;
+}
+
+// Support indent with tab key in textarea elements
+$(document).on('keydown', event => {
+	// Check event.target instead of using a delegate, because Sprint doesn't support them
+	if (!$(event.target).is('textarea')) {
+		return;
+	}
+
+	if (event.which === 9) {
+		event.preventDefault();
+		indentInput(event.target);
+		return false;
+	}
+});
+
 // Prompt user to confirm erasing a comment with the Cancel button
 $(document).on('click', event => {
 	// Check event.target instead of using a delegate, because Sprint doesn't support them
