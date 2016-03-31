@@ -20,6 +20,7 @@ My hope is that GitHub will notice and implement some of these much needed impro
 - [Adds ability to minimize/maximize files in a pull request diff](https://cloud.githubusercontent.com/assets/170270/13954167/40caa604-f072-11e5-89ba-3145217c4e28.png)
 - [Adds links to patch and diff for each commit](https://cloud.githubusercontent.com/assets/737065/13605562/22faa79e-e516-11e5-80db-2da6aa7965ac.png)
 - [Differentiates merge commits from regular commits](https://cloud.githubusercontent.com/assets/170270/14101222/2fe2c24a-f5bd-11e5-8b1f-4e589917d4c4.png)
+- [Improves readability of tab indented code](https://cloud.githubusercontent.com/assets/170270/14170088/d3be931e-f755-11e5-8edf-c5f864336382.png)
 - Automagically expands the news feed when you scroll down
 - Hides other users starring/forking your repos from the newsfeed
 - Prompts you when pressing `Cancel` on an inline comment in case it was a mistake
@@ -60,7 +61,6 @@ I'm happy to receive suggestions and contributions, but be aware this is a highl
 ## Related
 
 - [Safari version of this extension](https://github.com/fantattitude/refined-github-safari)
-- [Tab Size on GitHub extension](https://github.com/sindresorhus/tab-size-on-github)
 - [Notifier for GitHub extension](https://github.com/sindresorhus/notifier-for-github-chrome)
 - [Hide Files on GitHub extension](https://github.com/sindresorhus/hide-files-on-github)
 - [Show All GitHub Issues extension](https://github.com/sindresorhus/show-all-github-issues)

@@ -317,3 +317,12 @@ svg.octicon.octicon-star.dashboard-event-icon {
 #commit-description-textarea {
 	width: 645px !important;
 }
+
+/* make tab indented code more readable on GitHub and Gist */
+.tab-size[data-tab-size='2'],
+.tab-size[data-tab-size='4'],
+.tab-size[data-tab-size='8'],
+.inline-review-comment,
+.gist table.lines {
+	tab-size: 4 !important;
+}
