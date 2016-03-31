@@ -82,8 +82,17 @@
 }
 
 /* remove commentbox toolbar */
-.toolbar-commenting {
-	display: none !important;
+.toolbar-group {
+    display: none;
+}
+.toolbar-group:last-child {
+    display: inline-block;
+}
+.toolbar-group .toolbar-item {
+    display: none;
+}
+.toolbar-group .js-saved-reply-container {
+	display: block;
 }
 
 /* remove upload message on comment box */
