@@ -270,6 +270,10 @@ function linkifyIssuesInTitles() {
 }
 
 function addPatchDiffLinks() {
+	if ($('.sha-block.patch-diff-links').length > 0) {
+		return;
+	}
+
 	let commitUrl = location.href.replace(/\/$/, '');
 	if (isPRCommit()) {
 		commitUrl = commitUrl.replace(/\/pull\/\d+\/commits/, '/commit');
@@ -277,7 +281,7 @@ function addPatchDiffLinks() {
 	const commitMeta = $('.commit-meta span.right').get(0);
 
 	$(commitMeta).append(`
-		<span class="sha-block">
+		<span class="sha-block patch-diff-links">
 			<a href="${commitUrl}.patch" class="sha">.patch</a>
 			<a href="${commitUrl}.diff" class="sha">.diff</a>
 		</span>
