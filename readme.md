@@ -2,33 +2,33 @@
 
 > Chrome extension that simplifies the GitHub interface and adds useful features
 
-I use GitHub a lot and notice many dumb annoyances I want to fix. So here be dragons.
+We use GitHub a lot and notice many dumb annoyances we'd like to fix. So here be dragons.
 
-My hope is that GitHub will notice and implement some of these much needed improvements. So if you like any of these features, please email [GitHub support](mailto:support@github.com) about adding it.
+Our hope is that GitHub will notice and implement some of these much needed improvements. So if you like any of these improvements, please email [GitHub support](mailto:support@github.com) about doing it.
 
 
 ## Highlights
 
 - [Linkifies branch references in pull requests](https://github.com/sindresorhus/refined-github/issues/1)
 - [Linkifies issue/PR references in issue/PR titles](https://cloud.githubusercontent.com/assets/170270/13597190/bd487ec4-e549-11e5-9521-419fa284512c.png)
-- [Hides :+1: :-1: comments and shows their count in the sidebar](https://cloud.githubusercontent.com/assets/170270/13241396/0b708ae8-da1d-11e5-8c01-94eae501034c.png)
 - [Adds a 'Releases' tab to repos](https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png) *(<kbd>g</kbd> <kbd>r</kbd> hotkey)*
 - [Adds a quick edit button to the readme](https://cloud.githubusercontent.com/assets/170270/13379292/61cd4c42-de54-11e5-8829-f4b82ba8c2bc.png)
 - [Shows current filename in the sticky pull request header](https://cloud.githubusercontent.com/assets/170270/14153322/97a8e902-f6e1-11e5-8331-19e284e3e6fa.png)
 - [Adds blame links for parent commits in blame view](https://github.com/sindresorhus/refined-github/issues/2#issuecomment-189141373)
+- [Improves readability of tab indented code](https://cloud.githubusercontent.com/assets/170270/14170088/d3be931e-f755-11e5-8edf-c5f864336382.png)
 - [Adds a shortcut to quickly delete a forked repo](https://cloud.githubusercontent.com/assets/170270/13520281/b2c9335c-e211-11e5-9e36-b0f325166356.png)
 - [Adds ability to minimize/maximize files in a pull request diff](https://cloud.githubusercontent.com/assets/170270/13954167/40caa604-f072-11e5-89ba-3145217c4e28.png)
 - [Adds links to patch and diff for each commit](https://cloud.githubusercontent.com/assets/737065/13605562/22faa79e-e516-11e5-80db-2da6aa7965ac.png)
 - [Differentiates merge commits from regular commits](https://cloud.githubusercontent.com/assets/170270/14101222/2fe2c24a-f5bd-11e5-8b1f-4e589917d4c4.png)
-- [Improves readability of tab indented code](https://cloud.githubusercontent.com/assets/170270/14170088/d3be931e-f755-11e5-8edf-c5f864336382.png)
+- [Hides :+1: :-1: comments and shows their count in the sidebar](https://cloud.githubusercontent.com/assets/170270/13241396/0b708ae8-da1d-11e5-8c01-94eae501034c.png)
+- Supports indenting with the tab key in textareas like the comment box
 - Automagically expands the news feed when you scroll down
 - Hides other users starring/forking your repos from the newsfeed
 - Prompts you when pressing `Cancel` on an inline comment in case it was a mistake
-- Removes tooltips
+- Moves the dashboard organization switcher to the right column
 - Removes annoying hover effect in the repo file browser
 - Removes the comment box toolbar
-- Moves the dashboard organization switcher to the right column
-- Supports indenting with the tab key in textareas
+- Removes tooltips
 
 And [lots](extension/content.css) [more...](extension/content.js)
 
@@ -55,12 +55,12 @@ Install it from the [Chrome Web Store](https://chrome.google.com/webstore/detail
 
 ## Contribute
 
-I'm happy to receive suggestions and contributions, but be aware this is a highly opinionated project. I'm not interested in adding options as it's a slippery slope into adding options for everything. Users will always disagree with something. That being said, I'm open to discussing things.
+We're happy to receive suggestions and contributions, but be aware this is a highly opinionated project. We're not interested in adding options as it's a slippery slope into adding it for everything. Users will always disagree with something. That being said, we're open to discussing things.
 
 
 ## Related
 
-- [Safari version of this extension](https://github.com/fantattitude/refined-github-safari)
+- [**Safari version of this extension**](https://github.com/fantattitude/refined-github-safari)
 - [Notifier for GitHub extension](https://github.com/sindresorhus/notifier-for-github-chrome)
 - [Hide Files on GitHub extension](https://github.com/sindresorhus/hide-files-on-github)
 - [Show All GitHub Issues extension](https://github.com/sindresorhus/show-all-github-issues)
@@ -83,7 +83,8 @@ I'm happy to receive suggestions and contributions, but be aware this is a highl
 - [Paul Molluzzo](http://paul.molluzzo.com)
 - [Andrew Levine](https://github.com/DrewML)
 - [Kees Kluskens](https://webduck.nl)
-- [And our awesome contributors](https://github.com/sindresorhus/refined-github/graphs/contributors)
+
+[And our awesome contributors](https://github.com/sindresorhus/refined-github/graphs/contributors)
 
 
 ## License
