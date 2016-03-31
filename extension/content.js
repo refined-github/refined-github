@@ -270,7 +270,10 @@ function linkifyIssuesInTitles() {
 }
 
 function addPatchDiffLinks() {
-	const commitUrl = location.href.replace(/\/$/, '');
+	let commitUrl = location.href.replace(/\/$/, '');
+	if (isPRCommit()) {
+		commitUrl = commitUrl.replace(/\/pull\/\d+\/commits/, '/commit');
+	}
 	const commitMeta = $('.commit-meta span.right').get(0);
 
 	$(commitMeta).append(`
