@@ -67,6 +67,7 @@ We're happy to receive suggestions and contributions, but be aware this is a hig
 - [Canned Responses on GitHub extension](https://github.com/notwaldorf/github-canned-responses)
 - [Contributors on GitHub extension](https://github.com/hzoo/contributors-on-github)
 - [Twitter for GitHub extension](https://github.com/bevacqua/twitter-for-github)
+- [GifHub extension](https://github.com/DrewML/GifHub) - Quickly insert GIFs in GitHub comments
 
 
 ## Community tweaks
