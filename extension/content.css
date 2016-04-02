@@ -196,11 +196,13 @@
 }
 
 /* indicate collapsible file headers with zoom cursor */
-.file-header[data-path], .file-header[data-path] .diffstat {
-	cursor: zoom-out !important;
+.js-details-container:not(.discussion-item) .file-header[data-path],
+.file-header[data-path] .diffstat {
+    cursor: zoom-out !important;
 }
-.refined-github-minimized .file-header[data-path], .refined-github-minimized .file-header[data-path] .diffstat {
-	cursor: zoom-in !important;
+.refined-github-minimized:not(.discussion-item) .file-header[data-path],
+.refined-github-minimized .file-header[data-path] .diffstat {
+    cursor: zoom-in !important;
 }
 
 .refined-github-minimized .data {
