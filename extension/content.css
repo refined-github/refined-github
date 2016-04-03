@@ -307,6 +307,11 @@ svg.octicon.octicon-star.dashboard-event-icon {
 	font-weight: bold;
 }
 
+.diff-toolbar-filename.filename-width-check {
+	visibility: hidden;
+	position: absolute;
+}
+
 /* limit width of commit title and description inputs to 50/80 chars */
 #commit-summary-input, #commit-description-textarea {
 	font-family: monospace !important;
