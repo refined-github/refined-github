@@ -84,6 +84,7 @@
 /* remove commentbox toolbar */
 .toolbar-group {
     display: none;
+    margin-left: 0 !important;
 }
 .toolbar-group:last-child {
     display: inline-block;
