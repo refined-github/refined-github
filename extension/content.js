@@ -206,6 +206,19 @@ function indentInput(el, size = 4) {
 	el.selectionEnd = el.selectionStart = selectionStart + indentationText.length;
 }
 
+function showRecentPushedBranches() {
+	// Don't duplicate on back/forward in history
+	if ($('.recently-touched-branches-wrapper').length) {
+		return;
+	}
+
+	const uri = `/${repoUrl}/show_partial?partial=tree/recently_touched_branches_list`;
+	const fragMarkup = `<include-fragment src=${uri}></include-fragment>`;
+	const div = document.createElement('div');
+	div.innerHTML = fragMarkup;
+	$('.repository-content').prepend(div);
+}
+
 // Support indent with tab key in textarea elements
 $(document).on('keydown', event => {
 	// Check event.target instead of using a delegate, because Sprint doesn't support them
@@ -292,6 +305,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.isRepoRoot() || pageDetect.isRepoTree()) {
 				addReadmeEditButton();
+			}
+
+			if (!pageDetect.isRepoRoot()) {
+				showRecentPushedBranches();
 			}
 
 			if (pageDetect.isCommit()) {
