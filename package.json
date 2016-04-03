@@ -1,11 +1,12 @@
 {
   "scripts": {
-    "test": "xo"
+    "test": "xo && ava"
   },
   "devDependencies": {
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
     "grunt-webstore-upload": "^0.8.10",
+    "ava": "^0.13.0",
     "xo": "*"
   },
   "xo": {
@@ -17,6 +18,14 @@
     ],
     "ignores": [
       "extension/vendor/**"
+    ]
+  },
+  "ava": {
+    "files": [
+      "tests/*.spec.js"
+    ],
+    "source": [
+      "extension/*.js"
     ]
   }
 }
