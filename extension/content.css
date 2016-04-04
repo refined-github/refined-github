@@ -39,8 +39,8 @@
 }
 
 /* remove tooltips */
-.tooltipped:not(.reaction-summary-item):before,
-.tooltipped:not(.reaction-summary-item):after {
+.tooltipped:not(.reaction-summary-item,.avatar-group-item,.avatar):before,
+.tooltipped:not(.reaction-summary-item,.avatar-group-item,.avatar):after {
 	display: none !important;
 }
 
