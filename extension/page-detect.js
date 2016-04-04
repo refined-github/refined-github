@@ -35,6 +35,8 @@ window.pageDetect = (() => {
 
 	const isBlame = () => isRepo() && /^\/blame\//.test(getRepoPath());
 
+	const isSingleFile = () => isRepo() && /\/blob\//.test(getRepoPath());
+
 	return {
 		isGist,
 		isDashboard,
@@ -51,6 +53,7 @@ window.pageDetect = (() => {
 		isSingleCommit,
 		isCommit,
 		isReleases,
-		isBlame
+		isBlame,
+		isSingleFile
 	};
 })();

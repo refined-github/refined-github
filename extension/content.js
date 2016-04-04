@@ -206,6 +206,38 @@ function indentInput(el, size = 4) {
 	el.selectionEnd = el.selectionStart = selectionStart + indentationText.length;
 }
 
+function addFileCopyButton() {
+	if ($('.copy-btn').length) {
+		return;
+	}
+
+	const $targetSibling = $('#raw-url');
+	const fileUri = $targetSibling.attr('href');
+	// Note: Need to fetch this prior to the user-click, unfortunately.
+	// Chrome only allows the "copy" command to work within quick succession
+	// of a user-triggered event (click on "Copy" button, in this case)
+	const pendingFileContents = fetch(fileUri).then(res => res.text());
+	$(`<a href="${fileUri}" class="btn btn-sm copy-btn">Copy</a>`).insertBefore($targetSibling);
+
+	$(document).on('click', e => {
+		if (!e.target.classList.contains('copy-btn')) {
+			return;
+		}
+
+		e.preventDefault();
+		const textArea = document.createElement('textarea');
+		textArea.style.cssText = 'opacity:0; position: fixed;';
+		document.body.appendChild(textArea);
+
+		pendingFileContents.then(fileContents => {
+			textArea.value = fileContents;
+			textArea.select();
+			document.execCommand('copy');
+			document.body.removeChild(textArea);
+		});
+	});
+}
+
 // Support indent with tab key in textarea elements
 $(document).on('keydown', event => {
 	// Check event.target instead of using a delegate, because Sprint doesn't support them
@@ -309,6 +341,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
 				diffFileHeader.setup();
+			}
+
+			if (pageDetect.isSingleFile()) {
+				addFileCopyButton();
 			}
 		});
 	}
