@@ -334,3 +334,8 @@ svg.octicon.octicon-star.dashboard-event-icon {
 .gist table.lines {
 	tab-size: 4 !important;
 }
+
+/* larger comment box */
+.comment-form-textarea {
+	height: 200px !important;
+}
