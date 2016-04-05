@@ -8,13 +8,6 @@ const addReactionParticipants = currentUser => {
 		const $reactionButtons = $reactionsContainer.find('.comment-reactions-options .reaction-summary-item[aria-label]');
 
 		$reactionButtons.each((index, element) => {
-			element.addEventListener('click', () => {
-				const applyReactions = setInterval(() => {
-					addReactionParticipants(currentUser);
-					clearInterval(applyReactions);
-				}, 1000);
-			});
-
 			const reactionEmoji = $(element).html().replace(element.innerHTML.split('/g-emoji>')[1], '');
 			const participantCount = Number(element.innerHTML.split('/g-emoji>')[1]);
 			const participants = element.getAttribute('aria-label')
@@ -57,4 +50,14 @@ const addReactionParticipants = currentUser => {
 			}
 		});
 	});
+};
+
+const reapplyReactionParticipants = (event, currentUser) => {
+	if(!$(event.target).closest('button').not('.add-reaction-btn').is('.add-reactions-options-item, .reaction-summary-item')) {
+		return;
+	}
+	const applyReactions = setInterval(() => {
+		addReactionParticipants(currentUser);
+		clearInterval(applyReactions);
+	}, 1000);
 };

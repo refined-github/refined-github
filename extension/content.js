@@ -373,6 +373,9 @@ document.addEventListener('DOMContentLoaded', () => {
 				moveVotes();
 				linkifyIssuesInTitles();
 				addReactionParticipants(username);
+				document.addEventListener('click', event => {
+					reapplyReactionParticipants(event, username)
+				});
 			}
 
 			if (pageDetect.isBlame()) {
