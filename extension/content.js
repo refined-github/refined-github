@@ -300,7 +300,7 @@ $(document).on('keydown', event => {
 		return;
 	}
 
-	if (event.which === 9) {
+	if (event.which === 9 && !event.shiftKey) {
 		event.preventDefault();
 		indentInput(event.target);
 		return false;
