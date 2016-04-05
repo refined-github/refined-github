@@ -372,9 +372,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (pageDetect.isPR() || pageDetect.isIssue()) {
 				moveVotes();
 				linkifyIssuesInTitles();
-				addReactionParticipants(username);
+				addReactionParticipants.add(username);
 				document.addEventListener('click', event => {
-					reapplyReactionParticipants(event, username)
+					addReactionParticipants.reapply(event, username);
 				});
 			}
 
