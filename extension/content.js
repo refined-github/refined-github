@@ -207,7 +207,8 @@ function indentInput(el, size = 4) {
 }
 
 function addFileCopyButton() {
-	if ($('.copy-btn').length) {
+	// Button already added (partial page nav), or non-text file
+	if ($('.copy-btn').length || !$('[data-line-number="1"]').length) {
 		return;
 	}
 
