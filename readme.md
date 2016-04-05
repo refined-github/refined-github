@@ -23,6 +23,7 @@ Our hope is that GitHub will notice and implement some of these much needed impr
 - [Hides :+1: :-1: comments and shows their count in the sidebar](https://cloud.githubusercontent.com/assets/170270/13241396/0b708ae8-da1d-11e5-8c01-94eae501034c.png)
 - [Adds User avatars to Reactions](https://cloud.githubusercontent.com/assets/737065/14269443/c80ae418-fab2-11e5-93f7-d776f40a5b25.png)
 - Supports indenting with the tab key in textareas like the comment box
+- Supports indenting with the tab key in textareas like the comment box (use <kbd>shift</kbd>+<kbd>tab</kbd> for original behavior)
 - Automagically expands the news feed when you scroll down
 - Hides other users starring/forking your repos from the newsfeed
 - Prompts you when pressing `Cancel` on an inline comment in case it was a mistake
