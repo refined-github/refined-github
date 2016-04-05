@@ -29,6 +29,7 @@ Our hope is that GitHub will notice and implement some of these much needed impr
 - Removes annoying hover effect in the repo file browser
 - Removes the comment box toolbar
 - Removes tooltips
+- Adds a `Copy` button for raw file contents
 
 And [lots](extension/content.css) [more...](extension/content.js)
 
