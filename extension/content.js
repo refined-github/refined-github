@@ -1,6 +1,6 @@
 /* globals gitHubInjection, pageDetect, diffFileHeader, addReactionParticipants */
 'use strict';
-const [, ownerName, repoName] = location.pathname.split('/');
+const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
 const repoUrl = `${ownerName}/${repoName}`;
 const getUsername = () => $('meta[name="user-login"]').attr('content');
 
