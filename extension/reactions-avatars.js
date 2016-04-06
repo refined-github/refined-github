@@ -50,9 +50,9 @@ const addReactionParticipants = {
 		}, 500);
 	},
 
-	addListener(username) {
+	addListener(currentUser) {
 		document.addEventListener('click', event => {
-			addReactionParticipants.reapply(event, username);
+			addReactionParticipants.reapply(event, currentUser);
 		});
 	}
 };
