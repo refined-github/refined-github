@@ -378,8 +378,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (pageDetect.isPR() || pageDetect.isIssue()) {
 				moveVotes();
 				linkifyIssuesInTitles();
-				addReactionParticipants.add(username);
-				addReactionParticipants.addListener(username);
 			}
 
 			if (pageDetect.isBlame()) {
@@ -392,6 +390,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.isCommit()) {
 				addPatchDiffLinks();
+			}
+
+			if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit()) {
 				addReactionParticipants.add(username);
 				addReactionParticipants.addListener(username);
 			}
