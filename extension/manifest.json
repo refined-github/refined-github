@@ -29,6 +29,7 @@
 				"vendor/gh-injection.js",
 				"page-detect.js",
 				"diffheader.js",
+				"reactions-avatars.js",
 				"content.js"
 			]
 		}

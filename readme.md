@@ -21,6 +21,8 @@ Our hope is that GitHub will notice and implement some of these much needed impr
 - [Adds links to patch and diff for each commit](https://cloud.githubusercontent.com/assets/737065/13605562/22faa79e-e516-11e5-80db-2da6aa7965ac.png)
 - [Differentiates merge commits from regular commits](https://cloud.githubusercontent.com/assets/170270/14101222/2fe2c24a-f5bd-11e5-8b1f-4e589917d4c4.png)
 - [Hides :+1: :-1: comments and shows their count in the sidebar](https://cloud.githubusercontent.com/assets/170270/13241396/0b708ae8-da1d-11e5-8c01-94eae501034c.png)
+- [Adds user avatars to Reactions](https://cloud.githubusercontent.com/assets/737065/14320233/53fa3624-fbe2-11e5-8a77-6b493d9b9d84.png)
+- Supports indenting with the tab key in textareas like the comment box (use <kbd>shift</kbd>+<kbd>tab</kbd> for original behavior)
 - Supports indenting with the tab key in textareas like the comment box (<kbd>Shift</kbd> <kbd>Tab</kbd> for original behavior)
 - Automagically expands the news feed when you scroll down
 - Hides other users starring/forking your repos from the newsfeed
