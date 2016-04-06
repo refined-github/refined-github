@@ -373,9 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				moveVotes();
 				linkifyIssuesInTitles();
 				addReactionParticipants.add(username);
-				document.addEventListener('click', event => {
-					addReactionParticipants.reapply(event, username);
-				});
+				addReactionParticipants.addListener(username);
 			}
 
 			if (pageDetect.isBlame()) {
@@ -388,6 +386,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.isCommit()) {
 				addPatchDiffLinks();
+				addReactionParticipants.add(username);
+				addReactionParticipants.addListener(username);
 			}
 
 			if (pageDetect.isCommitList()) {

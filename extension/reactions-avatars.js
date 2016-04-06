@@ -48,5 +48,11 @@ const addReactionParticipants = {
 			addReactionParticipants.add(currentUser);
 			clearInterval(applyReactions);
 		}, 500);
+	},
+
+	addListener(username) {
+		document.addEventListener('click', event => {
+			addReactionParticipants.reapply(event, username);
+		});
 	}
 };
