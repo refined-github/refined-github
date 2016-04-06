@@ -60,9 +60,9 @@ function renderVoteCount(type, voters) {
 	}
 
 	avatars = avatars.replace(/height="48"/g, 'height="20"')
-										.replace(/width="48"/g, 'width="20"')
-										.replace(/<a href/g, '<a class="participant-avatar" href')
-										.replace(/timeline-comment-avatar/g, 'avatar');
+		.replace(/width="48"/g, 'width="20"')
+		.replace(/<a href/g, '<a class="participant-avatar" href')
+		.replace(/timeline-comment-avatar/g, 'avatar');
 
 	$sidebar.append(`<div class="discussion-sidebar-item">
 			<div class="participation">
@@ -215,10 +215,10 @@ function addReadmeEditButton() {
 	const currentBranch = $('.file-navigation .select-menu.left button.select-menu-button').attr('title');
 	const editHref = `/${repoUrl}/edit/${currentBranch}/${readmeName}`;
 	const editButtonHtml = `<div id="refined-github-readme-edit-link">
-														<a href="${editHref}">
-															<svg class="octicon octicon-pencil" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path d="M0 12v3h3l8-8-3-3L0 12z m3 2H1V12h1v1h1v1z m10.3-9.3l-1.3 1.3-3-3 1.3-1.3c0.39-0.39 1.02-0.39 1.41 0l1.59 1.59c0.39 0.39 0.39 1.02 0 1.41z"></path></svg>
-														</a>
-													</div>`;
+		<a href="${editHref}">
+			<svg class="octicon octicon-pencil" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path d="M0 12v3h3l8-8-3-3L0 12z m3 2H1V12h1v1h1v1z m10.3-9.3l-1.3 1.3-3-3 1.3-1.3c0.39-0.39 1.02-0.39 1.41 0l1.59 1.59c0.39 0.39 0.39 1.02 0 1.41z"></path></svg>
+		</a>
+	</div>`;
 
 	readmeContainer.append(editButtonHtml);
 }
