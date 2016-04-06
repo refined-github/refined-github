@@ -299,18 +299,43 @@ function indentInput(el, size = 4) {
 	el.selectionEnd = el.selectionStart = selectionStart + indentationText.length;
 }
 
-// Support indent with tab key in textarea elements
-$(document).on('keydown', event => {
-	// Check event.target instead of using a delegate, because Sprint doesn't support them
-	if (!$(event.target).is('textarea')) {
+function isCursorInCodeBlock(markdown, cursorIdx) {
+	const fencePattern = /```/g;
+	let match;
+	let lastEndingIdx;
+	let fenceOpen = false;
+	let finished = false;
+
+	while ((match = fencePattern.exec(markdown)) && !finished) {
+		if (fenceOpen) {
+			fenceOpen = false;
+			if (cursorIdx > lastEndingIdx && cursorIdx < match.index) {
+				finished = true;
+			}
+		} else {
+			fenceOpen = true;
+		}
+
+		lastEndingIdx = match.index + match[0].length;
+	}
+
+	return finished;
+}
+
+// Support indent with tab key in textarea elements, except when cursor
+// is in a GFM code fence
+$(document).on('keydown', e => {
+	if (!$(e.target).is('textarea') || e.which !== 9) {
 		return;
 	}
 
-	if (event.which === 9 && !event.shiftKey) {
-		event.preventDefault();
-		indentInput(event.target);
-		return false;
+	if (!isCursorInCodeBlock(e.target.value, e.target.selectionStart)) {
+		return;
 	}
+
+	e.preventDefault();
+	indentInput(e.target);
+	return false;
 });
 
 // Prompt user to confirm erasing a comment with the Cancel button
