@@ -187,19 +187,25 @@ function infinitelyMore() {
 }
 
 function addBlameParentLinks() {
-	$('.blame-sha').each((index, commitLink) => {
+	$('.blame-sha:not(.js-blame-parent)').each((index, commitLink) => {
 		const $commitLink = $(commitLink);
+		const $blameMetaContainer = $commitLink.nextAll('.blame-commit-meta');
+		if ($blameMetaContainer.find('.js-blame-parent').length > 0) {
+			return;
+		}
+
 		const $blameParentLink = $commitLink.clone();
 		const commitSha = /\w{40}$/.exec(commitLink.href)[0];
 
 		$blameParentLink
 			.text('Blame ^')
+			.addClass('js-blame-parent')
 			.prop('href', location.pathname.replace(
 				/(\/blame\/)[^\/]+/,
 				`$1${commitSha}${encodeURI('^')}`
 			));
 
-		$commitLink.nextAll('.blame-commit-meta').append($blameParentLink);
+		$blameMetaContainer.append($blameParentLink);
 	});
 }
 

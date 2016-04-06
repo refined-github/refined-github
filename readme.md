@@ -23,6 +23,7 @@ Our hope is that GitHub will notice and implement some of these much needed impr
 - [Hides :+1: :-1: comments and shows their count in the sidebar](https://cloud.githubusercontent.com/assets/170270/13241396/0b708ae8-da1d-11e5-8c01-94eae501034c.png)
 - [Adds user avatars to Reactions](https://cloud.githubusercontent.com/assets/737065/14269443/c80ae418-fab2-11e5-93f7-d776f40a5b25.png)
 - Supports indenting with the tab key in textareas like the comment box (use <kbd>shift</kbd>+<kbd>tab</kbd> for original behavior)
+- Supports indenting with the tab key in textareas like the comment box (<kbd>Shift</kbd> <kbd>Tab</kbd> for original behavior)
 - Automagically expands the news feed when you scroll down
 - Hides other users starring/forking your repos from the newsfeed
 - Prompts you when pressing `Cancel` on an inline comment in case it was a mistake
@@ -61,14 +62,14 @@ We're happy to receive suggestions and contributions, but be aware this is a hig
 
 ## Related
 
-- [**Safari version of this extension**](https://github.com/fantattitude/refined-github-safari)
-- [Notifier for GitHub extension](https://github.com/sindresorhus/notifier-for-github-chrome)
-- [Hide Files on GitHub extension](https://github.com/sindresorhus/hide-files-on-github)
-- [Show All GitHub Issues extension](https://github.com/sindresorhus/show-all-github-issues)
-- [Canned Responses on GitHub extension](https://github.com/notwaldorf/github-canned-responses)
-- [Contributors on GitHub extension](https://github.com/hzoo/contributors-on-github)
-- [Twitter for GitHub extension](https://github.com/bevacqua/twitter-for-github)
-- [GifHub extension](https://github.com/DrewML/GifHub) - Quickly insert GIFs in GitHub comments
+- [**Safari version**](https://github.com/fantattitude/refined-github-safari)
+- [Notifier for GitHub](https://github.com/sindresorhus/notifier-for-github-chrome) - Shows your notification unread count
+- [Hide Files on GitHub](https://github.com/sindresorhus/hide-files-on-github) - Hides dotfiles from the file browser
+- [Show All GitHub Issues](https://github.com/sindresorhus/show-all-github-issues) - Shows both Issues and Pull Requests in the Issues tab
+- [Contributors on GitHub](https://github.com/hzoo/contributors-on-github) - Shows stats about contributors
+- [Twitter for GitHub](https://github.com/bevacqua/twitter-for-github) - Shows a user's Twitter handle on their profile page
+- [GifHub](https://github.com/DrewML/GifHub) - Quickly insert GIFs in comments
+- [Octo Linker](https://github.com/octo-linker/chrome-extension/) - Navigate across files and packages
 
 
 ## Community tweaks
@@ -81,7 +82,7 @@ We're happy to receive suggestions and contributions, but be aware this is a hig
 
 While this project is highly opinionated, this doesn't necessarily limit you from manually disabling functionality that is not useful for your workflow. Options include:
 
-1. (CSS Only) Use a Chrome Extension that allows injecting custom styles into sites, based on a URI pattern. [Stylist](https://chrome.google.com/webstore/detail/stylish/fjnbnpbmkenffdnngjfgmeleoegfcffe?hl=en) is one such tool. [Example](https://github.com/sindresorhus/refined-github/issues/136#issuecomment-204072018)
+1. *(CSS Only)* Use a Chrome extension that allows injecting custom styles into sites, based on a URL pattern. [Stylist](https://chrome.google.com/webstore/detail/stylish/fjnbnpbmkenffdnngjfgmeleoegfcffe?hl=en) is one such tool. [Example](https://github.com/sindresorhus/refined-github/issues/136#issuecomment-204072018)
 
 2. Clone the repository, make the adjustments you need, and [load the unpacked extension in Chrome](https://developer.chrome.com/extensions/getstarted#unpacked), rather than installing from the Chrome Store.
 
