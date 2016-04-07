@@ -4,11 +4,6 @@ const [, ownerName, repoName] = location.pathname.split('/');
 const repoUrl = `${ownerName}/${repoName}`;
 const getUsername = () => $('meta[name="user-login"]').attr('content');
 
-const uselessContent = {
-	upvote: {text: ['+1\n'], emoji: [':+1:', ':100:', ':ok_hand:']},
-	downvote: {text: ['-1\n'], emoji: [':-1:']}
-};
-
 function linkifyBranchRefs() {
 	$('.commit-ref').each((i, el) => {
 		const parts = $(el).find('.css-truncate-target');
@@ -22,99 +17,6 @@ function linkifyBranchRefs() {
 
 		$(el).wrap(`<a href="https://github.com/${username}/${repoName}/tree/${branch}">`);
 	});
-}
-
-function commentIsUseless(type, el) {
-	if (uselessContent[type].text.includes(el.innerText)) {
-		return true;
-	}
-	// check if there is exactly one child element, that has one or two child nodes;
-	// sometimes a second child node can contain a useless space
-	// using `childNodes` because this also includes text nodes
-	if (el.children.length === 1) {
-		const children = el.children[0].childNodes;
-		if (children.length === 1 || (children.length === 2 && !children[1].textContent.trim())) {
-			const onlyChild = children[0];
-			if (onlyChild.tagName === 'IMG' && uselessContent[type].emoji.includes(onlyChild.title)) {
-				return true;
-			}
-		}
-	}
-
-	return false;
-}
-
-function renderVoteCount(type, voters) {
-	let iconUrl;
-	if (type === 'upvote') {
-		iconUrl = 'https://assets-cdn.github.com/images/icons/emoji/unicode/1f44d.png';
-	}
-	if (type === 'downvote') {
-		iconUrl = 'https://assets-cdn.github.com/images/icons/emoji/unicode/1f44e.png';
-	}
-	const $sidebar = $('#partial-discussion-sidebar');
-	let avatars = '';
-
-	for (const val of voters) {
-		avatars += val;
-	}
-
-	avatars = avatars.replace(/height="48"/g, 'height="20"')
-		.replace(/width="48"/g, 'width="20"')
-		.replace(/<a href/g, '<a class="participant-avatar" href')
-		.replace(/timeline-comment-avatar/g, 'avatar');
-
-	$sidebar.append(`<div class="discussion-sidebar-item">
-			<div class="participation">
-				<h3 class="discussion-sidebar-heading">
-					${voters.size} <img class="emoji" alt="${type}" height="20" width="20" align="absmiddle" src="${iconUrl}">
-				</h3>
-				<div class="participation-avatars">
-					${avatars}
-				</div>
-			</div>
-		</div>`);
-}
-
-function moveVotes() {
-	const upVoters = new Set();
-	const downVoters = new Set();
-	$('.js-comment-body').each((i, el) => {
-		// this is a comment not in the usual container - found on inline comments
-		if ($(el).closest('.js-comment-container').find('.author').length === 0) {
-			return;
-		}
-
-		const isUp = commentIsUseless('upvote', el);
-		const isDown = commentIsUseless('downvote', el);
-
-		if (isUp || isDown) {
-			// grab avatar and wrapping a tag for commenter
-			const commenter = $($(el).closest('.js-comment-container').find('a').get(0)).wrap('<div>').parent().html();
-
-			// remove from both arrays
-			upVoters.delete(commenter);
-			downVoters.delete(commenter);
-
-			// add to upvoters if it's an upvote
-			if (isUp) {
-				upVoters.add(commenter);
-			}
-
-			// add to upvoters if it's an upvote
-			if (isDown) {
-				downVoters.add(commenter);
-			}
-
-			el.closest('.js-comment-container').remove();
-		}
-	});
-	if (upVoters.size > 0) {
-		renderVoteCount('upvote', upVoters);
-	}
-	if (downVoters.size > 0) {
-		renderVoteCount('downvote', downVoters);
-	}
 }
 
 function appendReleasesCount(count) {
@@ -381,7 +283,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 
 			if (pageDetect.isPR() || pageDetect.isIssue()) {
-				moveVotes();
 				linkifyIssuesInTitles();
 			}
 
