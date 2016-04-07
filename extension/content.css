@@ -304,6 +304,16 @@ svg.octicon.octicon-star.dashboard-event-icon {
 	display: none;
 }
 
+.js-sticky-offset-scroll.is-stuck .subset-files-tab,
+.js-sticky-offset-scroll.is-stuck .stale-files-tab {
+	width: 100%;
+	text-align: center;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	font-size: 11px;
+	margin-top: 5px;
+}
+
 .diff-toolbar-filename {
 	font-weight: bold;
 }
