@@ -389,7 +389,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				addBlameParentLinks();
 			}
 
-			if (pageDetect.isRepo()) {
+			if (pageDetect.isRepoRoot() || pageDetect.isRepoTree()) {
 				addReadmeEditButton();
 			}
 
