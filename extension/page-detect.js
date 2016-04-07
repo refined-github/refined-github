@@ -11,6 +11,8 @@ window.pageDetect = (() => {
 
 	const isRepoRoot = () => isRepo() && /^(\/?$|\/tree\/)/.test(getRepoPath()) && $('.repository-meta-content').length > 0;
 
+	const isRepoTree = () => isRepo() && /\/tree\//.test(getRepoPath());
+
 	const isIssueList = () => isRepo() && /^\/issues\/?$/.test(getRepoPath());
 
 	const isIssue = () => isRepo() && /^\/issues\/\d+/.test(getRepoPath());
@@ -38,6 +40,7 @@ window.pageDetect = (() => {
 		isDashboard,
 		isRepo,
 		isRepoRoot,
+		isRepoTree,
 		isIssueList,
 		isIssue,
 		isPRList,
