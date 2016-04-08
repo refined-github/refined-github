@@ -4,5 +4,4 @@ node_js:
 branches:
   only:
     - master
-before_install: npm install -g grunt-cli
 after_success: ./deploy.sh
