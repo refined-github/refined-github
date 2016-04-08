@@ -18,8 +18,7 @@
       "webextensions"
     ],
     "ignores": [
-      "extension/vendor/**",
-      "Gruntfile.js"
+      "extension/vendor/**"
     ]
   }
 }
