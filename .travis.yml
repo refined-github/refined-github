@@ -4,4 +4,9 @@ node_js:
 branches:
   only:
     - master
-after_success: ./deploy.sh
+deploy:
+  provider: script
+  script: ./deploy.sh
+  on:
+    branch: master
+    tags: true
