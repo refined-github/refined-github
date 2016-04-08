@@ -1,3 +1,5 @@
+/* globals utils */
+
 window.diffFileHeader = (() => {
 	const diffFile = (() => {
 		let lastFile;
@@ -106,7 +108,8 @@ window.diffFileHeader = (() => {
 
 	const setup = () => {
 		$(window).on('scroll.diffheader', () => diffHeaderFilename());
-		$(window).on('resize', () => diffHeaderFilename(true));
+		const onResize = utils.debounce(() => diffHeaderFilename(true), 200);
+		$(window).on('resize', onResize);
 
 		$(`<span class="diff-toolbar-filename"></span>`)
 				.insertAfter($('.toc-select'));
