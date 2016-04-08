@@ -5,6 +5,10 @@
   "devDependencies": {
     "xo": "*"
   },
+  "dependencies": {
+    "grunt": "^1.0.1",
+    "grunt-webstore-upload": "^0.8.10"
+  },
   "xo": {
     "esnext": true,
     "envs": [
@@ -13,7 +17,8 @@
       "webextensions"
     ],
     "ignores": [
-      "extension/vendor/**"
+      "extension/vendor/**",
+      "Gruntfile.js"
     ]
   }
 }
