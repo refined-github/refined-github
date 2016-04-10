@@ -72,7 +72,7 @@ We're happy to receive suggestions and contributions, but be aware this is a hig
 - [Twitter for GitHub](https://github.com/bevacqua/twitter-for-github) - Shows a user's Twitter handle on their profile page
 - [GifHub](https://github.com/DrewML/GifHub) - Quickly insert GIFs in comments
 - [Octo Linker](https://github.com/octo-linker/chrome-extension/) - Navigate across files and packages
-
+- [Awesome browser extensions for GitHub](https://github.com/stefanbuck/awesome-browser-extensions-for-github) - A collection of awesome browser extensions for GitHub
 
 ## Community tweaks
 
