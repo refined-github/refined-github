@@ -3,6 +3,9 @@
     "test": "xo"
   },
   "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
+    "grunt-webstore-upload": "^0.8.10",
     "xo": "*"
   },
   "xo": {

@@ -4,3 +4,9 @@ node_js:
 branches:
   only:
     - master
+deploy:
+  provider: script
+  script: ./deploy.sh
+  on:
+    branch: master
+    tags: true
