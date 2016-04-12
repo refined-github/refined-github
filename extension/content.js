@@ -307,7 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				addReadmeEditButton();
 			}
 
-			if (!pageDetect.isRepoRoot()) {
+			if (pageDetect.isPRList() || pageDetect.isIssueList()) {
 				showRecentPushedBranches();
 			}
 
