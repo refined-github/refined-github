@@ -1,6 +1,7 @@
-/* globals gitHubInjection, pageDetect, diffFileHeader, addReactionParticipants */
+/* globals gitHubInjection, pageDetect, diffFileHeader, addReactionParticipants, addFileCopyButton */
+
 'use strict';
-const [, ownerName, repoName] = location.pathname.split('/');
+const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
 const repoUrl = `${ownerName}/${repoName}`;
 const getUsername = () => $('meta[name="user-login"]').attr('content');
 
@@ -309,6 +310,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
 				diffFileHeader.setup();
+			}
+
+			if (pageDetect.isSingleFile()) {
+				addFileCopyButton();
 			}
 		});
 	}
