@@ -1,3 +1,5 @@
+/* globals utils */
+
 window.diffFileHeader = (() => {
 	const diffFile = (() => {
 		let lastFile;
@@ -82,7 +84,7 @@ window.diffFileHeader = (() => {
 		return files.find(el => isFilePartlyVisible(el, toolbarHeight));
 	};
 
-	const diffHeaderFilename = () => {
+	const diffHeaderFilename = isResize => {
 		const targetDiffFile = getHighestVisibleDiffFilename();
 		if (!targetDiffFile) {
 			return;
@@ -90,24 +92,33 @@ window.diffFileHeader = (() => {
 
 		const filename = $(targetDiffFile).find('.file-header').attr('data-path');
 
-		if (!diffFile.hasChanged(filename)) {
+		if (!diffFile.hasChanged(filename) && !isResize) {
 			return;
+		}
+
+		if (isResize) {
+			const target = $('.diff-toolbar-filename').get(0);
+			if (target.getBoundingClientRect().width < maxPixelsAvailable()) {
+				return;
+			}
 		}
 
 		updateFileLabel(filename);
 	};
 
 	const setup = () => {
-		const events = ['scroll', 'resize'];
-		events.forEach(event => window.addEventListener(event, diffHeaderFilename));
+		$(window).on('scroll.diffheader', () => diffHeaderFilename());
+		const onResize = utils.debounce(() => diffHeaderFilename(true), 200);
+		$(window).on('resize', onResize);
+
 		$(`<span class="diff-toolbar-filename"></span>`)
 				.insertAfter($('.toc-select'));
 		diffFile.reset();
 	};
 
 	const destroy = () => {
-		const events = ['scroll', 'resize'];
-		events.forEach(event => window.removeEventListener(event, diffHeaderFilename));
+		$(window).off('scroll.diffheader');
+		$(window).off('resize.diffheader');
 		$('.diff-toolbar-filename').remove();
 	};
 
