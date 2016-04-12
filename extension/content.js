@@ -206,7 +206,7 @@ function indentInput(el, size = 4) {
 	el.selectionEnd = el.selectionStart = selectionStart + indentationText.length;
 }
 
-function showRecentPushedBranches() {
+function showRecentlyPushedBranches() {
 	// Don't duplicate on back/forward in history
 	if ($('.recently-touched-branches-wrapper').length) {
 		return;
@@ -308,7 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 
 			if (pageDetect.isPRList() || pageDetect.isIssueList()) {
-				showRecentPushedBranches();
+				showRecentlyPushedBranches();
 			}
 
 			if (pageDetect.isCommit()) {
