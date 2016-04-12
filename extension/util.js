@@ -1,5 +1,7 @@
-window.utils = {
-	debounce(func, wait, immediate) {
+(exports => {
+	'use strict';
+
+	exports.debounce = (func, wait, immediate) => {
 		let timeout;
 		return function (...args) {
 			const later = () => {
@@ -15,5 +17,5 @@ window.utils = {
 				func.apply(this, args);
 			}
 		};
-	}
-};
+	};
+})(window.utils = {});
