@@ -1,4 +1,5 @@
-/* globals gitHubInjection, pageDetect, diffFileHeader, addReactionParticipants */
+/* globals gitHubInjection, pageDetect, diffFileHeader, addReactionParticipants, addFileCopyButton */
+
 'use strict';
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
 const repoUrl = `${ownerName}/${repoName}`;
@@ -204,39 +205,6 @@ function indentInput(el, size = 4) {
 	const indentationText = ' '.repeat(indentSize);
 	el.value = value.slice(0, selectionStart) + indentationText + value.slice(el.selectionEnd);
 	el.selectionEnd = el.selectionStart = selectionStart + indentationText.length;
-}
-
-function addFileCopyButton() {
-	// Button already added (partial page nav), or non-text file
-	if ($('.copy-btn').length || !$('[data-line-number="1"]').length) {
-		return;
-	}
-
-	const $targetSibling = $('#raw-url');
-	const fileUri = $targetSibling.attr('href');
-	// Note: Need to fetch this prior to the user-click, unfortunately.
-	// Chrome only allows the "copy" command to work within quick succession
-	// of a user-triggered event (click on "Copy" button, in this case)
-	const pendingFileContents = fetch(fileUri).then(res => res.text());
-	$(`<a href="${fileUri}" class="btn btn-sm copy-btn">Copy</a>`).insertBefore($targetSibling);
-
-	$(document).on('click', e => {
-		if (!e.target.classList.contains('copy-btn')) {
-			return;
-		}
-
-		e.preventDefault();
-		const textArea = document.createElement('textarea');
-		textArea.style.cssText = 'opacity:0; position: fixed;';
-		document.body.appendChild(textArea);
-
-		pendingFileContents.then(fileContents => {
-			textArea.value = fileContents;
-			textArea.select();
-			document.execCommand('copy');
-			document.body.removeChild(textArea);
-		});
-	});
 }
 
 // Support indent with tab key in textarea elements
