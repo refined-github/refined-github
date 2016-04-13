@@ -7,10 +7,10 @@ require('../extension/page-detect.js');
 const {pageDetect} = window;
 
 const urisMatch = (t, fn, testURIs = []) => {
-	testURIs.forEach(uri => {
+	for (const uri of testURIs) {
 		location.href = uri;
 		t.true(fn());
-	});
+	}
 };
 
 test('isGist', t => {
