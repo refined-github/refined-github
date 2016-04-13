@@ -6,9 +6,9 @@ global.location = window.location;
 require('../extension/page-detect.js');
 const {pageDetect} = window;
 
-const urlBulkTest = (shouldMatch, t, fn, testURIs = []) => {
-	for (const uri of testURIs) {
-		location.href = uri;
+const urlBulkTest = (shouldMatch, t, fn, testURLs = []) => {
+	for (const url of testURLs) {
+		location.href = url;
 		t[shouldMatch ? 'true' : 'false'](fn());
 	}
 };
@@ -117,7 +117,8 @@ test('isPRFiles', t => {
 
 test('isPRCommit', t => {
 	urlsMatch(t, pageDetect.isPRCommit, [
-		'https://github.com/sindresorhus/refined-github/pull/148/commits/0019603b83bd97c2f7ef240969f49e6126c5ec85'
+		'https://github.com/sindresorhus/refined-github/pull/148/commits/0019603b83bd97c2f7ef240969f49e6126c5ec85',
+		'https://github.com/sindresorhus/refined-github/pull/148/commits/00196'
 	]);
 
 	urlsDontMatch(t, pageDetect.isPRCommit, [
@@ -131,7 +132,9 @@ test('isCommitList', t => {
 	urlsMatch(t, pageDetect.isCommitList, [
 		'https://github.com/sindresorhus/refined-github/commits/master?page=2',
 		'https://github.com/sindresorhus/refined-github/commits/test-branch',
-		'https://github.com/sindresorhus/refined-github/commits/0.13.0'
+		'https://github.com/sindresorhus/refined-github/commits/0.13.0',
+		'https://github.com/sindresorhus/refined-github/commits/230c2',
+		'https://github.com/sindresorhus/refined-github/commits/230c2935fc5aea9a681174ddbeba6255ca040d63'
 	]);
 
 	urlsDontMatch(t, pageDetect.isCommitList, [
@@ -143,7 +146,8 @@ test('isCommitList', t => {
 
 test('isSingleCommit', t => {
 	urlsMatch(t, pageDetect.isSingleCommit, [
-		'https://github.com/sindresorhus/refined-github/commit/5b614b9035f2035b839f48b4db7bd5c3298d526f'
+		'https://github.com/sindresorhus/refined-github/commit/5b614b9035f2035b839f48b4db7bd5c3298d526f',
+		'https://github.com/sindresorhus/refined-github/commit/5b614'
 	]);
 
 	urlsDontMatch(t, pageDetect.isSingleCommit, [
@@ -170,5 +174,35 @@ test('isBlame', t => {
 
 	urlsDontMatch(t, pageDetect.isBlame, [
 		'https://github.com/sindresorhus/refined-github/blob/master/package.json'
+	]);
+});
+
+test('getOwnerAndRepo', t => {
+	const ownerAndRepo = {
+		'https://github.com/sindresorhus/refined-github/pull/148': {
+			ownerName: 'sindresorhus',
+			repoName: 'refined-github'
+		},
+		'https://github.com/DrewML/GifHub/blob/master/.gitignore': {
+			ownerName: 'DrewML',
+			repoName: 'GifHub'
+		}
+	};
+
+	Object.keys(ownerAndRepo).forEach(url => {
+		location.href = url;
+		t.deepEqual(ownerAndRepo[url], pageDetect.getOwnerAndRepo());
+	});
+});
+
+test('isSingleFile', t => {
+	urlsMatch(t, pageDetect.isSingleFile, [
+		'https://github.com/sindresorhus/refined-github/blob/master/.gitattributes',
+		'https://github.com/sindresorhus/refined-github/blob/fix-narrow-diff/extension/custom.css'
+	]);
+
+	urlsDontMatch(t, pageDetect.isSingleFile, [
+		'https://github.com/sindresorhus/refined-github/pull/164/files',
+		'https://github.com/sindresorhus/refined-github/commit/57bf4'
 	]);
 });
