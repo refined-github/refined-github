@@ -6,47 +6,49 @@ global.location = window.location;
 require('../extension/page-detect.js');
 const {pageDetect} = window;
 
-const uriBulkTest = (shouldMatch, t, fn, testURIs = []) => {
+const urlBulkTest = (shouldMatch, t, fn, testURIs = []) => {
 	for (const uri of testURIs) {
 		location.href = uri;
 		t[shouldMatch ? 'true' : 'false'](fn());
 	}
 };
-const urisMatch = (...args) => uriBulkTest(true, ...args);
-const urisDontMatch = (...args) => uriBulkTest(false, ...args);
+const urlsMatch = (...args) => urlBulkTest(true, ...args);
+const urlsDontMatch = (...args) => urlBulkTest(false, ...args);
 
 test('isGist', t => {
-	urisMatch(t, pageDetect.isGist, [
+	urlsMatch(t, pageDetect.isGist, [
 		'https://gist.github.com',
 		'http://gist.github.com',
 		'https://gist.github.com/sindresorhus/0ea3c2845718a0a0f0beb579ff14f064'
 	]);
 
-	urisDontMatch(t, pageDetect.isGist, [
+	urlsDontMatch(t, pageDetect.isGist, [
 		'https://github.com',
 		'https://help.github.com/'
 	]);
 });
 
 test('isDashboard', t => {
-	urisMatch(t, pageDetect.isDashboard, [
+	urlsMatch(t, pageDetect.isDashboard, [
 		'https://github.com/',
-		'https://github.com/orgs/test/dashboard'
+		'https://github.com',
+		'https://github.com/orgs/test/dashboard',
+		'https://github.com/dashboard'
 	]);
 
-	urisDontMatch(t, pageDetect.isDashboard, [
+	urlsDontMatch(t, pageDetect.isDashboard, [
 		'https://github.com/sindresorhus'
 	]);
 });
 
 test('isRepo', t => {
-	urisMatch(t, pageDetect.isRepo, [
+	urlsMatch(t, pageDetect.isRepo, [
 		'http://github.com/sindresorhus/refined-github',
 		'https://github.com/sindresorhus/refined-github/issues/146',
 		'https://github.com/sindresorhus/refined-github/pull/145'
 	]);
 
-	urisDontMatch(t, pageDetect.isRepo, [
+	urlsDontMatch(t, pageDetect.isRepo, [
 		'https://github.com/sindresorhus',
 		'https://github.com',
 		'https://github.com/stars'
@@ -54,11 +56,11 @@ test('isRepo', t => {
 });
 
 test('isIssueList', t => {
-	urisMatch(t, pageDetect.isIssueList, [
+	urlsMatch(t, pageDetect.isIssueList, [
 		'http://github.com/sindresorhus/ava/issues'
 	]);
 
-	urisDontMatch(t, pageDetect.isIssueList, [
+	urlsDontMatch(t, pageDetect.isIssueList, [
 		'http://github.com/sindresorhus/ava',
 		'https://github.com',
 		'https://github.com/sindresorhus/refined-github/issues/170'
@@ -66,11 +68,11 @@ test('isIssueList', t => {
 });
 
 test('isIssue', t => {
-	urisMatch(t, pageDetect.isIssue, [
+	urlsMatch(t, pageDetect.isIssue, [
 		'https://github.com/sindresorhus/refined-github/issues/146'
 	]);
 
-	urisDontMatch(t, pageDetect.isIssue, [
+	urlsDontMatch(t, pageDetect.isIssue, [
 		'http://github.com/sindresorhus/ava',
 		'https://github.com',
 		'https://github.com/sindresorhus/refined-github/issues'
@@ -78,11 +80,11 @@ test('isIssue', t => {
 });
 
 test('isPRList', t => {
-	urisMatch(t, pageDetect.isPRList, [
+	urlsMatch(t, pageDetect.isPRList, [
 		'https://github.com/sindresorhus/refined-github/pulls'
 	]);
 
-	urisDontMatch(t, pageDetect.isPRList, [
+	urlsDontMatch(t, pageDetect.isPRList, [
 		'http://github.com/sindresorhus/ava',
 		'https://github.com',
 		'https://github.com/sindresorhus/refined-github/pull/148'
@@ -90,11 +92,11 @@ test('isPRList', t => {
 });
 
 test('isPR', t => {
-	urisMatch(t, pageDetect.isPR, [
+	urlsMatch(t, pageDetect.isPR, [
 		'https://github.com/sindresorhus/refined-github/pull/148'
 	]);
 
-	urisDontMatch(t, pageDetect.isPR, [
+	urlsDontMatch(t, pageDetect.isPR, [
 		'http://github.com/sindresorhus/ava',
 		'https://github.com',
 		'https://github.com/sindresorhus/refined-github/pulls'
@@ -102,11 +104,11 @@ test('isPR', t => {
 });
 
 test('isPRFiles', t => {
-	urisMatch(t, pageDetect.isPRFiles, [
+	urlsMatch(t, pageDetect.isPRFiles, [
 		'https://github.com/sindresorhus/refined-github/pull/148/files'
 	]);
 
-	urisDontMatch(t, pageDetect.isPRFiles, [
+	urlsDontMatch(t, pageDetect.isPRFiles, [
 		'https://github.com/sindresorhus/refined-github/pull/148',
 		'https://github.com/sindresorhus/refined-github/pull/commits',
 		'https://github.com/sindresorhus/refined-github/pulls'
@@ -114,11 +116,11 @@ test('isPRFiles', t => {
 });
 
 test('isPRCommit', t => {
-	urisMatch(t, pageDetect.isPRCommit, [
+	urlsMatch(t, pageDetect.isPRCommit, [
 		'https://github.com/sindresorhus/refined-github/pull/148/commits/0019603b83bd97c2f7ef240969f49e6126c5ec85'
 	]);
 
-	urisDontMatch(t, pageDetect.isPRCommit, [
+	urlsDontMatch(t, pageDetect.isPRCommit, [
 		'https://github.com/sindresorhus/refined-github/pull/148',
 		'https://github.com/sindresorhus/refined-github/pull/commits',
 		'https://github.com/sindresorhus/refined-github/pulls'
@@ -126,13 +128,13 @@ test('isPRCommit', t => {
 });
 
 test('isCommitList', t => {
-	urisMatch(t, pageDetect.isCommitList, [
+	urlsMatch(t, pageDetect.isCommitList, [
 		'https://github.com/sindresorhus/refined-github/commits/master?page=2',
 		'https://github.com/sindresorhus/refined-github/commits/test-branch',
 		'https://github.com/sindresorhus/refined-github/commits/0.13.0'
 	]);
 
-	urisDontMatch(t, pageDetect.isCommitList, [
+	urlsDontMatch(t, pageDetect.isCommitList, [
 		'https://github.com/sindresorhus/refined-github/pull/148',
 		'https://github.com/sindresorhus/refined-github/pull/commits',
 		'https://github.com/sindresorhus/refined-github/branches'
@@ -140,33 +142,33 @@ test('isCommitList', t => {
 });
 
 test('isSingleCommit', t => {
-	urisMatch(t, pageDetect.isSingleCommit, [
+	urlsMatch(t, pageDetect.isSingleCommit, [
 		'https://github.com/sindresorhus/refined-github/commit/5b614b9035f2035b839f48b4db7bd5c3298d526f'
 	]);
 
-	urisDontMatch(t, pageDetect.isSingleCommit, [
+	urlsDontMatch(t, pageDetect.isSingleCommit, [
 		'https://github.com/sindresorhus/refined-github/pull/148/commits',
 		'https://github.com/sindresorhus/refined-github/branches'
 	]);
 });
 
 test('isReleases', t => {
-	urisMatch(t, pageDetect.isReleases, [
+	urlsMatch(t, pageDetect.isReleases, [
 		'https://github.com/sindresorhus/refined-github/releases'
 	]);
 
-	urisDontMatch(t, pageDetect.isReleases, [
+	urlsDontMatch(t, pageDetect.isReleases, [
 		'https://github.com/sindresorhus/refined-github',
 		'https://github.com/sindresorhus/refined-github/graphs'
 	]);
 });
 
 test('isBlame', t => {
-	urisMatch(t, pageDetect.isBlame, [
+	urlsMatch(t, pageDetect.isBlame, [
 		'https://github.com/sindresorhus/refined-github/blame/master/package.json'
 	]);
 
-	urisDontMatch(t, pageDetect.isBlame, [
+	urlsDontMatch(t, pageDetect.isBlame, [
 		'https://github.com/sindresorhus/refined-github/blob/master/package.json'
 	]);
 });
