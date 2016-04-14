@@ -55,6 +55,20 @@ test('isRepo', t => {
 	]);
 });
 
+test('isRepoTree', t => {
+	urlsMatch(t, pageDetect.isRepoTree, [
+		'https://github.com/sindresorhus/refined-github/tree/master/extension',
+		'https://github.com/sindresorhus/refined-github/tree/0.13.0/extension',
+		'https://github.com/sindresorhus/refined-github/tree/57bf435ee12d14b482df0bbd88013a2814c7512e/extension',
+		'https://github.com/sindresorhus/refined-github/tree/57bf4'
+	]);
+
+	urlsDontMatch(t, pageDetect.isRepoTree, [
+		'https://github.com/sindresorhus/refined-github/issues',
+		'https://github.com/sindresorhus/refined-github'
+	]);
+});
+
 test('isIssueList', t => {
 	urlsMatch(t, pageDetect.isIssueList, [
 		'http://github.com/sindresorhus/ava/issues'
