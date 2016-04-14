@@ -7,6 +7,7 @@ const addReactionParticipants = {
 			$reactionButtons.each((index, element) => {
 				const participantCount = Number(element.innerHTML.split('/g-emoji>')[1]);
 				const participants = element.getAttribute('aria-label')
+					.replace(/ reacted with.*/, '')
 					.replace(/,? and /, ', ')
 					.replace(/, \d+ more/, '')
 					.split(', ');
