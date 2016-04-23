@@ -1,4 +1,4 @@
-/* globals gitHubInjection, pageDetect, diffFileHeader, addReactionParticipants, addFileCopyButton */
+/* globals gitHubInjection, pageDetect, diffFileHeader, addReactionParticipants, addFileCopyButton, showReactionsMenu */
 
 'use strict';
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
@@ -317,6 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 
 			if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit()) {
+				showReactionsMenu.init();
 				addReactionParticipants.add(username);
 				addReactionParticipants.addListener(username);
 			}

@@ -30,6 +30,7 @@
 				"util.js",
 				"page-detect.js",
 				"diffheader.js",
+				"show-reactions-menu.js",
 				"reactions-avatars.js",
 				"copy-file.js",
 				"content.js"
