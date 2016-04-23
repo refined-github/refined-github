@@ -1,3 +1,5 @@
+/* globals showReactionsMenu */
+
 const addReactionParticipants = {
 	add(currentUser) {
 		$('.comment-reactions.has-reactions').each((index, reactionsContainer) => {
@@ -47,6 +49,7 @@ const addReactionParticipants = {
 		}
 
 		const applyReactions = setInterval(() => {
+			showReactionsMenu.init();
 			addReactionParticipants.add(currentUser);
 			clearInterval(applyReactions);
 		}, 500);
