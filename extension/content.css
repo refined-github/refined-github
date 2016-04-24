@@ -373,3 +373,15 @@ svg.octicon.octicon-star.dashboard-event-icon {
 .reaction-summary-item div img {
 	border-radius: 3px;
 }
+
+/* hide reaction popover text */
+.reaction-popover-form.js-pick-reaction span.js-reaction-description,
+.reaction-popover-form.js-pick-reaction .dropdown-divider {
+	display: none;
+}
+
+/* show reaction list when hovering over button */
+.reaction-popover-container.dropdown:hover .dropdown-menu-content {
+	display: block;
+	pointer-events: all;
+}
