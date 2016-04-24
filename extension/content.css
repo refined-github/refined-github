@@ -385,3 +385,80 @@ svg.octicon.octicon-star.dashboard-event-icon {
 	display: block;
 	pointer-events: all;
 }
+
+/* never show loading spinner for reactions */
+.reaction-popover-container .reaction-popover-form .loading-spinner {
+	display: none !important;
+}
+
+/* remove popover triangle pointer */
+.reaction-popover-container.dropdown:hover .dropdown-menu::before,
+.reaction-popover-container.dropdown:hover .dropdown-menu::after {
+	display: none;
+}
+
+/* change margin for comment reactions popover in header */
+.timeline-comment-header .reaction-popover-container.dropdown:hover .dropdown-menu-content {
+	margin-top: -33px;
+}
+
+/* realign edit comment button in header */
+.timeline-comment-header .reaction-popover-container.dropdown:hover .js-comment-edit-button {
+	margin-top: -24px;
+	vertical-align: middle;
+}
+
+/* color in add reactions svg below content */
+.comment-reactions .add-reaction-btn {
+	opacity: 1;
+}
+
+/* hide add reactions button below content on hover */
+.comment-reactions .reaction-popover-container.dropdown:hover .add-reaction-btn {
+	opacity: 0;
+}
+
+/* change margin for comment reactions below content */
+.comment-reactions .reaction-popover-container.dropdown:hover .dropdown-menu-content {
+	margin-top: 35px;
+}
+
+/* add transition effect to use when hovering */
+.reaction-popover-container.dropdown {
+	transition: max-width .5s linear;
+}
+
+/* set width for initial container state */
+.reaction-popover-container.dropdown {
+	width: 210px;
+	max-width: 34px;
+}
+
+/* increase width to show all reaction options */
+.reaction-popover-container.dropdown:hover {
+	max-width: 210px;
+}
+
+/* hide add reaction button in header on hover */
+.reaction-popover-container.dropdown:hover > button.timeline-comment-action {
+	display: none;
+}
+
+/* remove reaction popover background, border, and box-shadow */
+.reaction-popover-container.dropdown:hover .dropdown-menu-ne,
+.reaction-popover-container.dropdown:hover .dropdown-menu-sw {
+	background-color: inherit;
+	border: none;
+	box-shadow: none;
+}
+
+/* remove margin and padding for popover below comment content */
+.reaction-popover-container.dropdown:hover .dropdown-menu-ne {
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+/* never show loading spinner for reactions */
+.reaction-popover-container .reaction-popover-form .loading-spinner {
+	display: none !important;
+}
