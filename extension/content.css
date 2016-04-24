@@ -385,3 +385,8 @@ svg.octicon.octicon-star.dashboard-event-icon {
 	display: block;
 	pointer-events: all;
 }
+
+/* never show loading spinner for reactions */
+.reaction-popover-container .reaction-popover-form .loading-spinner {
+	display: none !important;
+}
