@@ -276,9 +276,20 @@ document.addEventListener('DOMContentLoaded', () => {
 				.css('display', 'none');
 		};
 
-		hideStarsOwnRepos();
+		const hideCreatedBranches = () => {
+			$('#dashboard .news .alert.create.simple')
+				.css('display', 'none')
+				.has('.octicon-repo')
+				.css('display', 'block');
+		};
 
-		new MutationObserver(() => hideStarsOwnRepos())
+		hideStarsOwnRepos();
+		hideCreatedBranches();
+
+		new MutationObserver(() => {
+			hideStarsOwnRepos();
+			hideCreatedBranches();
+		})
 			.observe($('#dashboard .news').get(0), {childList: true});
 
 		// event binding for infinite scroll

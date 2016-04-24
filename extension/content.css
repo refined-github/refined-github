@@ -227,13 +227,11 @@
 
 /* hide news items when people:
 pushed to a branch
-created a branch
 deleted a branch
 added someone as a collaborator
 forked a repo
 */
 .news .alert.push,
-.news .alert.create.simple,
 .news .alert.delete.simple,
 .news .member_add,
 .news .alert.fork.simple {
