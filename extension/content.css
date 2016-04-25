@@ -227,17 +227,39 @@
 
 /* hide news items when people:
 pushed to a branch
-created a branch
 deleted a branch
 added someone as a collaborator
 forked a repo
 */
 .news .alert.push,
-.news .alert.create.simple,
 .news .alert.delete.simple,
 .news .member_add,
 .news .alert.fork.simple {
 	display: none !important;
+}
+
+/*
+remove padding from body of simple news alerts in Dashboard since some will be hidden
+we will add it back on for the simple news alerts we decide to show
+*/
+.news .alert.create.simple,
+.news .alert.create.simple .body {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+/* add padding back to the contents of simple news alerts in Dashboard */
+.news .alert.create.simple .body .title,
+.news .alert.create.simple .body .time {
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
+/* don't show contents of simple news alert in Dashboard when you create a branch */
+.news .alert.create.simple .octicon-git-branch,
+.news .alert.create.simple .octicon-git-branch + .title,
+.news .alert.create.simple .octicon-git-branch + .title + .time {
+	display: none;
 }
 
 /* increase visibility of news item when someone stars a repo */
