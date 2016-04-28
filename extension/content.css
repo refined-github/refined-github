@@ -380,6 +380,12 @@ svg.octicon.octicon-star.dashboard-event-icon {
 	display: none;
 }
 
+/* remove "Add your Reaction" tooltips */
+.reaction-popover-container .tooltipped::before,
+.reaction-popover-container .tooltipped::after {
+	display: none !important;
+}
+
 /*
 create invisible content area below/above reactions popover to increase hover target
 center popup on add reactions button
@@ -428,4 +434,11 @@ hidden content area created to increase hover target
 .reaction-popover-container.dropdown .dropdown-menu-ne.dropdown-menu::after {
 	left: 102px; /* 220px / 2 - 8px for popover arrow */
 	right: auto;
+}
+
+/* add colored button when hovering over reaction popover or hidden hover element */
+.reaction-popover-container:hover .timeline-comment-action {
+	color: #4078c0;
+	text-decoration: none;
+	opacity: 1;
 }
