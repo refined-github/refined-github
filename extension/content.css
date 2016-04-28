@@ -380,13 +380,52 @@ svg.octicon.octicon-star.dashboard-event-icon {
 	display: none;
 }
 
-/* show reaction list when hovering over button */
-.reaction-popover-container.dropdown:hover .dropdown-menu-content {
+/*
+create invisible content area below/above reactions popover to increase hover target
+center popup on add reactions button
+*/
+.reaction-popover-container.dropdown .dropdown-menu-content {
+	margin-top: -15px;
+	position: absolute;
+	left: -94px;
+	width: 220px;
+	height: 15px;
+}
+
+/* remove margin-top from invisible hover target for popover below comment content */
+.comment-reactions .reaction-popover-container.dropdown .dropdown-menu-content {
+	margin-top: 0;
+}
+
+/*
+show reaction list when hovering over:
+popover
+Add Reactions button
+hidden content area created to increase hover target
+*/
+.dropdown-menu.add-reaction-popover:hover,
+.reaction-popover-container.dropdown:hover .dropdown-menu-content,
+.dropdown-menu-content:hover {
 	display: block;
 	pointer-events: all;
+}
+
+/* remove top/bottom margin from popovers so there's no gap with invisible hover element */
+.reaction-popover-container.dropdown .dropdown-menu.add-reaction-popover {
+	margin-top: 0;
+	margin-bottom: 0;
 }
 
 /* never show loading spinner for reactions */
 .reaction-popover-container .reaction-popover-form .loading-spinner {
 	display: none !important;
+}
+
+/* move popup arrow point to center of popup */
+.reaction-popover-container.dropdown .dropdown-menu-sw.dropdown-menu::before,
+.reaction-popover-container.dropdown .dropdown-menu-sw.dropdown-menu::after,
+.reaction-popover-container.dropdown .dropdown-menu-ne.dropdown-menu::before,
+.reaction-popover-container.dropdown .dropdown-menu-ne.dropdown-menu::after {
+	left: 102px; /* 220px / 2 - 8px for popover arrow */
+	right: auto;
 }
