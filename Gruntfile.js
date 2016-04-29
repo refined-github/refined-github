@@ -2,7 +2,7 @@ const zipFileName = 'extension.zip';
 module.exports = function (grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
-		webstoreUpload: {
+		webstore_upload: { // eslint-disable-line
 			accounts: {
 				default: {
 					cli_auth: true, // eslint-disable-line
@@ -23,5 +23,5 @@ module.exports = function (grunt) {
 	});
 
 	grunt.loadNpmTasks('grunt-webstore-upload');
-	grunt.registerTask('default', ['webstoreUpload']);
+	grunt.registerTask('default', ['webstore_upload']);
 };
