@@ -36,6 +36,7 @@ Our hope is that GitHub will notice and implement some of these much needed impr
 - Removes the comment box toolbar
 - Removes tooltips
 - Copy canonical link to file when [the `y` hotkey](https://help.github.com/articles/getting-permanent-links-to-files/) is used
+- Adds option to view diffs without whitespace changes (`d w` can be used as hotkey to toggle)
 
 And [lots](extension/content.css) [more...](extension/content.js)
 
