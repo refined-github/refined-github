@@ -237,15 +237,17 @@ function lineUpInput(el, down) {
 		return;
 	}
 
-	let startOffset = 0;
-
-	if (endChunk + 1 >= lines.length) {
+	if ((endChunk + 1 >= lines.length)) {
 		startChunk--;
 		endChunk--;
-		startOffset = lines[startChunk].length;
+		if (startChunk < 2) {
+			// selection spans part of every line
+			return;
+		}
 	}
 
 	const extracted = lines.slice(startChunk, endChunk).join('');
+	const oldPrefixLength = lines.slice(0, startChunk).join('').length;
 
 	const splitPoint = down ? startChunk + 2 : startChunk - 2;
 	lines.splice(startChunk, endChunk - startChunk);
@@ -253,8 +255,8 @@ function lineUpInput(el, down) {
 	const suffix = lines.slice(splitPoint).join('');
 
 	el.value = prefix + extracted + suffix;
-	el.selectionStart = prefix.length + startOffset;
-	el.selectionEnd = prefix.length + extracted.length;
+	el.selectionStart = selectionStart + (prefix.length - oldPrefixLength);
+	el.selectionEnd = selectionEnd + (prefix.length - oldPrefixLength);
 }
 
 function showRecentlyPushedBranches() {
