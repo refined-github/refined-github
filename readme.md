@@ -67,6 +67,7 @@ We're happy to receive suggestions and contributions, but be aware this is a hig
 ## Related
 
 - [**Safari version**](https://github.com/fantattitude/refined-github-safari)
+- [Refined Twitter](https://github.com/sindresorhus/refined-twitter) - Like this, but for Twitter
 - [Notifier for GitHub](https://github.com/sindresorhus/notifier-for-github-chrome) - Shows your notification unread count
 - [Hide Files on GitHub](https://github.com/sindresorhus/hide-files-on-github) - Hides dotfiles from the file browser
 - [Show All GitHub Issues](https://github.com/sindresorhus/show-all-github-issues) - Shows both Issues and Pull Requests in the Issues tab
