@@ -207,6 +207,56 @@ function indentInput(el, size = 4) {
 	el.selectionEnd = el.selectionStart = selectionStart + indentationText.length;
 }
 
+function lineUpInput(el, down) {
+	el.focus();
+	const value = el.value;
+	const selectionStart = el.selectionStart;
+	const selectionEnd = el.selectionEnd;
+	const lines = value.split(/(\r?\n)/);
+
+	let startChunk = -1;
+	let endChunk = -1;
+
+	lines.reduce((lineStart, line, index) => {
+		const base = Math.floor(index / 2) * 2;
+		const lineEnd = lineStart + line.length;
+
+		if (selectionEnd > lineStart && selectionEnd <= lineEnd) {
+			endChunk = base + 2;
+		}
+
+		if (selectionStart >= lineStart && selectionStart <= lineEnd) {
+			startChunk = base;
+			endChunk = base + 2;
+		}
+
+		return lineEnd;
+	}, 0);
+
+	if (startChunk < 0 || endChunk < 0 || (!down && startChunk === 0)) {
+		return;
+	}
+
+	let startOffset = 0;
+
+	if (endChunk + 1 >= lines.length) {
+		startChunk--;
+		endChunk--;
+		startOffset = lines[startChunk].length;
+	}
+
+	const extracted = lines.slice(startChunk, endChunk).join('');
+
+	const splitPoint = down ? startChunk + 2 : startChunk - 2;
+	lines.splice(startChunk, endChunk - startChunk);
+	const prefix = lines.slice(0, splitPoint).join('');
+	const suffix = lines.slice(splitPoint).join('');
+
+	el.value = prefix + extracted + suffix;
+	el.selectionStart = prefix.length + startOffset;
+	el.selectionEnd = prefix.length + extracted.length;
+}
+
 function showRecentlyPushedBranches() {
 	// Don't duplicate on back/forward in history
 	if ($('.recently-touched-branches-wrapper').length) {
@@ -230,6 +280,12 @@ $(document).on('keydown', event => {
 	if (event.which === 9 && !event.shiftKey) {
 		event.preventDefault();
 		indentInput(event.target);
+		return false;
+	}
+
+	if ((event.which === 38 || event.which === 40) && event.shiftKey && event.metaKey) {
+		event.preventDefault();
+		lineUpInput(event.target, event.which === 40);
 		return false;
 	}
 });
