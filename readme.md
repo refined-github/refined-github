@@ -6,6 +6,8 @@ We use GitHub a lot and notice many dumb annoyances we'd like to fix. So here be
 
 Our hope is that GitHub will notice and implement some of these much needed improvements. So if you like any of these improvements, please email [GitHub support](mailto:support@github.com) about doing it.
 
+[Read more in this blog post.](https://blog.sindresorhus.com/refined-github-21185789685d)
+
 
 ## Highlights
 
