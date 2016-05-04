@@ -21,11 +21,13 @@
 				"https://gist.github.com/*"
 			],
 			"css": [
+				"vendor/codemirror.css",
 				"content.css",
 				"custom.css"
 			],
 			"js": [
 				"vendor/sprint.min.js",
+				"vendor/codemirror.min.js",
 				"vendor/gh-injection.js",
 				"util.js",
 				"page-detect.js",
