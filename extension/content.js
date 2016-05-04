@@ -1,9 +1,10 @@
-/* globals gitHubInjection, pageDetect, diffFileHeader, addReactionParticipants, addFileCopyButton */
+/* globals gitHubInjection, pageDetect, diffFileHeader, addReactionParticipants, addFileCopyButton, Behave*/
 
 'use strict';
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
 const repoUrl = `${ownerName}/${repoName}`;
 const getUsername = () => $('meta[name="user-login"]').attr('content');
+let currentBehaveTextarea;
 
 function linkifyBranchRefs() {
 	$('.commit-ref').each((i, el) => {
@@ -197,16 +198,6 @@ function markMergeCommitsInList() {
 	});
 }
 
-function indentInput(el, size = 4) {
-	el.focus();
-	const value = el.value;
-	const selectionStart = el.selectionStart;
-	const indentSize = (size - el.selectionEnd % size) || size;
-	const indentationText = ' '.repeat(indentSize);
-	el.value = value.slice(0, selectionStart) + indentationText + value.slice(el.selectionEnd);
-	el.selectionEnd = el.selectionStart = selectionStart + indentationText.length;
-}
-
 function showRecentlyPushedBranches() {
 	// Don't duplicate on back/forward in history
 	if ($('.recently-touched-branches-wrapper').length) {
@@ -219,20 +210,6 @@ function showRecentlyPushedBranches() {
 	div.innerHTML = fragMarkup;
 	$('.repository-content').prepend(div);
 }
-
-// Support indent with tab key in textarea elements
-$(document).on('keydown', event => {
-	// Check event.target instead of using a delegate, because Sprint doesn't support them
-	if (!$(event.target).is('textarea')) {
-		return;
-	}
-
-	if (event.which === 9 && !event.shiftKey) {
-		event.preventDefault();
-		indentInput(event.target);
-		return false;
-	}
-});
 
 // Prompt user to confirm erasing a comment with the Cancel button
 $(document).on('click', event => {
@@ -263,6 +240,41 @@ $(document).on('click', event => {
 	}
 
 	$target.closest('.js-details-container').toggleClass('refined-github-minimized');
+});
+
+$(document).on('focusin', event => {
+	// Check event.target instead of using a delegate, because Sprint doesn't support them
+	const $target = $(event.target);
+	if (!$target.hasClass('comment-form-textarea')) {
+		return;
+	}
+
+	if (!currentBehaveTextarea) {
+		currentBehaveTextarea = new Behave({
+			textarea: event.target,
+			replaceTab: true,
+			softTabs: true,
+			tabSize: 4,
+			autoOpen: true,
+			overwrite: true,
+			autoStrip: true,
+			autoIndent: true,
+			fence: '```'
+		});
+	}
+});
+
+$(document).on('focusout', event => {
+	// Check event.target instead of using a delegate, because Sprint doesn't support them
+	const $target = $(event.target);
+	if (!$target.hasClass('comment-form-textarea')) {
+		return;
+	}
+
+	if (currentBehaveTextarea && currentBehaveTextarea.destroy) {
+		currentBehaveTextarea.destroy();
+		currentBehaveTextarea = undefined;
+	}
 });
 
 document.addEventListener('DOMContentLoaded', () => {

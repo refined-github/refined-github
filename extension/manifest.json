@@ -26,6 +26,7 @@
 			],
 			"js": [
 				"vendor/sprint.min.js",
+				"vendor/behave.min.js",
 				"vendor/gh-injection.js",
 				"util.js",
 				"page-detect.js",
