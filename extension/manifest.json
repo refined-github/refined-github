@@ -32,6 +32,7 @@
 				"diffheader.js",
 				"reactions-avatars.js",
 				"copy-file.js",
+				"copy-on-y.js",
 				"content.js"
 			]
 		}
