@@ -420,9 +420,13 @@ center popup on add reactions button
 	height: 15px;
 }
 
-/* remove margin-top from invisible hover target for popover below comment content */
+/*
+remove margin-top from invisible hover target for popover below comment content
+add some space below popup so it doesn't cover button
+*/
 .comment-reactions .reaction-popover-container.dropdown .dropdown-menu-content {
 	margin-top: 0;
+	bottom: 20px;
 }
 
 /*
