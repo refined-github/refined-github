@@ -367,7 +367,7 @@ svg.octicon.octicon-star.dashboard-event-icon {
 
 /* larger comment box */
 .comment-form-textarea {
-	height: 200px !important;
+	min-height: 200px !important;
 }
 
 /* styles for avatars Refined GitHub adds to Reactions */
