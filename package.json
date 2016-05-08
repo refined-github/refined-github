@@ -4,8 +4,6 @@
   },
   "devDependencies": {
     "ava": "*",
-    "babel-plugin-transform-es2015-destructuring": "^6.6.5",
-    "babel-register": "^6.7.2",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
     "grunt-webstore-upload": "^0.8.10",
@@ -28,9 +26,6 @@
     ],
     "source": [
       "extension/*.js"
-    ],
-    "require": [
-      "babel-register"
     ]
   }
 }
