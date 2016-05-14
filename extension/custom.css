@@ -12,7 +12,7 @@ a[href^="github-mac"] {
 	display: none !important;
 }
 
-/* alternate monospace font stack */
+/* alternate monospace font stack, sorted by least popular so you're most likely to get the font you want */
 code,
 kbd,
 pre,
@@ -44,5 +44,5 @@ tt,
 .upload-files .filename,
 .url-field,
 .wiki-wrapper .wiki-history .commit-meta code {
-	font-family: "Source Code Pro", "Droid Sans Mono", "Operation Mono", Consolas, "Liberation Mono", Menlo, Courier, monospace !important;
+	font-family: 'Droid Sans Mono', 'Operation Mono', 'Liberation Mono', 'Source Code Pro', Menlo, Consolas, Courier, monospace !important;
 }
