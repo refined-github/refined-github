@@ -68,6 +68,15 @@ function addReleasesTab() {
 	}
 }
 
+function addTrendingMenuItem() {
+	const $secondListItem = $('.header-nav.left .header-nav-item:nth-child(2)');
+	const $trendingListItem = $(`<li class="header-nav-item">
+		<a href="/trending" class="js-selected-navigation-item header-nav-link" data-ga-click="Header, click, Nav menu" data-hotkey="g t" data-selected-links="/trending">Trending</a>
+	</li>`);
+
+	$secondListItem.after($trendingListItem);
+}
+
 function infinitelyMore() {
 	const btn = $('.ajax-pagination-btn').get(0);
 
@@ -267,6 +276,8 @@ $(document).on('click', event => {
 
 document.addEventListener('DOMContentLoaded', () => {
 	const username = getUsername();
+
+	addTrendingMenuItem();
 
 	if (pageDetect.isDashboard()) {
 		// hide other users starring/forking your repos
