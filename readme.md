@@ -30,6 +30,7 @@ Our hope is that GitHub will notice and implement some of these much needed impr
 - Hides other users starring/forking your repos from the newsfeed
 - Prompts you when pressing `Cancel` on an inline comment in case it was a mistake
 - Moves the dashboard organization switcher to the right column
+- Adds a `Trending` link to the global navbar. *(<kbd>g</kbd> <kbd>t</kbd> hotkey)*
 - Removes annoying hover effect in the repo file browser
 - Removes the comment box toolbar
 - Removes tooltips

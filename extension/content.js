@@ -70,11 +70,12 @@ function addReleasesTab() {
 
 function addTrendingMenuItem() {
 	const $secondListItem = $('.header-nav.left .header-nav-item:nth-child(2)');
-	const $trendingListItem = $(`<li class="header-nav-item">
-		<a href="/trending" class="js-selected-navigation-item header-nav-link" data-ga-click="Header, click, Nav menu" data-hotkey="g t" data-selected-links="/trending">Trending</a>
-	</li>`);
 
-	$secondListItem.after($trendingListItem);
+	$secondListItem.after(`
+		<li class="header-nav-item">
+			<a href="/trending" class="header-nav-link" data-hotkey="g t">Trending</a>
+		</li>
+	`);
 }
 
 function infinitelyMore() {
