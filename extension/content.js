@@ -69,12 +69,12 @@ function addReleasesTab() {
 }
 
 function addTrendingMenuItem() {
-	const $secondButton = $('.header-nav.left .header-nav-item:nth-child(2)');
-	const $trendingButton = $(`<li class="header-nav-item">
+	const $secondListItem = $('.header-nav.left .header-nav-item:nth-child(2)');
+	const $trendingListItem = $(`<li class="header-nav-item">
 		<a href="/trending" class="js-selected-navigation-item header-nav-link" data-ga-click="Header, click, Nav menu" data-hotkey="g t" data-selected-links="/trending">Trending</a>
 	</li>`);
 
-	$secondButton.after($trendingButton);
+	$secondListItem.after($trendingListItem);
 }
 
 function infinitelyMore() {
