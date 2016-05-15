@@ -18,9 +18,11 @@ const addReactionParticipants = {
 					return;
 				}
 
+				const $element = $(element);
+
 				// add participant container
-				if ($(element).find('div.participants-container').length === 0) {
-					$(element).append('<div class="participants-container">');
+				if ($element.find('div.participants-container').length === 0) {
+					$element.append('<div class="participants-container">');
 				}
 
 				// remove self from participant list so you don't see your own avatar
@@ -29,13 +31,17 @@ const addReactionParticipants = {
 				}
 
 				const firstThreeParticipants = participants.slice(0, 3);
-				const participantsContainer = $(element).find('.participants-container').get(0);
+				const $participantsContainer = $element.find('.participants-container');
 
 				// clear any existing avatars and remainder count
-				$(participantsContainer).html('');
+				$participantsContainer.html('');
 
 				for (const participant of firstThreeParticipants) {
-					$(participantsContainer).append(`<img src="https://github.com/${participant}.png">`);
+					$participantsContainer.append(`
+						<a href="https://github.com/${participant}">
+							<img src="https://github.com/${participant}.png">
+						</a>
+					`);
 				}
 			});
 		});
