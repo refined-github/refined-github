@@ -100,13 +100,12 @@ While this project is highly opinionated, this doesn't necessarily limit you fro
 
 ## Created by
 
-- [Sindre Sorhus](https://sindresorhus.com)
-- [Haralan Dobrev](http://hkdobrev.com)
-- [Paul Molluzzo](http://paul.molluzzo.com)
+- [Sindre Sorhus](https://github.com/sindresorhus)
+- [Haralan Dobrev](https://github.com/hkdobrev)
+- [Paul Molluzzo](https://github.com/paulmolluzzo)
 - [Andrew Levine](https://github.com/DrewML)
-- [Kees Kluskens](https://webduck.nl)
-
-[And our awesome contributors](https://github.com/sindresorhus/refined-github/graphs/contributors)
+- [Kees Kluskens](https://github.com/SpaceK33z)
+- [Contributors…](https://github.com/sindresorhus/refined-github/graphs/contributors)
 
 
 ## License
