@@ -260,7 +260,7 @@ we will add it back on for the simple news alerts we decide to show
 */
 
 /* increase visibility of news item when someone create a repo */
-.created.simple .body {
+.create.simple .body {
 	min-height: 55px;
 }
 
@@ -269,13 +269,13 @@ svg.octicon.octicon-repo.dashboard-event-icon {
 	width: 28px !important;
 }
 
-.created .time {
+.create .time {
 	position: absolute;
 	top: 10px;
 	left: 45px;
 }
 
-.created.simple.alert .simple .title {
+.create.simple.alert .simple .title {
 	position: absolute;
 	top: 26px;
 	font-size: 14px !important;
