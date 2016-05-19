@@ -470,7 +470,7 @@ hidden content area created to increase hover target
 }
 
 /* collapse multiple discussion items */
-.discussion-item+.discussion-item {
+.discussion-item + .discussion-item {
 	padding-top: 0!important;
 	border-top: none!important;
 }
