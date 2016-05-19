@@ -238,6 +238,11 @@ $(document).on('keydown', event => {
 	}
 
 	if (event.which === 9 && !event.shiftKey) {
+		// Do not indent if the suggester box is active
+		if ($('.suggester').hasClass('active')) {
+			return;
+		}
+
 		event.preventDefault();
 		indentInput(event.target);
 		return false;
