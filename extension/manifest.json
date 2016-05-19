@@ -33,6 +33,7 @@
 				"reactions-avatars.js",
 				"copy-file.js",
 				"copy-on-y.js",
+				"patch-diff-shortcuts.js",
 				"content.js"
 			]
 		}
