@@ -468,3 +468,9 @@ hidden content area created to increase hover target
 	text-decoration: none;
 	opacity: 1;
 }
+
+/* collapse multiple discussion items */
+.discussion-item + .discussion-item {
+	padding-top: 0 !important;
+	border-top: none !important;
+}
