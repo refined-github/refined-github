@@ -1,4 +1,4 @@
-/* globals gitHubInjection, pageDetect, diffFileHeader, addReactionParticipants, addFileCopyButton */
+/* globals gitHubInjection, pageDetect, diffFileHeader, addReactionParticipants, addFileCopyButton, enableCopyOnY */
 
 'use strict';
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
@@ -350,6 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.isSingleFile()) {
 				addFileCopyButton();
+				enableCopyOnY();
 			}
 		});
 	}

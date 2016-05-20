@@ -1,3 +1,5 @@
+/* globals utils */
+
 'use strict';
 
 window.addFileCopyButton = () => {
@@ -17,13 +19,6 @@ window.addFileCopyButton = () => {
 
 		e.preventDefault();
 		const fileContents = $('.js-file-line-container').get(0).innerText;
-		const $textArea = $('<textarea>').css({
-			opacity: 0,
-			position: 'fixed'
-		}).appendTo('body').val(fileContents);
-		$textArea.get(0).select();
-
-		document.execCommand('copy');
-		$textArea.remove();
+		utils.copyToClipboard(fileContents);
 	});
 };
