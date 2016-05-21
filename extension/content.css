@@ -71,11 +71,6 @@
 	visibility: hidden;
 }
 
-/* remove useless message on the right side of the PR merge box */
-.alt-merge-options {
-	display: none !important;
-}
-
 /* remove top buttons on comment box */
 .timeline-comment-wrapper .tabnav-extra, .inline-comment-form-container .tabnav-extra {
 	display: none !important;
