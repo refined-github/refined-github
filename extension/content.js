@@ -300,7 +300,7 @@ $(document).on('click', event => {
 });
 
 // Handle issue list ajax
-$(document).on('pjax:end', function() {
+$(document).on('pjax:end', event => {
 	addYoursMenuItem();
 });
 
