@@ -82,9 +82,17 @@ function addYoursMenuItem() {
 	const username = getUsername();
 	const $menu = $('.subnav-links');
 
-	let yoursMenuItem = $menu.append(`
-		<a href="/issues?q=is%3Aopen+is%3Aissue+user%3A${username}" class="subnav-item">Yours</a>
-	`);
+	if (pageDetect.isIssueSearch()) {
+		$menu.append(`
+			<a href="/issues?q=is%3Aopen+is%3Aissue+user%3A${username}" class="subnav-item">Yours</a>
+		`);
+	}
+
+	if (pageDetect.isPRSearch()) {
+		$menu.append(`
+			<a href="/pulls?q=is%3Aopen+is%3Aissue+user%3A${username}" class="subnav-item">Yours</a>
+		`);
+	}
 
 	console.log(yoursMenuItem);
 }
@@ -295,9 +303,7 @@ $(document).on('click', event => {
 
 // Handle issue list ajax
 $(document).on('pjax:end', function() {
-	if(pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
-		addYoursMenuItem();
-	}
+	addYoursMenuItem();
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -305,9 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	addTrendingMenuItem();
 
-	if(pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
-		addYoursMenuItem();
-	}
+	addYoursMenuItem();
 
 	if (pageDetect.isDashboard()) {
 		// hide other users starring/forking your repos
