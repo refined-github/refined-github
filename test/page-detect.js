@@ -69,6 +69,17 @@ test('isRepoTree', t => {
 	]);
 });
 
+test('isIssueSearch', t => {
+	urlsMatch(t, pageDetect.isIssueSearch, [
+		'https://github.com/issues'
+	]);
+
+	urlsDontMatch(t, pageDetect.isIssueSearch, [
+		'https://github.com/sindresorhus/refined-github/issues',
+		'https://github.com/sindresorhus/refined-github/issues/170'
+	]);
+});
+
 test('isIssueList', t => {
 	urlsMatch(t, pageDetect.isIssueList, [
 		'http://github.com/sindresorhus/ava/issues'
@@ -90,6 +101,17 @@ test('isIssue', t => {
 		'http://github.com/sindresorhus/ava',
 		'https://github.com',
 		'https://github.com/sindresorhus/refined-github/issues'
+	]);
+});
+
+test('isPRSearch', t => {
+	urlsMatch(t, pageDetect.isPRSearch, [
+		'https://github.com/pulls'
+	]);
+
+	urlsDontMatch(t, pageDetect.isPRSearch, [
+		'https://github.com/sindresorhus/refined-github/pulls',
+		'https://github.com/sindresorhus/refined-github/pull/148'
 	]);
 });
 
