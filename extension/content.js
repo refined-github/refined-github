@@ -78,7 +78,7 @@ function addTrendingMenuItem() {
 	`);
 }
 
-function addYoursMenuIem() {
+function addYoursMenuItem() {
 	const username = getUsername();
 	const $menu = $('.subnav-links');
 
@@ -289,6 +289,11 @@ $(document).on('click', event => {
 	}
 
 	$target.closest('.js-details-container').toggleClass('refined-github-minimized');
+});
+
+// Handle issue list ajax
+$(document).on('pjax:end', function() {
+	//addYoursMenuItem();
 });
 
 document.addEventListener('DOMContentLoaded', () => {
