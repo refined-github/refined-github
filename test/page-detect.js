@@ -58,6 +58,13 @@ test('isRepoTree', urlMatcherMacro, pageDetect.isRepoTree, [
 	'https://github.com/sindresorhus/refined-github'
 ]);
 
+test('isIssueSearch', urlMatcherMacro, pageDetect.isIssueSearch, [
+	'https://github.com/issues'
+], [
+	'https://github.com/sindresorhus/refined-github/issues',
+	'https://github.com/sindresorhus/refined-github/issues/170'
+]);
+
 test('isIssueList', urlMatcherMacro, pageDetect.isIssueList, [
 	'http://github.com/sindresorhus/ava/issues'
 ], [
@@ -72,6 +79,13 @@ test('isIssue', urlMatcherMacro, pageDetect.isIssue, [
 	'http://github.com/sindresorhus/ava',
 	'https://github.com',
 	'https://github.com/sindresorhus/refined-github/issues'
+]);
+
+test('isPRSearch', urlMatcherMacro, pageDetect.isPRSearch, [
+	'https://github.com/pulls'
+], [
+	'https://github.com/sindresorhus/refined-github/pulls',
+	'https://github.com/sindresorhus/refined-github/pull/148'
 ]);
 
 test('isPRList', urlMatcherMacro, pageDetect.isPRList, [
