@@ -11,13 +11,13 @@ window.pageDetect = (() => {
 
 	const isRepoTree = () => isRepo() && /\/tree\//.test(getRepoPath());
 
-	const isIssueSearch = () => location.pathname === '/issues';
+	const isIssueSearch = () => location.pathname.indexOf('/issues') == 0;
 
 	const isIssueList = () => isRepo() && /^\/issues\/?$/.test(getRepoPath());
 
 	const isIssue = () => isRepo() && /^\/issues\/\d+/.test(getRepoPath());
 
-	const isPRSearch = () => location.pathname === '/pulls';
+	const isPRSearch = () => location.pathname.indexOf('/pulls') == 0;
 
 	const isPRList = () => isRepo() && /^\/pulls\/?$/.test(getRepoPath());
 

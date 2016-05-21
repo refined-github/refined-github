@@ -93,8 +93,6 @@ function addYoursMenuItem() {
 			<a href="/pulls?q=is%3Aopen+is%3Aissue+user%3A${username}" class="subnav-item">Yours</a>
 		`);
 	}
-
-	console.log(yoursMenuItem);
 }
 
 function infinitelyMore() {
