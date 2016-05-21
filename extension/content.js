@@ -78,6 +78,15 @@ function addTrendingMenuItem() {
 	`);
 }
 
+function addYoursMenuIem() {
+	const username = getUsername();
+	const $menu = $('.subnav-links');
+
+	$menu.append(`
+		<a href="/issues?q=is%3Aopen+is%3Aissue+user%3A${username}" class="subnav-item">Yours</a>
+	`);
+}
+
 function infinitelyMore() {
 	const btn = $('.ajax-pagination-btn').get(0);
 
