@@ -79,20 +79,17 @@ function addTrendingMenuItem() {
 }
 
 function addYoursMenuItem() {
+	const page = location.pathname.split('/')[1];
 	const username = getUsername();
 	const $menu = $('.subnav-links');
 
-	if (pageDetect.isIssueSearch()) {
-		$menu.append(`
-			<a href="/issues?q=is%3Aopen+is%3Aissue+user%3A${username}" class="subnav-item">Yours</a>
-		`);
+	if ($(`.subnav-item[href="/${page}?q=is%3Aopen+is%3Aissue+user%3A${username}"]`).length > 0) {
+		return;
 	}
 
-	if (pageDetect.isPRSearch()) {
-		$menu.append(`
-			<a href="/pulls?q=is%3Aopen+is%3Aissue+user%3A${username}" class="subnav-item">Yours</a>
-		`);
-	}
+	$menu.append(`
+		<a href="/${page}?q=is%3Aopen+is%3Aissue+user%3A${username}" class="subnav-item">Yours</a>
+	`);
 }
 
 function infinitelyMore() {
@@ -301,15 +298,15 @@ $(document).on('click', event => {
 
 // Handle issue list ajax
 $(document).on('pjax:end', () => {
-	addYoursMenuItem();
+	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
+		addYoursMenuItem();
+	}
 });
 
 document.addEventListener('DOMContentLoaded', () => {
 	const username = getUsername();
 
 	addTrendingMenuItem();
-
-	addYoursMenuItem();
 
 	if (pageDetect.isDashboard()) {
 		// hide other users starring/forking your repos
@@ -327,6 +324,10 @@ document.addEventListener('DOMContentLoaded', () => {
 		// event binding for infinite scroll
 		window.addEventListener('scroll', infinitelyMore);
 		window.addEventListener('resize', infinitelyMore);
+	}
+
+	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
+		addYoursMenuItem();
 	}
 
 	if (pageDetect.isRepo()) {
