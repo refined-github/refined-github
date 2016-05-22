@@ -71,7 +71,7 @@ function addReleasesTab() {
 function addTrendingMenuItem() {
 	const $secondListItem = $('.header-nav.left .header-nav-item:nth-child(2)');
 
-	if(pageDetect.isGist()) {
+	if (pageDetect.isGist()) {
 		return;
 	}
 
