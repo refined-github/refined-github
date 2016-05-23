@@ -285,7 +285,9 @@ $(document).on('click', event => {
 document.addEventListener('DOMContentLoaded', () => {
 	const username = getUsername();
 
-	addTrendingMenuItem();
+	if (!pageDetect.isGist()) {
+		addTrendingMenuItem();
+	}
 
 	if (pageDetect.isDashboard()) {
 		// hide other users starring/forking your repos
