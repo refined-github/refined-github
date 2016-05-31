@@ -6,212 +6,159 @@ global.location = window.location;
 require('../extension/page-detect.js');
 const {pageDetect} = window;
 
-const urlBulkTest = (shouldMatch, t, fn, testURLs = []) => {
-	for (const url of testURLs) {
+function urlMatcherMacro(t, detectFn, shouldMatch = [], shouldNotMatch = []) {
+	for (const url of shouldMatch) {
 		location.href = url;
-		t[shouldMatch ? 'true' : 'false'](fn());
+		t.true(detectFn(url));
 	}
-};
-const urlsMatch = (...args) => urlBulkTest(true, ...args);
-const urlsDontMatch = (...args) => urlBulkTest(false, ...args);
 
-test('isGist', t => {
-	urlsMatch(t, pageDetect.isGist, [
-		'https://gist.github.com',
-		'http://gist.github.com',
-		'https://gist.github.com/sindresorhus/0ea3c2845718a0a0f0beb579ff14f064'
-	]);
+	for (const url of shouldNotMatch) {
+		location.href = url;
+		t.false(detectFn(url));
+	}
+}
 
-	urlsDontMatch(t, pageDetect.isGist, [
-		'https://github.com',
-		'https://help.github.com/'
-	]);
-});
+test('isGist', urlMatcherMacro, pageDetect.isGist, [
+	'https://gist.github.com',
+	'http://gist.github.com',
+	'https://gist.github.com/sindresorhus/0ea3c2845718a0a0f0beb579ff14f064'
+], [
+	'https://github.com',
+	'https://help.github.com/'
+]);
 
-test('isDashboard', t => {
-	urlsMatch(t, pageDetect.isDashboard, [
-		'https://github.com/',
-		'https://github.com',
-		'https://github.com/orgs/test/dashboard',
-		'https://github.com/dashboard'
-	]);
+test('isDashboard', urlMatcherMacro, pageDetect.isDashboard, [
+	'https://github.com/',
+	'https://github.com',
+	'https://github.com/orgs/test/dashboard',
+	'https://github.com/dashboard'
+], [
+	'https://github.com/sindresorhus'
+]);
 
-	urlsDontMatch(t, pageDetect.isDashboard, [
-		'https://github.com/sindresorhus'
-	]);
-});
+test('isRepo', urlMatcherMacro, pageDetect.isRepo, [
+	'http://github.com/sindresorhus/refined-github',
+	'https://github.com/sindresorhus/refined-github/issues/146',
+	'https://github.com/sindresorhus/refined-github/pull/145'
+], [
+	'https://github.com/sindresorhus',
+	'https://github.com',
+	'https://github.com/stars'
+]);
 
-test('isRepo', t => {
-	urlsMatch(t, pageDetect.isRepo, [
-		'http://github.com/sindresorhus/refined-github',
-		'https://github.com/sindresorhus/refined-github/issues/146',
-		'https://github.com/sindresorhus/refined-github/pull/145'
-	]);
+test('isRepoTree', urlMatcherMacro, pageDetect.isRepoTree, [
+	'https://github.com/sindresorhus/refined-github/tree/master/extension',
+	'https://github.com/sindresorhus/refined-github/tree/0.13.0/extension',
+	'https://github.com/sindresorhus/refined-github/tree/57bf435ee12d14b482df0bbd88013a2814c7512e/extension',
+	'https://github.com/sindresorhus/refined-github/tree/57bf4'
+], [
+	'https://github.com/sindresorhus/refined-github/issues',
+	'https://github.com/sindresorhus/refined-github'
+]);
 
-	urlsDontMatch(t, pageDetect.isRepo, [
-		'https://github.com/sindresorhus',
-		'https://github.com',
-		'https://github.com/stars'
-	]);
-});
+test('isIssueSearch', urlMatcherMacro, pageDetect.isIssueSearch, [
+	'https://github.com/issues'
+], [
+	'https://github.com/sindresorhus/refined-github/issues',
+	'https://github.com/sindresorhus/refined-github/issues/170'
+]);
 
-test('isRepoTree', t => {
-	urlsMatch(t, pageDetect.isRepoTree, [
-		'https://github.com/sindresorhus/refined-github/tree/master/extension',
-		'https://github.com/sindresorhus/refined-github/tree/0.13.0/extension',
-		'https://github.com/sindresorhus/refined-github/tree/57bf435ee12d14b482df0bbd88013a2814c7512e/extension',
-		'https://github.com/sindresorhus/refined-github/tree/57bf4'
-	]);
+test('isIssueList', urlMatcherMacro, pageDetect.isIssueList, [
+	'http://github.com/sindresorhus/ava/issues'
+], [
+	'http://github.com/sindresorhus/ava',
+	'https://github.com',
+	'https://github.com/sindresorhus/refined-github/issues/170'
+]);
 
-	urlsDontMatch(t, pageDetect.isRepoTree, [
-		'https://github.com/sindresorhus/refined-github/issues',
-		'https://github.com/sindresorhus/refined-github'
-	]);
-});
+test('isIssue', urlMatcherMacro, pageDetect.isIssue, [
+	'https://github.com/sindresorhus/refined-github/issues/146'
+], [
+	'http://github.com/sindresorhus/ava',
+	'https://github.com',
+	'https://github.com/sindresorhus/refined-github/issues'
+]);
 
-test('isIssueSearch', t => {
-	urlsMatch(t, pageDetect.isIssueSearch, [
-		'https://github.com/issues'
-	]);
+test('isPRSearch', urlMatcherMacro, pageDetect.isPRSearch, [
+	'https://github.com/pulls'
+], [
+	'https://github.com/sindresorhus/refined-github/pulls',
+	'https://github.com/sindresorhus/refined-github/pull/148'
+]);
 
-	urlsDontMatch(t, pageDetect.isIssueSearch, [
-		'https://github.com/sindresorhus/refined-github/issues',
-		'https://github.com/sindresorhus/refined-github/issues/170'
-	]);
-});
+test('isPRList', urlMatcherMacro, pageDetect.isPRList, [
+	'https://github.com/sindresorhus/refined-github/pulls'
+], [
+	'http://github.com/sindresorhus/ava',
+	'https://github.com',
+	'https://github.com/sindresorhus/refined-github/pull/148'
+]);
 
-test('isIssueList', t => {
-	urlsMatch(t, pageDetect.isIssueList, [
-		'http://github.com/sindresorhus/ava/issues'
-	]);
+test('isPR', urlMatcherMacro, pageDetect.isPR, [
+	'https://github.com/sindresorhus/refined-github/pull/148'
+], [
+	'http://github.com/sindresorhus/ava',
+	'https://github.com',
+	'https://github.com/sindresorhus/refined-github/pulls'
+]);
 
-	urlsDontMatch(t, pageDetect.isIssueList, [
-		'http://github.com/sindresorhus/ava',
-		'https://github.com',
-		'https://github.com/sindresorhus/refined-github/issues/170'
-	]);
-});
+test('isPRFiles', urlMatcherMacro, pageDetect.isPRFiles, [
+	'https://github.com/sindresorhus/refined-github/pull/148/files'
+], [
+	'https://github.com/sindresorhus/refined-github/pull/148',
+	'https://github.com/sindresorhus/refined-github/pull/commits',
+	'https://github.com/sindresorhus/refined-github/pulls'
+]);
 
-test('isIssue', t => {
-	urlsMatch(t, pageDetect.isIssue, [
-		'https://github.com/sindresorhus/refined-github/issues/146'
-	]);
+test('isPRCommit', urlMatcherMacro, pageDetect.isPRCommit, [
+	'https://github.com/sindresorhus/refined-github/pull/148/commits/0019603b83bd97c2f7ef240969f49e6126c5ec85',
+	'https://github.com/sindresorhus/refined-github/pull/148/commits/00196'
+], [
+	'https://github.com/sindresorhus/refined-github/pull/148',
+	'https://github.com/sindresorhus/refined-github/pull/commits',
+	'https://github.com/sindresorhus/refined-github/pulls'
+]);
 
-	urlsDontMatch(t, pageDetect.isIssue, [
-		'http://github.com/sindresorhus/ava',
-		'https://github.com',
-		'https://github.com/sindresorhus/refined-github/issues'
-	]);
-});
+test('isCommitList', urlMatcherMacro, pageDetect.isCommitList, [
+	'https://github.com/sindresorhus/refined-github/commits/master?page=2',
+	'https://github.com/sindresorhus/refined-github/commits/test-branch',
+	'https://github.com/sindresorhus/refined-github/commits/0.13.0',
+	'https://github.com/sindresorhus/refined-github/commits/230c2',
+	'https://github.com/sindresorhus/refined-github/commits/230c2935fc5aea9a681174ddbeba6255ca040d63'
+], [
+	'https://github.com/sindresorhus/refined-github/pull/148',
+	'https://github.com/sindresorhus/refined-github/pull/commits',
+	'https://github.com/sindresorhus/refined-github/branches'
+]);
 
-test('isPRSearch', t => {
-	urlsMatch(t, pageDetect.isPRSearch, [
-		'https://github.com/pulls'
-	]);
+test('isSingleCommit', urlMatcherMacro, pageDetect.isSingleCommit, [
+	'https://github.com/sindresorhus/refined-github/commit/5b614b9035f2035b839f48b4db7bd5c3298d526f',
+	'https://github.com/sindresorhus/refined-github/commit/5b614'
+], [
+	'https://github.com/sindresorhus/refined-github/pull/148/commits',
+	'https://github.com/sindresorhus/refined-github/branches'
+]);
 
-	urlsDontMatch(t, pageDetect.isPRSearch, [
-		'https://github.com/sindresorhus/refined-github/pulls',
-		'https://github.com/sindresorhus/refined-github/pull/148'
-	]);
-});
+test('isReleases', urlMatcherMacro, pageDetect.isReleases, [
+	'https://github.com/sindresorhus/refined-github/releases'
+], [
+	'https://github.com/sindresorhus/refined-github',
+	'https://github.com/sindresorhus/refined-github/graphs'
+]);
 
-test('isPRList', t => {
-	urlsMatch(t, pageDetect.isPRList, [
-		'https://github.com/sindresorhus/refined-github/pulls'
-	]);
+test('isBlame', urlMatcherMacro, pageDetect.isBlame, [
+	'https://github.com/sindresorhus/refined-github/blame/master/package.json'
+], [
+	'https://github.com/sindresorhus/refined-github/blob/master/package.json'
+]);
 
-	urlsDontMatch(t, pageDetect.isPRList, [
-		'http://github.com/sindresorhus/ava',
-		'https://github.com',
-		'https://github.com/sindresorhus/refined-github/pull/148'
-	]);
-});
-
-test('isPR', t => {
-	urlsMatch(t, pageDetect.isPR, [
-		'https://github.com/sindresorhus/refined-github/pull/148'
-	]);
-
-	urlsDontMatch(t, pageDetect.isPR, [
-		'http://github.com/sindresorhus/ava',
-		'https://github.com',
-		'https://github.com/sindresorhus/refined-github/pulls'
-	]);
-});
-
-test('isPRFiles', t => {
-	urlsMatch(t, pageDetect.isPRFiles, [
-		'https://github.com/sindresorhus/refined-github/pull/148/files'
-	]);
-
-	urlsDontMatch(t, pageDetect.isPRFiles, [
-		'https://github.com/sindresorhus/refined-github/pull/148',
-		'https://github.com/sindresorhus/refined-github/pull/commits',
-		'https://github.com/sindresorhus/refined-github/pulls'
-	]);
-});
-
-test('isPRCommit', t => {
-	urlsMatch(t, pageDetect.isPRCommit, [
-		'https://github.com/sindresorhus/refined-github/pull/148/commits/0019603b83bd97c2f7ef240969f49e6126c5ec85',
-		'https://github.com/sindresorhus/refined-github/pull/148/commits/00196'
-	]);
-
-	urlsDontMatch(t, pageDetect.isPRCommit, [
-		'https://github.com/sindresorhus/refined-github/pull/148',
-		'https://github.com/sindresorhus/refined-github/pull/commits',
-		'https://github.com/sindresorhus/refined-github/pulls'
-	]);
-});
-
-test('isCommitList', t => {
-	urlsMatch(t, pageDetect.isCommitList, [
-		'https://github.com/sindresorhus/refined-github/commits/master?page=2',
-		'https://github.com/sindresorhus/refined-github/commits/test-branch',
-		'https://github.com/sindresorhus/refined-github/commits/0.13.0',
-		'https://github.com/sindresorhus/refined-github/commits/230c2',
-		'https://github.com/sindresorhus/refined-github/commits/230c2935fc5aea9a681174ddbeba6255ca040d63'
-	]);
-
-	urlsDontMatch(t, pageDetect.isCommitList, [
-		'https://github.com/sindresorhus/refined-github/pull/148',
-		'https://github.com/sindresorhus/refined-github/pull/commits',
-		'https://github.com/sindresorhus/refined-github/branches'
-	]);
-});
-
-test('isSingleCommit', t => {
-	urlsMatch(t, pageDetect.isSingleCommit, [
-		'https://github.com/sindresorhus/refined-github/commit/5b614b9035f2035b839f48b4db7bd5c3298d526f',
-		'https://github.com/sindresorhus/refined-github/commit/5b614'
-	]);
-
-	urlsDontMatch(t, pageDetect.isSingleCommit, [
-		'https://github.com/sindresorhus/refined-github/pull/148/commits',
-		'https://github.com/sindresorhus/refined-github/branches'
-	]);
-});
-
-test('isReleases', t => {
-	urlsMatch(t, pageDetect.isReleases, [
-		'https://github.com/sindresorhus/refined-github/releases'
-	]);
-
-	urlsDontMatch(t, pageDetect.isReleases, [
-		'https://github.com/sindresorhus/refined-github',
-		'https://github.com/sindresorhus/refined-github/graphs'
-	]);
-});
-
-test('isBlame', t => {
-	urlsMatch(t, pageDetect.isBlame, [
-		'https://github.com/sindresorhus/refined-github/blame/master/package.json'
-	]);
-
-	urlsDontMatch(t, pageDetect.isBlame, [
-		'https://github.com/sindresorhus/refined-github/blob/master/package.json'
-	]);
-});
+test('isSingleFile', urlMatcherMacro, pageDetect.isSingleFile, [
+	'https://github.com/sindresorhus/refined-github/blob/master/.gitattributes',
+	'https://github.com/sindresorhus/refined-github/blob/fix-narrow-diff/extension/custom.css'
+], [
+	'https://github.com/sindresorhus/refined-github/pull/164/files',
+	'https://github.com/sindresorhus/refined-github/commit/57bf4'
+]);
 
 test('getOwnerAndRepo', t => {
 	const ownerAndRepo = {
@@ -229,16 +176,4 @@ test('getOwnerAndRepo', t => {
 		location.href = url;
 		t.deepEqual(ownerAndRepo[url], pageDetect.getOwnerAndRepo());
 	});
-});
-
-test('isSingleFile', t => {
-	urlsMatch(t, pageDetect.isSingleFile, [
-		'https://github.com/sindresorhus/refined-github/blob/master/.gitattributes',
-		'https://github.com/sindresorhus/refined-github/blob/fix-narrow-diff/extension/custom.css'
-	]);
-
-	urlsDontMatch(t, pageDetect.isSingleFile, [
-		'https://github.com/sindresorhus/refined-github/pull/164/files',
-		'https://github.com/sindresorhus/refined-github/commit/57bf4'
-	]);
 });
