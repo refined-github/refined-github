@@ -89,9 +89,9 @@ function addYoursMenuItem() {
 
 	const yoursMenuItem = $(`<a href="/${page}?q=is%3Aopen+is%3Aissue+user%3A${username}" class="subnav-item">Yours</a>`).dom[0];
 
-	/*if ($('.subnav-links.selected').length === 0 && /user%3A[username]/.test(location.search)) {
+	if ($('.subnav-links.selected').length === 0 && /user%3A[username]/.test(location.search)) {
 		yoursMenuItem.addClass('selected');
-	}*/
+	}
 
 	$menu.append(yoursMenuItem);
 }
