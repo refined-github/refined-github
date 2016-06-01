@@ -79,7 +79,7 @@ function addTrendingMenuItem() {
 }
 
 function addYoursMenuItem() {
-	const page = location.pathname.split('/')[1];
+	const [, page] = location.pathname.split('/');
 	const username = getUsername();
 	const $menu = $('.subnav-links');
 
@@ -300,7 +300,7 @@ $(document).on('click', event => {
 	$target.closest('.js-details-container').toggleClass('refined-github-minimized');
 });
 
-// Handle issue list ajax
+// handle issue list ajax
 $(document).on('pjax:end', () => {
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 		addYoursMenuItem();
