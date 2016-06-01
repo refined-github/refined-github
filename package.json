@@ -1,12 +1,11 @@
 {
   "scripts": {
-    "test": "xo && ava"
+    "test": "xo && ava",
+    "release": "webstore upload --source=extension --auto-publish"
   },
   "devDependencies": {
     "ava": "*",
-    "grunt": "^1.0.1",
-    "grunt-cli": "^1.2.0",
-    "grunt-webstore-upload": "^0.8.10",
+    "chrome-webstore-upload-cli": "^1.0.0",
     "xo": "*"
   },
   "xo": {

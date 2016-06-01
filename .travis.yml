@@ -1,9 +1,11 @@
 language: node_js
 node_js:
   - 'node'
+env:
+  - EXTENSION_ID=hlepfoohegkhhmjieoechaddaejaokhf
 deploy:
   provider: script
-  script: ./deploy.sh
+  script: npm run release
   on:
     branch: master
     tags: true
