@@ -1,4 +1,4 @@
-/* globals gitHubInjection, pageDetect, diffFileHeader, addReactionParticipants, addFileCopyButton, enableCopyOnY */
+/* globals gitHubInjection, pageDetect, diffFileHeader, addReactionParticipants, addFileCopyButton, enableCopyOnY, patchDiffShortcuts */
 
 'use strict';
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
@@ -173,25 +173,6 @@ function linkifyIssuesInTitles() {
 	}
 }
 
-function addPatchDiffLinks() {
-	if ($('.sha-block.patch-diff-links').length > 0) {
-		return;
-	}
-
-	let commitUrl = location.pathname.replace(/\/$/, '');
-	if (pageDetect.isPRCommit()) {
-		commitUrl = commitUrl.replace(/\/pull\/\d+\/commits/, '/commit');
-	}
-	const commitMeta = $('.commit-meta span.right').get(0);
-
-	$(commitMeta).append(`
-		<span class="sha-block patch-diff-links">
-			<a href="${commitUrl}.patch" class="sha">.patch</a>
-			<a href="${commitUrl}.diff" class="sha">.diff</a>
-		</span>
-	`);
-}
-
 function markMergeCommitsInList() {
 	$('.commit.commits-list-item.table-list-item:not(.refined-github-merge-commit)').each((index, element) => {
 		const $element = $(element);
@@ -334,7 +315,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 
 			if (pageDetect.isCommit()) {
-				addPatchDiffLinks();
+				patchDiffShortcuts();
 			}
 
 			if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit()) {
