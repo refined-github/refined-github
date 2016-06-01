@@ -44,5 +44,5 @@ tt,
 .upload-files .filename,
 .url-field,
 .wiki-wrapper .wiki-history .commit-meta code {
-	font-family: 'Droid Sans Mono', 'Operation Mono', 'Liberation Mono', 'Source Code Pro', Menlo, Consolas, Courier, monospace !important;
+	font-family: 'Ubuntu Mono', 'Droid Sans Mono', 'Operation Mono', 'Liberation Mono', 'Source Code Pro', Menlo, Consolas, Courier, monospace !important;
 }
