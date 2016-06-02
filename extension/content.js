@@ -313,6 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		gitHubInjection(window, () => {
 			addReleasesTab();
 			diffFileHeader.destroy();
+			enableCopyOnY.destroy();
 
 			if (pageDetect.isPR()) {
 				linkifyBranchRefs();
@@ -354,7 +355,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.isSingleFile()) {
 				addFileCopyButton();
-				enableCopyOnY();
+				enableCopyOnY.setup();
 			}
 		});
 	}
