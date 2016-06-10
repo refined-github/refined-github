@@ -25,7 +25,7 @@
 			position: 'fixed'
 		}).appendTo('body').val(value);
 
-		$textArea.get(0).select();
+		$textArea.select();
 		const success = document.execCommand('copy');
 		$textArea.remove();
 

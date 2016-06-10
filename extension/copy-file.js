@@ -12,11 +12,7 @@ window.addFileCopyButton = () => {
 	const fileUri = $targetSibling.attr('href');
 	$(`<a href="${fileUri}" class="btn btn-sm copy-btn">Copy</a>`).insertBefore($targetSibling);
 
-	$(document).on('click', e => {
-		if (!e.target.classList.contains('copy-btn')) {
-			return;
-		}
-
+	$(document).on('click', '.copy-btn', e => {
 		e.preventDefault();
 		const fileContents = $('.js-file-line-container').get(0).innerText;
 		utils.copyToClipboard(fileContents);
