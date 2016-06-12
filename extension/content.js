@@ -8,7 +8,7 @@ const getUsername = () => $('meta[name="user-login"]').attr('content');
 function linkifyBranchRefs() {
 	$('.commit-ref').each((i, el) => {
 		const parts = $(el).find('.css-truncate-target');
-		const branch = parts.eq(parts.length - 1).text();
+		const branch = encodeURIComponent(parts.eq(parts.length - 1).text());
 		let username = ownerName;
 
 		// if there are two parts the first part is the username
