@@ -213,7 +213,7 @@ function indentInput(el, size = 4) {
 	el.focus();
 	const value = el.value;
 	const selectionStart = el.selectionStart;
-	const indentSize = (size - el.selectionEnd % size) || size;
+	const indentSize = (size - (el.selectionEnd % size)) || size;
 	const indentationText = ' '.repeat(indentSize);
 	el.value = value.slice(0, selectionStart) + indentationText + value.slice(el.selectionEnd);
 	el.selectionEnd = el.selectionStart = selectionStart + indentationText.length;

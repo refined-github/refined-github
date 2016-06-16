@@ -3,7 +3,9 @@ import Window from './fixtures/window';
 
 global.window = new Window();
 global.location = window.location;
+
 require('../extension/page-detect.js');
+
 const {pageDetect} = window;
 
 function urlMatcherMacro(t, detectFn, shouldMatch = [], shouldNotMatch = []) {
