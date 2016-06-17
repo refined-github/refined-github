@@ -1,4 +1,4 @@
-/* globals gitHubInjection, pageDetect, diffFileHeader, addReactionParticipants, addFileCopyButton, enableCopyOnY */
+/* globals gitHubInjection, pageDetect, diffFileHeader, addReactionParticipants, addFileCopyButton, enableCopyOnY, showRealNames */
 
 'use strict';
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
@@ -343,6 +343,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit()) {
 				addReactionParticipants.add(username);
 				addReactionParticipants.addListener(username);
+				showRealNames();
 			}
 
 			if (pageDetect.isCommitList()) {
