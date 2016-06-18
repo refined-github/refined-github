@@ -7,6 +7,10 @@ const getUsername = () => $('meta[name="user-login"]').attr('content');
 
 function linkifyBranchRefs() {
 	$('.commit-ref').each((i, el) => {
+		if ($(el).children().eq(0).text() === 'unknown repository') {
+			return;
+		}
+
 		const parts = $(el).find('.css-truncate-target');
 		const branch = encodeURIComponent(parts.eq(parts.length - 1).text());
 		let username = ownerName;
