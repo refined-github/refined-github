@@ -478,3 +478,8 @@ hidden content area created to increase hover target
 	padding-top: 0 !important;
 	border-top: none !important;
 }
+
+.comment-full-name {
+	font-weight: normal;
+	margin-left: 4px;
+}
