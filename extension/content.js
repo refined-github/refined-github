@@ -1,4 +1,4 @@
-/* globals gitHubInjection, pageDetect, diffFileHeader, addReactionParticipants, addFileCopyButton, enableCopyOnY, showRealNames */
+/* globals gitHubInjection, pageDetect, diffFileHeader, addReactionParticipants, addFileCopyButton, enableCopyOnY, addBlameParentLinks, showRealNames */
 
 'use strict';
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
@@ -97,29 +97,6 @@ function infinitelyMore() {
 	if (wScroll > (btnOffset - wHeight)) {
 		btn.click();
 	}
-}
-
-function addBlameParentLinks() {
-	$('.blame-sha:not(.js-blame-parent)').each((index, commitLink) => {
-		const $commitLink = $(commitLink);
-		const $blameMetaContainer = $commitLink.nextAll('.blame-commit-meta');
-		if ($blameMetaContainer.find('.js-blame-parent').length > 0) {
-			return;
-		}
-
-		const $blameParentLink = $commitLink.clone();
-		const commitSha = /\w{40}$/.exec(commitLink.href)[0];
-
-		$blameParentLink
-			.text('Blame ^')
-			.addClass('js-blame-parent')
-			.prop('href', location.pathname.replace(
-				/(\/blame\/)[^\/]+/,
-				`$1${commitSha}${encodeURI('^')}`
-			));
-
-		$blameMetaContainer.append($blameParentLink);
-	});
 }
 
 function addReadmeEditButton() {

@@ -34,7 +34,8 @@
 				"copy-file.js",
 				"copy-on-y.js",
 				"show-names.js",
-				"content.js"
+				"content.js",
+				"add-blame-parent-links.js"
 			]
 		}
 	]
