@@ -79,29 +79,28 @@ function addTrendingMenuItem() {
 }
 
 function infinitelyMore() {
-	const btn = $('.ajax-pagination-btn').get(0);
+	const $btn = $('.ajax-pagination-btn');
 
 	// if there's no more button remove unnecessary event listeners
-	if (!btn) {
-		window.removeEventListener('scroll', infinitelyMore);
-		window.removeEventListener('resize', infinitelyMore);
+	if (!$btn.length) {
+		$(window).off('scroll.infinite resize.infinite', infinitelyMore);
 		return;
 	}
 
 	// grab dimensions to see if we should load
 	const wHeight = window.innerHeight;
 	const wScroll = window.pageYOffset || document.scrollTop;
-	const btnOffset = $('.ajax-pagination-btn').offset().top;
+	const btnOffset = $btn.offset().top;
 
 	// smash the button if it's coming close to being in view
 	if (wScroll > (btnOffset - wHeight)) {
-		btn.click();
+		$btn.click();
 	}
 }
 
 function addReadmeEditButton() {
-	const readmeContainer = $('#readme');
-	if (!readmeContainer.length) {
+	const $readmeContainer = $('#readme');
+	if (!$readmeContainer.length) {
 		return;
 	}
 
@@ -115,18 +114,18 @@ function addReadmeEditButton() {
 		</a>
 	</div>`;
 
-	readmeContainer.append(editButtonHtml);
+	$readmeContainer.append(editButtonHtml);
 }
 
 function addDeleteForkLink() {
-	const postMergeContainer = $('#partial-pull-merging');
+	const $postMergeContainer = $('#partial-pull-merging');
 
-	if (postMergeContainer.length > 0) {
-		const postMergeDescription = $(postMergeContainer).find('.merge-branch-description').get(0);
-		const forkPath = $(postMergeContainer).attr('data-channel').split(':')[0];
+	if ($postMergeContainer.length > 0) {
+		const $postMergeDescription = $postMergeContainer.find('.merge-branch-description');
+		const forkPath = $postMergeContainer.attr('data-channel').split(':')[0];
 
 		if (forkPath !== repoUrl) {
-			$(postMergeDescription).append(
+			$postMergeDescription.append(
 				`<p id="refined-github-delete-fork-link">
 					<a href="https://github.com/${forkPath}/settings">
 						<svg aria-hidden="true" class="octicon octicon-repo-forked" height="16" role="img" version="1.1" viewBox="0 0 10 16" width="10"><path d="M8 1c-1.11 0-2 0.89-2 2 0 0.73 0.41 1.38 1 1.72v1.28L5 8 3 6v-1.28c0.59-0.34 1-0.98 1-1.72 0-1.11-0.89-2-2-2S0 1.89 0 3c0 0.73 0.41 1.38 1 1.72v1.78l3 3v1.78c-0.59 0.34-1 0.98-1 1.72 0 1.11 0.89 2 2 2s2-0.89 2-2c0-0.73-0.41-1.38-1-1.72V9.5l3-3V4.72c0.59-0.34 1-0.98 1-1.72 0-1.11-0.89-2-2-2zM2 4.2c-0.66 0-1.2-0.55-1.2-1.2s0.55-1.2 1.2-1.2 1.2 0.55 1.2 1.2-0.55 1.2-1.2 1.2z m3 10c-0.66 0-1.2-0.55-1.2-1.2s0.55-1.2 1.2-1.2 1.2 0.55 1.2 1.2-0.55 1.2-1.2 1.2z m3-10c-0.66 0-1.2-0.55-1.2-1.2s0.55-1.2 1.2-1.2 1.2 0.55 1.2 1.2-0.55 1.2-1.2 1.2z"></path></svg>
@@ -161,9 +160,9 @@ function addPatchDiffLinks() {
 		commitUrl = commitUrl.replace(/\/pull\/\d+\/commits/, '/commit');
 	}
 
-	const commitMeta = $('.commit-meta span.right').get(0);
+	const $commitMeta = $('.commit-meta span.right');
 
-	$(commitMeta).append(`
+	$commitMeta.append(`
 		<span class="sha-block patch-diff-links">
 			<a href="${commitUrl}.patch" class="sha">patch</a>
 			<a href="${commitUrl}.diff" class="sha">diff</a>
@@ -209,15 +208,8 @@ function showRecentlyPushedBranches() {
 	$('.repository-content').prepend(div);
 }
 
-// Support indent with tab key in textarea elements
-$(document).on('keydown', event => {
-	// Check event.target instead of using a delegate, because Sprint doesn't support them
-	const $target = $(event.target);
-	// Limit indenting to just the textarea in comments
-	if (!($target.is('textarea') && $target.hasClass('js-comment-field'))) {
-		return;
-	}
-
+// Support indent with tab key in comments
+$(document).on('keydown', '.js-comment-field', event => {
 	if (event.which === 9 && !event.shiftKey) {
 		// don't indent if the suggester box is active
 		if ($('.suggester').hasClass('active')) {
@@ -231,12 +223,8 @@ $(document).on('keydown', event => {
 });
 
 // Prompt user to confirm erasing a comment with the Cancel button
-$(document).on('click', event => {
-	// Check event.target instead of using a delegate, because Sprint doesn't support them
+$(document).on('click', '.js-hide-inline-comment-form', event => {
 	const $target = $(event.target);
-	if (!$target.hasClass('js-hide-inline-comment-form')) {
-		return;
-	}
 
 	// Do not prompt if textarea is empty
 	const text = $target.closest('.js-inline-comment-form').find('.js-comment-field').val();
@@ -281,9 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		new MutationObserver(() => hideStarsOwnRepos())
 			.observe($('#dashboard .news').get(0), {childList: true});
 
-		// event binding for infinite scroll
-		window.addEventListener('scroll', infinitelyMore);
-		window.addEventListener('resize', infinitelyMore);
+		$(window).on('scroll.infinite resize.infinite', infinitelyMore);
 	}
 
 	if (pageDetect.isRepo()) {

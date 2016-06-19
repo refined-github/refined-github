@@ -44,23 +44,22 @@ window.diffFileHeader = (() => {
 	};
 
 	const updateFileLabel = val => {
-		const target = $('.diff-toolbar-filename').get(0);
-		target.classList.add('filename-width-check');
-		target.textContent = val;
+		const $target = $('.diff-toolbar-filename');
+		$target.addClass('filename-width-check').text(val);
 
 		const maxPixels = maxPixelsAvailable();
-		const doesOverflow = () => target.getBoundingClientRect().width > maxPixels;
+		const doesOverflow = () => $target.get(0).getBoundingClientRect().width > maxPixels;
 		const {basename, topDir, folderCount} = parseFileDetails(val);
 
 		if (doesOverflow() && folderCount > 1) {
-			target.textContent = `${topDir}/.../${basename}`;
+			$target.text(`${topDir}/.../${basename}`);
 		}
 
 		if (doesOverflow()) {
-			target.textContent = basename;
+			$target.text(basename);
 		}
 
-		target.classList.remove('filename-width-check');
+		$target.removeClass('filename-width-check');
 	};
 
 	const getDiffToolbarHeight = () => {
@@ -79,8 +78,7 @@ window.diffFileHeader = (() => {
 			return;
 		}
 
-		// Note: Not using $.each, because Sprint doesn't allow bailing out early
-		const files = $('.file.js-details-container').dom;
+		const files = Array.from($('.file.js-details-container'));
 		return files.find(el => isFilePartlyVisible(el, toolbarHeight));
 	};
 
@@ -109,10 +107,9 @@ window.diffFileHeader = (() => {
 	const setup = () => {
 		$(window).on('scroll.diffheader', () => diffHeaderFilename());
 		const onResize = utils.debounce(() => diffHeaderFilename(true), 200);
-		$(window).on('resize', onResize);
+		$(window).on('resize.diffheader', onResize);
 
-		$(`<span class="diff-toolbar-filename"></span>`)
-				.insertAfter($('.toc-select'));
+		$(`<span class="diff-toolbar-filename"></span>`).insertAfter($('.toc-select'));
 		diffFile.reset();
 	};
 

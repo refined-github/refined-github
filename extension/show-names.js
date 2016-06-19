@@ -18,7 +18,7 @@ window.showRealNames = () => {
 	};
 
 	getCachedUsers((users = {}) => {
-		const usersOnPage = $('.js-discussion .author').dom.map(el => el.innerText);
+		const usersOnPage = Array.from($('.js-discussion .author')).map(el => el.innerText);
 		const uniqueUsers = new Set(usersOnPage);
 
 		// Add cached users to DOM first, since the calls for everyone else will be slow
@@ -44,7 +44,7 @@ window.showRealNames = () => {
 
 			for (const {username, profile} of profiles) {
 				const profileDOM = new DOMParser().parseFromString(profile, 'text/html');
-				const fullname = $(profileDOM.querySelector('h1 strong')).text().slice(1, -1);
+				const fullname = $(profileDOM).find('h1 strong').text().slice(1, -1);
 
 				// Possible for a user to not set a name
 				if (fullname) {
