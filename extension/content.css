@@ -483,3 +483,19 @@ hidden content area created to increase hover target
 	font-weight: normal;
 	margin-left: 4px;
 }
+
+/* +/- pseudo elements on diffs */
+td.blob-code.blob-code-addition:before,
+td.blob-code.blob-code-deletion:before {
+	display: inline-block;
+	position: absolute;
+	color: rgba(0, 0, 0, 0.3);
+}
+
+td.blob-code.blob-code-addition:before {
+	content: '+';
+}
+
+td.blob-code.blob-code-deletion:before {
+	content: '-';
+}
