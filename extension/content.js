@@ -8,6 +8,7 @@ const getUsername = () => $('meta[name="user-login"]').attr('content');
 function linkifyBranchRefs() {
 	$('.commit-ref').each((i, el) => {
 		if ($(el).children().eq(0).text() === 'unknown repository') {
+			$(el).addClass('unlinked');
 			return;
 		}
 
