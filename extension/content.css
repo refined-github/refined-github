@@ -206,7 +206,7 @@
     cursor: zoom-in !important;
 }
 
-.refined-github-minimized .data tbody {
+.refined-github-minimized .data {
 	display: none !important;
 }
 /* style for delete fork link */
