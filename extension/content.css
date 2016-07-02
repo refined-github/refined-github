@@ -38,6 +38,11 @@
 	border: 0 !important;
 }
 
+/* remove newsfeed tips */
+.newsfeed-footer {
+	display: none !important;
+}
+
 /* remove tooltips */
 .tooltipped:not(.reaction-summary-item,.avatar-group-item,.avatar):before,
 .tooltipped:not(.reaction-summary-item,.avatar-group-item,.avatar):after {
