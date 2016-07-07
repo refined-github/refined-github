@@ -201,11 +201,25 @@ function showRecentlyPushedBranches() {
 		return;
 	}
 
-	const uri = `/${repoUrl}/show_partial?partial=tree/recently_touched_branches_list`;
-	const fragMarkup = `<include-fragment src=${uri}></include-fragment>`;
-	const div = document.createElement('div');
-	div.innerHTML = fragMarkup;
-	$('.repository-content').prepend(div);
+	const codeURI = $('[data-hotkey="g c"]').attr('href');
+
+	fetch(codeURI, {
+		credentials: 'include'
+	}).then(res => res.text()).then(html => {
+		const codeDOM = new DOMParser().parseFromString(html, 'text/html');
+		const isEmpty = $(codeDOM).find('.blankslate').length;
+
+		// https://github.com/sindresorhus/refined-github/issues/216
+		if (isEmpty) {
+			return;
+		}
+
+		const uri = `/${repoUrl}/show_partial?partial=tree/recently_touched_branches_list`;
+		const fragMarkup = `<include-fragment src=${uri}></include-fragment>`;
+		const div = document.createElement('div');
+		div.innerHTML = fragMarkup;
+		$('.repository-content').prepend(div);
+	});
 }
 
 // Support indent with tab key in comments
