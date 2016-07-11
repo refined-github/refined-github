@@ -181,6 +181,11 @@ body {
 	text-decoration: underline !important;
 }
 
+.commit-ref.unlinked:hover,
+.commit-ref.unlinked:hover span {
+	text-decoration: none !important;
+}
+
 /* remove the "new feature" notification box */
 .js-notice {
 	display: none !important;
