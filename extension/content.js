@@ -7,12 +7,13 @@ const getUsername = () => $('meta[name="user-login"]').attr('content');
 
 function linkifyBranchRefs() {
 	$('.commit-ref').each((i, el) => {
-		if ($(el).children().eq(0).text() === 'unknown repository') {
-			$(el).addClass('unlinked');
+		const $el = $(el);
+		if ($el.children().eq(0).text() === 'unknown repository') {
+			$el.addClass('unlinked');
 			return;
 		}
 
-		const parts = $(el).find('.css-truncate-target');
+		const parts = $el.find('.css-truncate-target');
 		const branch = encodeURIComponent(parts.eq(parts.length - 1).text());
 		let username = ownerName;
 
@@ -21,7 +22,7 @@ function linkifyBranchRefs() {
 			username = parts.eq(0).text();
 		}
 
-		$(el).wrap(`<a href="https://github.com/${username}/${repoName}/tree/${branch}">`);
+		$el.wrap(`<a href="https://github.com/${username}/${repoName}/tree/${branch}">`);
 	});
 }
 
