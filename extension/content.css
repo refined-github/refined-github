@@ -111,6 +111,9 @@ body {
 .toolbar-group .js-saved-reply-container {
 	display: block;
 }
+.toolbar-commenting {
+	margin-top: 4px;
+}
 
 /* remove upload message on comment box */
 .write-content .drag-and-drop {
