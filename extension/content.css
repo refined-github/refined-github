@@ -1,12 +1,6 @@
 /* revert to previous better GitHub fonts */
 body,
 .markdown-body,
-.intgrs-page .main-content,
-.blog-content,
-.migration-wrapper,
-.migrate-owners-wrapper,
-.setup-wrapper,
-.showcase-page-title,
 .tooltipped::after {
 	font-family: Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !important;
 }
