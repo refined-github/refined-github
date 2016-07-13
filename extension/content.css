@@ -262,6 +262,11 @@ forked a repo
 	display: none !important;
 }
 
+/* ensure the news feed is still shown once the items above have been hidden */
+.news {
+	min-height: 1px;
+}
+
 /*
 remove padding from body of simple news alerts in Dashboard since some will be hidden
 we will add it back on for the simple news alerts we decide to show
