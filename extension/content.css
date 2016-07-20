@@ -149,9 +149,8 @@ body {
 	display: inline-block !important;
 	vertical-align: top !important;
 }
-.user-repos {
-	position: relative !important;
-	top: 50px !important;
+.dashboard-sidebar {
+	padding-top: 50px;
 }
 /* organization dashboard */
 .orgpage .pagehead-nav {
