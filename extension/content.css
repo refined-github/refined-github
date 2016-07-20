@@ -162,8 +162,8 @@ body {
 .orgpage .user-repos {
 	position: static !important;
 }
-#org_your_repos {
-	top: 0 !important;
+.orgpage + .container .dashboard-sidebar {
+	padding-top:0;
 }
 
 /* remove "New pull request" button on repo page */
