@@ -163,7 +163,7 @@ body {
 	position: static !important;
 }
 .orgpage + .container .dashboard-sidebar {
-	padding-top:0;
+	padding-top: 0;
 }
 
 /* remove "New pull request" button on repo page */
