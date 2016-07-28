@@ -26,7 +26,7 @@ window.diffFileHeader = (() => {
 	const maxPixelsAvailable = () => {
 		// Unfortunately can't cache this value, as it'll change with the browsers zoom level
 		const filenameLeftOffset = $('.diff-toolbar-filename').get(0).getBoundingClientRect().left;
-		const diffStatLeftOffset = $('.diff-toolbar-filename + .right').get(0).getBoundingClientRect().left;
+		const diffStatLeftOffset = $('.diff-toolbar-filename + .float-right').get(0).getBoundingClientRect().left;
 
 		return diffStatLeftOffset - filenameLeftOffset;
 	};
