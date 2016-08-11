@@ -228,6 +228,46 @@ function showRecentlyPushedBranches() {
 	});
 }
 
+// Add option for viewing diffs without whitespace changes
+function addDiffViewWithoutWhitespaceOption(type) {
+	if ($('.diff-options-content').length < 1 && $('.btn-group .selected[href*="diff="]').length < 1) {
+		return;
+	}
+
+	// Return if element already exists in DOM (history actions)
+	if ($('.refined-github-toggle-whitespace').length > 0) {
+		return;
+	}
+
+	const optionElement = document.createElement('a');
+	const urlParams = new URLSearchParams(window.location.search);
+	const urlHash = window.location.hash || '';
+	const svgIcon = '<svg aria-hidden="true" class="octicon octicon-check" height="16" version="1.1" viewBox="0 0 12 16" width="12"><path d="M12 5L4 13 0 9l1.5-1.5 2.5 2.5 6.5-6.5 1.5 1.5z"></path></svg>';
+	const optionElementObject = $(optionElement);
+	let optionIsSet = false;
+
+	if (urlParams.get('w') === '1') {
+		optionIsSet = true;
+		urlParams.delete('w');
+		optionElementObject.addClass('selected');
+	} else {
+		urlParams.set('w', 1);
+	}
+
+	const optionElementContent = `${optionIsSet ? svgIcon : ''} Ignore whitespace`;
+	const optionHref = `${window.location.origin + window.location.pathname}?${urlParams.toString() + urlHash}`;
+
+	optionElementObject.html(optionElementContent).attr('href', optionHref).attr('data-hotkey', 'd w').attr('class', 'refined-github-toggle-whitespace');
+
+	if (type === 'pr') {
+		$('.diff-options-content').find('.dropdown-item:last-of-type').after(optionElement);
+		optionElementObject.addClass('dropdown-item');
+	} else {
+		$('.btn-group .selected[href*="diff="]').after(optionElement);
+		optionElementObject.addClass('btn btn-sm');
+	}
+}
+
 // Support indent with tab key in comments
 $(document).on('keydown', '.js-comment-field', event => {
 	if (event.which === 9 && !event.shiftKey) {
@@ -329,12 +369,17 @@ document.addEventListener('DOMContentLoaded', () => {
 				showRealNames();
 			}
 
+			if (pageDetect.isCommit() || pageDetect.isSingleCommit()) {
+				addDiffViewWithoutWhitespaceOption('commit');
+			}
+
 			if (pageDetect.isCommitList()) {
 				markMergeCommitsInList();
 			}
 
 			if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
 				diffFileHeader.setup();
+				addDiffViewWithoutWhitespaceOption('pr');
 			}
 
 			if (pageDetect.isSingleFile()) {
