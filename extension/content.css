@@ -513,4 +513,21 @@ hidden content area created to increase hover target
 
 .btn-mark-unread {
 	margin-top: 8px;
+/* +/- pseudo elements on diffs */
+td.blob-code.blob-code-addition:before,
+td.blob-code.blob-code-deletion:before {
+	display: inline-block;
+	position: absolute;
+	font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace !important;
+	font-size: 12px;
+	text-indent: -3px;
+	color: rgba(0, 0, 0, 0.3);
+}
+
+td.blob-code.blob-code-addition:before {
+	content: '+';
+}
+
+td.blob-code.blob-code-deletion:before {
+	content: '-';
 }
