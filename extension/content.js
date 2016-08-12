@@ -384,7 +384,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				addPatchDiffLinks();
 			}
 
-			if (pageDetect.isCommit() || pageDetect.isPRFiles()) {
+			if (pageDetect.isCommit() || pageDetect.isPR() || pageDetect.isPRFiles()) {
 				removeDiffSigns();
 			}
 

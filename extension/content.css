@@ -518,9 +518,10 @@ td.blob-code.blob-code-addition:before,
 td.blob-code.blob-code-deletion:before {
 	display: inline-block;
 	position: absolute;
-	font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace !important;
-	font-size: 12px;
-	text-indent: -3px;
+	top: 1px;
+	font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
+	font-size: 11px;
+	text-indent: -8px;
 	color: rgba(0, 0, 0, 0.3);
 }
 
