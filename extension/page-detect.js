@@ -33,6 +33,8 @@ window.pageDetect = (() => {
 
 	const isBlame = () => isRepo() && /^\/blame\//.test(getRepoPath());
 
+	const isNotifications = () => /\/notifications(\/participating)?/.test(location.pathname);
+
 	const getOwnerAndRepo = () => {
 		const [, ownerName, repoName] = location.pathname.split('/');
 
@@ -65,6 +67,7 @@ window.pageDetect = (() => {
 		isCommit,
 		isReleases,
 		isBlame,
+		isNotifications,
 		getOwnerAndRepo,
 		isSingleFile
 	};

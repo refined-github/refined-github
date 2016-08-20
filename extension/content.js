@@ -1,4 +1,4 @@
-/* globals gitHubInjection, pageDetect, diffFileHeader, addReactionParticipants, addFileCopyButton, enableCopyOnY, addBlameParentLinks, showRealNames */
+/* globals gitHubInjection, pageDetect, diffFileHeader, addReactionParticipants, addFileCopyButton, enableCopyOnY, addBlameParentLinks, showRealNames, markUnread */
 
 'use strict';
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
@@ -332,11 +332,24 @@ document.addEventListener('DOMContentLoaded', () => {
 		$(window).on('scroll.infinite resize.infinite', infinitelyMore);
 	}
 
+	if (pageDetect.isNotifications()) {
+		markUnread.setup();
+
+		new MutationObserver(() => {
+			markUnread.destroy();
+
+			if (pageDetect.isNotifications()) {
+				markUnread.setup();
+			}
+		}).observe($('#js-pjax-container').get(0), {childList: true});
+	}
+
 	if (pageDetect.isRepo()) {
 		gitHubInjection(window, () => {
 			addReleasesTab();
 			diffFileHeader.destroy();
 			enableCopyOnY.destroy();
+			markUnread.destroy();
 
 			if (pageDetect.isPR()) {
 				linkifyBranchRefs();
@@ -385,6 +398,10 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (pageDetect.isSingleFile()) {
 				addFileCopyButton();
 				enableCopyOnY.setup();
+			}
+
+			if (pageDetect.isPR() || pageDetect.isIssue()) {
+				markUnread.setup();
 			}
 		});
 	}
