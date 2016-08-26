@@ -112,7 +112,7 @@ function addReadmeEditButton() {
 
 	const readmeName = $('#readme > h3').text().trim();
 	const path = $('.js-repo-root ~ .js-path-segment, .final-path').map((idx, el) => $(el).text()).get().join('/');
-	const currentBranch = $('.file-navigation .select-menu.left button.select-menu-button span').text();
+	const currentBranch = $('.file-navigation .select-menu.float-left button.select-menu-button span').text();
 	const editHref = `/${repoUrl}/edit/${currentBranch}/${path ? `${path}/` : ''}${readmeName}`;
 	const editButtonHtml = `<div id="refined-github-readme-edit-link">
 		<a href="${editHref}">
