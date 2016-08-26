@@ -75,7 +75,7 @@ function addReleasesTab() {
 }
 
 function addTrendingMenuItem() {
-	const $secondListItem = $('.header-nav.left .header-nav-item:nth-child(2)');
+	const $secondListItem = $('.header-nav.float-left .header-nav-item:nth-child(2)');
 
 	$secondListItem.after(`
 		<li class="header-nav-item">
