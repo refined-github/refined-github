@@ -224,7 +224,8 @@ body {
     cursor: zoom-in !important;
 }
 
-.refined-github-minimized .data {
+.refined-github-minimized .data,
+.refined-github-minimized .render-wrapper {
 	display: none !important;
 }
 /* style for delete fork link */
