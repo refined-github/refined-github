@@ -224,6 +224,7 @@ body {
     cursor: zoom-in !important;
 }
 
+/* style for collapse/expand feature; images are rendered in .render-wrapper, not in .data */
 .refined-github-minimized .data,
 .refined-github-minimized .render-wrapper {
 	display: none !important;
