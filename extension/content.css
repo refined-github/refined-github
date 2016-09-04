@@ -224,7 +224,9 @@ body {
     cursor: zoom-in !important;
 }
 
-.refined-github-minimized .data {
+/* style for collapse/expand feature; images are rendered in .render-wrapper, not in .data */
+.refined-github-minimized .data,
+.refined-github-minimized .render-wrapper {
 	display: none !important;
 }
 /* style for delete fork link */
