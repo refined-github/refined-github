@@ -508,3 +508,9 @@ hidden content area created to increase hover target
 	font-weight: normal;
 	margin-left: 4px;
 }
+
+/* mark as unread */
+
+.btn-mark-unread {
+	margin-top: 8px;
+}
