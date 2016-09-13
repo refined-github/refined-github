@@ -36,7 +36,8 @@
 				"show-names.js",
 				"content.js",
 				"add-blame-parent-links.js",
-				"mark-unread.js"
+				"mark-unread.js",
+				"issues-prevnext.js"
 			]
 		}
 	]
