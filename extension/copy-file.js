@@ -10,7 +10,7 @@ window.addFileCopyButton = () => {
 
 	const $targetSibling = $('#raw-url');
 	const fileUri = $targetSibling.attr('href');
-	$(`<a href="${fileUri}" class="btn btn-sm copy-btn">Copy</a>`).insertBefore($targetSibling);
+	$(`<a href="${fileUri}" class="btn btn-sm BtnGroup-item copy-btn">Copy</a>`).insertBefore($targetSibling);
 
 	$(document).on('click', '.copy-btn', e => {
 		e.preventDefault();
