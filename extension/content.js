@@ -1,4 +1,4 @@
-/* globals gitHubInjection, pageDetect, diffFileHeader, addReactionParticipants, addFileCopyButton, enableCopyOnY, addBlameParentLinks, showRealNames, markUnread */
+/* globals gitHubInjection, pageDetect, diffFileHeader, addReactionParticipants, addFileCopyButton, enableCopyOnY, addBlameParentLinks, showRealNames, markUnread, addCollapseExpandAllButton */
 
 'use strict';
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
@@ -403,6 +403,11 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (pageDetect.isPR() || pageDetect.isIssue()) {
 				markUnread.setup();
 			}
+
+			if (pageDetect.isPRFiles()) {
+				addCollapseExpandAllButton();
+			}
+
 		});
 	}
 });
