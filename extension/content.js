@@ -407,7 +407,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (pageDetect.isPRFiles()) {
 				addCollapseExpandAllButton();
 			}
-
 		});
 	}
 });
