@@ -179,7 +179,7 @@ function addPatchDiffLinks() {
 function removeDiffSigns() {
 	$('.blob-code-deletion .blob-code-inner, .blob-code-addition .blob-code-inner').each((index, element) => {
 		const textNode = element.childNodes[0];
-		textNode.nodeValue = textNode.nodeValue.replace(/^[+-]/, '');
+		textNode.nodeValue = textNode.nodeValue.replace(/^[+-]/, ' ');
 	});
 }
 
