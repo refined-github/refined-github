@@ -32,6 +32,7 @@
 				"diffheader.js",
 				"reactions-avatars.js",
 				"copy-file.js",
+				"collapse-expand-all-button.js",
 				"copy-on-y.js",
 				"show-names.js",
 				"content.js",
