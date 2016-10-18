@@ -4,7 +4,7 @@
 
 window.addFileCopyButton = () => {
 	// Button already added (partial page nav), or non-text file
-	if ($('.copy-btn').length || !$('[data-line-number="1"]').length) {
+	if ($('.copy-btn').length > 0 || $('[data-line-number="1"]').length === 0) {
 		return;
 	}
 

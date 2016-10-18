@@ -88,7 +88,7 @@ function infinitelyMore() {
 	const $btn = $('.ajax-pagination-btn');
 
 	// if there's no more button remove unnecessary event listeners
-	if (!$btn.length) {
+	if ($btn.length === 0) {
 		$(window).off('scroll.infinite resize.infinite', infinitelyMore);
 		return;
 	}
@@ -106,7 +106,7 @@ function infinitelyMore() {
 
 function addReadmeEditButton() {
 	const $readmeContainer = $('#readme');
-	if (!$readmeContainer.length) {
+	if ($readmeContainer.length === 0) {
 		return;
 	}
 
@@ -210,7 +210,7 @@ function indentInput(el, size = 4) {
 
 function showRecentlyPushedBranches() {
 	// Don't duplicate on back/forward in history
-	if ($('.recently-touched-branches-wrapper').length) {
+	if ($('.recently-touched-branches-wrapper').length > 0) {
 		return;
 	}
 

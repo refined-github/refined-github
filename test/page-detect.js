@@ -4,7 +4,7 @@ import Window from './fixtures/window';
 global.window = new Window();
 global.location = window.location;
 
-require('../extension/page-detect.js');
+require('../extension/page-detect.js'); // eslint-disable-line import/no-unassigned-import
 
 const {pageDetect} = window;
 
