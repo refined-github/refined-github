@@ -176,6 +176,13 @@ function addPatchDiffLinks() {
 	`);
 }
 
+function removeDiffSigns() {
+	$('.blob-code-deletion .blob-code-inner, .blob-code-addition .blob-code-inner').each((index, element) => {
+		const textNode = element.childNodes[0];
+		textNode.nodeValue = textNode.nodeValue.replace(/^[+-]/, '');
+	});
+}
+
 function markMergeCommitsInList() {
 	$('.commit.commits-list-item.table-list-item:not(.refined-github-merge-commit)').each((index, element) => {
 		const $element = $(element);
@@ -374,6 +381,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.isCommit()) {
 				addPatchDiffLinks();
+			}
+
+			if (pageDetect.isCommit() || pageDetect.isPR() || pageDetect.isPRFiles()) {
+				removeDiffSigns();
 			}
 
 			if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit()) {
