@@ -128,7 +128,7 @@ function addDeleteForkLink() {
 
 	if ($postMergeContainer.length > 0) {
 		const $postMergeDescription = $postMergeContainer.find('.merge-branch-description');
-		const forkPath = $postMergeContainer.attr('data-channel').split(':')[0];
+		const forkPath = `${getUsername()}/${repoName}`;
 
 		if (forkPath !== repoUrl) {
 			$postMergeDescription.append(
