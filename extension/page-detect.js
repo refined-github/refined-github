@@ -29,6 +29,10 @@ window.pageDetect = (() => {
 
 	const isCommit = () => isSingleCommit() || isPRCommit() || (isPRFiles() && $('.full-commit').length > 0);
 
+	const isCompare = () => isRepo() && /^\/compare\//.test(getRepoPath());
+
+	const hasDiff = () => isRepo() && (isSingleCommit() || isPRCommit() || isPRFiles() || isCompare() || (isPR() && $('.diff-table').length > 0));
+
 	const isReleases = () => isRepo() && /^\/(releases|tags)/.test(getRepoPath());
 
 	const isBlame = () => isRepo() && /^\/blame\//.test(getRepoPath());
@@ -65,6 +69,8 @@ window.pageDetect = (() => {
 		isCommitList,
 		isSingleCommit,
 		isCommit,
+		isCompare,
+		hasDiff,
 		isReleases,
 		isBlame,
 		isNotifications,
