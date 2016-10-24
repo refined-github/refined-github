@@ -393,7 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				showRealNames();
 			}
 
-			if (pageDetect.isCommit() || pageDetect.isSingleCommit()) {
+			if (pageDetect.hasDiff()) {
 				addDiffViewWithoutWhitespaceOption('commit');
 			}
 
