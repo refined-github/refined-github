@@ -17,6 +17,7 @@ code,
 kbd,
 pre,
 tt,
+.CodeMirror-lines,
 .ace_editor.ace-github-light,
 .blob-code-inner,
 .export-phrase pre,
@@ -26,4 +27,9 @@ tt,
 .input-monospace,
 .wiki-wrapper .wiki-history .commit-meta code {
 	font-family: 'Fira Code', 'Ubuntu Mono', 'Droid Sans Mono', 'Operator Mono', 'Liberation Mono', 'Source Code Pro', Menlo, Consolas, Courier, monospace !important;
+}
+
+.CodeMirror-lines pre.CodeMirror-line {
+	-webkit-font-variant-ligatures: normal;
+	font-variant-ligatures: normal;
 }
