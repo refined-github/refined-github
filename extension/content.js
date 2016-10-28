@@ -1,4 +1,4 @@
-/* globals gitHubInjection, pageDetect, diffFileHeader, addReactionParticipants, addFileCopyButton, enableCopyOnY, addBlameParentLinks, showRealNames, markUnread */
+/* globals gitHubInjection, pageDetect, diffFileHeader, addReactionParticipants, addFileCopyButton, enableCopyOnY, addBlameParentLinks, showRealNames, markUnread, prStatus */
 
 'use strict';
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
@@ -377,6 +377,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.isPRList() || pageDetect.isIssueList()) {
 				showRecentlyPushedBranches();
+			}
+
+			if (pageDetect.isPRList()) {
+				prStatus.setup();
 			}
 
 			if (pageDetect.isCommit()) {
