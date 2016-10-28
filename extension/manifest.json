@@ -29,6 +29,7 @@
 				"vendor/gh-injection.js",
 				"util.js",
 				"page-detect.js",
+				"icons.js",
 				"diffheader.js",
 				"reactions-avatars.js",
 				"copy-file.js",
