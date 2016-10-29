@@ -538,3 +538,8 @@ td.blob-code.blob-code-deletion:before {
 .new-user-avatar-cta {
 	display: none !important;
 }
+
+/* fix for diffheader filename */
+.diffbar > .diffstat {
+	float: right;
+}
