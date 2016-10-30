@@ -30,6 +30,5 @@ tt,
 }
 
 .CodeMirror-lines pre.CodeMirror-line {
-	-webkit-font-variant-ligatures: normal;
 	font-variant-ligatures: normal;
 }
