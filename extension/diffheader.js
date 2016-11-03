@@ -26,7 +26,7 @@ window.diffFileHeader = (() => {
 	const maxPixelsAvailable = () => {
 		// Unfortunately can't cache this value, as it'll change with the browsers zoom level
 		const filenameLeftOffset = $('.diff-toolbar-filename').get(0).getBoundingClientRect().left;
-		const diffStatLeftOffset = $('.diff-toolbar-filename + .float-right').get(0).getBoundingClientRect().left;
+		const diffStatLeftOffset = $('.diffbar > .diffstat').get(0).getBoundingClientRect().left;
 
 		return diffStatLeftOffset - filenameLeftOffset;
 	};
@@ -109,7 +109,9 @@ window.diffFileHeader = (() => {
 		const onResize = utils.debounce(() => diffHeaderFilename(true), 200);
 		$(window).on('resize.diffheader', onResize);
 
-		$(`<span class="diff-toolbar-filename"></span>`).insertAfter($('.toc-select'));
+		$('.diffbar > .diffstat').insertAfter('.pr-review-tools');
+
+		$(`<span class="diffbar-item diff-toolbar-filename"></span>`).insertAfter($('.toc-select'));
 		diffFile.reset();
 	};
 
