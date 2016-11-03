@@ -33,8 +33,8 @@ window.diffFileHeader = (() => {
 
 	const parseFileDetails = filename => {
 		const folderCount = (filename.match(/\//g) || []).length;
-		const [, basename] = (filename.match(/(?:\/)([\w\.-]+)$/) || []);
-		const [, topDir] = (filename.match(/^([\w\.-]+)\//) || []);
+		const [, basename] = (filename.match(/(?:\/)([\w.-]+)$/) || []);
+		const [, topDir] = (filename.match(/^([\w.-]+)\//) || []);
 
 		return {
 			folderCount,

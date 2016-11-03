@@ -1,7 +1,7 @@
 window.pageDetect = (() => {
 	const isGist = () => location.hostname === 'gist.github.com';
 
-	const isDashboard = () => location.pathname === '/' || /^(\/orgs\/[^\/]+)?\/dashboard/.test(location.pathname);
+	const isDashboard = () => location.pathname === '/' || /^(\/orgs\/[^/]+)?\/dashboard/.test(location.pathname);
 
 	const isRepo = () => !isGist() && /^\/[^/]+\/[^/]+/.test(location.pathname);
 

@@ -31,7 +31,7 @@ window.addBlameParentLinks = (() => {
 			const $blameParentLink = $commitLink.clone();
 			const commitSha = /\w{40}$/.exec(commitLink.href)[0];
 			const href = location.pathname.replace(
-				/(\/blame\/)[^\/]+/,
+				/(\/blame\/)[^/]+/,
 				`$1${commitSha}`
 			);
 
