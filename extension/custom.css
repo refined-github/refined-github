@@ -32,3 +32,14 @@ tt,
 .CodeMirror-lines pre.CodeMirror-line {
 	font-variant-ligatures: normal;
 }
+
+/* revert to previous GitHub font */
+/*body,
+.markdown-body,
+.tooltipped::after {
+	font-family: Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !important;
+}
+body {
+	font-size: 13px !important;
+	line-height: 1.4 !important;
+}*/

@@ -1,14 +1,3 @@
-/* revert to previous better GitHub fonts */
-body,
-.markdown-body,
-.tooltipped::after {
-	font-family: Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !important;
-}
-body {
-	font-size: 13px !important;
-	line-height: 1.4 !important;
-}
-
 .subscribe-feed {
 	display: none !important;
 }
