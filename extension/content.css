@@ -88,14 +88,14 @@
 
 /* remove commentbox toolbar */
 .toolbar-group {
-    display: none;
-    margin-left: 0 !important;
+	display: none;
+	margin-left: 0 !important;
 }
 .toolbar-group:last-child {
-    display: inline-block;
+	display: inline-block;
 }
 .toolbar-group .toolbar-item {
-    display: none;
+	display: none;
 }
 .toolbar-group .js-saved-reply-container {
 	display: block;
@@ -206,11 +206,11 @@
 /* indicate collapsible file headers with zoom cursor */
 .js-details-container:not(.discussion-item) .file-header[data-path],
 .file-header[data-path] .diffstat {
-    cursor: zoom-out !important;
+	cursor: zoom-out !important;
 }
 .refined-github-minimized:not(.discussion-item) .file-header[data-path],
 .refined-github-minimized .file-header[data-path] .diffstat {
-    cursor: zoom-in !important;
+	cursor: zoom-in !important;
 }
 
 /* style for collapse/expand feature; images are rendered in .render-wrapper, not in .data */
