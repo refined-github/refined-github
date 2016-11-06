@@ -33,6 +33,11 @@ tt,
 	font-variant-ligatures: normal;
 }
 
+/* reduce tracking. Fix for Chrome on macOS: https://git.io/vX4Wo */
+.markdown-body {
+	letter-spacing: -0.02px;
+}
+
 /* revert to previous GitHub font */
 /*body,
 .markdown-body,
