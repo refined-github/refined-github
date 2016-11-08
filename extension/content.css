@@ -532,3 +532,8 @@ td.blob-code.blob-code-deletion:before {
 .diffbar > .diffstat {
 	float: right;
 }
+
+/* fix padding for comment-body when reviewing a PR */
+.review-comment .comment-body {
+	padding-left: 44px;
+}
