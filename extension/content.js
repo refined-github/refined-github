@@ -128,9 +128,10 @@ function addDeleteForkLink() {
 
 	if ($postMergeContainer.length > 0) {
 		const $postMergeDescription = $postMergeContainer.find('.merge-branch-description');
-		const forkPath = $postMergeDescription.find('.commit-ref.current-branch')[0].title.split(':')[0];
+		const $currentBranch = $postMergeDescription.find('.commit-ref.current-branch')[0];
+		const forkPath = $currentBranch ? $currentBranch.title.split(':')[0] : null;
 
-		if (forkPath !== repoUrl) {
+		if (forkPath && forkPath !== repoUrl) {
 			$postMergeDescription.append(
 				`<p id="refined-github-delete-fork-link">
 					<a href="https://github.com/${forkPath}/settings">
