@@ -1,4 +1,4 @@
-/* globals gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, enableCopyOnY, addBlameParentLinks, showRealNames, markUnread */
+/* globals gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, addBlameParentLinks, showRealNames, markUnread */
 
 'use strict';
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
@@ -320,11 +320,10 @@ $(document).on('click', event => {
 document.addEventListener('DOMContentLoaded', () => {
 	const username = getUsername();
 
-	if (!pageDetect.isGist()) {
-		addTrendingMenuItem();
-	}
-	else {
+	if (pageDetect.isGist()) {
 		addGistCopyButton();
+	} else {
+		addTrendingMenuItem();
 	}
 
 	if (pageDetect.isDashboard()) {
