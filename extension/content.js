@@ -323,6 +323,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	if (!pageDetect.isGist()) {
 		addTrendingMenuItem();
 	}
+	else {
+		addGistCopyButton();
+	}
 
 	if (pageDetect.isDashboard()) {
 		// hide other users starring/forking your repos

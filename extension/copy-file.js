@@ -17,4 +17,5 @@ window.addFileCopyButton = () => {
 		const fileContents = $('.js-file-line-container').get(0).innerText;
 		utils.copyToClipboard(fileContents);
 	});
+
 };
