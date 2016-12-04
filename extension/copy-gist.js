@@ -7,15 +7,17 @@ window.addGistCopyButton = () => {
 	if ($('.copy-btn').length > 0) {
 		return;
 	}
-	const $gistsSibling = $('div.file-actions>a.btn.btn-sm');
-	for (let i = 0; i < $gistsSibling.length; i++) {
-		const gistUri = $gistsSibling[i].href;
-		$(`<a href="${gistUri}" class="btn btn-sm copy-btn">Copy</a>`).insertBefore($gistsSibling[i]);
+	const $gistsSibling = $('.file-actions > .btn.btn-sm');
+
+	for (let anchor of $gistsSibling) {
+		const gistUri = anchor.href;
+		if(gistUri.split('.').pop().toLowerCase() != 'md')
+			$(`<a href="${gistUri}" class="btn btn-sm copy-btn" id="gists">Copy</a>`).insertBefore(anchor);
 	}
 
 	$(document).on('click', '.copy-btn', e => {
 		e.preventDefault();
-		const fileContents = $('.js-file-line-container').get(0).innerText;
+		const fileContents = $('#'+e.currentTarget.offsetParent.id).find('.js-file-line-container')[0].innerText;
 		utils.copyToClipboard(fileContents);
 	});
 };
