@@ -9,15 +9,16 @@ window.addGistCopyButton = () => {
 	}
 	const $gistsSibling = $('.file-actions > .btn.btn-sm');
 
-	for (let anchor of $gistsSibling) {
+	for (const anchor of $gistsSibling) {
 		const gistUri = anchor.href;
-		if(gistUri.split('.').pop().toLowerCase() != 'md')
+		if (gistUri.split('.').pop().toLowerCase() !== 'md') {
 			$(`<a href="${gistUri}" class="btn btn-sm copy-btn" id="gists">Copy</a>`).insertBefore(anchor);
+		}
 	}
 
 	$(document).on('click', '.copy-btn', e => {
 		e.preventDefault();
-		const fileContents = $('#'+e.currentTarget.offsetParent.id).find('.js-file-line-container')[0].innerText;
+		const fileContents = $(`#${e.currentTarget.offsetParent.id}`).find('.js-file-line-container')[0].innerText;
 		utils.copyToClipboard(fileContents);
 	});
 };
