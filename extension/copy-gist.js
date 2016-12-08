@@ -9,10 +9,11 @@ window.addGistCopyButton = () => {
 	}
 	const $gistsSibling = $('.file-actions > .btn.btn-sm');
 
-	for (const anchor of $gistsSibling) {
-		const gistUri = anchor.href;
-		if (gistUri.split('.').pop().toLowerCase() !== 'md') {
-			$(`<a href="${gistUri}" class="btn btn-sm copy-btn" id="gists">Copy</a>`).insertBefore(anchor);
+	for (let i = 0; i < $gistsSibling.length; i++) {
+		let sourceCodeClass = $(`#${$gistsSibling[i].offsetParent.id}>div`).eq(1)[0].className;
+		const gistUri = $gistsSibling[i].href;
+		if (sourceCodeClass.indexOf('blob-wrapper') != -1) {
+			$(`<a href="${gistUri}" class="btn btn-sm copy-btn">Copy</a>`).insertBefore($gistsSibling[i]);
 		}
 	}
 
