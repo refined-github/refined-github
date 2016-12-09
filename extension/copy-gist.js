@@ -10,9 +10,10 @@ window.addGistCopyButton = () => {
 	const $gistsSibling = $('.file-actions > .btn.btn-sm');
 
 	for (let i = 0; i < $gistsSibling.length; i++) {
-		const sourceCodeClass = $(`#${$gistsSibling[i].offsetParent.id}>div`).eq(1)[0].className;
+		const commonContainer = $('.file')[i];
+		const isSourceCodeClass = commonContainer.children[1].classList.contains('blob-wrapper');
 		const gistUri = $gistsSibling[i].href;
-		if (sourceCodeClass.indexOf('blob-wrapper') !== -1) {
+		if (isSourceCodeClass) {
 			$(`<a href="${gistUri}" class="btn btn-sm copy-btn">Copy</a>`).insertBefore($gistsSibling[i]);
 		}
 	}
