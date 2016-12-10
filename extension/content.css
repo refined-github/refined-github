@@ -532,3 +532,8 @@ td.blob-code.blob-code-deletion:before {
 .diffbar > .diffstat {
 	float: right;
 }
+
+/* copy button for gists margin */
+.copy-btn {
+	margin: 0 10px 0 0;
+}
