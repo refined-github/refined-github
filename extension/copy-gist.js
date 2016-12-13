@@ -14,7 +14,7 @@ window.addGistCopyButton = () => {
 		const isSourceCodeClass = commonContainer.children[1].classList.contains('blob-wrapper');
 		const gistUri = $gistsSibling[i].href;
 		if (isSourceCodeClass) {
-			$(`<a href="${gistUri}" class="btn btn-sm copy-btn">Copy</a>`).insertBefore($gistsSibling[i]);
+			$(`<a href="${gistUri}" class="btn btn-sm copy-btn gist-copy-btn">Copy</a>`).insertBefore($gistsSibling[i]);
 		}
 	}
 
