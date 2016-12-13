@@ -416,6 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.isPR() || pageDetect.isIssue()) {
 				markUnread.setup();
+				enableIssuesPrevNext.setup();
 			}
 		});
 	}
