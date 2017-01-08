@@ -36,6 +36,7 @@
 				"copy-gist.js",
 				"copy-on-y.js",
 				"show-names.js",
+				"toggle-diff-changes.js",
 				"content.js",
 				"add-blame-parent-links.js",
 				"mark-unread.js"

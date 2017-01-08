@@ -1,4 +1,4 @@
-/* globals gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, addBlameParentLinks, showRealNames, markUnread */
+/* globals gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, addBlameParentLinks, showRealNames, markUnread, toggleDiffChanges */
 
 'use strict';
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
@@ -406,6 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
 				diffFileHeader.setup();
+				toggleDiffChanges.init();
 				addDiffViewWithoutWhitespaceOption('pr');
 			}
 
