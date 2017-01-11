@@ -1,4 +1,4 @@
-/* globals gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, addBlameParentLinks, showRealNames, markUnread */
+/* globals gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, addBlameParentLinks, showRealNames, markUnread, resizeSourcePane */
 
 'use strict';
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
@@ -354,6 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		}).observe($('#js-pjax-container').get(0), {childList: true});
 	}
 
+	resizeSourcePane.destroy();
 	if (pageDetect.isRepo()) {
 		gitHubInjection(window, () => {
 			addReleasesTab();
@@ -372,6 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.isBlame()) {
 				addBlameParentLinks();
+				resizeSourcePane.setup();
 			}
 
 			if (pageDetect.isRepoRoot() || pageDetect.isRepoTree()) {
@@ -412,6 +414,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (pageDetect.isSingleFile()) {
 				addFileCopyButton();
 				enableCopyOnY.setup();
+				resizeSourcePane.setup();
 			}
 
 			if (pageDetect.isPR() || pageDetect.isIssue()) {
