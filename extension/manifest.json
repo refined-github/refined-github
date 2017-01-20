@@ -37,7 +37,6 @@
 				"copy-on-y.js",
 				"show-names.js",
 				"content.js",
-				"add-blame-parent-links.js",
 				"mark-unread.js"
 			]
 		}

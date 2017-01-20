@@ -1,4 +1,4 @@
-/* globals gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, addBlameParentLinks, showRealNames, markUnread */
+/* globals gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, showRealNames, markUnread */
 
 'use strict';
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
@@ -368,10 +368,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.isPR() || pageDetect.isIssue()) {
 				linkifyIssuesInTitles();
-			}
-
-			if (pageDetect.isBlame()) {
-				addBlameParentLinks();
 			}
 
 			if (pageDetect.isRepoRoot() || pageDetect.isRepoTree()) {
