@@ -221,7 +221,7 @@ function showRecentlyPushedBranches() {
 		credentials: 'include'
 	}).then(res => res.text()).then(html => {
 		const codeDOM = new DOMParser().parseFromString(html, 'text/html');
-		const isEmpty = $(codeDOM).find('.blankslate').length;
+		const isEmpty = $(codeDOM).find('.blankslate').length === 0;
 
 		// https://github.com/sindresorhus/refined-github/issues/216
 		if (isEmpty) {
