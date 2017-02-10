@@ -5,6 +5,10 @@ const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
 const repoUrl = `${ownerName}/${repoName}`;
 const getUsername = () => $('meta[name="user-login"]').attr('content');
 
+function changeHeaderBackToNormal() {
+	document.querySelector('.header').classList.remove('header-dark');
+}
+
 function linkifyBranchRefs() {
 	$('.commit-ref').each((i, el) => {
 		const $el = $(el);
@@ -319,6 +323,8 @@ $(document).on('click', event => {
 
 document.addEventListener('DOMContentLoaded', () => {
 	const username = getUsername();
+	
+	changeHeaderBackToNormal();
 
 	if (pageDetect.isGist()) {
 		addGistCopyButton();
