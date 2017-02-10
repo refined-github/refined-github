@@ -323,7 +323,6 @@ $(document).on('click', event => {
 
 document.addEventListener('DOMContentLoaded', () => {
 	const username = getUsername();
-	
 	changeHeaderBackToNormal();
 
 	if (pageDetect.isGist()) {
