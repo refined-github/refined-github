@@ -408,10 +408,22 @@ svg.octicon.octicon-star.dashboard-event-icon {
 	width: 20px;
 	height: 20px;
 	margin-left: 3px;
+	box-shadow: 0 0 0 2px #fff;
 	vertical-align: middle;
 }
 .reaction-summary-item div img {
 	border-radius: 3px;
+}
+
+/* overlap reaction avatars when there are 5+ types of reactions */
+.reaction-summary-item:first-child:nth-last-child(n+5) a:nth-child(n+2),
+.reaction-summary-item:first-child:nth-last-child(n+5) ~ * a:nth-child(n+2) {
+	margin-left: -15px;
+}
+/* limit reaction avatars when there are 6 types of reactions */
+.reaction-summary-item:first-child:nth-last-child(6) a:nth-child(n+3),
+.reaction-summary-item:first-child:nth-last-child(6) ~ * a:nth-child(n+3) {
+	display: none;
 }
 
 /* hide reaction popover text */
