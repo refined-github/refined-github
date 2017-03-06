@@ -412,11 +412,16 @@ svg.octicon.octicon-star.dashboard-event-icon {
 .reaction-summary-item div span {
 	width: 20px;
 	height: 20px;
-	box-shadow: 0 0 0 2px #fff;
 	vertical-align: middle;
 }
 .reaction-summary-item div img {
+	color: #FFF; /* affects box-shadow */
+	box-shadow: 0 0 0 2px;
 	border-radius: 3px;
+}
+
+.reaction-summary-item.user-has-reacted div img {
+	color: #f2f8fa;
 }
 
 /* overlap reaction avatars when there are 5+ types of reactions */
