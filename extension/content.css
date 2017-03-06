@@ -389,6 +389,10 @@ svg.octicon.octicon-star.dashboard-event-icon {
 }
 
 /* styles for avatars Refined GitHub adds to Reactions */
+.participants-container {
+	margin-left: 4px;
+}
+
 .reaction-summary-item {
 	padding-left: 10px !important;
 	padding-right: 10px !important;
@@ -406,7 +410,6 @@ svg.octicon.octicon-star.dashboard-event-icon {
 
 .reaction-summary-item div a {
 	transition: margin-left 0.2s;
-	padding-left: 3px;
 }
 
 .reaction-summary-item div img,
@@ -429,7 +432,6 @@ svg.octicon.octicon-star.dashboard-event-icon {
 /* overlap reaction avatars when there are 5+ types of reactions */
 .reaction-summary-item:first-child:nth-last-child(n+5) a:nth-child(n+2),
 .reaction-summary-item:first-child:nth-last-child(n+5) ~ * a:nth-child(n+2) {
-	padding-left: 0;
 	margin-left: -12px;
 }
 
