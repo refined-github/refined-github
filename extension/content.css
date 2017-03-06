@@ -393,19 +393,20 @@ svg.octicon.octicon-star.dashboard-event-icon {
 	padding-left: 10px !important;
 	padding-right: 10px !important;
 }
-.reaction-summary-item a {
-	display: inline-block;
-	transition: margin-left 0.2s;
-	padding-left: 3px;
-}
 
 .reaction-summary-item.add-reaction-btn {
 	padding-right: 0 !important;
 }
 
 .reaction-summary-item div,
+.reaction-summary-item div a,
 .reaction-summary-item div img {
 	display: inline-block;
+}
+
+.reaction-summary-item div a {
+	transition: margin-left 0.2s;
+	padding-left: 3px;
 }
 
 .reaction-summary-item div img,
@@ -414,6 +415,7 @@ svg.octicon.octicon-star.dashboard-event-icon {
 	height: 20px;
 	vertical-align: middle;
 }
+
 .reaction-summary-item div img {
 	color: #FFF; /* affects box-shadow */
 	box-shadow: 0 0 0 2px;
@@ -430,11 +432,13 @@ svg.octicon.octicon-star.dashboard-event-icon {
 	padding-left: 0;
 	margin-left: -12px;
 }
+
 /* un-overlap on hover */
 .reaction-summary-item:first-child:nth-last-child(n+5):hover a:nth-child(n+2),
 .reaction-summary-item:first-child:nth-last-child(n+5) ~ *:hover a:nth-child(n+2) {
 	margin-left: -2px;
 }
+
 /* limit reaction avatars when there are 6 types of reactions */
 .reaction-summary-item:first-child:nth-last-child(6) a:nth-child(n+3),
 .reaction-summary-item:first-child:nth-last-child(6) ~ * a:nth-child(n+3) {
