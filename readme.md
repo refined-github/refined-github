@@ -60,7 +60,7 @@ And [lots](extension/content.css) [more...](extension/content.js)
 
 ### Comment box
 
-![](screenshot-comment-box-before.png) ![](arrow.png) ![](screenshot-comment-box-after.png)
+![](screenshot-comment-box-before.png) ![](screenshot-comment-box-after.png)
 
 
 ## Install
