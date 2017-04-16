@@ -107,6 +107,14 @@ test('isPRCommit', urlMatcherMacro, pageDetect.isPRCommit, [
 	'https://github.com/sindresorhus/refined-github/pulls'
 ]);
 
+test('isMilestone', urlMatcherMacro, pageDetect.isMilestone, [
+	'https://github.com/sindresorhus/refined-github/milestone/12'
+], [
+	'http://github.com/sindresorhus/ava',
+	'https://github.com',
+	'https://github.com/sindresorhus/refined-github/milestones'
+]);
+
 test('isCommitList', urlMatcherMacro, pageDetect.isCommitList, [
 	'https://github.com/sindresorhus/refined-github/commits/master?page=2',
 	'https://github.com/sindresorhus/refined-github/commits/test-branch',
