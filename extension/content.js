@@ -277,6 +277,17 @@ function addDiffViewWithoutWhitespaceOption(type) {
 	}
 }
 
+function addMilestoneNavigation() {
+	$('.repository-content').before(`
+		<div class="subnav">
+			<div class="subnav-links float-left" role="navigation">
+				<a href="/${repoUrl}/labels" class="subnav-item">Labels</a>
+				<a href="/${repoUrl}/milestones" class="subnav-item">Milestones</a>
+			</div>
+		</div>
+	`);
+}
+
 // Support indent with tab key in comments
 $(document).on('keydown', '.js-comment-field', event => {
 	if (event.which === 9 && !event.shiftKey) {
@@ -413,6 +424,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.isPR() || pageDetect.isIssue()) {
 				markUnread.setup();
+			}
+
+			if (pageDetect.isMilestone()) {
+				addMilestoneNavigation();
 			}
 		});
 	}
