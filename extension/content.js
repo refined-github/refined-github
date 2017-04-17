@@ -17,7 +17,7 @@ function linkifyBranchRefs() {
 		const branch = encodeURIComponent(parts.eq(parts.length - 1).text());
 		let username = ownerName;
 
-		// if there are two parts the first part is the username
+		// If there are two parts the first part is the username
 		if (parts.length > 1) {
 			username = parts.eq(0).text();
 		}
@@ -87,18 +87,18 @@ function addTrendingMenuItem() {
 function infinitelyMore() {
 	const $btn = $('.ajax-pagination-btn');
 
-	// if there's no more button remove unnecessary event listeners
+	// If there's no more button remove unnecessary event listeners
 	if ($btn.length === 0) {
 		$(window).off('scroll.infinite resize.infinite', infinitelyMore);
 		return;
 	}
 
-	// grab dimensions to see if we should load
+	// Grab dimensions to see if we should load
 	const wHeight = window.innerHeight;
 	const wScroll = window.pageYOffset || document.scrollTop;
 	const btnOffset = $btn.offset().top;
 
-	// smash the button if it's coming close to being in view
+	// Smash the button if it's coming close to being in view
 	if (wScroll > (btnOffset - wHeight)) {
 		$btn.click();
 	}
@@ -207,7 +207,8 @@ function indentInput(el, size = 4) {
 	const indentSize = (size - (el.selectionEnd % size)) || size;
 	const indentationText = ' '.repeat(indentSize);
 	el.value = value.slice(0, selectionStart) + indentationText + value.slice(el.selectionEnd);
-	el.selectionEnd = el.selectionStart = selectionStart + indentationText.length;
+	el.selectionStart = selectionStart + indentationText.length;
+	el.selectionEnd = el.selectionStart;
 }
 
 function showRecentlyPushedBranches() {
@@ -296,7 +297,7 @@ function addOPLabels(type) {
 // Support indent with tab key in comments
 $(document).on('keydown', '.js-comment-field', event => {
 	if (event.which === 9 && !event.shiftKey) {
-		// don't indent if the suggester box is active
+		// Don't indent if the suggester box is active
 		if ($('.suggester').hasClass('active')) {
 			return;
 		}
@@ -344,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	if (pageDetect.isDashboard()) {
-		// hide other users starring/forking your repos
+		// Hide other users starring/forking your repos
 		const hideStarsOwnRepos = () => {
 			$('#dashboard .news .watch_started, #dashboard .news .fork')
 				.has(`.title a[href^="/${username}"]`)
