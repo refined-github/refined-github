@@ -277,6 +277,22 @@ function addDiffViewWithoutWhitespaceOption(type) {
 	}
 }
 
+function addOPLabels(type) {
+	const label = `
+		<span class="timeline-comment-label tooltipped tooltipped-multiline tooltipped-s" aria-label="This user submitted this ${type}.">
+			Original Poster
+		</span>
+	`;
+
+	const comments = $('.js-comment').toArray();
+	const commentAuthor = comment => $(comment).find('.author').text();
+	const op = commentAuthor(comments[0]);
+
+	const opComments = comments.filter(comment => commentAuthor(comment) === op);
+	$(opComments).filter('.timeline-comment').find('.timeline-comment-actions').after(label);
+	$(opComments).filter('.review-comment').find('.comment-body').before(label);
+}
+
 // Support indent with tab key in comments
 $(document).on('keydown', '.js-comment-field', event => {
 	if (event.which === 9 && !event.shiftKey) {
@@ -413,6 +429,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.isPR() || pageDetect.isIssue()) {
 				markUnread.setup();
+			}
+
+			if (pageDetect.isIssue()) {
+				addOPLabels('issue');
+			}
+
+			if (pageDetect.isPR()) {
+				addOPLabels('pull request');
 			}
 		});
 	}
