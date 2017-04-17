@@ -285,7 +285,7 @@ function addOPLabels(type) {
 		</span>
 	`;
 
-	const comments = $('.js-comment').toArray();
+	const comments = $('div.js-comment').toArray();
 	const commentAuthor = comment => $(comment).find('.author').text();
 	const op = commentAuthor(comments[0]);
 
