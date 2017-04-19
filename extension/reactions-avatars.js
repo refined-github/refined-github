@@ -14,17 +14,17 @@ const addReactionParticipants = {
 					.split(', ');
 				const userPosition = participants.indexOf(currentUser);
 
-				// if the user is the only participant, leave as is
+				// If the user is the only participant, leave as is
 				if (participantCount === 1 && userPosition > -1) {
 					return;
 				}
 
-				// add participant container
+				// Add participant container
 				if ($element.find('div.participants-container').length === 0) {
 					$element.append('<div class="participants-container">');
 				}
 
-				// remove self from participant list so you don't see your own avatar
+				// Remove self from participant list so you don't see your own avatar
 				if (userPosition > -1) {
 					participants.splice(userPosition, 1);
 				}
@@ -32,7 +32,7 @@ const addReactionParticipants = {
 				const firstThreeParticipants = participants.slice(0, 3);
 				const $participantsContainer = $element.find('.participants-container');
 
-				// clear any existing avatars and remainder count
+				// Clear any existing avatars and remainder count
 				$participantsContainer.html('');
 
 				for (const participant of firstThreeParticipants) {
