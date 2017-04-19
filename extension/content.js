@@ -31,7 +31,7 @@ function appendReleasesCount(count) {
 		return;
 	}
 
-	$('.reponav-releases').append(`<span class="counter">${count}</span>`);
+	$('.reponav-releases').append(`<span class="Counter">${count}</span>`);
 }
 
 function cacheReleasesCount() {
