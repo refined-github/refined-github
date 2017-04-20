@@ -289,7 +289,7 @@ function addOPLabels(type) {
 	const commentAuthor = comment => $(comment).find('.author').text();
 	const op = commentAuthor(comments[0]);
 
-	const opComments = comments.filter(comment => commentAuthor(comment) === op);
+	const opComments = comments.slice(1).filter(comment => commentAuthor(comment) === op);
 	$(opComments).filter('.timeline-comment').find('.timeline-comment-actions').after(label);
 	$(opComments).filter('.review-comment').find('.comment-body').before(label);
 }
