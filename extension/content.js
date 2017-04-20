@@ -31,7 +31,7 @@ function appendReleasesCount(count) {
 		return;
 	}
 
-	$('.reponav-releases').append(`<span class="counter">${count}</span>`);
+	$('.reponav-releases').append(`<span class="Counter">${count}</span>`);
 }
 
 function cacheReleasesCount() {
@@ -208,7 +208,7 @@ function indentInput(el, size = 4) {
 	const indentationText = ' '.repeat(indentSize);
 	el.value = value.slice(0, selectionStart) + indentationText + value.slice(el.selectionEnd);
 	el.selectionStart = selectionStart + indentationText.length;
-	el.selectionEnd = el.selectionStart;
+	el.selectionEnd = selectionStart + indentationText.length;
 }
 
 function showRecentlyPushedBranches() {
