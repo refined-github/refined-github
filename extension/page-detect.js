@@ -23,6 +23,8 @@ window.pageDetect = (() => {
 
 	const isPRCommit = () => isRepo() && /^\/pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(getRepoPath());
 
+	const isMilestone = () => isRepo() && /^\/milestone\/\d+/.test(getRepoPath());
+
 	const isCommitList = () => isRepo() && /^\/commits\//.test(getRepoPath());
 
 	const isSingleCommit = () => isRepo() && /^\/commit\/[0-9a-f]{5,40}/.test(getRepoPath());
@@ -66,6 +68,7 @@ window.pageDetect = (() => {
 		isPR,
 		isPRFiles,
 		isPRCommit,
+		isMilestone,
 		isCommitList,
 		isSingleCommit,
 		isCommit,
