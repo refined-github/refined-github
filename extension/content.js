@@ -289,9 +289,13 @@ function addOPLabels(type) {
 	const commentAuthor = comment => $(comment).find('.author').text();
 	const op = commentAuthor(comments[0]);
 
-	const opComments = comments.slice(1).filter(comment => commentAuthor(comment) === op);
+	const newComments = comments.slice(1).filter(comment => !$(comment).hasClass('js-op-labels-processed'));
+
+	const opComments = newComments.filter(comment => commentAuthor(comment) === op);
 	$(opComments).filter('.timeline-comment').find('.timeline-comment-actions').after(label);
 	$(opComments).filter('.review-comment').find('.comment-body').before(label);
+
+	$(newComments).addClass('js-op-labels-processed');
 }
 
 function addMilestoneNavigation() {
