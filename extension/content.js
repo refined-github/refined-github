@@ -289,13 +289,13 @@ function addOPLabels(type) {
 	const commentAuthor = comment => $(comment).find('.author').text();
 	const op = commentAuthor(comments[0]);
 
-	const newComments = comments.slice(1).filter(comment => !$(comment).hasClass('js-op-labels-processed'));
+	const newComments = comments.slice(1).filter(comment => !$(comment).hasClass('refined-github-op'));
 
 	const opComments = newComments.filter(comment => commentAuthor(comment) === op);
 	$(opComments).filter('.timeline-comment').find('.timeline-comment-actions').after(label);
 	$(opComments).filter('.review-comment').find('.comment-body').before(label);
 
-	$(newComments).addClass('js-op-labels-processed');
+	$(newComments).addClass('refined-github-op');
 }
 
 function addMilestoneNavigation() {
