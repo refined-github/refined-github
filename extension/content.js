@@ -31,7 +31,7 @@ function appendReleasesCount(count) {
 		return;
 	}
 
-	$('.reponav-releases').append(`<span class="counter">${count}</span>`);
+	$('.reponav-releases').append(`<span class="Counter">${count}</span>`);
 }
 
 function cacheReleasesCount() {
@@ -208,7 +208,7 @@ function indentInput(el, size = 4) {
 	const indentationText = ' '.repeat(indentSize);
 	el.value = value.slice(0, selectionStart) + indentationText + value.slice(el.selectionEnd);
 	el.selectionStart = selectionStart + indentationText.length;
-	el.selectionEnd = el.selectionStart;
+	el.selectionEnd = selectionStart + indentationText.length;
 }
 
 function showRecentlyPushedBranches() {
@@ -292,6 +292,17 @@ function addOPLabels(type) {
 	const opComments = comments.slice(1).filter(comment => commentAuthor(comment) === op);
 	$(opComments).filter('.timeline-comment').find('.timeline-comment-actions').after(label);
 	$(opComments).filter('.review-comment').find('.comment-body').before(label);
+}
+
+function addMilestoneNavigation() {
+	$('.repository-content').before(`
+		<div class="subnav">
+			<div class="subnav-links float-left" role="navigation">
+				<a href="/${repoUrl}/labels" class="subnav-item">Labels</a>
+				<a href="/${repoUrl}/milestones" class="subnav-item">Milestones</a>
+			</div>
+		</div>
+	`);
 }
 
 // Support indent with tab key in comments
@@ -438,6 +449,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.isPR()) {
 				addOPLabels('pull request');
+			}
+
+			if (pageDetect.isMilestone()) {
+				addMilestoneNavigation();
 			}
 		});
 	}
