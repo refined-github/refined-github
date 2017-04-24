@@ -30,11 +30,11 @@ test('isIssue', batchTestText, linkifyURLsInCode.hasIssue, [
 test('isURL', batchTestText, linkifyURLsInCode.hasURL, [
 	'http://github.com/',
 	'https://www.github.com',
-	'github.com',
 	'https://github.com/orgs/test/dashboard',
 	'a long string of text with a url at the end: https://github.com/dashboard?param=test'
 ], [
 	'https://github',
 	'github',
+	'github.com',
 	'github/whatever/text'
 ]);
