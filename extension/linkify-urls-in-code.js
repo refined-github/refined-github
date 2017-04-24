@@ -1,8 +1,8 @@
 window.linkifyURLsInCode = (() => {
 	const issueRegex = /#[0-9]+/;
 	const URLRegex = /(http(s)?(:\/\/))(www\.)?[a-zA-Z0-9-_.]+(\.[a-zA-Z0-9]{2,})([-a-zA-Z0-9:%_+.~#?&//=]*)/;
-	const linkifyIssue = (repoPath, issue) => `<a href="https://github.com/${repoPath}/issues/${issue.replace('#', '')}">${issue}</a>`;
-	const linkifyURL = url => `<a href="${url}">${url}</a>`;
+	const linkifyIssue = (repoPath, issue) => `<a href="https://github.com/${repoPath}/issues/${issue.replace('#', '')}" target="_blank">${issue}</a>`;
+	const linkifyURL = url => `<a href="${url}" target="_blank">${url}</a>`;
 
 	const hasIssue = text => issueRegex.test(text);
 	const hasURL = text => URLRegex.test(text);
