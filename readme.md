@@ -41,6 +41,7 @@ Our hope is that GitHub will notice and implement some of these much needed impr
 - Removes tooltips
 - Copy canonical link to file when [the `y` hotkey](https://help.github.com/articles/getting-permanent-links-to-files/) is used
 - ~~[Adds blame links for parent commits in blame view](https://github.com/sindresorhus/refined-github/issues/2#issuecomment-189141373)~~ [Implemented by GitHub](https://github.com/blog/2304-navigate-file-history-faster-with-improved-blame-view)
+- [Linkifies URLs and issue references in code](https://github.com/sindresorhus/refined-github/issues/380)
 
 And [lots](extension/content.css) [more...](extension/content.js)
 
