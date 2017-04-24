@@ -27,6 +27,13 @@ test('isIssue', batchTestText, linkifyURLsInCode.hasIssue, [
 	'1234'
 ]);
 
+test('isIssueInComment', batchTestText, linkifyURLsInCode.hasCommentClass, [
+	'Whatever <span class="pl-c">some/repo#1</span>',
+	'<span class="pl-c">#123</span>'
+], [
+	'<span class="pl-v">#123</span>'
+]);
+
 test('isURL', batchTestText, linkifyURLsInCode.hasURL, [
 	'http://github.com/',
 	'https://www.github.com',
