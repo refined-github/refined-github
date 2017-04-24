@@ -14,7 +14,7 @@ window.linkifyURLsInCode = (() => {
 	const hasURL = text => URLRegex.test(text);
 
 	const linkifyCode = repoPath => {
-		const codeBlobs = $('.blob-code-inner span');
+		const codeBlobs = $('.blob-code-inner');
 		const commentCodeBlobs = $('.blob-code-inner span.pl-c');
 
 		$(codeBlobs)
