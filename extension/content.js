@@ -179,10 +179,12 @@ function addPatchDiffLinks() {
 }
 
 function removeDiffSigns() {
-	$('.blob-code-deletion .blob-code-inner, .blob-code-addition .blob-code-inner').each((index, element) => {
-		const textNode = element.childNodes[0];
-		textNode.nodeValue = textNode.nodeValue.replace(/^[+-]/, ' ');
+	const lines = $('.blob-code .blob-code-inner:not(.refined-github-diff-signs)');
+	lines.each((index, element) => {
+		const $element = $(element);
+		$element.text($element.text().replace(/^[+-]/, ''));
 	});
+	lines.addClass('refined-github-diff-signs');
 }
 
 function markMergeCommitsInList() {
@@ -397,6 +399,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.hasDiff()) {
 				removeDiffSigns();
+				$(document).on('scroll', removeDiffSigns);
 			}
 
 			if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit()) {
