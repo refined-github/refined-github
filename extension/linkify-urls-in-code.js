@@ -11,37 +11,36 @@ window.linkifyURLsInCode = (() => {
 	const linkifyURL = url => `<a href="${url}" target="_blank">${url}</a>`;
 
 	const hasIssue = text => issueRegex.test(text);
-	const hasCommentClass = text => /<span.+class="pl-c".+/.test(text);
 	const hasURL = text => URLRegex.test(text);
 
 	const linkifyCode = repoPath => {
-		const codeBlobs = $('.blob-code-inner');
+		const codeBlobs = $('.blob-code-inner span');
+		const commentCodeBlobs = $('.blob-code-inner span.pl-c');
 
 		$(codeBlobs)
 		.toArray()
 		.forEach(blob => {
-			let blobHTML = blob.innerHTML;
+			const blobHTML = blob.innerHTML;
 			if (hasURL(blobHTML)) {
 				// Match URLs and remove < or > from beginning or end
 				const URLmatch = blobHTML.match(URLRegex)[0].replace(/(^&lt)|(&gt$)/, '');
-				blobHTML = blobHTML.replace(URLmatch, linkifyURL(URLmatch));
+				blob.innerHTML = blobHTML.replace(URLmatch, linkifyURL(URLmatch));
 			}
+		});
 
-			// Hacky way to ensure only issue number inside a comment, even starting midline
+		$(commentCodeBlobs)
+		.toArray()
+		.forEach(blob => {
+			const blobHTML = blob.innerHTML;
 			if (hasIssue(blobHTML)) {
 				const issueMatch = blobHTML.match(issueRegex)[0];
-				if (hasCommentClass(blobHTML.toString().split(issueMatch)[0])) {
-					blobHTML = blobHTML.replace(issueMatch, linkifyIssue(repoPath, issueMatch));
-				}
+				blob.innerHTML = blobHTML.replace(issueMatch, linkifyIssue(repoPath, issueMatch));
 			}
-
-			blob.innerHTML = blobHTML;
 		});
 	};
 
 	return {
 		hasIssue,
-		hasCommentClass,
 		hasURL,
 		linkifyCode
 	};
