@@ -21,7 +21,7 @@ function batchTestText(t, detectFn, shouldMatch = [], shouldNotMatch = []) {
 test('isIssue', batchTestText, linkifyURLsInCode.hasIssue, [
 	'#1',
 	'#12',
-	'an issue in the middle #123 of some text'
+	'an issue in the middle #123 of some text' // Only link to issues in comments, see #381
 ], [
 	'#a',
 	'1234'
