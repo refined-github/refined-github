@@ -14,6 +14,8 @@ Our hope is that GitHub will notice and implement some of these much needed impr
 - [Mark issues and pull requests as unread](https://cloud.githubusercontent.com/assets/170270/18231475/bdf83e26-72e4-11e6-958f-9ce9431d80eb.png) *(They will reappear in Notifications)*
 - [Linkifies branch references in pull requests](https://github.com/sindresorhus/refined-github/issues/1)
 - [Linkifies issue/PR references in issue/PR titles](https://cloud.githubusercontent.com/assets/170270/13597190/bd487ec4-e549-11e5-9521-419fa284512c.png)
+- [Linkifies URLs in code](https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png)
+- [Linkifies issue references in code comments](https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png)
 - [Adds a 'Releases' tab to repos](https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png) *(<kbd>g</kbd> <kbd>r</kbd> hotkey)*
 - [Adds user avatars to Reactions](screenshot-reactions.png)
 - [Adds a quick edit button to the readme](https://cloud.githubusercontent.com/assets/170270/13379292/61cd4c42-de54-11e5-8829-f4b82ba8c2bc.png)
@@ -41,7 +43,6 @@ Our hope is that GitHub will notice and implement some of these much needed impr
 - Removes tooltips
 - Copy canonical link to file when [the `y` hotkey](https://help.github.com/articles/getting-permanent-links-to-files/) is used
 - ~~[Adds blame links for parent commits in blame view](https://github.com/sindresorhus/refined-github/issues/2#issuecomment-189141373)~~ [Implemented by GitHub](https://github.com/blog/2304-navigate-file-history-faster-with-improved-blame-view)
-- [Linkifies URLs and issue references in code](https://cloud.githubusercontent.com/assets/737065/25365902/f407f964-2939-11e7-9c66-7d48f31c5576.png)
 
 And [lots](extension/content.css) [more...](extension/content.js)
 
@@ -64,9 +65,9 @@ And [lots](extension/content.css) [more...](extension/content.js)
 
 <img src="screenshot-comment-box.png" width="795">
 
-### URLs and issue references in code
+### Linkified URLs and issue references in code
 
-![](https://cloud.githubusercontent.com/assets/737065/25365902/f407f964-2939-11e7-9c66-7d48f31c5576.png)
+![](https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png)
 
 ## Install
 
