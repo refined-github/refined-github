@@ -160,15 +160,19 @@
 	display: none !important;
 }
 
-/* add hover underline for `content.js` linkified branch refs in pull requests */
-.commit-ref:hover,
-.commit-ref:hover span {
-	text-decoration: underline !important;
+/* make `content.js` linkified branch refs in pull requests clickable */
+.commit-ref {
+	user-select: all !important;
 }
 
-.commit-ref.unlinked:hover,
-.commit-ref.unlinked:hover span {
-	text-decoration: none !important;
+/* style `content.js` linkified branch icon */
+.commit-ref-link, .commit-ref-link:hover {
+	color: currentColor;
+	text-decoration: none;
+}
+
+.commit-ref-link:hover {
+	color: #0366d6;
 }
 
 /* remove the "new feature" notification box */

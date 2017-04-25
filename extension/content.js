@@ -9,7 +9,6 @@ function linkifyBranchRefs() {
 	$('.commit-ref').each((i, el) => {
 		const $el = $(el);
 		if ($el.children().eq(0).text() === 'unknown repository') {
-			$el.addClass('unlinked');
 			return;
 		}
 
@@ -22,7 +21,11 @@ function linkifyBranchRefs() {
 			username = parts.eq(0).text();
 		}
 
-		$el.wrap(`<a href="https://github.com/${username}/${repoName}/tree/${branch}">`);
+		$el.after(`<a class="commit-ref-link"
+			href="https://github.com/${username}/${repoName}/tree/${branch}">
+				${icons.link}
+			</a>
+		`);
 	});
 }
 
