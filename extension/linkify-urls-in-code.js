@@ -4,9 +4,9 @@ window.linkifyURLsInCode = (() => {
 	const linkifyIssue = (repoPath, issue) => {
 		if (/\//.test(issue)) {
 			const issueParts = issue.split('#');
-			return `<a href="https://github.com/${issueParts[0]}/issues/${issueParts[1]}" target="_blank">${issue}</a>`;
+			return `<a href="https://github.com/${issueParts[0]}/issues/${issueParts[1]}" target="_blank" class="rg-linkified-code">${issue}</a>`;
 		}
-		return `<a href="https://github.com/${repoPath}/issues/${issue.replace('#', '')}" target="_blank">${issue}</a>`;
+		return `<a href="https://github.com/${repoPath}/issues/${issue.replace('#', '')}" target="_blank" class="rg-linkified-code">${issue}</a>`;
 	};
 	const linkifyURL = url => `<a href="${url}" target="_blank">${url}</a>`;
 
@@ -14,6 +14,10 @@ window.linkifyURLsInCode = (() => {
 	const hasURL = text => URLRegex.test(text);
 
 	const linkifyCode = repoPath => {
+		// Don't linkify any already linkified code
+		if ($('.rg-linkified-code').length > 0) {
+			return;
+		}
 		const codeBlobs = $('.blob-code-inner');
 		const commentCodeBlobs = $('.blob-code-inner span.pl-c');
 
