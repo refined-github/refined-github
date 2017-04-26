@@ -172,7 +172,7 @@
 }
 
 /* remove the "new feature" notification box */
-.js-notice {
+.dashboard-sidebar .octofication {
 	display: none !important;
 }
 
