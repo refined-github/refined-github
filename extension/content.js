@@ -182,7 +182,7 @@ function removeDiffSigns() {
 	const lines = $('.blob-code .blob-code-inner:not(.refined-github-diff-signs)');
 	lines.each((index, element) => {
 		const $element = $(element);
-		$element.text($element.text().replace(/^[+-]/, ''));
+		$element.html($element.html().replace(/^[+-]/, ''));
 	});
 	lines.addClass('refined-github-diff-signs');
 }
