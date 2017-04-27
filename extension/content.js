@@ -302,8 +302,9 @@ function addOPLabels() {
 
 		if (opComments) {
 			const type = pageDetect.isPR() ? 'pull request' : 'issue';
+			const tooltip = `${op === getUsername() ? 'You' : 'This user'} submitted this ${type}.`;
 			const label = `
-				<span class="timeline-comment-label tooltipped tooltipped-multiline tooltipped-s" aria-label="This user submitted this ${type}.">
+				<span class="timeline-comment-label tooltipped tooltipped-multiline tooltipped-s" aria-label="${tooltip}">
 					Original Poster
 				</span>
 			`;
