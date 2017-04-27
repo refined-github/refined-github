@@ -419,7 +419,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.hasDiff()) {
 				removeDiffSigns();
-				$(document).on('scroll', removeDiffSigns);
+				new MutationObserver(removeDiffSigns).observe($('#files')[0], {childList: true, subtree: true});
 			}
 
 			if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit()) {
