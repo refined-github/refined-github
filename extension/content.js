@@ -418,7 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.hasDiff()) {
 				removeDiffSigns();
-				new MutationObserver(removeDiffSigns).observe($('#files')[0], {childList: true, subtree: true});
+				new MutationObserver(removeDiffSigns).observe($('.js-discussion, .js-diff-progressive-container')[0], {childList: true, subtree: true});
 			}
 
 			if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit()) {
