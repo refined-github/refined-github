@@ -288,7 +288,7 @@ function addOPLabels() {
 
 		if (pageDetect.isPR()) {
 			const title = $('title').text();
-			const titleRegex = /^(.+) by (\w+) · Pull Request #(\d+) · (\w+)\/(\w+)$/;
+			const titleRegex = /^(.+) by (\S+) · Pull Request #(\d+) · (\S+)\/(\S+)$/;
 			op = titleRegex.exec(title)[2];
 		} else {
 			op = commentAuthor(comments[0]);
