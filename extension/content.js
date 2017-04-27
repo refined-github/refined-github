@@ -179,12 +179,11 @@ function addPatchDiffLinks() {
 }
 
 function removeDiffSigns() {
-	const lines = $('.blob-code .blob-code-inner:not(.refined-github-diff-signs)');
-	lines.each((index, element) => {
+	$('.blob-code .blob-code-inner:not(.refined-github-diff-signs)').each((index, element) => {
 		const $element = $(element);
 		$element.html($element.html().replace(/^[+-]/, ''));
+		$element.addClass('refined-github-diff-signs');
 	});
-	lines.addClass('refined-github-diff-signs');
 }
 
 function markMergeCommitsInList() {
