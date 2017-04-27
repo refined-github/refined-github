@@ -172,7 +172,7 @@
 }
 
 /* remove the "new feature" notification box */
-.js-notice {
+.dashboard-sidebar .octofication {
 	display: none !important;
 }
 
@@ -564,4 +564,13 @@ td.blob-code.blob-code-deletion:before {
 /* copy button for gists margin */
 .gist-copy-btn {
 	margin: 0 10px 0 0;
+}
+
+/* multiple comment labels margin */
+.timeline-comment .timeline-comment-label + .timeline-comment-label {
+	margin-right: -5px;
+}
+
+.review-comment .timeline-comment-label + .timeline-comment-label {
+	margin-left: 5px;
 }

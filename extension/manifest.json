@@ -1,6 +1,6 @@
 {
 	"name": "Refined GitHub",
-	"version": "1.14.0",
+	"version": "1.15.1",
 	"description": "Simplifies the GitHub interface and adds useful features",
 	"homepage_url": "https://github.com/sindresorhus/refined-github",
 	"manifest_version": 2,
@@ -37,7 +37,8 @@
 				"copy-on-y.js",
 				"show-names.js",
 				"content.js",
-				"mark-unread.js"
+				"mark-unread.js",
+				"linkify-urls-in-code.js"
 			]
 		}
 	]

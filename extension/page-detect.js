@@ -33,6 +33,8 @@ window.pageDetect = (() => {
 
 	const isCompare = () => isRepo() && /^\/compare\//.test(getRepoPath());
 
+	const hasCode = () => isRepo() && $('.blob-code-inner').length > 0;
+
 	const hasDiff = () => isRepo() && (isSingleCommit() || isPRCommit() || isPRFiles() || isCompare() || (isPR() && $('.diff-table').length > 0));
 
 	const isReleases = () => isRepo() && /^\/(releases|tags)/.test(getRepoPath());
@@ -73,6 +75,7 @@ window.pageDetect = (() => {
 		isSingleCommit,
 		isCommit,
 		isCompare,
+		hasCode,
 		hasDiff,
 		isReleases,
 		isBlame,

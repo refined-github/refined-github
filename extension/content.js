@@ -1,4 +1,4 @@
-/* globals gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, showRealNames, markUnread */
+/* globals gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, showRealNames, markUnread, linkifyURLsInCode */
 
 'use strict';
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
@@ -280,6 +280,26 @@ function addDiffViewWithoutWhitespaceOption(type) {
 	}
 }
 
+function addOPLabels(type) {
+	const label = `
+		<span class="timeline-comment-label tooltipped tooltipped-multiline tooltipped-s" aria-label="This user submitted this ${type}.">
+			Original Poster
+		</span>
+	`;
+
+	const comments = $('div.js-comment').toArray();
+	const commentAuthor = comment => $(comment).find('.author').text();
+	const op = commentAuthor(comments[0]);
+
+	const newComments = comments.slice(1).filter(comment => !$(comment).hasClass('refined-github-op'));
+
+	const opComments = newComments.filter(comment => commentAuthor(comment) === op);
+	$(opComments).filter('.timeline-comment').find('.timeline-comment-actions').after(label);
+	$(opComments).filter('.review-comment').find('.comment-body').before(label);
+
+	$(newComments).addClass('refined-github-op');
+}
+
 function addMilestoneNavigation() {
 	$('.repository-content').before(`
 		<div class="subnav">
@@ -430,8 +450,20 @@ document.addEventListener('DOMContentLoaded', () => {
 				markUnread.setup();
 			}
 
+			if (pageDetect.isIssue()) {
+				addOPLabels('issue');
+			}
+
+			if (pageDetect.isPR()) {
+				addOPLabels('pull request');
+			}
+
 			if (pageDetect.isMilestone()) {
 				addMilestoneNavigation();
+			}
+
+			if (pageDetect.hasCode()) {
+				linkifyURLsInCode.linkifyCode(repoUrl);
 			}
 		});
 	}
