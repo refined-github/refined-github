@@ -278,24 +278,43 @@ function addDiffViewWithoutWhitespaceOption(type) {
 	}
 }
 
-function addOPLabels(type) {
-	const label = `
-		<span class="timeline-comment-label tooltipped tooltipped-multiline tooltipped-s" aria-label="This user submitted this ${type}.">
-			Original Poster
-		</span>
-	`;
-
+function addOPLabels() {
 	const comments = $('div.js-comment').toArray();
-	const commentAuthor = comment => $(comment).find('.author').text();
-	const op = commentAuthor(comments[0]);
+	const newComments = comments.filter(comment => !$(comment).hasClass('refined-github-op'));
 
-	const newComments = comments.slice(1).filter(comment => !$(comment).hasClass('refined-github-op'));
+	if (newComments) {
+		const commentAuthor = comment => $(comment).find('.author').text();
+		let op;
 
-	const opComments = newComments.filter(comment => commentAuthor(comment) === op);
-	$(opComments).filter('.timeline-comment').find('.timeline-comment-actions').after(label);
-	$(opComments).filter('.review-comment').find('.comment-body').before(label);
+		if (pageDetect.isPR()) {
+			const title = $('title').text();
+			const titleRegex = /^(.+) by (\S+) · Pull Request #(\d+) · (\S+)\/(\S+)$/;
+			op = titleRegex.exec(title)[2];
+		} else {
+			op = commentAuthor(comments[0]);
+		}
 
-	$(newComments).addClass('refined-github-op');
+		let opComments = newComments.filter(comment => commentAuthor(comment) === op);
+
+		if (!pageDetect.isPRFiles()) {
+			opComments = opComments.slice(1);
+		}
+
+		if (opComments) {
+			const type = pageDetect.isPR() ? 'pull request' : 'issue';
+			const tooltip = `${op === getUsername() ? 'You' : 'This user'} submitted this ${type}.`;
+			const label = `
+				<span class="timeline-comment-label tooltipped tooltipped-multiline tooltipped-s" aria-label="${tooltip}">
+					Original Poster
+				</span>
+			`;
+
+			$(opComments).filter('.timeline-comment').find('.timeline-comment-actions').after(label);
+			$(opComments).filter('.review-comment').find('.comment-body').before(label);
+		}
+
+		$(newComments).addClass('refined-github-op');
+	}
 }
 
 function addMilestoneNavigation() {
@@ -447,12 +466,10 @@ document.addEventListener('DOMContentLoaded', () => {
 				markUnread.setup();
 			}
 
-			if (pageDetect.isIssue()) {
-				addOPLabels('issue');
-			}
+			if (pageDetect.isIssue() || pageDetect.isPR()) {
+				addOPLabels();
 
-			if (pageDetect.isPR()) {
-				addOPLabels('pull request');
+				new MutationObserver(addOPLabels).observe($('.new-discussion-timeline')[0], {childList: true, subtree: true});
 			}
 
 			if (pageDetect.isMilestone()) {
