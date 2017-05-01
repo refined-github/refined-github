@@ -104,10 +104,20 @@ function infinitelyMore() {
 	}
 }
 
-function addReadmeEditButton() {
+function addReadmeButtons() {
 	const $readmeContainer = $('#readme');
 	if ($readmeContainer.length === 0) {
 		return;
+	}
+
+	const $latestRelease = $('.branch-select-menu .select-menu-list[data-tab-filter="tags"] .select-menu-item:first-child');
+	let releaseButtonHtml = '';
+	if ($latestRelease.length !== 0) {
+		releaseButtonHtml = `
+			<a href="${$latestRelease.attr('href')}#readme">
+				${icons.tag}
+			</a>
+		`;
 	}
 
 	const readmeName = $('#readme > h3').text().trim();
@@ -115,13 +125,18 @@ function addReadmeEditButton() {
 	const selectMenuButton = $('.file-navigation .select-menu.float-left button.select-menu-button');
 	const currentBranch = selectMenuButton.attr('title') || selectMenuButton.find('span').text();
 	const editHref = `/${repoUrl}/edit/${currentBranch}/${path ? `${path}/` : ''}${readmeName}`;
-	const editButtonHtml = `<div id="refined-github-readme-edit-link">
+	const editButtonHtml = `
 		<a href="${editHref}">
 			${icons.edit}
 		</a>
-	</div>`;
+	`;
 
-	$readmeContainer.append(editButtonHtml);
+	$readmeContainer.append(`
+		<div id="refined-github-readme-buttons">
+			${releaseButtonHtml}
+			${editButtonHtml}
+		</div>
+	`);
 }
 
 function addDeleteForkLink() {
@@ -428,7 +443,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 
 			if (pageDetect.isRepoRoot() || pageDetect.isRepoTree()) {
-				addReadmeEditButton();
+				addReadmeButtons();
 			}
 
 			if (pageDetect.isPRList() || pageDetect.isIssueList()) {
