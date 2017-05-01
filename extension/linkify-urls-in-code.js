@@ -1,21 +1,24 @@
 window.linkifyURLsInCode = (() => {
 	const issueRegex = /([a-zA-Z0-9-_.]+\/[a-zA-Z0-9-_.]+)?#[0-9]+/;
 	const URLRegex = /(http(s)?(:\/\/))(www\.)?[a-zA-Z0-9-_.]+(\.[a-zA-Z0-9]{2,})([-a-zA-Z0-9:%_+.~#?&//=]*)/;
+	const linkifiedURLClass = 'rg-linkified-code';
+	const commonURLAttrs = `target="_blank" class="${linkifiedURLClass}"`;
+
 	const linkifyIssue = (repoPath, issue) => {
 		if (/\//.test(issue)) {
 			const issueParts = issue.split('#');
-			return `<a href="https://github.com/${issueParts[0]}/issues/${issueParts[1]}" target="_blank" class="rg-linkified-code">${issue}</a>`;
+			return `<a href="https://github.com/${issueParts[0]}/issues/${issueParts[1]}" ${commonURLAttrs}>${issue}</a>`;
 		}
-		return `<a href="https://github.com/${repoPath}/issues/${issue.replace('#', '')}" target="_blank" class="rg-linkified-code">${issue}</a>`;
+		return `<a href="https://github.com/${repoPath}/issues/${issue.replace('#', '')}" ${commonURLAttrs}>${issue}</a>`;
 	};
-	const linkifyURL = url => `<a href="${url}" target="_blank">${url}</a>`;
+	const linkifyURL = url => `<a href="${url}" ${commonURLAttrs}>${url}</a>`;
 
 	const hasIssue = text => issueRegex.test(text);
 	const hasURL = text => URLRegex.test(text);
 
 	const linkifyCode = repoPath => {
 		// Don't linkify any already linkified code
-		if ($('.rg-linkified-code').length > 0) {
+		if ($(`.${linkifiedURLClass}`).length > 0) {
 			return;
 		}
 		const codeBlobs = $('.blob-code-inner');
