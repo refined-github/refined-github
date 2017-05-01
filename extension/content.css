@@ -12,6 +12,11 @@
 	display: none !important;
 }
 
+/* hide "a_user added another_user to org/repo" notifications */
+#dashboard .news .member_add {
+	display: none !important;
+}
+
 /* remove "Repositories you contribute to" dashboard sidebar box */
 .dashboard-sidebar > .boxed-group[role="navigation"]:not(.repos) {
 	display: none !important;
