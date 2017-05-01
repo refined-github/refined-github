@@ -366,9 +366,9 @@ $(document).on('click', event => {
 		return;
 	}
 
-	// Github PR's
+	// GitHub PRs
 	$target.closest('.js-details-container').toggleClass('refined-github-minimized');
-	// Gist code snippets & markdown files
+	// Gist code snippets and Markdown files
 	$target.closest('.blob').toggleClass('refined-github-minimized');
 	$target.closest('.blob-wrapper').toggleClass('refined-github-minimized');
 });
