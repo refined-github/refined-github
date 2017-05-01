@@ -84,6 +84,24 @@ function addTrendingMenuItem() {
 	`);
 }
 
+function addYoursMenuItem() {
+	const [, page] = location.pathname.split('/');
+	const username = getUsername();
+	const $menu = $('.subnav-links');
+
+	if ($(`.subnav-item[href="/${page}?q=is%3Aopen+is%3Aissue+user%3A${username}"]`).length > 0) {
+		return;
+	}
+
+	const yoursMenuItem = $(`<a href="/${page}?q=is%3Aopen+is%3Aissue+user%3A${username}" class="subnav-item">Yours</a>`).dom[0];
+
+	if ($('.subnav-links.selected').length === 0 && /user%3A[username]/.test(location.search)) {
+		yoursMenuItem.addClass('selected');
+	}
+
+	$menu.append(yoursMenuItem);
+}
+
 function infinitelyMore() {
 	const $btn = $('.ajax-pagination-btn');
 
@@ -376,6 +394,13 @@ $(document).on('click', event => {
 	$target.closest('.blob-wrapper').toggleClass('refined-github-minimized');
 });
 
+// handle issue list ajax
+$(document).on('pjax:end', () => {
+	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
+		addYoursMenuItem();
+	}
+});
+
 document.addEventListener('DOMContentLoaded', () => {
 	const username = getUsername();
 
@@ -411,6 +436,10 @@ document.addEventListener('DOMContentLoaded', () => {
 				markUnread.setup();
 			}
 		}).observe($('#js-pjax-container').get(0), {childList: true});
+	}
+
+	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
+		addYoursMenuItem();
 	}
 
 	if (pageDetect.isRepo()) {
