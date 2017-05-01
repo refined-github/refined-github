@@ -331,6 +331,19 @@ function addMilestoneNavigation() {
 	`);
 }
 
+function addFilterCommentsByYou() {
+	const newFilter = `
+		<a href="/${repoUrl}/issues?q=is%3Aopen+commenter:${getUsername()}" class="select-menu-item js-navigation-item refined-github-filter">
+			<div class="select-menu-item-text">
+				Everything commented by you
+			</div>
+		</a>`;
+	const lastFilter = $('.subnav-search-context').find('.select-menu-list > a:last-child');
+	if (!lastFilter.prev().hasClass('refined-github-filter')) {
+		lastFilter.before(newFilter);
+	}
+}
+
 // Support indent with tab key in comments
 $(document).on('keydown', '.js-comment-field', event => {
 	if (event.which === 9 && !event.shiftKey) {
@@ -434,6 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 
 			if (pageDetect.isPRList() || pageDetect.isIssueList()) {
+				addFilterCommentsByYou();
 				showRecentlyPushedBranches();
 			}
 
