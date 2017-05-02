@@ -179,13 +179,10 @@ function addPatchDiffLinks() {
 }
 
 function removeDiffSigns() {
-	$('.blob-code-addition, .blob-code-deletion')
-		.find('.blob-code-inner:not(.refined-github-diff-signs)')
-		.each((index, element) => {
-			const $element = $(element);
-			$element.html($element.html().slice(1));
-			$element.addClass('refined-github-diff-signs');
-		});
+	$('.blob-code-deletion .blob-code-inner, .blob-code-addition .blob-code-inner').each((index, element) => {
+		const textNode = element.childNodes[0];
+		textNode.nodeValue = textNode.nodeValue.replace(/^[+-]/, ' ');
+	});
 }
 
 function markMergeCommitsInList() {
