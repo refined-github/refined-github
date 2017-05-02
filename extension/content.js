@@ -179,7 +179,7 @@ function addPatchDiffLinks() {
 }
 
 function removeDiffSigns() {
-	$('.blob-code-deletion .blob-code-inner, .blob-code-addition .blob-code-inner:not(.refined-github-diff-signs)').each((index, element) => {
+	$('.blob-code-deletion .blob-code-inner:not(.refined-github-diff-signs), .blob-code-addition .blob-code-inner:not(.refined-github-diff-signs)').each((index, element) => {
 		const textNode = element.childNodes[0];
 		textNode.nodeValue = textNode.nodeValue.replace(/^[+-]/, ' ');
 		$(element).addClass('refined-github-diff-signs');
