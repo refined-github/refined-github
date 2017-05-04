@@ -163,6 +163,14 @@ test('isRepoSettings', urlMatcherMacro, pageDetect.isRepoSettings, [
 	'https://github.com/sindresorhus/refined-github/releases'
 ]);
 
+test('isCompare', urlMatcherMacro, pageDetect.isCompare, [
+	'https://github.com/sindresorhus/refined-github/compare',
+	'https://github.com/sindresorhus/refined-github/compare/'
+], [
+	'https://github.com/sindresorhus/refined-github',
+	'https://github.com/sindresorhus/refined-github/graphs'
+]);
+
 test('getOwnerAndRepo', t => {
 	const ownerAndRepo = {
 		'https://github.com/sindresorhus/refined-github/pull/148': {
