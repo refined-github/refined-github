@@ -33,6 +33,11 @@ tt,
 	letter-spacing: -0.02px;
 }
 
+/* make the background shading of you having reacted less subtle */
+.comment-reactions .user-has-reacted {
+	background-color: #c9f1ff !important;
+}
+
 /* revert to previous GitHub font */
 /*body,
 .markdown-body,
