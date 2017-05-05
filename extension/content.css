@@ -112,6 +112,9 @@
 	border-bottom: 1px solid #ccc !important;
 	border-radius: 3px !important;
 }
+.upload-enabled textarea:focus {
+	border-bottom: 1px solid #2188ff !important;
+}
 
 /* remove random protip at the bottom of the page */
 .protip {
