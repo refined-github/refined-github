@@ -457,7 +457,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.hasDiff()) {
 				removeDiffSigns();
-				new MutationObserver(removeDiffSigns).observe($('.js-discussion, #files')[0], {childList: true, subtree: true});
+				const $diffElements = $('.js-discussion, #files');
+				if ($diffElements.length > 0) {
+					new MutationObserver(removeDiffSigns).observe($diffElements[0], {childList: true, subtree: true});
+				}
 			}
 
 			if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit()) {
