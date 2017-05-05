@@ -285,7 +285,7 @@ function addOPLabels() {
 	const comments = $('div.js-comment').toArray();
 	const newComments = $(comments).filter(':not(.refined-github-op)').toArray();
 
-	if (newComments.length) {
+	if (newComments.length > 0) {
 		const commentAuthor = comment => $(comment).find('strong .author').text();
 		let op;
 
@@ -303,7 +303,7 @@ function addOPLabels() {
 			opComments = opComments.slice(1);
 		}
 
-		if (opComments.length) {
+		if (opComments.length > 0) {
 			const type = pageDetect.isPR() ? 'pull request' : 'issue';
 			const tooltip = `${op === getUsername() ? 'You' : 'This user'} submitted this ${type}.`;
 			const label = `
