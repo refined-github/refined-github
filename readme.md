@@ -65,7 +65,7 @@ And [lots](extension/content.css) [more...](extension/content.js)
 
 ### Comment box
 
-<img src="screenshot-comment-box.png" width="795">
+![](screenshot-comment-box-before.png) ![](screenshot-comment-box-after.png)
 
 ### Linkified URLs and issue references in code
 
