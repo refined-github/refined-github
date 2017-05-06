@@ -83,8 +83,6 @@ We're happy to receive suggestions and contributions, but be aware this is a hig
 
 ## Related
 
-- [**Safari version**](https://github.com/fantattitude/refined-github-safari)
-- [Refined Twitter](https://github.com/sindresorhus/refined-twitter) - Like this, but for Twitter
 - [Refined Wikipedia](https://github.com/ismamz/refined-wikipedia) - Like this, but for Wikipedia
 - [Notifier for GitHub](https://github.com/sindresorhus/notifier-for-github-chrome) - Shows your notification unread count
 - [Hide Files on GitHub](https://github.com/sindresorhus/hide-files-on-github) - Hides dotfiles from the file browser
@@ -94,7 +92,6 @@ We're happy to receive suggestions and contributions, but be aware this is a hig
 - [GifHub](https://github.com/DrewML/GifHub) - Quickly insert GIFs in comments
 - [Octo Linker](https://github.com/octo-linker/chrome-extension/) - Navigate across files and packages
 - [Awesome browser extensions for GitHub](https://github.com/stefanbuck/awesome-browser-extensions-for-github) - Awesome list
-- [GitHub +1](https://github.com/ryanflorence/github-plusone-extension) - Shows total count of +1 comments and hides them
 - [OctoEdit](https://github.com/DrewML/OctoEdit) - Markdown syntax highlighting in comments
 
 
@@ -127,4 +124,4 @@ While this project is highly opinionated, this doesn't necessarily limit you fro
 
 ## License
 
-MIT © [Sindre Sorhus](https://sindresorhus.com)
+MIT
