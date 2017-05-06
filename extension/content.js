@@ -374,21 +374,6 @@ $(document).on('click', '.js-hide-inline-comment-form', event => {
 	}
 });
 
-// Collapse file diffs when clicking the file header
-$(document).on('click', event => {
-	// Check event.target instead of using a delegate, because Sprint doesn't support them
-	const $target = $(event.target);
-	if (!($target.closest('.file-header').length > 0 && $target.closest('.file-actions').length === 0)) {
-		return;
-	}
-
-	// GitHub PRs
-	$target.closest('.js-details-container').toggleClass('refined-github-minimized');
-	// Gist code snippets and Markdown files
-	$target.closest('.blob').toggleClass('refined-github-minimized');
-	$target.closest('.blob-wrapper').toggleClass('refined-github-minimized');
-});
-
 document.addEventListener('DOMContentLoaded', () => {
 	const username = getUsername();
 
