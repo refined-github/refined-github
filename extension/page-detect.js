@@ -60,8 +60,6 @@ window.pageDetect = (() => {
 		return isRepo() && blobPattern.test(location.href);
 	};
 
-	const hasCommentForm = () => isGist() || (isRepo() && (isIssue() || isNewIssue() || (isPR() && !isPRFiles()) || isCompare()));
-
 	return {
 		isGist,
 		isDashboard,
@@ -86,7 +84,6 @@ window.pageDetect = (() => {
 		isBlame,
 		isNotifications,
 		getOwnerAndRepo,
-		isSingleFile,
-		hasCommentForm
+		isSingleFile
 	};
 })();

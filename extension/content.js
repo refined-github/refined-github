@@ -427,10 +427,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		}).observe($('#js-pjax-container').get(0), {childList: true});
 	}
 
-	if (pageDetect.hasCommentForm()) {
-		addUploadBtn();
-	}
-
+	addUploadBtn();
 	new MutationObserver(addUploadBtn).observe($('div[role=main]')[0], {childList: true, subtree: true});
 
 	if (pageDetect.isRepo()) {
