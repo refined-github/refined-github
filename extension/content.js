@@ -345,7 +345,7 @@ function addFilterCommentsByYou() {
 }
 
 function addUploadBtn() {
-	if (!pageDetect.isPRFiles()) {
+	if (pageDetect.hasCommentForm() && !pageDetect.isPRFiles()) {
 		$('.js-previewable-comment-form').each((index, element) => {
 			const $element = $(element);
 			if (!$element.hasClass('refined-github-has-upload-btn')) {
