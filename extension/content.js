@@ -429,9 +429,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	if (pageDetect.hasCommentForm()) {
 		addUploadBtn();
-
-		new MutationObserver(addUploadBtn).observe($('.new-discussion-timeline')[0], {childList: true, subtree: true});
 	}
+
+	new MutationObserver(addUploadBtn).observe($('div[role=main]')[0], {childList: true, subtree: true});
 
 	if (pageDetect.isRepo()) {
 		gitHubInjection(window, () => {
