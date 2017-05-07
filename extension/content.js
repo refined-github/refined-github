@@ -427,7 +427,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		}).observe($('#js-pjax-container').get(0), {childList: true});
 	}
 
-	if (pageDetect.isIssue() || pageDetect.isNewIssue() || pageDetect.isPR() || pageDetect.isCompare() || pageDetect.isGist()) {
+	if (pageDetect.hasCommentForm()) {
 		addUploadBtn();
 
 		new MutationObserver(addUploadBtn).observe($('.new-discussion-timeline')[0], {childList: true, subtree: true});
