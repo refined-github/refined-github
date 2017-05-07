@@ -15,6 +15,8 @@ window.pageDetect = (() => {
 
 	const isIssue = () => isRepo() && /^\/issues\/\d+/.test(getRepoPath());
 
+	const isNewIssue = () => isRepo() && /^\/issues\/new/.test(getRepoPath());
+
 	const isPRList = () => isRepo() && /^\/pulls\/?$/.test(getRepoPath());
 
 	const isPR = () => isRepo() && /^\/pull\/\d+/.test(getRepoPath());
@@ -66,6 +68,7 @@ window.pageDetect = (() => {
 		isRepoTree,
 		isIssueList,
 		isIssue,
+		isNewIssue,
 		isPRList,
 		isPR,
 		isPRFiles,

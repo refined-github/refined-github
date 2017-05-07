@@ -344,6 +344,22 @@ function addFilterCommentsByYou() {
 	}
 }
 
+function addUploadBtn() {
+	if (!pageDetect.isPRFiles()) {
+		$('.js-previewable-comment-form').each((index, element) => {
+			const $element = $(element);
+			if (!$element.hasClass('refined-github-has-upload-btn')) {
+				const uploadBtn = `<label for="refined-github-upload-btn-${index}" class="toolbar-item tooltipped tooltipped-nw refined-github-upload-btn" aria-label="Upload a file">
+						${icons.cloudUpload}
+					</label>`;
+				$element.find('.comment-form-head .toolbar-commenting .toolbar-group:last-child').append(uploadBtn);
+				$element.find('.js-write-bucket .drag-and-drop .default .js-manual-file-chooser').attr('id', `refined-github-upload-btn-${index}`);
+				$element.addClass('refined-github-has-upload-btn');
+			}
+		});
+	}
+}
+
 // Support indent with tab key in comments
 $(document).on('keydown', '.js-comment-field', event => {
 	if (event.which === 9 && !event.shiftKey) {
@@ -409,6 +425,12 @@ document.addEventListener('DOMContentLoaded', () => {
 				markUnread.setup();
 			}
 		}).observe($('#js-pjax-container').get(0), {childList: true});
+	}
+
+	if (pageDetect.isIssue() || pageDetect.isNewIssue() || pageDetect.isPR() || pageDetect.isCompare() || pageDetect.isGist()) {
+		addUploadBtn();
+
+		new MutationObserver(addUploadBtn).observe($('.new-discussion-timeline')[0], {childList: true, subtree: true});
 	}
 
 	if (pageDetect.isRepo()) {
