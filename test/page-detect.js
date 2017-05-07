@@ -74,14 +74,6 @@ test('isIssue', urlMatcherMacro, pageDetect.isIssue, [
 	'https://github.com/sindresorhus/refined-github/issues'
 ]);
 
-test('isNewIssue', urlMatcherMacro, pageDetect.isNewIssue, [
-	'https://github.com/sindresorhus/refined-github/issues/new'
-], [
-	'http://github.com/sindresorhus/ava',
-	'https://github.com',
-	'https://github.com/sindresorhus/refined-github/issues'
-]);
-
 test('isPRList', urlMatcherMacro, pageDetect.isPRList, [
 	'https://github.com/sindresorhus/refined-github/pulls'
 ], [
