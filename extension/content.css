@@ -577,3 +577,8 @@ td.blob-code.blob-code-deletion:before {
 .review-comment .timeline-comment-label + .timeline-comment-label {
 	margin-left: 5px;
 }
+
+/* add new project button-alike link */
+#refined-github-project-new-link {
+	margin-top: 5px;
+}

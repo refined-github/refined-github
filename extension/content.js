@@ -344,6 +344,18 @@ function addFilterCommentsByYou() {
 	}
 }
 
+function addProjectNewLink() {
+	const projectNewLink = `<a href="/${repoUrl}/projects/new" class="btn btn-sm" id="refined-github-project-new-link">Add a project</a>`;
+	$('#projects-feature').next('p.note').after(projectNewLink);
+}
+
+function removeProjectsTab() {
+	const projectsTab = $('.js-repo-nav').find('.reponav-item[data-selected-links^="repo_projects"]');
+	if (projectsTab.find('.Counter').text() === '0') {
+		projectsTab.remove();
+	}
+}
+
 // Support indent with tab key in comments
 $(document).on('keydown', '.js-comment-field', event => {
 	if (event.which === 9 && !event.shiftKey) {
@@ -429,6 +441,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	if (pageDetect.isRepo()) {
 		gitHubInjection(window, () => {
 			addReleasesTab();
+			removeProjectsTab();
 			diffFileHeader.destroy();
 			enableCopyOnY.destroy();
 			markUnread.destroy();
@@ -503,6 +516,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.hasCode()) {
 				linkifyURLsInCode.linkifyCode(repoUrl);
+			}
+
+			if (pageDetect.isSettings()) {
+				addProjectNewLink();
 			}
 		});
 	}
