@@ -345,10 +345,9 @@ function addFilterCommentsByYou() {
 }
 
 function addProjectNewLink() {
-	const projectNewLinkId = 'refined-github-project-new-link';
-	const projectNewLink = `<a href="/${repoUrl}/projects/new" class="btn btn-sm" id="${projectNewLinkId}">Add a project</a>`;
-	if ($(`#${projectNewLinkId}`).length === 0) {
-		$('#projects-feature').siblings('p.note').after(projectNewLink);
+	const projectNewLink = `<a href="/${repoUrl}/projects/new" class="btn btn-sm" id="refined-github-project-new-link">Add a project</a>`;
+	if ($('#projects-feature:checked').length > 0 && $('#refined-github-project-new-link').length === 0) {
+		$(`#projects-feature ~ p.note`).after(projectNewLink);
 	}
 }
 
