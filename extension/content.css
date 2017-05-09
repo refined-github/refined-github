@@ -206,21 +206,6 @@
 	opacity: 1;
 }
 
-/* indicate collapsible file headers with zoom cursor */
-.js-details-container:not(.discussion-item) .file-header[data-path],
-.file-header[data-path] .diffstat {
-	cursor: zoom-out !important;
-}
-.refined-github-minimized:not(.discussion-item) .file-header[data-path],
-.refined-github-minimized .file-header[data-path] .diffstat {
-	cursor: zoom-in !important;
-}
-
-/* style for collapse/expand feature; images are rendered in .render-wrapper, not in .data */
-.refined-github-minimized .data,
-.refined-github-minimized .render-wrapper {
-	display: none !important;
-}
 /* style for delete fork link */
 .post-merge-message {
 	min-height: 85px;
