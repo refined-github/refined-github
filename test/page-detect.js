@@ -160,7 +160,6 @@ test('isSettings', urlMatcherMacro, pageDetect.isSettings, [
 	'https://github.com/sindresorhus/refined-github/settings',
 	'https://github.com/sindresorhus/refined-github/settings/branches'
 ], [
-	// 'https://github.com/sindresorhus/refined-github',
 	'https://github.com/sindresorhus/refined-github/releases'
 ]);
 
