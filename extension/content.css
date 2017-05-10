@@ -206,21 +206,6 @@
 	opacity: 1;
 }
 
-/* indicate collapsible file headers with zoom cursor */
-.js-details-container:not(.discussion-item) .file-header[data-path],
-.file-header[data-path] .diffstat {
-	cursor: zoom-out !important;
-}
-.refined-github-minimized:not(.discussion-item) .file-header[data-path],
-.refined-github-minimized .file-header[data-path] .diffstat {
-	cursor: zoom-in !important;
-}
-
-/* style for collapse/expand feature; images are rendered in .render-wrapper, not in .data */
-.refined-github-minimized .data,
-.refined-github-minimized .render-wrapper {
-	display: none !important;
-}
 /* style for delete fork link */
 .post-merge-message {
 	min-height: 85px;
@@ -576,6 +561,29 @@ td.blob-code.blob-code-deletion:before {
 
 .review-comment .timeline-comment-label + .timeline-comment-label {
 	margin-left: 5px;
+}
+
+/* move "close issue" and "cancel" buttons on authoring comments to the left */
+
+/* ...in issue comment form */
+.form-actions .btn.js-comment-and-button {
+	float: left;
+}
+
+/* ...in comment edit form */
+div.previewable-edit .previewable-comment-form .form-actions {
+    float: none;
+    margin-left: 10px;
+}
+
+.previewable-edit .previewable-comment-form .form-actions .btn.js-comment-cancel-button {
+	float: left;
+}
+
+/* ...in inline comment form */
+div.inline-comment-form .form-actions,
+.inline-comment-form .form-actions .js-hide-inline-comment-form {
+	float: none;
 }
 
 /* add new project button-alike link */
