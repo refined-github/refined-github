@@ -562,3 +562,26 @@ td.blob-code.blob-code-deletion:before {
 .review-comment .timeline-comment-label + .timeline-comment-label {
 	margin-left: 5px;
 }
+
+/* move "close issue" and "cancel" buttons on authoring comments to the left */
+
+/* ...in issue comment form */
+.form-actions .btn.js-comment-and-button {
+	float: left;
+}
+
+/* ...in comment edit form */
+div.previewable-edit .previewable-comment-form .form-actions {
+    float: none;
+    margin-left: 10px;
+}
+
+.previewable-edit .previewable-comment-form .form-actions .btn.js-comment-cancel-button {
+	float: left;
+}
+
+/* ...in inline comment form */
+div.inline-comment-form .form-actions,
+.inline-comment-form .form-actions .js-hide-inline-comment-form {
+	float: none;
+}
