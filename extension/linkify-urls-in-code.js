@@ -28,13 +28,12 @@ window.linkifyURLsInCode = (() => {
 		.toArray()
 		.forEach(blob => {
 			if (hasURL(blob.innerHTML)) {
-				const matches = blob.innerHTML.match(URLRegex);
-				// Match URLs and remove < or > from beginning or end
-				matches
-					.map(match => match.replace(/(^&lt)|(&gt$)/, ''))
-					.forEach(match => {
-						blob.innerHTML = blob.innerHTML.replace(match, linkifyURL(match));
-					});
+				const matches = blob.innerHTML.match(urlRegex);
+				for (let match of matches) {
+					// Remove < or > from beginning or end of an URL
+					match = match.replace(/(^&lt)|(&gt$)/, '');
+					blob.innerHTML = blob.innerHTML.replace(match, linkifyURL(match));
+				}
 			}
 		});
 
