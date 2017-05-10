@@ -1,6 +1,6 @@
 window.linkifyURLsInCode = (() => {
 	const issueRegex = /([a-zA-Z0-9-_.]+\/[a-zA-Z0-9-_.]+)?#[0-9]+/;
-	const URLRegex = /(http(s)?(:\/\/))(www\.)?[a-zA-Z0-9-_.]+(\.[a-zA-Z0-9]{2,})([-a-zA-Z0-9:%_+.~#?&//=]*)/g;
+	const urlRegex = () => /(http(s)?(:\/\/))(www\.)?[a-zA-Z0-9-_.]+(\.[a-zA-Z0-9]{2,})([-a-zA-Z0-9:%_+.~#?&//=]*)/g;
 	const linkifiedURLClass = 'rg-linkified-code';
 	const commonURLAttrs = `target="_blank" class="${linkifiedURLClass}"`;
 
@@ -14,7 +14,7 @@ window.linkifyURLsInCode = (() => {
 	const linkifyURL = url => `<a href="${url}" ${commonURLAttrs}>${url}</a>`;
 
 	const hasIssue = text => issueRegex.test(text);
-	const hasURL = text => new RegExp(URLRegex).test(text);
+	const hasURL = text => urlRegex().test(text);
 
 	const linkifyCode = repoPath => {
 		// Don't linkify any already linkified code
