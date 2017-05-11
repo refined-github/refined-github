@@ -31,4 +31,13 @@
 
 		return success;
 	};
+
+    exports.issueRegex = /([a-zA-Z0-9-_.]+\/[a-zA-Z0-9-_.]+)?#[0-9]+/;
+	exports.linkifyIssue = (repoPath, issue, attrs) => {
+		if (/\//.test(issue)) {
+			const issueParts = issue.split('#');
+			return `<a href="https://github.com/${issueParts[0]}/issues/${issueParts[1]}" ${attrs}>${issue}</a>`;
+		}
+		return `<a href="https://github.com/${repoPath}/issues/${issue.replace('#', '')}" ${attrs}>${issue}</a>`;
+	};
 })(window.utils = {});
