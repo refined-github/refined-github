@@ -36,7 +36,7 @@ window.linkifyURLsInCode = (() => {
 			const blobHTML = blob.innerHTML;
 			if (hasIssue(blobHTML)) {
 				const issueMatch = blobHTML.match(issueRegex)[0];
-				blob.innerHTML = blobHTML.replace(issueMatch, utils.linkifyIssue(repoPath, issueMatch, commonURLAttrs));
+				blob.innerHTML = blobHTML.replace(issueMatch, utils.linkifyIssueRef(repoPath, issueMatch, commonURLAttrs));
 			}
 		});
 	};
