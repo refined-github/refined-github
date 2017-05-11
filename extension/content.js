@@ -148,7 +148,7 @@ function addDeleteForkLink() {
 function linkifyIssuesInTitles() {
 	const $title = $('.js-issue-title');
 	const titleText = $title.text();
-    const issueRegex = utils.issueRegex;
+	const issueRegex = utils.issueRegex;
 
 	if (issueRegex.test(titleText)) {
 		$title.html(titleText.replace(

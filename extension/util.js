@@ -32,7 +32,7 @@
 		return success;
 	};
 
-    exports.issueRegex = /([a-zA-Z0-9-_.]+\/[a-zA-Z0-9-_.]+)?#[0-9]+/;
+	exports.issueRegex = /([a-zA-Z0-9-_.]+\/[a-zA-Z0-9-_.]+)?#[0-9]+/;
 	exports.linkifyIssue = (repoPath, issue, attrs) => {
 		if (/\//.test(issue)) {
 			const issueParts = issue.split('#');
