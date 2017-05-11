@@ -1,3 +1,5 @@
+const isMac = /Mac OS X/.test(window.navigator.oscpu);
+
 window.addUploadBtn = () => {
 	if (pageDetect.hasCommentForm()) {
 		$('.js-previewable-comment-form').each((index, element) => {
@@ -13,7 +15,7 @@ window.addUploadBtn = () => {
 					.find('.refined-github-upload-btn');
 
 				const keydownHandler = event => {
-					if (event.which === 85 && event.ctrlKey) {
+					if (event.which === 85 && (isMac ? event.metaKey : event.ctrlKey)) {
 						event.preventDefault();
 						$uploadBtn.click();
 					}
