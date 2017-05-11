@@ -586,10 +586,12 @@ div.inline-comment-form .form-actions,
 	float: none;
 }
 
-/* copy button for PR files hover */
+/* Add "copy filepath" button for PR page */
 .copy-filepath-btn:hover{
 	cursor: pointer;
+}
 /* "Add a Project" button */
 #refined-github-project-new-link {
 	margin-top: 5px;
 }
+
