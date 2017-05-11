@@ -585,3 +585,8 @@ div.inline-comment-form .form-actions,
 .inline-comment-form .form-actions .js-hide-inline-comment-form {
 	float: none;
 }
+
+/* copy button for PR files hover */
+.copy-filepath-btn:hover{
+	cursor: pointer;
+}

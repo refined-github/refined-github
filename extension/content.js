@@ -1,4 +1,4 @@
-/* globals gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, showRealNames, markUnread, linkifyURLsInCode */
+/* globals gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, showRealNames, markUnread, linkifyURLsInCode, addFilePathCopyButton */
 
 'use strict';
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
@@ -465,6 +465,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
 				diffFileHeader.setup();
 				addDiffViewWithoutWhitespaceOption('pr');
+				addFilePathCopyButton();
+				const $files = $('#files_bucket #files');
+				new MutationObserver(addFilePathCopyButton).observe($files[0], {childList: true, subtree: true});
 			}
 
 			if (pageDetect.isSingleFile()) {
