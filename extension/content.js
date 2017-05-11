@@ -505,7 +505,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				linkifyURLsInCode.linkifyCode(repoUrl);
 			}
 
-			if (pageDetect.isSettings()) {
+			if (pageDetect.isRepoSettings()) {
 				addProjectNewLink();
 			}
 		});

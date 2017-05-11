@@ -43,7 +43,7 @@ window.pageDetect = (() => {
 
 	const isNotifications = () => /\/notifications(\/participating)?/.test(location.pathname);
 
-	const isSettings = () => isRepo() && /^\/settings/.test(getRepoPath());
+	const isRepoSettings = () => isRepo() && /^\/settings/.test(getRepoPath());
 
 	const getOwnerAndRepo = () => {
 		const [, ownerName, repoName] = location.pathname.split('/');
@@ -84,6 +84,6 @@ window.pageDetect = (() => {
 		isNotifications,
 		getOwnerAndRepo,
 		isSingleFile,
-		isSettings
+		isRepoSettings
 	};
 })();

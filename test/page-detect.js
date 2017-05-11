@@ -156,7 +156,7 @@ test('isSingleFile', urlMatcherMacro, pageDetect.isSingleFile, [
 	'https://github.com/sindresorhus/refined-github/commit/57bf4'
 ]);
 
-test('isSettings', urlMatcherMacro, pageDetect.isSettings, [
+test('isRepoSettings', urlMatcherMacro, pageDetect.isRepoSettings, [
 	'https://github.com/sindresorhus/refined-github/settings',
 	'https://github.com/sindresorhus/refined-github/settings/branches'
 ], [
