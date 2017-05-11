@@ -97,7 +97,8 @@
 .toolbar-group .toolbar-item {
 	display: none;
 }
-.toolbar-group .js-saved-reply-container, .toolbar-group .refined-github-upload-btn {
+.toolbar-group .js-saved-reply-container,
+.toolbar-group .refined-github-upload-btn {
 	display: block;
 }
 .toolbar-commenting {
