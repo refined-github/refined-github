@@ -43,7 +43,7 @@ Our hope is that GitHub will notice and implement some of these much needed impr
 - Removes annoying hover effect in the repo file browser
 - Removes the comment box toolbar
 - Removes tooltips
-- Removes ”Projects” tab when there are not projects
+- Removes the "Projects" repo tab when there are no projects
 - Copy canonical link to file when [the `y` hotkey](https://help.github.com/articles/getting-permanent-links-to-files/) is used
 - ~~[Adds blame links for parent commits in blame view](https://github.com/sindresorhus/refined-github/issues/2#issuecomment-189141373)~~ [Implemented by GitHub](https://github.com/blog/2304-navigate-file-history-faster-with-improved-blame-view)
 - ~~[Adds ability to collapse/expand files in a pull request diff](https://cloud.githubusercontent.com/assets/170270/13954167/40caa604-f072-11e5-89ba-3145217c4e28.png)~~ [Implemented by GitHub](https://cloud.githubusercontent.com/assets/170270/25772137/6a6b678e-3296-11e7-97c7-02e31ef17743.png)
