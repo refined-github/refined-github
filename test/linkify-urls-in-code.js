@@ -18,6 +18,16 @@ function batchTestText(t, detectFn, shouldMatch = [], shouldNotMatch = []) {
 	}
 }
 
+function batchTestArray(t, detectFn, shouldMatch = [], shouldNotMatch = []) {
+	for (const text of shouldMatch) {
+		t.truthy(detectFn(text).length);
+	}
+
+	for (const text of shouldNotMatch) {
+		t.falsy(detectFn(text).length);
+	}
+}
+
 test('isIssue', batchTestText, linkifyURLsInCode.hasIssue, [
 	'#1',
 	'#12',
@@ -27,7 +37,7 @@ test('isIssue', batchTestText, linkifyURLsInCode.hasIssue, [
 	'1234'
 ]);
 
-test('isURL', batchTestText, linkifyURLsInCode.hasURL, [
+test('findURLs', batchTestArray, linkifyURLsInCode.findURLs, [
 	'http://github.com/',
 	'https://www.github.com',
 	'https://github.com/orgs/test/dashboard',

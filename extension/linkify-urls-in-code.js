@@ -1,6 +1,6 @@
 window.linkifyURLsInCode = (() => {
 	const issueRegex = /([a-zA-Z0-9-_.]+\/[a-zA-Z0-9-_.]+)?#[0-9]+/;
-	const getURLRegex = () => /(http(s)?(:\/\/))(www\.)?[a-zA-Z0-9-_.]+(\.[a-zA-Z0-9]{2,})([-a-zA-Z0-9:%_+.~#?&//=]*)/g;
+	const URLRegex = /(http(s)?(:\/\/))(www\.)?[a-zA-Z0-9-_.]+(\.[a-zA-Z0-9]{2,})([-a-zA-Z0-9:%_+.~#?&//=]*)/g;
 	const linkifiedURLClass = 'rg-linkified-code';
 	const commonURLAttrs = `target="_blank" class="${linkifiedURLClass}"`;
 
@@ -14,7 +14,7 @@ window.linkifyURLsInCode = (() => {
 	const linkifyURL = url => `<a href="${url}" ${commonURLAttrs}>${url}</a>`;
 
 	const hasIssue = text => issueRegex.test(text);
-	const hasURL = text => getURLRegex().test(text);
+	const findURLs = text => text.match(URLRegex) || [];
 
 	const linkifyCode = repoPath => {
 		// Don't linkify any already linkified code
@@ -27,13 +27,10 @@ window.linkifyURLsInCode = (() => {
 		$(codeBlobs)
 		.toArray()
 		.forEach(blob => {
-			if (hasURL(blob.innerHTML)) {
-				const matches = blob.innerHTML.match(getURLRegex());
-				for (let match of matches) {
-					// Remove < or > from beginning or end of an URL
-					match = match.replace(/(^&lt)|(&gt$)/, '');
-					blob.innerHTML = blob.innerHTML.replace(match, linkifyURL(match));
-				}
+			for (let match of findURLs(blob.innerHTML)) {
+				// Remove < or > from beginning or end of an URL
+				match = match.replace(/(^&lt)|(&gt$)/, '');
+				blob.innerHTML = blob.innerHTML.replace(match, linkifyURL(match));
 			}
 		});
 
@@ -49,8 +46,8 @@ window.linkifyURLsInCode = (() => {
 	};
 
 	return {
+		findURLs,
 		hasIssue,
-		hasURL,
 		linkifyCode
 	};
 })();
