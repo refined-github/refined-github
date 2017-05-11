@@ -1,3 +1,5 @@
+/* globals pageDetect, icons */
+
 const isMac = /Mac OS X/.test(window.navigator.oscpu);
 
 window.addUploadBtn = () => {
@@ -30,4 +32,4 @@ window.addUploadBtn = () => {
 			}
 		});
 	}
-}
+};
