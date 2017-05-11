@@ -1,6 +1,6 @@
 /* globals pageDetect, icons */
 
-const isMac = /Mac OS X/.test(window.navigator.oscpu);
+const isMac = /Mac/.test(window.navigator.platform);
 
 window.addUploadBtn = () => {
 	if (pageDetect.hasCommentForm()) {
