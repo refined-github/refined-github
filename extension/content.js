@@ -1,4 +1,4 @@
-/* globals utils, gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, showRealNames, markUnread, linkifyURLsInCode */
+/* globals utils, gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, showRealNames, markUnread, linkifyURLsInCode, addUploadBtn */
 
 'use strict';
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
@@ -345,6 +345,20 @@ function addFilterCommentsByYou() {
 	}
 }
 
+function addProjectNewLink() {
+	const projectNewLink = `<a href="/${repoUrl}/projects/new" class="btn btn-sm" id="refined-github-project-new-link">Add a project</a>`;
+	if ($('#projects-feature:checked').length > 0 && $('#refined-github-project-new-link').length === 0) {
+		$(`#projects-feature ~ p.note`).after(projectNewLink);
+	}
+}
+
+function removeProjectsTab() {
+	const projectsTab = $('.js-repo-nav').find('.reponav-item[data-selected-links^="repo_projects"]');
+	if (projectsTab.length > 0 && projectsTab.find('.Counter, .counter').text() === '0') {
+		projectsTab.remove();
+	}
+}
+
 // Support indent with tab key in comments
 $(document).on('keydown', '.js-comment-field', event => {
 	if (event.which === 9 && !event.shiftKey) {
@@ -412,9 +426,13 @@ document.addEventListener('DOMContentLoaded', () => {
 		}).observe($('#js-pjax-container').get(0), {childList: true});
 	}
 
+	addUploadBtn();
+	new MutationObserver(addUploadBtn).observe($('div[role=main]')[0], {childList: true, subtree: true});
+
 	if (pageDetect.isRepo()) {
 		gitHubInjection(window, () => {
 			addReleasesTab();
+			removeProjectsTab();
 			diffFileHeader.destroy();
 			enableCopyOnY.destroy();
 			markUnread.destroy();
@@ -489,6 +507,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.hasCode()) {
 				linkifyURLsInCode.linkifyCode(repoUrl);
+			}
+
+			if (pageDetect.isRepoSettings()) {
+				addProjectNewLink();
 			}
 		});
 	}
