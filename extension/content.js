@@ -1,4 +1,4 @@
-/* globals gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, showRealNames, markUnread, linkifyURLsInCode */
+/* globals gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, showRealNames, markUnread, linkifyURLsInCode, addUploadBtn */
 
 'use strict';
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
@@ -424,6 +424,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		}).observe($('#js-pjax-container').get(0), {childList: true});
 	}
+
+	addUploadBtn();
+	new MutationObserver(addUploadBtn).observe($('div[role=main]')[0], {childList: true, subtree: true});
 
 	if (pageDetect.isRepo()) {
 		gitHubInjection(window, () => {

@@ -38,7 +38,8 @@
 				"show-names.js",
 				"content.js",
 				"mark-unread.js",
-				"linkify-urls-in-code.js"
+				"linkify-urls-in-code.js",
+				"upload-button.js"
 			]
 		}
 	]
