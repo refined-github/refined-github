@@ -124,9 +124,7 @@ function addReadmeButtons() {
 		const latestRelease = releases.find(release => release.name === releaseNamesSorted[0]);
 		if (latestRelease) {
 			releaseButtonHtml = `
-				<a href="${latestRelease.link}#readme" class="tooltipped tooltipped-nw" aria-label="View this file at ${latestRelease.name}">
-					${icons.tag}
-				</a>
+				<a href="${latestRelease.link}#readme" class="tooltipped tooltipped-nw" aria-label="View this file at ${latestRelease.name}">${icons.tag}</a>
 			`;
 		}
 	}
@@ -137,9 +135,7 @@ function addReadmeButtons() {
 	const currentBranch = selectMenuButton.attr('title') || selectMenuButton.find('span').text();
 	const editHref = `/${repoUrl}/edit/${currentBranch}/${path ? `${path}/` : ''}${readmeName}`;
 	const editButtonHtml = `
-		<a href="${editHref}" class="tooltipped tooltipped-nw" aria-label="Edit this file">
-			${icons.edit}
-		</a>
+		<a href="${editHref}" class="tooltipped tooltipped-nw" aria-label="Edit this file">${icons.edit}</a>
 	`;
 
 	$readmeContainer.append(`

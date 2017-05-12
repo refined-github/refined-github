@@ -215,6 +215,10 @@
 	opacity: 1;
 }
 
+#refined-github-readme-buttons a:not(:first-child) {
+	margin-left: 5px;
+}
+
 /* style for delete fork link */
 .post-merge-message {
 	min-height: 85px;
