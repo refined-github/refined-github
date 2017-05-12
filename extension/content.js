@@ -1,4 +1,4 @@
-/* globals utils, gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, showRealNames, markUnread, linkifyURLsInCode, addUploadBtn */
+/* globals utils, toSemver, gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, showRealNames, markUnread, linkifyURLsInCode, addUploadBtn */
 
 'use strict';
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
@@ -110,14 +110,25 @@ function addReadmeButtons() {
 		return;
 	}
 
-	const $latestRelease = $('.branch-select-menu .select-menu-list[data-tab-filter="tags"] .select-menu-item:first-child');
 	let releaseButtonHtml = '';
-	if ($latestRelease.length !== 0) {
-		releaseButtonHtml = `
-			<a href="${$latestRelease.attr('href')}#readme">
-				${icons.tag}
-			</a>
-		`;
+	const releases = [];
+	$('.branch-select-menu .select-menu-list[data-tab-filter="tags"] .select-menu-item').each((index, element) => {
+		const $element = $(element);
+		releases.push({
+			name: $element.data('name'),
+			link: $element.attr('href')
+		});
+	});
+	const releaseNamesSorted = toSemver(releases.map(release => release.name), {clean: false});
+	if (releaseNamesSorted.length > 0) {
+		const latestRelease = releases.find(release => release.name === releaseNamesSorted[0]);
+		if (latestRelease) {
+			releaseButtonHtml = `
+				<a href="${latestRelease.link}#readme">
+					${icons.tag}
+				</a>
+			`;
+		}
 	}
 
 	const readmeName = $('#readme > h3').text().trim();
