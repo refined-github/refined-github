@@ -372,11 +372,10 @@ svg.octicon.octicon-star.dashboard-event-icon {
 .tab-size[data-tab-size='4'],
 .tab-size[data-tab-size='8'],
 .inline-review-comment,
-.gist table.lines {
-	-moz-tab-size: 4 !important;
 .gist table.lines,
 .highlight pre, /* Readme code blocks */
 .blob-code-inner /* PR inline diff */ {
+	-moz-tab-size: 4 !important;
 	tab-size: 4 !important;
 }
 
