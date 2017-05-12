@@ -1,7 +1,7 @@
 /* globals utils */
 
 window.linkifyURLsInCode = (() => {
-	const issueRegex = utils.issueRegex;
+	const issueRegex = window.utils.issueRegex;
 	const URLRegex = /(http(s)?(:\/\/))(www\.)?[a-zA-Z0-9-_.]+(\.[a-zA-Z0-9]{2,})([-a-zA-Z0-9:%_+.~#?&//=]*)/;
 	const linkifiedURLClass = 'rg-linkified-code';
 	const commonURLAttrs = `target="_blank" class="${linkifiedURLClass}"`;
@@ -36,7 +36,7 @@ window.linkifyURLsInCode = (() => {
 			const blobHTML = blob.innerHTML;
 			if (hasIssue(blobHTML)) {
 				const issueMatch = blobHTML.match(issueRegex)[0];
-				blob.innerHTML = blobHTML.replace(issueMatch, utils.linkifyIssueRef(repoPath, issueMatch, commonURLAttrs));
+				blob.innerHTML = blobHTML.replace(issueMatch, window.utils.linkifyIssueRef(repoPath, issueMatch, commonURLAttrs));
 			}
 		});
 	};
