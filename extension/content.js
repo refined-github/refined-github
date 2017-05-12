@@ -353,7 +353,7 @@ function addProjectNewLink() {
 
 function removeProjectsTab() {
 	const projectsTab = $('.js-repo-nav').find('.reponav-item[data-selected-links^="repo_projects"]');
-	if (projectsTab.length > 0 && projectsTab.find('.Counter').text() === '0') {
+	if (projectsTab.length > 0 && projectsTab.find('.Counter, .counter').text() === '0') {
 		projectsTab.remove();
 	}
 }
