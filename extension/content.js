@@ -152,7 +152,7 @@ function linkifyIssuesInTitles() {
 
 	if (issueRegex.test(titleText)) {
 		$title.html(titleText.replace(
-			RegExp(issueRegex.source, 'g'),
+			new RegExp(issueRegex.source, 'g'),
             match => utils.linkifyIssueRef(repoUrl, match, '')
 		));
 	}
