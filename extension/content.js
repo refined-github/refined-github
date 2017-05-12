@@ -1,4 +1,4 @@
-/* globals gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, showRealNames, markUnread, linkifyURLsInCode, addUploadBtn */
+/* globals utils, gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, showRealNames, markUnread, linkifyURLsInCode, addUploadBtn */
 
 'use strict';
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
@@ -148,11 +148,12 @@ function addDeleteForkLink() {
 function linkifyIssuesInTitles() {
 	const $title = $('.js-issue-title');
 	const titleText = $title.text();
+	const issueRegex = utils.issueRegex;
 
-	if (/(#\d+)/.test(titleText)) {
+	if (issueRegex.test(titleText)) {
 		$title.html(titleText.replace(
-			/#(\d+)/g,
-			`<a href="https://github.com/${repoUrl}/issues/$1">#$1</a>`
+			new RegExp(issueRegex.source, 'g'),
+            match => utils.linkifyIssueRef(repoUrl, match, '')
 		));
 	}
 }
