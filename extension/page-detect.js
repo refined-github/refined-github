@@ -60,6 +60,8 @@ window.pageDetect = (() => {
 		return isRepo() && blobPattern.test(location.href);
 	};
 
+	const hasCommentForm = () => $('.js-previewable-comment-form').length > 0;
+
 	return {
 		isGist,
 		isDashboard,
@@ -84,6 +86,7 @@ window.pageDetect = (() => {
 		isNotifications,
 		getOwnerAndRepo,
 		isSingleFile,
+		hasCommentForm,
 		isRepoSettings
 	};
 })();
