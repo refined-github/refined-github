@@ -4,6 +4,7 @@ import Window from './fixtures/window';
 global.window = new Window();
 global.location = window.location;
 
+require('../extension/util.js'); // eslint-disable-line import/no-unassigned-import
 require('../extension/linkify-urls-in-code.js'); // eslint-disable-line import/no-unassigned-import
 
 const {linkifyURLsInCode} = window;
