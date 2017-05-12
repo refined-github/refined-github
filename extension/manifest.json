@@ -27,6 +27,7 @@
 			"js": [
 				"vendor/jquery.slim.min.js",
 				"vendor/gh-injection.js",
+				"vendor/to-semver.js",
 				"util.js",
 				"page-detect.js",
 				"icons.js",
