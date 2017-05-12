@@ -589,3 +589,8 @@ div.inline-comment-form .form-actions,
 .inline-comment-form .form-actions .js-hide-inline-comment-form {
 	float: none;
 }
+
+/* "Add a Project" button */
+#refined-github-project-new-link {
+	margin-top: 5px;
+}

@@ -156,6 +156,13 @@ test('isSingleFile', urlMatcherMacro, pageDetect.isSingleFile, [
 	'https://github.com/sindresorhus/refined-github/commit/57bf4'
 ]);
 
+test('isRepoSettings', urlMatcherMacro, pageDetect.isRepoSettings, [
+	'https://github.com/sindresorhus/refined-github/settings',
+	'https://github.com/sindresorhus/refined-github/settings/branches'
+], [
+	'https://github.com/sindresorhus/refined-github/releases'
+]);
+
 test('getOwnerAndRepo', t => {
 	const ownerAndRepo = {
 		'https://github.com/sindresorhus/refined-github/pull/148': {
