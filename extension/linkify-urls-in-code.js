@@ -1,6 +1,6 @@
 window.linkifyURLsInCode = (() => {
 	const issueRegex = window.utils.issueRegex;
-	const URLRegex = /(http(s)?(:\/\/))(www\.)?[a-zA-Z0-9-_.]+(\.[a-zA-Z0-9]{2,})([-a-zA-Z0-9:%_+.~#?&//=]*)/;
+	const URLRegex = /(http(s)?(:\/\/))(www\.)?[a-zA-Z0-9-_.]+(\.[a-zA-Z0-9]{2,})([-a-zA-Z0-9:%_+.~#?&//=]*)/g;
 	const linkifiedURLClass = 'rg-linkified-code';
 	const commonURLAttrs = `target="_blank" class="${linkifiedURLClass}"`;
 
