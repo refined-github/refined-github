@@ -262,7 +262,7 @@ function showRecentlyPushedBranches() {
 
 // Add option for viewing diffs without whitespace changes
 function addDiffViewWithoutWhitespaceOption(type) {
-	if ($('.diff-options-content').length < 1 && $('.btn-group .selected[href*="diff="]').length < 1) {
+	if ($('.pr-review-tools .BtnGroup').length < 1 && $('.pr-review-tools .BtnGroup .tooltipped[href*="diff="]').length < 1) {
 		return;
 	}
 
@@ -274,30 +274,23 @@ function addDiffViewWithoutWhitespaceOption(type) {
 	const optionElement = document.createElement('a');
 	const urlParams = new URLSearchParams(window.location.search);
 	const urlHash = window.location.hash || '';
-	const svgIcon = icons.check;
 	const optionElementObject = $(optionElement);
 	let optionIsSet = false;
 
 	if (urlParams.get('w') === '1') {
 		optionIsSet = true;
 		urlParams.delete('w');
-		optionElementObject.addClass('selected');
 	} else {
 		urlParams.set('w', 1);
 	}
 
-	const optionElementContent = `${optionIsSet ? svgIcon : ''} Ignore whitespace`;
+	const optionElementContent = `${optionIsSet ? 'Show' : 'Ignore'} whitespace`;
 	const optionHref = `${window.location.origin + window.location.pathname}?${urlParams.toString() + urlHash}`;
 
 	optionElementObject.html(optionElementContent).attr('href', optionHref).attr('data-hotkey', 'd w').attr('class', 'refined-github-toggle-whitespace');
 
-	if (type === 'pr') {
-		$('.diff-options-content').find('.dropdown-item:last-of-type').after(optionElement);
-		optionElementObject.addClass('dropdown-item');
-	} else {
-		$('.btn-group .selected[href*="diff="]').after(optionElement);
-		optionElementObject.addClass('btn btn-sm');
-	}
+	$('.pr-review-tools .BtnGroup *:last-child').after(optionElement);
+	optionElementObject.addClass('btn btn-sm btn-outline BtnGroup-item');
 }
 
 function addOPLabels() {
