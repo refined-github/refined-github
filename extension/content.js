@@ -49,12 +49,39 @@ function cacheReleasesCount() {
 }
 
 function addCompareTab() {
+	let head = '';
+
+	if (pageDetect.isRepoRoot() || pageDetect.isRepoTree()) {
+		const matches = $('title').text().match(/^([^\/]+\/[^\/]+) at (\S+)$/);
+		if (matches) {
+			head = matches[2];
+		}
+	}
+	if (pageDetect.isRepoTree()) {
+		const matches = $('title').text().match(/^(.+) at (\S+) · ([^\/]+\/[^\/]+)$/);
+		if (matches) {
+			head = matches[2];
+		}
+	}
+	if (pageDetect.isPR()) {
+		head = $('.head-ref').text();
+	}
+	if (pageDetect.isCommit()) {
+		head = $('.sha-block:last-child .sha').text();
+	}
+	if (pageDetect.isCommitList()) {
+		const commits = $('.commits-list-item');
+		if (commits.length > 0) {
+			head = $(commits[0]).find('.zeroclipboard-button').data('clipboard-text');
+		}
+	}
+
 	const $repoNav = $('.js-repo-nav');
 
 	if ($repoNav.find('.refined-github-compare-tab').length > 0) {
 		return;
 	}
-	const $compareTab = $(`<a href="/${repoUrl}/compare" class="reponav-item refined-github-compare-tab">
+	const $compareTab = $(`<a href="/${repoUrl}/compare/${head}" class="reponav-item refined-github-compare-tab">
 		${icons.compare}
 		<span>Compare</span>
 	</a>`);
