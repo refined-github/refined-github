@@ -142,7 +142,7 @@ function addReadmeButtons() {
 		const latestRelease = releases.find(release => release.name === releaseNamesSorted[0]);
 		if (latestRelease) {
 			releaseButtonHtml = `
-				<a href="${latestRelease.link}#readme" class="tooltipped tooltipped-nw" aria-label="View this file at ${latestRelease.name}">${icons.tag}</a>
+				<a href="${latestRelease.link}#readme" class="tooltipped tooltipped-nw" aria-label="View this file at the latest version (${latestRelease.name})">${icons.tag}</a>
 			`;
 		}
 	}
