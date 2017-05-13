@@ -48,6 +48,24 @@ function cacheReleasesCount() {
 	}
 }
 
+function addCompareTab() {
+	const $repoNav = $('.js-repo-nav');
+
+	if ($repoNav.find('.refined-github-compare-tab').length > 0) {
+		return;
+	}
+	const $compareTab = $(`<a href="/${repoUrl}/compare" class="reponav-item refined-github-compare-tab">
+		${icons.compare}
+		<span>Compare</span>
+	</a>`);
+
+	if (pageDetect.isCompare()) {
+		$repoNav.find('.selected').removeClass('js-selected-navigation-item selected');
+		$compareTab.addClass('js-selected-navigation-item selected');
+	}
+	$repoNav.append($compareTab);
+}
+
 function addReleasesTab() {
 	const $repoNav = $('.js-repo-nav');
 	let $releasesTab = $repoNav.children('[data-selected-links~="repo_releases"]');
@@ -432,7 +450,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	if (pageDetect.isRepo()) {
 		gitHubInjection(window, () => {
 			addReleasesTab();
+			addCompareTab();
 			removeProjectsTab();
+
 			diffFileHeader.destroy();
 			enableCopyOnY.destroy();
 			markUnread.destroy();
