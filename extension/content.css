@@ -594,8 +594,9 @@ div.inline-comment-form .form-actions,
 }
 
 /* Add "copy filepath" button for PR page */
-.copy-filepath-btn:hover{
-	cursor: pointer;
+#rg-copy-filepath-btn,#rg-copy-filepath-btn:focus,#rg-copy-filepath-btn:active{
+	border: none;
+	background: transparent;
 }
 
 /* "Add a Project" button */

@@ -32,6 +32,7 @@
 				"icons.js",
 				"diffheader.js",
 				"reactions-avatars.js",
+				"copy-file-path.js",
 				"copy-file.js",
 				"copy-gist.js",
 				"copy-on-y.js",
