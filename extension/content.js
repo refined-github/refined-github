@@ -5,24 +5,35 @@ const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
 const repoUrl = `${ownerName}/${repoName}`;
 const getUsername = () => $('meta[name="user-login"]').attr('content');
 
+function getCanonicalBranchFromRef($element) {
+	const refSelector = '.commit-ref, .head-ref, .base-ref';
+
+	return $element.find(refSelector).addBack(refSelector).filter('[title]').attr('title');
+}
+
 function linkifyBranchRefs() {
+	let deletedBranchName = null;
+	const $deletedBranchInTimeline = $('.discussion-item-head_ref_deleted');
+	if ($deletedBranchInTimeline.length > 0) {
+		deletedBranchName = getCanonicalBranchFromRef($deletedBranchInTimeline);
+	}
+
 	$('.commit-ref').each((i, el) => {
 		const $el = $(el);
 		if ($el.children().eq(0).text() === 'unknown repository') {
-			$el.addClass('unlinked');
 			return;
 		}
 
-		const parts = $el.find('.css-truncate-target');
-		const branch = encodeURIComponent(parts.eq(parts.length - 1).text());
-		let username = ownerName;
+		const canonicalBranch = getCanonicalBranchFromRef($el);
 
-		// If there are two parts the first part is the username
-		if (parts.length > 1) {
-			username = parts.eq(0).text();
+		if (deletedBranchName && canonicalBranch === deletedBranchName) {
+			$el.attr('title', 'Deleted: ' + canonicalBranch);
+			return;
 		}
 
-		$el.wrap(`<a href="https://github.com/${username}/${repoName}/tree/${branch}">`);
+		const branchUrl = canonicalBranch.replace(':', '/tree/');
+
+		$el.wrap(`<a href="https://github.com/${branchUrl}">`);
 	});
 }
 

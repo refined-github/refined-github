@@ -169,14 +169,9 @@
 }
 
 /* add hover underline for `content.js` linkified branch refs in pull requests */
-.commit-ref:hover,
-.commit-ref:hover span {
+a .commit-ref:hover,
+a .commit-ref:hover span {
 	text-decoration: underline !important;
-}
-
-.commit-ref.unlinked:hover,
-.commit-ref.unlinked:hover span {
-	text-decoration: none !important;
 }
 
 /* remove the "new feature" notification box */
