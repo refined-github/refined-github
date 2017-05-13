@@ -262,7 +262,7 @@ function showRecentlyPushedBranches() {
 
 // Add option for viewing diffs without whitespace changes
 function addDiffViewWithoutWhitespaceOption(type) {
-	if ($('.pr-review-tools .BtnGroup').length < 1 && $('.pr-review-tools .BtnGroup .tooltipped[href*="diff="]').length < 1) {
+	if ($('.pr-review-tools .BtnGroup').length < 1 && $('.Details .BtnGroup').length < 1 && $('.pr-review-tools .BtnGroup .tooltipped[href*="diff="]').length < 1) {
 		return;
 	}
 
@@ -289,8 +289,15 @@ function addDiffViewWithoutWhitespaceOption(type) {
 
 	optionElementObject.html(optionElementContent).attr('href', optionHref).attr('data-hotkey', 'd w').attr('class', 'refined-github-toggle-whitespace');
 
-	$('.pr-review-tools .BtnGroup *:last-child').after(optionElement);
-	optionElementObject.addClass('btn btn-sm btn-outline BtnGroup-item');
+	if ($('.Details .BtnGroup').length > 0) {
+		$('.Details .BtnGroup *:last-child').after(optionElement);
+		optionElementObject.addClass('btn btn-sm BtnGroup-item');
+	};
+
+	if ($('.pr-review-tools .BtnGroup').length > 0 ) {
+		$('.pr-review-tools .BtnGroup *:last-child').after(optionElement)
+		optionElementObject.addClass('btn btn-sm btn-outline BtnGroup-item');
+	};
 }
 
 function addOPLabels() {
