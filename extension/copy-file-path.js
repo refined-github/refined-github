@@ -9,6 +9,7 @@ window.addFilePathCopyBtn = () => {
 		if ($(el).find('.copy-filepath-btn').length > 0) {
 			return;
 		}
+
 		const $fileUri = $(el).find('.file-header .file-info a');
 		const filePath = $fileUri.attr('title');
 		const copyButton = `
@@ -21,7 +22,7 @@ window.addFilePathCopyBtn = () => {
 		$(copyButton)
 			.insertAfter($fileUri)
 			.mouseenter(e => {
-				$(e.currentTarget).attr('aria-label', 'Copy file path to clipboard');
+				$(e.currentTarget).attr('aria-label', 'Copy file path');
 			})
 			.on('click', e => {
 				e.preventDefault();
@@ -35,4 +36,3 @@ window.filePathCopyBtnListner = () => {
 	const $filesBucket = $('#files_bucket #files');
 	new MutationObserver(addFilePathCopyBtn).observe($filesBucket[0], {childList: true, subtree: true});
 };
-
