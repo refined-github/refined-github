@@ -52,13 +52,13 @@ function addCompareTab() {
 	let head = '';
 
 	if (pageDetect.isRepoRoot() || pageDetect.isRepoTree()) {
-		const matches = $('title').text().match(/^([^\/]+\/[^\/]+) at (\S+)$/);
+		const matches = $('title').text().match(/^([^/]+\/[^/]+) at (\S+)$/);
 		if (matches) {
 			head = matches[2];
 		}
 	}
 	if (pageDetect.isRepoTree()) {
-		const matches = $('title').text().match(/^(.+) at (\S+) · ([^\/]+\/[^\/]+)$/);
+		const matches = $('title').text().match(/^(.+) at (\S+) · ([^/]+\/[^/]+)$/);
 		if (matches) {
 			head = matches[2];
 		}
