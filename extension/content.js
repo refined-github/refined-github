@@ -1,4 +1,4 @@
-/* globals utils, toSemver, gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, showRealNames, markUnread, linkifyURLsInCode, addUploadBtn */
+/* globals utils, toSemver, gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, showRealNames, markUnread, linkifyURLsInCode, addUploadBtn, filePathCopyBtnListner */
 
 'use strict';
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
@@ -46,6 +46,24 @@ function cacheReleasesCount() {
 			appendReleasesCount(items[releasesCountCacheKey]);
 		});
 	}
+}
+
+function addCompareTab() {
+	const $repoNav = $('.js-repo-nav');
+
+	if ($repoNav.find('.refined-github-compare-tab').length > 0) {
+		return;
+	}
+	const $compareTab = $(`<a href="/${repoUrl}/compare" class="reponav-item refined-github-compare-tab">
+		${icons.compare}
+		<span>Compare</span>
+	</a>`);
+
+	if (pageDetect.isCompare()) {
+		$repoNav.find('.selected').removeClass('js-selected-navigation-item selected');
+		$compareTab.addClass('js-selected-navigation-item selected');
+	}
+	$repoNav.append($compareTab);
 }
 
 function addReleasesTab() {
@@ -454,7 +472,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	if (pageDetect.isRepo()) {
 		gitHubInjection(window, () => {
 			addReleasesTab();
+			addCompareTab();
 			removeProjectsTab();
+
 			diffFileHeader.destroy();
 			enableCopyOnY.destroy();
 			markUnread.destroy();
@@ -506,6 +526,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
 				diffFileHeader.setup();
 				addDiffViewWithoutWhitespaceOption('pr');
+				filePathCopyBtnListner();
 			}
 
 			if (pageDetect.isSingleFile()) {
