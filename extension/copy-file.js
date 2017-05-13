@@ -18,4 +18,3 @@ window.addFileCopyButton = () => {
 		utils.copyToClipboard(fileContents);
 	});
 };
-
