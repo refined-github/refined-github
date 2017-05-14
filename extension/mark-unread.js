@@ -228,12 +228,33 @@ window.markUnread = (() => {
 		return $('#user-links a.name img').attr('alt').slice(1);
 	}
 
+	function unreadIndicatorIcon() {
+		const $notificationIndicator = $('.header-nav-link.notification-indicator');
+		const $notificationStatus = $($notificationIndicator).find('.mail-status');
+
+		const localNotifications = localStorage.unreadNotifications;
+		let hasLocalNotification = false;
+
+		if (localNotifications !== '[]' && JSON.parse(localNotifications).length > 0) {
+			hasLocalNotification = true;
+		}
+
+		if (hasLocalNotification) {
+			$notificationIndicator.attr('aria-label', 'You have unread notifications');
+			$notificationStatus.addClass('local-unread');
+		} else {
+			$notificationStatus.removeClass('local-unread');
+		}
+	}
+
 	function markNotificationRead(e) {
 		const notification = $(e.target).parents('li.js-notification');
 		notification.addClass('read');
 
 		const url = notification.find('a.js-notification-target').attr('href');
 		markRead(url);
+
+		unreadIndicatorIcon();
 	}
 
 	function markAllNotificationsRead(e) {
@@ -247,6 +268,7 @@ window.markUnread = (() => {
 				$(el).parents('.js-notification').removeClass('unread').addClass('read');
 				markRead(el.href);
 			});
+		unreadIndicatorIcon();
 	}
 
 	function setup() {
@@ -266,5 +288,5 @@ window.markUnread = (() => {
 		$('.js-mark-unread').remove();
 	}
 
-	return {setup, destroy};
+	return {setup, destroy, unreadIndicatorIcon};
 })();
