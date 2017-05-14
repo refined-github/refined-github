@@ -231,16 +231,11 @@ window.markUnread = (() => {
 
 	function unreadIndicatorIcon() {
 		const $notificationIndicator = $('.header-nav-link.notification-indicator');
-		const $notificationStatus = $($notificationIndicator).find('.mail-status');
+		const $notificationStatus = $notificationIndicator.find('.mail-status');
 
 		const localNotifications = localStorage.unreadNotifications;
-		let hasLocalNotification = false;
-
-		if (JSON.parse(localNotifications).length > 0) {
-			hasLocalNotification = true;
-		}
 		let notificationsLabel = '';
-		if (hasLocalNotification) {
+		if (JSON.parse(localNotifications).length > 0) {
 			notificationsLabel = 'You have unread notifications';
 			$notificationStatus.addClass('local-unread');
 		} else {
