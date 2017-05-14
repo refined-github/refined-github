@@ -249,9 +249,22 @@ window.markUnread = (() => {
 			});
 	}
 
+	function countLocalNotifications() {
+		const $unreadCount = $('#notification-center .filter-list a[href="/notifications"] .count');
+		const githubNotificationsCount = Number($unreadCount.text());
+		let localNotificationsCount = 0;
+		const localNotifications = localStorage.unreadNotifications;
+
+		if (localNotifications) {
+			localNotificationsCount = JSON.parse(localNotifications).length;
+			$unreadCount.text(githubNotificationsCount + localNotificationsCount);
+		}
+	}
+
 	function setup() {
 		if (pageDetect.isNotifications()) {
 			renderNotifications();
+			countLocalNotifications();
 			$(document).on('click', '.js-mark-read', markNotificationRead);
 			$(document).on('click', '.js-mark-all-read', markAllNotificationsRead);
 		} else {
