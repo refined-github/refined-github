@@ -75,6 +75,15 @@ function addCompareTab() {
 			head = $(commits[0]).find('.zeroclipboard-button').data('clipboard-text');
 		}
 	}
+	if (pageDetect.isReleaseList()) {
+		const latestRelease = $('.release-timeline .release .tag-references li:first-child .css-truncate-target')[0] || $('.release-timeline-tags li .tag-name, .releases-tag-list tr .tag-name')[0];
+		if (latestRelease) {
+			head = $(latestRelease).text();
+		}
+	}
+	if (pageDetect.isRelease()) {
+		head = $('.tag-references li:first-child .css-truncate-target').text();
+	}
 
 	const $repoNav = $('.js-repo-nav');
 
