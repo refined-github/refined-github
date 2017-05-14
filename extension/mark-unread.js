@@ -233,16 +233,15 @@ window.markUnread = (() => {
 		const $notificationIndicator = $('.header-nav-link.notification-indicator');
 		const $notificationStatus = $notificationIndicator.find('.mail-status');
 
-		const localNotifications = localStorage.unreadNotifications;
-		let notificationsLabel = '';
-		if (JSON.parse(localNotifications).length > 0) {
-			notificationsLabel = 'You have unread notifications';
+		let hasNotifications = $notificationStatus.hasClass('unread');
+		if (JSON.parse(localStorage.unreadNotifications).length > 0) {
+			hasNotifications = true;
 			$notificationStatus.addClass('local-unread');
 		} else {
 			$notificationStatus.removeClass('local-unread');
-			notificationsLabel = ($notificationStatus.hasClass('unread')) ? 'You have unread notifications' : 'You have no unread notifications';
 		}
-		$notificationIndicator.attr('aria-label', notificationsLabel);
+
+		$notificationIndicator.attr('aria-label', hasNotifications ? 'You have unread notifications' : 'You have no unread notifications');
 	}
 
 	function markNotificationRead(e) {
