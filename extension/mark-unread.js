@@ -255,7 +255,7 @@ window.markUnread = (() => {
 			$(document).on('click', '.js-mark-read', markNotificationRead);
 			$(document).on('click', '.js-mark-all-read', markAllNotificationsRead);
 			$(document).on('click', 'form[action="/notifications/mark"] button', () => {
-				localStorage.unreadNotifications = [];
+				localStorage.unreadNotifications = '[]';
 			});
 		} else {
 			markRead(location.href);
