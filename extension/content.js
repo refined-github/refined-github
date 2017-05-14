@@ -261,7 +261,7 @@ function showRecentlyPushedBranches() {
 }
 
 // Add option for viewing diffs without whitespace changes
-function addDiffViewWithoutWhitespaceOption(type) {
+function addDiffViewWithoutWhitespaceOption() {
 	if ($('.pr-review-tools .BtnGroup').length < 1 && $('.Details .BtnGroup').length < 1 && $('.pr-review-tools .BtnGroup .tooltipped[href*="diff="]').length < 1) {
 		return;
 	}
@@ -274,6 +274,7 @@ function addDiffViewWithoutWhitespaceOption(type) {
 	const optionElement = document.createElement('a');
 	const urlParams = new URLSearchParams(window.location.search);
 	const urlHash = window.location.hash || '';
+	const svgIcon = icons.check;
 	const optionElementObject = $(optionElement);
 	let optionIsSet = false;
 
@@ -284,20 +285,20 @@ function addDiffViewWithoutWhitespaceOption(type) {
 		urlParams.set('w', 1);
 	}
 
-	const optionElementContent = `${optionIsSet ? 'Show' : 'Ignore'} whitespace`;
+	const optionElementContent = `${optionIsSet ? svgIcon + ' ' : ''}No Whitespace`;
 	const optionHref = `${window.location.origin + window.location.pathname}?${urlParams.toString() + urlHash}`;
 
-	optionElementObject.html(optionElementContent).attr('href', optionHref).attr('data-hotkey', 'd w').attr('class', 'refined-github-toggle-whitespace');
+	optionElementObject.html(optionElementContent).attr('href', optionHref).attr('data-hotkey', 'd w').attr('class', 'refined-github-toggle-whitespace').attr('title', `Click here to turn whitespace in diffs ${optionIsSet ? 'on' : 'off'}`);
 
 	if ($('.Details .BtnGroup').length > 0) {
 		$('.Details .BtnGroup *:last-child').after(optionElement);
 		optionElementObject.addClass('btn btn-sm BtnGroup-item');
-	};
+	}
 
-	if ($('.pr-review-tools .BtnGroup').length > 0 ) {
-		$('.pr-review-tools .BtnGroup *:last-child').after(optionElement)
+	if ($('.pr-review-tools .BtnGroup').length > 0) {
+		$('.pr-review-tools .BtnGroup *:last-child').after(optionElement);
 		optionElementObject.addClass('btn btn-sm btn-outline BtnGroup-item');
-	};
+	}
 }
 
 function addOPLabels() {
@@ -494,7 +495,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 
 			if (pageDetect.hasDiff()) {
-				addDiffViewWithoutWhitespaceOption('commit');
+				addDiffViewWithoutWhitespaceOption();
 			}
 
 			if (pageDetect.isCommitList()) {
@@ -503,7 +504,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
 				diffFileHeader.setup();
-				addDiffViewWithoutWhitespaceOption('pr');
+				addDiffViewWithoutWhitespaceOption();
 				filePathCopyBtnListner();
 			}
 
