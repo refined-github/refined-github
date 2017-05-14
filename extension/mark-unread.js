@@ -74,6 +74,7 @@ window.markUnread = (() => {
 		});
 
 		localStorage.unreadNotifications = JSON.stringify(unreadNotifications);
+		unreadIndicatorIcon();
 	}
 
 	function renderNotifications() {
@@ -235,16 +236,18 @@ window.markUnread = (() => {
 		const localNotifications = localStorage.unreadNotifications;
 		let hasLocalNotification = false;
 
-		if (localNotifications !== '[]' && JSON.parse(localNotifications).length > 0) {
+		if (JSON.parse(localNotifications).length > 0) {
 			hasLocalNotification = true;
 		}
-
+		let notificationsLabel = '';
 		if (hasLocalNotification) {
-			$notificationIndicator.attr('aria-label', 'You have unread notifications');
+			notificationsLabel = 'You have unread notifications';
 			$notificationStatus.addClass('local-unread');
 		} else {
 			$notificationStatus.removeClass('local-unread');
+			notificationsLabel = ($notificationStatus.hasClass('unread')) ? 'You have unread notifications' : 'You have no unread notifications';
 		}
+		$notificationIndicator.attr('aria-label', notificationsLabel);
 	}
 
 	function markNotificationRead(e) {
