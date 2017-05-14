@@ -105,7 +105,7 @@ function addReleasesTab() {
 		</a>`);
 	}
 
-	if (pageDetect.isReleases()) {
+	if (pageDetect.isReleaseList() || pageDetect.isRelease()) {
 		$repoNav.find('.selected')
 			.removeClass('js-selected-navigation-item selected');
 
