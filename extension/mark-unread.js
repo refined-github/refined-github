@@ -42,18 +42,18 @@ window.markUnread = (() => {
 		const type = pageDetect.isPR() ? 'pull-request' : 'issue';
 		const url = stripHash(location.href);
 
-		const stateLabel = $('.gh-header-meta .state');
+		const stateLabel = $('.gh-header-meta .State');
 		let state;
 
-		if (stateLabel.hasClass('state-open')) {
+		if (stateLabel.hasClass('State--green')) {
 			state = 'open';
 		}
 
-		if (stateLabel.hasClass('state-merged')) {
+		if (stateLabel.hasClass('State--purple')) {
 			state = 'merged';
 		}
 
-		if (stateLabel.hasClass('state-closed')) {
+		if (stateLabel.hasClass('State--red')) {
 			state = 'closed';
 		}
 
