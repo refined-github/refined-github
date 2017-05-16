@@ -388,6 +388,12 @@ function removeProjectsTab() {
 	}
 }
 
+function fixSquashAndMergeTitle() {
+	$('.btn-group-squash button[type=submit]').click(() => {
+		$('#merge_title_field').val(`${$('.js-issue-title').text().trim()} (${$('.gh-header-number').text()})`);
+	});
+}
+
 // Support indent with tab key in comments
 $(document).on('keydown', '.js-comment-field', event => {
 	if (event.which === 9 && !event.shiftKey) {
@@ -471,6 +477,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (pageDetect.isPR()) {
 				linkifyBranchRefs();
 				addDeleteForkLink();
+				fixSquashAndMergeTitle();
 			}
 
 			if (pageDetect.isPR() || pageDetect.isIssue()) {
