@@ -249,11 +249,12 @@ window.markUnread = (() => {
 			});
 	}
 
-	function addNotificationClearModal() {
+	function addCustomAllReadBtn() {
 		const $markAllReadBtn = $('#notification-center a[href="#mark_as_read_confirm_box"]');
 		if ($markAllReadBtn.length >= 1 || JSON.parse(localStorage.unreadNotifications).length === 0) {
 			return;
 		}
+
 		const $tabNav = $('#notification-center .tabnav-tabs:first ');
 		const markAllBtnCustom = `
 			<div class="float-right">
@@ -275,10 +276,23 @@ window.markUnread = (() => {
 		});
 	}
 
+	function countLocalNotifications() {
+		const $unreadCount = $('#notification-center .filter-list a[href="/notifications"] .count');
+		const githubNotificationsCount = Number($unreadCount.text());
+		let localNotificationsCount = 0;
+		const localNotifications = localStorage.unreadNotifications;
+
+		if (localNotifications) {
+			localNotificationsCount = JSON.parse(localNotifications).length;
+			$unreadCount.text(githubNotificationsCount + localNotificationsCount);
+		}
+	}
+
 	function setup() {
 		if (pageDetect.isNotifications()) {
 			renderNotifications();
-			addNotificationClearModal();
+			addCustomAllReadBtn();
+			countLocalNotifications();
 			$(document).on('click', '.js-mark-read', markNotificationRead);
 			$(document).on('click', '.js-mark-all-read', markAllNotificationsRead);
 			$(document).on('click', 'form[action="/notifications/mark"] button', () => {
