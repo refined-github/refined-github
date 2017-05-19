@@ -169,14 +169,9 @@
 }
 
 /* add hover underline for `content.js` linkified branch refs in pull requests */
-.commit-ref:hover,
-.commit-ref:hover span {
+a .commit-ref:hover,
+a .commit-ref:hover span {
 	text-decoration: underline !important;
-}
-
-.commit-ref.unlinked:hover,
-.commit-ref.unlinked:hover span {
-	text-decoration: none !important;
 }
 
 /* remove the "new feature" notification box */
@@ -594,7 +589,21 @@ div.inline-comment-form .form-actions,
 	float: none;
 }
 
+/* "Copy file path" button in pull request diffs */
+#rg-copy-filepath-btn,
+#rg-copy-filepath-btn:focus,
+#rg-copy-filepath-btn:active {
+	border: none;
+	background: transparent;
+}
+
 /* "Add a Project" button */
 #refined-github-project-new-link {
 	margin-top: 5px;
 }
+
+/* Display notification bell icon for bookmarked Issues/PR */
+.notification-indicator .mail-status.local-unread{
+	display: inline-block;
+}
+

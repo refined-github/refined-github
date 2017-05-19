@@ -31,7 +31,7 @@ window.pageDetect = (() => {
 
 	const isCommit = () => isSingleCommit() || isPRCommit() || (isPRFiles() && $('.full-commit').length > 0);
 
-	const isCompare = () => isRepo() && /^\/compare\//.test(getRepoPath());
+	const isCompare = () => isRepo() && /^\/compare/.test(getRepoPath());
 
 	const hasCode = () => isRepo() && $('.blob-code-inner').length > 0;
 
