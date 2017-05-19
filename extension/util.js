@@ -40,4 +40,10 @@
 		}
 		return `<a href="https://github.com/${repoPath}/issues/${issue.replace('#', '')}" ${attrs}>${issue}</a>`;
 	};
+
+	exports.escapeHtml = html => {
+		const escape = document.createElement('textarea');
+		escape.textContent = html;
+		return escape.innerHTML;
+	};
 })(window.utils = {});

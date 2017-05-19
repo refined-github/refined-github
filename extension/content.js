@@ -176,13 +176,13 @@ function addDeleteForkLink() {
 
 function linkifyIssuesInTitles() {
 	const $title = $('.js-issue-title');
-	const titleText = $title.text();
+	const titleText = utils.escapeHtml($title.text());
 	const issueRegex = utils.issueRegex;
 
 	if (issueRegex.test(titleText)) {
 		$title.html(titleText.replace(
 			new RegExp(issueRegex.source, 'g'),
-            match => utils.linkifyIssueRef(repoUrl, match, '')
+			match => utils.linkifyIssueRef(repoUrl, match, '')
 		));
 	}
 }
