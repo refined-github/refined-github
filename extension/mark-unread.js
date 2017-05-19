@@ -249,6 +249,33 @@ window.markUnread = (() => {
 			});
 	}
 
+	function addCustomAllReadBtn() {
+		const $markAllReadBtn = $('#notification-center a[href="#mark_as_read_confirm_box"]');
+		if ($markAllReadBtn.length >= 1 || JSON.parse(localStorage.unreadNotifications).length === 0) {
+			return;
+		}
+
+		const $tabNav = $('#notification-center .tabnav-tabs:first ');
+		const markAllBtnCustom = `
+			<div class="float-right">
+			    <a href="#mark_as_read_confirm_box" class="btn btn-sm " rel="facebox">Mark all as read</a>
+    			<div id="mark_as_read_confirm_box" style="display:none">
+	        		<h2 class="facebox-header" data-facebox-id="facebox-header">Are you sure?</h2>
+	        		<p data-facebox-id="facebox-description">Are you sure you want to mark all unread notifications as read?</p>
+	            	<div class="full-button">
+	                	<button  id="clear-local-notification" class="btn btn-block">Mark all notifications as read</button>
+	            	</div>
+    			</div>
+    		</div>`;
+
+		$tabNav.append(markAllBtnCustom);
+
+		$(document).on('click', '#clear-local-notification', () => {
+			localStorage.unreadNotifications = '[]';
+			window.location.reload();
+		});
+	}
+
 	function countLocalNotifications() {
 		const $unreadCount = $('#notification-center .filter-list a[href="/notifications"] .count');
 		const githubNotificationsCount = Number($unreadCount.text());
@@ -264,9 +291,13 @@ window.markUnread = (() => {
 	function setup() {
 		if (pageDetect.isNotifications()) {
 			renderNotifications();
+			addCustomAllReadBtn();
 			countLocalNotifications();
 			$(document).on('click', '.js-mark-read', markNotificationRead);
 			$(document).on('click', '.js-mark-all-read', markAllNotificationsRead);
+			$(document).on('click', 'form[action="/notifications/mark"] button', () => {
+				localStorage.unreadNotifications = '[]';
+			});
 		} else {
 			markRead(location.href);
 			addMarkUnreadButton();
