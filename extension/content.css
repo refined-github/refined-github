@@ -600,3 +600,9 @@ div.inline-comment-form .form-actions,
 #refined-github-project-new-link {
 	margin-top: 5px;
 }
+
+/* Display notification bell icon for bookmarked Issues/PR */
+.notification-indicator .mail-status.local-unread{
+	display: inline-block;
+}
+

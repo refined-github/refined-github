@@ -74,6 +74,7 @@ window.markUnread = (() => {
 		});
 
 		localStorage.unreadNotifications = JSON.stringify(unreadNotifications);
+		unreadIndicatorIcon();
 	}
 
 	function renderNotifications() {
@@ -228,12 +229,29 @@ window.markUnread = (() => {
 		return $('#user-links a.name img').attr('alt').slice(1);
 	}
 
+	function unreadIndicatorIcon() {
+		const $notificationIndicator = $('.header-nav-link.notification-indicator');
+		const $notificationStatus = $notificationIndicator.find('.mail-status');
+
+		let hasNotifications = $notificationStatus.hasClass('unread');
+		if (JSON.parse(localStorage.unreadNotifications).length > 0) {
+			hasNotifications = true;
+			$notificationStatus.addClass('local-unread');
+		} else {
+			$notificationStatus.removeClass('local-unread');
+		}
+
+		$notificationIndicator.attr('aria-label', hasNotifications ? 'You have unread notifications' : 'You have no unread notifications');
+	}
+
 	function markNotificationRead(e) {
 		const notification = $(e.target).parents('li.js-notification');
 		notification.addClass('read');
 
 		const url = notification.find('a.js-notification-target').attr('href');
 		markRead(url);
+
+		unreadIndicatorIcon();
 	}
 
 	function markAllNotificationsRead(e) {
@@ -247,6 +265,7 @@ window.markUnread = (() => {
 				$(el).parents('.js-notification').removeClass('unread').addClass('read');
 				markRead(el.href);
 			});
+		unreadIndicatorIcon();
 	}
 
 	function addCustomAllReadBtn() {
@@ -310,5 +329,5 @@ window.markUnread = (() => {
 		$('.js-mark-unread').remove();
 	}
 
-	return {setup, destroy};
+	return {setup, destroy, unreadIndicatorIcon};
 })();

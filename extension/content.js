@@ -427,6 +427,8 @@ $(document).on('click', '.js-hide-inline-comment-form', event => {
 document.addEventListener('DOMContentLoaded', () => {
 	const username = getUsername();
 
+	markUnread.unreadIndicatorIcon();
+
 	if (pageDetect.isGist()) {
 		addGistCopyButton();
 	} else {
