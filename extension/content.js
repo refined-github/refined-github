@@ -129,17 +129,17 @@ function addTrendingMenuItem() {
 }
 
 function addYoursMenuItem() {
-	const [, page] = location.pathname.split('/');
+	const pageName = pageDetect.isIssueSearch() ? 'issues' : 'pulls';
 	const username = getUsername();
 	const $menu = $('.subnav-links');
 
-	if ($(`.subnav-item[href="/${page}?q=is%3Aopen+is%3Aissue+user%3A${username}"]`).length > 0) {
+	if ($menu.find('.refined-github-yours').length > 0) {
 		return;
 	}
 
-	const yoursMenuItem = $(`<a href="/${page}?q=is%3Aopen+is%3Aissue+user%3A${username}" class="subnav-item">Yours</a>`).dom[0];
+	const yoursMenuItem = $(`<a href="/${pageName}?q=is%3Aopen+is%3Aissue+user%3A${username}" class="subnav-item refined-github-yours">Yours</a>`);
 
-	if ($('.subnav-links.selected').length === 0 && /user%3A[username]/.test(location.search)) {
+	if ($('.subnav-links .selected').length === 0 && location.search.includes(`user%3A${username}`)) {
 		yoursMenuItem.addClass('selected');
 	}
 
