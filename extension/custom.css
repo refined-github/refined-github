@@ -2,11 +2,6 @@
 	highly opinionated changes
 */
 
-/* remove "Pulse" repo tab */
-.reponav a[href$="/pulse"] {
-	display: none !important;
-}
-
 /* alternate monospace font stack, sorted by least popular so you're most likely to get the font you want */
 code,
 kbd,
