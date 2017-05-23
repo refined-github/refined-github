@@ -409,6 +409,13 @@ function fixSquashAndMergeTitle() {
 	});
 }
 
+function addTitleToEmojis() {
+	const emojis = $('.js-comment-body, #readme').find('g-emoji');
+	for (const emoji of emojis) {
+		$(emoji).attr('title', `:${$(emoji).attr('alias')}:`);
+	}
+}
+
 // Support indent with tab key in comments
 $(document).on('keydown', '.js-comment-field', event => {
 	if (event.which === 9 && !event.shiftKey) {
@@ -486,6 +493,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			addReleasesTab();
 			addCompareTab();
 			removeProjectsTab();
+			addTitleToEmojis();
 
 			diffFileHeader.destroy();
 			enableCopyOnY.destroy();
