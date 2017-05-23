@@ -290,26 +290,26 @@ svg.octicon.octicon-star.dashboard-event-icon {
 
 /* Created repository style in dashboard */
 .news .create.simple.alert .body {
-    min-height: 69px;
+	min-height: 69px;
 }
 
 svg.octicon.octicon-repo.dashboard-event-icon {
-    height: 32px !important;
-    width: 28px !important;
+	height: 32px !important;
+	width: 28px !important;
 }
 
 .create.simple.alert .simple .title {
-    position: absolute;
-    top: 10px;
-    font-size: 14px !important;
-    font-weight: bold;
-    color: inherit !important;
+	position: absolute;
+	top: 10px;
+	font-size: 14px !important;
+	font-weight: bold;
+	color: inherit !important;
 }
 
 .create.simple.alert .simple .time {
-    position: absolute;
-    top: -2px;
-    left: 45px;
+	position: absolute;
+	top: -2px;
+	left: 45px;
 }
 
 /* decrease font-size on commit details so our custom patch and diff links fit */
@@ -598,8 +598,8 @@ td.blob-code.blob-code-deletion:before {
 
 /* ...in comment edit form */
 div.previewable-edit .previewable-comment-form .form-actions {
-    float: none;
-    margin-left: 10px;
+	float: none;
+	margin-left: 10px;
 }
 
 .previewable-edit .previewable-comment-form .form-actions .btn.js-comment-cancel-button {
