@@ -328,10 +328,10 @@ function addDiffViewWithoutWhitespaceOption(type) {
 
 function addOPLabels() {
 	const comments = $('div.js-comment').toArray();
-	const newComments = comments.filter(comment => !$(comment).hasClass('refined-github-op'));
+	const newComments = $(comments).filter(':not(.refined-github-op)').toArray();
 
-	if (newComments) {
-		const commentAuthor = comment => $(comment).find('.author').text();
+	if (newComments.length > 0) {
+		const commentAuthor = comment => $(comment).find('strong .author').text();
 		let op;
 
 		if (pageDetect.isPR()) {
@@ -348,7 +348,7 @@ function addOPLabels() {
 			opComments = opComments.slice(1);
 		}
 
-		if (opComments) {
+		if (opComments.length > 0) {
 			const type = pageDetect.isPR() ? 'pull request' : 'issue';
 			const tooltip = `${op === getUsername() ? 'You' : 'This user'} submitted this ${type}.`;
 			const label = `

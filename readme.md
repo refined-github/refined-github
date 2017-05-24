@@ -78,7 +78,17 @@ And [lots](extension/content.css) [more...](extension/content.js)
 
 ## Install
 
+### Chrome
+
 Install it from the [Chrome Web Store](https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf) or [manually](http://superuser.com/a/247654/6877).
+
+### Firefox
+
+1. Download [this repo as a zip file](https://github.com/sindresorhus/refined-github/archive/master.zip)
+2. Extract its contents
+3. Visit `about:debugging#addons` in Firefox
+4. Click on **Load Temporary Add-on**
+5. Select the file `extension/manifest.json`
 
 
 ## Contribute

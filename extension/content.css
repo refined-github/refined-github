@@ -394,6 +394,7 @@ svg.octicon.octicon-repo.dashboard-event-icon {
 .gist table.lines,
 .highlight pre, /* Readme code blocks */
 .blob-code-inner /* PR inline diff */ {
+	-moz-tab-size: 4 !important;
 	tab-size: 4 !important;
 }
 
