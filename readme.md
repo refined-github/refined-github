@@ -79,6 +79,7 @@ And [lots](extension/content.css) [more...](extension/content.js)
 ## Install
 
 ### Chrome
+
 Install it from the [Chrome Web Store](https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf) or [manually](http://superuser.com/a/247654/6877).
 
 ### Firefox
