@@ -410,8 +410,7 @@ function fixSquashAndMergeTitle() {
 }
 
 function addTitleToEmojis() {
-	const emojis = $('.js-comment-body, #readme').find('g-emoji');
-	for (const emoji of emojis) {
+	for (const emoji of $('g-emoji')) {
 		$(emoji).attr('title', `:${$(emoji).attr('alias')}:`);
 	}
 }
