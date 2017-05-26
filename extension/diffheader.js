@@ -78,7 +78,7 @@ window.diffFileHeader = (() => {
 			return;
 		}
 
-		const files = Array.from($('.file.js-details-container'));
+		const files = $('.file.js-details-container').get();
 		return files.find(el => isFilePartlyVisible(el, toolbarHeight));
 	};
 
