@@ -24,8 +24,8 @@ window.markUnread = (() => {
 	}
 
 	function markUnread() {
-		$(this).attr('disabled', 'disabled');
-		$(this).text('Marked as unread');
+		this.setAttribute('disabled', 'disabled');
+		this.textContent = 'Marked as unread';
 
 		const participants = $('.participant-avatar').toArray().map(el => {
 			const $el = $(el);
