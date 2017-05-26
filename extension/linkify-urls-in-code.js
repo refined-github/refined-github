@@ -14,11 +14,10 @@ window.linkifyURLsInCode = (() => {
 		if ($(`.${linkifiedURLClass}`).length > 0) {
 			return;
 		}
-		const codeBlobs = $('.blob-code-inner');
-		const commentCodeBlobs = $('.blob-code-inner span.pl-c');
+		const codeBlobs = document.querySelectorAll('.blob-code-inner');
+		const commentCodeBlobs = document.querySelectorAll('.blob-code-inner span.pl-c');
 
-		$(codeBlobs)
-		.toArray()
+		codeBlobs
 		.forEach(blob => {
 			for (let match of findURLs(blob.innerHTML)) {
 				// Remove < or > from beginning or end of an URL
@@ -27,8 +26,7 @@ window.linkifyURLsInCode = (() => {
 			}
 		});
 
-		$(commentCodeBlobs)
-		.toArray()
+		commentCodeBlobs
 		.forEach(blob => {
 			const blobHTML = blob.innerHTML;
 			if (hasIssue(blobHTML)) {
