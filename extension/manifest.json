@@ -24,6 +24,7 @@
 			],
 			"js": [
 				"vendor/jquery.slim.min.js",
+				"vendor/element-ready.js",
 				"vendor/gh-injection.js",
 				"util.js",
 				"page-detect.js",
