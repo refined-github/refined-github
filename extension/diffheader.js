@@ -111,7 +111,7 @@ window.diffFileHeader = (() => {
 
 		$('.diffbar > .diffstat').insertAfter('.pr-review-tools');
 
-		$(`<span class="diffbar-item diff-toolbar-filename"></span>`).insertAfter($('.toc-select'));
+		$(`<span class="diffbar-item diff-toolbar-filename"></span>`).insertAfter('.toc-select');
 		diffFile.reset();
 	};
 

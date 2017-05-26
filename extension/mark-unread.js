@@ -211,10 +211,7 @@ window.markUnread = (() => {
 	}
 
 	function isNotificationExist(url) {
-		return $('a.js-notification-target')
-			.toArray()
-			.filter(link => stripHash($(link).attr('href')) === stripHash(url))
-			.length > 0;
+		return $(`a.js-notification-target[href^="${stripHash(url)}"]`).length > 0;
 	}
 
 	function isEmptyPage() {

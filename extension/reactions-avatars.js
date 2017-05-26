@@ -47,7 +47,7 @@ const addReactionParticipants = {
 	},
 
 	reapply(event, currentUser) {
-		if (!$(event.target).closest('button').not('.add-reaction-btn').is('.add-reactions-options-item, .reaction-summary-item')) {
+		if (!$(event.target).closest('.add-reactions-options-item, .reaction-summary-item').not('.add-reaction-btn')) {
 			return;
 		}
 

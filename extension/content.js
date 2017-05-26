@@ -12,7 +12,7 @@ function getCanonicalBranchFromRef($element) {
 }
 
 function getSettingsTab() {
-	return $('.js-repo-nav').children('[data-selected-links~="repo_settings"]');
+	return $('.js-repo-nav > [data-selected-links~="repo_settings"]');
 }
 
 const hasSettings = () => getSettingsTab().length > 0;
@@ -187,10 +187,9 @@ function addReadmeEditButton() {
 }
 
 function addDeleteForkLink() {
-	const $postMergeContainer = $('#partial-pull-merging');
+	const $postMergeDescription = $('#partial-pull-merging .merge-branch-description');
 
-	if ($postMergeContainer.length > 0) {
-		const $postMergeDescription = $postMergeContainer.find('.merge-branch-description');
+	if ($postMergeDescription.length > 0) {
 		const $currentBranch = $postMergeDescription.find('.commit-ref.current-branch')[0];
 		const forkPath = $currentBranch ? $currentBranch.title.split(':')[0] : null;
 
@@ -333,7 +332,7 @@ function addDiffViewWithoutWhitespaceOption(type) {
 	optionElementObject.html(optionElementContent).attr('href', optionHref).attr('data-hotkey', 'd w').attr('class', 'refined-github-toggle-whitespace');
 
 	if (type === 'pr') {
-		$('.diff-options-content').find('.dropdown-item:last-of-type').after(optionElement);
+		$('.diff-options-content .dropdown-item:last-of-type').after(optionElement);
 		optionElementObject.addClass('dropdown-item');
 	} else {
 		$('.btn-group .selected[href*="diff="]').after(optionElement);
@@ -398,7 +397,7 @@ function addFilterCommentsByYou() {
 				Everything commented by you
 			</div>
 		</a>`;
-	const lastFilter = $('.subnav-search-context').find('.select-menu-list > a:last-child');
+	const lastFilter = $('.subnav-search-context .select-menu-list > a:last-child');
 	if (!lastFilter.prev().hasClass('refined-github-filter')) {
 		lastFilter.before(newFilter);
 	}
@@ -412,7 +411,7 @@ function addProjectNewLink() {
 }
 
 function removeProjectsTab() {
-	const projectsTab = $('.js-repo-nav').find('.reponav-item[data-selected-links^="repo_projects"]');
+	const projectsTab = $('.js-repo-nav .reponav-item[data-selected-links^="repo_projects"]');
 	if (projectsTab.length > 0 && projectsTab.find('.Counter, .counter').text() === '0') {
 		projectsTab.remove();
 	}
