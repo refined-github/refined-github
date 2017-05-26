@@ -234,7 +234,7 @@ window.markUnread = (() => {
 		const $notificationStatus = $notificationIndicator.find('.mail-status');
 
 		let hasNotifications = $notificationStatus.hasClass('unread');
-		if (JSON.parse(localStorage.unreadNotifications).length > 0) {
+		if (JSON.parse(localStorage.unreadNotifications || '[]').length > 0) {
 			hasNotifications = true;
 			$notificationStatus.addClass('local-unread');
 		} else {
@@ -270,7 +270,7 @@ window.markUnread = (() => {
 
 	function addCustomAllReadBtn() {
 		const $markAllReadBtn = $('#notification-center a[href="#mark_as_read_confirm_box"]');
-		if ($markAllReadBtn.length >= 1 || JSON.parse(localStorage.unreadNotifications).length === 0) {
+		if ($markAllReadBtn.length >= 1 || JSON.parse(localStorage.unreadNotifications || '[]').length === 0) {
 			return;
 		}
 
