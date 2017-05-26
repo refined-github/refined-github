@@ -128,6 +128,24 @@ async function addTrendingMenuItem() {
 	`);
 }
 
+function addYoursMenuItem() {
+	const pageName = pageDetect.isIssueSearch() ? 'issues' : 'pulls';
+	const username = getUsername();
+	const $menu = $('.subnav-links');
+
+	if ($menu.find('.refined-github-yours').length > 0) {
+		return;
+	}
+
+	const yoursMenuItem = $(`<a href="/${pageName}?q=is%3Aopen+is%3Aissue+user%3A${username}" class="subnav-item refined-github-yours">Yours</a>`);
+
+	if ($('.subnav-links .selected').length === 0 && location.search.includes(`user%3A${username}`)) {
+		yoursMenuItem.addClass('selected');
+	}
+
+	$menu.append(yoursMenuItem);
+}
+
 function infinitelyMore() {
 	const $btn = $('.ajax-pagination-btn');
 
@@ -439,6 +457,13 @@ $(document).on('click', '.js-hide-inline-comment-form', event => {
 	}
 });
 
+// Handle issue list ajax
+$(document).on('pjax:end', () => {
+	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
+		addYoursMenuItem();
+	}
+});
+
 document.addEventListener('DOMContentLoaded', () => {
 	const username = getUsername();
 
@@ -478,6 +503,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	addUploadBtn();
 	new MutationObserver(addUploadBtn).observe($('div[role=main]')[0], {childList: true, subtree: true});
+
+	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
+		addYoursMenuItem();
+	}
 
 	if (pageDetect.isRepo()) {
 		gitHubInjection(window, () => {

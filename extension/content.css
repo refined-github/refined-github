@@ -631,3 +631,7 @@ div.inline-comment-form .form-actions,
 	display: inline-block;
 }
 
+/* Decrease the size of the search box to fit 'Yours' menu item */
+.subnav-search-input[aria-label="Search all issues"] {
+	width: 420px;
+}

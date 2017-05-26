@@ -11,9 +11,13 @@ window.pageDetect = (() => {
 
 	const isRepoTree = () => isRepo() && /\/tree\//.test(getRepoPath());
 
+	const isIssueSearch = () => location.pathname.startsWith('/issues');
+
 	const isIssueList = () => isRepo() && /^\/issues\/?$/.test(getRepoPath());
 
 	const isIssue = () => isRepo() && /^\/issues\/\d+/.test(getRepoPath());
+
+	const isPRSearch = () => location.pathname.startsWith('/pulls');
 
 	const isPRList = () => isRepo() && /^\/pulls\/?$/.test(getRepoPath());
 
@@ -68,8 +72,10 @@ window.pageDetect = (() => {
 		isRepo,
 		isRepoRoot,
 		isRepoTree,
+		isIssueSearch,
 		isIssueList,
 		isIssue,
+		isPRSearch,
 		isPRList,
 		isPR,
 		isPRFiles,
