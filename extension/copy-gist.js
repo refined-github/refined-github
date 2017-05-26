@@ -7,20 +7,17 @@ window.addGistCopyButton = () => {
 	if ($('.copy-btn').length > 0) {
 		return;
 	}
-	const $gistsSibling = $('.file-actions > .btn.btn-sm');
 
-	for (let i = 0; i < $gistsSibling.length; i++) {
-		const commonContainer = $('.file')[i];
-		const isSourceCodeClass = commonContainer.children[1].classList.contains('blob-wrapper');
-		const gistUri = $gistsSibling[i].href;
-		if (isSourceCodeClass) {
-			$(`<a href="${gistUri}" class="btn btn-sm copy-btn gist-copy-btn">Copy</a>`).insertBefore($gistsSibling[i]);
-		}
-	}
+	$('.blob-wrapper').each((i, blob) => {
+		const actionsParent = blob.parentNode.querySelector('.file-actions');
+		const $btn = $(`<button class="btn btn-sm copy-btn gist-copy-btn">Copy</button>`);
+		$btn.data('blob', blob);
+		$btn.prependTo(actionsParent);
+	});
 
 	$(document).on('click', '.copy-btn', e => {
 		e.preventDefault();
-		const fileContents = $(`#${e.currentTarget.offsetParent.id}`).find('.js-file-line-container')[0].innerText;
+		const fileContents = $(e.currentTarget).data('blob').innerText;
 		utils.copyToClipboard(fileContents);
 	});
 };
