@@ -297,10 +297,7 @@ function showRecentlyPushedBranches() {
 		}
 
 		const uri = `/${repoUrl}/show_partial?partial=tree/recently_touched_branches_list`;
-		const fragMarkup = `<include-fragment src=${uri}></include-fragment>`;
-		const div = document.createElement('div');
-		div.innerHTML = fragMarkup;
-		$('.repository-content').prepend(div);
+		$(`<include-fragment src=${uri}></include-fragment>`).prependTo('.repository-content');
 	});
 }
 
