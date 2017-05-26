@@ -54,6 +54,6 @@ window.showRealNames = () => {
 			}
 
 			updateCachedUsers(Object.assign({}, users, userCache));
-		}).catch(err => console.error(err));
+		}).catch(console.error);
 	});
 };
