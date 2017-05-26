@@ -6,8 +6,6 @@
 	"manifest_version": 2,
 	"minimum_chrome_version": "49",
 	"permissions": [
-		"https://github.com/*",
-		"https://gist.github.com/*",
 		"storage"
 	],
 	"icons": {
