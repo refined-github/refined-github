@@ -1,4 +1,4 @@
-/* globals utils, gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, showRealNames, markUnread, linkifyURLsInCode, addUploadBtn, filePathCopyBtnListner */
+/* globals utils, gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, showRealNames, markUnread, linkifyURLsInCode, addUploadBtn, filePathCopyBtnListner, elementReady */
 
 'use strict';
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
@@ -118,10 +118,10 @@ function addReleasesTab() {
 	}
 }
 
-function addTrendingMenuItem() {
-	const $secondListItem = $('.header-nav.float-left .header-nav-item:nth-child(2)');
+async function addTrendingMenuItem() {
+	const secondListItem = await elementReady('.header-nav.float-left .header-nav-item:nth-child(2)');
 
-	$secondListItem.after(`
+	$(secondListItem).after(`
 		<li class="header-nav-item">
 			<a href="/trending" class="header-nav-link" data-hotkey="g t">Trending</a>
 		</li>
@@ -446,8 +446,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	if (pageDetect.isGist()) {
 		addGistCopyButton();
-	} else {
-		addTrendingMenuItem();
 	}
 
 	if (pageDetect.isDashboard()) {
@@ -571,3 +569,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	}
 });
+
+if (!pageDetect.isGist()) {
+	addTrendingMenuItem();
+}
