@@ -7,7 +7,7 @@ const Y_KEYCODE = 89;
 window.enableCopyOnY = (() => {
 	const handler = ({keyCode, target}) => {
 		if (keyCode === Y_KEYCODE && target.nodeName !== 'INPUT') {
-			const commitIsh = $('.commit-tease-sha').text().trim();
+			const commitIsh = utils.el('.commit-tease-sha').textContent.trim();
 			const uri = location.href.replace(/\/blob\/[\w-]+\//, `/blob/${commitIsh}/`);
 
 			utils.copyToClipboard(uri);

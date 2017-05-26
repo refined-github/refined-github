@@ -1,3 +1,5 @@
+/* globals utils */
+
 window.pageDetect = (() => {
 	const isGist = () => location.hostname === 'gist.github.com';
 
@@ -7,7 +9,7 @@ window.pageDetect = (() => {
 
 	const getRepoPath = () => location.pathname.replace(/^\/[^/]+\/[^/]+/, '');
 
-	const isRepoRoot = () => isRepo() && /^(\/?$|\/tree\/)/.test(getRepoPath()) && $('.repository-meta-content').length > 0;
+	const isRepoRoot = () => isRepo() && /^(\/?$|\/tree\/)/.test(getRepoPath()) && utils.exists('.repository-meta-content');
 
 	const isRepoTree = () => isRepo() && /\/tree\//.test(getRepoPath());
 
@@ -33,13 +35,13 @@ window.pageDetect = (() => {
 
 	const isSingleCommit = () => isRepo() && /^\/commit\/[0-9a-f]{5,40}/.test(getRepoPath());
 
-	const isCommit = () => isSingleCommit() || isPRCommit() || (isPRFiles() && $('.full-commit').length > 0);
+	const isCommit = () => isSingleCommit() || isPRCommit() || (isPRFiles() && utils.exists('.full-commit'));
 
 	const isCompare = () => isRepo() && /^\/compare/.test(getRepoPath());
 
-	const hasCode = () => isRepo() && $('.blob-code-inner').length > 0;
+	const hasCode = () => isRepo() && utils.exists('.blob-code-inner');
 
-	const hasDiff = () => isRepo() && (isSingleCommit() || isPRCommit() || isPRFiles() || isCompare() || (isPR() && $('.diff-table').length > 0));
+	const hasDiff = () => isRepo() && (isSingleCommit() || isPRCommit() || isPRFiles() || isCompare() || (isPR() && utils.exists('.diff-table')));
 
 	const isReleases = () => isRepo() && /^\/(releases|tags)/.test(getRepoPath());
 
@@ -64,7 +66,7 @@ window.pageDetect = (() => {
 		return isRepo() && blobPattern.test(location.href);
 	};
 
-	const hasCommentForm = () => $('.js-previewable-comment-form').length > 0;
+	const hasCommentForm = () => utils.exists('.js-previewable-comment-form');
 
 	return {
 		isGist,

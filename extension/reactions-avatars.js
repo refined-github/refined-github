@@ -20,7 +20,7 @@ const addReactionParticipants = {
 				}
 
 				// Add participant container
-				if ($element.find('div.participants-container').length === 0) {
+				if (element.querySelector('div.participants-container') === undefined) {
 					$element.append('<div class="participants-container">');
 				}
 
