@@ -277,6 +277,58 @@ function indentInput(el, size = 4) {
 	el.selectionEnd = selectionStart + indentationText.length;
 }
 
+function lineUpInput(el, down) {
+	el.focus();
+	const value = el.value;
+	const selectionStart = el.selectionStart;
+	const selectionEnd = el.selectionEnd;
+	const lines = value.split(/(\r?\n)/);
+
+	let startChunk = -1;
+	let endChunk = -1;
+
+	lines.reduce((lineStart, line, index) => {
+		const base = Math.floor(index / 2) * 2;
+		const lineEnd = lineStart + line.length;
+
+		if (selectionEnd > lineStart && selectionEnd <= lineEnd) {
+			endChunk = base + 2;
+		}
+
+		if (selectionStart >= lineStart && selectionStart <= lineEnd) {
+			startChunk = base;
+			endChunk = base + 2;
+		}
+
+		return lineEnd;
+	}, 0);
+
+	if (startChunk < 0 || endChunk < 0 || (!down && startChunk === 0)) {
+		return;
+	}
+
+	if ((endChunk + 1 >= lines.length)) {
+		startChunk--;
+		endChunk--;
+		if (startChunk < 2) {
+			// selection spans part of every line
+			return;
+		}
+	}
+
+	const extracted = lines.slice(startChunk, endChunk).join('');
+	const oldPrefixLength = lines.slice(0, startChunk).join('').length;
+
+	const splitPoint = down ? startChunk + 2 : startChunk - 2;
+	lines.splice(startChunk, endChunk - startChunk);
+	const prefix = lines.slice(0, splitPoint).join('');
+	const suffix = lines.slice(splitPoint).join('');
+
+	el.value = prefix + extracted + suffix;
+	el.selectionStart = selectionStart + (prefix.length - oldPrefixLength);
+	el.selectionEnd = selectionEnd + (prefix.length - oldPrefixLength);
+}
+
 function showRecentlyPushedBranches() {
 	// Don't duplicate on back/forward in history
 	if ($('.recently-touched-branches-wrapper').length > 0) {
@@ -440,6 +492,12 @@ $(document).on('keydown', '.js-comment-field', event => {
 
 		event.preventDefault();
 		indentInput(event.target);
+		return false;
+	}
+
+	if ((event.which === 38 || event.which === 40) && event.shiftKey && event.metaKey) {
+		event.preventDefault();
+		lineUpInput(event.target, event.which === 40);
 		return false;
 	}
 });
