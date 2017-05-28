@@ -244,17 +244,45 @@ forked a repo
 remove padding from body of simple news alerts in Dashboard since some will be hidden
 we will add it back on for the simple news alerts we decide to show
 */
+/* - Disabled because these rules were overwriting other padding rules, breaking the layout. -
 .news .alert.create.simple,
 .news .alert.create.simple .body {
 	padding-top: 0;
 	padding-bottom: 0;
 }
+*/
 
 /* add padding back to the contents of simple news alerts in Dashboard */
+/* - Disabled because these rules were overwriting other padding rules, breaking the layout. -
 .news .alert.create.simple .body .title,
 .news .alert.create.simple .body .time {
 	padding-top: 1em;
 	padding-bottom: 1em;
+}
+*/
+
+/* increase visibility of news item when someone create a repo */
+.create.simple .body {
+	min-height: 55px;
+}
+
+svg.octicon.octicon-repo.dashboard-event-icon {
+	height: 32px !important;
+	width: 28px !important;
+}
+
+.create .time {
+	position: absolute;
+	top: 10px;
+	left: 45px;
+}
+
+.create.simple.alert .simple .title {
+	position: absolute;
+	top: 26px;
+	font-size: 14px !important;
+	font-weight: bold;
+	color: inherit !important;
 }
 
 /* don't show contents of simple news alert in Dashboard when you create a branch */
