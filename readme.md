@@ -34,6 +34,7 @@ Our hope is that GitHub will notice and implement some of these much needed impr
 - [Adds navigation to milestone pages](https://cloud.githubusercontent.com/assets/170270/25217211/37b67aea-25d0-11e7-8482-bead2b04ee74.png)
 - [Adds search filter for 'Everything commented by you'](https://cloud.githubusercontent.com/assets/940070/25518367/cb917d3e-2c36-11e7-8475-c4e6dbe0ed6c.png)
 - [Moves destructive buttons ("Close issue", "Cancel") in commenting forms away from primary button](#comment-box)
+- [Adds `Yours` button to Issues/Pull Requests page](https://cloud.githubusercontent.com/assets/1282980/14636384/0d8770e4-0623-11e6-8520-2054bece2771.png)
 - Easier copy-pasting from diffs by making +/- signs unselectable
 - Shows the reactions popover on hover instead of click
 - Supports indenting with the tab key in textareas like the comment box (<kbd>Shift</kbd> <kbd>Tab</kbd> for original behavior)
@@ -47,6 +48,7 @@ Our hope is that GitHub will notice and implement some of these much needed impr
 - Removes tooltips
 - Removes the "Projects" repo tab when there are no projects
 - Copy canonical link to file when [the `y` hotkey](https://help.github.com/articles/getting-permanent-links-to-files/) is used
+- [Uses the pull request title as commit title when merging with 'Squash and merge'](https://github.com/sindresorhus/refined-github/issues/276)
 - ~~[Adds blame links for parent commits in blame view](https://github.com/sindresorhus/refined-github/issues/2#issuecomment-189141373)~~ [Implemented by GitHub](https://github.com/blog/2304-navigate-file-history-faster-with-improved-blame-view)
 - ~~[Adds ability to collapse/expand files in a pull request diff](https://cloud.githubusercontent.com/assets/170270/13954167/40caa604-f072-11e5-89ba-3145217c4e28.png)~~ [Implemented by GitHub](https://cloud.githubusercontent.com/assets/170270/25772137/6a6b678e-3296-11e7-97c7-02e31ef17743.png)
 
@@ -77,7 +79,17 @@ And [lots](extension/content.css) [more...](extension/content.js)
 
 ## Install
 
+### Chrome
+
 Install it from the [Chrome Web Store](https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf) or [manually](http://superuser.com/a/247654/6877).
+
+### Firefox
+
+1. Download [this repo as a zip file](https://github.com/sindresorhus/refined-github/archive/master.zip)
+2. Extract its contents
+3. Visit `about:debugging#addons` in Firefox
+4. Click on **Load Temporary Add-on**
+5. Select the file `extension/manifest.json`
 
 
 ## Contribute

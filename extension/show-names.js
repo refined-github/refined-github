@@ -18,7 +18,7 @@ window.showRealNames = () => {
 	};
 
 	getCachedUsers((users = {}) => {
-		const usersOnPage = Array.from($('.js-discussion .author')).map(el => el.innerText);
+		const usersOnPage = $('.js-discussion .author').get().map(el => el.innerText);
 		const uniqueUsers = new Set(usersOnPage);
 
 		// Add cached users to DOM first, since the calls for everyone else will be slow
@@ -54,6 +54,6 @@ window.showRealNames = () => {
 			}
 
 			updateCachedUsers(Object.assign({}, users, userCache));
-		}).catch(err => console.error(err));
+		}).catch(console.error);
 	});
 };

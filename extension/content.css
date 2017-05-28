@@ -169,14 +169,9 @@
 }
 
 /* add hover underline for `content.js` linkified branch refs in pull requests */
-.commit-ref:hover,
-.commit-ref:hover span {
+a .commit-ref:hover,
+a .commit-ref:hover span {
 	text-decoration: underline !important;
-}
-
-.commit-ref.unlinked:hover,
-.commit-ref.unlinked:hover span {
-	text-decoration: none !important;
 }
 
 /* remove the "new feature" notification box */
@@ -301,6 +296,30 @@ svg.octicon.octicon-star.dashboard-event-icon {
 	color: inherit !important;
 }
 
+/* Created repository style in dashboard */
+.news .create.simple.alert .body {
+	min-height: 69px;
+}
+
+svg.octicon.octicon-repo.dashboard-event-icon {
+	height: 32px !important;
+	width: 28px !important;
+}
+
+.create.simple.alert .simple .title {
+	position: absolute;
+	top: 10px;
+	font-size: 14px !important;
+	font-weight: bold;
+	color: inherit !important;
+}
+
+.create.simple.alert .simple .time {
+	position: absolute;
+	top: -2px;
+	left: 45px;
+}
+
 /* decrease font-size on commit details so our custom patch and diff links fit */
 .commit .sha-block {
 	margin-left: 7px !important;
@@ -383,6 +402,7 @@ svg.octicon.octicon-star.dashboard-event-icon {
 .gist table.lines,
 .highlight pre, /* Readme code blocks */
 .blob-code-inner /* PR inline diff */ {
+	-moz-tab-size: 4 !important;
 	tab-size: 4 !important;
 }
 
@@ -587,8 +607,8 @@ td.blob-code.blob-code-deletion:before {
 
 /* ...in comment edit form */
 div.previewable-edit .previewable-comment-form .form-actions {
-    float: none;
-    margin-left: 10px;
+	float: none;
+	margin-left: 10px;
 }
 
 .previewable-edit .previewable-comment-form .form-actions .btn.js-comment-cancel-button {
@@ -612,4 +632,14 @@ div.inline-comment-form .form-actions,
 /* "Add a Project" button */
 #refined-github-project-new-link {
 	margin-top: 5px;
+}
+
+/* Display notification bell icon for bookmarked Issues/PR */
+.notification-indicator .mail-status.local-unread{
+	display: inline-block;
+}
+
+/* Decrease the size of the search box to fit 'Yours' menu item */
+.subnav-search-input[aria-label="Search all issues"] {
+	width: 420px;
 }

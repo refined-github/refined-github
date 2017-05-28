@@ -24,8 +24,8 @@ window.markUnread = (() => {
 	}
 
 	function markUnread() {
-		$(this).attr('disabled', 'disabled');
-		$(this).text('Marked as unread');
+		this.setAttribute('disabled', 'disabled');
+		this.textContent = 'Marked as unread';
 
 		const participants = $('.participant-avatar').toArray().map(el => {
 			const $el = $(el);
@@ -42,18 +42,18 @@ window.markUnread = (() => {
 		const type = pageDetect.isPR() ? 'pull-request' : 'issue';
 		const url = stripHash(location.href);
 
-		const stateLabel = $('.gh-header-meta .state');
+		const stateLabel = $('.gh-header-meta .State');
 		let state;
 
-		if (stateLabel.hasClass('state-open')) {
+		if (stateLabel.hasClass('State--green')) {
 			state = 'open';
 		}
 
-		if (stateLabel.hasClass('state-merged')) {
+		if (stateLabel.hasClass('State--purple')) {
 			state = 'merged';
 		}
 
-		if (stateLabel.hasClass('state-closed')) {
+		if (stateLabel.hasClass('State--red')) {
 			state = 'closed';
 		}
 
@@ -74,6 +74,7 @@ window.markUnread = (() => {
 		});
 
 		localStorage.unreadNotifications = JSON.stringify(unreadNotifications);
+		unreadIndicatorIcon();
 	}
 
 	function renderNotifications() {
@@ -228,12 +229,29 @@ window.markUnread = (() => {
 		return $('#user-links a.name img').attr('alt').slice(1);
 	}
 
+	function unreadIndicatorIcon() {
+		const $notificationIndicator = $('.header-nav-link.notification-indicator');
+		const $notificationStatus = $notificationIndicator.find('.mail-status');
+
+		let hasNotifications = $notificationStatus.hasClass('unread');
+		if (JSON.parse(localStorage.unreadNotifications || '[]').length > 0) {
+			hasNotifications = true;
+			$notificationStatus.addClass('local-unread');
+		} else {
+			$notificationStatus.removeClass('local-unread');
+		}
+
+		$notificationIndicator.attr('aria-label', hasNotifications ? 'You have unread notifications' : 'You have no unread notifications');
+	}
+
 	function markNotificationRead(e) {
 		const notification = $(e.target).parents('li.js-notification');
 		notification.addClass('read');
 
 		const url = notification.find('a.js-notification-target').attr('href');
 		markRead(url);
+
+		unreadIndicatorIcon();
 	}
 
 	function markAllNotificationsRead(e) {
@@ -247,13 +265,58 @@ window.markUnread = (() => {
 				$(el).parents('.js-notification').removeClass('unread').addClass('read');
 				markRead(el.href);
 			});
+		unreadIndicatorIcon();
+	}
+
+	function addCustomAllReadBtn() {
+		const $markAllReadBtn = $('#notification-center a[href="#mark_as_read_confirm_box"]');
+		if ($markAllReadBtn.length >= 1 || JSON.parse(localStorage.unreadNotifications || '[]').length === 0) {
+			return;
+		}
+
+		const $tabNav = $('#notification-center .tabnav-tabs:first ');
+		const markAllBtnCustom = `
+			<div class="float-right">
+			    <a href="#mark_as_read_confirm_box" class="btn btn-sm " rel="facebox">Mark all as read</a>
+    			<div id="mark_as_read_confirm_box" style="display:none">
+	        		<h2 class="facebox-header" data-facebox-id="facebox-header">Are you sure?</h2>
+	        		<p data-facebox-id="facebox-description">Are you sure you want to mark all unread notifications as read?</p>
+	            	<div class="full-button">
+	                	<button  id="clear-local-notification" class="btn btn-block">Mark all notifications as read</button>
+	            	</div>
+    			</div>
+    		</div>`;
+
+		$tabNav.append(markAllBtnCustom);
+
+		$(document).on('click', '#clear-local-notification', () => {
+			localStorage.unreadNotifications = '[]';
+			window.location.reload();
+		});
+	}
+
+	function countLocalNotifications() {
+		const $unreadCount = $('#notification-center .filter-list a[href="/notifications"] .count');
+		const githubNotificationsCount = Number($unreadCount.text());
+		let localNotificationsCount = 0;
+		const localNotifications = localStorage.unreadNotifications;
+
+		if (localNotifications) {
+			localNotificationsCount = JSON.parse(localNotifications).length;
+			$unreadCount.text(githubNotificationsCount + localNotificationsCount);
+		}
 	}
 
 	function setup() {
 		if (pageDetect.isNotifications()) {
 			renderNotifications();
+			addCustomAllReadBtn();
+			countLocalNotifications();
 			$(document).on('click', '.js-mark-read', markNotificationRead);
 			$(document).on('click', '.js-mark-all-read', markAllNotificationsRead);
+			$(document).on('click', 'form[action="/notifications/mark"] button', () => {
+				localStorage.unreadNotifications = '[]';
+			});
 		} else {
 			markRead(location.href);
 			addMarkUnreadButton();
@@ -266,5 +329,5 @@ window.markUnread = (() => {
 		$('.js-mark-unread').remove();
 	}
 
-	return {setup, destroy};
+	return {setup, destroy, unreadIndicatorIcon};
 })();

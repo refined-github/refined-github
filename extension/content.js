@@ -1,28 +1,45 @@
-/* globals utils, toSemver, gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, showRealNames, markUnread, linkifyURLsInCode, addUploadBtn, filePathCopyBtnListner */
+/* globals utils, toSemver, gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, showRealNames, markUnread, linkifyURLsInCode, addUploadBtn, filePathCopyBtnListner, elementReady */
 
 'use strict';
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
 const repoUrl = `${ownerName}/${repoName}`;
 const getUsername = () => $('meta[name="user-login"]').attr('content');
 
+function getCanonicalBranchFromRef($element) {
+	const refSelector = '.commit-ref, .head-ref, .base-ref';
+
+	return $element.find(refSelector).addBack(refSelector).filter('[title]').attr('title');
+}
+
+function getSettingsTab() {
+	return $('.js-repo-nav').children('[data-selected-links~="repo_settings"]');
+}
+
+const hasSettings = () => getSettingsTab().length > 0;
+
 function linkifyBranchRefs() {
+	let deletedBranchName = null;
+	const $deletedBranchInTimeline = $('.discussion-item-head_ref_deleted');
+	if ($deletedBranchInTimeline.length > 0) {
+		deletedBranchName = getCanonicalBranchFromRef($deletedBranchInTimeline);
+	}
+
 	$('.commit-ref').each((i, el) => {
 		const $el = $(el);
 		if ($el.children().eq(0).text() === 'unknown repository') {
-			$el.addClass('unlinked');
 			return;
 		}
 
-		const parts = $el.find('.css-truncate-target');
-		const branch = encodeURIComponent(parts.eq(parts.length - 1).text());
-		let username = ownerName;
+		const canonicalBranch = getCanonicalBranchFromRef($el);
 
-		// If there are two parts the first part is the username
-		if (parts.length > 1) {
-			username = parts.eq(0).text();
+		if (deletedBranchName && canonicalBranch === deletedBranchName) {
+			$el.attr('title', 'Deleted: ' + canonicalBranch);
+			return;
 		}
 
-		$el.wrap(`<a href="https://github.com/${username}/${repoName}/tree/${branch}">`);
+		const branchUrl = canonicalBranch.replace(':', '/tree/');
+
+		$el.wrap(`<a href="https://github.com/${branchUrl}">`);
 	});
 }
 
@@ -63,7 +80,12 @@ function addCompareTab() {
 		$repoNav.find('.selected').removeClass('js-selected-navigation-item selected');
 		$compareTab.addClass('js-selected-navigation-item selected');
 	}
-	$repoNav.append($compareTab);
+
+	if (hasSettings()) {
+		getSettingsTab().before($compareTab);
+	} else {
+		$repoNav.append($compareTab);
+	}
 }
 
 function addReleasesTab() {
@@ -86,20 +108,42 @@ function addReleasesTab() {
 	}
 
 	if (!hasReleases) {
-		$repoNav.append($releasesTab);
+		if (hasSettings()) {
+			getSettingsTab().before($releasesTab);
+		} else {
+			$repoNav.append($releasesTab);
+		}
 
 		cacheReleasesCount();
 	}
 }
 
-function addTrendingMenuItem() {
-	const $secondListItem = $('.header-nav.float-left .header-nav-item:nth-child(2)');
+async function addTrendingMenuItem() {
+	const secondListItem = await elementReady('.header-nav.float-left .header-nav-item:nth-child(2)');
 
-	$secondListItem.after(`
+	$(secondListItem).after(`
 		<li class="header-nav-item">
 			<a href="/trending" class="header-nav-link" data-hotkey="g t">Trending</a>
 		</li>
 	`);
+}
+
+function addYoursMenuItem() {
+	const pageName = pageDetect.isIssueSearch() ? 'issues' : 'pulls';
+	const username = getUsername();
+	const $menu = $('.subnav-links');
+
+	if ($menu.find('.refined-github-yours').length > 0) {
+		return;
+	}
+
+	const yoursMenuItem = $(`<a href="/${pageName}?q=is%3Aopen+is%3Aissue+user%3A${username}" class="subnav-item refined-github-yours">Yours</a>`);
+
+	if ($('.subnav-links .selected').length === 0 && location.search.includes(`user%3A${username}`)) {
+		yoursMenuItem.addClass('selected');
+	}
+
+	$menu.append(yoursMenuItem);
 }
 
 function infinitelyMore() {
@@ -187,13 +231,13 @@ function addDeleteForkLink() {
 
 function linkifyIssuesInTitles() {
 	const $title = $('.js-issue-title');
-	const titleText = $title.text();
+	const titleText = utils.escapeHtml($title.text());
 	const issueRegex = utils.issueRegex;
 
 	if (issueRegex.test(titleText)) {
 		$title.html(titleText.replace(
 			new RegExp(issueRegex.source, 'g'),
-            match => utils.linkifyIssueRef(repoUrl, match, '')
+			match => utils.linkifyIssueRef(repoUrl, match, '')
 		));
 	}
 }
@@ -275,10 +319,7 @@ function showRecentlyPushedBranches() {
 		}
 
 		const uri = `/${repoUrl}/show_partial?partial=tree/recently_touched_branches_list`;
-		const fragMarkup = `<include-fragment src=${uri}></include-fragment>`;
-		const div = document.createElement('div');
-		div.innerHTML = fragMarkup;
-		$('.repository-content').prepend(div);
+		$(`<include-fragment src=${uri}></include-fragment>`).prependTo('.repository-content');
 	});
 }
 
@@ -324,10 +365,10 @@ function addDiffViewWithoutWhitespaceOption(type) {
 
 function addOPLabels() {
 	const comments = $('div.js-comment').toArray();
-	const newComments = comments.filter(comment => !$(comment).hasClass('refined-github-op'));
+	const newComments = $(comments).filter(':not(.refined-github-op)').toArray();
 
-	if (newComments) {
-		const commentAuthor = comment => $(comment).find('.author').text();
+	if (newComments.length > 0) {
+		const commentAuthor = comment => $(comment).find('strong .author').text();
 		let op;
 
 		if (pageDetect.isPR()) {
@@ -344,7 +385,7 @@ function addOPLabels() {
 			opComments = opComments.slice(1);
 		}
 
-		if (opComments) {
+		if (opComments.length > 0) {
 			const type = pageDetect.isPR() ? 'pull request' : 'issue';
 			const tooltip = `${op === getUsername() ? 'You' : 'This user'} submitted this ${type}.`;
 			const label = `
@@ -399,6 +440,18 @@ function removeProjectsTab() {
 	}
 }
 
+function fixSquashAndMergeTitle() {
+	$('.btn-group-squash button[type=submit]').click(() => {
+		$('#merge_title_field').val(`${$('.js-issue-title').text().trim()} (${$('.gh-header-number').text()})`);
+	});
+}
+
+function addTitleToEmojis() {
+	for (const emoji of $('g-emoji')) {
+		$(emoji).attr('title', `:${$(emoji).attr('alias')}:`);
+	}
+}
+
 // Support indent with tab key in comments
 $(document).on('keydown', '.js-comment-field', event => {
 	if (event.which === 9 && !event.shiftKey) {
@@ -429,13 +482,20 @@ $(document).on('click', '.js-hide-inline-comment-form', event => {
 	}
 });
 
+// Handle issue list ajax
+$(document).on('pjax:end', () => {
+	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
+		addYoursMenuItem();
+	}
+});
+
 document.addEventListener('DOMContentLoaded', () => {
 	const username = getUsername();
 
+	markUnread.unreadIndicatorIcon();
+
 	if (pageDetect.isGist()) {
 		addGistCopyButton();
-	} else {
-		addTrendingMenuItem();
 	}
 
 	if (pageDetect.isDashboard()) {
@@ -469,11 +529,16 @@ document.addEventListener('DOMContentLoaded', () => {
 	addUploadBtn();
 	new MutationObserver(addUploadBtn).observe($('div[role=main]')[0], {childList: true, subtree: true});
 
+	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
+		addYoursMenuItem();
+	}
+
 	if (pageDetect.isRepo()) {
 		gitHubInjection(window, () => {
 			addReleasesTab();
 			addCompareTab();
 			removeProjectsTab();
+			addTitleToEmojis();
 
 			diffFileHeader.destroy();
 			enableCopyOnY.destroy();
@@ -482,6 +547,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (pageDetect.isPR()) {
 				linkifyBranchRefs();
 				addDeleteForkLink();
+				fixSquashAndMergeTitle();
 			}
 
 			if (pageDetect.isPR() || pageDetect.isIssue()) {
@@ -558,3 +624,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	}
 });
+
+if (!pageDetect.isGist()) {
+	addTrendingMenuItem();
+}
