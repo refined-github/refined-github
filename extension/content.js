@@ -231,7 +231,7 @@ function addPatchDiffLinks() {
 		commitUrl = commitUrl.replace(/\/pull\/\d+\/commits/, '/commit');
 	}
 
-	const $commitMeta = $('.commit-meta span.right');
+	const $commitMeta = $('.commit-meta span.float-right');
 
 	$commitMeta.append(`
 		<span class="sha-block patch-diff-links">
