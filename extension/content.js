@@ -301,12 +301,12 @@ function showRecentlyPushedBranches() {
 
 // Add option for viewing diffs without whitespace changes
 function addDiffViewWithoutWhitespaceOption(type) {
-	if (!utils.exists('.diff-options-content') && !utils.exists('.btn-group .selected[href*="diff="]')) {
+	if ($('.diff-options-content').length < 1 && $('.btn-group .selected[href*="diff="]').length < 1) {
 		return;
 	}
 
 	// Return if element already exists in DOM (history actions)
-	if (utils.exists('.refined-github-toggle-whitespace')) {
+	if ($('.refined-github-toggle-whitespace').length > 0) {
 		return;
 	}
 
@@ -331,7 +331,7 @@ function addDiffViewWithoutWhitespaceOption(type) {
 	optionElementObject.html(optionElementContent).attr('href', optionHref).attr('data-hotkey', 'd w').attr('class', 'refined-github-toggle-whitespace');
 
 	if (type === 'pr') {
-		$('.diff-options-content .dropdown-item:last-of-type').after(optionElement);
+		$('.diff-options-content').find('.dropdown-item:last-of-type').after(optionElement);
 		optionElementObject.addClass('dropdown-item');
 	} else {
 		$('.btn-group .selected[href*="diff="]').after(optionElement);
