@@ -167,7 +167,7 @@ function infinitelyMore() {
 
 function addReadmeEditButton() {
 	const readmeContainer = utils.el('#readme');
-	if (readmeContainer) {
+	if (!readmeContainer) {
 		return;
 	}
 
