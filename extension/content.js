@@ -182,7 +182,7 @@ function addReadmeEditButton() {
 		</a>
 	</div>`;
 
-	readmeContainer.append(editButtonHtml);
+	$(editButtonHtml).appendTo(readmeContainer);
 }
 
 function addDeleteForkLink() {
