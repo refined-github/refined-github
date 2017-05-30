@@ -52,10 +52,10 @@
 				"copy-gist.js",
 				"copy-on-y.js",
 				"show-names.js",
-				"content.js",
 				"mark-unread.js",
 				"linkify-urls-in-code.js",
-				"upload-button.js"
+				"upload-button.js",
+				"content.js"
 			]
 		}
 	]
