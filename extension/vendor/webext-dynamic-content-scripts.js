@@ -1,4 +1,4 @@
-// https://github.com/bfred-it/webext-dynamic-content-scripts 1.2.1
+// https://github.com/bfred-it/webext-dynamic-content-scripts 2.0.0
 
 var injectContentScripts = (function () {
 'use strict';
@@ -10,10 +10,10 @@ function createCommonjsModule(fn, module) {
 var webextContentScriptPing = createCommonjsModule(function (module, exports) {
 // https://github.com/bfred-it/webext-content-script-ping
 
-function pingContentScript(tabId) {
+function pingContentScript(tab) {
 	return new Promise((resolve, reject) => {
 		setTimeout(reject, 300);
-		chrome.tabs.sendMessage(tabId, chrome.runtime.id, {
+		chrome.tabs.sendMessage(tab.id || tab, chrome.runtime.id, {
 			// Only the main frame is necessary;
 			// if that isn't loaded, no other iframe is
 			frameId: 0
@@ -52,19 +52,8 @@ function logRuntimeErrors() {
 async function injectContentScript(script, tabId) {
 	const allFrames = script.all_frames;
 	const runAt = script.run_at;
-
-	// Flatten file list
-	const list = [
-		...script.css.map(file => ({file, fn: 'insertCSS'})),
-		...script.js.map(file => ({file, fn: 'executeScript'}))
-	];
-
-	// Guarantee execution order
-	for (const {file, fn} of list) {
-		/* eslint no-await-in-loop: 0 */ // We actually need the loop to wait
-		await new Promise(resolve => chrome.tabs[fn](tabId, {file, allFrames, runAt}, resolve));
-		logRuntimeErrors(); // TODO: should errors stop the execution instead?
-	}
+	script.css.forEach(file => chrome.tabs.insertCSS(tabId, {file, allFrames, runAt}, logRuntimeErrors));
+	script.js.forEach(file => chrome.tabs.executeScript(tabId, {file, allFrames, runAt}, logRuntimeErrors));
 }
 
 async function injectContentScripts(tab) {
