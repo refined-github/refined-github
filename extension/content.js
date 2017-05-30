@@ -430,6 +430,13 @@ function addTitleToEmojis() {
 	}
 }
 
+function sortIssuesByUpdateTime() {
+	const issuesTab = document.querySelector('.reponav-item[href$="issues"');
+	if (issuesTab) {
+		issuesTab.href += '?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc';
+	}
+}
+
 // Support indent with tab key in comments
 $(document).on('keydown', '.js-comment-field', event => {
 	if (event.which === 9 && !event.shiftKey) {
@@ -517,6 +524,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			addCompareTab();
 			removeProjectsTab();
 			addTitleToEmojis();
+			sortIssuesByUpdateTime();
 
 			diffFileHeader.destroy();
 			enableCopyOnY.destroy();
