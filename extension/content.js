@@ -435,6 +435,11 @@ function sortIssuesByUpdateTime() {
 	if (issuesTab) {
 		issuesTab.href += '?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc';
 	}
+
+	const prTab = document.querySelector('.reponav-item[href$="pulls"');
+	if (prTab) {
+		prTab.href += '?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc';
+	}
 }
 
 // Support indent with tab key in comments
