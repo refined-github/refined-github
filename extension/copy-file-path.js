@@ -33,6 +33,6 @@ window.addFilePathCopyBtn = () => {
 };
 
 window.filePathCopyBtnListner = () => {
-	const filesBucket = utils.el('#files_bucket #files');
+	const filesBucket = utils.select('#files_bucket #files');
 	new MutationObserver(addFilePathCopyBtn).observe(filesBucket, {childList: true, subtree: true});
 };

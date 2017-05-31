@@ -8,13 +8,13 @@ window.addFileCopyButton = () => {
 		return;
 	}
 
-	const targetSibling = utils.el('#raw-url');
+	const targetSibling = utils.select('#raw-url');
 	const fileUri = targetSibling.getAttribute('href');
 	$(`<a href="${fileUri}" class="btn btn-sm BtnGroup-item copy-btn">Copy</a>`).insertBefore(targetSibling);
 
 	$(document).on('click', '.copy-btn', e => {
 		e.preventDefault();
-		const fileContents = utils.el('.js-file-line-container').innerText;
+		const fileContents = utils.select('.js-file-line-container').innerText;
 		utils.copyToClipboard(fileContents);
 	});
 };

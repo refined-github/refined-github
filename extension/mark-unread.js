@@ -38,7 +38,7 @@ window.markUnread = (() => {
 
 		const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
 		const repository = `${ownerName}/${repoName}`;
-		const title = utils.el('.js-issue-title').textContent.trim();
+		const title = utils.select('.js-issue-title').textContent.trim();
 		const type = pageDetect.isPR() ? 'pull-request' : 'issue';
 		const url = stripHash(location.href);
 
@@ -223,7 +223,7 @@ window.markUnread = (() => {
 	}
 
 	function getUserName() {
-		return utils.el('#user-links a.name img').getAttribute('alt').slice(1);
+		return utils.select('#user-links a.name img').getAttribute('alt').slice(1);
 	}
 
 	function unreadIndicatorIcon() {
@@ -293,7 +293,7 @@ window.markUnread = (() => {
 	}
 
 	function countLocalNotifications() {
-		const unreadCount = utils.el('#notification-center .filter-list a[href="/notifications"] .count');
+		const unreadCount = utils.select('#notification-center .filter-list a[href="/notifications"] .count');
 		const githubNotificationsCount = Number(unreadCount.textContent);
 		let localNotificationsCount = 0;
 		const localNotifications = localStorage.unreadNotifications;

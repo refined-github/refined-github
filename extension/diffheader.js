@@ -25,8 +25,8 @@ window.diffFileHeader = (() => {
 
 	const maxPixelsAvailable = () => {
 		// Unfortunately can't cache this value, as it'll change with the browsers zoom level
-		const filenameLeftOffset = utils.el('.diff-toolbar-filename').getBoundingClientRect().left;
-		const diffStatLeftOffset = utils.el('.diffbar > .diffstat').getBoundingClientRect().left;
+		const filenameLeftOffset = utils.select('.diff-toolbar-filename').getBoundingClientRect().left;
+		const diffStatLeftOffset = utils.select('.diffbar > .diffstat').getBoundingClientRect().left;
 
 		return diffStatLeftOffset - filenameLeftOffset;
 	};
@@ -63,7 +63,7 @@ window.diffFileHeader = (() => {
 	};
 
 	const getDiffToolbarHeight = () => {
-		const el = utils.el('.pr-toolbar.is-stuck');
+		const el = utils.select('.pr-toolbar.is-stuck');
 		return (el && el.clientHeight) || 0;
 	};
 
@@ -95,7 +95,7 @@ window.diffFileHeader = (() => {
 		}
 
 		if (isResize) {
-			const target = utils.el('.diff-toolbar-filename');
+			const target = utils.select('.diff-toolbar-filename');
 			if (target.getBoundingClientRect().width < maxPixelsAvailable()) {
 				return;
 			}

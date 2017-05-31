@@ -3,7 +3,7 @@
 'use strict';
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
 const repoUrl = `${ownerName}/${repoName}`;
-const getUsername = () => utils.el('meta[name="user-login"]').getAttribute('content');
+const getUsername = () => utils.select('meta[name="user-login"]').getAttribute('content');
 
 function getCanonicalBranchFromRef($element) {
 	const refSelector = '.commit-ref, .head-ref, .base-ref';
@@ -147,7 +147,7 @@ function addYoursMenuItem() {
 }
 
 function infinitelyMore() {
-	const btn = utils.el('.ajax-pagination-btn');
+	const btn = utils.select('.ajax-pagination-btn');
 
 	// If there's no more button remove unnecessary event listeners
 	if (!btn) {
@@ -166,14 +166,14 @@ function infinitelyMore() {
 }
 
 function addReadmeEditButton() {
-	const readmeContainer = utils.el('#readme');
+	const readmeContainer = utils.select('#readme');
 	if (!readmeContainer) {
 		return;
 	}
 
-	const readmeName = utils.el('#readme > h3').textContent.trim();
+	const readmeName = utils.select('#readme > h3').textContent.trim();
 	const path = $('.js-repo-root ~ .js-path-segment, .final-path').get().map(el => el.textContent).join('/');
-	const selectMenuButton = utils.el('.file-navigation .select-menu.float-left button.select-menu-button');
+	const selectMenuButton = utils.select('.file-navigation .select-menu.float-left button.select-menu-button');
 	const currentBranch = selectMenuButton.getAttribute('title') || selectMenuButton.querySelector('span').textContent;
 	const editHref = `/${repoUrl}/edit/${currentBranch}/${path ? `${path}/` : ''}${readmeName}`;
 	const editButtonHtml = `<div id="refined-github-readme-edit-link">
@@ -186,7 +186,7 @@ function addReadmeEditButton() {
 }
 
 function addDeleteForkLink() {
-	const postMergeDescription = utils.el('#partial-pull-merging .merge-branch-description');
+	const postMergeDescription = utils.select('#partial-pull-merging .merge-branch-description');
 
 	if (postMergeDescription) {
 		const currentBranch = postMergeDescription.querySelector('.commit-ref.current-branch');
@@ -206,7 +206,7 @@ function addDeleteForkLink() {
 }
 
 function linkifyIssuesInTitles() {
-	const title = utils.el('.js-issue-title');
+	const title = utils.select('.js-issue-title');
 	const titleText = utils.escapeHtml(title.textContent);
 	const issueRegex = utils.issueRegex;
 
@@ -281,7 +281,7 @@ function showRecentlyPushedBranches() {
 		return;
 	}
 
-	const codeURI = utils.el('[data-hotkey="g c"]').getAttribute('href');
+	const codeURI = utils.select('[data-hotkey="g c"]').getAttribute('href');
 
 	fetch(codeURI, {
 		credentials: 'include'
@@ -348,7 +348,7 @@ function addOPLabels() {
 		let op;
 
 		if (pageDetect.isPR()) {
-			const title = utils.el('title').textContent;
+			const title = utils.select('title').textContent;
 			const titleRegex = /^(.+) by (\S+) · Pull Request #(\d+) · (\S+)\/(\S+)$/;
 			op = titleRegex.exec(title)[2];
 		} else {
@@ -410,7 +410,7 @@ function addProjectNewLink() {
 }
 
 function removeProjectsTab() {
-	const projectsTab = utils.el('.js-repo-nav .reponav-item[data-selected-links^="repo_projects"]');
+	const projectsTab = utils.select('.js-repo-nav .reponav-item[data-selected-links^="repo_projects"]');
 	if (projectsTab && projectsTab.querySelector('.Counter, .counter').textContent === '0') {
 		projectsTab.remove();
 	}
@@ -418,9 +418,9 @@ function removeProjectsTab() {
 
 function fixSquashAndMergeTitle() {
 	$('.btn-group-squash button[type=submit]').click(() => {
-		const title = utils.el('.js-issue-title').textContent;
-		const number = utils.el('.gh-header-number').textContent;
-		utils.el('#merge_title_field').value = `${title.trim()} (${number})`;
+		const title = utils.select('.js-issue-title').textContent;
+		const number = utils.select('.gh-header-number').textContent;
+		utils.select('#merge_title_field').value = `${title.trim()} (${number})`;
 	});
 }
 
@@ -481,7 +481,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		hideStarsOwnRepos();
 
 		new MutationObserver(() => hideStarsOwnRepos())
-			.observe(utils.el('#dashboard .news'), {childList: true});
+			.observe(utils.select('#dashboard .news'), {childList: true});
 
 		$(window).on('scroll.infinite resize.infinite', infinitelyMore);
 	}
@@ -495,11 +495,11 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (pageDetect.isNotifications()) {
 				markUnread.setup();
 			}
-		}).observe(utils.el('#js-pjax-container'), {childList: true});
+		}).observe(utils.select('#js-pjax-container'), {childList: true});
 	}
 
 	addUploadBtn();
-	new MutationObserver(addUploadBtn).observe(utils.el('div[role=main]'), {childList: true, subtree: true});
+	new MutationObserver(addUploadBtn).observe(utils.select('div[role=main]'), {childList: true, subtree: true});
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 		addYoursMenuItem();
@@ -540,7 +540,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.hasDiff()) {
 				removeDiffSigns();
-				const diffElements = utils.el('.js-discussion, #files');
+				const diffElements = utils.select('.js-discussion, #files');
 				if (diffElements) {
 					new MutationObserver(removeDiffSigns).observe(diffElements, {childList: true, subtree: true});
 				}
@@ -578,7 +578,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (pageDetect.isIssue() || pageDetect.isPR()) {
 				addOPLabels();
 
-				new MutationObserver(addOPLabels).observe(utils.el('.new-discussion-timeline'), {childList: true, subtree: true});
+				new MutationObserver(addOPLabels).observe(utils.select('.new-discussion-timeline'), {childList: true, subtree: true});
 			}
 
 			if (pageDetect.isMilestone()) {
