@@ -262,7 +262,12 @@ function showRecentlyPushedBranches() {
 
 // Add option for viewing diffs without whitespace changes
 function addDiffViewWithoutWhitespaceOption() {
-	if ($('.pr-review-tools .BtnGroup').length < 1 && $('.Details .BtnGroup').length < 1 && $('.pr-review-tools .BtnGroup .tooltipped[href*="diff="]').length < 1) {
+	const detailsButtonGroup = $('.table-of-contents.Details .BtnGroup:first-child');
+	const detailsButtonGroupLength = detailsButtonGroup.length;
+	const prReviewTools = $('.pr-review-tools > .diffbar-item:first-child');
+	const prReviewToolsLength = prReviewTools.length;
+
+	if (prReviewToolsLength < 1 && detailsButtonGroupLength < 1 && prReviewTools.find('.tooltipped[href*="diff="]').length < 1) {
 		return;
 	}
 
@@ -271,7 +276,7 @@ function addDiffViewWithoutWhitespaceOption() {
 		return;
 	}
 
-	const optionElement = document.createElement('a');
+	const optionElement = document.createElement('div');
 	const urlParams = new URLSearchParams(window.location.search);
 	const urlHash = window.location.hash || '';
 	const svgIcon = icons.check;
@@ -285,19 +290,22 @@ function addDiffViewWithoutWhitespaceOption() {
 		urlParams.set('w', 1);
 	}
 
-	const optionElementContent = `${optionIsSet ? svgIcon + ' ' : ''}No Whitespace`;
-	const optionHref = `${window.location.origin + window.location.pathname}?${urlParams.toString() + urlHash}`;
+	optionElementObject.html(
+		`<a href=${window.location.origin + window.location.pathname}?${urlParams.toString() + urlHash}
+		   data-hotkey="d w"
+		   class="refined-github-toggle-whitespace btn btn-sm btn-outline BtnGroup-item tooltipped tooltipped-s ${optionIsSet ? 'bg-gray-light text-gray-light' : ''}"
+		   title="Click here to turn whitespace in diffs ${optionIsSet ? 'on' : 'off'}"
+		   aria-label="Click here to turn whitespace in diffs ${optionIsSet ? 'on' : 'off'}">
+			${optionIsSet ? svgIcon + ' ' : ''}No Whitespace
+		</a>`).addClass('diffbar-item');
 
-	optionElementObject.html(optionElementContent).attr('href', optionHref).attr('data-hotkey', 'd w').attr('class', 'refined-github-toggle-whitespace').attr('title', `Click here to turn whitespace in diffs ${optionIsSet ? 'on' : 'off'}`);
-
-	if ($('.Details .BtnGroup').length > 0) {
-		$('.Details .BtnGroup *:last-child').after(optionElement);
-		optionElementObject.addClass('btn btn-sm BtnGroup-item');
+	if (detailsButtonGroupLength > 0) {
+		detailsButtonGroup.after(optionElement);
+		optionElementObject.addClass('float-right');
 	}
 
-	if ($('.pr-review-tools .BtnGroup').length > 0) {
-		$('.pr-review-tools .BtnGroup *:last-child').after(optionElement);
-		optionElementObject.addClass('btn btn-sm btn-outline BtnGroup-item');
+	if (prReviewToolsLength > 0) {
+		prReviewTools.after(optionElement);
 	}
 }
 
@@ -504,7 +512,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
 				diffFileHeader.setup();
-				addDiffViewWithoutWhitespaceOption();
 				filePathCopyBtnListner();
 			}
 
