@@ -262,25 +262,14 @@ function showRecentlyPushedBranches() {
 
 // Add option for viewing diffs without whitespace changes
 function addDiffViewWithoutWhitespaceOption() {
-	const detailsButtonGroup = $('.table-of-contents.Details .BtnGroup:first-child');
-	const detailsButtonGroupLength = detailsButtonGroup.length;
-	const prReviewTools = $('.pr-review-tools > .diffbar-item:first-child');
-	const prReviewToolsLength = prReviewTools.length;
+	const $detailsButtonGroup = $('.table-of-contents.Details .BtnGroup:first-child');
+	const $prReviewTools = $('.pr-review-tools > .diffbar-item:first-child');
 
-	if (prReviewToolsLength < 1 && detailsButtonGroupLength < 1 && prReviewTools.find('.tooltipped[href*="diff="]').length < 1) {
+	if (($detailsButtonGroup.length === 0 && $prReviewTools.length === 0) || $('.refined-github-toggle-whitespace').length > 0) {
 		return;
 	}
 
-	// Return if element already exists in DOM (history actions)
-	if ($('.refined-github-toggle-whitespace').length > 0) {
-		return;
-	}
-
-	const optionElement = document.createElement('div');
 	const urlParams = new URLSearchParams(window.location.search);
-	const urlHash = window.location.hash || '';
-	const svgIcon = icons.check;
-	const optionElementObject = $(optionElement);
 	let optionIsSet = false;
 
 	if (urlParams.get('w') === '1') {
@@ -290,22 +279,29 @@ function addDiffViewWithoutWhitespaceOption() {
 		urlParams.set('w', 1);
 	}
 
-	optionElementObject.html(
-		`<a href=${window.location.origin + window.location.pathname}?${urlParams.toString() + urlHash}
-		   data-hotkey="d w"
-		   class="refined-github-toggle-whitespace btn btn-sm btn-outline BtnGroup-item tooltipped tooltipped-s ${optionIsSet ? 'bg-gray-light text-gray-light' : ''}"
-		   title="Click here to turn whitespace in diffs ${optionIsSet ? 'on' : 'off'}"
-		   aria-label="Click here to turn whitespace in diffs ${optionIsSet ? 'on' : 'off'}">
-			${optionIsSet ? svgIcon + ' ' : ''}No Whitespace
-		</a>`).addClass('diffbar-item');
+	let url = window.location.pathname;
+	if (String(urlParams)) {
+		url += '?' + String(urlParams);
+	}
+	url += window.location.hash || '';
 
-	if (detailsButtonGroupLength > 0) {
-		detailsButtonGroup.after(optionElement);
-		optionElementObject.addClass('float-right');
+	const optionHtml = `
+		<div class="diffbar-item ${$detailsButtonGroup.length > 0 ? 'float-right' : ''}">
+			<a href="${url}"
+				data-hotkey="d w"
+				class="refined-github-toggle-whitespace btn btn-sm btn-outline BtnGroup-item tooltipped tooltipped-s ${optionIsSet ? 'bg-gray-light text-gray-light' : ''}"
+				aria-label="${optionIsSet ? 'Show' : 'Hide'} whitespace in diffs">
+				${optionIsSet ? icons.check + ' ' : ''}No Whitespace
+			</a>
+		</div>
+	`;
+
+	if ($detailsButtonGroup.length > 0) {
+		$detailsButtonGroup.after(optionHtml);
 	}
 
-	if (prReviewToolsLength > 0) {
-		prReviewTools.after(optionElement);
+	if ($prReviewTools.length > 0) {
+		$prReviewTools.after(optionHtml);
 	}
 }
 
