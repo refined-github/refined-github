@@ -3,18 +3,18 @@ const cdInput = document.querySelector('#custom-domain-origin');
 
 if (!chrome.permissions) {
 	cdForm.disabled = true;
-	cdForm.querySelector('p').textContent = 'Your browser doesn’t support the Permission API required.';
+	cdForm.querySelector('p').textContent = 'Your browser doesn’t support the required Permission API.';
 }
 
-cdForm.addEventListener('submit', e => {
-	e.preventDefault();
+cdForm.addEventListener('submit', event => {
+	event.preventDefault();
 
 	const origin = new URL(cdInput.value).origin;
 
 	if (origin) {
 		chrome.permissions.request({
 			origins: [
-				origin + '/*'
+				`${origin}/*`
 			]
 		}, granted => {
 			if (granted) {
