@@ -12,7 +12,9 @@ window.showRealNames = () => {
 	const addUsersName = (user, name) => {
 		const $usernameLinks = $(`.timeline-comment-header-text:not(.has-full-name) a[href="/${user}"]`);
 		$usernameLinks.each((i, userLink) => {
-			$(`<span class="comment-full-name">`).text(`${name} -`).insertAfter(userLink);
+			if (user !== name) {
+				$(`<span class="comment-full-name">`).text(`${name} -`).insertAfter(userLink);
+			}
 			$(userLink).closest('.timeline-comment-header-text').addClass('has-full-name');
 		});
 	};
