@@ -135,6 +135,7 @@ While this project is highly opinionated, this doesn't necessarily limit you fro
 - [Andrew Levine](https://github.com/DrewML)
 - [Kees Kluskens](https://github.com/SpaceK33z)
 - [Jonas Gierer](https://github.com/jgierer12)
+- [Federico Brigante](https://github.com/bfred-it)
 - [Contributors…](https://github.com/sindresorhus/refined-github/graphs/contributors)
 
 
