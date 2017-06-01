@@ -6,12 +6,12 @@ window.addFilePathCopyBtn = () => {
 	const $files = $('#files .file');
 	$files.each((i, el) => {
 		// Button already added
-		if ($(el).find('.copy-filepath-btn').length > 0) {
+		if (el.querySelector('.copy-filepath-btn')) {
 			return;
 		}
 
-		const $fileUri = $(el).find('.file-header .file-info a');
-		const filePath = $fileUri.attr('title');
+		const fileUri = el.querySelector('.file-header .file-info a');
+		const filePath = fileUri.getAttribute('title');
 		const copyButton = `
 			<button id="rg-copy-filepath-btn" class="btn-octicon tooltipped tooltipped-nw btn btn-sm copy-filepath-btn">
 				<svg aria-hidden="true" class="octicon octicon-clippy" height="16" version="1.1" viewBox="0 0 14 16" width="14" aria-label="Copy to clipboard">
@@ -20,7 +20,7 @@ window.addFilePathCopyBtn = () => {
 				</svg>
 			</button>`;
 		$(copyButton)
-			.insertAfter($fileUri)
+			.insertAfter(fileUri)
 			.mouseenter(e => {
 				$(e.currentTarget).attr('aria-label', 'Copy file path');
 			})
@@ -33,6 +33,6 @@ window.addFilePathCopyBtn = () => {
 };
 
 window.filePathCopyBtnListner = () => {
-	const $filesBucket = $('#files_bucket #files');
-	new MutationObserver(addFilePathCopyBtn).observe($filesBucket[0], {childList: true, subtree: true});
+	const filesBucket = utils.select('#files_bucket #files');
+	new MutationObserver(addFilePathCopyBtn).observe(filesBucket, {childList: true, subtree: true});
 };

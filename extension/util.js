@@ -46,4 +46,7 @@
 		escape.textContent = html;
 		return escape.innerHTML;
 	};
+
+	exports.select = selector => document.querySelector(selector);
+	exports.exists = selector => Boolean(document.querySelector(selector));
 })(window.utils = {});

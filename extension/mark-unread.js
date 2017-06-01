@@ -1,4 +1,4 @@
-/* globals pageDetect, icons */
+/* globals pageDetect, icons, utils */
 
 'use strict';
 
@@ -38,7 +38,7 @@ window.markUnread = (() => {
 
 		const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
 		const repository = `${ownerName}/${repoName}`;
-		const title = $('.js-issue-title').text().trim();
+		const title = utils.select('.js-issue-title').textContent.trim();
 		const type = pageDetect.isPR() ? 'pull-request' : 'issue';
 		const url = stripHash(location.href);
 
@@ -140,7 +140,7 @@ window.markUnread = (() => {
 				}
 			}
 
-			const hasList = $(`a.notifications-repo-link[title="${repository}"]`).length > 0;
+			const hasList = utils.exists(`a.notifications-repo-link[title="${repository}"]`);
 			if (!hasList) {
 				const list = $(`
 					<div class="boxed-group flush">
@@ -211,14 +211,11 @@ window.markUnread = (() => {
 	}
 
 	function isNotificationExist(url) {
-		return $('a.js-notification-target')
-			.toArray()
-			.filter(link => stripHash($(link).attr('href')) === stripHash(url))
-			.length > 0;
+		return utils.exists(`a.js-notification-target[href^="${stripHash(url)}"]`);
 	}
 
 	function isEmptyPage() {
-		return $('.blankslate').length > 0;
+		return utils.exists('.blankslate');
 	}
 
 	function isParticipatingPage() {
@@ -226,7 +223,7 @@ window.markUnread = (() => {
 	}
 
 	function getUserName() {
-		return $('#user-links a.name img').attr('alt').slice(1);
+		return utils.select('#user-links a.name img').getAttribute('alt').slice(1);
 	}
 
 	function unreadIndicatorIcon() {
@@ -269,8 +266,8 @@ window.markUnread = (() => {
 	}
 
 	function addCustomAllReadBtn() {
-		const $markAllReadBtn = $('#notification-center a[href="#mark_as_read_confirm_box"]');
-		if ($markAllReadBtn.length >= 1 || JSON.parse(localStorage.unreadNotifications || '[]').length === 0) {
+		const hasMarkAllReadBtnExists = utils.exists('#notification-center a[href="#mark_as_read_confirm_box"]');
+		if (hasMarkAllReadBtnExists || JSON.parse(localStorage.unreadNotifications || '[]').length === 0) {
 			return;
 		}
 
@@ -296,14 +293,14 @@ window.markUnread = (() => {
 	}
 
 	function countLocalNotifications() {
-		const $unreadCount = $('#notification-center .filter-list a[href="/notifications"] .count');
-		const githubNotificationsCount = Number($unreadCount.text());
+		const unreadCount = utils.select('#notification-center .filter-list a[href="/notifications"] .count');
+		const githubNotificationsCount = Number(unreadCount.textContent);
 		let localNotificationsCount = 0;
 		const localNotifications = localStorage.unreadNotifications;
 
 		if (localNotifications) {
 			localNotificationsCount = JSON.parse(localNotifications).length;
-			$unreadCount.text(githubNotificationsCount + localNotificationsCount);
+			unreadCount.textContent = githubNotificationsCount + localNotificationsCount;
 		}
 	}
 

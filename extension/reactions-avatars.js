@@ -20,7 +20,7 @@ const addReactionParticipants = {
 				}
 
 				// Add participant container
-				if ($element.find('div.participants-container').length === 0) {
+				if (!element.querySelector('div.participants-container')) {
 					$element.append('<div class="participants-container">');
 				}
 
@@ -47,7 +47,7 @@ const addReactionParticipants = {
 	},
 
 	reapply(event, currentUser) {
-		if (!$(event.target).closest('button').not('.add-reaction-btn').is('.add-reactions-options-item, .reaction-summary-item')) {
+		if ($(event.target).closest('.add-reactions-options-item, .reaction-summary-item').not('.add-reaction-btn').length === 0) {
 			return;
 		}
 

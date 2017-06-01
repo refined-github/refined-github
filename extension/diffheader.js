@@ -25,8 +25,8 @@ window.diffFileHeader = (() => {
 
 	const maxPixelsAvailable = () => {
 		// Unfortunately can't cache this value, as it'll change with the browsers zoom level
-		const filenameLeftOffset = $('.diff-toolbar-filename').get(0).getBoundingClientRect().left;
-		const diffStatLeftOffset = $('.diffbar > .diffstat').get(0).getBoundingClientRect().left;
+		const filenameLeftOffset = utils.select('.diff-toolbar-filename').getBoundingClientRect().left;
+		const diffStatLeftOffset = utils.select('.diffbar > .diffstat').getBoundingClientRect().left;
 
 		return diffStatLeftOffset - filenameLeftOffset;
 	};
@@ -63,7 +63,7 @@ window.diffFileHeader = (() => {
 	};
 
 	const getDiffToolbarHeight = () => {
-		const el = $('.pr-toolbar.is-stuck').get(0);
+		const el = utils.select('.pr-toolbar.is-stuck');
 		return (el && el.clientHeight) || 0;
 	};
 
@@ -88,14 +88,14 @@ window.diffFileHeader = (() => {
 			return;
 		}
 
-		const filename = $(targetDiffFile).find('.file-header').attr('data-path');
+		const filename = targetDiffFile.querySelector('.file-header').dataset.path;
 
 		if (!diffFile.hasChanged(filename) && !isResize) {
 			return;
 		}
 
 		if (isResize) {
-			const target = $('.diff-toolbar-filename').get(0);
+			const target = utils.select('.diff-toolbar-filename');
 			if (target.getBoundingClientRect().width < maxPixelsAvailable()) {
 				return;
 			}
@@ -111,7 +111,7 @@ window.diffFileHeader = (() => {
 
 		$('.diffbar > .diffstat').insertAfter('.pr-review-tools');
 
-		$(`<span class="diffbar-item diff-toolbar-filename"></span>`).insertAfter($('.toc-select'));
+		$(`<span class="diffbar-item diff-toolbar-filename"></span>`).insertAfter('.toc-select');
 		diffFile.reset();
 	};
 
