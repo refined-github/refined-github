@@ -300,42 +300,47 @@ function showRecentlyPushedBranches() {
 }
 
 // Add option for viewing diffs without whitespace changes
-function addDiffViewWithoutWhitespaceOption(type) {
-	if ($('.diff-options-content').length < 1 && $('.btn-group .selected[href*="diff="]').length < 1) {
+function addDiffViewWithoutWhitespaceOption() {
+	const $detailsButtonGroup = $('.table-of-contents.Details .BtnGroup:first-child');
+	const $prReviewTools = $('.pr-review-tools > .diffbar-item:first-child');
+
+	if (($detailsButtonGroup.length === 0 && $prReviewTools.length === 0) || $('.refined-github-toggle-whitespace').length > 0) {
 		return;
 	}
 
-	// Return if element already exists in DOM (history actions)
-	if ($('.refined-github-toggle-whitespace').length > 0) {
-		return;
-	}
-
-	const optionElement = document.createElement('a');
 	const urlParams = new URLSearchParams(window.location.search);
-	const urlHash = window.location.hash || '';
-	const svgIcon = icons.check;
-	const optionElementObject = $(optionElement);
 	let optionIsSet = false;
 
 	if (urlParams.get('w') === '1') {
 		optionIsSet = true;
 		urlParams.delete('w');
-		optionElementObject.addClass('selected');
 	} else {
 		urlParams.set('w', 1);
 	}
 
-	const optionElementContent = `${optionIsSet ? svgIcon : ''} Ignore whitespace`;
-	const optionHref = `${window.location.origin + window.location.pathname}?${urlParams.toString() + urlHash}`;
+	let url = window.location.pathname;
+	if (String(urlParams)) {
+		url += '?' + String(urlParams);
+	}
+	url += window.location.hash || '';
 
-	optionElementObject.html(optionElementContent).attr('href', optionHref).attr('data-hotkey', 'd w').attr('class', 'refined-github-toggle-whitespace');
+	const optionHtml = `
+		<div class="diffbar-item ${$detailsButtonGroup.length > 0 ? 'float-right' : ''}">
+			<a href="${url}"
+				data-hotkey="d w"
+				class="refined-github-toggle-whitespace btn btn-sm btn-outline BtnGroup-item tooltipped tooltipped-s ${optionIsSet ? 'bg-gray-light text-gray-light' : ''}"
+				aria-label="${optionIsSet ? 'Show' : 'Hide'} whitespace in diffs">
+				${optionIsSet ? icons.check + ' ' : ''}No Whitespace
+			</a>
+		</div>
+	`;
 
-	if (type === 'pr') {
-		$('.diff-options-content').find('.dropdown-item:last-of-type').after(optionElement);
-		optionElementObject.addClass('dropdown-item');
-	} else {
-		$('.btn-group .selected[href*="diff="]').after(optionElement);
-		optionElementObject.addClass('btn btn-sm');
+	if ($detailsButtonGroup.length > 0) {
+		$detailsButtonGroup.after(optionHtml);
+	}
+
+	if ($prReviewTools.length > 0) {
+		$prReviewTools.after(optionHtml);
 	}
 }
 
@@ -560,7 +565,7 @@ function init() {
 			}
 
 			if (pageDetect.hasDiff()) {
-				addDiffViewWithoutWhitespaceOption('commit');
+				addDiffViewWithoutWhitespaceOption();
 			}
 
 			if (pageDetect.isCommitList()) {
@@ -569,7 +574,6 @@ function init() {
 
 			if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
 				diffFileHeader.setup();
-				addDiffViewWithoutWhitespaceOption('pr');
 				filePathCopyBtnListner();
 			}
 
