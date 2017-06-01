@@ -3,7 +3,7 @@
 'use strict';
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
 const repoUrl = `${ownerName}/${repoName}`;
-const getUsername = () => $('meta[name="user-login"]').attr('content');
+const getUsername = () => utils.select('meta[name="user-login"]').getAttribute('content');
 
 function getCanonicalBranchFromRef($element) {
 	const refSelector = '.commit-ref, .head-ref, .base-ref';
@@ -12,7 +12,7 @@ function getCanonicalBranchFromRef($element) {
 }
 
 function getSettingsTab() {
-	return $('.js-repo-nav').children('[data-selected-links~="repo_settings"]');
+	return $('.js-repo-nav > [data-selected-links~="repo_settings"]');
 }
 
 const hasSettings = () => getSettingsTab().length > 0;
@@ -25,11 +25,11 @@ function linkifyBranchRefs() {
 	}
 
 	$('.commit-ref').each((i, el) => {
-		const $el = $(el);
-		if ($el.children().eq(0).text() === 'unknown repository') {
+		if (el.firstElementChild.textContent === 'unknown repository') {
 			return;
 		}
 
+		const $el = $(el);
 		const canonicalBranch = getCanonicalBranchFromRef($el);
 
 		if (deletedBranchName && canonicalBranch === deletedBranchName) {
@@ -147,38 +147,36 @@ function addYoursMenuItem() {
 }
 
 function infinitelyMore() {
-	const $btn = $('.ajax-pagination-btn');
+	const btn = utils.select('.ajax-pagination-btn');
 
 	// If there's no more button remove unnecessary event listeners
-	if ($btn.length === 0) {
+	if (!btn) {
 		$(window).off('scroll.infinite resize.infinite', infinitelyMore);
 		return;
 	}
 
 	// Grab dimensions to see if we should load
 	const wHeight = window.innerHeight;
-	const wScroll = window.pageYOffset || document.scrollTop;
-	const btnOffset = $btn.offset().top;
+	const btnOffset = btn.getBoundingClientRect().top;
 
 	// Smash the button if it's coming close to being in view
-	if (wScroll > (btnOffset - wHeight)) {
-		$btn.click();
+	if (wHeight > btnOffset) {
+		btn.click();
 	}
 }
 
 function addReadmeButtons() {
-	const $readmeContainer = $('#readme');
-	if ($readmeContainer.length === 0) {
+	const readmeContainer = utils.select('#readme');
+	if (!readmeContainer) {
 		return;
 	}
 
 	let releaseButtonHtml = '';
 	const releases = [];
 	$('.branch-select-menu .select-menu-list[data-tab-filter="tags"] .select-menu-item').each((index, element) => {
-		const $element = $(element);
 		releases.push({
-			name: $element.data('name'),
-			link: $element.attr('href')
+			name: element.getAttribute('data-name'),
+			link: element.getAttribute('href')
 		});
 	});
 	const releaseNamesSorted = toSemver(releases.map(release => release.name), {clean: false});
@@ -191,33 +189,32 @@ function addReadmeButtons() {
 		}
 	}
 
-	const readmeName = $('#readme > h3').text().trim();
-	const path = $('.js-repo-root ~ .js-path-segment, .final-path').map((idx, el) => $(el).text()).get().join('/');
-	const selectMenuButton = $('.file-navigation .select-menu.float-left button.select-menu-button');
-	const currentBranch = selectMenuButton.attr('title') || selectMenuButton.find('span').text();
+	const readmeName = utils.select('#readme > h3').textContent.trim();
+	const path = $('.js-repo-root ~ .js-path-segment, .final-path').get().map(el => el.textContent).join('/');
+	const selectMenuButton = utils.select('.file-navigation .select-menu.float-left button.select-menu-button');
+	const currentBranch = selectMenuButton.getAttribute('title') || selectMenuButton.querySelector('span').textContent;
 	const editHref = `/${repoUrl}/edit/${currentBranch}/${path ? `${path}/` : ''}${readmeName}`;
 	const editButtonHtml = `
 		<a href="${editHref}" class="tooltipped tooltipped-nw" aria-label="Edit this file">${icons.edit}</a>
 	`;
 
-	$readmeContainer.append(`
+	$(`
 		<div id="refined-github-readme-buttons">
 			${releaseButtonHtml}
 			${editButtonHtml}
 		</div>
-	`);
+	`).appendTo(readmeContainer);
 }
 
 function addDeleteForkLink() {
-	const $postMergeContainer = $('#partial-pull-merging');
+	const postMergeDescription = utils.select('#partial-pull-merging .merge-branch-description');
 
-	if ($postMergeContainer.length > 0) {
-		const $postMergeDescription = $postMergeContainer.find('.merge-branch-description');
-		const $currentBranch = $postMergeDescription.find('.commit-ref.current-branch')[0];
-		const forkPath = $currentBranch ? $currentBranch.title.split(':')[0] : null;
+	if (postMergeDescription) {
+		const currentBranch = postMergeDescription.querySelector('.commit-ref.current-branch');
+		const forkPath = currentBranch ? currentBranch.title.split(':')[0] : null;
 
 		if (forkPath && forkPath !== repoUrl) {
-			$postMergeDescription.append(
+			$(postMergeDescription).append(
 				`<p id="refined-github-delete-fork-link">
 					<a href="https://github.com/${forkPath}/settings">
 						${icons.fork}
@@ -230,20 +227,20 @@ function addDeleteForkLink() {
 }
 
 function linkifyIssuesInTitles() {
-	const $title = $('.js-issue-title');
-	const titleText = utils.escapeHtml($title.text());
+	const title = utils.select('.js-issue-title');
+	const titleText = utils.escapeHtml(title.textContent);
 	const issueRegex = utils.issueRegex;
 
 	if (issueRegex.test(titleText)) {
-		$title.html(titleText.replace(
+		title.innerHTML = titleText.replace(
 			new RegExp(issueRegex.source, 'g'),
 			match => utils.linkifyIssueRef(repoUrl, match, '')
-		));
+		);
 	}
 }
 
 function addPatchDiffLinks() {
-	if ($('.sha-block.patch-diff-links').length > 0) {
+	if (utils.exists('.sha-block.patch-diff-links')) {
 		return;
 	}
 
@@ -253,7 +250,7 @@ function addPatchDiffLinks() {
 		commitUrl = commitUrl.replace(/\/pull\/\d+\/commits/, '/commit');
 	}
 
-	const $commitMeta = $('.commit-meta span.right');
+	const $commitMeta = $('.commit-meta span.float-right');
 
 	$commitMeta.append(`
 		<span class="sha-block patch-diff-links">
@@ -301,11 +298,11 @@ function indentInput(el, size = 4) {
 
 function showRecentlyPushedBranches() {
 	// Don't duplicate on back/forward in history
-	if ($('.recently-touched-branches-wrapper').length > 0) {
+	if (utils.exists('.recently-touched-branches-wrapper')) {
 		return;
 	}
 
-	const codeURI = $('[data-hotkey="g c"]').attr('href');
+	const codeURI = utils.select('[data-hotkey="g c"]').getAttribute('href');
 
 	fetch(codeURI, {
 		credentials: 'include'
@@ -324,42 +321,47 @@ function showRecentlyPushedBranches() {
 }
 
 // Add option for viewing diffs without whitespace changes
-function addDiffViewWithoutWhitespaceOption(type) {
-	if ($('.diff-options-content').length < 1 && $('.btn-group .selected[href*="diff="]').length < 1) {
+function addDiffViewWithoutWhitespaceOption() {
+	const $detailsButtonGroup = $('.table-of-contents.Details .BtnGroup:first-child');
+	const $prReviewTools = $('.pr-review-tools > .diffbar-item:first-child');
+
+	if (($detailsButtonGroup.length === 0 && $prReviewTools.length === 0) || $('.refined-github-toggle-whitespace').length > 0) {
 		return;
 	}
 
-	// Return if element already exists in DOM (history actions)
-	if ($('.refined-github-toggle-whitespace').length > 0) {
-		return;
-	}
-
-	const optionElement = document.createElement('a');
 	const urlParams = new URLSearchParams(window.location.search);
-	const urlHash = window.location.hash || '';
-	const svgIcon = icons.check;
-	const optionElementObject = $(optionElement);
 	let optionIsSet = false;
 
 	if (urlParams.get('w') === '1') {
 		optionIsSet = true;
 		urlParams.delete('w');
-		optionElementObject.addClass('selected');
 	} else {
 		urlParams.set('w', 1);
 	}
 
-	const optionElementContent = `${optionIsSet ? svgIcon : ''} Ignore whitespace`;
-	const optionHref = `${window.location.origin + window.location.pathname}?${urlParams.toString() + urlHash}`;
+	let url = window.location.pathname;
+	if (String(urlParams)) {
+		url += '?' + String(urlParams);
+	}
+	url += window.location.hash || '';
 
-	optionElementObject.html(optionElementContent).attr('href', optionHref).attr('data-hotkey', 'd w').attr('class', 'refined-github-toggle-whitespace');
+	const optionHtml = `
+		<div class="diffbar-item ${$detailsButtonGroup.length > 0 ? 'float-right' : ''}">
+			<a href="${url}"
+				data-hotkey="d w"
+				class="refined-github-toggle-whitespace btn btn-sm btn-outline BtnGroup-item tooltipped tooltipped-s ${optionIsSet ? 'bg-gray-light text-gray-light' : ''}"
+				aria-label="${optionIsSet ? 'Show' : 'Hide'} whitespace in diffs">
+				${optionIsSet ? icons.check + ' ' : ''}No Whitespace
+			</a>
+		</div>
+	`;
 
-	if (type === 'pr') {
-		$('.diff-options-content').find('.dropdown-item:last-of-type').after(optionElement);
-		optionElementObject.addClass('dropdown-item');
-	} else {
-		$('.btn-group .selected[href*="diff="]').after(optionElement);
-		optionElementObject.addClass('btn btn-sm');
+	if ($detailsButtonGroup.length > 0) {
+		$detailsButtonGroup.after(optionHtml);
+	}
+
+	if ($prReviewTools.length > 0) {
+		$prReviewTools.after(optionHtml);
 	}
 }
 
@@ -368,11 +370,11 @@ function addOPLabels() {
 	const newComments = $(comments).filter(':not(.refined-github-op)').toArray();
 
 	if (newComments.length > 0) {
-		const commentAuthor = comment => $(comment).find('strong .author').text();
+		const commentAuthor = comment => comment.querySelector('strong .author').textContent;
 		let op;
 
 		if (pageDetect.isPR()) {
-			const title = $('title').text();
+			const title = utils.select('title').textContent;
 			const titleRegex = /^(.+) by (\S+) · Pull Request #(\d+) · (\S+)\/(\S+)$/;
 			op = titleRegex.exec(title)[2];
 		} else {
@@ -420,7 +422,7 @@ function addFilterCommentsByYou() {
 				Everything commented by you
 			</div>
 		</a>`;
-	const lastFilter = $('.subnav-search-context').find('.select-menu-list > a:last-child');
+	const lastFilter = $('.subnav-search-context .select-menu-list > a:last-child');
 	if (!lastFilter.prev().hasClass('refined-github-filter')) {
 		lastFilter.before(newFilter);
 	}
@@ -428,21 +430,23 @@ function addFilterCommentsByYou() {
 
 function addProjectNewLink() {
 	const projectNewLink = `<a href="/${repoUrl}/projects/new" class="btn btn-sm" id="refined-github-project-new-link">Add a project</a>`;
-	if ($('#projects-feature:checked').length > 0 && $('#refined-github-project-new-link').length === 0) {
+	if (utils.exists('#projects-feature:checked') && !utils.exists('#refined-github-project-new-link')) {
 		$(`#projects-feature ~ p.note`).after(projectNewLink);
 	}
 }
 
 function removeProjectsTab() {
-	const projectsTab = $('.js-repo-nav').find('.reponav-item[data-selected-links^="repo_projects"]');
-	if (projectsTab.length > 0 && projectsTab.find('.Counter, .counter').text() === '0') {
+	const projectsTab = utils.select('.js-repo-nav .reponav-item[data-selected-links^="repo_projects"]');
+	if (projectsTab && projectsTab.querySelector('.Counter, .counter').textContent === '0') {
 		projectsTab.remove();
 	}
 }
 
 function fixSquashAndMergeTitle() {
 	$('.btn-group-squash button[type=submit]').click(() => {
-		$('#merge_title_field').val(`${$('.js-issue-title').text().trim()} (${$('.gh-header-number').text()})`);
+		const title = utils.select('.js-issue-title').textContent;
+		const number = utils.select('.gh-header-number').textContent;
+		utils.select('#merge_title_field').value = `${title.trim()} (${number})`;
 	});
 }
 
@@ -489,7 +493,7 @@ $(document).on('pjax:end', () => {
 	}
 });
 
-document.addEventListener('DOMContentLoaded', () => {
+function init() {
 	const username = getUsername();
 
 	markUnread.unreadIndicatorIcon();
@@ -509,7 +513,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		hideStarsOwnRepos();
 
 		new MutationObserver(() => hideStarsOwnRepos())
-			.observe($('#dashboard .news').get(0), {childList: true});
+			.observe(utils.select('#dashboard .news'), {childList: true});
 
 		$(window).on('scroll.infinite resize.infinite', infinitelyMore);
 	}
@@ -523,11 +527,11 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (pageDetect.isNotifications()) {
 				markUnread.setup();
 			}
-		}).observe($('#js-pjax-container').get(0), {childList: true});
+		}).observe(utils.select('#js-pjax-container'), {childList: true});
 	}
 
 	addUploadBtn();
-	new MutationObserver(addUploadBtn).observe($('div[role=main]')[0], {childList: true, subtree: true});
+	new MutationObserver(addUploadBtn).observe(utils.select('div[role=main]'), {childList: true, subtree: true});
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 		addYoursMenuItem();
@@ -569,9 +573,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.hasDiff()) {
 				removeDiffSigns();
-				const $diffElements = $('.js-discussion, #files');
-				if ($diffElements.length > 0) {
-					new MutationObserver(removeDiffSigns).observe($diffElements[0], {childList: true, subtree: true});
+				const diffElements = utils.select('.js-discussion, #files');
+				if (diffElements) {
+					new MutationObserver(removeDiffSigns).observe(diffElements, {childList: true, subtree: true});
 				}
 			}
 
@@ -582,7 +586,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 
 			if (pageDetect.hasDiff()) {
-				addDiffViewWithoutWhitespaceOption('commit');
+				addDiffViewWithoutWhitespaceOption();
 			}
 
 			if (pageDetect.isCommitList()) {
@@ -591,7 +595,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
 				diffFileHeader.setup();
-				addDiffViewWithoutWhitespaceOption('pr');
 				filePathCopyBtnListner();
 			}
 
@@ -607,7 +610,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (pageDetect.isIssue() || pageDetect.isPR()) {
 				addOPLabels();
 
-				new MutationObserver(addOPLabels).observe($('.new-discussion-timeline')[0], {childList: true, subtree: true});
+				new MutationObserver(addOPLabels).observe(utils.select('.new-discussion-timeline'), {childList: true, subtree: true});
 			}
 
 			if (pageDetect.isMilestone()) {
@@ -623,8 +626,14 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		});
 	}
-});
+}
 
 if (!pageDetect.isGist()) {
 	addTrendingMenuItem();
+}
+
+if (document.readyState === 'complete') {
+	init();
+} else {
+	document.addEventListener('DOMContentLoaded', init);
 }

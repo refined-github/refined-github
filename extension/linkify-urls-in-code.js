@@ -1,3 +1,5 @@
+/* globals utils */
+
 window.linkifyURLsInCode = (() => {
 	const issueRegex = window.utils.issueRegex;
 	const URLRegex = /(http(s)?(:\/\/))(www\.)?[a-zA-Z0-9-_.]+(\.[a-zA-Z0-9]{2,})([-a-zA-Z0-9:%_+.~#?&//=]*)/g;
@@ -11,7 +13,7 @@ window.linkifyURLsInCode = (() => {
 
 	const linkifyCode = repoPath => {
 		// Don't linkify any already linkified code
-		if ($(`.${linkifiedURLClass}`).length > 0) {
+		if (utils.exists(`.${linkifiedURLClass}`)) {
 			return;
 		}
 		const codeBlobs = document.querySelectorAll('.blob-code-inner');

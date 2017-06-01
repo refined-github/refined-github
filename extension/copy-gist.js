@@ -4,7 +4,7 @@
 
 window.addGistCopyButton = () => {
 	// Button already added (partial page nav), or non-text file
-	if ($('.copy-btn').length > 0) {
+	if (utils.exists('.copy-btn')) {
 		return;
 	}
 
