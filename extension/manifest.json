@@ -41,6 +41,7 @@
 				"vendor/jquery.slim.min.js",
 				"vendor/element-ready.js",
 				"vendor/gh-injection.js",
+				"vendor/to-semver.js",
 				"vendor/webext-dynamic-content-scripts.js",
 				"util.js",
 				"page-detect.js",

@@ -1,4 +1,4 @@
-/* globals utils, gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, showRealNames, markUnread, linkifyURLsInCode, addUploadBtn, filePathCopyBtnListner, elementReady */
+/* globals utils, toSemver, gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, showRealNames, markUnread, linkifyURLsInCode, addUploadBtn, filePathCopyBtnListner, elementReady */
 
 'use strict';
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
@@ -165,10 +165,28 @@ function infinitelyMore() {
 	}
 }
 
-function addReadmeEditButton() {
+function addReadmeButtons() {
 	const readmeContainer = utils.select('#readme');
 	if (!readmeContainer) {
 		return;
+	}
+
+	let releaseButtonHtml = '';
+	const releases = [];
+	$('.branch-select-menu .select-menu-list[data-tab-filter="tags"] .select-menu-item').each((index, element) => {
+		releases.push({
+			name: element.getAttribute('data-name'),
+			link: element.getAttribute('href')
+		});
+	});
+	const releaseNamesSorted = toSemver(releases.map(release => release.name), {clean: false});
+	if (releaseNamesSorted.length > 0) {
+		const latestRelease = releases.find(release => release.name === releaseNamesSorted[0]);
+		if (latestRelease) {
+			releaseButtonHtml = `
+				<a href="${latestRelease.link}#readme" class="tooltipped tooltipped-nw" aria-label="View this file at the latest version (${latestRelease.name})">${icons.tag}</a>
+			`;
+		}
 	}
 
 	const readmeName = utils.select('#readme > h3').textContent.trim();
@@ -176,13 +194,16 @@ function addReadmeEditButton() {
 	const selectMenuButton = utils.select('.file-navigation .select-menu.float-left button.select-menu-button');
 	const currentBranch = selectMenuButton.getAttribute('title') || selectMenuButton.querySelector('span').textContent;
 	const editHref = `/${repoUrl}/edit/${currentBranch}/${path ? `${path}/` : ''}${readmeName}`;
-	const editButtonHtml = `<div id="refined-github-readme-edit-link">
-		<a href="${editHref}">
-			${icons.edit}
-		</a>
-	</div>`;
+	const editButtonHtml = `
+		<a href="${editHref}" class="tooltipped tooltipped-nw" aria-label="Edit this file">${icons.edit}</a>
+	`;
 
-	$(editButtonHtml).appendTo(readmeContainer);
+	$(`
+		<div id="refined-github-readme-buttons">
+			${releaseButtonHtml}
+			${editButtonHtml}
+		</div>
+	`).appendTo(readmeContainer);
 }
 
 function addDeleteForkLink() {
@@ -538,7 +559,7 @@ function init() {
 			}
 
 			if (pageDetect.isRepoRoot() || pageDetect.isRepoTree()) {
-				addReadmeEditButton();
+				addReadmeButtons();
 			}
 
 			if (pageDetect.isPRList() || pageDetect.isIssueList()) {
