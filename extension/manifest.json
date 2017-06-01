@@ -8,8 +8,23 @@
 	"permissions": [
 		"storage"
 	],
+	"optional_permissions": [
+		"http://*/*",
+		"https://*/*"
+	],
 	"icons": {
 		"128": "icon.png"
+	},
+	"options_ui": {
+		"chrome_style": true,
+		"page": "options/index.html"
+	},
+	"background": {
+		"scripts": [
+			"vendor/webext-dynamic-content-scripts.js",
+			"background.js"
+		],
+		"persistent": false
 	},
 	"content_scripts": [
 		{
@@ -26,6 +41,7 @@
 				"vendor/jquery.slim.min.js",
 				"vendor/element-ready.js",
 				"vendor/gh-injection.js",
+				"vendor/webext-dynamic-content-scripts.js",
 				"util.js",
 				"page-detect.js",
 				"icons.js",
@@ -36,10 +52,10 @@
 				"copy-gist.js",
 				"copy-on-y.js",
 				"show-names.js",
-				"content.js",
 				"mark-unread.js",
 				"linkify-urls-in-code.js",
-				"upload-button.js"
+				"upload-button.js",
+				"content.js"
 			]
 		}
 	]

@@ -467,7 +467,7 @@ $(document).on('pjax:end', () => {
 	}
 });
 
-document.addEventListener('DOMContentLoaded', () => {
+function init() {
 	const username = getUsername();
 
 	markUnread.unreadIndicatorIcon();
@@ -601,8 +601,14 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		});
 	}
-});
+}
 
 if (!pageDetect.isGist()) {
 	addTrendingMenuItem();
+}
+
+if (document.readyState === 'complete') {
+	init();
+} else {
+	document.addEventListener('DOMContentLoaded', init);
 }
