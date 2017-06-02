@@ -1,7 +1,7 @@
 /* globals utils */
 
 window.pageDetect = (() => {
-	const isGist = () => location.hostname === 'gist.github.com';
+	const isGist = () => location.hostname.startsWith('gist.') || location.pathname.startsWith('gist/');
 
 	const isDashboard = () => location.pathname === '/' || /^(\/orgs\/[^/]+)?\/dashboard/.test(location.pathname);
 

@@ -32,7 +32,7 @@ window.showRealNames = () => {
 			}
 		}
 
-		const userUrl = user => `https://github.com/${user}/following`;
+		const userUrl = user => `/${user}/following`;
 		const requests = Array.from(uniqueUsers).map(username => {
 			const req = fetch(userUrl(username));
 			return req.then(res => res.text()).then(profile => ({
