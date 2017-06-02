@@ -1,11 +1,17 @@
 {
   "scripts": {
     "test": "xo && ava",
+    "build": "cd src && each '{*.js,!(libs)/**/*.js}' --parallel 10 -- rollup --config node:webext $PWD/%p --output $PWD/../extension/%p",
+    "watch": "npm run build --silent -- --watch",
     "release": "webstore upload --source=extension --auto-publish"
   },
   "devDependencies": {
     "ava": "*",
     "chrome-webstore-upload-cli": "^1.0.0",
+    "cli-foreachfile": "^1.0.5",
+    "rollup": "^0.41.6",
+    "rollup-config-webext": "^1.1.0",
+    "rollup-watch": "^3.2.2",
     "xo": "*"
   },
   "xo": {
@@ -15,8 +21,11 @@
       "jquery",
       "webextensions"
     ],
+    "rules": {
+      "import/no-unassigned-import": 0
+    },
     "ignores": [
-      "extension/vendor/**"
+      "extension/**"
     ]
   },
   "ava": {

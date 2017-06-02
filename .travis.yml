@@ -3,6 +3,8 @@ node_js:
   - 'node'
 env:
   - EXTENSION_ID=hlepfoohegkhhmjieoechaddaejaokhf
+before_script:
+  - npm run build
 deploy:
   provider: script
   script: npm run release
