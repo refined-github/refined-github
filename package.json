@@ -1,8 +1,11 @@
 {
   "scripts": {
     "test": "xo && ava",
-    "build": "cd src && each '{*.js,!(libs)/**/*.js}' --parallel 10 -- rollup --config node:webext $PWD/%p --output $PWD/../extension/%p",
-    "watch": "npm run build --silent -- --watch",
+    "build:c": "rollup -c node:webext -i src/content.js -o extension/content.js",
+    "build:b": "rollup -c node:webext -i src/background.js -o extension/background.js",
+    "build:o": "rollup -c node:webext -i src/options/index.js -o extension/options/index.js",
+    "build": "run-p build:*",
+    "watch": "run-p --continue-on-error --silent 'build:* -- --watch'",
     "release": "webstore upload --source=extension --auto-publish"
   },
   "dependencies": {
@@ -17,7 +20,7 @@
     "ava": "*",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
     "chrome-webstore-upload-cli": "^1.0.0",
-    "cli-foreachfile": "^1.0.5",
+    "npm-run-all": "^4.0.2",
     "rollup": "^0.41.6",
     "rollup-config-webext": "^1.1.0",
     "rollup-watch": "^3.2.2",
