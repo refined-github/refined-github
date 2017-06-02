@@ -5,6 +5,14 @@
     "watch": "npm run build --silent -- --watch",
     "release": "webstore upload --source=extension --auto-publish"
   },
+  "dependencies": {
+    "copy-text-to-clipboard": "^1.0.0",
+    "element-ready": "^2.0.0",
+    "escape-goat": "^1.1.0",
+    "github-injection": "^0.3.0",
+    "to-semver": "^1.1.0",
+    "webext-dynamic-content-scripts": "^2.0.1"
+  },
   "devDependencies": {
     "ava": "*",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
@@ -44,13 +52,5 @@
     "plugins": [
       "transform-es2015-modules-commonjs"
     ]
-  },
-  "dependencies": {
-    "copy-text-to-clipboard": "^1.0.0",
-    "element-ready": "^2.0.0",
-    "escape-goat": "^1.1.0",
-    "github-injection": "^0.3.0",
-    "to-semver": "^1.1.0",
-    "webext-dynamic-content-scripts": "^2.0.1"
   }
 }
