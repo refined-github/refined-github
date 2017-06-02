@@ -39,7 +39,7 @@ function linkifyBranchRefs() {
 
 		const branchUrl = canonicalBranch.replace(':', '/tree/');
 
-		$el.wrap(`<a href="https://github.com/${branchUrl}">`);
+		$el.wrap(`<a href="/${branchUrl}">`);
 	});
 }
 
@@ -216,7 +216,7 @@ function addDeleteForkLink() {
 		if (forkPath && forkPath !== repoUrl) {
 			$(postMergeDescription).append(
 				`<p id="refined-github-delete-fork-link">
-					<a href="https://github.com/${forkPath}/settings">
+					<a href="/${forkPath}/settings">
 						${icons.fork}
 						Delete fork
 					</a>
