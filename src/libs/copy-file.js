@@ -1,4 +1,5 @@
-import {select, exists, copyToClipboard} from './util';
+import copyToClipboard from 'copy-text-to-clipboard';
+import {select, exists} from './util';
 
 export default () => {
 	// Button already added (partial page nav), or non-text file

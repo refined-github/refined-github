@@ -16,19 +16,6 @@ export const debounce = (func, wait, immediate) => {
 	};
 };
 
-export const copyToClipboard = value => {
-	const $textArea = $('<textarea>').css({
-		opacity: 0,
-		position: 'fixed'
-	}).appendTo('body').val(value);
-
-	$textArea.select();
-	const success = document.execCommand('copy');
-	$textArea.remove();
-
-	return success;
-};
-
 export const issueRegex = /([a-zA-Z0-9-_.]+\/[a-zA-Z0-9-_.]+)?#[0-9]+/;
 export const linkifyIssueRef = (repoPath, issue, attrs) => {
 	if (/\//.test(issue)) {
@@ -36,12 +23,6 @@ export const linkifyIssueRef = (repoPath, issue, attrs) => {
 		return `<a href="https://github.com/${issueParts[0]}/issues/${issueParts[1]}" ${attrs}>${issue}</a>`;
 	}
 	return `<a href="https://github.com/${repoPath}/issues/${issue.replace('#', '')}" ${attrs}>${issue}</a>`;
-};
-
-export const escapeHtml = html => {
-	const escape = document.createElement('textarea');
-	escape.textContent = html;
-	return escape.innerHTML;
 };
 
 export const select = selector => document.querySelector(selector);

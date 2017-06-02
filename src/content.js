@@ -1,6 +1,7 @@
 import elementReady from 'element-ready';
 import gitHubInjection from 'github-injection';
 import toSemver from 'to-semver';
+import {escape as escapeHtml} from 'escape-goat';
 
 import markUnread from './libs/mark-unread';
 import addGistCopyButton from './libs/copy-gist';
@@ -12,7 +13,7 @@ import showRealNames from './libs/show-names';
 import filePathCopyBtnListner from './libs/copy-file-path';
 import addFileCopyButton from './libs/copy-file';
 import {linkifyCode as linkifyURLsInCode} from './libs/linkify-urls-in-code';
-import {select, exists, escapeHtml, issueRegex, linkifyIssueRef} from './libs/util';
+import {select, exists, issueRegex, linkifyIssueRef} from './libs/util';
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
 
