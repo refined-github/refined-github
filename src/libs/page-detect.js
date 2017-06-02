@@ -1,100 +1,68 @@
-/* globals utils */
+import {exists} from './util';
 
-window.pageDetect = (() => {
-	const isGist = () => location.hostname === 'gist.github.com';
+export const isGist = () => location.hostname === 'gist.github.com';
 
-	const isDashboard = () => location.pathname === '/' || /^(\/orgs\/[^/]+)?\/dashboard/.test(location.pathname);
+export const isDashboard = () => location.pathname === '/' || /^(\/orgs\/[^/]+)?\/dashboard/.test(location.pathname);
 
-	const isRepo = () => !isGist() && /^\/[^/]+\/[^/]+/.test(location.pathname);
+export const isRepo = () => !isGist() && /^\/[^/]+\/[^/]+/.test(location.pathname);
 
-	const getRepoPath = () => location.pathname.replace(/^\/[^/]+\/[^/]+/, '');
+export const getRepoPath = () => location.pathname.replace(/^\/[^/]+\/[^/]+/, '');
 
-	const isRepoRoot = () => isRepo() && /^(\/?$|\/tree\/)/.test(getRepoPath()) && utils.exists('.repository-meta-content');
+export const isRepoRoot = () => isRepo() && /^(\/?$|\/tree\/)/.test(getRepoPath()) && exists('.repository-meta-content');
 
-	const isRepoTree = () => isRepo() && /\/tree\//.test(getRepoPath());
+export const isRepoTree = () => isRepo() && /\/tree\//.test(getRepoPath());
 
-	const isIssueSearch = () => location.pathname.startsWith('/issues');
+export const isIssueSearch = () => location.pathname.startsWith('/issues');
 
-	const isIssueList = () => isRepo() && /^\/issues\/?$/.test(getRepoPath());
+export const isIssueList = () => isRepo() && /^\/issues\/?$/.test(getRepoPath());
 
-	const isIssue = () => isRepo() && /^\/issues\/\d+/.test(getRepoPath());
+export const isIssue = () => isRepo() && /^\/issues\/\d+/.test(getRepoPath());
 
-	const isPRSearch = () => location.pathname.startsWith('/pulls');
+export const isPRSearch = () => location.pathname.startsWith('/pulls');
 
-	const isPRList = () => isRepo() && /^\/pulls\/?$/.test(getRepoPath());
+export const isPRList = () => isRepo() && /^\/pulls\/?$/.test(getRepoPath());
 
-	const isPR = () => isRepo() && /^\/pull\/\d+/.test(getRepoPath());
+export const isPR = () => isRepo() && /^\/pull\/\d+/.test(getRepoPath());
 
-	const isPRFiles = () => isRepo() && /^\/pull\/\d+\/files/.test(getRepoPath());
+export const isPRFiles = () => isRepo() && /^\/pull\/\d+\/files/.test(getRepoPath());
 
-	const isPRCommit = () => isRepo() && /^\/pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(getRepoPath());
+export const isPRCommit = () => isRepo() && /^\/pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(getRepoPath());
 
-	const isMilestone = () => isRepo() && /^\/milestone\/\d+/.test(getRepoPath());
+export const isMilestone = () => isRepo() && /^\/milestone\/\d+/.test(getRepoPath());
 
-	const isCommitList = () => isRepo() && /^\/commits\//.test(getRepoPath());
+export const isCommitList = () => isRepo() && /^\/commits\//.test(getRepoPath());
 
-	const isSingleCommit = () => isRepo() && /^\/commit\/[0-9a-f]{5,40}/.test(getRepoPath());
+export const isSingleCommit = () => isRepo() && /^\/commit\/[0-9a-f]{5,40}/.test(getRepoPath());
 
-	const isCommit = () => isSingleCommit() || isPRCommit() || (isPRFiles() && utils.exists('.full-commit'));
+export const isCommit = () => isSingleCommit() || isPRCommit() || (isPRFiles() && exists('.full-commit'));
 
-	const isCompare = () => isRepo() && /^\/compare/.test(getRepoPath());
+export const isCompare = () => isRepo() && /^\/compare/.test(getRepoPath());
 
-	const hasCode = () => isRepo() && utils.exists('.blob-code-inner');
+export const hasCode = () => isRepo() && exists('.blob-code-inner');
 
-	const hasDiff = () => isRepo() && (isSingleCommit() || isPRCommit() || isPRFiles() || isCompare() || (isPR() && utils.exists('.diff-table')));
+export const hasDiff = () => isRepo() && (isSingleCommit() || isPRCommit() || isPRFiles() || isCompare() || (isPR() && exists('.diff-table')));
 
-	const isReleases = () => isRepo() && /^\/(releases|tags)/.test(getRepoPath());
+export const isReleases = () => isRepo() && /^\/(releases|tags)/.test(getRepoPath());
 
-	const isBlame = () => isRepo() && /^\/blame\//.test(getRepoPath());
+export const isBlame = () => isRepo() && /^\/blame\//.test(getRepoPath());
 
-	const isNotifications = () => /\/notifications(\/participating)?/.test(location.pathname);
+export const isNotifications = () => /\/notifications(\/participating)?/.test(location.pathname);
 
-	const isRepoSettings = () => isRepo() && /^\/settings/.test(getRepoPath());
+export const isRepoSettings = () => isRepo() && /^\/settings/.test(getRepoPath());
 
-	const getOwnerAndRepo = () => {
-		const [, ownerName, repoName] = location.pathname.split('/');
-
-		return {
-			ownerName,
-			repoName
-		};
-	};
-
-	const isSingleFile = () => {
-		const {ownerName, repoName} = getOwnerAndRepo();
-		const blobPattern = new RegExp(`/${ownerName}/${repoName}/blob/`);
-		return isRepo() && blobPattern.test(location.href);
-	};
-
-	const hasCommentForm = () => utils.exists('.js-previewable-comment-form');
+export const getOwnerAndRepo = () => {
+	const [, ownerName, repoName] = location.pathname.split('/');
 
 	return {
-		isGist,
-		isDashboard,
-		isRepo,
-		isRepoRoot,
-		isRepoTree,
-		isIssueSearch,
-		isIssueList,
-		isIssue,
-		isPRSearch,
-		isPRList,
-		isPR,
-		isPRFiles,
-		isPRCommit,
-		isMilestone,
-		isCommitList,
-		isSingleCommit,
-		isCommit,
-		isCompare,
-		hasCode,
-		hasDiff,
-		isReleases,
-		isBlame,
-		isNotifications,
-		getOwnerAndRepo,
-		isSingleFile,
-		hasCommentForm,
-		isRepoSettings
+		ownerName,
+		repoName
 	};
-})();
+};
+
+export const isSingleFile = () => {
+	const {ownerName, repoName} = getOwnerAndRepo();
+	const blobPattern = new RegExp(`/${ownerName}/${repoName}/blob/`);
+	return isRepo() && blobPattern.test(location.href);
+};
+
+export const hasCommentForm = () => exists('.js-previewable-comment-form');
