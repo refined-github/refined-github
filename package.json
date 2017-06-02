@@ -7,6 +7,7 @@
   },
   "devDependencies": {
     "ava": "*",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
     "chrome-webstore-upload-cli": "^1.0.0",
     "cli-foreachfile": "^1.0.5",
     "rollup": "^0.41.6",
@@ -34,6 +35,14 @@
     ],
     "source": [
       "extension/*.js"
+    ],
+    "require": [
+      "babel-register"
+    ]
+  },
+  "babel": {
+    "plugins": [
+      "transform-es2015-modules-commonjs"
     ]
   },
   "dependencies": {

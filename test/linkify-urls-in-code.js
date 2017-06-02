@@ -4,10 +4,7 @@ import Window from './fixtures/window';
 global.window = new Window();
 global.location = window.location;
 
-require('../src/libs/util.js'); // eslint-disable-line import/no-unassigned-import
-require('../src/libs/linkify-urls-in-code.js'); // eslint-disable-line import/no-unassigned-import
-
-const {linkifyURLsInCode} = window;
+const linkifyURLsInCode = require('../src/libs/linkify-urls-in-code.js');
 
 function batchTestText(t, detectFn, shouldMatch = [], shouldNotMatch = []) {
 	for (const text of shouldMatch) {

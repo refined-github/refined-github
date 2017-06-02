@@ -4,9 +4,7 @@ import Window from './fixtures/window';
 global.window = new Window();
 global.location = window.location;
 
-require('../src/libs/page-detect.js'); // eslint-disable-line import/no-unassigned-import
-
-const {pageDetect} = window;
+const pageDetect = require('../src/libs/page-detect.js'); // eslint-disable-line import/no-unassigned-import
 
 function urlMatcherMacro(t, detectFn, shouldMatch = [], shouldNotMatch = []) {
 	for (const url of shouldMatch) {
