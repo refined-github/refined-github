@@ -3,11 +3,10 @@ node_js:
   - 'node'
 env:
   - EXTENSION_ID=hlepfoohegkhhmjieoechaddaejaokhf
-before_script:
-  - npm run build
 deploy:
   provider: script
-  script: npm run release
+  skip_cleanup: true
+  script: npm run build && npm run release
   on:
     branch: master
     tags: true
