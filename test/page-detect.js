@@ -149,11 +149,18 @@ test('isSingleCommit', urlMatcherMacro, pageDetect.isSingleCommit, [
 	'https://github.com/sindresorhus/refined-github/branches'
 ]);
 
-test('isReleases', urlMatcherMacro, pageDetect.isReleases, [
+test('isReleaseList', urlMatcherMacro, pageDetect.isReleaseList, [
 	'https://github.com/sindresorhus/refined-github/releases'
 ], [
 	'https://github.com/sindresorhus/refined-github',
 	'https://github.com/sindresorhus/refined-github/graphs'
+]);
+
+test('isRelease', urlMatcherMacro, pageDetect.isRelease, [
+	'https://github.com/sindresorhus/refined-github/releases/tag/1.2.3'
+], [
+	'https://github.com/sindresorhus/refined-github',
+	'https://github.com/sindresorhus/refined-github/releases'
 ]);
 
 test('isBlame', urlMatcherMacro, pageDetect.isBlame, [

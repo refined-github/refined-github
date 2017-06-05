@@ -43,7 +43,9 @@ window.pageDetect = (() => {
 
 	const hasDiff = () => isRepo() && (isSingleCommit() || isPRCommit() || isPRFiles() || isCompare() || (isPR() && utils.exists('.diff-table')));
 
-	const isReleases = () => isRepo() && /^\/(releases|tags)/.test(getRepoPath());
+	const isReleaseList = () => isRepo() && /^\/(releases|tags)\/?$/.test(getRepoPath());
+
+	const isRelease = () => isRepo() && /^\/releases\/tag/.test(getRepoPath());
 
 	const isBlame = () => isRepo() && /^\/blame\//.test(getRepoPath());
 
@@ -89,7 +91,8 @@ window.pageDetect = (() => {
 		isCompare,
 		hasCode,
 		hasDiff,
-		isReleases,
+		isReleaseList,
+		isRelease,
 		isBlame,
 		isNotifications,
 		getOwnerAndRepo,
