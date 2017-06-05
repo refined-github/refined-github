@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "test": "xo && ava",
+    "test": "xo && ava && npm run build",
     "build:c": "rollup -c node:webext -i src/content.js -o extension/content.js",
     "build:b": "rollup -c node:webext -i src/background.js -o extension/background.js",
     "build:o": "rollup -c node:webext -i src/options/index.js -o extension/options/index.js",
