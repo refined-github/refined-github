@@ -13,7 +13,7 @@ import addReactionParticipants from './libs/reactions-avatars';
 import showRealNames from './libs/show-names';
 import filePathCopyBtnListner from './libs/copy-file-path';
 import addFileCopyButton from './libs/copy-file';
-import {linkifyCode as linkifyURLsInCode} from './libs/linkify-urls-in-code';
+import {linkifyCode} from './libs/linkify-urls-in-code';
 import {select, exists, issueRegex, linkifyIssueRef} from './libs/util';
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
@@ -634,7 +634,7 @@ function init() {
 			}
 
 			if (pageDetect.hasCode()) {
-				linkifyURLsInCode.linkifyCode(repoUrl);
+				linkifyCode(repoUrl);
 			}
 
 			if (pageDetect.isRepoSettings()) {

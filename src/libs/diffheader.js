@@ -1,3 +1,4 @@
+import debounce from 'debounce-fn';
 import $ from './vendor/jquery.slim.min';
 import {select, debounce} from './util';
 
