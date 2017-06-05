@@ -9,6 +9,13 @@ Our hope is that GitHub will notice and implement some of these much needed impr
 [Read more in this blog post.](https://blog.sindresorhus.com/refined-github-21185789685d)
 
 
+## Install
+
+  + [**Chrome** extension](https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf)
+  + [**Firefox** add-on](https://addons.mozilla.org/en-US/firefox/addon/refined-github-/)
+  + Opera - Use [this Opera extension](https://addons.opera.com/en/extensions/details/download-chrome-extension-9/) to install the Chrome version.
+
+
 ## Highlights
 
 - [Mark issues and pull requests as unread](https://cloud.githubusercontent.com/assets/170270/18231475/bdf83e26-72e4-11e6-958f-9ce9431d80eb.png) *(They will reappear in Notifications)*
@@ -77,19 +84,21 @@ And [lots](extension/content.css) [more...](extension/content.js)
 
 ![](https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png)
 
-## Install
+
+## Development
 
 ### Chrome
 
-Install it from the [Chrome Web Store](https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf) or [manually](http://superuser.com/a/247654/6877).
+1. Visit `chrome://extensions/` in Chrome
+2. Enable the **Developer mode**
+3. Click on **Load unpacked extension**
+4. Select the folder `extension`
 
 ### Firefox
 
-1. Download [this repo as a zip file](https://github.com/sindresorhus/refined-github/archive/master.zip)
-2. Extract its contents
-3. Visit `about:debugging#addons` in Firefox
-4. Click on **Load Temporary Add-on**
-5. Select the file `extension/manifest.json`
+1. Visit `about:debugging#addons` in Firefox
+2. Click on **Load Temporary Add-on**
+3. Select the file `extension/manifest.json`
 
 
 ## Contribute
