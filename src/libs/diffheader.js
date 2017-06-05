@@ -107,7 +107,7 @@ const diffHeaderFilename = isResize => {
 
 const setup = () => {
 	$(window).on('scroll.diffheader', () => diffHeaderFilename());
-	const onResize = debounce(() => diffHeaderFilename(true), 200);
+	const onResize = debounce(() => diffHeaderFilename(true), {wait: 200});
 	$(window).on('resize.diffheader', onResize);
 
 	$('.diffbar > .diffstat').insertAfter('.pr-review-tools');
