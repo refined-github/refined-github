@@ -263,10 +263,9 @@ function addPatchDiffLinks() {
 function removeDiffSigns() {
 	$('.blob-code-addition, .blob-code-deletion')
 		.find('.blob-code-inner:not(.refined-github-diff-signs)')
-		.each((index, element) => {
-			const $element = $(element);
-			$element.html(` ${$element.html().slice(1)}`);
-			$element.addClass('refined-github-diff-signs');
+		.each((index, el) => {
+			el.classList.add('refined-github-diff-signs');
+			el.firstChild.textContent = el.firstChild.textContent.slice(1);
 		});
 }
 
