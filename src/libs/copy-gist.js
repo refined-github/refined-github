@@ -1,10 +1,10 @@
-/* globals utils */
+import copyToClipboard from 'copy-text-to-clipboard';
+import $ from './vendor/jquery.slim.min';
+import {exists} from './util';
 
-'use strict';
-
-window.addGistCopyButton = () => {
+export default () => {
 	// Button already added (partial page nav), or non-text file
-	if (utils.exists('.copy-btn')) {
+	if (exists('.copy-btn')) {
 		return;
 	}
 
@@ -18,6 +18,6 @@ window.addGistCopyButton = () => {
 	$(document).on('click', '.copy-btn', e => {
 		e.preventDefault();
 		const fileContents = $(e.currentTarget).data('blob').innerText;
-		utils.copyToClipboard(fileContents);
+		copyToClipboard(fileContents);
 	});
 };

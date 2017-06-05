@@ -5,7 +5,8 @@ env:
   - EXTENSION_ID=hlepfoohegkhhmjieoechaddaejaokhf
 deploy:
   provider: script
-  script: npm run release
+  skip_cleanup: true
+  script: npm run build && npm run release
   on:
     branch: master
     tags: true

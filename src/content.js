@@ -1,9 +1,26 @@
-/* globals utils, toSemver, gitHubInjection, pageDetect, icons, diffFileHeader, addReactionParticipants, addFileCopyButton, addGistCopyButton, enableCopyOnY, showRealNames, markUnread, linkifyURLsInCode, addUploadBtn, filePathCopyBtnListner, elementReady */
+import elementReady from 'element-ready';
+import gitHubInjection from 'github-injection';
+import toSemver from 'to-semver';
+import {escape as escapeHtml} from 'escape-goat';
+import $ from './libs/vendor/jquery.slim.min';
 
-'use strict';
+import markUnread from './libs/mark-unread';
+import addGistCopyButton from './libs/copy-gist';
+import addUploadBtn from './libs/upload-button';
+import diffFileHeader from './libs/diffheader';
+import enableCopyOnY from './libs/copy-on-y';
+import addReactionParticipants from './libs/reactions-avatars';
+import showRealNames from './libs/show-names';
+import filePathCopyBtnListner from './libs/copy-file-path';
+import addFileCopyButton from './libs/copy-file';
+import {linkifyCode} from './libs/linkify-urls-in-code';
+import {select, exists, issueRegex, linkifyIssueRef} from './libs/util';
+import * as icons from './libs/icons';
+import * as pageDetect from './libs/page-detect';
+
 const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
 const repoUrl = `${ownerName}/${repoName}`;
-const getUsername = () => utils.select('meta[name="user-login"]').getAttribute('content');
+const getUsername = () => select('meta[name="user-login"]').getAttribute('content');
 
 function getCanonicalBranchFromRef($element) {
 	const refSelector = '.commit-ref, .head-ref, .base-ref';
@@ -147,7 +164,7 @@ function addYoursMenuItem() {
 }
 
 function infinitelyMore() {
-	const btn = utils.select('.ajax-pagination-btn');
+	const btn = select('.ajax-pagination-btn');
 
 	// If there's no more button remove unnecessary event listeners
 	if (!btn) {
@@ -166,7 +183,7 @@ function infinitelyMore() {
 }
 
 function addReadmeButtons() {
-	const readmeContainer = utils.select('#readme');
+	const readmeContainer = select('#readme');
 	if (!readmeContainer) {
 		return;
 	}
@@ -189,9 +206,9 @@ function addReadmeButtons() {
 		}
 	}
 
-	const readmeName = utils.select('#readme > h3').textContent.trim();
+	const readmeName = select('#readme > h3').textContent.trim();
 	const path = $('.js-repo-root ~ .js-path-segment, .final-path').get().map(el => el.textContent).join('/');
-	const selectMenuButton = utils.select('.file-navigation .select-menu.float-left button.select-menu-button');
+	const selectMenuButton = select('.file-navigation .select-menu.float-left button.select-menu-button');
 	const currentBranch = selectMenuButton.getAttribute('title') || selectMenuButton.querySelector('span').textContent;
 	const editHref = `/${repoUrl}/edit/${currentBranch}/${path ? `${path}/` : ''}${readmeName}`;
 	const editButtonHtml = `
@@ -207,7 +224,7 @@ function addReadmeButtons() {
 }
 
 function addDeleteForkLink() {
-	const postMergeDescription = utils.select('#partial-pull-merging .merge-branch-description');
+	const postMergeDescription = select('#partial-pull-merging .merge-branch-description');
 
 	if (postMergeDescription) {
 		const currentBranch = postMergeDescription.querySelector('.commit-ref.current-branch');
@@ -227,20 +244,19 @@ function addDeleteForkLink() {
 }
 
 function linkifyIssuesInTitles() {
-	const title = utils.select('.js-issue-title');
-	const titleText = utils.escapeHtml(title.textContent);
-	const issueRegex = utils.issueRegex;
+	const title = select('.js-issue-title');
+	const titleText = escapeHtml(title.textContent);
 
 	if (issueRegex.test(titleText)) {
 		title.innerHTML = titleText.replace(
 			new RegExp(issueRegex.source, 'g'),
-			match => utils.linkifyIssueRef(repoUrl, match, '')
+			match => linkifyIssueRef(repoUrl, match, '')
 		);
 	}
 }
 
 function addPatchDiffLinks() {
-	if (utils.exists('.sha-block.patch-diff-links')) {
+	if (exists('.sha-block.patch-diff-links')) {
 		return;
 	}
 
@@ -298,11 +314,11 @@ function indentInput(el, size = 4) {
 
 function showRecentlyPushedBranches() {
 	// Don't duplicate on back/forward in history
-	if (utils.exists('.recently-touched-branches-wrapper')) {
+	if (exists('.recently-touched-branches-wrapper')) {
 		return;
 	}
 
-	const codeURI = utils.select('[data-hotkey="g c"]').getAttribute('href');
+	const codeURI = select('[data-hotkey="g c"]').getAttribute('href');
 
 	fetch(codeURI, {
 		credentials: 'include'
@@ -374,7 +390,7 @@ function addOPLabels() {
 		let op;
 
 		if (pageDetect.isPR()) {
-			const title = utils.select('title').textContent;
+			const title = select('title').textContent;
 			const titleRegex = /^(.+) by (\S+) · Pull Request #(\d+) · (\S+)\/(\S+)$/;
 			op = titleRegex.exec(title)[2];
 		} else {
@@ -430,13 +446,13 @@ function addFilterCommentsByYou() {
 
 function addProjectNewLink() {
 	const projectNewLink = `<a href="/${repoUrl}/projects/new" class="btn btn-sm" id="refined-github-project-new-link">Add a project</a>`;
-	if (utils.exists('#projects-feature:checked') && !utils.exists('#refined-github-project-new-link')) {
+	if (exists('#projects-feature:checked') && !exists('#refined-github-project-new-link')) {
 		$(`#projects-feature ~ p.note`).after(projectNewLink);
 	}
 }
 
 function removeProjectsTab() {
-	const projectsTab = utils.select('.js-repo-nav .reponav-item[data-selected-links^="repo_projects"]');
+	const projectsTab = select('.js-repo-nav .reponav-item[data-selected-links^="repo_projects"]');
 	if (projectsTab && projectsTab.querySelector('.Counter, .counter').textContent === '0') {
 		projectsTab.remove();
 	}
@@ -444,9 +460,9 @@ function removeProjectsTab() {
 
 function fixSquashAndMergeTitle() {
 	$('.btn-group-squash button[type=submit]').click(() => {
-		const title = utils.select('.js-issue-title').textContent;
-		const number = utils.select('.gh-header-number').textContent;
-		utils.select('#merge_title_field').value = `${title.trim()} (${number})`;
+		const title = select('.js-issue-title').textContent;
+		const number = select('.gh-header-number').textContent;
+		select('#merge_title_field').value = `${title.trim()} (${number})`;
 	});
 }
 
@@ -513,7 +529,7 @@ function init() {
 		hideStarsOwnRepos();
 
 		new MutationObserver(() => hideStarsOwnRepos())
-			.observe(utils.select('#dashboard .news'), {childList: true});
+			.observe(select('#dashboard .news'), {childList: true});
 
 		$(window).on('scroll.infinite resize.infinite', infinitelyMore);
 	}
@@ -527,11 +543,11 @@ function init() {
 			if (pageDetect.isNotifications()) {
 				markUnread.setup();
 			}
-		}).observe(utils.select('#js-pjax-container'), {childList: true});
+		}).observe(select('#js-pjax-container'), {childList: true});
 	}
 
 	addUploadBtn();
-	new MutationObserver(addUploadBtn).observe(utils.select('div[role=main]'), {childList: true, subtree: true});
+	new MutationObserver(addUploadBtn).observe(select('div[role=main]'), {childList: true, subtree: true});
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 		addYoursMenuItem();
@@ -573,7 +589,7 @@ function init() {
 
 			if (pageDetect.hasDiff()) {
 				removeDiffSigns();
-				const diffElements = utils.select('.js-discussion, #files');
+				const diffElements = select('.js-discussion, #files');
 				if (diffElements) {
 					new MutationObserver(removeDiffSigns).observe(diffElements, {childList: true, subtree: true});
 				}
@@ -610,7 +626,7 @@ function init() {
 			if (pageDetect.isIssue() || pageDetect.isPR()) {
 				addOPLabels();
 
-				new MutationObserver(addOPLabels).observe(utils.select('.new-discussion-timeline'), {childList: true, subtree: true});
+				new MutationObserver(addOPLabels).observe(select('.new-discussion-timeline'), {childList: true, subtree: true});
 			}
 
 			if (pageDetect.isMilestone()) {
@@ -618,7 +634,7 @@ function init() {
 			}
 
 			if (pageDetect.hasCode()) {
-				linkifyURLsInCode.linkifyCode(repoUrl);
+				linkifyCode(repoUrl);
 			}
 
 			if (pageDetect.isRepoSettings()) {

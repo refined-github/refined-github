@@ -1,8 +1,10 @@
-/* globals pageDetect, icons */
+import $ from './vendor/jquery.slim.min';
+import * as icons from './icons';
+import * as pageDetect from './page-detect';
 
 const isMac = /Mac/.test(window.navigator.platform);
 
-window.addUploadBtn = () => {
+export default () => {
 	if (pageDetect.hasCommentForm()) {
 		$('.js-previewable-comment-form').each((index, element) => {
 			const $element = $(element);

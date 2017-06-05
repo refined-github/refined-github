@@ -21,7 +21,6 @@
 	},
 	"background": {
 		"scripts": [
-			"vendor/webext-dynamic-content-scripts.js",
 			"background.js"
 		],
 		"persistent": false
@@ -38,24 +37,6 @@
 				"custom.css"
 			],
 			"js": [
-				"vendor/jquery.slim.min.js",
-				"vendor/element-ready.js",
-				"vendor/gh-injection.js",
-				"vendor/to-semver.js",
-				"vendor/webext-dynamic-content-scripts.js",
-				"util.js",
-				"page-detect.js",
-				"icons.js",
-				"diffheader.js",
-				"reactions-avatars.js",
-				"copy-file-path.js",
-				"copy-file.js",
-				"copy-gist.js",
-				"copy-on-y.js",
-				"show-names.js",
-				"mark-unread.js",
-				"linkify-urls-in-code.js",
-				"upload-button.js",
 				"content.js"
 			]
 		}

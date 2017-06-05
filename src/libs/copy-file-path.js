@@ -1,8 +1,8 @@
-/* globals utils addFilePathCopyBtn */
+import copyToClipboard from 'copy-text-to-clipboard';
+import $ from './vendor/jquery.slim.min';
+import {select} from './util';
 
-'use strict';
-
-window.addFilePathCopyBtn = () => {
+function addFilePathCopyBtn() {
 	const $files = $('#files .file');
 	$files.each((i, el) => {
 		// Button already added
@@ -27,12 +27,12 @@ window.addFilePathCopyBtn = () => {
 			.on('click', e => {
 				e.preventDefault();
 				$(e.currentTarget).attr('aria-label', 'Copied!');
-				utils.copyToClipboard(filePath);
+				copyToClipboard(filePath);
 			});
 	});
-};
+}
 
-window.filePathCopyBtnListner = () => {
-	const filesBucket = utils.select('#files_bucket #files');
+export default () => {
+	const filesBucket = select('#files_bucket #files');
 	new MutationObserver(addFilePathCopyBtn).observe(filesBucket, {childList: true, subtree: true});
 };

@@ -1,24 +1,26 @@
-window.showRealNames = () => {
-	const storageKey = 'cachedNames';
+import $ from './vendor/jquery.slim.min';
 
-	const getCachedUsers = cb => {
-		chrome.storage.local.get(storageKey, data => cb(data[storageKey]));
-	};
+const storageKey = 'cachedNames';
 
-	const updateCachedUsers = users => {
-		chrome.storage.local.set({[storageKey]: users});
-	};
+const getCachedUsers = cb => {
+	chrome.storage.local.get(storageKey, data => cb(data[storageKey]));
+};
 
-	const addUsersName = (user, name) => {
-		const $usernameLinks = $(`.timeline-comment-header-text:not(.has-full-name) a[href="/${user}"]`);
-		$usernameLinks.each((i, userLink) => {
-			if (user !== name) {
-				$(`<span class="comment-full-name">`).text(`${name} -`).insertAfter(userLink);
-			}
-			$(userLink).closest('.timeline-comment-header-text').addClass('has-full-name');
-		});
-	};
+const updateCachedUsers = users => {
+	chrome.storage.local.set({[storageKey]: users});
+};
 
+const addUsersName = (user, name) => {
+	const $usernameLinks = $(`.timeline-comment-header-text:not(.has-full-name) a[href="/${user}"]`);
+	$usernameLinks.each((i, userLink) => {
+		if (user !== name) {
+			$(`<span class="comment-full-name">`).text(`${name} -`).insertAfter(userLink);
+		}
+		$(userLink).closest('.timeline-comment-header-text').addClass('has-full-name');
+	});
+};
+
+export default () => {
 	getCachedUsers((users = {}) => {
 		const usersOnPage = $('.js-discussion .author').get().map(el => el.innerText);
 		const uniqueUsers = new Set(usersOnPage);
