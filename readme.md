@@ -87,6 +87,20 @@ And [lots](extension/content.css) [more...](extension/content.js)
 
 ## Development
 
+To run it locally, you'll need to build it with:
+
+```sh
+# Build once
+npm run build
+```
+
+```sh
+# Build every time a file changes
+npm run watch
+```
+
+Once built, load it in the browser.
+
 ### Chrome
 
 1. Visit `chrome://extensions/` in Chrome
