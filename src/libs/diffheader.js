@@ -1,3 +1,4 @@
+import $ from './vendor/jquery.slim.min';
 import {select, debounce} from './util';
 
 const diffFile = (() => {

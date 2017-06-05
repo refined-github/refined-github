@@ -1,3 +1,4 @@
+import $ from './vendor/jquery.slim.min';
 import * as icons from './icons';
 import * as pageDetect from './page-detect';
 

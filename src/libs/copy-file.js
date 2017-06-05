@@ -1,4 +1,5 @@
 import copyToClipboard from 'copy-text-to-clipboard';
+import $ from './vendor/jquery.slim.min';
 import {select, exists} from './util';
 
 export default () => {

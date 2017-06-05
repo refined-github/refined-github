@@ -2,6 +2,7 @@ import elementReady from 'element-ready';
 import gitHubInjection from 'github-injection';
 import toSemver from 'to-semver';
 import {escape as escapeHtml} from 'escape-goat';
+import $ from './libs/vendor/jquery.slim.min';
 
 import markUnread from './libs/mark-unread';
 import addGistCopyButton from './libs/copy-gist';

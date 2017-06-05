@@ -30,7 +30,6 @@
     "esnext": true,
     "envs": [
       "browser",
-      "jquery",
       "webextensions"
     ],
     "rules": {
