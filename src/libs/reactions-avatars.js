@@ -38,8 +38,8 @@ function add(currentUser) {
 
 			for (const participant of firstThreeParticipants) {
 				$participantsContainer.append(`
-					<a href="https://github.com/${participant}">
-						<img src="https://github.com/${participant}.png">
+					<a href="/${participant}">
+						<img src="/${participant}.png">
 					</a>
 				`);
 			}
