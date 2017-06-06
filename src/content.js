@@ -1,7 +1,6 @@
 import elementReady from 'element-ready';
 import gitHubInjection from 'github-injection';
 import toSemver from 'to-semver';
-import {escape as escapeHtml} from 'escape-goat';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import $ from './libs/vendor/jquery.slim.min';
@@ -15,8 +14,7 @@ import addReactionParticipants from './libs/reactions-avatars';
 import showRealNames from './libs/show-names';
 import filePathCopyBtnListner from './libs/copy-file-path';
 import addFileCopyButton from './libs/copy-file';
-import {linkifyCode} from './libs/linkify-urls-in-code';
-import {issueRegex, linkifyIssueRef} from './libs/util';
+import linkifyCode, {linkifyIssuesInElement} from './libs/linkify-urls-in-code';
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
 
@@ -246,13 +244,8 @@ function addDeleteForkLink() {
 
 function linkifyIssuesInTitles() {
 	const title = select('.js-issue-title');
-	const titleText = escapeHtml(title.textContent);
-
-	if (issueRegex.test(titleText)) {
-		title.innerHTML = titleText.replace(
-			new RegExp(issueRegex.source, 'g'),
-			match => linkifyIssueRef(repoUrl, match, '')
-		);
+	if (title) {
+		linkifyIssuesInElement(title);
 	}
 }
 
@@ -635,7 +628,7 @@ function init() {
 			}
 
 			if (pageDetect.hasCode()) {
-				linkifyCode(repoUrl);
+				linkifyCode();
 			}
 
 			if (pageDetect.isRepoSettings()) {

@@ -1,36 +1,39 @@
 import select from 'select-dom';
-import {issueRegex, linkifyIssueRef} from './util';
+import {escape as escapeHtml} from 'escape-goat';
+import {getRepoURL} from './page-detect';
+import {getIssueRegex, getURLRegex} from './util';
 
-const URLRegex = /(http(s)?(:\/\/))(www\.)?[a-zA-Z0-9-_.]+(\.[a-zA-Z0-9]{2,})([-a-zA-Z0-9:%_+.~#?&//=]*)/g;
-const linkifiedURLClass = 'rg-linkified-code';
-const commonURLAttrs = `target="_blank" class="${linkifiedURLClass}"`;
+const linkifiedURLClass = 'refined-github-linkified-code';
 
-const linkifyURL = url => `<a href="${url}" ${commonURLAttrs}>${url}</a>`;
+export const linkifyURL = (url, label) => `<a href="${escapeHtml(url)}" target="_blank">${escapeHtml(label || url)}</a>`;
+export const linkifyIssueRef = issueRef => {
+	const [repoPath, issueNumber] = issueRef.split('#');
+	return linkifyURL(`/${repoPath || getRepoURL()}/issues/${issueNumber}`, issueRef);
+};
 
-export const hasIssue = text => issueRegex.test(text);
-export const findURLs = text => text.match(URLRegex) || [];
+export const linkifyURLsInElement = el => {
+	el.innerHTML = el.innerHTML.replace(getURLRegex(), match => {
+		return linkifyURL(match.replace(/(^&lt)|(&gt$)/, ''));
+	});
+};
 
-export const linkifyCode = repoPath => {
+export const linkifyIssuesInElement = el => {
+	el.innerHTML = el.innerHTML.replace(getIssueRegex(), linkifyIssueRef);
+};
+
+export default () => {
+	const untouchedCode = select.all(`.blob-wrapper:not(.${linkifiedURLClass})`);
 	// Don't linkify any already linkified code
-	if (select.exists(`.${linkifiedURLClass}`)) {
+	if (untouchedCode.length === 0) {
 		return;
 	}
-	const codeBlobs = document.querySelectorAll('.blob-code-inner');
-	const commentCodeBlobs = document.querySelectorAll('.blob-code-inner span.pl-c');
 
-	codeBlobs
-	.forEach(blob => {
-		blob.innerHTML = blob.innerHTML.replace(URLRegex, match => {
-			return linkifyURL(match.replace(/(^&lt)|(&gt$)/, ''));
-		});
-	});
+	// Linkify full URLs
+	select.all('.blob-code-inner', untouchedCode).forEach(linkifyURLsInElement);
 
-	commentCodeBlobs
-	.forEach(blob => {
-		const blobHTML = blob.innerHTML;
-		if (hasIssue(blobHTML)) {
-			const issueMatch = blobHTML.match(issueRegex)[0];
-			blob.innerHTML = blobHTML.replace(issueMatch, linkifyIssueRef(repoPath, issueMatch, commonURLAttrs));
-		}
-	});
+	// Linkify issue refs in comments
+	select.all('.blob-code-inner span.pl-c', untouchedCode).forEach(linkifyIssuesInElement);
+
+	// Mark code block as touched
+	untouchedCode.forEach(el => el.classList.add(linkifiedURLClass));
 };
