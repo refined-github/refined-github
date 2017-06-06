@@ -18,8 +18,7 @@ import {select, exists, issueRegex, linkifyIssueRef} from './libs/util';
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
 
-const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
-const repoUrl = `${ownerName}/${repoName}`;
+const repoUrl = pageDetect.getRepoURL();
 const getUsername = () => select('meta[name="user-login"]').getAttribute('content');
 
 function getCanonicalBranchFromRef($element) {
