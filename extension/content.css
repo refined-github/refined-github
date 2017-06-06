@@ -573,6 +573,9 @@ td.blob-code.blob-code-addition:before {
 td.blob-code.blob-code-deletion:before {
 	content: '-';
 }
+.soft-wrap .add-line-comment {
+	user-select: none; /* #317 */
+}
 
 /* remove "pro tip!" box on profile page (appears when name isn't set) */
 .new-user-avatar-cta {
