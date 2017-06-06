@@ -39,8 +39,7 @@
 				"https://gist.github.com/*"
 			],
 			"css": [
-				"content.css",
-				"custom.css"
+				"content.css"
 			],
 			"js": [
 				"content.js"
