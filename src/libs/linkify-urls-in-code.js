@@ -20,11 +20,9 @@ export const linkifyCode = repoPath => {
 
 	codeBlobs
 	.forEach(blob => {
-		for (let match of findURLs(blob.innerHTML)) {
-			// Remove < or > from beginning or end of an URL
-			match = match.replace(/(^&lt)|(&gt$)/, '');
-			blob.innerHTML = blob.innerHTML.replace(match, linkifyURL(match));
-		}
+		blob.innerHTML = blob.innerHTML.replace(URLRegex, match => {
+			return linkifyURL(match.replace(/(^&lt)|(&gt$)/, ''));
+		});
 	});
 
 	commentCodeBlobs
