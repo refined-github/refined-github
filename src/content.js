@@ -16,6 +16,7 @@ import showRealNames from './libs/show-names';
 import filePathCopyBtnListner from './libs/copy-file-path';
 import addFileCopyButton from './libs/copy-file';
 import linkifyCode, {editTextNodes} from './libs/linkify-urls-in-code';
+import {shortenUrl} from './libs/util';
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
 
@@ -465,6 +466,24 @@ function addTitleToEmojis() {
 	}
 }
 
+function shortenVisibleUrls() {
+	$('a[href]').get().forEach(a => {
+		// Don't change if it was already customized
+		if (a.href !== a.textContent) {
+			return;
+		}
+
+		const shortened = shortenUrl(a.href);
+
+		// Don't touch the dom if there's nothing to change
+		if (shortened === a.href) {
+			return;
+		}
+
+		a.innerHTML = shortened;
+	});
+}
+
 // Support indent with tab key in comments
 $(document).on('keydown', '.js-comment-field', event => {
 	if (event.which === 9 && !event.shiftKey) {
@@ -552,6 +571,7 @@ function init() {
 			addCompareTab();
 			removeProjectsTab();
 			addTitleToEmojis();
+			shortenVisibleUrls();
 
 			diffFileHeader.destroy();
 			enableCopyOnY.destroy();
