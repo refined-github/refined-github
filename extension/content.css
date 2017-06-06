@@ -643,3 +643,9 @@ div.inline-comment-form .form-actions,
 .subnav-search-input[aria-label="Search all issues"] {
 	width: 420px;
 }
+
+.commit-ref.base-ref:not([title$="master"]),
+.commit-ref.base-ref:not([title$="master"]) .user {
+	background: #0366d6;
+	color: white;
+}
