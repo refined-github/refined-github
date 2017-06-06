@@ -577,6 +577,12 @@ td.blob-code.blob-code-deletion:before {
 	user-select: none; /* #317 */
 }
 
+/* restore removed space with unselectable one*/
+.refined-github-diff-signs .blob-code-inner:before {
+	content: ' ' !important;
+	user-select: none;
+}
+
 /* remove "pro tip!" box on profile page (appears when name isn't set) */
 .new-user-avatar-cta {
 	display: none !important;
