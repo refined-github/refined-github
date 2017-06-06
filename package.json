@@ -16,6 +16,7 @@
     "element-ready": "^2.0.0",
     "escape-goat": "^1.1.0",
     "github-injection": "^0.3.0",
+    "select-dom": "^4.0.0",
     "to-semver": "^1.1.0",
     "webext-dynamic-content-scripts": "^2.0.1"
   },
