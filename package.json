@@ -6,7 +6,9 @@
     "build:o": "rollup -c node:webext -i src/options/index.js -o extension/options/index.js",
     "build": "run-p build:*",
     "watch": "run-p --continue-on-error --silent 'build:* -- --watch'",
-    "release": "webstore upload --source=extension --auto-publish"
+    "release:amo": "cd extension && webext submit",
+    "release:cws": "cd extension && webstore upload --auto-publish",
+    "release": "run-s release:*"
   },
   "dependencies": {
     "copy-text-to-clipboard": "^1.0.0",
@@ -25,6 +27,7 @@
     "rollup": "^0.41.6",
     "rollup-config-webext": "^1.1.0",
     "rollup-watch": "^3.2.2",
+    "webext": "^1.9.1-with-submit.1",
     "xo": "*"
   },
   "xo": {
