@@ -1,6 +1,6 @@
 import {exists} from './util';
 
-export const isGist = () => location.hostname === 'gist.github.com';
+export const isGist = () => location.hostname.startsWith('gist.') || location.pathname.startsWith('gist/');
 
 export const isDashboard = () => location.pathname === '/' || /^(\/orgs\/[^/]+)?\/dashboard/.test(location.pathname);
 
