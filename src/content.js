@@ -246,7 +246,7 @@ function addDeleteForkLink() {
 function linkifyIssuesInTitles() {
 	const title = select('.js-issue-title');
 	if (title) {
-		title.innerHTML = linkifyIssues(title.innerHTML, {
+		title.innerHTML = linkifyIssues(title.textContent, {
 			attributes: {
 				target: '_blank'
 			}
