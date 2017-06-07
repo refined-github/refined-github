@@ -1,6 +1,6 @@
 import copyToClipboard from 'copy-text-to-clipboard';
+import select from 'select-dom';
 import $ from './vendor/jquery.slim.min';
-import {select} from './util';
 
 function addFilePathCopyBtn() {
 	const $files = $('#files .file');

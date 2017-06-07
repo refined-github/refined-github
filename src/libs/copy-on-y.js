@@ -1,5 +1,5 @@
 import copyToClipboard from 'copy-text-to-clipboard';
-import {select} from './util';
+import select from 'select-dom';
 
 const Y_KEYCODE = 89;
 
