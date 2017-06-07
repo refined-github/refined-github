@@ -467,21 +467,21 @@ function addTitleToEmojis() {
 }
 
 function shortenVisibleUrls() {
-	$('a[href]').get().forEach(a => {
+	for (const a of select.all('a[href]')) {
 		// Don't change if it was already customized
 		if (a.href !== a.textContent) {
-			return;
+			continue;
 		}
 
 		const shortened = shortenUrl(a.href);
 
 		// Don't touch the dom if there's nothing to change
 		if (shortened === a.href) {
-			return;
+			continue;
 		}
 
 		a.innerHTML = shortened;
-	});
+	}
 }
 
 // Support indent with tab key in comments
