@@ -1,6 +1,7 @@
 import elementReady from 'element-ready';
 import gitHubInjection from 'github-injection';
 import toSemver from 'to-semver';
+import linkifyIssues from 'linkify-issues';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import $ from './libs/vendor/jquery.slim.min';
@@ -14,7 +15,7 @@ import addReactionParticipants from './libs/reactions-avatars';
 import showRealNames from './libs/show-names';
 import filePathCopyBtnListner from './libs/copy-file-path';
 import addFileCopyButton from './libs/copy-file';
-import linkifyCode, {linkifyIssuesInElement} from './libs/linkify-urls-in-code';
+import linkifyCode from './libs/linkify-urls-in-code';
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
 
@@ -245,7 +246,11 @@ function addDeleteForkLink() {
 function linkifyIssuesInTitles() {
 	const title = select('.js-issue-title');
 	if (title) {
-		linkifyIssuesInElement(title);
+		title.innerHTML = linkifyIssues(title.innerHTML, {
+			attributes: {
+				target: '_blank'
+			}
+		});
 	}
 }
 
