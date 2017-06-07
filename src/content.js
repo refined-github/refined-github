@@ -2,6 +2,7 @@ import elementReady from 'element-ready';
 import gitHubInjection from 'github-injection';
 import toSemver from 'to-semver';
 import {escape as escapeHtml} from 'escape-goat';
+import select from 'select-dom';
 import $ from './libs/vendor/jquery.slim.min';
 
 import markUnread from './libs/mark-unread';
@@ -14,7 +15,7 @@ import showRealNames from './libs/show-names';
 import filePathCopyBtnListner from './libs/copy-file-path';
 import addFileCopyButton from './libs/copy-file';
 import {linkifyCode} from './libs/linkify-urls-in-code';
-import {select, exists, issueRegex, linkifyIssueRef} from './libs/util';
+import {issueRegex, linkifyIssueRef} from './libs/util';
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
 
@@ -255,7 +256,7 @@ function linkifyIssuesInTitles() {
 }
 
 function addPatchDiffLinks() {
-	if (exists('.sha-block.patch-diff-links')) {
+	if (select.exists('.sha-block.patch-diff-links')) {
 		return;
 	}
 
@@ -313,7 +314,7 @@ function indentInput(el, size = 4) {
 
 function showRecentlyPushedBranches() {
 	// Don't duplicate on back/forward in history
-	if (exists('.recently-touched-branches-wrapper')) {
+	if (select.exists('.recently-touched-branches-wrapper')) {
 		return;
 	}
 
@@ -445,7 +446,7 @@ function addFilterCommentsByYou() {
 
 function addProjectNewLink() {
 	const projectNewLink = `<a href="/${repoUrl}/projects/new" class="btn btn-sm" id="refined-github-project-new-link">Add a project</a>`;
-	if (exists('#projects-feature:checked') && !exists('#refined-github-project-new-link')) {
+	if (select.exists('#projects-feature:checked') && !select.exists('#refined-github-project-new-link')) {
 		$(`#projects-feature ~ p.note`).after(projectNewLink);
 	}
 }

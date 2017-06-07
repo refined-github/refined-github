@@ -1,4 +1,5 @@
-import {exists, issueRegex, linkifyIssueRef} from './util';
+import select from 'select-dom';
+import {issueRegex, linkifyIssueRef} from './util';
 
 const URLRegex = /(http(s)?(:\/\/))(www\.)?[a-zA-Z0-9-_.]+(\.[a-zA-Z0-9]{2,})([-a-zA-Z0-9:%_+.~#?&//=]*)/g;
 const linkifiedURLClass = 'rg-linkified-code';
@@ -11,7 +12,7 @@ export const findURLs = text => text.match(URLRegex) || [];
 
 export const linkifyCode = repoPath => {
 	// Don't linkify any already linkified code
-	if (exists(`.${linkifiedURLClass}`)) {
+	if (select.exists(`.${linkifiedURLClass}`)) {
 		return;
 	}
 	const codeBlobs = document.querySelectorAll('.blob-code-inner');

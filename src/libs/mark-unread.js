@@ -1,5 +1,5 @@
+import select from 'select-dom';
 import $ from './vendor/jquery.slim.min';
-import {select, exists} from './util';
 import * as icons from './icons';
 import * as pageDetect from './page-detect';
 
@@ -140,7 +140,7 @@ function renderNotifications() {
 			}
 		}
 
-		const hasList = exists(`a.notifications-repo-link[title="${repository}"]`);
+		const hasList = select.exists(`a.notifications-repo-link[title="${repository}"]`);
 		if (!hasList) {
 			const list = $(`
 				<div class="boxed-group flush">
@@ -211,11 +211,11 @@ function renderNotifications() {
 }
 
 function isNotificationExist(url) {
-	return exists(`a.js-notification-target[href^="${stripHash(url)}"]`);
+	return select.exists(`a.js-notification-target[href^="${stripHash(url)}"]`);
 }
 
 function isEmptyPage() {
-	return exists('.blankslate');
+	return select.exists('.blankslate');
 }
 
 function isParticipatingPage() {
@@ -266,7 +266,7 @@ function markAllNotificationsRead(e) {
 }
 
 function addCustomAllReadBtn() {
-	const hasMarkAllReadBtnExists = exists('#notification-center a[href="#mark_as_read_confirm_box"]');
+	const hasMarkAllReadBtnExists = select.exists('#notification-center a[href="#mark_as_read_confirm_box"]');
 	if (hasMarkAllReadBtnExists || JSON.parse(localStorage.unreadNotifications || '[]').length === 0) {
 		return;
 	}

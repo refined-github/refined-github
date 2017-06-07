@@ -1,4 +1,4 @@
-import {exists} from './util';
+import select from 'select-dom';
 
 export const isGist = () => location.hostname.startsWith('gist.') || location.pathname.startsWith('gist/');
 
@@ -10,7 +10,7 @@ export const getRepoPath = () => location.pathname.replace(/^\/[^/]+\/[^/]+/, ''
 
 export const getRepoURL = () => location.pathname.slice(1).split('/', 2).join('/');
 
-export const isRepoRoot = () => isRepo() && /^(\/?$|\/tree\/)/.test(getRepoPath()) && exists('.repository-meta-content');
+export const isRepoRoot = () => isRepo() && /^(\/?$|\/tree\/)/.test(getRepoPath()) && select.exists('.repository-meta-content');
 
 export const isRepoTree = () => isRepo() && /\/tree\//.test(getRepoPath());
 
@@ -36,13 +36,13 @@ export const isCommitList = () => isRepo() && /^\/commits\//.test(getRepoPath())
 
 export const isSingleCommit = () => isRepo() && /^\/commit\/[0-9a-f]{5,40}/.test(getRepoPath());
 
-export const isCommit = () => isSingleCommit() || isPRCommit() || (isPRFiles() && exists('.full-commit'));
+export const isCommit = () => isSingleCommit() || isPRCommit() || (isPRFiles() && select.exists('.full-commit'));
 
 export const isCompare = () => isRepo() && /^\/compare/.test(getRepoPath());
 
-export const hasCode = () => isRepo() && exists('.blob-code-inner');
+export const hasCode = () => isRepo() && select.exists('.blob-code-inner');
 
-export const hasDiff = () => isRepo() && (isSingleCommit() || isPRCommit() || isPRFiles() || isCompare() || (isPR() && exists('.diff-table')));
+export const hasDiff = () => isRepo() && (isSingleCommit() || isPRCommit() || isPRFiles() || isCompare() || (isPR() && select.exists('.diff-table')));
 
 export const isReleases = () => isRepo() && /^\/(releases|tags)/.test(getRepoPath());
 
@@ -67,4 +67,4 @@ export const isSingleFile = () => {
 	return isRepo() && blobPattern.test(location.href);
 };
 
-export const hasCommentForm = () => exists('.js-previewable-comment-form');
+export const hasCommentForm = () => select.exists('.js-previewable-comment-form');

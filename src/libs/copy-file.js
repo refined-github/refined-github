@@ -1,10 +1,10 @@
 import copyToClipboard from 'copy-text-to-clipboard';
+import select from 'select-dom';
 import $ from './vendor/jquery.slim.min';
-import {select, exists} from './util';
 
 export default () => {
 	// Button already added (partial page nav), or non-text file
-	if (exists('.copy-btn') || !exists('[data-line-number="1"]')) {
+	if (select.exists('.copy-btn') || !select.exists('[data-line-number="1"]')) {
 		return;
 	}
 
