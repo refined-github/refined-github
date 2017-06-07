@@ -162,7 +162,7 @@ test('isBlame', urlMatcherMacro, pageDetect.isBlame, [
 
 test('isSingleFile', urlMatcherMacro, pageDetect.isSingleFile, [
 	'https://github.com/sindresorhus/refined-github/blob/master/.gitattributes',
-	'https://github.com/sindresorhus/refined-github/blob/fix-narrow-diff/extension/custom.css'
+	'https://github.com/sindresorhus/refined-github/blob/fix-narrow-diff/extension/content.css'
 ], [
 	'https://github.com/sindresorhus/refined-github/pull/164/files',
 	'https://github.com/sindresorhus/refined-github/commit/57bf4'
