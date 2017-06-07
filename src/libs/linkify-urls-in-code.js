@@ -1,6 +1,7 @@
 import select from 'select-dom';
 import linkifyUrls from 'linkify-urls';
 import linkifyIssues from 'linkify-issues';
+import {getOwnerAndRepo} from './page-detect';
 
 const linkifiedURLClass = 'refined-github-linkified-code';
 const attrs = {
@@ -15,6 +16,11 @@ export default () => {
 		return;
 	}
 
+	const {
+		ownerName: user,
+		repoName: repo
+	} = getOwnerAndRepo();
+
 	// Linkify full URLs
 	for (const el of select.all('.blob-code-inner', untouchedCode)) {
 		el.innerHTML = linkifyUrls(el.innerHTML, {attrs});
@@ -22,7 +28,7 @@ export default () => {
 
 	// Linkify issue refs in comments
 	for (const el of select.all('.blob-code-inner span.pl-c', untouchedCode)) {
-		el.innerHTML = linkifyIssues(el.innerHTML, {attrs});
+		el.innerHTML = linkifyIssues(el.innerHTML, {user, repo, attrs});
 	}
 
 	// Mark code block as touched

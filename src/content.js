@@ -20,6 +20,8 @@ import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
 
 const repoUrl = pageDetect.getRepoURL();
+const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
+
 const getUsername = () => select('meta[name="user-login"]').getAttribute('content');
 
 function getCanonicalBranchFromRef($element) {
@@ -247,6 +249,8 @@ function linkifyIssuesInTitles() {
 	const title = select('.js-issue-title');
 	if (title) {
 		title.innerHTML = linkifyIssues(title.textContent, {
+			user: ownerName,
+			repo: repoName,
 			attributes: {
 				target: '_blank'
 			}
