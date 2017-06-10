@@ -3,6 +3,7 @@ import gitHubInjection from 'github-injection';
 import toSemver from 'to-semver';
 import {escape as escapeHtml} from 'escape-goat';
 import select from 'select-dom';
+import domLoaded from 'dom-loaded';
 import $ from './libs/vendor/jquery.slim.min';
 
 import markUnread from './libs/mark-unread';
@@ -648,8 +649,4 @@ if (!pageDetect.isGist()) {
 	addTrendingMenuItem();
 }
 
-if (document.readyState === 'complete') {
-	init();
-} else {
-	document.addEventListener('DOMContentLoaded', init);
-}
+domLoaded.then(init);
