@@ -5,7 +5,6 @@ import linkifyIssues from 'linkify-issues';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import $ from './libs/vendor/jquery.slim.min';
-import html from './libs/domify';
 
 import markUnread from './libs/mark-unread';
 import addGistCopyButton from './libs/copy-gist';
@@ -16,12 +15,11 @@ import addReactionParticipants from './libs/reactions-avatars';
 import showRealNames from './libs/show-names';
 import filePathCopyBtnListner from './libs/copy-file-path';
 import addFileCopyButton from './libs/copy-file';
-import linkifyCode from './libs/linkify-urls-in-code';
+import linkifyCode, {editTextNodes} from './libs/linkify-urls-in-code';
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
 
 const repoUrl = pageDetect.getRepoURL();
-const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
 
 const getUsername = () => select('meta[name="user-login"]').getAttribute('content');
 
@@ -247,19 +245,7 @@ function addDeleteForkLink() {
 }
 
 function linkifyIssuesInTitles() {
-	const title = select('.js-issue-title');
-	if (title) {
-		const linkified = linkifyIssues(title.textContent, {
-			user: ownerName,
-			repo: repoName,
-			attributes: {
-				target: '_blank'
-			}
-		});
-		if (linkified !== title.textContent) {
-			title.replaceWith(html(linkified));
-		}
-	}
+	editTextNodes(linkifyIssues, select('.js-issue-title'));
 }
 
 function addPatchDiffLinks() {

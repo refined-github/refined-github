@@ -6,8 +6,29 @@ import getTextNodes from './get-text-nodes';
 import html from './domify';
 
 const linkifiedURLClass = 'refined-github-linkified-code';
-const attrs = {
-	target: '_blank'
+const {
+	ownerName,
+	repoName
+} = getOwnerAndRepo();
+
+const options = {
+	user: ownerName,
+	repo: repoName,
+	attrs: {
+		target: '_blank'
+	}
+};
+
+export const editTextNodes = (fn, el) => {
+	if (!el) {
+		return;
+	}
+	for (const textNode of getTextNodes(el)) {
+		const linkified = fn(textNode.textContent, options);
+		if (linkified !== textNode.textContent) {
+			textNode.replaceWith(html(linkified));
+		}
+	}
 };
 
 export default () => {
@@ -18,29 +39,14 @@ export default () => {
 		return;
 	}
 
-	const {
-		ownerName: user,
-		repoName: repo
-	} = getOwnerAndRepo();
-
 	// Linkify full URLs
 	for (const el of select.all('.blob-code-inner', untouchedCode)) {
-		for (const textNode of getTextNodes(el)) {
-			const linkified = linkifyUrls(textNode.textContent, {attrs});
-			if (linkified !== textNode.textContent) {
-				textNode.replaceWith(html(linkified));
-			}
-		}
+		editTextNodes(linkifyUrls, el);
 	}
 
 	// Linkify issue refs in comments
 	for (const el of select.all('.blob-code-inner span.pl-c', untouchedCode)) {
-		for (const textNode of getTextNodes(el)) {
-			const linkified = linkifyIssues(textNode.textContent, {user, repo, attrs});
-			if (linkified !== textNode.textContent) {
-				textNode.replaceWith(html(linkified));
-			}
-		}
+		editTextNodes(linkifyIssues, el);
 	}
 
 	// Mark code block as touched
