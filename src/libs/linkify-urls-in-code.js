@@ -24,6 +24,9 @@ export const editTextNodes = (fn, el) => {
 		return;
 	}
 	for (const textNode of getTextNodes(el)) {
+		if (textNode.textContent.length < 11) { // Shortest url: http://j.mp
+			continue;
+		}
 		const linkified = fn(textNode.textContent, options);
 		if (linkified !== textNode.textContent) {
 			textNode.replaceWith(html(linkified));
