@@ -5,6 +5,7 @@ import linkifyIssues from 'linkify-issues';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import $ from './libs/vendor/jquery.slim.min';
+import html from './libs/domify';
 
 import markUnread from './libs/mark-unread';
 import addGistCopyButton from './libs/copy-gist';
@@ -248,13 +249,16 @@ function addDeleteForkLink() {
 function linkifyIssuesInTitles() {
 	const title = select('.js-issue-title');
 	if (title) {
-		title.innerHTML = linkifyIssues(title.textContent, {
+		const linkified = linkifyIssues(title.textContent, {
 			user: ownerName,
 			repo: repoName,
 			attributes: {
 				target: '_blank'
 			}
 		});
+		if (linkified !== title.textContent) {
+			title.replaceWith(html(linkified));
+		}
 	}
 }
 

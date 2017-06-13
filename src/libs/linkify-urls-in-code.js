@@ -27,7 +27,9 @@ export default () => {
 	for (const el of select.all('.blob-code-inner', untouchedCode)) {
 		for (const textNode of getTextNodes(el)) {
 			const linkified = linkifyUrls(textNode.textContent, {attrs});
-			textNode.replaceWith(html(linkified));
+			if (linkified !== textNode.textContent) {
+				textNode.replaceWith(html(linkified));
+			}
 		}
 	}
 
@@ -35,7 +37,9 @@ export default () => {
 	for (const el of select.all('.blob-code-inner span.pl-c', untouchedCode)) {
 		for (const textNode of getTextNodes(el)) {
 			const linkified = linkifyIssues(textNode.textContent, {user, repo, attrs});
-			textNode.replaceWith(html(linkified));
+			if (linkified !== textNode.textContent) {
+				textNode.replaceWith(html(linkified));
+			}
 		}
 	}
 
