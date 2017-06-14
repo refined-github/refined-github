@@ -469,7 +469,9 @@ function addTitleToEmojis() {
 function shortenVisibleUrls() {
 	for (const a of select.all('a[href]')) {
 		// Don't change if it was already customized
-		if (a.href !== a.textContent) {
+		// .href automatically adds a / to naked origins
+		// so that needs to be tested too
+		if (a.href !== a.textContent && a.href !== `${a.textContent}/`) {
 			continue;
 		}
 

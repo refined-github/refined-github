@@ -1,24 +1,20 @@
 import {getRepoURL} from './page-detect';
 
-export const shortenUrl = plainUrl => {
-	let {
+// Filter out null values
+const joinValues = (array, delimiter = '/') => {
+	return array.filter(s => s).join(delimiter);
+};
+
+export const shortenUrl = href => {
+	/**
+	 * Parse URL
+	 */
+	const {
 		origin,
 		pathname,
 		search,
 		hash
-	} = new URL(plainUrl);
-
-	let [
-		, // Always empty
-		user,
-		repo,
-		type,
-		revision,
-		...filePath
-	] = pathname.split('/');
-
-	const isLocalUrl = origin === location.origin;
-	const isCurrentRepo = isLocalUrl && getRepoURL() === `${user}/${repo}`;
+	} = new URL(href);
 
 	const isRaw = [
 		'https://raw.githubusercontent.com',
@@ -26,59 +22,90 @@ export const shortenUrl = plainUrl => {
 		'https://rawgit.com'
 	].includes(origin);
 
-	const isFile = [
+	let [
+		user,
+		repo,
+		type,
+		revision,
+		...filePath
+	] = pathname.substr(1).split('/');
+
+	if (isRaw) {
+		[
+			user,
+			repo,
+			// Raw URLs don't have `blob` here
+			revision,
+			...filePath
+		] = pathname.substr(1).split('/');
+		type = 'raw';
+	}
+
+	if (/^[0-9a-f]{40}$/.test(revision)) {
+		revision = revision.substr(0, 7);
+	}
+
+	const isLocal = origin === location.origin;
+	const isThisRepo = (isLocal || isRaw) && getRepoURL() === `${user}/${repo}`;
+
+	const isReserved = [
+		'join',
+		'site',
+		'blog',
+		'about',
+		'login',
+		'pulls',
+		'search',
+		'issues',
+		'explore',
+		'contact',
+		'pricing',
+		'trending',
+		'settings',
+		'features',
+		'business',
+		'personal',
+		'security',
+		'dashboard',
+		'showcases',
+		'open-source',
+		'marketplace'
+	].includes(user);
+
+	const isFileOrDir = revision && [
+		'raw',
+		'tree',
 		'blob',
-		'blame'
+		'blame',
+		'commits'
 	].includes(type);
 
-	// Drop origin if pathname makes sense on its own
-	if ((isRaw || isLocalUrl) && pathname.split('/').length > 3) {
-		origin = '';
-	} else {
-		// Otherwise just drop HTTPS
-		origin = origin.replace('https://', '');
+	/**
+	 * Shorten URL
+	 */
+
+	if (isReserved || !repo || (!isLocal && !isRaw)) {
+		return href
+		.replace(/^https:[/][/]/, '')
+		.replace(/^www[.]/, '')
+		.replace(/[/]$/, '');
 	}
 
-	// Shorten GitHub file URLs
-	if (isFile || isRaw) {
-		let newPath = '';
+	const repoUrl = isThisRepo ? '' : `${user}/${repo}`;
 
-		// Drop 'user/repo' where possible
-		if (!isCurrentRepo) {
-			newPath += `/${user}/${repo}`;
+	if (isFileOrDir) {
+		const file = joinValues([repoUrl, ...filePath]);
+		const revisioned = joinValues([
+			file,
+			`<code>${revision}</code>${search}${hash}`
+		], '@');
+		if (type !== 'blob' && type !== 'tree') {
+			return `${revisioned} (${type})`;
 		}
-
-		// Shift variables on "raw" urls because they don't have a type
-		if (isRaw) {
-			filePath.unshift(revision);
-			revision = type;
-		} else if (type !== 'blob') {
-			// Highlight 'type'; drop it if it's 'blob'
-			newPath += `/<em>${type}</em>`;
-		}
-
-		if (revision) {
-			// Shorten hashes
-			if (/^[0-9a-f]{40}$/.test(revision)) {
-				revision = revision.substr(0, 7);
-			}
-			// Highlight hashes and branches
-			newPath += `/<code>${revision}</code>`;
-		}
-
-		if (filePath.length > 0) {
-			filePath = filePath.join('/');
-			if (isRaw) {
-				filePath = `<code>${filePath}</code>`;
-			}
-			newPath += `:${filePath}`;
-		}
-
-		pathname = newPath;
+		return revisioned;
 	}
 
-	// Join all; drop possible starting backslash
-	return `${origin}${pathname}${search}${hash}`.replace(/^[/]/, '');
+	return `${pathname.substr(1).replace(/[/]$/, '')}${search}${hash}`;
 };
 
 export const issueRegex = /([a-zA-Z0-9-_.]+\/[a-zA-Z0-9-_.]+)?#[0-9]+/;
