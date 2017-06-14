@@ -53,5 +53,7 @@ export default () => {
 	}
 
 	// Mark code block as touched
-	untouchedCode.forEach(el => el.classList.add(linkifiedURLClass));
+	for (const el of untouchedCode) {
+		el.classList.add(linkifiedURLClass);
+	}
 };
