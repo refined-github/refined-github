@@ -1,5 +1,4 @@
 import toMarkdown from 'to-markdown';
-import select from 'select-dom';
 import copyToClipboard from 'copy-text-to-clipboard';
 
 const selectionHtml = selection => {
@@ -20,21 +19,17 @@ const setSelection = (selection, range) => {
 	selection.addRange(range);
 };
 
-const containsSelection = (container, selection) => [selection.anchorNode, selection.focusNode].every(node => container.contains(node));
-
 export default event => {
 	const selection = window.getSelection();
 
-	if (select.all('.markdown-body').some(node => containsSelection(node, selection))) {
-		event.stopImmediatePropagation();
+	event.stopImmediatePropagation();
 
-		const originalSelection = selection.getRangeAt(0);
+	const originalSelection = selection.getRangeAt(0);
 
-		const html = selectionHtml(selection);
-		const markdown = toMarkdown(html, {gfm: true});
+	const html = selectionHtml(selection);
+	const markdown = toMarkdown(html, {gfm: true});
 
-		copyToClipboard(markdown);
+	copyToClipboard(markdown);
 
-		window.setTimeout(() => setSelection(selection, originalSelection), 10);
-	}
+	window.setTimeout(() => setSelection(selection, originalSelection), 10);
 };

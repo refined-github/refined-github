@@ -466,8 +466,6 @@ function addTitleToEmojis() {
 	}
 }
 
-$(document).on('copy', copyMarkdown);
-
 // Support indent with tab key in comments
 $(document).on('keydown', '.js-comment-field', event => {
 	if (event.which === 9 && !event.shiftKey) {
@@ -509,6 +507,8 @@ function init() {
 	const username = getUsername();
 
 	markUnread.unreadIndicatorIcon();
+
+	$('.markdown-body').on('copy', copyMarkdown);
 
 	if (pageDetect.isGist()) {
 		addGistCopyButton();
