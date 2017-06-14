@@ -5,7 +5,7 @@
     "build:b": "rollup -c node:webext -i src/background.js -o extension/background.js",
     "build:o": "rollup -c node:webext -i src/options/index.js -o extension/options/index.js",
     "build": "run-p build:*",
-    "watch": "run-p --continue-on-error --silent 'build:* -- --watch'",
+    "watch": "run-p --continue-on-error --silent \"build:* -- --watch\"",
     "release:amo": "cd extension && webext submit",
     "release:cws": "cd extension && webstore upload --auto-publish",
     "release": "run-s release:*"
