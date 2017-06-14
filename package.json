@@ -5,7 +5,7 @@
     "build:b": "rollup -c node:webext -i src/background.js -o extension/background.js",
     "build:o": "rollup -c node:webext -i src/options/index.js -o extension/options/index.js",
     "build": "run-p build:*",
-    "watch": "run-p --continue-on-error --silent 'build:* -- --watch'",
+    "watch": "run-p --continue-on-error --silent \"build:* -- --watch\"",
     "release:amo": "cd extension && webext submit",
     "release:cws": "cd extension && webstore upload --auto-publish",
     "release": "run-s release:*"
@@ -17,6 +17,8 @@
     "element-ready": "^2.0.0",
     "escape-goat": "^1.1.0",
     "github-injection": "^0.3.0",
+    "linkify-issues": "^1.1.0",
+    "linkify-urls": "^1.0.2",
     "select-dom": "^4.1.0",
     "to-markdown": "^3.0.4",
     "to-semver": "^1.1.0",
