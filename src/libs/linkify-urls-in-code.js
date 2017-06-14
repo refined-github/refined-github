@@ -1,38 +1,59 @@
 import select from 'select-dom';
-import {issueRegex, linkifyIssueRef} from './util';
+import linkifyUrls from 'linkify-urls';
+import linkifyIssues from 'linkify-issues';
+import {getOwnerAndRepo} from './page-detect';
+import getTextNodes from './get-text-nodes';
+import html from './domify';
 
-const URLRegex = /(http(s)?(:\/\/))(www\.)?[a-zA-Z0-9-_.]+(\.[a-zA-Z0-9]{2,})([-a-zA-Z0-9:%_+.~#?&//=]*)/g;
-const linkifiedURLClass = 'rg-linkified-code';
-const commonURLAttrs = `target="_blank" class="${linkifiedURLClass}"`;
+const linkifiedURLClass = 'refined-github-linkified-code';
+const {
+	ownerName,
+	repoName
+} = getOwnerAndRepo();
 
-const linkifyURL = url => `<a href="${url}" ${commonURLAttrs}>${url}</a>`;
+const options = {
+	user: ownerName,
+	repo: repoName,
+	attrs: {
+		target: '_blank'
+	}
+};
 
-export const hasIssue = text => issueRegex.test(text);
-export const findURLs = text => text.match(URLRegex) || [];
-
-export const linkifyCode = repoPath => {
-	// Don't linkify any already linkified code
-	if (select.exists(`.${linkifiedURLClass}`)) {
+export const editTextNodes = (fn, el) => {
+	if (!el) {
 		return;
 	}
-	const codeBlobs = document.querySelectorAll('.blob-code-inner');
-	const commentCodeBlobs = document.querySelectorAll('.blob-code-inner span.pl-c');
-
-	codeBlobs
-	.forEach(blob => {
-		for (let match of findURLs(blob.innerHTML)) {
-			// Remove < or > from beginning or end of an URL
-			match = match.replace(/(^&lt)|(&gt$)/, '');
-			blob.innerHTML = blob.innerHTML.replace(match, linkifyURL(match));
+	for (const textNode of getTextNodes(el)) {
+		if (textNode.textContent.length < 11) { // Shortest url: http://j.mp
+			continue;
 		}
-	});
-
-	commentCodeBlobs
-	.forEach(blob => {
-		const blobHTML = blob.innerHTML;
-		if (hasIssue(blobHTML)) {
-			const issueMatch = blobHTML.match(issueRegex)[0];
-			blob.innerHTML = blobHTML.replace(issueMatch, linkifyIssueRef(repoPath, issueMatch, commonURLAttrs));
+		const linkified = fn(textNode.textContent, options);
+		if (linkified !== textNode.textContent) {
+			textNode.replaceWith(html(linkified));
 		}
-	});
+	}
+};
+
+export default () => {
+	const untouchedCode = select.all(`.blob-wrapper:not(.${linkifiedURLClass})`);
+
+	// Don't linkify any already linkified code
+	if (untouchedCode.length === 0) {
+		return;
+	}
+
+	// Linkify full URLs
+	for (const el of select.all('.blob-code-inner', untouchedCode)) {
+		editTextNodes(linkifyUrls, el);
+	}
+
+	// Linkify issue refs in comments
+	for (const el of select.all('.blob-code-inner span.pl-c', untouchedCode)) {
+		editTextNodes(linkifyIssues, el);
+	}
+
+	// Mark code block as touched
+	for (const el of untouchedCode) {
+		el.classList.add(linkifiedURLClass);
+	}
 };
