@@ -36,5 +36,5 @@ export default event => {
 		copyToClipboard(markdown);
 
 		window.setTimeout(() => setSelection(selection, originalSelection), 10);
-	};
+	}
 };
