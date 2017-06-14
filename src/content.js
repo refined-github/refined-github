@@ -15,6 +15,7 @@ import addReactionParticipants from './libs/reactions-avatars';
 import showRealNames from './libs/show-names';
 import filePathCopyBtnListner from './libs/copy-file-path';
 import addFileCopyButton from './libs/copy-file';
+import copyMarkdown from './libs/copy-markdown';
 import {linkifyCode} from './libs/linkify-urls-in-code';
 import {issueRegex, linkifyIssueRef} from './libs/util';
 import * as icons from './libs/icons';
@@ -472,6 +473,8 @@ function addTitleToEmojis() {
 		$(emoji).attr('title', `:${$(emoji).attr('alias')}:`);
 	}
 }
+
+$(document).on('copy', copyMarkdown);
 
 // Support indent with tab key in comments
 $(document).on('keydown', '.js-comment-field', event => {
