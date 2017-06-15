@@ -13,14 +13,15 @@ const updateCachedUsers = users => {
 const addUsersName = (user, name) => {
 	const $usernameLinks = $(`.timeline-comment-header-text:not(.has-full-name) a[href="/${user}"]`);
 	$usernameLinks.each((i, userLink) => {
+		const $userLink = $(userLink);
 		if (user !== name) {
 			let nameText = name;
-			if (!$(userLink).parent().is('span.timestamp')) {
+			if (!$userLink.parent().hasClass('timestamp-edited')) {
 				nameText += ' -';
 			}
-			$(`<span class="comment-full-name">`).text(nameText).insertAfter(userLink);
+			$userLink.after(`<span class="comment-full-name">${nameText}</span>`);
 		}
-		$(userLink).closest('.timeline-comment-header-text').addClass('has-full-name');
+		$userLink.closest('.timeline-comment-header-text').addClass('has-full-name');
 	});
 };
 
