@@ -12,7 +12,8 @@
 		}
 	},
 	"permissions": [
-		"storage"
+		"storage",
+		"clipboardWrite"
 	],
 	"optional_permissions": [
 		"http://*/*",
