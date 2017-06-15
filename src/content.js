@@ -1,3 +1,4 @@
+import 'webext-dynamic-content-scripts';
 import elementReady from 'element-ready';
 import gitHubInjection from 'github-injection';
 import toSemver from 'to-semver';
