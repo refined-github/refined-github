@@ -503,12 +503,12 @@ $(document).on('pjax:end', () => {
 	}
 });
 
+$(document).on('copy', '.markdown-body', copyMarkdown);
+
 function init() {
 	const username = getUsername();
 
 	markUnread.unreadIndicatorIcon();
-
-	$('.markdown-body').on('copy', copyMarkdown);
 
 	if (pageDetect.isGist()) {
 		addGistCopyButton();
