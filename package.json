@@ -1,11 +1,8 @@
 {
   "scripts": {
     "test": "xo && ava && npm run build",
-    "build:c": "rollup -c node:webext -i src/content.js -o extension/content.js",
-    "build:b": "rollup -c node:webext -i src/background.js -o extension/background.js",
-    "build:o": "rollup -c node:webext -i src/options/index.js -o extension/options/index.js",
-    "build": "run-p build:*",
-    "watch": "run-p --continue-on-error --silent \"build:* -- --watch\"",
+    "build": "rollup -c",
+    "watch": "run-p --continue-on-error --silent \"build -- --watch --sourcemap\"",
     "release:amo": "cd extension && webext submit",
     "release:cws": "cd extension && webstore upload --auto-publish",
     "release": "run-s release:*"
@@ -19,6 +16,8 @@
     "github-injection": "^0.3.0",
     "linkify-issues": "^1.1.0",
     "linkify-urls": "^1.0.2",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-node-resolve": "^3.0.0",
     "select-dom": "^4.1.0",
     "to-markdown": "^3.0.4",
     "to-semver": "^1.1.0",
@@ -29,9 +28,8 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
     "chrome-webstore-upload-cli": "^1.0.0",
     "npm-run-all": "^4.0.2",
-    "rollup": "^0.41.6",
-    "rollup-config-webext": "^1.1.0",
-    "rollup-watch": "^3.2.2",
+    "rollup": "^0.43.0",
+    "rollup-watch": "^4.0.0",
     "webext": "^1.9.1-with-submit.1",
     "xo": "*"
   },
