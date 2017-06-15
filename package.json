@@ -2,7 +2,7 @@
   "scripts": {
     "test": "xo && ava && npm run build",
     "build": "rollup -c",
-    "watch": "run-p --continue-on-error --silent \"build -- --watch\"",
+    "watch": "run-p --continue-on-error --silent \"build -- --watch --sourcemap\"",
     "release:amo": "cd extension && webext submit",
     "release:cws": "cd extension && webstore upload --auto-publish",
     "release": "run-s release:*"
