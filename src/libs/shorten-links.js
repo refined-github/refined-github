@@ -98,9 +98,9 @@ function shortenUrl(href) {
 	}
 
 	if (isFileOrDir) {
-		const file = joinValues([repoUrl, ...filePath]);
+		const file = [repoUrl, filePath].join('/')
 		const revisioned = joinValues([
-			file,
+			file === '/' ? '' : file, // We don't want "/@v1.2"
 			`<code>${revision}</code>${search}${hash}`
 		], '@');
 		if (type !== 'blob' && type !== 'tree') {
