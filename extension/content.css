@@ -664,8 +664,3 @@ tt,
 .CodeMirror-lines pre.CodeMirror-line {
 	font-variant-ligatures: normal;
 }
-
-/* reduce tracking. Fix for Chrome on macOS: https://git.io/vX4Wo */
-.markdown-body {
-	letter-spacing: -0.02px;
-}
