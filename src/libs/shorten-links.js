@@ -1,6 +1,34 @@
 import select from 'select-dom';
 import {getRepoURL} from './page-detect';
 
+const reservedPaths = [
+	'join',
+	'site',
+	'blog',
+	'about',
+	'login',
+	'pulls',
+	'search',
+	'issues',
+	'explore',
+	'contact',
+	'pricing',
+	'trending',
+	'settings',
+	'features',
+	'business',
+	'personal',
+	'security',
+	'dashboard',
+	'showcases',
+	'open-source',
+	'marketplace'
+];
+
+const shortenRevision = revision => {
+	return /^[0-9a-f]{40}$/.test(revision) ? revision.substr(0, 7) : revision;
+};
+
 // Filter out null values
 const joinValues = (array, delimiter = '/') => {
 	return array.filter(s => s).join(delimiter);
@@ -42,37 +70,12 @@ function shortenUrl(href) {
 		type = 'raw';
 	}
 
-	if (/^[0-9a-f]{40}$/.test(revision)) {
-		revision = revision.substr(0, 7);
-	}
+	revision = shortenRevision(revision);
+	filePath = filePath.join('/');
 
 	const isLocal = origin === location.origin;
 	const isThisRepo = (isLocal || isRaw) && getRepoURL() === `${user}/${repo}`;
-
-	const isReserved = [
-		'join',
-		'site',
-		'blog',
-		'about',
-		'login',
-		'pulls',
-		'search',
-		'issues',
-		'explore',
-		'contact',
-		'pricing',
-		'trending',
-		'settings',
-		'features',
-		'business',
-		'personal',
-		'security',
-		'dashboard',
-		'showcases',
-		'open-source',
-		'marketplace'
-	].includes(user);
-
+	const isReserved = reservedPaths.includes(user);
 	const isFileOrDir = revision && [
 		'raw',
 		'tree',
@@ -80,6 +83,8 @@ function shortenUrl(href) {
 		'blame',
 		'commits'
 	].includes(type);
+
+	const repoUrl = isThisRepo ? '' : `${user}/${repo}`;
 
 	/**
 	 * Shorten URL
@@ -91,8 +96,6 @@ function shortenUrl(href) {
 		.replace(/^www[.]/, '')
 		.replace(/[/]$/, '');
 	}
-
-	const repoUrl = isThisRepo ? '' : `${user}/${repo}`;
 
 	if (isFileOrDir) {
 		const file = joinValues([repoUrl, ...filePath]);
