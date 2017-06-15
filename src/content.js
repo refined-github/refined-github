@@ -16,7 +16,7 @@ import showRealNames from './libs/show-names';
 import filePathCopyBtnListner from './libs/copy-file-path';
 import addFileCopyButton from './libs/copy-file';
 import linkifyCode, {editTextNodes} from './libs/linkify-urls-in-code';
-import {shortenUrl} from './libs/util';
+import shortenLinks from './libs/shorten-links';
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
 
@@ -466,26 +466,6 @@ function addTitleToEmojis() {
 	}
 }
 
-function shortenVisibleUrls() {
-	for (const a of select.all('a[href]')) {
-		// Don't change if it was already customized
-		// .href automatically adds a / to naked origins
-		// so that needs to be tested too
-		if (a.href !== a.textContent && a.href !== `${a.textContent}/`) {
-			continue;
-		}
-
-		const shortened = shortenUrl(a.href);
-
-		// Don't touch the dom if there's nothing to change
-		if (shortened === a.href) {
-			continue;
-		}
-
-		a.innerHTML = shortened;
-	}
-}
-
 // Support indent with tab key in comments
 $(document).on('keydown', '.js-comment-field', event => {
 	if (event.which === 9 && !event.shiftKey) {
@@ -573,7 +553,7 @@ function init() {
 			addCompareTab();
 			removeProjectsTab();
 			addTitleToEmojis();
-			shortenVisibleUrls();
+			shortenLinks();
 
 			diffFileHeader.destroy();
 			enableCopyOnY.destroy();

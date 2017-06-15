@@ -1,3 +1,4 @@
+import select from 'select-dom';
 import {getRepoURL} from './page-detect';
 
 // Filter out null values
@@ -5,7 +6,7 @@ const joinValues = (array, delimiter = '/') => {
 	return array.filter(s => s).join(delimiter);
 };
 
-export const shortenUrl = href => {
+function shortenUrl(href) {
 	/**
 	 * Parse URL
 	 */
@@ -106,14 +107,24 @@ export const shortenUrl = href => {
 	}
 
 	return `${pathname.substr(1).replace(/[/]$/, '')}${search}${hash}`;
-};
+}
 
-export const issueRegex = /([a-zA-Z0-9-_.]+\/[a-zA-Z0-9-_.]+)?#[0-9]+/;
-export const linkifyIssueRef = (repoPath, issue, attrs) => {
-	if (/\//.test(issue)) {
-		const issueParts = issue.split('#');
-		return `<a href="/${issueParts[0]}/issues/${issueParts[1]}" ${attrs}>${issue}</a>`;
+export default () => {
+	for (const a of select.all('a[href]')) {
+		// Don't change if it was already customized
+		// .href automatically adds a / to naked origins
+		// so that needs to be tested too
+		if (a.href !== a.textContent && a.href !== `${a.textContent}/`) {
+			continue;
+		}
+
+		const shortened = shortenUrl(a.href);
+
+		// Don't touch the dom if there's nothing to change
+		if (shortened === a.href) {
+			continue;
+		}
+
+		a.innerHTML = shortened;
 	}
-	return `<a href="/${repoPath}/issues/${issue.replace('#', '')}" ${attrs}>${issue}</a>`;
 };
-
