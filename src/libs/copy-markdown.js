@@ -21,15 +21,20 @@ const setSelection = (selection, range) => {
 
 export default event => {
 	const selection = window.getSelection();
+	const range = selection.getRangeAt(0);
+	const container = range.commonAncestorContainer;
+	const containerEl = container.closest ? container : container.parentNode;
+
+	if (containerEl.closest('pre')) {
+		return;
+	}
 
 	event.stopImmediatePropagation();
-
-	const originalSelection = selection.getRangeAt(0);
 
 	const html = selectionHtml(selection);
 	const markdown = toMarkdown(html, {gfm: true});
 
 	copyToClipboard(markdown);
 
-	window.setTimeout(() => setSelection(selection, originalSelection), 10);
+	window.setTimeout(() => setSelection(selection, range), 10);
 };
