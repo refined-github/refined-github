@@ -3,6 +3,7 @@ import {getRepoURL} from './page-detect';
 
 const patchDiffRegex = /[.](patch|diff)$/;
 const releaseRegex = /releases[/]tag[/]([^/]+)/;
+const labelRegex = /labels[/]([^/]+)/;
 
 const reservedPaths = [
 	'join',
@@ -88,6 +89,7 @@ function shortenUrl(href) {
 	const isReserved = reservedPaths.includes(user);
 	const [, diffOrPatch] = pathname.match(patchDiffRegex) || [];
 	const [, release] = pathname.match(releaseRegex) || [];
+	const [, label] = pathname.match(labelRegex) || [];
 	const isFileOrDir = revision && [
 		'raw',
 		'tree',
@@ -127,6 +129,10 @@ function shortenUrl(href) {
 	if (release) {
 		const partial = joinValues([repoUrl, `<code>${release}</code>`], '@');
 		return `${partial}${search}${hash} (release)`;
+	}
+
+	if (label) {
+		return joinValues([repoUrl, label]) + `${search}${hash} (label)`;
 	}
 
 	// Drop leading and trailing slash of relative path
