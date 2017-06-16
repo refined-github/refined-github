@@ -2,6 +2,7 @@ import select from 'select-dom';
 import {getRepoURL} from './page-detect';
 
 const patchDiffRegex = /[.](patch|diff)$/;
+const releaseRegex = /releases[/]tag[/]([^/]+)/;
 
 const reservedPaths = [
 	'join',
@@ -86,6 +87,7 @@ function shortenUrl(href) {
 	const isThisRepo = (isLocal || isRaw) && getRepoURL() === `${user}/${repo}`;
 	const isReserved = reservedPaths.includes(user);
 	const [, diffOrPatch] = pathname.match(patchDiffRegex) || [];
+	const [, release] = pathname.match(releaseRegex) || [];
 	const isFileOrDir = revision && [
 		'raw',
 		'tree',
@@ -120,6 +122,11 @@ function shortenUrl(href) {
 	if (diffOrPatch) {
 		const partial = joinValues([repoUrl, revision], '@');
 		return `${partial}.${diffOrPatch}${search}${hash}`;
+	}
+
+	if (release) {
+		const partial = joinValues([repoUrl, `<code>${release}</code>`], '@');
+		return `${partial}${search}${hash} (release)`;
 	}
 
 	// Drop leading and trailing slash of relative path
