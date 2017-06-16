@@ -14,11 +14,6 @@ const selectionHtml = selection => {
 	return html;
 };
 
-const setSelection = (selection, range) => {
-	selection.removeAllRanges();
-	selection.addRange(range);
-};
-
 export default event => {
 	const selection = window.getSelection();
 	const range = selection.getRangeAt(0);
@@ -35,6 +30,4 @@ export default event => {
 	const markdown = toMarkdown(html, {gfm: true});
 
 	copyToClipboard(markdown);
-
-	window.setTimeout(() => setSelection(selection, range), 10);
 };

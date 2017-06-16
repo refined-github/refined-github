@@ -8,7 +8,7 @@
     "release": "run-s release:*"
   },
   "dependencies": {
-    "copy-text-to-clipboard": "^1.0.1",
+    "copy-text-to-clipboard": "^1.0.2",
     "debounce-fn": "^1.0.0",
     "dom-loaded": "^1.0.0",
     "element-ready": "^2.0.0",
