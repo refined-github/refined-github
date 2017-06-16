@@ -573,8 +573,11 @@ hidden content area created to increase hover target
 .refined-github-diff-signs .blob-code-deletion:before {
 	content: '-';
 }
+
+/* prevent copy of ghost whitespace where supported (#317) */
 .refined-github-diff-signs .add-line-comment {
-	user-select: none; /* #317 */
+	-moz-user-select: none;
+	user-select: none;
 }
 
 /* restore removed space with unselectable one*/
