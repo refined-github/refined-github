@@ -5,6 +5,7 @@ const patchDiffRegex = /[.](patch|diff)$/;
 const releaseRegex = /releases[/]tag[/]([^/]+)/;
 const labelRegex = /labels[/]([^/]+)/;
 const releaseArchiveRegex = /archive[/](.+)([.]zip|[.]tar[.]gz)/;
+const releaseDownloadRegex = /releases[/]download[/]([^/]+)[/](.+)/;
 
 const reservedPaths = [
 	'join',
@@ -91,6 +92,7 @@ function shortenUrl(href) {
 	const [, diffOrPatch] = pathname.match(patchDiffRegex) || [];
 	const [, release] = pathname.match(releaseRegex) || [];
 	const [, releaseTag, releaseTagExt] = pathname.match(releaseArchiveRegex) || [];
+	const [, downloadTag, downloadFilename] = pathname.match(releaseDownloadRegex) || [];
 	const [, label] = pathname.match(labelRegex) || [];
 	const isFileOrDir = revision && [
 		'raw',
@@ -136,6 +138,11 @@ function shortenUrl(href) {
 	if (releaseTagExt) {
 		const partial = joinValues([repoUrl, `<code>${releaseTag}</code>`], '@');
 		return `${partial}${releaseTagExt}${search}${hash}`;
+	}
+
+	if (downloadFilename) {
+		const partial = joinValues([repoUrl, `<code>${downloadTag}</code>`], '@');
+		return `${partial} ${downloadFilename}${search}${hash} (download)`;
 	}
 
 	if (label) {
