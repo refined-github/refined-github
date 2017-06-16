@@ -236,7 +236,7 @@ function getUserName() {
 function unreadIndicatorIcon() {
 	const notificationIndicator = select('.header-nav-link.notification-indicator');
 	const notificationStatus = notificationIndicator.querySelector('.mail-status');
-	const hasUnread = loadNotifications().length > 0;
+	const hasUnread = select.exists('li.js-notification.unread') || loadNotifications().length > 0;
 	const label = hasUnread ? 'You have unread notifications' : 'You have no unread notifications';
 
 	notificationStatus.classList.toggle('unread', hasUnread);
