@@ -108,11 +108,15 @@ function shortenUrl(href) {
 	 * Shorten URL
 	 */
 
-	if (isReserved || !repo || (!isLocal && !isRaw)) {
+	if (isReserved || (!isLocal && !isRaw)) {
 		return href
 		.replace(/^https:[/][/]/, '')
 		.replace(/^www[.]/, '')
 		.replace(/[/]$/, '');
+	}
+
+	if (user && !repo) {
+		return `@${user}${search}${hash}`;
 	}
 
 	if (isFileOrDir) {
