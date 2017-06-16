@@ -31,9 +31,6 @@ function markRead(url) {
 }
 
 function markUnread() {
-	this.setAttribute('disabled', 'disabled');
-	this.textContent = 'Marked as unread';
-
 	const participants = select.all('.participant-avatar').map(el => ({
 		username: el.getAttribute('aria-label'),
 		avatar: el.querySelector('img').src
@@ -75,6 +72,9 @@ function markUnread() {
 
 	storeNotifications(unreadNotifications);
 	unreadIndicatorIcon();
+
+	this.setAttribute('disabled', 'disabled');
+	this.textContent = 'Marked as unread';
 }
 
 function renderNotifications() {
@@ -238,11 +238,11 @@ function unreadIndicatorIcon() {
 
 function markNotificationRead(e) {
 	const notification = e.target.closest('li.js-notification');
-	notification.classList.add('read');
-
 	const url = notification.querySelector('a.js-notification-target').href;
+
 	markRead(url);
 
+	notification.classList.add('read');
 	unreadIndicatorIcon();
 }
 
@@ -250,9 +250,9 @@ function markAllNotificationsRead(e) {
 	e.preventDefault();
 	const repoGroup = e.target.closest('.boxed-group');
 	for (const li of repoGroup.querySelectorAll('li.js-notification')) {
+		markRead(li.querySelector('.js-notification-target').href);
 		li.classList.remove('unread');
 		li.classList.add('read');
-		markRead(li.querySelector('.js-notification-target').href);
 	}
 	unreadIndicatorIcon();
 }
