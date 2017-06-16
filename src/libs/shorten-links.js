@@ -124,7 +124,7 @@ export default () => {
 		const shortened = shortenUrl(a.href);
 
 		// Don't touch the dom if there's nothing to change
-		if (shortened === a.href) {
+		if (shortened === a.textContent) {
 			continue;
 		}
 
