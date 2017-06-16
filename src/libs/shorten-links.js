@@ -122,7 +122,8 @@ function shortenUrl(href) {
 		return `${partial}.${diffOrPatch}${search}${hash}`;
 	}
 
-	return `${pathname.substr(1).replace(/[/]$/, '')}${search}${hash}`;
+	// Drop leading and trailing slash of relative path
+	return `${pathname.replace(/^[/]|[/]$/g, '')}${search}${hash}`;
 }
 
 export default () => {
