@@ -1,4 +1,7 @@
 {
+  "name": "refined-github",
+  "description": "Simplifies the GitHub interface and adds useful features",
+  "private": true,
   "scripts": {
     "test": "xo && ava && npm run build",
     "build": "rollup -c",
@@ -33,7 +36,6 @@
     "xo": "*"
   },
   "xo": {
-    "esnext": true,
     "envs": [
       "browser",
       "webextensions"
