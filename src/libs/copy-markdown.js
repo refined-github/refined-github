@@ -12,6 +12,7 @@ export default event => {
 	}
 
 	event.stopImmediatePropagation();
+	event.preventDefault();
 
 	const holder = document.createElement('div');
 	holder.append(range.cloneContents());
