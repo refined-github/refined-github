@@ -47,7 +47,7 @@ const joinValues = (array, delimiter = '/') => {
 	return array.filter(s => s).join(delimiter);
 };
 
-function shortenUrl(href) {
+export function shortenUrl(href) {
 	/**
 	 * Parse URL
 	 */
