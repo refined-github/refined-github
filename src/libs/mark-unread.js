@@ -27,6 +27,13 @@ function markRead(url) {
 			unreadNotifications.splice(index, 1);
 		}
 	});
+
+	for (const a of select.all(`a.js-notification-target[href="${url}"]`)) {
+		const li = a.closest('li.js-notification');
+		li.classList.remove('unread');
+		li.classList.add('read');
+	}
+
 	storeNotifications(unreadNotifications);
 }
 
@@ -238,21 +245,16 @@ function unreadIndicatorIcon() {
 
 function markNotificationRead(e) {
 	const notification = e.target.closest('li.js-notification');
-	const url = notification.querySelector('a.js-notification-target').href;
-
-	markRead(url);
-
-	notification.classList.add('read');
+	const a = notification.querySelector('a.js-notification-target');
+	markRead(a.href);
 	unreadIndicatorIcon();
 }
 
 function markAllNotificationsRead(e) {
 	e.preventDefault();
 	const repoGroup = e.target.closest('.boxed-group');
-	for (const li of repoGroup.querySelectorAll('li.js-notification')) {
-		markRead(li.querySelector('.js-notification-target').href);
-		li.classList.remove('unread');
-		li.classList.add('read');
+	for (const a of repoGroup.querySelectorAll('a.js-notification-target')) {
+		markRead(a.href);
 	}
 	unreadIndicatorIcon();
 }
