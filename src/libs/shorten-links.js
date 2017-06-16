@@ -27,7 +27,7 @@ const reservedPaths = [
 	'marketplace'
 ];
 
-const shortenRevision = revision => {
+const styleRevision = revision => {
 	if (!revision) {
 		return;
 	}
@@ -35,7 +35,7 @@ const shortenRevision = revision => {
 	if (/^[0-9a-f]{40}$/.test(revision)) {
 		revision = revision.substr(0, 7);
 	}
-	return revision;
+	return `<code>${revision}</code>`;
 };
 
 // Filter out null values
@@ -79,7 +79,7 @@ function shortenUrl(href) {
 		type = 'raw';
 	}
 
-	revision = shortenRevision(revision);
+	revision = styleRevision(revision);
 	filePath = filePath.join('/');
 
 	const isLocal = origin === location.origin;
@@ -111,7 +111,7 @@ function shortenUrl(href) {
 		const file = [repoUrl, filePath].join('/')
 		const revisioned = joinValues([
 			file === '/' ? '' : file, // We don't want "/@v1.2"
-			`<code>${revision}</code>${search}${hash}`
+			`${revision}${search}${hash}`
 		], '@');
 		if (type !== 'blob' && type !== 'tree') {
 			return `${revisioned} (${type})`;
@@ -122,7 +122,7 @@ function shortenUrl(href) {
 	if (diffOrPatch) {
 		const url = joinValues([
 			repoUrl,
-			`<code>${revision}</code>${search}${hash}`
+			`${revision}${search}${hash}`
 		], '@');
 		return `${url}.${diffOrPatch}`;
 	}
