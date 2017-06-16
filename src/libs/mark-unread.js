@@ -16,8 +16,8 @@ function stripHash(url) {
 }
 
 function addMarkUnreadButton() {
-	const button = $('<button class="btn btn-sm btn-mark-unread js-mark-unread">Mark as unread</button>');
-	$('.js-thread-subscription-status').append(button);
+	$('<button class="btn btn-sm btn-mark-unread js-mark-unread">Mark as unread</button>')
+		.appendTo('.js-thread-subscription-status');
 }
 
 function markRead(url) {
@@ -34,14 +34,10 @@ function markUnread() {
 	this.setAttribute('disabled', 'disabled');
 	this.textContent = 'Marked as unread';
 
-	const participants = $('.participant-avatar').toArray().map(el => {
-		const $el = $(el);
-
-		return {
-			username: $el.attr('aria-label'),
-			avatar: $el.find('img').attr('src')
-		};
-	});
+	const participants = select.all('.participant-avatar').map(el => ({
+		username: el.getAttribute('aria-label'),
+		avatar: el.querySelector('img').src
+	}));
 
 	const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
 	const repository = `${ownerName}/${repoName}`;
@@ -49,24 +45,21 @@ function markUnread() {
 	const type = pageDetect.isPR() ? 'pull-request' : 'issue';
 	const url = stripHash(location.href);
 
-	const stateLabel = $('.gh-header-meta .State');
+	const stateLabel = select('.gh-header-meta .State');
 	let state;
 
-	if (stateLabel.hasClass('State--green')) {
+	if (stateLabel.classList.contains('State--green')) {
 		state = 'open';
-	}
-
-	if (stateLabel.hasClass('State--purple')) {
+	} else if (stateLabel.classList.contains('State--purple')) {
 		state = 'merged';
-	}
-
-	if (stateLabel.hasClass('State--red')) {
+	} else if (stateLabel.classList.contains('State--red')) {
 		state = 'closed';
 	}
 
-	const lastCommentTime = $('.timeline-comment-header:last relative-time');
-	const dateTitle = lastCommentTime.attr('title');
-	const date = lastCommentTime.attr('datetime');
+	const lastCommentTime = select.all('.timeline-comment-header relative-time').pop();
+	const dateTitle = lastCommentTime.title;
+	const date = lastCommentTime.getAttribute('datetime');
+
 	const unreadNotifications = loadNotifications();
 
 	unreadNotifications.push({
@@ -105,7 +98,7 @@ function renderNotifications() {
 	}
 
 	if (isEmptyPage()) {
-		$('.blankslate').remove();
+		select('.blankslate').remove();
 		$('.js-navigation-container').append('<div class="notifications-list"></div>');
 	}
 
@@ -234,25 +227,20 @@ function getUserName() {
 }
 
 function unreadIndicatorIcon() {
-	const $notificationIndicator = $('.header-nav-link.notification-indicator');
-	const $notificationStatus = $notificationIndicator.find('.mail-status');
+	const notificationIndicator = select('.header-nav-link.notification-indicator');
+	const notificationStatus = notificationIndicator.querySelector('.mail-status');
 
-	let hasNotifications = $notificationStatus.hasClass('unread');
 	if (loadNotifications().length > 0) {
-		hasNotifications = true;
-		$notificationStatus.addClass('local-unread');
-	} else {
-		$notificationStatus.removeClass('local-unread');
+		notificationStatus.classList.add('local-unread');
+		notificationIndicator.setAttribute('aria-label', 'You have unread notifications');
 	}
-
-	$notificationIndicator.attr('aria-label', hasNotifications ? 'You have unread notifications' : 'You have no unread notifications');
 }
 
 function markNotificationRead(e) {
-	const notification = $(e.target).parents('li.js-notification');
-	notification.addClass('read');
+	const notification = e.target.closest('li.js-notification');
+	notification.classList.add('read');
 
-	const url = notification.find('a.js-notification-target').attr('href');
+	const url = notification.querySelector('a.js-notification-target').href;
 	markRead(url);
 
 	unreadIndicatorIcon();
@@ -260,15 +248,12 @@ function markNotificationRead(e) {
 
 function markAllNotificationsRead(e) {
 	e.preventDefault();
-
-	$(e.target)
-		.parents('.boxed-group')
-		.find('ul.notifications li a.js-notification-target')
-		.toArray()
-		.forEach(el => {
-			$(el).parents('.js-notification').removeClass('unread').addClass('read');
-			markRead(el.href);
-		});
+	const repoGroup = e.target.closest('.boxed-group');
+	for (const li of repoGroup.querySelectorAll('li.js-notification')) {
+		li.classList.remove('unread');
+		li.classList.add('read');
+		markRead(li.querySelector('.js-notification-target').href);
+	}
 	unreadIndicatorIcon();
 }
 
@@ -278,8 +263,7 @@ function addCustomAllReadBtn() {
 		return;
 	}
 
-	const $tabNav = $('#notification-center .tabnav-tabs:first ');
-	const markAllBtnCustom = `
+	$('#notification-center .tabnav-tabs:first').append(`
 		<div class="float-right">
 		    <a href="#mark_as_read_confirm_box" class="btn btn-sm " rel="facebox">Mark all as read</a>
   			<div id="mark_as_read_confirm_box" style="display:none">
@@ -289,9 +273,7 @@ function addCustomAllReadBtn() {
                 	<button  id="clear-local-notification" class="btn btn-block">Mark all notifications as read</button>
             	</div>
   			</div>
-  		</div>`;
-
-	$tabNav.append(markAllBtnCustom);
+  		</div>`);
 
 	$(document).on('click', '#clear-local-notification', () => {
 		storeNotifications([]);
