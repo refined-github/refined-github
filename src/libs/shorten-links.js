@@ -1,6 +1,8 @@
 import select from 'select-dom';
 import {getRepoURL} from './page-detect';
 
+const patchDiffRegex = /[.](patch|diff)$/;
+
 const reservedPaths = [
 	'join',
 	'site',
@@ -26,7 +28,14 @@ const reservedPaths = [
 ];
 
 const shortenRevision = revision => {
-	return /^[0-9a-f]{40}$/.test(revision) ? revision.substr(0, 7) : revision;
+	if (!revision) {
+		return;
+	}
+	revision = revision.replace(patchDiffRegex, '');
+	if (/^[0-9a-f]{40}$/.test(revision)) {
+		revision = revision.substr(0, 7);
+	}
+	return revision;
 };
 
 // Filter out null values
@@ -76,6 +85,7 @@ function shortenUrl(href) {
 	const isLocal = origin === location.origin;
 	const isThisRepo = (isLocal || isRaw) && getRepoURL() === `${user}/${repo}`;
 	const isReserved = reservedPaths.includes(user);
+	const [, diffOrPatch] = pathname.match(patchDiffRegex) || [];
 	const isFileOrDir = revision && [
 		'raw',
 		'tree',
@@ -107,6 +117,14 @@ function shortenUrl(href) {
 			return `${revisioned} (${type})`;
 		}
 		return revisioned;
+	}
+
+	if (diffOrPatch) {
+		const url = joinValues([
+			repoUrl,
+			`<code>${revision}</code>${search}${hash}`
+		], '@');
+		return `${url}.${diffOrPatch}`;
 	}
 
 	return `${pathname.substr(1).replace(/[/]$/, '')}${search}${hash}`;
