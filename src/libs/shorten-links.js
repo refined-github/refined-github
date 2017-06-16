@@ -108,15 +108,13 @@ function shortenUrl(href) {
 	}
 
 	if (isFileOrDir) {
-		const file = [repoUrl, filePath].join('/');
-		const revisioned = joinValues([
-			file === '/' ? '' : file, // We don't want "/@v1.2"
-			revision
-		], '@');
+		const file = `${repoUrl}${filePath ? '/' + filePath : ''}`;
+		const revisioned = joinValues([file, revision], '@');
+		const partial = `${revisioned}${search}${hash}`;
 		if (type !== 'blob' && type !== 'tree') {
-			return `${revisioned}${search}${hash} (${type})`;
+			return `${partial} (${type})`;
 		}
-		return revisioned;
+		return partial;
 	}
 
 	if (diffOrPatch) {
