@@ -1,19 +1,6 @@
 import toMarkdown from 'to-markdown';
 import copyToClipboard from 'copy-text-to-clipboard';
 
-const selectionHtml = selection => {
-	const documentFragment = selection.getRangeAt(0).cloneContents();
-	const tempElement = document.createElement('div');
-	tempElement.append(documentFragment);
-	document.body.appendChild(tempElement);
-
-	const html = tempElement.innerHTML;
-
-	document.body.removeChild(tempElement);
-
-	return html;
-};
-
 export default event => {
 	const selection = window.getSelection();
 	const range = selection.getRangeAt(0);
@@ -26,8 +13,9 @@ export default event => {
 
 	event.stopImmediatePropagation();
 
-	const html = selectionHtml(selection);
-	const markdown = toMarkdown(html, {gfm: true});
+	const holder = document.createElement('div');
+	holder.append(range.cloneContents());
+	const markdown = toMarkdown(holder.innerHTML, {gfm: true});
 
 	copyToClipboard(markdown);
 };
