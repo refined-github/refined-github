@@ -3,6 +3,14 @@ import $ from './vendor/jquery.slim.min';
 import * as icons from './icons';
 import * as pageDetect from './page-detect';
 
+function loadNotifications() {
+	return JSON.parse(localStorage.getItem('unreadNotifications') || '[]');
+}
+
+function storeNotifications(unreadNotifications) {
+	localStorage.setItem('unreadNotifications', JSON.stringify(unreadNotifications || '[]'));
+}
+
 function stripHash(url) {
 	return url.replace(/#.+$/, '');
 }
@@ -13,14 +21,13 @@ function addMarkUnreadButton() {
 }
 
 function markRead(url) {
-	const unreadNotifications = JSON.parse(localStorage.unreadNotifications || '[]');
+	const unreadNotifications = loadNotifications();
 	unreadNotifications.forEach((notification, index) => {
 		if (notification.url === url) {
 			unreadNotifications.splice(index, 1);
 		}
 	});
-
-	localStorage.unreadNotifications = JSON.stringify(unreadNotifications);
+	storeNotifications(unreadNotifications);
 }
 
 function markUnread() {
@@ -60,8 +67,8 @@ function markUnread() {
 	const lastCommentTime = $('.timeline-comment-header:last relative-time');
 	const dateTitle = lastCommentTime.attr('title');
 	const date = lastCommentTime.attr('datetime');
+	const unreadNotifications = loadNotifications();
 
-	const unreadNotifications = JSON.parse(localStorage.unreadNotifications || '[]');
 	unreadNotifications.push({
 		participants,
 		repository,
@@ -73,12 +80,12 @@ function markUnread() {
 		url
 	});
 
-	localStorage.unreadNotifications = JSON.stringify(unreadNotifications);
+	storeNotifications(unreadNotifications);
 	unreadIndicatorIcon();
 }
 
 function renderNotifications() {
-	const unreadNotifications = JSON.parse(localStorage.unreadNotifications || '[]')
+	const unreadNotifications = loadNotifications()
 		.filter(notification => !isNotificationExist(notification.url))
 		.filter(notification => {
 			if (!isParticipatingPage()) {
@@ -231,7 +238,7 @@ function unreadIndicatorIcon() {
 	const $notificationStatus = $notificationIndicator.find('.mail-status');
 
 	let hasNotifications = $notificationStatus.hasClass('unread');
-	if (JSON.parse(localStorage.unreadNotifications || '[]').length > 0) {
+	if (loadNotifications().length > 0) {
 		hasNotifications = true;
 		$notificationStatus.addClass('local-unread');
 	} else {
@@ -267,7 +274,7 @@ function markAllNotificationsRead(e) {
 
 function addCustomAllReadBtn() {
 	const hasMarkAllReadBtnExists = select.exists('#notification-center a[href="#mark_as_read_confirm_box"]');
-	if (hasMarkAllReadBtnExists || JSON.parse(localStorage.unreadNotifications || '[]').length === 0) {
+	if (hasMarkAllReadBtnExists || loadNotifications().length === 0) {
 		return;
 	}
 
@@ -287,20 +294,18 @@ function addCustomAllReadBtn() {
 	$tabNav.append(markAllBtnCustom);
 
 	$(document).on('click', '#clear-local-notification', () => {
-		localStorage.unreadNotifications = '[]';
-		window.location.reload();
+		storeNotifications([]);
+		location.reload();
 	});
 }
 
 function countLocalNotifications() {
 	const unreadCount = select('#notification-center .filter-list a[href="/notifications"] .count');
 	const githubNotificationsCount = Number(unreadCount.textContent);
-	let localNotificationsCount = 0;
-	const localNotifications = localStorage.unreadNotifications;
+	const localNotifications = loadNotifications();
 
 	if (localNotifications) {
-		localNotificationsCount = JSON.parse(localNotifications).length;
-		unreadCount.textContent = githubNotificationsCount + localNotificationsCount;
+		unreadCount.textContent = githubNotificationsCount + localNotifications.length;
 	}
 }
 
@@ -312,7 +317,7 @@ function setup() {
 		$(document).on('click', '.js-mark-read', markNotificationRead);
 		$(document).on('click', '.js-mark-all-read', markAllNotificationsRead);
 		$(document).on('click', 'form[action="/notifications/mark"] button', () => {
-			localStorage.unreadNotifications = '[]';
+			storeNotifications([]);
 		});
 	} else {
 		markRead(location.href);
