@@ -4,6 +4,7 @@ import {getRepoURL} from './page-detect';
 const patchDiffRegex = /[.](patch|diff)$/;
 const releaseRegex = /releases[/]tag[/]([^/]+)/;
 const labelRegex = /labels[/]([^/]+)/;
+const releaseArchiveRegex = /archive[/](.+)([.]zip|[.]tar[.]gz)/;
 
 const reservedPaths = [
 	'join',
@@ -89,6 +90,7 @@ function shortenUrl(href) {
 	const isReserved = reservedPaths.includes(user);
 	const [, diffOrPatch] = pathname.match(patchDiffRegex) || [];
 	const [, release] = pathname.match(releaseRegex) || [];
+	const [, releaseTag, releaseTagExt] = pathname.match(releaseArchiveRegex) || [];
 	const [, label] = pathname.match(labelRegex) || [];
 	const isFileOrDir = revision && [
 		'raw',
@@ -129,6 +131,11 @@ function shortenUrl(href) {
 	if (release) {
 		const partial = joinValues([repoUrl, `<code>${release}</code>`], '@');
 		return `${partial}${search}${hash} (release)`;
+	}
+
+	if (releaseTagExt) {
+		const partial = joinValues([repoUrl, `<code>${releaseTag}</code>`], '@');
+		return `${partial}${releaseTagExt}${search}${hash}`;
 	}
 
 	if (label) {
