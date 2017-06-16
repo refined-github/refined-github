@@ -236,11 +236,11 @@ function getUserName() {
 function unreadIndicatorIcon() {
 	const notificationIndicator = select('.header-nav-link.notification-indicator');
 	const notificationStatus = notificationIndicator.querySelector('.mail-status');
+	const hasUnread = loadNotifications().length > 0;
+	const label = hasUnread ? 'You have unread notifications' : 'You have no unread notifications';
 
-	if (loadNotifications().length > 0) {
-		notificationStatus.classList.add('local-unread');
-		notificationIndicator.setAttribute('aria-label', 'You have unread notifications');
-	}
+	notificationStatus.classList.toggle('unread', hasUnread);
+	notificationIndicator.setAttribute('aria-label', label);
 }
 
 function markNotificationRead(e) {
