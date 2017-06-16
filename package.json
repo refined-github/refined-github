@@ -5,7 +5,8 @@
   "scripts": {
     "test": "xo && ava && npm run build",
     "build": "rollup -c",
-    "watch": "run-p --continue-on-error --silent \"build -- --watch --sourcemap\"",
+    "watch": "run-p --continue-on-error --silent \"build -- --watch\"",
+    "watch:sourcemap": "cross-env SOURCEMAP=true run-p \"watch\"",
     "release:amo": "cd extension && webext submit",
     "release:cws": "cd extension && webstore upload --auto-publish",
     "release": "run-s release:*"
@@ -29,6 +30,7 @@
     "ava": "*",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
     "chrome-webstore-upload-cli": "^1.0.0",
+    "cross-env": "^5.0.1",
     "npm-run-all": "^4.0.2",
     "rollup": "^0.43.0",
     "rollup-watch": "^4.0.0",

@@ -14,5 +14,6 @@ export default [
 		}),
 		commonJS()
 	],
-	format: 'iife'
+	format: 'iife',
+	sourceMap: process.env.SOURCEMAP || false
 }));
