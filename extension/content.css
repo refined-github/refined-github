@@ -555,8 +555,8 @@ hidden content area created to increase hover target
 }
 
 /* +/- pseudo elements on diffs */
-td.blob-code.blob-code-addition:before,
-td.blob-code.blob-code-deletion:before {
+.refined-github-diff-signs .blob-code-addition:before,
+.refined-github-diff-signs .blob-code-deletion:before {
 	display: inline-block;
 	position: absolute;
 	top: 1px;
@@ -566,12 +566,24 @@ td.blob-code.blob-code-deletion:before {
 	color: rgba(0, 0, 0, 0.3);
 }
 
-td.blob-code.blob-code-addition:before {
+.refined-github-diff-signs .blob-code-addition:before {
 	content: '+';
 }
 
-td.blob-code.blob-code-deletion:before {
+.refined-github-diff-signs .blob-code-deletion:before {
 	content: '-';
+}
+
+/* prevent copy of ghost whitespace where supported (#317) */
+.refined-github-diff-signs .add-line-comment {
+	-moz-user-select: none;
+	user-select: none;
+}
+
+/* restore removed space with unselectable one*/
+.refined-github-diff-signs .blob-code-inner:before {
+	content: ' ' !important;
+	user-select: none;
 }
 
 /* remove "pro tip!" box on profile page (appears when name isn't set) */
