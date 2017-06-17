@@ -17,6 +17,7 @@ import showRealNames from './libs/show-names';
 import filePathCopyBtnListner from './libs/copy-file-path';
 import addFileCopyButton from './libs/copy-file';
 import linkifyCode, {editTextNodes} from './libs/linkify-urls-in-code';
+import shortenLinks from './libs/shorten-links';
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
 
@@ -552,6 +553,7 @@ function init() {
 			addCompareTab();
 			removeProjectsTab();
 			addTitleToEmojis();
+			shortenLinks();
 
 			diffFileHeader.destroy();
 			enableCopyOnY.destroy();
