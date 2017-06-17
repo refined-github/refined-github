@@ -101,11 +101,7 @@ function addCompareTab() {
 		$compareTab.addClass('js-selected-navigation-item selected');
 	}
 
-	if (hasSettings()) {
-		getSettingsTab().before($compareTab);
-	} else {
-		$repoNav.append($compareTab);
-	}
+	$compareTab.insertBefore(select('.reponav-dropdown, [data-selected-links~="repo_settings"]'));
 }
 
 function addReleasesTab() {
@@ -128,11 +124,7 @@ function addReleasesTab() {
 	}
 
 	if (!hasReleases) {
-		if (hasSettings()) {
-			getSettingsTab().before($releasesTab);
-		} else {
-			$repoNav.append($releasesTab);
-		}
+		$releasesTab.insertBefore(select('.reponav-dropdown, [data-selected-links~="repo_settings"]'));
 
 		cacheReleasesCount();
 	}
