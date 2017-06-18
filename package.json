@@ -20,8 +20,6 @@
     "github-injection": "^0.3.0",
     "linkify-issues": "^1.1.0",
     "linkify-urls": "^1.0.2",
-    "rollup-plugin-commonjs": "^8.0.2",
-    "rollup-plugin-node-resolve": "^3.0.0",
     "select-dom": "^4.1.0",
     "to-semver": "^1.1.0",
     "webext-dynamic-content-scripts": "^2.0.1"
@@ -33,6 +31,8 @@
     "cross-env": "^5.0.1",
     "npm-run-all": "^4.0.2",
     "rollup": "^0.43.0",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-watch": "^4.0.0",
     "webext": "^1.9.1-with-submit.1",
     "xo": "*"
