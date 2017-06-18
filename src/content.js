@@ -18,6 +18,7 @@ import filePathCopyBtnListner from './libs/copy-file-path';
 import addFileCopyButton from './libs/copy-file';
 import linkifyCode, {editTextNodes} from './libs/linkify-urls-in-code';
 import shortenLinks from './libs/shorten-links';
+import autoLoadMoreNews from './libs/auto-load-more-news';
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
 
@@ -150,25 +151,6 @@ function addYoursMenuItem() {
 	}
 
 	$menu.append(yoursMenuItem);
-}
-
-function infinitelyMore() {
-	const btn = select('.ajax-pagination-btn');
-
-	// If there's no more button remove unnecessary event listeners
-	if (!btn) {
-		$(window).off('scroll.infinite resize.infinite', infinitelyMore);
-		return;
-	}
-
-	// Grab dimensions to see if we should load
-	const wHeight = window.innerHeight;
-	const btnOffset = btn.getBoundingClientRect().top;
-
-	// Smash the button if it's coming close to being in view
-	if (wHeight > btnOffset) {
-		btn.click();
-	}
 }
 
 function addReadmeButtons() {
@@ -511,7 +493,7 @@ function init() {
 		new MutationObserver(() => hideStarsOwnRepos())
 			.observe(select('#dashboard .news'), {childList: true});
 
-		$(window).on('scroll.infinite resize.infinite', infinitelyMore);
+		autoLoadMoreNews();
 	}
 
 	if (pageDetect.isNotifications()) {
