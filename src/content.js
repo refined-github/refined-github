@@ -172,7 +172,7 @@ function infinitelyMore() {
 }
 
 function addReadmeButtons() {
-	const readmeContainer = select('#readme');
+	const readmeContainer = select('#readme.readme');
 	if (!readmeContainer) {
 		return;
 	}
@@ -540,6 +540,7 @@ function init() {
 			removeProjectsTab();
 			addTitleToEmojis();
 			shortenLinks();
+			addReadmeButtons();
 
 			diffFileHeader.destroy();
 			enableCopyOnY.destroy();
@@ -558,10 +559,6 @@ function init() {
 
 				addOPLabels();
 				new MutationObserver(addOPLabels).observe(select('.new-discussion-timeline'), {childList: true, subtree: true});
-			}
-
-			if (pageDetect.isRepoRoot() || pageDetect.isRepoTree()) {
-				addReadmeButtons();
 			}
 
 			if (pageDetect.isPRList() || pageDetect.isIssueList()) {
