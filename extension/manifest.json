@@ -8,7 +8,7 @@
 	"applications": {
 		"gecko": {
 			"id": "refined-github@sindresorhus.com",
-			"strict_min_version": "55.0"
+			"strict_min_version": "52.0"
 		}
 	},
 	"permissions": [
