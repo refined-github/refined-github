@@ -31,12 +31,6 @@ function getCanonicalBranchFromRef($element) {
 	return $element.find(refSelector).addBack(refSelector).filter('[title]').attr('title');
 }
 
-function getSettingsTab() {
-	return $('.js-repo-nav > [data-selected-links~="repo_settings"]');
-}
-
-const hasSettings = () => getSettingsTab().length > 0;
-
 function linkifyBranchRefs() {
 	let deletedBranchName = null;
 	const $deletedBranchInTimeline = $('.discussion-item-head_ref_deleted');
