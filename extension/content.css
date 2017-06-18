@@ -2,7 +2,7 @@
 	display: none !important;
 }
 
-/* allow for absolute positioning relative to the dashboard */
+/* Allow for absolute positioning relative to the dashboard */
 #dashboard,
 .orgpage > .container {
 	position: relative !important;
@@ -12,12 +12,12 @@
 	display: none !important;
 }
 
-/* remove "Repositories you contribute to" dashboard sidebar box */
+/* Remove "Repositories you contribute to" dashboard sidebar box */
 .dashboard-sidebar > .boxed-group[role="navigation"]:not(.repos) {
 	display: none !important;
 }
 
-/* remove the toolbar from the right repo box on the dashboard */
+/* Remove the toolbar from the right repo box on the dashboard */
 .dashboard-sidebar .user-repos > h3,
 .dashboard-sidebar .user-repos > .boxed-group-action {
 	display: none !important;
@@ -33,28 +33,28 @@
 	opacity: 0.6 !important;
 }
 
-/* remove border between dashboard news items */
+/* Remove border between dashboard news items */
 .news .alert {
 	border: 0 !important;
 }
 
-/* remove newsfeed tips */
+/* Remove newsfeed tips */
 .news form + .text-center {
 	display: none !important;
 }
 
-/* remove tooltips */
+/* Remove tooltips */
 .tooltipped:not(.reaction-summary-item,.avatar-group-item,.avatar):before,
 .tooltipped:not(.reaction-summary-item,.avatar-group-item,.avatar):after {
 	display: none !important;
 }
 
-/* fade out the file icons */
+/* Fade out the file icons */
 .file-wrap .files .octicon {
 	opacity: 0.6;
 }
 
-/* remove annoying hover in the repo file list */
+/* Remove annoying hover in the repo file list */
 .file-wrap .files .navigation-focus td {
 	background: none !important;
 }
@@ -76,17 +76,17 @@
 	visibility: hidden;
 }
 
-/* remove useless message on the right side of the PR merge box */
+/* Remove useless message on the right side of the PR merge box */
 .alt-merge-options {
 	display: none !important;
 }
 
-/* remove top buttons on comment box */
+/* Remove top buttons on comment box */
 .timeline-comment-wrapper .tabnav-extra, .inline-comment-form-container .tabnav-extra {
 	display: none !important;
 }
 
-/* remove commentbox toolbar */
+/* Remove commentbox toolbar */
 .toolbar-group {
 	display: none;
 	margin-left: 0 !important;
@@ -109,7 +109,7 @@
 	cursor: pointer;
 }
 
-/* remove upload message on comment box */
+/* Remove upload message on comment box */
 .write-content .drag-and-drop {
 	display: none !important;
 }
@@ -121,17 +121,17 @@
 	border-bottom: 1px solid #2188ff !important;
 }
 
-/* remove random protip at the bottom of the page */
+/* Remove random protip at the bottom of the page */
 .protip {
 	display: none !important;
 }
 
-/* remove message under the `Unsubscribe` button */
+/* Remove message under the `Unsubscribe` button */
 .sidebar-notifications .reason {
 	display: none !important;
 }
 
-/* move the dashboard organization switcher to the right column */
+/* Move the dashboard organization switcher to the right column */
 .account-switcher {
 	position: absolute !important;
 	right: 10px !important;
@@ -149,7 +149,7 @@
 .dashboard-sidebar {
 	padding-top: 50px;
 }
-/* organization dashboard */
+/* Organization dashboard */
 .orgpage .underline-nav {
 	float: left !important;
 }
@@ -163,33 +163,33 @@
 	padding-top: 0;
 }
 
-/* remove "New pull request" button on repo page */
+/* Remove "New pull request" button on repo page */
 .file-navigation .new-pull-request-btn {
 	display: none !important;
 }
 
-/* add hover underline for `content.js` linkified branch refs in pull requests */
+/* Add hover underline for `content.js` linkified branch refs in pull requests */
 a .commit-ref:hover,
 a .commit-ref:hover span {
 	text-decoration: underline !important;
 }
 
-/* remove the "new feature" notification box */
+/* Remove the "new feature" notification box */
 .dashboard-sidebar .octofication {
 	display: none !important;
 }
 
-/* remove useless tip in the organization news feed */
+/* Remove useless tip in the organization news feed */
 #dashboard .alert.git_hub {
 	display: none !important;
 }
 
-/* remove Upload files button; drag and drop is available anyway */
+/* Remove Upload files button; drag and drop is available anyway */
 .file-navigation a[href*="/upload/"] {
 	display: none !important;
 }
 
-/* style for edit README button */
+/* Style for edit README button */
 #readme.blob #refined-github-readme-buttons {
 	display: none;
 }
@@ -214,7 +214,7 @@ a .commit-ref:hover span {
 	margin-left: 5px;
 }
 
-/* style for delete fork link */
+/* Style for delete fork link */
 .post-merge-message {
 	min-height: 85px;
 }
@@ -230,7 +230,7 @@ a .commit-ref:hover span {
 	color: #df3e3e;
 }
 
-/* hide news items when people:
+/* Hide news items when people:
 pushed to a branch
 deleted a branch
 added someone as a collaborator
@@ -243,13 +243,13 @@ forked a repo
 	display: none !important;
 }
 
-/* ensure the news feed is still shown once the items above have been hidden */
+/* Ensure the news feed is still shown once the items above have been hidden */
 .news {
 	min-height: 1px;
 }
 
 /*
-remove padding from body of simple news alerts in Dashboard since some will be hidden
+Remove padding from body of simple news alerts in Dashboard since some will be hidden
 we will add it back on for the simple news alerts we decide to show
 */
 .news .alert.create.simple,
@@ -258,21 +258,21 @@ we will add it back on for the simple news alerts we decide to show
 	padding-bottom: 0;
 }
 
-/* add padding back to the contents of simple news alerts in Dashboard */
+/* Add padding back to the contents of simple news alerts in Dashboard */
 .news .alert.create.simple .body .title,
 .news .alert.create.simple .body .time {
 	padding-top: 1em;
 	padding-bottom: 1em;
 }
 
-/* don't show contents of simple news alert in Dashboard when you create a branch */
+/* Don't show contents of simple news alert in Dashboard when you create a branch */
 .news .alert.create.simple .octicon-git-branch,
 .news .alert.create.simple .octicon-git-branch + .title,
 .news .alert.create.simple .octicon-git-branch + .title + .time {
 	display: none;
 }
 
-/* increase visibility of news item when someone stars a repo */
+/* Increase visibility of news item when someone stars a repo */
 .watch_started.simple .body {
 	min-height: 55px;
 }
@@ -320,7 +320,7 @@ svg.octicon.octicon-repo.dashboard-event-icon {
 	left: 45px;
 }
 
-/* decrease font-size on commit details so our custom patch and diff links fit */
+/* Decrease font-size on commit details so our custom patch and diff links fit */
 .commit .sha-block {
 	margin-left: 7px !important;
 }
@@ -334,12 +334,12 @@ svg.octicon.octicon-repo.dashboard-event-icon {
 	margin-left: 5px !important;
 }
 
-/* remove `Developer Program Member` from profile page */
+/* Remove `Developer Program Member` from profile page */
 .page-profile .member-badge {
 	display: none !important;
 }
 
-/* fade out merge commits from commit list */
+/* Fade out merge commits from commit list */
 .refined-github-merge-commit .commit-title {
 	font-size: 12px !important;
 	margin-top: 4px !important;
@@ -381,7 +381,7 @@ svg.octicon.octicon-repo.dashboard-event-icon {
 	position: absolute;
 }
 
-/* limit width of commit title and description inputs to 50/80 chars */
+/* Limit width of commit title and description inputs to 50/80 chars */
 #commit-summary-input, #commit-description-textarea {
 	font-family: monospace !important;
 }
@@ -394,7 +394,7 @@ svg.octicon.octicon-repo.dashboard-event-icon {
 	width: 645px !important;
 }
 
-/* make tab indented code more readable on GitHub and Gist */
+/* Make tab indented code more readable on GitHub and Gist */
 .tab-size[data-tab-size='2'],
 .tab-size[data-tab-size='4'],
 .tab-size[data-tab-size='8'],
@@ -406,12 +406,12 @@ svg.octicon.octicon-repo.dashboard-event-icon {
 	tab-size: 4 !important;
 }
 
-/* larger comment box */
+/* Larger comment box */
 .comment-form-textarea {
 	min-height: 200px !important;
 }
 
-/* styles for avatars Refined GitHub adds to Reactions */
+/* Styles for avatars Refined GitHub adds to Reactions */
 .participants-container {
 	margin-left: 4px;
 }
@@ -453,33 +453,33 @@ svg.octicon.octicon-repo.dashboard-event-icon {
 	color: #f2f8fa;
 }
 
-/* overlap reaction avatars when there are 5+ types of reactions */
+/* Overlap reaction avatars when there are 5+ types of reactions */
 .reaction-summary-item:first-child:nth-last-child(n+5):not(:hover) a:nth-child(n+2),
 .reaction-summary-item:first-child:nth-last-child(n+5) ~ *:not(:hover) a:nth-child(n+2) {
 	margin-left: -12px;
 }
 
-/* limit reaction avatars when there are 6 types of reactions */
+/* Limit reaction avatars when there are 6 types of reactions */
 .reaction-summary-item:first-child:nth-last-child(6) a:nth-child(n+3),
 .reaction-summary-item:first-child:nth-last-child(6) ~ * a:nth-child(n+3) {
 	display: none;
 }
 
-/* hide reaction popover text */
+/* Hide reaction popover text */
 .reaction-popover-form.js-pick-reaction span.js-reaction-description,
 .reaction-popover-form.js-pick-reaction .dropdown-divider {
 	display: none;
 }
 
-/* remove "Add your Reaction" tooltips */
+/* Remove "Add your Reaction" tooltips */
 .reaction-popover-container .tooltipped::before,
 .reaction-popover-container .tooltipped::after {
 	display: none !important;
 }
 
 /*
-create invisible content area below/above reactions popover to increase hover target
-center popup on add reactions button
+Create invisible content area below/above reactions popover to increase hover target
+Center popup on add reactions button
 */
 .reaction-popover-container.dropdown .dropdown-menu-content {
 	margin-top: -15px;
@@ -490,8 +490,8 @@ center popup on add reactions button
 }
 
 /*
-remove margin-top from invisible hover target for popover below comment content
-add some space below popup so it doesn't cover button
+Remove margin-top from invisible hover target for popover below comment content
+Add some space below popup so it doesn't cover button
 */
 .comment-reactions .reaction-popover-container.dropdown .dropdown-menu-content {
 	margin-top: 0;
@@ -499,10 +499,10 @@ add some space below popup so it doesn't cover button
 }
 
 /*
-show reaction list when hovering over:
-popover
-Add Reactions button
-hidden content area created to increase hover target
+Show reaction list when hovering over:
+- Popover
+- Add Reactions button
+Hidden content area created to increase hover target
 */
 .dropdown-menu.add-reaction-popover:hover,
 .reaction-popover-container.dropdown:hover .dropdown-menu-content,
@@ -511,18 +511,18 @@ hidden content area created to increase hover target
 	pointer-events: all;
 }
 
-/* remove top/bottom margin from popovers so there's no gap with invisible hover element */
+/* Remove top/bottom margin from popovers so there's no gap with invisible hover element */
 .reaction-popover-container.dropdown .dropdown-menu.add-reaction-popover {
 	margin-top: 0;
 	margin-bottom: 0;
 }
 
-/* never show loading spinner for reactions */
+/* Never show loading spinner for reactions */
 .reaction-popover-container .reaction-popover-form .loading-spinner {
 	display: none !important;
 }
 
-/* move popup arrow point to center of popup */
+/* Move popup arrow point to center of popup */
 .reaction-popover-container.dropdown .dropdown-menu-sw.dropdown-menu::before,
 .reaction-popover-container.dropdown .dropdown-menu-sw.dropdown-menu::after,
 .reaction-popover-container.dropdown .dropdown-menu-ne.dropdown-menu::before,
@@ -531,14 +531,14 @@ hidden content area created to increase hover target
 	right: auto;
 }
 
-/* add colored button when hovering over reaction popover or hidden hover element */
+/* Add colored button when hovering over reaction popover or hidden hover element */
 .reaction-popover-container:hover .timeline-comment-action {
 	color: #4078c0;
 	text-decoration: none;
 	opacity: 1;
 }
 
-/* collapse multiple discussion items */
+/* Collapse multiple discussion items */
 .discussion-item + .discussion-item {
 	padding-top: 0 !important;
 	border-top: none !important;
@@ -549,12 +549,12 @@ hidden content area created to increase hover target
 	margin-left: 4px;
 }
 
-/* mark as unread */
+/* Mark as unread */
 .btn-mark-unread {
 	margin-top: 8px;
 }
 
-/* +/- pseudo elements on diffs */
+/* +/- Pseudo elements on diffs */
 .refined-github-diff-signs .blob-code-addition:before,
 .refined-github-diff-signs .blob-code-deletion:before {
 	display: inline-block;
@@ -574,34 +574,34 @@ hidden content area created to increase hover target
 	content: '-';
 }
 
-/* prevent copy of ghost whitespace where supported (#317) */
+/* Prevent copy of ghost whitespace where supported (#317) */
 .refined-github-diff-signs .add-line-comment {
 	-moz-user-select: none;
 	user-select: none;
 }
 
-/* restore removed space with unselectable one*/
+/* Restore removed space with unselectable one*/
 .refined-github-diff-signs .blob-code-inner:before {
 	content: ' ' !important;
 	user-select: none;
 }
 
-/* remove "pro tip!" box on profile page (appears when name isn't set) */
+/* Remove "pro tip!" box on profile page (appears when name isn't set) */
 .new-user-avatar-cta {
 	display: none !important;
 }
 
-/* fix for diffheader filename */
+/* Fix for diffheader filename */
 .diffbar > .diffstat {
 	float: right;
 }
 
-/* copy button for gists margin */
+/* Copy button for gists margin */
 .gist-copy-btn {
 	margin: 0 10px 0 0;
 }
 
-/* multiple comment labels margin */
+/* Multiple comment labels margin */
 .timeline-comment .timeline-comment-label + .timeline-comment-label {
 	margin-right: -5px;
 }
@@ -610,7 +610,7 @@ hidden content area created to increase hover target
 	margin-left: 5px;
 }
 
-/* move "close issue" and "cancel" buttons on authoring comments to the left */
+/* Move "close issue" and "cancel" buttons on authoring comments to the left */
 
 /* ...in issue comment form */
 .form-actions .btn.js-comment-and-button {
@@ -651,7 +651,7 @@ div.inline-comment-form .form-actions,
 	width: 420px;
 }
 
-/* alternate monospace font stack, sorted by least popular so you're most likely to get the font you want */
+/* Alternate monospace font stack, sorted by least popular so you're most likely to get the font you want */
 code,
 kbd,
 pre,
@@ -672,7 +672,7 @@ tt,
 	font-variant-ligatures: normal;
 }
 
-/* Marketplace marketing box on PRs */
+/* Remove Marketplace marketing box on PRs */
 .js-marketplace-callout-container {
 	display: none !important;
 }
