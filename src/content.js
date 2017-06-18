@@ -1,4 +1,5 @@
 import 'webext-dynamic-content-scripts';
+import OptSync from 'webext-options-sync';
 import elementReady from 'element-ready';
 import gitHubInjection from 'github-injection';
 import toSemver from 'to-semver';
@@ -489,7 +490,7 @@ $(document).on('pjax:end', () => {
 	}
 });
 
-function init() {
+function init(options) {
 	const username = getUsername();
 
 	markUnread.unreadIndicatorIcon();
@@ -618,4 +619,5 @@ if (!pageDetect.isGist()) {
 	addTrendingMenuItem();
 }
 
-domLoaded.then(init);
+const options = new OptSync().getAll();
+domLoaded.then(() => options).then(init);
