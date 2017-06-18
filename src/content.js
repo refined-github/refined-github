@@ -507,10 +507,11 @@ function init(options) {
 				.css('display', 'none');
 		};
 
-		hideStarsOwnRepos();
-
-		new MutationObserver(() => hideStarsOwnRepos())
-			.observe(select('#dashboard .news'), {childList: true});
+		if (options.hideStarsOwnRepos) {
+			hideStarsOwnRepos();
+			new MutationObserver(() => hideStarsOwnRepos())
+				.observe(select('#dashboard .news'), {childList: true});
+		}
 
 		$(window).on('scroll.infinite resize.infinite', infinitelyMore);
 	}
