@@ -9,7 +9,8 @@
     "watch:sourcemap": "cross-env SOURCEMAP=true npm run watch --silent",
     "release:amo": "cd extension && webext submit",
     "release:cws": "cd extension && webstore upload --auto-publish",
-    "release": "run-s release:*"
+    "release": "run-s build update-version release:*",
+    "update-version": "dot-json extension/manifest.json version $(date -u +%y.%-m.%-d.%-H%M)"
   },
   "dependencies": {
     "copy-text-to-clipboard": "^1.0.0",
@@ -29,6 +30,7 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
     "chrome-webstore-upload-cli": "^1.0.0",
     "cross-env": "^5.0.1",
+    "dot-json": "^1.0.3",
     "npm-run-all": "^4.0.2",
     "rollup": "^0.43.0",
     "rollup-plugin-commonjs": "^8.0.2",
