@@ -31,12 +31,6 @@ function getCanonicalBranchFromRef($element) {
 	return $element.find(refSelector).addBack(refSelector).filter('[title]').attr('title');
 }
 
-function getSettingsTab() {
-	return $('.js-repo-nav > [data-selected-links~="repo_settings"]');
-}
-
-const hasSettings = () => getSettingsTab().length > 0;
-
 function linkifyBranchRefs() {
 	let deletedBranchName = null;
 	const $deletedBranchInTimeline = $('.discussion-item-head_ref_deleted');
@@ -101,11 +95,7 @@ function addCompareTab() {
 		$compareTab.addClass('js-selected-navigation-item selected');
 	}
 
-	if (hasSettings()) {
-		getSettingsTab().before($compareTab);
-	} else {
-		$repoNav.append($compareTab);
-	}
+	$compareTab.insertBefore(select('.reponav-dropdown, [data-selected-links~="repo_settings"]'));
 }
 
 function addReleasesTab() {
@@ -128,11 +118,7 @@ function addReleasesTab() {
 	}
 
 	if (!hasReleases) {
-		if (hasSettings()) {
-			getSettingsTab().before($releasesTab);
-		} else {
-			$repoNav.append($releasesTab);
-		}
+		$releasesTab.insertBefore(select('.reponav-dropdown, [data-selected-links~="repo_settings"]'));
 
 		cacheReleasesCount();
 	}
