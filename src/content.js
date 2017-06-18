@@ -553,6 +553,11 @@ function init() {
 
 			if (pageDetect.isPR() || pageDetect.isIssue()) {
 				linkifyIssuesInTitles();
+
+				markUnread.setup();
+
+				addOPLabels();
+				new MutationObserver(addOPLabels).observe(select('.new-discussion-timeline'), {childList: true, subtree: true});
 			}
 
 			if (pageDetect.isRepoRoot() || pageDetect.isRepoTree()) {
@@ -574,16 +579,13 @@ function init() {
 				if (diffElements) {
 					new MutationObserver(removeDiffSigns).observe(diffElements, {childList: true, subtree: true});
 				}
+				addDiffViewWithoutWhitespaceOption();
 			}
 
 			if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit()) {
 				addReactionParticipants.add(username);
 				addReactionParticipants.addListener(username);
 				showRealNames();
-			}
-
-			if (pageDetect.hasDiff()) {
-				addDiffViewWithoutWhitespaceOption();
 			}
 
 			if (pageDetect.isCommitList()) {
@@ -598,16 +600,6 @@ function init() {
 			if (pageDetect.isSingleFile()) {
 				addFileCopyButton();
 				enableCopyOnY.setup();
-			}
-
-			if (pageDetect.isPR() || pageDetect.isIssue()) {
-				markUnread.setup();
-			}
-
-			if (pageDetect.isIssue() || pageDetect.isPR()) {
-				addOPLabels();
-
-				new MutationObserver(addOPLabels).observe(select('.new-discussion-timeline'), {childList: true, subtree: true});
 			}
 
 			if (pageDetect.isMilestone()) {
