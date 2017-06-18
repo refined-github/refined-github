@@ -671,3 +671,8 @@ tt,
 .CodeMirror-lines pre.CodeMirror-line {
 	font-variant-ligatures: normal;
 }
+
+/* Marketplace marketing box on PRs */
+.js-marketplace-callout-container {
+	display: none !important;
+}
