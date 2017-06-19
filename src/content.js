@@ -79,23 +79,18 @@ function cacheReleasesCount() {
 	}
 }
 
-function addCompareTab() {
+function addCompareLink() {
 	const $repoNav = $('.js-repo-nav');
 
 	if ($repoNav.find('.refined-github-compare-tab').length > 0) {
 		return;
 	}
-	const $compareTab = $(`<a href="/${repoUrl}/compare" class="reponav-item refined-github-compare-tab">
+	const $compareTab = $(`<a href="/${repoUrl}/compare" class="dropdown-item refined-github-compare-tab">
 		${icons.compare}
-		<span>Compare</span>
+		<span itemprop="name">Compare</span>
 	</a>`);
 
-	if (pageDetect.isCompare()) {
-		$repoNav.find('.selected').removeClass('js-selected-navigation-item selected');
-		$compareTab.addClass('js-selected-navigation-item selected');
-	}
-
-	$compareTab.insertBefore(select('.reponav-dropdown, [data-selected-links~="repo_settings"]'));
+	$compareTab.prependTo('.reponav-dropdown .dropdown-menu');
 }
 
 function addReleasesTab() {
@@ -536,8 +531,8 @@ function init() {
 	if (pageDetect.isRepo()) {
 		gitHubInjection(window, () => {
 			addReleasesTab();
-			addCompareTab();
 			removeProjectsTab();
+			addCompareLink();
 			addTitleToEmojis();
 			shortenLinks();
 			addReadmeButtons();
