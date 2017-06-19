@@ -439,6 +439,13 @@ function removeProjectsTab() {
 	}
 }
 
+function shortenPRsTab() {
+	const el = select('.reponav-item[href$="/pulls"] [itemprop="name"]');
+	if (el) {
+		el.textContent = 'PRs';
+	}
+}
+
 function fixSquashAndMergeTitle() {
 	$('.btn-group-squash button[type=submit]').click(() => {
 		const title = select('.js-issue-title').textContent;
@@ -542,6 +549,7 @@ function init(options) {
 			removeProjectsTab();
 			addTitleToEmojis();
 			shortenLinks();
+			shortenPRsTab();
 			addReadmeButtons();
 
 			diffFileHeader.destroy();
