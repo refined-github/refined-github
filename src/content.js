@@ -80,17 +80,16 @@ function cacheReleasesCount() {
 }
 
 function addCompareLink() {
-	const $repoNav = $('.js-repo-nav');
-
-	if ($repoNav.find('.refined-github-compare-tab').length > 0) {
+	if (select.exists('.refined-github-compare-tab')) {
 		return;
 	}
-	const $compareTab = $(`<a href="/${repoUrl}/compare" class="dropdown-item refined-github-compare-tab">
-		${icons.compare}
-		<span itemprop="name">Compare</span>
-	</a>`);
 
-	$compareTab.prependTo('.reponav-dropdown .dropdown-menu');
+	$('.reponav-dropdown .dropdown-menu').prepend(`
+		<a href="/${repoUrl}/compare" class="dropdown-item refined-github-compare-tab">
+			${icons.compare}
+			<span itemprop="name">Compare</span>
+		</a>
+	`);
 }
 
 function renameInsightsDropdown() {
