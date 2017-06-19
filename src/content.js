@@ -93,6 +93,13 @@ function addCompareLink() {
 	$compareTab.prependTo('.reponav-dropdown .dropdown-menu');
 }
 
+function renameInsightsDropdown() {
+	const dropdown = select('.reponav-item.reponav-dropdown');
+	if (dropdown) {
+		dropdown.firstChild.textContent = 'More ';
+	}
+}
+
 function addReleasesTab() {
 	const $repoNav = $('.js-repo-nav');
 	let $releasesTab = $repoNav.children('[data-selected-links~="repo_releases"]');
@@ -533,6 +540,7 @@ function init() {
 			addReleasesTab();
 			removeProjectsTab();
 			addCompareLink();
+			renameInsightsDropdown();
 			addTitleToEmojis();
 			shortenLinks();
 			addReadmeButtons();
