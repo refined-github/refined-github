@@ -19,7 +19,7 @@ const loadMore = debounce(() => {
 // Also update applications.gecko.strict_min_version to 55.0 in manifest.json
 const IntersectionObserver = window.IntersectionObserver || class IntersectionObserverLocalfill {
 	maybeLoadMore() {
-		if (window.innerHeight > btn.getBoundingClientRect().top) {
+		if (window.innerHeight > btn.getBoundingClientRect().top - 500) {
 			loadMore();
 		}
 	}
@@ -38,6 +38,8 @@ const inView = new IntersectionObserver(([{isIntersecting}]) => {
 	if (isIntersecting) {
 		loadMore();
 	}
+}, {
+	rootMargin: '500px' // https://github.com/sindresorhus/refined-github/pull/505#issuecomment-309273098
 });
 
 const findButton = () => {
