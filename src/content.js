@@ -86,7 +86,7 @@ function addCompareLink() {
 
 	$('.reponav-dropdown .dropdown-menu').prepend(`
 		<a href="/${repoUrl}/compare" class="dropdown-item refined-github-compare-tab">
-			${icons.compare}
+			${icons.darkCompare}
 			<span itemprop="name">Compare</span>
 		</a>
 	`);
