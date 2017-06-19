@@ -80,23 +80,24 @@ function cacheReleasesCount() {
 	}
 }
 
-function addCompareTab() {
-	const $repoNav = $('.js-repo-nav');
-
-	if ($repoNav.find('.refined-github-compare-tab').length > 0) {
+function addCompareLink() {
+	if (select.exists('.refined-github-compare-tab')) {
 		return;
 	}
-	const $compareTab = $(`<a href="/${repoUrl}/compare" class="reponav-item refined-github-compare-tab">
-		${icons.compare}
-		<span>Compare</span>
-	</a>`);
 
-	if (pageDetect.isCompare()) {
-		$repoNav.find('.selected').removeClass('js-selected-navigation-item selected');
-		$compareTab.addClass('js-selected-navigation-item selected');
+	$('.reponav-dropdown .dropdown-menu').prepend(`
+		<a href="/${repoUrl}/compare" class="dropdown-item refined-github-compare-tab">
+			${icons.darkCompare}
+			<span itemprop="name">Compare</span>
+		</a>
+	`);
+}
+
+function renameInsightsDropdown() {
+	const dropdown = select('.reponav-item.reponav-dropdown');
+	if (dropdown) {
+		dropdown.firstChild.textContent = 'More ';
 	}
-
-	$compareTab.insertBefore(select('.reponav-dropdown, [data-selected-links~="repo_settings"]'));
 }
 
 function addReleasesTab() {
@@ -538,8 +539,9 @@ function init(options) {
 	if (pageDetect.isRepo()) {
 		gitHubInjection(window, () => {
 			addReleasesTab();
-			addCompareTab();
 			removeProjectsTab();
+			addCompareLink();
+			renameInsightsDropdown();
 			addTitleToEmojis();
 			shortenLinks();
 			addReadmeButtons();
