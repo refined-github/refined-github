@@ -31,12 +31,6 @@ function getCanonicalBranchFromRef($element) {
 	return $element.find(refSelector).addBack(refSelector).filter('[title]').attr('title');
 }
 
-function getSettingsTab() {
-	return $('.js-repo-nav > [data-selected-links~="repo_settings"]');
-}
-
-const hasSettings = () => getSettingsTab().length > 0;
-
 function linkifyBranchRefs() {
 	let deletedBranchName = null;
 	const $deletedBranchInTimeline = $('.discussion-item-head_ref_deleted');
@@ -101,11 +95,7 @@ function addCompareTab() {
 		$compareTab.addClass('js-selected-navigation-item selected');
 	}
 
-	if (hasSettings()) {
-		getSettingsTab().before($compareTab);
-	} else {
-		$repoNav.append($compareTab);
-	}
+	$compareTab.insertBefore(select('.reponav-dropdown, [data-selected-links~="repo_settings"]'));
 }
 
 function addReleasesTab() {
@@ -128,11 +118,7 @@ function addReleasesTab() {
 	}
 
 	if (!hasReleases) {
-		if (hasSettings()) {
-			getSettingsTab().before($releasesTab);
-		} else {
-			$repoNav.append($releasesTab);
-		}
+		$releasesTab.insertBefore(select('.reponav-dropdown, [data-selected-links~="repo_settings"]'));
 
 		cacheReleasesCount();
 	}
@@ -186,7 +172,7 @@ function infinitelyMore() {
 }
 
 function addReadmeButtons() {
-	const readmeContainer = select('#readme');
+	const readmeContainer = select('#readme.readme');
 	if (!readmeContainer) {
 		return;
 	}
@@ -562,6 +548,7 @@ function init() {
 			addTitleToEmojis();
 			shortenLinks();
 			shortenPRsTab();
+			addReadmeButtons();
 
 			diffFileHeader.destroy();
 			enableCopyOnY.destroy();
@@ -575,10 +562,11 @@ function init() {
 
 			if (pageDetect.isPR() || pageDetect.isIssue()) {
 				linkifyIssuesInTitles();
-			}
 
-			if (pageDetect.isRepoRoot() || pageDetect.isRepoTree()) {
-				addReadmeButtons();
+				markUnread.setup();
+
+				addOPLabels();
+				new MutationObserver(addOPLabels).observe(select('.new-discussion-timeline'), {childList: true, subtree: true});
 			}
 
 			if (pageDetect.isPRList() || pageDetect.isIssueList()) {
@@ -596,16 +584,13 @@ function init() {
 				if (diffElements) {
 					new MutationObserver(removeDiffSigns).observe(diffElements, {childList: true, subtree: true});
 				}
+				addDiffViewWithoutWhitespaceOption();
 			}
 
 			if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit()) {
 				addReactionParticipants.add(username);
 				addReactionParticipants.addListener(username);
 				showRealNames();
-			}
-
-			if (pageDetect.hasDiff()) {
-				addDiffViewWithoutWhitespaceOption();
 			}
 
 			if (pageDetect.isCommitList()) {
@@ -620,16 +605,6 @@ function init() {
 			if (pageDetect.isSingleFile()) {
 				addFileCopyButton();
 				enableCopyOnY.setup();
-			}
-
-			if (pageDetect.isPR() || pageDetect.isIssue()) {
-				markUnread.setup();
-			}
-
-			if (pageDetect.isIssue() || pageDetect.isPR()) {
-				addOPLabels();
-
-				new MutationObserver(addOPLabels).observe(select('.new-discussion-timeline'), {childList: true, subtree: true});
 			}
 
 			if (pageDetect.isMilestone()) {
