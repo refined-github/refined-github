@@ -1,13 +1,13 @@
-import OptSync from 'webext-options-sync';
+import OptionsSync from 'webext-options-sync';
 import injectContentScripts from 'webext-dynamic-content-scripts';
 
 // Define defaults
-new OptSync().define({
+new OptionsSync().define({
 	defaults: {
 		hideStarsOwnRepos: true
 	},
 	migrations: [
-		OptSync.migrations.removeUnused
+		OptionsSync.migrations.removeUnused
 	]
 });
 

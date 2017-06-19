@@ -1,5 +1,5 @@
 import 'webext-dynamic-content-scripts';
-import OptSync from 'webext-options-sync';
+import OptionsSync from 'webext-options-sync';
 import elementReady from 'element-ready';
 import gitHubInjection from 'github-injection';
 import toSemver from 'to-semver';
@@ -620,5 +620,5 @@ if (!pageDetect.isGist()) {
 	addTrendingMenuItem();
 }
 
-const options = new OptSync().getAll();
+const options = new OptionsSync().getAll();
 domLoaded.then(() => options).then(init);

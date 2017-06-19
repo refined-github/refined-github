@@ -1,6 +1,6 @@
-import OptSync from 'webext-options-sync';
+import OptionsSync from 'webext-options-sync';
 
-new OptSync().syncForm(document.querySelector('#options-form'));
+new OptionsSync().syncForm('#options-form');
 
 /**
  * GitHub Enterprise support
