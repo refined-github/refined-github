@@ -1,4 +1,5 @@
 import 'webext-dynamic-content-scripts';
+import OptionsSync from 'webext-options-sync';
 import elementReady from 'element-ready';
 import gitHubInjection from 'github-injection';
 import toSemver from 'to-semver';
@@ -489,7 +490,7 @@ $(document).on('pjax:end', () => {
 	}
 });
 
-function init() {
+function init(options) {
 	const username = getUsername();
 
 	markUnread.unreadIndicatorIcon();
@@ -506,10 +507,11 @@ function init() {
 				.css('display', 'none');
 		};
 
-		hideStarsOwnRepos();
-
-		new MutationObserver(() => hideStarsOwnRepos())
-			.observe(select('#dashboard .news'), {childList: true});
+		if (options.hideStarsOwnRepos) {
+			hideStarsOwnRepos();
+			new MutationObserver(() => hideStarsOwnRepos())
+				.observe(select('#dashboard .news'), {childList: true});
+		}
 
 		$(window).on('scroll.infinite resize.infinite', infinitelyMore);
 	}
@@ -618,4 +620,5 @@ if (!pageDetect.isGist()) {
 	addTrendingMenuItem();
 }
 
-domLoaded.then(init);
+const options = new OptionsSync().getAll();
+domLoaded.then(() => options).then(init);

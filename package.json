@@ -22,7 +22,8 @@
     "linkify-urls": "^1.0.2",
     "select-dom": "^4.1.0",
     "to-semver": "^1.1.0",
-    "webext-dynamic-content-scripts": "^2.0.1"
+    "webext-dynamic-content-scripts": "^2.0.1",
+    "webext-options-sync": "^0.11.0"
   },
   "devDependencies": {
     "ava": "*",
