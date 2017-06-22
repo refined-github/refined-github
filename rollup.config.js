@@ -1,5 +1,6 @@
 import nodeResolve from 'rollup-plugin-node-resolve';
 import commonJS from 'rollup-plugin-commonjs';
+import json from 'rollup-plugin-json';
 
 export default [
 	'src/content.js',
@@ -12,7 +13,10 @@ export default [
 		nodeResolve({
 			browser: true
 		}),
-		commonJS()
+		commonJS(),
+		json({
+			preferConst: true
+		})
 	],
 	format: 'iife',
 	sourceMap: process.env.SOURCEMAP || false

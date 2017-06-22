@@ -34,6 +34,7 @@
     "npm-run-all": "^4.0.2",
     "rollup": "^0.43.0",
     "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-watch": "^4.0.0",
     "webext": "^1.9.1-with-submit.1",
