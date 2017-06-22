@@ -3,38 +3,45 @@ import $ from './vendor/jquery.slim.min';
 import * as icons from './icons';
 import * as pageDetect from './page-detect';
 
+function loadNotifications() {
+	return JSON.parse(localStorage.getItem('unreadNotifications') || '[]');
+}
+
+function storeNotifications(unreadNotifications) {
+	localStorage.setItem('unreadNotifications', JSON.stringify(unreadNotifications || '[]'));
+}
+
 function stripHash(url) {
 	return url.replace(/#.+$/, '');
 }
 
 function addMarkUnreadButton() {
-	const button = $('<button class="btn btn-sm btn-mark-unread js-mark-unread">Mark as unread</button>');
-	$('.js-thread-subscription-status').append(button);
+	$('<button class="btn btn-sm btn-mark-unread js-mark-unread">Mark as unread</button>')
+		.appendTo('.js-thread-subscription-status');
 }
 
 function markRead(url) {
-	const unreadNotifications = JSON.parse(localStorage.unreadNotifications || '[]');
+	const unreadNotifications = loadNotifications();
 	unreadNotifications.forEach((notification, index) => {
 		if (notification.url === url) {
 			unreadNotifications.splice(index, 1);
 		}
 	});
 
-	localStorage.unreadNotifications = JSON.stringify(unreadNotifications);
+	for (const a of select.all(`a.js-notification-target[href="${url}"]`)) {
+		const li = a.closest('li.js-notification');
+		li.classList.remove('unread');
+		li.classList.add('read');
+	}
+
+	storeNotifications(unreadNotifications);
 }
 
 function markUnread() {
-	this.setAttribute('disabled', 'disabled');
-	this.textContent = 'Marked as unread';
-
-	const participants = $('.participant-avatar').toArray().map(el => {
-		const $el = $(el);
-
-		return {
-			username: $el.attr('aria-label'),
-			avatar: $el.find('img').attr('src')
-		};
-	});
+	const participants = select.all('.participant-avatar').map(el => ({
+		username: el.getAttribute('aria-label'),
+		avatar: el.querySelector('img').src
+	}));
 
 	const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
 	const repository = `${ownerName}/${repoName}`;
@@ -42,26 +49,23 @@ function markUnread() {
 	const type = pageDetect.isPR() ? 'pull-request' : 'issue';
 	const url = stripHash(location.href);
 
-	const stateLabel = $('.gh-header-meta .State');
+	const stateLabel = select('.gh-header-meta .State');
 	let state;
 
-	if (stateLabel.hasClass('State--green')) {
+	if (stateLabel.classList.contains('State--green')) {
 		state = 'open';
-	}
-
-	if (stateLabel.hasClass('State--purple')) {
+	} else if (stateLabel.classList.contains('State--purple')) {
 		state = 'merged';
-	}
-
-	if (stateLabel.hasClass('State--red')) {
+	} else if (stateLabel.classList.contains('State--red')) {
 		state = 'closed';
 	}
 
-	const lastCommentTime = $('.timeline-comment-header:last relative-time');
-	const dateTitle = lastCommentTime.attr('title');
-	const date = lastCommentTime.attr('datetime');
+	const lastCommentTime = select.all('.timeline-comment-header relative-time').pop();
+	const dateTitle = lastCommentTime.title;
+	const date = lastCommentTime.getAttribute('datetime');
 
-	const unreadNotifications = JSON.parse(localStorage.unreadNotifications || '[]');
+	const unreadNotifications = loadNotifications();
+
 	unreadNotifications.push({
 		participants,
 		repository,
@@ -73,12 +77,15 @@ function markUnread() {
 		url
 	});
 
-	localStorage.unreadNotifications = JSON.stringify(unreadNotifications);
+	storeNotifications(unreadNotifications);
 	unreadIndicatorIcon();
+
+	this.setAttribute('disabled', 'disabled');
+	this.textContent = 'Marked as unread';
 }
 
 function renderNotifications() {
-	const unreadNotifications = JSON.parse(localStorage.unreadNotifications || '[]')
+	const unreadNotifications = loadNotifications()
 		.filter(notification => !isNotificationExist(notification.url))
 		.filter(notification => {
 			if (!isParticipatingPage()) {
@@ -98,7 +105,7 @@ function renderNotifications() {
 	}
 
 	if (isEmptyPage()) {
-		$('.blankslate').remove();
+		select('.blankslate').remove();
 		$('.js-navigation-container').append('<div class="notifications-list"></div>');
 	}
 
@@ -227,52 +234,38 @@ function getUserName() {
 }
 
 function unreadIndicatorIcon() {
-	const $notificationIndicator = $('.header-nav-link.notification-indicator');
-	const $notificationStatus = $notificationIndicator.find('.mail-status');
+	const notificationIndicator = select('.header-nav-link.notification-indicator');
+	const notificationStatus = notificationIndicator.querySelector('.mail-status');
+	const hasUnread = select.exists('li.js-notification.unread') || loadNotifications().length > 0;
+	const label = hasUnread ? 'You have unread notifications' : 'You have no unread notifications';
 
-	let hasNotifications = $notificationStatus.hasClass('unread');
-	if (JSON.parse(localStorage.unreadNotifications || '[]').length > 0) {
-		hasNotifications = true;
-		$notificationStatus.addClass('local-unread');
-	} else {
-		$notificationStatus.removeClass('local-unread');
-	}
-
-	$notificationIndicator.attr('aria-label', hasNotifications ? 'You have unread notifications' : 'You have no unread notifications');
+	notificationStatus.classList.toggle('unread', hasUnread);
+	notificationIndicator.setAttribute('aria-label', label);
 }
 
 function markNotificationRead(e) {
-	const notification = $(e.target).parents('li.js-notification');
-	notification.addClass('read');
-
-	const url = notification.find('a.js-notification-target').attr('href');
-	markRead(url);
-
+	const notification = e.target.closest('li.js-notification');
+	const a = notification.querySelector('a.js-notification-target');
+	markRead(a.href);
 	unreadIndicatorIcon();
 }
 
 function markAllNotificationsRead(e) {
 	e.preventDefault();
-
-	$(e.target)
-		.parents('.boxed-group')
-		.find('ul.notifications li a.js-notification-target')
-		.toArray()
-		.forEach(el => {
-			$(el).parents('.js-notification').removeClass('unread').addClass('read');
-			markRead(el.href);
-		});
+	const repoGroup = e.target.closest('.boxed-group');
+	for (const a of repoGroup.querySelectorAll('a.js-notification-target')) {
+		markRead(a.href);
+	}
 	unreadIndicatorIcon();
 }
 
 function addCustomAllReadBtn() {
 	const hasMarkAllReadBtnExists = select.exists('#notification-center a[href="#mark_as_read_confirm_box"]');
-	if (hasMarkAllReadBtnExists || JSON.parse(localStorage.unreadNotifications || '[]').length === 0) {
+	if (hasMarkAllReadBtnExists || loadNotifications().length === 0) {
 		return;
 	}
 
-	const $tabNav = $('#notification-center .tabnav-tabs:first ');
-	const markAllBtnCustom = `
+	$('#notification-center .tabnav-tabs:first').append(`
 		<div class="float-right">
 		    <a href="#mark_as_read_confirm_box" class="btn btn-sm " rel="facebox">Mark all as read</a>
   			<div id="mark_as_read_confirm_box" style="display:none">
@@ -282,25 +275,21 @@ function addCustomAllReadBtn() {
                 	<button  id="clear-local-notification" class="btn btn-block">Mark all notifications as read</button>
             	</div>
   			</div>
-  		</div>`;
-
-	$tabNav.append(markAllBtnCustom);
+  		</div>`);
 
 	$(document).on('click', '#clear-local-notification', () => {
-		localStorage.unreadNotifications = '[]';
-		window.location.reload();
+		storeNotifications([]);
+		location.reload();
 	});
 }
 
 function countLocalNotifications() {
 	const unreadCount = select('#notification-center .filter-list a[href="/notifications"] .count');
 	const githubNotificationsCount = Number(unreadCount.textContent);
-	let localNotificationsCount = 0;
-	const localNotifications = localStorage.unreadNotifications;
+	const localNotifications = loadNotifications();
 
 	if (localNotifications) {
-		localNotificationsCount = JSON.parse(localNotifications).length;
-		unreadCount.textContent = githubNotificationsCount + localNotificationsCount;
+		unreadCount.textContent = githubNotificationsCount + localNotifications.length;
 	}
 }
 
@@ -312,7 +301,7 @@ function setup() {
 		$(document).on('click', '.js-mark-read', markNotificationRead);
 		$(document).on('click', '.js-mark-all-read', markAllNotificationsRead);
 		$(document).on('click', 'form[action="/notifications/mark"] button', () => {
-			localStorage.unreadNotifications = '[]';
+			storeNotifications([]);
 		});
 	} else {
 		markRead(location.href);

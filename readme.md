@@ -26,8 +26,8 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 - [Linkifies URLs in code](https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png)
 - [Linkifies issue references in code comments](https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png)
 - [Adds a 'Releases' tab to repos](https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png) *(<kbd>g</kbd> <kbd>r</kbd> hotkey)*
-- [Adds a 'Compare' tab to repos](screenshot-compare-tab.png)
-- [Adds user avatars to Reactions](screenshot-reactions.png)
+- [Adds a 'Compare' tab to repos](media/screenshot-compare-tab.png)
+- [Adds user avatars to Reactions](media/screenshot-reactions.png)
 - [Adds a quick edit button and a link to the latest release to the readme](https://cloud.githubusercontent.com/assets/4331946/25596611/4afa98ae-2eca-11e7-9dbf-72a9e7ffe82d.jpg)
 - [Shows current filename in the sticky pull request header](https://cloud.githubusercontent.com/assets/170270/14153322/97a8e902-f6e1-11e5-8331-19e284e3e6fa.png)
 - [Shows user's full name in comments](https://cloud.githubusercontent.com/assets/170270/16172068/0a67b98c-3580-11e6-92f0-6fc930ee17d1.png)
@@ -44,11 +44,12 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 - [Adds search filter for 'Everything commented by you'](https://cloud.githubusercontent.com/assets/940070/25518367/cb917d3e-2c36-11e7-8475-c4e6dbe0ed6c.png)
 - [Moves destructive buttons ("Close issue", "Cancel") in commenting forms away from primary button](#comment-box)
 - [Adds `Yours` button to Issues/Pull Requests page](https://cloud.githubusercontent.com/assets/1282980/14636384/0d8770e4-0623-11e6-8520-2054bece2771.png)
+- [Condenses long URLs into references like _user/repo/.file@`d71718d`_](https://user-images.githubusercontent.com/1402241/27252232-8fdf8ed0-538b-11e7-8f19-12d317c9cd32.png)
 - Easier copy-pasting from diffs by making +/- signs unselectable
 - Shows the reactions popover on hover instead of click
 - Supports indenting with the tab key in textareas like the comment box (<kbd>Shift</kbd> <kbd>Tab</kbd> for original behavior)
 - Automagically expands the news feed when you scroll down
-- Hides other users starring/forking your repos from the newsfeed
+- Hides other users starring/forking your repos from the newsfeed ([optional](https://user-images.githubusercontent.com/1402241/27267240-9d2e18c8-54d9-11e7-8a64-971af9e066f3.png))
 - Prompts you when pressing `Cancel` on an inline comment in case it was a mistake
 - Moves the dashboard organization switcher to the right column
 - Adds a `Trending` link to the global navbar. *(<kbd>g</kbd> <kbd>t</kbd> hotkey)*
@@ -68,19 +69,19 @@ And [lots](extension/content.css) [more...](extension/content.js)
 
 ### Dashboard
 
-![](screenshot-dashboard.png)
+![](media/screenshot-dashboard.png)
 
 ### Repo
 
-![](screenshot-repo.png)
+![](media/screenshot-repo.png)
 
 ### Reactions
 
-![](screenshot-reactions.png)
+![](media/screenshot-reactions.png)
 
 ### Comment box
 
-<img src="screenshot-comment-box.png" width="795">
+<img src="media/screenshot-comment-box.png" width="795">
 
 ### Linkified URLs and issue references in code
 
@@ -96,7 +97,7 @@ And [lots](extension/content.css) [more...](extension/content.js)
 
 ## Contribute
 
-We're happy to receive suggestions and contributions, but be aware this is a highly opinionated project. We're not interested in adding options as it's a slippery slope into adding it for everything. Users will always disagree with something. That being said, we're open to discussing things.
+We're happy to receive suggestions and contributions, but be aware this is a highly opinionated project. There's [a single commonly-requested option](https://user-images.githubusercontent.com/1402241/27267240-9d2e18c8-54d9-11e7-8a64-971af9e066f3.png) but we're not interested in adding more as it's a slippery slope into adding one for everything. Users will always disagree with something. That being said, we're open to discussing things.
 
 
 ## Customization

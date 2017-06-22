@@ -5,6 +5,13 @@ import {getOwnerAndRepo} from './page-detect';
 import getTextNodes from './get-text-nodes';
 import html from './domify';
 
+// Necessary because textNodes don't have .innerHTML
+const getInnerHTML = textNode => {
+	const div = document.createElement('div');
+	div.textContent = textNode.textContent;
+	return div.innerHTML;
+};
+
 const linkifiedURLClass = 'refined-github-linkified-code';
 const {
 	ownerName,
@@ -27,8 +34,9 @@ export const editTextNodes = (fn, el) => {
 		if (textNode.textContent.length < 11) { // Shortest url: http://j.mp
 			continue;
 		}
-		const linkified = fn(textNode.textContent, options);
-		if (linkified !== textNode.textContent) {
+		const textHTML = getInnerHTML(textNode);
+		const linkified = fn(textHTML, options);
+		if (linkified !== textHTML) {
 			textNode.replaceWith(html(linkified));
 		}
 	}

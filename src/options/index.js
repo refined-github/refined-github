@@ -1,9 +1,16 @@
+import OptionsSync from 'webext-options-sync';
+
+new OptionsSync().syncForm('#options-form');
+
+/**
+ * GitHub Enterprise support
+ */
 const cdForm = document.querySelector('#custom-domain');
 const cdInput = document.querySelector('#custom-domain-origin');
 
 if (!chrome.permissions) {
 	cdForm.disabled = true;
-	cdForm.querySelector('p').textContent = 'Your browser doesn’t support the required Permission API.';
+	cdForm.querySelector('.js-permission-api').textContent = 'Your browser doesn’t support the required Permission API.';
 }
 
 cdForm.addEventListener('submit', event => {
