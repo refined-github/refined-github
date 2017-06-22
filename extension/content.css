@@ -132,16 +132,16 @@
 }
 
 /* Move the dashboard organization switcher to the right column */
-#dashboard .account-switcher {
+.page-dashboard .account-switcher {
 	position: absolute !important;
 	right: 10px !important;
 	margin-top: 0 !important;
 }
-#dashboard .account-switcher button {
+.page-dashboard .account-switcher button {
 	width: 313px !important;
 	z-index: 0 !important;
 }
-#dashboard .account-switcher .select-menu-button-gravatar {
+.page-dashboard .account-switcher .select-menu-button-gravatar {
 	float: none !important;
 	display: inline-block !important;
 	vertical-align: top !important;
