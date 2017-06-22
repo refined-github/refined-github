@@ -31,6 +31,7 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 - [Adds a quick edit button and a link to the latest release to the readme](https://cloud.githubusercontent.com/assets/4331946/25596611/4afa98ae-2eca-11e7-9dbf-72a9e7ffe82d.jpg)
 - [Shows current filename in the sticky pull request header](https://cloud.githubusercontent.com/assets/170270/14153322/97a8e902-f6e1-11e5-8331-19e284e3e6fa.png)
 - [Shows user's full name in comments](https://cloud.githubusercontent.com/assets/170270/16172068/0a67b98c-3580-11e6-92f0-6fc930ee17d1.png)
+- [Preserves the original Markdown when you copy text from comments](https://user-images.githubusercontent.com/170270/27443470-71490474-5773-11e7-93be-c0076266c9ef.gif)
 - [Improves readability of tab indented code](https://cloud.githubusercontent.com/assets/170270/14170088/d3be931e-f755-11e5-8edf-c5f864336382.png)
 - [Adds a 'Copy' button to the file view](https://cloud.githubusercontent.com/assets/170270/14453865/8abeaefe-00c1-11e6-8718-9406cee1dc0d.png)
 - [Adds a shortcut to quickly delete a forked repo](https://cloud.githubusercontent.com/assets/170270/13520281/b2c9335c-e211-11e5-9e36-b0f325166356.png)
