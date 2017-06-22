@@ -17,6 +17,7 @@ import addReactionParticipants from './libs/reactions-avatars';
 import showRealNames from './libs/show-names';
 import filePathCopyBtnListner from './libs/copy-file-path';
 import addFileCopyButton from './libs/copy-file';
+import copyMarkdown from './libs/copy-markdown';
 import linkifyCode, {editTextNodes} from './libs/linkify-urls-in-code';
 import shortenLinks from './libs/shorten-links';
 import autoLoadMoreNews from './libs/auto-load-more-news';
@@ -472,6 +473,8 @@ $(document).on('pjax:end', () => {
 		addYoursMenuItem();
 	}
 });
+
+$(document).on('copy', '.markdown-body', copyMarkdown);
 
 function init(options) {
 	const username = getUsername();
