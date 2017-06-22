@@ -16,7 +16,6 @@
     "debounce-fn": "^1.0.0",
     "dom-loaded": "^1.0.0",
     "element-ready": "^2.0.0",
-    "escape-goat": "^1.1.0",
     "github-injection": "^0.3.0",
     "linkify-issues": "^1.1.0",
     "linkify-urls": "^1.0.2",
