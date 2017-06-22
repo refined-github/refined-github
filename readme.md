@@ -8,7 +8,9 @@ Our hope is that GitHub will notice and implement some of these much needed impr
 
 GitHub Enterprise is also supported by [authorizing your own domain in the options](https://github.com/sindresorhus/refined-github/pull/450). This is supported in Chrome and Firefox 55+ (to be released in August 2017).
 
-[Read more in this blog post.](https://blog.sindresorhus.com/refined-github-21185789685d)
+[Read more in this blog post](https://blog.sindresorhus.com/refined-github-21185789685d)
+
+✨ **[What's new lately](https://blog.sindresorhus.com/whats-new-in-refined-github-836d05582df7)** ✨
 
 
 ## Install
