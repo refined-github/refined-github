@@ -1,10 +1,10 @@
 {
 	"name": "Refined GitHub",
-	"version": "1.19.0",
+	"version": "1.20.0",
 	"description": "Simplifies the GitHub interface and adds useful features",
 	"homepage_url": "https://github.com/sindresorhus/refined-github",
 	"manifest_version": 2,
-	"minimum_chrome_version": "49",
+	"minimum_chrome_version": "58",
 	"applications": {
 		"gecko": {
 			"id": "refined-github@sindresorhus.com",
