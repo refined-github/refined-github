@@ -15,9 +15,9 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 
 ## Install
 
-  + [**Chrome** extension](https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf)
-  + [**Firefox** add-on](https://addons.mozilla.org/en-US/firefox/addon/refined-github-/)
-  + Opera - Use [this Opera extension](https://addons.opera.com/en/extensions/details/download-chrome-extension-9/) to install the Chrome version.
+- [**Chrome** extension](https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf)
+- [**Firefox** add-on](https://addons.mozilla.org/en-US/firefox/addon/refined-github-/)
+- Opera - Use [this Opera extension](https://addons.opera.com/en/extensions/details/download-chrome-extension-9/) to install the Chrome version.
 
 
 ## Highlights
@@ -28,12 +28,12 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 - [Linkifies URLs in code](https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png)
 - [Linkifies issue references in code comments](https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png)
 - [Adds a 'Releases' tab to repos](https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png) *(<kbd>g</kbd> <kbd>r</kbd> hotkey)*
-- [Adds a 'Compare' tab to repos](media/screenshot-compare-tab.png)
+- [Adds a 'Compare' tab to repos](https://user-images.githubusercontent.com/170270/27501134-cf0a2a18-586b-11e7-8430-22f33030e923.png)
 - [Adds user avatars to Reactions](media/screenshot-reactions.png)
-- [Adds a quick edit button and a link to the latest release to the readme](https://cloud.githubusercontent.com/assets/4331946/25596611/4afa98ae-2eca-11e7-9dbf-72a9e7ffe82d.jpg)
+- [Adds a quick edit button and a link to the latest release to the readme](https://user-images.githubusercontent.com/170270/27501200-31a1fa20-586c-11e7-9a3f-ce270014bf0a.png)
 - [Shows current filename in the sticky pull request header](https://cloud.githubusercontent.com/assets/170270/14153322/97a8e902-f6e1-11e5-8331-19e284e3e6fa.png)
 - [Shows user's full name in comments](https://cloud.githubusercontent.com/assets/170270/16172068/0a67b98c-3580-11e6-92f0-6fc930ee17d1.png)
-- [Preserves the original Markdown when you copy text from comments](https://user-images.githubusercontent.com/170270/27443470-71490474-5773-11e7-93be-c0076266c9ef.gif)
+- [Preserves the original Markdown when you copy text from comments](https://user-images.githubusercontent.com/170270/27501181-0485c5d0-586c-11e7-91ad-2d0a3537b0e2.gif)
 - [Improves readability of tab indented code](https://cloud.githubusercontent.com/assets/170270/14170088/d3be931e-f755-11e5-8edf-c5f864336382.png)
 - [Adds a 'Copy' button to the file view](https://cloud.githubusercontent.com/assets/170270/14453865/8abeaefe-00c1-11e6-8718-9406cee1dc0d.png)
 - [Adds a shortcut to quickly delete a forked repo](https://cloud.githubusercontent.com/assets/170270/13520281/b2c9335c-e211-11e5-9e36-b0f325166356.png)
@@ -44,9 +44,9 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 - [Adds `Copy` button for file paths to pull request diffs](https://cloud.githubusercontent.com/assets/4201088/26023064/18c9c77c-37d2-11e7-8926-b0a05a2706ae.png)
 - [Adds labels to comments by the original poster](https://cloud.githubusercontent.com/assets/4331946/25075520/d62fbbd0-2316-11e7-921f-ab736dc3522e.png)
 - [Adds navigation to milestone pages](https://cloud.githubusercontent.com/assets/170270/25217211/37b67aea-25d0-11e7-8482-bead2b04ee74.png)
-- [Adds search filter for 'Everything commented by you'](https://cloud.githubusercontent.com/assets/940070/25518367/cb917d3e-2c36-11e7-8475-c4e6dbe0ed6c.png)
+- [Adds search filter for 'Everything commented by you'](https://user-images.githubusercontent.com/170270/27501170-f394a304-586b-11e7-92d8-d92d6922356b.png)
 - [Moves destructive buttons ("Close issue", "Cancel") in commenting forms away from primary button](#comment-box)
-- [Adds `Yours` button to Issues/Pull Requests page](https://cloud.githubusercontent.com/assets/1282980/14636384/0d8770e4-0623-11e6-8520-2054bece2771.png)
+- [Adds `Yours` button to Issues/Pull Requests page](https://user-images.githubusercontent.com/170270/27501189-1b914bbe-586c-11e7-8e1e-b3ffd8b767fa.png)
 - [Condenses long URLs into references like _user/repo/.file@`d71718d`_](https://user-images.githubusercontent.com/1402241/27252232-8fdf8ed0-538b-11e7-8f19-12d317c9cd32.png)
 - Easier copy-pasting from diffs by making +/- signs unselectable
 - Shows the reactions popover on hover instead of click
