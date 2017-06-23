@@ -52,7 +52,7 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 - Shows the reactions popover on hover instead of click
 - Supports indenting with the tab key in textareas like the comment box (<kbd>Shift</kbd> <kbd>Tab</kbd> for original behavior)
 - Automagically expands the news feed when you scroll down
-- Hides other users starring/forking your repos from the newsfeed ([optional](https://user-images.githubusercontent.com/1402241/27267240-9d2e18c8-54d9-11e7-8a64-971af9e066f3.png))
+- Hides other users starring/forking your repos from the news feed ([optional](https://user-images.githubusercontent.com/1402241/27267240-9d2e18c8-54d9-11e7-8a64-971af9e066f3.png))
 - Prompts you when pressing `Cancel` on an inline comment in case it was a mistake
 - Moves the dashboard organization switcher to the right column
 - Adds a `Trending` link to the global navbar. *(<kbd>g</kbd> <kbd>t</kbd> hotkey)*
