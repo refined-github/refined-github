@@ -1,3 +1,4 @@
+import gitHubInjection from 'github-injection';
 import select from 'select-dom';
 import $ from './vendor/jquery.slim.min';
 import * as icons from './icons';
@@ -78,7 +79,7 @@ function markUnread() {
 	});
 
 	storeNotifications(unreadNotifications);
-	unreadIndicatorIcon();
+	updateUnreadIndicator();
 
 	this.setAttribute('disabled', 'disabled');
 	this.textContent = 'Marked as unread';
@@ -215,6 +216,10 @@ function renderNotifications() {
 
 		list.prepend(item);
 	});
+
+	// Make sure that all the boxes with unread items are at the top
+	// This is necessary in the "All notifications" view
+	$('.boxed-group:has(".unread")').prependTo('.notifications-list');
 }
 
 function isNotificationExist(url) {
@@ -233,21 +238,23 @@ function getUserName() {
 	return select('#user-links a.name img').getAttribute('alt').slice(1);
 }
 
-function unreadIndicatorIcon() {
-	const notificationIndicator = select('.header-nav-link.notification-indicator');
-	const notificationStatus = notificationIndicator.querySelector('.mail-status');
-	const hasUnread = select.exists('li.js-notification.unread') || loadNotifications().length > 0;
+function updateUnreadIndicator() {
+	const icon = select('.notification-indicator');
+	const statusMark = icon.querySelector('.mail-status');
+	const hasRealNotifications = icon.matches('[data-ga-click$=":unread"]');
+
+	const hasUnread = hasRealNotifications || loadNotifications().length > 0;
 	const label = hasUnread ? 'You have unread notifications' : 'You have no unread notifications';
 
-	notificationStatus.classList.toggle('unread', hasUnread);
-	notificationIndicator.setAttribute('aria-label', label);
+	icon.setAttribute('aria-label', label);
+	statusMark.classList.toggle('unread', hasUnread);
 }
 
 function markNotificationRead(e) {
 	const notification = e.target.closest('li.js-notification');
 	const a = notification.querySelector('a.js-notification-target');
 	markRead(a.href);
-	unreadIndicatorIcon();
+	updateUnreadIndicator();
 }
 
 function markAllNotificationsRead(e) {
@@ -256,7 +263,7 @@ function markAllNotificationsRead(e) {
 	for (const a of repoGroup.querySelectorAll('a.js-notification-target')) {
 		markRead(a.href);
 	}
-	unreadIndicatorIcon();
+	updateUnreadIndicator();
 }
 
 function addCustomAllReadBtn() {
@@ -283,7 +290,7 @@ function addCustomAllReadBtn() {
 	});
 }
 
-function countLocalNotifications() {
+function updateLocalNotificationsCount() {
 	const unreadCount = select('#notification-center .filter-list a[href="/notifications"] .count');
 	const githubNotificationsCount = Number(unreadCount.textContent);
 	const localNotifications = loadNotifications();
@@ -294,20 +301,27 @@ function countLocalNotifications() {
 }
 
 function setup() {
-	if (pageDetect.isNotifications()) {
-		renderNotifications();
-		addCustomAllReadBtn();
-		countLocalNotifications();
-		$(document).on('click', '.js-mark-read', markNotificationRead);
-		$(document).on('click', '.js-mark-all-read', markAllNotificationsRead);
-		$(document).on('click', 'form[action="/notifications/mark"] button', () => {
-			storeNotifications([]);
-		});
-	} else {
-		markRead(location.href);
-		addMarkUnreadButton();
-		$(document).one('click', '.js-mark-unread', markUnread);
-	}
+	gitHubInjection(window, () => {
+		destroy();
+
+		if (pageDetect.isNotifications()) {
+			renderNotifications();
+			addCustomAllReadBtn();
+			updateLocalNotificationsCount();
+			$(document).on('click', '.js-mark-read', markNotificationRead);
+			$(document).on('click', '.js-mark-all-read', markAllNotificationsRead);
+			$(document).on('click', '.js-delete-notification button', updateUnreadIndicator);
+			$(document).on('click', 'form[action="/notifications/mark"] button', () => {
+				storeNotifications([]);
+			});
+		} else if (pageDetect.isPR() || pageDetect.isIssue()) {
+			markRead(location.href);
+			addMarkUnreadButton();
+			$(document).one('click', '.js-mark-unread', markUnread);
+		}
+
+		updateUnreadIndicator();
+	});
 }
 
 function destroy() {
@@ -317,6 +331,5 @@ function destroy() {
 
 export default {
 	setup,
-	destroy,
-	unreadIndicatorIcon
+	destroy
 };
