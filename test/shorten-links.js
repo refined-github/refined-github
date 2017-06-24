@@ -52,15 +52,15 @@ test('shortenUrl', urlMatcherMacro, new Map([
 	],
 	[
 		'https://github.com/nodejs/node/tree/master/doc',
-		'nodejs/node/doc@<code>master</code>'
+		'nodejs/node:doc@<code>master</code>'
 	],
 	[
 		'https://github.com/nodejs/node/tree/v0.12/doc',
-		'nodejs/node/doc@<code>v0.12</code>'
+		'nodejs/node:doc@<code>v0.12</code>'
 	],
 	[
 		'https://github.com/nodejs/node/tree/d71718db6aa4feb8dc10edbad1134472468e971a/doc',
-		'nodejs/node/doc@<code>d71718d</code>'
+		'nodejs/node:doc@<code>d71718d</code>'
 	],
 	[
 		'https://github.com/sindresorhus/refined-github/blob/master/.gitignore',
@@ -76,15 +76,15 @@ test('shortenUrl', urlMatcherMacro, new Map([
 	],
 	[
 		'https://github.com/nodejs/node/blob/master/.gitignore',
-		'nodejs/node/.gitignore@<code>master</code>'
+		'nodejs/node:.gitignore@<code>master</code>'
 	],
 	[
 		'https://github.com/nodejs/node/blob/v0.12/.gitignore',
-		'nodejs/node/.gitignore@<code>v0.12</code>'
+		'nodejs/node:.gitignore@<code>v0.12</code>'
 	],
 	[
 		'https://github.com/nodejs/node/blob/cc8fc46/.gitignore',
-		'nodejs/node/.gitignore@<code>cc8fc46</code>'
+		'nodejs/node:.gitignore@<code>cc8fc46</code>'
 	],
 	[
 		'https://github.com/sindresorhus/refined-github/blame/master/.gitignore',
@@ -100,15 +100,15 @@ test('shortenUrl', urlMatcherMacro, new Map([
 	],
 	[
 		'https://github.com/nodejs/node/blame/master/.gitignore',
-		'nodejs/node/.gitignore@<code>master</code> (blame)'
+		'nodejs/node:.gitignore@<code>master</code> (blame)'
 	],
 	[
 		'https://github.com/nodejs/node/blame/v0.12/.gitignore',
-		'nodejs/node/.gitignore@<code>v0.12</code> (blame)'
+		'nodejs/node:.gitignore@<code>v0.12</code> (blame)'
 	],
 	[
 		'https://github.com/nodejs/node/blame/cc8fc46/.gitignore',
-		'nodejs/node/.gitignore@<code>cc8fc46</code> (blame)'
+		'nodejs/node:.gitignore@<code>cc8fc46</code> (blame)'
 	],
 	[
 		'https://github.com/sindresorhus/refined-github/commits/master/.gitignore',
@@ -124,15 +124,15 @@ test('shortenUrl', urlMatcherMacro, new Map([
 	],
 	[
 		'https://github.com/nodejs/node/commits/master/.gitignore',
-		'nodejs/node/.gitignore@<code>master</code> (commits)'
+		'nodejs/node:.gitignore@<code>master</code> (commits)'
 	],
 	[
 		'https://github.com/nodejs/node/commits/v0.12/.gitignore',
-		'nodejs/node/.gitignore@<code>v0.12</code> (commits)'
+		'nodejs/node:.gitignore@<code>v0.12</code> (commits)'
 	],
 	[
 		'https://github.com/nodejs/node/commits/cc8fc46/.gitignore',
-		'nodejs/node/.gitignore@<code>cc8fc46</code> (commits)'
+		'nodejs/node:.gitignore@<code>cc8fc46</code> (commits)'
 	],
 	[
 		'https://github.com/sindresorhus/refined-github/commit/cc8fc46.diff',
@@ -284,27 +284,27 @@ test('shortenUrl', urlMatcherMacro, new Map([
 	],
 	[
 		'https://rawgit.com/nodejs/node/master/.gitignore',
-		'nodejs/node/.gitignore@<code>master</code> (raw)'
+		'nodejs/node:.gitignore@<code>master</code> (raw)'
 	],
 	[
 		'https://cdn.rawgit.com/nodejs/node/v0.12/.gitignore',
-		'nodejs/node/.gitignore@<code>v0.12</code> (raw)'
+		'nodejs/node:.gitignore@<code>v0.12</code> (raw)'
 	],
 	[
 		'https://cdn.rawgit.com/nodejs/node/d71718db/.gitignore',
-		'nodejs/node/.gitignore@<code>d71718db</code> (raw)'
+		'nodejs/node:.gitignore@<code>d71718db</code> (raw)'
 	],
 	[
 		'https://raw.githubusercontent.com/nodejs/node/master/.gitignore',
-		'nodejs/node/.gitignore@<code>master</code> (raw)'
+		'nodejs/node:.gitignore@<code>master</code> (raw)'
 	],
 	[
 		'https://raw.githubusercontent.com/nodejs/node/v0.12/.gitignore',
-		'nodejs/node/.gitignore@<code>v0.12</code> (raw)'
+		'nodejs/node:.gitignore@<code>v0.12</code> (raw)'
 	],
 	[
 		'https://raw.githubusercontent.com/nodejs/node/d71718db/.gitignore',
-		'nodejs/node/.gitignore@<code>d71718db</code> (raw)'
+		'nodejs/node:.gitignore@<code>d71718db</code> (raw)'
 	],
 	[
 		'https://github.com/sindresorhus',

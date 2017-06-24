@@ -8,9 +8,11 @@ const releaseArchiveRegex = /archive[/](.+)([.]zip|[.]tar[.]gz)/;
 const releaseDownloadRegex = /releases[/]download[/]([^/]+)[/](.+)/;
 
 const reservedPaths = [
+	'new',
 	'join',
 	'site',
 	'blog',
+	'gist',
 	'about',
 	'login',
 	'pulls',
@@ -28,7 +30,9 @@ const reservedPaths = [
 	'dashboard',
 	'showcases',
 	'open-source',
-	'marketplace'
+	'marketplace',
+	'organizations',
+	'notifications'
 ];
 
 const styleRevision = revision => {
@@ -120,7 +124,7 @@ export function shortenUrl(href) {
 	}
 
 	if (isFileOrDir) {
-		const file = `${repoUrl}${filePath ? '/' + filePath : ''}`;
+		const file = `${repoUrl}${filePath ? (repoUrl ? ':' : '/') : ''}${filePath}`;
 		const revisioned = joinValues([file, revision], '@');
 		const partial = `${revisioned}${search}${hash}`;
 		if (type !== 'blob' && type !== 'tree') {

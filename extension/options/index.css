@@ -1,6 +1,8 @@
 html {
 	font-family: sans-serif;
 }
-input {
-	font: inherit;
+/* Increase spacing between sections */
+h2 ~ h2,
+form ~ form {
+	margin-top: 2em;
 }

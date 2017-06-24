@@ -1,4 +1,5 @@
 import 'webext-dynamic-content-scripts';
+import OptionsSync from 'webext-options-sync';
 import elementReady from 'element-ready';
 import gitHubInjection from 'github-injection';
 import toSemver from 'to-semver';
@@ -16,8 +17,10 @@ import addReactionParticipants from './libs/reactions-avatars';
 import showRealNames from './libs/show-names';
 import filePathCopyBtnListner from './libs/copy-file-path';
 import addFileCopyButton from './libs/copy-file';
+import copyMarkdown from './libs/copy-markdown';
 import linkifyCode, {editTextNodes} from './libs/linkify-urls-in-code';
 import shortenLinks from './libs/shorten-links';
+import autoLoadMoreNews from './libs/auto-load-more-news';
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
 
@@ -79,23 +82,24 @@ function cacheReleasesCount() {
 	}
 }
 
-function addCompareTab() {
-	const $repoNav = $('.js-repo-nav');
-
-	if ($repoNav.find('.refined-github-compare-tab').length > 0) {
+function addCompareLink() {
+	if (select.exists('.refined-github-compare-tab')) {
 		return;
 	}
-	const $compareTab = $(`<a href="/${repoUrl}/compare" class="reponav-item refined-github-compare-tab">
-		${icons.compare}
-		<span>Compare</span>
-	</a>`);
 
-	if (pageDetect.isCompare()) {
-		$repoNav.find('.selected').removeClass('js-selected-navigation-item selected');
-		$compareTab.addClass('js-selected-navigation-item selected');
+	$('.reponav-dropdown .dropdown-menu').prepend(`
+		<a href="/${repoUrl}/compare" class="dropdown-item refined-github-compare-tab">
+			${icons.darkCompare}
+			<span itemprop="name">Compare</span>
+		</a>
+	`);
+}
+
+function renameInsightsDropdown() {
+	const dropdown = select('.reponav-item.reponav-dropdown');
+	if (dropdown) {
+		dropdown.firstChild.textContent = 'More ';
 	}
-
-	$compareTab.insertBefore(select('.reponav-dropdown, [data-selected-links~="repo_settings"]'));
 }
 
 function addReleasesTab() {
@@ -152,27 +156,8 @@ function addYoursMenuItem() {
 	$menu.append(yoursMenuItem);
 }
 
-function infinitelyMore() {
-	const btn = select('.ajax-pagination-btn');
-
-	// If there's no more button remove unnecessary event listeners
-	if (!btn) {
-		$(window).off('scroll.infinite resize.infinite', infinitelyMore);
-		return;
-	}
-
-	// Grab dimensions to see if we should load
-	const wHeight = window.innerHeight;
-	const btnOffset = btn.getBoundingClientRect().top;
-
-	// Smash the button if it's coming close to being in view
-	if (wHeight > btnOffset) {
-		btn.click();
-	}
-}
-
 function addReadmeButtons() {
-	const readmeContainer = select('#readme');
+	const readmeContainer = select('#readme.readme');
 	if (!readmeContainer) {
 		return;
 	}
@@ -489,7 +474,9 @@ $(document).on('pjax:end', () => {
 	}
 });
 
-function init() {
+$(document).on('copy', '.markdown-body', copyMarkdown);
+
+function init(options) {
 	const username = getUsername();
 
 	markUnread.unreadIndicatorIcon();
@@ -506,12 +493,13 @@ function init() {
 				.css('display', 'none');
 		};
 
-		hideStarsOwnRepos();
+		if (options.hideStarsOwnRepos) {
+			hideStarsOwnRepos();
+			new MutationObserver(() => hideStarsOwnRepos())
+				.observe(select('#dashboard .news'), {childList: true});
+		}
 
-		new MutationObserver(() => hideStarsOwnRepos())
-			.observe(select('#dashboard .news'), {childList: true});
-
-		$(window).on('scroll.infinite resize.infinite', infinitelyMore);
+		autoLoadMoreNews();
 	}
 
 	if (pageDetect.isNotifications()) {
@@ -536,10 +524,12 @@ function init() {
 	if (pageDetect.isRepo()) {
 		gitHubInjection(window, () => {
 			addReleasesTab();
-			addCompareTab();
 			removeProjectsTab();
+			addCompareLink();
+			renameInsightsDropdown();
 			addTitleToEmojis();
 			shortenLinks();
+			addReadmeButtons();
 
 			diffFileHeader.destroy();
 			enableCopyOnY.destroy();
@@ -553,10 +543,11 @@ function init() {
 
 			if (pageDetect.isPR() || pageDetect.isIssue()) {
 				linkifyIssuesInTitles();
-			}
 
-			if (pageDetect.isRepoRoot() || pageDetect.isRepoTree()) {
-				addReadmeButtons();
+				markUnread.setup();
+
+				addOPLabels();
+				new MutationObserver(addOPLabels).observe(select('.new-discussion-timeline'), {childList: true, subtree: true});
 			}
 
 			if (pageDetect.isPRList() || pageDetect.isIssueList()) {
@@ -574,16 +565,13 @@ function init() {
 				if (diffElements) {
 					new MutationObserver(removeDiffSigns).observe(diffElements, {childList: true, subtree: true});
 				}
+				addDiffViewWithoutWhitespaceOption();
 			}
 
 			if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit()) {
 				addReactionParticipants.add(username);
 				addReactionParticipants.addListener(username);
 				showRealNames();
-			}
-
-			if (pageDetect.hasDiff()) {
-				addDiffViewWithoutWhitespaceOption();
 			}
 
 			if (pageDetect.isCommitList()) {
@@ -598,16 +586,6 @@ function init() {
 			if (pageDetect.isSingleFile()) {
 				addFileCopyButton();
 				enableCopyOnY.setup();
-			}
-
-			if (pageDetect.isPR() || pageDetect.isIssue()) {
-				markUnread.setup();
-			}
-
-			if (pageDetect.isIssue() || pageDetect.isPR()) {
-				addOPLabels();
-
-				new MutationObserver(addOPLabels).observe(select('.new-discussion-timeline'), {childList: true, subtree: true});
 			}
 
 			if (pageDetect.isMilestone()) {
@@ -629,4 +607,5 @@ if (!pageDetect.isGist()) {
 	addTrendingMenuItem();
 }
 
-domLoaded.then(init);
+const options = new OptionsSync().getAll();
+domLoaded.then(() => options).then(init);
