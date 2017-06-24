@@ -79,7 +79,7 @@ function markUnread() {
 	});
 
 	storeNotifications(unreadNotifications);
-	unreadIndicatorIcon();
+	updateUnreadIndicator();
 
 	this.setAttribute('disabled', 'disabled');
 	this.textContent = 'Marked as unread';
@@ -234,7 +234,7 @@ function getUserName() {
 	return select('#user-links a.name img').getAttribute('alt').slice(1);
 }
 
-function unreadIndicatorIcon() {
+function updateUnreadIndicator() {
 	const icon = select('.notification-indicator');
 	const statusMark = icon.querySelector('.mail-status');
 	const hasRealNotifications = statusMark.matches('.unread:not(.refined-github-was-here)');
@@ -251,7 +251,7 @@ function markNotificationRead(e) {
 	const notification = e.target.closest('li.js-notification');
 	const a = notification.querySelector('a.js-notification-target');
 	markRead(a.href);
-	unreadIndicatorIcon();
+	updateUnreadIndicator();
 }
 
 function markAllNotificationsRead(e) {
@@ -260,7 +260,7 @@ function markAllNotificationsRead(e) {
 	for (const a of repoGroup.querySelectorAll('a.js-notification-target')) {
 		markRead(a.href);
 	}
-	unreadIndicatorIcon();
+	updateUnreadIndicator();
 }
 
 function addCustomAllReadBtn() {
@@ -287,7 +287,7 @@ function addCustomAllReadBtn() {
 	});
 }
 
-function countLocalNotifications() {
+function updateLocalNotificationsCount() {
 	const unreadCount = select('#notification-center .filter-list a[href="/notifications"] .count');
 	const githubNotificationsCount = Number(unreadCount.textContent);
 	const localNotifications = loadNotifications();
@@ -304,7 +304,7 @@ function setup() {
 		if (pageDetect.isNotifications()) {
 			renderNotifications();
 			addCustomAllReadBtn();
-			countLocalNotifications();
+			updateLocalNotificationsCount();
 			$(document).on('click', '.js-mark-read', markNotificationRead);
 			$(document).on('click', '.js-mark-all-read', markAllNotificationsRead);
 			$(document).on('click', 'form[action="/notifications/mark"] button', () => {
@@ -316,7 +316,7 @@ function setup() {
 			$(document).one('click', '.js-mark-unread', markUnread);
 		}
 
-		unreadIndicatorIcon();
+		updateUnreadIndicator();
 	});
 }
 
