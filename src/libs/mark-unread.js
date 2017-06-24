@@ -234,13 +234,16 @@ function getUserName() {
 }
 
 function unreadIndicatorIcon() {
-	const notificationIndicator = select('.header-nav-link.notification-indicator');
-	const notificationStatus = notificationIndicator.querySelector('.mail-status');
-	const hasUnread = select.exists('li.js-notification.unread') || loadNotifications().length > 0;
+	const icon = select('.notification-indicator');
+	const statusMark = icon.querySelector('.mail-status');
+	const hasRealNotifications = statusMark.matches('.unread:not(.refined-github-was-here)');
+
+	const hasUnread = hasRealNotifications || loadNotifications().length > 0;
 	const label = hasUnread ? 'You have unread notifications' : 'You have no unread notifications';
 
-	notificationStatus.classList.toggle('unread', hasUnread);
-	notificationIndicator.setAttribute('aria-label', label);
+	icon.setAttribute('aria-label', label);
+	statusMark.classList.toggle('unread', hasUnread);
+	statusMark.classList.add('refined-github-was-here');
 }
 
 function markNotificationRead(e) {
