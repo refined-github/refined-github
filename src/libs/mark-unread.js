@@ -216,6 +216,10 @@ function renderNotifications() {
 
 		list.prepend(item);
 	});
+
+	// Make sure that all the boxes with unread items are at the top
+	// This is necessary in the "All notifications" view
+	$('.boxed-group:has(".unread")').prependTo('.notifications-list');
 }
 
 function isNotificationExist(url) {
