@@ -8,9 +8,11 @@ const releaseArchiveRegex = /archive[/](.+)([.]zip|[.]tar[.]gz)/;
 const releaseDownloadRegex = /releases[/]download[/]([^/]+)[/](.+)/;
 
 const reservedPaths = [
+	'new',
 	'join',
 	'site',
 	'blog',
+	'gist',
 	'about',
 	'login',
 	'pulls',
@@ -28,7 +30,9 @@ const reservedPaths = [
 	'dashboard',
 	'showcases',
 	'open-source',
-	'marketplace'
+	'marketplace',
+	'organizations',
+	'notifications'
 ];
 
 const styleRevision = revision => {
