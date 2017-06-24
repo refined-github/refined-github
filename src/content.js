@@ -2,6 +2,7 @@ import 'webext-dynamic-content-scripts';
 import OptionsSync from 'webext-options-sync';
 import elementReady from 'element-ready';
 import gitHubInjection from 'github-injection';
+import {applyToLink as shortenLink} from 'shorten-repo-url';
 import toSemver from 'to-semver';
 import linkifyIssues from 'linkify-issues';
 import select from 'select-dom';
@@ -19,7 +20,6 @@ import filePathCopyBtnListner from './libs/copy-file-path';
 import addFileCopyButton from './libs/copy-file';
 import copyMarkdown from './libs/copy-markdown';
 import linkifyCode, {editTextNodes} from './libs/linkify-urls-in-code';
-import shortenLinks from './libs/shorten-links';
 import autoLoadMoreNews from './libs/auto-load-more-news';
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
@@ -528,8 +528,11 @@ function init(options) {
 			addCompareLink();
 			renameInsightsDropdown();
 			addTitleToEmojis();
-			shortenLinks();
 			addReadmeButtons();
+
+			for (const a of select.all('a[href]')) {
+				shortenLink(a, location.href);
+			}
 
 			diffFileHeader.destroy();
 			enableCopyOnY.destroy();

@@ -11,7 +11,8 @@ export default [
 	dest: entry.replace('src', 'extension'),
 	plugins: [
 		nodeResolve({
-			browser: true
+			browser: true,
+			preferBuiltins: false
 		}),
 		commonJS(),
 		json({

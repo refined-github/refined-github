@@ -21,6 +21,7 @@
     "linkify-issues": "^1.1.0",
     "linkify-urls": "^1.0.2",
     "select-dom": "^4.1.0",
+    "shorten-repo-url": "^1.1.0",
     "to-markdown": "^3.0.4",
     "to-semver": "^1.1.0",
     "webext-dynamic-content-scripts": "^2.0.1",
