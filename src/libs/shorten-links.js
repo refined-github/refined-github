@@ -124,7 +124,7 @@ export function shortenUrl(href) {
 	}
 
 	if (isFileOrDir) {
-		const file = `${repoUrl}${filePath ? '/' + filePath : ''}`;
+		const file = `${repoUrl}${filePath ? (repoUrl ? ':' : '/') : ''}${filePath}`;
 		const revisioned = joinValues([file, revision], '@');
 		const partial = `${revisioned}${search}${hash}`;
 		if (type !== 'blob' && type !== 'tree') {
