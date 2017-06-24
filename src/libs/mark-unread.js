@@ -1,3 +1,4 @@
+import gitHubInjection from 'github-injection';
 import select from 'select-dom';
 import $ from './vendor/jquery.slim.min';
 import * as icons from './icons';
@@ -297,20 +298,26 @@ function countLocalNotifications() {
 }
 
 function setup() {
-	if (pageDetect.isNotifications()) {
-		renderNotifications();
-		addCustomAllReadBtn();
-		countLocalNotifications();
-		$(document).on('click', '.js-mark-read', markNotificationRead);
-		$(document).on('click', '.js-mark-all-read', markAllNotificationsRead);
-		$(document).on('click', 'form[action="/notifications/mark"] button', () => {
-			storeNotifications([]);
-		});
-	} else {
-		markRead(location.href);
-		addMarkUnreadButton();
-		$(document).one('click', '.js-mark-unread', markUnread);
-	}
+	gitHubInjection(window, () => {
+		destroy();
+
+		if (pageDetect.isNotifications()) {
+			renderNotifications();
+			addCustomAllReadBtn();
+			countLocalNotifications();
+			$(document).on('click', '.js-mark-read', markNotificationRead);
+			$(document).on('click', '.js-mark-all-read', markAllNotificationsRead);
+			$(document).on('click', 'form[action="/notifications/mark"] button', () => {
+				storeNotifications([]);
+			});
+		} else if (pageDetect.isPR() || pageDetect.isIssue()) {
+			markRead(location.href);
+			addMarkUnreadButton();
+			$(document).one('click', '.js-mark-unread', markUnread);
+		}
+
+		unreadIndicatorIcon();
+	});
 }
 
 function destroy() {
@@ -320,6 +327,5 @@ function destroy() {
 
 export default {
 	setup,
-	destroy,
-	unreadIndicatorIcon
+	destroy
 };

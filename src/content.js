@@ -479,7 +479,7 @@ $(document).on('copy', '.markdown-body', copyMarkdown);
 function init(options) {
 	const username = getUsername();
 
-	markUnread.unreadIndicatorIcon();
+	markUnread.setup();
 
 	if (pageDetect.isGist()) {
 		addGistCopyButton();
@@ -502,18 +502,6 @@ function init(options) {
 		autoLoadMoreNews();
 	}
 
-	if (pageDetect.isNotifications()) {
-		markUnread.setup();
-
-		new MutationObserver(() => {
-			markUnread.destroy();
-
-			if (pageDetect.isNotifications()) {
-				markUnread.setup();
-			}
-		}).observe(select('#js-pjax-container'), {childList: true});
-	}
-
 	addUploadBtn();
 	new MutationObserver(addUploadBtn).observe(select('div[role=main]'), {childList: true, subtree: true});
 
@@ -533,7 +521,6 @@ function init(options) {
 
 			diffFileHeader.destroy();
 			enableCopyOnY.destroy();
-			markUnread.destroy();
 
 			if (pageDetect.isPR()) {
 				linkifyBranchRefs();
@@ -543,9 +530,6 @@ function init(options) {
 
 			if (pageDetect.isPR() || pageDetect.isIssue()) {
 				linkifyIssuesInTitles();
-
-				markUnread.setup();
-
 				addOPLabels();
 				new MutationObserver(addOPLabels).observe(select('.new-discussion-timeline'), {childList: true, subtree: true});
 			}
