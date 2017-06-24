@@ -306,6 +306,7 @@ function setup() {
 			updateLocalNotificationsCount();
 			$(document).on('click', '.js-mark-read', markNotificationRead);
 			$(document).on('click', '.js-mark-all-read', markAllNotificationsRead);
+			$(document).on('click', '.js-delete-notification button', updateUnreadIndicator);
 			$(document).on('click', 'form[action="/notifications/mark"] button', () => {
 				storeNotifications([]);
 			});
