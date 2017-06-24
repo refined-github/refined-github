@@ -237,14 +237,13 @@ function getUserName() {
 function updateUnreadIndicator() {
 	const icon = select('.notification-indicator');
 	const statusMark = icon.querySelector('.mail-status');
-	const hasRealNotifications = statusMark.matches('.unread:not(.refined-github-was-here)');
+	const hasRealNotifications = icon.matches('[data-ga-click$=":unread"]');
 
 	const hasUnread = hasRealNotifications || loadNotifications().length > 0;
 	const label = hasUnread ? 'You have unread notifications' : 'You have no unread notifications';
 
 	icon.setAttribute('aria-label', label);
 	statusMark.classList.toggle('unread', hasUnread);
-	statusMark.classList.add('refined-github-was-here');
 }
 
 function markNotificationRead(e) {
