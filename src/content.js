@@ -447,8 +447,8 @@ function fixSquashAndMergeTitle() {
 }
 
 function addTitleToEmojis() {
-	for (const emoji of $('g-emoji')) {
-		$(emoji).attr('title', `:${$(emoji).attr('alias')}:`);
+	for (const emoji of select.all('g-emoji')) {
+		emoji.setAttribute('title', `:${emoji.getAttribute('alias')}:`);
 	}
 }
 
