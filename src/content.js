@@ -44,7 +44,7 @@ function linkifyBranchRefs() {
 		deletedBranchName = getCanonicalBranchFromRef($deletedBranchInTimeline);
 	}
 
-	$('.commit-ref').each((i, el) => {
+	for (const el of select.all('.commit-ref')) {
 		if (el.firstElementChild.textContent === 'unknown repository') {
 			return;
 		}
@@ -60,7 +60,7 @@ function linkifyBranchRefs() {
 		const branchUrl = canonicalBranch.replace(':', '/tree/');
 
 		$el.wrap(`<a href="/${branchUrl}">`);
-	});
+	}
 }
 
 function appendReleasesCount(count) {
@@ -75,7 +75,7 @@ function cacheReleasesCount() {
 	const releasesCountCacheKey = `${repoUrl}-releases-count`;
 
 	if (pageDetect.isRepoRoot()) {
-		const releasesCount = $('.numbers-summary a[href$="/releases"] .num').text().trim();
+		const releasesCount = select('.numbers-summary a[href$="/releases"] .num').textContent.trim();
 		appendReleasesCount(releasesCount);
 		chrome.storage.local.set({[releasesCountCacheKey]: releasesCount});
 	} else {
