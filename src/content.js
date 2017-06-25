@@ -8,6 +8,7 @@ import linkifyIssues from 'linkify-issues';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import $ from './libs/vendor/jquery.slim.min';
+import domify from './libs/domify';
 
 import markUnread from './libs/mark-unread';
 import addGistCopyButton from './libs/copy-gist';
@@ -162,39 +163,36 @@ function addReadmeButtons() {
 		return;
 	}
 
-	let releaseButtonHtml = '';
-	const releases = [];
-	$('.branch-select-menu .select-menu-list[data-tab-filter="tags"] .select-menu-item').each((index, element) => {
-		releases.push({
-			name: element.getAttribute('data-name'),
-			link: element.getAttribute('href')
-		});
-	});
-	const releaseNamesSorted = toSemver(releases.map(release => release.name), {clean: false});
-	if (releaseNamesSorted.length > 0) {
-		const latestRelease = releases.find(release => release.name === releaseNamesSorted[0]);
-		if (latestRelease) {
-			releaseButtonHtml = `
-				<a href="${latestRelease.link}#readme" class="tooltipped tooltipped-nw" aria-label="View this file at the latest version (${latestRelease.name})">${icons.tag}</a>
-			`;
-		}
+	const buttons = domify('<div id="refined-github-readme-buttons"></div>');
+
+	/**
+	 * Generate Release button
+	 */
+	const tags = select.all('.branch-select-menu [data-tab-filter="tags"] .select-menu-item')
+		.map(element => [
+			element.getAttribute('data-name'),
+			element.getAttribute('href')
+		]);
+	const releases = new Map(tags);
+	const [latestRelease] = toSemver([...releases.keys()], {clean: false});
+	if (latestRelease) {
+		const button = domify(`<a class="tooltipped tooltipped-nw">${icons.tag}</a>`);
+		button.href = `${releases.get(latestRelease)}#readme`;
+		button.setAttribute('aria-label', `View this file at the latest version (${latestRelease})`);
+		buttons.appendChild(button);
 	}
 
+	/**
+	 * Generate Edit button
+	 */
 	const readmeName = select('#readme > h3').textContent.trim();
-	const path = $('.js-repo-root ~ .js-path-segment, .final-path').get().map(el => el.textContent).join('/');
-	const selectMenuButton = select('.file-navigation .select-menu.float-left button.select-menu-button');
-	const currentBranch = selectMenuButton.getAttribute('title') || selectMenuButton.querySelector('span').textContent;
-	const editHref = `/${repoUrl}/edit/${currentBranch}/${path ? `${path}/` : ''}${readmeName}`;
-	const editButtonHtml = `
-		<a href="${editHref}" class="tooltipped tooltipped-nw" aria-label="Edit this file">${icons.edit}</a>
-	`;
+	const path = select('.breadcrumb').textContent.trim().split('/').slice(1).join('/');
+	const currentBranch = select('.branch-select-menu .select-menu-item.selected').textContent.trim();
+	const editButton = domify(`<a class="tooltipped tooltipped-nw" aria-label="Edit this file">${icons.edit}</a>`);
+	editButton.href = `/${repoUrl}/edit/${currentBranch}/${path}${readmeName}`;
+	buttons.appendChild(editButton);
 
-	$(`
-		<div id="refined-github-readme-buttons">
-			${releaseButtonHtml}
-			${editButtonHtml}
-		</div>
-	`).appendTo(readmeContainer);
+	readmeContainer.appendChild(buttons);
 }
 
 function addDeleteForkLink() {
