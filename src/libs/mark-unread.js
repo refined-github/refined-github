@@ -240,6 +240,9 @@ function getUserName() {
 
 function updateUnreadIndicator() {
 	const icon = select('.notification-indicator');
+	if (!icon) {
+		return;
+	}
 	const statusMark = icon.querySelector('.mail-status');
 	const hasRealNotifications = icon.matches('[data-ga-click$=":unread"]');
 
