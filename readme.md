@@ -8,7 +8,7 @@
   [link-travis]: https://travis-ci.org/sindresorhus/refined-github
 
 
-> Chrome extension that simplifies the GitHub interface and adds useful features
+> Browser extension that simplifies the GitHub interface and adds useful features
 
 We use GitHub a lot and notice many dumb annoyances we'd like to fix. So here be dragons.
 
