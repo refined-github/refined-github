@@ -185,12 +185,14 @@ function addReadmeButtons() {
 	/**
 	 * Generate Edit button
 	 */
-	const readmeName = select('#readme > h3').textContent.trim();
-	const path = select('.breadcrumb').textContent.trim().split('/').slice(1).join('/');
-	const currentBranch = select('.branch-select-menu .select-menu-item.selected').textContent.trim();
-	const editButton = domify(`<a class="tooltipped tooltipped-nw" aria-label="Edit this file">${icons.edit}</a>`);
-	editButton.href = `/${repoUrl}/edit/${currentBranch}/${path}${readmeName}`;
-	buttons.appendChild(editButton);
+	if (select('.branch-select-menu i').textContent === 'Branch:') {
+		const readmeName = select('#readme > h3').textContent.trim();
+		const path = select('.breadcrumb').textContent.trim().split('/').slice(1).join('/');
+		const currentBranch = select('.branch-select-menu .select-menu-item.selected').textContent.trim();
+		const button = domify(`<a class="tooltipped tooltipped-nw" aria-label="Edit this file">${icons.edit}</a>`);
+		button.href = `/${repoUrl}/edit/${currentBranch}/${path}${readmeName}`;
+		buttons.appendChild(button);
+	}
 
 	readmeContainer.appendChild(buttons);
 }
