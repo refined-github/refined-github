@@ -9,7 +9,7 @@
     "watch:sourcemap": "cross-env SOURCEMAP=true npm run watch --silent",
     "release:amo": "cd extension && webext submit",
     "release:cws": "cd extension && webstore upload --auto-publish",
-    "release": "run-s build update-version release:*",
+    "release": "run-s build update-version release:cws",
     "update-version": "dot-json extension/manifest.json version $(date -u +%y.%-m.%-d.%-H%M)"
   },
   "dependencies": {
