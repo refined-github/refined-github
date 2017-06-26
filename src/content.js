@@ -25,6 +25,10 @@ import autoLoadMoreNews from './libs/auto-load-more-news';
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
 
+// Add globals for easier debugging
+window.$ = $;
+window.select = select;
+
 const repoUrl = pageDetect.getRepoURL();
 
 const getUsername = () => select('meta[name="user-login"]').getAttribute('content');
