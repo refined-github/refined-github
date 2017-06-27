@@ -7,7 +7,9 @@ export default event => {
 	const container = range.commonAncestorContainer;
 	const containerEl = container.closest ? container : container.parentNode;
 
-	if (containerEl.closest('pre')) {
+	// Exclude pure code selections and selections across markdown elements:
+	// https://github.com/sindresorhus/refined-github/issues/522#issuecomment-311271274
+	if (containerEl.closest('pre') || containerEl.querySelector('.markdown-body')) {
 		return;
 	}
 
