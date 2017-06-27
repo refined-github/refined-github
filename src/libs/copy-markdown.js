@@ -62,9 +62,6 @@ export default event => {
 		return;
 	}
 
-	event.stopImmediatePropagation();
-	event.preventDefault();
-
 	const holder = document.createElement('div');
 	holder.append(range.cloneContents());
 
@@ -86,4 +83,7 @@ export default event => {
 	});
 
 	copyToClipboard(markdown);
+
+	event.stopImmediatePropagation();
+	event.preventDefault();
 };
