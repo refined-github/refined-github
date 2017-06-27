@@ -1,12 +1,15 @@
 import toMarkdown from 'to-markdown';
 import copyToClipboard from 'copy-text-to-clipboard';
 
+const unwrapContent = content => content;
+
 const converters = [
 	// Drop unnecessary elements
 	// <g-emoji> is GH's emoji wrapper
+	// input and .handle appear in "- [ ] lists", let's not copy tasks
 	{
-		filter: node => node.matches('g-emoji'),
-		replacement: content => content
+		filter: node => node.matches('g-emoji,.handle,input.task-list-item-checkbox'),
+		replacement: unwrapContent
 	}
 ];
 
