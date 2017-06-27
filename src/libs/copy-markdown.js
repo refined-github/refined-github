@@ -54,6 +54,13 @@ export default event => {
 	const holder = document.createElement('div');
 	holder.append(range.cloneContents());
 
+	// Wrap orphaned <li>s in their original parent
+	if (holder.firstChild.tagName === 'LI') {
+		const list = document.createElement(containerEl.tagName);
+		list.append(...holder.childNodes);
+		holder.appendChild(list);
+	}
+
 	const markdown = toMarkdown(holder.innerHTML, {
 		converters,
 		gfm: true
