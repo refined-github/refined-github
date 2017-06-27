@@ -1,6 +1,15 @@
 import toMarkdown from 'to-markdown';
 import copyToClipboard from 'copy-text-to-clipboard';
 
+const converters = [
+	// Drop unnecessary elements
+	// <g-emoji> is GH's emoji wrapper
+	{
+		filter: node => node.matches('g-emoji'),
+		replacement: content => content
+	}
+];
+
 export default event => {
 	const selection = window.getSelection();
 	const range = selection.getRangeAt(0);
@@ -18,7 +27,11 @@ export default event => {
 
 	const holder = document.createElement('div');
 	holder.append(range.cloneContents());
-	const markdown = toMarkdown(holder.innerHTML, {gfm: true});
+
+	const markdown = toMarkdown(holder.innerHTML, {
+		converters,
+		gfm: true
+	});
 
 	copyToClipboard(markdown);
 };
