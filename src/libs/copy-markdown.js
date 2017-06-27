@@ -20,6 +20,11 @@ const converters = [
 			node.firstChild.src === node.href, // It links to its own image
 		replacement: unwrapContent
 	},
+
+	// Keep <img> if it's customized
+	{
+		filter: node => node.matches('img[width],img[height],img[align]'),
+		replacement: (content, element) => element.outerHTML
 	}
 ];
 
