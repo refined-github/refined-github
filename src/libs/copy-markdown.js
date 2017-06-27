@@ -50,6 +50,11 @@ const converters = [
 	}
 ];
 
+export const getSmarterMarkdown = html => toMarkdown(html, {
+	converters,
+	gfm: true
+});
+
 export default event => {
 	const selection = window.getSelection();
 	const range = selection.getRangeAt(0);
@@ -77,10 +82,7 @@ export default event => {
 		holder.appendChild(list);
 	}
 
-	const markdown = toMarkdown(holder.innerHTML, {
-		converters,
-		gfm: true
-	});
+	const markdown = getSmarterMarkdown(holder.innerHTML);
 
 	copyToClipboard(markdown);
 

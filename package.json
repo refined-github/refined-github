@@ -30,6 +30,7 @@
 		"babel-cli": "^6.24.1",
 		"babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
 		"chrome-webstore-upload-cli": "^1.0.0",
+		"common-tags": "^1.4.0",
 		"dot-json": "^1.0.3",
 		"npm-run-all": "^4.0.2",
 		"webext": "^1.9.1-with-submit.1",
