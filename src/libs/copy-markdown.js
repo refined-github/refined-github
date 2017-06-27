@@ -69,8 +69,13 @@ export default event => {
 	holder.append(range.cloneContents());
 
 	// Wrap orphaned <li>s in their original parent
+	// And keep the their original number
 	if (holder.firstChild.tagName === 'LI') {
 		const list = document.createElement(containerEl.tagName);
+		try {
+			const originalLi = range.startContainer.parentNode.closest('li');
+			list.start = containerEl.start + [...containerEl.children].indexOf(originalLi);
+		} catch (err) {}
 		list.append(...holder.childNodes);
 		holder.appendChild(list);
 	}
