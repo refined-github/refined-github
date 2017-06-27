@@ -1,10 +1,10 @@
 import test from 'ava';
+import * as pageDetect from '../src/libs/page-detect.js';
 import Window from './fixtures/window';
 
 global.window = new Window();
 global.location = window.location;
 
-const pageDetect = require('../src/libs/page-detect.js'); // eslint-disable-line import/no-unassigned-import
 
 function urlMatcherMacro(t, detectFn, shouldMatch = [], shouldNotMatch = []) {
 	for (const url of shouldMatch) {
