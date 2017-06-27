@@ -43,6 +43,7 @@
 				"content.css"
 			],
 			"js": [
+				"jquery-3.slim.min.js",
 				"content.js"
 			]
 		}
