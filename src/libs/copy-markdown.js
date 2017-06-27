@@ -12,6 +12,12 @@ const converters = [
 		replacement: unwrapContent
 	},
 
+	// Unwrap commit/issue autolinks
+	{
+		filter: node => node.matches('.commit-link,.issue-link'),
+		replacement: (content, element) => element.href
+	},
+
 	// Unwrap images
 	{
 		filter: node => node.tagName === 'A' && // It's a link
