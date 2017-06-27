@@ -10,6 +10,16 @@ const converters = [
 	{
 		filter: node => node.matches('g-emoji,.handle,input.task-list-item-checkbox'),
 		replacement: unwrapContent
+	},
+
+	// Unwrap images
+	{
+		filter: node => node.tagName === 'A' && // It's a link
+			node.childNodes.length === 1 && // It has one child
+			node.firstChild.tagName === 'IMG' && // Its child is an image
+			node.firstChild.src === node.href, // It links to its own image
+		replacement: unwrapContent
+	},
 	}
 ];
 
