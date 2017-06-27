@@ -1,10 +1,9 @@
 import test from 'ava';
-import * as pageDetect from '../src/libs/page-detect.js';
+import * as pageDetect from '../src/libs/page-detect';
 import Window from './fixtures/window';
 
 global.window = new Window();
 global.location = window.location;
-
 
 function urlMatcherMacro(t, detectFn, shouldMatch = [], shouldNotMatch = []) {
 	for (const url of shouldMatch) {
