@@ -45,6 +45,7 @@
   "xo": {
     "envs": [
       "browser",
+      "jquery",
       "webextensions"
     ],
     "rules": {

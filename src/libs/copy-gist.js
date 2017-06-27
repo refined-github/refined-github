@@ -1,6 +1,5 @@
 import copyToClipboard from 'copy-text-to-clipboard';
 import select from 'select-dom';
-import $ from './vendor/jquery.slim.min';
 
 export default () => {
 	// Button already added (partial page nav), or non-text file

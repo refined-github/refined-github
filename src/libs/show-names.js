@@ -1,5 +1,3 @@
-import $ from './vendor/jquery.slim.min';
-
 const storageKey = 'cachedNames';
 
 const getCachedUsers = cb => {

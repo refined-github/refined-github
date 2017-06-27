@@ -1,5 +1,3 @@
-import $ from './vendor/jquery.slim.min';
-
 function add(currentUser) {
 	$('.comment-reactions.has-reactions').each((index, reactionsContainer) => {
 		const $reactionsContainer = $(reactionsContainer);

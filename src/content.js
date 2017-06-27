@@ -7,7 +7,6 @@ import toSemver from 'to-semver';
 import linkifyIssues from 'linkify-issues';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
-import $ from './libs/vendor/jquery.slim.min';
 import domify from './libs/domify';
 
 import markUnread from './libs/mark-unread';

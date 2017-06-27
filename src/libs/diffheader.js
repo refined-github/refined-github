@@ -1,6 +1,5 @@
 import debounce from 'debounce-fn';
 import select from 'select-dom';
-import $ from './vendor/jquery.slim.min';
 
 const diffFile = (() => {
 	let lastFile;
