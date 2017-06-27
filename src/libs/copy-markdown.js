@@ -2,6 +2,7 @@ import toMarkdown from 'to-markdown';
 import copyToClipboard from 'copy-text-to-clipboard';
 
 const unwrapContent = content => content;
+const unshortenRegex = /^https:[/][/](www[.])?|[/]$/g;
 
 const converters = [
 	// Drop unnecessary elements
@@ -14,7 +15,8 @@ const converters = [
 
 	// Unwrap commit/issue autolinks
 	{
-		filter: node => node.matches('.commit-link,.issue-link'),
+		filter: node => node.matches('.commit-link,.issue-link') || // GH autolinks
+			(node.href && node.href.replace(unshortenRegex, '') === node.textContent), // Some of bfred-it/shorten-repo-url
 		replacement: (content, element) => element.href
 	},
 
