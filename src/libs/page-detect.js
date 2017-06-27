@@ -48,7 +48,7 @@ export const isReleases = () => isRepo() && /^\/(releases|tags)/.test(getRepoPat
 
 export const isBlame = () => isRepo() && /^\/blame\//.test(getRepoPath());
 
-export const isNotifications = () => /\/notifications(\/participating)?/.test(location.pathname);
+export const isNotifications = () => location.pathname.startsWith('/notifications');
 
 export const isRepoSettings = () => isRepo() && /^\/settings/.test(getRepoPath());
 

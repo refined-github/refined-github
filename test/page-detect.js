@@ -1,10 +1,9 @@
 import test from 'ava';
+import * as pageDetect from '../src/libs/page-detect';
 import Window from './fixtures/window';
 
 global.window = new Window();
 global.location = window.location;
-
-const pageDetect = require('../src/libs/page-detect.js'); // eslint-disable-line import/no-unassigned-import
 
 function urlMatcherMacro(t, detectFn, shouldMatch = [], shouldNotMatch = []) {
 	for (const url of shouldMatch) {
@@ -158,6 +157,16 @@ test('isBlame', urlMatcherMacro, pageDetect.isBlame, [
 	'https://github.com/sindresorhus/refined-github/blame/master/package.json'
 ], [
 	'https://github.com/sindresorhus/refined-github/blob/master/package.json'
+]);
+
+test('isNotifications', urlMatcherMacro, pageDetect.isNotifications, [
+	'https://github.com/notifications',
+	'https://github.com/notifications/participating',
+	'https://github.com/notifications?all=1'
+], [
+	'https://github.com/settings/notifications',
+	'https://github.com/watching',
+	'https://github.com/jaredhanson/node-notifications/tree/master/lib/notifications'
 ]);
 
 test('isSingleFile', urlMatcherMacro, pageDetect.isSingleFile, [
