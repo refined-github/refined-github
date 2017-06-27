@@ -160,6 +160,16 @@ test('isBlame', urlMatcherMacro, pageDetect.isBlame, [
 	'https://github.com/sindresorhus/refined-github/blob/master/package.json'
 ]);
 
+test('isNotifications', urlMatcherMacro, pageDetect.isNotifications, [
+	'https://github.com/notifications',
+	'https://github.com/notifications/participating',
+	'https://github.com/notifications?all=1'
+], [
+	'https://github.com/settings/notifications',
+	'https://github.com/watching',
+	'https://github.com/jaredhanson/node-notifications/tree/master/lib/notifications'
+]);
+
 test('isSingleFile', urlMatcherMacro, pageDetect.isSingleFile, [
 	'https://github.com/sindresorhus/refined-github/blob/master/.gitattributes',
 	'https://github.com/sindresorhus/refined-github/blob/fix-narrow-diff/extension/content.css'
