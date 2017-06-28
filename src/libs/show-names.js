@@ -1,9 +1,9 @@
 import select from 'select-dom';
 import {groupBy} from 'lodash-es';
 import domify from './domify';
+import {getUsername} from './utils';
 
 const storageKey = 'cachedNames';
-const usersSelectors = '.js-discussion .author:not(.refined-has-full-name)';
 
 const getCachedUsers = () => {
 	return new Promise(resolve => chrome.storage.local.get(storageKey, resolve));
@@ -11,6 +11,7 @@ const getCachedUsers = () => {
 
 const fetchName = async username => {
 	// /following/you_know is the lightest page we know
+	// location.origin is required for Firefox #490
 	const pageHTML = await fetch(`${location.origin}/${username}/following`)
 		.then(res => res.text());
 
@@ -29,7 +30,8 @@ export default async () => {
 	const cache = (await getCachedUsers())[storageKey];
 
 	// {sindresorhus: [a.author, a.author], otheruser: [a.author]}
-	const usersOnPage = groupBy(select.all(usersSelectors), 'textContent');
+	const selector = `.js-discussion .author:not(.refined-has-full-name):not([href="/${getUsername()}"])`;
+	const usersOnPage = groupBy(select.all(selector), 'textContent');
 
 	const fetchAndAdd = async username => {
 		if (typeof cache[username] === 'undefined') {
