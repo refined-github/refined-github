@@ -17,7 +17,6 @@
 		"github-injection": "^0.3.0",
 		"linkify-issues": "^1.1.0",
 		"linkify-urls": "^1.0.2",
-		"lodash-es": "^4.17.4",
 		"select-dom": "^4.1.0",
 		"shorten-repo-url": "^1.1.0",
 		"to-markdown": "^3.0.4",

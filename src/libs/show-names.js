@@ -1,7 +1,6 @@
 import select from 'select-dom';
-import {groupBy} from 'lodash-es';
 import domify from './domify';
-import {getUsername} from './utils';
+import {getUsername, groupBy} from './utils';
 
 const storageKey = 'cachedNames';
 
@@ -31,7 +30,7 @@ export default async () => {
 
 	// {sindresorhus: [a.author, a.author], otheruser: [a.author]}
 	const selector = `.js-discussion .author:not(.refined-has-full-name):not([href="/${getUsername()}"])`;
-	const usersOnPage = groupBy(select.all(selector), 'textContent');
+	const usersOnPage = groupBy(select.all(selector), el => el.textContent);
 
 	const fetchAndAdd = async username => {
 		if (typeof cache[username] === 'undefined') {
