@@ -681,3 +681,8 @@ tt,
 a.tabnav-extra[href$="mastering-markdown/"] {
 	display: none !important;
 }
+
+/* Hide empty description of repo */
+.repository-meta.mb-3 > .repository-meta-content > em {
+	display: none !important;
+}

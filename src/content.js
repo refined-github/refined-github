@@ -106,6 +106,15 @@ function renameInsightsDropdown() {
 	}
 }
 
+function hideEmptyMeta() {
+	if (pageDetect.isRepoRoot()) {
+		const meta = select('.repository-meta');
+		if (select.exists('em', meta) && !select.exists('.js-edit-repo-meta-button')) {
+			meta.style.display = 'none';
+		}
+	}
+}
+
 function addReleasesTab() {
 	const $repoNav = $('.js-repo-nav');
 	let $releasesTab = $repoNav.children('[data-selected-links~="repo_releases"]');
@@ -518,6 +527,7 @@ function init(options) {
 
 	if (pageDetect.isRepo()) {
 		gitHubInjection(window, () => {
+			hideEmptyMeta();
 			addReleasesTab();
 			removeProjectsTab();
 			addCompareLink();
