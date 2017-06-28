@@ -1,67 +1,55 @@
+import select from 'select-dom';
+import {groupBy} from 'lodash-es';
+import domify from './domify';
+
 const storageKey = 'cachedNames';
+const usersSelectors = '.js-discussion .author:not(.refined-has-full-name)';
 
-const getCachedUsers = cb => {
-	chrome.storage.local.get(storageKey, data => cb(data[storageKey]));
+const getCachedUsers = () => {
+	return new Promise(resolve => chrome.storage.local.get(storageKey, resolve));
 };
 
-const updateCachedUsers = users => {
-	chrome.storage.local.set({[storageKey]: users});
+const fetchName = async username => {
+	// /following/you_know is the lightest page we know
+	const pageHTML = await fetch(`${location.origin}/${username}/following`)
+		.then(res => res.text());
+
+	const el = domify(pageHTML).querySelector('h1 strong');
+
+	// The full name might not be set
+	const fullname = el && el.textContent.slice(1, -1);
+	if (!fullname || fullname === username) {
+		// It has to be stored as false or else it will be fetched every time
+		return false;
+	}
+	return fullname;
 };
 
-const addUsersName = (user, name) => {
-	const $usernameLinks = $(`.author[href="/${user}"]:not(.has-full-name)`);
-	$usernameLinks.each((i, userLink) => {
-		const $userLink = $(userLink);
-		if (user !== name) {
-			$userLink.after(`<span class="comment-full-name">(${name})</span>`);
+export default async () => {
+	const cache = (await getCachedUsers())[storageKey];
+
+	// {sindresorhus: [a.author, a.author], otheruser: [a.author]}
+	const usersOnPage = groupBy(select.all(usersSelectors), 'textContent');
+
+	const fetchAndAdd = async username => {
+		if (typeof cache[username] === 'undefined') {
+			cache[username] = await fetchName(username);
 		}
-		$userLink.addClass('has-full-name');
-		const $header = $userLink.parent().parent();
-		if ($header.hasClass('timeline-comment-header-text')) {
-			// Remove 'commented'
-			$userLink[0].parentNode.nextSibling.remove();
-		}
-	});
-};
 
-export default () => {
-	getCachedUsers((users = {}) => {
-		const usersOnPage = $('.js-discussion .author').get().map(el => el.innerText);
-		const uniqueUsers = new Set(usersOnPage);
-
-		// Add cached users to DOM first, since the calls for everyone else will be slow
-		for (const user of uniqueUsers) {
-			const cachedName = users[user];
-			if (cachedName) {
-				addUsersName(user, cachedName);
-				uniqueUsers.delete(user);
+		for (const usernameEl of usersOnPage[username]) {
+			if (cache[username]) {
+				usernameEl.insertAdjacentHTML('afterend', `<span>(${cache[username]})</span>`);
+				usernameEl.classList.add('refined-has-full-name');
 			}
+			// Drop 'commented'
+			usernameEl.parentNode.nextSibling.remove();
 		}
+	};
 
-		const userUrl = user => `${location.origin}/${user}/following`;
-		const requests = Array.from(uniqueUsers).map(username => {
-			const req = fetch(userUrl(username));
-			return req.then(res => res.text()).then(profile => ({
-				username,
-				profile
-			}));
-		});
+	const fetches = Object.keys(usersOnPage).map(fetchAndAdd);
 
-		Promise.all(requests).then(profiles => {
-			const userCache = {};
+	// Wait for all the fetches to be done
+	await Promise.all(fetches);
 
-			for (const {username, profile} of profiles) {
-				const profileDOM = new DOMParser().parseFromString(profile, 'text/html');
-				const fullname = $(profileDOM).find('h1 strong').text().slice(1, -1);
-
-				// Possible for a user to not set a name
-				if (fullname) {
-					userCache[username] = fullname;
-					addUsersName(username, fullname);
-				}
-			}
-
-			updateCachedUsers(Object.assign({}, users, userCache));
-		}).catch(console.error);
-	});
+	chrome.storage.local.set({[storageKey]: cache});
 };
