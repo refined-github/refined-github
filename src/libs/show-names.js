@@ -9,13 +9,13 @@ const updateCachedUsers = users => {
 };
 
 const addUsersName = (user, name) => {
-	const $usernameLinks = $(`.timeline-comment-header-text:not(.has-full-name) a[href="/${user}"]`);
+	const $usernameLinks = $(`.author[href="/${user}"]:not(.has-full-name)`);
 	$usernameLinks.each((i, userLink) => {
 		const $userLink = $(userLink);
 		if (user !== name) {
 			$userLink.after(`<span class="comment-full-name">(${name})</span>`);
 		}
-		$userLink.closest('.timeline-comment-header-text').addClass('has-full-name');
+		$userLink.addClass('has-full-name');
 	});
 };
 
