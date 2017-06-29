@@ -509,9 +509,18 @@ function init(options) {
 				.css('display', 'none');
 		};
 
+		const hideSimpleCreateBranch = () => {
+			$('#dashboard .news .alert.create.simple:has(.octicon-git-branch)')
+				.css('display', 'none');
+		};
+
 		if (options.hideStarsOwnRepos) {
 			hideStarsOwnRepos();
-			new MutationObserver(() => hideStarsOwnRepos())
+			hideSimpleCreateBranch();
+			new MutationObserver(() => {
+				hideStarsOwnRepos();
+				hideSimpleCreateBranch();
+			})
 				.observe(select('#dashboard .news'), {childList: true});
 		}
 
