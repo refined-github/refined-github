@@ -16,6 +16,11 @@ const addUsersName = (user, name) => {
 			$userLink.after(`<span class="comment-full-name">(${name})</span>`);
 		}
 		$userLink.addClass('has-full-name');
+		const $header = $userLink.parent().parent();
+		if ($header.hasClass('timeline-comment-header-text')) {
+			// Remove 'commented'
+			$userLink[0].parentNode.nextSibling.remove();
+		}
 	});
 };
 
