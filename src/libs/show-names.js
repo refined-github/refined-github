@@ -9,17 +9,18 @@ const updateCachedUsers = users => {
 };
 
 const addUsersName = (user, name) => {
-	const $usernameLinks = $(`.timeline-comment-header-text:not(.has-full-name) a[href="/${user}"]`);
+	const $usernameLinks = $(`.author[href="/${user}"]:not(.has-full-name)`);
 	$usernameLinks.each((i, userLink) => {
 		const $userLink = $(userLink);
 		if (user !== name) {
-			let nameText = name;
-			if (!$userLink.parent().hasClass('timestamp-edited')) {
-				nameText += ' -';
-			}
-			$userLink.after(`<span class="comment-full-name">${nameText}</span>`);
+			$userLink.after(`<span class="comment-full-name">(${name})</span>`);
 		}
-		$userLink.closest('.timeline-comment-header-text').addClass('has-full-name');
+		$userLink.addClass('has-full-name');
+		const $header = $userLink.parent().parent();
+		if ($header.hasClass('timeline-comment-header-text')) {
+			// Remove 'commented'
+			$userLink[0].parentNode.nextSibling.remove();
+		}
 	});
 };
 
