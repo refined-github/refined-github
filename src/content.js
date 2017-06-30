@@ -453,46 +453,64 @@ function addTitleToEmojis() {
 	}
 }
 
-// Support indent with tab key in comments
-$(document).on('keydown', '.js-comment-field', event => {
-	if (event.which === 9 && !event.shiftKey) {
-		// Don't indent if the suggester box is active
-		if ($('.suggester').hasClass('active')) {
-			return;
-		}
-
-		event.preventDefault();
-		indentInput(event.target);
-		return false;
-	}
-});
-
-// Prompt user to confirm erasing a comment with the Cancel button
-$(document).on('click', '.js-hide-inline-comment-form', event => {
-	const $target = $(event.target);
-
-	// Do not prompt if textarea is empty
-	const text = $target.closest('.js-inline-comment-form').find('.js-comment-field').val();
-	if (text.length === 0) {
+function init() {
+	if (select.exists('html.refined-github')) {
+		console.count('Refined GitHub was loaded multiple times: https://github.com/sindresorhus/refined-github/issues/479');
 		return;
 	}
 
-	if (window.confirm('Are you sure you want to discard your unsaved changes?') === false) { // eslint-disable-line no-alert
-		event.stopPropagation();
-		event.stopImmediatePropagation();
+	document.documentElement.classList.add('refined-github');
+
+	if (!pageDetect.isGist()) {
+		addTrendingMenuItem();
 	}
-});
 
-// Handle issue list ajax
-$(document).on('pjax:end', () => {
-	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
-		addYoursMenuItem();
-	}
-});
+	// Support indent with tab key in comments
+	$(document).on('keydown', '.js-comment-field', event => {
+		if (event.which === 9 && !event.shiftKey) {
+			// Don't indent if the suggester box is active
+			if ($('.suggester').hasClass('active')) {
+				return;
+			}
 
-$(document).on('copy', '.markdown-body', copyMarkdown);
+			event.preventDefault();
+			indentInput(event.target);
+			return false;
+		}
+	});
 
-function init(options) {
+	// Prompt user to confirm erasing a comment with the Cancel button
+	$(document).on('click', '.js-hide-inline-comment-form', event => {
+		const $target = $(event.target);
+
+		// Do not prompt if textarea is empty
+		const text = $target.closest('.js-inline-comment-form').find('.js-comment-field').val();
+		if (text.length === 0) {
+			return;
+		}
+
+		if (window.confirm('Are you sure you want to discard your unsaved changes?') === false) { // eslint-disable-line no-alert
+			event.stopPropagation();
+			event.stopImmediatePropagation();
+		}
+	});
+
+	// Handle issue list ajax
+	$(document).on('pjax:end', () => {
+		if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
+			addYoursMenuItem();
+		}
+	});
+
+	$(document).on('copy', '.markdown-body', copyMarkdown);
+
+	onDomReady();
+}
+
+async function onDomReady() {
+	const options = await new OptionsSync().getAll();
+	await domLoaded;
+
 	const username = getUsername();
 
 	markUnread.setup();
@@ -607,9 +625,4 @@ function init(options) {
 	}
 }
 
-if (!pageDetect.isGist()) {
-	addTrendingMenuItem();
-}
-
-const options = new OptionsSync().getAll();
-domLoaded.then(() => options).then(init);
+init();
