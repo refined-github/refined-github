@@ -30,7 +30,13 @@ export const isPRFiles = () => isRepo() && /^\/pull\/\d+\/files/.test(getRepoPat
 
 export const isPRCommit = () => isRepo() && /^\/pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(getRepoPath());
 
+export const isMilestoneList = () => isRepo() && /^\/milestones\/?$/.test(getRepoPath());
+
 export const isMilestone = () => isRepo() && /^\/milestone\/\d+/.test(getRepoPath());
+
+export const isLabelList = () => isRepo() && /^\/labels\/?(((?=\?).*)|$)/.test(getRepoPath());
+
+export const isLabel = () => isRepo() && /^\/labels\/\w+/.test(getRepoPath());
 
 export const isCommitList = () => isRepo() && /^\/commits\//.test(getRepoPath());
 
