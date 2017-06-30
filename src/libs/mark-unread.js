@@ -1,5 +1,6 @@
 import gitHubInjection from 'github-injection';
 import select from 'select-dom';
+import {h} from 'dom-chef';
 import * as icons from './icons';
 import * as pageDetect from './page-detect';
 
@@ -149,21 +150,23 @@ function renderNotifications() {
 
 		const hasList = select.exists(`a.notifications-repo-link[title="${repository}"]`);
 		if (!hasList) {
-			const list = $(`
+			const list = (
 				<div class="boxed-group flush">
 					<form class="boxed-group-action">
 						<button class="mark-all-as-read css-truncate tooltipped tooltipped-w js-mark-all-read" aria-label="Mark all notifications as read">
-							${icons.check}
+							{icons.check}
 						</button>
 					</form>
+
 					<h3>
-						<a href="/${repository}" class="css-truncate css-truncate-target notifications-repo-link" title="${repository}">
-							${repository}
+						<a href="/${repository}" class="css-truncate css-truncate-target notifications-repo-link" title={repository}>
+							{repository}
 						</a>
 					</h3>
-					<ul class="boxed-group-inner list-group notifications"></ul>
+
+					<ul class="boxed-group-inner list-group notifications"/>
 				</div>
-			`);
+			);
 
 			$('.notifications-list').prepend(list);
 		}
@@ -176,42 +179,44 @@ function renderNotifications() {
 
 		const avatars = participants
 			.map(participant => {
-				return `
-					<img alt="@${participant.username}" class="avatar from-avatar" src="${participant.avatar}" width="39" height="39">
-				`;
-			})
-			.join('');
+				return <img alt={`@${participant.username}`} class="avatar from-avatar" src={participant.avatar} width={39} height={39}/>;
+			});
 
-		const item = $(`
-			<li class="list-group-item js-notification js-navigation-item unread ${type}-notification">
+		const item = (
+			<li class={`list-group-item js-notification js-navigation-item unread ${type}-notification`}>
 				<span class="list-group-item-name css-truncate">
-					${icon}
-					<a class="css-truncate-target js-notification-target js-navigation-open list-group-item-link" href="${url}">
-						${title}
+					{icon}
+
+					<a href={url} class="css-truncate-target js-notification-target js-navigation-open list-group-item-link">
+						{title}
 					</a>
 				</span>
+
 				<ul class="notification-actions">
 					<li class="delete">
 						<button aria-label="Mark as read" class="btn-link delete-note tooltipped tooltipped-w js-mark-read">
-							${icons.check}
+							{icons.check}
 						</button>
 					</li>
+
 					<li class="mute">
-						<button style="opacity: 0; pointer-events: none;">
-							${icons.mute}
+						<button style={{opacity: 0, pointerEvents: 'none'}}>
+							{icons.mute}
 						</button>
 					</li>
+
 					<li class="age">
-						<relative-time datetime="${date}" title="${dateTitle}"></relative-time>
+						<relative-time datetime={date} title={dateTitle}/>
 					</li>
-					<li class="tooltipped tooltipped-s" aria-label="${usernames}">
+
+					<li class="tooltipped tooltipped-s" aria-label={usernames}>
 						<div class="avatar-stack clearfix">
-							${avatars}
+							{avatars}
 						</div>
 					</li>
 				</ul>
 			</li>
-		`);
+		);
 
 		list.prepend(item);
 	});
@@ -274,17 +279,21 @@ function addCustomAllReadBtn() {
 		return;
 	}
 
-	$('#notification-center .tabnav-tabs:first').append(`
+	$('#notification-center .tabnav-tabs:first').append((
 		<div class="float-right">
-		    <a href="#mark_as_read_confirm_box" class="btn btn-sm " rel="facebox">Mark all as read</a>
-  			<div id="mark_as_read_confirm_box" style="display:none">
+		    <a href="#mark_as_read_confirm_box" class="btn btn-sm" rel="facebox">Mark all as read</a>
+
+				<div id="mark_as_read_confirm_box" style={{display: 'none'}}>
         		<h2 class="facebox-header" data-facebox-id="facebox-header">Are you sure?</h2>
+
         		<p data-facebox-id="facebox-description">Are you sure you want to mark all unread notifications as read?</p>
-            	<div class="full-button">
-                	<button  id="clear-local-notification" class="btn btn-block">Mark all notifications as read</button>
-            	</div>
+
+						<div class="full-button">
+              	<button  id="clear-local-notification" class="btn btn-block">Mark all notifications as read</button>
+          	</div>
   			</div>
-  		</div>`);
+  		</div>
+		));
 
 	$(document).on('click', '#clear-local-notification', () => {
 		storeNotifications([]);
