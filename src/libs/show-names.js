@@ -42,7 +42,10 @@ export default async () => {
 			usernameEl.classList.add('refined-github-fullname');
 
 			if (cache[username] && username !== myUsername) {
-				usernameEl.insertAdjacentHTML('afterend', `<span>(${cache[username]})</span>`);
+				// If it's a regular comment author, add it outside <strong>
+				// otherwise it's something like "User added some commits"
+				const insertionPoint = usernameEl.parentNode.tagName === 'STRONG' ? usernameEl.parentNode : usernameEl;
+				insertionPoint.insertAdjacentText('afterend', ` (${cache[username]}) `);
 			}
 			// Drop 'commented'
 			usernameEl.parentNode.nextSibling.remove();

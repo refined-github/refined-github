@@ -544,11 +544,6 @@ Hidden content area created to increase hover target
 	border-top: none !important;
 }
 
-.refined-has-full-name + span {
-	font-weight: normal;
-	margin-left: 0.3em;
-}
-
 /* Mark as unread */
 .btn-mark-unread {
 	margin-top: 8px;
