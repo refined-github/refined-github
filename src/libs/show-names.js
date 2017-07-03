@@ -30,7 +30,7 @@ export default async () => {
 	const cache = (await getCachedUsers())[storageKey];
 
 	// {sindresorhus: [a.author, a.author], otheruser: [a.author]}
-	const selector = `.js-discussion .author:not(.refined-has-full-name)`;
+	const selector = `.js-discussion .author:not(.refined-github-fullname)`;
 	const usersOnPage = groupBy(select.all(selector), el => el.textContent);
 
 	const fetchAndAdd = async username => {
@@ -39,10 +39,10 @@ export default async () => {
 		}
 
 		for (const usernameEl of usersOnPage[username]) {
-			// `myUsername` might still be cached, but we still don't want it
+			usernameEl.classList.add('refined-github-fullname');
+
 			if (cache[username] && username !== myUsername) {
 				usernameEl.insertAdjacentHTML('afterend', `<span>(${cache[username]})</span>`);
-				usernameEl.classList.add('refined-has-full-name');
 			}
 			// Drop 'commented'
 			usernameEl.parentNode.nextSibling.remove();
