@@ -26,19 +26,21 @@ const fetchName = async username => {
 };
 
 export default async () => {
+	const myUsername = getUsername();
 	const cache = (await getCachedUsers())[storageKey];
 
 	// {sindresorhus: [a.author, a.author], otheruser: [a.author]}
-	const selector = `.js-discussion .author:not(.refined-has-full-name):not([href="/${getUsername()}"])`;
+	const selector = `.js-discussion .author:not(.refined-has-full-name)`;
 	const usersOnPage = groupBy(select.all(selector), el => el.textContent);
 
 	const fetchAndAdd = async username => {
-		if (typeof cache[username] === 'undefined') {
+		if (typeof cache[username] === 'undefined' && username !== myUsername) {
 			cache[username] = await fetchName(username);
 		}
 
 		for (const usernameEl of usersOnPage[username]) {
-			if (cache[username]) {
+			// `myUsername` might still be cached, but we still don't want it
+			if (cache[username] && username !== myUsername) {
 				usernameEl.insertAdjacentHTML('afterend', `<span>(${cache[username]})</span>`);
 				usernameEl.classList.add('refined-has-full-name');
 			}
