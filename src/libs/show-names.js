@@ -39,6 +39,11 @@ export default async () => {
 		}
 
 		for (const usernameEl of usersOnPage[username]) {
+			const commentedNode = usernameEl.parentNode.nextSibling;
+			if (commentedNode && commentedNode.textContent.includes('commented')) {
+				commentedNode.remove();
+			}
+
 			usernameEl.classList.add('refined-github-fullname');
 
 			if (cache[username] && username !== myUsername) {
@@ -47,8 +52,6 @@ export default async () => {
 				const insertionPoint = usernameEl.parentNode.tagName === 'STRONG' ? usernameEl.parentNode : usernameEl;
 				insertionPoint.insertAdjacentText('afterend', ` (${cache[username]}) `);
 			}
-			// Drop 'commented'
-			usernameEl.parentNode.nextSibling.remove();
 		}
 	};
 
