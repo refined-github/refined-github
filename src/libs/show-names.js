@@ -1,67 +1,64 @@
+import select from 'select-dom';
+import domify from './domify';
+import {getUsername, groupBy} from './utils';
+
 const storageKey = 'cachedNames';
 
-const getCachedUsers = cb => {
-	chrome.storage.local.get(storageKey, data => cb(data[storageKey]));
+const getCachedUsers = () => {
+	return new Promise(resolve => chrome.storage.local.get(storageKey, resolve));
 };
 
-const updateCachedUsers = users => {
-	chrome.storage.local.set({[storageKey]: users});
+const fetchName = async username => {
+	// /following/you_know is the lightest page we know
+	// location.origin is required for Firefox #490
+	const pageHTML = await fetch(`${location.origin}/${username}/following`)
+		.then(res => res.text());
+
+	const el = domify(pageHTML).querySelector('h1 strong');
+
+	// The full name might not be set
+	const fullname = el && el.textContent.slice(1, -1);
+	if (!fullname || fullname === username) {
+		// It has to be stored as false or else it will be fetched every time
+		return false;
+	}
+	return fullname;
 };
 
-const addUsersName = (user, name) => {
-	const $usernameLinks = $(`.author[href="/${user}"]:not(.has-full-name)`);
-	$usernameLinks.each((i, userLink) => {
-		const $userLink = $(userLink);
-		if (user !== name) {
-			$userLink.after(`<span class="comment-full-name">(${name})</span>`);
-		}
-		$userLink.addClass('has-full-name');
-		const $header = $userLink.parent().parent();
-		if ($header.hasClass('timeline-comment-header-text')) {
-			// Remove 'commented'
-			$userLink[0].parentNode.nextSibling.remove();
-		}
-	});
-};
+export default async () => {
+	const myUsername = getUsername();
+	const cache = (await getCachedUsers())[storageKey];
 
-export default () => {
-	getCachedUsers((users = {}) => {
-		const usersOnPage = $('.js-discussion .author').get().map(el => el.innerText);
-		const uniqueUsers = new Set(usersOnPage);
+	// {sindresorhus: [a.author, a.author], otheruser: [a.author]}
+	const selector = `.js-discussion .author:not(.refined-github-fullname)`;
+	const usersOnPage = groupBy(select.all(selector), el => el.textContent);
 
-		// Add cached users to DOM first, since the calls for everyone else will be slow
-		for (const user of uniqueUsers) {
-			const cachedName = users[user];
-			if (cachedName) {
-				addUsersName(user, cachedName);
-				uniqueUsers.delete(user);
-			}
+	const fetchAndAdd = async username => {
+		if (typeof cache[username] === 'undefined' && username !== myUsername) {
+			cache[username] = await fetchName(username);
 		}
 
-		const userUrl = user => `${location.origin}/${user}/following`;
-		const requests = Array.from(uniqueUsers).map(username => {
-			const req = fetch(userUrl(username));
-			return req.then(res => res.text()).then(profile => ({
-				username,
-				profile
-			}));
-		});
-
-		Promise.all(requests).then(profiles => {
-			const userCache = {};
-
-			for (const {username, profile} of profiles) {
-				const profileDOM = new DOMParser().parseFromString(profile, 'text/html');
-				const fullname = $(profileDOM).find('h1 strong').text().slice(1, -1);
-
-				// Possible for a user to not set a name
-				if (fullname) {
-					userCache[username] = fullname;
-					addUsersName(username, fullname);
-				}
+		for (const usernameEl of usersOnPage[username]) {
+			const commentedNode = usernameEl.parentNode.nextSibling;
+			if (commentedNode && commentedNode.textContent.includes('commented')) {
+				commentedNode.remove();
 			}
 
-			updateCachedUsers(Object.assign({}, users, userCache));
-		}).catch(console.error);
-	});
+			usernameEl.classList.add('refined-github-fullname');
+
+			if (cache[username] && username !== myUsername) {
+				// If it's a regular comment author, add it outside <strong>
+				// otherwise it's something like "User added some commits"
+				const insertionPoint = usernameEl.parentNode.tagName === 'STRONG' ? usernameEl.parentNode : usernameEl;
+				insertionPoint.insertAdjacentText('afterend', ` (${cache[username]}) `);
+			}
+		}
+	};
+
+	const fetches = Object.keys(usersOnPage).map(fetchAndAdd);
+
+	// Wait for all the fetches to be done
+	await Promise.all(fetches);
+
+	chrome.storage.local.set({[storageKey]: cache});
 };
