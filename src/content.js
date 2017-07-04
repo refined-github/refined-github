@@ -452,6 +452,24 @@ function addTitleToEmojis() {
 	}
 }
 
+function overrideCodeFonts() {
+	$(`
+	code,
+	kbd,
+	pre,
+	tt,
+	.CodeMirror-lines,
+	.ace_editor.ace-github-light,
+	.blob-code-inner,
+	.export-phrase pre,
+	.file-editor-textarea,
+	.gollum-editor .expanded textarea,
+	.gollum-editor .gollum-editor-body,
+	.input-monospace,
+	.wiki-wrapper .wiki-history .commit-meta code`)
+	.addClass('override-fonts');
+}
+
 function init() {
 	if (select.exists('html.refined-github')) {
 		console.count('Refined GitHub was loaded multiple times: https://github.com/sindresorhus/refined-github/issues/479');
@@ -518,22 +536,8 @@ async function onDomReady() {
 		addGistCopyButton();
 	}
 
-	if (!options.overrideFonts) {
-		$(`
-		code,
-		kbd,
-		pre,
-		tt,
-		.CodeMirror-lines,
-		.ace_editor.ace-github-light,
-		.blob-code-inner,
-		.export-phrase pre,
-		.file-editor-textarea,
-		.gollum-editor .expanded textarea,
-		.gollum-editor .gollum-editor-body,
-		.input-monospace,
-		.wiki-wrapper .wiki-history .commit-meta code`)
-		.addClass('default-fonts');
+	if (options.overrideFonts) {
+		overrideCodeFonts();
 	}
 
 	if (pageDetect.isDashboard()) {
