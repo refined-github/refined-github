@@ -4,7 +4,8 @@ import injectContentScripts from 'webext-dynamic-content-scripts';
 // Define defaults
 new OptionsSync().define({
 	defaults: {
-		hideStarsOwnRepos: true
+		hideStarsOwnRepos: true,
+		overrideFonts: true
 	},
 	migrations: [
 		OptionsSync.migrations.removeUnused
