@@ -3,14 +3,6 @@ import linkifyUrls from 'linkify-urls';
 import linkifyIssues from 'linkify-issues';
 import {getOwnerAndRepo} from './page-detect';
 import getTextNodes from './get-text-nodes';
-import html from './domify';
-
-// Necessary because textNodes don't have .innerHTML
-const getInnerHTML = textNode => {
-	const div = document.createElement('div');
-	div.textContent = textNode.textContent;
-	return div.innerHTML;
-};
 
 const linkifiedURLClass = 'refined-github-linkified-code';
 const {
@@ -21,23 +13,20 @@ const {
 const options = {
 	user: ownerName,
 	repo: repoName,
+	type: 'dom',
 	attrs: {
 		target: '_blank'
 	}
 };
 
 export const editTextNodes = (fn, el) => {
-	if (!el) {
-		return;
-	}
 	for (const textNode of getTextNodes(el)) {
-		if (textNode.textContent.length < 11) { // Shortest url: http://j.mp
+		if (fn === linkifyUrls && textNode.textContent.length < 11) { // Shortest url: http://j.mp
 			continue;
 		}
-		const textHTML = getInnerHTML(textNode);
-		const linkified = fn(textHTML, options);
-		if (linkified !== textHTML) {
-			textNode.replaceWith(html(linkified));
+		const linkified = fn(textNode.textContent, options);
+		if (linkified.children.length > 0) { // Children are <a>
+			textNode.replaceWith(linkified);
 		}
 	}
 };
