@@ -114,6 +114,15 @@ function hideEmptyMeta() {
 	}
 }
 
+async function addMarketplaceToProfileDropDown() {
+	const thirdDropdownItem = await elementReady('.dropdown-menu > .dropdown-item[href="/explore"');
+	$(thirdDropdownItem).after(`
+		<a class="dropdown-item" href="/marketplace" data-ga-click="Header, go to marketplace, text:marketplace">
+			Marketplace
+		</a>
+	`);
+}
+
 function addReleasesTab() {
 	const $repoNav = $('.js-repo-nav');
 	let $releasesTab = $repoNav.children('[data-selected-links~="repo_releases"]');
@@ -513,6 +522,8 @@ async function onDomReady() {
 	const username = getUsername();
 
 	markUnread.setup();
+
+	addMarketplaceToProfileDropDown();
 
 	if (pageDetect.isGist()) {
 		addGistCopyButton();

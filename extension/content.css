@@ -681,3 +681,8 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 .repository-meta.mb-3 > .repository-meta-content > em {
 	display: none !important;
 }
+
+/* Hide marketplace navbar button */
+.header-nav-item > a[href='/marketplace'] {
+	display: none !important;
+}
