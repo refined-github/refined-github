@@ -44,7 +44,10 @@
 			"webextensions"
 		],
 		"rules": {
-			"import/no-unassigned-import": 0
+			"import/no-unassigned-import": 0,
+			"no-unused-vars": [2, {
+				"varsIgnorePattern": "^h$"
+			}]
 		},
 		"ignores": [
 			"extension/**"
