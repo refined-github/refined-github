@@ -15,3 +15,15 @@ export const emptyElement = element => {
 		element.firstChild.remove();
 	}
 };
+
+export const observeEl = (el, listener, options) => {
+	options = Object.assign({
+		childList: true
+	}, options);
+
+	// Run first
+	listener();
+
+	// Run on updates
+	return new MutationObserver(listener).observe(el, options);
+};
