@@ -5,7 +5,7 @@ import json from 'rollup-plugin-json';
 export default [
 	'src/content.js',
 	'src/background.js',
-	'src/options/index.js'
+	'src/options.js'
 ].map(entry => ({
 	entry,
 	dest: entry.replace('src', 'extension'),

@@ -24,7 +24,7 @@
 	},
 	"options_ui": {
 		"chrome_style": true,
-		"page": "options/index.html"
+		"page": "options.html"
 	},
 	"background": {
 		"scripts": [
