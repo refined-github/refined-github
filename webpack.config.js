@@ -10,6 +10,20 @@ module.exports = {
 	plugins: [
 		new webpack.optimize.ModuleConcatenationPlugin()
 	],
+	module: {
+		rules: [
+			{
+				test: /\.js$/,
+				exclude: /node_modules/,
+				use: {
+					loader: 'babel-loader',
+					options: {
+						comments: false
+					}
+				}
+			}
+		]
+	},
 	output: {
 		path: path.join(__dirname, 'extension'),
 		filename: '[name].js'
