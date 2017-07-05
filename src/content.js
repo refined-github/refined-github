@@ -378,16 +378,17 @@ function addMilestoneNavigation() {
 }
 
 function addFilterCommentsByYou() {
+	if (select.exists('.refined-github-filter')) {
+		return;
+	}
 	const newFilter = `
 		<a href="/${repoUrl}/issues?q=is%3Aopen+commenter:${getUsername()}" class="select-menu-item js-navigation-item refined-github-filter">
 			<div class="select-menu-item-text">
 				Everything commented by you
 			</div>
 		</a>`;
-	const lastFilter = $('.subnav-search-context .select-menu-list > a:last-child');
-	if (!lastFilter.prev().hasClass('refined-github-filter')) {
-		lastFilter.before(newFilter);
-	}
+	select('.subnav-search-context .js-navigation-item:last-child')
+		.insertAdjacentHTML('beforeBegin', newFilter);
 }
 
 function addProjectNewLink() {
