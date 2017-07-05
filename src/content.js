@@ -115,7 +115,7 @@ function hideEmptyMeta() {
 }
 
 function addMarketplaceToProfileDropDown() {
-	const thirdDropdownItem = select('.dropdown-menu > .dropdown-item[href="/explore"]');
+	const thirdDropdownItem = select('.dropdown-item[href="/explore"]');
 	const marketplaceLink = domify('<a class="dropdown-item" href="/marketplace">Marketplace</a>');
 	thirdDropdownItem.insertAdjacentElement('afterend', marketplaceLink);
 }
