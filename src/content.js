@@ -7,7 +7,7 @@ import toSemver from 'to-semver';
 import linkifyIssues from 'linkify-issues';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
-import domify from './libs/domify';
+import {h} from 'dom-chef';
 
 import markUnread from './libs/mark-unread';
 import addGistCopyButton from './libs/copy-gist';
@@ -59,7 +59,7 @@ function linkifyBranchRefs() {
 
 		const branchUrl = canonicalBranch.replace(':', '/tree/');
 
-		$el.wrap(`<a href="/${branchUrl}">`);
+		$el.wrap(<a href={`/${branchUrl}`}></a>);
 	});
 }
 
@@ -68,7 +68,7 @@ function appendReleasesCount(count) {
 		return;
 	}
 
-	$('.reponav-releases').append(`<span class="Counter">${count}</span>`);
+	select('.reponav-releases').append(<span class="Counter">{count}</span>);
 }
 
 function cacheReleasesCount() {
@@ -90,12 +90,12 @@ function addCompareLink() {
 		return;
 	}
 
-	$('.reponav-dropdown .dropdown-menu').prepend(`
-		<a href="/${repoUrl}/compare" class="dropdown-item refined-github-compare-tab">
-			${icons.darkCompare}
-			<span itemprop="name">Compare</span>
+	select('.reponav-dropdown .dropdown-menu').prepend(
+		<a href={`/${repoUrl}/compare`} class="dropdown-item refined-github-compare-tab">
+			{icons.darkCompare}
+			<span itemprop="name"> Compare</span>
 		</a>
-	`);
+	);
 }
 
 function renameInsightsDropdown() {
@@ -116,62 +116,59 @@ function hideEmptyMeta() {
 
 function moveMarketplaceLinkToProfileDropdown() {
 	const thirdDropdownItem = select('.dropdown-item[href="/explore"]');
-	const marketplaceLink = domify('<a class="dropdown-item" href="/marketplace">Marketplace</a>');
+	const marketplaceLink = <a class="dropdown-item" href="/marketplace">Marketplace</a>;
 	thirdDropdownItem.insertAdjacentElement('afterend', marketplaceLink);
 }
 
 function addReleasesTab() {
-	const $repoNav = $('.js-repo-nav');
-	let $releasesTab = $repoNav.children('[data-selected-links~="repo_releases"]');
-	const hasReleases = $releasesTab.length > 0;
-
-	if (!hasReleases) {
-		$releasesTab = $(`<a href="/${repoUrl}/releases" class="reponav-item reponav-releases" data-hotkey="g r" data-selected-links="repo_releases /${repoUrl}/releases">
-			${icons.tag}
-			<span>Releases</span>
-		</a>`);
+	if (select.exists('.reponav-releases')) {
+		return;
 	}
+
+	const releasesTab = (
+		<a href={`/${repoUrl}/releases`} class="reponav-item reponav-releases" data-hotkey="g r" data-selected-links={`repo_releases /${repoUrl}/releases`}>
+			{icons.tag}
+			<span> Releases </span>
+		</a>
+	);
+
+	select('.reponav-dropdown, [data-selected-links~="repo_settings"]')
+		.insertAdjacentElement('beforeBegin', releasesTab);
+
+	cacheReleasesCount();
 
 	if (pageDetect.isReleases()) {
-		$repoNav.find('.selected')
-			.removeClass('js-selected-navigation-item selected');
-
-		$releasesTab.addClass('js-selected-navigation-item selected');
-	}
-
-	if (!hasReleases) {
-		$releasesTab.insertBefore(select('.reponav-dropdown, [data-selected-links~="repo_settings"]'));
-
-		cacheReleasesCount();
+		releasesTab.classList.add('js-selected-navigation-item', 'selected');
+		select('.reponav-item.selected')
+			.classList.remove('js-selected-navigation-item', 'selected');
 	}
 }
 
 async function addTrendingMenuItem() {
 	const secondListItem = await elementReady('.header-nav.float-left .header-nav-item:nth-child(2)');
 
-	$(secondListItem).after(`
+	secondListItem.insertAdjacentElement('afterEnd',
 		<li class="header-nav-item">
 			<a href="/trending" class="header-nav-link" data-hotkey="g t">Trending</a>
 		</li>
-	`);
+	);
 }
 
 function addYoursMenuItem() {
 	const pageName = pageDetect.isIssueSearch() ? 'issues' : 'pulls';
 	const username = getUsername();
-	const $menu = $('.subnav-links');
 
-	if ($menu.find('.refined-github-yours').length > 0) {
+	if (select.exists('.refined-github-yours')) {
 		return;
 	}
 
-	const yoursMenuItem = $(`<a href="/${pageName}?q=is%3Aopen+is%3Aissue+user%3A${username}" class="subnav-item refined-github-yours">Yours</a>`);
+	const yoursMenuItem = <a href={`/${pageName}?q=is%3Aopen+is%3Aissue+user%3A${username}`} class="subnav-item refined-github-yours">Yours</a>;
 
-	if ($('.subnav-links .selected').length === 0 && location.search.includes(`user%3A${username}`)) {
-		yoursMenuItem.addClass('selected');
+	if (!select.exists('.subnav-links .selected') && location.search.includes(`user%3A${username}`)) {
+		yoursMenuItem.classList.add('selected');
 	}
 
-	$menu.append(yoursMenuItem);
+	select('.subnav-links').append(yoursMenuItem);
 }
 
 function addReadmeButtons() {
@@ -180,7 +177,7 @@ function addReadmeButtons() {
 		return;
 	}
 
-	const buttons = domify('<div id="refined-github-readme-buttons"></div>');
+	const buttons = <div id="refined-github-readme-buttons"></div>;
 
 	/**
 	 * Generate Release button
@@ -193,10 +190,14 @@ function addReadmeButtons() {
 	const releases = new Map(tags);
 	const [latestRelease] = toSemver([...releases.keys()], {clean: false});
 	if (latestRelease) {
-		const button = domify(`<a class="tooltipped tooltipped-nw">${icons.tag}</a>`);
-		button.href = `${releases.get(latestRelease)}#readme`;
-		button.setAttribute('aria-label', `View this file at the latest version (${latestRelease})`);
-		buttons.appendChild(button);
+		buttons.appendChild(
+			<a
+				class="tooltipped tooltipped-nw"
+				href={`${releases.get(latestRelease)}#readme`}
+				aria-label={`View this file at the latest version (${latestRelease})`}>
+				{icons.tag}
+			</a>
+		);
 	}
 
 	/**
@@ -206,9 +207,14 @@ function addReadmeButtons() {
 		const readmeName = select('#readme > h3').textContent.trim();
 		const path = select('.breadcrumb').textContent.trim().split('/').slice(1).join('/');
 		const currentBranch = select('.branch-select-menu .select-menu-item.selected').textContent.trim();
-		const button = domify(`<a class="tooltipped tooltipped-nw" aria-label="Edit this file">${icons.edit}</a>`);
-		button.href = `/${repoUrl}/edit/${currentBranch}/${path}${readmeName}`;
-		buttons.appendChild(button);
+		buttons.appendChild(
+			<a
+				href={`/${repoUrl}/edit/${currentBranch}/${path}${readmeName}`}
+				class="tooltipped tooltipped-nw"
+				aria-label="Edit this file">
+				{icons.edit}
+			</a>
+		);
 	}
 
 	readmeContainer.appendChild(buttons);
@@ -222,13 +228,13 @@ function addDeleteForkLink() {
 		const forkPath = currentBranch ? currentBranch.title.split(':')[0] : null;
 
 		if (forkPath && forkPath !== repoUrl) {
-			$(postMergeDescription).append(
-				`<p id="refined-github-delete-fork-link">
-					<a href="/${forkPath}/settings">
-						${icons.fork}
+			postMergeDescription.append(
+				<p id="refined-github-delete-fork-link">
+					<a href={`/${forkPath}/settings`}>
+						{icons.fork}
 						Delete fork
 					</a>
-				</p>`
+				</p>
 			);
 		}
 	}
@@ -249,14 +255,13 @@ function addPatchDiffLinks() {
 		commitUrl = commitUrl.replace(/\/pull\/\d+\/commits/, '/commit');
 	}
 
-	const $commitMeta = $('.commit-meta span.float-right');
-
-	$commitMeta.append(`
+	select('.commit-meta span.float-right').append(
 		<span class="sha-block patch-diff-links">
-			<a href="${commitUrl}.patch" class="sha">patch</a>
-			<a href="${commitUrl}.diff" class="sha">diff</a>
+			<a href={`${commitUrl}.patch`} class="sha">patch</a>
+			{ ' ' /* Workaround for: JSX eats whitespace between elements */ }
+			<a href={`${commitUrl}.diff`} class="sha">diff</a>
 		</span>
-	`);
+	);
 }
 
 function removeDiffSigns() {
@@ -314,7 +319,7 @@ function showRecentlyPushedBranches() {
 		}
 
 		const uri = `/${repoUrl}/show_partial?partial=tree/recently_touched_branches_list`;
-		$(`<include-fragment src=${uri}></include-fragment>`).prependTo('.repository-content');
+		select('.repository-content').prepend(<include-fragment src={uri}></include-fragment>);
 	});
 }
 
@@ -403,14 +408,14 @@ function addOPLabels() {
 }
 
 function addMilestoneNavigation() {
-	$('.repository-content').before(`
+	select('.repository-content').insertAdjacentElement('beforeBegin',
 		<div class="subnav">
 			<div class="subnav-links float-left" role="navigation">
-				<a href="/${repoUrl}/labels" class="subnav-item">Labels</a>
-				<a href="/${repoUrl}/milestones" class="subnav-item">Milestones</a>
+				<a href={`/${repoUrl}/labels`} class="subnav-item">Labels</a>
+				<a href={`/${repoUrl}/milestones`} class="subnav-item">Milestones</a>
 			</div>
 		</div>
-	`);
+	);
 }
 
 function addFilterCommentsByYou() {
@@ -427,9 +432,10 @@ function addFilterCommentsByYou() {
 }
 
 function addProjectNewLink() {
-	const projectNewLink = `<a href="/${repoUrl}/projects/new" class="btn btn-sm" id="refined-github-project-new-link">Add a project</a>`;
 	if (select.exists('#projects-feature:checked') && !select.exists('#refined-github-project-new-link')) {
-		$(`#projects-feature ~ p.note`).after(projectNewLink);
+		select(`#projects-feature ~ p.note`).insertAdjacentElement('afterEnd',
+			<a href={`/${repoUrl}/projects/new`} class="btn btn-sm" id="refined-github-project-new-link">Add a project</a>
+		);
 	}
 }
 

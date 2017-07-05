@@ -8,3 +8,10 @@ export const groupBy = (array, grouper) => array.reduce((map, item) => {
 	map[key].push(item);
 	return map;
 }, {});
+
+export const emptyElement = element => {
+	// https://stackoverflow.com/a/3955238/288906
+	while (element.firstChild) {
+		element.firstChild.remove();
+	}
+};

@@ -17,8 +17,14 @@ function stripHash(url) {
 }
 
 function addMarkUnreadButton() {
-	$('<button class="btn btn-sm btn-mark-unread js-mark-unread">Mark as unread</button>')
-		.appendTo('.js-thread-subscription-status');
+	const container = select('.js-thread-subscription-status');
+	if (container) {
+		const button = <button class="btn btn-sm btn-mark-unread js-mark-unread">Mark as unread</button>;
+		button.addEventListener('click', markUnread, {
+			once: true
+		});
+		container.append(button);
+	}
 }
 
 function markRead(url) {
@@ -107,7 +113,7 @@ function renderNotifications() {
 
 	if (isEmptyPage()) {
 		select('.blankslate').remove();
-		$('.js-navigation-container').append('<div class="notifications-list"></div>');
+		select('.js-navigation-container').append(<div class="notifications-list"></div>);
 	}
 
 	unreadNotifications.forEach(notification => {
@@ -159,7 +165,7 @@ function renderNotifications() {
 					</form>
 
 					<h3>
-						<a href="/${repository}" class="css-truncate css-truncate-target notifications-repo-link" title={repository}>
+						<a href={'/' + repository} class="css-truncate css-truncate-target notifications-repo-link" title={repository}>
 							{repository}
 						</a>
 					</h3>
@@ -279,21 +285,21 @@ function addCustomAllReadBtn() {
 		return;
 	}
 
-	$('#notification-center .tabnav-tabs:first').append((
+	$('#notification-center .tabnav-tabs:first').append(
 		<div class="float-right">
-		    <a href="#mark_as_read_confirm_box" class="btn btn-sm" rel="facebox">Mark all as read</a>
+			<a href="#mark_as_read_confirm_box" class="btn btn-sm" rel="facebox">Mark all as read</a>
 
-				<div id="mark_as_read_confirm_box" style={{display: 'none'}}>
-        		<h2 class="facebox-header" data-facebox-id="facebox-header">Are you sure?</h2>
+			<div id="mark_as_read_confirm_box" style={{display: 'none'}}>
+					<h2 class="facebox-header" data-facebox-id="facebox-header">Are you sure?</h2>
 
-        		<p data-facebox-id="facebox-description">Are you sure you want to mark all unread notifications as read?</p>
+					<p data-facebox-id="facebox-description">Are you sure you want to mark all unread notifications as read?</p>
 
-						<div class="full-button">
-              	<button  id="clear-local-notification" class="btn btn-block">Mark all notifications as read</button>
-          	</div>
-  			</div>
-  		</div>
-		));
+					<div class="full-button">
+							<button id="clear-local-notification" class="btn btn-block">Mark all notifications as read</button>
+					</div>
+			</div>
+		</div>
+	);
 
 	$(document).on('click', '#clear-local-notification', () => {
 		storeNotifications([]);
@@ -328,7 +334,6 @@ function setup() {
 		} else if (pageDetect.isPR() || pageDetect.isIssue()) {
 			markRead(location.href);
 			addMarkUnreadButton();
-			$(document).one('click', '.js-mark-unread', markUnread);
 		}
 
 		updateUnreadIndicator();
