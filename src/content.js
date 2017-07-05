@@ -117,7 +117,7 @@ function hideEmptyMeta() {
 async function addMarketplaceToProfileDropDown() {
 	const thirdDropdownItem = await elementReady('.dropdown-menu > .dropdown-item[href="/explore"]');
 	const marketplaceLink = domify('<a class="dropdown-item" href="/marketplace">Marketplace</a>');
-	thirdDropdownItem.insertAdjacentElement('afterend', marketplaceLink)
+	thirdDropdownItem.insertAdjacentElement('afterend', marketplaceLink);
 }
 
 function addReleasesTab() {
