@@ -91,12 +91,12 @@ function addCompareLink() {
 		return;
 	}
 
-	$('.reponav-dropdown .dropdown-menu').prepend(`
-		<a href="/${repoUrl}/compare" class="dropdown-item refined-github-compare-tab">
-			${icons.darkCompare}
-			<span itemprop="name">Compare</span>
+	select('.reponav-dropdown .dropdown-menu').prepend(
+		<a href={`/${repoUrl}/compare`} class="dropdown-item refined-github-compare-tab">
+			{icons.darkCompare}
+			<span itemprop="name"> Compare</span>
 		</a>
-	`);
+	);
 }
 
 function renameInsightsDropdown() {
