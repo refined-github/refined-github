@@ -115,12 +115,9 @@ function hideEmptyMeta() {
 }
 
 async function addMarketplaceToProfileDropDown() {
-	const thirdDropdownItem = await elementReady('.dropdown-menu > .dropdown-item[href="/explore"');
-	$(thirdDropdownItem).after(`
-		<a class="dropdown-item" href="/marketplace" data-ga-click="Header, go to marketplace, text:marketplace">
-			Marketplace
-		</a>
-	`);
+	const thirdDropdownItem = await elementReady('.dropdown-menu > .dropdown-item[href="/explore"]');
+	const marketplaceLink = domify('<a class="dropdown-item" href="/marketplace">Marketplace</a>');
+	thirdDropdownItem.insertAdjacentElement('afterend', marketplaceLink)
 }
 
 function addReleasesTab() {
@@ -473,6 +470,8 @@ function init() {
 		addTrendingMenuItem();
 	}
 
+	addMarketplaceToProfileDropDown();
+
 	// Support indent with tab key in comments
 	$(document).on('keydown', '.js-comment-field', event => {
 		if (event.which === 9 && !event.shiftKey) {
@@ -522,8 +521,6 @@ async function onDomReady() {
 	const username = getUsername();
 
 	markUnread.setup();
-
-	addMarketplaceToProfileDropDown();
 
 	if (pageDetect.isGist()) {
 		addGistCopyButton();
