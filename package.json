@@ -4,9 +4,10 @@
 		"build": "webpack",
 		"watch": "webpack --watch",
 		"watch:sourcemap": "webpack --watch --devtool eval-cheap-module-source-map",
+		"reduce-size": "babel --out-dir . --no-comments extension/*.js",
 		"release:amo": "cd extension && webext submit",
 		"release:cws": "cd extension && webstore upload --auto-publish",
-		"release": "run-s build update-version release:*",
+		"release": "run-s build update-version release:* reduce-size",
 		"update-version": "dot-json extension/manifest.json version $(date -u +%y.%-m.%-d.%-H%M)"
 	},
 	"dependencies": {
@@ -26,6 +27,7 @@
 	},
 	"devDependencies": {
 		"ava": "*",
+		"babel-cli": "^6.24.1",
 		"babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
 		"chrome-webstore-upload-cli": "^1.0.0",
 		"dot-json": "^1.0.3",
