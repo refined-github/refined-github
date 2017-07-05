@@ -13,7 +13,7 @@
 	"dependencies": {
 		"copy-text-to-clipboard": "^1.0.2",
 		"debounce-fn": "^1.0.0",
-		"dom-chef": "^1.0.0",
+		"dom-chef": "^1.0.2",
 		"dom-loaded": "^1.0.0",
 		"element-ready": "^2.0.0",
 		"github-injection": "^0.3.0",
