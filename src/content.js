@@ -114,7 +114,7 @@ function hideEmptyMeta() {
 	}
 }
 
-function addMarketplaceToProfileDropDown() {
+function moveMarketplaceLinkToProfileDropdown() {
 	const thirdDropdownItem = select('.dropdown-item[href="/explore"]');
 	const marketplaceLink = domify('<a class="dropdown-item" href="/marketplace">Marketplace</a>');
 	thirdDropdownItem.insertAdjacentElement('afterend', marketplaceLink);
@@ -520,7 +520,7 @@ async function onDomReady() {
 
 	markUnread.setup();
 
-	addMarketplaceToProfileDropDown();
+	moveMarketplaceLinkToProfileDropdown();
 
 	if (pageDetect.isGist()) {
 		addGistCopyButton();
