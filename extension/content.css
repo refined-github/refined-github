@@ -647,7 +647,19 @@ div.inline-comment-form .form-actions,
 }
 
 /* Alternate monospace font stack, sorted by least popular so you're most likely to get the font you want */
-.override-fonts {
+.override-fonts code,
+.override-fonts kbd,
+.override-fonts pre,
+.override-fonts tt,
+.override-fonts .CodeMirror-lines,
+.override-fonts .ace_editor.ace-github-light,
+.override-fonts .blob-code-inner,
+.override-fonts .export-phrase pre,
+.override-fonts .file-editor-textarea,
+.override-fonts .gollum-editor .expanded textarea,
+.override-fonts .gollum-editor .gollum-editor-body,
+.override-fonts .input-monospace,
+.override-fonts .wiki-wrapper .wiki-history .commit-meta code {
 	font-family: 'Operator Mono SSm', 'Operator Mono', 'Fira Code', 'Ubuntu Mono', 'Droid Sans Mono', 'Liberation Mono', 'Source Code Pro', Menlo, Consolas, Courier, monospace !important;
 }
 

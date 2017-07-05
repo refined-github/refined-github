@@ -453,21 +453,7 @@ function addTitleToEmojis() {
 }
 
 function overrideCodeFonts() {
-	$(`
-	code,
-	kbd,
-	pre,
-	tt,
-	.CodeMirror-lines,
-	.ace_editor.ace-github-light,
-	.blob-code-inner,
-	.export-phrase pre,
-	.file-editor-textarea,
-	.gollum-editor .expanded textarea,
-	.gollum-editor .gollum-editor-body,
-	.input-monospace,
-	.wiki-wrapper .wiki-history .commit-meta code`)
-	.addClass('override-fonts');
+	$('body').addClass('override-fonts');
 }
 
 function init() {
