@@ -337,41 +337,32 @@ function addDiffViewWithoutWhitespaceOption() {
 }
 
 function addOPLabels() {
-	const comments = $('div.js-comment').toArray();
-	const newComments = $(comments).filter(':not(.refined-github-op)').toArray();
+	const op = select('.gh-header .author').textContent.trim();
+	const newComments = select
+		.all(`.js-comment:not(.refined-github-op) strong .author[href="/${op}"]`)
+		.map(author => author.closest('.js-comment'));
 
 	if (newComments.length > 0) {
-		const commentAuthor = comment => comment.querySelector('strong .author').textContent;
-		let op;
+		const type = pageDetect.isPR() ? 'pull request' : 'issue';
+		const tooltip = `${op === getUsername() ? 'You' : 'This user'} submitted this ${type}.`;
+		const label = `
+			<span class="timeline-comment-label tooltipped tooltipped-multiline tooltipped-s" aria-label="${tooltip}">
+				Original&nbsp;Poster
+			</span>
+		`;
 
-		if (pageDetect.isPR()) {
-			const title = select('title').textContent;
-			const titleRegex = /^(.+) by (\S+) · Pull Request #(\d+) · (\S+)\/(\S+)$/;
-			op = titleRegex.exec(title)[2];
-		} else {
-			op = commentAuthor(comments[0]);
+		const placeholders = select.all(`
+			.timeline-comment .timeline-comment-header-text,
+			.review-comment .comment-body
+		`, newComments);
+
+		for (const placeholder of placeholders) {
+			placeholder.insertAdjacentHTML('beforeBegin', label);
 		}
 
-		let opComments = newComments.filter(comment => commentAuthor(comment) === op);
-
-		if (!pageDetect.isPRFiles()) {
-			opComments = opComments.slice(1);
+		for (const el of newComments) {
+			el.classList.add('refined-github-op');
 		}
-
-		if (opComments.length > 0) {
-			const type = pageDetect.isPR() ? 'pull request' : 'issue';
-			const tooltip = `${op === getUsername() ? 'You' : 'This user'} submitted this ${type}.`;
-			const label = `
-				<span class="timeline-comment-label tooltipped tooltipped-multiline tooltipped-s" aria-label="${tooltip}">
-					Original Poster
-				</span>
-			`;
-
-			$(opComments).filter('.timeline-comment').find('.timeline-comment-actions').after(label);
-			$(opComments).filter('.review-comment').find('.comment-body').before(label);
-		}
-
-		$(newComments).addClass('refined-github-op');
 	}
 }
 
