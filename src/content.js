@@ -234,13 +234,13 @@ function addDeleteForkLink() {
 		const forkPath = currentBranch ? currentBranch.title.split(':')[0] : null;
 
 		if (forkPath && forkPath !== repoUrl) {
-			$(postMergeDescription).append(
-				`<p id="refined-github-delete-fork-link">
-					<a href="/${forkPath}/settings">
-						${icons.fork}
+			postMergeDescription.append(
+				<p id="refined-github-delete-fork-link">
+					<a href={`/${forkPath}/settings`}>
+						{icons.fork}
 						Delete fork
 					</a>
-				</p>`
+				</p>
 			);
 		}
 	}
