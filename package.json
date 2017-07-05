@@ -26,7 +26,6 @@
 	},
 	"devDependencies": {
 		"ava": "*",
-		"babel-loader": "^7.1.1",
 		"babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
 		"chrome-webstore-upload-cli": "^1.0.0",
 		"dot-json": "^1.0.3",
