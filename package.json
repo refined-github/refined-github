@@ -29,7 +29,12 @@
 	"devDependencies": {
 		"ava": "*",
 		"babel-cli": "^6.24.1",
+		"babel-core": "^6.25.0",
+		"babel-loader": "^7.1.1",
+		"babel-plugin-jsx": "^1.2.0",
+		"babel-plugin-jsx-pragmatic": "^1.0.2",
 		"babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
+		"babel-plugin-transform-react-jsx": "^6.24.1",
 		"chrome-webstore-upload-cli": "^1.0.0",
 		"dot-json": "^1.0.3",
 		"npm-run-all": "^4.0.2",
@@ -45,9 +50,12 @@
 		],
 		"rules": {
 			"import/no-unassigned-import": 0,
-			"no-unused-vars": [2, {
-				"varsIgnorePattern": "^h$"
-			}]
+			"no-unused-vars": [
+				2,
+				{
+					"varsIgnorePattern": "^h$"
+				}
+			]
 		},
 		"ignores": [
 			"extension/**"
@@ -65,8 +73,23 @@
 		]
 	},
 	"babel": {
+		"comments": false,
 		"plugins": [
-			"transform-es2015-modules-commonjs"
+			"transform-es2015-modules-commonjs",
+			[
+				"transform-react-jsx",
+				{
+					"pragma": "h.h",
+					"useBuiltIns": true
+				}
+			],
+			[
+				"babel-plugin-jsx-pragmatic",
+				{
+					"module": "dom-chef",
+					"import": "h"
+				}
+			]
 		]
 	}
 }
