@@ -381,6 +381,11 @@ svg.octicon.octicon-repo.dashboard-event-icon {
 	position: absolute;
 }
 
+/* Move new button to the right on single commit page */
+#toc .refined-github-toggle-whitespace {
+	float: right;
+}
+
 /* Limit width of commit title and description inputs to 50/80 chars */
 #commit-summary-input, #commit-description-textarea {
 	font-family: monospace !important;
