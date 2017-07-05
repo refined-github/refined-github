@@ -32,25 +32,28 @@ export const editTextNodes = (fn, el) => {
 };
 
 export default () => {
-	const untouchedCode = select.all(`.blob-wrapper:not(.${linkifiedURLClass})`);
+	const wrappers = select.all(`.highlight:not(.${linkifiedURLClass})`);
+	console.log(wrappers)
 
 	// Don't linkify any already linkified code
-	if (untouchedCode.length === 0) {
+	if (wrappers.length === 0) {
 		return;
 	}
 
 	// Linkify full URLs
-	for (const el of select.all('.blob-code-inner', untouchedCode)) {
+	// `.blob-code-inner` in diffs
+	// `pre` in GitHub comments
+	for (const el of select.all('.blob-code-inner, pre', wrappers)) {
 		editTextNodes(linkifyUrls, el);
 	}
 
 	// Linkify issue refs in comments
-	for (const el of select.all('.blob-code-inner span.pl-c', untouchedCode)) {
+	for (const el of select.all('span.pl-c', wrappers)) {
 		editTextNodes(linkifyIssues, el);
 	}
 
 	// Mark code block as touched
-	for (const el of untouchedCode) {
+	for (const el of wrappers) {
 		el.classList.add(linkifiedURLClass);
 	}
 };

@@ -40,7 +40,7 @@ export const isCommit = () => isSingleCommit() || isPRCommit() || (isPRFiles() &
 
 export const isCompare = () => isRepo() && /^\/compare/.test(getRepoPath());
 
-export const hasCode = () => isRepo() && select.exists('.blob-code-inner');
+export const hasCode = () => isRepo() && select.exists('.highlight');
 
 export const hasDiff = () => isRepo() && (isSingleCommit() || isPRCommit() || isPRFiles() || isCompare() || (isPR() && select.exists('.diff-table')));
 
