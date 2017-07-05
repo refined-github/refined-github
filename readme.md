@@ -76,6 +76,7 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 - Easier copy-pasting from diffs by making +/- signs unselectable
 - Automagically expands the news feed when you scroll down
 - Shows the reactions popover on hover instead of click
+
 And [lots](extension/content.css) [more...](src/content.js)
 
 ### More shortcuts
