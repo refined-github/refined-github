@@ -114,8 +114,8 @@ function hideEmptyMeta() {
 	}
 }
 
-async function addMarketplaceToProfileDropDown() {
-	const thirdDropdownItem = await elementReady('.dropdown-menu > .dropdown-item[href="/explore"]');
+function addMarketplaceToProfileDropDown() {
+	const thirdDropdownItem = select('.dropdown-menu > .dropdown-item[href="/explore"]');
 	const marketplaceLink = domify('<a class="dropdown-item" href="/marketplace">Marketplace</a>');
 	thirdDropdownItem.insertAdjacentElement('afterend', marketplaceLink);
 }
@@ -470,8 +470,6 @@ function init() {
 		addTrendingMenuItem();
 	}
 
-	addMarketplaceToProfileDropDown();
-
 	// Support indent with tab key in comments
 	$(document).on('keydown', '.js-comment-field', event => {
 		if (event.which === 9 && !event.shiftKey) {
@@ -521,6 +519,8 @@ async function onDomReady() {
 	const username = getUsername();
 
 	markUnread.setup();
+
+	addMarketplaceToProfileDropDown();
 
 	if (pageDetect.isGist()) {
 		addGistCopyButton();
