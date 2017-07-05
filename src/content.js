@@ -284,7 +284,7 @@ function indentInput(el, size = 4) {
 	el.selectionEnd = selectionStart + indentationText.length;
 }
 
-function showRecentlyPushedBranches() {
+async function showRecentlyPushedBranches() {
 	// Don't duplicate on back/forward in history
 	if (select.exists('.recently-touched-branches-wrapper')) {
 		return;
@@ -292,20 +292,16 @@ function showRecentlyPushedBranches() {
 
 	const codeURI = select('[data-hotkey="g c"]').getAttribute('href');
 
-	fetch(codeURI, {
+	const html = await fetch(codeURI, {
 		credentials: 'include'
-	}).then(res => res.text()).then(html => {
-		const codeDOM = new DOMParser().parseFromString(html, 'text/html');
-		const isEmpty = $(codeDOM).find('.blankslate').length || $(codeDOM).find('.js-git-clone-help-container').length;
+	}).then(res => res.text());
 
-		// https://github.com/sindresorhus/refined-github/issues/216
-		if (isEmpty) {
-			return;
-		}
-
+	// https://github.com/sindresorhus/refined-github/issues/216
+	const isEmpty = select.exists('.blankslate, .js-git-clone-help-container', domify(html));
+	if (!isEmpty) {
 		const uri = `/${repoUrl}/show_partial?partial=tree/recently_touched_branches_list`;
 		$(`<include-fragment src=${uri}></include-fragment>`).prependTo('.repository-content');
-	});
+	}
 }
 
 // Add option for viewing diffs without whitespace changes
