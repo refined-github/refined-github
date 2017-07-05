@@ -473,10 +473,15 @@ function addTitleToEmojis() {
 	}
 }
 
-function sortMileStonesByClosestDueDate() {
-	const milestoneTab = select('.subnav-item[href$="/milestones"]');
-	if (milestoneTab) {
-		milestoneTab.setAttribute('href', `/${repoUrl}/milestones?direction=asc&sort=due_date`);
+function sortMilestonesByClosestDueDate() {
+	for (const a of select.all('a[href$="/milestones"], a[href*="/milestones?"]')) {
+		const url = new URL(a.href);
+		// Only if they aren't explicitly sorted differently
+		if (!url.searchParams.get('direction') && !url.searchParams.get('sort')) {
+			url.searchParams.set('direction', 'asc');
+			url.searchParams.set('sort', 'due_date');
+			a.href = url;
+		}
 	}
 }
 
@@ -643,12 +648,6 @@ async function onDomReady() {
 				addMilestoneNavigation();
 			}
 
-			if (pageDetect.isPRList() || pageDetect.isIssueList() ||
-				pageDetect.isMilestoneList() || pageDetect.isMilestone() ||
-				pageDetect.isLabelList() || pageDetect.isLabel()) {
-				sortMileStonesByClosestDueDate();
-			}
-
 			if (pageDetect.hasCode()) {
 				linkifyCode();
 			}
@@ -656,6 +655,8 @@ async function onDomReady() {
 			if (pageDetect.isRepoSettings()) {
 				addProjectNewLink();
 			}
+
+			sortMilestonesByClosestDueDate(); // Needs to be after addMilestoneNavigation
 		});
 	}
 }
