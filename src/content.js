@@ -461,11 +461,9 @@ function init() {
 
 	// Prompt user to confirm erasing a comment with the Cancel button
 	$(document).on('click', '.js-hide-inline-comment-form', event => {
-		const $target = $(event.target);
-
 		// Do not prompt if textarea is empty
-		const text = $target.closest('.js-inline-comment-form').find('.js-comment-field').val();
-		if (text.length === 0) {
+		const textarea = event.target.closest('.js-inline-comment-form').querySelector('.js-comment-field');
+		if (textarea.value === '') {
 			return;
 		}
 
