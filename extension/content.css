@@ -677,3 +677,14 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 .header-nav-item > a[href='/marketplace'] {
 	display: none !important;
 }
+/* Move labels in Issue/PR list above the title */
+.js-issue-row .lh-condensed {
+	display: flex;
+	flex-direction: column;
+}
+.js-issue-row .labels {
+	order: -1;
+	margin-bottom: 3px;
+}
+
+
