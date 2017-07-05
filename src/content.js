@@ -260,14 +260,12 @@ function addPatchDiffLinks() {
 		commitUrl = commitUrl.replace(/\/pull\/\d+\/commits/, '/commit');
 	}
 
-	const $commitMeta = $('.commit-meta span.float-right');
-
-	$commitMeta.append(`
+	select('.commit-meta span.float-right').append(
 		<span class="sha-block patch-diff-links">
-			<a href="${commitUrl}.patch" class="sha">patch</a>
-			<a href="${commitUrl}.diff" class="sha">diff</a>
+			<a href={`${commitUrl}.patch`} class="sha">patch</a>
+			<a href={`${commitUrl}.diff`} class="sha">diff</a>
 		</span>
-	`);
+	);
 }
 
 function removeDiffSigns() {
