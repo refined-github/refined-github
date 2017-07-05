@@ -452,6 +452,10 @@ function addTitleToEmojis() {
 	}
 }
 
+function overrideCodeFonts() {
+	$('body').addClass('override-fonts');
+}
+
 function init() {
 	if (select.exists('html.refined-github')) {
 		console.count('Refined GitHub was loaded multiple times: https://github.com/sindresorhus/refined-github/issues/479');
@@ -516,6 +520,10 @@ async function onDomReady() {
 
 	if (pageDetect.isGist()) {
 		addGistCopyButton();
+	}
+
+	if (options.overrideFonts) {
+		overrideCodeFonts();
 	}
 
 	if (pageDetect.isDashboard()) {
