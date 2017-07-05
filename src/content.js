@@ -306,47 +306,34 @@ async function showRecentlyPushedBranches() {
 
 // Add option for viewing diffs without whitespace changes
 function addDiffViewWithoutWhitespaceOption() {
-	const $detailsButtonGroup = $('.table-of-contents.Details .BtnGroup:first-child');
-	const $prReviewTools = $('.pr-review-tools > .diffbar-item:first-child');
+	const container = select([
+		'.table-of-contents.Details .BtnGroup', // In single commit view
+		'.pr-review-tools > .diffbar-item' // In review view
+	].join(','));
 
-	if (($detailsButtonGroup.length === 0 && $prReviewTools.length === 0) || $('.refined-github-toggle-whitespace').length > 0) {
+	if (!container || select.exists('.refined-github-toggle-whitespace')) {
 		return;
 	}
 
-	const urlParams = new URLSearchParams(window.location.search);
-	let optionIsSet = false;
+	const url = new URL(location.href);
+	const hidingWhitespace = url.searchParams.get('w') === '1';
 
-	if (urlParams.get('w') === '1') {
-		optionIsSet = true;
-		urlParams.delete('w');
+	if (hidingWhitespace) {
+		url.searchParams.delete('w');
 	} else {
-		urlParams.set('w', 1);
+		url.searchParams.set('w', 1);
 	}
 
-	let url = window.location.pathname;
-	if (String(urlParams)) {
-		url += '?' + String(urlParams);
-	}
-	url += window.location.hash || '';
-
-	const optionHtml = `
-		<div class="diffbar-item ${$detailsButtonGroup.length > 0 ? 'float-right' : ''}">
+	container.insertAdjacentHTML('afterend', `
+		<div class="diffbar-item refined-github-toggle-whitespace">
 			<a href="${url}"
 				data-hotkey="d w"
-				class="refined-github-toggle-whitespace btn btn-sm btn-outline BtnGroup-item tooltipped tooltipped-s ${optionIsSet ? 'bg-gray-light text-gray-light' : ''}"
-				aria-label="${optionIsSet ? 'Show' : 'Hide'} whitespace in diffs">
-				${optionIsSet ? icons.check + ' ' : ''}No Whitespace
+				class="btn btn-sm btn-outline BtnGroup-item tooltipped tooltipped-s ${hidingWhitespace ? 'bg-gray-light text-gray-light' : ''}"
+				aria-label="${hidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs">
+				${hidingWhitespace ? icons.check : ''} No Whitespace
 			</a>
 		</div>
-	`;
-
-	if ($detailsButtonGroup.length > 0) {
-		$detailsButtonGroup.after(optionHtml);
-	}
-
-	if ($prReviewTools.length > 0) {
-		$prReviewTools.after(optionHtml);
-	}
+	`);
 }
 
 function addOPLabels() {
