@@ -56,7 +56,7 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
     <tr><!-- no zebra stripes thx --></tr>
     <tr>
         <td>
-            <img width="245" height="245" src="https://user-images.githubusercontent.com/1402241/27847663-963b7d7c-6171-11e7-9470-6e86d8463771.png">
+            <img width="245" src="https://user-images.githubusercontent.com/1402241/27847663-963b7d7c-6171-11e7-9470-6e86d8463771.png">
         </td>
         <td>
             <img width="400" src="https://user-images.githubusercontent.com/170270/27501181-0485c5d0-586c-11e7-91ad-2d0a3537b0e2.gif">
