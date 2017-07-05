@@ -436,9 +436,10 @@ function addFilterCommentsByYou() {
 }
 
 function addProjectNewLink() {
-	const projectNewLink = `<a href="/${repoUrl}/projects/new" class="btn btn-sm" id="refined-github-project-new-link">Add a project</a>`;
 	if (select.exists('#projects-feature:checked') && !select.exists('#refined-github-project-new-link')) {
-		$(`#projects-feature ~ p.note`).after(projectNewLink);
+		select(`#projects-feature ~ p.note`).insertAdjacentElement('afterEnd',
+			<a href={`/${repoUrl}/projects/new`} class="btn btn-sm" id="refined-github-project-new-link">Add a project</a>
+		);
 	}
 }
 
