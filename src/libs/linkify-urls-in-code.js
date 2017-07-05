@@ -33,7 +33,6 @@ export const editTextNodes = (fn, el) => {
 
 export default () => {
 	const wrappers = select.all(`.highlight:not(.${linkifiedURLClass})`);
-	console.log(wrappers)
 
 	// Don't linkify any already linkified code
 	if (wrappers.length === 0) {
