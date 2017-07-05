@@ -127,10 +127,12 @@ function addReleasesTab() {
 	const hasReleases = $releasesTab.length > 0;
 
 	if (!hasReleases) {
-		$releasesTab = $(`<a href="/${repoUrl}/releases" class="reponav-item reponav-releases" data-hotkey="g r" data-selected-links="repo_releases /${repoUrl}/releases">
-			${icons.tag}
-			<span>Releases</span>
-		</a>`);
+		$releasesTab = $(
+			<a href={`/${repoUrl}/releases`} class="reponav-item reponav-releases" data-hotkey="g r" data-selected-links={`repo_releases /${repoUrl}/releases`}>
+				{icons.tag}
+				<span> Releases </span>
+			</a>
+		);
 	}
 
 	if (pageDetect.isReleases()) {
