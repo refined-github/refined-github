@@ -1,5 +1,6 @@
 import gitHubInjection from 'github-injection';
 import select from 'select-dom';
+import {h} from 'dom-chef';
 import * as icons from './icons';
 import * as pageDetect from './page-detect';
 
