@@ -29,10 +29,81 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 
 ## Highlights
 
+<table>
+    <tr>
+        <th>
+            Dashboard cleanup
+        </th>
+    </tr>
+    <tr><!-- no zebra stripes thx --></tr>
+    <tr>
+        <td>
+            <img src="media/screenshot-dashboard.png">
+        </td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th width="50%">
+            Mark issues and pull requests as unread<br>
+            <em>(They will reappear in Notifications)</em>
+        </th>
+        <th width="50%">
+            Preserves the original Markdown when you copy text from comments
+        </th>
+    </tr>
+    <tr><!-- no zebra stripes thx --></tr>
+    <tr>
+        <td>
+            <img width="245" height="245" src="https://user-images.githubusercontent.com/1402241/27847663-963b7d7c-6171-11e7-9470-6e86d8463771.png">
+        </td>
+        <td>
+            <img width="400" src="https://user-images.githubusercontent.com/170270/27501181-0485c5d0-586c-11e7-91ad-2d0a3537b0e2.gif">
+        </td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th width="50%">
+            Reaction avatars
+        </th>
+        <th width="50%">
+            Comment box
+        </th>
+    </tr>
+    <tr><!-- no zebra stripes thx --></tr>
+    <tr>
+        <td>
+            <img src="media/screenshot-reactions.png">
+        </td>
+        <td>
+            <img src="media/screenshot-comment-box.png">
+        </td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th colspan="2">
+            Linkifies issue/PR references in code, comments and titles
+        </th>
+    </tr>
+    <tr><!-- no zebra stripes thx --></tr>
+    <tr>
+        <td>
+            <img src="https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png">
+        </td>
+        <td>
+            <img src="https://cloud.githubusercontent.com/assets/170270/13597190/bd487ec4-e549-11e5-9521-419fa284512c.png">
+        </td>
+    </tr>
+</table>
+
+
 ### New Features
 
-- [Mark issues and pull requests as unread](https://cloud.githubusercontent.com/assets/170270/18231475/bdf83e26-72e4-11e6-958f-9ce9431d80eb.png) *(They will reappear in Notifications)* 
-- [Preserves the original Markdown when you copy text from comments](https://user-images.githubusercontent.com/170270/27501181-0485c5d0-586c-11e7-91ad-2d0a3537b0e2.gif)
 - Copy canonical link to file when [the `y` hotkey](https://help.github.com/articles/getting-permanent-links-to-files/) is used
 - Supports indenting with the tab key in textareas like the comment box (<kbd>Shift</kbd> <kbd>Tab</kbd> for original behavior)
 - [Uses the pull request title as commit title when merging with 'Squash and merge'](https://github.com/sindresorhus/refined-github/issues/276)
@@ -40,9 +111,6 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 ### More actions
 
 - [Linkifies branch references in pull requests](https://github.com/sindresorhus/refined-github/issues/1)
-- [Linkifies issue/PR references in issue/PR titles](https://cloud.githubusercontent.com/assets/170270/13597190/bd487ec4-e549-11e5-9521-419fa284512c.png)
-- [Linkifies URLs in code](https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png)
-- [Linkifies issue references in code comments](https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png)
 - [Adds a quick edit button and a link to the latest release to the readme](https://user-images.githubusercontent.com/170270/27501200-31a1fa20-586c-11e7-9a3f-ce270014bf0a.png)
 - [Adds a shortcut to quickly delete a forked repo](https://cloud.githubusercontent.com/assets/170270/13520281/b2c9335c-e211-11e5-9e36-b0f325166356.png)
 - [Adds option to view diffs without whitespace changes](https://cloud.githubusercontent.com/assets/170270/17603894/7b71a166-6013-11e6-81b8-22950ab8bce3.png) *(<kbd>d</kbd> <kbd>w</kbd> hotkey)*
@@ -93,29 +161,6 @@ And [lots](extension/content.css) [more...](src/content.js)
 
 - ~~[Adds blame links for parent commits in blame view](https://github.com/sindresorhus/refined-github/issues/2#issuecomment-189141373)~~ [Implemented by GitHub](https://github.com/blog/2304-navigate-file-history-faster-with-improved-blame-view)
 - ~~[Adds ability to collapse/expand files in a pull request diff](https://cloud.githubusercontent.com/assets/170270/13954167/40caa604-f072-11e5-89ba-3145217c4e28.png)~~ [Implemented by GitHub](https://cloud.githubusercontent.com/assets/170270/25772137/6a6b678e-3296-11e7-97c7-02e31ef17743.png)
-
-
-## Screenshots
-
-### Dashboard
-
-![](media/screenshot-dashboard.png)
-
-### Repo
-
-![](media/screenshot-repo.png)
-
-### Reactions
-
-![](media/screenshot-reactions.png)
-
-### Comment box
-
-<img src="media/screenshot-comment-box.png" width="795">
-
-### Linkified URLs and issue references in code
-
-![](https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png)
 
 
 ### Community tweaks
