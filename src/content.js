@@ -412,14 +412,14 @@ function addOPLabels() {
 }
 
 function addMilestoneNavigation() {
-	$('.repository-content').before(`
+	select('.repository-content').insertAdjacentElement('beforeBegin',
 		<div class="subnav">
 			<div class="subnav-links float-left" role="navigation">
-				<a href="/${repoUrl}/labels" class="subnav-item">Labels</a>
-				<a href="/${repoUrl}/milestones" class="subnav-item">Milestones</a>
+				<a href={`/${repoUrl}/labels`} class="subnav-item">Labels</a>
+				<a href={`/${repoUrl}/milestones`} class="subnav-item">Milestones</a>
 			</div>
 		</div>
-	`);
+	);
 }
 
 function addFilterCommentsByYou() {
