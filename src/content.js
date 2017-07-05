@@ -308,18 +308,13 @@ function removeDiffSignsAndWatchExpansions() {
 }
 
 function markMergeCommitsInList() {
-	$('.commit.commits-list-item.table-list-item:not(.refined-github-merge-commit)').each((index, element) => {
-		const $element = $(element);
-		const messageText = $element.find('.commit-title').text();
-		if (/Merge pull request #/.test(messageText)) {
-			$element
-				.addClass('refined-github-merge-commit')
-				.find('.commit-avatar-cell')
-					.prepend('<svg aria-hidden="true" class="octicon octicon-git-pull-request" height="36" role="img" version="1.1" viewBox="0 0 12 16" width="27"><path d="M11 11.28c0-1.73 0-6.28 0-6.28-0.03-0.78-0.34-1.47-0.94-2.06s-1.28-0.91-2.06-0.94c0 0-1.02 0-1 0V0L4 3l3 3V4h1c0.27 0.02 0.48 0.11 0.69 0.31s0.3 0.42 0.31 0.69v6.28c-0.59 0.34-1 0.98-1 1.72 0 1.11 0.89 2 2 2s2-0.89 2-2c0-0.73-0.41-1.38-1-1.72z m-1 2.92c-0.66 0-1.2-0.55-1.2-1.2s0.55-1.2 1.2-1.2 1.2 0.55 1.2 1.2-0.55 1.2-1.2 1.2zM4 3c0-1.11-0.89-2-2-2S0 1.89 0 3c0 0.73 0.41 1.38 1 1.72 0 1.55 0 5.56 0 6.56-0.59 0.34-1 0.98-1 1.72 0 1.11 0.89 2 2 2s2-0.89 2-2c0-0.73-0.41-1.38-1-1.72V4.72c0.59-0.34 1-0.98 1-1.72z m-0.8 10c0 0.66-0.55 1.2-1.2 1.2s-1.2-0.55-1.2-1.2 0.55-1.2 1.2-1.2 1.2 0.55 1.2 1.2z m-1.2-8.8c-0.66 0-1.2-0.55-1.2-1.2s0.55-1.2 1.2-1.2 1.2 0.55 1.2 1.2-0.55 1.2-1.2 1.2z"></path></svg>')
-					.find('img')
-						.addClass('avatar-child');
+	for (const commit of select.all('.commits-list-item:not(.refined-github-merge-commit)')) {
+		if (select.exists('[title^="Merge pull request"]', commit)) {
+			commit.classList.add('refined-github-merge-commit');
+			commit.querySelector('.commit-avatar-cell').prepend(icons.mergedPullRequest.cloneNode(true));
+			commit.querySelector('.avatar').classList.add('avatar-child');
 		}
-	});
+	}
 }
 
 function indentInput(el, size = 4) {
