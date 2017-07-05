@@ -33,20 +33,6 @@ const converters = [
 	{
 		filter: node => node.matches('img[width],img[height],img[align]'),
 		replacement: (content, element) => element.outerHTML
-	},
-
-	// Add support for <ol> lists that start after 1
-	// Until https://github.com/domchristie/to-markdown/pull/187 is in
-	{
-		filter: 'li',
-		replacement: (content, node) => {
-			content = content.replace(/^\s+/, '').replace(/\n/gm, '\n    ');
-			const parent = node.parentNode;
-			const index = parent.start + Array.prototype.indexOf.call(parent.children, node);
-			const prefix = /ol/i.test(parent.nodeName) ? index + '.  ' : '*   ';
-
-			return prefix + content;
-		}
 	}
 ];
 
