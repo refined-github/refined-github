@@ -1,3 +1,5 @@
+import {h} from 'dom-chef';
+
 function add(currentUser) {
 	$('.comment-reactions.has-reactions').each((index, reactionsContainer) => {
 		const $reactionsContainer = $(reactionsContainer);
@@ -20,7 +22,7 @@ function add(currentUser) {
 
 			// Add participant container
 			if (!element.querySelector('div.participants-container')) {
-				$element.append('<div class="participants-container">');
+				element.append(<div class="participants-container"></div>);
 			}
 
 			// Remove self from participant list so you don't see your own avatar
@@ -29,17 +31,20 @@ function add(currentUser) {
 			}
 
 			const firstThreeParticipants = participants.slice(0, 3);
-			const $participantsContainer = $element.find('.participants-container');
+			const participantsContainer = element.querySelector('.participants-container');
 
 			// Clear any existing avatars and remainder count
-			$participantsContainer.html('');
+			// https://stackoverflow.com/a/3955238/288906
+			while (participantsContainer.firstChild) {
+				participantsContainer.firstChild.remove();
+			}
 
 			for (const participant of firstThreeParticipants) {
-				$participantsContainer.append(`
-					<a href="/${participant}">
-						<img src="/${participant}.png">
+				participantsContainer.append(
+					<a href={`/${participant}`}>
+						<img src={`/${participant}.png`}/>
 					</a>
-				`);
+				);
 			}
 		});
 	});
