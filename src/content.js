@@ -114,6 +114,12 @@ function hideEmptyMeta() {
 	}
 }
 
+function moveMarketplaceLinkToProfileDropdown() {
+	const thirdDropdownItem = select('.dropdown-item[href="/explore"]');
+	const marketplaceLink = domify('<a class="dropdown-item" href="/marketplace">Marketplace</a>');
+	thirdDropdownItem.insertAdjacentElement('afterend', marketplaceLink);
+}
+
 function addReleasesTab() {
 	const $repoNav = $('.js-repo-nav');
 	let $releasesTab = $repoNav.children('[data-selected-links~="repo_releases"]');
@@ -513,6 +519,8 @@ async function onDomReady() {
 	const username = getUsername();
 
 	markUnread.setup();
+
+	moveMarketplaceLinkToProfileDropdown();
 
 	if (pageDetect.isGist()) {
 		addGistCopyButton();
