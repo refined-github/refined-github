@@ -69,7 +69,7 @@ function appendReleasesCount(count) {
 		return;
 	}
 
-	$('.reponav-releases').append(`<span class="Counter">${count}</span>`);
+	select('.reponav-releases').append(<span class="Counter">{count}</span>);
 }
 
 function cacheReleasesCount() {
@@ -122,41 +122,37 @@ function moveMarketplaceLinkToProfileDropdown() {
 }
 
 function addReleasesTab() {
-	const $repoNav = $('.js-repo-nav');
-	let $releasesTab = $repoNav.children('[data-selected-links~="repo_releases"]');
-	const hasReleases = $releasesTab.length > 0;
-
-	if (!hasReleases) {
-		$releasesTab = $(
-			<a href={`/${repoUrl}/releases`} class="reponav-item reponav-releases" data-hotkey="g r" data-selected-links={`repo_releases /${repoUrl}/releases`}>
-				{icons.tag}
-				<span> Releases </span>
-			</a>
-		);
+	if (select.exists('.reponav-releases')) {
+		return;
 	}
+
+	const releasesTab = (
+		<a href={`/${repoUrl}/releases`} class="reponav-item reponav-releases" data-hotkey="g r" data-selected-links={`repo_releases /${repoUrl}/releases`}>
+			{icons.tag}
+			<span> Releases </span>
+		</a>
+	);
+
+	select('.reponav-dropdown, [data-selected-links~="repo_settings"]')
+		.insertAdjacentElement('beforeBegin', releasesTab);
+
+	cacheReleasesCount();
 
 	if (pageDetect.isReleases()) {
-		$repoNav.find('.selected')
-			.removeClass('js-selected-navigation-item selected');
-
-		$releasesTab.addClass('js-selected-navigation-item selected');
-	}
-
-	if (!hasReleases) {
-		$releasesTab.insertBefore(select('.reponav-dropdown, [data-selected-links~="repo_settings"]'));
-
-		cacheReleasesCount();
+		releasesTab.classList.add('js-selected-navigation-item', 'selected');
+		select('.reponav-item.selected')
+			.classList.remove('js-selected-navigation-item', 'selected');
 	}
 }
 
 async function addTrendingMenuItem() {
 	const secondListItem = await elementReady('.header-nav.float-left .header-nav-item:nth-child(2)');
 
-	$(secondListItem).after(`
+	secondListItem.insertAdjacentElement('afterEnd',
 		<li class="header-nav-item">
 			<a href="/trending" class="header-nav-link" data-hotkey="g t">Trending</a>
 		</li>
-	`);
+	);
 }
 
 function addYoursMenuItem() {
