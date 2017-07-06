@@ -8,7 +8,7 @@ const getCachedUsers = () => {
 };
 
 const fetchName = async username => {
-	// use GitHub public api to get username
+	// Use GitHub public api to get username
 	const userData = await fetch(`https://api.github.com/users/${username}`)
 		.then(res => res.json());
 
