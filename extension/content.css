@@ -646,23 +646,6 @@ div.inline-comment-form .form-actions,
 	width: 420px;
 }
 
-/* Alternate monospace font stack, sorted by least popular so you're most likely to get the font you want */
-code,
-kbd,
-pre,
-tt,
-.CodeMirror-lines,
-.ace_editor.ace-github-light,
-.blob-code-inner,
-.export-phrase pre,
-.file-editor-textarea,
-.gollum-editor .expanded textarea,
-.gollum-editor .gollum-editor-body,
-.input-monospace,
-.wiki-wrapper .wiki-history .commit-meta code {
-	font-family: 'Operator Mono SSm', 'Operator Mono', 'Fira Code', 'Ubuntu Mono', 'Droid Sans Mono', 'Liberation Mono', 'Source Code Pro', Menlo, Consolas, Courier, monospace !important;
-}
-
 .CodeMirror-lines pre.CodeMirror-line {
 	font-variant-ligatures: normal;
 }
