@@ -1,5 +1,6 @@
 import copyToClipboard from 'copy-text-to-clipboard';
 import select from 'select-dom';
+import {h} from 'dom-chef';
 
 export default () => {
 	// Button already added (partial page nav), or non-text file
@@ -9,7 +10,7 @@ export default () => {
 
 	$('.blob-wrapper').each((i, blob) => {
 		const actionsParent = blob.parentNode.querySelector('.file-actions');
-		const $btn = $(`<button class="btn btn-sm copy-btn gist-copy-btn">Copy</button>`);
+		const $btn = $(<button class="btn btn-sm copy-btn gist-copy-btn">Copy</button>);
 		$btn.data('blob', blob);
 		$btn.prependTo(actionsParent);
 	});

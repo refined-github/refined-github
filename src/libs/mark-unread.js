@@ -17,8 +17,9 @@ function stripHash(url) {
 }
 
 function addMarkUnreadButton() {
-	$('<button class="btn btn-sm btn-mark-unread js-mark-unread">Mark as unread</button>')
-		.appendTo('.js-thread-subscription-status');
+	select('.js-thread-subscription-status').append(
+		<button class="btn btn-sm btn-mark-unread js-mark-unread">Mark as unread</button>
+	);
 }
 
 function markRead(url) {
@@ -107,7 +108,7 @@ function renderNotifications() {
 
 	if (isEmptyPage()) {
 		select('.blankslate').remove();
-		$('.js-navigation-container').append('<div class="notifications-list"></div>');
+		select('.js-navigation-container').append(<div class="notifications-list"></div>);
 	}
 
 	unreadNotifications.forEach(notification => {

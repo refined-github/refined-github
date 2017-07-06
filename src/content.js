@@ -8,7 +8,6 @@ import linkifyIssues from 'linkify-issues';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import {h} from 'dom-chef';
-import domify from './libs/domify';
 
 import markUnread from './libs/mark-unread';
 import addGistCopyButton from './libs/copy-gist';
@@ -60,7 +59,7 @@ function linkifyBranchRefs() {
 
 		const branchUrl = canonicalBranch.replace(':', '/tree/');
 
-		$el.wrap(`<a href="/${branchUrl}">`);
+		$el.wrap(<a href={`/${branchUrl}`}></a>);
 	});
 }
 
@@ -178,7 +177,7 @@ function addReadmeButtons() {
 		return;
 	}
 
-	const buttons = domify('<div id="refined-github-readme-buttons"></div>');
+	const buttons = <div id="refined-github-readme-buttons"></div>;
 
 	/**
 	 * Generate Release button
@@ -319,7 +318,7 @@ function showRecentlyPushedBranches() {
 		}
 
 		const uri = `/${repoUrl}/show_partial?partial=tree/recently_touched_branches_list`;
-		$(`<include-fragment src=${uri}></include-fragment>`).prependTo('.repository-content');
+		select('.repository-content').prepend(<include-fragment src={uri}></include-fragment>);
 	});
 }
 
