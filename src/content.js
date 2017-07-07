@@ -258,6 +258,7 @@ function addPatchDiffLinks() {
 	select('.commit-meta span.float-right').append(
 		<span class="sha-block patch-diff-links">
 			<a href={`${commitUrl}.patch`} class="sha">patch</a>
+			{ ' ' /* Workaround for: JSX eats whitespace between elements */ }
 			<a href={`${commitUrl}.diff`} class="sha">diff</a>
 		</span>
 	);
