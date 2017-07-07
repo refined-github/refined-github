@@ -21,6 +21,8 @@ import addFileCopyButton from './libs/copy-file';
 import copyMarkdown from './libs/copy-markdown';
 import linkifyCode, {editTextNodes} from './libs/linkify-urls-in-code';
 import autoLoadMoreNews from './libs/auto-load-more-news';
+import addOPLabels from './libs/op-labels';
+
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
 import {getUsername, observeEl} from './libs/utils';
@@ -364,45 +366,6 @@ function addDiffViewWithoutWhitespaceOption() {
 			</a>
 		</div>
 	);
-}
-
-function addOPLabels() {
-	const comments = $('div.js-comment').toArray();
-	const newComments = $(comments).filter(':not(.refined-github-op)').toArray();
-
-	if (newComments.length > 0) {
-		const commentAuthor = comment => comment.querySelector('strong .author').textContent;
-		let op;
-
-		if (pageDetect.isPR()) {
-			const title = select('title').textContent;
-			const titleRegex = /^(.+) by (\S+) · Pull Request #(\d+) · (\S+)\/(\S+)$/;
-			op = titleRegex.exec(title)[2];
-		} else {
-			op = commentAuthor(comments[0]);
-		}
-
-		let opComments = newComments.filter(comment => commentAuthor(comment) === op);
-
-		if (!pageDetect.isPRFiles()) {
-			opComments = opComments.slice(1);
-		}
-
-		if (opComments.length > 0) {
-			const type = pageDetect.isPR() ? 'pull request' : 'issue';
-			const tooltip = `${op === getUsername() ? 'You' : 'This user'} submitted this ${type}.`;
-			const label = `
-				<span class="timeline-comment-label tooltipped tooltipped-multiline tooltipped-s" aria-label="${tooltip}">
-					Original Poster
-				</span>
-			`;
-
-			$(opComments).filter('.timeline-comment').find('.timeline-comment-actions').after(label);
-			$(opComments).filter('.review-comment').find('.comment-body').before(label);
-		}
-
-		$(newComments).addClass('refined-github-op');
-	}
 }
 
 function addMilestoneNavigation() {
