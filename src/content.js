@@ -32,7 +32,14 @@ window.select = select;
 const repoUrl = pageDetect.getRepoURL();
 
 function linkifyBranchRefs() {
-	const deletedBranch = (select('.discussion-item-head_ref_deleted .head-ref') || {}).title;
+	let deletedBranch = false;
+	const lastBranchAction = select.all(`
+		.discussion-item-head_ref_deleted .head-ref,
+		.discussion-item-head_ref_restored .head-ref
+	`).pop();
+	if (lastBranchAction && lastBranchAction.closest('.discussion-item-head_ref_deleted')) {
+		deletedBranch = lastBranchAction.title;
+	}
 
 	for (const el of select.all('.base-ref, .head-ref')) {
 		if (el.textContent === 'unknown repository') {
