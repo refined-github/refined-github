@@ -623,6 +623,11 @@ Hidden content area created to increase hover target
 	margin-left: 5px;
 }
 
+/* Align labels in Issue/PR list to the right */
+.js-issue-row .labels {
+	float: right;
+}
+
 /* Move "close issue" and "cancel" buttons on authoring comments to the left */
 
 /* ...in issue comment form */
