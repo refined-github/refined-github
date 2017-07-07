@@ -23,7 +23,7 @@ import linkifyCode, {editTextNodes} from './libs/linkify-urls-in-code';
 import autoLoadMoreNews from './libs/auto-load-more-news';
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
-import {getUsername} from './libs/utils';
+import {getUsername, observeEl} from './libs/utils';
 
 // Add globals for easier debugging
 window.$ = $;
@@ -241,7 +241,13 @@ function addDeleteForkLink() {
 }
 
 function linkifyIssuesInTitles() {
-	editTextNodes(linkifyIssues, select('.js-issue-title'));
+	observeEl(select('#partial-discussion-header').parentNode, () => {
+		const title = select('.js-issue-title:not(.refined-linkified-title)');
+		if (title) {
+			title.classList.add('refined-linkified-title');
+			editTextNodes(linkifyIssues, title);
+		}
+	});
 }
 
 function addPatchDiffLinks() {
