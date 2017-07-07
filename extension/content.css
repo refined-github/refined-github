@@ -697,7 +697,7 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 	grid-area: 3;
 	grid-column-start: span 2;
 }
-.label, .Label {
+.js-issue-row .label {
 	font-size: 11px !important;
 	padding: 2px 3px 3px 3px !important;
 }
