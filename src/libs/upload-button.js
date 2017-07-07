@@ -1,3 +1,4 @@
+import {h} from 'dom-chef';
 import * as icons from './icons';
 import * as pageDetect from './page-detect';
 
@@ -8,19 +9,18 @@ export default () => {
 		$('.js-previewable-comment-form').each((index, element) => {
 			const $element = $(element);
 			if (!$element.hasClass('refined-github-has-upload-btn')) {
-				const uploadBtn = `<label for="refined-github-upload-btn-${index}" class="toolbar-item tooltipped tooltipped-nw refined-github-upload-btn" aria-label="Upload a file">
-						${icons.cloudUpload}
-					</label>`;
+				const uploadBtn = (
+					<label for={`refined-github-upload-btn-${index}`} class="toolbar-item tooltipped tooltipped-nw refined-github-upload-btn" aria-label="Upload a file">
+						{icons.cloudUpload}
+					</label>
+				);
 
-				const $uploadBtn = $element
-					.find('.comment-form-head .toolbar-commenting .toolbar-group:last-child')
-					.append(uploadBtn)
-					.find('.refined-github-upload-btn');
+				$('.comment-form-head .toolbar-commenting .toolbar-group:last-child', element).append(uploadBtn);
 
 				const keydownHandler = event => {
 					if (event.which === 85 && (isMac ? event.metaKey : event.ctrlKey)) {
 						event.preventDefault();
-						$uploadBtn.click();
+						uploadBtn.click();
 					}
 				};
 				$element

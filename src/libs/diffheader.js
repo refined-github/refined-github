@@ -1,5 +1,6 @@
 import debounce from 'debounce-fn';
 import select from 'select-dom';
+import {h} from 'dom-chef';
 
 const diffFile = (() => {
 	let lastFile;
@@ -111,7 +112,9 @@ const setup = () => {
 
 	$('.diffbar > .diffstat').insertAfter('.pr-review-tools');
 
-	$(`<span class="diffbar-item diff-toolbar-filename"></span>`).insertAfter('.toc-select');
+	select('.toc-select').insertAdjacentElement('afterEnd',
+		<span class="diffbar-item diff-toolbar-filename"></span>
+	);
 	diffFile.reset();
 };
 
