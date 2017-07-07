@@ -17,9 +17,14 @@ function stripHash(url) {
 }
 
 function addMarkUnreadButton() {
-	select('.js-thread-subscription-status').append(
-		<button class="btn btn-sm btn-mark-unread js-mark-unread">Mark as unread</button>
-	);
+	const container = select('.js-thread-subscription-status');
+	if (container) {
+		const button = <button class="btn btn-sm btn-mark-unread js-mark-unread">Mark as unread</button>;
+		button.addEventListener('click', markUnread, {
+			once: true
+		});
+		container.append(button);
+	}
 }
 
 function markRead(url) {
@@ -329,7 +334,6 @@ function setup() {
 		} else if (pageDetect.isPR() || pageDetect.isIssue()) {
 			markRead(location.href);
 			addMarkUnreadButton();
-			$(document).one('click', '.js-mark-unread', markUnread);
 		}
 
 		updateUnreadIndicator();
