@@ -556,7 +556,7 @@ Hidden content area created to increase hover target
 	top: -1px;
 	left: -8px;
 	font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
-	line-height: 0; /* avoids extra vertical space */
+	line-height: 0; /* Avoids extra vertical space */
 	font-size: 11px;
 	color: rgba(0, 0, 0, 0.3);
 }
