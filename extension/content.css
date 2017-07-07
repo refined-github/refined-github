@@ -395,15 +395,31 @@ svg.octicon.octicon-repo.dashboard-event-icon {
 }
 
 /* Make tab indented code more readable on GitHub and Gist */
-.tab-size[data-tab-size='2'],
-.tab-size[data-tab-size='4'],
-.tab-size[data-tab-size='8'],
-.inline-review-comment,
-.gist table.lines,
-.highlight pre, /* Readme code blocks */
-.blob-code-inner /* PR inline diff */ {
+body[data-tab-size='2'] .tab-size[data-tab-size],
+body[data-tab-size='2'] .inline-review-comment,
+body[data-tab-size='2'] .gist table.lines,
+body[data-tab-size='2'] .highlight pre, /* Readme code blocks */
+body[data-tab-size='2'] .blob-code-inner /* PR inline diff */ {
+	-moz-tab-size: 2 !important;
+	tab-size: 2 !important;
+}
+
+body[data-tab-size='4'] .tab-size[data-tab-size],
+body[data-tab-size='4'] .inline-review-comment,
+body[data-tab-size='4'] .gist table.lines,
+body[data-tab-size='4'] .highlight pre, /* Readme code blocks */
+body[data-tab-size='4'] .blob-code-inner /* PR inline diff */ {
 	-moz-tab-size: 4 !important;
 	tab-size: 4 !important;
+}
+
+body[data-tab-size='8'] .tab-size[data-tab-size],
+body[data-tab-size='8'] .inline-review-comment,
+body[data-tab-size='8'] .gist table.lines,
+body[data-tab-size='8'] .highlight pre, /* Readme code blocks */
+body[data-tab-size='8'] .blob-code-inner /* PR inline diff */ {
+	-moz-tab-size: 8 !important;
+	tab-size: 8 !important;
 }
 
 /* Larger comment box */
