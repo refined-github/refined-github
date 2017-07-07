@@ -24,6 +24,7 @@ import autoLoadMoreNews from './libs/auto-load-more-news';
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
 import {getUsername, observeEl} from './libs/utils';
+import domify from './libs/domify';
 
 // Add globals for easier debugging
 window.$ = $;
@@ -31,36 +32,22 @@ window.select = select;
 
 const repoUrl = pageDetect.getRepoURL();
 
-function getCanonicalBranchFromRef($element) {
-	const refSelector = '.commit-ref, .head-ref, .base-ref';
-
-	return $element.find(refSelector).addBack(refSelector).filter('[title]').attr('title');
-}
-
 function linkifyBranchRefs() {
-	let deletedBranchName = null;
-	const $deletedBranchInTimeline = $('.discussion-item-head_ref_deleted');
-	if ($deletedBranchInTimeline.length > 0) {
-		deletedBranchName = getCanonicalBranchFromRef($deletedBranchInTimeline);
+	const deletedBranch = select('.discussion-item-head_ref_deleted .commit-ref');
+
+	for (const el of select.all('.commit-ref')) {
+		if (el.textContent === 'unknown repository') {
+			continue;
+		}
+
+		if (deletedBranch && el.title === deletedBranch.title) {
+			el.title = 'Deleted: ' + el.title;
+			continue;
+		}
+
+		const branchUrl = '/' + el.title.replace(':', '/tree/');
+		$(el).wrap(<a href={branchUrl}></a>);
 	}
-
-	$('.commit-ref').each((i, el) => {
-		if (el.firstElementChild.textContent === 'unknown repository') {
-			return;
-		}
-
-		const $el = $(el);
-		const canonicalBranch = getCanonicalBranchFromRef($el);
-
-		if (deletedBranchName && canonicalBranch === deletedBranchName) {
-			$el.attr('title', 'Deleted: ' + canonicalBranch);
-			return;
-		}
-
-		const branchUrl = canonicalBranch.replace(':', '/tree/');
-
-		$el.wrap(<a href={`/${branchUrl}`}></a>);
-	});
 }
 
 function appendReleasesCount(count) {
@@ -75,7 +62,7 @@ function cacheReleasesCount() {
 	const releasesCountCacheKey = `${repoUrl}-releases-count`;
 
 	if (pageDetect.isRepoRoot()) {
-		const releasesCount = $('.numbers-summary a[href$="/releases"] .num').text().trim();
+		const releasesCount = select('.numbers-summary a[href$="/releases"] .num').textContent.trim();
 		appendReleasesCount(releasesCount);
 		chrome.storage.local.set({[releasesCountCacheKey]: releasesCount});
 	} else {
@@ -283,18 +270,13 @@ function removeDiffSigns() {
 }
 
 function markMergeCommitsInList() {
-	$('.commit.commits-list-item.table-list-item:not(.refined-github-merge-commit)').each((index, element) => {
-		const $element = $(element);
-		const messageText = $element.find('.commit-title').text();
-		if (/Merge pull request #/.test(messageText)) {
-			$element
-				.addClass('refined-github-merge-commit')
-				.find('.commit-avatar-cell')
-					.prepend('<svg aria-hidden="true" class="octicon octicon-git-pull-request" height="36" role="img" version="1.1" viewBox="0 0 12 16" width="27"><path d="M11 11.28c0-1.73 0-6.28 0-6.28-0.03-0.78-0.34-1.47-0.94-2.06s-1.28-0.91-2.06-0.94c0 0-1.02 0-1 0V0L4 3l3 3V4h1c0.27 0.02 0.48 0.11 0.69 0.31s0.3 0.42 0.31 0.69v6.28c-0.59 0.34-1 0.98-1 1.72 0 1.11 0.89 2 2 2s2-0.89 2-2c0-0.73-0.41-1.38-1-1.72z m-1 2.92c-0.66 0-1.2-0.55-1.2-1.2s0.55-1.2 1.2-1.2 1.2 0.55 1.2 1.2-0.55 1.2-1.2 1.2zM4 3c0-1.11-0.89-2-2-2S0 1.89 0 3c0 0.73 0.41 1.38 1 1.72 0 1.55 0 5.56 0 6.56-0.59 0.34-1 0.98-1 1.72 0 1.11 0.89 2 2 2s2-0.89 2-2c0-0.73-0.41-1.38-1-1.72V4.72c0.59-0.34 1-0.98 1-1.72z m-0.8 10c0 0.66-0.55 1.2-1.2 1.2s-1.2-0.55-1.2-1.2 0.55-1.2 1.2-1.2 1.2 0.55 1.2 1.2z m-1.2-8.8c-0.66 0-1.2-0.55-1.2-1.2s0.55-1.2 1.2-1.2 1.2 0.55 1.2 1.2-0.55 1.2-1.2 1.2z"></path></svg>')
-					.find('img')
-						.addClass('avatar-child');
+	for (const commit of select.all('.commits-list-item:not(.refined-github-merge-commit)')) {
+		if (select.exists('[title^="Merge pull request"]', commit)) {
+			commit.classList.add('refined-github-merge-commit');
+			commit.querySelector('.commit-avatar-cell').prepend(icons.mergedPullRequest);
+			commit.querySelector('.avatar').classList.add('avatar-child');
 		}
-	});
+	}
 }
 
 function indentInput(el, size = 4) {
@@ -308,7 +290,7 @@ function indentInput(el, size = 4) {
 	el.selectionEnd = selectionStart + indentationText.length;
 }
 
-function showRecentlyPushedBranches() {
+async function showRecentlyPushedBranches() {
 	// Don't duplicate on back/forward in history
 	if (select.exists('.recently-touched-branches-wrapper')) {
 		return;
@@ -316,103 +298,78 @@ function showRecentlyPushedBranches() {
 
 	const codeURI = select('[data-hotkey="g c"]').getAttribute('href');
 
-	fetch(codeURI, {
+	const html = await fetch(codeURI, {
 		credentials: 'include'
-	}).then(res => res.text()).then(html => {
-		const codeDOM = new DOMParser().parseFromString(html, 'text/html');
-		const isEmpty = $(codeDOM).find('.blankslate').length || $(codeDOM).find('.js-git-clone-help-container').length;
+	}).then(res => res.text());
 
-		// https://github.com/sindresorhus/refined-github/issues/216
-		if (isEmpty) {
-			return;
-		}
-
+	// https://github.com/sindresorhus/refined-github/issues/216
+	const isEmpty = select.exists('.blankslate, .js-git-clone-help-container', domify(html));
+	if (!isEmpty) {
 		const uri = `/${repoUrl}/show_partial?partial=tree/recently_touched_branches_list`;
 		select('.repository-content').prepend(<include-fragment src={uri}></include-fragment>);
-	});
+	}
 }
 
 // Add option for viewing diffs without whitespace changes
 function addDiffViewWithoutWhitespaceOption() {
-	const $detailsButtonGroup = $('.table-of-contents.Details .BtnGroup:first-child');
-	const $prReviewTools = $('.pr-review-tools > .diffbar-item:first-child');
+	const container = select([
+		'.table-of-contents.Details .BtnGroup', // In single commit view
+		'.pr-review-tools > .diffbar-item' // In review view
+	].join(','));
 
-	if (($detailsButtonGroup.length === 0 && $prReviewTools.length === 0) || $('.refined-github-toggle-whitespace').length > 0) {
+	if (!container || select.exists('.refined-github-toggle-whitespace')) {
 		return;
 	}
 
-	const urlParams = new URLSearchParams(window.location.search);
-	let optionIsSet = false;
+	const url = new URL(location.href);
+	const hidingWhitespace = url.searchParams.get('w') === '1';
 
-	if (urlParams.get('w') === '1') {
-		optionIsSet = true;
-		urlParams.delete('w');
+	if (hidingWhitespace) {
+		url.searchParams.delete('w');
 	} else {
-		urlParams.set('w', 1);
+		url.searchParams.set('w', 1);
 	}
 
-	let url = window.location.pathname;
-	if (String(urlParams)) {
-		url += '?' + String(urlParams);
-	}
-	url += window.location.hash || '';
-
-	const optionHtml = `
-		<div class="diffbar-item ${$detailsButtonGroup.length > 0 ? 'float-right' : ''}">
-			<a href="${url}"
+	container.insertAdjacentElement('afterend',
+		<div class="diffbar-item refined-github-toggle-whitespace">
+			<a href={url}
 				data-hotkey="d w"
-				class="refined-github-toggle-whitespace btn btn-sm btn-outline BtnGroup-item tooltipped tooltipped-s ${optionIsSet ? 'bg-gray-light text-gray-light' : ''}"
-				aria-label="${optionIsSet ? 'Show' : 'Hide'} whitespace in diffs">
-				${optionIsSet ? icons.check + ' ' : ''}No Whitespace
+				class={`btn btn-sm btn-outline BtnGroup-item tooltipped tooltipped-s ${hidingWhitespace ? 'bg-gray-light text-gray-light' : ''}`}
+				aria-label={`${hidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}>
+				{hidingWhitespace ? icons.check : ''}
+				No Whitespace
 			</a>
 		</div>
-	`;
-
-	if ($detailsButtonGroup.length > 0) {
-		$detailsButtonGroup.after(optionHtml);
-	}
-
-	if ($prReviewTools.length > 0) {
-		$prReviewTools.after(optionHtml);
-	}
+	);
 }
 
 function addOPLabels() {
-	const comments = $('div.js-comment').toArray();
-	const newComments = $(comments).filter(':not(.refined-github-op)').toArray();
+	const op = select('.gh-header .author').textContent.trim();
+	const newComments = select
+		.all(`.js-comment:not(.refined-github-op) strong .author[href="/${op}"]`)
+		.map(author => author.closest('.js-comment'));
 
 	if (newComments.length > 0) {
-		const commentAuthor = comment => comment.querySelector('strong .author').textContent;
-		let op;
+		const type = pageDetect.isPR() ? 'pull request' : 'issue';
+		const tooltip = `${op === getUsername() ? 'You' : 'This user'} submitted this ${type}.`;
+		const label = (
+			<span class="timeline-comment-label tooltipped tooltipped-multiline tooltipped-s" aria-label={tooltip}>
+				Original&nbsp;Poster
+			</span>
+		);
 
-		if (pageDetect.isPR()) {
-			const title = select('title').textContent;
-			const titleRegex = /^(.+) by (\S+) · Pull Request #(\d+) · (\S+)\/(\S+)$/;
-			op = titleRegex.exec(title)[2];
-		} else {
-			op = commentAuthor(comments[0]);
+		const placeholders = select.all(`
+			.timeline-comment .timeline-comment-header-text,
+			.review-comment .comment-body
+		`, newComments);
+
+		for (const placeholder of placeholders) {
+			placeholder.insertAdjacent('beforeBegin', label);
 		}
 
-		let opComments = newComments.filter(comment => commentAuthor(comment) === op);
-
-		if (!pageDetect.isPRFiles()) {
-			opComments = opComments.slice(1);
+		for (const el of newComments) {
+			el.classList.add('refined-github-op');
 		}
-
-		if (opComments.length > 0) {
-			const type = pageDetect.isPR() ? 'pull request' : 'issue';
-			const tooltip = `${op === getUsername() ? 'You' : 'This user'} submitted this ${type}.`;
-			const label = `
-				<span class="timeline-comment-label tooltipped tooltipped-multiline tooltipped-s" aria-label="${tooltip}">
-					Original Poster
-				</span>
-			`;
-
-			$(opComments).filter('.timeline-comment').find('.timeline-comment-actions').after(label);
-			$(opComments).filter('.review-comment').find('.comment-body').before(label);
-		}
-
-		$(newComments).addClass('refined-github-op');
 	}
 }
 
@@ -428,16 +385,19 @@ function addMilestoneNavigation() {
 }
 
 function addFilterCommentsByYou() {
-	const newFilter = `
-		<a href="/${repoUrl}/issues?q=is%3Aopen+commenter:${getUsername()}" class="select-menu-item js-navigation-item refined-github-filter">
-			<div class="select-menu-item-text">
-				Everything commented by you
-			</div>
-		</a>`;
-	const lastFilter = $('.subnav-search-context .select-menu-list > a:last-child');
-	if (!lastFilter.prev().hasClass('refined-github-filter')) {
-		lastFilter.before(newFilter);
+	if (select.exists('.refined-github-filter')) {
+		return;
 	}
+	select('.subnav-search-context .js-navigation-item:last-child')
+		.insertAdjacentElement('beforeBegin',
+			<a
+				href={`/${repoUrl}/issues?q=is%3Aopen+commenter:${getUsername()}`}
+				class="select-menu-item js-navigation-item refined-github-filter">
+				<div class="select-menu-item-text">
+					Everything commented by you
+				</div>
+			</a>
+		);
 }
 
 function addProjectNewLink() {
@@ -468,8 +428,8 @@ function fixSquashAndMergeTitle() {
 }
 
 function addTitleToEmojis() {
-	for (const emoji of $('g-emoji')) {
-		$(emoji).attr('title', `:${$(emoji).attr('alias')}:`);
+	for (const emoji of select.all('g-emoji')) {
+		emoji.setAttribute('title', `:${emoji.getAttribute('alias')}:`);
 	}
 }
 
@@ -501,11 +461,9 @@ function init() {
 
 	// Prompt user to confirm erasing a comment with the Cancel button
 	$(document).on('click', '.js-hide-inline-comment-form', event => {
-		const $target = $(event.target);
-
 		// Do not prompt if textarea is empty
-		const text = $target.closest('.js-inline-comment-form').find('.js-comment-field').val();
-		if (text.length === 0) {
+		const textarea = event.target.closest('.js-inline-comment-form').querySelector('.js-comment-field');
+		if (textarea.value === '') {
 			return;
 		}
 

@@ -349,12 +349,14 @@ svg.octicon.octicon-repo.dashboard-event-icon {
 	font-size: 11.4px !important;
 }
 
-.refined-github-merge-commit .commit-avatar-cell svg {
+.refined-github-merge-commit .octicon-git-pull-request {
 	color: #4078c0;
 	margin-left: 9px;
+	width: 27px;
+	height: 36px;
 }
 
-.refined-github-merge-commit .avatar-parent-child img.avatar-child {
+.refined-github-merge-commit .avatar-child {
 	width: 16px !important;
 	height: 16px !important;
 }
@@ -379,6 +381,11 @@ svg.octicon.octicon-repo.dashboard-event-icon {
 .diff-toolbar-filename.filename-width-check {
 	visibility: hidden;
 	position: absolute;
+}
+
+/* Move new button to the right on single commit page */
+#toc .refined-github-toggle-whitespace {
+	float: right;
 }
 
 /* Limit width of commit title and description inputs to 50/80 chars */
