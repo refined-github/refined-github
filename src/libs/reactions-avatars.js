@@ -1,4 +1,5 @@
 import {h} from 'dom-chef';
+import {emptyElement} from './utils';
 
 function add(currentUser) {
 	$('.comment-reactions.has-reactions').each((index, reactionsContainer) => {
@@ -34,10 +35,7 @@ function add(currentUser) {
 			const participantsContainer = element.querySelector('.participants-container');
 
 			// Clear any existing avatars and remainder count
-			// https://stackoverflow.com/a/3955238/288906
-			while (participantsContainer.firstChild) {
-				participantsContainer.firstChild.remove();
-			}
+			emptyElement(participantsContainer);
 
 			for (const participant of firstThreeParticipants) {
 				participantsContainer.append(
