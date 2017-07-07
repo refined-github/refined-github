@@ -116,7 +116,7 @@ function hideEmptyMeta() {
 
 function moveMarketplaceLinkToProfileDropdown() {
 	const thirdDropdownItem = select('.dropdown-item[href="/explore"]');
-	const marketplaceLink = domify('<a class="dropdown-item" href="/marketplace">Marketplace</a>');
+	const marketplaceLink = <a class="dropdown-item" href="/marketplace">Marketplace</a>;
 	thirdDropdownItem.insertAdjacentElement('afterend', marketplaceLink);
 }
 
