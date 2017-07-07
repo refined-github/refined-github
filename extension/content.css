@@ -685,7 +685,7 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 }
 .js-issue-row .labels {
 	grid-area: 1;
-	padding-bottom: 3px;
+	padding-bottom: 4px;
 	grid-column-start: span 2;
 }
 .js-issue-row .h4, /* Title */
@@ -696,4 +696,8 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 .js-issue-row .mt-1.text-small.text-gray { /* Issue details line */
 	grid-area: 3;
 	grid-column-start: span 2;
+}
+.label, .Label {
+	font-size: 11px !important;
+	padding: 2px 3px 3px 3px !important;
 }
