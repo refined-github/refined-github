@@ -1,5 +1,4 @@
 import select from 'select-dom';
-import domify from './domify';
 import {getUsername, groupBy} from './utils';
 
 const storageKey = 'cachedNames';
@@ -9,15 +8,11 @@ const getCachedUsers = () => {
 };
 
 const fetchName = async username => {
-	// /following/you_know is the lightest page we know
-	// location.origin is required for Firefox #490
-	const pageHTML = await fetch(`${location.origin}/${username}/following`)
-		.then(res => res.text());
+	// Use GitHub public api to get username
+	const userData = await fetch(`https://api.github.com/users/${username}`)
+		.then(res => res.json());
 
-	const el = domify(pageHTML).querySelector('h1 strong');
-
-	// The full name might not be set
-	const fullname = el && el.textContent.slice(1, -1);
+	const fullname = userData.name;
 	if (!fullname || fullname === username) {
 		// It has to be stored as false or else it will be fetched every time
 		return false;
@@ -27,7 +22,7 @@ const fetchName = async username => {
 
 export default async () => {
 	const myUsername = getUsername();
-	const cache = (await getCachedUsers())[storageKey];
+	const cache = (await getCachedUsers())[storageKey] || {};
 
 	// {sindresorhus: [a.author, a.author], otheruser: [a.author]}
 	const selector = `.js-discussion .author:not(.refined-github-fullname)`;
