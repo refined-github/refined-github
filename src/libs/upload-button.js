@@ -15,7 +15,7 @@ export default () => {
 					</label>
 				);
 
-				element.querySelector('.comment-form-head .toolbar-commenting .toolbar-group:last-child').append(uploadBtn);
+				$('.comment-form-head .toolbar-commenting .toolbar-group:last-child', element).append(uploadBtn);
 
 				const keydownHandler = event => {
 					if (event.which === 85 && (isMac ? event.metaKey : event.ctrlKey)) {
