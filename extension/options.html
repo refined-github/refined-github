@@ -3,23 +3,101 @@
 <title>Refined GitHub options</title>
 <style>
 	html {
-		font-family: sans-serif;
+		font-family: -apple-system, BlinkMacSystemFont,
+			'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
+			'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+			sans-serif;
 	}
+
+	h2 {
+		margin: 16px 0 8px;
+		font-weight: normal;
+	}
+
 	/* Increase spacing between sections */
-	h2 ~ h2,
 	form ~ form {
 		margin-top: 2em;
 	}
+
+	.checkbox label {
+		padding: 0;
+		display: flex;
+	}
+
+	.text label {
+		display: flex;
+		flex-direction: column;
+	}
+
+	input[type=text],
+	input[type=url] {
+		padding: 4px;
+	}
+
+	input[type=checkbox] {
+		margin: 4px;
+	}
+
+	input[type=checkbox] ~ span {
+		margin-left: 6px;
+		line-height: 21px;
+	}
+
+	select {
+		margin-left: 8px;
+	}
 </style>
+
 <form id="options-form">
 	<h2>News feed</h2>
-	<p>
+	<div class="checkbox">
 		<label>
 			<input type="checkbox" name="hideStarsOwnRepos">
-			Hide other users starring/forking your repos
+			<span>Hide other users starring/forking your repos</span>
 		</label>
-	</p>
+	</div>
+	<div class="checkbox">
+		<label>
+			<input type="checkbox" name="autoLoadMoreNews">
+			<span>Auto load more news on scrolling down</span>
+		</label>
+	</div>
+
+	<h2>Comments</h2>
+	<div class="checkbox">
+		<label>
+			<input type="checkbox" name="addReactionParticipants">
+			<span>Add reaction participants</span>
+		</label>
+	</div>
+	<div class="checkbox">
+		<label>
+			<input type="checkbox" name="showRealNames">
+			<span>Show real user names</span>
+		</label>
+	</div>
+
+	<h2>Code</h2>
+	<div class="select">
+		<label>
+			<span>Tab size</span>
+			<select name="tabSize">
+				<option value="0">default</option>
+				<option value="2">2</option>
+				<option value="4">4</option>
+				<option value="8">8</option>
+			</select>
+		</label>
+	</div>
+
+	<h2>Access token for API queries</h2>
+	<div class="text">
+		<label>
+			<input type="text" pattern="^[a-z0-9]{40}$" name="privateAccessToken" placeholder="Personal access token" autocomplete="false" spellcheck="false">
+		</label>
+	</div>
 </form>
+
 <form id="custom-domain">
 	<h2>GitHub Enterprise support</h2>
 	<p class="js-permission-api">
@@ -27,4 +105,5 @@
 		<button type="submit">Authorize</button>
 	</p>
 </form>
+
 <script src="options.js"></script>

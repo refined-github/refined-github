@@ -473,6 +473,10 @@ function addTitleToEmojis() {
 	}
 }
 
+function setTabSize(size) {
+	$('body').attr('data-tab-size', size);
+}
+
 function init() {
 	if (select.exists('html.refined-github')) {
 		console.count('Refined GitHub was loaded multiple times: https://github.com/sindresorhus/refined-github/issues/479');
@@ -533,33 +537,40 @@ async function onDomReady() {
 
 	const username = getUsername();
 
-	markUnread.setup();
+	// Things that we want to do only when the user is logged in
+	if (username) {
+		markUnread.setup();
 
-	moveMarketplaceLinkToProfileDropdown();
+		moveMarketplaceLinkToProfileDropdown();
+
+		if (pageDetect.isDashboard()) {
+			// Hide other users starring/forking your repos
+			const hideStarsOwnRepos = () => {
+				$('#dashboard .news .watch_started, #dashboard .news .fork')
+					.has(`.title a[href^="/${username}"]`)
+					.css('display', 'none');
+			};
+
+			if (options.hideStarsOwnRepos) {
+				hideStarsOwnRepos();
+				new MutationObserver(() => hideStarsOwnRepos())
+					.observe(select('#dashboard .news'), {childList: true});
+			}
+
+			if (options.autoLoadMoreNews) {
+				autoLoadMoreNews();
+			}
+		}
+
+		addUploadBtn();
+		new MutationObserver(addUploadBtn).observe(select('div[role=main]'), {childList: true, subtree: true});
+	}
+
+	setTabSize(options.tabSize);
 
 	if (pageDetect.isGist()) {
 		addGistCopyButton();
 	}
-
-	if (pageDetect.isDashboard()) {
-		// Hide other users starring/forking your repos
-		const hideStarsOwnRepos = () => {
-			$('#dashboard .news .watch_started, #dashboard .news .fork')
-				.has(`.title a[href^="/${username}"]`)
-				.css('display', 'none');
-		};
-
-		if (options.hideStarsOwnRepos) {
-			hideStarsOwnRepos();
-			new MutationObserver(() => hideStarsOwnRepos())
-				.observe(select('#dashboard .news'), {childList: true});
-		}
-
-		autoLoadMoreNews();
-	}
-
-	addUploadBtn();
-	new MutationObserver(addUploadBtn).observe(select('div[role=main]'), {childList: true, subtree: true});
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 		addYoursMenuItem();
@@ -613,9 +624,14 @@ async function onDomReady() {
 			}
 
 			if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit()) {
-				addReactionParticipants.add(username);
-				addReactionParticipants.addListener(username);
-				showRealNames();
+				if (options.addReactionParticipants) {
+					addReactionParticipants.add(username);
+					addReactionParticipants.addListener(username);
+				}
+
+				if (options.showRealNames) {
+					showRealNames();
+				}
 			}
 
 			if (pageDetect.isCommitList()) {

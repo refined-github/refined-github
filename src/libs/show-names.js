@@ -1,4 +1,5 @@
 import select from 'select-dom';
+import OptionsSync from 'webext-options-sync';
 import domify from './domify';
 import {getUsername, groupBy} from './utils';
 
@@ -8,16 +9,34 @@ const getCachedUsers = () => {
 	return new Promise(resolve => chrome.storage.local.get(storageKey, resolve));
 };
 
-const fetchName = async username => {
-	// /following/you_know is the lightest page we know
-	// location.origin is required for Firefox #490
-	const pageHTML = await fetch(`${location.origin}/${username}/following`)
-		.then(res => res.text());
+const fetchName = async (username, accessToken) => {
+	let fullname = '';
 
-	const el = domify(pageHTML).querySelector('h1 strong');
+	if (accessToken) {
+		// Check if user is on an enterprise domain
+		const url = location.origin.endsWith('github.com') ?
+									'https://api.github.com' :
+									`${location.origin}/api/v3`;
 
-	// The full name might not be set
-	const fullname = el && el.textContent.slice(1, -1);
+		const headers = new Headers();
+		headers.set('Authorization', `token ${accessToken}`);
+
+		const userData = await fetch(`${url}/users/${username}`, {headers})
+			.then(res => res.json());
+
+		fullname = userData.name;
+	} else {
+		// `following/you_know` is the lightest page we know
+		// location.origin is required for Firefox #490
+		const pageHTML = await fetch(`${location.origin}/${username}/following`)
+			.then(res => res.text());
+
+		const el = domify(pageHTML).querySelector('h1 strong');
+
+		// The full name might not be set
+		fullname = el && el.textContent.slice(1, -1);
+	}
+
 	if (!fullname || fullname === username) {
 		// It has to be stored as false or else it will be fetched every time
 		return false;
@@ -27,7 +46,9 @@ const fetchName = async username => {
 
 export default async () => {
 	const myUsername = getUsername();
-	const cache = (await getCachedUsers())[storageKey];
+	const cache = (await getCachedUsers())[storageKey] || {};
+
+	const options = await new OptionsSync().getAll();
 
 	// {sindresorhus: [a.author, a.author], otheruser: [a.author]}
 	const selector = `.js-discussion .author:not(.refined-github-fullname)`;
@@ -35,7 +56,7 @@ export default async () => {
 
 	const fetchAndAdd = async username => {
 		if (typeof cache[username] === 'undefined' && username !== myUsername) {
-			cache[username] = await fetchName(username);
+			cache[username] = await fetchName(username, options.privateAccessToken);
 		}
 
 		for (const usernameEl of usersOnPage[username]) {
