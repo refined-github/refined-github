@@ -591,6 +591,24 @@ Hidden content area created to increase hover target
 	float: right;
 }
 
+/* Fix PR diffbar links position #474 */
+.stale-files-tab,
+.subset-files-tab {
+	font-size: 0 !important;
+}
+.subset-files-tab .stale-files-tab-link,
+.stale-files-tab .stale-files-tab-link {
+	font-size: 14px;
+}
+.stale-files-tab-link:before {
+	content: 'Out of date. ';
+	font-weight: normal;
+}
+.stale-files-tab-link:before {
+	content: 'Subset of changes. ';
+	font-weight: normal;
+}
+
 /* Copy button for gists margin */
 .gist-copy-btn {
 	margin: 0 10px 0 0;
