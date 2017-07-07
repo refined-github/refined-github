@@ -75,7 +75,7 @@ function cacheReleasesCount() {
 	const releasesCountCacheKey = `${repoUrl}-releases-count`;
 
 	if (pageDetect.isRepoRoot()) {
-		const releasesCount = $('.numbers-summary a[href$="/releases"] .num').text().trim();
+		const releasesCount = select('.numbers-summary a[href$="/releases"] .num').textContent.trim();
 		appendReleasesCount(releasesCount);
 		chrome.storage.local.set({[releasesCountCacheKey]: releasesCount});
 	} else {
