@@ -20,7 +20,8 @@ const options = {
 };
 
 export const editTextNodes = (fn, el) => {
-	for (const textNode of getTextNodes(el)) {
+	// Spread required because the elements will change and the TreeWalker will break
+	for (const textNode of [...getTextNodes(el)]) {
 		if (fn === linkifyUrls && textNode.textContent.length < 11) { // Shortest url: http://j.mp
 			continue;
 		}
