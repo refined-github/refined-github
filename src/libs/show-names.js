@@ -27,7 +27,7 @@ const fetchName = async username => {
 
 export default async () => {
 	const myUsername = getUsername();
-	const cache = (await getCachedUsers())[storageKey];
+	const cache = (await getCachedUsers())[storageKey] || {};
 
 	// {sindresorhus: [a.author, a.author], otheruser: [a.author]}
 	const selector = `.js-discussion .author:not(.refined-github-fullname)`;
