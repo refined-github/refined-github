@@ -1,12 +1,11 @@
 # <img src="extension/icon.png" width="45" align="left"> Refined GitHub [![Chrome version][badge-cws]][link-cws] [![Firefox version][badge-amo]][link-amo] [![Deployment][badge-travis]][link-travis]
 
-  [badge-cws]: https://img.shields.io/chrome-web-store/v/hlepfoohegkhhmjieoechaddaejaokhf.svg?label=chrome
-  [badge-amo]: https://img.shields.io/amo/v/refined-github-.svg?label=firefox
-  [badge-travis]: https://img.shields.io/travis/sindresorhus/refined-github/master.svg?label=deployment
-  [link-cws]: https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf "Version published on Chrome Web Store"
-  [link-amo]: https://addons.mozilla.org/en-US/firefox/addon/refined-github-/ "Version published on Mozilla Add-ons"
-  [link-travis]: https://travis-ci.org/sindresorhus/refined-github
-
+[badge-cws]: https://img.shields.io/chrome-web-store/v/hlepfoohegkhhmjieoechaddaejaokhf.svg?label=chrome
+[badge-amo]: https://img.shields.io/amo/v/refined-github-.svg?label=firefox
+[badge-travis]: https://img.shields.io/travis/sindresorhus/refined-github/master.svg?label=deployment
+[link-cws]: https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf "Version published on Chrome Web Store"
+[link-amo]: https://addons.mozilla.org/en-US/firefox/addon/refined-github-/ "Version published on Mozilla Add-ons"
+[link-travis]: https://travis-ci.org/sindresorhus/refined-github
 
 > Browser extension that simplifies the GitHub interface and adds useful features
 
@@ -18,10 +17,8 @@ Our hope is that GitHub will notice and implement some of these much needed impr
 
 GitHub Enterprise is also supported by [authorizing your own domain in the options](https://github.com/sindresorhus/refined-github/pull/450). This is supported in Chrome and Firefox 55+ (to be released in August 2017).
 
-[Read more in this blog post](https://blog.sindresorhus.com/refined-github-21185789685d)
-
-✨ **[What's new lately](https://blog.sindresorhus.com/whats-new-in-refined-github-836d05582df7)** ✨
-
+- **[What's new lately](https://blog.sindresorhus.com/whats-new-in-refined-github-836d05582df7)**
+- [Original announcement](https://blog.sindresorhus.com/refined-github-21185789685d)
 
 ## Install
 
@@ -32,75 +29,75 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 ## Highlights
 
 <table>
-    <tr>
-        <th>
-            Dashboard cleanup
-        </th>
-    </tr>
-    <tr><!-- no zebra stripes thx --></tr>
-    <tr>
-        <td>
-            <img src="https://user-images.githubusercontent.com/170270/27985638-029024f8-63ef-11e7-8487-5e999108bb56.gif">
-        </td>
-    </tr>
+	<tr>
+		<th>
+			Dashboard cleanup
+		</th>
+	</tr>
+	<tr><!-- Prevent zebra stripes --></tr>
+	<tr>
+		<td>
+			<img src="https://user-images.githubusercontent.com/170270/27985638-029024f8-63ef-11e7-8487-5e999108bb56.gif">
+		</td>
+	</tr>
 </table>
 
 <table>
-    <tr>
-        <th width="50%">
-            Mark issues and pull requests as unread<br>
-            <em>(They will reappear in Notifications)</em>
-        </th>
-        <th width="50%">
-            Preserves the original Markdown when you copy text from comments
-        </th>
-    </tr>
-    <tr><!-- no zebra stripes thx --></tr>
-    <tr>
-        <td>
-            <img width="245" src="https://user-images.githubusercontent.com/1402241/27847663-963b7d7c-6171-11e7-9470-6e86d8463771.png">
-        </td>
-        <td>
-            <img width="400" src="https://user-images.githubusercontent.com/170270/27501181-0485c5d0-586c-11e7-91ad-2d0a3537b0e2.gif">
-        </td>
-    </tr>
+	<tr>
+		<th width="50%">
+			Mark issues and pull requests as unread<br>
+			<em>(They will reappear in Notifications)</em>
+		</th>
+		<th width="50%">
+			Preserves the original Markdown when you copy text from comments
+		</th>
+	</tr>
+	<tr><!-- Prevent zebra stripes --></tr>
+	<tr>
+		<td>
+			<img width="245" src="https://user-images.githubusercontent.com/1402241/27847663-963b7d7c-6171-11e7-9470-6e86d8463771.png">
+		</td>
+		<td>
+			<img width="400" src="https://user-images.githubusercontent.com/170270/27501181-0485c5d0-586c-11e7-91ad-2d0a3537b0e2.gif">
+		</td>
+	</tr>
 </table>
 
 <table>
-    <tr>
-        <th width="50%">
-            Reaction avatars
-        </th>
-        <th width="50%">
-            Moves destructive buttons in commenting forms away from the primary button
-        </th>
-    </tr>
-    <tr><!-- no zebra stripes thx --></tr>
-    <tr>
-        <td>
-            <img src="media/screenshot-reactions.png">
-        </td>
-        <td>
-            <img src="https://user-images.githubusercontent.com/170270/27985285-a5464fb2-63e8-11e7-8c01-f33bb7ad78ba.png">
-        </td>
-    </tr>
+	<tr>
+		<th width="50%">
+			Reaction avatars
+		</th>
+		<th width="50%">
+			Moves destructive buttons in commenting forms away from the primary button
+		</th>
+	</tr>
+	<tr><!-- Prevent zebra stripes --></tr>
+	<tr>
+		<td>
+			<img src="media/screenshot-reactions.png">
+		</td>
+		<td>
+			<img src="https://user-images.githubusercontent.com/170270/27985285-a5464fb2-63e8-11e7-8c01-f33bb7ad78ba.png">
+		</td>
+	</tr>
 </table>
 
 <table>
-    <tr>
-        <th colspan="2">
-            Linkifies issue/PR references in code, comments and titles
-        </th>
-    </tr>
-    <tr><!-- no zebra stripes thx --></tr>
-    <tr>
-        <td>
-            <img src="https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png">
-        </td>
-        <td>
-            <img src="https://cloud.githubusercontent.com/assets/170270/13597190/bd487ec4-e549-11e5-9521-419fa284512c.png">
-        </td>
-    </tr>
+	<tr>
+		<th colspan="2">
+			Linkifies issue/PR references in code, comments and titles
+		</th>
+	</tr>
+	<tr><!-- Prevent zebra stripes --></tr>
+	<tr>
+		<td>
+			<img src="https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png">
+		</td>
+		<td>
+			<img src="https://cloud.githubusercontent.com/assets/170270/13597190/bd487ec4-e549-11e5-9521-419fa284512c.png">
+		</td>
+	</tr>
 </table>
 
 
