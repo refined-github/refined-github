@@ -24,7 +24,6 @@ import autoLoadMoreNews from './libs/auto-load-more-news';
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
 import {getUsername, observeEl} from './libs/utils';
-import domify from './libs/domify';
 
 // Add globals for easier debugging
 window.$ = $;
@@ -323,8 +322,7 @@ async function showRecentlyPushedBranches() {
 	}).then(res => res.text());
 
 	// https://github.com/sindresorhus/refined-github/issues/216
-	const isEmpty = select.exists('.blankslate, .js-git-clone-help-container', domify(html));
-	if (!isEmpty) {
+	if (html.includes(fragmentURL)) {
 		select('.repository-content').prepend(<include-fragment src={fragmentURL}></include-fragment>);
 	}
 }
