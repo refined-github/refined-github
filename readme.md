@@ -40,7 +40,7 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
     <tr><!-- no zebra stripes thx --></tr>
     <tr>
         <td>
-            <img src="media/screenshot-dashboard.png">
+            <img src="https://user-images.githubusercontent.com/170270/27985638-029024f8-63ef-11e7-8487-5e999108bb56.gif">
         </td>
     </tr>
 </table>
@@ -72,7 +72,7 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
             Reaction avatars
         </th>
         <th width="50%">
-            Comment box
+            Moves destructive buttons in commenting forms away from the primary button
         </th>
     </tr>
     <tr><!-- no zebra stripes thx --></tr>
@@ -81,7 +81,7 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
             <img src="media/screenshot-reactions.png">
         </td>
         <td>
-            <img src="media/screenshot-comment-box.png">
+            <img src="https://user-images.githubusercontent.com/170270/27985285-a5464fb2-63e8-11e7-8c01-f33bb7ad78ba.png">
         </td>
     </tr>
 </table>
@@ -123,7 +123,6 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 
 ### More info at a glance
 
-- [Adds user avatars to Reactions](media/screenshot-reactions.png)
 - [Shows current filename in the sticky pull request header](https://cloud.githubusercontent.com/assets/170270/14153322/97a8e902-f6e1-11e5-8331-19e284e3e6fa.png)
 - [Shows user's full name in comments](https://cloud.githubusercontent.com/assets/170270/16172068/0a67b98c-3580-11e6-92f0-6fc930ee17d1.png)
 - [Differentiates merge commits from regular commits](https://cloud.githubusercontent.com/assets/170270/14101222/2fe2c24a-f5bd-11e5-8b1f-4e589917d4c4.png)
@@ -141,7 +140,6 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 ### UI improvements
 
 - [Improves readability of tab indented code](https://cloud.githubusercontent.com/assets/170270/14170088/d3be931e-f755-11e5-8edf-c5f864336382.png)
-- [Moves destructive buttons ("Close issue", "Cancel") in commenting forms away from primary button](#comment-box)
 - Prompts you when pressing `Cancel` on an inline comment in case it was a mistake
 - Easier copy-pasting from diffs by making +/- signs unselectable
 - Automagically expands the news feed when you scroll down
