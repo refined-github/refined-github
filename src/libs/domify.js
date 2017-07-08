@@ -1,14 +1,14 @@
 export default html => {
-	const fragment = document.createElement('template');
-	fragment.innerHTML = html;
+	const template = document.createElement('template');
+	template.innerHTML = html;
 
-	const content = fragment.content;
+	const fragment = template.content;
 
 	// If it's a single element, return just the element
-	if (content.firstChild === content.lastChild) {
-		return content.firstChild;
+	if (fragment.firstChild === fragment.lastChild) {
+		return fragment.firstChild;
 	}
 
-	// Return template for querying
-	return content;
+	// Return fragment for querying
+	return fragment;
 };
