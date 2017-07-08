@@ -532,37 +532,43 @@ async function onDomReady() {
 	await domLoaded;
 
 	const username = getUsername();
+	const userLoggedIn = Boolean(username);
 
-	markUnread.setup();
+	// Things that we want to do only when the user is logged in
+	if (userLoggedIn) {
+		markUnread.setup();
 
-	moveMarketplaceLinkToProfileDropdown();
+		if (!pageDetect.isGist()) {
+			moveMarketplaceLinkToProfileDropdown();
+		}
+
+		if (pageDetect.isDashboard()) {
+			// Hide other users starring/forking your repos
+			const hideStarsOwnRepos = () => {
+				$('#dashboard .news .watch_started, #dashboard .news .fork')
+					.has(`.title a[href^="/${username}"]`)
+					.css('display', 'none');
+			};
+
+			if (options.hideStarsOwnRepos) {
+				hideStarsOwnRepos();
+				new MutationObserver(() => hideStarsOwnRepos())
+					.observe(select('#dashboard .news'), {childList: true});
+			}
+
+			autoLoadMoreNews();
+		}
+
+		if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
+			addYoursMenuItem();
+		}
+
+		addUploadBtn();
+		new MutationObserver(addUploadBtn).observe(select('div[role=main]'), {childList: true, subtree: true});
+	}
 
 	if (pageDetect.isGist()) {
 		addGistCopyButton();
-	}
-
-	if (pageDetect.isDashboard()) {
-		// Hide other users starring/forking your repos
-		const hideStarsOwnRepos = () => {
-			$('#dashboard .news .watch_started, #dashboard .news .fork')
-				.has(`.title a[href^="/${username}"]`)
-				.css('display', 'none');
-		};
-
-		if (options.hideStarsOwnRepos) {
-			hideStarsOwnRepos();
-			new MutationObserver(() => hideStarsOwnRepos())
-				.observe(select('#dashboard .news'), {childList: true});
-		}
-
-		autoLoadMoreNews();
-	}
-
-	addUploadBtn();
-	new MutationObserver(addUploadBtn).observe(select('div[role=main]'), {childList: true, subtree: true});
-
-	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
-		addYoursMenuItem();
 	}
 
 	if (pageDetect.isRepo()) {
@@ -584,8 +590,11 @@ async function onDomReady() {
 
 			if (pageDetect.isPR()) {
 				linkifyBranchRefs();
-				addDeleteForkLink();
-				fixSquashAndMergeTitle();
+
+				if (userLoggedIn) {
+					addDeleteForkLink();
+					fixSquashAndMergeTitle();
+				}
 			}
 
 			if (pageDetect.isPR() || pageDetect.isIssue()) {
@@ -595,8 +604,10 @@ async function onDomReady() {
 			}
 
 			if (pageDetect.isPRList() || pageDetect.isIssueList()) {
-				addFilterCommentsByYou();
-				showRecentlyPushedBranches();
+				if (userLoggedIn) {
+					addFilterCommentsByYou();
+					showRecentlyPushedBranches();
+				}
 			}
 
 			if (pageDetect.isCommit()) {
