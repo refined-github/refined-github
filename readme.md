@@ -10,6 +10,8 @@
 
 > Browser extension that simplifies the GitHub interface and adds useful features
 
+**Discuss it on [Product Hunt](https://www.producthunt.com/posts/refined-github)** 🦄
+
 We use GitHub a lot and notice many dumb annoyances we'd like to fix. So here be dragons.
 
 Our hope is that GitHub will notice and implement some of these much needed improvements. So if you like any of these improvements, please email [GitHub support](mailto:support@github.com) about doing it.
