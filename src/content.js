@@ -310,7 +310,7 @@ function indentInput(el, size = 4) {
 
 function showRecentlyPushedBranches() {
 	// Don't duplicate on back/forward in history
-	if (select.exists('.recently-touched-branches-wrapper')) {
+	if (select.exists('[data-url$=recently_touched_branches_list]')) {
 		return;
 	}
 
