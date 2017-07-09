@@ -132,7 +132,7 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 - Removes annoying hover effect in the repo file browser
 - Removes the comment box toolbar
 - Removes tooltips
-- Removes the "Projects" repo tab when there are no projects
+- Removes the "Projects" repo tab when there are no projects (New projects can be created on the "Settings" tab)
 
 ### UI improvements
 
