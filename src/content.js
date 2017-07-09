@@ -172,7 +172,7 @@ function addYoursMenuItem() {
 }
 
 function addReadmeButtons() {
-	const readmeContainer = select('#readme.readme');
+	const readmeContainer = select('.repository-content > #readme');
 	if (!readmeContainer) {
 		return;
 	}
