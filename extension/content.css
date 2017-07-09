@@ -39,7 +39,7 @@
 }
 
 /* Remove news feed tips */
-.news form + .text-center {
+.news > .text-center {
 	display: none !important;
 }
 
