@@ -21,6 +21,8 @@ import addFileCopyButton from './libs/copy-file';
 import copyMarkdown from './libs/copy-markdown';
 import linkifyCode, {editTextNodes} from './libs/linkify-urls-in-code';
 import autoLoadMoreNews from './libs/auto-load-more-news';
+import addOPLabels from './libs/op-labels';
+
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
 import {getUsername, observeEl} from './libs/utils';
@@ -75,7 +77,7 @@ function cacheReleasesCount() {
 	const releasesCountCacheKey = `${repoUrl}-releases-count`;
 
 	if (pageDetect.isRepoRoot()) {
-		const releasesCount = $('.numbers-summary a[href$="/releases"] .num').text().trim();
+		const releasesCount = select('.numbers-summary a[href$="/releases"] .num').textContent.trim();
 		appendReleasesCount(releasesCount);
 		chrome.storage.local.set({[releasesCountCacheKey]: releasesCount});
 	} else {
@@ -334,86 +336,36 @@ function showRecentlyPushedBranches() {
 
 // Add option for viewing diffs without whitespace changes
 function addDiffViewWithoutWhitespaceOption() {
-	const $detailsButtonGroup = $('.table-of-contents.Details .BtnGroup:first-child');
-	const $prReviewTools = $('.pr-review-tools > .diffbar-item:first-child');
+	const container = select([
+		'.table-of-contents.Details .BtnGroup', // In single commit view
+		'.pr-review-tools > .diffbar-item' // In review view
+	].join(','));
 
-	if (($detailsButtonGroup.length === 0 && $prReviewTools.length === 0) || $('.refined-github-toggle-whitespace').length > 0) {
+	if (!container || select.exists('.refined-github-toggle-whitespace')) {
 		return;
 	}
 
-	const urlParams = new URLSearchParams(window.location.search);
-	let optionIsSet = false;
+	const url = new URL(location.href);
+	const hidingWhitespace = url.searchParams.get('w') === '1';
 
-	if (urlParams.get('w') === '1') {
-		optionIsSet = true;
-		urlParams.delete('w');
+	if (hidingWhitespace) {
+		url.searchParams.delete('w');
 	} else {
-		urlParams.set('w', 1);
+		url.searchParams.set('w', 1);
 	}
 
-	let url = window.location.pathname;
-	if (String(urlParams)) {
-		url += '?' + String(urlParams);
-	}
-	url += window.location.hash || '';
-
-	const optionHtml = `
-		<div class="diffbar-item ${$detailsButtonGroup.length > 0 ? 'float-right' : ''}">
-			<a href="${url}"
+	container.insertAdjacentElement('afterend',
+		<div class="diffbar-item refined-github-toggle-whitespace">
+			<a href={url}
 				data-hotkey="d w"
-				class="refined-github-toggle-whitespace btn btn-sm btn-outline BtnGroup-item tooltipped tooltipped-s ${optionIsSet ? 'bg-gray-light text-gray-light' : ''}"
-				aria-label="${optionIsSet ? 'Show' : 'Hide'} whitespace in diffs">
-				${optionIsSet ? icons.check + ' ' : ''}No Whitespace
+				class={`btn btn-sm btn-outline BtnGroup-item tooltipped tooltipped-s ${hidingWhitespace ? 'bg-gray-light text-gray-light' : ''}`}
+				aria-label={`${hidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}>
+				{hidingWhitespace ? icons.check : ''}
+				{' '}
+				No Whitespace
 			</a>
 		</div>
-	`;
-
-	if ($detailsButtonGroup.length > 0) {
-		$detailsButtonGroup.after(optionHtml);
-	}
-
-	if ($prReviewTools.length > 0) {
-		$prReviewTools.after(optionHtml);
-	}
-}
-
-function addOPLabels() {
-	const comments = $('div.js-comment').toArray();
-	const newComments = $(comments).filter(':not(.refined-github-op)').toArray();
-
-	if (newComments.length > 0) {
-		const commentAuthor = comment => comment.querySelector('strong .author').textContent;
-		let op;
-
-		if (pageDetect.isPR()) {
-			const title = select('title').textContent;
-			const titleRegex = /^(.+) by (\S+) · Pull Request #(\d+) · (\S+)\/(\S+)$/;
-			op = titleRegex.exec(title)[2];
-		} else {
-			op = commentAuthor(comments[0]);
-		}
-
-		let opComments = newComments.filter(comment => commentAuthor(comment) === op);
-
-		if (!pageDetect.isPRFiles()) {
-			opComments = opComments.slice(1);
-		}
-
-		if (opComments.length > 0) {
-			const type = pageDetect.isPR() ? 'pull request' : 'issue';
-			const tooltip = `${op === getUsername() ? 'You' : 'This user'} submitted this ${type}.`;
-			const label = `
-				<span class="timeline-comment-label tooltipped tooltipped-multiline tooltipped-s" aria-label="${tooltip}">
-					Original Poster
-				</span>
-			`;
-
-			$(opComments).filter('.timeline-comment').find('.timeline-comment-actions').after(label);
-			$(opComments).filter('.review-comment').find('.comment-body').before(label);
-		}
-
-		$(newComments).addClass('refined-github-op');
-	}
+	);
 }
 
 function addMilestoneNavigation() {
@@ -428,16 +380,19 @@ function addMilestoneNavigation() {
 }
 
 function addFilterCommentsByYou() {
-	const newFilter = `
-		<a href="/${repoUrl}/issues?q=is%3Aopen+commenter:${getUsername()}" class="select-menu-item js-navigation-item refined-github-filter">
-			<div class="select-menu-item-text">
-				Everything commented by you
-			</div>
-		</a>`;
-	const lastFilter = $('.subnav-search-context .select-menu-list > a:last-child');
-	if (!lastFilter.prev().hasClass('refined-github-filter')) {
-		lastFilter.before(newFilter);
+	if (select.exists('.refined-github-filter')) {
+		return;
 	}
+	select('.subnav-search-context .js-navigation-item:last-child')
+		.insertAdjacentElement('beforeBegin',
+			<a
+				href={`/${repoUrl}/issues?q=is%3Aopen+commenter:${getUsername()}`}
+				class="select-menu-item js-navigation-item refined-github-filter">
+				<div class="select-menu-item-text">
+					Everything commented by you
+				</div>
+			</a>
+		);
 }
 
 function addProjectNewLink() {
@@ -468,8 +423,8 @@ function fixSquashAndMergeTitle() {
 }
 
 function addTitleToEmojis() {
-	for (const emoji of $('g-emoji')) {
-		$(emoji).attr('title', `:${$(emoji).attr('alias')}:`);
+	for (const emoji of select.all('g-emoji')) {
+		emoji.setAttribute('title', `:${emoji.getAttribute('alias')}:`);
 	}
 }
 
@@ -513,11 +468,9 @@ function init() {
 
 	// Prompt user to confirm erasing a comment with the Cancel button
 	$(document).on('click', '.js-hide-inline-comment-form', event => {
-		const $target = $(event.target);
-
 		// Do not prompt if textarea is empty
-		const text = $target.closest('.js-inline-comment-form').find('.js-comment-field').val();
-		if (text.length === 0) {
+		const textarea = event.target.closest('.js-inline-comment-form').querySelector('.js-comment-field');
+		if (textarea.value === '') {
 			return;
 		}
 
