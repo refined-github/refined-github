@@ -473,6 +473,18 @@ function addTitleToEmojis() {
 	}
 }
 
+function sortMilestonesByClosestDueDate() {
+	for (const a of select.all('a[href$="/milestones"], a[href*="/milestones?"]')) {
+		const url = new URL(a.href);
+		// Only if they aren't explicitly sorted differently
+		if (!url.searchParams.get('direction') && !url.searchParams.get('sort')) {
+			url.searchParams.set('direction', 'asc');
+			url.searchParams.set('sort', 'due_date');
+			a.href = url;
+		}
+	}
+}
+
 function init() {
 	if (select.exists('html.refined-github')) {
 		console.count('Refined GitHub was loaded multiple times: https://github.com/sindresorhus/refined-github/issues/479');
@@ -643,6 +655,8 @@ async function onDomReady() {
 			if (pageDetect.isRepoSettings()) {
 				addProjectNewLink();
 			}
+
+			sortMilestonesByClosestDueDate(); // Needs to be after addMilestoneNavigation
 		});
 	}
 }
