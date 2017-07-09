@@ -2,5 +2,3 @@ node_modules
 extension/**/*.js
 extension/**/*.map
 !extension/jquery-3.slim.min.js
-package-lock.json
-yarn.lock
