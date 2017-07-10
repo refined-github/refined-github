@@ -436,10 +436,10 @@ function sortMilestonesByClosestDueDate() {
 }
 
 function init() {
-	const username = getUsername();
-	if (!username) {
-		return;
-	}
+	// const username = getUsername();
+	// if (!username) {
+	// 	return;
+	// }
 
 	if (select.exists('html.refined-github')) {
 		console.count('Refined GitHub was loaded multiple times: https://github.com/sindresorhus/refined-github/issues/479');
