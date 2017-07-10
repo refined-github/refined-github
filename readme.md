@@ -137,7 +137,7 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 ### UI improvements
 
 - [Improves readability of tab indented code](https://cloud.githubusercontent.com/assets/170270/14170088/d3be931e-f755-11e5-8edf-c5f864336382.png)
-- [Aligns the labels to the left in Issues and PRs lists](https://user-images.githubusercontent.com/1402241/28006237-070b8214-6581-11e7-94bc-2b01a007d00b.png)
+- [Aligns labels to the left in Issues and PRs lists](https://user-images.githubusercontent.com/1402241/28006237-070b8214-6581-11e7-94bc-2b01a007d00b.png)
 - Prompts you when pressing `Cancel` on an inline comment in case it was a mistake
 - Easier copy-pasting from diffs by making +/- signs unselectable
 - Automagically expands the news feed when you scroll down
