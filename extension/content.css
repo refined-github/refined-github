@@ -132,22 +132,14 @@
 }
 
 /* Move the dashboard organization switcher to the right column */
-.page-dashboard .account-switcher {
-	position: absolute !important;
-	right: 10px !important;
-	margin-top: 0 !important;
-}
 .page-dashboard .account-switcher button {
-	width: 313px !important;
-	z-index: 0 !important;
+	width: 100%;
+	margin-bottom: 15px;
 }
 .page-dashboard .account-switcher .select-menu-button-gravatar {
 	float: none !important;
 	display: inline-block !important;
 	vertical-align: top !important;
-}
-.dashboard-sidebar {
-	padding-top: 50px;
 }
 /* Organization dashboard */
 .orgpage .underline-nav {

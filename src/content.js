@@ -25,7 +25,7 @@ import addOPLabels from './libs/op-labels';
 
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
-import {getUsername, observeEl} from './libs/utils';
+import {getUsername, observeEl, safeElementReady} from './libs/utils';
 
 // Add globals for easier debugging
 window.$ = $;
@@ -435,6 +435,14 @@ function sortMilestonesByClosestDueDate() {
 	}
 }
 
+function moveAccountSwitcherToSidebar() {
+	safeElementReady('.news.column.two-thirds > :first-child').then(el => {
+		if (el.matches('.account-switcher')) {
+			select('.dashboard-sidebar').prepend(el);
+		}
+	});
+}
+
 function init() {
 	//
 	// const username = getUsername();
@@ -524,6 +532,7 @@ async function onDomReady() {
 		}
 
 		autoLoadMoreNews();
+		moveAccountSwitcherToSidebar();
 	}
 
 	addUploadBtn();
