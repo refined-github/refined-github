@@ -48,6 +48,7 @@ function linkifyBranchRefs() {
 
 		if (el.title === deletedBranch) {
 			el.title = 'Deleted: ' + el.title;
+			el.style.textDecoration: 'line-through';
 			continue;
 		}
 
