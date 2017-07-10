@@ -436,6 +436,11 @@ function sortMilestonesByClosestDueDate() {
 }
 
 function init() {
+	const username = getUsername();
+	if (!username) {
+		return;
+	}
+
 	if (select.exists('html.refined-github')) {
 		console.count('Refined GitHub was loaded multiple times: https://github.com/sindresorhus/refined-github/issues/479');
 		return;
@@ -495,7 +500,9 @@ async function onDomReady() {
 
 	markUnread.setup();
 
-	moveMarketplaceLinkToProfileDropdown();
+	if (!pageDetect.isGist()) {
+		moveMarketplaceLinkToProfileDropdown();
+	}
 
 	if (pageDetect.isGist()) {
 		addGistCopyButton();
