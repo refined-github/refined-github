@@ -9,3 +9,6 @@ deploy:
   script: npm run release
   on:
     branch: master
+    # Only deploy on cronjobs + if the last commit was within the last day ± 1 hour.
+    # Temporarily comment out this condition to let any commits be deployed.
+    condition: $TRAVIS_EVENT_TYPE = cron &&  $(git log -1 --pretty=format:%ct) -gt $(gdate --date='26 hours ago' +%s)
