@@ -474,6 +474,11 @@ function addTitleToEmojis() {
 }
 
 function init() {
+	const username = getUsername();
+	if (!username) {
+		return;
+	}
+
 	if (select.exists('html.refined-github')) {
 		console.count('Refined GitHub was loaded multiple times: https://github.com/sindresorhus/refined-github/issues/479');
 		return;
@@ -532,43 +537,42 @@ async function onDomReady() {
 	await domLoaded;
 
 	const username = getUsername();
-	const userLoggedIn = Boolean(username);
+	if (!username) {
+		return;
+	}
 
-	// Things that we want to do only when the user is logged in
-	if (userLoggedIn) {
-		markUnread.setup();
+	markUnread.setup();
 
-		if (!pageDetect.isGist()) {
-			moveMarketplaceLinkToProfileDropdown();
-		}
-
-		if (pageDetect.isDashboard()) {
-			// Hide other users starring/forking your repos
-			const hideStarsOwnRepos = () => {
-				$('#dashboard .news .watch_started, #dashboard .news .fork')
-					.has(`.title a[href^="/${username}"]`)
-					.css('display', 'none');
-			};
-
-			if (options.hideStarsOwnRepos) {
-				hideStarsOwnRepos();
-				new MutationObserver(() => hideStarsOwnRepos())
-					.observe(select('#dashboard .news'), {childList: true});
-			}
-
-			autoLoadMoreNews();
-		}
-
-		if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
-			addYoursMenuItem();
-		}
-
-		addUploadBtn();
-		new MutationObserver(addUploadBtn).observe(select('div[role=main]'), {childList: true, subtree: true});
+	if (!pageDetect.isGist()) {
+		moveMarketplaceLinkToProfileDropdown();
 	}
 
 	if (pageDetect.isGist()) {
 		addGistCopyButton();
+	}
+
+	if (pageDetect.isDashboard()) {
+		// Hide other users starring/forking your repos
+		const hideStarsOwnRepos = () => {
+			$('#dashboard .news .watch_started, #dashboard .news .fork')
+				.has(`.title a[href^="/${username}"]`)
+				.css('display', 'none');
+		};
+
+		if (options.hideStarsOwnRepos) {
+			hideStarsOwnRepos();
+			new MutationObserver(() => hideStarsOwnRepos())
+				.observe(select('#dashboard .news'), {childList: true});
+		}
+
+		autoLoadMoreNews();
+	}
+
+	addUploadBtn();
+	new MutationObserver(addUploadBtn).observe(select('div[role=main]'), {childList: true, subtree: true});
+
+	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
+		addYoursMenuItem();
 	}
 
 	if (pageDetect.isRepo()) {
@@ -590,11 +594,8 @@ async function onDomReady() {
 
 			if (pageDetect.isPR()) {
 				linkifyBranchRefs();
-
-				if (userLoggedIn) {
-					addDeleteForkLink();
-					fixSquashAndMergeTitle();
-				}
+				addDeleteForkLink();
+				fixSquashAndMergeTitle();
 			}
 
 			if (pageDetect.isPR() || pageDetect.isIssue()) {
@@ -604,10 +605,8 @@ async function onDomReady() {
 			}
 
 			if (pageDetect.isPRList() || pageDetect.isIssueList()) {
-				if (userLoggedIn) {
-					addFilterCommentsByYou();
-					showRecentlyPushedBranches();
-				}
+				addFilterCommentsByYou();
+				showRecentlyPushedBranches();
 			}
 
 			if (pageDetect.isCommit()) {
