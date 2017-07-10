@@ -16,10 +16,10 @@ export const emptyElement = element => {
 	}
 };
 
-export const observeEl = (el, listener, options) => {
-	options = Object.assign({
-		childList: true
-	}, options);
+export const observeEl = (el, listener, options = {childList: true}) => {
+	if (typeof el === 'string') {
+		el = select(el);
+	}
 
 	// Run first
 	listener();

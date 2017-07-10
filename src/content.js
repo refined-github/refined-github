@@ -16,7 +16,7 @@ import diffFileHeader from './libs/diffheader';
 import enableCopyOnY from './libs/copy-on-y';
 import addReactionParticipants from './libs/reactions-avatars';
 import showRealNames from './libs/show-names';
-import filePathCopyBtnListner from './libs/copy-file-path';
+import addCopyFilePathToPRs from './libs/copy-file-path';
 import addFileCopyButton from './libs/copy-file';
 import copyMarkdown from './libs/copy-markdown';
 import linkifyCode, {editTextNodes} from './libs/linkify-urls-in-code';
@@ -591,7 +591,7 @@ async function onDomReady() {
 
 			if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
 				diffFileHeader.setup();
-				filePathCopyBtnListner();
+				addCopyFilePathToPRs();
 			}
 
 			if (pageDetect.isSingleFile()) {
