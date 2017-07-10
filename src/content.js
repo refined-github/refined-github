@@ -537,9 +537,6 @@ async function onDomReady() {
 	await domLoaded;
 
 	const username = getUsername();
-	if (!username) {
-		return;
-	}
 
 	markUnread.setup();
 
