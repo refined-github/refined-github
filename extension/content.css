@@ -395,7 +395,7 @@ svg.octicon.octicon-repo.dashboard-event-icon {
 }
 
 /* Make tab indented code more readable on GitHub and Gist */
-html {
+* {
 	-moz-tab-size: 4 !important;
 	tab-size: 4 !important;
 }
