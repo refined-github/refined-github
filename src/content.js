@@ -436,6 +436,7 @@ function sortMilestonesByClosestDueDate() {
 }
 
 function init() {
+	//
 	// const username = getUsername();
 	// if (!username) {
 	// 	return;
