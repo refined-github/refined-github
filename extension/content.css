@@ -677,7 +677,8 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 .header-nav-item > a[href='/marketplace'] {
 	display: none !important;
 }
-/* Move labels in Issue/PR list above the title */
+
+/* Move labels in the Issue/PR list below the title */
 .js-issue-row .lh-condensed {
 	display: grid;
 	grid-template-rows: auto auto auto;
