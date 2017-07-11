@@ -23,7 +23,7 @@ export const emptyElement = element => {
  */
 export const safeElementReady = selector => {
 	const waiting = elementReady(selector);
-	domLoaded.then(() => waiting.cancel());
+	domLoaded.then(() => requestAnimationFrame(() => waiting.cancel()));
 	return waiting;
 };
 
