@@ -132,6 +132,16 @@
 }
 
 /* Move the dashboard organization switcher to the right column */
+.page-dashboard .news.column.two-thirds .account-switcher {
+	/* Hide switcher from the main column, but if JS fails show it */
+	animation: temporarily-hide 5s steps(1, end);
+}
+@keyframes temporarily-hide {
+	from {
+		position: absolute;
+		top: -1000px;
+	}
+}
 .page-dashboard .account-switcher button {
 	width: 100%;
 	margin-bottom: 15px;

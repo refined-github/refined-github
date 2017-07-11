@@ -436,9 +436,10 @@ function sortMilestonesByClosestDueDate() {
 }
 
 function moveAccountSwitcherToSidebar() {
-	safeElementReady('.news.column.two-thirds > :first-child').then(el => {
-		if (el.matches('.account-switcher')) {
-			select('.dashboard-sidebar').prepend(el);
+	safeElementReady('.dashboard-sidebar').then(sidebar => {
+		const switcher = select('.account-switcher');
+		if (switcher) {
+			sidebar.prepend(switcher);
 		}
 	});
 }
@@ -459,6 +460,10 @@ function init() {
 
 	if (!pageDetect.isGist()) {
 		addTrendingMenuItem();
+	}
+
+	if (pageDetect.isDashboard()) {
+		moveAccountSwitcherToSidebar();
 	}
 
 	// Support indent with tab key in comments
@@ -532,7 +537,6 @@ async function onDomReady() {
 		}
 
 		autoLoadMoreNews();
-		moveAccountSwitcherToSidebar();
 	}
 
 	addUploadBtn();
