@@ -281,37 +281,31 @@ function indentInput(el, size = 4) {
 	const fullFieldText = el.value;
 	const selection = window.getSelection().toString();
 	const {selectionStart, selectionEnd} = el;
-	const isMultiLine = /\n/.test(selection);
 	el.focus();
 
-	if (isMultiLine) {
-		const firstLineStart = fullFieldText.lastIndexOf('\n', selectionStart) + 1;
-		const selectedLines = fullFieldText.substring(firstLineStart, selectionEnd);
+	const firstLineStart = fullFieldText.lastIndexOf('\n', selectionStart) + 1;
+	const selectedLines = fullFieldText.substring(firstLineStart, selectionEnd);
 
-		// Find the start index of each line
-		const indexes = selectedLines.split('\n').map(line => line.length);
-		indexes.unshift(firstLineStart);
-		indexes.pop();
+	// Find the start index of each line
+	const indexes = selectedLines.split('\n').map(line => line.length);
+	indexes.unshift(firstLineStart);
+	indexes.pop();
 
-		// `indexes` contains lengths. Update them to point to each line start index
-		for (let i = 1; i < indexes.length; i++) {
-			indexes[i] += indexes[i - 1] + 1;
-		}
-
-		for (let i = indexes.length - 1; i >= 0; i--) {
-			el.setSelectionRange(indexes[i], indexes[i]);
-			document.execCommand('insertText', false, ' '.repeat(size));
-		}
-
-		// Restore selection position
-		el.setSelectionRange(
-			selectionStart + size,
-			selectionEnd + (size * indexes.length)
-		);
-	} else {
-		const indentSize = (size - (selectionEnd % size)) || size;
-		document.execCommand('insertText', false, ' '.repeat(indentSize));
+	// `indexes` contains lengths. Update them to point to each line start index
+	for (let i = 1; i < indexes.length; i++) {
+		indexes[i] += indexes[i - 1] + 1;
 	}
+
+	for (let i = indexes.length - 1; i >= 0; i--) {
+		el.setSelectionRange(indexes[i], indexes[i]);
+		document.execCommand('insertText', false, ' '.repeat(size));
+	}
+
+	// Restore selection position
+	el.setSelectionRange(
+		selectionStart + size,
+		selectionEnd + (size * indexes.length)
+	);
 }
 
 function showRecentlyPushedBranches() {
