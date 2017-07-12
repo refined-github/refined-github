@@ -542,12 +542,11 @@ Hidden content area created to increase hover target
 /* +/- Pseudo elements on diffs */
 .refined-github-diff-signs .blob-code-addition:before,
 .refined-github-diff-signs .blob-code-deletion:before {
-	display: inline-block;
 	position: absolute;
 	top: 1px;
 	font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
 	font-size: 11px;
-	text-indent: -8px;
+	left: 1ch;
 	color: rgba(0, 0, 0, 0.3);
 }
 
@@ -558,9 +557,10 @@ Hidden content area created to increase hover target
 .refined-github-diff-signs .blob-code-deletion:before {
 	content: '-';
 }
-.refined-github-diff-signs .blob-code-addition .blob-code-inner,
-.refined-github-diff-signs .blob-code-deletion .blob-code-inner {
-	padding-left: 1ch;
+
+.refined-github-diff-signs .code-review .blob-code-inner {
+	position: relative;
+	left: 1ch;
 }
 
 /* Prevent copy of ghost whitespace where supported (#317) */
