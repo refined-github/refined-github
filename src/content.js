@@ -279,7 +279,6 @@ function markMergeCommitsInList() {
 
 function indentInput(el, size = 4) {
 	const fullFieldText = el.value;
-	const selection = window.getSelection().toString();
 	const {selectionStart, selectionEnd} = el;
 	el.focus();
 
