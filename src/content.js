@@ -272,6 +272,16 @@ function addPatchDiffLinks() {
 	);
 }
 
+function removeSelectableWhiteSpaceFromDiffs() {
+	for (const commentBtn of select.all('.add-line-comment')) {
+		for (const node of commentBtn.childNodes) {
+			if (node.nodeType === Node.TEXT_NODE) {
+				node.remove();
+			}
+		}
+	}
+}
+
 /* Lasciate ogne speranza, voi ch'intrate. */
 function removeDiffSigns() {
 	for (const line of select.all('tr:not(.refined-github-diff-signs)')) {
@@ -289,6 +299,7 @@ function removeDiffSigns() {
 }
 
 function removeDiffSignsAndWatchExpansions() {
+	removeSelectableWhiteSpaceFromDiffs();
 	removeDiffSigns();
 	for (const file of $('.diff-table:not(.rgh-watching-lines)').has('.diff-expander')) {
 		file.classList.add('rgh-watching-lines');
