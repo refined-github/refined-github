@@ -91,10 +91,10 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 	</tr>
 	<tr><!-- Prevent zebra stripes --></tr>
 	<tr>
-		<td>
+		<td width="500px"><!-- 50% will collapse the table around <th> -->
 			<img src="https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png">
 		</td>
-		<td>
+		<td width="500px">
 			<img src="https://cloud.githubusercontent.com/assets/170270/13597190/bd487ec4-e549-11e5-9521-419fa284512c.png">
 		</td>
 	</tr>
