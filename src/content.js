@@ -275,10 +275,7 @@ function addPatchDiffLinks() {
 function removeDiffSigns() {
 	$('.diff-table:not(.refined-github-diff-signs)')
 		.addClass('refined-github-diff-signs')
-		.find(`
-			.blob-code-addition .blob-code-inner,
-			.blob-code-deletion .blob-code-inner
-		`)
+		.find('.blob-code-inner')
 		.each((index, el) => {
 			el.firstChild.textContent = el.firstChild.textContent.slice(1);
 		});

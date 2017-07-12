@@ -542,12 +542,12 @@ Hidden content area created to increase hover target
 /* +/- Pseudo elements on diffs */
 .refined-github-diff-signs .blob-code-addition:before,
 .refined-github-diff-signs .blob-code-deletion:before {
-	position: relative;
-	top: -1px;
-	left: -8px;
+	display: inline-block;
+	position: absolute;
+	top: 1px;
 	font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
-	line-height: 0; /* Avoids extra vertical space */
 	font-size: 11px;
+	text-indent: -8px;
 	color: rgba(0, 0, 0, 0.3);
 }
 
@@ -562,6 +562,12 @@ Hidden content area created to increase hover target
 /* Prevent copy of ghost whitespace where supported (#317) */
 .refined-github-diff-signs .add-line-comment {
 	-moz-user-select: none;
+	user-select: none;
+}
+
+/* Restore removed space with unselectable one*/
+.refined-github-diff-signs .blob-code-inner:before {
+	content: ' ' !important;
 	user-select: none;
 }
 
