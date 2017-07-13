@@ -9,6 +9,9 @@ module.exports = {
 		options: './src/options'
 	},
 	plugins: [
+		new webpack.DefinePlugin({
+			process: '0'
+		}),
 		new webpack.optimize.ModuleConcatenationPlugin()
 	],
 	output: {
