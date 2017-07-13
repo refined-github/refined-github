@@ -1,6 +1,6 @@
 {
 	"scripts": {
-		"test": "xo && ava && npm run build",
+		"test": "xo && BABEL_ENV=testing ava && npm run build",
 		"build": "webpack",
 		"watch": "webpack --watch",
 		"watch:sourcemap": "webpack --watch --devtool eval-cheap-module-source-map",
@@ -75,7 +75,6 @@
 	"babel": {
 		"comments": false,
 		"plugins": [
-			"transform-es2015-modules-commonjs",
 			[
 				"transform-react-jsx",
 				{
@@ -83,6 +82,13 @@
 					"useBuiltIns": true
 				}
 			]
-		]
+		],
+		"env": {
+			"testing": {
+				"plugins": [
+					"transform-es2015-modules-commonjs"
+				]
+			}
+		}
 	}
 }
