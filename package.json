@@ -4,10 +4,10 @@
 		"build": "webpack",
 		"watch": "webpack --watch",
 		"watch:sourcemap": "webpack --watch --devtool eval-cheap-module-source-map",
-		"reduce-size": "babel --out-dir . --no-comments extension/*.js",
+		"reduce-size": "BABEL_ENV=production babel --out-dir . extension/content.js",
 		"release:amo": "cd extension && webext submit",
 		"release:cws": "cd extension && webstore upload --auto-publish",
-		"release": "run-s build update-version release:* reduce-size",
+		"release": "BABEL_ENV=production run-s build reduce-size update-version release:*",
 		"update-version": "dot-json extension/manifest.json version $(date -u +%y.%-m.%-d.%-H%M)"
 	},
 	"dependencies": {
@@ -72,7 +72,6 @@
 		]
 	},
 	"babel": {
-		"comments": false,
 		"plugins": [
 			[
 				"transform-react-jsx",
@@ -86,6 +85,22 @@
 			"testing": {
 				"plugins": [
 					"transform-es2015-modules-commonjs"
+				]
+			},
+			"production": {
+				"minified": false,
+				"presets": [
+					[
+						"babili",
+						{
+							"deadcode": {
+								"optimizeRawSize": true
+							},
+							"mangle": false,
+							"removeConsole": false,
+							"simplify": false
+						}
+					]
 				]
 			}
 		}
