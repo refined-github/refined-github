@@ -272,16 +272,39 @@ function addPatchDiffLinks() {
 	);
 }
 
+function removeSelectableWhiteSpaceFromDiffs() {
+	for (const commentBtn of select.all('.add-line-comment')) {
+		for (const node of commentBtn.childNodes) {
+			if (node.nodeType === Node.TEXT_NODE) {
+				node.remove();
+			}
+		}
+	}
+}
+
+/* Lasciate ogne speranza, voi ch'intrate. */
 function removeDiffSigns() {
-	$('.diff-table:not(.refined-github-diff-signs)')
-		.addClass('refined-github-diff-signs')
-		.find(`
-			.blob-code-addition .blob-code-inner,
-			.blob-code-deletion .blob-code-inner
-		`)
-		.each((index, el) => {
-			el.firstChild.textContent = el.firstChild.textContent.slice(1);
-		});
+	for (const line of select.all('tr:not(.refined-github-diff-signs)')) {
+		line.classList.add('refined-github-diff-signs');
+		for (const code of select.all('.blob-code-inner', line)) {
+			// Drop -, + or space
+			code.firstChild.textContent = code.firstChild.textContent.slice(1);
+
+			// If a line is empty, the next line will collapse
+			if (code.textContent.length === 0) {
+				code.prepend(new Text(' '));
+			}
+		}
+	}
+}
+
+function removeDiffSignsAndWatchExpansions() {
+	removeSelectableWhiteSpaceFromDiffs();
+	removeDiffSigns();
+	for (const file of $('.diff-table:not(.rgh-watching-lines)').has('.diff-expander')) {
+		file.classList.add('rgh-watching-lines');
+		observeEl(file.tBodies[0], removeDiffSigns);
+	}
 }
 
 function markMergeCommitsInList() {
@@ -572,10 +595,9 @@ async function onDomReady() {
 			}
 
 			if (pageDetect.hasDiff()) {
-				removeDiffSigns();
 				const diffElements = select('.js-discussion, #files');
 				if (diffElements) {
-					new MutationObserver(removeDiffSigns).observe(diffElements, {childList: true, subtree: true});
+					observeEl(diffElements, removeDiffSignsAndWatchExpansions, {childList: true, subtree: true});
 				}
 				addDiffViewWithoutWhitespaceOption();
 			}

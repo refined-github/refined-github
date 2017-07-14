@@ -22,7 +22,7 @@ export const observeEl = (el, listener, options = {childList: true}) => {
 	}
 
 	// Run first
-	listener();
+	listener([]);
 
 	// Run on updates
 	return new MutationObserver(listener).observe(el, options);
