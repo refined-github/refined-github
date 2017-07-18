@@ -694,3 +694,8 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 	font-size: 11px !important;
 	padding: 2px 3px 3px 3px !important;
 }
+
+/* Fix for GHE More Dropdown positioning */
+.reponav-dropdown.active .dropdown-menu {
+	left: auto !important;
+}
