@@ -1,13 +1,13 @@
 {
 	"scripts": {
-		"test": "xo && BABEL_ENV=testing ava && npm run build",
+		"test": "xo && BABEL_ENV=testing ava && run-s build minify",
 		"build": "webpack",
 		"watch": "webpack --watch",
 		"watch:sourcemap": "webpack --watch --devtool eval-cheap-module-source-map",
-		"reduce-size": "BABEL_ENV=production babel --out-dir . extension/content.js",
+		"minify": "BABEL_ENV=production babel --out-dir . extension/content.js",
 		"release:amo": "cd extension && webext submit",
 		"release:cws": "cd extension && webstore upload --auto-publish",
-		"release": "BABEL_ENV=production run-s build reduce-size update-version release:*",
+		"release": "BABEL_ENV=production run-s build minify update-version release:*",
 		"update-version": "dot-json extension/manifest.json version $(date -u +%y.%-m.%-d.%-H%M)"
 	},
 	"dependencies": {
@@ -33,6 +33,7 @@
 		"babel-loader": "^7.1.1",
 		"babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
 		"babel-plugin-transform-react-jsx": "^6.24.1",
+		"babel-preset-babili": "^0.1.4",
 		"chrome-webstore-upload-cli": "^1.0.0",
 		"common-tags": "^1.4.0",
 		"dot-json": "^1.0.3",
