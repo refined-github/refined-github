@@ -333,14 +333,40 @@ function markMergeCommitsInList() {
 }
 
 function indentInput(el, size = 4) {
+	const selection = window.getSelection().toString();
+	const {selectionStart, selectionEnd, value} = el;
+	const isMultiLine = /\n/.test(selection);
+	const firstLineStart = value.lastIndexOf('\n', selectionStart) + 1;
+
 	el.focus();
-	const value = el.value;
-	const selectionStart = el.selectionStart;
-	const indentSize = (size - (el.selectionEnd % size)) || size;
-	const indentationText = ' '.repeat(indentSize);
-	el.value = value.slice(0, selectionStart) + indentationText + value.slice(el.selectionEnd);
-	el.selectionStart = selectionStart + indentationText.length;
-	el.selectionEnd = selectionStart + indentationText.length;
+
+	if (isMultiLine) {
+		const selectedLines = value.substring(firstLineStart, selectionEnd);
+
+		// Find the start index of each line
+		const indexes = selectedLines.split('\n').map(line => line.length);
+		indexes.unshift(firstLineStart);
+		indexes.pop();
+
+		// `indexes` contains lengths. Update them to point to each line start index
+		for (let i = 1; i < indexes.length; i++) {
+			indexes[i] += indexes[i - 1] + 1;
+		}
+
+		for (let i = indexes.length - 1; i >= 0; i--) {
+			el.setSelectionRange(indexes[i], indexes[i]);
+			document.execCommand('insertText', false, ' '.repeat(size));
+		}
+
+		// Restore selection position
+		el.setSelectionRange(
+			selectionStart + size,
+			selectionEnd + (size * indexes.length)
+		);
+	} else {
+		const indentSize = (size - ((selectionEnd - firstLineStart) % size)) || size;
+		document.execCommand('insertText', false, ' '.repeat(indentSize));
+	}
 }
 
 async function showRecentlyPushedBranches() {
