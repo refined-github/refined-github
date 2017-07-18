@@ -41,7 +41,7 @@ function linkifyBranchRefs() {
 		deletedBranch = lastBranchAction.title;
 	}
 
-	for (const el of select.all('.base-ref, .head-ref')) {
+	for (const el of select.all('.commit-ref[title], .base-ref[title], .head-ref[title]')) {
 		if (el.textContent === 'unknown repository') {
 			continue;
 		}
