@@ -278,15 +278,14 @@ function markMergeCommitsInList() {
 }
 
 function indentInput(el, size = 4) {
-	const fullFieldText = el.value;
 	const selection = window.getSelection().toString();
-	const {selectionStart, selectionEnd} = el;
+	const {selectionStart, selectionEnd, value} = el;
 	const isMultiLine = /\n/.test(selection);
 	el.focus();
 
 	if (isMultiLine) {
-		const firstLineStart = fullFieldText.lastIndexOf('\n', selectionStart) + 1;
-		const selectedLines = fullFieldText.substring(firstLineStart, selectionEnd);
+		const firstLineStart = value.lastIndexOf('\n', selectionStart) + 1;
+		const selectedLines = value.substring(firstLineStart, selectionEnd);
 
 		// Find the start index of each line
 		const indexes = selectedLines.split('\n').map(line => line.length);
