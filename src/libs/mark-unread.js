@@ -1,16 +1,12 @@
+import browser from 'webextension-polyfill';
 import gitHubInjection from 'github-injection';
 import select from 'select-dom';
 import {h} from 'dom-chef';
+import SynchronousStorage from './synchronous-storage';
 import * as icons from './icons';
 import * as pageDetect from './page-detect';
 
-function loadNotifications() {
-	return JSON.parse(localStorage.getItem('unreadNotifications') || '[]');
-}
-
-function storeNotifications(unreadNotifications) {
-	localStorage.setItem('unreadNotifications', JSON.stringify(unreadNotifications || '[]'));
-}
+let storage;
 
 function stripHash(url) {
 	return url.replace(/#.+$/, '');
@@ -28,7 +24,7 @@ function addMarkUnreadButton() {
 }
 
 function markRead(url) {
-	const unreadNotifications = loadNotifications();
+	const unreadNotifications = storage.get();
 	unreadNotifications.forEach((notification, index) => {
 		if (notification.url === url) {
 			unreadNotifications.splice(index, 1);
@@ -41,7 +37,7 @@ function markRead(url) {
 		li.classList.add('read');
 	}
 
-	storeNotifications(unreadNotifications);
+	storage.set(unreadNotifications);
 }
 
 function markUnread() {
@@ -71,7 +67,7 @@ function markUnread() {
 	const dateTitle = lastCommentTime.title;
 	const date = lastCommentTime.getAttribute('datetime');
 
-	const unreadNotifications = loadNotifications();
+	const unreadNotifications = storage.get();
 
 	unreadNotifications.push({
 		participants,
@@ -84,7 +80,7 @@ function markUnread() {
 		url
 	});
 
-	storeNotifications(unreadNotifications);
+	storage.set(unreadNotifications);
 	updateUnreadIndicator();
 
 	this.setAttribute('disabled', 'disabled');
@@ -92,7 +88,7 @@ function markUnread() {
 }
 
 function renderNotifications() {
-	const unreadNotifications = loadNotifications()
+	const unreadNotifications = storage.get()
 		.filter(notification => !isNotificationExist(notification.url))
 		.filter(notification => {
 			if (!isParticipatingPage()) {
@@ -256,7 +252,7 @@ function updateUnreadIndicator() {
 	const statusMark = icon.querySelector('.mail-status');
 	const hasRealNotifications = icon.matches('[data-ga-click$=":unread"]');
 
-	const hasUnread = hasRealNotifications || loadNotifications().length > 0;
+	const hasUnread = hasRealNotifications || storage.get().length > 0;
 	const label = hasUnread ? 'You have unread notifications' : 'You have no unread notifications';
 
 	icon.setAttribute('aria-label', label);
@@ -281,7 +277,7 @@ function markAllNotificationsRead(e) {
 
 function addCustomAllReadBtn() {
 	const hasMarkAllReadBtnExists = select.exists('#notification-center a[href="#mark_as_read_confirm_box"]');
-	if (hasMarkAllReadBtnExists || loadNotifications().length === 0) {
+	if (hasMarkAllReadBtnExists || storage.get().length === 0) {
 		return;
 	}
 
@@ -302,7 +298,7 @@ function addCustomAllReadBtn() {
 	);
 
 	$(document).on('click', '#clear-local-notification', () => {
-		storeNotifications([]);
+		storage.set([]);
 		location.reload();
 	});
 }
@@ -310,14 +306,24 @@ function addCustomAllReadBtn() {
 function updateLocalNotificationsCount() {
 	const unreadCount = select('#notification-center .filter-list a[href="/notifications"] .count');
 	const githubNotificationsCount = Number(unreadCount.textContent);
-	const localNotifications = loadNotifications();
+	const localNotifications = storage.get();
 
 	if (localNotifications) {
 		unreadCount.textContent = githubNotificationsCount + localNotifications.length;
 	}
 }
 
-function setup() {
+async function setup() {
+	storage = await new SynchronousStorage(
+		() => {
+			return browser.storage.local.get({
+				unreadNotifications: []
+			}).then(storage => storage.unreadNotifications);
+		},
+		unreadNotifications => {
+			return browser.storage.local.set({unreadNotifications});
+		}
+	);
 	gitHubInjection(window, () => {
 		destroy();
 
@@ -329,7 +335,7 @@ function setup() {
 			$(document).on('click', '.js-mark-all-read', markAllNotificationsRead);
 			$(document).on('click', '.js-delete-notification button', updateUnreadIndicator);
 			$(document).on('click', 'form[action="/notifications/mark"] button', () => {
-				storeNotifications([]);
+				storage.set([]);
 			});
 		} else if (pageDetect.isPR() || pageDetect.isIssue()) {
 			markRead(location.href);
