@@ -33,36 +33,30 @@ window.select = select;
 
 const repoUrl = pageDetect.getRepoURL();
 
-function getCanonicalBranchFromRef($element) {
-	const refSelector = '.commit-ref, .head-ref, .base-ref';
-
-	return $element.find(refSelector).addBack(refSelector).filter('[title]').attr('title');
-}
-
 function linkifyBranchRefs() {
-	let deletedBranchName = null;
-	const $deletedBranchInTimeline = $('.discussion-item-head_ref_deleted');
-	if ($deletedBranchInTimeline.length > 0) {
-		deletedBranchName = getCanonicalBranchFromRef($deletedBranchInTimeline);
+	let deletedBranch = false;
+	const lastBranchAction = select.all(`
+		.discussion-item-head_ref_deleted .head-ref,
+		.discussion-item-head_ref_restored .head-ref
+	`).pop();
+	if (lastBranchAction && lastBranchAction.closest('.discussion-item-head_ref_deleted')) {
+		deletedBranch = lastBranchAction.title;
 	}
 
-	$('.commit-ref').each((i, el) => {
-		if (el.firstElementChild.textContent === 'unknown repository') {
-			return;
+	for (const el of select.all('.commit-ref[title], .base-ref[title], .head-ref[title]')) {
+		if (el.textContent === 'unknown repository') {
+			continue;
 		}
 
-		const $el = $(el);
-		const canonicalBranch = getCanonicalBranchFromRef($el);
-
-		if (deletedBranchName && canonicalBranch === deletedBranchName) {
-			$el.attr('title', 'Deleted: ' + canonicalBranch);
-			return;
+		if (el.title === deletedBranch) {
+			el.title = 'Deleted: ' + el.title;
+			el.style.textDecoration = 'line-through';
+			continue;
 		}
 
-		const branchUrl = canonicalBranch.replace(':', '/tree/');
-
-		$el.wrap(<a href={`/${branchUrl}`}></a>);
-	});
+		const branchUrl = '/' + el.title.replace(':', '/tree/');
+		$(el).closest('.commit-ref').wrap(<a href={branchUrl}></a>);
+	}
 }
 
 function appendReleasesCount(count) {
