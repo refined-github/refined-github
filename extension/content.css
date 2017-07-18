@@ -254,8 +254,8 @@ forked a repo
 	padding: 0 0 0 45px !important;
 }
 
-.news .alert .body {
-	padding: 1em 0 !important;
+:root .news .alert .body { /* Higher specificity, avoids !important */
+	padding: 1em 0;
 }
 
 /*
