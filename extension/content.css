@@ -340,12 +340,14 @@ we will add it back on for the simple news alerts we decide to show
 	font-size: 11.4px !important;
 }
 
-.refined-github-merge-commit .commit-avatar-cell svg {
+.refined-github-merge-commit .octicon-git-pull-request {
 	color: #4078c0;
 	margin-left: 9px;
+	width: 27px;
+	height: 36px;
 }
 
-.refined-github-merge-commit .avatar-parent-child img.avatar-child {
+.refined-github-merge-commit .avatar-child {
 	width: 16px !important;
 	height: 16px !important;
 }
