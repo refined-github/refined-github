@@ -1,8 +1,9 @@
 import select from 'select-dom';
 import debounce from 'debounce-fn';
-import feedUpdates from './on-feed-update';
+import {observeEl} from './utils';
 
 let btn;
+let newsfeedObserver;
 
 const loadMore = debounce(() => {
 	btn.click();
@@ -56,7 +57,7 @@ const findButton = () => {
 	if (btn) {
 		inView.observe(btn);
 	} else {
-		feedUpdates.off(findButton);
+		newsfeedObserver.disconnect();
 	}
 };
 
@@ -66,8 +67,7 @@ export default () => {
 		// If GH hasn't loaded the JS,
 		// the fake click will submit the form without ajax.
 		form.addEventListener('submit', e => e.preventDefault());
-
-		feedUpdates.on(findButton);
+		newsfeedObserver = observeEl('#dashboard .news', findButton);
 		findButton();
 	}
 };
