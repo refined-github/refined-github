@@ -281,10 +281,11 @@ function indentInput(el, size = 4) {
 	const selection = window.getSelection().toString();
 	const {selectionStart, selectionEnd, value} = el;
 	const isMultiLine = /\n/.test(selection);
+	const firstLineStart = value.lastIndexOf('\n', selectionStart) + 1;
+
 	el.focus();
 
 	if (isMultiLine) {
-		const firstLineStart = value.lastIndexOf('\n', selectionStart) + 1;
 		const selectedLines = value.substring(firstLineStart, selectionEnd);
 
 		// Find the start index of each line
@@ -308,7 +309,7 @@ function indentInput(el, size = 4) {
 			selectionEnd + (size * indexes.length)
 		);
 	} else {
-		const indentSize = (size - (selectionEnd % size)) || size;
+		const indentSize = (size - ((selectionEnd - firstLineStart) % size)) || size;
 		document.execCommand('insertText', false, ' '.repeat(indentSize));
 	}
 }
