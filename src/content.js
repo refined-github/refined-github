@@ -25,7 +25,7 @@ import addOPLabels from './libs/op-labels';
 
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
-import {getUsername, observeEl} from './libs/utils';
+import {getUsername, observeEl, safeElementReady} from './libs/utils';
 
 // Add globals for easier debugging
 window.$ = $;
@@ -488,6 +488,15 @@ function sortMilestonesByClosestDueDate() {
 	}
 }
 
+function moveAccountSwitcherToSidebar() {
+	safeElementReady('.dashboard-sidebar').then(sidebar => {
+		const switcher = select('.account-switcher');
+		if (switcher) {
+			sidebar.prepend(switcher);
+		}
+	});
+}
+
 function init() {
 	//
 	// const username = getUsername();
@@ -504,6 +513,10 @@ function init() {
 
 	if (!pageDetect.isGist()) {
 		addTrendingMenuItem();
+	}
+
+	if (pageDetect.isDashboard()) {
+		moveAccountSwitcherToSidebar();
 	}
 
 	// Support indent with tab key in comments

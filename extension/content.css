@@ -132,22 +132,24 @@
 }
 
 /* Move the dashboard organization switcher to the right column */
-.page-dashboard .account-switcher {
-	position: absolute !important;
-	right: 10px !important;
-	margin-top: 0 !important;
+.page-dashboard .news.column.two-thirds .account-switcher {
+	/* Hide switcher from the main column, but if JS fails show it */
+	animation: temporarily-hide 5s steps(1, end);
+}
+@keyframes temporarily-hide {
+	from {
+		position: absolute;
+		top: -1000px;
+	}
 }
 .page-dashboard .account-switcher button {
-	width: 313px !important;
-	z-index: 0 !important;
+	width: 100%;
+	margin-bottom: 15px;
 }
 .page-dashboard .account-switcher .select-menu-button-gravatar {
 	float: none !important;
 	display: inline-block !important;
 	vertical-align: top !important;
-}
-.dashboard-sidebar {
-	padding-top: 50px;
 }
 /* Organization dashboard */
 .orgpage .underline-nav {
@@ -257,8 +259,8 @@ forked a repo
 	padding: 0 0 0 45px !important;
 }
 
-.news .alert .body {
-	padding: 1em 0 !important;
+:root .news .alert .body { /* Higher specificity, avoids !important */
+	padding: 1em 0;
 }
 
 /*

@@ -1,4 +1,6 @@
 import select from 'select-dom';
+import elementReady from 'element-ready';
+import domLoaded from 'dom-loaded';
 
 export const getUsername = () => select('meta[name="user-login"]').getAttribute('content');
 
@@ -14,6 +16,15 @@ export const emptyElement = element => {
 	while (element.firstChild) {
 		element.firstChild.remove();
 	}
+};
+
+/**
+ * Automatically stops checking for an element to appear once the DOM is ready.
+ */
+export const safeElementReady = selector => {
+	const waiting = elementReady(selector);
+	domLoaded.then(() => requestAnimationFrame(() => waiting.cancel()));
+	return waiting;
 };
 
 export const observeEl = (el, listener, options = {childList: true}) => {
