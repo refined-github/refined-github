@@ -573,8 +573,7 @@ async function onDomReady() {
 			}
 
 			if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit()) {
-				addReactionParticipants.add(username);
-				addReactionParticipants.addListener(username);
+				addReactionParticipants();
 				showRealNames();
 			}
 
