@@ -1,7 +1,7 @@
 import debounce from 'debounce-fn';
 import select from 'select-dom';
 import {h} from 'dom-chef';
-import {emptyElement, getUsername} from './utils';
+import {getUsername} from './utils';
 
 function add() {
 	const currentUser = getUsername();
@@ -11,43 +11,20 @@ function add() {
 		.reaction-summary-item[aria-label]:not(.rgh-reactions)
 	`)) {
 		element.classList.add('rgh-reactions');
-		const participantCount = Number(element.innerHTML.split('/g-emoji>')[1]);
 		const participants = element.getAttribute('aria-label')
 			.replace(/ reacted with.*/, '')
 			.replace(/,? and /, ', ')
 			.replace(/, \d+ more/, '')
-			.split(', ');
-		const userPosition = participants.indexOf(currentUser);
-
-		// If the user is the only participant, leave as is
-		if (participantCount === 1 && userPosition > -1) {
-			return;
-		}
-
-		// Add participant container
-		console.log(element.querySelector('div.participants-container'))
-		if (!element.querySelector('div.participants-container')) {
-			element.append(<div class="participants-container"></div>);
-		}
-
-		// Remove self from participant list so you don't see your own avatar
-		if (userPosition > -1) {
-			participants.splice(userPosition, 1);
-		}
-
-		const firstThreeParticipants = participants.slice(0, 3);
-		const participantsContainer = element.querySelector('.participants-container');
-
-		// Clear any existing avatars and remainder count
-		emptyElement(participantsContainer);
-
-		for (const participant of firstThreeParticipants) {
-			participantsContainer.append(
-				<a href={`/${participant}`}>
-					<img src={`/${participant}.png`}/>
+			.split(', ')
+			.filter(username => username !== currentUser)
+			.filter((u, i) => i < 3) // Limit to 3 avatars
+			.map(user => (
+				<a href={`/${user}`}>
+					<img src={`/${user}.png`}/>
 				</a>
-			);
-		}
+			));
+
+		element.append(...participants);
 	}
 }
 

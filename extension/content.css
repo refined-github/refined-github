@@ -408,7 +408,7 @@ we will add it back on for the simple news alerts we decide to show
 }
 
 /* Styles for avatars Refined GitHub adds to Reactions */
-.participants-container {
+.rgh-reactions a:first-of-type {
 	margin-left: 4px;
 }
 
@@ -421,31 +421,30 @@ we will add it back on for the simple news alerts we decide to show
 	padding-right: 0 !important;
 }
 
-.reaction-summary-item div,
-.reaction-summary-item div a,
-.reaction-summary-item div img {
+.reaction-summary-item a,
+.reaction-summary-item img {
 	display: inline-block;
 }
 
-.reaction-summary-item div a {
+.reaction-summary-item a {
 	margin-left: -2px;
 	transition: margin-left 0.2s;
 }
 
-.reaction-summary-item div img,
-.reaction-summary-item div span {
+.reaction-summary-item img,
+.reaction-summary-item span {
 	width: 20px;
 	height: 20px;
 	vertical-align: middle;
 }
 
-.reaction-summary-item div img {
+.reaction-summary-item img {
 	color: #FFF; /* affects box-shadow */
 	box-shadow: 0 0 0 2px;
 	border-radius: 3px;
 }
 
-.reaction-summary-item.user-has-reacted div img {
+.reaction-summary-item.user-has-reacted img {
 	color: #f2f8fa;
 }
 
