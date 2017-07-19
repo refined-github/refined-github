@@ -70,8 +70,10 @@ export default event => {
 
 	const markdown = getSmarterMarkdown(holder.innerHTML);
 
-	copyToClipboard(markdown);
-
-	event.stopImmediatePropagation();
-	event.preventDefault();
+	if (copyToClipboard(markdown)) {
+		event.stopImmediatePropagation();
+		event.preventDefault();
+	} else {
+		console.warn('Refined GitHub: copy-markdown failed');
+	}
 };
