@@ -159,7 +159,7 @@ async function addTrendingMenuItem() {
 	const secondListItem = await elementReady('.header[role="banner"] ul[role="navigation"] li:nth-child(3)');
 	secondListItem.insertAdjacentElement('afterEnd',
 		<li>
-			<a href="/trending" class="js-selected-navigation-item header-navlink" data-ga-click="Header, click, Nav menu - item:trending context:user" data-selected-links=" /trending" data-hotkey="g t">Trending</a>
+			<a href="/trending" class="js-selected-navigation-item header-navlink" data-selected-links="/trending" data-hotkey="g t">Trending</a>
 		</li>
 	);
 }
