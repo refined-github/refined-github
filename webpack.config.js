@@ -3,6 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
+	devtool: 'source-map',
 	entry: {
 		content: './src/content',
 		background: './src/background',

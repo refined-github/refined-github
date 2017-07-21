@@ -3,7 +3,6 @@
 		"test": "xo && cross-env BABEL_ENV=testing ava && run-s build minify",
 		"build": "webpack",
 		"watch": "webpack --watch",
-		"watch:sourcemap": "webpack --watch --devtool eval-cheap-module-source-map",
 		"minify": "cross-env BABEL_ENV=production babel --out-dir . extension/content.js",
 		"release:amo": "cd extension && webext submit",
 		"release:cws": "cd extension && webstore upload --auto-publish",
