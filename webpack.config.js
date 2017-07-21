@@ -1,6 +1,7 @@
 'use strict';
 const path = require('path');
 const webpack = require('webpack');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
 	devtool: 'source-map',
@@ -31,3 +32,11 @@ module.exports = {
 		]
 	}
 };
+
+if (process.env.NODE_ENV === 'production') {
+	module.exports.plugins.push(
+		new UglifyJSPlugin({
+			sourceMap: true
+		})
+	);
+}
