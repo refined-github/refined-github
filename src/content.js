@@ -156,11 +156,10 @@ function addReleasesTab() {
 }
 
 async function addTrendingMenuItem() {
-	const secondListItem = await elementReady('.header-nav.float-left .header-nav-item:nth-child(2)');
-
+	const secondListItem = await elementReady('.header[role="banner"] ul[role="navigation"] li:nth-child(3)');
 	secondListItem.insertAdjacentElement('afterEnd',
-		<li class="header-nav-item">
-			<a href="/trending" class="header-nav-link" data-hotkey="g t">Trending</a>
+		<li>
+			<a href="/trending" class="js-selected-navigation-item header-navlink" data-ga-click="Header, click, Nav menu - item:trending context:user" data-selected-links=" /trending" data-hotkey="g t">Trending</a>
 		</li>
 	);
 }
