@@ -18,7 +18,7 @@ import addReactionParticipants from './libs/reactions-avatars';
 import showRealNames from './libs/show-names';
 import addCopyFilePathToPRs from './libs/copy-file-path';
 import addFileCopyButton from './libs/copy-file';
-import copyMarkdown from './libs/copy-markdown';
+// - import copyMarkdown from './libs/copy-markdown';
 import linkifyCode, {editTextNodes} from './libs/linkify-urls-in-code';
 import autoLoadMoreNews from './libs/auto-load-more-news';
 import addOPLabels from './libs/op-labels';
@@ -553,7 +553,9 @@ function init() {
 		}
 	});
 
-	$(document).on('copy', '.markdown-body', copyMarkdown);
+	// TODO: Enable this when we've improved how copying Markdown works
+	// See #522
+	// $(document).on('copy', '.markdown-body', copyMarkdown);
 
 	onDomReady();
 }
