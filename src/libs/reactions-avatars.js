@@ -1,7 +1,10 @@
 import debounce from 'debounce-fn';
 import select from 'select-dom';
 import {h} from 'dom-chef';
-import {getUsername} from './utils';
+import {getUsername, flatZip} from './utils';
+
+const arbitraryAvatarLimit = 39;
+const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
 
 function getParticipants(container) {
 	const currentUser = getUsername();
@@ -34,13 +37,10 @@ function flatZip(table) {
 
 function add() {
 	for (const list of select.all(`.has-reactions .comment-reactions-options:not(.rgh-reactions)`)) {
-		const avatarLimit = 39 - (list.children.length * 3); // Each button header takes about as much as 3 avatars
+		const avatarLimit = arbitraryAvatarLimit - (list.children.length * approximateHeaderLength);
+
 		const participantByReaction = [].map.call(list.children, getParticipants);
-		const flatParticipants = flatZip(participantByReaction);
-		const droppedParticipants = flatParticipants.splice(avatarLimit);
-		if (droppedParticipants.length > 0) {
-			console.log('Dropping avatars of', droppedParticipants.map(r => r.username), 'from', list);
-		}
+		const flatParticipants = flatZip(participantByReaction).slice(avatarLimit);
 
 		for (const participant of flatParticipants) {
 			participant.container.append(
