@@ -3,31 +3,64 @@ import select from 'select-dom';
 import {h} from 'dom-chef';
 import {getUsername} from './utils';
 
-function add() {
+function getParticipants(container) {
 	const currentUser = getUsername();
-	for (const element of select.all(`
-		.comment-reactions.has-reactions
-		.comment-reactions-options
-		.reaction-summary-item[aria-label]:not(.rgh-reactions)
-	`)) {
-		element.classList.add('rgh-reactions');
-		const participants = element.getAttribute('aria-label')
-			.replace(/ reacted with.*/, '')
-			.replace(/,? and /, ', ')
-			.replace(/, \d+ more/, '')
-			.split(', ')
-			.filter(username => username !== currentUser)
-			.filter((u, i) => i < 3) // Limit to 3 avatars
-			.map(user => (
-				<a href={`/${user}`}>
-					<img src={`/${user}.png`}/>
-				</a>
-			));
+	return container.getAttribute('aria-label')
+		.replace(/ reacted with.*/, '')
+		.replace(/,? and /, ', ')
+		.replace(/, \d+ more/, '')
+		.split(', ')
+		.filter(username => username !== currentUser)
+		.map(username => ({
+			container,
+			username
+		}));
+}
 
-		element.append(...participants);
+// Concats arrays but does so like a zipper instead of appending them
+// [[0, 1, 2], [0, 1]] => [0, 0, 1, 1, 2]
+function flatZip(table) {
+	const maxColumns = Math.max(...table.map(row => row.length));
+	const zipped = [];
+	for (let col = 0; col < maxColumns; col++) {
+		for (const row of table) {
+			if (row[col]) {
+				zipped.push(row[col]);
+			}
+		}
+	}
+	return zipped;
+}
+
+function add() {
+	for (const list of select.all(`.has-reactions .comment-reactions-options:not(.rgh-reactions)`)) {
+		const avatarLimit = 39 - (list.children.length * 3); // Each button header takes about as much as 3 avatars
+		const participantByReaction = [].map.call(list.children, getParticipants);
+		const flatParticipants = flatZip(participantByReaction);
+		const droppedParticipants = flatParticipants.splice(avatarLimit);
+		if (droppedParticipants.length > 0) {
+			console.log('Dropping avatars of', droppedParticipants.map(r => r.username), 'from', list);
+		}
+
+		for (const participant of flatParticipants) {
+			participant.container.append(
+				<a href={`/${participant.username}`}>
+					<img src={`/${participant.username}.png`}/>
+				</a>
+			);
+		}
+
+		list.classList.add('rgh-reactions');
+
+		// Overlap reaction avatars when near the avatarLimit
+		if (flatParticipants.length > avatarLimit * 0.9) {
+			list.classList.add('rgh-reactions-near-limit');
+		}
 	}
 }
 
+// Feature testable on
+// https://github.com/babel/babel/pull/3646
 export default () => {
 	add();
 	document.addEventListener('socket:message', debounce(add, {wait: 100}));

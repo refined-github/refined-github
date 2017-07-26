@@ -452,15 +452,8 @@ we will add it back on for the simple news alerts we decide to show
 }
 
 /* Overlap reaction avatars when there are 5+ types of reactions */
-.reaction-summary-item:first-child:nth-last-child(n+5):not(:hover) a:nth-child(n+2),
-.reaction-summary-item:first-child:nth-last-child(n+5) ~ *:not(:hover) a:nth-child(n+2) {
+.rgh-reactions-near-limit .reaction-summary-item:not(:hover) a:not(:first-of-type) {
 	margin-left: -12px;
-}
-
-/* Limit reaction avatars when there are 6 types of reactions */
-.reaction-summary-item:first-child:nth-last-child(6) a:nth-child(n+3),
-.reaction-summary-item:first-child:nth-last-child(6) ~ * a:nth-child(n+3) {
-	display: none;
 }
 
 /* Hide reaction popover text */
