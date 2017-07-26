@@ -226,6 +226,7 @@ Once built, load it in the browser.
 - [Awesome browser extensions for GitHub](https://github.com/stefanbuck/awesome-browser-extensions-for-github) - Awesome list
 - [OctoEdit](https://github.com/DrewML/OctoEdit) - Markdown syntax highlighting in comments
 - [GitHub Clean Feed](https://github.com/bfred-it/github-clean-feed) - Group news feed events by repo
+- [Do Not Merge WIP for GitHub](https://github.com/sanemat/do-not-merge-wip-for-github) - Prevents merging of incomplete PRs
 
 
 ## Created by
