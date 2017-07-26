@@ -176,6 +176,9 @@ function addYoursMenuItem() {
 
 	if (!select.exists('.subnav-links .selected') && location.search.includes(`user%3A${username}`)) {
 		yoursMenuItem.classList.add('selected');
+		for (const tab of select.all(`.subnav-links a[href*="user%3A${username}"]`)) {
+			tab.href = tab.href.replace(`user%3A${username}`, '');
+		}
 	}
 
 	select('.subnav-links').append(yoursMenuItem);
