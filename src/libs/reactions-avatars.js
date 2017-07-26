@@ -25,7 +25,7 @@ function add() {
 		const avatarLimit = arbitraryAvatarLimit - (list.children.length * approximateHeaderLength);
 
 		const participantByReaction = [].map.call(list.children, getParticipants);
-		const flatParticipants = flatZip(participantByReaction).slice(avatarLimit);
+		const flatParticipants = flatZip(participantByReaction, avatarLimit);
 
 		for (const participant of flatParticipants) {
 			participant.container.append(

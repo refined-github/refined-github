@@ -42,13 +42,16 @@ export const observeEl = (el, listener, options = {childList: true}) => {
 // Concats arrays but does so like a zipper instead of appending them
 // [[0, 1, 2], [0, 1]] => [0, 0, 1, 1, 2]
 // Like lodash.zip
-export const flatZip = (table) => {
+export const flatZip = (table, limit = Infinity) => {
 	const maxColumns = Math.max(...table.map(row => row.length));
 	const zipped = [];
 	for (let col = 0; col < maxColumns; col++) {
 		for (const row of table) {
 			if (row[col]) {
 				zipped.push(row[col]);
+				if (limit !== Infinity && zipped.length === limit) {
+					return zipped;
+				}
 			}
 		}
 	}
