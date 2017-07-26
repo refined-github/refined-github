@@ -436,7 +436,8 @@ we will add it back on for the simple news alerts we decide to show
 	height: 20px;
 
 	background: #efefef; /* Placeholder before they load */
-	box-shadow: 0 0 0 2px #fff;
+	color: #fff; /* Affects box-shadow, needed because of .user-has-reacted */
+	box-shadow: 0 0 0 2px;
 	border-radius: 3px;
 
 	margin-left: -2px;
@@ -449,7 +450,7 @@ we will add it back on for the simple news alerts we decide to show
 	border-radius: 3px;
 }
 
-.reaction-summary-item.user-has-reacted img {
+.reaction-summary-item.user-has-reacted a {
 	color: #f2f8fa;
 }
 
