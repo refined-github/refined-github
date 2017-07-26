@@ -430,20 +430,22 @@ we will add it back on for the simple news alerts we decide to show
 }
 
 .reaction-summary-item a {
+	display: inline-block;
+	vertical-align: middle;
+	width: 20px;
+	height: 20px;
+
+	background: #efefef; /* Placeholder before they load */
+	box-shadow: 0 0 0 2px #fff;
+	border-radius: 3px;
+
 	margin-left: -2px;
 	transition: margin-left 0.2s;
 }
 
-.reaction-summary-item img,
-.reaction-summary-item span {
-	width: 20px;
-	height: 20px;
-	vertical-align: middle;
-}
-
 .reaction-summary-item img {
-	color: #FFF; /* affects box-shadow */
-	box-shadow: 0 0 0 2px;
+	max-width: 100%;
+	background: #fff; /* Appears under round avatars */
 	border-radius: 3px;
 }
 
