@@ -20,21 +20,6 @@ function getParticipants(container) {
 		}));
 }
 
-// Concats arrays but does so like a zipper instead of appending them
-// [[0, 1, 2], [0, 1]] => [0, 0, 1, 1, 2]
-function flatZip(table) {
-	const maxColumns = Math.max(...table.map(row => row.length));
-	const zipped = [];
-	for (let col = 0; col < maxColumns; col++) {
-		for (const row of table) {
-			if (row[col]) {
-				zipped.push(row[col]);
-			}
-		}
-	}
-	return zipped;
-}
-
 function add() {
 	for (const list of select.all(`.has-reactions .comment-reactions-options:not(.rgh-reactions)`)) {
 		const avatarLimit = arbitraryAvatarLimit - (list.children.length * approximateHeaderLength);
