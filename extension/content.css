@@ -707,3 +707,8 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 .reponav-dropdown.active .dropdown-menu {
 	left: auto !important;
 }
+
+/* Hide PR/Issue rename events */
+.discussion-item-renamed {
+	display: none;
+}
