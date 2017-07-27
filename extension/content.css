@@ -424,31 +424,33 @@ we will add it back on for the simple news alerts we decide to show
 	padding-right: 0 !important;
 }
 
-.reaction-summary-item a,
-.reaction-summary-item img {
-	display: inline-block;
+.reaction-summary-item {
+	--background: #FFF;
+}
+
+.reaction-summary-item.user-has-reacted {
+	--background: #f2f8fa;
 }
 
 .reaction-summary-item a {
+	display: inline-block;
+	vertical-align: middle;
+	width: 20px;
+	height: 20px;
+
+	background: #efefef; /* Placeholder before the images load */
+	box-shadow: 0 0 0 2px var(--background);
+	border-radius: 3px;
+
 	margin-left: -2px;
 	transition: margin-left 0.2s;
 }
 
-.reaction-summary-item img,
-.reaction-summary-item span {
-	width: 20px;
-	height: 20px;
-	vertical-align: middle;
-}
-
+/* This image will start at height:0 and will expand once loaded, covering the gray placeholder */
 .reaction-summary-item img {
-	color: #FFF; /* affects box-shadow */
-	box-shadow: 0 0 0 2px;
-	border-radius: 3px;
-}
-
-.reaction-summary-item.user-has-reacted img {
-	color: #f2f8fa;
+	max-width: 100%;
+	background-color: var(--background);
+	border-radius: inherit;
 }
 
 /* Overlap reaction avatars when there are 5+ types of reactions */
