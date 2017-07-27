@@ -359,28 +359,6 @@ we will add it back on for the simple news alerts we decide to show
 	height: 16px !important;
 }
 
-/* Hide current filename in PR header when not sticky (top of page) */
-.js-sticky-offset-scroll:not(.is-stuck) .diff-toolbar-filename {
-	display: none;
-}
-
-.js-sticky-offset-scroll.is-stuck .subset-files-tab,
-.js-sticky-offset-scroll.is-stuck .stale-files-tab {
-	width: 120%;
-	text-align: center;
-	margin-top: 5px;
-	margin-left: -11%;
-}
-
-.diff-toolbar-filename {
-	font-weight: bold;
-}
-
-.diff-toolbar-filename.filename-width-check {
-	visibility: hidden;
-	position: absolute;
-}
-
 /* Move new button to the right on single commit page */
 #toc .refined-github-toggle-whitespace {
 	float: right;
@@ -584,10 +562,6 @@ Hidden content area created to increase hover target
 	display: none !important;
 }
 
-/* Fix for diffheader filename */
-.diffbar > .diffstat {
-	float: right;
-}
 
 /* Fix PR diffbar links position #474 */
 .stale-files-tab,

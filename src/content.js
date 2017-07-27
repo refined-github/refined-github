@@ -12,7 +12,6 @@ import {h} from 'dom-chef';
 import markUnread from './libs/mark-unread';
 import addGistCopyButton from './libs/copy-gist';
 import addUploadBtn from './libs/upload-button';
-import diffFileHeader from './libs/diffheader';
 import enableCopyOnY from './libs/copy-on-y';
 import addReactionParticipants from './libs/reactions-avatars';
 import showRealNames from './libs/show-names';
@@ -609,7 +608,6 @@ async function onDomReady() {
 				shortenLink(a, location.href);
 			}
 
-			diffFileHeader.destroy();
 			enableCopyOnY.destroy();
 
 			if (pageDetect.isPR()) {
@@ -650,7 +648,6 @@ async function onDomReady() {
 			}
 
 			if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
-				diffFileHeader.setup();
 				addCopyFilePathToPRs();
 			}
 
