@@ -3,7 +3,7 @@ import select from 'select-dom';
 import {h} from 'dom-chef';
 import {getUsername, flatZip} from './utils';
 
-const arbitraryAvatarLimit = 39;
+const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
 
 function getParticipants(container) {
