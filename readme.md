@@ -230,7 +230,8 @@ Once built, load it in the browser.
 
 Want more? Here are some ideas you could develop!
 
-- [Notification Previews for GitHub](https://github.com/sindresorhus/module-requests/issues/100) - Notification Previews for GitHub
+- [Notification Previews for GitHub](https://github.com/sindresorhus/module-requests/issues/100)
+- [Format JS code blocks with Prettier](https://github.com/sindresorhus/module-requests/issues/99)
 
 
 ## Created by
