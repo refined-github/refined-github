@@ -228,6 +228,10 @@ Once built, load it in the browser.
 - [GitHub Clean Feed](https://github.com/bfred-it/github-clean-feed) - Group news feed events by repo
 - [Do Not Merge WIP for GitHub](https://github.com/sanemat/do-not-merge-wip-for-github) - Prevents merging of incomplete PRs
 
+Want more? Here are some ideas you could develop!
+
+- [Notification Previews for GitHub](https://github.com/sindresorhus/module-requests/issues/100) - Notification Previews for GitHub
+
 
 ## Created by
 
