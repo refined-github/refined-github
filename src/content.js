@@ -22,6 +22,7 @@ import addFileCopyButton from './libs/copy-file';
 import linkifyCode, {editTextNodes} from './libs/linkify-urls-in-code';
 import autoLoadMoreNews from './libs/auto-load-more-news';
 import addOPLabels from './libs/op-labels';
+import addReleasesTab from './libs/add-releases-tab';
 
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
@@ -56,28 +57,6 @@ function linkifyBranchRefs() {
 
 		const branchUrl = '/' + el.title.replace(':', '/tree/');
 		$(el).closest('.commit-ref').wrap(<a href={branchUrl}></a>);
-	}
-}
-
-function appendReleasesCount(count) {
-	if (!count) {
-		return;
-	}
-
-	select('.reponav-releases').append(<span class="Counter">{count}</span>);
-}
-
-function cacheReleasesCount() {
-	const releasesCountCacheKey = `${repoUrl}-releases-count`;
-
-	if (pageDetect.isRepoRoot()) {
-		const releasesCount = select('.numbers-summary a[href$="/releases"] .num').textContent.trim();
-		appendReleasesCount(releasesCount);
-		chrome.storage.local.set({[releasesCountCacheKey]: releasesCount});
-	} else {
-		chrome.storage.local.get(releasesCountCacheKey, items => {
-			appendReleasesCount(items[releasesCountCacheKey]);
-		});
 	}
 }
 
@@ -129,30 +108,6 @@ function moveMarketplaceLinkToProfileDropdown() {
 	const thirdDropdownItem = select('.dropdown-item[href="/explore"]');
 	const marketplaceLink = <a class="dropdown-item" href="/marketplace">Marketplace</a>;
 	thirdDropdownItem.insertAdjacentElement('afterend', marketplaceLink);
-}
-
-function addReleasesTab() {
-	if (select.exists('.reponav-releases')) {
-		return;
-	}
-
-	const releasesTab = (
-		<a href={`/${repoUrl}/releases`} class="reponav-item reponav-releases" data-hotkey="g r" data-selected-links={`repo_releases /${repoUrl}/releases`}>
-			{icons.tag}
-			<span> Releases </span>
-		</a>
-	);
-
-	select('.reponav-dropdown, [data-selected-links~="repo_settings"]')
-		.insertAdjacentElement('beforeBegin', releasesTab);
-
-	cacheReleasesCount();
-
-	if (pageDetect.isReleases()) {
-		releasesTab.classList.add('js-selected-navigation-item', 'selected');
-		select('.reponav-item.selected')
-			.classList.remove('js-selected-navigation-item', 'selected');
-	}
 }
 
 async function addTrendingMenuItem() {
