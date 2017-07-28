@@ -36,7 +36,13 @@ module.exports = {
 if (process.env.NODE_ENV === 'production') {
 	module.exports.plugins.push(
 		new UglifyJSPlugin({
-			sourceMap: true
+			sourceMap: true,
+			uglifyOptions: {
+				mangle: false,
+				output: {
+					beautify: true
+				}
+			}
 		})
 	);
 }
