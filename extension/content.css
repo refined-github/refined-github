@@ -677,6 +677,11 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 	left: auto !important;
 }
 
+/* Hide PR/Issue rename events */
+.discussion-item-renamed {
+	display: none;
+}
+
 /* Sticky file headers on pull request diff view */
 .pull-request-tab-content .diff-view .file-header {
     position: sticky;
