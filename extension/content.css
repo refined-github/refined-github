@@ -359,28 +359,6 @@ we will add it back on for the simple news alerts we decide to show
 	height: 16px !important;
 }
 
-/* Hide current filename in PR header when not sticky (top of page) */
-.js-sticky-offset-scroll:not(.is-stuck) .diff-toolbar-filename {
-	display: none;
-}
-
-.js-sticky-offset-scroll.is-stuck .subset-files-tab,
-.js-sticky-offset-scroll.is-stuck .stale-files-tab {
-	width: 120%;
-	text-align: center;
-	margin-top: 5px;
-	margin-left: -11%;
-}
-
-.diff-toolbar-filename {
-	font-weight: bold;
-}
-
-.diff-toolbar-filename.filename-width-check {
-	visibility: hidden;
-	position: absolute;
-}
-
 /* Move new button to the right on single commit page */
 #toc .refined-github-toggle-whitespace {
 	float: right;
@@ -424,43 +402,38 @@ we will add it back on for the simple news alerts we decide to show
 	padding-right: 0 !important;
 }
 
-.reaction-summary-item a,
-.reaction-summary-item img {
-	display: inline-block;
+.reaction-summary-item {
+	--background: #FFF;
+}
+
+.reaction-summary-item.user-has-reacted {
+	--background: #f2f8fa;
 }
 
 .reaction-summary-item a {
+	display: inline-block;
+	vertical-align: middle;
+	width: 20px;
+	height: 20px;
+
+	background: #efefef; /* Placeholder before the images load */
+	box-shadow: 0 0 0 2px var(--background);
+	border-radius: 3px;
+
 	margin-left: -2px;
 	transition: margin-left 0.2s;
 }
 
-.reaction-summary-item img,
-.reaction-summary-item span {
-	width: 20px;
-	height: 20px;
-	vertical-align: middle;
-}
-
+/* This image will start at height:0 and will expand once loaded, covering the gray placeholder */
 .reaction-summary-item img {
-	color: #FFF; /* affects box-shadow */
-	box-shadow: 0 0 0 2px;
-	border-radius: 3px;
-}
-
-.reaction-summary-item.user-has-reacted img {
-	color: #f2f8fa;
+	max-width: 100%;
+	background-color: var(--background);
+	border-radius: inherit;
 }
 
 /* Overlap reaction avatars when there are 5+ types of reactions */
-.reaction-summary-item:first-child:nth-last-child(n+5):not(:hover) a:nth-child(n+2),
-.reaction-summary-item:first-child:nth-last-child(n+5) ~ *:not(:hover) a:nth-child(n+2) {
+.rgh-reactions-near-limit .reaction-summary-item:not(:hover) a:not(:first-of-type) {
 	margin-left: -12px;
-}
-
-/* Limit reaction avatars when there are 6 types of reactions */
-.reaction-summary-item:first-child:nth-last-child(6) a:nth-child(n+3),
-.reaction-summary-item:first-child:nth-last-child(6) ~ * a:nth-child(n+3) {
-	display: none;
 }
 
 /* Hide reaction popover text */
@@ -584,10 +557,6 @@ Hidden content area created to increase hover target
 	display: none !important;
 }
 
-/* Fix for diffheader filename */
-.diffbar > .diffstat {
-	float: right;
-}
 
 /* Fix PR diffbar links position #474 */
 .stale-files-tab,
@@ -711,4 +680,11 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 /* Hide PR/Issue rename events */
 .discussion-item-renamed {
 	display: none;
+}
+
+/* Sticky file headers on pull request diff view */
+.pull-request-tab-content .diff-view .file-header {
+    position: sticky;
+    top: 60px;
+    z-index: 1;
 }

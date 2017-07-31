@@ -12,7 +12,6 @@ import {h} from 'dom-chef';
 import markUnread from './libs/mark-unread';
 import addGistCopyButton from './libs/copy-gist';
 import addUploadBtn from './libs/upload-button';
-import diffFileHeader from './libs/diffheader';
 import enableCopyOnY from './libs/copy-on-y';
 import addReactionParticipants from './libs/reactions-avatars';
 import showRealNames from './libs/show-names';
@@ -22,6 +21,7 @@ import addFileCopyButton from './libs/copy-file';
 import linkifyCode, {editTextNodes} from './libs/linkify-urls-in-code';
 import autoLoadMoreNews from './libs/auto-load-more-news';
 import addOPLabels from './libs/op-labels';
+import addReleasesTab from './libs/add-releases-tab';
 
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
@@ -56,28 +56,6 @@ function linkifyBranchRefs() {
 
 		const branchUrl = '/' + el.title.replace(':', '/tree/');
 		$(el).closest('.commit-ref').wrap(<a href={branchUrl}></a>);
-	}
-}
-
-function appendReleasesCount(count) {
-	if (!count) {
-		return;
-	}
-
-	select('.reponav-releases').append(<span class="Counter">{count}</span>);
-}
-
-function cacheReleasesCount() {
-	const releasesCountCacheKey = `${repoUrl}-releases-count`;
-
-	if (pageDetect.isRepoRoot()) {
-		const releasesCount = select('.numbers-summary a[href$="/releases"] .num').textContent.trim();
-		appendReleasesCount(releasesCount);
-		chrome.storage.local.set({[releasesCountCacheKey]: releasesCount});
-	} else {
-		chrome.storage.local.get(releasesCountCacheKey, items => {
-			appendReleasesCount(items[releasesCountCacheKey]);
-		});
 	}
 }
 
@@ -131,30 +109,6 @@ function moveMarketplaceLinkToProfileDropdown() {
 	thirdDropdownItem.insertAdjacentElement('afterend', marketplaceLink);
 }
 
-function addReleasesTab() {
-	if (select.exists('.reponav-releases')) {
-		return;
-	}
-
-	const releasesTab = (
-		<a href={`/${repoUrl}/releases`} class="reponav-item reponav-releases" data-hotkey="g r" data-selected-links={`repo_releases /${repoUrl}/releases`}>
-			{icons.tag}
-			<span> Releases </span>
-		</a>
-	);
-
-	select('.reponav-dropdown, [data-selected-links~="repo_settings"]')
-		.insertAdjacentElement('beforeBegin', releasesTab);
-
-	cacheReleasesCount();
-
-	if (pageDetect.isReleases()) {
-		releasesTab.classList.add('js-selected-navigation-item', 'selected');
-		select('.reponav-item.selected')
-			.classList.remove('js-selected-navigation-item', 'selected');
-	}
-}
-
 async function addTrendingMenuItem() {
 	const secondListItem = await elementReady('.header[role="banner"] ul[role="navigation"] li:nth-child(3)');
 	secondListItem.insertAdjacentElement('afterEnd',
@@ -176,6 +130,9 @@ function addYoursMenuItem() {
 
 	if (!select.exists('.subnav-links .selected') && location.search.includes(`user%3A${username}`)) {
 		yoursMenuItem.classList.add('selected');
+		for (const tab of select.all(`.subnav-links a[href*="user%3A${username}"]`)) {
+			tab.href = tab.href.replace(`user%3A${username}`, '');
+		}
 	}
 
 	select('.subnav-links').append(yoursMenuItem);
@@ -609,7 +566,6 @@ async function onDomReady() {
 				shortenLink(a, location.href);
 			}
 
-			diffFileHeader.destroy();
 			enableCopyOnY.destroy();
 
 			if (pageDetect.isPR()) {
@@ -650,7 +606,6 @@ async function onDomReady() {
 			}
 
 			if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
-				diffFileHeader.setup();
 				addCopyFilePathToPRs();
 			}
 
