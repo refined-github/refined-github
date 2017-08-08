@@ -374,7 +374,6 @@ function addDiffViewWithoutWhitespaceOption() {
 
 // When navigating with next/previous in review mode, maintain whitespace option.
 function addWhitespaceOptionToNextPrevious() {
-
 	// Only proceed if in review.
 	if (!select.exists('.pr-review-tools > .diffbar-item')) {
 		return;
