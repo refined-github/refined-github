@@ -372,6 +372,26 @@ function addDiffViewWithoutWhitespaceOption() {
 	);
 }
 
+// When navigating with next/previous in review mode, maintain whitespace option.
+function addWhitespaceOptionToNextPrevious() {
+
+	// Only proceed if in review.
+	if (!select.exists('.pr-review-tools > .diffbar-item')) {
+		return;
+	}
+
+	const url = new URL(location.href);
+	const hidingWhitespace = url.searchParams.get('w') === '1';
+
+	for (const a of select.all('.commit > .BtnGroup.float-right > a.BtnGroup-item')) {
+		const linkUrl = new URL(a.href);
+		if (hidingWhitespace) {
+			linkUrl.searchParams.set('w', '1');
+		}
+		a.href = linkUrl;
+	}
+}
+
 function addMilestoneNavigation() {
 	select('.repository-content').insertAdjacentElement('beforeBegin',
 		<div class="subnav">
@@ -594,6 +614,7 @@ async function onDomReady() {
 					observeEl(diffElements, removeDiffSignsAndWatchExpansions, {childList: true, subtree: true});
 				}
 				addDiffViewWithoutWhitespaceOption();
+				addWhitespaceOptionToNextPrevious();
 			}
 
 			if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit()) {
