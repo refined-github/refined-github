@@ -89,7 +89,10 @@ function renameInsightsDropdown() {
 		if (settingsTab) {
 			settingsTab.parentNode.insertBefore(moreDropdown, settingsTab);
 		} else {
-			select('.reponav').appendChild(moreDropdown);
+			const repoNav = select('.reponav');
+			if (repoNav) {
+				repoNav.appendChild(moreDropdown);
+			}
 		}
 	}
 }
