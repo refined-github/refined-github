@@ -1,13 +1,13 @@
-import { observeEl } from './utils';
+import {observeEl} from './utils';
 
 const loadingText = 'loading...';
 
-const addToolTip = (issueLink) => {
+const addToolTip = issueLink => {
 	issueLink.classList.add('tooltipped', 'tooltipped-se');
 
-	const title = issueLink.getAttribute('aria-label') !== loadingText
-		? issueLink.getAttribute('aria-label')
-		: issueLink.getAttribute('title');
+	const title = issueLink.getAttribute('aria-label') === loadingText ?
+		issueLink.getAttribute('title') :
+		issueLink.getAttribute('aria-label');
 
 	if (title) {
 		issueLink.setAttribute('aria-label', title);
@@ -20,9 +20,9 @@ const addToolTip = (issueLink) => {
 const preview = () => {
 	const issueLinks = Array.from(document.querySelectorAll('.comment .issue-link'));
 
-	issueLinks.forEach((issueLink) => {
+	issueLinks.forEach(issueLink => {
 		observeEl(issueLink, () => addToolTip(issueLink), {
-			attributeFilter: ['title'],
+			attributeFilter: ['title']
 		});
 	});
 };
