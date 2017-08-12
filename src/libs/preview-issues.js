@@ -1,3 +1,4 @@
+import select from 'select-dom';
 import {observeEl} from './utils';
 
 const loadingText = 'loading...';
@@ -18,13 +19,13 @@ const addToolTip = issueLink => {
 };
 
 const preview = () => {
-	const issueLinks = Array.from(document.querySelectorAll('.comment .issue-link'));
+	const issueLinks = select.all('.comment .issue-link');
 
-	issueLinks.forEach(issueLink => {
+	for (const issueLink of issueLinks) {
 		observeEl(issueLink, () => addToolTip(issueLink), {
 			attributeFilter: ['title']
 		});
-	});
+	}
 };
 
 export default preview;
