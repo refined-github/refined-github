@@ -215,6 +215,7 @@ Once built, load it in the browser.
 
 ## Related
 
+- [GitHub Custom Tab Size](https://github.com/lukechilds/github-custom-tab-size) - Set custom tab size for code view
 - [Refined Wikipedia](https://github.com/ismamz/refined-wikipedia) - Like this, but for Wikipedia
 - [Notifier for GitHub](https://github.com/sindresorhus/notifier-for-github-chrome) - Shows your notification unread count
 - [Hide Files on GitHub](https://github.com/sindresorhus/hide-files-on-github) - Hides dotfiles from the file browser
