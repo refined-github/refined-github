@@ -227,7 +227,7 @@ Once built, load it in the browser.
 - [OctoEdit](https://github.com/DrewML/OctoEdit) - Markdown syntax highlighting in comments
 - [GitHub Clean Feed](https://github.com/bfred-it/github-clean-feed) - Group news feed events by repo
 - [Do Not Merge WIP for GitHub](https://github.com/sanemat/do-not-merge-wip-for-github) - Prevents merging of incomplete PRs
-- [GitHub Custom Tab Size](https://github.com/lukechilds/github-custom-tab-size) - Set custom tab size for code view (Refined GitHub hard-codes it to 4)
+- [GitHub Custom Tab Size](https://github.com/lukechilds/github-custom-tab-size) - Set custom tab size for code views *(Refined GitHub hard-codes it to 4)*
 
 Want more? Here are some ideas you could develop!
 
