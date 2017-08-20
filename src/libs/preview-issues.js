@@ -22,8 +22,11 @@ const addToolTip = issueLink => {
 		return;
 	}
 
-	// Add github original tooltip classes
-	issueLink.classList.add('tooltipped', 'tooltipped-se');
+	// Don't add class again to prevent infinite loop
+	if (!issueLink.classList.contains('tooltipped')) {
+		// Add github original tooltip classes
+		issueLink.classList.add('tooltipped', 'tooltipped-se');
+	}
 
 	// `title` attribute is loaded asynchronously
 	const title = issueLink.getAttribute('aria-label') === loadingText ?
