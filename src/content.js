@@ -106,11 +106,12 @@ function hideEmptyMeta() {
 	}
 }
 
-function moveMarketplaceLinkToProfileDropdown() {
-	const thirdDropdownItem = select('.dropdown-item[href="/explore"]');
-	const marketplaceLink = <a class="dropdown-item" href="/marketplace">Marketplace</a>;
-	thirdDropdownItem.insertAdjacentElement('afterend', marketplaceLink);
-}
+//-
+// function moveMarketplaceLinkToProfileDropdown() {
+// 	const thirdDropdownItem = select('.dropdown-item[href="/explore"]');
+// 	const marketplaceLink = <a class="dropdown-item" href="/marketplace">Marketplace</a>;
+// 	thirdDropdownItem.insertAdjacentElement('afterend', marketplaceLink);
+// }
 
 async function addTrendingMenuItem() {
 	const secondListItem = await elementReady('.header[role="banner"] ul[role="navigation"] li:nth-child(3)');
@@ -529,7 +530,7 @@ async function onDomReady() {
 	markUnread.setup();
 
 	if (!pageDetect.isGist()) {
-		moveMarketplaceLinkToProfileDropdown();
+		// @ moveMarketplaceLinkToProfileDropdown();
 	}
 
 	if (pageDetect.isGist()) {
