@@ -381,7 +381,7 @@ function preserveWhitespaceOptionInNav() {
 
 	const url = new URL(location.href);
 	const hidingWhitespace = url.searchParams.get('w') === '1';
-	
+
 	if (hidingWhitespace) {
 		for (const a of navLinks) {
 			const linkUrl = new URL(a.href);
