@@ -372,22 +372,22 @@ function addDiffViewWithoutWhitespaceOption() {
 	);
 }
 
-// When navigating with next/previous in review mode, maintain whitespace option.
-function addWhitespaceOptionToNextPrevious() {
-	// Only proceed if in review.
-	if (!select.exists('.pr-review-tools > .diffbar-item')) {
+// When navigating with next/previous in review mode, preserve whitespace option.
+function preserveWhitespaceOptionInNav() {
+	const navLinks = select.all('.commit > .BtnGroup.float-right > a.BtnGroup-item');
+	if (navLinks.length === 0) {
 		return;
 	}
 
 	const url = new URL(location.href);
 	const hidingWhitespace = url.searchParams.get('w') === '1';
-
-	for (const a of select.all('.commit > .BtnGroup.float-right > a.BtnGroup-item')) {
-		const linkUrl = new URL(a.href);
-		if (hidingWhitespace) {
+	
+	if (hidingWhitespace) {
+		for (const a of navLinks) {
+			const linkUrl = new URL(a.href);
 			linkUrl.searchParams.set('w', '1');
+			a.href = linkUrl;
 		}
-		a.href = linkUrl;
 	}
 }
 
@@ -613,7 +613,7 @@ async function onDomReady() {
 					observeEl(diffElements, removeDiffSignsAndWatchExpansions, {childList: true, subtree: true});
 				}
 				addDiffViewWithoutWhitespaceOption();
-				addWhitespaceOptionToNextPrevious();
+				preserveWhitespaceOptionInNav();
 			}
 
 			if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit()) {
