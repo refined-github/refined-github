@@ -107,9 +107,14 @@ function hideEmptyMeta() {
 }
 
 function moveMarketplaceLinkToProfileDropdown() {
-	const thirdDropdownItem = select('.dropdown-item[href="/explore"]');
+	const lastDivider = select.all('.user-nav .dropdown-divider').pop();
+	if (!lastDivider) {
+		return;
+	}
 	const marketplaceLink = <a class="dropdown-item" href="/marketplace">Marketplace</a>;
-	thirdDropdownItem.insertAdjacentElement('afterend', marketplaceLink);
+	const divider = <div class="dropdown-divider"></div>;
+	lastDivider.before(divider);
+	lastDivider.before(marketplaceLink);
 }
 
 async function addTrendingMenuItem() {
