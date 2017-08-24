@@ -16,25 +16,6 @@ const loadMore = debounce(() => {
 	}
 }, {wait: 200});
 
-// Delete after Firefox 55 goes stable
-// Also update applications.gecko.strict_min_version to 55.0 in manifest.json
-const IntersectionObserver = window.IntersectionObserver || class IntersectionObserverLocalfill {
-	maybeLoadMore() {
-		if (window.innerHeight > btn.getBoundingClientRect().top - 500) {
-			loadMore();
-		}
-	}
-	observe() {
-		window.addEventListener('scroll', this.maybeLoadMore);
-		window.addEventListener('resize', this.maybeLoadMore);
-		this.maybeLoadMore();
-	}
-	disconnect() {
-		window.removeEventListener('scroll', this.maybeLoadMore);
-		window.removeEventListener('resize', this.maybeLoadMore);
-	}
-};
-
 const inView = new IntersectionObserver(([{isIntersecting}]) => {
 	if (isIntersecting) {
 		loadMore();
