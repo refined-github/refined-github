@@ -6,7 +6,7 @@
 		"watch": "webpack --watch",
 		"release:amo": "cd extension && webext submit",
 		"release:cws": "cd extension && webstore upload --auto-publish",
-		"release": "run-s build:minified update-version release:*",
+		"release": "run-s build:minified update-version release:cws",
 		"update-version": "dot-json extension/manifest.json version $(date -u +%y.%-m.%-d.%-H%M)"
 	},
 	"dependencies": {
