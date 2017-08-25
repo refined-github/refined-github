@@ -1,6 +1,5 @@
 import 'webext-dynamic-content-scripts';
 import OptionsSync from 'webext-options-sync';
-import elementReady from 'element-ready';
 import gitHubInjection from 'github-injection';
 import {applyToLink as shortenLink} from 'shorten-repo-url';
 import toSemver from 'to-semver';
@@ -106,18 +105,22 @@ function hideEmptyMeta() {
 	}
 }
 
-//-
-// function moveMarketplaceLinkToProfileDropdown() {
-// 	const thirdDropdownItem = select('.dropdown-item[href="/explore"]');
-// 	const marketplaceLink = <a class="dropdown-item" href="/marketplace">Marketplace</a>;
-// 	thirdDropdownItem.insertAdjacentElement('afterend', marketplaceLink);
-// }
+function moveMarketplaceLinkToProfileDropdown() {
+	const lastDivider = select.all('.user-nav .dropdown-divider').pop();
+	if (!lastDivider) {
+		return;
+	}
+	const marketplaceLink = <a class="dropdown-item" href="/marketplace">Marketplace</a>;
+	const divider = <div class="dropdown-divider"></div>;
+	lastDivider.before(divider);
+	lastDivider.before(marketplaceLink);
+}
 
 async function addTrendingMenuItem() {
-	const secondListItem = await elementReady('.header[role="banner"] ul[role="navigation"] li:nth-child(3)');
-	secondListItem.insertAdjacentElement('afterEnd',
+	const issuesLink = await safeElementReady('.HeaderNavlink[href="/issues"]');
+	issuesLink.parentNode.after(
 		<li>
-			<a href="/trending" class="js-selected-navigation-item header-navlink" data-selected-links="/trending" data-hotkey="g t">Trending</a>
+			<a href="/trending" class="js-selected-navigation-item HeaderNavlink px-lg-2 py-2 py-lg-0" data-hotkey="g t">Trending</a>
 		</li>
 	);
 }
@@ -530,7 +533,7 @@ async function onDomReady() {
 	markUnread.setup();
 
 	if (!pageDetect.isGist()) {
-		// @ moveMarketplaceLinkToProfileDropdown();
+		moveMarketplaceLinkToProfileDropdown();
 	}
 
 	if (pageDetect.isGist()) {
