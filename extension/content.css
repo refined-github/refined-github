@@ -520,6 +520,11 @@ Hidden content area created to increase hover target
 	margin-top: 8px;
 }
 
+/* Change color of marker if there are only discussion marked as unread */
+.notification-indicator[data-ga-click$=":read"] .unread {
+	background: linear-gradient(#34d058, #28a745)
+}
+
 /* +/- Pseudo elements on diffs */
 .refined-github-diff-signs .blob-code-addition:before,
 .refined-github-diff-signs .blob-code-deletion:before {
