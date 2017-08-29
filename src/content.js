@@ -120,7 +120,7 @@ async function addTrendingMenuItem() {
 	const issuesLink = await safeElementReady('.HeaderNavlink[href="/issues"]');
 	issuesLink.parentNode.after(
 		<li>
-			<a href="/trending" class="js-selected-navigation-item HeaderNavlink px-lg-2 py-2 py-lg-0" data-hotkey="g t">Trending</a>
+			<a href="/trending" class="js-selected-navigation-item HeaderNavlink px-2" data-hotkey="g t">Trending</a>
 		</li>
 	);
 }
