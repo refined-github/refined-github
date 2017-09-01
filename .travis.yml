@@ -3,6 +3,11 @@ node_js:
   - 'node'
 env:
   - EXTENSION_ID=hlepfoohegkhhmjieoechaddaejaokhf
+
+cache:
+  directories:
+  - $HOME/.npm-daily-version # This is necessary to preserve the version
+
 deploy:
   provider: script
   skip_cleanup: true
