@@ -5,6 +5,7 @@ import {h} from 'dom-chef';
 import SynchronousStorage from './synchronous-storage';
 import * as icons from './icons';
 import * as pageDetect from './page-detect';
+import {getUsername} from './utils';
 
 let storage;
 
@@ -88,6 +89,7 @@ function markUnread() {
 }
 
 function renderNotifications() {
+	const myUserName = getUsername();
 	const unreadNotifications = storage.get()
 		.filter(notification => !isNotificationExist(notification.url))
 		.filter(notification => {
@@ -95,12 +97,7 @@ function renderNotifications() {
 				return true;
 			}
 
-			const {participants} = notification;
-			const myUserName = getUserName();
-
-			return participants
-				.filter(participant => participant.username === myUserName)
-				.length > 0;
+			return isParticipatingNotification(notification, myUserName);
 		});
 
 	if (unreadNotifications.length === 0) {
@@ -240,8 +237,12 @@ function isParticipatingPage() {
 	return /\/notifications\/participating/.test(location.pathname);
 }
 
-function getUserName() {
-	return select('#user-links a.name img').getAttribute('alt').slice(1);
+function isParticipatingNotification(notification, myUserName) {
+	const {participants} = notification;
+
+	return participants
+		.filter(participant => participant.username === myUserName)
+		.length > 0;
 }
 
 function updateUnreadIndicator() {
@@ -308,8 +309,21 @@ function updateLocalNotificationsCount() {
 	const githubNotificationsCount = Number(unreadCount.textContent);
 	const localNotifications = storage.get();
 
-	if (localNotifications) {
+	if (localNotifications.length > 0) {
 		unreadCount.textContent = githubNotificationsCount + localNotifications.length;
+	}
+}
+
+function updateLocalParticipatingCount() {
+	const unreadCount = select('#notification-center .filter-list a[href="/notifications/participating"] .count');
+	const githubNotificationsCount = Number(unreadCount.textContent);
+	const myUserName = getUsername();
+
+	const participatingNotifications = storage.get()
+		.filter(notification => isParticipatingNotification(notification, myUserName));
+
+	if (participatingNotifications.length > 0) {
+		unreadCount.textContent = githubNotificationsCount + participatingNotifications.length;
 	}
 }
 
@@ -346,6 +360,7 @@ async function setup() {
 			renderNotifications();
 			addCustomAllReadBtn();
 			updateLocalNotificationsCount();
+			updateLocalParticipatingCount();
 			$(document).on('click', '.js-mark-read', markNotificationRead);
 			$(document).on('click', '.js-mark-all-read', markAllNotificationsRead);
 			$(document).on('click', '.js-delete-notification button', updateUnreadIndicator);
