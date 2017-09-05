@@ -1,44 +1,39 @@
 import select from 'select-dom';
 import {observeEl} from './utils';
 
-const loadingText = 'loading...';
+const LOADING_TEXT = 'loading...';
 
-const addToolTip = issueLink => {
-	// Has already injected tooltipster
-	if (issueLink.classList.contains('tooltipstered')) {
-		// Has both tooltip and tooltipster, remove the tooltip to prevent duplicated tooltip
-		if (issueLink.classList.contains('tooltipped')) {
-			const label = issueLink.getAttribute('aria-label');
-			const title = issueLink.getAttribute('title');
+const addTooltip = (issueLink, title) => {
+	issueLink.setAttribute('aria-label', title);
+	issueLink.removeAttribute('title');
+};
 
-			issueLink.classList.remove('tooltipped');
-			issueLink.removeAttribute('aria-label');
-			if (!title) {
-				issueLink.setAttribute('title', label);
-			}
+const removeTooltip = issueLink => {
+	issueLink.classList.remove('tooltipped', 'tooltipped-se');
+	issueLink.removeAttribute('aria-label');
+};
+
+const observeTitle = (mutations, observer) => {
+	for (const mutation of mutations) {
+		const issueLink = mutation.target;
+		const title = issueLink.getAttribute('title');
+
+		if (title) {
+			addTooltip(issueLink, title);
+
+			observer.disconnect();
 		}
-
-		// Skip adding tooltip
-		return;
 	}
+};
 
-	// Don't add class again to prevent infinite loop
-	if (!issueLink.classList.contains('tooltipped')) {
-		// Add github original tooltip classes
-		issueLink.classList.add('tooltipped', 'tooltipped-se');
-	}
+const observeClass = (mutations, observer) => {
+	for (const mutation of mutations) {
+		// Already have tooltipstered installed, remove the tooltip
+		if (mutation.target.classList.contains('tooltipstered')) {
+			removeTooltip(mutation.target);
 
-	// `title` attribute is loaded asynchronously
-	const title = issueLink.getAttribute('aria-label') === loadingText ?
-		issueLink.getAttribute('title') :
-		issueLink.getAttribute('aria-label');
-
-	if (title) {
-		issueLink.setAttribute('aria-label', title);
-		issueLink.removeAttribute('title');
-	} else {
-		// Is loading
-		issueLink.setAttribute('aria-label', loadingText);
+			observer.disconnect();
+		}
 	}
 };
 
@@ -46,8 +41,15 @@ const preview = () => {
 	const issueLinks = select.all('.comment .issue-link');
 
 	for (const issueLink of issueLinks) {
-		observeEl(issueLink, () => addToolTip(issueLink), {
-			attributeFilter: ['title', 'class']
+		// Add github original tooltip classes
+		issueLink.classList.add('tooltipped', 'tooltipped-se');
+		issueLink.setAttribute('aria-label', LOADING_TEXT);
+
+		observeEl(issueLink, observeTitle, {
+			attributeFilter: ['title']
+		});
+		observeEl(issueLink, observeClass, {
+			attributeFilter: ['class']
 		});
 	}
 };
