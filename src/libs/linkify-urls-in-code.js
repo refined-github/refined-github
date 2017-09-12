@@ -14,6 +14,7 @@ const options = {
 	user: ownerName,
 	repo: repoName,
 	type: 'dom',
+	baseUrl: '',
 	attrs: {
 		target: '_blank'
 	}
