@@ -192,6 +192,15 @@ test('isCompare', urlMatcherMacro, pageDetect.isCompare, [
 	'https://github.com/sindresorhus/refined-github/graphs'
 ]);
 
+test('isQuickPR', urlMatcherMacro, pageDetect.isQuickPR, [
+	'https://github.com/sindresorhus/refined-github/compare/master...branch-name?quick_pull=1',
+	'https://github.com/sindresorhus/refined-github/compare/branch-1...branch-2?quick_pull=1'
+], [
+	'https://github.com/sindresorhus/refined-github',
+	'https://github.com/sindresorhus/refined-github/compare',
+	'https://github.com/sindresorhus/refined-github/compare/'
+]);
+
 test('getOwnerAndRepo', t => {
 	const ownerAndRepo = {
 		'https://github.com/sindresorhus/refined-github/pull/148': {
