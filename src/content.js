@@ -479,10 +479,11 @@ function moveAccountSwitcherToSidebar() {
 	});
 }
 
-function openCIDetailsInNewTab () {
+function openCIDetailsInNewTab() {
 	const CIDetailsLinks = select.all('a.status-actions');
-	for(let link of CIDetailsLinks) {
-		link.setAttribute("target", "_blank");
+	for (const link of CIDetailsLinks) {
+		link.setAttribute('target', '_blank');
+		link.setAttribute('rel', 'noopener');
 	}
 }
 
