@@ -196,7 +196,7 @@ function addReadmeButtons() {
 
 function addSearchToggler() {
 	const crepo = $('form').attr('action');
-	const repos = 'respositories';
+	const repos = 'repositories';
 	let user = getUsername();
 	let urepos = '/search?utf8=\u2713&q=$query+user%3A$user&type=Repositories&ref=advsearch&l=&l=';
 	let scope = -1;
