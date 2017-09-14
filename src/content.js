@@ -194,6 +194,40 @@ function addReadmeButtons() {
 	readmeContainer.appendChild(buttons);
 }
 
+function addSearchToggler() {
+	const crepo = $('form').attr('action');
+	const repos = 'respositories';
+	let user = getUsername();
+	let urepos = '/search?utf8=\u2713&q=$query+user%3A$user&type=Repositories&ref=advsearch&l=&l=';
+	let scope = -1;
+	$('.header-search-scope').attr('title', 'Click to toggle search between this repo, your repos and all of GitHub.');
+	$('.header-search-scope').click(function (event) {
+		event.preventDefault();
+		scope++;
+		if (scope === 0) {
+			$(this).text(`All ${repos}`);
+			$('form').attr('action', '/search');
+		} else if (scope === 1) {
+			if (user.length === 0) {
+				user = 'github'; // Use 'github' if not logged in.
+			}
+			$(this).text(`Your ${repos}`);
+			$('form').attr('action', '/search');
+			$(document).keypress(event => {
+				if (event.keyCode === 13 && scope === 1) {
+					event.preventDefault();
+					urepos = urepos.replace('$user', user);
+					window.location.href = urepos.replace('$query', $('.js-site-search-field').val());
+				}
+			});
+		} else if (scope === 2) {
+			scope = -1;
+			$(this).text('This respository');
+			$('form').attr('action', crepo);
+		}
+	});
+}
+
 function addDeleteForkLink() {
 	const postMergeDescription = select('#partial-pull-merging .merge-branch-description');
 
@@ -587,6 +621,7 @@ async function onDomReady() {
 			addCompareLink();
 			addTitleToEmojis();
 			addReadmeButtons();
+			addSearchToggler();
 
 			for (const a of select.all('a[href]')) {
 				shortenLink(a, location.href);
