@@ -222,7 +222,7 @@ function addSearchToggler() {
 			});
 		} else if (scope === 2) {
 			scope = -1;
-			$(this).text('This respository');
+			$(this).text('This repository');
 			$('form').attr('action', crepo);
 		}
 	});
