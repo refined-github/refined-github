@@ -201,7 +201,7 @@ function addSearchToggler() {
 	let urepos = '/search?utf8=\u2713&q=$query+user%3A$user&type=Repositories&ref=advsearch&l=&l=';
 	let scope = -1;
 	$('.header-search-scope').attr('title', 'Click to toggle search between this repo, your repos and all of GitHub.');
-	$('.header-search-scope').click(function (event) {
+	$('.header-search-scope').click(event => {
 		event.preventDefault();
 		scope++;
 		if (scope === 0) {
