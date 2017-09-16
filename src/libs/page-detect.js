@@ -46,6 +46,8 @@ export const isCommit = () => isSingleCommit() || isPRCommit() || (isPRFiles() &
 
 export const isCompare = () => isRepo() && /^\/compare/.test(getRepoPath());
 
+export const isQuickPR = () => isCompare() && /[?&]quick_pull=1(&|$)/.test(location.search);
+
 export const hasCode = () => isRepo() && select.exists('.highlight');
 
 export const hasDiff = () => isRepo() && (isSingleCommit() || isPRCommit() || isPRFiles() || isCompare() || (isPR() && select.exists('.diff-table')));

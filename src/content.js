@@ -600,6 +600,14 @@ async function onDomReady() {
 				fixSquashAndMergeTitle();
 			}
 
+			if (pageDetect.isQuickPR()) {
+				safeElementReady('.branch-name').then(el => {
+					const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
+					const branchUrl = `/${ownerName}/${repoName}/tree/${el.textContent}`;
+					$(el).closest('.branch-name').wrap(<a href={branchUrl}></a>);
+				});
+			}
+
 			if (pageDetect.isPR() || pageDetect.isIssue()) {
 				linkifyIssuesInTitles();
 				observeEl('.new-discussion-timeline', addOPLabels, {childList: true, subtree: true});
