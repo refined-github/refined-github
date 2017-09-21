@@ -17,6 +17,12 @@
 	display: none !important;
 }
 
+/* Match the width of the account switcher modal to that of the user repo list */
+.dashboard-sidebar .select-menu-modal {
+	margin: 0;
+	width: 313px;
+}
+
 /* Remove the toolbar from the right repo box on the dashboard */
 .dashboard-sidebar .user-repos > h3,
 .dashboard-sidebar .user-repos > .boxed-group-action {
@@ -64,7 +70,6 @@
 }
 
 #readme .markdown-body {
-	border-radius: 3px !important;
 	border-radius: 3px !important;
 }
 
