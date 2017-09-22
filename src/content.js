@@ -479,6 +479,14 @@ function moveAccountSwitcherToSidebar() {
 	});
 }
 
+function openCIDetailsInNewTab() {
+	const CIDetailsLinks = select.all('a.status-actions');
+	for (const link of CIDetailsLinks) {
+		link.setAttribute('target', '_blank');
+		link.setAttribute('rel', 'noopener');
+	}
+}
+
 function init() {
 	//
 	// const username = getUsername();
@@ -598,6 +606,7 @@ async function onDomReady() {
 				linkifyBranchRefs();
 				addDeleteForkLink();
 				fixSquashAndMergeTitle();
+				openCIDetailsInNewTab();
 			}
 
 			if (pageDetect.isQuickPR()) {
