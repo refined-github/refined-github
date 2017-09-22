@@ -21,6 +21,7 @@ import linkifyCode, {editTextNodes} from './libs/linkify-urls-in-code';
 import autoLoadMoreNews from './libs/auto-load-more-news';
 import addOPLabels from './libs/op-labels';
 import addReleasesTab from './libs/add-releases-tab';
+import previewIssues from './libs/preview-issues';
 
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
@@ -643,6 +644,7 @@ async function onDomReady() {
 			if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit()) {
 				addReactionParticipants();
 				showRealNames();
+				previewIssues();
 			}
 
 			if (pageDetect.isCommitList()) {
