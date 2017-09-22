@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import {observeEl} from './utils';
 
-const LOADING_TEXT = 'loading...';
+const LOADING_TEXT = 'Loading…';
 
 const addTooltip = (issueLink, title) => {
 	issueLink.setAttribute('aria-label', title);
@@ -41,7 +41,7 @@ const preview = () => {
 	const issueLinks = select.all('.comment .issue-link');
 
 	for (const issueLink of issueLinks) {
-		// Add github original tooltip classes
+		// Add the original tooltip classes
 		issueLink.classList.add('tooltipped', 'tooltipped-se');
 		issueLink.setAttribute('aria-label', LOADING_TEXT);
 
