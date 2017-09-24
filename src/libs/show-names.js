@@ -3,6 +3,7 @@ import domify from './domify';
 import {getUsername, groupBy} from './utils';
 
 const storageKey = 'cachedNames';
+const LRO = '‭'; // This contains RTL Overrides characters #698
 
 const getCachedUsers = () => {
 	return new Promise(resolve => chrome.storage.local.get(storageKey, resolve));
@@ -50,7 +51,7 @@ export default async () => {
 				// If it's a regular comment author, add it outside <strong>
 				// otherwise it's something like "User added some commits"
 				const insertionPoint = usernameEl.parentNode.tagName === 'STRONG' ? usernameEl.parentNode : usernameEl;
-				insertionPoint.insertAdjacentText('afterend', ` (${cache[username]}) `);
+				insertionPoint.insertAdjacentText('afterend', ` (${cache[username]}${LRO}) `);
 			}
 		}
 	};
