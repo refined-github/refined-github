@@ -26,9 +26,15 @@ export const editTextNodes = (fn, el) => {
 		if (fn === linkifyUrls && textNode.textContent.length < 11) { // Shortest url: http://j.mp
 			continue;
 		}
-		const linkified = fn(textNode.textContent, options);
-		if (linkified.children.length > 0) { // Children are <a>
-			textNode.replaceWith(linkified);
+		if ($(el).find('span.x').length > 0) {
+			const replaceNode = $(el).find('span.pl-s')[0];
+			const linkified = fn(replaceNode.textContent, options);
+			replaceNode.replaceWith(linkified);
+		} else {
+			const linkified = fn(textNode.textContent, options);
+			if (linkified.children.length > 0) { // Children are <a>
+				textNode.replaceWith(linkified);
+			}
 		}
 	}
 };
