@@ -118,10 +118,10 @@ function moveMarketplaceLinkToProfileDropdown() {
 }
 
 async function addTrendingMenuItem() {
-	const issuesLink = await safeElementReady('.HeaderNavlink[href="/issues"]');
+	const issuesLink = await safeElementReady('.HeaderNavlink[href="/issues"],.header-nav-link[href="/issues"]');
 	issuesLink.parentNode.after(
-		<li>
-			<a href="/trending" class="js-selected-navigation-item HeaderNavlink px-2" data-hotkey="g t">Trending</a>
+		<li class="header-nav-item">
+			<a href="/trending" class="js-selected-navigation-item HeaderNavlink header-nav-link px-2" data-hotkey="g t">Trending</a>
 		</li>
 	);
 }
