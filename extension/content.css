@@ -694,3 +694,7 @@ a.tabnav-extra[href$="mastering-markdown/"] {
     top: 60px;
     z-index: 1;
 }
+
+#notification-center #open-notifications-button {
+	margin-right: 5px;
+}

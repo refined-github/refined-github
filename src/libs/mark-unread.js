@@ -304,6 +304,26 @@ function addCustomAllReadBtn() {
 	});
 }
 
+function openNotifications() {
+	for (const group of select.all('.notifications-list .boxed-group')) {
+		for (const item of select.all('.list-group-item .list-group-item-link', group)) {
+			window.open(item.href, '_blank');
+		}
+	}
+}
+
+function addOpenAllInTabsBtn() {
+	const button = <div class="float-right" id="open-notifications-button" style="margin-right: 5px">
+		<a href="#" class="btn btn-sm">Open all in tabs</a>
+	</div>;
+
+	button.addEventListener('click', openNotifications, {
+		once: true
+	});
+
+	select('#notification-center .tabnav-tabs').append(button);
+}
+
 function updateLocalNotificationsCount() {
 	const unreadCount = select('#notification-center .filter-list a[href="/notifications"] .count');
 	const githubNotificationsCount = Number(unreadCount.textContent);
@@ -359,6 +379,7 @@ async function setup() {
 		if (pageDetect.isNotifications()) {
 			renderNotifications();
 			addCustomAllReadBtn();
+			addOpenAllInTabsBtn();
 			updateLocalNotificationsCount();
 			updateLocalParticipatingCount();
 			$(document).on('click', '.js-mark-read', markNotificationRead);
