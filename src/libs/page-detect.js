@@ -4,7 +4,9 @@ export const isGist = () => location.hostname.startsWith('gist.') || location.pa
 
 export const isDashboard = () => location.pathname === '/' || /^(\/orgs\/[^/]+)?\/dashboard/.test(location.pathname);
 
-export const isRepo = () => !isGist() && /^\/[^/]+\/[^/]+/.test(location.pathname);
+export const isTrending = () => location.pathname.startsWith('/trending');
+
+export const isRepo = () => !isGist() && !isTrending() && /^\/[^/]+\/[^/]+/.test(location.pathname);
 
 export const getRepoPath = () => location.pathname.replace(/^\/[^/]+\/[^/]+/, '');
 
