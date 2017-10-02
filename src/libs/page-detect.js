@@ -6,6 +6,7 @@ export const isDashboard = () => location.pathname === '/' || /^(\/orgs\/[^/]+)?
 
 export const isTrending = () => location.pathname.startsWith('/trending');
 
+// @todo Replace with DOM-based test because this is too generic #708
 export const isRepo = () => !isGist() && !isTrending() && /^\/[^/]+\/[^/]+/.test(location.pathname);
 
 export const getRepoPath = () => location.pathname.replace(/^\/[^/]+\/[^/]+/, '');
