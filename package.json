@@ -8,7 +8,7 @@
 		"release:cws": "cd extension && webstore upload --auto-publish",
 		"release": "run-s build:minified update-version release:*",
 		"update-version": "dot-json extension/manifest.json version $(date -u +%y.%-m.%-d.%-H%M)",
-		"can-release": "if [[ $TRAVIS_EVENT_TYPE == cron ]] || [[ $TRAVIS_TAG ]] && [[ $(git rev-list -n 1 --since=\"26 hours ago\" master) ]]; then true; else false; fi"
+		"can-release": "if [[ $TRAVIS_EVENT_TYPE == cron ]]; then true; else false; fi"
 	},
 	"dependencies": {
 		"copy-text-to-clipboard": "^1.0.2",
