@@ -287,13 +287,13 @@ function addCustomAllReadBtn() {
 			<a href="#mark_as_read_confirm_box" class="btn btn-sm" rel="facebox">Mark all as read</a>
 
 			<div id="mark_as_read_confirm_box" style={{display: 'none'}}>
-					<h2 class="facebox-header" data-facebox-id="facebox-header">Are you sure?</h2>
+				<h2 class="facebox-header" data-facebox-id="facebox-header">Are you sure?</h2>
 
-					<p data-facebox-id="facebox-description">Are you sure you want to mark all unread notifications as read?</p>
+				<p data-facebox-id="facebox-description">Are you sure you want to mark all unread notifications as read?</p>
 
-					<div class="full-button">
-							<button id="clear-local-notification" class="btn btn-block">Mark all notifications as read</button>
-					</div>
+				<div class="full-button">
+					<button id="clear-local-notification" class="btn btn-block">Mark all notifications as read</button>
+				</div>
 			</div>
 		</div>
 	);
@@ -304,24 +304,36 @@ function addCustomAllReadBtn() {
 	});
 }
 
-function openNotifications() {
-	for (const group of select.all('.notifications-list .boxed-group')) {
-		for (const item of select.all('.list-group-item .list-group-item-link', group)) {
-			window.open(item.href, '_blank');
-		}
-	}
-}
-
 function addOpenAllInTabsBtn() {
-	const button = <div class="float-right" id="open-notifications-button" style="margin-right: 5px">
-		<a href="#" class="btn btn-sm">Open all in tabs</a>
-	</div>;
+	select('#notification-center .tabnav-tabs').append(
+		<div class="float-right" id="open-notifications-button">
+			<a href="#open_all_in_tabs" class="btn btn-sm" rel="facebox">Open all in tabs</a>
 
-	button.addEventListener('click', openNotifications, {
-		once: true
+			<div id="open_all_in_tabs" style={{display: 'none'}}>
+				<h2 class="facebox-header" data-facebox-id="facebox-header">Are you sure?</h2>
+
+				<p data-facebox-id="facebox-description">Are you sure you want to open all unread notifications in tabs?</p>
+
+				<div class="full-button">
+					<button id="open-all-notifications" class="btn btn-block">Open all notifications in tabs</button>
+				</div>
+			</div>
+		</div>
+	);
+
+	$(document).on('click', '#open-all-notifications', () => {
+		const notificationLinks = [];
+
+		for (const item of select.all('.list-group-item .list-group-item-link')) {
+			notificationLinks.push(item.href);
+		}
+
+		browser.runtime.sendMessage({urls: notificationLinks});
+
+		setTimeout(() => {
+			location.reload();
+		}, 500);
 	});
-
-	select('#notification-center .tabnav-tabs').append(button);
 }
 
 function updateLocalNotificationsCount() {
