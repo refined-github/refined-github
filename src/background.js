@@ -18,7 +18,8 @@ function openAllInTabs(message) {
 	browser.tabs.query({currentWindow: true, active: true}).then(currentTab => {
 		message.urls.forEach((url, i) => browser.tabs.create({
 			url,
-			index: currentTab[0].index + i + 1
+			index: currentTab[0].index + i + 1,
+			active: false
 		}));
 	});
 }

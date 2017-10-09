@@ -304,36 +304,50 @@ function addCustomAllReadBtn() {
 	});
 }
 
+function openNotifications() {
+	const notificationLinks = [];
+	for (const item of select.all('.list-group-item .list-group-item-link')) {
+		notificationLinks.push(item.href);
+	}
+	browser.runtime.sendMessage({urls: notificationLinks});
+	setTimeout(() => {
+		location.reload();
+	}, 500);
+}
+
 function addOpenAllInTabsBtn() {
-	select('#notification-center .tabnav-tabs').append(
-		<div class="float-right" id="open-notifications-button">
-			<a href="#open_all_in_tabs" class="btn btn-sm" rel="facebox">Open all in tabs</a>
+	const unreadCount = select('#notification-center .filter-list a[href="/notifications"] .count');
+	const githubNotificationsCount = Number(unreadCount.textContent);
 
-			<div id="open_all_in_tabs" style={{display: 'none'}}>
-				<h2 class="facebox-header" data-facebox-id="facebox-header">Are you sure?</h2>
+	if (githubNotificationsCount > 10) {
+		select('#notification-center .tabnav-tabs').append(
+			<div class="float-right" id="open-notifications-button">
+				<a href="#open_all_in_tabs" class="btn btn-sm" rel="facebox">Open all in tabs</a>
 
-				<p data-facebox-id="facebox-description">Are you sure you want to open all unread notifications in tabs?</p>
+				<div id="open_all_in_tabs" style={{display: 'none'}}>
+					<h2 class="facebox-header" data-facebox-id="facebox-header">Are you sure?</h2>
 
-				<div class="full-button">
-					<button id="open-all-notifications" class="btn btn-block">Open all notifications in tabs</button>
+					<p data-facebox-id="facebox-description">Are you sure you want to open all unread notifications in tabs?</p>
+
+					<div class="full-button">
+						<button id="open-all-notifications" class="btn btn-block">Open all notifications in tabs</button>
+					</div>
 				</div>
 			</div>
-		</div>
-	);
+		);
 
-	$(document).on('click', '#open-all-notifications', () => {
-		const notificationLinks = [];
+		$(document).on('click', '#open-all-notifications', () => {
+			openNotifications();
+		});
+	} else {
+		select('#notification-center .tabnav-tabs').append(
+			<div class="float-right" id="open-notifications-button">
+				<a href="#" class="btn btn-sm">Open all in tabs</a>
+			</div>
+		);
 
-		for (const item of select.all('.list-group-item .list-group-item-link')) {
-			notificationLinks.push(item.href);
-		}
-
-		browser.runtime.sendMessage({urls: notificationLinks});
-
-		setTimeout(() => {
-			location.reload();
-		}, 500);
-	});
+		select('#open-notifications-button').addEventListener('click', openNotifications);
+	}
 }
 
 function updateLocalNotificationsCount() {
