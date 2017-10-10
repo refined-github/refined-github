@@ -310,9 +310,9 @@ function openNotifications() {
 		notificationLinks.push(item.href);
 	}
 	browser.runtime.sendMessage({urls: notificationLinks});
-	setTimeout(() => {
-		location.reload();
-	}, 500);
+	for (const listItem of select.all('.list-group .list-group-item')) {
+		listItem.classList.add('read');
+	}
 }
 
 function addOpenAllInTabsBtn() {
@@ -339,7 +339,7 @@ function addOpenAllInTabsBtn() {
 		$(document).on('click', '#open-all-notifications', () => {
 			openNotifications();
 		});
-	} else {
+	} else if (githubNotificationsCount !== 0) {
 		select('#notification-center .tabnav-tabs').append(
 			<div class="float-right" id="open-notifications-button">
 				<a href="#" class="btn btn-sm">Open all in tabs</a>
