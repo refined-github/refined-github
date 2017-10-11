@@ -45,7 +45,7 @@
 }
 
 /* Remove news feed tips */
-.news > .text-center {
+.news > div:last-of-type.mt-4 {
 	display: none !important;
 }
 
