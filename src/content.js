@@ -71,28 +71,38 @@ function addCompareLink() {
 	);
 }
 
-function renameInsightsDropdown() {
-	const dropdown = select('.reponav-item.reponav-dropdown');
-	if (dropdown) {
-		dropdown.firstChild.textContent = 'More ';
-	} else {
-		// GHE doesn't have the Insights dropdown currently, so create a dropdown
-		const moreDropdown = <div class="reponav-dropdown js-menu-container">
-			<button type="button" class="btn-link reponav-item reponav-dropdown js-menu-target " data-no-toggle="" aria-expanded="false" aria-haspopup="true">More <svg aria-hidden="true" class="octicon octicon-triangle-down v-align-middle text-y" height="11" version="1.1" viewBox="0 0 12 16" width="8"><path fill-rule="evenodd" d="M0 5l6 6 6-6z"></path></svg></button>
-			<div class="dropdown-menu-content js-menu-content">
-				<div class="dropdown-menu dropdown-menu-sw"></div>
-			</div>
-		</div>;
+function createMoreDropdown() {
+	if (select.exists('.refined-github-more')) {
+		return;
+	}
+	const moreDropdown = <div class="reponav-dropdown js-menu-container refined-github-more">
+		<button type="button" class="btn-link reponav-item reponav-dropdown js-menu-target " data-no-toggle="" aria-expanded="false" aria-haspopup="true">More <svg aria-hidden="true" class="octicon octicon-triangle-down v-align-middle text-y" height="11" version="1.1" viewBox="0 0 12 16" width="8"><path fill-rule="evenodd" d="M0 5l6 6 6-6z"></path></svg></button>
+		<div class="dropdown-menu-content js-menu-content">
+			<div class="dropdown-menu dropdown-menu-sw"></div>
+		</div>
+	</div>;
 
-		const settingsTab = select('[data-selected-links~="repo_settings"]');
-		if (settingsTab) {
-			settingsTab.parentNode.insertBefore(moreDropdown, settingsTab);
-		} else {
-			const repoNav = select('.reponav');
-			if (repoNav) {
-				repoNav.appendChild(moreDropdown);
-			}
+	const settingsTab = select('[data-selected-links~="repo_settings"]');
+	if (settingsTab) {
+		settingsTab.parentNode.insertBefore(moreDropdown, settingsTab);
+	} else {
+		const repoNav = select('.reponav');
+		if (repoNav) {
+			repoNav.appendChild(moreDropdown);
 		}
+	}
+}
+
+function moveInsightsLink() {
+	const insightsTab = select('[data-selected-links~="pulse"]');
+	if (insightsTab) {
+		insightsTab.remove();
+		select('.reponav-dropdown .dropdown-menu').prepend(
+			<a href={`/${repoUrl}/pulse`} class="dropdown-item refined-github-insights" data-skip-pjax>
+				{icons.graph}
+				<span itemprop="name"> Insights</span>
+			</a>
+		);
 	}
 }
 
@@ -589,7 +599,8 @@ async function onDomReady() {
 	if (pageDetect.isRepo()) {
 		gitHubInjection(window, () => {
 			hideEmptyMeta();
-			renameInsightsDropdown();
+			createMoreDropdown();
+			moveInsightsLink();
 			addReleasesTab();
 			removeProjectsTab();
 			addCompareLink();
