@@ -694,3 +694,10 @@ a.tabnav-extra[href$="mastering-markdown/"] {
     top: 60px;
     z-index: 1;
 }
+
+/* Sticky file headers in regular file view */
+.file .file-header {
+    position: sticky;
+    top: 0px;
+    z-index: 10;
+}
