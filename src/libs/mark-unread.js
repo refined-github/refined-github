@@ -313,8 +313,7 @@ function openNotifications() {
 }
 
 function addOpenAllInTabsBtn() {
-	const unreadCountEl = select('#notification-center .filter-list a[href="/notifications"] .count');
-	const unreadCount = Number(unreadCountEl.textContent);
+	const unreadCount = select.all('.js-notification-target').length;
 
 	if (unreadCount > 10) {
 		select('#notification-center .tabnav-tabs').append(
