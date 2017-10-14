@@ -333,7 +333,10 @@ function addOpenAllInTabsBtn() {
 	// Move out the extra node that messes with .BtnGroup-item:last-child
 	document.body.append(select('#mark_as_read_confirm_box'));
 
-	if (unreadCount > 10) {
+	if (unreadCount < 10) {
+		openButton.addEventListener('click', openNotifications);
+	} else {
+		// Add confirmation modal
 		openButton.setAttribute('rel', 'facebox');
 		document.body.append(
 			<div id="open_all_in_tabs" style={{display: 'none'}}>
@@ -351,8 +354,6 @@ function addOpenAllInTabsBtn() {
 			openNotifications();
 			select('.js-facebox-close').click(); // Close modal
 		});
-	} else if (unreadCount !== 0) {
-		openButton.addEventListener('click', openNotifications);
 	}
 }
 
