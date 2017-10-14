@@ -9,6 +9,7 @@ import domLoaded from 'dom-loaded';
 import {h} from 'dom-chef';
 
 import markUnread from './libs/mark-unread';
+import addOpenAllNotificationsButton from './libs/open-all-notifications';
 import addGistCopyButton from './libs/copy-gist';
 import addUploadBtn from './libs/upload-button';
 import enableCopyOnY from './libs/copy-on-y';
@@ -559,6 +560,7 @@ async function onDomReady() {
 	const username = getUsername();
 
 	markUnread.setup();
+	addOpenAllNotificationsButton();
 
 	if (!pageDetect.isGist()) {
 		moveMarketplaceLinkToProfileDropdown();
