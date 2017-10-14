@@ -692,7 +692,10 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 .pull-request-tab-content .diff-view .file-header {
     position: sticky;
     top: 60px;
-    z-index: 10;
+    z-index: 29; /* Just above .pr-toolbar */
+}
+.pr-toolbar-shadow {
+	z-index: 30; /* Just above .file-header */
 }
 
 /* Sticky file headers in regular file view */
