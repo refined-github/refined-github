@@ -315,28 +315,38 @@ function openNotifications() {
 function addOpenAllInTabsBtn() {
 	const unreadCount = select.all('.js-notification-target').length;
 
+	if (unreadCount === 0) {
+		return;
+	}
+
+	const openButton = <a href="#open_all_in_tabs" class="btn btn-sm BtnGroup-item">Open all in tabs</a>;
+
+	// Make a button group
+	const markAsReadButton = select('[href="#mark_as_read_confirm_box"]');
+	markAsReadButton.parentNode.classList.add('BtnGroup');
+	markAsReadButton.classList.add('BtnGroup-item');
+	markAsReadButton.before(openButton);
+
+	// Move out the extra node that messes with .BtnGroup-item:last-child
+	document.body.append(select('#mark_as_read_confirm_box'));
+
 	if (unreadCount > 10) {
-		select('#notification-center .tabnav-tabs').append(
-			<div class="float-right" id="open-notifications-button">
-				<a href="#open_all_in_tabs" class="btn btn-sm" rel="facebox">Open all in tabs</a>
+		openButton.setAttribute('rel', 'facebox');
+		document.body.append(
+			<div id="open_all_in_tabs" style={{display: 'none'}}>
+				<h2 class="facebox-header" data-facebox-id="facebox-header">Are you sure?</h2>
 
-				<div id="open_all_in_tabs" style={{display: 'none'}}>
-					<h2 class="facebox-header" data-facebox-id="facebox-header">Are you sure?</h2>
+				<p data-facebox-id="facebox-description">Are you sure you want to open {unreadCount} tabs?</p>
 
-					<p data-facebox-id="facebox-description">Are you sure you want to open {unreadCount} tabs?</p>
-
-					<div class="full-button">
-						<button class="btn btn-block" onClick={openNotifications}>Open all notifications</button>
-					</div>
+				<div class="full-button">
+					<button class="btn btn-block">Open all notifications</button>
 				</div>
 			</div>
 		);
+
+		$(document).on('click', '#open-all-notifications', openNotifications);
 	} else if (unreadCount !== 0) {
-		select('#notification-center .tabnav-tabs').append(
-			<div class="float-right">
-				<button class="btn btn-sm" onClick={openNotifications}>Open all in tabs</button>
-			</div>
-		);
+		openButton.addEventListener('click', openNotifications);
 	}
 }
 
