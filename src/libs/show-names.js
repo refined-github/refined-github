@@ -1,3 +1,4 @@
+import {h} from 'dom-chef';
 import select from 'select-dom';
 import domify from './domify';
 import {getUsername, groupBy} from './utils';
