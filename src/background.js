@@ -1,6 +1,6 @@
+import browser from 'webextension-polyfill';
 import OptionsSync from 'webext-options-sync';
 import injectContentScripts from 'webext-dynamic-content-scripts';
-import browser from 'webextension-polyfill';
 
 // Define defaults
 new OptionsSync().define({
@@ -14,7 +14,7 @@ new OptionsSync().define({
 
 browser.runtime.onMessage.addListener(openAllInTabs);
 
-function openAllInTabs(message) {
+async function openAllInTabs(message) {
 	const [currentTab] = await browser.tabs.query({currentWindow: true, active: true});
 	for (const [url, i] of message.urls.entries()) {
 		browser.tabs.create({
