@@ -12,18 +12,19 @@ new OptionsSync().define({
 	]
 });
 
-browser.runtime.onMessage.addListener(openAllInTabs);
-
-async function openAllInTabs(message) {
+browser.runtime.onMessage.addListener(async message => {
+	if (!message || message.action !== 'openAllInTabs') {
+		return;
+	}
 	const [currentTab] = await browser.tabs.query({currentWindow: true, active: true});
-	for (const [url, i] of message.urls.entries()) {
+	for (const [i, url] of message.urls.entries()) {
 		browser.tabs.create({
 			url,
 			index: currentTab.index + i + 1,
 			active: false
 		});
 	}
-}
+});
 
 // GitHub Enterprise support
 injectContentScripts();

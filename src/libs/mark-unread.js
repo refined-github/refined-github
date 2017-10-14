@@ -306,7 +306,10 @@ function addCustomAllReadBtn() {
 
 function openNotifications() {
 	const urls = select.all('.js-notification-target').map(el => el.href);
-	browser.runtime.sendMessage({urls});
+	browser.runtime.sendMessage({
+		urls,
+		action: 'openAllInTabs'
+	});
 	for (const listItem of select.all('.list-group .list-group-item')) {
 		listItem.classList.add('read');
 	}
