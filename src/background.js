@@ -15,13 +15,14 @@ new OptionsSync().define({
 browser.runtime.onMessage.addListener(openAllInTabs);
 
 function openAllInTabs(message) {
-	browser.tabs.query({currentWindow: true, active: true}).then(currentTab => {
-		message.urls.forEach((url, i) => browser.tabs.create({
+	const [currentTab] = await browser.tabs.query({currentWindow: true, active: true});
+	for (const [url, i] of message.urls.entries()) {
+		browser.tabs.create({
 			url,
-			index: currentTab[0].index + i + 1,
+			index: currentTab.index + i + 1,
 			active: false
-		}));
-	});
+		});
+	}
 }
 
 // GitHub Enterprise support
