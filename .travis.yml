@@ -8,6 +8,5 @@ deploy:
   skip_cleanup: true
   script: npm run release
   on:
-    # Condition is set to deploy on: tags OR cron with recent commits
-    branch: master
+    # Condition is set to deploy on: tags OR cron on master with recent commits
     condition: $(npm run can-release --silent)
