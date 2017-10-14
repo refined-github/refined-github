@@ -342,12 +342,15 @@ function addOpenAllInTabsBtn() {
 				<p data-facebox-id="facebox-description">Are you sure you want to open {unreadCount} tabs?</p>
 
 				<div class="full-button">
-					<button class="btn btn-block">Open all notifications</button>
+					<button class="btn btn-block" id="open-all-notifications">Open all notifications</button>
 				</div>
 			</div>
 		);
 
-		$(document).on('click', '#open-all-notifications', openNotifications);
+		$(document).on('click', '#open-all-notifications', () => {
+			openNotifications();
+			select('.js-facebox-close').click(); // Close modal
+		});
 	} else if (unreadCount !== 0) {
 		openButton.addEventListener('click', openNotifications);
 	}
