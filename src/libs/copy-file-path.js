@@ -15,7 +15,7 @@ function addFilePathCopyBtn() {
 		viewButton.classList.add('BtnGroup-item');
 		viewButton.replaceWith(
 			<div class="BtnGroup">
-				<button aria-label="Copy file path to clipboard" class="js-zeroclipboard btn btn-sm BtnGroup-item tooltipped tooltipped-s" data-copied-hint="Copied!" type="button">Copy path</button>
+				<button aria-label="Copy file path to clipboard" class="js-zeroclipboard btn btn-sm BtnGroup-item tooltipped tooltipped-n" data-copied-hint="Copied!" type="button">Copy path</button>
 				{viewButton}
 			</div>
 		);
