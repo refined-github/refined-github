@@ -305,11 +305,8 @@ function addCustomAllReadBtn() {
 }
 
 function openNotifications() {
-	const notificationLinks = [];
-	for (const item of select.all('.list-group-item .list-group-item-link')) {
-		notificationLinks.push(item.href);
-	}
-	browser.runtime.sendMessage({urls: notificationLinks});
+	const urls = select.all('.js-notification-target').map(el => el.href);
+	browser.runtime.sendMessage({urls});
 	for (const listItem of select.all('.list-group .list-group-item')) {
 		listItem.classList.add('read');
 	}
