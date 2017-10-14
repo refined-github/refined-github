@@ -548,7 +548,7 @@ function init() {
 	});
 
 	// Handle issue list ajax
-	$(document).on('pjax:end', () => {
+	gitHubInjection(() => {
 		if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 			addYoursMenuItem();
 		}
@@ -597,7 +597,7 @@ async function onDomReady() {
 	}
 
 	if (pageDetect.isRepo()) {
-		gitHubInjection(window, () => {
+		gitHubInjection(() => {
 			hideEmptyMeta();
 			createMoreDropdown();
 			moveInsightsLink();
