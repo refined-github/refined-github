@@ -34,7 +34,7 @@ export default () => {
 
 	const releasesTab = (
 		<a href={`/${repoUrl}/releases`} class="reponav-item reponav-releases" data-hotkey="g r">
-			{icons.tag}
+			{icons.tag()}
 			<span> Releases </span>
 		</a>
 	);
