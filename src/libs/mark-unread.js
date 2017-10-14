@@ -313,10 +313,10 @@ function openNotifications() {
 }
 
 function addOpenAllInTabsBtn() {
-	const unreadCount = select('#notification-center .filter-list a[href="/notifications"] .count');
-	const githubNotificationsCount = Number(unreadCount.textContent);
+	const unreadCountEl = select('#notification-center .filter-list a[href="/notifications"] .count');
+	const unreadCount = Number(unreadCountEl.textContent);
 
-	if (githubNotificationsCount > 10) {
+	if (unreadCount > 10) {
 		select('#notification-center .tabnav-tabs').append(
 			<div class="float-right" id="open-notifications-button">
 				<a href="#open_all_in_tabs" class="btn btn-sm" rel="facebox">Open all in tabs</a>
@@ -324,26 +324,20 @@ function addOpenAllInTabsBtn() {
 				<div id="open_all_in_tabs" style={{display: 'none'}}>
 					<h2 class="facebox-header" data-facebox-id="facebox-header">Are you sure?</h2>
 
-					<p data-facebox-id="facebox-description">Are you sure you want to open all unread notifications in tabs?</p>
+					<p data-facebox-id="facebox-description">Are you sure you want to open {unreadCount} tabs?</p>
 
 					<div class="full-button">
-						<button id="open-all-notifications" class="btn btn-block">Open all notifications in tabs</button>
+						<button class="btn btn-block" onClick={openNotifications}>Open all notifications</button>
 					</div>
 				</div>
 			</div>
 		);
-
-		$(document).on('click', '#open-all-notifications', () => {
-			openNotifications();
-		});
-	} else if (githubNotificationsCount !== 0) {
+	} else if (unreadCount !== 0) {
 		select('#notification-center .tabnav-tabs').append(
-			<div class="float-right" id="open-notifications-button">
-				<a href="#" class="btn btn-sm">Open all in tabs</a>
+			<div class="float-right">
+				<button class="btn btn-sm" onClick={openNotifications}>Open all in tabs</button>
 			</div>
 		);
-
-		select('#open-notifications-button').addEventListener('click', openNotifications);
 	}
 }
 
