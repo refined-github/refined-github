@@ -137,7 +137,7 @@
 }
 
 /* Move the dashboard organization switcher to the right column */
-.page-dashboard .news.column.two-thirds .account-switcher {
+.news.column.two-thirds .account-switcher {
 	/* Hide switcher from the main column, but if JS fails show it */
 	animation: temporarily-hide 5s steps(1, end);
 }
@@ -147,11 +147,11 @@
 		top: -1000px;
 	}
 }
-.page-dashboard .account-switcher button {
+.account-switcher button {
 	width: 100%;
 	margin-bottom: 15px;
 }
-.page-dashboard .account-switcher .select-menu-button-gravatar {
+.account-switcher .select-menu-button-gravatar {
 	float: none !important;
 	display: inline-block !important;
 	vertical-align: top !important;
