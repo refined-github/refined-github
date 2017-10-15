@@ -701,3 +701,8 @@ a.tabnav-extra[href$="mastering-markdown/"] {
     top: 0;
     z-index: 10;
 }
+
+/* Remove annoying "helpful" banners */
+.js-notice {
+	display: none !important;
+}
