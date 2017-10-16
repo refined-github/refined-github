@@ -24,7 +24,7 @@ import addReleasesTab from './libs/add-releases-tab';
 
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
-import {getUsername, observeEl, safeElementReady} from './libs/utils';
+import {getUsername, observeEl, safeElementReady, safely} from './libs/utils';
 
 // Add globals for easier debugging
 window.$ = $;
@@ -521,11 +521,11 @@ function init() {
 	document.documentElement.classList.add('refined-github');
 
 	if (!pageDetect.isGist()) {
-		addTrendingMenuItem();
+		safely(addTrendingMenuItem);
 	}
 
 	if (pageDetect.isDashboard()) {
-		moveAccountSwitcherToSidebar();
+		safely(moveAccountSwitcherToSidebar);
 	}
 
 	// Support indent with tab key in comments
@@ -559,15 +559,13 @@ function init() {
 	// Handle issue list ajax
 	gitHubInjection(() => {
 		if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
-			addYoursMenuItem();
+			safely(addYoursMenuItem);
 		}
 	});
 
 	// TODO: Enable this when we've improved how copying Markdown works
 	// See #522
 	// $(document).on('copy', '.markdown-body', copyMarkdown);
-
-	onDomReady();
 }
 
 async function onDomReady() {
@@ -576,14 +574,14 @@ async function onDomReady() {
 
 	const username = getUsername();
 
-	markUnread.setup();
+	safely(markUnread.setup);
 
 	if (!pageDetect.isGist()) {
-		moveMarketplaceLinkToProfileDropdown();
+		safely(moveMarketplaceLinkToProfileDropdown);
 	}
 
 	if (pageDetect.isGist()) {
-		addGistCopyButton();
+		safely(addGistCopyButton);
 	}
 
 	if (pageDetect.isDashboard()) {
@@ -596,37 +594,39 @@ async function onDomReady() {
 			});
 		}
 
-		autoLoadMoreNews();
+		safely(autoLoadMoreNews);
 	}
 
 	observeEl('div[role=main]', addUploadBtn, {childList: true, subtree: true});
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
-		addYoursMenuItem();
+		safely(addYoursMenuItem);
 	}
 
 	if (pageDetect.isRepo()) {
 		gitHubInjection(() => {
-			hideEmptyMeta();
-			createMoreDropdown();
-			moveInsightsLink();
-			addReleasesTab();
-			removeProjectsTab();
-			addCompareLink();
-			addTitleToEmojis();
-			addReadmeButtons();
+			safely(hideEmptyMeta);
+			safely(createMoreDropdown);
+			safely(moveInsightsLink);
+			safely(addReleasesTab);
+			safely(removeProjectsTab);
+			safely(addCompareLink);
+			safely(addTitleToEmojis);
+			safely(addReadmeButtons);
 
-			for (const a of select.all('a[href]')) {
-				shortenLink(a, location.href);
-			}
+			safely(() => {
+				for (const a of select.all('a[href]')) {
+					shortenLink(a, location.href);
+				}
+			});
 
-			enableCopyOnY.destroy();
+			safely(enableCopyOnY.destroy);
 
 			if (pageDetect.isPR()) {
-				linkifyBranchRefs();
-				addDeleteForkLink();
-				fixSquashAndMergeTitle();
-				openCIDetailsInNewTab();
+				safely(linkifyBranchRefs);
+				safely(addDeleteForkLink);
+				safely(fixSquashAndMergeTitle);
+				safely(openCIDetailsInNewTab);
 			}
 
 			if (pageDetect.isQuickPR()) {
@@ -638,17 +638,17 @@ async function onDomReady() {
 			}
 
 			if (pageDetect.isPR() || pageDetect.isIssue()) {
-				linkifyIssuesInTitles();
+				safely(linkifyIssuesInTitles);
 				observeEl('.new-discussion-timeline', addOPLabels, {childList: true, subtree: true});
 			}
 
 			if (pageDetect.isPRList() || pageDetect.isIssueList()) {
-				addFilterCommentsByYou();
-				showRecentlyPushedBranches();
+				safely(addFilterCommentsByYou);
+				safely(showRecentlyPushedBranches);
 			}
 
 			if (pageDetect.isCommit()) {
-				addPatchDiffLinks();
+				safely(addPatchDiffLinks);
 			}
 
 			if (pageDetect.hasDiff()) {
@@ -656,43 +656,44 @@ async function onDomReady() {
 				if (diffElements) {
 					observeEl(diffElements, removeDiffSignsAndWatchExpansions, {childList: true, subtree: true});
 				}
-				addDiffViewWithoutWhitespaceOption();
-				preserveWhitespaceOptionInNav();
+				safely(addDiffViewWithoutWhitespaceOption);
+				safely(preserveWhitespaceOptionInNav);
 			}
 
 			if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit()) {
-				addReactionParticipants();
-				showRealNames();
+				safely(addReactionParticipants);
+				safely(showRealNames);
 			}
 
 			if (pageDetect.isCommitList()) {
-				markMergeCommitsInList();
+				safely(markMergeCommitsInList);
 			}
 
 			if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
-				addCopyFilePathToPRs();
+				safely(addCopyFilePathToPRs);
 			}
 
 			if (pageDetect.isSingleFile()) {
-				addFileCopyButton();
-				enableCopyOnY.setup();
+				safely(addFileCopyButton);
+				safely(enableCopyOnY.setup);
 			}
 
 			if (pageDetect.isMilestone()) {
-				addMilestoneNavigation();
+				safely(addMilestoneNavigation);
 			}
 
 			if (pageDetect.hasCode()) {
-				linkifyCode();
+				safely(linkifyCode);
 			}
 
 			if (pageDetect.isRepoSettings()) {
-				addProjectNewLink();
+				safely(addProjectNewLink);
 			}
 
-			sortMilestonesByClosestDueDate(); // Needs to be after addMilestoneNavigation
+			safely(sortMilestonesByClosestDueDate); // Needs to be after addMilestoneNavigation
 		});
 	}
 }
 
 init();
+onDomReady();
