@@ -702,7 +702,12 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 	z-index: 10;
 }
 
-/* Remove annoying "helpful" banners */
-.js-notice {
+/* Remove annoying "helpful" banner on the issue tracker listing */
+.issues-listing .mb-4.js-notice {
+	display: none !important;
+}
+
+/* Remove annoying "helpful" popover on the repo label page */
+.labels-list .TutorialPopover {
 	display: none !important;
 }
