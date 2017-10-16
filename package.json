@@ -7,7 +7,7 @@
 		"release:amo": "cd extension && webext submit",
 		"release:cws": "cd extension && webstore upload --auto-publish",
 		"release": "run-s build:minified update-version release:*",
-		"update-version": "dot-json extension/manifest.json version $(date -u +%y.%-m.%-d.%-H%M)",
+		"update-version": "VERSION=$(date -u +%y.%-m.%-d.%-H%M); echo $VERSION; dot-json extension/manifest.json version $VERSION",
 		"can-release": "if [ \"$TRAVIS_EVENT_TYPE\" = cron ] && [ $(git rev-list -n 1 --since=\"26 hours ago\" master) ]; then echo :ship-it:; else false; fi"
 	},
 	"dependencies": {
