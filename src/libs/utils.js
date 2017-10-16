@@ -3,9 +3,9 @@ import elementReady from 'element-ready';
 import domLoaded from 'dom-loaded';
 
 /**
- * Run function asynchronously to prevent errors
- * from blocking the remaining tasks.
+ * Prevent fn's errors from blocking the remaining tasks.
  * https://github.com/sindresorhus/refined-github/issues/678
+ * The code looks weird but it's synchronous and fn is called without args.
  */
 export const safely = fn => new Promise(resolve => resolve(fn()));
 
