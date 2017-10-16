@@ -7,7 +7,7 @@ import domLoaded from 'dom-loaded';
  * from blocking the remaining tasks.
  * https://github.com/sindresorhus/refined-github/issues/678
  */
-export const safely = fn => Promise.resolve().then(fn);
+export const safely = fn => new Promise(resolve => resolve(fn()));
 
 export const getUsername = () => select('meta[name="user-login"]').getAttribute('content');
 
