@@ -591,7 +591,7 @@ async function onDomReady() {
 		if (options.hideStarsOwnRepos) {
 			observeEl('#dashboard .news', () => {
 				$('#dashboard .news .watch_started, #dashboard .news .fork')
-					.has(`.title a[href^="/${username}"]`)
+					.has(`a[href^="/${username}"]`)
 					.css('display', 'none');
 			});
 		}
