@@ -65,7 +65,7 @@ function addCompareLink() {
 
 	select('.reponav-dropdown .dropdown-menu').prepend(
 		<a href={`/${repoUrl}/compare`} class="dropdown-item refined-github-compare-tab" data-skip-pjax>
-			{icons.darkCompare}
+			{icons.darkCompare()}
 			<span itemprop="name"> Compare</span>
 		</a>
 	);
@@ -99,7 +99,7 @@ function moveInsightsLink() {
 		insightsTab.remove();
 		select('.reponav-dropdown .dropdown-menu').prepend(
 			<a href={`/${repoUrl}/pulse`} class="dropdown-item refined-github-insights" data-skip-pjax>
-				{icons.graph}
+				{icons.graph()}
 				<span itemprop="name"> Insights</span>
 			</a>
 		);
@@ -188,7 +188,7 @@ function addReadmeButtons() {
 				class="tooltipped tooltipped-nw"
 				href={`${releases.get(latestRelease)}#readme`}
 				aria-label={`View this file at the latest version (${latestRelease})`}>
-				{icons.tag}
+				{icons.tag()}
 			</a>
 		);
 	}
@@ -205,7 +205,7 @@ function addReadmeButtons() {
 				href={`/${repoUrl}/edit/${currentBranch}/${path}${readmeName}`}
 				class="tooltipped tooltipped-nw"
 				aria-label="Edit this file">
-				{icons.edit}
+				{icons.edit()}
 			</a>
 		);
 	}
@@ -224,7 +224,7 @@ function addDeleteForkLink() {
 			postMergeDescription.append(
 				<p id="refined-github-delete-fork-link">
 					<a href={`/${forkPath}/settings`}>
-						{icons.fork}
+						{icons.fork()}
 						Delete fork
 					</a>
 				</p>
@@ -302,7 +302,7 @@ function markMergeCommitsInList() {
 	for (const commit of select.all('.commits-list-item:not(.refined-github-merge-commit)')) {
 		if (select.exists('[title^="Merge pull request"]', commit)) {
 			commit.classList.add('refined-github-merge-commit');
-			commit.querySelector('.commit-avatar-cell').prepend(icons.mergedPullRequest.cloneNode(true));
+			commit.querySelector('.commit-avatar-cell').prepend(icons.mergedPullRequest());
 			commit.querySelector('.avatar').classList.add('avatar-child');
 		}
 	}
@@ -390,7 +390,7 @@ function addDiffViewWithoutWhitespaceOption() {
 				data-hotkey="d w"
 				class={`btn btn-sm btn-outline BtnGroup-item tooltipped tooltipped-s ${hidingWhitespace ? 'bg-gray-light text-gray-light' : ''}`}
 				aria-label={`${hidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}>
-				{hidingWhitespace ? icons.check : ''}
+				{hidingWhitespace ? icons.check() : ''}
 				{' '}
 				No Whitespace
 			</a>
