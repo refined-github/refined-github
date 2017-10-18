@@ -91,7 +91,7 @@ function createMoreDropdown() {
 	}
 	const moreDropdown = <div class="reponav-dropdown js-menu-container refined-github-more">
 		<button type="button" class="btn-link reponav-item reponav-dropdown js-menu-target " data-no-toggle="" aria-expanded="false" aria-haspopup="true">More <svg aria-hidden="true" class="octicon octicon-triangle-down v-align-middle text-y" height="11" version="1.1" viewBox="0 0 12 16" width="8"><path fill-rule="evenodd" d="M0 5l6 6 6-6z"></path></svg></button>
-		<div class="dropdown-menu-content js-menu-content">
+		<div class="dropdown-menu-content dropdown-menu-no-overflow js-menu-content">
 			<div class="dropdown-menu dropdown-menu-sw"></div>
 		</div>
 	</div>;
