@@ -10,6 +10,7 @@ import {h} from 'dom-chef';
 
 import markUnread from './libs/mark-unread';
 import addOpenAllNotificationsButton from './libs/open-all-notifications';
+import browseAtIssueTime from './libs/browse-at-issue-time';
 import addGistCopyButton from './libs/copy-gist';
 import addUploadBtn from './libs/upload-button';
 import enableCopyOnY from './libs/copy-on-y';
@@ -640,6 +641,10 @@ async function onDomReady() {
 					const branchUrl = `/${ownerName}/${repoName}/tree/${el.textContent}`;
 					$(el).closest('.branch-name').wrap(<a href={branchUrl}></a>);
 				});
+			}
+
+			if (pageDetect.isIssue()) {
+				safely(browseAtIssueTime);
 			}
 
 			if (pageDetect.isPR() || pageDetect.isIssue()) {
