@@ -711,3 +711,10 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 .labels-list .TutorialPopover {
 	display: none !important;
 }
+
+/* Make the modal backdrop visible */
+body.menu-active .modal-backdrop,
+:root .dropdown-details[open]>summary::before {
+	background: rgba(0, 0, 0, 0.1);
+	z-index: 99; /* GitHub's z-index:1 is not enough, but they can't see the bug */
+}
