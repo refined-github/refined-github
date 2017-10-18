@@ -95,6 +95,9 @@ function createMoreDropdown() {
 }
 
 function moveInsightsLink() {
+	if (select.exists('.refined-github-insights')) {
+		return;
+	}
 	const insightsTab = select('[data-selected-links~="pulse"]');
 	if (insightsTab) {
 		insightsTab.remove();
