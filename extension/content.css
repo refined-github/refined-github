@@ -711,3 +711,12 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 .labels-list .TutorialPopover {
 	display: none !important;
 }
+
+.refined-github-timestamp-button {
+	padding: 0;
+}
+
+.refined-github-timestamp-button:hover, .refined-github-timestamp-button:focus {
+	opacity: 1;
+	color: inherit;
+}

@@ -1,6 +1,7 @@
 import select from 'select-dom';
 import {h} from 'dom-chef';
 import {getOwnerAndRepo} from './page-detect';
+import * as icons from './icons';
 
 const {ownerName, repoName} = getOwnerAndRepo();
 
@@ -20,20 +21,20 @@ export default async () => {
 		const timestampValue = select('relative-time', timestampLink).attributes.datetime.value;
 
 		const openTree = async ({target}) => {
-			target.textContent = 'Loading...';
+			target.replaceChild(icons.clock(), target.firstChild);
 
 			let sha;
 
 			try {
 				sha = await getSHABeforeTimestamp(timestampValue);
 			} catch (err) {
-				target.textContent = 'Error fetching commit!';
+				target.replaceChild(icons.stop(), target.firstChild);
 				console.log(err);
 				return;
 			}
 
 			if (!sha) {
-				target.textContent = 'No commits before this comment!';
+				target.replaceChild(icons.stop(), target.firstChild);
 				return;
 			}
 
@@ -43,8 +44,8 @@ export default async () => {
 		timestampLink.insertAdjacentElement('afterEnd',
 			<span>
 				&nbsp;
-				<button onClick={openTree} class="btn-link">
-					Browse files
+				<button onClick={openTree} type="button" class="timeline-comment-action btn-link refined-github-timestamp-button">
+					{icons.code()}
 				</button>
 			</span>
 		);
