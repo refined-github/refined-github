@@ -353,7 +353,7 @@ async function setup() {
 		}
 	);
 	migrateOldStorage();
-	gitHubInjection(window, () => {
+	gitHubInjection(() => {
 		destroy();
 
 		if (pageDetect.isNotifications()) {

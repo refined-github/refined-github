@@ -16,4 +16,3 @@ deploy:
       # Set to deploy on: cron with recent commits
       branch: master
       condition: $(npm run can-release --silent)
-
