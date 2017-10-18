@@ -11,14 +11,15 @@ function addFilePathCopyBtn() {
 
 		select('.file-info a', file).classList.add('js-zeroclipboard-target');
 
-		const viewButton = select('[aria-label^="View"]', file);
-		viewButton.classList.add('BtnGroup-item');
-		viewButton.replaceWith(
+		const group = (
 			<div class="BtnGroup">
-				<button aria-label="Copy file path to clipboard" class="js-zeroclipboard btn btn-sm BtnGroup-item tooltipped tooltipped-s" data-copied-hint="Copied!" type="button">Copy path</button>
-				{viewButton}
+				<button aria-label="Copy file path to clipboard" class="js-zeroclipboard btn btn-sm BtnGroup-item tooltipped tooltipped-n" data-copied-hint="Copied!" type="button">Copy path</button>
 			</div>
 		);
+		const viewButton = select('[aria-label^="View"]', file);
+		viewButton.classList.add('BtnGroup-item');
+		viewButton.replaceWith(group);
+		group.append(viewButton);
 	}
 }
 

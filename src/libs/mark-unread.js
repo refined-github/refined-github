@@ -125,25 +125,25 @@ function renderNotifications() {
 
 		if (type === 'issue') {
 			if (state === 'open') {
-				icon = icons.openIssue;
+				icon = icons.openIssue();
 			}
 
 			if (state === 'closed') {
-				icon = icons.closedIssue;
+				icon = icons.closedIssue();
 			}
 		}
 
 		if (type === 'pull-request') {
 			if (state === 'open') {
-				icon = icons.openPullRequest;
+				icon = icons.openPullRequest();
 			}
 
 			if (state === 'merged') {
-				icon = icons.mergedPullRequest;
+				icon = icons.mergedPullRequest();
 			}
 
 			if (state === 'closed') {
-				icon = icons.closedPullRequest;
+				icon = icons.closedPullRequest();
 			}
 		}
 
@@ -153,7 +153,7 @@ function renderNotifications() {
 				<div class="boxed-group flush">
 					<form class="boxed-group-action">
 						<button class="mark-all-as-read css-truncate tooltipped tooltipped-w js-mark-all-read" aria-label="Mark all notifications as read">
-							{icons.check}
+							{icons.check()}
 						</button>
 					</form>
 
@@ -194,13 +194,13 @@ function renderNotifications() {
 				<ul class="notification-actions">
 					<li class="delete">
 						<button aria-label="Mark as read" class="btn-link delete-note tooltipped tooltipped-w js-mark-read">
-							{icons.check}
+							{icons.check()}
 						</button>
 					</li>
 
 					<li class="mute">
 						<button style={{opacity: 0, pointerEvents: 'none'}}>
-							{icons.mute}
+							{icons.mute()}
 						</button>
 					</li>
 
@@ -353,7 +353,7 @@ async function setup() {
 		}
 	);
 	migrateOldStorage();
-	gitHubInjection(window, () => {
+	gitHubInjection(() => {
 		destroy();
 
 		if (pageDetect.isNotifications()) {

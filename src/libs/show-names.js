@@ -1,3 +1,4 @@
+import {h} from 'dom-chef';
 import select from 'select-dom';
 import domify from './domify';
 import {getUsername, groupBy} from './utils';
@@ -50,7 +51,7 @@ export default async () => {
 				// If it's a regular comment author, add it outside <strong>
 				// otherwise it's something like "User added some commits"
 				const insertionPoint = usernameEl.parentNode.tagName === 'STRONG' ? usernameEl.parentNode : usernameEl;
-				insertionPoint.insertAdjacentText('afterend', ` (${cache[username]}) `);
+				insertionPoint.after(' (', <bdo>{cache[username]}</bdo>, ') ');
 			}
 		}
 	};

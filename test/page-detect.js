@@ -35,6 +35,16 @@ test('isDashboard', urlMatcherMacro, pageDetect.isDashboard, [
 	'https://github.com/sindresorhus'
 ]);
 
+test('isTrending', urlMatcherMacro, pageDetect.isTrending, [
+	'https://github.com/trending',
+	'https://github.com/trending/developers',
+	'https://github.com/trending/unknown'
+], [
+	'https://github.com/settings/trending',
+	'https://github.com/watching',
+	'https://github.com/jaredhanson/node-trending/tree/master/lib/trending'
+]);
+
 test('isRepo', urlMatcherMacro, pageDetect.isRepo, [
 	'http://github.com/sindresorhus/refined-github',
 	'https://github.com/sindresorhus/refined-github/issues/146',
@@ -42,7 +52,8 @@ test('isRepo', urlMatcherMacro, pageDetect.isRepo, [
 ], [
 	'https://github.com/sindresorhus',
 	'https://github.com',
-	'https://github.com/stars'
+	'https://github.com/stars',
+	'https://github.com/trending/developers'
 ]);
 
 test('isRepoTree', urlMatcherMacro, pageDetect.isRepoTree, [

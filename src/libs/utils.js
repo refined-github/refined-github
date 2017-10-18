@@ -2,6 +2,13 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import domLoaded from 'dom-loaded';
 
+/**
+ * Prevent fn's errors from blocking the remaining tasks.
+ * https://github.com/sindresorhus/refined-github/issues/678
+ * The code looks weird but it's synchronous and fn is called without args.
+ */
+export const safely = async fn => fn();
+
 export const getUsername = () => select('meta[name="user-login"]').getAttribute('content');
 
 export const groupBy = (array, grouper) => array.reduce((map, item) => {
@@ -30,6 +37,10 @@ export const safeElementReady = selector => {
 export const observeEl = (el, listener, options = {childList: true}) => {
 	if (typeof el === 'string') {
 		el = select(el);
+	}
+
+	if (!el) {
+		return;
 	}
 
 	// Run first

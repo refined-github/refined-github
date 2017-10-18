@@ -4,11 +4,15 @@ node_js:
 env:
   - EXTENSION_ID=hlepfoohegkhhmjieoechaddaejaokhf
 deploy:
-  provider: script
-  skip_cleanup: true
-  script: npm run release
-  on:
-    branch: master
-    # Only deploy on cronjobs + if the last commit was within the last day ± 1 hour.
-    # Temporarily comment out this condition to let any commits be deployed.
-    condition: $TRAVIS_EVENT_TYPE = cron &&  $(git log -1 --pretty=format:%ct) -gt $(gdate --date='26 hours ago' +%s)
+  - provider: script
+    skip_cleanup: true
+    script: npm run release
+    on:
+      tags: true
+  - provider: script
+    skip_cleanup: true
+    script: npm run release
+    on:
+      # Set to deploy on: cron with recent commits
+      branch: master
+      condition: $(npm run can-release --silent)

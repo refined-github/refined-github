@@ -22,11 +22,10 @@ import linkifyCode, {editTextNodes} from './libs/linkify-urls-in-code';
 import autoLoadMoreNews from './libs/auto-load-more-news';
 import addOPLabels from './libs/op-labels';
 import addReleasesTab from './libs/add-releases-tab';
-import previewIssues from './libs/preview-issues';
 
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
-import {getUsername, observeEl, safeElementReady} from './libs/utils';
+import {getUsername, observeEl, safeElementReady, safely} from './libs/utils';
 
 // Add globals for easier debugging
 window.$ = $;
@@ -67,34 +66,44 @@ function addCompareLink() {
 
 	select('.reponav-dropdown .dropdown-menu').prepend(
 		<a href={`/${repoUrl}/compare`} class="dropdown-item refined-github-compare-tab" data-skip-pjax>
-			{icons.darkCompare}
+			{icons.darkCompare()}
 			<span itemprop="name"> Compare</span>
 		</a>
 	);
 }
 
-function renameInsightsDropdown() {
-	const dropdown = select('.reponav-item.reponav-dropdown');
-	if (dropdown) {
-		dropdown.firstChild.textContent = 'More ';
-	} else {
-		// GHE doesn't have the Insights dropdown currently, so create a dropdown
-		const moreDropdown = <div class="reponav-dropdown js-menu-container">
-			<button type="button" class="btn-link reponav-item reponav-dropdown js-menu-target " data-no-toggle="" aria-expanded="false" aria-haspopup="true">More <svg aria-hidden="true" class="octicon octicon-triangle-down v-align-middle text-y" height="11" version="1.1" viewBox="0 0 12 16" width="8"><path fill-rule="evenodd" d="M0 5l6 6 6-6z"></path></svg></button>
-			<div class="dropdown-menu-content js-menu-content">
-				<div class="dropdown-menu dropdown-menu-sw"></div>
-			</div>
-		</div>;
+function createMoreDropdown() {
+	if (select.exists('.refined-github-more')) {
+		return;
+	}
+	const moreDropdown = <div class="reponav-dropdown js-menu-container refined-github-more">
+		<button type="button" class="btn-link reponav-item reponav-dropdown js-menu-target " data-no-toggle="" aria-expanded="false" aria-haspopup="true">More <svg aria-hidden="true" class="octicon octicon-triangle-down v-align-middle text-y" height="11" version="1.1" viewBox="0 0 12 16" width="8"><path fill-rule="evenodd" d="M0 5l6 6 6-6z"></path></svg></button>
+		<div class="dropdown-menu-content js-menu-content">
+			<div class="dropdown-menu dropdown-menu-sw"></div>
+		</div>
+	</div>;
 
-		const settingsTab = select('[data-selected-links~="repo_settings"]');
-		if (settingsTab) {
-			settingsTab.parentNode.insertBefore(moreDropdown, settingsTab);
-		} else {
-			const repoNav = select('.reponav');
-			if (repoNav) {
-				repoNav.appendChild(moreDropdown);
-			}
+	const settingsTab = select('[data-selected-links~="repo_settings"]');
+	if (settingsTab) {
+		settingsTab.parentNode.insertBefore(moreDropdown, settingsTab);
+	} else {
+		const repoNav = select('.reponav');
+		if (repoNav) {
+			repoNav.appendChild(moreDropdown);
 		}
+	}
+}
+
+function moveInsightsLink() {
+	const insightsTab = select('[data-selected-links~="pulse"]');
+	if (insightsTab) {
+		insightsTab.remove();
+		select('.reponav-dropdown .dropdown-menu').prepend(
+			<a href={`/${repoUrl}/pulse`} class="dropdown-item refined-github-insights" data-skip-pjax>
+				{icons.graph()}
+				<span itemprop="name"> Insights</span>
+			</a>
+		);
 	}
 }
 
@@ -119,12 +128,21 @@ function moveMarketplaceLinkToProfileDropdown() {
 }
 
 async function addTrendingMenuItem() {
-	const issuesLink = await safeElementReady('.HeaderNavlink[href="/issues"]');
+	const selectedClass = pageDetect.isTrending() ? 'selected' : '';
+	const issuesLink = await safeElementReady('.HeaderNavlink[href="/issues"], .header-nav-link[href="/issues"]');
 	issuesLink.parentNode.after(
-		<li>
-			<a href="/trending" class="js-selected-navigation-item HeaderNavlink px-2" data-hotkey="g t">Trending</a>
+		<li class="header-nav-item">
+			<a href="/trending" class={`js-selected-navigation-item HeaderNavlink header-nav-link px-2 ${selectedClass}`} data-hotkey="g t">Trending</a>
 		</li>
 	);
+
+	// Explore link highlights /trending urls by default, remove that behavior
+	if (pageDetect.isTrending()) {
+		const exploreLink = await safeElementReady('a[href="/explore"]').catch(() => null);
+		if (exploreLink) {
+			exploreLink.classList.remove('selected');
+		}
+	}
 }
 
 function addYoursMenuItem() {
@@ -171,7 +189,7 @@ function addReadmeButtons() {
 				class="tooltipped tooltipped-nw"
 				href={`${releases.get(latestRelease)}#readme`}
 				aria-label={`View this file at the latest version (${latestRelease})`}>
-				{icons.tag}
+				{icons.tag()}
 			</a>
 		);
 	}
@@ -188,7 +206,7 @@ function addReadmeButtons() {
 				href={`/${repoUrl}/edit/${currentBranch}/${path}${readmeName}`}
 				class="tooltipped tooltipped-nw"
 				aria-label="Edit this file">
-				{icons.edit}
+				{icons.edit()}
 			</a>
 		);
 	}
@@ -207,7 +225,7 @@ function addDeleteForkLink() {
 			postMergeDescription.append(
 				<p id="refined-github-delete-fork-link">
 					<a href={`/${forkPath}/settings`}>
-						{icons.fork}
+						{icons.fork()}
 						Delete fork
 					</a>
 				</p>
@@ -285,7 +303,7 @@ function markMergeCommitsInList() {
 	for (const commit of select.all('.commits-list-item:not(.refined-github-merge-commit)')) {
 		if (select.exists('[title^="Merge pull request"]', commit)) {
 			commit.classList.add('refined-github-merge-commit');
-			commit.querySelector('.commit-avatar-cell').prepend(icons.mergedPullRequest.cloneNode(true));
+			commit.querySelector('.commit-avatar-cell').prepend(icons.mergedPullRequest());
 			commit.querySelector('.avatar').classList.add('avatar-child');
 		}
 	}
@@ -373,7 +391,7 @@ function addDiffViewWithoutWhitespaceOption() {
 				data-hotkey="d w"
 				class={`btn btn-sm btn-outline BtnGroup-item tooltipped tooltipped-s ${hidingWhitespace ? 'bg-gray-light text-gray-light' : ''}`}
 				aria-label={`${hidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}>
-				{hidingWhitespace ? icons.check : ''}
+				{hidingWhitespace ? icons.check() : ''}
 				{' '}
 				No Whitespace
 			</a>
@@ -504,11 +522,11 @@ function init() {
 	document.documentElement.classList.add('refined-github');
 
 	if (!pageDetect.isGist()) {
-		addTrendingMenuItem();
+		safely(addTrendingMenuItem);
 	}
 
 	if (pageDetect.isDashboard()) {
-		moveAccountSwitcherToSidebar();
+		safely(moveAccountSwitcherToSidebar);
 	}
 
 	// Support indent with tab key in comments
@@ -540,17 +558,15 @@ function init() {
 	});
 
 	// Handle issue list ajax
-	$(document).on('pjax:end', () => {
+	gitHubInjection(() => {
 		if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
-			addYoursMenuItem();
+			safely(addYoursMenuItem);
 		}
 	});
 
 	// TODO: Enable this when we've improved how copying Markdown works
 	// See #522
 	// $(document).on('copy', '.markdown-body', copyMarkdown);
-
-	onDomReady();
 }
 
 async function onDomReady() {
@@ -559,15 +575,15 @@ async function onDomReady() {
 
 	const username = getUsername();
 
-	markUnread.setup();
-	addOpenAllNotificationsButton();
+	safely(markUnread.setup);
+	safely(addOpenAllNotificationsButton);
 
 	if (!pageDetect.isGist()) {
-		moveMarketplaceLinkToProfileDropdown();
+		safely(moveMarketplaceLinkToProfileDropdown);
 	}
 
 	if (pageDetect.isGist()) {
-		addGistCopyButton();
+		safely(addGistCopyButton);
 	}
 
 	if (pageDetect.isDashboard()) {
@@ -575,41 +591,44 @@ async function onDomReady() {
 		if (options.hideStarsOwnRepos) {
 			observeEl('#dashboard .news', () => {
 				$('#dashboard .news .watch_started, #dashboard .news .fork')
-					.has(`.title a[href^="/${username}"]`)
+					.has(`a[href^="/${username}"]`)
 					.css('display', 'none');
 			});
 		}
 
-		autoLoadMoreNews();
+		safely(autoLoadMoreNews);
 	}
 
 	observeEl('div[role=main]', addUploadBtn, {childList: true, subtree: true});
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
-		addYoursMenuItem();
+		safely(addYoursMenuItem);
 	}
 
 	if (pageDetect.isRepo()) {
-		gitHubInjection(window, () => {
-			hideEmptyMeta();
-			renameInsightsDropdown();
-			addReleasesTab();
-			removeProjectsTab();
-			addCompareLink();
-			addTitleToEmojis();
-			addReadmeButtons();
+		gitHubInjection(() => {
+			safely(hideEmptyMeta);
+			safely(createMoreDropdown);
+			safely(moveInsightsLink);
+			safely(addReleasesTab);
+			safely(removeProjectsTab);
+			safely(addCompareLink);
+			safely(addTitleToEmojis);
+			safely(addReadmeButtons);
 
-			for (const a of select.all('a[href]')) {
-				shortenLink(a, location.href);
-			}
+			safely(() => {
+				for (const a of select.all('a[href]')) {
+					shortenLink(a, location.href);
+				}
+			});
 
-			enableCopyOnY.destroy();
+			safely(enableCopyOnY.destroy);
 
 			if (pageDetect.isPR()) {
-				linkifyBranchRefs();
-				addDeleteForkLink();
-				fixSquashAndMergeTitle();
-				openCIDetailsInNewTab();
+				safely(linkifyBranchRefs);
+				safely(addDeleteForkLink);
+				safely(fixSquashAndMergeTitle);
+				safely(openCIDetailsInNewTab);
 			}
 
 			if (pageDetect.isQuickPR()) {
@@ -621,17 +640,17 @@ async function onDomReady() {
 			}
 
 			if (pageDetect.isPR() || pageDetect.isIssue()) {
-				linkifyIssuesInTitles();
+				safely(linkifyIssuesInTitles);
 				observeEl('.new-discussion-timeline', addOPLabels, {childList: true, subtree: true});
 			}
 
 			if (pageDetect.isPRList() || pageDetect.isIssueList()) {
-				addFilterCommentsByYou();
-				showRecentlyPushedBranches();
+				safely(addFilterCommentsByYou);
+				safely(showRecentlyPushedBranches);
 			}
 
 			if (pageDetect.isCommit()) {
-				addPatchDiffLinks();
+				safely(addPatchDiffLinks);
 			}
 
 			if (pageDetect.hasDiff()) {
@@ -639,44 +658,44 @@ async function onDomReady() {
 				if (diffElements) {
 					observeEl(diffElements, removeDiffSignsAndWatchExpansions, {childList: true, subtree: true});
 				}
-				addDiffViewWithoutWhitespaceOption();
-				preserveWhitespaceOptionInNav();
+				safely(addDiffViewWithoutWhitespaceOption);
+				safely(preserveWhitespaceOptionInNav);
 			}
 
 			if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit()) {
-				addReactionParticipants();
-				showRealNames();
-				previewIssues();
+				safely(addReactionParticipants);
+				safely(showRealNames);
 			}
 
 			if (pageDetect.isCommitList()) {
-				markMergeCommitsInList();
+				safely(markMergeCommitsInList);
 			}
 
 			if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
-				addCopyFilePathToPRs();
+				safely(addCopyFilePathToPRs);
 			}
 
 			if (pageDetect.isSingleFile()) {
-				addFileCopyButton();
-				enableCopyOnY.setup();
+				safely(addFileCopyButton);
+				safely(enableCopyOnY.setup);
 			}
 
 			if (pageDetect.isMilestone()) {
-				addMilestoneNavigation();
+				safely(addMilestoneNavigation);
 			}
 
 			if (pageDetect.hasCode()) {
-				linkifyCode();
+				safely(linkifyCode);
 			}
 
 			if (pageDetect.isRepoSettings()) {
-				addProjectNewLink();
+				safely(addProjectNewLink);
 			}
 
-			sortMilestonesByClosestDueDate(); // Needs to be after addMilestoneNavigation
+			safely(sortMilestonesByClosestDueDate); // Needs to be after addMilestoneNavigation
 		});
 	}
 }
 
 init();
+onDomReady();
