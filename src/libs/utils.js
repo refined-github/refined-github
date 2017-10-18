@@ -7,7 +7,7 @@ import domLoaded from 'dom-loaded';
  * https://github.com/sindresorhus/refined-github/issues/678
  * The code looks weird but it's synchronous and fn is called without args.
  */
-export const safely = fn => new Promise(resolve => resolve(fn()));
+export const safely = async fn => fn();
 
 export const getUsername = () => select('meta[name="user-login"]').getAttribute('content');
 
