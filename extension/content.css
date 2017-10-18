@@ -248,10 +248,10 @@ deleted a branch
 added someone as a collaborator
 forked a repo
 */
-.news .alert.push,
+.news .push,
 .news .alert.delete.simple,
 .news .member_add,
-.news .alert.fork.simple {
+.news .fork {
 	display: none !important;
 }
 
