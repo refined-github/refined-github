@@ -43,7 +43,7 @@ export default async () => {
 		timestampLink.insertAdjacentElement('afterEnd',
 			<span>
 				&nbsp;
-				<button onClick={openTree}>
+				<button onClick={openTree} class="btn-link">
 					Browse files
 				</button>
 			</span>
