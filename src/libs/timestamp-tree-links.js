@@ -5,7 +5,7 @@ import {getOwnerAndRepo} from './page-detect';
 const {ownerName, repoName} = getOwnerAndRepo();
 
 const getSHABeforeTimestamp = async timestamp => {
-	const url = `https://api.github.com/repos/${ownerName}/${repoName}/commits?until=${timestamp}`;
+	const url = `https://api.github.com/repos/${ownerName}/${repoName}/commits?until=${timestamp}&per_page=1`;
 	const data = await fetch(url).then(res => res.json());
 
 	if (data.length > 0) {
