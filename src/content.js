@@ -77,6 +77,11 @@ function addDependencyGraphLink() {
 		return;
 	}
 
+	// GHE does not currently have this feature
+	if (pageDetect.isEnterprise()) {
+		return;
+	}
+
 	select('.reponav-dropdown .dropdown-menu').prepend(
 		<a href={`/${repoUrl}/network/dependencies`} class="dropdown-item refined-github-dependency-graph" data-skip-pjax>
 			{icons.graph()}
