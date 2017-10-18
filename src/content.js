@@ -396,6 +396,9 @@ function addDiffViewWithoutWhitespaceOption() {
 			</a>
 		</div>
 	);
+
+	// Make space for the new button by removing "Changes from" #655
+	select('[data-hotkey="c"]').firstChild.remove();
 }
 
 // When navigating with next/previous in review mode, preserve whitespace option.
