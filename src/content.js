@@ -22,6 +22,7 @@ import linkifyCode, {editTextNodes} from './libs/linkify-urls-in-code';
 import autoLoadMoreNews from './libs/auto-load-more-news';
 import addOPLabels from './libs/op-labels';
 import addReleasesTab from './libs/add-releases-tab';
+import addTimestampTreeLinks from './libs/timestamp-tree-links';
 
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
@@ -645,6 +646,7 @@ async function onDomReady() {
 			if (pageDetect.isPR() || pageDetect.isIssue()) {
 				safely(linkifyIssuesInTitles);
 				observeEl('.new-discussion-timeline', addOPLabels, {childList: true, subtree: true});
+				observeEl('.new-discussion-timeline', addTimestampTreeLinks, {childList: true, subtree: true});
 			}
 
 			if (pageDetect.isPRList() || pageDetect.isIssueList()) {

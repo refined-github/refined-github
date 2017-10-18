@@ -13,7 +13,8 @@
 	},
 	"permissions": [
 		"storage",
-		"clipboardWrite"
+		"clipboardWrite",
+		"https://api.github.com/"
 	],
 	"optional_permissions": [
 		"http://*/*",
