@@ -60,6 +60,9 @@ window.select = select;
 async function init() {
 	await safeElementReady('body');
 	if (document.body.classList.contains('logged-out')) {
+	if (select.exists('.refined-github-insights')) {
+		return;
+	}
 		return;
 	}
 
@@ -94,6 +97,8 @@ Thank you! 🎉
 	safely(focusConfirmationButtons);
 	safely(addKeyboardShortcutsToCommentFields);
 	safely(addConfirmationToCommentCancellation);
+	});
+
 
 	// TODO: Enable this when we've improved how copying Markdown works
 	// See #522
@@ -125,6 +130,7 @@ function onDomReady() {
 
 function ajaxedPagesHandler() {
 	safely(hideEmptyMeta);
+			safely(removeUploadFilesButton);
 	safely(addTitleToEmojis);
 	safely(enableCopyOnY.destroy);
 
