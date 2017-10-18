@@ -72,6 +72,19 @@ function addCompareLink() {
 	);
 }
 
+function addDependencyGraphLink() {
+	if (select.exists('.refined-github-dependency-graph')) {
+		return;
+	}
+
+	select('.reponav-dropdown .dropdown-menu').prepend(
+		<a href={`/${repoUrl}/network/dependencies`} class="dropdown-item refined-github-dependency-graph" data-skip-pjax>
+			{icons.graph()}
+			<span itemprop="name"> Dependency graph</span>
+		</a>
+	);
+}
+
 function createMoreDropdown() {
 	if (select.exists('.refined-github-more')) {
 		return;
@@ -100,7 +113,7 @@ function moveInsightsLink() {
 		insightsTab.remove();
 		select('.reponav-dropdown .dropdown-menu').prepend(
 			<a href={`/${repoUrl}/pulse`} class="dropdown-item refined-github-insights" data-skip-pjax>
-				{icons.graph()}
+				{icons.search()}
 				<span itemprop="name"> Insights</span>
 			</a>
 		);
@@ -615,6 +628,7 @@ async function onDomReady() {
 			safely(moveInsightsLink);
 			safely(addReleasesTab);
 			safely(removeProjectsTab);
+			safely(addDependencyGraphLink);
 			safely(addCompareLink);
 			safely(addTitleToEmojis);
 			safely(addReadmeButtons);
