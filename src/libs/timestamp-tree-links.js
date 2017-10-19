@@ -21,7 +21,7 @@ const openTree = async ({target}) => {
 	const sha = await getSHABeforeTimestamp(timestampValue).catch(console.error);
 
 	if (sha) {
-		location.href = `https://github.com/${ownerName}/${repoName}/tree/${sha}`;
+		location.href = `/${ownerName}/${repoName}/tree/${sha}`;
 	} else {
 		target.firstChild.replaceWith(icons.stop());
 	}
