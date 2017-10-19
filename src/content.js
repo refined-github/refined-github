@@ -645,8 +645,10 @@ async function onDomReady() {
 
 			if (pageDetect.isPR() || pageDetect.isIssue()) {
 				safely(linkifyIssuesInTitles);
-				observeEl('.new-discussion-timeline', addOPLabels, {childList: true, subtree: true});
-				observeEl('.new-discussion-timeline', addTimestampTreeLinks, {childList: true, subtree: true});
+				observeEl('.new-discussion-timeline', () => {
+					safely(addOPLabels);
+					safely(addTimestampTreeLinks);
+				});
 			}
 
 			if (pageDetect.isPRList() || pageDetect.isIssueList()) {
