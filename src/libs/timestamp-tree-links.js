@@ -38,7 +38,7 @@ export default async () => {
 		timestampEl.parentNode.after(
 			<span>
 				&nbsp;
-				<button onClick={openTree} data-timestamp={timestampValue} type="button" class="timeline-comment-action btn-link refined-github-timestamp-button">
+				<button onClick={openTree} data-timestamp={timestampValue} type="button" class="timeline-comment-action btn-link rgh-timestamp-button">
 					{icons.code()}
 				</button>
 			</span>
