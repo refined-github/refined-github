@@ -21,14 +21,14 @@ export default async () => {
 		const timestampValue = select('relative-time', timestampLink).attributes.datetime.value;
 
 		const openTree = async ({target}) => {
-			target.replaceChild(icons.clock(), target.firstChild);
+			target.firstChild.replaceWith(icons.clock());
 
 			const sha = await getSHABeforeTimestamp(timestampValue).catch(console.error);
 
 			if (sha) {
 				location.href = `https://github.com/${ownerName}/${repoName}/tree/${sha}`;
 			} else {
-				target.replaceChild(icons.stop(), target.firstChild);
+				target.firstChild.replaceWith(icons.stop());
 			}
 		};
 
