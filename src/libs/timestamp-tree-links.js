@@ -1,13 +1,14 @@
 import select from 'select-dom';
 import {h} from 'dom-chef';
 import {getOwnerAndRepo} from './page-detect';
+import fetchAPI from './api';
+
 import * as icons from './icons';
 
 const {ownerName, repoName} = getOwnerAndRepo();
 
 const getSHABeforeTimestamp = async timestamp => {
-	const url = `https://api.github.com/repos/${ownerName}/${repoName}/commits?until=${timestamp}&per_page=1`;
-	const data = await fetch(url).then(res => res.json());
+	const data = await fetchAPI(`repos/${ownerName}/${repoName}/commits?until=${timestamp}&per_page=1`);
 
 	if (data.length > 0) {
 		return data[0].sha;
