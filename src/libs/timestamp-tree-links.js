@@ -17,7 +17,7 @@ const getSHABeforeTimestamp = async timestamp => {
 export default async () => {
 	const newTimestamps = select.all(`.new-discussion-timeline .timestamp:not(.refined-github-comment-browse-files)`);
 
-	newTimestamps.forEach(async timestampLink => {
+	for (const timestampLink of newTimestamps) {
 		const timestampValue = select('relative-time', timestampLink).attributes.datetime.value;
 
 		const openTree = async ({target}) => {
@@ -42,5 +42,5 @@ export default async () => {
 		);
 
 		timestampLink.classList.add('refined-github-comment-browse-files');
-	});
+	}
 };
