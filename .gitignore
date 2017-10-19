@@ -3,4 +3,3 @@ yarn.lock
 extension/**/*.js
 extension/**/*.map
 !extension/jquery-3.slim.min.js
-.idea/
