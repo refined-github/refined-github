@@ -23,22 +23,13 @@ export default async () => {
 		const openTree = async ({target}) => {
 			target.replaceChild(icons.clock(), target.firstChild);
 
-			let sha;
+			const sha = await getSHABeforeTimestamp(timestampValue).catch(console.error);
 
-			try {
-				sha = await getSHABeforeTimestamp(timestampValue);
-			} catch (err) {
+			if (sha) {
+				location.href = `https://github.com/${ownerName}/${repoName}/tree/${sha}`;
+			} else {
 				target.replaceChild(icons.stop(), target.firstChild);
-				console.log(err);
-				return;
 			}
-
-			if (!sha) {
-				target.replaceChild(icons.stop(), target.firstChild);
-				return;
-			}
-
-			location.href = `https://github.com/${ownerName}/${repoName}/tree/${sha}`;
 		};
 
 		timestampLink.insertAdjacentElement('afterEnd',
