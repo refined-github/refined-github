@@ -32,7 +32,7 @@ export default async () => {
 			}
 		};
 
-		timestampLink.insertAdjacentElement('afterEnd',
+		timestampLink.after(
 			<span>
 				&nbsp;
 				<button onClick={openTree} type="button" class="timeline-comment-action btn-link refined-github-timestamp-button">
