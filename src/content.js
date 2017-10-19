@@ -84,7 +84,7 @@ function addDependencyGraphLink() {
 
 	select('.reponav-dropdown .dropdown-menu').prepend(
 		<a href={`/${repoUrl}/network/dependencies`} class="dropdown-item refined-github-dependency-graph" data-skip-pjax>
-			{icons.graph()}
+			{icons.dependency()}
 			<span itemprop="name"> Dependency graph</span>
 		</a>
 	);
@@ -118,7 +118,7 @@ function moveInsightsLink() {
 		insightsTab.remove();
 		select('.reponav-dropdown .dropdown-menu').prepend(
 			<a href={`/${repoUrl}/pulse`} class="dropdown-item refined-github-insights" data-skip-pjax>
-				{icons.search()}
+				{icons.graph()}
 				<span itemprop="name"> Insights</span>
 			</a>
 		);
