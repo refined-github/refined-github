@@ -15,16 +15,16 @@ const getSHABeforeTimestamp = async timestamp => {
 	}
 };
 
-const openTree = async ({target}) => {
-	target.firstChild.replaceWith(icons.clock());
+const openTree = async ({currentTarget}) => {
+	currentTarget.firstChild.replaceWith(icons.clock());
 
-	const timestampValue = target.dataset.timestamp;
+	const timestampValue = currentTarget.dataset.timestamp;
 	const sha = await getSHABeforeTimestamp(timestampValue).catch(console.error);
 
 	if (sha) {
 		location.href = `/${ownerName}/${repoName}/tree/${sha}`;
 	} else {
-		target.firstChild.replaceWith(icons.stop());
+		currentTarget.firstChild.replaceWith(icons.stop());
 	}
 };
 
