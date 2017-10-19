@@ -712,11 +712,6 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 	display: none !important;
 }
 
-.refined-github-timestamp-button {
+:root .refined-github-timestamp-button {
 	padding: 0;
-}
-
-.refined-github-timestamp-button:hover, .refined-github-timestamp-button:focus {
-	opacity: 1;
-	color: inherit;
 }
