@@ -14,28 +14,29 @@ const getSHABeforeTimestamp = async timestamp => {
 	}
 };
 
+const openTree = async ({target}) => {
+	target.firstChild.replaceWith(icons.clock());
+
+	const timestampValue = target.dataset.timestamp;
+	const sha = await getSHABeforeTimestamp(timestampValue).catch(console.error);
+
+	if (sha) {
+		location.href = `https://github.com/${ownerName}/${repoName}/tree/${sha}`;
+	} else {
+		target.firstChild.replaceWith(icons.stop());
+	}
+};
+
 export default async () => {
 	const newTimestamps = select.all(`.new-discussion-timeline .timestamp:not(.refined-github-comment-browse-files)`);
 
 	for (const timestampLink of newTimestamps) {
 		const timestampValue = select('relative-time', timestampLink).attributes.datetime.value;
 
-		const openTree = async ({target}) => {
-			target.firstChild.replaceWith(icons.clock());
-
-			const sha = await getSHABeforeTimestamp(timestampValue).catch(console.error);
-
-			if (sha) {
-				location.href = `https://github.com/${ownerName}/${repoName}/tree/${sha}`;
-			} else {
-				target.firstChild.replaceWith(icons.stop());
-			}
-		};
-
 		timestampLink.after(
 			<span>
 				&nbsp;
-				<button onClick={openTree} type="button" class="timeline-comment-action btn-link refined-github-timestamp-button">
+				<button onClick={openTree} data-timestamp={timestampValue} type="button" class="timeline-comment-action btn-link refined-github-timestamp-button">
 					{icons.code()}
 				</button>
 			</span>
