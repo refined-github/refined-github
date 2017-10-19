@@ -28,12 +28,13 @@ const openTree = async ({target}) => {
 };
 
 export default async () => {
-	const newTimestamps = select.all(`.new-discussion-timeline .timestamp:not(.refined-github-comment-browse-files)`);
+	const comments = select.all('.timeline-comment-header:not(.rgh-timestamp-tree-link)');
 
-	for (const timestampLink of newTimestamps) {
-		const timestampValue = select('relative-time', timestampLink).attributes.datetime.value;
+	for (const comment of comments) {
+		const timestampEl = select('relative-time', comment);
+		const timestampValue = timestampEl.attributes.datetime.value;
 
-		timestampLink.after(
+		timestampEl.parentNode.after(
 			<span>
 				&nbsp;
 				<button onClick={openTree} data-timestamp={timestampValue} type="button" class="timeline-comment-action btn-link refined-github-timestamp-button">
@@ -42,6 +43,6 @@ export default async () => {
 			</span>
 		);
 
-		timestampLink.classList.add('refined-github-comment-browse-files');
+		comment.classList.add('rgh-timestamp-tree-link');
 	}
 };
