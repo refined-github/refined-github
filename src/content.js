@@ -22,6 +22,7 @@ import linkifyCode, {editTextNodes} from './libs/linkify-urls-in-code';
 import autoLoadMoreNews from './libs/auto-load-more-news';
 import addOPLabels from './libs/op-labels';
 import addReleasesTab from './libs/add-releases-tab';
+import scrollToTopOnCollapse from './libs/scroll-to-top-on-collapse'
 
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
@@ -636,6 +637,7 @@ async function onDomReady() {
 			safely(enableCopyOnY.destroy);
 
 			if (pageDetect.isPR()) {
+				safely(scrollToTopOnCollapse);
 				safely(linkifyBranchRefs);
 				safely(addDeleteForkLink);
 				safely(fixSquashAndMergeTitle);
