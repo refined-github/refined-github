@@ -372,11 +372,6 @@ async function setup() {
 			addMarkUnreadButton();
 		}
 
-		// Ensure that confirm buttons are always in focus
-		window.addEventListener('facebox:reveal', () => {
-			select('.facebox-content button').focus();
-		});
-
 		updateUnreadIndicator();
 	});
 }
