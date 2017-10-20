@@ -279,8 +279,6 @@ function markAllNotificationsRead(e) {
 function addCustomAllReadBtn() {
 	const hasMarkAllReadBtnExists = select.exists('#notification-center a[href="#mark_as_read_confirm_box"]');
 	if (hasMarkAllReadBtnExists || storage.get().length === 0) {
-		// We want to make sure that the "submit" button in the dialog is brought into focus automatically
-		$('#mark_as_read_confirm_box button[type="submit"]').attr('autofocus', '');
 		return;
 	}
 
@@ -294,7 +292,7 @@ function addCustomAllReadBtn() {
 				<p data-facebox-id="facebox-description">Are you sure you want to mark all unread notifications as read?</p>
 
 				<div class="full-button">
-					<button id="clear-local-notification" class="btn btn-block" autofocus>Mark all notifications as read</button>
+					<button id="clear-local-notification" class="btn btn-block">Mark all notifications as read</button>
 				</div>
 			</div>
 		</div>
