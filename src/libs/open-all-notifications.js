@@ -47,7 +47,7 @@ export default function () {
 				<p data-facebox-id="facebox-description">Are you sure you want to open {unreadCount} tabs?</p>
 
 				<div class="full-button">
-					<button class="btn btn-block" id="open-all-notifications" autofocus="true">Open all notifications</button>
+					<button class="btn btn-block" id="open-all-notifications" autofocus>Open all notifications</button>
 				</div>
 			</div>
 		);
