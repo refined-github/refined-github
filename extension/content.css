@@ -716,14 +716,12 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 :root body.menu-active .modal-backdrop,
 :root .dropdown-details[open] > summary::before {
 	background: rgba(0, 0, 0, 0.1);
-	z-index: 99;
+	z-index: 20;
 }
-:root .select-menu-modal-holder {
-	z-index: 100;
+:root .pagehead ul.pagehead-actions {
+	position: static; /* Demote watch/start/fork */
 }
 :root .pr-toolbar {
-	z-index: 100;
-
 	/* Extend it to the window borders to hide a bug #735 */
 	padding: 0 calc(50vw - 50%);
 	margin: -20px calc(-50vw + 50%) 0;
