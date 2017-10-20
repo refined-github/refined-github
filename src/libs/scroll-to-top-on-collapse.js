@@ -1,22 +1,21 @@
 export default () => {
-	console.log('hihi')
-	const btns = document.querySelectorAll('.file-actions > .js-details-target')
-	const prToolbar = document.querySelector('.pr-toolbar')
-	const toolbarHeight = prToolbar.getBoundingClientRect().height
+	$('.js-diff-progressive-container').on('click', '.js-details-target', function() {
+		// get the parent file container
+		const parent = $(this).closest('.file')[0]
 
-	btns.forEach((b) => {
-		// get the diff container for this button
-		const parent = b.parentElement.parentElement.parentElement
+		// calculate the scroll offset
+		// https://stackoverflow.com/a/11396681/3736051
+		const bodyOffset = document.body.getBoundingClientRect().top
+		const parentOffset = parent.getBoundingClientRect().top
+		const toolbarHeight = $('.pr-toolbar').height()
 
-		b.addEventListener('click', () => {
-			// https://stackoverflow.com/a/11396681/3736051
-			const bodyOffset = document.body.getBoundingClientRect().top
-			const parentOffset = parent.getBoundingClientRect().top
-			const parentY = parentOffset - bodyOffset - toolbarHeight
-
-			if (window.scrollY > parentY) {
-				window.scrollTo(0, parentY) // add a little buffer so it looks nicer
-			}
-		})
+		// parentOffset is relative to the viewport
+		if (parentOffset < toolbarHeight) {
+			window.scrollTo(
+				// maintain the horizontal scroll
+				window.scrollX,
+				// put the top of the container at the foot of the toolbar
+				parentOffset - bodyOffset - toolbarHeight)
+		}
 	})
 }
