@@ -717,6 +717,7 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 :root .dropdown-details[open] > summary::before {
 	background: rgba(0, 0, 0, 0.1);
 	z-index: 20;
+	animation: fade-in 0.2s;
 }
 :root .pagehead ul.pagehead-actions {
 	position: static; /* Demote watch/start/fork */
@@ -725,4 +726,10 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 	/* Extend it to the window borders to hide a bug #735 */
 	padding: 0 calc(50vw - 50%);
 	margin: -20px calc(-50vw + 50%) 0;
+}
+
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
 }
