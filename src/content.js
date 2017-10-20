@@ -535,6 +535,11 @@ function init() {
 		safely(moveAccountSwitcherToSidebar);
 	}
 
+	// Ensure that confirm buttons are always in focus
+	window.addEventListener('facebox:reveal', () => {
+		select('.facebox-content button').focus();
+	});
+
 	// Support indent with tab key in comments
 	$(document).on('keydown', '.js-comment-field', event => {
 		if (event.which === 9 && !event.shiftKey) {
