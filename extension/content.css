@@ -722,5 +722,9 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 	z-index: 100;
 }
 :root .pr-toolbar {
-	z-index: 31;
+	z-index: 100;
+
+	/* Extend it to the window borders to hide a bug #735 */
+	padding: 0 calc(50vw - 50%);
+	margin: -20px calc(-50vw + 50%) 0;
 }
