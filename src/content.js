@@ -548,14 +548,12 @@ function init() {
 				return;
 			}
 
-			event.preventDefault();
 			indentInput(event.target);
 			return false;
 		} else if (event.key === 'Enter' && event.shiftKey && (event.ctrlKey || event.metaKey)) {
 			const singleCommentButton = event.target.form.querySelector('.review-simple-reply-button');
 
 			if (singleCommentButton) {
-				event.preventDefault();
 				singleCommentButton.click();
 				return false;
 			}
@@ -563,8 +561,7 @@ function init() {
 			const cancelButton = event.target.form.querySelector('.js-hide-inline-comment-form');
 
 			if (event.target.value !== '' && cancelButton) {
-				event.preventDefault();
-				$(cancelButton).click();
+				cancelButton.click();
 				return false;
 			}
 		}
