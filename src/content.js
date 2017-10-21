@@ -542,7 +542,7 @@ function init() {
 
 	// Support keyboard shortcuts in comments
 	$(document).on('keydown', '.js-comment-field', event => {
-		if (event.which === 9 && !event.shiftKey) {
+		if (event.key === 'Tab' && !event.shiftKey) {
 			// Don't indent if the suggester box is active
 			if ($('.suggester').hasClass('active')) {
 				return;
@@ -551,21 +551,18 @@ function init() {
 			event.preventDefault();
 			indentInput(event.target);
 			return false;
-		} else if (event.which === 13 && event.shiftKey && (event.ctrlKey || event.metaKey)) {
-			const singleCommentButton = event.target.closest('.js-inline-comment-form')
-					.querySelector('.review-simple-reply-button');
+		} else if (event.key === 'Enter' && event.shiftKey && (event.ctrlKey || event.metaKey)) {
+			const singleCommentButton = event.target.form.querySelector('.review-simple-reply-button');
 
 			if (singleCommentButton) {
 				event.preventDefault();
 				singleCommentButton.click();
 				return false;
 			}
-		} else if (event.which === 27) {
-			const form = event.target.closest('.js-inline-comment-form');
-			const textarea = form.querySelector('.review-simple-reply-button');
-			const cancelButton = form.querySelector('.js-hide-inline-comment-form');
+		} else if (event.key === 'Escape') {
+			const cancelButton = event.target.form.querySelector('.js-hide-inline-comment-form');
 
-			if (textarea && textarea.value !== '' && cancelButton) {
+			if (event.target.value !== '' && cancelButton) {
 				event.preventDefault();
 				$(cancelButton).click();
 				return false;
