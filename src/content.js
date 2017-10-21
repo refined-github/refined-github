@@ -561,9 +561,9 @@ function init() {
 				return false;
 			}
 		} else if (event.which === 27) {
-			const form = event.target.closest('.js-inline-comment-form'),
-				textarea = form.querySelector('.review-simple-reply-button'),
-				cancelButton = form.querySelector('.js-hide-inline-comment-form');
+			const form = event.target.closest('.js-inline-comment-form');
+			const textarea = form.querySelector('.review-simple-reply-button');
+			const cancelButton = form.querySelector('.js-hide-inline-comment-form');
 
 			if (textarea && textarea.value !== '' && cancelButton) {
 				event.preventDefault();
