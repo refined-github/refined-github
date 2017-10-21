@@ -540,7 +540,7 @@ function init() {
 		select('.facebox-content button').focus();
 	});
 
-	// Support indent with tab key in comments
+	// Support keyboard shortcuts in comments
 	$(document).on('keydown', '.js-comment-field', event => {
 		if (event.which === 9 && !event.shiftKey) {
 			// Don't indent if the suggester box is active
@@ -551,6 +551,25 @@ function init() {
 			event.preventDefault();
 			indentInput(event.target);
 			return false;
+		} else if (event.which === 13 && event.shiftKey && (event.ctrlKey || event.metaKey)) {
+			const singleCommentButton = event.target.closest('.js-inline-comment-form')
+					.querySelector('.review-simple-reply-button');
+
+			if (singleCommentButton) {
+				event.preventDefault();
+				singleCommentButton.click();
+				return false;
+			}
+		} else if (event.which === 27) {
+			const form = event.target.closest('.js-inline-comment-form'),
+				textarea = form.querySelector('.review-simple-reply-button'),
+				cancelButton = form.querySelector('.js-hide-inline-comment-form');
+
+			if (textarea && textarea.value !== '' && cancelButton) {
+				event.preventDefault();
+				$(cancelButton).click();
+				return false;
+			}
 		}
 	});
 
