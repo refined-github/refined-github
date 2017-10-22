@@ -149,16 +149,11 @@ async function addTrendingMenuItem() {
 }
 
 async function addProfileHotkey() {
-	const userMenuExists = select.exists('#user-links');
-	if (!userMenuExists) {
-		return;
+	const menuItem = select(`#user-links a.dropdown-item[href="/${getUsername()}"]`);
+
+	if (menuItem) {
+		menuItem.setAttribute('data-hotkey', 'g m');
 	}
-
-	const menuItem = select.all('#user-links a.dropdown-item').filter(item => {
-		return item.text.trim().toLowerCase() === 'your profile';
-	});
-
-	$(menuItem).attr('data-hotkey', 'g m');
 }
 
 function addYoursMenuItem() {
