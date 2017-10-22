@@ -247,11 +247,13 @@ pushed to a branch
 deleted a branch
 added someone as a collaborator
 forked a repo
+labeled an issue
 */
 .news .push,
 .news .alert.delete.simple,
 .news .member_add,
-.news .fork {
+.news .fork,
+.news .issues_labeled {
 	display: none !important;
 }
 
