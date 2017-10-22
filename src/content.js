@@ -543,26 +543,27 @@ function init() {
 
 	// Support keyboard shortcuts in comments
 	$(document).on('keydown', '.js-comment-field', event => {
+		const field = event.target;
 		if (event.key === 'Tab' && !event.shiftKey) {
 			// Don't indent if the suggester box is active
 			if ($('.suggester').hasClass('active')) {
 				return;
 			}
 
-			indentInput(event.target);
+			indentInput(field);
 			return false;
 		} else if (event.key === 'Enter' && event.shiftKey &&
 				((isMac && event.metaKey) || (!isMac && event.ctrlKey))) {
-			const singleCommentButton = event.target.form.querySelector('.review-simple-reply-button');
+			const singleCommentButton = select('.review-simple-reply-button', field.form);
 
 			if (singleCommentButton) {
 				singleCommentButton.click();
 				return false;
 			}
 		} else if (event.key === 'Escape') {
-			const cancelButton = event.target.form.querySelector('.js-hide-inline-comment-form');
+			const cancelButton = select('.js-hide-inline-comment-form', field.form);
 
-			if (event.target.value !== '' && cancelButton) {
+			if (field.value !== '' && cancelButton) {
 				cancelButton.click();
 				return false;
 			}
