@@ -32,6 +32,7 @@ window.$ = $;
 window.select = select;
 
 const repoUrl = pageDetect.getRepoURL();
+const isMac = /Mac/i.test(navigator.platform);
 
 function linkifyBranchRefs() {
 	let deletedBranch = false;
@@ -550,7 +551,8 @@ function init() {
 
 			indentInput(event.target);
 			return false;
-		} else if (event.key === 'Enter' && event.shiftKey && (event.ctrlKey || event.metaKey)) {
+		} else if (event.key === 'Enter' && event.shiftKey &&
+				((isMac && event.metaKey) || (!isMac && event.ctrlKey))) {
 			const singleCommentButton = event.target.form.querySelector('.review-simple-reply-button');
 
 			if (singleCommentButton) {
