@@ -148,7 +148,7 @@ async function addTrendingMenuItem() {
 	}
 }
 
-async function addProfileHotkey() {
+function addProfileHotkey() {
 	const menuItem = select(`#user-links a.dropdown-item[href="/${getUsername()}"]`);
 
 	if (menuItem) {
