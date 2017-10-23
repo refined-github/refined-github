@@ -77,7 +77,7 @@
 	display: none !important;
 }
 
-.site-footer {
+.site-footer, .footer {
 	visibility: hidden;
 }
 
