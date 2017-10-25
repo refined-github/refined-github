@@ -10,7 +10,7 @@ export default () => {
 
 	const targetSibling = select('#raw-url');
 	const fileUri = targetSibling.getAttribute('href');
-	targetSibling.insertAdjacentElement('beforeBegin',
+	targetSibling.before(
 		<a href={fileUri} class="btn btn-sm BtnGroup-item copy-btn">Copy</a>
 	);
 

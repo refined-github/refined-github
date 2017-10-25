@@ -31,7 +31,7 @@ export default () => {
 	`, newComments);
 
 	for (const placeholder of placeholders) {
-		placeholder.insertAdjacentElement('beforeBegin',
+		placeholder.before(
 			<span class="timeline-comment-label tooltipped tooltipped-multiline tooltipped-s" aria-label={tooltip}>
 				Original&nbsp;Poster
 			</span>
