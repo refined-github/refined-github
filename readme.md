@@ -156,6 +156,7 @@ And [lots](extension/content.css) [more...](src/content.js)
 - [Adds `Yours` button to Issues/Pull Requests page](https://user-images.githubusercontent.com/170270/27501189-1b914bbe-586c-11e7-8e1e-b3ffd8b767fa.png)
 - [Condenses long URLs into references like _user/repo/.file@`d71718d`_](https://user-images.githubusercontent.com/1402241/27252232-8fdf8ed0-538b-11e7-8f19-12d317c9cd32.png)
 - Adds a `Trending` link to the global navbar. *(<kbd>g</kbd> <kbd>t</kbd> hotkey)*
+- Adds a keyboard shortcut to leave a single comment in PR diffs instead of starting a review. *(<kbd>shift</kbd>+<kbd>enter</kbd>)*
 
 ### Previously part of Refined GitHub
 
