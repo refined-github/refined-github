@@ -4,7 +4,6 @@ const webpack = require('webpack');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-	devtool: 'source-map',
 	entry: {
 		content: './src/content',
 		background: './src/background',
@@ -45,4 +44,6 @@ if (process.env.NODE_ENV === 'production') {
 			}
 		})
 	);
+} else {
+	module.exports.devtool = 'source-map';
 }
