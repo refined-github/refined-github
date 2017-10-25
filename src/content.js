@@ -167,6 +167,14 @@ async function addTrendingMenuItem() {
 	}
 }
 
+function addProfileHotkey() {
+	const menuItem = select(`#user-links a.dropdown-item[href="/${getUsername()}"]`);
+
+	if (menuItem) {
+		menuItem.setAttribute('data-hotkey', 'g m');
+	}
+}
+
 function addYoursMenuItem() {
 	const pageName = pageDetect.isIssueSearch() ? 'issues' : 'pulls';
 	const username = getUsername();
@@ -536,7 +544,7 @@ function init() {
 	//
 	// const username = getUsername();
 	// if (!username) {
-	// 	return;
+	//	return;
 	// }
 
 	if (select.exists('html.refined-github')) {
@@ -621,6 +629,7 @@ async function onDomReady() {
 
 	safely(markUnread.setup);
 	safely(addOpenAllNotificationsButton);
+	safely(addProfileHotkey);
 
 	if (!pageDetect.isGist()) {
 		safely(moveMarketplaceLinkToProfileDropdown);
