@@ -472,7 +472,7 @@ function addFilterCommentsByYou() {
 
 function addProjectNewLink() {
 	if (select.exists('#projects-feature:checked') && !select.exists('#refined-github-project-new-link')) {
-		select(`#projects-feature ~ p.note`).after(
+		select('#projects-feature ~ p.note').after(
 			<a href={`/${repoUrl}/projects/new`} class="btn btn-sm" id="refined-github-project-new-link">Add a project</a>
 		);
 	}
