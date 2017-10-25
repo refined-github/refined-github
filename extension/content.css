@@ -720,7 +720,7 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 	animation: fade-in 0.2s;
 }
 :root .pagehead ul.pagehead-actions {
-	position: static; /* Demote watch/start/fork */
+	position: static; /* Demote watch/star/fork */
 }
 
 /* Reduce duplicate backdrop in PR diff view */
