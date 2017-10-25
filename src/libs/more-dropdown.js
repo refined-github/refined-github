@@ -10,7 +10,10 @@ export default function () {
 		return;
 	}
 
-	const moreDropdown = (
+	// Last tab, but before settings
+	const insertionPoint = select.all('.reponav-item:not([href$="settings"])').pop();
+
+	insertionPoint.after(
 		<div class="reponav-dropdown js-menu-container refined-github-more">
 			<button type="button" class="btn-link reponav-item reponav-dropdown js-menu-target " data-no-toggle aria-expanded="false" aria-haspopup="true">More {icons.triangleDown()}</button>
 			<div class="dropdown-menu-content js-menu-content">
@@ -35,18 +38,9 @@ export default function () {
 		</div>
 	);
 
+	// Remove native Insights tab
 	const insightsTab = select('[data-selected-links~="pulse"]');
 	if (insightsTab) {
 		insightsTab.remove();
-	}
-
-	const settingsTab = select('[data-selected-links~="repo_settings"]');
-	if (settingsTab) {
-		settingsTab.before(moreDropdown);
-		return;
-	}
-	const repoNav = select('.reponav');
-	if (repoNav) {
-		repoNav.append(moreDropdown);
 	}
 }
