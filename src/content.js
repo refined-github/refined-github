@@ -23,6 +23,7 @@ import autoLoadMoreNews from './libs/auto-load-more-news';
 import addOPLabels from './libs/op-labels';
 import addReleasesTab from './libs/add-releases-tab';
 import addTimestampTreeLinks from './libs/timestamp-tree-links';
+import scrollToTopOnCollapse from './libs/scroll-to-top-on-collapse';
 
 import * as icons from './libs/icons';
 import * as pageDetect from './libs/page-detect';
@@ -96,6 +97,9 @@ function createMoreDropdown() {
 }
 
 function moveInsightsLink() {
+	if (select.exists('.refined-github-insights')) {
+		return;
+	}
 	const insightsTab = select('[data-selected-links~="pulse"]');
 	if (insightsTab) {
 		insightsTab.remove();
@@ -533,6 +537,11 @@ function init() {
 		safely(moveAccountSwitcherToSidebar);
 	}
 
+	// Ensure that confirm buttons are always in focus
+	window.addEventListener('facebox:reveal', () => {
+		select('.facebox-content button').focus();
+	});
+
 	// Support indent with tab key in comments
 	$(document).on('keydown', '.js-comment-field', event => {
 		if (event.which === 9 && !event.shiftKey) {
@@ -629,6 +638,7 @@ async function onDomReady() {
 			safely(enableCopyOnY.destroy);
 
 			if (pageDetect.isPR()) {
+				safely(scrollToTopOnCollapse);
 				safely(linkifyBranchRefs);
 				safely(addDeleteForkLink);
 				safely(fixSquashAndMergeTitle);
