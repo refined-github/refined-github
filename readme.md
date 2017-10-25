@@ -22,8 +22,8 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 
 ## Install
 
-- [**Chrome** extension](https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf)
-- [**Firefox** add-on](https://addons.mozilla.org/en-US/firefox/addon/refined-github-/)
+- [**Chrome** extension][link-cws]
+- [**Firefox** add-on][link-amo]
 - Opera - Use [this Opera extension](https://addons.opera.com/en/extensions/details/download-chrome-extension-9/) to install the Chrome version.
 
 ## Highlights
