@@ -20,6 +20,7 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 - **[What's new lately](https://blog.sindresorhus.com/whats-new-in-refined-github-836d05582df7)**
 - [Original announcement](https://blog.sindresorhus.com/refined-github-21185789685d)
 
+
 ## Install
 
 - [**Chrome** extension][link-cws]
@@ -171,13 +172,9 @@ And [lots](extension/content.css) [more...](src/content.js)
 
 - [Quickly edit files in the repo file browser](https://github.com/devkhan/refined-github/commit/51fdf4998fc9392950e932e18018fda870f34666)
 
-
-## Contribute
+## Customization
 
 We're happy to receive suggestions and contributions, but be aware this is a highly opinionated project. There's [a single commonly-requested option](https://user-images.githubusercontent.com/1402241/27267240-9d2e18c8-54d9-11e7-8a64-971af9e066f3.png) but we're not interested in adding more as it's a slippery slope into adding one for everything. Users will always disagree with something. That being said, we're open to discussing things.
-
-
-## Customization
 
 While this project is highly opinionated, this doesn't necessarily limit you from manually disabling functionality that is not useful for your workflow. Options include:
 
@@ -186,35 +183,29 @@ While this project is highly opinionated, this doesn't necessarily limit you fro
 2. Clone the repository, make the adjustments you need, and [load the unpacked extension in Chrome](https://developer.chrome.com/extensions/getstarted#unpacked), rather than installing from the Chrome Store.
 
 
-## Development
+## Contribute
 
-To run it locally, you'll need to build it with:
+Suggestions and pull requests are highly encouraged!
 
-```sh
-# Build once
-npm run build
-```
+In order to make modifications to the extension you'd need to run it locally.
+Please follow the steps below:
 
 ```sh
-# Build every time a file changes
-npm run watch
+git clone git@github.com:sindresorhus/refined-github
+cd refined-github
+npm install    # Install dev dependencies
+npm run build  # Build the extension code so it's ready for the browser
+npm run watch  # Listen for file changes and automatically rebuild
 ```
 
-Once built, load it in the browser.
+Once built, load it in the browser of your choice:
 
-### Chrome
-
-1. Visit `chrome://extensions/` in Chrome
-2. Enable the **Developer mode**
-3. Click on **Load unpacked extension**
-4. Select the folder `extension`
-
-### Firefox
-
-1. Visit `about:debugging#addons` in Firefox
-2. Click on **Load Temporary Add-on**
-3. Select the file `extension/manifest.json`
-
+| **Chrome**                                        | **Firefox**                                              |
+|---------------------------------------------------|----------------------------------------------------------|
+| Open [`chrome://extensions`](chrome://extensions) | Open [`about:debugging#addons`](about:debugging#addons)  |
+| Check the **Developer mode** checkbox             |                                                          |
+| Click on the **Load unpacked extension** button   | Click on the **Load Temporary Add-on** button            |
+| Select the `refined-github/extension` folder      | Select the `refined-github/extension/manifest.json` file |
 
 ## Related
 
