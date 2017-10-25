@@ -63,6 +63,8 @@ export const isNotifications = () => location.pathname.startsWith('/notification
 
 export const isRepoSettings = () => isRepo() && /^\/settings/.test(getRepoPath());
 
+export const isEnterprise = () => select.exists('body.enterprise');
+
 export const getOwnerAndRepo = () => {
 	const [, ownerName, repoName] = location.pathname.split('/');
 

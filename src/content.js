@@ -73,6 +73,24 @@ function addCompareLink() {
 	);
 }
 
+function addDependencyGraphLink() {
+	if (select.exists('.rgh-dependency-graph')) {
+		return;
+	}
+
+	// GHE does not currently have this feature
+	if (pageDetect.isEnterprise()) {
+		return;
+	}
+
+	select('.reponav-dropdown .dropdown-menu').prepend(
+		<a href={`/${repoUrl}/network/dependencies`} class="dropdown-item rgh-dependency-graph" data-skip-pjax>
+			{icons.dependency()}
+			<span itemprop="name"> Dependencies</span>
+		</a>
+	);
+}
+
 function createMoreDropdown() {
 	if (select.exists('.refined-github-more')) {
 		return;
@@ -638,6 +656,7 @@ async function onDomReady() {
 			safely(moveInsightsLink);
 			safely(addReleasesTab);
 			safely(removeProjectsTab);
+			safely(addDependencyGraphLink);
 			safely(addCompareLink);
 			safely(addTitleToEmojis);
 			safely(addReadmeButtons);

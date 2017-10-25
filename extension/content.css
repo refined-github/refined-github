@@ -683,6 +683,12 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 	left: auto !important;
 }
 
+/* Optically align Dependencies dropdown link*/
+.rgh-dependency-graph {
+	margin-left: -2px;
+	margin-right: 2px;
+}
+
 /* Hide PR/Issue rename events */
 .discussion-item-renamed {
 	display: none;
