@@ -21,6 +21,7 @@ import addFileCopyButton from './libs/copy-file';
 import linkifyCode, {editTextNodes} from './libs/linkify-urls-in-code';
 import autoLoadMoreNews from './libs/auto-load-more-news';
 import addOPLabels from './libs/op-labels';
+import addMoreDropdown from './libs/more-dropdown';
 import addReleasesTab from './libs/add-releases-tab';
 import scrollToTopOnCollapse from './libs/scroll-to-top-on-collapse';
 
@@ -57,75 +58,6 @@ function linkifyBranchRefs() {
 
 		const branchUrl = '/' + el.title.replace(':', '/tree/');
 		$(el).closest('.commit-ref').wrap(<a href={branchUrl}></a>);
-	}
-}
-
-function addCompareLink() {
-	if (select.exists('.refined-github-compare-tab')) {
-		return;
-	}
-
-	select('.reponav-dropdown .dropdown-menu').prepend(
-		<a href={`/${repoUrl}/compare`} class="dropdown-item refined-github-compare-tab" data-skip-pjax>
-			{icons.darkCompare()}
-			<span itemprop="name"> Compare</span>
-		</a>
-	);
-}
-
-function addDependencyGraphLink() {
-	if (select.exists('.rgh-dependency-graph')) {
-		return;
-	}
-
-	// GHE does not currently have this feature
-	if (pageDetect.isEnterprise()) {
-		return;
-	}
-
-	select('.reponav-dropdown .dropdown-menu').prepend(
-		<a href={`/${repoUrl}/network/dependencies`} class="dropdown-item rgh-dependency-graph" data-skip-pjax>
-			{icons.dependency()}
-			<span itemprop="name"> Dependencies</span>
-		</a>
-	);
-}
-
-function createMoreDropdown() {
-	if (select.exists('.refined-github-more')) {
-		return;
-	}
-	const moreDropdown = <div class="reponav-dropdown js-menu-container refined-github-more">
-		<button type="button" class="btn-link reponav-item reponav-dropdown js-menu-target " data-no-toggle="" aria-expanded="false" aria-haspopup="true">More <svg aria-hidden="true" class="octicon octicon-triangle-down v-align-middle text-y" height="11" version="1.1" viewBox="0 0 12 16" width="8"><path fill-rule="evenodd" d="M0 5l6 6 6-6z"></path></svg></button>
-		<div class="dropdown-menu-content js-menu-content">
-			<div class="dropdown-menu dropdown-menu-sw"></div>
-		</div>
-	</div>;
-
-	const settingsTab = select('[data-selected-links~="repo_settings"]');
-	if (settingsTab) {
-		settingsTab.parentNode.insertBefore(moreDropdown, settingsTab);
-	} else {
-		const repoNav = select('.reponav');
-		if (repoNav) {
-			repoNav.appendChild(moreDropdown);
-		}
-	}
-}
-
-function moveInsightsLink() {
-	if (select.exists('.refined-github-insights')) {
-		return;
-	}
-	const insightsTab = select('[data-selected-links~="pulse"]');
-	if (insightsTab) {
-		insightsTab.remove();
-		select('.reponav-dropdown .dropdown-menu').prepend(
-			<a href={`/${repoUrl}/pulse`} class="dropdown-item refined-github-insights" data-skip-pjax>
-				{icons.graph()}
-				<span itemprop="name"> Insights</span>
-			</a>
-		);
 	}
 }
 
@@ -652,12 +584,9 @@ async function onDomReady() {
 	if (pageDetect.isRepo()) {
 		gitHubInjection(() => {
 			safely(hideEmptyMeta);
-			safely(createMoreDropdown);
-			safely(moveInsightsLink);
+			safely(addMoreDropdown);
 			safely(addReleasesTab);
 			safely(removeProjectsTab);
-			safely(addDependencyGraphLink);
-			safely(addCompareLink);
 			safely(addTitleToEmojis);
 			safely(addReadmeButtons);
 
