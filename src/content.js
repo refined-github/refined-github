@@ -407,7 +407,7 @@ function addDiffViewWithoutWhitespaceOption() {
 		url.searchParams.set('w', 1);
 	}
 
-	container.insertAdjacentElement('afterend',
+	container.after(
 		<div class="diffbar-item refined-github-toggle-whitespace">
 			<a href={url}
 				data-hotkey="d w"
@@ -444,7 +444,7 @@ function preserveWhitespaceOptionInNav() {
 }
 
 function addMilestoneNavigation() {
-	select('.repository-content').insertAdjacentElement('beforeBegin',
+	select('.repository-content').before(
 		<div class="subnav">
 			<div class="subnav-links float-left" role="navigation">
 				<a href={`/${repoUrl}/labels`} class="subnav-item">Labels</a>
@@ -459,7 +459,7 @@ function addFilterCommentsByYou() {
 		return;
 	}
 	select('.subnav-search-context .js-navigation-item:last-child')
-		.insertAdjacentElement('beforeBegin',
+		.before(
 			<a
 				href={`/${repoUrl}/issues?q=is%3Aopen+commenter:${getUsername()}`}
 				class="select-menu-item js-navigation-item refined-github-filter">
@@ -472,7 +472,7 @@ function addFilterCommentsByYou() {
 
 function addProjectNewLink() {
 	if (select.exists('#projects-feature:checked') && !select.exists('#refined-github-project-new-link')) {
-		select(`#projects-feature ~ p.note`).insertAdjacentElement('afterEnd',
+		select('#projects-feature ~ p.note').after(
 			<a href={`/${repoUrl}/projects/new`} class="btn btn-sm" id="refined-github-project-new-link">Add a project</a>
 		);
 	}
