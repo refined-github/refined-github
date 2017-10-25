@@ -724,7 +724,7 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 }
 
 /* Reduce duplicate backdrop in PR diff view */
-:root .pr-toolbar {
+:root .pr-toolbar .modal-backdrop {
 	position: absolute;
 	height: 100%;
 }
