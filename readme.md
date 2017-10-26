@@ -249,6 +249,7 @@ Want more? Here are some ideas you could develop!
 - [Kees Kluskens](https://github.com/SpaceK33z)
 - [Jonas Gierer](https://github.com/jgierer12)
 - [Federico Brigante](https://github.com/bfred-it)
+- [Scott Busche](https://github.com/busches)
 - [Contributors…](https://github.com/sindresorhus/refined-github/graphs/contributors)
 
 
