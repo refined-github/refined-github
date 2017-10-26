@@ -1,23 +1,15 @@
-import copyToClipboard from 'copy-text-to-clipboard';
 import select from 'select-dom';
 import {h} from 'dom-chef';
 
-export default () => {
-	// Button already added (partial page nav), or non-text file
-	if (select.exists('.copy-btn')) {
-		return;
+export default function () {
+	// This selector skips binary files
+	for (const code of select.all('.file .highlight:not(.rgh-gist-copy)')) {
+		const file = code.closest('.file');
+		file.classList.add('rgh-gist-copy');
+		file.classList.add('js-zeroclipboard-container');
+		code.classList.add('js-zeroclipboard-target');
+		select('.file-actions', file).prepend(
+			<button class="btn btn-sm copy-btn gist-copy-btn js-zeroclipboard tooltipped tooltipped-n" aria-label="Copy file to clipboard" data-copied-hint="Copied!" type="button">Copy</button>
+		);
 	}
-
-	$('.blob-wrapper').each((i, blob) => {
-		const actionsParent = blob.parentNode.querySelector('.file-actions');
-		const $btn = $(<button class="btn btn-sm copy-btn gist-copy-btn">Copy</button>);
-		$btn.data('blob', blob);
-		$btn.prependTo(actionsParent);
-	});
-
-	$(document).on('click', '.copy-btn', e => {
-		e.preventDefault();
-		const fileContents = $(e.currentTarget).data('blob').innerText;
-		copyToClipboard(fileContents);
-	});
-};
+}
