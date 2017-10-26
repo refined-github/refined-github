@@ -314,7 +314,7 @@ function removeDiffSigns() {
 
 			// If a line is empty, the next line will collapse
 			if (code.textContent.length === 0) {
-				code.prepend(new Text(' '));
+				code.prepend(' ');
 			}
 		}
 	}
