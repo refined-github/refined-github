@@ -669,14 +669,21 @@ async function onDomReady() {
 			safely(addCompareLink);
 			safely(addTitleToEmojis);
 			safely(addReadmeButtons);
+			safely(addDiffViewWithoutWhitespaceOption);
+			safely(enableCopyOnY.destroy);
+
+			safely(() => {
+				const diffElements = select('.js-discussion, #files');
+				if (diffElements) {
+					observeEl(diffElements, removeDiffSignsAndWatchExpansions, {childList: true, subtree: true});
+				}
+			});
 
 			safely(() => {
 				for (const a of select.all('a[href]')) {
 					shortenLink(a, location.href);
 				}
 			});
-
-			safely(enableCopyOnY.destroy);
 
 			if (pageDetect.isPR()) {
 				safely(scrollToTopOnCollapse);
@@ -708,15 +715,6 @@ async function onDomReady() {
 				safely(addPatchDiffLinks);
 			}
 
-			if (pageDetect.hasDiff()) {
-				const diffElements = select('.js-discussion, #files');
-				if (diffElements) {
-					observeEl(diffElements, removeDiffSignsAndWatchExpansions, {childList: true, subtree: true});
-				}
-				safely(addDiffViewWithoutWhitespaceOption);
-				safely(preserveWhitespaceOptionInNav);
-			}
-
 			if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit()) {
 				safely(addReactionParticipants);
 				safely(showRealNames);
@@ -728,6 +726,7 @@ async function onDomReady() {
 
 			if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
 				safely(addCopyFilePathToPRs);
+				safely(preserveWhitespaceOptionInNav);
 			}
 
 			if (pageDetect.isSingleFile()) {
