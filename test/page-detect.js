@@ -48,11 +48,14 @@ test('isTrending', urlMatcherMacro, pageDetect.isTrending, [
 test('isRepo', urlMatcherMacro, pageDetect.isRepo, [
 	'http://github.com/sindresorhus/refined-github',
 	'https://github.com/sindresorhus/refined-github/issues/146',
+	'https://github.com/sindresorhus/notifications/',
 	'https://github.com/sindresorhus/refined-github/pull/145'
 ], [
 	'https://github.com/sindresorhus',
 	'https://github.com',
 	'https://github.com/stars',
+	'http://github.com/sindresorhus/refined-github/notifications',
+	'https://github.com/sindresorhus/notifications/notifications',
 	'https://github.com/trending/developers'
 ]);
 
@@ -173,10 +176,13 @@ test('isBlame', urlMatcherMacro, pageDetect.isBlame, [
 test('isNotifications', urlMatcherMacro, pageDetect.isNotifications, [
 	'https://github.com/notifications',
 	'https://github.com/notifications/participating',
+	'http://github.com/sindresorhus/refined-github/notifications',
+	'https://github.com/sindresorhus/notifications/notifications',
 	'https://github.com/notifications?all=1'
 ], [
 	'https://github.com/settings/notifications',
 	'https://github.com/watching',
+	'https://github.com/sindresorhus/notifications/',
 	'https://github.com/jaredhanson/node-notifications/tree/master/lib/notifications'
 ]);
 
