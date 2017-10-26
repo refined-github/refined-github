@@ -1,3 +1,4 @@
+import {h} from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import domLoaded from 'dom-loaded';
@@ -69,4 +70,26 @@ export const flatZip = (table, limit = Infinity) => {
 		}
 	}
 	return zipped;
+};
+
+export const groupButtons = buttons => {
+	// HTMLCollections like .children require this here
+	const iterable = Array.from(buttons);
+	const firstButton = iterable[0];
+
+	// They may already be part of a group
+	let group = firstButton.closest('.BtnGroup');
+
+	// If it doesn't exist, create it and wrap all the elements
+	if (!group) {
+		group = <div class="BtnGroup"></div>;
+		$(iterable).wrapAll(group);
+	}
+
+	// Some element might still not have the right class
+	for (const btn of iterable) {
+		btn.classList.add('BtnGroup-item');
+	}
+
+	return group;
 };
