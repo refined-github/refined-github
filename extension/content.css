@@ -115,8 +115,8 @@
 }
 
 /* Remove upload message on comment box */
-.write-content .drag-and-drop {
-	display: none !important;
+.is-default .drag-and-drop {
+	display: none;
 }
 .upload-enabled textarea {
 	border-bottom: 1px solid #ccc !important;
