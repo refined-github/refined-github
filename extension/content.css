@@ -727,6 +727,7 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 :root .pr-toolbar .modal-backdrop {
 	position: absolute;
 	height: 100%;
+	width: 100%;
 }
 
 @keyframes fade-in {
