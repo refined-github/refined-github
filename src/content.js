@@ -572,7 +572,7 @@ function init() {
 		const field = event.target;
 		if (event.key === 'Tab' && !event.shiftKey) {
 			// Don't indent if the suggester box is active
-			if ($('.suggester').hasClass('active')) {
+			if (select.exists('.suggester.active')) {
 				return;
 			}
 
