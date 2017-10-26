@@ -1,4 +1,4 @@
-/* Lasciate ogne speranza, voi ch'intrate. */
+/* Lasciate ogne speranza, voi ch'entrate. */
 import select from 'select-dom';
 import {observeEl} from './utils';
 
