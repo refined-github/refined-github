@@ -647,6 +647,7 @@ async function onDomReady() {
 
 	observeEl('div[role=main]', addUploadBtn, {childList: true, subtree: true});
 
+	// Handle ajaxed pages
 	gitHubInjection(() => {
 		if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 			safely(addYoursMenuItem);
