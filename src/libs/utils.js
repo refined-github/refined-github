@@ -47,7 +47,9 @@ export const observeEl = (el, listener, options = {childList: true}) => {
 	listener([]);
 
 	// Run on updates
-	return new MutationObserver(listener).observe(el, options);
+	const observer = new MutationObserver(listener);
+	observer.observe(el, options);
+	return observer;
 };
 
 // Concats arrays but does so like a zipper instead of appending them
