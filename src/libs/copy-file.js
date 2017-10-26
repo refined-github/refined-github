@@ -3,7 +3,8 @@ import {h} from 'dom-chef';
 import {groupButtons} from './utils';
 
 export default function () {
-	for (const code of select.all('.file .highlight:not(.rgh-copy-file)')) {
+	// This selector skips binaries + markdowns with code
+	for (const code of select.all('.file .blob-wrapper > .highlight:not(.rgh-copy-file)')) {
 		const file = code.closest('.file');
 		file.classList.add('rgh-copy-file');
 
