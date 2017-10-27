@@ -619,6 +619,8 @@ function init() {
 	// TODO: Enable this when we've improved how copying Markdown works
 	// See #522
 	// $(document).on('copy', '.markdown-body', copyMarkdown);
+
+	onDomReady();
 }
 
 async function onDomReady() {
@@ -753,4 +755,3 @@ async function onDomReady() {
 }
 
 init();
-onDomReady();
