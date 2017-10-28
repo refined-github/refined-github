@@ -253,11 +253,9 @@ function addDeleteForkLink() {
 
 		if (forkPath && forkPath !== repoUrl) {
 			postMergeDescription.append(
-				<p id="refined-github-delete-fork-link">
-					<a href={`/${forkPath}/settings`}>
-						Delete fork
-					</a>
-				</p>
+				<a id="refined-github-delete-fork-link" href={`/${forkPath}/settings`}>
+					Delete fork
+				</a>
 			);
 		}
 	}
