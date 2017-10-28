@@ -684,7 +684,7 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 }
 
 /* Optically align Dependencies dropdown link*/
-.rgh-dependency-graph {
+.rgh-dependency-graph .octicon-package {
 	margin-left: -2px;
 	margin-right: 2px;
 }
