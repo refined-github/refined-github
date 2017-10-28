@@ -5,8 +5,8 @@ import {groupButtons} from './utils';
 export default function () {
 	// This selector skips binaries + markdowns with code
 	for (const code of select.all('.file .blob-wrapper > .highlight:not(.rgh-copy-file)')) {
+		code.classList.add('rgh-copy-file');
 		const file = code.closest('.file');
-		file.classList.add('rgh-copy-file');
 
 		// Enable copy behavior
 		file.classList.add('js-zeroclipboard-container');
