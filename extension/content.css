@@ -717,3 +717,27 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 .labels-list .TutorialPopover {
 	display: none !important;
 }
+
+/* Make the modal backdrop visible */
+:root body.menu-active .modal-backdrop,
+:root .dropdown-details[open] > summary::before {
+	background: rgba(0, 0, 0, 0.1);
+	z-index: 20;
+	animation: fade-in 0.2s;
+}
+:root .pagehead ul.pagehead-actions {
+	position: static; /* Demote watch/star/fork */
+}
+
+/* Reduce duplicate backdrop in PR diff view */
+:root .pr-toolbar .modal-backdrop {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+}
+
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+}
