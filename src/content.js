@@ -435,12 +435,11 @@ function openCIDetailsInNewTab() {
 	}
 }
 
-function init() {
-	//
-	// const username = getUsername();
-	// if (!username) {
-	//	return;
-	// }
+async function init() {
+	await safeElementReady('body');
+	if (document.body.classList.contains('logged-out')) {
+		return;
+	}
 
 	if (select.exists('html.refined-github')) {
 		console.count('Refined GitHub was loaded multiple times: https://github.com/sindresorhus/refined-github/issues/479');
