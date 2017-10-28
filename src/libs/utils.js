@@ -75,7 +75,7 @@ export const flatZip = (table, limit = Infinity) => {
 export const groupButtons = buttons => {
 	// Ensure every button has this class
 	$(buttons).addClass('BtnGroup-item');
-	
+
 	// They may already be part of a group
 	let group = buttons[0].closest('.BtnGroup');
 
