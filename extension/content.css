@@ -236,9 +236,6 @@ a .commit-ref:hover span {
 	top: 45px;
 	right: 30px;
 	padding: 10px 10px 0;
-}
-
-#refined-github-delete-fork-link a {
 	color: #df3e3e;
 }
 
