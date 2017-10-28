@@ -73,22 +73,16 @@ export const flatZip = (table, limit = Infinity) => {
 };
 
 export const groupButtons = buttons => {
-	// HTMLCollections like .children require this here
-	const iterable = Array.from(buttons);
-	const firstButton = iterable[0];
-
+	// Ensure every button has this class
+	$(buttons).addClass('BtnGroup-item');
+	
 	// They may already be part of a group
-	let group = firstButton.closest('.BtnGroup');
+	let group = buttons[0].closest('.BtnGroup');
 
-	// If it doesn't exist, create it and wrap all the elements
+	// If it doesn't exist, wrap them in a new group
 	if (!group) {
 		group = <div class="BtnGroup"></div>;
-		$(iterable).wrapAll(group);
-	}
-
-	// Some element might still not have the right class
-	for (const btn of iterable) {
-		btn.classList.add('BtnGroup-item');
+		$(buttons).wrapAll(group);
 	}
 
 	return group;
