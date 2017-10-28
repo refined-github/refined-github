@@ -507,13 +507,6 @@ function init() {
 		}
 	});
 
-	// Handle issue list ajax
-	gitHubInjection(() => {
-		if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
-			safely(addYoursMenuItem);
-		}
-	});
-
 	// TODO: Enable this when we've improved how copying Markdown works
 	// See #522
 	// $(document).on('copy', '.markdown-body', copyMarkdown);
@@ -554,9 +547,12 @@ async function onDomReady() {
 
 	observeEl('div[role=main]', addUploadBtn, {childList: true, subtree: true});
 
-	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
-		safely(addYoursMenuItem);
-	}
+	// Handle ajaxed pages
+	gitHubInjection(() => {
+		if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
+			safely(addYoursMenuItem);
+		}
+	});
 
 	if (pageDetect.isRepo()) {
 		gitHubInjection(() => {
