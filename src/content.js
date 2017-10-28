@@ -255,7 +255,6 @@ function addDeleteForkLink() {
 			postMergeDescription.append(
 				<p id="refined-github-delete-fork-link">
 					<a href={`/${forkPath}/settings`}>
-						{icons.fork()}
 						Delete fork
 					</a>
 				</p>
