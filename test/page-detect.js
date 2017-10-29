@@ -35,6 +35,15 @@ test('isDashboard', urlMatcherMacro, pageDetect.isDashboard, [
 	'https://github.com/sindresorhus'
 ]);
 
+test('isEnterprise', urlMatcherMacro, pageDetect.isEnterprise, [
+	'https://github.big-corp.com/',
+	'https://not-github.com/',
+	'https://my-little-hub.com/'
+], [
+	'https://github.com/',
+	'https://gist.github.com/'
+]);
+
 test('isTrending', urlMatcherMacro, pageDetect.isTrending, [
 	'https://github.com/trending',
 	'https://github.com/trending/developers',

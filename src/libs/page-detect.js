@@ -6,6 +6,8 @@ export const isDashboard = () => location.pathname === '/' || /^(\/orgs\/[^/]+)?
 
 export const isTrending = () => location.pathname.startsWith('/trending');
 
+export const isEnterprise = () => location.hostname !== 'github.com' && location.hostname !== 'gist.github.com';
+
 export const isNotifications = () => /^\/(?:[^/]+\/[^/]+\/)?notifications/.test(location.pathname);
 
 // @todo Replace with DOM-based test because this is too generic #708
@@ -61,8 +63,6 @@ export const isReleases = () => isRepo() && /^\/(releases|tags)/.test(getRepoPat
 export const isBlame = () => isRepo() && /^\/blame\//.test(getRepoPath());
 
 export const isRepoSettings = () => isRepo() && /^\/settings/.test(getRepoPath());
-
-export const isEnterprise = () => select.exists('body.enterprise');
 
 export const getOwnerAndRepo = () => {
 	const [, ownerName, repoName] = location.pathname.split('/');
