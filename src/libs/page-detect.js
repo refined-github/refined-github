@@ -56,8 +56,6 @@ export const isCompare = () => isRepo() && /^\/compare/.test(getRepoPath());
 
 export const isQuickPR = () => isCompare() && /[?&]quick_pull=1(&|$)/.test(location.search);
 
-export const hasCode = () => isRepo() && select.exists('.highlight');
-
 export const isReleases = () => isRepo() && /^\/(releases|tags)/.test(getRepoPath());
 
 export const isBlame = () => isRepo() && /^\/blame\//.test(getRepoPath());

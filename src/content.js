@@ -1,6 +1,6 @@
 import 'webext-dynamic-content-scripts';
 import OptionsSync from 'webext-options-sync';
-import gitHubInjection from 'github-injection';
+import onAjaxedPages from 'github-injection';
 import {applyToLink as shortenLink} from 'shorten-repo-url';
 import toSemver from 'to-semver';
 import linkifyIssues from 'linkify-issues';
@@ -35,6 +35,7 @@ window.$ = $;
 window.select = select;
 
 const repoUrl = pageDetect.getRepoURL();
+const options = new OptionsSync();
 
 function linkifyBranchRefs() {
 	let deletedBranch = false;
@@ -68,6 +69,20 @@ function hideEmptyMeta() {
 		if (select.exists('em', meta) && !select.exists('.js-edit-repo-meta-button')) {
 			meta.style.display = 'none';
 		}
+	}
+}
+
+// Hide other users starring/forking your repos
+async function hideOwnStars() {
+	const {hideStarsOwnRepos} = await options.getAll();
+
+	if (hideStarsOwnRepos) {
+		const username = getUsername();
+		observeEl('#dashboard .news', () => {
+			$('#dashboard .news .watch_started, #dashboard .news .fork')
+				.has(`a[href^="/${username}"]`)
+				.css('display', 'none');
+		});
 	}
 }
 
@@ -508,15 +523,10 @@ function init() {
 	// See #522
 	// $(document).on('copy', '.markdown-body', copyMarkdown);
 
-	onDomReady();
+	domLoaded.then(onDomReady);
 }
 
-async function onDomReady() {
-	const options = await new OptionsSync().getAll();
-	await domLoaded;
-
-	const username = getUsername();
-
+function onDomReady() {
 	safely(markUnread.setup);
 	safely(addOpenAllNotificationsButton);
 	safely(addProfileHotkey);
@@ -530,108 +540,96 @@ async function onDomReady() {
 	}
 
 	if (pageDetect.isDashboard()) {
-		// Hide other users starring/forking your repos
-		if (options.hideStarsOwnRepos) {
-			observeEl('#dashboard .news', () => {
-				$('#dashboard .news .watch_started, #dashboard .news .fork')
-					.has(`a[href^="/${username}"]`)
-					.css('display', 'none');
-			});
-		}
-
+		safely(hideOwnStars);
 		safely(autoLoadMoreNews);
 	}
 
 	observeEl('div[role=main]', addUploadBtn, {childList: true, subtree: true});
 
-	// Handle ajaxed pages
-	gitHubInjection(() => {
-		if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
-			safely(addYoursMenuItem);
+	onAjaxedPages(ajaxedPagesHandler);
+}
+
+function ajaxedPagesHandler() {
+	safely(linkifyCode);
+	safely(hideEmptyMeta);
+	safely(addTitleToEmojis);
+	safely(enableCopyOnY.destroy);
+
+	safely(() => {
+		for (const a of select.all('a[href]')) {
+			shortenLink(a, location.href);
 		}
 	});
 
+	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
+		safely(addYoursMenuItem);
+	}
+
+	if (pageDetect.isMilestone()) {
+		safely(addMilestoneNavigation); // Needs to be before sortMilestonesByClosestDueDate
+	}
+
 	if (pageDetect.isRepo()) {
-		gitHubInjection(() => {
-			safely(hideEmptyMeta);
-			safely(addMoreDropdown);
-			safely(addReleasesTab);
-			safely(removeProjectsTab);
-			safely(addTitleToEmojis);
-			safely(addReadmeButtons);
-			safely(addDiffViewWithoutWhitespaceOption);
-			safely(enableCopyOnY.destroy);
-			safely(removeDiffSigns);
+		safely(addMoreDropdown);
+		safely(addReleasesTab);
+		safely(removeProjectsTab);
+		safely(addReadmeButtons);
+		safely(addDiffViewWithoutWhitespaceOption);
+		safely(removeDiffSigns);
+		safely(sortMilestonesByClosestDueDate); // Needs to be after addMilestoneNavigation
+	}
 
-			safely(() => {
-				for (const a of select.all('a[href]')) {
-					shortenLink(a, location.href);
-				}
-			});
+	if (pageDetect.isPR()) {
+		safely(scrollToTopOnCollapse);
+		safely(linkifyBranchRefs);
+		safely(addDeleteForkLink);
+		safely(fixSquashAndMergeTitle);
+		safely(openCIDetailsInNewTab);
+	}
 
-			if (pageDetect.isPR()) {
-				safely(scrollToTopOnCollapse);
-				safely(linkifyBranchRefs);
-				safely(addDeleteForkLink);
-				safely(fixSquashAndMergeTitle);
-				safely(openCIDetailsInNewTab);
-			}
-
-			if (pageDetect.isQuickPR()) {
-				safeElementReady('.branch-name').then(el => {
-					const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
-					const branchUrl = `/${ownerName}/${repoName}/tree/${el.textContent}`;
-					$(el).closest('.branch-name').wrap(<a href={branchUrl}></a>);
-				});
-			}
-
-			if (pageDetect.isPR() || pageDetect.isIssue()) {
-				safely(linkifyIssuesInTitles);
-				observeEl('.new-discussion-timeline', addOPLabels, {childList: true, subtree: true});
-			}
-
-			if (pageDetect.isPRList() || pageDetect.isIssueList()) {
-				safely(addFilterCommentsByYou);
-				safely(showRecentlyPushedBranches);
-			}
-
-			if (pageDetect.isCommit()) {
-				safely(addPatchDiffLinks);
-			}
-
-			if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit()) {
-				safely(addReactionParticipants);
-				safely(showRealNames);
-			}
-
-			if (pageDetect.isCommitList()) {
-				safely(markMergeCommitsInList);
-			}
-
-			if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
-				safely(addCopyFilePathToPRs);
-				safely(preserveWhitespaceOptionInNav);
-			}
-
-			if (pageDetect.isSingleFile()) {
-				safely(addFileCopyButton);
-				safely(enableCopyOnY.setup);
-			}
-
-			if (pageDetect.isMilestone()) {
-				safely(addMilestoneNavigation);
-			}
-
-			if (pageDetect.hasCode()) {
-				safely(linkifyCode);
-			}
-
-			if (pageDetect.isRepoSettings()) {
-				safely(addProjectNewLink);
-			}
-
-			safely(sortMilestonesByClosestDueDate); // Needs to be after addMilestoneNavigation
+	if (pageDetect.isQuickPR()) {
+		safeElementReady('.branch-name').then(el => {
+			const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
+			const branchUrl = `/${ownerName}/${repoName}/tree/${el.textContent}`;
+			$(el).closest('.branch-name').wrap(<a href={branchUrl}></a>);
 		});
+	}
+
+	if (pageDetect.isPR() || pageDetect.isIssue()) {
+		safely(linkifyIssuesInTitles);
+		observeEl('.new-discussion-timeline', addOPLabels, {childList: true, subtree: true});
+	}
+
+	if (pageDetect.isPRList() || pageDetect.isIssueList()) {
+		safely(addFilterCommentsByYou);
+		safely(showRecentlyPushedBranches);
+	}
+
+	if (pageDetect.isCommit()) {
+		safely(addPatchDiffLinks);
+	}
+
+	if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit()) {
+		safely(addReactionParticipants);
+		safely(showRealNames);
+	}
+
+	if (pageDetect.isCommitList()) {
+		safely(markMergeCommitsInList);
+	}
+
+	if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
+		safely(addCopyFilePathToPRs);
+		safely(preserveWhitespaceOptionInNav);
+	}
+
+	if (pageDetect.isSingleFile()) {
+		safely(addFileCopyButton);
+		safely(enableCopyOnY.setup);
+	}
+
+	if (pageDetect.isRepoSettings()) {
+		safely(addProjectNewLink);
 	}
 }
 
