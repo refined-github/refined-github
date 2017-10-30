@@ -68,6 +68,21 @@ test('isRepo', urlMatcherMacro, pageDetect.isRepo, [
 	'https://github.com/trending/developers'
 ]);
 
+test('isRepoRoot', urlMatcherMacro, pageDetect.isRepoRoot, [
+	'https://github.com/sindresorhus/refined-github',
+	'https://github.com/sindresorhus/refined-github/',
+	'https://github.com/sindresorhus/refined-github/tree/native-copy-buttons',
+	'https://github.com/sindresorhus/refined-github/tree/native-copy-buttons/',
+	'https://github.com/sindresorhus/refined-github/tree/03fa6b8b4d6e68dea9dc9bee1d197ef5d992fbd6',
+	'https://github.com/sindresorhus/refined-github/tree/03fa6b8b4d6e68dea9dc9bee1d197ef5d992fbd6/'
+], [
+	'https://github.com/',
+	'https://github.com/tree/master/issues',
+	'https://github.com/sindresorhus/refined-github/issues',
+	'https://github.com/sindresorhus/refined-github/tree/master/extension',
+	'https://github.com/sindresorhus/refined-github/tree/master/tree/master'
+]);
+
 test('isRepoTree', urlMatcherMacro, pageDetect.isRepoTree, [
 	'https://github.com/sindresorhus/refined-github/tree/master/extension',
 	'https://github.com/sindresorhus/refined-github/tree/0.13.0/extension',

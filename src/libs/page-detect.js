@@ -20,7 +20,7 @@ export const getRepoPath = () => location.pathname.replace(/^\/[^/]+\/[^/]+/, ''
 
 export const getRepoURL = () => location.pathname.slice(1).split('/', 2).join('/');
 
-export const isRepoRoot = () => isRepo() && /^(\/?$|\/tree\/)/.test(getRepoPath()) && select.exists('.repository-meta-content');
+export const isRepoRoot = () => isRepo() && /^\/[^/]+\/[^/]+\/?(tree[/][^/]+)?\/?$/.test(location.pathname);
 
 export const isRepoTree = () => isRepo() && /\/tree\//.test(getRepoPath());
 
