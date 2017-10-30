@@ -566,68 +566,70 @@ async function onDomReady() {
 					shortenLink(a, location.href);
 				}
 			});
+		}
 
-			if (pageDetect.isPR()) {
-				safely(scrollToTopOnCollapse);
-				safely(linkifyBranchRefs);
-				safely(addDeleteForkLink);
-				safely(fixSquashAndMergeTitle);
-				safely(openCIDetailsInNewTab);
-			}
+		if (pageDetect.isPR()) {
+			safely(scrollToTopOnCollapse);
+			safely(linkifyBranchRefs);
+			safely(addDeleteForkLink);
+			safely(fixSquashAndMergeTitle);
+			safely(openCIDetailsInNewTab);
+		}
 
-			if (pageDetect.isQuickPR()) {
-				safeElementReady('.branch-name').then(el => {
-					const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
-					const branchUrl = `/${ownerName}/${repoName}/tree/${el.textContent}`;
-					$(el).closest('.branch-name').wrap(<a href={branchUrl}></a>);
-				});
-			}
+		if (pageDetect.isQuickPR()) {
+			safeElementReady('.branch-name').then(el => {
+				const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
+				const branchUrl = `/${ownerName}/${repoName}/tree/${el.textContent}`;
+				$(el).closest('.branch-name').wrap(<a href={branchUrl}></a>);
+			});
+		}
 
-			if (pageDetect.isPR() || pageDetect.isIssue()) {
-				safely(linkifyIssuesInTitles);
-				observeEl('.new-discussion-timeline', addOPLabels, {childList: true, subtree: true});
-			}
+		if (pageDetect.isPR() || pageDetect.isIssue()) {
+			safely(linkifyIssuesInTitles);
+			observeEl('.new-discussion-timeline', addOPLabels, {childList: true, subtree: true});
+		}
 
-			if (pageDetect.isPRList() || pageDetect.isIssueList()) {
-				safely(addFilterCommentsByYou);
-				safely(showRecentlyPushedBranches);
-			}
+		if (pageDetect.isPRList() || pageDetect.isIssueList()) {
+			safely(addFilterCommentsByYou);
+			safely(showRecentlyPushedBranches);
+		}
 
-			if (pageDetect.isCommit()) {
-				safely(addPatchDiffLinks);
-			}
+		if (pageDetect.isCommit()) {
+			safely(addPatchDiffLinks);
+		}
 
-			if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit()) {
-				safely(addReactionParticipants);
-				safely(showRealNames);
-			}
+		if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit()) {
+			safely(addReactionParticipants);
+			safely(showRealNames);
+		}
 
-			if (pageDetect.isCommitList()) {
-				safely(markMergeCommitsInList);
-			}
+		if (pageDetect.isCommitList()) {
+			safely(markMergeCommitsInList);
+		}
 
-			if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
-				safely(addCopyFilePathToPRs);
-				safely(preserveWhitespaceOptionInNav);
-			}
+		if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
+			safely(addCopyFilePathToPRs);
+			safely(preserveWhitespaceOptionInNav);
+		}
 
-			if (pageDetect.isSingleFile()) {
-				safely(addFileCopyButton);
-				safely(enableCopyOnY.setup);
-			}
+		if (pageDetect.isSingleFile()) {
+			safely(addFileCopyButton);
+			safely(enableCopyOnY.setup);
+		}
 
-			if (pageDetect.isMilestone()) {
-				safely(addMilestoneNavigation);
-			}
+		if (pageDetect.isMilestone()) {
+			safely(addMilestoneNavigation);
+		}
 
-			if (pageDetect.hasCode()) {
-				safely(linkifyCode);
-			}
+		if (pageDetect.hasCode()) {
+			safely(linkifyCode);
+		}
 
-			if (pageDetect.isRepoSettings()) {
-				safely(addProjectNewLink);
-			}
+		if (pageDetect.isRepoSettings()) {
+			safely(addProjectNewLink);
+		}
 
+		if (pageDetect.isRepo()) {
 			safely(sortMilestonesByClosestDueDate); // Needs to be after addMilestoneNavigation
 		}
 	});
