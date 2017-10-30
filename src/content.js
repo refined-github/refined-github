@@ -548,12 +548,14 @@ async function onDomReady() {
 }
 
 function ajaxedPagesHandler() {
+	safely(linkifyCode);
+	safely(hideEmptyMeta);
+
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 		safely(addYoursMenuItem);
 	}
 
 	if (pageDetect.isRepo()) {
-		safely(hideEmptyMeta);
 		safely(addMoreDropdown);
 		safely(addReleasesTab);
 		safely(removeProjectsTab);
@@ -621,10 +623,6 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isMilestone()) {
 		safely(addMilestoneNavigation);
-	}
-
-	if (pageDetect.hasCode()) {
-		safely(linkifyCode);
 	}
 
 	if (pageDetect.isRepoSettings()) {
