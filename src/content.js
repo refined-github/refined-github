@@ -549,10 +549,8 @@ async function onDomReady() {
 		if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 			safely(addYoursMenuItem);
 		}
-	});
 
-	if (pageDetect.isRepo()) {
-		gitHubInjection(() => {
+		if (pageDetect.isRepo()) {
 			safely(hideEmptyMeta);
 			safely(addMoreDropdown);
 			safely(addReleasesTab);
@@ -631,8 +629,8 @@ async function onDomReady() {
 			}
 
 			safely(sortMilestonesByClosestDueDate); // Needs to be after addMilestoneNavigation
-		});
-	}
+		}
+	});
 }
 
 init();
