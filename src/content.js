@@ -35,6 +35,7 @@ window.$ = $;
 window.select = select;
 
 const repoUrl = pageDetect.getRepoURL();
+const options = new OptionsSync();
 
 function linkifyBranchRefs() {
 	let deletedBranch = false;
@@ -68,6 +69,20 @@ function hideEmptyMeta() {
 		if (select.exists('em', meta) && !select.exists('.js-edit-repo-meta-button')) {
 			meta.style.display = 'none';
 		}
+	}
+}
+
+// Hide other users starring/forking your repos
+async function hideOwnStars() {
+	const {hideStarsOwnRepos} = await options.getAll();
+
+	if (hideStarsOwnRepos) {
+		const username = getUsername();
+		observeEl('#dashboard .news', () => {
+			$('#dashboard .news .watch_started, #dashboard .news .fork')
+				.has(`a[href^="/${username}"]`)
+				.css('display', 'none');
+		});
 	}
 }
 
@@ -508,15 +523,10 @@ function init() {
 	// See #522
 	// $(document).on('copy', '.markdown-body', copyMarkdown);
 
-	onDomReady();
+	domLoaded.then(onDomReady);
 }
 
-async function onDomReady() {
-	const options = await new OptionsSync().getAll();
-	await domLoaded;
-
-	const username = getUsername();
-
+function onDomReady() {
 	safely(markUnread.setup);
 	safely(addOpenAllNotificationsButton);
 	safely(addProfileHotkey);
@@ -530,15 +540,7 @@ async function onDomReady() {
 	}
 
 	if (pageDetect.isDashboard()) {
-		// Hide other users starring/forking your repos
-		if (options.hideStarsOwnRepos) {
-			observeEl('#dashboard .news', () => {
-				$('#dashboard .news .watch_started, #dashboard .news .fork')
-					.has(`a[href^="/${username}"]`)
-					.css('display', 'none');
-			});
-		}
-
+		safely(hideOwnStars);
 		safely(autoLoadMoreNews);
 	}
 
