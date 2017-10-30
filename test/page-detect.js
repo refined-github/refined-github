@@ -263,3 +263,45 @@ test('getOwnerAndRepo', t => {
 		t.deepEqual(ownerAndRepo[url], pageDetect.getOwnerAndRepo());
 	});
 });
+
+test('getRepoPath', t => {
+	const pairs = new Map([
+		[
+			'https://github.com',
+			undefined
+		],
+		[
+			'https://github.com/',
+			undefined
+		],
+		[
+			'https://github.com/sindresorhus/refined-github',
+			''
+		],
+		[
+			'https://github.com/sindresorhus/refined-github/',
+			''
+		],
+		[
+			'https://github.com/sindresorhus/refined-github/blame/master/package.json',
+			'blame/master/package.json'
+		],
+		[
+			'https://github.com/sindresorhus/refined-github/commit/57bf4',
+			'commit/57bf4'
+		],
+		[
+			'https://github.com/sindresorhus/refined-github/compare/test-branch?quick_pull=0',
+			'compare/test-branch'
+		],
+		[
+			'https://github.com/sindresorhus/refined-github/tree/master/extension',
+			'tree/master/extension'
+		]
+	]);
+
+	for (const [url, result] of pairs) {
+		location.href = url;
+		t.is(result, pageDetect.getRepoPath(url));
+	}
+});
