@@ -550,6 +550,14 @@ async function onDomReady() {
 function ajaxedPagesHandler() {
 	safely(linkifyCode);
 	safely(hideEmptyMeta);
+	safely(addTitleToEmojis);
+	safely(enableCopyOnY.destroy);
+
+	safely(() => {
+		for (const a of select.all('a[href]')) {
+			shortenLink(a, location.href);
+		}
+	});
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 		safely(addYoursMenuItem);
@@ -559,17 +567,9 @@ function ajaxedPagesHandler() {
 		safely(addMoreDropdown);
 		safely(addReleasesTab);
 		safely(removeProjectsTab);
-		safely(addTitleToEmojis);
 		safely(addReadmeButtons);
 		safely(addDiffViewWithoutWhitespaceOption);
-		safely(enableCopyOnY.destroy);
 		safely(removeDiffSigns);
-
-		safely(() => {
-			for (const a of select.all('a[href]')) {
-				shortenLink(a, location.href);
-			}
-		});
 	}
 
 	if (pageDetect.isPR()) {
