@@ -78,10 +78,6 @@ export const getOwnerAndRepo = () => {
 	};
 };
 
-export const isSingleFile = () => {
-	const {ownerName, repoName} = getOwnerAndRepo();
-	const blobPattern = new RegExp(`/${ownerName}/${repoName}/blob/`);
-	return blobPattern.test(location.href);
-};
+export const isSingleFile = () => /^blob\//.test(getRepoPath());
 
 export const hasCommentForm = () => select.exists('.js-previewable-comment-form');
