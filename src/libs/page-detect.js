@@ -17,7 +17,7 @@ export const getOwnerAndRepo = () => {
 
 export const isBlame = () => /^blame\//.test(getRepoPath());
 
-export const isCommit = () => isSingleCommit() || isPRCommit() || (isPRFiles() && select.exists('.full-commit'));
+export const isCommit = () => isSingleCommit() || isPRCommit();
 
 export const isCommitList = () => /^commits\//.test(getRepoPath());
 

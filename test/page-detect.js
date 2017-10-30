@@ -83,6 +83,19 @@ test('isBlame', urlMatcherMacro, pageDetect.isBlame, [
 	'https://github.com/sindresorhus/refined-github/blob/master/package.json'
 ]);
 
+test('isCommit', urlMatcherMacro, pageDetect.isCommit, [
+	'https://github.com/sindresorhus/refined-github/commit/5b614b9035f2035b839f48b4db7bd5c3298d526f',
+	'https://github.com/sindresorhus/refined-github/commit/5b614',
+	'https://github.com/sindresorhus/refined-github/pull/148/commits/0019603b83bd97c2f7ef240969f49e6126c5ec85',
+	'https://github.com/sindresorhus/refined-github/pull/148/commits/00196'
+], [
+	'https://github.com/sindresorhus/refined-github/pull/148/commits',
+	'https://github.com/sindresorhus/refined-github/branches',
+	'https://github.com/sindresorhus/refined-github/pull/148',
+	'https://github.com/sindresorhus/refined-github/pull/commits',
+	'https://github.com/sindresorhus/refined-github/pulls'
+]);
+
 test('isCommitList', urlMatcherMacro, pageDetect.isCommitList, [
 	'https://github.com/sindresorhus/refined-github/commits/master?page=2',
 	'https://github.com/sindresorhus/refined-github/commits/test-branch',
