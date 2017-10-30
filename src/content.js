@@ -563,6 +563,10 @@ function ajaxedPagesHandler() {
 		safely(addYoursMenuItem);
 	}
 
+	if (pageDetect.isMilestone()) {
+		safely(addMilestoneNavigation); // Needs to be before sortMilestonesByClosestDueDate
+	}
+
 	if (pageDetect.isRepo()) {
 		safely(addMoreDropdown);
 		safely(addReleasesTab);
@@ -570,6 +574,7 @@ function ajaxedPagesHandler() {
 		safely(addReadmeButtons);
 		safely(addDiffViewWithoutWhitespaceOption);
 		safely(removeDiffSigns);
+		safely(sortMilestonesByClosestDueDate); // Needs to be after addMilestoneNavigation
 	}
 
 	if (pageDetect.isPR()) {
@@ -621,16 +626,8 @@ function ajaxedPagesHandler() {
 		safely(enableCopyOnY.setup);
 	}
 
-	if (pageDetect.isMilestone()) {
-		safely(addMilestoneNavigation);
-	}
-
 	if (pageDetect.isRepoSettings()) {
 		safely(addProjectNewLink);
-	}
-
-	if (pageDetect.isRepo()) {
-		safely(sortMilestonesByClosestDueDate); // Needs to be after addMilestoneNavigation
 	}
 }
 
