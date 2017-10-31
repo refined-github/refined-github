@@ -10,7 +10,7 @@ import {check as isReserved} from 'github-reserved-names';
 // Drops leading and trailing slash to avoid /\/?/ everywhere
 export const getCleanPathname = () => location.pathname.replace(/^[/]|[/]$/g, '');
 
-export const getRepoPath = () => (/^(?:[/][^/]+){2}[/]?(.*)$/.exec(location.pathname.replace(/[/]$/, '')) || [])[1];
+export const getRepoPath = () => (/^[^/]+[/][^/]+[/]?(.*)$/.exec(getCleanPathname()) || [])[1];
 
 export const getRepoURL = () => location.pathname.slice(1).split('/', 2).join('/');
 
@@ -47,7 +47,7 @@ export const isMilestone = () => /^milestone\/\d+/.test(getRepoPath());
 
 export const isMilestoneList = () => /^milestones\/?$/.test(getRepoPath());
 
-export const isNotifications = () => /^\/(?:[^/]+\/[^/]+\/)?notifications/.test(location.pathname);
+export const isNotifications = () => /^([^/]+[/][^/]+\/)?notifications/.test(getCleanPathname());
 
 export const isPR = () => /^pull\/\d+/.test(getRepoPath());
 
@@ -63,7 +63,7 @@ export const isQuickPR = () => isCompare() && /[?&]quick_pull=1(&|$)/.test(locat
 
 export const isReleases = () => /^(releases|tags)/.test(getRepoPath());
 
-export const isRepo = () => /^\/[^/]+\/[^/]+/.test(location.pathname) &&
+export const isRepo = () => /^[^/]+\/[^/]+/.test(getCleanPathname()) &&
 	!isReserved(getOwnerAndRepo().ownerName) &&
 	!isNotifications() &&
 	!isDashboard() &&
