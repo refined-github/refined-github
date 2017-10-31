@@ -19,6 +19,8 @@ export const getOwnerAndRepo = () => {
 	return {ownerName, repoName};
 };
 
+export const is404 = () => document.title.startsWith('Page not found');
+
 export const isBlame = () => /^blame\//.test(getRepoPath());
 
 export const isCommit = () => isSingleCommit() || isPRCommit();

@@ -4,6 +4,7 @@ import Window from './fixtures/window';
 
 global.window = new Window();
 global.location = window.location;
+global.document = {};
 
 function urlMatcherMacro(t, detectFn, shouldMatch = [], shouldNotMatch = []) {
 	for (const url of shouldMatch) {
@@ -75,6 +76,17 @@ test('getOwnerAndRepo', t => {
 		location.href = url;
 		t.deepEqual(ownerAndRepo[url], pageDetect.getOwnerAndRepo());
 	});
+});
+
+test('is404', t => {
+	document.title = 'Page not found • GitHub';
+	t.true(pageDetect.is404());
+
+	document.title = 'examples/404: Page not found examples';
+	t.false(pageDetect.is404());
+
+	document.title = 'Dashboard';
+	t.false(pageDetect.is404());
 });
 
 test('isBlame', urlMatcherMacro, pageDetect.isBlame, [
