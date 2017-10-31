@@ -261,6 +261,8 @@ test('isRepo', urlMatcherMacro, pageDetect.isRepo, [
 	'https://github.com/stars',
 	'http://github.com/sindresorhus/refined-github/notifications',
 	'https://github.com/sindresorhus/notifications/notifications',
+	'https://github.com/orgs/test/dashboard',
+	'https://github.com/settings/profile',
 	'https://github.com/trending/developers'
 ]);
 

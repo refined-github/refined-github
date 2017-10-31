@@ -1,4 +1,5 @@
 import select from 'select-dom';
+import {check as isReserved} from 'github-reserved-names';
 
 // - xo complains if you don't use .startsWith
 // but getRepoPath returns undefined if it doesn't find a repo
@@ -63,9 +64,10 @@ export const isQuickPR = () => isCompare() && /[?&]quick_pull=1(&|$)/.test(locat
 export const isReleases = () => /^(releases|tags)/.test(getRepoPath());
 
 export const isRepo = () => /^\/[^/]+\/[^/]+/.test(location.pathname) &&
-	!isGist() &&
-	!isTrending() &&
-	!isNotifications();
+	!isReserved(getOwnerAndRepo().ownerName) &&
+	!isNotifications() &&
+	!isDashboard() &&
+	!isGist();
 
 export const isRepoRoot = () => /^(tree[/][^/]+)?$/.test(getRepoPath());
 
