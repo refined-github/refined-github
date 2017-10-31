@@ -6,8 +6,13 @@ export const isDashboard = () => location.pathname === '/' || /^(\/orgs\/[^/]+)?
 
 export const isTrending = () => location.pathname.startsWith('/trending');
 
+export const isNotifications = () => /^\/(?:[^/]+\/[^/]+\/)?notifications/.test(location.pathname);
+
 // @todo Replace with DOM-based test because this is too generic #708
-export const isRepo = () => !isGist() && !isTrending() && /^\/[^/]+\/[^/]+/.test(location.pathname);
+export const isRepo = () => /^\/[^/]+\/[^/]+/.test(location.pathname) &&
+	!isGist() &&
+	!isTrending() &&
+	!isNotifications();
 
 export const getRepoPath = () => location.pathname.replace(/^\/[^/]+\/[^/]+/, '');
 
@@ -51,17 +56,13 @@ export const isCompare = () => isRepo() && /^\/compare/.test(getRepoPath());
 
 export const isQuickPR = () => isCompare() && /[?&]quick_pull=1(&|$)/.test(location.search);
 
-export const hasCode = () => isRepo() && select.exists('.highlight');
-
-export const hasDiff = () => isRepo() && (isSingleCommit() || isPRCommit() || isPRFiles() || isCompare() || (isPR() && select.exists('.diff-table')));
-
 export const isReleases = () => isRepo() && /^\/(releases|tags)/.test(getRepoPath());
 
 export const isBlame = () => isRepo() && /^\/blame\//.test(getRepoPath());
 
-export const isNotifications = () => location.pathname.startsWith('/notifications');
-
 export const isRepoSettings = () => isRepo() && /^\/settings/.test(getRepoPath());
+
+export const isEnterprise = () => select.exists('body.enterprise');
 
 export const getOwnerAndRepo = () => {
 	const [, ownerName, repoName] = location.pathname.split('/');

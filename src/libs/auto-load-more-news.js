@@ -49,6 +49,5 @@ export default () => {
 		// the fake click will submit the form without ajax.
 		form.addEventListener('submit', e => e.preventDefault());
 		newsfeedObserver = observeEl('#dashboard .news', findButton);
-		findButton();
 	}
 };

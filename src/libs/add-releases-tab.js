@@ -39,8 +39,7 @@ export default () => {
 		</a>
 	);
 
-	select('.reponav-dropdown, [data-selected-links~="repo_settings"]')
-		.insertAdjacentElement('beforeBegin', releasesTab);
+	select('.reponav-dropdown').before(releasesTab);
 
 	cacheReleasesCount();
 

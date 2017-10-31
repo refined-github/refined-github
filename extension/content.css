@@ -115,8 +115,8 @@
 }
 
 /* Remove upload message on comment box */
-.write-content .drag-and-drop {
-	display: none !important;
+.is-default .drag-and-drop {
+	display: none;
 }
 .upload-enabled textarea {
 	border-bottom: 1px solid #ccc !important;
@@ -236,9 +236,6 @@ a .commit-ref:hover span {
 	top: 45px;
 	right: 30px;
 	padding: 10px 10px 0;
-}
-
-#refined-github-delete-fork-link a {
 	color: #df3e3e;
 }
 
@@ -683,6 +680,12 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 	left: auto !important;
 }
 
+/* Optically align Dependencies dropdown link*/
+.rgh-dependency-graph .octicon-package {
+	margin-left: -2px;
+	margin-right: 2px;
+}
+
 /* Hide PR/Issue rename events */
 .discussion-item-renamed {
 	display: none;
@@ -712,6 +715,31 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 	display: none !important;
 }
 
+
 :root .rgh-timestamp-button {
 	padding: 0;
+}
+
+/* Make the modal backdrop visible */
+:root body.menu-active .modal-backdrop,
+:root .dropdown-details[open] > summary::before {
+	background: rgba(0, 0, 0, 0.1);
+	z-index: 20;
+	animation: fade-in 0.2s;
+}
+:root .pagehead ul.pagehead-actions {
+	position: static; /* Demote watch/star/fork */
+}
+
+/* Reduce duplicate backdrop in PR diff view */
+:root .pr-toolbar .modal-backdrop {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+}
+
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
 }
