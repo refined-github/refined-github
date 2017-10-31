@@ -77,10 +77,6 @@
 	display: none !important;
 }
 
-.site-footer {
-	visibility: hidden;
-}
-
 /* Remove useless message on the right side of the PR merge box */
 .alt-merge-options {
 	display: none !important;
