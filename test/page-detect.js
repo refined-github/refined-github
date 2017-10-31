@@ -120,8 +120,11 @@ test('isDashboard', urlMatcherMacro, pageDetect.isDashboard, [
 	'https://github.com/',
 	'https://github.com',
 	'https://github.com/orgs/test/dashboard',
+	'https://github.com/dashboard/index/2',
 	'https://github.com/dashboard'
 ], [
+	'https://github.com/sindresorhus/refined-github/tree/master/dashboard/index/2',
+	'https://github.com/sindresorhus/dashboard',
 	'https://github.com/sindresorhus'
 ]);
 

@@ -6,6 +6,9 @@ import select from 'select-dom';
 /* eslint-disable unicorn/prefer-starts-ends-with */
 /* eslint-disable no-use-before-define */
 
+// Drops leading and trailing slash to avoid /\/?/ everywhere
+export const getCleanPathname = () => location.pathname.replace(/^[/]|[/]$/g, '');
+
 export const getRepoPath = () => (/^(?:[/][^/]+){2}[/]?(.*)$/.exec(location.pathname.replace(/[/]$/, '')) || [])[1];
 
 export const getRepoURL = () => location.pathname.slice(1).split('/', 2).join('/');
@@ -23,7 +26,7 @@ export const isCommitList = () => /^commits\//.test(getRepoPath());
 
 export const isCompare = () => /^compare/.test(getRepoPath());
 
-export const isDashboard = () => location.pathname === '/' || /^(\/orgs\/[^/]+)?\/dashboard/.test(location.pathname);
+export const isDashboard = () => /^((orgs[/][^/]+[/])?dashboard([/]index[/]\d+)?)?$/.test(getCleanPathname());
 
 export const isEnterprise = () => location.hostname !== 'github.com' && location.hostname !== 'gist.github.com';
 
