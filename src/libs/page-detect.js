@@ -1,15 +1,19 @@
-import select from 'select-dom';
-import {check as isReserved} from 'github-reserved-names';
-
+/* eslint-disable no-use-before-define */
+/* eslint-disable unicorn/prefer-starts-ends-with */
 // - xo complains if you don't use .startsWith
 // but getRepoPath returns undefined if it doesn't find a repo
 // so .test(X) works but X.startsWith() doesn't
-/* eslint-disable unicorn/prefer-starts-ends-with */
-/* eslint-disable no-use-before-define */
+
+import select from 'select-dom';
+import {check as isReserved} from 'github-reserved-names';
 
 // Drops leading and trailing slash to avoid /\/?/ everywhere
 export const getCleanPathname = () => location.pathname.replace(/^[/]|[/]$/g, '');
 
+// Parses a repo's subpage, e.g.
+// '/user/repo/issues/' -> 'issues'
+// '/user/repo/' -> ''
+// and returns undefined if the path is not 2+ levels deep
 export const getRepoPath = () => (/^[^/]+[/][^/]+[/]?(.*)$/.exec(getCleanPathname()) || [])[1];
 
 export const getRepoURL = () => location.pathname.slice(1).split('/', 2).join('/');
