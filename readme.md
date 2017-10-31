@@ -200,12 +200,29 @@ npm run watch  # Listen for file changes and automatically rebuild
 
 Once built, load it in the browser of your choice:
 
-| **Chrome**                                        | **Firefox**                                              |
-|---------------------------------------------------|----------------------------------------------------------|
-| Open [`chrome://extensions`](chrome://extensions) | Open [`about:debugging#addons`](about:debugging#addons)  |
-| Check the **Developer mode** checkbox             |                                                          |
-| Click on the **Load unpacked extension** button   | Click on the **Load Temporary Add-on** button            |
-| Select the `refined-github/extension` folder      | Select the `refined-github/extension/manifest.json` file |
+<table>
+	<tr>
+		<th>Chrome</th>
+		<th>Firefox</th>
+	</tr>
+	<tr>
+		<td>
+			<ol>
+				<li>Open <code>chrome://extensions</code>
+				<li>Check the <strong>Developer mode</strong> checkbox
+				<li>Click on the <strong>Load unpacked extension</strong> button
+				<li>Select the folder <code>refined-github/extension</code>
+			</ol>
+		</td>
+		<td>
+			<ol>
+				<li>Open <code>about:debugging#addons</code>
+				<li>Click on the <strong>Load Temporary Add-on</strong> button
+				<li>Select the file <code>refined-github/extension/manifest.json</code>
+			</ol>
+		</td>
+	</tr>
+</table>
 
 ## Related
 
