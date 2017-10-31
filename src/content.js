@@ -549,7 +549,6 @@ function onDomReady() {
 }
 
 function ajaxedPagesHandler() {
-	safely(linkifyCode);
 	safely(hideEmptyMeta);
 	safely(addTitleToEmojis);
 	safely(enableCopyOnY.destroy);
@@ -559,6 +558,8 @@ function ajaxedPagesHandler() {
 			shortenLink(a, location.href);
 		}
 	});
+
+	safely(linkifyCode); // Must be after link shortening #789
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 		safely(addYoursMenuItem);
