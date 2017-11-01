@@ -23,7 +23,7 @@ import autoLoadMoreNews from './libs/auto-load-more-news';
 import addOPLabels from './libs/op-labels';
 import addMoreDropdown from './libs/more-dropdown';
 import addReleasesTab from './libs/add-releases-tab';
-import addTimestampTreeLinks from './libs/timestamp-tree-links';
+import addTimeMachineLinksToComments from './libs/add-time-machine-links-to-comments';
 import scrollToTopOnCollapse from './libs/scroll-to-top-on-collapse';
 import removeDiffSigns from './libs/remove-diff-signs';
 
@@ -599,7 +599,7 @@ function ajaxedPagesHandler() {
 		safely(linkifyIssuesInTitles);
 		observeEl('.new-discussion-timeline', () => {
 			safely(addOPLabels);
-			safely(addTimestampTreeLinks);
+			safely(addTimeMachineLinksToComments);
 		});
 	}
 
