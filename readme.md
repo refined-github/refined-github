@@ -118,6 +118,7 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 - [Adds `Copy` button to gist files](https://cloud.githubusercontent.com/assets/170270/21074840/5dc37578-bf03-11e6-9fd9-501d73edef87.png)
 - [Adds `Copy` button for file paths to pull request diffs](https://cloud.githubusercontent.com/assets/4201088/26023064/18c9c77c-37d2-11e7-8926-b0a05a2706ae.png)
 - [Adds links to patch and diff for each commit](https://cloud.githubusercontent.com/assets/737065/13605562/22faa79e-e516-11e5-80db-2da6aa7965ac.png)
+- [Adds links to view the repo at the time of each comment](https://user-images.githubusercontent.com/1402241/32274107-631109ca-bed3-11e7-836c-6fbc9c6b20b8.png)
 
 ### More info at a glance
 
