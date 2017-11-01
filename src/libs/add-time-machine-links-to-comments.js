@@ -15,7 +15,11 @@ export default async () => {
 		timestampEl.parentNode.after(
 			<span>
 				&nbsp;
-				<a href={href} class="timeline-comment-action btn-link rgh-timestamp-button">
+				<a
+					href={href}
+					class="timeline-comment-action btn-link rgh-timestamp-button tooltipped tooltipped-s"
+					aria-label="View repo at the time of this comment"
+					>
 					{icons.code()}
 				</a>
 			</span>
