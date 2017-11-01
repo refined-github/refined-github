@@ -2,6 +2,7 @@ import select from 'select-dom';
 import {h} from 'dom-chef';
 
 import * as icons from './icons';
+import {getRepoURL} from './page-detect';
 
 export default async () => {
 	const comments = select.all('.timeline-comment-header:not(.rgh-timestamp-tree-link)');
@@ -9,7 +10,7 @@ export default async () => {
 	for (const comment of comments) {
 		const timestampEl = select('relative-time', comment);
 		const timestamp = timestampEl.attributes.datetime.value;
-		const href = `https://github.com/sindresorhus/refined-github/tree/HEAD@{${timestamp}}`;
+		const href = `/${getRepoURL()}/tree/HEAD@{${timestamp}}`;
 
 		timestampEl.parentNode.after(
 			<span>
