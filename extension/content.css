@@ -720,6 +720,10 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 	padding: 0;
 }
 
+:root .rgh-timestamp-button .octicon{
+	vertical-align: sub;
+}
+
 /* Make the modal backdrop visible */
 :root body.menu-active .modal-backdrop,
 :root .dropdown-details[open] > summary::before {
