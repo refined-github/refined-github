@@ -327,20 +327,6 @@ function updateLocalParticipatingCount() {
 	}
 }
 
-// Migrate old localStorage.unreadNotifications to new storage.
-// For extra safety, keep the old notifications under a different name.
-// Drop function in mid August and drop the new key as well.
-function migrateOldStorage() {
-	const oldStorage = localStorage.getItem('unreadNotifications');
-	if (oldStorage) {
-		const list = JSON.parse(oldStorage);
-		console.log('Migrating old unreadNotifications storage', list);
-		storage.set(list);
-		localStorage.setItem('_unreadNotifications_migrated', JSON.stringify(list));
-		localStorage.removeItem('unreadNotifications');
-	}
-}
-
 async function setup() {
 	storage = await new SynchronousStorage(
 		() => {
@@ -352,7 +338,6 @@ async function setup() {
 			return browser.storage.local.set({unreadNotifications});
 		}
 	);
-	migrateOldStorage();
 	gitHubInjection(() => {
 		destroy();
 
