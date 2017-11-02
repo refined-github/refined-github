@@ -206,7 +206,7 @@ Once built, load it in the browser of your choice:
 		<th>Firefox</th>
 	</tr>
 	<tr>
-		<td>
+		<td width="50%">
 			<ol>
 				<li>Open <code>chrome://extensions</code>
 				<li>Check the <strong>Developer mode</strong> checkbox
@@ -214,7 +214,7 @@ Once built, load it in the browser of your choice:
 				<li>Select the folder <code>refined-github/extension</code>
 			</ol>
 		</td>
-		<td>
+		<td width="50%">
 			<ol>
 				<li>Open <code>about:debugging#addons</code>
 				<li>Click on the <strong>Load Temporary Add-on</strong> button
