@@ -40,7 +40,7 @@ if (process.env.NODE_ENV === 'production') {
 				mangle: false,
 				output: {
 					beautify: true,
-					indent_level: 1
+					indent_level: 1 // eslint-disable-line camelcase
 				}
 			}
 		})
