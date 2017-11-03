@@ -6,7 +6,6 @@ import domLoaded from 'dom-loaded';
 
 import markUnread from './libs/mark-unread';
 import addOpenAllNotificationsButton from './libs/open-all-notifications';
-import addGistCopyButton from './libs/copy-gist';
 import addUploadBtn from './libs/upload-button';
 import enableCopyOnY from './libs/copy-on-y';
 import addReactionParticipants from './libs/reactions-avatars';
@@ -98,7 +97,7 @@ function onDomReady() {
 	}
 
 	if (pageDetect.isGist()) {
-		safely(addGistCopyButton);
+		safely(addFileCopyButton);
 	}
 
 	if (pageDetect.isDashboard()) {
