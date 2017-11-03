@@ -39,7 +39,11 @@ if (process.env.NODE_ENV === 'production') {
 			uglifyOptions: {
 				mangle: false,
 				output: {
-					beautify: true
+					// Keep it somewhat readable for AMO reviewers
+					beautify: true,
+
+					// Reduce beautification indentation from 4 spaces to 1 to save space
+					indent_level: 1 // eslint-disable-line camelcase
 				}
 			}
 		})
