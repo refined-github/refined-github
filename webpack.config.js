@@ -39,7 +39,8 @@ if (process.env.NODE_ENV === 'production') {
 			uglifyOptions: {
 				mangle: false,
 				output: {
-					beautify: true
+					beautify: true,
+					indent_level: 1
 				}
 			}
 		})
