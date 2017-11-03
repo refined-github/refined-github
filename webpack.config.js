@@ -39,7 +39,7 @@ if (process.env.NODE_ENV === 'production') {
 			uglifyOptions: {
 				mangle: false,
 				output: {
-					// Keep somewhat readable for AMO reviewers
+					// Keep it somewhat readable for AMO reviewers
 					beautify: true,
 
 					// Reduce beautification indentation from 4 spaces to 1 to save space
