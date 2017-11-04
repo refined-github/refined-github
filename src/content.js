@@ -23,7 +23,7 @@ import autoLoadMoreNews from './libs/auto-load-more-news';
 import addOPLabels from './libs/op-labels';
 import addMoreDropdown from './libs/more-dropdown';
 import addReleasesTab from './libs/add-releases-tab';
-import addTimeMachineLinksToComments from './libs/add-time-machine-links-to-comments';
+import addTimeMachineLinksToComments from './features/add-time-machine-links-to-comments';
 import scrollToTopOnCollapse from './libs/scroll-to-top-on-collapse';
 import removeDiffSigns from './libs/remove-diff-signs';
 
