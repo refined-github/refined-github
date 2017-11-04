@@ -51,7 +51,6 @@
 				"content.css"
 			],
 			"js": [
-				"jquery.slim.min.js",
 				"browser-polyfill.min.js",
 				"content.js"
 			]

@@ -1,5 +1,6 @@
-import select from 'select-dom';
 import {h} from 'dom-chef';
+import select from 'select-dom';
+import delegate from 'delegate';
 import {isNotifications} from '../libs/page-detect';
 
 function openNotifications() {
@@ -51,7 +52,7 @@ export default function () {
 			</div>
 		);
 
-		$(document).on('click', '#open-all-notifications', () => {
+		delegate('#open-all-notifications', 'click', () => {
 			openNotifications();
 			select('.js-facebox-close').click(); // Close modal
 		});

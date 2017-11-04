@@ -56,7 +56,6 @@ import * as pageDetect from './libs/page-detect';
 import {observeEl, safeElementReady, safely} from './libs/utils';
 
 // Add globals for easier debugging
-window.$ = $;
 window.select = select;
 
 async function init() {
@@ -86,7 +85,7 @@ async function init() {
 
 	// TODO: Enable this when we've improved how copying Markdown works
 	// See #522
-	// $(document).on('copy', '.markdown-body', copyMarkdown);
+	// delegate('.markdown-body', 'copy', copyMarkdown);
 
 	await domLoaded;
 	onDomReady();

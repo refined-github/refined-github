@@ -1,6 +1,6 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import {safeElementReady} from '../libs/utils';
+import {safeElementReady, wrap} from '../libs/utils';
 import * as pageDetect from '../libs/page-detect';
 
 export function inPR() {
@@ -25,7 +25,7 @@ export function inPR() {
 		}
 
 		const branchUrl = '/' + el.title.replace(':', '/tree/');
-		$(el).closest('.commit-ref').wrap(<a href={branchUrl}></a>);
+		wrap(el.closest('.commit-ref'), <a href={branchUrl}></a>);
 	}
 }
 
@@ -34,6 +34,6 @@ export async function inQuickPR() {
 	if (el) {
 		const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
 		const branchUrl = `/${ownerName}/${repoName}/tree/${el.textContent}`;
-		$(el).closest('.branch-name').wrap(<a href={branchUrl}></a>);
+		wrap(el.closest('.branch-name'), <a href={branchUrl}></a>);
 	}
 }

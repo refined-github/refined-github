@@ -71,6 +71,16 @@ export const appendBefore = (parent, before, child) => {
 	}
 };
 
+export const wrap = (target, wrapper) => {
+	target.before(wrapper);
+	wrapper.append(target);
+};
+
+export const wrapAll = (targets, wrapper) => {
+	targets[0].before(wrapper);
+	wrapper.append(targets);
+};
+
 export const observeEl = (el, listener, options = {childList: true}) => {
 	if (typeof el === 'string') {
 		el = select(el);
@@ -114,7 +124,9 @@ export const metaKey = isMac ? 'metaKey' : 'ctrlKey';
 
 export const groupButtons = buttons => {
 	// Ensure every button has this class
-	$(buttons).addClass('BtnGroup-item');
+	for (const button of buttons) {
+		button.classList.add('BtnGroup-item');
+	}
 
 	// They may already be part of a group
 	let group = buttons[0].closest('.BtnGroup');
@@ -122,7 +134,7 @@ export const groupButtons = buttons => {
 	// If it doesn't exist, wrap them in a new group
 	if (!group) {
 		group = <div class="BtnGroup"></div>;
-		$(buttons).wrapAll(group);
+		wrapAll(buttons, group);
 	}
 
 	return group;
