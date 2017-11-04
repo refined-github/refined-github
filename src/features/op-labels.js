@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import {h} from 'dom-chef';
-import * as pageDetect from './page-detect';
-import {getUsername} from './utils';
+import * as pageDetect from '../libs/page-detect';
+import {getUsername} from '../libs/utils';
 
 export default () => {
 	let op;

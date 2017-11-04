@@ -1,6 +1,6 @@
 import select from 'select-dom';
 import debounce from 'debounce-fn';
-import {observeEl} from './utils';
+import {observeEl} from '../libs/utils';
 
 let btn;
 let newsfeedObserver;

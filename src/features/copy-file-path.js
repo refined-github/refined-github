@@ -1,6 +1,6 @@
 import select from 'select-dom';
 import {h} from 'dom-chef';
-import {observeEl} from './utils';
+import {observeEl} from '../libs/utils';
 
 function addFilePathCopyBtn() {
 	for (const file of select.all('#files .file-header:not(.rgh-copy-file-path)')) {
