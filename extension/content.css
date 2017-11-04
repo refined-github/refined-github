@@ -95,19 +95,11 @@
 .toolbar-group:last-child {
 	display: inline-block;
 }
-.toolbar-group .toolbar-item {
+.toolbar-group .toolbar-item:not(.js-saved-reply-container):not(.rgh-upload-btn) {
 	display: none;
-}
-.toolbar-group .js-saved-reply-container,
-.toolbar-group .refined-github-upload-btn {
-	display: block;
 }
 .toolbar-commenting {
 	margin-top: 4px;
-}
-
-.refined-github-upload-btn {
-	cursor: pointer;
 }
 
 /* Remove upload message on comment box */
