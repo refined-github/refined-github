@@ -1,7 +1,7 @@
 import browser from 'webextension-polyfill';
 import select from 'select-dom';
 import {h} from 'dom-chef';
-import {isNotifications} from './page-detect';
+import {isNotifications} from '../libs/page-detect';
 
 function openNotifications() {
 	const urls = select.all('.js-notification-target').map(el => el.href);
