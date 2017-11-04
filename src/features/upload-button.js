@@ -1,18 +1,23 @@
 import {h} from 'dom-chef';
 import onetime from 'onetime';
+import select from 'select-dom';
 import {metaKey} from '../libs/utils';
 import * as icons from '../libs/icons';
 
 function addButtons() {
-	$('.js-previewable-comment-form:not(.rgh-has-upload-field)')
-		.has('.js-manual-file-chooser[type=file]')
-		.addClass('rgh-has-upload-field')
-		.find('.js-saved-reply-container')
-		.after(
-			<button type="button" class="toolbar-item tooltipped tooltipped-nw rgh-upload-btn" aria-label="Upload a file">
-				{icons.cloudUpload()}
-			</button>
-		);
+	for (const form of select.all('.js-previewable-comment-form:not(.rgh-has-upload-field)')) {
+		if (select.exists('.js-manual-file-chooser[type=file]', form)) {
+			form.classList('rgh-has-upload-field');
+			const toolbarPosition = select('.js-saved-reply-container', form);
+			if (toolbarPosition) {
+				toolbarPosition.after(
+					<button type="button" class="toolbar-item tooltipped tooltipped-nw rgh-upload-btn" aria-label="Upload a file">
+						{icons.cloudUpload()}
+					</button>
+				);
+			}
+		}
+	}
 }
 
 function triggerUploadUI({target}) {
