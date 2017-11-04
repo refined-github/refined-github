@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import linkifyIssues from 'linkify-issues';
-import {editTextNodes} from '../libs/linkify-urls-in-code';
 import {observeEl} from '../libs/utils';
+import {editTextNodes} from './linkify-urls-in-code';
 
 export default function () {
 	observeEl(select('#partial-discussion-header').parentNode, () => {
