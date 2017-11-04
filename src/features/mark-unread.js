@@ -2,10 +2,10 @@ import browser from 'webextension-polyfill';
 import gitHubInjection from 'github-injection';
 import select from 'select-dom';
 import {h} from 'dom-chef';
-import SynchronousStorage from './synchronous-storage';
-import * as icons from './icons';
-import * as pageDetect from './page-detect';
-import {getUsername} from './utils';
+import SynchronousStorage from '../libs/synchronous-storage';
+import * as icons from '../libs/icons';
+import * as pageDetect from '../libs/page-detect';
+import {getUsername} from '../libs/utils';
 
 let storage;
 

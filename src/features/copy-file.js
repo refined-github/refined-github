@@ -1,6 +1,6 @@
 import select from 'select-dom';
 import {h} from 'dom-chef';
-import {groupButtons} from './utils';
+import {groupButtons} from '../libs/utils';
 
 export default function () {
 	// This selector skips binaries + markdowns with code

@@ -1,8 +1,8 @@
 import select from 'select-dom';
 import linkifyUrls from 'linkify-urls';
 import linkifyIssues from 'linkify-issues';
-import {getOwnerAndRepo} from './page-detect';
-import getTextNodes from './get-text-nodes';
+import {getOwnerAndRepo} from '../libs/page-detect';
+import getTextNodes from '../libs/get-text-nodes';
 
 const linkifiedURLClass = 'refined-github-linkified-code';
 const {

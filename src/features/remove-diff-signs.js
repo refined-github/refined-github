@@ -1,6 +1,6 @@
 /* Lasciate ogne speranza, voi ch'entrate. */
 import select from 'select-dom';
-import {observeEl} from './utils';
+import {observeEl} from '../libs/utils';
 
 function removeDiffSigns() {
 	for (const line of select.all('.diff-table tr:not(.refined-github-diff-signs)')) {
