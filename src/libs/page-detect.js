@@ -78,5 +78,3 @@ export const isSingleFile = () => {
 	const blobPattern = new RegExp(`/${ownerName}/${repoName}/blob/`);
 	return isRepo() && blobPattern.test(location.href);
 };
-
-export const hasCommentForm = () => select.exists('.js-previewable-comment-form');
