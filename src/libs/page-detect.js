@@ -4,7 +4,6 @@
 // but getRepoPath returns undefined if it doesn't find a repo
 // so .test(X) works but X.startsWith() doesn't
 
-import select from 'select-dom';
 import {check as isReserved} from 'github-reserved-names';
 
 // Drops leading and trailing slash to avoid /\/?/ everywhere
