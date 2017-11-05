@@ -2,10 +2,10 @@ import browser from 'webextension-polyfill';
 import gitHubInjection from 'github-injection';
 import select from 'select-dom';
 import {h} from 'dom-chef';
-import SynchronousStorage from './synchronous-storage';
-import * as icons from './icons';
-import * as pageDetect from './page-detect';
-import {getUsername} from './utils';
+import SynchronousStorage from '../libs/synchronous-storage';
+import * as icons from '../libs/icons';
+import * as pageDetect from '../libs/page-detect';
+import {getUsername} from '../libs/utils';
 
 let storage;
 
@@ -327,20 +327,6 @@ function updateLocalParticipatingCount() {
 	}
 }
 
-// Migrate old localStorage.unreadNotifications to new storage.
-// For extra safety, keep the old notifications under a different name.
-// Drop function in mid August and drop the new key as well.
-function migrateOldStorage() {
-	const oldStorage = localStorage.getItem('unreadNotifications');
-	if (oldStorage) {
-		const list = JSON.parse(oldStorage);
-		console.log('Migrating old unreadNotifications storage', list);
-		storage.set(list);
-		localStorage.setItem('_unreadNotifications_migrated', JSON.stringify(list));
-		localStorage.removeItem('unreadNotifications');
-	}
-}
-
 async function setup() {
 	storage = await new SynchronousStorage(
 		() => {
@@ -352,9 +338,13 @@ async function setup() {
 			return browser.storage.local.set({unreadNotifications});
 		}
 	);
-	migrateOldStorage();
 	gitHubInjection(() => {
 		destroy();
+
+		// Remove old data from previous storage
+		// Drop code in 2018
+		localStorage.removeItem('_unreadNotifications_migrated');
+		localStorage.removeItem('unreadNotifications');
 
 		if (pageDetect.isNotifications()) {
 			renderNotifications();

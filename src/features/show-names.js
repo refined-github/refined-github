@@ -1,7 +1,7 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import domify from './domify';
-import {getUsername, groupBy} from './utils';
+import domify from '../libs/domify';
+import {getUsername, groupBy} from '../libs/utils';
 
 const storageKey = 'cachedNames';
 

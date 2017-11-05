@@ -77,10 +77,6 @@
 	display: none !important;
 }
 
-.site-footer {
-	visibility: hidden;
-}
-
 /* Remove useless message on the right side of the PR merge box */
 .alt-merge-options {
 	display: none !important;
@@ -99,19 +95,11 @@
 .toolbar-group:last-child {
 	display: inline-block;
 }
-.toolbar-group .toolbar-item {
+.toolbar-group .toolbar-item:not(.js-saved-reply-container):not(.rgh-upload-btn) {
 	display: none;
-}
-.toolbar-group .js-saved-reply-container,
-.toolbar-group .refined-github-upload-btn {
-	display: block;
 }
 .toolbar-commenting {
 	margin-top: 4px;
-}
-
-.refined-github-upload-btn {
-	cursor: pointer;
 }
 
 /* Remove upload message on comment box */
@@ -581,11 +569,6 @@ Hidden content area created to increase hover target
 .stale-files-tab-link:before {
 	content: 'Subset of changes. ';
 	font-weight: normal;
-}
-
-/* Copy button for gists margin */
-.gist-copy-btn {
-	margin: 0 10px 0 0;
 }
 
 /* Multiple comment labels margin */

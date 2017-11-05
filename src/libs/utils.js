@@ -1,3 +1,4 @@
+import {h} from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import domLoaded from 'dom-loaded';
@@ -69,4 +70,24 @@ export const flatZip = (table, limit = Infinity) => {
 		}
 	}
 	return zipped;
+};
+
+export const isMac = /Mac/.test(window.navigator.platform);
+
+export const metaKey = isMac ? 'metaKey' : 'ctrlKey';
+
+export const groupButtons = buttons => {
+	// Ensure every button has this class
+	$(buttons).addClass('BtnGroup-item');
+
+	// They may already be part of a group
+	let group = buttons[0].closest('.BtnGroup');
+
+	// If it doesn't exist, wrap them in a new group
+	if (!group) {
+		group = <div class="BtnGroup"></div>;
+		$(buttons).wrapAll(group);
+	}
+
+	return group;
 };

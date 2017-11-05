@@ -1,7 +1,7 @@
 import debounce from 'debounce-fn';
 import select from 'select-dom';
 import {h} from 'dom-chef';
-import {getUsername, flatZip} from './utils';
+import {getUsername, flatZip} from '../libs/utils';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars

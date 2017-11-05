@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import {h} from 'dom-chef';
-import * as icons from './icons';
-import * as pageDetect from './page-detect';
+import * as icons from '../libs/icons';
+import * as pageDetect from '../libs/page-detect';
 
 const repoUrl = pageDetect.getRepoURL();
 
