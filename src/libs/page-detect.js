@@ -1,8 +1,5 @@
-/* eslint-disable no-use-before-define */
-/* eslint-disable unicorn/prefer-starts-ends-with */
-// - xo complains if you don't use .startsWith
-// but getRepoPath returns undefined if it doesn't find a repo
-// so .test(X) works but X.startsWith() doesn't
+/* eslint-disable no-use-before-define, Allows alphabetical order */
+/* eslint-disable unicorn/prefer-starts-ends-with, The tested var might not be a string */
 
 import {check as isReserved} from 'github-reserved-names';
 
