@@ -72,6 +72,10 @@ export const flatZip = (table, limit = Infinity) => {
 	return zipped;
 };
 
+export const isMac = /Mac/.test(window.navigator.platform);
+
+export const metaKey = isMac ? 'metaKey' : 'ctrlKey';
+
 export const groupButtons = buttons => {
 	// Ensure every button has this class
 	$(buttons).addClass('BtnGroup-item');

@@ -6,7 +6,7 @@ import domLoaded from 'dom-loaded';
 
 import markUnread from './features/mark-unread';
 import addOpenAllNotificationsButton from './features/open-all-notifications';
-import addUploadBtn from './libs/upload-button';
+import addUploadBtn from './features/upload-button';
 import enableCopyOnY from './features/copy-on-y';
 import addReactionParticipants from './features/reactions-avatars';
 import showRealNames from './features/show-names';
@@ -106,8 +106,6 @@ function onDomReady() {
 		safely(autoLoadMoreNews);
 	}
 
-	observeEl('div[role=main]', addUploadBtn, {childList: true, subtree: true});
-
 	onAjaxedPages(ajaxedPagesHandler);
 }
 
@@ -156,6 +154,8 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
 		safely(linkifyIssuesInTitles);
+		safely(addUploadBtn);
+
 		observeEl('.new-discussion-timeline', () => {
 			safely(addOPLabels);
 			safely(addTimeMachineLinksToComments);
