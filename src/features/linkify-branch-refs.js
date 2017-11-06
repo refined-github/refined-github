@@ -31,6 +31,9 @@ export function inPR() {
 
 export function inQuickPR() {
 	safeElementReady('.branch-name').then(el => {
+		if (!el) {
+			return;
+		}
 		const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
 		const branchUrl = `/${ownerName}/${repoName}/tree/${el.textContent}`;
 		$(el).closest('.branch-name').wrap(<a href={branchUrl}></a>);
