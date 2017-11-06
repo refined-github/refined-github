@@ -18,6 +18,7 @@ import autoLoadMoreNews from './features/auto-load-more-news';
 import addOPLabels from './features/op-labels';
 import addMoreDropdown from './features/more-dropdown';
 import addReleasesTab from './features/add-releases-tab';
+import addTimeMachineLinksToComments from './features/add-time-machine-links-to-comments';
 import scrollToTopOnCollapse from './features/scroll-to-top-on-collapse';
 import removeDiffSigns from './features/remove-diff-signs';
 import * as linkifyBranchRefs from './features/linkify-branch-refs';
@@ -154,7 +155,11 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
 		safely(linkifyIssuesInTitles);
 		safely(addUploadBtn);
-		observeEl('.new-discussion-timeline', addOPLabels, {childList: true, subtree: true});
+
+		observeEl('.new-discussion-timeline', () => {
+			safely(addOPLabels);
+			safely(addTimeMachineLinksToComments);
+		});
 	}
 
 	if (pageDetect.isPRList() || pageDetect.isIssueList()) {

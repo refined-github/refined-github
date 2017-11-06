@@ -698,6 +698,14 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 	display: none !important;
 }
 
+/* For the `add-time-machine-links-to-comments` feature */
+:root .rgh-timestamp-button {
+	padding: 0;
+}
+:root .rgh-timestamp-button .octicon {
+	vertical-align: middle;
+}
+
 /* Make the modal backdrop visible */
 :root body.menu-active .modal-backdrop,
 :root .dropdown-details[open] > summary::before {
