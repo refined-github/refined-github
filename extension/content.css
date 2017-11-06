@@ -698,12 +698,11 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 	display: none !important;
 }
 
-
+/* For the `add-time-machine-links-to-comments` feature */
 :root .rgh-timestamp-button {
 	padding: 0;
 }
-
-:root .rgh-timestamp-button .octicon{
+:root .rgh-timestamp-button .octicon {
 	vertical-align: sub;
 }
 
