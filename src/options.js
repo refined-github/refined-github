@@ -1,4 +1,3 @@
-import browser from 'webextension-polyfill';
 import OptionsSync from 'webext-options-sync';
 
 new OptionsSync().syncForm('#options-form');

@@ -1,4 +1,3 @@
-import browser from 'webextension-polyfill';
 import OptionsSync from 'webext-options-sync';
 import injectContentScripts from 'webext-dynamic-content-scripts';
 

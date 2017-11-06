@@ -1,5 +1,4 @@
 import 'webext-dynamic-content-scripts';
-import browser from 'webextension-polyfill';
 import onAjaxedPages from 'github-injection';
 import {applyToLink as shortenLink} from 'shorten-repo-url';
 import select from 'select-dom';
@@ -56,7 +55,6 @@ import {observeEl, safeElementReady, safely} from './libs/utils';
 // Add globals for easier debugging
 window.$ = $;
 window.select = select;
-window.browser = browser;
 
 async function init() {
 	await safeElementReady('body');
