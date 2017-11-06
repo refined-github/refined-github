@@ -152,7 +152,7 @@ function renderNotifications() {
 			const list = (
 				<div class="boxed-group flush">
 					<form class="boxed-group-action">
-						<button class="mark-all-as-read css-truncate tooltipped tooltipped-w js-mark-all-read" aria-label="Mark all notifications as read">
+						<button class="mark-all-as-read css-truncate js-mark-all-read">
 							{icons.check()}
 						</button>
 					</form>
@@ -193,7 +193,7 @@ function renderNotifications() {
 
 				<ul class="notification-actions">
 					<li class="delete">
-						<button aria-label="Mark as read" class="btn-link delete-note tooltipped tooltipped-w js-mark-read">
+						<button class="btn-link delete-note js-mark-read">
 							{icons.check()}
 						</button>
 					</li>

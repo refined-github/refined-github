@@ -49,10 +49,25 @@
 	display: none !important;
 }
 
-/* Remove tooltips */
-.tooltipped:not(.reaction-summary-item,.avatar-group-item,.avatar):before,
-.tooltipped:not(.reaction-summary-item,.avatar-group-item,.avatar):after {
+/* Remove tooltips where unnecessary */
+.tooltipped:before,
+.tooltipped:after {
 	display: none !important;
+}
+
+.notification-actions .tooltipped:before,
+.notification-actions .tooltipped:after,
+.reaction-summary-item:before,
+.reaction-summary-item:after,
+.avatar-group-item:before,
+.avatar-group-item:after,
+.js-zeroclipboard:before,
+.js-zeroclipboard:after,
+.rgh-tooltipped:before,
+.rgh-tooltipped:after,
+.avatar:before,
+.avatar:after {
+	display: inline-block !important;
 }
 
 /* Fade out the file icons */

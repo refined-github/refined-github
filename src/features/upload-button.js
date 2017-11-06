@@ -9,7 +9,7 @@ function addButtons() {
 		.addClass('rgh-has-upload-field')
 		.find('.js-saved-reply-container')
 		.after(
-			<button type="button" class="toolbar-item tooltipped tooltipped-nw rgh-upload-btn" aria-label="Upload a file">
+			<button type="button" class="toolbar-item rgh-upload-btn">
 				{icons.cloudUpload()}
 			</button>
 		);
