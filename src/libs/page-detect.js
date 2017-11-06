@@ -1,80 +1,84 @@
-import select from 'select-dom';
+/* eslint-disable no-use-before-define, Allows alphabetical order */
+/* eslint-disable unicorn/prefer-starts-ends-with, The tested var might not be a string */
 
-export const isGist = () => location.hostname.startsWith('gist.') || location.pathname.startsWith('gist/');
+import {check as isReserved} from 'github-reserved-names';
 
-export const isDashboard = () => location.pathname === '/' || /^(\/orgs\/[^/]+)?\/dashboard/.test(location.pathname);
+// Drops leading and trailing slash to avoid /\/?/ everywhere
+export const getCleanPathname = () => location.pathname.replace(/^[/]|[/]$/g, '');
 
-export const isTrending = () => location.pathname.startsWith('/trending');
-
-export const isNotifications = () => /^\/(?:[^/]+\/[^/]+\/)?notifications/.test(location.pathname);
-
-// @todo Replace with DOM-based test because this is too generic #708
-export const isRepo = () => /^\/[^/]+\/[^/]+/.test(location.pathname) &&
-	!isGist() &&
-	!isTrending() &&
-	!isNotifications();
-
-export const getRepoPath = () => location.pathname.replace(/^\/[^/]+\/[^/]+/, '');
+// Parses a repo's subpage, e.g.
+// '/user/repo/issues/' -> 'issues'
+// '/user/repo/' -> ''
+// and returns undefined if the path is not 2+ levels deep
+export const getRepoPath = () => (/^[^/]+[/][^/]+[/]?(.*)$/.exec(getCleanPathname()) || [])[1];
 
 export const getRepoURL = () => location.pathname.slice(1).split('/', 2).join('/');
 
-export const isRepoRoot = () => isRepo() && /^(\/?$|\/tree\/)/.test(getRepoPath()) && select.exists('.repository-meta-content');
+export const getOwnerAndRepo = () => {
+	const [, ownerName, repoName] = location.pathname.split('/');
+	return {ownerName, repoName};
+};
 
-export const isRepoTree = () => isRepo() && /\/tree\//.test(getRepoPath());
+export const is404 = () => document.title.startsWith('Page not found');
+
+export const isBlame = () => /^blame\//.test(getRepoPath());
+
+export const isCommit = () => isSingleCommit() || isPRCommit();
+
+export const isCommitList = () => /^commits\//.test(getRepoPath());
+
+export const isCompare = () => /^compare/.test(getRepoPath());
+
+export const isDashboard = () => /^((orgs[/][^/]+[/])?dashboard([/]index[/]\d+)?)?$/.test(getCleanPathname());
+
+export const isEnterprise = () => location.hostname !== 'github.com' && location.hostname !== 'gist.github.com';
+
+export const isGist = () => location.hostname.startsWith('gist.') || location.pathname.startsWith('gist/');
+
+export const isIssue = () => /^issues\/\d+/.test(getRepoPath());
+
+export const isIssueList = () => /^issues\/?$/.test(getRepoPath());
 
 export const isIssueSearch = () => location.pathname.startsWith('/issues');
 
-export const isIssueList = () => isRepo() && /^\/issues\/?$/.test(getRepoPath());
+export const isLabel = () => /^labels\/\w+/.test(getRepoPath());
 
-export const isIssue = () => isRepo() && /^\/issues\/\d+/.test(getRepoPath());
+export const isLabelList = () => /^labels\/?(((?=\?).*)|$)/.test(getRepoPath());
+
+export const isMilestone = () => /^milestone\/\d+/.test(getRepoPath());
+
+export const isMilestoneList = () => /^milestones\/?$/.test(getRepoPath());
+
+export const isNotifications = () => /^([^/]+[/][^/]+\/)?notifications/.test(getCleanPathname());
+
+export const isPR = () => /^pull\/\d+/.test(getRepoPath());
+
+export const isPRCommit = () => /^pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(getRepoPath());
+
+export const isPRFiles = () => /^pull\/\d+\/files/.test(getRepoPath());
+
+export const isPRList = () => /^pulls\/?$/.test(getRepoPath());
 
 export const isPRSearch = () => location.pathname.startsWith('/pulls');
 
-export const isPRList = () => isRepo() && /^\/pulls\/?$/.test(getRepoPath());
-
-export const isPR = () => isRepo() && /^\/pull\/\d+/.test(getRepoPath());
-
-export const isPRFiles = () => isRepo() && /^\/pull\/\d+\/files/.test(getRepoPath());
-
-export const isPRCommit = () => isRepo() && /^\/pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(getRepoPath());
-
-export const isMilestoneList = () => isRepo() && /^\/milestones\/?$/.test(getRepoPath());
-
-export const isMilestone = () => isRepo() && /^\/milestone\/\d+/.test(getRepoPath());
-
-export const isLabelList = () => isRepo() && /^\/labels\/?(((?=\?).*)|$)/.test(getRepoPath());
-
-export const isLabel = () => isRepo() && /^\/labels\/\w+/.test(getRepoPath());
-
-export const isCommitList = () => isRepo() && /^\/commits\//.test(getRepoPath());
-
-export const isSingleCommit = () => isRepo() && /^\/commit\/[0-9a-f]{5,40}/.test(getRepoPath());
-
-export const isCommit = () => isSingleCommit() || isPRCommit() || (isPRFiles() && select.exists('.full-commit'));
-
-export const isCompare = () => isRepo() && /^\/compare/.test(getRepoPath());
-
 export const isQuickPR = () => isCompare() && /[?&]quick_pull=1(&|$)/.test(location.search);
 
-export const isReleases = () => isRepo() && /^\/(releases|tags)/.test(getRepoPath());
+export const isReleases = () => /^(releases|tags)/.test(getRepoPath());
 
-export const isBlame = () => isRepo() && /^\/blame\//.test(getRepoPath());
+export const isRepo = () => /^[^/]+\/[^/]+/.test(getCleanPathname()) &&
+	!isReserved(getOwnerAndRepo().ownerName) &&
+	!isNotifications() &&
+	!isDashboard() &&
+	!isGist();
 
-export const isRepoSettings = () => isRepo() && /^\/settings/.test(getRepoPath());
+export const isRepoRoot = () => /^(tree[/][^/]+)?$/.test(getRepoPath());
 
-export const isEnterprise = () => select.exists('body.enterprise');
+export const isRepoSettings = () => /^settings/.test(getRepoPath());
 
-export const getOwnerAndRepo = () => {
-	const [, ownerName, repoName] = location.pathname.split('/');
+export const isRepoTree = () => /^tree\//.test(getRepoPath());
 
-	return {
-		ownerName,
-		repoName
-	};
-};
+export const isSingleCommit = () => /^commit\/[0-9a-f]{5,40}/.test(getRepoPath());
 
-export const isSingleFile = () => {
-	const {ownerName, repoName} = getOwnerAndRepo();
-	const blobPattern = new RegExp(`/${ownerName}/${repoName}/blob/`);
-	return isRepo() && blobPattern.test(location.href);
-};
+export const isSingleFile = () => /^blob\//.test(getRepoPath());
+
+export const isTrending = () => location.pathname.startsWith('/trending');
