@@ -1,4 +1,3 @@
-import browser from 'webextension-polyfill';
 import select from 'select-dom';
 import {h} from 'dom-chef';
 import {isNotifications} from '../libs/page-detect';
