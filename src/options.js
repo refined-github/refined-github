@@ -1,3 +1,4 @@
+import browser from 'webextension-polyfill';
 import OptionsSync from 'webext-options-sync';
 
 new OptionsSync().syncForm('#options-form');
@@ -8,20 +9,19 @@ new OptionsSync().syncForm('#options-form');
 const cdForm = document.querySelector('#custom-domain');
 const cdInput = document.querySelector('#custom-domain-origin');
 
-cdForm.addEventListener('submit', event => {
+cdForm.addEventListener('submit', async event => {
 	event.preventDefault();
 
 	const origin = new URL(cdInput.value).origin;
 
 	if (origin) {
-		chrome.permissions.request({
+		const granted = await browser.permissions.request({
 			origins: [
 				`${origin}/*`
 			]
-		}, granted => {
-			if (granted) {
-				cdForm.reset();
-			}
 		});
+		if (granted) {
+			cdForm.reset();
+		}
 	}
 });
