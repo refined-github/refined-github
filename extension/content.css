@@ -674,6 +674,19 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 	display: none;
 }
 
+/* For `add-ci-link` */
+:root .repohead h1 .commit-build-statuses {
+	position: relative;
+	top: -0.1em;
+	left: 0.2em;
+}
+
+:root .repohead h1 .octicon {
+	position: static;
+	color: inherit;
+	animation: fade-in 0.2s;
+}
+
 /* Sticky file headers on pull request diff view */
 .pull-request-tab-content .diff-view .file-header {
 	position: sticky;
