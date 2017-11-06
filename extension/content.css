@@ -721,3 +721,14 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 		opacity: 0;
 	}
 }
+
+/* Fix subpixel rendering Chrome bug in tooltips' triangles */
+.tooltipped:hover::before,
+.tooltipped:hover::after,
+.tooltipped:active::before,
+.tooltipped:active::after,
+.tooltipped:focus::before,
+.tooltipped:focus::after {
+	animation-fill-mode: backwards !important;
+	opacity: 1;
+}
