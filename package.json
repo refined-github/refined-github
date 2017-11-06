@@ -48,8 +48,7 @@
 	"xo": {
 		"envs": [
 			"browser",
-			"jquery",
-			"webextensions"
+			"jquery"
 		],
 		"rules": {
 			"import/no-unassigned-import": 0,
@@ -62,6 +61,9 @@
 		},
 		"ignores": [
 			"extension/**"
+		],
+		"globals": [
+			"browser"
 		]
 	},
 	"ava": {
