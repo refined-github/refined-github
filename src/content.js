@@ -63,7 +63,20 @@ async function init() {
 	}
 
 	if (select.exists('html.refined-github')) {
-		console.count('Refined GitHub was loaded multiple times: https://github.com/sindresorhus/refined-github/issues/479');
+		console.error(`
+❤️💛💚💙💜❤️💛💚💙💜❤️💛💚💙💜❤️💛💚💙💜
+Minor bug in Refined GitHub, but we need your help to fix it:
+https://github.com/sindresorhus/refined-github/issues/565
+
+We'll need to know:
+
+1. Are you running two extensions at once? Chrome Web Store + development. If so, just disable one of them.
+2. Are you on GitHub Enteprise?
+3. The content of the console of this page.
+4. The content of the console of the background page after enabling the Developer mode in the Extensions page: https://i.imgur.com/zjIngb4.png
+
+Thank you! 🎉
+❤️💛💚💙💜❤️💛💚💙💜❤️💛💚💙💜❤️💛💚💙💜`);
 		return;
 	}
 
