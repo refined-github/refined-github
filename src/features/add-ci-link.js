@@ -10,7 +10,9 @@ let request;
 
 async function fetchStatus() {
 	const url = `${location.origin}/${getRepoURL()}/commits/`;
-	const dom = await fetch(url).then(r => r.text()).then(domify);
+	const dom = await fetch(url, {
+		credentials: 'include'
+	}).then(r => r.text()).then(domify);
 
 	const icon = select('.commit-build-statuses', dom);
 
@@ -35,7 +37,7 @@ export default async function () {
 		} else {
 			request = fetchStatus();
 		}
-		select('.pagehead [itemprop="name"]').append(await request);
+		select('.pagehead h1').append(await request);
 	} catch (err) {
 		// Network failure or no CI status found.
 		// Don’t try again
