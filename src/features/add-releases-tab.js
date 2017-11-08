@@ -13,17 +13,17 @@ function appendReleasesCount(count) {
 	select('.reponav-releases').append(<span class="Counter">{count}</span>);
 }
 
-function cacheReleasesCount() {
+async function cacheReleasesCount() {
 	const releasesCountCacheKey = `${repoUrl}-releases-count`;
 
 	if (pageDetect.isRepoRoot()) {
 		const releasesCount = select('.numbers-summary a[href$="/releases"] .num').textContent.trim();
 		appendReleasesCount(releasesCount);
-		chrome.storage.local.set({[releasesCountCacheKey]: releasesCount});
+		browser.storage.local.set({[releasesCountCacheKey]: releasesCount});
 	} else {
-		chrome.storage.local.get(releasesCountCacheKey, items => {
-			appendReleasesCount(items[releasesCountCacheKey]);
-		});
+		const items = await browser.storage.local.get(releasesCountCacheKey);
+
+		appendReleasesCount(items[releasesCountCacheKey]);
 	}
 }
 

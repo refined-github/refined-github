@@ -5,8 +5,11 @@ import {getUsername, groupBy} from '../libs/utils';
 
 const storageKey = 'cachedNames';
 
-const getCachedUsers = () => {
-	return new Promise(resolve => chrome.storage.local.get(storageKey, resolve));
+const getCachedUsers = async () => {
+	const keys = await browser.storage.local.get({
+		[storageKey]: {}
+	});
+	return keys[storageKey];
 };
 
 const fetchName = async username => {
@@ -28,7 +31,7 @@ const fetchName = async username => {
 
 export default async () => {
 	const myUsername = getUsername();
-	const cache = (await getCachedUsers())[storageKey] || {};
+	const cache = await getCachedUsers();
 
 	// {sindresorhus: [a.author, a.author], otheruser: [a.author]}
 	const selector = `.js-discussion .author:not(.refined-github-fullname)`;
@@ -61,5 +64,5 @@ export default async () => {
 	// Wait for all the fetches to be done
 	await Promise.all(fetches);
 
-	chrome.storage.local.set({[storageKey]: cache});
+	browser.storage.local.set({[storageKey]: cache});
 };

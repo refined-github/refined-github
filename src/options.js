@@ -8,25 +8,19 @@ new OptionsSync().syncForm('#options-form');
 const cdForm = document.querySelector('#custom-domain');
 const cdInput = document.querySelector('#custom-domain-origin');
 
-if (!chrome.permissions) {
-	cdForm.disabled = true;
-	cdForm.querySelector('.js-permission-api').textContent = 'Your browser doesn’t support the required Permission API.';
-}
-
-cdForm.addEventListener('submit', event => {
+cdForm.addEventListener('submit', async event => {
 	event.preventDefault();
 
 	const origin = new URL(cdInput.value).origin;
 
 	if (origin) {
-		chrome.permissions.request({
+		const granted = await browser.permissions.request({
 			origins: [
 				`${origin}/*`
 			]
-		}, granted => {
-			if (granted) {
-				cdForm.reset();
-			}
 		});
+		if (granted) {
+			cdForm.reset();
+		}
 	}
 });

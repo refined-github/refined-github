@@ -28,6 +28,7 @@
 	},
 	"background": {
 		"scripts": [
+			"browser-polyfill.min.js",
 			"background.js"
 		],
 		"persistent": false
@@ -43,7 +44,8 @@
 				"content.css"
 			],
 			"js": [
-				"jquery-3.slim.min.js",
+				"jquery.slim.min.js",
+				"browser-polyfill.min.js",
 				"content.js"
 			]
 		}

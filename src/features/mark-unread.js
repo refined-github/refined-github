@@ -1,4 +1,3 @@
-import browser from 'webextension-polyfill';
 import gitHubInjection from 'github-injection';
 import select from 'select-dom';
 import {h} from 'dom-chef';
