@@ -31,8 +31,12 @@ export const emptyElement = element => {
  */
 export const safeElementReady = selector => {
 	const waiting = elementReady(selector);
+
+	// Don't check ad-infinitum
 	domLoaded.then(() => requestAnimationFrame(() => waiting.cancel()));
-	return waiting;
+
+	// If cancelled, return null like a regular select() would
+	return waiting.catch(() => null);
 };
 
 export const observeEl = (el, listener, options = {childList: true}) => {

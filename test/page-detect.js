@@ -22,11 +22,19 @@ test('getRepoPath', t => {
 	const pairs = new Map([
 		[
 			'https://github.com',
-			undefined
+			false
 		],
 		[
-			'https://github.com/',
-			undefined
+			'https://gist.github.com/',
+			false
+		],
+		[
+			'https://github.com/settings/developers',
+			false
+		],
+		[
+			'https://github.com/sindresorhus/notifications/notifications',
+			false
 		],
 		[
 			'https://github.com/sindresorhus/refined-github',
