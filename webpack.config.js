@@ -2,6 +2,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
 	entry: {
@@ -13,7 +14,12 @@ module.exports = {
 		new webpack.DefinePlugin({
 			process: '0'
 		}),
-		new webpack.optimize.ModuleConcatenationPlugin()
+		new webpack.optimize.ModuleConcatenationPlugin(),
+		new CopyWebpackPlugin([{
+			from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js'
+		}, {
+			from: 'node_modules/jquery/dist/jquery.slim.min.js'
+		}])
 	],
 	output: {
 		path: path.join(__dirname, 'extension'),
