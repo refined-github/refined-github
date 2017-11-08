@@ -48,6 +48,7 @@ import openCIDetailsInNewTab from './features/open-ci-details-in-new-tab';
 import focusConfirmationButtons from './features/focus-confirmation-buttons';
 import addKeyboardShortcutsToCommentFields from './features/add-keyboard-shortcuts-to-comment-fields';
 import addConfirmationToCommentCancellation from './features/add-confirmation-to-comment-cancellation';
+import addCILink from './features/add-ci-link';
 
 import * as pageDetect from './libs/page-detect';
 import {observeEl, safeElementReady, safely} from './libs/utils';
@@ -150,6 +151,7 @@ function ajaxedPagesHandler() {
 		safely(addReadmeButtons);
 		safely(addDiffViewWithoutWhitespaceOption);
 		safely(removeDiffSigns);
+		safely(addCILink);
 		safely(sortMilestonesByClosestDueDate); // Needs to be after addMilestoneNavigation
 	}
 
