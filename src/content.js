@@ -95,8 +95,6 @@ Thank you! 🎉
 	safely(focusConfirmationButtons);
 	safely(addKeyboardShortcutsToCommentFields);
 	safely(addConfirmationToCommentCancellation);
-	});
-
 
 	// TODO: Enable this when we've improved how copying Markdown works
 	// See #522
