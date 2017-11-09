@@ -126,7 +126,7 @@ function onDomReady() {
 
 function ajaxedPagesHandler() {
 	safely(hideEmptyMeta);
-  safely(removeUploadFilesButton);
+	safely(removeUploadFilesButton);
 	safely(addTitleToEmojis);
 	safely(enableCopyOnY.destroy);
 
