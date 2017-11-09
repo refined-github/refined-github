@@ -27,7 +27,7 @@ export default function () {
 	if (latestRelease) {
 		buttons.appendChild(
 			<a
-				class="tooltipped tooltipped-nw"
+				class="tooltipped tooltipped-nw rgh-tooltipped"
 				href={`${releases.get(latestRelease)}#readme`}
 				aria-label={`View this file at the latest version (${latestRelease})`}>
 				{icons.tag()}
@@ -43,10 +43,7 @@ export default function () {
 		const path = select('.breadcrumb').textContent.trim().split('/').slice(1).join('/');
 		const currentBranch = select('.branch-select-menu .select-menu-item.selected').textContent.trim();
 		buttons.appendChild(
-			<a
-				href={`/${repoUrl}/edit/${currentBranch}/${path}${readmeName}`}
-				class="tooltipped tooltipped-nw"
-				aria-label="Edit this file">
+			<a href={`/${repoUrl}/edit/${currentBranch}/${path}${readmeName}`}>
 				{icons.edit()}
 			</a>
 		);
