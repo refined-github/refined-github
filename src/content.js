@@ -60,9 +60,6 @@ window.select = select;
 async function init() {
 	await safeElementReady('body');
 	if (document.body.classList.contains('logged-out')) {
-	if (select.exists('.refined-github-insights')) {
-		return;
-	}
 		return;
 	}
 
