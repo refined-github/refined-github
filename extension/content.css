@@ -184,11 +184,6 @@ a .commit-ref:hover span {
 	display: none !important;
 }
 
-/* Remove Upload files button; drag and drop is available anyway */
-.file-navigation a[href*="/upload/"] {
-	display: none !important;
-}
-
 /* Style for edit README button */
 #readme.blob #refined-github-readme-buttons {
 	display: none;
