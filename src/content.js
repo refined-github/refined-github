@@ -19,6 +19,7 @@ import addOPLabels from './features/op-labels';
 import addMoreDropdown from './features/more-dropdown';
 import addReleasesTab from './features/add-releases-tab';
 import addTimeMachineLinksToComments from './features/add-time-machine-links-to-comments';
+import removeUploadFilesButton from './features/remove-upload-files-button';
 import scrollToTopOnCollapse from './features/scroll-to-top-on-collapse';
 import removeDiffSigns from './features/remove-diff-signs';
 import * as linkifyBranchRefs from './features/linkify-branch-refs';
@@ -125,6 +126,7 @@ function onDomReady() {
 
 function ajaxedPagesHandler() {
 	safely(hideEmptyMeta);
+	safely(removeUploadFilesButton);
 	safely(addTitleToEmojis);
 	safely(enableCopyOnY.destroy);
 
