@@ -37,7 +37,12 @@ export default async function () {
 		} else {
 			request = fetchStatus();
 		}
-		select('.pagehead h1').append(await request);
+		
+		// Append to title (aware of forks and private repos)
+		select(`
+			.pagehead h1:not(.private) [itemprop=name],
+			.pagehead .private .Label
+		`).after(await request);
 	} catch (err) {
 		// Network failure or no CI status found.
 		// Don’t try again
