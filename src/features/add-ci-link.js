@@ -37,7 +37,7 @@ export default async function () {
 		} else {
 			request = fetchStatus();
 		}
-		
+
 		// Append to title (aware of forks and private repos)
 		select(`
 			.pagehead h1:not(.private) [itemprop=name],
