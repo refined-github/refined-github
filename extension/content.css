@@ -150,9 +150,10 @@
 		top: -1000px;
 	}
 }
-.account-switcher button {
+.account-switcher .select-menu-button {
 	width: 100%;
 	margin-bottom: 15px;
+	text-align: center;
 }
 .account-switcher .select-menu-button-gravatar {
 	float: none !important;
