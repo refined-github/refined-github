@@ -1,4 +1,4 @@
-# <img src="extension/icon.png" width="45" align="left"> Refined GitHub [![Chrome version][badge-cws]][link-cws] [![Firefox version][badge-amo]][link-amo] [![Deployment][badge-travis]][link-travis]
+# <img src="src/icon.png" width="45" align="left"> Refined GitHub [![Chrome version][badge-cws]][link-cws] [![Firefox version][badge-amo]][link-amo] [![Deployment][badge-travis]][link-travis]
 
 [badge-cws]: https://img.shields.io/chrome-web-store/v/hlepfoohegkhhmjieoechaddaejaokhf.svg?label=chrome
 [badge-amo]: https://img.shields.io/amo/v/refined-github-.svg?label=firefox
@@ -148,7 +148,7 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 - Shows the reactions popover on hover instead of click
 - Changes the default sort order of milestones to "Closest due date"
 
-And [lots](extension/content.css) [more...](src/content.js)
+And [lots](src/content.css) [more...](src/content.js)
 
 ### More shortcuts
 

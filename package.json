@@ -61,9 +61,6 @@
 				}
 			]
 		},
-		"ignores": [
-			"extension/**"
-		],
 		"globals": [
 			"browser"
 		]
@@ -71,9 +68,6 @@
 	"ava": {
 		"files": [
 			"test/*.js"
-		],
-		"source": [
-			"extension/*.js"
 		],
 		"require": [
 			"babel-register"
