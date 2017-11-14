@@ -1,4 +1,3 @@
 node_modules
 yarn.lock
-extension/**/*.js
-extension/**/*.map
+extension
