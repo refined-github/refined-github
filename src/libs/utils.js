@@ -39,6 +39,28 @@ export const safeElementReady = selector => {
 	return waiting.catch(() => null);
 };
 
+/**
+ * Append to an element, but before a element that might not exist.
+ * @param  {Element|string} parent  Element (or its selector) to which append the `child`
+ * @param  {string}         before  Selector of the element that `child` should be inserted before
+ * @param  {Element}        child   Element to append
+ * @example
+ *
+ * <parent>
+ *   <yes/>
+ *   <oui/>
+ *   <nope/>
+ * </parent>
+ *
+ * appendBefore('parent', 'nope', <sì/>);
+ *
+ * <parent>
+ *   <yes/>
+ *   <oui/>
+ *   <sì/>
+ *   <nope/>
+ * </parent>
+ */
 export const appendBefore = (parent, before, child) => {
 	if (typeof parent === 'string') {
 		parent = select(parent);
