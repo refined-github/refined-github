@@ -2,6 +2,7 @@ import select from 'select-dom';
 import {h} from 'dom-chef';
 import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
+import {appendBefore} from '../libs/utils';
 
 const repoUrl = pageDetect.getRepoURL();
 
@@ -10,10 +11,7 @@ export default function () {
 		return;
 	}
 
-	// Last tab, but before settings
-	const insertionPoint = select.all('.reponav-item:not([href$="settings"])').pop();
-
-	insertionPoint.after(
+	appendBefore('.reponav', '[href$="settings"]',
 		<div class="reponav-dropdown js-menu-container refined-github-more">
 			<button type="button" class="btn-link reponav-item reponav-dropdown js-menu-target " data-no-toggle aria-expanded="false" aria-haspopup="true">More {icons.triangleDown()}</button>
 			<div class="dropdown-menu-content js-menu-content">
