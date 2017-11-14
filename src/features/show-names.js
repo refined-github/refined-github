@@ -15,10 +15,10 @@ const getCachedUsers = async () => {
 const fetchName = async username => {
 	// /following/you_know is the lightest page we know
 	// location.origin is required for Firefox #490
-	const pageHTML = await fetch(`${location.origin}/${username}/following`)
-		.then(res => res.text());
+	const response = await fetch(`${location.origin}/${username}/following`);
+	const dom = domify(await response.text());
 
-	const el = domify(pageHTML).querySelector('h1 strong');
+	const el = dom.querySelector('h1 strong');
 
 	// The full name might not be set
 	const fullname = el && el.textContent.slice(1, -1);
