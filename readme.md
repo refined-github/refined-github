@@ -240,10 +240,10 @@ Once built, load it in the browser of your choice:
 - [OctoEdit](https://github.com/DrewML/OctoEdit) - Markdown syntax highlighting in comments
 - [GitHub Custom Tab Size](https://github.com/lukechilds/github-custom-tab-size) - Set custom tab size for code views *(Refined GitHub hard-codes it to 4)*
 - [Show All GitHub Issues](https://github.com/sindresorhus/show-all-github-issues) - Shows both Issues and Pull Requests in the Issues tab
+- [Notifications Preview for GitHub](https://github.com/tanmayrajani/notifications-preview-github) - See your notifications on hover on all pages
 
 Want more? Here are some ideas you could develop!
 
-- [Notification Previews for GitHub](https://github.com/sindresorhus/module-requests/issues/100)
 - [Format JS code blocks with Prettier](https://github.com/sindresorhus/module-requests/issues/99)
 - [Customize the font of code blocks](https://github.com/sindresorhus/module-requests/issues/97)
 
