@@ -39,6 +39,20 @@ export const safeElementReady = selector => {
 	return waiting.catch(() => null);
 };
 
+export const appendBefore = (parent, before, child) => {
+	if (typeof parent === 'string') {
+		parent = select(parent);
+	}
+
+	// Select direct children only
+	before = select(`:scope > ${before}`, parent);
+	if (before) {
+		before.before(child);
+	} else {
+		parent.append(child);
+	}
+};
+
 export const observeEl = (el, listener, options = {childList: true}) => {
 	if (typeof el === 'string') {
 		el = select(el);

@@ -1,6 +1,7 @@
 import select from 'select-dom';
 import domify from '../libs/domify';
 import {getRepoURL} from '../libs/page-detect';
+import {appendBefore} from '../libs/utils';
 
 // This var will be:
 // - undefined on first load
@@ -39,10 +40,7 @@ export default async function () {
 		}
 
 		// Append to title (aware of forks and private repos)
-		select(`
-			.pagehead h1:not(.private) [itemprop=name],
-			.pagehead .private .Label
-		`).after(await request);
+		appendBefore('.pagehead h1', '.fork-flag', await request);
 	} catch (err) {
 		// Network failure or no CI status found.
 		// Don’t try again
