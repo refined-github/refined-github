@@ -229,17 +229,17 @@ Once built, load it in the browser of your choice:
 
 ## Related
 
-- [Notifier for GitHub](https://github.com/sindresorhus/notifier-for-github-chrome) - Shows your notification unread count
-- [Hide Files on GitHub](https://github.com/sindresorhus/hide-files-on-github) - Hides dotfiles from the file browser
-- [Show All GitHub Issues](https://github.com/sindresorhus/show-all-github-issues) - Shows both Issues and Pull Requests in the Issues tab
-- [Contributors on GitHub](https://github.com/hzoo/contributors-on-github) - Shows stats about contributors
-- [Twitter for GitHub](https://github.com/bevacqua/twitter-for-github) - Shows a user's Twitter handle on their profile page
-- [GifHub](https://github.com/DrewML/GifHub) - Quickly insert GIFs in comments
-- [Octo Linker](https://github.com/octo-linker/chrome-extension/) - Navigate across files and packages
 - [Awesome browser extensions for GitHub](https://github.com/stefanbuck/awesome-browser-extensions-for-github) - Awesome list
-- [OctoEdit](https://github.com/DrewML/OctoEdit) - Markdown syntax highlighting in comments
+- [Octo Linker](https://github.com/octo-linker/chrome-extension/) - Navigate across files and packages
+- [Notifier for GitHub](https://github.com/sindresorhus/notifier-for-github-chrome) - Shows your notification unread count
 - [Do Not Merge WIP for GitHub](https://github.com/sanemat/do-not-merge-wip-for-github) - Prevents merging of incomplete PRs
+- [Contributors on GitHub](https://github.com/hzoo/contributors-on-github) - Shows stats about contributors
+- [GifHub](https://github.com/DrewML/GifHub) - Quickly insert GIFs in comments
+- [Hide Files on GitHub](https://github.com/sindresorhus/hide-files-on-github) - Hides dotfiles from the file browser
+- [Twitter for GitHub](https://github.com/bevacqua/twitter-for-github) - Shows a user's Twitter handle on their profile page
+- [OctoEdit](https://github.com/DrewML/OctoEdit) - Markdown syntax highlighting in comments
 - [GitHub Custom Tab Size](https://github.com/lukechilds/github-custom-tab-size) - Set custom tab size for code views *(Refined GitHub hard-codes it to 4)*
+- [Show All GitHub Issues](https://github.com/sindresorhus/show-all-github-issues) - Shows both Issues and Pull Requests in the Issues tab
 
 Want more? Here are some ideas you could develop!
 
