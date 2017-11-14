@@ -229,7 +229,6 @@ Once built, load it in the browser of your choice:
 
 ## Related
 
-- [Refined Wikipedia](https://github.com/ismamz/refined-wikipedia) - Like this, but for Wikipedia
 - [Notifier for GitHub](https://github.com/sindresorhus/notifier-for-github-chrome) - Shows your notification unread count
 - [Hide Files on GitHub](https://github.com/sindresorhus/hide-files-on-github) - Hides dotfiles from the file browser
 - [Show All GitHub Issues](https://github.com/sindresorhus/show-all-github-issues) - Shows both Issues and Pull Requests in the Issues tab
@@ -239,7 +238,6 @@ Once built, load it in the browser of your choice:
 - [Octo Linker](https://github.com/octo-linker/chrome-extension/) - Navigate across files and packages
 - [Awesome browser extensions for GitHub](https://github.com/stefanbuck/awesome-browser-extensions-for-github) - Awesome list
 - [OctoEdit](https://github.com/DrewML/OctoEdit) - Markdown syntax highlighting in comments
-- [GitHub Clean Feed](https://github.com/bfred-it/github-clean-feed) - Group news feed events by repo
 - [Do Not Merge WIP for GitHub](https://github.com/sanemat/do-not-merge-wip-for-github) - Prevents merging of incomplete PRs
 - [GitHub Custom Tab Size](https://github.com/lukechilds/github-custom-tab-size) - Set custom tab size for code views *(Refined GitHub hard-codes it to 4)*
 
