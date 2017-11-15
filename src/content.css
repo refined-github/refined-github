@@ -669,6 +669,17 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 	padding: 2px 3px 3px 3px !important;
 }
 
+/* Show approvals count in PR list */
+.js-issue-row .text-gray [href$="#partial-pull-merging"] {
+	font-size: 0;
+}
+.js-issue-row .text-gray [href$="#partial-pull-merging"]::before {
+	all: unset;
+	content: attr(aria-label);
+	display: inline !important;
+	font-size: 12px;
+}
+
 /* Fix for GHE More Dropdown positioning */
 .reponav-dropdown.active .dropdown-menu {
 	left: auto !important;
