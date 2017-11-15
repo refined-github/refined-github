@@ -484,11 +484,8 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 Show reaction list when hovering over:
 - Popover
 - Add Reactions button
-Hidden content area created to increase hover target
 */
-.dropdown-menu.add-reaction-popover:hover,
-.reaction-popover-container.dropdown:hover .dropdown-menu-content,
-.dropdown-menu-content:hover {
+.reaction-popover-container.dropdown:hover .dropdown-menu-content {
 	display: block;
 	pointer-events: all;
 }
