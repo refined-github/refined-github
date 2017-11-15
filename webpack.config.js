@@ -16,6 +16,10 @@ module.exports = {
 		}),
 		new webpack.optimize.ModuleConcatenationPlugin(),
 		new CopyWebpackPlugin([{
+			from: '*',
+			context: 'src',
+			ignore: '*.js'
+		}, {
 			from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js'
 		}, {
 			from: 'node_modules/jquery/dist/jquery.slim.min.js'
