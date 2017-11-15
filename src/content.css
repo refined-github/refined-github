@@ -454,6 +454,32 @@ we will add it back on for the simple news alerts we decide to show
 	z-index: -1;
 }
 
+/* Center reactions popup and its triangle */
+.add-reaction-popover,
+.add-reaction-popover::before,
+.add-reaction-popover::after  {
+	transform: translate(-50%) !important;
+	left: 50% !important;
+	right: auto !important;
+}
+
+/*
+Undo reactions popup centering in split file view on the right.
+The popup is clipped on the right otherwise.
+The selector considers
+- Unified view (skipped)
+- Split view with comment on the left only (skipped)
+- Split view with comment on the right only
+- Split view with comments on the left and right
+*/
+td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover {
+	left: -15px !important;
+}
+td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::before,
+td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::after {
+	left: 140px !important;
+}
+
 /*
 Show reaction list when hovering over:
 - Popover
@@ -470,15 +496,6 @@ Hidden content area created to increase hover target
 /* Never show loading spinner for reactions */
 .reaction-popover-container .reaction-popover-form .loading-spinner {
 	display: none !important;
-}
-
-/* Move popup arrow point to center of popup */
-.reaction-popover-container.dropdown .dropdown-menu-sw.dropdown-menu::before,
-.reaction-popover-container.dropdown .dropdown-menu-sw.dropdown-menu::after,
-.reaction-popover-container.dropdown .dropdown-menu-ne.dropdown-menu::before,
-.reaction-popover-container.dropdown .dropdown-menu-ne.dropdown-menu::after {
-	left: 102px; /* 220px / 2 - 8px for popover arrow */
-	right: auto;
 }
 
 /* Add colored button when hovering over reaction popover or hidden hover element */
