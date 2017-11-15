@@ -498,7 +498,6 @@ Show reaction list when hovering over:
 /* Add colored button when hovering over reaction popover or hidden hover element */
 .reaction-popover-container:hover .timeline-comment-action {
 	color: #4078c0;
-	text-decoration: none;
 	opacity: 1;
 }
 
