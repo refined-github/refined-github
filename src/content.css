@@ -443,25 +443,15 @@ we will add it back on for the simple news alerts we decide to show
 	display: none;
 }
 
-/*
-Create invisible content area below/above reactions popover to increase hover target
-Center popup on add reactions button
-*/
-.reaction-popover-container.dropdown .dropdown-menu-content {
-	margin-top: -15px;
+/* Increase reaction popover hitbox area to avoid involuntary closes */
+.reaction-popover-form:before {
+	content: '';
 	position: absolute;
-	left: -94px;
-	width: 220px;
-	height: 15px;
-}
-
-/*
-Remove margin-top from invisible hover target for popover below comment content
-Add some space below popup so it doesn't cover button
-*/
-.comment-reactions .reaction-popover-container.dropdown .dropdown-menu-content {
-	margin-top: 0;
-	bottom: 20px;
+	top: -20px;
+	right: -10px;
+	bottom: -20px;
+	left: -10px;
+	z-index: -1;
 }
 
 /*
@@ -475,12 +465,6 @@ Hidden content area created to increase hover target
 .dropdown-menu-content:hover {
 	display: block;
 	pointer-events: all;
-}
-
-/* Remove top/bottom margin from popovers so there's no gap with invisible hover element */
-.reaction-popover-container.dropdown .dropdown-menu.add-reaction-popover {
-	margin-top: 0;
-	margin-bottom: 0;
 }
 
 /* Never show loading spinner for reactions */
