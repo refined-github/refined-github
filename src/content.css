@@ -1,3 +1,8 @@
+:root {
+	--github-green: #28a745;
+	--github-red: #cb2431;
+}
+
 .subscribe-feed {
 	display: none !important;
 }
@@ -678,6 +683,12 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 	content: attr(aria-label);
 	display: inline !important;
 	font-size: 12px;
+}
+.js-issue-row .text-gray [href$="#partial-pull-merging"][aria-label*="approval"]::before {
+	color: var(--github-green);
+}
+.js-issue-row .text-gray [href$="#partial-pull-merging"][aria-label*="changes"]::before {
+	color: var(--github-red);
 }
 
 /* Fix for GHE More Dropdown positioning */
