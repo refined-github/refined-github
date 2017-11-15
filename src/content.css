@@ -65,6 +65,8 @@
 .js-zeroclipboard:after,
 .rgh-tooltipped:before,
 .rgh-tooltipped:after,
+.issue-link:before,
+.issue-link:after,
 .avatar:before,
 .avatar:after {
 	display: inline-block !important;
