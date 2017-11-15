@@ -87,7 +87,8 @@ async function init() {
 	// See #522
 	// $(document).on('copy', '.markdown-body', copyMarkdown);
 
-	domLoaded.then(onDomReady);
+	await domLoaded;
+	onDomReady();
 }
 
 function onDomReady() {

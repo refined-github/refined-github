@@ -13,9 +13,10 @@ export default async function () {
 	const codeTabURL = select('[data-hotkey="g c"]').href;
 	const fragmentURL = `/${repoUrl}/show_partial?partial=tree%2Frecently_touched_branches_list`;
 
-	const html = await fetch(codeTabURL, {
+	const response = await fetch(codeTabURL, {
 		credentials: 'include'
-	}).then(res => res.text());
+	});
+	const html = await response.text();
 
 	// https://github.com/sindresorhus/refined-github/issues/216
 	if (html.includes(fragmentURL)) {

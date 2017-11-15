@@ -29,13 +29,11 @@ export function inPR() {
 	}
 }
 
-export function inQuickPR() {
-	safeElementReady('.branch-name').then(el => {
-		if (!el) {
-			return;
-		}
+export async function inQuickPR() {
+	const el = await safeElementReady('.branch-name');
+	if (el) {
 		const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
 		const branchUrl = `/${ownerName}/${repoName}/tree/${el.textContent}`;
 		$(el).closest('.branch-name').wrap(<a href={branchUrl}></a>);
-	});
+	}
 }

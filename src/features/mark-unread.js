@@ -328,10 +328,11 @@ function updateLocalParticipatingCount() {
 
 async function setup() {
 	storage = await new SynchronousStorage(
-		() => {
-			return browser.storage.local.get({
+		async () => {
+			const storage = await browser.storage.local.get({
 				unreadNotifications: []
-			}).then(storage => storage.unreadNotifications);
+			});
+			return storage.unreadNotifications;
 		},
 		unreadNotifications => {
 			return browser.storage.local.set({unreadNotifications});

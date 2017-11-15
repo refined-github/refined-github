@@ -10,9 +10,10 @@ let request;
 
 async function fetchStatus() {
 	const url = `${location.origin}/${getRepoURL()}/commits/`;
-	const dom = await fetch(url, {
+	const response = await fetch(url, {
 		credentials: 'include'
-	}).then(r => r.text()).then(domify);
+	});
+	const dom = domify(await response.text());
 
 	const icon = select('.commit-build-statuses', dom);
 

@@ -1,4 +1,5 @@
-export default endpoint => {
+export default async endpoint => {
 	const api = location.hostname === 'github.com' ? 'https://api.github.com/' : `${location.origin}/api/`;
-	return fetch(api + endpoint).then(res => res.json());
+	const response = await fetch(api + endpoint);
+	return response.json();
 };
