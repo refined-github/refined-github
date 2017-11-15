@@ -1,6 +1,7 @@
 import select from 'select-dom';
 import domify from '../libs/domify';
 import {getRepoURL} from '../libs/page-detect';
+import {appendBefore} from '../libs/utils';
 
 // This var will be:
 // - undefined on first load
@@ -38,7 +39,9 @@ export default async function () {
 		} else {
 			request = fetchStatus();
 		}
-		select('.pagehead h1').append(await request);
+
+		// Append to title (aware of forks and private repos)
+		appendBefore('.pagehead h1', '.fork-flag', await request);
 	} catch (err) {
 		// Network failure or no CI status found.
 		// Don’t try again
