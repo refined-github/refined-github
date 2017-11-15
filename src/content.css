@@ -57,8 +57,8 @@
 
 .notification-actions .tooltipped:before,
 .notification-actions .tooltipped:after,
-.reaction-summary-item:before,
-.reaction-summary-item:after,
+[aria-label~="reacted with"]:before,
+[aria-label~="reacted with"]:after,
 .avatar-group-item:before,
 .avatar-group-item:after,
 .js-zeroclipboard:before,
@@ -441,12 +441,6 @@ we will add it back on for the simple news alerts we decide to show
 .reaction-popover-form.js-pick-reaction span.js-reaction-description,
 .reaction-popover-form.js-pick-reaction .dropdown-divider {
 	display: none;
-}
-
-/* Remove "Add your Reaction" tooltips */
-.reaction-popover-container .tooltipped::before,
-.reaction-popover-container .tooltipped::after {
-	display: none !important;
 }
 
 /*
