@@ -50,6 +50,7 @@ import focusConfirmationButtons from './features/focus-confirmation-buttons';
 import addKeyboardShortcutsToCommentFields from './features/add-keyboard-shortcuts-to-comment-fields';
 import addConfirmationToCommentCancellation from './features/add-confirmation-to-comment-cancellation';
 import addCILink from './features/add-ci-link';
+import embedGistInline from './features/embed-gist-inline';
 
 import * as pageDetect from './libs/page-detect';
 import {observeEl, safeElementReady, safely} from './libs/utils';
@@ -160,6 +161,7 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
 		safely(linkifyIssuesInTitles);
 		safely(addUploadBtn);
+		safely(embedGistInline);
 
 		observeEl('.new-discussion-timeline', () => {
 			safely(addOPLabels);
