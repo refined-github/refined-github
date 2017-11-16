@@ -1,4 +1,5 @@
 import OptionsSync from 'webext-options-sync';
+import DPT from 'webext-domain-permission-toggle';
 import DCS from 'webext-dynamic-content-scripts';
 
 // Define defaults
@@ -26,33 +27,5 @@ browser.runtime.onMessage.addListener(async message => {
 });
 
 // GitHub Enterprise support
-
-browser.contextMenus.create({
-	id: 'enable-extension-on-new-domain',
-	title: 'Enable Refined GitHub on this domain',
-	contexts: ['page_action'],
-	documentUrlPatterns: [
-		'http://*/*',
-		'https://*/*'
-	]
-});
-
-browser.contextMenus.onClicked.addListener(async ({menuItemId}, {tabId, url}) => {
-	/* eslint-disable no-alert */
-	/* global chrome */
-	if (menuItemId === 'enable-extension-on-new-domain') {
-		/* API not yet supported by webext-polyfill mozilla/webextension-polyfill#38 */
-		chrome.permissions.request({
-			origins: [
-				`${new URL(url).origin}/*`
-			]
-		}, granted => {
-			if (chrome.runtime.lastError) {
-				alert(`Error: ${chrome.runtime.lastError.message}`);
-			} else if (granted && confirm('Do you want to reload this page to apply Refined GitHub?')) {
-				chrome.tabs.reload(tabId);
-			}
-		});
-	}
-});
 DCS.addToFutureTabs();
+DPT.addContextMenu();
