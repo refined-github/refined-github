@@ -192,11 +192,6 @@ a .commit-ref:hover span {
 	text-decoration: inherit;
 }
 
-/* Remove the "new feature" notification box */
-.dashboard-sidebar .octofication {
-	display: none !important;
-}
-
 /* Remove useless tip in the organization news feed */
 #dashboard .alert.git_hub {
 	display: none !important;
