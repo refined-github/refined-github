@@ -49,7 +49,7 @@ browser.contextMenus.onClicked.addListener(async ({menuItemId}, {tabId, url}) =>
 		}, granted => {
 			if (chrome.runtime.lastError) {
 				alert(`Error: ${chrome.runtime.lastError}`);
-			} else if (granted && confirm('Reload this page to apply Refined GitHub?')) {
+			} else if (granted && confirm('Do you want to reload this page to apply Refined GitHub?')) {
 				chrome.tabs.reload(tabId);
 			}
 		});
