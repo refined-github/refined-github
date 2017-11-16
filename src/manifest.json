@@ -13,7 +13,8 @@
 	},
 	"permissions": [
 		"storage",
-		"clipboardWrite"
+		"clipboardWrite",
+		"contextMenus"
 	],
 	"optional_permissions": [
 		"http://*/*",
