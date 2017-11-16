@@ -1,5 +1,5 @@
 import OptionsSync from 'webext-options-sync';
-import injectContentScripts from 'webext-dynamic-content-scripts';
+import DCS from 'webext-dynamic-content-scripts';
 
 // Define defaults
 new OptionsSync().define({
@@ -26,7 +26,6 @@ browser.runtime.onMessage.addListener(async message => {
 });
 
 // GitHub Enterprise support
-injectContentScripts();
 
 browser.contextMenus.create({
 	id: 'enable-extension-on-new-domain',
@@ -56,3 +55,4 @@ browser.contextMenus.onClicked.addListener(async ({menuItemId}, {tabId, url}) =>
 		});
 	}
 });
+DCS.addToFutureTabs();

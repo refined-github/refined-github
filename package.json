@@ -26,7 +26,7 @@
 		"shorten-repo-url": "^1.1.0",
 		"to-markdown": "^3.1.0",
 		"to-semver": "^1.1.0",
-		"webext-dynamic-content-scripts": "^3.0.0",
+		"webext-dynamic-content-scripts": "^5.0.0-0",
 		"webext-options-sync": "^0.12.0",
 		"webextension-polyfill": "^0.2.1"
 	},
