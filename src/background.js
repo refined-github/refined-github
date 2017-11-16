@@ -42,6 +42,7 @@ browser.contextMenus.onClicked.addListener(async ({menuItemId}, {tabId, url}) =>
 	/* eslint-disable no-alert */
 	/* global chrome */
 	if (menuItemId === 'enable-extension-on-new-domain') {
+		/* API not yet supported by webext-polyfill mozilla/webextension-polyfill#38 */
 		chrome.permissions.request({
 			origins: [
 				`${new URL(url).origin}/*`
