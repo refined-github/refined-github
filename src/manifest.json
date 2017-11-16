@@ -18,7 +18,9 @@
 		"activeTab"
 	],
 	"browser_action": {
-		"default_icon": "icon.png"
+		"default_icon": "icon.png",
+		"default_popup": "options.html",
+		"browser_style": true
 	},
 	"optional_permissions": [
 		"http://*/*",
