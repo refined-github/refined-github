@@ -23,21 +23,6 @@ export const groupBy = (iterable, grouper) => {
 };
 
 /**
- * Naively promisify chrome.* APIs when they're not supported by webext-polyfill.
- * Note: always prefer pre-Promisified browser.* APIs
- */
-export const promisifyChromeAPI = async (fn, ...args) => {
-	/* global chrome */
-	return new Promise((resolve, reject) => fn(...args, r => {
-		if (chrome.runtime.lastError) {
-			reject(chrome.runtime.lastError);
-		} else {
-			resolve(r);
-		}
-	}));
-};
-
-/**
  * Automatically stops checking for an element to appear once the DOM is ready.
  */
 export const safeElementReady = selector => {
