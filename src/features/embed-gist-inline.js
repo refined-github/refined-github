@@ -8,7 +8,7 @@ const getGistData = href => fetch(getJsonUrl(href)).then(response => response.js
 
 const createGistElement = gistData => {
 	const el = document.createElement('div');
-	const style = `<link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist-embed-3cc724162479db25e452fdf621f2349adef3e742b53552c2a93f82d28156cb96.css" />`;
+	const style = `<link rel="stylesheet" href="${gistData.stylesheet}">`;
 	el.innerHTML = style + gistData.div;
 	return el;
 };
@@ -18,12 +18,12 @@ export default async () => {
 		.all('.js-comment-body p a[href^="https://gist.github.com"]:only-child')
 		.filter(isGist);
 
-	gistLinks.forEach(async link => {
+	for (let link of gistLinks) {
 		try {
 			const gistData = await getGistData(link.href);
 			const gistEl = createGistElement(gistData);
 			const linkParent = link.parentNode;
 			linkParent.parentNode.replaceChild(gistEl, linkParent);
-		} catch (e) {}
-	});
+		} catch (err) {}
+	}
 };
