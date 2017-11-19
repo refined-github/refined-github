@@ -14,6 +14,8 @@ export default () => {
 		addTooltip(button);
 		button.addEventListener('click', e => {
 			if (e[metaKey]) {
+				const parentElement = e.target.parentNode;
+				const viewportOffset = parentElement.getBoundingClientRect().top;
 				if (e.target.classList.contains('show-outdated-button')) {
 					select.all('.outdated-comment:not(.open) .show-outdated-button').forEach(button => {
 						if (button !== e.target) {
@@ -27,6 +29,11 @@ export default () => {
 						}
 					});
 				}
+				// Scroll to the original position where the click occurred. Needs small delay (paint is not finished)
+				setTimeout(() => {
+					const offsetTop = $(parentElement).offset().top - viewportOffset;
+					window.scroll(0, offsetTop);
+				}, 5);
 			}
 		});
 	});
