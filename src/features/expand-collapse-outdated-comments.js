@@ -29,11 +29,11 @@ export default () => {
 						}
 					});
 				}
-				// Scroll to the original position where the click occurred. Needs small delay (paint is not finished)
-				setTimeout(() => {
+				// Scroll to original position where the click occurred after the rendering of all click events is done
+				requestAnimationFrame(() => {
 					const offsetTop = $(parentElement).offset().top - viewportOffset;
 					window.scroll(0, offsetTop);
-				}, 5);
+				});
 			}
 		});
 	});
