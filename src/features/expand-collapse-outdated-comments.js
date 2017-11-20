@@ -1,10 +1,7 @@
 import select from 'select-dom';
-import {isMac, metaKey} from '../libs/utils';
-
-const keyName = isMac ? 'Alt' : 'Ctrl';
 
 function addTooltip(button) {
-	button.setAttribute('aria-label', keyName + ' + click to expand/collapse all outdated comments');
+	button.setAttribute('aria-label', 'Alt + click to expand/collapse all outdated comments');
 	button.classList.add('tooltipped', 'tooltipped-n');
 }
 
@@ -13,7 +10,7 @@ export default () => {
 	showOutdatedButtons.forEach(button => {
 		addTooltip(button);
 		button.addEventListener('click', e => {
-			if (e[metaKey]) {
+			if (e.altKey) {
 				const parentElement = e.target.parentNode;
 				const viewportOffset = parentElement.getBoundingClientRect().top;
 				if (e.target.classList.contains('show-outdated-button')) {
