@@ -1,3 +1,4 @@
+import {h} from 'dom-chef';
 import select from 'select-dom';
 
 const gistRegex = /gist\.github\.com\/\w*?\/\w*/;
@@ -7,9 +8,12 @@ const getJsonUrl = href => `${href}.json`.replace(/\.jso?n?\.json$/, '.json');
 const getGistData = href => fetch(getJsonUrl(href)).then(response => response.json());
 
 const createGistElement = gistData => {
-	const el = document.createElement('div');
-	const style = `<link rel="stylesheet" href="${gistData.stylesheet}">`;
-	el.innerHTML = style + gistData.div;
+	const el = (
+		<div>
+			<link rel="stylesheet" href={gistData.stylesheet}/>
+			<div dangerouslySetInnerHTML={{__html: gistData.div}} />
+		</div>
+	);
 	return el;
 };
 
