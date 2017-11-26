@@ -17,7 +17,12 @@
 	display: none !important;
 }
 
-/* Match the width of the account switcher modal to that of the user repo list */
+/* Match context switcher's width to the width of the containers below it */
+.dashboard-sidebar .select-menu {
+	width: 100%;
+}
+
+/* Match context switcher modal's width to that of the user repo list */
 .dashboard-sidebar .select-menu-modal {
 	margin: 0;
 	width: 313px;
