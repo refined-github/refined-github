@@ -10,7 +10,7 @@ const getGistData = href => fetch(getJsonUrl(href)).then(response => response.js
 const createGistElement = gistData => {
 	const el = (
 		<div>
-			<link rel="stylesheet" href={gistData.stylesheet}/>
+			<link rel="stylesheet" href={gistData.stylesheet} />
 			<div dangerouslySetInnerHTML={{__html: gistData.div}} />
 		</div>
 	);
