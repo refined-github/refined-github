@@ -47,7 +47,7 @@ export default () => {
 	if (form) {
 		// If GH hasn't loaded the JS,
 		// the fake click will submit the form without ajax.
-		form.addEventListener('submit', e => e.preventDefault());
+		form.addEventListener('submit', event => event.preventDefault());
 		newsfeedObserver = observeEl('#dashboard .news', findButton);
 	}
 };

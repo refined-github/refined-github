@@ -7,20 +7,20 @@ function addTooltip(button) {
 
 export default () => {
 	const showOutdatedButtons = select.all('.show-outdated-button, .hide-outdated-button');
-	$('.js-discussion').on('click', '.show-outdated-button, .hide-outdated-button', e => {
-		if (e.altKey) {
-			const parentElement = e.target.parentNode;
+	$('.js-discussion').on('click', '.show-outdated-button, .hide-outdated-button', event => {
+		if (event.altKey) {
+			const parentElement = event.target.parentNode;
 			const viewportOffset = parentElement.getBoundingClientRect().top;
 
 			let buttons;
-			if (e.target.classList.contains('show-outdated-button')) {
+			if (event.target.classList.contains('show-outdated-button')) {
 				buttons = select.all('.outdated-comment:not(.open) .show-outdated-button');
 			} else {
 				buttons = select.all('.outdated-comment.open .hide-outdated-button');
 			}
 
 			for (const button of buttons) {
-				if (button !== e.target) {
+				if (button !== event.target) {
 					button.click();
 				}
 			}
