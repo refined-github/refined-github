@@ -397,16 +397,13 @@ we will add it back on for the simple news alerts we decide to show
 }
 
 .reaction-summary-item {
+	--background: #fff;
+
+	display: flex !important;
+	align-items: center;
+
 	padding-left: 10px !important;
 	padding-right: 10px !important;
-}
-
-.reaction-summary-item.add-reaction-btn {
-	padding-right: 0 !important;
-}
-
-.reaction-summary-item {
-	--background: #FFF;
 }
 
 .reaction-summary-item.user-has-reacted {
@@ -432,6 +429,14 @@ we will add it back on for the simple news alerts we decide to show
 	max-width: 100%;
 	background-color: var(--background);
 	border-radius: inherit;
+}
+
+.comment .add-reaction-btn {
+	padding: 10px 15px !important;
+}
+
+.review-comment .add-reaction-btn {
+	padding: 6px 10px !important;
 }
 
 /* Overlap reaction avatars when there are 5+ types of reactions */
