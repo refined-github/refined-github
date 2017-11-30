@@ -1,5 +1,6 @@
 import OptionsSync from 'webext-options-sync';
-import injectContentScripts from 'webext-dynamic-content-scripts';
+import domainPermissionToggle from 'webext-domain-permission-toggle';
+import dynamicContentScripts from 'webext-dynamic-content-scripts';
 
 // Define defaults
 new OptionsSync().define({
@@ -26,4 +27,5 @@ browser.runtime.onMessage.addListener(async message => {
 });
 
 // GitHub Enterprise support
-injectContentScripts();
+dynamicContentScripts.addToFutureTabs();
+domainPermissionToggle.addContextMenu();
