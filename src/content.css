@@ -393,7 +393,7 @@ we will add it back on for the simple news alerts we decide to show
 
 /* Styles for avatars Refined GitHub adds to Reactions */
 .rgh-reactions a:first-of-type {
-	margin-left: 4px;
+	margin-left: 8px;
 }
 
 .reaction-summary-item {
@@ -401,13 +401,14 @@ we will add it back on for the simple news alerts we decide to show
 
 	display: flex !important;
 	align-items: center;
-
-	padding-left: 10px !important;
-	padding-right: 10px !important;
 }
 
 .reaction-summary-item.user-has-reacted {
 	--background: #f2f8fa;
+}
+
+.comment .reaction-summary-item {
+	padding: 8px 12px !important;
 }
 
 .reaction-summary-item a {
