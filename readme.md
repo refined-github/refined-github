@@ -104,6 +104,7 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 
 ### New Features
 
+- [Collapse/expand all outdated pull request comments by pressing <kbd>Alt</kbd> while clicking](https://user-images.githubusercontent.com/25818354/33240033-3e271588-d2af-11e7-93af-13b6e325f65d.gif) 
 - Copy canonical link to file when [the <kbd>y</kbd> hotkey](https://help.github.com/articles/getting-permanent-links-to-files/) is used
 - Supports indenting with the tab key in textareas like the comment box (<kbd>Shift</kbd> <kbd>Tab</kbd> for original behavior)
 - [Uses the pull request title as commit title when merging with 'Squash and merge'](https://github.com/sindresorhus/refined-github/issues/276)

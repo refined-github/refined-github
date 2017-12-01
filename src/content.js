@@ -50,6 +50,7 @@ import focusConfirmationButtons from './features/focus-confirmation-buttons';
 import addKeyboardShortcutsToCommentFields from './features/add-keyboard-shortcuts-to-comment-fields';
 import addConfirmationToCommentCancellation from './features/add-confirmation-to-comment-cancellation';
 import addCILink from './features/add-ci-link';
+import expandCollapseOutdatedComments from './features/expand-collapse-outdated-comments';
 
 import * as pageDetect from './libs/page-detect';
 import {observeEl, safeElementReady, safely} from './libs/utils';
@@ -151,6 +152,7 @@ function ajaxedPagesHandler() {
 		safely(addDeleteForkLink);
 		safely(fixSquashAndMergeTitle);
 		safely(openCIDetailsInNewTab);
+		safely(expandCollapseOutdatedComments);
 	}
 
 	if (pageDetect.isQuickPR()) {
