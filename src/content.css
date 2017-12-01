@@ -675,20 +675,20 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 }
 
 /* Show approvals count in PR list */
-.js-issue-row .text-gray [href$="#partial-pull-merging"] {
+.js-issue-row .text-gray [aria-label*="approval"] {
 	font-size: 0;
 }
-.js-issue-row .text-gray [href$="#partial-pull-merging"]::before {
+.js-issue-row .text-gray [aria-label*="approval"]::before {
 	all: unset;
 	content: attr(aria-label);
 	display: inline !important;
 	font-size: 12px;
 }
-.js-issue-row .text-gray [href$="#partial-pull-merging"][aria-label*="approval"]::before {
+.js-issue-row .text-gray [aria-label*="approval"]::before {
 	color: var(--github-green);
 }
-.js-issue-row .text-gray [href$="#partial-pull-merging"][aria-label*="changes"]::before {
-	color: var(--github-red);
+.js-issue-row .text-gray [aria-label*="changes"] {
+	color: var(--github-red) !important;
 }
 
 /* Fix for GHE More Dropdown positioning */
