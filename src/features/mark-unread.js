@@ -359,10 +359,10 @@ async function setup() {
 			updateLocalNotificationsCount();
 			updateLocalParticipatingCount();
 			listeners.push(
-				...delegate('.js-mark-read', 'click', markNotificationRead),
-				...delegate('.js-mark-all-read', 'click', markAllNotificationsRead),
-				...delegate('.js-delete-notification button', 'click', updateUnreadIndicator),
-				...delegate('form[action="/notifications/mark"] button', 'click', () => {
+				delegate('.js-mark-read', 'click', markNotificationRead),
+				delegate('.js-mark-all-read', 'click', markAllNotificationsRead),
+				delegate('.js-delete-notification button', 'click', updateUnreadIndicator),
+				delegate('form[action="/notifications/mark"] button', 'click', () => {
 					storage.set([]);
 				})
 			);
