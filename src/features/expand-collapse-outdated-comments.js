@@ -1,8 +1,10 @@
 import select from 'select-dom';
 
-function addTooltip(button) {
-	button.setAttribute('aria-label', 'Alt + click to expand/collapse all outdated comments');
-	button.classList.add('rgh-tooltipped', 'tooltipped', 'tooltipped-n');
+function addTooltips() {
+	for (const button of select.all('.show-outdated-button, .hide-outdated-button')) {
+		button.setAttribute('aria-label', 'Alt + click to expand/collapse all outdated comments');
+		button.classList.add('rgh-tooltipped', 'tooltipped', 'tooltipped-n');
+	}
 }
 
 function handleClick(event) {
@@ -33,8 +35,5 @@ function handleClick(event) {
 
 export default function () {
 	$('.js-discussion').on('click', '.show-outdated-button, .hide-outdated-button', handleClick);
-
-	for (const button of select.all('.show-outdated-button, .hide-outdated-button')) {
-		addTooltip(button);
-	}
+	addTooltips();
 }
