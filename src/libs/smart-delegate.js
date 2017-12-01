@@ -4,9 +4,8 @@ import delegate from 'delegate';
 /**
  * Smart Delegate
  * Handles more types of input
- * @param {Element|CSS selector|Array} baseElement
+ * @param {Element|CSS selector|Array} [baseElement=document]
  *        The element where the delegating listener is attached
- *        (Optional, defaults to document)
  * @param {String} selector
  * @param {String} type
  * @param {Function} callback
