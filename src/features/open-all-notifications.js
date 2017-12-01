@@ -1,6 +1,6 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate';
+import delegate from '../libs/smart-delegate';
 import {isNotifications} from '../libs/page-detect';
 
 function openNotifications() {

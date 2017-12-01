@@ -1,7 +1,7 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate';
 import gitHubInjection from 'github-injection';
+import delegate from '../libs/smart-delegate';
 import SynchronousStorage from '../libs/synchronous-storage';
 import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
@@ -172,7 +172,7 @@ function renderNotifications() {
 		}
 
 		const list = select(`a.notifications-repo-link[title="${repository}"]`)
-			.closest('.js-notifications-browser')
+			.closest('.boxed-group')
 			.querySelector('ul.notifications');
 
 		const usernames = participants
@@ -219,7 +219,6 @@ function renderNotifications() {
 				</ul>
 			</li>
 		);
-
 		list.prepend(item);
 	});
 
@@ -360,10 +359,10 @@ async function setup() {
 			updateLocalNotificationsCount();
 			updateLocalParticipatingCount();
 			listeners.push(
-				delegate('.js-mark-read', 'click', markNotificationRead),
-				delegate('.js-mark-all-read', 'click', markAllNotificationsRead),
-				delegate('.js-delete-notification button', 'click', updateUnreadIndicator),
-				delegate('form[action="/notifications/mark"] button', 'click', () => {
+				...delegate('.js-mark-read', 'click', markNotificationRead),
+				...delegate('.js-mark-all-read', 'click', markAllNotificationsRead),
+				...delegate('.js-delete-notification button', 'click', updateUnreadIndicator),
+				...delegate('form[action="/notifications/mark"] button', 'click', () => {
 					storage.set([]);
 				})
 			);
@@ -380,6 +379,7 @@ function destroy() {
 	for (const listener of listeners) {
 		listener.destroy();
 	}
+	listeners.length = 0;
 	for (const button of select.all('.js-mark-unread')) {
 		button.remove();
 	}

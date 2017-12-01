@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import delegate from 'delegate';
+import delegate from '../libs/smart-delegate';
 
 function addTooltips() {
 	for (const button of select.all('.show-outdated-button, .hide-outdated-button')) {
@@ -10,7 +10,7 @@ function addTooltips() {
 
 function handleClick(event) {
 	if (event.altKey) {
-		const clickedButton = this;
+		const clickedButton = event.target;
 		const viewportOffset = clickedButton.parentNode.getBoundingClientRect().top;
 
 		let buttons;
@@ -35,11 +35,6 @@ function handleClick(event) {
 }
 
 export default function () {
-	delegate(
-		select('.js-discussion'),
-		'.show-outdated-button, .hide-outdated-button',
-		'click',
-		handleClick
-	);
+	delegate('.js-discussion', '.show-outdated-button, .hide-outdated-button', 'click', handleClick);
 	addTooltips();
 }

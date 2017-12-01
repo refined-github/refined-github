@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import delegate from 'delegate';
+import delegate from '../libs/smart-delegate';
 
 function indentInput(el, size = 4) {
 	const selection = window.getSelection().toString();

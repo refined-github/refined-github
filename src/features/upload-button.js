@@ -1,7 +1,7 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
-import delegate from 'delegate';
+import delegate from '../libs/smart-delegate';
 import {metaKey} from '../libs/utils';
 import * as icons from '../libs/icons';
 
