@@ -24,10 +24,11 @@ export default () => {
 					button.click();
 				}
 			}
+
 			// Scroll to original position where the click occurred after the rendering of all click events is done
 			requestAnimationFrame(() => {
-				const offsetTop = $(parentElement).offset().top - viewportOffset;
-				window.scroll(0, offsetTop);
+				const newOffset = parentElement.getBoundingClientRect().top;
+				window.scrollBy(0, newOffset - viewportOffset);
 			});
 		}
 	});
