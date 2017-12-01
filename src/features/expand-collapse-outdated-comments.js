@@ -7,25 +7,25 @@ function addTooltip(button) {
 
 function handleClick(event) {
 	if (event.altKey) {
-		const parentElement = event.target.parentNode;
-		const viewportOffset = parentElement.getBoundingClientRect().top;
+		const clickedButton = this;
+		const viewportOffset = clickedButton.parentNode.getBoundingClientRect().top;
 
 		let buttons;
-		if (event.target.classList.contains('show-outdated-button')) {
+		if (clickedButton.classList.contains('show-outdated-button')) {
 			buttons = select.all('.outdated-comment:not(.open) .show-outdated-button');
 		} else {
 			buttons = select.all('.outdated-comment.open .hide-outdated-button');
 		}
 
 		for (const button of buttons) {
-			if (button !== event.target) {
+			if (button !== clickedButton) {
 				button.click();
 			}
 		}
 
 		// Scroll to original position where the click occurred after the rendering of all click events is done
 		requestAnimationFrame(() => {
-			const newOffset = parentElement.getBoundingClientRect().top;
+			const newOffset = clickedButton.parentNode.getBoundingClientRect().top;
 			window.scrollBy(0, newOffset - viewportOffset);
 		});
 	}
