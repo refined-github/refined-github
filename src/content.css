@@ -1,3 +1,8 @@
+:root {
+	--github-green: #28a745;
+	--github-red: #cb2431;
+}
+
 .subscribe-feed {
 	display: none !important;
 }
@@ -660,6 +665,23 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 	margin-top: 4px;
 	font-size: 11px !important;
 	padding: 2px 3px 3px 3px !important;
+}
+
+/* Show approvals count in PR list */
+.js-issue-row .text-gray [aria-label*="approval"] {
+	font-size: 0;
+}
+.js-issue-row .text-gray [aria-label*="approval"]::before {
+	all: unset;
+	content: attr(aria-label);
+	display: inline !important;
+	font-size: 12px;
+}
+.js-issue-row .text-gray [aria-label*="approval"]::before {
+	color: var(--github-green);
+}
+.js-issue-row .text-gray [aria-label*="changes"] {
+	color: var(--github-red) !important;
 }
 
 /* Fix for GHE More Dropdown positioning */
