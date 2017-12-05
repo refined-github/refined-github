@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import delegate from '../libs/smart-delegate';
+import delegate from 'delegate';
 
 function addTooltips() {
 	for (const button of select.all('.show-outdated-button, .hide-outdated-button')) {

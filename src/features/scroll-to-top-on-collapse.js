@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import delegate from '../libs/smart-delegate';
+import delegate from 'delegate';
 
 export default () => {
 	const toolbar = select('.pr-toolbar');

@@ -1,4 +1,4 @@
-import delegate from '../libs/smart-delegate';
+import delegate from 'delegate';
 
 // Prompt user to confirm erasing a comment with the Cancel button
 export default function () {

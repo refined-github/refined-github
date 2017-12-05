@@ -1,7 +1,7 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
+import delegate from 'delegate';
 import gitHubInjection from 'github-injection';
-import delegate from '../libs/smart-delegate';
 import SynchronousStorage from '../libs/synchronous-storage';
 import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
