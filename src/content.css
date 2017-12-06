@@ -751,7 +751,7 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 :root body.menu-active .modal-backdrop,
 :root .dropdown-details[open] > summary::before {
 	background: rgba(0, 0, 0, 0.1);
-	z-index: 20;
+	z-index: 29;
 	animation: fade-in 0.2s;
 }
 :root .pagehead ul.pagehead-actions {
