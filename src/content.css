@@ -396,6 +396,10 @@ we will add it back on for the simple news alerts we decide to show
 	margin-left: 8px;
 }
 
+.rgh-reactions g-emoji {
+	margin-right: 8px !important;
+}
+
 .reaction-summary-item {
 	--background: #fff;
 
