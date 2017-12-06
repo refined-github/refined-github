@@ -1,4 +1,5 @@
 import select from 'select-dom';
+import delegate from 'delegate';
 
 function indentInput(el, size = 4) {
 	const selection = window.getSelection().toString();
@@ -38,7 +39,7 @@ function indentInput(el, size = 4) {
 }
 
 export default function () {
-	$(document).on('keydown', '.js-comment-field', event => {
+	delegate('.js-comment-field', 'keydown', event => {
 		const field = event.target;
 		if (event.key === 'Tab' && !event.shiftKey) {
 			// Don't indent if the suggester box is active

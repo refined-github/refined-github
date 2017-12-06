@@ -1,6 +1,8 @@
+import delegate from 'delegate';
+
 // Prompt user to confirm erasing a comment with the Cancel button
 export default function () {
-	$(document).on('click', '.js-hide-inline-comment-form', event => {
+	delegate('.js-hide-inline-comment-form', 'click', event => {
 		// Do not prompt if textarea is empty
 		const textarea = event.target.closest('.js-inline-comment-form').querySelector('.js-comment-field');
 		if (textarea.value === '') {

@@ -13,8 +13,15 @@
 	},
 	"permissions": [
 		"storage",
-		"clipboardWrite"
+		"clipboardWrite",
+		"contextMenus",
+		"activeTab"
 	],
+	"browser_action": {
+		"default_icon": "icon.png",
+		"default_popup": "options.html",
+		"browser_style": true
+	},
 	"optional_permissions": [
 		"http://*/*",
 		"https://*/*"
@@ -44,7 +51,6 @@
 				"content.css"
 			],
 			"js": [
-				"jquery.slim.min.js",
 				"browser-polyfill.min.js",
 				"content.js"
 			]

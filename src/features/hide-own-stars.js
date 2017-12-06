@@ -1,3 +1,4 @@
+import select from 'select-dom';
 import OptionsSync from 'webext-options-sync';
 import {getUsername, observeEl} from '../libs/utils';
 
@@ -10,9 +11,11 @@ export default async function () {
 	if (hideStarsOwnRepos) {
 		const username = getUsername();
 		observeEl('#dashboard .news', () => {
-			$('#dashboard .news .watch_started, #dashboard .news .fork')
-				.has(`a[href^="/${username}"]`)
-				.css('display', 'none');
+			for (const item of select.all('#dashboard .news .watch_started, #dashboard .news .fork')) {
+				if (select(`a[href^="/${username}"]`, item)) {
+					item.style.display = 'none';
+				}
+			}
 		});
 	}
 }
