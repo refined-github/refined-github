@@ -469,6 +469,19 @@ we will add it back on for the simple news alerts we decide to show
 	left: 50% !important;
 	right: auto !important;
 }
+.add-reaction-popover {
+	animation-name: rgh-scale-in-centered !important;
+}
+
+@keyframes rgh-scale-in-centered {
+	0% {
+		transform: translate(-50%) scale(0.5);
+		opacity: 0;
+	}
+	100% {
+		transform: translate(-50%);
+	}
+}
 
 /*
 Undo reactions popup centering in split file view on the right.
