@@ -515,8 +515,8 @@ Show reaction list when hovering over:
 	display: none !important;
 }
 
-/* Add colored button when hovering over reaction popover or hidden hover element */
-.reaction-popover-container:hover .timeline-comment-action {
+/* Keep colored button when reaction popup is open */
+.dropdown-details[open] .timeline-comment-action {
 	color: #4078c0;
 	opacity: 1;
 }
