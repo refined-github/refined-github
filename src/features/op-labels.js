@@ -1,5 +1,5 @@
-import select from 'select-dom';
 import {h} from 'dom-chef';
+import select from 'select-dom';
 import * as pageDetect from '../libs/page-detect';
 import {getUsername} from '../libs/utils';
 
@@ -12,7 +12,8 @@ export default () => {
 		op = select('.timeline-comment-header-text .author').textContent;
 	}
 
-	let newComments = $(`.js-comment:not(.refined-github-op)`).has(`strong .author[href="/${op}"]`).get();
+	let newComments = select.all(`.js-comment:not(.refined-github-op)`)
+		.filter(el => select(`strong .author[href="/${op}"]`, el));
 
 	if (!pageDetect.isPRFiles()) {
 		newComments = newComments.slice(1);

@@ -1,9 +1,10 @@
 import select from 'select-dom';
+import delegate from 'delegate';
 
 export default () => {
 	const toolbar = select('.pr-toolbar');
 
-	$('.js-diff-progressive-container').on('details:toggled', '.file', ({target}) => {
+	delegate('.js-diff-progressive-container', '.file', 'details:toggled', ({target}) => {
 		const elOffset = target.getBoundingClientRect().top;
 		const toolbarHeight = toolbar.getBoundingClientRect().top;
 

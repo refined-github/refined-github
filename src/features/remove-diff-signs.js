@@ -30,9 +30,11 @@ function removeSelectableWhiteSpaceFromDiffs() {
 function removeDiffSignsAndWatchExpansions() {
 	removeSelectableWhiteSpaceFromDiffs();
 	removeDiffSigns();
-	for (const file of $('.diff-table:not(.rgh-watching-lines)').has('.diff-expander')) {
-		file.classList.add('rgh-watching-lines');
-		observeEl(file.tBodies[0], removeDiffSigns);
+	for (const file of select.all('.diff-table:not(.rgh-watching-lines)')) {
+		if (select.exists('.diff-expander', file)) {
+			file.classList.add('rgh-watching-lines');
+			observeEl(file.tBodies[0], removeDiffSigns);
+		}
 	}
 }
 

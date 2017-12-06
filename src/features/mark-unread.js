@@ -1,12 +1,14 @@
-import gitHubInjection from 'github-injection';
-import select from 'select-dom';
 import {h} from 'dom-chef';
+import select from 'select-dom';
+import delegate from 'delegate';
+import gitHubInjection from 'github-injection';
 import SynchronousStorage from '../libs/synchronous-storage';
 import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
 import {getUsername} from '../libs/utils';
 
 let storage;
+const listeners = [];
 
 function stripHash(url) {
 	return url.replace(/#.+$/, '');
@@ -166,10 +168,12 @@ function renderNotifications() {
 				</div>
 			);
 
-			$('.notifications-list').prepend(list);
+			select('.notifications-list').prepend(list);
 		}
 
-		const list = $(`a.notifications-repo-link[title="${repository}"]`).parent().siblings('ul.notifications');
+		const list = select(`a.notifications-repo-link[title="${repository}"]`)
+			.closest('.boxed-group')
+			.querySelector('ul.notifications');
 
 		const usernames = participants
 			.map(participant => participant.username)
@@ -215,13 +219,16 @@ function renderNotifications() {
 				</ul>
 			</li>
 		);
-
 		list.prepend(item);
 	});
 
 	// Make sure that all the boxes with unread items are at the top
 	// This is necessary in the "All notifications" view
-	$('.boxed-group:has(".unread")').prependTo('.notifications-list');
+	for (const repo of select.all('.boxed-group')) {
+		if (select.exists('.unread', repo)) {
+			select('.notifications-list').prepend(repo);
+		}
+	}
 }
 
 function isNotificationExist(url) {
@@ -281,7 +288,7 @@ function addCustomAllReadBtn() {
 		return;
 	}
 
-	$('#notification-center .tabnav-tabs:first').append(
+	select('#notification-center .tabnav-tabs').append(
 		<div class="float-right">
 			<a href="#mark_as_read_confirm_box" class="btn btn-sm" rel="facebox">Mark all as read</a>
 
@@ -297,7 +304,7 @@ function addCustomAllReadBtn() {
 		</div>
 	);
 
-	$(document).on('click', '#clear-local-notification', () => {
+	delegate('#clear-local-notification', 'click', () => {
 		storage.set([]);
 		location.reload();
 	});
@@ -351,12 +358,14 @@ async function setup() {
 			addCustomAllReadBtn();
 			updateLocalNotificationsCount();
 			updateLocalParticipatingCount();
-			$(document).on('click', '.js-mark-read', markNotificationRead);
-			$(document).on('click', '.js-mark-all-read', markAllNotificationsRead);
-			$(document).on('click', '.js-delete-notification button', updateUnreadIndicator);
-			$(document).on('click', 'form[action="/notifications/mark"] button', () => {
-				storage.set([]);
-			});
+			listeners.push(
+				delegate('.js-mark-read', 'click', markNotificationRead),
+				delegate('.js-mark-all-read', 'click', markAllNotificationsRead),
+				delegate('.js-delete-notification button', 'click', updateUnreadIndicator),
+				delegate('form[action="/notifications/mark"] button', 'click', () => {
+					storage.set([]);
+				})
+			);
 		} else if (pageDetect.isPR() || pageDetect.isIssue()) {
 			markRead(location.href);
 			addMarkUnreadButton();
@@ -367,8 +376,13 @@ async function setup() {
 }
 
 function destroy() {
-	$(document).off('click', '.js-mark-unread', markUnread);
-	$('.js-mark-unread').remove();
+	for (const listener of listeners) {
+		listener.destroy();
+	}
+	listeners.length = 0;
+	for (const button of select.all('.js-mark-unread')) {
+		button.remove();
+	}
 }
 
 export default {
