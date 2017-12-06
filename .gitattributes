@@ -2,4 +2,4 @@
 *.ai binary
 *.js text eol=lf
 readme.md merge=union
-src/content.css merge=union
+source/content.css merge=union
