@@ -333,6 +333,17 @@ function updateLocalParticipatingCount() {
 	}
 }
 
+function markExistingNotificationUnread() {
+	storage.get()
+		.filter(notification => isNotificationExist(notification.url))
+		.forEach(notification => {
+			const li = select(`a.js-notification-target[href^="${stripHash(notification.url)}"]`).closest('li.js-notification');
+			li.classList.add('unread');
+			li.classList.remove('read');
+			li.closest('ul').prepend(li);
+		});
+}
+
 async function setup() {
 	storage = await new SynchronousStorage(
 		async () => {
@@ -355,6 +366,7 @@ async function setup() {
 
 		if (pageDetect.isNotifications()) {
 			renderNotifications();
+			markExistingNotificationUnread();
 			addCustomAllReadBtn();
 			updateLocalNotificationsCount();
 			updateLocalParticipatingCount();
