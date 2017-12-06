@@ -511,7 +511,7 @@ Show reaction list when hovering over:
 }
 
 /* Never show loading spinner for reactions */
-.reaction-popover-container .reaction-popover-form .loading-spinner {
+.js-reaction-popover-container .reaction-popover-form .loading-spinner {
 	display: none !important;
 }
 
