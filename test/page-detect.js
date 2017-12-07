@@ -1,5 +1,5 @@
 import test from 'ava';
-import * as pageDetect from '../src/libs/page-detect';
+import * as pageDetect from '../source/libs/page-detect';
 import Window from './fixtures/window';
 
 global.window = new Window();
@@ -57,8 +57,8 @@ test('getRepoPath', t => {
 			'compare/test-branch'
 		],
 		[
-			'https://github.com/sindresorhus/refined-github/tree/master/extension',
-			'tree/master/extension'
+			'https://github.com/sindresorhus/refined-github/tree/master/distribution',
+			'tree/master/distribution'
 		]
 	]);
 
@@ -297,7 +297,7 @@ test('isRepoRoot', urlMatcherMacro, pageDetect.isRepoRoot, [
 	'https://github.com/',
 	'https://github.com/tree/master/issues',
 	'https://github.com/sindresorhus/refined-github/issues',
-	'https://github.com/sindresorhus/refined-github/tree/master/extension',
+	'https://github.com/sindresorhus/refined-github/tree/master/distribution',
 	'https://github.com/sindresorhus/refined-github/tree/master/tree/master'
 ]);
 
@@ -309,9 +309,9 @@ test('isRepoSettings', urlMatcherMacro, pageDetect.isRepoSettings, [
 ]);
 
 test('isRepoTree', urlMatcherMacro, pageDetect.isRepoTree, [
-	'https://github.com/sindresorhus/refined-github/tree/master/extension',
-	'https://github.com/sindresorhus/refined-github/tree/0.13.0/extension',
-	'https://github.com/sindresorhus/refined-github/tree/57bf435ee12d14b482df0bbd88013a2814c7512e/extension',
+	'https://github.com/sindresorhus/refined-github/tree/master/distribution',
+	'https://github.com/sindresorhus/refined-github/tree/0.13.0/distribution',
+	'https://github.com/sindresorhus/refined-github/tree/57bf435ee12d14b482df0bbd88013a2814c7512e/distribution',
 	'https://github.com/sindresorhus/refined-github/tree/57bf4'
 ], [
 	'https://github.com/sindresorhus/refined-github/issues',
@@ -328,7 +328,7 @@ test('isSingleCommit', urlMatcherMacro, pageDetect.isSingleCommit, [
 
 test('isSingleFile', urlMatcherMacro, pageDetect.isSingleFile, [
 	'https://github.com/sindresorhus/refined-github/blob/master/.gitattributes',
-	'https://github.com/sindresorhus/refined-github/blob/fix-narrow-diff/extension/content.css'
+	'https://github.com/sindresorhus/refined-github/blob/fix-narrow-diff/distribution/content.css'
 ], [
 	'https://github.com/sindresorhus/refined-github/pull/164/files',
 	'https://github.com/sindresorhus/refined-github/commit/57bf4'

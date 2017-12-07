@@ -11,4 +11,3 @@ export default function () {
 		select('#merge_title_field').value = `${title.trim()} (${number})`;
 	});
 }
-
