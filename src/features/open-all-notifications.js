@@ -15,7 +15,7 @@ function openNotifications() {
 }
 
 export default function () {
-	if (!isNotifications()) {
+	if (!isNotifications() || select.exists('[href="#open_all_in_tabs"]')) {
 		return;
 	}
 	const unreadCount = select.all('.unread .js-notification-target').length;
