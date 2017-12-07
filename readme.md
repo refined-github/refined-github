@@ -1,4 +1,4 @@
-# <img src="src/icon.png" width="45" align="left"> Refined GitHub [![Chrome version][badge-cws]][link-cws] [![Firefox version][badge-amo]][link-amo] [![Deployment][badge-travis]][link-travis]
+# <img src="source/icon.png" width="45" align="left"> Refined GitHub [![Chrome version][badge-cws]][link-cws] [![Firefox version][badge-amo]][link-amo] [![Deployment][badge-travis]][link-travis]
 
 [badge-cws]: https://img.shields.io/chrome-web-store/v/hlepfoohegkhhmjieoechaddaejaokhf.svg?label=chrome
 [badge-amo]: https://img.shields.io/amo/v/refined-github-.svg?label=firefox
