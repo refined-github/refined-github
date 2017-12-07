@@ -22,4 +22,3 @@ export default function () {
 
 	select('.subnav-links').append(yoursMenuItem);
 }
-

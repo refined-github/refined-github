@@ -11,4 +11,3 @@ export default function () {
 	lastDivider.before(divider);
 	lastDivider.before(marketplaceLink);
 }
-

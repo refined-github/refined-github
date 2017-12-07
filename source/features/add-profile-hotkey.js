@@ -8,4 +8,3 @@ export default function () {
 		menuItem.setAttribute('data-hotkey', 'g m');
 	}
 }
-

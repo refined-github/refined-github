@@ -23,4 +23,3 @@ export default async function () {
 		}
 	}
 }
-
