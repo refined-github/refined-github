@@ -4,7 +4,7 @@ import delegate from 'delegate';
 import {isNotifications} from '../libs/page-detect';
 
 function openNotifications() {
-	const urls = select.all('.js-notification-target').map(el => el.href);
+	const urls = select.all('.unread .js-notification-target').map(el => el.href);
 	browser.runtime.sendMessage({
 		urls,
 		action: 'openAllInTabs'
@@ -18,13 +18,13 @@ export default function () {
 	if (!isNotifications()) {
 		return;
 	}
-	const unreadCount = select.all('.js-notification-target').length;
+	const unreadCount = select.all('.unread .js-notification-target').length;
 
 	if (unreadCount === 0) {
 		return;
 	}
 
-	const openButton = <a href="#open_all_in_tabs" class="btn btn-sm BtnGroup-item">Open all in tabs</a>;
+	const openButton = <a href="#open_all_in_tabs" class="btn btn-sm BtnGroup-item">Open all unread in tabs</a>;
 
 	// Make a button group
 	const markAsReadButton = select('[href="#mark_as_read_confirm_box"]');
