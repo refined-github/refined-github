@@ -93,7 +93,6 @@ async function init() {
 
 function onDomReady() {
 	safely(markUnread.setup);
-	safely(addOpenAllNotificationsButton);
 	safely(addProfileHotkey);
 
 	if (!pageDetect.isGist()) {
@@ -113,6 +112,7 @@ function onDomReady() {
 }
 
 function ajaxedPagesHandler() {
+	safely(addOpenAllNotificationsButton);
 	safely(hideEmptyMeta);
 	safely(removeUploadFilesButton);
 	safely(addTitleToEmojis);
