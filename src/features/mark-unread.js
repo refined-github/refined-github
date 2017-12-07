@@ -110,6 +110,9 @@ function renderNotifications() {
 		select('.js-navigation-container').append(<div class="notifications-list"></div>);
 	}
 
+	// Don’t simplify selector, it’s for cross-extension compatibility
+	const pageList = select('#notification-center .notifications-list');
+
 	unreadNotifications.forEach(notification => {
 		const {
 			participants,
@@ -168,7 +171,7 @@ function renderNotifications() {
 				</div>
 			);
 
-			select('.notifications-list').prepend(list);
+			pageList.prepend(list);
 		}
 
 		const list = select(`a.notifications-repo-link[title="${repository}"]`)
@@ -226,7 +229,7 @@ function renderNotifications() {
 	// This is necessary in the "All notifications" view
 	for (const repo of select.all('.boxed-group')) {
 		if (select.exists('.unread', repo)) {
-			select('.notifications-list').prepend(repo);
+			pageList.prepend(repo);
 		}
 	}
 }
