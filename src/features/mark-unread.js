@@ -179,6 +179,30 @@ function getNotification(notification) {
 	);
 }
 
+function getNotificationGroup({repository}) {
+	const existing = select(`a.notifications-repo-link[title="${repository}"]`);
+	if (existing) {
+		return existing.closest('.boxed-group');
+	}
+	return (
+		<div class="boxed-group flush">
+			<form class="boxed-group-action">
+				<button class="mark-all-as-read css-truncate js-mark-all-read">
+					{icons.check()}
+				</button>
+			</form>
+
+			<h3>
+				<a href={'/' + repository} class="css-truncate css-truncate-target notifications-repo-link" title={repository}>
+					{repository}
+				</a>
+			</h3>
+
+			<ul class="boxed-group-inner list-group notifications"/>
+		</div>
+	);
+}
+
 function renderNotifications() {
 	const myUserName = getUsername();
 	const unreadNotifications = storage.get()
@@ -203,39 +227,13 @@ function renderNotifications() {
 	}
 
 	unreadNotifications.forEach(notification => {
-		const {
-			repository
-		} = notification;
-
-		const hasList = select.exists(`a.notifications-repo-link[title="${repository}"]`);
-		if (!hasList) {
-			const list = (
-				<div class="boxed-group flush">
-					<form class="boxed-group-action">
-						<button class="mark-all-as-read css-truncate js-mark-all-read">
-							{icons.check()}
-						</button>
-					</form>
-
-					<h3>
-						<a href={'/' + repository} class="css-truncate css-truncate-target notifications-repo-link" title={repository}>
-							{repository}
-						</a>
-					</h3>
-
-					<ul class="boxed-group-inner list-group notifications"/>
-				</div>
-			);
-
-			pageList.prepend(list);
-		}
-
-		const list = select(`a.notifications-repo-link[title="${repository}"]`)
-			.closest('.boxed-group')
-			.querySelector('ul.notifications');
-
+		const group = getNotificationGroup(notification);
 		const item = getNotification(notification);
-		list.prepend(item);
+
+		pageList.prepend(group);
+		group
+			.querySelector('ul.notifications')
+			.prepend(item);
 	});
 
 	// Make sure that all the boxes with unread items are at the top
