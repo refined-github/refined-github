@@ -26,14 +26,15 @@ function addMarkUnreadButton() {
 }
 
 function markRead(url) {
+	const cleanUrl = stripHash(url);
 	const unreadNotifications = storage.get();
 	unreadNotifications.forEach((notification, index) => {
-		if (notification.url === url) {
+		if (notification.url === cleanUrl) {
 			unreadNotifications.splice(index, 1);
 		}
 	});
 
-	for (const a of select.all(`a.js-notification-target[href="${url}"]`)) {
+	for (const a of select.all(`a.js-notification-target[href="${cleanUrl}"]`)) {
 		const li = a.closest('li.js-notification');
 		li.classList.remove('unread');
 		li.classList.add('read');
@@ -89,10 +90,98 @@ function markUnread() {
 	this.textContent = 'Marked as unread';
 }
 
+function getNotification(notification) {
+	const {
+		participants,
+		title,
+		state,
+		type,
+		dateTitle,
+		date,
+		url
+	} = notification;
+
+	const existing = select(`a.js-notification-target[href^="${stripHash(url)}"]`);
+	if (existing) {
+		const item = existing.closest('.js-notification');
+		item.classList.replace('read', 'unread');
+		return item;
+	}
+
+	const usernames = participants
+		.map(participant => participant.username)
+		.join(', ');
+
+	const avatars = participants
+		.map(participant => {
+			return <img alt={`@${participant.username}`} class="avatar from-avatar" src={participant.avatar} width={39} height={39}/>;
+		});
+
+	let icon;
+
+	if (type === 'issue') {
+		if (state === 'open') {
+			icon = icons.openIssue();
+		}
+
+		if (state === 'closed') {
+			icon = icons.closedIssue();
+		}
+	}
+
+	if (type === 'pull-request') {
+		if (state === 'open') {
+			icon = icons.openPullRequest();
+		}
+
+		if (state === 'merged') {
+			icon = icons.mergedPullRequest();
+		}
+
+		if (state === 'closed') {
+			icon = icons.closedPullRequest();
+		}
+	}
+	return (
+		<li class={`list-group-item js-notification js-navigation-item unread ${type}-notification`}>
+			<span class="list-group-item-name css-truncate">
+				{icon}
+
+				<a href={url} class="css-truncate-target js-notification-target js-navigation-open list-group-item-link">
+					{title}
+				</a>
+			</span>
+
+			<ul class="notification-actions">
+				<li class="delete">
+					<button class="btn-link delete-note">
+						{icons.check()}
+					</button>
+				</li>
+
+				<li class="mute">
+					<button style={{opacity: 0, pointerEvents: 'none'}}>
+						{icons.mute()}
+					</button>
+				</li>
+
+				<li class="age">
+					<relative-time datetime={date} title={dateTitle}/>
+				</li>
+
+				<li class="tooltipped tooltipped-s" aria-label={usernames}>
+					<div class="avatar-stack clearfix">
+						{avatars}
+					</div>
+				</li>
+			</ul>
+		</li>
+	);
+}
+
 function renderNotifications() {
 	const myUserName = getUsername();
 	const unreadNotifications = storage.get()
-		.filter(notification => !isNotificationExist(notification.url))
 		.filter(notification => {
 			if (!isParticipatingPage()) {
 				return true;
@@ -115,41 +204,8 @@ function renderNotifications() {
 
 	unreadNotifications.forEach(notification => {
 		const {
-			participants,
-			repository,
-			title,
-			state,
-			type,
-			dateTitle,
-			date,
-			url
+			repository
 		} = notification;
-
-		let icon;
-
-		if (type === 'issue') {
-			if (state === 'open') {
-				icon = icons.openIssue();
-			}
-
-			if (state === 'closed') {
-				icon = icons.closedIssue();
-			}
-		}
-
-		if (type === 'pull-request') {
-			if (state === 'open') {
-				icon = icons.openPullRequest();
-			}
-
-			if (state === 'merged') {
-				icon = icons.mergedPullRequest();
-			}
-
-			if (state === 'closed') {
-				icon = icons.closedPullRequest();
-			}
-		}
 
 		const hasList = select.exists(`a.notifications-repo-link[title="${repository}"]`);
 		if (!hasList) {
@@ -178,50 +234,7 @@ function renderNotifications() {
 			.closest('.boxed-group')
 			.querySelector('ul.notifications');
 
-		const usernames = participants
-			.map(participant => participant.username)
-			.join(', ');
-
-		const avatars = participants
-			.map(participant => {
-				return <img alt={`@${participant.username}`} class="avatar from-avatar" src={participant.avatar} width={39} height={39}/>;
-			});
-
-		const item = (
-			<li class={`list-group-item js-notification js-navigation-item unread ${type}-notification`}>
-				<span class="list-group-item-name css-truncate">
-					{icon}
-
-					<a href={url} class="css-truncate-target js-notification-target js-navigation-open list-group-item-link">
-						{title}
-					</a>
-				</span>
-
-				<ul class="notification-actions">
-					<li class="delete">
-						<button class="btn-link delete-note js-mark-read">
-							{icons.check()}
-						</button>
-					</li>
-
-					<li class="mute">
-						<button style={{opacity: 0, pointerEvents: 'none'}}>
-							{icons.mute()}
-						</button>
-					</li>
-
-					<li class="age">
-						<relative-time datetime={date} title={dateTitle}/>
-					</li>
-
-					<li class="tooltipped tooltipped-s" aria-label={usernames}>
-						<div class="avatar-stack clearfix">
-							{avatars}
-						</div>
-					</li>
-				</ul>
-			</li>
-		);
+		const item = getNotification(notification);
 		list.prepend(item);
 	});
 
@@ -232,10 +245,6 @@ function renderNotifications() {
 			pageList.prepend(repo);
 		}
 	}
-}
-
-function isNotificationExist(url) {
-	return select.exists(`a.js-notification-target[href^="${stripHash(url)}"]`);
 }
 
 function isEmptyPage() {
@@ -362,7 +371,7 @@ async function setup() {
 			updateLocalNotificationsCount();
 			updateLocalParticipatingCount();
 			listeners.push(
-				delegate('.js-mark-read', 'click', markNotificationRead),
+				delegate('.btn-link.delete-note', 'click', markNotificationRead),
 				delegate('.js-mark-all-read', 'click', markAllNotificationsRead),
 				delegate('.js-delete-notification button', 'click', updateUnreadIndicator),
 				delegate('form[action="/notifications/mark"] button', 'click', () => {
