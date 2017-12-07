@@ -25,7 +25,8 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 
 - [**Chrome** extension][link-cws]
 - [**Firefox** add-on][link-amo]
-- Opera - Use [this Opera extension](https://addons.opera.com/en/extensions/details/download-chrome-extension-9/) to install the Chrome version.
+- **Opera** extension: Use [this Opera extension](https://addons.opera.com/en/extensions/details/download-chrome-extension-9/) to install the Chrome version.
+
 
 ## Highlights
 
@@ -170,20 +171,20 @@ And [lots](src/content.css) [more...](src/content.js)
 - ~~[Adds ability to collapse/expand files in a pull request diff](https://cloud.githubusercontent.com/assets/170270/13954167/40caa604-f072-11e5-89ba-3145217c4e28.png)~~ [Implemented by GitHub](https://cloud.githubusercontent.com/assets/170270/25772137/6a6b678e-3296-11e7-97c7-02e31ef17743.png)
 - ~~[Adds issue/PR title preview tooltip in comments](https://user-images.githubusercontent.com/170270/30729486-2816df06-9f8a-11e7-8069-8999302e9ddd.png)~~ [Implemented by GitHub](https://user-images.githubusercontent.com/1402241/31265633-779ad0fe-aa35-11e7-8c42-a3b375f8f32c.png)
 
-
 ### Community tweaks
 
 *Stuff that didn't get included, but might be useful.*
 
 - [Quickly edit files in the repo file browser](https://github.com/devkhan/refined-github/commit/51fdf4998fc9392950e932e18018fda870f34666)
 
+
 ## Customization
 
-We're happy to receive suggestions and contributions, but be aware this is a highly opinionated project. There's [a single commonly-requested option](https://user-images.githubusercontent.com/1402241/27267240-9d2e18c8-54d9-11e7-8a64-971af9e066f3.png) but we're not interested in adding more as it's a slippery slope into adding one for everything. Users will always disagree with something. That being said, we're open to discussing things.
+We're happy to receive suggestions and contributions, but be aware this is a highly opinionated project. There's a very high bar for adding options. Users will always disagree with something. That being said, we're open to discussing things.
 
 While this project is highly opinionated, this doesn't necessarily limit you from manually disabling functionality that is not useful for your workflow. Options include:
 
-1. *(CSS Only)* Use a Chrome extension that allows injecting custom styles into sites, based on a URL pattern. [Stylist](https://chrome.google.com/webstore/detail/stylish/fjnbnpbmkenffdnngjfgmeleoegfcffe?hl=en) is one such tool. [Example](https://github.com/sindresorhus/refined-github/issues/136#issuecomment-204072018)
+1. *(CSS Only)* Use a Chrome extension that allows injecting custom styles into sites, based on a URL pattern. [Stylish](https://chrome.google.com/webstore/detail/stylish/fjnbnpbmkenffdnngjfgmeleoegfcffe?hl=en) is one such tool. [Example](https://github.com/sindresorhus/refined-github/issues/136#issuecomment-204072018)
 
 2. Clone the repository, make the adjustments you need, and [load the unpacked extension in Chrome](https://developer.chrome.com/extensions/getstarted#unpacked), rather than installing from the Chrome Store.
 
@@ -193,10 +194,11 @@ While this project is highly opinionated, this doesn't necessarily limit you fro
 Suggestions and pull requests are highly encouraged!
 
 In order to make modifications to the extension you'd need to run it locally.
+
 Please follow the steps below:
 
 ```sh
-git clone git@github.com:sindresorhus/refined-github
+git clone https://github.com/sindresorhus/refined-github
 cd refined-github
 npm install    # Install dev dependencies
 npm run build  # Build the extension code so it's ready for the browser
@@ -229,6 +231,7 @@ Once built, load it in the browser of your choice:
 	</tr>
 </table>
 
+
 ## Related
 
 - [Awesome browser extensions for GitHub](https://github.com/stefanbuck/awesome-browser-extensions-for-github) - Awesome list
@@ -250,17 +253,16 @@ Want more? Here are some ideas you could develop!
 - [Customize the font of code blocks](https://github.com/sindresorhus/module-requests/issues/97)
 
 
-## Created by
+## Maintainers
 
+- [Federico Brigante](https://github.com/bfred-it)
 - [Sindre Sorhus](https://github.com/sindresorhus)
 - [Haralan Dobrev](https://github.com/hkdobrev)
+- [Scott Busche](https://github.com/busches)
 - [Paul Molluzzo](https://github.com/paulmolluzzo)
 - [Andrew Levine](https://github.com/DrewML)
 - [Kees Kluskens](https://github.com/SpaceK33z)
 - [Jonas Gierer](https://github.com/jgierer12)
-- [Federico Brigante](https://github.com/bfred-it)
-- [Scott Busche](https://github.com/busches)
-- [Contributors…](https://github.com/sindresorhus/refined-github/graphs/contributors)
 
 
 ## License
