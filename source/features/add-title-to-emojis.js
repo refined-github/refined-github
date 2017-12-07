@@ -5,4 +5,3 @@ export default function () {
 		emoji.setAttribute('title', `:${emoji.getAttribute('alias')}:`);
 	}
 }
-

@@ -23,4 +23,3 @@ export default async function () {
 		select('.repository-content').prepend(<include-fragment src={fragmentURL}></include-fragment>);
 	}
 }
-

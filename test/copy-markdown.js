@@ -1,6 +1,6 @@
 import test from 'ava';
 import {stripIndent} from 'common-tags';
-import {getSmarterMarkdown} from '../src/features/copy-markdown';
+import {getSmarterMarkdown} from '../source/features/copy-markdown';
 
 test('base markdown', t => {
 	t.is(

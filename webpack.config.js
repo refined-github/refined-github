@@ -6,9 +6,9 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
 	entry: {
-		content: './src/content',
-		background: './src/background',
-		options: './src/options'
+		content: './source/content',
+		background: './source/background',
+		options: './source/options'
 	},
 	plugins: [
 		new webpack.DefinePlugin({
@@ -17,14 +17,14 @@ module.exports = {
 		new webpack.optimize.ModuleConcatenationPlugin(),
 		new CopyWebpackPlugin([{
 			from: '*',
-			context: 'src',
+			context: 'source',
 			ignore: '*.js'
 		}, {
 			from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js'
 		}])
 	],
 	output: {
-		path: path.join(__dirname, 'extension'),
+		path: path.join(__dirname, 'distribution'),
 		filename: '[name].js'
 	},
 	module: {
