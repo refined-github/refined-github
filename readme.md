@@ -246,6 +246,7 @@ Once built, load it in the browser of your choice:
 - [GitHub Custom Tab Size](https://github.com/lukechilds/github-custom-tab-size) - Set custom tab size for code views *(Refined GitHub hard-codes it to 4)*
 - [Show All GitHub Issues](https://github.com/sindresorhus/show-all-github-issues) - Shows both Issues and Pull Requests in the Issues tab
 - [Notifications Preview for GitHub](https://github.com/tanmayrajani/notifications-preview-github) - See your notifications on hover on all pages
+- [Refined Twitter](https://github.com/sindresorhus/refined-twitter) - Improves Twitter
 
 Want more? Here are some ideas you could develop!
 
