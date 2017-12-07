@@ -1,9 +1,7 @@
 import select from 'select-dom';
 
-const Y_KEYCODE = 89;
-
-const handler = ({keyCode, target}) => {
-	if (keyCode === Y_KEYCODE && target.nodeName !== 'INPUT') {
+const handler = ({key, target}) => {
+	if (key === 'y' && target.nodeName !== 'INPUT') {
 		select('#js-copy-permalink').click();
 	}
 };
