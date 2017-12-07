@@ -204,15 +204,8 @@ function getNotificationGroup({repository}) {
 }
 
 function renderNotifications() {
-	const myUserName = getUsername();
 	const unreadNotifications = storage.get()
-		.filter(notification => {
-			if (!isParticipatingPage()) {
-				return true;
-			}
-
-			return isParticipatingNotification(notification, myUserName);
-		});
+		.filter(shouldNotificationAppearHere);
 
 	if (unreadNotifications.length === 0) {
 		return;
@@ -245,11 +238,32 @@ function renderNotifications() {
 	}
 }
 
+function shouldNotificationAppearHere(notification) {
+	if (isSingleRepoPage()) {
+		return isCurrentSingleRepoPage(notification);
+	}
+	if (isParticipatingPage()) {
+		return isParticipatingNotification(notification);
+	}
+	return true;
+}
+
+function isSingleRepoPage() {
+	const [,,, subPage] = location.pathname.split('/');
+	return subPage === 'notifications';
+}
+
+function isCurrentSingleRepoPage(notification) {
+	const [, singleRepo] = /^[/](.+[/].+)[/]notifications/.exec(location.pathname) || [];
+	return singleRepo === notification.repository;
+}
+
 function isParticipatingPage() {
 	return /\/notifications\/participating/.test(location.pathname);
 }
 
-function isParticipatingNotification(notification, myUserName) {
+function isParticipatingNotification(notification) {
+	const myUserName = getUsername();
 	const {participants} = notification;
 
 	return participants
@@ -329,10 +343,9 @@ function updateLocalNotificationsCount() {
 function updateLocalParticipatingCount() {
 	const unreadCount = select('#notification-center .filter-list a[href="/notifications/participating"] .count');
 	const githubNotificationsCount = Number(unreadCount.textContent);
-	const myUserName = getUsername();
 
 	const participatingNotifications = storage.get()
-		.filter(notification => isParticipatingNotification(notification, myUserName));
+		.filter(isParticipatingNotification);
 
 	if (participatingNotifications.length > 0) {
 		unreadCount.textContent = githubNotificationsCount + participatingNotifications.length;
