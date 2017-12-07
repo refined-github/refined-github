@@ -44,7 +44,7 @@ function markRead(url) {
 }
 
 function markUnread() {
-	const participants = select.all('.participant-avatar').map(el => ({
+	const participants = select.all('.participant-avatar').slice(0, 3).map(el => ({
 		username: el.getAttribute('aria-label'),
 		avatar: el.querySelector('img').src
 	}));
@@ -108,14 +108,19 @@ function getNotification(notification) {
 		return item;
 	}
 
-	const usernames = participants
-		.map(participant => participant.username)
-		.join(', ');
+	// Already on L17. Only needed here to fix pre-existing unread notifications. Remove in 2018.
+	const clippedParticipants = participants.slice(0, 3);
 
-	const avatars = participants
-		.map(participant => {
-			return <img alt={`@${participant.username}`} class="avatar from-avatar" src={participant.avatar} width={39} height={39}/>;
-		});
+	const usernames = clippedParticipants
+		.map(participant => participant.username)
+		.join(' and ')
+		.replace(/ and (.+) and/, ', $1, and'); // 3 people only: A, B, and C
+
+	const avatars = clippedParticipants.map(participant =>
+		<a href={`/${participant.username}`} class="avatar">
+			<img alt={`@${participant.username}`} height="20" src={participant.avatar} width="20"/>
+		</a>
+	);
 
 	let icon;
 
@@ -142,38 +147,32 @@ function getNotification(notification) {
 			icon = icons.closedPullRequest();
 		}
 	}
+
 	return (
 		<li class={`list-group-item js-notification js-navigation-item unread ${type}-notification`}>
 			<span class="list-group-item-name css-truncate">
-				{icon}
-
-				<a href={url} class="css-truncate-target js-notification-target js-navigation-open list-group-item-link">
+				<span class={`type-icon type-icon-state-${state}`}>
+					{icon}
+				</span>
+				<a class="css-truncate-target js-notification-target js-navigation-open list-group-item-link" href={url}>
 					{title}
 				</a>
 			</span>
-
 			<ul class="notification-actions">
 				<li class="delete">
 					<button class="btn-link delete-note">
 						{icons.check()}
 					</button>
 				</li>
-
-				<li class="mute">
-					<button style={{opacity: 0, pointerEvents: 'none'}}>
-						{icons.mute()}
-					</button>
-				</li>
-
+				<li class="mute" style={{width: 26, height: 1}}></li>
 				<li class="age">
 					<relative-time datetime={date} title={dateTitle}/>
 				</li>
-
-				<li class="tooltipped tooltipped-s" aria-label={usernames}>
-					<div class="avatar-stack clearfix">
+				<div class="AvatarStack AvatarStack--three-plus AvatarStack--right clearfix d-inline-block" style={{marginTop: 1}}>
+					<div class="AvatarStack-body tooltipped tooltipped-sw tooltipped-align-right-1" aria-label={usernames}>
 						{avatars}
 					</div>
-				</li>
+				</div>
 			</ul>
 		</li>
 	);
