@@ -9,6 +9,17 @@ import {getUsername} from '../libs/utils';
 
 let storage;
 const listeners = [];
+const stateIcons = {
+	issue: {
+		open: icons.openIssue,
+		closed: icons.closedIssue
+	},
+	'pull-request': {
+		open: icons.openPullRequest,
+		closed: icons.closedPullRequest,
+		merged: icons.mergedPullRequest
+	}
+};
 
 function stripHash(url) {
 	return url.replace(/#.+$/, '');
@@ -122,37 +133,11 @@ function getNotification(notification) {
 		</a>
 	);
 
-	let icon;
-
-	if (type === 'issue') {
-		if (state === 'open') {
-			icon = icons.openIssue();
-		}
-
-		if (state === 'closed') {
-			icon = icons.closedIssue();
-		}
-	}
-
-	if (type === 'pull-request') {
-		if (state === 'open') {
-			icon = icons.openPullRequest();
-		}
-
-		if (state === 'merged') {
-			icon = icons.mergedPullRequest();
-		}
-
-		if (state === 'closed') {
-			icon = icons.closedPullRequest();
-		}
-	}
-
 	return (
 		<li class={`list-group-item js-notification js-navigation-item unread ${type}-notification`}>
 			<span class="list-group-item-name css-truncate">
 				<span class={`type-icon type-icon-state-${state}`}>
-					{icon}
+					{stateIcons[type][state]()}
 				</span>
 				<a class="css-truncate-target js-notification-target js-navigation-open list-group-item-link" href={url}>
 					{title}
