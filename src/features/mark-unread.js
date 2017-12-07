@@ -194,13 +194,13 @@ function renderNotifications() {
 		return;
 	}
 
-	if (isEmptyPage()) {
-		select('.blankslate').remove();
-		select('.js-navigation-container').append(<div class="notifications-list"></div>);
-	}
-
 	// Don’t simplify selector, it’s for cross-extension compatibility
-	const pageList = select('#notification-center .notifications-list');
+	let pageList = select('#notification-center .notifications-list');
+
+	if (!pageList) {
+		pageList = <div class="notifications-list"></div>;
+		select('.blankslate').replaceWith(pageList);
+	}
 
 	unreadNotifications.forEach(notification => {
 		const {
@@ -245,10 +245,6 @@ function renderNotifications() {
 			pageList.prepend(repo);
 		}
 	}
-}
-
-function isEmptyPage() {
-	return select.exists('.blankslate');
 }
 
 function isParticipatingPage() {
