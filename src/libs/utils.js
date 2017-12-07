@@ -1,5 +1,6 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
+import onetime from 'onetime';
 import elementReady from 'element-ready';
 import domLoaded from 'dom-loaded';
 
@@ -10,7 +11,7 @@ import domLoaded from 'dom-loaded';
  */
 export const safely = async fn => fn();
 
-export const getUsername = () => select('meta[name="user-login"]').getAttribute('content');
+export const getUsername = onetime(() => select('meta[name="user-login"]').getAttribute('content'));
 
 export const groupBy = (iterable, grouper) => {
 	const map = {};
