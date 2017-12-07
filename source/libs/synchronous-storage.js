@@ -40,4 +40,3 @@ export default class SynchronousStorage {
 		return this._set(value);
 	}
 }
-
