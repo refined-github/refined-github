@@ -10,11 +10,11 @@ const repoKey = `${repoUrl}-releases-count`;
 let localCache = browser.storage.local.get(repoKey);
 
 function appendReleasesCount(count) {
-	if (!count) {
-		return;
+	if (count) {
+		select('.reponav-releases').append(
+			<span class="Counter">{count}</span>
+		);
 	}
-
-	select('.reponav-releases').append(<span class="Counter">{count}</span>);
 }
 
 function updateReleasesCount() {
