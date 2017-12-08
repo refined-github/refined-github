@@ -43,8 +43,13 @@ export default async () => {
 	appendReleasesCount((await localCache)[repoKey]);
 
 	if (pageDetect.isReleases()) {
-		releasesTab.classList.add('js-selected-navigation-item', 'selected');
-		select('.reponav-item.selected')
-			.classList.remove('js-selected-navigation-item', 'selected');
+		select('.reponav-item.selected').classList.remove(
+			'js-selected-navigation-item',
+			'selected'
+		);
+		releasesTab.classList.add(
+			'js-selected-navigation-item',
+			'selected'
+		);
 	}
 };
