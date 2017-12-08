@@ -51,6 +51,7 @@ import addKeyboardShortcutsToCommentFields from './features/add-keyboard-shortcu
 import addConfirmationToCommentCancellation from './features/add-confirmation-to-comment-cancellation';
 import addCILink from './features/add-ci-link';
 import expandCollapseOutdatedComments from './features/expand-collapse-outdated-comments';
+import replyButton from './features/reply-button';
 
 import * as pageDetect from './libs/page-detect';
 import {observeEl, safeElementReady, safely} from './libs/utils';
@@ -161,6 +162,7 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
 		safely(linkifyIssuesInTitles);
 		safely(addUploadBtn);
+		safely(replyButton);
 
 		observeEl('.new-discussion-timeline', () => {
 			safely(addOPLabels);
