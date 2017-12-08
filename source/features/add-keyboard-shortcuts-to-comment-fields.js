@@ -48,20 +48,19 @@ export default function () {
 			}
 
 			indentInput(field);
-			return false;
+			event.preventDefault();
 		} else if (event.key === 'Enter' && event.shiftKey) {
 			const singleCommentButton = select('.review-simple-reply-button', field.form);
 
 			if (singleCommentButton) {
 				singleCommentButton.click();
-				return false;
+				event.preventDefault();
 			}
 		} else if (event.key === 'Escape') {
 			const cancelButton = select('.js-hide-inline-comment-form', field.form);
 
 			if (field.value !== '' && cancelButton) {
 				cancelButton.click();
-				return false;
 			}
 		}
 	});
