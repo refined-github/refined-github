@@ -1,8 +1,10 @@
+import copyToClipboard from 'copy-text-to-clipboard';
 import select from 'select-dom';
 
 const handler = ({key, target}) => {
 	if (key === 'y' && target.nodeName !== 'INPUT') {
-		select('#js-copy-permalink').click();
+		const permalink = select('.js-permalink-shortcut').href;
+		copyToClipboard(permalink + location.hash);
 	}
 };
 
