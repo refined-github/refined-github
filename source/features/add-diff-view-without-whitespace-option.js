@@ -35,5 +35,8 @@ export default function () {
 	);
 
 	// Make space for the new button by removing "Changes from" #655
-	select('[data-hotkey="c"]').firstChild.remove();
+	const uselessCopy = select('[data-hotkey="c"]');
+	if (uselessCopy) {
+		uselessCopy.firstChild.remove();
+	}
 }
