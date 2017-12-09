@@ -79,6 +79,16 @@ async function init() {
 		safely(moveAccountSwitcherToSidebar);
 	}
 
+	if (pageDetect.isRepo()) {
+		onAjaxedPages(async () => {
+			// Wait for the tab bar to be loaded
+			await safeElementReady('.pagehead + *');
+			safely(addMoreDropdown);
+			safely(addReleasesTab);
+			safely(removeProjectsTab);
+		});
+	}
+
 	safely(focusConfirmationButtons);
 	safely(addKeyboardShortcutsToCommentFields);
 	safely(addConfirmationToCommentCancellation);
@@ -135,9 +145,6 @@ function ajaxedPagesHandler() {
 	}
 
 	if (pageDetect.isRepo()) {
-		safely(addMoreDropdown);
-		safely(addReleasesTab);
-		safely(removeProjectsTab);
 		safely(addReadmeButtons);
 		safely(addDiffViewWithoutWhitespaceOption);
 		safely(removeDiffSigns);

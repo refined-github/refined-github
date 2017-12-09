@@ -4,30 +4,28 @@ import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
 
 const repoUrl = pageDetect.getRepoURL();
+const repoKey = `${repoUrl}-releases-count`;
+
+// Get as soon as possible, to have it ready before the first paint
+let localCache = browser.storage.local.get(repoKey);
 
 function appendReleasesCount(count) {
-	if (!count) {
-		return;
+	if (count) {
+		select('.reponav-releases').append(
+			<span class="Counter">{count}</span>
+		);
 	}
-
-	select('.reponav-releases').append(<span class="Counter">{count}</span>);
 }
 
-async function cacheReleasesCount() {
-	const releasesCountCacheKey = `${repoUrl}-releases-count`;
-
+function updateReleasesCount() {
 	if (pageDetect.isRepoRoot()) {
 		const releasesCount = select('.numbers-summary a[href$="/releases"] .num').textContent.trim();
-		appendReleasesCount(releasesCount);
-		browser.storage.local.set({[releasesCountCacheKey]: releasesCount});
-	} else {
-		const items = await browser.storage.local.get(releasesCountCacheKey);
-
-		appendReleasesCount(items[releasesCountCacheKey]);
+		localCache = {[repoKey]: releasesCount};
+		browser.storage.local.set(localCache);
 	}
 }
 
-export default () => {
+export default async () => {
 	if (select.exists('.reponav-releases')) {
 		return;
 	}
@@ -41,11 +39,17 @@ export default () => {
 
 	select('.reponav-dropdown').before(releasesTab);
 
-	cacheReleasesCount();
+	updateReleasesCount();
+	appendReleasesCount((await localCache)[repoKey]);
 
 	if (pageDetect.isReleases()) {
-		releasesTab.classList.add('js-selected-navigation-item', 'selected');
-		select('.reponav-item.selected')
-			.classList.remove('js-selected-navigation-item', 'selected');
+		select('.reponav-item.selected').classList.remove(
+			'js-selected-navigation-item',
+			'selected'
+		);
+		releasesTab.classList.add(
+			'js-selected-navigation-item',
+			'selected'
+		);
 	}
 };
