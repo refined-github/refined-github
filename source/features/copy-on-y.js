@@ -1,14 +1,10 @@
 import copyToClipboard from 'copy-text-to-clipboard';
 import select from 'select-dom';
 
-const Y_KEYCODE = 89;
-
-const handler = ({keyCode, target}) => {
-	if (keyCode === Y_KEYCODE && target.nodeName !== 'INPUT') {
-		const commitIsh = select('.commit-tease-sha').textContent.trim();
-		const uri = location.href.replace(/\/blob\/[\w-]+\//, `/blob/${commitIsh}/`);
-
-		copyToClipboard(uri);
+const handler = ({key, target}) => {
+	if (key === 'y' && target.nodeName !== 'INPUT') {
+		const permalink = select('.js-permalink-shortcut').href;
+		copyToClipboard(permalink + location.hash);
 	}
 };
 
