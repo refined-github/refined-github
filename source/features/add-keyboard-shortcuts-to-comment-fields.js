@@ -6,8 +6,6 @@ function indentInput(el) {
 	const {selectionStart, selectionEnd, value} = el;
 	const linesCount = selection.match(/^|\n/g).length;
 
-	el.focus();
-
 	if (linesCount > 1) {
 		// Select full first line to replace everything at once
 		const firstLineStart = value.lastIndexOf('\n', selectionStart) + 1;
