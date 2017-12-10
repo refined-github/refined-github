@@ -783,6 +783,6 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 }
 
 /* Remove "Seeing something unexpected?" from user profiles */
-#js-contribution-activity .js-show-more-timeline-form p {
+#js-contribution-activity .js-show-more-timeline-form > p {
 	display: none;
 }
