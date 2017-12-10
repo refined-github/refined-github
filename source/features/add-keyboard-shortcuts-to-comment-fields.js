@@ -4,33 +4,28 @@ import delegate from 'delegate';
 function indentInput(el, size = 4) {
 	const selection = window.getSelection().toString();
 	const {selectionStart, selectionEnd, value} = el;
-	const isMultiLine = /\n/.test(selection);
+	const linesCount = selection.match(/^|\n/g).length;
 	const firstLineStart = value.lastIndexOf('\n', selectionStart) + 1;
 
 	el.focus();
 
-	if (isMultiLine) {
-		const selectedLines = value.substring(firstLineStart, selectionEnd);
+	if (linesCount > 1) {
+		// Select full first line to replace everything at once
+		el.setSelectionRange(firstLineStart, selectionEnd);
 
-		// Find the start index of each line
-		const indexes = selectedLines.split('\n').map(line => line.length);
-		indexes.unshift(firstLineStart);
-		indexes.pop();
+		const newSelection = window.getSelection().toString();
+		const indentedText = newSelection.replace(
+			/^|\n/g, // Match all line starts
+			'$&' + ' '.repeat(size)
+		);
 
-		// `indexes` contains lengths. Update them to point to each line start index
-		for (let i = 1; i < indexes.length; i++) {
-			indexes[i] += indexes[i - 1] + 1;
-		}
-
-		for (let i = indexes.length - 1; i >= 0; i--) {
-			el.setSelectionRange(indexes[i], indexes[i]);
-			document.execCommand('insertText', false, ' '.repeat(size));
-		}
+		// Replace newSelection with indentedText
+		document.execCommand('insertText', false, indentedText);
 
 		// Restore selection position
 		el.setSelectionRange(
 			selectionStart + size,
-			selectionEnd + (size * indexes.length)
+			selectionEnd + (size * linesCount)
 		);
 	} else {
 		const indentSize = (size - ((selectionEnd - firstLineStart) % size)) || size;
