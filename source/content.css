@@ -781,3 +781,8 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 	animation-fill-mode: backwards !important;
 	opacity: 1;
 }
+
+/* Remove "Seeing something unexpected?" from user profiles */
+#js-contribution-activity .js-show-more-timeline-form p {
+	display: none;
+}
