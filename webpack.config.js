@@ -6,9 +6,9 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
 	entry: {
-		content: './src/content',
-		background: './src/background',
-		options: './src/options'
+		content: './source/content',
+		background: './source/background',
+		options: './source/options'
 	},
 	plugins: [
 		new webpack.DefinePlugin({
@@ -17,16 +17,14 @@ module.exports = {
 		new webpack.optimize.ModuleConcatenationPlugin(),
 		new CopyWebpackPlugin([{
 			from: '*',
-			context: 'src',
+			context: 'source',
 			ignore: '*.js'
 		}, {
 			from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js'
-		}, {
-			from: 'node_modules/jquery/dist/jquery.slim.min.js'
 		}])
 	],
 	output: {
-		path: path.join(__dirname, 'extension'),
+		path: path.join(__dirname, 'distribution'),
 		filename: '[name].js'
 	},
 	module: {
@@ -45,15 +43,15 @@ module.exports = {
 if (process.env.NODE_ENV === 'production') {
 	module.exports.plugins.push(
 		new UglifyJSPlugin({
-			sourceMap: true,
 			uglifyOptions: {
+				// Keep it somewhat readable for AMO reviewers
 				mangle: false,
+				compress: false,
 				output: {
-					// Keep it somewhat readable for AMO reviewers
 					beautify: true,
 
 					// Reduce beautification indentation from 4 spaces to 1 to save space
-					indent_level: 1 // eslint-disable-line camelcase
+					indent_level: 2 // eslint-disable-line camelcase
 				}
 			}
 		})

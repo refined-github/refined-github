@@ -1,0 +1,211 @@
+import 'webext-dynamic-content-scripts';
+import onAjaxedPages from 'github-injection';
+import {applyToLink as shortenLink} from 'shorten-repo-url';
+import select from 'select-dom';
+import domLoaded from 'dom-loaded';
+
+import markUnread from './features/mark-unread';
+import addOpenAllNotificationsButton from './features/open-all-notifications';
+import addUploadBtn from './features/upload-button';
+import enableCopyOnY from './features/copy-on-y';
+import addReactionParticipants from './features/reactions-avatars';
+import showRealNames from './features/show-names';
+import addCopyFilePathToPRs from './features/copy-file-path';
+import addFileCopyButton from './features/copy-file';
+// - import copyMarkdown from './features/copy-markdown';
+import linkifyCode from './features/linkify-urls-in-code';
+import autoLoadMoreNews from './features/auto-load-more-news';
+import addOPLabels from './features/op-labels';
+import addMoreDropdown from './features/more-dropdown';
+import addReleasesTab from './features/add-releases-tab';
+import addTimeMachineLinksToComments from './features/add-time-machine-links-to-comments';
+import removeUploadFilesButton from './features/remove-upload-files-button';
+import scrollToTopOnCollapse from './features/scroll-to-top-on-collapse';
+import removeDiffSigns from './features/remove-diff-signs';
+import * as linkifyBranchRefs from './features/linkify-branch-refs';
+import hideEmptyMeta from './features/hide-empty-meta';
+import hideOwnStars from './features/hide-own-stars';
+import moveMarketplaceLinkToProfileDropdown from './features/move-marketplace-link-to-profile-dropdown';
+import addTrendingMenuItem from './features/add-trending-menu-item';
+import addProfileHotkey from './features/add-profile-hotkey';
+import addYoursMenuItem from './features/add-yours-menu-item';
+import addReadmeButtons from './features/add-readme-buttons';
+import addDeleteForkLink from './features/add-delete-fork-link';
+import linkifyIssuesInTitles from './features/linkify-issues-in-titles';
+import addPatchDiffLinks from './features/add-patch-diff-links';
+import markMergeCommitsInList from './features/mark-merge-commits-in-list';
+import showRecentlyPushedBranches from './features/show-recently-pushed-branches';
+import addDiffViewWithoutWhitespaceOption from './features/add-diff-view-without-whitespace-option';
+import preserveWhitespaceOptionInNav from './features/preserve-whitespace-option-in-nav';
+import addMilestoneNavigation from './features/add-milestone-navigation';
+import addFilterCommentsByYou from './features/add-filter-comments-by-you';
+import addProjectNewLink from './features/add-project-new-link';
+import removeProjectsTab from './features/remove-projects-tab';
+import fixSquashAndMergeTitle from './features/fix-squash-and-merge-title';
+import addTitleToEmojis from './features/add-title-to-emojis';
+import sortMilestonesByClosestDueDate from './features/sort-milestones-by-closest-due-date';
+import moveAccountSwitcherToSidebar from './features/move-account-switcher-to-sidebar';
+import openCIDetailsInNewTab from './features/open-ci-details-in-new-tab';
+import focusConfirmationButtons from './features/focus-confirmation-buttons';
+import addKeyboardShortcutsToCommentFields from './features/add-keyboard-shortcuts-to-comment-fields';
+import addConfirmationToCommentCancellation from './features/add-confirmation-to-comment-cancellation';
+import addCILink from './features/add-ci-link';
+import expandCollapseOutdatedComments from './features/expand-collapse-outdated-comments';
+
+import * as pageDetect from './libs/page-detect';
+import {observeEl, safeElementReady, safely} from './libs/utils';
+
+// Add globals for easier debugging
+window.select = select;
+
+async function init() {
+	await safeElementReady('body');
+	if (document.body.classList.contains('logged-out')) {
+		return;
+	}
+
+	if (select.exists('html.refined-github')) {
+		console.warn('Refined GitHub has been loaded twice. If you didn’t install the developer version, this may be a bug. Please report it to: https://github.com/sindresorhus/refined-github/issues/565');
+		return;
+	}
+
+	document.documentElement.classList.add('refined-github');
+
+	if (!pageDetect.isGist()) {
+		safely(addTrendingMenuItem);
+	}
+
+	if (pageDetect.isDashboard()) {
+		safely(moveAccountSwitcherToSidebar);
+	}
+
+	if (pageDetect.isRepo()) {
+		onAjaxedPages(async () => {
+			// Wait for the tab bar to be loaded
+			await safeElementReady('.pagehead + *');
+			safely(addMoreDropdown);
+			safely(addReleasesTab);
+			safely(removeProjectsTab);
+		});
+	}
+
+	safely(focusConfirmationButtons);
+	safely(addKeyboardShortcutsToCommentFields);
+	safely(addConfirmationToCommentCancellation);
+
+	// TODO: Enable this when we've improved how copying Markdown works
+	// See #522
+	// delegate('.markdown-body', 'copy', copyMarkdown);
+
+	await domLoaded;
+	onDomReady();
+}
+
+function onDomReady() {
+	safely(markUnread.setup);
+	safely(addProfileHotkey);
+
+	if (!pageDetect.isGist()) {
+		safely(moveMarketplaceLinkToProfileDropdown);
+	}
+
+	if (pageDetect.isGist()) {
+		safely(addFileCopyButton);
+	}
+
+	if (pageDetect.isDashboard()) {
+		safely(hideOwnStars);
+		safely(autoLoadMoreNews);
+	}
+
+	onAjaxedPages(ajaxedPagesHandler);
+}
+
+function ajaxedPagesHandler() {
+	safely(addOpenAllNotificationsButton);
+	safely(hideEmptyMeta);
+	safely(removeUploadFilesButton);
+	safely(addTitleToEmojis);
+	safely(enableCopyOnY.destroy);
+
+	safely(() => {
+		for (const a of select.all('a[href]')) {
+			shortenLink(a, location.href);
+		}
+	});
+
+	safely(linkifyCode); // Must be after link shortening #789
+
+	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
+		safely(addYoursMenuItem);
+	}
+
+	if (pageDetect.isMilestone()) {
+		safely(addMilestoneNavigation); // Needs to be before sortMilestonesByClosestDueDate
+	}
+
+	if (pageDetect.isRepo()) {
+		safely(addReadmeButtons);
+		safely(addDiffViewWithoutWhitespaceOption);
+		safely(removeDiffSigns);
+		safely(addCILink);
+		safely(sortMilestonesByClosestDueDate); // Needs to be after addMilestoneNavigation
+	}
+
+	if (pageDetect.isPR()) {
+		safely(scrollToTopOnCollapse);
+		safely(linkifyBranchRefs.inPR);
+		safely(addDeleteForkLink);
+		safely(fixSquashAndMergeTitle);
+		safely(openCIDetailsInNewTab);
+		safely(expandCollapseOutdatedComments);
+	}
+
+	if (pageDetect.isQuickPR()) {
+		safely(linkifyBranchRefs.inQuickPR);
+	}
+
+	if (pageDetect.isPR() || pageDetect.isIssue()) {
+		safely(linkifyIssuesInTitles);
+		safely(addUploadBtn);
+
+		observeEl('.new-discussion-timeline', () => {
+			safely(addOPLabels);
+			safely(addTimeMachineLinksToComments);
+		});
+	}
+
+	if (pageDetect.isPRList() || pageDetect.isIssueList()) {
+		safely(addFilterCommentsByYou);
+		safely(showRecentlyPushedBranches);
+	}
+
+	if (pageDetect.isCommit()) {
+		safely(addPatchDiffLinks);
+	}
+
+	if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit()) {
+		safely(addReactionParticipants);
+		safely(showRealNames);
+	}
+
+	if (pageDetect.isCommitList()) {
+		safely(markMergeCommitsInList);
+	}
+
+	if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
+		safely(addCopyFilePathToPRs);
+		safely(preserveWhitespaceOptionInNav);
+	}
+
+	if (pageDetect.isSingleFile()) {
+		safely(addFileCopyButton);
+		safely(enableCopyOnY.setup);
+	}
+
+	if (pageDetect.isRepoSettings()) {
+		safely(addProjectNewLink);
+	}
+}
+
+init();

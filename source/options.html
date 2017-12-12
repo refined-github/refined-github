@@ -1,0 +1,32 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Refined GitHub options</title>
+<style>
+	body {
+		width: 350px;
+		margin: 14px 17px; /* Chrome default, match for Firefox */
+		font-family: sans-serif;
+	}
+	/* Increase spacing between sections */
+	h2 ~ h2,
+	form ~ form {
+		margin-top: 2em;
+	}
+</style>
+<form id="options-form">
+	<h2>Information</h2>
+	<p>
+		GitHub Enterprise user? While on your site, right-click on Refined GitHub's icon in the toolbar and select <strong>Enable Refined GitHub on this domain</strong>.
+		<a href="https://user-images.githubusercontent.com/1402241/32874388-e0c64150-cacc-11e7-9a50-eae3727fd3c2.png" target="_blank">Example</a>. This is <a href="https://github.com/sindresorhus/refined-github/issues/840#issuecomment-349936195" target="_blank">not yet supported by Firefox</a>.
+	</p>
+	
+	<h2>News feed</h2>
+	<p>
+		<label>
+			<input type="checkbox" name="hideStarsOwnRepos">
+			Hide other users starring/forking your repos
+		</label>
+	</p>
+</form>
+<script src="browser-polyfill.min.js"></script>
+<script src="options.js"></script>

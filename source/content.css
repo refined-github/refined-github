@@ -1,0 +1,782 @@
+:root {
+	--github-green: #28a745;
+	--github-red: #cb2431;
+}
+
+.subscribe-feed {
+	display: none !important;
+}
+
+/* Allow for absolute positioning relative to the dashboard */
+#dashboard,
+.orgpage > .container {
+	position: relative !important;
+}
+
+#dashboard .new-repo {
+	display: none !important;
+}
+
+/* Remove "Repositories you contribute to" dashboard sidebar box */
+.dashboard-sidebar > .boxed-group[role="navigation"]:not(.repos) {
+	display: none !important;
+}
+
+/* Match context switcher's width to the width of the containers below it */
+.dashboard-sidebar .select-menu {
+	width: 100%;
+}
+
+/* Match context switcher modal's width to that of the user repo list */
+.dashboard-sidebar .select-menu-modal {
+	margin: 0;
+	width: 313px;
+}
+
+/* Remove the toolbar from the right repo box on the dashboard */
+.dashboard-sidebar .user-repos > h3,
+.dashboard-sidebar .user-repos > .boxed-group-action {
+	display: none !important;
+}
+.dashboard-sidebar .user-repos .boxed-group-inner {
+	border-radius: 3px !important;
+}
+.dashboard-sidebar .user-repos .filter-repos {
+	border-top-left-radius: 3px !important;
+	border-top-right-radius: 3px !important;
+}
+.dashboard-sidebar .user-repos .repo-icon {
+	opacity: 0.6 !important;
+}
+
+/* Remove border between dashboard news items */
+.news .alert {
+	border: 0 !important;
+}
+
+/* Remove news feed tips */
+.news > div:last-of-type.mt-4 {
+	display: none !important;
+}
+
+/* Remove tooltips where unnecessary */
+.tooltipped:before,
+.tooltipped:after {
+	display: none !important;
+}
+
+.notification-actions .tooltipped:before,
+.notification-actions .tooltipped:after,
+[aria-label~="reacted with"]:before,
+[aria-label~="reacted with"]:after,
+.avatar-group-item:before,
+.avatar-group-item:after,
+.js-zeroclipboard:before,
+.js-zeroclipboard:after,
+.rgh-tooltipped:before,
+.rgh-tooltipped:after,
+.issue-link:before,
+.issue-link:after,
+.avatar:before,
+.avatar:after {
+	display: inline-block !important;
+}
+
+/* Fade out the file icons */
+.file-wrap .files .octicon {
+	opacity: 0.6;
+}
+
+/* Remove annoying hover in the repo file list */
+.file-wrap .files .navigation-focus td {
+	background: none !important;
+}
+
+#readme > h3 {
+	display: none !important;
+}
+
+#readme .markdown-body {
+	border-radius: 3px !important;
+}
+
+.paginate-protip {
+	display: none !important;
+}
+
+/* Remove useless message on the right side of the PR merge box */
+.alt-merge-options {
+	display: none !important;
+}
+
+/* Remove top buttons on comment box */
+.timeline-comment-wrapper .tabnav-extra, .inline-comment-form-container .tabnav-extra {
+	display: none !important;
+}
+
+/* Remove commentbox toolbar */
+.toolbar-group {
+	display: none;
+	margin-left: 0 !important;
+}
+.toolbar-group:last-child {
+	display: inline-block;
+}
+.toolbar-group .toolbar-item:not(.js-saved-reply-container):not(.rgh-upload-btn) {
+	display: none;
+}
+.toolbar-commenting {
+	margin-top: 4px;
+}
+
+/* Remove upload message on comment box */
+.is-default .drag-and-drop {
+	display: none;
+}
+.upload-enabled textarea {
+	border-bottom: 1px solid #ccc !important;
+	border-radius: 3px !important;
+}
+.upload-enabled textarea:focus {
+	border-bottom: 1px solid #2188ff !important;
+}
+
+/* Remove random protip at the bottom of the page */
+.protip {
+	display: none !important;
+}
+
+/* Remove message under the `Unsubscribe` button */
+.sidebar-notifications .reason {
+	display: none !important;
+}
+
+/* Move the dashboard organization switcher to the right column */
+.news.column.two-thirds .account-switcher {
+	/* Hide switcher from the main column, but if JS fails show it */
+	animation: temporarily-hide 5s steps(1, end);
+}
+@keyframes temporarily-hide {
+	from {
+		position: absolute;
+		top: -1000px;
+	}
+}
+.account-switcher .select-menu-button {
+	width: 100%;
+	margin-bottom: 15px;
+	text-align: center;
+}
+.account-switcher .select-menu-button-gravatar {
+	float: none !important;
+	display: inline-block !important;
+	vertical-align: top !important;
+}
+/* Organization dashboard */
+.orgpage .underline-nav {
+	float: left !important;
+}
+.orgpage .account-switcher {
+	right: 0 !important;
+}
+.orgpage .user-repos {
+	position: static !important;
+}
+.orgpage + .container .dashboard-sidebar {
+	padding-top: 0;
+}
+
+/* Remove "New pull request" button on repo page */
+.file-navigation .new-pull-request-btn {
+	display: none !important;
+}
+
+/* Add hover underline for `content.js` linkified branch refs in pull requests */
+a .commit-ref:hover,
+a .commit-ref:hover span {
+	text-decoration: underline !important;
+}
+
+/* The extra span on branch names interferes with a possible deletion line-through */
+.commit-ref span {
+	text-decoration: inherit;
+}
+
+/* Remove useless tip in the organization news feed */
+#dashboard .alert.git_hub {
+	display: none !important;
+}
+
+/* Style for edit README button */
+#readme.blob #refined-github-readme-buttons {
+	display: none;
+}
+
+#refined-github-readme-buttons {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+
+#refined-github-readme-buttons a {
+	opacity: 0.2;
+	transition: opacity 250ms;
+	text-decoration: none;
+}
+
+#refined-github-readme-buttons a:hover {
+	opacity: 1;
+}
+
+#refined-github-readme-buttons a:not(:first-child) {
+	margin-left: 5px;
+}
+
+/* Style for delete fork link */
+.post-merge-message {
+	min-height: 85px;
+}
+
+#refined-github-delete-fork-link {
+	position: absolute;
+	top: 45px;
+	right: 30px;
+	padding: 10px 10px 0;
+	color: #df3e3e;
+}
+
+/* Hide news items when people:
+pushed to a branch
+deleted a branch
+added someone as a collaborator
+forked a repo
+*/
+.news .push,
+.news .alert.delete.simple,
+.news .member_add,
+.news .fork {
+	display: none !important;
+}
+
+/* Ensure the news feed is still shown once the items above have been hidden */
+.news {
+	min-height: 1px;
+}
+
+.news .alert {
+	padding: 0 0 0 45px !important;
+}
+
+:root .news .alert .body { /* Higher specificity, avoids !important */
+	padding: 1em 0;
+}
+
+/*
+Remove padding from body of simple news alerts in Dashboard since some will be hidden
+we will add it back on for the simple news alerts we decide to show
+*/
+.news .alert.create.simple,
+.news .alert.create.simple .body {
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
+}
+
+/* Add padding back to the contents of simple news alerts in Dashboard */
+.news .alert.create.simple .body .title {
+	padding-bottom: 1.5em !important;
+}
+.news .alert.create.simple .body .time {
+	padding-top: 1.5em !important;
+}
+.news .alert.create.simple .body .dashboard-event-icon {
+	top: 22px !important;
+}
+
+/* Don't show contents of simple news alert in Dashboard when you create a branch */
+.news .alert.create.simple .octicon-git-branch,
+.news .alert.create.simple .octicon-git-branch + .title,
+.news .alert.create.simple .octicon-git-branch + .title + .time {
+	display: none;
+}
+
+/* Align items top to bottom */
+.news .alert .body,
+.news .alert .body .simple {
+	display: flex;
+	flex-direction: column;
+}
+
+/* Move time to the top of news item */
+.news .alert .body .time {
+	order: -1;
+}
+
+/* Highlight all the titles */
+.news .alert .body .title {
+	font-size: 14px !important;
+	font-weight: 600 !important;
+	color: inherit !important;
+}
+
+/* Increase size of all event icons */
+.news .alert svg.octicon.dashboard-event-icon {
+	height: 32px !important;
+	width: 28px !important;
+}
+
+
+
+/* Decrease font-size on commit details so our custom patch and diff links fit */
+.commit .sha-block {
+	margin-left: 7px !important;
+}
+.commit .sha-block,
+.commit .sha {
+	font-size: 10px !important;
+}
+.signed-commit-badge-medium {
+	padding: 2px 4px !important;
+	font-size: 10px !important;
+	margin-left: 5px !important;
+}
+
+/* Remove `Developer Program Member` from profile page */
+.page-profile .member-badge {
+	display: none !important;
+}
+
+/* Fade out merge commits from commit list */
+.refined-github-merge-commit .commit-title {
+	font-size: 12px !important;
+	margin-top: 4px !important;
+}
+
+.refined-github-merge-commit .commit-author-section {
+	font-size: 11.4px !important;
+}
+
+.refined-github-merge-commit .octicon-git-pull-request {
+	color: #4078c0;
+	margin-left: 9px;
+	width: 27px;
+	height: 36px;
+}
+
+.refined-github-merge-commit .avatar-child {
+	width: 16px !important;
+	height: 16px !important;
+}
+
+/* Move new button to the right on single commit page */
+#toc .refined-github-toggle-whitespace {
+	float: right;
+}
+
+/* Limit width of commit title and description inputs to 50/80 chars */
+#commit-summary-input, #commit-description-textarea {
+	font-family: monospace !important;
+}
+
+#commit-summary-input {
+	width: 410px !important;
+}
+
+#commit-description-textarea {
+	width: 645px !important;
+}
+
+/* Make tab indented code more readable on GitHub and Gist */
+* {
+	-moz-tab-size: 4 !important;
+	tab-size: 4 !important;
+}
+
+/* Larger comment box */
+.comment-form-textarea {
+	min-height: 200px !important;
+}
+
+/* Styles for avatars Refined GitHub adds to Reactions */
+.reaction-summary-item {
+	padding-left: 10px !important;
+	padding-right: 10px !important;
+}
+.reaction-summary-item.user-has-reacted {
+	--background: #f2f8fa;
+}
+.reaction-summary-item a {
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 10px; /* Base sizer */
+	width: 2em;
+	height: 2em;
+
+	background: #efefef; /* Placeholder before the images load */
+	box-shadow: 0 0 0 2px var(--background, #fff);
+	border-radius: 3px;
+
+	margin-left: -0.2em;
+	margin-top: -0.3em;
+	transition: margin-left 0.2s;
+}
+.reaction-summary-item a:first-of-type {
+	margin-left: 0.5em;
+}
+.review-comment .reaction-summary-item a {
+	font-size: 9px;
+}
+
+/* This image will start at height:0 and will expand once loaded, covering the gray placeholder */
+.reaction-summary-item img {
+	max-width: 100%;
+	background-color: var(--background);
+	border-radius: inherit;
+}
+
+/* Overlap reaction avatars when there are 5+ types of reactions */
+.rgh-reactions-near-limit .reaction-summary-item:not(:hover) a:not(:first-of-type) {
+	margin-left: -12px;
+}
+
+/* Hide reaction popover text */
+.reaction-popover-form.js-pick-reaction span.js-reaction-description,
+.reaction-popover-form.js-pick-reaction .dropdown-divider {
+	display: none;
+}
+
+/* Increase reaction popover hitbox area to avoid involuntary closes */
+.reaction-popover-form:before {
+	content: '';
+	position: absolute;
+	top: -20px;
+	right: -10px;
+	bottom: -20px;
+	left: -10px;
+	z-index: -1;
+}
+
+/* Center reactions popup and its triangle */
+.add-reaction-popover,
+.add-reaction-popover::before,
+.add-reaction-popover::after  {
+	transform: translate(-50%) !important;
+	left: 50% !important;
+	right: auto !important;
+}
+.add-reaction-popover {
+	animation-name: rgh-scale-in-centered !important;
+}
+
+@keyframes rgh-scale-in-centered {
+	0% {
+		transform: translate(-50%) scale(0.5);
+		opacity: 0;
+	}
+	100% {
+		transform: translate(-50%);
+	}
+}
+
+/*
+Undo reactions popup centering in split file view on the right.
+The popup is clipped on the right otherwise.
+The selector considers
+- Unified view (skipped)
+- Split view with comment on the left only (skipped)
+- Split view with comment on the right only
+- Split view with comments on the left and right
+*/
+td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover {
+	left: -15px !important;
+}
+td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::before,
+td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::after {
+	left: 140px !important;
+}
+
+/* Never show loading spinner for reactions */
+.js-reaction-popover-container .reaction-popover-form .loading-spinner {
+	display: none !important;
+}
+
+/* Keep colored button when reaction popup is open */
+.dropdown-details[open] .timeline-comment-action {
+	color: #4078c0;
+	opacity: 1;
+}
+
+/* Collapse multiple discussion items */
+.discussion-item + .discussion-item {
+	padding-top: 0 !important;
+	border-top: none !important;
+}
+
+/* Mark as unread */
+.btn-mark-unread {
+	margin-top: 8px;
+}
+
+/* Change color of marker if there are only discussion marked as unread */
+.notification-indicator[data-ga-click$=":read"] .unread {
+	background: linear-gradient(#34d058, #28a745)
+}
+
+/* +/- Pseudo elements on diffs */
+.refined-github-diff-signs .blob-code-addition:before,
+.refined-github-diff-signs .blob-code-deletion:before {
+	display: inline-block;
+	position: absolute;
+	top: 1px;
+	font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
+	font-size: 11px;
+	text-indent: -8px;
+	color: rgba(0, 0, 0, 0.3);
+}
+
+.refined-github-diff-signs .blob-code-addition:before {
+	content: '+';
+}
+
+.refined-github-diff-signs .blob-code-deletion:before {
+	content: '-';
+}
+
+/* Prevent copy of ghost whitespace where supported (#317) */
+.refined-github-diff-signs .add-line-comment {
+	-moz-user-select: none;
+	user-select: none;
+}
+
+/* Restore removed space with unselectable one */
+.refined-github-diff-signs .blob-code-inner:before {
+	content: ' ' !important;
+	user-select: none;
+}
+
+/* Remove "pro tip!" box on profile page (appears when name isn't set) */
+.new-user-avatar-cta {
+	display: none !important;
+}
+
+
+/* Fix PR diffbar links position #474 */
+.stale-files-tab,
+.subset-files-tab {
+	font-size: 0 !important;
+}
+.subset-files-tab .stale-files-tab-link,
+.stale-files-tab .stale-files-tab-link {
+	font-size: 14px;
+}
+.stale-files-tab-link:before {
+	content: 'Out of date. ';
+	font-weight: normal;
+}
+.stale-files-tab-link:before {
+	content: 'Subset of changes. ';
+	font-weight: normal;
+}
+
+/* Multiple comment labels margin */
+.timeline-comment .timeline-comment-label + .timeline-comment-label {
+	margin-right: -5px;
+}
+
+.review-comment .timeline-comment-label + .timeline-comment-label {
+	margin-left: 5px;
+}
+
+/* Move "close issue" and "cancel" buttons on authoring comments to the left */
+
+/* ...in issue comment form */
+.form-actions .btn.js-comment-and-button {
+	float: left;
+}
+
+/* ...in comment edit form */
+div.previewable-edit .previewable-comment-form .form-actions {
+	float: none;
+	margin-left: 10px;
+}
+
+.previewable-edit .previewable-comment-form .form-actions .btn.js-comment-cancel-button {
+	float: left;
+}
+
+/* ...in inline comment form */
+div.inline-comment-form .form-actions,
+.inline-comment-form .form-actions .js-hide-inline-comment-form {
+	float: none;
+}
+
+/* "Add a Project" button */
+#refined-github-project-new-link {
+	margin-top: 5px;
+}
+
+/* Decrease the size of the search box to fit 'Yours' menu item */
+.subnav-search-input[aria-label="Search all issues"] {
+	width: 420px;
+}
+
+.CodeMirror-lines pre.CodeMirror-line {
+	font-variant-ligatures: normal;
+}
+
+/* Remove Marketplace marketing box on PRs */
+.js-marketplace-callout-container {
+	display: none !important;
+}
+
+/* Remove the "Styling with Markdown is supported" link when a PR comment is in edit mode */
+a.tabnav-extra[href$="mastering-markdown/"] {
+	display: none !important;
+}
+
+/* Hide empty description of repo */
+.repository-meta.mb-3 > .repository-meta-content > em {
+	display: none !important;
+}
+
+/* Hide marketplace navbar button */
+.HeaderNavlink[href="/marketplace"] {
+	display: none !important;
+}
+
+/* Move labels in the Issue/PR list below the title */
+.js-issue-row .lh-condensed {
+	display: flex;
+	flex-wrap: wrap;
+}
+.js-issue-row .labels {
+	order: 1;
+}
+.js-issue-row .h4, /* Title */
+.js-issue-row .d-inline-block.mr-1 {  /* Build status */
+	padding-right: 4px; /* Space before the build status */
+}
+.js-issue-row .mt-1.text-small.text-gray { /* Issue details line */
+	flex-basis: 100%;
+}
+.js-issue-row .label {
+	margin-top: 4px;
+	font-size: 11px !important;
+	padding: 2px 3px 3px 3px !important;
+}
+
+/* Show approvals count in PR list */
+.js-issue-row .text-gray [aria-label*="approval"] {
+	font-size: 0;
+}
+.js-issue-row .text-gray [aria-label*="approval"]::before {
+	all: unset;
+	content: attr(aria-label);
+	display: inline !important;
+	font-size: 12px;
+}
+.js-issue-row .text-gray [aria-label*="approval"]::before {
+	color: var(--github-green);
+}
+.js-issue-row .text-gray [aria-label*="changes"] {
+	color: var(--github-red) !important;
+}
+
+/* Fix for GHE More Dropdown positioning */
+.reponav-dropdown.active .dropdown-menu {
+	left: auto !important;
+}
+
+/* Optically align Dependencies dropdown link*/
+.rgh-dependency-graph .octicon-package {
+	margin-left: -2px;
+	margin-right: 2px;
+}
+
+/* Hide PR/Issue rename events */
+.discussion-item-renamed {
+	display: none;
+}
+
+/* For `add-ci-link` */
+.rgh-ci-link {
+	position: relative;
+	top: -0.1em;
+	animation: fade-in 0.2s;
+}
+
+:root .repohead h1 .commit-build-statuses .octicon {
+	position: static;
+	color: inherit;
+}
+
+/* Sticky file headers on pull request diff view */
+.pull-request-tab-content .diff-view .file-header {
+	position: sticky;
+	top: 60px;
+	z-index: 10;
+}
+
+/* Sticky file headers in regular file view */
+.file .file-header {
+	position: sticky;
+	top: 0;
+	z-index: 10;
+}
+
+/* Remove annoying "helpful" banner on the issue tracker listing */
+.issues-listing .mb-4.js-notice {
+	display: none !important;
+}
+
+/* Remove annoying "helpful" popover on the repo label page */
+.labels-list .TutorialPopover {
+	display: none !important;
+}
+
+/* For the `add-time-machine-links-to-comments` feature */
+:root .rgh-timestamp-button {
+	padding: 0;
+}
+:root .rgh-timestamp-button .octicon {
+	vertical-align: middle;
+}
+
+/* Make the modal backdrop visible */
+:root body.menu-active .modal-backdrop,
+:root .dropdown-details[open] > summary::before {
+	background: rgba(0, 0, 0, 0.1);
+	z-index: 20; /* Don't mess with this value so easily */
+	animation: fade-in 0.2s;
+}
+:root .pagehead ul.pagehead-actions {
+	position: static; /* Demote watch/star/fork */
+}
+
+/* Reduce duplicate backdrop in PR diff view */
+:root .pr-toolbar .modal-backdrop {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+}
+
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+}
+
+/* Fix subpixel rendering Chrome bug in tooltips' triangles */
+.tooltipped:hover::before,
+.tooltipped:hover::after,
+.tooltipped:active::before,
+.tooltipped:active::after,
+.tooltipped:focus::before,
+.tooltipped:focus::after {
+	animation-fill-mode: backwards !important;
+	opacity: 1;
+}
+
+/* Remove "Seeing something unexpected?" from user profiles */
+#js-contribution-activity .js-show-more-timeline-form > p {
+	display: none;
+}

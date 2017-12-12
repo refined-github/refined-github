@@ -1,4 +1,4 @@
-# <img src="src/icon.png" width="45" align="left"> Refined GitHub [![Chrome version][badge-cws]][link-cws] [![Firefox version][badge-amo]][link-amo] [![Deployment][badge-travis]][link-travis]
+# <img src="source/icon.png" width="45" align="left"> Refined GitHub [![Chrome version][badge-cws]][link-cws] [![Firefox version][badge-amo]][link-amo] [![Deployment][badge-travis]][link-travis]
 
 [badge-cws]: https://img.shields.io/chrome-web-store/v/hlepfoohegkhhmjieoechaddaejaokhf.svg?label=chrome
 [badge-amo]: https://img.shields.io/amo/v/refined-github-.svg?label=firefox
@@ -25,7 +25,8 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 
 - [**Chrome** extension][link-cws]
 - [**Firefox** add-on][link-amo]
-- Opera - Use [this Opera extension](https://addons.opera.com/en/extensions/details/download-chrome-extension-9/) to install the Chrome version.
+- **Opera** extension: Use [this Opera extension](https://addons.opera.com/en/extensions/details/download-chrome-extension-9/) to install the Chrome version.
+
 
 ## Highlights
 
@@ -104,6 +105,7 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 
 ### New Features
 
+- [Collapse/expand all outdated pull request comments by pressing <kbd>Alt</kbd> while clicking](https://user-images.githubusercontent.com/25818354/33240033-3e271588-d2af-11e7-93af-13b6e325f65d.gif)
 - Copy canonical link to file when [the <kbd>y</kbd> hotkey](https://help.github.com/articles/getting-permanent-links-to-files/) is used
 - Supports indenting with the tab key in textareas like the comment box (<kbd>Shift</kbd> <kbd>Tab</kbd> for original behavior)
 - [Uses the pull request title as commit title when merging with 'Squash and merge'](https://github.com/sindresorhus/refined-github/issues/276)
@@ -115,7 +117,7 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 - [Adds a shortcut to quickly delete a forked repo](https://cloud.githubusercontent.com/assets/170270/13520281/b2c9335c-e211-11e5-9e36-b0f325166356.png)
 - [Adds a button to open all notifications at once](https://user-images.githubusercontent.com/1402241/31700005-1b3be428-b38c-11e7-90a6-8f572968993b.png)
 - [Adds option to view diffs without whitespace changes](https://cloud.githubusercontent.com/assets/170270/17603894/7b71a166-6013-11e6-81b8-22950ab8bce3.png) *(<kbd>d</kbd> <kbd>w</kbd> hotkey)*
-- [Adds a 'Copy' button to the file view](https://cloud.githubusercontent.com/assets/170270/14453865/8abeaefe-00c1-11e6-8718-9406cee1dc0d.png)
+- [Adds `Copy` button to the file view](https://cloud.githubusercontent.com/assets/170270/14453865/8abeaefe-00c1-11e6-8718-9406cee1dc0d.png)
 - [Adds `Copy` button to gist files](https://cloud.githubusercontent.com/assets/170270/21074840/5dc37578-bf03-11e6-9fd9-501d73edef87.png)
 - [Adds `Copy` button for file paths to pull request diffs](https://cloud.githubusercontent.com/assets/4201088/26023064/18c9c77c-37d2-11e7-8926-b0a05a2706ae.png)
 - [Adds links to patch and diff for each commit](https://cloud.githubusercontent.com/assets/737065/13605562/22faa79e-e516-11e5-80db-2da6aa7965ac.png)
@@ -128,6 +130,7 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 - [Differentiates merge commits from regular commits](https://cloud.githubusercontent.com/assets/170270/14101222/2fe2c24a-f5bd-11e5-8b1f-4e589917d4c4.png)
 - [Adds labels to comments by the original poster](https://cloud.githubusercontent.com/assets/4331946/25075520/d62fbbd0-2316-11e7-921f-ab736dc3522e.png)
 - [Adds build status and link to CI by the repo's title](https://user-images.githubusercontent.com/1402241/32562120-d65166e4-c4e8-11e7-90fb-cbaf36e2709f.png)
+- [Color-codes and counts reviews in PRs list](https://user-images.githubusercontent.com/1402241/33474535-a814ee78-d6ad-11e7-8f08-a8b72799e376.png)
 
 ### Declutter
 
@@ -168,20 +171,20 @@ And [lots](src/content.css) [more...](src/content.js)
 - ~~[Adds ability to collapse/expand files in a pull request diff](https://cloud.githubusercontent.com/assets/170270/13954167/40caa604-f072-11e5-89ba-3145217c4e28.png)~~ [Implemented by GitHub](https://cloud.githubusercontent.com/assets/170270/25772137/6a6b678e-3296-11e7-97c7-02e31ef17743.png)
 - ~~[Adds issue/PR title preview tooltip in comments](https://user-images.githubusercontent.com/170270/30729486-2816df06-9f8a-11e7-8069-8999302e9ddd.png)~~ [Implemented by GitHub](https://user-images.githubusercontent.com/1402241/31265633-779ad0fe-aa35-11e7-8c42-a3b375f8f32c.png)
 
-
 ### Community tweaks
 
 *Stuff that didn't get included, but might be useful.*
 
 - [Quickly edit files in the repo file browser](https://github.com/devkhan/refined-github/commit/51fdf4998fc9392950e932e18018fda870f34666)
 
+
 ## Customization
 
-We're happy to receive suggestions and contributions, but be aware this is a highly opinionated project. There's [a single commonly-requested option](https://user-images.githubusercontent.com/1402241/27267240-9d2e18c8-54d9-11e7-8a64-971af9e066f3.png) but we're not interested in adding more as it's a slippery slope into adding one for everything. Users will always disagree with something. That being said, we're open to discussing things.
+We're happy to receive suggestions and contributions, but be aware this is a highly opinionated project. There's a very high bar for adding options. Users will always disagree with something. That being said, we're open to discussing things.
 
 While this project is highly opinionated, this doesn't necessarily limit you from manually disabling functionality that is not useful for your workflow. Options include:
 
-1. *(CSS Only)* Use a Chrome extension that allows injecting custom styles into sites, based on a URL pattern. [Stylist](https://chrome.google.com/webstore/detail/stylish/fjnbnpbmkenffdnngjfgmeleoegfcffe?hl=en) is one such tool. [Example](https://github.com/sindresorhus/refined-github/issues/136#issuecomment-204072018)
+1. *(CSS Only)* Use a Chrome extension that allows injecting custom styles into sites, based on a URL pattern. [Stylish](https://chrome.google.com/webstore/detail/stylish/fjnbnpbmkenffdnngjfgmeleoegfcffe?hl=en) is one such tool. [Example](https://github.com/sindresorhus/refined-github/issues/136#issuecomment-204072018)
 
 2. Clone the repository, make the adjustments you need, and [load the unpacked extension in Chrome](https://developer.chrome.com/extensions/getstarted#unpacked), rather than installing from the Chrome Store.
 
@@ -191,10 +194,11 @@ While this project is highly opinionated, this doesn't necessarily limit you fro
 Suggestions and pull requests are highly encouraged!
 
 In order to make modifications to the extension you'd need to run it locally.
+
 Please follow the steps below:
 
 ```sh
-git clone git@github.com:sindresorhus/refined-github
+git clone https://github.com/sindresorhus/refined-github
 cd refined-github
 npm install    # Install dev dependencies
 npm run build  # Build the extension code so it's ready for the browser
@@ -214,18 +218,19 @@ Once built, load it in the browser of your choice:
 				<li>Open <code>chrome://extensions</code>
 				<li>Check the <strong>Developer mode</strong> checkbox
 				<li>Click on the <strong>Load unpacked extension</strong> button
-				<li>Select the folder <code>refined-github/extension</code>
+				<li>Select the folder <code>refined-github/distribution</code>
 			</ol>
 		</td>
 		<td width="50%">
 			<ol>
 				<li>Open <code>about:debugging#addons</code>
 				<li>Click on the <strong>Load Temporary Add-on</strong> button
-				<li>Select the file <code>refined-github/extension/manifest.json</code>
+				<li>Select the file <code>refined-github/distribution/manifest.json</code>
 			</ol>
 		</td>
 	</tr>
 </table>
+
 
 ## Related
 
@@ -241,6 +246,7 @@ Once built, load it in the browser of your choice:
 - [GitHub Custom Tab Size](https://github.com/lukechilds/github-custom-tab-size) - Set custom tab size for code views *(Refined GitHub hard-codes it to 4)*
 - [Show All GitHub Issues](https://github.com/sindresorhus/show-all-github-issues) - Shows both Issues and Pull Requests in the Issues tab
 - [Notifications Preview for GitHub](https://github.com/tanmayrajani/notifications-preview-github) - See your notifications on hover on all pages
+- [Refined Twitter](https://github.com/sindresorhus/refined-twitter) - Improves Twitter
 
 Want more? Here are some ideas you could develop!
 
@@ -248,17 +254,16 @@ Want more? Here are some ideas you could develop!
 - [Customize the font of code blocks](https://github.com/sindresorhus/module-requests/issues/97)
 
 
-## Created by
+## Maintainers
 
+- [Federico Brigante](https://github.com/bfred-it)
 - [Sindre Sorhus](https://github.com/sindresorhus)
 - [Haralan Dobrev](https://github.com/hkdobrev)
+- [Scott Busche](https://github.com/busches)
 - [Paul Molluzzo](https://github.com/paulmolluzzo)
 - [Andrew Levine](https://github.com/DrewML)
 - [Kees Kluskens](https://github.com/SpaceK33z)
 - [Jonas Gierer](https://github.com/jgierer12)
-- [Federico Brigante](https://github.com/bfred-it)
-- [Scott Busche](https://github.com/busches)
-- [Contributors…](https://github.com/sindresorhus/refined-github/graphs/contributors)
 
 
 ## License
