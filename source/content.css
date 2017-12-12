@@ -802,10 +802,15 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 [data-url$=recently_touched_branches_list] .btn + div {
 	float: right;
 	margin-right: 8px;
+	font-size: 11px;
 }
 [data-url$=recently_touched_branches_list] .btn .octicon {
 	float: right;
 	margin-top: 2px;
+}
+[data-url$=recently_touched_branches_list] .RecentBranches-item-link {
+	max-width: 150px !important;
+	font-size: 14px;
 }
 [data-url$=recently_touched_branches_list] .my-3 {
 	margin-top: 0 !important;
