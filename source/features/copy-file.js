@@ -19,6 +19,7 @@ export default function () {
 		);
 
 		// Group buttons if necessary
-		groupButtons(firstAction.parentNode.children);
+		// .children is a live HTMLCollection. Needs to be array-fied first.
+		groupButtons([...firstAction.parentNode.children]);
 	}
 }

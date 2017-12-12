@@ -78,7 +78,7 @@ export const wrap = (target, wrapper) => {
 
 export const wrapAll = (targets, wrapper) => {
 	targets[0].before(wrapper);
-	wrapper.append(targets);
+	wrapper.append(...targets);
 };
 
 export const observeEl = (el, listener, options = {childList: true}) => {
