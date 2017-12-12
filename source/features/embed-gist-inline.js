@@ -16,7 +16,7 @@ const createGistElement = gistData => (
 );
 
 async function embedGist(link) {
-	const response = await fetch(link.href + '.json');
+	const response = await fetch(`${link.href}.json`);
 	const gistData = await response.json();
 	const gistEl = createGistElement(gistData);
 	link.parentNode.attachShadow({mode: 'open'}).append(gistEl);
