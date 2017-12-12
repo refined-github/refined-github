@@ -780,3 +780,43 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 #js-contribution-activity .js-show-more-timeline-form > p {
 	display: none;
 }
+
+/* Move "recently pushed branches" out of the way */
+.container.new-discussion-timeline.experiment-repo-nav {
+	position: relative;
+}
+[data-url$=recently_touched_branches_list] {
+	position: absolute;
+	z-index: 10;
+	right: 0;
+	top: -54px;
+	white-space: nowrap;
+	animation: rgh-slide-in-right 0.3s ease-out;
+}
+[data-url$=recently_touched_branches_list] p {
+	display: none;
+}
+[data-url$=recently_touched_branches_list] .btn {
+	text-indent: -999999px;
+}
+[data-url$=recently_touched_branches_list] .btn + div {
+	float: right;
+	margin-right: 8px;
+}
+[data-url$=recently_touched_branches_list] .btn .octicon {
+	float: right;
+	margin-top: 2px;
+}
+[data-url$=recently_touched_branches_list] .my-3 {
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+}
+.RecentBranches-item.p-2 {
+	padding: 2px 5px !important;
+}
+@keyframes rgh-slide-in-right {
+	from {
+		transform: translateX(-30px);
+		opacity: 0;
+	}
+}
