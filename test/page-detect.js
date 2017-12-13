@@ -346,7 +346,6 @@ test('isTrending', urlMatcherMacro, pageDetect.isTrending, [
 
 test('isDiscussion', urlMatcherMacro, pageDetect.isDiscussion, [
 	'https://github.com/orgs/refined-github/teams/core-team/discussions/1',
-	'https://github.com/orgs/refined-github/teams/core-team/',
 	'https://github.com/orgs/refined-github/teams/core-team'
 ], [
 	'https://github.com/orgs/refined-github/teams/core-team/members'
