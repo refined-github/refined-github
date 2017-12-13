@@ -122,7 +122,7 @@
 .toolbar-group:last-child {
 	display: inline-block;
 }
-./* Hide Specific toolbar items
+./* Hide Specific toolbar items*/
 .toolbar-group .toolbar-item[data-prefix="@"], .toolbar-item[data-prefix="#"], .toolbar-group:first-child, .toolbar-item[data-prefix="`"] {
 	display: none;
 	}
