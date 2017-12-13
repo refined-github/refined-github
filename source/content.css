@@ -114,29 +114,12 @@
 	display: none !important;
 }
 
-/* Remove commentbox toolbar */
-.toolbar-group {
-	display: none;
-	margin-left: 0 !important;
-}
-.toolbar-group:last-child {
-	display: inline-block;
-}
-/* Hide Specific toolbar items */
-.toolbar-group .toolbar-item[data-prefix="@"],
-.toolbar-item[data-prefix="#"],
+/* Hide unnecessary comment toolbar items */
 .toolbar-group:first-child,
+.toolbar-item[data-prefix="@"],
+.toolbar-item[data-prefix="#"],
 .toolbar-item[data-prefix="`"] {
 	display: none;
-}
-/* Add Some Spacing */
-.js-saved-reply-container,
-.toolbar-item[data-prefix="- "] {
-	padding-left: 15px !important;
-}
-
-.toolbar-commenting {
-	margin-top: 4px;
 }
 
 /* Remove upload message on comment box */
