@@ -89,4 +89,4 @@ export const isSingleFile = () => /^blob\//.test(getRepoPath());
 
 export const isTrending = () => location.pathname.startsWith('/trending');
 
-export const isDiscussion = () => /^([^/]+[/][^/]+\/)teams[/][^/]+[^/]+($|[/]$|[/]discussions)/.test(getCleanPathname());
+export const isDiscussion = () => /^([^/]+\/[^/]+\/)teams\/[^/]+[^/]+($|\/$|\/discussions)/.test(getCleanPathname());
