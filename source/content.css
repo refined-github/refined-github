@@ -122,9 +122,15 @@
 .toolbar-group:last-child {
 	display: inline-block;
 }
-.toolbar-group .toolbar-item:not(.js-saved-reply-container):not(.rgh-upload-btn) {
+./* Hide Specific toolbar items
+.toolbar-group .toolbar-item[data-prefix="@"], .toolbar-item[data-prefix="#"], .toolbar-group:first-child, .toolbar-item[data-prefix="`"] {
 	display: none;
-}
+	}
+/*Add Some Spacing*/
+.js-saved-reply-container, .toolbar-item[data-prefix="- "]{
+	padding-left: 15px !important;
+	}
+
 .toolbar-commenting {
 	margin-top: 4px;
 }
