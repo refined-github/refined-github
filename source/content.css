@@ -387,8 +387,8 @@ we will add it back on for the simple news alerts we decide to show
 
 /* Styles for avatars Refined GitHub adds to Reactions */
 .reaction-summary-item {
-	padding-right: 10px !important;
-	padding-left: 10px !important;
+	padding-right: 0.7em !important;
+	padding-left: 0.7em !important;
 }
 .reaction-summary-item.user-has-reacted {
 	--background: #f2f8fa;
@@ -411,6 +411,9 @@ we will add it back on for the simple news alerts we decide to show
 }
 .review-comment .reaction-summary-item a {
 	font-size: 9px;
+}
+.discussion-post .reaction-summary-item a {
+	margin-top: -1px;
 }
 
 /* This image will start at height:0 and will expand once loaded, covering the gray placeholder */

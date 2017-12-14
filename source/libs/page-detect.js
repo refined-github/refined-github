@@ -37,6 +37,8 @@ export const isCompare = () => /^compare/.test(getRepoPath());
 
 export const isDashboard = () => /^$|^(orgs[/][^/]+[/])?dashboard([/]|$)/.test(getCleanPathname());
 
+export const isDiscussion = () => /^orgs\/[^/]+\/teams\/[^/]+($|\/discussions)/.test(getCleanPathname());
+
 export const isEnterprise = () => location.hostname !== 'github.com' && location.hostname !== 'gist.github.com';
 
 export const isGist = () => location.hostname.startsWith('gist.') || location.pathname.startsWith('gist/');

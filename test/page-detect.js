@@ -148,6 +148,16 @@ test('isDashboard', urlMatcherMacro, pageDetect.isDashboard, [
 	'https://github.com/sindresorhus'
 ]);
 
+test('isDiscussion', urlMatcherMacro, pageDetect.isDiscussion, [
+	'https://github.com/orgs/refined-github/teams/core-team/discussions?pinned=1',
+	'https://github.com/orgs/refined-github/teams/core-team/discussions/1',
+	'https://github.com/orgs/refined-github/teams/core-team'
+], [
+	'https://github.com/orgs/refined-github/teams/core-team/members',
+	'https://github.com/sindresorhus/teams/tree/discussions',
+	'https://github.com/sindresorhus/orgs/tree/teams/core-team'
+]);
+
 test('isEnterprise', urlMatcherMacro, pageDetect.isEnterprise, [
 	'https://github.big-corp.com/',
 	'https://not-github.com/',
@@ -343,4 +353,3 @@ test('isTrending', urlMatcherMacro, pageDetect.isTrending, [
 	'https://github.com/watching',
 	'https://github.com/jaredhanson/node-trending/tree/master/lib/trending'
 ]);
-

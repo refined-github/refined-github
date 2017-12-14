@@ -186,7 +186,7 @@ function ajaxedPagesHandler() {
 		safely(addPatchDiffLinks);
 	}
 
-	if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit()) {
+	if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit() || pageDetect.isDiscussion()) {
 		safely(addReactionParticipants);
 		safely(showRealNames);
 	}

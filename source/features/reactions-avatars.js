@@ -13,7 +13,7 @@ function getParticipants(container) {
 		.replace(/,? and /, ', ')
 		.replace(/, \d+ more/, '')
 		.split(', ')
-		.filter(username => username !== currentUser)
+		.filter(username => username === currentUser)
 		.map(username => ({
 			container,
 			username
