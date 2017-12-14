@@ -398,8 +398,8 @@ we will add it back on for the simple news alerts we decide to show
 
 /* Styles for avatars Refined GitHub adds to Reactions */
 .reaction-summary-item {
-	padding-left: 10px !important;
-	padding-right: 10px !important;
+	padding-left: 0.7em !important;
+	padding-right: 0.7em !important;
 }
 .reaction-summary-item.user-has-reacted {
 	--background: #f2f8fa;
