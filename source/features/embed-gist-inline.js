@@ -19,7 +19,9 @@ async function embedGist(link) {
 	const response = await fetch(`${link.href}.json`);
 	const gistData = await response.json();
 	const gistEl = createGistElement(gistData);
-	link.parentNode.attachShadow({mode: 'open'}).append(gistEl);
+	const shadowDom = link.parentNode.attachShadow({mode: 'open'});
+	shadowDom.append(gistEl);
+	shadowDom.append(<style>{'.gist .gist-data {max-height: 16em}'}</style>);
 }
 export default () => {
 	select.all('.js-comment-body p a:only-child')
