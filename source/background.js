@@ -5,12 +5,12 @@ import dynamicContentScripts from 'webext-dynamic-content-scripts';
 // Define defaults
 new OptionsSync().define({
 	defaults: {
-		disabledFeatures: ''
+		disabledFeatures: 'log-active-features'
 	},
 	migrations: [
 		options => {
 			if (options.hideStarsOwnRepos === true) {
-				options.disabledFeatures = 'hide-own-stars\n';
+				options.disabledFeatures += '\nhide-own-stars';
 			}
 			delete options.hideStarsOwnRepos;
 		},

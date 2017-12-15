@@ -12,14 +12,16 @@ const options = new OptionsSync().getAll();
  * https://github.com/sindresorhus/refined-github/issues/678
  */
 export const enableFeature = async (fn, fileName) => {
+	const {disabledFeatures} = await options;
+	const log = disabledFeatures.includes('log-active-features') ? () => {} : console.log;
+
 	fileName = fileName || fn.name.replace(/_/g, '-');
 	if (/^$|^anonymous$/.test(fileName)) {
 		console.warn('This feature is nameless', fn);
 	} else {
-		console.warn('✅', fileName); // Testing only
-		const {disabledFeatures} = await options;
+		log('✅', fileName); // Testing only
 		if (disabledFeatures.includes(fileName)) {
-			console.log('↩️', 'Skipping', fileName); // Testing only
+			log('↩️', 'Skipping', fileName); // Testing only
 			return;
 		}
 	}
