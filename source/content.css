@@ -50,7 +50,7 @@
 }
 
 /* Remove news feed tips */
-.news > div:last-of-type.mt-4 {
+.news > .text-gray:last-child {
 	display: none !important;
 }
 
