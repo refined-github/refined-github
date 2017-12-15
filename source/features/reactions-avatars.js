@@ -29,7 +29,7 @@ function add() {
 
 		for (const participant of flatParticipants) {
 			participant.container.append(
-				<a href={`/${participant.username}`} aria-label={participant.username} class="tooltipped rgh-tooltipped">
+				<a href={`/${participant.username}`} aria-label={participant.username} class="tooltipped tooltipped-n rgh-tooltipped">
 					<img src={`/${participant.username}.png?size=${window.devicePixelRatio * 20}`}/>
 				</a>
 			);
