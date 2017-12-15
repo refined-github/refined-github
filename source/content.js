@@ -103,7 +103,8 @@ async function init() {
 }
 
 function onDomReady() {
-	enableFeature(markUnread.setup);
+	enableFeature(markUnread);
+	enableFeature(enableCopyOnY);
 	enableFeature(addProfileHotkey);
 
 	if (!pageDetect.isGist()) {
@@ -127,7 +128,6 @@ function ajaxedPagesHandler() {
 	enableFeature(hideEmptyMeta);
 	enableFeature(removeUploadFilesButton);
 	enableFeature(addTitleToEmojis);
-	enableFeature(enableCopyOnY.destroy);
 
 	enableFeature(() => {
 		for (const a of select.all('a[href]')) {
@@ -202,7 +202,6 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isSingleFile()) {
 		enableFeature(addFileCopyButton);
-		enableFeature(enableCopyOnY.setup);
 	}
 
 	if (pageDetect.isRepoSettings()) {

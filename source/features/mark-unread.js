@@ -334,7 +334,7 @@ function updateLocalParticipatingCount() {
 	}
 }
 
-async function setup() {
+export default async function () {
 	storage = await new SynchronousStorage(
 		async () => {
 			const storage = await browser.storage.local.get({
@@ -386,8 +386,3 @@ function destroy() {
 		button.remove();
 	}
 }
-
-export default {
-	setup,
-	destroy
-};
