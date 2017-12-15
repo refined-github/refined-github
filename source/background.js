@@ -9,10 +9,10 @@ new OptionsSync().define({
 	},
 	migrations: [
 		options => {
-			if (typeof options.hideStarsOwnRepos === 'boolean' && !options.hideStarsOwnRepos) {
-				options.disabledFeatures += 'hide_own_stars\n';
-				delete options.hideStarsOwnRepos;
+			if (options.hideStarsOwnRepos === true) {
+				options.disabledFeatures = 'hide_own_stars\n';
 			}
+			delete options.hideStarsOwnRepos;
 		},
 		OptionsSync.migrations.removeUnused
 	]
