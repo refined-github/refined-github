@@ -5,7 +5,7 @@ import gitHubInjection from 'github-injection';
 import SynchronousStorage from '../libs/synchronous-storage';
 import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
-import {getUsername, safely} from '../libs/utils';
+import {getUsername, enableFeature} from '../libs/utils';
 import addOpenAllNotificationsButton from './open-all-notifications';
 
 let storage;
@@ -367,7 +367,7 @@ async function setup() {
 					storage.set([]);
 				})
 			);
-			safely(addOpenAllNotificationsButton);
+			enableFeature(addOpenAllNotificationsButton);
 		} else if (pageDetect.isPR() || pageDetect.isIssue()) {
 			markRead(location.href);
 			addMarkUnreadButton();

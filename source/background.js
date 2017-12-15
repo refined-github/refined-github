@@ -5,9 +5,15 @@ import dynamicContentScripts from 'webext-dynamic-content-scripts';
 // Define defaults
 new OptionsSync().define({
 	defaults: {
-		hideStarsOwnRepos: true
+		disabledFeatures: ''
 	},
 	migrations: [
+		options => {
+			if (typeof options.hideStarsOwnRepos === 'boolean' && !options.hideStarsOwnRepos) {
+				options.disabledFeatures += 'hide_own_stars\n';
+				delete options.hideStarsOwnRepos;
+			}
+		},
 		OptionsSync.migrations.removeUnused
 	]
 });
