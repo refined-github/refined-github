@@ -371,13 +371,13 @@ forked a repo
 
 /* Increase reaction popover hitbox area to avoid involuntary closes */
 .reaction-popover-form::before {
+	content: '';
 	position: absolute;
 	top: -20px;
 	right: -10px;
 	bottom: -20px;
 	left: -10px;
 	z-index: -1;
-	content: '';
 }
 
 /* Center reactions popup and its triangle */
@@ -495,8 +495,8 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 	font-size: 14px;
 }
 .stale-files-tab-link::before {
-	font-weight: normal;
 	content: 'Subset of changes. ';
+	font-weight: normal;
 }
 
 /* Multiple comment labels margin */
@@ -592,10 +592,10 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 }
 .js-issue-row .text-gray [aria-label*='approval']::before {
 	all: unset;
+	content: attr(aria-label);
 	display: inline !important;
 	color: var(--github-green);
 	font-size: 12px;
-	content: attr(aria-label);
 }
 .js-issue-row .text-gray [aria-label*='changes'] {
 	color: var(--github-red) !important;
