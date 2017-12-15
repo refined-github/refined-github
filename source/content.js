@@ -133,7 +133,7 @@ function ajaxedPagesHandler() {
 		for (const a of select.all('a[href]')) {
 			shortenLink(a, location.href);
 		}
-	});
+	}, 'shorten-links');
 
 	enableFeature(linkifyCode); // Must be after link shortening #789
 
@@ -155,7 +155,7 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isPR()) {
 		enableFeature(scrollToTopOnCollapse);
-		enableFeature(linkifyBranchRefs.inPR);
+		enableFeature(linkifyBranchRefs.inPR, 'linkify_branch_refs');
 		enableFeature(addDeleteForkLink);
 		enableFeature(fixSquashAndMergeTitle);
 		enableFeature(openCIDetailsInNewTab);
@@ -163,7 +163,7 @@ function ajaxedPagesHandler() {
 	}
 
 	if (pageDetect.isQuickPR()) {
-		enableFeature(linkifyBranchRefs.inQuickPR);
+		enableFeature(linkifyBranchRefs.inQuickPR, 'linkify_branch_refs');
 	}
 
 	if (pageDetect.isPR() || pageDetect.isIssue()) {

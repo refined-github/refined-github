@@ -10,7 +10,7 @@ new OptionsSync().define({
 	migrations: [
 		options => {
 			if (options.hideStarsOwnRepos === true) {
-				options.disabledFeatures = 'hide_own_stars\n';
+				options.disabledFeatures = 'hide-own-stars\n';
 			}
 			delete options.hideStarsOwnRepos;
 		},
