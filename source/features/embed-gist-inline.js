@@ -20,8 +20,13 @@ async function embedGist(link) {
 	const gistData = await response.json();
 	const gistEl = createGistElement(gistData);
 	const shadowDom = link.parentNode.attachShadow({mode: 'open'});
+	shadowDom.append(<style>{`
+		.gist .gist-data {
+			max-height: 16em;
+			overflow-y: auto;
+		}
+	`}</style>);
 	shadowDom.append(gistEl);
-	shadowDom.append(<style>{'.gist .gist-data {max-height: 16em}'}</style>);
 }
 export default () => {
 	select.all('.js-comment-body p a:only-child')
