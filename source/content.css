@@ -241,77 +241,12 @@ added someone as a collaborator
 forked a repo
 */
 .news .push,
-.news .alert.delete.simple,
-.news .member_add,
 .news .fork {
 	display: none !important;
 }
 
-/* Ensure the news feed is still shown once the items above have been hidden */
-.news {
-	min-height: 1px;
-}
-
 .news .alert {
-	padding: 0 0 0 45px !important;
 	border: 0 !important; /* Remove border between dashboard news items */
-}
-
-:root .news .alert .body { /* Higher specificity, avoids !important */
-	padding: 1em 0;
-}
-
-/*
-Remove padding from body of simple news alerts in Dashboard since some will be hidden
-we will add it back on for the simple news alerts we decide to show
-*/
-.news .alert.create.simple,
-.news .alert.create.simple .body {
-	padding-top: 0 !important;
-	padding-bottom: 0 !important;
-}
-
-/* Add padding back to the contents of simple news alerts in Dashboard */
-.news .alert.create.simple .body .title {
-	padding-bottom: 1.5em !important;
-}
-.news .alert.create.simple .body .time {
-	padding-top: 1.5em !important;
-}
-.news .alert.create.simple .body .dashboard-event-icon {
-	top: 22px !important;
-}
-
-/* Don't show contents of simple news alert in Dashboard when you create a branch */
-.news .alert.create.simple .octicon-git-branch,
-.news .alert.create.simple .octicon-git-branch + .title,
-.news .alert.create.simple .octicon-git-branch + .title + .time {
-	display: none;
-}
-
-/* Align items top to bottom */
-.news .alert .body,
-.news .alert .body .simple {
-	display: flex;
-	flex-direction: column;
-}
-
-/* Move time to the top of news item */
-.news .alert .body .time {
-	order: -1;
-}
-
-/* Highlight all the titles */
-.news .alert .body .title {
-	color: inherit !important;
-	font-size: 14px !important;
-	font-weight: 600 !important;
-}
-
-/* Increase size of all event icons */
-.news .alert svg.octicon.dashboard-event-icon {
-	width: 28px !important;
-	height: 32px !important;
 }
 
 /* Decrease font-size on commit details so our custom patch and diff links fit */
