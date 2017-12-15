@@ -245,7 +245,7 @@ forked a repo
 	display: none !important;
 }
 
-.news .alert {
+.news .body > .border-gray-light {
 	border: 0 !important; /* Remove border between dashboard news items */
 }
 
