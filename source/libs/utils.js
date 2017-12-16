@@ -11,17 +11,17 @@ const options = new OptionsSync().getAll();
  * Prevent fn's errors from blocking the remaining tasks.
  * https://github.com/sindresorhus/refined-github/issues/678
  */
-export const enableFeature = async (fn, fileName) => {
-	const {disabledFeatures} = await options;
-	const log = disabledFeatures.includes('log-active-features') ? () => {} : console.log;
+export const enableFeature = async (fn, filename) => {
+	const {disabledFeatures, logFeatures} = await options;
+	const log = logFeatures ? console.log : () => {};
 
-	fileName = fileName || fn.name.replace(/_/g, '-');
-	if (/^$|^anonymous$/.test(fileName)) {
+	filename = filename || fn.name.replace(/_/g, '-');
+	if (/^$|^anonymous$/.test(filename)) {
 		console.warn('This feature is nameless', fn);
 	} else {
-		log('✅', fileName); // Testing only
-		if (disabledFeatures.includes(fileName)) {
-			log('↩️', 'Skipping', fileName); // Testing only
+		log('✅', filename); // Testing only
+		if (disabledFeatures.includes(filename)) {
+			log('↩️', 'Skipping', filename); // Testing only
 			return;
 		}
 	}
