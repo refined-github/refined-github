@@ -1,5 +1,6 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
+import onetime from 'onetime';
 import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';
 import OptionsSync from 'webext-options-sync';
@@ -28,7 +29,7 @@ export const enableFeature = async (fn, filename) => {
 	fn();
 };
 
-export const getUsername = () => select('meta[name="user-login"]').getAttribute('content');
+export const getUsername = onetime(() => select('meta[name="user-login"]').getAttribute('content'));
 
 export const groupBy = (iterable, grouper) => {
 	const map = {};
