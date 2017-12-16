@@ -11,9 +11,6 @@ module.exports = {
 		options: './source/options'
 	},
 	plugins: [
-		new webpack.DefinePlugin({
-			process: '0'
-		}),
 		new webpack.optimize.ModuleConcatenationPlugin(),
 		new CopyWebpackPlugin([{
 			from: '*',
