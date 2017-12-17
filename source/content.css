@@ -700,3 +700,14 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 #js-contribution-activity .js-show-more-timeline-form > p {
 	display: none;
 }
+
+/* Clean up the global footer */
+body > .footer {
+	opacity: 0.3;
+}
+body > .footer ul:first-of-type li:first-of-type { /* The `© 2017 GitHub, Inc.` text */
+	display: none;
+}
+.footer-octicon {
+	display: none;
+}
