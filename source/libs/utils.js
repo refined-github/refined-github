@@ -7,6 +7,42 @@ import OptionsSync from 'webext-options-sync';
 
 const options = new OptionsSync().getAll();
 
+class Logger {
+	constructor() {
+		this.enabled = true;
+		this.currentGroup = null;
+	}
+
+	logToGroup(group, ...messages) {
+		if (!this.enabled) {
+			return;
+		}
+
+		if (group !== this.currentGroup) {
+			this.currentGroup = group;
+			console.groupEnd();
+			console.group(group);
+		}
+
+		console.log(...messages);
+	}
+
+	log(...messages) {
+		if (!this.enabled) {
+			return;
+		}
+
+		if (this.currentGroup) {
+			this.currentGroup = null;
+			console.groupEnd();
+		}
+
+		console.log(...messages);
+	}
+}
+
+export const logger = new Logger();
+
 /**
  * Enable toggling each feature via options.
  * Prevent fn's errors from blocking the remaining tasks.
@@ -14,18 +50,21 @@ const options = new OptionsSync().getAll();
  */
 export const enableFeature = async (fn, filename) => {
 	const {disabledFeatures, logging} = await options;
-	const log = logging ? console.log : () => {};
+	logger.enabled = logging;
+
+	const groupTitle = 'Features:';
 
 	filename = filename || fn.name.replace(/_/g, '-');
 	if (/^$|^anonymous$/.test(filename)) {
 		console.warn('This feature is nameless', fn);
 	} else {
-		log('✅', filename); // Testing only
+		logger.logToGroup(groupTitle, '✅', filename);
 		if (disabledFeatures.includes(filename)) {
-			log('↩️', 'Skipping', filename); // Testing only
+			logger.logToGroup(groupTitle, '↩️', 'Skipping', filename);
 			return;
 		}
 	}
+
 	fn();
 };
 
