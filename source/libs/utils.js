@@ -13,8 +13,8 @@ const options = new OptionsSync().getAll();
  * https://github.com/sindresorhus/refined-github/issues/678
  */
 export const enableFeature = async (fn, filename) => {
-	const {disabledFeatures, logFeatures} = await options;
-	const log = logFeatures ? console.log : () => {};
+	const {disabledFeatures, logging} = await options;
+	const log = logging ? console.log : () => {};
 
 	filename = filename || fn.name.replace(/_/g, '-');
 	if (/^$|^anonymous$/.test(filename)) {

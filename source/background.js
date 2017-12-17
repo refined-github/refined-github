@@ -5,8 +5,8 @@ import dynamicContentScripts from 'webext-dynamic-content-scripts';
 // Define defaults
 new OptionsSync().define({
 	defaults: {
-		disabledFeatures: 'log-active-features',
-		logFeatures: false
+		disabledFeatures: '',
+		logging: false
 	},
 	migrations: [
 		options => {
