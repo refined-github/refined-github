@@ -54,7 +54,7 @@ import embedGistInline from './features/embed-gist-inline';
 import expandCollapseOutdatedComments from './features/expand-collapse-outdated-comments';
 
 import * as pageDetect from './libs/page-detect';
-import {observeEl, safeElementReady, safely} from './libs/utils';
+import {observeEl, safeElementReady, enableFeature} from './libs/utils';
 
 // Add globals for easier debugging
 window.select = select;
@@ -73,26 +73,26 @@ async function init() {
 	document.documentElement.classList.add('refined-github');
 
 	if (!pageDetect.isGist()) {
-		safely(addTrendingMenuItem);
+		enableFeature(addTrendingMenuItem);
 	}
 
 	if (pageDetect.isDashboard()) {
-		safely(moveAccountSwitcherToSidebar);
+		enableFeature(moveAccountSwitcherToSidebar);
 	}
 
 	if (pageDetect.isRepo()) {
 		onAjaxedPages(async () => {
 			// Wait for the tab bar to be loaded
 			await safeElementReady('.pagehead + *');
-			safely(addMoreDropdown);
-			safely(addReleasesTab);
-			safely(removeProjectsTab);
+			enableFeature(addMoreDropdown);
+			enableFeature(addReleasesTab);
+			enableFeature(removeProjectsTab);
 		});
 	}
 
-	safely(focusConfirmationButtons);
-	safely(addKeyboardShortcutsToCommentFields);
-	safely(addConfirmationToCommentCancellation);
+	enableFeature(focusConfirmationButtons);
+	enableFeature(addKeyboardShortcutsToCommentFields);
+	enableFeature(addConfirmationToCommentCancellation);
 
 	// TODO: Enable this when we've improved how copying Markdown works
 	// See #522
@@ -103,110 +103,109 @@ async function init() {
 }
 
 function onDomReady() {
-	safely(markUnread.setup);
-	safely(addProfileHotkey);
+	enableFeature(markUnread);
+	enableFeature(enableCopyOnY);
+	enableFeature(addProfileHotkey);
 
 	if (!pageDetect.isGist()) {
-		safely(moveMarketplaceLinkToProfileDropdown);
+		enableFeature(moveMarketplaceLinkToProfileDropdown);
 	}
 
 	if (pageDetect.isGist()) {
-		safely(addFileCopyButton);
+		enableFeature(addFileCopyButton);
 	}
 
 	if (pageDetect.isDashboard()) {
-		safely(hideOwnStars);
-		safely(autoLoadMoreNews);
+		enableFeature(hideOwnStars);
+		enableFeature(autoLoadMoreNews);
 	}
 
 	onAjaxedPages(ajaxedPagesHandler);
 }
 
 function ajaxedPagesHandler() {
-	safely(addOpenAllNotificationsButton);
-	safely(hideEmptyMeta);
-	safely(removeUploadFilesButton);
-	safely(addTitleToEmojis);
-	safely(enableCopyOnY.destroy);
+	enableFeature(addOpenAllNotificationsButton);
+	enableFeature(hideEmptyMeta);
+	enableFeature(removeUploadFilesButton);
+	enableFeature(addTitleToEmojis);
 
-	safely(() => {
+	enableFeature(() => {
 		for (const a of select.all('a[href]')) {
 			shortenLink(a, location.href);
 		}
-	});
+	}, 'shorten-links');
 
-	safely(linkifyCode); // Must be after link shortening #789
+	enableFeature(linkifyCode); // Must be after link shortening #789
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
-		safely(addYoursMenuItem);
+		enableFeature(addYoursMenuItem);
 	}
 
 	if (pageDetect.isMilestone()) {
-		safely(addMilestoneNavigation); // Needs to be before sortMilestonesByClosestDueDate
+		enableFeature(addMilestoneNavigation); // Needs to be before sortMilestonesByClosestDueDate
 	}
 
 	if (pageDetect.isRepo()) {
-		safely(addReadmeButtons);
-		safely(addDiffViewWithoutWhitespaceOption);
-		safely(removeDiffSigns);
-		safely(addCILink);
-		safely(sortMilestonesByClosestDueDate); // Needs to be after addMilestoneNavigation
+		enableFeature(addReadmeButtons);
+		enableFeature(addDiffViewWithoutWhitespaceOption);
+		enableFeature(removeDiffSigns);
+		enableFeature(addCILink);
+		enableFeature(sortMilestonesByClosestDueDate); // Needs to be after addMilestoneNavigation
 	}
 
 	if (pageDetect.isPR()) {
-		safely(scrollToTopOnCollapse);
-		safely(linkifyBranchRefs.inPR);
-		safely(addDeleteForkLink);
-		safely(fixSquashAndMergeTitle);
-		safely(openCIDetailsInNewTab);
-		safely(expandCollapseOutdatedComments);
+		enableFeature(scrollToTopOnCollapse);
+		enableFeature(linkifyBranchRefs.inPR, 'linkify_branch_refs');
+		enableFeature(addDeleteForkLink);
+		enableFeature(fixSquashAndMergeTitle);
+		enableFeature(openCIDetailsInNewTab);
+		enableFeature(expandCollapseOutdatedComments);
 	}
 
 	if (pageDetect.isQuickPR()) {
-		safely(linkifyBranchRefs.inQuickPR);
+		enableFeature(linkifyBranchRefs.inQuickPR, 'linkify_branch_refs');
 	}
 
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
-		safely(linkifyIssuesInTitles);
-		safely(addUploadBtn);
-		safely(embedGistInline);
+		enableFeature(linkifyIssuesInTitles);
+		enableFeature(addUploadBtn);
+		enableFeature(embedGistInline);
 
 		observeEl('.new-discussion-timeline', () => {
-			safely(addOPLabels);
-			safely(addTimeMachineLinksToComments);
+			enableFeature(addOPLabels);
+			enableFeature(addTimeMachineLinksToComments);
 		});
 	}
 
 	if (pageDetect.isPRList() || pageDetect.isIssueList()) {
-		safely(addFilterCommentsByYou);
-		safely(showRecentlyPushedBranches);
+		enableFeature(addFilterCommentsByYou);
+		enableFeature(showRecentlyPushedBranches);
 	}
 
 	if (pageDetect.isCommit()) {
-		safely(addPatchDiffLinks);
+		enableFeature(addPatchDiffLinks);
 	}
 
 	if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit() || pageDetect.isDiscussion()) {
-		safely(addReactionParticipants);
-		safely(showRealNames);
+		enableFeature(addReactionParticipants);
+		enableFeature(showRealNames);
 	}
 
 	if (pageDetect.isCommitList()) {
-		safely(markMergeCommitsInList);
+		enableFeature(markMergeCommitsInList);
 	}
 
 	if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
-		safely(addCopyFilePathToPRs);
-		safely(preserveWhitespaceOptionInNav);
+		enableFeature(addCopyFilePathToPRs);
+		enableFeature(preserveWhitespaceOptionInNav);
 	}
 
 	if (pageDetect.isSingleFile()) {
-		safely(addFileCopyButton);
-		safely(enableCopyOnY.setup);
+		enableFeature(addFileCopyButton);
 	}
 
 	if (pageDetect.isRepoSettings()) {
-		safely(addProjectNewLink);
+		enableFeature(addProjectNewLink);
 	}
 }
 

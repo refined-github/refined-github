@@ -30,7 +30,7 @@
 		"to-semver": "^1.1.0",
 		"webext-domain-permission-toggle": "0.0.2",
 		"webext-dynamic-content-scripts": "^5.0.0-2",
-		"webext-options-sync": "^0.12.0",
+		"webext-options-sync": "^0.13.0",
 		"webextension-polyfill": "^0.2.1"
 	},
 	"devDependencies": {

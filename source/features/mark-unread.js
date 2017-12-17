@@ -5,7 +5,7 @@ import gitHubInjection from 'github-injection';
 import SynchronousStorage from '../libs/synchronous-storage';
 import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
-import {getUsername, safely} from '../libs/utils';
+import {getUsername, enableFeature} from '../libs/utils';
 import addOpenAllNotificationsButton from './open-all-notifications';
 
 let storage;
@@ -337,7 +337,7 @@ function updateLocalParticipatingCount() {
 	}
 }
 
-async function setup() {
+export default async function () {
 	storage = await new SynchronousStorage(
 		async () => {
 			const storage = await browser.storage.local.get({
@@ -370,7 +370,7 @@ async function setup() {
 					storage.set([]);
 				})
 			);
-			safely(addOpenAllNotificationsButton);
+			enableFeature(addOpenAllNotificationsButton);
 		} else if (pageDetect.isPR() || pageDetect.isIssue()) {
 			markRead(location.href);
 			addMarkUnreadButton();
@@ -389,8 +389,3 @@ function destroy() {
 		button.remove();
 	}
 }
-
-export default {
-	setup,
-	destroy
-};

@@ -1,5 +1,7 @@
-import copyToClipboard from 'copy-text-to-clipboard';
 import select from 'select-dom';
+import onAjaxedPages from 'github-injection';
+import copyToClipboard from 'copy-text-to-clipboard';
+import * as pageDetect from '../libs/page-detect';
 
 const handler = ({key, target}) => {
 	if (key === 'y' && target.nodeName !== 'INPUT') {
@@ -8,15 +10,12 @@ const handler = ({key, target}) => {
 	}
 };
 
-const setup = () => {
-	window.addEventListener('keyup', handler);
-};
-
-const destroy = () => {
-	window.removeEventListener('keyup', handler);
-};
-
-export default {
-	setup,
-	destroy
-};
+export default function () {
+	onAjaxedPages(() => {
+		if (pageDetect.isSingleFile()) {
+			window.addEventListener('keyup', handler);
+		} else {
+			window.removeEventListener('keyup', handler);
+		}
+	});
+}
