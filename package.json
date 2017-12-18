@@ -1,6 +1,7 @@
 {
 	"scripts": {
 		"lint": "xo && stylelint source/*.css",
+		"lint-fix": "xo --fix; stylelint --fix source/*.css",
 		"test": "npm run lint && cross-env BABEL_ENV=testing ava && run-s build:minified",
 		"build": "webpack",
 		"build:minified": "cross-env NODE_ENV=production webpack",
