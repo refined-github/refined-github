@@ -18,7 +18,7 @@
 }
 
 /* Remove "Repositories you contribute to" dashboard sidebar box */
-.dashboard-sidebar > .boxed-group[role="navigation"]:not(.repos) {
+.dashboard-sidebar > .boxed-group[role='navigation']:not(.repos) {
 	display: none !important;
 }
 
@@ -29,8 +29,8 @@
 
 /* Match context switcher modal's width to that of the user repo list */
 .dashboard-sidebar .select-menu-modal {
-	margin: 0;
 	width: 313px;
+	margin: 0;
 }
 
 /* Remove the toolbar from the right repo box on the dashboard */
@@ -49,36 +49,31 @@
 	opacity: 0.6 !important;
 }
 
-/* Remove border between dashboard news items */
-.news .alert {
-	border: 0 !important;
-}
-
 /* Remove news feed tips */
-.news > div:last-of-type.mt-4 {
+.news > .text-gray:last-child {
 	display: none !important;
 }
 
 /* Remove tooltips where unnecessary */
-.tooltipped:before,
-.tooltipped:after {
+.tooltipped::before,
+.tooltipped::after {
 	display: none !important;
 }
 
-.notification-actions .tooltipped:before,
-.notification-actions .tooltipped:after,
-[aria-label~="reacted with"]:before,
-[aria-label~="reacted with"]:after,
-.avatar-group-item:before,
-.avatar-group-item:after,
-.js-zeroclipboard:before,
-.js-zeroclipboard:after,
-.rgh-tooltipped:before,
-.rgh-tooltipped:after,
-.issue-link:before,
-.issue-link:after,
-.avatar:before,
-.avatar:after {
+.notification-actions .tooltipped::before,
+.notification-actions .tooltipped::after,
+[aria-label~='reacted with']::before,
+[aria-label~='reacted with']::after,
+.avatar-group-item::before,
+.avatar-group-item::after,
+.js-zeroclipboard::before,
+.js-zeroclipboard::after,
+.rgh-tooltipped::before,
+.rgh-tooltipped::after,
+.issue-link::before,
+.issue-link::after,
+.avatar::before,
+.avatar::after {
 	display: inline-block !important;
 }
 
@@ -110,23 +105,17 @@
 }
 
 /* Remove top buttons on comment box */
-.timeline-comment-wrapper .tabnav-extra, .inline-comment-form-container .tabnav-extra {
+.timeline-comment-wrapper .tabnav-extra,
+.inline-comment-form-container .tabnav-extra {
 	display: none !important;
 }
 
-/* Remove commentbox toolbar */
-.toolbar-group {
+/* Hide unnecessary comment toolbar items */
+.toolbar-group:first-child,
+.toolbar-item[data-prefix='@'],
+.toolbar-item[data-prefix='#'],
+.toolbar-item[data-prefix='`'] {
 	display: none;
-	margin-left: 0 !important;
-}
-.toolbar-group:last-child {
-	display: inline-block;
-}
-.toolbar-group .toolbar-item:not(.js-saved-reply-container):not(.rgh-upload-btn) {
-	display: none;
-}
-.toolbar-commenting {
-	margin-top: 4px;
 }
 
 /* Remove upload message on comment box */
@@ -153,7 +142,7 @@
 
 /* Move the dashboard organization switcher to the right column */
 .news.column.two-thirds .account-switcher {
-	/* Hide switcher from the main column, but if JS fails show it */
+	/* Hide switcher from the main column, but if JS fails show it */
 	animation: temporarily-hide 5s steps(1, end);
 }
 @keyframes temporarily-hide {
@@ -168,9 +157,9 @@
 	text-align: center;
 }
 .account-switcher .select-menu-button-gravatar {
-	float: none !important;
 	display: inline-block !important;
 	vertical-align: top !important;
+	float: none !important;
 }
 /* Organization dashboard */
 .orgpage .underline-nav {
@@ -220,8 +209,8 @@ a .commit-ref:hover span {
 
 #refined-github-readme-buttons a {
 	opacity: 0.2;
-	transition: opacity 250ms;
 	text-decoration: none;
+	transition: opacity 250ms;
 }
 
 #refined-github-readme-buttons a:hover {
@@ -238,10 +227,10 @@ a .commit-ref:hover span {
 }
 
 #refined-github-delete-fork-link {
+	padding: 10px 10px 0;
 	position: absolute;
 	top: 45px;
 	right: 30px;
-	padding: 10px 10px 0;
 	color: #df3e3e;
 }
 
@@ -252,79 +241,13 @@ added someone as a collaborator
 forked a repo
 */
 .news .push,
-.news .alert.delete.simple,
-.news .member_add,
 .news .fork {
 	display: none !important;
 }
 
-/* Ensure the news feed is still shown once the items above have been hidden */
-.news {
-	min-height: 1px;
+.news .body > .border-gray-light {
+	border: 0 !important; /* Remove border between dashboard news items */
 }
-
-.news .alert {
-	padding: 0 0 0 45px !important;
-}
-
-:root .news .alert .body { /* Higher specificity, avoids !important */
-	padding: 1em 0;
-}
-
-/*
-Remove padding from body of simple news alerts in Dashboard since some will be hidden
-we will add it back on for the simple news alerts we decide to show
-*/
-.news .alert.create.simple,
-.news .alert.create.simple .body {
-	padding-top: 0 !important;
-	padding-bottom: 0 !important;
-}
-
-/* Add padding back to the contents of simple news alerts in Dashboard */
-.news .alert.create.simple .body .title {
-	padding-bottom: 1.5em !important;
-}
-.news .alert.create.simple .body .time {
-	padding-top: 1.5em !important;
-}
-.news .alert.create.simple .body .dashboard-event-icon {
-	top: 22px !important;
-}
-
-/* Don't show contents of simple news alert in Dashboard when you create a branch */
-.news .alert.create.simple .octicon-git-branch,
-.news .alert.create.simple .octicon-git-branch + .title,
-.news .alert.create.simple .octicon-git-branch + .title + .time {
-	display: none;
-}
-
-/* Align items top to bottom */
-.news .alert .body,
-.news .alert .body .simple {
-	display: flex;
-	flex-direction: column;
-}
-
-/* Move time to the top of news item */
-.news .alert .body .time {
-	order: -1;
-}
-
-/* Highlight all the titles */
-.news .alert .body .title {
-	font-size: 14px !important;
-	font-weight: 600 !important;
-	color: inherit !important;
-}
-
-/* Increase size of all event icons */
-.news .alert svg.octicon.dashboard-event-icon {
-	height: 32px !important;
-	width: 28px !important;
-}
-
-
 
 /* Decrease font-size on commit details so our custom patch and diff links fit */
 .commit .sha-block {
@@ -336,8 +259,8 @@ we will add it back on for the simple news alerts we decide to show
 }
 .signed-commit-badge-medium {
 	padding: 2px 4px !important;
-	font-size: 10px !important;
 	margin-left: 5px !important;
+	font-size: 10px !important;
 }
 
 /* Remove `Developer Program Member` from profile page */
@@ -347,8 +270,8 @@ we will add it back on for the simple news alerts we decide to show
 
 /* Fade out merge commits from commit list */
 .refined-github-merge-commit .commit-title {
-	font-size: 12px !important;
 	margin-top: 4px !important;
+	font-size: 12px !important;
 }
 
 .refined-github-merge-commit .commit-author-section {
@@ -356,10 +279,10 @@ we will add it back on for the simple news alerts we decide to show
 }
 
 .refined-github-merge-commit .octicon-git-pull-request {
-	color: #4078c0;
-	margin-left: 9px;
 	width: 27px;
 	height: 36px;
+	margin-left: 9px;
+	color: #4078c0;
 }
 
 .refined-github-merge-commit .avatar-child {
@@ -373,7 +296,8 @@ we will add it back on for the simple news alerts we decide to show
 }
 
 /* Limit width of commit title and description inputs to 50/80 chars */
-#commit-summary-input, #commit-description-textarea {
+#commit-summary-input,
+#commit-description-textarea {
 	font-family: monospace !important;
 }
 
@@ -398,25 +322,23 @@ we will add it back on for the simple news alerts we decide to show
 
 /* Styles for avatars Refined GitHub adds to Reactions */
 .reaction-summary-item {
-	padding-left: 10px !important;
-	padding-right: 10px !important;
+	padding-right: 0.7em !important;
+	padding-left: 0.7em !important;
 }
 .reaction-summary-item.user-has-reacted {
 	--background: #f2f8fa;
 }
 .reaction-summary-item a {
 	display: inline-block;
-	vertical-align: middle;
-	font-size: 10px; /* Base sizer */
 	width: 2em;
 	height: 2em;
-
+	border-radius: 3px;
+	margin-top: -0.3em;
+	margin-left: -0.2em;
+	vertical-align: middle;
 	background: #efefef; /* Placeholder before the images load */
 	box-shadow: 0 0 0 2px var(--background, #fff);
-	border-radius: 3px;
-
-	margin-left: -0.2em;
-	margin-top: -0.3em;
+	font-size: 10px; /* Base sizer */
 	transition: margin-left 0.2s;
 }
 .reaction-summary-item a:first-of-type {
@@ -425,12 +347,15 @@ we will add it back on for the simple news alerts we decide to show
 .review-comment .reaction-summary-item a {
 	font-size: 9px;
 }
+.discussion-post .reaction-summary-item a {
+	margin-top: -1px;
+}
 
 /* This image will start at height:0 and will expand once loaded, covering the gray placeholder */
 .reaction-summary-item img {
 	max-width: 100%;
-	background-color: var(--background);
 	border-radius: inherit;
+	background-color: var(--background);
 }
 
 /* Overlap reaction avatars when there are 5+ types of reactions */
@@ -445,7 +370,7 @@ we will add it back on for the simple news alerts we decide to show
 }
 
 /* Increase reaction popover hitbox area to avoid involuntary closes */
-.reaction-popover-form:before {
+.reaction-popover-form::before {
 	content: '';
 	position: absolute;
 	top: -20px;
@@ -458,10 +383,10 @@ we will add it back on for the simple news alerts we decide to show
 /* Center reactions popup and its triangle */
 .add-reaction-popover,
 .add-reaction-popover::before,
-.add-reaction-popover::after  {
-	transform: translate(-50%) !important;
-	left: 50% !important;
+.add-reaction-popover::after {
 	right: auto !important;
+	left: 50% !important;
+	transform: translate(-50%) !important;
 }
 .add-reaction-popover {
 	animation-name: rgh-scale-in-centered !important;
@@ -472,6 +397,7 @@ we will add it back on for the simple news alerts we decide to show
 		transform: translate(-50%) scale(0.5);
 		opacity: 0;
 	}
+
 	100% {
 		transform: translate(-50%);
 	}
@@ -501,14 +427,14 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 
 /* Keep colored button when reaction popup is open */
 .dropdown-details[open] .timeline-comment-action {
-	color: #4078c0;
 	opacity: 1;
+	color: #4078c0;
 }
 
 /* Collapse multiple discussion items */
 .discussion-item + .discussion-item {
 	padding-top: 0 !important;
-	border-top: none !important;
+	border-top: 0 !important;
 }
 
 /* Mark as unread */
@@ -517,27 +443,27 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 }
 
 /* Change color of marker if there are only discussion marked as unread */
-.notification-indicator[data-ga-click$=":read"] .unread {
-	background: linear-gradient(#34d058, #28a745)
+.notification-indicator[data-ga-click$=':read'] .unread {
+	background: linear-gradient(#34d058, #28a745);
 }
 
 /* +/- Pseudo elements on diffs */
-.refined-github-diff-signs .blob-code-addition:before,
-.refined-github-diff-signs .blob-code-deletion:before {
+.refined-github-diff-signs .blob-code-addition::before,
+.refined-github-diff-signs .blob-code-deletion::before {
 	display: inline-block;
 	position: absolute;
 	top: 1px;
+	color: rgba(0, 0, 0, 0.3);
 	font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
 	font-size: 11px;
 	text-indent: -8px;
-	color: rgba(0, 0, 0, 0.3);
 }
 
-.refined-github-diff-signs .blob-code-addition:before {
+.refined-github-diff-signs .blob-code-addition::before {
 	content: '+';
 }
 
-.refined-github-diff-signs .blob-code-deletion:before {
+.refined-github-diff-signs .blob-code-deletion::before {
 	content: '-';
 }
 
@@ -548,7 +474,7 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 }
 
 /* Restore removed space with unselectable one */
-.refined-github-diff-signs .blob-code-inner:before {
+.refined-github-diff-signs .blob-code-inner::before {
 	content: ' ' !important;
 	user-select: none;
 }
@@ -559,7 +485,7 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 }
 
 
-/* Fix PR diffbar links position #474 */
+/* Fix PR diffbar links position #474 */
 .stale-files-tab,
 .subset-files-tab {
 	font-size: 0 !important;
@@ -568,11 +494,7 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 .stale-files-tab .stale-files-tab-link {
 	font-size: 14px;
 }
-.stale-files-tab-link:before {
-	content: 'Out of date. ';
-	font-weight: normal;
-}
-.stale-files-tab-link:before {
+.stale-files-tab-link::before {
 	content: 'Subset of changes. ';
 	font-weight: normal;
 }
@@ -595,8 +517,8 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 
 /* ...in comment edit form */
 div.previewable-edit .previewable-comment-form .form-actions {
-	float: none;
 	margin-left: 10px;
+	float: none;
 }
 
 .previewable-edit .previewable-comment-form .form-actions .btn.js-comment-cancel-button {
@@ -615,7 +537,7 @@ div.inline-comment-form .form-actions,
 }
 
 /* Decrease the size of the search box to fit 'Yours' menu item */
-.subnav-search-input[aria-label="Search all issues"] {
+.subnav-search-input[aria-label='Search all issues'] {
 	width: 420px;
 }
 
@@ -629,7 +551,7 @@ div.inline-comment-form .form-actions,
 }
 
 /* Remove the "Styling with Markdown is supported" link when a PR comment is in edit mode */
-a.tabnav-extra[href$="mastering-markdown/"] {
+a.tabnav-extra[href$='mastering-markdown/'] {
 	display: none !important;
 }
 
@@ -639,7 +561,7 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 }
 
 /* Hide marketplace navbar button */
-.HeaderNavlink[href="/marketplace"] {
+.HeaderNavlink[href='/marketplace'] {
 	display: none !important;
 }
 
@@ -652,32 +574,30 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 	order: 1;
 }
 .js-issue-row .h4, /* Title */
-.js-issue-row .d-inline-block.mr-1 {  /* Build status */
-	padding-right: 4px; /* Space before the build status */
+.js-issue-row .d-inline-block.mr-1 {  /* Build status */
+	padding-right: 4px; /* Space before the build status */
 }
 .js-issue-row .mt-1.text-small.text-gray { /* Issue details line */
 	flex-basis: 100%;
 }
 .js-issue-row .label {
+	padding: 2px 3px 3px !important;
 	margin-top: 4px;
 	font-size: 11px !important;
-	padding: 2px 3px 3px 3px !important;
 }
 
-/* Show approvals count in PR list */
-.js-issue-row .text-gray [aria-label*="approval"] {
+/* Show approvals count in PR list */
+.js-issue-row .text-gray [aria-label*='approval'] {
 	font-size: 0;
 }
-.js-issue-row .text-gray [aria-label*="approval"]::before {
+.js-issue-row .text-gray [aria-label*='approval']::before {
 	all: unset;
 	content: attr(aria-label);
 	display: inline !important;
+	color: var(--github-green);
 	font-size: 12px;
 }
-.js-issue-row .text-gray [aria-label*="approval"]::before {
-	color: var(--github-green);
-}
-.js-issue-row .text-gray [aria-label*="changes"] {
+.js-issue-row .text-gray [aria-label*='changes'] {
 	color: var(--github-red) !important;
 }
 
@@ -686,10 +606,10 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 	left: auto !important;
 }
 
-/* Optically align Dependencies dropdown link*/
+/* Optically align Dependencies dropdown link */
 .rgh-dependency-graph .octicon-package {
-	margin-left: -2px;
 	margin-right: 2px;
+	margin-left: -2px;
 }
 
 /* Hide PR/Issue rename events */
@@ -697,7 +617,7 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 	display: none;
 }
 
-/* For `add-ci-link` */
+/* For `add-ci-link` */
 .rgh-ci-link {
 	position: relative;
 	top: -0.1em;
@@ -741,22 +661,22 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 	vertical-align: middle;
 }
 
-/* Make the modal backdrop visible */
+/* Make the modal backdrop visible */
 :root body.menu-active .modal-backdrop,
 :root .dropdown-details[open] > summary::before {
-	background: rgba(0, 0, 0, 0.1);
 	z-index: 20; /* Don't mess with this value so easily */
+	background: rgba(0, 0, 0, 0.1);
 	animation: fade-in 0.2s;
 }
 :root .pagehead ul.pagehead-actions {
-	position: static; /* Demote watch/star/fork */
+	position: static; /* Demote watch/star/fork */
 }
 
-/* Reduce duplicate backdrop in PR diff view */
+/* Reduce duplicate backdrop in PR diff view */
 :root .pr-toolbar .modal-backdrop {
-	position: absolute;
-	height: 100%;
 	width: 100%;
+	height: 100%;
+	position: absolute;
 }
 
 @keyframes fade-in {
@@ -772,8 +692,8 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 .tooltipped:active::after,
 .tooltipped:focus::before,
 .tooltipped:focus::after {
-	animation-fill-mode: backwards !important;
 	opacity: 1;
+	animation-fill-mode: backwards !important;
 }
 
 /* Remove "Seeing something unexpected?" from user profiles */
@@ -824,4 +744,15 @@ a.tabnav-extra[href$="mastering-markdown/"] {
 		transform: translateX(-30px);
 		opacity: 0;
 	}
+}
+
+/* Clean up the global footer */
+body > .footer {
+	opacity: 0.3;
+}
+body > .footer ul:first-of-type li:first-of-type { /* The `© 2017 GitHub, Inc.` text */
+	display: none;
+}
+.footer-octicon {
+	display: none;
 }

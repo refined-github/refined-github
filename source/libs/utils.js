@@ -1,16 +1,35 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import elementReady from 'element-ready';
+import onetime from 'onetime';
 import domLoaded from 'dom-loaded';
+import elementReady from 'element-ready';
+import OptionsSync from 'webext-options-sync';
+
+const options = new OptionsSync().getAll();
 
 /**
+ * Enable toggling each feature via options.
  * Prevent fn's errors from blocking the remaining tasks.
  * https://github.com/sindresorhus/refined-github/issues/678
- * The code looks weird but it's synchronous and fn is called without args.
  */
-export const safely = async fn => fn();
+export const enableFeature = async (fn, filename) => {
+	const {disabledFeatures, logging} = await options;
+	const log = logging ? console.log : () => {};
 
-export const getUsername = () => select('meta[name="user-login"]').getAttribute('content');
+	filename = filename || fn.name.replace(/_/g, '-');
+	if (/^$|^anonymous$/.test(filename)) {
+		console.warn('This feature is nameless', fn);
+	} else {
+		log('✅', filename); // Testing only
+		if (disabledFeatures.includes(filename)) {
+			log('↩️', 'Skipping', filename); // Testing only
+			return;
+		}
+	}
+	fn();
+};
+
+export const getUsername = onetime(() => select('meta[name="user-login"]').getAttribute('content'));
 
 export const groupBy = (iterable, grouper) => {
 	const map = {};
@@ -78,7 +97,7 @@ export const wrap = (target, wrapper) => {
 
 export const wrapAll = (targets, wrapper) => {
 	targets[0].before(wrapper);
-	wrapper.append(targets);
+	wrapper.append(...targets);
 };
 
 export const observeEl = (el, listener, options = {childList: true}) => {
