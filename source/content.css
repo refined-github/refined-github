@@ -713,22 +713,26 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	white-space: nowrap;
 	animation: rgh-slide-in-right 0.3s ease-out;
 }
+[data-url$='recently_touched_branches_list'] .my-3 {
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+}
 [data-url$='recently_touched_branches_list'] p {
 	display: none;
 }
-[data-url$='recently_touched_branches_list'] .RecentBranches {
+.RecentBranches {
 	display: flex;
 	flex-direction: column-reverse;
 }
-[data-url$='recently_touched_branches_list'] .btn {
-	text-indent: -999999px;
+.RecentBranches .btn {
+	text-indent: -999999px; /* Hide text */
 }
-[data-url$='recently_touched_branches_list'] .btn + div {
+.RecentBranches .btn + div {
 	margin-right: 8px;
 	float: right;
 	font-size: 11px;
 }
-[data-url$='recently_touched_branches_list'] .btn .octicon {
+.RecentBranches .btn .octicon {
 	margin-top: 2px;
 	float: right;
 }
@@ -743,13 +747,9 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 .RecentBranches:not(:hover) .RecentBranches-item:last-child {
 	border-bottom-width: 3px;
 }
-[data-url$='recently_touched_branches_list'] .RecentBranches-item-link {
+.RecentBranches-item-link {
 	max-width: 150px !important;
 	font-size: 14px;
-}
-[data-url$='recently_touched_branches_list'] .my-3 {
-	margin-top: 0 !important;
-	margin-bottom: 0 !important;
 }
 .RecentBranches-item.p-2 {
 	padding: 2px 5px !important;
