@@ -152,7 +152,7 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 - Shows the reactions popover on hover instead of click
 - Changes the default sort order of milestones to "Closest due date"
 
-And [lots](src/content.css) [more...](src/content.js)
+And [lots](source/content.css) [more...](source/content.js)
 
 ### More shortcuts
 
