@@ -716,6 +716,10 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 [data-url$='recently_touched_branches_list'] p {
 	display: none;
 }
+[data-url$='recently_touched_branches_list'] .RecentBranches {
+	display: flex;
+	flex-direction: column-reverse;
+}
 [data-url$='recently_touched_branches_list'] .btn {
 	text-indent: -999999px;
 }
@@ -727,6 +731,17 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 [data-url$='recently_touched_branches_list'] .btn .octicon {
 	margin-top: 2px;
 	float: right;
+}
+:root .RecentBranches-item + .RecentBranches-item {
+	border-top: 0;
+	border-bottom: 1px solid rgba(27, 31, 35, 0.05); /* Copied from GitHub */
+}
+.RecentBranches:not(:hover) .RecentBranches-item:not(:last-child) {
+	/* Hide older branches */
+	display: none;
+}
+.RecentBranches:not(:hover) .RecentBranches-item:last-child {
+	border-bottom-width: 3px;
 }
 [data-url$='recently_touched_branches_list'] .RecentBranches-item-link {
 	max-width: 150px !important;
