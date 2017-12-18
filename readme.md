@@ -51,7 +51,7 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 			<em>(They will reappear in Notifications)</em>
 		</th>
 		<th width="50%">
-			Preserves the original Markdown when you copy text from comments
+			Avoids the jump caused by recently pushed branches by moving them to the side
 		</th>
 	</tr>
 	<tr><!-- Prevent zebra stripes --></tr>
@@ -60,7 +60,7 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 			<img width="245" src="https://user-images.githubusercontent.com/1402241/27847663-963b7d7c-6171-11e7-9470-6e86d8463771.png">
 		</td>
 		<td>
-			<img width="400" src="https://user-images.githubusercontent.com/170270/27501181-0485c5d0-586c-11e7-91ad-2d0a3537b0e2.gif">
+			<img width="400" src="https://user-images.githubusercontent.com/1402241/34099674-20433f60-e41b-11e7-8ca5-7ea23c70ab95.gif">
 		</td>
 	</tr>
 </table>
