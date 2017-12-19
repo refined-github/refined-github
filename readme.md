@@ -192,7 +192,7 @@ While this project is highly opinionated, this doesn't necessarily limit you fro
 
 ## Contribute
 
-See [`CONTRIBUTING.md`](CONTRIBUTING.md)
+See the [contribution guide](contributing.md).
 
 ## Related
 
