@@ -52,6 +52,7 @@ import addConfirmationToCommentCancellation from './features/add-confirmation-to
 import addCILink from './features/add-ci-link';
 import embedGistInline from './features/embed-gist-inline';
 import expandCollapseOutdatedComments from './features/expand-collapse-outdated-comments';
+import addQuickReviewButtons from './features/add-quick-review-buttons';
 
 import * as pageDetect from './libs/page-detect';
 import {observeEl, safeElementReady, enableFeature} from './libs/utils';
@@ -198,6 +199,10 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
 		enableFeature(addCopyFilePathToPRs);
 		enableFeature(preserveWhitespaceOptionInNav);
+	}
+
+	if (pageDetect.isPRFiles()) {
+		enableFeature(addQuickReviewButtons);
 	}
 
 	if (pageDetect.isSingleFile()) {
