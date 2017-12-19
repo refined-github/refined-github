@@ -10,6 +10,9 @@ const isGist = link =>
 	);
 
 async function embedGist(link) {
+	const info = <em> (loading)</em>;
+	link.after(info);
+
 	const response = await fetch(`${link.href}.json`);
 	const gistData = await response.json();
 
@@ -17,7 +20,7 @@ async function embedGist(link) {
 	const fileCount = files.children.length;
 
 	if (fileCount > 1) {
-		link.after(<em> ({fileCount} files)</em>);
+		info.textContent = ` (${fileCount} files)`;
 	} else {
 		link.parentNode.attachShadow({mode: 'open'}).append(
 			<style>{`
