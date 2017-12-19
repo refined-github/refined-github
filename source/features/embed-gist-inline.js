@@ -1,5 +1,6 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
+import domify from '../libs/domify';
 
 const isGist = link =>
 	!link.pathname.includes('.') && // Exclude links to embed files
@@ -12,16 +13,23 @@ async function embedGist(link) {
 	const response = await fetch(`${link.href}.json`);
 	const gistData = await response.json();
 
-	link.parentNode.attachShadow({mode: 'open'}).append(
-		<style>{`
-			.gist .gist-data {
-				max-height: 16em;
-				overflow-y: auto;
-			}
-		`}</style>,
-		<link rel="stylesheet" href={gistData.stylesheet} />,
-		<div dangerouslySetInnerHTML={{__html: gistData.div}} />
-	);
+	const files = domify(gistData.div).firstElementChild;
+	const fileCount = files.children.length;
+
+	if (fileCount > 1) {
+		link.after(<em> ({fileCount} files)</em>);
+	} else {
+		link.parentNode.attachShadow({mode: 'open'}).append(
+			<style>{`
+				.gist .gist-data {
+					max-height: 16em;
+					overflow-y: auto;
+				}
+			`}</style>,
+			<link rel="stylesheet" href={gistData.stylesheet} />,
+			files
+		);
+	}
 }
 export default () => {
 	select.all('.js-comment-body p a:only-child')
