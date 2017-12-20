@@ -28,7 +28,7 @@ turndownService.addRule('unwrapImages', {
 	replacement: unwrapContent
 });
 // Keep <img> if it's customized
-turndownService.addRule('unwrapImages', {
+turndownService.addRule('keepImages', {
 	filter: node => node.matches('img[width],img[height],img[align]'),
 	replacement: (content, element) => element.outerHTML
 });
