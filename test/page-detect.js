@@ -87,7 +87,7 @@ test('getOwnerAndRepo', t => {
 });
 
 test('is404', t => {
-	document.title = 'Page not found • GitHub';
+	document.title = 'Page not found · GitHub';
 	t.true(pageDetect.is404());
 
 	document.title = 'examples/404: Page not found examples';
@@ -95,6 +95,23 @@ test('is404', t => {
 
 	document.title = 'Dashboard';
 	t.false(pageDetect.is404());
+
+	document.title = 'Page not found · Issue #266 · sintaxi/surge · GitHub';
+	t.false(pageDetect.is404());
+});
+
+test('is500', t => {
+	document.title = 'Server Error · GitHub';
+	t.true(pageDetect.is500());
+
+	document.title = 'examples/500: Server Error examples';
+	t.false(pageDetect.is500());
+
+	document.title = 'Dashboard';
+	t.false(pageDetect.is500());
+
+	document.title = 'Server Error · Issue #266 · sintaxi/surge · GitHub';
+	t.false(pageDetect.is500());
 });
 
 test('isBlame', urlMatcherMacro, pageDetect.isBlame, [
