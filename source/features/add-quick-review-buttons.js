@@ -1,6 +1,11 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 
+const btnClassMap = {
+	approve: 'btn-primary',
+	reject: 'btn-danger'
+};
+
 export default function () {
 	const submitButton = select('#submit-review [type="submit"]');
 	if (!submitButton) {
@@ -9,51 +14,42 @@ export default function () {
 	}
 
 	const container = select('#submit-review .form-actions');
-	const approveCheck = select('#submit-review [value="approve"]');
-	const commentCheck = select('#submit-review [value="comment"]');
-	const rejectCheck = select('#submit-review [value="reject"]');
+	const radios = select.all('#submit-review [name="pull_request_review[event]"]');
 
-	if (!approveCheck.disabled) {
-		container.append(
-			<button
-				name="pull_request_review[event]"
-				value="approve"
-				class="btn btn-sm btn-primary">
-				Approve
-			</button>
-		);
+	if (radios.length === 0) {
+		return;
 	}
-	if (!rejectCheck.disabled) {
-		container.append(
-			<button
-				name="pull_request_review[event]"
-				value="reject"
-				class="btn btn-sm btn-danger">
-				Request changes
-			</button>
-		);
+
+	for (const radio of radios) {
+		if (!radio.disabled) {
+			container.append(
+				<button
+					name="pull_request_review[event]"
+					value={radio.value}
+					class={`btn btn-sm ${btnClassMap[radio.value] || ''}`}>
+					{radio.nextSibling.textContent.trim()}
+				</button>
+			);
+		}
 	}
-	if (!commentCheck.disabled) {
+
+	if (radios.length > 1) {
 		container.append(
-			<button
-				name="pull_request_review[event]"
-				value="comment"
-				class="btn btn-sm">
-				Comment
-			</button>,
+			// Move the comment button at the end
+			select('#submit-review button[value="comment"]'),
+
+			// Make it the default action for cmd+enter
 			<input
 				type="hidden"
 				name="pull_request_review[event]"
-				value="comment"/> // This defaults cmd+enter to Comment when there's more than one field
+				value="comment"/>,
+
 		);
 	}
 
-	// Remove original form at last to avoid leaving a broken form,
-	// if at least one option is available.
-	if (!approveCheck.disabled || !rejectCheck.disabled || !commentCheck.disabled) {
-		approveCheck.closest('.form-checkbox').remove();
-		commentCheck.closest('.form-checkbox').remove();
-		rejectCheck.closest('.form-checkbox').remove();
-		submitButton.remove();
+	// Remove original form at last to avoid leaving a broken form
+	for (const radio of radios) {
+		radio.closest('.form-checkbox').remove();
 	}
+	submitButton.remove();
 }
