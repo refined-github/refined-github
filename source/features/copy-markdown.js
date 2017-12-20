@@ -1,45 +1,39 @@
-import toMarkdown from 'to-markdown';
+import TurndownService from 'turndown';
 import copyToClipboard from 'copy-text-to-clipboard';
 
 const unwrapContent = content => content;
 const unshortenRegex = /^https:[/][/](www[.])?|[/]$/g;
 
-const converters = [
-	// Drop unnecessary elements
-	// <g-emoji> is GH's emoji wrapper
-	// input and .handle appear in "- [ ] lists", let's not copy tasks
-	{
-		filter: node => node.matches('g-emoji,.handle,input.task-list-item-checkbox'),
-		replacement: unwrapContent
-	},
+const turndownService = new TurndownService({gfm: true});
 
-	// Unwrap commit/issue autolinks
-	{
-		filter: node => node.matches('.commit-link,.issue-link') || // GH autolinks
-			(node.href && node.href.replace(unshortenRegex, '') === node.textContent), // Some of bfred-it/shorten-repo-url
-		replacement: (content, element) => element.href
-	},
-
-	// Unwrap images
-	{
-		filter: node => node.tagName === 'A' && // It's a link
-			node.childNodes.length === 1 && // It has one child
-			node.firstChild.tagName === 'IMG' && // Its child is an image
-			node.firstChild.src === node.href, // It links to its own image
-		replacement: unwrapContent
-	},
-
-	// Keep <img> if it's customized
-	{
-		filter: node => node.matches('img[width],img[height],img[align]'),
-		replacement: (content, element) => element.outerHTML
-	}
-];
-
-export const getSmarterMarkdown = html => toMarkdown(html, {
-	converters,
-	gfm: true
+// Drop unnecessary elements
+// <g-emoji> is GH's emoji wrapper
+// input and .handle appear in "- [ ] lists", let's not copy tasks
+turndownService.addRule('unnecessaryElements', {
+	filter: node => node.matches('g-emoji,.handle,input.task-list-item-checkbox'),
+	replacement: unwrapContent
 });
+// Unwrap commit/issue autolinks
+turndownService.addRule('unwrapCommitIssueAutolinks', {
+	filter: node => node.matches('.commit-link,.issue-link') || // GH autolinks
+		(node.href && node.href.replace(unshortenRegex, '') === node.textContent), // Some of bfred-it/shorten-repo-url
+	replacement: (content, element) => element.href
+});
+// Unwrap images
+turndownService.addRule('unwrapImages', {
+	filter: node => node.tagName === 'A' && // It's a link
+		node.childNodes.length === 1 && // It has one child
+		node.firstChild.tagName === 'IMG' && // Its child is an image
+		node.firstChild.src === node.href, // It links to its own image
+	replacement: unwrapContent
+});
+// Keep <img> if it's customized
+turndownService.addRule('keepImages', {
+	filter: node => node.matches('img[width],img[height],img[align]'),
+	replacement: (content, element) => element.outerHTML
+});
+
+export const getSmarterMarkdown = html => turndownService.turndown(html);
 
 export default event => {
 	const selection = window.getSelection();

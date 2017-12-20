@@ -25,8 +25,8 @@ test('drop tasks from lists', t => {
 			</ul>
 			`),
 		stripIndent`
-		*   try me out
-		*   test across lines
+		*    try me out
+		*    test across lines
 		`
 	);
 });
