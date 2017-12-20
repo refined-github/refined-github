@@ -31,7 +31,7 @@ export default function () {
 		container.append(
 			<button
 				name="pull_request_review[event]"
-				value="approve"
+				value="comment"
 				class="btn btn-sm">
 				Comment
 			</button>
