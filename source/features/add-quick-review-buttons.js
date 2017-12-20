@@ -2,6 +2,12 @@ import {h} from 'dom-chef';
 import select from 'select-dom';
 
 export default function () {
+	const submitButton = select('#submit-review [type="submit"]');
+	if (!submitButton) {
+		// Already applied
+		return;
+	}
+
 	const container = select('#submit-review .form-actions');
 	const approveCheck = select('#submit-review [value="approve"]');
 	const commentCheck = select('#submit-review [value="comment"]');
@@ -48,6 +54,6 @@ export default function () {
 		approveCheck.closest('.form-checkbox').remove();
 		commentCheck.closest('.form-checkbox').remove();
 		rejectCheck.closest('.form-checkbox').remove();
-		select('#submit-review [type="submit"]').remove();
+		submitButton.remove();
 	}
 }
