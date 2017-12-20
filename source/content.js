@@ -18,6 +18,7 @@ import autoLoadMoreNews from './features/auto-load-more-news';
 import addOPLabels from './features/op-labels';
 import addMoreDropdown from './features/more-dropdown';
 import addReleasesTab from './features/add-releases-tab';
+import addGistsLink from './features/add-gists-link-to-profile';
 import addTimeMachineLinksToComments from './features/add-time-machine-links-to-comments';
 import removeUploadFilesButton from './features/remove-upload-files-button';
 import scrollToTopOnCollapse from './features/scroll-to-top-on-collapse';
@@ -209,6 +210,10 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isRepoSettings()) {
 		enableFeature(addProjectNewLink);
+	}
+
+	if (pageDetect.isUserProfile()) {
+		enableFeature(addGistsLink);
 	}
 }
 
