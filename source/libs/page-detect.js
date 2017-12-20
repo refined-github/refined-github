@@ -92,3 +92,5 @@ export const isSingleCommit = () => /^commit\/[0-9a-f]{5,40}/.test(getRepoPath()
 export const isSingleFile = () => /^blob\//.test(getRepoPath());
 
 export const isTrending = () => location.pathname.startsWith('/trending');
+
+export const isUserProfile = () => document.head.querySelector('meta[property="og:type"]').attributes.content.value === 'profile';
