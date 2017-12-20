@@ -34,7 +34,11 @@ export default function () {
 				value="comment"
 				class="btn btn-sm">
 				Comment
-			</button>
+			</button>,
+			<input
+				type="hidden"
+				name="pull_request_review[event]"
+				value="comment"/> // This defaults cmd+enter to Comment when there's more than one field
 		);
 	}
 
