@@ -2,7 +2,6 @@ import 'webext-dynamic-content-scripts';
 import onAjaxedPages from 'github-injection';
 import {applyToLink as shortenLink} from 'shorten-repo-url';
 import select from 'select-dom';
-import delegate from 'delegate';
 import domLoaded from 'dom-loaded';
 
 import markUnread from './features/mark-unread';
@@ -13,7 +12,7 @@ import addReactionParticipants from './features/reactions-avatars';
 import showRealNames from './features/show-names';
 import addCopyFilePathToPRs from './features/copy-file-path';
 import addFileCopyButton from './features/copy-file';
-import copyMarkdown from './features/copy-markdown';
+// - import copyMarkdown from './features/copy-markdown';
 import linkifyCode from './features/linkify-urls-in-code';
 import autoLoadMoreNews from './features/auto-load-more-news';
 import addOPLabels from './features/op-labels';
@@ -95,7 +94,9 @@ async function init() {
 	enableFeature(addKeyboardShortcutsToCommentFields);
 	enableFeature(addConfirmationToCommentCancellation);
 
-	delegate('.markdown-body', 'copy', copyMarkdown);
+	// TODO: Enable this when we've improved how copying Markdown works
+	// See #522
+	// delegate('.markdown-body', 'copy', copyMarkdown);
 
 	await domLoaded;
 	onDomReady();
