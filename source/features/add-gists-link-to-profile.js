@@ -1,7 +1,5 @@
 import select from 'select-dom';
-import { h } from 'dom-chef';
-import * as icons from '../libs/icons';
-import * as pageDetect from '../libs/page-detect';
+import {h} from 'dom-chef';
 
 export default async () => {
 	const username = document.head.querySelector('meta[property="profile:username"]').attributes.content.value;
