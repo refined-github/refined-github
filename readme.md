@@ -192,46 +192,7 @@ While this project is highly opinionated, this doesn't necessarily limit you fro
 
 ## Contribute
 
-Suggestions and pull requests are highly encouraged!
-
-In order to make modifications to the extension you'd need to run it locally.
-
-Please follow the steps below:
-
-```sh
-git clone https://github.com/sindresorhus/refined-github
-cd refined-github
-npm install    # Install dev dependencies
-npm run build  # Build the extension code so it's ready for the browser
-npm run watch  # Listen for file changes and automatically rebuild
-```
-
-Once built, load it in the browser of your choice:
-
-<table>
-	<tr>
-		<th>Chrome</th>
-		<th>Firefox</th>
-	</tr>
-	<tr>
-		<td width="50%">
-			<ol>
-				<li>Open <code>chrome://extensions</code>
-				<li>Check the <strong>Developer mode</strong> checkbox
-				<li>Click on the <strong>Load unpacked extension</strong> button
-				<li>Select the folder <code>refined-github/distribution</code>
-			</ol>
-		</td>
-		<td width="50%">
-			<ol>
-				<li>Open <code>about:debugging#addons</code>
-				<li>Click on the <strong>Load Temporary Add-on</strong> button
-				<li>Select the file <code>refined-github/distribution/manifest.json</code>
-			</ol>
-		</td>
-	</tr>
-</table>
-
+See the [contribution guide](contributing.md).
 
 ## Related
 
