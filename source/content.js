@@ -61,6 +61,9 @@ window.select = select;
 
 async function init() {
 	await safeElementReady('body');
+	if (pageDetect.is404() || pageDetect.is500()) {
+		return;
+	}
 	if (document.body.classList.contains('logged-out')) {
 		return;
 	}

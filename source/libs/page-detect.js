@@ -25,7 +25,9 @@ export const getOwnerAndRepo = () => {
 	return {ownerName, repoName};
 };
 
-export const is404 = () => document.title.startsWith('Page not found');
+export const is404 = () => document.title === 'Page not found · GitHub';
+
+export const is500 = () => document.title === 'Server Error · GitHub';
 
 export const isBlame = () => /^blame\//.test(getRepoPath());
 
