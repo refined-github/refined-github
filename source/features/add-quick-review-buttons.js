@@ -20,6 +20,18 @@ export default function () {
 		return;
 	}
 
+	// Set the default action for cmd+enter to Comment
+	if (radios.length > 1) {
+		container.append(
+			<input
+				type="hidden"
+				name="pull_request_review[event]"
+				value="comment"/>,
+
+		);
+	}
+
+	// Generate the new buttons
 	for (const radio of radios) {
 		if (!radio.disabled) {
 			container.append(
@@ -33,21 +45,14 @@ export default function () {
 		}
 	}
 
+	// Make sure that the comment button is last
 	if (radios.length > 1) {
 		container.append(
-			// Move the comment button at the end
-			select('#submit-review button[value="comment"]'),
-
-			// Make it the default action for cmd+enter
-			<input
-				type="hidden"
-				name="pull_request_review[event]"
-				value="comment"/>,
-
+			select('#submit-review button[value="comment"]')
 		);
 	}
 
-	// Remove original form at last to avoid leaving a broken form
+	// Remove original fields at last to avoid leaving a broken form
 	for (const radio of radios) {
 		radio.closest('.form-checkbox').remove();
 	}
