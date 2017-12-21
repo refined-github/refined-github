@@ -45,11 +45,19 @@ export default function () {
 		}
 	}
 
-	// Make sure that the comment button is last
+	// Make sure that the comment and cancel buttons are last
 	if (radios.length > 1) {
+		const cancelReview = select('#submit-review .review-cancel-button');
 		container.append(
 			select('#submit-review button[value="comment"]')
 		);
+		if (cancelReview) {
+			cancelReview.classList.remove('mr-1');
+			container.append(
+				' ',
+				cancelReview
+			);
+		}
 	}
 
 	// Remove original fields at last to avoid leaving a broken form

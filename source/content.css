@@ -711,3 +711,8 @@ body > .footer ul:first-of-type li:first-of-type { /* The `© 2017 GitHub, Inc.`
 .footer-octicon {
 	display: none;
 }
+
+/* Widen review popup to fit 4 buttons */
+:root .pull-request-review-menu {
+	width: 430px;
+}
