@@ -370,3 +370,11 @@ test('isTrending', urlMatcherMacro, pageDetect.isTrending, [
 	'https://github.com/watching',
 	'https://github.com/jaredhanson/node-trending/tree/master/lib/trending'
 ]);
+
+test('isUserProfile', urlMatcherMacro, pageDetect.isUserProfile, [
+	'https://github.com/sindresorhus',
+], [
+	'https://github.com/settings',
+	'https://github.com/watching',
+	'https://github.com/sindresorhus/refined-github',
+]);
