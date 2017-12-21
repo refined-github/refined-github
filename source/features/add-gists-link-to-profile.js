@@ -1,14 +1,13 @@
-import select from 'select-dom';
 import {h} from 'dom-chef';
+import select from 'select-dom';
+import {getCleanPathname} from '../libs/page-detect';
 
-export default async () => {
-	const username = document.head.querySelector('meta[property="profile:username"]').attributes.content.value;
+export default () => {
+	const username = getCleanPathname();
 
-	const gistsTab = (
-		<a href={`//gist.github.com/${username}`} class="UnderlineNav-item" role="tab" title="Gists">
+	select('.UnderlineNav-body').append(
+		<a href={`https://gist.github.com/${username}`} class="UnderlineNav-item" role="tab" title="Gists">
 			Gists
 		</a>
 	);
-
-	select('.UnderlineNav-body').appendChild(gistsTab);
 };
