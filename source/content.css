@@ -717,12 +717,12 @@ body > .footer ul:first-of-type li:first-of-type { /* The `© 2017 GitHub, Inc.`
 	position: relative;
 }
 .dashboard .d-flex.border-bottom.border-gray-light .border.rounded-1 {
-	opacity: 0;
 	position: absolute;
-	background: #fff;
 	top: 100%;
 	left: 0;
+	opacity: 0;
 	z-index: 1000;
+	background: #fff;
 	transition: opacity 0.2s ease-in-out;
 	pointer-events: none;
 }
