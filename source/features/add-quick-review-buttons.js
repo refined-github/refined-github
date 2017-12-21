@@ -47,16 +47,11 @@ export default function () {
 
 	// Make sure that the comment and cancel buttons are last
 	if (radios.length > 1) {
+		container.append(select('#submit-review button[value="comment"]'));
 		const cancelReview = select('#submit-review .review-cancel-button');
-		container.append(
-			select('#submit-review button[value="comment"]')
-		);
 		if (cancelReview) {
-			cancelReview.classList.remove('mr-1');
-			container.append(
-				' ',
-				cancelReview
-			);
+			cancelReview.classList.add('float-left');
+			container.append(cancelReview);
 		}
 	}
 
