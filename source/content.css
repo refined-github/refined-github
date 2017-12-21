@@ -732,3 +732,8 @@ body > .footer ul:first-of-type li:first-of-type { /* The `© 2017 GitHub, Inc.`
 .dashboard .d-flex.border-bottom.border-gray-light:hover .border.rounded-1 {
 	opacity: 1;
 }
+
+/* Make activities narrower */
+.dashboard .d-flex.border-bottom.border-gray-light {
+	padding: 8px 0 !important;
+}
