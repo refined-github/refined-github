@@ -711,3 +711,6 @@ body > .footer ul:first-of-type li:first-of-type { /* The `© 2017 GitHub, Inc.`
 .footer-octicon {
 	display: none;
 }
+body > .footer li a {
+  color: #666;
+}
