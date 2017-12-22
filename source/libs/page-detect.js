@@ -93,4 +93,4 @@ export const isSingleFile = () => /^blob\//.test(getRepoPath());
 
 export const isTrending = () => location.pathname.startsWith('/trending');
 
-export const isUserProfile = () => !isReserved(getCleanPathname()) && !getCleanPathname().includes('/');
+export const isUserProfile = () => Boolean(getCleanPathname()) && !isReserved(getCleanPathname()) && !getCleanPathname().includes('/');

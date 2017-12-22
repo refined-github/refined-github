@@ -374,6 +374,7 @@ test('isTrending', urlMatcherMacro, pageDetect.isTrending, [
 test('isUserProfile', urlMatcherMacro, pageDetect.isUserProfile, [
 	'https://github.com/sindresorhus'
 ], [
+	'https://github.com/',
 	'https://github.com/settings',
 	'https://github.com/watching',
 	'https://github.com/sindresorhus/refined-github'
