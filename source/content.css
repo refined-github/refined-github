@@ -713,10 +713,10 @@ body > .footer ul:first-of-type li:first-of-type { /* The `© 2017 GitHub, Inc.`
 }
 
 /* Hide dashboard activity cards, unless hovered */
-.dashboard .d-flex.flex-column.width-full {
+.dashboard .d-flex.border-bottom.border-gray-light.flex-items-baseline .d-flex.flex-column.width-full {
 	position: relative;
 }
-.dashboard .d-flex.border-bottom.border-gray-light .border.rounded-1 {
+.dashboard .d-flex.border-bottom.border-gray-light.flex-items-baseline .border.rounded-1 {
 	margin-top: 8px !important;
 	position: absolute;
 	top: 100%;
@@ -727,12 +727,11 @@ body > .footer ul:first-of-type li:first-of-type { /* The `© 2017 GitHub, Inc.`
 	transition: opacity 0.2s ease-in-out;
 	pointer-events: none;
 }
-.dashboard .d-flex.border-bottom.border-gray-light:hover .border.rounded-1 {
+.dashboard .d-flex.border-bottom.border-gray-light.flex-items-baseline:hover .border.rounded-1 {
 	opacity: 1;
 }
 
 /* Make activities narrower */
 .dashboard .d-flex.border-bottom.border-gray-light {
 	padding: 8px 0 !important;
-	align-items: baseline !important;
 }
