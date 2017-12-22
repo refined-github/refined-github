@@ -110,6 +110,7 @@ GitHub Enterprise is also supported. More info in the options.
 - Supports indenting with the tab key in textareas like the comment box (<kbd>Shift</kbd> <kbd>Tab</kbd> for original behavior)
 - [Uses the pull request title as commit title when merging with 'Squash and merge'](https://github.com/sindresorhus/refined-github/issues/276)
 - [Replaces linked gists in issue and pull request comments with an embedded version of the gist file](https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.PNG)
+- Experimental support for disabling individual features in the options.
 
 ### More actions
 
@@ -185,9 +186,11 @@ We're happy to receive suggestions and contributions, but be aware this is a hig
 
 While this project is highly opinionated, this doesn't necessarily limit you from manually disabling functionality that is not useful for your workflow. Options include:
 
-1. *(CSS Only)* Use a Chrome extension that allows injecting custom styles into sites, based on a URL pattern. [Stylish](https://chrome.google.com/webstore/detail/stylish/fjnbnpbmkenffdnngjfgmeleoegfcffe?hl=en) is one such tool. [Example](https://github.com/sindresorhus/refined-github/issues/136#issuecomment-204072018)
+- Disable individual features in the extension options. *(Experimental)*
 
-2. Clone the repository, make the adjustments you need, and [load the unpacked extension in Chrome](https://developer.chrome.com/extensions/getstarted#unpacked), rather than installing from the Chrome Store.
+- *(CSS Only)* Use an extension that allows injecting custom styles into sites, based on a URL pattern. Stylish ([Chrome](https://chrome.google.com/webstore/detail/stylish/fjnbnpbmkenffdnngjfgmeleoegfcffe?hl=en)/[Firefox](https://addons.mozilla.org/en-US/firefox/addon/stylish/)) is one such tool. [Example](https://github.com/sindresorhus/refined-github/issues/136#issuecomment-204072018)
+
+- Clone the repository, make the adjustments you need, and [load the unpacked extension in Chrome](https://developer.chrome.com/extensions/getstarted#unpacked), rather than installing from the Chrome Store.
 
 
 ## Contribute
