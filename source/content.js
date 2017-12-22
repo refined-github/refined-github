@@ -52,6 +52,7 @@ import addConfirmationToCommentCancellation from './features/add-confirmation-to
 import addCILink from './features/add-ci-link';
 import embedGistInline from './features/embed-gist-inline';
 import expandCollapseOutdatedComments from './features/expand-collapse-outdated-comments';
+import addJumpToBottomLink from './features/add-jump-to-bottom-link';
 
 import * as pageDetect from './libs/page-detect';
 import {observeEl, safeElementReady, enableFeature} from './libs/utils';
@@ -173,6 +174,7 @@ function ajaxedPagesHandler() {
 		enableFeature(linkifyIssuesInTitles);
 		enableFeature(addUploadBtn);
 		enableFeature(embedGistInline);
+		enableFeature(addJumpToBottomLink);
 
 		observeEl('.new-discussion-timeline', () => {
 			enableFeature(addOPLabels);
