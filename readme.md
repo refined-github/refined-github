@@ -186,11 +186,11 @@ We're happy to receive suggestions and contributions, but be aware this is a hig
 
 While this project is highly opinionated, this doesn't necessarily limit you from manually disabling functionality that is not useful for your workflow. Options include:
 
-1. Disable individual features in the extension options. *(Experimental)*
+- Disable individual features in the extension options. *(Experimental)*
 
-2. *(CSS Only)* Use a Chrome extension that allows injecting custom styles into sites, based on a URL pattern. [Stylish](https://chrome.google.com/webstore/detail/stylish/fjnbnpbmkenffdnngjfgmeleoegfcffe?hl=en) is one such tool. [Example](https://github.com/sindresorhus/refined-github/issues/136#issuecomment-204072018)
+- *(CSS Only)* Use an extension that allows injecting custom styles into sites, based on a URL pattern. Stylish ([Chrome](https://chrome.google.com/webstore/detail/stylish/fjnbnpbmkenffdnngjfgmeleoegfcffe?hl=en)/[Firefox](https://addons.mozilla.org/en-US/firefox/addon/stylish/)) is one such tool. [Example](https://github.com/sindresorhus/refined-github/issues/136#issuecomment-204072018)
 
-3. Clone the repository, make the adjustments you need, and [load the unpacked extension in Chrome](https://developer.chrome.com/extensions/getstarted#unpacked), rather than installing from the Chrome Store.
+- Clone the repository, make the adjustments you need, and [load the unpacked extension in Chrome](https://developer.chrome.com/extensions/getstarted#unpacked), rather than installing from the Chrome Store.
 
 
 ## Contribute
