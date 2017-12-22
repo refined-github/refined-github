@@ -15,7 +15,7 @@ We use GitHub a lot and notice many dumb annoyances we'd like to fix. So here be
 
 Our hope is that GitHub will notice and implement some of these much needed improvements. So if you like any of these improvements, please email [GitHub support](mailto:support@github.com) about doing it.
 
-GitHub Enterprise is also supported by [authorizing your own domain in the options](https://github.com/sindresorhus/refined-github/pull/450).
+GitHub Enterprise is also supported. More info in the options.
 
 - **[What's new lately](https://blog.sindresorhus.com/whats-new-in-refined-github-836d05582df7)**
 - [Original announcement](https://blog.sindresorhus.com/refined-github-21185789685d)
@@ -152,7 +152,7 @@ GitHub Enterprise is also supported by [authorizing your own domain in the optio
 - Shows the reactions popover on hover instead of click
 - Changes the default sort order of milestones to "Closest due date"
 
-And [lots](src/content.css) [more...](src/content.js)
+And [lots](source/content.css) [more...](source/content.js)
 
 ### More shortcuts
 
@@ -192,46 +192,7 @@ While this project is highly opinionated, this doesn't necessarily limit you fro
 
 ## Contribute
 
-Suggestions and pull requests are highly encouraged!
-
-In order to make modifications to the extension you'd need to run it locally.
-
-Please follow the steps below:
-
-```sh
-git clone https://github.com/sindresorhus/refined-github
-cd refined-github
-npm install    # Install dev dependencies
-npm run build  # Build the extension code so it's ready for the browser
-npm run watch  # Listen for file changes and automatically rebuild
-```
-
-Once built, load it in the browser of your choice:
-
-<table>
-	<tr>
-		<th>Chrome</th>
-		<th>Firefox</th>
-	</tr>
-	<tr>
-		<td width="50%">
-			<ol>
-				<li>Open <code>chrome://extensions</code>
-				<li>Check the <strong>Developer mode</strong> checkbox
-				<li>Click on the <strong>Load unpacked extension</strong> button
-				<li>Select the folder <code>refined-github/distribution</code>
-			</ol>
-		</td>
-		<td width="50%">
-			<ol>
-				<li>Open <code>about:debugging#addons</code>
-				<li>Click on the <strong>Load Temporary Add-on</strong> button
-				<li>Select the file <code>refined-github/distribution/manifest.json</code>
-			</ol>
-		</td>
-	</tr>
-</table>
-
+See the [contribution guide](contributing.md).
 
 ## Related
 
@@ -248,6 +209,7 @@ Once built, load it in the browser of your choice:
 - [Show All GitHub Issues](https://github.com/sindresorhus/show-all-github-issues) - Shows both Issues and Pull Requests in the Issues tab
 - [Notifications Preview for GitHub](https://github.com/tanmayrajani/notifications-preview-github) - See your notifications on hover on all pages
 - [Refined Twitter](https://github.com/sindresorhus/refined-twitter) - Improves Twitter
+- [GitHub Issue Link Status](https://github.com/bfred-it/github-issue-link-status) - Colorize issue and PR links to see their status (open, closed, merged)
 
 Want more? Here are some ideas you could develop!
 

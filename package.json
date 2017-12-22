@@ -1,6 +1,7 @@
 {
 	"scripts": {
 		"lint": "xo && stylelint source/*.css",
+		"lint-fix": "xo --fix; stylelint --fix source/*.css",
 		"test": "npm run lint && cross-env BABEL_ENV=testing ava && run-s build:minified",
 		"build": "webpack",
 		"build:minified": "cross-env NODE_ENV=production webpack",
@@ -26,8 +27,8 @@
 		"onetime": "^2.0.1",
 		"select-dom": "^4.1.0",
 		"shorten-repo-url": "^1.1.0",
-		"to-markdown": "^3.1.0",
 		"to-semver": "^1.1.0",
+		"turndown": "^4.0.1",
 		"webext-domain-permission-toggle": "0.0.2",
 		"webext-dynamic-content-scripts": "^5.0.0-2",
 		"webext-options-sync": "^0.13.0",
