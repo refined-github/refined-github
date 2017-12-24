@@ -785,6 +785,7 @@ body > .footer li a {
 	margin-top: 30px !important;
 	position: absolute;
 	background: #fff;
+	box-shadow: 0 3px 12px rgba(27, 31, 35, 0.15); /* Style by GitHub */
 	transition: opacity 0.2s 0.2s;
 	pointer-events: none;
 }
