@@ -183,6 +183,9 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isPRList() || pageDetect.isIssueList()) {
 		enableFeature(addFilterCommentsByYou);
+	}
+
+	if (pageDetect.isPRList() || pageDetect.isIssueList() || pageDetect.isPR() || pageDetect.isIssue()) {
 		enableFeature(showRecentlyPushedBranches);
 	}
 

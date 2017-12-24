@@ -51,7 +51,7 @@ GitHub Enterprise is also supported. More info in the options.
 			<em>(They will reappear in Notifications)</em>
 		</th>
 		<th width="50%">
-			Preserves the original Markdown when you copy text from comments
+			Avoids the jump caused by recently pushed branches by moving them to the side
 		</th>
 	</tr>
 	<tr><!-- Prevent zebra stripes --></tr>
@@ -60,7 +60,7 @@ GitHub Enterprise is also supported. More info in the options.
 			<img width="245" src="https://user-images.githubusercontent.com/1402241/27847663-963b7d7c-6171-11e7-9470-6e86d8463771.png">
 		</td>
 		<td>
-			<img width="400" src="https://user-images.githubusercontent.com/170270/27501181-0485c5d0-586c-11e7-91ad-2d0a3537b0e2.gif">
+			<img width="400" src="https://user-images.githubusercontent.com/1402241/34099674-20433f60-e41b-11e7-8ca5-7ea23c70ab95.gif">
 		</td>
 	</tr>
 </table>
@@ -111,6 +111,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Uses the pull request title as commit title when merging with 'Squash and merge'](https://github.com/sindresorhus/refined-github/issues/276)
 - [Replaces linked gists in issue and pull request comments with an embedded version of the gist file](https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.PNG)
 - [Adds a link to a user's public gists](https://github.com/leggsimon/refined-github/blob/863-add-user-gists-link-to-profile/media/screenshot-user-gists-tab.png)
+- Experimental support for disabling individual features in the options.
 
 ### More actions
 
@@ -186,53 +187,16 @@ We're happy to receive suggestions and contributions, but be aware this is a hig
 
 While this project is highly opinionated, this doesn't necessarily limit you from manually disabling functionality that is not useful for your workflow. Options include:
 
-1. *(CSS Only)* Use a Chrome extension that allows injecting custom styles into sites, based on a URL pattern. [Stylish](https://chrome.google.com/webstore/detail/stylish/fjnbnpbmkenffdnngjfgmeleoegfcffe?hl=en) is one such tool. [Example](https://github.com/sindresorhus/refined-github/issues/136#issuecomment-204072018)
+- Disable individual features in the extension options. *(Experimental)*
 
-2. Clone the repository, make the adjustments you need, and [load the unpacked extension in Chrome](https://developer.chrome.com/extensions/getstarted#unpacked), rather than installing from the Chrome Store.
+- *(CSS Only)* Use an extension that allows injecting custom styles into sites, based on a URL pattern. Stylish ([Chrome](https://chrome.google.com/webstore/detail/stylish/fjnbnpbmkenffdnngjfgmeleoegfcffe?hl=en)/[Firefox](https://addons.mozilla.org/en-US/firefox/addon/stylish/)) is one such tool. [Example](https://github.com/sindresorhus/refined-github/issues/136#issuecomment-204072018)
+
+- Clone the repository, make the adjustments you need, and [load the unpacked extension in Chrome](https://developer.chrome.com/extensions/getstarted#unpacked), rather than installing from the Chrome Store.
 
 
 ## Contribute
 
-Suggestions and pull requests are highly encouraged!
-
-In order to make modifications to the extension you'd need to run it locally.
-
-Please follow the steps below:
-
-```sh
-git clone https://github.com/sindresorhus/refined-github
-cd refined-github
-npm install    # Install dev dependencies
-npm run build  # Build the extension code so it's ready for the browser
-npm run watch  # Listen for file changes and automatically rebuild
-```
-
-Once built, load it in the browser of your choice:
-
-<table>
-	<tr>
-		<th>Chrome</th>
-		<th>Firefox</th>
-	</tr>
-	<tr>
-		<td width="50%">
-			<ol>
-				<li>Open <code>chrome://extensions</code>
-				<li>Check the <strong>Developer mode</strong> checkbox
-				<li>Click on the <strong>Load unpacked extension</strong> button
-				<li>Select the folder <code>refined-github/distribution</code>
-			</ol>
-		</td>
-		<td width="50%">
-			<ol>
-				<li>Open <code>about:debugging#addons</code>
-				<li>Click on the <strong>Load Temporary Add-on</strong> button
-				<li>Select the file <code>refined-github/distribution/manifest.json</code>
-			</ol>
-		</td>
-	</tr>
-</table>
-
+See the [contribution guide](contributing.md).
 
 ## Related
 
