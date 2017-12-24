@@ -701,6 +701,66 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	display: none;
 }
 
+/* Move "recently pushed branches" out of the way */
+.container.new-discussion-timeline.experiment-repo-nav {
+	position: relative;
+}
+[data-url$='recently_touched_branches_list'] {
+	position: absolute;
+	top: -54px;
+	right: 0;
+	z-index: 10;
+	white-space: nowrap;
+	animation: rgh-slide-in-right 0.3s ease-out;
+}
+[data-url$='recently_touched_branches_list'] .my-3 {
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+}
+[data-url$='recently_touched_branches_list'] p {
+	display: none;
+}
+.RecentBranches {
+	display: flex;
+	flex-direction: column-reverse;
+}
+.RecentBranches .btn {
+	text-indent: -999999px; /* Hide text */
+}
+.RecentBranches .btn + div {
+	margin-right: 8px;
+	float: right;
+	font-size: 11px;
+}
+.RecentBranches .btn .octicon {
+	margin-top: 2px;
+	float: right;
+}
+:root .RecentBranches-item + .RecentBranches-item {
+	border-top: 0;
+	border-bottom: 1px solid rgba(27, 31, 35, 0.05); /* Copied from GitHub */
+}
+.RecentBranches:not(:hover) .RecentBranches-item:not(:last-child) {
+	/* Hide older branches */
+	display: none;
+}
+.RecentBranches:not(:hover) .RecentBranches-item:last-child {
+	border-bottom-width: 3px;
+}
+.RecentBranches-item-link {
+	max-width: 150px !important;
+	font-size: 14px;
+}
+.RecentBranches-item.p-2 {
+	padding: 2px 5px !important;
+}
+@keyframes rgh-slide-in-right {
+	from {
+		transform: translateX(-30px);
+		opacity: 0;
+	}
+}
+
 /* Clean up the global footer */
 body > .footer {
 	opacity: 0.3;
@@ -710,4 +770,12 @@ body > .footer ul:first-of-type li:first-of-type { /* The `© 2017 GitHub, Inc.`
 }
 .footer-octicon {
 	display: none;
+}
+body > .footer li a {
+	color: #666;
+}
+
+/* Widen review popup to fit 4 buttons */
+:root .pull-request-review-menu {
+	width: 430px;
 }

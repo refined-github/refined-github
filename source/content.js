@@ -53,6 +53,7 @@ import addCILink from './features/add-ci-link';
 import embedGistInline from './features/embed-gist-inline';
 import expandCollapseOutdatedComments from './features/expand-collapse-outdated-comments';
 import addJumpToBottomLink from './features/add-jump-to-bottom-link';
+import addQuickReviewButtons from './features/add-quick-review-buttons';
 
 import * as pageDetect from './libs/page-detect';
 import {observeEl, safeElementReady, enableFeature} from './libs/utils';
@@ -184,6 +185,9 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isPRList() || pageDetect.isIssueList()) {
 		enableFeature(addFilterCommentsByYou);
+	}
+
+	if (pageDetect.isPRList() || pageDetect.isIssueList() || pageDetect.isPR() || pageDetect.isIssue()) {
 		enableFeature(showRecentlyPushedBranches);
 	}
 
@@ -203,6 +207,10 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
 		enableFeature(addCopyFilePathToPRs);
 		enableFeature(preserveWhitespaceOptionInNav);
+	}
+
+	if (pageDetect.isPRFiles()) {
+		enableFeature(addQuickReviewButtons);
 	}
 
 	if (pageDetect.isSingleFile()) {

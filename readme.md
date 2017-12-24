@@ -51,7 +51,7 @@ GitHub Enterprise is also supported. More info in the options.
 			<em>(They will reappear in Notifications)</em>
 		</th>
 		<th width="50%">
-			Preserves the original Markdown when you copy text from comments
+			Avoids the jump caused by recently pushed branches by moving them to the side
 		</th>
 	</tr>
 	<tr><!-- Prevent zebra stripes --></tr>
@@ -60,7 +60,7 @@ GitHub Enterprise is also supported. More info in the options.
 			<img width="245" src="https://user-images.githubusercontent.com/1402241/27847663-963b7d7c-6171-11e7-9470-6e86d8463771.png">
 		</td>
 		<td>
-			<img width="400" src="https://user-images.githubusercontent.com/170270/27501181-0485c5d0-586c-11e7-91ad-2d0a3537b0e2.gif">
+			<img width="400" src="https://user-images.githubusercontent.com/1402241/34099674-20433f60-e41b-11e7-8ca5-7ea23c70ab95.gif">
 		</td>
 	</tr>
 </table>
@@ -111,6 +111,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Uses the pull request title as commit title when merging with 'Squash and merge'](https://github.com/sindresorhus/refined-github/issues/276)
 - [Replaces linked gists in issue and pull request comments with an embedded version of the gist file](https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.PNG)
 - [Adds a 'Jump to bottom' link to discussion pages](https://user-images.githubusercontent.com/4331946/34298950-93876584-e720-11e7-898a-96f85e31aefe.png)
+- Experimental support for disabling individual features in the options.
 
 ### More actions
 
@@ -147,6 +148,7 @@ GitHub Enterprise is also supported. More info in the options.
 
 - [Improves readability of tab indented code](https://cloud.githubusercontent.com/assets/170270/14170088/d3be931e-f755-11e5-8edf-c5f864336382.png)
 - [Aligns labels to the left in Issues and PRs lists](https://user-images.githubusercontent.com/1402241/28006237-070b8214-6581-11e7-94bc-2b01a007d00b.png)
+- [Lets you approve or reject reviews faster](https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png)
 - Prompts you when pressing `Cancel` on an inline comment in case it was a mistake
 - Easier copy-pasting from diffs by making +/- signs unselectable
 - Automagically expands the news feed when you scroll down
@@ -186,9 +188,11 @@ We're happy to receive suggestions and contributions, but be aware this is a hig
 
 While this project is highly opinionated, this doesn't necessarily limit you from manually disabling functionality that is not useful for your workflow. Options include:
 
-1. *(CSS Only)* Use a Chrome extension that allows injecting custom styles into sites, based on a URL pattern. [Stylish](https://chrome.google.com/webstore/detail/stylish/fjnbnpbmkenffdnngjfgmeleoegfcffe?hl=en) is one such tool. [Example](https://github.com/sindresorhus/refined-github/issues/136#issuecomment-204072018)
+- Disable individual features in the extension options. *(Experimental)*
 
-2. Clone the repository, make the adjustments you need, and [load the unpacked extension in Chrome](https://developer.chrome.com/extensions/getstarted#unpacked), rather than installing from the Chrome Store.
+- *(CSS Only)* Use an extension that allows injecting custom styles into sites, based on a URL pattern. Stylish ([Chrome](https://chrome.google.com/webstore/detail/stylish/fjnbnpbmkenffdnngjfgmeleoegfcffe?hl=en)/[Firefox](https://addons.mozilla.org/en-US/firefox/addon/stylish/)) is one such tool. [Example](https://github.com/sindresorhus/refined-github/issues/136#issuecomment-204072018)
+
+- Clone the repository, make the adjustments you need, and [load the unpacked extension in Chrome](https://developer.chrome.com/extensions/getstarted#unpacked), rather than installing from the Chrome Store.
 
 
 ## Contribute
