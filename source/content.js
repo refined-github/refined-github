@@ -65,6 +65,7 @@ async function init() {
 		return;
 	}
 	if (document.body.classList.contains('logged-out')) {
+		console.warn('%cRefined GitHub%c only works when you’re logged in to GitHub.', 'font-weight: bold', '');
 		return;
 	}
 
