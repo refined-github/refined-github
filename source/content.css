@@ -727,6 +727,9 @@ body > .footer ul:first-of-type li:first-of-type { /* The `© 2017 GitHub, Inc.`
 	transition: opacity 0.2s ease-in-out;
 	pointer-events: none;
 }
+.dashboard .d-flex.border-bottom.border-gray-light.flex-items-baseline .border.rounded-1 .f3 {
+	display: none;
+}
 .dashboard .d-flex.border-bottom.border-gray-light.flex-items-baseline:hover .border.rounded-1 {
 	opacity: 1;
 	transition-delay: 0.2s;
