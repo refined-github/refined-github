@@ -110,7 +110,7 @@ GitHub Enterprise is also supported. More info in the options.
 - Supports indenting with the tab key in textareas like the comment box (<kbd>Shift</kbd> <kbd>Tab</kbd> for original behavior)
 - [Uses the pull request title as commit title when merging with 'Squash and merge'](https://github.com/sindresorhus/refined-github/issues/276)
 - [Replaces linked gists in issue and pull request comments with an embedded version of the gist file](https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.PNG)
-- [Adds a link to a user's public gists](https://github.com/leggsimon/refined-github/blob/863-add-user-gists-link-to-profile/media/screenshot-user-gists-tab.png)
+- [Adds a link to a user's public gists](./media/screenshot-user-gists-tab.png)
 - Experimental support for disabling individual features in the options.
 
 ### More actions
