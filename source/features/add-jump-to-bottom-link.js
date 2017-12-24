@@ -7,6 +7,8 @@ export default function () {
 		return;
 	}
 
-	meta.appendChild(<span> · </span>);
-	meta.appendChild(<a href="#partial-timeline-marker">Jump to bottom</a>);
+	meta.append(
+		' · ',
+		<a href="#partial-timeline-marker">Jump to bottom</a>
+	);
 }
