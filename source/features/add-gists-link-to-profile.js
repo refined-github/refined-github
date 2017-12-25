@@ -5,12 +5,16 @@ import api from '../libs/api';
 
 export default async () => {
 	const username = getCleanPathname();
-	const {public_gists: publicGists} = await api(`users/${username}`);
 
 	select('.UnderlineNav-body').append(
-		<a href={`https://gist.github.com/${username}`} class="UnderlineNav-item" role="tab" title="Gists">
+		<a href={`https://gist.github.com/${username}`} class="UnderlineNav-item usernav-gists" role="tab" title="Gists">
 			{'Gists '}
-			<span class="Counter">{publicGists}</span>
 		</a>
 	);
+
+	const {public_gists: publicGists} = await api(`users/${username}`);
+
+	select('.usernav-gists').appendChild(
+		<span class="Counter">{publicGists}</span>
+	)
 };
