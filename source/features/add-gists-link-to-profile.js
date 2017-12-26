@@ -25,5 +25,5 @@ export default async () => {
 
 	select('.usernav-gists').appendChild(
 		<span class="Counter usernav-gists-count">{publicGists}</span>
-	)
+	);
 };
