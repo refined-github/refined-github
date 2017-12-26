@@ -11,11 +11,24 @@ export default async () => {
 		return;
 	}
 
-	select('.UnderlineNav-body').append(
-		<a href={href} class="UnderlineNav-item usernav-gists" role="tab" title="Gists">
-			{'Gists '}
-		</a>
-	);
+	const isIndividualUserProfile = select.exists('body.page-profile');
+	const isOrganisationProfile = select.exists('body.org');
+
+	if (isIndividualUserProfile) {
+		select('.UnderlineNav-body').append(
+			<a href={href} class="UnderlineNav-item usernav-gists" role="tab" title="Gists">
+				{'Gists '}
+			</a>
+		);
+	} else if (isOrganisationProfile) {
+		select('.orgnav').append(
+			<a href={href} class="pagehead-tabs-item usernav-gists">
+				{'Gists '}
+			</a>
+		);
+	} else {
+		return;
+	}
 
 	if (select.exists('.usernav-gists-count')) {
 		return;
