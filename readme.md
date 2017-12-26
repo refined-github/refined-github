@@ -111,6 +111,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Uses the pull request title as commit title when merging with 'Squash and merge'](https://github.com/sindresorhus/refined-github/issues/276)
 - [Replaces linked gists in issue and pull request comments with an embedded version of the gist file](https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.PNG)
 - Experimental support for disabling individual features in the options.
+- [Only shows activity cards on the dashboard on hover](https://camo.githubusercontent.com/259c70ec39d0d7f462d64f2d63836d7d8552b20d/68747470733a2f2f7468756d62732e6766796361742e636f6d2f4368696c6c79456d70747944776172666d6f6e676f6f73652d73697a655f726573747269637465642e676966)
 
 ### More actions
 
