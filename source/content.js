@@ -54,7 +54,7 @@ import embedGistInline from './features/embed-gist-inline';
 import expandCollapseOutdatedComments from './features/expand-collapse-outdated-comments';
 import addJumpToBottomLink from './features/add-jump-to-bottom-link';
 import addQuickReviewButtons from './features/add-quick-review-buttons';
-
+import hideFollowEventsPreview from './features/hide-follow-events-preview';
 import * as pageDetect from './libs/page-detect';
 import {observeEl, safeElementReady, enableFeature} from './libs/utils';
 
@@ -124,6 +124,7 @@ function onDomReady() {
 	if (pageDetect.isDashboard()) {
 		enableFeature(hideOwnStars);
 		enableFeature(autoLoadMoreNews);
+		enableFeature(hideFollowEventsPreview);
 	}
 
 	onAjaxedPages(ajaxedPagesHandler);
