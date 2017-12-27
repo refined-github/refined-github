@@ -245,6 +245,16 @@ test('isPR', urlMatcherMacro, pageDetect.isPR, [
 	'https://github.com/sindresorhus/refined-github/pulls'
 ]);
 
+test('isPRConversation', urlMatcherMacro, pageDetect.isPRConversation, [
+	'https://github.com/sindresorhus/refined-github/pull/148'
+], [
+	'https://github.com/sindresorhus/refined-github/pull/148/commits',
+	'https://github.com/sindresorhus/refined-github/pull/148/files',
+	'http://github.com/sindresorhus/ava',
+	'https://github.com',
+	'https://github.com/sindresorhus/refined-github/pulls'
+]);
+
 test('isPRCommit', urlMatcherMacro, pageDetect.isPRCommit, [
 	'https://github.com/sindresorhus/refined-github/pull/148/commits/0019603b83bd97c2f7ef240969f49e6126c5ec85',
 	'https://github.com/sindresorhus/refined-github/pull/148/commits/00196'
