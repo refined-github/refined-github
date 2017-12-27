@@ -726,6 +726,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 }
 .RecentBranches .btn {
 	text-indent: -999999px; /* Hide text */
+	width: 32px;
 }
 .RecentBranches .btn + div {
 	margin-right: 8px;
