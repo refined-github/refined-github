@@ -725,8 +725,8 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	flex-direction: column-reverse;
 }
 .RecentBranches .btn {
-	text-indent: -999999px; /* Hide text */
 	width: 32px;
+	text-indent: -999999px; /* Hide text */
 }
 .RecentBranches .btn + div {
 	margin-right: 8px;
