@@ -781,7 +781,7 @@ body > .footer li a {
 }
 
 /* Hide dashboard activity cards, unless hovered */
-.dashboard .body .border.rounded-1 {
+.dashboard .flex-items-baseline .border.rounded-1 {
 	margin-top: 30px !important;
 	position: absolute;
 	background: #fff;
@@ -789,11 +789,11 @@ body > .footer li a {
 	transition: opacity 0.2s 0.2s;
 	pointer-events: none;
 }
-.dashboard .body:not(:hover) .border.rounded-1 {
+.dashboard .flex-items-baseline:not(:hover) .border.rounded-1 {
 	opacity: 0;
 	transition-delay: 0s;
 }
-.dashboard .body .f3 {
+.dashboard .flex-items-baseline .f3 {
 	display: none;
 }
 
