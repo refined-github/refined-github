@@ -4,39 +4,22 @@ import {getCleanPathname, isEnterprise} from '../libs/page-detect';
 import api from '../libs/api';
 
 export default async () => {
+	if (select.exists('.rgh-user-gist')) {
+		return;
+	}
+
 	const username = getCleanPathname();
 	const href = isEnterprise() ? `/gist/${username}` : `https://gist.github.com/${username}`;
-
-	if (select.exists('.usernav-gists')) {
-		return;
-	}
-
-	const isIndividualUserProfile = select.exists('body.page-profile');
-	const isOrganisationProfile = select.exists('body.org');
-
-	if (isIndividualUserProfile) {
-		select('.UnderlineNav-body').append(
-			<a href={href} class="UnderlineNav-item usernav-gists" role="tab" title="Gists">
-				{'Gists '}
-			</a>
-		);
-	} else if (isOrganisationProfile) {
-		select('.orgnav').append(
-			<a href={href} class="pagehead-tabs-item usernav-gists">
-				{'Gists '}
-			</a>
-		);
+	const link = <a href={href} class="rgh-user-gist" role="tab">Gists </a>;
+	const container = select('.orgnav, .UnderlineNav-body');
+	if (container.classList.contains('orgnav')) {
+		link.classList.add('pagehead-tabs-item');
 	} else {
-		return;
+		link.classList.add('UnderlineNav-item');
 	}
+	container.append(link);
 
-	if (select.exists('.usernav-gists-count')) {
-		return;
-	}
+	const userData = await api(`users/${username}`);
 
-	const {public_gists: publicGists} = await api(`users/${username}`);
-
-	select('.usernav-gists').appendChild(
-		<span class="Counter usernav-gists-count">{publicGists}</span>
-	);
+	link.appendChild(<span class="Counter">{userData.public_gists}</span>);
 };
