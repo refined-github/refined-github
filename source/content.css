@@ -782,6 +782,7 @@ body > .footer li a {
 
 /* Hide dashboard activity cards, unless hovered */
 .dashboard .flex-items-baseline .border.rounded-1 {
+	max-width: 480px;
 	margin-top: 30px !important;
 	position: absolute;
 	background: #fff;
