@@ -239,9 +239,11 @@ pushed to a branch
 deleted a branch
 added someone as a collaborator
 forked a repo
+followed someone
 */
 .news .push,
-.news .fork {
+.news .fork,
+.news .follow {
 	display: none !important;
 }
 
@@ -802,9 +804,4 @@ body > .footer li a {
 /* Make activities narrower */
 .dashboard .d-flex.border-bottom.border-gray-light {
 	padding: 8px 0 !important;
-}
-
-/* Hide all follow events in dashboard */
-#dashboard .news .follow {
-	display: none !important;
 }
