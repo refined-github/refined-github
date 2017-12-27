@@ -779,3 +779,26 @@ body > .footer li a {
 :root .pull-request-review-menu {
 	width: 430px;
 }
+
+/* Hide dashboard activity cards, unless hovered */
+.dashboard .flex-items-baseline .border.rounded-1 {
+	max-width: 480px;
+	margin-top: 30px !important;
+	position: absolute;
+	background: #fff;
+	box-shadow: 0 3px 12px rgba(27, 31, 35, 0.15); /* Style by GitHub */
+	transition: opacity 0.2s 0.2s;
+	pointer-events: none;
+}
+.dashboard .flex-items-baseline:not(:hover) .border.rounded-1 {
+	opacity: 0;
+	transition-delay: 0s;
+}
+.dashboard .flex-items-baseline .f3 {
+	display: none;
+}
+
+/* Make activities narrower */
+.dashboard .d-flex.border-bottom.border-gray-light {
+	padding: 8px 0 !important;
+}
