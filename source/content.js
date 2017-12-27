@@ -176,12 +176,15 @@ function ajaxedPagesHandler() {
 		enableFeature(linkifyIssuesInTitles);
 		enableFeature(addUploadBtn);
 		enableFeature(embedGistInline);
-		enableFeature(addJumpToBottomLink);
 
 		observeEl('.new-discussion-timeline', () => {
 			enableFeature(addOPLabels);
 			enableFeature(addTimeMachineLinksToComments);
 		});
+	}
+
+	if (pageDetect.isIssue() || pageDetect.isPRConversation()) {
+		enableFeature(addJumpToBottomLink);
 	}
 
 	if (pageDetect.isPRList() || pageDetect.isIssueList()) {
