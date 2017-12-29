@@ -15,6 +15,9 @@
 	textarea {
 		width: 100%;
 	}
+	.small {
+		font-size: 0.9em;
+	}
 </style>
 <form id="options-form">
 	<h2>GitHub Enterprise</h2>
@@ -25,16 +28,16 @@
 
 	<h2>Disable features</h2>
 	<p>
-		<strong>Notice:</strong> All JavaScript-based features can be disabled here, however the site might not work correctly since CSS changes are still applied. This is mostly untested and feature names might change.
+		Space-delimited features to disable, by <a href="https://github.com/sindresorhus/refined-github/tree/master/source/features" target="_blank">filename</a>. Enable logging to show in the console what features are enabled on each page.
 	</p>
-	<p>
-		List the features to disable, by <a href="https://github.com/sindresorhus/refined-github/tree/master/source/features" target="_blank">filename</a>:<br>
-		<textarea name="disabledFeatures" rows="5" placeholder="For example: &#10;mark-unread &#10;hide-own-stars"></textarea>
+	<p class="small">
+		<textarea name="disabledFeatures" rows="3" placeholder="For example: &#10;mark-unread hide-own-stars"></textarea> <br>
+		<strong>Notice:</strong> Mostly untested; JavaScript-based features can be disabled but GitHub might not look correctly since CSS changes are still applied.
 	</p>
 	<p>
 		<label>
 			<input type="checkbox" name="logging">
-			Enable logging (Show in the console what features are enabled on each page)
+			Enable logging
 		</label>
 	</p>
 </form>
