@@ -10,10 +10,13 @@ new OptionsSync().define({
 	},
 	migrations: [
 		options => {
+			// #877
 			if (options.hideStarsOwnRepos === false) {
 				options.disabledFeatures += '\nhide-own-stars';
 			}
-			delete options.hideStarsOwnRepos;
+
+			// #920
+			options.disabledFeatures = options.disabledFeatures.replace('linkify_branch_refs', 'linkify-branch-refs');
 		},
 		OptionsSync.migrations.removeUnused
 	]
