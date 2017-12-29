@@ -57,7 +57,9 @@ export default function () {
 
 	// Remove original fields at last to avoid leaving a broken form
 	for (const radio of radios) {
-		radio.closest('.form-checkbox').remove();
+		if (radio.closest('.form-checkbox')) {
+			radio.closest('.form-checkbox').remove();
+		}
 	}
 	submitButton.remove();
 }
