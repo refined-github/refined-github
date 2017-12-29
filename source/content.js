@@ -162,7 +162,7 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isPR()) {
 		enableFeature(scrollToTopOnCollapse);
-		enableFeature(linkifyBranchRefs.inPR, 'linkify_branch_refs');
+		enableFeature(linkifyBranchRefs.inPR, 'linkify-branch-refs');
 		enableFeature(addDeleteForkLink);
 		enableFeature(fixSquashAndMergeTitle);
 		enableFeature(openCIDetailsInNewTab);
@@ -170,7 +170,7 @@ function ajaxedPagesHandler() {
 	}
 
 	if (pageDetect.isQuickPR()) {
-		enableFeature(linkifyBranchRefs.inQuickPR, 'linkify_branch_refs');
+		enableFeature(linkifyBranchRefs.inQuickPR, 'linkify-branch-refs');
 	}
 
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
