@@ -14,7 +14,7 @@ export default function () {
 	}
 
 	const container = select('#submit-review .form-actions');
-	const radios = select.all('#submit-review [name="pull_request_review[event]"]');
+	const radios = select.all('#submit-review [radio="radio"][name="pull_request_review[event]"]');
 
 	if (radios.length === 0) {
 		return;
