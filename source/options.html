@@ -1,37 +1,10 @@
 <!doctype html>
 <meta charset="utf-8">
 <title>Refined GitHub options</title>
-<style>
-	body {
-		width: 350px;
-		margin: 14px 17px; /* Chrome default, match for Firefox */
-		font-family: sans-serif;
-	}
-	/* Increase spacing between sections */
-	h2 ~ h2,
-	form ~ form {
-		margin-top: 2em;
-	}
-	textarea {
-		width: 100%;
-	}
-
-	.small {
-		font-size: 0.9em;
-  }
-	.only-firefox {
-		display: none;
-	}
-	@-moz-document url-prefix() {
-		.no-firefox {
-			display: none;
-		}
-		.only-firefox {
-			display: block;
-		}
-	}
-</style>
-<form id="options-form">
+<link rel="stylesheet" href="options.css">
+<link rel="stylesheet" href="chrome://global/skin/in-content/common.css">
+<link rel="stylesheet" href="chrome://mozapps/skin/extensions/extensions.css">
+<form id="options-form" class="detail-view-container">
 	<h2>GitHub Enterprise</h2>
 	<p class="no-firefox">
 		Visit your GH Enterprise, right-click on <a href="https://user-images.githubusercontent.com/1402241/32874388-e0c64150-cacc-11e7-9a50-eae3727fd3c2.png" target="_blank">Refined GitHub's icon in the toolbar</a> and select <strong>Enable Refined GitHub on this domain</strong>.
@@ -44,7 +17,7 @@
 	<p>
 		List the features to disable, by <a href="https://github.com/sindresorhus/refined-github/tree/master/source/features" target="_blank">filename</a>. Enable logging to show in the console what features are enabled on each page.
 	</p>
-	<p class="small">
+	<p style='font-size: 0.9em'>
 		<textarea name="disabledFeatures" rows="3" placeholder="For example: &#10;mark-unread hide-own-stars"></textarea> <br>
 		<strong>Notice:</strong> Mostly untested; JavaScript-based features can be disabled but GitHub might not look correctly since CSS changes are still applied.
 	</p>
@@ -53,6 +26,11 @@
 			<input type="checkbox" name="logging">
 			Enable logging
 		</label>
+	</p>
+
+	<h2>More features</h2>
+	<p>
+		Want more? Check out our <a href="https://github.com/sindresorhus/refined-github#related" target="_blank">related GitHub extensions</a>
 	</p>
 </form>
 <script src="browser-polyfill.min.js"></script>
