@@ -77,7 +77,7 @@ GitHub Enterprise is also supported. More info in the options.
 	<tr><!-- Prevent zebra stripes --></tr>
 	<tr>
 		<td>
-			<img src="media/screenshot-reactions.png">
+			<img src="https://user-images.githubusercontent.com/1402241/34438653-f66535a4-ecda-11e7-9406-2e1258050cfa.png">
 		</td>
 		<td>
 			<img src="https://user-images.githubusercontent.com/170270/27985285-a5464fb2-63e8-11e7-8c01-f33bb7ad78ba.png">
