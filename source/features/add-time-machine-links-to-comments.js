@@ -13,16 +13,14 @@ export default async () => {
 		const href = `/${getRepoURL()}/tree/HEAD@{${timestamp}}`;
 
 		timestampEl.parentNode.after(
-			<span>
-				&nbsp;
-				<a
-					href={href}
-					class="timeline-comment-action btn-link rgh-timestamp-button tooltipped tooltipped-n rgh-tooltipped"
-					aria-label="View repo at the time of this comment"
-					>
-					{icons.code()}
-				</a>
-			</span>
+			' ',
+			<a
+				href={href}
+				class="timeline-comment-action btn-link rgh-timestamp-button tooltipped tooltipped-n rgh-tooltipped"
+				aria-label="View repo at the time of this comment"
+				>
+				{icons.code()}
+			</a>
 		);
 
 		comment.classList.add('rgh-timestamp-tree-link');
