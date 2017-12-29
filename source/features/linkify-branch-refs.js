@@ -6,26 +6,28 @@ import * as pageDetect from '../libs/page-detect';
 export function inPR() {
 	let deletedBranch = false;
 	const lastBranchAction = select.all(`
-		.discussion-item-head_ref_deleted .head-ref,
-		.discussion-item-head_ref_restored .head-ref
+		.discussion-item-head_ref_deleted .commit-ref,
+		.discussion-item-head_ref_restored .commit-ref
 	`).pop();
 	if (lastBranchAction && lastBranchAction.closest('.discussion-item-head_ref_deleted')) {
-		deletedBranch = lastBranchAction.title;
+		deletedBranch = lastBranchAction.textContent.trim();
 	}
 
+	// Find the URLs first, some elements don't have titles
+	const urls = new Map();
 	for (const el of select.all('.commit-ref[title], .base-ref[title], .head-ref[title]')) {
-		if (el.textContent === 'unknown repository') {
-			continue;
-		}
+		urls.set(el.textContent.trim(), '/' + el.title.replace(':', '/tree/'));
+	}
 
-		if (el.title === deletedBranch) {
-			el.title = 'Deleted: ' + el.title;
+	for (const el of select.all('.commit-ref')) {
+		const branchName = el.textContent.trim();
+
+		if (branchName === deletedBranch) {
+			el.title = 'Deleted';
 			el.style.textDecoration = 'line-through';
-			continue;
+		} else if (branchName !== 'unknown repository') {
+			wrap(el, <a href={urls.get(branchName)}></a>);
 		}
-
-		const branchUrl = '/' + el.title.replace(':', '/tree/');
-		wrap(el.closest('.commit-ref'), <a href={branchUrl}></a>);
 	}
 }
 
