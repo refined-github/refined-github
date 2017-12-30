@@ -1,6 +1,9 @@
 textarea {
 	width: 100%;
 }
+.small {
+	font-size: 0.9em;
+}
 
 /* Increase spacing between sections */
 h2 ~ h2 {
