@@ -1,3 +1,6 @@
+body {
+	min-width: 400px; /* Required to size the Browser Action popup */
+}
 textarea {
 	width: 100%;
 }
@@ -19,7 +22,6 @@ h2 ~ h2 {
 		font-weight: normal;
 	}
 	:root body {
-		max-width: 600px;
 		font: message-box, sans-serif;
 	}
 	input[type='checkbox'] {
