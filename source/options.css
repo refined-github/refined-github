@@ -1,3 +1,6 @@
+body {
+	min-width: 360px; /* Required to size the Browser Action popup */
+}
 textarea {
 	width: 100%;
 }
