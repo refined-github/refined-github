@@ -1,11 +1,17 @@
 import select from 'select-dom';
 
 export default function () {
-	for (const issuesLink of select.all('a[href$="issues"]')) {
-		issuesLink.search = '?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc';
-	}
-
-	for (const prLink of select.all('a[href$="pulls"]')) {
-		prLink.search = '?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc';
+	// Get issues links that don't already have a specific sorting applied
+	for (const link of select.all(`
+		[href*="/issues"]:not([href*="sort%3A"]),
+		[href*="/pulls"]:not([href*="sort%3A"])
+	`)) {
+		// Pick only links to lists, not single issues
+		if (/(issues|pulls)\/?$/.test(link.pathname)) {
+			const search = new URLSearchParams(link.search);
+			const queries = search.get('q') || '';
+			search.set('q', (queries + 'sort:updated-desc').trim());
+			link.search = search;
+		}
 	}
 }
