@@ -9,8 +9,17 @@ export default function () {
 		// Pick only links to lists, not single issues
 		if (/(issues|pulls)\/?$/.test(link.pathname)) {
 			const search = new URLSearchParams(link.search);
-			const queries = search.get('q') || '';
-			search.set('q', (queries + 'sort:updated-desc').trim());
+			const queries = (search.get('q') || '').split(' ');
+
+			// The /issues/ listings will also include PRs unless `is:issue` is specified
+			if (/(issues)\/?$/.test(link.pathname) && !queries.includes('is:pr')) {
+				queries.push('is:issue');
+			}
+
+			// Add sorting last
+			queries.push('sort:updated-desc');
+
+			search.set('q', queries.join(' ').trim());
 			link.search = search;
 		}
 	}
