@@ -192,7 +192,7 @@ While this project is highly opinionated, this doesn't necessarily limit you fro
 
 ## Contribute
 
-See the [contribution guide](contributing.md) and appear on the [contributors list](https://github.com/sindresorhus/refined-github/graphs/contributors)!
+See the [contribution guide](contributing.md) and join the [contributors](https://github.com/sindresorhus/refined-github/graphs/contributors)!
 
 ## Related
 
