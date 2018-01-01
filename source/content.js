@@ -55,7 +55,7 @@ import embedGistInline from './features/embed-gist-inline';
 import expandCollapseOutdatedComments from './features/expand-collapse-outdated-comments';
 import addJumpToBottomLink from './features/add-jump-to-bottom-link';
 import addQuickReviewButtons from './features/add-quick-review-buttons';
-import diffExpand from './features/diff-expand';
+import extendDiffExpander from './features/extend-diff-expander';
 
 import * as pageDetect from './libs/page-detect';
 import {observeEl, safeElementReady, enableFeature} from './libs/utils';
@@ -217,7 +217,7 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isPRFiles()) {
 		enableFeature(addQuickReviewButtons);
-		enableFeature(diffExpand);
+		enableFeature(extendDiffExpander);
 	}
 
 	if (pageDetect.isSingleFile()) {

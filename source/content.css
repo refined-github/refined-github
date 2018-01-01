@@ -821,7 +821,7 @@ body > .footer li a {
 	padding: 8px 0 !important;
 }
 
-/* For 'diff-expand' feature */
+/* For 'extend-diff-expander' feature */
 .refined-github-diff-expand .js-expandable-line:hover .diff-expander,
 .refined-github-diff-expand .js-expandable-line:hover .blob-code {
 	border-color: #0366d6;
