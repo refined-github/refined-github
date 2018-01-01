@@ -820,3 +820,17 @@ body > .footer li a {
 .dashboard .d-flex.border-bottom.border-gray-light {
 	padding: 8px 0 !important;
 }
+
+/* For 'diff-expand' feature */
+.refined-github-diff-expand:hover .diff-expander,
+.refined-github-diff-expand:hover .blob-code {
+	border-color: #0366d6;
+	color: #fff;
+	background: #0366d6;
+	cursor: pointer;
+}
+
+/* Fix alignment of expand icon */
+.refined-github-diff-expand .blob-num-expandable .octicon {
+	vertical-align: middle;
+}
