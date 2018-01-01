@@ -2,17 +2,17 @@ import select from 'select-dom';
 
 const activeClassName = 'refined-github-diff-expand';
 
-function attachClickHandler(expander) {
-	const button = select('.js-expand', expander);
-	expander.classList.add(activeClassName);
-	expander.addEventListener('click', e => {
-		e.preventDefault();
-		button.click();
-	}, { once: true });
+function attachClickHandler(diff) {
+	diff.classList.add('refined-github-diff-expand');
+	diff.addEventListener('click', e => {
+		if (e.target.parentElement.classList.contains('js-expandable-line')) {
+			e.preventDefault();
+			select('.js-expand', e.target.parentElement).click();
+		}
+	});
 }
 
 export default () => {
-	console.log('diff-expand');
-	select.all(`.js-expandable-line:not(.${activeClassName})`)
+	select.all('.diff-table')
 	.forEach(attachClickHandler);
 };
