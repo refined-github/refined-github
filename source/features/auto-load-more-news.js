@@ -37,7 +37,7 @@ const findButton = () => {
 	btn = select('.ajax-pagination-btn');
 	if (btn) {
 		inView.observe(btn);
-	} else {
+	} else if (newsfeedObserver) {
 		newsfeedObserver.disconnect();
 	}
 };

@@ -60,20 +60,16 @@
 	display: none !important;
 }
 
-.notification-actions .tooltipped::before,
-.notification-actions .tooltipped::after,
-[aria-label~='reacted with']::before,
-[aria-label~='reacted with']::after,
-.avatar-group-item::before,
-.avatar-group-item::after,
-.js-zeroclipboard::before,
+[aria-label*='reacted with']::before, /* Reaction avatars across the site */
+[aria-label*='reacted with']::after,
+.AvatarStack-body::before, /* Notification participants avatars */
+.AvatarStack-body::after,
+.js-zeroclipboard::before, /* Copy button feedback */
 .js-zeroclipboard::after,
-.rgh-tooltipped::before,
+.rgh-tooltipped::before, /* New elements by RGH */
 .rgh-tooltipped::after,
-.issue-link::before,
-.issue-link::after,
-.avatar::before,
-.avatar::after {
+.issue-link::before, /* Issue name on issue links */
+.issue-link::after {
 	display: inline-block !important;
 }
 

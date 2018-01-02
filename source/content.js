@@ -1,6 +1,5 @@
 import 'webext-dynamic-content-scripts';
 import onAjaxedPages from 'github-injection';
-import {applyToLink as shortenLink} from 'shorten-repo-url';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 
@@ -56,6 +55,7 @@ import expandCollapseOutdatedComments from './features/expand-collapse-outdated-
 import addJumpToBottomLink from './features/add-jump-to-bottom-link';
 import addQuickReviewButtons from './features/add-quick-review-buttons';
 import sortIssuesByUpdateTime from './features/sort-issues-by-update-time';
+import shortenLinks from './features/shorten-links';
 
 import * as pageDetect from './libs/page-detect';
 import {observeEl, safeElementReady, enableFeature} from './libs/utils';
@@ -137,14 +137,8 @@ function ajaxedPagesHandler() {
 	enableFeature(removeUploadFilesButton);
 	enableFeature(addTitleToEmojis);
 	enableFeature(sortIssuesByUpdateTime);
-
-	enableFeature(() => {
-		for (const a of select.all('a[href]')) {
-			shortenLink(a, location.href);
-		}
-	}, 'shorten-links');
-
-	enableFeature(linkifyCode); // Must be after link shortening #789
+	enableFeature(shortenLinks);
+	enableFeature(linkifyCode);
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 		enableFeature(addYoursMenuItem);

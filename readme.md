@@ -192,7 +192,7 @@ While this project is highly opinionated, this doesn't necessarily limit you fro
 
 ## Contribute
 
-See the [contribution guide](contributing.md).
+See the [contribution guide](contributing.md) and join the [contributors](https://github.com/sindresorhus/refined-github/graphs/contributors)!
 
 ## Related
 
@@ -215,18 +215,6 @@ Want more? Here are some ideas you could develop!
 
 - [Format JS code blocks with Prettier](https://github.com/sindresorhus/module-requests/issues/99)
 - [Customize the font of code blocks](https://github.com/sindresorhus/module-requests/issues/97)
-
-
-## Maintainers
-
-- [Federico Brigante](https://github.com/bfred-it)
-- [Sindre Sorhus](https://github.com/sindresorhus)
-- [Haralan Dobrev](https://github.com/hkdobrev)
-- [Scott Busche](https://github.com/busches)
-- [Paul Molluzzo](https://github.com/paulmolluzzo)
-- [Andrew Levine](https://github.com/DrewML)
-- [Kees Kluskens](https://github.com/SpaceK33z)
-- [Jonas Gierer](https://github.com/jgierer12)
 
 
 ## License
