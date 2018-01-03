@@ -36,4 +36,9 @@ export default function () {
 		search.set('q', queries.join(' ').trim());
 		link.search = search;
 	}
+
+	// Extra nicety: Avoid GitHub's unnecessary redirect, this is their own bug
+	for (const link of select.all('[href*="/issues"][href*="is%3Apr"]')) {
+		link.pathname = link.pathname.replace(/issues\/?$/, 'pulls');
+	}
 }
