@@ -1,15 +1,11 @@
 import select from 'select-dom';
-import {anySelector} from '../libs/utils';
 
 export default function () {
 	// Get issues links that don't already have a specific sorting applied
-	const links = select.all(anySelector(`
-		:any(
-			[href*="/issues"],
-			[href*="/pulls"]
-		):not([href*="sort%3A"]):not(.issues-reset-query)
-	`));
-	for (const link of links) {
+	for (const link of select.all(`
+		[href*="/issues"]:not([href*="sort%3A"]):not(.issues-reset-query),
+		[href*="/pulls" ]:not([href*="sort%3A"]):not(.issues-reset-query)
+	`)) {
 		// Pick only links to lists, not single issues
 		if (!/(issues|pulls)\/?$/.test(link.pathname)) {
 			continue;
