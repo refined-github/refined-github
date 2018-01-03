@@ -2,7 +2,8 @@
 	"scripts": {
 		"lint": "xo && stylelint source/*.css",
 		"lint-fix": "xo --fix; stylelint --fix source/*.css",
-		"test": "npm run lint && cross-env BABEL_ENV=testing ava && run-s build:minified",
+		"test": "run-s lint test-only build:minified",
+		"test-only": "cross-env BABEL_ENV=testing ava",
 		"build": "webpack",
 		"build:minified": "cross-env NODE_ENV=production webpack",
 		"watch": "webpack --watch",
@@ -11,7 +12,13 @@
 		"release": "run-s build:minified update-version save-url release:*",
 		"save-url": "echo https://github.com/$TRAVIS_REPO_SLUG/tree/$TRAVIS_COMMIT > distribution/SOURCE_URL",
 		"update-version": "VERSION=$(date -u +%y.%-m.%-d.%-H%M); echo $VERSION; dot-json distribution/manifest.json version $VERSION",
-		"can-release": "if [ \"$TRAVIS_EVENT_TYPE\" = cron ] && [ $(git rev-list -n 1 --since=\"26 hours ago\" master) ]; then echo :ship-it:; else false; fi"
+		"can-release": "if [ \"$TRAVIS_EVENT_TYPE\" = cron ] && [ $(git rev-list -n 1 --since=\"26 hours ago\" master) ]; then echo :ship-it:; else false; fi",
+		"precommit": "opt --out precommit --exec \"run-s precommit:*\"",
+		"precommit:lint": "opt --out precommit:lint --exec \"run-s lint\"",
+		"precommit:test": "opt --out precommit:test --exec \"run-s test-only\"",
+		"postcheckout": "opt --in postcheckout --exec \"run-s postcheckout:*\"",
+		"postcheckout:install": "opt --out postcheckout:install --exec \"npm install\"",
+		"postcheckout:build": "opt --out postcheckout:build --exec \"run-s build\""
 	},
 	"dependencies": {
 		"copy-text-to-clipboard": "^1.0.3",
@@ -45,7 +52,9 @@
 		"copy-webpack-plugin": "^4.2.0",
 		"cross-env": "^5.0.5",
 		"dot-json": "^1.0.3",
+		"husky": "^0.14.3",
 		"npm-run-all": "^4.1.1",
+		"opt-cli": "^1.6.0",
 		"stylelint": "^8.3.1",
 		"stylelint-config-xo": "^0.4.0",
 		"uglifyjs-webpack-plugin": "^1.1.2",
