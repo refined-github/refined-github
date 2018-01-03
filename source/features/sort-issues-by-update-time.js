@@ -26,6 +26,10 @@ export default function () {
 			queries.push(type);
 		}
 
+		if (!queries.includes('is:closed') && !queries.includes('is:open') && !queries.includes('is:merged')) {
+			queries.push('is:open');
+		}
+
 		// Add sorting last
 		queries.push('sort:updated-desc');
 
