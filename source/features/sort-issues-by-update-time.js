@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import {getUsername} from '../libs/utils';
 
-function getDefaultQueries(link) {
+function getDefaultQuery(link) {
 	// Query-less URLs imply some queries.
 	// When we explicitly set ?q=* they're overridden,
 	// so they need to be manually added again.
@@ -16,7 +16,7 @@ function getDefaultQueries(link) {
 		queries.push(`author:${getUsername()}`);
 		queries.push('archived:false');
 	}
-	return queries;
+	return queries.join(' ');
 }
 
 export default function () {
@@ -26,17 +26,12 @@ export default function () {
 		[href*="/pulls" ]:not([href*="sort%3A"]):not(.issues-reset-query)
 	`)) {
 		// Pick only links to lists, not single issues
-		if (!/(issues|pulls)\/?$/.test(link.pathname)) {
-			continue;
+		if (/(issues|pulls)\/?$/.test(link.pathname)) {
+			const search = new URLSearchParams(link.search);
+			const existingQuery = search.get('q') || getDefaultQuery(link);
+			search.set('q', `${existingQuery} sort:updated-desc`);
+			link.search = search;
 		}
-
-		const search = new URLSearchParams(link.search);
-		const queries = search.get('q') ? search.get('q').split(/\s/) : getDefaultQueries(link);
-
-		queries.push('sort:updated-desc');
-
-		search.set('q', queries.join(' '));
-		link.search = search;
 	}
 
 	// Extra nicety: Avoid GitHub's unnecessary redirect, this is their own bug
