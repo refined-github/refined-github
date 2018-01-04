@@ -25,8 +25,8 @@ export default function () {
 		[href*="/issues"]:not([href*="sort%3A"]):not(.issues-reset-query),
 		[href*="/pulls" ]:not([href*="sort%3A"]):not(.issues-reset-query)
 	`)) {
-		// Pick only links to lists, not single issues
-		if (/(issues|pulls)\/?$/.test(link.pathname)) {
+		// Pick only links to lists, not single issues + skip pagination links
+		if (/(issues|pulls)\/?$/.test(link.pathname) && !link.closest('.pagination')) {
 			const search = new URLSearchParams(link.search);
 			const existingQuery = search.get('q') || getDefaultQuery(link);
 			search.set('q', `${existingQuery} sort:updated-desc`);
