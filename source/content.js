@@ -54,6 +54,7 @@ import embedGistInline from './features/embed-gist-inline';
 import expandCollapseOutdatedComments from './features/expand-collapse-outdated-comments';
 import addJumpToBottomLink from './features/add-jump-to-bottom-link';
 import addQuickReviewButtons from './features/add-quick-review-buttons';
+import sortIssuesByUpdateTime from './features/sort-issues-by-update-time';
 import shortenLinks from './features/shorten-links';
 
 import * as pageDetect from './libs/page-detect';
@@ -135,6 +136,7 @@ function ajaxedPagesHandler() {
 	enableFeature(hideEmptyMeta);
 	enableFeature(removeUploadFilesButton);
 	enableFeature(addTitleToEmojis);
+	enableFeature(sortIssuesByUpdateTime);
 	enableFeature(shortenLinks);
 	enableFeature(linkifyCode);
 
