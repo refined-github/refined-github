@@ -11,6 +11,9 @@ function attachClickHandler(diff) {
 }
 
 export default () => {
-	select.all('.diff-table')
-	.forEach(attachClickHandler);
+	const diffView = select('.diff-view');
+
+	if (diffView) {
+		attachClickHandler(diffView);
+	}
 };
