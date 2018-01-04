@@ -155,6 +155,7 @@ GitHub Enterprise is also supported. More info in the options.
 - Automagically expands the news feed when you scroll down
 - Shows the reactions popover on hover instead of click
 - Changes the default sort order of milestones to "Closest due date"
+- Changes the default sort order of issues/PRs to "Recently updated"
 
 And [lots](source/content.css) [more...](source/content.js)
 

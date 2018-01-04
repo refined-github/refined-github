@@ -158,3 +158,8 @@ export const groupButtons = buttons => {
 
 	return group;
 };
+
+export const anySelector = selector => {
+	const prefix = document.head.style.MozOrient === '' ? 'moz' : 'webkit';
+	return selector.replace(/:any\(/g, `:-${prefix}-any(`);
+};

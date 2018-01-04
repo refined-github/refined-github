@@ -4,7 +4,7 @@ import linkifyIssues from 'linkify-issues';
 import {getOwnerAndRepo} from '../libs/page-detect';
 import getTextNodes from '../libs/get-text-nodes';
 
-const linkifiedURLClass = 'refined-github-linkified-code';
+export const linkifiedURLClass = 'rgh-linkified-code';
 const {
 	ownerName,
 	repoName
@@ -15,8 +15,8 @@ const options = {
 	repo: repoName,
 	type: 'dom',
 	baseUrl: '',
-	attrs: {
-		target: '_blank'
+	attributes: {
+		class: linkifiedURLClass // Necessary to avoid also shortening the links
 	}
 };
 
