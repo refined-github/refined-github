@@ -56,6 +56,7 @@ import addJumpToBottomLink from './features/add-jump-to-bottom-link';
 import addQuickReviewButtons from './features/add-quick-review-buttons';
 import sortIssuesByUpdateTime from './features/sort-issues-by-update-time';
 import shortenLinks from './features/shorten-links';
+import addDownloadFolderButton from './features/add-download-folder-button';
 
 import * as pageDetect from './libs/page-detect';
 import {observeEl, safeElementReady, enableFeature} from './libs/utils';
@@ -139,6 +140,7 @@ function ajaxedPagesHandler() {
 	enableFeature(sortIssuesByUpdateTime);
 	enableFeature(shortenLinks);
 	enableFeature(linkifyCode);
+	enableFeature(addDownloadFolderButton);
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 		enableFeature(addYoursMenuItem);
