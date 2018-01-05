@@ -822,15 +822,10 @@ body > .footer li a {
 }
 
 /* For 'extend-diff-expander' feature */
-.refined-github-diff-expand .js-expandable-line:hover .diff-expander,
-.refined-github-diff-expand .js-expandable-line:hover .blob-code {
+.js-expandable-line:hover .diff-expander,
+.js-expandable-line:hover .blob-code {
 	border-color: #0366d6;
 	color: #fff;
 	background: #0366d6;
 	cursor: pointer;
-}
-
-/* Fix alignment of expand icon */
-.refined-github-diff-expand .blob-num-expandable .octicon {
-	vertical-align: middle;
 }

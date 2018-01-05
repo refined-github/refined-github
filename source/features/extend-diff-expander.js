@@ -1,19 +1,13 @@
 import select from 'select-dom';
+import delegate from 'delegate';
 
-function attachClickHandler(diff) {
-	diff.classList.add('refined-github-diff-expand');
-	diff.addEventListener('click', e => {
-		if (e.target.parentElement.classList.contains('js-expandable-line')) {
-			e.preventDefault();
-			select('.js-expand', e.target.parentElement).click();
-		}
-	});
+function expandDiff(event) {
+	// Skip if the user clicked directly on the icon
+	if (!event.target.closest('.js-expand')) {
+		select('.js-expand', event.target.parentElement).click();
+	}
 }
 
-export default () => {
-	const diffView = select('.diff-view');
-
-	if (diffView) {
-		attachClickHandler(diffView);
-	}
-};
+export default function () {
+	delegate('.diff-view', '.js-expandable-line', 'click', expandDiff);
+}
