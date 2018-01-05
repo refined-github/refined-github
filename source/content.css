@@ -1,6 +1,7 @@
 :root {
 	--github-green: #28a745;
 	--github-red: #cb2431;
+	--github-gray-background: #fafbfc;
 }
 
 .subscribe-feed {
@@ -723,10 +724,13 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	position: relative;
 }
 [data-url$='recently_touched_branches_list'] {
+	min-width: 400px; /* Always cover the repo watch/star/forks actions */
+	max-height: 35px; /* Only cover the actions */
 	position: absolute;
-	top: -54px;
+	top: -107px;
 	right: 0;
 	z-index: 10;
+	background: var(--github-gray-background);
 	white-space: nowrap;
 	animation: rgh-slide-in-right 0.3s ease-out;
 }
@@ -739,6 +743,8 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 }
 .RecentBranches {
 	display: flex;
+	width: max-content;
+	margin-left: auto;
 	flex-direction: column-reverse;
 }
 .RecentBranches .btn {
