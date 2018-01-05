@@ -4,7 +4,7 @@ import delegate from 'delegate';
 function expandDiff(event) {
 	// Skip if the user clicked directly on the icon
 	if (!event.target.closest('.js-expand')) {
-		select('.js-expand', event.currentTarget).click();
+		select('.js-expand', event.delegateTarget).click();
 	}
 }
 
