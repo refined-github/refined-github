@@ -719,7 +719,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 }
 
 /* Move "recently pushed branches" out of the way */
-.container.new-discussion-timeline.experiment-repo-nav {
+.container.new-discussion-timeline.experiment-repo-nav .repository-content {
 	position: relative;
 }
 [data-url$='recently_touched_branches_list'] {
