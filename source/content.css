@@ -772,7 +772,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	border-bottom-width: 3px;
 }
 .RecentBranches-item-link {
-	max-width: 150px !important;
+	max-width: 250px !important;
 	font-size: 14px;
 }
 .RecentBranches-item.p-2 {
