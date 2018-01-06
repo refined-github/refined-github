@@ -821,7 +821,7 @@ body > .footer li a {
 	padding: 8px 0 !important;
 }
 
-/* Lighten deletions in markdown */
+/* Lighten deletions in Markdown */
 .markdown-body del {
 	color: #6a737d;
 }
