@@ -820,3 +820,8 @@ body > .footer li a {
 .dashboard .d-flex.border-bottom.border-gray-light {
 	padding: 8px 0 !important;
 }
+
+/* Lighten deletions in markdown */
+.markdown-body del {
+	color: #6a737d;
+}
