@@ -109,5 +109,6 @@
 			"at-rule-empty-line-before": null,
 			"selector-max-compound-selectors": null
 		}
-	}
+	},
+	"private": true
 }
