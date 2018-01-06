@@ -1,4 +1,5 @@
 {
+	"private": true,
 	"scripts": {
 		"lint": "xo && stylelint source/*.css",
 		"lint-fix": "xo --fix; stylelint --fix source/*.css",
@@ -109,6 +110,5 @@
 			"at-rule-empty-line-before": null,
 			"selector-max-compound-selectors": null
 		}
-	},
-	"private": true
+	}
 }
