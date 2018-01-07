@@ -79,7 +79,9 @@ export default function () {
 				select('.js-comment-edit-button', lastOwnComment).click();
 
 				// Move caret to end of field
-				select('.js-comment-field', lastOwnComment).selectionStart = 1000000;
+				requestAnimationFrame(() => {
+					select('.js-comment-field', lastOwnComment).selectionStart = Number.MAX_SAFE_INTEGER;
+				});
 			}
 		}
 	});
