@@ -157,6 +157,7 @@ GitHub Enterprise is also supported. More info in the options.
 - Shows the reactions popover on hover instead of click
 - Changes the default sort order of milestones to "Closest due date"
 - Changes the default sort order of issues/PRs to "Recently updated"
+- [Makes the "Expand diff" button wider](https://user-images.githubusercontent.com/6978877/34470024-eee4f43e-ef20-11e7-9036-65094bd58960.png)
 
 And [lots](source/content.css) [more...](source/content.js)
 

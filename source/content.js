@@ -54,6 +54,7 @@ import embedGistInline from './features/embed-gist-inline';
 import expandCollapseOutdatedComments from './features/expand-collapse-outdated-comments';
 import addJumpToBottomLink from './features/add-jump-to-bottom-link';
 import addQuickReviewButtons from './features/add-quick-review-buttons';
+import extendDiffExpander from './features/extend-diff-expander';
 import sortIssuesByUpdateTime from './features/sort-issues-by-update-time';
 import shortenLinks from './features/shorten-links';
 
@@ -212,6 +213,7 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isPRFiles()) {
 		enableFeature(addQuickReviewButtons);
+		enableFeature(extendDiffExpander);
 	}
 
 	if (pageDetect.isSingleFile()) {

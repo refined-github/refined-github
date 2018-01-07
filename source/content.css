@@ -821,6 +821,15 @@ body > .footer li a {
 	padding: 8px 0 !important;
 }
 
+/* For 'extend-diff-expander' feature */
+.js-expandable-line:hover .diff-expander,
+.js-expandable-line:hover .blob-code {
+	border-color: #0366d6;
+	color: #fff;
+	background: #0366d6;
+	cursor: pointer;
+}
+
 /* Lighten deletions in Markdown */
 .markdown-body del {
 	color: #6a737d;
