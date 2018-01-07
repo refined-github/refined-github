@@ -30,6 +30,21 @@ function indentInput(el) {
 	}
 }
 
+// Element.blur() will reset the tab focus to the start of the document.
+// This places it back next to the blurred field
+function blurAccessibly(field) {
+	field.blur();
+
+	const range = new Range();
+	const selection = getSelection();
+	const focusHolder = new Text();
+	field.after(focusHolder);
+	range.selectNodeContents(focusHolder);
+	selection.removeAllRanges();
+	selection.addRange(range);
+	focusHolder.remove();
+}
+
 export default function () {
 	delegate('.js-comment-field', 'keydown', event => {
 		const field = event.target;
@@ -53,7 +68,7 @@ export default function () {
 
 			// Cancel comment if inline, blur the field if it's a regular comment
 			if (field.value === '') {
-				field.blur();
+				blurAccessibly(field);
 			} else if (inlineCancelButton) {
 				inlineCancelButton.click();
 			}
