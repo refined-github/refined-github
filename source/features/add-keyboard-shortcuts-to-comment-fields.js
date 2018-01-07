@@ -61,16 +61,13 @@ export default function () {
 			}
 		} else if (event.key === 'ArrowUp') {
 			if (field.id === 'new_comment_field' && field.value === '') {
-				const comments = select.all('.js-comment')
-					.filter(el => select('.author', el).textContent === getUsername());
+				const lastOwnComment = select.all(`.js-comment.current-user`).pop();
 
-				if (comments.length > 0) {
-					const comment = comments[comments.length - 1];
-					const editButton = select('.js-comment-edit-button', comment);
-					editButton.click();
+				if (lastOwnComment) {
+					select('.js-comment-edit-button', lastOwnComment).click();
 
 					requestAnimationFrame(() => {
-						const commentField = select('.js-comment-field', comment);
+						const commentField = select('.js-comment-field', lastOwnComment);
 						const position = commentField.textContent.length;
 						commentField.setSelectionRange(position, position);
 					});
