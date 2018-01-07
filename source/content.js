@@ -55,6 +55,7 @@ import expandCollapseOutdatedComments from './features/expand-collapse-outdated-
 import addJumpToBottomLink from './features/add-jump-to-bottom-link';
 import addQuickReviewButtons from './features/add-quick-review-buttons';
 import sortIssuesByUpdateTime from './features/sort-issues-by-update-time';
+import makeDiscussionSidebarSticky from './features/make-discussion-sidebar-sticky';
 import shortenLinks from './features/shorten-links';
 
 import * as pageDetect from './libs/page-detect';
@@ -114,6 +115,7 @@ function onDomReady() {
 	enableFeature(markUnread);
 	enableFeature(enableCopyOnY);
 	enableFeature(addProfileHotkey);
+	enableFeature(makeDiscussionSidebarSticky);
 
 	if (!pageDetect.isGist()) {
 		enableFeature(moveMarketplaceLinkToProfileDropdown);
