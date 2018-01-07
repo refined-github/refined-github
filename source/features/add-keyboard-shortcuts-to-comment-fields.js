@@ -52,26 +52,23 @@ export default function () {
 		} else if (event.key === 'Escape') {
 			const inlineCancelButton = select('.js-hide-inline-comment-form', field.form);
 
-			if (inlineCancelButton) {
-				if (field.value !== '') {
-					inlineCancelButton.click();
-				}
-			} else if (field.value === '') {
+			// Cancel comment if inline, blur the field if it's a regular comment
+			if (field.value === '') {
 				field.blur();
+			} else if (inlineCancelButton) {
+				inlineCancelButton.click();
 			}
-		} else if (event.key === 'ArrowUp') {
-			if (field.id === 'new_comment_field' && field.value === '') {
-				const lastOwnComment = select.all(`.js-comment.current-user`).pop();
+		} else if (event.key === 'ArrowUp' && field.id === 'new_comment_field' && field.value === '') {
+			const lastOwnComment = select.all(`.js-comment.current-user`).pop();
 
-				if (lastOwnComment) {
-					select('.js-comment-edit-button', lastOwnComment).click();
+			if (lastOwnComment) {
+				select('.js-comment-edit-button', lastOwnComment).click();
 
-					requestAnimationFrame(() => {
-						const commentField = select('.js-comment-field', lastOwnComment);
-						const position = commentField.textContent.length;
-						commentField.setSelectionRange(position, position);
-					});
-				}
+				requestAnimationFrame(() => {
+					const commentField = select('.js-comment-field', lastOwnComment);
+					const position = commentField.textContent.length;
+					commentField.setSelectionRange(position, position);
+				});
 			}
 		}
 	});
