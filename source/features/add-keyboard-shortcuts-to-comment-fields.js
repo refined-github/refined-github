@@ -63,12 +63,9 @@ export default function () {
 
 			if (lastOwnComment) {
 				select('.js-comment-edit-button', lastOwnComment).click();
-
-				requestAnimationFrame(() => {
-					const commentField = select('.js-comment-field', lastOwnComment);
-					const position = commentField.textContent.length;
-					commentField.setSelectionRange(position, position);
-				});
+				
+				// Move caret to end of field
+				select('.js-comment-field', lastOwnComment).selectionStart = 1000000;
 			}
 		}
 	});
