@@ -1,6 +1,5 @@
 import select from 'select-dom';
 import delegate from 'delegate';
-import {getUsername} from '../libs/utils';
 
 function indentInput(el) {
 	const selection = window.getSelection().toString();
@@ -63,7 +62,7 @@ export default function () {
 
 			if (lastOwnComment) {
 				select('.js-comment-edit-button', lastOwnComment).click();
-				
+
 				// Move caret to end of field
 				select('.js-comment-field', lastOwnComment).selectionStart = 1000000;
 			}
