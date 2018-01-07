@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import debounce from 'debounce-fn';
 import onAjaxedPages from 'github-injection';
-import {isSingleFile} from '../libs/page-detect';
+import * as pageDetect from '../libs/page-detect';
 
 function updateStickiness() {
 	const sidebar = select('.discussion-sidebar');
@@ -13,7 +13,7 @@ const handler = debounce(updateStickiness, {wait: 100});
 
 export default function () {
 	onAjaxedPages(() => {
-		if (isSingleFile()) {
+		if (pageDetect.isIssue() || pageDetect.isPRConversation()) {
 			updateStickiness();
 			window.addEventListener('resize', handler);
 		} else {
