@@ -9,7 +9,7 @@ export default () => {
 			buttonGroup.prepend(
 				<a
 					class="btn btn-sm BtnGroup-item"
-					href={`https://download-github-dir.bfred.it/?url=${location.href}`}>
+					href={`https://download-directory.github.io/?url=${location.href}`}>
 					Download
 				</a>);
 		}
