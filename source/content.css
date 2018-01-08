@@ -3,6 +3,11 @@
 	--github-red: #cb2431;
 }
 
+/* GitHub bug: releases page has unwanted bullet points */
+.release-timeline-tags {
+	list-style: none;
+}
+
 .subscribe-feed {
 	display: none !important;
 }
