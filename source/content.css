@@ -678,6 +678,10 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 		opacity: 0;
 	}
 }
+.file .markdown-body .anchor {
+	padding-top: 45px;
+	transform: translateY(-45px);
+}
 
 
 /* Remove annoying "helpful" banner on the issue tracker listing */
