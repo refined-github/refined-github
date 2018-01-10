@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import debounce from 'debounce-fn';
+import {observeEl} from './utils';
 
 function getLastCommit() {
 	return select.all('.timeline-commits .commit-id').pop().textContent;
@@ -27,26 +28,47 @@ export function get() {
 
 export function wait() {
 	return new Promise(resolve => {
-		const messenger = select('.js-discussion');
-		const acceptedCommit = getLastCommit();
-
-		const updatesHandler = debounce(() => {
-			// Cancel submission if a new commit was pushed
-			if (getLastCommit() !== acceptedCommit) {
-				messenger.removeEventListener('socket:message', updatesHandler);
-				return resolve(COMMIT_CHANGED);
-			}
-
-			// Ignore update if the status hasn't changed
-			const status = get();
-			if (status !== PENDING) {
-				messenger.removeEventListener('socket:message', updatesHandler);
-				resolve(status);
-			}
-
-			// Wait a bit because the DOM might be updated later
-		}, {wait: 500});
-
-		messenger.addEventListener('socket:message', updatesHandler);
+		addEventListener(function handler(newStatus) {
+			removeEventListener(handler);
+			resolve(newStatus);
+		});
 	});
+}
+
+const observers = new WeakMap();
+
+export function addEventListener(listener) {
+	if (observers.has(listener)) {
+		return;
+	}
+	let previousCommit;
+	let previousStatus;
+	const filteredListener = debounce(() => {
+		// Cancel submission if a new commit was pushed
+		const newCommit = getLastCommit();
+		if (newCommit !== previousCommit) {
+			previousCommit = newCommit;
+			listener(COMMIT_CHANGED);
+		}
+
+		// Ignore update if the status hasn't changed
+		const newStatus = get();
+		if (newStatus !== previousStatus) {
+			previousStatus = newStatus;
+			listener(newStatus);
+		}
+	}, {wait: 100});
+
+	previousCommit = getLastCommit();
+	previousStatus = get();
+
+	const observer = observeEl('.js-discussion', filteredListener, {
+		childList: true,
+		subtree: true
+	});
+	observers.set(listener, observer);
+}
+
+export function removeEventListener(listener) {
+	observers.get(listener).disconnect();
 }
