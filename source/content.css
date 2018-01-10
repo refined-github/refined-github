@@ -126,6 +126,12 @@
 	display: none !important;
 }
 
+/* Visibly disable merge fields during submission */
+[name='commit_message'][disabled],
+[name='commit_title'][disabled] {
+	color: #808080;
+}
+
 /* Remove top buttons on comment box */
 .timeline-comment-wrapper .tabnav-extra,
 .inline-comment-form-container .tabnav-extra {
