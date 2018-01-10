@@ -1,28 +1,24 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
+import onetime from 'onetime';
 import delegate from 'delegate';
 import debounce from 'debounce-fn';
 import {observeEl} from '../libs/utils';
+import * as prCiStatus from '../libs/pr-ci-status';
 
-let activity = false;
+let waiting = null;
 
-function getStatus() {
-	const commit = select.all('.commit-build-statuses > :first-child').pop();
-	if (commit.matches('.text-green')) {
-		return 'success';
-	}
-	if (commit.matches('.text-red')) {
-		return 'failure';
-	}
-	return 'pending';
-}
+// Reuse the same checkbox to preserve its status
+const generateCheckbox = onetime(() => (
+	<label class="d-inline-block">
+		<input type="checkbox" name="rgh-pr-check-waiter" checked/>
+		{' '}
+		Wait for successful checks
+	</label>
+));
 
 function canMerge() {
 	return select.exists('.merge-message [type="submit"]:not(:disabled');
-}
-
-function getLastCommit() {
-	return select.all('.timeline-commits .commit-id').pop().textContent;
 }
 
 function getCheckbox() {
@@ -32,75 +28,41 @@ function getCheckbox() {
 // Only show the checkbox if there's a pending commit
 function showCheckboxIfNecessary() {
 	const checkbox = getCheckbox();
-	const isNecessary = getStatus() === 'pending';
+	const isNecessary = prCiStatus.get() === prCiStatus.PENDING;
 	if (!checkbox && isNecessary) {
 		const container = select('.commit-form-actions .select-menu');
 		if (container) {
-			container.append(
-				<label class="d-inline-block">
-					<input type="checkbox" name="rgh-pr-check-waiter" checked/>
-					{' '}
-					Wait for successful checks
-				</label>
-			);
+			container.append(generateCheckbox());
 		}
 	} else if (checkbox && !isNecessary) {
 		checkbox.parentNode.remove();
 	}
 }
 
-function setActivity(newActivity) {
-	activity = newActivity || false;
-
-	// Disable fields if there's activity
+function disableForm(disabled = true) {
 	for (const field of select.all(`
 		[name="commit_message"],
 		[name="commit_title"],
 		[name="rgh-pr-check-waiter"],
 		.js-merge-commit-button
 		`)) {
-		field.disabled = Boolean(activity);
+		field.disabled = disabled;
 	}
 }
 
-function handleMergeConfirmation(event) {
+async function handleMergeConfirmation(event) {
 	if (getCheckbox().checked) {
-		setActivity({
-			clickedButton: event.target,
-			acceptedCommit: getLastCommit()
-		});
 		event.preventDefault();
-	}
-}
 
-function handleUpdate() {
-	console.log('#### update');
-	showCheckboxIfNecessary();
-	if (!activity) {
-		return;
-	}
+		disableForm();
+		waiting = prCiStatus.wait();
+		const status = await waiting;
+		waiting = null; // Must be null for onbeforeunload
+		disableForm(false);
 
-	// Cancel submission if a new commit was pushed
-	if (getLastCommit() !== activity.acceptedCommit) {
-		console.log('changed commit');
-		setActivity(false);
-		return;
-	}
-
-	// Ignore update if the status hasn't changed
-	const status = getStatus();
-	if (status === 'pending') {
-		console.log('pending');
-		return;
-	}
-
-	// Failed or succeeded, the form must be reactivated
-	// but we need to save the button first
-	const {clickedButton} = activity;
-	setActivity(false);
-	if (status === 'success') {
-		console.log('success');
-		clickedButton.click();
+		if (status === status.SUCCESS) {
+			event.target.click();
+		}
 	}
 }
 
@@ -117,14 +79,14 @@ export default function () {
 		delegate(container, '.js-merge-commit-button', 'click', handleMergeConfirmation);
 
 		// Cancel wait when the user presses the Cancel button
-		delegate(container, '.commit-form-actions button:not(.js-merge-commit-button)', 'click', () => setActivity(false));
+		delegate(container, '.commit-form-actions button:not(.js-merge-commit-button)', 'click', () => disableForm(false));
 
 		// Watch for updates, but wait a bit because the DOM might be updated later
 		select('.js-discussion')
-			.addEventListener('socket:message', debounce(handleUpdate, {wait: 500}));
+			.addEventListener('socket:message', debounce(showCheckboxIfNecessary, {wait: 500}));
 
 		// Warn user if it's not yet submitted.
 		// Sadly no way to show a message
-		window.onbeforeunload = () => activity;
+		window.onbeforeunload = () => waiting;
 	}
 }
