@@ -183,6 +183,11 @@ function ajaxedPagesHandler() {
 		});
 	}
 
+	if (pageDetect.isNewIssue()) {
+		enableFeature(addUploadBtn);
+		enableFeature(embedGistInline);
+	}
+
 	if (pageDetect.isIssue() || pageDetect.isPRConversation()) {
 		enableFeature(addJumpToBottomLink);
 	}
