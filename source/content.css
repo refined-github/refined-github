@@ -555,6 +555,14 @@ div.inline-comment-form .form-actions,
 	float: none;
 }
 
+/* ...in the merge confirmation form */
+.commit-form-actions .select-menu {
+	display: block !important;
+}
+.commit-form-actions button:not(.js-merge-commit-button) {
+	float: right;
+}
+
 /* "Add a Project" button */
 #refined-github-project-new-link {
 	margin-top: 5px;

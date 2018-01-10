@@ -58,6 +58,7 @@ import extendDiffExpander from './features/extend-diff-expander';
 import sortIssuesByUpdateTime from './features/sort-issues-by-update-time';
 import makeDiscussionSidebarSticky from './features/make-discussion-sidebar-sticky';
 import shortenLinks from './features/shorten-links';
+import waitForBuild from './features/wait-for-build';
 
 import * as pageDetect from './libs/page-detect';
 import {observeEl, safeElementReady, enableFeature} from './libs/utils';
@@ -166,6 +167,7 @@ function ajaxedPagesHandler() {
 		enableFeature(fixSquashAndMergeTitle);
 		enableFeature(openCIDetailsInNewTab);
 		enableFeature(expandCollapseOutdatedComments);
+		enableFeature(waitForBuild);
 	}
 
 	if (pageDetect.isQuickPR()) {
