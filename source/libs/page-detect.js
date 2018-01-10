@@ -45,7 +45,7 @@ export const isEnterprise = () => location.hostname !== 'github.com' && location
 
 export const isGist = () => location.hostname.startsWith('gist.') || location.pathname.startsWith('gist/');
 
-export const isIssue = () => /^issues\/\d+/.test(getRepoPath());
+export const isIssue = () => /^issues\/(new|\d+)/.test(getRepoPath());
 
 export const isIssueList = () => /^issues\/?$/.test(getRepoPath());
 
