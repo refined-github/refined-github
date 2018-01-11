@@ -841,3 +841,8 @@ body > .footer li a {
 .markdown-body del {
 	color: #6a737d;
 }
+
+/* Fix alignment of the "Update branch" button on the PR details page */
+.js-handle-pull-merging-errors .btn {
+	margin-top: -5px;
+}
