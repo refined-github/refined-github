@@ -12,20 +12,31 @@ function removeProjectsTab() {
 }
 
 function removeProjectsFilter() {
-	if (select.exists(projectsTabSelector)) {
-		return;
-	}
-
 	const filters = select.all('.issues-listing .table-list-filters .select-menu-button');
-	const [projectsFilter] = filters.filter(f => f.textContent.includes('Projects'));
+	const [projectsFilter] = filters.filter(filter => filter.textContent.includes('Projects'));
 
 	projectsFilter.remove();
+}
+
+function removeProjectsSidebarItem() {
+	const sidebarItems = select.all('.js-discussion-sidebar-item');
+	const [projectsSidebarItem] = sidebarItems.filter(item => select('.discussion-sidebar-heading', item).textContent.includes('Projects'));
+
+	projectsSidebarItem.remove();
 }
 
 export default function () {
 	removeProjectsTab();
 
+	if (select.exists(projectsTabSelector)) {
+		return;
+	}
+
 	if (pageDetect.isIssueList() || pageDetect.isPRList()) {
 		removeProjectsFilter();
+	}
+
+	if (pageDetect.isIssue() || pageDetect.isNewIssue() || pageDetect.isPRConversation() || pageDetect.isNewPR()) {
+		removeProjectsSidebarItem();
 	}
 }
