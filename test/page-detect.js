@@ -224,6 +224,14 @@ test('isMilestone', urlMatcherMacro, pageDetect.isMilestone, [
 	'https://github.com/sindresorhus/refined-github/milestones'
 ]);
 
+test('isNewIssue', urlMatcherMacro, pageDetect.isNewIssue, [
+	'https://github.com/sindresorhus/refined-github/issues/new'
+], [
+	'http://github.com/sindresorhus/ava',
+	'https://github.com',
+	'https://github.com/sindresorhus/refined-github/issues'
+]);
+
 test('isNotifications', urlMatcherMacro, pageDetect.isNotifications, [
 	'https://github.com/notifications',
 	'https://github.com/notifications/participating',

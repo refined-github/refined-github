@@ -59,6 +59,8 @@ export const isMilestone = () => /^milestone\/\d+/.test(getRepoPath());
 
 export const isMilestoneList = () => /^milestones\/?$/.test(getRepoPath());
 
+export const isNewIssue = () => /^issues\/new/.test(getRepoPath());
+
 export const isNotifications = () => /^([^/]+[/][^/]+\/)?notifications/.test(getCleanPathname());
 
 export const isPR = () => /^pull\/\d+/.test(getRepoPath());

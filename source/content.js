@@ -183,6 +183,10 @@ function ajaxedPagesHandler() {
 		});
 	}
 
+	if (pageDetect.isNewIssue()) {
+		enableFeature(addUploadBtn);
+	}
+
 	if (pageDetect.isIssue() || pageDetect.isPRConversation()) {
 		enableFeature(addJumpToBottomLink);
 	}
