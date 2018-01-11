@@ -47,8 +47,6 @@ export const isGist = () => location.hostname.startsWith('gist.') || location.pa
 
 export const isIssue = () => /^issues\/\d+/.test(getRepoPath());
 
-export const isNewIssue = () => /^issues\/new/.test(getRepoPath());
-
 export const isIssueList = () => /^issues\/?$/.test(getRepoPath());
 
 export const isIssueSearch = () => location.pathname.startsWith('/issues');
@@ -60,6 +58,8 @@ export const isLabelList = () => /^labels\/?(((?=\?).*)|$)/.test(getRepoPath());
 export const isMilestone = () => /^milestone\/\d+/.test(getRepoPath());
 
 export const isMilestoneList = () => /^milestones\/?$/.test(getRepoPath());
+
+export const isNewIssue = () => /^issues\/new/.test(getRepoPath());
 
 export const isNotifications = () => /^([^/]+[/][^/]+\/)?notifications/.test(getCleanPathname());
 
