@@ -790,7 +790,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 body > .footer {
 	opacity: 0.3;
 }
-body > .footer ul:first-of-type li:first-of-type { /* The `© 2017 GitHub, Inc.` text */
+body > .footer > div > ul:first-of-type li:first-of-type { /* The `© 2017 GitHub, Inc.` text */
 	display: none;
 }
 .footer-octicon {
