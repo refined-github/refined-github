@@ -11,8 +11,7 @@ let waiting;
 const generateCheckbox = onetime(() => (
 	<label class="d-inline-block">
 		<input type="checkbox" name="rgh-pr-check-waiter" checked/>
-		{' '}
-		Wait for successful checks
+		{' Wait for successful checks'}
 	</label>
 ));
 
@@ -65,14 +64,12 @@ async function handleMergeConfirmation(event) {
 		const status = await prCiStatus.wait();
 
 		// Ensure that it wasn't cancelled/changed in the meanwhile
-		if (waiting !== currentConfirmation) {
-			return;
-		}
+		if (waiting === currentConfirmation) {
+			disableForm(false);
 
-		disableForm(false);
-
-		if (status === prCiStatus.SUCCESS) {
-			event.target.click();
+			if (status === prCiStatus.SUCCESS) {
+				event.target.click();
+			}
 		}
 	}
 }
