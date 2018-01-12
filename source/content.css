@@ -683,7 +683,6 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	transform: translateY(-45px);
 }
 
-
 /* Remove annoying "helpful" banner on the issue tracker listing */
 .issues-listing .mb-4.js-notice {
 	display: none !important;
