@@ -720,6 +720,11 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	animation-fill-mode: backwards !important;
 }
 
+/* Remove "Learn how we count contributions" from contribution graph */
+.js-contribution-graph .contrib-footer > .float-left {
+	display: none;
+}
+
 /* Remove "Seeing something unexpected?" from user profiles */
 #js-contribution-activity .js-show-more-timeline-form > p {
 	display: none;
