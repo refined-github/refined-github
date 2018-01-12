@@ -119,7 +119,7 @@
 .mergeability-details .branch-action-item-icon {
 	margin-top: -4px;
 }
-.mergeability-details .branch-action-item .float-right.btn {
+.mergeability-details .branch-action-item .btn {
 	margin-top: -6px;
 }
 .alt-merge-options {
@@ -840,9 +840,4 @@ body > .footer li a {
 /* Lighten deletions in Markdown */
 .markdown-body del {
 	color: #6a737d;
-}
-
-/* Fix alignment of the "Update branch" button on the PR details page */
-.js-handle-pull-merging-errors .btn {
-	margin-top: -5px;
 }
