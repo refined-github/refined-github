@@ -35,7 +35,7 @@ export default async () => {
 
 	// {sindresorhus: [a.author, a.author], otheruser: [a.author]}
 	const selector = `.js-discussion .author:not(.refined-github-fullname):not([href^="/apps/"])`;
-	const usersOnPage = groupBy(select.all(selector)), el => el.textContent);
+	const usersOnPage = groupBy(select.all(selector), el => el.textContent);
 
 	const fetchAndAdd = async username => {
 		if (typeof cache[username] === 'undefined' && username !== myUsername) {
