@@ -1,5 +1,4 @@
 import select from 'select-dom';
-import debounce from 'debounce-fn';
 import {observeEl} from './utils';
 
 function getLastCommit() {
@@ -41,9 +40,10 @@ export function addEventListener(listener) {
 	if (observers.has(listener)) {
 		return;
 	}
-	let previousCommit;
-	let previousStatus;
-	const filteredListener = debounce(() => {
+
+	let previousCommit = getLastCommit();
+	let previousStatus = get();
+	const filteredListener = () => {
 		// Cancel submission if a new commit was pushed
 		const newCommit = getLastCommit();
 		if (newCommit !== previousCommit) {
@@ -57,10 +57,7 @@ export function addEventListener(listener) {
 			previousStatus = newStatus;
 			listener(newStatus);
 		}
-	}, {wait: 100});
-
-	previousCommit = getLastCommit();
-	previousStatus = get();
+	};
 
 	const observer = observeEl('.js-discussion', filteredListener, {
 		childList: true,
