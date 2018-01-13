@@ -39,7 +39,6 @@ import addDiffViewWithoutWhitespaceOption from './features/add-diff-view-without
 import preserveWhitespaceOptionInNav from './features/preserve-whitespace-option-in-nav';
 import addMilestoneNavigation from './features/add-milestone-navigation';
 import addFilterCommentsByYou from './features/add-filter-comments-by-you';
-import addProjectNewLink from './features/add-project-new-link';
 import removeProjectsTab from './features/remove-projects-tab';
 import fixSquashAndMergeTitle from './features/fix-squash-and-merge-title';
 import addTitleToEmojis from './features/add-title-to-emojis';
@@ -224,10 +223,6 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isSingleFile()) {
 		enableFeature(addFileCopyButton);
-	}
-
-	if (pageDetect.isRepoSettings()) {
-		enableFeature(addProjectNewLink);
 	}
 
 	if (pageDetect.isUserProfile()) {
