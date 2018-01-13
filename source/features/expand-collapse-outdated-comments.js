@@ -1,23 +1,44 @@
 import select from 'select-dom';
 import delegate from 'delegate';
 
+// Handles two parts:
+// - Getting buttons of the same feature
+// - Getting buttons of items in the same state
+// Notes:
+// - Comments and files both use .js-details-target, but
+// - Outdated comments have two .js-details-target's so it's easier to select them specifically
+function getSimilarButtons(button) {
+	// Toggle comment in PR Conversation
+	if (button.matches('.show-outdated-button')) {
+		return select.all('.outdated-comment:not(.open) .show-outdated-button');
+	}
+	if (button.matches('.hide-outdated-button')) {
+		return select.all('.outdated-comment.open .hide-outdated-button');
+	}
+
+	// Toggle file in PR Files
+	if (button.closest('.file.Details--on')) {
+		return select.all('.file.Details--on .js-details-target');
+	}
+	if (button.closest('.file:not(.Details--on)')) {
+		return select.all('.file:not(.Details--on) .js-details-target');
+	}
+}
+
 function addTooltips() {
-	for (const button of select.all('.show-outdated-button, .hide-outdated-button')) {
-		button.setAttribute('aria-label', 'Alt + click to expand/collapse all outdated comments');
-		button.classList.add('rgh-tooltipped', 'tooltipped', 'tooltipped-n');
+	for (const button of select.all('.outdated-comment .js-details-target, .file .js-details-target')) {
+		button.setAttribute('aria-label', 'Alt + click to expand/collapse all');
+		button.classList.add('rgh-tooltipped', 'tooltipped', 'tooltipped-w');
 	}
 }
 
 function handleClick(event) {
 	if (event.altKey) {
-		const clickedButton = event.target;
+		const clickedButton = event.delegateTarget;
 		const viewportOffset = clickedButton.parentNode.getBoundingClientRect().top;
-
-		let buttons;
-		if (clickedButton.classList.contains('show-outdated-button')) {
-			buttons = select.all('.outdated-comment:not(.open) .show-outdated-button');
-		} else {
-			buttons = select.all('.outdated-comment.open .hide-outdated-button');
+		const buttons = getSimilarButtons(clickedButton);
+		if (!buttons || buttons.length === 0) {
+			return;
 		}
 
 		for (const button of buttons) {
@@ -35,6 +56,6 @@ function handleClick(event) {
 }
 
 export default function () {
-	delegate('.js-discussion', '.show-outdated-button, .hide-outdated-button', 'click', handleClick);
+	delegate('.issues-listing', '.js-details-target', 'click', handleClick);
 	addTooltips();
 }
