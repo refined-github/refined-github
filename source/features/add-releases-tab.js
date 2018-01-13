@@ -47,6 +47,7 @@ export default async () => {
 			'js-selected-navigation-item',
 			'selected'
 		);
+		releasesTab.setAttribute('data-selected-links', 'repo_releases'); // Required for ajaxLoad
 		releasesTab.classList.add(
 			'js-selected-navigation-item',
 			'selected'
