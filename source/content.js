@@ -40,7 +40,7 @@ import preserveWhitespaceOptionInNav from './features/preserve-whitespace-option
 import addMilestoneNavigation from './features/add-milestone-navigation';
 import addFilterCommentsByYou from './features/add-filter-comments-by-you';
 import addProjectNewLink from './features/add-project-new-link';
-import removeProjectsTab from './features/remove-projects-tab';
+import removeProjects from './features/remove-projects';
 import fixSquashAndMergeTitle from './features/fix-squash-and-merge-title';
 import addTitleToEmojis from './features/add-title-to-emojis';
 import sortMilestonesByClosestDueDate from './features/sort-milestones-by-closest-due-date';
@@ -96,7 +96,7 @@ async function init() {
 			await safeElementReady('.pagehead + *');
 			enableFeature(addMoreDropdown);
 			enableFeature(addReleasesTab);
-			enableFeature(removeProjectsTab);
+			enableFeature(removeProjects);
 		});
 	}
 

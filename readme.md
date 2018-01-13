@@ -144,7 +144,7 @@ GitHub Enterprise is also supported. More info in the options.
 - Removes annoying hover effect in the repo file browser
 - Hides unnecessary buttons from the comment box toolbar (each has a keyboard shortcut)
 - Removes obvious tooltips
-- Removes the "Projects" repo tab when there are no projects (New projects can be created on the "Settings" tab)
+- Removes the "Projects" when there are no projects from: repo tabs, filters on issues and Pull Request lists pages, sidebar items when viewing/creating a new issue/PR (New projects can be created on the "Settings" tab)
 
 ### UI improvements
 

@@ -232,6 +232,14 @@ test('isNewIssue', urlMatcherMacro, pageDetect.isNewIssue, [
 	'https://github.com/sindresorhus/refined-github/issues'
 ]);
 
+test('isNewPR', urlMatcherMacro, pageDetect.isNewPR, [
+	'https://github.com/sindresorhus/refined-github/compare/master...branch-name'
+], [
+	'http://github.com/sindresorhus/ava',
+	'https://github.com',
+	'https://github.com/sindresorhus/refined-github/issues'
+]);
+
 test('isNotifications', urlMatcherMacro, pageDetect.isNotifications, [
 	'https://github.com/notifications',
 	'https://github.com/notifications/participating',
