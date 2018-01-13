@@ -43,14 +43,11 @@ export default async () => {
 	appendReleasesCount((await localCache)[repoKey]);
 
 	if (pageDetect.isReleases()) {
-		select('.reponav-item.selected').classList.remove(
-			'js-selected-navigation-item',
-			'selected'
-		);
+		const selected = select('.reponav-item.selected');
+		if (selected) {
+			selected.classList.remove('js-selected-navigation-item', 'selected');
+		}
+		releasesTab.classList.add('js-selected-navigation-item', 'selected');
 		releasesTab.setAttribute('data-selected-links', 'repo_releases'); // Required for ajaxLoad
-		releasesTab.classList.add(
-			'js-selected-navigation-item',
-			'selected'
-		);
 	}
 };
