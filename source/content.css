@@ -688,7 +688,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 /* Make the modal backdrop visible */
 :root body.menu-active .modal-backdrop,
 :root .dropdown-details[open] > summary::before {
-	z-index: 20; /* Don't mess with this value so easily */
+	z-index: 21; /* Don't mess with this value so easily */
 	background: rgba(0, 0, 0, 0.1);
 	animation: fade-in 0.2s;
 }
