@@ -688,12 +688,17 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 /* Make the modal backdrop visible */
 :root body.menu-active .modal-backdrop,
 :root .dropdown-details[open] > summary::before {
-	z-index: 21; /* Don't mess with this value so easily */
+	z-index: 20; /* Don't mess with this value so easily */
 	background: rgba(0, 0, 0, 0.1);
 	animation: fade-in 0.2s;
 }
 :root .pagehead ul.pagehead-actions {
 	position: static; /* Demote watch/star/fork */
+}
+
+/* Ensure sidebar content displays underneath backdrop */
+#discussion_bucket > .discussion-sidebar {
+	z-index: 19;
 }
 
 /* Reduce duplicate backdrop in PR diff view */
