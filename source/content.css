@@ -462,7 +462,8 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 }
 
 /* Mark as unread */
-.btn-mark-unread {
+.rgh-btn-mark-unread {
+	width: 100%;
 	margin-top: 8px;
 }
 
