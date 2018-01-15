@@ -126,6 +126,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Adds links to view the repo at the time of each comment](https://user-images.githubusercontent.com/1402241/32310022-7fef6174-bf5d-11e7-960f-5041a8f073ac.png)
 - [Adds a link in a user's profile to their public gists](https://user-images.githubusercontent.com/11544418/34268306-1c974fd2-e678-11e7-9e82-861dfe7add22.png)
 - [Adds a 'Jump to bottom' link to discussion pages](https://user-images.githubusercontent.com/4331946/34298950-93876584-e720-11e7-898a-96f85e31aefe.png)
+- [Adds a 'Your repositories' link to user profile dropdown](https://user-images.githubusercontent.com/4201088/34920280-479e2454-f996-11e7-8e24-ad69793b9d9b.png)
 
 ### More info at a glance
 

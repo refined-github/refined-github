@@ -26,6 +26,7 @@ import * as linkifyBranchRefs from './features/linkify-branch-refs';
 import hideEmptyMeta from './features/hide-empty-meta';
 import hideOwnStars from './features/hide-own-stars';
 import moveMarketplaceLinkToProfileDropdown from './features/move-marketplace-link-to-profile-dropdown';
+import addYourRepoLinkToProfileDropdown from './features/add-your-repositories-link-to-profile-dropdown';
 import addTrendingMenuItem from './features/add-trending-menu-item';
 import addProfileHotkey from './features/add-profile-hotkey';
 import addYoursMenuItem from './features/add-yours-menu-item';
@@ -119,6 +120,7 @@ function onDomReady() {
 
 	if (!pageDetect.isGist()) {
 		enableFeature(moveMarketplaceLinkToProfileDropdown);
+		enableFeature(addYourRepoLinkToProfileDropdown);
 	}
 
 	if (pageDetect.isGist()) {
