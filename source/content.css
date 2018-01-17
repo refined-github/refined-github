@@ -70,6 +70,8 @@
 [aria-label*='reacted with']::after,
 .tooltipped[disabled]::before, /* Disabled buttons' tooltips might have useful information */
 .tooltipped[disabled]::after,
+.tooltipped.team-mention::before, /* Team mentions show all team members in the tooltip */
+.tooltipped.team-mention::after,
 .AvatarStack-body::before, /* Notification participants avatars */
 .AvatarStack-body::after,
 .js-zeroclipboard::before, /* Copy button feedback */
