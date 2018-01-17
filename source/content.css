@@ -573,11 +573,6 @@ div.inline-comment-form .form-actions,
 	float: right;
 }
 
-/* "Add a Project" button */
-#refined-github-project-new-link {
-	margin-top: 5px;
-}
-
 /* Decrease the size of the search box to fit 'Yours' menu item */
 .subnav-search-input[aria-label='Search all issues'] {
 	width: 420px;
