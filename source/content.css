@@ -1,6 +1,12 @@
 :root {
 	--github-green: #28a745;
 	--github-red: #cb2431;
+	--github-gray-background: #fafbfc;
+}
+
+/* GitHub bug: releases page has unwanted bullet points */
+.release-timeline-tags {
+	list-style: none;
 }
 
 .subscribe-feed {
@@ -62,6 +68,8 @@
 
 [aria-label*='reacted with']::before, /* Reaction avatars across the site */
 [aria-label*='reacted with']::after,
+.tooltipped[disabled]::before, /* Disabled buttons' tooltips might have useful information */
+.tooltipped[disabled]::after,
 .AvatarStack-body::before, /* Notification participants avatars */
 .AvatarStack-body::after,
 .js-zeroclipboard::before, /* Copy button feedback */
@@ -112,7 +120,7 @@
 .mergeability-details .branch-action-item-icon {
 	margin-top: -4px;
 }
-.mergeability-details .branch-action-item .float-right.btn {
+.mergeability-details .branch-action-item .btn {
 	margin-top: -6px;
 }
 .alt-merge-options {
@@ -256,9 +264,9 @@ added someone as a collaborator
 forked a repo
 followed someone
 */
-.news .push,
-.news .fork,
-.news .follow {
+.rgh-no-useless-events .push,
+.rgh-no-useless-events .fork,
+.rgh-no-useless-events .follow {
 	display: none !important;
 }
 
@@ -455,7 +463,8 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 }
 
 /* Mark as unread */
-.btn-mark-unread {
+.rgh-btn-mark-unread {
+	width: 100%;
 	margin-top: 8px;
 }
 
@@ -546,11 +555,6 @@ div.previewable-edit .previewable-comment-form .form-actions {
 div.inline-comment-form .form-actions,
 .inline-comment-form .form-actions .js-hide-inline-comment-form {
 	float: none;
-}
-
-/* "Add a Project" button */
-#refined-github-project-new-link {
-	margin-top: 5px;
 }
 
 /* Decrease the size of the search box to fit 'Yours' menu item */
@@ -723,10 +727,13 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	position: relative;
 }
 [data-url$='recently_touched_branches_list'] {
+	min-width: 400px; /* Always cover the repo watch/star/forks actions */
+	max-height: 35px; /* Only cover the actions */
 	position: absolute;
-	top: -54px;
+	top: -107px;
 	right: 0;
 	z-index: 10;
+	background: var(--github-gray-background);
 	white-space: nowrap;
 	animation: rgh-slide-in-right 0.3s ease-out;
 }
@@ -739,6 +746,8 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 }
 .RecentBranches {
 	display: flex;
+	width: max-content;
+	margin-left: auto;
 	flex-direction: column-reverse;
 }
 .RecentBranches .btn {
@@ -766,7 +775,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	border-bottom-width: 3px;
 }
 .RecentBranches-item-link {
-	max-width: 150px !important;
+	max-width: 250px !important;
 	font-size: 14px;
 }
 .RecentBranches-item.p-2 {
@@ -783,7 +792,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 body > .footer {
 	opacity: 0.3;
 }
-body > .footer ul:first-of-type li:first-of-type { /* The `© 2017 GitHub, Inc.` text */
+body > .footer > div > ul:first-of-type li:first-of-type { /* The `© 2017 GitHub, Inc.` text */
 	display: none;
 }
 .footer-octicon {
@@ -819,4 +828,18 @@ body > .footer li a {
 /* Make activities narrower */
 .dashboard .d-flex.border-bottom.border-gray-light {
 	padding: 8px 0 !important;
+}
+
+/* For 'extend-diff-expander' feature */
+.js-expandable-line:hover .diff-expander,
+.js-expandable-line:hover .blob-code {
+	border-color: #0366d6;
+	color: #fff;
+	background: #0366d6;
+	cursor: pointer;
+}
+
+/* Lighten deletions in Markdown */
+.markdown-body del {
+	color: #6a737d;
 }

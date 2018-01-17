@@ -1,6 +1,7 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate';
+import {groupButtons} from '../libs/utils';
 import {isNotifications} from '../libs/page-detect';
 
 function openNotifications() {
@@ -24,13 +25,12 @@ export default function () {
 		return;
 	}
 
-	const openButton = <a href="#open_all_in_tabs" class="btn btn-sm BtnGroup-item">Open all unread in tabs</a>;
+	const openButton = <a href="#open_all_in_tabs" class="btn btn-sm">Open all unread in tabs</a>;
 
 	// Make a button group
-	const markAsReadButton = select('[href="#mark_as_read_confirm_box"]');
-	markAsReadButton.parentNode.classList.add('BtnGroup');
-	markAsReadButton.classList.add('BtnGroup-item');
-	markAsReadButton.before(openButton);
+	const group = select('.tabnav .float-right');
+	group.prepend(openButton);
+	groupButtons([...group.children]);
 
 	// Move out the extra node that messes with .BtnGroup-item:last-child
 	document.body.append(select('#mark_as_read_confirm_box'));

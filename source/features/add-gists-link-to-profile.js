@@ -12,7 +12,7 @@ export default async () => {
 
 	const username = getCleanPathname();
 	const href = isEnterprise() ? `/gist/${username}` : `https://gist.github.com/${username}`;
-	const link = <a href={href} class="UnderlineNav-item rgh-user-gist" role="tab">Gists </a>;
+	const link = <a href={href} class="UnderlineNav-item rgh-user-gist" role="tab" aria-selected="false">Gists </a>;
 	container.append(link);
 
 	const userData = await api(`users/${username}`);

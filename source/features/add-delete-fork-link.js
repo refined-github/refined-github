@@ -5,7 +5,7 @@ import * as pageDetect from '../libs/page-detect';
 const repoUrl = pageDetect.getRepoURL();
 
 export default function () {
-	const canDeleteFork = select.exists('.reponav-item [data-selected-links~="repo_settings"]');
+	const canDeleteFork = select.exists('.reponav-item[data-selected-links~="repo_settings"]');
 	const postMergeDescription = select('#partial-pull-merging .merge-branch-description');
 
 	if (canDeleteFork && postMergeDescription) {

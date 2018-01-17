@@ -26,6 +26,7 @@ import * as linkifyBranchRefs from './features/linkify-branch-refs';
 import hideEmptyMeta from './features/hide-empty-meta';
 import hideOwnStars from './features/hide-own-stars';
 import moveMarketplaceLinkToProfileDropdown from './features/move-marketplace-link-to-profile-dropdown';
+import addYourRepoLinkToProfileDropdown from './features/add-your-repositories-link-to-profile-dropdown';
 import addTrendingMenuItem from './features/add-trending-menu-item';
 import addProfileHotkey from './features/add-profile-hotkey';
 import addYoursMenuItem from './features/add-yours-menu-item';
@@ -39,7 +40,6 @@ import addDiffViewWithoutWhitespaceOption from './features/add-diff-view-without
 import preserveWhitespaceOptionInNav from './features/preserve-whitespace-option-in-nav';
 import addMilestoneNavigation from './features/add-milestone-navigation';
 import addFilterCommentsByYou from './features/add-filter-comments-by-you';
-import addProjectNewLink from './features/add-project-new-link';
 import removeProjectsTab from './features/remove-projects-tab';
 import fixSquashAndMergeTitle from './features/fix-squash-and-merge-title';
 import addTitleToEmojis from './features/add-title-to-emojis';
@@ -54,9 +54,12 @@ import embedGistInline from './features/embed-gist-inline';
 import expandCollapseOutdatedComments from './features/expand-collapse-outdated-comments';
 import addJumpToBottomLink from './features/add-jump-to-bottom-link';
 import addQuickReviewButtons from './features/add-quick-review-buttons';
+import extendDiffExpander from './features/extend-diff-expander';
 import sortIssuesByUpdateTime from './features/sort-issues-by-update-time';
+import makeDiscussionSidebarSticky from './features/make-discussion-sidebar-sticky';
 import shortenLinks from './features/shorten-links';
 import addDownloadFolderButton from './features/add-download-folder-button';
+import hideUselessNewsfeedEvents from './features/hide-useless-newsfeed-events';
 
 import * as pageDetect from './libs/page-detect';
 import {observeEl, safeElementReady, enableFeature} from './libs/utils';
@@ -87,6 +90,7 @@ async function init() {
 
 	if (pageDetect.isDashboard()) {
 		enableFeature(moveAccountSwitcherToSidebar);
+		enableFeature(hideUselessNewsfeedEvents);
 	}
 
 	if (pageDetect.isRepo()) {
@@ -115,9 +119,11 @@ function onDomReady() {
 	enableFeature(markUnread);
 	enableFeature(enableCopyOnY);
 	enableFeature(addProfileHotkey);
+	enableFeature(makeDiscussionSidebarSticky);
 
 	if (!pageDetect.isGist()) {
 		enableFeature(moveMarketplaceLinkToProfileDropdown);
+		enableFeature(addYourRepoLinkToProfileDropdown);
 	}
 
 	if (pageDetect.isGist()) {
@@ -182,6 +188,10 @@ function ajaxedPagesHandler() {
 		});
 	}
 
+	if (pageDetect.isNewIssue()) {
+		enableFeature(addUploadBtn);
+	}
+
 	if (pageDetect.isIssue() || pageDetect.isPRConversation()) {
 		enableFeature(addJumpToBottomLink);
 	}
@@ -214,14 +224,11 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isPRFiles()) {
 		enableFeature(addQuickReviewButtons);
+		enableFeature(extendDiffExpander);
 	}
 
 	if (pageDetect.isSingleFile()) {
 		enableFeature(addFileCopyButton);
-	}
-
-	if (pageDetect.isRepoSettings()) {
-		enableFeature(addProjectNewLink);
 	}
 
 	if (pageDetect.isUserProfile()) {
