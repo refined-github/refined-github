@@ -16,7 +16,11 @@ export function inPR() {
 	// Find the URLs first, some elements don't have titles
 	const urls = new Map();
 	for (const el of select.all('.commit-ref[title], .base-ref[title], .head-ref[title]')) {
-		urls.set(el.textContent.trim(), '/' + el.title.replace(':', '/tree/'));
+		const [repo, branch] = el.title.split(':');
+		urls.set(
+			el.textContent.trim(),
+			`/${repo}/tree/${encodeURIComponent(branch)}`
+		);
 	}
 
 	for (const el of select.all('.commit-ref')) {

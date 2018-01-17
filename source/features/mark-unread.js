@@ -29,11 +29,11 @@ function stripHash(url) {
 function addMarkUnreadButton() {
 	const container = select('.js-thread-subscription-status');
 	if (container) {
-		const button = <button class="btn btn-sm btn-mark-unread js-mark-unread">Mark as unread</button>;
+		const button = <button class="btn btn-sm rgh-btn-mark-unread">Mark as unread</button>;
 		button.addEventListener('click', markUnread, {
 			once: true
 		});
-		container.append(button);
+		container.after(button);
 	}
 }
 
@@ -385,7 +385,7 @@ function destroy() {
 		listener.destroy();
 	}
 	listeners.length = 0;
-	for (const button of select.all('.js-mark-unread')) {
+	for (const button of select.all('.rgh-btn-mark-unread')) {
 		button.remove();
 	}
 }
