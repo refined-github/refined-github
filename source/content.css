@@ -845,3 +845,8 @@ body > .footer li a {
 .markdown-body del {
 	color: #6a737d;
 }
+
+/* Expand PR merge status list to fit all items instead of just 5 */
+.branch-action-item.open > .merge-status-list {
+	max-height: none !important;
+}
