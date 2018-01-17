@@ -264,9 +264,9 @@ added someone as a collaborator
 forked a repo
 followed someone
 */
-.news .push,
-.news .fork,
-.news .follow {
+.rgh-no-useless-events .push,
+.rgh-no-useless-events .fork,
+.rgh-no-useless-events .follow {
 	display: none !important;
 }
 
