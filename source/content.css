@@ -846,7 +846,7 @@ body > .footer li a {
 	color: #6a737d;
 }
 
-/* Make <detail> visibly clickable */
+/* Make <details> visibly clickable */
 .markdown-body summary, /* Summary elements are always clickable when present */
 .markdown-body details:not([open]) { /* Summary-less details have unselectable clickable elements */
 	cursor: pointer;
