@@ -1,19 +1,11 @@
 import select from 'select-dom';
 import delegate from 'delegate';
 
-function findClosestOfTag(tag, element) {
-	if (element.tagName === tag.toUpperCase()) {
-		return element;
-	} else if (element === document.body) {
-		return undefined;
-	}
-	return findClosestOfTag(tag, element.parentElement);
-}
-
-export default () => {
+// Observe all <details> based dropdown menus.
+const observeDetails = () => {
 	const observer = new IntersectionObserver(([{intersectionRatio, target}]) => {
 		if (intersectionRatio === 0) {
-			findClosestOfTag('details', target).open = false;
+			select('.dropdown-details[open]').open = false;
 			observer.unobserve(target);
 			console.log('Unobserved: ', target);
 		}
@@ -28,7 +20,23 @@ export default () => {
 			console.log('Unobserved: ', dropdownMenu);
 		} else {
 			observer.observe(dropdownMenu);
-			console.log('Observed: ', dropdownMenu);
+			console.log('Observing: ', dropdownMenu);
 		}
 	});
+}
+
+// Observe all <a> based dropdown menus.
+const observeAnchors = () => {
+  // TODO
+}
+
+// Observe all <button> based dropdown menus.
+const observeButtons = () => {
+  // TODO
+}
+
+export default () => {
+	observeDetails();
+	observeAnchors();
+	observeButtons();
 };
