@@ -32,20 +32,6 @@ GitHub Enterprise is also supported. More info in the options.
 
 <table>
 	<tr>
-		<th>
-			Dashboard cleanup
-		</th>
-	</tr>
-	<tr><!-- Prevent zebra stripes --></tr>
-	<tr>
-		<td>
-			<img src="https://user-images.githubusercontent.com/170270/27985638-029024f8-63ef-11e7-8487-5e999108bb56.gif">
-		</td>
-	</tr>
-</table>
-
-<table>
-	<tr>
 		<th width="50%">
 			Mark issues and pull requests as unread<br>
 			<em>(They will reappear in Notifications)</em>
