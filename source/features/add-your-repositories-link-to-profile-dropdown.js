@@ -11,5 +11,5 @@ export default function () {
 	);
 
 	// GHE doesn't wrap links in <li> yet
-	position.after(position.tagName === 'LI' ? <li>{link}</li> : link)
+	position.after(position.tagName === 'LI' ? <li>{link}</li> : link);
 }
