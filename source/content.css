@@ -695,6 +695,11 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	position: static; /* Demote watch/star/fork */
 }
 
+/* Ensure sidebar content displays underneath backdrop */
+#discussion_bucket > .discussion-sidebar {
+	z-index: 19;
+}
+
 /* Reduce duplicate backdrop in PR diff view */
 :root .pr-toolbar .modal-backdrop {
 	width: 100%;
