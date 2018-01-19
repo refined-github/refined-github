@@ -667,7 +667,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	z-index: 10;
 }
 
-/* Momentarily offset the line so its #deeplink won’t be covered by the header */
+/* Momentarily offset the line so its #deeplink won’t be covered by the header #974 */
 :target + .highlighted {
 	/* stylelint-disable time-min-milliseconds */
 	animation: sticky-file-header-target-fixer 0s 0.1ms backwards;
