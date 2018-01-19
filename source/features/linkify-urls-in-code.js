@@ -34,7 +34,9 @@ export const editTextNodes = (fn, el) => {
 };
 
 export default () => {
-	const wrappers = select.all(`.highlight:not(.${linkifiedURLClass})`);
+	const wrappers = select.all(
+		`.highlight:not(.${linkifiedURLClass}), table[id^="discussion-diff"]:not(.${linkifiedURLClass})`
+	);
 
 	// Don't linkify any already linkified code
 	if (wrappers.length === 0) {
