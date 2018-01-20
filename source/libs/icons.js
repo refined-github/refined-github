@@ -30,6 +30,4 @@ export const dependency = () => <svg class="octicon octicon-package" viewBox="0 
 
 export const triangleDown = () => <svg aria-hidden="true" class="octicon octicon-triangle-down v-align-middle text-y" height="11" version="1.1" viewBox="0 0 12 16" width="8"><path fill-rule="evenodd" d="M0 5l6 6 6-6z"></path></svg>;
 
-export const arrowUp = () => <svg class="octicon octicon-chevron-down" height="16" viewBox="0 0 10 16" width="10"><path fill-rule="evenodd" d="M5 11L0 6l1.5-1.5L5 8.25 8.5 4.5 10 6z"></path></svg>;
-
-export const arrowDown = () => <svg class="octicon octicon-chevron-up" height="16" viewBox="0 0 10 16" width="10"><path fill-rule="evenodd" d="M10 10l-1.5 1.5L5 7.75 1.5 11.5 0 10l5-5z"></path></svg>;
+export const chevronDown = () => <svg class="octicon octicon-chevron-down" height="16" viewBox="0 0 10 16" width="10"><path fill-rule="evenodd" d="M10 10l-1.5 1.5L5 7.75 1.5 11.5 0 10l5-5z"></path></svg>;

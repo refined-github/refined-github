@@ -853,25 +853,18 @@ body > .footer li a {
 }
 
 /* For 'add-toggle-files-button' feature */
-.js-toggle-files {
+.rgh-toggle-files {
 	margin-right: -6px;
 }
-.commit-tease .octicon-chevron-up {
+.rgh-files-hidden .commit-tease {
+	border-radius: 3px;
+}
+.rgh-files-hidden .commit-tease .octicon-chevron-down {
+	transform: rotate(0.5turn);
+}
+.rgh-files-hidden .files {
 	display: none;
 }
-.files-hidden .commit-tease {
-	border-bottom-left-radius: 3px;
-	border-bottom-right-radius: 3px;
-}
-.files-hidden .commit-tease .octicon-chevron-up {
-	display: inherit;
-}
-.files-hidden .commit-tease .octicon-chevron-down {
-	display: none;
-}
-.files-hidden .files {
-	display: none;
-}
-.files-hidden .file-wrap {
-	border-color: #fff;
+.rgh-files-hidden .file-wrap {
+	border: 0;
 }
