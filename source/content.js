@@ -61,6 +61,7 @@ import shortenLinks from './features/shorten-links';
 import addDownloadFolderButton from './features/add-download-folder-button';
 import hideUselessNewsfeedEvents from './features/hide-useless-newsfeed-events';
 import closeOutOfViewDropdowns from './features/close-out-of-view-dropdowns';
+import addScopedSearchOnUserProfile from './features/add-scoped-search-on-user-profile';
 
 import * as pageDetect from './libs/page-detect';
 import {observeEl, safeElementReady, enableFeature} from './libs/utils';
@@ -235,6 +236,7 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isUserProfile()) {
 		enableFeature(addGistsLink);
+		enableFeature(addScopedSearchOnUserProfile);
 	}
 }
 
