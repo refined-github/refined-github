@@ -845,3 +845,33 @@ body > .footer li a {
 .markdown-body del {
 	color: #6a737d;
 }
+
+/* Make <details> visibly clickable */
+.markdown-body summary, /* Summary elements are always clickable when present */
+.markdown-body details:not([open]) { /* Summary-less details have unselectable clickable elements */
+	cursor: pointer;
+}
+
+/* For 'add-toggle-files-button' feature */
+.js-toggle-files {
+	margin-right: -6px;
+}
+.commit-tease .octicon-chevron-up {
+	display: none;
+}
+.files-hidden .commit-tease {
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+.files-hidden .commit-tease .octicon-chevron-up {
+	display: inherit;
+}
+.files-hidden .commit-tease .octicon-chevron-down {
+	display: none;
+}
+.files-hidden .files {
+	display: none;
+}
+.files-hidden .file-wrap {
+	border-color: #fff;
+}
