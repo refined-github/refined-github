@@ -9,7 +9,6 @@ const observer = new IntersectionObserver(([{intersectionRatio, target}]) => {
 		} else if (target.classList.contains('dropdown-menu') && select.exists('body.menu-active .modal-backdrop')) {
 			// Close reponav dropdown
 			select('.reponav-dropdown.active .reponav-item').click();
-			console.log('Will close ', target);
 		} else if (target.classList.contains('js-active-navigation-container') || select.exists('.js-active-navigation-container', target)) {
 			// Close .js-select-menu dropdowns if still open
 			select('.select-menu-button.selected').click();
@@ -25,7 +24,7 @@ export default () => {
 		const dropdownTarget = event.delegateTarget;
 		const dropdownMenu = select('.dropdown-menu', dropdownTarget);
 
-		if (!dropdownTarget.open) {
+		if (dropdownMenu && !dropdownTarget.open) {
 			observer.observe(dropdownMenu);
 		}
 	});
@@ -35,7 +34,7 @@ export default () => {
 		const dropdownTarget = event.delegateTarget;
 		const dropdownMenu = select('.select-menu-modal-holder', dropdownTarget);
 
-		if (dropdownTarget.classList.contains('active')) {
+		if (dropdownMenu && dropdownTarget.classList.contains('active')) {
 			observer.observe(dropdownMenu);
 		}
 	});
