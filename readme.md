@@ -97,6 +97,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Uses the pull request title as commit title when merging with 'Squash and merge'](https://github.com/sindresorhus/refined-github/issues/276)
 - [Automatically embeds linked gists in comments](https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.PNG)
 - [Adds <kbd>↑</kbd> shortcut for editing your last comment](https://github.com/sindresorhus/refined-github/pull/961)
+- [Adds scoped search on each users profile page](https://user-images.githubusercontent.com/1402241/35185441-24ad4b1e-fe37-11e7-9e1b-0dc09fc1ada2.png)
 
 ### More actions
 
