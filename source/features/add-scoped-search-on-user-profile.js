@@ -1,11 +1,10 @@
-import select from 'select-dom';
 import {h} from 'dom-chef';
+import select from 'select-dom';
 
-export default async () => {
-	// Safeguard against accidentally modifying existing scoped search
-	// on organization pages because `isUserProfile` returns `true`
-	// for organization pages
-	if (select.exists('.header-search.scoped-search')) {
+export default function () {
+	// `isUserProfile` returns `true` on organization pages too,
+	// but they already have scoped search
+	if (select.exists('body.org')) {
 		return;
 	}
 
@@ -14,26 +13,20 @@ export default async () => {
 	const searchScope = select('.header-search-scope', searchForm);
 	const searchInput = select('.header-search-input', searchForm);
 
-	const userName = select('.vcard-username').textContent;
-
-	searchContainer.classList.add('scoped-search');
-	searchContainer.classList.add('site-scoped-search');
+	searchForm.addEventListener('submit', () => {
+		if (select.exists('.scoped-search')) {
+			const username = select('.vcard-username').textContent;
+			searchForm.append(
+				<input type="hidden" value={`user:${username} ${searchInput.value}`} name="q" />
+			);
+		}
+	});
 
 	searchForm.setAttribute('data-scoped-search-url', '/search');
 
-	const pseudoSearchInput = (
-		<input type="hidden" class="js-site-search-type-field" name="q" />
-	);
-	searchForm.append(pseudoSearchInput);
+	searchContainer.classList.add('scoped-search', 'site-scoped-search');
+	searchInput.classList.add('js-site-search-field', 'is-clearable');
 
-	searchForm.addEventListener('submit', () => {
-		pseudoSearchInput.value = `user:${userName} ${searchInput.value}`;
-	});
-
-	searchScope.textContent = 'This user';
-
-	searchInput.classList.add('js-site-search-field');
-	searchInput.classList.add('is-clearable');
 	searchInput.placeholder = 'Search';
-	searchInput.name = '';
-};
+	searchScope.textContent = 'This user';
+}
