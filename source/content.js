@@ -51,7 +51,7 @@ import addKeyboardShortcutsToCommentFields from './features/add-keyboard-shortcu
 import addConfirmationToCommentCancellation from './features/add-confirmation-to-comment-cancellation';
 import addCILink from './features/add-ci-link';
 import embedGistInline from './features/embed-gist-inline';
-import expandCollapseOutdatedComments from './features/expand-collapse-outdated-comments';
+import toggleAllThingsWithAlt from './features/toggle-all-things-with-alt';
 import addJumpToBottomLink from './features/add-jump-to-bottom-link';
 import addQuickReviewButtons from './features/add-quick-review-buttons';
 import extendDiffExpander from './features/extend-diff-expander';
@@ -171,7 +171,7 @@ function ajaxedPagesHandler() {
 		enableFeature(addDeleteForkLink);
 		enableFeature(fixSquashAndMergeTitle);
 		enableFeature(openCIDetailsInNewTab);
-		enableFeature(expandCollapseOutdatedComments);
+		enableFeature(toggleAllThingsWithAlt);
 	}
 
 	if (pageDetect.isQuickPR()) {
