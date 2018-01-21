@@ -95,7 +95,7 @@ export default function () {
 		});
 
 		// Warn user if it's not yet submitted.
-		// Sadly no way to show a message
-		window.onbeforeunload = () => waiting;
+		// Sadly the message isn't shown
+		window.onbeforeunload = () => waiting && 'The PR hasn’t merged yet.';
 	}
 }
