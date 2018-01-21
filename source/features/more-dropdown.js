@@ -14,8 +14,8 @@ export default function () {
 	appendBefore('.reponav', '[href$="settings"]',
 		<div class="reponav-dropdown js-menu-container refined-github-more">
 			<button type="button" class="btn-link reponav-item reponav-dropdown js-menu-target " data-no-toggle aria-expanded="false" aria-haspopup="true">More {icons.triangleDown()}</button>
-			<div class="dropdown-menu-content js-menu-content">
-				<div class="dropdown-menu dropdown-menu-sw">
+			<div class="dropdown-menu-content">
+				<div class="dropdown-menu dropdown-menu-sw js-menu-content">
 					<a href={`/${repoUrl}/compare`} class="dropdown-item" data-skip-pjax>
 						{icons.darkCompare()}
 						<span itemprop="name"> Compare</span>

@@ -60,7 +60,7 @@ import makeDiscussionSidebarSticky from './features/make-discussion-sidebar-stic
 import shortenLinks from './features/shorten-links';
 import addDownloadFolderButton from './features/add-download-folder-button';
 import hideUselessNewsfeedEvents from './features/hide-useless-newsfeed-events';
-import closeOutOfViewDropdowns from './features/close-out-of-view-dropdowns';
+import closeOutOfViewModals from './features/close-out-of-view-modals';
 import addScopedSearchOnUserProfile from './features/add-scoped-search-on-user-profile';
 
 import * as pageDetect from './libs/page-detect';
@@ -122,7 +122,7 @@ function onDomReady() {
 	enableFeature(enableCopyOnY);
 	enableFeature(addProfileHotkey);
 	enableFeature(makeDiscussionSidebarSticky);
-	enableFeature(closeOutOfViewDropdowns);
+	enableFeature(closeOutOfViewModals);
 
 	if (!pageDetect.isGist()) {
 		enableFeature(moveMarketplaceLinkToProfileDropdown);
