@@ -32,20 +32,6 @@ GitHub Enterprise is also supported. More info in the options.
 
 <table>
 	<tr>
-		<th>
-			Dashboard cleanup
-		</th>
-	</tr>
-	<tr><!-- Prevent zebra stripes --></tr>
-	<tr>
-		<td>
-			<img src="https://user-images.githubusercontent.com/170270/27985638-029024f8-63ef-11e7-8487-5e999108bb56.gif">
-		</td>
-	</tr>
-</table>
-
-<table>
-	<tr>
 		<th width="50%">
 			Mark issues and pull requests as unread<br>
 			<em>(They will reappear in Notifications)</em>
@@ -103,14 +89,14 @@ GitHub Enterprise is also supported. More info in the options.
 </table>
 
 
-### New Features
+### Added features
 
-- [Collapse/expand all outdated pull request comments by pressing <kbd>Alt</kbd> while clicking](https://user-images.githubusercontent.com/25818354/33240033-3e271588-d2af-11e7-93af-13b6e325f65d.gif)
+- Toggle all [outdated PR comments](https://user-images.githubusercontent.com/25818354/33240033-3e271588-d2af-11e7-93af-13b6e325f65d.gif) or [PR files](https://user-images.githubusercontent.com/1402241/35192652-6f79dc42-fec9-11e7-89ad-2b4a9c5f4f52.gif) with <kbd>Alt</kbd>+click
 - Copy canonical link to file when [the <kbd>y</kbd> hotkey](https://help.github.com/articles/getting-permanent-links-to-files/) is used
 - Supports indenting with the tab key in textareas like the comment box (<kbd>Shift</kbd> <kbd>Tab</kbd> for original behavior)
 - [Uses the pull request title as commit title when merging with 'Squash and merge'](https://github.com/sindresorhus/refined-github/issues/276)
 - [Automatically embeds linked gists in comments](https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.PNG)
-- [Adds <kbd>↑</kbd> shortcut for editing your last comment](https://github.com/sindresorhus/refined-github/pull/961)
+- [Adds scoped search on each users profile page](https://user-images.githubusercontent.com/1402241/35185441-24ad4b1e-fe37-11e7-9e1b-0dc09fc1ada2.png)
 
 ### More actions
 
@@ -174,6 +160,7 @@ And [lots](source/content.css) [more...](source/content.js)
 - Adds a `Trending` link to the global navbar. *(<kbd>g</kbd> <kbd>t</kbd> hotkey)*
 - Adds a keyboard shortcut to leave a single comment in PR diffs instead of starting a review. *(<kbd>shift</kbd>+<kbd>enter</kbd>)*
 - Adds a keyboard shortcut to visit your profile. *(<kbd>g</kbd> <kbd>m</kbd> hotkey)*
+- [Adds <kbd>↑</kbd> shortcut for editing your last comment](https://github.com/sindresorhus/refined-github/pull/961)
 
 ### Previously part of Refined GitHub
 

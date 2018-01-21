@@ -680,6 +680,22 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	z-index: 10;
 }
 
+/* Momentarily offset the line so its #deeplink won’t be covered by the header #974 */
+:target + .highlighted {
+	/* stylelint-disable time-min-milliseconds */
+	animation: sticky-file-header-target-fixer 0s 0.1ms backwards;
+}
+@keyframes sticky-file-header-target-fixer {
+	from {
+		transform: translateY(-78px); /* Matches GH’s regular line clicking position */
+		opacity: 0;
+	}
+}
+.file .markdown-body .anchor {
+	padding-top: 45px;
+	transform: translateY(-45px);
+}
+
 /* Remove annoying "helpful" banner on the issue tracker listing */
 .issues-listing .mb-4.js-notice {
 	display: none !important;
@@ -858,4 +874,10 @@ body > .footer li a {
 /* Lighten deletions in Markdown */
 .markdown-body del {
 	color: #6a737d;
+}
+
+/* Make <details> visibly clickable */
+.markdown-body summary, /* Summary elements are always clickable when present */
+.markdown-body details:not([open]) { /* Summary-less details have unselectable clickable elements */
+	cursor: pointer;
 }
