@@ -58,6 +58,7 @@ import extendDiffExpander from './features/extend-diff-expander';
 import sortIssuesByUpdateTime from './features/sort-issues-by-update-time';
 import makeDiscussionSidebarSticky from './features/make-discussion-sidebar-sticky';
 import shortenLinks from './features/shorten-links';
+import waitForBuild from './features/wait-for-build';
 import addDownloadFolderButton from './features/add-download-folder-button';
 import hideUselessNewsfeedEvents from './features/hide-useless-newsfeed-events';
 import addScopedSearchOnUserProfile from './features/add-scoped-search-on-user-profile';
@@ -171,6 +172,7 @@ function ajaxedPagesHandler() {
 		enableFeature(addDeleteForkLink);
 		enableFeature(fixSquashAndMergeTitle);
 		enableFeature(openCIDetailsInNewTab);
+		enableFeature(waitForBuild);
 		enableFeature(toggleAllThingsWithAlt);
 	}
 

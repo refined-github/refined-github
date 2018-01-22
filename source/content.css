@@ -129,6 +129,12 @@
 	display: none !important;
 }
 
+/* Visibly disable merge fields during submission */
+[name='commit_message'][disabled],
+[name='commit_title'][disabled] {
+	color: #808080;
+}
+
 /* Remove top buttons on comment box */
 .timeline-comment-wrapper .tabnav-extra,
 .inline-comment-form-container .tabnav-extra {
@@ -557,6 +563,14 @@ div.previewable-edit .previewable-comment-form .form-actions {
 div.inline-comment-form .form-actions,
 .inline-comment-form .form-actions .js-hide-inline-comment-form {
 	float: none;
+}
+
+/* ...in the merge confirmation form */
+.commit-form-actions .select-menu {
+	display: block !important;
+}
+.commit-form-actions button:not(.js-merge-commit-button) {
+	float: right;
 }
 
 /* Decrease the size of the search box to fit 'Yours' menu item */
