@@ -847,6 +847,6 @@ body > .footer li a {
 }
 
 /* Expand PR merge status list to fit all items instead of just 5 */
-.branch-action-item.open > .merge-status-list {
-	max-height: none !important;
+:root .branch-action-item.open > .merge-status-list {
+	max-height: none;
 }
