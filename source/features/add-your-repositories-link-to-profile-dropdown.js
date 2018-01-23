@@ -3,11 +3,13 @@ import select from 'select-dom';
 import {getUsername} from '../libs/utils';
 
 export default function () {
-	select('.user-nav .dropdown-menu li:nth-child(3)').after(
-		<li>
-			<a class="dropdown-item" href={`/${getUsername()}?tab=repositories`}>
-				Your repositories
-			</a>
-		</li>
+	const position = select('.user-nav .dropdown:last-child .dropdown-menu > :nth-child(3)');
+	const link = (
+		<a class="dropdown-item" href={`/${getUsername()}?tab=repositories`}>
+			Your repositories
+		</a>
 	);
+
+	// GHE doesn't wrap links in <li> yet
+	position.after(position.tagName === 'LI' ? <li>{link}</li> : link);
 }

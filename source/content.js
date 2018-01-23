@@ -51,15 +51,17 @@ import addKeyboardShortcutsToCommentFields from './features/add-keyboard-shortcu
 import addConfirmationToCommentCancellation from './features/add-confirmation-to-comment-cancellation';
 import addCILink from './features/add-ci-link';
 import embedGistInline from './features/embed-gist-inline';
-import expandCollapseOutdatedComments from './features/expand-collapse-outdated-comments';
+import toggleAllThingsWithAlt from './features/toggle-all-things-with-alt';
 import addJumpToBottomLink from './features/add-jump-to-bottom-link';
 import addQuickReviewButtons from './features/add-quick-review-buttons';
 import extendDiffExpander from './features/extend-diff-expander';
 import sortIssuesByUpdateTime from './features/sort-issues-by-update-time';
 import makeDiscussionSidebarSticky from './features/make-discussion-sidebar-sticky';
 import shortenLinks from './features/shorten-links';
+import waitForBuild from './features/wait-for-build';
 import addDownloadFolderButton from './features/add-download-folder-button';
 import hideUselessNewsfeedEvents from './features/hide-useless-newsfeed-events';
+import addScopedSearchOnUserProfile from './features/add-scoped-search-on-user-profile';
 
 import * as pageDetect from './libs/page-detect';
 import {observeEl, safeElementReady, enableFeature} from './libs/utils';
@@ -170,7 +172,8 @@ function ajaxedPagesHandler() {
 		enableFeature(addDeleteForkLink);
 		enableFeature(fixSquashAndMergeTitle);
 		enableFeature(openCIDetailsInNewTab);
-		enableFeature(expandCollapseOutdatedComments);
+		enableFeature(waitForBuild);
+		enableFeature(toggleAllThingsWithAlt);
 	}
 
 	if (pageDetect.isQuickPR()) {
@@ -233,6 +236,7 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isUserProfile()) {
 		enableFeature(addGistsLink);
+		enableFeature(addScopedSearchOnUserProfile);
 	}
 }
 
