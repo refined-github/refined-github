@@ -1,30 +1,115 @@
 {
-  "scripts": {
-    "test": "xo && ava",
-    "release": "webstore upload --source=extension --auto-publish"
-  },
-  "devDependencies": {
-    "ava": "*",
-    "chrome-webstore-upload-cli": "^1.0.0",
-    "xo": "*"
-  },
-  "xo": {
-    "esnext": true,
-    "envs": [
-      "browser",
-      "jquery",
-      "webextensions"
-    ],
-    "ignores": [
-      "extension/vendor/**"
-    ]
-  },
-  "ava": {
-    "files": [
-      "test/*.js"
-    ],
-    "source": [
-      "extension/*.js"
-    ]
-  }
+	"private": true,
+	"scripts": {
+		"lint": "xo && stylelint source/*.css",
+		"lint-fix": "xo --fix; stylelint --fix source/*.css",
+		"test": "npm run lint && cross-env BABEL_ENV=testing ava && run-s build:minified",
+		"build": "webpack",
+		"build:minified": "cross-env NODE_ENV=production webpack",
+		"watch": "webpack --watch",
+		"release:amo": "cd distribution && webext submit",
+		"release:cws": "cd distribution && webstore upload --auto-publish",
+		"release": "run-s build:minified update-version save-url release:*",
+		"save-url": "echo https://github.com/$TRAVIS_REPO_SLUG/tree/$TRAVIS_COMMIT > distribution/SOURCE_URL",
+		"update-version": "VERSION=$(utc-version); echo $VERSION; dot-json distribution/manifest.json version $VERSION",
+		"can-release": "if [ \"$TRAVIS_EVENT_TYPE\" = cron ] && [ $(git rev-list -n 1 --since=\"26 hours ago\" master) ]; then echo :ship-it:; else false; fi"
+	},
+	"dependencies": {
+		"copy-text-to-clipboard": "^1.0.3",
+		"debounce-fn": "^1.0.0",
+		"delegate": "^3.2.0",
+		"dom-chef": "^3.0.0",
+		"dom-loaded": "^1.0.0",
+		"element-ready": "^2.2.0",
+		"github-injection": "^1.0.1",
+		"github-reserved-names": "^1.0.6",
+		"linkify-issues": "^1.3.0",
+		"linkify-urls": "^1.3.0",
+		"onetime": "^2.0.1",
+		"select-dom": "^4.1.0",
+		"shorten-repo-url": "^1.1.0",
+		"to-semver": "^1.1.0",
+		"turndown": "^4.0.1",
+		"webext-domain-permission-toggle": "0.0.2",
+		"webext-dynamic-content-scripts": "^5.0.0-2",
+		"webext-options-sync": "^0.13.0",
+		"webextension-polyfill": "^0.2.1"
+	},
+	"devDependencies": {
+		"ava": "*",
+		"babel-core": "^6.26.0",
+		"babel-loader": "^7.1.2",
+		"babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+		"babel-plugin-transform-react-jsx": "^6.24.1",
+		"chrome-webstore-upload-cli": "^1.0.0",
+		"common-tags": "^1.4.0",
+		"copy-webpack-plugin": "^4.2.0",
+		"cross-env": "^5.0.5",
+		"dot-json": "^1.0.3",
+		"npm-run-all": "^4.1.1",
+		"stylelint": "^8.3.1",
+		"stylelint-config-xo": "^0.4.0",
+		"uglifyjs-webpack-plugin": "^1.1.2",
+		"utc-version": "^1.0.0",
+		"webext": "^1.9.1-with-submit.1",
+		"webpack": "^3.7.1",
+		"xo": "*"
+	},
+	"xo": {
+		"envs": [
+			"browser"
+		],
+		"rules": {
+			"import/no-unassigned-import": 0,
+			"no-unused-vars": [
+				2,
+				{
+					"varsIgnorePattern": "^h$"
+				}
+			]
+		},
+		"globals": [
+			"browser"
+		]
+	},
+	"ava": {
+		"files": [
+			"test/*.js"
+		],
+		"require": [
+			"babel-register"
+		]
+	},
+	"babel": {
+		"plugins": [
+			[
+				"transform-react-jsx",
+				{
+					"pragma": "h",
+					"useBuiltIns": true
+				}
+			]
+		],
+		"env": {
+			"testing": {
+				"plugins": [
+					"transform-es2015-modules-commonjs"
+				]
+			}
+		}
+	},
+	"stylelint": {
+		"extends": "stylelint-config-xo",
+		"rules": {
+			"declaration-no-important": null,
+			"property-no-vendor-prefix": null,
+			"no-descending-specificity": null,
+			"property-blacklist": null,
+			"selector-class-pattern": null,
+			"selector-max-class": null,
+			"rule-empty-line-before": null,
+			"at-rule-empty-line-before": null,
+			"selector-max-compound-selectors": null
+		}
+	}
 }

@@ -4,8 +4,15 @@ node_js:
 env:
   - EXTENSION_ID=hlepfoohegkhhmjieoechaddaejaokhf
 deploy:
-  provider: script
-  script: npm run release
-  on:
-    branch: master
-    tags: true
+  - provider: script
+    skip_cleanup: true
+    script: npm run release
+    on:
+      tags: true
+  - provider: script
+    skip_cleanup: true
+    script: npm run release
+    on:
+      # Set to deploy on: cron with recent commits
+      branch: master
+      condition: $(npm run can-release --silent)

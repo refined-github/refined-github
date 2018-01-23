@@ -1,0 +1,36 @@
+body {
+	min-width: 400px; /* Required to size the Browser Action popup */
+}
+textarea {
+	width: 100%;
+}
+.small {
+	font-size: 0.9em;
+}
+
+/* Increase spacing between sections */
+h2 ~ h2 {
+	margin-top: 2em;
+}
+
+/* Firefox only */
+.only-firefox {
+	display: none;
+}
+@-moz-document url-prefix('') {
+	:root h2 {
+		font-weight: normal;
+	}
+	:root body {
+		font: message-box, sans-serif;
+	}
+	input[type='checkbox'] {
+		vertical-align: -41%;
+	}
+	.no-firefox {
+		display: none;
+	}
+	.only-firefox {
+		display: block;
+	}
+}

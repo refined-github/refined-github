@@ -1,20 +1,7 @@
-const url = require('url');
+const URL = require('url').URL;
 
-function WindowMock(initialURI) {
-	this._currentURI = initialURI;
+function WindowMock(initialURI = 'https://github.com') {
+	this.location = new URL(initialURI);
 }
-
-WindowMock.prototype.location = {
-	set href(uri) {
-		const uriParts = url.parse(uri);
-		this.hostname = uriParts.hostname;
-		this.pathname = uriParts.pathname;
-		this._currentURI = uri;
-	},
-
-	get href() {
-		return this._currentURI;
-	}
-};
 
 module.exports = WindowMock;
