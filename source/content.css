@@ -876,6 +876,11 @@ body > .footer li a {
 	color: #6a737d;
 }
 
+/* Expand PR merge status list to fit all items instead of just 5 */
+:root .branch-action-item.open > .merge-status-list {
+	max-height: none;
+}
+
 /* Make <details> visibly clickable */
 .markdown-body summary, /* Summary elements are always clickable when present */
 .markdown-body details:not([open]) { /* Summary-less details have unselectable clickable elements */
