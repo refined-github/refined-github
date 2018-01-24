@@ -1,12 +1,15 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
+import {safeElementReady} from '../libs/utils';
 
-export default function () {
+export default async function () {
 	// `isUserProfile` returns `true` on organization pages too,
 	// but they already have scoped search
 	if (select.exists('body.org')) {
 		return;
 	}
+
+	await safeElementReady('.header-search');
 
 	const searchContainer = select('.header-search');
 	const searchForm = select('.js-site-search-form', searchContainer);
