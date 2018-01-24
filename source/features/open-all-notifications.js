@@ -33,7 +33,7 @@ export default function () {
 	groupButtons([...group.children]);
 
 	// Move out the extra node that messes with .BtnGroup-item:last-child
-	document.body.append(select('#mark_as_read_confirm_box'));
+	document.body.append(select('#mark_as_read_confirm_box') || '');
 
 	if (unreadCount < 10) {
 		openButton.addEventListener('click', openNotifications);
