@@ -71,9 +71,11 @@ window.select = select;
 
 async function init() {
 	await safeElementReady('body');
+
 	if (pageDetect.is404() || pageDetect.is500()) {
 		return;
 	}
+
 	if (document.body.classList.contains('logged-out')) {
 		console.warn('%cRefined GitHub%c only works when you’re logged in to GitHub.', 'font-weight: bold', '');
 		return;
@@ -103,6 +105,10 @@ async function init() {
 			enableFeature(addReleasesTab);
 			enableFeature(removeProjectsTab);
 		});
+	}
+
+	if (pageDetect.isUserProfile()) {
+		enableFeature(addScopedSearchOnUserProfile);
 	}
 
 	enableFeature(focusConfirmationButtons);
@@ -236,7 +242,6 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isUserProfile()) {
 		enableFeature(addGistsLink);
-		enableFeature(addScopedSearchOnUserProfile);
 	}
 }
 
