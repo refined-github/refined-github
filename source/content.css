@@ -889,3 +889,20 @@ body > .footer li a {
 .markdown-body details:not([open]) { /* Summary-less details have unselectable clickable elements */
 	cursor: pointer;
 }
+
+/* For 'add-toggle-files-button' feature */
+.rgh-toggle-files {
+	margin-right: -6px;
+}
+.rgh-files-hidden .commit-tease {
+	border-radius: 3px;
+}
+.rgh-files-hidden .commit-tease .octicon-chevron-down {
+	transform: rotate(0.5turn);
+}
+.rgh-files-hidden .files {
+	display: none;
+}
+.rgh-files-hidden .file-wrap {
+	border: 0;
+}

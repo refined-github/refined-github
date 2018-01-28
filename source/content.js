@@ -30,6 +30,7 @@ import addYourRepoLinkToProfileDropdown from './features/add-your-repositories-l
 import addTrendingMenuItem from './features/add-trending-menu-item';
 import addProfileHotkey from './features/add-profile-hotkey';
 import addYoursMenuItem from './features/add-yours-menu-item';
+import addToggleFilesButton from './features/add-toggle-files-button';
 import addReadmeButtons from './features/add-readme-buttons';
 import addDeleteForkLink from './features/add-delete-fork-link';
 import linkifyIssuesInTitles from './features/linkify-issues-in-titles';
@@ -170,6 +171,10 @@ function ajaxedPagesHandler() {
 		enableFeature(removeDiffSigns);
 		enableFeature(addCILink);
 		enableFeature(sortMilestonesByClosestDueDate); // Needs to be after addMilestoneNavigation
+	}
+
+	if (pageDetect.isRepoRoot()) {
+		enableFeature(addToggleFilesButton);
 	}
 
 	if (pageDetect.isPR()) {
