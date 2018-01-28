@@ -721,8 +721,11 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	background: rgba(0, 0, 0, 0.1);
 	animation: fade-in 0.2s;
 }
+summary.HeaderNavlink::before {
+	z-index: 30 !important; /* Bring the header backdrop above the PR bar */
+}
 :root .pagehead ul.pagehead-actions {
-	position: static; /* Demote watch/star/fork */
+	position: static; /* Watch, star, and fork buttons don‘t need a stacking context */
 }
 
 /* Reduce duplicate backdrop in PR diff view */
@@ -885,15 +888,4 @@ body > .footer li a {
 .markdown-body summary, /* Summary elements are always clickable when present */
 .markdown-body details:not([open]) { /* Summary-less details have unselectable clickable elements */
 	cursor: pointer;
-}
-
-/* Backdrop from header dropdown should be above all main body content */
-.Header,
-.application-main {
-	position: relative;
-	z-index: 1;
-}
-
-:root .Header {
-	z-index: 2;
 }
