@@ -887,13 +887,13 @@ body > .footer li a {
 	cursor: pointer;
 }
 
-/* Backdrop from header dropdown should be above all main body content*/	
+/* Backdrop from header dropdown should be above all main body content */
 .Header,
 .application-main {
-	z-index: 1;
 	position: relative;
+	z-index: 1;
 }
 
 .Header {
-	z-index: 2; 
+	z-index: 2;
 }
