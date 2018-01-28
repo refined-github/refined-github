@@ -842,22 +842,23 @@ body > .footer li a {
 	width: 430px;
 }
 
-/* Hide dashboard activity cards, unless hovered */
-.dashboard .flex-items-baseline .border.rounded-1 {
-	max-width: 480px;
-	margin-top: 30px !important;
-	position: absolute;
-	background: #fff;
-	box-shadow: 0 3px 12px rgba(27, 31, 35, 0.15); /* Style by GitHub */
-	transition: opacity 0.2s 0.2s;
-	pointer-events: none;
+/* Reduce dashboard activity cards */
+.dashboard .py-3 .avatar {
+	margin-top: 7px; /* Align between event and repo description */
 }
-.dashboard .flex-items-baseline:not(:hover) .border.rounded-1 {
-	opacity: 0;
-	transition-delay: 0s;
-}
-.dashboard .flex-items-baseline .f3 {
+.dashboard .py-3:not(:hover) .f6.mt-2, /* Show details on hover */
+.dashboard .py-3 .f3 { /* Hide duplicate repo name */
 	display: none;
+}
+:root .dashboard .flex-items-baseline {
+	align-items: flex-start !important;
+}
+:root .dashboard .flex-items-baseline .border.rounded-1 {
+	padding: 0 !important;
+	border: 0 !important;
+	margin: 0 !important;
+	position: static;
+	opacity: 1;
 }
 
 /* Make activities narrower */
