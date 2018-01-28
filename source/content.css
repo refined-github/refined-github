@@ -844,20 +844,21 @@ body > .footer li a {
 }
 
 /* Reduce dashboard activity cards */
-.dashboard .py-3 {
+/* `.flex-items-baseline` excludes label events */
+.dashboard .flex-items-baseline {
 	align-items: flex-start !important;
 }
-.dashboard .py-3 .avatar {
+.dashboard .flex-items-baseline .avatar {
 	margin-top: 7px; /* Align between event and repo description */
 }
-.dashboard .py-3 .f3, /* Hide duplicate repo name */
-.dashboard .py-3:not(:hover) .f6.mt-2 { /* Show details on hover */
+.dashboard .flex-items-baseline .f3, /* Hide duplicate repo name */
+.dashboard .flex-items-baseline:not(:hover) .f6.mt-2 { /* Show details on hover */
 	display: none;
 }
-.dashboard .py-3:not(:hover) .border {
+.dashboard .flex-items-baseline:not(:hover) .border {
 	color: var(--github-gray-text) !important;
 }
-.dashboard .py-3 .border {
+.dashboard .flex-items-baseline .border {
 	padding: 0 !important;
 	border: 0 !important;
 	margin: 0 !important;
