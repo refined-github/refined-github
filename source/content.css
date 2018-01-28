@@ -894,6 +894,6 @@ body > .footer li a {
 	z-index: 1;
 }
 
-.Header {
+:root .Header {
 	z-index: 2;
 }
