@@ -886,3 +886,14 @@ body > .footer li a {
 .markdown-body details:not([open]) { /* Summary-less details have unselectable clickable elements */
 	cursor: pointer;
 }
+
+/* Backdrop from header dropdown should be above all main body content*/	
+.Header,
+.application-main {
+	z-index: 1;
+	position: relative;
+}
+
+.Header {
+	z-index: 2; 
+}
