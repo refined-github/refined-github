@@ -848,12 +848,24 @@ body > .footer li a {
 .dashboard .flex-items-baseline {
 	align-items: flex-start !important;
 }
+/* Align between event and repo description */
 .dashboard .flex-items-baseline .avatar {
-	margin-top: 7px; /* Align between event and repo description */
+	margin-top: 7px;
 }
-.dashboard .flex-items-baseline .f3, /* Hide duplicate repo name */
-.dashboard .flex-items-baseline:not(:hover) .f6.mt-2 { /* Show details on hover */
+/* Hide duplicate repo name */
+.dashboard .flex-items-baseline .f3 {
 	display: none;
+}
+/* Show details on hover */
+.dashboard .flex-items-baseline .f6.mt-2 {
+	overflow: hidden;
+	height: 0;
+	opacity: 0;
+	transition: height 0.1s, opacity 0.2s;
+}
+.dashboard .flex-items-baseline:hover .f6.mt-2 {
+	height: 1.4em;
+	opacity: 1;
 }
 .dashboard .flex-items-baseline:not(:hover) .border {
 	color: var(--github-gray-text) !important;
