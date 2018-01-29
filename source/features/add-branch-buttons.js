@@ -21,7 +21,7 @@ function getTagLink() {
 	const [latestRelease] = toSemver(tags, {clean: false});
 	if (latestRelease) {
 		const {href} = select(`[data-name="${latestRelease}"]`);
-		return (
+		const link = (
 			<a
 				class="btn btn-sm tooltipped tooltipped-ne rgh-release-link"
 				href={href}
@@ -29,6 +29,12 @@ function getTagLink() {
 				{icons.tag()}
 			</a>
 		);
+		const currentBranch = select('.branch-select-menu .js-select-button').textContent;
+		if (currentBranch === latestRelease) {
+			link.classList.add('disabled');
+			link.setAttribute('aria-label', 'You’re on the latest release');
+		}
+		return link;
 	}
 }
 
