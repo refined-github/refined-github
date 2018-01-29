@@ -89,7 +89,7 @@ export const isRepoRoot = () => /^(tree[/][^/]+)?$/.test(getRepoPath());
 
 export const isRepoSettings = () => /^settings/.test(getRepoPath());
 
-export const isRepoTree = () => /^tree\//.test(getRepoPath());
+export const isRepoTree = () => isRepoRoot() || /^tree\//.test(getRepoPath());
 
 export const isSingleCommit = () => /^commit\/[0-9a-f]{5,40}/.test(getRepoPath());
 
