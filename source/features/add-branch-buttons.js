@@ -6,7 +6,7 @@ import {groupButtons} from '../libs/utils';
 
 export default function () {
 	const branchSelector = select('.branch-select-menu .select-menu-button');
-	if (!branchSelector) {
+	if (!branchSelector || select.exists('.rgh-release-link')) {
 		return;
 	}
 	const tags = select.all('.branch-select-menu [data-tab-filter="tags"] .select-menu-item')
@@ -19,7 +19,7 @@ export default function () {
 	if (latestRelease) {
 		const link = (
 			<a
-				class="btn btn-sm tooltipped tooltipped-ne rgh-tooltipped"
+				class="btn btn-sm tooltipped tooltipped-ne rgh-tooltipped rgh-release-link"
 				href={`${releases.get(latestRelease)}`}
 				aria-label={`Visit the latest release (${latestRelease})`}>
 				{icons.tag()}
