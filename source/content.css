@@ -666,6 +666,12 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	color: inherit;
 }
 
+/* Undo conflicting GitHub style caused by `add-branch-buttons` */
+:root .branch-select-menu .BtnGroup {
+	margin-bottom: 0;
+	margin-left: 0;
+}
+
 /* Sticky file headers on pull request diff view */
 .pull-request-tab-content .diff-view .file-header {
 	position: sticky;
