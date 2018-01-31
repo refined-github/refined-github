@@ -861,12 +861,10 @@ body > .footer li a {
 	opacity: 0.5;
 }
 .dashboard .flex-items-baseline .border {
-	color: var(--github-gray-text) !important;
-}
-.dashboard .flex-items-baseline .border {
 	padding: 0 !important;
 	border: 0 !important;
 	margin: 0 !important;
+	color: var(--github-gray-text) !important;
 }
 
 /* Make activities narrower */
