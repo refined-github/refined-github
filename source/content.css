@@ -856,18 +856,11 @@ body > .footer li a {
 .dashboard .flex-items-baseline .f3 {
 	display: none;
 }
-/* Show details on hover */
+
 .dashboard .flex-items-baseline .f6.mt-2 {
-	overflow: hidden;
-	height: 0;
-	opacity: 0;
-	transition: height 0.1s, opacity 0.2s;
+	opacity: 0.5;
 }
-.dashboard .flex-items-baseline:hover .f6.mt-2 {
-	height: 1.4em;
-	opacity: 1;
-}
-.dashboard .flex-items-baseline:not(:hover) .border {
+.dashboard .flex-items-baseline .border {
 	color: var(--github-gray-text) !important;
 }
 .dashboard .flex-items-baseline .border {
