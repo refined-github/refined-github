@@ -274,6 +274,7 @@ followed someone
 */
 .rgh-no-useless-events .push,
 .rgh-no-useless-events .fork,
+.rgh-no-useless-events .delete,
 .rgh-no-useless-events .follow {
 	display: none !important;
 }
