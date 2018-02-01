@@ -64,6 +64,7 @@ import waitForBuild from './features/wait-for-build';
 import addDownloadFolderButton from './features/add-download-folder-button';
 import hideUselessNewsfeedEvents from './features/hide-useless-newsfeed-events';
 import addScopedSearchOnUserProfile from './features/add-scoped-search-on-user-profile';
+import addBadgeToLinkedIssues from './features/add-badge-to-linked-issues';
 
 import * as pageDetect from './libs/page-detect';
 import {observeEl, safeElementReady, enableFeature} from './libs/utils';
@@ -153,6 +154,7 @@ function ajaxedPagesHandler() {
 	enableFeature(hideEmptyMeta);
 	enableFeature(removeUploadFilesButton);
 	enableFeature(addTitleToEmojis);
+	enableFeature(addBadgeToLinkedIssues);
 	enableFeature(sortIssuesByUpdateTime);
 	enableFeature(shortenLinks);
 	enableFeature(linkifyCode);
@@ -218,6 +220,10 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isPRList() || pageDetect.isIssueList() || pageDetect.isPR() || pageDetect.isIssue()) {
 		enableFeature(showRecentlyPushedBranches);
+	}
+
+	if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isMilestone()) {
+		enableFeature(addBadgeToLinkedIssues);
 	}
 
 	if (pageDetect.isCommit()) {
