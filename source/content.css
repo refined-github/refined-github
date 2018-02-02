@@ -2,6 +2,7 @@
 	--github-green: #28a745;
 	--github-red: #cb2431;
 	--github-gray-background: #fafbfc;
+	--github-gray-text: #6a737d;
 }
 
 /* GitHub bug: releases page has unwanted bullet points */
@@ -849,22 +850,28 @@ body > .footer li a {
 	width: 430px;
 }
 
-/* Hide dashboard activity cards, unless hovered */
-.dashboard .flex-items-baseline .border.rounded-1 {
-	max-width: 480px;
-	margin-top: 30px !important;
-	position: absolute;
-	background: #fff;
-	box-shadow: 0 3px 12px rgba(27, 31, 35, 0.15); /* Style by GitHub */
-	transition: opacity 0.2s 0.2s;
-	pointer-events: none;
+/* Reduce dashboard activity cards */
+/* `.flex-items-baseline` excludes label events */
+.dashboard .flex-items-baseline {
+	align-items: flex-start !important;
 }
-.dashboard .flex-items-baseline:not(:hover) .border.rounded-1 {
-	opacity: 0;
-	transition-delay: 0s;
+/* Align between event and repo description */
+.dashboard .py-3 .avatar {
+	margin-top: 7px;
 }
+/* Hide duplicate repo name */
 .dashboard .flex-items-baseline .f3 {
 	display: none;
+}
+
+.dashboard .flex-items-baseline .f6.mt-2 {
+	opacity: 0.5;
+}
+.dashboard .flex-items-baseline .border {
+	padding: 0 !important;
+	border: 0 !important;
+	margin: 0 !important;
+	color: var(--github-gray-text) !important;
 }
 
 /* Make activities narrower */
