@@ -118,6 +118,8 @@ async function init() {
 	enableFeature(addKeyboardShortcutsToCommentFields);
 	enableFeature(addConfirmationToCommentCancellation);
 
+	enableFeature(markUnread);
+
 	// TODO: Enable this when we've improved how copying Markdown works
 	// See #522
 	// delegate('.markdown-body', 'copy', copyMarkdown);
@@ -127,7 +129,6 @@ async function init() {
 }
 
 function onDomReady() {
-	enableFeature(markUnread);
 	enableFeature(enableCopyOnY);
 	enableFeature(addProfileHotkey);
 	enableFeature(makeDiscussionSidebarSticky);

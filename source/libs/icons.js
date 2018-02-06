@@ -33,3 +33,5 @@ export const dependency = () => <svg class="octicon octicon-package" viewBox="0 
 export const triangleDown = () => <svg aria-hidden="true" class="octicon octicon-triangle-down v-align-middle text-y" height="11" version="1.1" viewBox="0 0 12 16" width="8"><path fill-rule="evenodd" d="M0 5l6 6 6-6z"></path></svg>;
 
 export const chevronDown = () => <svg class="octicon octicon-chevron-down" height="16" viewBox="0 0 10 16" width="10"><path fill-rule="evenodd" d="M10 10l-1.5 1.5L5 7.75 1.5 11.5 0 10l5-5z"></path></svg>;
+
+export const externalLink = () => <svg class="octicon octicon-link-external" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M11 10h1v3c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h3v1H1v10h10v-3zM6 2l2.25 2.25L5 7.5 6.5 9l3.25-3.25L12 8V2H6z"></path></svg>;

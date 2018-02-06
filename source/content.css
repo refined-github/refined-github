@@ -920,3 +920,16 @@ body > .footer li a {
 .rgh-files-hidden .file-wrap {
 	border: 0;
 }
+
+
+.notifications-list .boxed-group-action {
+	margin: 5px 6px;
+}
+
+.notifications-list .boxed-group-action button {
+	padding: 3px 10px;
+	border: 0;
+	margin-left: 2px;
+	color: #586069;
+	background: none;
+}
