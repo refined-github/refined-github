@@ -9,10 +9,10 @@ const unreadNotificationsClass = '.unread .js-notification-target';
 let notificationsToOpen = [];
 
 const faceboxTrigger = (
-	<a href="#open_all_in_tabs" id="facebox-trigger" rel="facebox" style={{display: 'none'}}></a>
+	<a href="#open-all-in-tabs" id="facebox-trigger" rel="facebox" style={{display: 'none'}}></a>
 );
 
-function openNotifications(unreadNotifications) {
+function openNotifications(unreadNotifications = notificationsToOpen) {
 	const urls = unreadNotifications.map(el => el.href);
 
 	browser.runtime.sendMessage({
@@ -27,19 +27,18 @@ function openNotifications(unreadNotifications) {
 	}
 }
 
-function tryOpeningNotifications(container = document) {
-	const unreadNotifications = select.all(unreadNotificationsClass, container);
+function tryOpeningNotifications(container) {
+	notificationsToOpen = select.all(unreadNotificationsClass, container);
 
-	if (unreadNotifications.length < 5) {
-		openNotifications(unreadNotifications);
+	if (notificationsToOpen.length < 10) {
+		openNotifications();
 	} else {
-		notificationsToOpen = unreadNotifications;
 		faceboxTrigger.click();
 	}
 }
 
 export default function () {
-	if (!isNotifications() || select.exists('[href="#open_all_in_tabs"]')) {
+	if (!isNotifications() || select.exists('[href="#open-all-in-tabs"]')) {
 		return;
 	}
 
@@ -50,7 +49,7 @@ export default function () {
 	});
 
 	document.body.append(
-		<div id="open_all_in_tabs" style={{display: 'none'}}>
+		<div id="open-all-in-tabs" style={{display: 'none'}}>
 			{faceboxTrigger}
 
 			<h2 class="facebox-header" data-facebox-id="facebox-header">Are you sure?</h2>
@@ -64,28 +63,25 @@ export default function () {
 	);
 
 	delegate('#open-all-notifications', 'click', () => {
-		openNotifications(notificationsToOpen);
+		openNotifications();
 		select('.js-facebox-close').click(); // Close modal
 	});
 
-	// Creating the open button on the top
-	const openButton = <a href="#open_all_in_tabs" class="btn btn-sm">Open all unread in tabs</a>;
+	// Create an open button and add it into a button group
+	const group = select('.tabnav .float-right');
+	group.prepend(
+		<a href="#open-all-in-tabs" id="open-all-tabs-trigger" class="btn btn-sm">Open all unread in tabs</a>
+	);
+	groupButtons([...group.children]);
 
-	openButton.addEventListener('click', () => {
+	delegate('#open-all-tabs-trigger', 'click', () => {
 		tryOpeningNotifications();
 	});
 
-	// Make a button group
-	const group = select('.tabnav .float-right');
-	group.prepend(openButton);
-	groupButtons([...group.children]);
-
-	const notificationList = select('.notifications-list');
-
 	// Creating the open button for each repo
-	const repoNotificationContainers = select.all('.boxed-group', notificationList);
+	const repoNotificationContainers = select.all('.boxed-group');
 
-	repoNotificationContainers.forEach(repoNotificationContainer => {
+	for (const repoNotificationContainer of repoNotificationContainers) {
 		const actions = select('.boxed-group-action', repoNotificationContainer);
 		const firstActionButton = select('button', actions);
 
@@ -102,5 +98,5 @@ export default function () {
 		});
 
 		actions.insertBefore(openNotificationsButton, firstActionButton);
-	});
+	}
 }

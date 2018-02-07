@@ -933,3 +933,8 @@ body > .footer li a {
 	color: #586069;
 	background: none;
 }
+
+.notifications-list .boxed-group .text-green {
+	display: inline-block;
+	position: relative !important;
+}
