@@ -30,7 +30,7 @@ function getCheckbox() {
 // Only show the checkbox if there's a pending commit
 function showCheckboxIfNecessary() {
 	const checkbox = getCheckbox();
-	const isNecessary = true;
+	const isNecessary = prCiStatus.get() === prCiStatus.PENDING;
 	if (!checkbox && isNecessary) {
 		const container = select('.commit-form-actions .select-menu');
 		if (container) {
