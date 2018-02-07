@@ -28,7 +28,7 @@ function getSimilarButtons(button) {
 function addTooltips() {
 	for (const button of select.all('.outdated-comment .js-details-target, .file .js-details-target')) {
 		button.setAttribute('aria-label', 'Alt + click to expand/collapse all');
-		button.classList.add('rgh-tooltipped', 'tooltipped', 'tooltipped-w');
+		button.classList.add('tooltipped', 'tooltipped-w');
 	}
 }
 

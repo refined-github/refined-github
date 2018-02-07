@@ -19,7 +19,7 @@ export default function () {
 	if (latestRelease) {
 		const link = (
 			<a
-				class="btn btn-sm tooltipped tooltipped-ne rgh-tooltipped rgh-release-link"
+				class="btn btn-sm tooltipped tooltipped-ne rgh-release-link"
 				href={`${releases.get(latestRelease)}`}
 				aria-label={`Visit the latest release (${latestRelease})`}>
 				{icons.tag()}
