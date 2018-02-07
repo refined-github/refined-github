@@ -135,7 +135,7 @@ function getNotification(notification) {
 	);
 
 	return (
-		<li class={`list-group-item js-notification js-navigation-item unread ${type}-notification`}>
+		<li class={`list-group-item js-notification js-navigation-item unread ${type}-notification rgh-unread`}>
 			<span class="list-group-item-name css-truncate">
 				<span class={`type-icon type-icon-state-${state}`}>
 					{stateIcons[type][state]()}
@@ -150,7 +150,9 @@ function getNotification(notification) {
 						{icons.check()}
 					</button>
 				</li>
-				<li class="mute" style={{width: 26, height: 1}}></li>
+				<li class="mute tooltipped tooltipped-w rgh-tooltipped" aria-label={`${type === 'issue' ? 'Issue' : 'PR'} manually marked as unread`}>
+					{icons.info()}
+				</li>
 				<li class="age">
 					<relative-time datetime={date} title={dateTitle}/>
 				</li>

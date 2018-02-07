@@ -477,6 +477,10 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 	width: 100%;
 	margin-top: 8px;
 }
+.rgh-unread .mute {
+	padding-right: 7px;
+	padding-left: 3px;
+}
 
 /* Change color of marker if there are only discussion marked as unread */
 .notification-indicator[data-ga-click$=':read'] .unread {
