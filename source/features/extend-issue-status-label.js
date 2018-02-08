@@ -12,17 +12,15 @@ export default function () {
 		return;
 	}
 
-	let refEl = select(`
+	// Get PR or commits reference
+	const refEl = select(`
 		[href*="/pull/"],
-		[href*="/commit/"]
+		code
 	`, lastAction);
 
 	if (!refEl) {
 		return;
 	}
-
-	// Commits are wrapped in `<code>`
-	refEl = refEl.closest('code') || refEl;
 
 	// Add extra info
 	const label = select('.gh-header-meta .State');
