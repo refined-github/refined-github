@@ -2,7 +2,7 @@ import {h} from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate';
-import {observeEl} from '../libs/utils';
+import observeEl from '../libs/simplified-element-observer';
 import * as prCiStatus from '../libs/pr-ci-status';
 
 let waiting;

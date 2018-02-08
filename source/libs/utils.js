@@ -100,24 +100,6 @@ export const wrapAll = (targets, wrapper) => {
 	wrapper.append(...targets);
 };
 
-export const observeEl = (el, listener, options = {childList: true}) => {
-	if (typeof el === 'string') {
-		el = select(el);
-	}
-
-	if (!el) {
-		return;
-	}
-
-	// Run first
-	listener([]);
-
-	// Run on updates
-	const observer = new MutationObserver(listener);
-	observer.observe(el, options);
-	return observer;
-};
-
 // Concats arrays but does so like a zipper instead of appending them
 // [[0, 1, 2], [0, 1]] => [0, 0, 1, 1, 2]
 // Like lodash.zip

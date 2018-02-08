@@ -66,7 +66,8 @@ import hideUselessNewsfeedEvents from './features/hide-useless-newsfeed-events';
 import addScopedSearchOnUserProfile from './features/add-scoped-search-on-user-profile';
 
 import * as pageDetect from './libs/page-detect';
-import {observeEl, safeElementReady, enableFeature} from './libs/utils';
+import {safeElementReady, enableFeature} from './libs/utils';
+import observeEl from './libs/simplified-element-observer';
 
 // Add globals for easier debugging
 window.select = select;

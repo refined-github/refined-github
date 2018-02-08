@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import {observeEl} from './utils';
+import observeEl from './simplified-element-observer';
 
 function getLastCommit() {
 	return select.all('.timeline-commits .commit-id').pop().textContent;
