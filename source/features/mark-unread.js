@@ -3,6 +3,7 @@ import select from 'select-dom';
 import delegate from 'delegate';
 import gitHubInjection from 'github-injection';
 import SynchronousStorage from '../libs/synchronous-storage';
+import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
 import {getUsername, enableFeature} from '../libs/utils';
@@ -371,7 +372,9 @@ export default async function () {
 			enableFeature(addOpenAllNotificationsButton);
 		} else if (pageDetect.isPR() || pageDetect.isIssue()) {
 			markRead(location.href);
-			addMarkUnreadButton();
+
+			// The sidebar changes when new comments are added or the issue status changes
+			observeEl('.discussion-sidebar', addMarkUnreadButton);
 		}
 
 		updateUnreadIndicator();
