@@ -14,7 +14,6 @@ export default function () {
 
 	let refEl = select(`
 		[href*="/pull/"],
-		[href*="/issues/"],
 		[href*="/commit/"]
 	`, lastAction);
 
