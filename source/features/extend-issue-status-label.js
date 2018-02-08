@@ -3,30 +3,21 @@ import select from 'select-dom';
 import {wrap} from '../libs/utils';
 
 export default function () {
-	const lastAction = select.all(`
-		.discussion-item-closed,
-		.discussion-item-reopened
+	const lastActionRef = select.all(`
+		.discussion-item-closed [href*="/pull/"],
+		.discussion-item-closed code,
+		.discussion-item-reopended
 	`).pop();
 
-	if (!lastAction) {
-		return;
-	}
-
-	// Get PR or commits reference
-	const refEl = select(`
-		[href*="/pull/"],
-		code
-	`, lastAction);
-
-	if (!refEl) {
+	// Leave if it was never closed or if it was reopened
+	if (!lastActionRef || lastActionRef.matches('.discussion-item-reopended')) {
 		return;
 	}
 
 	// Add extra info
 	const label = select('.gh-header-meta .State');
-	label.append(' in ', refEl.cloneNode(true));
+	label.append(' in ', lastActionRef.cloneNode(true));
 
 	// Link label to event in timeline
-	const fragment = select('.discussion-item-header[id]', lastAction).id;
-	wrap(label, <a href={'#' + fragment}></a>);
+	wrap(label, <a href={'#' + lastActionRef.closest('[id]').id}></a>);
 }
