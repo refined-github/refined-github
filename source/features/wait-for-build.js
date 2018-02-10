@@ -4,6 +4,7 @@ import onetime from 'onetime';
 import delegate from 'delegate';
 import observeEl from '../libs/simplified-element-observer';
 import * as prCiStatus from '../libs/pr-ci-status';
+import * as icons from '../libs/icons';
 
 let waiting;
 
@@ -11,7 +12,10 @@ let waiting;
 const generateCheckbox = onetime(() => (
 	<label class="d-inline-block">
 		<input type="checkbox" name="rgh-pr-check-waiter" checked/>
-		{' Wait for successful checks'}
+		{' Wait for successful checks '}
+		<a class="discussion-item-help tooltipped tooltipped-n rgh-tooltipped" href="https://github.com/sindresorhus/refined-github/pull/975" aria-label="This only works if you keep this tab open while waiting.">
+			{icons.info()}
+		</a>
 	</label>
 ));
 
