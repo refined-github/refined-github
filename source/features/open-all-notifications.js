@@ -1,6 +1,7 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate';
+import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
 import {groupButtons, safeElementReady} from '../libs/utils';
 import {isNotifications} from '../libs/page-detect';
@@ -12,6 +13,12 @@ const faceboxTrigger = (
 	<a href="#open-all-in-tabs" id="facebox-trigger" rel="facebox" style={{display: 'none'}}></a>
 );
 
+faceboxTrigger.addEventListener('click', async () => {
+	await safeElementReady('#facebox-description');
+
+	select('#facebox-description').textContent = `Are you sure you want to open ${notificationsToOpen.length} tabs?`;
+});
+
 function openNotifications(unreadNotifications = notificationsToOpen) {
 	const urls = unreadNotifications.map(el => el.href);
 
@@ -21,8 +28,9 @@ function openNotifications(unreadNotifications = notificationsToOpen) {
 	});
 
 	for (const notification of unreadNotifications) {
-		const listItem = notification.closest('.list-group-item');
-		listItem.classList.replace('read', 'unread');
+		const listItem = notification.closest('.js-notification');
+		listItem.classList.remove('unread');
+		listItem.classList.add('read');
 	}
 }
 
@@ -36,16 +44,39 @@ function tryOpeningNotifications(container) {
 	}
 }
 
+function addOpenButtonsForRepos() {
+	// Creating the open button for each repo
+	const repoNotificationContainers = select.all('.boxed-group:not(.rgh-processed)');
+
+	for (const repoNotificationContainer of repoNotificationContainers) {
+		repoNotificationContainer.classList.add('rgh-processed');
+		const actions = select('.boxed-group-action', repoNotificationContainer);
+		const firstActionButton = select('button', actions);
+
+		const repo = select('.notifications-repo-link', repoNotificationContainer).textContent.split('/')[1];
+
+		const openNotificationsButton = (
+			<button type="button" class="open-repo-notifications js-open-repo-notifications" aria-label={`Open all ${repo} notifications in tabs`}>
+				{icons.externalLink()}
+			</button>
+		);
+
+		openNotificationsButton.addEventListener('click', event => {
+			const button = event.target;
+			const repo = button.closest('.boxed-group');
+
+			tryOpeningNotifications(repo);
+			repo.classList.add('hide-notification-actions');
+		});
+
+		actions.insertBefore(openNotificationsButton, firstActionButton);
+	}
+}
+
 export default function () {
-	if (!isNotifications() || select.exists('[href="#open-all-in-tabs"]')) {
+	if (!isNotifications() || select.exists('#open-all-tabs-trigger')) {
 		return;
 	}
-
-	faceboxTrigger.addEventListener('click', async () => {
-		await safeElementReady('#facebox-description');
-
-		select('#facebox-description').textContent = `Are you sure you want to open ${notificationsToOpen.length} tabs?`;
-	});
 
 	document.body.append(
 		<div id="open-all-in-tabs" style={{display: 'none'}}>
@@ -80,29 +111,5 @@ export default function () {
 	// Move out the extra node that messes with .BtnGroup-item:last-child
 	document.body.append(select('#mark_as_read_confirm_box') || '');
 
-	// Creating the open button for each repo
-	const repoNotificationContainers = select.all('.boxed-group');
-
-	for (const repoNotificationContainer of repoNotificationContainers) {
-		const actions = select('.boxed-group-action', repoNotificationContainer);
-		const firstActionButton = select('button', actions);
-
-		const repo = select('.notifications-repo-link', repoNotificationContainer).textContent.split('/')[1];
-
-		const openNotificationsButton = (
-			<button type="button" class="open-repo-notifications js-open-repo-notifications" aria-label={`Open all ${repo} notifications in tabs`}>
-				{icons.externalLink()}
-			</button>
-		);
-
-		actions.insertBefore(openNotificationsButton, firstActionButton);
-	}
-
-	delegate('.js-open-repo-notifications', 'click', event => {
-		const button = event.target;
-		const repo = button.closest('.boxed-group');
-
-		tryOpeningNotifications(repo);
-		repo.classList.add('hide-notification-actions');
-	});
+	observeEl('.notifications-list', addOpenButtonsForRepos);
 }
