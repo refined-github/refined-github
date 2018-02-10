@@ -22,8 +22,7 @@ function openNotifications(unreadNotifications = notificationsToOpen) {
 
 	for (const notification of unreadNotifications) {
 		const listItem = notification.closest('.list-group-item');
-		listItem.classList.add('read');
-		listItem.classList.remove('unread');
+		listItem.classList.replace('read', 'unread');
 	}
 }
 
@@ -78,6 +77,9 @@ export default function () {
 		tryOpeningNotifications();
 	});
 
+	// Move out the extra node that messes with .BtnGroup-item:last-child
+	document.body.append(select('#mark_as_read_confirm_box') || '');
+
 	// Creating the open button for each repo
 	const repoNotificationContainers = select.all('.boxed-group');
 
@@ -88,15 +90,19 @@ export default function () {
 		const repo = select('.notifications-repo-link', repoNotificationContainer).textContent.split('/')[1];
 
 		const openNotificationsButton = (
-			<button type="button" class="js-open-all-notifications" aria-label={`Open all ${repo} notifications in tabs`}>
+			<button type="button" class="open-repo-notifications js-open-repo-notifications" aria-label={`Open all ${repo} notifications in tabs`}>
 				{icons.externalLink()}
 			</button>
 		);
 
-		openNotificationsButton.addEventListener('click', () => {
-			tryOpeningNotifications(repoNotificationContainer);
-		});
-
 		actions.insertBefore(openNotificationsButton, firstActionButton);
 	}
+
+	delegate('.js-open-repo-notifications', 'click', event => {
+		const button = event.target;
+		const repo = button.closest('.boxed-group');
+
+		tryOpeningNotifications(repo);
+		repo.classList.add('hide-notification-actions');
+	});
 }

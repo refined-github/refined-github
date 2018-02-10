@@ -934,7 +934,7 @@ body > .footer li a {
 	background: none;
 }
 
-.notifications-list .boxed-group .text-green {
-	display: inline-block;
-	position: relative !important;
+.mark-all-as-read-confirmed .open-repo-notifications,
+.hide-notification-actions .boxed-group-action button {
+	visibility: hidden;
 }
