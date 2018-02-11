@@ -50,30 +50,23 @@ async function openNotifications({delegateTarget}) {
 }
 
 function addOpenReposButton() {
-	const repoNotificationContainers = select.all('.boxed-group');
-
-	for (const repoNotificationContainer of repoNotificationContainers) {
-		if (select.exists('.open-repo-notifications', repoNotificationContainer)) {
+	for (const repoNotifications of select.all('.boxed-group')) {
+		if (select.exists('.open-repo-notifications', repoNotifications)) {
 			return;
 		}
 
-		const unreadCount = select.all('.unread', repoNotificationContainer).length;
+		const unreadCount = select.all('.unread', repoNotifications).length;
 		if (unreadCount < 2) {
 			continue;
 		}
 
-		const actions = select('.boxed-group-action', repoNotificationContainer);
-		const firstActionButton = select('button', actions);
+		const repo = select('.notifications-repo-link', repoNotifications).title.split('/')[1];
 
-		const repo = select('.notifications-repo-link', repoNotificationContainer).textContent.split('/')[1];
-
-		const openNotificationsButton = (
+		select('.mark-all-as-read', repoNotifications).before(
 			<button type="button" class="open-repo-notifications tooltipped tooltipped-w rgh-tooltipped rgh-open-notifications-button" aria-label={`Open all unread \`${repo}\` notifications in tabs`}>
 				{icons.externalLink()}
 			</button>
 		);
-
-		actions.insertBefore(openNotificationsButton, firstActionButton);
 	}
 }
 
