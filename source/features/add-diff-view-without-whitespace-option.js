@@ -25,7 +25,7 @@ export default function () {
 		<div class="diffbar-item refined-github-toggle-whitespace">
 			<a href={url}
 				data-hotkey="d w"
-				class={`btn btn-sm btn-outline BtnGroup-item tooltipped tooltipped-s rgh-tooltipped ${hidingWhitespace ? 'bg-gray-light text-gray-light' : ''}`}
+				class={`btn btn-sm btn-outline BtnGroup-item tooltipped tooltipped-s ${hidingWhitespace ? 'bg-gray-light text-gray-light' : ''}`}
 				aria-label={`${hidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}>
 				{hidingWhitespace ? icons.check() : ''}
 				{' '}

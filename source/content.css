@@ -62,26 +62,9 @@
 }
 
 /* Remove tooltips where unnecessary */
-.tooltipped::before,
-.tooltipped::after {
+.notification-indicator::before,
+.notification-indicator::after {
 	display: none !important;
-}
-
-[aria-label*='reacted with']::before, /* Reaction avatars across the site */
-[aria-label*='reacted with']::after,
-.tooltipped[disabled]::before, /* Disabled buttons' tooltips might have useful information */
-.tooltipped[disabled]::after,
-.tooltipped.team-mention::before, /* Team mentions show all team members in the tooltip */
-.tooltipped.team-mention::after,
-.AvatarStack-body::before, /* Notification participants avatars */
-.AvatarStack-body::after,
-.js-zeroclipboard::before, /* Copy button feedback */
-.js-zeroclipboard::after,
-.rgh-tooltipped::before, /* New elements by RGH */
-.rgh-tooltipped::after,
-.issue-link::before, /* Issue name on issue links */
-.issue-link::after {
-	display: inline-block !important;
 }
 
 /* Fade out the file icons */

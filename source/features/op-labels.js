@@ -33,7 +33,7 @@ export default () => {
 
 	for (const placeholder of placeholders) {
 		placeholder.before(
-			<span class="timeline-comment-label tooltipped tooltipped-multiline tooltipped-s rgh-tooltipped" aria-label={tooltip}>
+			<span class="timeline-comment-label tooltipped tooltipped-multiline tooltipped-s" aria-label={tooltip}>
 				Original&nbsp;Poster
 			</span>
 		);
