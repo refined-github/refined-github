@@ -52,7 +52,7 @@ async function openNotifications({delegateTarget}) {
 function addOpenReposButton() {
 	for (const repoNotifications of select.all('.boxed-group')) {
 		if (select.exists('.open-repo-notifications', repoNotifications)) {
-			return;
+			continue;
 		}
 
 		const unreadCount = select.all('.unread', repoNotifications).length;
