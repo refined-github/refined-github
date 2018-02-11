@@ -28,6 +28,7 @@ export const enableFeature = async (fn, filename) => {
 	}
 	fn();
 };
+
 export const isFeatureEnabled = async featureName => {
 	const {disabledFeatures = ''} = await options;
 	return disabledFeatures.includes(featureName);
