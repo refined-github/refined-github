@@ -52,7 +52,7 @@ function addOpenButtonsForRepos() {
 		repoNotificationContainer.classList.add('rgh-open-notifications');
 
 		const unreadCount = select.all('.unread', repoNotificationContainer).length;
-		if (unreadCount === 0) {
+		if (unreadCount < 2) {
 			return;
 		}
 
@@ -85,7 +85,7 @@ export default function () {
 	}
 
 	const unreadCount = select.all('.unread .js-notification-target').length;
-	if (unreadCount === 0) {
+	if (unreadCount < 2) {
 		return;
 	}
 
