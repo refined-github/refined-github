@@ -26,6 +26,7 @@
 		"linkify-issues": "^1.3.0",
 		"linkify-urls": "^1.3.0",
 		"onetime": "^2.0.1",
+		"p-event": "^1.3.0",
 		"select-dom": "^4.1.0",
 		"shorten-repo-url": "^1.1.0",
 		"to-semver": "^1.1.0",
