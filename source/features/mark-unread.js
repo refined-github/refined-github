@@ -150,7 +150,7 @@ function getNotification(notification) {
 						{icons.check()}
 					</button>
 				</li>
-				<li class="mute tooltipped tooltipped-w rgh-tooltipped" aria-label={`${type === 'issue' ? 'Issue' : 'PR'} manually marked as unread`}>
+				<li class="mute tooltipped tooltipped-w" aria-label={`${type === 'issue' ? 'Issue' : 'PR'} manually marked as unread`}>
 					{icons.info()}
 				</li>
 				<li class="age">
