@@ -128,6 +128,7 @@ async function init() {
 
 function onDomReady() {
 	enableFeature(markUnread);
+	enableFeature(addOpenAllNotificationsButton);
 	enableFeature(enableCopyOnY);
 	enableFeature(addProfileHotkey);
 	enableFeature(makeDiscussionSidebarSticky);
@@ -150,7 +151,6 @@ function onDomReady() {
 }
 
 function ajaxedPagesHandler() {
-	enableFeature(addOpenAllNotificationsButton);
 	enableFeature(hideEmptyMeta);
 	enableFeature(removeUploadFilesButton);
 	enableFeature(addTitleToEmojis);
