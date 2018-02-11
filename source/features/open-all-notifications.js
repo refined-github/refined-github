@@ -1,11 +1,13 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate';
+import gitHubInjection from 'github-injection';
 import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
 import {groupButtons, safeElementReady} from '../libs/utils';
 import {isNotifications} from '../libs/page-detect';
 
+const confirmationRequiredCount = 10;
 const unreadNotificationsClass = '.unread .js-notification-target';
 let notificationsToOpen = [];
 
@@ -37,23 +39,24 @@ function openNotifications(unreadNotifications = notificationsToOpen) {
 function tryOpeningNotifications(container) {
 	notificationsToOpen = select.all(unreadNotificationsClass, container);
 
-	if (notificationsToOpen.length < 10) {
+	if (notificationsToOpen.length < confirmationRequiredCount) {
 		openNotifications();
 	} else {
 		faceboxTrigger.click();
 	}
 }
 
-function addOpenButtonsForRepos() {
-	// Creating the open button for each repo
-	const repoNotificationContainers = select.all('.boxed-group:not(.rgh-open-notifications)');
+function addOpenReposButton() {
+	const repoNotificationContainers = select.all('.boxed-group');
 
 	for (const repoNotificationContainer of repoNotificationContainers) {
-		repoNotificationContainer.classList.add('rgh-open-notifications');
+		if (select.exists('.open-repo-notifications', repoNotificationContainer)) {
+			return;
+		}
 
 		const unreadCount = select.all('.unread', repoNotificationContainer).length;
 		if (unreadCount < 2) {
-			return;
+			continue;
 		}
 
 		const actions = select('.boxed-group-action', repoNotificationContainer);
@@ -79,49 +82,70 @@ function addOpenButtonsForRepos() {
 	}
 }
 
-export default function () {
-	if (!isNotifications() || select.exists('#open-all-tabs-trigger')) {
-		return;
-	}
+function addOpenAllButton() {
+	if (!select.exists('#open-all-tabs-trigger')) {
+		// Move out the extra node that messes with .BtnGroup-item:last-child
+		document.body.append(select('#mark_as_read_confirm_box') || '');
 
-	const unreadCount = select.all('.unread .js-notification-target').length;
+		// Create an open button and add it into a button group
+		const group = select('.tabnav .float-right');
+		group.prepend(
+			<a href="#open-all-in-tabs" id="open-all-tabs-trigger" class="btn btn-sm">Open all unread in tabs</a>
+		);
+		groupButtons([...group.children]);
+	}
+}
+
+function addConfirmationBox() {
+	if (!select.exists('#open-all-in-tabs')) {
+		document.body.append(
+			<div id="open-all-in-tabs" style={{display: 'none'}}>
+				{faceboxTrigger}
+
+				<h2 class="facebox-header" data-facebox-id="facebox-header">Are you sure?</h2>
+
+				<p data-facebox-id="facebox-description"></p>
+
+				<div class="full-button">
+					<button class="btn btn-block" id="open-all-notifications">Open all notifications</button>
+				</div>
+			</div>
+		);
+	}
+}
+
+function addMarkup() {
+	const unreadCount = select.all(unreadNotificationsClass).length;
 	if (unreadCount < 2) {
 		return;
 	}
 
-	document.body.append(
-		<div id="open-all-in-tabs" style={{display: 'none'}}>
-			{faceboxTrigger}
+	addOpenAllButton();
+	addOpenReposButton();
 
-			<h2 class="facebox-header" data-facebox-id="facebox-header">Are you sure?</h2>
+	if (unreadCount >= confirmationRequiredCount) {
+		addConfirmationBox();
+	}
+}
 
-			<p data-facebox-id="facebox-description"></p>
-
-			<div class="full-button">
-				<button class="btn btn-block" id="open-all-notifications">Open all notifications</button>
-			</div>
-		</div>
-	);
+export default async function () {
+	if (!isNotifications()) {
+		return;
+	}
 
 	delegate('#open-all-notifications', 'click', () => {
 		openNotifications();
 		select('.js-facebox-close').click(); // Close modal
 	});
-
-	// Create an open button and add it into a button group
-	const group = select('.tabnav .float-right');
-	group.prepend(
-		<a href="#open-all-in-tabs" id="open-all-tabs-trigger" class="btn btn-sm">Open all unread in tabs</a>
-	);
-	groupButtons([...group.children]);
-
 	delegate('#open-all-tabs-trigger', 'click', () => {
 		tryOpeningNotifications();
 	});
 
-	// Move out the extra node that messes with .BtnGroup-item:last-child
-	document.body.append(select('#mark_as_read_confirm_box') || '');
-
-	// Add support for Mark as Unread
-	observeEl('.notifications-list', addOpenButtonsForRepos);
+	gitHubInjection(() => {
+		// Add support for Mark as Unread
+		observeEl(
+			select('.notifications-list') || select('.js-navigation-container'),
+			addMarkup
+		);
+	});
 }

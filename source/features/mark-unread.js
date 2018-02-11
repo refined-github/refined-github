@@ -6,8 +6,7 @@ import SynchronousStorage from '../libs/synchronous-storage';
 import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
-import {getUsername, enableFeature} from '../libs/utils';
-import addOpenAllNotificationsButton from './open-all-notifications';
+import {getUsername} from '../libs/utils';
 
 let storage;
 const listeners = [];
@@ -295,8 +294,9 @@ function addCustomAllReadBtn() {
 	}
 
 	select('.tabnav .float-right').append(
-		<a href="#mark_as_read_confirm_box" class="btn btn-sm" rel="facebox">Mark all as read</a>,
-
+		<a href="#mark_as_read_confirm_box" class="btn btn-sm" rel="facebox">Mark all as read</a>
+	);
+	document.body.append(
 		<div id="mark_as_read_confirm_box" style={{display: 'none'}}>
 			<h2 class="facebox-header" data-facebox-id="facebox-header">Are you sure?</h2>
 
@@ -369,7 +369,6 @@ export default async function () {
 					storage.set([]);
 				})
 			);
-			enableFeature(addOpenAllNotificationsButton);
 		} else if (pageDetect.isPR() || pageDetect.isIssue()) {
 			markRead(location.href);
 
