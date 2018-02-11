@@ -65,7 +65,7 @@ function addOpenReposButton() {
 		const repo = select('.notifications-repo-link', repoNotificationContainer).textContent.split('/')[1];
 
 		const openNotificationsButton = (
-			<button type="button" class="open-repo-notifications js-open-repo-notifications" aria-label={`Open all ${repo} notifications in tabs`}>
+			<button type="button" class="open-repo-notifications tooltipped tooltipped-w rgh-tooltipped" aria-label={`Open all unread \`${repo}\` notifications in tabs`}>
 				{icons.externalLink()}
 			</button>
 		);
