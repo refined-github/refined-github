@@ -46,10 +46,16 @@ function tryOpeningNotifications(container) {
 
 function addOpenButtonsForRepos() {
 	// Creating the open button for each repo
-	const repoNotificationContainers = select.all('.boxed-group:not(.rgh-processed)');
+	const repoNotificationContainers = select.all('.boxed-group:not(.rgh-open-notifications)');
 
 	for (const repoNotificationContainer of repoNotificationContainers) {
-		repoNotificationContainer.classList.add('rgh-processed');
+		repoNotificationContainer.classList.add('rgh-open-notifications');
+
+		const unreadCount = select.all('.unread', repoNotificationContainer).length;
+		if (unreadCount === 0) {
+			return;
+		}
+
 		const actions = select('.boxed-group-action', repoNotificationContainer);
 		const firstActionButton = select('button', actions);
 
@@ -75,6 +81,11 @@ function addOpenButtonsForRepos() {
 
 export default function () {
 	if (!isNotifications() || select.exists('#open-all-tabs-trigger')) {
+		return;
+	}
+
+	const unreadCount = select.all('.unread .js-notification-target').length;
+	if (unreadCount === 0) {
 		return;
 	}
 
@@ -111,5 +122,6 @@ export default function () {
 	// Move out the extra node that messes with .BtnGroup-item:last-child
 	document.body.append(select('#mark_as_read_confirm_box') || '');
 
+	// Add support for Mark as Unread
 	observeEl('.notifications-list', addOpenButtonsForRepos);
 }
