@@ -9,8 +9,8 @@ export default function () {
 		.discussion-item-reopended
 	`).pop();
 
-	// Leave if it was never closed or if it was reopened
-	if (!lastActionRef || lastActionRef.matches('.discussion-item-reopended')) {
+	// Leave if it was never closed or if it was reopened or if it’s already linked
+	if (!lastActionRef || lastActionRef.matches('.discussion-item-reopended') || select.exists('.gh-header-meta .State a')) {
 		return;
 	}
 
