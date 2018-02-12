@@ -643,6 +643,14 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	display: none;
 }
 
+/* Colorize `extend-issue-status-label` */
+.gh-header-meta .State {
+	text-decoration: none;
+}
+.gh-header-meta .State a {
+	color: #fff;
+}
+
 /* For `add-ci-link` */
 .rgh-ci-link {
 	position: relative;
