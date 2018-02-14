@@ -932,3 +932,8 @@ body > .footer li a {
 .mark-all-as-read-confirmed .open-repo-notifications {
 	visibility: hidden;
 }
+
+.rgh-monospace-textareas textarea {
+	font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
+	font-size: 13px;
+}
