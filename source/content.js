@@ -65,6 +65,7 @@ import waitForBuild from './features/wait-for-build';
 import addDownloadFolderButton from './features/add-download-folder-button';
 import hideUselessNewsfeedEvents from './features/hide-useless-newsfeed-events';
 import addScopedSearchOnUserProfile from './features/add-scoped-search-on-user-profile';
+import resolveComments from './features/resolve-comments';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature} from './libs/utils';
@@ -204,6 +205,7 @@ function ajaxedPagesHandler() {
 		observeEl('.new-discussion-timeline', () => {
 			enableFeature(addOPLabels);
 			enableFeature(addTimeMachineLinksToComments);
+			enableFeature(resolveComments);
 		});
 	}
 
