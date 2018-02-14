@@ -22,10 +22,10 @@ export default function () {
 					</a>
 					{
 						pageDetect.isEnterprise() ? '' :
-						<a href={`/${repoUrl}/network/dependencies`} class="dropdown-item rgh-dependency-graph" data-skip-pjax>
-							{icons.dependency()}
-							<span itemprop="name"> Dependencies</span>
-						</a>
+							<a href={`/${repoUrl}/network/dependencies`} class="dropdown-item rgh-dependency-graph" data-skip-pjax>
+								{icons.dependency()}
+								<span itemprop="name"> Dependencies</span>
+							</a>
 					}
 					<a href={`/${repoUrl}/pulse`} class="dropdown-item" data-skip-pjax>
 						{icons.graph()}

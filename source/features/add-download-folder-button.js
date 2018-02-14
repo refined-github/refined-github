@@ -12,7 +12,8 @@ export default () => {
 					class="btn btn-sm BtnGroup-item rgh-download-folder"
 					href={`https://download-directory.github.io/?url=${location.href}`}>
 					Download
-				</a>);
+				</a>
+			);
 		}
 	}
 };

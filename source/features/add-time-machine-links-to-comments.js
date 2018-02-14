@@ -18,7 +18,7 @@ export default async () => {
 				href={href}
 				class="timeline-comment-action btn-link rgh-timestamp-button tooltipped tooltipped-n"
 				aria-label="View repo at the time of this comment"
-				>
+			>
 				{icons.code()}
 			</a>
 		);

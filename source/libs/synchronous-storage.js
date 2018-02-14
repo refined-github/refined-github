@@ -32,9 +32,11 @@ export default class SynchronousStorage {
 			return this;
 		});
 	}
+
 	get() {
 		return this._cache;
 	}
+
 	set(value) {
 		this._cache = value;
 		return this._set(value);

@@ -61,13 +61,15 @@
 			"browser"
 		],
 		"rules": {
-			"import/no-unassigned-import": 0,
+			"import/no-unassigned-import": "off",
 			"no-unused-vars": [
 				2,
 				{
 					"varsIgnorePattern": "^h$"
 				}
-			]
+			],
+			"function-paren-newline": "off",
+			"unicorn/no-unsafe-regex": "off"
 		},
 		"globals": [
 			"browser"
