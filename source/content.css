@@ -62,6 +62,12 @@
 }
 
 /* Remove tooltips where unnecessary */
+[aria-label="Change this file using the online editor"]::before,
+[aria-label="Change this file using the online editor"]::after,
+[aria-label="View the whole file"]::before,
+[aria-label="View the whole file"]::after,
+[aria-label="Edit comment"]::before,
+[aria-label="Edit comment"]::after,
 .notification-indicator::before,
 .notification-indicator::after {
 	display: none !important;
