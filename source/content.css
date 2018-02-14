@@ -932,3 +932,23 @@ body > .footer li a {
 .mark-all-as-read-confirmed .open-repo-notifications {
 	visibility: hidden;
 }
+
+/* For 'add-pr-view-options' feature */
+.select-menu-modal.rgh-pr-view-menu-modal {
+	width: 420px;
+}
+
+.rgh-pr-view-texarea {
+	width: 100%;
+	height: 74px;
+	resize: vertical;
+}
+
+.rgh-pr-view-glob-info {
+	font-weight: 400 !important;
+}
+
+.rgh-pr-view-glob-info code {
+	opacity: 0.7;
+	font-size: 85%;
+}

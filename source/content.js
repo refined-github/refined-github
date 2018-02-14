@@ -65,6 +65,7 @@ import waitForBuild from './features/wait-for-build';
 import addDownloadFolderButton from './features/add-download-folder-button';
 import hideUselessNewsfeedEvents from './features/hide-useless-newsfeed-events';
 import addScopedSearchOnUserProfile from './features/add-scoped-search-on-user-profile';
+import addPRViewOptions from './features/add-pr-view-options';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature} from './libs/utils';
@@ -244,6 +245,7 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isPRFiles()) {
 		enableFeature(addQuickReviewButtons);
 		enableFeature(extendDiffExpander);
+		enableFeature(addPRViewOptions)
 	}
 
 	if (pageDetect.isSingleFile()) {
