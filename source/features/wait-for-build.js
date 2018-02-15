@@ -100,6 +100,10 @@ export default function () {
 
 		// Warn user if it's not yet submitted.
 		// Sadly the message isn't shown
-		window.addEventListener('beforeunload', () => waiting && 'The PR hasn’t merged yet.');
+		window.addEventListener('beforeunload', event => {
+			if (waiting) {
+				event.returnValue = 'The PR hasn’t merged yet.';
+			}
+		});
 	}
 }
