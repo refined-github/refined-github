@@ -934,6 +934,6 @@ body > .footer li a {
 }
 
 .rgh-monospace-textareas textarea {
-	font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
+	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
 	font-size: 13px;
 }
