@@ -65,6 +65,7 @@ import waitForBuild from './features/wait-for-build';
 import addDownloadFolderButton from './features/add-download-folder-button';
 import hideUselessNewsfeedEvents from './features/hide-useless-newsfeed-events';
 import addScopedSearchOnUserProfile from './features/add-scoped-search-on-user-profile';
+import monospaceTextareas from './features/monospace-textareas';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature} from './libs/utils';
@@ -118,6 +119,7 @@ async function init() {
 	enableFeature(focusConfirmationButtons);
 	enableFeature(addKeyboardShortcutsToCommentFields);
 	enableFeature(addConfirmationToCommentCancellation);
+	enableFeature(monospaceTextareas);
 
 	// TODO: Enable this when we've improved how copying Markdown works
 	// See #522
