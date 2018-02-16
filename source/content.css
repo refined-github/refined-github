@@ -868,6 +868,7 @@ body > .footer li a {
 	margin-top: 7px;
 }
 /* Hide duplicate repo name */
+.dashboard .flex-items-baseline .f3,
 .dashboard .flex-items-baseline .f4 {
 	display: none;
 }
