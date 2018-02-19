@@ -1,3 +1,3 @@
 export default () => {
-  document.body.classList.add('rgh-monospace-textareas');
+	document.body.classList.add('rgh-monospace-textareas');
 };
