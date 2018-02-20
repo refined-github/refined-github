@@ -202,6 +202,7 @@ See the [contribution guide](contributing.md) and join the [contributors](https:
 - [Notifications Preview for GitHub](https://github.com/tanmayrajani/notifications-preview-github) - See your notifications on hover on all pages
 - [Refined Twitter](https://github.com/sindresorhus/refined-twitter) - Improves Twitter
 - [GitHub Issue Link Status](https://github.com/bfred-it/github-issue-link-status) - Colorize issue and PR links to see their status (open, closed, merged)
+- [GitHub Follow](https://github.com/staff0rd/github-follow-extension) - Follow file renames on GitHub
 
 Want more? Here are some ideas you could develop!
 
