@@ -69,8 +69,6 @@
 [aria-label='Delete this file']::before,
 [aria-label='Delete this file']::after,
 [aria-label='Edit this file']::before,
-[aria-label*='reacted with']::before,
-[aria-label*='reacted with']::after,
 [aria-label='Edit this file']::after,
 [aria-label='Edit comment']::before,
 [aria-label='Edit comment']::after,
