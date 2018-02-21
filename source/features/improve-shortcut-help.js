@@ -45,7 +45,7 @@ function improveShortcutHelp() {
 				} else {
 					// Reduced opacity of previously hidden groups
 					groupElement.setAttribute('style', '');
-					groupElement.classList.remove('js-panel-hidden');
+					groupElement.classList.remove('js-hidden-pane');
 					groupElement.classList.add('rgh-inactive-shortcut-group');
 				}
 			} else {
