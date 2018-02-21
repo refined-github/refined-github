@@ -37,7 +37,7 @@ export default async () => {
 			<span> Releases </span>
 		</a>
 	);
-	registerShortcut('repo', 'g r', 'Go to Releases');
+	registerShortcut('repos', 'g r', 'Go to Releases');
 
 	select('.reponav-dropdown').before(releasesTab);
 

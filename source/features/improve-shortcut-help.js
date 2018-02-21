@@ -1,7 +1,7 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import observeEl from '../libs/simplified-element-observer';
-import {getRepoPath} from '../libs/page-detect';
+import {isProject} from '../libs/page-detect';
 
 /**
  * A map of the shortcut group titles and their respective group IDs.
@@ -37,6 +37,11 @@ export function registerShortcut(groupId, hotkey, description) {
 	shortcuts.push({groupId, hotkey, description});
 }
 
+function splitKeys(keys) {
+	// V This is a monstrosity. Please help me get rid of it. V
+	return keys.split(' ').join(', ,').split(',').map(key => key === ' ' ? ' ' : <kbd>{key}</kbd>);
+}
+
 function improveShortcutHelp() {
 	// Remove redundant "Show All" button
 	select('.js-see-all-keyboard-shortcuts').remove();
@@ -49,7 +54,7 @@ function improveShortcutHelp() {
 			const groupId = groups[groupTitle];
 
 			if (groupElement.style.display === 'none') {
-				if (groupId.startsWith('project') && !getRepoPath().startsWith('projects')) {
+				if (groupId.startsWith('project') && !isProject()) {
 					// The "Projects"-related groups are quite big and not interesting to most users
 					groupElement.remove();
 				} else {
@@ -69,8 +74,7 @@ function improveShortcutHelp() {
 					groupElement.append(
 						<tr>
 							<td class="keys">
-								{/* V This is a monstrosity. Please help me get rid of it. V */}
-								{hotkey.split(' ').join(', ,').split(',').map(key => key === ' ' ? ' ' : <kbd>{key}</kbd>)}
+								{splitKeys(hotkey)}
 							</td>
 							<td>
 								{description}
@@ -87,11 +91,22 @@ function improveShortcutHelp() {
 	}
 }
 
+function fixKeys() {
+	for (const keyGroup of select.all('.keys')) {
+		for (const key of select.all('kbd', keyGroup)) {
+			if (key.textContent.includes(' ')) {
+				key.replaceWith(...splitKeys(key.textContent));
+			}
+		}
+	}
+}
+
 export default () => {
 	observeEl('#facebox', records => {
 		if (Array.from(records).some(record => record.target.matches('.shortcuts') &&
 			Array.from(record.removedNodes).some(element => element.matches('.facebox-loading')))) {
 			improveShortcutHelp();
+			fixKeys();
 		}
 	}, {
 		childList: true,
