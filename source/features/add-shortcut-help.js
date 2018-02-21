@@ -43,10 +43,14 @@ function addShortcuts() {
 					// The "Projects"-related groups are quite big and not interesting to most users
 					groupElement.remove();
 				} else {
+					// Reduced opacity of previously hidden groups
 					groupElement.setAttribute('style', '');
 					groupElement.classList.remove('js-panel-hidden');
 					groupElement.classList.add('rgh-inactive-shortcut-group');
 				}
+			} else {
+				// Push relevant (not hidden) groups to the top
+				groupElement.parentElement.prepend(groupElement);
 			}
 
 			const groupShortcuts = shortcuts.filter(shortcut => shortcut.group === groupId);
