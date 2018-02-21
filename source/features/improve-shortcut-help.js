@@ -3,6 +3,10 @@ import select from 'select-dom';
 import observeEl from '../libs/simplified-element-observer';
 import {getRepoPath} from '../libs/page-detect';
 
+/**
+ * A map of the shortcut group titles and their respective group IDs.
+ * The IDs can be used to register new shortcuts using `registerShortcut`.
+ */
 const groups = {
 	'Site wide shortcuts': 'site',
 	Repositories: 'repos',
@@ -20,11 +24,17 @@ const groups = {
 };
 const shortcuts = [];
 
-export function registerShortcut(group, hotkey, description) {
+/**
+ * Registers a new shortcut to be displayed in the shortcut help modal.
+ * @param {String} groupId The ID of the group as defined in the `groups` map.
+ * @param {String} hotkey The hotkey with keys separated by spaces.
+ * @param {String} description What the shortcut does.
+ */
+export function registerShortcut(groupId, hotkey, description) {
 	if (shortcuts.some(shortcut => shortcut.hotkey === hotkey)) {
 		return;
 	}
-	shortcuts.push({group, hotkey, description});
+	shortcuts.push({groupId, hotkey, description});
 }
 
 function improveShortcutHelp() {
@@ -53,7 +63,7 @@ function improveShortcutHelp() {
 				groupElement.parentElement.prepend(groupElement);
 			}
 
-			const groupShortcuts = shortcuts.filter(shortcut => shortcut.group === groupId);
+			const groupShortcuts = shortcuts.filter(shortcut => shortcut.groupId === groupId);
 			if (groupShortcuts.length > 0) {
 				for (const {hotkey, description} of groupShortcuts) {
 					groupElement.append(
