@@ -955,6 +955,10 @@ body > .footer li a {
 	cursor: default;
 }
 
+.rgh-inactive-shortcut-group {
+	transition: opacity 0.15s ease;
+}
+
 .rgh-inactive-shortcut-group:not(:hover) {
 	opacity: 0.6;
 }
