@@ -62,7 +62,13 @@ function improveShortcutHelp() {
 								{/* V This is a monstrosity. Please help me get rid of it. V */}
 								{hotkey.split(' ').join(', ,').split(',').map(key => key === ' ' ? ' ' : <kbd>{key}</kbd>)}
 							</td>
-							<td>{description}</td>
+							<td>
+								{description}
+								<div
+									class="rgh-shortcut-circle tooltipped tooltipped-e"
+									aria-label="Shortcut added by Refined GitHub"
+								/>
+							</td>
 						</tr>
 					);
 				}

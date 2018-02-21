@@ -958,3 +958,13 @@ body > .footer li a {
 .rgh-inactive-shortcut-group:not(:hover) {
 	opacity: 0.6;
 }
+
+.rgh-shortcut-circle {
+	display: inline-block;
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	margin-left: 5px;
+	background: #9c95b3;
+	cursor: pointer;
+}
