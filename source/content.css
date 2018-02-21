@@ -955,5 +955,5 @@ body > .footer li a {
 }
 
 .rgh-inactive-shortcut-group:not(:hover) {
-	opacity: .6;
+	opacity: 0.6;
 }
