@@ -950,6 +950,7 @@ body > .footer li a {
 	font-size: 13px;
 }
 
+/* For 'improve-shortcut-help' feature */
 .shortcuts * {
 	cursor: default;
 }
