@@ -1,6 +1,6 @@
 import select from 'select-dom';
 import delegate from 'delegate';
-import {registerShortcut} from './add-shortcut-help';
+import {registerShortcut} from './improve-shortcut-help';
 
 function indentInput(el) {
 	const selection = window.getSelection().toString();

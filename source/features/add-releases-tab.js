@@ -2,7 +2,7 @@ import select from 'select-dom';
 import {h} from 'dom-chef';
 import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
-import {registerShortcut} from './add-shortcut-help';
+import {registerShortcut} from './improve-shortcut-help';
 
 const repoUrl = pageDetect.getRepoURL();
 const repoKey = `${repoUrl}-releases-count`;

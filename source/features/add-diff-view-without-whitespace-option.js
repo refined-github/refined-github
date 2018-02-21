@@ -1,7 +1,7 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import * as icons from '../libs/icons';
-import {registerShortcut} from './add-shortcut-help';
+import {registerShortcut} from './improve-shortcut-help';
 
 export default function () {
 	const container = select([

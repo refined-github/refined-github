@@ -1,7 +1,7 @@
 import {h} from 'dom-chef';
 import * as pageDetect from '../libs/page-detect';
 import {safeElementReady} from '../libs/utils';
-import {registerShortcut} from './add-shortcut-help';
+import {registerShortcut} from './improve-shortcut-help';
 
 export default async function () {
 	const selectedClass = pageDetect.isTrending() ? 'selected' : '';

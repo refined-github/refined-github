@@ -1,6 +1,6 @@
 import select from 'select-dom';
 import {getUsername} from '../libs/utils';
-import {registerShortcut} from './add-shortcut-help';
+import {registerShortcut} from './improve-shortcut-help';
 
 export default function () {
 	const menuItem = select(`#user-links a.dropdown-item[href="/${getUsername()}"]`);

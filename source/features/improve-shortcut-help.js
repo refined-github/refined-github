@@ -27,7 +27,7 @@ export function registerShortcut(group, hotkey, description) {
 	shortcuts.push({group, hotkey, description});
 }
 
-function addShortcuts() {
+function improveShortcutHelp() {
 	// Remove redundant "Show All" button
 	select('.js-see-all-keyboard-shortcuts').remove();
 
@@ -75,7 +75,7 @@ export default () => {
 	observeEl('#facebox', records => {
 		if (Array.from(records).some(record => record.target.matches('.shortcuts') &&
 			Array.from(record.removedNodes).some(element => element.matches('.facebox-loading')))) {
-			addShortcuts();
+			improveShortcutHelp();
 		}
 	}, {
 		childList: true,
