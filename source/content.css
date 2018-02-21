@@ -949,3 +949,11 @@ body > .footer li a {
 	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
 	font-size: 13px;
 }
+
+.shortcuts * {
+	cursor: default;
+}
+
+.rgh-inactive-shortcut-group:not(:hover) {
+	opacity: .6;
+}

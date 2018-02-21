@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import delegate from 'delegate';
+import {registerShortcut} from './add-shortcut-help';
 
 function indentInput(el) {
 	const selection = window.getSelection().toString();
@@ -46,6 +47,9 @@ function blurAccessibly(field) {
 }
 
 export default function () {
+	registerShortcut('issues', '↑', 'Edit your last comment');
+	registerShortcut('prFiles', 'shift enter', 'Leave a single comment');
+
 	delegate('.js-comment-field', 'keydown', event => {
 		const field = event.target;
 		if (event.key === 'Tab' && !event.shiftKey) {

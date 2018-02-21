@@ -1,6 +1,7 @@
 import {h} from 'dom-chef';
 import * as pageDetect from '../libs/page-detect';
 import {safeElementReady} from '../libs/utils';
+import {registerShortcut} from './add-shortcut-help';
 
 export default async function () {
 	const selectedClass = pageDetect.isTrending() ? 'selected' : '';
@@ -14,6 +15,7 @@ export default async function () {
 			<a href="/trending" class={`js-selected-navigation-item HeaderNavlink header-nav-link px-2 ${selectedClass}`} data-hotkey="g t">Trending</a>
 		</li>
 	);
+	registerShortcut('site', 'g t', 'Go to Trending');
 
 	// Explore link highlights /trending urls by default, remove that behavior
 	if (pageDetect.isTrending()) {
