@@ -8,8 +8,7 @@ function addShortcuts() {
 	groups[1].append(
 		<tr>
 			<td class="keys">
-				<kbd>g</kbd>
-				<kbd>r</kbd>
+				<kbd>g</kbd> <kbd>r</kbd>
 			</td>
 			<td>Go to Releases</td>
 		</tr>
