@@ -775,7 +775,7 @@ summary.HeaderNavlink::before {
 	position: relative;
 }
 [data-url$='recently_touched_branches_list'] {
-	min-width: 400px; /* Always cover the repo watch/star/forks actions */
+	min-width: 430px; /* Always cover the repo watch/star/forks actions */
 	max-height: 42px; /* Only cover the actions when there are multiple branches + :hover */
 	padding-top: 10px;
 	position: absolute;
