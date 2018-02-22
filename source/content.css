@@ -481,6 +481,11 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 }
 
 /* +/- Pseudo elements on diffs */
+.refined-github-diff-signs .blob-code-addition,
+.refined-github-diff-signs .blob-code-deletion {
+	position: relative;
+}
+
 .refined-github-diff-signs .blob-code-addition::before,
 .refined-github-diff-signs .blob-code-deletion::before {
 	display: inline-block;
