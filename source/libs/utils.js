@@ -150,3 +150,11 @@ export const anySelector = selector => {
 	const prefix = document.head.style.MozOrient === '' ? 'moz' : 'webkit';
 	return selector.replace(/:any\(/g, `:-${prefix}-any(`);
 };
+
+export const getCurrentRepoDetails = () => {
+	return select('meta[property="og:title"]').getAttribute('content').split('/');
+};
+
+export const isRepoOwnedByLoggedInUser = () => {
+	return getUsername() === getCurrentRepoDetails()[0];
+};

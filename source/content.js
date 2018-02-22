@@ -66,9 +66,10 @@ import addDownloadFolderButton from './features/add-download-folder-button';
 import hideUselessNewsfeedEvents from './features/hide-useless-newsfeed-events';
 import addScopedSearchOnUserProfile from './features/add-scoped-search-on-user-profile';
 import monospaceTextareas from './features/monospace-textareas';
+import addLinkToOwnFork from './features/add-link-to-own-fork';
 
 import * as pageDetect from './libs/page-detect';
-import {safeElementReady, enableFeature} from './libs/utils';
+import {safeElementReady, enableFeature, isRepoOwnedByLoggedInUser} from './libs/utils';
 import observeEl from './libs/simplified-element-observer';
 
 // Add globals for easier debugging
@@ -254,6 +255,10 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isUserProfile()) {
 		enableFeature(addGistsLink);
+	}
+
+	if (pageDetect.isRepo() && !isRepoOwnedByLoggedInUser()) {
+		enableFeature(addLinkToOwnFork);
 	}
 }
 
