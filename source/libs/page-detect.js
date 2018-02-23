@@ -18,6 +18,15 @@ export const getRepoPath = () => {
 	return match && match[1];
 };
 
+export const getRepoBranch = () => {
+	const repoPath = getRepoPath();
+	if (!repoPath) {
+		return false;
+	}
+	const match = /^tree[/]([^/]+)$/.exec(repoPath);
+	return match && match[1];
+};
+
 export const getRepoURL = () => location.pathname.slice(1).split('/', 2).join('/');
 
 export const getOwnerAndRepo = () => {
