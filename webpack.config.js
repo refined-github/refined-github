@@ -1,10 +1,12 @@
 'use strict';
 const path = require('path');
-const webpack = require('webpack');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
+const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = {
+	mode: isProd ? 'production' : 'development',
 	entry: {
 		content: './source/content',
 		background: './source/background',
@@ -24,7 +26,6 @@ module.exports = {
 		]
 	},
 	plugins: [
-		new webpack.optimize.ModuleConcatenationPlugin(),
 		new CopyWebpackPlugin([
 			{
 				from: '*',
@@ -35,25 +36,23 @@ module.exports = {
 				from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js'
 			}
 		])
-	]
-};
+	],
+	optimization: {
+		minimize: false,
+		minimizer: isProd ? [
+			new UglifyJsPlugin({
+				uglifyOptions: {
+					// Keep it somewhat readable for AMO reviewers
+					mangle: false,
+					compress: false,
+					output: {
+						beautify: true,
 
-if (process.env.NODE_ENV === 'production') {
-	module.exports.plugins.push(
-		new UglifyJSPlugin({
-			uglifyOptions: {
-				// Keep it somewhat readable for AMO reviewers
-				mangle: false,
-				compress: false,
-				output: {
-					beautify: true,
-
-					// Reduce beautification indentation from 4 spaces to 1 to save space
-					indent_level: 2 // eslint-disable-line camelcase
+						// Reduce beautification indentation from 4 spaces to 1 to save space
+						indent_level: 2 // eslint-disable-line camelcase
+					}
 				}
-			}
-		})
-	);
-} else {
-	module.exports.devtool = 'source-map';
-}
+			})
+		] : []
+	}
+};
