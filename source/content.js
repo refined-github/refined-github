@@ -30,6 +30,7 @@ import addYourRepoLinkToProfileDropdown from './features/add-your-repositories-l
 import addTrendingMenuItem from './features/add-trending-menu-item';
 import addProfileHotkey from './features/add-profile-hotkey';
 import addYoursMenuItem from './features/add-yours-menu-item';
+import addCommentedMenuItem from './features/add-commented-menu-item';
 import addToggleFilesButton from './features/add-toggle-files-button';
 import addReadmeButtons from './features/add-readme-buttons';
 import addBranchButtons from './features/add-branch-buttons';
@@ -164,6 +165,10 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 		enableFeature(addYoursMenuItem);
+	}
+
+	if (pageDetect.isIssueSearch()) {
+		enableFeature(addCommentedMenuItem);
 	}
 
 	if (pageDetect.isMilestone()) {
