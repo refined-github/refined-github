@@ -64,7 +64,7 @@ function getDefaultBranchLink() {
 			class="btn btn-sm tooltipped tooltipped-ne rgh-default-branch-link"
 			href={url}
 			aria-label={`Visit the default branch (${branchName})`}>
-			{icons.merge()}
+			{icons.chevronLeft()}
 		</a>
 	);
 }
@@ -74,12 +74,15 @@ export default function () {
 	if (!branchSelector) {
 		return;
 	}
-	const links = [
-		getDefaultBranchLink(),
-		getTagLink()
-	].filter(x => x); // Drop empty spots
-	if (links.length > 0) {
-		branchSelector.after(...links);
-		groupButtons([branchSelector, ...links]);
+	const defaultBranch = getDefaultBranchLink();
+	if (defaultBranch) {
+		branchSelector.before(defaultBranch);
+	}
+	const tag = getTagLink();
+	if (tag) {
+		branchSelector.after(tag);
+	}
+	if (defaultBranch || tag) {
+		groupButtons(branchSelector.parentElement.querySelectorAll(':scope > .btn'));
 	}
 }
