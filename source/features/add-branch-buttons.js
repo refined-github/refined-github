@@ -17,17 +17,14 @@ function getTagLink() {
 		return;
 	}
 	const tags = select.all('.branch-select-menu [data-tab-filter="tags"] .select-menu-item')
-		.map(element => [
-			element.getAttribute('data-name'),
-			element.getAttribute('href')
-		]);
-	const releases = new Map(tags);
-	const [latestRelease] = toSemver([...releases.keys()], {clean: false});
+		.map(element => element.dataset.name);
+	const [latestRelease] = toSemver(tags, {clean: false});
 	if (latestRelease) {
+		const {href} = select(`[data-name="${latestRelease}"]`);
 		return (
 			<a
 				class="btn btn-sm tooltipped tooltipped-ne rgh-release-link"
-				href={`${releases.get(latestRelease)}`}
+				href={href}
 				aria-label={`Visit the latest release (${latestRelease})`}>
 				{icons.tag()}
 			</a>
