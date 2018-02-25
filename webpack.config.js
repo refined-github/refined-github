@@ -4,7 +4,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = () => ({
-	mode: 'production', // Without this, function names will be garbled and enableFeature won't work
 	entry: {
 		content: './source/content',
 		background: './source/background',
@@ -36,6 +35,9 @@ module.exports = () => ({
 		])
 	],
 	optimization: {
+		// Without this, function names will be garbled and enableFeature won't work
+		concatenateModules: true,
+
 		// Automatically enabled on prod; keeps it somewhat readable for AMO reviewers
 		minimizer: [
 			new UglifyJsPlugin({
