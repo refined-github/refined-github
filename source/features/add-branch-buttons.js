@@ -48,16 +48,9 @@ function getDefaultBranchLink() {
 		return;
 	}
 
-	let url;
-	if (isRepoRoot()) {
-		url = getRepoURL();
-	} else {
-		const branchLink = select(`.select-menu-item[data-name='${branchName}']`);
-		if (!branchLink) {
-			return;
-		}
-		url = branchLink.href;
-	}
+	const url = isRepoRoot() ?
+		`/${getRepoURL()}` :
+		select(`.select-menu-item[data-name='${branchName}']`).href;
 
 	return (
 		<a
