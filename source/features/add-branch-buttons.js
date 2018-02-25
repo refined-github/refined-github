@@ -2,7 +2,7 @@ import {h} from 'dom-chef';
 import select from 'select-dom';
 import toSemver from 'to-semver';
 import * as icons from '../libs/icons';
-import {groupButtons} from '../libs/utils';
+import {groupSiblings} from '../libs/group-buttons';
 import {getRepoURL, isRepoRoot} from '../libs/page-detect';
 
 // This regex should match all of these combinations:
@@ -87,7 +87,7 @@ export default function () {
 	const hasTag = addTagLink(branchSelector);
 	const hasDefault = addDefaultBranchLink(branchSelector);
 	if (hasDefault || hasTag) {
-		const group = groupButtons(branchSelector.parentElement.querySelectorAll(':scope > .btn'));
+		const group = groupSiblings(branchSelector);
 		group.classList.add('rgh-branch-buttons');
 	}
 }
