@@ -4,6 +4,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = () => ({
+	devtool: 'sourcemap',
 	entry: {
 		content: './source/content',
 		background: './source/background',
