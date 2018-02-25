@@ -3,13 +3,12 @@
 	"scripts": {
 		"lint": "xo && stylelint source/*.css",
 		"lint-fix": "xo --fix; stylelint --fix source/*.css",
-		"test": "npm run lint && cross-env BABEL_ENV=testing ava && run-s build:minified",
+		"test": "npm run lint && cross-env BABEL_ENV=testing ava && run-s build",
 		"build": "webpack",
-		"build:minified": "cross-env NODE_ENV=production webpack",
 		"watch": "webpack --watch",
 		"release:amo": "cd distribution && webext submit",
 		"release:cws": "cd distribution && webstore upload --auto-publish",
-		"release": "run-s build:minified update-version save-url release:*",
+		"release": "run-s build update-version save-url release:*",
 		"save-url": "echo https://github.com/$TRAVIS_REPO_SLUG/tree/$TRAVIS_COMMIT > distribution/SOURCE_URL",
 		"update-version": "VERSION=$(utc-version); echo $VERSION; dot-json distribution/manifest.json version $VERSION",
 		"can-release": "if [ \"$TRAVIS_EVENT_TYPE\" = cron ] && [ $(git rev-list -n 1 --since=\"26 hours ago\" master) ]; then echo :ship-it:; else false; fi"
@@ -53,7 +52,8 @@
 		"uglifyjs-webpack-plugin": "^1.2.1",
 		"utc-version": "^1.1.0",
 		"webext": "^1.9.1-with-submit.1",
-		"webpack": "^3.7.1",
+		"webpack": "^4.0.0",
+		"webpack-cli": "^2.0.6",
 		"xo": "*"
 	},
 	"xo": {
