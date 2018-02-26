@@ -951,7 +951,8 @@ body > .footer li a {
 }
 
 /* For 'improve-shortcut-help' feature */
-.shortcuts * {
+:root .facebox .shortcuts {
+	width: 908px;
 	cursor: default;
 }
 
