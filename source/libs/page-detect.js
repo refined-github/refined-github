@@ -63,7 +63,7 @@ export const isNewIssue = () => /^issues\/new/.test(getRepoPath());
 
 export const isNotifications = () => /^([^/]+[/][^/]+\/)?notifications/.test(getCleanPathname());
 
-export const isProject = () => /^projects\//.test(getRepoPath());
+export const isProject = () => /^projects\/\d+/.test(getRepoPath());
 
 export const isPR = () => /^pull\/\d+/.test(getRepoPath());
 

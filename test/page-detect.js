@@ -245,6 +245,15 @@ test('isNotifications', urlMatcherMacro, pageDetect.isNotifications, [
 	'https://github.com/jaredhanson/node-notifications/tree/master/lib/notifications'
 ]);
 
+test('isProject', urlMatcherMacro, pageDetect.isProject, [
+	'https://github.com/sindresorhus/refined-github/projects/3'
+], [
+	'https://github.com/sindresorhus/refined-github/projects/project',
+	'https://github.com/sindresorhus/refined-github/project/3',
+	'http://github.com/sindresorhus/projects/3',
+	'https://github.com/projects/3'
+]);
+
 test('isPR', urlMatcherMacro, pageDetect.isPR, [
 	'https://github.com/sindresorhus/refined-github/pull/148'
 ], [
