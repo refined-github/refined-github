@@ -483,9 +483,9 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 /* +/- Pseudo elements on diffs */
 .refined-github-diff-signs .blob-code-addition::before,
 .refined-github-diff-signs .blob-code-deletion::before {
-	display: inline-block;
-	position: absolute;
 	margin-top: 1px;
+	margin-left: 4px;
+	position: absolute;
 	color: rgba(0, 0, 0, 0.3);
 	font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
 	font-size: 11px;
