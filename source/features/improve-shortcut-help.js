@@ -90,11 +90,9 @@ function improveShortcutHelp() {
 }
 
 function fixKeys() {
-	for (const keyGroup of select.all('.keys')) {
-		for (const key of select.all('kbd', keyGroup)) {
-			if (key.textContent.includes(' ')) {
-				key.replaceWith(domify(splitKeys(key.textContent)));
-			}
+	for (const key of select.all('.keys kbd')) {
+		if (key.textContent.includes(' ')) {
+			key.replaceWith(domify(splitKeys(key.textContent)));
 		}
 	}
 }
