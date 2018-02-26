@@ -55,7 +55,7 @@ function improveShortcutHelp() {
 					// The "Projects"-related groups are quite big and not interesting to most users
 					groupElement.remove();
 				} else {
-					// Reduced opacity of previously hidden groups
+					// Reduce opacity of previously hidden groups
 					groupElement.removeAttribute('style');
 					groupElement.classList.remove('js-hidden-pane');
 					groupElement.classList.add('rgh-inactive-shortcut-group');
