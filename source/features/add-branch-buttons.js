@@ -32,15 +32,35 @@ function getTagLink() {
 	}
 }
 
-function getDefaultBranchLink() {
-	if (select.exists('.rgh-default-branch-link')) {
-		return;
+function getDefaultBranchNameIfDifferent() {
+	// Return the cached name if it differs from the current one
+	const cachedName = sessionStorage.getItem('rgh-default-branch');
+	if (cachedName) {
+		const currentBranch = select('[data-hotkey="w"] span').textContent;
+		return cachedName === currentBranch ? false : cachedName;
 	}
+
+	// We can find the name in the infobar, available in folder views
 	const branchInfo = select('.branch-infobar');
 	if (!branchInfo) {
 		return;
 	}
+
+	// Parse the infobar
 	const [, branchName] = branchInfo.textContent.trim().match(branchInfoRegex) || [];
+	if (branchName) {
+		// Temporarily cache it between loads to enable it on files
+		sessionStorage.setItem('rgh-default-branch', branchName);
+		return branchName;
+	}
+}
+
+function getDefaultBranchLink() {
+	if (select.exists('.rgh-default-branch-link')) {
+		return;
+	}
+
+	const branchName = getDefaultBranchNameIfDifferent();
 	if (!branchName) {
 		return;
 	}
