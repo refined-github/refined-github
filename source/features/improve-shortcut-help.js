@@ -68,9 +68,8 @@ function improveShortcutHelp() {
 				groupElement.parentElement.prepend(groupElement);
 			}
 
-			const groupShortcuts = shortcuts.filter(shortcut => shortcut.groupId === groupId);
-			if (groupShortcuts.length > 0) {
-				for (const {hotkey, description} of groupShortcuts) {
+			for (const {hotkey, description, groupId: thisGroupId} of shortcuts) {
+				if (thisGroupId === groupId) {
 					groupElement.append(
 						<tr>
 							<td class="keys" dangerouslySetInnerHTML={{__html: splitKeys(hotkey)}}/>
