@@ -1,5 +1,6 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
+import domify from '../libs/domify';
 import observeEl from '../libs/simplified-element-observer';
 import {isProject} from '../libs/page-detect';
 
@@ -38,8 +39,7 @@ export function registerShortcut(groupId, hotkey, description) {
 }
 
 function splitKeys(keys) {
-	// V This is a monstrosity. Please help me get rid of it. V
-	return keys.split(' ').join(', ,').split(',').map(key => key === ' ' ? ' ' : <kbd>{key}</kbd>);
+	return keys.replace(/\S+/g, '<kbd>$&</kbd>');
 }
 
 function improveShortcutHelp() {
@@ -73,9 +73,7 @@ function improveShortcutHelp() {
 				for (const {hotkey, description} of groupShortcuts) {
 					groupElement.append(
 						<tr>
-							<td class="keys">
-								{splitKeys(hotkey)}
-							</td>
+							<td class="keys" dangerouslySetInnerHTML={{__html: splitKeys(hotkey)}}/>
 							<td>
 								{description}
 								<div
@@ -95,7 +93,7 @@ function fixKeys() {
 	for (const keyGroup of select.all('.keys')) {
 		for (const key of select.all('kbd', keyGroup)) {
 			if (key.textContent.includes(' ')) {
-				key.replaceWith(...splitKeys(key.textContent));
+				key.replaceWith(domify(splitKeys(key.textContent)));
 			}
 		}
 	}
