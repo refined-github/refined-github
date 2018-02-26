@@ -23,7 +23,7 @@ const groups = {
 	'Moving a column': 'projectColumns',
 	'Moving a card': 'projectCards'
 };
-const shortcuts = [];
+const shortcuts = new Map();
 
 /**
  * Registers a new shortcut to be displayed in the shortcut help modal.
@@ -32,10 +32,7 @@ const shortcuts = [];
  * @param {String} description What the shortcut does.
  */
 export function registerShortcut(groupId, hotkey, description) {
-	if (shortcuts.some(shortcut => shortcut.hotkey === hotkey)) {
-		return;
-	}
-	shortcuts.push({groupId, hotkey, description});
+	shortcuts.set(hotkey, {groupId, hotkey, description});
 }
 
 function splitKeys(keys) {
@@ -68,7 +65,7 @@ function improveShortcutHelp() {
 				groupElement.parentElement.prepend(groupElement);
 			}
 
-			for (const {hotkey, description, groupId: thisGroupId} of shortcuts) {
+			for (const {hotkey, description, groupId: thisGroupId} of shortcuts.values()) {
 				if (thisGroupId === groupId) {
 					groupElement.append(
 						<tr>
