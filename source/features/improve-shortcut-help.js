@@ -79,7 +79,7 @@ function improveShortcutHelp() {
 							<td>
 								{description}
 								<div
-									class="rgh-shortcut-circle tooltipped tooltipped-e"
+									class="rgh-shortcut-circle tooltipped tooltipped-nw"
 									aria-label="Shortcut added by Refined GitHub"
 								/>
 							</td>
