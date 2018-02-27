@@ -160,6 +160,7 @@ And [lots](source/content.css) [more...](source/content.js)
 - Adds a `Trending` link to the global navbar. *(<kbd>g</kbd> <kbd>t</kbd> hotkey)*
 - Adds a keyboard shortcut to leave a single comment in PR diffs instead of starting a review. *(<kbd>shift</kbd>+<kbd>enter</kbd>)*
 - Adds a keyboard shortcut to visit your profile. *(<kbd>g</kbd> <kbd>m</kbd> hotkey)*
+- Adds a keyboard shortcut to update a stale PR. *(<kbd>u</kbd> hotkey)*
 - [Adds <kbd>↑</kbd> shortcut for editing your last comment](https://github.com/sindresorhus/refined-github/pull/961)
 
 ### Previously part of Refined GitHub
