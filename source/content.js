@@ -170,7 +170,7 @@ function ajaxedPagesHandler() {
 		enableFeature(addCommentedMenuItem);
 	}
 
-	enableFeature(sortIssuesByUpdateTime); // Must be before addYoursMenuItem + addCommentedMenuItem
+	enableFeature(sortIssuesByUpdateTime); // Must be after addYoursMenuItem + addCommentedMenuItem
 
 	if (pageDetect.isMilestone()) {
 		enableFeature(addMilestoneNavigation); // Needs to be before sortMilestonesByClosestDueDate
