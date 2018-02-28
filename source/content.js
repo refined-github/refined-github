@@ -28,6 +28,7 @@ import hideOwnStars from './features/hide-own-stars';
 import moveMarketplaceLinkToProfileDropdown from './features/move-marketplace-link-to-profile-dropdown';
 import addYourRepoLinkToProfileDropdown from './features/add-your-repositories-link-to-profile-dropdown';
 import addTrendingMenuItem from './features/add-trending-menu-item';
+import addUpdateBranchHotkey from './features/add-update-branch-hotkey';
 import addProfileHotkey from './features/add-profile-hotkey';
 import addYoursMenuItem from './features/add-yours-menu-item';
 import addToggleFilesButton from './features/add-toggle-files-button';
@@ -184,6 +185,7 @@ function ajaxedPagesHandler() {
 	}
 
 	if (pageDetect.isPR()) {
+		enableFeature(addUpdateBranchHotkey);
 		enableFeature(scrollToTopOnCollapse);
 		enableFeature(linkifyBranchRefs.inPR, 'linkify-branch-refs');
 		enableFeature(addDeleteForkLink);
