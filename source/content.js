@@ -164,9 +164,6 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 		enableFeature(addYoursMenuItem);
-	}
-
-	if (pageDetect.isIssueSearch()) {
 		enableFeature(addCommentedMenuItem);
 	}
 
