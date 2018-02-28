@@ -158,7 +158,6 @@ function ajaxedPagesHandler() {
 	enableFeature(hideEmptyMeta);
 	enableFeature(removeUploadFilesButton);
 	enableFeature(addTitleToEmojis);
-	enableFeature(sortIssuesByUpdateTime);
 	enableFeature(shortenLinks);
 	enableFeature(linkifyCode);
 	enableFeature(addDownloadFolderButton);
@@ -170,6 +169,8 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isIssueSearch()) {
 		enableFeature(addCommentedMenuItem);
 	}
+
+	enableFeature(sortIssuesByUpdateTime); // Must be before addYoursMenuItem + addCommentedMenuItem
 
 	if (pageDetect.isMilestone()) {
 		enableFeature(addMilestoneNavigation); // Needs to be before sortMilestonesByClosestDueDate
