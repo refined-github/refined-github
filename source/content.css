@@ -303,11 +303,7 @@ followed someone
 
 .refined-github-merge-commit .octicon-git-pull-request {
 	color: #4078c0;
-}
-
-.refined-github-merge-commit .avatar-child {
-	width: 16px !important;
-	height: 16px !important;
+	width: 20px;
 }
 
 /* Move new button to the right on single commit page */
