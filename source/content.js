@@ -30,6 +30,7 @@ import addYourRepoLinkToProfileDropdown from './features/add-your-repositories-l
 import addTrendingMenuItem from './features/add-trending-menu-item';
 import addProfileHotkey from './features/add-profile-hotkey';
 import addYoursMenuItem from './features/add-yours-menu-item';
+import addCommentedMenuItem from './features/add-commented-menu-item';
 import addToggleFilesButton from './features/add-toggle-files-button';
 import addReadmeButtons from './features/add-readme-buttons';
 import addBranchButtons from './features/add-branch-buttons';
@@ -157,14 +158,16 @@ function ajaxedPagesHandler() {
 	enableFeature(hideEmptyMeta);
 	enableFeature(removeUploadFilesButton);
 	enableFeature(addTitleToEmojis);
-	enableFeature(sortIssuesByUpdateTime);
 	enableFeature(shortenLinks);
 	enableFeature(linkifyCode);
 	enableFeature(addDownloadFolderButton);
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 		enableFeature(addYoursMenuItem);
+		enableFeature(addCommentedMenuItem);
 	}
+
+	enableFeature(sortIssuesByUpdateTime); // Must be after addYoursMenuItem + addCommentedMenuItem
 
 	if (pageDetect.isMilestone()) {
 		enableFeature(addMilestoneNavigation); // Needs to be before sortMilestonesByClosestDueDate

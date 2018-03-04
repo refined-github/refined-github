@@ -572,6 +572,11 @@ div.inline-comment-form .form-actions,
 	float: right;
 }
 
+/* Decrease the padding of filter buttons to accommodate `Commented` */
+.subnav-links .subnav-item {
+	padding: 6px 9px;
+}
+
 /* Decrease the size of the search box to fit 'Yours' menu item */
 .subnav-search-input[aria-label='Search all issues'] {
 	width: 420px;
