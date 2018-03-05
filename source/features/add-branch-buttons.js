@@ -10,7 +10,7 @@ import {getRepoURL, isRepoRoot} from '../libs/page-detect';
 // "This branch is 1 commit behind master."
 // "This branch is 1 commit ahead of master."
 // "This branch is 1 commit ahead, 27 commits behind master."
-const branchInfoRegex = /([^ ]+)\.$/;
+const branchInfoRegex = /([^ :]+)\.$/;
 
 function addTagLink(branchSelector) {
 	const tags = select.all('.branch-select-menu [data-tab-filter="tags"] .select-menu-item')
