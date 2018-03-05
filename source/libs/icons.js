@@ -32,4 +32,6 @@ export const triangleDown = () => <svg aria-hidden="true" class="octicon octicon
 
 export const chevronDown = () => <svg aria-hidden="true" class="octicon octicon-chevron-down" width="10" height="16"><path fill-rule="evenodd" d="M10 10l-1.5 1.5L5 7.75 1.5 11.5 0 10l5-5z"/></svg>;
 
+export const chevronLeft = () => <svg aria-hidden="true" class="octicon octicon-chevron-left" height="16" width="8"><path fill-rule="evenodd" d="M5.5 3L7 4.5 3.25 8 7 11.5 5.5 13l-5-5z"/></svg>;
+
 export const externalLink = () => <svg aria-hidden="true" class="octicon octicon-link-external" width="12" height="16"><path fill-rule="evenodd" d="M11 10h1v3c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h3v1H1v10h10v-3zM6 2l2.25 2.25L5 7.5 6.5 9l3.25-3.25L12 8V2H6z"/></svg>;
