@@ -36,8 +36,11 @@ function addTagLink(branchSelector) {
 }
 
 function getDefaultBranchNameIfDifferent() {
+	const {ownerName, repoName} = getOwnerAndRepo();
+	const cacheKey = `rgh-default-branch-${ownerName}-${repoName}`;
+
 	// Return the cached name if it differs from the current one
-	const cachedName = sessionStorage.getItem('rgh-default-branch');
+	const cachedName = sessionStorage.getItem(cacheKey);
 	if (cachedName) {
 		const currentBranch = select('[data-hotkey="w"] span').textContent;
 		return cachedName === currentBranch ? false : cachedName;
@@ -53,7 +56,7 @@ function getDefaultBranchNameIfDifferent() {
 	const [, branchName] = branchInfo.textContent.trim().match(branchInfoRegex) || [];
 	if (branchName) {
 		// Temporarily cache it between loads to enable it on files
-		sessionStorage.setItem('rgh-default-branch', branchName);
+		sessionStorage.setItem(cacheKey, branchName);
 		return branchName;
 	}
 }
