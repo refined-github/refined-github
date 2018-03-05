@@ -1,4 +1,3 @@
-import {h} from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 import domLoaded from 'dom-loaded';
@@ -127,24 +126,6 @@ export const flatZip = (table, limit = Infinity) => {
 export const isMac = /Mac/.test(window.navigator.platform);
 
 export const metaKey = isMac ? 'metaKey' : 'ctrlKey';
-
-export const groupButtons = buttons => {
-	// Ensure every button has this class
-	for (const button of buttons) {
-		button.classList.add('BtnGroup-item');
-	}
-
-	// They may already be part of a group
-	let group = buttons[0].closest('.BtnGroup');
-
-	// If it doesn't exist, wrap them in a new group
-	if (!group) {
-		group = <div class="BtnGroup"></div>;
-		wrapAll(buttons, group);
-	}
-
-	return group;
-};
 
 export const anySelector = selector => {
 	const prefix = document.head.style.MozOrient === '' ? 'moz' : 'webkit';

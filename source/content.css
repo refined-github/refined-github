@@ -782,7 +782,6 @@ summary.HeaderNavlink::before {
 [data-url$='recently_touched_branches_list'] {
 	min-width: 430px; /* Always cover the repo watch/star/forks actions */
 	max-height: 42px; /* Only cover the actions when there are multiple branches + :hover */
-	padding-top: 10px;
 	position: absolute;
 	top: -117px;
 	right: 0;
@@ -801,6 +800,7 @@ summary.HeaderNavlink::before {
 .RecentBranches {
 	display: flex;
 	width: max-content;
+	margin-top: 10px; /* Add extra padding to make it look right on forked repos */
 	margin-left: auto;
 	flex-direction: column-reverse;
 }

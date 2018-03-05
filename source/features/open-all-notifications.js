@@ -5,7 +5,8 @@ import pEvent from 'p-event';
 import gitHubInjection from 'github-injection';
 import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
-import {groupButtons, safeElementReady} from '../libs/utils';
+import {groupSiblings} from '../libs/group-buttons';
+import {safeElementReady} from '../libs/utils';
 import {isNotifications} from '../libs/page-detect';
 
 const confirmationRequiredCount = 10;
@@ -76,11 +77,9 @@ function addOpenAllButton() {
 		document.body.append(select('#mark_as_read_confirm_box') || '');
 
 		// Create an open button and add it into a button group
-		const group = select('.tabnav .float-right');
-		group.prepend(
-			<button class="btn btn-sm rgh-open-notifications-button">Open all unread in tabs</button>
-		);
-		groupButtons([...group.children]);
+		const button = <button class="btn btn-sm rgh-open-notifications-button">Open all unread in tabs</button>;
+		select('.tabnav .float-right').prepend(button);
+		groupSiblings(button);
 	}
 }
 
