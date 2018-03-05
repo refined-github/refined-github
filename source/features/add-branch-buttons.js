@@ -3,14 +3,14 @@ import select from 'select-dom';
 import toSemver from 'to-semver';
 import * as icons from '../libs/icons';
 import {groupSiblings} from '../libs/group-buttons';
-import {getRepoURL, isRepoRoot} from '../libs/page-detect';
+import {getRepoURL, isRepoRoot, getOwnerAndRepo} from '../libs/page-detect';
 
 // This regex should match all of these combinations:
 // "This branch is even with master."
 // "This branch is 1 commit behind master."
 // "This branch is 1 commit ahead of master."
 // "This branch is 1 commit ahead, 27 commits behind master."
-const branchInfoRegex = /([^ :]+)\.$/;
+const branchInfoRegex = /([^ ]+)\.$/;
 
 function addTagLink(branchSelector) {
 	const tags = select.all('.branch-select-menu [data-tab-filter="tags"] .select-menu-item')
@@ -59,23 +59,48 @@ function getDefaultBranchNameIfDifferent() {
 }
 
 function addDefaultBranchLink(branchSelector) {
-	const branchName = getDefaultBranchNameIfDifferent();
-	if (!branchName) {
+	let branchInfo = getDefaultBranchNameIfDifferent();
+	if (!branchInfo) {
 		return;
 	}
+
+	branchInfo = branchInfo.split(':');
+	const branchName = branchInfo.pop();
+	const originalUser = branchInfo.pop();
 
 	const url = isRepoRoot() ?
 		`/${getRepoURL()}` :
 		select(`.select-menu-item[data-name='${branchName}']`).href;
 
-	branchSelector.before(
-		<a
-			class="btn btn-sm tooltipped tooltipped-ne"
-			href={url}
-			aria-label={`Visit the default branch (${branchName})`}>
-			{icons.chevronLeft()}
-		</a>
-	);
+	// If it’s a fork, add link to originalUser
+	if (originalUser) {
+		const {ownerName: currentUser} = getOwnerAndRepo();
+		const currentRepoUrl = select('.repohead [itemprop="name"] a').href;
+		const originalRepoUrl = select('.fork-flag a').href;
+		const originalBranchUrl = url
+			.replace(currentRepoUrl, originalRepoUrl) // - isRepoRoot()
+			.replace(currentUser, originalUser); // - !isRepoRoot()
+		branchSelector.before(
+			<a
+				class="btn btn-sm tooltipped tooltipped-ne rgh-original-branch-button"
+				href={originalBranchUrl}
+				aria-label={`Visit the default branch (${branchName}) of the original repo`}>
+				{icons.chevronLeft()}
+				{icons.chevronLeft()}
+			</a>
+		);
+
+		// Add link to current repo’s branch
+		branchSelector.before(
+			<a
+				class="btn btn-sm tooltipped tooltipped-ne"
+				href={url}
+				aria-label={`Visit the default branch (${branchName})`}>
+				{icons.chevronLeft()}
+			</a>
+		);
+	}
+
 	return true;
 }
 
