@@ -6,10 +6,10 @@ import {groupButtons} from '../libs/utils';
 import {getRepoURL, isRepoRoot} from '../libs/page-detect';
 
 // This regex should match all of these combinations:
-// This branch is even with master.
-// This branch is 1 commit behind master.
-// This branch is 1 commit ahead of master.
-// This branch is 1 commit ahead, 27 commits behind master.
+// "This branch is even with master."
+// "This branch is 1 commit behind master."
+// "This branch is 1 commit ahead of master."
+// "This branch is 1 commit ahead, 27 commits behind master."
 const branchInfoRegex = /([^ ]+)\.$/;
 
 function getTagLink() {

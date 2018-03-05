@@ -113,6 +113,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Adds a 'Your repositories' link to user profile dropdown](https://user-images.githubusercontent.com/4201088/34920280-479e2454-f996-11e7-8e24-ad69793b9d9b.png)
 - [Adds a 'Download folder' button to repos](https://user-images.githubusercontent.com/1402241/35044451-fd3e2326-fbc2-11e7-82e1-61ec7bee612b.png)
 - [Adds a `Toggle files` button to repos](https://user-images.githubusercontent.com/1402241/35480123-68b9af1a-043a-11e8-8934-3ead3cff8328.gif)
+- [Adds links to the default branch and to the latest semver release](https://user-images.githubusercontent.com/1402241/36961980-389bd2b0-2080-11e8-8bff-bb8af52e7128.png)
 
 ### More info at a glance
 
