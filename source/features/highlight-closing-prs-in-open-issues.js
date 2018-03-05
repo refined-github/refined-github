@@ -1,8 +1,9 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
+import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
 
-export default function () {
+function add() {
 	if (select.exists('.rgh-closing-pr')) {
 		return;
 	}
@@ -17,4 +18,9 @@ export default function () {
 			</div>
 		);
 	}
+}
+
+export default function () {
+	// The issue header changes when new comments are added or the issue status changes
+	observeEl('.js-issues-results', add);
 }
