@@ -654,6 +654,11 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	color: #fff;
 }
 
+/* Space out `rgh-closing-pr`; matches native `.gh-header-meta .State` spacing */
+.rgh-closing-pr {
+	margin-right: 8px;
+}
+
 /* For `add-ci-link` */
 .rgh-ci-link {
 	position: relative;

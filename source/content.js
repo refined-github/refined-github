@@ -55,6 +55,7 @@ import addConfirmationToCommentCancellation from './features/add-confirmation-to
 import addCILink from './features/add-ci-link';
 import embedGistInline from './features/embed-gist-inline';
 import extendIssueStatusLabel from './features/extend-issue-status-label';
+import highlightClosingPrsInOpenIssues from './features/highlight-closing-prs-in-open-issues';
 import toggleAllThingsWithAlt from './features/toggle-all-things-with-alt';
 import addJumpToBottomLink from './features/add-jump-to-bottom-link';
 import addQuickReviewButtons from './features/add-quick-review-buttons';
@@ -209,6 +210,7 @@ function ajaxedPagesHandler() {
 		enableFeature(addUploadBtn);
 		enableFeature(embedGistInline);
 		enableFeature(extendIssueStatusLabel);
+		enableFeature(highlightClosingPrsInOpenIssues);
 
 		observeEl('.new-discussion-timeline', () => {
 			enableFeature(addOPLabels);
