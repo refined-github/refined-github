@@ -1,7 +1,8 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
+import observeEl from '../libs/simplified-element-observer';
 
-export default function () {
+function add() {
 	const meta = select('.gh-header-meta > .TableObject-item--primary');
 	const jumpToBottomLink = select('#refined-github-jump-to-bottom-link');
 	if (!meta || jumpToBottomLink) {
@@ -12,4 +13,9 @@ export default function () {
 		' · ',
 		<a href="#partial-timeline-marker" id="refined-github-jump-to-bottom-link">Jump to bottom</a>
 	);
+}
+
+export default function () {
+	// The issue header changes when new comments are added or the issue status changes
+	observeEl('.js-issues-results', add);
 }

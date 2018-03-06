@@ -18,6 +18,15 @@ export const getRepoPath = () => {
 	return match && match[1];
 };
 
+export const getRepoBranch = () => {
+	const repoPath = getRepoPath();
+	if (!repoPath) {
+		return false;
+	}
+	const match = /^tree[/]([^/]+)$/.exec(repoPath);
+	return match && match[1];
+};
+
 export const getRepoURL = () => location.pathname.slice(1).split('/', 2).join('/');
 
 export const getOwnerAndRepo = () => {
@@ -63,6 +72,8 @@ export const isNewIssue = () => /^issues\/new/.test(getRepoPath());
 
 export const isNotifications = () => /^([^/]+[/][^/]+\/)?notifications/.test(getCleanPathname());
 
+export const isProject = () => /^projects\/\d+/.test(getRepoPath());
+
 export const isPR = () => /^pull\/\d+/.test(getRepoPath());
 
 export const isPRConversation = () => /^pull\/\d+$/.test(getRepoPath());
@@ -89,7 +100,7 @@ export const isRepoRoot = () => /^(tree[/][^/]+)?$/.test(getRepoPath());
 
 export const isRepoSettings = () => /^settings/.test(getRepoPath());
 
-export const isRepoTree = () => /^tree\//.test(getRepoPath());
+export const isRepoTree = () => isRepoRoot() || /^tree\//.test(getRepoPath());
 
 export const isSingleCommit = () => /^commit\/[0-9a-f]{5,40}/.test(getRepoPath());
 

@@ -1,5 +1,6 @@
 import select from 'select-dom';
-import {getUsername, observeEl} from '../libs/utils';
+import observeEl from '../libs/simplified-element-observer';
+import {getUsername} from '../libs/utils';
 
 // Hide other users starring/forking your repos
 export default async function () {

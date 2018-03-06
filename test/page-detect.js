@@ -245,6 +245,15 @@ test('isNotifications', urlMatcherMacro, pageDetect.isNotifications, [
 	'https://github.com/jaredhanson/node-notifications/tree/master/lib/notifications'
 ]);
 
+test('isProject', urlMatcherMacro, pageDetect.isProject, [
+	'https://github.com/sindresorhus/refined-github/projects/3'
+], [
+	'https://github.com/sindresorhus/refined-github/projects/project',
+	'https://github.com/sindresorhus/refined-github/project/3',
+	'http://github.com/sindresorhus/projects/3',
+	'https://github.com/projects/3'
+]);
+
 test('isPR', urlMatcherMacro, pageDetect.isPR, [
 	'https://github.com/sindresorhus/refined-github/pull/148'
 ], [
@@ -354,13 +363,14 @@ test('isRepoSettings', urlMatcherMacro, pageDetect.isRepoSettings, [
 ]);
 
 test('isRepoTree', urlMatcherMacro, pageDetect.isRepoTree, [
+	'https://github.com/sindresorhus/refined-github',
 	'https://github.com/sindresorhus/refined-github/tree/master/distribution',
 	'https://github.com/sindresorhus/refined-github/tree/0.13.0/distribution',
 	'https://github.com/sindresorhus/refined-github/tree/57bf435ee12d14b482df0bbd88013a2814c7512e/distribution',
 	'https://github.com/sindresorhus/refined-github/tree/57bf4'
 ], [
 	'https://github.com/sindresorhus/refined-github/issues',
-	'https://github.com/sindresorhus/refined-github'
+	'https://github.com/sindresorhus/refined-github/blob/tree/master/distribution'
 ]);
 
 test('isSingleCommit', urlMatcherMacro, pageDetect.isSingleCommit, [

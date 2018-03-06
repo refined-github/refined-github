@@ -1,6 +1,7 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import * as icons from '../libs/icons';
+import {registerShortcut} from './improve-shortcut-help';
 
 export default function () {
 	const container = select([
@@ -25,7 +26,7 @@ export default function () {
 		<div class="diffbar-item refined-github-toggle-whitespace">
 			<a href={url}
 				data-hotkey="d w"
-				class={`btn btn-sm btn-outline BtnGroup-item tooltipped tooltipped-s rgh-tooltipped ${hidingWhitespace ? 'bg-gray-light text-gray-light' : ''}`}
+				class={`btn btn-sm btn-outline BtnGroup-item tooltipped tooltipped-s ${hidingWhitespace ? 'bg-gray-light text-gray-light' : ''}`}
 				aria-label={`${hidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}>
 				{hidingWhitespace ? icons.check() : ''}
 				{' '}
@@ -33,6 +34,7 @@ export default function () {
 			</a>
 		</div>
 	);
+	registerShortcut('source', 'd w', 'Show/hide whitespaces in diffs');
 
 	// Make space for the new button by removing "Changes from" #655
 	const uselessCopy = select('[data-hotkey="c"]');

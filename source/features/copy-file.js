@@ -1,6 +1,6 @@
 import select from 'select-dom';
 import {h} from 'dom-chef';
-import {groupButtons} from '../libs/utils';
+import {groupSiblings} from '../libs/group-buttons';
 
 export default function () {
 	// This selector skips binaries + markdowns with code
@@ -19,7 +19,6 @@ export default function () {
 		);
 
 		// Group buttons if necessary
-		// .children is a live HTMLCollection. Needs to be array-fied first.
-		groupButtons([...firstAction.parentNode.children]);
+		groupSiblings(firstAction);
 	}
 }

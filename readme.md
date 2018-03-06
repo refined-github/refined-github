@@ -1,15 +1,10 @@
-# <img src="source/icon.png" width="45" align="left"> Refined GitHub [![Chrome version][badge-cws]][link-cws] [![Firefox version][badge-amo]][link-amo] [![Deployment][badge-travis]][link-travis]
+# <img src="source/icon.png" width="45" align="left"> Refined GitHub
 
-[badge-cws]: https://img.shields.io/chrome-web-store/v/hlepfoohegkhhmjieoechaddaejaokhf.svg?label=chrome
-[badge-amo]: https://img.shields.io/amo/v/refined-github-.svg?label=firefox
-[badge-travis]: https://img.shields.io/travis/sindresorhus/refined-github/master.svg?label=deployment
 [link-cws]: https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf "Version published on Chrome Web Store"
 [link-amo]: https://addons.mozilla.org/en-US/firefox/addon/refined-github-/ "Version published on Mozilla Add-ons"
 [link-travis]: https://travis-ci.org/sindresorhus/refined-github
 
 > Browser extension that simplifies the GitHub interface and adds useful features
-
-**Discuss it on [Product Hunt](https://www.producthunt.com/posts/refined-github)** 🦄
 
 We use GitHub a lot and notice many dumb annoyances we'd like to fix. So here be dragons.
 
@@ -17,14 +12,17 @@ Our hope is that GitHub will notice and implement some of these much needed impr
 
 GitHub Enterprise is also supported. More info in the options.
 
-- **[What's new lately](https://blog.sindresorhus.com/whats-new-in-refined-github-836d05582df7)**
-- [Original announcement](https://blog.sindresorhus.com/refined-github-21185789685d)
+---
+
+- [Product Hunt submission](https://www.producthunt.com/posts/refined-github) *(2017-07-08)*
+- [What's new lately](https://blog.sindresorhus.com/whats-new-in-refined-github-836d05582df7) *(2017-06-23)*
+- [Original announcement](https://blog.sindresorhus.com/refined-github-21185789685d) *(2016-03-31)*
 
 
 ## Install
 
-- [**Chrome** extension][link-cws]
-- [**Firefox** add-on][link-amo]
+- [**Chrome** extension][link-cws] [<img valign="middle" src="https://img.shields.io/chrome-web-store/v/hlepfoohegkhhmjieoechaddaejaokhf.svg?label=%20">][link-cws]
+- [**Firefox** add-on][link-amo] [<img valign="middle" src="https://img.shields.io/amo/v/refined-github-.svg?label=%20">][link-amo]
 - **Opera** extension: Use [this Opera extension](https://addons.opera.com/en/extensions/details/download-chrome-extension-9/) to install the Chrome version.
 
 
@@ -91,7 +89,8 @@ GitHub Enterprise is also supported. More info in the options.
 
 ### Added features
 
-- [Collapse/expand all outdated pull request comments by pressing <kbd>Alt</kbd> while clicking](https://user-images.githubusercontent.com/25818354/33240033-3e271588-d2af-11e7-93af-13b6e325f65d.gif)
+- [Lets you wait for a build before automatically merging a PR](https://user-images.githubusercontent.com/1402241/35192861-3f4a1bf6-fecc-11e7-8b9f-35ee019c6cdf.gif)
+- Toggle all [outdated PR comments](https://user-images.githubusercontent.com/25818354/33240033-3e271588-d2af-11e7-93af-13b6e325f65d.gif) or [PR files](https://user-images.githubusercontent.com/1402241/35192652-6f79dc42-fec9-11e7-89ad-2b4a9c5f4f52.gif) with <kbd>Alt</kbd>+click
 - Copy canonical link to file when [the <kbd>y</kbd> hotkey](https://help.github.com/articles/getting-permanent-links-to-files/) is used
 - Supports indenting with the tab key in textareas like the comment box (<kbd>Shift</kbd> <kbd>Tab</kbd> for original behavior)
 - [Uses the pull request title as commit title when merging with 'Squash and merge'](https://github.com/sindresorhus/refined-github/issues/276)
@@ -101,7 +100,7 @@ GitHub Enterprise is also supported. More info in the options.
 ### More actions
 
 - [Linkifies branch references in pull requests](https://github.com/sindresorhus/refined-github/issues/1)
-- [Adds a quick edit button and a link to the latest release to the readme](https://user-images.githubusercontent.com/170270/27501200-31a1fa20-586c-11e7-9a3f-ce270014bf0a.png)
+- [Adds a quick edit button to the readme](https://user-images.githubusercontent.com/170270/27501200-31a1fa20-586c-11e7-9a3f-ce270014bf0a.png)
 - [Adds a shortcut to quickly delete a forked repo](https://cloud.githubusercontent.com/assets/170270/13520281/b2c9335c-e211-11e5-9e36-b0f325166356.png)
 - [Adds a button to open all notifications at once](https://user-images.githubusercontent.com/1402241/31700005-1b3be428-b38c-11e7-90a6-8f572968993b.png)
 - [Adds option to view diffs without whitespace changes](https://cloud.githubusercontent.com/assets/170270/17603894/7b71a166-6013-11e6-81b8-22950ab8bce3.png) *(<kbd>d</kbd> <kbd>w</kbd> hotkey)*
@@ -114,6 +113,8 @@ GitHub Enterprise is also supported. More info in the options.
 - [Adds a 'Jump to bottom' link to discussion pages](https://user-images.githubusercontent.com/4331946/34298950-93876584-e720-11e7-898a-96f85e31aefe.png)
 - [Adds a 'Your repositories' link to user profile dropdown](https://user-images.githubusercontent.com/4201088/34920280-479e2454-f996-11e7-8e24-ad69793b9d9b.png)
 - [Adds a 'Download folder' button to repos](https://user-images.githubusercontent.com/1402241/35044451-fd3e2326-fbc2-11e7-82e1-61ec7bee612b.png)
+- [Adds a `Toggle files` button to repos](https://user-images.githubusercontent.com/1402241/35480123-68b9af1a-043a-11e8-8934-3ead3cff8328.gif)
+- [Adds links to the default branch and to the latest semver release](https://user-images.githubusercontent.com/1402241/36961980-389bd2b0-2080-11e8-8bff-bb8af52e7128.png)
 
 ### More info at a glance
 
@@ -123,6 +124,8 @@ GitHub Enterprise is also supported. More info in the options.
 - [Adds labels to comments by the original poster](https://cloud.githubusercontent.com/assets/4331946/25075520/d62fbbd0-2316-11e7-921f-ab736dc3522e.png)
 - [Adds build status and link to CI by the repo's title](https://user-images.githubusercontent.com/1402241/32562120-d65166e4-c4e8-11e7-90fb-cbaf36e2709f.png)
 - [Color-codes and counts reviews in PRs list](https://user-images.githubusercontent.com/1402241/33474535-a814ee78-d6ad-11e7-8f08-a8b72799e376.png)
+- [Show issue resolution in header (was it closed by a PR?)](https://user-images.githubusercontent.com/1402241/35973522-5c00acb6-0d08-11e8-89ca-03071de15c6f.png)
+- [Shows all keyboard shortcuts in the help modal](https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png)  *(<kbd>?</kbd> hotkey)*
 
 ### Declutter
 
@@ -155,7 +158,7 @@ And [lots](source/content.css) [more...](source/content.js)
 - [Adds a 'Compare' tab to repos](https://user-images.githubusercontent.com/170270/27501134-cf0a2a18-586b-11e7-8430-22f33030e923.png)
 - [Adds navigation to milestone pages](https://cloud.githubusercontent.com/assets/170270/25217211/37b67aea-25d0-11e7-8482-bead2b04ee74.png)
 - [Adds search filter for 'Everything commented by you'](https://user-images.githubusercontent.com/170270/27501170-f394a304-586b-11e7-92d8-d92d6922356b.png)
-- [Adds `Yours` button to Issues/Pull Requests page](https://user-images.githubusercontent.com/170270/27501189-1b914bbe-586c-11e7-8e1e-b3ffd8b767fa.png)
+- [Adds `Yours` and `Commented` buttons to Issues/Pull Requests page](https://user-images.githubusercontent.com/8295888/36827126-8bfc79c4-1d37-11e8-8754-992968b082be.png)
 - [Condenses long URLs into references like _user/repo/.file@`d71718d`_](https://user-images.githubusercontent.com/1402241/27252232-8fdf8ed0-538b-11e7-8f19-12d317c9cd32.png)
 - Adds a `Trending` link to the global navbar. *(<kbd>g</kbd> <kbd>t</kbd> hotkey)*
 - Adds a keyboard shortcut to leave a single comment in PR diffs instead of starting a review. *(<kbd>shift</kbd>+<kbd>enter</kbd>)*

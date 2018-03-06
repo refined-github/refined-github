@@ -4,7 +4,9 @@ import linkifyIssues from 'linkify-issues';
 import {getOwnerAndRepo} from '../libs/page-detect';
 import getTextNodes from '../libs/get-text-nodes';
 
+// Shared class necessary to avoid also shortening the links
 export const linkifiedURLClass = 'rgh-linkified-code';
+
 const {
 	ownerName,
 	repoName
@@ -14,10 +16,7 @@ const options = {
 	user: ownerName,
 	repo: repoName,
 	type: 'dom',
-	baseUrl: '',
-	attributes: {
-		class: linkifiedURLClass // Necessary to avoid also shortening the links
-	}
+	baseUrl: ''
 };
 
 export const editTextNodes = (fn, el) => {
@@ -28,13 +27,24 @@ export const editTextNodes = (fn, el) => {
 		}
 		const linkified = fn(textNode.textContent, options);
 		if (linkified.children.length > 0) { // Children are <a>
+			if (fn === linkifyIssues) {
+				// Enable native issue title fetch
+				for (const link of linkified.children) {
+					const issue = link.href.split('/').pop();
+					link.setAttribute('class', `issue-link js-issue-link tooltipped tooltipped-ne ${linkifiedURLClass}`);
+					link.setAttribute('data-error-text', 'Failed to load issue title');
+					link.setAttribute('data-permission-text', 'Issue title is private');
+					link.setAttribute('data-url', link.href);
+					link.setAttribute('data-id', `rgh-issue-${issue}`);
+				}
+			}
 			textNode.replaceWith(linkified);
 		}
 	}
 };
 
 export default () => {
-	const wrappers = select.all(`.highlight:not(.${linkifiedURLClass})`);
+	const wrappers = select.all(`.blob-wrapper:not(.${linkifiedURLClass})`);
 
 	// Don't linkify any already linkified code
 	if (wrappers.length === 0) {

@@ -1,6 +1,6 @@
 import select from 'select-dom';
 import linkifyIssues from 'linkify-issues';
-import {observeEl} from '../libs/utils';
+import observeEl from '../libs/simplified-element-observer';
 import {editTextNodes} from './linkify-urls-in-code';
 
 export default function () {

@@ -1,6 +1,7 @@
-import select from 'select-dom';
 import {h} from 'dom-chef';
-import {observeEl} from '../libs/utils';
+import select from 'select-dom';
+import {groupSiblings} from '../libs/group-buttons';
+import observeEl from '../libs/simplified-element-observer';
 
 function addFilePathCopyBtn() {
 	for (const file of select.all('#files .file-header:not(.rgh-copy-file-path)')) {
@@ -11,15 +12,11 @@ function addFilePathCopyBtn() {
 
 		select('.file-info a', file).classList.add('js-zeroclipboard-target');
 
-		const group = (
-			<div class="BtnGroup">
-				<button aria-label="Copy file path to clipboard" class="js-zeroclipboard btn btn-sm BtnGroup-item tooltipped tooltipped-s" data-copied-hint="Copied!" type="button">Copy path</button>
-			</div>
-		);
 		const viewButton = select('[aria-label^="View"]', file);
-		viewButton.classList.add('BtnGroup-item');
-		viewButton.replaceWith(group);
-		group.append(viewButton);
+		viewButton.before(
+			<button aria-label="Copy file path to clipboard" class="js-zeroclipboard btn btn-sm tooltipped tooltipped-s" data-copied-hint="Copied!" type="button">Copy path</button>
+		);
+		groupSiblings(viewButton);
 	}
 }
 

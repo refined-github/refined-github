@@ -30,7 +30,10 @@ import addYourRepoLinkToProfileDropdown from './features/add-your-repositories-l
 import addTrendingMenuItem from './features/add-trending-menu-item';
 import addProfileHotkey from './features/add-profile-hotkey';
 import addYoursMenuItem from './features/add-yours-menu-item';
+import addCommentedMenuItem from './features/add-commented-menu-item';
+import addToggleFilesButton from './features/add-toggle-files-button';
 import addReadmeButtons from './features/add-readme-buttons';
+import addBranchButtons from './features/add-branch-buttons';
 import addDeleteForkLink from './features/add-delete-fork-link';
 import linkifyIssuesInTitles from './features/linkify-issues-in-titles';
 import addPatchDiffLinks from './features/add-patch-diff-links';
@@ -51,29 +54,36 @@ import addKeyboardShortcutsToCommentFields from './features/add-keyboard-shortcu
 import addConfirmationToCommentCancellation from './features/add-confirmation-to-comment-cancellation';
 import addCILink from './features/add-ci-link';
 import embedGistInline from './features/embed-gist-inline';
-import expandCollapseOutdatedComments from './features/expand-collapse-outdated-comments';
+import extendIssueStatusLabel from './features/extend-issue-status-label';
+import toggleAllThingsWithAlt from './features/toggle-all-things-with-alt';
 import addJumpToBottomLink from './features/add-jump-to-bottom-link';
 import addQuickReviewButtons from './features/add-quick-review-buttons';
 import extendDiffExpander from './features/extend-diff-expander';
 import sortIssuesByUpdateTime from './features/sort-issues-by-update-time';
 import makeDiscussionSidebarSticky from './features/make-discussion-sidebar-sticky';
 import shortenLinks from './features/shorten-links';
+import waitForBuild from './features/wait-for-build';
 import addDownloadFolderButton from './features/add-download-folder-button';
 import hideUselessNewsfeedEvents from './features/hide-useless-newsfeed-events';
 import closeOutOfViewModals from './features/close-out-of-view-modals';
 import addScopedSearchOnUserProfile from './features/add-scoped-search-on-user-profile';
+import monospaceTextareas from './features/monospace-textareas';
+import improveShortcutHelp from './features/improve-shortcut-help';
 
 import * as pageDetect from './libs/page-detect';
-import {observeEl, safeElementReady, enableFeature} from './libs/utils';
+import {safeElementReady, enableFeature} from './libs/utils';
+import observeEl from './libs/simplified-element-observer';
 
 // Add globals for easier debugging
 window.select = select;
 
 async function init() {
 	await safeElementReady('body');
+
 	if (pageDetect.is404() || pageDetect.is500()) {
 		return;
 	}
+
 	if (document.body.classList.contains('logged-out')) {
 		console.warn('%cRefined GitHub%c only works when you’re logged in to GitHub.', 'font-weight: bold', '');
 		return;
@@ -105,9 +115,14 @@ async function init() {
 		});
 	}
 
+	if (pageDetect.isUserProfile()) {
+		enableFeature(addScopedSearchOnUserProfile);
+	}
+
 	enableFeature(focusConfirmationButtons);
 	enableFeature(addKeyboardShortcutsToCommentFields);
 	enableFeature(addConfirmationToCommentCancellation);
+	enableFeature(monospaceTextareas);
 
 	// TODO: Enable this when we've improved how copying Markdown works
 	// See #522
@@ -119,10 +134,12 @@ async function init() {
 
 function onDomReady() {
 	enableFeature(markUnread);
+	enableFeature(addOpenAllNotificationsButton);
 	enableFeature(enableCopyOnY);
 	enableFeature(addProfileHotkey);
 	enableFeature(makeDiscussionSidebarSticky);
 	enableFeature(closeOutOfViewModals);
+	enableFeature(improveShortcutHelp);
 
 	if (!pageDetect.isGist()) {
 		enableFeature(moveMarketplaceLinkToProfileDropdown);
@@ -142,18 +159,19 @@ function onDomReady() {
 }
 
 function ajaxedPagesHandler() {
-	enableFeature(addOpenAllNotificationsButton);
 	enableFeature(hideEmptyMeta);
 	enableFeature(removeUploadFilesButton);
 	enableFeature(addTitleToEmojis);
-	enableFeature(sortIssuesByUpdateTime);
 	enableFeature(shortenLinks);
 	enableFeature(linkifyCode);
 	enableFeature(addDownloadFolderButton);
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 		enableFeature(addYoursMenuItem);
+		enableFeature(addCommentedMenuItem);
 	}
+
+	enableFeature(sortIssuesByUpdateTime); // Must be after addYoursMenuItem + addCommentedMenuItem
 
 	if (pageDetect.isMilestone()) {
 		enableFeature(addMilestoneNavigation); // Needs to be before sortMilestonesByClosestDueDate
@@ -161,10 +179,15 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isRepo()) {
 		enableFeature(addReadmeButtons);
+		enableFeature(addBranchButtons);
 		enableFeature(addDiffViewWithoutWhitespaceOption);
 		enableFeature(removeDiffSigns);
 		enableFeature(addCILink);
 		enableFeature(sortMilestonesByClosestDueDate); // Needs to be after addMilestoneNavigation
+	}
+
+	if (pageDetect.isRepoRoot()) {
+		enableFeature(addToggleFilesButton);
 	}
 
 	if (pageDetect.isPR()) {
@@ -173,7 +196,8 @@ function ajaxedPagesHandler() {
 		enableFeature(addDeleteForkLink);
 		enableFeature(fixSquashAndMergeTitle);
 		enableFeature(openCIDetailsInNewTab);
-		enableFeature(expandCollapseOutdatedComments);
+		enableFeature(waitForBuild);
+		enableFeature(toggleAllThingsWithAlt);
 	}
 
 	if (pageDetect.isQuickPR()) {
@@ -184,6 +208,7 @@ function ajaxedPagesHandler() {
 		enableFeature(linkifyIssuesInTitles);
 		enableFeature(addUploadBtn);
 		enableFeature(embedGistInline);
+		enableFeature(extendIssueStatusLabel);
 
 		observeEl('.new-discussion-timeline', () => {
 			enableFeature(addOPLabels);
@@ -236,7 +261,6 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isUserProfile()) {
 		enableFeature(addGistsLink);
-		enableFeature(addScopedSearchOnUserProfile);
 	}
 }
 

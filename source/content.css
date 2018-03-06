@@ -2,6 +2,7 @@
 	--github-green: #28a745;
 	--github-red: #cb2431;
 	--github-gray-background: #fafbfc;
+	--github-gray-text: #6a737d;
 }
 
 /* GitHub bug: releases page has unwanted bullet points */
@@ -61,26 +62,19 @@
 }
 
 /* Remove tooltips where unnecessary */
-.tooltipped::before,
-.tooltipped::after {
+[aria-label^='View the whole file']::before,
+[aria-label^='View the whole file']::after,
+[aria-label^='Change this file']::before,
+[aria-label^='Change this file']::after,
+[aria-label='Delete this file']::before,
+[aria-label='Delete this file']::after,
+[aria-label='Edit this file']::before,
+[aria-label='Edit this file']::after,
+[aria-label='Edit comment']::before,
+[aria-label='Edit comment']::after,
+.notification-indicator::before,
+.notification-indicator::after {
 	display: none !important;
-}
-
-[aria-label*='reacted with']::before, /* Reaction avatars across the site */
-[aria-label*='reacted with']::after,
-.tooltipped[disabled]::before, /* Disabled buttons' tooltips might have useful information */
-.tooltipped[disabled]::after,
-.tooltipped.team-mention::before, /* Team mentions show all team members in the tooltip */
-.tooltipped.team-mention::after,
-.AvatarStack-body::before, /* Notification participants avatars */
-.AvatarStack-body::after,
-.js-zeroclipboard::before, /* Copy button feedback */
-.js-zeroclipboard::after,
-.rgh-tooltipped::before, /* New elements by RGH */
-.rgh-tooltipped::after,
-.issue-link::before, /* Issue name on issue links */
-.issue-link::after {
-	display: inline-block !important;
 }
 
 /* Fade out the file icons */
@@ -127,6 +121,12 @@
 }
 .alt-merge-options {
 	display: none !important;
+}
+
+/* Visibly disable merge fields during submission */
+[name='commit_message'][disabled],
+[name='commit_title'][disabled] {
+	color: #808080;
 }
 
 /* Remove top buttons on comment box */
@@ -268,12 +268,13 @@ followed someone
 */
 .rgh-no-useless-events .push,
 .rgh-no-useless-events .fork,
+.rgh-no-useless-events .delete,
 .rgh-no-useless-events .follow {
 	display: none !important;
 }
 
 .news .body > .border-gray-light {
-	border: 0 !important; /* Remove border between dashboard news items */
+	border: none !important; /* Remove border between dashboard news items */
 }
 
 /* Decrease font-size on commit details so our custom patch and diff links fit */
@@ -461,13 +462,17 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 /* Collapse multiple discussion items */
 .discussion-item + .discussion-item {
 	padding-top: 0 !important;
-	border-top: 0 !important;
+	border-top: none !important;
 }
 
 /* Mark as unread */
 .rgh-btn-mark-unread {
 	width: 100%;
 	margin-top: 8px;
+}
+.rgh-unread .mute {
+	padding-right: 7px;
+	padding-left: 3px;
 }
 
 /* Change color of marker if there are only discussion marked as unread */
@@ -478,9 +483,9 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 /* +/- Pseudo elements on diffs */
 .refined-github-diff-signs .blob-code-addition::before,
 .refined-github-diff-signs .blob-code-deletion::before {
-	display: inline-block;
+	margin-top: 1px;
+	margin-left: 4px;
 	position: absolute;
-	top: 1px;
 	color: rgba(0, 0, 0, 0.3);
 	font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
 	font-size: 11px;
@@ -557,6 +562,19 @@ div.previewable-edit .previewable-comment-form .form-actions {
 div.inline-comment-form .form-actions,
 .inline-comment-form .form-actions .js-hide-inline-comment-form {
 	float: none;
+}
+
+/* ...in the merge confirmation form */
+.commit-form-actions .select-menu {
+	display: block !important;
+}
+.commit-form-actions button:not(.js-merge-commit-button) {
+	float: right;
+}
+
+/* Decrease the padding of filter buttons to accommodate `Commented` */
+.subnav-links .subnav-item {
+	padding: 6px 9px;
 }
 
 /* Decrease the size of the search box to fit 'Yours' menu item */
@@ -640,6 +658,14 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	display: none;
 }
 
+/* Colorize `extend-issue-status-label` */
+.gh-header-meta .State {
+	text-decoration: none;
+}
+.gh-header-meta .State a {
+	color: #fff;
+}
+
 /* For `add-ci-link` */
 .rgh-ci-link {
 	position: relative;
@@ -650,6 +676,12 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 :root .repohead h1 .commit-build-statuses .octicon {
 	position: static;
 	color: inherit;
+}
+
+/* Undo conflicting GitHub style caused by `add-branch-buttons` */
+:root .branch-select-menu .BtnGroup {
+	margin-bottom: 0;
+	margin-left: 0;
 }
 
 /* Sticky file headers on pull request diff view */
@@ -667,7 +699,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 }
 
 /* Momentarily offset the line so its #deeplink won’t be covered by the header #974 */
-:target + .highlighted {
+.js-file-line.highlighted {
 	/* stylelint-disable time-min-milliseconds */
 	animation: sticky-file-header-target-fixer 0s 0.1ms backwards;
 }
@@ -707,8 +739,11 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	background: rgba(0, 0, 0, 0.1);
 	animation: fade-in 0.2s;
 }
+summary.HeaderNavlink::before {
+	z-index: 30 !important; /* Bring the header backdrop above the PR bar */
+}
 :root .pagehead ul.pagehead-actions {
-	position: static; /* Demote watch/star/fork */
+	position: static; /* Watch, star, and fork buttons don‘t need a stacking context */
 }
 
 /* Reduce duplicate backdrop in PR diff view */
@@ -745,10 +780,10 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	position: relative;
 }
 [data-url$='recently_touched_branches_list'] {
-	min-width: 400px; /* Always cover the repo watch/star/forks actions */
-	max-height: 35px; /* Only cover the actions */
+	min-width: 430px; /* Always cover the repo watch/star/forks actions */
+	max-height: 42px; /* Only cover the actions when there are multiple branches + :hover */
 	position: absolute;
-	top: -107px;
+	top: -117px;
 	right: 0;
 	z-index: 10;
 	background: var(--github-gray-background);
@@ -765,6 +800,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 .RecentBranches {
 	display: flex;
 	width: max-content;
+	margin-top: 10px; /* Add extra padding to make it look right on forked repos */
 	margin-left: auto;
 	flex-direction: column-reverse;
 }
@@ -782,7 +818,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	float: right;
 }
 :root .RecentBranches-item + .RecentBranches-item {
-	border-top: 0;
+	border-top: none;
 	border-bottom: 1px solid rgba(27, 31, 35, 0.05); /* Copied from GitHub */
 }
 .RecentBranches:not(:hover) .RecentBranches-item:not(:last-child) {
@@ -825,22 +861,29 @@ body > .footer li a {
 	width: 430px;
 }
 
-/* Hide dashboard activity cards, unless hovered */
-.dashboard .flex-items-baseline .border.rounded-1 {
-	max-width: 480px;
-	margin-top: 30px !important;
-	position: absolute;
-	background: #fff;
-	box-shadow: 0 3px 12px rgba(27, 31, 35, 0.15); /* Style by GitHub */
-	transition: opacity 0.2s 0.2s;
-	pointer-events: none;
+/* Reduce dashboard activity cards */
+/* `.flex-items-baseline` excludes label events */
+.dashboard .flex-items-baseline {
+	align-items: flex-start !important;
 }
-.dashboard .flex-items-baseline:not(:hover) .border.rounded-1 {
-	opacity: 0;
-	transition-delay: 0s;
+/* Align between event and repo description */
+.dashboard .py-3 .avatar {
+	margin-top: 7px;
 }
-.dashboard .flex-items-baseline .f3 {
+/* Hide duplicate repo name */
+.dashboard .flex-items-baseline .f3,
+.dashboard .flex-items-baseline .f4 {
 	display: none;
+}
+
+.dashboard .flex-items-baseline .f6.mt-2 {
+	opacity: 0.5;
+}
+.dashboard .flex-items-baseline .border {
+	padding: 0 !important;
+	border: none !important;
+	margin: 0 !important;
+	color: var(--github-gray-text) !important;
 }
 
 /* Make activities narrower */
@@ -862,8 +905,76 @@ body > .footer li a {
 	color: #6a737d;
 }
 
+/* Expand PR merge status list to fit all items instead of just 5 */
+:root .branch-action-item.open > .merge-status-list {
+	max-height: none;
+}
+
 /* Make <details> visibly clickable */
 .markdown-body summary, /* Summary elements are always clickable when present */
 .markdown-body details:not([open]) { /* Summary-less details have unselectable clickable elements */
+	cursor: pointer;
+}
+
+/* For 'add-toggle-files-button' feature */
+.rgh-toggle-files {
+	margin-right: -6px;
+}
+.rgh-files-hidden .commit-tease {
+	border-radius: 3px;
+}
+.rgh-files-hidden .commit-tease .octicon-chevron-down {
+	transform: rotate(0.5turn);
+}
+.rgh-files-hidden .files {
+	display: none;
+}
+.rgh-files-hidden .file-wrap {
+	border: none;
+}
+
+
+.notifications-list .boxed-group-action {
+	margin: 5px 6px;
+}
+
+.notifications-list .boxed-group-action button {
+	padding: 3px 10px;
+	border: none;
+	margin-left: 2px;
+	color: #586069;
+	background: none;
+}
+
+.mark-all-as-read-confirmed .open-repo-notifications {
+	visibility: hidden;
+}
+
+.rgh-monospace-textareas textarea {
+	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
+	font-size: 13px;
+}
+
+/* For 'improve-shortcut-help' feature */
+:root .facebox .shortcuts {
+	width: 908px;
+	cursor: default;
+}
+
+.rgh-inactive-shortcut-group {
+	transition: opacity 0.15s ease;
+}
+
+.rgh-inactive-shortcut-group:not(:hover) {
+	opacity: 0.6;
+}
+
+.rgh-shortcut-circle {
+	display: inline-block;
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	margin-left: 5px;
+	background: #9c95b3;
 	cursor: pointer;
 }

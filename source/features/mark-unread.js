@@ -3,10 +3,10 @@ import select from 'select-dom';
 import delegate from 'delegate';
 import gitHubInjection from 'github-injection';
 import SynchronousStorage from '../libs/synchronous-storage';
+import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
-import {getUsername, enableFeature} from '../libs/utils';
-import addOpenAllNotificationsButton from './open-all-notifications';
+import {getUsername} from '../libs/utils';
 
 let storage;
 const listeners = [];
@@ -135,7 +135,7 @@ function getNotification(notification) {
 	);
 
 	return (
-		<li class={`list-group-item js-notification js-navigation-item unread ${type}-notification`}>
+		<li class={`list-group-item js-notification js-navigation-item unread ${type}-notification rgh-unread`}>
 			<span class="list-group-item-name css-truncate">
 				<span class={`type-icon type-icon-state-${state}`}>
 					{stateIcons[type][state]()}
@@ -150,7 +150,9 @@ function getNotification(notification) {
 						{icons.check()}
 					</button>
 				</li>
-				<li class="mute" style={{width: 26, height: 1}}></li>
+				<li class="mute tooltipped tooltipped-w" aria-label={`${type === 'issue' ? 'Issue' : 'PR'} manually marked as unread`}>
+					{icons.info()}
+				</li>
 				<li class="age">
 					<relative-time datetime={date} title={dateTitle}/>
 				</li>
@@ -293,18 +295,17 @@ function addCustomAllReadBtn() {
 		return;
 	}
 
-	select('#notification-center .tabnav-tabs').append(
-		<div class="float-right">
-			<a href="#mark_as_read_confirm_box" class="btn btn-sm" rel="facebox">Mark all as read</a>
+	select('.tabnav .float-right').append(
+		<a href="#mark_as_read_confirm_box" class="btn btn-sm" rel="facebox">Mark all as read</a>
+	);
+	document.body.append(
+		<div id="mark_as_read_confirm_box" style={{display: 'none'}}>
+			<h2 class="facebox-header" data-facebox-id="facebox-header">Are you sure?</h2>
 
-			<div id="mark_as_read_confirm_box" style={{display: 'none'}}>
-				<h2 class="facebox-header" data-facebox-id="facebox-header">Are you sure?</h2>
+			<p data-facebox-id="facebox-description">Are you sure you want to mark all unread notifications as read?</p>
 
-				<p data-facebox-id="facebox-description">Are you sure you want to mark all unread notifications as read?</p>
-
-				<div class="full-button">
-					<button id="clear-local-notification" class="btn btn-block">Mark all notifications as read</button>
-				</div>
+			<div class="full-button">
+				<button id="clear-local-notification" class="btn btn-block">Mark all notifications as read</button>
 			</div>
 		</div>
 	);
@@ -370,10 +371,11 @@ export default async function () {
 					storage.set([]);
 				})
 			);
-			enableFeature(addOpenAllNotificationsButton);
 		} else if (pageDetect.isPR() || pageDetect.isIssue()) {
 			markRead(location.href);
-			addMarkUnreadButton();
+
+			// The sidebar changes when new comments are added or the issue status changes
+			observeEl('.discussion-sidebar', addMarkUnreadButton);
 		}
 
 		updateUnreadIndicator();
