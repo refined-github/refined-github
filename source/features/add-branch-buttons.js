@@ -28,7 +28,8 @@ function addTagLink(branchSelector) {
 		link.setAttribute('aria-label', 'You’re on the latest release');
 	} else {
 		link.href = select(`[data-name="${latestRelease}"]`).href;
-		link.setAttribute('aria-label', `Visit the latest release (${latestRelease})`);
+		link.setAttribute('aria-label', 'Visit the latest release');
+		link.append(' ', <span class="css-truncate-target">{latestRelease}</span>);
 	}
 
 	branchSelector.after(link);
