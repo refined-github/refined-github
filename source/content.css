@@ -954,3 +954,27 @@ body > .footer li a {
 	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
 	font-size: 13px;
 }
+
+/* For 'improve-shortcut-help' feature */
+:root .facebox .shortcuts {
+	width: 908px;
+	cursor: default;
+}
+
+.rgh-inactive-shortcut-group {
+	transition: opacity 0.15s ease;
+}
+
+.rgh-inactive-shortcut-group:not(:hover) {
+	opacity: 0.6;
+}
+
+.rgh-shortcut-circle {
+	display: inline-block;
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	margin-left: 5px;
+	background: #9c95b3;
+	cursor: pointer;
+}
