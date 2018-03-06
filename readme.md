@@ -94,7 +94,7 @@ GitHub Enterprise is also supported. More info in the options.
 - Toggle all [outdated PR comments](https://user-images.githubusercontent.com/25818354/33240033-3e271588-d2af-11e7-93af-13b6e325f65d.gif) or [PR/Commit files](https://user-images.githubusercontent.com/1402241/35192652-6f79dc42-fec9-11e7-89ad-2b4a9c5f4f52.gif) with <kbd>alt</kbd> <kbd>click</kbd>
 - Copy canonical link to file when [the <kbd>y</kbd> hotkey](https://help.github.com/articles/getting-permanent-links-to-files/) is used
 - Supports indenting with the tab key in textareas like the comment box (<kbd>shift</kbd> <kbd>tab</kbd> for original behavior)
-- [Uses the pull request title as commit title when merging with 'Squash and merge'](https://github.com/sindresorhus/refined-github/issues/276)
+- [Uses the pull request title as commit title when merging with `Squash and merge`](https://github.com/sindresorhus/refined-github/issues/276)
 - [Automatically embeds linked gists in comments](https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.PNG)
 - [Adds scoped search on each users profile page](https://user-images.githubusercontent.com/1402241/35185441-24ad4b1e-fe37-11e7-9e1b-0dc09fc1ada2.png)
 
@@ -111,9 +111,9 @@ GitHub Enterprise is also supported. More info in the options.
 - [Adds links to patch and diff for each commit](https://cloud.githubusercontent.com/assets/737065/13605562/22faa79e-e516-11e5-80db-2da6aa7965ac.png)
 - [Adds links to view the repo at the time of each comment](https://user-images.githubusercontent.com/1402241/32310022-7fef6174-bf5d-11e7-960f-5041a8f073ac.png)
 - [Adds a link in a user's profile to their public gists](https://user-images.githubusercontent.com/11544418/34268306-1c974fd2-e678-11e7-9e82-861dfe7add22.png)
-- [Adds a 'Jump to bottom' link to discussion pages](https://user-images.githubusercontent.com/4331946/34298950-93876584-e720-11e7-898a-96f85e31aefe.png)
-- [Adds a 'Your repositories' link to user profile dropdown](https://user-images.githubusercontent.com/4201088/34920280-479e2454-f996-11e7-8e24-ad69793b9d9b.png)
-- [Adds a 'Download folder' button to repos](https://user-images.githubusercontent.com/1402241/35044451-fd3e2326-fbc2-11e7-82e1-61ec7bee612b.png)
+- [Adds a `Jump to bottom` link to discussion pages](https://user-images.githubusercontent.com/4331946/34298950-93876584-e720-11e7-898a-96f85e31aefe.png)
+- [Adds a `Your repositories` link to user profile dropdown](https://user-images.githubusercontent.com/4201088/34920280-479e2454-f996-11e7-8e24-ad69793b9d9b.png)
+- [Adds a `Download folder` button to repos](https://user-images.githubusercontent.com/1402241/35044451-fd3e2326-fbc2-11e7-82e1-61ec7bee612b.png)
 - [Adds a `Toggle files` button to repos](https://user-images.githubusercontent.com/1402241/35480123-68b9af1a-043a-11e8-8934-3ead3cff8328.gif)
 - [Adds links to the default branch and to the latest semver release](https://user-images.githubusercontent.com/1402241/36961980-389bd2b0-2080-11e8-8bff-bb8af52e7128.png)
 
@@ -137,7 +137,7 @@ GitHub Enterprise is also supported. More info in the options.
 - Removes annoying hover effect in the repo file browser
 - Hides unnecessary buttons from the comment box toolbar (each has a keyboard shortcut)
 - Removes obvious tooltips
-- Removes the "Projects" repo tab when there are no projects (New projects can be created via the ["Create new…" menu](https://user-images.githubusercontent.com/1402241/34909214-18b6fb2e-f8cf-11e7-8556-bed748596d3b.png))
+- Removes the `Projects` repo tab when there are no projects (New projects can be created via the [`Create new…` menu](https://user-images.githubusercontent.com/1402241/34909214-18b6fb2e-f8cf-11e7-8556-bed748596d3b.png))
 
 ### UI improvements
 
@@ -148,19 +148,19 @@ GitHub Enterprise is also supported. More info in the options.
 - Easier copy-pasting from diffs by making +/- signs unselectable
 - Automagically expands the news feed when you scroll down
 - Shows the reactions popover on hover instead of click
-- Changes the default sort order of milestones to "Closest due date"
-- Changes the default sort order of issues/PRs to "Recently updated"
-- [Makes the "Expand diff" button wider](https://user-images.githubusercontent.com/6978877/34470024-eee4f43e-ef20-11e7-9036-65094bd58960.PNG)
+- Changes the default sort order of milestones to `Closest due date`
+- Changes the default sort order of issues/PRs to `Recently updated`
+- [Makes the `Expand diff` button wider](https://user-images.githubusercontent.com/6978877/34470024-eee4f43e-ef20-11e7-9036-65094bd58960.PNG)
 - [Automatically closes modals when they’re no longer visible](https://user-images.githubusercontent.com/1402241/37022353-531c676e-2155-11e8-96cc-80d934bb22e0.gif)
 
 And [lots](source/content.css) [more...](source/content.js)
 
 ### More shortcuts
 
-- [Adds a 'Releases' tab to repos](https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png) *(<kbd>g</kbd> <kbd>r</kbd> hotkey)*
-- [Adds a 'Compare' tab to repos](https://user-images.githubusercontent.com/170270/27501134-cf0a2a18-586b-11e7-8430-22f33030e923.png)
+- [Adds a `Releases` tab to repos](https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png) *(<kbd>g</kbd> <kbd>r</kbd> hotkey)*
+- [Adds a `Compare` tab to repos](https://user-images.githubusercontent.com/170270/27501134-cf0a2a18-586b-11e7-8430-22f33030e923.png)
 - [Adds navigation to milestone pages](https://cloud.githubusercontent.com/assets/170270/25217211/37b67aea-25d0-11e7-8482-bead2b04ee74.png)
-- [Adds search filter for 'Everything commented by you'](https://user-images.githubusercontent.com/170270/27501170-f394a304-586b-11e7-92d8-d92d6922356b.png)
+- [Adds search filter for `Everything commented by you`](https://user-images.githubusercontent.com/170270/27501170-f394a304-586b-11e7-92d8-d92d6922356b.png)
 - [Adds `Yours` and `Commented` buttons to Issues/Pull Requests page](https://user-images.githubusercontent.com/8295888/36827126-8bfc79c4-1d37-11e8-8754-992968b082be.png)
 - [Condenses long URLs into references like _user/repo/.file@`d71718d`_](https://user-images.githubusercontent.com/1402241/27252232-8fdf8ed0-538b-11e7-8f19-12d317c9cd32.png)
 - Adds a `Trending` link to the global navbar. *(<kbd>g</kbd> <kbd>t</kbd> hotkey)*
