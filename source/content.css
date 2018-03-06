@@ -274,7 +274,7 @@ followed someone
 }
 
 .news .body > .border-gray-light {
-	border: 0 !important; /* Remove border between dashboard news items */
+	border: none !important; /* Remove border between dashboard news items */
 }
 
 /* Decrease font-size on commit details so our custom patch and diff links fit */
@@ -462,7 +462,7 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 /* Collapse multiple discussion items */
 .discussion-item + .discussion-item {
 	padding-top: 0 !important;
-	border-top: 0 !important;
+	border-top: none !important;
 }
 
 /* Mark as unread */
@@ -818,7 +818,7 @@ summary.HeaderNavlink::before {
 	float: right;
 }
 :root .RecentBranches-item + .RecentBranches-item {
-	border-top: 0;
+	border-top: none;
 	border-bottom: 1px solid rgba(27, 31, 35, 0.05); /* Copied from GitHub */
 }
 .RecentBranches:not(:hover) .RecentBranches-item:not(:last-child) {
@@ -881,7 +881,7 @@ body > .footer li a {
 }
 .dashboard .flex-items-baseline .border {
 	padding: 0 !important;
-	border: 0 !important;
+	border: none !important;
 	margin: 0 !important;
 	color: var(--github-gray-text) !important;
 }
@@ -930,7 +930,7 @@ body > .footer li a {
 	display: none;
 }
 .rgh-files-hidden .file-wrap {
-	border: 0;
+	border: none;
 }
 
 
@@ -940,7 +940,7 @@ body > .footer li a {
 
 .notifications-list .boxed-group-action button {
 	padding: 3px 10px;
-	border: 0;
+	border: none;
 	margin-left: 2px;
 	color: #586069;
 	background: none;
