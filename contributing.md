@@ -11,6 +11,7 @@ Suggestions and pull requests are highly encouraged! Have a look at the [open is
 - Each JavaScript feature lives in its own file under [`source/features`](https://github.com/sindresorhus/refined-github/tree/master/source/features) and it's loaded on condition in [`source/content.js`](https://github.com/sindresorhus/refined-github/blob/master/source/content.js)
 - Some GitHub pages are loaded via AJAX/PJAX, so some features need to be in the special `ajaxedPagesHandler` function (see it as a custom "on DOM ready")
 - See what a _feature_ [looks like](https://github.com/sindresorhus/refined-github/blob/master/source/features/add-time-machine-links-to-comments.js) and [how it's loaded](https://github.com/sindresorhus/refined-github/blob/d7768508c3919558daa6b2ccc5a15aa73d081551/source/content.js#L176) (in this case it uses `observeEl` to automatically be run when new comments are loaded via AJAX)
+- If you're making changes to the README, try to match the style of the content that's already there and when in doubt, take a look at [our little style guide](https://github.com/sindresorhus/refined-github/issues/1139)
 
 ## Workflow
 
