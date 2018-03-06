@@ -1,6 +1,7 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import * as icons from '../libs/icons';
+import {registerShortcut} from './improve-shortcut-help';
 
 export default function () {
 	const container = select([
@@ -33,6 +34,7 @@ export default function () {
 			</a>
 		</div>
 	);
+	registerShortcut('source', 'd w', 'Show/hide whitespaces in diffs');
 
 	// Make space for the new button by removing "Changes from" #655
 	const uselessCopy = select('[data-hotkey="c"]');

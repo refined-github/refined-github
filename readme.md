@@ -14,6 +14,7 @@ GitHub Enterprise is also supported. More info in the options.
 
 ---
 
+- [Latest changes](https://github.com/sindresorhus/refined-github/issues/1137) *(Updated regularly. Subscribe!)*
 - [Product Hunt submission](https://www.producthunt.com/posts/refined-github) *(2017-07-08)*
 - [What's new lately](https://blog.sindresorhus.com/whats-new-in-refined-github-836d05582df7) *(2017-06-23)*
 - [Original announcement](https://blog.sindresorhus.com/refined-github-21185789685d) *(2016-03-31)*
@@ -120,12 +121,13 @@ GitHub Enterprise is also supported. More info in the options.
 
 - [Makes file headers sticky underneath the pull request header](https://user-images.githubusercontent.com/81981/28682784-78bac340-72fe-11e7-9386-bdbab7703693.gif)
 - [Shows user's full name in comments](https://cloud.githubusercontent.com/assets/170270/16172068/0a67b98c-3580-11e6-92f0-6fc930ee17d1.png)
-- [Differentiates merge commits from regular commits](https://cloud.githubusercontent.com/assets/170270/14101222/2fe2c24a-f5bd-11e5-8b1f-4e589917d4c4.png)
+- [Differentiates merge commits from regular commits](https://user-images.githubusercontent.com/1402241/36772362-8ddf8138-1c87-11e8-9f34-1f6b76e5499f.png)
 - [Adds labels to comments by the original poster](https://cloud.githubusercontent.com/assets/4331946/25075520/d62fbbd0-2316-11e7-921f-ab736dc3522e.png)
 - [Adds build status and link to CI by the repo's title](https://user-images.githubusercontent.com/1402241/32562120-d65166e4-c4e8-11e7-90fb-cbaf36e2709f.png)
 - [Color-codes and counts reviews in PRs list](https://user-images.githubusercontent.com/1402241/33474535-a814ee78-d6ad-11e7-8f08-a8b72799e376.png)
 - [Show issue resolution in header (was it closed by a PR?)](https://user-images.githubusercontent.com/1402241/35973522-5c00acb6-0d08-11e8-89ca-03071de15c6f.png)
 - [Highlight closing PRs in open issues and PRs](https://user-images.githubusercontent.com/1402241/37037746-8b8eac8a-2185-11e8-94f6-4d50a9c8a152.png)
+- [Shows all keyboard shortcuts in the help modal](https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png)  *(<kbd>?</kbd> hotkey)*
 
 ### Declutter
 
@@ -149,6 +151,7 @@ GitHub Enterprise is also supported. More info in the options.
 - Changes the default sort order of milestones to "Closest due date"
 - Changes the default sort order of issues/PRs to "Recently updated"
 - [Makes the "Expand diff" button wider](https://user-images.githubusercontent.com/6978877/34470024-eee4f43e-ef20-11e7-9036-65094bd58960.PNG)
+- [Automatically closes modals when they’re no longer visible](https://user-images.githubusercontent.com/1402241/37022353-531c676e-2155-11e8-96cc-80d934bb22e0.gif)
 
 And [lots](source/content.css) [more...](source/content.js)
 

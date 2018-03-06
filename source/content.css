@@ -274,7 +274,7 @@ followed someone
 }
 
 .news .body > .border-gray-light {
-	border: 0 !important; /* Remove border between dashboard news items */
+	border: none !important; /* Remove border between dashboard news items */
 }
 
 /* Decrease font-size on commit details so our custom patch and diff links fit */
@@ -297,25 +297,13 @@ followed someone
 }
 
 /* Fade out merge commits from commit list */
-.refined-github-merge-commit .commit-title {
-	margin-top: 4px !important;
-	font-size: 12px !important;
-}
-
-.refined-github-merge-commit .commit-author-section {
-	font-size: 11.4px !important;
+.refined-github-merge-commit .table-list-cell:first-child {
+	opacity: 0.7;
 }
 
 .refined-github-merge-commit .octicon-git-pull-request {
-	width: 27px;
-	height: 36px;
-	margin-left: 9px;
 	color: #4078c0;
-}
-
-.refined-github-merge-commit .avatar-child {
-	width: 16px !important;
-	height: 16px !important;
+	width: 20px;
 }
 
 /* Move new button to the right on single commit page */
@@ -462,7 +450,7 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 /* Collapse multiple discussion items */
 .discussion-item + .discussion-item {
 	padding-top: 0 !important;
-	border-top: 0 !important;
+	border-top: none !important;
 }
 
 /* Mark as unread */
@@ -823,7 +811,7 @@ summary.HeaderNavlink::before {
 	float: right;
 }
 :root .RecentBranches-item + .RecentBranches-item {
-	border-top: 0;
+	border-top: none;
 	border-bottom: 1px solid rgba(27, 31, 35, 0.05); /* Copied from GitHub */
 }
 .RecentBranches:not(:hover) .RecentBranches-item:not(:last-child) {
@@ -886,7 +874,7 @@ body > .footer li a {
 }
 .dashboard .flex-items-baseline .border {
 	padding: 0 !important;
-	border: 0 !important;
+	border: none !important;
 	margin: 0 !important;
 	color: var(--github-gray-text) !important;
 }
@@ -935,7 +923,7 @@ body > .footer li a {
 	display: none;
 }
 .rgh-files-hidden .file-wrap {
-	border: 0;
+	border: none;
 }
 
 
@@ -945,7 +933,7 @@ body > .footer li a {
 
 .notifications-list .boxed-group-action button {
 	padding: 3px 10px;
-	border: 0;
+	border: none;
 	margin-left: 2px;
 	color: #586069;
 	background: none;
@@ -958,4 +946,28 @@ body > .footer li a {
 .rgh-monospace-textareas textarea {
 	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
 	font-size: 13px;
+}
+
+/* For 'improve-shortcut-help' feature */
+:root .facebox .shortcuts {
+	width: 908px;
+	cursor: default;
+}
+
+.rgh-inactive-shortcut-group {
+	transition: opacity 0.15s ease;
+}
+
+.rgh-inactive-shortcut-group:not(:hover) {
+	opacity: 0.6;
+}
+
+.rgh-shortcut-circle {
+	display: inline-block;
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	margin-left: 5px;
+	background: #9c95b3;
+	cursor: pointer;
 }

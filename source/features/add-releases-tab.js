@@ -2,6 +2,7 @@ import select from 'select-dom';
 import {h} from 'dom-chef';
 import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
+import {registerShortcut} from './improve-shortcut-help';
 
 const repoUrl = pageDetect.getRepoURL();
 const repoKey = `${repoUrl}-releases-count`;
@@ -36,6 +37,7 @@ export default async () => {
 			<span> Releases </span>
 		</a>
 	);
+	registerShortcut('repos', 'g r', 'Go to Releases');
 
 	select('.reponav-dropdown').before(releasesTab);
 
