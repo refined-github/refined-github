@@ -34,7 +34,7 @@ export const editTextNodes = (fn, el) => {
 				// Enable native issue title fetch
 				for (const link of linkified.children) {
 					const issue = link.href.split('/').pop();
-					link.setAttribute('class', `issue-link js-issue-link tooltipped tooltipped-ne ${linkifiedURLClass}`);
+					link.setAttribute('class', 'issue-link js-issue-link tooltipped tooltipped-ne');
 					link.setAttribute('data-error-text', 'Failed to load issue title');
 					link.setAttribute('data-permission-text', 'Issue title is private');
 					link.setAttribute('data-url', link.href);
