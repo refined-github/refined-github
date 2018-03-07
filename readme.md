@@ -56,7 +56,7 @@ GitHub Enterprise is also supported. More info in the options.
 			Adds reaction avatars
 		</th>
 		<th width="50%">
-			Moves destructive buttons in commenting forms away from the primary button
+			Waits for the PR checks before merging a PR
 		</th>
 	</tr>
 	<tr><!-- Prevent zebra stripes --></tr>
@@ -65,24 +65,28 @@ GitHub Enterprise is also supported. More info in the options.
 			<img src="https://user-images.githubusercontent.com/1402241/34438653-f66535a4-ecda-11e7-9406-2e1258050cfa.png">
 		</td>
 		<td>
-			<img src="https://user-images.githubusercontent.com/170270/27985285-a5464fb2-63e8-11e7-8c01-f33bb7ad78ba.png">
+			<img src="https://user-images.githubusercontent.com/1402241/35192861-3f4a1bf6-fecc-11e7-8b9f-35ee019c6cdf.gif">
 		</td>
 	</tr>
 </table>
 
 <table>
 	<tr>
-		<th colspan="2">
+		<th width="50%">
 			Linkifies issue/PR references in code, comments and titles
+		</th>
+		<th width="50%">
+			Shows links to closing PR in issues and PR
 		</th>
 	</tr>
 	<tr><!-- Prevent zebra stripes --></tr>
 	<tr>
-		<td width="500px"><!-- 50% will collapse the table around <th> -->
+		<td>
 			<img src="https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png">
 		</td>
-		<td width="500px">
-			<img src="https://cloud.githubusercontent.com/assets/170270/13597190/bd487ec4-e549-11e5-9521-419fa284512c.png">
+		<td>
+			<img src="https://user-images.githubusercontent.com/1402241/35973522-5c00acb6-0d08-11e8-89ca-03071de15c6f.png">
+			<img src="https://user-images.githubusercontent.com/1402241/37037746-8b8eac8a-2185-11e8-94f6-4d50a9c8a152.png">
 		</td>
 	</tr>
 </table>
@@ -90,7 +94,6 @@ GitHub Enterprise is also supported. More info in the options.
 
 ### Added features
 
-- [Makes it possible to automatically merge a PR after its build has passed](https://user-images.githubusercontent.com/1402241/35192861-3f4a1bf6-fecc-11e7-8b9f-35ee019c6cdf.gif)
 - Allows you to toggle all [outdated PR comments](https://user-images.githubusercontent.com/25818354/33240033-3e271588-d2af-11e7-93af-13b6e325f65d.gif) or [PR/Commit files](https://user-images.githubusercontent.com/1402241/35192652-6f79dc42-fec9-11e7-89ad-2b4a9c5f4f52.gif) with <kbd>alt</kbd> <kbd>click</kbd>
 - Copies canonical link to file when [the <kbd>y</kbd> hotkey](https://help.github.com/articles/getting-permanent-links-to-files/) is used
 - Supports indenting with the tab key in textareas like the comment box (<kbd>shift</kbd> <kbd>tab</kbd> for original behavior)
@@ -125,8 +128,6 @@ GitHub Enterprise is also supported. More info in the options.
 - [Adds labels to comments by the original poster](https://cloud.githubusercontent.com/assets/4331946/25075520/d62fbbd0-2316-11e7-921f-ab736dc3522e.png)
 - [Adds build status and link to CI by the repo's title](https://user-images.githubusercontent.com/1402241/32562120-d65166e4-c4e8-11e7-90fb-cbaf36e2709f.png)
 - [Color-codes and counts reviews in PRs list](https://user-images.githubusercontent.com/1402241/33474535-a814ee78-d6ad-11e7-8f08-a8b72799e376.png)
-- [Show issue resolution in header (was it closed by a PR?)](https://user-images.githubusercontent.com/1402241/35973522-5c00acb6-0d08-11e8-89ca-03071de15c6f.png)
-- [Highlight closing PRs in open issues and PRs](https://user-images.githubusercontent.com/1402241/37037746-8b8eac8a-2185-11e8-94f6-4d50a9c8a152.png)
 - [Shows all keyboard shortcuts in the help modal](https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png)  *(<kbd>?</kbd> hotkey)*
 
 ### Declutter
@@ -141,6 +142,7 @@ GitHub Enterprise is also supported. More info in the options.
 
 ### UI improvements
 
+- [Moves destructive buttons in commenting forms away from the primary button](https://user-images.githubusercontent.com/170270/27985285-a5464fb2-63e8-11e7-8c01-f33bb7ad78ba.png)
 - [Improves readability of tab indented code](https://cloud.githubusercontent.com/assets/170270/14170088/d3be931e-f755-11e5-8edf-c5f864336382.png)
 - [Aligns labels to the left in Issues and PRs lists](https://user-images.githubusercontent.com/1402241/28006237-070b8214-6581-11e7-94bc-2b01a007d00b.png)
 - [Lets you approve or reject reviews faster](https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png)

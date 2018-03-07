@@ -50,7 +50,8 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 		return;
 	}
 	browser.tabs.create({
-		url: 'https://github.com/sindresorhus/refined-github/issues/1137'
+		url: 'https://github.com/sindresorhus/refined-github/issues/1137',
+		active: false
 	});
 	browser.storage.local.set('userWasNotified', true);
 });
