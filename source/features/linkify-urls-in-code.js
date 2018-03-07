@@ -16,7 +16,10 @@ const options = {
 	user: ownerName,
 	repo: repoName,
 	type: 'dom',
-	baseUrl: ''
+	baseUrl: '',
+	attributes: {
+		class: linkifiedURLClass // Necessary to avoid also shortening the links
+	}
 };
 
 export const editTextNodes = (fn, el) => {
