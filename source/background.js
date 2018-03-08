@@ -37,9 +37,10 @@ browser.runtime.onMessage.addListener(async message => {
 });
 
 browser.runtime.onInstalled.addListener(async ({reason}) => {
-	if (reason !== 'install') {
-		// TODO: uncomment this when all old users received this notification
-		// return;
+	// Old Firefox users were already notified multiple times.
+	// TODO: Drop protocol check once all old Chrome users are notified as well
+	if (reason !== 'install' && location.protocol === 'moz-extension:') {
+		return;
 	}
 	const {userWasNotified} = await browser.storage.local.get('userWasNotified');
 	if (userWasNotified) {
