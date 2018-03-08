@@ -53,7 +53,7 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 		url: 'https://github.com/sindresorhus/refined-github/issues/1137',
 		active: false
 	});
-	browser.storage.local.set('userWasNotified', true);
+	browser.storage.local.set({userWasNotified: true});
 });
 
 // GitHub Enterprise support
