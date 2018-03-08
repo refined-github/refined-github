@@ -197,10 +197,16 @@ function ajaxedPagesHandler() {
 		enableFeature(linkifyBranchRefs.inPR, 'linkify-branch-refs');
 		enableFeature(addDeleteForkLink);
 		enableFeature(fixSquashAndMergeTitle);
-		enableFeature(hideInactiveDeployments);
 		enableFeature(openCIDetailsInNewTab);
 		enableFeature(waitForBuild);
 		enableFeature(toggleAllThingsWithAlt);
+
+		observeEl('.js-discussion', () => {
+			enableFeature(hideInactiveDeployments);
+		}, {
+			attributes: true,
+			subtree: true
+		});
 	}
 
 	if (pageDetect.isQuickPR()) {
