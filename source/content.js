@@ -204,7 +204,7 @@ function ajaxedPagesHandler() {
 		observeEl('.js-discussion', () => {
 			enableFeature(hideInactiveDeployments);
 		}, {
-			attributes: true,
+			childList: true,
 			subtree: true
 		});
 	}
