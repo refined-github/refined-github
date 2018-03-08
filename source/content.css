@@ -971,3 +971,13 @@ body > .footer li a {
 	background: #9c95b3;
 	cursor: pointer;
 }
+
+blockquote {
+	max-height: 30.5em;
+	overflow-y: auto;
+}
+
+pre {
+	max-height: 30.5em;
+	overflow-y: auto;
+}
