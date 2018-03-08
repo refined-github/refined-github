@@ -36,10 +36,10 @@ browser.runtime.onMessage.addListener(async message => {
 	}
 });
 
-browser.runtime.onInstalled.addListener(async ({reason}) => {
-	// Old Firefox users were already notified multiple times.
-	// TODO: Drop protocol check once all old Chrome users are notified as well
-	if (reason !== 'install' && location.protocol === 'moz-extension:') {
+browser.runtime.onInstalled.addListener(async ({reason, previousVersion}) => {
+	// Only notify once on install or on the first update that has this notification
+	// TODO: drop version check entirely at some point; only show on install
+	if (reason !== 'install' && parseFloat(previousVersion) > 18.3) {
 		return;
 	}
 	const {userWasNotified} = await browser.storage.local.get('userWasNotified');
