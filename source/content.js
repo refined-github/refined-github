@@ -24,6 +24,7 @@ import scrollToTopOnCollapse from './features/scroll-to-top-on-collapse';
 import removeDiffSigns from './features/remove-diff-signs';
 import * as linkifyBranchRefs from './features/linkify-branch-refs';
 import hideEmptyMeta from './features/hide-empty-meta';
+import hideInactiveDeployments from './features/hide-inactive-deployments';
 import hideOwnStars from './features/hide-own-stars';
 import moveMarketplaceLinkToProfileDropdown from './features/move-marketplace-link-to-profile-dropdown';
 import addYourRepoLinkToProfileDropdown from './features/add-your-repositories-link-to-profile-dropdown';
@@ -196,6 +197,7 @@ function ajaxedPagesHandler() {
 		enableFeature(linkifyBranchRefs.inPR, 'linkify-branch-refs');
 		enableFeature(addDeleteForkLink);
 		enableFeature(fixSquashAndMergeTitle);
+		enableFeature(hideInactiveDeployments);
 		enableFeature(openCIDetailsInNewTab);
 		enableFeature(waitForBuild);
 		enableFeature(toggleAllThingsWithAlt);
