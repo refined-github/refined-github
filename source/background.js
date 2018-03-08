@@ -36,10 +36,11 @@ browser.runtime.onMessage.addListener(async message => {
 	}
 });
 
-browser.runtime.onInstalled.addListener(async ({reason}) => {
-	if (reason !== 'install') {
-		// TODO: uncomment this when all old users received this notification
-		// return;
+browser.runtime.onInstalled.addListener(async ({reason, previousVersion}) => {
+	// Only notify once on install or on the first update that has this notification
+	// TODO: drop version check entirely at some point; only show on install
+	if (reason !== 'install' && parseFloat(previousVersion) > 18.3) {
+		return;
 	}
 	const {userWasNotified} = await browser.storage.local.get('userWasNotified');
 	if (userWasNotified) {
@@ -53,7 +54,7 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 		url: 'https://github.com/sindresorhus/refined-github/issues/1137',
 		active: false
 	});
-	browser.storage.local.set('userWasNotified', true);
+	browser.storage.local.set({userWasNotified: true});
 });
 
 // GitHub Enterprise support
