@@ -201,7 +201,6 @@ See the [contribution guide](contributing.md) and join the [contributors](https:
 - [Notifier for GitHub](https://github.com/sindresorhus/notifier-for-github-chrome) - Shows your notification unread count
 - [Do Not Merge WIP for GitHub](https://github.com/sanemat/do-not-merge-wip-for-github) - Prevents merging of incomplete PRs
 - [Contributors on GitHub](https://github.com/hzoo/contributors-on-github) - Shows stats about contributors
-- [GifHub](https://github.com/DrewML/GifHub) - Quickly insert GIFs in comments
 - [Hide Files on GitHub](https://github.com/sindresorhus/hide-files-on-github) - Hides dotfiles from the file browser
 - [Twitter for GitHub](https://github.com/bevacqua/twitter-for-github) - Shows a user's Twitter handle on their profile page
 - [OctoEdit](https://github.com/DrewML/OctoEdit) - Markdown syntax highlighting in comments
