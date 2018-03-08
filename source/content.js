@@ -202,10 +202,12 @@ function ajaxedPagesHandler() {
 		enableFeature(toggleAllThingsWithAlt);
 
 		observeEl('.js-discussion', () => {
+			console.log('observe');
 			enableFeature(hideInactiveDeployments);
 		}, {
-			childList: true,
-			subtree: true
+			attributes: true,
+			subtree: true,
+			attributeFilter: ['class']
 		});
 	}
 

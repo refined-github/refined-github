@@ -10,9 +10,9 @@ export default function () {
 		const isLastDeployment = (index === deployments.length - 1);
 
 		if (isInactive && !isLastDeployment) {
-			discussionItem.classList.add('rgh-inactive-deployment');
+			discussionItem.setAttribute('rgh-inactive-deployment', 'true');
 		} else {
-			discussionItem.classList.remove('rgh-inactive-deployment');
+			discussionItem.removeAttribute('rgh-inactive-deployment');
 		}
 	});
 }
