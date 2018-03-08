@@ -11,8 +11,7 @@ export default function () {
 
 		if (isInactive && !isLastDeployment) {
 			discussionItem.classList.add('rgh-inactive-deployment');
-		}
-		else {
+		} else {
 			discussionItem.classList.remove('rgh-inactive-deployment');
 		}
 	});
