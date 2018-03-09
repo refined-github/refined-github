@@ -2,15 +2,13 @@ import select from 'select-dom';
 
 export default function () {
 	const deployments = select.all('.discussion-item .deployment-meta');
+	deployments.pop(); // don't hide the last deployment, even if it is inactive
 
-	deployments.forEach((deployment, index) => {
-		const discussionItem = deployment.closest(`.discussion-item`);
-
-		const isInactive = select.exists(`.is-inactive`, deployment);
-		const isLastDeployment = (index === deployments.length - 1);
-
-		if (isInactive && !isLastDeployment) {
+	for (const deployment of deployments) {
+		const isInactiveDeployment = select.exists('.is-inactive', deployment);
+		if (isInactiveDeployment) {
+			const discussionItem = deployment.closest('.discussion-item');
 			discussionItem.setAttribute('data-rgh-inactive-deployment', 'true');
 		}
-	});
+	}
 }
