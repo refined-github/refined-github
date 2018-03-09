@@ -860,12 +860,13 @@ body > .footer li a {
 	align-items: flex-start !important;
 }
 /* Align between event and repo description */
-.dashboard .py-3 .avatar {
+.dashboard .py3 .avatar {
 	margin-top: 7px;
 }
 /* Hide duplicate repo name */
 .dashboard .flex-items-baseline .f3,
-.dashboard .flex-items-baseline .f4 {
+.dashboard .flex-items-baseline .f4,
+.dashboard .flex-items-baseline .text-bold.text-gray-dark {
 	display: none;
 }
 
