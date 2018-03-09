@@ -860,12 +860,11 @@ body > .footer li a {
 	align-items: flex-start !important;
 }
 /* Align between event and repo description */
-.dashboard .py-3 .avatar {
+.dashboard .flex-items-baseline .avatar {
 	margin-top: 7px;
 }
 /* Hide duplicate repo name */
-.dashboard .flex-items-baseline .f3,
-.dashboard .flex-items-baseline .f4 {
+.dashboard .flex-items-baseline .text-bold.text-gray-dark {
 	display: none;
 }
 
@@ -877,6 +876,10 @@ body > .footer li a {
 	border: none !important;
 	margin: 0 !important;
 	color: var(--github-gray-text) !important;
+}
+
+.dashboard p {
+	margin: 0 0 4px !important;
 }
 
 /* Make activities narrower */
