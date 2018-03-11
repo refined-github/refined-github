@@ -273,8 +273,43 @@ followed someone
 	display: none !important;
 }
 
-.news .body > .border-gray-light {
+.rgh-no-useless-events .body > .border-gray-light {
 	border: none !important; /* Remove border between dashboard news items */
+}
+
+/* Reduce dashboard activity cards */
+/* `.flex-items-baseline` excludes label events */
+.rgh-no-useless-events .flex-items-baseline {
+	align-items: flex-start !important;
+}
+/* Align between event and repo description */
+.rgh-no-useless-events .py3 .avatar {
+	margin-top: 7px;
+}
+/* Hide duplicate repo name */
+.rgh-no-useless-events .flex-items-baseline .f3,
+.rgh-no-useless-events .flex-items-baseline .f4,
+.rgh-no-useless-events .flex-items-baseline .text-bold.text-gray-dark {
+	display: none;
+}
+
+.rgh-no-useless-events .flex-items-baseline .f6.mt-2 {
+	opacity: 0.5;
+}
+.rgh-no-useless-events .flex-items-baseline .border {
+	padding: 0 !important;
+	border: none !important;
+	margin: 0 !important;
+	color: var(--github-gray-text) !important;
+}
+
+.rgh-no-useless-events p {
+	margin: 0 0 4px !important;
+}
+
+/* Make activities narrower */
+.rgh-no-useless-events .d-flex.border-bottom.border-gray-light {
+	padding: 8px 0 !important;
 }
 
 /* Decrease font-size on commit details so our custom patch and diff links fit */
@@ -852,36 +887,6 @@ body > .footer li a {
 /* Widen review popup to fit 4 buttons */
 :root .pull-request-review-menu {
 	width: 430px;
-}
-
-/* Reduce dashboard activity cards */
-/* `.flex-items-baseline` excludes label events */
-.dashboard .flex-items-baseline {
-	align-items: flex-start !important;
-}
-/* Align between event and repo description */
-.dashboard .py-3 .avatar {
-	margin-top: 7px;
-}
-/* Hide duplicate repo name */
-.dashboard .flex-items-baseline .f3,
-.dashboard .flex-items-baseline .f4 {
-	display: none;
-}
-
-.dashboard .flex-items-baseline .f6.mt-2 {
-	opacity: 0.5;
-}
-.dashboard .flex-items-baseline .border {
-	padding: 0 !important;
-	border: none !important;
-	margin: 0 !important;
-	color: var(--github-gray-text) !important;
-}
-
-/* Make activities narrower */
-.dashboard .d-flex.border-bottom.border-gray-light {
-	padding: 8px 0 !important;
 }
 
 /* For 'extend-diff-expander' feature */
