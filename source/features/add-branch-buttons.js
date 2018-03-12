@@ -71,9 +71,16 @@ function addDefaultBranchLink(branchSelector) {
 	const branchName = branchInfo.pop();
 	const originalUser = branchInfo.pop();
 
-	const url = isRepoRoot() ?
-		`/${getRepoURL()}` :
-		select(`.select-menu-item[data-name='${branchName}']`).href;
+	let url;
+	if (isRepoRoot()) {
+		url = `/${getRepoURL()}`;
+	} else {
+		const branchLink = select(`.select-menu-item[data-name='${branchName}']`);
+		if (!branchLink) {
+			return;
+		}
+		url = branchLink.href;
+	}
 
 	// If it’s a fork, add link to originalUser
 	if (originalUser) {
