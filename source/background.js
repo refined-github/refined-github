@@ -36,6 +36,24 @@ browser.runtime.onMessage.addListener(async message => {
 	}
 });
 
+browser.runtime.onInstalled.addListener(async ({reason}) => {
+	// Cleanup old key
+	// TODO: remove in the future
+	browser.storage.local.remove('userWasNotified');
+
+	// Only notify on install
+	if (reason === 'install') {
+		const {installType} = await browser.management.getSelf();
+		if (installType === 'development') {
+			return;
+		}
+		browser.tabs.create({
+			url: 'https://github.com/sindresorhus/refined-github/issues/1137',
+			active: false
+		});
+	}
+});
+
 // GitHub Enterprise support
 dynamicContentScripts.addToFutureTabs();
 domainPermissionToggle.addContextMenu();
