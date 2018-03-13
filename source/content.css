@@ -530,29 +530,29 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 }
 
 /* Highlight linked comment */
-.timeline-comment:target {
+:root .timeline-comment:target {
 	border-color: #e5d999;
 }
-.timeline-comment:target.current-user::before {
+:root .timeline-comment:target.current-user::before {
 	border-right-color: #e5d999;
 }
-.timeline-comment:target.current-user::after {
+:root .timeline-comment:target.current-user::after {
 	border-right-color: #fffded;
 }
-.timeline-comment:target .timeline-comment-header {
+:root .timeline-comment:target .timeline-comment-header {
 	background-color: #fffdef;
 	border-bottom-color: #e5d999;
 }
-.timeline-comment:target .timeline-comment-label {
+:root .timeline-comment:target .timeline-comment-label {
 	border-color: #e5d999;
 }
-.timeline-comment:target .reaction-summary-item {
+:root .timeline-comment:target .reaction-summary-item {
 	border-right-color: #e5d999;
 }
-.timeline-comment:target .comment-reactions.has-reactions {
+:root .timeline-comment:target .comment-reactions.has-reactions {
 	border-top-color: #e5d999;
 }
-.timeline-comment:target .previewable-comment-form .comment-form-head.tabnav {
+:root .timeline-comment:target .previewable-comment-form .comment-form-head.tabnav {
 	color: #e5d999;
 	background-color: #fffdef;
 	border-bottom-color: #e5d999;
