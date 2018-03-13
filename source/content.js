@@ -70,6 +70,7 @@ import closeOutOfViewModals from './features/close-out-of-view-modals';
 import addScopedSearchOnUserProfile from './features/add-scoped-search-on-user-profile';
 import monospaceTextareas from './features/monospace-textareas';
 import improveShortcutHelp from './features/improve-shortcut-help';
+import addPullRequestHotkey from './features/add-pull-request-hotkey';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature} from './libs/utils';
@@ -199,6 +200,7 @@ function ajaxedPagesHandler() {
 		enableFeature(openCIDetailsInNewTab);
 		enableFeature(waitForBuild);
 		enableFeature(toggleAllThingsWithAlt);
+		enableFeature(addPullRequestHotkey);
 	}
 
 	if (pageDetect.isQuickPR()) {
