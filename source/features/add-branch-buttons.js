@@ -3,7 +3,7 @@ import select from 'select-dom';
 import toSemver from 'to-semver';
 import * as icons from '../libs/icons';
 import {groupSiblings} from '../libs/group-buttons';
-import {getRepoURL, isRepoRoot} from '../libs/page-detect';
+import {getRepoURL, isRepoRoot, getOwnerAndRepo} from '../libs/page-detect';
 
 // This regex should match all of these combinations:
 // "This branch is even with master."
@@ -37,8 +37,11 @@ function addTagLink(branchSelector) {
 }
 
 function getDefaultBranchNameIfDifferent() {
+	const {ownerName, repoName} = getOwnerAndRepo();
+	const cacheKey = `rgh-default-branch-${ownerName}-${repoName}`;
+
 	// Return the cached name if it differs from the current one
-	const cachedName = sessionStorage.getItem('rgh-default-branch');
+	const cachedName = sessionStorage.getItem(cacheKey);
 	if (cachedName) {
 		const currentBranch = select('[data-hotkey="w"] span').textContent;
 		return cachedName === currentBranch ? false : cachedName;
@@ -54,29 +57,61 @@ function getDefaultBranchNameIfDifferent() {
 	const [, branchName] = branchInfo.textContent.trim().match(branchInfoRegex) || [];
 	if (branchName) {
 		// Temporarily cache it between loads to enable it on files
-		sessionStorage.setItem('rgh-default-branch', branchName);
+		sessionStorage.setItem(cacheKey, branchName);
 		return branchName;
 	}
 }
 
 function addDefaultBranchLink(branchSelector) {
-	const branchName = getDefaultBranchNameIfDifferent();
-	if (!branchName) {
+	let branchInfo = getDefaultBranchNameIfDifferent();
+	if (!branchInfo) {
 		return;
 	}
 
-	const url = isRepoRoot() ?
-		`/${getRepoURL()}` :
-		select(`.select-menu-item[data-name='${branchName}']`).href;
+	branchInfo = branchInfo.split(':');
+	const branchName = branchInfo.pop();
+	const originalUser = branchInfo.pop();
 
-	branchSelector.before(
-		<a
-			class="btn btn-sm tooltipped tooltipped-ne"
-			href={url}
-			aria-label={`Visit the default branch (${branchName})`}>
-			{icons.chevronLeft()}
-		</a>
-	);
+	let url;
+	if (isRepoRoot()) {
+		url = `/${getRepoURL()}`;
+	} else {
+		const branchLink = select(`.select-menu-item[data-name='${branchName}']`);
+		if (!branchLink) {
+			return;
+		}
+		url = branchLink.href;
+	}
+
+	// If it’s a fork, add link to originalUser
+	if (originalUser) {
+		const {ownerName: currentUser} = getOwnerAndRepo();
+		const currentRepoUrl = select('.repohead [itemprop="name"] a').href;
+		const originalRepoUrl = select('.fork-flag a').href;
+		const originalBranchUrl = url
+			.replace(currentRepoUrl, originalRepoUrl) // - isRepoRoot()
+			.replace(currentUser, originalUser); // - !isRepoRoot()
+		branchSelector.before(
+			<a
+				class="btn btn-sm tooltipped tooltipped-ne rgh-original-branch-button"
+				href={originalBranchUrl}
+				aria-label={`Visit the default branch (${branchName}) of the original repo`}>
+				{icons.chevronLeft()}
+				{icons.chevronLeft()}
+			</a>
+		);
+
+		// Add link to current repo’s branch
+		branchSelector.before(
+			<a
+				class="btn btn-sm tooltipped tooltipped-ne"
+				href={url}
+				aria-label={`Visit the default branch (${branchName})`}>
+				{icons.chevronLeft()}
+			</a>
+		);
+	}
+
 	return true;
 }
 

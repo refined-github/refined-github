@@ -706,6 +706,15 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	margin-left: 0;
 }
 
+/* Make original repo’s button smaller for `add-branch-buttons` */
+:root .rgh-original-branch-button {
+	padding-right: 7px;
+	padding-left: 7px;
+}
+.octicon-chevron-left + .octicon-chevron-left {
+	margin-left: -0.2em;
+}
+
 /* Sticky file headers on pull request diff view */
 .pull-request-tab-content .diff-view .file-header {
 	position: sticky;
