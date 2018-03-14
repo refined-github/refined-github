@@ -63,6 +63,10 @@ function getDefaultBranchNameIfDifferent() {
 }
 
 function addDefaultBranchLink(branchSelector) {
+	if (select.exists('.repohead .octicon-repo-forked')) {
+		return; // It's a fork, no "default branch" info available #1132
+	}
+
 	const branchName = getDefaultBranchNameIfDifferent();
 	if (!branchName) {
 		return;
