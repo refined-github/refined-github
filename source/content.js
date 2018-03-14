@@ -1,5 +1,5 @@
 import 'webext-dynamic-content-scripts';
-import onAjaxedPages from 'github-injection';
+import {h} from 'dom-chef';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 
@@ -72,7 +72,7 @@ import monospaceTextareas from './features/monospace-textareas';
 import improveShortcutHelp from './features/improve-shortcut-help';
 
 import * as pageDetect from './libs/page-detect';
-import {safeElementReady, enableFeature} from './libs/utils';
+import {safeElementReady, enableFeature, safeOnAjaxedPages} from './libs/utils';
 import observeEl from './libs/simplified-element-observer';
 
 // Add globals for easier debugging
@@ -107,7 +107,7 @@ async function init() {
 	}
 
 	if (pageDetect.isRepo()) {
-		onAjaxedPages(async () => {
+		safeOnAjaxedPages(async () => {
 			// Wait for the tab bar to be loaded
 			await safeElementReady('.pagehead + *');
 			enableFeature(addMoreDropdown);
@@ -156,7 +156,16 @@ function onDomReady() {
 		enableFeature(autoLoadMoreNews);
 	}
 
-	onAjaxedPages(ajaxedPagesHandler);
+	safeOnAjaxedPages(() => {
+		ajaxedPagesHandler();
+
+		// Mark current page as "done"
+		// so history.back() won't reapply the same changes
+		const ajaxContainer = select('#js-repo-pjax-container,#js-pjax-container');
+		if (ajaxContainer) {
+			ajaxContainer.append(<has-rgh/>);
+		}
+	});
 }
 
 function ajaxedPagesHandler() {

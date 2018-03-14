@@ -3,7 +3,7 @@ import select from 'select-dom';
 import delegate from 'delegate';
 import * as icons from '../libs/icons';
 
-function addButton() {
+export default function () {
 	select('.commit-tease .float-right').append(
 		<button
 			class="btn-octicon p-1 pr-2 rgh-toggle-files"
@@ -16,10 +16,4 @@ function addButton() {
 	delegate('.rgh-toggle-files', 'click', ({delegateTarget}) => {
 		delegateTarget.setAttribute('aria-expanded', !repoContent.classList.toggle('rgh-files-hidden'));
 	});
-}
-
-export default function () {
-	if (!select.exists('.rgh-toggle-files')) {
-		addButton();
-	}
 }

@@ -3,8 +3,21 @@ import onetime from 'onetime';
 import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';
 import OptionsSync from 'webext-options-sync';
+import ghInjection from 'github-injection';
 
 const options = new OptionsSync().getAll();
+
+// `github-injection` happens even when the user navigates in history
+// This causes listeners to run on content that has already been updated.
+// If a feature needs to be disabled when navigating away,
+// use the regular `github-injection`
+export function safeOnAjaxedPages(callback) {
+	ghInjection(() => {
+		if (!select.exists('has-rgh')) {
+			callback();
+		}
+	});
+}
 
 /**
  * Enable toggling each feature via options.

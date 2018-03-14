@@ -8,11 +8,6 @@ const btnClassMap = {
 
 export default function () {
 	const submitButton = select('#submit-review [type="submit"]');
-	if (!submitButton) {
-		// Already applied
-		return;
-	}
-
 	const container = select('#submit-review .form-actions');
 	const radios = select.all('#submit-review [type="radio"][name="pull_request_review[event]"]');
 
