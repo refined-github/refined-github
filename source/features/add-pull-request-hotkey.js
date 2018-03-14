@@ -1,7 +1,7 @@
 import select from 'select-dom';
 
 export default function () {
-	const tabs = select.all('.tabnav-pr .tabnav-tabs > a');
+	const tabs = select.all('.tabnav-pr .tabnav-tab');
 	const selectedIndex = tabs.indexOf(select('.tabnav-pr .selected'));
 
 	for (const [index, tab] of tabs.entries()) {
