@@ -3,7 +3,7 @@ import select from 'select-dom';
 import toSemver from 'to-semver';
 import * as icons from '../libs/icons';
 import {groupSiblings} from '../libs/group-buttons';
-import {getRepoURL, isRepoRoot} from '../libs/page-detect';
+import {getRepoURL, isRepoRoot, getOwnerAndRepo} from '../libs/page-detect';
 
 // This regex should match all of these combinations:
 // "This branch is even with master."
