@@ -799,6 +799,11 @@ summary.HeaderNavlink::before {
 	display: none;
 }
 
+/* Have content fill up most of the width of a page */
+div.container {
+	width: 90%;
+}
+
 /* Move "recently pushed branches" out of the way */
 .container.new-discussion-timeline.experiment-repo-nav .repository-content {
 	position: relative;
