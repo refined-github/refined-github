@@ -70,6 +70,7 @@ import closeOutOfViewModals from './features/close-out-of-view-modals';
 import addScopedSearchOnUserProfile from './features/add-scoped-search-on-user-profile';
 import monospaceTextareas from './features/monospace-textareas';
 import improveShortcutHelp from './features/improve-shortcut-help';
+import removeZenhubRepoSwitcher from './features/remove-zenhub-repo-switcher';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature} from './libs/utils';
@@ -113,6 +114,7 @@ async function init() {
 			enableFeature(addMoreDropdown);
 			enableFeature(addReleasesTab);
 			enableFeature(removeProjectsTab);
+			enableFeature(removeZenhubRepoSwitcher);
 		});
 	}
 
