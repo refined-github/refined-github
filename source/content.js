@@ -201,14 +201,7 @@ function ajaxedPagesHandler() {
 		enableFeature(waitForBuild);
 		enableFeature(toggleAllThingsWithAlt);
 
-		observeEl('.js-discussion', () => {
-			enableFeature(hideInactiveDeployments);
-		}, {
-			childList: true,
-			attributes: true,
-			subtree: true,
-			attributeFilter: ['class']
-		});
+		enableFeature(hideInactiveDeployments);
 	}
 
 	if (pageDetect.isQuickPR()) {
