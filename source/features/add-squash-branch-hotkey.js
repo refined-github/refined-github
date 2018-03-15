@@ -7,9 +7,9 @@ export default function () {
 		squashButton.dataset.hotkey = 'a s';
 	}
 
-  const confirmButton = select(`.btn-group-squash > button[name="do"]`);
+	const confirmButton = select(`.btn-group-squash > button[name="do"]`);
 
-  if (confirmButton) {
-    confirmButton.dataset.hotkey = 'a s';
-  }
+	if (confirmButton) {
+		confirmButton.dataset.hotkey = 'a s';
+	}
 }
