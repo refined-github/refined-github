@@ -154,6 +154,7 @@ GitHub Enterprise is also supported. More info in the options.
 - Changes the default sort order of issues/PRs to "Recently updated"
 - [Makes the "Expand diff" button wider](https://user-images.githubusercontent.com/6978877/34470024-eee4f43e-ef20-11e7-9036-65094bd58960.PNG)
 - [Automatically closes modals when they’re no longer visible](https://user-images.githubusercontent.com/1402241/37022353-531c676e-2155-11e8-96cc-80d934bb22e0.gif)
+- [Highlights permalinked comments](https://user-images.githubusercontent.com/1402241/37349492-226bd37a-2709-11e8-8087-d9686b330240.png)
 - [Hide inactive deployments in PR timeline](https://github.com/sindresorhus/refined-github/issues/1144)
 
 And [lots](source/content.css) [more...](source/content.js)
@@ -202,7 +203,6 @@ See the [contribution guide](contributing.md) and join the [contributors](https:
 - [Notifier for GitHub](https://github.com/sindresorhus/notifier-for-github-chrome) - Shows your notification unread count
 - [Do Not Merge WIP for GitHub](https://github.com/sanemat/do-not-merge-wip-for-github) - Prevents merging of incomplete PRs
 - [Contributors on GitHub](https://github.com/hzoo/contributors-on-github) - Shows stats about contributors
-- [GifHub](https://github.com/DrewML/GifHub) - Quickly insert GIFs in comments
 - [Hide Files on GitHub](https://github.com/sindresorhus/hide-files-on-github) - Hides dotfiles from the file browser
 - [Twitter for GitHub](https://github.com/bevacqua/twitter-for-github) - Shows a user's Twitter handle on their profile page
 - [OctoEdit](https://github.com/DrewML/OctoEdit) - Markdown syntax highlighting in comments

@@ -529,6 +529,35 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 	margin-left: 5px;
 }
 
+/* Highlight linked comment */
+:root .timeline-comment:target {
+	border-color: #e5d999;
+}
+:root .timeline-comment:target.current-user::before {
+	border-right-color: #e5d999;
+}
+:root .timeline-comment:target.current-user::after {
+	border-right-color: #fffded;
+}
+:root .timeline-comment:target .timeline-comment-header {
+	background-color: #fffdef;
+	border-bottom-color: #e5d999;
+}
+:root .timeline-comment:target .timeline-comment-label {
+	border-color: #e5d999;
+}
+:root .timeline-comment:target .reaction-summary-item {
+	border-right-color: #e5d999;
+}
+:root .timeline-comment:target .comment-reactions.has-reactions {
+	border-top-color: #e5d999;
+}
+:root .timeline-comment:target .previewable-comment-form .comment-form-head.tabnav {
+	color: #e5d999;
+	background-color: #fffdef;
+	border-bottom-color: #e5d999;
+}
+
 /* Move "close issue" and "cancel" buttons on authoring comments to the left */
 
 /* ...in issue comment form */
@@ -865,12 +894,13 @@ body > .footer li a {
 	align-items: flex-start !important;
 }
 /* Align between event and repo description */
-.dashboard .py-3 .avatar {
+.dashboard .py3 .avatar {
 	margin-top: 7px;
 }
 /* Hide duplicate repo name */
 .dashboard .flex-items-baseline .f3,
-.dashboard .flex-items-baseline .f4 {
+.dashboard .flex-items-baseline .f4,
+.dashboard .flex-items-baseline .text-bold.text-gray-dark {
 	display: none;
 }
 
