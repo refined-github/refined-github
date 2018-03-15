@@ -297,7 +297,9 @@ followed someone
 }
 
 /* Fade out merge commits from commit list */
-.refined-github-merge-commit .table-list-cell:first-child {
+.refined-github-merge-commit .commit-title,
+.refined-github-merge-commit .commit-meta > div:not(.commit-indicator),
+.refined-github-merge-commit .commit-build-statuses > summary {
 	opacity: 0.7;
 }
 
