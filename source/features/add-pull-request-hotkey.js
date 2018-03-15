@@ -12,6 +12,6 @@ export default function () {
 		} else if (index === selectedIndex + 1 || (index === lastTab && selectedIndex === 0)) {
 			keys.push('p ArrowRight');
 		}
-		tab.setAttribute('data-hotkey', keys);
+		tab.dataset.hotkey = keys;
 	}
 }
