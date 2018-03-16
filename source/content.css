@@ -560,7 +560,7 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 	border-bottom-color: #e5d999;
 }
 
-/* Fix user fullnames with accents */
+/* Prevent text reversal Unicode hacks in full names */
 .timeline-comment-header-text bdo {
 	display: inline-block;
 }
