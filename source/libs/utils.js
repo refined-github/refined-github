@@ -18,14 +18,17 @@ export const enableFeature = async fn => {
 	const filename = fn.name.replace(/_/g, '-');
 	if (/^$|^anonymous$/.test(filename)) {
 		console.warn('This feature is nameless', fn);
-	} else {
-		log('✅', filename); // Testing only
-		if (disabledFeatures.includes(filename)) {
-			log('↩️', 'Skipping', filename); // Testing only
-			return;
-		}
+	} else if (disabledFeatures.includes(filename)) {
+		log('↩️', 'Skipping', filename);
+		return;
 	}
-	fn();
+	try {
+		fn();
+		log('✅', filename);
+	} catch (err) {
+		console.log('❌', filename);
+		console.error(err);
+	}
 };
 
 export const isFeatureEnabled = async featureName => {
