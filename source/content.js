@@ -133,7 +133,7 @@ async function init() {
 	onDomReady();
 }
 
-function onDomReady() {
+async function onDomReady() {
 	enableFeature(markUnread);
 	enableFeature(addOpenAllNotificationsButton);
 	enableFeature(enableCopyOnY);
@@ -155,6 +155,10 @@ function onDomReady() {
 		enableFeature(hideOwnStars);
 		enableFeature(autoLoadMoreNews);
 	}
+
+	// Push safeOnAjaxedPages on the next tick so it happens in the correct order
+	// (specifically for addOpenAllNotificationsButton)
+	await Promise.resolve();
 
 	safeOnAjaxedPages(() => {
 		ajaxedPagesHandler();
