@@ -159,6 +159,7 @@ function onDomReady() {
 	onAjaxedPages(ajaxedPagesHandler);
 }
 
+// eslint-disable-next-line complexity
 function ajaxedPagesHandler() {
 	enableFeature(hideEmptyMeta);
 	enableFeature(removeUploadFilesButton);
