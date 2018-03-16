@@ -22,7 +22,7 @@ import addTimeMachineLinksToComments from './features/add-time-machine-links-to-
 import removeUploadFilesButton from './features/remove-upload-files-button';
 import scrollToTopOnCollapse from './features/scroll-to-top-on-collapse';
 import removeDiffSigns from './features/remove-diff-signs';
-import * as linkifyBranchRefs from './features/linkify-branch-refs';
+import linkifyBranchRefs from './features/linkify-branch-refs';
 import hideEmptyMeta from './features/hide-empty-meta';
 import hideOwnStars from './features/hide-own-stars';
 import moveMarketplaceLinkToProfileDropdown from './features/move-marketplace-link-to-profile-dropdown';
@@ -166,6 +166,7 @@ function ajaxedPagesHandler() {
 	enableFeature(shortenLinks);
 	enableFeature(linkifyCode);
 	enableFeature(addDownloadFolderButton);
+	enableFeature(linkifyBranchRefs);
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 		enableFeature(addYoursMenuItem);
@@ -193,16 +194,11 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isPR()) {
 		enableFeature(scrollToTopOnCollapse);
-		enableFeature(linkifyBranchRefs.inPR, 'linkify-branch-refs');
 		enableFeature(addDeleteForkLink);
 		enableFeature(fixSquashAndMergeTitle);
 		enableFeature(openCIDetailsInNewTab);
 		enableFeature(waitForBuild);
 		enableFeature(toggleAllThingsWithAlt);
-	}
-
-	if (pageDetect.isQuickPR()) {
-		enableFeature(linkifyBranchRefs.inQuickPR, 'linkify-branch-refs');
 	}
 
 	if (pageDetect.isPR() || pageDetect.isIssue()) {

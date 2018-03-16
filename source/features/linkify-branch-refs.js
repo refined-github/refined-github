@@ -3,7 +3,7 @@ import select from 'select-dom';
 import {safeElementReady, wrap} from '../libs/utils';
 import * as pageDetect from '../libs/page-detect';
 
-export function inPR() {
+function inPR() {
 	let deletedBranch = false;
 	const lastBranchAction = select.all(`
 		.discussion-item-head_ref_deleted .commit-ref,
@@ -35,11 +35,19 @@ export function inPR() {
 	}
 }
 
-export async function inQuickPR() {
+async function inQuickPR() {
 	const el = await safeElementReady('.branch-name');
 	if (el) {
 		const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
 		const branchUrl = `/${ownerName}/${repoName}/tree/${el.textContent}`;
 		wrap(el.closest('.branch-name'), <a href={branchUrl}></a>);
+	}
+}
+
+export default function () {
+	if (pageDetect.isPR()) {
+		inPR();
+	} else if (pageDetect.isQuickPR()) {
+		inQuickPR();
 	}
 }
