@@ -154,7 +154,7 @@ GitHub Enterprise is also supported. More info in the options.
 - Changes the default sort order of issues/PRs to "Recently updated"
 - [Makes the "Expand diff" button wider](https://user-images.githubusercontent.com/6978877/34470024-eee4f43e-ef20-11e7-9036-65094bd58960.PNG)
 - [Automatically closes modals when they’re no longer visible](https://user-images.githubusercontent.com/1402241/37022353-531c676e-2155-11e8-96cc-80d934bb22e0.gif)
-- [Highlights permalinked comments](https://user-images.githubusercontent.com/1402241/37349492-226bd37a-2709-11e8-8087-d9686b330240.png)
+- [Highlights permalinked comments](https://user-images.githubusercontent.com/1402241/37349492-226bd37a-2709-11e8-8087-d9686b330240.png) and [review comments](https://user-images.githubusercontent.com/29176678/37554360-7ff25bce-29d7-11e8-80d2-ecd9e25c42db.png)
 
 And [lots](source/content.css) [more...](source/content.js)
 
