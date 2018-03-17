@@ -567,8 +567,16 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 :root .review-comment:target .timeline-comment-label {
 	border-color: #e5d999;
 }
-:root .review-comment:target .reaction-summary-item {
+:root .review-comment:target button.reaction-summary-item {
 	border-color: #e5d999;
+	background-color: #f9f3cb;
+	color: #7c6d0b;
+}
+:root .review-comment:target .add-reaction-btn {
+	color: #e09810;
+}
+:root .review-comment:target .reaction-summary-item {
+	--background: transparent;
 }
 
 /* Prevent text reversal Unicode hacks in full names */
