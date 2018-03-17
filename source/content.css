@@ -676,7 +676,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 }
 
 /* Hide inactive deployment events */
-.discussion-item[data-rgh-inactive-deployment] {
+.discussion-item.rgh-inactive-deployment {
 	display: none;
 }
 

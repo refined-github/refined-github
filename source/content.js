@@ -200,7 +200,6 @@ function ajaxedPagesHandler() {
 		enableFeature(openCIDetailsInNewTab);
 		enableFeature(waitForBuild);
 		enableFeature(toggleAllThingsWithAlt);
-
 		enableFeature(hideInactiveDeployments);
 	}
 
