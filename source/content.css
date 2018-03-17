@@ -761,33 +761,6 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	vertical-align: middle;
 }
 
-/* Make the modal backdrop visible */
-:root body.menu-active .modal-backdrop,
-:root .dropdown-details[open] > summary::before {
-	z-index: 20; /* Don't mess with this value so easily */
-	background: rgba(0, 0, 0, 0.1);
-	animation: fade-in 0.2s;
-}
-summary.HeaderNavlink::before {
-	z-index: 30 !important; /* Bring the header backdrop above the PR bar */
-}
-:root .pagehead ul.pagehead-actions {
-	position: static; /* Watch, star, and fork buttons don‘t need a stacking context */
-}
-
-/* Reduce duplicate backdrop in PR diff view */
-:root .pr-toolbar .modal-backdrop {
-	width: 100%;
-	height: 100%;
-	position: absolute;
-}
-
-@keyframes fade-in {
-	from {
-		opacity: 0;
-	}
-}
-
 /* Fix subpixel rendering Chrome bug in tooltips' triangles */
 .tooltipped:hover::before,
 .tooltipped:hover::after,
