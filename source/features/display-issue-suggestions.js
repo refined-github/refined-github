@@ -6,35 +6,50 @@ import {openIssue, closedIssue} from '../libs/icons';
 
 let insertedSidebarItem;
 
-async function displayIssueSuggestions(title = 'issue comment') {
-	const repo = getRepoURL();
-	const query = encodeURIComponent(`${title.replace(/:/g, '\\:')} repo:${repo} type:issue`);
-	const url = `search/issues?q=${query}`;
-	const issues = (await fetchApi(url)).items;
-	const sidebar = select('.discussion-sidebar');
+const escapeQualifiers = str => str.replace(/[a-z-]+:[a-z-]+/g, '"$1"');
 
-	const sidebarItem = (
-		<div class="discussion-sidebar-item">
-			<div class="text-bold mb-2">Possibly related issues</div>
-			<div class="Box Box--condensed">
+async function displayIssueSuggestions(title) {
+	const repo = getRepoURL();
+	const apiQuery = encodeURIComponent(`${escapeQualifiers(title)} repo:${repo} is:issue`);
+	const response = await fetchApi(`search/issues?q=${apiQuery}&per_page=5`).catch(() => null);
+	let sidebarItem;
+
+	if (response && response.items && response.items.length > 0) {
+		const {items: issues, total_count: totalCount} = response;
+
+		const linkQuery = encodeURIComponent(`${escapeQualifiers(title)} is:issue`);
+
+		sidebarItem = (
+			<div class="discussion-sidebar-item">
+				<div class="text-bold mb-2">Possibly related issues</div>
+				<div class="Box Box--condensed">
+					{
+						issues.map(issue => (
+							<a class="Box-row d-flex px-2" href={issue.html_url}>
+								<div class="flex-shrink">{issue.state === 'open' ? openIssue() : closedIssue()}</div>
+								<div class="flex-grow pl-2">{issue.title}</div>
+							</a>
+						))
+					}
+				</div>
 				{
-					issues.map(issue => (
-						<a class="Box-row d-flex px-2" href={issue.html_url}>
-							<div class="flex-shrink">{issue.state === 'open' ? openIssue() : closedIssue()}</div>
-							<div class="flex-grow pl-2">{issue.title}</div>
-						</a>
-					))
+					issues.length < totalCount && (
+						<p class="note mt-2">
+							There are <a href={`/${repo}/issues?q=${linkQuery}`}>{totalCount - issues.length} more results</a>.
+						</p>
+					)
 				}
 			</div>
-		</div>
-	);
+		);
+	}
 
 	if (insertedSidebarItem) {
-		insertedSidebarItem.replaceWith(sidebarItem);
-	} else {
-		sidebar.prepend(sidebarItem);
+		insertedSidebarItem.remove();
 	}
-	insertedSidebarItem = sidebarItem;
+	if (sidebarItem) {
+		select('.discussion-sidebar').prepend(sidebarItem);
+		insertedSidebarItem = sidebarItem;
+	}
 }
 
 export default function () {
