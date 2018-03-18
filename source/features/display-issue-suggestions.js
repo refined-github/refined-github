@@ -9,6 +9,10 @@ let insertedSidebarItem;
 const escapeQualifiers = str => str.replace(/[a-z-]+:[a-z-]+/g, '"$1"');
 
 async function displayIssueSuggestions(title) {
+	if (title === '') {
+		return;
+	}
+
 	const repo = getRepoURL();
 	const apiQuery = encodeURIComponent(`${escapeQualifiers(title)} repo:${repo} is:issue`);
 	const response = await fetchApi(`search/issues?q=${apiQuery}&per_page=5`).catch(() => null);
@@ -16,7 +20,6 @@ async function displayIssueSuggestions(title) {
 
 	if (response && response.items && response.items.length > 0) {
 		const {items: issues, total_count: totalCount} = response;
-
 		const linkQuery = encodeURIComponent(`${escapeQualifiers(title)} is:issue`);
 
 		sidebarItem = (
