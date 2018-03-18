@@ -761,6 +761,12 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	vertical-align: middle;
 }
 
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+}
+
 /* Fix subpixel rendering Chrome bug in tooltips' triangles */
 .tooltipped:hover::before,
 .tooltipped:hover::after,
