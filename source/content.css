@@ -316,7 +316,8 @@ followed someone
 /* Limit width of commit title and description inputs to 50/80 chars */
 #commit-summary-input,
 #commit-description-textarea {
-	font-family: monospace !important;
+  font-family: 'Droid Sans Mono', 'Operator Mono','Liberation Mono', 'Source Code Pro', Menlo, Consolas, Courier, monospace !important; 
+
 }
 
 #commit-summary-input {
@@ -477,7 +478,7 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 	margin-left: 4px;
 	position: absolute;
 	color: rgba(0, 0, 0, 0.3);
-	font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
+	font-family: 'Droid Sans Mono', 'Operator Mono', 'Liberation Mono', 'Source Code Pro', Menlo, Consolas, Courier, monospace !important; 
 	font-size: 11px;
 	text-indent: -8px;
 }
@@ -960,7 +961,7 @@ body > .footer li a {
 }
 
 .rgh-monospace-textareas textarea {
-	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
+	font-family: 'Droid Sans Mono', 'Operator Mono', 'Liberation Mono', 'Source Code Pro', Menlo, Consolas, Courier, monospace !important; 
 	font-size: 13px;
 }
 
