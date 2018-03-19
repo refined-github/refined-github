@@ -793,7 +793,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	position: absolute;
 	top: -117px;
 	right: 0;
-	z-index: 10;
+	z-index: 32; /* Set z-index higher than ul.pagehead-actions */
 	background: var(--github-gray-background);
 	white-space: nowrap;
 	animation: rgh-slide-in-right 0.3s ease-out;
