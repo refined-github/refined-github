@@ -4,7 +4,7 @@ body {
 textarea {
 	display: block;
 	width: 100%;
-	font-family: monospace !important;
+	font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
 	font-size: 12px;
 	line-height: 1.5;
 	resize: vertical;
