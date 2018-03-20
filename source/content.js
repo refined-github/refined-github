@@ -73,6 +73,7 @@ import improveShortcutHelp from './features/improve-shortcut-help';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature} from './libs/utils';
+import {injectCustomCSS} from './libs/utils';
 import observeEl from './libs/simplified-element-observer';
 
 // Add globals for easier debugging
@@ -96,6 +97,8 @@ async function init() {
 	}
 
 	document.documentElement.classList.add('refined-github');
+
+	injectCustomCSS();
 
 	if (!pageDetect.isGist()) {
 		enableFeature(addTrendingMenuItem);

@@ -2,10 +2,26 @@ body {
 	min-width: 400px; /* Required to size the Browser Action popup */
 }
 textarea {
+	display: block;
 	width: 100%;
+	font-family: monospace !important;
+	font-size: 12px;
+	line-height: 1.5;
+	resize: vertical;
+}
+label {
+	display: flex;
+	align-items: center;
+}
+label span {
+	margin-left: 0.5em;
 }
 .small {
 	font-size: 0.9em;
+}
+
+p {
+	margin: 0 0 1em;
 }
 
 /* Increase spacing between sections */
