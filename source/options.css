@@ -10,18 +10,14 @@ textarea {
 	resize: vertical;
 }
 label {
-	display: flex;
-	align-items: center;
-}
-label input[type='checkbox'] {
-	margin-right: 0.5em;
+	vertical-align: -0.16em;
 }
 .small {
 	font-size: 0.9em;
 }
 
 p {
-	margin: 0 0 1em;
+	margin-top: 0;
 }
 
 /* Increase spacing between sections */
