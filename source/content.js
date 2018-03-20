@@ -116,10 +116,6 @@ async function init() {
 		});
 	}
 
-	if (pageDetect.isUserProfile()) {
-		enableFeature(addScopedSearchOnUserProfile);
-	}
-
 	enableFeature(focusConfirmationButtons);
 	enableFeature(addKeyboardShortcutsToCommentFields);
 	enableFeature(addConfirmationToCommentCancellation);
@@ -264,6 +260,7 @@ function ajaxedPagesHandler() {
 	}
 
 	if (pageDetect.isUserProfile()) {
+		enableFeature(addScopedSearchOnUserProfile);
 		enableFeature(addGistsLink);
 		enableFeature(autoLoadContributionActivities);
 	}
