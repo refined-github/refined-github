@@ -14,6 +14,7 @@ import addFileCopyButton from './features/copy-file';
 // - import copyMarkdown from './features/copy-markdown';
 import linkifyCode from './features/linkify-urls-in-code';
 import autoLoadMoreNews from './features/auto-load-more-news';
+import autoLoadContributionActivities from './features/auto-load-contribution-activities';
 import addOPLabels from './features/op-labels';
 import addMoreDropdown from './features/more-dropdown';
 import addReleasesTab from './features/add-releases-tab';
@@ -74,7 +75,6 @@ import improveShortcutHelp from './features/improve-shortcut-help';
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature} from './libs/utils';
 import observeEl from './libs/simplified-element-observer';
-
 // Add globals for easier debugging
 window.select = select;
 
@@ -114,10 +114,6 @@ async function init() {
 			enableFeature(addReleasesTab);
 			enableFeature(removeProjectsTab);
 		});
-	}
-
-	if (pageDetect.isUserProfile()) {
-		enableFeature(addScopedSearchOnUserProfile);
 	}
 
 	enableFeature(focusConfirmationButtons);
@@ -264,7 +260,9 @@ function ajaxedPagesHandler() {
 	}
 
 	if (pageDetect.isUserProfile()) {
+		enableFeature(addScopedSearchOnUserProfile);
 		enableFeature(addGistsLink);
+		enableFeature(autoLoadContributionActivities);
 	}
 }
 
