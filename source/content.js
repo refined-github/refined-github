@@ -72,8 +72,7 @@ import monospaceTextareas from './features/monospace-textareas';
 import improveShortcutHelp from './features/improve-shortcut-help';
 
 import * as pageDetect from './libs/page-detect';
-import {safeElementReady, enableFeature} from './libs/utils';
-import {injectCustomCSS} from './libs/utils';
+import {safeElementReady, enableFeature, injectCustomCSS} from './libs/utils';
 import observeEl from './libs/simplified-element-observer';
 
 // Add globals for easier debugging
