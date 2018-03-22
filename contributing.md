@@ -43,16 +43,16 @@ Once built, load it in the browser of your choice:
 	<tr>
 		<td width="50%">
 			<ol>
-				<li>Open <code>chrome://extensions</code>.
-				<li>Check the <strong>Developer mode</strong> checkbox.
-				<li>Click on the <strong>Load unpacked extension</strong> button.
+				<li>Open <code>chrome://extensions</code>;
+				<li>Check the <strong>Developer mode</strong> checkbox;
+				<li>Click on the <strong>Load unpacked extension</strong> button;
 				<li>Select the folder <code>refined-github/distribution</code>.
 			</ol>
 		</td>
 		<td width="50%">
 			<ol>
-				<li>Open <code>about:debugging#addons</code>.
-				<li>Click on the <strong>Load Temporary Add-on</strong> button.
+				<li>Open <code>about:debugging#addons</code>;
+				<li>Click on the <strong>Load Temporary Add-on</strong> button;
 				<li>Select the file <code>refined-github/distribution/manifest.json</code>.
 			</ol>
 		</td>
