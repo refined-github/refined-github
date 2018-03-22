@@ -682,6 +682,11 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	display: none;
 }
 
+/* Hide inactive deployment events */
+.discussion-item.rgh-inactive-deployment {
+	display: none;
+}
+
 /* Colorize `extend-issue-status-label` */
 .gh-header-meta .State {
 	text-decoration: none;
