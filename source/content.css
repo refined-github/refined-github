@@ -5,6 +5,12 @@
 	--github-gray-text: #6a737d;
 }
 
+/* Mark :visited issues/PRs */
+.unread.issue-notification .list-group-item-link:visited, /* "unread" only because "read" ones are better off gray */
+.issues-listing .link-gray-dark:visited {
+	color: #609 !important;
+}
+
 /* GitHub bug: releases page has unwanted bullet points */
 .release-timeline-tags {
 	list-style: none;
