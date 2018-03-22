@@ -8,7 +8,7 @@
 /* Mark :visited issues/PRs */
 .unread.issue-notification .list-group-item-link:visited, /* "unread" only because "read" ones are better off gray */
 .issues-listing .link-gray-dark:visited {
-	color: #609 !important;
+	color: #666 !important;
 }
 
 /* GitHub bug: releases page has unwanted bullet points */
