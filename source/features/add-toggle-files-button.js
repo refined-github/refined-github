@@ -1,12 +1,10 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate';
-import elementReady from 'element-ready';
 import * as icons from '../libs/icons';
 import observeEl from '../libs/simplified-element-observer';
 
-const commitTease = '.commit-tease';
-const commitTeaseTarget = commitTease + ' .float-right';
+const commitTeaseTarget = '.commit-tease .float-right';
 
 function addButton() {
 	select(commitTeaseTarget).append(
@@ -24,9 +22,7 @@ function addButton() {
 }
 
 export default function () {
-	observeEl(commitTease, async () => {
-		await elementReady(commitTeaseTarget);
-
+	observeEl('.repository-content', () => {
 		if (select.exists(commitTeaseTarget) && !select.exists('.rgh-toggle-files')) {
 			addButton();
 		}
