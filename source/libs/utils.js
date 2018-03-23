@@ -139,13 +139,7 @@ export const anySelector = selector => {
 export const injectCustomCSS = async () => {
 	const {customCSS = ''} = await options;
 
-	if (customCSS === '') {
-		return;
+	if (customCSS.length > 0) {
+		document.head.append(<style>{customCSS}</style>);
 	}
-
-	document.head.appendChild(
-		<style class="rgh-custom-styles">
-			{customCSS}
-		</style>
-	);
 };
