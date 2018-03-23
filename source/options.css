@@ -8,6 +8,8 @@ textarea {
 	font-size: 11px;
 	line-height: 1.5;
 	resize: vertical;
+	-moz-tab-size: 4 !important;
+	tab-size: 4 !important;
 }
 input[type='checkbox'] {
 	vertical-align: -0.16em;
