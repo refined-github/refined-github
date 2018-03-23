@@ -9,7 +9,7 @@ textarea {
 	line-height: 1.5;
 	resize: vertical;
 }
-label {
+input[type='checkbox'] {
 	vertical-align: -0.16em;
 }
 .small {
