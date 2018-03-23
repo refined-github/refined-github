@@ -7,17 +7,23 @@
 <form id="options-form" class="detail-view-container">
 	<h2>Disable features</h2>
 	<p>
-		List the features to disable, by <a href="https://github.com/sindresorhus/refined-github/tree/master/source/features" target="_blank">filename</a>. Enable logging to show in the console what features are enabled on each page.
+		List the features to disable, by <a href="https://github.com/sindresorhus/refined-github/tree/master/source/features" target="_blank">filename</a>:
 	</p>
-	<p class="small">
-		<textarea name="disabledFeatures" rows="3" placeholder="For example: &#10;mark-unread hide-own-stars"></textarea> <br>
-		<strong>Notice:</strong> Mostly untested; only JavaScript-based features can be disabled.
+	<p>
+		<textarea name="disabledFeatures" rows="3" placeholder="For example: &#10;mark-unread hide-own-stars"></textarea>
+		<span class="small"><strong>Notice:</strong> Mostly untested; only JavaScript-based features can be disabled.</span>
 	</p>
 	<p>
 		<label>
 			<input type="checkbox" name="logging">
-			Enable logging
+			Show the features enabled on each page in the console
 		</label>
+	</p>
+
+	<h2>Custom CSS</h2>
+	<p>Write your custom CSS to override Refined GitHub's default styles.</p>
+	<p>
+		<textarea name="customCSS" rows="5"></textarea>
 	</p>
 
 	<h2>More features</h2>

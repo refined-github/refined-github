@@ -1,3 +1,4 @@
+import {h} from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 import domLoaded from 'dom-loaded';
@@ -133,4 +134,12 @@ export const metaKey = isMac ? 'metaKey' : 'ctrlKey';
 export const anySelector = selector => {
 	const prefix = document.head.style.MozOrient === '' ? 'moz' : 'webkit';
 	return selector.replace(/:any\(/g, `:-${prefix}-any(`);
+};
+
+export const injectCustomCSS = async () => {
+	const {customCSS = ''} = await options;
+
+	if (customCSS.length > 0) {
+		document.head.append(<style>{customCSS}</style>);
+	}
 };
