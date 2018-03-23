@@ -569,7 +569,7 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 }
 :root .review-comment:target button.reaction-summary-item {
 	border-color: #e5d999;
-	background-color: #fff8e3;
+	background-color: #FFF8E3;
 	color: #7c6d0b;
 }
 :root .review-comment:target button.reaction-summary-item.user-has-reacted {
