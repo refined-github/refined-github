@@ -18,8 +18,8 @@ export default function () {
 	`, 'click', event => {
 		const button = event.delegateTarget;
 		const modal = button
-			.closest('.js-menu-container, .dropdown')
-			.querySelector('.js-menu-content, .dropdown-menu');
+			.closest('.select-menu, .dropdown')
+			.querySelector('.select-menu-modal, .dropdown-menu');
 		if (modal && (!button.open || button.classList.contains('selected'))) {
 			observer.observe(modal);
 		}
