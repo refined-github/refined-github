@@ -1,5 +1,8 @@
+import Textarea from 'storm-textarea';
 import OptionsSync from 'webext-options-sync';
 import indentTextarea from './libs/indent-textarea';
+
+Textarea.init('textarea');
 
 document.querySelector('[name="customCSS"]').addEventListener('keydown', event => {
 	if (event.key === 'Tab' && !event.shiftKey) {
