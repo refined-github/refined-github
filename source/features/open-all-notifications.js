@@ -2,11 +2,10 @@ import {h} from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate';
 import pEvent from 'p-event';
-import gitHubInjection from 'github-injection';
 import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
 import {groupSiblings} from '../libs/group-buttons';
-import {safeElementReady} from '../libs/utils';
+import {safeElementReady, safeOnAjaxedPages} from '../libs/utils';
 import {isNotifications} from '../libs/page-detect';
 
 const confirmationRequiredCount = 10;
@@ -119,7 +118,7 @@ export default async function () {
 
 	delegate('.rgh-open-notifications-button', 'click', openNotifications);
 
-	gitHubInjection(() => {
+	safeOnAjaxedPages(() => {
 		// Add support for Mark as Unread
 		observeEl(
 			select('.notifications-list') || select('.js-navigation-container'),

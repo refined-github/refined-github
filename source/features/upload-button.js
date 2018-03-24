@@ -1,6 +1,5 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import onetime from 'onetime';
 import delegate from 'delegate';
 import {metaKey} from '../libs/utils';
 import * as icons from '../libs/icons';
@@ -37,14 +36,8 @@ function handleKeydown(event) {
 	}
 }
 
-// Delegated events don't need to be added on ajax loads.
-// Unfortunately they aren't natively deduplicated, so onetime is required.
-const listenOnce = onetime(() => {
-	delegate('.rgh-has-upload-field', 'keydown', handleKeydown);
-	delegate('.rgh-upload-btn', 'click', triggerUploadUI);
-});
-
 export default function () {
 	addButtons();
-	listenOnce();
+	delegate('.rgh-has-upload-field', 'keydown', handleKeydown);
+	delegate('.rgh-upload-btn', 'click', triggerUploadUI);
 }

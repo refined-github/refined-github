@@ -1,11 +1,25 @@
 body {
-	min-width: 400px; /* Required to size the Browser Action popup */
+	min-width: 430px; /* Required to size the Browser Action popup */
 }
 textarea {
+	display: block;
 	width: 100%;
+	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+	font-size: 11px;
+	line-height: 1.5;
+	resize: vertical;
+	-moz-tab-size: 4 !important;
+	tab-size: 4 !important;
+}
+input[type='checkbox'] {
+	vertical-align: -0.16em;
 }
 .small {
 	font-size: 0.9em;
+}
+
+p {
+	margin-top: 0;
 }
 
 /* Increase spacing between sections */

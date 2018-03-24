@@ -27,10 +27,6 @@ function updateReleasesCount() {
 }
 
 export default async () => {
-	if (select.exists('.reponav-releases')) {
-		return;
-	}
-
 	const releasesTab = (
 		<a href={`/${repoUrl}/releases`} class="reponav-item reponav-releases" data-hotkey="g r">
 			{icons.tag()}

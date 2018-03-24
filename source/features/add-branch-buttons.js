@@ -3,7 +3,7 @@ import select from 'select-dom';
 import toSemver from 'to-semver';
 import * as icons from '../libs/icons';
 import {groupSiblings} from '../libs/group-buttons';
-import {getRepoURL, isRepoRoot} from '../libs/page-detect';
+import {getRepoURL, isRepoRoot, getOwnerAndRepo} from '../libs/page-detect';
 
 // This regex should match all of these combinations:
 // "This branch is even with master."
@@ -37,8 +37,11 @@ function addTagLink(branchSelector) {
 }
 
 function getDefaultBranchNameIfDifferent() {
+	const {ownerName, repoName} = getOwnerAndRepo();
+	const cacheKey = `rgh-default-branch-${ownerName}-${repoName}`;
+
 	// Return the cached name if it differs from the current one
-	const cachedName = sessionStorage.getItem('rgh-default-branch');
+	const cachedName = sessionStorage.getItem(cacheKey);
 	if (cachedName) {
 		const currentBranch = select('[data-hotkey="w"] span').textContent;
 		return cachedName === currentBranch ? false : cachedName;
@@ -54,20 +57,31 @@ function getDefaultBranchNameIfDifferent() {
 	const [, branchName] = branchInfo.textContent.trim().match(branchInfoRegex) || [];
 	if (branchName) {
 		// Temporarily cache it between loads to enable it on files
-		sessionStorage.setItem('rgh-default-branch', branchName);
+		sessionStorage.setItem(cacheKey, branchName);
 		return branchName;
 	}
 }
 
 function addDefaultBranchLink(branchSelector) {
+	if (select.exists('.repohead .octicon-repo-forked')) {
+		return; // It's a fork, no "default branch" info available #1132
+	}
+
 	const branchName = getDefaultBranchNameIfDifferent();
 	if (!branchName) {
 		return;
 	}
 
-	const url = isRepoRoot() ?
-		`/${getRepoURL()}` :
-		select(`.select-menu-item[data-name='${branchName}']`).href;
+	let url;
+	if (isRepoRoot()) {
+		url = `/${getRepoURL()}`;
+	} else {
+		const branchLink = select(`.select-menu-item[data-name='${branchName}']`);
+		if (!branchLink) {
+			return;
+		}
+		url = branchLink.href;
+	}
 
 	branchSelector.before(
 		<a
@@ -82,13 +96,12 @@ function addDefaultBranchLink(branchSelector) {
 
 export default function () {
 	const branchSelector = select('.branch-select-menu .select-menu-button');
-	if (!branchSelector || select.exists('.rgh-branch-buttons')) {
+	if (!branchSelector) {
 		return;
 	}
 	const hasTag = addTagLink(branchSelector);
 	const hasDefault = addDefaultBranchLink(branchSelector);
 	if (hasDefault || hasTag) {
-		const group = groupSiblings(branchSelector);
-		group.classList.add('rgh-branch-buttons');
+		groupSiblings(branchSelector);
 	}
 }
