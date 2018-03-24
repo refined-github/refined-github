@@ -659,6 +659,10 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	margin-right: 8px;
 }
 
+.rgh-issue-suggestions .Box {
+	transition: opacity 0.2s;
+}
+
 /* For `add-ci-link` */
 .rgh-ci-link {
 	position: relative;

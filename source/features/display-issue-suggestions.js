@@ -44,7 +44,7 @@ async function displayIssueSuggestions(title) {
 		const linkQuery = encodeURIComponent(`${words.join(' ')} is:issue`);
 
 		sidebarItem = (
-			<div class="discussion-sidebar-item pt-0">
+			<div class="rgh-issue-suggestions discussion-sidebar-item pt-0">
 				<div class="text-bold mb-2">Possibly related issues</div>
 				<div class="Box Box--condensed">
 					{
@@ -77,5 +77,11 @@ async function displayIssueSuggestions(title) {
 }
 
 export default function () {
-	select('#issue_title').addEventListener('blur', ({target}) => displayIssueSuggestions(target.value));
+	const title = select('#issue_title');
+	title.addEventListener('blur', ({target}) => displayIssueSuggestions(target.value));
+	title.addEventListener('focus', () => {
+		if (insertedSidebarItem) {
+			select('.Box', insertedSidebarItem).style.opacity = 0.7;
+		}
+	});
 }
