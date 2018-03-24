@@ -96,13 +96,12 @@ function addDefaultBranchLink(branchSelector) {
 
 export default function () {
 	const branchSelector = select('.branch-select-menu .select-menu-button');
-	if (!branchSelector || select.exists('.rgh-branch-buttons')) {
+	if (!branchSelector) {
 		return;
 	}
 	const hasTag = addTagLink(branchSelector);
 	const hasDefault = addDefaultBranchLink(branchSelector);
 	if (hasDefault || hasTag) {
-		const group = groupSiblings(branchSelector);
-		group.classList.add('rgh-branch-buttons');
+		groupSiblings(branchSelector);
 	}
 }

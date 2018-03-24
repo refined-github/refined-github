@@ -3,10 +3,6 @@ import select from 'select-dom';
 import * as pageDetect from '../libs/page-detect';
 
 export default function () {
-	if (select.exists('.sha-block.patch-diff-links')) {
-		return;
-	}
-
 	let commitUrl = location.pathname.replace(/\/$/, '');
 
 	if (pageDetect.isPRCommit()) {

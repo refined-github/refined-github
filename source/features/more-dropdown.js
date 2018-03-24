@@ -7,10 +7,6 @@ import {appendBefore} from '../libs/utils';
 const repoUrl = pageDetect.getRepoURL();
 
 export default function () {
-	if (select.exists('.refined-github-more')) {
-		return;
-	}
-
 	appendBefore('.reponav', '[href$="settings"]',
 		<div class="reponav-dropdown js-menu-container refined-github-more">
 			<button type="button" class="btn-link reponav-item reponav-dropdown js-menu-target " data-no-toggle aria-expanded="false" aria-haspopup="true">More {icons.triangleDown()}</button>

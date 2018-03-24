@@ -11,7 +11,7 @@ export default function () {
 	`).pop();
 
 	// Leave if it was never closed or if it was reopened or if it’s already linked
-	if (!lastActionRef || lastActionRef.matches('.discussion-item-reopened') || select.exists('.gh-header-meta .State a')) {
+	if (!lastActionRef || lastActionRef.matches('.discussion-item-reopened')) {
 		return;
 	}
 

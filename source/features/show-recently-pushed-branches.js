@@ -5,11 +5,6 @@ import * as pageDetect from '../libs/page-detect';
 const repoUrl = pageDetect.getRepoURL();
 
 export default async function () {
-	// Don't duplicate on back/forward in history
-	if (select.exists('[data-url$=recently_touched_branches_list]')) {
-		return;
-	}
-
 	const codeTabURL = select('[data-hotkey="g c"]').href;
 	const fragmentURL = `/${repoUrl}/show_partial?partial=tree%2Frecently_touched_branches_list`;
 

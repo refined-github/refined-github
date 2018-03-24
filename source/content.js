@@ -1,5 +1,5 @@
 import 'webext-dynamic-content-scripts';
-import onAjaxedPages from 'github-injection';
+import {h} from 'dom-chef';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 
@@ -71,9 +71,10 @@ import closeOutOfViewModals from './features/close-out-of-view-modals';
 import addScopedSearchOnUserProfile from './features/add-scoped-search-on-user-profile';
 import monospaceTextareas from './features/monospace-textareas';
 import improveShortcutHelp from './features/improve-shortcut-help';
+import displayIssueSuggestions from './features/display-issue-suggestions';
 
 import * as pageDetect from './libs/page-detect';
-import {safeElementReady, enableFeature, injectCustomCSS} from './libs/utils';
+import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
 import observeEl from './libs/simplified-element-observer';
 
 // Add globals for easier debugging
@@ -110,7 +111,7 @@ async function init() {
 	}
 
 	if (pageDetect.isRepo()) {
-		onAjaxedPages(async () => {
+		safeOnAjaxedPages(async () => {
 			// Wait for the tab bar to be loaded
 			await safeElementReady('.pagehead + *');
 			enableFeature(addMoreDropdown);
@@ -136,7 +137,7 @@ async function init() {
 	onDomReady();
 }
 
-function onDomReady() {
+async function onDomReady() {
 	enableFeature(markUnread);
 	enableFeature(addOpenAllNotificationsButton);
 	enableFeature(enableCopyOnY);
@@ -159,7 +160,20 @@ function onDomReady() {
 		enableFeature(autoLoadMoreNews);
 	}
 
-	onAjaxedPages(ajaxedPagesHandler);
+	// Push safeOnAjaxedPages on the next tick so it happens in the correct order
+	// (specifically for addOpenAllNotificationsButton)
+	await Promise.resolve();
+
+	safeOnAjaxedPages(() => {
+		ajaxedPagesHandler();
+
+		// Mark current page as "done"
+		// so history.back() won't reapply the same changes
+		const ajaxContainer = select('#js-repo-pjax-container,#js-pjax-container');
+		if (ajaxContainer) {
+			ajaxContainer.append(<has-rgh/>);
+		}
+	});
 }
 
 // eslint-disable-next-line complexity
@@ -221,6 +235,7 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isNewIssue()) {
 		enableFeature(addUploadBtn);
+		enableFeature(displayIssueSuggestions);
 	}
 
 	if (pageDetect.isIssue() || pageDetect.isPRConversation()) {
