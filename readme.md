@@ -98,7 +98,7 @@ GitHub Enterprise is also supported. More info in the options.
 - Copy the canonical link of a file with [the <kbd>y</kbd> hotkey](https://help.github.com/articles/getting-permanent-links-to-files/).
 - Indent text with <kbd>tab</kbd> in textareas like the comment box (<kbd>shift</kbd> <kbd>tab</kbd> for original behavior).
 - [Use the pull request title as the commit title when merging with `Squash and merge`](https://github.com/sindresorhus/refined-github/issues/276).
-- [Directly view linked Gists inside comments without visiting the link.](https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.PNG)
+- [Directly view linked gists inside comments without visiting the link.](https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.PNG)
 - [Search a user's content using the user-scoped search on their profile page.](https://user-images.githubusercontent.com/1402241/35185441-24ad4b1e-fe37-11e7-9e1b-0dc09fc1ada2.png)
 
 ### More actions
@@ -109,11 +109,11 @@ GitHub Enterprise is also supported. More info in the options.
 - [Flick through your notifications by opening them in seperate tabs.](https://user-images.githubusercontent.com/1402241/31700005-1b3be428-b38c-11e7-90a6-8f572968993b.png)
 - [View file diffs without whitespace changes.](https://cloud.githubusercontent.com/assets/170270/17603894/7b71a166-6013-11e6-81b8-22950ab8bce3.png) *(<kbd>d</kbd> <kbd>w</kbd> hotkey)*
 - [Copy a file's content using the `Copy` button.](https://cloud.githubusercontent.com/assets/170270/14453865/8abeaefe-00c1-11e6-8718-9406cee1dc0d.png)
-- [Copy a Gist file's content using the `Copy`.](https://cloud.githubusercontent.com/assets/170270/21074840/5dc37578-bf03-11e6-9fd9-501d73edef87.png)
+- [Copy a gist file's content using the `Copy`.](https://cloud.githubusercontent.com/assets/170270/21074840/5dc37578-bf03-11e6-9fd9-501d73edef87.png)
 - [Copy a file's path using the `Copy path` button.](https://cloud.githubusercontent.com/assets/4201088/26023064/18c9c77c-37d2-11e7-8926-b0a05a2706ae.png)
 - [Quickly access a commit's patch and  diff using links.](https://cloud.githubusercontent.com/assets/737065/13605562/22faa79e-e516-11e5-80db-2da6aa7965ac.png)
 - [View a repository at the time of a comment.](https://user-images.githubusercontent.com/1402241/32310022-7fef6174-bf5d-11e7-960f-5041a8f073ac.png)
-- [Quickly access a user's public Gists from their profile.](https://user-images.githubusercontent.com/11544418/34268306-1c974fd2-e678-11e7-9e82-861dfe7add22.png)
+- [Quickly access a user's public gists from their profile.](https://user-images.githubusercontent.com/11544418/34268306-1c974fd2-e678-11e7-9e82-861dfe7add22.png)
 - [Jump to the bottom of a discussion page using the `Jump to bottom` link.](https://user-images.githubusercontent.com/4331946/34298950-93876584-e720-11e7-898a-96f85e31aefe.png)
 - [Quickly access `Your repositories` from the profile dropdown.](https://user-images.githubusercontent.com/4201088/34920280-479e2454-f996-11e7-8e24-ad69793b9d9b.png)
 - [Download entire folders from repositories using the `Download folder` button.](https://user-images.githubusercontent.com/1402241/35044451-fd3e2326-fbc2-11e7-82e1-61ec7bee612b.png)
