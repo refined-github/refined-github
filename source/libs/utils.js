@@ -1,3 +1,4 @@
+import {h} from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 import domLoaded from 'dom-loaded';
@@ -25,21 +26,24 @@ export function safeOnAjaxedPages(callback) {
  * Prevent fn's errors from blocking the remaining tasks.
  * https://github.com/sindresorhus/refined-github/issues/678
  */
-export const enableFeature = async (fn, filename) => {
+export const enableFeature = async fn => {
 	const {disabledFeatures = '', logging = false} = await options;
 	const log = logging ? console.log : () => {};
 
-	filename = filename || fn.name.replace(/_/g, '-');
+	const filename = fn.name.replace(/_/g, '-');
 	if (/^$|^anonymous$/.test(filename)) {
 		console.warn('This feature is nameless', fn);
-	} else {
-		log('✅', filename); // Testing only
-		if (disabledFeatures.includes(filename)) {
-			log('↩️', 'Skipping', filename); // Testing only
-			return;
-		}
+	} else if (disabledFeatures.includes(filename)) {
+		log('↩️', 'Skipping', filename);
+		return;
 	}
-	fn();
+	try {
+		fn();
+		log('✅', filename);
+	} catch (err) {
+		console.log('❌', filename);
+		console.error(err);
+	}
 };
 
 export const isFeatureEnabled = async featureName => {
@@ -144,4 +148,12 @@ export const metaKey = isMac ? 'metaKey' : 'ctrlKey';
 export const anySelector = selector => {
 	const prefix = document.head.style.MozOrient === '' ? 'moz' : 'webkit';
 	return selector.replace(/:any\(/g, `:-${prefix}-any(`);
+};
+
+export const injectCustomCSS = async () => {
+	const {customCSS = ''} = await options;
+
+	if (customCSS.length > 0) {
+		document.head.append(<style>{customCSS}</style>);
+	}
 };

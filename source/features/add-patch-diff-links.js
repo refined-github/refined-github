@@ -9,8 +9,8 @@ export default function () {
 		commitUrl = commitUrl.replace(/\/pull\/\d+\/commits/, '/commit');
 	}
 
-	select('.commit-meta > div:last-child').append(
-		<span class="sha-block">
+	select('.commit-meta > :last-child').append(
+		<span class="sha-block patch-diff-links">
 			<a href={`${commitUrl}.patch`} class="sha">patch</a>
 			{ ' ' /* Workaround for: JSX eats whitespace between elements */ }
 			<a href={`${commitUrl}.diff`} class="sha">diff</a>

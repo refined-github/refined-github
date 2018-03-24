@@ -22,8 +22,9 @@ import addTimeMachineLinksToComments from './features/add-time-machine-links-to-
 import removeUploadFilesButton from './features/remove-upload-files-button';
 import scrollToTopOnCollapse from './features/scroll-to-top-on-collapse';
 import removeDiffSigns from './features/remove-diff-signs';
-import * as linkifyBranchRefs from './features/linkify-branch-refs';
+import linkifyBranchRefs from './features/linkify-branch-refs';
 import hideEmptyMeta from './features/hide-empty-meta';
+import hideInactiveDeployments from './features/hide-inactive-deployments';
 import hideOwnStars from './features/hide-own-stars';
 import moveMarketplaceLinkToProfileDropdown from './features/move-marketplace-link-to-profile-dropdown';
 import addYourRepoLinkToProfileDropdown from './features/add-your-repositories-link-to-profile-dropdown';
@@ -54,7 +55,7 @@ import addKeyboardShortcutsToCommentFields from './features/add-keyboard-shortcu
 import addConfirmationToCommentCancellation from './features/add-confirmation-to-comment-cancellation';
 import addCILink from './features/add-ci-link';
 import embedGistInline from './features/embed-gist-inline';
-import extendIssueStatusLabel from './features/extend-issue-status-label';
+import extendStatusLabels from './features/extend-status-labels';
 import highlightClosingPrsInOpenIssues from './features/highlight-closing-prs-in-open-issues';
 import toggleAllThingsWithAlt from './features/toggle-all-things-with-alt';
 import addJumpToBottomLink from './features/add-jump-to-bottom-link';
@@ -72,7 +73,7 @@ import monospaceTextareas from './features/monospace-textareas';
 import improveShortcutHelp from './features/improve-shortcut-help';
 
 import * as pageDetect from './libs/page-detect';
-import {safeElementReady, enableFeature, safeOnAjaxedPages} from './libs/utils';
+import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
 import observeEl from './libs/simplified-element-observer';
 
 // Add globals for easier debugging
@@ -96,6 +97,8 @@ async function init() {
 	}
 
 	document.documentElement.classList.add('refined-github');
+
+	injectCustomCSS();
 
 	if (!pageDetect.isGist()) {
 		enableFeature(addTrendingMenuItem);
@@ -172,6 +175,7 @@ async function onDomReady() {
 	});
 }
 
+// eslint-disable-next-line complexity
 function ajaxedPagesHandler() {
 	enableFeature(hideEmptyMeta);
 	enableFeature(removeUploadFilesButton);
@@ -179,6 +183,7 @@ function ajaxedPagesHandler() {
 	enableFeature(shortenLinks);
 	enableFeature(linkifyCode);
 	enableFeature(addDownloadFolderButton);
+	enableFeature(linkifyBranchRefs);
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 		enableFeature(addYoursMenuItem);
@@ -206,23 +211,19 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isPR()) {
 		enableFeature(scrollToTopOnCollapse);
-		enableFeature(linkifyBranchRefs.inPR, 'linkify-branch-refs');
 		enableFeature(addDeleteForkLink);
 		enableFeature(fixSquashAndMergeTitle);
 		enableFeature(openCIDetailsInNewTab);
 		enableFeature(waitForBuild);
 		enableFeature(toggleAllThingsWithAlt);
-	}
-
-	if (pageDetect.isQuickPR()) {
-		enableFeature(linkifyBranchRefs.inQuickPR, 'linkify-branch-refs');
+		enableFeature(hideInactiveDeployments);
 	}
 
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
 		enableFeature(linkifyIssuesInTitles);
 		enableFeature(addUploadBtn);
 		enableFeature(embedGistInline);
-		enableFeature(extendIssueStatusLabel);
+		enableFeature(extendStatusLabels);
 		enableFeature(highlightClosingPrsInOpenIssues);
 
 		observeEl('.new-discussion-timeline', () => {
