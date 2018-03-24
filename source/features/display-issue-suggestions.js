@@ -6,21 +6,42 @@ import {openIssue, closedIssue} from '../libs/icons';
 
 let insertedSidebarItem;
 
-const escapeQualifiers = str => str.replace(/[a-z-]+:[a-z-]+/g, '"$1"');
+const unsearchableCharactersRegex = /[^\p{Letter}\p{Number}\s]+/gu;
+const latinCharactersRegex = /\p{Script=Latin}/u;
+
+export function getSearchableWords(text) {
+	return text
+		.replace(unsearchableCharactersRegex, ' ') // Only leave letters, numbers and spaces
+		.trim()
+		.split(/\s+/) // Split words
+		.filter(word => {
+			// Drop possible "glue" words like articles only in Latin alphabets
+			if (latinCharactersRegex.exec(word)) {
+				return word.length > 2;
+			}
+
+			// Drop 1-digit numbers
+			if (/\d/.exec(word)) {
+				return word.length > 1;
+			}
+			return true;
+		});
+}
 
 async function displayIssueSuggestions(title) {
-	if (title === '') {
+	const words = getSearchableWords(title);
+	if (words.length === 0) {
 		return;
 	}
 
 	const repo = getRepoURL();
-	const apiQuery = encodeURIComponent(`${escapeQualifiers(title)} repo:${repo} is:issue`);
+	const apiQuery = encodeURIComponent(`${words.join(' ')} repo:${repo} is:issue`);
 	const response = await fetchApi(`search/issues?q=${apiQuery}&per_page=5`).catch(() => null);
 	let sidebarItem;
 
 	if (response && response.items && response.items.length > 0) {
 		const {items: issues, total_count: totalCount} = response;
-		const linkQuery = encodeURIComponent(`${escapeQualifiers(title)} is:issue`);
+		const linkQuery = encodeURIComponent(`${words.join(' ')} is:issue`);
 
 		sidebarItem = (
 			<div class="discussion-sidebar-item">
