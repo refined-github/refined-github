@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import {getUsername} from '../libs/utils';
 
-function getDefaultQuery(link) {
+function getDefaultQuery(link, search) {
 	// Query-less URLs imply some queries.
 	// When we explicitly set ?q=* they're overridden,
 	// so they need to be manually added again.
@@ -13,7 +13,11 @@ function getDefaultQuery(link) {
 
 	// Header nav example: is:open is:issue author:you archived:false
 	if (link.pathname === '/issues' || link.pathname === '/pulls') {
-		queries.push(`author:${getUsername()}`);
+		if (search.has('user')) { // #1211
+			queries.push(`user:${search.get('user')}`);
+		} else {
+			queries.push(`author:${getUsername()}`);
+		}
 		queries.push('archived:false');
 	}
 	return queries.join(' ');
@@ -28,7 +32,7 @@ export default function () {
 		// Pick only links to lists, not single issues + skip pagination links
 		if (/(issues|pulls)\/?$/.test(link.pathname) && !link.closest('.pagination')) {
 			const search = new URLSearchParams(link.search);
-			const existingQuery = search.get('q') || getDefaultQuery(link);
+			const existingQuery = search.get('q') || getDefaultQuery(link, search);
 			search.set('q', `${existingQuery} sort:updated-desc`);
 			link.search = search;
 		}
