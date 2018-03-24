@@ -6,6 +6,7 @@ import dynamicContentScripts from 'webext-dynamic-content-scripts';
 new OptionsSync().define({
 	defaults: {
 		disabledFeatures: '',
+		customCSS: '',
 		logging: false
 	},
 	migrations: [
