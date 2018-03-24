@@ -44,7 +44,7 @@ async function displayIssueSuggestions(title) {
 		const linkQuery = encodeURIComponent(`${words.join(' ')} is:issue`);
 
 		sidebarItem = (
-			<div class="discussion-sidebar-item">
+			<div class="discussion-sidebar-item pt-0">
 				<div class="text-bold mb-2">Possibly related issues</div>
 				<div class="Box Box--condensed">
 					{
