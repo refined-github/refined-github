@@ -32,7 +32,7 @@ GitHub Enterprise is also supported. More info in the options.
 <table>
 	<tr>
 		<th width="50%">
-			Lets you mark issues and pull requests as unread<br>
+			Mark issues and pull requests as unread<br>
 			<em>(They will reappear in Notifications)</em>
 		</th>
 		<th width="50%">
@@ -53,10 +53,10 @@ GitHub Enterprise is also supported. More info in the options.
 <table>
 	<tr>
 		<th width="50%">
-			Adds reaction avatars
+			See <i>who</i> reacted instead of just how many
 		</th>
 		<th width="50%">
-			Waits for the PR checks before merging a PR
+			Wait for checks before merging a pull request
 		</th>
 	</tr>
 	<tr><!-- Prevent zebra stripes --></tr>
@@ -73,10 +73,10 @@ GitHub Enterprise is also supported. More info in the options.
 <table>
 	<tr>
 		<th width="50%">
-			Linkifies issue/PR references in code, comments and titles
+			Click on references to issues and pull requests
 		</th>
 		<th width="50%">
-			Shows links to closing PR in issues and PR
+			See an issue's closing commit or pull request
 		</th>
 	</tr>
 	<tr><!-- Prevent zebra stripes --></tr>
@@ -103,62 +103,6 @@ GitHub Enterprise is also supported. More info in the options.
 
 ### More actions
 
-- [Linkifies branch references in pull requests](https://github.com/sindresorhus/refined-github/issues/1)
-- [Adds a quick edit button to the readme](https://user-images.githubusercontent.com/170270/27501200-31a1fa20-586c-11e7-9a3f-ce270014bf0a.png)
-- [Adds a shortcut to quickly delete a forked repo](https://cloud.githubusercontent.com/assets/170270/13520281/b2c9335c-e211-11e5-9e36-b0f325166356.png)
-- [Adds a button to open all notifications at once](https://user-images.githubusercontent.com/1402241/31700005-1b3be428-b38c-11e7-90a6-8f572968993b.png)
-- [Adds option to view diffs without whitespace changes](https://cloud.githubusercontent.com/assets/170270/17603894/7b71a166-6013-11e6-81b8-22950ab8bce3.png) *(<kbd>d</kbd> <kbd>w</kbd> hotkey)*
-- [Adds `Copy` button to the file view](https://cloud.githubusercontent.com/assets/170270/14453865/8abeaefe-00c1-11e6-8718-9406cee1dc0d.png)
-- [Adds `Copy` button to gist files](https://cloud.githubusercontent.com/assets/170270/21074840/5dc37578-bf03-11e6-9fd9-501d73edef87.png)
-- [Adds `Copy` button for file paths to pull request diffs](https://cloud.githubusercontent.com/assets/4201088/26023064/18c9c77c-37d2-11e7-8926-b0a05a2706ae.png)
-- [Adds links to patch and diff for each commit](https://cloud.githubusercontent.com/assets/737065/13605562/22faa79e-e516-11e5-80db-2da6aa7965ac.png)
-- [Adds links to view the repo at the time of each comment](https://user-images.githubusercontent.com/1402241/32310022-7fef6174-bf5d-11e7-960f-5041a8f073ac.png)
-- [Adds a link in a user's profile to their public gists](https://user-images.githubusercontent.com/11544418/34268306-1c974fd2-e678-11e7-9e82-861dfe7add22.png)
-- [Adds a `Jump to bottom` link to discussion pages](https://user-images.githubusercontent.com/4331946/34298950-93876584-e720-11e7-898a-96f85e31aefe.png)
-- [Adds a `Your repositories` link to user profile dropdown](https://user-images.githubusercontent.com/4201088/34920280-479e2454-f996-11e7-8e24-ad69793b9d9b.png)
-- [Adds a `Download folder` button to repos](https://user-images.githubusercontent.com/1402241/35044451-fd3e2326-fbc2-11e7-82e1-61ec7bee612b.png)
-- [Adds a `Toggle files` button to repos](https://user-images.githubusercontent.com/1402241/35480123-68b9af1a-043a-11e8-8934-3ead3cff8328.gif)
-- [Adds links to the default branch and to the latest semver release](https://user-images.githubusercontent.com/1402241/36961980-389bd2b0-2080-11e8-8bff-bb8af52e7128.png)
-
-### More info at a glance
-
-- [Makes file headers sticky underneath the pull request header](https://user-images.githubusercontent.com/81981/28682784-78bac340-72fe-11e7-9386-bdbab7703693.gif)
-- [Shows user's full name in comments](https://cloud.githubusercontent.com/assets/170270/16172068/0a67b98c-3580-11e6-92f0-6fc930ee17d1.png)
-- [Differentiates merge commits from regular commits](https://user-images.githubusercontent.com/1402241/36772362-8ddf8138-1c87-11e8-9f34-1f6b76e5499f.png)
-- [Adds labels to comments by the original poster](https://cloud.githubusercontent.com/assets/4331946/25075520/d62fbbd0-2316-11e7-921f-ab736dc3522e.png)
-- [Adds build status and link to CI by the repo's title](https://user-images.githubusercontent.com/1402241/32562120-d65166e4-c4e8-11e7-90fb-cbaf36e2709f.png)
-- [Color-codes and counts reviews in PRs list](https://user-images.githubusercontent.com/1402241/33474535-a814ee78-d6ad-11e7-8f08-a8b72799e376.png)
-- [Shows all keyboard shortcuts in the help modal](https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png)  *(<kbd>?</kbd> hotkey)*
-
-### Declutter
-
-- [Only shows activity cards on the dashboard on hover](https://camo.githubusercontent.com/259c70ec39d0d7f462d64f2d63836d7d8552b20d/68747470733a2f2f7468756d62732e6766796361742e636f6d2f4368696c6c79456d70747944776172666d6f6e676f6f73652d73697a655f726573747269637465642e676966)
-- Hides other users starring/forking your repos from the news feed
-- Moves the dashboard organization switcher to the right column
-- Removes annoying hover effect in the repo file browser
-- Hides unnecessary buttons from the comment box toolbar (each has a keyboard shortcut)
-- Removes obvious tooltips
-- Removes the `Projects` repo tab when there are no projects (New projects can be created via the [`Create new…` menu](https://user-images.githubusercontent.com/1402241/34909214-18b6fb2e-f8cf-11e7-8556-bed748596d3b.png))
-
-### UI improvements
-
-- [Moves destructive buttons in commenting forms away from the primary button](https://user-images.githubusercontent.com/170270/27985285-a5464fb2-63e8-11e7-8c01-f33bb7ad78ba.png)
-- [Improves readability of tab indented code](https://cloud.githubusercontent.com/assets/170270/14170088/d3be931e-f755-11e5-8edf-c5f864336382.png)
-- [Aligns labels to the left in Issues and PRs lists](https://user-images.githubusercontent.com/1402241/28006237-070b8214-6581-11e7-94bc-2b01a007d00b.png)
-- [Lets you approve or reject reviews faster](https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png)
-- Prompts you when pressing `Cancel` on an inline comment in case it was a mistake
-- Makes +/- signs unselectable to allows easier copy-pasting from diffs
-- Automagically expands the news feed when you scroll down
-- Shows the reactions popover on hover instead of click
-- Changes the default sort order of milestones to `Closest due date`
-- Changes the default sort order of issues/PRs to `Recently updated`
-- [Makes the `Expand diff` button wider](https://user-images.githubusercontent.com/6978877/34470024-eee4f43e-ef20-11e7-9036-65094bd58960.PNG)
-- [Automatically closes modals when they’re no longer visible](https://user-images.githubusercontent.com/1402241/37022353-531c676e-2155-11e8-96cc-80d934bb22e0.gif)
-- [Highlights permalinked comments](https://user-images.githubusercontent.com/1402241/37349492-226bd37a-2709-11e8-8087-d9686b330240.png)
-- [Hides inactive deployments in PR timeline](https://github.com/sindresorhus/refined-github/issues/1144)
-
-### More actions
-
 - [Click on the branch references in pull request to navigate to the branches.](https://github.com/sindresorhus/refined-github/issues/1)
 - [Quickly edit a repository's README with the quick edit button.](https://user-images.githubusercontent.com/170270/27501200-31a1fa20-586c-11e7-9a3f-ce270014bf0a.png)
 - [Quickly delete a forked repo after its pull request has been merged.](https://cloud.githubusercontent.com/assets/170270/13520281/b2c9335c-e211-11e5-9e36-b0f325166356.png)
@@ -176,12 +120,14 @@ GitHub Enterprise is also supported. More info in the options.
 - [Collapse or expand a repository's files using the :arrow_down_small: button.](https://user-images.githubusercontent.com/1402241/35480123-68b9af1a-043a-11e8-8934-3ead3cff8328.gif)
 - [Quickly navigate to a repository's default branch or latest version tag using links.](https://user-images.githubusercontent.com/1402241/36961980-389bd2b0-2080-11e8-8bff-bb8af52e7128.png)
 
+
 ### More info at a glance
 
 - [See the full name of users in comments.](https://cloud.githubusercontent.com/assets/170270/16172068/0a67b98c-3580-11e6-92f0-6fc930ee17d1.png)
 - [Quickly determine what file you're looking at with the sticky file headers on pull requests.](https://user-images.githubusercontent.com/81981/28682784-78bac340-72fe-11e7-9386-bdbab7703693.gif)
 - [Distinguish between merge commits and regular commits in the commits list.](https://user-images.githubusercontent.com/1402241/36772362-8ddf8138-1c87-11e8-9f34-1f6b76e5499f.png)
 - [See who started an issue using the `Original Poster` label on their comments.](https://cloud.githubusercontent.com/assets/4331946/25075520/d62fbbd0-2316-11e7-921f-ab736dc3522e.png)
+- [See useful references like _user/repo/.file@`d71718d`_ instead of full URLs.](https://user-images.githubusercontent.com/1402241/27252232-8fdf8ed0-538b-11e7-8f19-12d317c9cd32.png)
 - [Quickly see a repository's build status and access the CI without visiting the `Commits` page.](https://user-images.githubusercontent.com/1402241/32562120-d65166e4-c4e8-11e7-90fb-cbaf36e2709f.png)
 - [See what kind of and how many reviews a pull request has received from the pull requests list.](https://user-images.githubusercontent.com/1402241/33474535-a814ee78-d6ad-11e7-8f08-a8b72799e376.png)
 - [See what commit or pull request closed an issue or whether it was closed manually.](https://user-images.githubusercontent.com/1402241/35973522-5c00acb6-0d08-11e8-89ca-03071de15c6f.png)
@@ -212,27 +158,18 @@ GitHub Enterprise is also supported. More info in the options.
 - The default sort order of issues and pull requests is changed to `Recently updated`.
 - [The `Expand diff` button is widened to make interaction easier.](https://user-images.githubusercontent.com/6978877/34470024-eee4f43e-ef20-11e7-9036-65094bd58960.PNG)
 - [Modals are automatically closed when they’re no longer visible.](https://user-images.githubusercontent.com/1402241/37022353-531c676e-2155-11e8-96cc-80d934bb22e0.gif)
+- [Quickly see which comment a permalink links to.](https://user-images.githubusercontent.com/1402241/37349492-226bd37a-2709-11e8-8087-d9686b330240.png)
+- [Inactive deployments in PR timelines are hidden.](https://github.com/sindresorhus/refined-github/issues/1144)
 
 And [many](source/content.css) [more...](source/content.js)
 
 ### More shortcuts
 
-- [Adds a `Releases` tab to repos](https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png) *(<kbd>g</kbd> <kbd>r</kbd> hotkey)*
-- [Adds a `Compare` tab to repos](https://user-images.githubusercontent.com/170270/27501134-cf0a2a18-586b-11e7-8430-22f33030e923.png)
-- [Adds navigation to milestone pages](https://cloud.githubusercontent.com/assets/170270/25217211/37b67aea-25d0-11e7-8482-bead2b04ee74.png)
-- [Adds search filter for `Everything commented by you`](https://user-images.githubusercontent.com/170270/27501170-f394a304-586b-11e7-92d8-d92d6922356b.png)
-- [Adds `Yours` and `Commented` buttons to Issues/Pull Requests page](https://user-images.githubusercontent.com/8295888/36827126-8bfc79c4-1d37-11e8-8754-992968b082be.png)
-- [Condenses long URLs into references like _user/repo/.file@`d71718d`_](https://user-images.githubusercontent.com/1402241/27252232-8fdf8ed0-538b-11e7-8f19-12d317c9cd32.png)
-- Adds a `Trending` link to the global navbar. *(<kbd>g</kbd> <kbd>t</kbd> hotkey)*
-- Adds a keyboard shortcut to leave a single comment in PR diffs instead of starting a review. *(<kbd>shift</kbd>+<kbd>enter</kbd>)*
-- Adds a keyboard shortcut to visit your profile. *(<kbd>g</kbd> <kbd>m</kbd> hotkey)*
-- [Adds <kbd>↑</kbd> shortcut for editing your last comment](https://github.com/sindresorhus/refined-github/pull/961)
 - [Access a repository's releases using the `Releases` tab or by pressing <kbd>g</kbd> <kbd>r</kbd>.](https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png)
 - [Compare a repository's branches with the `Compare` link under `More`.](https://user-images.githubusercontent.com/170270/27501134-cf0a2a18-586b-11e7-8430-22f33030e923.png)
-- [Switch to labels or the milestone list from individual milestone pages.](https://cloud.githubusercontent.com/assets/170270/25217211/37b67aea-25d0-11e7-8482-bead2b04ee74.png)
+- [Access the `Labels` `Milestones` navigation from individual milestone pages.](https://cloud.githubusercontent.com/assets/170270/25217211/37b67aea-25d0-11e7-8482-bead2b04ee74.png)
 - [Search for issues and pull requests with the `Everything commented by you` filter.](https://user-images.githubusercontent.com/170270/27501170-f394a304-586b-11e7-92d8-d92d6922356b.png)
-- [`Yours` and `Commented` buttons are added to the `Issues` and `Pull Requests` pages.](https://user-images.githubusercontent.com/8295888/36827126-8bfc79c4-1d37-11e8-8754-992968b082be.png)
-- [Condenses long URLs into references like _user/repo/.file@`d71718d`_.](https://user-images.githubusercontent.com/1402241/27252232-8fdf8ed0-538b-11e7-8f19-12d317c9cd32.png)
+- [Filter using `Yours` and `Commented` buttons on the `Issues` and `Pull Requests` pages.](https://user-images.githubusercontent.com/8295888/36827126-8bfc79c4-1d37-11e8-8754-992968b082be.png)
 - Access trending reporties using the `Trending` link in the global navbar or by pressing <kbd>g</kbd> <kbd>t</kbd>.
 - Leave a single comment in pull request diffs instead of starting a review by pressing <kbd>shift</kbd> <kbd>enter</kbd>.
 - [Quickly edit your last comment using the <kbd>↑</kbd> shortcut.](https://github.com/sindresorhus/refined-github/pull/961)
