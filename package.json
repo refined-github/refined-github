@@ -41,6 +41,7 @@
 		"babel-loader": "^7.1.2",
 		"babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
 		"babel-plugin-transform-react-jsx": "^6.24.1",
+		"babel-plugin-transform-unicode-property-regex": "^2.0.5",
 		"chrome-webstore-upload-cli": "^1.0.0",
 		"common-tags": "^1.7.2",
 		"copy-webpack-plugin": "^4.4.2",
@@ -90,6 +91,12 @@
 				{
 					"pragma": "h",
 					"useBuiltIns": true
+				}
+			],
+			[
+				"transform-unicode-property-regex",
+				{
+					"useUnicodeFlag": true
 				}
 			]
 		],
