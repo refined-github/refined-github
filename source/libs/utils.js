@@ -14,7 +14,6 @@ const options = new OptionsSync().getAll();
 // use the regular `github-injection`
 export function safeOnAjaxedPages(callback) {
 	ghInjection(() => {
-		console.log(select.exists('has-rgh') ? 'skipped' : 'run', callback);
 		if (!select.exists('has-rgh')) {
 			callback();
 		}
