@@ -77,6 +77,5 @@ async function displayIssueSuggestions(title) {
 }
 
 export default function () {
-	console.log(select('#issue_title'));
 	select('#issue_title').addEventListener('blur', ({target}) => displayIssueSuggestions(target.value));
 }
