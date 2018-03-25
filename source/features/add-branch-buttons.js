@@ -2,6 +2,7 @@ import {h} from 'dom-chef';
 import select from 'select-dom';
 import toSemver from 'to-semver';
 import * as icons from '../libs/icons';
+import {appendBefore} from '../libs/utils';
 import {groupSiblings} from '../libs/group-buttons';
 import {getRepoURL, isRepoRoot, getOwnerAndRepo} from '../libs/page-detect';
 
@@ -12,7 +13,7 @@ import {getRepoURL, isRepoRoot, getOwnerAndRepo} from '../libs/page-detect';
 // "This branch is 1 commit ahead, 27 commits behind master."
 const branchInfoRegex = /([^ ]+)\.$/;
 
-function addTagLink(branchSelector) {
+function getTagLink() {
 	const tags = select.all('.branch-select-menu [data-tab-filter="tags"] .select-menu-item')
 		.map(element => element.dataset.name);
 	const [latestRelease] = toSemver(tags, {clean: false});
@@ -20,7 +21,7 @@ function addTagLink(branchSelector) {
 		return;
 	}
 
-	const link = <a class="btn btn-sm tooltipped tooltipped-ne">{icons.tag()}</a>;
+	const link = <a class="btn btn-sm btn-outline tooltipped tooltipped-ne">{icons.tag()}</a>;
 
 	const currentBranch = select('.branch-select-menu .js-select-button').textContent;
 	if (currentBranch === latestRelease) {
@@ -32,8 +33,7 @@ function addTagLink(branchSelector) {
 		link.append(' ', <span class="css-truncate-target">{latestRelease}</span>);
 	}
 
-	branchSelector.after(link);
-	return true;
+	return link;
 }
 
 function getDefaultBranchNameIfDifferent() {
@@ -62,7 +62,7 @@ function getDefaultBranchNameIfDifferent() {
 	}
 }
 
-function addDefaultBranchLink(branchSelector) {
+function getDefaultBranchLink() {
 	if (select.exists('.repohead h1 .octicon-repo-forked')) {
 		return; // It's a fork, no "default branch" info available #1132
 	}
@@ -83,25 +83,35 @@ function addDefaultBranchLink(branchSelector) {
 		url = branchLink.href;
 	}
 
-	branchSelector.before(
+	return (
 		<a
-			class="btn btn-sm tooltipped tooltipped-ne"
+			class="btn btn-sm btn-outline tooltipped tooltipped-ne"
 			href={url}
-			aria-label={`Visit the default branch (${branchName})`}>
-			{icons.chevronLeft()}
+			aria-label="Visit the default branch">
+			{icons.branch()}
+			{' '}
+			{branchName}
 		</a>
 	);
-	return true;
 }
 
 export default function () {
-	const branchSelector = select('.branch-select-menu .select-menu-button');
-	if (!branchSelector) {
+	const container = select('.file-navigation');
+	if (!container) {
 		return;
 	}
-	const hasTag = addTagLink(branchSelector);
-	const hasDefault = addDefaultBranchLink(branchSelector);
-	if (hasDefault || hasTag) {
-		groupSiblings(branchSelector);
+	const wrapper = (
+		<div class="rgh-branch-buttons">
+			{getDefaultBranchLink() || ''}
+			{getTagLink() || ''}
+		</div>
+	);
+
+	if (wrapper.children.length > 0) {
+		appendBefore(container, '.breadcrumb', wrapper);
+	}
+
+	if (wrapper.children.length > 1) {
+		groupSiblings(wrapper.firstElementChild);
 	}
 }
