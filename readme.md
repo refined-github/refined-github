@@ -32,11 +32,12 @@ GitHub Enterprise is also supported. More info in the options.
 <table>
 	<tr>
 		<th width="50%">
-			Mark issues and pull requests as unread<br>
-			<em>(They will reappear in Notifications)</em>
+			A <code>Mark as unread</code> button for issues and pull requests<br>
+			<em>(Makes them  reappear in Notifications)</em>
 		</th>
 		<th width="50%">
-			Avoids the jump caused by recently pushed branches by moving them to the side
+			No more jumps caused by recently pushed branches<br>
+			<em>(They are moved to the side)</em>
 		</th>
 	</tr>
 	<tr><!-- Prevent zebra stripes --></tr>
@@ -53,10 +54,10 @@ GitHub Enterprise is also supported. More info in the options.
 <table>
 	<tr>
 		<th width="50%">
-			See <i>who</i> reacted instead of just how many
+			Reaction avatars showing <i>who</i> reacted to a comment
 		</th>
 		<th width="50%">
-			Wait for checks before merging a pull request
+			The option to wait for checks when merging a PR
 		</th>
 	</tr>
 	<tr><!-- Prevent zebra stripes --></tr>
@@ -73,10 +74,10 @@ GitHub Enterprise is also supported. More info in the options.
 <table>
 	<tr>
 		<th width="50%">
-			Click on references to issues and pull requests
+			Clickable references to issues and pull requests
 		</th>
 		<th width="50%">
-			See an issue's closing commit or pull request
+			Links to an issue's closing commit or pull request
 		</th>
 	</tr>
 	<tr><!-- Prevent zebra stripes --></tr>
@@ -117,7 +118,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Access `Your repositories` from the profile dropdown.](https://user-images.githubusercontent.com/4201088/34920280-479e2454-f996-11e7-8e24-ad69793b9d9b.png)
 - [Download entire folders from repositories using the `Download folder` button.](https://user-images.githubusercontent.com/1402241/35044451-fd3e2326-fbc2-11e7-82e1-61ec7bee612b.png) *(Uses download-directory.github.io.)*
 - [Collapse or expand a repository's files using the :arrow_down_small: button.](https://user-images.githubusercontent.com/1402241/35480123-68b9af1a-043a-11e8-8934-3ead3cff8328.gif)
-- [Quickly navigate to a repository's default branch or latest version tag using links.](https://user-images.githubusercontent.com/1402241/36961980-389bd2b0-2080-11e8-8bff-bb8af52e7128.png)
+- [Quickly navigate to a repository's default branch or latest version tag.](https://user-images.githubusercontent.com/1402241/36961980-389bd2b0-2080-11e8-8bff-bb8af52e7128.png)
 
 
 ### More info at a glance
