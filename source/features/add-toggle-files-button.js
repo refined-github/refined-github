@@ -6,7 +6,7 @@ import observeEl from '../libs/simplified-element-observer';
 
 function addButton() {
 	const filesHeader = select('.commit-tease .float-right');
-	if (!filesHeader) {
+	if (!filesHeader || select.exists('.rgh-toggle-files')) {
 		return;
 	}
 	filesHeader.append(
