@@ -18,7 +18,7 @@ input[type='checkbox'] {
 	font-size: 0.9em;
 }
 
-hr {
+:root hr {
 	margin-right: -17px;
 	margin-left: -17px;
 	border: none;
@@ -40,6 +40,13 @@ h2 ~ h2 {
 	}
 	:root body {
 		font: message-box, sans-serif;
+	}
+	:root hr {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	body > :not(hr) {
+		margin-left: 6px;
 	}
 	input[type='checkbox'] {
 		vertical-align: -41%;
