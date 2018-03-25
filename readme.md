@@ -134,7 +134,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [See what pull requests will close an issue once they are merged into the master branch.](https://user-images.githubusercontent.com/1402241/37037746-8b8eac8a-2185-11e8-94f6-4d50a9c8a152.png)
 - [Get an overview of all available keyboard shortcuts in the help modal.](https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png)  *(<kbd>?</kbd> hotkey)*
 
-### Less clutter
+### Declutter
 
 - [Reveal activity cards on the dashboard on hover.](https://camo.githubusercontent.com/259c70ec39d0d7f462d64f2d63836d7d8552b20d/68747470733a2f2f7468756d62732e6766796361742e636f6d2f4368696c6c79456d70747944776172666d6f6e676f6f73652d73697a655f726573747269637465642e676966)
 - News feed items of users starring or forking your repos are removed.

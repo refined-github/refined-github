@@ -120,9 +120,6 @@
 			"rule-empty-line-before": null,
 			"at-rule-empty-line-before": null,
 			"selector-max-compound-selectors": null
-		},
-		"ignoreFiles": [
-			"**/*.md"
-		]
+		}
 	}
 }
