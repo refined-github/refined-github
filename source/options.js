@@ -3,7 +3,8 @@ import OptionsSync from 'webext-options-sync';
 import indentTextarea from './libs/indent-textarea';
 
 Textarea.init('textarea', {
-	events: ['input']
+	events: ['input'],
+	paddingBottom: 2
 });
 
 document.querySelector('[name="customCSS"]').addEventListener('keydown', event => {
