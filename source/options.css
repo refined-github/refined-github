@@ -18,8 +18,11 @@ input[type='checkbox'] {
 	font-size: 0.9em;
 }
 
-p {
-	margin-top: 0;
+:root hr {
+	margin-right: -17px;
+	margin-left: -17px;
+	border: none;
+	border-bottom: solid #d3d3d3 1px;
 }
 
 /* Increase spacing between sections */
@@ -38,6 +41,13 @@ h2 ~ h2 {
 	:root body {
 		font: message-box, sans-serif;
 	}
+	:root hr {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	body > :not(hr) {
+		margin-left: 6px;
+	}
 	input[type='checkbox'] {
 		vertical-align: -41%;
 	}
@@ -48,3 +58,4 @@ h2 ~ h2 {
 		display: block;
 	}
 }
+
