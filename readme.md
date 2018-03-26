@@ -99,12 +99,12 @@ GitHub Enterprise is also supported. More info in the options.
 - Copy the canonical link of a file with [the <kbd>y</kbd> hotkey](https://help.github.com/articles/getting-permanent-links-to-files/).
 - Indent text with <kbd>tab</kbd> inside comment fields (<kbd>shift</kbd> <kbd>tab</kbd> for original behavior).
 - [Use the pull request title as the commit title when merging with `Squash and merge`](https://github.com/sindresorhus/refined-github/issues/276).
-- [Directly view linked gists inside comments without visiting the link.](https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.PNG)
+- [Directly view linked gists inside comments.](https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.PNG)
 - [Search a user's content using the user-scoped search on their profile page.](https://user-images.githubusercontent.com/1402241/35185441-24ad4b1e-fe37-11e7-9e1b-0dc09fc1ada2.png)
 
 ### More actions
 
-- [Click on the branch references in pull request to navigate to the branches.](https://github.com/sindresorhus/refined-github/issues/1)
+- [Click on branch references in pull requests to visit the branches.](https://github.com/sindresorhus/refined-github/issues/1)
 - [Quickly edit a repository's README from the repository root.](https://user-images.githubusercontent.com/170270/27501200-31a1fa20-586c-11e7-9a3f-ce270014bf0a.png)
 - [Quickly delete a forked repo after its pull request has been merged.](https://cloud.githubusercontent.com/assets/170270/13520281/b2c9335c-e211-11e5-9e36-b0f325166356.png)
 - [Open all your notifications at once.](https://user-images.githubusercontent.com/1402241/31700005-1b3be428-b38c-11e7-90a6-8f572968993b.png)
@@ -136,7 +136,7 @@ GitHub Enterprise is also supported. More info in the options.
 
 ### Declutter
 
-- [Reveal activity cards on the dashboard on hover.](https://camo.githubusercontent.com/259c70ec39d0d7f462d64f2d63836d7d8552b20d/68747470733a2f2f7468756d62732e6766796361742e636f6d2f4368696c6c79456d70747944776172666d6f6e676f6f73652d73697a655f726573747269637465642e676966)
+- [Activity cards on the dashboard are only shown on hover.](https://camo.githubusercontent.com/259c70ec39d0d7f462d64f2d63836d7d8552b20d/68747470733a2f2f7468756d62732e6766796361742e636f6d2f4368696c6c79456d70747944776172666d6f6e676f6f73652d73697a655f726573747269637465642e676966)
 - News feed items of users starring or forking your repos are removed.
 - The dashboard organization switcher is moved to the right column.
 - No more annoying hover effect in the repo file browser.
@@ -158,7 +158,7 @@ GitHub Enterprise is also supported. More info in the options.
 - The default sort order of issues and pull requests is changed to `Recently updated`.
 - [The `Expand diff` button is widened to make interaction easier.](https://user-images.githubusercontent.com/6978877/34470024-eee4f43e-ef20-11e7-9036-65094bd58960.PNG)
 - [Modals are automatically closed when they’re no longer visible.](https://user-images.githubusercontent.com/1402241/37022353-531c676e-2155-11e8-96cc-80d934bb22e0.gif)
-- [Quickly see which comment a permalink links to.](https://user-images.githubusercontent.com/1402241/37349492-226bd37a-2709-11e8-8087-d9686b330240.png)
+- [Permalinked comments are highlighted.](https://user-images.githubusercontent.com/1402241/37349492-226bd37a-2709-11e8-8087-d9686b330240.png)
 - [Inactive deployments in PR timelines are hidden.](https://github.com/sindresorhus/refined-github/issues/1144)
 
 And [many more…](source/content.css)
