@@ -169,6 +169,8 @@ And [lots](source/content.css) [more...](source/content.js)
 - Adds a keyboard shortcut to leave a single comment in PR diffs instead of starting a review. *(<kbd>shift</kbd>+<kbd>enter</kbd>)*
 - Adds a keyboard shortcut to visit your profile. *(<kbd>g</kbd> <kbd>m</kbd> hotkey)*
 - [Adds <kbd>↑</kbd> shortcut for editing your last comment](https://github.com/sindresorhus/refined-github/pull/961)
+- Adds shortcuts to navigate between tabs in pull request page (<kbd>q</kbd>+<kbd>1</kbd> for Conversation, <kbd>q</kbd>+<kbd>2</kbd> for Commits, <kbd>q</kbd>+<kbd>3</kbd> for Files changed)
+- Adds shortcuts to cycle between tabs in pull request page (<kbd>q</kbd><kbd>←</kbd> and <kbd>q</kbd><kbd>→</kbd>)
 
 ### Previously part of Refined GitHub
 
