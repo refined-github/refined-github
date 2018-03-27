@@ -6,13 +6,13 @@ import api from '../libs/api';
 export default async () => {
 	const container = select('body.page-profile .UnderlineNav-body');
 
-	if (select.exists('.rgh-user-gist') || !container) {
+	if (!container) {
 		return;
 	}
 
 	const username = getCleanPathname();
 	const href = isEnterprise() ? `/gist/${username}` : `https://gist.github.com/${username}`;
-	const link = <a href={href} class="UnderlineNav-item rgh-user-gist" role="tab" aria-selected="false">Gists </a>;
+	const link = <a href={href} class="UnderlineNav-item" role="tab" aria-selected="false">Gists </a>;
 	container.append(link);
 
 	const userData = await api(`users/${username}`);

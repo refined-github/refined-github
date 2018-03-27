@@ -5,32 +5,44 @@
 <link rel="stylesheet" href="chrome://global/skin/in-content/common.css">
 <link rel="stylesheet" href="chrome://mozapps/skin/extensions/extensions.css">
 <form id="options-form" class="detail-view-container">
-	<h2>Disable features</h2>
-	<p>
-		List the features to disable, by <a href="https://github.com/sindresorhus/refined-github/tree/master/source/features" target="_blank">filename</a>. Enable logging to show in the console what features are enabled on each page.
-	</p>
-	<p class="small">
-		<textarea name="disabledFeatures" rows="3" placeholder="For example: &#10;mark-unread hide-own-stars"></textarea> <br>
-		<strong>Notice:</strong> Mostly untested; only JavaScript-based features can be disabled.
-	</p>
+	<h2 class="only-firefox">Options</h2>
+
 	<p>
 		<label>
-			<input type="checkbox" name="logging">
-			Enable logging
+			<strong>Custom CSS</strong> (useful to undo unwanted styles)<br>
+			<textarea name="customCSS" rows="2" spellcheck="false"></textarea>
 		</label>
 	</p>
 
-	<h2>More features</h2>
+	<hr>
+
 	<p>
-		Want more? Check out our <a href="https://github.com/sindresorhus/refined-github#related" target="_blank">related GitHub extensions</a>
+		<label>
+			<strong>Features to disable</strong>, by <a href="https://github.com/sindresorhus/refined-github/tree/master/source/features" target="_blank">filename</a> (not advised)<br>
+			<textarea name="disabledFeatures" rows="2" placeholder="For example: &#10;mark-unread hide-own-stars" spellcheck="false"></textarea>
+		</label>
 	</p>
 
-	<h2>GitHub Enterprise</h2>
+	<p>
+		<label>
+			<input type="checkbox" name="logging">
+			Show the features enabled on each page in the console
+		</label>
+	</p>
+
+	<hr>
+
+	<p>
+		Want more features? Check out our <a href="https://github.com/sindresorhus/refined-github#related" target="_blank">related GitHub extensions</a>
+	</p>
+
+	<hr>
+
 	<p class="no-firefox">
-		Visit your GH Enterprise, right-click on <a href="https://user-images.githubusercontent.com/1402241/32874388-e0c64150-cacc-11e7-9a50-eae3727fd3c2.png" target="_blank">Refined GitHub's icon in the toolbar</a> and select <strong>Enable Refined GitHub on this domain</strong>.
+		If you're a GitHub Enterprise user, visit your Enterprise site, right-click on <a href="https://user-images.githubusercontent.com/1402241/32874388-e0c64150-cacc-11e7-9a50-eae3727fd3c2.png" target="_blank">Refined GitHub's icon in the toolbar</a> and select <strong>Enable Refined GitHub on this domain</strong>.
 	</p>
 	<p class="only-firefox">
-		<a href="https://github.com/sindresorhus/refined-github/issues/840#issuecomment-349936195" target="_blank">Not yet supported by Firefox</a>.
+		<a href="https://github.com/sindresorhus/refined-github/issues/840#issuecomment-349936195" target="_blank">GitHub Enterprise is not yet supported in Firefox</a>.
 	</p>
 </form>
 <script src="browser-polyfill.min.js"></script>

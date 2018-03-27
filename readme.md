@@ -154,6 +154,8 @@ GitHub Enterprise is also supported. More info in the options.
 - Changes the default sort order of issues/PRs to "Recently updated"
 - [Makes the "Expand diff" button wider](https://user-images.githubusercontent.com/6978877/34470024-eee4f43e-ef20-11e7-9036-65094bd58960.PNG)
 - [Automatically closes modals when they’re no longer visible](https://user-images.githubusercontent.com/1402241/37022353-531c676e-2155-11e8-96cc-80d934bb22e0.gif)
+- [Highlights permalinked comments](https://user-images.githubusercontent.com/1402241/37349492-226bd37a-2709-11e8-8087-d9686b330240.png)
+- [Hides inactive deployments in PR timeline](https://github.com/sindresorhus/refined-github/issues/1144)
 
 And [lots](source/content.css) [more...](source/content.js)
 
@@ -211,6 +213,7 @@ See the [contribution guide](contributing.md) and join the [contributors](https:
 - [Notifications Preview for GitHub](https://github.com/tanmayrajani/notifications-preview-github) - See your notifications on hover on all pages
 - [Refined Twitter](https://github.com/sindresorhus/refined-twitter) - Improves Twitter
 - [GitHub Issue Link Status](https://github.com/bfred-it/github-issue-link-status) - Colorize issue and PR links to see their status (open, closed, merged)
+- [GitHub Follow](https://github.com/staff0rd/github-follow-extension) - Follow file renames on GitHub
 
 Want more? Here are some ideas you could develop!
 

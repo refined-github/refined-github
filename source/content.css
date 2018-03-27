@@ -297,7 +297,9 @@ followed someone
 }
 
 /* Fade out merge commits from commit list */
-.refined-github-merge-commit .table-list-cell:first-child {
+.refined-github-merge-commit .commit-title,
+.refined-github-merge-commit .commit-meta > div:not(.commit-indicator),
+.refined-github-merge-commit .commit-build-statuses > summary {
 	opacity: 0.7;
 }
 
@@ -529,6 +531,59 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 	margin-left: 5px;
 }
 
+/* Highlight linked comment */
+:root .timeline-comment:target {
+	border-color: #e5d999;
+}
+:root .timeline-comment:target.current-user::before {
+	border-right-color: #e5d999;
+}
+:root .timeline-comment:target.current-user::after {
+	border-right-color: #fffded;
+}
+:root .timeline-comment:target .timeline-comment-header {
+	background-color: #fffdef;
+	border-bottom-color: #e5d999;
+}
+:root .timeline-comment:target .timeline-comment-label {
+	border-color: #e5d999;
+}
+:root .timeline-comment:target .reaction-summary-item {
+	border-right-color: #e5d999;
+}
+:root .timeline-comment:target .comment-reactions.has-reactions {
+	border-top-color: #e5d999;
+}
+:root .timeline-comment:target .previewable-comment-form .comment-form-head.tabnav {
+	color: #e5d999;
+	background-color: #fffdef;
+	border-bottom-color: #e5d999;
+}
+
+/* Highlighted linked review comment */
+:root .review-comment:target {
+	background-color: #fffdef;
+}
+:root .review-comment:target .timeline-comment-label {
+	border-color: #e5d999;
+}
+:root .review-comment:target button.reaction-summary-item {
+	border-color: #e5d999;
+	background-color: #f9f3cb;
+	color: #7c6d0b;
+}
+:root .review-comment:target .add-reaction-btn {
+	color: #e09810;
+}
+:root .review-comment:target .reaction-summary-item {
+	--background: transparent;
+}
+
+/* Prevent text reversal Unicode hacks in full names */
+.timeline-comment-header-text bdo {
+	display: inline-block;
+}
+
 /* Move "close issue" and "cancel" buttons on authoring comments to the left */
 
 /* ...in issue comment form */
@@ -646,17 +701,33 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	display: none;
 }
 
+/* Hide inactive deployment events */
+.discussion-item.rgh-inactive-deployment {
+	display: none;
+}
+
 /* Colorize `extend-issue-status-label` */
 .gh-header-meta .State {
 	text-decoration: none;
 }
-.gh-header-meta .State a {
+.gh-header-meta .State a,
+.gh-header-meta .State code {
 	color: #fff;
 }
 
 /* Space out `rgh-closing-pr`; matches native `.gh-header-meta .State` spacing */
 .rgh-closing-pr {
 	margin-right: 8px;
+}
+
+/* Make issue suggestions as wide as possible, within the current viewport */
+.rgh-issue-suggestions {
+	min-width: 100%;
+	width: calc(50vw - 510px + 100%);
+	max-width: max-content;
+}
+.rgh-issue-suggestions .Box {
+	transition: opacity 0.2s;
 }
 
 /* For `add-ci-link` */
@@ -725,27 +796,6 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	vertical-align: middle;
 }
 
-/* Make the modal backdrop visible */
-:root body.menu-active .modal-backdrop,
-:root .dropdown-details[open] > summary::before {
-	z-index: 20; /* Don't mess with this value so easily */
-	background: rgba(0, 0, 0, 0.1);
-	animation: fade-in 0.2s;
-}
-summary.HeaderNavlink::before {
-	z-index: 30 !important; /* Bring the header backdrop above the PR bar */
-}
-:root .pagehead ul.pagehead-actions {
-	position: static; /* Watch, star, and fork buttons don‘t need a stacking context */
-}
-
-/* Reduce duplicate backdrop in PR diff view */
-:root .pr-toolbar .modal-backdrop {
-	width: 100%;
-	height: 100%;
-	position: absolute;
-}
-
 @keyframes fade-in {
 	from {
 		opacity: 0;
@@ -778,7 +828,7 @@ summary.HeaderNavlink::before {
 	position: absolute;
 	top: -117px;
 	right: 0;
-	z-index: 10;
+	z-index: 32; /* Set z-index higher than ul.pagehead-actions */
 	background: var(--github-gray-background);
 	white-space: nowrap;
 	animation: rgh-slide-in-right 0.3s ease-out;
@@ -913,11 +963,12 @@ body > .footer li a {
 /* For 'add-toggle-files-button' feature */
 .rgh-toggle-files {
 	margin-right: -6px;
+	margin-top: -3px;
 }
 .rgh-files-hidden .commit-tease {
 	border-radius: 3px;
 }
-.rgh-files-hidden .commit-tease .octicon-chevron-down {
+.repository-content:not(.rgh-files-hidden) .commit-tease .octicon-chevron-down {
 	transform: rotate(0.5turn);
 }
 .rgh-files-hidden .files {

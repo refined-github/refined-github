@@ -4,9 +4,6 @@ import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
 
 function add() {
-	if (select.exists('.rgh-closing-pr')) {
-		return;
-	}
 	for (const infoBubble of select.all('[aria-label*="will close once pull request"]')) {
 		const prLink = select('a', infoBubble.nextElementSibling);
 		const issueNumber = select('.issue-num', prLink).textContent;

@@ -1,35 +1,7 @@
 import select from 'select-dom';
 import delegate from 'delegate';
+import indentTextarea from '../libs/indent-textarea';
 import {registerShortcut} from './improve-shortcut-help';
-
-function indentInput(el) {
-	const selection = window.getSelection().toString();
-	const {selectionStart, selectionEnd, value} = el;
-	const linesCount = selection.match(/^|\n/g).length;
-
-	if (linesCount > 1) {
-		// Select full first line to replace everything at once
-		const firstLineStart = value.lastIndexOf('\n', selectionStart) + 1;
-		el.setSelectionRange(firstLineStart, selectionEnd);
-
-		const newSelection = window.getSelection().toString();
-		const indentedText = newSelection.replace(
-			/^|\n/g, // Match all line starts
-			'$&\t'
-		);
-
-		// Replace newSelection with indentedText
-		document.execCommand('insertText', false, indentedText);
-
-		// Restore selection position, including the indentation
-		el.setSelectionRange(
-			selectionStart + 1,
-			selectionEnd + linesCount
-		);
-	} else {
-		document.execCommand('insertText', false, '\t');
-	}
-}
 
 // Element.blur() will reset the tab focus to the start of the document.
 // This places it back next to the blurred field
@@ -58,7 +30,7 @@ export default function () {
 				return;
 			}
 
-			indentInput(field);
+			indentTextarea(field);
 			event.preventDefault();
 		} else if (event.key === 'Enter' && event.shiftKey) {
 			const singleCommentButton = select('.review-simple-reply-button', field.form);

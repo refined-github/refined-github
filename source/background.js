@@ -6,17 +6,13 @@ import dynamicContentScripts from 'webext-dynamic-content-scripts';
 new OptionsSync().define({
 	defaults: {
 		disabledFeatures: '',
+		customCSS: '',
 		logging: false
 	},
 	migrations: [
 		options => {
-			// #877
-			if (options.hideStarsOwnRepos === false) {
-				options.disabledFeatures += '\nhide-own-stars';
-			}
-
-			// #920
-			options.disabledFeatures = options.disabledFeatures.replace('linkify_branch_refs', 'linkify-branch-refs');
+			// #1200
+			options.disabledFeatures = options.disabledFeatures.replace('extend-issue-status-label', 'extend-status-labels');
 		},
 		OptionsSync.migrations.removeUnused
 	]
