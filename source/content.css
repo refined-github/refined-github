@@ -972,11 +972,7 @@ body > .footer li a {
 	cursor: pointer;
 }
 
-blockquote {
-	max-height: 30.5em;
-	overflow-y: auto;
-}
-
+blockquote,
 pre {
 	max-height: 30.5em;
 	overflow-y: auto;
