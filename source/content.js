@@ -218,12 +218,8 @@ function ajaxedPagesHandler() {
 		enableFeature(openCIDetailsInNewTab);
 		enableFeature(waitForBuild);
 		enableFeature(toggleAllThingsWithAlt);
-		enableFeature(addPullRequestHotkey);
-	}
-
-	if (pageDetect.isQuickPR()) {
-		enableFeature(linkifyBranchRefs.inQuickPR, 'linkify-branch-refs');
 		enableFeature(hideInactiveDeployments);
+		enableFeature(addPullRequestHotkey);
 	}
 
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
