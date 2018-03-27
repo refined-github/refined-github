@@ -972,8 +972,8 @@ body > .footer li a {
 	cursor: pointer;
 }
 
-blockquote,
-pre {
+.comment-body > .highlight > blockquote,
+.comment-body > .highlight > pre {
 	max-height: 30.5em;
 	overflow-y: auto;
 	max-height: 30.5em;
