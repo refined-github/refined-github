@@ -6,11 +6,11 @@ export default function () {
 	const lastTab = tabs.length - 1;
 
 	for (const [index, tab] of tabs.entries()) {
-		const keys = [`p ${index + 1}`];
-		if (index === selectedIndex - 1 || (index === 0 && selectedIndex === lastTab)) {
-			keys.push('p ArrowLeft');
-		} else if (index === selectedIndex + 1 || (index === lastTab && selectedIndex === 0)) {
-			keys.push('p ArrowRight');
+		const keys = [`q ${index + 1}`];
+		if (index === selectedIndex - 1 || (selectedIndex === 0 && index === lastTab)) {
+			keys.push('q ArrowLeft');
+		} else if (index === selectedIndex + 1 || (selectedIndex === lastTab && index === 0)) {
+			keys.push('q ArrowRight');
 		}
 		tab.dataset.hotkey = keys;
 	}
