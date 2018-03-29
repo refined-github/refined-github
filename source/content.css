@@ -982,6 +982,8 @@ body > .footer li a {
 	background: 0 100% / 100% 14px no-repeat;
 	background-attachment: local, scroll;
 	background-image:
-		linear-gradient(#fff, #fff), /* Shadow cover */
-		linear-gradient(#1b1f2300, #1b1f2326); /* Shadow */
+		/* Shadow cover */
+		linear-gradient(#fff, #fff),
+		/* Shadow */
+		linear-gradient(#1b1f2300, #1b1f2326);
 }
