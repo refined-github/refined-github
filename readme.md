@@ -163,7 +163,6 @@ And [many more…](source/content.css)
 
 ### More shortcuts
 
-
 - [Access a repository's releases using the `Releases` tab or by pressing <kbd>g</kbd> <kbd>r</kbd>.](https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png)
 - [Compare a repository's branches with the `Compare` link under `More`.](https://user-images.githubusercontent.com/170270/27501134-cf0a2a18-586b-11e7-8430-22f33030e923.png)
 - [Access the `Labels` `Milestones` navigation from individual milestone pages.](https://cloud.githubusercontent.com/assets/170270/25217211/37b67aea-25d0-11e7-8482-bead2b04ee74.png)
@@ -173,7 +172,7 @@ And [many more…](source/content.css)
 - Leave a single comment in pull request diffs instead of starting a review by pressing <kbd>shift</kbd> <kbd>enter</kbd>.
 - [Quickly edit your last comment using the <kbd>↑</kbd> shortcut.](https://github.com/sindresorhus/refined-github/pull/961)
 - Visit your profile by pressing <kbd>g</kbd> <kbd>m</kbd>.
-- Cycle through PR tabs by pressing <kbd>q</kbd><kbd>←</kbd> and <kbd>q</kbd><kbd>→</kbd> or specifically <kbd>q</kbd>+<kbd>1</kbd> for Conversation, <kbd>q</kbd>+<kbd>2</kbd> for Commits, and <kbd>q</kbd>+<kbd>3</kbd> for Files changed.
+- Cycle through PR tabs by pressing <kbd>q</kbd> <kbd>←</kbd> and <kbd>q</kbd> <kbd>→</kbd>, or <kbd>q</kbd> <kbd>1</kbd>, <kbd>q</kbd> <kbd>2</kbd> and <kbd>q</kbd> <kbd>3</kbd>.
 
 ### Previously part of Refined GitHub
 
