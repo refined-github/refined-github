@@ -990,3 +990,7 @@ body > .footer li a {
 .comment-body pre {
 	--background: #f6f8fa;
 }
+.comment-body blockquote blockquote,
+.comment-body blockquote pre {
+	max-height: none;
+}
