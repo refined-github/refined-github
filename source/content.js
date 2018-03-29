@@ -5,6 +5,7 @@ import domLoaded from 'dom-loaded';
 
 import markUnread from './features/mark-unread';
 import addOpenAllNotificationsButton from './features/open-all-notifications';
+import openAllSelected from './features/open-all-selected';
 import addUploadBtn from './features/upload-button';
 import enableCopyOnY from './features/copy-on-y';
 import addReactionParticipants from './features/reactions-avatars';
@@ -186,6 +187,7 @@ function ajaxedPagesHandler() {
 	enableFeature(linkifyCode);
 	enableFeature(addDownloadFolderButton);
 	enableFeature(linkifyBranchRefs);
+	enableFeature(openAllSelected);
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 		enableFeature(addYoursMenuItem);
