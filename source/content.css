@@ -976,8 +976,6 @@ body > .footer li a {
 .comment-body > .highlight > pre {
 	max-height: 30.5em;
 	overflow-y: auto;
-	max-height: 30.5em;
-	overflow-y: auto;
 	/* Add a show when there is an overflow.
 	http://lea.verou.me/2012/04/background-attachment-local/ */
 	background:
