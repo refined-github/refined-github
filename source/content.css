@@ -685,6 +685,12 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	color: var(--github-red) !important;
 }
 
+/* For `open-all-selected`: space out button */
+:root .rgh-open-all-selected {
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
 /* Fix for GHE More Dropdown positioning */
 .reponav-dropdown.active .dropdown-menu {
 	left: auto !important;
