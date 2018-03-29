@@ -972,8 +972,9 @@ body > .footer li a {
 	cursor: pointer;
 }
 
-.comment-body > .highlight > blockquote,
-.comment-body > .highlight > pre {
+.comment-body blockquote,
+.comment-body pre {
+	position: relative; /* OctoLink compat: attach the purple balls to the scroll */
 	max-height: 30.5em;
 	overflow-y: auto;
 	/* Add a show when there is an overflow.
