@@ -977,17 +977,11 @@ body > .footer li a {
 	position: relative; /* OctoLink compat: attach the purple balls to the scroll */
 	max-height: 30.5em;
 	overflow-y: auto;
-	/* Add a show when there is an overflow.
+	/* Add a shadow when there is an overflow.
 	http://lea.verou.me/2012/04/background-attachment-local/ */
-	background:
-		/* Shadow covers */
-		linear-gradient(rgba(255,255,255,0), #f6f8fa 70%) 0 100%,
-
-		/* Shadows */
-		radial-gradient(farthest-side at 50% 0%, rgba(0,0,0,0), rgba(0,0,0,0)),
-		radial-gradient(farthest-side at 50% 100%, rgba(0,0,0,.2), rgba(0,0,0,0)) 0 100%;
-	background-repeat: no-repeat;
-	background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
-
-	background-attachment: local, local, scroll, scroll;
+	background: 0 100% / 100% 14px no-repeat;
+	background-attachment: local, scroll;
+	background-image:
+		linear-gradient(#fff, #fff), /* Shadow cover */
+		linear-gradient(#1b1f2300, #1b1f2326); /* Shadow */
 }
