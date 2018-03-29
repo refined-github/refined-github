@@ -983,7 +983,10 @@ body > .footer li a {
 	background-attachment: local, scroll;
 	background-image:
 		/* Shadow cover */
-		linear-gradient(#fff, #fff),
+		linear-gradient(var(--background, #fff), var(--background, #fff)),
 		/* Shadow */
 		linear-gradient(#1b1f2300, #1b1f2326);
+}
+.comment-body pre {
+	--background: #f6f8fa;
 }
