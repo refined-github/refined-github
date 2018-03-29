@@ -2,11 +2,10 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate';
-import pEvent from 'p-event';
 import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
 import {groupSiblings} from '../libs/group-buttons';
-import {safeElementReady, safeOnAjaxedPages} from '../libs/utils';
+import {safeOnAjaxedPages} from '../libs/utils';
 import {isNotifications} from '../libs/page-detect';
 
 const confirmationRequiredCount = 10;
