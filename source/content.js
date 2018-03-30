@@ -244,11 +244,11 @@ function ajaxedPagesHandler() {
 		enableFeature(addJumpToBottomLink);
 	}
 
-	if (pageDetect.isPRList() || pageDetect.isIssueList()) {
+	if (pageDetect.isIssueList()) {
 		enableFeature(addFilterCommentsByYou);
 	}
 
-	if (pageDetect.isPRList() || pageDetect.isIssueList() || pageDetect.isPR() || pageDetect.isIssue()) {
+	if (pageDetect.isIssueList() || pageDetect.isPR() || pageDetect.isIssue()) {
 		enableFeature(showRecentlyPushedBranches);
 	}
 
