@@ -1,7 +1,7 @@
 /* eslint-disable no-alert */
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import {isIssueList, isPRList} from '../libs/page-detect';
+import {isIssueList} from '../libs/page-detect';
 
 const confirmationRequiredCount = 10;
 
@@ -25,7 +25,7 @@ function openSelected() {
 }
 
 export default function () {
-	if (!isIssueList() && !isPRList()) {
+	if (!isIssueList()) {
 		return;
 	}
 
