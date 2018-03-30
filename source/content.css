@@ -40,15 +40,15 @@
 	margin: 0;
 }
 
-/* Privately remind users to use Reactions for voting */
-.current-user .comment-body > p:only-child > g-emoji[alias$="1"]:only-child {
+/* Privately remind users to use Reactions for +1/-1 voting */
+.current-user .comment-body > p:only-child > g-emoji[alias$='1']:only-child {
 	display: flex;
 	flex-direction: column;
 	text-align: center;
 	padding: 3em;
 	font-size: 4em;
 }
-.current-user .comment-body > p:only-child > g-emoji[alias$="1"]:only-child:after {
+.current-user .comment-body > p:only-child > g-emoji[alias$='1']:only-child::after {
 	content: 'This should be posted as a reaction, not as a comment.';
 	font-family: sans-serif;
 	margin-top: 2em;
