@@ -743,6 +743,10 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	animation: fade-in 0.2s;
 }
 
+.rgh-ci-link .octicon {
+	margin-top: 0px !important;
+}
+
 :root .repohead h1 .commit-build-statuses .octicon {
 	position: static;
 	color: inherit;
