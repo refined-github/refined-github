@@ -72,6 +72,13 @@
 [aria-label='Edit this file']::after,
 [aria-label='Edit comment']::before,
 [aria-label='Edit comment']::after,
+[aria-label='Edit comment']::after,
+[aria-label='Open this file in GitHub Desktop']::before,
+[aria-label='Open this file in GitHub Desktop']::after,
+[aria-label$='branch to make changes.']::before,
+[aria-label$='branch to make changes.']::after,
+[aria-label='Copy file path to clipboard']::before,
+[aria-label='Copy file path to clipboard']::after,
 .notification-indicator::before,
 .notification-indicator::after {
 	display: none !important;
