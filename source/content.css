@@ -744,7 +744,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 }
 
 .rgh-ci-link .octicon {
-	margin-top: 0px !important;
+	margin-top: 0 !important;
 }
 
 :root .repohead h1 .commit-build-statuses .octicon {
