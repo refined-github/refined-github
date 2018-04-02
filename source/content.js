@@ -193,8 +193,6 @@ function ajaxedPagesHandler() {
 	enableFeature(linkifyBranchRefs);
 	enableFeature(openAllSelected);
 
-
-
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 		enableFeature(addYoursMenuItem);
 		enableFeature(addCommentedMenuItem);
