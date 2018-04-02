@@ -12,5 +12,5 @@ export default function () {
 			if (notification && isO) {
 				window.open(url, '_blank');
 			}
-	});
+		});
 }
