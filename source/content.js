@@ -142,7 +142,6 @@ async function init() {
 async function onDomReady() {
 	enableFeature(markUnread);
 	enableFeature(addOpenAllNotificationsButton);
-	enableFeature(openNotificationInNewTab);
 	enableFeature(enableCopyOnY);
 	enableFeature(addProfileHotkey);
 	enableFeature(makeDiscussionSidebarSticky);
@@ -161,6 +160,10 @@ async function onDomReady() {
 	if (pageDetect.isDashboard()) {
 		enableFeature(hideOwnStars);
 		enableFeature(autoLoadMoreNews);
+	}
+
+	if (pageDetect.isNotifications()) {
+		enableFeature(openNotificationInNewTab);
 	}
 
 	// Push safeOnAjaxedPages on the next tick so it happens in the correct order
@@ -189,6 +192,8 @@ function ajaxedPagesHandler() {
 	enableFeature(addDownloadFolderButton);
 	enableFeature(linkifyBranchRefs);
 	enableFeature(openAllSelected);
+
+
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 		enableFeature(addYoursMenuItem);
