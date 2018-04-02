@@ -5,6 +5,12 @@
 	"homepage_url": "https://github.com/sindresorhus/refined-github",
 	"manifest_version": 2,
 	"minimum_chrome_version": "58",
+	"applications": {
+		"gecko": {
+			"id": "{a4c4eda4-fb84-4a84-b4a1-f7c1cbf2a1ad}",
+			"strict_min_version": "55.0"
+		}
+	},
 	"permissions": [
 		"storage",
 		"clipboardWrite",
