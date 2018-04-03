@@ -73,7 +73,7 @@ import addScopedSearchOnUserProfile from './features/add-scoped-search-on-user-p
 import monospaceTextareas from './features/monospace-textareas';
 import improveShortcutHelp from './features/improve-shortcut-help';
 import displayIssueSuggestions from './features/display-issue-suggestions';
-import openNotificationInNewTab from './features/open-notification-in-new-tab';
+import openSelectionInNewTab from './features/add-selection-in-new-tab';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
@@ -130,6 +130,7 @@ async function init() {
 	enableFeature(addKeyboardShortcutsToCommentFields);
 	enableFeature(addConfirmationToCommentCancellation);
 	enableFeature(monospaceTextareas);
+	enableFeature(openSelectionInNewTab);
 
 	// TODO: Enable this when we've improved how copying Markdown works
 	// See #522
@@ -160,10 +161,6 @@ async function onDomReady() {
 	if (pageDetect.isDashboard()) {
 		enableFeature(hideOwnStars);
 		enableFeature(autoLoadMoreNews);
-	}
-
-	if (pageDetect.isNotifications()) {
-		enableFeature(openNotificationInNewTab);
 	}
 
 	// Push safeOnAjaxedPages on the next tick so it happens in the correct order
