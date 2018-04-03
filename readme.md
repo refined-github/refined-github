@@ -119,9 +119,8 @@ GitHub Enterprise is also supported. More info in the options.
 - [Access `Your repositories` from the profile dropdown.](https://user-images.githubusercontent.com/4201088/34920280-479e2454-f996-11e7-8e24-ad69793b9d9b.png)
 - [Download entire folders from repositories using the `Download folder` button.](https://user-images.githubusercontent.com/1402241/35044451-fd3e2326-fbc2-11e7-82e1-61ec7bee612b.png) *(Uses [download-directory.github.io](https://download-directory.github.io).)*
 - [Collapse or expand a repository's browser file list.](https://user-images.githubusercontent.com/1402241/35480123-68b9af1a-043a-11e8-8934-3ead3cff8328.gif)
-- [Quickly visit a repository's default branch and latest version tag.](https://user-images.githubusercontent.com/1402241/36961980-389bd2b0-2080-11e8-8bff-bb8af52e7128.png)
+- [Quickly visit a repository's default branch and latest version tag.](https://user-images.githubusercontent.com/1402241/38107328-ccb3fb46-33bb-11e8-9654-23a6410943cc.png)
 - [Open multiple issues at once in your repos.](https://user-images.githubusercontent.com/1402241/38084752-4820b0d8-3378-11e8-868c-a1582b16f915.gif)
-
 
 ### More info at a glance
 
