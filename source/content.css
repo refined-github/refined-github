@@ -86,11 +86,6 @@
 	opacity: 0.6;
 }
 
-/* Remove annoying hover in the repo file list */
-.file-wrap .files .navigation-focus td {
-	background: none !important;
-}
-
 #readme > h3 {
 	display: none !important;
 }
