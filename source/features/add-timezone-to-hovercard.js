@@ -67,7 +67,7 @@ export default async function () {
 
 			if (timeZone) {
 				const {timeZoneId} = timeZone;
-				const time = moment.tz(moment(), timeZoneId).format('HH:MM');
+				const time = moment.tz(moment(), timeZoneId).format('HH:mm');
 				const abbr = moment.tz(timeZoneId).zoneAbbr();
 				hoverCard.appendChild(domify(`${time} ${abbr}`));
 			}
