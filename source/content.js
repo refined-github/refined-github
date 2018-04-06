@@ -73,6 +73,7 @@ import addScopedSearchOnUserProfile from './features/add-scoped-search-on-user-p
 import monospaceTextareas from './features/monospace-textareas';
 import improveShortcutHelp from './features/improve-shortcut-help';
 import displayIssueSuggestions from './features/display-issue-suggestions';
+import addTimezoneToHovercard from './features/add-timezone-to-hovercard';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
@@ -228,6 +229,7 @@ function ajaxedPagesHandler() {
 		enableFeature(embedGistInline);
 		enableFeature(extendStatusLabels);
 		enableFeature(highlightClosingPrsInOpenIssues);
+		enableFeature(addTimezoneToHovercard);
 
 		observeEl('.new-discussion-timeline', () => {
 			enableFeature(addOPLabels);

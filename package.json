@@ -24,6 +24,7 @@
 		"github-reserved-names": "^1.0.6",
 		"linkify-issues": "^1.3.0",
 		"linkify-urls": "^1.6.0",
+		"moment-timezone": "^0.5.14",
 		"onetime": "^2.0.1",
 		"p-event": "^1.3.0",
 		"select-dom": "^4.1.0",
