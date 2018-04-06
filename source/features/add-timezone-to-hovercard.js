@@ -34,7 +34,7 @@ async function getTimezone(location) {
 	const locationResponse = await locationRequest.json();
 
 	try {
-		const { lat, lng } = locationResponse.results[0].geometry.location;
+		const {lat, lng} = locationResponse.results[0].geometry.location;
 		const timezoneRequest = await fetch(createTimezoneRequestURL(lat, lng));
 		const timezoneResponse = await timezoneRequest.json();
 
