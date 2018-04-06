@@ -73,6 +73,7 @@ import addScopedSearchOnUserProfile from './features/add-scoped-search-on-user-p
 import monospaceTextareas from './features/monospace-textareas';
 import improveShortcutHelp from './features/improve-shortcut-help';
 import displayIssueSuggestions from './features/display-issue-suggestions';
+import openSelectionInNewTab from './features/add-selection-in-new-tab';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
@@ -129,6 +130,7 @@ async function init() {
 	enableFeature(addKeyboardShortcutsToCommentFields);
 	enableFeature(addConfirmationToCommentCancellation);
 	enableFeature(monospaceTextareas);
+	enableFeature(openSelectionInNewTab);
 
 	// TODO: Enable this when we've improved how copying Markdown works
 	// See #522
