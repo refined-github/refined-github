@@ -27,7 +27,11 @@ async function embedGist(link) {
 				<style>{`
 					.gist .gist-data {
 						max-height: 16em;
-						overflow-y: auto;
+						backface-visibility: hidden;
+					}
+
+					.gist .blob-wrapper {
+						backface-visibility: hidden;
 					}
 				`}</style>,
 				<link rel="stylesheet" href={gistData.stylesheet} />,
