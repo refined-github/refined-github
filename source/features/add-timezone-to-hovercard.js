@@ -1,5 +1,6 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
+import delegate from 'delegate';
 import moment from 'moment-timezone';
 import domify from '../libs/domify';
 import {clock} from '../libs/icons';
@@ -24,7 +25,7 @@ async function getTimezone(location) {
 }
 
 export default async function () {
-	const observer = new MutationObserver(async () => {
+	delegate('[data-hydro-view]', 'view', async () => {
 		try {
 			const location = select('.Popover .octicon-location').nextSibling.textContent.trim();
 
@@ -42,10 +43,5 @@ export default async function () {
 		} catch (e) {
 			// Silently fail when there are too many API requests
 		}
-	});
-
-	observer.observe(document.querySelector('div.Popover-message'), {
-		attributes: true,
-		childList: true
 	});
 }
