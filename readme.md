@@ -133,6 +133,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [The current repository's build/CI status is always visible next to its name.](https://user-images.githubusercontent.com/1402241/32562120-d65166e4-c4e8-11e7-90fb-cbaf36e2709f.png)
 - [Review counts are shown and colored in PR lists.](https://user-images.githubusercontent.com/1402241/33474535-a814ee78-d6ad-11e7-8f08-a8b72799e376.png)
 - [All available keyboard shortcuts are shown in the help modal.](https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png)  *(<kbd>?</kbd> hotkey)*
+- [Local time based on profile location is dislayed in user hover cards.](https://user-images.githubusercontent.com/12901172/38517345-afff19d2-3c07-11e8-894a-bed72e53d632.png)
 
 ### Declutter
 
