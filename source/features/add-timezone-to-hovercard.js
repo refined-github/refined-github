@@ -30,8 +30,9 @@ export default async function () {
 			const username = select('.Popover a.link-gray.no-underline.ml-1').textContent;
 			const now = new Date(Date.now());
 
-			if (document.body.hasAttribute(`timezone-${username}`)) {
-				const date = new Date(now.getTime() + (document.body.getAttribute(`timezone-${username}`) * 60 * 1000));
+			const timezoneOffset = document.body.getAttribute(`timezone-${username}`);
+			if (timezoneOffset) {
+				const date = new Date(now.getTime() + (timezoneOffset * 60 * 1000));
 				const time = `${date.getHours()}:${date.getMinutes()}`;
 				hoverCard.append(clock(), domify(time));
 				return;
