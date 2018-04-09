@@ -31,7 +31,8 @@ export default async function () {
 			const now = new Date(Date.now());
 
 			if (document.body.hasAttribute(`timezone-${username}`)) {
-				const time = new Date(now.getTime() + (document.body.getAttribute(`timezone-${username}`) * 60 * 1000));
+				const date = new Date(now.getTime() + (document.body.getAttribute(`timezone-${username}`) * 60 * 1000));
+				const time = `${date.getHours()}:${date.getMinutes()}`;
 				hoverCard.append(clock(), domify(time));
 				return;
 			}
@@ -41,9 +42,10 @@ export default async function () {
 				const timeZone = await getTimezone(location);
 
 				if (timeZone) {
-					const {rawOffset} = timeZone;
-					const timezoneOffset = now.getTimezoneOffset() + (rawOffset / 60);
-					const time = new Date(now.getTime() + (timezoneOffset * 60 * 1000));
+					const {rawOffset, dstOffset} = timeZone;
+					const timezoneOffset = now.getTimezoneOffset() + ((rawOffset + dstOffset) / 60);
+					const date = new Date(now.getTime() + (timezoneOffset * 60 * 1000));
+					const time = `${date.getHours()}:${date.getMinutes()}`;
 
 					if (!select.exists('.Popover .mt-2 .octicon-clock')) {
 						hoverCard.append(clock(), domify(time));
