@@ -54,7 +54,7 @@ async function updateHovercard() {
 	locationIcon.parentElement.append(
 		<span class="ml-5 rgh-fade-in">
 			{clock()}
-			{`${date.getHours()}:${date.getMinutes()}`}
+			{`${date.getHours()}:${(date.getMinutes() < 10 ? '0' : '') + date.getMinutes()}`}
 		</span>
 	);
 }
