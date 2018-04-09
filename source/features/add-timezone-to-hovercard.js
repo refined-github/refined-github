@@ -30,8 +30,8 @@ export default async function () {
 			const username = select('.Popover a.link-gray.no-underline.ml-1').textContent;
 			const now = new Date(Date.now());
 
-			if (document.body.hasAttribute(username)) {
-				const time = new Date(now.getTime() + (document.body.getAttribute(username) * 60 * 1000));
+			if (document.body.hasAttribute(`timezone-${username}`)) {
+				const time = new Date(now.getTime() + (document.body.getAttribute(`timezone-${username}`) * 60 * 1000));
 				hoverCard.append(clock(), domify(time));
 				return;
 			}
@@ -48,7 +48,7 @@ export default async function () {
 					if (!select.exists('.Popover .mt-2 .octicon-clock')) {
 						hoverCard.append(clock(), domify(time));
 					}
-					document.body.setAttribute(username, timezoneOffset);
+					document.body.setAttribute(`timezone-${username}`, timezoneOffset);
 				}
 			} catch (error) {
 				console.log(error);
