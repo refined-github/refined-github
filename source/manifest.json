@@ -16,7 +16,8 @@
 		"clipboardWrite",
 		"contextMenus",
 		"activeTab",
-		"https://api.github.com/*"
+		"https://api.github.com/*",
+		"https://maps.googleapis.com/*"
 	],
 	"browser_action": {
 		"default_icon": "icon.png",

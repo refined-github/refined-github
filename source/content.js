@@ -132,6 +132,7 @@ async function init() {
 	enableFeature(addConfirmationToCommentCancellation);
 	enableFeature(monospaceTextareas);
 	enableFeature(openSelectionInNewTab);
+	enableFeature(addTimezoneToHovercard);
 
 	// TODO: Enable this when we've improved how copying Markdown works
 	// See #522
@@ -231,7 +232,6 @@ function ajaxedPagesHandler() {
 		enableFeature(embedGistInline);
 		enableFeature(extendStatusLabels);
 		enableFeature(highlightClosingPrsInOpenIssues);
-		enableFeature(addTimezoneToHovercard);
 
 		observeEl('.new-discussion-timeline', () => {
 			enableFeature(addOPLabels);
