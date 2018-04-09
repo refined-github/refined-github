@@ -1,7 +1,6 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate';
-import moment from 'moment-timezone';
 import domify from '../libs/domify';
 import {clock} from '../libs/icons';
 
@@ -26,22 +25,31 @@ async function getTimezone(location) {
 
 export default async function () {
 	delegate('[data-hydro-view]', 'view', async () => {
+		const hoverCard = select('div.mt-2.text-gray.text-small');
+		const username = select('.Popover a.link-gray.no-underline.ml-1').textContent;
+
+		const now = new Date(Date.now());
+
+		if (document.body.hasAttribute(username)) {
+			const time = new Date(now.getTime() + (document.body.getAttribute(username) * 60 * 1000));
+			hoverCard.append(clock(), domify(time));
+			return;
+		}
+
 		try {
 			const location = select('.Popover .octicon-location').nextSibling.textContent.trim();
-
-			// There will only be a single hoverCard at any time
-			const hoverCard = select('div.mt-2.text-gray.text-small');
 			const timeZone = await getTimezone(location);
 
 			if (timeZone) {
-				const {timeZoneId} = timeZone;
-				const time = moment.tz(moment(), timeZoneId).format('HH:mm');
-				const abbr = moment.tz(timeZoneId).zoneAbbr();
+				const {rawOffset} = timeZone;
+				const timezoneOffset = now.getTimezoneOffset() + (rawOffset / 60);
+				const time = new Date(now.getTime() + (timezoneOffset * 60 * 1000));
 
-				hoverCard.append(clock(), domify(`${time} ${abbr}`));
+				hoverCard.append(clock(), domify(time));
+				document.body.setAttribute(username, timezoneOffset);
 			}
-		} catch (e) {
-			// Silently fail when there are too many API requests
+		} catch (error) {
+			console.log(error);
 		}
 	});
 }
