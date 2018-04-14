@@ -76,7 +76,7 @@ import displayIssueSuggestions from './features/display-issue-suggestions';
 import openSelectionInNewTab from './features/add-selection-in-new-tab';
 
 import * as pageDetect from './libs/page-detect';
-import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
+import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS, injectCustomJS} from './libs/utils';
 import observeEl from './libs/simplified-element-observer';
 
 // Add globals for easier debugging
@@ -289,6 +289,8 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isUserProfile()) {
 		enableFeature(addGistsLink);
 	}
+
+	injectCustomJS();
 }
 
 init();

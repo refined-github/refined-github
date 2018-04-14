@@ -158,3 +158,11 @@ export const injectCustomCSS = async () => {
 		document.head.append(<style>{customCSS}</style>);
 	}
 };
+
+export const injectCustomJS = async () => {
+	const {customJS = ''} = await options;
+
+	if (customJS.length > 0) {
+		document.head.append(<script>{customJS}</script>);
+	}
+};

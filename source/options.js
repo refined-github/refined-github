@@ -13,5 +13,11 @@ document.querySelector('[name="customCSS"]').addEventListener('keydown', event =
 		event.preventDefault();
 	}
 });
+document.querySelector('[name="customJS"]').addEventListener('keydown', event => {
+	if (event.key === 'Tab' && !event.shiftKey) {
+		indentTextarea(event.target);
+		event.preventDefault();
+	}
+});
 
 new OptionsSync().syncForm('#options-form');
