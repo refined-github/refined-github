@@ -53,6 +53,7 @@ import moveAccountSwitcherToSidebar from './features/move-account-switcher-to-si
 import openCIDetailsInNewTab from './features/open-ci-details-in-new-tab';
 import focusConfirmationButtons from './features/focus-confirmation-buttons';
 import addKeyboardShortcutsToCommentFields from './features/add-keyboard-shortcuts-to-comment-fields';
+import addCreateReleaseShortcut from './features/add-create-release-shortcut';
 import addConfirmationToCommentCancellation from './features/add-confirmation-to-comment-cancellation';
 import addCILink from './features/add-ci-link';
 import embedGistInline from './features/embed-gist-inline';
@@ -253,6 +254,10 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isIssueList() || pageDetect.isPR() || pageDetect.isIssue()) {
 		enableFeature(showRecentlyPushedBranches);
+	}
+
+	if (pageDetect.isReleasesOrTags()) {
+		enableFeature(addCreateReleaseShortcut);
 	}
 
 	if (pageDetect.isCommit()) {
