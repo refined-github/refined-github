@@ -16,11 +16,6 @@ async function addButtons() {
 		const toolbar = select('markdown-toolbar', form);
 
 		const observer = observeEl(toolbar, () => {
-			if (form.classList.contains('rgh-has-upload-field')) {
-				observer.disconnect();
-				return;
-			}
-
 			if (select.exists('.js-saved-reply-container', toolbar)) {
 				const toolbarPosition = select('.toolbar-group:last-child', toolbar);
 				if (!toolbarPosition) {
@@ -34,10 +29,8 @@ async function addButtons() {
 				);
 
 				form.classList.add('rgh-has-upload-field');
+				observer.disconnect();
 			}
-		}, {
-			childList: true,
-			subtree: true
 		});
 	}
 }
