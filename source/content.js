@@ -148,6 +148,7 @@ async function onDomReady() {
 	enableFeature(makeDiscussionSidebarSticky);
 	enableFeature(closeOutOfViewModals);
 	enableFeature(improveShortcutHelp);
+	enableFeature(addUploadBtn);
 
 	if (!pageDetect.isGist()) {
 		enableFeature(moveMarketplaceLinkToProfileDropdown);
@@ -226,7 +227,6 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
 		enableFeature(linkifyIssuesInTitles);
-		enableFeature(addUploadBtn);
 		enableFeature(embedGistInline);
 		enableFeature(extendStatusLabels);
 		enableFeature(highlightClosingPrsInOpenIssues);
@@ -238,7 +238,6 @@ function ajaxedPagesHandler() {
 	}
 
 	if (pageDetect.isNewIssue()) {
-		enableFeature(addUploadBtn);
 		enableFeature(displayIssueSuggestions);
 	}
 

@@ -1,11 +1,12 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate';
-import {metaKey} from '../libs/utils';
+import onetime from 'onetime';
 import * as icons from '../libs/icons';
-import observeEl from '../libs/simplified-element-observer';
+import {metaKey, safeOnAjaxedPages} from '../libs/utils';
 
-let delegations;
+import * as pageDetect from '../libs/page-detect';
+import observeEl from '../libs/simplified-element-observer';
 
 async function addButtons() {
 	for (const form of select.all('.js-previewable-comment-form:not(.rgh-has-upload-field)')) {
@@ -49,15 +50,17 @@ function handleKeydown(event) {
 	}
 }
 
-export default function () {
-	addButtons();
-
-	if (delegations) {
-		delegations.map(d => d.destroy());
-		delegations = null;
-	}
-
-	delegations = delegate('.rgh-has-upload-field', 'keydown', handleKeydown);
-
+function listen() {
+	delegate('.rgh-has-upload-field', 'keydown', handleKeydown);
 	delegate('.rgh-upload-btn', 'click', triggerUploadUI);
+}
+
+export default function () {
+	const listenOnce = onetime(listen);
+	safeOnAjaxedPages(() => {
+		if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isNewIssue()) {
+			addButtons();
+			listenOnce();
+		}
+	});
 }
