@@ -3,22 +3,42 @@ import select from 'select-dom';
 import delegate from 'delegate';
 import {metaKey} from '../libs/utils';
 import * as icons from '../libs/icons';
+import observeEl from '../libs/simplified-element-observer';
 
-function addButtons() {
+let delegations;
+
+async function addButtons() {
 	for (const form of select.all('.js-previewable-comment-form:not(.rgh-has-upload-field)')) {
 		if (!select.exists('.js-manual-file-chooser[type=file]', form)) {
 			continue;
 		}
-		form.classList.add('rgh-has-upload-field');
-		const toolbarPosition = select('.js-saved-reply-container', form);
-		if (!toolbarPosition) {
-			continue;
-		}
-		toolbarPosition.after(
-			<button type="button" class="toolbar-item rgh-upload-btn">
-				{icons.cloudUpload()}
-			</button>
-		);
+
+		const toolbar = select('markdown-toolbar', form);
+
+		const observer = observeEl(toolbar, () => {
+			if (form.classList.contains('rgh-has-upload-field')) {
+				observer.disconnect();
+				return;
+			}
+
+			if (select.exists('.js-saved-reply-container', toolbar)) {
+				const toolbarPosition = select('.toolbar-group:last-child', toolbar);
+				if (!toolbarPosition) {
+					return;
+				}
+
+				toolbarPosition.append(
+					<button type="button" class="toolbar-item rgh-upload-btn">
+						{icons.cloudUpload()}
+					</button>
+				);
+
+				form.classList.add('rgh-has-upload-field');
+			}
+		}, {
+			childList: true,
+			subtree: true
+		});
 	}
 }
 
@@ -38,6 +58,14 @@ function handleKeydown(event) {
 
 export default function () {
 	addButtons();
-	delegate('.rgh-has-upload-field', 'keydown', handleKeydown);
-	delegate('.rgh-upload-btn', 'click', triggerUploadUI);
+
+	if (delegations) {
+		delegations.map(d => d.destroy());
+		delegations = null;
+	}
+
+	delegations = delegate('.rgh-has-upload-field', 'keydown', handleKeydown);
+	for (const delegation of delegate('.rgh-upload-btn', 'click', triggerUploadUI)) {
+		delegations.push(delegate);
+	}
 }
