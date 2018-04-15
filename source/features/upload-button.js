@@ -65,7 +65,6 @@ export default function () {
 	}
 
 	delegations = delegate('.rgh-has-upload-field', 'keydown', handleKeydown);
-	for (const delegation of delegate('.rgh-upload-btn', 'click', triggerUploadUI)) {
-		delegations.push(delegate);
-	}
+
+	delegate('.rgh-upload-btn', 'click', triggerUploadUI);
 }
