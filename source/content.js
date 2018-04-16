@@ -47,6 +47,7 @@ import addMilestoneNavigation from './features/add-milestone-navigation';
 import addFilterCommentsByYou from './features/add-filter-comments-by-you';
 import removeProjectsTab from './features/remove-projects-tab';
 import fixSquashAndMergeTitle from './features/fix-squash-and-merge-title';
+import fixMergeTitleAndMessage from './features/fix-merge-title-and-message';
 import addTitleToEmojis from './features/add-title-to-emojis';
 import sortMilestonesByClosestDueDate from './features/sort-milestones-by-closest-due-date';
 import moveAccountSwitcherToSidebar from './features/move-account-switcher-to-sidebar';
@@ -218,6 +219,7 @@ function ajaxedPagesHandler() {
 		enableFeature(scrollToTopOnCollapse);
 		enableFeature(addDeleteForkLink);
 		enableFeature(fixSquashAndMergeTitle);
+		enableFeature(fixMergeTitleAndMessage);
 		enableFeature(openCIDetailsInNewTab);
 		enableFeature(waitForBuild);
 		enableFeature(toggleAllThingsWithAlt);
