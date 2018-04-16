@@ -132,7 +132,6 @@ async function init() {
 	enableFeature(addConfirmationToCommentCancellation);
 	enableFeature(monospaceTextareas);
 	enableFeature(openSelectionInNewTab);
-	enableFeature(addTimeToHovercard);
 
 	// TODO: Enable this when we've improved how copying Markdown works
 	// See #522
@@ -150,6 +149,7 @@ async function onDomReady() {
 	enableFeature(makeDiscussionSidebarSticky);
 	enableFeature(closeOutOfViewModals);
 	enableFeature(improveShortcutHelp);
+	enableFeature(addTimezoneToHovercard);
 
 	if (!pageDetect.isGist()) {
 		enableFeature(moveMarketplaceLinkToProfileDropdown);

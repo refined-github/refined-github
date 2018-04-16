@@ -1,7 +1,7 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate';
 import {clock} from '../libs/icons';
+import observeEl from '../libs/simplified-element-observer';
 
 function getMapsApi(name, params) {
 	return `https://maps.googleapis.com/maps/api/${name}/json?` + new URLSearchParams(params);
@@ -44,6 +44,9 @@ async function updateHovercard() {
 	}
 
 	const locationIcon = select('.Popover .octicon-location');
+	if (!locationIcon) {
+		return;
+	}
 	const location = locationIcon.nextSibling.textContent.trim();
 	const timezoneOffset = await getTimezoneOffset(location);
 	if (timezoneOffset === false) {
@@ -60,5 +63,5 @@ async function updateHovercard() {
 }
 
 export default async function () {
-	delegate('[data-hydro-view]', 'view', updateHovercard);
+	observeEl('.Popover-message', updateHovercard);
 }
