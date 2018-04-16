@@ -149,7 +149,7 @@ async function onDomReady() {
 	enableFeature(makeDiscussionSidebarSticky);
 	enableFeature(closeOutOfViewModals);
 	enableFeature(improveShortcutHelp);
-	enableFeature(addTimezoneToHovercard);
+	enableFeature(addTimeToHovercard);
 
 	if (!pageDetect.isGist()) {
 		enableFeature(moveMarketplaceLinkToProfileDropdown);
