@@ -149,7 +149,7 @@ async function onDomReady() {
 	enableFeature(makeDiscussionSidebarSticky);
 	enableFeature(closeOutOfViewModals);
 	enableFeature(improveShortcutHelp);
-  enableFeature(addUploadBtn);
+	enableFeature(addUploadBtn);
 	enableFeature(addTimeToHovercard);
 
 	if (!pageDetect.isGist()) {
