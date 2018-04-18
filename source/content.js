@@ -149,6 +149,7 @@ async function onDomReady() {
 	enableFeature(makeDiscussionSidebarSticky);
 	enableFeature(closeOutOfViewModals);
 	enableFeature(improveShortcutHelp);
+  enableFeature(addUploadBtn);
 	enableFeature(addTimeToHovercard);
 
 	if (!pageDetect.isGist()) {
@@ -228,7 +229,6 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
 		enableFeature(linkifyIssuesInTitles);
-		enableFeature(addUploadBtn);
 		enableFeature(embedGistInline);
 		enableFeature(extendStatusLabels);
 		enableFeature(highlightClosingPrsInOpenIssues);
@@ -240,7 +240,6 @@ function ajaxedPagesHandler() {
 	}
 
 	if (pageDetect.isNewIssue()) {
-		enableFeature(addUploadBtn);
 		enableFeature(displayIssueSuggestions);
 	}
 
