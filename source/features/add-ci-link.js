@@ -26,8 +26,8 @@ async function fetchStatus() {
 }
 
 export default async function () {
-	// Avoid duplicates and avoid on pages that already failed to load
-	if (request === false || select.exists('.rgh-ci-link')) {
+	// Avoid on pages that already failed to load
+	if (request === false) {
 		return;
 	}
 

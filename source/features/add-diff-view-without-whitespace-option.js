@@ -9,7 +9,7 @@ export default function () {
 		'.pr-review-tools > .diffbar-item' // In review view
 	].join(','));
 
-	if (!container || select.exists('.refined-github-toggle-whitespace')) {
+	if (!container) {
 		return;
 	}
 

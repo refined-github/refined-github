@@ -1,10 +1,11 @@
 import 'webext-dynamic-content-scripts';
-import onAjaxedPages from 'github-injection';
+import {h} from 'dom-chef';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 
 import markUnread from './features/mark-unread';
 import addOpenAllNotificationsButton from './features/open-all-notifications';
+import openAllSelected from './features/open-all-selected';
 import addUploadBtn from './features/upload-button';
 import enableCopyOnY from './features/copy-on-y';
 import addReactionParticipants from './features/reactions-avatars';
@@ -22,8 +23,9 @@ import addTimeMachineLinksToComments from './features/add-time-machine-links-to-
 import removeUploadFilesButton from './features/remove-upload-files-button';
 import scrollToTopOnCollapse from './features/scroll-to-top-on-collapse';
 import removeDiffSigns from './features/remove-diff-signs';
-import * as linkifyBranchRefs from './features/linkify-branch-refs';
+import linkifyBranchRefs from './features/linkify-branch-refs';
 import hideEmptyMeta from './features/hide-empty-meta';
+import hideInactiveDeployments from './features/hide-inactive-deployments';
 import hideOwnStars from './features/hide-own-stars';
 import moveMarketplaceLinkToProfileDropdown from './features/move-marketplace-link-to-profile-dropdown';
 import addYourRepoLinkToProfileDropdown from './features/add-your-repositories-link-to-profile-dropdown';
@@ -54,7 +56,7 @@ import addKeyboardShortcutsToCommentFields from './features/add-keyboard-shortcu
 import addConfirmationToCommentCancellation from './features/add-confirmation-to-comment-cancellation';
 import addCILink from './features/add-ci-link';
 import embedGistInline from './features/embed-gist-inline';
-import extendIssueStatusLabel from './features/extend-issue-status-label';
+import extendStatusLabels from './features/extend-status-labels';
 import highlightClosingPrsInOpenIssues from './features/highlight-closing-prs-in-open-issues';
 import toggleAllThingsWithAlt from './features/toggle-all-things-with-alt';
 import addJumpToBottomLink from './features/add-jump-to-bottom-link';
@@ -70,9 +72,11 @@ import closeOutOfViewModals from './features/close-out-of-view-modals';
 import addScopedSearchOnUserProfile from './features/add-scoped-search-on-user-profile';
 import monospaceTextareas from './features/monospace-textareas';
 import improveShortcutHelp from './features/improve-shortcut-help';
+import displayIssueSuggestions from './features/display-issue-suggestions';
+import openSelectionInNewTab from './features/add-selection-in-new-tab';
 
 import * as pageDetect from './libs/page-detect';
-import {safeElementReady, enableFeature} from './libs/utils';
+import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
 import observeEl from './libs/simplified-element-observer';
 
 // Add globals for easier debugging
@@ -97,6 +101,8 @@ async function init() {
 
 	document.documentElement.classList.add('refined-github');
 
+	injectCustomCSS();
+
 	if (!pageDetect.isGist()) {
 		enableFeature(addTrendingMenuItem);
 	}
@@ -107,7 +113,7 @@ async function init() {
 	}
 
 	if (pageDetect.isRepo()) {
-		onAjaxedPages(async () => {
+		safeOnAjaxedPages(async () => {
 			// Wait for the tab bar to be loaded
 			await safeElementReady('.pagehead + *');
 			enableFeature(addMoreDropdown);
@@ -124,6 +130,7 @@ async function init() {
 	enableFeature(addKeyboardShortcutsToCommentFields);
 	enableFeature(addConfirmationToCommentCancellation);
 	enableFeature(monospaceTextareas);
+	enableFeature(openSelectionInNewTab);
 
 	// TODO: Enable this when we've improved how copying Markdown works
 	// See #522
@@ -133,7 +140,7 @@ async function init() {
 	onDomReady();
 }
 
-function onDomReady() {
+async function onDomReady() {
 	enableFeature(markUnread);
 	enableFeature(addOpenAllNotificationsButton);
 	enableFeature(enableCopyOnY);
@@ -141,6 +148,7 @@ function onDomReady() {
 	enableFeature(makeDiscussionSidebarSticky);
 	enableFeature(closeOutOfViewModals);
 	enableFeature(improveShortcutHelp);
+	enableFeature(addUploadBtn);
 
 	if (!pageDetect.isGist()) {
 		enableFeature(moveMarketplaceLinkToProfileDropdown);
@@ -156,9 +164,23 @@ function onDomReady() {
 		enableFeature(autoLoadMoreNews);
 	}
 
-	onAjaxedPages(ajaxedPagesHandler);
+	// Push safeOnAjaxedPages on the next tick so it happens in the correct order
+	// (specifically for addOpenAllNotificationsButton)
+	await Promise.resolve();
+
+	safeOnAjaxedPages(() => {
+		ajaxedPagesHandler();
+
+		// Mark current page as "done"
+		// so history.back() won't reapply the same changes
+		const ajaxContainer = select('#js-repo-pjax-container,#js-pjax-container');
+		if (ajaxContainer) {
+			ajaxContainer.append(<has-rgh/>);
+		}
+	});
 }
 
+// eslint-disable-next-line complexity
 function ajaxedPagesHandler() {
 	enableFeature(hideEmptyMeta);
 	enableFeature(removeUploadFilesButton);
@@ -166,6 +188,8 @@ function ajaxedPagesHandler() {
 	enableFeature(shortenLinks);
 	enableFeature(linkifyCode);
 	enableFeature(addDownloadFolderButton);
+	enableFeature(linkifyBranchRefs);
+	enableFeature(openAllSelected);
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 		enableFeature(addYoursMenuItem);
@@ -193,23 +217,18 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isPR()) {
 		enableFeature(scrollToTopOnCollapse);
-		enableFeature(linkifyBranchRefs.inPR, 'linkify-branch-refs');
 		enableFeature(addDeleteForkLink);
 		enableFeature(fixSquashAndMergeTitle);
 		enableFeature(openCIDetailsInNewTab);
 		enableFeature(waitForBuild);
 		enableFeature(toggleAllThingsWithAlt);
-	}
-
-	if (pageDetect.isQuickPR()) {
-		enableFeature(linkifyBranchRefs.inQuickPR, 'linkify-branch-refs');
+		enableFeature(hideInactiveDeployments);
 	}
 
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
 		enableFeature(linkifyIssuesInTitles);
-		enableFeature(addUploadBtn);
 		enableFeature(embedGistInline);
-		enableFeature(extendIssueStatusLabel);
+		enableFeature(extendStatusLabels);
 		enableFeature(highlightClosingPrsInOpenIssues);
 
 		observeEl('.new-discussion-timeline', () => {
@@ -219,18 +238,18 @@ function ajaxedPagesHandler() {
 	}
 
 	if (pageDetect.isNewIssue()) {
-		enableFeature(addUploadBtn);
+		enableFeature(displayIssueSuggestions);
 	}
 
 	if (pageDetect.isIssue() || pageDetect.isPRConversation()) {
 		enableFeature(addJumpToBottomLink);
 	}
 
-	if (pageDetect.isPRList() || pageDetect.isIssueList()) {
+	if (pageDetect.isIssueList()) {
 		enableFeature(addFilterCommentsByYou);
 	}
 
-	if (pageDetect.isPRList() || pageDetect.isIssueList() || pageDetect.isPR() || pageDetect.isIssue()) {
+	if (pageDetect.isIssueList() || pageDetect.isPR() || pageDetect.isIssue()) {
 		enableFeature(showRecentlyPushedBranches);
 	}
 

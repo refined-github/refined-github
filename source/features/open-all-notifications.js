@@ -1,12 +1,11 @@
+/* eslint-disable no-alert */
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate';
-import pEvent from 'p-event';
-import gitHubInjection from 'github-injection';
 import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
 import {groupSiblings} from '../libs/group-buttons';
-import {safeElementReady} from '../libs/utils';
+import {safeOnAjaxedPages} from '../libs/utils';
 import {isNotifications} from '../libs/page-detect';
 
 const confirmationRequiredCount = 10;
@@ -17,28 +16,13 @@ async function openNotifications({delegateTarget}) {
 
 	// Ask for confirmation
 	const unreadNotifications = select.all(unreadNotificationsClass, container);
-	if (unreadNotifications.length >= confirmationRequiredCount) {
-		// Open confirmation box
-		select('#rgh-open-notifications-confirmation-trigger').click();
-
-		await safeElementReady('#facebox-description');
-		select('#facebox-description').textContent = `Are you sure you want to open ${unreadNotifications.length} tabs?`;
-
-		// Wait for confirm or close
-		const event = await Promise.race([
-			pEvent(select('#rgh-open-notifications-confirm'), 'click'),
-			pEvent(document, 'facebox:close')
-		]);
-
-		if (event.type === 'facebox:close') {
-			return;
-		}
-
-		// Close modal and continue
-		select('.js-facebox-close').click();
+	if (
+		unreadNotifications.length >= confirmationRequiredCount &&
+		!confirm(`This will open ${unreadNotifications.length} new tabs. Continue?`)
+	) {
+		return;
 	}
 
-	// Open all in tabs
 	browser.runtime.sendMessage({
 		urls: unreadNotifications.map(el => el.href),
 		action: 'openAllInTabs'
@@ -83,21 +67,6 @@ function addOpenAllButton() {
 	}
 }
 
-function addConfirmationBox() {
-	if (!select.exists('#rgh-open-notifications-confirmation')) {
-		document.body.append(
-			<a href="#rgh-open-notifications-confirmation" id="rgh-open-notifications-confirmation-trigger" rel="facebox" style={{display: 'none'}}></a>,
-			<div id="rgh-open-notifications-confirmation" style={{display: 'none'}}>
-				<h2 class="facebox-header" data-facebox-id="facebox-header">Are you sure?</h2>
-				<p data-facebox-id="facebox-description"></p>
-				<div class="full-button">
-					<button class="btn btn-block" id="rgh-open-notifications-confirm">Open all notifications</button>
-				</div>
-			</div>
-		);
-	}
-}
-
 function addMarkup() {
 	const unreadCount = select.all(unreadNotificationsClass).length;
 	if (unreadCount < 2) {
@@ -106,10 +75,6 @@ function addMarkup() {
 
 	addOpenAllButton();
 	addOpenReposButton();
-
-	if (unreadCount >= confirmationRequiredCount) {
-		addConfirmationBox();
-	}
 }
 
 export default async function () {
@@ -119,7 +84,7 @@ export default async function () {
 
 	delegate('.rgh-open-notifications-button', 'click', openNotifications);
 
-	gitHubInjection(() => {
+	safeOnAjaxedPages(() => {
 		// Add support for Mark as Unread
 		observeEl(
 			select('.notifications-list') || select('.js-navigation-container'),

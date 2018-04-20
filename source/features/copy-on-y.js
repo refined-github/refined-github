@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import onAjaxedPages from 'github-injection';
+import ghInjection from 'github-injection';
 import copyToClipboard from 'copy-text-to-clipboard';
 import * as pageDetect from '../libs/page-detect';
 
@@ -11,7 +11,7 @@ const handler = ({key, target}) => {
 };
 
 export default function () {
-	onAjaxedPages(() => {
+	ghInjection(() => {
 		if (pageDetect.isSingleFile()) {
 			window.addEventListener('keyup', handler);
 		} else {

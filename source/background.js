@@ -6,17 +6,13 @@ import dynamicContentScripts from 'webext-dynamic-content-scripts';
 new OptionsSync().define({
 	defaults: {
 		disabledFeatures: '',
+		customCSS: '',
 		logging: false
 	},
 	migrations: [
 		options => {
-			// #877
-			if (options.hideStarsOwnRepos === false) {
-				options.disabledFeatures += '\nhide-own-stars';
-			}
-
-			// #920
-			options.disabledFeatures = options.disabledFeatures.replace('linkify_branch_refs', 'linkify-branch-refs');
+			// #1200
+			options.disabledFeatures = options.disabledFeatures.replace('extend-issue-status-label', 'extend-status-labels');
 		},
 		OptionsSync.migrations.removeUnused
 	]
@@ -37,23 +33,21 @@ browser.runtime.onMessage.addListener(async message => {
 });
 
 browser.runtime.onInstalled.addListener(async ({reason}) => {
-	if (reason !== 'install') {
-		// TODO: uncomment this when all old users received this notification
-		// return;
+	// Cleanup old key
+	// TODO: remove in the future
+	browser.storage.local.remove('userWasNotified');
+
+	// Only notify on install
+	if (reason === 'install') {
+		const {installType} = await browser.management.getSelf();
+		if (installType === 'development') {
+			return;
+		}
+		browser.tabs.create({
+			url: 'https://github.com/sindresorhus/refined-github/issues/1137',
+			active: false
+		});
 	}
-	const {userWasNotified} = await browser.storage.local.get('userWasNotified');
-	if (userWasNotified) {
-		return;
-	}
-	const {installType} = await browser.management.getSelf();
-	if (installType === 'development') {
-		return;
-	}
-	browser.tabs.create({
-		url: 'https://github.com/sindresorhus/refined-github/issues/1137',
-		active: false
-	});
-	browser.storage.local.set('userWasNotified', true);
 });
 
 // GitHub Enterprise support

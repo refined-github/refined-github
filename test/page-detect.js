@@ -202,11 +202,17 @@ test('isIssue', urlMatcherMacro, pageDetect.isIssue, [
 ]);
 
 test('isIssueList', urlMatcherMacro, pageDetect.isIssueList, [
-	'http://github.com/sindresorhus/ava/issues'
+	'http://github.com/sindresorhus/ava/issues',
+	'https://github.com/sindresorhus/refined-github/pulls',
+	'https://github.com/sindresorhus/refined-github/labels/Priority%3A%20critical',
+	'https://github.com/sindresorhus/refined-github/issues?q=is%3Aclosed+sort%3Aupdated-desc'
 ], [
 	'http://github.com/sindresorhus/ava',
 	'https://github.com',
-	'https://github.com/sindresorhus/refined-github/issues/170'
+	'https://github.com/sindresorhus/refined-github/issues/170',
+	'https://github.com/sindresorhus/refined-github/pull/148',
+	'http://github.com/sindresorhus/issues',
+	'https://github.com/wildlifela/carmichael-lynch-2018/labels'
 ]);
 
 test('isIssueSearch', urlMatcherMacro, pageDetect.isIssueSearch, [
@@ -287,14 +293,6 @@ test('isPRFiles', urlMatcherMacro, pageDetect.isPRFiles, [
 	'https://github.com/sindresorhus/refined-github/pull/148',
 	'https://github.com/sindresorhus/refined-github/pull/commits',
 	'https://github.com/sindresorhus/refined-github/pulls'
-]);
-
-test('isPRList', urlMatcherMacro, pageDetect.isPRList, [
-	'https://github.com/sindresorhus/refined-github/pulls'
-], [
-	'http://github.com/sindresorhus/ava',
-	'https://github.com',
-	'https://github.com/sindresorhus/refined-github/pull/148'
 ]);
 
 test('isPRSearch', urlMatcherMacro, pageDetect.isPRSearch, [

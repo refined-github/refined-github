@@ -2,8 +2,9 @@ import {h} from 'dom-chef';
 import select from 'select-dom';
 import toSemver from 'to-semver';
 import * as icons from '../libs/icons';
+import {appendBefore} from '../libs/utils';
 import {groupSiblings} from '../libs/group-buttons';
-import {getRepoURL, isRepoRoot} from '../libs/page-detect';
+import {getRepoURL, isRepoRoot, getOwnerAndRepo} from '../libs/page-detect';
 
 // This regex should match all of these combinations:
 // "This branch is even with master."
@@ -12,7 +13,7 @@ import {getRepoURL, isRepoRoot} from '../libs/page-detect';
 // "This branch is 1 commit ahead, 27 commits behind master."
 const branchInfoRegex = /([^ ]+)\.$/;
 
-function addTagLink(branchSelector) {
+function getTagLink() {
 	const tags = select.all('.branch-select-menu [data-tab-filter="tags"] .select-menu-item')
 		.map(element => element.dataset.name);
 	const [latestRelease] = toSemver(tags, {clean: false});
@@ -20,7 +21,7 @@ function addTagLink(branchSelector) {
 		return;
 	}
 
-	const link = <a class="btn btn-sm tooltipped tooltipped-ne">{icons.tag()}</a>;
+	const link = <a class="btn btn-sm btn-outline tooltipped tooltipped-ne">{icons.tag()}</a>;
 
 	const currentBranch = select('.branch-select-menu .js-select-button').textContent;
 	if (currentBranch === latestRelease) {
@@ -32,13 +33,15 @@ function addTagLink(branchSelector) {
 		link.append(' ', <span class="css-truncate-target">{latestRelease}</span>);
 	}
 
-	branchSelector.after(link);
-	return true;
+	return link;
 }
 
 function getDefaultBranchNameIfDifferent() {
+	const {ownerName, repoName} = getOwnerAndRepo();
+	const cacheKey = `rgh-default-branch-${ownerName}-${repoName}`;
+
 	// Return the cached name if it differs from the current one
-	const cachedName = sessionStorage.getItem('rgh-default-branch');
+	const cachedName = sessionStorage.getItem(cacheKey);
 	if (cachedName) {
 		const currentBranch = select('[data-hotkey="w"] span').textContent;
 		return cachedName === currentBranch ? false : cachedName;
@@ -54,41 +57,61 @@ function getDefaultBranchNameIfDifferent() {
 	const [, branchName] = branchInfo.textContent.trim().match(branchInfoRegex) || [];
 	if (branchName) {
 		// Temporarily cache it between loads to enable it on files
-		sessionStorage.setItem('rgh-default-branch', branchName);
+		sessionStorage.setItem(cacheKey, branchName);
 		return branchName;
 	}
 }
 
-function addDefaultBranchLink(branchSelector) {
+function getDefaultBranchLink() {
+	if (select.exists('.repohead h1 .octicon-repo-forked')) {
+		return; // It's a fork, no "default branch" info available #1132
+	}
+
 	const branchName = getDefaultBranchNameIfDifferent();
 	if (!branchName) {
 		return;
 	}
 
-	const url = isRepoRoot() ?
-		`/${getRepoURL()}` :
-		select(`.select-menu-item[data-name='${branchName}']`).href;
+	let url;
+	if (isRepoRoot()) {
+		url = `/${getRepoURL()}`;
+	} else {
+		const branchLink = select(`.select-menu-item[data-name='${branchName}']`);
+		if (!branchLink) {
+			return;
+		}
+		url = branchLink.href;
+	}
 
-	branchSelector.before(
+	return (
 		<a
-			class="btn btn-sm tooltipped tooltipped-ne"
+			class="btn btn-sm btn-outline tooltipped tooltipped-ne"
 			href={url}
-			aria-label={`Visit the default branch (${branchName})`}>
-			{icons.chevronLeft()}
+			aria-label="Visit the default branch">
+			{icons.branch()}
+			{' '}
+			{branchName}
 		</a>
 	);
-	return true;
 }
 
 export default function () {
-	const branchSelector = select('.branch-select-menu .select-menu-button');
-	if (!branchSelector || select.exists('.rgh-branch-buttons')) {
+	const container = select('.file-navigation');
+	if (!container) {
 		return;
 	}
-	const hasTag = addTagLink(branchSelector);
-	const hasDefault = addDefaultBranchLink(branchSelector);
-	if (hasDefault || hasTag) {
-		const group = groupSiblings(branchSelector);
-		group.classList.add('rgh-branch-buttons');
+	const wrapper = (
+		<div class="rgh-branch-buttons">
+			{getDefaultBranchLink() || ''}
+			{getTagLink() || ''}
+		</div>
+	);
+
+	if (wrapper.children.length > 0) {
+		appendBefore(container, '.breadcrumb', wrapper);
+	}
+
+	if (wrapper.children.length > 1) {
+		groupSiblings(wrapper.firstElementChild);
 	}
 }

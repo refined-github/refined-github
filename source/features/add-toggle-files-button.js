@@ -2,9 +2,14 @@ import {h} from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate';
 import * as icons from '../libs/icons';
+import observeEl from '../libs/simplified-element-observer';
 
 function addButton() {
-	select('.commit-tease .float-right').append(
+	const filesHeader = select('.commit-tease .float-right');
+	if (!filesHeader || select.exists('.rgh-toggle-files')) {
+		return;
+	}
+	filesHeader.append(
 		<button
 			class="btn-octicon p-1 pr-2 rgh-toggle-files"
 			aria-label="Toggle files section"
@@ -12,14 +17,12 @@ function addButton() {
 			{icons.chevronDown()}
 		</button>
 	);
-	const repoContent = select('.repository-content');
-	delegate('.rgh-toggle-files', 'click', ({delegateTarget}) => {
-		delegateTarget.setAttribute('aria-expanded', !repoContent.classList.toggle('rgh-files-hidden'));
-	});
 }
 
 export default function () {
-	if (!select.exists('.rgh-toggle-files')) {
-		addButton();
-	}
+	const repoContent = select('.repository-content');
+	observeEl(repoContent, addButton);
+	delegate('.rgh-toggle-files', 'click', ({delegateTarget}) => {
+		delegateTarget.setAttribute('aria-expanded', !repoContent.classList.toggle('rgh-files-hidden'));
+	});
 }
