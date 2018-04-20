@@ -1052,7 +1052,9 @@ body > .footer li a {
 	overflow-y: auto;
 	/* Add a shadow when there is an overflow.
 	http://lea.verou.me/2012/04/background-attachment-local/ */
-	background: 0 100% / 100% 14px no-repeat;
+	background-position: 0 100%;
+	background-size: 100% 14px;
+	background-repeat: no-repeat;
 	background-attachment: local, scroll;
 	background-image:
 		/* Shadow cover */
