@@ -6,30 +6,46 @@ import {appendBefore} from '../libs/utils';
 
 const repoUrl = pageDetect.getRepoURL();
 
-export default function () {
-	appendBefore('.reponav', '[href$="settings"]',
-		<div class="reponav-dropdown js-menu-container refined-github-more">
-			<button type="button" class="btn-link reponav-item reponav-dropdown js-menu-target " data-no-toggle aria-expanded="false" aria-haspopup="true">More {icons.triangleDown()}</button>
-			<div class="dropdown-menu-content">
-				<div class="dropdown-menu dropdown-menu-sw js-menu-content">
-					<a href={`/${repoUrl}/compare`} class="dropdown-item" data-skip-pjax>
-						{icons.darkCompare()}
-						<span itemprop="name"> Compare</span>
-					</a>
-					{
-						pageDetect.isEnterprise() ? '' :
-							<a href={`/${repoUrl}/network/dependencies`} class="dropdown-item rgh-dependency-graph" data-skip-pjax>
-								{icons.dependency()}
-								<span itemprop="name"> Dependencies</span>
-							</a>
-					}
-					<a href={`/${repoUrl}/pulse`} class="dropdown-item" data-skip-pjax>
-						{icons.graph()}
-						<span itemprop="name"> Insights</span>
-					</a>
+function getDropdown() {
+	const nativeDropdown = select('.reponav-dropdown .dropdown-menu');
+	if (nativeDropdown) {
+		return nativeDropdown;
+	}
+
+	// Markup copied from native GHE dropdown
+	const dropdown = (
+		<div class="reponav-dropdown js-menu-container">
+			<button type="button" class="btn-link reponav-item js-menu-target" aria-expanded="false" aria-haspopup="true">
+				{'More '}
+				<span class="dropdown-caret"></span>
+			</button>
+			<div class="dropdown-menu-content js-menu-content">
+				<div class="dropdown-menu dropdown-menu-se">
 				</div>
 			</div>
 		</div>
+	);
+	appendBefore('.reponav', '[href$="settings"]', dropdown);
+	return select('.dropdown-menu', dropdown);
+}
+
+export default function () {
+	getDropdown().append(
+		<a href={`/${repoUrl}/compare`} class="dropdown-item" data-skip-pjax>
+			{icons.darkCompare()}
+			{' Compare'}
+		</a>,
+
+		pageDetect.isEnterprise() ? '' :
+			<a href={`/${repoUrl}/network/dependencies`} class="dropdown-item rgh-dependency-graph" data-skip-pjax>
+				{icons.dependency()}
+				{' Dependencies'}
+			</a>,
+
+		<a href={`/${repoUrl}/pulse`} class="dropdown-item" data-skip-pjax>
+			{icons.graph()}
+			{' Insights'}
+		</a>
 	);
 
 	// Remove native Insights tab

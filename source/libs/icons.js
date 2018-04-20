@@ -28,8 +28,6 @@ export const code = () => <svg aria-hidden="true" class="octicon octicon-code" w
 
 export const dependency = () => <svg aria-hidden="true" class="octicon octicon-package" width="16" height="16"><path fill-rule="evenodd" d="M1 4.27v7.47c0 .45.3.84.75.97l6.5 1.73c.16.05.34.05.5 0l6.5-1.73c.45-.13.75-.52.75-.97V4.27c0-.45-.3-.84-.75-.97l-6.5-1.74a1.4 1.4 0 0 0-.5 0L1.75 3.3c-.45.13-.75.52-.75.97zm7 9.09l-6-1.59V5l6 1.61v6.75zM2 4l2.5-.67L11 5.06l-2.5.67L2 4zm13 7.77l-6 1.59V6.61l2-.55V8.5l2-.53V5.53L15 5v6.77zm-2-7.24L6.5 2.8l2-.53L15 4l-2 .53z"/></svg>;
 
-export const triangleDown = () => <svg aria-hidden="true" class="octicon octicon-triangle-down v-align-middle text-y" width="8" height="11" viewBox="0 0 12 16"><path fill-rule="evenodd" d="M0 5l6 6 6-6z"/></svg>;
-
 export const chevronDown = () => <svg aria-hidden="true" class="octicon octicon-chevron-down" width="10" height="16"><path fill-rule="evenodd" d="M10 10l-1.5 1.5L5 7.75 1.5 11.5 0 10l5-5z"/></svg>;
 
 export const chevronLeft = () => <svg aria-hidden="true" class="octicon octicon-chevron-left" height="16" width="8"><path fill-rule="evenodd" d="M5.5 3L7 4.5 3.25 8 7 11.5 5.5 13l-5-5z"/></svg>;
