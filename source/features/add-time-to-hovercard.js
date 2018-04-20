@@ -31,11 +31,12 @@ async function parseAddress(address) {
 const locationOffsets = new Map();
 
 async function getTimezoneOffset(location) {
-	if (!locationOffsets.has(location)) {
+	const wasCached = locationOffsets.has(location);
+	if (!wasCached) {
 		// Store whether it's an offset or if it's non-existent
 		locationOffsets.set(location, await parseAddress(location));
 	}
-	return locationOffsets.get(location);
+	return [wasCached, locationOffsets.get(location)];
 }
 
 async function updateHovercard() {
@@ -48,14 +49,14 @@ async function updateHovercard() {
 		return;
 	}
 	const location = locationIcon.nextSibling.textContent.trim();
-	const timezoneOffset = await getTimezoneOffset(location);
+	const [wasCached, timezoneOffset] = await getTimezoneOffset(location);
 	if (timezoneOffset === false) {
 		return;
 	}
 	const date = new Date(Date.now() + (timezoneOffset * 60 * 1000));
 
 	locationIcon.parentElement.append(
-		<span class="ml-5 rgh-fade-in">
+		<span class={`ml-5 ${wasCached ? '' : 'rgh-fade-in'}`}>
 			{clock()}
 			{`${date.getHours()}:${(date.getMinutes() < 10 ? '0' : '') + date.getMinutes()}`}
 		</span>
