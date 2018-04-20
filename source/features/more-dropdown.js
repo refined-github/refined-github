@@ -31,18 +31,18 @@ function getDropdown() {
 
 export default function () {
 	getDropdown().append(
-		<a href={`/${repoUrl}/compare`} class="dropdown-item" data-skip-pjax>
+		<a href={`/${repoUrl}/compare`} class="rgh-reponav-more dropdown-item" data-skip-pjax>
 			{icons.darkCompare()}
 			{' Compare'}
 		</a>,
 
 		pageDetect.isEnterprise() ? '' :
-			<a href={`/${repoUrl}/network/dependencies`} class="dropdown-item rgh-dependency-graph" data-skip-pjax>
+			<a href={`/${repoUrl}/network/dependencies`} class="rgh-reponav-more dropdown-item rgh-dependency-graph" data-skip-pjax>
 				{icons.dependency()}
 				{' Dependencies'}
 			</a>,
 
-		<a href={`/${repoUrl}/pulse`} class="dropdown-item" data-skip-pjax>
+		<a href={`/${repoUrl}/pulse`} class="rgh-reponav-more dropdown-item" data-skip-pjax>
 			{icons.graph()}
 			{' Insights'}
 		</a>
