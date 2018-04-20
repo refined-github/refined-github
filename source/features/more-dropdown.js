@@ -8,7 +8,7 @@ const repoUrl = pageDetect.getRepoURL();
 
 function createDropdown() {
 	// Markup copied from native GHE dropdown
-	appendBefore('.reponav', '[href$="settings"]', 
+	appendBefore('.reponav', '[href$="settings"]',
 		<div class="reponav-dropdown js-menu-container">
 			<button type="button" class="btn-link reponav-item js-menu-target" aria-expanded="false" aria-haspopup="true">
 				{'More '}
