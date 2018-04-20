@@ -6,14 +6,9 @@ import {appendBefore} from '../libs/utils';
 
 const repoUrl = pageDetect.getRepoURL();
 
-function getDropdown() {
-	const nativeDropdown = select('.reponav-dropdown .dropdown-menu');
-	if (nativeDropdown) {
-		return nativeDropdown;
-	}
-
+function createDropdown() {
 	// Markup copied from native GHE dropdown
-	const dropdown = (
+	appendBefore('.reponav', '[href$="settings"]', 
 		<div class="reponav-dropdown js-menu-container">
 			<button type="button" class="btn-link reponav-item js-menu-target" aria-expanded="false" aria-haspopup="true">
 				{'More '}
@@ -25,12 +20,13 @@ function getDropdown() {
 			</div>
 		</div>
 	);
-	appendBefore('.reponav', '[href$="settings"]', dropdown);
-	return select('.dropdown-menu', dropdown);
 }
 
 export default function () {
-	getDropdown().append(
+	if (!select.exists('.reponav-dropdown')) {
+		createDropdown();
+	}
+	select('.reponav-dropdown .dropdown-menu').append(
 		<a href={`/${repoUrl}/compare`} class="rgh-reponav-more dropdown-item" data-skip-pjax>
 			{icons.darkCompare()}
 			{' Compare'}
