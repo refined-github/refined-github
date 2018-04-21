@@ -712,9 +712,11 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	padding-left: 15px;
 }
 
-/* Fix for GHE More Dropdown positioning */
-.reponav-dropdown.active .dropdown-menu {
-	left: auto !important;
+/* Fix for GHE More Dropdown items positioning */
+.reponav-dropdown a.dropdown-item:not(.rgh-reponav-more)::before {
+	content: '';
+	display: inline-block;
+	width: 16px;
 }
 
 /* Optically align Dependencies dropdown link */
