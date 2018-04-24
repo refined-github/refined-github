@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import {h} from 'dom-chef';
+import copyToClipboard from 'copy-text-to-clipboard';
 import {groupSiblings} from '../libs/group-buttons';
 
 export default function () {
@@ -9,13 +10,21 @@ export default function () {
 		const file = code.closest('.file');
 
 		// Enable copy behavior
-		file.classList.add('js-zeroclipboard-container');
-		code.classList.add('js-zeroclipboard-target');
+		code.classList.add('js-copy-btn-target');
+		const handleClick = e => {
+			e.preventDefault();
+			const fileContents = select('.js-copy-btn-target', file).innerText;
+			if (copyToClipboard(fileContents)) {
+				console.log('Copy success');
+			} else {
+				console.log('COPY FAILED!');
+			}
+		};
 
 		// Prepend to list of buttons
 		const firstAction = select('.file-actions .btn', file);
 		firstAction.before(
-			<button class="btn btn-sm copy-btn js-zeroclipboard tooltipped tooltipped-n" aria-label="Copy file to clipboard" data-copied-hint="Copied!" type="button">Copy</button>
+			<button onClick={handleClick} class="btn btn-sm copy-btn tooltipped tooltipped-n" aria-label="Copy file to clipboard" type="button">Copy</button>
 		);
 
 		// Group buttons if necessary
