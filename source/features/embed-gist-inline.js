@@ -9,6 +9,8 @@ const isGist = link =>
 		link.pathname.startsWith('gist/')
 	);
 
+const isOnlyChild = link => link.textContent.trim() === link.parentNode.textContent.trim();
+
 async function embedGist(link) {
 	const info = <em> (loading)</em>;
 	link.after(info);
@@ -40,6 +42,6 @@ async function embedGist(link) {
 }
 export default () => {
 	select.all('.js-comment-body p a:only-child')
-		.filter(isGist)
+		.filter(item => isGist(item) && isOnlyChild(item))
 		.forEach(embedGist);
 };
