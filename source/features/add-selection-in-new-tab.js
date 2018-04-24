@@ -8,7 +8,7 @@ export default function () {
 		const selected = select('.navigation-focus .js-navigation-open[href]');
 		if (selected && event.key === 'O') {
 			browser.runtime.sendMessage({
-				urls: [ selected.href ],
+				urls: [selected.href],
 				action: 'openAllInTabs'
 			});
 		}
