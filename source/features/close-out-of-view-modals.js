@@ -4,18 +4,18 @@ import delegate from 'delegate';
 const observer = new IntersectionObserver(([{intersectionRatio, target}]) => {
 	if (intersectionRatio === 0) {
 		observer.unobserve(target);
-		const dropdown = select(`.dropdown-details[open] summary,body.menu-active .modal-backdrop`);
+		const dropdown = select(`
+			.dropdown-details[open] summary,
+			body.menu-active .modal-backdrop
+		`);
 		if (dropdown) {
-		dropdown.click();
+			dropdown.click();
 		}
 	}
 });
 
 export default function () {
-	delegate(`
-		.dropdown-details,
-		.js-menu-target
-	`, 'click', event => {
+	delegate('.dropdown-details, .js-menu-target', 'click', event => {
 		const button = event.delegateTarget;
 		const modal = button
 			.closest('.select-menu, .dropdown')
