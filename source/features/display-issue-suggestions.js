@@ -29,11 +29,11 @@ export function getSearchableWords(text) {
 }
 
 async function displayIssueSuggestions(title) {
+	if (title.trim().length === 0) {
+		return;
+	}
 	const words = getSearchableWords(title);
-	if (title.length < 3 && (words[0] === '' || words.length === 0)) {
-		if (insertedSidebarItem) {
-			insertedSidebarItem.remove();
-		}
+	if (words.length === 0) {
 		return;
 	}
 
