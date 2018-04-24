@@ -30,7 +30,10 @@ export function getSearchableWords(text) {
 
 async function displayIssueSuggestions(title) {
 	const words = getSearchableWords(title);
-	if (words.length === 0) {
+	if (title.length < 3 && (words[0] === '' || words.length === 0)) {
+		if (insertedSidebarItem) {
+			insertedSidebarItem.remove();
+		}
 		return;
 	}
 
