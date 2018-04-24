@@ -4,10 +4,10 @@ import delegate from 'delegate';
 const observer = new IntersectionObserver(([{intersectionRatio, target}]) => {
 	if (intersectionRatio === 0) {
 		observer.unobserve(target);
-		select(`
-			.dropdown-details[open] summary,
-			body.menu-active .modal-backdrop
-		`).click();
+		const dropdown = select(`.dropdown-details[open] summary,body.menu-active .modal-backdrop`);
+		if (dropdown) {
+		dropdown.click();
+		}
 	}
 });
 
