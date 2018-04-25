@@ -11,6 +11,11 @@ export default function () {
 				urls: [selected.href],
 				action: 'openAllInTabs'
 			});
+
+			// Get the list element that contains the unread class and mark it as read.
+			const classList = selected.parentElement.parentElement.classList;
+			classList.remove("unread");
+			classList.add("read");
 		}
 	});
 }
