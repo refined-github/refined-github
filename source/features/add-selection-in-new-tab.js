@@ -13,9 +13,7 @@ export default function () {
 			});
 
 			// Get the list element that contains the unread class and mark it as read.
-			const classList = selected.parentElement.parentElement.classList;
-			classList.remove('unread');
-			classList.add('read');
+			selected.closest('li').classList.replace('unread', 'read');
 		}
 	});
 }
