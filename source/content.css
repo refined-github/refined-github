@@ -668,7 +668,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 .js-issue-row .mt-1.text-small.text-gray { /* Issue details line */
 	flex-basis: 100%;
 }
-.js-issue-row .label {
+.js-issue-row .IssueLabel {
 	padding: 2px 3px 3px !important;
 	margin-top: 4px;
 	font-size: 11px !important;
