@@ -47,11 +47,11 @@ export default function () {
 				.js-comment-cancel-button
 			`, field.form);
 
-			// Blur the field if it's a regular comment, cancel if there is a button
-			if (field.id === 'new_comment_field') {
-				blurAccessibly(field);
-			} else if (cancelButton) {
+			// Cancel if there is a button, else blur the field
+			if (cancelButton) {
 				cancelButton.click();
+			} else {
+				blurAccessibly(field);
 			}
 		} else if (event.key === 'ArrowUp' && field.id === 'new_comment_field' && field.value === '') {
 			const lastOwnComment = select.all('.js-comment.current-user').pop();
