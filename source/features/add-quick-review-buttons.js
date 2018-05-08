@@ -55,4 +55,15 @@ export default function () {
 		radio.closest('.form-checkbox').remove();
 	}
 	submitButton.remove();
+
+	// To avoid double submit
+	const reviewButtons = document.querySelectorAll('#submit-review .form-actions button');
+	reviewButtons.forEach(button => {
+		button.addEventListener('click', () => {
+			reviewButtons.forEach(button => {
+				button.style.opacity = 0.5;
+				button.style.pointerEvents = 'none';
+			});
+		});
+	});
 }
