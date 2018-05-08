@@ -778,6 +778,11 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	z-index: 10;
 }
 
+/* Tooltip visible over sticky header on hover */
+.pull-request-tab-content .diff-view .file-header:hover {
+	z-index: 30;
+}
+
 /* Sticky file headers in regular file view */
 .file .file-header {
 	position: sticky;
