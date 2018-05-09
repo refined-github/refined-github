@@ -11,6 +11,9 @@ export default function () {
 				urls: [selected.href],
 				action: 'openAllInTabs'
 			});
+
+			// Get the list element that contains the unread class and mark it as read.
+			selected.closest('li').classList.replace('unread', 'read');
 		}
 	});
 }
