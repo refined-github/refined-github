@@ -6,7 +6,7 @@
 
 > Browser extension that simplifies the GitHub interface and adds useful features
 
-We use GitHub a lot and notice many dumb annoyances we'd like to fix. So here be dragons.
+We use GitHub a lot and notice many annoyances we'd like to fix. So here be dragons.
 
 Our hope is that GitHub will notice and implement some of these much needed improvements. So if you like any of these improvements, please email [GitHub support](mailto:support@github.com) about doing it.
 
@@ -101,6 +101,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Use the pull request title as the commit title when merging with `Squash and merge`](https://github.com/sindresorhus/refined-github/issues/276).
 - [View linked gists inline in comments.](https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.PNG)
 - [Search a user profile page when visiting it.](https://user-images.githubusercontent.com/1402241/35185441-24ad4b1e-fe37-11e7-9e1b-0dc09fc1ada2.png)
+- [Avoid opening duplicate issues thanks to the list of possibly-related issues.](https://user-images.githubusercontent.com/29176678/37566899-85953e6e-2abf-11e8-9f0e-52d18c87bbe3.gif)
 
 ### More actions
 
@@ -108,6 +109,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Quickly edit a repository's README from the repository root.](https://user-images.githubusercontent.com/170270/27501200-31a1fa20-586c-11e7-9a3f-ce270014bf0a.png)
 - [Quickly delete a forked repo after its pull request has been merged.](https://cloud.githubusercontent.com/assets/170270/13520281/b2c9335c-e211-11e5-9e36-b0f325166356.png)
 - [Open all your notifications at once.](https://user-images.githubusercontent.com/1402241/31700005-1b3be428-b38c-11e7-90a6-8f572968993b.png)
+- [Open selection in new tab with <kbd>shift</kbd> <kbd>o</kbd> when navigating via <kbd>j</kbd> and <kbd>k</kbd>.](https://github.com/sindresorhus/refined-github/issues/1110)
 - [Easily toggle whitespace visibility in diffs.](https://cloud.githubusercontent.com/assets/170270/17603894/7b71a166-6013-11e6-81b8-22950ab8bce3.png) *(<kbd>d</kbd> <kbd>w</kbd> hotkey)*
 - [Copy a file's content.](https://cloud.githubusercontent.com/assets/170270/14453865/8abeaefe-00c1-11e6-8718-9406cee1dc0d.png)
 - [Copy the path of a PR file.](https://cloud.githubusercontent.com/assets/4201088/26023064/18c9c77c-37d2-11e7-8926-b0a05a2706ae.png)
@@ -118,9 +120,8 @@ GitHub Enterprise is also supported. More info in the options.
 - [Access `Your repositories` from the profile dropdown.](https://user-images.githubusercontent.com/4201088/34920280-479e2454-f996-11e7-8e24-ad69793b9d9b.png)
 - [Download entire folders from repositories using the `Download folder` button.](https://user-images.githubusercontent.com/1402241/35044451-fd3e2326-fbc2-11e7-82e1-61ec7bee612b.png) *(Uses [download-directory.github.io](https://download-directory.github.io).)*
 - [Collapse or expand a repository's browser file list.](https://user-images.githubusercontent.com/1402241/35480123-68b9af1a-043a-11e8-8934-3ead3cff8328.gif)
-- [Quickly visit a repository's default branch and latest version tag.](https://user-images.githubusercontent.com/1402241/36961980-389bd2b0-2080-11e8-8bff-bb8af52e7128.png)
+- [Quickly visit a repository's default branch and latest version tag.](https://user-images.githubusercontent.com/1402241/38107328-ccb3fb46-33bb-11e8-9654-23a6410943cc.png)
 - [Open multiple issues at once in your repos.](https://user-images.githubusercontent.com/1402241/38084752-4820b0d8-3378-11e8-868c-a1582b16f915.gif)
-
 
 ### More info at a glance
 

@@ -29,6 +29,9 @@ export function getSearchableWords(text) {
 }
 
 async function displayIssueSuggestions(title) {
+	if (title.trim().length === 0) {
+		return;
+	}
 	const words = getSearchableWords(title);
 	if (words.length === 0) {
 		return;

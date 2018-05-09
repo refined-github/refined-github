@@ -74,6 +74,7 @@ import monospaceTextareas from './features/monospace-textareas';
 import improveShortcutHelp from './features/improve-shortcut-help';
 import displayIssueSuggestions from './features/display-issue-suggestions';
 import addPullRequestHotkey from './features/add-pull-request-hotkey';
+import openSelectionInNewTab from './features/add-selection-in-new-tab';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
@@ -130,6 +131,7 @@ async function init() {
 	enableFeature(addKeyboardShortcutsToCommentFields);
 	enableFeature(addConfirmationToCommentCancellation);
 	enableFeature(monospaceTextareas);
+	enableFeature(openSelectionInNewTab);
 
 	// TODO: Enable this when we've improved how copying Markdown works
 	// See #522
@@ -147,6 +149,7 @@ async function onDomReady() {
 	enableFeature(makeDiscussionSidebarSticky);
 	enableFeature(closeOutOfViewModals);
 	enableFeature(improveShortcutHelp);
+	enableFeature(addUploadBtn);
 
 	if (!pageDetect.isGist()) {
 		enableFeature(moveMarketplaceLinkToProfileDropdown);
@@ -226,7 +229,6 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
 		enableFeature(linkifyIssuesInTitles);
-		enableFeature(addUploadBtn);
 		enableFeature(embedGistInline);
 		enableFeature(extendStatusLabels);
 		enableFeature(highlightClosingPrsInOpenIssues);
@@ -238,7 +240,6 @@ function ajaxedPagesHandler() {
 	}
 
 	if (pageDetect.isNewIssue()) {
-		enableFeature(addUploadBtn);
 		enableFeature(displayIssueSuggestions);
 	}
 
@@ -246,11 +247,11 @@ function ajaxedPagesHandler() {
 		enableFeature(addJumpToBottomLink);
 	}
 
-	if (pageDetect.isPRList() || pageDetect.isIssueList()) {
+	if (pageDetect.isIssueList()) {
 		enableFeature(addFilterCommentsByYou);
 	}
 
-	if (pageDetect.isPRList() || pageDetect.isIssueList() || pageDetect.isPR() || pageDetect.isIssue()) {
+	if (pageDetect.isIssueList() || pageDetect.isPR() || pageDetect.isIssue()) {
 		enableFeature(showRecentlyPushedBranches);
 	}
 

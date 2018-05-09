@@ -26,7 +26,7 @@
 
 /* Remove "Repositories you contribute to" dashboard sidebar box */
 .dashboard-sidebar > .boxed-group[role='navigation']:not(.repos) {
-	display: none !important;
+	display: none;
 }
 
 /* Match context switcher's width to the width of the containers below it */
@@ -72,6 +72,10 @@
 [aria-label='Edit this file']::after,
 [aria-label='Edit comment']::before,
 [aria-label='Edit comment']::after,
+[aria-label='Open this file in GitHub Desktop']::before,
+[aria-label='Open this file in GitHub Desktop']::after,
+[aria-label$='branch to make changes.']::before,
+[aria-label$='branch to make changes.']::after,
 .notification-indicator::before,
 .notification-indicator::after {
 	display: none !important;
@@ -664,7 +668,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 .js-issue-row .mt-1.text-small.text-gray { /* Issue details line */
 	flex-basis: 100%;
 }
-.js-issue-row .label {
+.js-issue-row .IssueLabel {
 	padding: 2px 3px 3px !important;
 	margin-top: 4px;
 	font-size: 11px !important;
@@ -691,9 +695,11 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	padding-left: 15px;
 }
 
-/* Fix for GHE More Dropdown positioning */
-.reponav-dropdown.active .dropdown-menu {
-	left: auto !important;
+/* Fix for GHE More Dropdown items positioning */
+.reponav-dropdown a.dropdown-item:not(.rgh-reponav-more)::before {
+	content: '';
+	display: inline-block;
+	width: 16px;
 }
 
 /* Optically align Dependencies dropdown link */
@@ -743,13 +749,24 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	animation: fade-in 0.2s;
 }
 
+.rgh-ci-link .octicon {
+	margin-top: 0 !important;
+}
+
 :root .repohead h1 .commit-build-statuses .octicon {
 	position: static;
 	color: inherit;
 }
 
-/* Undo conflicting GitHub style caused by `add-branch-buttons` */
-:root .branch-select-menu .BtnGroup {
+/* For `add-branch-buttons` */
+.rgh-branch-buttons {
+	float: left;
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-bottom: 10px; /* Eases wrapping with on long breadcrumbs */
+}
+/* Undo conflicting GitHub style */
+:root .rgh-branch-buttons .BtnGroup {
 	margin-bottom: 0;
 	margin-left: 0;
 }
@@ -1028,4 +1045,9 @@ body > .footer li a {
 	margin-left: 5px;
 	background: #9c95b3;
 	cursor: pointer;
+}
+
+/* Remove the useless "Continuous integration has not been set up" message on PRs */
+.branch-action-item.marketplace-product-callout {
+	display: none;
 }

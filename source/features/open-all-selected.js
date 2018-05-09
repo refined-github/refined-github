@@ -1,7 +1,7 @@
 /* eslint-disable no-alert */
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import {isIssueList, isPRList} from '../libs/page-detect';
+import {isIssueList} from '../libs/page-detect';
 
 const confirmationRequiredCount = 10;
 
@@ -25,11 +25,15 @@ function openSelected() {
 }
 
 export default function () {
-	if (!isIssueList() && !isPRList()) {
+	if (!isIssueList()) {
 		return;
 	}
 
-	select('.table-list-triage .table-list-header-toggle').prepend(
+	const position = select('.table-list-triage .table-list-header-toggle');
+	if (!position) {
+		return;
+	}
+	position.prepend(
 		<button
 			type="button"
 			onClick={openSelected}
