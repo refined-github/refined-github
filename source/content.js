@@ -72,6 +72,7 @@ import closeOutOfViewModals from './features/close-out-of-view-modals';
 import addScopedSearchOnUserProfile from './features/add-scoped-search-on-user-profile';
 import monospaceTextareas from './features/monospace-textareas';
 import improveShortcutHelp from './features/improve-shortcut-help';
+import hideNavigationHoverHighlight from './features/hide-navigation-hover-highlight';
 import displayIssueSuggestions from './features/display-issue-suggestions';
 
 import * as pageDetect from './libs/page-detect';
@@ -128,6 +129,7 @@ async function init() {
 	enableFeature(focusConfirmationButtons);
 	enableFeature(addKeyboardShortcutsToCommentFields);
 	enableFeature(addConfirmationToCommentCancellation);
+	enableFeature(hideNavigationHoverHighlight);
 	enableFeature(monospaceTextareas);
 
 	// TODO: Enable this when we've improved how copying Markdown works

@@ -86,8 +86,10 @@
 	opacity: 0.6;
 }
 
-/* Remove annoying hover in the repo file list */
-.file-wrap .files .navigation-focus td {
+/* For `rgh-no-navigation-highlight` */
+.rgh-no-navigation-highlight .list-group-item.navigation-focus, /* Notifications list */
+.rgh-no-navigation-highlight .Box-row.navigation-focus, /* Issue list */
+.rgh-no-navigation-highlight .navigation-focus td { /* File list  */
 	background: none !important;
 }
 
