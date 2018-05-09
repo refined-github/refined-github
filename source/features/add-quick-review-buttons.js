@@ -58,12 +58,12 @@ export default function () {
 
 	// To avoid double submit
 	const reviewButtons = document.querySelectorAll('#submit-review .form-actions button');
-	reviewButtons.forEach(button => {
+	for (const button of reviewButtons) {
 		button.addEventListener('click', () => {
 			reviewButtons.forEach(button => {
 				button.style.opacity = 0.5;
 				button.style.pointerEvents = 'none';
 			});
 		});
-	});
+	}
 }
