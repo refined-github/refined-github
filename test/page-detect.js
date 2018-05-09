@@ -403,5 +403,6 @@ test('isUserProfile', urlMatcherMacro, pageDetect.isUserProfile, [
 	'https://github.com/',
 	'https://github.com/settings',
 	'https://github.com/watching',
-	'https://github.com/sindresorhus/refined-github'
+	'https://github.com/sindresorhus/refined-github',
+	'https://gist.github.com/bfred-it'
 ]);
