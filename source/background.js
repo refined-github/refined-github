@@ -10,10 +10,11 @@ new OptionsSync().define({
 		logging: false
 	},
 	migrations: [
-		options => {
-			// #1200
-			options.disabledFeatures = options.disabledFeatures.replace('extend-issue-status-label', 'extend-status-labels');
-		},
+		// Migration example:
+		// options => {
+		// 	// #1200
+		// 	options.disabledFeatures = options.disabledFeatures.replace('extend-issue-status-label', 'extend-status-labels');
+		// },
 		OptionsSync.migrations.removeUnused
 	]
 });

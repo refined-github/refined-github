@@ -353,11 +353,6 @@ export default async function () {
 	gitHubInjection(() => {
 		destroy();
 
-		// Remove old data from previous storage
-		// Drop code in 2018
-		localStorage.removeItem('_unreadNotifications_migrated');
-		localStorage.removeItem('unreadNotifications');
-
 		if (pageDetect.isNotifications()) {
 			renderNotifications();
 			addCustomAllReadBtn();
