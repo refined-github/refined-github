@@ -259,7 +259,7 @@ function isParticipatingNotification(notification) {
 }
 
 function updateUnreadIndicator() {
-	const icon = select('.notification-indicator');
+	const icon = select('a.notification-indicator'); // "a" required in responsive views
 	if (!icon) {
 		return;
 	}
