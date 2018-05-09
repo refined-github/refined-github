@@ -56,14 +56,14 @@ export default function () {
 	}
 	submitButton.remove();
 
-	// To avoid double submit
-	const reviewButtons = document.querySelectorAll('#submit-review .form-actions button');
-	for (const button of reviewButtons) {
-		button.addEventListener('click', () => {
-			reviewButtons.forEach(button => {
-				button.style.opacity = 0.5;
-				button.style.pointerEvents = 'none';
-			});
+	// Freeze form to avoid duplicate submissions
+	select('#submit-review').addEventListener('submit', async () => {
+		// Disabled are not submitted, so this is needed
+		// to avoid disabling the fields before the submission
+		setTimeout(() => {
+			for (const control of select.all('#submit-review button, #submit-review textarea')) {
+				control.disabled = true;
+			}
 		});
-	}
+	});
 }
