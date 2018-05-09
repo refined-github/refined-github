@@ -95,8 +95,8 @@ function fixKeys() {
 
 export default () => {
 	observeEl('#facebox', records => {
-		if (Array.from(records).some(record => record.target.matches('.shortcuts') &&
-			Array.from(record.removedNodes).some(element => element.matches('.facebox-loading')))) {
+		if ([...records].some(record => record.target.matches('.shortcuts') &&
+			[...record.removedNodes].some(element => element.matches('.facebox-loading')))) {
 			improveShortcutHelp();
 			fixKeys();
 		}

@@ -13,8 +13,11 @@ export default async function () {
 
 	const searchContainer = select('.header-search');
 	const searchForm = select('.js-site-search-form', searchContainer);
-	const searchScope = select('.header-search-scope', searchForm);
 	const searchInput = select('.header-search-input', searchForm);
+
+	select('.header-search-wrapper').prepend(
+		<span class="header-search-scope no-underline">This user</span>
+	);
 
 	searchForm.addEventListener('submit', () => {
 		if (select.exists('.scoped-search')) {
@@ -29,7 +32,5 @@ export default async function () {
 
 	searchContainer.classList.add('scoped-search', 'site-scoped-search');
 	searchInput.classList.add('js-site-search-field', 'is-clearable');
-
 	searchInput.placeholder = 'Search';
-	searchScope.textContent = 'This user';
 }

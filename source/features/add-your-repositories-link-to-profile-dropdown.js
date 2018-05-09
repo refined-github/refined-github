@@ -4,6 +4,9 @@ import {getUsername} from '../libs/utils';
 
 export default function () {
 	const position = select('.user-nav .dropdown:last-child .dropdown-menu > :nth-child(3)');
+	if (!position) {
+		return;
+	}
 	const link = (
 		<a class="dropdown-item" href={`/${getUsername()}?tab=repositories`}>
 			Your repositories

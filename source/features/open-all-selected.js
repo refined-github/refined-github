@@ -29,7 +29,11 @@ export default function () {
 		return;
 	}
 
-	select('.table-list-triage .table-list-header-toggle').prepend(
+	const position = select('.table-list-triage .table-list-header-toggle');
+	if (!position) {
+		return;
+	}
+	position.prepend(
 		<button
 			type="button"
 			onClick={openSelected}
