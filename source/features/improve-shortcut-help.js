@@ -25,8 +25,6 @@ const groups = {
 };
 const shortcuts = new Map();
 
-const {some} = Array.prototype;
-
 /**
  * Registers a new shortcut to be displayed in the shortcut help modal.
  * @param {String} groupId The ID of the group as defined in the `groups` map.
@@ -97,8 +95,8 @@ function fixKeys() {
 
 export default () => {
 	observeEl('#facebox', records => {
-		if (some.call(records, record => record.target.matches('.shortcuts') &&
-			some.call(record.removedNodes, element => element.matches('.facebox-loading')))) {
+		if ([...records].some(record => record.target.matches('.shortcuts') &&
+			[...record.removedNodes].some(element => element.matches('.facebox-loading')))) {
 			improveShortcutHelp();
 			fixKeys();
 		}

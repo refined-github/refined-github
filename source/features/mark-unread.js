@@ -259,7 +259,7 @@ function isParticipatingNotification(notification) {
 }
 
 function updateUnreadIndicator() {
-	const icon = select('.notification-indicator');
+	const icon = select('a.notification-indicator'); // "a" required in responsive views
 	if (!icon) {
 		return;
 	}
@@ -352,11 +352,6 @@ export default async function () {
 	);
 	gitHubInjection(() => {
 		destroy();
-
-		// Remove old data from previous storage
-		// Drop code in 2018
-		localStorage.removeItem('_unreadNotifications_migrated');
-		localStorage.removeItem('unreadNotifications');
 
 		if (pageDetect.isNotifications()) {
 			renderNotifications();
