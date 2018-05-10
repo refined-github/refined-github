@@ -6,7 +6,7 @@ export default function () {
 		return;
 	}
 	btn.addEventListener('click', () => {
-		const desc = select_dom_default()(".comment-form-textarea[name='pull_request[body]']").textContent;
-    		select_dom_default()("#merge_message_field").value = `${desc}`;
+		const desc = select()('.comment-form-textarea[name=\'pull_request[body]\']').textContent;
+		select()('#merge_message_field').value = `${desc}`;
 	});
 }
