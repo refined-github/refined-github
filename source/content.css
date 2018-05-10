@@ -785,6 +785,13 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	z-index: 10;
 }
 
+/* Sticky table header on issues list */
+.issues-listing .table-list-header {
+	position: sticky;
+	top: 0;
+	z-index: 10;
+}
+
 /* Momentarily offset the line so its #deeplink won’t be covered by the header #974 */
 .js-file-line.highlighted {
 	/* stylelint-disable time-min-milliseconds */
