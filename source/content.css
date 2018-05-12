@@ -789,7 +789,11 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 .issues-listing .table-list-header {
 	position: sticky;
 	top: 0;
-	z-index: 10;
+	z-index: 30; /* Must be above .modal-backdrop (z-index 20) #1317 */
+}
+:root .select-menu-list {
+	/* Since the header is sticky, filters must now fit the viewport */
+	max-height: calc(100vh - 150px);
 }
 
 /* Momentarily offset the line so its #deeplink won’t be covered by the header #974 */
