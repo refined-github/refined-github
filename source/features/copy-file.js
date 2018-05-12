@@ -11,14 +11,9 @@ export default function () {
 
 		// Enable copy behavior
 		code.classList.add('js-copy-btn-target');
-		const handleClick = e => {
-			e.preventDefault();
-			const fileContents = select('.js-copy-btn-target', file).innerText;
-			if (copyToClipboard(fileContents)) {
-				console.log('Copy success');
-			} else {
-				console.log('COPY FAILED!');
-			}
+		const handleClick = () => {
+			const fileContents = select('.js-copy-btn-target', file).textContent;
+			copyToClipboard(fileContents);
 		};
 
 		// Prepend to list of buttons
