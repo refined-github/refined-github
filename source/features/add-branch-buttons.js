@@ -14,16 +14,20 @@ import {getRepoURL, isRepoRoot, getOwnerAndRepo} from '../libs/page-detect';
 const branchInfoRegex = /([^ ]+)\.$/;
 
 function getTagLink() {
-	const latestRelease = select
+	const tags = select
 		.all('.branch-select-menu [data-tab-filter="tags"] .select-menu-item')
-		.map(element => element.dataset.name)
+		.map(element => element.dataset.name);
+
+	if (tags.length === 0) {
+		return;
+	}
+
+	const latestParsedRelease = tags
 		.filter(tag => /\d/.test(tag))
 		.sort(compareVersions)
 		.pop();
 
-	if (!latestRelease) {
-		return;
-	}
+	const latestRelease = latestParsedRelease || tags[0];
 
 	const link = <a class="btn btn-sm btn-outline tooltipped tooltipped-ne">{icons.tag()}</a>;
 
