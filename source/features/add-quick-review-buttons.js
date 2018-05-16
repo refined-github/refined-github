@@ -58,8 +58,7 @@ export default function () {
 
 	// Freeze form to avoid duplicate submissions
 	select('#submit-review').addEventListener('submit', async () => {
-		// Disabled are not submitted, so this is needed
-		// to avoid disabling the fields before the submission
+		// Delay disabling the fields to let them be submitted first
 		setTimeout(() => {
 			for (const control of select.all('#submit-review button, #submit-review textarea')) {
 				control.disabled = true;
