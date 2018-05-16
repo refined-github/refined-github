@@ -1,9 +1,9 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import toSemver from 'to-semver';
 import * as icons from '../libs/icons';
 import {appendBefore} from '../libs/utils';
 import {groupSiblings} from '../libs/group-buttons';
+import compareVersions from '../libs/compare-versions';
 import {getRepoURL, isRepoRoot, getOwnerAndRepo} from '../libs/page-detect';
 
 // This regex should match all of these combinations:
@@ -14,9 +14,13 @@ import {getRepoURL, isRepoRoot, getOwnerAndRepo} from '../libs/page-detect';
 const branchInfoRegex = /([^ ]+)\.$/;
 
 function getTagLink() {
-	const tags = select.all('.branch-select-menu [data-tab-filter="tags"] .select-menu-item')
-		.map(element => element.dataset.name);
-	const [latestRelease] = toSemver(tags, {clean: false});
+	const latestRelease = select
+		.all('.branch-select-menu [data-tab-filter="tags"] .select-menu-item')
+		.map(element => element.dataset.name)
+		.filter(tag => /\d/.test(tag))
+		.sort(compareVersions)
+		.pop();
+
 	if (!latestRelease) {
 		return;
 	}
