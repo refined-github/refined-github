@@ -73,6 +73,7 @@ import addScopedSearchOnUserProfile from './features/add-scoped-search-on-user-p
 import monospaceTextareas from './features/monospace-textareas';
 import improveShortcutHelp from './features/improve-shortcut-help';
 import displayIssueSuggestions from './features/display-issue-suggestions';
+import addPullRequestHotkey from './features/add-pull-request-hotkey';
 import openSelectionInNewTab from './features/add-selection-in-new-tab';
 
 import * as pageDetect from './libs/page-detect';
@@ -223,6 +224,7 @@ function ajaxedPagesHandler() {
 		enableFeature(waitForBuild);
 		enableFeature(toggleAllThingsWithAlt);
 		enableFeature(hideInactiveDeployments);
+		enableFeature(addPullRequestHotkey);
 	}
 
 	if (pageDetect.isPR() || pageDetect.isIssue()) {

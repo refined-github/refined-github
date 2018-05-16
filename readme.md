@@ -174,6 +174,7 @@ And [many more…](source/content.css)
 - Leave a single comment in pull request diffs instead of starting a review by pressing <kbd>shift</kbd> <kbd>enter</kbd>.
 - [Quickly edit your last comment using the <kbd>↑</kbd> shortcut.](https://github.com/sindresorhus/refined-github/pull/961)
 - Visit your profile by pressing <kbd>g</kbd> <kbd>m</kbd>.
+- Cycle through PR tabs by pressing <kbd>g</kbd> <kbd>←</kbd> and <kbd>g</kbd> <kbd>→</kbd>, or <kbd>g</kbd> <kbd>1</kbd>, <kbd>g</kbd> <kbd>2</kbd>, <kbd>g</kbd> <kbd>3</kbd> and <kbd>g</kbd> <kbd>4</kbd>.
 
 ### Previously part of Refined GitHub
 
