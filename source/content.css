@@ -878,7 +878,21 @@ body > .footer li a {
 /* Hide duplicate repo name */
 .dashboard .flex-items-baseline .f3,
 .dashboard .flex-items-baseline .f4,
-.dashboard .flex-items-baseline .text-bold.text-gray-dark {
+.dashboard .flex-items-baseline .text-bold.text-gray-dark{
+	display: none;
+}
+/* Restore names and space them out if they are grouped */
+.dashboard .Details .flex-items-baseline .f3,
+.dashboard .Details .flex-items-baseline .f4,
+.dashboard .Details .flex-items-baseline .text-bold.text-gray-dark {
+	display: block;
+	font-size: 1em !important;
+}
+.dashboard .Details-content--hidden .flex-items-baseline {
+	margin-top: 20px !important;
+}
+/* Hide star button */
+.dashboard .flex-items-baseline [value="Star"] {
 	display: none;
 }
 
