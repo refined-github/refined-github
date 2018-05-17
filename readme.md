@@ -139,7 +139,6 @@ GitHub Enterprise is also supported. More info in the options.
 
 - [The dashboard shows more in less space.](https://user-images.githubusercontent.com/1402241/38087982-6c87f268-3384-11e8-9776-7ba48bdde80c.png)
 - News feed items of users starring or forking your repos are removed.
-- The dashboard organization switcher is moved to the right column.
 - The file hover effect in the repo file browser is removed.
 - Unnecessary buttons in the comment box toolbar are hidden (each one has a keyboard shortcut).
 - Obvious tooltops are removed.
