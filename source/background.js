@@ -11,10 +11,10 @@ new OptionsSync().define({
 	},
 	migrations: [
 		// Migration example:
-		// options => {
-		// 	// #1200
-		// 	options.disabledFeatures = options.disabledFeatures.replace('extend-issue-status-label', 'extend-status-labels');
-		// },
+		options => {
+			// #1330
+			options.disabledFeatures = options.disabledFeatures.replace('move-account-switcher-to-sidebar', '');
+		},
 		OptionsSync.migrations.removeUnused
 	]
 });
