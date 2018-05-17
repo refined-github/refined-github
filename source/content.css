@@ -147,11 +147,6 @@ a .commit-ref:hover span {
 	text-decoration: inherit;
 }
 
-/* Remove useless tip in the organization news feed */
-#dashboard .alert.git_hub {
-	display: none !important;
-}
-
 /* Style for edit README button */
 #readme.blob #refined-github-readme-buttons {
 	display: none;
@@ -202,10 +197,6 @@ followed someone
 .rgh-no-useless-events .delete,
 .rgh-no-useless-events .follow {
 	display: none !important;
-}
-
-.news .body > .border-gray-light {
-	border: none !important; /* Remove border between dashboard news items */
 }
 
 /* Decrease font-size on commit details so our custom patch and diff links fit */
@@ -878,7 +869,7 @@ body > .footer li a {
 /* Hide duplicate repo name */
 .dashboard .flex-items-baseline .f3,
 .dashboard .flex-items-baseline .f4,
-.dashboard .flex-items-baseline .text-bold.text-gray-dark{
+.dashboard .flex-items-baseline .text-bold.text-gray-dark {
 	display: none;
 }
 /* Restore names and space them out if they are grouped */
@@ -892,7 +883,7 @@ body > .footer li a {
 	margin-top: 20px !important;
 }
 /* Hide star button */
-.dashboard .flex-items-baseline [value="Star"] {
+.dashboard .flex-items-baseline [value='Star'] {
 	display: none;
 }
 
@@ -905,10 +896,18 @@ body > .footer li a {
 	margin: 0 !important;
 	color: var(--github-gray-text) !important;
 }
+/* Remove border between dashboard news items */
+.dashboard .body > .border-gray-light {
+	border: none !important;
+}
 
 /* Make activities narrower */
 .dashboard .d-flex.border-bottom.border-gray-light {
 	padding: 8px 0 !important;
+}
+/* Remove useless tip in the organization news feed */
+#dashboard .alert.git_hub {
+	display: none !important;
 }
 
 /* For 'extend-diff-expander' feature */
