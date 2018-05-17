@@ -49,7 +49,6 @@ import removeProjectsTab from './features/remove-projects-tab';
 import fixSquashAndMergeTitle from './features/fix-squash-and-merge-title';
 import addTitleToEmojis from './features/add-title-to-emojis';
 import sortMilestonesByClosestDueDate from './features/sort-milestones-by-closest-due-date';
-import moveAccountSwitcherToSidebar from './features/move-account-switcher-to-sidebar';
 import openCIDetailsInNewTab from './features/open-ci-details-in-new-tab';
 import focusConfirmationButtons from './features/focus-confirmation-buttons';
 import addKeyboardShortcutsToCommentFields from './features/add-keyboard-shortcuts-to-comment-fields';
@@ -73,7 +72,6 @@ import addScopedSearchOnUserProfile from './features/add-scoped-search-on-user-p
 import monospaceTextareas from './features/monospace-textareas';
 import improveShortcutHelp from './features/improve-shortcut-help';
 import displayIssueSuggestions from './features/display-issue-suggestions';
-import addPullRequestHotkey from './features/add-pull-request-hotkey';
 import openSelectionInNewTab from './features/add-selection-in-new-tab';
 
 import * as pageDetect from './libs/page-detect';
@@ -109,7 +107,6 @@ async function init() {
 	}
 
 	if (pageDetect.isDashboard()) {
-		enableFeature(moveAccountSwitcherToSidebar);
 		enableFeature(hideUselessNewsfeedEvents);
 	}
 
@@ -224,7 +221,6 @@ function ajaxedPagesHandler() {
 		enableFeature(waitForBuild);
 		enableFeature(toggleAllThingsWithAlt);
 		enableFeature(hideInactiveDeployments);
-		enableFeature(addPullRequestHotkey);
 	}
 
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
