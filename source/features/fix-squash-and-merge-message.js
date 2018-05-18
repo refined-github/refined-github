@@ -1,12 +1,13 @@
 import select from 'select-dom';
 
 export default function () {
-	const btn = select('.merge-message .btn-group-squash [type=submit]');
-	if (!btn) {
+	const button = select('.merge-message .btn-group-squash [type=submit]');
+	if (!button) {
 		return;
 	}
-	btn.addEventListener('click', () => {
-		const desc = select('.comment-form-textarea[name=\'pull_request[body]\']').textContent;
-		select('#merge_message_field').value = `${desc}`;
+
+	button.addEventListener('click', () => {
+		const description = select('.comment-form-textarea[name=\'pull_request[body]\']').textContent;
+		select('#merge_message_field').value = description;
 	});
 }
