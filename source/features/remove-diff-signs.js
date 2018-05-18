@@ -5,7 +5,7 @@ import observeEl from '../libs/simplified-element-observer';
 function removeDiffSigns() {
 	for (const line of select.all('.diff-table tr:not(.refined-github-diff-signs)')) {
 		line.classList.add('refined-github-diff-signs');
-		for (const code of select.all('.blob-code-inner', line)) {
+		for (const code of select.all('.blob-code-deletion .blob-code-inner, .blob-code-addition .blob-code-inner', line)) {
 			// Drop -, + or space
 			code.firstChild.textContent = code.firstChild.textContent.slice(1);
 
