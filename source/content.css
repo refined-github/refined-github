@@ -1008,3 +1008,12 @@ body > .footer li a {
 .branch-action-item.marketplace-product-callout {
 	display: none;
 }
+
+/* Remove the "New repository" button in the dashboard sidebar */
+.dashboard-sidebar a[href='/new'] {
+	display: none;
+}
+.dashboard-sidebar .Box-title {
+	padding-top: 4px !important;
+	padding-bottom: 4px !important;
+}
