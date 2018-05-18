@@ -142,7 +142,7 @@ GitHub Enterprise is also supported. More info in the options.
 - News feed items of users starring or forking your repos are removed.
 - The file hover effect in the repo file browser is removed.
 - Unnecessary buttons in the comment box toolbar are hidden (each one has a keyboard shortcut).
-- Obvious tooltops are removed.
+- Obvious tooltips are removed.
 - The `Projects` repository tab is hidden when there are no projects
     * New projects can still be created via the [`Create new…` menu](https://user-images.githubusercontent.com/1402241/34909214-18b6fb2e-f8cf-11e7-8556-bed748596d3b.png).
 
@@ -171,7 +171,7 @@ And [many more…](source/content.css)
 - [Access the `Labels` `Milestones` navigation from individual milestone pages.](https://cloud.githubusercontent.com/assets/170270/25217211/37b67aea-25d0-11e7-8482-bead2b04ee74.png)
 - [Search for issues and PRs with the `Everything commented by you` filter.](https://user-images.githubusercontent.com/170270/27501170-f394a304-586b-11e7-92d8-d92d6922356b.png)
 - [See just the issues and PRs _on your repos_ or _commented on by you_ in the global `Issues`/`Pull Requests` pages.](https://user-images.githubusercontent.com/8295888/36827126-8bfc79c4-1d37-11e8-8754-992968b082be.png)
-- Access trending reporties using the `Trending` link in the global navbar or by pressing <kbd>g</kbd> <kbd>t</kbd>.
+- Access trending repositories using the `Trending` link in the global navbar or by pressing <kbd>g</kbd> <kbd>t</kbd>.
 - Leave a single comment in pull request diffs instead of starting a review by pressing <kbd>shift</kbd> <kbd>enter</kbd>.
 - [Quickly edit your last comment using the <kbd>↑</kbd> shortcut.](https://github.com/sindresorhus/refined-github/pull/961)
 - Visit your profile by pressing <kbd>g</kbd> <kbd>m</kbd>.
@@ -189,6 +189,12 @@ And [many more…](source/content.css)
 Most features [can be disabled](https://github.com/sindresorhus/refined-github/pull/877) if they are JavaScript-based *(Experimental)* and you can override the CSS with your own in [the extension options.](https://github.com/sindresorhus/refined-github/pull/1193)
 
 We're happy to receive suggestions and contributions, but be aware this is a highly opinionated project. There's a very high bar for adding options. Users will always disagree with something. That being said, we're open to discussing things. If something doesn't make the cut, you can [build your custimized Refined GitHub locally](https://github.com/sindresorhus/refined-github/blob/master/contributing.md#workflow), rather than installing it from the Chrome Store.
+
+
+## Note for new users
+
+There has been discussed quite a few times in the issue tracker (issues [#561](https://github.com/sindresorhus/refined-github/issues/561), [#747](https://github.com/sindresorhus/refined-github/issues/747), [#822](https://github.com/sindresorhus/refined-github/issues/822), [#1063](https://github.com/sindresorhus/refined-github/issues/1063), [#1336](https://github.com/sindresorhus/refined-github/issues/1336) ) that the extension removes (too much) content from the dashboard, especially the commit entries (*"user x pushed to repo y z commits"*).  
+This is intended: the extension removes by default things which we believe are not really useful on a regular basis to GitHub power users. You may disable most features to your liking - this one by adding `hide-useless-newsfeed-events` in the extension options.
 
 
 ## Contribute
