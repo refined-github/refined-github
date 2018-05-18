@@ -3,10 +3,10 @@ import debounce from 'debounce-fn';
 import observeEl from '../libs/simplified-element-observer';
 
 let btn;
-let newsfeedObserver;
 
 const loadMore = debounce(() => {
 	btn.click();
+	btn.textContent = 'loading...';
 
 	// If GH hasn't loaded the JS, the click will not load anything.
 	// We can detect if it worked by looking at the button's state,
@@ -37,8 +37,6 @@ const findButton = () => {
 	btn = select('.ajax-pagination-btn');
 	if (btn) {
 		inView.observe(btn);
-	} else if (newsfeedObserver) {
-		newsfeedObserver.disconnect();
 	}
 };
 
@@ -48,6 +46,6 @@ export default () => {
 		// If GH hasn't loaded the JS,
 		// the fake click will submit the form without ajax.
 		form.addEventListener('submit', event => event.preventDefault());
-		newsfeedObserver = observeEl('#dashboard .news', findButton);
+		observeEl('#dashboard .news', findButton);
 	}
 };

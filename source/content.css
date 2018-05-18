@@ -14,46 +14,8 @@
 	display: none !important;
 }
 
-/* Allow for absolute positioning relative to the dashboard */
-#dashboard,
-.orgpage > .container {
-	position: relative !important;
-}
-
 #dashboard .new-repo {
 	display: none !important;
-}
-
-/* Remove "Repositories you contribute to" dashboard sidebar box */
-.dashboard-sidebar > .boxed-group[role='navigation']:not(.repos) {
-	display: none;
-}
-
-/* Match context switcher's width to the width of the containers below it */
-.dashboard-sidebar .select-menu {
-	width: 100%;
-}
-
-/* Match context switcher modal's width to that of the user repo list */
-.dashboard-sidebar .select-menu-modal {
-	width: 313px;
-	margin: 0;
-}
-
-/* Remove the toolbar from the right repo box on the dashboard */
-.dashboard-sidebar .user-repos > h3,
-.dashboard-sidebar .user-repos > .boxed-group-action {
-	display: none !important;
-}
-.dashboard-sidebar .user-repos .boxed-group-inner {
-	border-radius: 3px !important;
-}
-.dashboard-sidebar .user-repos .filter-repos {
-	border-top-left-radius: 3px !important;
-	border-top-right-radius: 3px !important;
-}
-.dashboard-sidebar .user-repos .repo-icon {
-	opacity: 0.6 !important;
 }
 
 /* Remove news feed tips */
@@ -169,41 +131,6 @@
 	display: none !important;
 }
 
-/* Move the dashboard organization switcher to the right column */
-.news.column.two-thirds .account-switcher {
-	/* Hide switcher from the main column, but if JS fails show it */
-	animation: temporarily-hide 5s steps(1, end);
-}
-@keyframes temporarily-hide {
-	from {
-		position: absolute;
-		top: -1000px;
-	}
-}
-.account-switcher .select-menu-button {
-	width: 100%;
-	margin-bottom: 15px;
-	text-align: center;
-}
-.account-switcher .select-menu-button-gravatar {
-	display: inline-block !important;
-	vertical-align: top !important;
-	float: none !important;
-}
-/* Organization dashboard */
-.orgpage .underline-nav {
-	float: left !important;
-}
-.orgpage .account-switcher {
-	right: 0 !important;
-}
-.orgpage .user-repos {
-	position: static !important;
-}
-.orgpage + .container .dashboard-sidebar {
-	padding-top: 0;
-}
-
 /* Remove "New pull request" button on repo page */
 .file-navigation .new-pull-request-btn {
 	display: none !important;
@@ -218,11 +145,6 @@ a .commit-ref:hover span {
 /* The extra span on branch names interferes with a possible deletion line-through */
 .commit-ref span {
 	text-decoration: inherit;
-}
-
-/* Remove useless tip in the organization news feed */
-#dashboard .alert.git_hub {
-	display: none !important;
 }
 
 /* Style for edit README button */
@@ -275,10 +197,6 @@ followed someone
 .rgh-no-useless-events .delete,
 .rgh-no-useless-events .follow {
 	display: none !important;
-}
-
-.news .body > .border-gray-light {
-	border: none !important; /* Remove border between dashboard news items */
 }
 
 /* Decrease font-size on commit details so our custom patch and diff links fit */
@@ -959,6 +877,20 @@ body > .footer li a {
 .dashboard .flex-items-baseline .text-bold.text-gray-dark {
 	display: none;
 }
+/* Restore names and space them out if they are grouped */
+.dashboard .Details .flex-items-baseline .f3,
+.dashboard .Details .flex-items-baseline .f4,
+.dashboard .Details .flex-items-baseline .text-bold.text-gray-dark {
+	display: block;
+	font-size: 1em !important;
+}
+.dashboard .Details-content--hidden .flex-items-baseline {
+	margin-top: 20px !important;
+}
+/* Hide star button */
+.dashboard .flex-items-baseline [value='Star'] {
+	display: none;
+}
 
 .dashboard .flex-items-baseline .f6.mt-2 {
 	opacity: 0.5;
@@ -969,10 +901,18 @@ body > .footer li a {
 	margin: 0 !important;
 	color: var(--github-gray-text) !important;
 }
+/* Remove border between dashboard news items */
+.dashboard .body > .border-gray-light {
+	border: none !important;
+}
 
 /* Make activities narrower */
 .dashboard .d-flex.border-bottom.border-gray-light {
 	padding: 8px 0 !important;
+}
+/* Remove useless tip in the organization news feed */
+#dashboard .alert.git_hub {
+	display: none !important;
 }
 
 /* For 'extend-diff-expander' feature */

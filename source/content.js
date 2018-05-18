@@ -49,7 +49,6 @@ import removeProjectsTab from './features/remove-projects-tab';
 import fixSquashAndMergeTitle from './features/fix-squash-and-merge-title';
 import addTitleToEmojis from './features/add-title-to-emojis';
 import sortMilestonesByClosestDueDate from './features/sort-milestones-by-closest-due-date';
-import moveAccountSwitcherToSidebar from './features/move-account-switcher-to-sidebar';
 import openCIDetailsInNewTab from './features/open-ci-details-in-new-tab';
 import focusConfirmationButtons from './features/focus-confirmation-buttons';
 import addKeyboardShortcutsToCommentFields from './features/add-keyboard-shortcuts-to-comment-fields';
@@ -110,7 +109,6 @@ async function init() {
 	}
 
 	if (pageDetect.isDashboard()) {
-		enableFeature(moveAccountSwitcherToSidebar);
 		enableFeature(hideUselessNewsfeedEvents);
 	}
 
