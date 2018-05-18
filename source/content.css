@@ -939,6 +939,11 @@ body > .footer li a {
 	width: 430px;
 }
 
+/* Remove the 'Review Summary' header from the form */
+.pull-request-review-menu label[for='pull_request_review_body'] {
+	display: none !important;
+}
+
 /* Reduce dashboard activity cards */
 /* `.flex-items-baseline` excludes label events */
 .dashboard .flex-items-baseline {
