@@ -939,6 +939,11 @@ body > .footer li a {
 	width: 430px;
 }
 
+/* Remove the 'Review Summary' header from the form */
+.pull-request-review-menu label[for='pull_request_review_body'] {
+	display: none !important;
+}
+
 /* Reduce dashboard activity cards */
 /* `.flex-items-baseline` excludes label events */
 .dashboard .flex-items-baseline {
@@ -1062,9 +1067,4 @@ body > .footer li a {
 /* Remove the useless "Continuous integration has not been set up" message on PRs */
 .branch-action-item.marketplace-product-callout {
 	display: none;
-}
-
-/* Remove the 'Review Summary' header from the form */
-label.d-block.m-2[for='pull_request_review_body'] {
-	display: none !important;
 }
