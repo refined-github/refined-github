@@ -1063,3 +1063,8 @@ body > .footer li a {
 .branch-action-item.marketplace-product-callout {
 	display: none;
 }
+
+/* Remove the 'Review Summary' header from the form */
+label.d-block.m-2[for='pull_request_review_body'] {
+	display: none !important;
+}
