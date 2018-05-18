@@ -102,6 +102,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [View linked gists inline in comments.](https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.PNG)
 - [Search a user profile page when visiting it.](https://user-images.githubusercontent.com/1402241/35185441-24ad4b1e-fe37-11e7-9e1b-0dc09fc1ada2.png)
 - [Avoid opening duplicate issues thanks to the list of possibly-related issues.](https://user-images.githubusercontent.com/29176678/37566899-85953e6e-2abf-11e8-9f0e-52d18c87bbe3.gif)
+- [Use the pull request description as the commit message when merging with `Squash and merge`](https://github.com/sindresorhus/refined-github/issues/1322).
 
 ### More actions
 
