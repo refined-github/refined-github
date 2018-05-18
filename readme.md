@@ -179,9 +179,10 @@ And [many more…](source/content.css)
 
 ### Previously part of Refined GitHub
 
-- ~~[Blame parent commits in blame view.](https://github.com/sindresorhus/refined-github/issues/2#issuecomment-189141373)~~ *[Implemented by GitHub](https://github.com/blog/2304-navigate-file-history-faster-with-improved-blame-view)*
-- ~~[Collapse/expand files in a PR diff.](https://cloud.githubusercontent.com/assets/170270/13954167/40caa604-f072-11e5-89ba-3145217c4e28.png)~~ *[Implemented by GitHub](https://cloud.githubusercontent.com/assets/170270/25772137/6a6b678e-3296-11e7-97c7-02e31ef17743.png)*
-- ~~[Preview a issue/PR reference's title in comments.](https://user-images.githubusercontent.com/170270/30729486-2816df06-9f8a-11e7-8069-8999302e9ddd.png)~~ *[Implemented by GitHub](https://user-images.githubusercontent.com/1402241/31265633-779ad0fe-aa35-11e7-8c42-a3b375f8f32c.png)*
+- ~~[Blame parent commits in blame view.](https://github.com/sindresorhus/refined-github/issues/2#issuecomment-189141373)~~ - *[Implemented by GitHub](https://github.com/blog/2304-navigate-file-history-faster-with-improved-blame-view)*
+- ~~[Collapse/expand files in a PR diff.](https://cloud.githubusercontent.com/assets/170270/13954167/40caa604-f072-11e5-89ba-3145217c4e28.png)~~ - *[Implemented by GitHub](https://cloud.githubusercontent.com/assets/170270/25772137/6a6b678e-3296-11e7-97c7-02e31ef17743.png)*
+- ~~[Preview a issue/PR reference's title in comments.](https://user-images.githubusercontent.com/170270/30729486-2816df06-9f8a-11e7-8069-8999302e9ddd.png)~~ - *[Implemented by GitHub](https://user-images.githubusercontent.com/1402241/31265633-779ad0fe-aa35-11e7-8c42-a3b375f8f32c.png)*
+- ~~The dashboard organization switcher is moved to the right column.~~ - *[Implemented by GitHub](https://github.com/sindresorhus/refined-github/pull/1330)*
 
 
 ## Customization
