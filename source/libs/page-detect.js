@@ -86,7 +86,7 @@ export const isPRSearch = () => location.pathname.startsWith('/pulls');
 
 export const isQuickPR = () => isCompare() && /[?&]quick_pull=1(&|$)/.test(location.search);
 
-export const isReleases = () => /^(releases|tags)/.test(getRepoPath());
+export const isReleasesOrTags = () => /^(releases|tags)/.test(getRepoPath());
 
 export const isRepo = () => /^[^/]+\/[^/]+/.test(getCleanPathname()) &&
 	!isReserved(getOwnerAndRepo().ownerName) &&

@@ -40,7 +40,7 @@ export default async () => {
 	updateReleasesCount();
 	appendReleasesCount((await localCache)[repoKey]);
 
-	if (pageDetect.isReleases()) {
+	if (pageDetect.isReleasesOrTags()) {
 		const selected = select('.reponav-item.selected');
 		if (selected) {
 			selected.classList.remove('js-selected-navigation-item', 'selected');

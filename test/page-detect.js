@@ -315,8 +315,11 @@ test('isQuickPR', urlMatcherMacro, pageDetect.isQuickPR, [
 	'https://github.com/sindresorhus/refined-github/compare/branch-1...branch-2?expand=1'
 ]);
 
-test('isReleases', urlMatcherMacro, pageDetect.isReleases, [
-	'https://github.com/sindresorhus/refined-github/releases'
+test('isReleasesOrTags', urlMatcherMacro, pageDetect.isReleasesOrTags, [
+	'https://github.com/sindresorhus/refined-github/releases',
+	'https://github.com/sindresorhus/refined-github/tags',
+	'https://github.com/sindresorhus/refined-github/releases/tag/v1.0.0-beta.4',
+	'https://github.com/sindresorhus/refined-github/releases/tag/0.2.1'
 ], [
 	'https://github.com/sindresorhus/refined-github',
 	'https://github.com/sindresorhus/refined-github/graphs'
