@@ -46,7 +46,7 @@ export default async () => {
 
 	registerShortcut('repos', 'g r', 'Go to Releases');
 
-	if (pageDetect.isReleases()) {
+	if (pageDetect.isReleasesOrTags()) {
 		const selected = select('.reponav-item.selected');
 		if (selected) {
 			selected.classList.remove('js-selected-navigation-item', 'selected');
