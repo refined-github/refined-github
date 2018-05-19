@@ -15,4 +15,3 @@ export default function () {
 		document.body.classList.remove(className);
 	}, {once: true});
 }
-
