@@ -140,9 +140,8 @@ GitHub Enterprise is also supported. More info in the options.
 
 - [The dashboard shows more in less space.](https://user-images.githubusercontent.com/1402241/38087982-6c87f268-3384-11e8-9776-7ba48bdde80c.png)
 - News feed items of users starring or forking your repos are removed.
-- Various entries are hidden from the dashboard by default, as we believe they are not really useful on a regular basis to GitHub power users.  
-*(There has been discussed quite a few times in the issue tracker that too much content is hidden from the dashboard, especially the Commit entries (*"user x pushed to repo y z commits"*). This is intended.  
-You may disable this feature by adding `hide-useless-newsfeed-events` in the extension options).*
+- Various entries are hidden from the dashboard, that we believe they are not really useful on a regular basis to GitHub power users.  
+<sup>*(There has been discussed quite a few times in the issue tracker that too much content is hidden from the dashboard, especially the Commit entries (*"user x pushed to repo y z commits"*). This is intended: if you follow hundreds of people and watch hundreds of repos, pushes and branches quickly become irrelevant to you. You may disable this feature by adding `hide-useless-newsfeed-events` in the extension options).*</sup>
 - The file hover effect in the repo file browser is removed.
 - Unnecessary buttons in the comment box toolbar are hidden (each one has a keyboard shortcut).
 - Obvious tooltips are removed.
@@ -151,7 +150,7 @@ You may disable this feature by adding `hide-useless-newsfeed-events` in the ext
 
 ### UI improvements
 
-- [Tabs in code are shown as 4 spaced instead of 8 space.](https://cloud.githubusercontent.com/assets/170270/14170088/d3be931e-f755-11e5-8edf-c5f864336382.png)
+- [Tabs in code are shown as 4 spaces instead of 8 spaces.](https://cloud.githubusercontent.com/assets/170270/14170088/d3be931e-f755-11e5-8edf-c5f864336382.png)
 - [Labels are moved to the left of issue and pull request lists.](https://user-images.githubusercontent.com/1402241/28006237-070b8214-6581-11e7-94bc-2b01a007d00b.png)
 - [Approve or reject reviews faster with one-click review type buttons.](https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png)
 - Pressing `Cancel` on an inline comment opens a prompt to prevent accidental cancelling.
