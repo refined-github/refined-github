@@ -1047,7 +1047,7 @@ body > .footer li a {
 
 .comment-body blockquote,
 .comment-body pre {
-	position: relative; /* OctoLink compat: attach the purple balls to the scroll */
+	position: relative; /* OctoLinker compat: attach the purple balls to the scroll */
 	max-height: 30.5em;
 	overflow-y: auto;
 	/* Add a shadow when there is an overflow.
