@@ -1,46 +1,52 @@
-import select from 'select-dom';
+/*
+Access a repository’s releases using the Releases tab or by pressing g r.
+https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png
+
+The tab isn’t shown if there are no releases.
+*/
+
 import {h} from 'dom-chef';
+import select from 'select-dom';
 import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
 import {registerShortcut} from './improve-shortcut-help';
 
 const repoUrl = pageDetect.getRepoURL();
-const repoKey = `${repoUrl}-releases-count`;
+const repoKey = `releases-count-${repoUrl}`;
 
 // Get as soon as possible, to have it ready before the first paint
 let localCache = browser.storage.local.get(repoKey);
 
-function appendReleasesCount(count) {
-	if (count) {
-		select('.reponav-releases').append(
-			<span class="Counter">{count}</span>
-		);
-	}
-}
-
-function updateReleasesCount() {
+async function updateReleasesCount() {
 	if (pageDetect.isRepoRoot()) {
-		const releasesCount = select('.numbers-summary a[href$="/releases"] .num').textContent.trim();
+		const countElement = select('.numbers-summary a[href$="/releases"] .num');
+		const releasesCount = Number(countElement.textContent);
 		localCache = {[repoKey]: releasesCount};
 		browser.storage.local.set(localCache);
+		return releasesCount;
 	}
+
+	return (await localCache)[repoKey];
 }
 
 export default async () => {
+	const count = await updateReleasesCount();
+	if (count === 0) {
+		return;
+	}
+
 	const releasesTab = (
-		<a href={`/${repoUrl}/releases`} class="reponav-item reponav-releases" data-hotkey="g r">
+		<a href={`/${repoUrl}/releases`} class="reponav-item" data-hotkey="g r">
 			{icons.tag()}
 			<span> Releases </span>
+			{count === undefined ? '' : <span class="Counter">{count}</span>}
 		</a>
 	);
-	registerShortcut('repos', 'g r', 'Go to Releases');
-
 	select('.reponav-dropdown').before(releasesTab);
 
-	updateReleasesCount();
-	appendReleasesCount((await localCache)[repoKey]);
+	registerShortcut('repos', 'g r', 'Go to Releases');
 
-	if (pageDetect.isReleasesOrTags()) {
+	if (pageDetect.isReleases()) {
 		const selected = select('.reponav-item.selected');
 		if (selected) {
 			selected.classList.remove('js-selected-navigation-item', 'selected');
