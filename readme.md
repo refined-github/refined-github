@@ -138,10 +138,8 @@ GitHub Enterprise is also supported. More info in the options.
 
 ### Declutter
 
-- [The dashboard shows more in less space.](https://user-images.githubusercontent.com/1402241/38087982-6c87f268-3384-11e8-9776-7ba48bdde80c.png)
-- News feed items of users starring or forking your repos are removed.
-- Various entries are hidden from the dashboard, that we believe they are not really useful on a regular basis to GitHub power users.  
-<sup>*(There has been discussed quite a few times in the issue tracker that too much content is hidden from the dashboard, especially the Commit entries (*"user x pushed to repo y z commits"*). This is intended: if you follow hundreds of people and watch hundreds of repos, pushes and branches quickly become irrelevant to you. You may disable this feature by adding `hide-useless-newsfeed-events` in the extension options).*</sup>
+- [Newsfeed events take up less space.](https://user-images.githubusercontent.com/1402241/38087982-6c87f268-3384-11e8-9776-7ba48bdde80c.png) 
+- Stars on your repos and some other useless events (commits, forks, new followers) are hidden.
 - The file hover effect in the repo file browser is removed.
 - Unnecessary buttons in the comment box toolbar are hidden (each one has a keyboard shortcut).
 - Obvious tooltips are removed.
