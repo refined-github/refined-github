@@ -138,7 +138,7 @@ GitHub Enterprise is also supported. More info in the options.
 
 ### Declutter
 
-- [Newsfeed events take up less space.](https://user-images.githubusercontent.com/1402241/38087982-6c87f268-3384-11e8-9776-7ba48bdde80c.png) 
+- [Newsfeed events take up less space.](https://user-images.githubusercontent.com/1402241/38087982-6c87f268-3384-11e8-9776-7ba48bdde80c.png)
 - Stars on your repos and some other useless events (commits, forks, new followers) are hidden.
 - The file hover effect in the repo file browser is removed.
 - Unnecessary buttons in the comment box toolbar are hidden (each one has a keyboard shortcut).
