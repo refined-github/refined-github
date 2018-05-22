@@ -50,7 +50,7 @@ function listen() {
 export default function () {
 	const listenOnce = onetime(listen);
 	safeOnAjaxedPages(() => {
-		if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isNewIssue()) {
+		if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isNewIssue() || pageDetect.isCompare()) {
 			addButtons();
 			listenOnce();
 		}
