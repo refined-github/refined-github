@@ -1,9 +1,9 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
+import compareVersions from 'tiny-version-compare';
 import * as icons from '../libs/icons';
 import {appendBefore} from '../libs/utils';
 import {groupSiblings} from '../libs/group-buttons';
-import compareVersions from '../libs/compare-versions';
 import {getRepoURL, isRepoRoot, getOwnerAndRepo} from '../libs/page-detect';
 
 // This regex should match all of these combinations:
