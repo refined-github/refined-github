@@ -8,9 +8,8 @@ function addFilePathCopyBtn() {
 	for (const file of select.all('#files .file-header:not(.rgh-copy-file-path)')) {
 		file.classList.add('rgh-copy-file-path');
 
-		select('.file-info a', file).classList.add('js-copy-btn-target');
 		const handleClick = () => {
-			const fileContents = select('.js-copy-btn-target', file).textContent;
+			const fileContents = select('.file-info a', file).textContent;
 			copyToClipboard(fileContents);
 		};
 
