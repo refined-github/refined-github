@@ -70,7 +70,6 @@ import waitForBuild from './features/wait-for-build';
 import addDownloadFolderButton from './features/add-download-folder-button';
 import hideUselessNewsfeedEvents from './features/hide-useless-newsfeed-events';
 import closeOutOfViewModals from './features/close-out-of-view-modals';
-import addScopedSearchOnUserProfile from './features/add-scoped-search-on-user-profile';
 import monospaceTextareas from './features/monospace-textareas';
 import improveShortcutHelp from './features/improve-shortcut-help';
 import hideNavigationHoverHighlight from './features/hide-navigation-hover-highlight';
@@ -122,10 +121,6 @@ async function init() {
 			enableFeature(addReleasesTab);
 			enableFeature(removeProjectsTab);
 		});
-	}
-
-	if (pageDetect.isUserProfile()) {
-		enableFeature(addScopedSearchOnUserProfile);
 	}
 
 	enableFeature(focusConfirmationButtons);
