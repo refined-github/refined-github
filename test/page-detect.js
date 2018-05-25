@@ -368,9 +368,12 @@ test('isRepoTree', urlMatcherMacro, pageDetect.isRepoTree, [
 	'https://github.com/sindresorhus/refined-github/tree/master/distribution',
 	'https://github.com/sindresorhus/refined-github/tree/0.13.0/distribution',
 	'https://github.com/sindresorhus/refined-github/tree/57bf435ee12d14b482df0bbd88013a2814c7512e/distribution',
-	'https://github.com/sindresorhus/refined-github/tree/57bf4'
+	'https://github.com/sindresorhus/refined-github/tree/57bf4',
+	'https://github.com/sindresorhus/refined-github?files=1',
+	'https://github.com/sindresorhus/refined-github/tree/master?files=1'
 ], [
 	'https://github.com/sindresorhus/refined-github/issues',
+	'https://github.com/sindresorhus/refined-github/issues?files=1',
 	'https://github.com/sindresorhus/refined-github/blob/tree/master/distribution'
 ]);
 

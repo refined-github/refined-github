@@ -1,5 +1,5 @@
-import select from 'select-dom';
 import {h} from 'dom-chef';
+import select from 'select-dom';
 import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
 import {registerShortcut} from './improve-shortcut-help';
@@ -20,9 +20,11 @@ function appendReleasesCount(count) {
 
 function updateReleasesCount() {
 	if (pageDetect.isRepoRoot()) {
-		const releasesCount = select('.numbers-summary a[href$="/releases"] .num').textContent.trim();
-		localCache = {[repoKey]: releasesCount};
-		browser.storage.local.set(localCache);
+		const releasesCount = select('.numbers-summary a[href$="/releases"] .num');
+		if (releasesCount) {
+			localCache = {[repoKey]: Number(releasesCount.textContent)};
+			browser.storage.local.set(localCache);
+		}
 	}
 }
 
