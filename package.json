@@ -69,9 +69,7 @@
 				{
 					"varsIgnorePattern": "^h$"
 				}
-			],
-			"function-paren-newline": "off",
-			"unicorn/no-unsafe-regex": "off"
+			]
 		},
 		"globals": [
 			"browser"
@@ -114,13 +112,10 @@
 		"rules": {
 			"declaration-no-important": null,
 			"property-no-vendor-prefix": null,
-			"no-descending-specificity": null,
 			"property-blacklist": null,
 			"selector-class-pattern": null,
-			"selector-max-class": null,
 			"rule-empty-line-before": null,
-			"at-rule-empty-line-before": null,
-			"selector-max-compound-selectors": null
+			"at-rule-empty-line-before": null
 		}
 	}
 }
