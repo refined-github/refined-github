@@ -1,6 +1,7 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate';
+import domLoaded from 'dom-loaded';
 import gitHubInjection from 'github-injection';
 import SynchronousStorage from '../libs/synchronous-storage';
 import observeEl from '../libs/simplified-element-observer';
@@ -350,7 +351,7 @@ export default async function () {
 			return browser.storage.local.set({unreadNotifications});
 		}
 	);
-	gitHubInjection(() => {
+	gitHubInjection(async () => {
 		destroy();
 
 		if (pageDetect.isNotifications()) {
@@ -371,6 +372,15 @@ export default async function () {
 
 			// The sidebar changes when new comments are added or the issue status changes
 			observeEl('.discussion-sidebar', addMarkUnreadButton);
+		} else if (pageDetect.isIssueList()) {
+			await domLoaded;
+			for (const discussion of storage.get()) {
+				const url = new URL(discussion.url);
+				const listItem = select(`.read [href='${url.pathname}']`);
+				if (listItem) {
+					listItem.closest('.read').classList.replace('read', 'unread');
+				}
+			}
 		}
 
 		updateUnreadIndicator();
