@@ -76,6 +76,7 @@ import hideNavigationHoverHighlight from './features/hide-navigation-hover-highl
 import displayIssueSuggestions from './features/display-issue-suggestions';
 import addPullRequestHotkey from './features/add-pull-request-hotkey';
 import openSelectionInNewTab from './features/add-selection-in-new-tab';
+import addSwitchBranchesOnCompare from './features/add-switch-branches-on-compare';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
@@ -264,6 +265,7 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isCompare()) {
 		enableFeature(toggleAllThingsWithAlt);
+		enableFeature(addSwitchBranchesOnCompare);
 	}
 
 	if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit() || pageDetect.isDiscussion()) {
