@@ -28,7 +28,7 @@
 		"p-event": "^1.3.0",
 		"select-dom": "^4.1.3",
 		"shorten-repo-url": "^1.5.0",
-		"storm-textarea": "^1.1.0",
+		"storm-textarea": "2.0.1",
 		"tiny-version-compare": "^0.9.0",
 		"turndown": "^4.0.2",
 		"webext-domain-permission-toggle": "0.0.2",
