@@ -278,10 +278,10 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
 		enableFeature(addCopyFilePathToPRs);
 		enableFeature(preserveWhitespaceOptionInNav);
+		enableFeature(addQuickReviewButtons);
 	}
 
 	if (pageDetect.isPRFiles()) {
-		enableFeature(addQuickReviewButtons);
 		enableFeature(extendDiffExpander);
 	}
 
