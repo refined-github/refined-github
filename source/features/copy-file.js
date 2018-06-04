@@ -15,11 +15,13 @@ export default function () {
 
 		// Prepend to list of buttons
 		const firstAction = select('.file-actions .btn', file);
-		firstAction.before(
-			<button onClick={handleClick} class="btn btn-sm copy-btn tooltipped tooltipped-n" aria-label="Copy file to clipboard" type="button">Copy</button>
-		);
+		if (firstAction) {
+			firstAction.before(
+				<button onClick={handleClick} class="btn btn-sm copy-btn tooltipped tooltipped-n" aria-label="Copy file to clipboard" type="button">Copy</button>
+			);
 
-		// Group buttons if necessary
-		groupSiblings(firstAction);
+			// Group buttons if necessary
+			groupSiblings(firstAction);
+		}
 	}
 }

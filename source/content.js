@@ -109,7 +109,7 @@ async function init() {
 		enableFeature(addTrendingMenuItem);
 	}
 
-	if (pageDetect.isDashboard()) {
+	if (pageDetect.isDashboard() && !pageDetect.isGist()) {
 		enableFeature(hideUselessNewsfeedEvents);
 	}
 

@@ -17,11 +17,12 @@ const observer = new IntersectionObserver(([{intersectionRatio, target}]) => {
 export default function () {
 	delegate('.dropdown-details, .js-menu-target', 'click', event => {
 		const button = event.delegateTarget;
-		const modal = button
-			.closest('.select-menu, .dropdown, details')
-			.querySelector('.select-menu-modal, .dropdown-menu');
-		if (modal && (!button.open || button.classList.contains('selected'))) {
-			observer.observe(modal);
+		const menu = button.closest('.select-menu, .dropdown, details');
+		if (menu) {
+			const modal = menu.querySelector('.select-menu-modal, .dropdown-menu');
+			if (modal && (!button.open || button.classList.contains('selected'))) {
+				observer.observe(modal);
+			}
 		}
 	});
 }
