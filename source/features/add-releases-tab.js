@@ -19,11 +19,11 @@ let localCache = browser.storage.local.get(repoKey);
 
 async function updateReleasesCount() {
 	if (pageDetect.isRepoRoot()) {
-		const countElement = select('.numbers-summary a[href$="/releases"] .num');
-		const releasesCount = Number(countElement.textContent);
-		localCache = {[repoKey]: releasesCount};
-		browser.storage.local.set(localCache);
-		return releasesCount;
+		const releasesCount = select('.numbers-summary a[href$="/releases"] .num');
+		if (releasesCount) {
+			localCache = {[repoKey]: Number(releasesCount.textContent)};
+			browser.storage.local.set(localCache);
+		}
 	}
 
 	return (await localCache)[repoKey];

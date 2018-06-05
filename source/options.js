@@ -1,10 +1,9 @@
-import Textarea from 'storm-textarea';
+import textarea from 'storm-textarea';
 import OptionsSync from 'webext-options-sync';
 import indentTextarea from './libs/indent-textarea';
 
-Textarea.init('textarea', {
-	events: ['input'],
-	paddingBottom: 2
+textarea('textarea', {
+	events: ['input']
 });
 
 document.querySelector('[name="customCSS"]').addEventListener('keydown', event => {
