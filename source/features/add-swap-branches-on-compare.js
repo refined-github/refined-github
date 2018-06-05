@@ -11,6 +11,7 @@ export default async () => {
 		references.unshift(select('.branch span').textContent);
 	}
 
-	const compareIcon = select('.octicon-git-compare');
-	wrap(compareIcon, <a href={`/${getRepoURL()}/compare/${references.join('...')}`}></a>);
+	const icon = select('.octicon-arrow-left');
+	icon.parentNode.attributes['aria-label'].value += '. Click to swap.';
+	wrap(icon, <a href={`/${getRepoURL()}/compare/${references.join('...')}`}></a>);
 };
