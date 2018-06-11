@@ -1,5 +1,6 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
+import * as icons from '../libs/icons';
 import {getUsername} from '../libs/utils';
 
 export default function () {
@@ -11,19 +12,12 @@ export default function () {
 	}
 
 	const href = reviewedByYou.href.replace(query, `-${query}`);
-	const notReviewedByYou =
+	const notReviewedByYou = (
 		<a href={href} class="select-menu-item js-navigation-item">
-			<svg
-				class="octicon octicon-check select-menu-item-icon"
-				viewBox="0 0 12 16"
-				version="1.1"
-				width="12"
-				height="16"
-				aria-hidden="true">
-				<path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z" />
-			</svg>
+			<span class="select-menu-item-icon">{icons.check()}</span>
 			<div class="select-menu-item-text">Not reviewed by you</div>
-		</a>;
+		</a>
+	);
 
 	// When the query includes the "not reviewed by you" filter, the "reviewd by you" item will be selected
 	// because of this we remove the selected class and add it to the correct item.
