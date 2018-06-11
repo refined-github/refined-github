@@ -19,8 +19,8 @@ export default function () {
 		</a>
 	);
 
-	// When the query includes the "not reviewed by you" filter, the "reviewd by you" item will be selected
-	// because of this we remove the selected class and add it to the correct item.
+	// When the query includes the "not reviewed by you" filter, the "reviewed by you" item will be selected.
+	// Because of this we remove the selected class and add it to the correct item.
 	if (location.search.includes(`-${query}`)) {
 		reviewedByYou.classList.remove('selected');
 		notReviewedByYou.classList.add('selected');
