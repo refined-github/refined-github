@@ -5,7 +5,7 @@ import {getUsername} from '../libs/utils';
 export default function () {
 	const query = encodeURIComponent(`reviewed-by:${getUsername()}`);
 
-	const reviewedByYou = select(`.select-menu-list a[href*=${query}"]`);
+	const reviewedByYou = select(`.select-menu-list a[href*="${query}"]`);
 	if (!reviewedByYou) {
 		return;
 	}
