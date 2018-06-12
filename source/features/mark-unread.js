@@ -121,15 +121,12 @@ function getNotification(notification) {
 		return item;
 	}
 
-	// Already on L17. Only needed here to fix pre-existing unread notifications. Remove in 2018.
-	const clippedParticipants = participants.slice(0, 3);
-
-	const usernames = clippedParticipants
+	const usernames = participants
 		.map(participant => participant.username)
 		.join(' and ')
 		.replace(/ and (.+) and/, ', $1, and'); // 3 people only: A, B, and C
 
-	const avatars = clippedParticipants.map(participant =>
+	const avatars = participants.map(participant =>
 		<a href={`/${participant.username}`} class="avatar">
 			<img alt={`@${participant.username}`} height="20" src={participant.avatar} width="20"/>
 		</a>
