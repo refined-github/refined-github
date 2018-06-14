@@ -5,7 +5,7 @@ body {
 	--github-green: #28a745;
 	--github-red: #cb2431;
 }
-input:not([type='checkbox']):not([data-empty='true']):valid {
+input:not([type='checkbox']):not(:placeholder-shown):valid {
 	color: var(--github-green);
 	border: 1px solid;
 }
