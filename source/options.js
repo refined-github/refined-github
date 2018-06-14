@@ -13,4 +13,12 @@ document.querySelector('[name="customCSS"]').addEventListener('keydown', event =
 	}
 });
 
+document.querySelector('[name="personalToken"]').addEventListener('keyup', event => {
+  if (event.target.value) {
+    event.target.dataset.empty = 'false';
+  } else {
+    event.target.dataset.empty = 'true';
+  }
+});
+
 new OptionsSync().syncForm('#options-form');
