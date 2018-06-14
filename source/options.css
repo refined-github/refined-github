@@ -1,15 +1,25 @@
 body {
 	min-width: 430px; /* Required to size the Browser Action popup */
 }
-input,
+:root {
+	--github-green: #28a745;
+	--github-red: #cb2431;
+}
+input:not([type='checkbox']):not(:placeholder-shown):valid {
+	color: var(--github-green);
+	border: 1px solid;
+}
+input:not([type='checkbox']):invalid {
+	color: var(--github-red);
+	border: 1px solid;
+}
+input:not([type='checkbox']),
 textarea {
 	display: block;
 	width: 100%;
 	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
 	font-size: 11px;
 	line-height: 1.5;
-}
-textarea {
 	resize: vertical;
 	-moz-tab-size: 4 !important;
 	tab-size: 4 !important;
