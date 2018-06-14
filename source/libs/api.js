@@ -9,8 +9,8 @@ export default async endpoint => {
 		return cache.get(endpoint);
 	}
 	const {personalToken = ''} = await options;
-	if (personalToken.trim().length === 40) {
-		headers.set('Authorization', 'token ' + personalToken.trim());
+	if (personalToken) {
+		headers.set('Authorization', `token ${personalToken}`);
 	}
 	const api = location.hostname === 'github.com' ? 'https://api.github.com/' : `${location.origin}/api/`;
 	const response = await fetch(api + endpoint, {headers});
