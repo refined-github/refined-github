@@ -9,11 +9,11 @@ export default async endpoint => {
 		return cache.get(endpoint);
 	}
 	const {personalToken = ''} = await options;
-	if (personalToken.trim().length == 40) {
+	if (personalToken.trim().length === 40) {
 		headers.set('Authorization', 'token ' + personalToken.trim());
 	}
 	const api = location.hostname === 'github.com' ? 'https://api.github.com/' : `${location.origin}/api/`;
-	const response = await fetch(api + endpoint, {headers: headers});
+	const response = await fetch(api + endpoint, {headers});
 	const json = await response.json();
 	cache.set(endpoint, json);
 	return json;
