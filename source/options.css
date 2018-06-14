@@ -25,7 +25,6 @@ textarea {
 	tab-size: 4 !important;
 }
 input[type='checkbox'] {
-	display: inline-block;
 	vertical-align: -0.16em;
 }
 .small {
