@@ -11,6 +11,13 @@ textarea {
 	-moz-tab-size: 4 !important;
 	tab-size: 4 !important;
 }
+input[type='password'] {
+	display: block;
+	width: 100%;
+	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+	font-size: 11px;
+	line-height: 1.5;
+}
 input[type='checkbox'] {
 	vertical-align: -0.16em;
 }
