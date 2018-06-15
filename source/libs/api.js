@@ -8,7 +8,7 @@ export default async endpoint => {
 	if (cache.has(endpoint)) {
 		return cache.get(endpoint);
 	}
-	const {personalToken = ''} = await options;
+	const {personalToken} = await options;
 	if (personalToken) {
 		headers.Authorization = `token ${personalToken}`;
 	}
