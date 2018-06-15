@@ -17,6 +17,7 @@ const options = {
 	type: 'dom',
 	baseUrl: '',
 	attributes: {
+		rel: 'noreferrer noopener',
 		class: linkifiedURLClass // Necessary to avoid also shortening the links
 	}
 };
