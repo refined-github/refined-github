@@ -1,14 +1,13 @@
 import OptionsSync from 'webext-options-sync';
 
 const cache = new Map();
-const headers = {};
-const options = new OptionsSync().getAll();
 
 export default async endpoint => {
 	if (cache.has(endpoint)) {
 		return cache.get(endpoint);
 	}
-	const {personalToken} = await options;
+	const headers = {};
+	const {personalToken} = await new OptionsSync().getAll();
 	if (personalToken) {
 		headers.Authorization = `token ${personalToken}`;
 	}
