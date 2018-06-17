@@ -6,7 +6,10 @@ export default async endpoint => {
 	if (cache.has(endpoint)) {
 		return cache.get(endpoint);
 	}
-	const headers = {};
+	const headers = {
+		'User-Agent': 'Refined GitHub',
+		Accept: 'application/vnd.github.v3+json'
+	};
 	const {personalToken} = await new OptionsSync().getAll();
 	if (personalToken) {
 		headers.Authorization = `token ${personalToken}`;
