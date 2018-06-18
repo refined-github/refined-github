@@ -1,3 +1,5 @@
+/* global chrome */
+
 import {h} from 'dom-chef';
 import textarea from 'storm-textarea';
 import OptionsSync from 'webext-options-sync';
@@ -17,12 +19,12 @@ document.querySelector('[name="customCSS"]').addEventListener('keydown', event =
 const optionsSync = new OptionsSync();
 optionsSync.define({
 	defaults: {
-		personalTokens: {},
+		personalTokens: {}
 	},
 	migrations: [
-		// migrate personal token to object
-		(savedOptions, currentDefaults) => {
-			if(savedOptions.personalToken) {
+		// Migrate personal token to object
+		savedOptions => {
+			if (savedOptions.personalToken) {
 				savedOptions.personalTokens = {
 					'github.com': savedOptions.personalToken
 				};
@@ -36,7 +38,7 @@ optionsSync.define({
 const tokenInputList = document.querySelector('#tokens');
 
 function updateTokenForm() {
-	// clear children
+	// Clear children
 	while (tokenInputList.firstChild) {
 		tokenInputList.removeChild(tokenInputList.firstChild);
 	}
@@ -44,9 +46,9 @@ function updateTokenForm() {
 	optionsSync.getAll().then(options => {
 		const tokens = options.personalTokens;
 		const tokenKeys = Object.keys(tokens);
-		if(tokenKeys.length !== 0) {
-			const tokenInputs = tokenKeys.map(hostName => generateTokenInputRow(hostName, tokens[hostName]))
-			tokenInputs.forEach(input => tokenInputList.appendChild(input))
+		if (tokenKeys.length !== 0) {
+			const tokenInputs = tokenKeys.map(hostName => generateTokenInputRow(hostName, tokens[hostName]));
+			tokenInputs.forEach(input => tokenInputList.appendChild(input));
 		}
 	});
 }
@@ -54,7 +56,7 @@ function updateTokenForm() {
 function updateHostName(oldHostName, event) {
 	const newHostName = event.target.value;
 	optionsSync.getAll().then(options => {
-		var value = options.personalTokens[oldHostName];
+		const value = options.personalTokens[oldHostName];
 		options.personalTokens[newHostName] = value;
 		delete options.personalTokens[oldHostName];
 		optionsSync.setAll(options);
@@ -88,7 +90,7 @@ function generateTokenInputRow(hostName, value) {
 			value={hostName}
 		/>
 	);
-	hostnameInput.onchange = (event) => updateHostName(hostName, event);
+	hostnameInput.addEventListener('change', event => updateHostName(hostName, event));
 
 	const tokenInput = (
 		<input
@@ -101,10 +103,10 @@ function generateTokenInputRow(hostName, value) {
 			value={value}
 		/>
 	);
-	tokenInput.onchange = (event) => updateTokenValue(hostName || hostnameInput.value, event);
+	tokenInput.addEventListener('change', event => updateTokenValue(hostName || hostnameInput.value, event));
 
 	const removeButton = <button type="button">X</button>;
-	removeButton.onclick = () => removeHost(hostName);
+	removeButton.addEventListener('click', () => removeHost(hostName));
 
 	return (
 		<div style={{display: 'flex', marginBottom: '8px'}}>
@@ -114,37 +116,35 @@ function generateTokenInputRow(hostName, value) {
 }
 
 function addPersonalKeyRow() {
-	// get the hostname of the active tab
+	// Get the hostname of the active tab
 	chrome.tabs.query({
 		active: true,
 		currentWindow: true
-	}, function(tabs) {
-		var tab = tabs[0];
-		var url = tab.url;
-		var l = document.createElement("a");
+	}, tabs => {
+		const {url} = tabs[0];
+		const l = document.createElement('a');
 		l.href = url;
 
 		const currHost = l.hostname;
 
 		optionsSync.getAll().then(options => {
-			if(options.personalTokens[currHost]) {
-				// if they already have a value for the host, make an empty input
+			if (options.personalTokens[currHost]) {
+				// If they already have a value for the host, make an empty input
 				tokenInputList.appendChild(generateTokenInputRow('', ''));
 			} else {
-				// append input with hostname already filled
+				// Append input with hostname already filled
 				tokenInputList.appendChild(generateTokenInputRow(currHost, ''));
 			}
 		});
-		
 	});
 }
 
 const addButton = <button type="button">Add token</button>;
-addButton.onclick = addPersonalKeyRow;
+addButton.addEventListener('click', addPersonalKeyRow);
 
-document.querySelector('#token-wrapper').appendChild(addButton)
+document.querySelector('#token-wrapper').appendChild(addButton);
 
-// init token input
+// Init token input
 updateTokenForm();
 
 optionsSync.syncForm('#options-form');
