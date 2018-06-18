@@ -7,11 +7,11 @@ export default async endpoint => {
 		return cache.get(endpoint);
 	}
 	const headers = {};
-	const {personalToken} = await new OptionsSync().getAll();
-	if (personalToken) {
-		headers.Authorization = `token ${personalToken}`;
+	const {personalTokens} = await new OptionsSync().getAll();
+	if (personalTokens && personalTokens[location.hostname]) {
+		headers.Authorization = `token ${personalTokens[location.hostname]}`;
 	}
-	const api = location.hostname === 'github.com' ? 'https://api.github.com/' : `${location.origin}/api/`;
+	const api = location.hostname === 'github.com' ? 'https://api.github.com/' : `${location.origin}/api/v3/`;
 	const response = await fetch(api + endpoint, {headers});
 	const json = await response.json();
 	cache.set(endpoint, json);
