@@ -11,6 +11,7 @@ import enableCopyOnY from './features/copy-on-y';
 import addReactionParticipants from './features/reactions-avatars';
 import showRealNames from './features/show-names';
 import addCopyFilePathToPRs from './features/copy-file-path';
+import addPrevNextButtonsToPRs from './features/prev-next-commit-buttons';
 import addFileCopyButton from './features/copy-file';
 // - import copyMarkdown from './features/copy-markdown';
 import linkifyCode from './features/linkify-urls-in-code';
@@ -277,6 +278,7 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
 		enableFeature(addCopyFilePathToPRs);
+		enableFeature(addPrevNextButtonsToPRs);
 		enableFeature(preserveWhitespaceOptionInNav);
 		enableFeature(addQuickReviewButtons);
 	}
