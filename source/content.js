@@ -10,6 +10,7 @@ import addUploadBtn from './features/upload-button';
 import enableCopyOnY from './features/copy-on-y';
 import addReactionParticipants from './features/reactions-avatars';
 import showRealNames from './features/show-names';
+import showStargazersYouKnow from './features/show-stargazers-you-know';
 import addCopyFilePathToPRs from './features/copy-file-path';
 import addFileCopyButton from './features/copy-file';
 // - import copyMarkdown from './features/copy-markdown';
@@ -207,6 +208,7 @@ function ajaxedPagesHandler() {
 		enableFeature(removeDiffSigns);
 		enableFeature(addCILink);
 		enableFeature(sortMilestonesByClosestDueDate); // Needs to be after addMilestoneNavigation
+		enableFeature(showStargazersYouKnow);
 	}
 
 	if (pageDetect.isRepoRoot()) {
