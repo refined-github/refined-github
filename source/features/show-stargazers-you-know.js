@@ -5,7 +5,7 @@ import {getRepoURL} from '../libs/page-detect';
 
 const extractUserData = element => {
 	const image = element.querySelector('img');
-	const imageUrl = new URL(image.src)
+	const imageUrl = new URL(image.src);
 	const link = element.querySelector('a').href;
 	return {
 		avatar: `${imageUrl.origin}${imageUrl.pathname}`,
