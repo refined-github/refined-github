@@ -15,18 +15,18 @@ const repoUrl = pageDetect.getRepoURL();
 const repoKey = `releases-count-${repoUrl}`;
 
 // Get as soon as possible, to have it ready before the first paint
-let localCache = browser.storage.local.get(repoKey);
+let storageMap = browser.storage.local.get(repoKey);
 
 async function updateReleasesCount() {
 	if (pageDetect.isRepoRoot()) {
 		const releasesCountEl = select('.numbers-summary a[href$="/releases"] .num');
 		const releasesCount = Number(releasesCountEl ? releasesCountEl.textContent : 0);
-		localCache = {[repoKey]: releasesCount};
-		browser.storage.local.set(localCache);
+		storageMap = {[repoKey]: releasesCount};
+		browser.storage.local.set(storageMap);
 		return releasesCount;
 	}
 
-	return (await localCache)[repoKey];
+	return (await storageMap)[repoKey];
 }
 
 export default async () => {
