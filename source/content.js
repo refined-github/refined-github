@@ -3,6 +3,7 @@ import {h} from 'dom-chef';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 
+import addDeleteToPrFiles from './features/add-delete-to-pr-files';
 import markUnread from './features/mark-unread';
 import addOpenAllNotificationsButton from './features/open-all-notifications';
 import openAllSelected from './features/open-all-selected';
@@ -283,6 +284,7 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isPRFiles()) {
 		enableFeature(extendDiffExpander);
+		enableFeature(addDeleteToPrFiles);
 	}
 
 	if (pageDetect.isSingleFile()) {
