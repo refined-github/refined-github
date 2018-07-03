@@ -2,9 +2,10 @@
 
 import select from 'select-dom';
 import {h} from 'dom-chef';
-import {getCleanPathname, getRepoBranch, getRepoPath} from '../libs/page-detect';
+import * as pageDetect from '../libs/page-detect';
 
 export default function () {
-  const chevronDown = select('.octicon-chevron-down')
-  chevronDown.before(<a href='#'>Delete </a>)
+  const fileActions = select('.file-actions')
+  const deleteFile = fileActions.append(<a href='#' className='delete-file' aria-label='Delete this file from the pull request'>Delete </a>)
+  getBranchName()
 }
