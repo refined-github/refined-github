@@ -6,5 +6,5 @@ import {getCleanPathname, getRepoBranch, getRepoPath} from '../libs/page-detect'
 
 export default function () {
   const chevronDown = select('.octicon-chevron-down')
-  chevronDown.before(<button type='button'>Delete</button>)
+  chevronDown.before(<a href='#'>Delete </a>)
 }
