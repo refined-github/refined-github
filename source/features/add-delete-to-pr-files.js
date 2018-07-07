@@ -8,18 +8,15 @@ const repoURL = pageDetect.getRepoURL();
 export default function () {
 	const findBranch = select('.head-ref').innerText;
 	const branchName = findBranch.includes(':') ? findBranch.split(':')[1] : findBranch;
-	
+
 	const filesInfo = select.all('.file-info');
 	const generateURL = filesInfo.map(file => `/${repoURL}/delete/${branchName}/${file.children[1].title}`);
 
-	const fileActionContainers = select.all('div.BtnGroup');
+	const fileActionContainers = select.all('div.BtnGroup').slice(1);
 	fileActionContainers.map((container, index) => {
-		if (index !== 0) {
 			container.prepend(<a
-				href={generateURL[index - 1]}
+				href={generateURL[index]}
 				className="btn btn-sm tooltipped tooltipped-s BtnGroup-item"
 				aria-label="Delete this file from the pull request">Delete</a>);
-		}
-		return container;
 	});
 }
