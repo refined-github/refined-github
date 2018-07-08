@@ -134,7 +134,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [The current repository's build/CI status is always visible next to its name.](https://user-images.githubusercontent.com/1402241/32562120-d65166e4-c4e8-11e7-90fb-cbaf36e2709f.png)
 - [Review counts are shown and colored in PR lists.](https://user-images.githubusercontent.com/1402241/33474535-a814ee78-d6ad-11e7-8f08-a8b72799e376.png)
 - [All available keyboard shortcuts are shown in the help modal.](https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png)  *(<kbd>?</kbd> hotkey)*
-- [Closed milestones have "were due on" timestamp.](http://g.recordit.co/uS8OogHydF.gif)
+- [Closed milestones have "were due on" timestamp (**note**: this requires a valid personal token if the repo is private.](http://g.recordit.co/uS8OogHydF.gif)
 
 ### Declutter
 
