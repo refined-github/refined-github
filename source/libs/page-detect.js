@@ -68,6 +68,8 @@ export const isMilestone = () => /^milestone\/\d+/.test(getRepoPath());
 
 export const isMilestoneList = () => getRepoPath() === 'milestones';
 
+export const isClosedMilestoneList = () => isMilestoneList() && /\?state=closed/.test(location.href);
+
 export const isNewIssue = () => /^issues\/new/.test(getRepoPath());
 
 export const isNotifications = () => /^([^/]+[/][^/]+\/)?notifications/.test(getCleanPathname());
