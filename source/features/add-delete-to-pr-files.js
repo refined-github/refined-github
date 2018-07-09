@@ -8,8 +8,8 @@ export default function () {
 	const branchName = select('.head-ref').textContent.split(':').pop();
 
 	for (const file of select.all('.file-header')) {
-		const fileName = select('.file-info a', file).title
-		const url = `/${repoURL}/delete/${branchName}/${fileName}`
+		const fileName = select('.file-info a', file).title;
+		const url = `/${repoURL}/delete/${branchName}/${fileName}`;
 		select('.BtnGroup', file).prepend(
 			<a
 				href={url}
