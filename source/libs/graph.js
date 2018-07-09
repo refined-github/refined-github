@@ -1,5 +1,4 @@
 import OptionsSync from 'webext-options-sync';
-import {GraphQLClient} from 'graphql-request';
 
 const cache = new Map();
 
@@ -22,13 +21,16 @@ export default async query => {
 	if (personalToken) {
 		headers.Authorization = `bearer ${personalToken}`;
 	}
-	const api = 'https://api.github.com/graphql';
-	const client = new GraphQLClient(api, {headers});
-
+	const api = location.hostname === 'github.com' ? 'https://api.github.com/graphql' : `${location.origin}/api/graphql`;
 	try {
-		const response = await client.request(query);
-		cache.set(queryHash, response);
-		return response;
+		const response = await fetch(api, {
+			method: 'POST',
+			headers,
+			body: JSON.stringify({query})
+		});
+		const {data} = await response.json();
+		cache.set(queryHash, data);
+		return data;
 	} catch (error) {
 		const errorObject = JSON.parse(JSON.stringify(error));
 		if (errorObject.response.status) {
