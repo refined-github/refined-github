@@ -76,6 +76,7 @@ import hideNavigationHoverHighlight from './features/hide-navigation-hover-highl
 import displayIssueSuggestions from './features/display-issue-suggestions';
 import addPullRequestHotkey from './features/add-pull-request-hotkey';
 import openSelectionInNewTab from './features/add-selection-in-new-tab';
+import addOpenAllButton from './features/add-open-all-button';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
@@ -188,6 +189,7 @@ function ajaxedPagesHandler() {
 	enableFeature(addDownloadFolderButton);
 	enableFeature(linkifyBranchRefs);
 	enableFeature(openAllSelected);
+	enableFeature(addOpenAllButton);
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 		enableFeature(addYoursMenuItem);

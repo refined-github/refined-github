@@ -1019,3 +1019,8 @@ body > .footer li a {
 	padding-top: 4px !important;
 	padding-bottom: 4px !important;
 }
+
+.rgh-open-all-issues-button {
+	background: #0366d6 !important;
+    margin: 5px 0 5px;
+}
