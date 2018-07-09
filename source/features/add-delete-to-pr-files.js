@@ -1,5 +1,5 @@
-import select from 'select-dom';
 import {h} from 'dom-chef';
+import select from 'select-dom';
 import * as pageDetect from '../libs/page-detect';
 
 const repoURL = pageDetect.getRepoURL();
