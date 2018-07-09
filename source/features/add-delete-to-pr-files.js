@@ -5,8 +5,7 @@ import * as pageDetect from '../libs/page-detect';
 const repoURL = pageDetect.getRepoURL();
 
 export default function () {
-	const findBranch = select('.head-ref').innerText;
-	const branchName = findBranch.includes(':') ? findBranch.split(':')[1] : findBranch;
+	const branchName = select('.head-ref').textContent.split(':').pop();
 
 	const filesInfo = select.all('.file-info');
 	const generateURL = filesInfo.map(file => `/${repoURL}/delete/${branchName}/${file.children[1].title}`);
