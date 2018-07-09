@@ -29,11 +29,9 @@ export default async endpoint => {
 			'Refined GitHub couldn’t use GitHub’s API because the token seems to be incorrect or expired. Update it in the options.'
 		);
 	} else {
-		console.error(
-			'Refined GitHub wasn’t able to fetch GitHub’s API.',
-			personalToken ? 'Ensure that your token has access to this repo.' : 'Maybe adding a token in the options will fix this issue.',
-			'\n',
-			JSON.stringify(json, null, '\t')
+		console.error(`Refined GitHub wasn’t able to fetch GitHub’s API.\n,
+			${personalToken ? 'Ensure that your token has access to this repo.' : 'Maybe adding a token in the options will fix this issue.'}\n,
+			${JSON.stringify(json, null, '\t')}`
 		);
 	}
 	return json;
