@@ -4,7 +4,7 @@ import * as pageDetect from '../libs/page-detect';
 
 export default function () {
 	const repoURL = pageDetect.getRepoURL();
-	
+
 	const branchName = select('.head-ref').textContent.split(':').pop();
 
 	for (const file of select.all('.file-header')) {
