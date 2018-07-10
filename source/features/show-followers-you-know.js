@@ -24,13 +24,19 @@ const fetchStargazers = async () => {
 	return stargazers;
 };
 
-const avatarHeight = 35;
+const avatarSize = 35;
 const renderAvatar = ({link, description, avatar}) => (
-	<a href={link} title={description} class="avatar-group-item mr-1">
+	<a href={link}
+		aria-label={description}
+		class="tooltipped tooltipped-n avatar-group-item mr-1"
+	>
 		<img
 			class="avatar"
-			src={`${avatar}?s=${avatarHeight * window.devicePixelRatio}`}
-			alt={description} height={avatarHeight} />
+			src={`${avatar}?s=${avatarSize * window.devicePixelRatio}`}
+			alt={description}
+			height={avatarSize}
+			width={avatarSize}
+		/>
 	</a>
 );
 
