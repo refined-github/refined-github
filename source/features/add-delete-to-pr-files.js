@@ -11,10 +11,7 @@ export default function () {
 		const fileName = select('.file-info a', file).title;
 		const url = `/${repoURL}/delete/${branchName}/${fileName}`;
 		select('.octicon-pencil', file).parentElement.after(
-			<a
-				href={url}
-				className="btn btn-octicon btn-octicon-danger tooltipped tooltipped-s"
-				aria-label="Delete this file from the pull request">
+			<a href={url} className="btn-octicon btn-octicon-danger">
 				{icons.trashcan()}
 			</a>
 		);
