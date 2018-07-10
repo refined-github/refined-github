@@ -1,5 +1,6 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
+import * as icons from '../libs/icons';
 import {getRepoURL} from '../libs/page-detect';
 
 export default function () {
@@ -9,12 +10,12 @@ export default function () {
 	for (const file of select.all('.file-header')) {
 		const fileName = select('.file-info a', file).title;
 		const url = `/${repoURL}/delete/${branchName}/${fileName}`;
-		select('.BtnGroup', file).prepend(
+		select('.octicon-pencil', file).parentElement.after(
 			<a
 				href={url}
-				className="btn btn-sm tooltipped tooltipped-s BtnGroup-item"
+				className="btn btn-octicon btn-octicon-danger tooltipped tooltipped-s"
 				aria-label="Delete this file from the pull request">
-				Delete
+				{icons.trashcan()}
 			</a>
 		);
 	}
