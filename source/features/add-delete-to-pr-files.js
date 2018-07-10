@@ -1,10 +1,9 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import * as pageDetect from '../libs/page-detect';
+import {getRepoURL} from '../libs/page-detect';
 
 export default function () {
-	const repoURL = pageDetect.getRepoURL();
-
+	const repoURL = getRepoURL();
 	const branchName = select('.head-ref').textContent.split(':').pop();
 
 	for (const file of select.all('.file-header')) {
