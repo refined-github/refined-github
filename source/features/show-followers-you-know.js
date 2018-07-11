@@ -57,8 +57,10 @@ export default async () => {
 	if (stargazers.length === 0) {
 		return;
 	}
-	container.append(<div class="border-top py-3 clearfix">
-		<h2 class="mb-1 h4">{getHeading(stargazers)}</h2>
-		{stargazers.map(renderAvatar)}
-	</div>);
+	container.append(
+		<div class="border-top py-3 clearfix">
+			<h2 class="mb-1 h4">{getHeading(stargazers)}</h2>
+			{stargazers.map(renderAvatar)}
+		</div>
+	);
 };
