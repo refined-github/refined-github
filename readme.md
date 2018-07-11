@@ -175,6 +175,7 @@ And [many more…](source/content.css)
 - [Quickly edit your last comment using the <kbd>↑</kbd> shortcut.](https://github.com/sindresorhus/refined-github/pull/961)
 - Visit your profile by pressing <kbd>g</kbd> <kbd>m</kbd>.
 - Cycle through PR tabs by pressing <kbd>g</kbd> <kbd>←</kbd> and <kbd>g</kbd> <kbd>→</kbd>, or <kbd>g</kbd> <kbd>1</kbd>, <kbd>g</kbd> <kbd>2</kbd>, <kbd>g</kbd> <kbd>3</kbd> and <kbd>g</kbd> <kbd>4</kbd>.
+- [Filter PRs that you haven't submitted a review for and that aren't authored by you.](https://user-images.githubusercontent.com/9264728/42569205-0c32a376-8510-11e8-9406-b3ddcf6087ef.png)
 
 ### Previously part of Refined GitHub
 
