@@ -5,25 +5,26 @@ import * as pageDetect from '../libs/page-detect';
 
 const confirmationRequiredCount = 10;
 
-function getUrlFromCheckbox(checkbox) {
-	return checkbox.closest('li').querySelector('.js-navigation-open').href;
+function getUrlFromItem(element) {
+	// Element could be a checkbox or the issue's <li>
+	return element.closest('li').querySelector('.js-navigation-open').href;
 }
 
-function openSelected(all = false) {
-	const links = all === true ? '.link-gray-dark' : '[name="issues[]"]:checked';
-	const selected = select.all(links);
+function openIssues() {
+	const issues = select.all([
+		'#js-issues-toolbar.triage-mode + div [name="issues[]"]:checked', // Get checked checkboxes
+		'#js-issues-toolbar:not(.triage-mode) + div .js-issue-row' // Or all items
+	]);
 
 	if (
-		selected.length >= confirmationRequiredCount &&
-		!confirm(`This will open ${selected.length} new tabs. Continue?`)
+		issues.length >= confirmationRequiredCount &&
+		!confirm(`This will open ${issues.length} new tabs. Continue?`)
 	) {
 		return;
 	}
 
 	browser.runtime.sendMessage({
-		urls: all ? selected.map(e => {
-			return e.href;
-		}) : selected.map(getUrlFromCheckbox),
+		urls: issues.map(getUrlFromItem),
 		action: 'openAllInTabs'
 	});
 }
@@ -41,7 +42,7 @@ export default function () {
 		allItemsButtonPosition.prepend(
 			<button
 				type="button"
-				onClick={openSelected.bind(null, true)}
+				onClick={openIssues}
 				class="float-left btn-link rgh-open-all-selected"
 			>
 				{openAllButtonText}
@@ -50,7 +51,7 @@ export default function () {
 		selectedItemsButtonPosition.prepend(
 			<button
 				type="button"
-				onClick={openSelected}
+				onClick={openIssues}
 				class="float-left btn-link rgh-open-all-selected"
 			>
 				Open in new tabs
