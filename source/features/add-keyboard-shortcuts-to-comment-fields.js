@@ -53,6 +53,8 @@ export default function () {
 			} else {
 				blurAccessibly(field);
 			}
+			event.stopImmediatePropagation();
+			event.preventDefault();
 		} else if (event.key === 'ArrowUp' && field.id === 'new_comment_field' && field.value === '') {
 			const lastOwnComment = select.all('.js-comment.current-user').pop();
 

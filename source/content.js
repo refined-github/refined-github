@@ -3,6 +3,7 @@ import {h} from 'dom-chef';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 
+import addDeleteToPrFiles from './features/add-delete-to-pr-files';
 import markUnread from './features/mark-unread';
 import addOpenAllNotificationsButton from './features/open-all-notifications';
 import openAllSelected from './features/open-all-selected';
@@ -11,6 +12,7 @@ import enableCopyOnY from './features/copy-on-y';
 import addReactionParticipants from './features/reactions-avatars';
 import showRealNames from './features/show-names';
 import addCopyFilePathToPRs from './features/copy-file-path';
+import addPrevNextButtonsToPRs from './features/prev-next-commit-buttons';
 import addFileCopyButton from './features/copy-file';
 // - import copyMarkdown from './features/copy-markdown';
 import linkifyCode from './features/linkify-urls-in-code';
@@ -110,7 +112,7 @@ async function init() {
 		enableFeature(addTrendingMenuItem);
 	}
 
-	if (pageDetect.isDashboard()) {
+	if (pageDetect.isDashboard() && !pageDetect.isGist()) {
 		enableFeature(hideUselessNewsfeedEvents);
 	}
 
@@ -279,12 +281,14 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
 		enableFeature(addCopyFilePathToPRs);
+		enableFeature(addPrevNextButtonsToPRs);
 		enableFeature(preserveWhitespaceOptionInNav);
+		enableFeature(addQuickReviewButtons);
 	}
 
 	if (pageDetect.isPRFiles()) {
-		enableFeature(addQuickReviewButtons);
 		enableFeature(extendDiffExpander);
+		enableFeature(addDeleteToPrFiles);
 	}
 
 	if (pageDetect.isSingleFile()) {

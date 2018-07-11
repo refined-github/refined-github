@@ -1,6 +1,7 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate';
+import domLoaded from 'dom-loaded';
 import gitHubInjection from 'github-injection';
 import SynchronousStorage from '../libs/synchronous-storage';
 import observeEl from '../libs/simplified-element-observer';
@@ -120,15 +121,12 @@ function getNotification(notification) {
 		return item;
 	}
 
-	// Already on L17. Only needed here to fix pre-existing unread notifications. Remove in 2018.
-	const clippedParticipants = participants.slice(0, 3);
-
-	const usernames = clippedParticipants
+	const usernames = participants
 		.map(participant => participant.username)
 		.join(' and ')
 		.replace(/ and (.+) and/, ', $1, and'); // 3 people only: A, B, and C
 
-	const avatars = clippedParticipants.map(participant =>
+	const avatars = participants.map(participant =>
 		<a href={`/${participant.username}`} class="avatar">
 			<img alt={`@${participant.username}`} height="20" src={participant.avatar} width="20"/>
 		</a>
@@ -350,7 +348,7 @@ export default async function () {
 			return browser.storage.local.set({unreadNotifications});
 		}
 	);
-	gitHubInjection(() => {
+	gitHubInjection(async () => {
 		destroy();
 
 		if (pageDetect.isNotifications()) {
@@ -371,6 +369,15 @@ export default async function () {
 
 			// The sidebar changes when new comments are added or the issue status changes
 			observeEl('.discussion-sidebar', addMarkUnreadButton);
+		} else if (pageDetect.isIssueList()) {
+			await domLoaded;
+			for (const discussion of storage.get()) {
+				const url = new URL(discussion.url);
+				const listItem = select(`.read [href='${url.pathname}']`);
+				if (listItem) {
+					listItem.closest('.read').classList.replace('read', 'unread');
+				}
+			}
 		}
 
 		updateUnreadIndicator();
