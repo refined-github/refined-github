@@ -30,16 +30,14 @@ function openIssues() {
 }
 
 export default function () {
-	if (!pageDetect.isIssueList()) {
+	if (!pageDetect.isIssueList() || select.all('.js-issue-row').length < 2) {
 		return;
 	}
-
-	const allItemsButtonPosition = select('.table-list-header .table-list-header-toggle:not(.states)');
-	const selectedItemsButtonPosition = select('.table-list-triage .table-list-header-toggle');
 	const openAllButtonText = pageDetect.isIssueSearch() ? `Open all issues` : `Open all PRs`;
 
-	if ((allItemsButtonPosition && select.all('.link-gray-dark').length === 0) || selectedItemsButtonPosition) {
-		allItemsButtonPosition.prepend(
+	const filtersBar = select('.table-list-header .table-list-header-toggle:not(.states)');
+	if (filtersBar) {
+		filtersBar.prepend(
 			<button
 				type="button"
 				onClick={openIssues}
@@ -48,7 +46,11 @@ export default function () {
 				{openAllButtonText}
 			</button>
 		);
-		selectedItemsButtonPosition.prepend(
+	}
+
+	const triageFiltersBar = select('.table-list-triage .table-list-header-toggle');
+	if (triageFiltersBar) {
+		triageFiltersBar.prepend(
 			<button
 				type="button"
 				onClick={openIssues}
@@ -59,4 +61,3 @@ export default function () {
 		);
 	}
 }
-
