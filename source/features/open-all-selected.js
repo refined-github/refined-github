@@ -37,26 +37,25 @@ export default function () {
 	const selectedItemsButtonPosition = select('.table-list-triage .table-list-header-toggle');
 	const openAllButtonText = pageDetect.isIssueSearch() ? `Open all issues` : `Open all PRs`;
 
-	if ((!allItemsButtonPosition || select.all('.link-gray-dark').length === 0) || !selectedItemsButtonPosition) {
-		return;
+	if ((allItemsButtonPosition && select.all('.link-gray-dark').length === 0) || selectedItemsButtonPosition) {
+		allItemsButtonPosition.prepend(
+			<button
+				type="button"
+				onClick={openSelected.bind(null, true)}
+				class="float-left btn-link rgh-open-all-selected"
+			>
+				{openAllButtonText}
+			</button>
+		);
+		selectedItemsButtonPosition.prepend(
+			<button
+				type="button"
+				onClick={openSelected}
+				class="float-left btn-link rgh-open-all-selected"
+			>
+				Open in new tabs
+			</button>
+		);
 	}
-	allItemsButtonPosition.prepend(
-		<button
-			type="button"
-			onClick={openSelected.bind(null, true)}
-			class="float-left btn-link rgh-open-all-selected"
-		>
-			{openAllButtonText}
-		</button>
-	);
-	selectedItemsButtonPosition.prepend(
-		<button
-			type="button"
-			onClick={openSelected}
-			class="float-left btn-link rgh-open-all-selected"
-		>
-			Open in new tabs
-		</button>
-	);
 }
 
