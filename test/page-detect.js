@@ -216,9 +216,9 @@ test('isIssueList', urlMatcherMacro, pageDetect.isIssueList, [
 ]);
 
 test('isIssueSearch', urlMatcherMacro, pageDetect.isIssueSearch, [
-	'https://github.com/issues'
+	'https://github.com/issues',
+	'https://github.com/sindresorhus/refined-github/issues'
 ], [
-	'https://github.com/sindresorhus/refined-github/issues',
 	'https://github.com/sindresorhus/refined-github/issues/170'
 ]);
 
@@ -296,9 +296,9 @@ test('isPRFiles', urlMatcherMacro, pageDetect.isPRFiles, [
 ]);
 
 test('isPRSearch', urlMatcherMacro, pageDetect.isPRSearch, [
-	'https://github.com/pulls'
+	'https://github.com/pulls',
+	'https://github.com/sindresorhus/refined-github/pulls'
 ], [
-	'https://github.com/sindresorhus/refined-github/pulls',
 	'https://github.com/sindresorhus/refined-github/pull/148'
 ]);
 

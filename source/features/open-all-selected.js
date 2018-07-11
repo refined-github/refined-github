@@ -1,7 +1,7 @@
 /* eslint-disable no-alert */
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import {isIssueList} from '../libs/page-detect';
+import * as pageDetect from '../libs/page-detect';
 
 const confirmationRequiredCount = 10;
 
@@ -9,8 +9,10 @@ function getUrlFromCheckbox(checkbox) {
 	return checkbox.closest('li').querySelector('.js-navigation-open').href;
 }
 
-function openSelected() {
-	const selected = select.all('[name="issues[]"]:checked');
+function openSelected(all = false) {
+	const links = all === true ? '.link-gray-dark' : '[name="issues[]"]:checked';
+	const selected = select.all(links);
+
 	if (
 		selected.length >= confirmationRequiredCount &&
 		!confirm(`This will open ${selected.length} new tabs. Continue?`)
@@ -19,21 +21,35 @@ function openSelected() {
 	}
 
 	browser.runtime.sendMessage({
-		urls: selected.map(getUrlFromCheckbox),
+		urls: all ? selected.map(e => {
+			return e.href;
+		}) : selected.map(getUrlFromCheckbox),
 		action: 'openAllInTabs'
 	});
 }
 
 export default function () {
-	if (!isIssueList()) {
+	if (!pageDetect.isIssueList()) {
 		return;
 	}
 
-	const position = select('.table-list-triage .table-list-header-toggle');
-	if (!position) {
+	const allItemsButtonPosition = select('.table-list-header .table-list-header-toggle:not(.states)');
+	const selectedItemsButtonPosition = select('.table-list-triage .table-list-header-toggle');
+	const openAllButtonText = pageDetect.isIssueSearch() ? `Open all issues` : `Open all PRs`;
+
+	if ((!allItemsButtonPosition || select.all('.link-gray-dark').length === 0) || !selectedItemsButtonPosition) {
 		return;
 	}
-	position.prepend(
+	allItemsButtonPosition.prepend(
+		<button
+			type="button"
+			onClick={openSelected.bind(null, true)}
+			class="float-left btn-link rgh-open-all-selected"
+		>
+			{openAllButtonText}
+		</button>
+	);
+	selectedItemsButtonPosition.prepend(
 		<button
 			type="button"
 			onClick={openSelected}
