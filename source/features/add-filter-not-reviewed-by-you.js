@@ -1,3 +1,8 @@
+/*
+This feature adds an filter for all pull requsts that the user didn't submit a review for.
+It also excludes all pull requsts that are authored by the user .
+*/
+
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import * as icons from '../libs/icons';
