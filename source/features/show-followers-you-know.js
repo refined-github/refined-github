@@ -49,12 +49,12 @@ export default async () => {
 	if (getCleanPathname().startsWith(getUsername())) {
 		return;
 	}
-	const stargazers = await fetchStargazers();
-	if (stargazers.length === 0) {
-		return;
-	}
 	const container = select('[itemtype="http://schema.org/Person"]');
 	if (!container) {
+		return;
+	}
+	const stargazers = await fetchStargazers();
+	if (stargazers.length === 0) {
 		return;
 	}
 	container.append(<div class="border-top py-3 clearfix">
