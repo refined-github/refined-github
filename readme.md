@@ -134,7 +134,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [The current repository's build/CI status is always visible next to its name.](https://user-images.githubusercontent.com/1402241/32562120-d65166e4-c4e8-11e7-90fb-cbaf36e2709f.png)
 - [Review counts are shown and colored in PR lists.](https://user-images.githubusercontent.com/1402241/33474535-a814ee78-d6ad-11e7-8f08-a8b72799e376.png)
 - [All available keyboard shortcuts are shown in the help modal.](https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png)  *(<kbd>?</kbd> hotkey)*
-- [Closed milestones have "were due on" timestamp (**note**: this requires a valid personal token if the repo is private.](http://g.recordit.co/uS8OogHydF.gif)
+- [Closed milestones have "was due on" timestamp](http://g.recordit.co/uS8OogHydF.gif) [[note]](#feature-requirements)
 
 ### Declutter
 
@@ -184,6 +184,11 @@ And [many more…](source/content.css)
 - ~~[Preview a issue/PR reference's title in comments.](https://user-images.githubusercontent.com/170270/30729486-2816df06-9f8a-11e7-8069-8999302e9ddd.png)~~ - *[Implemented by GitHub](https://user-images.githubusercontent.com/1402241/31265633-779ad0fe-aa35-11e7-8c42-a3b375f8f32c.png)*
 - ~~The dashboard organization switcher is moved to the right column.~~ - *[Implemented by GitHub](https://github.com/sindresorhus/refined-github/pull/1330)*
 
+
+### Feature Requirements
+
+Some features requires the token to be set either when querying Github API V3. frequently or when querying the V4. GraphQL version. The following features will not require without a valid token:
+ - Add Closed Milestone Due Date
 
 ## Customization
 
