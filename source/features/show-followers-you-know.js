@@ -4,41 +4,31 @@ import domify from '../libs/domify';
 import {getCleanPathname} from '../libs/page-detect';
 import {getUsername} from '../libs/utils';
 
-const extractUserData = element => {
-	const image = element.querySelector('img');
-	const imageUrl = new URL(image.src);
-	const link = element.querySelector('a').href;
-	return {
-		avatar: `${imageUrl.origin}${imageUrl.pathname}`,
-		description: image.alt,
-		link
-	};
-};
-
 const fetchStargazers = async () => {
 	const url = `${location.origin}/${getCleanPathname()}/followers/you_know`;
 	const response = await fetch(url, {credentials: 'same-origin'});
 	const dom = domify(await response.text());
-	const userCards = [...dom.querySelectorAll('.follow-list-item')];
-	const stargazers = userCards.map(extractUserData);
-	return stargazers;
+	return select.all('.follow-list-item .avatar', dom);
 };
 
 const avatarSize = 35;
-const renderAvatar = ({link, description, avatar}) => (
-	<a href={link}
-		aria-label={description}
-		class="tooltipped tooltipped-n avatar-group-item mr-1"
-	>
-		<img
-			class="avatar"
-			src={`${avatar}?s=${avatarSize * window.devicePixelRatio}`}
-			alt={description}
-			height={avatarSize}
-			width={avatarSize}
-		/>
-	</a>
-);
+const renderAvatar = image => {
+	const src = new URL(image.src);
+	src.searchParams.set('s', avatarSize * window.devicePixelRatio);
+	image.src = src;
+	image.width = avatarSize;
+	image.height = avatarSize;
+
+	return (
+		<a
+			href={image.parentElement.href}
+			aria-label={image.alt.substr(1)}
+			class="tooltipped tooltipped-n avatar-group-item mr-1"
+		>
+			{image}
+		</a>
+	);
+};
 
 const getHeading = stargazers =>
 	stargazers.length === 1 ?
