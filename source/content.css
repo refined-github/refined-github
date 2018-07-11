@@ -1019,8 +1019,3 @@ body > .footer li a {
 	padding-top: 4px !important;
 	padding-bottom: 4px !important;
 }
-
-/* Error text color */
-.rgh-error-text {
-	color: #cb2431;
-}

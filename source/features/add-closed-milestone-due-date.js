@@ -49,6 +49,6 @@ export default async () => {
 				<span class="mr-1">{calendar()}</span> Was due on {dateToMDY(new Date(milestones[milestoneLink[0].href.split('/').pop()].dueOn))}
 			</span>
 		);
-		milestoneClosedDate.classList.add('rgh-error-text');
+		milestoneClosedDate.classList.add('text-red');
 	});
 };
