@@ -456,29 +456,26 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 }
 
 /* Highlight linked comment */
-:root .timeline-comment:target {
+:root [id^="issuecomment"]:target .comment {
 	border-color: #e5d999;
 }
-:root .timeline-comment:target.current-user::before {
+:root [id^="issuecomment"]:target .comment.current-user::before {
 	border-right-color: #e5d999;
 }
-:root .timeline-comment:target.current-user::after {
-	border-right-color: #fffded;
+:root [id^="issuecomment"]:target .comment.current-user::after {
+	border-right-color: #fffdef;
 }
-:root .timeline-comment:target .timeline-comment-header {
+:root [id^="issuecomment"]:target .timeline-comment-header {
 	background-color: #fffdef;
 	border-bottom-color: #e5d999;
 }
-:root .timeline-comment:target .timeline-comment-label {
-	border-color: #e5d999;
-}
-:root .timeline-comment:target .reaction-summary-item {
-	border-right-color: #e5d999;
-}
-:root .timeline-comment:target .comment-reactions.has-reactions {
+:root [id^="issuecomment"]:target .comment-reactions.has-reactions {
 	border-top-color: #e5d999;
 }
-:root .timeline-comment:target .previewable-comment-form .comment-form-head.tabnav {
+:root [id^="issuecomment"]:target .reaction-summary-item {
+	border-right-color: #e5d999;
+}
+:root [id^="issuecomment"]:target .previewable-comment-form .comment-form-head.tabnav {
 	color: #e5d999;
 	background-color: #fffdef;
 	border-bottom-color: #e5d999;
