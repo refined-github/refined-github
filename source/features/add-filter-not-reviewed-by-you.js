@@ -1,6 +1,6 @@
 /*
 This feature adds an filter for all pull requsts that the user didn't submit a review for.
-It also excludes all pull requsts that are authored by the user .
+It doesn't exclude pull requests created by the user.
 */
 
 import {h} from 'dom-chef';
@@ -10,16 +10,15 @@ import {getUsername} from '../libs/utils';
 
 export default function () {
 	const username = getUsername();
-	const reviewdQuery = encodeURIComponent(`reviewed-by:${username}`);
+	const reviewedQuery = encodeURIComponent(`reviewed-by:${username}`);
 
-	const reviewedElement = select(`.select-menu-list a[href*="${reviewdQuery}"]`);
+	const reviewedElement = select(`.select-menu-list a[href*="${reviewedQuery}"]`);
 	if (!reviewedElement) {
 		return;
 	}
 
-	// PRs authored by the user count as not reviewed by the user so we also need to filter the author
-	const notReviewedQuery = encodeURIComponent(`-reviewed-by:${username} -author:${username}`);
-	const notReviewedHref = reviewedElement.href.replace(reviewdQuery, notReviewedQuery);
+	const notReviewedQuery = encodeURIComponent(`-reviewed-by:${username}`);
+	const notReviewedHref = reviewedElement.href.replace(reviewedQuery, notReviewedQuery);
 	const notReviewedElement = (
 		<a href={notReviewedHref} class="select-menu-item js-navigation-item">
 			<span class="select-menu-item-icon">{icons.check()}</span>
