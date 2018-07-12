@@ -28,7 +28,7 @@ input[type='checkbox'] {
 	vertical-align: -0.16em;
 }
 [name='personalToken'] {
-	width: 50%; /* https://github.com/sindresorhus/refined-github/issues/1374#issuecomment-397906701 */
+	width: 50%  !important; /* https://github.com/sindresorhus/refined-github/issues/1374#issuecomment-397906701 */
 }
 .small {
 	font-size: 0.9em;
