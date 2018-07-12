@@ -30,11 +30,6 @@ const renderAvatar = image => {
 	);
 };
 
-const getHeading = stargazers =>
-	stargazers.length === 1 ?
-		`Follower you know` :
-		`Followers you know`;
-
 export default async () => {
 	if (getCleanPathname().startsWith(getUsername())) {
 		return;
@@ -49,7 +44,7 @@ export default async () => {
 	}
 	container.append(
 		<div class="border-top py-3 clearfix">
-			<h2 class="mb-1 h4">{getHeading(stargazers)}</h2>
+			<h2 class="mb-1 h4">Followers you know</h2>
 			{stargazers.map(renderAvatar)}
 		</div>
 	);
