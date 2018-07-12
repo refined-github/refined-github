@@ -33,7 +33,7 @@ const renderAvatar = image => {
 const getHeading = stargazers =>
 	stargazers.length === 1 ?
 		`Follower you know` :
-		`${stargazers.length} Followers you know`;
+		`Followers you know`;
 
 export default async () => {
 	if (getCleanPathname().startsWith(getUsername())) {
