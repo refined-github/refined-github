@@ -456,13 +456,13 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 }
 
 /* Highlight linked comment */
-:root [id^="issuecomment"]:target .comment {
+:root [id^="issuecomment"]:target .timeline-comment {
 	border-color: #e5d999;
 }
-:root [id^="issuecomment"]:target .comment.current-user::before {
+:root [id^="issuecomment"]:target .timeline-comment.current-user::before {
 	border-right-color: #e5d999;
 }
-:root [id^="issuecomment"]:target .comment.current-user::after {
+:root [id^="issuecomment"]:target .timeline-comment.current-user::after {
 	border-right-color: #fffdef;
 }
 :root [id^="issuecomment"]:target .timeline-comment-header {
