@@ -1019,3 +1019,29 @@ body > .footer li a {
 	padding-top: 4px !important;
 	padding-bottom: 4px !important;
 }
+
+.rgh-pr-comments-file-header {
+	display: flex;
+	align-items: center;
+}
+.rgh-taskList-completed > *:not(.file-header) {
+	display: none;
+}
+.rgh-taskList-completed .file-header {
+	border-bottom: none !important;
+}
+.rgh-taskList-action {
+	color: #586069;
+}
+.rgh-taskList-action:hover {
+	color: #34d058;
+	cursor: pointer;
+}
+.rgh-taskAction {
+	pointer-events: none;
+	margin: 0 10px;
+	color: inherit;
+}
+.rgh-taskList-completed .file-header .rgh-markTask {
+	color: #34d058;
+}
