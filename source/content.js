@@ -78,6 +78,7 @@ import hideNavigationHoverHighlight from './features/hide-navigation-hover-highl
 import displayIssueSuggestions from './features/display-issue-suggestions';
 import addPullRequestHotkey from './features/add-pull-request-hotkey';
 import openSelectionInNewTab from './features/add-selection-in-new-tab';
+import addPullRequestTaskList from './features/add-pull-request-task-list';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
@@ -225,6 +226,7 @@ function ajaxedPagesHandler() {
 		enableFeature(toggleAllThingsWithAlt);
 		enableFeature(hideInactiveDeployments);
 		enableFeature(addPullRequestHotkey);
+		enableFeature(addPullRequestTaskList);
 	}
 
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
