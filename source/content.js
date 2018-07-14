@@ -116,6 +116,7 @@ async function init() {
 
 	if (pageDetect.isDashboard() && !pageDetect.isGist()) {
 		enableFeature(hideUselessNewsfeedEvents);
+		enableFeature(linkifyIssuesInFeedEvent);
 	}
 
 	if (pageDetect.isRepo()) {
