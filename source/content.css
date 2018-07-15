@@ -570,6 +570,15 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	display: none !important;
 }
 
+/* Remove user avatar from new comment form on threads */
+.review-thread-reply .avatar {
+	display: none;
+}
+
+.review-thread-reply .review-thread-reply-button {
+	margin-left: 0;
+}
+
 /* Move labels in the Issue/PR list below the title */
 .js-issue-row .lh-condensed {
 	display: flex;
