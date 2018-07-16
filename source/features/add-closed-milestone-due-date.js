@@ -2,7 +2,7 @@ import {h} from 'dom-chef';
 import select from 'select-dom';
 import {getOwnerAndRepo} from '../libs/page-detect';
 import graph from '../libs/graph';
-import {calendar} from '../libs/icons';
+import {calendar, clock} from '../libs/icons';
 
 export default async () => {
 	function dateToMDY(date) {
@@ -13,10 +13,10 @@ export default async () => {
 		return `${m} ${(d <= 9 ? '0' + d : d)} , ${y}`;
 	}
 
-	const ownerAndRepo = getOwnerAndRepo();
+	const {ownerName, repoName} = getOwnerAndRepo();
 	const milestonesObjects = select.all('div.milestone');
 	const query = `{
-		repository(owner: ${ownerAndRepo.ownerName} , name: ${ownerAndRepo.repoName}) {
+		repository(owner: ${ownerName} , name: ${repoName}) {
 			milestones(
 				states: CLOSED,
 				first: ${milestonesObjects.length}
@@ -26,7 +26,8 @@ export default async () => {
 						id,
 						title,
 						number,
-						dueOn
+						dueOn,
+						createdAt
 					}
 				}
 			}
@@ -35,20 +36,26 @@ export default async () => {
 
 	const graphQLResponse = await graph(query);
 	const milestones = {};
-	if (graphQLResponse && graphQLResponse.repository.milestones.edges.length !== 0) {
-		graphQLResponse.repository.milestones.edges.forEach(milestone => {
-			milestones[milestone.node.number] = milestone.node;
-		});
-	}
-	milestonesObjects.forEach(milestone => {
+	for (const milestone of graphQLResponse.repository.milestones.edges) {
+		milestones[milestone.node.number] = milestone.node;
+	};
+	for (const milestones of select.all('.milestone')) {
 		const milestoneLink = select.all('.milestone-title-link a', milestone);
 		const milestoneClosedDate = select('.milestone-meta-item', milestone);
+		const _milestone = milestones[milestoneLink[0].href.split('/').pop()];
 
 		select.all('.milestone-meta', milestone)[0].append(
 			<span class="milestone-meta-item">
-				<span class="mr-1">{calendar()}</span> Was due on {dateToMDY(new Date(milestones[milestoneLink[0].href.split('/').pop()].dueOn))}
+				<span class="mr-1">{clock()}</span> Created on {dateToMDY(new Date(_milestone.createdAt))}
 			</span>
 		);
+		if (_milestone.dueOn) {
+			select.all('.milestone-meta', milestone)[0].append(
+				<span class="milestone-meta-item">
+					<span class="mr-1">{calendar()}</span> Was due on {dateToMDY(new Date(_milestone.dueOn))}
+				</span>
+			);
+		}
 		milestoneClosedDate.classList.add('text-red');
-	});
+	}
 };
