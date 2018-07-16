@@ -5,52 +5,55 @@ import * as pageDetect from '../libs/page-detect';
 
 const confirmationRequiredCount = 10;
 
-function getUrlFromCheckbox(checkbox) {
-	return checkbox.closest('li').querySelector('.js-navigation-open').href;
+function getUrlFromItem(element) {
+	// Element could be a checkbox or the issue's <li>
+	return element.closest('li').querySelector('.js-navigation-open').href;
 }
 
-function openSelected(all = false) {
-	const links = all === true ? '.link-gray-dark' : '[name="issues[]"]:checked';
-	const selected = select.all(links);
+function openIssues() {
+	const issues = select.all([
+		'#js-issues-toolbar.triage-mode + div [name="issues[]"]:checked', // Get checked checkboxes
+		'#js-issues-toolbar:not(.triage-mode) + div .js-issue-row' // Or all items
+	]);
 
 	if (
-		selected.length >= confirmationRequiredCount &&
-		!confirm(`This will open ${selected.length} new tabs. Continue?`)
+		issues.length >= confirmationRequiredCount &&
+		!confirm(`This will open ${issues.length} new tabs. Continue?`)
 	) {
 		return;
 	}
 
 	browser.runtime.sendMessage({
-		urls: all ? selected.map(e => {
-			return e.href;
-		}) : selected.map(getUrlFromCheckbox),
+		urls: issues.map(getUrlFromItem),
 		action: 'openAllInTabs'
 	});
 }
 
 export default function () {
-	if (!pageDetect.isIssueList()) {
+	if (!pageDetect.isIssueList() || select.all('.js-issue-row').length < 2) {
 		return;
 	}
-
-	const allItemsButtonPosition = select('.table-list-header .table-list-header-toggle:not(.states)');
-	const selectedItemsButtonPosition = select('.table-list-triage .table-list-header-toggle');
 	const openAllButtonText = location.pathname.endsWith('/issues') ? `Open all issues` : `Open all PRs`;
 
-	if (allItemsButtonPosition && select.all('.link-gray-dark').length !== 0) {
-		allItemsButtonPosition.prepend(
+	const filtersBar = select('.table-list-header .table-list-header-toggle:not(.states)');
+	if (filtersBar) {
+		filtersBar.prepend(
 			<button
 				type="button"
-				onClick={openSelected.bind(null, true)}
+				onClick={openIssues}
 				class="float-left btn-link rgh-open-all-selected"
 			>
 				{openAllButtonText}
 			</button>
 		);
-		selectedItemsButtonPosition.prepend(
+	}
+
+	const triageFiltersBar = select('.table-list-triage .table-list-header-toggle');
+	if (triageFiltersBar) {
+		triageFiltersBar.prepend(
 			<button
 				type="button"
-				onClick={openSelected}
+				onClick={openIssues}
 				class="float-left btn-link rgh-open-all-selected"
 			>
 				Open in new tabs
@@ -58,4 +61,3 @@ export default function () {
 		);
 	}
 }
-
