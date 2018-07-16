@@ -191,7 +191,7 @@ function ajaxedPagesHandler() {
 	enableFeature(linkifyBranchRefs);
 	enableFeature(openAllSelected);
 
-	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
+	if (pageDetect.isGlobalIssueSearch() || pageDetect.isGlobalPRSearch()) {
 		enableFeature(addYoursMenuItem);
 		enableFeature(addCommentedMenuItem);
 	}

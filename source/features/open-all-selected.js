@@ -35,9 +35,9 @@ export default function () {
 
 	const allItemsButtonPosition = select('.table-list-header .table-list-header-toggle:not(.states)');
 	const selectedItemsButtonPosition = select('.table-list-triage .table-list-header-toggle');
-	const openAllButtonText = pageDetect.isIssueSearch() ? `Open all issues` : `Open all PRs`;
+	const openAllButtonText = location.pathname.endsWith('/issues') ? `Open all issues` : `Open all PRs`;
 
-	if ((allItemsButtonPosition && select.all('.link-gray-dark').length === 0) || selectedItemsButtonPosition) {
+	if (allItemsButtonPosition && select.all('.link-gray-dark').length !== 0) {
 		allItemsButtonPosition.prepend(
 			<button
 				type="button"
