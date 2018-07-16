@@ -3,16 +3,8 @@ import OptionsSync from 'webext-options-sync';
 const cache = new Map();
 
 export default async query => {
-	function hashCode(s) {
-		return s.split('').reduce((a, b) => {
-			a = ((a << 5) - a) + b.charCodeAt(0);
-			return a & a;
-		}, 0);
-	}
-
-	const queryHash = hashCode(query);
-	if (cache.has(queryHash)) {
-		return cache.get(queryHash);
+	if (cache.has(query)) {
+		return cache.get(query);
 	}
 	const headers = {
 		'User-Agent': 'Refined GitHub'
@@ -29,7 +21,7 @@ export default async query => {
 			body: JSON.stringify({query})
 		});
 		const {data} = await response.json();
-		cache.set(queryHash, data);
+		cache.set(query, data);
 		return data;
 	} catch (error) {
 		const errorObject = JSON.parse(JSON.stringify(error));

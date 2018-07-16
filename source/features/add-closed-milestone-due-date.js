@@ -38,17 +38,21 @@ export default async () => {
 	const milestones = {};
 	for (const milestone of graphQLResponse.repository.milestones.edges) {
 		milestones[milestone.node.number] = milestone.node;
-	};
-	for (const milestones of select.all('.milestone')) {
+	}
+	for (const milestone of select.all('.milestone')) {
 		const milestoneLink = select.all('.milestone-title-link a', milestone);
 		const milestoneClosedDate = select('.milestone-meta-item', milestone);
 		const _milestone = milestones[milestoneLink[0].href.split('/').pop()];
 
+		// Remove the lastUpdated on metadata item
+		select.all('.milestone-meta-item', milestone)[1].remove();
+		// Add the CreatedOn metadata item
 		select.all('.milestone-meta', milestone)[0].append(
 			<span class="milestone-meta-item">
 				<span class="mr-1">{clock()}</span> Created on {dateToMDY(new Date(_milestone.createdAt))}
 			</span>
 		);
+		// Add the dueOn metadata item
 		if (_milestone.dueOn) {
 			select.all('.milestone-meta', milestone)[0].append(
 				<span class="milestone-meta-item">
