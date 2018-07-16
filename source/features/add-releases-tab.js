@@ -20,7 +20,7 @@ let storageMap = browser.storage.local.get(repoKey);
 async function updateReleasesCount() {
 	if (pageDetect.isRepoRoot()) {
 		const releasesCountEl = select('.numbers-summary a[href$="/releases"] .num');
-		const releasesCount = Number(releasesCountEl ? releasesCountEl.textContent : 0);
+		const releasesCount = Number(releasesCountEl ? releasesCountEl.textContent.replace(/,/g, '') : 0);
 		storageMap = {[repoKey]: releasesCount};
 		browser.storage.local.set(storageMap);
 		return releasesCount;
