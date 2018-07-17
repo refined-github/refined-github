@@ -26,7 +26,7 @@ export default function () {
 		const field = event.target;
 
 		// Don't do anything if the suggester box is active
-		if (select.exists('.suggester.active', field.form)) {
+		if (select.exists('.suggester:not([hidden])', field.form)) {
 			return;
 		}
 
