@@ -185,10 +185,9 @@ And [many more…](source/content.css)
 - ~~The dashboard organization switcher is moved to the right column.~~ - *[Implemented by GitHub](https://github.com/sindresorhus/refined-github/pull/1330)*
 
 
-### Feature Requirements
+### Feature requirements
 
-Some features requires the token to be set either when querying Github API V3. frequently or when querying the V4. GraphQL version. The following features will not require without a valid token:
- - Add Closed Milestone Due Date
+A handful of features require a Personal Token to be set in the extension settings and others might be rate limited without it.
 
 ## Customization
 
