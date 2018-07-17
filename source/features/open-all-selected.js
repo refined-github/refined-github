@@ -33,7 +33,6 @@ export default function () {
 	if (!pageDetect.isIssueList() || select.all('.js-issue-row').length < 2) {
 		return;
 	}
-	const openAllButtonText = location.pathname.endsWith('/issues') ? `Open all issues` : `Open all PRs`;
 
 	const filtersBar = select('.table-list-header .table-list-header-toggle:not(.states)');
 	if (filtersBar) {
@@ -43,7 +42,7 @@ export default function () {
 				onClick={openIssues}
 				class="float-left btn-link rgh-open-all-selected"
 			>
-				{openAllButtonText}
+				Open All
 			</button>
 		);
 	}
