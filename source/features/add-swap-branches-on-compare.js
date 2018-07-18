@@ -12,6 +12,6 @@ export default async () => {
 	}
 
 	const icon = select('.octicon-arrow-left');
-	icon.parentNode.attributes['aria-label'].value += '. Click to swap.';
+	icon.parentNode.attributes['aria-label'].value += '.\nClick to swap.';
 	wrap(icon, <a href={`/${getRepoURL()}/compare/${references.join('...')}`}></a>);
 };
