@@ -26,7 +26,7 @@ export default function () {
 		const field = event.target;
 
 		// Don't do anything if the suggester box is active
-		if (select.exists('.suggester.active', field.form)) {
+		if (select.exists('.suggester:not([hidden])', field.form)) {
 			return;
 		}
 
@@ -53,6 +53,8 @@ export default function () {
 			} else {
 				blurAccessibly(field);
 			}
+			event.stopImmediatePropagation();
+			event.preventDefault();
 		} else if (event.key === 'ArrowUp' && field.id === 'new_comment_field' && field.value === '') {
 			const lastOwnComment = select.all('.js-comment.current-user').pop();
 

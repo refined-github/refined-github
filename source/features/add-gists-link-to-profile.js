@@ -16,6 +16,7 @@ export default async () => {
 	container.append(link);
 
 	const userData = await api(`users/${username}`);
-
-	link.appendChild(<span class="Counter">{userData.public_gists}</span>);
+	if (userData.public_gists) {
+		link.append(<span class="Counter">{userData.public_gists}</span>);
+	}
 };
