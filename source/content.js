@@ -80,6 +80,7 @@ import addPullRequestHotkey from './features/add-pull-request-hotkey';
 import openSelectionInNewTab from './features/add-selection-in-new-tab';
 import addSwapBranchesOnCompare from './features/add-swap-branches-on-compare';
 import showFollowersYouKnow from './features/show-followers-you-know';
+import addShortcutsToHideComments from './features/add-shortcuts-to-hide-comments';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
@@ -274,6 +275,7 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit() || pageDetect.isDiscussion()) {
 		enableFeature(addReactionParticipants);
 		enableFeature(showRealNames);
+		enableFeature(addShortcutsToHideComments);
 	}
 
 	if (pageDetect.isCommitList()) {
