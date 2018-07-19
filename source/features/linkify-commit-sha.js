@@ -1,7 +1,6 @@
 import {h} from 'dom-chef';
-import * as pageDetect from '../libs/page-detect';
-import { wrap } from '../libs/utils';
 import select from 'select-dom';
+import {wrap} from '../libs/utils';
 
 export default function () {
 	let commitUrl = location.pathname.replace(/\/$/, '');
