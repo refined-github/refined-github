@@ -39,6 +39,7 @@ export default function () {
 		hideButton.closest('.timeline-comment-actions').append(menu);
 		hideButton.classList.remove('js-comment-hide-button');
 		hideButton.addEventListener('click', () => {
+			hideButton.closest('details').open = false;
 			menu.classList.remove('d-none');
 			menu.open = true;
 		});
