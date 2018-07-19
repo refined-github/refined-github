@@ -79,6 +79,7 @@ import displayIssueSuggestions from './features/display-issue-suggestions';
 import addPullRequestHotkey from './features/add-pull-request-hotkey';
 import openSelectionInNewTab from './features/add-selection-in-new-tab';
 import showFollowersYouKnow from './features/show-followers-you-know';
+import hideCommentsFaster from './features/hide-comments-faster';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
@@ -272,6 +273,7 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit() || pageDetect.isDiscussion()) {
 		enableFeature(addReactionParticipants);
 		enableFeature(showRealNames);
+		enableFeature(hideCommentsFaster);
 	}
 
 	if (pageDetect.isCommitList()) {
