@@ -80,6 +80,7 @@ import addPullRequestHotkey from './features/add-pull-request-hotkey';
 import openSelectionInNewTab from './features/add-selection-in-new-tab';
 import addSwapBranchesOnCompare from './features/add-swap-branches-on-compare';
 import showFollowersYouKnow from './features/show-followers-you-know';
+import linkifyCommitSha from './features/linkify-commit-sha';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
@@ -299,6 +300,10 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isUserProfile()) {
 		enableFeature(addGistsLink);
 		enableFeature(showFollowersYouKnow);
+	}
+
+	if (pageDetect.isPRCommit()) {
+		enableFeature(linkifyCommitSha);
 	}
 }
 
