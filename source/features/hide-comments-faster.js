@@ -1,6 +1,7 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import * as icons from '../libs/icons';
+import {onDeferredComments} from '../libs/events';
 
 function createMenu(hideButton) {
 	const comment = hideButton.closest('.unminimized-comment');
@@ -33,7 +34,7 @@ function createMenu(hideButton) {
 	);
 }
 
-export default function () {
+function createMenus() {
 	for (const hideButton of select.all('.unminimized-comment .js-comment-hide-button')) {
 		const menu = createMenu(hideButton);
 		hideButton.closest('.timeline-comment-actions').append(menu);
@@ -44,4 +45,9 @@ export default function () {
 			menu.open = true;
 		});
 	}
+}
+
+export default function () {
+	onDeferredComments(createMenus);
+	createMenus();
 }
