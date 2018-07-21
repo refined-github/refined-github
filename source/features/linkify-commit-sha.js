@@ -6,7 +6,7 @@ export default function () {
 	let commitUrl = location.pathname.replace(/\/$/, '');
 	commitUrl = commitUrl.replace(/\/pull\/\d+\/commits/, '/commit');
 
-	const el = select('.sha-block:not(.patch-diff-links) .sha');
+	const el = select('.sha.user-select-contain');
 	if (el) {
 		wrap(el, <a href={commitUrl}></a>);
 	}
