@@ -123,6 +123,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Collapse or expand a repository's browser file list.](https://user-images.githubusercontent.com/1402241/35480123-68b9af1a-043a-11e8-8934-3ead3cff8328.gif)
 - [Quickly visit a repository's default branch and latest version tag.](https://user-images.githubusercontent.com/1402241/38107328-ccb3fb46-33bb-11e8-9654-23a6410943cc.png)
 - [Open multiple issues at once in your repos.](https://user-images.githubusercontent.com/1402241/38084752-4820b0d8-3378-11e8-868c-a1582b16f915.gif)
+- [Swap branches in the branch compare view.](https://user-images.githubusercontent.com/857700/42854438-821096f2-8a01-11e8-8752-76f7563b5e18.png)
 
 ### More info at a glance
 
@@ -146,6 +147,7 @@ GitHub Enterprise is also supported. More info in the options.
 - Obvious tooltips are removed.
 - The `Projects` repository tab is hidden when there are no projects
     * New projects can still be created via the [`Create new…` menu](https://user-images.githubusercontent.com/1402241/34909214-18b6fb2e-f8cf-11e7-8556-bed748596d3b.png).
+- [The autocomplete on the issue search field is removed.](https://user-images.githubusercontent.com/1402241/42991841-1f057e4e-8c07-11e8-909c-b051db7a2a03.png)
 
 ### UI improvements
 
@@ -215,6 +217,7 @@ See the [contribution guide](contributing.md) and join the [contributors](https:
 - [Refined Twitter](https://github.com/sindresorhus/refined-twitter) - Improves Twitter
 - [GitHub Issue Link Status](https://github.com/bfred-it/github-issue-link-status) - Colorize issue and PR links to see their status (open, closed, merged)
 - [GitHub Follow](https://github.com/staff0rd/github-follow-extension) - Follow file renames on GitHub
+- [Friendly GitHub](https://github.com/Hermanya/friendly-github) - Make GitHub more social
 
 Want more? Here are some ideas you could develop!
 
