@@ -8,6 +8,6 @@ export default function () {
 
 	const el = select('.sha.user-select-contain');
 	if (el) {
-		wrap(el, <a href={commitUrl}></a>);
+		wrap(el, <a href={commitUrl}/>);
 	}
 }
