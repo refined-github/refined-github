@@ -81,6 +81,7 @@ import openSelectionInNewTab from './features/add-selection-in-new-tab';
 import addSwapBranchesOnCompare from './features/add-swap-branches-on-compare';
 import showFollowersYouKnow from './features/show-followers-you-know';
 import hideCommentsFaster from './features/hide-comments-faster';
+import linkifyCommitSha from './features/linkify-commit-sha';
 import hideIssueListAutocomplete from './features/hide-issue-list-autocomplete';
 
 import * as pageDetect from './libs/page-detect';
@@ -303,6 +304,10 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isUserProfile()) {
 		enableFeature(addGistsLink);
 		enableFeature(showFollowersYouKnow);
+	}
+
+	if (pageDetect.isPRCommit()) {
+		enableFeature(linkifyCommitSha);
 	}
 }
 
