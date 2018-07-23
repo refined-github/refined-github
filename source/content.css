@@ -1016,3 +1016,8 @@ body > .footer li a {
 	padding-top: 4px !important;
 	padding-bottom: 4px !important;
 }
+
+/* Fixes filter modal being covered by issue/pr header */
+.subnav-search-context .select-menu-modal {
+	z-index: 30 !important;
+}
