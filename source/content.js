@@ -169,10 +169,6 @@ async function onDomReady() {
 		enableFeature(autoLoadMoreNews);
 	}
 
-	if (pageDetect.isUserProfile()) {
-		enableFeature(setDefaultRepositoriesTypeToSources);
-	}
-
 	// Push safeOnAjaxedPages on the next tick so it happens in the correct order
 	// (specifically for addOpenAllNotificationsButton)
 	await Promise.resolve();

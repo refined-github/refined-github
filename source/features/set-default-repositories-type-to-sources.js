@@ -1,16 +1,14 @@
 import select from 'select-dom';
 
 export default function () {
-	// Get links set to repositories
-	for (const link of select.all('a[href*="tab=repositories"]')) {
-		// Skip pagination links
-		if (!link.closest('.pagination')) {
-			const search = new URLSearchParams(link.search);
-			// Set default type to source if not present
-			if (!search.get('type')) {
-				search.set('type', 'source');
-				link.search = search;
-			}
-		}
+	// Get repositories link from user profile navigation
+	const profileNavigation = select('.user-profile-nav:not(.is-placeholder)');
+	const link = select('a[href*="tab=repositories"]', profileNavigation);
+	const search = new URLSearchParams(link.search);
+
+	// Set default type to source if not present
+	if (!search.get('type')) {
+		search.set('type', 'source');
+		link.search = search;
 	}
 }
