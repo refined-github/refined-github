@@ -136,6 +136,7 @@ async function init() {
 	enableFeature(hideNavigationHoverHighlight);
 	enableFeature(monospaceTextareas);
 	enableFeature(openSelectionInNewTab);
+	enableFeature(hideCommentsFaster);
 
 	// TODO: Enable this when we've improved how copying Markdown works
 	// See #522
@@ -278,7 +279,6 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit() || pageDetect.isDiscussion()) {
 		enableFeature(addReactionParticipants);
 		enableFeature(showRealNames);
-		enableFeature(hideCommentsFaster);
 	}
 
 	if (pageDetect.isCommitList()) {
