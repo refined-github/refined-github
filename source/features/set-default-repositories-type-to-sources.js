@@ -2,8 +2,7 @@ import select from 'select-dom';
 
 export default function () {
 	// Get repositories link from user profile navigation
-	const profileNavigation = select('.user-profile-nav:not(.is-placeholder)');
-	const link = select('a[href*="tab=repositories"]', profileNavigation);
+	const link = select('.user-profile-nav:not(.is-placeholder) a[href*="tab=repositories"]');
 	const search = new URLSearchParams(link.search);
 
 	// Set default type to source if not present
