@@ -80,6 +80,7 @@ import addPullRequestHotkey from './features/add-pull-request-hotkey';
 import openSelectionInNewTab from './features/add-selection-in-new-tab';
 import addSwapBranchesOnCompare from './features/add-swap-branches-on-compare';
 import showFollowersYouKnow from './features/show-followers-you-know';
+import hideCommentsFaster from './features/hide-comments-faster';
 import linkifyCommitSha from './features/linkify-commit-sha';
 import hideIssueListAutocomplete from './features/hide-issue-list-autocomplete';
 
@@ -135,6 +136,7 @@ async function init() {
 	enableFeature(hideNavigationHoverHighlight);
 	enableFeature(monospaceTextareas);
 	enableFeature(openSelectionInNewTab);
+	enableFeature(hideCommentsFaster);
 
 	// TODO: Enable this when we've improved how copying Markdown works
 	// See #522
