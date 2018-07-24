@@ -82,6 +82,7 @@ import addSwapBranchesOnCompare from './features/add-swap-branches-on-compare';
 import showFollowersYouKnow from './features/show-followers-you-know';
 import linkifyCommitSha from './features/linkify-commit-sha';
 import hideIssueListAutocomplete from './features/hide-issue-list-autocomplete';
+import setDefaultRepositoriesTypeToSources from './features/set-default-repositories-type-to-sources';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
@@ -166,6 +167,10 @@ async function onDomReady() {
 	if (pageDetect.isDashboard()) {
 		enableFeature(hideOwnStars);
 		enableFeature(autoLoadMoreNews);
+	}
+
+	if (pageDetect.isUserProfile()) {
+		enableFeature(setDefaultRepositoriesTypeToSources);
 	}
 
 	// Push safeOnAjaxedPages on the next tick so it happens in the correct order
@@ -302,6 +307,7 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isUserProfile()) {
 		enableFeature(addGistsLink);
 		enableFeature(showFollowersYouKnow);
+		enableFeature(setDefaultRepositoriesTypeToSources);
 	}
 
 	if (pageDetect.isPRCommit()) {
