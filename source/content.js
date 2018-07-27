@@ -211,7 +211,6 @@ function ajaxedPagesHandler() {
 		enableFeature(addReadmeButtons);
 		enableFeature(addBranchButtons);
 		enableFeature(addDiffViewWithoutWhitespaceOption);
-		enableFeature(removeDiffSigns);
 		enableFeature(addCILink);
 		enableFeature(sortMilestonesByClosestDueDate); // Needs to be after addMilestoneNavigation
 	}

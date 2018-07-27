@@ -394,38 +394,6 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 	background: linear-gradient(#34d058, #28a745);
 }
 
-/* +/- Pseudo elements on diffs */
-.refined-github-diff-signs .blob-code-addition::before,
-.refined-github-diff-signs .blob-code-deletion::before {
-	margin-top: 1px;
-	margin-left: 4px;
-	position: absolute;
-	color: rgba(0, 0, 0, 0.3);
-	font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
-	font-size: 11px;
-	text-indent: -8px;
-}
-
-.refined-github-diff-signs .blob-code-addition::before {
-	content: '+';
-}
-
-.refined-github-diff-signs .blob-code-deletion::before {
-	content: '-';
-}
-
-/* Prevent copy of ghost whitespace where supported (#317) */
-.refined-github-diff-signs .add-line-comment {
-	-moz-user-select: none;
-	user-select: none;
-}
-
-/* Restore removed space with unselectable one */
-.refined-github-diff-signs .blob-code-inner::before {
-	content: ' ' !important;
-	user-select: none;
-}
-
 /* Remove "pro tip!" box on profile page (appears when name isn't set) */
 .new-user-avatar-cta {
 	display: none !important;
