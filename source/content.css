@@ -1006,3 +1006,18 @@ body > .footer li a {
 	top: 15px;
 	left: 20px;
 }
+
+/* For badge on user profiles */
+.follower-badge {
+	font-size: 10px;
+	display: block;
+	animation: fade-in 0.2s;
+	margin-top: -15px;
+	margin-bottom: 5px;
+}
+.user-profile-bio {
+	margin-top: 5px;
+}
+.js-user-profile-follow-button {
+	margin-top: 5px;
+}
