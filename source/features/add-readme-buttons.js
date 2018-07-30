@@ -5,14 +5,14 @@ import * as pageDetect from '../libs/page-detect';
 
 export default function () {
 	const repoUrl = pageDetect.getRepoURL();
-	const readmeContainer = select('.repository-content > #readme');
+	const readmeContainer = select('.repository-content #readme');
 
 	if (readmeContainer && select('.branch-select-menu i').textContent === 'Branch:') {
-		const readmeName = select('#readme > h3').textContent.trim();
+		const readmeName = select('#readme .Box-header h3').textContent.trim();
 		const path = select('.breadcrumb').textContent.trim().split('/').slice(1).join('/');
 		const currentBranch = select('.branch-select-menu .select-menu-item.selected').textContent.trim();
 		readmeContainer.append(
-			<div id="refined-github-readme-buttons">
+			<div id="rgh-readme-buttons">
 				<a href={`/${repoUrl}/edit/${currentBranch}/${path}${readmeName}`}>
 					{icons.edit()}
 				</a>
