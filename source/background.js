@@ -13,8 +13,8 @@ new OptionsSync().define({
 	migrations: [
 		// Migration example:
 		options => {
-			// #1330
-			options.disabledFeatures = options.disabledFeatures.replace('move-account-switcher-to-sidebar', '');
+			options.disabledFeatures = options.disabledFeatures.replace('move-account-switcher-to-sidebar', ''); // #1330
+			options.disabledFeatures = options.disabledFeatures.replace('add-your-repositories-link-to-profile-dropdown', ''); // #1460
 		},
 		OptionsSync.migrations.removeUnused
 	]
