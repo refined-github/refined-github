@@ -20,7 +20,6 @@ function blurAccessibly(field) {
 
 export default function () {
 	registerShortcut('issues', '↑', 'Edit your last comment');
-	registerShortcut('prFiles', 'shift enter', 'Leave a single comment');
 
 	delegate('.js-comment-field', 'keydown', event => {
 		const field = event.target;
@@ -33,13 +32,6 @@ export default function () {
 		if (event.key === 'Tab' && !event.shiftKey) {
 			indentTextarea(field);
 			event.preventDefault();
-		} else if (event.key === 'Enter' && event.shiftKey) {
-			const singleCommentButton = select('.review-simple-reply-button', field.form);
-
-			if (singleCommentButton) {
-				singleCommentButton.click();
-				event.preventDefault();
-			}
 		} else if (event.key === 'Escape') {
 			// Cancel buttons have different classes for inline comments and editable comments
 			const cancelButton = select(`

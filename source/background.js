@@ -12,8 +12,9 @@ new OptionsSync().define({
 	},
 	migrations: [
 		options => {
-			// #1465
-			options.disabledFeatures = options.disabledFeatures.replace('add-readme-buttons', 'hide-readme-header');
+			options.disabledFeatures = options.disabledFeatures.replace('move-account-switcher-to-sidebar', ''); // #1330
+			options.disabledFeatures = options.disabledFeatures.replace('add-your-repositories-link-to-profile-dropdown', ''); // #1460
+			options.disabledFeatures = options.disabledFeatures.replace('add-readme-buttons', 'hide-readme-header'); // #1465
 		},
 		OptionsSync.migrations.removeUnused
 	]
