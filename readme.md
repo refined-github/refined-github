@@ -118,7 +118,6 @@ GitHub Enterprise is also supported. More info in the options.
 - [Browse a repository at the time of each comment.](https://user-images.githubusercontent.com/1402241/32310022-7fef6174-bf5d-11e7-960f-5041a8f073ac.png)
 - [Visit a user's public gists from their profile.](https://user-images.githubusercontent.com/11544418/34268306-1c974fd2-e678-11e7-9e82-861dfe7add22.png)
 - [Jump to the bottom of a discussion page with a click.](https://user-images.githubusercontent.com/4331946/34298950-93876584-e720-11e7-898a-96f85e31aefe.png)
-- [Access `Your repositories` from the profile dropdown.](https://user-images.githubusercontent.com/4201088/34920280-479e2454-f996-11e7-8e24-ad69793b9d9b.png)
 - [Download entire folders from repositories using the `Download folder` button.](https://user-images.githubusercontent.com/1402241/35044451-fd3e2326-fbc2-11e7-82e1-61ec7bee612b.png) *(Uses [download-directory.github.io](https://download-directory.github.io).)*
 - [Collapse or expand a repository's browser file list.](https://user-images.githubusercontent.com/1402241/35480123-68b9af1a-043a-11e8-8934-3ead3cff8328.gif)
 - [Quickly visit a repository's default branch and latest version tag.](https://user-images.githubusercontent.com/1402241/38107328-ccb3fb46-33bb-11e8-9654-23a6410943cc.png)
@@ -187,7 +186,8 @@ And [many more…](source/content.css)
 - ~~[Collapse/expand files in a PR diff.](https://cloud.githubusercontent.com/assets/170270/13954167/40caa604-f072-11e5-89ba-3145217c4e28.png)~~ - *[Implemented by GitHub](https://cloud.githubusercontent.com/assets/170270/25772137/6a6b678e-3296-11e7-97c7-02e31ef17743.png)*
 - ~~[Preview a issue/PR reference's title in comments.](https://user-images.githubusercontent.com/170270/30729486-2816df06-9f8a-11e7-8069-8999302e9ddd.png)~~ - *[Implemented by GitHub](https://user-images.githubusercontent.com/1402241/31265633-779ad0fe-aa35-11e7-8c42-a3b375f8f32c.png)*
 - ~~The dashboard organization switcher is moved to the right column.~~ - *[Implemented by GitHub](https://github.com/sindresorhus/refined-github/pull/1330)*
-- ~~[Quickly edit a repository's README from the repository root.](https://user-images.githubusercontent.com/170270/27501200-31a1fa20-586c-11e7-9a3f-ce270014bf0a.png)~~ *[Implemented by GitHub](https://blog.github.com/changelog/2018-07-24-button-to-edit-a-repositorys-readme-from-the-repository-root/)*
+- ~~[Quickly edit a repository's README from the repository root.](https://user-images.githubusercontent.com/170270/27501200-31a1fa20-586c-11e7-9a3f-ce270014bf0a.png)~~ - *[Implemented by GitHub](https://blog.github.com/changelog/2018-07-24-button-to-edit-a-repositorys-readme-from-the-repository-root/)*
+- ~~[Access `Your repositories` from the profile dropdown.](https://user-images.githubusercontent.com/4201088/34920280-479e2454-f996-11e7-8e24-ad69793b9d9b.png)~~ - *[Implemented by GitHub](https://blog.github.com/changelog/2018-07-25-access-your-repositories-straight-from-the-profile-dropdown/)*
 - ~~- [Permalinked comments are highlighted.](https://user-images.githubusercontent.com/1402241/37349492-226bd37a-2709-11e8-8087-d9686b330240.png)~~ - *[Implemented by GitHub](https://blog.github.com/changelog/2018-07-26-highlighting-of-permalinked-comments/)*
 
 
