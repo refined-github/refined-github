@@ -142,41 +142,35 @@ a .commit-ref:hover span {
 }
 
 /* Hide the header in README section */
-#readme {
+#readme.rgh-hide-readme-header {
 	position: relative;
 }
 
-#readme .Box-header {
-	display: none !important;
+#readme.rgh-hide-readme-header .Box-header {
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-color: transparent;
+	padding: 0 !important;
+	border: none;
 }
 
-#readme .Box-body .markdown-body {
-	border-radius: 3px !important;
-}
-
-/* Style for edit README button */
-#readme.blob #rgh-readme-buttons {
+#readme.rgh-hide-readme-header .Box-header .Box-title {
 	display: none;
 }
 
-#rgh-readme-buttons {
-	position: absolute;
-	top: 10px;
-	right: 10px;
-}
-
-#rgh-readme-buttons a {
+#readme.rgh-hide-readme-header .Box-header .btn-octicon {
+	margin: 0;
+	padding: 12px;
+	right: 0;
+	top: 0;
 	opacity: 0.2;
-	text-decoration: none;
 	transition: opacity 250ms;
 }
 
-#rgh-readme-buttons a:hover {
+#readme.rgh-hide-readme-header .Box-header .btn-octicon:hover,
+#readme.rgh-hide-readme-header .Box-header .btn-octicon:focus {
 	opacity: 1;
-}
-
-#rgh-readme-buttons a:not(:first-child) {
-	margin-left: 5px;
 }
 
 /* Style for delete fork link */
