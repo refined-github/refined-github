@@ -173,7 +173,6 @@ And [many more…](source/content.css)
 - [Search for issues and PRs with the `Everything commented by you` filter.](https://user-images.githubusercontent.com/170270/27501170-f394a304-586b-11e7-92d8-d92d6922356b.png)
 - [See just the issues and PRs _on your repos_ or _commented on by you_ in the global `Issues`/`Pull Requests` pages.](https://user-images.githubusercontent.com/8295888/36827126-8bfc79c4-1d37-11e8-8754-992968b082be.png)
 - Access trending repositories using the `Trending` link in the global navbar or by pressing <kbd>g</kbd> <kbd>t</kbd>.
-- Leave a single comment in pull request diffs instead of starting a review by pressing <kbd>shift</kbd> <kbd>enter</kbd>.
 - [Quickly edit your last comment using the <kbd>↑</kbd> shortcut.](https://github.com/sindresorhus/refined-github/pull/961)
 - Visit your profile by pressing <kbd>g</kbd> <kbd>m</kbd>.
 - Cycle through PR tabs by pressing <kbd>g</kbd> <kbd>←</kbd> and <kbd>g</kbd> <kbd>→</kbd>, or <kbd>g</kbd> <kbd>1</kbd>, <kbd>g</kbd> <kbd>2</kbd>, <kbd>g</kbd> <kbd>3</kbd> and <kbd>g</kbd> <kbd>4</kbd>.
@@ -189,6 +188,7 @@ And [many more…](source/content.css)
 - ~~[Quickly edit a repository's README from the repository root.](https://user-images.githubusercontent.com/170270/27501200-31a1fa20-586c-11e7-9a3f-ce270014bf0a.png)~~ - *[Implemented by GitHub](https://blog.github.com/changelog/2018-07-24-button-to-edit-a-repositorys-readme-from-the-repository-root/)*
 - ~~[Access `Your repositories` from the profile dropdown.](https://user-images.githubusercontent.com/4201088/34920280-479e2454-f996-11e7-8e24-ad69793b9d9b.png)~~ - *[Implemented by GitHub](https://blog.github.com/changelog/2018-07-25-access-your-repositories-straight-from-the-profile-dropdown/)*
 - ~~[Permalinked comments are highlighted.](https://user-images.githubusercontent.com/1402241/37349492-226bd37a-2709-11e8-8087-d9686b330240.png)~~ - *[Implemented by GitHub](https://blog.github.com/changelog/2018-07-26-highlighting-of-permalinked-comments/)*
+- ~~Leave a single comment in pull request diffs instead of starting a review by pressing <kbd>shift</kbd> <kbd>enter</kbd>.~~ - *[Implemented by GitHub](https://blog.github.com/changelog/2018-07-24-keyboard-shortcut-to-leave-a-single-comment-in-pull-requests-reviews/)*
 
 
 ## Customization
