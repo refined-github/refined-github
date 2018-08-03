@@ -147,7 +147,11 @@ a .commit-ref:hover span {
 }
 
 #readme.rgh-hide-readme-header .Box-header {
-	padding: 0;
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-color: transparent;
+	padding: 0 !important;
 	border: none;
 }
 
@@ -156,11 +160,17 @@ a .commit-ref:hover span {
 }
 
 #readme.rgh-hide-readme-header .Box-header .btn-octicon {
-	position: absolute;
 	margin: 0;
 	padding: 12px;
 	right: 0;
 	top: 0;
+	opacity: 0.2;
+	transition: opacity 250ms;
+}
+
+#readme.rgh-hide-readme-header .Box-header .btn-octicon:hover,
+#readme.rgh-hide-readme-header .Box-header .btn-octicon:focus {
+	opacity: 1;
 }
 
 /* Style for delete fork link */
