@@ -36,7 +36,7 @@ import addProfileHotkey from './features/add-profile-hotkey';
 import addYoursMenuItem from './features/add-yours-menu-item';
 import addCommentedMenuItem from './features/add-commented-menu-item';
 import addToggleFilesButton from './features/add-toggle-files-button';
-import addReadmeButtons from './features/add-readme-buttons';
+import hideReadmeHeader from './features/hide-readme-header';
 import addBranchButtons from './features/add-branch-buttons';
 import addDeleteForkLink from './features/add-delete-fork-link';
 import linkifyIssuesInTitles from './features/linkify-issues-in-titles';
@@ -209,7 +209,7 @@ function ajaxedPagesHandler() {
 	}
 
 	if (pageDetect.isRepo()) {
-		enableFeature(addReadmeButtons);
+		enableFeature(hideReadmeHeader);
 		enableFeature(addBranchButtons);
 		enableFeature(addDiffViewWithoutWhitespaceOption);
 		enableFeature(removeDiffSigns);

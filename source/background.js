@@ -11,10 +11,9 @@ new OptionsSync().define({
 		logging: false
 	},
 	migrations: [
-		// Migration example:
 		options => {
-			// #1330
-			options.disabledFeatures = options.disabledFeatures.replace('move-account-switcher-to-sidebar', '');
+			// #1465
+			options.disabledFeatures = options.disabledFeatures.replace('add-readme-buttons', 'hide-readme-header');
 		},
 		OptionsSync.migrations.removeUnused
 	]
