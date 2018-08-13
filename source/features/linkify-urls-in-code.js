@@ -7,17 +7,17 @@ import getTextNodes from '../libs/get-text-nodes';
 // Shared class necessary to avoid also shortening the links
 export const linkifiedURLClass = 'rgh-linkified-code';
 
-const {
-	ownerName,
-	repoName
-} = getOwnerAndRepo();
-
+// If we are not in a repo, relative issue references won't make sense
+// but `user`/`repo` need to be set to avoid breaking errors in `linkify-issues`
+// https://github.com/sindresorhus/refined-github/issues/1305
+const currentRepo = getOwnerAndRepo();
 const options = {
-	user: ownerName,
-	repo: repoName,
+	user: currentRepo.ownerName || '/',
+	repo: currentRepo.repoName || '/',
 	type: 'dom',
 	baseUrl: '',
 	attributes: {
+		rel: 'noreferrer noopener',
 		class: linkifiedURLClass // Necessary to avoid also shortening the links
 	}
 };
@@ -47,7 +47,10 @@ export const editTextNodes = (fn, el) => {
 };
 
 export default () => {
-	const wrappers = select.all(`.blob-wrapper:not(.${linkifiedURLClass})`);
+	const wrappers = select.all(`
+		.blob-wrapper:not(.${linkifiedURLClass}),
+		.comment-body:not(.${linkifiedURLClass})
+	`);
 
 	// Don't linkify any already linkified code
 	if (wrappers.length === 0) {

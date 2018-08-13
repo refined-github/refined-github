@@ -1,6 +1,19 @@
 body {
 	min-width: 430px; /* Required to size the Browser Action popup */
 }
+:root {
+	--github-green: #28a745;
+	--github-red: #cb2431;
+}
+input:not([type='checkbox']):not(:placeholder-shown):valid {
+	color: var(--github-green);
+	border: 1px solid;
+}
+input:not([type='checkbox']):invalid {
+	color: var(--github-red);
+	border: 1px solid;
+}
+input:not([type='checkbox']),
 textarea {
 	display: block;
 	width: 100%;
@@ -13,6 +26,9 @@ textarea {
 }
 input[type='checkbox'] {
 	vertical-align: -0.16em;
+}
+[name='personalToken'] {
+	width: 50% !important; /* https://github.com/sindresorhus/refined-github/issues/1374#issuecomment-397906701 */
 }
 .small {
 	font-size: 0.9em;

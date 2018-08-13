@@ -315,8 +315,11 @@ test('isQuickPR', urlMatcherMacro, pageDetect.isQuickPR, [
 	'https://github.com/sindresorhus/refined-github/compare/branch-1...branch-2?expand=1'
 ]);
 
-test('isReleases', urlMatcherMacro, pageDetect.isReleases, [
-	'https://github.com/sindresorhus/refined-github/releases'
+test('isReleasesOrTags', urlMatcherMacro, pageDetect.isReleasesOrTags, [
+	'https://github.com/sindresorhus/refined-github/releases',
+	'https://github.com/sindresorhus/refined-github/tags',
+	'https://github.com/sindresorhus/refined-github/releases/tag/v1.0.0-beta.4',
+	'https://github.com/sindresorhus/refined-github/releases/tag/0.2.1'
 ], [
 	'https://github.com/sindresorhus/refined-github',
 	'https://github.com/sindresorhus/refined-github/graphs'
@@ -365,9 +368,12 @@ test('isRepoTree', urlMatcherMacro, pageDetect.isRepoTree, [
 	'https://github.com/sindresorhus/refined-github/tree/master/distribution',
 	'https://github.com/sindresorhus/refined-github/tree/0.13.0/distribution',
 	'https://github.com/sindresorhus/refined-github/tree/57bf435ee12d14b482df0bbd88013a2814c7512e/distribution',
-	'https://github.com/sindresorhus/refined-github/tree/57bf4'
+	'https://github.com/sindresorhus/refined-github/tree/57bf4',
+	'https://github.com/sindresorhus/refined-github?files=1',
+	'https://github.com/sindresorhus/refined-github/tree/master?files=1'
 ], [
 	'https://github.com/sindresorhus/refined-github/issues',
+	'https://github.com/sindresorhus/refined-github/issues?files=1',
 	'https://github.com/sindresorhus/refined-github/blob/tree/master/distribution'
 ]);
 
@@ -403,5 +409,6 @@ test('isUserProfile', urlMatcherMacro, pageDetect.isUserProfile, [
 	'https://github.com/',
 	'https://github.com/settings',
 	'https://github.com/watching',
-	'https://github.com/sindresorhus/refined-github'
+	'https://github.com/sindresorhus/refined-github',
+	'https://gist.github.com/bfred-it'
 ]);

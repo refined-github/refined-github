@@ -17,7 +17,7 @@ async function addButtons() {
 			const toolbarGroup = select('.toolbar-group:last-child', toolbar);
 			if (toolbarGroup) {
 				toolbarGroup.append(
-					<button type="button" class="toolbar-item rgh-upload-btn">
+					<button type="button" class="toolbar-item rgh-upload-btn tooltipped tooltipped-nw" aria-label="Upload attachments">
 						{icons.cloudUpload()}
 					</button>
 				);
@@ -50,7 +50,7 @@ function listen() {
 export default function () {
 	const listenOnce = onetime(listen);
 	safeOnAjaxedPages(() => {
-		if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isNewIssue()) {
+		if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isNewIssue() || pageDetect.isCompare() || pageDetect.isCommit()) {
 			addButtons();
 			listenOnce();
 		}

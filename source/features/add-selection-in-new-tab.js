@@ -7,7 +7,13 @@ export default function () {
 	document.addEventListener('keypress', event => {
 		const selected = select('.navigation-focus .js-navigation-open[href]');
 		if (selected && event.key === 'O') {
-			window.open(selected, '_blank');
+			browser.runtime.sendMessage({
+				urls: [selected.href],
+				action: 'openAllInTabs'
+			});
+
+			// Get the list element that contains the unread class and mark it as read.
+			selected.closest('li').classList.replace('unread', 'read');
 		}
 	});
 }

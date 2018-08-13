@@ -28,9 +28,19 @@ async function openNotifications({delegateTarget}) {
 		action: 'openAllInTabs'
 	});
 
-	// Mark all as read, this also enables the native "marked as read notification"
-	for (const button of select.all('.mark-all-as-read', container)) {
-		button.click();
+	// Mark all as read
+	for (const notification of select.all('.unread', container)) {
+		notification.classList.replace('unread', 'read');
+	}
+
+	// Remove all now-useless buttons
+	for (const button of select.all(`
+		.rgh-open-notifications-button,
+		.open-repo-notifications,
+		.mark-all-as-read,
+		[href='#mark_as_read_confirm_box']
+	`, container)) {
+		button.remove();
 	}
 }
 
@@ -45,7 +55,7 @@ function addOpenReposButton() {
 			continue;
 		}
 
-		const repo = select('.notifications-repo-link', repoNotifications).title.split('/')[1];
+		const [, repo] = select('.notifications-repo-link', repoNotifications).title.split('/');
 
 		select('.mark-all-as-read', repoNotifications).before(
 			<button type="button" class="open-repo-notifications tooltipped tooltipped-w rgh-open-notifications-button" aria-label={`Open all unread \`${repo}\` notifications in tabs`}>

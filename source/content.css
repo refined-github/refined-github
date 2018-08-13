@@ -14,46 +14,8 @@
 	display: none !important;
 }
 
-/* Allow for absolute positioning relative to the dashboard */
-#dashboard,
-.orgpage > .container {
-	position: relative !important;
-}
-
 #dashboard .new-repo {
 	display: none !important;
-}
-
-/* Remove "Repositories you contribute to" dashboard sidebar box */
-.dashboard-sidebar > .boxed-group[role='navigation']:not(.repos) {
-	display: none;
-}
-
-/* Match context switcher's width to the width of the containers below it */
-.dashboard-sidebar .select-menu {
-	width: 100%;
-}
-
-/* Match context switcher modal's width to that of the user repo list */
-.dashboard-sidebar .select-menu-modal {
-	width: 313px;
-	margin: 0;
-}
-
-/* Remove the toolbar from the right repo box on the dashboard */
-.dashboard-sidebar .user-repos > h3,
-.dashboard-sidebar .user-repos > .boxed-group-action {
-	display: none !important;
-}
-.dashboard-sidebar .user-repos .boxed-group-inner {
-	border-radius: 3px !important;
-}
-.dashboard-sidebar .user-repos .filter-repos {
-	border-top-left-radius: 3px !important;
-	border-top-right-radius: 3px !important;
-}
-.dashboard-sidebar .user-repos .repo-icon {
-	opacity: 0.6 !important;
 }
 
 /* Remove news feed tips */
@@ -86,17 +48,11 @@
 	opacity: 0.6;
 }
 
-/* Remove annoying hover in the repo file list */
-.file-wrap .files .navigation-focus td {
+/* For `rgh-no-navigation-highlight` */
+.rgh-no-navigation-highlight .list-group-item.navigation-focus, /* Notifications list */
+.rgh-no-navigation-highlight .Box-row.navigation-focus, /* Issue list */
+.rgh-no-navigation-highlight .navigation-focus td { /* File list  */
 	background: none !important;
-}
-
-#readme > h3 {
-	display: none !important;
-}
-
-#readme .markdown-body {
-	border-radius: 3px !important;
 }
 
 .paginate-protip {
@@ -169,41 +125,6 @@
 	display: none !important;
 }
 
-/* Move the dashboard organization switcher to the right column */
-.news.column.two-thirds .account-switcher {
-	/* Hide switcher from the main column, but if JS fails show it */
-	animation: temporarily-hide 5s steps(1, end);
-}
-@keyframes temporarily-hide {
-	from {
-		position: absolute;
-		top: -1000px;
-	}
-}
-.account-switcher .select-menu-button {
-	width: 100%;
-	margin-bottom: 15px;
-	text-align: center;
-}
-.account-switcher .select-menu-button-gravatar {
-	display: inline-block !important;
-	vertical-align: top !important;
-	float: none !important;
-}
-/* Organization dashboard */
-.orgpage .underline-nav {
-	float: left !important;
-}
-.orgpage .account-switcher {
-	right: 0 !important;
-}
-.orgpage .user-repos {
-	position: static !important;
-}
-.orgpage + .container .dashboard-sidebar {
-	padding-top: 0;
-}
-
 /* Remove "New pull request" button on repo page */
 .file-navigation .new-pull-request-btn {
 	display: none !important;
@@ -220,34 +141,36 @@ a .commit-ref:hover span {
 	text-decoration: inherit;
 }
 
-/* Remove useless tip in the organization news feed */
-#dashboard .alert.git_hub {
-	display: none !important;
+/* Hide the header in README section */
+#readme.rgh-hide-readme-header {
+	position: relative;
 }
 
-/* Style for edit README button */
-#readme.blob #refined-github-readme-buttons {
+#readme.rgh-hide-readme-header .Box-header {
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-color: transparent;
+	padding: 0 !important;
+	border: none;
+}
+
+#readme.rgh-hide-readme-header .Box-header .Box-title {
 	display: none;
 }
 
-#refined-github-readme-buttons {
-	position: absolute;
-	top: 10px;
-	right: 10px;
-}
-
-#refined-github-readme-buttons a {
+#readme.rgh-hide-readme-header .Box-header .btn-octicon {
+	margin: 0;
+	padding: 12px;
+	right: 0;
+	top: 0;
 	opacity: 0.2;
-	text-decoration: none;
 	transition: opacity 250ms;
 }
 
-#refined-github-readme-buttons a:hover {
+#readme.rgh-hide-readme-header .Box-header .btn-octicon:hover,
+#readme.rgh-hide-readme-header .Box-header .btn-octicon:focus {
 	opacity: 1;
-}
-
-#refined-github-readme-buttons a:not(:first-child) {
-	margin-left: 5px;
 }
 
 /* Style for delete fork link */
@@ -275,10 +198,6 @@ followed someone
 .rgh-no-useless-events .delete,
 .rgh-no-useless-events .follow {
 	display: none !important;
-}
-
-.news .body > .border-gray-light {
-	border: none !important; /* Remove border between dashboard news items */
 }
 
 /* Decrease font-size on commit details so our custom patch and diff links fit */
@@ -535,35 +454,6 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 	margin-left: 5px;
 }
 
-/* Highlight linked comment */
-:root .timeline-comment:target {
-	border-color: #e5d999;
-}
-:root .timeline-comment:target.current-user::before {
-	border-right-color: #e5d999;
-}
-:root .timeline-comment:target.current-user::after {
-	border-right-color: #fffded;
-}
-:root .timeline-comment:target .timeline-comment-header {
-	background-color: #fffdef;
-	border-bottom-color: #e5d999;
-}
-:root .timeline-comment:target .timeline-comment-label {
-	border-color: #e5d999;
-}
-:root .timeline-comment:target .reaction-summary-item {
-	border-right-color: #e5d999;
-}
-:root .timeline-comment:target .comment-reactions.has-reactions {
-	border-top-color: #e5d999;
-}
-:root .timeline-comment:target .previewable-comment-form .comment-form-head.tabnav {
-	color: #e5d999;
-	background-color: #fffdef;
-	border-bottom-color: #e5d999;
-}
-
 /* Highlighted linked review comment */
 :root .review-comment:target {
 	background-color: #fffdef;
@@ -668,7 +558,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 .js-issue-row .mt-1.text-small.text-gray { /* Issue details line */
 	flex-basis: 100%;
 }
-.js-issue-row .label {
+.js-issue-row .IssueLabel {
 	padding: 2px 3px 3px !important;
 	margin-top: 4px;
 	font-size: 11px !important;
@@ -695,9 +585,11 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	padding-left: 15px;
 }
 
-/* Fix for GHE More Dropdown positioning */
-.reponav-dropdown.active .dropdown-menu {
-	left: auto !important;
+/* Fix for GHE More Dropdown items positioning */
+.reponav-dropdown a.dropdown-item:not(.rgh-reponav-more)::before {
+	content: '';
+	display: inline-block;
+	width: 16px;
 }
 
 /* Optically align Dependencies dropdown link */
@@ -781,6 +673,22 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	position: sticky;
 	top: 0;
 	z-index: 10;
+}
+
+/* Sticky table header on issues list */
+.issues-listing .table-list-header {
+	position: sticky;
+	top: 0;
+	/* Must be above .modal-backdrop (z-index 20) #1317 */
+	z-index: 25;
+}
+.subnav-search-context .select-menu-modal {
+	/* Bump Filters menu to be above header */
+	z-index: 26 !important;
+}
+.issues-listing .table-list-header .select-menu-list {
+	/* Since the header is sticky, filters must now fit the viewport */
+	max-height: calc(100vh - 150px);
 }
 
 /* Momentarily offset the line so its #deeplink won’t be covered by the header #974 */
@@ -929,6 +837,11 @@ body > .footer li a {
 	width: 430px;
 }
 
+/* Remove the 'Review Summary' header from the form */
+.pull-request-review-menu label[for='pull_request_review_body'] {
+	display: none !important;
+}
+
 /* Reduce dashboard activity cards */
 /* `.flex-items-baseline` excludes label events */
 .dashboard .flex-items-baseline {
@@ -944,6 +857,20 @@ body > .footer li a {
 .dashboard .flex-items-baseline .text-bold.text-gray-dark {
 	display: none;
 }
+/* Restore names and space them out if they are grouped */
+.dashboard .Details .flex-items-baseline .f3,
+.dashboard .Details .flex-items-baseline .f4,
+.dashboard .Details .flex-items-baseline .text-bold.text-gray-dark {
+	display: block;
+	font-size: 1em !important;
+}
+.dashboard .Details-content--hidden .flex-items-baseline {
+	margin-top: 20px !important;
+}
+/* Hide star button */
+.dashboard .flex-items-baseline [value='Star'] {
+	display: none;
+}
 
 .dashboard .flex-items-baseline .f6.mt-2 {
 	opacity: 0.5;
@@ -954,10 +881,18 @@ body > .footer li a {
 	margin: 0 !important;
 	color: var(--github-gray-text) !important;
 }
+/* Remove border between dashboard news items */
+.dashboard .body > .border-gray-light {
+	border: none !important;
+}
 
 /* Make activities narrower */
 .dashboard .d-flex.border-bottom.border-gray-light {
 	padding: 8px 0 !important;
+}
+/* Remove useless tip in the organization news feed */
+#dashboard .alert.git_hub {
+	display: none !important;
 }
 
 /* For 'extend-diff-expander' feature */
@@ -1047,4 +982,18 @@ body > .footer li a {
 	margin-left: 5px;
 	background: #9c95b3;
 	cursor: pointer;
+}
+
+/* Remove the useless "Continuous integration has not been set up" message on PRs */
+.branch-action-item.marketplace-product-callout {
+	display: none;
+}
+
+/* Remove the "New repository" button in the dashboard sidebar */
+.dashboard-sidebar a[href='/new'] {
+	display: none;
+}
+.dashboard-sidebar .Box-title {
+	padding-top: 4px !important;
+	padding-bottom: 4px !important;
 }

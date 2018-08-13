@@ -86,7 +86,7 @@ export const isPRSearch = () => location.pathname.startsWith('/pulls');
 
 export const isQuickPR = () => isCompare() && /[?&]quick_pull=1(&|$)/.test(location.search);
 
-export const isReleases = () => /^(releases|tags)/.test(getRepoPath());
+export const isReleasesOrTags = () => /^(releases|tags)/.test(getRepoPath());
 
 export const isRepo = () => /^[^/]+\/[^/]+/.test(getCleanPathname()) &&
 	!isReserved(getOwnerAndRepo().ownerName) &&
@@ -106,4 +106,4 @@ export const isSingleFile = () => /^blob\//.test(getRepoPath());
 
 export const isTrending = () => location.pathname.startsWith('/trending');
 
-export const isUserProfile = () => Boolean(getCleanPathname()) && !isReserved(getCleanPathname()) && !getCleanPathname().includes('/');
+export const isUserProfile = () => Boolean(getCleanPathname()) && !isGist() && !isReserved(getCleanPathname()) && !getCleanPathname().includes('/');

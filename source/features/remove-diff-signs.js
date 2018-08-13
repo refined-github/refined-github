@@ -3,7 +3,15 @@ import select from 'select-dom';
 import observeEl from '../libs/simplified-element-observer';
 
 function removeDiffSigns() {
-	for (const line of select.all('.diff-table tr:not(.refined-github-diff-signs)')) {
+	// Return early for GitHub DOMs that exclude + and - when copying from diffs.
+	// Continue to support older GitHub versions such as users running GitHub Enterprise.
+	if (['deletion', 'context', 'addition'].some(name =>
+		select.exists(`.blob-code-marker-${name}`)
+	)) {
+		return;
+	}
+
+	for (const line of select.all('.diff-table > tbody > tr:not(.refined-github-diff-signs)')) {
 		line.classList.add('refined-github-diff-signs');
 		for (const code of select.all('.blob-code-inner', line)) {
 			// Drop -, + or space

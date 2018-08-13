@@ -20,36 +20,35 @@ function blurAccessibly(field) {
 
 export default function () {
 	registerShortcut('issues', '↑', 'Edit your last comment');
-	registerShortcut('prFiles', 'shift enter', 'Leave a single comment');
 
 	delegate('.js-comment-field', 'keydown', event => {
 		const field = event.target;
-		if (event.key === 'Tab' && !event.shiftKey) {
-			// Don't indent if the suggester box is active
-			if (select.exists('.suggester.active')) {
-				return;
-			}
 
+		// Don't do anything if the suggester box is active
+		if (select.exists('.suggester:not([hidden])', field.form)) {
+			return;
+		}
+
+		if (event.key === 'Tab' && !event.shiftKey) {
 			indentTextarea(field);
 			event.preventDefault();
-		} else if (event.key === 'Enter' && event.shiftKey) {
-			const singleCommentButton = select('.review-simple-reply-button', field.form);
-
-			if (singleCommentButton) {
-				singleCommentButton.click();
-				event.preventDefault();
-			}
 		} else if (event.key === 'Escape') {
-			const inlineCancelButton = select('.js-hide-inline-comment-form', field.form);
+			// Cancel buttons have different classes for inline comments and editable comments
+			const cancelButton = select(`
+				.js-hide-inline-comment-form,
+				.js-comment-cancel-button
+			`, field.form);
 
-			// Cancel comment if inline, blur the field if it's a regular comment
-			if (field.value === '') {
+			// Cancel if there is a button, else blur the field
+			if (cancelButton) {
+				cancelButton.click();
+			} else {
 				blurAccessibly(field);
-			} else if (inlineCancelButton) {
-				inlineCancelButton.click();
 			}
+			event.stopImmediatePropagation();
+			event.preventDefault();
 		} else if (event.key === 'ArrowUp' && field.id === 'new_comment_field' && field.value === '') {
-			const lastOwnComment = select.all(`.js-comment.current-user`).pop();
+			const lastOwnComment = select.all('.js-comment.current-user').pop();
 
 			if (lastOwnComment) {
 				select('.js-comment-edit-button', lastOwnComment).click();

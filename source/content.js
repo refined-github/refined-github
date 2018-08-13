@@ -11,6 +11,7 @@ import enableCopyOnY from './features/copy-on-y';
 import addReactionParticipants from './features/reactions-avatars';
 import showRealNames from './features/show-names';
 import addCopyFilePathToPRs from './features/copy-file-path';
+import addPrevNextButtonsToPRs from './features/prev-next-commit-buttons';
 import addFileCopyButton from './features/copy-file';
 // - import copyMarkdown from './features/copy-markdown';
 import linkifyCode from './features/linkify-urls-in-code';
@@ -28,13 +29,12 @@ import hideEmptyMeta from './features/hide-empty-meta';
 import hideInactiveDeployments from './features/hide-inactive-deployments';
 import hideOwnStars from './features/hide-own-stars';
 import moveMarketplaceLinkToProfileDropdown from './features/move-marketplace-link-to-profile-dropdown';
-import addYourRepoLinkToProfileDropdown from './features/add-your-repositories-link-to-profile-dropdown';
 import addTrendingMenuItem from './features/add-trending-menu-item';
 import addProfileHotkey from './features/add-profile-hotkey';
 import addYoursMenuItem from './features/add-yours-menu-item';
 import addCommentedMenuItem from './features/add-commented-menu-item';
 import addToggleFilesButton from './features/add-toggle-files-button';
-import addReadmeButtons from './features/add-readme-buttons';
+import hideReadmeHeader from './features/hide-readme-header';
 import addBranchButtons from './features/add-branch-buttons';
 import addDeleteForkLink from './features/add-delete-fork-link';
 import linkifyIssuesInTitles from './features/linkify-issues-in-titles';
@@ -47,12 +47,13 @@ import addMilestoneNavigation from './features/add-milestone-navigation';
 import addFilterCommentsByYou from './features/add-filter-comments-by-you';
 import removeProjectsTab from './features/remove-projects-tab';
 import fixSquashAndMergeTitle from './features/fix-squash-and-merge-title';
+import fixSquashAndMergeMessage from './features/fix-squash-and-merge-message';
 import addTitleToEmojis from './features/add-title-to-emojis';
 import sortMilestonesByClosestDueDate from './features/sort-milestones-by-closest-due-date';
-import moveAccountSwitcherToSidebar from './features/move-account-switcher-to-sidebar';
 import openCIDetailsInNewTab from './features/open-ci-details-in-new-tab';
 import focusConfirmationButtons from './features/focus-confirmation-buttons';
 import addKeyboardShortcutsToCommentFields from './features/add-keyboard-shortcuts-to-comment-fields';
+import addCreateReleaseShortcut from './features/add-create-release-shortcut';
 import addConfirmationToCommentCancellation from './features/add-confirmation-to-comment-cancellation';
 import addCILink from './features/add-ci-link';
 import embedGistInline from './features/embed-gist-inline';
@@ -69,11 +70,17 @@ import waitForBuild from './features/wait-for-build';
 import addDownloadFolderButton from './features/add-download-folder-button';
 import hideUselessNewsfeedEvents from './features/hide-useless-newsfeed-events';
 import closeOutOfViewModals from './features/close-out-of-view-modals';
-import addScopedSearchOnUserProfile from './features/add-scoped-search-on-user-profile';
 import monospaceTextareas from './features/monospace-textareas';
 import improveShortcutHelp from './features/improve-shortcut-help';
+import hideNavigationHoverHighlight from './features/hide-navigation-hover-highlight';
 import displayIssueSuggestions from './features/display-issue-suggestions';
+import addPullRequestHotkey from './features/add-pull-request-hotkey';
 import openSelectionInNewTab from './features/add-selection-in-new-tab';
+import addSwapBranchesOnCompare from './features/add-swap-branches-on-compare';
+import showFollowersYouKnow from './features/show-followers-you-know';
+import hideCommentsFaster from './features/hide-comments-faster';
+import linkifyCommitSha from './features/linkify-commit-sha';
+import hideIssueListAutocomplete from './features/hide-issue-list-autocomplete';
 import addTimeToHovercard from './features/add-time-to-hovercard';
 
 import * as pageDetect from './libs/page-detect';
@@ -108,8 +115,7 @@ async function init() {
 		enableFeature(addTrendingMenuItem);
 	}
 
-	if (pageDetect.isDashboard()) {
-		enableFeature(moveAccountSwitcherToSidebar);
+	if (pageDetect.isDashboard() && !pageDetect.isGist()) {
 		enableFeature(hideUselessNewsfeedEvents);
 	}
 
@@ -123,15 +129,13 @@ async function init() {
 		});
 	}
 
-	if (pageDetect.isUserProfile()) {
-		enableFeature(addScopedSearchOnUserProfile);
-	}
-
 	enableFeature(focusConfirmationButtons);
 	enableFeature(addKeyboardShortcutsToCommentFields);
 	enableFeature(addConfirmationToCommentCancellation);
+	enableFeature(hideNavigationHoverHighlight);
 	enableFeature(monospaceTextareas);
 	enableFeature(openSelectionInNewTab);
+	enableFeature(hideCommentsFaster);
 
 	// TODO: Enable this when we've improved how copying Markdown works
 	// See #522
@@ -154,7 +158,6 @@ async function onDomReady() {
 
 	if (!pageDetect.isGist()) {
 		enableFeature(moveMarketplaceLinkToProfileDropdown);
-		enableFeature(addYourRepoLinkToProfileDropdown);
 	}
 
 	if (pageDetect.isGist()) {
@@ -205,7 +208,7 @@ function ajaxedPagesHandler() {
 	}
 
 	if (pageDetect.isRepo()) {
-		enableFeature(addReadmeButtons);
+		enableFeature(hideReadmeHeader);
 		enableFeature(addBranchButtons);
 		enableFeature(addDiffViewWithoutWhitespaceOption);
 		enableFeature(removeDiffSigns);
@@ -221,10 +224,12 @@ function ajaxedPagesHandler() {
 		enableFeature(scrollToTopOnCollapse);
 		enableFeature(addDeleteForkLink);
 		enableFeature(fixSquashAndMergeTitle);
+		enableFeature(fixSquashAndMergeMessage);
 		enableFeature(openCIDetailsInNewTab);
 		enableFeature(waitForBuild);
 		enableFeature(toggleAllThingsWithAlt);
 		enableFeature(hideInactiveDeployments);
+		enableFeature(addPullRequestHotkey);
 	}
 
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
@@ -249,10 +254,15 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isIssueList()) {
 		enableFeature(addFilterCommentsByYou);
+		enableFeature(hideIssueListAutocomplete);
 	}
 
 	if (pageDetect.isIssueList() || pageDetect.isPR() || pageDetect.isIssue()) {
 		enableFeature(showRecentlyPushedBranches);
+	}
+
+	if (pageDetect.isReleasesOrTags()) {
+		enableFeature(addCreateReleaseShortcut);
 	}
 
 	if (pageDetect.isCommit()) {
@@ -262,6 +272,7 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isCompare()) {
 		enableFeature(toggleAllThingsWithAlt);
+		enableFeature(addSwapBranchesOnCompare);
 	}
 
 	if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit() || pageDetect.isDiscussion()) {
@@ -275,11 +286,12 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
 		enableFeature(addCopyFilePathToPRs);
+		enableFeature(addPrevNextButtonsToPRs);
 		enableFeature(preserveWhitespaceOptionInNav);
+		enableFeature(addQuickReviewButtons);
 	}
 
 	if (pageDetect.isPRFiles()) {
-		enableFeature(addQuickReviewButtons);
 		enableFeature(extendDiffExpander);
 	}
 
@@ -289,6 +301,11 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isUserProfile()) {
 		enableFeature(addGistsLink);
+		enableFeature(showFollowersYouKnow);
+	}
+
+	if (pageDetect.isPRCommit()) {
+		enableFeature(linkifyCommitSha);
 	}
 }
 

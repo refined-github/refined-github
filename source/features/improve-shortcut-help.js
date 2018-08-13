@@ -43,6 +43,9 @@ function improveShortcutHelp() {
 	// Remove redundant "Show All" button
 	select('.js-see-all-keyboard-shortcuts').remove();
 
+	// Close the modal with Esc
+	select('.js-facebox-close').dataset.hotkey = 'Escape';
+
 	const modal = select('.shortcuts');
 	const groupElements = select.all('tbody', modal);
 	for (const groupElement of groupElements) {
@@ -95,8 +98,8 @@ function fixKeys() {
 
 export default () => {
 	observeEl('#facebox', records => {
-		if (Array.from(records).some(record => record.target.matches('.shortcuts') &&
-			Array.from(record.removedNodes).some(element => element.matches('.facebox-loading')))) {
+		if ([...records].some(record => record.target.matches('.shortcuts') &&
+			[...record.removedNodes].some(element => element.matches('.facebox-loading')))) {
 			improveShortcutHelp();
 			fixKeys();
 		}
