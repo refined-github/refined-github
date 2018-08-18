@@ -12,7 +12,7 @@ function getParticipants(container) {
 		.replace(/ reacted with.*/, '')
 		.replace(/,? and /, ', ')
 		.replace(/, \d+ more/, '')
-		.replace(/\[bot\]/, '')
+		.replace(/\[bot\]/g, '')
 		.split(', ')
 		.filter(username => username !== currentUser)
 		.map(username => ({
