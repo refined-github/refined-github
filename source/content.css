@@ -659,7 +659,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 /* Sticky file headers on pull request diff view */
 .pull-request-tab-content .diff-view .file-header {
 	position: sticky;
-	top: 60px;
+	top: 59px;
 	z-index: 10;
 }
 
