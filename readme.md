@@ -146,6 +146,7 @@ GitHub Enterprise is also supported. More info in the options.
 - The `Projects` repository tab is hidden when there are no projects
     * New projects can still be created via the [`Create new…` menu](https://user-images.githubusercontent.com/1402241/34909214-18b6fb2e-f8cf-11e7-8556-bed748596d3b.png).
 - [The autocomplete on the issue search field is removed.](https://user-images.githubusercontent.com/1402241/42991841-1f057e4e-8c07-11e8-909c-b051db7a2a03.png)
+- Change of issue titles are hidden. ([#643](https://github.com/sindresorhus/refined-github/pull/643))  This can be [disabled with custom CSS](https://github.com/sindresorhus/refined-github/issues/1471#issuecomment-411733452).
 
 ### UI improvements
 
