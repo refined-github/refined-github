@@ -598,11 +598,6 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	margin-left: -2px;
 }
 
-/* Hide PR/Issue rename events */
-.discussion-item-renamed {
-	display: none;
-}
-
 /* Hide inactive deployment events */
 .discussion-item.rgh-inactive-deployment {
 	display: none;
