@@ -10,17 +10,21 @@ import {getUsername} from '../libs/utils';
 
 export default function () {
 	const username = getUsername();
-	const reviewedQuery = encodeURIComponent(`reviewed-by:${username}`);
+	const reviewedQuery = `reviewed-by:${username}`;
 
-	const reviewedElement = select(`.select-menu-list a[href*="${reviewedQuery}"]`);
+	const reviewedElement = select(`.select-menu-list a[href*="${encodeURIComponent(reviewedQuery)}"]`);
 	if (!reviewedElement) {
 		return;
 	}
 
-	const notReviewedQuery = encodeURIComponent(`-reviewed-by:${username}`);
-	const notReviewedHref = reviewedElement.href.replace(reviewedQuery, notReviewedQuery);
+	const notReviewedURL = new URL(reviewedElement.href);
+
+	const notReviewedQuery = `-reviewed-by:${username}`;
+	const searchQuery = notReviewedURL.searchParams.get('q').replace(reviewedQuery, notReviewedQuery);
+	notReviewedURL.searchParams.set('q', searchQuery);
+
 	const notReviewedElement = (
-		<a href={notReviewedHref} class="select-menu-item js-navigation-item">
+		<a href={notReviewedURL.href} class="select-menu-item js-navigation-item">
 			<span class="select-menu-item-icon">{icons.check()}</span>
 			<div class="select-menu-item-text">Not reviewed by you</div>
 		</a>
@@ -28,7 +32,7 @@ export default function () {
 
 	// When the query includes the "not reviewed by you" filter, the "reviewed by you" item will be selected.
 	// Because of this we remove the selected class and add it to the correct item.
-	if (location.search.includes(notReviewedQuery)) {
+	if (location.search.includes(encodeURIComponent(notReviewedQuery))) {
 		reviewedElement.classList.remove('selected');
 		notReviewedElement.classList.add('selected');
 	}
