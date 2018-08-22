@@ -3,7 +3,6 @@ import {h} from 'dom-chef';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 
-import addDeleteToPrFiles from './features/add-delete-to-pr-files';
 import markUnread from './features/mark-unread';
 import addOpenAllNotificationsButton from './features/open-all-notifications';
 import openAllSelected from './features/open-all-selected';
@@ -30,13 +29,12 @@ import hideEmptyMeta from './features/hide-empty-meta';
 import hideInactiveDeployments from './features/hide-inactive-deployments';
 import hideOwnStars from './features/hide-own-stars';
 import moveMarketplaceLinkToProfileDropdown from './features/move-marketplace-link-to-profile-dropdown';
-import addYourRepoLinkToProfileDropdown from './features/add-your-repositories-link-to-profile-dropdown';
 import addTrendingMenuItem from './features/add-trending-menu-item';
 import addProfileHotkey from './features/add-profile-hotkey';
 import addYoursMenuItem from './features/add-yours-menu-item';
 import addCommentedMenuItem from './features/add-commented-menu-item';
 import addToggleFilesButton from './features/add-toggle-files-button';
-import addReadmeButtons from './features/add-readme-buttons';
+import hideReadmeHeader from './features/hide-readme-header';
 import addBranchButtons from './features/add-branch-buttons';
 import addDeleteForkLink from './features/add-delete-fork-link';
 import linkifyIssuesInTitles from './features/linkify-issues-in-titles';
@@ -79,6 +77,11 @@ import hideNavigationHoverHighlight from './features/hide-navigation-hover-highl
 import displayIssueSuggestions from './features/display-issue-suggestions';
 import addPullRequestHotkey from './features/add-pull-request-hotkey';
 import openSelectionInNewTab from './features/add-selection-in-new-tab';
+import addSwapBranchesOnCompare from './features/add-swap-branches-on-compare';
+import showFollowersYouKnow from './features/show-followers-you-know';
+import hideCommentsFaster from './features/hide-comments-faster';
+import linkifyCommitSha from './features/linkify-commit-sha';
+import hideIssueListAutocomplete from './features/hide-issue-list-autocomplete';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
@@ -132,6 +135,7 @@ async function init() {
 	enableFeature(hideNavigationHoverHighlight);
 	enableFeature(monospaceTextareas);
 	enableFeature(openSelectionInNewTab);
+	enableFeature(hideCommentsFaster);
 
 	// TODO: Enable this when we've improved how copying Markdown works
 	// See #522
@@ -153,7 +157,6 @@ async function onDomReady() {
 
 	if (!pageDetect.isGist()) {
 		enableFeature(moveMarketplaceLinkToProfileDropdown);
-		enableFeature(addYourRepoLinkToProfileDropdown);
 	}
 
 	if (pageDetect.isGist()) {
@@ -204,7 +207,7 @@ function ajaxedPagesHandler() {
 	}
 
 	if (pageDetect.isRepo()) {
-		enableFeature(addReadmeButtons);
+		enableFeature(hideReadmeHeader);
 		enableFeature(addBranchButtons);
 		enableFeature(addDiffViewWithoutWhitespaceOption);
 		enableFeature(removeDiffSigns);
@@ -250,6 +253,7 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isIssueList()) {
 		enableFeature(addFilterCommentsByYou);
+		enableFeature(hideIssueListAutocomplete);
 		enableFeature(addFilterNotReviewedByYou);
 	}
 
@@ -268,6 +272,7 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isCompare()) {
 		enableFeature(toggleAllThingsWithAlt);
+		enableFeature(addSwapBranchesOnCompare);
 	}
 
 	if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit() || pageDetect.isDiscussion()) {
@@ -288,7 +293,6 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isPRFiles()) {
 		enableFeature(extendDiffExpander);
-		enableFeature(addDeleteToPrFiles);
 	}
 
 	if (pageDetect.isSingleFile()) {
@@ -297,6 +301,11 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isUserProfile()) {
 		enableFeature(addGistsLink);
+		enableFeature(showFollowersYouKnow);
+	}
+
+	if (pageDetect.isPRCommit()) {
+		enableFeature(linkifyCommitSha);
 	}
 }
 

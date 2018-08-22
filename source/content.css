@@ -55,14 +55,6 @@
 	background: none !important;
 }
 
-#readme > h3 {
-	display: none !important;
-}
-
-#readme .markdown-body {
-	border-radius: 3px !important;
-}
-
 .paginate-protip {
 	display: none !important;
 }
@@ -149,29 +141,36 @@ a .commit-ref:hover span {
 	text-decoration: inherit;
 }
 
-/* Style for edit README button */
-#readme.blob #refined-github-readme-buttons {
+/* Hide the header in README section */
+#readme.rgh-hide-readme-header {
+	position: relative;
+}
+
+#readme.rgh-hide-readme-header .Box-header {
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-color: transparent;
+	padding: 0 !important;
+	border: none;
+}
+
+#readme.rgh-hide-readme-header .Box-header .Box-title {
 	display: none;
 }
 
-#refined-github-readme-buttons {
-	position: absolute;
-	top: 10px;
-	right: 10px;
-}
-
-#refined-github-readme-buttons a {
+#readme.rgh-hide-readme-header .Box-header .btn-octicon {
+	margin: 0;
+	padding: 12px;
+	right: 0;
+	top: 0;
 	opacity: 0.2;
-	text-decoration: none;
 	transition: opacity 250ms;
 }
 
-#refined-github-readme-buttons a:hover {
+#readme.rgh-hide-readme-header .Box-header .btn-octicon:hover,
+#readme.rgh-hide-readme-header .Box-header .btn-octicon:focus {
 	opacity: 1;
-}
-
-#refined-github-readme-buttons a:not(:first-child) {
-	margin-left: 5px;
 }
 
 /* Style for delete fork link */
@@ -455,35 +454,6 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 	margin-left: 5px;
 }
 
-/* Highlight linked comment */
-:root .timeline-comment:target {
-	border-color: #e5d999;
-}
-:root .timeline-comment:target.current-user::before {
-	border-right-color: #e5d999;
-}
-:root .timeline-comment:target.current-user::after {
-	border-right-color: #fffded;
-}
-:root .timeline-comment:target .timeline-comment-header {
-	background-color: #fffdef;
-	border-bottom-color: #e5d999;
-}
-:root .timeline-comment:target .timeline-comment-label {
-	border-color: #e5d999;
-}
-:root .timeline-comment:target .reaction-summary-item {
-	border-right-color: #e5d999;
-}
-:root .timeline-comment:target .comment-reactions.has-reactions {
-	border-top-color: #e5d999;
-}
-:root .timeline-comment:target .previewable-comment-form .comment-form-head.tabnav {
-	color: #e5d999;
-	background-color: #fffdef;
-	border-bottom-color: #e5d999;
-}
-
 /* Highlighted linked review comment */
 :root .review-comment:target {
 	background-color: #fffdef;
@@ -573,6 +543,14 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	display: none !important;
 }
 
+/* Remove user avatar from new comment form on threads */
+.review-thread-reply .avatar {
+	display: none;
+}
+.review-thread-reply .review-thread-reply-button {
+	margin-left: 0;
+}
+
 /* Move labels in the Issue/PR list below the title */
 .js-issue-row .lh-condensed {
 	display: flex;
@@ -626,11 +604,6 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 .rgh-dependency-graph .octicon-package {
 	margin-right: 2px;
 	margin-left: -2px;
-}
-
-/* Hide PR/Issue rename events */
-.discussion-item-renamed {
-	display: none;
 }
 
 /* Hide inactive deployment events */
@@ -694,7 +667,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 /* Sticky file headers on pull request diff view */
 .pull-request-tab-content .diff-view .file-header {
 	position: sticky;
-	top: 60px;
+	top: 59px;
 	z-index: 10;
 }
 
@@ -709,8 +682,12 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 .issues-listing .table-list-header {
 	position: sticky;
 	top: 0;
-	/* Must be above .modal-backdrop (z-index 20) #1317 and below .select-menu.active (z-index 30) */
+	/* Must be above .modal-backdrop (z-index 20) #1317 */
 	z-index: 25;
+}
+.subnav-search-context .select-menu-modal {
+	/* Bump Filters menu to be above header */
+	z-index: 26 !important;
 }
 .issues-listing .table-list-header .select-menu-list {
 	/* Since the header is sticky, filters must now fit the viewport */
