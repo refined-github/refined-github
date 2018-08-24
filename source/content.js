@@ -38,6 +38,7 @@ import hideReadmeHeader from './features/hide-readme-header';
 import addBranchButtons from './features/add-branch-buttons';
 import addDeleteForkLink from './features/add-delete-fork-link';
 import linkifyIssuesInTitles from './features/linkify-issues-in-titles';
+import linkifyIssuesInNewsFeedEvents from './features/linkify-issues-in-news-feed-events';
 import addPatchDiffLinks from './features/add-patch-diff-links';
 import markMergeCommitsInList from './features/mark-merge-commits-in-list';
 import showRecentlyPushedBranches from './features/show-recently-pushed-branches';
@@ -116,7 +117,7 @@ async function init() {
 
 	if (pageDetect.isDashboard() && !pageDetect.isGist()) {
 		enableFeature(hideUselessNewsfeedEvents);
-		enableFeature(linkifyIssuesInFeedEvent);
+		enableFeature(linkifyIssuesInNewsFeedEvents);
 	}
 
 	if (pageDetect.isRepo()) {
