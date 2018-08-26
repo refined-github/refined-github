@@ -2,7 +2,7 @@ import OptionsSync from 'webext-options-sync';
 
 const cache = new Map();
 
-export default async (endpoint, anonymousRequest=false) => {
+export default async (endpoint, anonymousRequest = false) => {
 	if (cache.has(endpoint)) {
 		return cache.get(endpoint);
 	}
