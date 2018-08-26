@@ -23,7 +23,8 @@ export default async () => {
 	let page = 1;
 	for (;;) {
 		// eslint-disable-next-line no-await-in-loop
-		const repoList = await fetchApi(`users/${username}/repos?type=owner&page=${page}`).catch(() => null);
+		const repoList = await fetchApi(`users/${username}/repos?type=owner&page=${page}&per_page=100`).catch(() => null);
+		console.log(repoList);
 		if (!repoList || repoList.length === 0) {
 			break;
 		}
@@ -33,6 +34,11 @@ export default async () => {
 			}
 		}
 		page++;
+	}
+
+	if (starCount >= 1000) {
+		// Simplify
+		starCount = Math.round(starCount / 100) / 10 + "k"
 	}
 
 	detailsContainer.append(
