@@ -1000,6 +1000,7 @@ body > .footer li a {
 .profile-org-private-lock {
 	pointer-events: none;
 	position: absolute;
-	top: 17px;
-	left: 21px;
+	top: 15px;
+	left: 20px;
+	transform: scale(0.9);
 }
