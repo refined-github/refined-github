@@ -996,3 +996,10 @@ body > .footer li a {
 	padding-top: 4px !important;
 	padding-bottom: 4px !important;
 }
+
+.profile-org-private-lock {
+	pointer-events: none;
+	position: absolute;
+	top: 17px;
+	left: 21px;
+}

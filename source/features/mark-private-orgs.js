@@ -35,14 +35,8 @@ export default async () => {
 		}
 		if (!publicOrgs.includes(orgPath)) {
 			orgAvatar.append(
-				<span style={{
-					pointerEvents: 'none',
-					color: 'gray',
-					position: 'absolute',
-					top: '15px',
-					left: '20px'
-				}}>
-					{icons.privateLock()}
+				<span className={'profile-org-private-lock'}>
+					{icons.privateLockFilled()}
 				</span>
 			);
 		}
