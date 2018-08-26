@@ -25,6 +25,7 @@ import removeUploadFilesButton from './features/remove-upload-files-button';
 import scrollToTopOnCollapse from './features/scroll-to-top-on-collapse';
 import removeDiffSigns from './features/remove-diff-signs';
 import linkifyBranchRefs from './features/linkify-branch-refs';
+import clipboardOnBranchPr from './features/clipboard-on-branch-pr';
 import hideEmptyMeta from './features/hide-empty-meta';
 import hideInactiveDeployments from './features/hide-inactive-deployments';
 import hideOwnStars from './features/hide-own-stars';
@@ -192,6 +193,7 @@ function ajaxedPagesHandler() {
 	enableFeature(linkifyCode);
 	enableFeature(addDownloadFolderButton);
 	enableFeature(linkifyBranchRefs);
+	enableFeature(clipboardOnBranchPr);
 	enableFeature(openAllSelected);
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
