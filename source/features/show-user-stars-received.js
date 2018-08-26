@@ -38,7 +38,7 @@ export default async () => {
 
 	if (starCount >= 1000) {
 		// Simplify
-		starCount = Math.round(starCount / 100) / 10 + "k"
+		starCount = (Math.round(starCount / 100) / 10) + 'k';
 	}
 
 	detailsContainer.append(
