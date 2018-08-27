@@ -2,7 +2,7 @@
 /* eslint-disable unicorn/prefer-starts-ends-with, The tested var might not be a string */
 
 import {check as isReserved} from 'github-reserved-names';
-import {getUsername} from "./utils";
+import {getUsername} from './utils';
 
 // Drops leading and trailing slash to avoid /\/?/ everywhere
 export const getCleanPathname = () => location.pathname.replace(/^[/]|[/]$/g, '');
