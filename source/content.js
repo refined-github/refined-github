@@ -301,6 +301,9 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isUserProfile()) {
 		enableFeature(addGistsLink);
 		enableFeature(showFollowersYouKnow);
+	}
+
+	if (pageDetect.isOwnUserProfile()) {
 		enableFeature(markPrivateOrgs);
 	}
 

@@ -1,18 +1,13 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import {getCleanPathname} from '../libs/page-detect';
 import {getUsername} from '../libs/utils';
 import * as icons from '../libs/icons';
 import api from '../libs/api';
 
-export default async () => {
-	if (!getCleanPathname().startsWith(getUsername())) {
-		// Only for own user
-		return;
-	}
+export default async function () {
 	// List public orgs
 	const publicOrgs = [];
-	const orgDataList = await api(`users/${getUsername()}/orgs`, true);
+	const orgDataList = await api(`users/${getUsername()}/orgs`);
 	if (!orgDataList) {
 		return;
 	}
@@ -20,7 +15,6 @@ export default async () => {
 		publicOrgs.push('/' + orgData.login);
 	}
 
-	// Display
 	const userContainer = select('[itemtype="http://schema.org/Person"]');
 	if (!userContainer) {
 		return;
@@ -33,10 +27,11 @@ export default async () => {
 		if (!orgPath) {
 			continue;
 		}
+		// Display the lock icon on private orgs
 		if (!publicOrgs.includes(orgPath)) {
 			orgAvatar.append(
 				<span className={'profile-org-private-lock'}>
-					{icons.privateLockFilled()}
+					{icons.privateLockFilled(13, 16)}
 				</span>
 			);
 		}

@@ -2,7 +2,7 @@ import OptionsSync from 'webext-options-sync';
 
 const cache = new Map();
 
-export default async (endpoint, anonymousRequest = false) => {
+export default async endpoint => {
 	if (cache.has(endpoint)) {
 		return cache.get(endpoint);
 	}
@@ -11,7 +11,7 @@ export default async (endpoint, anonymousRequest = false) => {
 		Accept: 'application/vnd.github.v3+json'
 	};
 	const {personalToken} = await new OptionsSync().getAll();
-	if (personalToken && !anonymousRequest) {
+	if (personalToken) {
 		headers.Authorization = `token ${personalToken}`;
 	}
 	const api = location.hostname === 'github.com' ? 'https://api.github.com/' : `${location.origin}/api/`;
