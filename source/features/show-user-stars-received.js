@@ -18,22 +18,32 @@ export default async () => {
 		return;
 	}
 
+	// Get the amount of public repositories for the user
+	const userInfo = await fetchApi(`users/${username}`);
+	if (!userInfo || !Reflect.has(userInfo, 'public_repos')) {
+		return;
+	}
+	const reposPerPage = 100;
+	const totalRepoCount = userInfo.public_repos;
+	const totalPageCount = Math.ceil(totalRepoCount / reposPerPage) + (totalRepoCount % reposPerPage === 0 ? 0 : 1);
+	console.log(totalRepoCount);
+
 	// Count the stars
 	let starCount = 0;
-	let page = 1;
-	for (;;) {
-		// eslint-disable-next-line no-await-in-loop
-		const repoList = await fetchApi(`users/${username}/repos?type=owner&page=${page}&per_page=100`).catch(() => null);
-		console.log(repoList);
+	const promises = [];
+	for (let page = 0; page < totalPageCount; page++) {
+		promises.push(fetchApi(`users/${username}/repos?type=owner&page=${page}&per_page=${reposPerPage}`));
+	}
+	const results = await Promise.all(promises);
+	for (const repoList of results) {
 		if (!repoList || repoList.length === 0) {
-			break;
+			continue;
 		}
 		for (const repoObj of repoList) {
-			if (Object.prototype.hasOwnProperty.call(repoObj, 'stargazers_count')) {
+			if (Reflect.has(repoObj, 'stargazers_count')) {
 				starCount += repoObj.stargazers_count;
 			}
 		}
-		page++;
 	}
 
 	if (starCount >= 1000) {
@@ -45,7 +55,7 @@ export default async () => {
 		<li itemprop={'starCount'} itemProple={'false'} aria-label={'Star Count'}
 			className={'vcard-detail pt-1 css-truncate css-truncate-target'}>
 			{icons.star()}
-			<span className={'p-label'}>Stars Received: {starCount}</span>
+			<span className={'p-label'}>{starCount} stars received</span>
 		</li>
 	);
 };
