@@ -26,7 +26,6 @@ export default async () => {
 	const reposPerPage = 100;
 	const totalRepoCount = userInfo.public_repos;
 	const totalPageCount = Math.ceil(totalRepoCount / reposPerPage) + (totalRepoCount % reposPerPage === 0 ? 0 : 1);
-	console.log(totalRepoCount);
 
 	// Count the stars
 	let starCount = 0;
