@@ -142,9 +142,9 @@ export const flatZip = (table, limit = Infinity) => {
 	return zipped;
 };
 
-export const isMac = /Mac/.test(window.navigator.platform);
+export const isMac = () => /Mac/.test(window.navigator.platform);
 
-export const metaKey = isMac ? 'metaKey' : 'ctrlKey';
+export const metaKey = () => isMac() ? 'metaKey' : 'ctrlKey';
 
 export const anySelector = selector => {
 	const prefix = document.head.style.MozOrient === '' ? 'moz' : 'webkit';

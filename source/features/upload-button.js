@@ -36,7 +36,7 @@ function triggerUploadUI({target}) {
 }
 
 function handleKeydown(event) {
-	if (event[metaKey] && event.key === 'u') {
+	if (event[metaKey()] && event.key === 'u') {
 		triggerUploadUI(event);
 		event.preventDefault();
 	}
