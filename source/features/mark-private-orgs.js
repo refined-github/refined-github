@@ -31,7 +31,7 @@ export default async function () {
 		if (!publicOrgs.includes(orgPath)) {
 			orgAvatar.append(
 				<span className={'profile-org-private-lock'}>
-					{icons.privateLockFilled(13, 16)}
+					{icons.privateLockFilled(15)}
 				</span>
 			);
 		}

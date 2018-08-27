@@ -40,8 +40,8 @@ export const branch = () => <svg aria-hidden="true" class="octicon octicon-git-b
 
 export const privateLock = () => <svg className="octicon octicon-lock" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 13H3v-1h1v1zm8-6v7c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V7c0-.55.45-1 1-1h1V4c0-2.2 1.8-4 4-4s4 1.8 4 4v2h1c.55 0 1 .45 1 1zM3.8 6h4.41V4c0-1.22-.98-2.2-2.2-2.2-1.22 0-2.2.98-2.2 2.2v2H3.8zM11 7H2v7h9V7zM4 8H3v1h1V8zm0 2H3v1h1v-1z" /></svg>;
 
-export const privateLockFilled = (width, height) =>
-	<svg version="1.1" className="octicon octicon-lock" height={height} width={width} viewBox={`-118 118 ${width} ${height}`}>
+export const privateLockFilled = size =>
+	<svg version="1.1" className="octicon octicon-lock" height={size} width={size} viewBox="-118 118 13.426 16.426">
 		<path d="M-111.287 118c-2.59 0-4.713 2.124-4.713 4.713V124h-.287c-.488 0-.892.222-1.192.521-.3.3-.521.704-.521 1.192v7c0 .488.222.892.521 1.191.3.3.704.522 1.192.522h10c.488 0 .892-.222 1.191-.522.3-.3.522-.703.522-1.191v-7c0-.488-.222-.892-.522-1.192-.3-.3-.703-.521-1.191-.521h-.287v-1.287c0-2.59-2.124-4.713-4.713-4.713zm0 3.227c.804 0 1.486.682 1.486 1.486V124h-2.972v-1.287c0-.804.682-1.486 1.486-1.486z" fill="#fff"/>
 		<path d="M-106.287 124.713h-1v-2c0-2.2-1.8-4-4-4s-4 1.8-4 4v2h-1c-.5 0-1 .5-1 1v7c0 .5.5 1 1 1h10c.5 0 1-.5 1-1v-7c0-.5-.5-1-1-1zm-7.2-2c0-1.2 1-2.2 2.2-2.2 1.2 0 2.2 1 2.2 2.2v2h-4.4z" fill="#333"/>
 		<path d="M-115.287 132.713h9v-7h-9v7zm1-6h1v1h-1v-1zm0 2h1v1h-1v-1zm0 2h1v1h-1v-1z" fill="#eee"/>
