@@ -65,10 +65,18 @@ async function onTopRepositoriesSelect(titleNode) {
 		return '';
 	}
 
+	function repoForkCount(repo) {
+		if (repo.forkCount > 0) {
+			return <a className={'pinned-repo-meta muted-link'}
+				href={repo.url + '/network'}>{icons.fork()} {simplifyNumber(repo.forkCount)}</a>;
+		}
+		return '';
+	}
+
 	function simplifyNumber(count) {
 		const num = Number(count);
 		if (num >= 1000) {
-			return (Math.floor(num / 100) / 10) + 'k';
+			return (Math.round(num / 100) / 10) + 'k';
 		}
 		return count;
 	}
@@ -89,7 +97,8 @@ async function onTopRepositoriesSelect(titleNode) {
 						{repoLanguageColor(repo.node)}
 						{repo.node.primaryLanguage ? '  ' + repo.node.primaryLanguage.name + '  ' : ''}
 						<a className={'pinned-repo-meta muted-link'}
-							href={repo.node.url + '/stargazers'}>{icons.star()} {simplifyNumber(repo.node.stargazers.totalCount)}</a>
+							href={repo.node.url + '/stargazers'}>{icons.star()} {simplifyNumber(repo.node.stargazers.totalCount)} </a>
+						{repoForkCount(repo.node)}
 					</p>
 				</span>
 			</li>
