@@ -22,6 +22,7 @@ async function onTopRepositoriesSelect(titleNode) {
 						name
 						owner {
 							login
+							__typename
 						}
 						stargazers {
 							totalCount
@@ -83,7 +84,7 @@ async function onTopRepositoriesSelect(titleNode) {
 
 	for (const repo of repoList) {
 		reposContainer.append(
-			<li className={`pinned-repo-item p-3 mb-3 border border-gray-dark rounded-1 public ${repo.node.isFork ? 'fork' : 'source'}`}>
+			<li className={`pinned-repo-item ${repo.node.owner.__typename === 'Organization' ? 'org-pinned-repo-item' : ''} p-3 mb-3 border border-gray-dark rounded-1 public ${repo.node.isFork ? 'fork' : 'source'}`}>
 				<span className={'pinned-repo-item-content'}>
 					<span className={'d-block'}>
 						<a href={repo.node.url} className={'text-bold'}>
@@ -98,7 +99,7 @@ async function onTopRepositoriesSelect(titleNode) {
 						{repo.node.primaryLanguage ? '  ' + repo.node.primaryLanguage.name + '  ' : ''}
 						<a className={'pinned-repo-meta muted-link'}
 							href={repo.node.url + '/stargazers'}>{icons.star()} {simplifyNumber(repo.node.stargazers.totalCount)} </a>
-						{repoForkCount(repo.node)}
+						&nbsp;{repoForkCount(repo.node)}
 					</p>
 				</span>
 			</li>
