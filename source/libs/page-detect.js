@@ -107,3 +107,5 @@ export const isSingleFile = () => /^blob\//.test(getRepoPath());
 export const isTrending = () => location.pathname.startsWith('/trending');
 
 export const isUserProfile = () => Boolean(getCleanPathname()) && !isGist() && !isReserved(getCleanPathname()) && !getCleanPathname().includes('/');
+
+export {isMobile} from 'is-mobile';
