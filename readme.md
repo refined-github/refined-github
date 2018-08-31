@@ -106,9 +106,7 @@ GitHub Enterprise is also supported. More info in the options.
 ### More actions
 
 - [Click on branch references in pull requests.](https://github.com/sindresorhus/refined-github/issues/1)
-- [Quickly edit a repository's README from the repository root.](https://user-images.githubusercontent.com/170270/27501200-31a1fa20-586c-11e7-9a3f-ce270014bf0a.png)
 - [Quickly delete a forked repo after its pull request has been merged.](https://cloud.githubusercontent.com/assets/170270/13520281/b2c9335c-e211-11e5-9e36-b0f325166356.png)
-- [Quickly delete a file from pull requests.](https://user-images.githubusercontent.com/1402241/42529637-578587e4-847f-11e8-9705-57384a1edd24.png)
 - [Open all your notifications at once.](https://user-images.githubusercontent.com/1402241/31700005-1b3be428-b38c-11e7-90a6-8f572968993b.png)
 - [Open selection in new tab with <kbd>shift</kbd> <kbd>o</kbd> when navigating via <kbd>j</kbd> and <kbd>k</kbd>.](https://github.com/sindresorhus/refined-github/issues/1110)
 - [Easily toggle whitespace visibility in diffs.](https://cloud.githubusercontent.com/assets/170270/17603894/7b71a166-6013-11e6-81b8-22950ab8bce3.png) *(<kbd>d</kbd> <kbd>w</kbd> hotkey)*
@@ -119,7 +117,6 @@ GitHub Enterprise is also supported. More info in the options.
 - [Browse a repository at the time of each comment.](https://user-images.githubusercontent.com/1402241/32310022-7fef6174-bf5d-11e7-960f-5041a8f073ac.png)
 - [Visit a user's public gists from their profile.](https://user-images.githubusercontent.com/11544418/34268306-1c974fd2-e678-11e7-9e82-861dfe7add22.png)
 - [Jump to the bottom of a discussion page with a click.](https://user-images.githubusercontent.com/4331946/34298950-93876584-e720-11e7-898a-96f85e31aefe.png)
-- [Access `Your repositories` from the profile dropdown.](https://user-images.githubusercontent.com/4201088/34920280-479e2454-f996-11e7-8e24-ad69793b9d9b.png)
 - [Download entire folders from repositories using the `Download folder` button.](https://user-images.githubusercontent.com/1402241/35044451-fd3e2326-fbc2-11e7-82e1-61ec7bee612b.png) *(Uses [download-directory.github.io](https://download-directory.github.io).)*
 - [Collapse or expand a repository's browser file list.](https://user-images.githubusercontent.com/1402241/35480123-68b9af1a-043a-11e8-8934-3ead3cff8328.gif)
 - [Quickly visit a repository's default branch and latest version tag.](https://user-images.githubusercontent.com/1402241/38107328-ccb3fb46-33bb-11e8-9654-23a6410943cc.png)
@@ -162,7 +159,6 @@ GitHub Enterprise is also supported. More info in the options.
 - The default sort order of issues and pull requests is changed to `Recently updated`.
 - [The `Expand diff` button is widened.](https://user-images.githubusercontent.com/6978877/34470024-eee4f43e-ef20-11e7-9036-65094bd58960.PNG)
 - [Dropdown menus are automatically closed when they’re no longer visible.](https://user-images.githubusercontent.com/1402241/37022353-531c676e-2155-11e8-96cc-80d934bb22e0.gif)
-- [Permalinked comments are highlighted.](https://user-images.githubusercontent.com/1402241/37349492-226bd37a-2709-11e8-8087-d9686b330240.png)
 - [Inactive deployments in PR timelines are hidden.](https://github.com/sindresorhus/refined-github/issues/1144)
 
 And [many more…](source/content.css)
@@ -176,11 +172,11 @@ And [many more…](source/content.css)
 - [Search for issues and PRs with the `Everything commented by you` filter.](https://user-images.githubusercontent.com/170270/27501170-f394a304-586b-11e7-92d8-d92d6922356b.png)
 - [See just the issues and PRs _on your repos_ or _commented on by you_ in the global `Issues`/`Pull Requests` pages.](https://user-images.githubusercontent.com/8295888/36827126-8bfc79c4-1d37-11e8-8754-992968b082be.png)
 - Access trending repositories using the `Trending` link in the global navbar or by pressing <kbd>g</kbd> <kbd>t</kbd>.
-- Leave a single comment in pull request diffs instead of starting a review by pressing <kbd>shift</kbd> <kbd>enter</kbd>.
 - [Quickly edit your last comment using the <kbd>↑</kbd> shortcut.](https://github.com/sindresorhus/refined-github/pull/961)
 - Visit your profile by pressing <kbd>g</kbd> <kbd>m</kbd>.
 - Cycle through PR tabs by pressing <kbd>g</kbd> <kbd>←</kbd> and <kbd>g</kbd> <kbd>→</kbd>, or <kbd>g</kbd> <kbd>1</kbd>, <kbd>g</kbd> <kbd>2</kbd>, <kbd>g</kbd> <kbd>3</kbd> and <kbd>g</kbd> <kbd>4</kbd>.
-- [Go to the next or previous commit from the bottom of the commit page](https://user-images.githubusercontent.com/24777/41755271-741773de-75a4-11e8-9181-fcc1c73df633.png)
+- [Go to the next or previous commit from the bottom of the commit page.](https://user-images.githubusercontent.com/24777/41755271-741773de-75a4-11e8-9181-fcc1c73df633.png)
+- [Hide comments in fewer clicks.](https://user-images.githubusercontent.com/1402241/43039221-1ddc91f6-8d29-11e8-9ed4-93459191a510.gif)
 - Access a user's repositories by source type using the `Repositories` tab.
 
 ### Previously part of Refined GitHub
@@ -189,6 +185,11 @@ And [many more…](source/content.css)
 - ~~[Collapse/expand files in a PR diff.](https://cloud.githubusercontent.com/assets/170270/13954167/40caa604-f072-11e5-89ba-3145217c4e28.png)~~ - *[Implemented by GitHub](https://cloud.githubusercontent.com/assets/170270/25772137/6a6b678e-3296-11e7-97c7-02e31ef17743.png)*
 - ~~[Preview a issue/PR reference's title in comments.](https://user-images.githubusercontent.com/170270/30729486-2816df06-9f8a-11e7-8069-8999302e9ddd.png)~~ - *[Implemented by GitHub](https://user-images.githubusercontent.com/1402241/31265633-779ad0fe-aa35-11e7-8c42-a3b375f8f32c.png)*
 - ~~The dashboard organization switcher is moved to the right column.~~ - *[Implemented by GitHub](https://github.com/sindresorhus/refined-github/pull/1330)*
+- ~~[Quickly edit a repository's README from the repository root.](https://user-images.githubusercontent.com/170270/27501200-31a1fa20-586c-11e7-9a3f-ce270014bf0a.png)~~ - *[Implemented by GitHub](https://blog.github.com/changelog/2018-07-24-button-to-edit-a-repositorys-readme-from-the-repository-root/)*
+- ~~[Access `Your repositories` from the profile dropdown.](https://user-images.githubusercontent.com/4201088/34920280-479e2454-f996-11e7-8e24-ad69793b9d9b.png)~~ - *[Implemented by GitHub](https://blog.github.com/changelog/2018-07-25-access-your-repositories-straight-from-the-profile-dropdown/)*
+- ~~[Permalinked comments are highlighted.](https://user-images.githubusercontent.com/1402241/37349492-226bd37a-2709-11e8-8087-d9686b330240.png)~~ - *[Implemented by GitHub](https://blog.github.com/changelog/2018-07-26-highlighting-of-permalinked-comments/)*
+- ~~Leave a single comment in pull request diffs instead of starting a review by pressing <kbd>shift</kbd> <kbd>enter</kbd>.~~ - *[Implemented by GitHub](https://blog.github.com/changelog/2018-07-24-keyboard-shortcut-to-leave-a-single-comment-in-pull-requests-reviews/)*
+- ~~[Quickly delete a file from pull requests.](https://user-images.githubusercontent.com/1402241/42529637-578587e4-847f-11e8-9705-57384a1edd24.png)~~ - *[Implemented by GitHub](https://blog.github.com/changelog/2018-07-31-removing-files-from-a-pull-request/)*
 
 
 ## Customization
