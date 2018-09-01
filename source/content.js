@@ -57,6 +57,7 @@ import addCreateReleaseShortcut from './features/add-create-release-shortcut';
 import addConfirmationToCommentCancellation from './features/add-confirmation-to-comment-cancellation';
 import addCILink from './features/add-ci-link';
 import embedGistInline from './features/embed-gist-inline';
+import arrowUpAddLabels from './features/arrow-up-add-labels';
 import extendStatusLabels from './features/extend-status-labels';
 import highlightClosingPrsInOpenIssues from './features/highlight-closing-prs-in-open-issues';
 import toggleAllThingsWithAlt from './features/toggle-all-things-with-alt';
@@ -233,6 +234,7 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
 		enableFeature(linkifyIssuesInTitles);
 		enableFeature(embedGistInline);
+		enableFeature(arrowUpAddLabels);
 		enableFeature(extendStatusLabels);
 		enableFeature(highlightClosingPrsInOpenIssues);
 
