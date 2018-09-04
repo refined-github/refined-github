@@ -10,7 +10,8 @@ function changeSelection(labels, fromIndex, toIndex) {
 
 export default function () {
 	delegate('.label-select-menu', '.js-issue-labels-menu-content', 'keydown', event => {
-		const labels = select.all('.select-menu-item', select('.label-select-menu'));
+		const labels = [...select.all('.select-menu-item', select('.label-select-menu'))]
+			.filter(labelNode => labelNode.getAttribute('hidden') === null);
 		if (event.key === 'ArrowUp' && labels[0].classList.contains('navigation-focus')) {
 			changeSelection(labels, 0, labels.length - 1);
 			event.stopImmediatePropagation();
