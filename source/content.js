@@ -16,7 +16,7 @@ import addFileCopyButton from './features/copy-file';
 // - import copyMarkdown from './features/copy-markdown';
 import linkifyCode from './features/linkify-urls-in-code';
 import autoLoadMoreNews from './features/auto-load-more-news';
-import autoLoadComntributionActivities from './features/auto-load-contribution-activities';
+import autoLoadContributionActivities from './features/auto-load-contribution-activities';
 import addOPLabels from './features/op-labels';
 import addMoreDropdown from './features/more-dropdown';
 import addReleasesTab from './features/add-releases-tab';
@@ -303,7 +303,7 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isUserProfile()) {
 		enableFeature(addGistsLink);
 		enableFeature(showFollowersYouKnow);
-		enableFeature(autoLoadComntributionActivities);
+		enableFeature(autoLoadContributionActivities);
 	}
 
 	if (pageDetect.isPRCommit()) {
