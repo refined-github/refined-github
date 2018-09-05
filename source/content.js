@@ -82,6 +82,7 @@ import showFollowersYouKnow from './features/show-followers-you-know';
 import hideCommentsFaster from './features/hide-comments-faster';
 import linkifyCommitSha from './features/linkify-commit-sha';
 import hideIssueListAutocomplete from './features/hide-issue-list-autocomplete';
+import showAllFiles from './features/show-all-files';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
@@ -213,6 +214,7 @@ function ajaxedPagesHandler() {
 		enableFeature(removeDiffSigns);
 		enableFeature(addCILink);
 		enableFeature(sortMilestonesByClosestDueDate); // Needs to be after addMilestoneNavigation
+		enableFeature(showAllFiles);
 	}
 
 	if (pageDetect.isRepoRoot()) {
