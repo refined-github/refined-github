@@ -1,6 +1,13 @@
+/*
+This feature adds infinit scrolling to:
+- News feed on the Dashboard
+- Contribution activities in a user profile
+*/
+
 import select from 'select-dom';
 import debounce from 'debounce-fn';
 import observeEl from '../libs/simplified-element-observer';
+import {isDashboard, isUserProfile} from '../libs/page-detect';
 
 let btn;
 
@@ -46,6 +53,11 @@ export default () => {
 		// If GH hasn't loaded the JS,
 		// the fake click will submit the form without ajax.
 		form.addEventListener('submit', event => event.preventDefault());
-		observeEl('#dashboard .news', findButton);
+
+		if (isDashboard()) {
+			observeEl('#dashboard .news', findButton);
+		} else if (isUserProfile()) {
+			observeEl('#js-contribution-activity', findButton);
+		}
 	}
 };

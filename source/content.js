@@ -15,7 +15,7 @@ import addPrevNextButtonsToPRs from './features/prev-next-commit-buttons';
 import addFileCopyButton from './features/copy-file';
 // - import copyMarkdown from './features/copy-markdown';
 import linkifyCode from './features/linkify-urls-in-code';
-import autoLoadMoreNews from './features/auto-load-more-news';
+import infinitScroll from './features/infinit-scroll';
 import addOPLabels from './features/op-labels';
 import addMoreDropdown from './features/more-dropdown';
 import addReleasesTab from './features/add-releases-tab';
@@ -165,7 +165,7 @@ async function onDomReady() {
 
 	if (pageDetect.isDashboard()) {
 		enableFeature(hideOwnStars);
-		enableFeature(autoLoadMoreNews);
+		enableFeature(infinitScroll);
 	}
 
 	// Push safeOnAjaxedPages on the next tick so it happens in the correct order
@@ -302,6 +302,7 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isUserProfile()) {
 		enableFeature(addGistsLink);
 		enableFeature(showFollowersYouKnow);
+		enableFeature(infinitScroll);
 	}
 
 	if (pageDetect.isPRCommit()) {
