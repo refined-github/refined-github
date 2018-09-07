@@ -11,7 +11,7 @@ import {isNotifications} from '../libs/page-detect';
 const confirmationRequiredCount = 10;
 const unreadNotificationsClass = '.unread .js-notification-target';
 
-async function openNotifications({delegateTarget}) {
+function openNotifications({delegateTarget}) {
 	const container = delegateTarget.closest('.boxed-group, .notification-center');
 
 	// Ask for confirmation
@@ -87,7 +87,7 @@ function addMarkup() {
 	addOpenReposButton();
 }
 
-export default async function () {
+export default function () {
 	if (!isNotifications()) {
 		return;
 	}

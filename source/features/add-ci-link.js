@@ -42,7 +42,7 @@ export default async function () {
 
 		// Append to title (aware of forks and private repos)
 		appendBefore('.pagehead h1', '.fork-flag', await request);
-	} catch (err) {
+	} catch (_) {
 		// Network failure or no CI status found.
 		// Don’t try again
 		request = false;
