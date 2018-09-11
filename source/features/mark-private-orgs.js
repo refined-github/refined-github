@@ -12,13 +12,14 @@ export default async function () {
 		return;
 	}
 	for (const orgData of orgDataList) {
-		publicOrgs.push('/' + orgData.login);
+		publicOrgs.push(`/${orgData.login}`);
 	}
 
 	const userContainer = select('[itemtype="http://schema.org/Person"]');
 	if (!userContainer) {
 		return;
 	}
+
 	// Find all org avatars
 	const orgAvatars = select.all('[itemprop="follows"]', userContainer);
 	for (const orgAvatar of orgAvatars) {
@@ -27,10 +28,11 @@ export default async function () {
 		if (!orgPath) {
 			continue;
 		}
+
 		// Display the lock icon on private orgs
 		if (!publicOrgs.includes(orgPath)) {
 			orgAvatar.append(
-				<span className={'profile-org-private-lock'}>
+				<span class="profile-org-private-lock">
 					{icons.privateLockFilled(15)}
 				</span>
 			);
