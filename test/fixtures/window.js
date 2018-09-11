@@ -1,4 +1,4 @@
-const URL = require('url').URL;
+const {URL} = require('url');
 
 function WindowMock(initialURI = 'https://github.com') {
 	this.location = new URL(initialURI);

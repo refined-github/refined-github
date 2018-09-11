@@ -147,6 +147,7 @@ GitHub Enterprise is also supported. More info in the options.
 - The `Projects` repository tab is hidden when there are no projects
     * New projects can still be created via the [`Create new…` menu](https://user-images.githubusercontent.com/1402241/34909214-18b6fb2e-f8cf-11e7-8556-bed748596d3b.png).
 - [The autocomplete on the issue search field is removed.](https://user-images.githubusercontent.com/1402241/42991841-1f057e4e-8c07-11e8-909c-b051db7a2a03.png)
+- [Forks are hidden from a user's Repositories list (but they can still be shown)](https://user-images.githubusercontent.com/1402241/45133648-fe21be80-b1c8-11e8-9052-e38cb443efa9.png)
 
 ### UI improvements
 
@@ -178,6 +179,7 @@ And [many more…](source/content.css)
 - Cycle through PR tabs by pressing <kbd>g</kbd> <kbd>←</kbd> and <kbd>g</kbd> <kbd>→</kbd>, or <kbd>g</kbd> <kbd>1</kbd>, <kbd>g</kbd> <kbd>2</kbd>, <kbd>g</kbd> <kbd>3</kbd> and <kbd>g</kbd> <kbd>4</kbd>.
 - [Go to the next or previous commit from the bottom of the commit page.](https://user-images.githubusercontent.com/24777/41755271-741773de-75a4-11e8-9181-fcc1c73df633.png)
 - [Hide comments in fewer clicks.](https://user-images.githubusercontent.com/1402241/43039221-1ddc91f6-8d29-11e8-9ed4-93459191a510.gif)
+- [Filter PRs that you haven't submitted a review for.](https://user-images.githubusercontent.com/9264728/42569205-0c32a376-8510-11e8-9406-b3ddcf6087ef.png)
 
 ### Previously part of Refined GitHub
 

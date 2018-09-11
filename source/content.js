@@ -45,6 +45,7 @@ import addDiffViewWithoutWhitespaceOption from './features/add-diff-view-without
 import preserveWhitespaceOptionInNav from './features/preserve-whitespace-option-in-nav';
 import addMilestoneNavigation from './features/add-milestone-navigation';
 import addFilterCommentsByYou from './features/add-filter-comments-by-you';
+import addFilterNotReviewedByYou from './features/add-filter-not-reviewed-by-you';
 import removeProjectsTab from './features/remove-projects-tab';
 import fixSquashAndMergeTitle from './features/fix-squash-and-merge-title';
 import fixSquashAndMergeMessage from './features/fix-squash-and-merge-message';
@@ -81,6 +82,7 @@ import showFollowersYouKnow from './features/show-followers-you-know';
 import hideCommentsFaster from './features/hide-comments-faster';
 import linkifyCommitSha from './features/linkify-commit-sha';
 import hideIssueListAutocomplete from './features/hide-issue-list-autocomplete';
+import setDefaultRepositoriesTypeToSources from './features/set-default-repositories-type-to-sources';
 import markPrivateOrgs from './features/mark-private-orgs';
 
 import * as pageDetect from './libs/page-detect';
@@ -254,6 +256,7 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isIssueList()) {
 		enableFeature(addFilterCommentsByYou);
 		enableFeature(hideIssueListAutocomplete);
+		enableFeature(addFilterNotReviewedByYou);
 	}
 
 	if (pageDetect.isIssueList() || pageDetect.isPR() || pageDetect.isIssue()) {
@@ -301,6 +304,7 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isUserProfile()) {
 		enableFeature(addGistsLink);
 		enableFeature(showFollowersYouKnow);
+		enableFeature(setDefaultRepositoriesTypeToSources);
 	}
 
 	if (pageDetect.isOwnUserProfile()) {

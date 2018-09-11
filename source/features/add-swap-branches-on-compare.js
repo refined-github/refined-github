@@ -3,7 +3,7 @@ import select from 'select-dom';
 import {wrap} from '../libs/utils';
 import {getRepoPath, getRepoURL} from '../libs/page-detect';
 
-export default async () => {
+export default function () {
 	const references = getRepoPath().replace('compare/', '').split('...').reverse();
 
 	// Compares against the "base" branch if the URL only has one reference
@@ -14,4 +14,4 @@ export default async () => {
 	const icon = select('.octicon-arrow-left');
 	icon.parentNode.attributes['aria-label'].value += '.\nClick to swap.';
 	wrap(icon, <a href={`/${getRepoURL()}/compare/${references.join('...')}`}></a>);
-};
+}

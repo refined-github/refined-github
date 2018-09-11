@@ -4,7 +4,7 @@ import {h} from 'dom-chef';
 import * as icons from '../libs/icons';
 import {getRepoURL} from '../libs/page-detect';
 
-export default async () => {
+export default function () {
 	const comments = select.all('.timeline-comment-header:not(.rgh-timestamp-tree-link)');
 
 	for (const comment of comments) {
@@ -25,4 +25,4 @@ export default async () => {
 
 		comment.classList.add('rgh-timestamp-tree-link');
 	}
-};
+}
