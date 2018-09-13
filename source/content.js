@@ -55,7 +55,6 @@ import openCIDetailsInNewTab from './features/open-ci-details-in-new-tab';
 import focusConfirmationButtons from './features/focus-confirmation-buttons';
 import addKeyboardShortcutsToCommentFields from './features/add-keyboard-shortcuts-to-comment-fields';
 import addCreateReleaseShortcut from './features/add-create-release-shortcut';
-import addConfirmationToCommentCancellation from './features/add-confirmation-to-comment-cancellation';
 import addCILink from './features/add-ci-link';
 import embedGistInline from './features/embed-gist-inline';
 import extendStatusLabels from './features/extend-status-labels';
@@ -133,7 +132,6 @@ async function init() {
 
 	enableFeature(focusConfirmationButtons);
 	enableFeature(addKeyboardShortcutsToCommentFields);
-	enableFeature(addConfirmationToCommentCancellation);
 	enableFeature(hideNavigationHoverHighlight);
 	enableFeature(monospaceTextareas);
 	enableFeature(openSelectionInNewTab);
