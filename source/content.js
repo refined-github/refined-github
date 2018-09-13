@@ -23,7 +23,6 @@ import addGistsLink from './features/add-gists-link-to-profile';
 import addTimeMachineLinksToComments from './features/add-time-machine-links-to-comments';
 import removeUploadFilesButton from './features/remove-upload-files-button';
 import scrollToTopOnCollapse from './features/scroll-to-top-on-collapse';
-import removeDiffSigns from './features/remove-diff-signs';
 import linkifyBranchRefs from './features/linkify-branch-refs';
 import hideEmptyMeta from './features/hide-empty-meta';
 import hideInactiveDeployments from './features/hide-inactive-deployments';
@@ -210,7 +209,6 @@ function ajaxedPagesHandler() {
 		enableFeature(hideReadmeHeader);
 		enableFeature(addBranchButtons);
 		enableFeature(addDiffViewWithoutWhitespaceOption);
-		enableFeature(removeDiffSigns);
 		enableFeature(addCILink);
 		enableFeature(sortMilestonesByClosestDueDate); // Needs to be after addMilestoneNavigation
 	}

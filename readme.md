@@ -154,7 +154,6 @@ GitHub Enterprise is also supported. More info in the options.
 - [Tabs in code are shown as 4 spaces instead of 8 spaces.](https://cloud.githubusercontent.com/assets/170270/14170088/d3be931e-f755-11e5-8edf-c5f864336382.png)
 - [Labels are moved to the left of issue and pull request lists.](https://user-images.githubusercontent.com/1402241/28006237-070b8214-6581-11e7-94bc-2b01a007d00b.png)
 - [Approve or reject reviews faster with one-click review type buttons.](https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png)
-- The `+` and `-` signs in diffs are made unselectable for easier copy-pasting.
 - The news feeds automagically expands when you scroll down.
 - The default sort order of milestones is changed to `Closest due date`.
 - The default sort order of issues and pull requests is changed to `Recently updated`.
@@ -192,6 +191,7 @@ And [many more…](source/content.css)
 - ~~Leave a single comment in pull request diffs instead of starting a review by pressing <kbd>shift</kbd> <kbd>enter</kbd>.~~ - *[Implemented by GitHub](https://blog.github.com/changelog/2018-07-24-keyboard-shortcut-to-leave-a-single-comment-in-pull-requests-reviews/)*
 - ~~[Quickly delete a file from pull requests.](https://user-images.githubusercontent.com/1402241/42529637-578587e4-847f-11e8-9705-57384a1edd24.png)~~ - *[Implemented by GitHub](https://blog.github.com/changelog/2018-07-31-removing-files-from-a-pull-request/)*
 - Pressing `Cancel` on an inline comment opens a prompt to prevent accidental cancelling.
+- ~~The `+` and `-` signs in diffs are made unselectable for easier copy-pasting.~~ - [Implemented by GitHub](https://blog.github.com/changelog/2018-07-31-unselectable-diff-markers/)
 
 
 ## Customization
