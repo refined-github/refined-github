@@ -57,7 +57,7 @@ export default event => {
 		try {
 			const originalLi = range.startContainer.parentNode.closest('li');
 			list.start = containerEl.start + [...containerEl.children].indexOf(originalLi);
-		} catch (err) {}
+		} catch (_) {}
 		list.append(...holder.childNodes);
 		holder.appendChild(list);
 	}

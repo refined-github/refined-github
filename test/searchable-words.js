@@ -1,4 +1,5 @@
 import test from 'ava';
+import './fixtures/globals';
 import {getSearchableWords as fn} from '../source/features/display-issue-suggestions';
 
 test('Searchable words filter', t => {

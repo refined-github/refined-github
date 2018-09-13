@@ -5,7 +5,7 @@ import * as pageDetect from '../libs/page-detect';
 export default () => {
 	// Add to folder listings, excluding the repo root (that already has an official download ZIP button)
 	if (pageDetect.isRepoTree() && !pageDetect.isRepoRoot()) {
-		const buttonGroup = select(`.file-navigation .BtnGroup.float-right`);
+		const buttonGroup = select('.file-navigation .BtnGroup.float-right');
 		if (buttonGroup) {
 			buttonGroup.prepend(
 				<a

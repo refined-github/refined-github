@@ -1,4 +1,5 @@
 import test from 'ava';
+import './fixtures/globals';
 import {stripIndent} from 'common-tags';
 import {getSmarterMarkdown} from '../source/features/copy-markdown';
 

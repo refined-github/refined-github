@@ -1,6 +1,6 @@
 import select from 'select-dom';
 import domify from '../libs/domify';
-import {getRepoURL} from '../libs/page-detect';
+import {getRepoURL, getRepoBranch} from '../libs/page-detect';
 import {appendBefore} from '../libs/utils';
 
 // This var will be:
@@ -10,7 +10,7 @@ import {appendBefore} from '../libs/utils';
 let request;
 
 async function fetchStatus() {
-	const url = `${location.origin}/${getRepoURL()}/commits/`;
+	const url = `${location.origin}/${getRepoURL()}/commits/${getRepoBranch() || ''}`;
 	const response = await fetch(url, {
 		credentials: 'include'
 	});
@@ -42,7 +42,7 @@ export default async function () {
 
 		// Append to title (aware of forks and private repos)
 		appendBefore('.pagehead h1', '.fork-flag', await request);
-	} catch (err) {
+	} catch (_) {
 		// Network failure or no CI status found.
 		// Don’t try again
 		request = false;

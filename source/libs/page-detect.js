@@ -2,6 +2,7 @@
 /* eslint-disable unicorn/prefer-starts-ends-with, The tested var might not be a string */
 
 import {check as isReserved} from 'github-reserved-names';
+import {getUsername} from './utils';
 
 // Drops leading and trailing slash to avoid /\/?/ everywhere
 export const getCleanPathname = () => location.pathname.replace(/^[/]|[/]$/g, '');
@@ -107,3 +108,5 @@ export const isSingleFile = () => /^blob\//.test(getRepoPath());
 export const isTrending = () => location.pathname.startsWith('/trending');
 
 export const isUserProfile = () => Boolean(getCleanPathname()) && !isGist() && !isReserved(getCleanPathname()) && !getCleanPathname().includes('/');
+
+export const isOwnUserProfile = () => isUserProfile() && getCleanPathname().startsWith(getUsername());

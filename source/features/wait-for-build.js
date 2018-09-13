@@ -13,7 +13,7 @@ const generateCheckbox = onetime(() => (
 	<label class="d-inline-block">
 		<input type="checkbox" name="rgh-pr-check-waiter" checked/>
 		{' Wait for successful checks '}
-		<a class="discussion-item-help tooltipped tooltipped-n" href="https://github.com/sindresorhus/refined-github/pull/975" aria-label="This only works if you keep this tab open while waiting.">
+		<a class="discussion-item-help tooltipped tooltipped-n" target="_blank" href="https://github.com/sindresorhus/refined-github/pull/975" aria-label="This only works if you keep this tab open while waiting.">
 			{icons.info()}
 		</a>
 	</label>

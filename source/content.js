@@ -82,6 +82,8 @@ import showFollowersYouKnow from './features/show-followers-you-know';
 import hideCommentsFaster from './features/hide-comments-faster';
 import linkifyCommitSha from './features/linkify-commit-sha';
 import hideIssueListAutocomplete from './features/hide-issue-list-autocomplete';
+import setDefaultRepositoriesTypeToSources from './features/set-default-repositories-type-to-sources';
+import markPrivateOrgs from './features/mark-private-orgs';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
@@ -303,6 +305,11 @@ function ajaxedPagesHandler() {
 		enableFeature(addGistsLink);
 		enableFeature(showFollowersYouKnow);
 		enableFeature(infinitScroll);
+		enableFeature(setDefaultRepositoriesTypeToSources);
+	}
+
+	if (pageDetect.isOwnUserProfile()) {
+		enableFeature(markPrivateOrgs);
 	}
 
 	if (pageDetect.isPRCommit()) {

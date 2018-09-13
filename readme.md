@@ -135,6 +135,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Review counts are shown and colored in PR lists.](https://user-images.githubusercontent.com/1402241/33474535-a814ee78-d6ad-11e7-8f08-a8b72799e376.png)
 - [All available keyboard shortcuts are shown in the help modal.](https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png)  *(<kbd>?</kbd> hotkey)*
 - [Followers you know are shown on profile pages.](https://user-images.githubusercontent.com/2906365/42009293-b1503f62-7a57-11e8-88f5-9c2fb3651a14.png)
+- [Private organizations are marked when viewing your own profile.](https://user-images.githubusercontent.com/6775216/44633467-d5dcc900-a959-11e8-9116-e6b0ffef66af.png)
 
 ### Declutter
 
@@ -146,6 +147,7 @@ GitHub Enterprise is also supported. More info in the options.
 - The `Projects` repository tab is hidden when there are no projects
     * New projects can still be created via the [`Create new…` menu](https://user-images.githubusercontent.com/1402241/34909214-18b6fb2e-f8cf-11e7-8556-bed748596d3b.png).
 - [The autocomplete on the issue search field is removed.](https://user-images.githubusercontent.com/1402241/42991841-1f057e4e-8c07-11e8-909c-b051db7a2a03.png)
+- [Forks are hidden from a user's Repositories list (but they can still be shown)](https://user-images.githubusercontent.com/1402241/45133648-fe21be80-b1c8-11e8-9052-e38cb443efa9.png)
 
 ### UI improvements
 
