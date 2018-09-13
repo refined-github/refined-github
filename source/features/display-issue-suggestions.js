@@ -1,7 +1,7 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import {getRepoURL} from '../libs/page-detect';
-import fetchApi from '../libs/api';
+import * as api from '../libs/api';
 import {openIssue, closedIssue} from '../libs/icons';
 
 let insertedSidebarItem;
@@ -39,7 +39,7 @@ async function displayIssueSuggestions(title) {
 
 	const repo = getRepoURL();
 	const apiQuery = encodeURIComponent(`${words.join(' ')} repo:${repo} is:issue`);
-	const response = await fetchApi(`search/issues?q=${apiQuery}&per_page=5`).catch(() => null);
+	const response = await api.v3(`search/issues?q=${apiQuery}&per_page=5`).catch(() => null);
 	let sidebarItem;
 
 	if (response && response.items && response.items.length > 0) {
