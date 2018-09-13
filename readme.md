@@ -189,7 +189,7 @@ And [many more…](source/content.css)
 - ~~[Permalinked comments are highlighted.](https://user-images.githubusercontent.com/1402241/37349492-226bd37a-2709-11e8-8087-d9686b330240.png)~~ - *[Implemented by GitHub](https://blog.github.com/changelog/2018-07-26-highlighting-of-permalinked-comments/)*
 - ~~Leave a single comment in pull request diffs instead of starting a review by pressing <kbd>shift</kbd> <kbd>enter</kbd>.~~ - *[Implemented by GitHub](https://blog.github.com/changelog/2018-07-24-keyboard-shortcut-to-leave-a-single-comment-in-pull-requests-reviews/)*
 - ~~[Quickly delete a file from pull requests.](https://user-images.githubusercontent.com/1402241/42529637-578587e4-847f-11e8-9705-57384a1edd24.png)~~ - *[Implemented by GitHub](https://blog.github.com/changelog/2018-07-31-removing-files-from-a-pull-request/)*
-- Pressing `Cancel` on an inline comment opens a prompt to prevent accidental cancelling.
+- ~~Pressing `Cancel` on an inline comment opens a prompt to prevent accidental cancelling.~~
 - ~~The `+` and `-` signs in diffs are made unselectable for easier copy-pasting.~~ - [Implemented by GitHub](https://blog.github.com/changelog/2018-07-31-unselectable-diff-markers/)
 - ~~Toggle all [outdated PR comments](https://user-images.githubusercontent.com/25818354/33240033-3e271588-d2af-11e7-93af-13b6e325f65d.gif) or [PR/commit files](https://user-images.githubusercontent.com/1402241/35192652-6f79dc42-fec9-11e7-89ad-2b4a9c5f4f52.gif) with <kbd>alt</kbd> <kbd>click</kbd>.~~ - [Implemented by GitHub](https://blog.github.com/changelog/2018-08-17-collapse-all-diffs-in-a-pull-request-at-once/)
 
