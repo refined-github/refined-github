@@ -156,7 +156,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Approve or reject reviews faster with one-click review type buttons.](https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png)
 - Pressing `Cancel` on an inline comment opens a prompt to prevent accidental cancelling.
 - The `+` and `-` signs in diffs are made unselectable for easier copy-pasting.
-- The news feeds and contribution activities automagically expands when you scroll down.
+- The news feeds and contribution activities automagically expand when you scroll down.
 - The default sort order of milestones is changed to `Closest due date`.
 - The default sort order of issues and pull requests is changed to `Recently updated`.
 - [The `Expand diff` button is widened.](https://user-images.githubusercontent.com/6978877/34470024-eee4f43e-ef20-11e7-9036-65094bd58960.PNG)

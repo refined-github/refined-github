@@ -1,5 +1,5 @@
 /*
-This feature adds infinit scrolling to:
+This feature adds infinite scrolling to:
 - News feed on the Dashboard
 - Contribution activities in a user profile
 */
