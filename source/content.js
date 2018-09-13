@@ -39,7 +39,7 @@ import addDeleteForkLink from './features/add-delete-fork-link';
 import linkifyIssuesInTitles from './features/linkify-issues-in-titles';
 import addPatchDiffLinks from './features/add-patch-diff-links';
 import markMergeCommitsInList from './features/mark-merge-commits-in-list';
-import showRecentlyPushedBranches from './features/show-recently-pushed-branches';
+import showRecentlyPushedBranchesOnMorePages from './features/show-recently-pushed-branches-on-more-pages';
 import addDiffViewWithoutWhitespaceOption from './features/add-diff-view-without-whitespace-option';
 import preserveWhitespaceOptionInNav from './features/preserve-whitespace-option-in-nav';
 import addMilestoneNavigation from './features/add-milestone-navigation';
@@ -256,7 +256,7 @@ function ajaxedPagesHandler() {
 	}
 
 	if (pageDetect.isIssueList() || pageDetect.isPR() || pageDetect.isIssue()) {
-		enableFeature(showRecentlyPushedBranches);
+		enableFeature(showRecentlyPushedBranchesOnMorePages);
 	}
 
 	if (pageDetect.isReleasesOrTags()) {
