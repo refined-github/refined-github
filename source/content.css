@@ -440,7 +440,7 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 .stale-files-tab .stale-files-tab-link {
 	font-size: 14px;
 }
-.stale-files-tab .stale-files-tab-link::before {
+.subset-files-tab .stale-files-tab-link::before {
 	content: 'Subset of changes. ';
 	font-weight: normal;
 }
