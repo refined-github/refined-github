@@ -58,7 +58,6 @@ import addCILink from './features/add-ci-link';
 import embedGistInline from './features/embed-gist-inline';
 import extendStatusLabels from './features/extend-status-labels';
 import highlightClosingPrsInOpenIssues from './features/highlight-closing-prs-in-open-issues';
-import toggleAllThingsWithAlt from './features/toggle-all-things-with-alt';
 import addJumpToBottomLink from './features/add-jump-to-bottom-link';
 import addQuickReviewButtons from './features/add-quick-review-buttons';
 import extendDiffExpander from './features/extend-diff-expander';
@@ -224,7 +223,6 @@ function ajaxedPagesHandler() {
 		enableFeature(fixSquashAndMergeMessage);
 		enableFeature(openCIDetailsInNewTab);
 		enableFeature(waitForBuild);
-		enableFeature(toggleAllThingsWithAlt);
 		enableFeature(hideInactiveDeployments);
 		enableFeature(addPullRequestHotkey);
 	}
@@ -265,11 +263,9 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isCommit()) {
 		enableFeature(addPatchDiffLinks);
-		enableFeature(toggleAllThingsWithAlt);
 	}
 
 	if (pageDetect.isCompare()) {
-		enableFeature(toggleAllThingsWithAlt);
 		enableFeature(addSwapBranchesOnCompare);
 	}
 

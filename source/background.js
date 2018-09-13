@@ -12,7 +12,7 @@ new OptionsSync().define({
 	},
 	migrations: [
 		options => {
-			options.disabledFeatures = options.disabledFeatures.replace('move-account-switcher-to-sidebar', ''); // #1330
+			options.disabledFeatures = options.disabledFeatures.replace('toggle-all-things-with-alt', ''); // #1524
 			options.disabledFeatures = options.disabledFeatures.replace('add-your-repositories-link-to-profile-dropdown', ''); // #1460
 			options.disabledFeatures = options.disabledFeatures.replace('add-readme-buttons', 'hide-readme-header'); // #1465
 			options.disabledFeatures = options.disabledFeatures.replace('add-delete-to-pr-files', ''); // #1462
