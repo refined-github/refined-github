@@ -962,6 +962,16 @@ body > .footer li a {
 	font-size: 13px;
 }
 
+/* For 'hide-useless-comments' feature */
+.rgh-useless-comments-note {
+	margin: 15px 0 10px 60px;
+	font-size: 12px;
+	color: #586069;
+}
+.rgh-hidden-comment .timeline-comment {
+	border-color: var(--github-red);
+}
+
 /* For 'improve-shortcut-help' feature */
 :root .facebox .shortcuts {
 	width: 908px;
