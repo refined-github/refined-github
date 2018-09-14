@@ -12,7 +12,7 @@ export default async function () {
 
 	issuesLink.parentNode.after(
 		<li class="header-nav-item">
-			<a href="/trending" class={`js-selected-navigation-item HeaderNavlink header-nav-link px-2 ${selectedClass}`} data-hotkey="g t">Trending</a>
+			<a href="/trending" class={`js-selected-navigation-item HeaderNavlink px-lg-2 py-2 py-lg-0 ${selectedClass}`} data-hotkey="g t">Trending</a>
 		</li>
 	);
 	registerShortcut('site', 'g t', 'Go to Trending');

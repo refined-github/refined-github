@@ -440,7 +440,7 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 .stale-files-tab .stale-files-tab-link {
 	font-size: 14px;
 }
-.stale-files-tab-link::before {
+.subset-files-tab .stale-files-tab-link::before {
 	content: 'Subset of changes. ';
 	font-weight: normal;
 }
@@ -1005,4 +1005,19 @@ body > .footer li a {
 	position: absolute;
 	top: 15px;
 	left: 20px;
+}
+
+/* For badge on user profiles */
+.follower-badge {
+	font-size: 10px;
+	display: block;
+	animation: fade-in 0.2s;
+	margin-top: -15px;
+	margin-bottom: 5px;
+}
+.user-profile-bio {
+	margin-top: 5px;
+}
+.js-user-profile-follow-button {
+	margin-top: 5px;
 }

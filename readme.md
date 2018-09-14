@@ -95,7 +95,6 @@ GitHub Enterprise is also supported. More info in the options.
 
 ### Added features
 
-- Toggle all [outdated PR comments](https://user-images.githubusercontent.com/25818354/33240033-3e271588-d2af-11e7-93af-13b6e325f65d.gif) or [PR/commit files](https://user-images.githubusercontent.com/1402241/35192652-6f79dc42-fec9-11e7-89ad-2b4a9c5f4f52.gif) with <kbd>alt</kbd> <kbd>click</kbd>.
 - Copy the canonical link of a file with [the <kbd>y</kbd> hotkey](https://help.github.com/articles/getting-permanent-links-to-files/).
 - Indent text with <kbd>tab</kbd> inside comment fields (<kbd>shift</kbd> <kbd>tab</kbd> for original behavior).
 - [Use the pull request title as the commit title when merging with `Squash and merge`](https://github.com/sindresorhus/refined-github/issues/276).
@@ -136,6 +135,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [All available keyboard shortcuts are shown in the help modal.](https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png)  *(<kbd>?</kbd> hotkey)*
 - [Followers you know are shown on profile pages.](https://user-images.githubusercontent.com/2906365/42009293-b1503f62-7a57-11e8-88f5-9c2fb3651a14.png)
 - [Private organizations are marked when viewing your own profile.](https://user-images.githubusercontent.com/6775216/44633467-d5dcc900-a959-11e8-9116-e6b0ffef66af.png)
+- [Badge on user's profile if they follow you.](https://user-images.githubusercontent.com/3723666/45190460-03ecc380-b20c-11e8-832b-839959ee2c99.gif)
 
 ### Declutter
 
@@ -154,8 +154,6 @@ GitHub Enterprise is also supported. More info in the options.
 - [Tabs in code are shown as 4 spaces instead of 8 spaces.](https://cloud.githubusercontent.com/assets/170270/14170088/d3be931e-f755-11e5-8edf-c5f864336382.png)
 - [Labels are moved to the left of issue and pull request lists.](https://user-images.githubusercontent.com/1402241/28006237-070b8214-6581-11e7-94bc-2b01a007d00b.png)
 - [Approve or reject reviews faster with one-click review type buttons.](https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png)
-- Pressing `Cancel` on an inline comment opens a prompt to prevent accidental cancelling.
-- The `+` and `-` signs in diffs are made unselectable for easier copy-pasting.
 - The news feeds automagically expands when you scroll down.
 - The default sort order of milestones is changed to `Closest due date`.
 - The default sort order of issues and pull requests is changed to `Recently updated`.
@@ -183,15 +181,18 @@ And [many more…](source/content.css)
 
 ### Previously part of Refined GitHub
 
-- ~~[Blame parent commits in blame view.](https://github.com/sindresorhus/refined-github/issues/2#issuecomment-189141373)~~ - *[Implemented by GitHub](https://github.com/blog/2304-navigate-file-history-faster-with-improved-blame-view)*
-- ~~[Collapse/expand files in a PR diff.](https://cloud.githubusercontent.com/assets/170270/13954167/40caa604-f072-11e5-89ba-3145217c4e28.png)~~ - *[Implemented by GitHub](https://cloud.githubusercontent.com/assets/170270/25772137/6a6b678e-3296-11e7-97c7-02e31ef17743.png)*
-- ~~[Preview a issue/PR reference's title in comments.](https://user-images.githubusercontent.com/170270/30729486-2816df06-9f8a-11e7-8069-8999302e9ddd.png)~~ - *[Implemented by GitHub](https://user-images.githubusercontent.com/1402241/31265633-779ad0fe-aa35-11e7-8c42-a3b375f8f32c.png)*
-- ~~The dashboard organization switcher is moved to the right column.~~ - *[Implemented by GitHub](https://github.com/sindresorhus/refined-github/pull/1330)*
-- ~~[Quickly edit a repository's README from the repository root.](https://user-images.githubusercontent.com/170270/27501200-31a1fa20-586c-11e7-9a3f-ce270014bf0a.png)~~ - *[Implemented by GitHub](https://blog.github.com/changelog/2018-07-24-button-to-edit-a-repositorys-readme-from-the-repository-root/)*
-- ~~[Access `Your repositories` from the profile dropdown.](https://user-images.githubusercontent.com/4201088/34920280-479e2454-f996-11e7-8e24-ad69793b9d9b.png)~~ - *[Implemented by GitHub](https://blog.github.com/changelog/2018-07-25-access-your-repositories-straight-from-the-profile-dropdown/)*
-- ~~[Permalinked comments are highlighted.](https://user-images.githubusercontent.com/1402241/37349492-226bd37a-2709-11e8-8087-d9686b330240.png)~~ - *[Implemented by GitHub](https://blog.github.com/changelog/2018-07-26-highlighting-of-permalinked-comments/)*
-- ~~Leave a single comment in pull request diffs instead of starting a review by pressing <kbd>shift</kbd> <kbd>enter</kbd>.~~ - *[Implemented by GitHub](https://blog.github.com/changelog/2018-07-24-keyboard-shortcut-to-leave-a-single-comment-in-pull-requests-reviews/)*
-- ~~[Quickly delete a file from pull requests.](https://user-images.githubusercontent.com/1402241/42529637-578587e4-847f-11e8-9705-57384a1edd24.png)~~ - *[Implemented by GitHub](https://blog.github.com/changelog/2018-07-31-removing-files-from-a-pull-request/)*
+- [Implemented by GitHub](https://github.com/blog/2304-navigate-file-history-faster-with-improved-blame-view): [Blame parent commits in blame view.](https://github.com/sindresorhus/refined-github/issues/2#issuecomment-189141373)
+- [Implemented by GitHub](https://cloud.githubusercontent.com/assets/170270/25772137/6a6b678e-3296-11e7-97c7-02e31ef17743.png): [Collapse/expand files in a PR diff.](https://cloud.githubusercontent.com/assets/170270/13954167/40caa604-f072-11e5-89ba-3145217c4e28.png)
+- [Implemented by GitHub](https://user-images.githubusercontent.com/1402241/31265633-779ad0fe-aa35-11e7-8c42-a3b375f8f32c.png): [Preview a issue/PR reference's title in comments.](https://user-images.githubusercontent.com/170270/30729486-2816df06-9f8a-11e7-8069-8999302e9ddd.png)
+- [Implemented by GitHub](https://github.com/sindresorhus/refined-github/pull/1330): The dashboard organization switcher is moved to the right column.
+- [Implemented by GitHub](https://blog.github.com/changelog/2018-07-24-button-to-edit-a-repositorys-readme-from-the-repository-root/): [Quickly edit a repository's README from the repository root.](https://user-images.githubusercontent.com/170270/27501200-31a1fa20-586c-11e7-9a3f-ce270014bf0a.png)
+- [Implemented by GitHub](https://blog.github.com/changelog/2018-07-25-access-your-repositories-straight-from-the-profile-dropdown/): [Access `Your repositories` from the profile dropdown.](https://user-images.githubusercontent.com/4201088/34920280-479e2454-f996-11e7-8e24-ad69793b9d9b.png)
+- [Implemented by GitHub](https://blog.github.com/changelog/2018-07-26-highlighting-of-permalinked-comments/): [Permalinked comments are highlighted.](https://user-images.githubusercontent.com/1402241/37349492-226bd37a-2709-11e8-8087-d9686b330240.png)
+- [Implemented by GitHub](https://blog.github.com/changelog/2018-07-24-keyboard-shortcut-to-leave-a-single-comment-in-pull-requests-reviews/): Leave a single comment in pull request diffs instead of starting a review by pressing <kbd>shift</kbd> <kbd>enter</kbd>.
+- [Implemented by GitHub](https://blog.github.com/changelog/2018-07-31-removing-files-from-a-pull-request/): [Quickly delete a file from pull requests.](https://user-images.githubusercontent.com/1402241/42529637-578587e4-847f-11e8-9705-57384a1edd24.png)
+- [Implemented by GitHub](https://github.com/sindresorhus/refined-github/issues/1521): Pressing `Cancel` on an inline comment opens a prompt to prevent accidental cancelling.
+- [Implemented by GitHub](https://blog.github.com/changelog/2018-07-31-unselectable-diff-markers/): The `+` and `-` signs in diffs are made unselectable for easier copy-pasting.
+- [Implemented by GitHub](https://blog.github.com/changelog/2018-08-17-collapse-all-diffs-in-a-pull-request-at-once/): Toggle all [outdated PR comments](https://user-images.githubusercontent.com/25818354/33240033-3e271588-d2af-11e7-93af-13b6e325f65d.gif) or [PR/commit files](https://user-images.githubusercontent.com/1402241/35192652-6f79dc42-fec9-11e7-89ad-2b4a9c5f4f52.gif) with <kbd>alt</kbd> <kbd>click</kbd>.
 
 
 ## Customization

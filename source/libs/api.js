@@ -10,12 +10,11 @@ const {data} = await api.v4(graphQuery);
 
 import OptionsSync from 'webext-options-sync';
 
+export const v3 = (...args) => call(fetch3, ...args);
+export const v4 = (...args) => call(fetch4, ...args);
+
 const api = location.hostname === 'github.com' ? 'https://api.github.com/' : `${location.origin}/api/`;
-
 const cache = new Map();
-
-export const v3 = query => call(fetch3, query);
-export const v4 = query => call(fetch4, query);
 
 function fetch3(query, personalToken) {
 	const headers = {
@@ -43,15 +42,21 @@ function fetch4(query, personalToken) {
 }
 
 // Main function: handles cache, options, errors
-async function call(fetch, query) {
+async function call(fetch, query, options) {
+	options = {
+		accept404: true,
+		...options
+	};
+
 	if (cache.has(query)) {
 		return cache.get(query);
 	}
 	const {personalToken} = await new OptionsSync().getAll();
 	const response = await fetch(query, personalToken);
-	const json = await response.json();
+	const content = await response.text();
+	const json = content.length > 0 ? JSON.parse(content) : response.ok;
 
-	if (response.ok) {
+	if (response.ok || (options.accept404 && response.status === 404)) {
 		cache.set(query, json);
 	} else if (json.message.includes('API rate limit exceeded')) {
 		console.error(
