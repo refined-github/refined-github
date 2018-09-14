@@ -2,7 +2,12 @@ import OptionsSync from 'webext-options-sync';
 
 const cache = new Map();
 
-export default async endpoint => {
+export default async (endpoint, options) => {
+	options = {
+		accept404: true,
+		...options
+	};
+
 	if (cache.has(endpoint)) {
 		return cache.get(endpoint);
 	}
@@ -16,9 +21,10 @@ export default async endpoint => {
 	}
 	const api = location.hostname === 'github.com' ? 'https://api.github.com/' : `${location.origin}/api/`;
 	const response = await fetch(api + endpoint, {headers});
-	const json = await response.json();
+	const content = await response.text();
+	const json = content.length > 0 ? JSON.parse(content) : response.ok;
 
-	if (response.ok) {
+	if (response.ok || (options.accept404 && response.status === 404)) {
 		cache.set(endpoint, json);
 	} else if (json.message.includes('API rate limit exceeded')) {
 		console.error(
