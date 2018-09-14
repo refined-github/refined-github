@@ -3,7 +3,7 @@ import observeEl from '../libs/simplified-element-observer';
 import {getUsername} from '../libs/utils';
 
 // Hide other users starring/forking your repos
-export default async function () {
+export default function () {
 	const username = getUsername();
 	observeEl('#dashboard .news', () => {
 		for (const item of select.all('#dashboard .news .watch_started, #dashboard .news .fork')) {

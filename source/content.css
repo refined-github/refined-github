@@ -543,6 +543,14 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	display: none !important;
 }
 
+/* Remove user avatar from new comment form on threads */
+.review-thread-reply .avatar {
+	display: none;
+}
+.review-thread-reply .review-thread-reply-button {
+	margin-left: 0;
+}
+
 /* Move labels in the Issue/PR list below the title */
 .js-issue-row .lh-condensed {
 	display: flex;
@@ -557,6 +565,9 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 }
 .js-issue-row .mt-1.text-small.text-gray { /* Issue details line */
 	flex-basis: 100%;
+}
+.js-issue-row .h4 { /* Title */
+	max-width: 100%; /* #1518 */
 }
 .js-issue-row .IssueLabel {
 	padding: 2px 3px 3px !important;
@@ -596,11 +607,6 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 .rgh-dependency-graph .octicon-package {
 	margin-right: 2px;
 	margin-left: -2px;
-}
-
-/* Hide PR/Issue rename events */
-.discussion-item-renamed {
-	display: none;
 }
 
 /* Hide inactive deployment events */
@@ -664,7 +670,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 /* Sticky file headers on pull request diff view */
 .pull-request-tab-content .diff-view .file-header {
 	position: sticky;
-	top: 60px;
+	top: 59px;
 	z-index: 10;
 }
 
@@ -996,4 +1002,11 @@ body > .footer li a {
 .dashboard-sidebar .Box-title {
 	padding-top: 4px !important;
 	padding-bottom: 4px !important;
+}
+
+.profile-org-private-lock {
+	pointer-events: none;
+	position: absolute;
+	top: 15px;
+	left: 20px;
 }
