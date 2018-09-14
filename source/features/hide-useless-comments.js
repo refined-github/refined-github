@@ -48,5 +48,6 @@ function unhide(event) {
 	for (const comment of select.all('.rgh-hidden-comment')) {
 		comment.hidden = false;
 	}
+	select('.rgh-hidden-comment').scrollIntoView();
 	event.target.parentElement.remove();
 }
