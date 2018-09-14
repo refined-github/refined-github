@@ -23,7 +23,6 @@ import addGistsLink from './features/add-gists-link-to-profile';
 import addTimeMachineLinksToComments from './features/add-time-machine-links-to-comments';
 import removeUploadFilesButton from './features/remove-upload-files-button';
 import scrollToTopOnCollapse from './features/scroll-to-top-on-collapse';
-import removeDiffSigns from './features/remove-diff-signs';
 import linkifyBranchRefs from './features/linkify-branch-refs';
 import hideEmptyMeta from './features/hide-empty-meta';
 import hideInactiveDeployments from './features/hide-inactive-deployments';
@@ -40,7 +39,7 @@ import addDeleteForkLink from './features/add-delete-fork-link';
 import linkifyIssuesInTitles from './features/linkify-issues-in-titles';
 import addPatchDiffLinks from './features/add-patch-diff-links';
 import markMergeCommitsInList from './features/mark-merge-commits-in-list';
-import showRecentlyPushedBranches from './features/show-recently-pushed-branches';
+import showRecentlyPushedBranchesOnMorePages from './features/show-recently-pushed-branches-on-more-pages';
 import addDiffViewWithoutWhitespaceOption from './features/add-diff-view-without-whitespace-option';
 import preserveWhitespaceOptionInNav from './features/preserve-whitespace-option-in-nav';
 import addMilestoneNavigation from './features/add-milestone-navigation';
@@ -55,12 +54,10 @@ import openCIDetailsInNewTab from './features/open-ci-details-in-new-tab';
 import focusConfirmationButtons from './features/focus-confirmation-buttons';
 import addKeyboardShortcutsToCommentFields from './features/add-keyboard-shortcuts-to-comment-fields';
 import addCreateReleaseShortcut from './features/add-create-release-shortcut';
-import addConfirmationToCommentCancellation from './features/add-confirmation-to-comment-cancellation';
 import addCILink from './features/add-ci-link';
 import embedGistInline from './features/embed-gist-inline';
 import extendStatusLabels from './features/extend-status-labels';
 import highlightClosingPrsInOpenIssues from './features/highlight-closing-prs-in-open-issues';
-import toggleAllThingsWithAlt from './features/toggle-all-things-with-alt';
 import addJumpToBottomLink from './features/add-jump-to-bottom-link';
 import addQuickReviewButtons from './features/add-quick-review-buttons';
 import extendDiffExpander from './features/extend-diff-expander';
@@ -133,7 +130,6 @@ async function init() {
 
 	enableFeature(focusConfirmationButtons);
 	enableFeature(addKeyboardShortcutsToCommentFields);
-	enableFeature(addConfirmationToCommentCancellation);
 	enableFeature(hideNavigationHoverHighlight);
 	enableFeature(monospaceTextareas);
 	enableFeature(openSelectionInNewTab);
@@ -212,7 +208,6 @@ function ajaxedPagesHandler() {
 		enableFeature(hideReadmeHeader);
 		enableFeature(addBranchButtons);
 		enableFeature(addDiffViewWithoutWhitespaceOption);
-		enableFeature(removeDiffSigns);
 		enableFeature(addCILink);
 		enableFeature(sortMilestonesByClosestDueDate); // Needs to be after addMilestoneNavigation
 	}
@@ -228,7 +223,6 @@ function ajaxedPagesHandler() {
 		enableFeature(fixSquashAndMergeMessage);
 		enableFeature(openCIDetailsInNewTab);
 		enableFeature(waitForBuild);
-		enableFeature(toggleAllThingsWithAlt);
 		enableFeature(hideInactiveDeployments);
 		enableFeature(addPullRequestHotkey);
 	}
@@ -260,7 +254,7 @@ function ajaxedPagesHandler() {
 	}
 
 	if (pageDetect.isIssueList() || pageDetect.isPR() || pageDetect.isIssue()) {
-		enableFeature(showRecentlyPushedBranches);
+		enableFeature(showRecentlyPushedBranchesOnMorePages);
 	}
 
 	if (pageDetect.isReleasesOrTags()) {
@@ -269,11 +263,9 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isCommit()) {
 		enableFeature(addPatchDiffLinks);
-		enableFeature(toggleAllThingsWithAlt);
 	}
 
 	if (pageDetect.isCompare()) {
-		enableFeature(toggleAllThingsWithAlt);
 		enableFeature(addSwapBranchesOnCompare);
 	}
 
