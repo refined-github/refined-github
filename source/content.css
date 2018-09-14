@@ -986,6 +986,11 @@ body > .footer li a {
 	cursor: pointer;
 }
 
+/* For 'add-jump-to-bottom-link' feature */
+#rgh-jump-to-bottom-link {
+	display: inline-block; /* Avoid breaking link in two lines */
+}
+
 /* Remove the useless "Continuous integration has not been set up" message on PRs */
 .branch-action-item.marketplace-product-callout {
 	display: none;
