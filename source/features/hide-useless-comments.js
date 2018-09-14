@@ -10,7 +10,7 @@ export default function () {
 	let uselessCount = 0;
 	for (const commentText of select.all('.comment-body > p:only-child')) {
 		// Find useless comments
-		if (!/^(\+[120]+!?|👍|🙏)$/.test(commentText.textContent.trim())) {
+		if (!/^([+-]\d+!*|👍|🙏||)+$/.test(commentText.textContent.trim())) {
 			continue;
 		}
 
