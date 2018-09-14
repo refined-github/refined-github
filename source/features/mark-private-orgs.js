@@ -2,10 +2,10 @@ import {h} from 'dom-chef';
 import select from 'select-dom';
 import {getUsername} from '../libs/utils';
 import * as icons from '../libs/icons';
-import api from '../libs/api';
+import * as api from '../libs/api';
 
 export default async function () {
-	let publicOrgs = await api(`users/${getUsername()}/orgs`);
+	let publicOrgs = await api.v3(`users/${getUsername()}/orgs`);
 	if (!publicOrgs) {
 		return;
 	}

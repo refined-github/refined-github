@@ -1,7 +1,7 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import {getUsername} from '../libs/utils';
-import api from '../libs/api';
+import * as api from '../libs/api';
 import {getCleanPathname, isOwnUserProfile} from '../libs/page-detect';
 
 export default async function () {
@@ -11,7 +11,7 @@ export default async function () {
 		return;
 	}
 
-	const response = await api(`users/${getCleanPathname()}/following/${getUsername()}`, {accept404: true});
+	const response = await api.v3(`users/${getCleanPathname()}/following/${getUsername()}`, {accept404: true});
 	if (response === true) {
 		select('.vcard-names-container.py-3.js-sticky.js-user-profile-sticky-fields').after(badge);
 	}
