@@ -1,8 +1,25 @@
-export function get(key) {
-	return browser.runtime.sendMessage({
+export default async function getSet(key, getter, expiration) {
+	const cache = await get(key);
+	if (cache === undefined) {
+		const value = getter();
+		if (value !== undefined) {
+			await set(key, value, expiration);
+			return value;
+		}
+	}
+}
+
+export async function get(key) {
+	const value = await browser.runtime.sendMessage({
 		key,
 		code: 'get-cache'
 	});
+
+	// If it's not in the cache, it's best to return "undefined"
+	if (value === null) {
+		return undefined;
+	}
+	return value;
 }
 
 export function set(key, value, expiration /* in days */) {
@@ -27,12 +44,14 @@ if (!browser.runtime.getBackground) {
 
 			if (cached) {
 				const [, value] = cached.split('=');
-				sendResponse(value);
+				sendResponse(JSON.parse(value));
 			} else {
-				sendResponse(undefined);
+				sendResponse();
 			}
 		} else if (code === 'set-cache') {
-			document.cookie = `${key}=${value}; max-age=${expiration ? expiration * 3600 * 24 : ''}`;
+			// Store as JSON to preserve data type
+			// otherwise Booleans and Numbers become strings
+			document.cookie = `${key}=${JSON.stringify(value)}; max-age=${expiration ? expiration * 3600 * 24 : ''}`;
 		}
 	});
 }
