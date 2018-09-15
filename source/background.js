@@ -40,10 +40,6 @@ browser.runtime.onMessage.addListener(async message => {
 });
 
 browser.runtime.onInstalled.addListener(async ({reason}) => {
-	// Cleanup old key
-	// TODO: remove in the future
-	browser.storage.local.remove('userWasNotified');
-
 	// Only notify on install
 	if (reason === 'install') {
 		const {installType} = await browser.management.getSelf();
@@ -54,6 +50,14 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 			url: 'https://github.com/sindresorhus/refined-github/issues/1137',
 			active: false
 		});
+	}
+
+	// Nuke old cache
+	// TODO: drop code in November
+	if (reason === 'update') {
+		const dataToPreserve = await browser.storage.local.get('unreadNotifications');
+		await browser.storage.local.clear();
+		browser.storage.local.set(dataToPreserve);
 	}
 });
 
