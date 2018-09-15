@@ -1,16 +1,8 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import domify from '../libs/domify';
+import * as cache from '../libs/cache';
 import {getUsername, groupBy} from '../libs/utils';
-
-const storageKey = 'cachedNames';
-
-const getCachedUsers = async () => {
-	const keys = await browser.storage.local.get({
-		[storageKey]: {}
-	});
-	return keys[storageKey];
-};
 
 const fetchName = async username => {
 	// /following/you_know is the lightest page we know
@@ -29,19 +21,20 @@ const fetchName = async username => {
 	return fullname;
 };
 
-export default async () => {
+export default () => {
 	const myUsername = getUsername();
-	const cache = await getCachedUsers();
 
 	// {sindresorhus: [a.author, a.author], otheruser: [a.author]}
 	const selector = '.js-discussion .author:not(.refined-github-fullname):not([href^="/apps/"])';
 	const usersOnPage = groupBy(select.all(selector), el => el.textContent);
 
 	const fetchAndAdd = async username => {
-		if (typeof cache[username] === 'undefined' && username !== myUsername) {
-			cache[username] = await fetchName(username);
+		const cacheKey = `full-name:${username}`;
+		let fullname = await cache.get(cacheKey);
+		if (fullname === undefined && username === myUsername) {
+			fullname = await fetchName(username);
+			cache.set(cacheKey, fullname);
 		}
-
 		for (const usernameEl of usersOnPage[username]) {
 			const commentedNode = usernameEl.parentNode.nextSibling;
 			if (commentedNode && commentedNode.textContent.includes('commented')) {
@@ -50,19 +43,14 @@ export default async () => {
 
 			usernameEl.classList.add('refined-github-fullname');
 
-			if (cache[username] && username !== myUsername) {
+			if (fullname && username !== myUsername) {
 				// If it's a regular comment author, add it outside <strong>
 				// otherwise it's something like "User added some commits"
 				const insertionPoint = usernameEl.parentNode.tagName === 'STRONG' ? usernameEl.parentNode : usernameEl;
-				insertionPoint.after(' (', <bdo>{cache[username]}</bdo>, ') ');
+				insertionPoint.after(' (', <bdo>{fullname}</bdo>, ') ');
 			}
 		}
 	};
 
-	const fetches = Object.keys(usersOnPage).map(fetchAndAdd);
-
-	// Wait for all the fetches to be done
-	await Promise.all(fetches);
-
-	browser.storage.local.set({[storageKey]: cache});
+	Object.keys(usersOnPage).map(fetchAndAdd);
 };
