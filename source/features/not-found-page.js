@@ -2,6 +2,7 @@
 This feature adds more useful 404 (not found) page.
 - Display the full URL clickable piece by piece
 - Strikethrough all anchor that return a 404 status code
+- Replace file links with more useful commit history
 */
 
 import {h} from 'dom-chef';
@@ -32,7 +33,13 @@ const checkAnchors = async a => {
 const getRepoAnchors = (repoHref, repoPath) => {
 	const [prefix, ...parts] = repoPath.split('/');
 	return parts.map((part, index) => {
-		const path = [repoHref, prefix, ...parts.slice(0, index + 1)];
+		const path = [
+			repoHref,
+			// NOTE: Replace the file path with the commit path
+			// This allows to see the history of the file/path
+			prefix === 'blob' ? 'commits' : prefix,
+			...parts.slice(0, index + 1)
+		];
 		return <a href={path.join('/')}>{part}</a>;
 	});
 };
