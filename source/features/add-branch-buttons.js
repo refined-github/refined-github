@@ -2,6 +2,7 @@ import {h} from 'dom-chef';
 import select from 'select-dom';
 import compareVersions from 'tiny-version-compare';
 import * as icons from '../libs/icons';
+import * as cache from '../libs/cache';
 import {appendBefore} from '../libs/utils';
 import {groupSiblings} from '../libs/group-buttons';
 import {getRepoURL, isRepoRoot, getOwnerAndRepo} from '../libs/page-detect';
@@ -44,12 +45,12 @@ function getTagLink() {
 	return link;
 }
 
-function getDefaultBranchNameIfDifferent() {
+async function getDefaultBranchNameIfDifferent() {
 	const {ownerName, repoName} = getOwnerAndRepo();
-	const cacheKey = `rgh-default-branch-${ownerName}-${repoName}`;
+	const cacheKey = `default-branch:${ownerName}/${repoName}`;
 
 	// Return the cached name if it differs from the current one
-	const cachedName = sessionStorage.getItem(cacheKey);
+	const cachedName = await cache.get(cacheKey);
 	if (cachedName) {
 		const currentBranch = select('[data-hotkey="w"] span').textContent;
 		return cachedName === currentBranch ? false : cachedName;
@@ -64,18 +65,17 @@ function getDefaultBranchNameIfDifferent() {
 	// Parse the infobar
 	const [, branchName] = branchInfo.textContent.trim().match(branchInfoRegex) || [];
 	if (branchName) {
-		// Temporarily cache it between loads to enable it on files
-		sessionStorage.setItem(cacheKey, branchName);
+		cache.set(cacheKey, branchName, 1);
 		return branchName;
 	}
 }
 
-function getDefaultBranchLink() {
+async function getDefaultBranchLink() {
 	if (select.exists('.repohead h1 .octicon-repo-forked')) {
 		return; // It's a fork, no "default branch" info available #1132
 	}
 
-	const branchName = getDefaultBranchNameIfDifferent();
+	const branchName = await getDefaultBranchNameIfDifferent();
 	if (!branchName) {
 		return;
 	}
@@ -103,14 +103,14 @@ function getDefaultBranchLink() {
 	);
 }
 
-export default function () {
+export default async function () {
 	const container = select('.file-navigation');
 	if (!container) {
 		return;
 	}
 	const wrapper = (
 		<div class="rgh-branch-buttons">
-			{getDefaultBranchLink() || ''}
+			{await getDefaultBranchLink() || ''}
 			{getTagLink() || ''}
 		</div>
 	);
