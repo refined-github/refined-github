@@ -1,6 +1,7 @@
 /*
 This feature adds more useful 404 (not found) page.
 - Display the full URL clickable piece by piece
+- Strikethrough all anchor that return a 404 status code
 */
 
 import {h} from 'dom-chef';
@@ -11,6 +12,22 @@ const flatMap = (arr, fn) =>
 	arr.flatMap ?
 		arr.flatMap(fn) :
 		arr.reduce((acc, ...args) => acc.concat(fn(...args)), []);
+
+const strikethrough = target => {
+	const wrapper = <del style={{color: '#6a737d'}}></del>;
+	for (const child of target.childNodes) {
+		wrapper.appendChild(child);
+	}
+	return target.appendChild(wrapper);
+};
+
+const checkAnchors = async a => {
+	const {status} = await fetch(a.href, {method: 'head'});
+	if (status === 404) {
+		strikethrough(a);
+	}
+	return a;
+};
 
 const getRepoAnchors = (repoHref, repoPath) => {
 	const [prefix, ...parts] = repoPath.split('/');
@@ -30,11 +47,17 @@ const getAnchors = () => {
 	const ownerHref = `/${ownerName}`;
 	const repoHref = `${ownerHref}/${repoName}`;
 
-	return [
+	const anchors = [
 		<a href={ownerHref}>{ownerName}</a>,
 		<a href={repoHref}>{repoName}</a>,
 		...getRepoAnchors(repoHref, repoPath)
 	];
+
+	// NOTE: This will asynchronously check if the anchor href is reachable
+	// If not it will strikethrough the element content
+	anchors.forEach(checkAnchors);
+
+	return anchors;
 };
 
 export default function () {
