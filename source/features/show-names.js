@@ -23,32 +23,41 @@ const fetchName = async username => {
 
 export default () => {
 	const myUsername = getUsername();
+	const commentsList = select.all('.js-discussion .author:not(.rgh-fullname):not([href^="/apps/"])');
 
 	// {sindresorhus: [a.author, a.author], otheruser: [a.author]}
-	const selector = '.js-discussion .author:not(.refined-github-fullname):not([href^="/apps/"])';
-	const usersOnPage = groupBy(select.all(selector), el => el.textContent);
+	const usersOnPage = groupBy(commentsList, el => el.textContent);
+
+	// Drop 'commented' label to shorten the copy
+	for (const usernameEl of commentsList) {
+		const commentedNode = usernameEl.parentNode.nextSibling;
+		if (commentedNode && commentedNode.textContent.includes('commented')) {
+			commentedNode.remove();
+		}
+	}
 
 	const fetchAndAdd = async username => {
+		if (username === myUsername) {
+			return;
+		}
+
 		const cacheKey = `full-name:${username}`;
 		let fullname = await cache.get(cacheKey);
-		if (fullname === undefined && username === myUsername) {
+		if (fullname === undefined) {
 			fullname = await fetchName(username);
 			cache.set(cacheKey, fullname);
 		}
+		if (!fullname) {
+			return;
+		}
+
 		for (const usernameEl of usersOnPage[username]) {
-			const commentedNode = usernameEl.parentNode.nextSibling;
-			if (commentedNode && commentedNode.textContent.includes('commented')) {
-				commentedNode.remove();
-			}
+			usernameEl.classList.add('rgh-fullname');
 
-			usernameEl.classList.add('refined-github-fullname');
-
-			if (fullname && username !== myUsername) {
-				// If it's a regular comment author, add it outside <strong>
-				// otherwise it's something like "User added some commits"
-				const insertionPoint = usernameEl.parentNode.tagName === 'STRONG' ? usernameEl.parentNode : usernameEl;
-				insertionPoint.after(' (', <bdo>{fullname}</bdo>, ') ');
-			}
+			// If it's a regular comment author, add it outside <strong>
+			// otherwise it's something like "User added some commits"
+			const insertionPoint = usernameEl.parentNode.tagName === 'STRONG' ? usernameEl.parentNode : usernameEl;
+			insertionPoint.after(' (', <bdo>{fullname}</bdo>, ') ');
 		}
 	};
 
