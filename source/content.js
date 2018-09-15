@@ -82,6 +82,7 @@ import hideIssueListAutocomplete from './features/hide-issue-list-autocomplete';
 import userProfileFollowerBadge from './features/user-profile-follower-badge';
 import setDefaultRepositoriesTypeToSources from './features/set-default-repositories-type-to-sources';
 import markPrivateOrgs from './features/mark-private-orgs';
+import notFoundPage from './features/not-found-page';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
@@ -93,10 +94,14 @@ window.select = select;
 async function init() {
 	await safeElementReady('body');
 
-	if (pageDetect.is404() || pageDetect.is500()) {
+	if (pageDetect.is500()) {
 		return;
 	}
 
+	if (pageDetect.is404()) {
+		enableFeature(notFoundPage);
+		return;
+	}
 	if (document.body.classList.contains('logged-out')) {
 		console.warn('%cRefined GitHub%c only works when you’re logged in to GitHub.', 'font-weight: bold', '');
 		return;
