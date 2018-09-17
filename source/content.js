@@ -46,6 +46,7 @@ import addMilestoneNavigation from './features/add-milestone-navigation';
 import addFilterCommentsByYou from './features/add-filter-comments-by-you';
 import addFilterNotReviewedByYou from './features/add-filter-not-reviewed-by-you';
 import removeProjectsTab from './features/remove-projects-tab';
+import hideUselessComments from './features/hide-useless-comments';
 import fixSquashAndMergeTitle from './features/fix-squash-and-merge-title';
 import fixSquashAndMergeMessage from './features/fix-squash-and-merge-message';
 import addTitleToEmojis from './features/add-title-to-emojis';
@@ -193,6 +194,7 @@ function ajaxedPagesHandler() {
 	enableFeature(addDownloadFolderButton);
 	enableFeature(linkifyBranchRefs);
 	enableFeature(openAllSelected);
+	enableFeature(hideUselessComments);
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 		enableFeature(addYoursMenuItem);
