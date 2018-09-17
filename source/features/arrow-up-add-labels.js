@@ -1,6 +1,8 @@
 import select from 'select-dom';
 import delegate from 'delegate';
 
+let alreadySet = false;
+
 function changeSelection(labels, fromIndex, toIndex) {
 	labels[fromIndex].classList.remove('navigation-focus');
 	labels[fromIndex].setAttribute('aria-selected', 'false');
@@ -9,6 +11,10 @@ function changeSelection(labels, fromIndex, toIndex) {
 }
 
 export default function () {
+	if (alreadySet) {
+		return;
+	}
+
 	delegate('.label-select-menu', '.js-issue-labels-menu-content', 'keydown', event => {
 		const labels = select.all('.label-select-menu .select-menu-item:not([hidden])');
 		if (event.key === 'ArrowUp' && labels[0].classList.contains('navigation-focus')) {
@@ -21,4 +27,6 @@ export default function () {
 			event.preventDefault();
 		}
 	});
+
+	alreadySet = true;
 }
