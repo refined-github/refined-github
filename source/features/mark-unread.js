@@ -263,12 +263,19 @@ function updateUnreadIndicator() {
 	}
 	const statusMark = icon.querySelector('.mail-status');
 	const hasRealNotifications = icon.matches('[data-ga-click$=":unread"]');
+	const rghUnreadCount = storage.get().length;
 
-	const hasUnread = hasRealNotifications || storage.get().length > 0;
+	const hasUnread = hasRealNotifications || rghUnreadCount > 0;
 	const label = hasUnread ? 'You have unread notifications' : 'You have no unread notifications';
 
 	icon.setAttribute('aria-label', label);
 	statusMark.classList.toggle('unread', hasUnread);
+
+	if (rghUnreadCount > 0) {
+		icon.dataset.rghUnread = rghUnreadCount; // Store in attribute to let other extensions know
+	} else {
+		delete icon.dataset.rghUnread;
+	}
 }
 
 function markNotificationRead(e) {
