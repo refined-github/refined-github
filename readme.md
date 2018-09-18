@@ -21,8 +21,8 @@ GitHub Enterprise is also supported. More info in the options.
 
 ## Install
 
-- [**Chrome** extension][link-cws] [<img valign="middle" src="https://img.shields.io/chrome-web-store/v/hlepfoohegkhhmjieoechaddaejaokhf.svg?label=%20">][link-cws]
-- [**Firefox** add-on][link-amo] [<img valign="middle" src="https://img.shields.io/amo/v/refined-github-.svg?label=%20">][link-amo]
+- [<img valign="middle" src="https://img.shields.io/chrome-web-store/v/hlepfoohegkhhmjieoechaddaejaokhf.svg?logo=google%20chrome&label=Chrome%20Extension">][link-cws]
+- [<img valign="middle" src="https://img.shields.io/amo/v/refined-github-.svg?logo=mozilla%20firefox&label=Firefox%20Add-On">][link-amo]
 - **Opera** extension: Use [this Opera extension](https://addons.opera.com/en/extensions/details/download-chrome-extension-9/) to install the Chrome version.
 
 
