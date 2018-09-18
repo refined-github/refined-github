@@ -82,7 +82,7 @@ import hideIssueListAutocomplete from './features/hide-issue-list-autocomplete';
 import userProfileFollowerBadge from './features/user-profile-follower-badge';
 import setDefaultRepositoriesTypeToSources from './features/set-default-repositories-type-to-sources';
 import markPrivateOrgs from './features/mark-private-orgs';
-import notFoundPage from './features/not-found-page';
+import usefulNotFoundPage from './features/useful-not-found-page';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
@@ -99,7 +99,7 @@ async function init() {
 	}
 
 	if (pageDetect.is404()) {
-		enableFeature(notFoundPage);
+		enableFeature(usefulNotFoundPage);
 		return;
 	}
 	if (document.body.classList.contains('logged-out')) {
