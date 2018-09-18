@@ -2,7 +2,6 @@
 
 [link-cws]: https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf "Version published on Chrome Web Store"
 [link-amo]: https://addons.mozilla.org/en-US/firefox/addon/refined-github-/ "Version published on Mozilla Add-ons"
-[link-travis]: https://travis-ci.org/sindresorhus/refined-github
 
 > Browser extension that simplifies the GitHub interface and adds useful features
 
