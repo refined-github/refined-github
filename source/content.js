@@ -45,7 +45,7 @@ import preserveWhitespaceOptionInNav from './features/preserve-whitespace-option
 import addMilestoneNavigation from './features/add-milestone-navigation';
 import addFilterCommentsByYou from './features/add-filter-comments-by-you';
 import addFilterNotReviewedByYou from './features/add-filter-not-reviewed-by-you';
-import addFilterExcludeLabel from './features/add-filter-exclude-label';
+import excludeFilterShortcut from './features/exclude-filter-shortcut';
 import removeProjectsTab from './features/remove-projects-tab';
 import fixSquashAndMergeTitle from './features/fix-squash-and-merge-title';
 import fixSquashAndMergeMessage from './features/fix-squash-and-merge-message';
@@ -253,7 +253,7 @@ function ajaxedPagesHandler() {
 		enableFeature(addFilterCommentsByYou);
 		enableFeature(hideIssueListAutocomplete);
 		enableFeature(addFilterNotReviewedByYou);
-		enableFeature(addFilterExcludeLabel);
+		enableFeature(excludeFilterShortcut);
 	}
 
 	if (pageDetect.isIssueList() || pageDetect.isPR() || pageDetect.isIssue()) {
