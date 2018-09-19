@@ -18,15 +18,14 @@ function inPR() {
 	for (const el of select.all('.commit-ref[title], .base-ref[title], .head-ref[title]')) {
 		const [repo, branch] = el.title.split(':');
 		const branchName = el.textContent.trim();
+		urls.set(
+			el.textContent.trim(),
+			`/${repo}`
+		);
 		if (branchName !== deletedBranch) {
 			urls.set(
 				el.textContent.trim(),
 				`/${repo}/tree/${encodeURIComponent(branch)}`
-			);
-		} else {
-			urls.set(
-				el.textContent.trim(),
-				`/${repo}`
 			);
 		}
 	}
