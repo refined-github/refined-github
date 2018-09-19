@@ -1,6 +1,6 @@
-import { h } from 'dom-chef';
+import {h} from 'dom-chef';
 import select from 'select-dom';
-import { safeElementReady, wrap } from '../libs/utils';
+import {safeElementReady, wrap} from '../libs/utils';
 import * as pageDetect from '../libs/page-detect';
 
 function inPR() {
@@ -17,30 +17,19 @@ function inPR() {
 	const urls = new Map();
 	for (const el of select.all('.commit-ref[title], .base-ref[title], .head-ref[title]')) {
 		const [repo, branch] = el.title.split(':');
-		const branchName = el.textContent.trim();
-
-		if (branchName !== deletedBranch) {
-			urls.set(
-				el.textContent.trim(),
-				`/${repo}/tree/${encodeURIComponent(branch)}`
-			);
-		} else {
-			urls.set(
-				el.textContent.trim(),
-				`/${repo}`
-			);
-		}
+		urls.set(
+			el.textContent.trim(),
+			`/${repo}/tree/${encodeURIComponent(branch)}`
+		);
 	}
 
 	for (const el of select.all('.commit-ref')) {
 		const branchName = el.textContent.trim();
 
-		if (branchName !== 'unknown repository') {
-			if (branchName === deletedBranch) {
-				el.title = 'Deleted';
-				el.style.textDecoration = 'line-through';
-			}
-
+		if (branchName === deletedBranch) {
+			el.title = 'Deleted';
+			el.style.textDecoration = 'line-through';
+		} else if (branchName !== 'unknown repository') {
 			wrap(el, <a href={urls.get(branchName)}></a>);
 		}
 	}
@@ -49,7 +38,7 @@ function inPR() {
 async function inQuickPR() {
 	const el = await safeElementReady('.branch-name');
 	if (el) {
-		const { ownerName, repoName } = pageDetect.getOwnerAndRepo();
+		const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
 		const branchUrl = `/${ownerName}/${repoName}/tree/${el.textContent}`;
 		wrap(el.closest('.branch-name'), <a href={branchUrl}></a>);
 	}
