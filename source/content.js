@@ -252,6 +252,7 @@ function ajaxedPagesHandler() {
 	}
 
 	if (pageDetect.isNewIssue()) {
+		enableFeature(arrowUpAddLabels);
 		enableFeature(displayIssueSuggestions);
 	}
 
