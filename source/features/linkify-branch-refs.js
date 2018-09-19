@@ -17,19 +17,28 @@ function inPR() {
 	const urls = new Map();
 	for (const el of select.all('.commit-ref[title], .base-ref[title], .head-ref[title]')) {
 		const [repo, branch] = el.title.split(':');
-		urls.set(
-			el.textContent.trim(),
-			`/${repo}/tree/${encodeURIComponent(branch)}`
-		);
+		const branchName = el.textContent.trim();
+		if (branchName !== deletedBranch) {
+			urls.set(
+				el.textContent.trim(),
+				`/${repo}/tree/${encodeURIComponent(branch)}`
+			);
+		} else {
+			urls.set(
+				el.textContent.trim(),
+				`/${repo}`
+			);
+		}
 	}
 
 	for (const el of select.all('.commit-ref')) {
 		const branchName = el.textContent.trim();
 
-		if (branchName === deletedBranch) {
-			el.title = 'Deleted';
-			el.style.textDecoration = 'line-through';
-		} else if (branchName !== 'unknown repository') {
+		if (branchName !== 'unknown repository') {
+			if (branchName === deletedBranch) {
+				el.title = 'Deleted';
+				el.style.textDecoration = 'line-through';
+			}
 			wrap(el, <a href={urls.get(branchName)}></a>);
 		}
 	}
