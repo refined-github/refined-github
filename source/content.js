@@ -196,6 +196,7 @@ function ajaxedPagesHandler() {
 	enableFeature(linkifyBranchRefs);
 	enableFeature(openAllSelected);
 	enableFeature(hideUselessComments);
+	enableFeature(navigatePagesWithArrowKeys);
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 		enableFeature(addYoursMenuItem);
@@ -255,7 +256,6 @@ function ajaxedPagesHandler() {
 		enableFeature(addFilterCommentsByYou);
 		enableFeature(hideIssueListAutocomplete);
 		enableFeature(addFilterNotReviewedByYou);
-		enableFeature(navigatePagesWithArrowKeys);
 	}
 
 	if (pageDetect.isIssueList() || pageDetect.isPR() || pageDetect.isIssue()) {
