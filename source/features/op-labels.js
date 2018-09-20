@@ -12,7 +12,7 @@ export default () => {
 		op = select('.timeline-comment-header-text .author').textContent;
 	}
 
-	let newComments = select.all(`.js-comment:not(.refined-github-op)`)
+	let newComments = select.all('.js-comment:not(.refined-github-op)')
 		.filter(el => select(`strong .author[href="/${op}"]`, el));
 
 	if (!pageDetect.isPRFiles()) {
