@@ -83,7 +83,7 @@ import hideIssueListAutocomplete from './features/hide-issue-list-autocomplete';
 import userProfileFollowerBadge from './features/user-profile-follower-badge';
 import setDefaultRepositoriesTypeToSources from './features/set-default-repositories-type-to-sources';
 import markPrivateOrgs from './features/mark-private-orgs';
-import navigatePagesWithArrowKeys from './features/navigate-pages-with-arrow-keys'
+import navigatePagesWithArrowKeys from './features/navigate-pages-with-arrow-keys';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
