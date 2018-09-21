@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from '../libs/page-detect';
 
 export default function () {
-	if (!pageDetect.isIssue() && !pageDetect.isPR()) {
+	if (!pageDetect.isIssue()) {
 		return;
 	}
 
