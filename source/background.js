@@ -1,6 +1,7 @@
 import OptionsSync from 'webext-options-sync';
 import domainPermissionToggle from 'webext-domain-permission-toggle';
 import dynamicContentScripts from 'webext-dynamic-content-scripts';
+import './libs/cache';
 
 // Define defaults
 new OptionsSync().define({
@@ -12,7 +13,10 @@ new OptionsSync().define({
 	},
 	migrations: [
 		options => {
-			options.disabledFeatures = options.disabledFeatures.replace('move-account-switcher-to-sidebar', ''); // #1330
+			options.disabledFeatures = options.disabledFeatures.replace('toggle-all-things-with-alt', ''); // #1524
+			options.disabledFeatures = options.disabledFeatures.replace('remove-diff-signs', ''); // #1524
+			options.disabledFeatures = options.disabledFeatures.replace('add-confirmation-to-comment-cancellation', ''); // #1524
+
 			options.disabledFeatures = options.disabledFeatures.replace('add-your-repositories-link-to-profile-dropdown', ''); // #1460
 			options.disabledFeatures = options.disabledFeatures.replace('add-readme-buttons', 'hide-readme-header'); // #1465
 			options.disabledFeatures = options.disabledFeatures.replace('add-delete-to-pr-files', ''); // #1462
@@ -37,10 +41,6 @@ browser.runtime.onMessage.addListener(async message => {
 });
 
 browser.runtime.onInstalled.addListener(async ({reason}) => {
-	// Cleanup old key
-	// TODO: remove in the future
-	browser.storage.local.remove('userWasNotified');
-
 	// Only notify on install
 	if (reason === 'install') {
 		const {installType} = await browser.management.getSelf();
@@ -51,6 +51,14 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 			url: 'https://github.com/sindresorhus/refined-github/issues/1137',
 			active: false
 		});
+	}
+
+	// Nuke old cache
+	// TODO: drop code in November
+	if (reason === 'update') {
+		const dataToPreserve = await browser.storage.local.get('unreadNotifications');
+		await browser.storage.local.clear();
+		browser.storage.local.set(dataToPreserve);
 	}
 });
 

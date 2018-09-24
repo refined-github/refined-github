@@ -1,28 +1,67 @@
+/*
+Usage:
+
+import * as api from '../libs/api';
+
+const user  = await api.v3(`users/${username}`);
+const {data} = await api.v4(graphQuery);
+
+ */
+
 import OptionsSync from 'webext-options-sync';
 
+export const v3 = (...args) => call(fetch3, ...args);
+export const v4 = (...args) => call(fetch4, ...args);
+
+const api = location.hostname === 'github.com' ? 'https://api.github.com/' : `${location.origin}/api/`;
 const cache = new Map();
 
-export default async endpoint => {
-	if (cache.has(endpoint)) {
-		return cache.get(endpoint);
-	}
+function fetch3(query, personalToken) {
 	const headers = {
 		'User-Agent': 'Refined GitHub',
 		Accept: 'application/vnd.github.v3+json'
 	};
-	const {personalToken} = await new OptionsSync().getAll();
 	if (personalToken) {
 		headers.Authorization = `token ${personalToken}`;
 	}
-	const api = location.hostname === 'github.com' ? 'https://api.github.com/' : `${location.origin}/api/`;
-	const response = await fetch(api + endpoint, {headers});
-	const json = await response.json();
+	return fetch(api + query, {headers});
+}
 
-	if (response.ok) {
-		cache.set(endpoint, json);
+function fetch4(query, personalToken) {
+	if (!personalToken) {
+		throw new Error('Personal token required for this feature');
+	}
+	return fetch(api + 'graphql', {
+		headers: {
+			'User-Agent': 'Refined GitHub',
+			Authorization: `bearer ${personalToken}`
+		},
+		method: 'POST',
+		body: JSON.stringify({query})
+	});
+}
+
+// Main function: handles cache, options, errors
+async function call(fetch, query, options) {
+	options = {
+		accept404: true,
+		...options
+	};
+
+	if (cache.has(query)) {
+		return cache.get(query);
+	}
+	const {personalToken} = await new OptionsSync().getAll();
+	const response = await fetch(query, personalToken);
+	const content = await response.text();
+	const json = content.length > 0 ? JSON.parse(content) : response.ok;
+
+	if (response.ok || (options.accept404 && response.status === 404)) {
+		cache.set(query, json);
 	} else if (json.message.includes('API rate limit exceeded')) {
 		console.error(
-			'Refined GitHub hit GitHub API’s rate limit. Set your token in the options or take a walk! 🍃 🌞'
+			'Refined GitHub hit GitHub API’s rate limit.',
+			personalToken ? 'It may be time for a walk! 🍃 🌞' : 'Set your token in the options or take a walk! 🍃 🌞',
 		);
 	} else if (json.message === 'Bad credentials') {
 		console.error(
@@ -37,4 +76,4 @@ export default async endpoint => {
 		);
 	}
 	return json;
-};
+}
