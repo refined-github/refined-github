@@ -80,10 +80,10 @@ import showFollowersYouKnow from './features/show-followers-you-know';
 import hideCommentsFaster from './features/hide-comments-faster';
 import linkifyCommitSha from './features/linkify-commit-sha';
 import hideIssueListAutocomplete from './features/hide-issue-list-autocomplete';
+import alwaysShowAllFiles from './features/always-show-all-files';
 import userProfileFollowerBadge from './features/user-profile-follower-badge';
 import setDefaultRepositoriesTypeToSources from './features/set-default-repositories-type-to-sources';
 import markPrivateOrgs from './features/mark-private-orgs';
-
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
 import observeEl from './libs/simplified-element-observer';
@@ -213,6 +213,7 @@ function ajaxedPagesHandler() {
 		enableFeature(addDiffViewWithoutWhitespaceOption);
 		enableFeature(addCILink);
 		enableFeature(sortMilestonesByClosestDueDate); // Needs to be after addMilestoneNavigation
+		enableFeature(alwaysShowAllFiles);
 	}
 
 	if (pageDetect.isRepoRoot()) {
