@@ -29,6 +29,7 @@ import hideInactiveDeployments from './features/hide-inactive-deployments';
 import hideOwnStars from './features/hide-own-stars';
 import moveMarketplaceLinkToProfileDropdown from './features/move-marketplace-link-to-profile-dropdown';
 import addTrendingMenuItem from './features/add-trending-menu-item';
+import addSquashBranchHotkey from './features/add-squash-branch-hotkey';
 import addProfileHotkey from './features/add-profile-hotkey';
 import addYoursMenuItem from './features/add-yours-menu-item';
 import addCommentedMenuItem from './features/add-commented-menu-item';
@@ -220,6 +221,7 @@ function ajaxedPagesHandler() {
 	}
 
 	if (pageDetect.isPR()) {
+		enableFeature(addSquashBranchHotkey);
 		enableFeature(scrollToTopOnCollapse);
 		enableFeature(addDeleteForkLink);
 		enableFeature(fixSquashAndMergeTitle);
