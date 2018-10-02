@@ -4,8 +4,8 @@ import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
 
 function add() {
-	for (const infoBubble of select.all('[aria-label*="will close once pull request"]')) {
-		const prLink = select('a', infoBubble.nextElementSibling);
+	for (const infoBubble of select.all('[aria-label*="will close when"]')) {
+		const prLink = select('.discussion-item-ref-title a', infoBubble.parentElement.parentElement);
 		const issueNumber = select('.issue-num', prLink).textContent;
 		select('.gh-header-meta .TableObject-item').after(
 			<div class="TableObject-item">
