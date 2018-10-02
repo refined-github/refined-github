@@ -23,7 +23,7 @@ const fetchName = async username => {
 
 export default () => {
 	const myUsername = getUsername();
-	const commentsList = select.all('.js-discussion .author:not(.rgh-fullname):not([href^="/apps/"])');
+	const commentsList = select.all('.js-discussion .author:not(.rgh-fullname):not([href*="/apps/"])');
 
 	// {sindresorhus: [a.author, a.author], otheruser: [a.author]}
 	const usersOnPage = groupBy(commentsList, el => el.textContent);
