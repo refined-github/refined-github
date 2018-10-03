@@ -80,9 +80,9 @@ import hideCommentsFaster from './features/hide-comments-faster';
 import linkifyCommitSha from './features/linkify-commit-sha';
 import hideIssueListAutocomplete from './features/hide-issue-list-autocomplete';
 import userProfileFollowerBadge from './features/user-profile-follower-badge';
+import usefulNotFoundPage from './features/useful-not-found-page';
 import setDefaultRepositoriesTypeToSources from './features/set-default-repositories-type-to-sources';
 import markPrivateOrgs from './features/mark-private-orgs';
-import usefulNotFoundPage from './features/useful-not-found-page';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
