@@ -14,11 +14,13 @@ async function is404(url) {
 	return status === 404;
 }
 
+function getStrikeThrough(text) {
+	return <del style={{color: '#6a737d'}}>{text}</del>;
+}
+
 async function checkAnchor(anchor) {
 	if (await is404(anchor.href)) {
-		anchor.replaceWith(
-			<del style={{color: '#6a737d'}}>{anchor.textContent}</del>
-		);
+		anchor.replaceWith(getStrikeThrough(anchor.textContent));
 	}
 }
 
@@ -78,15 +80,20 @@ export default function () {
 		if (i === 2 && part === 'tree') {
 			continue;
 		}
-		const pathname = '/' + parts.slice(0, i + 1).join('/');
-		bar.append(i ? ' / ' : '', <a href={pathname}>{part}</a>);
+		if (i === parts.length - 1) {
+			// The last part of the URL is a known 404
+			bar.append(' / ', getStrikeThrough(part));
+		} else {
+			const pathname = '/' + parts.slice(0, i + 1).join('/');
+			bar.append(i ? ' / ' : '', <a href={pathname}>{part}</a>);
+		}
 	}
 
 	// NOTE: We need to append it after the parallax_wrapper because other elements might not be available yet.
 	select('#parallax_wrapper').after(bar);
 
-	// Check parts from right to left
-	for (let i = bar.children.length - 1; i >= 0; i--) {
+	// Check parts from right to left; skip the last part
+	for (let i = bar.children.length - 2; i >= 0; i--) {
 		checkAnchor(bar.children[i]);
 	}
 
