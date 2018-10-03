@@ -46,7 +46,7 @@ function handleMenuOpening(event) {
 	});
 	dropdown.addEventListener('toggle', () => {
 		optionList.removeAttribute('hidden');
-		form.setAttribute('hidden', true)
+		form.setAttribute('hidden', true);
 	});
 
 	dropdown.append(form);
