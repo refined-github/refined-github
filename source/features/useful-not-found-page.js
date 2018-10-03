@@ -79,7 +79,7 @@ export default function () {
 			continue;
 		}
 		const pathname = '/' + parts.slice(0, i + 1).join('/');
-		bar.append(' / ', <a href={pathname}>{part}</a>);
+		bar.append(i ? ' / ' : '', <a href={pathname}>{part}</a>);
 	}
 
 	// NOTE: We need to append it after the parallax_wrapper because other elements might not be available yet.
