@@ -7,6 +7,7 @@ This feature adds more useful 404 (not found) page.
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import {getCleanPathname} from '../libs/page-detect';
+import getDefaultBranch from '../libs/get-default-branch';
 
 async function is404(url) {
 	const {status} = await fetch(url, {method: 'head'});
@@ -46,6 +47,28 @@ async function addCommitHistoryLink(bar) {
 	);
 }
 
+async function addDefaultBranchLink(bar) {
+	const parts = getCleanPathname().split('/');
+	const [,,, branch] = parts;
+	if (!branch) {
+		return;
+	}
+	const defaultBranch = await getDefaultBranch();
+	if (!defaultBranch || branch === defaultBranch) {
+		return;
+	}
+	parts[3] = defaultBranch;
+	const url = '/' + parts.join('/');
+	if (await is404(url)) {
+		return;
+	}
+	bar.after(
+		<p class="container">
+			See also the file on the {<a href={url}>default branch</a>}
+		</p>
+	);
+}
+
 export default function () {
 	const parts = parseCurrentURL();
 	const bar = <h2 class="container" />;
@@ -68,4 +91,5 @@ export default function () {
 	}
 
 	addCommitHistoryLink(bar);
+	addDefaultBranchLink(bar);
 }
