@@ -32,6 +32,7 @@ function parseCurrentURL() {
 	return parts;
 }
 
+// If the resource was deleted, link to the commit history
 async function addCommitHistoryLink(bar) {
 	const parts = parseCurrentURL();
 	if (parts[2] !== 'tree') {
@@ -49,6 +50,7 @@ async function addCommitHistoryLink(bar) {
 	);
 }
 
+// If the resource exists in the default branch, link it
 async function addDefaultBranchLink(bar) {
 	const parts = getCleanPathname().split('/');
 	const [,,, branch] = parts;
@@ -59,7 +61,7 @@ async function addDefaultBranchLink(bar) {
 	if (!defaultBranch || branch === defaultBranch) {
 		return;
 	}
-	parts[3] = defaultBranch;
+	parts[3] = defaultBranch; // Change branch
 	const url = '/' + parts.join('/');
 	if (await is404(url)) {
 		return;
@@ -78,6 +80,7 @@ export default function () {
 	for (let i = 0; i < parts.length; i++) {
 		const part = parts[i];
 		if (i === 2 && part === 'tree') {
+			// /tree/ is not a real part of the URL
 			continue;
 		}
 		if (i === parts.length - 1) {
