@@ -836,7 +836,7 @@ body > .footer li a {
 
 /* Widen review popup to fit 4 buttons */
 :root .pull-request-review-menu {
-	width: 430px;
+	width: 465px;
 }
 
 /* Remove the 'Review Summary' header from the form */
@@ -960,6 +960,16 @@ body > .footer li a {
 .rgh-monospace-textareas textarea {
 	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
 	font-size: 13px;
+}
+
+/* For 'hide-useless-comments' feature */
+.rgh-useless-comments-note {
+	margin: 15px 0 10px 60px;
+	font-size: 12px;
+	color: #586069;
+}
+.rgh-hidden-comment .timeline-comment {
+	border-color: var(--github-red);
 }
 
 /* For 'improve-shortcut-help' feature */

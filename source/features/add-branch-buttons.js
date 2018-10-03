@@ -4,14 +4,8 @@ import compareVersions from 'tiny-version-compare';
 import * as icons from '../libs/icons';
 import {appendBefore} from '../libs/utils';
 import {groupSiblings} from '../libs/group-buttons';
-import {getRepoURL, isRepoRoot, getOwnerAndRepo} from '../libs/page-detect';
-
-// This regex should match all of these combinations:
-// "This branch is even with master."
-// "This branch is 1 commit behind master."
-// "This branch is 1 commit ahead of master."
-// "This branch is 1 commit ahead, 27 commits behind master."
-const branchInfoRegex = /([^ ]+)\.$/;
+import getDefaultBranch from '../libs/get-default-branch';
+import {getRepoURL, isRepoRoot} from '../libs/page-detect';
 
 function getTagLink() {
 	const tags = select
@@ -44,39 +38,12 @@ function getTagLink() {
 	return link;
 }
 
-function getDefaultBranchNameIfDifferent() {
-	const {ownerName, repoName} = getOwnerAndRepo();
-	const cacheKey = `rgh-default-branch-${ownerName}-${repoName}`;
+async function getDefaultBranchLink() {
+	const defaultBranch = await getDefaultBranch();
+	const currentBranch = select('[data-hotkey="w"] span').textContent;
 
-	// Return the cached name if it differs from the current one
-	const cachedName = sessionStorage.getItem(cacheKey);
-	if (cachedName) {
-		const currentBranch = select('[data-hotkey="w"] span').textContent;
-		return cachedName === currentBranch ? false : cachedName;
-	}
-
-	// We can find the name in the infobar, available in folder views
-	const branchInfo = select('.branch-infobar');
-	if (!branchInfo) {
-		return;
-	}
-
-	// Parse the infobar
-	const [, branchName] = branchInfo.textContent.trim().match(branchInfoRegex) || [];
-	if (branchName) {
-		// Temporarily cache it between loads to enable it on files
-		sessionStorage.setItem(cacheKey, branchName);
-		return branchName;
-	}
-}
-
-function getDefaultBranchLink() {
-	if (select.exists('.repohead h1 .octicon-repo-forked')) {
-		return; // It's a fork, no "default branch" info available #1132
-	}
-
-	const branchName = getDefaultBranchNameIfDifferent();
-	if (!branchName) {
+	// Don't show the button if we’re already on the default branch
+	if (defaultBranch === currentBranch) {
 		return;
 	}
 
@@ -84,7 +51,7 @@ function getDefaultBranchLink() {
 	if (isRepoRoot()) {
 		url = `/${getRepoURL()}`;
 	} else {
-		const branchLink = select(`.select-menu-item[data-name='${branchName}']`);
+		const branchLink = select(`.select-menu-item[data-name='${defaultBranch}']`);
 		if (!branchLink) {
 			return;
 		}
@@ -98,19 +65,19 @@ function getDefaultBranchLink() {
 			aria-label="Visit the default branch">
 			{icons.branch()}
 			{' '}
-			{branchName}
+			{defaultBranch}
 		</a>
 	);
 }
 
-export default function () {
+export default async function () {
 	const container = select('.file-navigation');
 	if (!container) {
 		return;
 	}
 	const wrapper = (
 		<div class="rgh-branch-buttons">
-			{getDefaultBranchLink() || ''}
+			{await getDefaultBranchLink() || ''}
 			{getTagLink() || ''}
 		</div>
 	);

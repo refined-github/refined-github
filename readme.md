@@ -2,7 +2,6 @@
 
 [link-cws]: https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf "Version published on Chrome Web Store"
 [link-amo]: https://addons.mozilla.org/en-US/firefox/addon/refined-github-/ "Version published on Mozilla Add-ons"
-[link-travis]: https://travis-ci.org/sindresorhus/refined-github
 
 > Browser extension that simplifies the GitHub interface and adds useful features
 
@@ -148,13 +147,14 @@ GitHub Enterprise is also supported. More info in the options.
     * New projects can still be created via the [`Create new…` menu](https://user-images.githubusercontent.com/1402241/34909214-18b6fb2e-f8cf-11e7-8556-bed748596d3b.png).
 - [The autocomplete on the issue search field is removed.](https://user-images.githubusercontent.com/1402241/42991841-1f057e4e-8c07-11e8-909c-b051db7a2a03.png)
 - [Forks are hidden from a user's Repositories list (but they can still be shown)](https://user-images.githubusercontent.com/1402241/45133648-fe21be80-b1c8-11e8-9052-e38cb443efa9.png)
+- [Reaction comments ("+1", "👍", …) are hidden](https://user-images.githubusercontent.com/1402241/45543717-d45f3c00-b847-11e8-84a5-8c439d0ad1a5.png) (except the maintainers') [but they can still be shown.](https://user-images.githubusercontent.com/1402241/45543720-d628ff80-b847-11e8-9fb6-758a3102e3a9.png)
 
 ### UI improvements
 
 - [Tabs in code are shown as 4 spaces instead of 8 spaces.](https://cloud.githubusercontent.com/assets/170270/14170088/d3be931e-f755-11e5-8edf-c5f864336382.png)
 - [Labels are moved to the left of issue and pull request lists.](https://user-images.githubusercontent.com/1402241/28006237-070b8214-6581-11e7-94bc-2b01a007d00b.png)
 - [Approve or reject reviews faster with one-click review type buttons.](https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png)
-- The news feeds automagically expands when you scroll down.
+- The news feeds and contribution activities automagically expand when you scroll down.
 - The default sort order of milestones is changed to `Closest due date`.
 - The default sort order of issues and pull requests is changed to `Recently updated`.
 - [The `Expand diff` button is widened.](https://user-images.githubusercontent.com/6978877/34470024-eee4f43e-ef20-11e7-9036-65094bd58960.PNG)
@@ -178,6 +178,7 @@ And [many more…](source/content.css)
 - [Go to the next or previous commit from the bottom of the commit page.](https://user-images.githubusercontent.com/24777/41755271-741773de-75a4-11e8-9181-fcc1c73df633.png)
 - [Hide comments in fewer clicks.](https://user-images.githubusercontent.com/1402241/43039221-1ddc91f6-8d29-11e8-9ed4-93459191a510.gif)
 - [Filter PRs that you haven't submitted a review for.](https://user-images.githubusercontent.com/9264728/42569205-0c32a376-8510-11e8-9406-b3ddcf6087ef.png)
+- Use <kbd>←</kbd> and <kbd>→</kbd> to navigate through pages with pagination.
 
 ### Previously part of Refined GitHub
 

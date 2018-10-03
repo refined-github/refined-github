@@ -15,7 +15,7 @@ import addPrevNextButtonsToPRs from './features/prev-next-commit-buttons';
 import addFileCopyButton from './features/copy-file';
 // - import copyMarkdown from './features/copy-markdown';
 import linkifyCode from './features/linkify-urls-in-code';
-import autoLoadMoreNews from './features/auto-load-more-news';
+import infiniteScroll from './features/infinite-scroll';
 import addOPLabels from './features/op-labels';
 import addMoreDropdown from './features/more-dropdown';
 import addReleasesTab from './features/add-releases-tab';
@@ -46,6 +46,7 @@ import addMilestoneNavigation from './features/add-milestone-navigation';
 import addFilterCommentsByYou from './features/add-filter-comments-by-you';
 import addFilterNotReviewedByYou from './features/add-filter-not-reviewed-by-you';
 import removeProjectsTab from './features/remove-projects-tab';
+import hideUselessComments from './features/hide-useless-comments';
 import fixSquashAndMergeTitle from './features/fix-squash-and-merge-title';
 import fixSquashAndMergeMessage from './features/fix-squash-and-merge-message';
 import addTitleToEmojis from './features/add-title-to-emojis';
@@ -83,6 +84,7 @@ import userProfileFollowerBadge from './features/user-profile-follower-badge';
 import usefulNotFoundPage from './features/useful-not-found-page';
 import setDefaultRepositoriesTypeToSources from './features/set-default-repositories-type-to-sources';
 import markPrivateOrgs from './features/mark-private-orgs';
+import navigatePagesWithArrowKeys from './features/navigate-pages-with-arrow-keys';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
@@ -169,7 +171,7 @@ async function onDomReady() {
 
 	if (pageDetect.isDashboard()) {
 		enableFeature(hideOwnStars);
-		enableFeature(autoLoadMoreNews);
+		enableFeature(infiniteScroll);
 	}
 
 	// Push safeOnAjaxedPages on the next tick so it happens in the correct order
@@ -198,6 +200,8 @@ function ajaxedPagesHandler() {
 	enableFeature(addDownloadFolderButton);
 	enableFeature(linkifyBranchRefs);
 	enableFeature(openAllSelected);
+	enableFeature(hideUselessComments);
+	enableFeature(navigatePagesWithArrowKeys);
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 		enableFeature(addYoursMenuItem);
@@ -302,6 +306,7 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isUserProfile()) {
 		enableFeature(addGistsLink);
 		enableFeature(showFollowersYouKnow);
+		enableFeature(infiniteScroll);
 		enableFeature(setDefaultRepositoriesTypeToSources);
 		enableFeature(userProfileFollowerBadge);
 	}
