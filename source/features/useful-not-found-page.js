@@ -25,6 +25,23 @@ function parseCurrentURL() {
 	return parts;
 }
 
+async function createAdditionalLink(parts, bar) {
+	if (parts[2] !== 'tree') {
+		return;
+	}
+	parts[2] = 'commits';
+	const url = '/' + parts.join('/');
+	const {status} = await fetch(url, {method: 'head'});
+	if (status === 404) {
+		return;
+	}
+	bar.after(
+		<p class="container">
+			See also the file’s {<a href={url}>commit history</a>}
+		</p>
+	);
+}
+
 export default function () {
 	const parts = parseCurrentURL();
 	const bar = <h2 class="container" />;
@@ -45,4 +62,6 @@ export default function () {
 	for (let i = bar.children.length - 1; i >= 0; i--) {
 		checkAnchor(bar.children[i]);
 	}
+
+	createAdditionalLink(parts, bar);
 }
