@@ -8,9 +8,13 @@ import {h} from 'dom-chef';
 import select from 'select-dom';
 import {getCleanPathname} from '../libs/page-detect';
 
+async function is404(url) {
+	const {status} = await fetch(url, {method: 'head'});
+	return status === 404;
+}
+
 async function checkAnchor(anchor) {
-	const {status} = await fetch(anchor.href, {method: 'head'});
-	if (status === 404) {
+	if (await is404(anchor.href)) {
 		anchor.replaceWith(
 			<del style={{color: '#6a737d'}}>{anchor.textContent}</del>
 		);
@@ -25,14 +29,14 @@ function parseCurrentURL() {
 	return parts;
 }
 
-async function createAdditionalLink(parts, bar) {
+async function addCommitHistoryLink(bar) {
+	const parts = parseCurrentURL();
 	if (parts[2] !== 'tree') {
 		return;
 	}
 	parts[2] = 'commits';
 	const url = '/' + parts.join('/');
-	const {status} = await fetch(url, {method: 'head'});
-	if (status === 404) {
+	if (await is404(url)) {
 		return;
 	}
 	bar.after(
@@ -63,5 +67,5 @@ export default function () {
 		checkAnchor(bar.children[i]);
 	}
 
-	createAdditionalLink(parts, bar);
+	addCommitHistoryLink(bar);
 }
