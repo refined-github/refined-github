@@ -6,55 +6,43 @@ This feature adds more useful 404 (not found) page.
 
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import * as pageDetect from '../libs/page-detect';
+import {getCleanPathname} from '../libs/page-detect';
 
-const flatMap = (arr, fn) =>
-	arr.flatMap ?
-		arr.flatMap(fn) :
-		arr.reduce((acc, ...args) => acc.concat(fn(...args)), []);
-
-const strikethrough = target => {
-	const wrapper = <del style={{color: '#6a737d'}} />;
-	for (const child of target.childNodes) {
-		wrapper.appendChild(child);
-	}
-	return target.appendChild(wrapper);
-};
-
-const checkAnchor = async anchor => {
+async function checkAnchor(anchor) {
 	const {status} = await fetch(anchor.href, {method: 'head'});
 	if (status === 404) {
-		strikethrough(anchor);
+		anchor.replaceWith(
+			<del style={{color: '#6a737d'}}>{anchor.textContent}</del>
+		);
 	}
-	return anchor;
-};
+}
 
-const ignoredPathParts = ['tree', 'blob'];
-const buildAnchors = () =>
-	pageDetect
-		.getCleanPathname()
-		.split('/')
-		.filter(part => !ignoredPathParts.includes(part))
-		.map((part, index, parts) => {
-			const pathname = `/${parts.slice(0, index + 1).join('/')}`;
-
-			const anchor = <a href={pathname}>{part}</a>;
-			// NOTE: Asyncronoulsy check the path and strikethrough if it isn't reachable
-			checkAnchor(anchor);
-			return anchor;
-		});
+function parseCurrentURL() {
+	const parts = getCleanPathname().split('/');
+	if (parts[2] === 'blob') { // Blob URLs are never useful
+		parts[2] = 'tree';
+	}
+	return parts;
+}
 
 export default function () {
-	const anchors = buildAnchors();
-	if (anchors.length === 0) {
-		return;
+	const parts = parseCurrentURL();
+	const bar = <h2 class="container" />;
+
+	for (let i = 0; i < parts.length; i++) {
+		const part = parts[i];
+		if (i === 2 && part === 'tree') {
+			continue;
+		}
+		const pathname = '/' + parts.slice(0, i + 1).join('/');
+		bar.append(' / ', <a href={pathname}>{part}</a>);
 	}
 
 	// NOTE: We need to append it after the parallax_wrapper because other elements might not be available yet.
-	return select('#parallax_wrapper').after(
-		<div className="container">
-			<h3>Do. Or do not. There is no try.</h3>
-			<h2>{flatMap(anchors, (e, i) => (i === 0 ? [e] : [' / ', e]))}</h2>
-		</div>
-	);
+	select('#parallax_wrapper').after(bar);
+
+	// Check parts from right to left
+	for (let i = bar.children.length - 1; i >= 0; i--) {
+		checkAnchor(bar.children[i]);
+	}
 }
