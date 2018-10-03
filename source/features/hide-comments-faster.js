@@ -36,16 +36,24 @@ function handleMenuOpening(event) {
 	// Imitate existing menu
 	form.classList.add('dropdown-menu', 'dropdown-menu-sw', 'text-gray-dark', 'show-more-popover', 'anim-scale-in');
 
-	// Show menu on top of moreMenu when "Hide" is clicked
-	// Hide it when moreMenu closes
-	const moreMenu = hideButton.closest('details');
-	hideButton.addEventListener('click', () => form.removeAttribute('hidden'));
-	moreMenu.addEventListener('toggle', () => form.setAttribute('hidden', true));
-	moreMenu.append(form);
+	// Show menu on top of optionList when "Hide" is clicked
+	// Hide it when dropdown closes
+	const dropdown = hideButton.closest('details');
+	const optionList = select('.show-more-popover', dropdown);
+	hideButton.addEventListener('click', () => {
+		optionList.setAttribute('hidden', true);
+		form.removeAttribute('hidden');
+	});
+	dropdown.addEventListener('toggle', () => {
+		optionList.removeAttribute('hidden');
+		form.setAttribute('hidden', true)
+	});
+
+	dropdown.append(form);
 }
 
 export default function () {
 	if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit() || pageDetect.isDiscussion()) {
-		delegate('summary[aria-label="Show more options"]', 'click', handleMenuOpening);
+		delegate('summary[aria-label="Show options"]', 'click', handleMenuOpening);
 	}
 }
