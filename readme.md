@@ -99,7 +99,8 @@ GitHub Enterprise is also supported. More info in the options.
 - [Use the pull request title as the commit title when merging with `Squash and merge`](https://github.com/sindresorhus/refined-github/issues/276).
 - [View linked gists inline in comments.](https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.PNG)
 - [Avoid opening duplicate issues thanks to the list of possibly-related issues.](https://user-images.githubusercontent.com/29176678/37566899-85953e6e-2abf-11e8-9f0e-52d18c87bbe3.gif)
-- [Use the pull request description as the commit message when merging with `Squash and merge`](https://github.com/sindresorhus/refined-github/issues/1322).
+- [Use the pull request description as the commit message when merging with `Squash and merge`.](https://github.com/sindresorhus/refined-github/issues/1322).
+- [Access related pages on 404 pages.](https://user-images.githubusercontent.com/1402241/46402857-7bdada80-c733-11e8-91a1-856573078ff5.png)
 
 ### More actions
 

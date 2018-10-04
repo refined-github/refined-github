@@ -81,6 +81,7 @@ import hideCommentsFaster from './features/hide-comments-faster';
 import linkifyCommitSha from './features/linkify-commit-sha';
 import hideIssueListAutocomplete from './features/hide-issue-list-autocomplete';
 import userProfileFollowerBadge from './features/user-profile-follower-badge';
+import usefulNotFoundPage from './features/useful-not-found-page';
 import setDefaultRepositoriesTypeToSources from './features/set-default-repositories-type-to-sources';
 import markPrivateOrgs from './features/mark-private-orgs';
 import navigatePagesWithArrowKeys from './features/navigate-pages-with-arrow-keys';
@@ -95,10 +96,14 @@ window.select = select;
 async function init() {
 	await safeElementReady('body');
 
-	if (pageDetect.is404() || pageDetect.is500()) {
+	if (pageDetect.is500()) {
 		return;
 	}
 
+	if (pageDetect.is404()) {
+		enableFeature(usefulNotFoundPage);
+		return;
+	}
 	if (document.body.classList.contains('logged-out')) {
 		console.warn('%cRefined GitHub%c only works when you’re logged in to GitHub.', 'font-weight: bold', '');
 		return;
