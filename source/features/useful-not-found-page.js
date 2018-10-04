@@ -50,10 +50,10 @@ async function addCommitHistoryLink(bar) {
 	);
 }
 
-// If the resource exists in the default branch, link it
+// If the resource exists in the default branch, link to it
 async function addDefaultBranchLink(bar) {
 	const parts = getCleanPathname().split('/');
-	const [,,, branch] = parts;
+	const branch = parts[3];
 	if (!branch) {
 		return;
 	}
@@ -77,8 +77,7 @@ export default function () {
 	const parts = parseCurrentURL();
 	const bar = <h2 class="container"/>;
 
-	for (let i = 0; i < parts.length; i++) {
-		const part = parts[i];
+	for (const [i, part] of parts.entries()) {
 		if (i === 2 && part === 'tree') {
 			// `/tree/` is not a real part of the URL
 			continue;
