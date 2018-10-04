@@ -75,12 +75,12 @@ async function addDefaultBranchLink(bar) {
 
 export default function () {
 	const parts = parseCurrentURL();
-	const bar = <h2 class="container" />;
+	const bar = <h2 class="container"/>;
 
 	for (let i = 0; i < parts.length; i++) {
 		const part = parts[i];
 		if (i === 2 && part === 'tree') {
-			// /tree/ is not a real part of the URL
+			// `/tree/` is not a real part of the URL
 			continue;
 		}
 		if (i === parts.length - 1) {
