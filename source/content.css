@@ -836,7 +836,7 @@ body > .footer li a {
 
 /* Widen review popup to fit 4 buttons */
 :root .pull-request-review-menu {
-	width: 465px;
+	width: 480px;
 }
 
 /* Remove the 'Review Summary' header from the form */
