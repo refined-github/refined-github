@@ -15,8 +15,7 @@ export default function () {
 		}
 
 		// Comments that contain useful images shouldn't be removed
-		const image = select('a', commentText);
-		if (select.exists('img', image)) {
+		if (select.exists('a img', commentText)) {
 			continue;
 		}
 
