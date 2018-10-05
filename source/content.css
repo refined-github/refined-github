@@ -834,11 +834,6 @@ body > .footer li a {
 	color: #666;
 }
 
-/* Widen review popup to fit 4 buttons */
-:root .pull-request-review-menu {
-	width: 465px;
-}
-
 /* Remove the 'Review Summary' header from the form */
 .pull-request-review-menu label[for='pull_request_review_body'] {
 	display: none !important;
