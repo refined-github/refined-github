@@ -14,6 +14,10 @@ export default function () {
 			continue;
 		}
 
+		if (select.exists('a', commentText)) {
+			continue;
+		}
+
 		// Ensure that they're not by VIPs (owner, collaborators, etc)
 		const comment = commentText.closest('.js-timeline-item');
 		if (select.exists('.timeline-comment-label', comment)) {
