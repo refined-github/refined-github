@@ -57,6 +57,7 @@ import addKeyboardShortcutsToCommentFields from './features/add-keyboard-shortcu
 import addCreateReleaseShortcut from './features/add-create-release-shortcut';
 import addCILink from './features/add-ci-link';
 import embedGistInline from './features/embed-gist-inline';
+import arrowUpAddLabels from './features/arrow-up-add-labels';
 import extendStatusLabels from './features/extend-status-labels';
 import highlightClosingPrsInOpenIssues from './features/highlight-closing-prs-in-open-issues';
 import addJumpToBottomLink from './features/add-jump-to-bottom-link';
@@ -240,6 +241,7 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
 		enableFeature(linkifyIssuesInTitles);
 		enableFeature(embedGistInline);
+		enableFeature(arrowUpAddLabels);
 		enableFeature(extendStatusLabels);
 		enableFeature(highlightClosingPrsInOpenIssues);
 
