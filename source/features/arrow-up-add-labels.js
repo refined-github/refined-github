@@ -1,7 +1,6 @@
 import select from 'select-dom';
+import onetime from 'onetime';
 import delegate from 'delegate';
-
-let alreadySet = false;
 
 function changeSelection(from, to) {
 	if (from && from.classList.contains('navigation-focus')) {
@@ -12,19 +11,18 @@ function changeSelection(from, to) {
 	}
 }
 
-export default function () {
-	if (alreadySet) {
-		return;
-	}
-
-	delegate('.js-navigation-container', 'keydown', event => {
-		const labels = select.all('.js-active-navigation-container .js-navigation-item');
+function eventHandler(event) {
+	if (event.key === 'ArrowUp' || event.key === 'ArrowUp') {
+		const items = select.all('.js-active-navigation-container .js-navigation-item:not([style*="display:"])');
 		if (event.key === 'ArrowUp') {
-			changeSelection(labels[0], labels[labels.length - 1]);
-		} else if (event.key === 'ArrowDown') {
-			changeSelection(labels[labels.length - 1], labels[0]);
+			changeSelection(items[0], items[items.length - 1]);
+		} else {
+			changeSelection(items[items.length - 1], items[0]);
 		}
-	});
-
-	alreadySet = true;
+		event.stopImmediatePropagation();
+	}
 }
+
+export default onetime(() => {
+	delegate('.select-menu-text-filter', 'keydown', eventHandler);
+});
