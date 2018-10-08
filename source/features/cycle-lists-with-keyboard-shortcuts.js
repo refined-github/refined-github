@@ -1,6 +1,6 @@
 /*
 Some selection menus (like the label selector in the New Issue page)
-let you select select the items via up and down arrow keys.
+let you select the items via up and down arrow keys.
 This feature will let you go from item 1 to the last item by pressing up
 and vice versa.
 */
