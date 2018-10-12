@@ -54,7 +54,7 @@ async function displayIssueSuggestions(title) {
 						issues.map(issue => (
 							<a class={'Box-row d-flex px-2 ' + (issue.state === 'closed' ? 'text-red' : '')} href={issue.html_url}>
 								<div class="flex-shrink">{issue.state === 'open' ? openIssue() : closedIssue()}</div>
-								<div class="flex-grow pl-2">{issue.title}</div>
+								<div class="flex-grow pl-2">#{issue.number} {issue.title}</div>
 							</a>
 						))
 					}
