@@ -688,10 +688,6 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	/* Must be above .modal-backdrop (z-index 20) #1317 */
 	z-index: 25;
 }
-.subnav-search-context .select-menu-modal {
-	/* Bump Filters menu to be above header */
-	z-index: 26 !important;
-}
 .issues-listing .table-list-header .select-menu-list {
 	/* Since the header is sticky, filters must now fit the viewport */
 	max-height: calc(100vh - 150px);
