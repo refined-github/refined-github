@@ -519,10 +519,6 @@ div.inline-comment-form .form-actions,
 	width: 420px;
 }
 
-.CodeMirror-lines pre.CodeMirror-line {
-	font-variant-ligatures: normal;
-}
-
 /* Remove Marketplace marketing box on PRs */
 .js-marketplace-callout-container {
 	display: none !important;
