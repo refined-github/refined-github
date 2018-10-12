@@ -523,6 +523,11 @@ div.inline-comment-form .form-actions,
 	font-variant-ligatures: normal;
 }
 
+/* Add minimal 80ch and 120ch column markers in the file editor */
+pre.CodeMirror-line {
+	background: linear-gradient(to right, transparent 80ch, #fcfcfc 80ch, #fcfcfc 120ch, #f9f9f9 120ch) content-box;
+}
+
 /* Remove Marketplace marketing box on PRs */
 .js-marketplace-callout-container {
 	display: none !important;
