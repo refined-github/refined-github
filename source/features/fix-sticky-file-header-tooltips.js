@@ -4,7 +4,7 @@ const oppositeDirections = {
 	'tooltipped-n': 'tooltipped-s',
 	'tooltipped-ne': 'tooltipped-se',
 	'tooltipped-nw': 'tooltipped-sw'
-}
+};
 
 export default function () {
 	for (const el of select.all('.file-header [class*=tooltipped-n]')) {
