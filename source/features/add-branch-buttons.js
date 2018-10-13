@@ -43,7 +43,7 @@ async function getDefaultBranchLink() {
 	const currentBranch = select('[data-hotkey="w"] span').textContent;
 
 	// Don't show the button if we’re already on the default branch
-	if (defaultBranch === currentBranch) {
+	if (defaultBranch === undefined || defaultBranch === currentBranch) {
 		return;
 	}
 
