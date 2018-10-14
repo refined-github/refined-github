@@ -1,21 +1,11 @@
 import select from 'select-dom';
 
-const oppositeDirections = {
-	'tooltipped-n': 'tooltipped-s',
-	'tooltipped-ne': 'tooltipped-se',
-	'tooltipped-nw': 'tooltipped-sw'
-};
-
 export default function () {
+	// flipping all tooltips inside all .file-header to their opposite direction
+	// to prevent them from cutting off.
 	for (const el of select.all('.file-header [class*=tooltipped-n]')) {
-		let direction;
-		if (el.classList.contains('tooltipped-n')) {
-			direction = 'tooltipped-n';
-		} else if (el.classList.contains('tooltipped-ne')) {
-			direction = 'tooltipped-ne';
-		} else if (el.classList.contains('tooltipped-nw')) {
-			direction = 'tooltipped-nw';
-		}
-		el.classList.replace(direction, oppositeDirections[direction]);
+		// replace the direction suffix from north to south
+		// example: -n → -s, -nw → -sw, or -ne → -se
+		el.className = el.className.replace('tooltipped-n', 'tooltipped-s');
 	}
 }
