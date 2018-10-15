@@ -49,7 +49,6 @@ import removeProjectsTab from './features/remove-projects-tab';
 import hideUselessComments from './features/hide-useless-comments';
 import fixSquashAndMergeTitle from './features/fix-squash-and-merge-title';
 import fixSquashAndMergeMessage from './features/fix-squash-and-merge-message';
-import stickyFileHeader from './features/sticky-file-header';
 import addTitleToEmojis from './features/add-title-to-emojis';
 import sortMilestonesByClosestDueDate from './features/sort-milestones-by-closest-due-date';
 import openCIDetailsInNewTab from './features/open-ci-details-in-new-tab';
@@ -65,6 +64,7 @@ import addQuickReviewButtons from './features/add-quick-review-buttons';
 import extendDiffExpander from './features/extend-diff-expander';
 import sortIssuesByUpdateTime from './features/sort-issues-by-update-time';
 import makeDiscussionSidebarSticky from './features/make-discussion-sidebar-sticky';
+import makeHeadersSticky from './features/make-headers-sticky';
 import shortenLinks from './features/shorten-links';
 import waitForBuild from './features/wait-for-build';
 import addDownloadFolderButton from './features/add-download-folder-button';
@@ -307,7 +307,7 @@ function ajaxedPagesHandler() {
 		pageDetect.isPRSearch() ||
 		pageDetect.isSingleFile()
 	) {
-		enableFeature(stickyFileHeader);
+		enableFeature(makeHeadersSticky);
 	}
 
 	if (pageDetect.isSingleFile()) {

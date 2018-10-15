@@ -652,19 +652,20 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 }
 
 /* Sticky file headers in regular file view */
-.rgh-sticky-file-header {
+.rgh-sticky-header .file-header,
+.rgh-sticky-header .table-list-header {
 	position: sticky !important;
 	top: 0;
 	/* Must be above .modal-backdrop (z-index 20) #1317 */
 	z-index: 25;
 }
 /* Sticky table header on issues list */
-.rgh-sticky-file-header .select-menu-list {
+.rgh-sticky-header .table-list-header .select-menu-list {
 	/* Since the header is sticky, filters must now fit the viewport */
 	max-height: calc(100vh - 150px);
 }
 /* Sticky file headers on pull request diff view */
-.pull-request-tab-content .diff-view .rgh-sticky-file-header {
+.rgh-sticky-header .pull-request-tab-content .diff-view .file-header {
 	top: 59px;
 }
 
