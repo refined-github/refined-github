@@ -158,7 +158,6 @@ async function onDomReady() {
 	enableFeature(enableCopyOnY);
 	enableFeature(addProfileHotkey);
 	enableFeature(makeDiscussionSidebarSticky);
-	enableFeature(makeHeadersSticky);
 	enableFeature(closeOutOfViewModals);
 	enableFeature(improveShortcutHelp);
 	enableFeature(addUploadBtn);
@@ -204,6 +203,7 @@ function ajaxedPagesHandler() {
 	enableFeature(openAllSelected);
 	enableFeature(hideUselessComments);
 	enableFeature(navigatePagesWithArrowKeys);
+	enableFeature(makeHeadersSticky);
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 		enableFeature(addYoursMenuItem);
