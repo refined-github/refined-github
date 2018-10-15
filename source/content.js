@@ -158,6 +158,7 @@ async function onDomReady() {
 	enableFeature(enableCopyOnY);
 	enableFeature(addProfileHotkey);
 	enableFeature(makeDiscussionSidebarSticky);
+	enableFeature(makeHeadersSticky);
 	enableFeature(closeOutOfViewModals);
 	enableFeature(improveShortcutHelp);
 	enableFeature(addUploadBtn);
@@ -298,16 +299,6 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isPRFiles()) {
 		enableFeature(extendDiffExpander);
-	}
-
-	if (
-		pageDetect.isIssueList() ||
-		pageDetect.isIssueSearch() ||
-		pageDetect.isPR() ||
-		pageDetect.isPRSearch() ||
-		pageDetect.isSingleFile()
-	) {
-		enableFeature(makeHeadersSticky);
 	}
 
 	if (pageDetect.isSingleFile()) {
