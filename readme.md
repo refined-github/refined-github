@@ -226,6 +226,7 @@ See the [contribution guide](contributing.md) and join the [contributors](https:
 - [GitHub Issue Link Status](https://github.com/bfred-it/github-issue-link-status) - Colorize issue and PR links to see their status (open, closed, merged)
 - [GitHub Follow](https://github.com/staff0rd/github-follow-extension) - Follow file renames on GitHub
 - [Friendly GitHub](https://github.com/Hermanya/friendly-github) - Make GitHub more social
+- [Sourcegraph](https://github.com/sourcegraph/browser-extensions) - Adds code intelligence to GitHub and other code hosts: hovers, documentation, definitions, and references in files, pull requests, and diffs.
 
 Want more? Here are some ideas you could develop!
 
