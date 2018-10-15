@@ -300,7 +300,13 @@ function ajaxedPagesHandler() {
 		enableFeature(extendDiffExpander);
 	}
 
-	if (pageDetect.isSingleFile() || pageDetect.isPR() || pageDetect.isIssueList() || pageDetect.isIssueSearch()) {
+	if (
+		pageDetect.isIssueList() ||
+		pageDetect.isIssueSearch() ||
+		pageDetect.isPR() ||
+		pageDetect.isPRSearch() ||
+		pageDetect.isSingleFile()
+	) {
 		enableFeature(stickyFileHeader);
 	}
 
