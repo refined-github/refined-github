@@ -654,7 +654,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 /* Sticky file and table headers */
 .rgh-sticky-header .file-header,
 .rgh-sticky-header .table-list-header {
-	position: sticky !important;
+	position: sticky;
 	top: 0;
 	/* Must be above .modal-backdrop (z-index 20) #1317 */
 	z-index: 25;
