@@ -49,7 +49,7 @@ import removeProjectsTab from './features/remove-projects-tab';
 import hideUselessComments from './features/hide-useless-comments';
 import fixSquashAndMergeTitle from './features/fix-squash-and-merge-title';
 import fixSquashAndMergeMessage from './features/fix-squash-and-merge-message';
-import fixStickyFileHeaderTooltips from './features/fix-sticky-file-header-tooltips';
+import stickyFileHeader from './features/sticky-file-header';
 import addTitleToEmojis from './features/add-title-to-emojis';
 import sortMilestonesByClosestDueDate from './features/sort-milestones-by-closest-due-date';
 import openCIDetailsInNewTab from './features/open-ci-details-in-new-tab';
@@ -300,8 +300,8 @@ function ajaxedPagesHandler() {
 		enableFeature(extendDiffExpander);
 	}
 
-	if (pageDetect.isSingleFile() || pageDetect.isPRFiles()) {
-		enableFeature(fixStickyFileHeaderTooltips);
+	if (pageDetect.isSingleFile() || pageDetect.isPR() || pageDetect.isIssueList() || pageDetect.isIssueSearch()) {
+		enableFeature(stickyFileHeader);
 	}
 
 	if (pageDetect.isSingleFile()) {
