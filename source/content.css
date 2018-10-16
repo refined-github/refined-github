@@ -96,7 +96,6 @@
 }
 
 /* Hide unnecessary comment toolbar items */
-.toolbar-group:first-child,
 .toolbar-item[data-prefix='@'],
 .toolbar-item[data-prefix='#'],
 .toolbar-item[data-prefix='`'] {
