@@ -706,7 +706,6 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 
 /* Similar fix to above for deeplinks to reviews */
 .review-comment:target {
-	/* stylelint-disable time-min-milliseconds */
 	animation: sticky-review-comment-target-fixer 0s 0.1ms backwards;
 }
 @keyframes sticky-review-comment-target-fixer {
