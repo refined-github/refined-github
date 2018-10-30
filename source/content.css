@@ -96,7 +96,6 @@
 }
 
 /* Hide unnecessary comment toolbar items */
-.toolbar-group:first-child,
 .toolbar-item[data-prefix='@'],
 .toolbar-item[data-prefix='#'],
 .toolbar-item[data-prefix='`'] {
@@ -519,10 +518,6 @@ div.inline-comment-form .form-actions,
 	width: 420px;
 }
 
-.CodeMirror-lines pre.CodeMirror-line {
-	font-variant-ligatures: normal;
-}
-
 /* Remove Marketplace marketing box on PRs */
 .js-marketplace-callout-container {
 	display: none !important;
@@ -688,10 +683,6 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	/* Must be above .modal-backdrop (z-index 20) #1317 */
 	z-index: 25;
 }
-.subnav-search-context .select-menu-modal {
-	/* Bump Filters menu to be above header */
-	z-index: 26 !important;
-}
 .issues-listing .table-list-header .select-menu-list {
 	/* Since the header is sticky, filters must now fit the viewport */
 	max-height: calc(100vh - 150px);
@@ -834,11 +825,6 @@ body > .footer li a {
 	color: #666;
 }
 
-/* Widen review popup to fit 4 buttons */
-:root .pull-request-review-menu {
-	width: 430px;
-}
-
 /* Remove the 'Review Summary' header from the form */
 .pull-request-review-menu label[for='pull_request_review_body'] {
 	display: none !important;
@@ -960,6 +946,16 @@ body > .footer li a {
 .rgh-monospace-textareas textarea {
 	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
 	font-size: 13px;
+}
+
+/* For 'hide-useless-comments' feature */
+.rgh-useless-comments-note {
+	margin: 15px 0 10px 60px;
+	font-size: 12px;
+	color: #586069;
+}
+.rgh-hidden-comment .timeline-comment {
+	border-color: var(--github-red);
 }
 
 /* For 'improve-shortcut-help' feature */

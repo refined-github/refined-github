@@ -9,8 +9,13 @@ export default function () {
 		code.classList.add('rgh-copy-file');
 		const file = code.closest('.file');
 
+		const content = select.all('tr', file)
+			.map(tr => tr.innerText)
+			.map(line => line === '\n' ? '' : line)
+			.join('\n');
+
 		const handleClick = () => {
-			copyToClipboard(code.innerText);
+			copyToClipboard(content);
 		};
 
 		// Prepend to list of buttons
