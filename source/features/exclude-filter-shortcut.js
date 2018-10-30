@@ -64,13 +64,24 @@ const buildSearch = item => {
 		return;
 	}
 
-	const search = new URLSearchParams(item.search);
-	const query = search.get('q') || '';
+	const search = new URLSearchParams(location.search);
+	const q = search.get('q');
+	if (!q) {
+		return;
+	}
 
-	// NOTE: The item search will not contain the filter even if the negated filter is set
-	// TODO: We don't set the negated filter if the non negated filter is already set
-	const negated = query.replace(filter, `-${filter}`);
-	search.set('q', negated);
+	const query = q.trim();
+	const negated = `-${filter}`;
+	if (query.includes(negated)) {
+		// If -label:bug is there, drop it (to match the regular click behavior)
+		search.set('q', query.replace(new RegExp(`\\s*${negated}\\s*`), ' ').trim());
+	} else if (query.includes(filter)) {
+		// If label:bug is there, replace it with -label:bug
+		search.set('q', query.replace(filter, negated));
+	} else {
+		// If label:bug isn't there, add -label:bug
+		search.set('q', `${query} ${negated}`);
+	}
 
 	return search;
 };
