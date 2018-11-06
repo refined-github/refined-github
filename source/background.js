@@ -21,6 +21,7 @@ new OptionsSync().define({
 			options.disabledFeatures = options.disabledFeatures.replace('add-readme-buttons', 'hide-readme-header'); // #1465
 			options.disabledFeatures = options.disabledFeatures.replace('add-delete-to-pr-files', ''); // #1462
 			options.disabledFeatures = options.disabledFeatures.replace('auto-load-more-news', 'infinite-scroll'); // #1516
+			options.disabledFeatures = options.disabledFeatures.replace('display-issue-suggestions', ''); // #1611
 		},
 		OptionsSync.migrations.removeUnused
 	]
