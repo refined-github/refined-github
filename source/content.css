@@ -704,6 +704,17 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	transform: translateY(-45px);
 }
 
+/* Similar fix to the above, for deep links to reviews */
+.review-comment:target {
+	animation: sticky-review-comment-target-fixer 0s 0.1ms backwards;
+}
+@keyframes sticky-review-comment-target-fixer {
+	from {
+		transform: translateY(-35px);
+		opacity: 0;
+	}
+}
+
 /* Remove annoying "helpful" banner on the issue tracker listing */
 .issues-listing .mb-4.js-notice {
 	display: none !important;
