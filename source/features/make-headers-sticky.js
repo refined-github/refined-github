@@ -2,6 +2,7 @@ import select from 'select-dom';
 
 export default function () {
 	document.documentElement.classList.add('rgh-sticky-header');
+
 	// Flipping all tooltips inside all .file-header to their opposite direction
 	// to prevent them from cutting off.
 	for (const el of select.all('.file-header [class*=tooltipped-n]')) {
