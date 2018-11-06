@@ -9,8 +9,8 @@ export default function () {
 		code.classList.add('rgh-copy-file');
 		const file = code.closest('.file');
 
-		const content = select.all('tr', file)
-			.map(tr => tr.innerText)
+		const content = select.all('.blob-code-inner', file)
+			.map(blob => blob.innerText)
 			.map(line => line === '\n' ? '' : line)
 			.join('\n');
 
