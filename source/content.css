@@ -704,7 +704,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	transform: translateY(-45px);
 }
 
-/* Similar fix to above for deeplinks to reviews */
+/* Similar fix to the above, for deep links to reviews */
 .review-comment:target {
 	animation: sticky-review-comment-target-fixer 0s 0.1ms backwards;
 }
