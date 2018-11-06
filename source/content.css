@@ -619,16 +619,6 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	margin-right: 8px;
 }
 
-/* Make issue suggestions as wide as possible, within the current viewport */
-.rgh-issue-suggestions {
-	min-width: 100%;
-	width: calc(50vw - 510px + 100%);
-	max-width: max-content;
-}
-.rgh-issue-suggestions .Box {
-	transition: opacity 0.2s;
-}
-
 /* For `add-ci-link` */
 .rgh-ci-link {
 	position: relative;
