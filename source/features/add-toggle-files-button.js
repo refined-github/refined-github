@@ -5,7 +5,7 @@ import * as icons from '../libs/icons';
 import observeEl from '../libs/simplified-element-observer';
 
 function addButton() {
-	const filesHeader = select('.commit-tease .float-right');
+	const filesHeader = select('.commit-tease');
 	if (!filesHeader || select.exists('.rgh-toggle-files')) {
 		return;
 	}
