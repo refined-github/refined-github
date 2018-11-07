@@ -73,7 +73,6 @@ import closeOutOfViewModals from './features/close-out-of-view-modals';
 import monospaceTextareas from './features/monospace-textareas';
 import improveShortcutHelp from './features/improve-shortcut-help';
 import hideNavigationHoverHighlight from './features/hide-navigation-hover-highlight';
-import displayIssueSuggestions from './features/display-issue-suggestions';
 import addPullRequestHotkey from './features/add-pull-request-hotkey';
 import openSelectionInNewTab from './features/add-selection-in-new-tab';
 import addSwapBranchesOnCompare from './features/add-swap-branches-on-compare';
@@ -249,10 +248,6 @@ function ajaxedPagesHandler() {
 			enableFeature(addOPLabels);
 			enableFeature(addTimeMachineLinksToComments);
 		});
-	}
-
-	if (pageDetect.isNewIssue()) {
-		enableFeature(displayIssueSuggestions);
 	}
 
 	if (pageDetect.isIssue() || pageDetect.isPRConversation()) {
