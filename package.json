@@ -95,7 +95,6 @@
 					"useBuiltIns": true
 				}
 			],
-			"@babel/plugin-proposal-unicode-property-regex",
 			"@babel/plugin-syntax-object-rest-spread"
 		],
 		"env": {
