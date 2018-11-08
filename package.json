@@ -37,7 +37,6 @@
 	},
 	"devDependencies": {
 		"@babel/core": "^7.0.0",
-		"@babel/plugin-syntax-object-rest-spread": "^7.0.0",
 		"@babel/plugin-transform-modules-commonjs": "^7.0.0",
 		"@babel/plugin-transform-react-jsx": "^7.0.0",
 		"@babel/register": "^7.0.0",
@@ -93,8 +92,7 @@
 					"pragma": "h",
 					"useBuiltIns": true
 				}
-			],
-			"@babel/plugin-syntax-object-rest-spread"
+			]
 		],
 		"env": {
 			"testing": {
