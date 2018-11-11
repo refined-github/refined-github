@@ -990,11 +990,20 @@ body > .footer li a {
 	padding-bottom: 4px !important;
 }
 
-.profile-org-private-lock {
+/* Adding a lock icon to private organizations */
+.rgh-private-org {
+	position: relative;
+}
+.rgh-private-org .rgh-lock-icon {
 	pointer-events: none;
+	display: flex;
 	position: absolute;
-	top: 15px;
-	left: 20px;
+	bottom: 2px;
+	right: 2px;
+	width: 14px;
+}
+.rgh-private-org .rgh-lock-icon svg {
+	fill: #333;
 }
 
 /* For badge on user profiles */

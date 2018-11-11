@@ -27,9 +27,10 @@ export default async function () {
 
 		// Display the lock icon on private orgs
 		if (!publicOrgs.includes(orgPath)) {
+			orgAvatar.classList.add('rgh-private-org');
 			orgAvatar.append(
-				<span class="profile-org-private-lock">
-					{icons.privateLockFilled(15)}
+				<span class="rgh-lock-icon">
+					{icons.privateLockFilled()}
 				</span>
 			);
 		}
