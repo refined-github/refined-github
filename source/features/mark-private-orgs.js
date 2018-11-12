@@ -4,16 +4,13 @@ import * as icons from '../libs/icons';
 import * as api from '../libs/api';
 
 export default async function () {
-	const publicOrgs = await api.v3(`users/${getUsername()}/orgs`);
+	let publicOrgs = await api.v3(`users/${getUsername()}/orgs`);
+	publicOrgs = publicOrgs.map(orgData => `/${orgData.login}`);
 
-	// Select organization avatars except public ones
-	const orgSelector = '.avatar-group-item[data-hovercard-type="organization"]';
-	const privateOrgSelector = orgSelector + publicOrgs
-		.map(orgData => `:not([href="/${orgData.login}"])`)
-		.join('');
-
-	for (const org of select.all(privateOrgSelector)) {
-		org.classList.add('rgh-private-org');
-		org.append(icons.privateLockFilled());
+	for (const org of select.all('.avatar-group-item[data-hovercard-type="organization"]')) {
+		if (!publicOrgs.includes(org.pathname)) {
+			org.classList.add('rgh-private-org');
+			org.append(icons.privateLockFilled());
+		}
 	}
 }
