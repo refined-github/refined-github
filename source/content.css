@@ -994,15 +994,11 @@ body > .footer li a {
 .rgh-private-org {
 	position: relative;
 }
-.rgh-private-org .rgh-lock-icon {
+.rgh-private-org svg {
 	pointer-events: none;
-	display: flex;
 	position: absolute;
 	bottom: 2px;
 	right: 2px;
-	width: 14px;
-}
-.rgh-private-org .rgh-lock-icon svg {
 	fill: #333;
 }
 
