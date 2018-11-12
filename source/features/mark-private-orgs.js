@@ -6,33 +6,13 @@ import * as api from '../libs/api';
 
 export default async function () {
 	let publicOrgs = await api.v3(`users/${getUsername()}/orgs`);
-	if (!publicOrgs) {
-		return;
-	}
 	publicOrgs = publicOrgs.map(orgData => `/${orgData.login}`);
 
-	const userContainer = select('[itemtype="http://schema.org/Person"]');
-	if (!userContainer) {
-		return;
-	}
-
-	// Find all org avatars
-	const orgAvatars = select.all('[itemprop="follows"]', userContainer);
-	for (const orgAvatar of orgAvatars) {
-		// Check if org is private
+	for (const orgAvatar of select.all('.avatar-group-item[data-hovercard-type="organization"]')) {
 		const orgPath = orgAvatar.getAttribute('href');
-		if (!orgPath) {
-			continue;
-		}
-
-		// Display the lock icon on private orgs
-		if (!publicOrgs.includes(orgPath)) {
+		if (!publicOrgs.includes(orgAvatar.getAttribute('href'))) {
 			orgAvatar.classList.add('rgh-private-org');
-			orgAvatar.append(
-				<span class="rgh-lock-icon">
-					{icons.privateLockFilled()}
-				</span>
-			);
+			orgAvatar.append(icons.privateLock());
 		}
 	}
 }
