@@ -211,7 +211,7 @@ test('isIssueList', urlMatcherMacro, pageDetect.isIssueList, [
 	'https://github.com/wildlifela/carmichael-lynch-2018/labels'
 ]);
 
-test('isIssueSearch', urlMatcherMacro, pageDetect.isIssueSearch, [
+test('isGlobalIssueSearch', urlMatcherMacro, pageDetect.isGlobalIssueSearch, [
 	'https://github.com/issues'
 ], [
 	'https://github.com/sindresorhus/refined-github/issues',
@@ -291,7 +291,7 @@ test('isPRFiles', urlMatcherMacro, pageDetect.isPRFiles, [
 	'https://github.com/sindresorhus/refined-github/pulls'
 ]);
 
-test('isPRSearch', urlMatcherMacro, pageDetect.isPRSearch, [
+test('isGlobalPRSearch', urlMatcherMacro, pageDetect.isGlobalPRSearch, [
 	'https://github.com/pulls'
 ], [
 	'https://github.com/sindresorhus/refined-github/pulls',

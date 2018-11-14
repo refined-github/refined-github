@@ -59,7 +59,7 @@ export const isIssue = () => /^issues\/\d+/.test(getRepoPath());
 
 export const isIssueList = () => /^(issues$|pulls$|labels\/)/.test(getRepoPath());
 
-export const isIssueSearch = () => location.pathname.startsWith('/issues');
+export const isGlobalIssueSearch = () => location.pathname.startsWith('/issues');
 
 export const isLabel = () => /^labels\/\w+/.test(getRepoPath());
 
@@ -83,7 +83,7 @@ export const isPRCommit = () => /^pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(getRe
 
 export const isPRFiles = () => /^pull\/\d+\/files/.test(getRepoPath());
 
-export const isPRSearch = () => location.pathname.startsWith('/pulls');
+export const isGlobalPRSearch = () => location.pathname.startsWith('/pulls');
 
 export const isQuickPR = () => isCompare() && /[?&]quick_pull=1(&|$)/.test(location.search);
 
