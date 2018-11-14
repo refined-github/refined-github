@@ -21,9 +21,34 @@ const getItemName = item => {
 	const text = itemText.firstChild.textContent.trim();
 	return text.includes(' ') ? `"${text}"` : text;
 };
+const getLastQuery = item => {
+	return new URLSearchParams(item.search)
+		.get('q')
 
+		// Get the last query
+		.split(' ')
+		.pop();
+};
 const getFilter = item => {
 	const field = getFilterField(item);
+	if (field === 'sort') {
+		return;
+	}
+	if (field === 'review') {
+		// Review filters have the review query set even if they’re selected
+		return getLastQuery(item);
+	}
+	if (field === 'project') {
+		// Project filters don’t have the project query set if they’re selected
+		// and the query cannot be determined via getFilterField/getItemName
+		const query = getLastQuery(item);
+		if (query.startsWith('project:')) {
+			return query;
+		} else {
+			return; // Not supported
+		}
+	}
+
 	const name = getItemName(item);
 	if (name) {
 		return `${field}:${name}`;
