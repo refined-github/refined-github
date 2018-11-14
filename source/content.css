@@ -34,10 +34,6 @@
 [aria-label='Edit this file']::after,
 [aria-label='Edit comment']::before,
 [aria-label='Edit comment']::after,
-[aria-label='Open this file in GitHub Desktop']::before,
-[aria-label='Open this file in GitHub Desktop']::after,
-[aria-label$='branch to make changes.']::before,
-[aria-label$='branch to make changes.']::after,
 .notification-indicator::before,
 .notification-indicator::after {
 	display: none !important;
@@ -96,7 +92,6 @@
 }
 
 /* Hide unnecessary comment toolbar items */
-.toolbar-group:first-child,
 .toolbar-item[data-prefix='@'],
 .toolbar-item[data-prefix='#'],
 .toolbar-item[data-prefix='`'] {
@@ -440,7 +435,7 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 .stale-files-tab .stale-files-tab-link {
 	font-size: 14px;
 }
-.stale-files-tab-link::before {
+.subset-files-tab .stale-files-tab-link::before {
 	content: 'Subset of changes. ';
 	font-weight: normal;
 }
@@ -519,10 +514,6 @@ div.inline-comment-form .form-actions,
 	width: 420px;
 }
 
-.CodeMirror-lines pre.CodeMirror-line {
-	font-variant-ligatures: normal;
-}
-
 /* Remove Marketplace marketing box on PRs */
 .js-marketplace-callout-container {
 	display: none !important;
@@ -565,6 +556,9 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 }
 .js-issue-row .mt-1.text-small.text-gray { /* Issue details line */
 	flex-basis: 100%;
+}
+.js-issue-row .h4 { /* Title */
+	max-width: 100%; /* #1518 */
 }
 .js-issue-row .IssueLabel {
 	padding: 2px 3px 3px !important;
@@ -625,16 +619,6 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	margin-right: 8px;
 }
 
-/* Make issue suggestions as wide as possible, within the current viewport */
-.rgh-issue-suggestions {
-	min-width: 100%;
-	width: calc(50vw - 510px + 100%);
-	max-width: max-content;
-}
-.rgh-issue-suggestions .Box {
-	transition: opacity 0.2s;
-}
-
 /* For `add-ci-link` */
 .rgh-ci-link {
 	position: relative;
@@ -664,34 +648,22 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	margin-left: 0;
 }
 
-/* Sticky file headers on pull request diff view */
-.pull-request-tab-content .diff-view .file-header {
-	position: sticky;
-	top: 59px;
-	z-index: 10;
-}
-
-/* Sticky file headers in regular file view */
-.file .file-header {
-	position: sticky;
-	top: 0;
-	z-index: 10;
-}
-
-/* Sticky table header on issues list */
-.issues-listing .table-list-header {
+/* Sticky file and table headers */
+.rgh-sticky-header .file-header,
+.rgh-sticky-header .table-list-header {
 	position: sticky;
 	top: 0;
 	/* Must be above .modal-backdrop (z-index 20) #1317 */
 	z-index: 25;
 }
-.subnav-search-context .select-menu-modal {
-	/* Bump Filters menu to be above header */
-	z-index: 26 !important;
-}
-.issues-listing .table-list-header .select-menu-list {
-	/* Since the header is sticky, filters must now fit the viewport */
+
+/* Since the header is sticky, filters must now fit the viewport */
+.rgh-sticky-header .table-list-header .select-menu-list {
 	max-height: calc(100vh - 150px);
+}
+/* Sticky file headers on pull request diff view */
+.rgh-sticky-header .pull-request-tab-content .diff-view .file-header {
+	top: 59px;
 }
 
 /* Momentarily offset the line so its #deeplink won’t be covered by the header #974 */
@@ -708,6 +680,17 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 .file .markdown-body .anchor {
 	padding-top: 45px;
 	transform: translateY(-45px);
+}
+
+/* Similar fix to the above, for deep links to reviews */
+.review-comment:target {
+	animation: sticky-review-comment-target-fixer 0s 0.1ms backwards;
+}
+@keyframes sticky-review-comment-target-fixer {
+	from {
+		transform: translateY(-35px);
+		opacity: 0;
+	}
 }
 
 /* Remove annoying "helpful" banner on the issue tracker listing */
@@ -755,13 +738,11 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	position: relative;
 }
 [data-url$='recently_touched_branches_list'] {
-	min-width: 430px; /* Always cover the repo watch/star/forks actions */
 	max-height: 42px; /* Only cover the actions when there are multiple branches + :hover */
 	position: absolute;
 	top: -117px;
 	right: 0;
 	z-index: 32; /* Set z-index higher than ul.pagehead-actions */
-	background: var(--github-gray-background);
 	white-space: nowrap;
 	animation: rgh-slide-in-right 0.3s ease-out;
 }
@@ -829,11 +810,6 @@ body > .footer > div > ul:first-of-type li:first-of-type { /* The `© 2017 GitHu
 }
 body > .footer li a {
 	color: #666;
-}
-
-/* Widen review popup to fit 4 buttons */
-:root .pull-request-review-menu {
-	width: 430px;
 }
 
 /* Remove the 'Review Summary' header from the form */
@@ -959,6 +935,16 @@ body > .footer li a {
 	font-size: 13px;
 }
 
+/* For 'hide-useless-comments' feature */
+.rgh-useless-comments-note {
+	margin: 15px 0 10px 60px;
+	font-size: 12px;
+	color: #586069;
+}
+.rgh-hidden-comment .timeline-comment {
+	border-color: var(--github-red);
+}
+
 /* For 'improve-shortcut-help' feature */
 :root .facebox .shortcuts {
 	width: 908px;
@@ -983,6 +969,11 @@ body > .footer li a {
 	cursor: pointer;
 }
 
+/* For 'add-jump-to-bottom-link' feature */
+#rgh-jump-to-bottom-link {
+	display: inline-block; /* Avoid breaking link in two lines */
+}
+
 /* Remove the useless "Continuous integration has not been set up" message on PRs */
 .branch-action-item.marketplace-product-callout {
 	display: none;
@@ -995,4 +986,35 @@ body > .footer li a {
 .dashboard-sidebar .Box-title {
 	padding-top: 4px !important;
 	padding-bottom: 4px !important;
+}
+
+/* Adding a lock icon to private organizations */
+.rgh-private-org {
+	position: relative;
+}
+.rgh-private-org .rgh-lock-icon {
+	pointer-events: none;
+	display: flex;
+	position: absolute;
+	bottom: 2px;
+	right: 2px;
+	width: 14px;
+}
+.rgh-private-org .rgh-lock-icon svg {
+	fill: #333;
+}
+
+/* For badge on user profiles */
+.follower-badge {
+	font-size: 10px;
+	display: block;
+	animation: fade-in 0.2s;
+	margin-top: -15px;
+	margin-bottom: 5px;
+}
+.user-profile-bio {
+	margin-top: 5px;
+}
+.js-user-profile-follow-button {
+	margin-top: 5px;
 }

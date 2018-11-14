@@ -6,7 +6,7 @@ import {isIssueList} from '../libs/page-detect';
 const confirmationRequiredCount = 10;
 
 function getUrlFromCheckbox(checkbox) {
-	return checkbox.closest('li').querySelector('.js-navigation-open').href;
+	return checkbox.closest('.js-issue-row').querySelector('.js-navigation-open').href;
 }
 
 function openSelected() {

@@ -1,16 +1,8 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import domify from '../libs/domify';
+import * as cache from '../libs/cache';
 import {getUsername, groupBy} from '../libs/utils';
-
-const storageKey = 'cachedNames';
-
-const getCachedUsers = async () => {
-	const keys = await browser.storage.local.get({
-		[storageKey]: {}
-	});
-	return keys[storageKey];
-};
 
 const fetchName = async username => {
 	// /following/you_know is the lightest page we know
@@ -29,40 +21,45 @@ const fetchName = async username => {
 	return fullname;
 };
 
-export default async () => {
+export default () => {
 	const myUsername = getUsername();
-	const cache = await getCachedUsers();
+	const commentsList = select.all('.js-discussion .author:not(.rgh-fullname):not([href*="/apps/"])');
 
 	// {sindresorhus: [a.author, a.author], otheruser: [a.author]}
-	const selector = `.js-discussion .author:not(.refined-github-fullname):not([href^="/apps/"])`;
-	const usersOnPage = groupBy(select.all(selector), el => el.textContent);
+	const usersOnPage = groupBy(commentsList, el => el.textContent);
+
+	// Drop 'commented' label to shorten the copy
+	for (const usernameEl of commentsList) {
+		const commentedNode = usernameEl.parentNode.nextSibling;
+		if (commentedNode && commentedNode.textContent.includes('commented')) {
+			commentedNode.remove();
+		}
+	}
 
 	const fetchAndAdd = async username => {
-		if (typeof cache[username] === 'undefined' && username !== myUsername) {
-			cache[username] = await fetchName(username);
+		if (username === myUsername) {
+			return;
+		}
+
+		const cacheKey = `full-name:${username}`;
+		let fullname = await cache.get(cacheKey);
+		if (fullname === undefined) {
+			fullname = await fetchName(username);
+			cache.set(cacheKey, fullname);
+		}
+		if (!fullname) {
+			return;
 		}
 
 		for (const usernameEl of usersOnPage[username]) {
-			const commentedNode = usernameEl.parentNode.nextSibling;
-			if (commentedNode && commentedNode.textContent.includes('commented')) {
-				commentedNode.remove();
-			}
+			usernameEl.classList.add('rgh-fullname');
 
-			usernameEl.classList.add('refined-github-fullname');
-
-			if (cache[username] && username !== myUsername) {
-				// If it's a regular comment author, add it outside <strong>
-				// otherwise it's something like "User added some commits"
-				const insertionPoint = usernameEl.parentNode.tagName === 'STRONG' ? usernameEl.parentNode : usernameEl;
-				insertionPoint.after(' (', <bdo>{cache[username]}</bdo>, ') ');
-			}
+			// If it's a regular comment author, add it outside <strong>
+			// otherwise it's something like "User added some commits"
+			const insertionPoint = usernameEl.parentNode.tagName === 'STRONG' ? usernameEl.parentNode : usernameEl;
+			insertionPoint.after(' (', <bdo>{fullname}</bdo>, ') ');
 		}
 	};
 
-	const fetches = Object.keys(usersOnPage).map(fetchAndAdd);
-
-	// Wait for all the fetches to be done
-	await Promise.all(fetches);
-
-	browser.storage.local.set({[storageKey]: cache});
+	Object.keys(usersOnPage).map(fetchAndAdd);
 };

@@ -15,7 +15,7 @@ import addPrevNextButtonsToPRs from './features/prev-next-commit-buttons';
 import addFileCopyButton from './features/copy-file';
 // - import copyMarkdown from './features/copy-markdown';
 import linkifyCode from './features/linkify-urls-in-code';
-import autoLoadMoreNews from './features/auto-load-more-news';
+import infiniteScroll from './features/infinite-scroll';
 import addOPLabels from './features/op-labels';
 import addMoreDropdown from './features/more-dropdown';
 import addReleasesTab from './features/add-releases-tab';
@@ -23,7 +23,6 @@ import addGistsLink from './features/add-gists-link-to-profile';
 import addTimeMachineLinksToComments from './features/add-time-machine-links-to-comments';
 import removeUploadFilesButton from './features/remove-upload-files-button';
 import scrollToTopOnCollapse from './features/scroll-to-top-on-collapse';
-import removeDiffSigns from './features/remove-diff-signs';
 import linkifyBranchRefs from './features/linkify-branch-refs';
 import hideEmptyMeta from './features/hide-empty-meta';
 import hideInactiveDeployments from './features/hide-inactive-deployments';
@@ -40,12 +39,14 @@ import addDeleteForkLink from './features/add-delete-fork-link';
 import linkifyIssuesInTitles from './features/linkify-issues-in-titles';
 import addPatchDiffLinks from './features/add-patch-diff-links';
 import markMergeCommitsInList from './features/mark-merge-commits-in-list';
-import showRecentlyPushedBranches from './features/show-recently-pushed-branches';
+import showRecentlyPushedBranchesOnMorePages from './features/show-recently-pushed-branches-on-more-pages';
 import addDiffViewWithoutWhitespaceOption from './features/add-diff-view-without-whitespace-option';
 import preserveWhitespaceOptionInNav from './features/preserve-whitespace-option-in-nav';
 import addMilestoneNavigation from './features/add-milestone-navigation';
 import addFilterCommentsByYou from './features/add-filter-comments-by-you';
+import addFilterNotReviewedByYou from './features/add-filter-not-reviewed-by-you';
 import removeProjectsTab from './features/remove-projects-tab';
+import hideUselessComments from './features/hide-useless-comments';
 import fixSquashAndMergeTitle from './features/fix-squash-and-merge-title';
 import fixSquashAndMergeMessage from './features/fix-squash-and-merge-message';
 import addTitleToEmojis from './features/add-title-to-emojis';
@@ -54,17 +55,16 @@ import openCIDetailsInNewTab from './features/open-ci-details-in-new-tab';
 import focusConfirmationButtons from './features/focus-confirmation-buttons';
 import addKeyboardShortcutsToCommentFields from './features/add-keyboard-shortcuts-to-comment-fields';
 import addCreateReleaseShortcut from './features/add-create-release-shortcut';
-import addConfirmationToCommentCancellation from './features/add-confirmation-to-comment-cancellation';
 import addCILink from './features/add-ci-link';
 import embedGistInline from './features/embed-gist-inline';
 import extendStatusLabels from './features/extend-status-labels';
 import highlightClosingPrsInOpenIssues from './features/highlight-closing-prs-in-open-issues';
-import toggleAllThingsWithAlt from './features/toggle-all-things-with-alt';
 import addJumpToBottomLink from './features/add-jump-to-bottom-link';
 import addQuickReviewButtons from './features/add-quick-review-buttons';
 import extendDiffExpander from './features/extend-diff-expander';
 import sortIssuesByUpdateTime from './features/sort-issues-by-update-time';
 import makeDiscussionSidebarSticky from './features/make-discussion-sidebar-sticky';
+import makeHeadersSticky from './features/make-headers-sticky';
 import shortenLinks from './features/shorten-links';
 import waitForBuild from './features/wait-for-build';
 import addDownloadFolderButton from './features/add-download-folder-button';
@@ -73,7 +73,6 @@ import closeOutOfViewModals from './features/close-out-of-view-modals';
 import monospaceTextareas from './features/monospace-textareas';
 import improveShortcutHelp from './features/improve-shortcut-help';
 import hideNavigationHoverHighlight from './features/hide-navigation-hover-highlight';
-import displayIssueSuggestions from './features/display-issue-suggestions';
 import addPullRequestHotkey from './features/add-pull-request-hotkey';
 import openSelectionInNewTab from './features/add-selection-in-new-tab';
 import addSwapBranchesOnCompare from './features/add-swap-branches-on-compare';
@@ -82,6 +81,11 @@ import hideCommentsFaster from './features/hide-comments-faster';
 import linkifyCommitSha from './features/linkify-commit-sha';
 import hideIssueListAutocomplete from './features/hide-issue-list-autocomplete';
 import showUserTopRepositories from './features/show-user-top-repositories';
+import userProfileFollowerBadge from './features/user-profile-follower-badge';
+import usefulNotFoundPage from './features/useful-not-found-page';
+import setDefaultRepositoriesTypeToSources from './features/set-default-repositories-type-to-sources';
+import markPrivateOrgs from './features/mark-private-orgs';
+import navigatePagesWithArrowKeys from './features/navigate-pages-with-arrow-keys';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
@@ -93,10 +97,14 @@ window.select = select;
 async function init() {
 	await safeElementReady('body');
 
-	if (pageDetect.is404() || pageDetect.is500()) {
+	if (pageDetect.is500()) {
 		return;
 	}
 
+	if (pageDetect.is404()) {
+		enableFeature(usefulNotFoundPage);
+		return;
+	}
 	if (document.body.classList.contains('logged-out')) {
 		console.warn('%cRefined GitHub%c only works when you’re logged in to GitHub.', 'font-weight: bold', '');
 		return;
@@ -131,7 +139,6 @@ async function init() {
 
 	enableFeature(focusConfirmationButtons);
 	enableFeature(addKeyboardShortcutsToCommentFields);
-	enableFeature(addConfirmationToCommentCancellation);
 	enableFeature(hideNavigationHoverHighlight);
 	enableFeature(monospaceTextareas);
 	enableFeature(openSelectionInNewTab);
@@ -165,7 +172,7 @@ async function onDomReady() {
 
 	if (pageDetect.isDashboard()) {
 		enableFeature(hideOwnStars);
-		enableFeature(autoLoadMoreNews);
+		enableFeature(infiniteScroll);
 	}
 
 	// Push safeOnAjaxedPages on the next tick so it happens in the correct order
@@ -194,6 +201,9 @@ function ajaxedPagesHandler() {
 	enableFeature(addDownloadFolderButton);
 	enableFeature(linkifyBranchRefs);
 	enableFeature(openAllSelected);
+	enableFeature(hideUselessComments);
+	enableFeature(navigatePagesWithArrowKeys);
+	enableFeature(makeHeadersSticky);
 
 	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
 		enableFeature(addYoursMenuItem);
@@ -210,7 +220,6 @@ function ajaxedPagesHandler() {
 		enableFeature(hideReadmeHeader);
 		enableFeature(addBranchButtons);
 		enableFeature(addDiffViewWithoutWhitespaceOption);
-		enableFeature(removeDiffSigns);
 		enableFeature(addCILink);
 		enableFeature(sortMilestonesByClosestDueDate); // Needs to be after addMilestoneNavigation
 	}
@@ -226,7 +235,6 @@ function ajaxedPagesHandler() {
 		enableFeature(fixSquashAndMergeMessage);
 		enableFeature(openCIDetailsInNewTab);
 		enableFeature(waitForBuild);
-		enableFeature(toggleAllThingsWithAlt);
 		enableFeature(hideInactiveDeployments);
 		enableFeature(addPullRequestHotkey);
 	}
@@ -243,10 +251,6 @@ function ajaxedPagesHandler() {
 		});
 	}
 
-	if (pageDetect.isNewIssue()) {
-		enableFeature(displayIssueSuggestions);
-	}
-
 	if (pageDetect.isIssue() || pageDetect.isPRConversation()) {
 		enableFeature(addJumpToBottomLink);
 	}
@@ -254,10 +258,11 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isIssueList()) {
 		enableFeature(addFilterCommentsByYou);
 		enableFeature(hideIssueListAutocomplete);
+		enableFeature(addFilterNotReviewedByYou);
 	}
 
 	if (pageDetect.isIssueList() || pageDetect.isPR() || pageDetect.isIssue()) {
-		enableFeature(showRecentlyPushedBranches);
+		enableFeature(showRecentlyPushedBranchesOnMorePages);
 	}
 
 	if (pageDetect.isReleasesOrTags()) {
@@ -266,11 +271,9 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isCommit()) {
 		enableFeature(addPatchDiffLinks);
-		enableFeature(toggleAllThingsWithAlt);
 	}
 
 	if (pageDetect.isCompare()) {
-		enableFeature(toggleAllThingsWithAlt);
 		enableFeature(addSwapBranchesOnCompare);
 	}
 
@@ -302,6 +305,13 @@ function ajaxedPagesHandler() {
 		enableFeature(addGistsLink);
 		enableFeature(showFollowersYouKnow);
 		enableFeature(showUserTopRepositories);
+		enableFeature(infiniteScroll);
+		enableFeature(setDefaultRepositoriesTypeToSources);
+		enableFeature(userProfileFollowerBadge);
+	}
+
+	if (pageDetect.isOwnUserProfile()) {
+		enableFeature(markPrivateOrgs);
 	}
 
 	if (pageDetect.isPRCommit()) {
