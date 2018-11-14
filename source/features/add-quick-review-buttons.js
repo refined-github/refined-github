@@ -57,7 +57,7 @@ export default function () {
 	submitButton.remove();
 
 	// Freeze form to avoid duplicate submissions
-	select('#submit-review').addEventListener('submit', async () => {
+	select('#submit-review').addEventListener('submit', () => {
 		// Delay disabling the fields to let them be submitted first
 		setTimeout(() => {
 			for (const control of select.all('#submit-review button, #submit-review textarea')) {

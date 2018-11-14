@@ -7,7 +7,7 @@ the page too.
 */
 import select from 'select-dom';
 
-export default async () => {
+export default () => {
 	const originalPrevNext = select('.commit .BtnGroup.float-right');
 	if (!originalPrevNext) {
 		return;

@@ -12,6 +12,7 @@ function getParticipants(container) {
 		.replace(/ reacted with.*/, '')
 		.replace(/,? and /, ', ')
 		.replace(/, \d+ more/, '')
+		.replace(/\[bot\]/g, '')
 		.split(', ')
 		.filter(username => username !== currentUser)
 		.map(username => ({
@@ -21,7 +22,7 @@ function getParticipants(container) {
 }
 
 function add() {
-	for (const list of select.all(`.has-reactions .comment-reactions-options:not(.rgh-reactions)`)) {
+	for (const list of select.all('.has-reactions .comment-reactions-options:not(.rgh-reactions)')) {
 		const avatarLimit = arbitraryAvatarLimit - (list.children.length * approximateHeaderLength);
 
 		const participantByReaction = [].map.call(list.children, getParticipants);

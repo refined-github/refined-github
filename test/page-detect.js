@@ -1,10 +1,6 @@
 import test from 'ava';
+import './fixtures/globals';
 import * as pageDetect from '../source/libs/page-detect';
-import Window from './fixtures/window';
-
-global.window = new Window();
-global.location = window.location;
-global.document = {};
 
 function urlMatcherMacro(t, detectFn, shouldMatch = [], shouldNotMatch = []) {
 	for (const url of shouldMatch) {

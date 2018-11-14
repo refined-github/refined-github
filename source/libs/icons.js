@@ -37,3 +37,14 @@ export const chevronLeft = () => <svg aria-hidden="true" class="octicon octicon-
 export const externalLink = () => <svg aria-hidden="true" class="octicon octicon-link-external" width="12" height="16"><path fill-rule="evenodd" d="M11 10h1v3c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h3v1H1v10h10v-3zM6 2l2.25 2.25L5 7.5 6.5 9l3.25-3.25L12 8V2H6z"/></svg>;
 
 export const branch = () => <svg aria-hidden="true" class="octicon octicon-git-branch" height="16" width="10"><path fill-rule="evenodd" d="M10 5c0-1.11-.89-2-2-2a1.993 1.993 0 0 0-1 3.72v.3c-.02.52-.23.98-.63 1.38-.4.4-.86.61-1.38.63-.83.02-1.48.16-2 .45V4.72a1.993 1.993 0 0 0-1-3.72C.88 1 0 1.89 0 3a2 2 0 0 0 1 1.72v6.56c-.59.35-1 .99-1 1.72 0 1.11.89 2 2 2 1.11 0 2-.89 2-2 0-.53-.2-1-.53-1.36.09-.06.48-.41.59-.47.25-.11.56-.17.94-.17 1.05-.05 1.95-.45 2.75-1.25S8.95 7.77 9 6.73h-.02C9.59 6.37 10 5.73 10 5zM2 1.8c.66 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2C1.35 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2zm0 12.41c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm6-8c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"/></svg>;
+
+export const privateLock = () => <svg className="octicon octicon-lock" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 13H3v-1h1v1zm8-6v7c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V7c0-.55.45-1 1-1h1V4c0-2.2 1.8-4 4-4s4 1.8 4 4v2h1c.55 0 1 .45 1 1zM3.8 6h4.41V4c0-1.22-.98-2.2-2.2-2.2-1.22 0-2.2.98-2.2 2.2v2H3.8zM11 7H2v7h9V7zM4 8H3v1h1V8zm0 2H3v1h1v-1z" /></svg>;
+
+export const privateLockFilled = () => (
+	<svg className="octicon octicon-lock" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true">
+		<path d="M11.88 5.86h-.3V4.58a4.58 4.58 0 0 0-9.16 0v1.28h-.3A1.66 1.66 0 0 0 .46 7.51v6.83A1.66 1.66 0 0 0 2.12 16h9.76a1.66 1.66 0 0 0 1.66-1.66V7.51a1.66 1.66 0 0 0-1.66-1.65zM5.54 4.58a1.47 1.47 0 0 1 2.94 0v1.28H5.54zm5.66 3.61v5.47H3.78V8.19z" fill="#fff" />
+		<path d="M11.88 6.54h-1v-2a3.9 3.9 0 0 0-7.8 0v2h-1a1 1 0 0 0-1 1v6.83a1 1 0 0 0 1 1h9.76a1 1 0 0 0 1-1V7.51a1 1 0 0 0-.96-.97zm-7 0v-2a2.15 2.15 0 0 1 4.3 0v2zm7 7.8H3.1V7.51h8.78z" />
+		<path d="M3.1 7.51h8.78v6.83H3.1z" fill="#eee" />
+		<path d="M5.05 9.46h-1v-1h1zm0 2.93h-1v1h1zm0-2h-1v1h1z" />
+	</svg>
+);

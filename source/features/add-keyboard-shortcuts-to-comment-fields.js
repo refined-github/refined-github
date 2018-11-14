@@ -20,26 +20,18 @@ function blurAccessibly(field) {
 
 export default function () {
 	registerShortcut('issues', '↑', 'Edit your last comment');
-	registerShortcut('prFiles', 'shift enter', 'Leave a single comment');
 
 	delegate('.js-comment-field', 'keydown', event => {
 		const field = event.target;
 
 		// Don't do anything if the suggester box is active
-		if (select.exists('.suggester.active', field.form)) {
+		if (select.exists('.suggester:not([hidden])', field.form)) {
 			return;
 		}
 
 		if (event.key === 'Tab' && !event.shiftKey) {
 			indentTextarea(field);
 			event.preventDefault();
-		} else if (event.key === 'Enter' && event.shiftKey) {
-			const singleCommentButton = select('.review-simple-reply-button', field.form);
-
-			if (singleCommentButton) {
-				singleCommentButton.click();
-				event.preventDefault();
-			}
 		} else if (event.key === 'Escape') {
 			// Cancel buttons have different classes for inline comments and editable comments
 			const cancelButton = select(`

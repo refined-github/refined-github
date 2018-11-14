@@ -5,9 +5,8 @@ import * as pageDetect from '../libs/page-detect';
 
 const confirmationRequiredCount = 10;
 
-function getUrlFromItem(element) {
-	// Element could be a checkbox or the issue's <li>
-	return element.closest('li').querySelector('.js-navigation-open').href;
+function getUrlFromItem(checkbox) {
+	return checkbox.closest('.js-issue-row').querySelector('.js-navigation-open').href;
 }
 
 function openIssues() {

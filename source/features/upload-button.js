@@ -7,7 +7,7 @@ import * as pageDetect from '../libs/page-detect';
 import {metaKey, safeOnAjaxedPages} from '../libs/utils';
 import observeEl from '../libs/simplified-element-observer';
 
-async function addButtons() {
+function addButtons() {
 	for (const toolbar of select.all('form:not(.rgh-has-upload-field) markdown-toolbar')) {
 		const form = toolbar.closest('form');
 		if (!select.exists('.js-manual-file-chooser[type=file]', form)) {

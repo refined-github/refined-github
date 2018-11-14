@@ -8,25 +8,25 @@ The tab isn’t shown if there are no releases.
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import * as icons from '../libs/icons';
+import * as cache from '../libs/cache';
 import * as pageDetect from '../libs/page-detect';
 import {registerShortcut} from './improve-shortcut-help';
 
 const repoUrl = pageDetect.getRepoURL();
-const repoKey = `releases-count-${repoUrl}`;
+const repoKey = `releases-count:${repoUrl}`;
 
 // Get as soon as possible, to have it ready before the first paint
-let storageMap = browser.storage.local.get(repoKey);
+const cached = cache.get(repoKey);
 
-async function updateReleasesCount() {
+function updateReleasesCount() {
 	if (pageDetect.isRepoRoot()) {
 		const releasesCountEl = select('.numbers-summary a[href$="/releases"] .num');
-		const releasesCount = Number(releasesCountEl ? releasesCountEl.textContent : 0);
-		storageMap = {[repoKey]: releasesCount};
-		browser.storage.local.set(storageMap);
+		const releasesCount = Number(releasesCountEl ? releasesCountEl.textContent.replace(/,/g, '') : 0);
+		cache.set(repoKey, releasesCount, 3);
 		return releasesCount;
 	}
 
-	return (await storageMap)[repoKey];
+	return cached;
 }
 
 export default async () => {
