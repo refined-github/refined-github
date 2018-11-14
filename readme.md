@@ -179,6 +179,7 @@ And [many more…](source/content.css)
 - [Hide comments in fewer clicks.](https://user-images.githubusercontent.com/1402241/43039221-1ddc91f6-8d29-11e8-9ed4-93459191a510.gif)
 - [Filter PRs that you haven't submitted a review for.](https://user-images.githubusercontent.com/9264728/42569205-0c32a376-8510-11e8-9406-b3ddcf6087ef.png)
 - Use <kbd>←</kbd> and <kbd>→</kbd> to navigate through pages with pagination.
+- [Find a user’s most starred repositories in their profile.](https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93de-159ad4c6f283.png)
 
 ### Previously part of Refined GitHub
 

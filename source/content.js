@@ -80,6 +80,7 @@ import showFollowersYouKnow from './features/show-followers-you-know';
 import hideCommentsFaster from './features/hide-comments-faster';
 import linkifyCommitSha from './features/linkify-commit-sha';
 import hideIssueListAutocomplete from './features/hide-issue-list-autocomplete';
+import showUserTopRepositories from './features/show-user-top-repositories';
 import userProfileFollowerBadge from './features/user-profile-follower-badge';
 import usefulNotFoundPage from './features/useful-not-found-page';
 import setDefaultRepositoriesTypeToSources from './features/set-default-repositories-type-to-sources';
@@ -303,6 +304,7 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isUserProfile()) {
 		enableFeature(addGistsLink);
 		enableFeature(showFollowersYouKnow);
+		enableFeature(showUserTopRepositories);
 		enableFeature(infiniteScroll);
 		enableFeature(setDefaultRepositoriesTypeToSources);
 		enableFeature(userProfileFollowerBadge);
