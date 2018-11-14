@@ -65,12 +65,7 @@ const buildSearch = item => {
 	}
 
 	const search = new URLSearchParams(location.search);
-	const q = search.get('q');
-	if (!q) {
-		return;
-	}
-
-	const query = q.trim();
+	const query = (search.get('q') || '').trim();
 	const negated = `-${filter}`;
 	if (query.includes(negated)) {
 		// If -label:bug is there, drop it (to match the regular click behavior)
