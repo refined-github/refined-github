@@ -509,9 +509,30 @@ div.inline-comment-form .form-actions,
 	padding: 6px 9px;
 }
 
-/* Decrease the size of the search box to fit 'Yours' menu item */
-.subnav-search-input[aria-label='Search all issues'] {
-	width: 420px;
+/* Extend issue search input width when focused */
+.subnav-search {
+	width: 320px; /* Original width on GitHub */
+}
+.subnav-search .subnav-search-input {
+	position: relative;
+	z-index: 1;
+	transition: width 0.3s ease-out;
+}
+.subnav-search .subnav-search-input:focus {
+	width: 900px;
+}
+.subnav-search .subnav-search-icon {
+	z-index: 1; /* Ensure that it stays over the input */
+}
+.float-right .subnav-search {
+	width: 420px; /* Original: 500px; Decrease the size of the search box to fit 'Yours' menu item */
+}
+.float-right .subnav-search-input {
+	width: 100%;
+	float: right;
+}
+.float-right .subnav-search-input:focus + .subnav-search-icon {
+	display: none; /* When aligned right, the icon will stay in the wrong position, so hide it */
 }
 
 /* Remove Marketplace marketing box on PRs */
