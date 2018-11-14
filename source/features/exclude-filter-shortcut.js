@@ -74,7 +74,7 @@ const buildSearch = item => {
 	const negated = `-${filter}`;
 	if (query.includes(negated)) {
 		// If -label:bug is there, drop it (to match the regular click behavior)
-		search.set('q', query.replace(new RegExp(`\\s*${negated}\\s*`), ' ').trim());
+		search.set('q', query.replace(negated, ' ').replace(/ {2,}/, ' ').trim());
 	} else if (query.includes(filter)) {
 		// If label:bug is there, replace it with -label:bug
 		search.set('q', query.replace(filter, negated));
