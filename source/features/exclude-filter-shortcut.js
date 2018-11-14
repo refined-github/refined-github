@@ -5,7 +5,6 @@ This feature ...
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate';
-import {getUsername} from '../libs/utils';
 
 const getFilterField = item => {
 	return item
@@ -17,36 +16,19 @@ const getFilterField = item => {
 		.toLowerCase();
 };
 
-// NOTE: All filter text that contains a space will be wrapped with double quotes
-const normalizeText = text => {
-	const normalized = text.trim();
-	return normalized.includes(' ') ? `"${normalized}"` : normalized;
+const getItemName = item => {
+	const itemText = select('.name', item) || select('.select-menu-item-text', item);
+	const text = itemText.firstChild.textContent.trim();
+	return text.includes(' ') ? `"${text}"` : text;
 };
 
 const getFilter = item => {
 	const field = getFilterField(item);
-	const itemText = select('.select-menu-item-text', item);
-	if (!itemText) {
-		return;
+	const name = getItemName(item);
+	if (name) {
+		return `${field}:${name}`;
 	}
-
-	if (field === 'label') {
-		const name = select('.name', itemText);
-		const text = normalizeText(name.textContent);
-		return `label:${text}`;
-	}
-
-	// NOTE: This worked for all tested filter fields
-	const first = itemText.childNodes[0];
-	const text = normalizeText(first.textContent);
-	if (field) {
-		return `${field}:${text}`;
-	}
-
-	// NOTE: Speciall cases
-	if (text === 'Reviewed by you') {
-		return `reviewed-by:${getUsername()}`;
-	}
+	// "No label/milestone/etc" filters won't have a name here and can't be excluded
 };
 
 const buildSearch = item => {
