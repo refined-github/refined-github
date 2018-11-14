@@ -2,7 +2,6 @@
 This feature ...
 */
 
-import {h} from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate';
 
