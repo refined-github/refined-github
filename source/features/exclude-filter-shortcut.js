@@ -2,8 +2,10 @@
 This feature ...
 */
 
+import {h} from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate';
+import * as icons from '../libs/icons';
 
 const getFilterName = item => {
 	return item
@@ -20,6 +22,7 @@ const getItemName = item => {
 	const text = itemText.firstChild.textContent.trim();
 	return text.includes(' ') ? `"${text}"` : text;
 };
+
 const getLastQuery = item => {
 	return new URLSearchParams(item.search)
 		.get('q')
@@ -28,6 +31,7 @@ const getLastQuery = item => {
 		.split(' ')
 		.pop();
 };
+
 const getItemQuery = item => {
 	const filter = getFilterName(item);
 	if (filter === 'sort') {
@@ -77,24 +81,71 @@ const buildSearch = item => {
 	return search;
 };
 
+const visitNegatedQuery = event => {
+	if (!event.altKey) {
+		return;
+	}
+
+	// Avoid the default (downloading the link)
+	// even if the link isn't supported
+	// because we never want to download pages
+	event.preventDefault();
+	const item = event.delegateTarget;
+	const search = buildSearch(item);
+	if (search) {
+		item.search = search;
+	}
+
+	item.click();
+};
+
+const getIcon = isNegated => {
+	return <span class="select-menu-item-icon">{isNegated ? icons.x() : icons.check()}</span>;
+};
+
+const updateFilterIcons = () => {
+	const search = new URLSearchParams(location.search);
+	const queries = (search.get('q') || '')
+		.trim()
+		.match(/(".*?"|[^"\s]+)+(?=\s*|\s*$)/g) || []; // Split by query, exclude spaces in quotes https://stackoverflow.com/a/16261693/288906
+
+	const links = new Map();
+	for (const link of select.all('.table-list-filters .select-menu-item:not(.rgh-exclude-filter-icon)')) {
+		link.classList.add('rgh-exclude-filter-icon');
+
+		const filter = getItemQuery(link);
+		if (filter) {
+			links.set(filter, link);
+		}
+	}
+	if (links.size === 0) {
+		return;
+	}
+	for (const query of queries) {
+		const isNegated = query[0] === '-';
+		const plainQuery = query.replace(/^-/, '');
+		const link = links.get(plainQuery);
+		if (!link) {
+			continue;
+		}
+		const icon = link.querySelector('.octicon-check');
+		if (!icon) {
+			link.prepend(getIcon(isNegated));
+		} else if (isNegated) {
+			icon.replaceWith(getIcon(isNegated));
+		}
+		link.setAttribute('aria-checked', 'true'); // Necessary for Assignees, but also the correct thing to do
+	}
+};
+
 export default function () {
-	const onItemClicked = event => {
-		if (!event.altKey) {
-			return;
-		}
+	delegate('.table-list-filters', 'a.select-menu-item', 'click', visitNegatedQuery, false);
 
-		// Avoid the default (downloading the link)
-		// even if the link isn't supported
-		// because we never want to download pages
-		event.preventDefault();
-		const item = event.delegateTarget;
-		const search = buildSearch(item);
-		if (search) {
-			item.search = search;
-		}
+	updateFilterIcons();
 
-		item.click();
-	};
-
-	delegate('.table-list-filters', 'a.select-menu-item', 'click', onItemClicked, false);
+	// Some filters are loaded on demand
+	const observer = new MutationObserver(updateFilterIcons);
+	for (const dropdown of select.all('.table-list-filters details-menu')) {
+		observer.observe(dropdown, {childList: true});
+	}
 }
