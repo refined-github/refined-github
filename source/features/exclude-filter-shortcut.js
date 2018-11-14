@@ -92,14 +92,16 @@ export default function () {
 			return;
 		}
 
+		// Avoid the default (downloading the link)
+		// even if the link isn't supported
+		// because we never want to download pages
+		event.preventDefault();
 		const item = event.delegateTarget;
 		const search = buildSearch(item);
-		if (!search) {
-			return;
+		if (search) {
+			item.search = search;
 		}
 
-		event.preventDefault();
-		item.search = search;
 		item.click();
 	};
 
