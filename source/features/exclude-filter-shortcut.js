@@ -7,19 +7,14 @@ import select from 'select-dom';
 import delegate from 'delegate';
 import {getUsername} from '../libs/utils';
 
-const FILTER_FIELD_MAP = {
-	author: 'author',
-	label: 'label',
-	// NOTE: Doesn't work because it uses the project id
-	// projects: 'projects',
-	milestones: 'milestone',
-	assigns: 'assignee'
-};
-
 const getFilterField = item => {
-	const filter = item.parentElement.getAttribute('data-filterable-for') || '';
-	const name = filter.replace('-filter-field', '');
-	return FILTER_FIELD_MAP[name];
+	return item
+		.closest('details')
+		.querySelector('summary')
+		.textContent
+		.trim()
+		.replace(/s$/, '') // 'Assignees' -> 'Assignee'; 'Milestones -> Milestone'
+		.toLowerCase();
 };
 
 // NOTE: All filter text that contains a space will be wrapped with double quotes
@@ -30,10 +25,6 @@ const normalizeText = text => {
 
 const getFilter = item => {
 	const field = getFilterField(item);
-	if (!field) {
-		return;
-	}
-
 	const itemText = select('.select-menu-item-text', item);
 	if (!itemText) {
 		return;
