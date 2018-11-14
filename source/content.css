@@ -908,9 +908,10 @@ body > .footer li a {
 }
 
 /* For 'add-toggle-files-button' feature */
-.rgh-toggle-files {
-	margin-right: -6px;
-	margin-top: -3px;
+:root .rgh-toggle-files {
+	margin: -8px 0;
+	margin-right: -10px;
+	padding: 10px 13px;
 }
 .rgh-files-hidden .commit-tease {
 	border-radius: 3px;
