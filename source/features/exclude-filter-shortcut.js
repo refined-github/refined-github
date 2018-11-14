@@ -1,5 +1,6 @@
 /*
-This feature ...
+Exclude PR/issue filters from their list with <kbd>alt</kbd> <kbd>click</kbd>.
+https://user-images.githubusercontent.com/1402241/48470535-493cfb00-e824-11e8-863a-964f52b62553.png
 */
 
 import {h} from 'dom-chef';
