@@ -7,7 +7,7 @@ import {h} from 'dom-chef';
 import select from 'select-dom';
 import {getCleanPathname} from '../libs/page-detect';
 
-export default async function () {
+export default function () {
 	const showcaseTitle = select('.js-pinned-repos-reorder-container .text-normal');
 	if (showcaseTitle) {
 		const url = `/search?o=desc&q=user%3A${getCleanPathname()}&s=stars&type=Repositories`;
