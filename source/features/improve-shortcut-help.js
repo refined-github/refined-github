@@ -2,18 +2,18 @@ import {h} from 'dom-chef';
 import select from 'select-dom';
 import domify from '../libs/domify';
 import observeEl from '../libs/simplified-element-observer';
-import {isProject} from '../libs/page-detect';
 
 /**
  * A map of the shortcut group titles and their respective group IDs.
  * The IDs can be used to register new shortcuts using `registerShortcut`.
  */
 const groups = {
-	'Site wide shortcuts': 'site',
+	'Site-wide shortcuts': 'site',
 	Repositories: 'repos',
 	'Source code browsing': 'source',
 	'Pull request list': 'pr',
 	'Pull request - Files changed tab': 'prFiles',
+	'Pull request - Conversation tab': 'prConversation',
 	Issues: 'issues',
 	'Browsing commits': 'commits',
 	'Commit list': 'commitList',
@@ -23,6 +23,7 @@ const groups = {
 	'Moving a column': 'projectColumns',
 	'Moving a card': 'projectCards'
 };
+
 const shortcuts = new Map();
 
 /**
@@ -35,76 +36,65 @@ export function registerShortcut(groupId, hotkey, description) {
 	shortcuts.set(hotkey, {groupId, hotkey, description});
 }
 
-function splitKeys(keys) {
-	return keys.replace(/\S+/g, '<kbd>$&</kbd>');
-}
+const splitKeys = keys => keys.replace(/\S+/g, '<kbd>$&</kbd>');
 
-function improveShortcutHelp() {
-	// Remove redundant "Show All" button
-	select('.js-see-all-keyboard-shortcuts').remove();
+const fixKeys = dialog => {
+	for (const key of select.all('kbd', dialog)) {
+		if (key.textContent.includes(' ')) {
+			key.replaceWith(domify(splitKeys(key.textContent)));
+		}
+	}
+};
 
-	// Close the modal with Esc
-	select('.js-facebox-close').dataset.hotkey = 'Escape';
-
-	const modal = select('.shortcuts');
-	const groupElements = select.all('tbody', modal);
-	for (const groupElement of groupElements) {
-		const groupTitle = select('tr th:nth-child(2)', groupElement).textContent;
-		if (groupTitle in groups) {
-			const groupId = groups[groupTitle];
-
-			if (groupElement.style.display === 'none') {
-				if (groupId.startsWith('project') && !isProject()) {
-					// The "Projects"-related groups are quite big and not interesting to most users
-					groupElement.remove();
-				} else {
-					// Reduce opacity of previously hidden groups
-					groupElement.removeAttribute('style');
-					groupElement.classList.remove('js-hidden-pane');
-					groupElement.classList.add('rgh-inactive-shortcut-group');
-				}
-			} else {
-				// Push relevant (not hidden) groups to the top
-				groupElement.parentElement.prepend(groupElement);
-			}
-
-			for (const {hotkey, description, groupId: thisGroupId} of shortcuts.values()) {
-				if (thisGroupId === groupId) {
-					groupElement.append(
-						<tr>
-							<td class="keys" dangerouslySetInnerHTML={{__html: splitKeys(hotkey)}}/>
-							<td>
-								{description}
-								<div
-									class="rgh-shortcut-circle tooltipped tooltipped-nw"
-									aria-label="Shortcut added by Refined GitHub"
-								/>
-							</td>
-						</tr>
+const addShortcuts = dialog => {
+	for (const group of select.all('.Box', dialog)) {
+		const title = select('.Box-header > .Box-title', group);
+		const groupId = groups[title.innerText];
+		if (groupId) {
+			const groupList = select('ul', group);
+			for (const shortcut of shortcuts.values()) {
+				if (shortcut.groupId === groupId) {
+					groupList.append(
+						<li class="Box-row d-flex flex-row">
+							<div class="flex-auto">{shortcut.description}</div>
+							<div
+								class="rgh-shortcut-circle tooltipped tooltipped-nw"
+								aria-label="Shortcut added by Refined GitHub"
+							/>
+							<div
+								class="ml-2 no-wrap"
+								dangerouslySetInnerHTML={{__html: splitKeys(shortcut.hotkey)}}
+							/>
+						</li>
 					);
 				}
 			}
 		}
 	}
-}
-
-function fixKeys() {
-	for (const key of select.all('.keys kbd')) {
-		if (key.textContent.includes(' ')) {
-			key.replaceWith(domify(splitKeys(key.textContent)));
-		}
-	}
-}
+};
 
 export default () => {
-	observeEl('#facebox', records => {
-		if ([...records].some(record => record.target.matches('.shortcuts') &&
-			[...record.removedNodes].some(element => element.matches('.facebox-loading')))) {
-			improveShortcutHelp();
-			fixKeys();
+	// NOTE: It seems that the dialog get added after 'keydown'
+	// Alternative: Observe the body for the details elemet to be added
+	document.addEventListener('keypress', ({key}) => {
+		if (key === '?') {
+			const dialog = select('details > details-dialog.kb-shortcut-dialog');
+			observeEl(
+				dialog,
+				records => {
+					if (
+						[...records].some(record =>
+							[...record.removedNodes].some(element =>
+								element.matches('.js-details-dialog-spinner')
+							)
+						)
+					) {
+						addShortcuts(dialog);
+						fixKeys(dialog);
+					}
+				},
+				{childList: true}
+			);
 		}
-	}, {
-		childList: true,
-		subtree: true
 	});
 };
