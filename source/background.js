@@ -22,6 +22,7 @@ new OptionsSync().define({
 			options.disabledFeatures = options.disabledFeatures.replace('auto-load-more-news', 'infinite-scroll'); // #1516
 			options.disabledFeatures = options.disabledFeatures.replace('display-issue-suggestions', ''); // #1611
 			options.disabledFeatures = options.disabledFeatures.replace('open-all-selected', 'batch-open-issues'); // #1402
+			options.disabledFeatures = options.disabledFeatures.replace('copy-file-path', ''); // #1628
 		},
 		OptionsSync.migrations.removeUnused
 	]
