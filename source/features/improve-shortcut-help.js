@@ -47,7 +47,7 @@ const fixKeys = dialog => {
 };
 
 const addShortcuts = dialog => {
-	for (const group of select.all('.Box', dialog)) {
+	for (const group of select.all('.Box-body .Box', dialog)) {
 		const title = select('.Box-header > .Box-title', group);
 		const groupId = groups[title.innerText];
 		if (!groupId) {
@@ -61,12 +61,13 @@ const addShortcuts = dialog => {
 			}
 
 			groupList.append(
-				<li class="Box-row d-flex flex-row">
-					<div class="flex-auto">{shortcut.description}</div>
+				<li class="Box-row d-flex flex-row rgh-shortcut-box">
 					<div
-						class="rgh-shortcut-circle tooltipped tooltipped-nw"
+						class="flex-auto tooltipped tooltipped-nw"
 						aria-label="Shortcut added by Refined GitHub"
-					/>
+					>
+						{shortcut.description}
+					</div>
 					<div
 						class="ml-2 no-wrap"
 						dangerouslySetInnerHTML={{__html: splitKeys(shortcut.hotkey)}}

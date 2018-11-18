@@ -960,14 +960,8 @@ body > .footer li a {
 	opacity: 0.6;
 }
 
-.rgh-shortcut-circle {
-	display: inline-block;
-	width: 7px;
-	height: 7px;
-	border-radius: 50%;
-	margin-left: 5px;
-	background: #9c95b3;
-	cursor: pointer;
+.rgh-shortcut-box {
+	font-style: italic;
 }
 
 /* For 'add-jump-to-bottom-link' feature */
