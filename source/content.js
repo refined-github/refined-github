@@ -13,7 +13,6 @@ import showRealNames from './features/show-names';
 import addCopyFilePathToPRs from './features/copy-file-path';
 import addPrevNextButtonsToPRs from './features/prev-next-commit-buttons';
 import addFileCopyButton from './features/copy-file';
-// - import copyMarkdown from './features/copy-markdown';
 import linkifyCode from './features/linkify-urls-in-code';
 import infiniteScroll from './features/infinite-scroll';
 import addOPLabels from './features/op-labels';
@@ -143,10 +142,6 @@ async function init() {
 	enableFeature(monospaceTextareas);
 	enableFeature(openSelectionInNewTab);
 	enableFeature(hideCommentsFaster);
-
-	// TODO: Enable this when we've improved how copying Markdown works
-	// See #522
-	// delegate('.markdown-body', 'copy', copyMarkdown);
 
 	await domLoaded;
 	onDomReady();
