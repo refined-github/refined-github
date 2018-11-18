@@ -50,25 +50,29 @@ const addShortcuts = dialog => {
 	for (const group of select.all('.Box', dialog)) {
 		const title = select('.Box-header > .Box-title', group);
 		const groupId = groups[title.innerText];
-		if (groupId) {
-			const groupList = select('ul', group);
-			for (const shortcut of shortcuts.values()) {
-				if (shortcut.groupId === groupId) {
-					groupList.append(
-						<li class="Box-row d-flex flex-row">
-							<div class="flex-auto">{shortcut.description}</div>
-							<div
-								class="rgh-shortcut-circle tooltipped tooltipped-nw"
-								aria-label="Shortcut added by Refined GitHub"
-							/>
-							<div
-								class="ml-2 no-wrap"
-								dangerouslySetInnerHTML={{__html: splitKeys(shortcut.hotkey)}}
-							/>
-						</li>
-					);
-				}
+		if (!groupId) {
+			continue;
+		}
+
+		const groupList = select('ul', group);
+		for (const shortcut of shortcuts.values()) {
+			if (shortcut.groupId !== groupId) {
+				continue;
 			}
+
+			groupList.append(
+				<li class="Box-row d-flex flex-row">
+					<div class="flex-auto">{shortcut.description}</div>
+					<div
+						class="rgh-shortcut-circle tooltipped tooltipped-nw"
+						aria-label="Shortcut added by Refined GitHub"
+					/>
+					<div
+						class="ml-2 no-wrap"
+						dangerouslySetInnerHTML={{__html: splitKeys(shortcut.hotkey)}}
+					/>
+				</li>
+			);
 		}
 	}
 };
@@ -77,24 +81,26 @@ export default () => {
 	// NOTE: It seems that the dialog get added after 'keydown'
 	// Alternative: Observe the body for the details elemet to be added
 	document.addEventListener('keypress', ({key}) => {
-		if (key === '?') {
-			const dialog = select('details > details-dialog.kb-shortcut-dialog');
-			observeEl(
-				dialog,
-				records => {
-					if (
-						[...records].some(record =>
-							[...record.removedNodes].some(element =>
-								element.matches('.js-details-dialog-spinner')
-							)
-						)
-					) {
-						addShortcuts(dialog);
-						fixKeys(dialog);
-					}
-				},
-				{childList: true}
-			);
+		if (key !== '?') {
+			return;
 		}
+
+		const dialog = select('details > details-dialog.kb-shortcut-dialog');
+		observeEl(
+			dialog,
+			records => {
+				const dialogSpinnerGotRemoved = [...records].some(record =>
+					[...record.removedNodes].some(element =>
+						element.matches('.js-details-dialog-spinner')
+					)
+				);
+
+				if (dialogSpinnerGotRemoved) {
+					addShortcuts(dialog);
+					fixKeys(dialog);
+				}
+			},
+			{childList: true}
+		);
 	});
 };
