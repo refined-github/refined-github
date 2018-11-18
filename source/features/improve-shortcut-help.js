@@ -49,7 +49,7 @@ const fixKeys = dialog => {
 const addShortcuts = dialog => {
 	for (const group of select.all('.Box-body .Box', dialog)) {
 		const title = select('.Box-header > .Box-title', group);
-		const groupId = groups[title.innerText];
+		const groupId = groups[title.textContent.trim()];
 		if (!groupId) {
 			continue;
 		}
