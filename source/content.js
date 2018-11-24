@@ -84,6 +84,7 @@ import usefulNotFoundPage from './features/useful-not-found-page';
 import setDefaultRepositoriesTypeToSources from './features/set-default-repositories-type-to-sources';
 import markPrivateOrgs from './features/mark-private-orgs';
 import navigatePagesWithArrowKeys from './features/navigate-pages-with-arrow-keys';
+import bypassChecksTravis from './features/bypass-checks-travis';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
@@ -309,6 +310,10 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isPRCommit()) {
 		enableFeature(linkifyCommitSha);
+	}
+
+	if (pageDetect.isPRConversation()) {
+		enableFeature(bypassChecksTravis);
 	}
 }
 
