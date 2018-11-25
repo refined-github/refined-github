@@ -15,6 +15,10 @@ async function bypass(check) {
 
 	if (response.ok) {
 		const dom = domify(await response.text());
+		// On errored build check pages, there's a link that points
+		// to the first errored Travis build instead of the current one.
+		// e.g. the failed "PR build" instead of the "branch build"
+		// .text-small selects the right one.
 		const directLink = select('[href^="https://travis-ci.com"].text-small', dom);
 		details.href = directLink.href;
 	}
