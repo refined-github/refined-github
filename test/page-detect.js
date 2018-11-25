@@ -415,5 +415,6 @@ test('isRepoSearch', urlMatcherMacro, pageDetect.isRepoSearch, [
 	'https://github.com/sindresorhus/refined-github/search?q=diff&unscoped_q=diff&type=Issues',
 	'https://github.com/sindresorhus/refined-github/search'
 ], [
-	'https://github.com/sindresorhus/refined-github'
+	'https://github.com/sindresorhus/refined-github',
+	'https://github.com/sindresorhus/search'
 ]);

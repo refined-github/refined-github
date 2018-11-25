@@ -112,4 +112,4 @@ export const isUserProfile = () => Boolean(getCleanPathname()) && !isGist() && !
 
 export const isOwnUserProfile = () => isUserProfile() && getCleanPathname().startsWith(getUsername());
 
-export const isRepoSearch = () => location.pathname.endsWith('/search');
+export const isRepoSearch = () => location.pathname.slice(1).split('/')[2] === 'search';
