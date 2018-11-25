@@ -1,14 +1,14 @@
 import select from 'select-dom';
 import domify from '../libs/domify';
 
-export default function () {
-	for (const check of select.all('[href="/apps/travis-ci"]')) {
-		const details = select('.status-actions', check.parentNode);
-		bypassCheck(details);
-	}
+export default async function () {
+	// If anything errors, RGH will display the error next to the feature name
+	await Promise.all(select.all('[href="/apps/travis-ci"]').map(bypass));
 }
 
-async function bypassCheck(details) {
+async function bypass(check) {
+	const details = select('.status-actions', check.parentNode);
+
 	const response = await fetch(details.href, {
 		credentials: 'include'
 	});
