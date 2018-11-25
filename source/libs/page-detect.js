@@ -110,3 +110,5 @@ export const isTrending = () => location.pathname.startsWith('/trending');
 export const isUserProfile = () => Boolean(getCleanPathname()) && !isGist() && !isReserved(getCleanPathname()) && !getCleanPathname().includes('/');
 
 export const isOwnUserProfile = () => isUserProfile() && getCleanPathname().startsWith(getUsername());
+
+export const isRepoSearch = () => /^search/.test(getRepoPath());
