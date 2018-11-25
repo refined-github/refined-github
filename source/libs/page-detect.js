@@ -93,7 +93,8 @@ export const isRepo = () => /^[^/]+\/[^/]+/.test(getCleanPathname()) &&
 	!isReserved(getOwnerAndRepo().ownerName) &&
 	!isNotifications() &&
 	!isDashboard() &&
-	!isGist();
+	!isGist() &&
+	!isRepoSearch();
 
 export const isRepoRoot = () => /^(tree[/][^/]+)?$/.test(getRepoPath());
 

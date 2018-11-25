@@ -125,7 +125,7 @@ async function init() {
 		enableFeature(hideUselessNewsfeedEvents);
 	}
 
-	if (pageDetect.isRepo() && !pageDetect.isRepoSearch()) {
+	if (pageDetect.isRepo()) {
 		safeOnAjaxedPages(async () => {
 			// Wait for the tab bar to be loaded
 			await safeElementReady('.pagehead + *');
