@@ -334,7 +334,8 @@ test('isRepo', urlMatcherMacro, pageDetect.isRepo, [
 	'https://github.com/sindresorhus/notifications/notifications',
 	'https://github.com/orgs/test/dashboard',
 	'https://github.com/settings/profile',
-	'https://github.com/trending/developers'
+	'https://github.com/trending/developers',
+	'https://github.com/sindresorhus/refined-github/search?q=diff'
 ]);
 
 test('isRepoRoot', urlMatcherMacro, pageDetect.isRepoRoot, [
@@ -407,4 +408,12 @@ test('isUserProfile', urlMatcherMacro, pageDetect.isUserProfile, [
 	'https://github.com/watching',
 	'https://github.com/sindresorhus/refined-github',
 	'https://gist.github.com/bfred-it'
+]);
+
+test('isRepoSearch', urlMatcherMacro, pageDetect.isRepoSearch, [
+	'https://github.com/sindresorhus/refined-github/search?q=diff',
+	'https://github.com/sindresorhus/refined-github/search?q=diff&unscoped_q=diff&type=Issues',
+	'https://github.com/sindresorhus/refined-github/search'
+], [
+	'https://github.com/sindresorhus/refined-github'
 ]);
