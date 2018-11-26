@@ -1015,3 +1015,9 @@ body > .footer li a {
 .js-user-profile-follow-button {
 	margin-top: 5px;
 }
+
+/* Expand empty diffs in PRs */
+.file .data.empty {
+	padding: 54px;
+	text-align: center;
+}
