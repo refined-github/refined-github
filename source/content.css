@@ -1017,7 +1017,7 @@ body > .footer li a {
 }
 
 /* Expand empty diffs in PRs */
-.file .data.empty {
+:root .file .data.empty {
 	padding: 54px;
 	text-align: center;
 }
