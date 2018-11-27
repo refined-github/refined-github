@@ -8,8 +8,9 @@ https://github.com/dominictarr/event-stream/issues/116
 
 import {h} from 'dom-chef';
 import select from 'select-dom';
+import debounce from 'debounce-fn';
+import {timerIntervalometer} from 'intervalometer';
 import {getUsername, flatZip} from '../libs/utils';
-import onNewComments from '../libs/on-new-comments';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
@@ -53,15 +54,18 @@ function add() {
 	}
 }
 
-// When reactions are updated (via click or via ajax),
-// their container is deleted/replaced.
-// This observer watches all of them and keeps looking for the updated ones.
-const reactionUpdateObserver = new MutationObserver(watchReactions);
-function watchReactions() {
+export default function () {
 	add();
-	for (const reactions of select.all('.comment-reactions')) {
-		reactionUpdateObserver.observe(reactions.parentNode, {childList: true});
-	}
-}
 
-export default () => onNewComments(watchReactions);
+	// GitHub receives update messages via WebSocket, which seem to trigger
+	// a fetch for the updated content. When the content is actually updated
+	// in the DOM there are no further events, so we have to look for changes
+	// every 300ms for the 3 seconds following the last message.
+	// This should be lighter than using MutationObserver on the whole page.
+	const updater = timerIntervalometer(add, 300);
+	const cancelInterval = debounce(updater.stop, {wait: 3000});
+	window.addEventListener('socket:message', () => {
+		updater.start();
+		cancelInterval();
+	});
+}
