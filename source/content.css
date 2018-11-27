@@ -304,7 +304,7 @@ followed someone
 	display: flex;
 }
 .rgh-reactions-near-limit {
-	background: white;
+	background: #fff;
 }
 
 /* Hide reaction popover text */
