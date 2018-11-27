@@ -1,7 +1,7 @@
-import debounce from 'debounce-fn';
-import select from 'select-dom';
 import {h} from 'dom-chef';
+import select from 'select-dom';
 import {getUsername, flatZip} from '../libs/utils';
+import onNewComments from '../libs/on-new-comments';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
@@ -47,7 +47,4 @@ function add() {
 
 // Feature testable on
 // https://github.com/babel/babel/pull/3646
-export default () => {
-	add();
-	document.addEventListener('socket:message', debounce(add, {wait: 100}));
-};
+export default () => onNewComments(add);
