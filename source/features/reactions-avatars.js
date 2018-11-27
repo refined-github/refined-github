@@ -45,6 +45,15 @@ function add() {
 	}
 }
 
-// Feature testable on
-// https://github.com/babel/babel/pull/3646
-export default () => onNewComments(add);
+// When reactions are updated (via click or via ajax),
+// their container is deleted/replaced.
+// This observer watches all of them and keeps looking for the updated ones.
+const reactionUpdateObserver = new MutationObserver(watchReactions);
+function watchReactions() {
+	add();
+	for (const reactions of select.all('.comment-reactions')) {
+		reactionUpdateObserver.observe(reactions.parentNode, {childList: true});
+	}
+}
+
+export default () => onNewComments(watchReactions);
