@@ -298,6 +298,14 @@ followed someone
 .rgh-reactions-near-limit .reaction-summary-item:not(:hover) a:not(:first-of-type) {
 	margin-left: -12px;
 }
+/* Avoid wrapping */
+.has-reactions,
+.rgh-reactions-near-limit {
+	display: flex;
+}
+.rgh-reactions-near-limit {
+	background: white;
+}
 
 /* Hide reaction popover text */
 .reaction-popover-form.js-pick-reaction span.js-reaction-description,
