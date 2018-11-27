@@ -1,3 +1,11 @@
+/*
+Reaction avatars showing who reacted to a comment.
+
+Feature testable on
+https://github.com/babel/babel/pull/3646
+https://github.com/dominictarr/event-stream/issues/116
+*/
+
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import {getUsername, flatZip} from '../libs/utils';
