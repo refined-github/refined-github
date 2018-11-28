@@ -93,7 +93,8 @@ export const isRepo = () => /^[^/]+\/[^/]+/.test(getCleanPathname()) &&
 	!isReserved(getOwnerAndRepo().ownerName) &&
 	!isNotifications() &&
 	!isDashboard() &&
-	!isGist();
+	!isGist() &&
+	!isRepoSearch();
 
 export const isRepoRoot = () => /^(tree[/][^/]+)?$/.test(getRepoPath());
 
@@ -110,3 +111,5 @@ export const isTrending = () => location.pathname.startsWith('/trending');
 export const isUserProfile = () => Boolean(getCleanPathname()) && !isGist() && !isReserved(getCleanPathname()) && !getCleanPathname().includes('/');
 
 export const isOwnUserProfile = () => isUserProfile() && getCleanPathname().startsWith(getUsername());
+
+export const isRepoSearch = () => location.pathname.slice(1).split('/')[2] === 'search';
