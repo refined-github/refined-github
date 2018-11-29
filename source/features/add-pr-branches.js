@@ -10,11 +10,11 @@ async function fetchFromApi(owner, repo, number) {
 		return {
 			base: {
 				label: response.base.label,
-				url: response.base.repo.html_url + '/tree/' + response.base.ref
+				url: `${response.base.repo.html_url}/tree/${response.base.ref}`
 			},
 			head: {
 				label: response.head.label,
-				url: response.head.repo.html_url + '/tree/' + response.head.ref
+				url: `${response.head.repo.html_url}/tree/${response.head.ref}`
 			}
 		};
 	}

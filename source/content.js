@@ -223,7 +223,7 @@ function ajaxedPagesHandler() {
 		enableFeature(addToggleFilesButton);
 	}
 
-	if (pageDetect.isPRs()) {
+	if (pageDetect.isPRList()) {
 		enableFeature(addPrBranches);
 	}
 
