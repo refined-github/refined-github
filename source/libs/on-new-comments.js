@@ -21,7 +21,7 @@ const addListenersOnNewElements = debounce(() => {
 }, {wait: 50});
 
 const setup = once(() => {
-	// When new comments come in via ajax
+	// When new comments come in via AJAX
 	observeEl('.js-discussion', run);
 
 	// When hidden comments are loaded by clicking "Load more..."
@@ -32,4 +32,3 @@ export default function (cb) {
 	handlers.add(cb);
 	setup();
 }
-
