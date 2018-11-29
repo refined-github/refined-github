@@ -5,16 +5,41 @@ import * as api from '../libs/api';
 import {getOwnerAndRepo} from '../libs/page-detect';
 
 async function fetchFromApi(owner, repo, number) {
-	const response = await api.v3(`repos/${owner}/${repo}/pulls/${number}`); // https://developer.github.com/v3/pulls/#get-a-single-pull-request --> /repos/:owner/:repo/pulls/:number
-	if (response && response.base && response.head) {
+	const response = await api.v4(`
+{
+  repository(owner: "${owner}", name: "${repo}") {
+    pullRequest(number: ${number}) {
+      baseRef {
+        name
+        repository {
+          url
+          owner {
+            login
+          }
+        }
+      }
+      headRef {
+        name
+        repository {
+          url
+          owner {
+            login
+          }
+        }
+      }
+    }
+  }
+}`);
+	if (response.data) {
+		const pr = response.data.repository.pullRequest;
 		return {
 			base: {
-				label: response.base.label,
-				url: `${response.base.repo.html_url}/tree/${response.base.ref}`
+				label: pr.baseRef.name,
+				url: `${pr.baseRef.repository.url}/tree/${pr.baseRef.name}`
 			},
 			head: {
-				label: response.head.label,
-				url: `${response.head.repo.html_url}/tree/${response.head.ref}`
+				label: (pr.headRef.repository.owner.login === owner ? pr.headRef.name : `${pr.headRef.repository.owner.login}:${pr.headRef.name}`),
+				url: `${pr.headRef.repository.url}/tree/${pr.headRef.name}`
 			}
 		};
 	}
