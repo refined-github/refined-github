@@ -6,43 +6,43 @@ import {getOwnerAndRepo} from '../libs/page-detect';
 
 function buildQuery(owner, repo, numbers) {
 	let query = `
-{
-  repository(owner: "${owner}", name: "${repo}") {`;
+	{
+		repository(owner: "${owner}", name: "${repo}") {`;
 
 	for (const number of numbers) {
 		query += `
-    ${number}: pullRequest(number: ${number.replace('issue_', '')}) {
-      baseRef {
-        name
-        repository {
-          url
-          owner {
-            login
-          }
-        }
-      }
-      headRef {
-        name
-        repository {
-          url
-          owner {
-            login
-          }
-        }
-      }
-    }`;
+			${number}: pullRequest(number: ${number.replace('issue_', '')}) {
+				baseRef {
+					name
+					repository {
+						url
+						owner {
+							login
+						}
+					}
+				}
+				headRef {
+					name
+					repository {
+						url
+						owner {
+							login
+						}
+					}
+				}
+			}`;
 	}
 
 	query += `
-  }
-}`;
+		}
+	}`;
 	return query;
 }
 
 async function fetchFromApi(owner, repo, numbers) {
 	const query = buildQuery(owner, repo, numbers);
 	const response = await api.v4(query);
-	console.log('add-pr-branches 3:', numbers, response);
+	console.log('add-pr-branches 3:', numbers, query, response);
 
 	if (response.data && response.data.repository) {
 		const d = {};
