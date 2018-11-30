@@ -1,6 +1,5 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import * as cache from '../libs/cache';
 import * as api from '../libs/api';
 import {getOwnerAndRepo} from '../libs/page-detect';
 
@@ -68,18 +67,11 @@ function extractBranches(owner, data) {
 	};
 }
 
-function getPullBranches(owner, repo, number) {
-	return cache.getSet(`pull-branches:${owner}/${repo}`,
-		() => fetchFromApi(owner, repo, number)
-		, 1
-	);
-}
-
 export default async function () {
 	const {ownerName, repoName} = getOwnerAndRepo();
 	const elements = select.all('.issues-listing .js-navigation-container .js-navigation-item');
 	const ids = elements.map(pr => pr.id);
-	const branches = await getPullBranches(ownerName, repoName, ids);
+	const branches = await fetchFromApi(ownerName, repoName, ids);
 	console.log('add-pr-branches 1:', ownerName, repoName, elements, ids, branches);
 
 	if (branches) {
