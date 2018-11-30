@@ -6,7 +6,13 @@ import * as pageDetect from '../libs/page-detect';
 function updateStickiness() {
 	const sidebar = select('.discussion-sidebar');
 	const sidebarHeight = sidebar.offsetHeight + 25;
-	sidebar.style.position = sidebarHeight < window.innerHeight ? 'sticky' : null;
+	if (sidebarHeight < window.innerHeight) {
+		sidebar.style.position = 'sticky';
+		sidebar.style.zIndex = 26;
+	} else {
+		sidebar.style.position = null;
+		sidebar.style.zIndex = null;
+	}
 }
 
 const handler = debounce(updateStickiness, {wait: 100});
