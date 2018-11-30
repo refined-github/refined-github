@@ -7,7 +7,6 @@ const handlers = new Set();
 
 const run = debounce(() => {
 	// Safely run all callbacks
-	// eslint-disable-next-line require-await
 	handlers.forEach(async cb => cb());
 }, {wait: 200});
 
