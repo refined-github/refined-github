@@ -12,22 +12,19 @@ function buildQuery(owner, repo, numbers) {
 		query += `
 			${number}: pullRequest(number: ${number.replace('issue_', '')}) {
 				baseRef {
-					name
-					repository {
-						url
-						owner {
-							login
-						}
-					}
+					id
 				}
+				baseRefName
+
 				headRef {
-					name
-					repository {
-						url
-						owner {
-							login
-						}
-					}
+					id
+				}
+				headRefName
+				headRepository {
+					url
+				}
+				headRepositoryOwner {
+					login
 				}
 			}`;
 	}
@@ -44,17 +41,45 @@ async function fetchFromApi(owner, repo, numbers) {
 	console.log('add-pr-branches 3:', numbers, query, response);
 
 	if (response.data && response.data.repository) {
-		return response.data.repository;
+		const pulls = {};
+		for (const [id, data] of Object.entries(response.data.repository)) {
+			console.log('add-pr-branches 5:', owner, repo, id, data);
+			pulls[id] = normalizePullInfo(owner, repo, data);
+		}
+		return pulls;
 	}
 }
 
-const getLabel = (ref, owner) => (ref.repository.owner.login === owner ? ref.name : `${ref.repository.owner.login}:${ref.name}`);
+const normalizePullInfo = (owner, repo, data) => {
+	console.log('add-pr-branches 6:', owner, repo, data);
 
-const createLink = (ref, owner) => (
-	<span class="commit-ref css-truncate user-select-contain">
-		<a title={getLabel(ref, owner)} href={`${ref.repository.url}/tree/${ref.name}`}>{getLabel(ref, owner)}</a>
-	</span>
-);
+	return {
+		base: {
+			label: data.baseRefName,
+			url: `https://github.com/${owner}/${repo}/tree/${data.baseRefName}`,
+			active: Boolean(data.baseRef)
+		},
+		head: {
+			label: (data.headRepositoryOwner && data.headRepositoryOwner.login === owner ?
+				data.headRefName :
+				`${data.headRepositoryOwner.login}:${data.headRefName}`),
+			url: (data.headRepository ?
+				`${data.headRepository.url}/tree/${data.headRefName}` :
+				null),
+			active: Boolean(data.headRef)
+		}
+	};
+};
+
+const createLink = ref => {
+	return (
+		<span class="commit-ref css-truncate user-select-contain" style={(ref.active ? {} : {'text-decoration': 'line-through'})}>
+			{ref.url ?
+				<a title={(ref.active ? ref.label : 'Deleted')} href={ref.url}>{ref.label}</a> :
+				<span class="unknown-repo">unknown repository</span>}
+		</span>
+	);
+};
 
 export default async function () {
 	const {ownerName, repoName} = getOwnerAndRepo();
@@ -71,7 +96,7 @@ export default async function () {
 
 			if (pull && section) {
 				section.appendChild(
-					<div class="mt-1 text-small text-gray">Merge {createLink(pull.headRef, ownerName)} into {createLink(pull.baseRef, ownerName)}</div>
+					<div class="mt-1 text-small text-gray">Merge {createLink(pull.head)} into {createLink(pull.base)}</div>
 				);
 			}
 		}
