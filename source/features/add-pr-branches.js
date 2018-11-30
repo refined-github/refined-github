@@ -38,38 +38,32 @@ function buildQuery(owner, repo, numbers) {
 async function fetchFromApi(owner, repo, numbers) {
 	const query = buildQuery(owner, repo, numbers);
 	const response = await api.v4(query);
-	console.log('add-pr-branches 3:', numbers, query, response);
 
 	if (response.data && response.data.repository) {
 		const pulls = {};
 		for (const [id, data] of Object.entries(response.data.repository)) {
-			console.log('add-pr-branches 5:', owner, repo, id, data);
 			pulls[id] = normalizePullInfo(owner, repo, data);
 		}
 		return pulls;
 	}
 }
 
-const normalizePullInfo = (owner, repo, data) => {
-	console.log('add-pr-branches 6:', owner, repo, data);
-
-	return {
-		base: {
-			label: data.baseRefName,
-			url: `https://github.com/${owner}/${repo}/tree/${data.baseRefName}`,
-			active: Boolean(data.baseRef)
-		},
-		head: {
-			label: (data.headRepositoryOwner && data.headRepositoryOwner.login === owner ?
-				data.headRefName :
-				`${data.headRepositoryOwner.login}:${data.headRefName}`),
-			url: (data.headRepository ?
-				`${data.headRepository.url}/tree/${data.headRefName}` :
-				null),
-			active: Boolean(data.headRef)
-		}
-	};
-};
+const normalizePullInfo = (owner, repo, data) => ({
+	base: {
+		label: data.baseRefName,
+		url: `https://github.com/${owner}/${repo}/tree/${data.baseRefName}`,
+		active: Boolean(data.baseRef)
+	},
+	head: {
+		label: (data.headRepositoryOwner && data.headRepositoryOwner.login === owner ?
+			data.headRefName :
+			`${data.headRepositoryOwner.login}:${data.headRefName}`),
+		url: (data.headRepository ?
+			`${data.headRepository.url}/tree/${data.headRefName}` :
+			null),
+		active: Boolean(data.headRef)
+	}
+});
 
 const createLink = ref => {
 	return (
@@ -86,13 +80,11 @@ export default async function () {
 	const elements = select.all('.issues-listing .js-navigation-container .js-navigation-item');
 	const ids = elements.map(pr => pr.id);
 	const branches = await fetchFromApi(ownerName, repoName, ids);
-	console.log('add-pr-branches 1:', ownerName, repoName, elements, ids, branches);
 
 	if (branches) {
 		for (const element of elements) {
 			const pull = branches[element.id];
 			const section = select('.col-9.lh-condensed', element);
-			console.log('add-pr-branches 2:', pull, element, section);
 
 			if (pull && section) {
 				section.appendChild(
