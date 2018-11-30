@@ -51,7 +51,7 @@ async function fetchFromApi(owner, repo, numbers) {
 const normalizePullInfo = (owner, repo, data) => ({
 	base: {
 		label: data.baseRefName,
-		url: `https://github.com/${owner}/${repo}/tree/${data.baseRefName}`,
+		url: `${location.origin}/${owner}/${repo}/tree/${data.baseRefName}`,
 		active: Boolean(data.baseRef)
 	},
 	head: {
