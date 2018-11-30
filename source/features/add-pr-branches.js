@@ -44,28 +44,17 @@ async function fetchFromApi(owner, repo, numbers) {
 	console.log('add-pr-branches 3:', numbers, query, response);
 
 	if (response.data && response.data.repository) {
-		const d = {};
-		for (const [id, data] of Object.entries(response.data.repository)) {
-			d[id] = extractBranches(owner, data);
-		}
-		return d;
+		return response.data.repository;
 	}
 }
 
-function extractBranches(owner, data) {
-	console.log('add-pr-branches 5:', data);
+const getLabel = (ref, owner) => (ref.repository.owner.login === owner ? ref.name : `${ref.repository.owner.login}:${ref.name}`);
 
-	return {
-		base: {
-			label: data.baseRef.name,
-			url: `${data.baseRef.repository.url}/tree/${data.baseRef.name}`
-		},
-		head: {
-			label: (data.headRef.repository.owner.login === owner ? data.headRef.name : `${data.headRef.repository.owner.login}:${data.headRef.name}`),
-			url: `${data.headRef.repository.url}/tree/${data.headRef.name}`
-		}
-	};
-}
+const createLink = (ref, owner) => (
+	<span class="commit-ref css-truncate user-select-contain">
+		<a title={getLabel(ref, owner)} href={`${ref.repository.url}/tree/${ref.name}`}>{getLabel(ref, owner)}</a>
+	</span>
+);
 
 export default async function () {
 	const {ownerName, repoName} = getOwnerAndRepo();
@@ -82,16 +71,7 @@ export default async function () {
 
 			if (pull && section) {
 				section.appendChild(
-					<div class="mt-1 text-small text-gray">
-						Merge
-						<span class="commit-ref css-truncate user-select-contain">
-							<a title={pull.head.label} href={pull.head.url}>{pull.head.label}</a>
-						</span>
-						into
-						<span class="commit-ref css-truncate user-select-contain">
-							<a title={pull.base.label} href={pull.base.url}>{pull.base.label}</a>
-						</span>
-					</div>
+					<div class="mt-1 text-small text-gray">Merge {createLink(pull.headRef, ownerName)} into {createLink(pull.baseRef, ownerName)}</div>
 				);
 			}
 		}
