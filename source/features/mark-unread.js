@@ -367,8 +367,10 @@ export default async function () {
 				delegate('.btn-link.delete-note', 'click', markNotificationRead),
 				delegate('.js-mark-all-read', 'click', markAllNotificationsRead),
 				delegate('.js-delete-notification button', 'click', updateUnreadIndicator),
-				delegate('form[action="/notifications/mark"] button', 'click', () => {
-					storage.set([]);
+				delegate('form[action="/notifications/mark"] button', 'click', e => {
+					const group = e.target.closest('.boxed-group');
+					const repo = select('.notifications-repo-link', group).textContent;
+					storage.set(storage.get().filter(notification => notification.repository !== repo));
 				})
 			);
 		} else if (pageDetect.isPR() || pageDetect.isIssue()) {
