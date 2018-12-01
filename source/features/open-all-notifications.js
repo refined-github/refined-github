@@ -51,7 +51,7 @@ function addOpenReposButton() {
 		}
 
 		const unreadCount = select.all('.unread', repoNotifications).length;
-		if (unreadCount < 2) {
+		if (unreadCount === 0) {
 			continue;
 		}
 
@@ -79,7 +79,7 @@ function addOpenAllButton() {
 
 function addMarkup() {
 	const unreadCount = select.all(unreadNotificationsClass).length;
-	if (unreadCount < 2) {
+	if (unreadCount === 0) {
 		return;
 	}
 
