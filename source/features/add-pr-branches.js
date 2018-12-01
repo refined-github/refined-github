@@ -48,24 +48,24 @@ async function fetchFromApi(owner, repo, numbers) {
 	}
 }
 
-const normalizePullInfo = (owner, repo, data) => ({
-	base: {
-		label: data.baseRefName,
-		url: `${location.origin}/${owner}/${repo}/tree/${data.baseRefName}`,
-		active: Boolean(data.baseRef)
-	},
-	head: {
-		label: (data.headRepositoryOwner && data.headRepositoryOwner.login === owner ?
-			data.headRefName :
-			`${data.headRepositoryOwner.login}:${data.headRefName}`),
-		url: (data.headRepository ?
-			`${data.headRepository.url}/tree/${data.headRefName}` :
-			null),
-		active: Boolean(data.headRef)
-	}
-});
+function normalizePullInfo(owner, repo, data) {
+	return {
+		base: {
+			label: data.baseRefName,
+			url: `${location.origin}/${owner}/${repo}/tree/${data.baseRefName}`,
+			active: Boolean(data.baseRef)
+		},
+		head: {
+			label: (data.headRepositoryOwner && data.headRepositoryOwner.login === owner ?
+				data.headRefName :
+				`${data.headRepositoryOwner.login}:${data.headRefName}`),
+			url: (data.headRepository ? `${data.headRepository.url}/tree/${data.headRefName}` : null),
+			active: Boolean(data.headRef)
+		}
+	};
+}
 
-const createLink = ref => {
+function createLink(ref) {
 	return (
 		<span class="commit-ref css-truncate user-select-contain" style={(ref.active ? {} : {'text-decoration': 'line-through'})}>
 			{ref.url ?
@@ -73,7 +73,7 @@ const createLink = ref => {
 				<span class="unknown-repo">unknown repository</span>}
 		</span>
 	);
-};
+}
 
 export default async function () {
 	const {ownerName, repoName} = getOwnerAndRepo();
