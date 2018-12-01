@@ -876,7 +876,8 @@ body > .footer li a {
 	margin-top: 20px !important;
 }
 /* Hide star button */
-.dashboard .flex-items-baseline [value='Star'] {
+.dashboard .flex-items-baseline [value='Star'],
+.dashboard .flex-items-baseline [value='Unstar'] {
 	display: none;
 }
 
