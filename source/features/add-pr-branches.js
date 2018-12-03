@@ -2,95 +2,84 @@ import {h} from 'dom-chef';
 import select from 'select-dom';
 import * as api from '../libs/api';
 import {getOwnerAndRepo} from '../libs/page-detect';
+import getDefaultBranch from '../libs/get-default-branch';
 
-function buildQuery(owner, repo, numbers) {
-	let query = `
-	{
-		repository(owner: "${owner}", name: "${repo}") {`;
+function normalizeBranchInfo(data) {
+	const {ownerName, repoName} = getOwnerAndRepo();
 
-	for (const number of numbers) {
-		query += `
-			${number}: pullRequest(number: ${number.replace('issue_', '')}) {
-				baseRef {
-					id
-				}
-				baseRefName
-
-				headRef {
-					id
-				}
-				headRefName
-				headRepository {
-					url
-				}
-				headRepositoryOwner {
-					login
-				}
-			}`;
+	const base = {};
+	base.branchExists = Boolean(data.baseRef);
+	base.label = data.baseRefName;
+	if (base.branchExists) {
+		base.url = `/${ownerName}/${repoName}/tree/${data.baseRefName}`;
 	}
 
-	query += `
+	const head = {};
+	head.branchExists = Boolean(data.headRef);
+	if (!data.headOwner || data.headOwner.login === ownerName) {
+		head.label = data.headRefName;
+	} else {
+		head.label = `${data.headOwner.login}:${data.headRefName}`;
+	}
+	if (head.branchExists) { // If the branch hasn't been deleted
+		head.url = `${data.headRepository.url}/tree/${data.headRefName}`;
+	} else if (data.headRepository) { // If the repo hasn't been deleted
+		head.url = data.headRepository.url;
+	}
+
+	return {base, head, baseRefName: data.baseRefName};
+}
+
+function buildQuery(numbers) {
+	const {ownerName, repoName} = getOwnerAndRepo();
+
+	return `{
+		repository(owner: "${ownerName}", name: "${repoName}") {
+			${numbers.map(number => `
+				${number}: pullRequest(number: ${number.replace('issue_', '')}) {
+					baseRef {id}
+					headRef {id}
+					baseRefName
+					headRefName
+					headRepository {url}
+					headOwner: headRepositoryOwner {login}
+				}
+			`)}
 		}
 	}`;
-	return query;
-}
-
-async function fetchFromApi(owner, repo, numbers) {
-	const query = buildQuery(owner, repo, numbers);
-	const response = await api.v4(query);
-
-	if (response.data && response.data.repository) {
-		const pulls = {};
-		for (const [id, data] of Object.entries(response.data.repository)) {
-			pulls[id] = normalizePullInfo(owner, repo, data);
-		}
-		return pulls;
-	}
-}
-
-function normalizePullInfo(owner, repo, data) {
-	return {
-		base: {
-			label: data.baseRefName,
-			url: `${location.origin}/${owner}/${repo}/tree/${data.baseRefName}`,
-			active: Boolean(data.baseRef)
-		},
-		head: {
-			label: (data.headRepositoryOwner && data.headRepositoryOwner.login === owner ?
-				data.headRefName :
-				`${data.headRepositoryOwner.login}:${data.headRefName}`),
-			url: (data.headRepository ? `${data.headRepository.url}/tree/${data.headRefName}` : null),
-			active: Boolean(data.headRef)
-		}
-	};
 }
 
 function createLink(ref) {
 	return (
-		<span class="commit-ref css-truncate user-select-contain" style={(ref.active ? {} : {'text-decoration': 'line-through'})}>
-			{ref.url ?
-				<a title={(ref.active ? ref.label : 'Deleted')} href={ref.url}>{ref.label}</a> :
-				<span class="unknown-repo">unknown repository</span>}
+		<span
+			class="commit-ref css-truncate user-select-contain"
+			style={(ref.branchExists ? {} : {'text-decoration': 'line-through'})}>
+			{
+				ref.url ?
+					<a title={(ref.branchExists ? ref.label : 'Deleted')} href={ref.url}>
+						{ref.label}
+					</a> :
+					<span class="unknown-repo">unknown repository</span>
+			}
 		</span>
 	);
 }
 
 export default async function () {
-	const {ownerName, repoName} = getOwnerAndRepo();
-	const elements = select.all('.issues-listing .js-navigation-container .js-navigation-item');
-	const ids = elements.map(pr => pr.id);
-	const branches = await fetchFromApi(ownerName, repoName, ids);
+	const elements = select.all('.js-issue-row');
+	const query = buildQuery(elements.map(pr => pr.id));
+	const [info, defaultBranch] = await Promise.all([
+		api.v4(query),
+		getDefaultBranch()
+	]);
 
-	if (branches) {
-		for (const element of elements) {
-			const pull = branches[element.id];
-			const section = select('.col-9.lh-condensed', element);
+	for (const PR of elements) {
+		const {base, head, baseRefName} = normalizeBranchInfo(info.data.repository[PR.id]);
 
-			if (pull && section) {
-				section.appendChild(
-					<div class="mt-1 text-small text-gray">From {createLink(pull.head)} into {createLink(pull.base)}</div>
-				);
-			}
-		}
+		select('.col-9.lh-condensed', PR).append(
+			baseRefName === defaultBranch ?
+				<div class="mt-1 text-small text-gray">From {createLink(head)}</div> :
+				<div class="mt-1 text-small text-gray">From {createLink(head)} into {createLink(base)}</div>
+		);
 	}
 }
