@@ -88,7 +88,7 @@ export default async function () {
 
 			if (pull && section) {
 				section.appendChild(
-					<div class="mt-1 text-small text-gray">Merge {createLink(pull.head)} into {createLink(pull.base)}</div>
+					<div class="mt-1 text-small text-gray">From {createLink(pull.head)} into {createLink(pull.base)}</div>
 				);
 			}
 		}
