@@ -6,19 +6,19 @@ import * as pageDetect from '../libs/page-detect';
 const repoUrl = pageDetect.getRepoURL();
 
 function addLink() {
-	const postMergeDescription = select('#partial-pull-merging .merge-branch-description');
+	const currentBranch = select('#partial-pull-merging .merge-branch-description .commit-ref');
+	if (!currentBranch) {
+		return;
+	}
 
-	if (postMergeDescription) {
-		const currentBranch = postMergeDescription.querySelector('.commit-ref');
-		const forkPath = currentBranch ? currentBranch.title.split(':')[0] : null;
+	const [forkPath] = currentBranch.title.split(':');
 
-		if (forkPath && forkPath !== repoUrl) {
-			postMergeDescription.append(
-				<a id="refined-github-delete-fork-link" href={`/${forkPath}/settings`}>
-					Delete fork
-				</a>
-			);
-		}
+	if (forkPath !== repoUrl) {
+		currentBranch.parentElement.append(
+			<a id="refined-github-delete-fork-link" href={`/${forkPath}/settings`}>
+				Delete fork
+			</a>
+		);
 	}
 }
 
