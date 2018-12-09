@@ -35,9 +35,6 @@ function parseCurrentURL() {
 // If the resource was deleted, link to the commit history
 async function addCommitHistoryLink(bar) {
 	const parts = parseCurrentURL();
-	if (parts[2] !== 'tree') {
-		return;
-	}
 	parts[2] = 'commits';
 	const url = '/' + parts.join('/');
 	if (await is404(url)) {
@@ -102,7 +99,8 @@ export default function () {
 	for (let i = bar.children.length - 2; i >= 0; i--) {
 		checkAnchor(bar.children[i]);
 	}
-
-	addCommitHistoryLink(bar);
-	addDefaultBranchLink(bar);
+	if (parts[2] === 'tree') {
+		addCommitHistoryLink(bar);
+		addDefaultBranchLink(bar);
+	}
 }
