@@ -289,16 +289,16 @@ async function updateUnreadIndicator() {
 	}
 }
 
-async function markNotificationRead(e) {
-	const notification = e.target.closest('li.js-notification');
+async function markNotificationRead(event) {
+	const notification = event.target.closest('li.js-notification');
 	const a = notification.querySelector('a.js-notification-target');
 	await markRead(a.href);
 	await updateUnreadIndicator();
 }
 
-async function markAllNotificationsRead(e) {
-	e.preventDefault();
-	const repoGroup = e.target.closest('.boxed-group');
+async function markAllNotificationsRead(event) {
+	event.preventDefault();
+	const repoGroup = event.target.closest('.boxed-group');
 	for (const a of repoGroup.querySelectorAll('a.js-notification-target')) {
 		await markRead(a.href); // eslint-disable-line no-await-in-loop
 	}
