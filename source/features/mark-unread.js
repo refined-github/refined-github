@@ -402,7 +402,4 @@ function destroy() {
 		listener.destroy();
 	}
 	listeners.length = 0;
-	for (const button of select.all('.rgh-btn-mark-unread')) {
-		button.remove();
-	}
 }
