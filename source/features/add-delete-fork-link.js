@@ -1,10 +1,11 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
+import onNewComments from '../libs/on-new-comments';
 import * as pageDetect from '../libs/page-detect';
 
 const repoUrl = pageDetect.getRepoURL();
 
-export default function () {
+function addLink() {
 	const postMergeDescription = select('#partial-pull-merging .merge-branch-description');
 
 	if (postMergeDescription) {
@@ -19,4 +20,9 @@ export default function () {
 			);
 		}
 	}
+}
+
+export default function () {
+	addLink();
+	onNewComments(addLink);
 }
