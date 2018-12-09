@@ -119,6 +119,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Quickly visit a repository's default branch and latest version tag.](https://user-images.githubusercontent.com/1402241/38107328-ccb3fb46-33bb-11e8-9654-23a6410943cc.png)
 - [Open multiple issues at once in your repos.](https://user-images.githubusercontent.com/1402241/38084752-4820b0d8-3378-11e8-868c-a1582b16f915.gif)
 - [Swap branches in the branch compare view.](https://user-images.githubusercontent.com/857700/42854438-821096f2-8a01-11e8-8752-76f7563b5e18.png)
+- [Exclude PR/issue filters from their list](https://user-images.githubusercontent.com/1402241/48470535-493cfb00-e824-11e8-863a-964f52b62553.png) with <kbd>alt/option</kbd>-<kbd>click</kbd>.
 
 ### More info at a glance
 
@@ -177,7 +178,6 @@ And [many more…](source/content.css)
 - Cycle through PR tabs by pressing <kbd>g</kbd> <kbd>←</kbd> and <kbd>g</kbd> <kbd>→</kbd>, or <kbd>g</kbd> <kbd>1</kbd>, <kbd>g</kbd> <kbd>2</kbd>, <kbd>g</kbd> <kbd>3</kbd> and <kbd>g</kbd> <kbd>4</kbd>.
 - [Go to the next or previous commit from the bottom of the commit page.](https://user-images.githubusercontent.com/24777/41755271-741773de-75a4-11e8-9181-fcc1c73df633.png)
 - [Hide comments in fewer clicks.](https://user-images.githubusercontent.com/1402241/43039221-1ddc91f6-8d29-11e8-9ed4-93459191a510.gif)
-- [Filter PRs that you haven't submitted a review for.](https://user-images.githubusercontent.com/9264728/42569205-0c32a376-8510-11e8-9406-b3ddcf6087ef.png)
 - Use <kbd>←</kbd> and <kbd>→</kbd> to navigate through pages with pagination.
 - [Find a user’s most starred repositories in their profile.](https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93de-159ad4c6f283.png)
 

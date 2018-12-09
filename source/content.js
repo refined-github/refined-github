@@ -42,7 +42,7 @@ import addDiffViewWithoutWhitespaceOption from './features/add-diff-view-without
 import preserveWhitespaceOptionInNav from './features/preserve-whitespace-option-in-nav';
 import addMilestoneNavigation from './features/add-milestone-navigation';
 import addFilterCommentsByYou from './features/add-filter-comments-by-you';
-import addFilterNotReviewedByYou from './features/add-filter-not-reviewed-by-you';
+import excludeFilterShortcut from './features/exclude-filter-shortcut';
 import removeProjectsTab from './features/remove-projects-tab';
 import hideUselessComments from './features/hide-useless-comments';
 import fixSquashAndMergeTitle from './features/fix-squash-and-merge-title';
@@ -252,7 +252,7 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isIssueList()) {
 		enableFeature(addFilterCommentsByYou);
 		enableFeature(hideIssueListAutocomplete);
-		enableFeature(addFilterNotReviewedByYou);
+		enableFeature(excludeFilterShortcut);
 	}
 
 	if (pageDetect.isIssueList() || pageDetect.isPR() || pageDetect.isIssue()) {
