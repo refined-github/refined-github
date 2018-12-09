@@ -308,24 +308,37 @@ async function markAllNotificationsRead(e) {
 }
 
 async function addCustomAllReadBtn() {
-	const hasMarkAllReadBtnExists = select.exists('#notification-center a[href="#mark_as_read_confirm_box"]');
-	if (hasMarkAllReadBtnExists || (await getNotifications()).length === 0) {
+	if ((await getNotifications()).length === 0) {
+		return;
+	}
+
+	const nativeMarkUnreadForm = select('details [action="/notifications/mark"]');
+	if (nativeMarkUnreadForm) {
+		nativeMarkUnreadForm.addEventListener('submit', () => {
+			setNotifications([]);
+		});
 		return;
 	}
 
 	select('.tabnav .float-right').append(
-		<a href="#mark_as_read_confirm_box" class="btn btn-sm" rel="facebox">Mark all as read</a>
-	);
-	document.body.append(
-		<div id="mark_as_read_confirm_box" style={{display: 'none'}}>
-			<h2 class="facebox-header" data-facebox-id="facebox-header">Are you sure?</h2>
+		<details class="details-reset details-overlay details-overlay-dark lh-default text-gray-dark d-inline-block text-left">
+			<summary class="btn btn-sm" aria-haspopup="dialog">
+				Mark all as read
+			</summary>
+			<details-dialog class="Box Box--overlay d-flex flex-column anim-fade-in fast " aria-label="Are you sure?" role="dialog" tabindex="-1">
+				<div class="Box-header">
+					<button class="Box-btn-octicon btn-octicon float-right" type="button" aria-label="Close dialog" data-close-dialog="">
+						{icons.x()}
+					</button>
+					<h3 class="Box-title">Are you sure?</h3>
+				</div>
 
-			<p data-facebox-id="facebox-description">Are you sure you want to mark all unread notifications as read?</p>
-
-			<div class="full-button">
-				<button id="clear-local-notification" class="btn btn-block">Mark all notifications as read</button>
-			</div>
-		</div>
+				<div class="Box-body">
+					<p>Are you sure you want to mark all unread notifications as read?</p>
+					<button type="button" class="btn btn-block" id="clear-local-notification">Mark all notifications as read</button>
+				</div>
+			</details-dialog>
+		</details>
 	);
 
 	delegate('#clear-local-notification', 'click', async () => {
@@ -369,7 +382,7 @@ export default async function () {
 				delegate('.btn-link.delete-note', 'click', markNotificationRead),
 				delegate('.js-mark-all-read', 'click', markAllNotificationsRead),
 				delegate('.js-delete-notification button', 'click', updateUnreadIndicator),
-				delegate('form[action="/notifications/mark"] button', 'click', async event => {
+				delegate('.js-mark-visible-as-read', 'submit', async event => {
 					const group = event.target.closest('.boxed-group');
 					const repo = select('.notifications-repo-link', group).textContent;
 					const notifications = await getNotifications();
