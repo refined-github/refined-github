@@ -215,7 +215,7 @@ async function renderNotifications() {
 		select('.blankslate').replaceWith(pageList);
 	}
 
-	unreadNotifications.forEach(notification => {
+	unreadNotifications.reverse().forEach(notification => {
 		const group = getNotificationGroup(notification);
 		const item = getNotification(notification);
 
