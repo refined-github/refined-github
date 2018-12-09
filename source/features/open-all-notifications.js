@@ -4,7 +4,7 @@ import select from 'select-dom';
 import delegate from 'delegate';
 import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
-import {groupSiblings} from '../libs/group-buttons';
+import {groupButtons} from '../libs/group-buttons';
 import {safeOnAjaxedPages} from '../libs/utils';
 import {isNotifications} from '../libs/page-detect';
 
@@ -73,7 +73,7 @@ function addOpenAllButton() {
 		// Create an open button and add it into a button group
 		const button = <button class="btn btn-sm rgh-open-notifications-button">Open all unread in tabs</button>;
 		select('.tabnav .float-right').prepend(button);
-		groupSiblings(button);
+		groupButtons([button, button.nextElementSibling]);
 	}
 }
 
