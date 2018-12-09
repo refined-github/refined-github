@@ -14,7 +14,6 @@
 		"can-release": "if [ \"$TRAVIS_EVENT_TYPE\" = cron ] && [ $(git rev-list -n 1 --since=\"26 hours ago\" master) ]; then echo :ship-it:; else false; fi"
 	},
 	"dependencies": {
-		"ajv": "6.5.5",
 		"copy-text-to-clipboard": "^1.0.4",
 		"debounce-fn": "^1.0.0",
 		"delegate": "^3.2.0",
@@ -30,7 +29,7 @@
 		"select-dom": "^4.1.3",
 		"shorten-repo-url": "^1.5.0",
 		"storm-textarea": "2.0.1",
-		"tiny-version-compare": "^0.9.0",
+		"tiny-version-compare": "^0.10.0",
 		"webext-domain-permission-toggle": "0.0.2",
 		"webext-dynamic-content-scripts": "^5.0.1",
 		"webext-options-sync": "^0.15.1",
@@ -45,7 +44,6 @@
 		"babel-eslint": "^10.0.1",
 		"babel-loader": "^8.0.0",
 		"chrome-webstore-upload-cli": "^1.2.0",
-		"common-tags": "^1.7.2",
 		"copy-webpack-plugin": "^4.5.1",
 		"cross-env": "^5.1.6",
 		"dot-json": "^1.0.4",
