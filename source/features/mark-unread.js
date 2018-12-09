@@ -25,12 +25,10 @@ async function getNotifications() {
 	const browserStorage = await browser.storage.local.get({
 		unreadNotifications: []
 	});
-	console.log('get', browserStorage.unreadNotifications);
 	return browserStorage.unreadNotifications;
 }
 
 function setNotifications(unreadNotifications) {
-	console.log('set', unreadNotifications)
 	return browser.storage.local.set({
 		unreadNotifications
 	});
