@@ -75,6 +75,10 @@ async function addDefaultBranchLink(bar) {
 
 export default function () {
 	const parts = parseCurrentURL();
+	if (parts.length <= 1) {
+		return;
+	}
+
 	const bar = <h2 class="container"/>;
 
 	for (const [i, part] of parts.entries()) {
