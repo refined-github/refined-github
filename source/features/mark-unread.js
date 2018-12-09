@@ -6,7 +6,7 @@ import gitHubInjection from 'github-injection';
 import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
-import {getUsername} from '../libs/utils';
+import {getUsername, safeElementReady} from '../libs/utils';
 
 const listeners = [];
 const stateIcons = {
@@ -210,7 +210,7 @@ async function renderNotifications() {
 	}
 
 	// Don’t simplify selector, it’s for cross-extension compatibility
-	let pageList = select('#notification-center .notifications-list');
+	let pageList = await safeElementReady('#notification-center .notifications-list');
 
 	if (!pageList) {
 		pageList = <div class="notifications-list"></div>;
@@ -377,6 +377,7 @@ export default async function () {
 				})
 			);
 		} else if (pageDetect.isPR() || pageDetect.isIssue()) {
+			await domLoaded;
 			await markRead(location.href);
 
 			// The sidebar changes when new comments are added or the issue status changes

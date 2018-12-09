@@ -141,13 +141,13 @@ async function init() {
 	enableFeature(monospaceTextareas);
 	enableFeature(openSelectionInNewTab);
 	enableFeature(hideCommentsFaster);
+	enableFeature(markUnread);
 
 	await domLoaded;
 	onDomReady();
 }
 
 async function onDomReady() {
-	enableFeature(markUnread);
 	enableFeature(addOpenAllNotificationsButton);
 	enableFeature(enableCopyOnY);
 	enableFeature(addProfileHotkey);
