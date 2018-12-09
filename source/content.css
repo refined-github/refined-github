@@ -1023,6 +1023,12 @@ body > .footer li a {
 	padding-bottom: 4px !important;
 }
 
+/* Make sidebar sticky */
+.rgh-sticky-sidebar {
+	position: sticky;
+	z-index: 26 !important;
+}
+
 /* Adding a lock icon to private organizations */
 .rgh-private-org {
 	position: relative;
