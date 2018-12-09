@@ -3,13 +3,11 @@ import select from 'select-dom';
 import delegate from 'delegate';
 import domLoaded from 'dom-loaded';
 import gitHubInjection from 'github-injection';
-import SynchronousStorage from '../libs/synchronous-storage';
 import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
 import {getUsername} from '../libs/utils';
 
-let notificationStorage;
 const listeners = [];
 const stateIcons = {
 	issue: {
@@ -22,6 +20,21 @@ const stateIcons = {
 		merged: icons.mergedPullRequest
 	}
 };
+
+async function getNotifications() {
+	const browserStorage = await browser.storage.local.get({
+		unreadNotifications: []
+	});
+	console.log('get', browserStorage.unreadNotifications);
+	return browserStorage.unreadNotifications;
+}
+
+function setNotifications(unreadNotifications) {
+	console.log('set', unreadNotifications)
+	return browser.storage.local.set({
+		unreadNotifications
+	});
+}
 
 function stripHash(url) {
 	return url.replace(/#.+$/, '');
@@ -38,9 +51,9 @@ function addMarkUnreadButton() {
 	}
 }
 
-function markRead(url) {
+async function markRead(url) {
 	const cleanUrl = stripHash(url);
-	const unreadNotifications = notificationStorage.get();
+	const unreadNotifications = await getNotifications();
 	unreadNotifications.forEach((notification, index) => {
 		if (notification.url === cleanUrl) {
 			unreadNotifications.splice(index, 1);
@@ -53,10 +66,10 @@ function markRead(url) {
 		li.classList.add('read');
 	}
 
-	notificationStorage.set(unreadNotifications);
+	await setNotifications(unreadNotifications);
 }
 
-function markUnread() {
+async function markUnread() {
 	const participants = select.all('.participant-avatar').slice(0, 3).map(el => ({
 		username: el.getAttribute('aria-label'),
 		avatar: el.querySelector('img').src
@@ -83,7 +96,7 @@ function markUnread() {
 	const dateTitle = lastCommentTime.title;
 	const date = lastCommentTime.getAttribute('datetime');
 
-	const unreadNotifications = notificationStorage.get();
+	const unreadNotifications = await getNotifications();
 
 	unreadNotifications.push({
 		participants,
@@ -96,8 +109,8 @@ function markUnread() {
 		url
 	});
 
-	notificationStorage.set(unreadNotifications);
-	updateUnreadIndicator();
+	await setNotifications(unreadNotifications);
+	await updateUnreadIndicator();
 
 	this.setAttribute('disabled', 'disabled');
 	this.textContent = 'Marked as unread';
@@ -188,8 +201,8 @@ function getNotificationGroup({repository}) {
 	);
 }
 
-function renderNotifications() {
-	const unreadNotifications = notificationStorage.get()
+async function renderNotifications() {
+	const unreadNotifications = (await getNotifications())
 		.filter(shouldNotificationAppearHere);
 
 	if (unreadNotifications.length === 0) {
@@ -256,14 +269,14 @@ function isParticipatingNotification(notification) {
 		.length > 0;
 }
 
-function updateUnreadIndicator() {
+async function updateUnreadIndicator() {
 	const icon = select('a.notification-indicator'); // "a" required in responsive views
 	if (!icon) {
 		return;
 	}
 	const statusMark = icon.querySelector('.mail-status');
 	const hasRealNotifications = icon.matches('[data-ga-click$=":unread"]');
-	const rghUnreadCount = notificationStorage.get().length;
+	const rghUnreadCount = (await getNotifications()).length;
 
 	const hasUnread = hasRealNotifications || rghUnreadCount > 0;
 	const label = hasUnread ? 'You have unread notifications' : 'You have no unread notifications';
@@ -278,25 +291,25 @@ function updateUnreadIndicator() {
 	}
 }
 
-function markNotificationRead(e) {
+async function markNotificationRead(e) {
 	const notification = e.target.closest('li.js-notification');
 	const a = notification.querySelector('a.js-notification-target');
-	markRead(a.href);
-	updateUnreadIndicator();
+	await markRead(a.href);
+	await updateUnreadIndicator();
 }
 
-function markAllNotificationsRead(e) {
+async function markAllNotificationsRead(e) {
 	e.preventDefault();
 	const repoGroup = e.target.closest('.boxed-group');
 	for (const a of repoGroup.querySelectorAll('a.js-notification-target')) {
-		markRead(a.href);
+		await markRead(a.href); // eslint-disable-line no-await-in-loop
 	}
-	updateUnreadIndicator();
+	await updateUnreadIndicator();
 }
 
-function addCustomAllReadBtn() {
+async function addCustomAllReadBtn() {
 	const hasMarkAllReadBtnExists = select.exists('#notification-center a[href="#mark_as_read_confirm_box"]');
-	if (hasMarkAllReadBtnExists || notificationStorage.get().length === 0) {
+	if (hasMarkAllReadBtnExists || (await getNotifications()).length === 0) {
 		return;
 	}
 
@@ -315,27 +328,27 @@ function addCustomAllReadBtn() {
 		</div>
 	);
 
-	delegate('#clear-local-notification', 'click', () => {
-		notificationStorage.set([]);
+	delegate('#clear-local-notification', 'click', async () => {
+		await setNotifications([]);
 		location.reload();
 	});
 }
 
-function updateLocalNotificationsCount() {
+async function updateLocalNotificationsCount() {
 	const unreadCount = select('#notification-center .filter-list a[href="/notifications"] .count');
 	const githubNotificationsCount = Number(unreadCount.textContent);
-	const localNotifications = notificationStorage.get();
+	const localNotifications = await getNotifications();
 
 	if (localNotifications.length > 0) {
 		unreadCount.textContent = githubNotificationsCount + localNotifications.length;
 	}
 }
 
-function updateLocalParticipatingCount() {
+async function updateLocalParticipatingCount() {
 	const unreadCount = select('#notification-center .filter-list a[href="/notifications/participating"] .count');
 	const githubNotificationsCount = Number(unreadCount.textContent);
 
-	const participatingNotifications = notificationStorage.get()
+	const participatingNotifications = (await getNotifications())
 		.filter(isParticipatingNotification);
 
 	if (participatingNotifications.length > 0) {
@@ -344,43 +357,33 @@ function updateLocalParticipatingCount() {
 }
 
 export default async function () {
-	notificationStorage = await new SynchronousStorage(
-		async () => {
-			const browserStorage = await browser.storage.local.get({
-				unreadNotifications: []
-			});
-			return browserStorage.unreadNotifications;
-		},
-		unreadNotifications => {
-			return browser.storage.local.set({unreadNotifications});
-		}
-	);
 	gitHubInjection(async () => {
 		destroy();
 
 		if (pageDetect.isNotifications()) {
-			renderNotifications();
-			addCustomAllReadBtn();
+			await renderNotifications();
+			await addCustomAllReadBtn();
 			updateLocalNotificationsCount();
 			updateLocalParticipatingCount();
 			listeners.push(
 				delegate('.btn-link.delete-note', 'click', markNotificationRead),
 				delegate('.js-mark-all-read', 'click', markAllNotificationsRead),
 				delegate('.js-delete-notification button', 'click', updateUnreadIndicator),
-				delegate('form[action="/notifications/mark"] button', 'click', event => {
+				delegate('form[action="/notifications/mark"] button', 'click', async event => {
 					const group = event.target.closest('.boxed-group');
 					const repo = select('.notifications-repo-link', group).textContent;
-					notificationStorage.set(notificationStorage.get().filter(notification => notification.repository !== repo));
+					const notifications = await getNotifications();
+					setNotifications(notifications.filter(notification => notification.repository !== repo));
 				})
 			);
 		} else if (pageDetect.isPR() || pageDetect.isIssue()) {
-			markRead(location.href);
+			await markRead(location.href);
 
 			// The sidebar changes when new comments are added or the issue status changes
 			observeEl('.discussion-sidebar', addMarkUnreadButton);
 		} else if (pageDetect.isIssueList()) {
 			await domLoaded;
-			for (const discussion of notificationStorage.get()) {
+			for (const discussion of await getNotifications()) {
 				const url = new URL(discussion.url);
 				const listItem = select(`.read [href='${url.pathname}']`);
 				if (listItem) {
@@ -389,7 +392,7 @@ export default async function () {
 			}
 		}
 
-		updateUnreadIndicator();
+		await updateUnreadIndicator();
 	});
 }
 
