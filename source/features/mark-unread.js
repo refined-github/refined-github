@@ -352,7 +352,7 @@ export default function () {
 			if (notifications.length > 0) {
 				await renderNotifications(notifications);
 				addCustomAllReadBtn();
-				updateLocalNotificationsCount();
+				updateLocalNotificationsCount(notifications);
 				updateLocalParticipatingCount(notifications);
 			}
 			listeners.push(
