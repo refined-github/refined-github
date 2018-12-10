@@ -22,16 +22,14 @@ const stateIcons = {
 };
 
 async function getNotifications() {
-	const browserStorage = await browser.storage.local.get({
+	const {unreadNotifications} = await browser.storage.local.get({
 		unreadNotifications: []
 	});
-	return browserStorage.unreadNotifications;
+	return unreadNotifications;
 }
 
 function setNotifications(unreadNotifications) {
-	return browser.storage.local.set({
-		unreadNotifications
-	});
+	return browser.storage.local.set({unreadNotifications});
 }
 
 function stripHash(url) {
@@ -51,17 +49,11 @@ function addMarkUnreadButton() {
 
 async function markRead(url) {
 	const cleanUrl = stripHash(url);
-	const unreadNotifications = await getNotifications();
-	unreadNotifications.forEach((notification, index) => {
-		if (notification.url === cleanUrl) {
-			unreadNotifications.splice(index, 1);
-		}
-	});
+	const unreadNotifications = (await getNotifications())
+		.filter(({url}) => url !== cleanUrl);
 
 	for (const a of select.all(`a.js-notification-target[href="${cleanUrl}"]`)) {
-		const li = a.closest('li.js-notification');
-		li.classList.remove('unread');
-		li.classList.add('read');
+		a.closest('li.js-notification').classList.replace('unread', 'read');
 	}
 
 	await setNotifications(unreadNotifications);
@@ -245,22 +237,20 @@ function shouldNotificationAppearHere(notification) {
 }
 
 function isSingleRepoPage() {
-	const [,,, subPage] = location.pathname.split('/');
-	return subPage === 'notifications';
+	return location.pathname.split('/')[3] === 'notifications';
 }
 
-function isCurrentSingleRepoPage(notification) {
+function isCurrentSingleRepoPage({repository}) {
 	const [, singleRepo] = /^[/](.+[/].+)[/]notifications/.exec(location.pathname) || [];
-	return singleRepo === notification.repository;
+	return singleRepo === repository;
 }
 
 function isParticipatingPage() {
 	return /\/notifications\/participating/.test(location.pathname);
 }
 
-function isParticipatingNotification(notification) {
+function isParticipatingNotification({participants}) {
 	const myUserName = getUsername();
-	const {participants} = notification;
 
 	return participants
 		.filter(participant => participant.username === myUserName)
@@ -289,10 +279,11 @@ async function updateUnreadIndicator() {
 	}
 }
 
-async function markNotificationRead(event) {
-	const notification = event.target.closest('li.js-notification');
-	const a = notification.querySelector('a.js-notification-target');
-	await markRead(a.href);
+async function markNotificationRead({target}) {
+	const {href} = target
+		.closest('li.js-notification')
+		.querySelector('a.js-notification-target');
+	await markRead(href);
 	await updateUnreadIndicator();
 }
 
@@ -356,15 +347,21 @@ async function updateLocalNotificationsCount() {
 }
 
 async function updateLocalParticipatingCount() {
-	const unreadCount = select('#notification-center .filter-list a[href="/notifications/participating"] .count');
-	const githubNotificationsCount = Number(unreadCount.textContent);
-
 	const participatingNotifications = (await getNotifications())
-		.filter(isParticipatingNotification);
+		.filter(isParticipatingNotification)
+		.length;
 
-	if (participatingNotifications.length > 0) {
-		unreadCount.textContent = githubNotificationsCount + participatingNotifications.length;
+	if (participatingNotifications > 0) {
+		const unreadCount = select('#notification-center .filter-list a[href="/notifications/participating"] .count');
+		const githubNotificationsCount = Number(unreadCount.textContent);
+		unreadCount.textContent = githubNotificationsCount + participatingNotifications;
 	}
+}
+function destroy() {
+	for (const listener of listeners) {
+		listener.destroy();
+	}
+	listeners.length = 0;
 }
 
 export default async function () {
@@ -384,7 +381,7 @@ export default async function () {
 					const group = event.target.closest('.boxed-group');
 					const repo = select('.notifications-repo-link', group).textContent;
 					const notifications = await getNotifications();
-					setNotifications(notifications.filter(notification => notification.repository !== repo));
+					setNotifications(notifications.filter(({repository}) => repository !== repo));
 				})
 			);
 		} else if (pageDetect.isPR() || pageDetect.isIssue()) {
@@ -396,8 +393,8 @@ export default async function () {
 		} else if (pageDetect.isIssueList()) {
 			await domLoaded;
 			for (const discussion of await getNotifications()) {
-				const url = new URL(discussion.url);
-				const listItem = select(`.read [href='${url.pathname}']`);
+				const {pathname} = new URL(discussion.url);
+				const listItem = select(`.read [href='${pathname}']`);
 				if (listItem) {
 					listItem.closest('.read').classList.replace('read', 'unread');
 				}
@@ -406,11 +403,4 @@ export default async function () {
 
 		await updateUnreadIndicator();
 	});
-}
-
-function destroy() {
-	for (const listener of listeners) {
-		listener.destroy();
-	}
-	listeners.length = 0;
 }
