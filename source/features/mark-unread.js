@@ -227,7 +227,7 @@ async function renderNotifications() {
 
 	// Make sure that all the boxes with unread items are at the top
 	// This is necessary in the "All notifications" view
-	for (const repo of select.all('.boxed-group')) {
+	for (const repo of select.all('.boxed-group').reverse()) {
 		if (select.exists('.unread', repo)) {
 			pageList.prepend(repo);
 		}
