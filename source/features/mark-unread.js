@@ -83,6 +83,7 @@ async function markUnread() {
 	unreadNotifications.push({
 		participants,
 		state,
+		isParticipating: select.exists(`.participant-avatar[href="/${getUsername()}"]`),
 		repository: `${ownerName}/${repoName}`,
 		dateTitle: lastCommentTime.title,
 		title: select('.js-issue-title').textContent.trim(),
@@ -223,7 +224,7 @@ function shouldNotificationAppearHere(notification) {
 		return isCurrentSingleRepoPage(notification);
 	}
 	if (isParticipatingPage()) {
-		return isParticipatingNotification(notification);
+		return notification.isParticipating;
 	}
 	return true;
 }
@@ -239,14 +240,6 @@ function isCurrentSingleRepoPage({repository}) {
 
 function isParticipatingPage() {
 	return /\/notifications\/participating/.test(location.pathname);
-}
-
-function isParticipatingNotification({participants}) {
-	const myUserName = getUsername();
-
-	return participants
-		.filter(participant => participant.username === myUserName)
-		.length > 0;
 }
 
 async function updateUnreadIndicator() {
@@ -340,7 +333,7 @@ async function updateLocalNotificationsCount() {
 
 async function updateLocalParticipatingCount() {
 	const participatingNotifications = (await getNotifications())
-		.filter(isParticipatingNotification)
+		.filter(({isParticipating}) => isParticipating)
 		.length;
 
 	if (participatingNotifications > 0) {
