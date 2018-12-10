@@ -189,9 +189,8 @@ function getNotificationGroup({repository}) {
 	);
 }
 
-async function renderNotifications() {
-	const unreadNotifications = (await getNotifications())
-		.filter(shouldNotificationAppearHere);
+async function renderNotifications(unreadNotifications) {
+	unreadNotifications = unreadNotifications.filter(shouldNotificationAppearHere);
 
 	if (unreadNotifications.length === 0) {
 		return;
@@ -285,11 +284,7 @@ async function markAllNotificationsRead(event) {
 	await updateUnreadIndicator();
 }
 
-async function addCustomAllReadBtn() {
-	if ((await getNotifications()).length === 0) {
-		return;
-	}
-
+function addCustomAllReadBtn() {
 	const nativeMarkUnreadForm = select('details [action="/notifications/mark"]');
 	if (nativeMarkUnreadForm) {
 		nativeMarkUnreadForm.addEventListener('submit', () => {
@@ -324,19 +319,14 @@ async function addCustomAllReadBtn() {
 		location.reload();
 	});
 }
-
-async function updateLocalNotificationsCount() {
+function updateLocalNotificationsCount(localNotifications) {
 	const unreadCount = select('#notification-center .filter-list a[href="/notifications"] .count');
 	const githubNotificationsCount = Number(unreadCount.textContent);
-	const localNotifications = await getNotifications();
-
-	if (localNotifications.length > 0) {
-		unreadCount.textContent = githubNotificationsCount + localNotifications.length;
-	}
+	unreadCount.textContent = githubNotificationsCount + localNotifications.length;
 }
 
-async function updateLocalParticipatingCount() {
-	const participatingNotifications = (await getNotifications())
+function updateLocalParticipatingCount(notifications) {
+	const participatingNotifications = notifications
 		.filter(({isParticipating}) => isParticipating)
 		.length;
 
@@ -353,15 +343,18 @@ function destroy() {
 	listeners.length = 0;
 }
 
-export default async function () {
+export default function () {
 	gitHubInjection(async () => {
 		destroy();
 
 		if (pageDetect.isNotifications()) {
-			await renderNotifications();
-			await addCustomAllReadBtn();
-			updateLocalNotificationsCount();
-			updateLocalParticipatingCount();
+			const notifications = await getNotifications();
+			if (notifications.length > 0) {
+				await renderNotifications(notifications);
+				addCustomAllReadBtn();
+				updateLocalNotificationsCount();
+				updateLocalParticipatingCount(notifications);
+			}
 			listeners.push(
 				delegate('.btn-link.delete-note', 'click', markNotificationRead),
 				delegate('.js-mark-all-read', 'click', markAllNotificationsRead),
