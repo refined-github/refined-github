@@ -66,11 +66,6 @@ async function markUnread() {
 	}));
 
 	const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
-	const repository = `${ownerName}/${repoName}`;
-	const title = select('.js-issue-title').textContent.trim();
-	const type = pageDetect.isPR() ? 'pull-request' : 'issue';
-	const url = stripHash(location.href);
-
 	const stateLabel = select('.gh-header-meta .State');
 	let state;
 
@@ -83,20 +78,17 @@ async function markUnread() {
 	}
 
 	const lastCommentTime = select.all('.timeline-comment-header relative-time').pop();
-	const dateTitle = lastCommentTime.title;
-	const date = lastCommentTime.getAttribute('datetime');
-
 	const unreadNotifications = await getNotifications();
 
 	unreadNotifications.push({
 		participants,
-		repository,
-		title,
 		state,
-		type,
-		dateTitle,
-		date,
-		url
+		repository: `${ownerName}/${repoName}`,
+		dateTitle: lastCommentTime.title,
+		title: select('.js-issue-title').textContent.trim(),
+		type: pageDetect.isPR() ? 'pull-request' : 'issue',
+		date: lastCommentTime.getAttribute('datetime'),
+		url: stripHash(location.href)
 	});
 
 	await setNotifications(unreadNotifications);
@@ -109,10 +101,10 @@ async function markUnread() {
 function getNotification(notification) {
 	const {
 		participants,
+		dateTitle,
 		title,
 		state,
 		type,
-		dateTitle,
 		date,
 		url
 	} = notification;
