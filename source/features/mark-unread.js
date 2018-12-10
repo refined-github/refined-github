@@ -47,16 +47,21 @@ function addMarkUnreadButton() {
 	}
 }
 
-async function markRead(url) {
-	const cleanUrl = stripHash(url);
-	const unreadNotifications = (await getNotifications())
-		.filter(({url}) => url !== cleanUrl);
+async function markRead(urls) {
+	if (!Array.isArray(urls)) {
+		urls = [urls];
+	}
+	const cleanUrls = urls.map(stripHash);
 
-	for (const a of select.all(`a.js-notification-target[href="${cleanUrl}"]`)) {
-		a.closest('li.js-notification').classList.replace('unread', 'read');
+	for (const a of select.all('a.js-notification-target')) {
+		if (cleanUrls.includes(a.getAttribute('href'))) {
+			a.closest('li.js-notification').classList.replace('unread', 'read');
+		}
 	}
 
-	await setNotifications(unreadNotifications);
+	const notifications = await getNotifications();
+	const updated = notifications.filter(({url}) => !cleanUrls.includes(url));
+	await setNotifications(updated);
 }
 
 async function markUnread() {
@@ -275,9 +280,8 @@ async function markNotificationRead({target}) {
 async function markAllNotificationsRead(event) {
 	event.preventDefault();
 	const repoGroup = event.target.closest('.boxed-group');
-	for (const a of repoGroup.querySelectorAll('a.js-notification-target')) {
-		await markRead(a.href); // eslint-disable-line no-await-in-loop
-	}
+	const urls = select.all('a.js-notification-target', repoGroup).map(a => a.href);
+	await markRead(urls);
 	await updateUnreadIndicator();
 }
 
