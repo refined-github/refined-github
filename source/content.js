@@ -231,6 +231,7 @@ function ajaxedPagesHandler() {
 		enableFeature(waitForBuild);
 		enableFeature(hideInactiveDeployments);
 		enableFeature(addPullRequestHotkey);
+		enableFeature(addQuickReviewButtons);
 	}
 
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
@@ -283,7 +284,6 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
 		enableFeature(addPrevNextButtonsToPRs);
 		enableFeature(preserveWhitespaceOptionInNav);
-		enableFeature(addQuickReviewButtons);
 	}
 
 	if (pageDetect.isPRFiles()) {
