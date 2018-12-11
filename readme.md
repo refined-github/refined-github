@@ -145,6 +145,7 @@ GitHub Enterprise is also supported. More info in the options.
 - Obvious tooltips are removed.
 - The `Projects` repository tab is hidden when there are no projects
     * New projects can still be created via the [`Create new…` menu](https://user-images.githubusercontent.com/1402241/34909214-18b6fb2e-f8cf-11e7-8556-bed748596d3b.png).
+- [The autocomplete on the issue search field is removed.](https://user-images.githubusercontent.com/1402241/42991841-1f057e4e-8c07-11e8-909c-b051db7a2a03.png)
 - [Forks are hidden from a user's Repositories list (but they can still be shown)](https://user-images.githubusercontent.com/1402241/45133648-fe21be80-b1c8-11e8-9052-e38cb443efa9.png)
 - [Reaction comments ("+1", "👍", …) are hidden](https://user-images.githubusercontent.com/1402241/45543717-d45f3c00-b847-11e8-84a5-8c439d0ad1a5.png) (except the maintainers') [but they can still be shown.](https://user-images.githubusercontent.com/1402241/45543720-d628ff80-b847-11e8-9fb6-758a3102e3a9.png)
 
@@ -197,7 +198,6 @@ And [many more…](source/content.css)
 - [Implemented by GitHub](https://blog.github.com/changelog/2018-11-05-related-issues/): [Avoid opening duplicate issues thanks to the list of possibly-related issues.](https://user-images.githubusercontent.com/29176678/37566899-85953e6e-2abf-11e8-9f0e-52d18c87bbe3.gif)
 - [Implemented by GitHub](https://blog.github.com/changelog/2018-11-16-copy-file-paths-in-diffs/): [Copy the path of a PR file.](https://cloud.githubusercontent.com/assets/4201088/26023064/18c9c77c-37d2-11e7-8926-b0a05a2706ae.png)
 - [Implemented by GitHub](https://blog.github.com/changelog/2018-11-26-searching-by-user-from-a-profile-page/): [Search a user profile page when visiting it.](https://user-images.githubusercontent.com/1402241/35185441-24ad4b1e-fe37-11e7-9e1b-0dc09fc1ada2.png)
-- Implemented by GitHub: [The autocomplete on the issue search field is removed.](https://user-images.githubusercontent.com/1402241/42991841-1f057e4e-8c07-11e8-909c-b051db7a2a03.png)
 
 
 ## Customization

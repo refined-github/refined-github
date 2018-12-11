@@ -23,7 +23,6 @@ new OptionsSync().define({
 			options.disabledFeatures = options.disabledFeatures.replace('display-issue-suggestions', ''); // #1611
 			options.disabledFeatures = options.disabledFeatures.replace('open-all-selected', 'batch-open-issues'); // #1402
 			options.disabledFeatures = options.disabledFeatures.replace('copy-file-path', ''); // #1628
-			options.disabledFeatures = options.disabledFeatures.replace('hide-issue-list-autocomplete', ''); // #1657
 		},
 		OptionsSync.migrations.removeUnused
 	]

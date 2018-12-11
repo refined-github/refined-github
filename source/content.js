@@ -77,6 +77,7 @@ import addSwapBranchesOnCompare from './features/add-swap-branches-on-compare';
 import showFollowersYouKnow from './features/show-followers-you-know';
 import hideCommentsFaster from './features/hide-comments-faster';
 import linkifyCommitSha from './features/linkify-commit-sha';
+import hideIssueListAutocomplete from './features/hide-issue-list-autocomplete';
 import showUserTopRepositories from './features/show-user-top-repositories';
 import userProfileFollowerBadge from './features/user-profile-follower-badge';
 import usefulNotFoundPage from './features/useful-not-found-page';
@@ -250,6 +251,7 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isIssueList()) {
 		enableFeature(addFilterCommentsByYou);
+		enableFeature(hideIssueListAutocomplete);
 		enableFeature(excludeFilterShortcut);
 	}
 
