@@ -42,7 +42,7 @@ import addDiffViewWithoutWhitespaceOption from './features/add-diff-view-without
 import preserveWhitespaceOptionInNav from './features/preserve-whitespace-option-in-nav';
 import addMilestoneNavigation from './features/add-milestone-navigation';
 import addFilterCommentsByYou from './features/add-filter-comments-by-you';
-import addFilterNotReviewedByYou from './features/add-filter-not-reviewed-by-you';
+import excludeFilterShortcut from './features/exclude-filter-shortcut';
 import removeProjectsTab from './features/remove-projects-tab';
 import hideUselessComments from './features/hide-useless-comments';
 import fixSquashAndMergeTitle from './features/fix-squash-and-merge-title';
@@ -84,11 +84,11 @@ import usefulNotFoundPage from './features/useful-not-found-page';
 import setDefaultRepositoriesTypeToSources from './features/set-default-repositories-type-to-sources';
 import markPrivateOrgs from './features/mark-private-orgs';
 import navigatePagesWithArrowKeys from './features/navigate-pages-with-arrow-keys';
+import bypassChecksTravis from './features/bypass-checks-travis';
 import addPrBranches from './features/add-pr-branches';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
-import observeEl from './libs/simplified-element-observer';
 
 // Add globals for easier debugging
 window.select = select;
@@ -236,6 +236,7 @@ function ajaxedPagesHandler() {
 		enableFeature(waitForBuild);
 		enableFeature(hideInactiveDeployments);
 		enableFeature(addPullRequestHotkey);
+		enableFeature(addQuickReviewButtons);
 	}
 
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
@@ -243,11 +244,8 @@ function ajaxedPagesHandler() {
 		enableFeature(embedGistInline);
 		enableFeature(extendStatusLabels);
 		enableFeature(highlightClosingPrsInOpenIssues);
-
-		observeEl('.new-discussion-timeline', () => {
-			enableFeature(addOPLabels);
-			enableFeature(addTimeMachineLinksToComments);
-		});
+		enableFeature(addOPLabels);
+		enableFeature(addTimeMachineLinksToComments);
 	}
 
 	if (pageDetect.isIssue() || pageDetect.isPRConversation()) {
@@ -257,7 +255,7 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isIssueList()) {
 		enableFeature(addFilterCommentsByYou);
 		enableFeature(hideIssueListAutocomplete);
-		enableFeature(addFilterNotReviewedByYou);
+		enableFeature(excludeFilterShortcut);
 	}
 
 	if (pageDetect.isIssueList() || pageDetect.isPR() || pageDetect.isIssue()) {
@@ -288,7 +286,6 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
 		enableFeature(addPrevNextButtonsToPRs);
 		enableFeature(preserveWhitespaceOptionInNav);
-		enableFeature(addQuickReviewButtons);
 	}
 
 	if (pageDetect.isPRFiles()) {
@@ -314,6 +311,10 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isPRCommit()) {
 		enableFeature(linkifyCommitSha);
+	}
+
+	if (pageDetect.isPRConversation()) {
+		enableFeature(bypassChecksTravis);
 	}
 }
 

@@ -298,6 +298,14 @@ followed someone
 .rgh-reactions-near-limit .reaction-summary-item:not(:hover) a:not(:first-of-type) {
 	margin-left: -12px;
 }
+/* Avoid wrapping */
+.has-reactions,
+.rgh-reactions-near-limit {
+	display: flex;
+}
+.rgh-reactions-near-limit {
+	background: #fff;
+}
 
 /* Hide reaction popover text */
 .reaction-popover-form.js-pick-reaction span.js-reaction-description,
@@ -509,9 +517,34 @@ div.inline-comment-form .form-actions,
 	padding: 6px 9px;
 }
 
-/* Decrease the size of the search box to fit 'Yours' menu item */
-.subnav-search-input[aria-label='Search all issues'] {
-	width: 420px;
+/* Extend issue search input width when focused */
+.subnav-search {
+	width: 320px; /* Original width on GitHub */
+}
+.subnav-search .subnav-search-input {
+	position: relative;
+	z-index: 2;
+	transition: 0.2s ease-out;
+	transition-property: width, padding-left;
+}
+.subnav-search .subnav-search-input:focus {
+	width: 900px;
+}
+.subnav-search .subnav-search-icon {
+	z-index: 2; /* Ensure that it stays over the input */
+}
+.float-right .subnav-search {
+	width: 420px; /* Original: 500px; Decrease the size of the search box to fit 'Yours' menu item */
+}
+.float-right .subnav-search-input {
+	width: 100%;
+	float: right;
+}
+.float-right .subnav-search-input:focus {
+	padding-left: 8px;
+}
+.float-right .subnav-search-input:focus + .subnav-search-icon {
+	display: none; /* When aligned right, the icon will stay in the wrong position, so hide it */
 }
 
 /* Remove Marketplace marketing box on PRs */
@@ -843,7 +876,8 @@ body > .footer li a {
 	margin-top: 20px !important;
 }
 /* Hide star button */
-.dashboard .flex-items-baseline [value='Star'] {
+.dashboard .flex-items-baseline [value='Star'],
+.dashboard .flex-items-baseline [value='Unstar'] {
 	display: none;
 }
 
@@ -987,6 +1021,12 @@ body > .footer li a {
 .dashboard-sidebar .Box-title {
 	padding-top: 4px !important;
 	padding-bottom: 4px !important;
+}
+
+/* Make sidebar sticky */
+.rgh-sticky-sidebar {
+	position: sticky;
+	z-index: 26 !important;
 }
 
 /* Adding a lock icon to private organizations */
