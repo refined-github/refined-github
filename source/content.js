@@ -87,7 +87,6 @@ import navigatePagesWithArrowKeys from './features/navigate-pages-with-arrow-key
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
-import observeEl from './libs/simplified-element-observer';
 
 // Add globals for easier debugging
 window.select = select;
@@ -239,11 +238,8 @@ function ajaxedPagesHandler() {
 		enableFeature(embedGistInline);
 		enableFeature(extendStatusLabels);
 		enableFeature(highlightClosingPrsInOpenIssues);
-
-		observeEl('.new-discussion-timeline', () => {
-			enableFeature(addOPLabels);
-			enableFeature(addTimeMachineLinksToComments);
-		});
+		enableFeature(addOPLabels);
+		enableFeature(addTimeMachineLinksToComments);
 	}
 
 	if (pageDetect.isIssue() || pageDetect.isPRConversation()) {

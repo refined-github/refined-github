@@ -3,6 +3,7 @@ import select from 'select-dom';
 import domify from '../libs/domify';
 import * as cache from '../libs/cache';
 import {getUsername, groupBy} from '../libs/utils';
+import onNewComments from '../libs/on-new-comments';
 
 const fetchName = async username => {
 	// /following/you_know is the lightest page we know
@@ -21,7 +22,7 @@ const fetchName = async username => {
 	return fullname;
 };
 
-export default () => {
+const addNames = () => {
 	const myUsername = getUsername();
 	const commentsList = select.all('.js-discussion .author:not(.rgh-fullname):not([href*="/apps/"])');
 
@@ -63,3 +64,8 @@ export default () => {
 
 	Object.keys(usersOnPage).map(fetchAndAdd);
 };
+
+export default function () {
+	addNames();
+	onNewComments(addNames);
+}
