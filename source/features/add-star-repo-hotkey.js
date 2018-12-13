@@ -3,15 +3,24 @@ import {registerShortcut} from './improve-shortcut-help';
 
 export default function () {
 	registerShortcut('repos', 'g s', 'Star and unstar repository');
-	let lastKey;
-	document.addEventListener('keydown', e => {
-		if ((lastKey === 'g' && e.key === 's') || (e.key === 'g' && lastKey === 's')) {
-			const starButtonSelector = (select('div.js-social-container.starring-container').classList.contains('on')) ? 'form.starred.js-social-form > button' : 'form.unstarred.js-social-form > button';
-			select(starButtonSelector).click();
-		}
-		lastKey = e.key;
-	});
-	document.addEventListener('keyup', () => {
-		lastKey = null;
-	});
+	const starButtons = select.all('.starred.js-social-form > button, .unstarred.js-social-form > button');
+
+	const addHotkeyToStarButton = () => {
+		starButtons[0].removeAttribute('data-hotkey');
+		starButtons[1].setAttribute('data-hotkey', 'g s');
+	};
+	
+	const addHotkeyToUnstarButton = () => {
+		starButtons[0].setAttribute('data-hotkey', 'g s');
+		starButtons[1].removeAttribute('data-hotkey');
+	};
+
+	if (!select.exists('.js-social-container.starring-container.on')) {
+		addHotkeyToStarButton();
+	} else {
+		addHotkeyToUnstarButton();
+	}
+
+	starButtons[0].addEventListener('click', addHotkeyToStarButton);
+	starButtons[1].addEventListener('click', addHotkeyToUnstarButton);
 }
