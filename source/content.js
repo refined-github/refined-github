@@ -5,15 +5,13 @@ import domLoaded from 'dom-loaded';
 
 import markUnread from './features/mark-unread';
 import addOpenAllNotificationsButton from './features/open-all-notifications';
-import openAllSelected from './features/open-all-selected';
+import batchOpenIssues from './features/batch-open-issues';
 import addUploadBtn from './features/upload-button';
 import enableCopyOnY from './features/copy-on-y';
 import addReactionParticipants from './features/reactions-avatars';
 import showRealNames from './features/show-names';
-import addCopyFilePathToPRs from './features/copy-file-path';
 import addPrevNextButtonsToPRs from './features/prev-next-commit-buttons';
 import addFileCopyButton from './features/copy-file';
-// - import copyMarkdown from './features/copy-markdown';
 import linkifyCode from './features/linkify-urls-in-code';
 import infiniteScroll from './features/infinite-scroll';
 import addOPLabels from './features/op-labels';
@@ -44,7 +42,7 @@ import addDiffViewWithoutWhitespaceOption from './features/add-diff-view-without
 import preserveWhitespaceOptionInNav from './features/preserve-whitespace-option-in-nav';
 import addMilestoneNavigation from './features/add-milestone-navigation';
 import addFilterCommentsByYou from './features/add-filter-comments-by-you';
-import addFilterNotReviewedByYou from './features/add-filter-not-reviewed-by-you';
+import excludeFilterShortcut from './features/exclude-filter-shortcut';
 import removeProjectsTab from './features/remove-projects-tab';
 import hideUselessComments from './features/hide-useless-comments';
 import fixSquashAndMergeTitle from './features/fix-squash-and-merge-title';
@@ -73,7 +71,6 @@ import closeOutOfViewModals from './features/close-out-of-view-modals';
 import monospaceTextareas from './features/monospace-textareas';
 import improveShortcutHelp from './features/improve-shortcut-help';
 import hideNavigationHoverHighlight from './features/hide-navigation-hover-highlight';
-import displayIssueSuggestions from './features/display-issue-suggestions';
 import addPullRequestHotkey from './features/add-pull-request-hotkey';
 import openSelectionInNewTab from './features/add-selection-in-new-tab';
 import addSwapBranchesOnCompare from './features/add-swap-branches-on-compare';
@@ -81,16 +78,17 @@ import showFollowersYouKnow from './features/show-followers-you-know';
 import hideCommentsFaster from './features/hide-comments-faster';
 import linkifyCommitSha from './features/linkify-commit-sha';
 import hideIssueListAutocomplete from './features/hide-issue-list-autocomplete';
+import showUserTopRepositories from './features/show-user-top-repositories';
 import userProfileFollowerBadge from './features/user-profile-follower-badge';
 import usefulNotFoundPage from './features/useful-not-found-page';
 import setDefaultRepositoriesTypeToSources from './features/set-default-repositories-type-to-sources';
 import markPrivateOrgs from './features/mark-private-orgs';
 import navigatePagesWithArrowKeys from './features/navigate-pages-with-arrow-keys';
 import addStarRepoHotkey from './features/add-star-repo-hotkey';
+import bypassChecksTravis from './features/bypass-checks-travis';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
-import observeEl from './libs/simplified-element-observer';
 
 // Add globals for easier debugging
 window.select = select;
@@ -144,17 +142,13 @@ async function init() {
 	enableFeature(monospaceTextareas);
 	enableFeature(openSelectionInNewTab);
 	enableFeature(hideCommentsFaster);
-
-	// TODO: Enable this when we've improved how copying Markdown works
-	// See #522
-	// delegate('.markdown-body', 'copy', copyMarkdown);
+	enableFeature(markUnread);
 
 	await domLoaded;
 	onDomReady();
 }
 
 async function onDomReady() {
-	enableFeature(markUnread);
 	enableFeature(addOpenAllNotificationsButton);
 	enableFeature(enableCopyOnY);
 	enableFeature(addProfileHotkey);
@@ -201,12 +195,12 @@ function ajaxedPagesHandler() {
 	enableFeature(linkifyCode);
 	enableFeature(addDownloadFolderButton);
 	enableFeature(linkifyBranchRefs);
-	enableFeature(openAllSelected);
+	enableFeature(batchOpenIssues);
 	enableFeature(hideUselessComments);
 	enableFeature(navigatePagesWithArrowKeys);
 	enableFeature(makeHeadersSticky);
 
-	if (pageDetect.isIssueSearch() || pageDetect.isPRSearch()) {
+	if (pageDetect.isGlobalIssueSearch() || pageDetect.isGlobalPRSearch()) {
 		enableFeature(addYoursMenuItem);
 		enableFeature(addCommentedMenuItem);
 	}
@@ -239,6 +233,7 @@ function ajaxedPagesHandler() {
 		enableFeature(waitForBuild);
 		enableFeature(hideInactiveDeployments);
 		enableFeature(addPullRequestHotkey);
+		enableFeature(addQuickReviewButtons);
 	}
 
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
@@ -246,15 +241,8 @@ function ajaxedPagesHandler() {
 		enableFeature(embedGistInline);
 		enableFeature(extendStatusLabels);
 		enableFeature(highlightClosingPrsInOpenIssues);
-
-		observeEl('.new-discussion-timeline', () => {
-			enableFeature(addOPLabels);
-			enableFeature(addTimeMachineLinksToComments);
-		});
-	}
-
-	if (pageDetect.isNewIssue()) {
-		enableFeature(displayIssueSuggestions);
+		enableFeature(addOPLabels);
+		enableFeature(addTimeMachineLinksToComments);
 	}
 
 	if (pageDetect.isIssue() || pageDetect.isPRConversation()) {
@@ -264,7 +252,7 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isIssueList()) {
 		enableFeature(addFilterCommentsByYou);
 		enableFeature(hideIssueListAutocomplete);
-		enableFeature(addFilterNotReviewedByYou);
+		enableFeature(excludeFilterShortcut);
 	}
 
 	if (pageDetect.isIssueList() || pageDetect.isPR() || pageDetect.isIssue()) {
@@ -293,10 +281,8 @@ function ajaxedPagesHandler() {
 	}
 
 	if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
-		enableFeature(addCopyFilePathToPRs);
 		enableFeature(addPrevNextButtonsToPRs);
 		enableFeature(preserveWhitespaceOptionInNav);
-		enableFeature(addQuickReviewButtons);
 	}
 
 	if (pageDetect.isPRFiles()) {
@@ -310,6 +296,7 @@ function ajaxedPagesHandler() {
 	if (pageDetect.isUserProfile()) {
 		enableFeature(addGistsLink);
 		enableFeature(showFollowersYouKnow);
+		enableFeature(showUserTopRepositories);
 		enableFeature(infiniteScroll);
 		enableFeature(setDefaultRepositoriesTypeToSources);
 		enableFeature(userProfileFollowerBadge);
@@ -321,6 +308,10 @@ function ajaxedPagesHandler() {
 
 	if (pageDetect.isPRCommit()) {
 		enableFeature(linkifyCommitSha);
+	}
+
+	if (pageDetect.isPRConversation()) {
+		enableFeature(bypassChecksTravis);
 	}
 }
 

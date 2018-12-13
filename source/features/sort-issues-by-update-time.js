@@ -29,8 +29,10 @@ export default function () {
 		[href*="/issues"]:not([href*="sort%3A"]):not(.issues-reset-query),
 		[href*="/pulls" ]:not([href*="sort%3A"]):not(.issues-reset-query)
 	`)) {
-		// Pick only links to lists, not single issues + skip pagination links
-		if (/(issues|pulls)\/?$/.test(link.pathname) && !link.closest('.pagination')) {
+		// Pick only links to lists, not single issues
+		// + skip pagination links
+		// + skip pr/issue filter dropdowns (some are lazyloaded)
+		if (/(issues|pulls)\/?$/.test(link.pathname) && !link.closest('.pagination, .table-list-filters')) {
 			const search = new URLSearchParams(link.search);
 			const existingQuery = search.get('q') || getDefaultQuery(link, search);
 			search.set('q', `${existingQuery} sort:updated-desc`);

@@ -7,13 +7,15 @@ const btnClassMap = {
 };
 
 export default function () {
-	const submitButton = select('#submit-review [type="submit"]');
-	const container = select('#submit-review .form-actions');
-	const radios = select.all('#submit-review [type="radio"][name="pull_request_review[event]"]');
+	const form = select('[action$="/reviews"]');
+	const radios = select.all('[type="radio"][name="pull_request_review[event]"]', form);
 
 	if (radios.length === 0) {
 		return;
 	}
+
+	const submitButton = select('[type="submit"]', form);
+	const container = select('.form-actions', form);
 
 	// Set the default action for cmd+enter to Comment
 	if (radios.length > 1) {
@@ -21,8 +23,7 @@ export default function () {
 			<input
 				type="hidden"
 				name="pull_request_review[event]"
-				value="comment"/>,
-
+				value="comment"/>
 		);
 	}
 
@@ -40,13 +41,13 @@ export default function () {
 		}
 	}
 
-	// Make sure that the comment and cancel buttons are last
+	// Comment button must be last; cancel button must be first
 	if (radios.length > 1) {
-		container.append(select('#submit-review button[value="comment"]'));
-		const cancelReview = select('#submit-review .review-cancel-button');
+		container.append(select('button[value="comment"]', form));
+		const cancelReview = select('.review-cancel-button', form);
 		if (cancelReview) {
 			cancelReview.classList.add('float-left');
-			container.append(cancelReview);
+			container.prepend(cancelReview);
 		}
 	}
 
@@ -57,10 +58,10 @@ export default function () {
 	submitButton.remove();
 
 	// Freeze form to avoid duplicate submissions
-	select('#submit-review').addEventListener('submit', () => {
+	form.addEventListener('submit', () => {
 		// Delay disabling the fields to let them be submitted first
 		setTimeout(() => {
-			for (const control of select.all('#submit-review button, #submit-review textarea')) {
+			for (const control of select.all('button, textarea', form)) {
 				control.disabled = true;
 			}
 		});

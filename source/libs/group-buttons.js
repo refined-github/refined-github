@@ -4,7 +4,11 @@ import {wrapAll} from './utils';
 // Wrap a list of elements with BtnGroup + ensure each has BtnGroup-item
 export const groupButtons = buttons => {
 	// Ensure every button has this class
-	for (const button of buttons) {
+	for (let button of buttons) {
+		if (!button.matches('.btn')) {
+			button.classList.add('BtnGroup-form');
+			button = button.querySelector('.btn');
+		}
 		button.classList.add('BtnGroup-item');
 	}
 

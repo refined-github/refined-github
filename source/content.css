@@ -298,6 +298,14 @@ followed someone
 .rgh-reactions-near-limit .reaction-summary-item:not(:hover) a:not(:first-of-type) {
 	margin-left: -12px;
 }
+/* Avoid wrapping */
+.has-reactions,
+.rgh-reactions-near-limit {
+	display: flex;
+}
+.rgh-reactions-near-limit {
+	background: #fff;
+}
 
 /* Hide reaction popover text */
 .reaction-popover-form.js-pick-reaction span.js-reaction-description,
@@ -509,9 +517,34 @@ div.inline-comment-form .form-actions,
 	padding: 6px 9px;
 }
 
-/* Decrease the size of the search box to fit 'Yours' menu item */
-.subnav-search-input[aria-label='Search all issues'] {
-	width: 420px;
+/* Extend issue search input width when focused */
+.subnav-search {
+	width: 320px; /* Original width on GitHub */
+}
+.subnav-search .subnav-search-input {
+	position: relative;
+	z-index: 2;
+	transition: 0.2s ease-out;
+	transition-property: width, padding-left;
+}
+.subnav-search .subnav-search-input:focus {
+	width: 900px;
+}
+.subnav-search .subnav-search-icon {
+	z-index: 2; /* Ensure that it stays over the input */
+}
+.float-right .subnav-search {
+	width: 420px; /* Original: 500px; Decrease the size of the search box to fit 'Yours' menu item */
+}
+.float-right .subnav-search-input {
+	width: 100%;
+	float: right;
+}
+.float-right .subnav-search-input:focus {
+	padding-left: 8px;
+}
+.float-right .subnav-search-input:focus + .subnav-search-icon {
+	display: none; /* When aligned right, the icon will stay in the wrong position, so hide it */
 }
 
 /* Remove Marketplace marketing box on PRs */
@@ -617,16 +650,6 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 /* Space out `rgh-closing-pr`; matches native `.gh-header-meta .State` spacing */
 .rgh-closing-pr {
 	margin-right: 8px;
-}
-
-/* Make issue suggestions as wide as possible, within the current viewport */
-.rgh-issue-suggestions {
-	min-width: 100%;
-	width: calc(50vw - 510px + 100%);
-	max-width: max-content;
-}
-.rgh-issue-suggestions .Box {
-	transition: opacity 0.2s;
 }
 
 /* For `add-ci-link` */
@@ -748,13 +771,11 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	position: relative;
 }
 [data-url$='recently_touched_branches_list'] {
-	min-width: 430px; /* Always cover the repo watch/star/forks actions */
 	max-height: 42px; /* Only cover the actions when there are multiple branches + :hover */
 	position: absolute;
 	top: -117px;
 	right: 0;
 	z-index: 32; /* Set z-index higher than ul.pagehead-actions */
-	background: var(--github-gray-background);
 	white-space: nowrap;
 	animation: rgh-slide-in-right 0.3s ease-out;
 }
@@ -855,7 +876,8 @@ body > .footer li a {
 	margin-top: 20px !important;
 }
 /* Hide star button */
-.dashboard .flex-items-baseline [value='Star'] {
+.dashboard .flex-items-baseline [value='Star'],
+.dashboard .flex-items-baseline [value='Unstar'] {
 	display: none;
 }
 
@@ -908,9 +930,10 @@ body > .footer li a {
 }
 
 /* For 'add-toggle-files-button' feature */
-.rgh-toggle-files {
-	margin-right: -6px;
-	margin-top: -3px;
+:root .rgh-toggle-files {
+	margin: -8px 0;
+	margin-right: -10px;
+	padding: 10px 13px;
 }
 .rgh-files-hidden .commit-tease {
 	border-radius: 3px;
@@ -1000,11 +1023,22 @@ body > .footer li a {
 	padding-bottom: 4px !important;
 }
 
-.profile-org-private-lock {
+/* Make sidebar sticky */
+.rgh-sticky-sidebar {
+	position: sticky;
+	z-index: 26 !important;
+}
+
+/* Adding a lock icon to private organizations */
+.rgh-private-org {
+	position: relative;
+}
+.rgh-private-org svg {
 	pointer-events: none;
 	position: absolute;
-	top: 15px;
-	left: 20px;
+	bottom: 2px;
+	right: 2px;
+	fill: #333;
 }
 
 /* For badge on user profiles */
@@ -1020,4 +1054,10 @@ body > .footer li a {
 }
 .js-user-profile-follow-button {
 	margin-top: 5px;
+}
+
+/* Expand empty diffs in PRs */
+:root .file .data.empty {
+	padding: 54px;
+	text-align: center;
 }

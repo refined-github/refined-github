@@ -1,8 +1,13 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import {wrap} from '../libs/utils';
+import onNewComments from '../libs/on-new-comments';
 
-export default function () {
+function addLink() {
+	if (select.exists('.gh-header-meta a .State')) {
+		return;
+	}
+
 	const lastActionRef = select.all(`
 		.discussion-item-closed [href*="/pull/"],
 		.discussion-item-closed code,
@@ -10,7 +15,7 @@ export default function () {
 		.discussion-item-merged [href*="/commit/"]
 	`).pop();
 
-	// Leave if it was never closed or if it was reopened or if it’s already linked
+	// Leave if it was never closed or if it was reopened
 	if (!lastActionRef || lastActionRef.matches('.discussion-item-reopened')) {
 		return;
 	}
@@ -21,4 +26,9 @@ export default function () {
 
 	// Link label to event in timeline
 	wrap(label, <a href={'#' + lastActionRef.closest('[id]').id}></a>);
+}
+
+export default function () {
+	addLink();
+	onNewComments(addLink);
 }

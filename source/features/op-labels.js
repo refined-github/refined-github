@@ -1,9 +1,10 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import * as pageDetect from '../libs/page-detect';
 import {getUsername} from '../libs/utils';
+import * as pageDetect from '../libs/page-detect';
+import onNewComments from '../libs/on-new-comments';
 
-export default () => {
+function addLabels() {
 	let op;
 	if (pageDetect.isPR()) {
 		const titleRegex = /^(?:.+) by (\S+) · Pull Request #(\d+)/;
@@ -42,4 +43,9 @@ export default () => {
 	for (const el of newComments) {
 		el.classList.add('refined-github-op');
 	}
-};
+}
+
+export default function () {
+	addLabels();
+	onNewComments(addLabels);
+}
