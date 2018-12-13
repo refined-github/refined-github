@@ -1,25 +1,46 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import compareVersions from 'tiny-version-compare';
+import * as api from '../libs/api';
 import * as icons from '../libs/icons';
 import {appendBefore} from '../libs/utils';
 import {groupSiblings} from '../libs/group-buttons';
+import {getOwnerAndRepo} from '../libs/page-detect';
 import getDefaultBranch from '../libs/get-default-branch';
 import {getRepoURL, isRepoRoot} from '../libs/page-detect';
 
-function getTagLink() {
+async function getTagLink() {
 	const tags = select
-		.all('.branch-select-menu [data-tab-filter="tags"] .select-menu-item')
+		.all('.branch-select-menu .select-menu-list:last-child .select-menu-item')
 		.map(element => element.dataset.name);
 
 	if (tags.length === 0) {
 		return;
 	}
 
-	const latestParsedRelease = tags
-		.filter(tag => /\d/.test(tag))
-		.sort(compareVersions)
-		.pop();
+	let latestParsedRelease;
+	// If all tags are plain versions, parse them,
+	// otherwise fetch the latest.
+	if (tags.every(tag => /^[vr]?\d/.test(tag))) {
+		latestParsedRelease = tags.sort(compareVersions).pop();
+	} else {
+		const {ownerName, repoName} = getOwnerAndRepo();
+		const {data} = await api.v4(`{
+			repository(owner: "${ownerName}", name: "${repoName}") {
+				refs(first: 1, refPrefix: "refs/tags/", orderBy: {
+					field: TAG_COMMIT_DATE,
+					direction: DESC
+				}) {
+					nodes {
+						name
+					}
+				}
+			}
+		}`);
+		if (data.repository.refs.nodes.length > 0) {
+			latestParsedRelease = data.repository.refs.nodes[0].name;
+		}
+	}
 
 	const latestRelease = latestParsedRelease || tags[0];
 
@@ -75,10 +96,15 @@ export default async function () {
 	if (!container) {
 		return;
 	}
+	const [defaultLink = '', tagLink = ''] = await Promise.all([
+		getDefaultBranchLink(),
+		getTagLink()
+	]);
+
 	const wrapper = (
 		<div class="rgh-branch-buttons">
-			{await getDefaultBranchLink() || ''}
-			{getTagLink() || ''}
+			{defaultLink}
+			{tagLink}
 		</div>
 	);
 
