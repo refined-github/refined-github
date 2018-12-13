@@ -5,9 +5,8 @@ import * as api from '../libs/api';
 import * as icons from '../libs/icons';
 import {appendBefore} from '../libs/utils';
 import {groupSiblings} from '../libs/group-buttons';
-import {getOwnerAndRepo} from '../libs/page-detect';
 import getDefaultBranch from '../libs/get-default-branch';
-import {getRepoURL, isRepoRoot} from '../libs/page-detect';
+import {getRepoURL, isRepoRoot, getOwnerAndRepo} from '../libs/page-detect';
 
 async function getTagLink() {
 	const tags = select
