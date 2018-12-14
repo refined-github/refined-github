@@ -1,6 +1,5 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import {check as isReserved} from 'github-reserved-names';
 import * as api from '../libs/api';
 import {getUsername, escapeForGql} from '../libs/utils';
 import onNewComments from '../libs/on-new-comments';
@@ -13,7 +12,7 @@ async function addNames() {
 	for (const el of usernameElements) {
 		el.classList.add('rgh-fullname');
 		const username = el.textContent;
-		if (username !== myUsername && !isReserved(username)) {
+		if (username !== myUsername && username !== 'ghost') {
 			usernames.add(el.textContent);
 		}
 
