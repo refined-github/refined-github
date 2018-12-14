@@ -27,11 +27,13 @@ async function addNames() {
 		return;
 	}
 
-	const {data} = await api.v4(`{
-		${[...usernames].map(user => `
-			${escapeForGql(user)}: user(login: "${user}") {name}
-		`)}
-	}`);
+	const {data} = await api.v4(
+		'{' +
+			[...usernames].map(user =>
+				escapeForGql(user) + `: user(login: "${user}") {name}`
+			) +
+		'}'
+	);
 
 	for (const usernameEl of usernameElements) {
 		const {name} = data[escapeForGql(usernameEl.textContent)] || {};
