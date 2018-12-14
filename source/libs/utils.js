@@ -158,3 +158,5 @@ export const injectCustomCSS = async () => {
 		document.head.append(<style>{customCSS}</style>);
 	}
 };
+
+export const escapeForGql = string => string.replace(/[./-]/g, '_');
