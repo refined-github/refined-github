@@ -1,69 +1,50 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import domify from '../libs/domify';
-import * as cache from '../libs/cache';
-import {getUsername, groupBy} from '../libs/utils';
+import * as api from '../libs/api';
+import {getUsername, escapeForGql} from '../libs/utils';
 import onNewComments from '../libs/on-new-comments';
 
-const fetchName = async username => {
-	// /following/you_know is the lightest page we know
-	// location.origin is required for Firefox #490
-	const response = await fetch(`${location.origin}/${username}/following`, {credentials: 'same-origin'});
-	const dom = domify(await response.text());
+async function addNames() {
+	const usernameElements = select.all('.js-discussion .author:not(.rgh-fullname):not([href*="/apps/"])');
 
-	const el = dom.querySelector('h1 strong');
-
-	// The full name might not be set
-	const fullname = el && el.textContent.slice(1, -1);
-	if (!fullname || fullname === username) {
-		// It has to be stored as false or else it will be fetched every time
-		return false;
-	}
-	return fullname;
-};
-
-const addNames = () => {
+	const usernames = new Set();
 	const myUsername = getUsername();
-	const commentsList = select.all('.js-discussion .author:not(.rgh-fullname):not([href*="/apps/"])');
+	for (const el of usernameElements) {
+		el.classList.add('rgh-fullname');
+		const username = el.textContent;
+		if (username !== myUsername && username !== 'ghost') {
+			usernames.add(el.textContent);
+		}
 
-	// {sindresorhus: [a.author, a.author], otheruser: [a.author]}
-	const usersOnPage = groupBy(commentsList, el => el.textContent);
-
-	// Drop 'commented' label to shorten the copy
-	for (const usernameEl of commentsList) {
-		const commentedNode = usernameEl.parentNode.nextSibling;
+		// Drop 'commented' label to shorten the copy
+		const commentedNode = el.parentNode.nextSibling;
 		if (commentedNode && commentedNode.textContent.includes('commented')) {
 			commentedNode.remove();
 		}
 	}
 
-	const fetchAndAdd = async username => {
-		if (username === myUsername) {
-			return;
-		}
+	if (usernames.size === 0) {
+		return;
+	}
 
-		const cacheKey = `full-name:${username}`;
-		let fullname = await cache.get(cacheKey);
-		if (fullname === undefined) {
-			fullname = await fetchName(username);
-			cache.set(cacheKey, fullname);
-		}
-		if (!fullname) {
-			return;
-		}
+	const {data} = await api.v4(
+		'{' +
+			[...usernames].map(user =>
+				escapeForGql(user) + `: user(login: "${user}") {name}`
+			) +
+		'}'
+	);
 
-		for (const usernameEl of usersOnPage[username]) {
-			usernameEl.classList.add('rgh-fullname');
-
+	for (const usernameEl of usernameElements) {
+		const {name} = data[escapeForGql(usernameEl.textContent)] || {};
+		if (name) {
 			// If it's a regular comment author, add it outside <strong>
 			// otherwise it's something like "User added some commits"
 			const insertionPoint = usernameEl.parentNode.tagName === 'STRONG' ? usernameEl.parentNode : usernameEl;
-			insertionPoint.after(' (', <bdo>{fullname}</bdo>, ') ');
+			insertionPoint.after(' (', <bdo>{name}</bdo>, ') ');
 		}
-	};
-
-	Object.keys(usersOnPage).map(fetchAndAdd);
-};
+	}
+}
 
 export default function () {
 	addNames();
