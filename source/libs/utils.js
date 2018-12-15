@@ -43,7 +43,7 @@ export const enableFeature = async fn => {
 		log('✅', filename);
 	} catch (error) {
 		console.log('❌', filename);
-		console.error(error);
+		throw error;
 	}
 };
 
