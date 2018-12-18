@@ -4,6 +4,8 @@ import {safeElementReady} from '../libs/utils';
 import {registerShortcut} from './improve-shortcut-help';
 
 export default async function () {
+	registerShortcut('site', 'g t', 'Go to Trending');
+
 	const selectedClass = pageDetect.isTrending() ? 'selected' : '';
 	const issuesLink = await safeElementReady('.HeaderNavlink[href="/issues"], .header-nav-link[href="/issues"]');
 	if (!issuesLink) {
@@ -15,7 +17,6 @@ export default async function () {
 			<a href="/trending" class={`js-selected-navigation-item HeaderNavlink px-lg-2 py-2 py-lg-0 ${selectedClass}`} data-hotkey="g t">Trending</a>
 		</li>
 	);
-	registerShortcut('site', 'g t', 'Go to Trending');
 
 	// Explore link highlights /trending urls by default, remove that behavior
 	if (pageDetect.isTrending()) {

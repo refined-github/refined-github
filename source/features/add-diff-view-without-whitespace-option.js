@@ -4,6 +4,8 @@ import * as icons from '../libs/icons';
 import {registerShortcut} from './improve-shortcut-help';
 
 export default function () {
+	registerShortcut('source', 'd w', 'Show/hide whitespaces in diffs');
+
 	const container = select([
 		'.table-of-contents.Details .BtnGroup', // In single commit view
 		'.pr-review-tools > .diffbar-item' // In review view
@@ -34,7 +36,6 @@ export default function () {
 			</a>
 		</div>
 	);
-	registerShortcut('source', 'd w', 'Show/hide whitespaces in diffs');
 
 	// Make space for the new button by removing "Changes from" #655
 	const uselessCopy = select('[data-hotkey="c"]');

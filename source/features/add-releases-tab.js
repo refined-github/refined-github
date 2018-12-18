@@ -30,6 +30,8 @@ function updateReleasesCount() {
 }
 
 export default async () => {
+	registerShortcut('repos', 'g r', 'Go to Releases');
+
 	const count = await updateReleasesCount();
 	if (count === 0) {
 		return;
@@ -43,8 +45,6 @@ export default async () => {
 		</a>
 	);
 	select('.reponav-dropdown').before(releasesTab);
-
-	registerShortcut('repos', 'g r', 'Go to Releases');
 
 	if (pageDetect.isReleasesOrTags()) {
 		const selected = select('.reponav-item.selected');
