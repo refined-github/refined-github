@@ -81,8 +81,8 @@ const addShortcuts = dialog => {
 export default () => {
 	// NOTE: It seems that the dialog get added after 'keydown'
 	// Alternative: Observe the body for the details elemet to be added
-	document.addEventListener('keypress', ({key}) => {
-		if (key !== '?') {
+	document.addEventListener('keypress', ({key, shiftKey}) => {
+		if (!shiftKey || key !== '?') {
 			return;
 		}
 
