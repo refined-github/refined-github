@@ -85,6 +85,7 @@ import setDefaultRepositoriesTypeToSources from './features/set-default-reposito
 import markPrivateOrgs from './features/mark-private-orgs';
 import navigatePagesWithArrowKeys from './features/navigate-pages-with-arrow-keys';
 import bypassChecksTravis from './features/bypass-checks-travis';
+import addCoAuthoredBy from './features/add-co-authored-by.js';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
@@ -232,6 +233,7 @@ function ajaxedPagesHandler() {
 		enableFeature(hideInactiveDeployments);
 		enableFeature(addPullRequestHotkey);
 		enableFeature(addQuickReviewButtons);
+		enableFeature(addCoAuthoredBy);
 	}
 
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
