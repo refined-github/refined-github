@@ -38,8 +38,7 @@ function stripHash(url) {
 
 function addMarkUnreadButton() {
 	const container = select('.js-thread-subscription-status');
-	const markUnreadButtonExists = select('.rgh-btn-mark-unread');
-	if (container && !markUnreadButtonExists) {
+	if (container && !select.exists('.rgh-btn-mark-unread')) {
 		const button = <button class="btn btn-sm rgh-btn-mark-unread">Mark as unread</button>;
 		button.addEventListener('click', markUnread, {
 			once: true
