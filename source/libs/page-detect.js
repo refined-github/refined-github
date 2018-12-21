@@ -12,26 +12,24 @@ export const getCleanPathname = () => location.pathname.replace(/^[/]|[/]$/g, ''
 // '/user/repo/' -> ''
 // returns false if the path is not a repo
 export const getRepoPath = () => {
-	if (!isRepo()) {
-		return false;
+	if (isRepo()) {
+		return getCleanPathname().split('/').slice(2).join('/');
 	}
-	const match = /^[^/]+[/][^/]+[/]?(.*)$/.exec(getCleanPathname());
-	return match && match[1];
+	return false;
 };
 
 export const getRepoBranch = () => {
-	const repoPath = getRepoPath();
-	if (!repoPath) {
-		return false;
+	const [,, type, branch] = getCleanPathname().split('/');
+	if (isRepo() && type === 'tree') {
+		return branch;
 	}
-	const match = /^tree[/]([^/]+)$/.exec(repoPath);
-	return match && match[1];
+	return false'
 };
 
 export const getRepoURL = () => location.pathname.slice(1).split('/', 2).join('/');
 
 export const getOwnerAndRepo = () => {
-	const [, ownerName, repoName] = location.pathname.split('/');
+	const [, ownerName, repoName] = location.pathname.split('/', 3);
 	return {ownerName, repoName};
 };
 
