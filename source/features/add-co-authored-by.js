@@ -91,7 +91,7 @@ async function fetchCoAuthoredData() {
 	});
 }
 
-async function addCoAuthoredBy( groups = ['committers'] ) {
+async function addCoAuthoredBy(groups = ['committers']) {
 	const coAuthors = groups.map(group => {
 		// Skip an empty set of contributors.
 		if (coAuthorData[group].size === 0) {
@@ -107,17 +107,17 @@ async function addCoAuthoredBy( groups = ['committers'] ) {
 	}).join('\n');
 
 	const messageEl = select('#merge_message_field');
-	const message = messageEl.value.replace( /^Co-authored-by:[\s\S]*/m, '' ).trim();
+	const message = messageEl.value.replace(/^Co-authored-by:[\s\S]*/m, '').trim();
 	messageEl.value = message + '\n\n' + coAuthors;
 }
 
-function toggleAllContributors( {target} ) {
+function toggleAllContributors({target}) {
 	if (target.dataset.addAll === 'true') {
 		addCoAuthoredBy(['committers', 'reviewers', 'commenters']);
 		target.innerText = 'Remove Extra Co-Authors';
 		target.dataset.addAll = 'false';
 	} else {
-		addCoAuthoredBy(['committers'])
+		addCoAuthoredBy(['committers']);
 		target.innerText = 'Add All Co-Authors';
 		target.dataset.addAll = 'true';
 	}
@@ -145,6 +145,5 @@ export default function () {
 		<button type="button" class="btn rgh-coauthor-button" onclick={toggleAllContributors} data-add-all={true}>
 			Add All Co-Authors
 		</button>
-	)
-
+	);
 }
