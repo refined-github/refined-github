@@ -95,7 +95,7 @@ async function addCoAuthoredBy() {
 
 	const coAuthors = priorities.map(priority => {
 		// Skip an empty set of contributors.
-		if (coAuthorData[priority].length === 0) {
+		if (coAuthorData[priority].size === 0) {
 			return [];
 		}
 
