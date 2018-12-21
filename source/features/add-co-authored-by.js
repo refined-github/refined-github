@@ -37,7 +37,7 @@ async function addCoAuthoredBy() {
 	const coAuthors = [...usernames].reduce((coAuthorString, username) => {
 		const {name, databaseId, email} = data[escapeForGql(username)] || {};
 		const commitEmail = email || `${databaseId}+${username}@users.noreply.github.com`;
-		return coAuthorString + `Co-Authored-By: ${name} <${commitEmail}>\n`;
+		return coAuthorString + `Co-authored-by: ${name} <${commitEmail}>\n`;
 	}, '');
 
 	const commitMessageElements = select.all('textarea[name="commit_message');
