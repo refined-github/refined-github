@@ -56,8 +56,12 @@ async function call(fetch, query, options) {
 	const content = await response.text();
 	const json = content.length > 0 ? JSON.parse(content) : response.ok;
 
-	if (response.ok || (options.accept404 && response.status === 404)) {
+	if ((response.ok || (options.accept404 && response.status === 404)) && !json.errors) {
 		cache.set(query, json);
+	} else if (json.errors) {
+		console.error('Refined GitHub wasn’t able to fetch GitHub’s API. GitHub returned the following errors:\n',
+			json.errors.map(error => error.message).join('\n')
+		);
 	} else if (json.message.includes('API rate limit exceeded')) {
 		console.error(
 			'Refined GitHub hit GitHub API’s rate limit.',

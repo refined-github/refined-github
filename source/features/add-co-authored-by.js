@@ -14,42 +14,54 @@ async function fetchCoAuthoredData() {
 		return;
 	}
 
-	const {data: contributorData} = await api.v4(
-		`{
-			repository(owner: "${ownerName}", name: "${repoName}") {
-				pullRequest(number: ${prNumber}) {
-					commits(first: 100) {
-						nodes {
-							commit {
-								author {
-									user {
-										databaseId
-										login
-										name
-										email
+	let apiResponse;
+	try {
+		apiResponse = await api.v4(
+			`{
+				repository(owner: "${ownerName}", name: "${repoName}") {
+					pullRequest(number: ${prNumber}) {
+						commits(first: 100) {
+							nodes {
+								commit {
+									author {
+										user {
+											databaseId
+											login
+											name
+											email
+										}
 									}
 								}
 							}
 						}
-					}
-					reviews(first: 100) {
-						nodes {
-							author {
-								login
+						reviews(first: 100) {
+							nodes {
+								author {
+									login
+								}
 							}
 						}
-					}
-					comments(first: 100) {
-						nodes {
-							author {
-					  			login
+						comments(first: 100) {
+							nodes {
+								author {
+									login
+								}
 							}
 						}
 					}
 				}
-			}
-		}`
-	);
+			}`
+		);
+	} catch (error) {
+		disableCoAuthorButton(error);
+		return;
+	}
+	const {data: contributorData, errors} = apiResponse;
+
+	if (errors && errors[0].message.indexOf('the following scopes: [\'user:email\', \'read:user\']') >= 0) {
+		disableCoAuthorButton('To add co-authors, please add the "user:email" to your personal token.');
+		return;
+	}
 
 	coAuthorData.userData = [];
 	coAuthorData.committers = new Set();
@@ -91,11 +103,24 @@ async function fetchCoAuthoredData() {
 	});
 }
 
-async function addCoAuthoredBy(groups = ['committers']) {
+function disableCoAuthorButton(error) {
+	const coAuthorButton = select('.rgh-coauthor-button');
+	if (!coAuthorButton) {
+		return;
+	}
+
+	coAuthorButton.disabled = true;
+	coAuthorButton.title = error;
+}
+
+function addCoAuthoredBy(groups = ['committers']) {
+	if (!coAuthorData.userData) {
+		return;
+	}
 	const coAuthors = groups.map(group => {
 		// Skip an empty set of contributors.
 		if (coAuthorData[group].size === 0) {
-			return [];
+			return false;
 		}
 
 		// Generate each Co-authored-by entry, and join them into a single string.
@@ -104,7 +129,7 @@ async function addCoAuthoredBy(groups = ['committers']) {
 			const commitEmail = email || `${databaseId}+${username}@users.noreply.github.com`;
 			return `Co-authored-by: ${name} <${commitEmail}>`;
 		}).join('\n');
-	}).join('\n');
+	}).filter(el => el).join('\n');
 
 	const messageEl = select('#merge_message_field');
 	const message = messageEl.value.replace(/^Co-authored-by:[\s\S]*/m, '').trim();
@@ -112,6 +137,10 @@ async function addCoAuthoredBy(groups = ['committers']) {
 }
 
 function toggleAllContributors({target}) {
+	if (target.disabled) {
+		return;
+	}
+
 	if (target.dataset.addAll === 'true') {
 		addCoAuthoredBy(['committers', 'reviewers', 'commenters']);
 		target.innerText = 'Remove Extra Co-Authors';
