@@ -23,7 +23,7 @@ export const getRepoBranch = () => {
 	if (isRepo() && type === 'tree') {
 		return branch;
 	}
-	return false'
+	return false;
 };
 
 export const getRepoURL = () => location.pathname.slice(1).split('/', 2).join('/');
