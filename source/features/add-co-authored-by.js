@@ -14,12 +14,6 @@ async function addCoAuthoredBy() {
 		if (username !== myUsername && username !== 'ghost') {
 			usernames.add(el.textContent);
 		}
-
-		// Drop 'commented' label to shorten the copy
-		const commentedNode = el.parentNode.nextSibling;
-		if (commentedNode && commentedNode.textContent.includes('commented')) {
-			commentedNode.remove();
-		}
 	}
 
 	if (usernames.size === 0) {
