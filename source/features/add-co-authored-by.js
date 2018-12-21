@@ -42,7 +42,7 @@ async function addCoAuthoredBy() {
 
 	const commitMessageElements = select.all('textarea[name="commit_message');
 	for (const messageEl of commitMessageElements) {
-		const oldMessage = messageEl.value.replace( /Co-Authored-By:.*/m, '' ).trim();
+		const oldMessage = messageEl.value.replace(/Co-Authored-By:.*/m, '').trim();
 		messageEl.value = `${oldMessage}\n\n${coAuthors}`;
 	}
 }
