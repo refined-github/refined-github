@@ -85,6 +85,11 @@
 	color: #808080;
 }
 
+/* Position the co-author button next to the merge button */
+.rgh-coauthor-button {
+	float: none !important;
+}
+
 /* Remove top buttons on comment box */
 .timeline-comment-wrapper .tabnav-extra,
 .inline-comment-form-container .tabnav-extra {

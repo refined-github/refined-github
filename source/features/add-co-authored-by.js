@@ -1,3 +1,4 @@
+import {h} from 'dom-chef';
 import select from 'select-dom';
 import * as api from '../libs/api';
 import {escapeForGql} from '../libs/utils';
@@ -90,27 +91,36 @@ async function fetchCoAuthoredData() {
 	});
 }
 
-async function addCoAuthoredBy() {
-	const priorities = ['committers', 'reviewers', 'commenters'];
-
-	const coAuthors = priorities.map(priority => {
+async function addCoAuthoredBy( groups = ['committers'] ) {
+	const coAuthors = groups.map(group => {
 		// Skip an empty set of contributors.
-		if (coAuthorData[priority].size === 0) {
+		if (coAuthorData[group].size === 0) {
 			return [];
 		}
 
-		// Add a header for each section.
-		const header = '# ' + priority.replace(/^./, char => char.toUpperCase()) + '\n';
-
 		// Generate each Co-authored-by entry, and join them into a single string.
-		return header + [...coAuthorData[priority]].map(username => {
+		return [...coAuthorData[group]].map(username => {
 			const {name, databaseId, email} = coAuthorData.userData[username];
 			const commitEmail = email || `${databaseId}+${username}@users.noreply.github.com`;
 			return `Co-authored-by: ${name} <${commitEmail}>`;
 		}).join('\n');
 	}).join('\n');
 
-	select('#merge_message_field').value += '\n\n' + coAuthors;
+	const messageEl = select('#merge_message_field');
+	const message = messageEl.value.replace( /^Co-authored-by:[\s\S]*/m, '' ).trim();
+	messageEl.value = message + '\n\n' + coAuthors;
+}
+
+function toggleAllContributors( {target} ) {
+	if (target.dataset.addAll === 'true') {
+		addCoAuthoredBy(['committers', 'reviewers', 'commenters']);
+		target.innerText = 'Remove Extra Co-Authors';
+		target.dataset.addAll = 'false';
+	} else {
+		addCoAuthoredBy(['committers'])
+		target.innerText = 'Add All Co-Authors';
+		target.dataset.addAll = 'true';
+	}
 }
 
 export default function () {
@@ -121,5 +131,20 @@ export default function () {
 
 	fetchCoAuthoredData();
 
-	btn.addEventListener('click', addCoAuthoredBy);
+	btn.addEventListener('click', () => addCoAuthoredBy(['committers']));
+
+	const buttonGroup = select('.commit-form-actions .select-menu');
+
+	if (!buttonGroup) {
+		return;
+	}
+
+	// Insert our button before the Cancel button
+	buttonGroup.lastElementChild.before(
+		' ',
+		<button type="button" class="btn rgh-coauthor-button" onclick={toggleAllContributors} data-add-all={true}>
+			Add All Co-Authors
+		</button>
+	)
+
 }
