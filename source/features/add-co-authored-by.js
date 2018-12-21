@@ -24,6 +24,7 @@ async function fetchCoAuthoredData() {
 							nodes {
 								commit {
 									author {
+										email
 										user {
 											databaseId
 											login
@@ -69,6 +70,10 @@ async function fetchCoAuthoredData() {
 	for (const commit of contributorData.repository.pullRequest.commits.nodes) {
 		coAuthorData.committers.add(commit.commit.author.user.login);
 		coAuthorData.userData[commit.commit.author.user.login] = commit.commit.author.user;
+		// If the commit had an email address attached, prefer that over the user email.
+		if ( commit.commit.author.email ) {
+			coAuthorData.userData[commit.commit.author.user.login].email = commit.commit.author.email;
+		}
 	}
 
 	coAuthorData.reviewers = new Set();
