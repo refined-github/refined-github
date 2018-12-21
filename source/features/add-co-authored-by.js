@@ -59,7 +59,7 @@ async function fetchCoAuthoredData() {
 	}
 	const {data: contributorData, errors} = apiResponse;
 
-	if (errors && errors[0].message.indexOf('the following scopes: [\'user:email\', \'read:user\']') >= 0) {
+	if (errors && errors[0].message.includes('the following scopes: [\'user:email\', \'read:user\']')) {
 		disableCoAuthorButton('To add co-authors, please add the "user:email" to your personal token.');
 		return;
 	}
