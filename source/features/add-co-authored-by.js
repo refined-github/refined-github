@@ -1,47 +1,123 @@
 import select from 'select-dom';
 import * as api from '../libs/api';
 import {getUsername, escapeForGql} from '../libs/utils';
-import onNewComments from '../libs/on-new-comments';
+import {getOwnerAndRepo, getPRNumber} from '../libs/page-detect';
 
-async function addCoAuthoredBy() {
-	const usernameElements = select.all('.js-discussion .author:not(.rgh-fullname):not([href*="/apps/"])');
+const coAuthorData = {};
 
-	const usernames = new Set();
-	const myUsername = getUsername();
-	for (const el of usernameElements) {
-		el.classList.add('rgh-fullname');
-		const username = el.textContent;
-		if (username !== myUsername && username !== 'ghost') {
-			usernames.add(el.textContent);
-		}
-	}
+async function fetchCoAuthoredData() {
+	const {ownerName,repoName} = getOwnerAndRepo();
+	const prNumber = getPRNumber();
 
-	if (usernames.size === 0) {
+	if ( ! ownerName || ! repoName || ! prNumber ) {
 		return;
 	}
 
-	const {data} = await api.v4(
+	const {data: contributorData} = await api.v4(
+		`{
+			repository(owner: "${ownerName}", name: "${repoName}") {
+				pullRequest(number: ${prNumber}) {
+					commits(first: 100) {
+						nodes {
+							commit {
+								author {
+									user {
+										databaseId
+										login
+										name
+										email
+									}
+								}
+							}
+						}
+					}
+					reviews(first: 100) {
+						nodes {
+							author {
+								login
+							}
+						}
+					}
+					comments(first: 100) {
+						nodes {
+							author {
+					  			login
+							}
+						}
+					}
+				}
+			}
+		}`
+	);
+
+	coAuthorData.userData = [];
+	coAuthorData.committers = new Set();
+
+	for (const commit of contributorData.repository.pullRequest.commits.nodes) {
+		coAuthorData.committers.add(commit.commit.author.user.login);
+		coAuthorData.userData[commit.commit.author.user.login] = commit.commit.author.user;
+	}
+
+	coAuthorData.reviewers = new Set();
+
+	for (const review of contributorData.repository.pullRequest.reviews.nodes) {
+		// Only store reviewers that aren't committers.
+		if(!coAuthorData.committers.has(review.author.login)) {
+			coAuthorData.reviewers.add(review.author.login);
+		}
+	}
+
+	coAuthorData.commenters = new Set();
+
+	for (const comment of contributorData.repository.pullRequest.comments.nodes) {
+		// Only store commenters that aren't committers or reviewers.
+		if(!coAuthorData.committers.has(comment.author.login) && !coAuthorData.reviewers.has(comment.author.login)) {
+			coAuthorData.commenters.add(comment.author.login);
+		}
+	}
+
+	// We already have user info for committers, we need to grab it for everyone else.
+	const {data: userData} = await api.v4(
 		'{' +
-			[...usernames].map(user =>
-				escapeForGql(user) + `: user(login: "${user}") {databaseId, name, email}`
+			[...coAuthorData.reviewers, ...coAuthorData.commenters].map(user =>
+				escapeForGql(user) + `: user(login: "${user}") {databaseId, login, name, email}`
 			) +
 		'}'
 	);
 
-	const coAuthors = [...usernames].reduce((coAuthorString, username) => {
-		const {name, databaseId, email} = data[escapeForGql(username)] || {};
-		const commitEmail = email || `${databaseId}+${username}@users.noreply.github.com`;
-		return coAuthorString + `Co-authored-by: ${name} <${commitEmail}>\n`;
-	}, '');
+	Object.values(userData).forEach( user => coAuthorData.userData[user.login] = user );
+}
 
-	const commitMessageElements = select.all('textarea[name="commit_message');
-	for (const messageEl of commitMessageElements) {
-		const oldMessage = messageEl.value.replace(/Co-Authored-By:.*/m, '').trim();
-		messageEl.value = `${oldMessage}\n\n${coAuthors}`;
-	}
+async function addCoAuthoredBy() {
+	const priorities = ['committers','reviewers','commenters'];
+
+	const coAuthors = priorities.map(priority => {
+		// Skip an empty set of contributors.
+		if (coAuthorData[priority].length === 0) {
+			return [];
+		}
+
+		// Add a header for each section.
+		const header = '# ' + priority.replace(/^./, char => char.toUpperCase()) + '\n';
+
+		// Generate each Co-authored-by entry, and join them into a single string.
+		return header + [...coAuthorData[priority]].map(username => {
+			const {name, databaseId, email} = coAuthorData.userData[username];
+			const commitEmail = email || `${databaseId}+${username}@users.noreply.github.com`;
+			return `Co-authored-by: ${name} <${commitEmail}>`;
+		}).join('\n');
+	}).join('\n');
+
+	select('#merge_message_field').value += '\n\n' + coAuthors;
 }
 
 export default function () {
-	addCoAuthoredBy();
-	onNewComments(addCoAuthoredBy);
+	const btn = select('.merge-message .btn-group-squash [type=submit]');
+	if (!btn) {
+		return;
+	}
+
+	fetchCoAuthoredData();
+
+	btn.addEventListener('click', addCoAuthoredBy);
 }

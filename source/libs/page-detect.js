@@ -35,6 +35,8 @@ export const getOwnerAndRepo = () => {
 	return {ownerName, repoName};
 };
 
+export const getPRNumber = () => isPR() && getRepoPath().replace(/^.*?(\d+).*$/, '$1');
+
 export const is404 = () => document.title === 'Page not found · GitHub';
 
 export const is500 = () => document.title === 'Server Error · GitHub';
