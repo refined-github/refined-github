@@ -68,29 +68,35 @@ async function fetchCoAuthoredData() {
 	coAuthorData.committers = new Set();
 
 	for (const commit of contributorData.repository.pullRequest.commits.nodes) {
-		coAuthorData.committers.add(commit.commit.author.user.login);
-		coAuthorData.userData[commit.commit.author.user.login] = commit.commit.author.user;
+		const {email, user} = commit.commit.author;
+
+		coAuthorData.committers.add(user.login);
+		coAuthorData.userData[user.login] = user;
 		// If the commit had an email address attached, prefer that over the user email.
-		if (commit.commit.author.email) {
-			coAuthorData.userData[commit.commit.author.user.login].email = commit.commit.author.email;
+		if (email) {
+			coAuthorData.userData[user.login].email = email;
 		}
 	}
 
 	coAuthorData.reviewers = new Set();
 
 	for (const review of contributorData.repository.pullRequest.reviews.nodes) {
+		const {login} = review.author;
+
 		// Only store reviewers that aren't committers.
-		if (!coAuthorData.committers.has(review.author.login)) {
-			coAuthorData.reviewers.add(review.author.login);
+		if (!coAuthorData.committers.has(login)) {
+			coAuthorData.reviewers.add(login);
 		}
 	}
 
 	coAuthorData.commenters = new Set();
 
 	for (const comment of contributorData.repository.pullRequest.comments.nodes) {
+		const {login} = comment.author;
+
 		// Only store commenters that aren't committers or reviewers.
-		if (!coAuthorData.committers.has(comment.author.login) && !coAuthorData.reviewers.has(comment.author.login)) {
-			coAuthorData.commenters.add(comment.author.login);
+		if (!coAuthorData.committers.has(login) && !coAuthorData.reviewers.has(login)) {
+			coAuthorData.commenters.add(login);
 		}
 	}
 
@@ -122,6 +128,7 @@ function addCoAuthoredBy(groups = ['committers']) {
 	if (!coAuthorData.userData) {
 		return;
 	}
+
 	const coAuthors = groups.map(group => {
 		// Skip an empty set of contributors.
 		if (coAuthorData[group].size === 0) {
