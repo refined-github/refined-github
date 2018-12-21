@@ -71,7 +71,7 @@ async function fetchCoAuthoredData() {
 		coAuthorData.committers.add(commit.commit.author.user.login);
 		coAuthorData.userData[commit.commit.author.user.login] = commit.commit.author.user;
 		// If the commit had an email address attached, prefer that over the user email.
-		if ( commit.commit.author.email ) {
+		if (commit.commit.author.email) {
 			coAuthorData.userData[commit.commit.author.user.login].email = commit.commit.author.email;
 		}
 	}
