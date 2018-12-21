@@ -148,11 +148,11 @@ function toggleAllContributors({target}) {
 
 	if (target.dataset.addAll === 'true') {
 		addCoAuthoredBy(['committers', 'reviewers', 'commenters']);
-		target.innerText = 'Remove Extra Co-Authors';
+		target.textContext = 'Remove Extra Co-Authors';
 		target.dataset.addAll = 'false';
 	} else {
 		addCoAuthoredBy(['committers']);
-		target.innerText = 'Add All Co-Authors';
+		target.textContext = 'Add All Co-Authors';
 		target.dataset.addAll = 'true';
 	}
 }
