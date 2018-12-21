@@ -109,9 +109,9 @@ async function fetchCoAuthoredData() {
 		'}'
 	);
 
-	Object.values(userData).forEach(user => {
+	for (const user of Object.values(userData)) {
 		coAuthorData.userData[user.login] = user;
-	});
+	}
 }
 
 function disableCoAuthorButton(error) {
