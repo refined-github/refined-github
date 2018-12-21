@@ -1,15 +1,15 @@
 import select from 'select-dom';
 import * as api from '../libs/api';
-import {getUsername, escapeForGql} from '../libs/utils';
+import {escapeForGql} from '../libs/utils';
 import {getOwnerAndRepo, getPRNumber} from '../libs/page-detect';
 
 const coAuthorData = {};
 
 async function fetchCoAuthoredData() {
-	const {ownerName,repoName} = getOwnerAndRepo();
+	const {ownerName, repoName} = getOwnerAndRepo();
 	const prNumber = getPRNumber();
 
-	if ( ! ownerName || ! repoName || ! prNumber ) {
+	if (!ownerName || !repoName || !prNumber) {
 		return;
 	}
 
@@ -62,7 +62,7 @@ async function fetchCoAuthoredData() {
 
 	for (const review of contributorData.repository.pullRequest.reviews.nodes) {
 		// Only store reviewers that aren't committers.
-		if(!coAuthorData.committers.has(review.author.login)) {
+		if (!coAuthorData.committers.has(review.author.login)) {
 			coAuthorData.reviewers.add(review.author.login);
 		}
 	}
@@ -71,7 +71,7 @@ async function fetchCoAuthoredData() {
 
 	for (const comment of contributorData.repository.pullRequest.comments.nodes) {
 		// Only store commenters that aren't committers or reviewers.
-		if(!coAuthorData.committers.has(comment.author.login) && !coAuthorData.reviewers.has(comment.author.login)) {
+		if (!coAuthorData.committers.has(comment.author.login) && !coAuthorData.reviewers.has(comment.author.login)) {
 			coAuthorData.commenters.add(comment.author.login);
 		}
 	}
@@ -85,11 +85,13 @@ async function fetchCoAuthoredData() {
 		'}'
 	);
 
-	Object.values(userData).forEach( user => coAuthorData.userData[user.login] = user );
+	Object.values(userData).forEach(user => {
+		coAuthorData.userData[user.login] = user;
+	});
 }
 
 async function addCoAuthoredBy() {
-	const priorities = ['committers','reviewers','commenters'];
+	const priorities = ['committers', 'reviewers', 'commenters'];
 
 	const coAuthors = priorities.map(priority => {
 		// Skip an empty set of contributors.
