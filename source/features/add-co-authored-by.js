@@ -2,13 +2,13 @@ import {h} from 'dom-chef';
 import select from 'select-dom';
 import * as api from '../libs/api';
 import {escapeForGql} from '../libs/utils';
-import {getOwnerAndRepo, getPRNumber} from '../libs/page-detect';
+import {getOwnerAndRepo, getDiscussionNumber} from '../libs/page-detect';
 
 const coAuthorData = {};
 
 async function fetchCoAuthoredData() {
 	const {ownerName, repoName} = getOwnerAndRepo();
-	const prNumber = getPRNumber();
+	const prNumber = getDiscussionNumber();
 
 	if (!ownerName || !repoName || !prNumber) {
 		return;
