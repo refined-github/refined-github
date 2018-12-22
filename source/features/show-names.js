@@ -27,7 +27,7 @@ async function addNames() {
 		return;
 	}
 
-	const {data} = await api.v4(
+	const names = await api.v4(
 		'{' +
 			[...usernames].map(user =>
 				escapeForGql(user) + `: user(login: "${user}") {name}`
@@ -36,7 +36,7 @@ async function addNames() {
 	);
 
 	for (const usernameEl of usernameElements) {
-		const {name} = data[escapeForGql(usernameEl.textContent)] || {};
+		const {name} = names[escapeForGql(usernameEl.textContent)] || {};
 		if (name) {
 			// If it's a regular comment author, add it outside <strong>
 			// otherwise it's something like "User added some commits"

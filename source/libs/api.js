@@ -1,17 +1,39 @@
 /*
+These will throw `RefinedGitHubAPIError` if something goes wrong or if it's a 404.
+Probably don't catch them so they will appear in the console
+next to the name of the feature that caused them.
+
 Usage:
 
 import * as api from '../libs/api';
-
 const user  = await api.v3(`users/${username}`);
-const {data} = await api.v4(graphQuery);
+const data = await api.v4('{user(login: "user") {name}}');
 
+Returns:
+a Promise that resolves into an object.
+
+If the response body is empty, you'll receive an object like {status: 200}
+
+The second argument is an options object, it lets you defined accepted error codes, like:
+
+{
+	accept404: true
+	accept500: true
+}
+
+so the call will not throw an error but it will return as usual.
  */
 
 import OptionsSync from 'webext-options-sync';
 
 export const v3 = (...args) => call(fetch3, ...args);
 export const v4 = (...args) => call(fetch4, ...args);
+
+export class RefinedGitHubAPIError extends Error {
+	constructor(...messages) {
+		super(messages.join('\n'));
+	}
+}
 
 const api = location.hostname === 'github.com' ? 'https://api.github.com/' : `${location.origin}/api/`;
 const cache = new Map();
@@ -42,38 +64,47 @@ function fetch4(query, personalToken) {
 }
 
 // Main function: handles cache, options, errors
-async function call(fetch, query, options) {
-	options = {
-		accept404: true,
-		...options
-	};
-
+async function call(fetch, query, options = {}) {
 	if (cache.has(query)) {
 		return cache.get(query);
 	}
 	const {personalToken} = await new OptionsSync().getAll();
 	const response = await fetch(query, personalToken);
 	const content = await response.text();
-	const json = content.length > 0 ? JSON.parse(content) : response.ok;
+	const result = content.length > 0 ? JSON.parse(content) : {status: response.status};
+	const {data, errors = [], message = ''} = result;
 
-	if (response.ok || (options.accept404 && response.status === 404)) {
-		cache.set(query, json);
-	} else if (json.message.includes('API rate limit exceeded')) {
-		console.error(
-			'Refined GitHub hit GitHub API’s rate limit.',
-			personalToken ? 'It may be time for a walk! 🍃 🌞' : 'Set your token in the options or take a walk! 🍃 🌞',
-		);
-	} else if (json.message === 'Bad credentials') {
-		console.error(
-			'Refined GitHub couldn’t use GitHub’s API because the token seems to be incorrect or expired. Update it in the options.'
-		);
-	} else {
-		console.error(
-			'Refined GitHub wasn’t able to fetch GitHub’s API.',
-			personalToken ? 'Ensure that your token has access to this repo.' : 'Maybe adding a token in the options will fix this issue.',
-			'\n',
-			JSON.stringify(json, null, '\t')
+	if (errors.length > 0) {
+		throw Object.assign(
+			new RefinedGitHubAPIError('GraphQL:', ...errors.map(e => e.message)),
+			result
 		);
 	}
-	return json;
+
+	if (message.includes('API rate limit exceeded')) {
+		throw new RefinedGitHubAPIError(
+			'Rate limit exceeded.',
+			personalToken ?
+				'It may be time for a walk! 🍃 🌞' :
+				'Set your token in the options or take a walk! 🍃 🌞'
+		);
+	}
+	if (message === 'Bad credentials') {
+		throw new RefinedGitHubAPIError(
+			'The token seems to be incorrect or expired. Update it in the options.'
+		);
+	}
+
+	if (response.ok || options['accept' + response.status]) {
+		cache.set(query, fetch === fetch4 ? data : result);
+		return result;
+	}
+
+	throw new RefinedGitHubAPIError(
+		'Unable to fetch.',
+		personalToken ?
+			'Ensure that your token has access to this repo.' :
+			'Maybe adding a token in the options will fix this issue.',
+		JSON.stringify(result, null, '\t') // Beautify
+	);
 }
