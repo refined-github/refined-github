@@ -64,18 +64,19 @@ async function fetchCoAuthoredData() {
 		return;
 	}
 
-	coAuthorData.userData = [];
+	coAuthorData.userData = new Map();
 	coAuthorData.committers = new Set();
 
 	for (const commit of contributorData.repository.pullRequest.commits.nodes) {
 		const {email, user} = commit.commit.author;
 
 		coAuthorData.committers.add(user.login);
-		coAuthorData.userData[user.login] = user;
+
 		// If the commit had an email address attached, prefer that over the user email.
 		if (email) {
-			coAuthorData.userData[user.login].email = email;
+			user.email = email;
 		}
+		coAuthorData.userData.set(user.login, user);
 	}
 
 	coAuthorData.reviewers = new Set();
@@ -110,7 +111,7 @@ async function fetchCoAuthoredData() {
 	);
 
 	for (const user of Object.values(userData)) {
-		coAuthorData.userData[user.login] = user;
+		coAuthorData.userData.set(user.login, user);
 	}
 }
 
@@ -125,7 +126,7 @@ function disableCoAuthorButton(error) {
 }
 
 function addCoAuthoredBy(groups = ['committers']) {
-	if (!coAuthorData.userData) {
+	if (coAuthorData.userData.size === 0) {
 		return;
 	}
 
@@ -137,7 +138,7 @@ function addCoAuthoredBy(groups = ['committers']) {
 
 		// Generate each Co-authored-by entry, and join them into a single string.
 		return [...coAuthorData[group]].map(username => {
-			const {name, databaseId, email} = coAuthorData.userData[username];
+			const {name, databaseId, email} = coAuthorData.userData.get(username);
 			const commitEmail = email || `${databaseId}+${username}@users.noreply.github.com`;
 			return `Co-authored-by: ${name} <${commitEmail}>`;
 		}).join('\n');
