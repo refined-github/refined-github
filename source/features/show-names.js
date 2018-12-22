@@ -46,7 +46,7 @@ async function addNames() {
 	}
 }
 
-export default function () {
-	addNames();
+export default async function () {
+	await addNames();
 	onNewComments(addNames);
 }
