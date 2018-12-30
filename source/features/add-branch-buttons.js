@@ -24,7 +24,7 @@ async function getTagLink() {
 		latestParsedRelease = tags.sort(compareVersions).pop();
 	} else {
 		const {ownerName, repoName} = getOwnerAndRepo();
-		const {data} = await api.v4(`{
+		const {repository} = await api.v4(`{
 			repository(owner: "${ownerName}", name: "${repoName}") {
 				refs(first: 1, refPrefix: "refs/tags/", orderBy: {
 					field: TAG_COMMIT_DATE,
@@ -36,8 +36,8 @@ async function getTagLink() {
 				}
 			}
 		}`);
-		if (data.repository.refs.nodes.length > 0) {
-			latestParsedRelease = data.repository.refs.nodes[0].name;
+		if (repository.refs.nodes.length > 0) {
+			latestParsedRelease = repository.refs.nodes[0].name;
 		}
 	}
 
