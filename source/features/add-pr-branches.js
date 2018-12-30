@@ -1,6 +1,14 @@
+/*
+Head and base branches are added to the PR list when they are significant.
+
+The base branch is added when it's not the repo's default branch.
+The head branch is added when it's from the same repo or the PR is by the current user.
+*/
+
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import * as api from '../libs/api';
+import {getUsername} from '../libs/utils';
 import {getOwnerAndRepo} from '../libs/page-detect';
 import getDefaultBranch from '../libs/get-default-branch';
 
@@ -76,18 +84,27 @@ export default async function () {
 	]);
 
 	for (const PR of elements) {
-		const {base, head} = normalizeBranchInfo(info.data.repository[PR.id]);
+		let branches;
+		const author = select('[title*="created by"]', PR).textContent;
+		let {base, head} = normalizeBranchInfo(info.data.repository[PR.id]);
 
 		if (base.label === defaultBranch) {
+			base = null;
+		}
+		if (head.owner !== ownerName && author !== getUsername()) {
+			head = null;
+		}
+
+		if (base && head) {
+			branches = <>From {createLink(head)} into {createLink(base)}</>;
+		} else if (head) {
+			branches = <>From {createLink(head)}</>;
+		} else if (base) {
+			branches = <>To {createLink(base)}</>;
+		} else {
 			continue;
 		}
 
-		let branches;
-		if (head.owner === ownerName) {
-			branches = <>From {createLink(head)} into {createLink(base)}</>;
-		} else {
-			branches = <>To {createLink(base)}</>;
-		}
 		select('.col-9.lh-condensed', PR).append(
 			<div class="mt-1 text-small text-gray">{branches}</div>
 		);
