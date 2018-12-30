@@ -85,7 +85,7 @@ export default async function () {
 
 	for (const PR of elements) {
 		let branches;
-		const author = select('[title*="created by"]', PR).textContent;
+		const author = select('[data-hovercard-type="user"]', PR).textContent;
 		let {base, head} = normalizeBranchInfo(info.data.repository[PR.id]);
 
 		if (base.label === defaultBranch) {
