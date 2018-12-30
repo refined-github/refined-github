@@ -549,9 +549,7 @@ div.inline-comment-form .form-actions,
 /* Seach field on the projects page */
 .project-header-controls,
 .project-header-search,
-.project-header-search .subnav-search {
-	width: 100%;
-}
+.project-header-search .subnav-search,
 .project-header-search .subnav-search-input:focus {
 	width: 100%;
 }
