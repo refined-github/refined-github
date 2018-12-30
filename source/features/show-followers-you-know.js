@@ -6,7 +6,7 @@ import {getUsername} from '../libs/utils';
 
 const fetchStargazers = async () => {
 	const url = `${location.origin}/${getCleanPathname()}/followers/you_know`;
-	const response = await fetch(url, {credentials: 'same-origin'});
+	const response = await fetch(url);
 	const dom = domify(await response.text());
 	return select.all('.follow-list-item .avatar', dom);
 };
