@@ -14,11 +14,11 @@ a Promise that resolves into an object.
 
 If the response body is empty, you'll receive an object like {status: 200}
 
-The second argument is an options object, it lets you defined accepted error codes, like:
+The second argument is an options object,
+it lets you define accept a 404 error code as a valid response, like:
 
 {
 	accept404: true
-	accept500: true
 }
 
 so the call will not throw an error but it will return as usual.
@@ -64,7 +64,7 @@ function fetch4(query, personalToken) {
 }
 
 // Main function: handles cache, options, errors
-async function call(fetch, query, options = {}) {
+async function call(fetch, query, options = {accept404: false}) {
 	if (cache.has(query)) {
 		return cache.get(query);
 	}
@@ -95,7 +95,7 @@ async function call(fetch, query, options = {}) {
 		);
 	}
 
-	if (response.ok || options['accept' + response.status]) {
+	if (response.ok || (options.accept404 === true && response.status === 404)) {
 		cache.set(query, fetch === fetch4 ? data : result);
 		return result;
 	}
