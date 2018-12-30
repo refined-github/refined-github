@@ -16,6 +16,7 @@ function normalizeBranchInfo(data) {
 
 	const head = {};
 	head.branchExists = Boolean(data.headRef);
+	head.owner = data.headOwner.login;
 	if (!data.headOwner || data.headOwner.login === ownerName) {
 		head.label = data.headRefName;
 	} else {
@@ -27,7 +28,7 @@ function normalizeBranchInfo(data) {
 		head.url = data.headRepository.url;
 	}
 
-	return {base, head, baseRefName: data.baseRefName};
+	return {base, head};
 }
 
 function buildQuery(numbers) {
@@ -66,6 +67,7 @@ function createLink(ref) {
 }
 
 export default async function () {
+	const {ownerName} = getOwnerAndRepo();
 	const elements = select.all('.js-issue-row');
 	const query = buildQuery(elements.map(pr => pr.id));
 	const [info, defaultBranch] = await Promise.all([
@@ -74,12 +76,20 @@ export default async function () {
 	]);
 
 	for (const PR of elements) {
-		const {base, head, baseRefName} = normalizeBranchInfo(info.data.repository[PR.id]);
+		const {base, head} = normalizeBranchInfo(info.data.repository[PR.id]);
 
+		if (base.label === defaultBranch) {
+			continue;
+		}
+
+		let branches;
+		if (head.owner === ownerName) {
+			branches = <>From {createLink(head)} into {createLink(base)}</>;
+		} else {
+			branches = <>To {createLink(base)}</>;
+		}
 		select('.col-9.lh-condensed', PR).append(
-			baseRefName === defaultBranch ?
-				<div class="mt-1 text-small text-gray">From {createLink(head)}</div> :
-				<div class="mt-1 text-small text-gray">From {createLink(head)} into {createLink(base)}</div>
+			<div class="mt-1 text-small text-gray">{branches}</div>
 		);
 	}
 }
