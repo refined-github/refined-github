@@ -78,7 +78,7 @@ export default async function () {
 	const {ownerName} = getOwnerAndRepo();
 	const elements = select.all('.js-issue-row');
 	const query = buildQuery(elements.map(pr => pr.id));
-	const [info, defaultBranch] = await Promise.all([
+	const [data, defaultBranch] = await Promise.all([
 		api.v4(query),
 		getDefaultBranch()
 	]);
@@ -86,7 +86,7 @@ export default async function () {
 	for (const PR of elements) {
 		let branches;
 		const author = select('[data-hovercard-type="user"]', PR).textContent;
-		let {base, head} = normalizeBranchInfo(info.data.repository[PR.id]);
+		let {base, head} = normalizeBranchInfo(data.repository[PR.id]);
 
 		if (base.label === defaultBranch) {
 			base = null;
