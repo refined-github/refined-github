@@ -96,8 +96,9 @@ async function call(fetch, query, options = {accept404: false}) {
 	}
 
 	if (response.ok || (options.accept404 === true && response.status === 404)) {
-		cache.set(query, fetch === fetch4 ? data : result);
-		return result;
+		const output = fetch === fetch4 ? data : result;
+		cache.set(query, output);
+		return output;
 	}
 
 	throw new RefinedGitHubAPIError(
