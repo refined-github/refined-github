@@ -14,55 +14,43 @@ async function fetchCoAuthoredData() {
 		return;
 	}
 
-	let apiResponse;
-	try {
-		apiResponse = await api.v4(
-			`{
-				repository(owner: "${ownerName}", name: "${repoName}") {
-					pullRequest(number: ${prNumber}) {
-						commits(first: 100) {
-							nodes {
-								commit {
-									author {
+	const contributorData = await api.v4(
+		`{
+			repository(owner: "${ownerName}", name: "${repoName}") {
+				pullRequest(number: ${prNumber}) {
+					commits(first: 100) {
+						nodes {
+							commit {
+								author {
+									email
+									user {
+										databaseId
+										login
+										name
 										email
-										user {
-											databaseId
-											login
-											name
-											email
-										}
 									}
 								}
 							}
 						}
-						reviews(first: 100) {
-							nodes {
-								author {
-									login
-								}
+					}
+					reviews(first: 100) {
+						nodes {
+							author {
+								login
 							}
 						}
-						comments(first: 100) {
-							nodes {
-								author {
-									login
-								}
+					}
+					comments(first: 100) {
+						nodes {
+							author {
+								login
 							}
 						}
 					}
 				}
-			}`
-		);
-	} catch (error) {
-		disableCoAuthorButton(error);
-		return;
-	}
-	const {data: contributorData, errors} = apiResponse;
-
-	if (errors && errors[0].message.includes('the following scopes: [\'user:email\', \'read:user\']')) {
-		disableCoAuthorButton('To add co-authors, please add the "user:email" to your personal token.');
-		return;
-	}
+			}
+		}`
+	);
 
 	coAuthorData.userData = new Map();
 	coAuthorData.committers = new Set();
@@ -102,7 +90,7 @@ async function fetchCoAuthoredData() {
 	}
 
 	// We already have user info for committers, we need to grab it for everyone else.
-	const {data: userData} = await api.v4(
+	const userData = await api.v4(
 		'{' +
 			[...coAuthorData.reviewers, ...coAuthorData.commenters].map(user =>
 				escapeForGql(user) + `: user(login: "${user}") {databaseId, login, name, email}`
@@ -113,16 +101,6 @@ async function fetchCoAuthoredData() {
 	for (const user of Object.values(userData)) {
 		coAuthorData.userData.set(user.login, user);
 	}
-}
-
-function disableCoAuthorButton(error) {
-	const coAuthorButton = select('.rgh-coauthor-button');
-	if (!coAuthorButton) {
-		return;
-	}
-
-	coAuthorButton.disabled = true;
-	coAuthorButton.title = error;
 }
 
 function addCoAuthoredBy(groups = ['committers']) {
@@ -165,13 +143,13 @@ function toggleAllContributors({target}) {
 	}
 }
 
-export default function () {
+export default async function () {
 	const btn = select('.merge-message .btn-group-squash [type=submit]');
 	if (!btn) {
 		return;
 	}
 
-	fetchCoAuthoredData();
+	await fetchCoAuthoredData();
 
 	btn.addEventListener('click', () => addCoAuthoredBy(['committers']));
 
