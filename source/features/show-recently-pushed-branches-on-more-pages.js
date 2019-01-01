@@ -19,9 +19,7 @@ export default async function () {
 	}
 
 	const codeTabURL = select('[data-hotkey="g c"]').href;
-	const response = await fetch(codeTabURL, {
-		credentials: 'include'
-	});
+	const response = await fetch(codeTabURL);
 	const html = await response.text();
 
 	// https://github.com/sindresorhus/refined-github/issues/216

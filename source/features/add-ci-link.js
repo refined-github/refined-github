@@ -11,9 +11,7 @@ let request;
 
 async function fetchStatus() {
 	const url = `${location.origin}/${getRepoURL()}/commits/${getRepoBranch() || ''}`;
-	const response = await fetch(url, {
-		credentials: 'include'
-	});
+	const response = await fetch(url);
 	const dom = domify(await response.text());
 
 	const icon = select('.commit-build-statuses', dom);
