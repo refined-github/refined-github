@@ -9,9 +9,7 @@ export default async function () {
 async function bypass(check) {
 	const details = select('.status-actions', check.parentNode);
 
-	const response = await fetch(details.href, {
-		credentials: 'include'
-	});
+	const response = await fetch(details.href);
 
 	if (!response.ok) {
 		return;

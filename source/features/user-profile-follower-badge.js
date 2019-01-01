@@ -11,8 +11,11 @@ export default async function () {
 		return;
 	}
 
-	const response = await api.v3(`users/${getCleanPathname()}/following/${getUsername()}`, {accept404: true});
-	if (response === true) {
+	const {status} = await api.v3(
+		`users/${getCleanPathname()}/following/${getUsername()}`,
+		{accept404: true}
+	);
+	if (status === 204) {
 		select('.vcard-names-container.py-3.js-sticky.js-user-profile-sticky-fields').after(badge);
 	}
 }

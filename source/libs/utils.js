@@ -43,7 +43,7 @@ export const enableFeature = async fn => {
 		log('✅', filename);
 	} catch (error) {
 		console.log('❌', filename);
-		console.error(error);
+		throw error;
 	}
 };
 
@@ -158,3 +158,5 @@ export const injectCustomCSS = async () => {
 		document.head.append(<style>{customCSS}</style>);
 	}
 };
+
+export const escapeForGql = string => '_' + string.replace(/[./-]/g, '_');

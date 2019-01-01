@@ -84,6 +84,7 @@ import usefulNotFoundPage from './features/useful-not-found-page';
 import setDefaultRepositoriesTypeToSources from './features/set-default-repositories-type-to-sources';
 import markPrivateOrgs from './features/mark-private-orgs';
 import navigatePagesWithArrowKeys from './features/navigate-pages-with-arrow-keys';
+import addStarRepoHotkey from './features/add-star-repo-hotkey';
 import bypassChecksTravis from './features/bypass-checks-travis';
 import addPrBranches from './features/add-pr-branches';
 
@@ -142,13 +143,13 @@ async function init() {
 	enableFeature(monospaceTextareas);
 	enableFeature(openSelectionInNewTab);
 	enableFeature(hideCommentsFaster);
+	enableFeature(markUnread);
 
 	await domLoaded;
 	onDomReady();
 }
 
 async function onDomReady() {
-	enableFeature(markUnread);
 	enableFeature(addOpenAllNotificationsButton);
 	enableFeature(enableCopyOnY);
 	enableFeature(addProfileHotkey);
@@ -217,6 +218,7 @@ function ajaxedPagesHandler() {
 		enableFeature(addDiffViewWithoutWhitespaceOption);
 		enableFeature(addCILink);
 		enableFeature(sortMilestonesByClosestDueDate); // Needs to be after addMilestoneNavigation
+		enableFeature(addStarRepoHotkey);
 	}
 
 	if (pageDetect.isRepoRoot()) {
