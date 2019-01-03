@@ -553,7 +553,7 @@ div.inline-comment-form .form-actions,
 .project-header-search .subnav-search-input:focus {
 	width: 100%;
 }
-@media (min-width: 544px) {
+@media (min-width: 1012px) {
 	.project-header-search {
 		padding-left: 24px;
 	}
