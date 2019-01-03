@@ -232,6 +232,7 @@ See the [contribution guide](contributing.md) and join the [contributors](https:
 - [GitHub Follow](https://github.com/staff0rd/github-follow-extension) - Follow file renames on GitHub
 - [Friendly GitHub](https://github.com/Hermanya/friendly-github) - Make GitHub more social
 - [Sourcegraph](https://github.com/sourcegraph/browser-extensions) - Adds code intelligence to GitHub
+- [Potential changes for GitHub](https://github.com/dzhavat/potential-changes-for-github) - See which pull requests contain changes related to a file
 
 Want more? Here are some ideas you could develop!
 
