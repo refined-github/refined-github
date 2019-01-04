@@ -8,7 +8,7 @@ import ghInjection from 'github-injection';
 
 const options = new OptionsSync().getAll();
 
-/**
+/*
  *`github-injection` happens even when the user navigates in history
  * This causes listeners to run on content that has already been updated.
  * If a feature needs to be disabled when navigating away,
@@ -22,7 +22,7 @@ export function safeOnAjaxedPages(callback) {
 	});
 }
 
-/**
+/*
  * Enable toggling each feature via options.
  * Prevent fn's errors from blocking the remaining tasks.
  * https://github.com/sindresorhus/refined-github/issues/678
@@ -64,7 +64,7 @@ export const groupBy = (iterable, grouper) => {
 	return map;
 };
 
-/**
+/*
  * Automatically stops checking for an element to appear once the DOM is ready.
  */
 export const safeElementReady = selector => {
