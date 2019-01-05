@@ -1,13 +1,12 @@
 /*
 This feature adds infinite scrolling to:
 - News feed on the Dashboard
-- Contribution activities in a user profile
 */
 
 import select from 'select-dom';
 import debounce from 'debounce-fn';
 import observeEl from '../libs/simplified-element-observer';
-import {isDashboard, isUserProfile} from '../libs/page-detect';
+import {isDashboard} from '../libs/page-detect';
 
 let btn;
 
@@ -26,6 +25,10 @@ const loadMore = debounce(() => {
 const inView = new IntersectionObserver(([{isIntersecting}]) => {
 	if (isIntersecting) {
 		loadMore();
+	} else {
+		// The button may have been changed after its gone out of view
+		// So try finding it again
+		findButton();
 	}
 }, {
 	rootMargin: '500px' // https://github.com/sindresorhus/refined-github/pull/505#issuecomment-309273098
@@ -56,8 +59,6 @@ export default () => {
 
 		if (isDashboard()) {
 			observeEl('#dashboard .news', findButton);
-		} else if (isUserProfile()) {
-			observeEl('#js-contribution-activity', findButton);
 		}
 	}
 };
