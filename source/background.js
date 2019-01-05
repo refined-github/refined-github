@@ -23,6 +23,7 @@ new OptionsSync().define({
 			options.disabledFeatures = options.disabledFeatures.replace('display-issue-suggestions', ''); // #1611
 			options.disabledFeatures = options.disabledFeatures.replace('open-all-selected', 'batch-open-issues'); // #1402
 			options.disabledFeatures = options.disabledFeatures.replace('copy-file-path', ''); // #1628
+			options.disabledFeatures = options.disabledFeatures.replace('bypass-checks-travis', 'bypass-checks'); // #1693
 		},
 		OptionsSync.migrations.removeUnused
 	]

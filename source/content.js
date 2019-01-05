@@ -85,8 +85,7 @@ import setDefaultRepositoriesTypeToSources from './features/set-default-reposito
 import markPrivateOrgs from './features/mark-private-orgs';
 import navigatePagesWithArrowKeys from './features/navigate-pages-with-arrow-keys';
 import addStarRepoHotkey from './features/add-star-repo-hotkey';
-import bypassChecksTravis from './features/bypass-checks-travis';
-import bypassChecksAzurePipelines from './features/bypass-checks-azure-pipelines';
+import bypassChecks from './features/bypass-checks';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
@@ -312,8 +311,7 @@ function ajaxedPagesHandler() {
 	}
 
 	if (pageDetect.isPRConversation()) {
-		enableFeature(bypassChecksTravis);
-		enableFeature(bypassChecksAzurePipelines);
+		enableFeature(bypassChecks);
 	}
 }
 
