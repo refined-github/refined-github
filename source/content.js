@@ -297,7 +297,6 @@ function ajaxedPagesHandler() {
 		enableFeature(addGistsLink);
 		enableFeature(showFollowersYouKnow);
 		enableFeature(showUserTopRepositories);
-		enableFeature(infiniteScroll);
 		enableFeature(setDefaultRepositoriesTypeToSources);
 		enableFeature(userProfileFollowerBadge);
 	}
