@@ -7,8 +7,8 @@ export default async function () {
 }
 
 async function bypass(check) {
-	// On the checks page, here is a link near the bottom that says 'View more details'.
-	// This code finds that link an replaces the href of the 'details' link on the PR conversation page
+	// On the checks page, there is a link near the bottom that says 'View more details'.
+	// This code finds that link and replaces the `.href` of the 'details' link on the PR conversation page.
 
 	const details = select('.status-actions', check.parentNode);
 
