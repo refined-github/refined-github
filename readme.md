@@ -154,7 +154,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Tabs in code are shown as 4 spaces instead of 8 spaces.](https://cloud.githubusercontent.com/assets/170270/14170088/d3be931e-f755-11e5-8edf-c5f864336382.png)
 - [Labels are moved to the left of issue and pull request lists.](https://user-images.githubusercontent.com/1402241/28006237-070b8214-6581-11e7-94bc-2b01a007d00b.png)
 - [Approve or reject reviews faster with one-click review type buttons.](https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png)
-- The news feeds and contribution activities automagically expand when you scroll down.
+- The news feeds automagically expands when you scroll down.
 - The default sort order of milestones is changed to `Closest due date`.
 - The default sort order of issues and pull requests is changed to `Recently updated`.
 - [The `Expand diff` button is widened.](https://user-images.githubusercontent.com/6978877/34470024-eee4f43e-ef20-11e7-9036-65094bd58960.PNG)
