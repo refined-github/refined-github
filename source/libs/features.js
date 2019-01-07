@@ -59,7 +59,7 @@ const globalReady = new Promise(async resolve => {
 });
 
 const run = async (filename, constraints, fn) => {
-	if (constraints.every(c => typeof c === 'function' && c() === false)) {
+	if (!constraints.every(c => c())) {
 		return;
 	}
 	const {disabledFeatures = '', logging = false} = await options;
