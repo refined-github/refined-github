@@ -26,8 +26,7 @@ const inView = new IntersectionObserver(([{isIntersecting}]) => {
 	if (isIntersecting) {
 		loadMore();
 	} else {
-		// The button may have been changed after its gone out of view
-		// So try finding it again
+		// The button may have been changed after it's gone out of view, so try finding it again
 		findButton();
 	}
 }, {
