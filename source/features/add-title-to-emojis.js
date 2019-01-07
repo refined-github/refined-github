@@ -12,6 +12,6 @@ function init() {
 
 features.add({
 	id: 'add-title-to-emojis',
-	load: features.safeOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });

@@ -55,6 +55,6 @@ features.add({
 			features.not(features.isOwnUserProfile)
 		)
 	],
-	load: features.safeOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });

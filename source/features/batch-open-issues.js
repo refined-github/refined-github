@@ -67,6 +67,6 @@ features.add({
 		features.isGlobalPRSearch,
 		features.isIssueList
 	],
-	load: features.safeOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });

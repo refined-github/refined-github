@@ -53,6 +53,6 @@ features.add({
 		features.isPR,
 		features.isIssue
 	],
-	load: features.safeOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });

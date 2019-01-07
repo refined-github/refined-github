@@ -113,6 +113,6 @@ features.add({
 	dependencies: [
 		features.isPR
 	],
-	load: features.safeOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });

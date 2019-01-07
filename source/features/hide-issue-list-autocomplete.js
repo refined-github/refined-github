@@ -10,6 +10,6 @@ features.add({
 	dependencies: [
 		features.isIssueList
 	],
-	load: features.safeOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });

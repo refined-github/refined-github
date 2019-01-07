@@ -20,6 +20,6 @@ function init() {
 
 features.add({
 	id: 'copy-on-y',
-	load: features.onAjaxedPages,
+	load: features.onAjaxedPagesRaw,
 	init
 });

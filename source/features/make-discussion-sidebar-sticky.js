@@ -24,6 +24,6 @@ function init() {
 
 features.add({
 	id: 'make-discussion-sidebar-sticky',
-	load: features.onAjaxedPages,
+	load: features.onAjaxedPagesRaw,
 	init
 });

@@ -393,6 +393,6 @@ features.add({
 		features.isIssue,
 		features.isIssueList
 	],
-	load: features.onAjaxedPages,
+	load: features.onAjaxedPagesRaw,
 	init
 });

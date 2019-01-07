@@ -15,6 +15,6 @@ features.add({
 	dependencies: [
 		features.isReleasesOrTags
 	],
-	load: features.safeOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });

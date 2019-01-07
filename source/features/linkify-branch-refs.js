@@ -67,6 +67,6 @@ features.add({
 		features.isPR,
 		features.isQuickPR
 	],
-	load: features.safeOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });

@@ -25,6 +25,6 @@ features.add({
 	dependencies: [
 		features.isRepo
 	],
-	load: features.safeOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });

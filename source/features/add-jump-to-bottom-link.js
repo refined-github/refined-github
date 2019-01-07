@@ -26,6 +26,6 @@ features.add({
 		features.isIssue,
 		features.isPRConversation
 	],
-	load: features.safeOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });

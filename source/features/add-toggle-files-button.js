@@ -33,6 +33,6 @@ features.add({
 	dependencies: [
 		features.isRepoTree
 	],
-	load: features.safeOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });

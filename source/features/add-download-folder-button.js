@@ -23,6 +23,6 @@ features.add({
 			features.not(features.isRepoRoot) // Already has an native download ZIP button
 		)
 	],
-	load: features.safeOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });

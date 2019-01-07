@@ -23,6 +23,6 @@ features.add({
 	dependencies: [
 		features.isUserProfile
 	],
-	load: features.safeOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });

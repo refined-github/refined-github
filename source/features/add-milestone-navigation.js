@@ -21,6 +21,6 @@ features.add({
 	dependencies: [
 		features.isMilestone
 	],
-	load: features.safeOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });

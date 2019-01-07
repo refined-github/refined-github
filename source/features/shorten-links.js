@@ -11,6 +11,6 @@ function init() {
 
 features.add({
 	id: 'shorten-links',
-	load: features.safeOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });

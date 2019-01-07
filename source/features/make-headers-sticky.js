@@ -18,6 +18,6 @@ features.add({
 	dependencies: [
 		// TODO: limit to fewer views
 	],
-	load: features.safeOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });

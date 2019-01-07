@@ -30,6 +30,6 @@ features.add({
 	dependencies: [
 		features.isPRConversation
 	],
-	load: features.safeOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });

@@ -36,6 +36,6 @@ features.add({
 		features.isIssue,
 		features.isIssueList
 	],
-	load: features.safeOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });

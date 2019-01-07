@@ -17,6 +17,6 @@ function init() {
 
 features.add({
 	id: 'navigate-pages-with-arrow-keys',
-	load: features.safeOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });

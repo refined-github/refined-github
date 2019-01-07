@@ -89,7 +89,7 @@ function addMarkup() {
 function init() {
 	delegate('.rgh-open-notifications-button', 'click', openNotifications);
 
-	features.safeOnAjaxedPages(() => {
+	features.onAjaxedPages(() => {
 		// Add support for Mark as Unread
 		observeEl(
 			select('.notifications-list') || select('.js-navigation-container'),

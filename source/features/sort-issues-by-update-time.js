@@ -49,6 +49,6 @@ function init() {
 
 features.add({
 	id: 'sort-issues-by-update-time',
-	load: features.safeOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });

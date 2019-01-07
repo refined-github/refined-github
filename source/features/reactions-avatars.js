@@ -79,6 +79,6 @@ features.add({
 		features.isCommit,
 		features.isDiscussion
 	],
-	load: features.safeOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });

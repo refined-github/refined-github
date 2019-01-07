@@ -18,6 +18,6 @@ features.add({
 	dependencies: [
 		features.isPRFiles
 	],
-	load: features.safeOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });

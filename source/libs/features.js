@@ -2,7 +2,7 @@ import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import isPromise from 'p-is-promise';
 import OptionsSync from 'webext-options-sync';
-import onAjaxedPages from 'github-injection';
+import onAjaxedPagesRaw from 'github-injection';
 import onNewComments from './on-new-comments';
 import * as pageDetect from './page-detect';
 import {safeElementReady} from './utils';
@@ -15,14 +15,14 @@ const options = new OptionsSync().getAll();
  * If a feature needs to be disabled when navigating away,
  * use the regular `github-injection`
  */
-function safeOnAjaxedPages(callback) {
-	onAjaxedPages(async () => {
+function onAjaxedPages(callback) {
+	onAjaxedPagesRaw(async () => {
 		if (select.exists('has-rgh')) {
 			return;
 		}
 		await domLoaded;
 
-		// Push safeOnAjaxedPages on the next tick so it happens in the correct order
+		// Push onAjaxedPages on the next tick so it happens in the correct order
 		// (specifically for addOpenAllNotificationsButton)
 		await Promise.resolve();
 		callback();
@@ -79,20 +79,7 @@ const run = async (filename, constraints, fn) => {
 		console.error(error);
 	}
 };
-/**
- * @callback booleanFunction
- * @returns {boolean}
- */
-/**
- * @callback callerFunction
- * @param {function} callback Function to be called
- */
-/**
- * @callback featureFunction
- * @param {function} init Function that runs the feature
- * @returns {(boolean|undefined)}
- *
- */
+
 /**
  * Register a new feature
  *
@@ -123,7 +110,7 @@ const add = async definition => {
 
 	// Initialize the feature using the specified loading mechanism
 	if (load === onNewComments) {
-		safeOnAjaxedPages(async () => {
+		onAjaxedPages(async () => {
 			run(filename, dependencies, async () => {
 				await init();
 				onNewComments(init);
@@ -137,17 +124,28 @@ const add = async definition => {
 	}
 };
 
-const not = fn => () => !fn();
-const and = (...fns) => () => fns.every(fn => fn());
-
 export default {
 	...pageDetect,
 	add,
-	not,
-	and,
 	domLoaded,
-	onAjaxedPages,
-	safeOnAjaxedPages,
 	onNewComments,
-	safeElementReady
+	onAjaxedPages,
+	onAjaxedPagesRaw,
+	safeElementReady,
+	and: (...fns) => () => fns.every(fn => fn()),
+	not: fn => () => !fn()
 };
+
+/**
+ * Local JSDoc function definitions
+ *
+ * @callback booleanFunction
+ * @returns {boolean}
+ *
+ * @callback callerFunction
+ * @param {function} callback Function to be called
+ *
+ * @callback featureFunction
+ * @param {function} init Function that runs the feature
+ * @returns {(boolean|undefined)}
+ */

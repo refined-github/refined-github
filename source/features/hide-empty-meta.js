@@ -13,6 +13,6 @@ features.add({
 	dependencies: [
 		features.isRepoRoot
 	],
-	load: features.safeOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });

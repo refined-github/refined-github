@@ -38,6 +38,6 @@ features.add({
 		features.isSingleFile,
 		features.isGist
 	],
-	load: features.safeOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });

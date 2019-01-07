@@ -24,6 +24,6 @@ features.add({
 	dependencies: [
 		features.isCommit
 	],
-	load: features.safeOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });

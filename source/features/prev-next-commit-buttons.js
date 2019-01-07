@@ -26,6 +26,6 @@ features.add({
 		features.isPRFiles,
 		features.isPRCommit
 	],
-	load: features.safeOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });
