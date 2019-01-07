@@ -29,10 +29,11 @@ function openIssues() {
 }
 
 export default function () {
-	if (!pageDetect.isGlobalIssueSearch() && !pageDetect.isGlobalPRSearch()) {
-		if (!pageDetect.isIssueList() || select.all('.js-issue-row').length < 2) {
-			return;
-		}
+	if (!pageDetect.isGlobalIssueSearch() && !pageDetect.isGlobalPRSearch() && !pageDetect.isIssueList()) {
+		return;
+	}
+	if (select.all('.js-issue-row').length < 2) {
+		return;
 	}
 
 	const filtersBar = select('.table-list-header .table-list-header-toggle:not(.states)');
