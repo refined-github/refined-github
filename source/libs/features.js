@@ -96,8 +96,13 @@ const add = async definition => {
 		id: filename,
 		dependencies = [], // Default: On all pages
 		load = fn => fn(), // Run it right away
-		init
+		init,
+		...invalidProps
 	} = definition;
+
+	if (Object.keys(invalidProps).length > 0) {
+		throw new Error(`The function "${filename}" was initialized with invalid props: ${Object.keys(invalidProps).join(', ')}`);
+	}
 
 	if (dependencies.some(d => typeof d !== 'function')) {
 		throw new TypeError('Dependencies must be boolean-returning functions');
