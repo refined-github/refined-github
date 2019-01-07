@@ -1,13 +1,20 @@
 import select from 'select-dom';
-import * as pageDetect from '../libs/page-detect';
+import features from '../libs/features';
+import {getRepoURL} from '../libs/page-detect';
 
-const repoUrl = pageDetect.getRepoURL();
-
-export default () => {
-	if (pageDetect.isRepoTree()) {
-		const uploadFilesButton = select(`.file-navigation a[href^="/${repoUrl}/upload"]`);
-		if (uploadFilesButton) {
-			uploadFilesButton.remove();
-		}
+function init() {
+	const uploadFilesButton = select(`.file-navigation a[href^="/${getRepoURL()}/upload"]`);
+	if (!uploadFilesButton) {
+		return false;
 	}
-};
+	uploadFilesButton.remove();
+}
+
+features.add({
+	id: 'remove-upload-files-button',
+	dependencies: [
+		features.isRepoTree
+	],
+	load: features.domLoaded,
+	init
+});

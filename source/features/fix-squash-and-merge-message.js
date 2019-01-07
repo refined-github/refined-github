@@ -1,9 +1,10 @@
 import select from 'select-dom';
+import features from '../libs/features';
 
-export default function () {
+function init() {
 	const button = select('.merge-message .btn-group-squash [type=submit]');
 	if (!button) {
-		return;
+		return false;
 	}
 
 	button.addEventListener('click', () => {
@@ -11,3 +12,12 @@ export default function () {
 		select('#merge_message_field').value = description;
 	});
 }
+
+features.add({
+	id: 'fix-squash-and-merge-message',
+	dependencies: [
+		features.isPR
+	],
+	load: features.safeOnAjaxedPages,
+	init
+});

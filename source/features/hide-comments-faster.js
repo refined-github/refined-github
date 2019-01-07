@@ -1,7 +1,7 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate';
-import * as pageDetect from '../libs/page-detect';
+import features from '../libs/features';
 
 function handleMenuOpening(event) {
 	const hideButton = select('.js-comment-hide-button', event.delegateTarget.parentElement);
@@ -52,8 +52,18 @@ function handleMenuOpening(event) {
 	dropdown.append(form);
 }
 
-export default function () {
-	if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isCommit() || pageDetect.isDiscussion()) {
-		delegate('summary[aria-label="Show options"]', 'click', handleMenuOpening);
-	}
+function init() {
+	delegate('summary[aria-label="Show options"]', 'click', handleMenuOpening);
 }
+
+features.add({
+	id: 'hide-comments-faster',
+	dependencies: [
+		features.isPR,
+		features.isIssue,
+		features.isCommit,
+		features.isDiscussion
+	],
+	load: features.domLoaded,
+	init
+});

@@ -1,5 +1,6 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
+import features from '../libs/features';
 import {safeElementReady, wrap} from '../libs/utils';
 import * as pageDetect from '../libs/page-detect';
 
@@ -52,10 +53,20 @@ async function inQuickPR() {
 	}
 }
 
-export default function () {
+function init() {
 	if (pageDetect.isPR()) {
 		inPR();
 	} else if (pageDetect.isQuickPR()) {
 		inQuickPR();
 	}
 }
+
+features.add({
+	id: 'linkify-branch-refs',
+	dependencies: [
+		features.isPR,
+		features.isQuickPR
+	],
+	load: features.safeOnAjaxedPages,
+	init
+});

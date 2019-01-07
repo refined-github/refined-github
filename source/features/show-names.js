@@ -1,10 +1,10 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import * as api from '../libs/api';
+import features from '../libs/features';
 import {getUsername, escapeForGql} from '../libs/utils';
-import onNewComments from '../libs/on-new-comments';
 
-async function addNames() {
+async function init() {
 	const usernameElements = select.all('.js-discussion .author:not(.rgh-fullname):not([href*="/apps/"])');
 
 	const usernames = new Set();
@@ -24,7 +24,7 @@ async function addNames() {
 	}
 
 	if (usernames.size === 0) {
-		return;
+		return false;
 	}
 
 	const names = await api.v4(
@@ -46,7 +46,14 @@ async function addNames() {
 	}
 }
 
-export default async function () {
-	await addNames();
-	onNewComments(addNames);
-}
+features.add({
+	id: 'show-names',
+	dependencies: [
+		features.isPR,
+		features.isIssue,
+		features.isCommit,
+		features.isDiscussion
+	],
+	load: features.onNewComments,
+	init
+});

@@ -1,10 +1,11 @@
-import select from 'select-dom';
 import {h} from 'dom-chef';
+import select from 'select-dom';
+import features from '../libs/features';
 import * as icons from '../libs/icons';
-import * as pageDetect from '../libs/page-detect';
-import {appendBefore} from '../libs/utils';
+import {getRepoURL, isEnterprise} from '../libs/page-detect';
+import {appendBefore, safeElementReady} from '../libs/utils';
 
-const repoUrl = pageDetect.getRepoURL();
+const repoUrl = getRepoURL();
 
 function createDropdown() {
 	// Markup copied from native GHE dropdown
@@ -22,7 +23,8 @@ function createDropdown() {
 	);
 }
 
-export default function () {
+async function init() {
+	await safeElementReady('.pagehead + *'); // Wait for the tab bar to be loaded
 	if (!select.exists('.reponav-dropdown')) {
 		createDropdown();
 	}
@@ -32,7 +34,7 @@ export default function () {
 			{' Compare'}
 		</a>,
 
-		pageDetect.isEnterprise() ? '' :
+		isEnterprise() ? '' :
 			<a href={`/${repoUrl}/network/dependencies`} class="rgh-reponav-more dropdown-item rgh-dependency-graph" data-skip-pjax>
 				{icons.dependency()}
 				{' Dependencies'}
@@ -50,3 +52,12 @@ export default function () {
 		insightsTab.remove();
 	}
 }
+
+features.add({
+	id: 'more-dropdown',
+	dependencies: [
+		features.isRepo
+	],
+	load: features.safeOnAjaxedPages,
+	init
+});

@@ -2,7 +2,7 @@ import {h} from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate';
 import domLoaded from 'dom-loaded';
-import gitHubInjection from 'github-injection';
+import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
@@ -343,46 +343,56 @@ function destroy() {
 	listeners.length = 0;
 }
 
-export default function () {
-	gitHubInjection(async () => {
-		destroy();
+async function init() {
+	destroy();
 
-		if (pageDetect.isNotifications()) {
-			const notifications = await getNotifications();
-			if (notifications.length > 0) {
-				await renderNotifications(notifications);
-				addCustomAllReadBtn();
-				updateLocalNotificationsCount(notifications);
-				updateLocalParticipatingCount(notifications);
-			}
-			listeners.push(
-				delegate('.btn-link.delete-note', 'click', markNotificationRead),
-				delegate('.js-mark-all-read', 'click', markAllNotificationsRead),
-				delegate('.js-delete-notification button', 'click', updateUnreadIndicator),
-				delegate('.js-mark-visible-as-read', 'submit', async event => {
-					const group = event.target.closest('.boxed-group');
-					const repo = select('.notifications-repo-link', group).textContent;
-					const notifications = await getNotifications();
-					setNotifications(notifications.filter(({repository}) => repository !== repo));
-				})
-			);
-		} else if (pageDetect.isPR() || pageDetect.isIssue()) {
-			await domLoaded;
-			await markRead(location.href);
+	if (pageDetect.isNotifications()) {
+		const notifications = await getNotifications();
+		if (notifications.length > 0) {
+			await renderNotifications(notifications);
+			addCustomAllReadBtn();
+			updateLocalNotificationsCount(notifications);
+			updateLocalParticipatingCount(notifications);
+		}
+		listeners.push(
+			delegate('.btn-link.delete-note', 'click', markNotificationRead),
+			delegate('.js-mark-all-read', 'click', markAllNotificationsRead),
+			delegate('.js-delete-notification button', 'click', updateUnreadIndicator),
+			delegate('.js-mark-visible-as-read', 'submit', async event => {
+				const group = event.target.closest('.boxed-group');
+				const repo = select('.notifications-repo-link', group).textContent;
+				const notifications = await getNotifications();
+				setNotifications(notifications.filter(({repository}) => repository !== repo));
+			})
+		);
+	} else if (pageDetect.isPR() || pageDetect.isIssue()) {
+		await domLoaded;
+		await markRead(location.href);
 
-			// The sidebar changes when new comments are added or the issue status changes
-			observeEl('.discussion-sidebar', addMarkUnreadButton);
-		} else if (pageDetect.isIssueList()) {
-			await domLoaded;
-			for (const discussion of await getNotifications()) {
-				const {pathname} = new URL(discussion.url);
-				const listItem = select(`.read [href='${pathname}']`);
-				if (listItem) {
-					listItem.closest('.read').classList.replace('read', 'unread');
-				}
+		// The sidebar changes when new comments are added or the issue status changes
+		observeEl('.discussion-sidebar', addMarkUnreadButton);
+	} else if (pageDetect.isIssueList()) {
+		await domLoaded;
+		for (const discussion of await getNotifications()) {
+			const {pathname} = new URL(discussion.url);
+			const listItem = select(`.read [href='${pathname}']`);
+			if (listItem) {
+				listItem.closest('.read').classList.replace('read', 'unread');
 			}
 		}
+	}
 
-		await updateUnreadIndicator();
-	});
+	updateUnreadIndicator();
 }
+
+features.add({
+	id: 'mark-unread',
+	dependencies: [
+		features.isNotifications,
+		features.isPR,
+		features.isIssue,
+		features.isIssueList
+	],
+	load: features.onAjaxedPages,
+	init
+});

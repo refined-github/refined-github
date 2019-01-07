@@ -1,11 +1,18 @@
 import select from 'select-dom';
-import * as pageDetect from '../libs/page-detect';
+import features from '../libs/features';
 
-export default function () {
-	if (pageDetect.isRepoRoot()) {
-		const meta = select('.repository-meta');
-		if (select.exists('em', meta) && !select.exists('.js-edit-repo-meta-button')) {
-			meta.style.display = 'none';
-		}
+function init() {
+	const meta = select('.repository-meta');
+	if (select.exists('em', meta) && !select.exists('.js-edit-repo-meta-button')) {
+		meta.style.display = 'none';
 	}
 }
+
+features.add({
+	id: 'hide-empty-meta',
+	dependencies: [
+		features.isRepoRoot
+	],
+	load: features.safeOnAjaxedPages,
+	init
+});

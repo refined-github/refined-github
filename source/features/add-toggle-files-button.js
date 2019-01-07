@@ -1,13 +1,14 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate';
+import features from '../libs/features';
 import * as icons from '../libs/icons';
 import observeEl from '../libs/simplified-element-observer';
 
 function addButton() {
 	const filesHeader = select('.commit-tease');
 	if (!filesHeader || select.exists('.rgh-toggle-files')) {
-		return;
+		return false;
 	}
 	filesHeader.append(
 		<button
@@ -19,10 +20,19 @@ function addButton() {
 	);
 }
 
-export default function () {
+function init() {
 	const repoContent = select('.repository-content');
 	observeEl(repoContent, addButton);
 	delegate('.rgh-toggle-files', 'click', ({delegateTarget}) => {
 		delegateTarget.setAttribute('aria-expanded', !repoContent.classList.toggle('rgh-files-hidden'));
 	});
 }
+
+features.add({
+	id: 'add-toggle-files-button',
+	dependencies: [
+		features.isRepoTree
+	],
+	load: features.safeOnAjaxedPages,
+	init
+});

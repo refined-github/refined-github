@@ -1,10 +1,10 @@
 import select from 'select-dom';
 import {h} from 'dom-chef';
 import * as icons from '../libs/icons';
+import features from '../libs/features';
 import {getRepoURL} from '../libs/page-detect';
-import onNewComments from '../libs/on-new-comments';
 
-function addLinks() {
+function init() {
 	const comments = select.all('.timeline-comment-header:not(.rgh-timestamp-tree-link)');
 
 	for (const comment of comments) {
@@ -27,7 +27,12 @@ function addLinks() {
 	}
 }
 
-export default function () {
-	addLinks();
-	onNewComments(addLinks);
-}
+features.add({
+	id: 'add-time-machine-links-to-comments',
+	dependencies: [
+		features.isPRConversation,
+		features.isIssue
+	],
+	load: features.onNewComments,
+	init
+});

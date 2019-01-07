@@ -1,9 +1,17 @@
+// TODO: move to CSS
 import select from 'select-dom';
+import features from '../libs/features';
 
-export default function () {
+function init() {
 	const readmeContainer = select('.repository-content #readme');
 
 	if (readmeContainer && !readmeContainer.classList.contains('blob')) {
 		readmeContainer.classList.add('rgh-hide-readme-header');
 	}
 }
+
+features.add({
+	id: 'hide-readme-header',
+	load: features.domLoaded,
+	init
+});

@@ -1,11 +1,11 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import {wrap} from '../libs/utils';
-import onNewComments from '../libs/on-new-comments';
+import features from '../libs/features';
 
-function addLink() {
+function init() {
 	if (select.exists('.gh-header-meta a .State')) {
-		return;
+		return false;
 	}
 
 	const lastActionRef = select.all(`
@@ -17,7 +17,7 @@ function addLink() {
 
 	// Leave if it was never closed or if it was reopened
 	if (!lastActionRef || lastActionRef.matches('.discussion-item-reopened')) {
-		return;
+		return false;
 	}
 
 	const label = select('.gh-header-meta .State');
@@ -28,7 +28,12 @@ function addLink() {
 	wrap(label, <a href={'#' + lastActionRef.closest('[id]').id}></a>);
 }
 
-export default function () {
-	addLink();
-	onNewComments(addLink);
-}
+features.add({
+	id: 'extend-status-labels',
+	dependencies: [
+		features.isPRConversation,
+		features.isIssue
+	],
+	load: features.onNewComments,
+	init
+});

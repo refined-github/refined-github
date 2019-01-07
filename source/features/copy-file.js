@@ -1,9 +1,10 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import copyToClipboard from 'copy-text-to-clipboard';
+import features from '../libs/features';
 import {groupSiblings} from '../libs/group-buttons';
 
-export default function () {
+function init() {
 	// This selector skips binaries + markdowns with code
 	for (const code of select.all('.file .blob-wrapper > .highlight:not(.rgh-copy-file)')) {
 		code.classList.add('rgh-copy-file');
@@ -30,3 +31,13 @@ export default function () {
 		}
 	}
 }
+
+features.add({
+	id: 'copy-file',
+	dependencies: [
+		features.isSingleFile,
+		features.isGist
+	],
+	load: features.safeOnAjaxedPages,
+	init
+});

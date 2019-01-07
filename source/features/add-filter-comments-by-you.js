@@ -1,11 +1,12 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import * as pageDetect from '../libs/page-detect';
+import features from '../libs/features';
+import {getRepoURL} from '../libs/page-detect';
 import {getUsername} from '../libs/utils';
 
-const repoUrl = pageDetect.getRepoURL();
+const repoUrl = getRepoURL();
 
-export default function () {
+function init() {
 	select('.subnav-search-context li:last-child')
 		.before(
 			<li>
@@ -18,3 +19,12 @@ export default function () {
 			</li>
 		);
 }
+
+features.add({
+	id: 'add-filter-comments-by-you',
+	dependencies: [
+		features.isIssueList
+	],
+	load: features.safeOnAjaxedPages,
+	init
+});

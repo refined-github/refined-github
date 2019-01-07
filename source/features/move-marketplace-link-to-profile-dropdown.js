@@ -1,13 +1,23 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
+import features from '../libs/features';
 
-export default function () {
+function init() {
 	const lastDivider = select.all('.user-nav .dropdown-divider').pop();
 	if (!lastDivider) {
-		return;
+		return false;
 	}
-	const marketplaceLink = <a class="dropdown-item" href="/marketplace">Marketplace</a>;
-	const divider = <div class="dropdown-divider"></div>;
-	lastDivider.before(divider);
-	lastDivider.before(marketplaceLink);
+	lastDivider.before(
+		<div class="dropdown-divider"></div>,
+		<a class="dropdown-item" href="/marketplace">Marketplace</a>
+	);
 }
+
+features.add({
+	id: 'move-marketplace-link-to-profile-dropdown',
+	dependencies: [
+		features.not(features.isGist)
+	],
+	load: features.domLoaded,
+	init
+});

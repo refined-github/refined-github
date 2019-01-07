@@ -1,6 +1,7 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import domify from '../libs/domify';
+import features from '../libs/features';
 
 const isGist = link =>
 	!link.pathname.includes('.') && // Exclude links to embed files
@@ -40,8 +41,18 @@ async function embedGist(link) {
 		info.remove(' (embed failed)');
 	}
 }
-export default () => {
+function init() {
 	select.all('.js-comment-body p a:only-child')
 		.filter(item => isGist(item) && isOnlyChild(item))
 		.forEach(embedGist);
-};
+}
+
+features.add({
+	id: 'embed-gist-inline',
+	dependencies: [
+		features.isPR,
+		features.isIssue
+	],
+	load: features.safeOnAjaxedPages,
+	init
+});

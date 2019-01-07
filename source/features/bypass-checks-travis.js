@@ -1,7 +1,8 @@
 import select from 'select-dom';
 import domify from '../libs/domify';
+import features from '../libs/features';
 
-export default async function () {
+async function init() {
 	// If anything errors, RGH will display the error next to the feature name
 	await Promise.all(select.all('[href="/apps/travis-ci"]').map(bypass));
 }
@@ -23,3 +24,12 @@ async function bypass(check) {
 	const directLink = select('[href^="https://travis-ci.com"].text-small', dom);
 	details.href = directLink.href;
 }
+
+features.add({
+	id: 'bypass-checks-travis',
+	dependencies: [
+		features.isPRConversation
+	],
+	load: features.safeOnAjaxedPages,
+	init
+});

@@ -7,9 +7,11 @@ The tab isn’t shown if there are no releases.
 
 import {h} from 'dom-chef';
 import select from 'select-dom';
+import features from '../libs/features';
 import * as icons from '../libs/icons';
 import * as cache from '../libs/cache';
 import * as pageDetect from '../libs/page-detect';
+import {safeElementReady} from '../libs/utils';
 import {registerShortcut} from './improve-shortcut-help';
 
 const repoUrl = pageDetect.getRepoURL();
@@ -29,10 +31,11 @@ function updateReleasesCount() {
 	return cached;
 }
 
-export default async () => {
+async function init() {
+	await safeElementReady('.pagehead + *'); // Wait for the tab bar to be loaded
 	const count = await updateReleasesCount();
 	if (count === 0) {
-		return;
+		return false;
 	}
 
 	const releasesTab = (
@@ -54,4 +57,13 @@ export default async () => {
 		releasesTab.classList.add('js-selected-navigation-item', 'selected');
 		releasesTab.setAttribute('data-selected-links', 'repo_releases'); // Required for ajaxLoad
 	}
-};
+}
+
+features.add({
+	id: 'add-releases-tab',
+	dependencies: [
+		features.isRepo
+	],
+	load: features.safeOnAjaxedPages,
+	init
+});

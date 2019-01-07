@@ -2,11 +2,10 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate';
+import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
 import {groupButtons} from '../libs/group-buttons';
-import {safeOnAjaxedPages} from '../libs/utils';
-import {isNotifications} from '../libs/page-detect';
 
 const confirmationRequiredCount = 10;
 const unreadNotificationsClass = '.unread .js-notification-target';
@@ -87,14 +86,10 @@ function addMarkup() {
 	addOpenReposButton();
 }
 
-export default function () {
-	if (!isNotifications()) {
-		return;
-	}
-
+function init() {
 	delegate('.rgh-open-notifications-button', 'click', openNotifications);
 
-	safeOnAjaxedPages(() => {
+	features.safeOnAjaxedPages(() => {
 		// Add support for Mark as Unread
 		observeEl(
 			select('.notifications-list') || select('.js-navigation-container'),
@@ -102,3 +97,11 @@ export default function () {
 		);
 	});
 }
+
+features.add({
+	id: 'open-all-notifications',
+	dependencies: [
+		features.isNotifications
+	],
+	init
+});

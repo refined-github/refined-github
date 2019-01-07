@@ -1,6 +1,7 @@
 import select from 'select-dom';
+import features from '../libs/features';
 
-export default function () {
+function init() {
 	for (const emoji of select.all('g-emoji')) {
 		// Don’t add a title if the emoji’s parents already have one #1097
 		if (!emoji.closest('[title]')) {
@@ -8,3 +9,9 @@ export default function () {
 		}
 	}
 }
+
+features.add({
+	id: 'add-title-to-emojis',
+	load: features.safeOnAjaxedPages,
+	init
+});

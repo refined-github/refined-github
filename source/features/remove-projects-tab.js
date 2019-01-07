@@ -1,7 +1,9 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
+import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
+import {safeElementReady} from '../libs/utils';
 
 const removeProjectsTab = () => {
 	const projectsTab = select('.js-repo-nav [data-selected-links^="repo_projects"]');
@@ -22,8 +24,18 @@ const addNewProjectLink = onetime(() => {
 	}
 });
 
-export default function () {
+async function init() {
+	await safeElementReady('.pagehead + *'); // Wait for the tab bar to be loaded
 	if (removeProjectsTab()) {
 		addNewProjectLink();
 	}
 }
+
+features.add({
+	id: 'remove-projects-tab',
+	dependencies: [
+		features.isRepo
+	],
+	load: features.safeOnAjaxedPages,
+	init
+});

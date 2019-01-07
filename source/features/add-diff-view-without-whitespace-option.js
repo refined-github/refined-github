@@ -1,16 +1,17 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import * as icons from '../libs/icons';
+import features from '../libs/features';
 import {registerShortcut} from './improve-shortcut-help';
 
-export default function () {
+function init() {
 	const container = select([
 		'.table-of-contents.Details .BtnGroup', // In single commit view
 		'.pr-review-tools > .diffbar-item' // In review view
 	].join(','));
 
 	if (!container) {
-		return;
+		return false;
 	}
 
 	const url = new URL(location.href);
@@ -42,3 +43,12 @@ export default function () {
 		uselessCopy.firstChild.remove();
 	}
 }
+
+features.add({
+	id: 'add-diff-view-without-whitespace-option',
+	dependencies: [
+		features.isRepo
+	],
+	load: features.safeOnAjaxedPages,
+	init
+});

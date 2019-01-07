@@ -1,7 +1,8 @@
 import select from 'select-dom';
+import features from '../libs/features';
 import {registerShortcut} from './improve-shortcut-help';
 
-export default function () {
+function init() {
 	registerShortcut('site', 'shift o', 'Open selection in new tab');
 
 	document.addEventListener('keypress', event => {
@@ -17,3 +18,8 @@ export default function () {
 		}
 	});
 }
+
+features.add({
+	id: 'add-selection-in-new-tab',
+	init
+});

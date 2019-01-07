@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import domify from '../libs/domify';
+import features from '../libs/features';
 import {getRepoURL, getRepoBranch} from '../libs/page-detect';
 import {appendBefore} from '../libs/utils';
 
@@ -23,10 +24,10 @@ async function fetchStatus() {
 	return icon;
 }
 
-export default async function () {
+async function init() {
 	// Avoid on pages that already failed to load
 	if (request === false) {
-		return;
+		return false;
 	}
 
 	try {
@@ -44,5 +45,15 @@ export default async function () {
 		// Network failure or no CI status found.
 		// Don’t try again
 		request = false;
+		return false;
 	}
 }
+
+features.add({
+	id: 'add-ci-link',
+	dependencies: [
+		features.isRepo
+	],
+	load: features.safeOnAjaxedPages,
+	init
+});

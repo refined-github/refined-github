@@ -1,7 +1,8 @@
 import select from 'select-dom';
+import features from '../libs/features';
 import {registerShortcut} from './improve-shortcut-help';
 
-export default function () {
+function init() {
 	registerShortcut('site', 'ArrowRight', 'Go to the next page.');
 	const createNextPageButton = select('a.next_page');
 	if (createNextPageButton) {
@@ -13,3 +14,9 @@ export default function () {
 		createPreviousPageButton.setAttribute('data-hotkey', 'ArrowLeft');
 	}
 }
+
+features.add({
+	id: 'navigate-pages-with-arrow-keys',
+	load: features.safeOnAjaxedPages,
+	init
+});

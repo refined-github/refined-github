@@ -1,17 +1,18 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
+import features from '../libs/features';
 
 const btnClassMap = {
 	approve: 'btn-primary',
 	reject: 'btn-danger'
 };
 
-export default function () {
+function init() {
 	const form = select('[action$="/reviews"]');
 	const radios = select.all('[type="radio"][name="pull_request_review[event]"]', form);
 
 	if (radios.length === 0) {
-		return;
+		return false;
 	}
 
 	const submitButton = select('[type="submit"]', form);
@@ -67,3 +68,12 @@ export default function () {
 		});
 	});
 }
+
+features.add({
+	id: 'add-quick-review-buttons',
+	dependencies: [
+		features.isPR
+	],
+	load: features.safeOnAjaxedPages,
+	init
+});

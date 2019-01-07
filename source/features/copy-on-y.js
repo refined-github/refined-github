@@ -1,7 +1,7 @@
 import select from 'select-dom';
-import ghInjection from 'github-injection';
 import copyToClipboard from 'copy-text-to-clipboard';
-import * as pageDetect from '../libs/page-detect';
+import features from '../libs/features';
+import {isSingleFile} from '../libs/page-detect';
 
 const handler = ({key, target}) => {
 	if (key === 'y' && target.nodeName !== 'INPUT') {
@@ -10,12 +10,16 @@ const handler = ({key, target}) => {
 	}
 };
 
-export default function () {
-	ghInjection(() => {
-		if (pageDetect.isSingleFile()) {
-			window.addEventListener('keyup', handler);
-		} else {
-			window.removeEventListener('keyup', handler);
-		}
-	});
+function init() {
+	if (isSingleFile()) {
+		window.addEventListener('keyup', handler);
+	} else {
+		window.removeEventListener('keyup', handler);
+	}
 }
+
+features.add({
+	id: 'copy-on-y',
+	load: features.onAjaxedPages,
+	init
+});

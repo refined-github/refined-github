@@ -1,8 +1,9 @@
 import select from 'select-dom';
 import linkifyUrls from 'linkify-urls';
 import linkifyIssues from 'linkify-issues';
-import {getOwnerAndRepo} from '../libs/page-detect';
+import features from '../libs/features';
 import getTextNodes from '../libs/get-text-nodes';
+import {getOwnerAndRepo} from '../libs/page-detect';
 
 // Shared class necessary to avoid also shortening the links
 export const linkifiedURLClass = 'rgh-linkified-code';
@@ -46,7 +47,7 @@ export const editTextNodes = (fn, el) => {
 	}
 };
 
-export default () => {
+function init() {
 	const wrappers = select.all(`
 		.blob-wrapper:not(.${linkifiedURLClass}),
 		.comment-body:not(.${linkifiedURLClass})
@@ -54,7 +55,7 @@ export default () => {
 
 	// Don't linkify any already linkified code
 	if (wrappers.length === 0) {
-		return;
+		return false;
 	}
 
 	// Linkify full URLs
@@ -73,4 +74,10 @@ export default () => {
 	for (const el of wrappers) {
 		el.classList.add(linkifiedURLClass);
 	}
-};
+}
+
+features.add({
+	id: 'linkify-urls-in-code',
+	load: features.safeOnAjaxedPages,
+	init
+});

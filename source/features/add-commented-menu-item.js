@@ -1,14 +1,14 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import * as pageDetect from '../libs/page-detect';
+import features from '../libs/features';
 import {getUsername} from '../libs/utils';
+import {isGlobalIssueSearch} from '../libs/page-detect';
 
-export default function () {
-	const pageName = pageDetect.isGlobalIssueSearch() ? 'issues' : 'pulls';
-	const type = pageDetect.isGlobalIssueSearch() ? 'issue' : 'pr';
+function init() {
 	const username = getUsername();
+	const type = isGlobalIssueSearch() ? 'issue' : 'pr';
 
-	const commentedMenuItem = <a href={`/${pageName}?q=is%3Aopen+archived%3Afalse+is%3A${type}+commenter%3A${username}`} class="subnav-item">Commented</a>;
+	const commentedMenuItem = <a href={`${location.pathname}?q=is%3Aopen+archived%3Afalse+is%3A${type}+commenter%3A${username}`} class="subnav-item">Commented</a>;
 
 	if (!select.exists('.subnav-links .selected') && location.search.includes(`commenter%3A${username}`)) {
 		commentedMenuItem.classList.add('selected');
@@ -19,3 +19,13 @@ export default function () {
 
 	select('.subnav-links').append(commentedMenuItem);
 }
+
+features.add({
+	id: 'add-commented-menu-item',
+	dependencies: [
+		features.isGlobalIssueSearch,
+		features.isGlobalPRSearch
+	],
+	load: features.safeOnAjaxedPages,
+	init
+});

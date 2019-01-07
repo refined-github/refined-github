@@ -1,10 +1,21 @@
 import select from 'select-dom';
+import features from '../libs/features';
 
-export default function () {
+function init() {
 	// Get repositories link from user profile navigation
 	const link = select('.user-profile-nav a[href*="tab=repositories"]');
 
-	if (link) {
-		link.search += '&type=source';
+	if (!link) {
+		return false;
 	}
+	link.search += '&type=source';
 }
+
+features.add({
+	id: 'set-default-repositories-type-to-sources',
+	dependencies: [
+		features.isUserProfile
+	],
+	load: features.safeOnAjaxedPages,
+	init
+});

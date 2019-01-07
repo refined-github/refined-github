@@ -1,12 +1,8 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import * as pageDetect from '../libs/page-detect';
+import features from '../libs/features';
 
-export default function () {
-	if (!pageDetect.isIssue()) {
-		return;
-	}
-
+function init() {
 	let uselessCount = 0;
 	for (const commentText of select.all('.comment-body > p:only-child')) {
 		// Find useless comments
@@ -56,3 +52,12 @@ function unhide(event) {
 	select('.rgh-hidden-comment').scrollIntoView();
 	event.target.parentElement.remove();
 }
+
+features.add({
+	id: 'hide-useless-comments',
+	dependencies: [
+		features.isIssue
+	],
+	load: features.safeOnAjaxedPages,
+	init
+});

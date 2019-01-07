@@ -3,54 +3,6 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';
-import OptionsSync from 'webext-options-sync';
-import ghInjection from 'github-injection';
-
-const options = new OptionsSync().getAll();
-
-/*
- *`github-injection` happens even when the user navigates in history
- * This causes listeners to run on content that has already been updated.
- * If a feature needs to be disabled when navigating away,
- * use the regular `github-injection`
- */
-export function safeOnAjaxedPages(callback) {
-	ghInjection(() => {
-		if (!select.exists('has-rgh')) {
-			callback();
-		}
-	});
-}
-
-/*
- * Enable toggling each feature via options.
- * Prevent fn's errors from blocking the remaining tasks.
- * https://github.com/sindresorhus/refined-github/issues/678
- */
-export const enableFeature = async fn => {
-	const {disabledFeatures = '', logging = false} = await options;
-	const log = logging ? console.log : () => {};
-
-	const filename = fn.name.replace(/_/g, '-');
-	if (/^$|^anonymous$/.test(filename)) {
-		console.warn('This feature is nameless', fn);
-	} else if (disabledFeatures.includes(filename)) {
-		log('↩️', 'Skipping', filename);
-		return;
-	}
-	try {
-		await fn();
-		log('✅', filename);
-	} catch (error) {
-		console.log('❌', filename);
-		console.error(error);
-	}
-};
-
-export const isFeatureEnabled = async featureName => {
-	const {disabledFeatures = ''} = await options;
-	return disabledFeatures.includes(featureName);
-};
 
 export const getUsername = onetime(() => select('meta[name="user-login"]').getAttribute('content'));
 
@@ -149,14 +101,6 @@ export const metaKey = isMac ? 'metaKey' : 'ctrlKey';
 export const anySelector = selector => {
 	const prefix = document.head.style.MozOrient === '' ? 'moz' : 'webkit';
 	return selector.replace(/:any\(/g, `:-${prefix}-any(`);
-};
-
-export const injectCustomCSS = async () => {
-	const {customCSS = ''} = await options;
-
-	if (customCSS.length > 0) {
-		document.head.append(<style>{customCSS}</style>);
-	}
 };
 
 export const escapeForGql = string => '_' + string.replace(/[./-]/g, '_');

@@ -1,12 +1,12 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
+import features from '../libs/features';
 import {getUsername} from '../libs/utils';
-import * as pageDetect from '../libs/page-detect';
-import onNewComments from '../libs/on-new-comments';
+import {isPR, isPRFiles} from '../libs/page-detect';
 
-function addLabels() {
+function init() {
 	let op;
-	if (pageDetect.isPR()) {
+	if (isPR()) {
 		const titleRegex = /^(?:.+) by (\S+) · Pull Request #(\d+)/;
 		[, op] = titleRegex.exec(document.title) || [];
 	} else {
@@ -16,15 +16,15 @@ function addLabels() {
 	let newComments = select.all('.js-comment:not(.refined-github-op)')
 		.filter(el => select(`strong .author[href="/${op}"]`, el));
 
-	if (!pageDetect.isPRFiles()) {
+	if (!isPRFiles()) {
 		newComments = newComments.slice(1);
 	}
 
 	if (newComments.length === 0) {
-		return;
+		return false;
 	}
 
-	const type = pageDetect.isPR() ? 'pull request' : 'issue';
+	const type = isPR() ? 'pull request' : 'issue';
 	const tooltip = `${op === getUsername() ? 'You' : 'This user'} submitted this ${type}.`;
 
 	const placeholders = select.all(`
@@ -45,7 +45,12 @@ function addLabels() {
 	}
 }
 
-export default function () {
-	addLabels();
-	onNewComments(addLabels);
-}
+features.add({
+	id: 'op-labels',
+	dependencies: [
+		features.isPRConversation,
+		features.isIssue
+	],
+	load: features.onNewComments,
+	init
+});
