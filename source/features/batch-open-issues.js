@@ -29,7 +29,10 @@ function openIssues() {
 }
 
 export default function () {
-	if (!pageDetect.isIssueList() || select.all('.js-issue-row').length < 2) {
+	if (!pageDetect.isGlobalIssueSearch() && !pageDetect.isGlobalPRSearch() && !pageDetect.isIssueList()) {
+		return;
+	}
+	if (select.all('.js-issue-row').length < 2) {
 		return;
 	}
 
