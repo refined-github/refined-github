@@ -92,7 +92,7 @@ window.select = select;
 
 // Must be called after all the features were added to onAjaxedPages
 // to mark the current load as "done", so history.back() won't reapply the same DOM changes
-features.safeOnAjaxedPages(() => {
+features.onAjaxedPages(() => {
 	const ajaxContainer = select('#js-repo-pjax-container,#js-pjax-container');
 	if (ajaxContainer) {
 		ajaxContainer.append(<has-rgh/>);
