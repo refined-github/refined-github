@@ -90,7 +90,7 @@ import './features/bypass-checks-travis';
 // Add global for easier debugging
 window.select = select;
 
-// Must be called after all the features were added to safeOnAjaxedPages
+// Must be called after all the features were added to onAjaxedPages
 // to mark the current load as "done", so history.back() won't reapply the same DOM changes
 features.safeOnAjaxedPages(() => {
 	const ajaxContainer = select('#js-repo-pjax-container,#js-pjax-container');
