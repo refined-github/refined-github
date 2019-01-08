@@ -384,12 +384,6 @@ async function init() {
 
 features.add({
 	id: 'mark-unread',
-	dependencies: [
-		features.isNotifications,
-		features.isPR,
-		features.isIssue,
-		features.isIssueList
-	],
 	load: features.onAjaxedPagesRaw,
 	init
 });
