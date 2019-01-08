@@ -149,7 +149,6 @@ export default {
 	onNewComments,
 	onAjaxedPages,
 	onAjaxedPagesRaw,
-	safeElementReady,
 	and: (...fns) => () => fns.every(fn => fn()),
 	not: fn => () => !fn()
 };
