@@ -1,7 +1,6 @@
 import select from 'select-dom';
 import copyToClipboard from 'copy-text-to-clipboard';
 import features from '../libs/features';
-import {isSingleFile} from '../libs/page-detect';
 
 const handler = ({key, target}) => {
 	if (key === 'y' && target.nodeName !== 'INPUT') {
@@ -11,15 +10,18 @@ const handler = ({key, target}) => {
 };
 
 function init() {
-	if (isSingleFile()) {
-		window.addEventListener('keyup', handler);
-	} else {
-		window.removeEventListener('keyup', handler);
-	}
+	window.addEventListener('keyup', handler);
+}
+function deinit() {
+	window.removeEventListener('keyup', handler);
 }
 
 features.add({
 	id: 'copy-on-y',
+	dependencies: [
+		features.isSingleFile
+	],
 	load: features.onAjaxedPagesRaw,
-	init
+	init,
+	deinit
 });

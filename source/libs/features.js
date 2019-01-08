@@ -63,8 +63,9 @@ const globalReady = new Promise(async resolve => {
 	resolve();
 });
 
-const run = async (filename, constraints, fn) => {
-	if (constraints.length > 0 && constraints.every(c => !c())) {
+const run = async ({filename, dependencies, init, deinit}) => {
+	if (dependencies.length > 0 && dependencies.every(c => !c())) {
+		await deinit();
 		return;
 	}
 	const {disabledFeatures = '', logging = false} = await options;
@@ -76,7 +77,7 @@ const run = async (filename, constraints, fn) => {
 	}
 	try {
 		// Features can return `false` if they declare themselves as not enabled
-		if (await fn() !== false) {
+		if (await init() !== false) {
 			log('✅', filename);
 		}
 	} catch (error) {
@@ -90,9 +91,10 @@ const run = async (filename, constraints, fn) => {
  *
  * @param {object} definition Information about the feature
  * @param {string} definition.id  Must match the filename
- * @param {booleanFunction[]} [definition.dependencies] Init is called if any of these is true
- * @param {(callerFunction|Promise)} definition.load    Loading mechanism for the feature
- * @param {featureFunction}          definition.init    Function that runs the feature
+ * @param {booleanFunction[]} [definition.dependencies]  Init is called if any of these is true
+ * @param {(callerFunction|Promise)} definition.load     Loading mechanism for the feature
+ * @param {featureFunction}          definition.init     Function that runs the feature
+ * @param {function}                 [definition.deinit] Function that's called when `dependencies` are all false
  */
 const add = async definition => {
 	await globalReady;
@@ -102,6 +104,7 @@ const add = async definition => {
 		dependencies = [], // Default: On all pages
 		load = fn => fn(), // Run it right away
 		init,
+		deinit = () => {}, // Noop
 		...invalidProps
 	} = definition;
 
@@ -121,16 +124,21 @@ const add = async definition => {
 	// Initialize the feature using the specified loading mechanism
 	if (load === onNewComments) {
 		onAjaxedPages(async () => {
-			run(filename, dependencies, async () => {
-				await init();
-				onNewComments(init);
+			run({
+				filename,
+				dependencies,
+				deinit,
+				init: async () => {
+					await init();
+					onNewComments(init);
+				}
 			});
 		});
 	} else if (isPromise(load)) {
 		await load;
-		run(filename, dependencies, init);
+		run({filename, dependencies, deinit, init});
 	} else {
-		load(() => run(filename, dependencies, init));
+		load(() => run({filename, dependencies, deinit, init}));
 	}
 };
 

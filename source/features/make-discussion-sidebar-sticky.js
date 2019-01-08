@@ -3,7 +3,6 @@
 import select from 'select-dom';
 import debounce from 'debounce-fn';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 
 function updateStickiness() {
 	const sidebar = select('.discussion-sidebar');
@@ -14,16 +13,21 @@ function updateStickiness() {
 const handler = debounce(updateStickiness, {wait: 100});
 
 function init() {
-	if (pageDetect.isIssue() || pageDetect.isPRConversation()) {
-		updateStickiness();
-		window.addEventListener('resize', handler);
-	} else {
-		window.removeEventListener('resize', handler);
-	}
+	updateStickiness();
+	window.addEventListener('resize', handler);
+}
+
+function deinit() {
+	window.removeEventListener('resize', handler);
 }
 
 features.add({
 	id: 'make-discussion-sidebar-sticky',
+	dependencies: [
+		features.isIssue,
+		features.isPRConversation
+	],
 	load: features.onAjaxedPagesRaw,
-	init
+	init,
+	deinit
 });
