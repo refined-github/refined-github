@@ -43,6 +43,7 @@
 		"ava": "^1.0.1",
 		"babel-eslint": "^10.0.1",
 		"babel-loader": "^8.0.0",
+		"babel-plugin-import-glob": "^2.0.0",
 		"chrome-webstore-upload-cli": "^1.2.0",
 		"copy-webpack-plugin": "^4.5.1",
 		"cross-env": "^5.1.6",
@@ -85,6 +86,7 @@
 	},
 	"babel": {
 		"plugins": [
+			"babel-plugin-import-glob",
 			[
 				"@babel/plugin-transform-react-jsx",
 				{
