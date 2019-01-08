@@ -1,3 +1,4 @@
+import {h} from 'dom-chef';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import isPromise from 'p-is-promise';
@@ -28,6 +29,18 @@ function onAjaxedPages(callback) {
 		}
 	});
 }
+// Must be called after all the features were added to onAjaxedPages
+// to mark the current load as "done", so history.back() won't reapply the same DOM changes.
+// `setTimeout(fn, 0)` ensures this behavior
+setTimeout(() => {
+	onAjaxedPages(async () => {
+		await globalReady; // Match add() behavior to preserve the same order
+		const ajaxContainer = select('#js-repo-pjax-container,#js-pjax-container');
+		if (ajaxContainer) {
+			ajaxContainer.append(<has-rgh/>);
+		}
+	});
+});
 
 // Rule assumes we don't want to leave it pending:
 // eslint-disable-next-line no-async-promise-executor
@@ -51,7 +64,7 @@ const globalReady = new Promise(async resolve => {
 	document.documentElement.classList.add('refined-github');
 
 	const {customCSS = ''} = await options;
-	if (customCSS.length > 0) {
+	if (customCSS.trim().length > 0) {
 		document.head.append(<style>{customCSS}</style>);
 	}
 
