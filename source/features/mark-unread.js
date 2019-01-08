@@ -352,6 +352,7 @@ async function init() {
 			addCustomAllReadBtn();
 			updateLocalNotificationsCount(notifications);
 			updateLocalParticipatingCount(notifications);
+			document.dispatchEvent(new CustomEvent('refined-github:mark-unread:notifications-added'));
 		}
 		listeners.push(
 			delegate('.btn-link.delete-note', 'click', markNotificationRead),

@@ -22,15 +22,10 @@ async function onAjaxedPagesRaw(callback) {
 	callback();
 }
 function onAjaxedPages(callback) {
-	onAjaxedPagesRaw(async () => {
-		if (select.exists('has-rgh')) {
-			return;
+	onAjaxedPagesRaw(() => {
+		if (!select.exists('has-rgh')) {
+			callback();
 		}
-
-		// Push onAjaxedPages on the next tick so it happens in the correct order
-		// (specifically for addOpenAllNotificationsButton)
-		await Promise.resolve();
-		callback();
 	});
 }
 
