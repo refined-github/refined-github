@@ -2,7 +2,6 @@ import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import isPromise from 'p-is-promise';
 import OptionsSync from 'webext-options-sync';
-import onAjaxedPagesRaw from 'github-injection';
 import onNewComments from './on-new-comments';
 import * as pageDetect from './page-detect';
 import {safeElementReady} from './utils';
@@ -10,17 +9,23 @@ import {safeElementReady} from './utils';
 const options = new OptionsSync().getAll();
 
 /*
- *`github-injection` happens even when the user navigates in history
- * This causes listeners to run on content that has already been updated.
- * If a feature needs to be disabled when navigating away,
- * use the regular `github-injection`
+ * When navigating back and forth in history, GitHub will preserve the DOM changes;
+ * This means that the old features will still be on the page and don't need to re-run.
+ * For this reason `onAjaxedPages` will only call its callback when a *new* page is loaded.
+ *
+ * Alternatively, use `onAjaxedPagesRaw` if your callback needs to be called at every page
+ * change (e.g. to "unmount" a feature / listener) regardless of of *newness* of the page.
  */
+async function onAjaxedPagesRaw(callback) {
+	await domLoaded;
+	document.addEventListener('pjax:end', callback);
+	callback();
+}
 function onAjaxedPages(callback) {
 	onAjaxedPagesRaw(async () => {
 		if (select.exists('has-rgh')) {
 			return;
 		}
-		await domLoaded;
 
 		// Push onAjaxedPages on the next tick so it happens in the correct order
 		// (specifically for addOpenAllNotificationsButton)

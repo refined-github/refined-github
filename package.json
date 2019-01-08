@@ -20,7 +20,6 @@
 		"dom-chef": "^3.2.0",
 		"dom-loaded": "^1.0.1",
 		"element-ready": "^3.0.0",
-		"github-injection": "^1.0.1",
 		"github-reserved-names": "^1.1.4",
 		"intervalometer": "^1.0.4",
 		"linkify-issues": "^1.3.0",

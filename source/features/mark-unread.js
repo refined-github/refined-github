@@ -1,7 +1,6 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate';
-import domLoaded from 'dom-loaded';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
@@ -366,13 +365,11 @@ async function init() {
 			})
 		);
 	} else if (pageDetect.isPR() || pageDetect.isIssue()) {
-		await domLoaded;
 		await markRead(location.href);
 
 		// The sidebar changes when new comments are added or the issue status changes
 		observeEl('.discussion-sidebar', addMarkUnreadButton);
 	} else if (pageDetect.isIssueList()) {
-		await domLoaded;
 		for (const discussion of await getNotifications()) {
 			const {pathname} = new URL(discussion.url);
 			const listItem = select(`.read [href='${pathname}']`);
