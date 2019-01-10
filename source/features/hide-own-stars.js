@@ -11,5 +11,8 @@ export default function () {
 				item.style.display = 'none';
 			}
 		}
+	}, {
+		childList: true,
+		subtree: true
 	});
 }
