@@ -2,9 +2,17 @@ import {h} from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 import * as pageDetect from '../libs/page-detect';
+import {getUsername} from '../libs/utils';
 
 const removeProjectsTab = () => {
 	const projectsTab = select('.js-repo-nav [data-selected-links^="repo_projects"]');
+	const {ownerName} = pageDetect.getOwnerAndRepo();
+	const username = getUsername();
+
+	if (ownerName === username) {
+		return false;
+	}
+
 	if (projectsTab && projectsTab.querySelector('.Counter, .counter').textContent === '0') {
 		projectsTab.remove();
 		return true;
