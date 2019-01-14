@@ -5,7 +5,7 @@ import * as pageDetect from '../libs/page-detect';
 
 function updateStickiness() {
 	const sidebar = select('.discussion-sidebar');
-	const sidebarHeight = sidebar.offsetHeight + 25;
+	const sidebarHeight = sidebar.offsetHeight + 25 + 60; // Matches sticky header's height
 	sidebar.classList.toggle('rgh-sticky-sidebar', sidebarHeight < window.innerHeight);
 }
 
