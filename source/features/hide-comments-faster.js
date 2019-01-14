@@ -64,6 +64,6 @@ features.add({
 		features.isCommit,
 		features.isDiscussion
 	],
-	load: features.domLoaded,
+	load: features.domReady,
 	init
 });

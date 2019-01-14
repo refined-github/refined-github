@@ -112,6 +112,6 @@ function init() {
 
 features.add({
 	id: 'improve-shortcut-help',
-	load: features.domLoaded,
+	load: features.domReady,
 	init
 });

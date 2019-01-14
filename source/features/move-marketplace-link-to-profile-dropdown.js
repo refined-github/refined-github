@@ -18,6 +18,6 @@ features.add({
 	exclude: [
 		features.isGist
 	],
-	load: features.domLoaded,
+	load: features.domReady,
 	init
 });

@@ -1,6 +1,6 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import domLoaded from 'dom-loaded';
+import domReady from 'dom-loaded';
 import isPromise from 'p-is-promise';
 import OptionsSync from 'webext-options-sync';
 import onNewComments from './on-new-comments';
@@ -16,7 +16,7 @@ import {safeElementReady} from './utils';
  * change (e.g. to "unmount" a feature / listener) regardless of of *newness* of the page.
  */
 async function onAjaxedPagesRaw(callback) {
-	await domLoaded;
+	await domReady;
 	document.addEventListener('pjax:end', callback);
 	callback();
 }
@@ -159,7 +159,7 @@ const add = async definition => {
 export default {
 	...pageDetect,
 	add,
-	domLoaded,
+	domReady,
 	onNewComments,
 	onAjaxedPages,
 	onAjaxedPagesRaw
