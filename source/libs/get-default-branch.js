@@ -27,7 +27,7 @@ function parseBranchFromDom() {
 }
 
 async function fetchFromApi(user, repo) {
-	const response = await api.v3(`repos/${user}/${repo}`);
+	const response = await api.v4(`repos/${user}/${repo}`);
 	if (response && response.default_branch) {
 		return response.default_branch;
 	}
