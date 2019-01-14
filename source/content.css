@@ -1073,3 +1073,9 @@ body > .footer li a {
 	padding: 54px;
 	text-align: center;
 }
+
+/* Improve dropdown expansion animation (e.g. top-right dropdown in comments) */
+/* It normally pops in from the center */
+.dropdown-menu-sw {
+	transform-origin: 90% top;
+}
