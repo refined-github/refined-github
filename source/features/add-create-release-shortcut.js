@@ -12,7 +12,7 @@ function init() {
 
 features.add({
 	id: 'add-create-release-shortcut',
-	dependencies: [
+	include: [
 		features.isReleasesOrTags
 	],
 	load: features.onAjaxedPages,

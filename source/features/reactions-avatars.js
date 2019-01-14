@@ -73,7 +73,7 @@ function init() {
 
 features.add({
 	id: 'reactions-avatars',
-	dependencies: [
+	include: [
 		features.isPR,
 		features.isIssue,
 		features.isCommit,

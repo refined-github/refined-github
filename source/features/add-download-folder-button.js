@@ -17,11 +17,11 @@ function init() {
 
 features.add({
 	id: 'add-download-folder-button',
-	dependencies: [
-		features.and(
-			features.isRepoTree,
-			features.not(features.isRepoRoot) // Already has an native download ZIP button
-		)
+	include: [
+		features.isRepoTree
+	],
+	exclude: [
+		features.isRepoRoot // Already has an native download ZIP button
 	],
 	load: features.onAjaxedPages,
 	init

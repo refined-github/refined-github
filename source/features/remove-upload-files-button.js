@@ -12,7 +12,7 @@ function init() {
 
 features.add({
 	id: 'remove-upload-files-button',
-	dependencies: [
+	include: [
 		features.isRepoTree
 	],
 	load: features.domLoaded,

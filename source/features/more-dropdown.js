@@ -55,7 +55,7 @@ async function init() {
 
 features.add({
 	id: 'more-dropdown',
-	dependencies: [
+	include: [
 		features.isRepo
 	],
 	load: features.onAjaxedPages,

@@ -15,7 +15,7 @@ function init() {
 
 features.add({
 	id: 'sort-milestones-by-closest-due-date',
-	dependencies: [
+	include: [
 		features.isRepo
 	],
 	load: features.onAjaxedPages,

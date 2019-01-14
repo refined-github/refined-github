@@ -14,7 +14,7 @@ function init() {
 
 features.add({
 	id: 'mark-merge-commits-in-list',
-	dependencies: [
+	include: [
 		features.isCommitList
 	],
 	load: features.onAjaxedPages,

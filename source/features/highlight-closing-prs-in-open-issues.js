@@ -28,7 +28,7 @@ function init() {
 
 features.add({
 	id: 'highlight-closing-prs-in-open-issues',
-	dependencies: [
+	include: [
 		features.isPR,
 		features.isIssue
 	],

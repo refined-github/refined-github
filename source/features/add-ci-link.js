@@ -51,7 +51,7 @@ async function init() {
 
 features.add({
 	id: 'add-ci-link',
-	dependencies: [
+	include: [
 		features.isRepo
 	],
 	load: features.onAjaxedPages,

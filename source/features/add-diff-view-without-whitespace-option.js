@@ -46,7 +46,7 @@ function init() {
 
 features.add({
 	id: 'add-diff-view-without-whitespace-option',
-	dependencies: [
+	include: [
 		features.isRepo
 	],
 	load: features.onAjaxedPages,

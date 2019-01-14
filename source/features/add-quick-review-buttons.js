@@ -71,7 +71,7 @@ function init() {
 
 features.add({
 	id: 'add-quick-review-buttons',
-	dependencies: [
+	include: [
 		features.isPR
 	],
 	load: features.onAjaxedPages,

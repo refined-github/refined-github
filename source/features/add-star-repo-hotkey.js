@@ -13,7 +13,7 @@ function init() {
 
 features.add({
 	id: 'add-star-repo-hotkey',
-	dependencies: [
+	include: [
 		features.isRepo
 	],
 	load: features.onAjaxedPages,

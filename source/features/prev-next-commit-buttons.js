@@ -22,7 +22,7 @@ function init() {
 
 features.add({
 	id: 'prev-next-commit-buttons',
-	dependencies: [
+	include: [
 		features.isPRFiles,
 		features.isPRCommit
 	],

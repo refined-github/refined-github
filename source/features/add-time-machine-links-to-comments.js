@@ -29,7 +29,7 @@ function init() {
 
 features.add({
 	id: 'add-time-machine-links-to-comments',
-	dependencies: [
+	include: [
 		features.isPRConversation,
 		features.isIssue
 	],

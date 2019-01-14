@@ -25,7 +25,7 @@ function init() {
 
 features.add({
 	id: 'add-pull-request-hotkey',
-	dependencies: [
+	include: [
 		features.isPR
 	],
 	load: features.onAjaxedPages,

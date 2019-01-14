@@ -22,7 +22,7 @@ function init() {
 
 features.add({
 	id: 'add-filter-comments-by-you',
-	dependencies: [
+	include: [
 		features.isIssueList
 	],
 	load: features.onAjaxedPages,

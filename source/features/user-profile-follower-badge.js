@@ -20,11 +20,11 @@ async function init() {
 
 features.add({
 	id: 'user-profile-follower-badge',
-	dependencies: [
-		features.and(
-			features.isUserProfile,
-			features.not(features.isOwnUserProfile)
-		)
+	include: [
+		features.isUserProfile
+	],
+	exclude: [
+		features.isOwnUserProfile
 	],
 	load: features.onAjaxedPages,
 	init

@@ -22,7 +22,7 @@ function init() {
 
 features.add({
 	id: 'add-swap-branches-on-compare',
-	dependencies: [
+	include: [
 		features.isCompare
 	],
 	load: features.onAjaxedPages,

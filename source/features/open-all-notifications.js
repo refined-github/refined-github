@@ -97,7 +97,7 @@ function init() {
 
 features.add({
 	id: 'open-all-notifications',
-	dependencies: [
+	include: [
 		features.isNotifications
 	],
 	load: features.onAjaxedPages,

@@ -13,7 +13,7 @@ function init() {
 
 features.add({
 	id: 'set-default-repositories-type-to-sources',
-	dependencies: [
+	include: [
 		features.isUserProfile
 	],
 	load: features.onAjaxedPages,

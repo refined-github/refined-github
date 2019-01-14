@@ -17,7 +17,7 @@ function init() {
 
 features.add({
 	id: 'hide-own-stars',
-	dependencies: [
+	include: [
 		features.isDashboard
 	],
 	load: features.domLoaded,

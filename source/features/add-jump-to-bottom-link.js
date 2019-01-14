@@ -22,7 +22,7 @@ function init() {
 
 features.add({
 	id: 'add-jump-to-bottom-link',
-	dependencies: [
+	include: [
 		features.isIssue,
 		features.isPRConversation
 	],

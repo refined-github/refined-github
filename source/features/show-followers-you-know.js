@@ -49,11 +49,11 @@ async function init() {
 
 features.add({
 	id: 'show-followers-you-know',
-	dependencies: [
-		features.and(
-			features.isUserProfile,
-			features.not(features.isOwnUserProfile)
-		)
+	include: [
+		features.isUserProfile
+	],
+	exclude: [
+		features.isOwnUserProfile
 	],
 	load: features.onAjaxedPages,
 	init

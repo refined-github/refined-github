@@ -22,7 +22,7 @@ async function init() {
 
 features.add({
 	id: 'mark-private-orgs',
-	dependencies: [
+	include: [
 		features.isOwnUserProfile
 	],
 	load: features.onAjaxedPages,

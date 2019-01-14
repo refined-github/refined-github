@@ -12,7 +12,7 @@ function init() {
 
 features.add({
 	id: 'linkify-commit-sha',
-	dependencies: [
+	include: [
 		features.isPRCommit
 	],
 	load: features.onAjaxedPages,

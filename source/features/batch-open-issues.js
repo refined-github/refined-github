@@ -62,7 +62,7 @@ function init() {
 
 features.add({
 	id: 'batch-open-issues',
-	dependencies: [
+	include: [
 		features.isGlobalIssueSearch,
 		features.isGlobalPRSearch,
 		features.isIssueList

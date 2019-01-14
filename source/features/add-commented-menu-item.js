@@ -22,7 +22,7 @@ function init() {
 
 features.add({
 	id: 'add-commented-menu-item',
-	dependencies: [
+	include: [
 		features.isGlobalIssueSearch,
 		features.isGlobalPRSearch
 	],

@@ -62,7 +62,7 @@ function init() {
 
 features.add({
 	id: 'infinite-scroll',
-	dependencies: [
+	include: [
 		features.isDashboard
 	],
 	load: features.domLoaded,

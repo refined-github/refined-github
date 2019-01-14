@@ -63,7 +63,7 @@ function init() {
 
 features.add({
 	id: 'linkify-branch-refs',
-	dependencies: [
+	include: [
 		features.isPR,
 		features.isQuickPR
 	],

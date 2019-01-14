@@ -30,7 +30,7 @@ function init() {
 
 features.add({
 	id: 'add-toggle-files-button',
-	dependencies: [
+	include: [
 		features.isRepoTree
 	],
 	load: features.onAjaxedPages,

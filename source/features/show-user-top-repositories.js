@@ -20,7 +20,7 @@ function init() {
 
 features.add({
 	id: 'show-user-top-repositories',
-	dependencies: [
+	include: [
 		features.isUserProfile
 	],
 	load: features.onAjaxedPages,

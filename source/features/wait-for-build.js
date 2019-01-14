@@ -110,7 +110,7 @@ function init() {
 
 features.add({
 	id: 'wait-for-build',
-	dependencies: [
+	include: [
 		features.isPR
 	],
 	load: features.onAjaxedPages,

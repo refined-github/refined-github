@@ -71,8 +71,8 @@ const globalReady = new Promise(async resolve => {
 	resolve();
 });
 
-const run = async ({filename, dependencies, init, deinit}) => {
-	if (dependencies.length > 0 && dependencies.every(c => !c())) {
+const run = async ({filename, include, exclude, init, deinit}) => {
+	if (include.every(c => !c()) || exclude.some(c => c())) {
 		await deinit();
 		return;
 	}
@@ -99,17 +99,19 @@ const run = async ({filename, dependencies, init, deinit}) => {
  *
  * @param {object} definition Information about the feature
  * @param {string} definition.id  Must match the filename
- * @param {booleanFunction[]} [definition.dependencies]  Init is called if any of these is true
+ * @param {booleanFunction[]} [definition.include]  Init is called if any of these is true
+ * @param {booleanFunction[]} [definition.exclude]  Init is not called if any of these is true
  * @param {(callerFunction|Promise)} definition.load     Loading mechanism for the feature
  * @param {featureFunction}          definition.init     Function that runs the feature
- * @param {function}                 [definition.deinit] Function that's called when `dependencies` are all false
+ * @param {function}                 [definition.deinit] Function that's called none of the conditions match
  */
 const add = async definition => {
 	await globalReady;
 
 	const {
 		id: filename,
-		dependencies = [], // Default: On all pages
+		include = [() => true], // Default: On all pages
+		exclude = [], // Default: On all pages
 		load = fn => fn(), // Run it right away
 		init,
 		deinit = () => {}, // Noop
@@ -120,12 +122,12 @@ const add = async definition => {
 		throw new Error(`The function "${filename}" was initialized with invalid props: ${Object.keys(invalidProps).join(', ')}`);
 	}
 
-	if (dependencies.some(d => typeof d !== 'function')) {
-		throw new TypeError('Dependencies must be boolean-returning functions');
+	if ([...include, ...exclude].some(d => typeof d !== 'function')) {
+		throw new TypeError('include/exclude must be boolean-returning functions');
 	}
 
 	// 404 pages should only run 404-only features
-	if (pageDetect.is404() && !dependencies.includes(pageDetect.is404)) {
+	if (pageDetect.is404() && !include.includes(pageDetect.is404)) {
 		return;
 	}
 
@@ -134,7 +136,8 @@ const add = async definition => {
 		onAjaxedPages(async () => {
 			run({
 				filename,
-				dependencies,
+				include,
+				exclude,
 				deinit,
 				init: async () => {
 					await init();
@@ -144,9 +147,9 @@ const add = async definition => {
 		});
 	} else if (isPromise(load)) {
 		await load;
-		run({filename, dependencies, deinit, init});
+		run({filename, include, exclude, deinit, init});
 	} else {
-		load(() => run({filename, dependencies, deinit, init}));
+		load(() => run({filename, include, exclude, deinit, init}));
 	}
 };
 
@@ -156,9 +159,7 @@ export default {
 	domLoaded,
 	onNewComments,
 	onAjaxedPages,
-	onAjaxedPagesRaw,
-	and: (...fns) => () => fns.every(fn => fn()),
-	not: fn => () => !fn()
+	onAjaxedPagesRaw
 };
 
 /**

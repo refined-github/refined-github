@@ -18,7 +18,7 @@ function init() {
 
 features.add({
 	id: 'scroll-to-top-on-collapse',
-	dependencies: [
+	include: [
 		features.isPR
 	],
 	load: features.onAjaxedPages,

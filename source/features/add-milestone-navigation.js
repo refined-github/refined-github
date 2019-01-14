@@ -18,7 +18,7 @@ function init() {
 
 features.add({
 	id: 'add-milestone-navigation',
-	dependencies: [
+	include: [
 		features.isMilestone
 	],
 	load: features.onAjaxedPages,

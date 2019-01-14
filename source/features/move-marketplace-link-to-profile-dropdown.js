@@ -15,8 +15,8 @@ function init() {
 
 features.add({
 	id: 'move-marketplace-link-to-profile-dropdown',
-	dependencies: [
-		features.not(features.isGist)
+	exclude: [
+		features.isGist
 	],
 	load: features.domLoaded,
 	init

@@ -29,8 +29,8 @@ async function init() {
 
 features.add({
 	id: 'add-trending-menu-item',
-	dependencies: [
-		features.not(features.isGist)
+	exclude: [
+		features.isGist
 	],
 	init
 });

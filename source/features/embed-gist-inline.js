@@ -49,7 +49,7 @@ function init() {
 
 features.add({
 	id: 'embed-gist-inline',
-	dependencies: [
+	include: [
 		features.isPR,
 		features.isIssue
 	],

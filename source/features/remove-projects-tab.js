@@ -33,7 +33,7 @@ async function init() {
 
 features.add({
 	id: 'remove-projects-tab',
-	dependencies: [
+	include: [
 		features.isRepo
 	],
 	load: features.onAjaxedPages,

@@ -48,7 +48,7 @@ async function init() {
 
 features.add({
 	id: 'show-names',
-	dependencies: [
+	include: [
 		features.isPR,
 		features.isIssue,
 		features.isCommit,

@@ -18,7 +18,7 @@ function deinit() {
 
 features.add({
 	id: 'copy-on-y',
-	dependencies: [
+	include: [
 		features.isSingleFile
 	],
 	load: features.onAjaxedPagesRaw,

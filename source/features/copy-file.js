@@ -34,7 +34,7 @@ function init() {
 
 features.add({
 	id: 'copy-file',
-	dependencies: [
+	include: [
 		features.isSingleFile,
 		features.isGist
 	],

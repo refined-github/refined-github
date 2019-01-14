@@ -11,7 +11,7 @@ function init() {
 
 features.add({
 	id: 'open-ci-details-in-new-tab',
-	dependencies: [
+	include: [
 		features.isPR
 	],
 	load: features.onAjaxedPages,

@@ -47,7 +47,7 @@ function init() {
 
 features.add({
 	id: 'op-labels',
-	dependencies: [
+	include: [
 		features.isPRConversation,
 		features.isIssue
 	],

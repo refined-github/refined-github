@@ -61,7 +61,7 @@ async function init() {
 
 features.add({
 	id: 'add-releases-tab',
-	dependencies: [
+	include: [
 		features.isRepo
 	],
 	load: features.onAjaxedPages,

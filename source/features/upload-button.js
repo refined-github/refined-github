@@ -54,7 +54,7 @@ function init() {
 
 features.add({
 	id: 'upload-button',
-	dependencies: [
+	include: [
 		features.isPR,
 		features.isIssue,
 		features.isNewIssue,

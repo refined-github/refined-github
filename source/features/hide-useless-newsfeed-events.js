@@ -7,11 +7,11 @@ function init() {
 
 features.add({
 	id: 'hide-useless-newsfeed-events',
-	dependencies: [
-		features.and(
-			features.isDashboard,
-			features.not(features.isGist)
-		)
+	include: [
+		features.isDashboard
+	],
+	exclude: [
+		features.isGist
 	],
 	init
 });

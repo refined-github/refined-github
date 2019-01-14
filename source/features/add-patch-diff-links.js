@@ -21,7 +21,7 @@ function init() {
 
 features.add({
 	id: 'add-patch-diff-links',
-	dependencies: [
+	include: [
 		features.isCommit
 	],
 	load: features.onAjaxedPages,

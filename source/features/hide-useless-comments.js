@@ -55,7 +55,7 @@ function unhide(event) {
 
 features.add({
 	id: 'hide-useless-comments',
-	dependencies: [
+	include: [
 		features.isIssue
 	],
 	load: features.onAjaxedPages,

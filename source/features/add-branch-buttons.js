@@ -119,7 +119,7 @@ async function init() {
 
 features.add({
 	id: 'add-branch-buttons',
-	dependencies: [
+	include: [
 		features.isRepo
 	],
 	load: features.onAjaxedPages,

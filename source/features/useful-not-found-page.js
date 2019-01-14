@@ -108,7 +108,7 @@ function init() {
 
 features.add({
 	id: 'useful-not-found-page',
-	dependencies: [
+	include: [
 		features.is404
 	],
 	load: features.domLoaded,

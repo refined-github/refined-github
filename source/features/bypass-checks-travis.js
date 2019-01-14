@@ -27,7 +27,7 @@ async function bypass(check) {
 
 features.add({
 	id: 'bypass-checks-travis',
-	dependencies: [
+	include: [
 		features.isPRConversation
 	],
 	load: features.onAjaxedPages,

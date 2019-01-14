@@ -7,7 +7,7 @@ function init() {
 
 features.add({
 	id: 'hide-issue-list-autocomplete',
-	dependencies: [
+	include: [
 		features.isIssueList
 	],
 	load: features.onAjaxedPages,

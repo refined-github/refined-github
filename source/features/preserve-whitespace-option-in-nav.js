@@ -22,7 +22,7 @@ function init() {
 
 features.add({
 	id: 'preserve-whitespace-option-in-nav',
-	dependencies: [
+	include: [
 		features.isRepo
 	],
 	load: features.onAjaxedPages,

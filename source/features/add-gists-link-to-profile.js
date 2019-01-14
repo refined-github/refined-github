@@ -24,7 +24,7 @@ async function init() {
 
 features.add({
 	id: 'add-gists-link-to-profile',
-	dependencies: [
+	include: [
 		features.isUserProfile
 	],
 	load: features.onAjaxedPages,

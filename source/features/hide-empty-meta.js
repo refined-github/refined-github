@@ -10,7 +10,7 @@ function init() {
 
 features.add({
 	id: 'hide-empty-meta',
-	dependencies: [
+	include: [
 		features.isRepoRoot
 	],
 	load: features.onAjaxedPages,

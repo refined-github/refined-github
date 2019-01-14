@@ -154,7 +154,7 @@ function init() {
 
 features.add({
 	id: 'exclude-filter-shortcut',
-	dependencies: [
+	include: [
 		features.isIssueList
 	],
 	load: features.onAjaxedPages,

@@ -24,7 +24,7 @@ function init() {
 
 features.add({
 	id: 'add-delete-fork-link',
-	dependencies: [
+	include: [
 		features.isPRConversation
 	],
 	load: features.onNewComments,

@@ -31,7 +31,7 @@ async function init() {
 
 features.add({
 	id: 'show-recently-pushed-branches-on-more-pages',
-	dependencies: [
+	include: [
 		features.isPR,
 		features.isIssue,
 		features.isIssueList

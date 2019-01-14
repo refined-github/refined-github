@@ -20,7 +20,7 @@ function init() {
 
 features.add({
 	id: 'add-yours-menu-item',
-	dependencies: [
+	include: [
 		features.isGlobalIssueSearch,
 		features.isGlobalPRSearch
 	],
