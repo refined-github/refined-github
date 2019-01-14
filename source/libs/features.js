@@ -7,8 +7,6 @@ import onNewComments from './on-new-comments';
 import * as pageDetect from './page-detect';
 import {safeElementReady} from './utils';
 
-const options = new OptionsSync().getAll();
-
 /*
  * When navigating back and forth in history, GitHub will preserve the DOM changes;
  * This means that the old features will still be on the page and don't need to re-run.
@@ -29,17 +27,18 @@ function onAjaxedPages(callback) {
 		}
 	});
 }
+
 // Must be called after all the features were added to onAjaxedPages
 // to mark the current load as "done", so history.back() won't reapply the same DOM changes.
-// `setTimeout(fn, 0)` ensures this behavior
-setTimeout(() => {
-	onAjaxedPages(async () => {
-		await globalReady; // Match add() behavior to preserve the same order
-		const ajaxContainer = select('#js-repo-pjax-container,#js-pjax-container');
-		if (ajaxContainer) {
-			ajaxContainer.append(<has-rgh/>);
-		}
-	});
+// The two `await` ensure this behavior and order.
+onAjaxedPages(async () => {
+	await globalReady; // Match `add()`
+	await Promise.resolve(); // Kicks it to the next tick, after the other features have `run()`
+
+	const ajaxContainer = select('#js-repo-pjax-container,#js-pjax-container');
+	if (ajaxContainer) {
+		ajaxContainer.append(<has-rgh/>);
+	}
 });
 
 // Rule assumes we don't want to leave it pending:
@@ -63,33 +62,38 @@ const globalReady = new Promise(async resolve => {
 
 	document.documentElement.classList.add('refined-github');
 
-	const {customCSS = ''} = await options;
-	if (customCSS.trim().length > 0) {
-		document.head.append(<style>{customCSS}</style>);
+	// Options defaults
+	const options = Object.assign(
+		{
+			disabledFeatures: '',
+			customCSS: '',
+			logging: false
+		},
+		await new OptionsSync().getAll()
+	);
+
+	if (options.customCSS.trim().length > 0) {
+		document.head.append(<style>{options.customCSS}</style>);
 	}
 
-	resolve();
+	// Create logging function
+	options.log = options.logging ? console.log : () => {};
+
+	resolve(options);
 });
 
-const run = async ({filename, include, exclude, init, deinit}) => {
+const run = async ({filename, include, exclude, init, deinit, options: {log}}) => {
 	if (include.every(c => !c()) || exclude.some(c => c())) {
 		await deinit();
 		return;
 	}
-	const {disabledFeatures = '', logging = false} = await options;
-	const log = logging ? console.log : () => {};
 
-	if (disabledFeatures.includes(filename)) {
-		log('↩️', 'Skipping', filename);
-		return;
-	}
 	try {
 		// Features can return `false` if they declare themselves as not enabled
 		if (await init() !== false) {
 			log('✅', filename);
 		}
 	} catch (error) {
-		console.log('❌', filename);
 		console.error(error);
 	}
 };
@@ -106,7 +110,7 @@ const run = async ({filename, include, exclude, init, deinit}) => {
  * @param {function}                 [definition.deinit] Function that's called none of the conditions match
  */
 const add = async definition => {
-	await globalReady;
+	const options = await globalReady;
 
 	const {
 		id: filename,
@@ -117,6 +121,11 @@ const add = async definition => {
 		deinit = () => {}, // Noop
 		...invalidProps
 	} = definition;
+
+	if (options.disabledFeatures.includes(filename)) {
+		options.log('↩️', 'Skipping', filename);
+		return;
+	}
 
 	if (Object.keys(invalidProps).length > 0) {
 		throw new Error(`The function "${filename}" was initialized with invalid props: ${Object.keys(invalidProps).join(', ')}`);
@@ -132,24 +141,18 @@ const add = async definition => {
 	}
 
 	// Initialize the feature using the specified loading mechanism
+	const details = {filename, include, exclude, init, deinit, options};
 	if (load === onNewComments) {
-		onAjaxedPages(async () => {
-			run({
-				filename,
-				include,
-				exclude,
-				deinit,
-				init: async () => {
-					await init();
-					onNewComments(init);
-				}
-			});
-		});
+		details.init = async () => {
+			await init();
+			onNewComments(init);
+		};
+		onAjaxedPages(() => run(details));
 	} else if (isPromise(load)) {
 		await load;
-		run({filename, include, exclude, deinit, init});
+		run(details);
 	} else {
-		load(() => run({filename, include, exclude, deinit, init}));
+		load(() => run(details));
 	}
 };
 
