@@ -2,17 +2,15 @@ import {h} from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 import * as pageDetect from '../libs/page-detect';
-import {getUsername} from '../libs/utils';
 
 const removeProjectsTab = () => {
-	const projectsTab = select('.js-repo-nav [data-selected-links^="repo_projects"]');
-	const {ownerName} = pageDetect.getOwnerAndRepo();
-	const username = getUsername();
-
-	if (ownerName === username) {
+	// Only those who can create a project will see the 'Settings' tab
+	// so, do not remove the 'Projects' tab if the 'Settings' tab exists
+	if (select.exists('.js-repo-nav [data-selected-links^="repo_settings"]')) {
 		return false;
 	}
 
+	const projectsTab = select('.js-repo-nav [data-selected-links^="repo_projects"]');
 	if (projectsTab && projectsTab.querySelector('.Counter, .counter').textContent === '0') {
 		projectsTab.remove();
 		return true;
