@@ -15,7 +15,7 @@ export default async () => {
 	const link = <a href={href} class="UnderlineNav-item" role="tab" aria-selected="false">Gists </a>;
 	container.append(link);
 
-	const userData = await api.v3(`users/${username}`);
+	const userData = await api.v4(`users/${username}`);
 	if (userData.public_gists) {
 		link.append(<span class="Counter">{userData.public_gists}</span>);
 	}
