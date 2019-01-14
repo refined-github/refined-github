@@ -6,7 +6,7 @@ import * as api from '../libs/api';
 export default async function () {
 	const orgs = select.all('.avatar-group-item[data-hovercard-type="organization"]');
 	if (orgs.length > 0) {
-		let publicOrgs = await api.v3(`users/${getUsername()}/orgs`);
+		let publicOrgs = await api.v4(`users/${getUsername()}/orgs`);
 		publicOrgs = publicOrgs.map(orgData => `/${orgData.login}`);
 
 		for (const org of orgs) {
