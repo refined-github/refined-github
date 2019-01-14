@@ -11,7 +11,7 @@ export default async function () {
 		return;
 	}
 
-	const {status} = await api.v3(
+	const {status} = await api.v4(
 		`users/${getCleanPathname()}/following/${getUsername()}`,
 		{accept404: true}
 	);
