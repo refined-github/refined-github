@@ -1,12 +1,12 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
+import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 
 function add() {
 	const meta = select('.gh-header-meta > .TableObject-item--primary');
-	const jumpToBottomLink = select('#rgh-jump-to-bottom-link');
-	if (!meta || jumpToBottomLink) {
-		return;
+	if (!meta || select.exists('#rgh-jump-to-bottom-link')) {
+		return false;
 	}
 
 	meta.append(
@@ -15,7 +15,17 @@ function add() {
 	);
 }
 
-export default function () {
+function init() {
 	// The issue header changes when new comments are added or the issue status changes
 	observeEl('.js-issues-results', add);
 }
+
+features.add({
+	id: 'add-jump-to-bottom-link',
+	include: [
+		features.isIssue,
+		features.isPRConversation
+	],
+	load: features.onAjaxedPages,
+	init
+});

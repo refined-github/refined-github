@@ -1,14 +1,15 @@
 import select from 'select-dom';
+import features from '../libs/features';
 
 // When navigating with next/previous in review mode, preserve whitespace option.
-export default function () {
+function init() {
 	const navLinks = select.all('.commit > .BtnGroup.float-right > a.BtnGroup-item');
 	if (navLinks.length === 0) {
-		return;
+		return false;
 	}
 
-	const url = new URL(location.href);
-	const hidingWhitespace = url.searchParams.get('w') === '1';
+	const searchParams = new URLSearchParams(location.href);
+	const hidingWhitespace = searchParams.get('w') === '1';
 
 	if (hidingWhitespace) {
 		for (const a of navLinks) {
@@ -18,3 +19,12 @@ export default function () {
 		}
 	}
 }
+
+features.add({
+	id: 'preserve-whitespace-option-in-nav',
+	include: [
+		features.isRepo
+	],
+	load: features.onAjaxedPages,
+	init
+});

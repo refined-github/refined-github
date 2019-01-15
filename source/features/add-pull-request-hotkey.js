@@ -1,7 +1,8 @@
 import select from 'select-dom';
+import features from '../libs/features';
 import {registerShortcut} from './improve-shortcut-help';
 
-export default function () {
+function init() {
 	registerShortcut('pr', 'g 1', 'Go to Conversation');
 	registerShortcut('pr', 'g 2', 'Go to Commits');
 	registerShortcut('pr', 'g 3', 'Go to Checks');
@@ -21,3 +22,12 @@ export default function () {
 		tab.dataset.hotkey = keys;
 	}
 }
+
+features.add({
+	id: 'add-pull-request-hotkey',
+	include: [
+		features.isPR
+	],
+	load: features.onAjaxedPages,
+	init
+});

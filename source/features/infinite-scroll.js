@@ -1,13 +1,12 @@
 /*
 This feature adds infinite scrolling to:
 - News feed on the Dashboard
-- Contribution activities in a user profile
 */
 
 import select from 'select-dom';
 import debounce from 'debounce-fn';
+import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
-import {isDashboard, isUserProfile} from '../libs/page-detect';
 
 let btn;
 
@@ -26,6 +25,9 @@ const loadMore = debounce(() => {
 const inView = new IntersectionObserver(([{isIntersecting}]) => {
 	if (isIntersecting) {
 		loadMore();
+	} else {
+		// The button may have been changed after it's gone out of view, so try finding it again
+		findButton();
 	}
 }, {
 	rootMargin: '500px' // https://github.com/sindresorhus/refined-github/pull/505#issuecomment-309273098
@@ -47,17 +49,22 @@ const findButton = () => {
 	}
 };
 
-export default () => {
+function init() {
 	const form = select('.ajax-pagination-form');
 	if (form) {
 		// If GH hasn't loaded the JS,
 		// the fake click will submit the form without ajax.
 		form.addEventListener('submit', event => event.preventDefault());
 
-		if (isDashboard()) {
-			observeEl('#dashboard .news', findButton);
-		} else if (isUserProfile()) {
-			observeEl('#js-contribution-activity', findButton);
-		}
+		observeEl('#dashboard .news', findButton);
 	}
-};
+}
+
+features.add({
+	id: 'infinite-scroll',
+	include: [
+		features.isDashboard
+	],
+	load: features.onDomReady,
+	init
+});

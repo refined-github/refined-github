@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import delegate from 'delegate';
+import features from '../libs/features';
 
 const observer = new IntersectionObserver(([{intersectionRatio, target}]) => {
 	if (intersectionRatio === 0) {
@@ -14,7 +15,7 @@ const observer = new IntersectionObserver(([{intersectionRatio, target}]) => {
 	}
 });
 
-export default function () {
+function init() {
 	delegate('.dropdown-details, .js-menu-target', 'click', event => {
 		const button = event.delegateTarget;
 		const menu = button.closest('.select-menu, .dropdown, details');
@@ -26,3 +27,8 @@ export default function () {
 		}
 	});
 }
+
+features.add({
+	id: 'close-out-of-view-modals',
+	init
+});
