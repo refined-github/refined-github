@@ -83,7 +83,7 @@ import './features/set-default-repositories-type-to-sources';
 import './features/user-profile-follower-badge';
 import './features/mark-private-orgs';
 import './features/linkify-commit-sha';
-import './features/bypass-checks-travis';
+import './features/bypass-checks';
 
 // Add global for easier debugging
 window.select = select;
