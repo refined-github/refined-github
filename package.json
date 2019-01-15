@@ -51,6 +51,8 @@
 		"stylelint": "^9.6.0",
 		"stylelint-config-xo": "^0.12.0",
 		"terser-webpack-plugin": "^1.2.1",
+		"ts-loader": "^5.3.3",
+		"typescript": "^3.2.2",
 		"utc-version": "^1.1.0",
 		"web-ext-submit": "^2.9.2",
 		"webpack": "^4.28.3",

@@ -17,9 +17,14 @@ module.exports = () => ({
 	module: {
 		rules: [
 			{
-				test: /\.js$/,
+				test: /\.(js|ts)x?$/,
 				exclude: /node_modules/,
 				loader: 'babel-loader'
+			},
+			{
+				test: /\.(js|ts)x?$/,
+				use: 'ts-loader',
+				exclude: /node_modules/
 			}
 		]
 	},
@@ -35,6 +40,9 @@ module.exports = () => ({
 			}
 		])
 	],
+	resolve: {
+		extensions: ['.tsx', '.ts', '.js']
+	},
 	optimization: {
 		// Without this, function names will be garbled and enableFeature won't work
 		concatenateModules: true,
