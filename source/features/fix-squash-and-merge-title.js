@@ -1,9 +1,10 @@
 import select from 'select-dom';
+import features from '../libs/features';
 
-export default function () {
+function init() {
 	const btn = select('.merge-message .btn-group-squash [type=submit]');
 	if (!btn) {
-		return;
+		return false;
 	}
 	btn.addEventListener('click', () => {
 		const title = select('.js-issue-title').textContent;
@@ -11,3 +12,12 @@ export default function () {
 		select('#merge_title_field').value = `${title.trim()} (${number})`;
 	});
 }
+
+features.add({
+	id: 'fix-squash-and-merge-title',
+	include: [
+		features.isPR
+	],
+	load: features.onAjaxedPages,
+	init
+});

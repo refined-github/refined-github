@@ -1,4 +1,5 @@
 import select from 'select-dom';
+import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 
 function getDefaultQuery(link, search) {
@@ -23,7 +24,7 @@ function getDefaultQuery(link, search) {
 	return queries.join(' ');
 }
 
-export default function () {
+function init() {
 	// Get issues links that don't already have a specific sorting applied
 	for (const link of select.all(`
 		[href*="/issues"]:not([href*="sort%3A"]):not(.issues-reset-query),
@@ -45,3 +46,9 @@ export default function () {
 		link.pathname = link.pathname.replace(/issues\/?$/, 'pulls');
 	}
 }
+
+features.add({
+	id: 'sort-issues-by-update-time',
+	load: features.onAjaxedPages,
+	init
+});

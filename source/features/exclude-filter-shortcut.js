@@ -7,6 +7,7 @@ import {h} from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate';
 import * as icons from '../libs/icons';
+import features from '../libs/features';
 
 const getFilterName = item => {
 	return item
@@ -62,7 +63,7 @@ const getItemQuery = item => {
 const buildSearch = item => {
 	const itemQuery = getItemQuery(item);
 	if (!itemQuery) {
-		return;
+		return false;
 	}
 
 	const search = new URLSearchParams(location.search);
@@ -139,7 +140,7 @@ const updateFilterIcons = () => {
 	}
 };
 
-export default function () {
+function init() {
 	delegate('.table-list-filters', 'a.select-menu-item', 'click', visitNegatedQuery, false);
 
 	updateFilterIcons();
@@ -150,3 +151,12 @@ export default function () {
 		observer.observe(dropdown, {childList: true});
 	}
 }
+
+features.add({
+	id: 'exclude-filter-shortcut',
+	include: [
+		features.isIssueList
+	],
+	load: features.onAjaxedPages,
+	init
+});

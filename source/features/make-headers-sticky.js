@@ -1,6 +1,7 @@
 import select from 'select-dom';
+import features from '../libs/features';
 
-export default function () {
+function init() {
 	document.documentElement.classList.add('rgh-sticky-header');
 
 	// Flipping all tooltips inside all .file-header to their opposite direction
@@ -11,3 +12,12 @@ export default function () {
 		el.className = el.className.replace('tooltipped-n', 'tooltipped-s');
 	}
 }
+
+features.add({
+	id: 'make-headers-sticky',
+	include: [
+		// TODO: limit to fewer views
+	],
+	load: features.onAjaxedPages,
+	init
+});

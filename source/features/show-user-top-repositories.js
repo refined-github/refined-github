@@ -5,12 +5,24 @@ https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93
 
 import {h} from 'dom-chef';
 import select from 'select-dom';
+import features from '../libs/features';
 import {getCleanPathname} from '../libs/page-detect';
 
-export default function () {
+function init() {
 	const showcaseTitle = select('.js-pinned-repos-reorder-container .text-normal');
-	if (showcaseTitle) {
-		const url = `/search?o=desc&q=user%3A${getCleanPathname()}&s=stars&type=Repositories`;
-		showcaseTitle.firstChild.after(' / ', <a href={url}>Top repositories</a>);
+	if (!showcaseTitle) {
+		return false;
 	}
+
+	const url = `/search?o=desc&q=user%3A${getCleanPathname()}&s=stars&type=Repositories`;
+	showcaseTitle.firstChild.after(' / ', <a href={url}>Top repositories</a>);
 }
+
+features.add({
+	id: 'show-user-top-repositories',
+	include: [
+		features.isUserProfile
+	],
+	load: features.onAjaxedPages,
+	init
+});

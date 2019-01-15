@@ -10,6 +10,7 @@ import {h} from 'dom-chef';
 import select from 'select-dom';
 import debounce from 'debounce-fn';
 import {timerIntervalometer} from 'intervalometer';
+import features from '../libs/features';
 import {getUsername, flatZip} from '../libs/utils';
 
 const arbitraryAvatarLimit = 36;
@@ -54,7 +55,7 @@ function add() {
 	}
 }
 
-export default function () {
+function init() {
 	add();
 
 	// GitHub receives update messages via WebSocket, which seem to trigger
@@ -69,3 +70,15 @@ export default function () {
 		cancelInterval();
 	});
 }
+
+features.add({
+	id: 'reactions-avatars',
+	include: [
+		features.isPR,
+		features.isIssue,
+		features.isCommit,
+		features.isDiscussion
+	],
+	load: features.onAjaxedPages,
+	init
+});

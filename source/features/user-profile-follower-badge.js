@@ -1,21 +1,31 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import {getUsername} from '../libs/utils';
 import * as api from '../libs/api';
-import {getCleanPathname, isOwnUserProfile} from '../libs/page-detect';
+import features from '../libs/features';
+import {getUsername} from '../libs/utils';
+import {getCleanPathname} from '../libs/page-detect';
 
-export default async function () {
-	const badge = <div class="follower-badge">Follows you</div>;
-
-	if (isOwnUserProfile()) {
-		return;
-	}
-
+async function init() {
 	const {status} = await api.v3(
 		`users/${getCleanPathname()}/following/${getUsername()}`,
 		{accept404: true}
 	);
+
 	if (status === 204) {
-		select('.vcard-names-container.py-3.js-sticky.js-user-profile-sticky-fields').after(badge);
+		select('.vcard-names-container.py-3.js-sticky.js-user-profile-sticky-fields').after(
+			<div class="follower-badge">Follows you</div>
+		);
 	}
 }
+
+features.add({
+	id: 'user-profile-follower-badge',
+	include: [
+		features.isUserProfile
+	],
+	exclude: [
+		features.isOwnUserProfile
+	],
+	load: features.onAjaxedPages,
+	init
+});

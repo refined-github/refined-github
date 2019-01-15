@@ -1,18 +1,20 @@
 /* eslint-disable no-alert */
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate';
-import observeEl from '../libs/simplified-element-observer';
+import features from '../libs/features';
 import * as icons from '../libs/icons';
 import {groupButtons} from '../libs/group-buttons';
-import {safeOnAjaxedPages} from '../libs/utils';
-import {isNotifications} from '../libs/page-detect';
 
 const confirmationRequiredCount = 10;
 const unreadNotificationsClass = '.unread .js-notification-target';
 
-function openNotifications({delegateTarget}) {
-	const container = delegateTarget.closest('.boxed-group, .notification-center');
+function openNotifications({target}) {
+	// Homemade delegate event, simplifies addEventListener deduplication
+	if (!target.closest('.rgh-open-notifications-button')) {
+		return;
+	}
+
+	const container = target.closest('.boxed-group, .notification-center');
 
 	// Ask for confirmation
 	const unreadNotifications = select.all(unreadNotificationsClass, container);
@@ -77,28 +79,27 @@ function addOpenAllButton() {
 	}
 }
 
-function addMarkup() {
+function update() {
 	const unreadCount = select.all(unreadNotificationsClass).length;
 	if (unreadCount === 0) {
-		return;
+		return false;
 	}
 
 	addOpenAllButton();
 	addOpenReposButton();
 }
 
-export default function () {
-	if (!isNotifications()) {
-		return;
-	}
-
-	delegate('.rgh-open-notifications-button', 'click', openNotifications);
-
-	safeOnAjaxedPages(() => {
-		// Add support for Mark as Unread
-		observeEl(
-			select('.notifications-list') || select('.js-navigation-container'),
-			addMarkup
-		);
-	});
+function init() {
+	document.addEventListener('refined-github:mark-unread:notifications-added', update);
+	document.addEventListener('click', openNotifications);
+	update();
 }
+
+features.add({
+	id: 'open-all-notifications',
+	include: [
+		features.isNotifications
+	],
+	load: features.onAjaxedPages,
+	init
+});
