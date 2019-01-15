@@ -82,19 +82,19 @@ const globalReady = new Promise(async resolve => {
 	resolve(options);
 });
 
-const run = async ({filename, include, exclude, init, deinit, options: {log}}) => {
+const run = async ({id, include, exclude, init, deinit, options: {log}}) => {
+	// If every `include` is false and no exclude is true, don’t run the feature
 	if (include.every(c => !c()) || exclude.some(c => c())) {
-		await deinit();
-		return;
+		return deinit();
 	}
 
 	try {
 		// Features can return `false` if they declare themselves as not enabled
 		if (await init() !== false) {
-			log('✅', filename);
+			log('✅', id);
 		}
 	} catch (error) {
-		console.log('❌', filename);
+		console.log('❌', id);
 		console.error(error);
 	}
 };
@@ -103,7 +103,7 @@ const run = async ({filename, include, exclude, init, deinit, options: {log}}) =
  * Register a new feature
  *
  * @param {object} definition Information about the feature
- * @param {string} definition.id  Must match the filename
+ * @param {string} definition.id  Must match the file name (without .js)
  * @param {booleanFunction[]} [definition.include]  Init is called if any of these is true
  * @param {booleanFunction[]} [definition.exclude]  Init is not called if any of these is true
  * @param {(callerFunction|Promise)} definition.load     Loading mechanism for the feature
@@ -111,29 +111,30 @@ const run = async ({filename, include, exclude, init, deinit, options: {log}}) =
  * @param {function}                 [definition.deinit] Function that's called none of the conditions match
  */
 const add = async definition => {
-	const options = await globalReady;
-
+	/* Input defaults and validation */
 	const {
-		id: filename,
-		include = [() => true], // Default: On all pages
-		exclude = [], // Default: On all pages
+		id,
+		include = [() => true], // Default: every page
+		exclude = [], // Default: nothing
 		load = fn => fn(), // Run it right away
 		init,
 		deinit = () => {}, // Noop
 		...invalidProps
 	} = definition;
 
-	if (options.disabledFeatures.includes(filename)) {
-		options.log('↩️', 'Skipping', filename);
-		return;
-	}
-
 	if (Object.keys(invalidProps).length > 0) {
-		throw new Error(`The function "${filename}" was initialized with invalid props: ${Object.keys(invalidProps).join(', ')}`);
+		throw new Error(`${id} was added with invalid props: ${Object.keys(invalidProps).join(', ')}`);
 	}
 
 	if ([...include, ...exclude].some(d => typeof d !== 'function')) {
-		throw new TypeError('include/exclude must be boolean-returning functions');
+		throw new TypeError(`${id}: include/exclude must be boolean-returning functions`);
+	}
+
+	/* Feature filtering and running */
+	const options = await globalReady;
+	if (options.disabledFeatures.includes(id)) {
+		options.log('↩️', 'Skipping', id);
+		return;
 	}
 
 	// 404 pages should only run 404-only features
@@ -142,7 +143,7 @@ const add = async definition => {
 	}
 
 	// Initialize the feature using the specified loading mechanism
-	const details = {filename, include, exclude, init, deinit, options};
+	const details = {id, include, exclude, init, deinit, options};
 	if (load === onNewComments) {
 		details.init = async () => {
 			await init();
@@ -158,12 +159,17 @@ const add = async definition => {
 };
 
 export default {
-	...pageDetect,
+	// Module methods
 	add,
+
+	// Loading mechanisms
 	domReady,
 	onNewComments,
 	onAjaxedPages,
-	onAjaxedPagesRaw
+	onAjaxedPagesRaw,
+
+	// Loading filters
+	...pageDetect
 };
 
 /**
