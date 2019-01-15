@@ -45,7 +45,7 @@ function init() {
 }
 
 features.add({
-	id: 'add-diff-view-without-whitespace-option',
+	id: 'diff-view-without-whitespace-option',
 	include: [
 		features.isRepo
 	],

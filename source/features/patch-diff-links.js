@@ -20,7 +20,7 @@ function init() {
 }
 
 features.add({
-	id: 'add-patch-diff-links',
+	id: 'patch-diff-links',
 	include: [
 		features.isCommit
 	],

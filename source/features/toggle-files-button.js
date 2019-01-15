@@ -29,7 +29,7 @@ function init() {
 }
 
 features.add({
-	id: 'add-toggle-files-button',
+	id: 'toggle-files-button',
 	include: [
 		features.isRepoTree
 	],

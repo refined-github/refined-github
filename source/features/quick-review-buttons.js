@@ -70,7 +70,7 @@ function init() {
 }
 
 features.add({
-	id: 'add-quick-review-buttons',
+	id: 'quick-review-buttons',
 	include: [
 		features.isPR
 	],

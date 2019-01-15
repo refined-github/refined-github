@@ -24,7 +24,7 @@ function init() {
 }
 
 features.add({
-	id: 'add-pull-request-hotkey',
+	id: 'pull-request-hotkey',
 	include: [
 		features.isPR
 	],

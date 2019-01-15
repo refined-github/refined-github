@@ -20,6 +20,6 @@ function init() {
 }
 
 features.add({
-	id: 'add-selection-in-new-tab',
+	id: 'selection-in-new-tab',
 	init
 });

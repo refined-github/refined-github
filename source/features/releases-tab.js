@@ -60,7 +60,7 @@ async function init() {
 }
 
 features.add({
-	id: 'add-releases-tab',
+	id: 'releases-tab',
 	include: [
 		features.isRepo
 	],

@@ -17,7 +17,7 @@ function init() {
 }
 
 features.add({
-	id: 'add-milestone-navigation',
+	id: 'milestone-navigation',
 	include: [
 		features.isMilestone
 	],

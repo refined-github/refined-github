@@ -21,7 +21,7 @@ function init() {
 }
 
 features.add({
-	id: 'add-swap-branches-on-compare',
+	id: 'swap-branches-on-compare',
 	include: [
 		features.isCompare
 	],

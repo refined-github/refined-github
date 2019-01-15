@@ -16,7 +16,7 @@ function init() {
 }
 
 features.add({
-	id: 'add-download-folder-button',
+	id: 'download-folder-button',
 	include: [
 		features.isRepoTree
 	],
