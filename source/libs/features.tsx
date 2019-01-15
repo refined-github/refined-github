@@ -7,6 +7,26 @@ import onNewComments from './on-new-comments';
 import * as pageDetect from './page-detect';
 import {safeElementReady} from './utils';
 
+interface GlobalOptions {
+	disabledFeatures: string,
+	customCSS: string,
+	logging: boolean,
+	log?: (...args: any[]) => void
+}
+
+interface FeatureDetails {
+	id: string,
+	include?: Function[],
+	exclude?: Function[],
+	init: Function,
+	deinit?: Function,
+	load?: Function,
+}
+
+interface PrivateFeatureDetails extends FeatureDetails {
+	options: GlobalOptions
+}
+
 /*
  * When navigating back and forth in history, GitHub will preserve the DOM changes;
  * This means that the old features will still be on the page and don't need to re-run.
@@ -43,7 +63,7 @@ onAjaxedPages(async () => {
 
 // Rule assumes we don't want to leave it pending:
 // eslint-disable-next-line no-async-promise-executor
-const globalReady = new Promise(async resolve => {
+const globalReady: Promise<GlobalOptions> = new Promise(async resolve => {
 	await safeElementReady('body');
 
 	if (pageDetect.is500()) {
@@ -63,7 +83,7 @@ const globalReady = new Promise(async resolve => {
 	document.documentElement.classList.add('refined-github');
 
 	// Options defaults
-	const options = Object.assign(
+	const options: GlobalOptions = Object.assign(
 		{
 			disabledFeatures: '',
 			customCSS: '',
@@ -82,7 +102,7 @@ const globalReady = new Promise(async resolve => {
 	resolve(options);
 });
 
-const run = async ({id, include, exclude, init, deinit, options: {log}}) => {
+const run = async ({id, include, exclude, init, deinit, options: {log}}: PrivateFeatureDetails) => {
 	// If every `include` is false and no exclude is true, don’t run the feature
 	if (include.every(c => !c()) || exclude.some(c => c())) {
 		return deinit();
@@ -110,7 +130,7 @@ const run = async ({id, include, exclude, init, deinit, options: {log}}) => {
  * @param {featureFunction}          definition.init     Function that runs the feature
  * @param {function}                 [definition.deinit] Function that's called none of the conditions match
  */
-const add = async definition => {
+const add = async (definition: FeatureDetails) => {
 	/* Input defaults and validation */
 	const {
 		id,
@@ -143,7 +163,7 @@ const add = async definition => {
 	}
 
 	// Initialize the feature using the specified loading mechanism
-	const details = {id, include, exclude, init, deinit, options};
+	const details: PrivateFeatureDetails = {id, include, exclude, init, deinit, options};
 	if (load === onNewComments) {
 		details.init = async () => {
 			await init();
