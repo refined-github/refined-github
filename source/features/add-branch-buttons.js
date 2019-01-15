@@ -3,6 +3,7 @@ import select from 'select-dom';
 import compareVersions from 'tiny-version-compare';
 import * as api from '../libs/api';
 import * as icons from '../libs/icons';
+import features from '../libs/features';
 import {appendBefore} from '../libs/utils';
 import {groupSiblings} from '../libs/group-buttons';
 import getDefaultBranch from '../libs/get-default-branch';
@@ -90,10 +91,10 @@ async function getDefaultBranchLink() {
 	);
 }
 
-export default async function () {
+async function init() {
 	const container = select('.file-navigation');
 	if (!container) {
-		return;
+		return false;
 	}
 	const [defaultLink = '', tagLink = ''] = await Promise.all([
 		getDefaultBranchLink(),
@@ -115,3 +116,12 @@ export default async function () {
 		groupSiblings(wrapper.firstElementChild);
 	}
 }
+
+features.add({
+	id: 'add-branch-buttons',
+	include: [
+		features.isRepo
+	],
+	load: features.onAjaxedPages,
+	init
+});

@@ -1,7 +1,8 @@
 import select from 'select-dom';
 import delegate from 'delegate';
+import features from '../libs/features';
 
-export default () => {
+function init() {
 	const toolbar = select('.pr-toolbar');
 
 	delegate('.js-diff-progressive-container', '.file', 'details:toggled', ({target}) => {
@@ -13,4 +14,13 @@ export default () => {
 			window.scrollBy(0, elOffset - toolbarHeight);
 		}
 	});
-};
+}
+
+features.add({
+	id: 'scroll-to-top-on-collapse',
+	include: [
+		features.isPR
+	],
+	load: features.onAjaxedPages,
+	init
+});

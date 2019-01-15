@@ -1,6 +1,7 @@
 import select from 'select-dom';
+import features from '../libs/features';
 
-export default function () {
+function init() {
 	for (const a of select.all('a[href$="/milestones"], a[href*="/milestones?"]')) {
 		const url = new URL(a.href);
 		// Only if they aren't explicitly sorted differently
@@ -11,3 +12,12 @@ export default function () {
 		}
 	}
 }
+
+features.add({
+	id: 'sort-milestones-by-closest-due-date',
+	include: [
+		features.isRepo
+	],
+	load: features.onAjaxedPages,
+	init
+});

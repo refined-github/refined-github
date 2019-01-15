@@ -1,8 +1,8 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import domify from '../libs/domify';
+import features from '../libs/features';
 import {getCleanPathname} from '../libs/page-detect';
-import {getUsername} from '../libs/utils';
 
 const fetchStargazers = async () => {
 	const url = `${location.origin}/${getCleanPathname()}/followers/you_know`;
@@ -30,17 +30,14 @@ const renderAvatar = image => {
 	);
 };
 
-export default async () => {
-	if (getCleanPathname().startsWith(getUsername())) {
-		return;
-	}
+async function init() {
 	const container = select('[itemtype="http://schema.org/Person"]');
 	if (!container) {
-		return;
+		return false;
 	}
 	const stargazers = await fetchStargazers();
 	if (stargazers.length === 0) {
-		return;
+		return false;
 	}
 	container.append(
 		<div class="border-top py-3 clearfix">
@@ -48,4 +45,16 @@ export default async () => {
 			{stargazers.map(renderAvatar)}
 		</div>
 	);
-};
+}
+
+features.add({
+	id: 'show-followers-you-know',
+	include: [
+		features.isUserProfile
+	],
+	exclude: [
+		features.isOwnUserProfile
+	],
+	load: features.onAjaxedPages,
+	init
+});

@@ -1,13 +1,12 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import * as pageDetect from '../libs/page-detect';
+import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 
-export default function () {
-	const pageName = pageDetect.isGlobalIssueSearch() ? 'issues' : 'pulls';
+function init() {
 	const username = getUsername();
 
-	const yoursMenuItem = <a href={`/${pageName}?q=is%3Aopen+archived%3Afalse+is%3Aissue+user%3A${username}`} class="subnav-item">Yours</a>;
+	const yoursMenuItem = <a href={`${location.pathname}?q=is%3Aopen+archived%3Afalse+is%3Aissue+user%3A${username}`} class="subnav-item">Yours</a>;
 
 	if (!select.exists('.subnav-links .selected') && location.search.includes(`user%3A${username}`)) {
 		yoursMenuItem.classList.add('selected');
@@ -18,3 +17,13 @@ export default function () {
 
 	select('.subnav-links').append(yoursMenuItem);
 }
+
+features.add({
+	id: 'add-yours-menu-item',
+	include: [
+		features.isGlobalIssueSearch,
+		features.isGlobalPRSearch
+	],
+	load: features.onAjaxedPages,
+	init
+});

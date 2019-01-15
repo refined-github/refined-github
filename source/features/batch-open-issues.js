@@ -1,7 +1,7 @@
 /* eslint-disable no-alert */
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import * as pageDetect from '../libs/page-detect';
+import features from '../libs/features';
 
 const confirmationRequiredCount = 10;
 
@@ -28,12 +28,9 @@ function openIssues() {
 	});
 }
 
-export default function () {
-	if (!pageDetect.isGlobalIssueSearch() && !pageDetect.isGlobalPRSearch() && !pageDetect.isIssueList()) {
-		return;
-	}
+function init() {
 	if (select.all('.js-issue-row').length < 2) {
-		return;
+		return false;
 	}
 
 	const filtersBar = select('.table-list-header .table-list-header-toggle:not(.states)');
@@ -62,3 +59,14 @@ export default function () {
 		);
 	}
 }
+
+features.add({
+	id: 'batch-open-issues',
+	include: [
+		features.isGlobalIssueSearch,
+		features.isGlobalPRSearch,
+		features.isIssueList
+	],
+	load: features.onAjaxedPages,
+	init
+});

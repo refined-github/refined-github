@@ -2,10 +2,10 @@ import {h} from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate';
 import onetime from 'onetime';
-import * as icons from '../libs/icons';
-import * as pageDetect from '../libs/page-detect';
-import {metaKey, safeOnAjaxedPages} from '../libs/utils';
+import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
+import {metaKey} from '../libs/utils';
+import * as icons from '../libs/icons';
 
 function addButtons() {
 	for (const toolbar of select.all('form:not(.rgh-has-upload-field) markdown-toolbar')) {
@@ -42,17 +42,25 @@ function handleKeydown(event) {
 	}
 }
 
-function listen() {
+const listenOnce = onetime(() => {
 	delegate('.rgh-has-upload-field', 'keydown', handleKeydown);
 	delegate('.rgh-upload-btn', 'click', triggerUploadUI);
+});
+
+function init() {
+	addButtons();
+	listenOnce();
 }
 
-export default function () {
-	const listenOnce = onetime(listen);
-	safeOnAjaxedPages(() => {
-		if (pageDetect.isPR() || pageDetect.isIssue() || pageDetect.isNewIssue() || pageDetect.isCompare() || pageDetect.isCommit()) {
-			addButtons();
-			listenOnce();
-		}
-	});
-}
+features.add({
+	id: 'upload-button',
+	include: [
+		features.isPR,
+		features.isIssue,
+		features.isNewIssue,
+		features.isCompare,
+		features.isCommit
+	],
+	load: features.onAjaxedPages,
+	init
+});

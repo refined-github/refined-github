@@ -1,13 +1,14 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import {getCleanPathname, isEnterprise} from '../libs/page-detect';
 import * as api from '../libs/api';
+import features from '../libs/features';
+import {getCleanPathname, isEnterprise} from '../libs/page-detect';
 
-export default async () => {
+async function init() {
 	const container = select('body.page-profile .UnderlineNav-body');
 
 	if (!container) {
-		return;
+		return false;
 	}
 
 	const username = getCleanPathname();
@@ -19,4 +20,13 @@ export default async () => {
 	if (userData.public_gists) {
 		link.append(<span class="Counter">{userData.public_gists}</span>);
 	}
-};
+}
+
+features.add({
+	id: 'add-gists-link-to-profile',
+	include: [
+		features.isUserProfile
+	],
+	load: features.onAjaxedPages,
+	init
+});

@@ -1,10 +1,12 @@
-// Hide other users starring/forking your repos
-
+/*
+Hide other users starring/forking your repos
+*/
 import select from 'select-dom';
+import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 
 const observer = new MutationObserver(([{addedNodes}]) => {
-	// Remove events
+	// Remove events from dashboard
 	for (const item of select.all('#dashboard .news .watch_started, #dashboard .news .fork')) {
 		if (select(`a[href^="/${getUsername()}"]`, item)) {
 			item.style.display = 'none';
@@ -19,6 +21,15 @@ const observer = new MutationObserver(([{addedNodes}]) => {
 	}
 });
 
-export default function () {
+function init() {
 	observer.observe(select('#dashboard .news'), {childList: true});
 }
+
+features.add({
+	id: 'hide-own-stars',
+	include: [
+		features.isDashboard
+	],
+	load: features.onDomReady,
+	init
+});

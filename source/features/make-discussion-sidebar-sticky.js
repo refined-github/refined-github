@@ -1,7 +1,8 @@
+// TODO: update position to avoid overlap with new top bar
+// https://github.com/sindresorhus/refined-github/issues/1300#issuecomment-446856763
 import select from 'select-dom';
 import debounce from 'debounce-fn';
-import ghInjection from 'github-injection';
-import * as pageDetect from '../libs/page-detect';
+import features from '../libs/features';
 
 function updateStickiness() {
 	const sidebar = select('.discussion-sidebar');
@@ -11,13 +12,22 @@ function updateStickiness() {
 
 const handler = debounce(updateStickiness, {wait: 100});
 
-export default function () {
-	ghInjection(() => {
-		if (pageDetect.isIssue() || pageDetect.isPRConversation()) {
-			updateStickiness();
-			window.addEventListener('resize', handler);
-		} else {
-			window.removeEventListener('resize', handler);
-		}
-	});
+function init() {
+	updateStickiness();
+	window.addEventListener('resize', handler);
 }
+
+function deinit() {
+	window.removeEventListener('resize', handler);
+}
+
+features.add({
+	id: 'make-discussion-sidebar-sticky',
+	include: [
+		features.isIssue,
+		features.isPRConversation
+	],
+	load: features.onAjaxedPagesRaw,
+	init,
+	deinit
+});

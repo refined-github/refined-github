@@ -8,14 +8,15 @@ This feature also adds this widget to the Issues List, Issue page and PR page
 
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import * as pageDetect from '../libs/page-detect';
+import features from '../libs/features';
+import {getRepoURL} from '../libs/page-detect';
 
-const repoUrl = pageDetect.getRepoURL();
+const repoUrl = getRepoURL();
 
-export default async function () {
+async function init() {
 	const fragmentURL = `/${repoUrl}/show_partial?partial=tree%2Frecently_touched_branches_list`;
 	if (select.exists(`[data-url='${fragmentURL}'], [src='${fragmentURL}']`)) {
-		return;
+		return false;
 	}
 
 	const codeTabURL = select('[data-hotkey="g c"]').href;
@@ -27,3 +28,14 @@ export default async function () {
 		select('.repository-content').prepend(<include-fragment src={fragmentURL}></include-fragment>);
 	}
 }
+
+features.add({
+	id: 'show-recently-pushed-branches-on-more-pages',
+	include: [
+		features.isPR,
+		features.isIssue,
+		features.isIssueList
+	],
+	load: features.onAjaxedPages,
+	init
+});

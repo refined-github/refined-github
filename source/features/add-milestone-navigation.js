@@ -1,10 +1,11 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import * as pageDetect from '../libs/page-detect';
+import features from '../libs/features';
+import {getRepoURL} from '../libs/page-detect';
 
-const repoUrl = pageDetect.getRepoURL();
+const repoUrl = getRepoURL();
 
-export default function () {
+function init() {
 	select('.repository-content').before(
 		<div class="subnav">
 			<div class="subnav-links float-left" role="navigation">
@@ -14,3 +15,12 @@ export default function () {
 		</div>
 	);
 }
+
+features.add({
+	id: 'add-milestone-navigation',
+	include: [
+		features.isMilestone
+	],
+	load: features.onAjaxedPages,
+	init
+});
