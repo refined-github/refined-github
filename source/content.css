@@ -1080,3 +1080,8 @@ body > .footer li a {
 .dropdown-menu-sw {
 	transform-origin: 90% top;
 }
+
+/* Ensure popover has highest z-index */
+.Popover {
+	z-index: 100 !important;
+}
