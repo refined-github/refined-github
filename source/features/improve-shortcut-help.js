@@ -1,6 +1,7 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import domify from '../libs/domify';
+import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 import {isProject} from '../libs/page-detect';
 
@@ -96,7 +97,7 @@ function fixKeys() {
 	}
 }
 
-export default () => {
+function init() {
 	observeEl('#facebox', records => {
 		if ([...records].some(record => record.target.matches('.shortcuts') &&
 			[...record.removedNodes].some(element => element.matches('.facebox-loading')))) {
@@ -107,4 +108,10 @@ export default () => {
 		childList: true,
 		subtree: true
 	});
-};
+}
+
+features.add({
+	id: 'improve-shortcut-help',
+	load: features.onDomReady,
+	init
+});

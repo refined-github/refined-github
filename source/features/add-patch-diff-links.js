@@ -1,11 +1,12 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
-import * as pageDetect from '../libs/page-detect';
+import features from '../libs/features';
+import {isPRCommit} from '../libs/page-detect';
 
-export default function () {
+function init() {
 	let commitUrl = location.pathname.replace(/\/$/, '');
 
-	if (pageDetect.isPRCommit()) {
+	if (isPRCommit()) {
 		commitUrl = commitUrl.replace(/\/pull\/\d+\/commits/, '/commit');
 	}
 
@@ -17,3 +18,12 @@ export default function () {
 		</span>
 	);
 }
+
+features.add({
+	id: 'add-patch-diff-links',
+	include: [
+		features.isCommit
+	],
+	load: features.onAjaxedPages,
+	init
+});

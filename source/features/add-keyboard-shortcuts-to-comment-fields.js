@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import delegate from 'delegate';
+import features from '../libs/features';
 import indentTextarea from '../libs/indent-textarea';
 import {registerShortcut} from './improve-shortcut-help';
 
@@ -18,7 +19,7 @@ function blurAccessibly(field) {
 	focusHolder.remove();
 }
 
-export default function () {
+function init() {
 	registerShortcut('issues', '↑', 'Edit your last comment');
 
 	delegate('.js-comment-field', 'keydown', event => {
@@ -61,3 +62,8 @@ export default function () {
 		}
 	});
 }
+
+features.add({
+	id: 'add-keyboard-shortcuts-to-comment-fields',
+	init
+});

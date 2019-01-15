@@ -1,7 +1,8 @@
 import select from 'select-dom';
+import features from '../libs/features';
 import {registerShortcut} from './improve-shortcut-help';
 
-export default function () {
+function init() {
 	registerShortcut('repos', 'g s', 'Star and unstar repository');
 
 	// There are two buttons: unstar and star
@@ -9,3 +10,12 @@ export default function () {
 		button.setAttribute('data-hotkey', 'g s');
 	}
 }
+
+features.add({
+	id: 'add-star-repo-hotkey',
+	include: [
+		features.isRepo
+	],
+	load: features.onAjaxedPages,
+	init
+});

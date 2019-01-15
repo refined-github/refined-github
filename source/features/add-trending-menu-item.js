@@ -1,13 +1,14 @@
 import {h} from 'dom-chef';
-import * as pageDetect from '../libs/page-detect';
+import features from '../libs/features';
+import {isTrending} from '../libs/page-detect';
 import {safeElementReady} from '../libs/utils';
 import {registerShortcut} from './improve-shortcut-help';
 
-export default async function () {
-	const selectedClass = pageDetect.isTrending() ? 'selected' : '';
+async function init() {
+	const selectedClass = isTrending() ? 'selected' : '';
 	const issuesLink = await safeElementReady('.HeaderNavlink[href="/issues"], .header-nav-link[href="/issues"]');
 	if (!issuesLink) {
-		return;
+		return false;
 	}
 
 	issuesLink.parentNode.after(
@@ -18,10 +19,18 @@ export default async function () {
 	registerShortcut('site', 'g t', 'Go to Trending');
 
 	// Explore link highlights /trending urls by default, remove that behavior
-	if (pageDetect.isTrending()) {
+	if (isTrending()) {
 		const exploreLink = await safeElementReady('a[href="/explore"]');
 		if (exploreLink) {
 			exploreLink.classList.remove('selected');
 		}
 	}
 }
+
+features.add({
+	id: 'add-trending-menu-item',
+	exclude: [
+		features.isGist
+	],
+	init
+});
