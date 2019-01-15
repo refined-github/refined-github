@@ -118,7 +118,7 @@ async function init() {
 }
 
 features.add({
-	id: 'add-branch-buttons',
+	id: 'branch-buttons',
 	include: [
 		features.isRepo
 	],

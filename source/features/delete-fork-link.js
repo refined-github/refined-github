@@ -23,7 +23,7 @@ function init() {
 }
 
 features.add({
-	id: 'add-delete-fork-link',
+	id: 'delete-fork-link',
 	include: [
 		features.isPRConversation
 	],

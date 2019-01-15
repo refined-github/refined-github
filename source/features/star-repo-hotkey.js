@@ -12,7 +12,7 @@ function init() {
 }
 
 features.add({
-	id: 'add-star-repo-hotkey',
+	id: 'star-repo-hotkey',
 	include: [
 		features.isRepo
 	],

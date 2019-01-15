@@ -28,7 +28,7 @@ function init() {
 }
 
 features.add({
-	id: 'add-time-machine-links-to-comments',
+	id: 'comments-time-machine-links',
 	include: [
 		features.isPRConversation,
 		features.isIssue

@@ -19,7 +19,7 @@ function init() {
 }
 
 features.add({
-	id: 'add-yours-menu-item',
+	id: 'yours-menu-item',
 	include: [
 		features.isGlobalIssueSearch,
 		features.isGlobalPRSearch

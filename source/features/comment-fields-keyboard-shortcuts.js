@@ -64,6 +64,6 @@ function init() {
 }
 
 features.add({
-	id: 'add-keyboard-shortcuts-to-comment-fields',
+	id: 'comment-fields-keyboard-shortcuts',
 	init
 });

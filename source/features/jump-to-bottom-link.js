@@ -21,7 +21,7 @@ function init() {
 }
 
 features.add({
-	id: 'add-jump-to-bottom-link',
+	id: 'jump-to-bottom-link',
 	include: [
 		features.isIssue,
 		features.isPRConversation

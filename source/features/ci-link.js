@@ -50,7 +50,7 @@ async function init() {
 }
 
 features.add({
-	id: 'add-ci-link',
+	id: 'ci-link',
 	include: [
 		features.isRepo
 	],

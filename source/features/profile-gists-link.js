@@ -23,7 +23,7 @@ async function init() {
 }
 
 features.add({
-	id: 'add-gists-link-to-profile',
+	id: 'profile-gists-link',
 	include: [
 		features.isUserProfile
 	],
