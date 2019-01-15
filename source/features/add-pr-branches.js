@@ -8,6 +8,7 @@ The head branch is added when it's from the same repo or the PR is by the curren
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import * as api from '../libs/api';
+import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 import {getOwnerAndRepo} from '../libs/page-detect';
 import getDefaultBranch from '../libs/get-default-branch';
@@ -74,7 +75,7 @@ function createLink(ref) {
 	);
 }
 
-export default async function () {
+async function init() {
 	const {ownerName} = getOwnerAndRepo();
 	const elements = select.all('.js-issue-row');
 	const query = buildQuery(elements.map(pr => pr.id));
@@ -110,3 +111,12 @@ export default async function () {
 		);
 	}
 }
+
+features.add({
+	id: 'add-pr-branches',
+	include: [
+		features.isPRList
+	],
+	load: features.onAjaxedPages,
+	init
+});
