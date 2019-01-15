@@ -1038,6 +1038,7 @@ body > .footer li a {
 /* Make sidebar sticky */
 .rgh-sticky-sidebar {
 	position: sticky;
+	top: 60px;
 	z-index: 26 !important;
 }
 
