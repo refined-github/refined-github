@@ -9,7 +9,6 @@ import {h} from 'dom-chef';
 import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {getUsername} from '../libs/utils';
 import {getOwnerAndRepo} from '../libs/page-detect';
 import getDefaultBranch from '../libs/get-default-branch';
 
@@ -86,13 +85,12 @@ async function init() {
 
 	for (const PR of elements) {
 		let branches;
-		const author = select('[data-hovercard-type="user"]', PR).textContent;
 		let {base, head} = normalizeBranchInfo(data.repository[PR.id]);
 
 		if (base.label === defaultBranch) {
 			base = null;
 		}
-		if (head.owner !== ownerName && author !== getUsername()) {
+		if (head.owner !== ownerName) {
 			head = null;
 		}
 
