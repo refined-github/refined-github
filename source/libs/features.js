@@ -94,6 +94,7 @@ const run = async ({filename, include, exclude, init, deinit, options: {log}}) =
 			log('✅', filename);
 		}
 	} catch (error) {
+		console.log('❌', filename);
 		console.error(error);
 	}
 };
