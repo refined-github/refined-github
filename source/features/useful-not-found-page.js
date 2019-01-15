@@ -111,6 +111,6 @@ features.add({
 	include: [
 		features.is404
 	],
-	load: features.domReady,
+	load: features.onDomReady,
 	init
 });

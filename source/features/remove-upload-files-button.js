@@ -15,6 +15,6 @@ features.add({
 	include: [
 		features.isRepoTree
 	],
-	load: features.domReady,
+	load: features.onDomReady,
 	init
 });

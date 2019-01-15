@@ -12,6 +12,6 @@ function init() {
 
 features.add({
 	id: 'hide-readme-header',
-	load: features.domReady,
+	load: features.onDomReady,
 	init
 });
