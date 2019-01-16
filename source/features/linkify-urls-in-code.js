@@ -48,10 +48,7 @@ export const editTextNodes = (fn, el) => {
 };
 
 function init() {
-	const wrappers = select.all(`
-		.blob-wrapper:not(.${linkifiedURLClass}),
-		.comment-body:not(.${linkifiedURLClass})
-	`);
+	const wrappers = select.all(`:any(.blob-wrapper, .comment-body):not(.${linkifiedURLClass})`);
 
 	// Don't linkify any already linkified code
 	if (wrappers.length === 0) {

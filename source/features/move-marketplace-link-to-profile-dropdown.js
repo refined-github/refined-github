@@ -3,7 +3,7 @@ import select from 'select-dom';
 import features from '../libs/features';
 
 function init() {
-	const lastDivider = select.all('.user-nav .dropdown-divider').pop();
+	const lastDivider = select.last('.user-nav .dropdown-divider');
 	if (!lastDivider) {
 		return false;
 	}

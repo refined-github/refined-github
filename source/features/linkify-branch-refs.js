@@ -6,17 +6,17 @@ import * as pageDetect from '../libs/page-detect';
 
 function inPR() {
 	let deletedBranch = false;
-	const lastBranchAction = select.all(`
+	const lastBranchAction = select.last(`
 		.discussion-item-head_ref_deleted .commit-ref,
 		.discussion-item-head_ref_restored .commit-ref
-	`).pop();
+	`);
 	if (lastBranchAction && lastBranchAction.closest('.discussion-item-head_ref_deleted')) {
 		deletedBranch = lastBranchAction.textContent.trim();
 	}
 
 	// Find the URLs first, some elements don't have titles
 	const urls = new Map();
-	for (const el of select.all('.commit-ref[title], .base-ref[title], .head-ref[title]')) {
+	for (const el of select.all(':any(.commit-ref, .base-ref, .head-ref)[title]')) {
 		const [repo, branch] = el.title.split(':');
 		const branchName = el.textContent.trim();
 		urls.set(

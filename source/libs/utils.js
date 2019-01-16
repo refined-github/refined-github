@@ -98,9 +98,4 @@ export const isMac = /Mac/.test(window.navigator.platform);
 
 export const metaKey = isMac ? 'metaKey' : 'ctrlKey';
 
-export const anySelector = selector => {
-	const prefix = document.head.style.MozOrient === '' ? 'moz' : 'webkit';
-	return selector.replace(/:any\(/g, `:-${prefix}-any(`);
-};
-
 export const escapeForGql = string => '_' + string.replace(/[./-]/g, '_');

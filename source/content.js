@@ -1,5 +1,5 @@
-import select from 'select-dom';
 import 'webext-dynamic-content-scripts';
+import './libs/enhance-select-dom';
 
 import './features/useful-not-found-page';
 import './features/trending-menu-item';
@@ -84,6 +84,3 @@ import './features/user-profile-follower-badge';
 import './features/mark-private-orgs';
 import './features/linkify-commit-sha';
 import './features/bypass-checks';
-
-// Add global for easier debugging
-window.select = select;
