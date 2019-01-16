@@ -111,7 +111,7 @@ async function init() {
 }
 
 features.add({
-	id: 'add-pr-branches',
+	id: 'pr-branches',
 	include: [
 		features.isPRList
 	],
