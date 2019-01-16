@@ -1,18 +1,28 @@
+/*
+Hide other users starring/forking your repos
+*/
 import select from 'select-dom';
 import features from '../libs/features';
-import observeEl from '../libs/simplified-element-observer';
-import {getUsername} from '../libs/utils';
+import {getUsername, safeElementReady} from '../libs/utils';
 
-// Hide other users starring/forking your repos
-function init() {
-	const username = getUsername();
-	observeEl('#dashboard .news', () => {
-		for (const item of select.all('#dashboard .news .watch_started, #dashboard .news .fork')) {
-			if (select(`a[href^="/${username}"]`, item)) {
-				item.style.display = 'none';
-			}
+const observer = new MutationObserver(([{addedNodes}]) => {
+	// Remove events from dashboard
+	for (const item of select.all('#dashboard .news .watch_started, #dashboard .news .fork')) {
+		if (select(`a[href^="/${getUsername()}"]`, item)) {
+			item.style.display = 'none';
 		}
-	});
+	}
+
+	// Observe the new ajaxed-in containers
+	for (const node of addedNodes) {
+		if (node.tagName === 'DIV') {
+			observer.observe(node, {childList: true});
+		}
+	}
+});
+
+async function init() {
+	observer.observe(await safeElementReady('#dashboard .news'), {childList: true});
 }
 
 features.add({
@@ -20,6 +30,5 @@ features.add({
 	include: [
 		features.isDashboard
 	],
-	load: features.onDomReady,
 	init
 });
