@@ -47,6 +47,7 @@
 		"terser-webpack-plugin": "^1.2.1",
 		"ts-loader": "^5.3.3",
 		"typescript": "^3.2.2",
+		"typescript-eslint-parser": "^21.0.2",
 		"utc-version": "^1.1.0",
 		"web-ext-submit": "^2.9.2",
 		"webpack": "^4.28.3",
@@ -54,6 +55,7 @@
 		"xo": "^0.23.0"
 	},
 	"xo": {
+		"parser": "typescript-eslint-parser",
 		"envs": [
 			"browser"
 		],
@@ -75,6 +77,9 @@
 		"globals": [
 			"browser"
 		],
+		"parserOptions": {
+			"jsx": true
+		},
 		"settings": {
 			"import/resolver": {
 				"node": {
