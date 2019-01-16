@@ -1,7 +1,6 @@
 import {h} from 'dom-chef';
 import select from 'select-dom';
 import onDomReady from 'dom-loaded';
-import isPromise from 'p-is-promise';
 import OptionsSync from 'webext-options-sync';
 import onNewComments from './on-new-comments';
 import * as pageDetect from './page-detect';
@@ -125,7 +124,7 @@ const run = async ({id, include, exclude, init, deinit, options: {log}}: Private
 	}
 };
 
-/**
+/*
  * Register a new feature
  */
 const add = async (definition: FeatureDetails) => {
@@ -169,11 +168,11 @@ const add = async (definition: FeatureDetails) => {
 			return result;
 		};
 		onAjaxedPages(() => run(details));
-	} else if (isPromise(load)) {
+	} else if (load instanceof Promise) {
 		await load;
 		run(details);
 	} else {
-		(load as Function)(() => run(details));
+		load(() => run(details));
 	}
 };
 
