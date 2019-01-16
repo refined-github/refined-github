@@ -7,6 +7,12 @@ import onNewComments from './on-new-comments';
 import * as pageDetect from './page-detect';
 import {safeElementReady} from './utils';
 
+type BooleanFunction = () => boolean;
+type VoidFunction = () => void;
+type callerFunction = (callback: VoidFunction) => void;
+type featureFunction = () => boolean | void;
+type featurePromisedFunction = () => Promise<boolean | void>;
+
 interface GlobalOptions {
 	disabledFeatures: string,
 	customCSS: string,
@@ -16,11 +22,11 @@ interface GlobalOptions {
 
 interface FeatureDetails {
 	id: string,
-	include?: Function[],
-	exclude?: Function[],
-	init: Function,
+	include?: BooleanFunction[],
+	exclude?: BooleanFunction[],
+	init: featureFunction | featurePromisedFunction,
 	deinit?: Function,
-	load?: Function | Promise<void>,
+	load?: callerFunction | Promise<void>,
 }
 
 interface PrivateFeatureDetails extends FeatureDetails {
@@ -121,14 +127,6 @@ const run = async ({id, include, exclude, init, deinit, options: {log}}: Private
 
 /**
  * Register a new feature
- *
- * @param {object} definition Information about the feature
- * @param {string} definition.id  Must match the file name (without .js)
- * @param {booleanFunction[]} [definition.include]  Init is called if any of these is true
- * @param {booleanFunction[]} [definition.exclude]  Init is not called if any of these is true
- * @param {(callerFunction|Promise)} definition.load     Loading mechanism for the feature
- * @param {featureFunction}          definition.init     Function that runs the feature
- * @param {function}                 [definition.deinit] Function that's called none of the conditions match
  */
 const add = async (definition: FeatureDetails) => {
 	/* Input defaults and validation */
@@ -166,8 +164,9 @@ const add = async (definition: FeatureDetails) => {
 	const details: PrivateFeatureDetails = {id, include, exclude, init, deinit, options};
 	if (load === onNewComments) {
 		details.init = async () => {
-			await init();
+			const result = await init();
 			onNewComments(init);
+			return result;
 		};
 		onAjaxedPages(() => run(details));
 	} else if (isPromise(load)) {
@@ -191,17 +190,3 @@ export default {
 	// Loading filters
 	...pageDetect
 };
-
-/**
- * Local JSDoc function definitions
- *
- * @callback booleanFunction
- * @returns {boolean}
- *
- * @callback callerFunction
- * @param {function} callback Function to be called
- *
- * @callback featureFunction
- * @param {function} init Function that runs the feature
- * @returns {(boolean|undefined)}
- */
