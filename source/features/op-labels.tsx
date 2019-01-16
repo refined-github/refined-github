@@ -8,7 +8,7 @@ function init() {
 	let op;
 	if (isPR()) {
 		const titleRegex = /^(?:.+) by (\S+) · Pull Request #(\d+)/;
-		[, op] = titleRegex.exec(document.title) || [];
+		[, op = ''] = titleRegex.exec(document.title) || [];
 	} else {
 		op = select('.timeline-comment-header-text .author').textContent;
 	}

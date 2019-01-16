@@ -15,7 +15,7 @@ const observer = new MutationObserver(([{addedNodes}]) => {
 
 	// Observe the new ajaxed-in containers
 	for (const node of addedNodes) {
-		if (node.tagName === 'DIV') {
+		if ((node as Element).tagName === 'DIV') {
 			observer.observe(node, {childList: true});
 		}
 	}

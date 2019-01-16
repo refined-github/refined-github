@@ -36,7 +36,7 @@ async function init() {
 	);
 
 	for (const usernameEl of usernameElements) {
-		const {name} = names[escapeForGql(usernameEl.textContent)] || {};
+		const {name = ''} = names[escapeForGql(usernameEl.textContent)] || {};
 		if (name) {
 			// If it's a regular comment author, add it outside <strong>
 			// otherwise it's something like "User added some commits"

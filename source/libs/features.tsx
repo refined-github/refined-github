@@ -174,7 +174,7 @@ const add = async (definition: FeatureDetails) => {
 		await load;
 		run(details);
 	} else {
-		load(() => run(details));
+		(load as Function)(() => run(details));
 	}
 };
 

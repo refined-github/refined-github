@@ -1,12 +1,17 @@
 export default el => {
 	const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
-	const next = () => {
-		const value = walker.nextNode();
-		return {
-			value,
-			done: !value
-		};
-	};
-	walker[Symbol.iterator] = () => ({next});
-	return walker;
+	const nodes = [];
+	/**
+	 * @type ChildNode
+	 */
+	let node;
+
+	do {
+		node = walker.nextNode();
+		if (node) {
+			nodes.push(node);
+		}
+	} while (node);
+
+	return nodes;
 };

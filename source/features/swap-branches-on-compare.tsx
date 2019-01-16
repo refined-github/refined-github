@@ -5,7 +5,7 @@ import features from '../libs/features';
 import {getRepoPath, getRepoURL} from '../libs/page-detect';
 
 function init() {
-	const references = getRepoPath()
+	const references = (getRepoPath() as string)
 		.replace('compare/', '')
 		.split('...')
 		.reverse();

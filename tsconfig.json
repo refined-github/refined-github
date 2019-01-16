@@ -7,18 +7,9 @@
 		"jsxFactory": "h",
 		"sourceMap": true,
 		"target": "esnext",
-		"allowSyntheticDefaultImports": true, // Allow `import` of CJS modules
-		// Search under node_modules for non-relative imports.
-		// "moduleResolution": "node",
-		// Process & infer types from .js files.
+		"allowSyntheticDefaultImports": true,
+		"moduleResolution": "node",
 		"allowJs": true,
-		// // Don't emit; allow Babel to transform files.
-		// "noEmit": true,
-		// // Enable strictest settings like strictNullChecks & noImplicitAny.
-		// "strict": true,
-		// // Disallow features that require cross-file information for emit.
-		// "isolatedModules": true,
-		// // Import non-ES modules as default imports.
-		// "esModuleInterop": true
+		// "noEmit": true, // Useful when running `tsc` directly
 	},
 }

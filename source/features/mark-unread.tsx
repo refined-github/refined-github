@@ -237,7 +237,7 @@ function isSingleRepoPage() {
 }
 
 function isCurrentSingleRepoPage({repository}) {
-	const [, singleRepo] = /^[/](.+[/].+)[/]notifications/.exec(location.pathname) || [];
+	const [, singleRepo = ''] = /^[/](.+[/].+)[/]notifications/.exec(location.pathname) || [];
 	return singleRepo === repository;
 }
 

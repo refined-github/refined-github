@@ -13,7 +13,7 @@ function openIssues() {
 	const issues = select.all([
 		'#js-issues-toolbar.triage-mode + div [name="issues[]"]:checked', // Get checked checkboxes
 		'#js-issues-toolbar:not(.triage-mode) + div .js-issue-row' // Or all items
-	]);
+	].join(','));
 
 	if (
 		issues.length >= confirmationRequiredCount &&

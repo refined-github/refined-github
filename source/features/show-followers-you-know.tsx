@@ -14,7 +14,7 @@ const fetchStargazers = async () => {
 const avatarSize = 35;
 const renderAvatar = image => {
 	const src = new URL(image.src);
-	src.searchParams.set('s', avatarSize * window.devicePixelRatio);
+	src.searchParams.set('s', String(avatarSize * window.devicePixelRatio));
 	image.src = src;
 	image.width = avatarSize;
 	image.height = avatarSize;

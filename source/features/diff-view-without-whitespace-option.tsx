@@ -20,7 +20,7 @@ function init() {
 	if (hidingWhitespace) {
 		url.searchParams.delete('w');
 	} else {
-		url.searchParams.set('w', 1);
+		url.searchParams.set('w', '1');
 	}
 
 	container.after(
