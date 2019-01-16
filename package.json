@@ -68,7 +68,14 @@
 		},
 		"globals": [
 			"browser"
-		]
+		],
+		"settings": {
+			"import/resolver": {
+				"node": {
+					"extensions": [".js", ".jsx", ".ts", ".tsx"]
+				}
+			}
+		}
 	},
 	"ava": {
 		"files": [
