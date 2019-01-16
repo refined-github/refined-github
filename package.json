@@ -3,7 +3,7 @@
 	"scripts": {
 		"lint": "xo && stylelint source/*.css",
 		"lint-fix": "xo --fix; stylelint --fix source/*.css",
-		"test": "npm run lint && cross-env BABEL_ENV=testing ava && run-s build",
+		"test": "npm run lint && ava && run-s build",
 		"build": "webpack --mode=production",
 		"watch": "webpack --mode=development --watch",
 		"release:amo": "cd distribution && web-ext-submit",
@@ -37,16 +37,13 @@
 	},
 	"devDependencies": {
 		"@babel/core": "^7.2.2",
-		"@babel/plugin-transform-modules-commonjs": "^7.0.0",
 		"@babel/plugin-transform-react-jsx": "^7.0.0",
-		"@babel/register": "^7.0.0",
 		"ava": "^1.0.1",
-		"babel-eslint": "^10.0.1",
 		"babel-loader": "^8.0.0",
 		"chrome-webstore-upload-cli": "^1.2.0",
 		"copy-webpack-plugin": "^4.5.1",
-		"cross-env": "^5.1.6",
 		"dot-json": "^1.0.4",
+		"esm": "^3.0.84",
 		"npm-run-all": "^4.1.3",
 		"stylelint": "^9.6.0",
 		"stylelint-config-xo": "^0.12.0",
@@ -60,7 +57,6 @@
 		"xo": "^0.23.0"
 	},
 	"xo": {
-		"parser": "babel-eslint",
 		"envs": [
 			"browser"
 		],
@@ -82,7 +78,7 @@
 			"test/*.js"
 		],
 		"require": [
-			"@babel/register"
+			"esm"
 		]
 	},
 	"babel": {
@@ -94,14 +90,7 @@
 					"useBuiltIns": true
 				}
 			]
-		],
-		"env": {
-			"testing": {
-				"plugins": [
-					"@babel/plugin-transform-modules-commonjs"
-				]
-			}
-		}
+		]
 	},
 	"stylelint": {
 		"extends": "stylelint-config-xo",
