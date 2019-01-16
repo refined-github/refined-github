@@ -3,9 +3,9 @@
 		"source"
 	],
 	"compilerOptions": {
-		"jsx": "preserve",
+		"jsx": "react",
+		"jsxFactory": "h",
 		"sourceMap": true,
-		// Target latest version of ECMAScript.
 		"target": "esnext",
 		"allowSyntheticDefaultImports": true, // Allow `import` of CJS modules
 		// Search under node_modules for non-relative imports.

@@ -18,11 +18,6 @@ module.exports = () => ({
 		rules: [
 			{
 				test: /\.(js|ts)x?$/,
-				exclude: /node_modules/,
-				loader: 'babel-loader'
-			},
-			{
-				test: /\.(js|ts)x?$/,
 				use: 'ts-loader',
 				exclude: /node_modules/
 			}
