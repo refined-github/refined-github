@@ -35,7 +35,7 @@ export class RefinedGitHubAPIError extends Error {
 	}
 }
 
-const api = location.hostname === 'github.com' ? 'https://api.github.com/' : `${location.origin}/api/`;
+const api = location.hostname === 'github.com' ? 'https://api.github.com/' : `${location.origin}/api/V3/`;
 const cache = new Map();
 
 function fetch3(query, personalToken) {
