@@ -34,7 +34,8 @@ features.add({
 	include: [
 		features.isPR,
 		features.isIssue,
-		features.isIssueList
+		features.isIssueList,
+		features.isCompare
 	],
 	load: features.onAjaxedPages,
 	init
