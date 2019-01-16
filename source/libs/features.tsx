@@ -20,7 +20,7 @@ interface FeatureDetails {
 	exclude?: Function[],
 	init: Function,
 	deinit?: Function,
-	load?: Function,
+	load?: Function | Promise<void>,
 }
 
 interface PrivateFeatureDetails extends FeatureDetails {
