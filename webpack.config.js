@@ -36,7 +36,11 @@ module.exports = () => ({
 		])
 	],
 	resolve: {
-		extensions: ['.tsx', '.ts', '.js']
+		extensions: [
+			'.tsx',
+			'.ts',
+			'.js'
+		]
 	},
 	optimization: {
 		// Without this, function names will be garbled and enableFeature won't work
