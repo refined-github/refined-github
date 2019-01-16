@@ -2,7 +2,7 @@ import select from 'select-dom';
 import observeEl from './simplified-element-observer';
 
 function getLastCommit() {
-	return select.last('.timeline-commits .commit-id').textContent;
+	return select.all('.timeline-commits .commit-id').pop().textContent;
 }
 
 export const SUCCESS = Symbol('Success');

@@ -81,7 +81,7 @@ async function markUnread() {
 		state = 'closed';
 	}
 
-	const lastCommentTime = select.last('.timeline-comment-header relative-time');
+	const lastCommentTime = select.all('.timeline-comment-header relative-time').pop();
 	const unreadNotifications = await getNotifications();
 
 	unreadNotifications.push({

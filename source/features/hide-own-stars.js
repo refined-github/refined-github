@@ -1,6 +1,5 @@
 import select from 'select-dom';
 import features from '../libs/features';
-// update this after the PR is marged
 import observeEl from '../libs/simplified-element-observer';
 import {getUsername} from '../libs/utils';
 

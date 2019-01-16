@@ -8,12 +8,12 @@ function init() {
 		return false;
 	}
 
-	const lastActionRef = select.last(`
+	const lastActionRef = select.all(`
 		.discussion-item-closed [href*="/pull/"],
 		.discussion-item-closed code,
 		.discussion-item-reopened,
 		.discussion-item-merged [href*="/commit/"]
-	`);
+	`).pop();
 
 	// Leave if it was never closed or if it was reopened
 	if (!lastActionRef || lastActionRef.matches('.discussion-item-reopened')) {
