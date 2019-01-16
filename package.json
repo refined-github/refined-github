@@ -57,6 +57,12 @@
 		"envs": [
 			"browser"
 		],
+		"extensions": [
+			"js",
+			"jsx",
+			"ts",
+			"tsx"
+		],
 		"rules": {
 			"import/no-unassigned-import": "off",
 			"no-unused-vars": [
