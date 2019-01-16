@@ -3,7 +3,7 @@
 	"scripts": {
 		"lint": "xo && stylelint source/*.css",
 		"lint-fix": "xo --fix; stylelint --fix source/*.css",
-		"test": "run-s build",
+		"test": "npm run lint && ava && run-s build",
 		"build": "webpack --mode=production",
 		"watch": "webpack --mode=development --watch",
 		"release:amo": "cd distribution && web-ext-submit",
