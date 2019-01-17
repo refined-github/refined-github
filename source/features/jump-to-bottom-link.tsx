@@ -1,4 +1,4 @@
-import {h} from 'dom-chef';
+import {React} from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';

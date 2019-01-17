@@ -6,7 +6,7 @@ https://blog.github.com/changelog/2018-08-14-quickly-create-a-new-pull-request-f
 This feature also adds this widget to the Issues List, Issue page and PR page
 */
 
-import {h} from 'dom-chef';
+import {React} from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 import {getRepoURL} from '../libs/page-detect';

@@ -1,4 +1,4 @@
-import {h} from 'dom-chef';
+import {React} from 'dom-chef';
 import select from 'select-dom';
 import * as icons from '../libs/icons';
 import features from '../libs/features';

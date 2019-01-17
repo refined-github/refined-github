@@ -5,7 +5,7 @@ The base branch is added when it's not the repo's default branch.
 The head branch is added when it's from the same repo or the PR is by the current user.
 */
 
-import {h} from 'dom-chef';
+import {React} from 'dom-chef';
 import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
@@ -15,14 +15,14 @@ import getDefaultBranch from '../libs/get-default-branch';
 function normalizeBranchInfo(data) {
 	const {ownerName, repoName} = getOwnerAndRepo();
 
-	const base = {};
+	const base: AnyObject = {};
 	base.branchExists = Boolean(data.baseRef);
 	base.label = data.baseRefName;
 	if (base.branchExists) {
 		base.url = `/${ownerName}/${repoName}/tree/${data.baseRefName}`;
 	}
 
-	const head = {};
+	const head: AnyObject = {};
 	head.branchExists = Boolean(data.headRef);
 	head.owner = data.headOwner.login;
 	if (!data.headOwner || data.headOwner.login === ownerName) {

@@ -1,4 +1,4 @@
-import {h} from 'dom-chef';
+import {React} from 'dom-chef';
 import select from 'select-dom';
 import compareVersions from 'tiny-version-compare';
 import * as api from '../libs/api';

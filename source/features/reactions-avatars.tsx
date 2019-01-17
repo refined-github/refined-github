@@ -6,7 +6,7 @@ https://github.com/babel/babel/pull/3646
 https://github.com/dominictarr/event-stream/issues/116
 */
 
-import {h} from 'dom-chef';
+import {React} from 'dom-chef';
 import select from 'select-dom';
 import debounce from 'debounce-fn';
 import {timerIntervalometer} from 'intervalometer';

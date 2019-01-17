@@ -1,4 +1,4 @@
-import {h} from 'dom-chef';
+import {React} from 'dom-chef';
 import features from '../libs/features';
 import {isTrending} from '../libs/page-detect';
 import {safeElementReady} from '../libs/utils';

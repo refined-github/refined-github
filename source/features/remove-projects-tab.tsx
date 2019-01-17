@@ -1,4 +1,4 @@
-import {h} from 'dom-chef';
+import {React} from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 import features from '../libs/features';

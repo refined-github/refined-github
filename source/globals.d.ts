@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
-declare const browser: { [x: string]: any };
+declare const browser: AnyObject;
 
-type AnyElement = Element | HTMLAnchorElement;
+type AnyObject = {[key: string]: any};
 
 declare module 'select-dom' {
 	import 'select-dom';
