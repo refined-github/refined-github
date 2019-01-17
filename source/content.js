@@ -81,6 +81,7 @@ import './features/show-followers-you-know';
 import './features/show-user-top-repositories';
 import './features/set-default-repositories-type-to-sources';
 import './features/user-profile-follower-badge';
+import './features/pr-branches';
 import './features/mark-private-orgs';
 import './features/linkify-commit-sha';
 import './features/bypass-checks';

@@ -74,6 +74,8 @@ export const isNotifications = () => /^([^/]+[/][^/]+\/)?notifications/.test(get
 
 export const isProject = () => /^projects\/\d+/.test(getRepoPath());
 
+export const isPRList = () => getRepoPath() === 'pulls';
+
 export const isPR = () => /^pull\/\d+/.test(getRepoPath());
 
 export const isPRConversation = () => /^pull\/\d+$/.test(getRepoPath());
