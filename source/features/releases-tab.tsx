@@ -12,7 +12,6 @@ import * as icons from '../libs/icons';
 import * as cache from '../libs/cache';
 import * as pageDetect from '../libs/page-detect';
 import {safeElementReady} from '../libs/utils';
-import {registerShortcut} from './improve-shortcut-help';
 
 const repoUrl = pageDetect.getRepoURL();
 const repoKey = `releases-count:${repoUrl}`;
@@ -47,8 +46,6 @@ async function init() {
 	);
 	select('.reponav-dropdown').before(releasesTab);
 
-	registerShortcut('repos', 'g r', 'Go to Releases');
-
 	if (pageDetect.isReleasesOrTags()) {
 		const selected = select('.reponav-item.selected');
 		if (selected) {
@@ -65,5 +62,8 @@ features.add({
 		features.isRepo
 	],
 	load: features.onAjaxedPages,
+	shortcuts: {
+		'g r': 'Go to Releases'
+	},
 	init
 });

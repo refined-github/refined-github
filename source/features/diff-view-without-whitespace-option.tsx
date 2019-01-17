@@ -2,7 +2,6 @@ import {React} from 'dom-chef/react';
 import select from 'select-dom';
 import * as icons from '../libs/icons';
 import features from '../libs/features';
-import {registerShortcut} from './improve-shortcut-help';
 
 function init() {
 	const container = select([
@@ -35,7 +34,6 @@ function init() {
 			</a>
 		</div>
 	);
-	registerShortcut('source', 'd w', 'Show/hide whitespaces in diffs');
 
 	// Make space for the new button by removing "Changes from" #655
 	const uselessCopy = select('[data-hotkey="c"]');
@@ -50,5 +48,8 @@ features.add({
 		features.isRepo
 	],
 	load: features.onAjaxedPages,
+	shortcuts: {
+		'd w': 'Show/hide whitespaces in diffs'
+	},
 	init
 });

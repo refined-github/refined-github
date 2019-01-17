@@ -2,7 +2,6 @@ import {React} from 'dom-chef/react';
 import features from '../libs/features';
 import {isTrending} from '../libs/page-detect';
 import {safeElementReady} from '../libs/utils';
-import {registerShortcut} from './improve-shortcut-help';
 
 async function init() {
 	const selectedClass = isTrending() ? 'selected' : '';
@@ -16,7 +15,6 @@ async function init() {
 			<a href="/trending" class={`js-selected-navigation-item HeaderNavlink px-lg-2 py-2 py-lg-0 ${selectedClass}`} data-hotkey="g t">Trending</a>
 		</li>
 	);
-	registerShortcut('site', 'g t', 'Go to Trending');
 
 	// Explore link highlights /trending urls by default, remove that behavior
 	if (isTrending()) {
@@ -32,5 +30,8 @@ features.add({
 	exclude: [
 		features.isGist
 	],
+	shortcuts: {
+		'g t': 'Go to Trending'
+	},
 	init
 });
