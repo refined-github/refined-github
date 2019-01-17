@@ -17,9 +17,9 @@ module.exports = () => ({
 	module: {
 		rules: [
 			{
-				test: /\.js$/,
-				exclude: /node_modules/,
-				loader: 'babel-loader'
+				test: /\.(js|ts|tsx)$/,
+				use: 'ts-loader',
+				exclude: /node_modules/
 			}
 		]
 	},
@@ -28,13 +28,23 @@ module.exports = () => ({
 			{
 				from: '*',
 				context: 'source',
-				ignore: '*.js'
+				ignore: [
+					'*.js',
+					'*.tsx'
+				]
 			},
 			{
 				from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js'
 			}
 		])
 	],
+	resolve: {
+		extensions: [
+			'.tsx',
+			'.ts',
+			'.js'
+		]
+	},
 	optimization: {
 		// Without this, function names will be garbled and enableFeature won't work
 		concatenateModules: true,

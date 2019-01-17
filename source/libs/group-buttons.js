@@ -1,4 +1,4 @@
-import {h} from 'dom-chef';
+import {React} from 'dom-chef/react';
 import {wrapAll} from './utils';
 
 // Wrap a list of elements with BtnGroup + ensure each has BtnGroup-item
