@@ -4,18 +4,6 @@ import domify from '../libs/domify';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 
-const shortcuts = new Map();
-
-/**
- * Registers a new shortcut to be displayed in the shortcut help modal.
- * @param {String} groupId The ID of the group as defined in the `groups` map.
- * @param {String} hotkey The hotkey with keys separated by spaces.
- * @param {String} description What the shortcut does.
- */
-export function registerShortcut(groupId, hotkey, description) {
-	shortcuts.set(hotkey, {groupId, hotkey, description});
-}
-
 function splitKeys(keys) {
 	return keys.replace(/\S+/g, '<kbd>$&</kbd>');
 }
@@ -37,7 +25,7 @@ function improveShortcutHelp(dialog) {
 			</div>
 
 			<ul>
-				{[...shortcuts.values()].map(({hotkey, description}) => (
+				{features.getShortcuts().map(({hotkey, description}) => (
 					<li class="Box-row d-flex flex-row">
 						<div class="flex-auto">{description}</div>
 						<div class="ml-2 no-wrap">
