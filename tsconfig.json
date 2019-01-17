@@ -1,7 +1,6 @@
 {
 	"extends": "@sindresorhus/tsconfig",
 	"compilerOptions": {
-		"jsx": "react",
 		"target": "esnext",
 		// "noEmit": true, // Useful when running `tsc` directly
 

@@ -35,7 +35,7 @@
 		"webextension-polyfill": "^0.3.1"
 	},
 	"devDependencies": {
-		"@sindresorhus/tsconfig": "^0.1.1",
+		"@sindresorhus/tsconfig": "^0.2.0",
 		"ava": "^1.0.1",
 		"chrome-webstore-upload-cli": "^1.2.0",
 		"copy-webpack-plugin": "^4.5.1",
