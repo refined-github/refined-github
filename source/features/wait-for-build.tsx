@@ -1,4 +1,4 @@
-import {React} from 'dom-chef';
+import {React} from 'dom-chef/react';
 import select from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate';

@@ -1,5 +1,5 @@
 /* eslint-disable no-alert */
-import {React} from 'dom-chef';
+import {React} from 'dom-chef/react';
 import select from 'select-dom';
 import features from '../libs/features';
 

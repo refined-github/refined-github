@@ -3,7 +3,7 @@ Exclude PR/issue filters from their list with <kbd>alt</kbd> <kbd>click</kbd>.
 https://user-images.githubusercontent.com/1402241/48470535-493cfb00-e824-11e8-863a-964f52b62553.png
 */
 
-import {React} from 'dom-chef';
+import {React} from 'dom-chef/react';
 import select from 'select-dom';
 import delegate from 'delegate';
 import * as icons from '../libs/icons';

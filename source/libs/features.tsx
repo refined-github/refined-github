@@ -1,4 +1,4 @@
-import {React} from 'dom-chef';
+import {React} from 'dom-chef/react';
 import select from 'select-dom';
 import onDomReady from 'dom-loaded';
 import OptionsSync from 'webext-options-sync';

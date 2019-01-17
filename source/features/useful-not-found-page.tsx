@@ -4,7 +4,7 @@ This feature adds more useful 404 (not found) page.
 - Strikethrough all anchor that return a 404 status code
 */
 
-import {React} from 'dom-chef';
+import {React} from 'dom-chef/react';
 import select from 'select-dom';
 import features from '../libs/features';
 import {getCleanPathname} from '../libs/page-detect';
