@@ -1,15 +1,18 @@
 {
-	"include": [
-		"source"
-	],
+	"extends": "@sindresorhus/tsconfig",
 	"compilerOptions": {
 		"jsx": "react",
 		"jsxFactory": "h",
-		"sourceMap": true,
 		"target": "esnext",
-		"allowSyntheticDefaultImports": true,
-		"moduleResolution": "node",
-		"allowJs": true,
 		// "noEmit": true, // Useful when running `tsc` directly
+
+		// TODO: Get all these removed
+		"allowJs": true,
+		"declaration": false, // Needed because of `allowJs`
+		"strict": false,
+		"noImplicitReturns": false,
 	},
+	"include": [
+		"source"
+	]
 }
