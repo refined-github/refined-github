@@ -16,8 +16,8 @@ features.add({
 	id: 'navigate-pages-with-arrow-keys',
 	load: features.onAjaxedPages,
 	shortcuts: {
-		'→': 'Go to the next page.',
-		'←': 'Go to the previous page.'
+		'→': 'Go to the next page',
+		'←': 'Go to the previous page'
 	},
 	init
 });
