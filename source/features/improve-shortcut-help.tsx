@@ -1,11 +1,10 @@
 import {React} from 'dom-chef/react';
 import select from 'select-dom';
-import domify from '../libs/domify';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 
 function splitKeys(keys) {
-	return keys.replace(/\S+/g, '<kbd>$&</kbd>');
+	return keys.split(' ').map(key => <>{' '}<kbd>{key}</kbd></>);
 }
 
 function improveShortcutHelp(dialog) {
@@ -41,7 +40,7 @@ function improveShortcutHelp(dialog) {
 function fixKeys(dialog) {
 	for (const key of select.all('kbd', dialog)) {
 		if (key.textContent.includes(' ')) {
-			key.replaceWith(domify(splitKeys(key.textContent)));
+			key.replaceWith(...splitKeys(key.textContent));
 		}
 	}
 }
