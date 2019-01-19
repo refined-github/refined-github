@@ -8,6 +8,7 @@ function init() {
 	if (!link) {
 		return false;
 	}
+
 	link.search += '&type=source';
 }
 

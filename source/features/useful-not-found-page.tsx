@@ -30,6 +30,7 @@ function parseCurrentURL() {
 	if (parts[2] === 'blob') { // Blob URLs are never useful
 		parts[2] = 'tree';
 	}
+
 	return parts;
 }
 
@@ -41,6 +42,7 @@ async function addCommitHistoryLink(bar) {
 	if (await is404(url)) {
 		return;
 	}
+
 	bar.after(
 		<p class="container">
 			See also the file’s {<a href={url}>commit history</a>}
@@ -55,15 +57,18 @@ async function addDefaultBranchLink(bar) {
 	if (!branch) {
 		return;
 	}
+
 	const defaultBranch = await getDefaultBranch();
 	if (!defaultBranch || branch === defaultBranch) {
 		return;
 	}
+
 	parts[3] = defaultBranch; // Change branch
 	const url = '/' + parts.join('/');
 	if (await is404(url)) {
 		return;
 	}
+
 	bar.after(
 		<p class="container">
 			See also the file on the {<a href={url}>default branch</a>}
@@ -84,6 +89,7 @@ function init() {
 			// `/tree/` is not a real part of the URL
 			continue;
 		}
+
 		if (i === parts.length - 1) {
 			// The last part of the URL is a known 404
 			bar.append(' / ', getStrikeThrough(part));
@@ -100,6 +106,7 @@ function init() {
 	for (let i = bar.children.length - 2; i >= 0; i--) {
 		checkAnchor(bar.children[i]);
 	}
+
 	if (parts[2] === 'tree') {
 		addCommitHistoryLink(bar);
 		addDefaultBranchLink(bar);

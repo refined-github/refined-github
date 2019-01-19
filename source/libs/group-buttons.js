@@ -9,6 +9,7 @@ export const groupButtons = buttons => {
 			button.classList.add('BtnGroup-form');
 			button = button.querySelector('.btn');
 		}
+
 		button.classList.add('BtnGroup-item');
 	}
 
@@ -32,11 +33,13 @@ export const groupSiblings = button => {
 		siblings.unshift(prev);
 		prev = prev.previousElementSibling;
 	}
+
 	let next = button.nextElementSibling;
 	while (next && next.classList.contains('btn')) {
 		siblings.push(next);
 		next = next.nextElementSibling;
 	}
+
 	return groupButtons(siblings);
 };
 

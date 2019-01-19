@@ -35,10 +35,12 @@ async function init() {
 	if (!container) {
 		return false;
 	}
+
 	const stargazers = await fetchStargazers();
 	if (stargazers.length === 0) {
 		return false;
 	}
+
 	container.append(
 		<div class="border-top py-3 clearfix">
 			<h2 class="mb-1 h4">Followers you know</h2>

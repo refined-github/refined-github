@@ -19,8 +19,10 @@ function getDefaultQuery(link, search) {
 		} else {
 			queries.push(`author:${getUsername()}`);
 		}
+
 		queries.push('archived:false');
 	}
+
 	return queries.join(' ');
 }
 

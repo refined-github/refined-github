@@ -12,6 +12,7 @@ export const groupBy = (iterable, grouper) => {
 		map[key] = map[key] || [];
 		map[key].push(item);
 	}
+
 	return map;
 };
 
@@ -90,6 +91,7 @@ export const flatZip = (table, limit = Infinity) => {
 			}
 		}
 	}
+
 	return zipped;
 };
 

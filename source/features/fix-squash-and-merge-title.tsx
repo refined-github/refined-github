@@ -6,6 +6,7 @@ function init() {
 	if (!btn) {
 		return false;
 	}
+
 	btn.addEventListener('click', () => {
 		const title = select('.js-issue-title').textContent;
 		const number = select('.gh-header-number').textContent;

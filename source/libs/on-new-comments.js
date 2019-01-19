@@ -24,6 +24,7 @@ const setup = () => {
 	if (!discussion || observed.has(discussion)) {
 		return;
 	}
+
 	observed.add(discussion);
 
 	// When new comments come in via AJAX

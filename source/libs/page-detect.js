@@ -1,5 +1,5 @@
-/* eslint-disable no-use-before-define, Allows alphabetical order */
-/* eslint-disable unicorn/prefer-starts-ends-with, The tested var might not be a string */
+/* eslint-disable unicorn/prefer-starts-ends-with */
+/* The tested var might not be a string */
 
 import {check as isReserved} from 'github-reserved-names';
 import {getUsername} from './utils';
@@ -15,14 +15,16 @@ export const getRepoPath = () => {
 	if (isRepo()) {
 		return getCleanPathname().split('/').slice(2).join('/');
 	}
+
 	return false;
 };
 
 export const getRepoBranch = () => {
-	const [,, type, branch] = getCleanPathname().split('/');
+	const [type, branch] = getCleanPathname().split('/').slice(2);
 	if (isRepo() && type === 'tree') {
 		return branch;
 	}
+
 	return false;
 };
 

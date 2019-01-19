@@ -28,6 +28,7 @@ export const editTextNodes = (fn, el) => {
 		if (fn === linkifyUrls && textNode.textContent.length < 11) { // Shortest url: http://j.mp
 			continue;
 		}
+
 		const linkified = fn(textNode.textContent, options);
 		if (linkified.children.length > 0) { // Children are <a>
 			if (fn === linkifyIssues) {
@@ -41,6 +42,7 @@ export const editTextNodes = (fn, el) => {
 					link.setAttribute('data-id', `rgh-issue-${issue}`);
 				}
 			}
+
 			textNode.replaceWith(linkified);
 		}
 	}

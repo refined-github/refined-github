@@ -56,6 +56,7 @@ function init() {
 	for (const radio of radios) {
 		radio.closest('.form-checkbox').remove();
 	}
+
 	submitButton.remove();
 
 	// Freeze form to avoid duplicate submissions

@@ -39,10 +39,12 @@ const getItemQuery = item => {
 	if (filter === 'sort') {
 		return;
 	}
+
 	if (filter === 'review') {
 		// Review filters have the review query set even if they’re selected
 		return getLastQuery(item);
 	}
+
 	if (filter === 'project') {
 		// Project filters don’t have the project query set if they’re selected
 		// and the query cannot be determined via getFilterName/getItemName
@@ -50,6 +52,7 @@ const getItemQuery = item => {
 		if (query.startsWith('project:')) {
 			return query;
 		}
+
 		return; // Not supported
 	}
 
@@ -120,9 +123,11 @@ const updateFilterIcons = () => {
 			links.set(filter, link);
 		}
 	}
+
 	if (links.size === 0) {
 		return;
 	}
+
 	for (const query of queries) {
 		const isNegated = query[0] === '-';
 		const plainQuery = query.replace(/^-/, '');
@@ -130,12 +135,14 @@ const updateFilterIcons = () => {
 		if (!link) {
 			continue;
 		}
+
 		const icon = link.querySelector('.octicon-check');
 		if (!icon) {
 			link.prepend(getIcon(isNegated));
 		} else if (isNegated) {
 			icon.replaceWith(getIcon(isNegated));
 		}
+
 		link.setAttribute('aria-checked', 'true'); // Necessary for Assignees, but also the correct thing to do
 	}
 };

@@ -8,6 +8,7 @@ function init() {
 	if (createNextPageButton) {
 		createNextPageButton.setAttribute('data-hotkey', 'ArrowRight');
 	}
+
 	registerShortcut('site', 'ArrowLeft', 'Go to the previous page.');
 	const createPreviousPageButton = select('a.previous_page');
 	if (createPreviousPageButton) {

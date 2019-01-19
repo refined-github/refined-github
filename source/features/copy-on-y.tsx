@@ -12,6 +12,7 @@ const handler = ({key, target}) => {
 function init() {
 	window.addEventListener('keyup', handler);
 }
+
 function deinit() {
 	window.removeEventListener('keyup', handler);
 }

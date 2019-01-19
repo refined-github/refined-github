@@ -39,6 +39,7 @@ function inPR() {
 				el.title = 'Deleted';
 				el.style.textDecoration = 'line-through';
 			}
+
 			wrap(el, <a href={urls.get(branchName)}></a>);
 		}
 	}

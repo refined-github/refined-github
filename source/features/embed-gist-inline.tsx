@@ -41,6 +41,7 @@ async function embedGist(link) {
 		info.remove(' (embed failed)');
 	}
 }
+
 function init() {
 	select.all('.js-comment-body p a:only-child')
 		.filter(item => isGist(item) && isOnlyChild(item))

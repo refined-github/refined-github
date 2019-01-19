@@ -30,6 +30,7 @@ function normalizeBranchInfo(data) {
 	} else {
 		head.label = `${data.headOwner.login}:${data.headRefName}`;
 	}
+
 	if (head.branchExists) { // If the branch hasn't been deleted
 		head.url = `${data.headRepository.url}/tree/${data.headRefName}`;
 	} else if (data.headRepository) { // If the repo hasn't been deleted
@@ -90,6 +91,7 @@ async function init() {
 		if (base.label === defaultBranch) {
 			base = null;
 		}
+
 		if (head.owner !== ownerName) {
 			head = null;
 		}
