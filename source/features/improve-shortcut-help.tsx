@@ -1,7 +1,6 @@
 import {React} from 'dom-chef/react';
 import select from 'select-dom';
 import features from '../libs/features';
-import observeEl from '../libs/simplified-element-observer';
 
 function splitKeys(keys) {
 	return keys.split(' ').map(key => <>{' '}<kbd>{key}</kbd></>);
@@ -45,34 +44,23 @@ function fixKeys(dialog) {
 	}
 }
 
+const observer = new MutationObserver(([{target}]) => {
+	if (!select.exists('.js-details-dialog-spinner', target as Element)) {
+		improveShortcutHelp(target);
+		fixKeys(target);
+		observer.disconnect();
+	}
+});
+
 function init() {
 	document.addEventListener('keypress', ({key}) => {
-		if (key !== '?') {
-			return;
+		if (key === '?') {
+			observer.observe(select('.kb-shortcut-dialog'), {childList: true});
 		}
-
-		const dialog = select('details > details-dialog.kb-shortcut-dialog');
-		observeEl(
-			dialog,
-			records => {
-				const dialogSpinnerGotRemoved = [...records].some(record =>
-					[...record.removedNodes].some(element =>
-						element.matches('.js-details-dialog-spinner')
-					)
-				);
-
-				if (dialogSpinnerGotRemoved) {
-					improveShortcutHelp(dialog);
-					fixKeys(dialog);
-				}
-			},
-			{childList: true}
-		);
 	});
 }
 
 features.add({
 	id: 'improve-shortcut-help',
-	load: features.onDomReady,
 	init
 });
