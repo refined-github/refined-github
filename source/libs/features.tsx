@@ -55,6 +55,7 @@ async function onAjaxedPagesRaw(callback) {
 	document.addEventListener('pjax:end', callback);
 	callback();
 }
+
 function onAjaxedPages(callback) {
 	onAjaxedPagesRaw(() => {
 		if (!select.exists('has-rgh')) {
@@ -187,6 +188,7 @@ const add = async (definition: FeatureDetails) => {
 			onNewComments(init);
 			return result;
 		};
+
 		onAjaxedPages(() => run(details));
 	} else if (load instanceof Promise) {
 		await load;

@@ -28,6 +28,7 @@ async function init() {
 	if (!select.exists('.reponav-dropdown')) {
 		createDropdown();
 	}
+
 	select('.reponav-dropdown .dropdown-menu').append(
 		<a href={`/${repoUrl}/compare`} class="rgh-reponav-more dropdown-item" data-skip-pjax>
 			{icons.darkCompare()}

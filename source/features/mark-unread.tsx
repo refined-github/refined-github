@@ -50,6 +50,7 @@ async function markRead(urls) {
 	if (!Array.isArray(urls)) {
 		urls = [urls];
 	}
+
 	const cleanUrls = urls.map(stripHash);
 
 	for (const a of select.all('a.js-notification-target')) {
@@ -169,6 +170,7 @@ function getNotificationGroup({repository}) {
 	if (existing) {
 		return existing.closest('.boxed-group');
 	}
+
 	return (
 		<div class="boxed-group flush">
 			<form class="boxed-group-action">
@@ -226,9 +228,11 @@ function shouldNotificationAppearHere(notification) {
 	if (isSingleRepoPage()) {
 		return isCurrentSingleRepoPage(notification);
 	}
+
 	if (isParticipatingPage()) {
 		return notification.isParticipating;
 	}
+
 	return true;
 }
 
@@ -250,6 +254,7 @@ async function updateUnreadIndicator() {
 	if (!icon) {
 		return;
 	}
+
 	const statusMark = icon.querySelector('.mail-status');
 	const hasRealNotifications = icon.matches('[data-ga-click$=":unread"]');
 	const rghUnreadCount = (await getNotifications()).length;
@@ -318,6 +323,7 @@ function addCustomAllReadBtn() {
 		location.reload();
 	});
 }
+
 function updateLocalNotificationsCount(localNotifications) {
 	const unreadCount = select('#notification-center .filter-list a[href="/notifications"] .count');
 	const githubNotificationsCount = Number(unreadCount.textContent);
@@ -335,10 +341,12 @@ function updateLocalParticipatingCount(notifications) {
 		unreadCount.textContent = githubNotificationsCount + participatingNotifications;
 	}
 }
+
 function destroy() {
 	for (const listener of listeners) {
 		listener.destroy();
 	}
+
 	listeners.length = 0;
 }
 
@@ -354,6 +362,7 @@ async function init() {
 			updateLocalParticipatingCount(notifications);
 			document.dispatchEvent(new CustomEvent('refined-github:mark-unread:notifications-added'));
 		}
+
 		listeners.push(
 			delegate('.btn-link.delete-note', 'click', markNotificationRead),
 			delegate('.js-mark-all-read', 'click', markAllNotificationsRead),

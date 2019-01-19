@@ -3,6 +3,7 @@ export async function getSet(key, getter, expiration) {
 	if (cache !== undefined) {
 		return cache;
 	}
+
 	const value = await getter();
 	if (value !== undefined) {
 		await set(key, value, expiration);
@@ -20,6 +21,7 @@ export async function get(key) {
 	if (value === null || value === undefined) {
 		return undefined;
 	}
+
 	return value;
 }
 
@@ -38,6 +40,7 @@ if (!browser.runtime.getBackground) {
 		if (!request) {
 			return;
 		}
+
 		const {code, key, value, expiration} = request;
 		if (code === 'get-cache') {
 			const [cached] = document.cookie.split('; ')

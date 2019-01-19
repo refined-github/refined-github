@@ -9,6 +9,7 @@ async function init() {
 	if (orgs.length === 0) {
 		return false;
 	}
+
 	let publicOrgs = await api.v3(`users/${getUsername()}/orgs`);
 	publicOrgs = publicOrgs.map(orgData => `/${orgData.login}`);
 

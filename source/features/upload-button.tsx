@@ -13,6 +13,7 @@ function addButtons() {
 		if (!select.exists('.js-manual-file-chooser[type=file]', form)) {
 			continue;
 		}
+
 		observeEl(toolbar, function () {
 			const toolbarGroup = select('.toolbar-group:last-child', toolbar);
 			if (toolbarGroup) {

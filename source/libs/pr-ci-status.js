@@ -17,11 +17,14 @@ export function get() {
 		if (lastCommit.matches('.text-green')) {
 			return SUCCESS;
 		}
+
 		if (lastCommit.matches('.text-red')) {
 			return FAILURE;
 		}
+
 		return PENDING;
 	}
+
 	return false;
 }
 

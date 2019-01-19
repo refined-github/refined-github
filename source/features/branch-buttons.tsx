@@ -76,6 +76,7 @@ async function getDefaultBranchLink() {
 		if (!branchLink) {
 			return;
 		}
+
 		url = branchLink.href;
 	}
 
@@ -96,6 +97,7 @@ async function init() {
 	if (!container) {
 		return false;
 	}
+
 	const [defaultLink = '', tagLink = ''] = await Promise.all([
 		getDefaultBranchLink(),
 		getTagLink()

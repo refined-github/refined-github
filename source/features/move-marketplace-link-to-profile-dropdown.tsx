@@ -7,6 +7,7 @@ function init() {
 	if (!lastDivider) {
 		return false;
 	}
+
 	lastDivider.before(
 		<div class="dropdown-divider"></div>,
 		<a class="dropdown-item" href="/marketplace">Marketplace</a>

@@ -6,6 +6,7 @@ function init() {
 	if (createNextPageButton) {
 		createNextPageButton.setAttribute('data-hotkey', 'ArrowRight');
 	}
+
 	const createPreviousPageButton = select('a.previous_page');
 	if (createPreviousPageButton) {
 		createPreviousPageButton.setAttribute('data-hotkey', 'ArrowLeft');

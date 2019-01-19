@@ -7,6 +7,7 @@ function init() {
 	if (!uploadFilesButton) {
 		return false;
 	}
+
 	uploadFilesButton.remove();
 }
 

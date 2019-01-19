@@ -9,8 +9,9 @@ import {React} from 'dom-chef/react';
 import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {getOwnerAndRepo} from '../libs/page-detect';
 import getDefaultBranch from '../libs/get-default-branch';
+import {getOwnerAndRepo} from '../libs/page-detect';
+import {openPullRequest} from '../libs/icons';
 
 function normalizeBranchInfo(data) {
 	const {ownerName, repoName} = getOwnerAndRepo();
@@ -30,6 +31,7 @@ function normalizeBranchInfo(data) {
 	} else {
 		head.label = `${data.headOwner.login}:${data.headRefName}`;
 	}
+
 	if (head.branchExists) { // If the branch hasn't been deleted
 		head.url = `${data.headRepository.url}/tree/${data.headRefName}`;
 	} else if (data.headRepository) { // If the repo hasn't been deleted
@@ -61,7 +63,7 @@ function buildQuery(numbers) {
 function createLink(ref) {
 	return (
 		<span
-			class="commit-ref css-truncate user-select-contain"
+			class="commit-ref css-truncate user-select-contain mb-n1"
 			style={(ref.branchExists ? {} : {'text-decoration': 'line-through'})}>
 			{
 				ref.url ?
@@ -90,6 +92,7 @@ async function init() {
 		if (base.label === defaultBranch) {
 			base = null;
 		}
+
 		if (head.owner !== ownerName) {
 			head = null;
 		}
@@ -104,8 +107,12 @@ async function init() {
 			continue;
 		}
 
-		select('.col-9.lh-condensed', PR).append(
-			<div class="mt-1 text-small text-gray">{branches}</div>
+		select('.text-small.text-gray', PR).append(
+			<span class="issue-meta-section">
+				{openPullRequest()}
+				{' '}
+				{branches}
+			</span>
 		);
 	}
 }

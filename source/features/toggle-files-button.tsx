@@ -10,6 +10,7 @@ function addButton() {
 	if (!filesHeader || select.exists('.rgh-toggle-files')) {
 		return false;
 	}
+
 	filesHeader.append(
 		<button
 			class="btn-octicon rgh-toggle-files"

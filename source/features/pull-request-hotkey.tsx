@@ -13,6 +13,7 @@ function init() {
 		} else if (index === selectedIndex + 1 || (selectedIndex === lastTab && index === 0)) {
 			keys.push('g ArrowRight');
 		}
+
 		tab.dataset.hotkey = keys;
 	}
 }

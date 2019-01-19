@@ -135,7 +135,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Followers you know are shown on profile pages.](https://user-images.githubusercontent.com/2906365/42009293-b1503f62-7a57-11e8-88f5-9c2fb3651a14.png)
 - [Private organizations are marked when viewing your own profile.](https://user-images.githubusercontent.com/6775216/44633467-d5dcc900-a959-11e8-9116-e6b0ffef66af.png)
 - [Badge on user's profile if they follow you.](https://user-images.githubusercontent.com/3723666/45190460-03ecc380-b20c-11e8-832b-839959ee2c99.gif)
-- [Significant head and base branches are added to the PR list.](https://user-images.githubusercontent.com/1402241/50545950-ed9ec380-0c51-11e9-803c-7ae489baf5e1.png)
+- [Significant head and base branches are added to the PR list.](https://user-images.githubusercontent.com/1402241/51428391-ae9ed500-1c35-11e9-8e54-6b6a424fede4.png)
 
 ### Declutter
 
