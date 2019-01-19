@@ -19,7 +19,7 @@ function improveShortcutHelp(dialog) {
 	siteWideShortcutsBox.after(
 		<div class="Box Box--condensed m-4">
 			<div class="Box-header">
-				<h3 class="Box-title">Refined GitHub shortcuts</h3>
+				<h3 class="Box-title">Added by Refined GitHub</h3>
 			</div>
 
 			<ul>
