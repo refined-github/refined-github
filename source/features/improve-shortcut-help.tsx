@@ -7,16 +7,7 @@ function splitKeys(keys) {
 }
 
 function improveShortcutHelp(dialog) {
-	const siteWideShortcutsBox = select(
-		'.Box-body .col-5 .Box:first-child',
-		dialog
-	);
-
-	if (!siteWideShortcutsBox) {
-		return;
-	}
-
-	siteWideShortcutsBox.after(
+	select('.Box-body .col-5 .Box:first-child', dialog).after(
 		<div class="Box Box--condensed m-4">
 			<div class="Box-header">
 				<h3 class="Box-title">Added by Refined GitHub</h3>
