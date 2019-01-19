@@ -10,18 +10,19 @@ import select from 'select-dom';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 import * as cache from '../libs/cache';
-import * as pageDetect from '../libs/page-detect';
-import {safeElementReady} from '../libs/utils';
+import {getRepoURL} from '../libs/utils';
+import {safeElementReady} from '../libs/dom-utils';
+import {isRepoRoot, isReleasesOrTags} from '../libs/page-detect';
 import {registerShortcut} from './improve-shortcut-help';
 
-const repoUrl = pageDetect.getRepoURL();
+const repoUrl = getRepoURL();
 const repoKey = `releases-count:${repoUrl}`;
 
 // Get as soon as possible, to have it ready before the first paint
 const cached = cache.get(repoKey);
 
 function updateReleasesCount() {
-	if (pageDetect.isRepoRoot()) {
+	if (isRepoRoot()) {
 		const releasesCountEl = select('.numbers-summary a[href$="/releases"] .num');
 		const releasesCount = Number(releasesCountEl ? releasesCountEl.textContent.replace(/,/g, '') : 0);
 		cache.set(repoKey, releasesCount, 3);
@@ -49,7 +50,7 @@ async function init() {
 
 	registerShortcut('repos', 'g r', 'Go to Releases');
 
-	if (pageDetect.isReleasesOrTags()) {
+	if (isReleasesOrTags()) {
 		const selected = select('.reponav-item.selected');
 		if (selected) {
 			selected.classList.remove('js-selected-navigation-item', 'selected');

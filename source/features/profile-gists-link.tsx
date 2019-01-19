@@ -2,7 +2,8 @@ import {React} from 'dom-chef/react';
 import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {getCleanPathname, isEnterprise} from '../libs/page-detect';
+import {getCleanPathname} from '../libs/utils';
+import {isEnterprise} from '../libs/page-detect';
 
 async function init() {
 	const container = select('body.page-profile .UnderlineNav-body');

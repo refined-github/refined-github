@@ -1,8 +1,8 @@
 import select from 'select-dom';
 import domify from '../libs/domify';
 import features from '../libs/features';
-import {getRepoURL, getRepoBranch} from '../libs/page-detect';
-import {appendBefore} from '../libs/utils';
+import {appendBefore} from '../libs/dom-utils';
+import {getRepoURL, getRepoBranch} from '../libs/utils';
 
 // This var will be:
 // - undefined on first load

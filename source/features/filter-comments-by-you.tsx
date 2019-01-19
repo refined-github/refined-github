@@ -1,8 +1,7 @@
 import {React} from 'dom-chef/react';
 import select from 'select-dom';
 import features from '../libs/features';
-import {getRepoURL} from '../libs/page-detect';
-import {getUsername} from '../libs/utils';
+import {getUsername, getRepoURL} from '../libs/utils';
 
 const repoUrl = getRepoURL();
 

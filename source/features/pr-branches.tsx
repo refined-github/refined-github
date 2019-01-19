@@ -9,7 +9,7 @@ import {React} from 'dom-chef/react';
 import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {getOwnerAndRepo} from '../libs/page-detect';
+import {getOwnerAndRepo} from '../libs/utils';
 import getDefaultBranch from '../libs/get-default-branch';
 
 function normalizeBranchInfo(data) {

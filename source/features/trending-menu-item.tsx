@@ -1,7 +1,7 @@
 import {React} from 'dom-chef/react';
 import features from '../libs/features';
 import {isTrending} from '../libs/page-detect';
-import {safeElementReady} from '../libs/utils';
+import {safeElementReady} from '../libs/dom-utils';
 import {registerShortcut} from './improve-shortcut-help';
 
 async function init() {

@@ -4,10 +4,11 @@ import compareVersions from 'tiny-version-compare';
 import * as api from '../libs/api';
 import * as icons from '../libs/icons';
 import features from '../libs/features';
-import {appendBefore} from '../libs/utils';
+import {isRepoRoot} from '../libs/page-detect';
+import {appendBefore} from '../libs/dom-utils';
 import {groupSiblings} from '../libs/group-buttons';
 import getDefaultBranch from '../libs/get-default-branch';
-import {getRepoURL, isRepoRoot, getOwnerAndRepo} from '../libs/page-detect';
+import {getRepoURL, getOwnerAndRepo} from '../libs/utils';
 
 async function getTagLink() {
 	const tags = select
