@@ -16,7 +16,8 @@ function init() {
 features.add({
 	id: 'make-headers-sticky',
 	include: [
-		// TODO: limit to fewer views
+    features.isPRFiles,
+    features.isSingleFile,
 	],
 	load: features.onAjaxedPages,
 	init
