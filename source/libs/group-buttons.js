@@ -1,5 +1,5 @@
-import {h} from 'dom-chef';
-import {wrapAll} from './utils';
+import {React} from 'dom-chef/react';
+import {wrapAll} from './dom-utils';
 
 // Wrap a list of elements with BtnGroup + ensure each has BtnGroup-item
 export const groupButtons = buttons => {
@@ -9,6 +9,7 @@ export const groupButtons = buttons => {
 			button.classList.add('BtnGroup-form');
 			button = button.querySelector('.btn');
 		}
+
 		button.classList.add('BtnGroup-item');
 	}
 
@@ -32,11 +33,13 @@ export const groupSiblings = button => {
 		siblings.unshift(prev);
 		prev = prev.previousElementSibling;
 	}
+
 	let next = button.nextElementSibling;
 	while (next && next.classList.contains('btn')) {
 		siblings.push(next);
 		next = next.nextElementSibling;
 	}
+
 	return groupButtons(siblings);
 };
 

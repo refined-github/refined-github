@@ -35,7 +35,7 @@ export class RefinedGitHubAPIError extends Error {
 	}
 }
 
-const api = location.hostname === 'github.com' ? 'https://api.github.com/' : `${location.origin}/api/`;
+const api = location.hostname === 'github.com' ? 'https://api.github.com/' : `${location.origin}/api/v3/`;
 const cache = new Map();
 
 function fetch3(query, personalToken) {
@@ -46,6 +46,7 @@ function fetch3(query, personalToken) {
 	if (personalToken) {
 		headers.Authorization = `token ${personalToken}`;
 	}
+
 	return fetch(api + query, {headers});
 }
 
@@ -53,6 +54,7 @@ function fetch4(query, personalToken) {
 	if (!personalToken) {
 		throw new Error('Personal token required for this feature');
 	}
+
 	return fetch(api + 'graphql', {
 		headers: {
 			'User-Agent': 'Refined GitHub',
@@ -68,6 +70,7 @@ async function call(fetch, query, options = {accept404: false}) {
 	if (cache.has(query)) {
 		return cache.get(query);
 	}
+
 	const {personalToken} = await new OptionsSync().getAll();
 	const response = await fetch(query, personalToken);
 	const content = await response.text();
@@ -89,6 +92,7 @@ async function call(fetch, query, options = {accept404: false}) {
 				'Set your token in the options or take a walk! 🍃 🌞'
 		);
 	}
+
 	if (message === 'Bad credentials') {
 		throw new RefinedGitHubAPIError(
 			'The token seems to be incorrect or expired. Update it in the options.'

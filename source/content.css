@@ -551,6 +551,18 @@ div.inline-comment-form .form-actions,
 .float-right .subnav-search-input:focus + .subnav-search-icon {
 	display: none; /* When aligned right, the icon will stay in the wrong position, so hide it */
 }
+/* Seach field on the projects page */
+.project-header-controls,
+.project-header-search,
+.project-header-search .subnav-search,
+.project-header-search .subnav-search-input:focus {
+	width: 100%;
+}
+@media (min-width: 1012px) {
+	.project-header-search {
+		padding-left: 24px;
+	}
+}
 
 /* Remove Marketplace marketing box on PRs */
 .js-marketplace-callout-container {
@@ -1031,6 +1043,7 @@ body > .footer li a {
 /* Make sidebar sticky */
 .rgh-sticky-sidebar {
 	position: sticky;
+	top: 60px !important; /* Matches sticky header's height */
 	z-index: 26 !important;
 }
 
@@ -1065,4 +1078,10 @@ body > .footer li a {
 :root .file .data.empty {
 	padding: 54px;
 	text-align: center;
+}
+
+/* Improve dropdown expansion animation (e.g. top-right dropdown in comments) */
+/* It normally pops in from the center */
+.dropdown-menu-sw {
+	transform-origin: 90% top;
 }

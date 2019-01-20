@@ -1,9 +1,9 @@
-import once from 'onetime';
 import select from 'select-dom';
 import debounce from 'debounce-fn';
 import observeEl from './simplified-element-observer';
 
 const handlers = new Set();
+const observed = new WeakSet();
 
 const run = debounce(() => {
 	// Safely run all callbacks
@@ -19,15 +19,22 @@ const addListenersOnNewElements = debounce(() => {
 	}
 }, {wait: 50});
 
-const setup = once(() => {
+const setup = () => {
+	const discussion = select('.js-discussion');
+	if (!discussion || observed.has(discussion)) {
+		return;
+	}
+
+	observed.add(discussion);
+
 	// When new comments come in via AJAX
-	observeEl('.js-discussion', run);
+	observeEl(discussion, run);
 
 	// When hidden comments are loaded by clicking "Load more..."
 	addListenersOnNewElements();
-});
+};
 
 export default function (cb) {
-	handlers.add(cb);
 	setup();
+	handlers.add(cb);
 }
