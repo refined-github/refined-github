@@ -12,6 +12,15 @@ type callerFunction = (callback: VoidFunction) => void;
 type featureFunction = () => boolean | void;
 type featurePromisedFunction = () => Promise<boolean | void>;
 
+interface featureShortcuts {
+	[key: string]: string
+}
+
+interface Shortcut {
+	hotkey: string,
+	description: string,
+}
+
 interface GlobalOptions {
 	disabledFeatures: string,
 	customCSS: string,
@@ -26,6 +35,7 @@ interface FeatureDetails {
 	init: featureFunction | featurePromisedFunction,
 	deinit?: Function,
 	load?: callerFunction | Promise<void>,
+	shortcuts?: featureShortcuts,
 }
 
 interface PrivateFeatureDetails extends FeatureDetails {
@@ -125,6 +135,9 @@ const run = async ({id, include, exclude, init, deinit, options: {log}}: Private
 	}
 };
 
+const shortcutMap : Map<string, Shortcut> = new Map<string, Shortcut>();
+const getShortcuts : () => Array<Shortcut> = () => [...shortcutMap.values()];
+
 /*
  * Register a new feature
  */
@@ -137,6 +150,7 @@ const add = async (definition: FeatureDetails) => {
 		load = fn => fn(), // Run it right away
 		init,
 		deinit = () => {}, // Noop
+		shortcuts = {},
 		...invalidProps
 	} = definition;
 
@@ -160,6 +174,12 @@ const add = async (definition: FeatureDetails) => {
 		return;
 	}
 
+	// Register feature shortcuts
+	for (const hotkey of Object.keys(shortcuts)) {
+		const description = shortcuts[hotkey];
+		shortcutMap.set(hotkey, {hotkey, description});
+	}
+
 	// Initialize the feature using the specified loading mechanism
 	const details: PrivateFeatureDetails = {id, include, exclude, init, deinit, options};
 	if (load === onNewComments) {
@@ -181,6 +201,7 @@ const add = async (definition: FeatureDetails) => {
 export default {
 	// Module methods
 	add,
+	getShortcuts,
 
 	// Loading mechanisms
 	onDomReady,

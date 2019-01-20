@@ -1,13 +1,7 @@
 import select from 'select-dom';
 import features from '../libs/features';
-import {registerShortcut} from './improve-shortcut-help';
 
 function init() {
-	registerShortcut('pr', 'g 1', 'Go to Conversation');
-	registerShortcut('pr', 'g 2', 'Go to Commits');
-	registerShortcut('pr', 'g 3', 'Go to Checks');
-	registerShortcut('pr', 'g 4', 'Go to Files changed');
-
 	const tabs = select.all('.tabnav-pr .tabnav-tab');
 	const selectedIndex = tabs.indexOf(select('.tabnav-pr .selected'));
 	const lastTab = tabs.length - 1;
@@ -30,5 +24,11 @@ features.add({
 		features.isPR
 	],
 	load: features.onAjaxedPages,
+	shortcuts: {
+		'g 1': 'Go to Conversation',
+		'g 2': 'Go to Commits',
+		'g 3': 'Go to Checks',
+		'g 4': 'Go to Files changed'
+	},
 	init
 });

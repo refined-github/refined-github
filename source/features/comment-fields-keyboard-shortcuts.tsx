@@ -2,7 +2,6 @@ import select from 'select-dom';
 import delegate from 'delegate';
 import features from '../libs/features';
 import indentTextarea from '../libs/indent-textarea';
-import {registerShortcut} from './improve-shortcut-help';
 
 // Element.blur() will reset the tab focus to the start of the document.
 // This places it back next to the blurred field
@@ -20,8 +19,6 @@ function blurAccessibly(field) {
 }
 
 function init() {
-	registerShortcut('issues', '↑', 'Edit your last comment');
-
 	delegate('.js-comment-field', 'keydown', event => {
 		const field = event.target;
 
@@ -66,5 +63,8 @@ function init() {
 
 features.add({
 	id: 'comment-fields-keyboard-shortcuts',
+	shortcuts: {
+		'↑': 'Edit your last comment'
+	},
 	init
 });
