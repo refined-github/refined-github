@@ -4,7 +4,7 @@ import onDomReady from 'dom-loaded';
 import OptionsSync from 'webext-options-sync';
 import onNewComments from './on-new-comments';
 import * as pageDetect from './page-detect';
-import {safeElementReady} from './utils';
+import {safeElementReady} from './dom-utils';
 
 type BooleanFunction = () => boolean;
 type VoidFunction = () => void;

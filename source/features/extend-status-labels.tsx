@@ -1,6 +1,6 @@
 import {React} from 'dom-chef/react';
 import select from 'select-dom';
-import {wrap} from '../libs/utils';
+import {wrap} from '../libs/dom-utils';
 import features from '../libs/features';
 
 function init() {

@@ -1,7 +1,7 @@
 import {React} from 'dom-chef/react';
 import features from '../libs/features';
 import {isTrending} from '../libs/page-detect';
-import {safeElementReady} from '../libs/utils';
+import {safeElementReady} from '../libs/dom-utils';
 
 async function init() {
 	const selectedClass = isTrending() ? 'selected' : '';

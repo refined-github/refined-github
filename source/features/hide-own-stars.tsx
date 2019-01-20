@@ -3,7 +3,8 @@ Hide other users starring/forking your repos
 */
 import select from 'select-dom';
 import features from '../libs/features';
-import {getUsername, safeElementReady} from '../libs/utils';
+import {getUsername} from '../libs/utils';
+import {safeElementReady} from '../libs/dom-utils';
 
 const observer = new MutationObserver(([{addedNodes}]) => {
 	// Remove events from dashboard

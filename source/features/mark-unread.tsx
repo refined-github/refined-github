@@ -5,7 +5,8 @@ import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
-import {getUsername, safeElementReady} from '../libs/utils';
+import {safeElementReady} from '../libs/dom-utils';
+import {getUsername, getOwnerAndRepo} from '../libs/utils';
 
 const listeners = [];
 const stateIcons = {
@@ -70,7 +71,7 @@ async function markUnread() {
 		avatar: el.querySelector('img').src
 	}));
 
-	const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
+	const {ownerName, repoName} = getOwnerAndRepo();
 	const stateLabel = select('.gh-header-meta .State');
 	let state;
 

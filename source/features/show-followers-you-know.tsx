@@ -2,7 +2,7 @@ import {React} from 'dom-chef/react';
 import select from 'select-dom';
 import domify from '../libs/domify';
 import features from '../libs/features';
-import {getCleanPathname} from '../libs/page-detect';
+import {getCleanPathname} from '../libs/utils';
 
 const fetchStargazers = async () => {
 	const url = `${location.origin}/${getCleanPathname()}/followers/you_know`;

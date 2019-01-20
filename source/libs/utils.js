@@ -1,9 +1,39 @@
 import select from 'select-dom';
 import onetime from 'onetime';
-import domLoaded from 'dom-loaded';
-import elementReady from 'element-ready';
+import {isRepo} from './page-detect';
 
 export const getUsername = onetime(() => select('meta[name="user-login"]').getAttribute('content'));
+
+// Drops leading and trailing slash to avoid /\/?/ everywhere
+export const getCleanPathname = () => location.pathname.replace(/^[/]|[/]$/g, '');
+
+// Parses a repo's subpage, e.g.
+// '/user/repo/issues/' -> 'issues'
+// '/user/repo/' -> ''
+// returns false if the path is not a repo
+export const getRepoPath = () => {
+	if (isRepo()) {
+		return getCleanPathname().split('/').slice(2).join('/');
+	}
+
+	return false;
+};
+
+export const getRepoBranch = () => {
+	const [type, branch] = getCleanPathname().split('/').slice(2);
+	if (isRepo() && type === 'tree') {
+		return branch;
+	}
+
+	return false;
+};
+
+export const getRepoURL = () => location.pathname.slice(1).split('/', 2).join('/');
+
+export const getOwnerAndRepo = () => {
+	const [, ownerName, repoName] = location.pathname.split('/', 3);
+	return {ownerName, repoName};
+};
 
 export const groupBy = (iterable, grouper) => {
 	const map = {};
@@ -14,65 +44,6 @@ export const groupBy = (iterable, grouper) => {
 	}
 
 	return map;
-};
-
-/*
- * Automatically stops checking for an element to appear once the DOM is ready.
- */
-export const safeElementReady = selector => {
-	const waiting = elementReady(selector);
-
-	// Don't check ad-infinitum
-	domLoaded.then(() => requestAnimationFrame(() => waiting.cancel()));
-
-	// If cancelled, return null like a regular select() would
-	return waiting.catch(() => null);
-};
-
-/**
- * Append to an element, but before a element that might not exist.
- * @param  {Element|string} parent  Element (or its selector) to which append the `child`
- * @param  {string}         before  Selector of the element that `child` should be inserted before
- * @param  {Element}        child   Element to append
- * @example
- *
- * <parent>
- *   <yes/>
- *   <oui/>
- *   <nope/>
- * </parent>
- *
- * appendBefore('parent', 'nope', <sì/>);
- *
- * <parent>
- *   <yes/>
- *   <oui/>
- *   <sì/>
- *   <nope/>
- * </parent>
- */
-export const appendBefore = (parent, before, child) => {
-	if (typeof parent === 'string') {
-		parent = select(parent);
-	}
-
-	// Select direct children only
-	before = select(`:scope > ${before}`, parent);
-	if (before) {
-		before.before(child);
-	} else {
-		parent.append(child);
-	}
-};
-
-export const wrap = (target, wrapper) => {
-	target.before(wrapper);
-	wrapper.append(target);
-};
-
-export const wrapAll = (targets, wrapper) => {
-	targets[0].before(wrapper);
-	wrapper.append(...targets);
 };
 
 // Concats arrays but does so like a zipper instead of appending them

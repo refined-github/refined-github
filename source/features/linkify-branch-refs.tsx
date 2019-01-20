@@ -1,8 +1,9 @@
 import {React} from 'dom-chef/react';
 import select from 'select-dom';
 import features from '../libs/features';
-import {safeElementReady, wrap} from '../libs/utils';
 import * as pageDetect from '../libs/page-detect';
+import {getOwnerAndRepo} from '../libs/utils';
+import {safeElementReady, wrap} from '../libs/dom-utils';
 
 function inPR() {
 	let deletedBranch = false;
@@ -48,7 +49,7 @@ function inPR() {
 async function inQuickPR() {
 	const el = await safeElementReady('.branch-name');
 	if (el) {
-		const {ownerName, repoName} = pageDetect.getOwnerAndRepo();
+		const {ownerName, repoName} = getOwnerAndRepo();
 		const branchUrl = `/${ownerName}/${repoName}/tree/${el.textContent}`;
 		wrap(el.closest('.branch-name'), <a href={branchUrl}></a>);
 	}

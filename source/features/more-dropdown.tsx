@@ -2,8 +2,9 @@ import {React} from 'dom-chef/react';
 import select from 'select-dom';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
-import {getRepoURL, isEnterprise} from '../libs/page-detect';
-import {appendBefore, safeElementReady} from '../libs/utils';
+import {getRepoURL} from '../libs/utils';
+import {isEnterprise} from '../libs/page-detect';
+import {appendBefore, safeElementReady} from '../libs/dom-utils';
 
 const repoUrl = getRepoURL();
 

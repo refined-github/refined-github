@@ -1,7 +1,7 @@
 import {React} from 'dom-chef/react';
 import select from 'select-dom';
 import features from '../libs/features';
-import {getRepoURL} from '../libs/page-detect';
+import {getRepoURL} from '../libs/utils';
 
 function init() {
 	const currentBranch = select('#partial-pull-merging .merge-branch-description .commit-ref');

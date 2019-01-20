@@ -1,8 +1,8 @@
 import {React} from 'dom-chef/react';
 import select from 'select-dom';
-import {wrap} from '../libs/utils';
+import {wrap} from '../libs/dom-utils';
 import features from '../libs/features';
-import {getRepoPath, getRepoURL} from '../libs/page-detect';
+import {getRepoPath, getRepoURL} from '../libs/utils';
 
 function init() {
 	const references = (getRepoPath() as string)

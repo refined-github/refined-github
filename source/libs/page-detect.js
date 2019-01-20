@@ -2,38 +2,7 @@
 /* The tested var might not be a string */
 
 import {check as isReserved} from 'github-reserved-names';
-import {getUsername} from './utils';
-
-// Drops leading and trailing slash to avoid /\/?/ everywhere
-export const getCleanPathname = () => location.pathname.replace(/^[/]|[/]$/g, '');
-
-// Parses a repo's subpage, e.g.
-// '/user/repo/issues/' -> 'issues'
-// '/user/repo/' -> ''
-// returns false if the path is not a repo
-export const getRepoPath = () => {
-	if (isRepo()) {
-		return getCleanPathname().split('/').slice(2).join('/');
-	}
-
-	return false;
-};
-
-export const getRepoBranch = () => {
-	const [type, branch] = getCleanPathname().split('/').slice(2);
-	if (isRepo() && type === 'tree') {
-		return branch;
-	}
-
-	return false;
-};
-
-export const getRepoURL = () => location.pathname.slice(1).split('/', 2).join('/');
-
-export const getOwnerAndRepo = () => {
-	const [, ownerName, repoName] = location.pathname.split('/', 3);
-	return {ownerName, repoName};
-};
+import {getUsername, getCleanPathname, getRepoPath, getOwnerAndRepo} from './utils';
 
 export const is404 = () => document.title === 'Page not found · GitHub';
 
