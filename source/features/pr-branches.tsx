@@ -10,7 +10,7 @@ import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import getDefaultBranch from '../libs/get-default-branch';
-import {getOwnerAndRepo} from '../libs/page-detect';
+import {getOwnerAndRepo} from '../libs/utils';
 import {openPullRequest} from '../libs/icons';
 
 function normalizeBranchInfo(data) {

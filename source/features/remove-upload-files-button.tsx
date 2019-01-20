@@ -1,6 +1,6 @@
 import select from 'select-dom';
 import features from '../libs/features';
-import {getRepoURL} from '../libs/page-detect';
+import {getRepoURL} from '../libs/utils';
 
 function init() {
 	const uploadFilesButton = select(`.file-navigation a[href^="/${getRepoURL()}/upload"]`);

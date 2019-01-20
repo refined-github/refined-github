@@ -2,8 +2,8 @@ import {React} from 'dom-chef/react';
 import select from 'select-dom';
 import onetime from 'onetime';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
-import {safeElementReady} from '../libs/utils';
+import {getRepoURL} from '../libs/utils';
+import {safeElementReady} from '../libs/dom-utils';
 
 const removeProjectsTab = () => {
 	// Only those who can create a project will see the 'Settings' tab
@@ -23,7 +23,7 @@ const addNewProjectLink = onetime(() => {
 	const newIssueLink = select('.HeaderMenu .dropdown-item[href$="/issues/new"]');
 	if (newIssueLink) {
 		newIssueLink.after(
-			<a class="dropdown-item" href={`/${pageDetect.getRepoURL()}/projects/new`}>
+			<a class="dropdown-item" href={`/${getRepoURL()}/projects/new`}>
 				New project
 			</a>
 		);

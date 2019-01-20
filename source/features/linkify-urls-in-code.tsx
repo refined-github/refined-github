@@ -3,7 +3,7 @@ import linkifyUrls from 'linkify-urls';
 import linkifyIssues from 'linkify-issues';
 import features from '../libs/features';
 import getTextNodes from '../libs/get-text-nodes';
-import {getOwnerAndRepo} from '../libs/page-detect';
+import {getOwnerAndRepo} from '../libs/utils';
 
 // Shared class necessary to avoid also shortening the links
 export const linkifiedURLClass = 'rgh-linkified-code';

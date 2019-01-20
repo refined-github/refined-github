@@ -7,7 +7,7 @@ This feature adds more useful 404 (not found) page.
 import {React} from 'dom-chef/react';
 import select from 'select-dom';
 import features from '../libs/features';
-import {getCleanPathname} from '../libs/page-detect';
+import {getCleanPathname} from '../libs/utils';
 import getDefaultBranch from '../libs/get-default-branch';
 
 async function is404(url) {

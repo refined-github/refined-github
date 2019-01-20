@@ -2,8 +2,7 @@ import {React} from 'dom-chef/react';
 import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {getUsername} from '../libs/utils';
-import {getCleanPathname} from '../libs/page-detect';
+import {getUsername, getCleanPathname} from '../libs/utils';
 
 async function init() {
 	const {status} = await api.v3(

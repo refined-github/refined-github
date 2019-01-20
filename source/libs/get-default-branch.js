@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import * as cache from './cache';
 import * as api from './api';
-import {getOwnerAndRepo} from './page-detect';
+import {getOwnerAndRepo} from './utils';
 
 // This regex should match all of these combinations:
 // "This branch is even with master."

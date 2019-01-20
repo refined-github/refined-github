@@ -1,8 +1,8 @@
 import select from 'select-dom';
 import {React} from 'dom-chef/react';
-import * as icons from '../libs/icons';
 import features from '../libs/features';
-import {getRepoURL} from '../libs/page-detect';
+import * as icons from '../libs/icons';
+import {getRepoURL} from '../libs/utils';
 
 function init() {
 	const comments = select.all('.timeline-comment-header:not(.rgh-timestamp-tree-link)');
