@@ -31,6 +31,10 @@ async function fetchCount(type) {
 	return counter ? counter.textContent : 0; // When there are no results, the counter is absent.
 }
 
+function prIsActive() {
+	return getSearchQuery().split(' ').includes('is:pr');
+}
+
 async function init() {
 	const menu = select('nav.menu');
 
@@ -47,9 +51,13 @@ async function init() {
 	const prUrl = createUrl('pr');
 	const prHtml = <a class="menu-item" href={prUrl}>Pull Requests<span class="Counter ml-1 mt-1" data-search-type="PR"></span></a>;
 	issueLink.after(prHtml);
-	if (getSearchQuery().split(' ').includes('is:pr')) {
+
+	if (prIsActive()) {
 		select('.selected', menu).classList.remove('selected');
 		prHtml.classList.add('selected');
+
+		const h3 = select('.codesearch-results h3');
+		h3.innerHTML = h3.innerHTML.replace(/\bissues\b/gi, 'pull requests');
 	}
 
 	const [prCount = 0, issueCount = 0] = await Promise.all([fetchCount('pr'), fetchCount('issue')]);
@@ -61,6 +69,7 @@ async function init() {
 			prCounter.parentNode.removeChild(prCounter);
 		}
 	}
+
 	const issueCounter = select('.Counter', issueLink);
 	if (issueCounter) { // When there are no results, the counter is absent.
 		if (issueCount > 0) {
