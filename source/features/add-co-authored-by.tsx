@@ -21,10 +21,8 @@ async function fetchCoAuthoredData() {
 								author {
 									email
 									user {
-										databaseId
 										login
 										name
-										email
 									}
 								}
 							}
@@ -47,8 +45,7 @@ function addCoAuthors() {
 
 	const addendum = new Map();
 	for (const {email, user} of coAuthors) {
-		const commitEmail = email || `${user.databaseId}+${user.login}@users.noreply.github.com`;
-		addendum.set(user.login, `Co-authored-by: ${user.name} <${commitEmail}>`);
+		addendum.set(user.login, `Co-authored-by: ${user.name} <${email}>`);
 	}
 
 	addendum.delete(getOP());
