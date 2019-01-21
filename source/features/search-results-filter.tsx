@@ -3,52 +3,72 @@ import select from 'select-dom';
 import features from '../libs/features';
 import domify from '../libs/domify';
 
+function cleanLinks(links) {
+	for (const link of links) {
+		const href = new URL(link.href);
+		href.searchParams.set('q', cleanSearchQuery(href.searchParams.get('q')));
+		link.href = href;
+	}
+}
+
 function getSearchQuery() {
-	const url = new URL(location.href);
-	const query = url.searchParams.get('q');
-	return query;
+	return new URL(location.href).searchParams.get('q');
+}
+
+function cleanSearchQuery(query) {
+	return query.replace(/\s*\bis:(pr|issue)\b\s*/gi, '');
 }
 
 function createUrl(type) {
-	const query = getSearchQuery().replace(/\s?is:pr/gi, '').replace(/\s?is:issue/gi, '');
-	const url = `${location.origin}${location.pathname}?q=${encodeURIComponent(query)}+is%3A${type}&type=Issues`;
-	return url;
+	const query = cleanSearchQuery(getSearchQuery());
+	return `${location.origin}${location.pathname}?q=${encodeURIComponent(query)}+is%3A${type}&type=Issues`;
 }
 
 async function fetchCount(type) {
-	const url = createUrl(type);
-	const response = await fetch(url, {credentials: 'same-origin'});
+	const response = await fetch(createUrl(type));
 	const text = await response.text();
-	const dom = domify(text);
-	const el = dom.querySelector('.menu a.selected .Counter');
-	const val = el.textContent;
-	const c = parseInt(val, 10);
-	return c;
+	const counter = domify(text).querySelector('.menu a.selected .Counter');
+	return counter ? counter.textContent : 0; // When there are no results, the counter is absent.
 }
 
 async function init() {
 	const menu = select('nav.menu');
-	for (const link of select.all('a:not([href*="&type=Issues"])', menu)) {
-		link.href = link.href.replace(/\+?is%3Apr/gi, '').replace(/\+?is%3Aissue/gi, '');
-	}
 
-	const issuesLink = select('a[href*="&type=Issues"]', menu);
-	if (!issuesLink) { // Stop when issues are not enabled for this repo.
+	const issueLink = select('a[href*="&type=Issues"]', menu);
+	if (!issueLink) { // Stop when issues are not enabled for this repo.
 		return;
 	}
 
-	issuesLink.href = createUrl('issue');
+	const links = select.all('a', menu).filter(item => item !== issueLink);
+	cleanLinks(links);
+
+	issueLink.href = createUrl('issue');
 
 	const prUrl = createUrl('pr');
-	const prHtml = <a class="menu-item" href={prUrl}>PR<span class="Counter ml-1 mt-1" data-search-type="PR"></span></a>;
-	issuesLink.after(prHtml);
-	if (getSearchQuery().includes('is:pr')) {
+	const prHtml = <a class="menu-item" href={prUrl}>Pull Requests<span class="Counter ml-1 mt-1" data-search-type="PR"></span></a>;
+	issueLink.after(prHtml);
+	if (getSearchQuery().split(' ').includes('is:pr')) {
 		select('.selected', menu).classList.remove('selected');
 		prHtml.classList.add('selected');
 	}
 
-	select('.Counter', prHtml).textContent = await fetchCount('pr');
-	select('.Counter', issuesLink).textContent = await fetchCount('issue');
+	const [prCount = 0, issueCount = 0] = await Promise.all([fetchCount('pr'), fetchCount('issue')]);
+	const prCounter = select('.Counter', prHtml);
+	if (prCounter) { // When there are no results, the counter is absent.
+		if (prCount > 0) {
+			prCounter.textContent = prCount;
+		} else {
+			prCounter.parentNode.removeChild(prCounter);
+		}
+	}
+	const issueCounter = select('.Counter', issueLink);
+	if (issueCounter) { // When there are no results, the counter is absent.
+		if (issueCount > 0) {
+			issueCounter.textContent = issueCount;
+		} else {
+			issueCounter.parentNode.removeChild(issueCounter);
+		}
+	}
 }
 
 features.add({
