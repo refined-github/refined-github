@@ -3,7 +3,7 @@ const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
-module.exports = () => ({
+module.exports = (env, argv) => ({
 	devtool: 'sourcemap',
 	entry: {
 		content: './source/content',
@@ -18,7 +18,15 @@ module.exports = () => ({
 		rules: [
 			{
 				test: /\.(js|ts|tsx)$/,
-				use: 'ts-loader',
+				use: [{
+					loader: 'ts-loader',
+					query: {
+						compilerOptions: {
+							// With this, TS will error but the file will still be generated (on watch only)
+							noEmitOnError: argv.watch === false
+						}
+					}
+				}],
 				exclude: /node_modules/
 			}
 		]
