@@ -1,7 +1,8 @@
 {
 	"private": true,
 	"scripts": {
-		"lint": "xo --fix && stylelint --fix source/*.css",
+		"lint": "xo && stylelint source/*.css",
+		"lint-fix": "xo --fix; stylelint --fix source/*.css",
 		"test": "npm run lint && ava && run-s build",
 		"build": "webpack --mode=production",
 		"watch": "webpack --mode=development --watch",
