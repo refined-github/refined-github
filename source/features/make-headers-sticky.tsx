@@ -16,7 +16,8 @@ function init() {
 features.add({
 	id: 'make-headers-sticky',
 	include: [
-		features.isPRFiles,
+		features.isPR,
+		features.isQuickPR,
 		features.isSingleFile
 	],
 	load: features.onAjaxedPages,
