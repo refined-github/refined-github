@@ -12,34 +12,35 @@ type callerFunction = (callback: VoidFunction) => void;
 type featureFunction = () => boolean | void;
 type featurePromisedFunction = () => Promise<boolean | void>;
 
-interface featureShortcuts {
-	[key: string]: string
+interface FeatureShortcuts {
+	[key: string]: string;
 }
 
 interface Shortcut {
-	hotkey: string,
-	description: string,
+	hotkey: string;
+	description: string;
 }
 
 interface GlobalOptions {
-	disabledFeatures: string,
-	customCSS: string,
-	logging: boolean,
-	log?: (...args: any[]) => void
+	disabledFeatures: string;
+	customCSS: string;
+	logging: boolean;
+	log?: (...args: unknown[]) => void;
 }
 
 interface FeatureDetails {
-	id: string,
-	include?: BooleanFunction[],
-	exclude?: BooleanFunction[],
-	init: featureFunction | featurePromisedFunction,
-	deinit?: Function,
-	load?: callerFunction | Promise<void>,
-	shortcuts?: featureShortcuts,
+	id: string;
+	include?: BooleanFunction[];
+	exclude?: BooleanFunction[];
+	init: featureFunction | featurePromisedFunction;
+	// TODO: Remove the disable comment
+	deinit?: Function; // eslint-disable-line @typescript-eslint/ban-types
+	load?: callerFunction | Promise<void>;
+	shortcuts?: FeatureShortcuts;
 }
 
 interface PrivateFeatureDetails extends FeatureDetails {
-	options: GlobalOptions
+	options: GlobalOptions;
 }
 
 /*
@@ -133,8 +134,8 @@ const run = async ({id, include, exclude, init, deinit, options: {log}}: Private
 	}
 };
 
-const shortcutMap : Map<string, Shortcut> = new Map<string, Shortcut>();
-const getShortcuts : () => Array<Shortcut> = () => [...shortcutMap.values()];
+const shortcutMap: Map<string, Shortcut> = new Map<string, Shortcut>();
+const getShortcuts: () => Shortcut[] = () => [...shortcutMap.values()];
 
 /*
  * Register a new feature

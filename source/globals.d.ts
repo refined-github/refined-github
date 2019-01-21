@@ -1,7 +1,8 @@
-// eslint-disable-next-line no-unused-vars
 declare const browser: AnyObject;
 
-type AnyObject = {[key: string]: any};
+interface AnyObject {
+	[key: string]: any;
+}
 
 declare module 'select-dom' {
 	import 'select-dom';
