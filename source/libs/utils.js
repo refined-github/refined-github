@@ -1,8 +1,10 @@
 import select from 'select-dom';
 import onetime from 'onetime';
-import {isRepo} from './page-detect';
+import {isRepo, isPR, isIssue} from './page-detect';
 
 export const getUsername = onetime(() => select('meta[name="user-login"]').getAttribute('content'));
+
+export const getDiscussionNumber = () => (isPR() || isIssue()) && getCleanPathname().split('/')[3];
 
 // Drops leading and trailing slash to avoid /\/?/ everywhere
 export const getCleanPathname = () => location.pathname.replace(/^[/]|[/]$/g, '');
