@@ -28,6 +28,7 @@ import OptionsSync from 'webext-options-sync';
 
 export const v3 = (...args) => call(fetch3, ...args);
 export const v4 = (...args) => call(fetch4, ...args);
+export const escapeKey = string => '_' + string.replace(/[./-]/g, '_');
 
 export class RefinedGitHubAPIError extends Error {
 	constructor(...messages) {
