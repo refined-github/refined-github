@@ -19,6 +19,7 @@ const options = {
 	baseUrl: '',
 	attributes: {
 		rel: 'noreferrer noopener',
+		target: '_blank',
 		class: linkifiedURLClass // Necessary to avoid also shortening the links
 	}
 };
