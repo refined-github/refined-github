@@ -89,4 +89,4 @@ export const isTrending = () => location.pathname === '/trending' || location.pa
 export const isUserProfile = () => {
 	const path = getCleanPathname();
 	return Boolean(path) && !isGist() && !isReserved(path) && !path.includes('/');
-}
+};
