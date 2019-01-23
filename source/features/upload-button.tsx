@@ -3,7 +3,6 @@ import select from 'select-dom';
 import delegate from 'delegate';
 import onetime from 'onetime';
 import features from '../libs/features';
-import {metaKey} from '../libs/utils';
 import * as icons from '../libs/icons';
 
 function addButtons() {
@@ -16,7 +15,7 @@ function addButtons() {
 		const toolbarGroup = select('.toolbar-group:last-child', toolbar);
 		if (toolbarGroup) {
 			toolbarGroup.append(
-				<button type="button" class="toolbar-item rgh-upload-btn tooltipped tooltipped-nw" aria-label="Upload attachments">
+				<button type="button" class="toolbar-item rgh-upload-btn tooltipped tooltipped-nw" aria-label="Upload attachments" hotkey="u">
 					{icons.cloudUpload()}
 				</button>
 			);
@@ -32,15 +31,7 @@ function triggerUploadUI({target}) {
 		.click(); // Open UI
 }
 
-function handleKeydown(event) {
-	if (event[metaKey] && event.key === 'u') {
-		triggerUploadUI(event);
-		event.preventDefault();
-	}
-}
-
 const listenOnce = onetime(() => {
-	delegate('.rgh-has-upload-field', 'keydown', handleKeydown);
 	delegate('.rgh-upload-btn', 'click', triggerUploadUI);
 });
 
