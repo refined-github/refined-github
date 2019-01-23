@@ -99,14 +99,12 @@ const globalReady: Promise<GlobalOptions> = new Promise(async resolve => {
 	document.documentElement.classList.add('refined-github');
 
 	// Options defaults
-	const options: GlobalOptions = Object.assign(
-		{
-			disabledFeatures: '',
-			customCSS: '',
-			logging: false
-		},
-		await new OptionsSync().getAll()
-	);
+	const options: GlobalOptions = {
+		disabledFeatures: '',
+		customCSS: '',
+		logging: false,
+		...await new OptionsSync().getAll()
+	};
 
 	if (options.customCSS.trim().length > 0) {
 		document.head.append(<style>{options.customCSS}</style>);

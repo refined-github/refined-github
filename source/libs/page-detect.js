@@ -25,11 +25,15 @@ export const isEnterprise = () => location.hostname !== 'github.com' && location
 
 export const isGist = () => location.hostname.startsWith('gist.') || location.pathname.startsWith('gist/');
 
+export const isGlobalIssueSearch = () => location.pathname === '/issues';
+
+export const isGlobalPRSearch = () => location.pathname === '/pulls';
+
+export const isGlobalSearchResults = () => location.pathname === '/search' && new URLSearchParams(location.search).get('q') !== null;
+
 export const isIssue = () => /^issues\/\d+/.test(getRepoPath());
 
 export const isIssueList = () => /^(issues$|pulls$|labels\/)/.test(getRepoPath());
-
-export const isGlobalIssueSearch = () => location.pathname.startsWith('/issues');
 
 export const isLabel = () => /^labels\/\w+/.test(getRepoPath());
 
@@ -43,19 +47,19 @@ export const isNewIssue = () => /^issues\/new/.test(getRepoPath());
 
 export const isNotifications = () => /^([^/]+[/][^/]+\/)?notifications/.test(getCleanPathname());
 
-export const isProject = () => /^projects\/\d+/.test(getRepoPath());
+export const isOwnUserProfile = () => isUserProfile() && getCleanPathname() === getUsername();
 
-export const isPRList = () => getRepoPath() === 'pulls';
+export const isProject = () => /^projects\/\d+/.test(getRepoPath());
 
 export const isPR = () => /^pull\/\d+/.test(getRepoPath());
 
-export const isPRConversation = () => /^pull\/\d+$/.test(getRepoPath());
+export const isPRList = () => getRepoPath() === 'pulls';
 
 export const isPRCommit = () => /^pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(getRepoPath());
 
-export const isPRFiles = () => /^pull\/\d+\/files/.test(getRepoPath());
+export const isPRConversation = () => /^pull\/\d+$/.test(getRepoPath());
 
-export const isGlobalPRSearch = () => location.pathname.startsWith('/pulls');
+export const isPRFiles = () => /^pull\/\d+\/files/.test(getRepoPath());
 
 export const isQuickPR = () => isCompare() && /[?&]quick_pull=1(&|$)/.test(location.search);
 
@@ -70,6 +74,8 @@ export const isRepo = () => /^[^/]+\/[^/]+/.test(getCleanPathname()) &&
 
 export const isRepoRoot = () => /^(tree[/][^/]+)?$/.test(getRepoPath());
 
+export const isRepoSearch = () => location.pathname.slice(1).split('/')[2] === 'search';
+
 export const isRepoSettings = () => /^settings/.test(getRepoPath());
 
 export const isRepoTree = () => isRepoRoot() || /^tree\//.test(getRepoPath());
@@ -78,10 +84,9 @@ export const isSingleCommit = () => /^commit\/[0-9a-f]{5,40}/.test(getRepoPath()
 
 export const isSingleFile = () => /^blob\//.test(getRepoPath());
 
-export const isTrending = () => location.pathname.startsWith('/trending');
+export const isTrending = () => location.pathname === '/trending' || location.pathname.startsWith('/trending/');
 
-export const isUserProfile = () => Boolean(getCleanPathname()) && !isGist() && !isReserved(getCleanPathname()) && !getCleanPathname().includes('/');
-
-export const isOwnUserProfile = () => isUserProfile() && getCleanPathname().startsWith(getUsername());
-
-export const isRepoSearch = () => location.pathname.slice(1).split('/')[2] === 'search';
+export const isUserProfile = () => {
+	const path = getCleanPathname();
+	return Boolean(path) && !isGist() && !isReserved(path) && !path.includes('/');
+};

@@ -9,6 +9,7 @@ export const safeElementReady = selector => {
 	const waiting = elementReady(selector);
 
 	// Don't check ad-infinitum
+	// eslint-disable-next-line promise/prefer-await-to-then
 	domLoaded.then(() => requestAnimationFrame(() => waiting.cancel()));
 
 	// If cancelled, return null like a regular select() would
