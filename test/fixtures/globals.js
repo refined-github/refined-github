@@ -1,14 +1,6 @@
-import Window from './window';
+import {JSDOM} from 'jsdom';
 
-global.window = new Window();
-global.location = window.location;
-global.document = {
-	addEventListener: () => {}
-};
-global.chrome = {
-	storage: {
-		sync: {
-			get: () => {}
-		}
-	}
-};
+const {window} = new JSDOM('...');
+global.navigator = window.navigator;
+global.document = window.document;
+global.location = new URL('https://github.com');

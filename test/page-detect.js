@@ -121,6 +121,16 @@ test('isGist', urlMatcherMacro, pageDetect.isGist, [
 	'https://help.github.com/'
 ]);
 
+test('isGlobalSearchResults', urlMatcherMacro, pageDetect.isGlobalSearchResults, [
+	'https://github.com/search?q=refined-github&ref=opensearch'
+], [
+	'https://github.com/search', // The dom is different
+	'https://github.com/searcher',
+	'https://github.com/sindresorhus/search',
+	'https://github.com/sindresorhus/refined-github/tree/search',
+	'https://github.com/sindresorhus/refined-github/tree/master/search'
+]);
+
 test('isIssue', urlMatcherMacro, pageDetect.isIssue, [
 	'https://github.com/sindresorhus/refined-github/issues/146'
 ], [
@@ -146,6 +156,7 @@ test('isIssueList', urlMatcherMacro, pageDetect.isIssueList, [
 test('isGlobalIssueSearch', urlMatcherMacro, pageDetect.isGlobalIssueSearch, [
 	'https://github.com/issues'
 ], [
+	'https://github.com/issuesorter',
 	'https://github.com/sindresorhus/refined-github/issues',
 	'https://github.com/sindresorhus/refined-github/issues/170'
 ]);
@@ -235,6 +246,7 @@ test('isPRFiles', urlMatcherMacro, pageDetect.isPRFiles, [
 test('isGlobalPRSearch', urlMatcherMacro, pageDetect.isGlobalPRSearch, [
 	'https://github.com/pulls'
 ], [
+	'https://github.com/pullsup',
 	'https://github.com/sindresorhus/refined-github/pulls',
 	'https://github.com/sindresorhus/refined-github/pull/148'
 ]);
@@ -336,6 +348,7 @@ test('isTrending', urlMatcherMacro, pageDetect.isTrending, [
 	'https://github.com/trending/developers',
 	'https://github.com/trending/unknown'
 ], [
+	'https://github.com/trendinguser',
 	'https://github.com/settings/trending',
 	'https://github.com/watching',
 	'https://github.com/jaredhanson/node-trending/tree/master/lib/trending'
@@ -357,5 +370,6 @@ test('isRepoSearch', urlMatcherMacro, pageDetect.isRepoSearch, [
 	'https://github.com/sindresorhus/refined-github/search'
 ], [
 	'https://github.com/sindresorhus/refined-github',
-	'https://github.com/sindresorhus/search'
+	'https://github.com/sindresorhus/search',
+	'https://github.com/search'
 ]);
