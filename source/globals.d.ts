@@ -1,8 +1,6 @@
 declare const browser: AnyObject;
 
-interface AnyObject {
-	[key: string]: any;
-}
+type AnyObject = {[key: string]: any};
 
 declare module 'select-dom' {
 	import 'select-dom';
