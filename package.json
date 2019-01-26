@@ -36,7 +36,7 @@
 	},
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^0.2.0",
-		"@typescript-eslint/eslint-plugin": "^1.0.0",
+		"@typescript-eslint/eslint-plugin": "^1.1.0",
 		"ava": "^1.1.0",
 		"chrome-webstore-upload-cli": "^1.2.0",
 		"copy-webpack-plugin": "^4.5.1",
@@ -71,7 +71,19 @@
 			"import/no-unassigned-import": "off",
 			"@typescript-eslint/explicit-function-return-type": "off",
 			"@typescript-eslint/no-type-alias": "off",
-			"unicorn/no-abusive-eslint-disable": "off"
+			"unicorn/no-abusive-eslint-disable": "off",
+			"@typescript-eslint/no-unused-vars": [
+				"error",
+				{
+					"vars": "all",
+					"varsIgnorePattern": "^React$",
+					"args": "after-used",
+					"ignoreRestSiblings": true,
+					"argsIgnorePattern": "^_$",
+					"caughtErrors": "all",
+					"caughtErrorsIgnorePattern": "^_$"
+				}
+			]
 		},
 		"globals": [
 			"browser"
