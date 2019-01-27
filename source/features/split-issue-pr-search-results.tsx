@@ -16,8 +16,8 @@ function getSearchQuery() {
 
 function cleanSearchQuery(query, newType = '') {
 	return query
-		.replace(/\bis:(pr|issue)\b/gi, newType)
-		.replace(/\s{2,}/g, ' ');
+		.replace(/\bis:(pr|issue)\b/gi, '')
+		.replace(/\s{2,}/g, ' ').trim() + ' ' + newType;
 }
 
 function createUrl(type, pathname = location.pathname) {
@@ -34,23 +34,23 @@ function init() {
 	issueLink.textContent = 'Issues'; // Drops any possible counter
 	issueLink.href = createUrl('issue');
 	issueLink.append(
-		<include-fragment src={createUrl('issue', 'search/count')} />
+		<include-fragment src={createUrl('issue', location.pathname + '/count')} />
 	);
 
 	const prLink = issueLink.cloneNode(true);
 	prLink.textContent = 'Pull requests';
 	prLink.href = createUrl('pr');
 	prLink.append(
-		<include-fragment src={createUrl('pr', 'search/count')} />
+		<include-fragment src={createUrl('pr', location.pathname + '/count')} />
 	);
 
 	issueLink.after(prLink);
 
 	// Update UI in PR searches
-	if (/\bis:pr\b/.test(getSearchQuery())) {
-		select('.menu-item.selected').classList.remove('selected');
-		prLink.classList.add('selected');
-
+	const isPr = /\bis:pr\b/.test(getSearchQuery());
+	select('.menu-item.selected').classList.toggle('selected', !isPr);
+	prLink.classList.toggle('selected', isPr);
+	if (isPr) {
 		const title = select('.codesearch-results h3').firstChild;
 		title.textContent = title.textContent.replace('issue', 'pull request');
 	}
