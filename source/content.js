@@ -86,7 +86,7 @@ import './features/mark-private-orgs';
 import './features/linkify-commit-sha';
 import './features/bypass-checks';
 import './features/add-co-authored-by';
-import './features/search-results-filter';
+import './features/split-issue-pr-search-results';
 
 // Add global for easier debugging
 window.select = select;

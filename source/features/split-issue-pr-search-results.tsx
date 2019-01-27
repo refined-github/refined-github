@@ -57,7 +57,7 @@ function init() {
 }
 
 features.add({
-	id: 'search-results-filter',
+	id: 'split-issue-pr-search-results',
 	include: [
 		features.isRepoSearch,
 		features.isGlobalSearchResults
