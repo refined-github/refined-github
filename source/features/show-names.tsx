@@ -2,7 +2,7 @@ import {React} from 'dom-chef/react';
 import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {getUsername, escapeForGql} from '../libs/utils';
+import {getUsername} from '../libs/utils';
 
 async function init() {
 	const usernameElements = select.all('.js-discussion .author:not(.rgh-fullname):not([href*="/apps/"])');
@@ -30,13 +30,13 @@ async function init() {
 	const names = await api.v4(
 		'{' +
 			[...usernames].map(user =>
-				escapeForGql(user) + `: user(login: "${user}") {name}`
+				api.escapeKey(user) + `: user(login: "${user}") {name}`
 			) +
 		'}'
 	);
 
 	for (const usernameEl of usernameElements) {
-		const {name = ''} = names[escapeForGql(usernameEl.textContent)] || {};
+		const {name = ''} = names[api.escapeKey(usernameEl.textContent)] || {};
 		if (name) {
 			// If it's a regular comment author, add it outside <strong>
 			// otherwise it's something like "User added some commits"

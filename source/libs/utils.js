@@ -71,5 +71,3 @@ export const flatZip = (table, limit = Infinity) => {
 export const isMac = /Mac/.test(navigator.platform);
 
 export const metaKey = isMac ? 'metaKey' : 'ctrlKey';
-
-export const escapeForGql = string => '_' + string.replace(/[./-]/g, '_');
