@@ -43,14 +43,15 @@ function init() {
 	prLink.append(
 		<include-fragment src={createUrl('pr', location.pathname + '/count')} />
 	);
+	prLink.classList.remove('selected');
 
 	issueLink.after(prLink);
 
 	// Update UI in PR searches
-	const isPr = /\bis:pr\b/.test(getSearchQuery());
-	select('.menu-item.selected').classList.toggle('selected', !isPr);
-	prLink.classList.toggle('selected', isPr);
-	if (isPr) {
+	if (/\bis:pr\b/.test(getSearchQuery())) {
+		select('.menu-item.selected').classList.remove('selected');
+		prLink.classList.add('selected');
+
 		const title = select('.codesearch-results h3').firstChild;
 		title.textContent = title.textContent.replace('issue', 'pull request');
 	}
