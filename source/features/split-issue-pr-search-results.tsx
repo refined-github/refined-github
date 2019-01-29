@@ -54,6 +54,8 @@ function init() {
 
 		const title = select('.codesearch-results h3').firstChild;
 		title.textContent = title.textContent.replace('issue', 'pull request');
+	} else if (/\btype=Issues\b/.test(location.search) && !/\bis:issue\b/.test(getSearchQuery())) {
+		issueLink.click();
 	}
 }
 
