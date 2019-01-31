@@ -67,18 +67,11 @@
 			"tsx"
 		],
 		"rules": {
-			"import/no-unresolved": "off",
 			"import/no-unassigned-import": "off",
 			"@typescript-eslint/no-unused-vars": [
 				"error",
 				{
-					"vars": "all",
-					"varsIgnorePattern": "^React$",
-					"args": "after-used",
-					"ignoreRestSiblings": true,
-					"argsIgnorePattern": "^_$",
-					"caughtErrors": "all",
-					"caughtErrorsIgnorePattern": "^_$"
+					"varsIgnorePattern": "^React$"
 				}
 			],
 			"@typescript-eslint/explicit-function-return-type": "off",
