@@ -33,8 +33,7 @@ interface FeatureDetails {
 	include?: BooleanFunction[];
 	exclude?: BooleanFunction[];
 	init: featureFunction | featurePromisedFunction;
-	// TODO: Remove the disable comment
-	deinit?: Function; // eslint-disable-line @typescript-eslint/ban-types
+	deinit?: () => void;
 	load?: callerFunction | Promise<void>;
 	shortcuts?: FeatureShortcuts;
 }
