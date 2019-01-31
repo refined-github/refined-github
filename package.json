@@ -69,7 +69,6 @@
 		"rules": {
 			"import/no-unresolved": "off",
 			"import/no-unassigned-import": "off",
-			"unicorn/no-abusive-eslint-disable": "off",
 			"@typescript-eslint/no-unused-vars": [
 				"error",
 				{
