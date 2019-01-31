@@ -67,7 +67,3 @@ export const flatZip = (table, limit = Infinity) => {
 
 	return zipped;
 };
-
-export const isMac = /Mac/.test(navigator.platform);
-
-export const metaKey = isMac ? 'metaKey' : 'ctrlKey';

@@ -99,15 +99,12 @@
 }
 
 /* Remove upload message on comment box */
-.is-default .drag-and-drop {
+.rgh-has-upload-field .is-default .drag-and-drop {
 	display: none;
 }
-.upload-enabled textarea {
-	border-bottom: 1px solid #ccc !important;
-	border-radius: 3px !important;
-}
-.upload-enabled textarea:focus {
-	border-bottom: 1px solid #2188ff !important;
+.rgh-has-upload-field .is-default textarea {
+	border-bottom-style: solid;
+	border-radius: 3px;
 }
 
 /* Remove random protip at the bottom of the page */

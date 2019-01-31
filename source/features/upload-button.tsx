@@ -3,8 +3,6 @@ import select from 'select-dom';
 import delegate from 'delegate';
 import onetime from 'onetime';
 import features from '../libs/features';
-import observeEl from '../libs/simplified-element-observer';
-import {metaKey} from '../libs/utils';
 import * as icons from '../libs/icons';
 
 function addButtons() {
@@ -14,18 +12,15 @@ function addButtons() {
 			continue;
 		}
 
-		observeEl(toolbar, function () {
-			const toolbarGroup = select('.toolbar-group:last-child', toolbar);
-			if (toolbarGroup) {
-				toolbarGroup.append(
-					<button type="button" class="toolbar-item rgh-upload-btn tooltipped tooltipped-nw" aria-label="Upload attachments">
-						{icons.cloudUpload()}
-					</button>
-				);
-				form.classList.add('rgh-has-upload-field');
-				this.disconnect();
-			}
-		});
+		const toolbarGroup = select('.toolbar-group:last-child', toolbar);
+		if (toolbarGroup) {
+			toolbarGroup.append(
+				<button type="button" class="toolbar-item rgh-upload-btn tooltipped tooltipped-nw" aria-label="Upload attachments" hotkey="u">
+					{icons.cloudUpload()}
+				</button>
+			);
+			form.classList.add('rgh-has-upload-field');
+		}
 	}
 }
 
@@ -36,15 +31,7 @@ function triggerUploadUI({target}) {
 		.click(); // Open UI
 }
 
-function handleKeydown(event) {
-	if (event[metaKey] && event.key === 'u') {
-		triggerUploadUI(event);
-		event.preventDefault();
-	}
-}
-
 const listenOnce = onetime(() => {
-	delegate('.rgh-has-upload-field', 'keydown', handleKeydown);
 	delegate('.rgh-upload-btn', 'click', triggerUploadUI);
 });
 
