@@ -18,7 +18,6 @@ declare module 'select-dom' {
 
 declare module 'webext-options-sync' {
 	export default class OptionsSync {
-		constructor(storageName?:string){}
-		getAll<TValue = Object>(): Promise<TValue>
+		getAll<TValue = object>(): Promise<TValue>
 	}
 }
