@@ -32,7 +32,7 @@ type Fetch4 = typeof fetch4;
 type SoManyFetch = Fetch | Fetch3 | Fetch4;
 
 export const v3 = (...args: TailArgs<ArgumentTypes<typeof call>>) => call(fetch3, ...args);
-export const v4 = (...args: TailArgs<ArgumentTypes<typeof call>>) => call(fetch4,...args);
+export const v4 = (...args: TailArgs<ArgumentTypes<typeof call>>) => call(fetch4, ...args);
 
 export const escapeKey = string => '_' + string.replace(/[./-]/g, '_');
 
@@ -47,7 +47,7 @@ const api = location.hostname === 'github.com' ? 'https://api.github.com/' : `${
 const cache = new Map<string, any>();
 
 function fetch3(query: string, personalToken: string) {
-	const headers: RequestInit["headers"] = {
+	const headers: RequestInit['headers'] = {
 		'User-Agent': 'Refined GitHub',
 		Accept: 'application/vnd.github.v3+json'
 	};
@@ -83,7 +83,7 @@ async function call<T extends SoManyFetch>(fetch: T, query: string, options = {a
 	const response = await fetch4(query, personalToken);
 	const content = await response.text();
 
-	const result: { data?: unknown, errors?: Error[], message?: string} = content.length > 0 ? JSON.parse(content): {};
+	const result: { data?: unknown; errors?: Error[]; message?: string} = content.length > 0 ? JSON.parse(content) : {};
 	const {data, errors = [], message = ''} = result;
 
 	if (errors.length > 0) {

@@ -1,15 +1,15 @@
-type ArgumentTypes<T> = T extends (...args: infer U) => infer R ? U : never;
+type ArgumentTypes<TFunction> = TFunction extends (...args: infer TInferredArgs) => infer TInferredReturnType ? TInferredArgs : never;
 
-type FirstArg<T extends any[]> =
-	T extends [infer R, ...any[]] ? R :
-	T extends [] ? undefined :
-	never;
+type FirstArg<TFunction extends any[]> =
+	TFunction extends [infer TFirstArg, ...any[]] ? TFirstArg :
+		TFunction extends [] ? undefined :
+			never;
 
-type TailArgs<T extends any[]> = ((...args: T) => any) extends ((
+type TailArgs<TFunction extends any[]> = ((...args: TFunction) => any) extends ((
 	_: infer First,
 	...rest: infer Rest
 ) => any)
-	? T extends any[] ? Rest : ReadonlyArray<Rest[number]>
+	? TFunction extends any[] ? Rest : ReadonlyArray<Rest[number]>
 	: [];
 
 declare const browser: AnyObject;
@@ -27,10 +27,9 @@ declare module 'select-dom' {
 	export = select;
 }
 
-declare module "webext-options-sync" {
+declare module 'webext-options-sync' {
 	export default class OptionsSync {
 		getAll: <T>() => T;
 	}
 }
-
 
