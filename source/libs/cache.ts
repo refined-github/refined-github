@@ -1,4 +1,14 @@
-export async function getSet(key, getter, expiration) {
+
+type CacheGetter = () => string|Promise<string>;
+
+interface CacheRequest {
+	code: string;
+	key: string;
+	value?: unknown;
+	expiration?: number;
+}
+
+export async function getSet(key: string, getter: CacheGetter, expiration?: number) {
 	const cache = await get(key);
 	if (cache !== undefined) {
 		return cache;
@@ -11,7 +21,7 @@ export async function getSet(key, getter, expiration) {
 	}
 }
 
-export async function get(key) {
+export async function get(key: string) {
 	const value = await browser.runtime.sendMessage({
 		key,
 		code: 'get-cache'
@@ -25,7 +35,7 @@ export async function get(key) {
 	return value;
 }
 
-export function set(key, value, expiration /* in days */) {
+export function set<TValue>(key: string, value: TValue, expiration?: number /* in days */) {
 	return browser.runtime.sendMessage({
 		key,
 		value,
@@ -35,8 +45,8 @@ export function set(key, value, expiration /* in days */) {
 }
 
 /* Accept messages in background page */
-if (!browser.runtime.getBackground) {
-	browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
+if (!browser.runtime.getBackgroundPage) {
+	browser.runtime.onMessage.addListener((request: CacheRequest, _sender, sendResponse) => {
 		if (!request) {
 			return;
 		}

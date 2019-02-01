@@ -6,7 +6,7 @@ import * as icons from '../libs/icons';
 
 function add() {
 	for (const infoBubble of select.all('[aria-label*="will close when"]')) {
-		const prLink = select('.discussion-item-ref-title a', infoBubble.parentElement.parentElement);
+		const prLink = select<HTMLAnchorElement>('.discussion-item-ref-title a', infoBubble.parentElement.parentElement);
 		const issueNumber = select('.issue-num', prLink).textContent;
 		select('.gh-header-meta .TableObject-item').after(
 			<div class="TableObject-item">

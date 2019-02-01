@@ -88,4 +88,12 @@ import './features/bypass-checks';
 import './features/add-co-authored-by';
 
 // Add global for easier debugging
+type Select = typeof select;
+
+declare global {
+	interface Window {
+		select: Select;
+	}
+}
+
 window.select = select;

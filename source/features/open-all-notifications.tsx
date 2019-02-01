@@ -17,7 +17,7 @@ function openNotifications({target}) {
 	const container = target.closest('.boxed-group, .notification-center');
 
 	// Ask for confirmation
-	const unreadNotifications = select.all(unreadNotificationsClass, container);
+	const unreadNotifications = select.all<HTMLAnchorElement>(unreadNotificationsClass, container);
 	if (
 		unreadNotifications.length >= confirmationRequiredCount &&
 		!confirm(`This will open ${unreadNotifications.length} new tabs. Continue?`)
@@ -57,7 +57,7 @@ function addOpenReposButton() {
 			continue;
 		}
 
-		const [, repo] = select('.notifications-repo-link', repoNotifications).title.split('/');
+		const [, repo] = select<HTMLAnchorElement>('.notifications-repo-link', repoNotifications).title.split('/');
 
 		select('.mark-all-as-read', repoNotifications).before(
 			<button type="button" class="open-repo-notifications tooltipped tooltipped-w rgh-open-notifications-button" aria-label={`Open all unread \`${repo}\` notifications in tabs`}>

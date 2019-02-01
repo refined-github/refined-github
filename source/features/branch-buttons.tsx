@@ -12,7 +12,7 @@ import {getRepoURL, getOwnerAndRepo} from '../libs/utils';
 
 async function getTagLink() {
 	const tags = select
-		.all('.branch-select-menu .select-menu-list:last-child .select-menu-item')
+		.all<HTMLLIElement>('.branch-select-menu .select-menu-list:last-child .select-menu-item')
 		.map(element => element.dataset.name);
 
 	if (tags.length === 0) {
@@ -52,7 +52,7 @@ async function getTagLink() {
 		link.classList.add('disabled');
 		link.setAttribute('aria-label', 'You’re on the latest release');
 	} else {
-		link.href = select(`[data-name="${latestRelease}"]`).href;
+		link.href = select<HTMLAnchorElement>(`[data-name="${latestRelease}"]`).href;
 		link.setAttribute('aria-label', 'Visit the latest release');
 		link.append(' ', <span class="css-truncate-target">{latestRelease}</span>);
 	}
@@ -73,7 +73,7 @@ async function getDefaultBranchLink() {
 	if (isRepoRoot()) {
 		url = `/${getRepoURL()}`;
 	} else {
-		const branchLink = select(`.select-menu-item[data-name='${defaultBranch}']`);
+		const branchLink = select<HTMLAnchorElement>(`.select-menu-item[data-name='${defaultBranch}']`);
 		if (!branchLink) {
 			return;
 		}

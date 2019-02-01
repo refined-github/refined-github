@@ -6,9 +6,9 @@ textarea('textarea', {
 	events: ['input']
 });
 
-document.querySelector('[name="customCSS"]').addEventListener('keydown', event => {
+document.querySelector('[name="customCSS"]').addEventListener('keydown', (event: KeyboardEvent) => {
 	if (event.key === 'Tab' && !event.shiftKey) {
-		indentTextarea(event.target);
+		indentTextarea(event.target as HTMLInputElement);
 		event.preventDefault();
 	}
 });

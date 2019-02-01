@@ -3,7 +3,7 @@ import features from '../libs/features';
 
 function init() {
 	// Get repositories link from user profile navigation
-	const link = select('.user-profile-nav a[href*="tab=repositories"]');
+	const link = select<HTMLAnchorElement>('.user-profile-nav a[href*="tab=repositories"]');
 
 	if (!link) {
 		return false;

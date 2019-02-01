@@ -5,7 +5,7 @@ import elementReady from 'element-ready';
 /*
  * Automatically stops checking for an element to appear once the DOM is ready.
  */
-export const safeElementReady = selector => {
+export const safeElementReady = (selector: string) => {
 	const waiting = elementReady(selector);
 
 	// Don't check ad-infinitum
@@ -19,7 +19,7 @@ export const safeElementReady = selector => {
 /**
  * Append to an element, but before a element that might not exist.
  * @param  {Element|string} parent  Element (or its selector) to which append the `child`
- * @param  {string}         before  Selector of the element that `child` should be inserted before
+ * @param  {string|Element}         before  Selector of the element that `child` should be inserted before
  * @param  {Element}        child   Element to append
  * @example
  *
@@ -38,7 +38,7 @@ export const safeElementReady = selector => {
  *   <nope/>
  * </parent>
  */
-export const appendBefore = (parent, before, child) => {
+export const appendBefore = (parent: string|Element, before: string|Element, child: Element) => {
 	if (typeof parent === 'string') {
 		parent = select(parent);
 	}
@@ -52,12 +52,12 @@ export const appendBefore = (parent, before, child) => {
 	}
 };
 
-export const wrap = (target, wrapper) => {
+export const wrap = (target: Element, wrapper: Element) => {
 	target.before(wrapper);
 	wrapper.append(target);
 };
 
-export const wrapAll = (targets, wrapper) => {
+export const wrapAll = (targets: Element[], wrapper: Element) => {
 	targets[0].before(wrapper);
 	wrapper.append(...targets);
 };
