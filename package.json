@@ -79,7 +79,8 @@
 			"@typescript-eslint/restrict-plus-operands": "off"
 		},
 		"globals": [
-			"browser"
+			"browser",
+			"chrome"
 		]
 	},
 	"ava": {

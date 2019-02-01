@@ -12,7 +12,7 @@ type TailArgs<TFunction extends any[]> = ((...args: TFunction) => any) extends (
 	? TFunction extends any[] ? Rest : ReadonlyArray<Rest[number]>
 	: [];
 
-declare const browser: AnyObject;
+declare const browser: typeof chrome;
 
 type AnyObject = Record<string, any>;
 
