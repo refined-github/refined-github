@@ -26,21 +26,27 @@ so the call will not throw an error but it will return as usual.
 
 import OptionsSync from 'webext-options-sync';
 
-export const v3 = (...args) => call(fetch3, ...args);
-export const v4 = (...args) => call(fetch4, ...args);
-export const escapeKey = string => '_' + string.replace(/[./-]/g, '_');
+export const v3 = <TVAlue = Object>(query: string, options?: FetchOptions) => call<TVAlue>(fetch3, query, options);
+export const v4 = <TVAlue = Object>(query: string, options?: FetchOptions) => call<TVAlue>(fetch4, query, options);
+export const escapeKey = (key: string) => '_' + key.replace(/[./-]/g, '_');
+
+export interface FetchOptions {
+	accept404: boolean;
+}
+
+export type FetchGithubApi = (query: string, personalToken: string) => Promise<Response>;
 
 export class RefinedGitHubAPIError extends Error {
-	constructor(...messages) {
+	constructor(...messages: string[]) {
 		super(messages.join('\n'));
 	}
 }
 
 const api = location.hostname === 'github.com' ? 'https://api.github.com/' : `${location.origin}/api/v3/`;
-const cache = new Map();
+const cache = new Map<string, any>();
 
-function fetch3(query, personalToken) {
-	const headers = {
+const fetch3: FetchGithubApi = (query, personalToken) => {
+	const headers: HeadersInit = {
 		'User-Agent': 'Refined GitHub',
 		Accept: 'application/vnd.github.v3+json'
 	};
@@ -49,25 +55,26 @@ function fetch3(query, personalToken) {
 	}
 
 	return fetch(api + query, {headers});
-}
+};
 
-function fetch4(query, personalToken) {
+const fetch4: FetchGithubApi = (query, personalToken) => {
 	if (!personalToken) {
 		throw new Error('Personal token required for this feature');
 	}
 
+	const headers: HeadersInit = {
+		'User-Agent': 'Refined GitHub',
+		Authorization: `bearer ${personalToken}`
+	};
 	return fetch(api + 'graphql', {
-		headers: {
-			'User-Agent': 'Refined GitHub',
-			Authorization: `bearer ${personalToken}`
-		},
+		headers,
 		method: 'POST',
 		body: JSON.stringify({query})
 	});
-}
+};
 
 // Main function: handles cache, options, errors
-async function call(fetch, query, options = {accept404: false}) {
+async function call<TValue = Object>(fetch: FetchGithubApi, query: string, options: FetchOptions = {accept404: false}): Promise<TValue> {
 	if (cache.has(query)) {
 		return cache.get(query);
 	}
