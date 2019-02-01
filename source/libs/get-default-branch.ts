@@ -10,7 +10,7 @@ import {getOwnerAndRepo} from './utils';
 // "This branch is 1 commit ahead, 27 commits behind master."
 const branchInfoRegex = /([^ ]+)\.$/;
 
-function parseBranchFromDom() {
+function parseBranchFromDom(): string | undefined {
 	if (select.exists('.repohead h1 .octicon-repo-forked')) {
 		return; // It's a fork, no "default branch" info available #1132
 	}
@@ -22,12 +22,12 @@ function parseBranchFromDom() {
 	}
 
 	// Parse the infobar
-	const [, branchName] = branchInfo.textContent.trim().match(branchInfoRegex) || [];
-	return branchName; // `string` or undefined
+	const [, branchName] = branchInfo.textContent.trim().match(branchInfoRegex) || [undefined, undefined];
+	return branchName;
 }
 
-async function fetchFromApi(user, repo) {
-	const response = await api.v3(`repos/${user}/${repo}`);
+async function fetchFromApi(user: string, repo: string) {
+	const response = await api.v3<{default_branch:string}>(`repos/${user}/${repo}`);
 	if (response && response.default_branch) {
 		return response.default_branch;
 	}
