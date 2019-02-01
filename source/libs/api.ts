@@ -34,7 +34,7 @@ type SoManyFetch = Fetch | Fetch3 | Fetch4;
 export const v3 = (...args: TailArgs<ArgumentTypes<typeof call>>) => call(fetch3, ...args);
 export const v4 = (...args: TailArgs<ArgumentTypes<typeof call>>) => call(fetch4, ...args);
 
-export const escapeKey = string => '_' + string.replace(/[./-]/g, '_');
+export const escapeKey = (value: string) => '_' + value.replace(/[./-]/g, '_');
 
 export class RefinedGitHubAPIError extends Error {
 	constructor(...messages: string[]) {
