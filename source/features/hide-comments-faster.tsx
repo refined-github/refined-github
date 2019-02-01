@@ -40,7 +40,9 @@ function handleMenuOpening(event) {
 	// Hide it when dropdown closes
 	const dropdown = hideButton.closest('details');
 	const optionList = select('.show-more-popover', dropdown);
-	hideButton.addEventListener('click', () => {
+	hideButton.addEventListener('click', event => {
+		event.stopImmediatePropagation();
+		event.preventDefault();
 		optionList.setAttribute('hidden', true);
 		form.removeAttribute('hidden');
 	});
@@ -53,7 +55,7 @@ function handleMenuOpening(event) {
 }
 
 function init() {
-	delegate('summary[aria-label="Show options"]', 'click', handleMenuOpening);
+	delegate('.timeline-comment-action', 'click', handleMenuOpening);
 }
 
 features.add({
