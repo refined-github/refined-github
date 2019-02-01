@@ -1,4 +1,4 @@
-export async function getSet(key, getter, expiration) {
+export async function getSet(key: string, getter: () => string | Promise<any>, daysToExpire?: number) {
 	const cache = await get(key);
 	if (cache !== undefined) {
 		return cache;
@@ -6,12 +6,12 @@ export async function getSet(key, getter, expiration) {
 
 	const value = await getter();
 	if (value !== undefined) {
-		await set(key, value, expiration);
+		await set(key, value, daysToExpire);
 		return value;
 	}
 }
 
-export async function get(key) {
+export async function get(key: string) {
 	const value = await browser.runtime.sendMessage({
 		key,
 		code: 'get-cache'
@@ -25,18 +25,18 @@ export async function get(key) {
 	return value;
 }
 
-export function set(key, value, expiration /* in days */) {
+export function set(key: string, value, daysToExpire?: number) {
 	return browser.runtime.sendMessage({
 		key,
 		value,
-		expiration,
+		expiration: daysToExpire,
 		code: 'set-cache'
 	});
 }
 
 /* Accept messages in background page */
 if (!browser.runtime.getBackground) {
-	browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
+	browser.runtime.onMessage.addListener((request, _sender, sendResponse) => {
 		if (!request) {
 			return;
 		}
