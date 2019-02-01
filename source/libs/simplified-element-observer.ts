@@ -1,15 +1,15 @@
-export default function (el: Element | string, listener: MutationCallback, options: MutationObserverInit = {childList: true}) {
-	if (typeof el === 'string') {
-		el = document.querySelector(el);
+export default function (element: Element | string, listener: MutationCallback, options: MutationObserverInit = {childList: true}) {
+	if (typeof element === 'string') {
+		element = document.querySelector(element);
 	}
 
-	if (!el) {
+	if (!element) {
 		return;
 	}
 
 	// Run on updates
 	const observer = new MutationObserver(listener);
-	observer.observe(el, options);
+	observer.observe(element, options);
 
 	// Run the first time
 	listener.call(observer, []);
