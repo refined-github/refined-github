@@ -38,7 +38,7 @@ export const getOwnerAndRepo = () => {
 };
 
 export const groupBy = <TValue>(iterable: Iterable<TValue>, grouper: (item: TValue) => string | number): {[TKey in string | number]: TValue[]} => {
-	const map:{[TKey in string | number]: TValue[]} = {};
+	const map: {[TKey in string | number]: TValue[]} = {};
 	for (const item of iterable) {
 		const key = grouper(item);
 		map[key] = map[key] || [];
