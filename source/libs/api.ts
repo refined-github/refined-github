@@ -26,21 +26,28 @@ so the call will not throw an error but it will return as usual.
 
 import OptionsSync from 'webext-options-sync';
 
-export const v3 = (...args) => call(fetch3, ...args);
-export const v4 = (...args) => call(fetch4, ...args);
+type Fetch = typeof fetch;
+type Fetch3 = typeof fetch3;
+type Fetch4 = typeof fetch4;
+type SoManyFetch = Fetch | Fetch3 | Fetch4;
+
+export const v3 = (...args: TailArgs<ArgumentTypes<typeof call>>) => call(fetch3, ...args);
+export const v4 = (...args: TailArgs<ArgumentTypes<typeof call>>) => call(fetch4,...args);
+
 export const escapeKey = string => '_' + string.replace(/[./-]/g, '_');
 
 export class RefinedGitHubAPIError extends Error {
-	constructor(...messages) {
+	constructor(...messages: string[]) {
 		super(messages.join('\n'));
 	}
 }
 
 const api = location.hostname === 'github.com' ? 'https://api.github.com/' : `${location.origin}/api/v3/`;
-const cache = new Map();
+// TODO: This should be new Map<string, unknown>(), or we need to figure out the type. For later.
+const cache = new Map<string, any>();
 
-function fetch3(query, personalToken) {
-	const headers = {
+function fetch3(query: string, personalToken: string) {
+	const headers: RequestInit["headers"] = {
 		'User-Agent': 'Refined GitHub',
 		Accept: 'application/vnd.github.v3+json'
 	};
@@ -51,7 +58,7 @@ function fetch3(query, personalToken) {
 	return fetch(api + query, {headers});
 }
 
-function fetch4(query, personalToken) {
+function fetch4(query: string, personalToken: string) {
 	if (!personalToken) {
 		throw new Error('Personal token required for this feature');
 	}
@@ -67,15 +74,16 @@ function fetch4(query, personalToken) {
 }
 
 // Main function: handles cache, options, errors
-async function call(fetch, query, options = {accept404: false}) {
+async function call<T extends SoManyFetch>(fetch: T, query: string, options = {accept404: false}) {
 	if (cache.has(query)) {
 		return cache.get(query);
 	}
 
-	const {personalToken} = await new OptionsSync().getAll();
-	const response = await fetch(query, personalToken);
+	const {personalToken} = await new OptionsSync().getAll<{personalToken: string}>();
+	const response = await fetch4(query, personalToken);
 	const content = await response.text();
-	const result = content.length > 0 ? JSON.parse(content) : {status: response.status};
+
+	const result: { data?: unknown, errors?: Error[], message?: string} = content.length > 0 ? JSON.parse(content): {};
 	const {data, errors = [], message = ''} = result;
 
 	if (errors.length > 0) {

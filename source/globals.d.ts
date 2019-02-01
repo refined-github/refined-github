@@ -1,5 +1,17 @@
 type ArgumentTypes<T> = T extends (...args: infer U) => infer R ? U : never;
 
+type FirstArg<T extends any[]> =
+	T extends [infer R, ...any[]] ? R :
+	T extends [] ? undefined :
+	never;
+
+type TailArgs<T extends any[]> = ((...args: T) => any) extends ((
+	_: infer First,
+	...rest: infer Rest
+) => any)
+	? T extends any[] ? Rest : ReadonlyArray<Rest[number]>
+	: [];
+
 declare const browser: AnyObject;
 
 type AnyObject = Record<string, any>;
