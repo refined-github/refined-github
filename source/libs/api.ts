@@ -26,8 +26,8 @@ so the call will not throw an error but it will return as usual.
 
 import OptionsSync from 'webext-options-sync';
 
-export const v3 = (query: string, options) => call(fetch3, query, options);
-export const v4 = (query: string, options) => call(fetch4, query, options);
+export const v3 = (query: string, options?) => call(fetch3, query, options);
+export const v4 = (query: string, options?) => call(fetch4, query, options);
 export const escapeKey = string => '_' + string.replace(/[./-]/g, '_');
 
 export class RefinedGitHubAPIError extends Error {
