@@ -27,7 +27,8 @@ function parseBranchFromDom(): string | undefined {
 }
 
 async function fetchFromApi(user: string, repo: string) {
-	const response = await api.v3<{default_branch:string}>(`repos/${user}/${repo}`);
+	// eslint-disable-next-line @typescript-eslint/camelcase
+	const response = await api.v3<{default_branch: string}>(`repos/${user}/${repo}`);
 	if (response && response.default_branch) {
 		return response.default_branch;
 	}
