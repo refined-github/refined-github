@@ -12,8 +12,13 @@ type TailArgs<TFunction extends any[]> = ((...args: TFunction) => any) extends (
 	? TFunction extends any[] ? Rest : ReadonlyArray<Rest[number]>
 	: [];
 
-declare const browser: typeof chrome;
+// TODO: Cherry pick from @types/chrome only the parts of the API used in Refined GitHub
+// and ensure where necessary, functions return Promises.
+declare const browser: AnyObject;
 
+// TODO: Type anything that is of type AnyObject
+// for browser, we can cherry pick from the chrome namespace from @types/chrome
+// ensuring that functions return Promises where applicable.
 type AnyObject = Record<string, any>;
 
 declare module 'select-dom' {

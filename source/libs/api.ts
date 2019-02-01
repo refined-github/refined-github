@@ -26,13 +26,11 @@ so the call will not throw an error but it will return as usual.
 
 import OptionsSync from 'webext-options-sync';
 
-type Fetch = typeof fetch;
-type Fetch3 = typeof fetch3;
-type Fetch4 = typeof fetch4;
-type SoManyFetch = Fetch | Fetch3 | Fetch4;
+type FetchStrategy = typeof fetch3 | typeof fetch4;
+type CallArguments = TailArgs<ArgumentTypes<typeof call>>;
 
-export const v3 = (...args: TailArgs<ArgumentTypes<typeof call>>) => call(fetch3, ...args);
-export const v4 = (...args: TailArgs<ArgumentTypes<typeof call>>) => call(fetch4, ...args);
+export const v3 = (...args: CallArguments) => call(fetch3, ...args);
+export const v4 = (...args: CallArguments) => call(fetch4, ...args);
 
 export const escapeKey = (value: string) => '_' + value.replace(/[./-]/g, '_');
 
@@ -74,16 +72,17 @@ function fetch4(query: string, personalToken: string) {
 }
 
 // Main function: handles cache, options, errors
-async function call<T extends SoManyFetch>(fetch: T, query: string, options = {accept404: false}) {
+async function call<TFetch extends FetchStrategy>(fetch: TFetch, query: string, options = {accept404: false}) {
 	if (cache.has(query)) {
 		return cache.get(query);
 	}
 
 	const {personalToken} = await new OptionsSync().getAll<{personalToken: string}>();
-	const response = await fetch4(query, personalToken);
+	const response = await fetch(query, personalToken);
 	const content = await response.text();
 
-	const result: { data?: unknown; errors?: Error[]; message?: string} = content.length > 0 ? JSON.parse(content) : {};
+	// TODO: This can probably be typed better, not happy with this.
+	const result: { data?: unknown; errors?: Error[]; message?: string;status?: number} = content.length > 0 ? JSON.parse(content) : {status: response.status};
 	const {data, errors = [], message = ''} = result;
 
 	if (errors.length > 0) {
