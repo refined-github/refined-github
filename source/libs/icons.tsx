@@ -1,4 +1,4 @@
-import { React } from 'dom-chef/react';
+import {React} from 'dom-chef/react';
 
 export const check = (): SVGElement => <svg aria-hidden="true" class="octicon octicon-check" width="12" height="16"><path d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z" /></svg>;
 

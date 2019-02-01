@@ -1,6 +1,6 @@
 import select from 'select-dom';
 import onetime from 'onetime';
-import { isRepo, isPR, isIssue } from './page-detect';
+import {isRepo, isPR, isIssue} from './page-detect';
 
 export interface OwnerAndRepo {
 	ownerName: string;
@@ -39,7 +39,7 @@ export const getRepoURL = (): string => location.pathname.slice(1).split('/', 2)
 
 export const getOwnerAndRepo = (): OwnerAndRepo => {
 	const [, ownerName, repoName] = location.pathname.split('/', 3);
-	return { ownerName, repoName };
+	return {ownerName, repoName};
 };
 
 export const groupBy = (iterable, grouper) => {
