@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import observeEl from './simplified-element-observer';
 
-function getLastCommit() {
+function getLastCommit(): string {
 	return select.all('.timeline-commits .commit-id').pop().textContent;
 }
 
@@ -10,7 +10,16 @@ export const FAILURE = Symbol('Failure');
 export const PENDING = Symbol('Pending');
 export const COMMIT_CHANGED = Symbol('Commit changed');
 
-export function get() {
+export type PR_CI_STATUS =
+	typeof SUCCESS
+	| typeof FAILURE
+	| typeof PENDING
+	| typeof COMMIT_CHANGED
+	| false;
+
+export type StatusListener = (status: PR_CI_STATUS) => void;
+
+export function get(): PR_CI_STATUS {
 	const commits = select.all('.commit-build-statuses > :first-child');
 	const lastCommit = commits[commits.length - 1];
 	if (lastCommit) {
@@ -28,18 +37,18 @@ export function get() {
 	return false;
 }
 
-export function wait() {
+export function wait(): Promise<PR_CI_STATUS> {
 	return new Promise(resolve => {
-		addEventListener(function handler(newStatus) {
+		addEventListener(function handler(newStatus: PR_CI_STATUS) {
 			removeEventListener(handler);
 			resolve(newStatus);
 		});
 	});
 }
 
-const observers = new WeakMap();
+const observers = new WeakMap<StatusListener, MutationObserver>();
 
-export function addEventListener(listener) {
+export function addEventListener(listener: StatusListener) {
 	if (observers.has(listener)) {
 		return;
 	}
@@ -69,6 +78,6 @@ export function addEventListener(listener) {
 	observers.set(listener, observer);
 }
 
-export function removeEventListener(listener) {
+export function removeEventListener(listener: StatusListener) {
 	observers.get(listener).disconnect();
 }
