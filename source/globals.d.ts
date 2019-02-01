@@ -1,6 +1,8 @@
+type ArgumentTypes<T> = T extends (...args: infer U) => infer R ? U : never;
+
 declare const browser: AnyObject;
 
-type AnyObject = {[key: string]: any};
+type AnyObject = Record<string, any>;
 
 declare module 'select-dom' {
 	import 'select-dom';
@@ -12,3 +14,11 @@ declare module 'select-dom' {
 	}
 	export = select;
 }
+
+declare module "webext-options-sync" {
+	export default class OptionsSync {
+		getAll: <T>() => T;
+	}
+}
+
+
