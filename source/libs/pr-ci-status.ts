@@ -10,7 +10,14 @@ export const FAILURE = Symbol('Failure');
 export const PENDING = Symbol('Pending');
 export const COMMIT_CHANGED = Symbol('Commit changed');
 
-export function get() {
+export type PR_CI_STATUS =
+	| typeof SUCCESS
+	| typeof FAILURE
+	| typeof PENDING
+	| typeof COMMIT_CHANGED
+	| false;
+
+export function get(): PR_CI_STATUS {
 	const commits = select.all('.commit-build-statuses > :first-child');
 	const lastCommit = commits[commits.length - 1];
 	if (lastCommit) {
@@ -28,9 +35,9 @@ export function get() {
 	return false;
 }
 
-export function wait() {
+export function wait(): Promise<PR_CI_STATUS> {
 	return new Promise(resolve => {
-		addEventListener(function handler(newStatus) {
+		addEventListener(function handler(newStatus: PR_CI_STATUS) {
 			removeEventListener(handler);
 			resolve(newStatus);
 		});
@@ -39,7 +46,7 @@ export function wait() {
 
 const observers = new WeakMap();
 
-export function addEventListener(listener) {
+export function addEventListener(listener: (value: PR_CI_STATUS) => void): void {
 	if (observers.has(listener)) {
 		return;
 	}
@@ -69,6 +76,6 @@ export function addEventListener(listener) {
 	observers.set(listener, observer);
 }
 
-export function removeEventListener(listener) {
+export function removeEventListener(listener: (value: PR_CI_STATUS) => void) {
 	observers.get(listener).disconnect();
 }

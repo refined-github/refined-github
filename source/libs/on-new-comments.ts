@@ -19,7 +19,7 @@ const addListenersOnNewElements = debounce(() => {
 	}
 }, {wait: 50});
 
-const setup = () => {
+const setup = ():void => {
 	const discussion = select('.js-discussion');
 	if (!discussion || observed.has(discussion)) {
 		return;

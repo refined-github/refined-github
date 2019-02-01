@@ -1,4 +1,4 @@
-export async function getSet(key, getter, expiration) {
+export async function getSet(key, getter, expiration?) {
 	const cache = await get(key);
 	if (cache !== undefined) {
 		return cache;

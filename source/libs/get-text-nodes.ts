@@ -1,4 +1,4 @@
-export default el => {
+export default (el: Element) => {
 	const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
 	const nodes = [];
 	/**

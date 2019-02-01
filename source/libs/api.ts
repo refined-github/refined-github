@@ -26,8 +26,8 @@ so the call will not throw an error but it will return as usual.
 
 import OptionsSync from 'webext-options-sync';
 
-export const v3 = (...args) => call(fetch3, ...args);
-export const v4 = (...args) => call(fetch4, ...args);
+export const v3 = (...args) => call(fetch3, {...args});
+export const v4 = (...args) => call(fetch4, {...args});
 export const escapeKey = string => '_' + string.replace(/[./-]/g, '_');
 
 export class RefinedGitHubAPIError extends Error {
@@ -45,7 +45,7 @@ function fetch3(query, personalToken) {
 		Accept: 'application/vnd.github.v3+json'
 	};
 	if (personalToken) {
-		headers.Authorization = `token ${personalToken}`;
+		headers["Authorization"] = `token ${personalToken}`;
 	}
 
 	return fetch(api + query, {headers});
