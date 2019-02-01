@@ -26,8 +26,8 @@ so the call will not throw an error but it will return as usual.
 
 import OptionsSync from 'webext-options-sync';
 
-export const v3 = <TVAlue = Object>(query: string, options?: FetchOptions) => call<TVAlue>(fetch3, query, options);
-export const v4 = <TVAlue = Object>(query: string, options?: FetchOptions) => call<TVAlue>(fetch4, query, options);
+export const v3 = <TVAlue = object>(query: string, options?: FetchOptions) => call<TVAlue>(fetch3, query, options);
+export const v4 = <TVAlue = object>(query: string, options?: FetchOptions) => call<TVAlue>(fetch4, query, options);
 export const escapeKey = (key: string) => '_' + key.replace(/[./-]/g, '_');
 
 export interface FetchOptions {
@@ -74,7 +74,7 @@ const fetch4: FetchGithubApi = (query, personalToken) => {
 };
 
 // Main function: handles cache, options, errors
-async function call<TValue = Object>(fetch: FetchGithubApi, query: string, options: FetchOptions = {accept404: false}): Promise<TValue> {
+async function call<TValue = object>(fetch: FetchGithubApi, query: string, options: FetchOptions = {accept404: false}): Promise<TValue> {
 	if (cache.has(query)) {
 		return cache.get(query);
 	}
