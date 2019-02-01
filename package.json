@@ -36,7 +36,6 @@
 	},
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^0.2.0",
-		"@types/chrome": "0.0.78",
 		"@typescript-eslint/eslint-plugin": "^1.1.0",
 		"ava": "^1.1.0",
 		"chrome-webstore-upload-cli": "^1.2.0",
@@ -79,8 +78,7 @@
 			"@typescript-eslint/restrict-plus-operands": "off"
 		},
 		"globals": [
-			"browser",
-			"chrome"
+			"browser"
 		]
 	},
 	"ava": {
