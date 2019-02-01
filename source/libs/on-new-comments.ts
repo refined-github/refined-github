@@ -3,7 +3,7 @@ import debounce from 'debounce-fn';
 import observeEl from './simplified-element-observer';
 
 const handlers = new Set();
-const observed = new WeakSet();
+const observed = new WeakSet<Element>();
 
 const run = debounce(() => {
 	// Safely run all callbacks
@@ -34,7 +34,7 @@ const setup = () => {
 	addListenersOnNewElements();
 };
 
-export default function (cb) {
+export default function (callback: () => void) {
 	setup();
-	handlers.add(cb);
+	handlers.add(callback);
 }
