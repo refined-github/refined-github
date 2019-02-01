@@ -37,7 +37,7 @@ async function embedGist(link) {
 				files
 			);
 		}
-	} catch (error) {
+	} catch {
 		info.remove(' (embed failed)');
 	}
 }
