@@ -703,7 +703,8 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 .rgh-sticky-header .table-list-header .select-menu-list {
 	max-height: calc(100vh - 150px);
 }
-/* Sticky file headers on pull request diff view */
+/* Sticky file headers on pull request diff view and conversation view */
+.rgh-sticky-header .discussion-timeline .discussion-item-body .file-header,
 .rgh-sticky-header .pull-request-tab-content .diff-view .file-header {
 	top: 59px;
 }
