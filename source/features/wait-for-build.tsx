@@ -25,7 +25,7 @@ function canMerge() {
 }
 
 function getCheckbox() {
-	return select('[name="rgh-pr-check-waiter"]');
+	return select<HTMLInputElement>('[name="rgh-pr-check-waiter"]');
 }
 
 // Only show the checkbox if there's a pending commit
@@ -38,7 +38,7 @@ function showCheckboxIfNecessary() {
 			container.append(generateCheckbox());
 		}
 	} else if (checkbox && !isNecessary) {
-		checkbox.parentNode.remove();
+		(checkbox.parentNode as HTMLElement).remove();
 	}
 }
 

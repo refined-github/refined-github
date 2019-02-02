@@ -43,12 +43,12 @@ function handleMenuOpening(event) {
 	hideButton.addEventListener('click', event => {
 		event.stopImmediatePropagation();
 		event.preventDefault();
-		optionList.setAttribute('hidden', true);
+		optionList.setAttribute('hidden', 'true');
 		form.removeAttribute('hidden');
 	});
 	dropdown.addEventListener('toggle', () => {
 		optionList.removeAttribute('hidden');
-		form.setAttribute('hidden', true);
+		form.setAttribute('hidden', 'true');
 	});
 
 	dropdown.append(form);

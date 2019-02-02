@@ -54,7 +54,7 @@ function init() {
 
 				// Move caret to end of field
 				requestAnimationFrame(() => {
-					select('.js-comment-field', lastOwnComment).selectionStart = Number.MAX_SAFE_INTEGER;
+					select<HTMLInputElement>('.js-comment-field', lastOwnComment).selectionStart = Number.MAX_SAFE_INTEGER;
 				});
 			}
 		}

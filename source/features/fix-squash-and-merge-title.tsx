@@ -10,7 +10,7 @@ function init() {
 	btn.addEventListener('click', () => {
 		const title = select('.js-issue-title').textContent;
 		const number = select('.gh-header-number').textContent;
-		select('#merge_title_field').value = `${title.trim()} (${number})`;
+		select<HTMLInputElement>('#merge_title_field').value = `${title.trim()} (${number})`;
 	});
 }
 
