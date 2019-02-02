@@ -18,7 +18,7 @@ export const getRepoPath = () => {
 		return getCleanPathname().split('/').slice(2).join('/');
 	}
 
-	return false;
+	return '';
 };
 
 export const getRepoBranch = () => {
