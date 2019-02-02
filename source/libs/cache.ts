@@ -46,7 +46,7 @@ export function set<TValue>(key: string, value: TValue, expiration?: number /* i
 }
 
 /* Accept messages in background page */
-if (!browser.runtime.getBackground) {
+if (!browser.runtime.getBackgroundPage) {
 	browser.runtime.onMessage.addListener((request: CacheRequest, _sender, sendResponse) => {
 		if (!request) {
 			return;
