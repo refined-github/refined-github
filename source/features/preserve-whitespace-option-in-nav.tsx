@@ -15,7 +15,7 @@ function init() {
 		for (const a of navLinks) {
 			const linkUrl = new URL(a.href);
 			linkUrl.searchParams.set('w', '1');
-			a.href = `${linkUrl}`;
+			a.href = String(linkUrl);
 		}
 	}
 }

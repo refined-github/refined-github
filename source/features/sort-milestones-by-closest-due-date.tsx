@@ -8,7 +8,7 @@ function init() {
 		if (!url.searchParams.get('direction') && !url.searchParams.get('sort')) {
 			url.searchParams.set('direction', 'asc');
 			url.searchParams.set('sort', 'due_date');
-			a.href = `${url}`;
+			a.href = String(url);
 		}
 	}
 }
