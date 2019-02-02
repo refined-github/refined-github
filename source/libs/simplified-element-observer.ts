@@ -1,4 +1,4 @@
-export default function (el, listener, options = {childList: true}) {
+export default function (el: Node|string, listener: MutationCallback, options: MutationObserverInit = {childList: true}) {
 	if (typeof el === 'string') {
 		el = document.querySelector(el);
 	}
