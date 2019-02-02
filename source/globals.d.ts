@@ -35,3 +35,10 @@ declare module 'webext-options-sync' {
 	}
 }
 
+declare module 'webext-domain-permission-toggle' {
+	export function addContextMenu(): void;
+};
+
+declare module 'webext-dynamic-content-scripts' {
+	export function addToFutureTabs(): void;
+}
