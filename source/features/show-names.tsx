@@ -40,7 +40,7 @@ async function init() {
 		if (name) {
 			// If it's a regular comment author, add it outside <strong>
 			// otherwise it's something like "User added some commits"
-			const insertionPoint = (usernameEl.parentNode as HTMLElement).tagName === 'STRONG' ? usernameEl.parentNode : usernameEl;
+			const insertionPoint = usernameEl.parentElement.tagName === 'STRONG' ? usernameEl.parentNode : usernameEl;
 			(insertionPoint as HTMLElement).after(' (', <bdo>{name}</bdo>, ') ');
 		}
 	}

@@ -12,7 +12,7 @@ function init() {
 		const timestamp = timestampEl.attributes['datetime'].value; // eslint-disable-line dot-notation
 		const href = `/${getRepoURL()}/tree/HEAD@{${timestamp}}`;
 
-		(timestampEl.parentNode as HTMLElement).after(
+		timestampEl.parentElement.after(
 			' ',
 			<a
 				href={href}

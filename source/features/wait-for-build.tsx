@@ -38,7 +38,7 @@ function showCheckboxIfNecessary() {
 			container.append(generateCheckbox());
 		}
 	} else if (checkbox && !isNecessary) {
-		(checkbox.parentNode as HTMLElement).remove();
+		checkbox.parentElement.remove();
 	}
 }
 
