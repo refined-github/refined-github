@@ -20,7 +20,7 @@ type AnyObject = Record<string, any>;
 declare module 'select-dom' {
 	import 'select-dom';
 
-	function select(selector: string, parent?: any): any | null;
+	function select<T extends HTMLElement = HTMLElement>(selector: string, parent?: string|Element|DocumentFragment): T | null;
 	namespace select {
 		export function exists(selector: string, parent?: Element): boolean;
 		export function all(selector: string, parent?: Element | Element[] | NodeList | DocumentFragment): any[];
