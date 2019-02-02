@@ -191,7 +191,7 @@ declare namespace browser.runtime {	// eslint-disable-line no-redeclare
 		tlsChannelId?: string;
 	}
 
-	export function sendMessage<TMessage>(message: TMessage): Promise<any>;
+	export function sendMessage<TMessage>(message: TMessage): Promise<unknown>;
 
 	export function getBackground(): Promise<Window>;
 
@@ -201,7 +201,7 @@ declare namespace browser.runtime {	// eslint-disable-line no-redeclare
 
 	// Keeping the empty interface as per the Chrome extension types.
 	// eslint-disable-next-line @typescript-eslint/no-empty-interface
-	export interface ExtensionMessageEvent extends browser.events.Event<(message: any, sender: MessageSender, sendResponse: (response: any) => void) => void> { }
+	export interface ExtensionMessageEvent extends browser.events.Event<(message: any, sender: MessageSender, sendResponse: (response?: unknown) => void) => void> { }
 }
 
 declare namespace browser.management	{	// eslint-disable-line no-redeclare
