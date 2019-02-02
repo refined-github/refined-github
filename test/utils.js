@@ -1,6 +1,6 @@
 import test from 'ava';
 import './fixtures/globals';
-import * as utils from '../source/libs/utils.ts';
+import * as utils from '../source/libs/utils';
 
 test('getDiscussionNumber', t => {
 	const pairs = new Map([
