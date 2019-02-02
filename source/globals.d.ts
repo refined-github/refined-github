@@ -31,6 +31,7 @@ declare module 'select-dom' {
 declare module 'webext-options-sync' {
 	export default class OptionsSync {
 		getAll: <T>() => T;
+		syncForm: (selector: string) => void;
 	}
 }
 
