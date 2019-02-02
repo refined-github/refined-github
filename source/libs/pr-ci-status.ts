@@ -1,6 +1,8 @@
 import select from 'select-dom';
 import observeEl from './simplified-element-observer';
 
+type CommitStatus = false | typeof SUCCESS | typeof FAILURE;
+
 function getLastCommit() {
 	return select.all('.timeline-commits .commit-id').pop().textContent;
 }
@@ -30,14 +32,14 @@ export function get() {
 
 export function wait() {
 	return new Promise(resolve => {
-		addEventListener(function handler(newStatus) {
+		addEventListener(function handler(newStatus: CommitStatus) {
 			removeEventListener(handler);
 			resolve(newStatus);
 		});
 	});
 }
 
-const observers = new WeakMap();
+const observers = new WeakMap<(newStatus: CommitStatus) => void, MutationObserver>();
 
 export function addEventListener(listener) {
 	if (observers.has(listener)) {
@@ -69,6 +71,6 @@ export function addEventListener(listener) {
 	observers.set(listener, observer);
 }
 
-export function removeEventListener(listener) {
+export function removeEventListener(listener: (newStatus: CommitStatus) => void) {
 	observers.get(listener).disconnect();
 }
