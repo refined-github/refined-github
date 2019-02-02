@@ -43,7 +43,7 @@ function showCheckboxIfNecessary() {
 }
 
 function disableForm(disabled = true) {
-	for (const field of select.all(`
+	for (const field of select.all<HTMLFormElement>(`
 		[name="commit_message"],
 		[name="commit_title"],
 		[name="rgh-pr-check-waiter"],

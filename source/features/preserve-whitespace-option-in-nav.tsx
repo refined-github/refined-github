@@ -3,7 +3,7 @@ import features from '../libs/features';
 
 // When navigating with next/previous in review mode, preserve whitespace option.
 function init() {
-	const navLinks = select.all('.commit > .BtnGroup.float-right > a.BtnGroup-item');
+	const navLinks = select.all<HTMLAnchorElement>('.commit > .BtnGroup.float-right > a.BtnGroup-item');
 	if (navLinks.length === 0) {
 		return false;
 	}
@@ -15,7 +15,7 @@ function init() {
 		for (const a of navLinks) {
 			const linkUrl = new URL(a.href);
 			linkUrl.searchParams.set('w', '1');
-			a.href = linkUrl;
+			a.href = `${linkUrl}`;
 		}
 	}
 }

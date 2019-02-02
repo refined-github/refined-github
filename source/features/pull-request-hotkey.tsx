@@ -14,7 +14,7 @@ function init() {
 			keys.push('g ArrowRight');
 		}
 
-		tab.dataset.hotkey = keys;
+		tab.dataset.hotkey = `${keys}`;
 	}
 }
 

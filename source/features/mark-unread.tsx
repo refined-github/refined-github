@@ -284,7 +284,7 @@ async function markNotificationRead({target}) {
 async function markAllNotificationsRead(event) {
 	event.preventDefault();
 	const repoGroup = event.target.closest('.boxed-group');
-	const urls = select.all('a.js-notification-target', repoGroup).map(a => a.href);
+	const urls = select.all<HTMLAnchorElement>('a.js-notification-target', repoGroup).map(a => a.href);
 	await markRead(urls);
 	await updateUnreadIndicator();
 }

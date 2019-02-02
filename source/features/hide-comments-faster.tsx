@@ -17,7 +17,7 @@ function handleMenuOpening(event) {
 	const form = select('.js-comment-minimize', comment);
 
 	// Generate dropdown items
-	for (const reason of select.all('[name="classifier"] :not([value=""])', comment)) {
+	for (const reason of select.all<HTMLInputElement>('[name="classifier"] :not([value=""])', comment)) {
 		form.append(
 			<button
 				name="classifier"

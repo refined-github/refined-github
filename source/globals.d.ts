@@ -23,7 +23,7 @@ declare module 'select-dom' {
 	function select<T extends HTMLElement = HTMLElement>(selector: string, parent?: string|Element|DocumentFragment): T | null;
 	namespace select {
 		export function exists(selector: string, parent?: Element): boolean;
-		export function all(selector: string, parent?: Element | Element[] | NodeList | DocumentFragment): any[];
+		export function all<T extends HTMLElement = HTMLElement>(selector: string, parent?: Element | Element[] | NodeList | DocumentFragment): T[];
 	}
 	export = select;
 }

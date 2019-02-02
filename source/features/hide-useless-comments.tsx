@@ -16,7 +16,7 @@ function init() {
 		}
 
 		// Ensure that they're not by VIPs (owner, collaborators, etc)
-		const comment = commentText.closest('.js-timeline-item');
+		const comment = commentText.closest('.js-timeline-item') as HTMLElement;
 		if (select.exists('.timeline-comment-label', comment)) {
 			continue;
 		}

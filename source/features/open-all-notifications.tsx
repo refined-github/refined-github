@@ -17,7 +17,7 @@ function openNotifications({target}) {
 	const container = target.closest('.boxed-group, .notification-center');
 
 	// Ask for confirmation
-	const unreadNotifications = select.all(unreadNotificationsClass, container);
+	const unreadNotifications = select.all<HTMLAnchorElement>(unreadNotificationsClass, container);
 	if (
 		unreadNotifications.length >= confirmationRequiredCount &&
 		!confirm(`This will open ${unreadNotifications.length} new tabs. Continue?`)

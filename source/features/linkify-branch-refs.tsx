@@ -6,7 +6,7 @@ import {getOwnerAndRepo} from '../libs/utils';
 import {safeElementReady, wrap} from '../libs/dom-utils';
 
 function inPR() {
-	let deletedBranch = false;
+	let deletedBranch: string;
 	const lastBranchAction = select.all(`
 		.discussion-item-head_ref_deleted .commit-ref,
 		.discussion-item-head_ref_restored .commit-ref
@@ -16,7 +16,7 @@ function inPR() {
 	}
 
 	// Find the URLs first, some elements don't have titles
-	const urls = new Map();
+	const urls = new Map<string, string>();
 	for (const el of select.all('.commit-ref[title], .base-ref[title], .head-ref[title]')) {
 		const [repo, branch] = el.title.split(':');
 		const branchName = el.textContent.trim();
