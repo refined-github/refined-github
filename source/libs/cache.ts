@@ -9,7 +9,7 @@ interface CacheRequest {
 	expiration: number;
 }
 
-export async function getSet(key: string, getter: CacheGetter, expiration: number) {
+export async function getSet(key: string, getter: CacheGetter, expiration?: number) {
 	const cache = await get(key);
 	if (cache !== undefined) {
 		return cache;
