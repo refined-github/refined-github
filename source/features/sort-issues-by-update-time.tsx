@@ -39,7 +39,7 @@ function init() {
 			const search = new URLSearchParams(link.search);
 			const existingQuery = search.get('q') || getDefaultQuery(link, search);
 			search.set('q', `${existingQuery} sort:updated-desc`);
-			link.search = `${search}`;
+			link.search = search.toString();
 		}
 	}
 
