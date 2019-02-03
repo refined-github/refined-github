@@ -57,6 +57,13 @@ function init() {
 
 			if (lastOwnComment) {
 				select('.js-comment-edit-button', lastOwnComment).click();
+				const closeCurrentField = field
+					.closest('form')
+					.querySelector('.js-hide-inline-comment-form');
+
+				if (closeCurrentField) {
+					closeCurrentField.click();
+				}
 
 				// Move caret to end of field
 				requestAnimationFrame(() => {
