@@ -56,7 +56,7 @@ function init() {
 				.reverse()
 				.find(comment => {
 					const collapsible = comment.closest('details');
-					return !collapsible || collapsible.open
+					return !collapsible || collapsible.open;
 				});
 
 			if (lastOwnComment) {
