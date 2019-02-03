@@ -43,25 +43,22 @@ function init() {
 	prLink.append(
 		<include-fragment src={createUrl('pr', location.pathname + '/count')} />
 	);
-	prLink.classList.remove('selected');
 
 	issueLink.after(prLink);
 
 	// Update UI in PR searches
+	const title = select('.codesearch-results h3').firstChild;
 	if (/\bis:pr\b/.test(getSearchQuery())) {
-		select('.menu-item.selected').classList.remove('selected');
-		prLink.classList.add('selected');
-
-		const title = select('.codesearch-results h3').firstChild;
+		issueLink.classList.remove('selected');
 		title.textContent = title.textContent.replace('issue', 'pull request');
 	} else if (/\btype=Issues\b/.test(location.search) && !/\bis:issue\b/.test(getSearchQuery())) {
-		prLink.classList.add('selected');
 
-		const title = select('.codesearch-results h3').firstChild;
 		title.textContent = title.textContent.replace(/issue(s)?/, 'issue$1 and pull request$1');
 		// `.selected` overrides `:hover`, so we need to reapply `:hover`'s style
 		prLink.classList.add('rgh-split-issue-pr-combined')
 		issueLink.classList.add('rgh-split-issue-pr-combined')
+	} else {
+		prLink.classList.remove('selected');
 	}
 }
 
