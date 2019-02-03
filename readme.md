@@ -101,6 +101,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Use the pull request description as the commit message when merging with `Squash and merge`.](https://github.com/sindresorhus/refined-github/issues/1322).
 - [Access related pages on 404 pages.](https://user-images.githubusercontent.com/1402241/46402857-7bdada80-c733-11e8-91a1-856573078ff5.png)
 - [Add co-authors when merging PRs with multiple committers.](https://user-images.githubusercontent.com/1402241/51468821-71a42100-1da2-11e9-86aa-fc2a6a29da84.png)
+- [Search for issues and PRs separately in the top search.](https://user-images.githubusercontent.com/1402241/52181103-35a09f80-2829-11e9-9c6f-57f2e08fc5b2.png)
 
 ### More actions
 
