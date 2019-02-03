@@ -53,7 +53,11 @@ function init() {
 			].join());
 			const lastOwnComment = select
 				.all('.js-comment.current-user', currentConversationContainer)
-				.pop();
+				.reverse()
+				.find(comment => {
+					const collapsible = comment.closest('details');
+					return !collapsible || collapsible.open
+				});
 
 			if (lastOwnComment) {
 				select('.js-comment-edit-button', lastOwnComment).click();
