@@ -46,12 +46,13 @@ function init() {
 
 	issueLink.after(prLink);
 
-	// Update UI in PR searches
 	const title = select('.codesearch-results h3').firstChild;
 	if (/\bis:pr\b/.test(getSearchQuery())) {
+		// Update UI in PR searches
 		issueLink.classList.remove('selected');
 		title.textContent = title.textContent.replace('issue', 'pull request');
 	} else if (/\btype=Issues\b/.test(location.search) && !/\bis:issue\b/.test(getSearchQuery())) {
+		// Update UI in combined searches (where there's no `is:<type>` query)
 		title.textContent = title.textContent
 			.replace(/issue\b/, 'issue or pull request')
 			.replace(/issues/, 'issues and pull requests');
