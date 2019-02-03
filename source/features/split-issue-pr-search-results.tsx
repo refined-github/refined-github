@@ -58,8 +58,8 @@ function init() {
 			.replace('issues', 'issues and pull requests');
 
 		// `.selected` overrides `:hover`, so we need to reapply `:hover`'s style
-		prLink.classList.add('rgh-split-issue-pr-combined')
-		issueLink.classList.add('rgh-split-issue-pr-combined')
+		prLink.classList.add('rgh-split-issue-pr-combined');
+		issueLink.classList.add('rgh-split-issue-pr-combined');
 	} else {
 		prLink.classList.remove('selected');
 	}
