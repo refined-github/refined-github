@@ -52,8 +52,10 @@ function init() {
 		issueLink.classList.remove('selected');
 		title.textContent = title.textContent.replace('issue', 'pull request');
 	} else if (/\btype=Issues\b/.test(location.search) && !/\bis:issue\b/.test(getSearchQuery())) {
+		title.textContent = title.textContent
+			.replace(/issue\b/, 'issue or pull request')
+			.replace(/issues/, 'issues and pull requests');
 
-		title.textContent = title.textContent.replace(/issue(s)?/, 'issue$1 and pull request$1');
 		// `.selected` overrides `:hover`, so we need to reapply `:hover`'s style
 		prLink.classList.add('rgh-split-issue-pr-combined')
 		issueLink.classList.add('rgh-split-issue-pr-combined')
