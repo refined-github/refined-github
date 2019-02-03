@@ -59,6 +59,9 @@ function init() {
 
 		const title = select('.codesearch-results h3').firstChild;
 		title.textContent = title.textContent.replace(/issue(s)?/, 'issue$1 and pull request$1');
+		// `.selected` overrides `:hover`, so we need to reapply `:hover`'s style
+		prLink.classList.add('rgh-split-issue-pr-combined')
+		issueLink.classList.add('rgh-split-issue-pr-combined')
 	}
 }
 
