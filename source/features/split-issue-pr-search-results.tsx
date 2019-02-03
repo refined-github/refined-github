@@ -14,15 +14,15 @@ function getSearchQuery() {
 	return new URLSearchParams(location.search).get('q');
 }
 
-function cleanSearchQuery(query, newType = '') {
+function cleanSearchQuery(query) {
 	return query
 		.replace(/\bis:(pr|issue)\b/gi, '')
-		.replace(/\s{2,}/g, ' ').trim() + ' ' + newType;
+		.replace(/\s{2,}/g, ' ').trim();
 }
 
 function createUrl(type, pathname = location.pathname) {
 	const url = new URL(pathname, location.origin);
-	url.searchParams.set('q', cleanSearchQuery(getSearchQuery(), `is:${type}`));
+	url.searchParams.set('q', cleanSearchQuery(getSearchQuery()) + ` is:${type}`);
 	url.searchParams.set('type', 'Issues');
 	return url.toString();
 }
