@@ -46,8 +46,14 @@ function init() {
 
 			event.stopImmediatePropagation();
 			event.preventDefault();
-		} else if (event.key === 'ArrowUp' && field.id === 'new_comment_field' && field.value === '') {
-			const lastOwnComment = select.all('.js-comment.current-user').pop();
+		} else if (event.key === 'ArrowUp' && field.matches('.js-comment-field') && field.value === '') {
+			const currentConversationContainer = field.closest([
+				'.js-inline-comments-container', // Current review thread container
+				'.discussion-timeline' // Or just ALL the comments
+			].join());
+			const lastOwnComment = select
+				.all('.js-comment.current-user', currentConversationContainer)
+				.pop();
 
 			if (lastOwnComment) {
 				select('.js-comment-edit-button', lastOwnComment).click();
