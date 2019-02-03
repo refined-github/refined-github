@@ -88,8 +88,12 @@ import './features/bypass-checks';
 import './features/add-co-authored-by';
 
 // Add global for easier debugging
-interface WindowWithSelect extends Window {
-	select: typeof select;
+type Select = typeof select;
+
+declare global {
+	interface Window {
+		select: Select;
+	}
 }
 
-(window as WindowWithSelect).select = select;
+window.select = select;
