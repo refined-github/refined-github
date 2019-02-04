@@ -3,7 +3,7 @@ import './fixtures/globals';
 import * as utils from '../source/libs/utils';
 
 test('getDiscussionNumber', t => {
-	const pairs = new Map([
+	const pairs = new Map<string, boolean|string>([
 		[
 			'https://github.com',
 			false
@@ -71,27 +71,27 @@ test('getDiscussionNumber', t => {
 	]);
 	for (const [url, result] of pairs) {
 		location.href = url;
-		t.is(result, utils.getDiscussionNumber(url));
+		t.is(result, utils.getDiscussionNumber());
 	}
 });
 
 test('getRepoPath', t => {
-	const pairs = new Map([
+	const pairs = new Map<string, boolean|string>([
 		[
 			'https://github.com',
-			false
+			undefined
 		],
 		[
 			'https://gist.github.com/',
-			false
+			undefined
 		],
 		[
 			'https://github.com/settings/developers',
-			false
+			undefined
 		],
 		[
 			'https://github.com/sindresorhus/notifications/notifications',
-			false
+			undefined
 		],
 		[
 			'https://github.com/sindresorhus/refined-github',
@@ -121,7 +121,8 @@ test('getRepoPath', t => {
 
 	for (const [url, result] of pairs) {
 		location.href = url;
-		t.is(result, utils.getRepoPath(url));
+		console.log(result, utils.getRepoPath());
+		t.is(result, utils.getRepoPath());
 	}
 });
 
