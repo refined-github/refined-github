@@ -19,7 +19,7 @@ export const safeElementReady = (selector: string) => {
 /**
  * Append to an element, but before a element that might not exist.
  * @param  {Element|string} parent  Element (or its selector) to which append the `child`
- * @param  {string}         before  Selector of the element that `child` should be inserted before
+ * @param  {string|Element}         before  Selector of the element that `child` should be inserted before
  * @param  {Element}        child   Element to append
  * @example
  *
