@@ -4,8 +4,8 @@ type CacheGetter = () => string|Promise<string>;
 interface CacheRequest {
 	code: string;
 	key: string;
-	value: unknown;
-	expiration: number;
+	value?: unknown;
+	expiration?: number;
 }
 
 export async function getSet(key: string, getter: CacheGetter, expiration?: number) {
