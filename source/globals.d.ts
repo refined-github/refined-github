@@ -1,3 +1,4 @@
+// Returns the types of all the arguments of a function
 type ArgumentTypes<TFunction> = TFunction extends (...args: infer TInferredArgs) => infer TInferredReturnType ? TInferredArgs : never;
 
 // Returns the rest args of a function minus the first argument.
