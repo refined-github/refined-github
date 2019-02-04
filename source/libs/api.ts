@@ -72,7 +72,7 @@ function fetch4(query: string, personalToken: string) {
 }
 
 // Main function: handles cache, options, errors
-async function call<TFetch extends FetchStrategy>(fetch: TFetch, query: string, options = {accept404: false}) {
+async function call(fetch: FetchStrategy, query: string, options = {accept404: false}) {
 	if (cache.has(query)) {
 		return cache.get(query);
 	}
