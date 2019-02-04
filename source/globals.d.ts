@@ -1,5 +1,6 @@
 type ArgumentTypes<TFunction> = TFunction extends (...args: infer TInferredArgs) => infer TInferredReturnType ? TInferredArgs : never;
 
+// Returns the rest args of a function minus the first argument.
 type TailArgs<TFunction extends any[]> = ((...args: TFunction) => any) extends ((
 	_: infer First,
 	...rest: infer Rest
