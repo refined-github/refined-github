@@ -8,11 +8,11 @@ async function init() {
 }
 
 async function bypass(check) {
-	const details = select<HTMLAnchorElement>('.status-actions', check.parentNode);
+	const details = select<HTMLAnchorElement>('.status-actions', check.parentElement);
 	const response = await fetch(details.href);
 	const dom = domify(await response.text());
 	const directLink = select('a.text-small .octicon-link-external', dom);
-	details.href = (directLink.parentNode as HTMLAnchorElement).href;
+	details.href = (directLink.parentElement as HTMLAnchorElement).href;
 }
 
 features.add({
