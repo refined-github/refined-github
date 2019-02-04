@@ -12,7 +12,7 @@ export const getCleanPathname = () => location.pathname.replace(/^[/]|[/]$/g, ''
 // Parses a repo's subpage, e.g.
 // '/user/repo/issues/' -> 'issues'
 // '/user/repo/' -> ''
-// returns false if the path is not a repo
+// returns undefined if the path is not a repo
 export const getRepoPath = () => {
 	if (isRepo()) {
 		return getCleanPathname().split('/').slice(2).join('/');
