@@ -1,7 +1,6 @@
 
 type CacheGetter = () => string|Promise<string>;
 
-// TODO: If this needs to be used elsewhere, pull it out from here.
 interface CacheRequest {
 	code: string;
 	key: string;
