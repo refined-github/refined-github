@@ -63,7 +63,7 @@ function init() {
 	form.addEventListener('submit', () => {
 		// Delay disabling the fields to let them be submitted first
 		setTimeout(() => {
-			for (const control of select.all<HTMLInputElement>('button, textarea', form)) {
+			for (const control of select.all<HTMLButtonElement | HTMLTextAreaElement>('button, textarea', form)) {
 				control.disabled = true;
 			}
 		});

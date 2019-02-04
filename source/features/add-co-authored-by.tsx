@@ -37,7 +37,7 @@ async function fetchCoAuthoredData() {
 }
 
 function addCoAuthors() {
-	const field = select<HTMLInputElement>('#merge_message_field');
+	const field = select<HTMLTextAreaElement>('#merge_message_field');
 	if (field.value.includes('Co-authored-by: ')) {
 		// Don't affect existing information
 		return;
