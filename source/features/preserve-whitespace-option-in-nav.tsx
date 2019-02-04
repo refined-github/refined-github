@@ -14,10 +14,7 @@ function init() {
 	if (hidingWhitespace) {
 		for (const a of navLinks) {
 			const linkUrl = new URL(a.href);
-			const params = new URLSearchParams(a.search);
-
-			params.set('w', '1');
-			a.search = params.toString();
+			linkUrl.searchParams.set('w', '1');
 			a.href = String(linkUrl);
 		}
 	}
