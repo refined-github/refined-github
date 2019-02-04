@@ -17,7 +17,7 @@ async function init() {
 		}
 
 		// Drop 'commented' label to shorten the copy
-		const commentedNode = el.parentNode.nextSibling as HTMLElement;
+		const commentedNode = el.parentNode.nextSibling as Text;
 		if (commentedNode && commentedNode.textContent.includes('commented')) {
 			commentedNode.remove();
 		}

@@ -40,7 +40,7 @@ browser.runtime.onMessage.addListener(async message => {
 	}
 });
 
-browser.runtime.onInstalled.addListener(async ({reason}: { reason: string }) => {
+browser.runtime.onInstalled.addListener(async ({reason}) => {
 	// Only notify on install
 	if (reason === 'install') {
 		const {installType} = await browser.management.getSelf();

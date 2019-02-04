@@ -1,13 +1,10 @@
 export default (el: Element) => {
 	const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
-	const nodes: Element[] = [];
-	/**
-	 * @type ChildNode
-	 */
-	let node: Element;
+	const nodes: Text[] = [];
+	let node: Text;
 
 	do {
-		node = walker.nextNode() as Element;
+		node = walker.nextNode() as Text;
 		if (node) {
 			nodes.push(node);
 		}

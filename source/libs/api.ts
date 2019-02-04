@@ -45,7 +45,7 @@ const api = location.hostname === 'github.com' ? 'https://api.github.com/' : `${
 const cache = new Map<string, any>();
 
 function fetch3(query: string, personalToken: string) {
-	const headers: RequestInit['headers'] = {
+	const headers: HeadersInit = {
 		'User-Agent': 'Refined GitHub',
 		Accept: 'application/vnd.github.v3+json'
 	};

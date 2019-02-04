@@ -121,7 +121,6 @@ test('getRepoPath', t => {
 
 	for (const [url, result] of pairs) {
 		location.href = url;
-		console.log(result, utils.getRepoPath());
 		t.is(result, utils.getRepoPath());
 	}
 });
