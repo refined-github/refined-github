@@ -1,14 +1,3 @@
-// Returns the types of all the arguments of a function
-type ArgumentTypes<TFunction> = TFunction extends (...args: infer TInferredArgs) => infer TInferredReturnType ? TInferredArgs : never;
-
-// Returns the rest args of a function minus the first argument.
-type TailArgs<TFunction extends any[]> = ((...args: TFunction) => any) extends ((
-	_: infer First,
-	...rest: infer Rest
-) => any)
-	? TFunction extends any[] ? Rest : ReadonlyArray<Rest[number]>
-	: [];
-
 // TODO: Type anything that is of type AnyObject
 // for browser, we can cherry pick from the chrome namespace from @types/chrome
 // ensuring that functions return Promises where applicable.
