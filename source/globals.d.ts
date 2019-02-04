@@ -1,10 +1,5 @@
 type ArgumentTypes<TFunction> = TFunction extends (...args: infer TInferredArgs) => infer TInferredReturnType ? TInferredArgs : never;
 
-type FirstArg<TFunction extends any[]> =
-	TFunction extends [infer TFirstArg, ...any[]] ? TFirstArg :
-		TFunction extends [] ? undefined :
-			never;
-
 type TailArgs<TFunction extends any[]> = ((...args: TFunction) => any) extends ((
 	_: infer First,
 	...rest: infer Rest
