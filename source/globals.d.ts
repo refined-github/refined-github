@@ -26,7 +26,7 @@ declare module 'select-dom' {
 }
 
 declare module 'webext-options-sync' {
-	export interface DefineOptions {
+	interface DefineOptions {
 		defaults: {
 			disabledFeatures: string;
 			customCSS: string;
