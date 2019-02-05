@@ -1,6 +1,4 @@
 // TODO: Type anything that is of type AnyObject
-// for browser, we can cherry pick from the chrome namespace from @types/chrome
-// ensuring that functions return Promises where applicable.
 type AnyObject = Record<string, any>;
 
 declare module 'select-dom' {
