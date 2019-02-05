@@ -29,9 +29,9 @@
 		"shorten-repo-url": "^1.5.0",
 		"storm-textarea": "2.0.1",
 		"tiny-version-compare": "^0.10.0",
-		"webext-domain-permission-toggle": "0.0.2",
-		"webext-dynamic-content-scripts": "^5.0.1",
-		"webext-options-sync": "^0.15.1",
+		"webext-domain-permission-toggle": "0.0.3-0",
+		"webext-dynamic-content-scripts": "^5.0.2-0",
+		"webext-options-sync": "^0.15.3-0",
 		"webextension-polyfill": "^0.3.1"
 	},
 	"devDependencies": {
