@@ -6,11 +6,11 @@ import {groupSiblings} from '../libs/group-buttons';
 
 function init() {
 	// This selector skips binaries + markdowns with code
-	for (const code of select.all('.file .blob-wrapper > .highlight:not(.rgh-copy-file)')) {
+	for (const code of select.all<HTMLInputElement>('.file .blob-wrapper > .highlight:not(.rgh-copy-file)')) {
 		code.classList.add('rgh-copy-file');
 		const file = code.closest('.file');
 
-		const content = select.all('.blob-code-inner', file)
+		const content = select.all<HTMLInputElement>('.blob-code-inner', file)
 			.map(blob => blob.innerText)
 			.map(line => line === '\n' ? '' : line)
 			.join('\n');

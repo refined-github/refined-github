@@ -57,7 +57,7 @@ function addOpenReposButton() {
 			continue;
 		}
 
-		const [, repo] = select('.notifications-repo-link', repoNotifications).title.split('/');
+		const [, repo] = select<HTMLAnchorElement>('.notifications-repo-link', repoNotifications).title.split('/');
 
 		select('.mark-all-as-read', repoNotifications).before(
 			<button type="button" class="open-repo-notifications tooltipped tooltipped-w rgh-open-notifications-button" aria-label={`Open all unread \`${repo}\` notifications in tabs`}>
