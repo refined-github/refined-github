@@ -25,7 +25,7 @@
 		"linkify-issues": "^1.3.0",
 		"linkify-urls": "^2.2.0",
 		"onetime": "^2.0.1",
-		"select-dom": "^4.1.3",
+		"select-dom": "^4.2.0-2",
 		"shorten-repo-url": "^1.5.0",
 		"storm-textarea": "2.0.1",
 		"tiny-version-compare": "^0.10.0",
