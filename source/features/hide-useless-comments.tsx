@@ -46,7 +46,7 @@ function init() {
 }
 
 function unhide(event) {
-	for (const comment of select.all<HTMLTextAreaElement>('.rgh-hidden-comment')) {
+	for (const comment of select.all<HTMLElement>('.rgh-hidden-comment')) {
 		comment.hidden = false;
 	}
 
