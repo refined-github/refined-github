@@ -79,8 +79,8 @@ async function call(fetch: FetchStrategy, query: string, options: FetchOptions =
 		return cache.get(query);
 	}
 
-	const {personalToken} = await new OptionsSync().getAll<{personalToken: string}>();
-	const response = await fetch(query, personalToken);
+	const {personalToken} = await new OptionsSync().getAll();
+	const response = await fetch(query, personalToken as string);
 	const content = await response.text();
 
 	const result: { data?: AnyObject; errors?: Error[]; message?: string;status?: number} = content.length > 0 ? JSON.parse(content) : {status: response.status};
