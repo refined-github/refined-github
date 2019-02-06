@@ -44,8 +44,7 @@ export class RefinedGitHubAPIError extends Error {
 }
 
 const api = location.hostname === 'github.com' ? 'https://api.github.com/' : `${location.origin}/api/v3/`;
-// TODO: This should be new Map<string, unknown>(), or we need to figure out the type. For later.
-const cache = new Map<string, any>();
+const cache = new Map<string, AnyObject>();
 
 function fetch3(query: string, personalToken: string) {
 	const headers: HeadersInit = {
@@ -84,8 +83,7 @@ async function call(fetch: FetchStrategy, query: string, options: FetchOptions =
 	const response = await fetch(query, personalToken);
 	const content = await response.text();
 
-	// TODO: This can probably be typed better, not happy with this.
-	const result: { data?: unknown; errors?: Error[]; message?: string;status?: number} = content.length > 0 ? JSON.parse(content) : {status: response.status};
+	const result: { data?: AnyObject; errors?: Error[]; message?: string;status?: number} = content.length > 0 ? JSON.parse(content) : {status: response.status};
 	const {data, errors = [], message = ''} = result;
 
 	if (errors.length > 0) {
