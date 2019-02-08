@@ -11,7 +11,7 @@ const REASON_MAP = {
 
 const ignoredReasons = ['Abuse', 'Spam'];
 const reasonRegExp = /^This comment was marked as ([^.]+)\.$/;
-const parseMinimizationReason = (header: HTMLElement): string => {
+const parseMinimizationReason = (header: Element): string => {
 	const [, reason]: any[] = header.textContent.trim().match(reasonRegExp) || [];
 	return REASON_MAP[reason] || 'Minimized';
 };
