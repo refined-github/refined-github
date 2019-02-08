@@ -1079,3 +1079,11 @@ body > .footer li a {
 .dropdown-menu-sw {
 	transform-origin: 90% top;
 }
+
+/* For rgh-generated alerts. Normally applied to divs. */
+.rgh-alert {
+	background-color: #F55F5F;
+	padding: 1em;
+	border-radius: 1em;
+	margin-bottom: 1em;
+}

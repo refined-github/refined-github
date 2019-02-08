@@ -86,6 +86,7 @@ import './features/mark-private-orgs';
 import './features/linkify-commit-sha';
 import './features/bypass-checks';
 import './features/add-co-authored-by';
+import './features/warn-pr-from-master';
 
 // Add global for easier debugging
 declare global {
