@@ -1,10 +1,9 @@
-
 type CacheGetter = () => string|Promise<string>;
 
 interface CacheRequest {
 	code: string;
 	key: string;
-	value?: unknown;
+	value?: string | number;
 	expiration?: number;
 }
 

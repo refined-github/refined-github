@@ -1,4 +1,4 @@
-export default function (el: HTMLInputElement) {
+export default function (el: HTMLTextAreaElement) {
 	const selection = window.getSelection().toString();
 	const {selectionStart, selectionEnd, value} = el;
 	const linesCount = selection.match(/^|\n/g).length;

@@ -19,7 +19,7 @@ export const safeElementReady = (selector: string) => {
 /**
  * Append to an element, but before a element that might not exist.
  * @param  {Element|string} parent  Element (or its selector) to which append the `child`
- * @param  {string|Element}         before  Selector of the element that `child` should be inserted before
+ * @param  {string}         before  Selector of the element that `child` should be inserted before
  * @param  {Element}        child   Element to append
  * @example
  *
@@ -38,15 +38,15 @@ export const safeElementReady = (selector: string) => {
  *   <nope/>
  * </parent>
  */
-export const appendBefore = (parent: string|Element, before: string|Element, child: Element) => {
+export const appendBefore = (parent: string|Element, before: string, child: Element) => {
 	if (typeof parent === 'string') {
 		parent = select(parent);
 	}
 
 	// Select direct children only
-	before = select(`:scope > ${before}`, parent);
-	if (before) {
-		before.before(child);
+	const beforeEl = select(`:scope > ${before}`, parent);
+	if (beforeEl) {
+		beforeEl.before(child);
 	} else {
 		parent.append(child);
 	}

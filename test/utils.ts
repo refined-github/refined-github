@@ -76,7 +76,7 @@ test('getDiscussionNumber', t => {
 });
 
 test('getRepoPath', t => {
-	const pairs = new Map<string, boolean|string>([
+	const pairs = new Map<string, string>([
 		[
 			'https://github.com',
 			undefined

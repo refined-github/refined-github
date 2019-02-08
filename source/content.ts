@@ -1,4 +1,4 @@
-import select from 'select-dom';
+import select, {SelectDom} from 'select-dom';
 import 'webext-dynamic-content-scripts';
 
 import './features/useful-not-found-page';
@@ -88,11 +88,9 @@ import './features/bypass-checks';
 import './features/add-co-authored-by';
 
 // Add global for easier debugging
-type Select = typeof select;
-
 declare global {
 	interface Window {
-		select: Select;
+		select: SelectDom;
 	}
 }
 

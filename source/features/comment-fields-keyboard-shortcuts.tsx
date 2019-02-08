@@ -32,7 +32,7 @@ function init() {
 			event.preventDefault();
 		} else if (event.key === 'Escape') {
 			// Cancel buttons have different classes for inline comments and editable comments
-			const cancelButton = select<HTMLAnchorElement>(`
+			const cancelButton = select<HTMLButtonElement>(`
 				.js-hide-inline-comment-form,
 				.js-comment-cancel-button
 			`, field.form);
@@ -50,7 +50,7 @@ function init() {
 			const lastOwnComment = select.all('.js-comment.current-user').pop();
 
 			if (lastOwnComment) {
-				select<HTMLAnchorElement>('.js-comment-edit-button', lastOwnComment).click();
+				select<HTMLButtonElement>('.js-comment-edit-button', lastOwnComment).click();
 
 				// Move caret to end of field
 				requestAnimationFrame(() => {
