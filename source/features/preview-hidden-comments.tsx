@@ -9,6 +9,7 @@ const REASON_MAP = {
 	spam: 'Spam'
 };
 
+const ignoredReasons = ['Abuse', 'Spam'];
 const reasonRegExp = /^This comment was marked as ([^.]+)\.$/;
 const parseMinimizationReason = (header: HTMLElement): string => {
 	const [, reason]: any[] = header.textContent.trim().match(reasonRegExp) || [];
@@ -18,13 +19,20 @@ const parseMinimizationReason = (header: HTMLElement): string => {
 const init = () => {
 	for (const details of select.all('.timeline-comment-group > .minimized-comment:not(.d-none) > details:not(.rgh-preview-hidden-comments)')) {
 		details.classList.add('rgh-preview-hidden-comments');
-		const header = select('summary .timeline-comment-header-text', details);
-		const content = select('.review-comment .review-comment-contents .comment-body', details);
 
+		const content = select('.review-comment .review-comment-contents .comment-body', details);
+		const commentText = content.textContent.trim();
+		if (commentText) {
+			continue;
+		}
+
+		const header = select('summary .timeline-comment-header-text', details);
 		const reason = parseMinimizationReason(header);
-		header.style.textOverflow = 'ellipsis';
-		header.classList.add('overflow-hidden', 'no-wrap');
-		header.textContent = `${reason}: ${content.textContent.trim()}`;
+		if (ignoredReasons.includes(reason)) {
+			continue;
+		}
+
+		header.textContent = `${reason}: ${commentText}`;
 	}
 };
 

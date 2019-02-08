@@ -271,7 +271,7 @@ followed someone
 	vertical-align: middle;
 	background: #efefef; /* Placeholder before the images load */
 	box-shadow: 0 0 0 2px var(--background, #fff);
-	font-size: 10px; /* Base sizer */
+	font-size: limit 10px; /* Base sizer */
 	transition: margin-left 0.2s;
 }
 .reaction-summary-item a:first-of-type {
@@ -1078,4 +1078,11 @@ body > .footer li a {
 /* It normally pops in from the center */
 .dropdown-menu-sw {
 	transform-origin: 90% top;
+}
+
+/* Truncate hidden comment preview text with ellipsis */
+.rgh-preview-hidden-comments .timeline-comment-header-text {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
