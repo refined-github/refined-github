@@ -5,7 +5,7 @@ import elementReady from 'element-ready';
 /*
  * Automatically stops checking for an element to appear once the DOM is ready.
  */
-export const safeElementReady = selector => {
+export const safeElementReady = (selector: string) => {
 	const waiting = elementReady(selector);
 
 	// Don't check ad-infinitum
@@ -38,26 +38,26 @@ export const safeElementReady = selector => {
  *   <nope/>
  * </parent>
  */
-export const appendBefore = (parent, before, child) => {
+export const appendBefore = (parent: string|Element, before: string, child: Element) => {
 	if (typeof parent === 'string') {
 		parent = select(parent);
 	}
 
 	// Select direct children only
-	before = select(`:scope > ${before}`, parent);
-	if (before) {
-		before.before(child);
+	const beforeEl = select(`:scope > ${before}`, parent);
+	if (beforeEl) {
+		beforeEl.before(child);
 	} else {
 		parent.append(child);
 	}
 };
 
-export const wrap = (target, wrapper) => {
+export const wrap = (target: Element, wrapper: Element) => {
 	target.before(wrapper);
 	wrapper.append(target);
 };
 
-export const wrapAll = (targets, wrapper) => {
+export const wrapAll = (targets: Element[], wrapper: Element) => {
 	targets[0].before(wrapper);
 	wrapper.append(...targets);
 };

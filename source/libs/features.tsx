@@ -12,9 +12,7 @@ type callerFunction = (callback: VoidFunction) => void;
 type featureFunction = () => boolean | void;
 type featurePromisedFunction = () => Promise<boolean | void>;
 
-interface FeatureShortcuts {
-	[key: string]: string;
-}
+type FeatureShortcuts = Record<string, string>;
 
 interface Shortcut {
 	hotkey: string;
@@ -50,13 +48,13 @@ interface PrivateFeatureDetails extends FeatureDetails {
  * Alternatively, use `onAjaxedPagesRaw` if your callback needs to be called at every page
  * change (e.g. to "unmount" a feature / listener) regardless of of *newness* of the page.
  */
-async function onAjaxedPagesRaw(callback) {
+async function onAjaxedPagesRaw(callback: () => void) {
 	await onDomReady;
 	document.addEventListener('pjax:end', callback);
 	callback();
 }
 
-function onAjaxedPages(callback) {
+function onAjaxedPages(callback: () => void) {
 	onAjaxedPagesRaw(() => {
 		if (!select.exists('has-rgh')) {
 			callback();
