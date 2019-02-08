@@ -22,7 +22,7 @@ function parseBranchFromDom() {
 	}
 
 	// Parse the infobar
-	const [, branchName] = branchInfo.textContent.trim().match(branchInfoRegex) || [];
+	const [, branchName = undefined] = branchInfo.textContent.trim().match(branchInfoRegex) || [];
 	return branchName; // `string` or undefined
 }
 

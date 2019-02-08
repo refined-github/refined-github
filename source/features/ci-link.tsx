@@ -41,7 +41,7 @@ async function init() {
 
 		// Append to title (aware of forks and private repos)
 		appendBefore('.pagehead h1', '.fork-flag', await request);
-	} catch (_) {
+	} catch {
 		// Network failure or no CI status found.
 		// Don’t try again
 		request = false;

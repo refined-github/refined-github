@@ -13,7 +13,7 @@ new OptionsSync().define({
 	},
 	migrations: [
 		options => {
-			options.disabledFeatures = options.disabledFeatures
+			options.disabledFeatures = (options.disabledFeatures as string)
 				.replace('display-issue-suggestions', '') // #1611
 				.replace('open-all-selected', 'batch-open-issues') // #1402
 				.replace('copy-file-path', '') // #1628

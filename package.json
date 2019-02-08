@@ -25,30 +25,35 @@
 		"linkify-issues": "^1.3.0",
 		"linkify-urls": "^2.2.0",
 		"onetime": "^2.0.1",
-		"select-dom": "^4.1.3",
+		"select-dom": "^4.2.0-3",
 		"shorten-repo-url": "^1.5.0",
 		"storm-textarea": "2.0.1",
 		"tiny-version-compare": "^0.10.0",
-		"webext-domain-permission-toggle": "0.0.2",
-		"webext-dynamic-content-scripts": "^5.0.1",
-		"webext-options-sync": "^0.15.1",
+		"webext-domain-permission-toggle": "0.0.3-0",
+		"webext-dynamic-content-scripts": "^5.0.2-0",
+		"webext-options-sync": "^0.15.3",
 		"webextension-polyfill": "^0.3.1"
 	},
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^0.2.0",
-		"ava": "^1.0.1",
+		"@types/dom-loaded": "^1.0.0",
+		"@types/element-ready": "^2.1.0",
+		"@types/firefox-webext-browser": "^65.0.0",
+		"@types/jsdom": "^12.2.1",
+		"@typescript-eslint/eslint-plugin": "^1.1.0",
+		"ava": "^1.1.0",
 		"chrome-webstore-upload-cli": "^1.2.0",
 		"copy-webpack-plugin": "^4.5.1",
 		"dot-json": "^1.0.4",
-		"esm": "^3.0.84",
+		"eslint-config-xo-typescript": "^0.6.0",
 		"jsdom": "^13.1.0",
 		"npm-run-all": "^4.1.3",
-		"stylelint": "^9.6.0",
+		"stylelint": "^9.10.1",
 		"stylelint-config-xo": "^0.12.0",
 		"terser-webpack-plugin": "^1.2.1",
 		"ts-loader": "^5.3.3",
-		"typescript": "^3.2.2",
-		"typescript-eslint-parser": "^22.0.0",
+		"ts-node": "^8.0.2",
+		"typescript": "^3.2.4",
 		"utc-version": "^1.1.0",
 		"web-ext-submit": "^2.9.2",
 		"webpack": "^4.28.3",
@@ -56,7 +61,7 @@
 		"xo": "^0.24.0"
 	},
 	"xo": {
-		"parser": "typescript-eslint-parser",
+		"extends": "xo-typescript",
 		"envs": [
 			"browser"
 		],
@@ -67,37 +72,30 @@
 		],
 		"rules": {
 			"import/no-unassigned-import": "off",
-			"no-unused-vars": [
-				2,
+			"@typescript-eslint/no-unused-vars": [
+				"error",
 				{
 					"varsIgnorePattern": "^React$"
 				}
-			]
+			],
+			"@typescript-eslint/explicit-function-return-type": "off",
+			"@typescript-eslint/restrict-plus-operands": "off"
 		},
 		"globals": [
 			"browser"
-		],
-		"parserOptions": {
-			"jsx": true
-		},
-		"settings": {
-			"import/resolver": {
-				"node": {
-					"extensions": [
-						".js",
-						".ts",
-						".tsx"
-					]
-				}
-			}
-		}
+		]
 	},
 	"ava": {
 		"files": [
-			"test/*.js"
+			"test/*.ts"
+		],
+		"babel": false,
+		"compileEnhancements": false,
+		"extensions": [
+			"ts"
 		],
 		"require": [
-			"esm"
+			"ts-node/register"
 		]
 	},
 	"stylelint": {

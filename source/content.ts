@@ -1,4 +1,4 @@
-import select from 'select-dom';
+import select, {SelectDom} from 'select-dom';
 import 'webext-dynamic-content-scripts';
 
 import './features/useful-not-found-page';
@@ -89,4 +89,10 @@ import './features/add-co-authored-by';
 import './features/split-issue-pr-search-results';
 
 // Add global for easier debugging
+declare global {
+	interface Window {
+		select: SelectDom;
+	}
+}
+
 window.select = select;

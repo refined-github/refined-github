@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 'use strict';
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -58,7 +59,7 @@ module.exports = () => ({
 					compress: false,
 					output: {
 						beautify: true,
-						indent_level: 2 // eslint-disable-line camelcase
+						indent_level: 2 // eslint-disable-line @typescript-eslint/camelcase
 					}
 				}
 			})

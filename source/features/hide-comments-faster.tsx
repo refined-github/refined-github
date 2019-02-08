@@ -17,7 +17,7 @@ function handleMenuOpening(event) {
 	const form = select('.js-comment-minimize', comment);
 
 	// Generate dropdown items
-	for (const reason of select.all('[name="classifier"] :not([value=""])', comment)) {
+	for (const reason of select.all<HTMLInputElement>('[name="classifier"] :not([value=""])', comment)) {
 		form.append(
 			<button
 				name="classifier"
@@ -40,20 +40,22 @@ function handleMenuOpening(event) {
 	// Hide it when dropdown closes
 	const dropdown = hideButton.closest('details');
 	const optionList = select('.show-more-popover', dropdown);
-	hideButton.addEventListener('click', () => {
-		optionList.setAttribute('hidden', true);
+	hideButton.addEventListener('click', event => {
+		event.stopImmediatePropagation();
+		event.preventDefault();
+		optionList.setAttribute('hidden', 'true');
 		form.removeAttribute('hidden');
 	});
 	dropdown.addEventListener('toggle', () => {
 		optionList.removeAttribute('hidden');
-		form.setAttribute('hidden', true);
+		form.setAttribute('hidden', 'true');
 	});
 
 	dropdown.append(form);
 }
 
 function init() {
-	delegate('summary[aria-label="Show options"]', 'click', handleMenuOpening);
+	delegate('.timeline-comment-action', 'click', handleMenuOpening);
 }
 
 features.add({

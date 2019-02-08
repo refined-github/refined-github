@@ -12,34 +12,32 @@ type callerFunction = (callback: VoidFunction) => void;
 type featureFunction = () => boolean | void;
 type featurePromisedFunction = () => Promise<boolean | void>;
 
-interface featureShortcuts {
-	[key: string]: string
-}
+type FeatureShortcuts = Record<string, string>;
 
 interface Shortcut {
-	hotkey: string,
-	description: string,
+	hotkey: string;
+	description: string;
 }
 
 interface GlobalOptions {
-	disabledFeatures: string,
-	customCSS: string,
-	logging: boolean,
-	log?: (...args: any[]) => void
+	disabledFeatures: string;
+	customCSS: string;
+	logging: boolean;
+	log?: (...args: unknown[]) => void;
 }
 
 interface FeatureDetails {
-	id: string,
-	include?: BooleanFunction[],
-	exclude?: BooleanFunction[],
-	init: featureFunction | featurePromisedFunction,
-	deinit?: Function,
-	load?: callerFunction | Promise<void>,
-	shortcuts?: featureShortcuts,
+	id: string;
+	include?: BooleanFunction[];
+	exclude?: BooleanFunction[];
+	init: featureFunction | featurePromisedFunction;
+	deinit?: () => void;
+	load?: callerFunction | Promise<void>;
+	shortcuts?: FeatureShortcuts;
 }
 
 interface PrivateFeatureDetails extends FeatureDetails {
-	options: GlobalOptions
+	options: GlobalOptions;
 }
 
 /*
@@ -50,13 +48,13 @@ interface PrivateFeatureDetails extends FeatureDetails {
  * Alternatively, use `onAjaxedPagesRaw` if your callback needs to be called at every page
  * change (e.g. to "unmount" a feature / listener) regardless of of *newness* of the page.
  */
-async function onAjaxedPagesRaw(callback) {
+async function onAjaxedPagesRaw(callback: () => void) {
 	await onDomReady;
 	document.addEventListener('pjax:end', callback);
 	callback();
 }
 
-function onAjaxedPages(callback) {
+function onAjaxedPages(callback: () => void) {
 	onAjaxedPagesRaw(() => {
 		if (!select.exists('has-rgh')) {
 			callback();
@@ -133,8 +131,8 @@ const run = async ({id, include, exclude, init, deinit, options: {log}}: Private
 	}
 };
 
-const shortcutMap : Map<string, Shortcut> = new Map<string, Shortcut>();
-const getShortcuts : () => Array<Shortcut> = () => [...shortcutMap.values()];
+const shortcutMap: Map<string, Shortcut> = new Map<string, Shortcut>();
+const getShortcuts: () => Shortcut[] = () => [...shortcutMap.values()];
 
 /*
  * Register a new feature

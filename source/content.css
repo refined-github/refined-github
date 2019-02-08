@@ -99,15 +99,12 @@
 }
 
 /* Remove upload message on comment box */
-.is-default .drag-and-drop {
+.rgh-has-upload-field .is-default .drag-and-drop {
 	display: none;
 }
-.upload-enabled textarea {
-	border-bottom: 1px solid #ccc !important;
-	border-radius: 3px !important;
-}
-.upload-enabled textarea:focus {
-	border-bottom: 1px solid #2188ff !important;
+.rgh-has-upload-field .is-default textarea {
+	border-bottom-style: solid;
+	border-radius: 3px;
 }
 
 /* Remove random protip at the bottom of the page */
@@ -706,7 +703,8 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 .rgh-sticky-header .table-list-header .select-menu-list {
 	max-height: calc(100vh - 150px);
 }
-/* Sticky file headers on pull request diff view */
+/* Sticky file headers on pull request diff view and conversation view */
+.rgh-sticky-header .discussion-timeline .discussion-item-body .file-header,
 .rgh-sticky-header .pull-request-tab-content .diff-view .file-header {
 	top: 59px;
 }
@@ -917,8 +915,9 @@ body > .footer li a {
 }
 
 /* For 'extend-diff-expander' feature */
-.js-expandable-line:hover .diff-expander,
-.js-expandable-line:hover .blob-code {
+/* Hovering the line will highlight the first direction button, unless you hover the buttons directly */
+.js-expandable-line:hover .blob-num:not(:hover) .directional-expander:first-child,
+.js-expandable-line:hover .blob-num:not(:hover) + .blob-code {
 	border-color: #0366d6;
 	color: #fff;
 	background: #0366d6;
