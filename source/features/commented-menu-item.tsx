@@ -12,7 +12,7 @@ function init() {
 
 	if (!select.exists('.subnav-links .selected') && location.search.includes(`commenter%3A${username}`)) {
 		commentedMenuItem.classList.add('selected');
-		for (const tab of select.all(`.subnav-links a[href*="commenter%3A${username}"]`)) {
+		for (const tab of select.all<HTMLAnchorElement>(`.subnav-links a[href*="commenter%3A${username}"]`)) {
 			tab.href = tab.href.replace(`commenter%3A${username}`, '');
 		}
 	}

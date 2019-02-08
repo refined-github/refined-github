@@ -83,7 +83,7 @@ async function markUnread() {
 		state = 'closed';
 	}
 
-	const lastCommentTime = select.all('.timeline-comment-header relative-time').pop();
+	const lastCommentTime = select.all<HTMLTimeElement>('.timeline-comment-header relative-time').pop();
 	const unreadNotifications = await getNotifications();
 
 	unreadNotifications.push({
@@ -251,7 +251,7 @@ function isParticipatingPage() {
 }
 
 async function updateUnreadIndicator() {
-	const icon = select('a.notification-indicator'); // "a" required in responsive views
+	const icon = select<HTMLAnchorElement>('a.notification-indicator'); // "a" required in responsive views
 	if (!icon) {
 		return;
 	}
@@ -284,7 +284,7 @@ async function markNotificationRead({target}) {
 async function markAllNotificationsRead(event) {
 	event.preventDefault();
 	const repoGroup = event.target.closest('.boxed-group');
-	const urls = select.all('a.js-notification-target', repoGroup).map(a => a.href);
+	const urls = select.all<HTMLAnchorElement>('a.js-notification-target', repoGroup).map(a => a.href);
 	await markRead(urls);
 	await updateUnreadIndicator();
 }
