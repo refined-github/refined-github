@@ -1082,7 +1082,7 @@ body > .footer li a {
 
 /* For rgh-generated alerts. Normally applied to divs. */
 .rgh-alert {
-	background-color: #F55F5F;
+	background-color: #f55f5f;
 	padding: 1em;
 	border-radius: 1em;
 	margin-bottom: 1em;

@@ -12,32 +12,31 @@ import {getUsername} from '../libs/utils';
 import getDefaultBranch from '../libs/get-default-branch';
 
 async function init() {
-	getDefaultBranch().then(defaultBranch => {
-		if (!location.pathname.endsWith(`${getUsername()}:${defaultBranch}`)) {
-			return;
-		}
+	const defaultBranch = await getDefaultBranch();
+	if (!location.pathname.endsWith(`${getUsername()}:${defaultBranch}`)) {
+		return;
+	}
 
-		let warning_div = document.createElement('div');
-		warning_div.classList.add('rgh-alert');
-		
-		let warning_header = document.createElement('h1');
-		warning_header.innerHTML = `
-			DO NOT CREATE PULL REQUESTS FROM THE DEFAULT BRANCH
-		`;
-		
-		let warning = document.createElement('p');
-		warning.innerHTML = `
-			Pull requests (PRs) should <strong>not</strong> be created from the
-			default branch (e.g. the master branch). A separate PR-specific
-			branch should be created with your changes. Doing so will help
-			prevent unintentional changes from being included in your PR.
-		`;
-		
-		warning_div.appendChild(warning_header);
-		warning_div.appendChild(warning);
-		const container = select('.blankslate');
-		container.prepend(warning_div);
-	});
+	const warningDiv = document.createElement('div');
+	warningDiv.classList.add('rgh-alert');
+
+	const warningHeader = document.createElement('h1');
+	warningHeader.innerHTML = `
+		DO NOT CREATE PULL REQUESTS FROM THE DEFAULT BRANCH
+	`;
+
+	const warning = document.createElement('p');
+	warning.innerHTML = `
+		Pull requests (PRs) should <strong>not</strong> be created from the
+		default branch (e.g. the master branch). A separate PR-specific
+		branch should be created with your changes. Doing so will help
+		prevent unintentional changes from being included in your PR.
+	`;
+
+	warningDiv.append(warningHeader);
+	warningDiv.append(warning);
+	const container = select('.blankslate');
+	container.prepend(warningDiv);
 }
 
 features.add({
