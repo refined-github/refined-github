@@ -20,7 +20,7 @@ async function init() {
 
 	select('.compare-pr').append(
 		<div class="flash flash-error my-3">
-			<strong>Note:</strong> Creating a PR from the <code>master</code> branch is an [anti-pattern](https://blog.jasonmeridth.com/posts/do-not-issue-pull-requests-from-your-master-branch/).
+			<strong>Note:</strong> Creating a PR from the <code>master</code> branch is an <a href="https://blog.jasonmeridth.com/posts/do-not-issue-pull-requests-from-your-master-branch/" target="_blank">anti-pattern</a>.
 		</div>
 	);
 }
