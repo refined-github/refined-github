@@ -17,16 +17,16 @@ const parseMinimizationReason = (header: Element): string => {
 };
 
 const init = () => {
-	for (const details of select.all('.timeline-comment-group > .minimized-comment:not(.d-none) > details:not(.rgh-preview-hidden-comments)')) {
+	for (const details of select.all('.minimized-comment:not(.d-none) > details:not(.rgh-preview-hidden-comments)')) {
 		details.classList.add('rgh-preview-hidden-comments');
 
-		const content = select('.review-comment .review-comment-contents .comment-body', details);
+		const content = select('.review-comment-contents .comment-body', details);
 		const commentText = content.textContent.trim();
 		if (!commentText) {
 			continue;
 		}
 
-		const header = select('summary .timeline-comment-header-text', details);
+		const header = select('summary .timeline-comment-header-text, summary .discussion-item-copy', details);
 		const reason = parseMinimizationReason(header);
 		if (ignoredReasons.includes(reason)) {
 			continue;
@@ -40,7 +40,8 @@ features.add({
 	id: 'preview-hiddden-comments',
 	include: [
 		features.isPR,
-		features.isIssue
+		features.isIssue,
+		features.isCommit
 	],
 	load: features.onNewComments,
 	init

@@ -1081,6 +1081,7 @@ body > .footer li a {
 }
 
 /* Truncate hidden comment preview text with ellipsis */
+.rgh-preview-hidden-comments .discussion-item-copy,
 .rgh-preview-hidden-comments .timeline-comment-header-text {
 	overflow: hidden;
 	white-space: nowrap;
