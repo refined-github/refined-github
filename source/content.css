@@ -472,6 +472,10 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 :root .review-comment:target .reaction-summary-item {
 	--background: transparent;
 }
+/* Overwrite a .bg-white set on that element */
+:root .review-comment:target .minimized-comment .review-comment-contents {
+	background-color: #fffdef !important;
+}
 
 /* Prevent text reversal Unicode hacks in full names */
 .timeline-comment-header-text bdo {
