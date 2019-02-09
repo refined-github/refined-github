@@ -52,7 +52,7 @@ function init() {
 				'.discussion-timeline' // Or just ALL the comments
 			].join());
 			const lastOwnComment = select
-				.all('.js-comment.current-user', currentConversationContainer)
+				.all<HTMLDetailsElement>('.js-comment.current-user', currentConversationContainer)
 				.reverse()
 				.find(comment => {
 					const collapsible = comment.closest('details');
