@@ -19,7 +19,7 @@ async function init() {
 		return false;
 	}
 
-	const codeTabURL = select('[data-hotkey="g c"]').href;
+	const codeTabURL = select<HTMLAnchorElement>('[data-hotkey="g c"]').href;
 	const response = await fetch(codeTabURL);
 	const html = await response.text();
 

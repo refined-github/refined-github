@@ -3,7 +3,7 @@ import features from '../libs/features';
 
 function init() {
 	document.addEventListener('keypress', event => {
-		const selected = select('.navigation-focus .js-navigation-open[href]');
+		const selected = select<HTMLAnchorElement>('.navigation-focus .js-navigation-open[href]');
 		if (selected && event.key === 'O') {
 			browser.runtime.sendMessage({
 				urls: [selected.href],

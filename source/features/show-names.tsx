@@ -17,7 +17,7 @@ async function init() {
 		}
 
 		// Drop 'commented' label to shorten the copy
-		const commentedNode = el.parentNode.nextSibling;
+		const commentedNode = el.parentNode.nextSibling as Text;
 		if (commentedNode && commentedNode.textContent.includes('commented')) {
 			commentedNode.remove();
 		}
@@ -40,7 +40,7 @@ async function init() {
 		if (name) {
 			// If it's a regular comment author, add it outside <strong>
 			// otherwise it's something like "User added some commits"
-			const insertionPoint = usernameEl.parentNode.tagName === 'STRONG' ? usernameEl.parentNode : usernameEl;
+			const insertionPoint = usernameEl.parentElement.tagName === 'STRONG' ? usernameEl.parentElement : usernameEl;
 			insertionPoint.after(' (', <bdo>{name}</bdo>, ') ');
 		}
 	}

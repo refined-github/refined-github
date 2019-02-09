@@ -17,7 +17,7 @@ function handleMenuOpening(event) {
 	const form = select('.js-comment-minimize', comment);
 
 	// Generate dropdown items
-	for (const reason of select.all('[name="classifier"] :not([value=""])', comment)) {
+	for (const reason of select.all<HTMLInputElement>('[name="classifier"] :not([value=""])', comment)) {
 		form.append(
 			<button
 				name="classifier"
@@ -43,12 +43,12 @@ function handleMenuOpening(event) {
 	hideButton.addEventListener('click', event => {
 		event.stopImmediatePropagation();
 		event.preventDefault();
-		optionList.setAttribute('hidden', true);
+		optionList.setAttribute('hidden', 'true');
 		form.removeAttribute('hidden');
 	});
 	dropdown.addEventListener('toggle', () => {
 		optionList.removeAttribute('hidden');
-		form.setAttribute('hidden', true);
+		form.setAttribute('hidden', 'true');
 	});
 
 	dropdown.append(form);

@@ -32,7 +32,7 @@ function init() {
 			event.preventDefault();
 		} else if (event.key === 'Escape') {
 			// Cancel buttons have different classes for inline comments and editable comments
-			const cancelButton = select(`
+			const cancelButton = select<HTMLButtonElement>(`
 				.js-hide-inline-comment-form,
 				.js-comment-cancel-button
 			`, field.form);
@@ -60,10 +60,10 @@ function init() {
 				});
 
 			if (lastOwnComment) {
-				select('.js-comment-edit-button', lastOwnComment).click();
+				select<HTMLButtonElement>('.js-comment-edit-button', lastOwnComment).click();
 				const closeCurrentField = field
 					.closest('form')
-					.querySelector('.js-hide-inline-comment-form');
+					.querySelector<HTMLButtonElement>('.js-hide-inline-comment-form');
 
 				if (closeCurrentField) {
 					closeCurrentField.click();
@@ -71,7 +71,7 @@ function init() {
 
 				// Move caret to end of field
 				requestAnimationFrame(() => {
-					select('.js-comment-field', lastOwnComment).selectionStart = Number.MAX_SAFE_INTEGER;
+					select<HTMLTextAreaElement>('.js-comment-field', lastOwnComment).selectionStart = Number.MAX_SAFE_INTEGER;
 				});
 			}
 		}

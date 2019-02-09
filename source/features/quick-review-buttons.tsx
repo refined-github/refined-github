@@ -9,13 +9,13 @@ const btnClassMap = {
 
 function init() {
 	const form = select('[action$="/reviews"]');
-	const radios = select.all('[type="radio"][name="pull_request_review[event]"]', form);
+	const radios = select.all<HTMLInputElement>('[type="radio"][name="pull_request_review[event]"]', form);
 
 	if (radios.length === 0) {
 		return false;
 	}
 
-	const submitButton = select('[type="submit"]', form);
+	const submitButton = select<HTMLInputElement>('[type="submit"]', form);
 	const container = select('.form-actions', form);
 
 	// Set the default action for cmd+enter to Comment
@@ -63,7 +63,7 @@ function init() {
 	form.addEventListener('submit', () => {
 		// Delay disabling the fields to let them be submitted first
 		setTimeout(() => {
-			for (const control of select.all('button, textarea', form)) {
+			for (const control of select.all<HTMLButtonElement | HTMLTextAreaElement>('button, textarea', form)) {
 				control.disabled = true;
 			}
 		});
