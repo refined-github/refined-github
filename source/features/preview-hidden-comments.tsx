@@ -22,7 +22,7 @@ const init = () => {
 
 		const content = select('.review-comment .review-comment-contents .comment-body', details);
 		const commentText = content.textContent.trim();
-		if (commentText) {
+		if (!commentText) {
 			continue;
 		}
 
