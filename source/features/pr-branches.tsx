@@ -77,8 +77,12 @@ function createLink(ref) {
 }
 
 async function init() {
-	const {ownerName} = getOwnerAndRepo();
 	const elements = select.all('.js-issue-row');
+	if (elements.length === 0) {
+		return false;
+	}
+
+	const {ownerName} = getOwnerAndRepo();
 	const query = buildQuery(elements.map(pr => pr.id));
 	const [data, defaultBranch] = await Promise.all([
 		api.v4(query),
