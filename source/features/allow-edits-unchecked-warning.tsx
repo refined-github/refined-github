@@ -19,7 +19,7 @@ function init() {
 
 		select('.new-discussion-timeline .composer .timeline-comment').after(
 			<div class="flash flash-error" id="allow-edits-unchecked-warning">
-				<strong>Note:</strong> Disabling this would prevent the maintainer of this project from making vital changes to your branch.
+				<strong>Note:</strong> Disabling this would prevent a maintainer of this project from making vital changes to your branch.
 			</div>
 		);
 	});
