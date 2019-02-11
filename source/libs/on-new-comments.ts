@@ -19,6 +19,14 @@ const addListenersOnNewElements = debounce(() => {
 	}
 }, {wait: 50});
 
+// Outdated comment are loaded using an include-fragment-element
+// This calls the run callback on a successful load of the deferred element
+const addOutdatedCommentsListenter = function (discussion) {
+	for (const fragment of select.all('details.outdated-comment > include-fragment', discussion)) {
+		fragment.addEventListener('load', run);
+	}
+};
+
 const setup = () => {
 	const discussion = select<HTMLElement>('.js-discussion');
 	if (!discussion || observed.has(discussion)) {
@@ -32,6 +40,9 @@ const setup = () => {
 
 	// When hidden comments are loaded by clicking "Load more..."
 	addListenersOnNewElements();
+
+	// Outdated comments are loaded via a include-fragment element
+	addOutdatedCommentsListenter(discussion);
 };
 
 export default function (cb) {
