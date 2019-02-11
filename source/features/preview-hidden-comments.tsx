@@ -1,8 +1,10 @@
+import {React} from 'dom-chef/react';
 import select from 'select-dom';
 import features from '../libs/features';
 
 const allowedReasons = ['resolved', 'outdated', 'off-topic'];
 
+const capitalize = text => text.charAt(0).toUpperCase() + text.slice(1);
 
 const init = () => {
 	for (const details of select.all('.minimized-comment:not(.d-none) > details:not(.rgh-preview-hidden-comments)')) {
@@ -24,7 +26,11 @@ const init = () => {
 			continue;
 		}
 
-		header.textContent = `${reason}: ${commentText}`;
+		header.firstChild.remove();
+		header.append(
+			<span class="Details-content--open">{headerLabel}</span>,
+			<span class="Details-content--closed">{`${capitalize(reason)} — ${commentText}`}</span>
+		);
 	}
 };
 
