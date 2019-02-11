@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import {React} from 'dom-chef/react';
+import React from 'dom-chef';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 import {getRepoURL} from '../libs/utils';
