@@ -473,7 +473,7 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 	--background: transparent;
 }
 /* Overwrite a .bg-white set on that element */
-:root .review-comment:target .minimized-comment .review-comment-contents {
+.review-comment:target .minimized-comment .review-comment-contents {
 	background-color: #fffdef !important;
 }
 
