@@ -9,12 +9,12 @@ https://blog.jasonmeridth.com/posts/do-not-issue-pull-requests-from-your-master-
 import {React} from 'dom-chef/react';
 import select from 'select-dom';
 import features from '../libs/features';
-import {getUsername} from '../libs/utils';
 import getDefaultBranch from '../libs/get-default-branch';
 
 async function init() {
 	const defaultBranch = await getDefaultBranch();
-	if (!location.pathname.endsWith(`${getUsername()}:${defaultBranch}`)) {
+	// Expected: /user/repo/compare/master...user:master
+	if (!location.pathname.endsWith(':' + defaultBranch)) {
 		return false;
 	}
 
