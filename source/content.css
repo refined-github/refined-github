@@ -472,6 +472,10 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 :root .review-comment:target .reaction-summary-item {
 	--background: transparent;
 }
+/* Overwrite a .bg-white set on that element */
+.review-comment:target .minimized-comment .review-comment-contents {
+	background-color: #fffdef !important;
+}
 
 /* Prevent text reversal Unicode hacks in full names */
 .timeline-comment-header-text bdo {
@@ -1078,4 +1082,12 @@ body > .footer li a {
 /* It normally pops in from the center */
 .dropdown-menu-sw {
 	transform-origin: 90% top;
+}
+
+/* Truncate hidden comment preview text with ellipsis */
+.rgh-preview-hidden-comments .discussion-item-copy,
+.rgh-preview-hidden-comments .timeline-comment-header-text {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }

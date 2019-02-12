@@ -5,7 +5,7 @@ The base branch is added when it's not the repo's default branch.
 The head branch is added when it's from the same repo or the PR is by the current user.
 */
 
-import {React} from 'dom-chef/react';
+import React from 'dom-chef';
 import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
@@ -77,8 +77,12 @@ function createLink(ref) {
 }
 
 async function init() {
-	const {ownerName} = getOwnerAndRepo();
 	const elements = select.all('.js-issue-row');
+	if (elements.length === 0) {
+		return false;
+	}
+
+	const {ownerName} = getOwnerAndRepo();
 	const query = buildQuery(elements.map(pr => pr.id));
 	const [data, defaultBranch] = await Promise.all([
 		api.v4(query),
