@@ -17,7 +17,7 @@
 		"copy-text-to-clipboard": "^1.0.4",
 		"debounce-fn": "^1.0.0",
 		"delegate": "^3.2.0",
-		"dom-chef": "^3.5.1",
+		"dom-chef": "^3.5.2",
 		"dom-loaded": "^1.0.1",
 		"element-ready": "^3.0.0",
 		"github-reserved-names": "^1.1.4",
