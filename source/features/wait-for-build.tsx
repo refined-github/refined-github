@@ -21,7 +21,7 @@ const generateCheckbox = onetime(() => (
 ));
 
 function canMerge() {
-	return select.exists('.merge-message [type="submit"]:not(:disabled)');
+	return select.exists('[data-details-container=".js-merge-pr"]:not(:disabled)');
 }
 
 function getCheckbox() {
