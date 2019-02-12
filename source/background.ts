@@ -19,7 +19,8 @@ new OptionsSync().define({
 				.replace('copy-file-path', '') // #1628
 				.replace('bypass-checks-travis', 'bypass-checks') // #1693
 				.replace(/^add-(.+)-to-(profile|comments|comment-fields|emojis)$/, '$2-$1') // #1719
-				.replace(/^add-/, ''); // #1719
+				.replace(/^add-/, '') // #1719
+				.replace('milestone-navigation', ''); // #1767
 		},
 		OptionsSync.migrations.removeUnused
 	]
