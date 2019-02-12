@@ -17,6 +17,11 @@ const addListenersOnNewElements = debounce(() => {
 		loadMore.addEventListener('page:loaded', run);
 		loadMore.addEventListener('page:loaded', addListenersOnNewElements);
 	}
+
+	// Outdated comment are loaded later using an include-fragment element
+	for (const fragment of select.all('details.outdated-comment > include-fragment')) {
+		fragment.addEventListener('load', run);
+	}
 }, {wait: 50});
 
 const setup = () => {
