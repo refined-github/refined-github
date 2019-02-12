@@ -5,7 +5,7 @@ The base branch is added when it's not the repo's default branch.
 The head branch is added when it's from the same repo or the PR is by the current user.
 */
 
-import {React} from 'dom-chef/react';
+import React from 'dom-chef';
 import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
