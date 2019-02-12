@@ -1,4 +1,4 @@
-import {React} from 'dom-chef/react';
+import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
@@ -20,15 +20,13 @@ const init = () => {
 			summary .discussion-item-copy
 		`, details);
 
-		const headerLabel = header.textContent;
-		const [, reason]: string[] = headerLabel.trim().match(/was marked as ([^.]+)/);
+		const [, reason]: string[] = header.textContent.trim().match(/was marked as ([^.]+)/);
 		if (!allowedReasons.includes(reason)) {
 			continue;
 		}
 
-		header.firstChild.remove();
 		header.append(
-			<span class="Details-content--open">{headerLabel}</span>,
+			<span class="Details-content--open">{header.firstChild}</span>,
 			<span class="Details-content--closed">{`${capitalize(reason)} — ${commentText}`}</span>
 		);
 	}
