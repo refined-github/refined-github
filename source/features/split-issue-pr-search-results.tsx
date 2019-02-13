@@ -6,7 +6,7 @@ function cleanLinks() {
 	for (const link of select.all('.menu-item')) {
 		const searchParams = new URLSearchParams(link.search);
 		searchParams.set('q', cleanSearchQuery(searchParams.get('q')));
-		link.search = searchParams.toString();
+		link.search = String(searchParams);
 	}
 }
 
@@ -24,7 +24,7 @@ function createUrl(type, pathname = location.pathname) {
 	const url = new URL(pathname, location.origin);
 	url.searchParams.set('q', cleanSearchQuery(getSearchQuery()) + ` is:${type}`);
 	url.searchParams.set('type', 'Issues');
-	return url.toString();
+	return String(url);
 }
 
 function init() {
