@@ -1024,7 +1024,7 @@ body > .footer li a {
 	display: inline-block; /* Avoid breaking link in two lines */
 }
 
-/* For `split-issue-pr-search-results */
+/* For `split-issue-pr-search-results` */
 .rgh-split-issue-pr-combined.selected:hover {
 	background-color: #f6f8fa;
 	cursor: pointer;
