@@ -13,22 +13,22 @@ function init() {
 		return false;
 	}
 
-	const url = new URL(location.href);
-	const hidingWhitespace = url.searchParams.get('w') === '1';
+	const searchParams = new URLSearchParams(location.search);
+	const isHidingWhitespace = searchParams.get('w') === '1';
 
-	if (hidingWhitespace) {
-		url.searchParams.delete('w');
+	if (isHidingWhitespace) {
+		searchParams.delete('w');
 	} else {
-		url.searchParams.set('w', '1');
+		searchParams.set('w', '1');
 	}
 
 	container.after(
 		<div class="diffbar-item refined-github-toggle-whitespace">
-			<a href={url}
+			<a href={'?' + String(searchParams)}
 				data-hotkey="d w"
-				class={`btn btn-sm btn-outline BtnGroup-item tooltipped tooltipped-s ${hidingWhitespace ? 'bg-gray-light text-gray-light' : ''}`}
-				aria-label={`${hidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}>
-				{hidingWhitespace ? icons.check() : ''}
+				class={`btn btn-sm btn-outline BtnGroup-item tooltipped tooltipped-s ${isHidingWhitespace ? 'bg-gray-light text-gray-light' : ''}`}
+				aria-label={`${isHidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}>
+				{isHidingWhitespace ? icons.check() : ''}
 				{' '}
 				No Whitespace
 			</a>
