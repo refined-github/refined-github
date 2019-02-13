@@ -3,7 +3,7 @@ import debounce from 'debounce-fn';
 import observeEl from './simplified-element-observer';
 
 const handlers = new Set<() => void>();
-const observed = new WeakSet<HTMLElement>();
+const observed = new WeakSet();
 
 const run = debounce(() => {
 	// Safely run all callbacks
@@ -25,7 +25,7 @@ const addListenersOnNewElements = debounce(() => {
 }, {wait: 50});
 
 const setup = () => {
-	const discussion = select<HTMLElement>('.js-discussion');
+	const discussion = select('.js-discussion');
 	if (!discussion || observed.has(discussion)) {
 		return;
 	}
