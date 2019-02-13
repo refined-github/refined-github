@@ -67,3 +67,13 @@ export const flatZip = (table, limit = Infinity) => {
 
 	return zipped;
 };
+
+export function getOP(): string {
+	if (isPR()) {
+		const titleRegex = /^(.+) by (\S+) · Pull Request #(\d+)/;
+		const match = titleRegex.exec(document.title);
+		return match && match[2];
+	}
+
+	return select('.timeline-comment-header-text .author').textContent;
+}

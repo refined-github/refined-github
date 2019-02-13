@@ -59,7 +59,6 @@ import './features/linkify-issues-in-titles';
 import './features/embed-gist-inline';
 import './features/extend-status-labels';
 import './features/highlight-closing-prs-in-open-issues';
-import './features/op-labels';
 import './features/comments-time-machine-links';
 import './features/jump-to-bottom-link';
 import './features/filter-comments-by-you';
