@@ -2,19 +2,17 @@ import {React} from 'dom-chef/react';
 import select from 'select-dom';
 import features from '../libs/features';
 
-function removeWarning() {
-	const warning = select('#allow-edits-unchecked-warning');
-	if (warning) {
-		warning.remove();
-	}
-}
-
 function init() {
 	const checkBox = select<HTMLInputElement>('.js-collab-option');
 
 	checkBox.addEventListener('change', () => {
 		if (checkBox.checked) {
-			return removeWarning();
+			const warning = select('#allow-edits-unchecked-warning');
+			if (warning) {
+				warning.remove();
+			}
+
+			return;
 		}
 
 		select('.new-discussion-timeline .composer .timeline-comment').after(
