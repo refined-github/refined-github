@@ -43,8 +43,13 @@ export class RefinedGitHubAPIError extends Error {
 	}
 }
 
-const api = location.hostname === 'github.com' ? 'https://api.github.com/' : `${location.origin}/api/v3/`;
 const cache = new Map<string, AnyObject>();
+const api3 = location.hostname === 'github.com' ?
+	'https://api.github.com/' :
+	`${location.origin}/api/v3/`;
+const api4 = location.hostname === 'github.com' ?
+	'https://api.github.com/graphql' :
+	`${location.origin}/api/graphql/`;
 
 function fetch3(query: string, personalToken: string) {
 	const headers: HeadersInit = {
@@ -55,7 +60,7 @@ function fetch3(query: string, personalToken: string) {
 		headers.Authorization = `token ${personalToken}`;
 	}
 
-	return fetch(api + query, {headers});
+	return fetch(api3 + query, {headers});
 }
 
 function fetch4(query: string, personalToken: string) {
@@ -63,7 +68,7 @@ function fetch4(query: string, personalToken: string) {
 		throw new Error('Personal token required for this feature');
 	}
 
-	return fetch(api + 'graphql', {
+	return fetch(api4, {
 		headers: {
 			'User-Agent': 'Refined GitHub',
 			Authorization: `bearer ${personalToken}`

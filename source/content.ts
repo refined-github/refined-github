@@ -86,6 +86,7 @@ import './features/linkify-commit-sha';
 import './features/bypass-checks';
 import './features/add-co-authored-by';
 import './features/allow-edits-unchecked-warning';
+import './features/split-issue-pr-search-results';
 import './features/preview-hidden-comments';
 
 // Add global for easier debugging
