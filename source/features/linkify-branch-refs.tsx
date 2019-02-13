@@ -1,4 +1,4 @@
-import {React} from 'dom-chef/react';
+import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
@@ -17,7 +17,7 @@ function inPR() {
 
 	// Find the URLs first, some elements don't have titles
 	const urls = new Map<string, string>();
-	for (const el of select.all<HTMLElement>('.commit-ref[title], .base-ref[title], .head-ref[title]')) {
+	for (const el of select.all('.commit-ref[title], .base-ref[title], .head-ref[title]')) {
 		const [repo, branch] = el.title.split(':');
 		const branchName = el.textContent.trim();
 		urls.set(
@@ -32,7 +32,7 @@ function inPR() {
 		}
 	}
 
-	for (const el of select.all<HTMLElement>('.commit-ref')) {
+	for (const el of select.all('.commit-ref')) {
 		const branchName = el.textContent.trim();
 
 		if (branchName !== 'unknown repository') {

@@ -43,8 +43,7 @@ import './features/hide-readme-header';
 import './features/branch-buttons';
 import './features/diff-view-without-whitespace-option';
 import './features/ci-link';
-import './features/milestone-navigation';
-import './features/sort-milestones-by-closest-due-date'; // Needs to be after add-milestone-navigation
+import './features/sort-milestones-by-closest-due-date';
 import './features/star-repo-hotkey';
 import './features/toggle-files-button';
 import './features/scroll-to-top-on-collapse';
@@ -87,6 +86,7 @@ import './features/linkify-commit-sha';
 import './features/bypass-checks';
 import './features/add-co-authored-by';
 import './features/split-issue-pr-search-results';
+import './features/preview-hidden-comments';
 
 // Add global for easier debugging
 declare global {

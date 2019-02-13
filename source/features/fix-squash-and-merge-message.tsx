@@ -2,7 +2,7 @@ import select from 'select-dom';
 import features from '../libs/features';
 
 function init() {
-	const button = select('.merge-message .btn-group-squash [type=submit]');
+	const button = select('.merge-message .btn-group-squash [type=button]');
 	if (!button) {
 		return false;
 	}

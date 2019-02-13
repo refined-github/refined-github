@@ -5,7 +5,7 @@ https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a
 The tab isn’t shown if there are no releases.
 */
 
-import {React} from 'dom-chef/react';
+import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 import * as icons from '../libs/icons';

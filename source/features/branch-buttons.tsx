@@ -1,4 +1,4 @@
-import {React} from 'dom-chef/react';
+import React from 'dom-chef';
 import select from 'select-dom';
 import compareVersions from 'tiny-version-compare';
 import * as api from '../libs/api';
@@ -12,7 +12,7 @@ import {getRepoURL, getOwnerAndRepo} from '../libs/utils';
 
 async function getTagLink() {
 	const tags = select
-		.all<HTMLElement>('.branch-select-menu .select-menu-list:last-child .select-menu-item')
+		.all('.branch-select-menu .select-menu-list:last-child .select-menu-item')
 		.map(element => element.dataset.name);
 
 	if (tags.length === 0) {

@@ -5,7 +5,7 @@ import features from '../libs/features';
 const observer = new IntersectionObserver(([{intersectionRatio, target}]) => {
 	if (intersectionRatio === 0) {
 		observer.unobserve(target);
-		const dropdown = select<HTMLElement>(`
+		const dropdown = select(`
 			.dropdown-details[open] summary,
 			body.menu-active .modal-backdrop
 		`);

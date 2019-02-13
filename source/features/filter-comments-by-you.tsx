@@ -1,4 +1,4 @@
-import {React} from 'dom-chef/react';
+import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 import {getUsername, getRepoURL} from '../libs/utils';

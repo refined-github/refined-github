@@ -3,7 +3,7 @@ import debounce from 'debounce-fn';
 import observeEl from './simplified-element-observer';
 
 const handlers = new Set<() => void>();
-const observed = new WeakSet<HTMLElement>();
+const observed = new WeakSet();
 
 const run = debounce(() => {
 	// Safely run all callbacks
@@ -17,10 +17,15 @@ const addListenersOnNewElements = debounce(() => {
 		loadMore.addEventListener('page:loaded', run);
 		loadMore.addEventListener('page:loaded', addListenersOnNewElements);
 	}
+
+	// Outdated comment are loaded later using an include-fragment element
+	for (const fragment of select.all('details.outdated-comment > include-fragment')) {
+		fragment.addEventListener('load', run);
+	}
 }, {wait: 50});
 
 const setup = () => {
-	const discussion = select<HTMLElement>('.js-discussion');
+	const discussion = select('.js-discussion');
 	if (!discussion || observed.has(discussion)) {
 		return;
 	}

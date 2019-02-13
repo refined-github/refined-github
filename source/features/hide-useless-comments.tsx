@@ -1,4 +1,4 @@
-import {React} from 'dom-chef/react';
+import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
@@ -46,7 +46,7 @@ function init() {
 }
 
 function unhide(event) {
-	for (const comment of select.all<HTMLElement>('.rgh-hidden-comment')) {
+	for (const comment of select.all('.rgh-hidden-comment')) {
 		comment.hidden = false;
 	}
 
