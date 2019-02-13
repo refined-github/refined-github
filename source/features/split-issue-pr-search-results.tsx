@@ -3,7 +3,7 @@ import select from 'select-dom';
 import features from '../libs/features';
 
 function cleanLinks() {
-	for (const link of select.all('.menu-item')) {
+	for (const link of select.all<HTMLAnchorElement>('.menu-item')) {
 		const searchParams = new URLSearchParams(link.search);
 		searchParams.set('q', cleanSearchQuery(searchParams.get('q')));
 		link.search = String(searchParams);
@@ -30,14 +30,14 @@ function createUrl(type, pathname = location.pathname) {
 function init() {
 	cleanLinks();
 
-	const issueLink = select('nav.menu a[href*="&type=Issues"]');
+	const issueLink = select<HTMLAnchorElement>('nav.menu a[href*="&type=Issues"]');
 	issueLink.textContent = 'Issues'; // Drops any possible counter
 	issueLink.href = createUrl('issue');
 	issueLink.append(
 		<include-fragment src={createUrl('issue', location.pathname + '/count')} />
 	);
 
-	const prLink = issueLink.cloneNode(true);
+	const prLink = issueLink.cloneNode(true) as HTMLAnchorElement;
 	prLink.textContent = 'Pull requests';
 	prLink.href = createUrl('pr');
 	prLink.append(
