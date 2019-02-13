@@ -6,7 +6,7 @@ See:
 https://blog.jasonmeridth.com/posts/do-not-issue-pull-requests-from-your-master-branch/
 */
 
-import {React} from 'dom-chef/react';
+import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 import getDefaultBranch from '../libs/get-default-branch';
