@@ -20,7 +20,7 @@ function blurAccessibly(field) {
 
 function init() {
 	delegate('.js-comment-field', 'keydown', event => {
-		const field = event.target;
+		const field: HTMLTextAreaElement = event.target;
 
 		// Don't do anything if the suggester box is active
 		if (select.exists('.suggester:not([hidden])', field.form)) {
@@ -46,11 +46,28 @@ function init() {
 
 			event.stopImmediatePropagation();
 			event.preventDefault();
-		} else if (event.key === 'ArrowUp' && field.id === 'new_comment_field' && field.value === '') {
-			const lastOwnComment = select.all('.js-comment.current-user').pop();
+		} else if (event.key === 'ArrowUp' && field.matches('.js-comment-field') && field.value === '') {
+			const currentConversationContainer = field.closest([
+				'.js-inline-comments-container', // Current review thread container
+				'.discussion-timeline' // Or just ALL the comments
+			].join());
+			const lastOwnComment = select
+				.all<HTMLDetailsElement>('.js-comment.current-user', currentConversationContainer)
+				.reverse()
+				.find(comment => {
+					const collapsible = comment.closest('details');
+					return !collapsible || collapsible.open;
+				});
 
 			if (lastOwnComment) {
 				select<HTMLButtonElement>('.js-comment-edit-button', lastOwnComment).click();
+				const closeCurrentField = field
+					.closest('form')
+					.querySelector<HTMLButtonElement>('.js-hide-inline-comment-form');
+
+				if (closeCurrentField) {
+					closeCurrentField.click();
+				}
 
 				// Move caret to end of field
 				requestAnimationFrame(() => {

@@ -56,7 +56,7 @@ function addCoAuthors() {
 async function init() {
 	coAuthors = await fetchCoAuthoredData();
 
-	delegate('.discussion-timeline-actions', '.merge-message [type=submit]', 'click', addCoAuthors);
+	delegate('.discussion-timeline-actions', '.merge-message [type=button]', 'click', addCoAuthors);
 }
 
 features.add({
