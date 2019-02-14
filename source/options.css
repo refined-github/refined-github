@@ -51,14 +51,13 @@ h2 ~ h2 {
 	display: none;
 }
 @-moz-document url-prefix('') {
+	:root {
+		background: none !important;
+	}
 	:root h2 {
 		font-weight: normal;
 	}
-	:root body {
-		font: message-box, sans-serif;
-	}
 	:root hr {
-		margin-left: 0;
 		margin-right: 0;
 	}
 	body > :not(hr) {
