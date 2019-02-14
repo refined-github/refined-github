@@ -2,8 +2,7 @@ import select from 'select-dom';
 import delegate from 'delegate';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {getOwnerAndRepo, getDiscussionNumber} from '../libs/utils';
-import {getOP} from './op-labels';
+import {getOwnerAndRepo, getDiscussionNumber, getOP} from '../libs/utils';
 
 let coAuthors;
 

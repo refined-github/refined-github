@@ -59,7 +59,6 @@ import './features/linkify-issues-in-titles';
 import './features/embed-gist-inline';
 import './features/extend-status-labels';
 import './features/highlight-closing-prs-in-open-issues';
-import './features/op-labels';
 import './features/comments-time-machine-links';
 import './features/jump-to-bottom-link';
 import './features/filter-comments-by-you';
@@ -86,6 +85,7 @@ import './features/linkify-commit-sha';
 import './features/bypass-checks';
 import './features/add-co-authored-by';
 import './features/allow-edits-unchecked-warning';
+import './features/warn-pr-from-master';
 import './features/split-issue-pr-search-results';
 import './features/preview-hidden-comments';
 
