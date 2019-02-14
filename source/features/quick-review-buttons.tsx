@@ -32,14 +32,15 @@ function init() {
 	for (const radio of radios) {
 		const tooltip = radio.parentElement.getAttribute('aria-label');
 
-		const button =
+		const button = (
 			<button
 				name="pull_request_review[event]"
 				value={radio.value}
 				class={`btn btn-sm ${btnClassMap[radio.value] || ''} ${tooltip ? 'tooltipped tooltipped-nw tooltipped-no-delay' : ''}`}
 				aria-label={tooltip || ''}>
 				{radio.nextSibling.textContent.trim()}
-			</button>;
+			</button>
+		);
 
 		if (radio.disabled) {
 			button.setAttribute('disabled', 'disabled');
