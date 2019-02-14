@@ -14,7 +14,6 @@ document.querySelector('[name="customCSS"]').addEventListener('keydown', (event:
 	}
 });
 
-
 declare global {
 	interface Window {
 		collectFeatures: string[];
@@ -28,7 +27,7 @@ function buildFeatureCheckbox(name: string) {
 		<a href={`https://github.com/sindresorhus/refined-github/blob/master/source/features/${name}.tsx`} target="_blank">
 			<small>source</small>
 		</a>
-	</label>
+	</label>;
 }
 
 document
