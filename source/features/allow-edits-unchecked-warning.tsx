@@ -4,22 +4,19 @@ import features from '../libs/features';
 
 function init() {
 	const checkbox = select<HTMLInputElement>('.js-collab-option');
+	const container = select('.new-discussion-timeline .composer .timeline-comment');
+	const warning = (
+		<div class="flash flash-error" id="allow-edits-unchecked-warning">
+			<strong>Note:</strong> Disabling this would prevent a maintainer of this project from making vital changes to your branch.
+		</div>
+	);
 
 	checkbox.addEventListener('change', () => {
 		if (checkbox.checked) {
-			const warning = select('#allow-edits-unchecked-warning');
-			if (warning) {
-				warning.remove();
-			}
-
-			return;
+			warning.remove();
+		} else {
+			container.after(warning);
 		}
-
-		select('.new-discussion-timeline .composer .timeline-comment').after(
-			<div class="flash flash-error" id="allow-edits-unchecked-warning">
-				<strong>Note:</strong> Disabling this would prevent a maintainer of this project from making vital changes to your branch.
-			</div>
-		);
 	});
 }
 
