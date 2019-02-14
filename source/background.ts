@@ -42,6 +42,13 @@ browser.runtime.onMessage.addListener(async message => {
 	}
 });
 
+// Give the browserAction a reason to exist other than "Enable RGH on this domain"
+browser.browserAction.onClicked.addListener(() => {
+	browser.tabs.create({
+		url: 'https://github.com'
+	});
+});
+
 browser.runtime.onInstalled.addListener(async ({reason}) => {
 	// Only notify on install
 	if (reason === 'install') {

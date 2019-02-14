@@ -1,5 +1,5 @@
 body {
-	min-width: 430px; /* Required to size the Browser Action popup */
+	min-width: 430px;
 }
 :root {
 	--github-green: #28a745;
