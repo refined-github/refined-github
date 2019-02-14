@@ -30,7 +30,8 @@ function init() {
 
 	// Generate the new buttons
 	for (const radio of radios) {
-		const tooltip = radio.parentElement.getAttribute("aria-label");
+		const tooltip = radio.parentElement.getAttribute('aria-label');
+
 		const button =
 			<button
 				name="pull_request_review[event]"
@@ -39,9 +40,11 @@ function init() {
 				aria-label={tooltip || ''}>
 				{radio.nextSibling.textContent.trim()}
 			</button>;
+
 		if (radio.disabled) {
-			button.setAttribute('disabled', 'disabled')
+			button.setAttribute('disabled', 'disabled');
 		}
+
 		container.append(button);
 	}
 
