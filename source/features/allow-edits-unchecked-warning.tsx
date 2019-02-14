@@ -1,12 +1,12 @@
-import {React} from 'dom-chef/react';
+import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
 function init() {
-	const checkBox = select<HTMLInputElement>('.js-collab-option');
+	const checkbox = select<HTMLInputElement>('.js-collab-option');
 
-	checkBox.addEventListener('change', () => {
-		if (checkBox.checked) {
+	checkbox.addEventListener('change', () => {
+		if (checkbox.checked) {
 			const warning = select('#allow-edits-unchecked-warning');
 			if (warning) {
 				warning.remove();
