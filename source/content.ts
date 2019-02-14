@@ -76,6 +76,7 @@ import './features/extend-diff-expander';
 import './features/profile-gists-link';
 import './features/show-followers-you-know';
 import './features/show-user-top-repositories';
+import './features/show-user-updated-repositories';
 import './features/set-default-repositories-type-to-sources';
 import './features/user-profile-follower-badge';
 import './features/pr-branches';
