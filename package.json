@@ -14,6 +14,7 @@
 		"can-release": "if [ \"$TRAVIS_EVENT_TYPE\" = cron ] && [ $(git rev-list -n 1 --since=\"26 hours ago\" master) ]; then echo :ship-it:; else false; fi"
 	},
 	"dependencies": {
+		"@types/debounce-fn": "^1.0.0",
 		"copy-text-to-clipboard": "^1.0.4",
 		"debounce-fn": "^1.0.0",
 		"delegate": "^3.2.0",
@@ -40,6 +41,7 @@
 		"@types/element-ready": "^2.1.0",
 		"@types/firefox-webext-browser": "^65.0.0",
 		"@types/jsdom": "^12.2.1",
+		"@types/onetime": "^2.0.0",
 		"@typescript-eslint/eslint-plugin": "^1.1.0",
 		"ava": "^1.1.0",
 		"chrome-webstore-upload-cli": "^1.2.0",
@@ -78,8 +80,8 @@
 					"varsIgnorePattern": "^React$"
 				}
 			],
-			"@typescript-eslint/explicit-function-return-type": "off",
-			"@typescript-eslint/restrict-plus-operands": "off"
+			"@typescript-eslint/explicit-function-return-type": "on",
+			"@typescript-eslint/restrict-plus-operands": "on"
 		},
 		"globals": [
 			"browser"
