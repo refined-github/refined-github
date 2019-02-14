@@ -2,7 +2,7 @@ import select from 'select-dom';
 import features from '../libs/features';
 
 function init() {
-	const tabs = select.all<HTMLElement>('.tabnav-pr .tabnav-tab');
+	const tabs = select.all('.tabnav-pr .tabnav-tab');
 	const selectedIndex = tabs.indexOf(select('.tabnav-pr .selected'));
 	const lastTab = tabs.length - 1;
 

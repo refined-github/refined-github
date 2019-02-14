@@ -20,7 +20,8 @@ new OptionsSync().define({
 				.replace('bypass-checks-travis', 'bypass-checks') // #1693
 				.replace(/^add-(.+)-to-(profile|comments|comment-fields|emojis)$/, '$2-$1') // #1719
 				.replace(/^add-/, '') // #1719
-				.replace('milestone-navigation', ''); // #1767
+				.replace('milestone-navigation', '') // #1767
+				.replace('op-labels', ''); // #1776
 		},
 		OptionsSync.migrations.removeUnused
 	]
@@ -39,6 +40,13 @@ browser.runtime.onMessage.addListener(async message => {
 			active: false
 		});
 	}
+});
+
+// Give the browserAction a reason to exist other than "Enable RGH on this domain"
+browser.browserAction.onClicked.addListener(() => {
+	browser.tabs.create({
+		url: 'https://github.com'
+	});
 });
 
 browser.runtime.onInstalled.addListener(async ({reason}) => {

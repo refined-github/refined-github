@@ -4,7 +4,7 @@ import features from '../libs/features';
 import {getRepoURL} from '../libs/utils';
 
 function init() {
-	const currentBranch = select<HTMLElement>('#partial-pull-merging .merge-branch-description .commit-ref');
+	const currentBranch = select('#partial-pull-merging .merge-branch-description .commit-ref');
 	if (!currentBranch) {
 		return false;
 	}
