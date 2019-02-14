@@ -30,16 +30,19 @@ function init() {
 
 	// Generate the new buttons
 	for (const radio of radios) {
-		if (!radio.disabled) {
-			container.append(
-				<button
-					name="pull_request_review[event]"
-					value={radio.value}
-					class={`btn btn-sm ${btnClassMap[radio.value] || ''}`}>
-					{radio.nextSibling.textContent.trim()}
-				</button>
-			);
+		const tooltip = radio.parentElement.getAttribute("aria-label");
+		const button =
+			<button
+				name="pull_request_review[event]"
+				value={radio.value}
+				class={`btn btn-sm ${btnClassMap[radio.value] || ''} ${tooltip ? 'tooltipped tooltipped-nw tooltipped-no-delay' : ''}`}
+				aria-label={tooltip || ''}>
+				{radio.nextSibling.textContent.trim()}
+			</button>;
+		if (radio.disabled) {
+			button.setAttribute('disabled', 'disabled')
 		}
+		container.append(button);
 	}
 
 	// Comment button must be last; cancel button must be first
