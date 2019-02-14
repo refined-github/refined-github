@@ -5,9 +5,9 @@
 		// "noEmit": true, // Useful when running `tsc` directly
 
 		// TODO: Get all these removed
-		"allowJs": true,
+		"allowJs": false,
 		"declaration": false, // Needed because of `allowJs`
-		"strict": false,
+		"strict": true,
 		"noImplicitReturns": false,
 	},
 	"include": [
