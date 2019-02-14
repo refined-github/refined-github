@@ -8,13 +8,6 @@
 
 	<p>
 		<label>
-			<strong>Features to disable</strong>, by <a href="https://github.com/sindresorhus/refined-github/tree/master/source/features" target="_blank">filename</a><br>
-			<textarea name="disabledFeatures" rows="2" placeholder="For example: &#10;mark-unread hide-own-stars" spellcheck="false"></textarea>
-		</label>
-	</p>
-
-	<p>
-		<label>
 			<strong>Custom CSS</strong> (useful to undo unwanted styles)<br>
 			<textarea name="customCSS" rows="2" spellcheck="false"></textarea>
 		</label>
@@ -48,6 +41,17 @@
 	<p>
 		If you're a GitHub Enterprise user, visit your Enterprise site, right-click on <a href="https://user-images.githubusercontent.com/1402241/32874388-e0c64150-cacc-11e7-9a50-eae3727fd3c2.png" target="_blank">Refined GitHub's icon in the toolbar</a> and select <strong>Enable Refined GitHub on this domain</strong>.
 	</p>
+
+	<hr>
+
+	<p>
+		<label>
+			<strong>Features to disable</strong> (checked means disabled)<br>
+			<div class="js-features"></div>
+		</label>
+	</p>
+
 </form>
 <script src="browser-polyfill.min.js"></script>
+<script src="content.js"></script>
 <script src="options.js"></script>

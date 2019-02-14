@@ -53,6 +53,14 @@ h2 ~ h2 {
 	margin-top: 2em;
 }
 
+.js-features {
+	line-height: 1.7;
+}
+
+.js-features label {
+	display: block;
+}
+
 /* Firefox only */
 .only-firefox {
 	display: none;

@@ -158,6 +158,13 @@ const add = async (definition: FeatureDetails) => {
 		throw new TypeError(`${id}: include/exclude must be boolean-returning functions`);
 	}
 
+	// In chrome:// pages, just collect the features in a global variable
+	if (!location.protocol.startsWith('http')) {
+		window.collectFeatures = window.collectFeatures || [];
+		window.collectFeatures.push(id);
+		return;
+	}
+
 	/* Feature filtering and running */
 	const options = await globalReady;
 	if (options.disabledFeatures.includes(id)) {
