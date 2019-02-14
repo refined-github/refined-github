@@ -24,7 +24,7 @@ function init() {
 
 	container.after(
 		<div class="diffbar-item refined-github-toggle-whitespace">
-			<a href={`?${searchParams`}
+			<a href={`?${searchParams}`}
 				data-hotkey="d w"
 				class={`btn btn-sm btn-outline BtnGroup-item tooltipped tooltipped-s ${isHidingWhitespace ? 'bg-gray-light text-gray-light' : ''}`}
 				aria-label={`${isHidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}>
