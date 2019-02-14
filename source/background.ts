@@ -20,7 +20,8 @@ new OptionsSync().define({
 				.replace('bypass-checks-travis', 'bypass-checks') // #1693
 				.replace(/^add-(.+)-to-(profile|comments|comment-fields|emojis)$/, '$2-$1') // #1719
 				.replace(/^add-/, '') // #1719
-				.replace('milestone-navigation', ''); // #1767
+				.replace('milestone-navigation', '') // #1767
+				.replace('op-labels', ''); // #1776
 		},
 		OptionsSync.migrations.removeUnused
 	]
