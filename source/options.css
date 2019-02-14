@@ -53,12 +53,16 @@ h2 ~ h2 {
 	margin-top: 2em;
 }
 
-.js-features {
-	line-height: 1.7;
+.js-features p {
+	margin: 0.2em 0;
 }
 
-.js-features label {
-	display: block;
+.js-features :checked + span {
+	text-decoration: line-through;
+}
+
+.js-features a {
+	font-size: 0.9em;
 }
 
 /* Firefox only */

@@ -21,13 +21,17 @@ declare global {
 }
 
 function buildFeatureCheckbox(name: string) {
-	return <label>
-		<input type="checkbox" name="disabledFeatures[]" value={name} /> {name}
-		{' '}
-		<a href={`https://github.com/sindresorhus/refined-github/blob/master/source/features/${name}.tsx`} target="_blank">
-			<small>source</small>
-		</a>
-	</label>;
+	return (
+		<p>
+			<label>
+				<input type="checkbox" name="disabledFeatures[]" value={name} /> <span>{name}</span>
+			</label>
+			{' '}
+			<a href={`https://github.com/sindresorhus/refined-github/blob/master/source/features/${name}.tsx`} target="_blank">
+				source
+			</a>
+		</p>
+	);
 }
 
 document
