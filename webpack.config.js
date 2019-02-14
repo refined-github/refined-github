@@ -18,15 +18,17 @@ module.exports = (env, argv) => ({
 		rules: [
 			{
 				test: /\.(js|ts|tsx)$/,
-				use: [{
-					loader: 'ts-loader',
-					query: {
-						compilerOptions: {
-							// With this, TS will error but the file will still be generated (on watch only)
-							noEmitOnError: argv.watch === false
+				use: [
+					{
+						loader: 'ts-loader',
+						query: {
+							compilerOptions: {
+								// With this, TS will error but the file will still be generated (on watch only)
+								noEmitOnError: argv.watch === false
+							}
 						}
 					}
-				}],
+				],
 				exclude: /node_modules/
 			}
 		]
