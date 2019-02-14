@@ -38,7 +38,7 @@ function init() {
 				value={radio.value}
 				class={`btn btn-sm ${btnClassMap[radio.value] || ''} ${tooltip ? 'tooltipped tooltipped-nw tooltipped-no-delay' : ''}`}
 				aria-label={tooltip || ''}>
-				{radio.nextSibling.textContent.trim()}
+				{radio.nextSibling}
 			</button>
 		);
 
