@@ -1097,7 +1097,3 @@ body > .footer li a {
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
-
-.highlighted-pr-author {
-	font-weight: bold;
-}
