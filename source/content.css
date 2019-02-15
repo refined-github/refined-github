@@ -1092,11 +1092,11 @@ body > .footer li a {
 }
 
 /* Distinctly identify commits that refer pull request */
-.discussion-item-header[id^=ref-] .discussion-item-icon {
+.discussion-item-header[id^="ref-"] .discussion-item-icon {
 	background-color: #6db2ff;
-	color: #ffffff;
+	color: #fff;
 }
-.discussion-item-header[id^=ref-]::before {
+.discussion-item-header[id^="ref-"]::before {
 	content: '';
 	position: absolute;
 	display: block;
@@ -1105,15 +1105,15 @@ body > .footer li a {
 	top: -40px;
 	width: 2px;
 	height: 140px;
-	background-color: #ffffff;
+	background-color: #fff;
 }
-.discussion-item-header[id^=ref-commit-] + .discussion-item-body .timeline-commits .commit .commit-icon {
+.discussion-item-header[id^="ref-commit-"] + .discussion-item-body .timeline-commits .commit .commit-icon {
 	color: #6db2ff;
 }
 .discussion-item-header {
 	position: relative;
 }
-.discussion-item-header[id^=ref-commit-]::after {
+.discussion-item-header[id^="ref-commit-"]::after {
 	content: '';
 	position: absolute;
 	display: block;
@@ -1124,6 +1124,6 @@ body > .footer li a {
 	width: 2px;
 	background-color: #6db2ff;
 }
-.discussion-item-header[id^=ref-commit-] + .discussion-item-body .timeline-commits {
+.discussion-item-header[id^="ref-commit-"] + .discussion-item-body .timeline-commits {
 	position: relative;
 }
