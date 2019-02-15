@@ -71,7 +71,7 @@ onAjaxedPages(async () => {
 
 	const ajaxContainer = select('#js-repo-pjax-container,#js-pjax-container');
 	if (ajaxContainer) {
-		ajaxContainer.append(<has-rgh/>);
+		ajaxContainer.append(<has-rgh/> as Node);
 	}
 });
 
@@ -105,7 +105,7 @@ const globalReady: Promise<GlobalOptions> = new Promise(async resolve => {
 	};
 
 	if (options.customCSS.trim().length > 0) {
-		document.head.append(<style>{options.customCSS}</style>);
+		document.head.append(<style>{options.customCSS}</style> as Node);
 	}
 
 	// Create logging function
@@ -116,14 +116,14 @@ const globalReady: Promise<GlobalOptions> = new Promise(async resolve => {
 
 const run = async ({id, include, exclude, init, deinit, options: {log}}: PrivateFeatureDetails) => {
 	// If every `include` is false and no exclude is true, don’t run the feature
-	if (include.every(c => !c()) || exclude.some(c => c())) {
-		return deinit();
+	if (include!.every(c => !c()) || exclude!.some(c => c())) {
+		return deinit!();
 	}
 
 	try {
 		// Features can return `false` if they declare themselves as not enabled
 		if (await init() !== false) {
-			log('✅', id);
+			log!('✅', id);
 		}
 	} catch (error) {
 		console.log('❌', id);
@@ -143,7 +143,7 @@ const add = async (definition: FeatureDetails) => {
 		id,
 		include = [() => true], // Default: every page
 		exclude = [], // Default: nothing
-		load = fn => fn(), // Run it right away
+		load = (fn: VoidFunction) => fn(), // Run it right away
 		init,
 		deinit = () => {}, // Noop
 		shortcuts = {},
@@ -161,7 +161,7 @@ const add = async (definition: FeatureDetails) => {
 	/* Feature filtering and running */
 	const options = await globalReady;
 	if (options.disabledFeatures.includes(id)) {
-		options.log('↩️', 'Skipping', id);
+		options.log!('↩️', 'Skipping', id);
 		return;
 	}
 

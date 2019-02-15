@@ -19,13 +19,13 @@ async function init() {
 		return false;
 	}
 
-	const codeTabURL = select<HTMLAnchorElement>('[data-hotkey="g c"]').href;
+	const codeTabURL = select<HTMLAnchorElement>('[data-hotkey="g c"]')!.href;
 	const response = await fetch(codeTabURL);
 	const html = await response.text();
 
 	// https://github.com/sindresorhus/refined-github/issues/216
 	if (html.includes(fragmentURL)) {
-		select('.repository-content').prepend(<include-fragment src={fragmentURL}></include-fragment>);
+		select('.repository-content')!.prepend(<include-fragment src={fragmentURL}></include-fragment>);
 	}
 }
 

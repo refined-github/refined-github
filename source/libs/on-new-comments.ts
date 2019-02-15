@@ -2,7 +2,9 @@ import select from 'select-dom';
 import debounce from 'debounce-fn';
 import observeEl from './simplified-element-observer';
 
-const handlers = new Set<() => void>();
+type VoidHandler = () => void;
+
+const handlers = new Set<VoidHandler>();
 const observed = new WeakSet();
 
 const run = debounce(() => {
@@ -39,7 +41,7 @@ const setup = () => {
 	addListenersOnNewElements();
 };
 
-export default function (cb) {
+export default function (cb: VoidHandler) {
 	setup();
 	handlers.add(cb);
 }

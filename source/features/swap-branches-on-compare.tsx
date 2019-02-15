@@ -12,11 +12,11 @@ function init() {
 
 	// Compares against the "base" branch if the URL only has one reference
 	if (references.length === 1) {
-		references.unshift(select('.branch span').textContent);
+		references.unshift(select('.branch span')!.textContent!);
 	}
 
-	const icon = select('.octicon-arrow-left');
-	icon.parentElement.attributes['aria-label'].value += '.\nClick to swap.';
+	const icon = select('.octicon-arrow-left')!;
+	icon.parentElement!.attributes['aria-label'].value += '.\nClick to swap.';
 	wrap(icon, <a href={`/${getRepoURL()}/compare/${references.join('...')}`}></a>);
 }
 

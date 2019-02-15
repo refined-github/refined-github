@@ -1,7 +1,7 @@
 export default function (el: HTMLTextAreaElement) {
 	const selection = window.getSelection().toString();
 	const {selectionStart, selectionEnd, value} = el;
-	const linesCount = selection.match(/^|\n/g).length;
+	const linesCount = selection.match(/^|\n/g)!.length;
 
 	if (linesCount > 1) {
 		// Select full first line to replace everything at once

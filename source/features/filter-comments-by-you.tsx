@@ -6,7 +6,7 @@ import {getUsername, getRepoURL} from '../libs/utils';
 const repoUrl = getRepoURL();
 
 function init() {
-	select('.subnav-search-context li:last-child')
+	select('.subnav-search-context li:last-child')!
 		.before(
 			<li>
 				<a

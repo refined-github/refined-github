@@ -17,8 +17,8 @@ async function init() {
 		}
 
 		// Drop 'commented' label to shorten the copy
-		const commentedNode = el.parentNode.nextSibling as Text;
-		if (commentedNode && commentedNode.textContent.includes('commented')) {
+		const commentedNode = el.parentNode!.nextSibling as Text;
+		if (commentedNode && commentedNode.textContent!.includes('commented')) {
 			commentedNode.remove();
 		}
 	}
@@ -36,12 +36,12 @@ async function init() {
 	);
 
 	for (const usernameEl of usernameElements) {
-		const {name = ''} = names[api.escapeKey(usernameEl.textContent)] || {};
+		const {name = ''} = names![api.escapeKey(usernameEl.textContent!)] || {};
 		if (name) {
 			// If it's a regular comment author, add it outside <strong>
 			// otherwise it's something like "User added some commits"
-			const insertionPoint = usernameEl.parentElement.tagName === 'STRONG' ? usernameEl.parentElement : usernameEl;
-			insertionPoint.after(' (', <bdo>{name}</bdo>, ') ');
+			const insertionPoint = usernameEl.parentElement!.tagName === 'STRONG' ? usernameEl.parentElement : usernameEl;
+			insertionPoint!.after(' (', <bdo>{name}</bdo>, ') ');
 		}
 	}
 }

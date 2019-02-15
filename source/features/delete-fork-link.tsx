@@ -15,7 +15,7 @@ function init() {
 		return false;
 	}
 
-	currentBranch.parentElement.append(
+	currentBranch.parentElement!.append(
 		<a id="refined-github-delete-fork-link" href={`/${forkPath}/settings`}>
 			Delete fork
 		</a>

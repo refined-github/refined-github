@@ -3,16 +3,16 @@ import select from 'select-dom';
 import domify from '../libs/domify';
 import features from '../libs/features';
 
-const isGist = link =>
+const isGist = (link: HTMLAnchorElement) =>
 	!link.pathname.includes('.') && // Exclude links to embed files
 	(
 		link.hostname.startsWith('gist.') ||
 		link.pathname.startsWith('gist/')
 	);
 
-const isOnlyChild = link => link.textContent.trim() === link.parentNode.textContent.trim();
+const isOnlyChild = (link: HTMLAnchorElement) => link.textContent!.trim() === link.parentNode!.textContent!.trim();
 
-async function embedGist(link) {
+async function embedGist(link: HTMLAnchorElement) {
 	const info = <em> (loading)</em>;
 	link.after(info);
 
@@ -20,13 +20,13 @@ async function embedGist(link) {
 		const response = await fetch(`${link.href}.json`);
 		const gistData = await response.json();
 
-		const files = domify(gistData.div).firstElementChild;
+		const files = domify(gistData.div).firstElementChild!;
 		const fileCount = files.children.length;
 
 		if (fileCount > 1) {
 			info.textContent = ` (${fileCount} files)`;
 		} else {
-			link.parentNode.attachShadow({mode: 'open'}).append(
+			(link.parentNode as HTMLElement).attachShadow({mode: 'open'}).append(
 				<style>{`
 					.gist .gist-data {
 						max-height: 16em;
@@ -43,7 +43,7 @@ async function embedGist(link) {
 }
 
 function init() {
-	select.all('.js-comment-body p a:only-child')
+	select.all<HTMLAnchorElement>('.js-comment-body p a:only-child')
 		.filter(item => isGist(item) && isOnlyChild(item))
 		.forEach(embedGist);
 }

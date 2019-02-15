@@ -9,32 +9,32 @@ import delegate from 'delegate';
 import * as icons from '../libs/icons';
 import features from '../libs/features';
 
-const getFilterName = item => {
+const getFilterName = (item: HTMLAnchorElement) => {
 	return item
-		.closest('details')
-		.querySelector('summary')
-		.textContent
+		.closest('details')!
+		.querySelector('summary')!
+		.textContent!
 		.trim()
 		.replace(/s$/, '') // 'Assignees' -> 'Assignee'; 'Milestones -> Milestone'
 		.toLowerCase();
 };
 
-const getItemName = item => {
+const getItemName = (item: HTMLAnchorElement) => {
 	const itemText = select('.name', item) || select('.select-menu-item-text', item);
-	const text = itemText.firstChild.textContent.trim();
+	const text = itemText!.firstChild!.textContent!.trim();
 	return text.includes(' ') ? `"${text}"` : text;
 };
 
-const getLastQuery = item => {
+const getLastQuery = (item: HTMLAnchorElement) => {
 	return new URLSearchParams(item.search)
-		.get('q')
+		.get('q')!
 
 		// Get the last query
 		.split(' ')
 		.pop();
 };
 
-const getItemQuery = item => {
+const getItemQuery = (item: HTMLAnchorElement) => {
 	const filter = getFilterName(item);
 	if (filter === 'sort') {
 		return;
@@ -48,7 +48,7 @@ const getItemQuery = item => {
 	if (filter === 'project') {
 		// Project filters don’t have the project query set if they’re selected
 		// and the query cannot be determined via getFilterName/getItemName
-		const query = getLastQuery(item);
+		const query = getLastQuery(item)!;
 		if (query.startsWith('project:')) {
 			return query;
 		}
@@ -63,7 +63,7 @@ const getItemQuery = item => {
 	// "No label/milestone/etc" filters won't have a name here and can't be excluded
 };
 
-const buildSearch = item => {
+const buildSearch = (item: HTMLAnchorElement) => {
 	const itemQuery = getItemQuery(item);
 	if (!itemQuery) {
 		return false;
@@ -86,7 +86,7 @@ const buildSearch = item => {
 	return search;
 };
 
-const visitNegatedQuery = event => {
+const visitNegatedQuery = (event: KeyboardEvent) => {
 	if (!event.altKey) {
 		return;
 	}
@@ -95,16 +95,16 @@ const visitNegatedQuery = event => {
 	// even if the link isn't supported
 	// because we never want to download pages
 	event.preventDefault();
-	const item = event.delegateTarget;
+	const item = event.delegateTarget as HTMLAnchorElement;
 	const search = buildSearch(item);
 	if (search) {
-		item.search = search;
+		item.search = search.toString();
 	}
 
 	item.click();
 };
 
-const getIcon = isNegated => {
+const getIcon = (isNegated: boolean) => {
 	return <span class="select-menu-item-icon">{isNegated ? icons.x() : icons.check()}</span>;
 };
 
@@ -115,7 +115,7 @@ const updateFilterIcons = () => {
 		.match(/(".*?"|[^"\s]+)+(?=\s*|\s*$)/g) || []; // Split by query, exclude spaces in quotes https://stackoverflow.com/a/16261693/288906
 
 	const links = new Map();
-	for (const link of select.all('.table-list-filters .select-menu-item:not(.rgh-exclude-filter-icon)')) {
+	for (const link of select.all<HTMLAnchorElement>('.table-list-filters .select-menu-item:not(.rgh-exclude-filter-icon)')) {
 		link.classList.add('rgh-exclude-filter-icon');
 
 		const filter = getItemQuery(link);

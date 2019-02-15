@@ -15,7 +15,7 @@ function init() {
 		}
 	}
 
-	select('.subnav-links').append(yoursMenuItem);
+	select('.subnav-links')!.append(yoursMenuItem);
 }
 
 features.add({
