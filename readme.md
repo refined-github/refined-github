@@ -106,7 +106,6 @@ GitHub Enterprise is also supported. More info in the options.
 ### More actions
 
 - [Click on branch references in pull requests.](https://github.com/sindresorhus/refined-github/issues/1)
-- [Quickly delete a forked repo after its pull request has been merged.](https://cloud.githubusercontent.com/assets/170270/13520281/b2c9335c-e211-11e5-9e36-b0f325166356.png)
 - [Open all your notifications at once.](https://user-images.githubusercontent.com/1402241/31700005-1b3be428-b38c-11e7-90a6-8f572968993b.png)
 - [Open selection in new tab with <kbd>shift</kbd> <kbd>o</kbd> when navigating via <kbd>j</kbd> and <kbd>k</kbd>.](https://github.com/sindresorhus/refined-github/issues/1110)
 - [Easily toggle whitespace visibility in diffs.](https://cloud.githubusercontent.com/assets/170270/17603894/7b71a166-6013-11e6-81b8-22950ab8bce3.png) *(<kbd>d</kbd> <kbd>w</kbd> hotkey)*
@@ -205,6 +204,7 @@ And [many more…](source/content.css)
 - [Implemented by GitHub](https://blog.github.com/changelog/2018-11-26-searching-by-user-from-a-profile-page/): [Search a user profile page when visiting it.](https://user-images.githubusercontent.com/1402241/35185441-24ad4b1e-fe37-11e7-9e1b-0dc09fc1ada2.png)
 - [Implemented by GitHub](https://user-images.githubusercontent.com/36004334/52573199-ea365480-2e19-11e9-8ebf-3ea6a7a640f8.png): [Access the `Labels` `Milestones` navigation from individual milestone pages.](https://cloud.githubusercontent.com/assets/170270/25217211/37b67aea-25d0-11e7-8482-bead2b04ee74.png)
 - [Implemented by GitHub](https://github.blog/changelog/2019-02-13-comment-author-label/): [The comments of who opened an issue/PR are marked with `Original Poster` label.](https://cloud.githubusercontent.com/assets/4331946/25075520/d62fbbd0-2316-11e7-921f-ab736dc3522e.png)
+- [Implemented by GitHub](https://github.blog/changelog/2019-02-14-prompt-to-clean-up-merged-forks): [Quickly delete a forked repo after its pull request has been merged.](https://cloud.githubusercontent.com/assets/170270/13520281/b2c9335c-e211-11e5-9e36-b0f325166356.png)
 
 
 ## Customization
