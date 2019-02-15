@@ -100,6 +100,8 @@ GitHub Enterprise is also supported. More info in the options.
 - [View linked gists inline in comments.](https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.PNG)
 - [Use the pull request description as the commit message when merging with `Squash and merge`.](https://github.com/sindresorhus/refined-github/issues/1322).
 - [Access related pages on 404 pages.](https://user-images.githubusercontent.com/1402241/46402857-7bdada80-c733-11e8-91a1-856573078ff5.png)
+- [Add co-authors when merging PRs with multiple committers.](https://user-images.githubusercontent.com/1402241/51468821-71a42100-1da2-11e9-86aa-fc2a6a29da84.png)
+- [Search for issues and PRs separately in the top search.](https://user-images.githubusercontent.com/1402241/52181103-35a09f80-2829-11e9-9c6f-57f2e08fc5b2.png)
 
 ### More actions
 
@@ -119,6 +121,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Quickly visit a repository's default branch and latest version tag.](https://user-images.githubusercontent.com/1402241/38107328-ccb3fb46-33bb-11e8-9654-23a6410943cc.png)
 - [Open multiple issues at once in your repos.](https://user-images.githubusercontent.com/1402241/38084752-4820b0d8-3378-11e8-868c-a1582b16f915.gif)
 - [Swap branches in the branch compare view.](https://user-images.githubusercontent.com/857700/42854438-821096f2-8a01-11e8-8752-76f7563b5e18.png)
+- [Exclude PR/issue filters from their list](https://user-images.githubusercontent.com/1402241/48470535-493cfb00-e824-11e8-863a-964f52b62553.png) with <kbd>alt/option</kbd>-<kbd>click</kbd>.
 
 ### More info at a glance
 
@@ -126,7 +129,6 @@ GitHub Enterprise is also supported. More info in the options.
 - [File headers are always visible.](https://user-images.githubusercontent.com/81981/28682784-78bac340-72fe-11e7-9386-bdbab7703693.gif)
 - [Issue listing header is always visible.](https://user-images.githubusercontent.com/380914/39878141-7632e61a-542c-11e8-9c66-74fcd3a134aa.gif)
 - [Merge commits are dimmed in commits list.](https://user-images.githubusercontent.com/1402241/36772362-8ddf8138-1c87-11e8-9f34-1f6b76e5499f.png)
-- [The comments of who opened an issue/PR are marked with `Original Poster` label.](https://cloud.githubusercontent.com/assets/4331946/25075520/d62fbbd0-2316-11e7-921f-ab736dc3522e.png)
 - [Repo URLs are shortened to readable references like "_user/repo/.file@`d71718d`".](https://user-images.githubusercontent.com/1402241/27252232-8fdf8ed0-538b-11e7-8f19-12d317c9cd32.png)
 - [The current repository's build/CI status is always visible next to its name.](https://user-images.githubusercontent.com/1402241/32562120-d65166e4-c4e8-11e7-90fb-cbaf36e2709f.png)
 - [Review counts are shown and colored in PR lists.](https://user-images.githubusercontent.com/1402241/33474535-a814ee78-d6ad-11e7-8f08-a8b72799e376.png)
@@ -134,6 +136,8 @@ GitHub Enterprise is also supported. More info in the options.
 - [Followers you know are shown on profile pages.](https://user-images.githubusercontent.com/2906365/42009293-b1503f62-7a57-11e8-88f5-9c2fb3651a14.png)
 - [Private organizations are marked when viewing your own profile.](https://user-images.githubusercontent.com/6775216/44633467-d5dcc900-a959-11e8-9116-e6b0ffef66af.png)
 - [Badge on user's profile if they follow you.](https://user-images.githubusercontent.com/3723666/45190460-03ecc380-b20c-11e8-832b-839959ee2c99.gif)
+- [Significant head and base branches are added to the PR list.](https://user-images.githubusercontent.com/1402241/51428391-ae9ed500-1c35-11e9-8e54-6b6a424fede4.png)
+- [Hidden comments are previewed inline.](https://user-images.githubusercontent.com/1402241/52545036-6e271700-2def-11e9-8c0c-b5e0fa6f37dd.png)
 
 ### Declutter
 
@@ -153,13 +157,14 @@ GitHub Enterprise is also supported. More info in the options.
 - [Tabs in code are shown as 4 spaces instead of 8 spaces.](https://cloud.githubusercontent.com/assets/170270/14170088/d3be931e-f755-11e5-8edf-c5f864336382.png)
 - [Labels are moved to the left of issue and pull request lists.](https://user-images.githubusercontent.com/1402241/28006237-070b8214-6581-11e7-94bc-2b01a007d00b.png)
 - [Approve or reject reviews faster with one-click review type buttons.](https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png)
-- The news feeds and contribution activities automagically expand when you scroll down.
+- The news feeds automagically expands when you scroll down.
 - The default sort order of milestones is changed to `Closest due date`.
 - The default sort order of issues and pull requests is changed to `Recently updated`.
 - [The `Expand diff` button is widened.](https://user-images.githubusercontent.com/6978877/34470024-eee4f43e-ef20-11e7-9036-65094bd58960.PNG)
 - [Dropdown menus are automatically closed when they’re no longer visible.](https://user-images.githubusercontent.com/1402241/37022353-531c676e-2155-11e8-96cc-80d934bb22e0.gif)
 - [Inactive deployments in PR timelines are hidden.](https://github.com/sindresorhus/refined-github/issues/1144)
 - [The PR/issues search box expands when focused.](https://user-images.githubusercontent.com/1402241/48473156-7ab8c500-e82a-11e8-95c7-a39b0529fe1b.gif)
+- [A warning appears when trying to create a PR from the default branch.](https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png)
 
 And [many more…](source/content.css)
 
@@ -168,7 +173,6 @@ And [many more…](source/content.css)
 - [Access a repository's releases using the `Releases` tab or by pressing <kbd>g</kbd> <kbd>r</kbd>.](https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png)
 - Create a new release on the Releases tab by pressing <kbd>c</kbd>.
 - [Compare a repository's branches with the `Compare` link under `More`.](https://user-images.githubusercontent.com/170270/27501134-cf0a2a18-586b-11e7-8430-22f33030e923.png)
-- [Access the `Labels` `Milestones` navigation from individual milestone pages.](https://cloud.githubusercontent.com/assets/170270/25217211/37b67aea-25d0-11e7-8482-bead2b04ee74.png)
 - [Search for issues and PRs with the `Everything commented by you` filter.](https://user-images.githubusercontent.com/170270/27501170-f394a304-586b-11e7-92d8-d92d6922356b.png)
 - [See just the issues and PRs _on your repos_ or _commented on by you_ in the global `Issues`/`Pull Requests` pages.](https://user-images.githubusercontent.com/8295888/36827126-8bfc79c4-1d37-11e8-8754-992968b082be.png)
 - Access trending repositories using the `Trending` link in the global navbar or by pressing <kbd>g</kbd> <kbd>t</kbd>.
@@ -177,9 +181,10 @@ And [many more…](source/content.css)
 - Cycle through PR tabs by pressing <kbd>g</kbd> <kbd>←</kbd> and <kbd>g</kbd> <kbd>→</kbd>, or <kbd>g</kbd> <kbd>1</kbd>, <kbd>g</kbd> <kbd>2</kbd>, <kbd>g</kbd> <kbd>3</kbd> and <kbd>g</kbd> <kbd>4</kbd>.
 - [Go to the next or previous commit from the bottom of the commit page.](https://user-images.githubusercontent.com/24777/41755271-741773de-75a4-11e8-9181-fcc1c73df633.png)
 - [Hide comments in fewer clicks.](https://user-images.githubusercontent.com/1402241/43039221-1ddc91f6-8d29-11e8-9ed4-93459191a510.gif)
-- [Filter PRs that you haven't submitted a review for.](https://user-images.githubusercontent.com/9264728/42569205-0c32a376-8510-11e8-9406-b3ddcf6087ef.png)
 - Use <kbd>←</kbd> and <kbd>→</kbd> to navigate through pages with pagination.
 - [Find a user’s most starred repositories in their profile.](https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93de-159ad4c6f283.png)
+- [Bypass the "Checks" page and go directly to build results when clicking the "Details" links on a PR](https://user-images.githubusercontent.com/2103975/49071220-c6596e80-f22d-11e8-8a1e-bdcd62aa6ece.png)
+- Star/unstar a repository by pressing <kbd>g</kbd> <kbd>s</kbd>.
 
 ### Previously part of Refined GitHub
 
@@ -197,6 +202,9 @@ And [many more…](source/content.css)
 - [Implemented by GitHub](https://blog.github.com/changelog/2018-08-17-collapse-all-diffs-in-a-pull-request-at-once/): Toggle all [outdated PR comments](https://user-images.githubusercontent.com/25818354/33240033-3e271588-d2af-11e7-93af-13b6e325f65d.gif) or [PR/commit files](https://user-images.githubusercontent.com/1402241/35192652-6f79dc42-fec9-11e7-89ad-2b4a9c5f4f52.gif) with <kbd>alt</kbd> <kbd>click</kbd>.
 - [Implemented by GitHub](https://blog.github.com/changelog/2018-11-05-related-issues/): [Avoid opening duplicate issues thanks to the list of possibly-related issues.](https://user-images.githubusercontent.com/29176678/37566899-85953e6e-2abf-11e8-9f0e-52d18c87bbe3.gif)
 - [Implemented by GitHub](https://blog.github.com/changelog/2018-11-16-copy-file-paths-in-diffs/): [Copy the path of a PR file.](https://cloud.githubusercontent.com/assets/4201088/26023064/18c9c77c-37d2-11e7-8926-b0a05a2706ae.png)
+- [Implemented by GitHub](https://blog.github.com/changelog/2018-11-26-searching-by-user-from-a-profile-page/): [Search a user profile page when visiting it.](https://user-images.githubusercontent.com/1402241/35185441-24ad4b1e-fe37-11e7-9e1b-0dc09fc1ada2.png)
+- [Implemented by GitHub](https://user-images.githubusercontent.com/36004334/52573199-ea365480-2e19-11e9-8ebf-3ea6a7a640f8.png): [Access the `Labels` `Milestones` navigation from individual milestone pages.](https://cloud.githubusercontent.com/assets/170270/25217211/37b67aea-25d0-11e7-8482-bead2b04ee74.png)
+- [Implemented by GitHub](https://github.blog/changelog/2019-02-13-comment-author-label/): [The comments of who opened an issue/PR are marked with `Original Poster` label.](https://cloud.githubusercontent.com/assets/4331946/25075520/d62fbbd0-2316-11e7-921f-ab736dc3522e.png)
 
 
 ## Customization
@@ -216,7 +224,6 @@ See the [contribution guide](contributing.md) and join the [contributors](https:
 - [Awesome browser extensions for GitHub](https://github.com/stefanbuck/awesome-browser-extensions-for-github) - Awesome list
 - [Octo Linker](https://github.com/octo-linker/chrome-extension/) - Navigate across files and packages
 - [Notifier for GitHub](https://github.com/sindresorhus/notifier-for-github-chrome) - Shows your notification unread count
-- [Do Not Merge WIP for GitHub](https://github.com/sanemat/do-not-merge-wip-for-github) - Prevents merging of incomplete PRs
 - [Contributors on GitHub](https://github.com/hzoo/contributors-on-github) - Shows stats about contributors
 - [Hide Files on GitHub](https://github.com/sindresorhus/hide-files-on-github) - Hides dotfiles from the file browser
 - [Twitter for GitHub](https://github.com/bevacqua/twitter-for-github) - Shows a user's Twitter handle on their profile page
@@ -229,6 +236,7 @@ See the [contribution guide](contributing.md) and join the [contributors](https:
 - [GitHub Follow](https://github.com/staff0rd/github-follow-extension) - Follow file renames on GitHub
 - [Friendly GitHub](https://github.com/Hermanya/friendly-github) - Make GitHub more social
 - [Sourcegraph](https://github.com/sourcegraph/browser-extensions) - Adds code intelligence to GitHub
+- [Potential changes for GitHub](https://github.com/dzhavat/potential-changes-for-github) - See which pull requests contain changes related to a file
 
 Want more? Here are some ideas you could develop!
 
