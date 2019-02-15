@@ -52,7 +52,7 @@ features.add({
 	id: 'make-github-more-refined',
 	include: [
 		features.isUserProfile,
-		features.isOrganization
+		features.isRepo
 	],
 	exclude: [
 		features.isOwnUserProfile
