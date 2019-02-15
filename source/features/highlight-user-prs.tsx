@@ -14,5 +14,5 @@ features.add({
 	id: 'highlight-user-prs',
 	include: [features.isPRList],
 	load: features.onAjaxedPages,
-	init,
+	init
 });
