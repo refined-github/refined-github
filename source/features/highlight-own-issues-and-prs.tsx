@@ -9,7 +9,7 @@ function init() {
 }
 
 features.add({
-	id: 'highlight-own-prs',
+	id: 'highlight-own-issues-and-prs',
 	include: [
 		features.isPRList
 	],
