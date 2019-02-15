@@ -109,6 +109,7 @@ function init() {
 			event.returnValue = 'The PR hasn’t merged yet.';
 		}
 	});
+	/* eslint-enable no-unreachable */
 }
 
 features.add({
