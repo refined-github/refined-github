@@ -1,7 +1,6 @@
 ---
 name: New feature
 about: Make Refined GitHub do more for you
-title: ''
 labels: enhancement
 
 ---
