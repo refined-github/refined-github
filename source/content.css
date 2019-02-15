@@ -165,19 +165,6 @@ a .commit-ref:hover span {
 	opacity: 1;
 }
 
-/* Style for delete fork link */
-.post-merge-message {
-	min-height: 85px;
-}
-
-#refined-github-delete-fork-link {
-	padding: 10px 10px 0;
-	position: absolute;
-	top: 45px;
-	right: 30px;
-	color: #df3e3e;
-}
-
 /* Hide news items when people:
 pushed to a branch
 deleted a branch

@@ -21,7 +21,8 @@ new OptionsSync().define({
 				.replace(/^add-(.+)-to-(profile|comments|comment-fields|emojis)$/, '$2-$1') // #1719
 				.replace(/^add-/, '') // #1719
 				.replace('milestone-navigation', '') // #1767
-				.replace('op-labels', ''); // #1776
+				.replace('op-labels', '') // #1776
+				.replace('delete-fork-link', '');
 		},
 		OptionsSync.migrations.removeUnused
 	]
