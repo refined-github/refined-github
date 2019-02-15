@@ -3,8 +3,8 @@ import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 
 function init() {
-	for (const openedByElement of select.all(`.opened-by a[href*="${CSS.escape(getUsername())}"]`)) {
-		openedByElement.style.fontWeight = 'bold';
+	for (const username of select.all(`.opened-by a[href*="${CSS.escape(getUsername())}"]`)) {
+		username.style.fontWeight = 'bold';
 	}
 }
 
