@@ -1090,3 +1090,40 @@ body > .footer li a {
 .UnderlineNav-item:nth-last-child(n+7) ~ * {
 	margin-right: 6px;
 }
+
+/* Distinctly identify commits that refer pull request */
+.discussion-item-header[id^=ref-] .discussion-item-icon {
+	background-color: #6db2ff;
+	color: #ffffff;
+}
+.discussion-item-header[id^=ref-]::before {
+	content: '';
+	position: absolute;
+	display: block;
+	z-index: -1;
+	left: -25px;
+	top: -40px;
+	width: 2px;
+	height: 140px;
+	background-color: #ffffff;
+}
+.discussion-item-header[id^=ref-commit-] + .discussion-item-body .timeline-commits .commit .commit-icon {
+	color: #6db2ff;
+}
+.discussion-item-header {
+	position: relative;
+}
+.discussion-item-header[id^=ref-commit-]::after {
+	content: '';
+	position: absolute;
+	display: block;
+	z-index: 0;
+	left: -25px;
+	top: 30px;
+	bottom: -20px;
+	width: 2px;
+	background-color: #6db2ff;
+}
+.discussion-item-header[id^=ref-commit-] + .discussion-item-body .timeline-commits {
+	position: relative;
+}
