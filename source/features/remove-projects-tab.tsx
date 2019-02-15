@@ -44,6 +44,16 @@ async function init() {
 		.user-profile-nav + *
 	`); // Wait for the tab bar to be loaded
 
+	const projectsTab = select([
+		'[data-hotkey="g b"]', // In organizations and repos
+		'.user-profile-nav [href$="?tab=projects"]' // In user profiles
+	].join());
+
+	if (!projectsTab) {
+		// Projects aren't enabled here
+		return;
+	}
+
 	addNewProjectLink();
 
 	// If there's a settings tab, the current user can disable the projects,
@@ -55,12 +65,8 @@ async function init() {
 		return;
 	}
 
-	const projectsTab = select([
-		'[data-hotkey="g b"]:not(.selected)', // In organizations and repos
-		'.user-profile-nav [href$="?tab=projects"]:not(.selected)' // In user profiles
-	].join());
-
-	if (projectsTab && select('.Counter', projectsTab).textContent.trim() === '0') {
+	// Only remove the tab if it's not the current page and if it has 0 projects
+	if (!projectsTab.matches('.selected') && select('.Counter', projectsTab).textContent.trim() === '0') {
 		projectsTab.remove();
 	}
 }
