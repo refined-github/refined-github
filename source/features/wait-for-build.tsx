@@ -80,6 +80,7 @@ async function handleMergeConfirmation(event) {
 }
 
 function init() {
+	return false; // Temporarily disable feature until #1792 is fixed
 	if (!canMerge()) {
 		return false;
 	}
