@@ -1,7 +1,6 @@
 ---
 name: Bug fix
 about: Fix some issues with Refined GitHub
-title: ''
 labels: bug
 
 ---
