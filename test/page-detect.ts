@@ -354,16 +354,6 @@ test('isTrending', urlMatcherMacro, pageDetect.isTrending, [
 	'https://github.com/jaredhanson/node-trending/tree/master/lib/trending'
 ]);
 
-test('isUserProfile', urlMatcherMacro, pageDetect.isUserProfile, [
-	'https://github.com/sindresorhus'
-], [
-	'https://github.com/',
-	'https://github.com/settings',
-	'https://github.com/watching',
-	'https://github.com/sindresorhus/refined-github',
-	'https://gist.github.com/bfred-it'
-]);
-
 test('isRepoSearch', urlMatcherMacro, pageDetect.isRepoSearch, [
 	'https://github.com/sindresorhus/refined-github/search?q=diff',
 	'https://github.com/sindresorhus/refined-github/search?q=diff&unscoped_q=diff&type=Issues',

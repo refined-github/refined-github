@@ -9,28 +9,29 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import features from '../libs/features';
 import {safeElementReady} from '../libs/dom-utils';
-import {isOwnUserProfile, isUserProfile} from '../libs/page-detect';
+import {isUserProfile, isOwnOrganizationProfile, isOrganizationProfile} from '../libs/page-detect';
 
 const addNewProjectLink = onetime(() => {
-	if (isOwnUserProfile()) {
-		// The link already exists
+	if (isUserProfile()) {
+		// The link already exists on our profile,
+		// and we can't create projects on others' profiles
 		return;
 	}
 
-	if (isUserProfile() && select.exists('[href*="contact/report-abuse?report="]')) {
-		// This is an org; if there's a Report Abuse link, we're not part of the org, so we can't create projects
+	if (isOrganizationProfile() && !isOwnOrganizationProfile()) {
+		// We can only add projects to our organizations
 		return;
 	}
 
 	// We can't detect whether we can create projects on a repo,
 	// so we're just gonna show a potentially-404 link. 🤷
 
+	// URLs patterns:
+	// https://github.com/orgs/USER/projects/new
+	// https://github.com/USER/REPO/projects/new
 	const path = location.pathname.split('/', 3);
 	const base = path.length > 2 ? path.join('/') : '/orgs' + path.join('/');
 	select('.HeaderMenu [href="/new"]').parentElement.append(
-		// URLs patterns:
-		// https://github.com/orgs/USER/projects/new
-		// https://github.com/USER/REPO/projects/new
 		<a class="dropdown-item" href={base + '/projects/new'}>
 			New project
 		</a>
@@ -75,7 +76,8 @@ features.add({
 	id: 'remove-projects-tab',
 	include: [
 		features.isRepo,
-		features.isUserProfile
+		features.isUserProfile,
+		features.isOrganizationProfile
 	],
 	load: features.onAjaxedPages,
 	init
