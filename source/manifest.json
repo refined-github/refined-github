@@ -4,11 +4,11 @@
 	"description": "Simplifies the GitHub interface and adds useful features",
 	"homepage_url": "https://github.com/sindresorhus/refined-github",
 	"manifest_version": 2,
-	"minimum_chrome_version": "58",
+	"minimum_chrome_version": "68",
 	"applications": {
 		"gecko": {
 			"id": "{a4c4eda4-fb84-4a84-b4a1-f7c1cbf2a1ad}",
-			"strict_min_version": "55.0"
+			"strict_min_version": "61.0"
 		}
 	},
 	"permissions": [
@@ -19,9 +19,7 @@
 		"https://api.github.com/*"
 	],
 	"browser_action": {
-		"default_icon": "icon.png",
-		"default_popup": "options.html",
-		"browser_style": true
+		"default_icon": "icon.png"
 	},
 	"optional_permissions": [
 		"http://*/*",

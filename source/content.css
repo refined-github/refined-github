@@ -14,46 +14,8 @@
 	display: none !important;
 }
 
-/* Allow for absolute positioning relative to the dashboard */
-#dashboard,
-.orgpage > .container {
-	position: relative !important;
-}
-
 #dashboard .new-repo {
 	display: none !important;
-}
-
-/* Remove "Repositories you contribute to" dashboard sidebar box */
-.dashboard-sidebar > .boxed-group[role='navigation']:not(.repos) {
-	display: none;
-}
-
-/* Match context switcher's width to the width of the containers below it */
-.dashboard-sidebar .select-menu {
-	width: 100%;
-}
-
-/* Match context switcher modal's width to that of the user repo list */
-.dashboard-sidebar .select-menu-modal {
-	width: 313px;
-	margin: 0;
-}
-
-/* Remove the toolbar from the right repo box on the dashboard */
-.dashboard-sidebar .user-repos > h3,
-.dashboard-sidebar .user-repos > .boxed-group-action {
-	display: none !important;
-}
-.dashboard-sidebar .user-repos .boxed-group-inner {
-	border-radius: 3px !important;
-}
-.dashboard-sidebar .user-repos .filter-repos {
-	border-top-left-radius: 3px !important;
-	border-top-right-radius: 3px !important;
-}
-.dashboard-sidebar .user-repos .repo-icon {
-	opacity: 0.6 !important;
 }
 
 /* Remove news feed tips */
@@ -72,10 +34,6 @@
 [aria-label='Edit this file']::after,
 [aria-label='Edit comment']::before,
 [aria-label='Edit comment']::after,
-[aria-label='Open this file in GitHub Desktop']::before,
-[aria-label='Open this file in GitHub Desktop']::after,
-[aria-label$='branch to make changes.']::before,
-[aria-label$='branch to make changes.']::after,
 .notification-indicator::before,
 .notification-indicator::after {
 	display: none !important;
@@ -86,17 +44,11 @@
 	opacity: 0.6;
 }
 
-/* Remove annoying hover in the repo file list */
-.file-wrap .files .navigation-focus td {
+/* For `rgh-no-navigation-highlight` */
+.rgh-no-navigation-highlight .list-group-item.navigation-focus, /* Notifications list */
+.rgh-no-navigation-highlight .Box-row.navigation-focus, /* Issue list */
+.rgh-no-navigation-highlight .navigation-focus td { /* File list  */
 	background: none !important;
-}
-
-#readme > h3 {
-	display: none !important;
-}
-
-#readme .markdown-body {
-	border-radius: 3px !important;
 }
 
 .paginate-protip {
@@ -140,7 +92,6 @@
 }
 
 /* Hide unnecessary comment toolbar items */
-.toolbar-group:first-child,
 .toolbar-item[data-prefix='@'],
 .toolbar-item[data-prefix='#'],
 .toolbar-item[data-prefix='`'] {
@@ -148,15 +99,12 @@
 }
 
 /* Remove upload message on comment box */
-.is-default .drag-and-drop {
+.rgh-has-upload-field .is-default .drag-and-drop {
 	display: none;
 }
-.upload-enabled textarea {
-	border-bottom: 1px solid #ccc !important;
-	border-radius: 3px !important;
-}
-.upload-enabled textarea:focus {
-	border-bottom: 1px solid #2188ff !important;
+.rgh-has-upload-field .is-default textarea {
+	border-bottom-style: solid;
+	border-radius: 3px;
 }
 
 /* Remove random protip at the bottom of the page */
@@ -167,41 +115,6 @@
 /* Remove message under the `Unsubscribe` button */
 .sidebar-notifications .reason {
 	display: none !important;
-}
-
-/* Move the dashboard organization switcher to the right column */
-.news.column.two-thirds .account-switcher {
-	/* Hide switcher from the main column, but if JS fails show it */
-	animation: temporarily-hide 5s steps(1, end);
-}
-@keyframes temporarily-hide {
-	from {
-		position: absolute;
-		top: -1000px;
-	}
-}
-.account-switcher .select-menu-button {
-	width: 100%;
-	margin-bottom: 15px;
-	text-align: center;
-}
-.account-switcher .select-menu-button-gravatar {
-	display: inline-block !important;
-	vertical-align: top !important;
-	float: none !important;
-}
-/* Organization dashboard */
-.orgpage .underline-nav {
-	float: left !important;
-}
-.orgpage .account-switcher {
-	right: 0 !important;
-}
-.orgpage .user-repos {
-	position: static !important;
-}
-.orgpage + .container .dashboard-sidebar {
-	padding-top: 0;
 }
 
 /* Remove "New pull request" button on repo page */
@@ -220,47 +133,36 @@ a .commit-ref:hover span {
 	text-decoration: inherit;
 }
 
-/* Remove useless tip in the organization news feed */
-#dashboard .alert.git_hub {
-	display: none !important;
+/* Hide the header in README section */
+#readme.rgh-hide-readme-header {
+	position: relative;
 }
 
-/* Style for edit README button */
-#readme.blob #refined-github-readme-buttons {
+#readme.rgh-hide-readme-header .Box-header {
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-color: transparent;
+	padding: 0 !important;
+	border: none;
+}
+
+#readme.rgh-hide-readme-header .Box-header .Box-title {
 	display: none;
 }
 
-#refined-github-readme-buttons {
-	position: absolute;
-	top: 10px;
-	right: 10px;
-}
-
-#refined-github-readme-buttons a {
+#readme.rgh-hide-readme-header .Box-header .btn-octicon {
+	margin: 0;
+	padding: 12px;
+	right: 0;
+	top: 0;
 	opacity: 0.2;
-	text-decoration: none;
 	transition: opacity 250ms;
 }
 
-#refined-github-readme-buttons a:hover {
+#readme.rgh-hide-readme-header .Box-header .btn-octicon:hover,
+#readme.rgh-hide-readme-header .Box-header .btn-octicon:focus {
 	opacity: 1;
-}
-
-#refined-github-readme-buttons a:not(:first-child) {
-	margin-left: 5px;
-}
-
-/* Style for delete fork link */
-.post-merge-message {
-	min-height: 85px;
-}
-
-#refined-github-delete-fork-link {
-	padding: 10px 10px 0;
-	position: absolute;
-	top: 45px;
-	right: 30px;
-	color: #df3e3e;
 }
 
 /* Hide news items when people:
@@ -275,10 +177,6 @@ followed someone
 .rgh-no-useless-events .delete,
 .rgh-no-useless-events .follow {
 	display: none !important;
-}
-
-.news .body > .border-gray-light {
-	border: none !important; /* Remove border between dashboard news items */
 }
 
 /* Decrease font-size on commit details so our custom patch and diff links fit */
@@ -383,6 +281,14 @@ followed someone
 /* Overlap reaction avatars when there are 5+ types of reactions */
 .rgh-reactions-near-limit .reaction-summary-item:not(:hover) a:not(:first-of-type) {
 	margin-left: -12px;
+}
+/* Avoid wrapping */
+.has-reactions,
+.rgh-reactions-near-limit {
+	display: flex;
+}
+.rgh-reactions-near-limit {
+	background: #fff;
 }
 
 /* Hide reaction popover text */
@@ -521,7 +427,7 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 .stale-files-tab .stale-files-tab-link {
 	font-size: 14px;
 }
-.stale-files-tab-link::before {
+.subset-files-tab .stale-files-tab-link::before {
 	content: 'Subset of changes. ';
 	font-weight: normal;
 }
@@ -533,35 +439,6 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 
 .review-comment .timeline-comment-label + .timeline-comment-label {
 	margin-left: 5px;
-}
-
-/* Highlight linked comment */
-:root .timeline-comment:target {
-	border-color: #e5d999;
-}
-:root .timeline-comment:target.current-user::before {
-	border-right-color: #e5d999;
-}
-:root .timeline-comment:target.current-user::after {
-	border-right-color: #fffded;
-}
-:root .timeline-comment:target .timeline-comment-header {
-	background-color: #fffdef;
-	border-bottom-color: #e5d999;
-}
-:root .timeline-comment:target .timeline-comment-label {
-	border-color: #e5d999;
-}
-:root .timeline-comment:target .reaction-summary-item {
-	border-right-color: #e5d999;
-}
-:root .timeline-comment:target .comment-reactions.has-reactions {
-	border-top-color: #e5d999;
-}
-:root .timeline-comment:target .previewable-comment-form .comment-form-head.tabnav {
-	color: #e5d999;
-	background-color: #fffdef;
-	border-bottom-color: #e5d999;
 }
 
 /* Highlighted linked review comment */
@@ -581,6 +458,10 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 }
 :root .review-comment:target .reaction-summary-item {
 	--background: transparent;
+}
+/* Overwrite a .bg-white set on that element */
+.review-comment:target .minimized-comment .review-comment-contents {
+	background-color: #fffdef !important;
 }
 
 /* Prevent text reversal Unicode hacks in full names */
@@ -624,13 +505,46 @@ div.inline-comment-form .form-actions,
 	padding: 6px 9px;
 }
 
-/* Decrease the size of the search box to fit 'Yours' menu item */
-.subnav-search-input[aria-label='Search all issues'] {
-	width: 420px;
+/* Extend issue search input width when focused */
+.subnav-search {
+	width: 320px; /* Original width on GitHub */
 }
-
-.CodeMirror-lines pre.CodeMirror-line {
-	font-variant-ligatures: normal;
+.subnav-search .subnav-search-input {
+	position: relative;
+	z-index: 2;
+	transition: 0.2s ease-out;
+	transition-property: width, padding-left;
+}
+.subnav-search .subnav-search-input:focus {
+	width: 900px;
+}
+.subnav-search .subnav-search-icon {
+	z-index: 2; /* Ensure that it stays over the input */
+}
+.float-right .subnav-search {
+	width: 420px; /* Original: 500px; Decrease the size of the search box to fit 'Yours' menu item */
+}
+.float-right .subnav-search-input {
+	width: 100%;
+	float: right;
+}
+.float-right .subnav-search-input:focus {
+	padding-left: 8px;
+}
+.float-right .subnav-search-input:focus + .subnav-search-icon {
+	display: none; /* When aligned right, the icon will stay in the wrong position, so hide it */
+}
+/* Seach field on the projects page */
+.project-header-controls,
+.project-header-search,
+.project-header-search .subnav-search,
+.project-header-search .subnav-search-input:focus {
+	width: 100%;
+}
+@media (min-width: 1012px) {
+	.project-header-search {
+		padding-left: 24px;
+	}
 }
 
 /* Remove Marketplace marketing box on PRs */
@@ -653,6 +567,14 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	display: none !important;
 }
 
+/* Remove user avatar from new comment form on threads */
+.review-thread-reply .avatar {
+	display: none;
+}
+.review-thread-reply .review-thread-reply-button {
+	margin-left: 0;
+}
+
 /* Move labels in the Issue/PR list below the title */
 .js-issue-row .lh-condensed {
 	display: flex;
@@ -668,7 +590,10 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 .js-issue-row .mt-1.text-small.text-gray { /* Issue details line */
 	flex-basis: 100%;
 }
-.js-issue-row .label {
+.js-issue-row .h4 { /* Title */
+	max-width: 100%; /* #1518 */
+}
+.js-issue-row .IssueLabel {
 	padding: 2px 3px 3px !important;
 	margin-top: 4px;
 	font-size: 11px !important;
@@ -695,20 +620,17 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	padding-left: 15px;
 }
 
-/* Fix for GHE More Dropdown positioning */
-.reponav-dropdown.active .dropdown-menu {
-	left: auto !important;
+/* Fix for GHE More Dropdown items positioning */
+.reponav-dropdown a.dropdown-item:not(.rgh-reponav-more)::before {
+	content: '';
+	display: inline-block;
+	width: 16px;
 }
 
 /* Optically align Dependencies dropdown link */
 .rgh-dependency-graph .octicon-package {
 	margin-right: 2px;
 	margin-left: -2px;
-}
-
-/* Hide PR/Issue rename events */
-.discussion-item-renamed {
-	display: none;
 }
 
 /* Hide inactive deployment events */
@@ -728,16 +650,6 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 /* Space out `rgh-closing-pr`; matches native `.gh-header-meta .State` spacing */
 .rgh-closing-pr {
 	margin-right: 8px;
-}
-
-/* Make issue suggestions as wide as possible, within the current viewport */
-.rgh-issue-suggestions {
-	min-width: 100%;
-	width: calc(50vw - 510px + 100%);
-	max-width: max-content;
-}
-.rgh-issue-suggestions .Box {
-	transition: opacity 0.2s;
 }
 
 /* For `add-ci-link` */
@@ -769,18 +681,23 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	margin-left: 0;
 }
 
-/* Sticky file headers on pull request diff view */
-.pull-request-tab-content .diff-view .file-header {
-	position: sticky;
-	top: 60px;
-	z-index: 10;
-}
-
-/* Sticky file headers in regular file view */
-.file .file-header {
+/* Sticky file and table headers */
+.rgh-sticky-header .file-header,
+.rgh-sticky-header .table-list-header {
 	position: sticky;
 	top: 0;
-	z-index: 10;
+	/* Must be above .modal-backdrop (z-index 20) #1317 */
+	z-index: 25;
+}
+
+/* Since the header is sticky, filters must now fit the viewport */
+.rgh-sticky-header .table-list-header .select-menu-list {
+	max-height: calc(100vh - 150px);
+}
+/* Sticky file headers on pull request diff view and conversation view */
+.rgh-sticky-header .discussion-timeline .discussion-item-body .file-header,
+.rgh-sticky-header .pull-request-tab-content .diff-view .file-header {
+	top: 59px;
 }
 
 /* Momentarily offset the line so its #deeplink won’t be covered by the header #974 */
@@ -797,6 +714,17 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 .file .markdown-body .anchor {
 	padding-top: 45px;
 	transform: translateY(-45px);
+}
+
+/* Similar fix to the above, for deep links to reviews */
+.review-comment:target {
+	animation: sticky-review-comment-target-fixer 0s 0.1ms backwards;
+}
+@keyframes sticky-review-comment-target-fixer {
+	from {
+		transform: translateY(-35px);
+		opacity: 0;
+	}
 }
 
 /* Remove annoying "helpful" banner on the issue tracker listing */
@@ -844,13 +772,11 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	position: relative;
 }
 [data-url$='recently_touched_branches_list'] {
-	min-width: 430px; /* Always cover the repo watch/star/forks actions */
 	max-height: 42px; /* Only cover the actions when there are multiple branches + :hover */
 	position: absolute;
 	top: -117px;
 	right: 0;
 	z-index: 32; /* Set z-index higher than ul.pagehead-actions */
-	background: var(--github-gray-background);
 	white-space: nowrap;
 	animation: rgh-slide-in-right 0.3s ease-out;
 }
@@ -920,9 +846,9 @@ body > .footer li a {
 	color: #666;
 }
 
-/* Widen review popup to fit 4 buttons */
-:root .pull-request-review-menu {
-	width: 430px;
+/* Remove the 'Review Summary' header from the form */
+.pull-request-review-menu label[for='pull_request_review_body'] {
+	display: none !important;
 }
 
 /* Reduce dashboard activity cards */
@@ -940,6 +866,21 @@ body > .footer li a {
 .dashboard .flex-items-baseline .text-bold.text-gray-dark {
 	display: none;
 }
+/* Restore names and space them out if they are grouped */
+.dashboard .Details .flex-items-baseline .f3,
+.dashboard .Details .flex-items-baseline .f4,
+.dashboard .Details .flex-items-baseline .text-bold.text-gray-dark {
+	display: block;
+	font-size: 1em !important;
+}
+.dashboard .Details-content--hidden .flex-items-baseline {
+	margin-top: 20px !important;
+}
+/* Hide star button */
+.dashboard .flex-items-baseline [value='Star'],
+.dashboard .flex-items-baseline [value='Unstar'] {
+	display: none;
+}
 
 .dashboard .flex-items-baseline .f6.mt-2 {
 	opacity: 0.5;
@@ -950,15 +891,24 @@ body > .footer li a {
 	margin: 0 !important;
 	color: var(--github-gray-text) !important;
 }
+/* Remove border between dashboard news items */
+.dashboard .body > .border-gray-light {
+	border: none !important;
+}
 
 /* Make activities narrower */
 .dashboard .d-flex.border-bottom.border-gray-light {
 	padding: 8px 0 !important;
 }
+/* Remove useless tip in the organization news feed */
+#dashboard .alert.git_hub {
+	display: none !important;
+}
 
 /* For 'extend-diff-expander' feature */
-.js-expandable-line:hover .diff-expander,
-.js-expandable-line:hover .blob-code {
+/* Hovering the line will highlight the first direction button, unless you hover the buttons directly */
+.js-expandable-line:hover .blob-num:not(:hover) .directional-expander:first-child,
+.js-expandable-line:hover .blob-num:not(:hover) + .blob-code {
 	border-color: #0366d6;
 	color: #fff;
 	background: #0366d6;
@@ -982,9 +932,10 @@ body > .footer li a {
 }
 
 /* For 'add-toggle-files-button' feature */
-.rgh-toggle-files {
-	margin-right: -6px;
-	margin-top: -3px;
+:root .rgh-toggle-files {
+	margin: -8px 0;
+	margin-right: -10px;
+	padding: 10px 13px;
 }
 .rgh-files-hidden .commit-tease {
 	border-radius: 3px;
@@ -1019,6 +970,16 @@ body > .footer li a {
 .rgh-monospace-textareas textarea {
 	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
 	font-size: 13px;
+}
+
+/* For 'hide-useless-comments' feature */
+.rgh-useless-comments-note {
+	margin: 15px 0 10px 60px;
+	font-size: 12px;
+	color: #586069;
+}
+.rgh-hidden-comment .timeline-comment {
+	border-color: var(--github-red);
 }
 
 /* For 'improve-shortcut-help' feature */
@@ -1062,9 +1023,11 @@ body > .footer li a {
 		/* Shadow */
 		linear-gradient(#1b1f2300, #1b1f2326);
 }
+
 .comment-body pre {
 	--background: #f6f8fa;
 }
+
 .comment-body details blockquote,
 .comment-body details pre,
 .comment-body blockquote blockquote,
@@ -1072,7 +1035,87 @@ body > .footer li a {
 	max-height: none;
 }
 
+/* For 'add-jump-to-bottom-link' feature */
+#rgh-jump-to-bottom-link {
+	display: inline-block; /* Avoid breaking link in two lines */
+}
+
+/* For `split-issue-pr-search-results` */
+.rgh-split-issue-pr-combined.selected:hover {
+	background-color: #f6f8fa;
+	cursor: pointer;
+}
+
 /* Remove the useless "Continuous integration has not been set up" message on PRs */
 .branch-action-item.marketplace-product-callout {
 	display: none;
+}
+
+/* Remove the "New repository" button in the dashboard sidebar */
+.dashboard-sidebar a[href='/new'] {
+	display: none;
+}
+.dashboard-sidebar .Box-title {
+	padding-top: 4px !important;
+	padding-bottom: 4px !important;
+}
+
+/* Make sidebar sticky */
+.rgh-sticky-sidebar {
+	position: sticky;
+	top: 60px !important; /* Matches sticky header's height */
+	z-index: 26 !important;
+}
+
+/* Adding a lock icon to private organizations */
+.rgh-private-org {
+	position: relative;
+}
+.rgh-private-org svg {
+	pointer-events: none;
+	position: absolute;
+	bottom: 2px;
+	right: 2px;
+	fill: #333;
+}
+
+/* For badge on user profiles */
+.follower-badge {
+	font-size: 10px;
+	display: block;
+	animation: fade-in 0.2s;
+	margin-top: -15px;
+	margin-bottom: 5px;
+}
+.user-profile-bio {
+	margin-top: 5px;
+}
+.js-user-profile-follow-button {
+	margin-top: 5px;
+}
+
+/* Expand empty diffs in PRs */
+:root .file .data.empty {
+	padding: 54px;
+	text-align: center;
+}
+
+/* Improve dropdown expansion animation (e.g. top-right dropdown in comments) */
+/* It normally pops in from the center */
+.dropdown-menu-sw {
+	transform-origin: 90% top;
+}
+
+/* Truncate hidden comment preview text with ellipsis */
+.rgh-preview-hidden-comments .discussion-item-copy,
+.rgh-preview-hidden-comments .timeline-comment-header-text {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+/* Fix wrapping text on tabs when profile-gists-link feature is enabled #1757 */
+.UnderlineNav-item:nth-last-child(n+7),
+.UnderlineNav-item:nth-last-child(n+7) ~ * {
+	margin-right: 6px;
 }
