@@ -79,9 +79,7 @@
 				{
 					"varsIgnorePattern": "^React$"
 				}
-			],
-			"@typescript-eslint/explicit-function-return-type": "on",
-			"@typescript-eslint/restrict-plus-operands": "on"
+			]
 		},
 		"globals": [
 			"browser"

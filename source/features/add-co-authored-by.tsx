@@ -75,7 +75,7 @@ function addCoAuthors() {
 
 	addendum.delete(getOP());
 
-	field!.value += '\n\n' + [...addendum.values()].join('\n');
+	field.value += '\n\n' + [...addendum.values()].join('\n');
 }
 
 async function init() {
