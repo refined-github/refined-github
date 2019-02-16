@@ -1011,21 +1011,6 @@ body > .footer li a {
 	position: relative; /* OctoLinker compat: attach the purple balls to the scroll */
 	max-height: 30.5em;
 	overflow-y: auto;
-	/* Add a shadow when there is an overflow.
-	http://lea.verou.me/2012/04/background-attachment-local/ */
-	background-position: 0 100%;
-	background-size: 100% 14px;
-	background-repeat: no-repeat;
-	background-attachment: local, scroll;
-	background-image:
-		/* Shadow cover */
-		linear-gradient(var(--background, #fff), var(--background, #fff)),
-		/* Shadow */
-		linear-gradient(#1b1f2300, #1b1f2326);
-}
-
-.comment-body pre {
-	--background: #f6f8fa;
 }
 
 .comment-body details blockquote,
