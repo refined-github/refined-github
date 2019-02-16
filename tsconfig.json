@@ -3,10 +3,6 @@
 	"compilerOptions": {
 		"target": "esnext",
 		// "noEmit": true, // Useful when running `tsc` directly
-
-		// TODO: Get all these removed
-		"declaration": false, // Needed because of `allowJs`
-		"noImplicitReturns": false,
 	},
 	"include": [
 		"source"
