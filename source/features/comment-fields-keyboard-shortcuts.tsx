@@ -1,11 +1,11 @@
 import select from 'select-dom';
-import delegate from 'delegate';
+import delegate, { DelegateEvent } from 'delegate';
 import features from '../libs/features';
 import indentTextarea from '../libs/indent-textarea';
 
 // Element.blur() will reset the tab focus to the start of the document.
 // This places it back next to the blurred field
-function blurAccessibly(field) {
+function blurAccessibly(field: HTMLElement) {
 	field.blur();
 
 	const range = new Range();
@@ -19,11 +19,11 @@ function blurAccessibly(field) {
 }
 
 function init() {
-	delegate('.js-comment-field', 'keydown', event => {
-		const field: HTMLTextAreaElement = event.target;
+	delegate('.js-comment-field', 'keydown', (event: DelegateEvent<KeyboardEvent>) => {
+		const field = event.target as HTMLTextAreaElement;
 
 		// Don't do anything if the suggester box is active
-		if (select.exists('.suggester:not([hidden])', field.form)) {
+		if (select.exists('.suggester:not([hidden])', field.form!)) {
 			return;
 		}
 
@@ -35,7 +35,7 @@ function init() {
 			const cancelButton = select<HTMLButtonElement>(`
 				.js-hide-inline-comment-form,
 				.js-comment-cancel-button
-			`, field.form);
+			`, field.form!);
 
 			// Cancel if there is a button, else blur the field
 			if (cancelButton) {
@@ -50,7 +50,7 @@ function init() {
 			const currentConversationContainer = field.closest([
 				'.js-inline-comments-container', // Current review thread container
 				'.discussion-timeline' // Or just ALL the comments
-			].join());
+			].join())!;
 			const lastOwnComment = select
 				.all<HTMLDetailsElement>('.js-comment.current-user', currentConversationContainer)
 				.reverse()
@@ -60,9 +60,9 @@ function init() {
 				});
 
 			if (lastOwnComment) {
-				select<HTMLButtonElement>('.js-comment-edit-button', lastOwnComment).click();
+				select<HTMLButtonElement>('.js-comment-edit-button', lastOwnComment)!.click();
 				const closeCurrentField = field
-					.closest('form')
+					.closest('form')!
 					.querySelector<HTMLButtonElement>('.js-hide-inline-comment-form');
 
 				if (closeCurrentField) {
@@ -71,7 +71,7 @@ function init() {
 
 				// Move caret to end of field
 				requestAnimationFrame(() => {
-					select<HTMLTextAreaElement>('.js-comment-field', lastOwnComment).selectionStart = Number.MAX_SAFE_INTEGER;
+					select<HTMLTextAreaElement>('.js-comment-field', lastOwnComment)!.selectionStart = Number.MAX_SAFE_INTEGER;
 				});
 			}
 		}

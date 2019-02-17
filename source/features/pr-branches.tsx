@@ -13,7 +13,26 @@ import getDefaultBranch from '../libs/get-default-branch';
 import {getOwnerAndRepo} from '../libs/utils';
 import {openPullRequest} from '../libs/icons';
 
-function normalizeBranchInfo(data) {
+type RepositoryReference = {
+	branchExists: boolean;
+	url: string;
+	label: string;
+}
+
+type BranchInfo = {
+	baseRef: string;
+	baseRefName: string;
+	headRef: string;
+	headOwner: {
+		login: string;
+	}
+	headRefName: string;
+	headRepository: {
+		url: string;
+	}
+}
+
+function normalizeBranchInfo(data: BranchInfo) {
 	const {ownerName, repoName} = getOwnerAndRepo();
 
 	const base: AnyObject = {};
@@ -41,7 +60,7 @@ function normalizeBranchInfo(data) {
 	return {base, head};
 }
 
-function buildQuery(numbers) {
+function buildQuery(numbers: number[]) {
 	const {ownerName, repoName} = getOwnerAndRepo();
 
 	return `{
@@ -60,7 +79,7 @@ function buildQuery(numbers) {
 	}`;
 }
 
-function createLink(ref) {
+function createLink(ref: RepositoryReference) {
 	return (
 		<span
 			class="commit-ref css-truncate user-select-contain mb-n1"

@@ -22,10 +22,10 @@ function addButton() {
 }
 
 function init() {
-	const repoContent = select('.repository-content');
+	const repoContent = select('.repository-content')!;
 	observeEl(repoContent, addButton);
 	delegate('.rgh-toggle-files', 'click', ({delegateTarget}) => {
-		delegateTarget.setAttribute('aria-expanded', !repoContent.classList.toggle('rgh-files-hidden'));
+		(delegateTarget as HTMLElement).setAttribute('aria-expanded', String(!repoContent.classList.toggle('rgh-files-hidden')));
 	});
 }
 

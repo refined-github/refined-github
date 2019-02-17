@@ -8,14 +8,14 @@ import {getRepoURL, getRepoBranch} from '../libs/utils';
 // - undefined on first load
 // - a Promised dom element after a successful fetch
 // - false after a failed fetch
-let request;
+let request: Promise<HTMLElement> | false | undefined;
 
 async function fetchStatus() {
 	const url = `${location.origin}/${getRepoURL()}/commits/${getRepoBranch() || ''}`;
 	const response = await fetch(url);
 	const dom = domify(await response.text());
 
-	const icon = select('.commit-build-statuses', dom);
+	const icon = select('.commit-build-statuses', dom)!;
 
 	// This will error if the element isn't found.
 	// It's caught later.

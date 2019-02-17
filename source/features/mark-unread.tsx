@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate';
+import delegate, { DelegateSubscription, DelegateEvent } from 'delegate';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
@@ -8,7 +8,7 @@ import * as pageDetect from '../libs/page-detect';
 import {safeElementReady} from '../libs/dom-utils';
 import {getUsername, getOwnerAndRepo} from '../libs/utils';
 
-const listeners = [];
+const listeners: DelegateSubscription[] = [];
 const stateIcons = {
 	issue: {
 		open: icons.openIssue,
@@ -273,17 +273,17 @@ async function updateUnreadIndicator() {
 	}
 }
 
-async function markNotificationRead({target}) {
-	const {href} = target
-		.closest('li.js-notification')
-		.querySelector('a.js-notification-target');
+async function markNotificationRead({target}: DelegateEvent) {
+	const {href} = (target as Element)
+		.closest('li.js-notification')!
+		.querySelector<HTMLAnchorElement>('a.js-notification-target')!;
 	await markRead(href);
 	await updateUnreadIndicator();
 }
 
-async function markAllNotificationsRead(event) {
+async function markAllNotificationsRead(event: DelegateEvent) {
 	event.preventDefault();
-	const repoGroup = event.target.closest('.boxed-group');
+	const repoGroup = (event.target as Element).closest('.boxed-group')!;
 	const urls = select.all<HTMLAnchorElement>('a.js-notification-target', repoGroup).map(a => a.href);
 	await markRead(urls);
 	await updateUnreadIndicator();
@@ -298,7 +298,7 @@ function addCustomAllReadBtn() {
 		return;
 	}
 
-	select('.tabnav .float-right').append(
+	select('.tabnav .float-right')!.append(
 		<details class="details-reset details-overlay details-overlay-dark lh-default text-gray-dark d-inline-block text-left">
 			<summary class="btn btn-sm" aria-haspopup="dialog">
 				Mark all as read
@@ -326,7 +326,7 @@ function addCustomAllReadBtn() {
 }
 
 function updateLocalNotificationsCount(localNotifications) {
-	const unreadCount = select('#notification-center .filter-list a[href="/notifications"] .count');
+	const unreadCount = select('#notification-center .filter-list a[href="/notifications"] .count')!;
 	const githubNotificationsCount = Number(unreadCount.textContent);
 	unreadCount.textContent = githubNotificationsCount + localNotifications.length;
 }
@@ -337,7 +337,7 @@ function updateLocalParticipatingCount(notifications) {
 		.length;
 
 	if (participatingNotifications > 0) {
-		const unreadCount = select('#notification-center .filter-list a[href="/notifications/participating"] .count');
+		const unreadCount = select('#notification-center .filter-list a[href="/notifications/participating"] .count')!;
 		const githubNotificationsCount = Number(unreadCount.textContent);
 		unreadCount.textContent = githubNotificationsCount + participatingNotifications;
 	}
@@ -369,8 +369,8 @@ async function init() {
 			delegate('.js-mark-all-read', 'click', markAllNotificationsRead),
 			delegate('.js-delete-notification button', 'click', updateUnreadIndicator),
 			delegate('.js-mark-visible-as-read', 'submit', async event => {
-				const group = event.target.closest('.boxed-group');
-				const repo = select('.notifications-repo-link', group).textContent;
+				const group = (event.target as Element).closest('.boxed-group')!;
+				const repo = select('.notifications-repo-link', group)!.textContent;
 				const notifications = await getNotifications();
 				setNotifications(notifications.filter(({repository}) => repository !== repo));
 			})
@@ -385,7 +385,7 @@ async function init() {
 			const {pathname} = new URL(discussion.url);
 			const listItem = select(`.read [href='${pathname}']`);
 			if (listItem) {
-				listItem.closest('.read').classList.replace('read', 'unread');
+				listItem.closest('.read')!.classList.replace('read', 'unread');
 			}
 		}
 	}

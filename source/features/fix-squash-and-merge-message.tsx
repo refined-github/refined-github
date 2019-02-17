@@ -8,7 +8,7 @@ function init() {
 	}
 
 	button.addEventListener('click', () => {
-		const description = select('.comment-form-textarea[name=\'pull_request[body]\']').textContent;
+		const description = select('.comment-form-textarea[name=\'pull_request[body]\']')!.textContent;
 		select<HTMLTextAreaElement>('#merge_message_field').value = description;
 	});
 }

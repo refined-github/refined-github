@@ -8,9 +8,9 @@ function init() {
 	}
 
 	btn.addEventListener('click', () => {
-		const title = select('.js-issue-title').textContent;
-		const number = select('.gh-header-number').textContent;
-		select<HTMLTextAreaElement>('#merge_title_field').value = `${title.trim()} (${number})`;
+		const title = select('.js-issue-title')!.textContent!;
+		const number = select('.gh-header-number')!.textContent;
+		select<HTMLTextAreaElement>('#merge_title_field')!.value = `${title.trim()} (${number})`;
 	});
 }
 

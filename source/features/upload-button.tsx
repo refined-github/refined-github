@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate';
+import delegate, { DelegateEvent } from 'delegate';
 import onetime from 'onetime';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
@@ -24,10 +24,10 @@ function addButtons() {
 	}
 }
 
-function triggerUploadUI({target}) {
-	target
-		.closest('form')
-		.querySelector('.js-manual-file-chooser') // Find <input [type=file]>
+function triggerUploadUI({target}: DelegateEvent) {
+	(target as Element)
+		.closest('form')!
+		.querySelector('.js-manual-file-chooser')! // Find <input [type=file]>
 		.click(); // Open UI
 }
 
