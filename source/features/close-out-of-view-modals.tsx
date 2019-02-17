@@ -6,7 +6,7 @@ const observer = new IntersectionObserver(([{intersectionRatio, target}]) => {
 	if (intersectionRatio === 0) {
 		observer.unobserve(target);
 		const dropdown = select(`
-			.dropdown-details[open] summary,
+			details[open] summary,
 			body.menu-active .modal-backdrop
 		`);
 		if (dropdown) {
@@ -16,12 +16,12 @@ const observer = new IntersectionObserver(([{intersectionRatio, target}]) => {
 });
 
 function init() {
-	delegate('.dropdown-details, .js-menu-target', 'click', event => {
+	delegate('.select-menu-button, .js-menu-target, summary', 'click', event => {
 		const button = event.delegateTarget;
-		const menu = button.closest('.select-menu, .dropdown, details');
+		const menu = button.closest('.select-menu, .js-menu-container, details');
 		if (menu) {
 			const modal = menu.querySelector('.select-menu-modal, .dropdown-menu');
-			if (modal && (!button.open || button.classList.contains('selected'))) {
+			if (modal && (!menu.open || button.classList.contains('selected'))) {
 				observer.observe(modal);
 			}
 		}
