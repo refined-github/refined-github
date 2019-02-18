@@ -73,6 +73,7 @@ import './features/mark-merge-commits-in-list';
 import './features/prev-next-commit-buttons';
 import './features/preserve-whitespace-option-in-nav';
 import './features/extend-diff-expander';
+import './features/extend-file-types-filter';
 import './features/profile-gists-link';
 import './features/show-followers-you-know';
 import './features/show-user-top-repositories';
