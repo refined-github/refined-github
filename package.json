@@ -24,7 +24,7 @@
 		"intervalometer": "^1.0.4",
 		"linkify-issues": "^1.3.0",
 		"linkify-urls": "^2.2.0",
-		"onetime": "^2.0.1",
+		"onetime": "^3.0.0",
 		"select-dom": "^4.2.1",
 		"shorten-repo-url": "^1.5.0",
 		"storm-textarea": "2.0.1",
