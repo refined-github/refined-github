@@ -43,14 +43,12 @@ function init() {
 
 	// Remove whitespace settings in Diff Settings dropdown
 	const hideWhitespaceCheckbox = select('#whitespace-cb');
-	if (hideWhitespaceCheckbox) {
-		// Remove header
-		hideWhitespaceCheckbox.previousElementSibling.remove();
-		// Remove checkbox label
-		hideWhitespaceCheckbox.nextElementSibling.remove();
-		// Remove checkbox
-		hideWhitespaceCheckbox.remove();
-	}
+	// Remove header
+	hideWhitespaceCheckbox.previousElementSibling.remove();
+	// Remove checkbox label
+	hideWhitespaceCheckbox.nextElementSibling.remove();
+	// Remove checkbox
+	hideWhitespaceCheckbox.remove();
 
 	// Rename Diff Settings to Icon
 	const diffSettings = select('.pr-review-tools .diffbar-item summary');
