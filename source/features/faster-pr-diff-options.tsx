@@ -51,6 +51,13 @@ function init() {
 		// Remove checkbox
 		hideWhitespaceCheckbox.remove();
 	}
+
+	// Rename Diff Settings to Icon
+	const diffSettings = select('.pr-review-tools .diffbar-item summary');
+	diffSettings.innerText = '';
+	diffSettings.append(<span class="data-menu-button">{icons.gear()}</span>);
+	const dropdownMenu = diffSettings.nextElementSibling as HTMLElement;
+	dropdownMenu.style.left = '-98px';
 }
 
 features.add({
