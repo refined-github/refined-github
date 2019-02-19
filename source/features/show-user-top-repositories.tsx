@@ -21,7 +21,6 @@ function buildUrl(queryField) {
 
 function init() {
 	const showcaseTitle = select('.js-pinned-items-reorder-container .text-normal');
-	console.log({showcaseTitle})
 	if (!showcaseTitle) {
 		return false;
 	}
