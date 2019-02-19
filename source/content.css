@@ -1089,7 +1089,4 @@ body > .footer li a {
 .UnderlineNav-item:nth-last-child(n+7),
 .UnderlineNav-item:nth-last-child(n+7) ~ * {
 	margin-right: 6px;
-/* Remove whitespace between user profile repository search links */
-.js-pinned-repos-reorder-message {
-	display: none;
 }
