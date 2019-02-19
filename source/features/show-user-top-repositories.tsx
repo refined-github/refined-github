@@ -11,17 +11,17 @@ import {getCleanPathname} from '../libs/utils';
 const divider = ' / ';
 
 function buildUrl(queryField) {
-	const url = new URL('/search')
-	url.searchParams.set('o', 'desc')
-	url.searchParams.set('q', `user%3A${getCleanPathname()}`)
-	url.searchParams.set('s', queryField)
-	url.searchParams.set('type', 'Repositories')
-	console.log({url})
-	return url
+	const url = new URL('/search', window.location.href);
+	url.searchParams.set('o', 'desc');
+	url.searchParams.set('q', `user:${getCleanPathname()}`);
+	url.searchParams.set('s', queryField);
+	url.searchParams.set('type', 'Repositories');
+	return url;
 }
 
 function init() {
-	const showcaseTitle = select('.js-pinned-repos-reorder-container .text-normal');
+	const showcaseTitle = select('.js-pinned-items-reorder-container .text-normal');
+	console.log({showcaseTitle})
 	if (!showcaseTitle) {
 		return false;
 	}
