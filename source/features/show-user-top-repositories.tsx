@@ -11,7 +11,13 @@ import {getCleanPathname} from '../libs/utils';
 const divider = ' / ';
 
 function buildUrl(queryField) {
-	return `/search?o=desc&q=user%3A${getCleanPathname()}&s=${queryField}&type=Repositories`;
+	const url = new URL('/search')
+	url.searchParams.set('o', 'desc')
+	url.searchParams.set('q', `user%3A${getCleanPathname()}`)
+	url.searchParams.set('s', queryField)
+	url.searchParams.set('type', 'Repositories')
+	console.log({url})
+	return url
 }
 
 function init() {
