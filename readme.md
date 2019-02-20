@@ -137,6 +137,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Badge on user's profile if they follow you.](https://user-images.githubusercontent.com/3723666/45190460-03ecc380-b20c-11e8-832b-839959ee2c99.gif)
 - [Significant head and base branches are added to the PR list.](https://user-images.githubusercontent.com/1402241/51428391-ae9ed500-1c35-11e9-8e54-6b6a424fede4.png)
 - [Hidden comments are previewed inline.](https://user-images.githubusercontent.com/1402241/52545036-6e271700-2def-11e9-8c0c-b5e0fa6f37dd.png)
+- [Find a user’s top repositories in their profile.](https://user-images.githubusercontent.com/13842856/52824495-da6f7800-3086-11e9-995d-ab8bd784e9ab.png)
 
 ### Declutter
 
