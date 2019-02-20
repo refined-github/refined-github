@@ -3,7 +3,8 @@ import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 
 function init() {
-	for (const username of select.all(`.opened-by a[href*="${CSS.escape(getUsername())}"]`)) {
+	// "Opened by {user}" and "Created by {user}"
+	for (const username of select.all(`.opened-by a[title$="ed by ${CSS.escape(getUsername())}"]`)) {
 		username.style.fontWeight = 'bold';
 	}
 }
@@ -11,7 +12,7 @@ function init() {
 features.add({
 	id: 'highlight-own-issues-and-prs',
 	include: [
-		features.isPRList
+		features.isIssueList
 	],
 	load: features.onAjaxedPages,
 	init
