@@ -29,7 +29,6 @@ function init() {
 	);
 }
 
-
 features.add({
 	id: 'show-user-top-repositories',
 	include: [
