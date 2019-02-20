@@ -84,7 +84,7 @@ import './features/mark-private-orgs';
 import './features/linkify-commit-sha';
 import './features/bypass-checks';
 import './features/add-co-authored-by';
-import './features/allow-edits-unchecked-warning';
+import './features/warning-for-disallow-edits';
 import './features/warn-pr-from-master';
 import './features/split-issue-pr-search-results';
 import './features/preview-hidden-comments';
