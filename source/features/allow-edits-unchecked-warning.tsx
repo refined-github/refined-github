@@ -7,7 +7,7 @@ function init() {
 	const container = select('.new-discussion-timeline .composer .timeline-comment');
 	const warning = (
 		<div class="flash flash-error" id="allow-edits-unchecked-warning">
-			<strong>Note:</strong> Disabling this would prevent a maintainer of this project from making vital changes to your branch.
+			<strong>Note:</strong> Maintainers may require changes. It’s easier and faster to allow them to make direct changes before merging.
 		</div>
 	);
 
