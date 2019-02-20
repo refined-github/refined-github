@@ -417,21 +417,6 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 	display: none !important;
 }
 
-
-/* Fix PR diffbar links position #474 */
-.stale-files-tab,
-.subset-files-tab {
-	font-size: 0 !important;
-}
-.subset-files-tab .stale-files-tab-link,
-.stale-files-tab .stale-files-tab-link {
-	font-size: 14px;
-}
-.subset-files-tab .stale-files-tab-link::before {
-	content: 'Subset of changes. ';
-	font-weight: normal;
-}
-
 /* Multiple comment labels margin */
 .timeline-comment .timeline-comment-label + .timeline-comment-label {
 	margin-right: -5px;
