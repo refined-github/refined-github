@@ -137,7 +137,6 @@ GitHub Enterprise is also supported. More info in the options.
 - [Badge on user's profile if they follow you.](https://user-images.githubusercontent.com/3723666/45190460-03ecc380-b20c-11e8-832b-839959ee2c99.gif)
 - [Significant head and base branches are added to the PR list.](https://user-images.githubusercontent.com/1402241/51428391-ae9ed500-1c35-11e9-8e54-6b6a424fede4.png)
 - [Hidden comments are previewed inline.](https://user-images.githubusercontent.com/1402241/52545036-6e271700-2def-11e9-8c0c-b5e0fa6f37dd.png)
-- [Find a user’s top repositories in their profile.](https://user-images.githubusercontent.com/13842856/52824495-da6f7800-3086-11e9-995d-ab8bd784e9ab.png)
 
 ### Declutter
 
@@ -182,7 +181,7 @@ And [many more…](source/content.css)
 - [Go to the next or previous commit from the bottom of the commit page.](https://user-images.githubusercontent.com/24777/41755271-741773de-75a4-11e8-9181-fcc1c73df633.png)
 - [Hide comments in fewer clicks.](https://user-images.githubusercontent.com/1402241/43039221-1ddc91f6-8d29-11e8-9ed4-93459191a510.gif)
 - Use <kbd>←</kbd> and <kbd>→</kbd> to navigate through pages with pagination.
-- [Find a user’s most starred repositories in their profile.](https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93de-159ad4c6f283.png)
+- [Find a user’s most starred repositories in their profile.](https://user-images.githubusercontent.com/13842856/53066546-66760b00-349e-11e9-97f3-263e3cff54e5.png)
 - [Bypass the "Checks" page and go directly to build results when clicking the "Details" links on a PR](https://user-images.githubusercontent.com/2103975/49071220-c6596e80-f22d-11e8-8a1e-bdcd62aa6ece.png)
 - Star/unstar a repository by pressing <kbd>g</kbd> <kbd>s</kbd>.
 

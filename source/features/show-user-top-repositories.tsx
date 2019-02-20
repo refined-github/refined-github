@@ -1,6 +1,6 @@
 /*
 Find a user’s top repositories in their profile.
-https://user-images.githubusercontent.com/13842856/52824495-da6f7800-3086-11e9-995d-ab8bd784e9ab.png
+https://user-images.githubusercontent.com/13842856/53066546-66760b00-349e-11e9-97f3-263e3cff54e5.png
 */
 
 import React from 'dom-chef';
