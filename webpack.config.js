@@ -9,7 +9,7 @@ module.exports = (env, argv) => ({
 	stats: {
 		modules: false,
 		entrypoints: false,
-		hash: false,
+		hash: false
 	},
 	entry: {
 		content: './source/content',
