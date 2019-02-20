@@ -12,6 +12,7 @@ Suggestions and pull requests are highly encouraged! Have a look at the [open is
 - Some GitHub pages are loaded via AJAX/PJAX, so some features use the special `onAjaxedPages` loader (see it as a custom "on DOM ready").
 - See what a _feature_ [looks like](https://github.com/sindresorhus/refined-github/blob/master/source/features/user-profile-follower-badge.tsx).
 - If you're making changes to the README, try to match the style of the content that's already there and when in doubt, take a look at [our little style guide](https://github.com/sindresorhus/refined-github/issues/1139).
+- Refined GitHub tries to integrate as best as possible, so [GitHub's own styleguide](https://styleguide.github.com/primer/) might come in useful.
 
 ## `features.add`
 
