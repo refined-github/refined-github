@@ -6,6 +6,11 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = (env, argv) => ({
 	devtool: 'sourcemap',
+	stats: {
+		modules: false,
+		entrypoints: false,
+		hash: false,
+	},
 	entry: {
 		content: './source/content',
 		background: './source/background',
@@ -41,6 +46,7 @@ module.exports = (env, argv) => ({
 				context: 'source',
 				ignore: [
 					'*.js',
+					'*.ts',
 					'*.tsx'
 				]
 			},
