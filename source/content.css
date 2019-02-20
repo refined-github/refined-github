@@ -1097,3 +1097,9 @@ body > .footer li a {
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
+
+/* reduce top margin on sidebar warning for disallow edits */
+.discussion-sidebar #allow-edits-unchecked-warning {
+	font-size: 12px;
+	margin-top: -22px;
+}
