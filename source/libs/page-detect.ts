@@ -1,6 +1,7 @@
 /* eslint-disable unicorn/prefer-starts-ends-with */
 /* The tested var might not be a string */
 
+import select from 'select-dom';
 import {check as isReserved} from 'github-reserved-names';
 import {getUsername, getCleanPathname, getRepoPath, getOwnerAndRepo} from './utils';
 
@@ -47,7 +48,12 @@ export const isNewIssue = (): boolean => /^issues\/new/.test(getRepoPath() as st
 
 export const isNotifications = (): boolean => /^([^/]+[/][^/]+\/)?notifications/.test(getCleanPathname());
 
-export const isOwnUserProfile = (): boolean => isUserProfile() && getCleanPathname() === getUsername();
+export const isOrganizationProfile = (): boolean => select.exists('.orghead');
+
+export const isOwnUserProfile = (): boolean => getCleanPathname() === getUsername();
+
+// If there's a Report Abuse link, we're not part of the org
+export const isOwnOrganizationProfile = (): boolean => isOrganizationProfile() && !select.exists('[href*="contact/report-abuse?report="]');
 
 export const isProject = (): boolean => /^projects\/\d+/.test(getRepoPath() as string);
 
@@ -86,7 +92,4 @@ export const isSingleFile = (): boolean => /^blob\//.test(getRepoPath() as strin
 
 export const isTrending = (): boolean => location.pathname === '/trending' || location.pathname.startsWith('/trending/');
 
-export const isUserProfile = (): boolean => {
-	const path = getCleanPathname();
-	return Boolean(path) && !isGist() && !isReserved(path) && !path.includes('/');
-};
+export const isUserProfile = (): boolean => select.exists('.user-profile-nav');
