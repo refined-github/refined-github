@@ -1,5 +1,5 @@
 /*
-Find a user’s top repositories in their profile.
+Find a user’s most starred and most recent repositories in their profile.
 https://user-images.githubusercontent.com/13842856/53066546-66760b00-349e-11e9-97f3-263e3cff54e5.png
 */
 
