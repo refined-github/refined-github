@@ -11,14 +11,16 @@ function init() {
 			<strong>Note:</strong> Maintainers may require changes. It’s easier and faster to allow them to make direct changes before merging.
 		</div>
 	);
-
-	checkbox.addEventListener('change', () => {
+	const update = () => {
 		if (checkbox.checked) {
 			warning.remove();
 		} else {
 			container.after(warning);
 		}
-	});
+	};
+
+	update(); // The sidebar checkbox may already be un-checked
+	checkbox.addEventListener('change', update);
 }
 
 features.add({
