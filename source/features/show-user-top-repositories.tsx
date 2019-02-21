@@ -1,6 +1,6 @@
 /*
-Find a user’s most starred and most recent repositories in their profile.
-https://user-images.githubusercontent.com/13842856/53066546-66760b00-349e-11e9-97f3-263e3cff54e5.png
+Find a user’s most starred repositories in their profile.
+https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93de-159ad4c6f283.png
 */
 
 import React from 'dom-chef';
@@ -25,9 +25,7 @@ function init() {
 
 	showcaseTitle.firstChild.after(
 		' / ',
-		<a href={buildUrl('stars')}>Top repositories</a>,
-		' / ',
-		<a href={buildUrl('updated')}>Updated repositories</a>
+		<a href={buildUrl('stars')}>Top repositories</a>
 	);
 }
 
