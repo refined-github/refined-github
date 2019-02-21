@@ -1075,9 +1075,3 @@ body > .footer li a {
 .UnderlineNav-item:nth-last-child(n+7) ~ * {
 	margin-right: 6px;
 }
-
-/* reduce top margin on sidebar warning for disallow edits */
-.discussion-sidebar #allow-edits-unchecked-warning {
-	font-size: 12px;
-	margin-top: -22px;
-}

@@ -3,11 +3,9 @@ import select from 'select-dom';
 import features from '../libs/features';
 
 function init() {
-	const checkbox = select<HTMLInputElement>('input[type="checkbox"][class^="js-collab"]');
-	const container = select('.new-discussion-timeline .composer .timeline-comment') ||
-		select('.discussion-sidebar>.text-small');
+	const checkbox = select<HTMLInputElement>('[name="collab_privs"]');
 	const warning = (
-		<div class="flash flash-error" id="allow-edits-unchecked-warning">
+		<div class="flash flash-error mt-3">
 			<strong>Note:</strong> Maintainers may require changes. It’s easier and faster to allow them to make direct changes before merging.
 		</div>
 	);
@@ -15,7 +13,11 @@ function init() {
 		if (checkbox.checked) {
 			warning.remove();
 		} else {
-			container.after(warning);
+			// Select every time because the sidebar content may be replaced
+			select(`
+				.new-pr-form .timeline-comment,
+				.discussion-sidebar .js-collab-form + .dropdown
+			`).after(warning);
 		}
 	};
 
