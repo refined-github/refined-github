@@ -24,7 +24,7 @@ function init() {
 }
 
 features.add({
-	id: 'allow-edits-unchecked-warning',
+	id: 'warning-for-disallow-edits',
 	include: [
 		features.isCompare,
 		features.isPRConversation
