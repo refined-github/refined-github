@@ -86,6 +86,7 @@ import './features/add-co-authored-by';
 import './features/warn-pr-from-master';
 import './features/split-issue-pr-search-results';
 import './features/preview-hidden-comments';
+import './features/insert-summary-button';
 
 // Add global for easier debugging
 declare global {
