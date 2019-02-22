@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate, {DelegateSubscription, DelegateEvent} from 'delegate';
-import features from '../libs/features';
+import * as features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
@@ -48,15 +48,15 @@ async function getNotifications(): Promise<Notification[]> {
 	return unreadNotifications;
 }
 
-function setNotifications(unreadNotifications: Notification[]) {
+async function setNotifications(unreadNotifications: Notification[]): Promise<void> {
 	return browser.storage.local.set({unreadNotifications});
 }
 
-function stripHash(url: string) {
+function stripHash(url: string): string {
 	return url.replace(/#.+$/, '');
 }
 
-function addMarkUnreadButton() {
+function addMarkUnreadButton(): void {
 	const container = select('.js-thread-subscription-status');
 	if (container && !select.exists('.rgh-btn-mark-unread')) {
 		const button = <button class="btn btn-sm rgh-btn-mark-unread">Mark as unread</button>;
@@ -67,7 +67,7 @@ function addMarkUnreadButton() {
 	}
 }
 
-async function markRead(urls: string|string[]) {
+async function markRead(urls: string|string[]): Promise<void> {
 	if (!Array.isArray(urls)) {
 		urls = [urls];
 	}
@@ -85,7 +85,7 @@ async function markRead(urls: string|string[]) {
 	await setNotifications(updated);
 }
 
-async function markUnread() {
+async function markUnread(): Promise<void> {
 	const participants = select.all('.participant-avatar').slice(0, 3).map(el => ({
 		username: el.getAttribute('aria-label')!,
 		avatar: el.querySelector('img')!.src
@@ -125,7 +125,7 @@ async function markUnread() {
 	this.textContent = 'Marked as unread';
 }
 
-function getNotification(notification: Notification) {
+function getNotification(notification: Notification): Element {
 	const {
 		participants,
 		dateTitle,
@@ -138,7 +138,7 @@ function getNotification(notification: Notification) {
 
 	const existing = select(`a.js-notification-target[href^="${stripHash(url)}"]`);
 	if (existing) {
-		const item = existing.closest('.js-notification');
+		const item = existing.closest('.js-notification')!;
 		item.classList.replace('read', 'unread');
 		return item;
 	}
@@ -186,10 +186,10 @@ function getNotification(notification: Notification) {
 	);
 }
 
-function getNotificationGroup({repository}: Notification) {
-	const existing = select(`a.notifications-repo-link[title="${repository}"]`);
+function getNotificationGroup({repository}: Notification): Element {
+	const existing = select(`a.notifications-repo-link[title="${repository}"]`)!;
 	if (existing) {
-		return existing.closest('.boxed-group');
+		return existing.closest('.boxed-group')!;
 	}
 
 	return (
@@ -211,7 +211,7 @@ function getNotificationGroup({repository}: Notification) {
 	);
 }
 
-async function renderNotifications(unreadNotifications: Notification[]) {
+async function renderNotifications(unreadNotifications: Notification[]): Promise<void> {
 	unreadNotifications = unreadNotifications.filter(shouldNotificationAppearHere);
 
 	if (unreadNotifications.length === 0) {
@@ -245,7 +245,7 @@ async function renderNotifications(unreadNotifications: Notification[]) {
 	}
 }
 
-function shouldNotificationAppearHere(notification: Notification) {
+function shouldNotificationAppearHere(notification: Notification): boolean {
 	if (isSingleRepoPage()) {
 		return isCurrentSingleRepoPage(notification);
 	}
@@ -257,20 +257,20 @@ function shouldNotificationAppearHere(notification: Notification) {
 	return true;
 }
 
-function isSingleRepoPage() {
+function isSingleRepoPage(): boolean {
 	return location.pathname.split('/')[3] === 'notifications';
 }
 
-function isCurrentSingleRepoPage({repository}: Notification) {
+function isCurrentSingleRepoPage({repository}: Notification): boolean {
 	const [, singleRepo = ''] = /^[/](.+[/].+)[/]notifications/.exec(location.pathname) || [];
 	return singleRepo === repository;
 }
 
-function isParticipatingPage() {
+function isParticipatingPage(): boolean {
 	return /\/notifications\/participating/.test(location.pathname);
 }
 
-async function updateUnreadIndicator() {
+async function updateUnreadIndicator(): Promise<void> {
 	const icon = select<HTMLAnchorElement>('a.notification-indicator')!; // "a" required in responsive views
 	if (!icon) {
 		return;
@@ -293,7 +293,7 @@ async function updateUnreadIndicator() {
 	}
 }
 
-async function markNotificationRead({target}: DelegateEvent) {
+async function markNotificationRead({target}: DelegateEvent): Promise<void> {
 	const {href} = (target as Element)
 		.closest('li.js-notification')!
 		.querySelector<HTMLAnchorElement>('a.js-notification-target')!;
@@ -301,7 +301,7 @@ async function markNotificationRead({target}: DelegateEvent) {
 	await updateUnreadIndicator();
 }
 
-async function markAllNotificationsRead(event: DelegateEvent) {
+async function markAllNotificationsRead(event: DelegateEvent): Promise<void> {
 	event.preventDefault();
 	const repoGroup = (event.target as Element).closest('.boxed-group')!;
 	const urls = select.all<HTMLAnchorElement>('a.js-notification-target', repoGroup).map(a => a.href);
@@ -309,7 +309,7 @@ async function markAllNotificationsRead(event: DelegateEvent) {
 	await updateUnreadIndicator();
 }
 
-function addCustomAllReadBtn() {
+function addCustomAllReadBtn(): void {
 	const nativeMarkUnreadForm = select('details [action="/notifications/mark"]');
 	if (nativeMarkUnreadForm) {
 		nativeMarkUnreadForm.addEventListener('submit', () => {
@@ -345,13 +345,13 @@ function addCustomAllReadBtn() {
 	});
 }
 
-function updateLocalNotificationsCount(localNotifications: Notification[]) {
+function updateLocalNotificationsCount(localNotifications: Notification[]): void {
 	const unreadCount = select('#notification-center .filter-list a[href="/notifications"] .count')!;
 	const githubNotificationsCount = Number(unreadCount.textContent);
 	unreadCount.textContent = String(githubNotificationsCount + localNotifications.length);
 }
 
-function updateLocalParticipatingCount(notifications: Notification[]) {
+function updateLocalParticipatingCount(notifications: Notification[]): void {
 	const participatingNotifications = notifications
 		.filter(({isParticipating}) => isParticipating)
 		.length;
@@ -363,7 +363,7 @@ function updateLocalParticipatingCount(notifications: Notification[]) {
 	}
 }
 
-function destroy() {
+function destroy(): void {
 	for (const listener of listeners) {
 		listener.destroy();
 	}
@@ -371,7 +371,7 @@ function destroy() {
 	listeners.length = 0;
 }
 
-async function init() {
+async function init(): Promise<void> {
 	destroy();
 
 	if (pageDetect.isNotifications()) {
