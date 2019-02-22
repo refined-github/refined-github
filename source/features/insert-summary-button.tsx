@@ -1,54 +1,49 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import dedent from 'dedent';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 
-const init = () => {
-  const addSummaryDetails = () => {
-    const commentField = select<HTMLTextAreaElement>('.js-comment-field');
+function addButtons() {
+	for (const toolbar of select.all('markdown-toolbar')) {
+		const toolbarGroup = select('.toolbar-group:first-child', toolbar);
 
-    if (!commentField) {
-      return false;
-    }
-  
-    const summaryContent = `${
-      <details>
-        <summary>Header</summary>
-        This content won't be seen unless the details are expanded.
-        Replace with your content.
-      </details>
-    }`;
+		if (toolbarGroup) {
+			toolbarGroup.append(
+				<button type="button" class="toolbar-item rgh-summary-btn tooltipped tooltipped-n" onClick={addSummaryDetails} aria-label="Add summary">
+					{icons.info()}
+				</button>
+			);
+		}
+	}
+}
 
-    const pos = commentField.selectionStart;
-    const currentVal = commentField.value;
-    const before = currentVal.substring(0, pos);
-    const after = currentVal.substring(pos);
+function addSummaryDetails(event) {
+	const form = event.target.closest('form');
+	const commentField = select('textarea', form);
 
-    commentField.value = `${before}${summaryContent}${after}`;
-  }
+	const pos = commentField.selectionStart;
+	const currentVal = commentField.value;
+	const before = currentVal.slice(0, pos);
+	const after = currentVal.slice(pos);
 
-  const toolbarGroup = select('.toolbar-group');
-  if (!toolbarGroup) {
-    return false;
-  }
+	const summaryContent = dedent`
+		<details>
+			<summary>Details</summary>
+			<!-- Replace this comment with content you don't want to be seen unless 'Details' is expanded. -->
+		</details>
+	`;
 
-  toolbarGroup.appendChild(
-    <md-italic
-      tabindex="-1"
-      class="js-summary-button toolbar-item tooltipped tooltipped-n"
-      aria-label="Add summary"
-      role="button">
-        {icons.info()}
-      </md-italic>
-  )
+	commentField.value = before + summaryContent + after;
+}
 
-  const summaryToolbarBtn = select('.js-summary-button');
-  summaryToolbarBtn.addEventListener('click', addSummaryDetails);
-};
+function init() {
+	addButtons();
+}
 
 features.add({
-  id: 'insert-summary-button',
-  include: [
+	id: 'insert-summary-button',
+	include: [
 		features.isPR,
 		features.isIssue,
 		features.isNewIssue,
