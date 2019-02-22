@@ -1,30 +1,20 @@
-import select from 'select-dom';
 import delegate from 'delegate';
 import features from '../libs/features';
 
 const observer = new IntersectionObserver(([{intersectionRatio, target}]) => {
 	if (intersectionRatio === 0) {
 		observer.unobserve(target);
-		const dropdown = select(`
-			.details-overlay[open] summary,
-			body.menu-active .modal-backdrop
-		`);
-		if (dropdown) {
-			dropdown.click();
-		}
+		target.closest('details').open = false;
 	}
 });
 
 function init() {
-	delegate('.select-menu-button, .js-menu-target, .details-overlay summary', 'click', event => {
-		const button = event.delegateTarget;
-		const menu = button.closest('.select-menu, .js-menu-container, .details-overlay');
-		if (menu) {
-			const modal = menu.querySelector('.select-menu-modal, .dropdown-menu');
-			if (modal && (!menu.open || button.classList.contains('selected'))) {
-				observer.observe(modal);
-			}
-		}
+	// The `open` attribute is added after this handler is run,
+	// so the selector is inverted
+	delegate('.details-overlay:not([open]) > summary', 'click', event => {
+		console.log('will observe', event.delegateTarget.nextElementSibling)
+		// What comes after <summary> is the dropdown
+		observer.observe(event.delegateTarget.nextElementSibling);
 	});
 }
 
