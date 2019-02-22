@@ -1,12 +1,19 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import onetime from 'onetime';
+import delegate from 'delegate';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 
+const addEvents = onetime(() => {
+	delegate('.rgh-summary-btn', 'click', addSummaryDetails)
+});
+
 function init() {
+	addEvents();
 	for (const anchor of select.all('md-task-list')) {
 		anchor.after(
-			<button type="button" class="toolbar-item tooltipped tooltipped-n" onClick={addSummaryDetails} aria-label="Add summary">
+			<button type="button" class="toolbar-item tooltipped tooltipped-n rgh-summary-btn" aria-label="Add summary">
 				{icons.info()}
 			</button>
 		);
