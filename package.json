@@ -14,7 +14,6 @@
 		"can-release": "if [ \"$TRAVIS_EVENT_TYPE\" = cron ] && [ $(git rev-list -n 1 --since=\"26 hours ago\" master) ]; then echo :ship-it:; else false; fi"
 	},
 	"dependencies": {
-		"common-tags": "^1.8.0",
 		"copy-text-to-clipboard": "^1.0.4",
 		"debounce-fn": "^1.0.0",
 		"delegate": "^3.2.0",
