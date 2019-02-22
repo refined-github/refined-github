@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import {stripIndent} from 'common-tags';
+import {stripIndents} from 'common-tags';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 
@@ -15,10 +15,11 @@ function init() {
 }
 
 function addSummaryDetails(event) {
+	// Don't indent <summary> because indentation will not be automatic on multi-line content
 	const newContent = stripIndents`
 		<details>
-			<summary>Details</summary>
-			${getSelection().toString()}
+		<summary>Details</summary>
+		${getSelection().toString()}
 		</details>
 	`;
 
