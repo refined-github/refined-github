@@ -92,9 +92,11 @@
 }
 
 /* Hide unnecessary comment toolbar items */
-.toolbar-item[data-prefix='@'],
-.toolbar-item[data-prefix='#'],
-.toolbar-item[data-prefix='`'] {
+md-mention,
+md-ref,
+md-header,
+md-bold,
+md-italic {
 	display: none;
 }
 
