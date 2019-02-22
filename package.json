@@ -16,6 +16,7 @@
 	"dependencies": {
 		"copy-text-to-clipboard": "^1.0.4",
 		"debounce-fn": "^1.0.0",
+		"dedent": "^0.7.0",
 		"delegate": "^3.2.0",
 		"dom-chef": "^3.5.2",
 		"dom-loaded": "^1.0.1",
