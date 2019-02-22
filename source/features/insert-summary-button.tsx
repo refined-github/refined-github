@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import dedent from 'dedent';
+import {stripIndent} from 'common-tags';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 
@@ -27,7 +27,7 @@ function addSummaryDetails(event) {
 	const before = currentVal.slice(0, pos);
 	const after = currentVal.slice(pos);
 
-	const summaryContent = dedent`
+	const summaryContent = stripIndent`
 		<details>
 			<summary>Details</summary>
 			<!-- Replace this comment with content you don't want to be seen unless 'Details' is expanded. -->
