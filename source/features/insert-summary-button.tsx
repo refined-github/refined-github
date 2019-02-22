@@ -4,41 +4,24 @@ import {stripIndent} from 'common-tags';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 
-function addButtons() {
-	for (const toolbar of select.all('markdown-toolbar')) {
-		const toolbarGroup = select('.toolbar-group:first-child', toolbar);
-
-		if (toolbarGroup) {
-			toolbarGroup.append(
-				<button type="button" class="toolbar-item rgh-summary-btn tooltipped tooltipped-n" onClick={addSummaryDetails} aria-label="Add summary">
-					{icons.info()}
-				</button>
-			);
-		}
+function init() {
+	for (const anchor of select.all('md-task-list')) {
+		anchor.after(
+			<button type="button" class="toolbar-item tooltipped tooltipped-n" onClick={addSummaryDetails} aria-label="Add summary">
+				{icons.info()}
+			</button>
+		);
 	}
 }
 
-function addSummaryDetails(event) {
-	const form = event.target.closest('form');
-	const commentField = select('textarea', form);
-
-	const pos = commentField.selectionStart;
-	const currentVal = commentField.value;
-	const before = currentVal.slice(0, pos);
-	const after = currentVal.slice(pos);
-
-	const summaryContent = stripIndent`
+function addSummaryDetails() {
+	// Replace selection with <detail>
+	document.execCommand('insertText', false, stripIndent`
 		<details>
 			<summary>Details</summary>
-			<!-- Replace this comment with content you don't want to be seen unless 'Details' is expanded. -->
+			${getSelection().toString()}
 		</details>
-	`;
-
-	commentField.value = before + summaryContent + after;
-}
-
-function init() {
-	addButtons();
+	`);
 }
 
 features.add({
