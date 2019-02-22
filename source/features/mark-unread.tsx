@@ -1,12 +1,32 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate, { DelegateSubscription, DelegateEvent } from 'delegate';
+import delegate, {DelegateSubscription, DelegateEvent} from 'delegate';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
 import {safeElementReady} from '../libs/dom-utils';
 import {getUsername, getOwnerAndRepo} from '../libs/utils';
+
+// TODO: Pull these types out.
+type NotificationType = 'pull-request' | 'issue';
+
+interface Participant {
+	username: string;
+	avatar: string;
+}
+
+interface Notification {
+	participants: Participant[]; // TODO: right type
+	state: unknown; // TODO: right type
+	isParticipating: boolean;
+	repository: string;
+	dateTitle: string;
+	title: string;
+	type: NotificationType;
+	date: string; // TODO: Maybe Date?
+	url: string;
+}
 
 const listeners: DelegateSubscription[] = [];
 const stateIcons = {
@@ -21,18 +41,18 @@ const stateIcons = {
 	}
 };
 
-async function getNotifications() {
+async function getNotifications(): Promise<Notification[]> {
 	const {unreadNotifications} = await browser.storage.local.get({
 		unreadNotifications: []
 	});
 	return unreadNotifications;
 }
 
-function setNotifications(unreadNotifications) {
+function setNotifications(unreadNotifications: Notification[]) {
 	return browser.storage.local.set({unreadNotifications});
 }
 
-function stripHash(url) {
+function stripHash(url: string) {
 	return url.replace(/#.+$/, '');
 }
 
@@ -47,16 +67,16 @@ function addMarkUnreadButton() {
 	}
 }
 
-async function markRead(urls) {
+async function markRead(urls: string|string[]) {
 	if (!Array.isArray(urls)) {
 		urls = [urls];
 	}
 
 	const cleanUrls = urls.map(stripHash);
 
-	for (const a of select.all('a.js-notification-target')) {
-		if (cleanUrls.includes(a.getAttribute('href'))) {
-			a.closest('li.js-notification').classList.replace('unread', 'read');
+	for (const a of select.all<HTMLAnchorElement>('a.js-notification-target')) {
+		if (cleanUrls.includes(a.getAttribute('href')!)) {
+			a.closest('li.js-notification')!.classList.replace('unread', 'read');
 		}
 	}
 
@@ -67,12 +87,12 @@ async function markRead(urls) {
 
 async function markUnread() {
 	const participants = select.all('.participant-avatar').slice(0, 3).map(el => ({
-		username: el.getAttribute('aria-label'),
-		avatar: el.querySelector('img').src
+		username: el.getAttribute('aria-label')!,
+		avatar: el.querySelector('img')!.src
 	}));
 
 	const {ownerName, repoName} = getOwnerAndRepo();
-	const stateLabel = select('.gh-header-meta .State');
+	const stateLabel = select('.gh-header-meta .State')!;
 	let state;
 
 	if (stateLabel.classList.contains('State--green')) {
@@ -91,10 +111,10 @@ async function markUnread() {
 		state,
 		isParticipating: select.exists(`.participant-avatar[href="/${getUsername()}"]`),
 		repository: `${ownerName}/${repoName}`,
-		dateTitle: lastCommentTime.title,
-		title: select('.js-issue-title').textContent.trim(),
+		dateTitle: lastCommentTime!.title,
+		title: select('.js-issue-title')!.textContent!.trim(),
 		type: pageDetect.isPR() ? 'pull-request' : 'issue',
-		date: lastCommentTime.getAttribute('datetime'),
+		date: lastCommentTime!.getAttribute('datetime')!,
 		url: stripHash(location.href)
 	});
 
@@ -105,7 +125,7 @@ async function markUnread() {
 	this.textContent = 'Marked as unread';
 }
 
-function getNotification(notification) {
+function getNotification(notification: Notification) {
 	const {
 		participants,
 		dateTitle,
@@ -166,7 +186,7 @@ function getNotification(notification) {
 	);
 }
 
-function getNotificationGroup({repository}) {
+function getNotificationGroup({repository}: Notification) {
 	const existing = select(`a.notifications-repo-link[title="${repository}"]`);
 	if (existing) {
 		return existing.closest('.boxed-group');
@@ -191,7 +211,7 @@ function getNotificationGroup({repository}) {
 	);
 }
 
-async function renderNotifications(unreadNotifications) {
+async function renderNotifications(unreadNotifications: Notification[]) {
 	unreadNotifications = unreadNotifications.filter(shouldNotificationAppearHere);
 
 	if (unreadNotifications.length === 0) {
@@ -203,7 +223,7 @@ async function renderNotifications(unreadNotifications) {
 
 	if (!pageList) {
 		pageList = <div class="notifications-list"></div>;
-		select('.blankslate').replaceWith(pageList);
+		select('.blankslate')!.replaceWith(pageList);
 	}
 
 	unreadNotifications.reverse().forEach(notification => {
@@ -225,7 +245,7 @@ async function renderNotifications(unreadNotifications) {
 	}
 }
 
-function shouldNotificationAppearHere(notification) {
+function shouldNotificationAppearHere(notification: Notification) {
 	if (isSingleRepoPage()) {
 		return isCurrentSingleRepoPage(notification);
 	}
@@ -241,7 +261,7 @@ function isSingleRepoPage() {
 	return location.pathname.split('/')[3] === 'notifications';
 }
 
-function isCurrentSingleRepoPage({repository}) {
+function isCurrentSingleRepoPage({repository}: Notification) {
 	const [, singleRepo = ''] = /^[/](.+[/].+)[/]notifications/.exec(location.pathname) || [];
 	return singleRepo === repository;
 }
@@ -251,12 +271,12 @@ function isParticipatingPage() {
 }
 
 async function updateUnreadIndicator() {
-	const icon = select<HTMLAnchorElement>('a.notification-indicator'); // "a" required in responsive views
+	const icon = select<HTMLAnchorElement>('a.notification-indicator')!; // "a" required in responsive views
 	if (!icon) {
 		return;
 	}
 
-	const statusMark = icon.querySelector('.mail-status');
+	const statusMark = icon.querySelector('.mail-status')!;
 	const hasRealNotifications = icon.matches('[data-ga-click$=":unread"]');
 	const rghUnreadCount = (await getNotifications()).length;
 
@@ -267,7 +287,7 @@ async function updateUnreadIndicator() {
 	statusMark.classList.toggle('unread', hasUnread);
 
 	if (rghUnreadCount > 0) {
-		icon.dataset.rghUnread = rghUnreadCount; // Store in attribute to let other extensions know
+		icon.dataset.rghUnread = String(rghUnreadCount); // Store in attribute to let other extensions know
 	} else {
 		delete icon.dataset.rghUnread;
 	}
@@ -325,13 +345,13 @@ function addCustomAllReadBtn() {
 	});
 }
 
-function updateLocalNotificationsCount(localNotifications) {
+function updateLocalNotificationsCount(localNotifications: Notification[]) {
 	const unreadCount = select('#notification-center .filter-list a[href="/notifications"] .count')!;
 	const githubNotificationsCount = Number(unreadCount.textContent);
-	unreadCount.textContent = githubNotificationsCount + localNotifications.length;
+	unreadCount.textContent = String(githubNotificationsCount + localNotifications.length);
 }
 
-function updateLocalParticipatingCount(notifications) {
+function updateLocalParticipatingCount(notifications: Notification[]) {
 	const participatingNotifications = notifications
 		.filter(({isParticipating}) => isParticipating)
 		.length;
@@ -339,7 +359,7 @@ function updateLocalParticipatingCount(notifications) {
 	if (participatingNotifications > 0) {
 		const unreadCount = select('#notification-center .filter-list a[href="/notifications/participating"] .count')!;
 		const githubNotificationsCount = Number(unreadCount.textContent);
-		unreadCount.textContent = githubNotificationsCount + participatingNotifications;
+		unreadCount.textContent = String(githubNotificationsCount + participatingNotifications);
 	}
 }
 
