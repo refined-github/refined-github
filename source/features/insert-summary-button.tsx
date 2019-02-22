@@ -6,7 +6,7 @@ import features from '../libs/features';
 import * as icons from '../libs/icons';
 
 const addEvents = onetime(() => {
-	delegate('.rgh-summary-btn', 'click', addSummaryDetails)
+	delegate('.rgh-summary-btn', 'click', addSummaryDetails);
 });
 
 function init() {
