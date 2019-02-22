@@ -14,14 +14,16 @@ function init() {
 	}
 }
 
-function addSummaryDetails() {
-	// Replace selection with <detail>
-	document.execCommand('insertText', false, stripIndent`
+function addSummaryDetails(event) {
+	const newContent = stripIndents`
 		<details>
 			<summary>Details</summary>
 			${getSelection().toString()}
 		</details>
-	`);
+	`;
+
+	// Inject new tags; it'll be undoable
+	document.execCommand('insertText', false, '\n\n' + newContent + '\n\n');
 }
 
 features.add({
