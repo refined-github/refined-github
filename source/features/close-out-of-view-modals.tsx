@@ -12,7 +12,6 @@ function init() {
 	// The `open` attribute is added after this handler is run,
 	// so the selector is inverted
 	delegate('.details-overlay:not([open]) > summary', 'click', event => {
-		console.log('will observe', event.delegateTarget.nextElementSibling)
 		// What comes after <summary> is the dropdown
 		observer.observe(event.delegateTarget.nextElementSibling);
 	});
