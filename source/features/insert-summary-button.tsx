@@ -25,6 +25,14 @@ function addSummaryDetails(event) {
 
 	// Inject new tags; it'll be undoable
 	document.execCommand('insertText', false, '\n\n' + newContent + '\n\n');
+
+	// Restore selection.
+	// `selectionStart` will be right after the newly-inserted text
+	const field = event.currentTarget.form['comment[body]'];
+	field.setSelectionRange(
+		field.value.lastIndexOf('</summary>', field.selectionStart) + '</summary>'.length + 1,
+		field.value.lastIndexOf('</details>', field.selectionStart) - 1
+	);
 }
 
 features.add({
