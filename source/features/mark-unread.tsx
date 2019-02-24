@@ -59,7 +59,7 @@ function stripHash(url: string): string {
 function addMarkUnreadButton(): void {
 	const container = select('.js-thread-subscription-status');
 	if (container && !select.exists('.rgh-btn-mark-unread')) {
-		const button = <button class="btn btn-sm rgh-btn-mark-unread">Mark as unread</button>;
+		const button = <button className="btn btn-sm rgh-btn-mark-unread">Mark as unread</button>;
 		button.addEventListener('click', markUnread, {
 			once: true
 		});
@@ -149,35 +149,35 @@ function getNotification(notification: Notification): Element {
 		.replace(/ and (.+) and/, ', $1, and'); // 3 people only: A, B, and C
 
 	const avatars = participants.map(participant =>
-		<a href={`/${participant.username}`} class="avatar">
+		<a href={`/${participant.username}`} className="avatar">
 			<img alt={`@${participant.username}`} height="20" src={participant.avatar} width="20"/>
 		</a>
 	);
 
 	return (
-		<li class={`list-group-item js-notification js-navigation-item unread ${type}-notification rgh-unread`}>
-			<span class="list-group-item-name css-truncate">
-				<span class={`type-icon type-icon-state-${state}`}>
+		<li className={`list-group-item js-notification js-navigation-item unread ${type}-notification rgh-unread`}>
+			<span className="list-group-item-name css-truncate">
+				<span className={`type-icon type-icon-state-${state}`}>
 					{stateIcons[type][state]()}
 				</span>
-				<a class="css-truncate-target js-notification-target js-navigation-open list-group-item-link" href={url}>
+				<a className="css-truncate-target js-notification-target js-navigation-open list-group-item-link" href={url}>
 					{title}
 				</a>
 			</span>
-			<ul class="notification-actions">
-				<li class="delete">
-					<button class="btn-link delete-note">
+			<ul className="notification-actions">
+				<li className="delete">
+					<button className="btn-link delete-note">
 						{icons.check()}
 					</button>
 				</li>
-				<li class="mute tooltipped tooltipped-w" aria-label={`${type === 'issue' ? 'Issue' : 'PR'} manually marked as unread`}>
+				<li className="mute tooltipped tooltipped-w" aria-label={`${type === 'issue' ? 'Issue' : 'PR'} manually marked as unread`}>
 					{icons.info()}
 				</li>
-				<li class="age">
+				<li className="age">
 					<relative-time datetime={date} title={dateTitle}/>
 				</li>
-				<div class="AvatarStack AvatarStack--three-plus AvatarStack--right clearfix d-inline-block" style={{marginTop: 1}}>
-					<div class="AvatarStack-body tooltipped tooltipped-sw tooltipped-align-right-1" aria-label={usernames}>
+				<div className="AvatarStack AvatarStack--three-plus AvatarStack--right clearfix d-inline-block" style={{marginTop: 1}}>
+					<div className="AvatarStack-body tooltipped tooltipped-sw tooltipped-align-right-1" aria-label={usernames}>
 						{avatars}
 					</div>
 				</div>
@@ -193,20 +193,20 @@ function getNotificationGroup({repository}: Notification): Element {
 	}
 
 	return (
-		<div class="boxed-group flush">
-			<form class="boxed-group-action">
-				<button class="mark-all-as-read css-truncate js-mark-all-read">
+		<div className="boxed-group flush">
+			<form className="boxed-group-action">
+				<button className="mark-all-as-read css-truncate js-mark-all-read">
 					{icons.check()}
 				</button>
 			</form>
 
 			<h3>
-				<a href={'/' + repository} class="css-truncate css-truncate-target notifications-repo-link" title={repository}>
+				<a href={'/' + repository} className="css-truncate css-truncate-target notifications-repo-link" title={repository}>
 					{repository}
 				</a>
 			</h3>
 
-			<ul class="boxed-group-inner list-group notifications"/>
+			<ul className="boxed-group-inner list-group notifications"/>
 		</div>
 	);
 }
@@ -222,7 +222,7 @@ async function renderNotifications(unreadNotifications: Notification[]): Promise
 	let pageList = await safeElementReady('#notification-center .notifications-list');
 
 	if (!pageList) {
-		pageList = <div class="notifications-list"></div>;
+		pageList = <div className="notifications-list"></div>;
 		select('.blankslate')!.replaceWith(pageList);
 	}
 
@@ -319,21 +319,21 @@ function addCustomAllReadBtn(): void {
 	}
 
 	select('.tabnav .float-right')!.append(
-		<details class="details-reset details-overlay details-overlay-dark lh-default text-gray-dark d-inline-block text-left">
-			<summary class="btn btn-sm" aria-haspopup="dialog">
+		<details className="details-reset details-overlay details-overlay-dark lh-default text-gray-dark d-inline-block text-left">
+			<summary className="btn btn-sm" aria-haspopup="dialog">
 				Mark all as read
 			</summary>
-			<details-dialog class="Box Box--overlay d-flex flex-column anim-fade-in fast " aria-label="Are you sure?" role="dialog" tabindex="-1">
-				<div class="Box-header">
-					<button class="Box-btn-octicon btn-octicon float-right" type="button" aria-label="Close dialog" data-close-dialog="">
+			<details-dialog className="Box Box--overlay d-flex flex-column anim-fade-in fast " aria-label="Are you sure?" role="dialog" tabindex="-1">
+				<div className="Box-header">
+					<button className="Box-btn-octicon btn-octicon float-right" type="button" aria-label="Close dialog" data-close-dialog="">
 						{icons.x()}
 					</button>
-					<h3 class="Box-title">Are you sure?</h3>
+					<h3 className="Box-title">Are you sure?</h3>
 				</div>
 
-				<div class="Box-body">
+				<div className="Box-body">
 					<p>Are you sure you want to mark all unread notifications as read?</p>
-					<button type="button" class="btn btn-block" id="clear-local-notification">Mark all notifications as read</button>
+					<button type="button" className="btn btn-block" id="clear-local-notification">Mark all notifications as read</button>
 				</div>
 			</details-dialog>
 		</details>

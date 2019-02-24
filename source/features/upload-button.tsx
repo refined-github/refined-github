@@ -15,7 +15,7 @@ function addButtons() {
 		const toolbarGroup = select('.toolbar-group:last-child', toolbar);
 		if (toolbarGroup) {
 			toolbarGroup.append(
-				<button type="button" class="toolbar-item rgh-upload-btn tooltipped tooltipped-nw" aria-label="Upload attachments" hotkey="u">
+				<button type="button" className="toolbar-item rgh-upload-btn tooltipped tooltipped-nw" aria-label="Upload attachments" hotkey="u">
 					{icons.cloudUpload()}
 				</button>
 			);

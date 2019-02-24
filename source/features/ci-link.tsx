@@ -24,7 +24,7 @@ async function fetchStatus() {
 	return icon;
 }
 
-async function init() {
+async function init(): Promise<boolean | void> {
 	// Avoid on pages that already failed to load
 	if (request === false) {
 		return false;

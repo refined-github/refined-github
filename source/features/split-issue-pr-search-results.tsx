@@ -5,22 +5,25 @@ import features from '../libs/features';
 function cleanLinks() {
 	for (const link of select.all<HTMLAnchorElement>('.menu-item')) {
 		const searchParams = new URLSearchParams(link.search);
-		searchParams.set('q', cleanSearchQuery(searchParams.get('q')));
+		searchParams.set('q', cleanSearchQuery(searchParams.get('q')!));
 		link.search = String(searchParams);
 	}
 }
 
 function getSearchQuery() {
-	return new URLSearchParams(location.search).get('q');
+	return new URLSearchParams(location.search).get('q')!;
 }
 
-function cleanSearchQuery(query) {
+function cleanSearchQuery(query: string) {
 	return query
 		.replace(/\bis:(pr|issue)\b/gi, '')
 		.replace(/\s{2,}/g, ' ').trim();
 }
 
-function createUrl(type, pathname = location.pathname) {
+// TODO: This could have a better name
+type GitHubType = 'pr' | 'issue';
+
+function createUrl(type: GitHubType, pathname = location.pathname) {
 	const url = new URL(pathname, location.origin);
 	url.searchParams.set('q', cleanSearchQuery(getSearchQuery()) + ` is:${type}`);
 	url.searchParams.set('type', 'Issues');
@@ -30,7 +33,7 @@ function createUrl(type, pathname = location.pathname) {
 function init() {
 	cleanLinks();
 
-	const issueLink = select<HTMLAnchorElement>('nav.menu a[href*="&type=Issues"]');
+	const issueLink = select<HTMLAnchorElement>('nav.menu a[href*="&type=Issues"]')!;
 	issueLink.textContent = 'Issues'; // Drops any possible counter
 	issueLink.href = createUrl('issue');
 	issueLink.append(
@@ -46,14 +49,14 @@ function init() {
 
 	issueLink.after(prLink);
 
-	const title = select('.codesearch-results h3').firstChild;
+	const title = select('.codesearch-results h3')!.firstChild!;
 	if (/\bis:pr\b/.test(getSearchQuery())) {
 		// Update UI in PR searches
 		issueLink.classList.remove('selected');
-		title.textContent = title.textContent.replace('issue', 'pull request');
+		title.textContent = title.textContent!.replace('issue', 'pull request');
 	} else if (/\btype=Issues\b/.test(location.search) && !/\bis:issue\b/.test(getSearchQuery())) {
 		// Update UI in combined searches (where there's no `is:<type>` query)
-		title.textContent = title.textContent
+		title.textContent = title.textContent!
 			.replace(/issue\b/, 'issue or pull request')
 			.replace('issues', 'issues and pull requests');
 

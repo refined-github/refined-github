@@ -2,7 +2,7 @@ import select from 'select-dom';
 import features from '../libs/features';
 
 // When navigating with next/previous in review mode, preserve whitespace option.
-function init() {
+function init(): boolean | void {
 	const navLinks = select.all<HTMLAnchorElement>('.commit > .BtnGroup.float-right > a.BtnGroup-item');
 	if (navLinks.length === 0) {
 		return false;

@@ -9,10 +9,10 @@ function add() {
 		const prLink = select<HTMLAnchorElement>('.discussion-item-ref-title a', infoBubble.parentElement!.parentElement!)!;
 		const issueNumber = select('.issue-num', prLink)!.textContent;
 		select('.gh-header-meta .TableObject-item')!.after(
-			<div class="TableObject-item">
+			<div className="TableObject-item">
 				<a
 					href={prLink.href}
-					class="btn btn-outline btn-sm border-blue rgh-closing-pr tooltipped tooltipped-se"
+					className="btn btn-outline btn-sm border-blue rgh-closing-pr tooltipped tooltipped-se"
 					aria-label={infoBubble.getAttribute('aria-label')}>
 					{icons.openPullRequest()}&nbsp;{issueNumber}
 				</a>

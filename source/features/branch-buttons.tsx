@@ -45,16 +45,16 @@ async function getTagLink() {
 
 	const latestRelease = latestParsedRelease || tags[0];
 
-	const link = <a class="btn btn-sm btn-outline tooltipped tooltipped-ne">{icons.tag()}</a>;
+	const link = <a className="btn btn-sm btn-outline tooltipped tooltipped-ne">{icons.tag()}</a>;
 
-	const currentBranch = select('.branch-select-menu .js-select-button').textContent;
+	const currentBranch = select('.branch-select-menu .js-select-button')!.textContent;
 	if (currentBranch === latestRelease) {
 		link.classList.add('disabled');
 		link.setAttribute('aria-label', 'You’re on the latest release');
 	} else {
-		link.href = select<HTMLAnchorElement>(`[data-name="${latestRelease}"]`).href;
+		link.href = select<HTMLAnchorElement>(`[data-name="${latestRelease}"]`)!.href;
 		link.setAttribute('aria-label', 'Visit the latest release');
-		link.append(' ', <span class="css-truncate-target">{latestRelease}</span>);
+		link.append(' ', <span className="css-truncate-target">{latestRelease}</span>);
 	}
 
 	return link;
@@ -62,7 +62,7 @@ async function getTagLink() {
 
 async function getDefaultBranchLink() {
 	const defaultBranch = await getDefaultBranch();
-	const currentBranch = select('[data-hotkey="w"] span').textContent;
+	const currentBranch = select('[data-hotkey="w"] span')!.textContent;
 
 	// Don't show the button if we’re already on the default branch
 	if (defaultBranch === undefined || defaultBranch === currentBranch) {
@@ -83,7 +83,7 @@ async function getDefaultBranchLink() {
 
 	return (
 		<a
-			class="btn btn-sm btn-outline tooltipped tooltipped-ne"
+			className="btn btn-sm btn-outline tooltipped tooltipped-ne"
 			href={url}
 			aria-label="Visit the default branch">
 			{icons.branch()}
@@ -93,7 +93,7 @@ async function getDefaultBranchLink() {
 	);
 }
 
-async function init() {
+async function init(): Promise<boolean | void> {
 	const container = select('.file-navigation');
 	if (!container) {
 		return false;
@@ -105,7 +105,7 @@ async function init() {
 	]);
 
 	const wrapper = (
-		<div class="rgh-branch-buttons">
+		<div className="rgh-branch-buttons">
 			{defaultLink}
 			{tagLink}
 		</div>
@@ -116,7 +116,7 @@ async function init() {
 	}
 
 	if (wrapper.children.length > 1) {
-		groupSiblings(wrapper.firstElementChild);
+		groupSiblings(wrapper.firstElementChild!);
 	}
 }
 

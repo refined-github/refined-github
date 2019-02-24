@@ -8,7 +8,7 @@ function init() {
 	const username = getUsername();
 	const type = isGlobalIssueSearch() ? 'issue' : 'pr';
 
-	const commentedMenuItem = <a href={`${location.pathname}?q=is%3Aopen+archived%3Afalse+is%3A${type}+commenter%3A${username}`} class="subnav-item">Commented</a>;
+	const commentedMenuItem = <a href={`${location.pathname}?q=is%3Aopen+archived%3Afalse+is%3A${type}+commenter%3A${username}`} className="subnav-item">Commented</a>;
 
 	if (!select.exists('.subnav-links .selected') && location.search.includes(`commenter%3A${username}`)) {
 		commentedMenuItem.classList.add('selected');
@@ -17,7 +17,7 @@ function init() {
 		}
 	}
 
-	select('.subnav-links').append(commentedMenuItem);
+	select('.subnav-links')!.append(commentedMenuItem);
 }
 
 features.add({

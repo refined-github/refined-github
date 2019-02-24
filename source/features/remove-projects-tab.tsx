@@ -13,7 +13,7 @@ const removeProjectsTab = () => {
 	}
 
 	const projectsTab = select('.js-repo-nav [data-selected-links^="repo_projects"]');
-	if (projectsTab && projectsTab.querySelector('.Counter, .counter').textContent === '0') {
+	if (projectsTab && projectsTab.querySelector('.Counter, .counter')!.textContent === '0') {
 		projectsTab.remove();
 		return true;
 	}
@@ -23,14 +23,14 @@ const addNewProjectLink = onetime(() => {
 	const newIssueLink = select('.HeaderMenu .dropdown-item[href$="/issues/new"]');
 	if (newIssueLink) {
 		newIssueLink.after(
-			<a class="dropdown-item" href={`/${getRepoURL()}/projects/new`}>
+			<a className="dropdown-item" href={`/${getRepoURL()}/projects/new`}>
 				New project
 			</a>
 		);
 	}
 });
 
-async function init() {
+async function init(): Promise<void> {
 	await safeElementReady('.pagehead + *'); // Wait for the tab bar to be loaded
 	if (removeProjectsTab()) {
 		addNewProjectLink();

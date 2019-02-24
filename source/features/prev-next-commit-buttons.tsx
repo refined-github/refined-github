@@ -8,14 +8,14 @@ the page too.
 import select from 'select-dom';
 import features from '../libs/features';
 
-function init() {
+function init(): boolean | void {
 	const originalPrevNext = select('.commit .BtnGroup.float-right');
 	if (!originalPrevNext) {
 		return false;
 	}
 
 	const prevNext = originalPrevNext.cloneNode(true);
-	const files = select('#files');
+	const files = select('#files')!;
 
 	files.after(prevNext);
 }

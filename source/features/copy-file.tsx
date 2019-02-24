@@ -23,7 +23,7 @@ function init() {
 		const firstAction = select('.file-actions .btn', file);
 		if (firstAction) {
 			firstAction.before(
-				<button onClick={handleClick} class="btn btn-sm copy-btn tooltipped tooltipped-n" aria-label="Copy file to clipboard" type="button">Copy</button>
+				<button onClick={handleClick} className="btn btn-sm copy-btn tooltipped tooltipped-n" aria-label="Copy file to clipboard" type="button">Copy</button>
 			);
 
 			// Group buttons if necessary

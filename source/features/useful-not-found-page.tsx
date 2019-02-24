@@ -44,7 +44,7 @@ async function addCommitHistoryLink(bar) {
 	}
 
 	bar.after(
-		<p class="container">
+		<p className="container">
 			See also the file’s {<a href={url}>commit history</a>}
 		</p>
 	);
@@ -70,7 +70,7 @@ async function addDefaultBranchLink(bar) {
 	}
 
 	bar.after(
-		<p class="container">
+		<p className="container">
 			See also the file on the {<a href={url}>default branch</a>}
 		</p>
 	);
@@ -82,7 +82,7 @@ function init() {
 		return false;
 	}
 
-	const bar = <h2 class="container"/>;
+	const bar = <h2 className="container"/>;
 
 	for (const [i, part] of parts.entries()) {
 		if (i === 2 && part === 'tree') {

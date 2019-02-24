@@ -105,7 +105,7 @@ const visitNegatedQuery = (event: DelegateEvent<KeyboardEvent>) => {
 };
 
 const getIcon = (isNegated: boolean) => {
-	return <span class="select-menu-item-icon">{isNegated ? icons.x() : icons.check()}</span>;
+	return <span className="select-menu-item-icon">{isNegated ? icons.x() : icons.check()}</span>;
 };
 
 const updateFilterIcons = () => {

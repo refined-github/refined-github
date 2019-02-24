@@ -37,9 +37,9 @@ function init() {
 
 	if (uselessCount > 0) {
 		select('.discussion-timeline-actions').prepend(
-			<p class="rgh-useless-comments-note">
+			<p className="rgh-useless-comments-note">
 				{`${uselessCount} unhelpful comment${uselessCount > 1 ? 's were' : ' was'} automatically hidden. `}
-				<button class="btn-link text-emphasized" onClick={unhide}>Show</button>
+				<button className="btn-link text-emphasized" onClick={unhide}>Show</button>
 			</p>
 		);
 	}

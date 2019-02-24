@@ -22,7 +22,7 @@ function handleMenuOpening(event: DelegateEvent) {
 			<button
 				name="classifier"
 				value={reason.value}
-				class="dropdown-item btn-link"
+				className="dropdown-item btn-link"
 				role="menuitem">
 				{reason.textContent}
 			</button>

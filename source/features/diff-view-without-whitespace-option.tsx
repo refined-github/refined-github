@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as icons from '../libs/icons';
 import features from '../libs/features';
 
-function init() {
+function init(): boolean | void {
 	const container = select([
 		'.table-of-contents.Details .BtnGroup', // In single commit view
 		'.pr-review-tools > .diffbar-item' // In review view
@@ -23,10 +23,10 @@ function init() {
 	}
 
 	container.after(
-		<div class="diffbar-item refined-github-toggle-whitespace">
-			<a href={url}
+		<div className="diffbar-item refined-github-toggle-whitespace">
+			<a href={url.toString()}
 				data-hotkey="d w"
-				class={`btn btn-sm btn-outline BtnGroup-item tooltipped tooltipped-s ${hidingWhitespace ? 'bg-gray-light text-gray-light' : ''}`}
+				className={`btn btn-sm btn-outline BtnGroup-item tooltipped tooltipped-s ${hidingWhitespace ? 'bg-gray-light text-gray-light' : ''}`}
 				aria-label={`${hidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}>
 				{hidingWhitespace ? icons.check() : ''}
 				{' '}

@@ -2,15 +2,15 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
-function init() {
+function init(): boolean | void {
 	const lastDivider = select.all('.user-nav .dropdown-divider').pop();
 	if (!lastDivider) {
 		return false;
 	}
 
 	lastDivider.before(
-		<div class="dropdown-divider"></div>,
-		<a class="dropdown-item" href="/marketplace">Marketplace</a>
+		<div className="dropdown-divider"></div>,
+		<a className="dropdown-item" href="/marketplace">Marketplace</a>
 	);
 }
 

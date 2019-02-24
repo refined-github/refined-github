@@ -11,7 +11,7 @@ function init() {
 			<li>
 				<a
 					href={`/${repoUrl}/issues?q=is%3Aopen+commenter:${getUsername()}`}
-					class="select-menu-item"
+					className="select-menu-item"
 					role="menuitem">
 						Everything commented by you
 				</a>

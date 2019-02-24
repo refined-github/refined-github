@@ -1,6 +1,10 @@
 // TODO: Type anything that is of type AnyObject
 type AnyObject = Record<string, any> | undefined;
 
+declare module "copy-text-to-clipboard" {
+	export default function copyToClipboard(data: string): void;
+}
+
 declare module "github-reserved-names"; // TODO: PR types to that repo or DT
 
 // TODO: PR these types to the delegate repository.
@@ -76,10 +80,20 @@ declare module "delegate" {
 }
 
 // TODO: Add to dom-chef types
-type AllElementsTagNameMap = SVGElementTagNameMap & HTMLElementTagNameMap & {
-	"has-rgh": any;
-};
-// declare namespace JSX {
-// 	interface Element { }
-// 	interface IntrinsicElements extends AllElementsTagNameMap {}
-// }
+// type AllElementsTagNameMap = SVGElementTagNameMap & HTMLElementTagNameMap & {
+// 	"has-rgh": any;
+// };
+declare namespace JSX {
+	type AllElementsTagNameMap = SVGElementTagNameMap & HTMLElementTagNameMap
+	type All = SVGElement | HTMLElement;
+
+	// TODO: Get this working
+	//interface Element extends SVGElement {}
+
+	interface IntrinsicElements {
+		'include-fragment': any;
+		'has-rgh': any;
+		'relative-time': any;
+	}
+}
+

@@ -31,7 +31,7 @@ function updateReleasesCount() {
 	return cached;
 }
 
-async function init() {
+async function init(): Promise<boolean | void> {
 	await safeElementReady('.pagehead + *'); // Wait for the tab bar to be loaded
 	const count = await updateReleasesCount();
 	if (count === 0) {
@@ -39,13 +39,13 @@ async function init() {
 	}
 
 	const releasesTab = (
-		<a href={`/${repoUrl}/releases`} class="reponav-item" data-hotkey="g r">
+		<a href={`/${repoUrl}/releases`} className="reponav-item" data-hotkey="g r">
 			{icons.tag()}
 			<span> Releases </span>
-			{count === undefined ? '' : <span class="Counter">{count}</span>}
+			{count === undefined ? '' : <span className="Counter">{count}</span>}
 		</a>
 	);
-	select('.reponav-dropdown').before(releasesTab);
+	select('.reponav-dropdown')!.before(releasesTab);
 
 	if (isReleasesOrTags()) {
 		const selected = select('.reponav-item.selected');

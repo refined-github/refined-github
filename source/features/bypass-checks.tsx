@@ -7,11 +7,11 @@ async function init() {
 	await Promise.all(select.all('.merge-status-item [href^="/apps/"]').map(bypass));
 }
 
-async function bypass(check) {
-	const details = select<HTMLAnchorElement>('.status-actions', check.parentElement);
+async function bypass(check: HTMLElement) {
+	const details = select<HTMLAnchorElement>('.status-actions', check.parentElement!)!;
 	const response = await fetch(details.href);
 	const dom = domify(await response.text());
-	const directLink = select('a.text-small .octicon-link-external', dom);
+	const directLink = select('a.text-small .octicon-link-external', dom)!;
 	details.href = (directLink.parentElement as HTMLAnchorElement).href;
 }
 

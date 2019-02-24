@@ -42,6 +42,7 @@
 		"@types/firefox-webext-browser": "^65.0.0",
 		"@types/jsdom": "^12.2.1",
 		"@types/onetime": "^2.0.0",
+		"@types/react": "^16.8.4",
 		"@typescript-eslint/eslint-plugin": "^1.4.0",
 		"ava": "^1.1.0",
 		"chrome-webstore-upload-cli": "^1.2.0",

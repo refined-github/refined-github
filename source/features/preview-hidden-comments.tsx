@@ -26,8 +26,8 @@ const init = () => {
 		}
 
 		header.append(
-			<span class="Details-content--open">{header.firstChild}</span>,
-			<span class="Details-content--closed">{`${capitalize(reason)} — ${commentText}`}</span>
+			<span className="Details-content--open">{header.firstChild}</span>,
+			<span className="Details-content--closed">{`${capitalize(reason)} — ${commentText}`}</span>
 		);
 	}
 };

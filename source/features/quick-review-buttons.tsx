@@ -35,7 +35,7 @@ function init() {
 				<button
 					name="pull_request_review[event]"
 					value={radio.value}
-					class={`btn btn-sm ${btnClassMap[radio.value] || ''}`}>
+					className={`btn btn-sm ${btnClassMap[radio.value] || ''}`}>
 					{radio.nextSibling.textContent.trim()}
 				</button>
 			);

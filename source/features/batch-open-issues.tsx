@@ -39,7 +39,7 @@ function init() {
 			<button
 				type="button"
 				onClick={openIssues}
-				class="float-left btn-link rgh-open-all-selected"
+				className="float-left btn-link rgh-open-all-selected"
 			>
 				Open All
 			</button>
@@ -52,7 +52,7 @@ function init() {
 			<button
 				type="button"
 				onClick={openIssues}
-				class="float-left btn-link rgh-open-all-selected"
+				className="float-left btn-link rgh-open-all-selected"
 			>
 				Open in new tabs
 			</button>

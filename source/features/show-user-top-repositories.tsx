@@ -14,8 +14,9 @@ function init() {
 		return false;
 	}
 
+	const a = <a href={'url'}>Top repositories</a>;
 	const url = `/search?o=desc&q=user%3A${getCleanPathname()}&s=stars&type=Repositories`;
-	showcaseTitle.firstChild.after(' / ', <a href={url}>Top repositories</a>);
+	showcaseTitle.firstChild!.after(' / ', <a href={url}>Top repositories</a>);
 }
 
 features.add({

@@ -8,16 +8,16 @@ function splitKeys(keys) {
 
 function improveShortcutHelp(dialog) {
 	select('.Box-body .col-5 .Box:first-child', dialog).after(
-		<div class="Box Box--condensed m-4">
-			<div class="Box-header">
-				<h3 class="Box-title">Added by Refined GitHub</h3>
+		<div className="Box Box--condensed m-4">
+			<div className="Box-header">
+				<h3 className="Box-title">Added by Refined GitHub</h3>
 			</div>
 
 			<ul>
 				{features.getShortcuts().map(({hotkey, description}) => (
-					<li class="Box-row d-flex flex-row">
-						<div class="flex-auto">{description}</div>
-						<div class="ml-2 no-wrap">
+					<li className="Box-row d-flex flex-row">
+						<div className="flex-auto">{description}</div>
+						<div className="ml-2 no-wrap">
 							<kbd>{hotkey}</kbd>
 						</div>
 					</li>

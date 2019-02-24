@@ -23,7 +23,7 @@ const observer = new MutationObserver(([{addedNodes}]) => {
 });
 
 async function init() {
-	observer.observe(await safeElementReady('#dashboard .news'), {childList: true});
+	observer.observe((await safeElementReady('#dashboard .news'))!, {childList: true});
 }
 
 features.add({

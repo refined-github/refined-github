@@ -105,7 +105,7 @@ const globalReady: Promise<GlobalOptions> = new Promise(async resolve => {
 	};
 
 	if (options.customCSS.trim().length > 0) {
-		document.head.append((<style>{options.customCSS}</style>);
+		document.head.append(<style>{options.customCSS}</style>);
 	}
 
 	// Create logging function

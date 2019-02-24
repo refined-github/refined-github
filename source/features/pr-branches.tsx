@@ -14,6 +14,7 @@ import {getOwnerAndRepo} from '../libs/utils';
 import {openPullRequest} from '../libs/icons';
 
 type RepositoryReference = {
+	owner: string;
 	branchExists: boolean;
 	url: string;
 	label: string;
@@ -32,17 +33,20 @@ type BranchInfo = {
 	}
 }
 
-function normalizeBranchInfo(data: BranchInfo) {
+function normalizeBranchInfo(data: BranchInfo): {
+	base: RepositoryReference;
+	head: RepositoryReference;
+} {
 	const {ownerName, repoName} = getOwnerAndRepo();
 
-	const base: AnyObject = {};
+	const base: Partial<RepositoryReference> = {};
 	base.branchExists = Boolean(data.baseRef);
 	base.label = data.baseRefName;
 	if (base.branchExists) {
 		base.url = `/${ownerName}/${repoName}/tree/${data.baseRefName}`;
 	}
 
-	const head: AnyObject = {};
+	const head: Partial<RepositoryReference> = {};
 	head.branchExists = Boolean(data.headRef);
 	head.owner = data.headOwner.login;
 	if (!data.headOwner || data.headOwner.login === ownerName) {
@@ -66,7 +70,7 @@ function buildQuery(numbers: number[]) {
 	return `{
 		repository(owner: "${ownerName}", name: "${repoName}") {
 			${numbers.map(number => `
-				${number}: pullRequest(number: ${number.replace('issue_', '')}) {
+				${number}: pullRequest(number: ${String(number).replace('issue_', '')}) {
 					baseRef {id}
 					headRef {id}
 					baseRefName
@@ -82,27 +86,27 @@ function buildQuery(numbers: number[]) {
 function createLink(ref: RepositoryReference) {
 	return (
 		<span
-			class="commit-ref css-truncate user-select-contain mb-n1"
-			style={(ref.branchExists ? {} : {'text-decoration': 'line-through'})}>
+			className="commit-ref css-truncate user-select-contain mb-n1"
+			style={(ref.branchExists ? {} : {textDecoration: 'line-through'})}>
 			{
 				ref.url ?
 					<a title={(ref.branchExists ? ref.label : 'Deleted')} href={ref.url}>
 						{ref.label}
 					</a> :
-					<span class="unknown-repo">unknown repository</span>
+					<span className="unknown-repo">unknown repository</span>
 			}
 		</span>
 	);
 }
 
-async function init() {
+async function init(): Promise<boolean|void> {
 	const elements = select.all('.js-issue-row');
 	if (elements.length === 0) {
 		return false;
 	}
 
 	const {ownerName} = getOwnerAndRepo();
-	const query = buildQuery(elements.map(pr => pr.id));
+	const query = buildQuery(elements.map(pr => parseInt(pr.id, 10)));
 	const [data, defaultBranch] = await Promise.all([
 		api.v4(query),
 		getDefaultBranch()
@@ -110,7 +114,7 @@ async function init() {
 
 	for (const PR of elements) {
 		let branches;
-		let {base, head} = normalizeBranchInfo(data.repository[PR.id]);
+		let {base, head} = normalizeBranchInfo(data!.repository[PR.id]);
 
 		if (base.label === defaultBranch) {
 			base = null;
@@ -130,8 +134,8 @@ async function init() {
 			continue;
 		}
 
-		select('.text-small.text-gray', PR).append(
-			<span class="issue-meta-section">
+		select('.text-small.text-gray', PR)!.append(
+			<span className="issue-meta-section">
 				{openPullRequest()}
 				{' '}
 				{branches}
