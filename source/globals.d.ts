@@ -1,10 +1,6 @@
 // TODO: Type anything that is of type AnyObject
 type AnyObject = Record<string, any> | undefined;
 
-// Return types for feature initializations.
-type FeatureInit = boolean | void;
-type AsyncFeatureInit = Promise<FeatureInit>;
-
 declare module "copy-text-to-clipboard" {
 	export default function copyToClipboard(data: string): void;
 }

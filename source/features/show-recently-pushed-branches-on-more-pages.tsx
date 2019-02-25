@@ -8,7 +8,7 @@ This feature also adds this widget to the Issues List, Issue page and PR page
 
 import React from 'dom-chef';
 import select from 'select-dom';
-import features from '../libs/features';
+import features, { AsyncFeatureInit } from '../libs/features';
 import {getRepoURL} from '../libs/utils';
 
 const repoUrl = getRepoURL();

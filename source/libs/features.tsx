@@ -9,6 +9,8 @@ import {safeElementReady} from './dom-utils';
 type BooleanFunction = () => boolean;
 type VoidFunction = () => void;
 type callerFunction = (callback: VoidFunction) => void;
+export type FeatureInit = boolean | void;
+export type AsyncFeatureInit = Promise<FeatureInit>;
 type FeatureFunction = () => AsyncFeatureInit;
 type FeaturePromisedFunction = () => AsyncFeatureInit;
 

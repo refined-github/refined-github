@@ -8,7 +8,7 @@ The head branch is added when it's from the same repo or the PR is by the curren
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as api from '../libs/api';
-import features from '../libs/features';
+import features, { AsyncFeatureInit } from '../libs/features';
 import getDefaultBranch from '../libs/get-default-branch';
 import {getOwnerAndRepo} from '../libs/utils';
 import {openPullRequest} from '../libs/icons';

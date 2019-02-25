@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as icons from '../libs/icons';
-import features from '../libs/features';
+import features, { FeatureInit } from '../libs/features';
 
 function init() : FeatureInit {
 	const container = select([

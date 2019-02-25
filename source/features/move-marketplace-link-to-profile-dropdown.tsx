@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import features from '../libs/features';
+import features, { FeatureInit } from '../libs/features';
 
 function init() : FeatureInit {
 	const lastDivider = select.all('.user-nav .dropdown-divider').pop();
