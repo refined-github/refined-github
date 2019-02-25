@@ -3,7 +3,7 @@ import select from 'select-dom';
 import {wrap} from '../libs/dom-utils';
 import features from '../libs/features';
 
-function init(): boolean | void {
+function initi() : FeatureInit {
 	if (select.exists('.gh-header-meta a .State')) {
 		return false;
 	}

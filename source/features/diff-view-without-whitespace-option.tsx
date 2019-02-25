@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as icons from '../libs/icons';
 import features from '../libs/features';
 
-function init(): boolean | void {
+function initi() : FeatureInit {
 	const container = select([
 		'.table-of-contents.Details .BtnGroup', // In single commit view
 		'.pr-review-tools > .diffbar-item' // In review view

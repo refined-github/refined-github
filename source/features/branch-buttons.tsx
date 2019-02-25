@@ -93,7 +93,7 @@ async function getDefaultBranchLink() {
 	);
 }
 
-async function init(): Promise<boolean | void> {
+async function init(): AsyncFeatureInit {
 	const container = select('.file-navigation');
 	if (!container) {
 		return false;

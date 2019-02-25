@@ -30,7 +30,7 @@ const renderAvatar = (image: HTMLImageElement) => {
 	);
 };
 
-async function init(): Promise<boolean | void> {
+async function init(): AsyncFeatureInit {
 	const container = select('[itemtype="http://schema.org/Person"]');
 	if (!container) {
 		return false;

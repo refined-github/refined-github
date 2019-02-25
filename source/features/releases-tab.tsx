@@ -31,7 +31,7 @@ function updateReleasesCount() {
 	return cached;
 }
 
-async function init(): Promise<boolean | void> {
+async function init(): AsyncFeatureInit {
 	await safeElementReady('.pagehead + *'); // Wait for the tab bar to be loaded
 	const count = await updateReleasesCount();
 	if (count === 0) {

@@ -3,7 +3,7 @@ import features from '../libs/features';
 import {isTrending} from '../libs/page-detect';
 import {safeElementReady} from '../libs/dom-utils';
 
-async function init(): Promise<boolean | void> {
+async function init(): AsyncFeatureInit {
 	const selectedClass = isTrending() ? 'selected' : '';
 	const issuesLink = await safeElementReady('.HeaderNavlink[href="/issues"], .header-nav-link[href="/issues"]');
 	if (!issuesLink) {

@@ -4,7 +4,7 @@ import * as api from '../libs/api';
 import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 
-async function init(): Promise<boolean | void> {
+async function init(): AsyncFeatureInit {
 	const usernameElements = select.all('.js-discussion .author:not(.rgh-fullname):not([href*="/apps/"])');
 
 	const usernames = new Set();

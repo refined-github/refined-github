@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
-function init(): boolean | void {
+function initi() : FeatureInit {
 	const lastDivider = select.all('.user-nav .dropdown-divider').pop();
 	if (!lastDivider) {
 		return false;

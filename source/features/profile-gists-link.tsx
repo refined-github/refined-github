@@ -5,7 +5,7 @@ import features from '../libs/features';
 import {getCleanPathname} from '../libs/utils';
 import {isEnterprise} from '../libs/page-detect';
 
-async function init(): Promise<boolean | void> {
+async function init(): AsyncFeatureInit {
 	const container = select('body.page-profile .UnderlineNav-body');
 
 	if (!container) {

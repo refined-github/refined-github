@@ -24,7 +24,7 @@ async function fetchStatus() {
 	return icon;
 }
 
-async function init(): Promise<boolean | void> {
+async function init(): AsyncFeatureInit {
 	// Avoid on pages that already failed to load
 	if (request === false) {
 		return false;

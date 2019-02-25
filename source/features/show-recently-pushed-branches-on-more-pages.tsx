@@ -13,7 +13,7 @@ import {getRepoURL} from '../libs/utils';
 
 const repoUrl = getRepoURL();
 
-async function init(): Promise<boolean | void> {
+async function init(): AsyncFeatureInit {
 	const fragmentURL = `/${repoUrl}/show_partial?partial=tree%2Frecently_touched_branches_list`;
 	if (select.exists(`[data-url='${fragmentURL}'], [src='${fragmentURL}']`)) {
 		return false;
