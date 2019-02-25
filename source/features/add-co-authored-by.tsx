@@ -16,7 +16,7 @@ interface Author {
 interface CommitNode {
 	commit: {
 		author: Author;
-	}
+	};
 }
 
 interface UserInfo {
@@ -26,9 +26,8 @@ interface UserInfo {
 				nodes: CommitNode[];
 			};
 		};
-	}
+	};
 }
-
 
 let coAuthors: Author[];
 
@@ -58,7 +57,7 @@ async function fetchCoAuthoredData() {
 		}`
 	) as UserInfo; // TODO: make v4 generic for return value.
 
-	return userInfo!.repository.pullRequest.commits.nodes.map(node => node.commit.author);
+	return userInfo.repository.pullRequest.commits.nodes.map(node => node.commit.author);
 }
 
 function addCoAuthors() {

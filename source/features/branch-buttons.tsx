@@ -3,7 +3,7 @@ import select from 'select-dom';
 import compareVersions from 'tiny-version-compare';
 import * as api from '../libs/api';
 import * as icons from '../libs/icons';
-import features, { AsyncFeatureInit } from '../libs/features';
+import features, {AsyncFeatureInit} from '../libs/features';
 import {isRepoRoot} from '../libs/page-detect';
 import {appendBefore} from '../libs/dom-utils';
 import {groupSiblings} from '../libs/group-buttons';

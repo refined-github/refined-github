@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import domify from '../libs/domify';
-import features, { AsyncFeatureInit } from '../libs/features';
+import features, {AsyncFeatureInit} from '../libs/features';
 import {getCleanPathname} from '../libs/utils';
 
 const fetchStargazers = async () => {

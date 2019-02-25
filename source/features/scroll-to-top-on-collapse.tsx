@@ -1,11 +1,11 @@
 import select from 'select-dom';
-import delegate, { DelegateEvent } from 'delegate';
+import delegate, {DelegateEvent} from 'delegate';
 import features from '../libs/features';
 
 function init() {
 	const toolbar = select('.pr-toolbar')!;
 
-	delegate('.js-diff-progressive-container', '.file', 'details:toggled', ({ target }: DelegateEvent<Event>) => {
+	delegate('.js-diff-progressive-container', '.file', 'details:toggled', ({target}: DelegateEvent<Event>) => {
 		const elOffset = (target as Element).getBoundingClientRect().top;
 		const toolbarHeight = toolbar.getBoundingClientRect().top;
 

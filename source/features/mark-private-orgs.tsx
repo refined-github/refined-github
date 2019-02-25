@@ -1,6 +1,6 @@
 import select from 'select-dom';
 import {getUsername} from '../libs/utils';
-import features, { AsyncFeatureInit } from '../libs/features';
+import features, {AsyncFeatureInit} from '../libs/features';
 import * as icons from '../libs/icons';
 import * as api from '../libs/api';
 

@@ -5,7 +5,7 @@ https://user-images.githubusercontent.com/1402241/48470535-493cfb00-e824-11e8-86
 
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate, { DelegateEvent } from 'delegate';
+import delegate, {DelegateEvent} from 'delegate';
 import * as icons from '../libs/icons';
 import features from '../libs/features';
 

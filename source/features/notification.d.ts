@@ -1,5 +1,5 @@
 export interface Notification {
-	participants: { username: string | null; avatar: string; }[];
+	participants: { username: string | null; avatar: string }[];
 	state: unknown; // Is this just 'read' | 'unread' or something like that?
 	isParticipating: boolean;
 	repository: string;

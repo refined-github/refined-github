@@ -2,8 +2,7 @@ import select from 'select-dom';
 import copyToClipboard from 'copy-text-to-clipboard';
 import features from '../libs/features';
 
-
-const handler = ({ key, target }: KeyboardEvent) => {
+const handler = ({key, target}: KeyboardEvent) => {
 	if (key === 'y' && (target as Element).nodeName !== 'INPUT') {
 		const permalink = (select('.js-permalink-shortcut') as HTMLAnchorElement).href;
 		copyToClipboard(permalink + location.hash);

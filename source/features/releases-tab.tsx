@@ -7,7 +7,7 @@ The tab isn’t shown if there are no releases.
 
 import React from 'dom-chef';
 import select from 'select-dom';
-import features, { AsyncFeatureInit } from '../libs/features';
+import features, {AsyncFeatureInit} from '../libs/features';
 import * as icons from '../libs/icons';
 import * as cache from '../libs/cache';
 import {getRepoURL} from '../libs/utils';

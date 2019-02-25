@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as api from '../libs/api';
-import features, { AsyncFeatureInit } from '../libs/features';
+import features, {AsyncFeatureInit} from '../libs/features';
 import {getUsername} from '../libs/utils';
 
 async function init(): AsyncFeatureInit {

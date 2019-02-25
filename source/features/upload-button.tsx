@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate, { DelegateEvent } from 'delegate';
+import delegate, {DelegateEvent} from 'delegate';
 import onetime from 'onetime';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
