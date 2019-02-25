@@ -8,15 +8,25 @@ import select from 'select-dom';
 import features from '../libs/features';
 import {getCleanPathname} from '../libs/utils';
 
-function init() {
-	const showcaseTitle = select('.js-pinned-repos-reorder-container .text-normal');
+function buildUrl(queryField: string) {
+	const url = new URL('/search', location.href);
+	url.searchParams.set('o', 'desc');
+	url.searchParams.set('q', `user:${getCleanPathname()}`);
+	url.searchParams.set('s', queryField);
+	url.searchParams.set('type', 'Repositories');
+	return url;
+}
+
+function init(): FeatureInit {
+	const showcaseTitle = select('.js-pinned-items-reorder-container .text-normal')!;
 	if (!showcaseTitle) {
 		return false;
 	}
 
-	const a = <a href={'url'}>Top repositories</a>;
-	const url = `/search?o=desc&q=user%3A${getCleanPathname()}&s=stars&type=Repositories`;
-	showcaseTitle.firstChild!.after(' / ', <a href={url}>Top repositories</a>);
+	showcaseTitle.firstChild!.after(
+		' / ',
+		<a href={buildUrl('stars')}>Top repositories</a>
+	);
 }
 
 features.add({

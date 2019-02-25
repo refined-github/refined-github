@@ -3,12 +3,12 @@ import features from '../libs/features';
 
 function init() {
 	for (const a of select.all<HTMLAnchorElement>('a[href$="/milestones"], a[href*="/milestones?"]')) {
-		const url = new URL(a.href);
+		const searchParams = new URLSearchParams(a.search);
 		// Only if they aren't explicitly sorted differently
-		if (!url.searchParams.get('direction') && !url.searchParams.get('sort')) {
-			url.searchParams.set('direction', 'asc');
-			url.searchParams.set('sort', 'due_date');
-			a.href = String(url);
+		if (!searchParams.get('direction') && !searchParams.get('sort')) {
+			searchParams.set('direction', 'asc');
+			searchParams.set('sort', 'due_date');
+			a.search = String(searchParams);
 		}
 	}
 }

@@ -8,7 +8,7 @@ the page too.
 import select from 'select-dom';
 import features from '../libs/features';
 
-function initi() : FeatureInit {
+function init() : FeatureInit {
 	const originalPrevNext = select('.commit .BtnGroup.float-right');
 	if (!originalPrevNext) {
 		return false;

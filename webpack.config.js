@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 'use strict';
 const path = require('path');
+const SizePlugin = require('size-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
-module.exports = () => ({
+module.exports = (env, argv) => ({
 	devtool: 'sourcemap',
+	stats: false,
 	entry: {
 		content: './source/content',
 		background: './source/background',
@@ -19,18 +21,30 @@ module.exports = () => ({
 		rules: [
 			{
 				test: /\.(js|ts|tsx)$/,
-				use: 'ts-loader',
+				use: [
+					{
+						loader: 'ts-loader',
+						query: {
+							compilerOptions: {
+								// With this, TS will error but the file will still be generated (on watch only)
+								noEmitOnError: argv.watch === false
+							}
+						}
+					}
+				],
 				exclude: /node_modules/
 			}
 		]
 	},
 	plugins: [
+		new SizePlugin(),
 		new CopyWebpackPlugin([
 			{
 				from: '*',
 				context: 'source',
 				ignore: [
 					'*.js',
+					'*.ts',
 					'*.tsx'
 				]
 			},

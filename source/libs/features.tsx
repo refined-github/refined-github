@@ -9,8 +9,8 @@ import {safeElementReady} from './dom-utils';
 type BooleanFunction = () => boolean;
 type VoidFunction = () => void;
 type callerFunction = (callback: VoidFunction) => void;
-type featureFunction = () => AsyncFeatureInit;
-type featurePromisedFunction = () => AsyncFeatureInit;
+type FeatureFunction = () => AsyncFeatureInit;
+type FeaturePromisedFunction = () => AsyncFeatureInit;
 
 type FeatureShortcuts = Record<string, string>;
 
@@ -30,7 +30,7 @@ interface FeatureDetails {
 	id: string;
 	include?: BooleanFunction[];
 	exclude?: BooleanFunction[];
-	init: featureFunction | featurePromisedFunction;
+	init: FeatureFunction | FeaturePromisedFunction;
 	deinit?: () => void;
 	load?: callerFunction | Promise<void>;
 	shortcuts?: FeatureShortcuts;
