@@ -106,7 +106,7 @@ async function init(): Promise<boolean|void> {
 	}
 
 	const {ownerName} = getOwnerAndRepo();
-	const query = buildQuery(elements.map(pr => parseInt(pr.id, 10)));
+	const query = buildQuery(elements.map(pr => Number(pr.id)));
 	const [data, defaultBranch] = await Promise.all([
 		api.v4(query),
 		getDefaultBranch()
