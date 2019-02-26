@@ -49,7 +49,7 @@ const api3 = location.hostname === 'github.com' ?
 	`${location.origin}/api/v3/`;
 const api4 = location.hostname === 'github.com' ?
 	'https://api.github.com/graphql' :
-	`${location.origin}/api/graphql/`;
+	`${location.origin}/api/graphql`;
 
 function fetch3(query: string, personalToken: string) {
 	const headers: HeadersInit = {
