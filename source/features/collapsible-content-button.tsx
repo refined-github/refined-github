@@ -44,7 +44,7 @@ function addContentToDetails(event) {
 }
 
 features.add({
-	id: 'insert-summary-button',
+	id: 'collapsible-content-button',
 	include: [
 		features.isPR,
 		features.isIssue,
