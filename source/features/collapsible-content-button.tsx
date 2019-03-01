@@ -25,7 +25,9 @@ function addContentToDetails(event) {
 	const newContent = `
 		<details>
 		<summary>Details</summary>
+
 		${getSelection().toString()}
+
 		</details>
 	`.replace(/(\n|\b)\t+/g, '$1').trim();
 
