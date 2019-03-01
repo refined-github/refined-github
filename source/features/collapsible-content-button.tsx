@@ -6,14 +6,14 @@ import features from '../libs/features';
 import * as icons from '../libs/icons';
 
 const addEvents = onetime(() => {
-	delegate('.rgh-summary-btn', 'click', addContentToDetails);
+	delegate('.rgh-collapsible-content-btn', 'click', addContentToDetails);
 });
 
 function init() {
 	addEvents();
 	for (const anchor of select.all('md-task-list')) {
 		anchor.after(
-			<button type="button" class="toolbar-item tooltipped tooltipped-n rgh-summary-btn" aria-label="Add summary">
+			<button type="button" class="toolbar-item tooltipped tooltipped-n rgh-collapsible-content-btn" aria-label="Add summary">
 				{icons.info()}
 			</button>
 		);
