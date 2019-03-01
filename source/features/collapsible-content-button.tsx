@@ -6,7 +6,7 @@ import features from '../libs/features';
 import * as icons from '../libs/icons';
 
 const addEvents = onetime(() => {
-	delegate('.rgh-summary-btn', 'click', addSummaryDetails);
+	delegate('.rgh-summary-btn', 'click', addContentToDetails);
 });
 
 function init() {
@@ -20,7 +20,7 @@ function init() {
 	}
 }
 
-function addSummaryDetails(event) {
+function addContentToDetails(event) {
 	// Don't indent <summary> because indentation will not be automatic on multi-line content
 	const newContent = `
 		<details>
