@@ -1077,11 +1077,11 @@ body > .footer li a {
 }
 
 /* Drop counters for Watch and Forks */
-.btn-with-count[title^="Fork your own"],
-[action="/notifications/subscribe"] .btn-with-count {
-    border-radius: 0.25em; /* Matches GitHub's default */
+.btn-with-count[title^='Fork your own'],
+[action='/notifications/subscribe'] .btn-with-count {
+	border-radius: 0.25em; /* Matches GitHub's default */
 }
-.social-count[href$="/network/members"],
-.social-count[href$="/watchers"] {
-    display: none;
+.social-count[href$='/network/members'],
+.social-count[href$='/watchers'] {
+	display: none;
 }
