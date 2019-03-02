@@ -121,6 +121,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Open multiple issues at once in your repos.](https://user-images.githubusercontent.com/1402241/38084752-4820b0d8-3378-11e8-868c-a1582b16f915.gif)
 - [Swap branches in the branch compare view.](https://user-images.githubusercontent.com/857700/42854438-821096f2-8a01-11e8-8752-76f7563b5e18.png)
 - [Exclude PR/issue filters from their list](https://user-images.githubusercontent.com/1402241/48470535-493cfb00-e824-11e8-863a-964f52b62553.png) with <kbd>alt/option</kbd>-<kbd>click</kbd>.
+- [Insert collapsible content when writing comments (via `<summary>`).](https://user-images.githubusercontent.com/1402241/53677948-1cd5bd80-3cf3-11e9-9105-cb5d764457bc.png)
 
 ### More info at a glance
 

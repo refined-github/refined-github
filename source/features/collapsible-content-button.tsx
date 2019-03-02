@@ -1,3 +1,9 @@
+/*
+Insert collapsible content when writing comments (via `<summary>`
+
+https://user-images.githubusercontent.com/1402241/53677948-1cd5bd80-3cf3-11e9-9105-cb5d764457bc.png
+*/
+
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
