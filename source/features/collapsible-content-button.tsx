@@ -59,8 +59,8 @@ function addContentToDetails(event) {
 	// Restore selection.
 	// `selectionStart` will be right after the newly-inserted text
 	field.setSelectionRange(
-		field.value.lastIndexOf('</summary>', field.selectionStart) + '</summary>'.length + 1,
-		field.value.lastIndexOf('</details>', field.selectionStart) - 1
+		field.value.lastIndexOf('</summary>', field.selectionStart) + '</summary>'.length + 2,
+		field.value.lastIndexOf('</details>', field.selectionStart) - 2
 	);
 }
 
