@@ -28,8 +28,9 @@ function smartBlockWrap(content: string, field: HTMLTextAreaElement) {
 	if (before.match(/\S/) && whitespaceAtStart.length < 2) {
 		newlinesToPrepend = '\n'.repeat(2 - whitespaceAtStart.length);
 	}
+
 	if (after.match(/\S/) && whitespaceAtEnd.length < 2) {
-		newlinesToAppend = '\n'.repeat(2 - whitespaceAtEnd.length)
+		newlinesToAppend = '\n'.repeat(2 - whitespaceAtEnd.length);
 	}
 
 	return newlinesToPrepend + content + newlinesToAppend;
