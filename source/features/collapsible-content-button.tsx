@@ -14,7 +14,7 @@ function init() {
 	for (const anchor of select.all('md-ref')) {
 		anchor.after(
 			<button type="button" class="toolbar-item tooltipped tooltipped-n rgh-collapsible-content-btn" aria-label="Add summary">
-				{icons.info()}
+				{icons.foldDown()}
 			</button>
 		);
 	}
