@@ -137,13 +137,14 @@ GitHub Enterprise is also supported. More info in the options.
 - [Badge on user's profile if they follow you.](https://user-images.githubusercontent.com/3723666/45190460-03ecc380-b20c-11e8-832b-839959ee2c99.gif)
 - [Significant head and base branches are added to the PR list.](https://user-images.githubusercontent.com/1402241/51428391-ae9ed500-1c35-11e9-8e54-6b6a424fede4.png)
 - [Hidden comments are previewed inline.](https://user-images.githubusercontent.com/1402241/52545036-6e271700-2def-11e9-8c0c-b5e0fa6f37dd.png)
+- [Your issues and PRs are highlighted.](https://user-images.githubusercontent.com/1402241/53065281-01560000-3506-11e9-9a51-0bdf69e20b4a.png)
 
 ### Declutter
 
 - [Newsfeed events take up less space.](https://user-images.githubusercontent.com/1402241/38087982-6c87f268-3384-11e8-9776-7ba48bdde80c.png)
 - Stars on your repos and some other useless events (commits, forks, new followers) are hidden.
 - The file hover effect in the repo file browser is removed.
-- Unnecessary buttons in the comment box toolbar are hidden (each one has a keyboard shortcut).
+- [Unnecessary buttons in the comment box toolbar are hidden](https://user-images.githubusercontent.com/1402241/53629083-a4fe8900-3c47-11e9-8211-bfe2d254ffcb.png) (each one has a keyboard shortcut).
 - Obvious tooltips are removed.
 - The `Projects` tab is hidden from repositories and profiles when there are no projects.
     * New projects can still be created via the [`Create new…` menu](https://user-images.githubusercontent.com/1402241/34909214-18b6fb2e-f8cf-11e7-8556-bed748596d3b.png).
@@ -164,6 +165,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Inactive deployments in PR timelines are hidden.](https://github.com/sindresorhus/refined-github/issues/1144)
 - [The PR/issues search box expands when focused.](https://user-images.githubusercontent.com/1402241/48473156-7ab8c500-e82a-11e8-95c7-a39b0529fe1b.gif)
 - [A warning appears when trying to create a PR from the default branch.](https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png)
+- [A warning appears when unchecking `Allow edits from maintainers`.](https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif)
 
 And [many more…](source/content.css)
 
