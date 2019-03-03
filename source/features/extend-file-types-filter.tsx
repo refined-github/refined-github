@@ -1,7 +1,9 @@
 import {React} from 'dom-chef/react';
 import select from 'select-dom';
+import * as api from '../libs/api';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
+import {getCleanPathname} from '../libs/utils';
 
 interface PRFile {
 	fileExt: string;
@@ -15,23 +17,8 @@ interface PRFileExts {
 	};
 }
 
-/**
- * Hash an object to be used as an id
- * @param {{}} obj object to hash
- * @returns {string} object hash code
- */
-const hashObject = obj => {
-	const stringObject = JSON.stringify(obj);
-	let i = stringObject.length;
-	let hash = 0;
-	while (i--) {
-		const chr = stringObject.charCodeAt(i);
-		hash = (hash << 5) - hash + chr;
-		hash |= 0;
-	}
-
-	return hash.toString();
-};
+const fileListLimit = 1000;
+const deletedStatus = 'removed';
 
 /**
  * The file filter extension checkbox element
@@ -39,15 +26,15 @@ const hashObject = obj => {
  */
 const filterOption = ({
 	fileExtension,
-	numTotal,
-	numDeleted
+	totalCount,
+	deletedCount
 }: {
 	fileExtension: string;
-	numTotal: number;
-	numDeleted: number;
+	totalCount: number;
+	deletedCount: number;
 }) => {
-	const allFileCount = `(${numTotal})`;
-	const nonDeletedFileCount = `(${numTotal - numDeleted})`;
+	const nonDeletedCount = totalCount - deletedCount;
+	const markup = (count: number): string => `(${count})`;
 	return (
 		<div class="d-flex">
 			<label class="pl-1 mb-1">
@@ -56,14 +43,17 @@ const filterOption = ({
 					type="checkbox"
 					checked=""
 					value={fileExtension}
+					data-deleted-files-count={deletedCount}
+					data-non-deleted-files-count={nonDeletedCount}
 				/>
 				{` ${fileExtension}`}
 				<span
 					class="text-normal js-file-type-count"
-					data-non-deleted-file-count={nonDeletedFileCount}
-					data-all-file-count={allFileCount}
+					data-all-file-count-markup={markup(totalCount)}
+					data-deleted-file-count-markup={markup(deletedCount)}
+					data-non-deleted-file-count-markup={markup(nonDeletedCount)}
 				>
-					{allFileCount}
+					{markup(totalCount)}
 				</span>
 			</label>
 		</div>
@@ -105,7 +95,7 @@ const deletedToggle = ({count}: { count: number }) => {
  * @returns {string} `null` if no file extension found
  */
 const getFullExt = filename => {
-	const basename = filename.split('/').pop()
+	const basename = filename.split('/').pop();
 	const i = basename.indexOf('.');
 	return i < 0 ? null : basename.substr(i);
 };
@@ -130,8 +120,8 @@ const extendPRFileElements = (): HTMLElement[] =>
 const getPRFilesFromDom = (): PRFile[] =>
 	extendPRFileElements().map(elem => {
 		return {
-			fileExt: elem.dataset.fileType,
-			deleted: elem.dataset.fileDeleted === 'true'
+			deleted: elem.dataset.fileDeleted === 'true',
+			fileExt: elem.dataset.fileType
 		};
 	});
 
@@ -139,7 +129,21 @@ const getPRFilesFromDom = (): PRFile[] =>
  * Gets all files from pull request via the github api.
  * @returns {PRFile[]} list of each pull request files info
  */
-const getPRFilesFromApi = (): PRFile[] => null;
+const getPRFilesFromApi = async (): Promise<PRFile[]> => {
+	const pullUrl = getCleanPathname().replace('/pull/', '/pulls/');
+	const apiUrl = `repos/${pullUrl}?per_page=${fileListLimit}`;
+	try {
+		const result = await api.v3(apiUrl);
+		return result.map(({status, filename}) => {
+			return {
+				deleted: status === deletedStatus,
+				fileExt: getFullExt(filename)
+			};
+		});
+	} catch (error) {
+		return null;
+	}
+};
 
 /**
  * Group PR files by extension aggregating total and deleted counts
@@ -165,16 +169,12 @@ const groupPRFilesByExt = (prFiles: PRFile[]): PRFileExts =>
 	}, {});
 
 /**
- * Get PR files type information and replace Github default filter list
+ * Replace Github default filter list
  * @param {PRFile[]} prFiles list of pr files with pertinent info
  */
 const extendFileTypesFilter = (prFiles: PRFile[]) => {
 	const prFilesByExt = groupPRFilesByExt(prFiles);
-	const hashCode = hashObject(prFilesByExt);
 	const filterList: HTMLElement = select('.select-menu-list .p-2');
-	if (filterList.dataset.hashKey === hashObject(prFilesByExt)) {
-		return;
-	}
 
 	while (filterList.firstChild) {
 		filterList.removeChild(filterList.firstChild);
@@ -184,28 +184,28 @@ const extendFileTypesFilter = (prFiles: PRFile[]) => {
 	fileExtensions.sort().forEach(fileExtension => {
 		const props = {
 			fileExtension,
-			numTotal: prFilesByExt[fileExtension].count,
-			numDeleted: prFilesByExt[fileExtension].deleted
+			totalCount: prFilesByExt[fileExtension].count,
+			deletedCount: prFilesByExt[fileExtension].deleted
 		};
 		filterList.append(filterOption(props));
 	});
 	filterList.append(deletedToggle({count: fileExtensions.length}));
-	filterList.dataset.hashKey = hashCode;
 };
 
 /**
  * Listen to subtree changes to Github PR files and updates filter list
  */
 const init = async () => {
-	const prFiles = getPRFilesFromApi();
-	const prFilesGetter = prFiles ? () => {
-		extendPRFileElements();
-		return prFiles;
-	} : getPRFilesFromDom;
-	observeEl('#files', () => extendFileTypesFilter(prFilesGetter()), {
+	const prFiles = await getPRFilesFromApi();
+	const prFilesGetter = prFiles ? () => prFiles : getPRFilesFromDom;
+	const observerOptions = {
 		childList: true,
 		subtree: true
-	});
+	};
+	observeEl('#files', extendPRFileElements, observerOptions);
+	observeEl('.select-menu-modal .select-menu-list', () => {
+		extendFileTypesFilter(prFilesGetter());
+	}, observerOptions);
 };
 
 features.add({
