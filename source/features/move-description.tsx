@@ -18,16 +18,6 @@ async function init() {
 		`{
 			repository(owner: "${ownerName}", name: "${repoName}") {
 				description
-				repositoryTopics(first: 100) {
-				  nodes {
-					id
-					resourcePath
-					topic {
-					  name
-					  id
-					}
-				  }
-				}
 			}
 		}`
 	);
