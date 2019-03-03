@@ -1,6 +1,7 @@
 import select, {SelectDom} from 'select-dom';
 import 'webext-dynamic-content-scripts';
 
+import './features/move-description';
 import './features/useful-not-found-page';
 import './features/trending-menu-item';
 import './features/hide-useless-newsfeed-events';

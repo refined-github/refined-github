@@ -1075,3 +1075,7 @@ body > .footer li a {
 .UnderlineNav-item:nth-last-child(n+7) ~ * {
 	margin-right: 6px;
 }
+
+.repo-description {
+	display: grid;
+}
