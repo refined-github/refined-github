@@ -10,6 +10,9 @@ async function init() {
 		return false;
 	}
 
+	const originalDesc = select("div.repository-content > div > div.f4 > span");
+	originalDesc.remove();
+
 	const {ownerName, repoName} = getOwnerAndRepo();
 	const userInfo = await api.v4(
 		`{
@@ -38,9 +41,6 @@ async function init() {
 		</div>
 	);
 	container.appendChild(description);
-
-	const originalDesc = select("div.repository-content > div > div.f4 > span")
-	originalDesc.remove()
 }
 
 features.add({
