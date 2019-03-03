@@ -5,10 +5,17 @@ import observeEl from '../libs/simplified-element-observer';
 
 /**
  * The file filter extension checkbox element
- * @param {{}} props React style props
  * @returns {JSX.Element} element
  */
-const filterOption = ({fileExtension, numTotal, numDeleted}) => {
+const filterOption = ({
+	fileExtension,
+	numTotal,
+	numDeleted
+}: {
+	fileExtension: string;
+	numTotal: number;
+	numDeleted: number;
+}) => {
 	const allFileCount = `(${numTotal})`;
 	const nonDeletedFileCount = `(${numTotal - numDeleted})`;
 	return (
@@ -35,17 +42,20 @@ const filterOption = ({fileExtension, numTotal, numDeleted}) => {
 
 /**
  * The file filter deleted toggle element
- * @param {{}} props React style props
  * @returns {JSX.Element} element
  */
-const deletedToggle = ({count}) => {
+const deletedToggle = ({count}: { count: number }) => {
 	const typeMarkup = count > 1 ? 'types' : 'type';
 	const selectAllMarkup = `Select all ${count} file ${typeMarkup}`;
 	const allSelectedMarkup = `All ${count} file ${typeMarkup} selected`;
 	return (
 		<div class="ml-1">
 			<label>
-				<input type="checkbox" class="js-file-filter-select-all" hidden />
+				<input
+					type="checkbox"
+					class="js-file-filter-select-all"
+					hidden
+				/>
 				<span
 					class="no-underline text-normal js-file-filter-select-all-container text-gray"
 					data-select-all-markup={selectAllMarkup}
@@ -119,7 +129,7 @@ const hashObject = obj => {
 	let hash = 0;
 	while (i--) {
 		const chr = stringObject.charCodeAt(i);
-		hash = ((hash << 5) - hash) + chr;
+		hash = (hash << 5) - hash + chr;
 		hash |= 0;
 	}
 
@@ -157,18 +167,16 @@ const extendFileTypesFilter = () => {
 /**
  * Listen to subtree changes to Github PR files and updates filter list
  */
-function init() {
+const init = () => {
 	observeEl('#files', extendFileTypesFilter, {
 		childList: true,
 		subtree: true
 	});
-}
+};
 
 features.add({
 	id: 'extend-file-types-filter',
-	include: [
-		features.isPRFiles
-	],
+	include: [features.isPRFiles],
 	load: features.onAjaxedPages,
 	init
 });
