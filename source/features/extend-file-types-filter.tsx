@@ -3,6 +3,36 @@ import select from 'select-dom';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 
+interface PRFile {
+	fileExt: string;
+	deleted: boolean;
+}
+
+interface PRFileExts {
+	[fileExt: string]: {
+		count: number;
+		deleted: number;
+	};
+}
+
+/**
+ * Hash an object to be used as an id
+ * @param {{}} obj object to hash
+ * @returns {string} object hash code
+ */
+const hashObject = obj => {
+	const stringObject = JSON.stringify(obj);
+	let i = stringObject.length;
+	let hash = 0;
+	while (i--) {
+		const chr = stringObject.charCodeAt(i);
+		hash = (hash << 5) - hash + chr;
+		hash |= 0;
+	}
+
+	return hash.toString();
+};
+
 /**
  * The file filter extension checkbox element
  * @returns {JSX.Element} element
@@ -69,39 +99,55 @@ const deletedToggle = ({count}: { count: number }) => {
 };
 
 /**
- * Gets the file extension starting including the first dot
- * @param {string} filename complete filename with extension
+ * Splits the basename from the path,
+ * then gets the extension including the leading dot
+ * @param {string} filename full filename including path and extension
  * @returns {string} `null` if no file extension found
  */
 const getFullExt = filename => {
-	const i = filename.indexOf('.');
-	return i < 0 ? null : filename.substr(i);
+	const basename = filename.split('/').pop()
+	const i = basename.indexOf('.');
+	return i < 0 ? null : basename.substr(i);
 };
 
 /**
- * Gets all PR files on the page. Uses the DOM tree to find the files.
- * Splits the filename from the path and then the full file extension.
- * As well as the deleted status from the file DOM element
- * @returns {[{}]} list of objects, each one defining a pr file
+ * Updates the current DOM elements with full file extensions
+ * @returns {HTMLElement[]} each file detail header element
  */
-const getPRFiles = () =>
+const extendPRFileElements = (): HTMLElement[] =>
 	select.all('.file.Details').map(elem => {
 		const fileHeaderElem: HTMLElement = elem.querySelector('.file-header');
-		const {path, fileDeleted} = fileHeaderElem.dataset;
-		const fileExt = getFullExt(path.split('/').pop());
+		const fileExt = getFullExt(fileHeaderElem.dataset.path);
 		fileHeaderElem.dataset.fileType = fileExt || '';
+		return fileHeaderElem;
+	});
+
+/**
+ * Gets all PR files on the page. Uses the DOM tree to find the files.
+ * As well as the deleted status from the file DOM element
+ * @returns {PRFile[]} list of each pull request files info
+ */
+const getPRFilesFromDom = (): PRFile[] =>
+	extendPRFileElements().map(elem => {
 		return {
-			fileExt,
-			deleted: fileDeleted === 'true'
+			fileExt: elem.dataset.fileType,
+			deleted: elem.dataset.fileDeleted === 'true'
 		};
 	});
 
 /**
- * Group PR files by extension aggregating total and deleted counts
- * @returns {{}} object map of file extensions to combined details
+ * Gets all files from pull request via the github api.
+ * @returns {PRFile[]} list of each pull request files info
  */
-const getPRFilesByExt = () =>
-	getPRFiles().reduce((accumulator, {fileExt, deleted}) => {
+const getPRFilesFromApi = (): PRFile[] => null;
+
+/**
+ * Group PR files by extension aggregating total and deleted counts
+ * @param {PRFile[]} prFiles list of pr files with pertinent info
+ * @returns {PRFileExts} object map of file extensions to combined details
+ */
+const groupPRFilesByExt = (prFiles: PRFile[]): PRFileExts =>
+	prFiles.reduce((accumulator, {fileExt, deleted}) => {
 		if (!fileExt) {
 			return accumulator;
 		}
@@ -119,28 +165,11 @@ const getPRFilesByExt = () =>
 	}, {});
 
 /**
- * Hash an object to be used as an id
- * @param {{}} obj object to hash
- * @returns {string} object hash code
- */
-const hashObject = obj => {
-	const stringObject = JSON.stringify(obj);
-	let i = stringObject.length;
-	let hash = 0;
-	while (i--) {
-		const chr = stringObject.charCodeAt(i);
-		hash = (hash << 5) - hash + chr;
-		hash |= 0;
-	}
-
-	return hash.toString();
-};
-
-/**
  * Get PR files type information and replace Github default filter list
+ * @param {PRFile[]} prFiles list of pr files with pertinent info
  */
-const extendFileTypesFilter = () => {
-	const prFilesByExt = getPRFilesByExt();
+const extendFileTypesFilter = (prFiles: PRFile[]) => {
+	const prFilesByExt = groupPRFilesByExt(prFiles);
 	const hashCode = hashObject(prFilesByExt);
 	const filterList: HTMLElement = select('.select-menu-list .p-2');
 	if (filterList.dataset.hashKey === hashObject(prFilesByExt)) {
@@ -167,8 +196,13 @@ const extendFileTypesFilter = () => {
 /**
  * Listen to subtree changes to Github PR files and updates filter list
  */
-const init = () => {
-	observeEl('#files', extendFileTypesFilter, {
+const init = async () => {
+	const prFiles = getPRFilesFromApi();
+	const prFilesGetter = prFiles ? () => {
+		extendPRFileElements();
+		return prFiles;
+	} : getPRFilesFromDom;
+	observeEl('#files', () => extendFileTypesFilter(prFilesGetter()), {
 		childList: true,
 		subtree: true
 	});
