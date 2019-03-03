@@ -144,7 +144,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Newsfeed events take up less space.](https://user-images.githubusercontent.com/1402241/38087982-6c87f268-3384-11e8-9776-7ba48bdde80c.png)
 - Stars on your repos and some other useless events (commits, forks, new followers) are hidden.
 - The file hover effect in the repo file browser is removed.
-- Unnecessary buttons in the comment box toolbar are hidden (each one has a keyboard shortcut).
+- [Unnecessary buttons in the comment box toolbar are hidden](https://user-images.githubusercontent.com/1402241/53629083-a4fe8900-3c47-11e9-8211-bfe2d254ffcb.png) (each one has a keyboard shortcut).
 - Obvious tooltips are removed.
 - The `Projects` tab is hidden from repositories and profiles when there are no projects.
     * New projects can still be created via the [`Create new…` menu](https://user-images.githubusercontent.com/1402241/34909214-18b6fb2e-f8cf-11e7-8556-bed748596d3b.png).

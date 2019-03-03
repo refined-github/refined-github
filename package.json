@@ -102,6 +102,7 @@
 	"stylelint": {
 		"extends": "stylelint-config-xo",
 		"rules": {
+			"selector-type-no-unknown": null,
 			"declaration-no-important": null,
 			"property-no-vendor-prefix": null,
 			"property-blacklist": null,

@@ -92,9 +92,9 @@
 }
 
 /* Hide unnecessary comment toolbar items */
-.toolbar-item[data-prefix='@'],
-.toolbar-item[data-prefix='#'],
-.toolbar-item[data-prefix='`'] {
+:root md-mention,
+:root md-ref,
+markdown-toolbar > :nth-last-child(4) { /* H1, B, I */
 	display: none;
 }
 
