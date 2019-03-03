@@ -11,7 +11,9 @@ async function init() {
 	}
 
 	const originalDesc = select("div.repository-content > div > div.f4 > span");
-	originalDesc.remove();
+	if (originalDesc) {
+		originalDesc.remove();
+	}
 
 	const {ownerName, repoName} = getOwnerAndRepo();
 	const userInfo = await api.v4(
