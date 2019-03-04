@@ -112,7 +112,7 @@ async function init() {
 		}
 
 		select('.text-small.text-gray', PR).append(
-			<span class="issue-meta-section">
+			<span class="issue-meta-section d-inline-block">
 				{openPullRequest()}
 				{' '}
 				{branches}
