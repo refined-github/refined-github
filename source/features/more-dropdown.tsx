@@ -45,6 +45,26 @@ async function init() {
 		<a href={`/${repoUrl}/pulse`} class="rgh-reponav-more dropdown-item" data-skip-pjax>
 			{icons.graph()}
 			{' Insights'}
+		</a>,
+
+		<a href={`/${repoUrl}/commits`} class="rgh-reponav-more dropdown-item" data-skip-pjax>
+			{icons.history()}
+			{' Commits'}
+		</a>,
+
+		<a href={`/${repoUrl}/branches`} class="rgh-reponav-more dropdown-item" data-skip-pjax>
+			{icons.branch()}
+			{' Branches'}
+		</a>,
+
+		<a href={`/${repoUrl}/graphs/contributors`} class="rgh-reponav-more dropdown-item" data-skip-pjax>
+			{icons.organization()}
+			{' Contributors'}
+		</a>,
+
+		<a href={`/${repoUrl}/blob/master/license`} class="rgh-reponav-more dropdown-item" data-skip-pjax>
+			{icons.law()}
+			{' License'}
 		</a>
 	);
 
