@@ -56,16 +56,6 @@ async function init() {
 			{icons.branch()}
 			{' Branches'}
 		</a>,
-
-		<a href={`/${repoUrl}/graphs/contributors`} class="rgh-reponav-more dropdown-item" data-skip-pjax>
-			{icons.organization()}
-			{' Contributors'}
-		</a>,
-
-		<a href={`/${repoUrl}/blob/master/license`} class="rgh-reponav-more dropdown-item" data-skip-pjax>
-			{icons.law()}
-			{' License'}
-		</a>
 	);
 
 	// Remove native Insights tab
