@@ -107,6 +107,7 @@
 			"property-no-vendor-prefix": null,
 			"property-blacklist": null,
 			"selector-class-pattern": null,
+			"selector-id-pattern": null,
 			"rule-empty-line-before": null,
 			"at-rule-empty-line-before": null
 		}
