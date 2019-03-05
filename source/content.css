@@ -888,9 +888,9 @@ body > .footer li a {
 
 /* Drop "box" style for activities */
 .dashboard .body .Box.p-3.mt-2 {
-    padding: 0 !important;
-    border: none;
-    background: none;
+	padding: 0 !important;
+	border: none;
+	background: none;
 }
 
 /* For 'extend-diff-expander' feature */
