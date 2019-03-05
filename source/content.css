@@ -885,9 +885,12 @@ body > .footer li a {
 .dashboard .d-flex.border-bottom.border-gray-light {
 	padding: 8px 0 !important;
 }
-/* Remove useless tip in the organization news feed */
-#dashboard .alert.git_hub {
-	display: none !important;
+
+/* Drop "box" style for activities */
+.dashboard .body .Box.p-3.mt-2 {
+    padding: 0 !important;
+    border: none;
+    background: none;
 }
 
 /* For 'extend-diff-expander' feature */
