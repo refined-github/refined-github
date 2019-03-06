@@ -38,7 +38,7 @@ const state: State = {
 const setState = (
 	diff: Partial<State>,
 	callback: (updated: boolean) => any,
-) => {
+): void => {
 	const newState: State = {...state, ...diff};
 	if (JSON.stringify(state) === JSON.stringify(newState)) {
 		callback(false);
@@ -49,18 +49,18 @@ const setState = (
 	callback(true);
 };
 
-const getIsShowingAllTypes = () => {
+const getIsShowingAllTypes = (): boolean => {
 	const numFileTypes = Object.keys(state.prFileTypes).length;
 	return state.selectedFileTypes.size !== numFileTypes;
 };
 
-const getIsShowingSomeTypes = () => {
+const getIsShowingSomeTypes = (): boolean => {
 	return state.selectedFileTypes.size > 0;
 };
 // <-- State & Transitions
 
 // --> Helpers and Utils
-const sortObject = (unsorted: AnyObject) => {
+const sortObject = (unsorted: AnyObject): AnyObject => {
 	const sorted = {};
 	for (const key of Object.keys(unsorted).sort()) {
 		sorted[key] = unsorted[key];
@@ -281,12 +281,10 @@ const updateFileTypesState = (): void => {
 			prFileTypes: groupPRFileTypes(state.prFiles)
 		},
 		updated => {
-			if (!updated) {
-				return;
+			if (updated) {
+				extendFileDetailsElements();
+				extendFilterListElement();
 			}
-
-			extendFileDetailsElements();
-			extendFilterListElement();
 		},
 	);
 };
@@ -295,15 +293,13 @@ const onShouldExtendToggle = () => {
 	setState(
 		{shouldExtendFileType: getFilterExtendToggleElement().checked},
 		updated => {
-			if (!updated) {
-				return;
-			}
+			if (updated) {
+				if (getIsShowingAllTypes()) {
+					getFilterSelectAllElement().click();
+				}
 
-			if (getIsShowingAllTypes()) {
-				getFilterSelectAllElement().click();
+				updateFileTypesState();
 			}
-
-			updateFileTypesState();
 		},
 	);
 };
