@@ -148,6 +148,20 @@ const filterLabelStyle = {
 	cursor: 'pointer'
 };
 
+const extendFileTypesToggle = ({onChange}: { onChange: () => void }) => {
+	return (
+		<label>
+			<span>.extend.file.types </span>
+			<input
+				type="checkbox"
+				id={fileFilterExtendToggleId}
+				checked={state.shouldExtendFileType}
+				onChange={onChange}
+			/>
+		</label>
+	);
+};
+
 const fileTypeToggle = ({
 	deletedCount,
 	fileType,
@@ -249,15 +263,7 @@ const deselectAllToggle = ({
 // --> Update DOM from State
 const extendFilterHeaderElement = (): void => {
 	getFilterHeaderElement().append(
-		<label>
-			<span>.extend.file.types </span>
-			<input
-				type="checkbox"
-				id={fileFilterExtendToggleId}
-				checked={state.shouldExtendFileType}
-				onChange={onShouldExtendToggle}
-			/>
-		</label>,
+		extendFileTypesToggle({onChange: onShouldExtendToggle}),
 	);
 };
 
