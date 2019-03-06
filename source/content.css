@@ -873,7 +873,7 @@ body > .footer li a {
 	margin-bottom: 0;
 }
 
-/* Hide footer date on Created Repository events*/
+/* Hide footer date on Created Repository events */
 .dashboard .repo .f6.text-gray {
 	display: none;
 }
