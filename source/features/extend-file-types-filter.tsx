@@ -6,101 +6,157 @@ import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 import {getCleanPathname} from '../libs/utils';
 
+// --> Types and Interfaces
 interface PRFile {
-	fileExt: string;
-	deleted: boolean;
+	fileName: string;
+	isDeleted: boolean;
 }
 
-interface PRFileExts {
-	[fileExt: string]: {
+interface PRFileTypes {
+	[fileType: string]: {
 		count: number;
 		deleted: number;
 	};
 }
 
-const state: {
-	extensionsShowing: Set<string>;
-	prFilesSortedByExt: PRFileExts;
-	shouldUseFullExt: boolean;
-} = {
-	extensionsShowing: new Set(),
-	prFilesSortedByExt: {},
-	shouldUseFullExt: true
-};
-const fileListLimit = 1000;
-const deletedStatus = 'removed';
-const fileFilterInputClass = 'js-diff-file-type-option';
-const fileFilterSelectAllClass = 'js-file-filter-select-all-container';
-const fileFilterDeselectAllClass = 'rfg-deselect-all-file-types';
+interface State {
+	prFiles: PRFile[];
+	prFileTypes: PRFileTypes;
+	selectedFileTypes: Set<string>;
+	shouldExtendFileType: boolean;
+}
+// <-- Types and Interfaces
 
-const filterLabelStyle = {
-	cursor: 'pointer'
+// --> State & Transitions
+const state: State = {
+	prFiles: [],
+	prFileTypes: {},
+	selectedFileTypes: new Set(),
+	shouldExtendFileType: true
 };
 
-const setState = (diff: AnyObject, callback: () => any) => {
-	const newState = {...state, ...diff};
+const setState = (
+	diff: Partial<State>,
+	callback: (updated: boolean) => any,
+) => {
+	const newState: State = {...state, ...diff};
 	if (JSON.stringify(state) === JSON.stringify(newState)) {
+		callback(false);
 		return;
 	}
 
 	Object.assign(state, newState);
-	callback();
+	callback(true);
 };
 
-let getPRFiles = (): PRFile[] => [];
-const getPRFilesPartialState = (): {
-	prFilesSortedByExt: PRFileExts;
-} => {
-	const prFilesSortedByExt = groupAndSortPRFilesByExt(getPRFiles());
-	return {prFilesSortedByExt};
+const getIsShowingAllTypes = () => {
+	const numFileTypes = Object.keys(state.prFileTypes).length;
+	return state.selectedFileTypes.size !== numFileTypes;
 };
 
-const getToggleForExtension = (
-	wrapperElement: HTMLElement,
-	extension: string,
-): HTMLInputElement => {
-	return wrapperElement.querySelector(
-		`.${fileFilterInputClass}[value="${extension}"]`,
+const getIsShowingSomeTypes = () => {
+	return state.selectedFileTypes.size > 0;
+};
+// <-- State & Transitions
+
+// --> Helpers and Utils
+const sortObject = (unsorted: AnyObject) => {
+	const sorted = {};
+	for (const key of Object.keys(unsorted).sort()) {
+		sorted[key] = unsorted[key];
+	}
+
+	return sorted;
+};
+
+const getPRFiles = async (): Promise<PRFile[]> => {
+	const pullUrl = getCleanPathname().replace('/pull/', '/pulls/');
+	const apiUrl = `repos/${pullUrl}?per_page=1000`;
+	const result = await api.v3(apiUrl);
+	return result.map(({status, filename}) => ({
+		fileName: filename,
+		isDeleted: status === 'removed'
+	}));
+};
+
+const getFileType = (
+	fileName: string,
+	shouldExtend: boolean = state.shouldExtendFileType,
+): string => {
+	const basename = fileName.split('/').pop();
+	const i = shouldExtend ? basename.indexOf('.') : basename.lastIndexOf('.');
+	return i < 0 ? null : basename.substr(i);
+};
+
+const groupPRFileTypes = (prFiles: PRFile[]): PRFileTypes => {
+	const grouped = {};
+	for (const {fileName, isDeleted} of prFiles) {
+		const fileType = getFileType(fileName);
+		if (!fileType) {
+			return grouped;
+		}
+
+		if (!(fileType in grouped)) {
+			grouped[fileType] = {count: 0, deleted: 0};
+		}
+
+		grouped[fileType].count += 1;
+		if (isDeleted) {
+			grouped[fileType].deleted += 1;
+		}
+	}
+
+	return sortObject(grouped);
+};
+// <-- Helpers and Utils
+
+// --> DOM Element Classes and Selectors
+const fileFilterTypeToggleClass = 'js-diff-file-type-option';
+const fileFilterSelectAllClass = 'js-file-filter-select-all-container';
+const fileFilterDeselectAllClass = 'rfg-deselect-all-file-types';
+const fileFilterExtendToggleId = 'rfg-extend-file-types-toggle';
+
+const getAllFileDetailsElements = (): HTMLElement[] =>
+	select.all('.file.Details');
+
+const getFileFilterElement = (): HTMLElement => select('.js-file-filter');
+
+const getFilterHeaderElement = (): HTMLElement =>
+	getFileFilterElement().querySelector('.select-menu-header');
+
+const getFilterExtendToggleElement = (): HTMLInputElement =>
+	select(`#${fileFilterExtendToggleId}`);
+
+const getFilterListElement = (): HTMLElement =>
+	getFileFilterElement().querySelector('.select-menu-list .p-2');
+
+const getFilterSelectAllElement = (): HTMLElement =>
+	getFilterListElement().querySelector(`.${fileFilterSelectAllClass}`);
+
+const getFilterDeselectAllElement = (): HTMLElement =>
+	getFilterListElement().querySelector(`.${fileFilterDeselectAllClass}`);
+
+const getFilterToggleTypeElement = (fileType: string): HTMLInputElement => {
+	return getFilterListElement().querySelector(
+		`.${fileFilterTypeToggleClass}[value="${fileType}"]`,
 	);
 };
+// <-- DOM Element Classes and Selectors
 
-const getExtensionsChecked = (extensionList: string[]) => {
-	const filterListElement = getFilterListElement();
-	return extensionList.filter(extension => {
-		return getToggleForExtension(filterListElement, extension).checked;
-	});
+// --> JSX Element Constructors
+const filterLabelStyle = {
+	cursor: 'pointer'
 };
 
-const getIsShowingAllExtensions = () => {
-	const numExtensions = Object.keys(state.prFilesSortedByExt).length;
-	return state.extensionsShowing.size !== numExtensions;
-};
-
-const getIsShowingSomeExtensions = () => {
-	return state.extensionsShowing.size > 0;
-};
-
-const syncFilterListToggles = debounce(() => {
-	const prFilesByExt = state.prFilesSortedByExt;
-	const fileExtensions = Object.keys(prFilesByExt);
-	state.extensionsShowing = new Set(getExtensionsChecked(fileExtensions));
-
-	const deselectElem = getDeselectAllFilterElement();
-	const isShowingSomeExt = getIsShowingSomeExtensions();
-	deselectElem.className = deselectToggleClasses(isShowingSomeExt);
-	const {deselectAllMarkup, allDeselectedMarkup} = deselectElem.dataset;
-	deselectElem.innerText = isShowingSomeExt ?
-		deselectAllMarkup :
-		allDeselectedMarkup;
-}, {wait: 50});
-
-const filterOption = ({
+const fileTypeToggle = ({
 	deletedCount,
-	fileExtension,
+	fileType,
+	onChange,
 	totalCount
 }: {
 	deletedCount: number;
-	fileExtension: string;
+	fileType: string;
+	onChange: () => void;
 	totalCount: number;
 }) => {
 	const nonDeletedCount = totalCount - deletedCount;
@@ -112,12 +168,12 @@ const filterOption = ({
 					class="js-diff-file-type-option"
 					type="checkbox"
 					checked={true}
-					onChange={syncFilterListToggles}
-					value={fileExtension}
+					onChange={onChange}
+					value={fileType}
 					data-deleted-files-count={deletedCount}
 					data-non-deleted-files-count={nonDeletedCount}
 				/>
-				{` ${fileExtension}`}
+				{` ${fileType}`}
 				<span
 					class="text-normal js-file-type-count"
 					data-all-file-count-markup={markup(totalCount)}
@@ -131,7 +187,13 @@ const filterOption = ({
 	);
 };
 
-const selectToggle = ({count}: { count: number }) => {
+const selectAllToggle = ({
+	count,
+	onClick
+}: {
+	count: number;
+	onClick: () => void;
+}) => {
 	const typeMarkup = count > 1 ? 'types' : 'type';
 	const selectAllMarkup = `Select all ${count} file ${typeMarkup}`;
 	const allSelectedMarkup = `All ${count} file ${typeMarkup} selected`;
@@ -147,7 +209,7 @@ const selectToggle = ({count}: { count: number }) => {
 					class={`${fileFilterSelectAllClass} no-underline text-normal text-gray`}
 					data-select-all-markup={selectAllMarkup}
 					data-all-selected-markup={allSelectedMarkup}
-					onClick={syncFilterListToggles}
+					onClick={onClick}
 				>
 					{allSelectedMarkup}
 				</span>
@@ -156,175 +218,87 @@ const selectToggle = ({count}: { count: number }) => {
 	);
 };
 
-const deselectToggleClasses = (isShowingSomeExt: boolean): string => {
-	return [
-		fileFilterDeselectAllClass,
-		'no-underline',
-		'text-normal',
-		isShowingSomeExt ? 'text-blue' : 'text-gray'
-	].join(' ');
-};
-
-const deselectToggle = ({count}: { count: number }) => {
+const deselectAllToggle = ({
+	count,
+	onClick
+}: {
+	count: number;
+	onClick: () => void;
+}) => {
 	const typeMarkup = count > 1 ? 'types' : 'type';
 	const deselectAllMarkup = `Deselect all ${count} file ${typeMarkup}`;
 	const allDeselectedMarkup = `All ${count} file ${typeMarkup} deselected`;
-	const isShowingSomeExt = getIsShowingSomeExtensions();
-	const deselectAll = debounce(() => {
-		if (!getIsShowingSomeExtensions()) {
-			return;
-		}
-
-		const filterListElem = getFilterListElement();
-		state.extensionsShowing.forEach(extension => {
-			const toggleElem = getToggleForExtension(filterListElem, extension);
-			toggleElem.click();
-		});
-		syncFilterListToggles();
-	}, {wait: 50});
-
 	return (
 		<div class="ml-1" style={{padding: '6px 0 0'}}>
 			<label style={filterLabelStyle}>
 				<input type="checkbox" hidden />
 				<span
-					class={deselectToggleClasses(isShowingSomeExt)}
-					onClick={deselectAll}
+					class={`${fileFilterDeselectAllClass} no-underline text-normal text-blue`}
+					onClick={onClick}
 					data-deselect-all-markup={deselectAllMarkup}
 					data-all-deselected-markup={allDeselectedMarkup}
 				>
-					{isShowingSomeExt ? deselectAllMarkup : allDeselectedMarkup}
+					{deselectAllMarkup}
 				</span>
 			</label>
 		</div>
 	);
 };
+// <-- JSX Element Constructors
 
-const getExt = (
-	filename: string,
-	full: boolean = state.shouldUseFullExt,
-): string => {
-	const extDelimiter = '.';
-	const basename = filename.split('/').pop();
-	const i = full ?
-		basename.indexOf(extDelimiter) :
-		basename.lastIndexOf(extDelimiter);
-	return i < 0 ? null : basename.substr(i);
+// --> Update DOM from State
+const extendFilterHeaderElement = (): void => {
+	getFilterHeaderElement().append(
+		<label>
+			<span>.extend.file.types </span>
+			<input
+				type="checkbox"
+				id={fileFilterExtendToggleId}
+				checked={state.shouldExtendFileType}
+				onChange={onShouldExtendToggle}
+			/>
+		</label>,
+	);
 };
 
-const getAllFileDetailsElements = (): HTMLElement[] =>
-	select.all('.file.Details');
-
-const getFileFilterElement = (): HTMLElement => select('.js-file-filter');
-
-const getFilterHeaderElement = (): HTMLElement =>
-	getFileFilterElement().querySelector('.select-menu-header');
-
-const getFilterListElement = (): HTMLElement =>
-	getFileFilterElement().querySelector('.select-menu-list .p-2');
-
-const getSelectAllFilterElement = (): HTMLElement =>
-	getFilterListElement().querySelector(`.${fileFilterSelectAllClass}`);
-
-const getDeselectAllFilterElement = (): HTMLElement =>
-	getFilterListElement().querySelector(`.${fileFilterDeselectAllClass}`);
-
-const extendPRFileElements = (): HTMLElement[] =>
-	getAllFileDetailsElements().map(elem => {
+const extendFileDetailsElements = (): void => {
+	for (const elem of getAllFileDetailsElements()) {
 		const fileHeaderElem: HTMLElement = elem.querySelector('.file-header');
-		const fileExt = getExt(fileHeaderElem.dataset.path);
-		fileHeaderElem.dataset.fileType = fileExt || '';
-		return fileHeaderElem;
-	});
-
-const getPRFilesFromDom = (): PRFile[] =>
-	extendPRFileElements().map(elem => {
-		return {
-			deleted: elem.dataset.fileDeleted === 'true',
-			fileExt: elem.dataset.fileType
-		};
-	});
-
-const getPRFilesFromApi = async (): Promise<{
-	end: PRFile[];
-	full: PRFile[];
-}> => {
-	const pullUrl = getCleanPathname().replace('/pull/', '/pulls/');
-	const apiUrl = `repos/${pullUrl}?per_page=${fileListLimit}`;
-	try {
-		const result = await api.v3(apiUrl);
-		const end = result.map(({status, filename}) => {
-			return {
-				deleted: status === deletedStatus,
-				fileExt: getExt(filename, false)
-			};
-		});
-		const full = result.map(({status, filename}) => {
-			return {
-				deleted: status === deletedStatus,
-				fileExt: getExt(filename, true)
-			};
-		});
-		return {end, full};
-	} catch (error) {
-		return null;
+		const fileType = getFileType(fileHeaderElem.dataset.path);
+		fileHeaderElem.dataset.fileType = fileType || '';
 	}
 };
 
-const groupPRFilesByExt = (prFiles: PRFile[]): PRFileExts =>
-	prFiles.reduce((accumulator, {fileExt, deleted}) => {
-		if (!fileExt) {
-			return accumulator;
-		}
-
-		if (!(fileExt in accumulator)) {
-			accumulator[fileExt] = {count: 0, deleted: 0};
-		}
-
-		accumulator[fileExt].count += 1;
-		if (deleted) {
-			accumulator[fileExt].deleted += 1;
-		}
-
-		return accumulator;
-	}, {});
-
-const groupAndSortPRFilesByExt = (prFiles: PRFile[]): PRFileExts => {
-	const prFilesByExt = groupPRFilesByExt(prFiles);
-	const fileExtensions = Object.keys(prFilesByExt);
-	const prFilesSortedByExt = {};
-	fileExtensions.sort().forEach(fileExtension => {
-		prFilesSortedByExt[fileExtension] = prFilesByExt[fileExtension];
-	});
-	return prFilesSortedByExt;
-};
-
-const refineFilterHeaderElement = (onPRFileListUpdated: () => any): void => {
-	const toggleElemId = 'rfg-should-use-full-ext';
-	const onShouldUseFullExtToggle = () => {
-		setState({shouldUseFullExt: toggleElem.checked}, () => {
-			if (getIsShowingAllExtensions()) {
-				getSelectAllFilterElement().click();
+const updateFileTypesState = (): void => {
+	setState(
+		{
+			prFileTypes: groupPRFileTypes(state.prFiles)
+		},
+		updated => {
+			if (!updated) {
+				return;
 			}
 
-			onPRFileListUpdated();
-		});
-	};
-
-	const toggleElem = (
-		<input
-			type="checkbox"
-			id={toggleElemId}
-			checked={state.shouldUseFullExt}
-			onChange={onShouldUseFullExtToggle}
-		/>
+			extendFileDetailsElements();
+			extendFilterListElement();
+		},
 	);
-	const headerElem = getFilterHeaderElement();
-	headerElem.append(
-		<label>
-			<span>.by.full.extension </span>
-			{toggleElem}
-		</label>,
+};
+
+const onShouldExtendToggle = () => {
+	setState(
+		{shouldExtendFileType: getFilterExtendToggleElement().checked},
+		updated => {
+			if (!updated) {
+				return;
+			}
+
+			if (getIsShowingAllTypes()) {
+				getFilterSelectAllElement().click();
+			}
+
+			updateFileTypesState();
+		},
 	);
 };
 
@@ -337,48 +311,69 @@ const cleanFilterListElement = () => {
 	return filterList;
 };
 
-const refineFilterListElement = (): void => {
-	const filterList = cleanFilterListElement();
-	const prFilesByExt = state.prFilesSortedByExt;
-	const fileExtensions = Object.keys(prFilesByExt);
-	fileExtensions.sort().forEach(fileExtension => {
-		const props = {
-			fileExtension,
-			totalCount: prFilesByExt[fileExtension].count,
-			deletedCount: prFilesByExt[fileExtension].deleted
-		};
-		filterList.append(filterOption(props));
+const getSelectedFileTypes = (allFileTypes: string[]) => {
+	return allFileTypes.filter(fileType => {
+		return getFilterToggleTypeElement(fileType).checked;
 	});
-	filterList.append(selectToggle({count: fileExtensions.length}));
-	filterList.append(deselectToggle({count: fileExtensions.length}));
-	syncFilterListToggles();
 };
 
-const init = async (): Promise<void> => {
-	const prFiles = await getPRFilesFromApi();
-	const hasCompleteList = prFiles !== null;
-	getPRFiles = hasCompleteList ?
-		() => (state.shouldUseFullExt ? prFiles.full : prFiles.end) :
-		getPRFilesFromDom;
-	if (hasCompleteList) {
-		Object.assign(state, getPRFilesPartialState());
+const updateFilterDeselectAllElement = () => {
+	const {prFileTypes} = state;
+	const fileTypes = Object.keys(prFileTypes);
+	state.selectedFileTypes = new Set(getSelectedFileTypes(fileTypes));
+
+	const deselectElement = getFilterDeselectAllElement();
+	const isShowingSomeTypes = getIsShowingSomeTypes();
+	deselectElement.classList.remove(
+		`text-${isShowingSomeTypes ? 'gray' : 'blue'}`,
+	);
+	deselectElement.classList.add(
+		`text-${isShowingSomeTypes ? 'blue' : 'gray'}`,
+	);
+	const {deselectAllMarkup, allDeselectedMarkup} = deselectElement.dataset;
+	deselectElement.innerText = isShowingSomeTypes ?
+		deselectAllMarkup :
+		allDeselectedMarkup;
+};
+
+const onDeselectAllToggle = () => {
+	if (getIsShowingSomeTypes()) {
+		for (const fileType of state.selectedFileTypes) {
+			getFilterToggleTypeElement(fileType).click();
+		}
+	} else {
+		updateFilterDeselectAllElement();
+	}
+};
+
+const extendFilterListElement = (): void => {
+	const filterList = cleanFilterListElement();
+	const {prFileTypes} = state;
+	const fileTypes = Object.keys(prFileTypes);
+	const onChange = debounce(updateFilterDeselectAllElement, {wait: 50});
+	for (const fileType of fileTypes) {
+		const props = {
+			fileType,
+			totalCount: prFileTypes[fileType].count,
+			deletedCount: prFileTypes[fileType].deleted,
+			onChange
+		};
+		filterList.append(fileTypeToggle(props));
 	}
 
-	refineFilterListElement();
-	const onPRFileListUpdated = (): void => {
-		if (hasCompleteList) {
-			extendPRFileElements();
-		}
+	filterList.append(selectAllToggle({count: fileTypes.length, onClick: onChange}));
+	const onClick = debounce(onDeselectAllToggle, {wait: 50});
+	filterList.append(deselectAllToggle({count: fileTypes.length, onClick}));
+	updateFilterDeselectAllElement();
+};
+// <-- Update DOM from State
 
-		setState(getPRFilesPartialState(), refineFilterListElement);
-	};
-
-	refineFilterHeaderElement(onPRFileListUpdated);
-
-	observeEl('#files', onPRFileListUpdated, {
-		childList: true,
-		subtree: true
-	});
+// --> Initialise feature
+const init = async (): Promise<void> => {
+	state.prFiles = await getPRFiles();
+	extendFilterHeaderElement();
+	updateFileTypesState();
+	observeEl('#files', extendFileDetailsElements, {childList: true});
 };
 
 features.add({
@@ -387,3 +382,4 @@ features.add({
 	load: features.onAjaxedPages,
 	init
 });
+// <-- Initialise feature
