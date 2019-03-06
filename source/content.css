@@ -845,8 +845,10 @@ body > .footer li a {
 * `.js-news-feed-event-group` is only for grouped events
 */
 
-/* Hide duplicate repo name in non-grouped events */
-.dashboard .border-gray.flex-items-baseline .text-bold.text-gray-dark {
+/* Hide duplicate repo name in some non-grouped events */
+.dashboard .watch_started .border-gray.flex-items-baseline .text-bold.text-gray-dark,
+.dashboard .repo .border-gray.flex-items-baseline .text-bold.text-gray-dark,
+.dashboard .public .border-gray.flex-items-baseline .text-bold.text-gray-dark {
 	display: none;
 }
 
