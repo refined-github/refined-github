@@ -22,7 +22,8 @@ new OptionsSync().define({
 				.replace(/^add-/, '') // #1719
 				.replace('milestone-navigation', '') // #1767
 				.replace('op-labels', '') // #1776
-				.replace('delete-fork-link', ''); // #1791
+				.replace('delete-fork-link', '') // #1791
+				.replace('exclude-filter-shortcut', ''); // #1831
 		},
 		OptionsSync.migrations.removeUnused
 	]
