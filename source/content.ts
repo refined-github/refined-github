@@ -63,7 +63,6 @@ import './features/comments-time-machine-links';
 import './features/jump-to-bottom-link';
 import './features/filter-comments-by-you';
 import './features/hide-issue-list-autocomplete';
-import './features/exclude-filter-shortcut';
 import './features/show-recently-pushed-branches-on-more-pages';
 import './features/create-release-shortcut';
 import './features/patch-diff-links';
