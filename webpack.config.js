@@ -1,13 +1,16 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 'use strict';
 const path = require('path');
-const SizePlugin = require('size-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = (env, argv) => ({
 	devtool: 'sourcemap',
-	stats: false,
+	stats: {
+		modules: false,
+		entrypoints: false,
+		hash: false
+	},
 	entry: {
 		content: './source/content',
 		background: './source/background',
@@ -37,7 +40,6 @@ module.exports = (env, argv) => ({
 		]
 	},
 	plugins: [
-		new SizePlugin(),
 		new CopyWebpackPlugin([
 			{
 				from: '*',
