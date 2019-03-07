@@ -76,17 +76,13 @@ const getFileType = (
 ): string => {
 	const basename = fileName.split('/').pop();
 	const i = shouldExtend ? basename.indexOf('.') : basename.lastIndexOf('.');
-	return i < 0 ? null : basename.substr(i);
+	return i < 0 ? 'No extension' : basename.substr(i);
 };
 
 const groupPRFileTypes = (prFiles: PRFile[]): PRFileTypes => {
 	const grouped = {};
 	for (const {fileName, isDeleted} of prFiles) {
 		const fileType = getFileType(fileName);
-		if (!fileType) {
-			continue;
-		}
-
 		if (!(fileType in grouped)) {
 			grouped[fileType] = {count: 0, deleted: 0};
 		}
