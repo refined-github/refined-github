@@ -48,15 +48,6 @@ const setState = (
 	Object.assign(state, newState);
 	callback(true);
 };
-
-const getIsShowingAllTypes = (): boolean => {
-	const numFileTypes = Object.keys(state.prFileTypes).length;
-	return state.selectedFileTypes.size !== numFileTypes;
-};
-
-const getIsShowingSomeTypes = (): boolean => {
-	return state.selectedFileTypes.size > 0;
-};
 // <-- State & Transitions
 
 // --> Helpers and Utils
@@ -72,7 +63,7 @@ const sortObject = (unsorted: AnyObject): AnyObject => {
 const getPRFiles = async (): Promise<PRFile[]> => {
 	const pullUrl = getCleanPathname().replace('/pull/', '/pulls/');
 	const apiUrl = `repos/${pullUrl}?per_page=1000`;
-	const result = await api.v3(apiUrl);
+	const result = await api.v3(apiUrl); // Uses v3 as v4 does not contain deleted status information
 	return result.map(({status, filename}) => ({
 		fileName: filename,
 		isDeleted: status === 'removed'
@@ -111,43 +102,23 @@ const groupPRFileTypes = (prFiles: PRFile[]): PRFileTypes => {
 // <-- Helpers and Utils
 
 // --> DOM Element Classes and Selectors
-const fileFilterTypeToggleClass = 'js-diff-file-type-option';
 const fileFilterSelectAllClass = 'js-file-filter-select-all-container';
 const fileFilterDeselectAllClass = 'rfg-deselect-all-file-types';
 const fileFilterExtendToggleId = 'rfg-extend-file-types-toggle';
 
-const getAllFileDetailsElements = (): HTMLElement[] =>
-	select.all('.file.Details');
-
 const getFileFilterElement = (): HTMLElement => select('.js-file-filter');
-
-const getFilterHeaderElement = (): HTMLElement =>
-	getFileFilterElement().querySelector('.select-menu-header');
-
-const getFilterExtendToggleElement = (): HTMLInputElement =>
-	select(`#${fileFilterExtendToggleId}`);
 
 const getFilterListElement = (): HTMLElement =>
 	getFileFilterElement().querySelector('.select-menu-list .p-2');
 
-const getFilterSelectAllElement = (): HTMLElement =>
-	getFilterListElement().querySelector(`.${fileFilterSelectAllClass}`);
-
-const getFilterDeselectAllElement = (): HTMLElement =>
-	getFilterListElement().querySelector(`.${fileFilterDeselectAllClass}`);
-
 const getFilterToggleTypeElement = (fileType: string): HTMLInputElement => {
 	return getFilterListElement().querySelector(
-		`.${fileFilterTypeToggleClass}[value="${fileType}"]`,
+		`.js-diff-file-type-option[value="${fileType}"]`,
 	);
 };
 // <-- DOM Element Classes and Selectors
 
 // --> JSX Element Constructors
-const filterLabelStyle = {
-	cursor: 'pointer'
-};
-
 const extendFileTypesToggle = ({onChange}: { onChange: () => void }) => {
 	return (
 		<label>
@@ -213,7 +184,7 @@ const selectAllToggle = ({
 	const allSelectedMarkup = `All ${count} file ${typeMarkup} selected`;
 	return (
 		<div class="ml-1" style={{padding: '4px 0 0'}}>
-			<label style={filterLabelStyle}>
+			<label style={{cursor: 'pointer'}}>
 				<input
 					type="checkbox"
 					class="js-file-filter-select-all"
@@ -244,7 +215,7 @@ const deselectAllToggle = ({
 	const allDeselectedMarkup = `All ${count} file ${typeMarkup} deselected`;
 	return (
 		<div class="ml-1" style={{padding: '6px 0 0'}}>
-			<label style={filterLabelStyle}>
+			<label style={{cursor: 'pointer'}}>
 				<input type="checkbox" hidden />
 				<span
 					class={`${fileFilterDeselectAllClass} no-underline text-normal text-blue`}
@@ -261,14 +232,8 @@ const deselectAllToggle = ({
 // <-- JSX Element Constructors
 
 // --> Update DOM from State
-const extendFilterHeaderElement = (): void => {
-	getFilterHeaderElement().append(
-		extendFileTypesToggle({onChange: onShouldExtendToggle}),
-	);
-};
-
 const extendFileDetailsElements = (): void => {
-	for (const elem of getAllFileDetailsElements()) {
+	for (const elem of select.all('.file.Details')) {
 		const fileHeaderElem: HTMLElement = elem.querySelector('.file-header');
 		const fileType = getFileType(fileHeaderElem.dataset.path);
 		fileHeaderElem.dataset.fileType = fileType || '';
@@ -290,12 +255,15 @@ const updateFileTypesState = (): void => {
 };
 
 const onShouldExtendToggle = () => {
+	const extendToggleElement: HTMLInputElement = select(`#${fileFilterExtendToggleId}`);
 	setState(
-		{shouldExtendFileType: getFilterExtendToggleElement().checked},
+		{shouldExtendFileType: extendToggleElement.checked},
 		updated => {
 			if (updated) {
-				if (getIsShowingAllTypes()) {
-					getFilterSelectAllElement().click();
+				const numFileTypes = Object.keys(state.prFileTypes).length;
+				if (state.selectedFileTypes.size !== numFileTypes) {
+					const selectAllElement: HTMLElement = getFilterListElement().querySelector(`.${fileFilterSelectAllClass}`);
+					selectAllElement.click();
 				}
 
 				updateFileTypesState();
@@ -304,28 +272,15 @@ const onShouldExtendToggle = () => {
 	);
 };
 
-const cleanFilterListElement = () => {
-	const filterList = getFilterListElement();
-	while (filterList.firstChild) {
-		filterList.removeChild(filterList.firstChild);
-	}
-
-	return filterList;
-};
-
-const getSelectedFileTypes = (allFileTypes: string[]) => {
-	return allFileTypes.filter(fileType => {
-		return getFilterToggleTypeElement(fileType).checked;
-	});
-};
-
 const updateFilterDeselectAllElement = () => {
 	const {prFileTypes} = state;
 	const fileTypes = Object.keys(prFileTypes);
-	state.selectedFileTypes = new Set(getSelectedFileTypes(fileTypes));
+	state.selectedFileTypes = new Set(fileTypes.filter(fileType => {
+		return getFilterToggleTypeElement(fileType).checked;
+	}));
 
-	const deselectElement = getFilterDeselectAllElement();
-	const isShowingSomeTypes = getIsShowingSomeTypes();
+	const deselectElement: HTMLElement = getFilterListElement().querySelector(`.${fileFilterDeselectAllClass}`);
+	const isShowingSomeTypes = state.selectedFileTypes.size > 0;
 	deselectElement.classList.remove(
 		`text-${isShowingSomeTypes ? 'gray' : 'blue'}`,
 	);
@@ -339,7 +294,7 @@ const updateFilterDeselectAllElement = () => {
 };
 
 const onDeselectAllToggle = () => {
-	if (getIsShowingSomeTypes()) {
+	if (state.selectedFileTypes.size > 0) {
 		for (const fileType of state.selectedFileTypes) {
 			getFilterToggleTypeElement(fileType).click();
 		}
@@ -349,7 +304,8 @@ const onDeselectAllToggle = () => {
 };
 
 const extendFilterListElement = (): void => {
-	const filterList = cleanFilterListElement();
+	const filterList = getFilterListElement();
+	filterList.textContent = '';
 	const {prFileTypes} = state;
 	const fileTypes = Object.keys(prFileTypes);
 	const onChange = debounce(updateFilterDeselectAllElement, {wait: 50});
@@ -373,7 +329,9 @@ const extendFilterListElement = (): void => {
 // --> Initialise feature
 const init = async (): Promise<void> => {
 	state.prFiles = await getPRFiles();
-	extendFilterHeaderElement();
+	getFileFilterElement().querySelector('.select-menu-header').append(
+		extendFileTypesToggle({onChange: onShouldExtendToggle}),
+	);
 	updateFileTypesState();
 	observeEl('#files', extendFileDetailsElements, {childList: true});
 };
