@@ -93,7 +93,7 @@ const groupPRFileTypes = (prFiles: PRFile[]): PRFileTypes => {
 	for (const {fileName, isDeleted} of prFiles) {
 		const fileType = getFileType(fileName);
 		if (!fileType) {
-			return grouped;
+			continue;
 		}
 
 		if (!(fileType in grouped)) {
