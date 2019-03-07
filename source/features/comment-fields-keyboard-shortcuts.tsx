@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import delegate from 'delegate';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 import indentTextarea from '../libs/indent-textarea';
 

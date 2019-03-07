@@ -6,14 +6,9 @@ https://user-images.githubusercontent.com/1402241/53678019-0c721280-3cf4-11e9-9c
 
 import React from 'dom-chef';
 import select from 'select-dom';
-import onetime from 'onetime';
-import delegate from 'delegate';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
-
-const addEvents = onetime(() => {
-	delegate('.rgh-collapsible-content-btn', 'click', addContentToDetails);
-});
 
 // Wraps string in at least 2 \n on each side,
 // as long as the field doesn't already have them.
@@ -37,7 +32,7 @@ function smartBlockWrap(content: string, field: HTMLTextAreaElement) {
 }
 
 function init() {
-	addEvents();
+	delegate('.rgh-collapsible-content-btn', 'click', addContentToDetails);
 	for (const anchor of select.all('md-ref')) {
 		anchor.after(
 			<button type="button" class="toolbar-item tooltipped tooltipped-n rgh-collapsible-content-btn" aria-label="Add collapsible content">
