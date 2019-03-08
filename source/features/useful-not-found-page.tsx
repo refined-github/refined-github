@@ -39,7 +39,7 @@ async function addCommitHistoryLink(bar) {
 	const parts = parseCurrentURL();
 	parts[2] = 'commits';
 	const url = '/' + parts.join('/');
-	if (await is404(url)) {
+	if (await is404(location.origin + url)) {
 		return;
 	}
 
@@ -65,7 +65,7 @@ async function addDefaultBranchLink(bar) {
 
 	parts[3] = defaultBranch; // Change branch
 	const url = '/' + parts.join('/');
-	if (await is404(url)) {
+	if (await is404(location.origin + url)) {
 		return;
 	}
 
