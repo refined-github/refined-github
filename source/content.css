@@ -953,6 +953,20 @@ body > .footer li a {
 	cursor: pointer;
 }
 
+.comment-body blockquote,
+.comment-body pre {
+	position: relative; /* OctoLinker compat: attach the purple balls to the scroll */
+	max-height: 30.5em;
+	overflow-y: auto;
+}
+
+.comment-body details blockquote,
+.comment-body details pre,
+.comment-body blockquote blockquote,
+.comment-body blockquote pre {
+	max-height: none;
+}
+
 /* For 'add-jump-to-bottom-link' feature */
 #rgh-jump-to-bottom-link {
 	display: inline-block; /* Avoid breaking link in two lines */
