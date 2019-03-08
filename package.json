@@ -16,48 +16,49 @@
 	"dependencies": {
 		"copy-text-to-clipboard": "^1.0.4",
 		"debounce-fn": "^1.0.0",
-		"delegate": "^3.2.0",
-		"dom-chef": "^3.5.2",
+		"delegate-it": "^1.0.1",
+		"dom-chef": "^3.6.0",
 		"dom-loaded": "^1.0.1",
 		"element-ready": "^3.0.0",
-		"github-reserved-names": "^1.1.4",
+		"github-reserved-names": "^1.1.5",
 		"intervalometer": "^1.0.4",
 		"linkify-issues": "^1.3.0",
 		"linkify-urls": "^2.2.0",
-		"onetime": "^2.0.1",
+		"onetime": "^4.0.0",
 		"select-dom": "^4.2.1",
 		"shorten-repo-url": "^1.5.0",
 		"storm-textarea": "2.0.1",
 		"tiny-version-compare": "^0.10.0",
-		"webext-domain-permission-toggle": "0.0.3-0",
+		"webext-domain-permission-toggle": "^0.1.0",
 		"webext-dynamic-content-scripts": "^5.0.2-0",
 		"webext-options-sync": "^0.15.3",
-		"webextension-polyfill": "^0.3.1"
+		"webextension-polyfill": "^0.4.0"
 	},
 	"devDependencies": {
-		"@sindresorhus/tsconfig": "^0.2.0",
+		"@sindresorhus/tsconfig": "^0.2.1",
 		"@types/dom-loaded": "^1.0.0",
 		"@types/element-ready": "^2.1.0",
-		"@types/firefox-webext-browser": "^65.0.0",
-		"@types/jsdom": "^12.2.1",
-		"@typescript-eslint/eslint-plugin": "^1.1.0",
-		"ava": "^1.1.0",
+		"@types/firefox-webext-browser": "^65.0.2",
+		"@types/jsdom": "^12.2.3",
+		"@typescript-eslint/eslint-plugin": "^1.4.2",
+		"ava": "^1.3.1",
 		"chrome-webstore-upload-cli": "^1.2.0",
-		"copy-webpack-plugin": "^4.5.1",
+		"copy-webpack-plugin": "^5.0.0",
 		"dot-json": "^1.0.4",
-		"eslint-config-xo-typescript": "^0.6.0",
-		"jsdom": "^13.1.0",
+		"eslint-config-xo-typescript": "^0.8.0",
+		"jsdom": "^13.2.0",
 		"npm-run-all": "^4.1.3",
+		"size-plugin": "^1.1.2",
 		"stylelint": "^9.10.1",
-		"stylelint-config-xo": "^0.12.0",
-		"terser-webpack-plugin": "^1.2.1",
+		"stylelint-config-xo": "^0.13.0",
+		"terser-webpack-plugin": "^1.2.3",
 		"ts-loader": "^5.3.3",
-		"ts-node": "^8.0.2",
-		"typescript": "^3.2.4",
+		"ts-node": "^8.0.3",
+		"typescript": "^3.3.3333",
 		"utc-version": "^1.1.0",
-		"web-ext-submit": "^2.9.2",
-		"webpack": "^4.28.3",
-		"webpack-cli": "^3.1.0",
+		"web-ext-submit": "^2.9.3",
+		"webpack": "^4.29.6",
+		"webpack-cli": "^3.2.3",
 		"xo": "^0.24.0"
 	},
 	"xo": {
@@ -79,7 +80,8 @@
 				}
 			],
 			"@typescript-eslint/explicit-function-return-type": "off",
-			"@typescript-eslint/restrict-plus-operands": "off"
+			"@typescript-eslint/restrict-plus-operands": "off",
+			"@typescript-eslint/promise-function-async": "off"
 		},
 		"globals": [
 			"browser"
@@ -101,10 +103,12 @@
 	"stylelint": {
 		"extends": "stylelint-config-xo",
 		"rules": {
+			"selector-type-no-unknown": null,
 			"declaration-no-important": null,
 			"property-no-vendor-prefix": null,
 			"property-blacklist": null,
 			"selector-class-pattern": null,
+			"selector-id-pattern": null,
 			"rule-empty-line-before": null,
 			"at-rule-empty-line-before": null
 		}

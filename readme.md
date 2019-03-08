@@ -120,7 +120,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Quickly visit a repository's default branch and latest version tag.](https://user-images.githubusercontent.com/1402241/38107328-ccb3fb46-33bb-11e8-9654-23a6410943cc.png)
 - [Open multiple issues at once in your repos.](https://user-images.githubusercontent.com/1402241/38084752-4820b0d8-3378-11e8-868c-a1582b16f915.gif)
 - [Swap branches in the branch compare view.](https://user-images.githubusercontent.com/857700/42854438-821096f2-8a01-11e8-8752-76f7563b5e18.png)
-- [Exclude PR/issue filters from their list](https://user-images.githubusercontent.com/1402241/48470535-493cfb00-e824-11e8-863a-964f52b62553.png) with <kbd>alt/option</kbd>-<kbd>click</kbd>.
+- [Insert collapsible content when writing comments (via `<summary>`).](https://user-images.githubusercontent.com/1402241/53678019-0c721280-3cf4-11e9-9c24-4d11a697f67c.png)
 
 ### More info at a glance
 
@@ -137,13 +137,14 @@ GitHub Enterprise is also supported. More info in the options.
 - [Badge on user's profile if they follow you.](https://user-images.githubusercontent.com/3723666/45190460-03ecc380-b20c-11e8-832b-839959ee2c99.gif)
 - [Significant head and base branches are added to the PR list.](https://user-images.githubusercontent.com/1402241/51428391-ae9ed500-1c35-11e9-8e54-6b6a424fede4.png)
 - [Hidden comments are previewed inline.](https://user-images.githubusercontent.com/1402241/52545036-6e271700-2def-11e9-8c0c-b5e0fa6f37dd.png)
+- [Your issues and PRs are highlighted.](https://user-images.githubusercontent.com/1402241/53065281-01560000-3506-11e9-9a51-0bdf69e20b4a.png)
 
 ### Declutter
 
 - [Newsfeed events take up less space.](https://user-images.githubusercontent.com/1402241/38087982-6c87f268-3384-11e8-9776-7ba48bdde80c.png)
 - Stars on your repos and some other useless events (commits, forks, new followers) are hidden.
 - The file hover effect in the repo file browser is removed.
-- Unnecessary buttons in the comment box toolbar are hidden (each one has a keyboard shortcut).
+- [Unnecessary buttons in the comment box toolbar are hidden](https://user-images.githubusercontent.com/1402241/53629083-a4fe8900-3c47-11e9-8211-bfe2d254ffcb.png) (each one has a keyboard shortcut).
 - Obvious tooltips are removed.
 - The `Projects` tab is hidden from repositories and profiles when there are no projects.
     * New projects can still be created via the [`Create new…` menu](https://user-images.githubusercontent.com/1402241/34909214-18b6fb2e-f8cf-11e7-8556-bed748596d3b.png).
@@ -151,6 +152,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Forks are hidden from a user's Repositories list (but they can still be shown)](https://user-images.githubusercontent.com/1402241/45133648-fe21be80-b1c8-11e8-9052-e38cb443efa9.png)
 - [Reaction comments ("+1", "👍", …) are hidden](https://user-images.githubusercontent.com/1402241/45543717-d45f3c00-b847-11e8-84a5-8c439d0ad1a5.png) (except the maintainers') [but they can still be shown.](https://user-images.githubusercontent.com/1402241/45543720-d628ff80-b847-11e8-9fb6-758a3102e3a9.png)
 - [Tall code blocks and quotes are limited in height.](https://github.com/sindresorhus/refined-github/issues/1123)
+- [Forks and watchers counters are hidden.](https://user-images.githubusercontent.com/1402241/53681077-f3328b80-3d1e-11e9-9e29-2cb017141769.png)
 
 ### UI improvements
 
@@ -165,6 +167,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Inactive deployments in PR timelines are hidden.](https://github.com/sindresorhus/refined-github/issues/1144)
 - [The PR/issues search box expands when focused.](https://user-images.githubusercontent.com/1402241/48473156-7ab8c500-e82a-11e8-95c7-a39b0529fe1b.gif)
 - [A warning appears when trying to create a PR from the default branch.](https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png)
+- [A warning appears when unchecking `Allow edits from maintainers`.](https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif)
 
 And [many more…](source/content.css)
 
@@ -206,6 +209,7 @@ And [many more…](source/content.css)
 - [Implemented by GitHub](https://user-images.githubusercontent.com/36004334/52573199-ea365480-2e19-11e9-8ebf-3ea6a7a640f8.png): [Access the `Labels` `Milestones` navigation from individual milestone pages.](https://cloud.githubusercontent.com/assets/170270/25217211/37b67aea-25d0-11e7-8482-bead2b04ee74.png)
 - [Implemented by GitHub](https://github.blog/changelog/2019-02-13-comment-author-label/): [The comments of who opened an issue/PR are marked with `Original Poster` label.](https://cloud.githubusercontent.com/assets/4331946/25075520/d62fbbd0-2316-11e7-921f-ab736dc3522e.png)
 - [Implemented by GitHub](https://github.blog/changelog/2019-02-14-prompt-to-clean-up-merged-forks): [Quickly delete a forked repo after its pull request has been merged.](https://cloud.githubusercontent.com/assets/170270/13520281/b2c9335c-e211-11e5-9e36-b0f325166356.png)
+- [Implemented by GitHub](https://github.blog/changelog/2019-03-05-exclude-labels-from-search/): [Exclude PR/issue filters from their list](https://user-images.githubusercontent.com/1402241/48470535-493cfb00-e824-11e8-863a-964f52b62553.png) with <kbd>alt/option</kbd>-<kbd>click</kbd>.
 
 
 ## Customization
