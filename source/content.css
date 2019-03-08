@@ -599,10 +599,9 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	color: var(--github-red) !important;
 }
 
-/* For `open-all-selected`: space out button */
+/* For `open-all-selected`: set a reduced padding for all buttons for #1830 */
 :root .rgh-open-all-selected,
-.rgh-open-all-selected ~ .select-menu .btn-link {
-	/* default is 15px, reduce to fit in one line #1830 */
+.rgh-open-all-selected ~ .select-menu .select-menu-button {
 	padding-right: 12px;
 	padding-left: 12px;
 }
