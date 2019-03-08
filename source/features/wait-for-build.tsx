@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
-import delegate from 'delegate';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 import * as prCiStatus from '../libs/pr-ci-status';

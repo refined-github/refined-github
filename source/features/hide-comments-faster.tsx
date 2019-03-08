@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 
 function handleMenuOpening(event) {
@@ -67,6 +67,6 @@ features.add({
 		features.isCommit,
 		features.isDiscussion
 	],
-	load: features.onDomReady,
+	load: features.onAjaxedPages,
 	init
 });
