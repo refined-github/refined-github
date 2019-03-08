@@ -5,7 +5,7 @@ import select from 'select-dom';
 import {check as isReserved} from 'github-reserved-names';
 import {getUsername, getCleanPathname, getRepoPath, getOwnerAndRepo} from './utils';
 
-export const is404 = (): boolean => document.title === 'Page not found · GitHub';
+export const is404 = (): boolean => document.title === 'GitHub · Where software is built';
 
 export const is500 = (): boolean => document.title === 'Server Error · GitHub';
 
