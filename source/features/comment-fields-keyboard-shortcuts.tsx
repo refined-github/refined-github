@@ -20,7 +20,7 @@ function blurAccessibly(field) {
 
 function init() {
 	delegate('.js-comment-field', 'keydown', event => {
-		const field: HTMLTextAreaElement = event.target;
+		const field: HTMLTextAreaElement = event.delegateTarget;
 
 		// Don't do anything if the suggester box is active
 		if (select.exists('.suggester:not([hidden])', field.form)) {
@@ -46,7 +46,7 @@ function init() {
 
 			event.stopImmediatePropagation();
 			event.preventDefault();
-		} else if (event.key === 'ArrowUp' && field.matches('.js-comment-field') && field.value === '') {
+		} else if (event.key === 'ArrowUp' && field.value === '') {
 			const currentConversationContainer = field.closest([
 				'.js-inline-comments-container', // Current review thread container
 				'.discussion-timeline' // Or just ALL the comments
