@@ -81,7 +81,8 @@ async function handleMergeConfirmation(event) {
 
 function init() {
 	/* eslint-disable no-unreachable */
-	return false; // Temporarily disable feature until #1792 is fixed
+	throw new Error('Feature currently broken, please contribute at https://github.com/sindresorhus/refined-github/issues/1792');
+
 	if (!canMerge()) {
 		return false;
 	}
