@@ -19,11 +19,9 @@ function add() {
 				<a
 					href={link}
 					class="btn btn-outline btn-sm border-blue rgh-closing-pr tooltipped tooltipped-se"
-					aria-label={infoBubble.getAttribute('aria-label')}>{
-						ref.matches('.issue-num') ?
-							<>{icons.openPullRequest()} {ref.textContent}</> :
-							<>{icons.commit()} {ref.textContent}</>
-					}
+					aria-label={infoBubble.getAttribute('aria-label')}>
+						{ref.matches('.issue-num') ? icons.openPullRequest() : icons.commit()}
+						{' ' + ref.textContent}
 				</a>
 			</div>
 		);
