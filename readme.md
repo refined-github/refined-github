@@ -152,6 +152,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Forks are hidden from a user's Repositories list (but they can still be shown)](https://user-images.githubusercontent.com/1402241/45133648-fe21be80-b1c8-11e8-9052-e38cb443efa9.png)
 - [Reaction comments ("+1", "👍", …) are hidden](https://user-images.githubusercontent.com/1402241/45543717-d45f3c00-b847-11e8-84a5-8c439d0ad1a5.png) (except the maintainers') [but they can still be shown.](https://user-images.githubusercontent.com/1402241/45543720-d628ff80-b847-11e8-9fb6-758a3102e3a9.png)
 - [Tall code blocks and quotes are limited in height.](https://github.com/sindresorhus/refined-github/issues/1123)
+- [The Forks counter is hidden.](https://user-images.githubusercontent.com/1402241/54007795-96abf200-419e-11e9-906f-6dfb32358134.png)
 
 ### UI improvements
 
