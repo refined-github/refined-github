@@ -7,7 +7,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = (env, argv) => ({
 	devtool: 'sourcemap',
-	stats: false,
+	stats: 'errors-only',
 	entry: {
 		content: './source/content',
 		background: './source/background',
