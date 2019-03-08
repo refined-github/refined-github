@@ -4,10 +4,6 @@ import features from '../libs/features';
 
 function init() {
 	const checkbox = select<HTMLInputElement>('[name="collab_privs"]');
-	if (!checkbox) {
-		return;
-	}
-
 	const warning = (
 		<div class="flash flash-error mt-3">
 			<strong>Note:</strong> Maintainers may require changes. It’s easier and faster to allow them to make direct changes before merging.

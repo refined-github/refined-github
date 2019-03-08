@@ -17,7 +17,7 @@ export const isCommitList = (): boolean => /^commits\//.test(getRepoPath());
 
 export const isCompare = (): boolean => /^compare/.test(getRepoPath());
 
-export const isDashboard = (): boolean => !isGist() && /^$|^(orgs[/][^/]+[/])?dashboard([/]|$)/.test(getCleanPathname());
+export const isDashboard = (): boolean => /^$|^(orgs[/][^/]+[/])?dashboard([/]|$)/.test(getCleanPathname());
 
 // TODO: change name to clarify what discussion this is
 export const isDiscussion = (): boolean => /^orgs\/[^/]+\/teams\/[^/]+($|\/discussions)/.test(getCleanPathname());
