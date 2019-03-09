@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
-import delegate from 'delegate';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 import * as prCiStatus from '../libs/pr-ci-status';
@@ -81,7 +81,8 @@ async function handleMergeConfirmation(event: Event) {
 
 function init() {
 	/* eslint-disable no-unreachable */
-	return false; // Temporarily disable feature until #1792 is fixed
+	throw new Error('Feature currently broken, please contribute at https://github.com/sindresorhus/refined-github/issues/1792');
+
 	if (!canMerge()) {
 		return false;
 	}

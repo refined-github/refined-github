@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports */
 'use strict';
 const path = require('path');
 const SizePlugin = require('size-plugin');
@@ -7,7 +7,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = (env, argv) => ({
 	devtool: 'sourcemap',
-	stats: false,
+	stats: 'errors-only',
 	entry: {
 		content: './source/content',
 		background: './source/background',

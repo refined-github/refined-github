@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate, {DelegateSubscription, DelegateEvent} from 'delegate';
+import delegate, {DelegateSubscription, DelegateEvent} from 'delegate-it';
 import * as features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';

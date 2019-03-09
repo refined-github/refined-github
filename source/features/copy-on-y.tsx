@@ -4,7 +4,7 @@ import features from '../libs/features';
 
 const handler = ({key, target}: KeyboardEvent) => {
 	if (key === 'y' && (target as Element).nodeName !== 'INPUT') {
-		const permalink = (select('.js-permalink-shortcut') as HTMLAnchorElement).href;
+		const permalink = select<HTMLAnchorElement>('.js-permalink-shortcut')!.href;
 		copyToClipboard(permalink + location.hash);
 	}
 };

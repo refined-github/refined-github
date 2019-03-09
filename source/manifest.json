@@ -13,7 +13,6 @@
 	},
 	"permissions": [
 		"storage",
-		"clipboardWrite",
 		"contextMenus",
 		"activeTab",
 		"https://api.github.com/*"

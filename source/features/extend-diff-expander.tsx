@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import delegate, {DelegateEvent} from 'delegate';
+import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 
 function expandDiff(event: DelegateEvent) {

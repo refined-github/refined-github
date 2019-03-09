@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import onetime from 'onetime';
+import onetime, {callCount} from 'onetime';
 import domify from '../libs/domify';
 import features, {AsyncFeatureInit} from '../libs/features';
 import {appendBefore} from '../libs/dom-utils';
@@ -22,7 +22,7 @@ async function init(): AsyncFeatureInit {
 		return false;
 	}
 
-	if (onetime.callCount(fetchStatus) > 1) {
+	if (callCount(fetchStatus) > 1) {
 		icon.style.animation = 'none';
 	}
 

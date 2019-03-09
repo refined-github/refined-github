@@ -5,24 +5,6 @@
 	--github-gray-text: #6a737d;
 }
 
-/* GitHub bug: releases page has unwanted bullet points */
-.release-timeline-tags {
-	list-style: none;
-}
-
-.subscribe-feed {
-	display: none !important;
-}
-
-#dashboard .new-repo {
-	display: none !important;
-}
-
-/* Remove news feed tips */
-.news > .text-gray:last-child {
-	display: none !important;
-}
-
 /* Remove tooltips where unnecessary */
 [aria-label^='View the whole file']::before,
 [aria-label^='View the whole file']::after,
@@ -51,10 +33,6 @@
 	background: none !important;
 }
 
-.paginate-protip {
-	display: none !important;
-}
-
 /* Hide extra copy on PR mergeability summary */
 .mergeability-details .js-details-container .h4,
 .mergeability-details .js-details-container .status-meta .btn-link,
@@ -79,26 +57,20 @@
 	display: none !important;
 }
 
-/* Visibly disable merge fields during submission */
+/* Visibly disable merge fields during submission for `wait-for-build` */
 [name='commit_message'][disabled],
 [name='commit_title'][disabled] {
 	color: #808080;
 }
 
-/* Remove top buttons on comment box */
-.timeline-comment-wrapper .tabnav-extra,
-.inline-comment-form-container .tabnav-extra {
-	display: none !important;
-}
-
 /* Hide unnecessary comment toolbar items */
-.toolbar-item[data-prefix='@'],
-.toolbar-item[data-prefix='#'],
-.toolbar-item[data-prefix='`'] {
+:root md-mention,
+:root md-ref,
+markdown-toolbar > :nth-last-child(4) { /* H1, B, I */
 	display: none;
 }
 
-/* Remove upload message on comment box */
+/* Remove upload message on comment box for `upload-button` */
 .rgh-has-upload-field .is-default .drag-and-drop {
 	display: none;
 }
@@ -117,19 +89,14 @@
 	display: none !important;
 }
 
-/* Remove "New pull request" button on repo page */
-.file-navigation .new-pull-request-btn {
-	display: none !important;
-}
-
-/* Add hover underline for `content.js` linkified branch refs in pull requests */
+/* Add hover underline for `linkify-branch-refs` */
 a .commit-ref:hover,
 a .commit-ref:hover span {
 	text-decoration: underline !important;
 }
 
-/* The extra span on branch names interferes with a possible deletion line-through */
 .commit-ref span {
+	/* The extra span on branch names interferes with a possible deletion line-through */
 	text-decoration: inherit;
 }
 
@@ -179,7 +146,7 @@ followed someone
 	display: none !important;
 }
 
-/* Decrease font-size on commit details so our custom patch and diff links fit */
+/* Decrease font-size on commit details to help `patch-diff-links` fit */
 .commit .sha-block {
 	margin-left: 7px !important;
 }
@@ -193,12 +160,7 @@ followed someone
 	font-size: 10px !important;
 }
 
-/* Remove `Developer Program Member` from profile page */
-.page-profile .member-badge {
-	display: none !important;
-}
-
-/* Fade out merge commits from commit list */
+/* Fade out merge commits from commit list for `mark-merge-commits-in-list` */
 .refined-github-merge-commit .commit-title,
 .refined-github-merge-commit .commit-meta > div:not(.commit-indicator),
 .refined-github-merge-commit .commit-build-statuses > summary {
@@ -210,23 +172,27 @@ followed someone
 	width: 20px;
 }
 
-/* Move new button to the right on single commit page */
+/* Move `diff-view-without-whitespace-options` to the right on single commit page */
 #toc .refined-github-toggle-whitespace {
 	float: right;
+	margin-right: 16px;
 }
 
 /* Limit width of commit title and description inputs to 50/80 chars */
-#commit-summary-input,
-#commit-description-textarea {
-	font-family: monospace !important;
+.rgh-monospace-textareas #merge_title_field,
+.rgh-monospace-textareas #commit-summary-input {
+	width: 50ch;
 }
 
-#commit-summary-input {
-	width: 410px !important;
+.rgh-monospace-textareas #commit-description-textarea {
+	width: 80ch;
 }
 
-#commit-description-textarea {
-	width: 645px !important;
+.rgh-monospace-textareas #merge_title_field,
+.rgh-monospace-textareas #commit-summary-input,
+.rgh-monospace-textareas textarea {
+	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
+	font-size: 13px;
 }
 
 /* Make tab indented code more readable on GitHub and Gist */
@@ -599,10 +565,11 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	color: var(--github-red) !important;
 }
 
-/* For `open-all-selected`: space out button */
-:root .rgh-open-all-selected {
-	padding-right: 15px;
-	padding-left: 15px;
+/* For `open-all-selected`: set a reduced padding for all buttons for #1830 */
+:root .rgh-open-all-selected,
+.rgh-open-all-selected ~ .select-menu .select-menu-button {
+	padding-right: 12px;
+	padding-left: 12px;
 }
 
 /* Fix for GHE More Dropdown items positioning */
@@ -952,11 +919,6 @@ body > .footer li a {
 	visibility: hidden;
 }
 
-.rgh-monospace-textareas textarea {
-	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
-	font-size: 13px;
-}
-
 /* For 'hide-useless-comments' feature */
 .rgh-useless-comments-note {
 	margin: 15px 0 10px 60px;
@@ -989,6 +951,20 @@ body > .footer li a {
 	margin-left: 5px;
 	background: #9c95b3;
 	cursor: pointer;
+}
+
+.comment-body blockquote,
+.comment-body pre {
+	position: relative; /* OctoLinker compat: attach the purple balls to the scroll */
+	max-height: 30.5em;
+	overflow-y: auto;
+}
+
+.comment-body details blockquote,
+.comment-body details pre,
+.comment-body blockquote blockquote,
+.comment-body blockquote pre {
+	max-height: none;
 }
 
 /* For 'add-jump-to-bottom-link' feature */
@@ -1074,4 +1050,14 @@ body > .footer li a {
 .UnderlineNav-item:nth-last-child(n+7),
 .UnderlineNav-item:nth-last-child(n+7) ~ * {
 	margin-right: 6px;
+}
+
+/* Drop counters for Watch and Forks */
+.btn-with-count[title^='Fork your own'],
+[action='/notifications/subscribe'] .btn-with-count {
+	border-radius: 0.25em; /* Matches GitHub's default */
+}
+.social-count[href$='/network/members'],
+.social-count[href$='/watchers'] {
+	display: none;
 }

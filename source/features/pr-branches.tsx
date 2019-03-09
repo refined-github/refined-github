@@ -135,7 +135,7 @@ async function init(): AsyncFeatureInit {
 		}
 
 		select('.text-small.text-gray', PR)!.append(
-			<span className="issue-meta-section">
+			<span class="issue-meta-section d-inline-block">
 				{openPullRequest()}
 				{' '}
 				{branches}

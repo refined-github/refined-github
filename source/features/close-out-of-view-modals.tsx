@@ -1,4 +1,4 @@
-import delegate from 'delegate';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 
 const observer = new IntersectionObserver(([{intersectionRatio, target}]) => {

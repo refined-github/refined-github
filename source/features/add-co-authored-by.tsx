@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import delegate from 'delegate';
+import delegate from 'delegate-it';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {getOwnerAndRepo, getDiscussionNumber, getOP} from '../libs/utils';
