@@ -6,9 +6,9 @@ https://user-images.githubusercontent.com/1402241/53678019-0c721280-3cf4-11e9-9c
 
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
+import {getEventDelegator} from '../libs/dom-utils';
 
 // Wraps string in at least 2 \n on each side,
 // as long as the field doesn't already have them.
@@ -32,7 +32,7 @@ function smartBlockWrap(content: string, field: HTMLTextAreaElement) {
 }
 
 function init() {
-	delegate('.rgh-collapsible-content-btn', 'click', addContentToDetails);
+	document.addEventListener('click', addContentToDetails);
 	for (const anchor of select.all('md-ref')) {
 		anchor.after(
 			<button type="button" class="toolbar-item tooltipped tooltipped-n rgh-collapsible-content-btn" aria-label="Add collapsible content">
@@ -43,7 +43,12 @@ function init() {
 }
 
 function addContentToDetails(event) {
-	const field = event.delegateTarget.form['comment[body]'];
+	const delegateTarget = getEventDelegator(event, '.rgh-collapsible-content-btn');
+	if (!delegateTarget) {
+		return;
+	}
+
+	const field = delegateTarget.form['comment[body]'];
 
 	// Don't indent <summary> because indentation will not be automatic on multi-line content
 	const newContent = `

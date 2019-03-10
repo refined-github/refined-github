@@ -2,6 +2,11 @@ import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';
 
+export const getEventDelegator = (event, selector) => {
+	const delegate = event.target.closest(selector);
+	return delegate && event.currentTarget.contains(delegate);
+};
+
 /*
  * Automatically stops checking for an element to appear once the DOM is ready.
  */

@@ -1,11 +1,11 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
-import delegate from 'delegate-it';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 import * as prCiStatus from '../libs/pr-ci-status';
 import * as icons from '../libs/icons';
+import {getEventDelegator} from '../libs/dom-utils';
 
 let waiting;
 
@@ -59,6 +59,10 @@ function disableForm(disabled = true) {
 }
 
 async function handleMergeConfirmation(event) {
+	if (!getEventDelegator(event, '.js-merge-commit-button')) {
+		return;
+	}
+
 	const checkbox = getCheckbox();
 	if (checkbox && checkbox.checked) {
 		event.preventDefault();
@@ -96,11 +100,13 @@ function init() {
 	prCiStatus.addEventListener(showCheckboxIfNecessary);
 
 	// One of the merge buttons has been clicked
-	delegate(container, '.js-merge-commit-button', 'click', handleMergeConfirmation);
+	container.addEventListener('click', handleMergeConfirmation);
 
 	// Cancel wait when the user presses the Cancel button
-	delegate(container, '.commit-form-actions button:not(.js-merge-commit-button)', 'click', () => {
-		disableForm(false);
+	container.addEventListener('click', event => {
+		if (!getEventDelegator(event, '.commit-form-actions button:not(.js-merge-commit-button)')) {
+			disableForm(false);
+		}
 	});
 
 	// Warn user if it's not yet submitted.

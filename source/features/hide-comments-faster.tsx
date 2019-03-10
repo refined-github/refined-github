@@ -1,10 +1,15 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import features from '../libs/features';
+import {getEventDelegator} from '../libs/dom-utils';
 
 function handleMenuOpening(event) {
-	const hideButton = select('.js-comment-hide-button', event.delegateTarget.parentElement);
+	const delegateTarget = getEventDelegator(event, '.timeline-comment-action');
+	if (!delegateTarget) {
+		return;
+	}
+
+	const hideButton = select('.js-comment-hide-button', delegateTarget.parentElement);
 	if (!hideButton) {
 		// User unable to hide or menu already created
 		return;
@@ -56,7 +61,7 @@ function handleMenuOpening(event) {
 }
 
 function init() {
-	delegate('.timeline-comment-action', 'click', handleMenuOpening);
+	document.addEventListener('click', handleMenuOpening);
 }
 
 features.add({

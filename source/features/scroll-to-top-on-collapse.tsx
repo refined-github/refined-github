@@ -1,12 +1,16 @@
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import features from '../libs/features';
+import {getEventDelegator} from '../libs/dom-utils';
 
 function init() {
 	const toolbar = select('.pr-toolbar');
 
-	delegate('.js-diff-progressive-container', '.file', 'details:toggled', ({target}) => {
-		const elOffset = target.getBoundingClientRect().top;
+	select('.js-diff-progressive-container').addEventListener('details:toggled', event => {
+		if (!getEventDelegator(event, '.file')) {
+			return;
+		}
+
+		const elOffset = (event.target as Element).getBoundingClientRect().top;
 		const toolbarHeight = toolbar.getBoundingClientRect().top;
 
 		// Bring element in view if it's above the PR toolbar

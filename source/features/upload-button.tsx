@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
+import {getEventDelegator} from '../libs/dom-utils';
 
 function addButtons() {
 	for (const toolbar of select.all('form:not(.rgh-has-upload-field) markdown-toolbar')) {
@@ -23,8 +23,12 @@ function addButtons() {
 	}
 }
 
-function triggerUploadUI({target}) {
-	target
+function triggerUploadUI(event) {
+	if (!getEventDelegator(event, '.rgh-upload-btn')) {
+		return;
+	}
+
+	event.target
 		.closest('form')
 		.querySelector('.js-manual-file-chooser') // Find <input [type=file]>
 		.click(); // Open UI
@@ -32,7 +36,7 @@ function triggerUploadUI({target}) {
 
 function init() {
 	addButtons();
-	delegate('.rgh-upload-btn', 'click', triggerUploadUI);
+	document.addEventListener('click', triggerUploadUI);
 }
 
 features.add({

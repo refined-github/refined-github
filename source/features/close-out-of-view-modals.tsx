@@ -1,5 +1,5 @@
-import delegate from 'delegate-it';
 import features from '../libs/features';
+import {getEventDelegator} from '../libs/dom-utils';
 
 const observer = new IntersectionObserver(([{intersectionRatio, target}]) => {
 	if (intersectionRatio === 0) {
@@ -11,9 +11,14 @@ const observer = new IntersectionObserver(([{intersectionRatio, target}]) => {
 function init() {
 	// The `open` attribute is added after this handler is run,
 	// so the selector is inverted
-	delegate('.details-overlay:not([open]) > summary', 'click', event => {
+	document.addEventListener('click', event => {
+		const delegateTarget = getEventDelegator(event, '.details-overlay:not([open]) > summary');
+		if (!delegateTarget) {
+			return;
+		}
+
 		// What comes after <summary> is the dropdown
-		observer.observe(event.delegateTarget.nextElementSibling);
+		observer.observe(delegateTarget.nextElementSibling);
 	});
 }
 

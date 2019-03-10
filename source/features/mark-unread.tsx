@@ -1,14 +1,12 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
-import {safeElementReady} from '../libs/dom-utils';
+import {safeElementReady, getEventDelegator} from '../libs/dom-utils';
 import {getUsername, getOwnerAndRepo} from '../libs/utils';
 
-const listeners = [];
 const stateIcons = {
 	issue: {
 		open: icons.openIssue,
@@ -250,7 +248,11 @@ function isParticipatingPage() {
 	return /\/notifications\/participating/.test(location.pathname);
 }
 
-async function updateUnreadIndicator() {
+async function updateUnreadIndicator(event?: Event) {
+	if (event && !getEventDelegator(event, '.js-delete-notification button')) {
+		return;
+	}
+
 	const icon = select<HTMLAnchorElement>('a.notification-indicator'); // "a" required in responsive views
 	if (!icon) {
 		return;
@@ -273,8 +275,12 @@ async function updateUnreadIndicator() {
 	}
 }
 
-async function markNotificationRead({target}) {
-	const {href} = target
+async function markNotificationRead(event) {
+	if (!getEventDelegator(event, '.btn-link.delete-note')) {
+		return;
+	}
+
+	const {href} = event.target
 		.closest('li.js-notification')
 		.querySelector('a.js-notification-target');
 	await markRead(href);
@@ -282,11 +288,26 @@ async function markNotificationRead({target}) {
 }
 
 async function markAllNotificationsRead(event) {
+	if (!getEventDelegator(event, '.js-mark-all-read')) {
+		return;
+	}
+
 	event.preventDefault();
 	const repoGroup = event.target.closest('.boxed-group');
 	const urls = select.all<HTMLAnchorElement>('a.js-notification-target', repoGroup).map(a => a.href);
 	await markRead(urls);
 	await updateUnreadIndicator();
+}
+
+async function markVisibleAsRead(event) {
+	if (!getEventDelegator(event, '.js-mark-visible-as-read')) {
+		return;
+	}
+
+	const group = (event.target as Element).closest('.boxed-group');
+	const repo = select('.notifications-repo-link', group).textContent;
+	const notifications = await getNotifications();
+	setNotifications(notifications.filter(({repository}) => repository !== repo));
 }
 
 function addCustomAllReadBtn() {
@@ -319,7 +340,11 @@ function addCustomAllReadBtn() {
 		</details>
 	);
 
-	delegate('#clear-local-notification', 'click', async () => {
+	document.addEventListener('click', async event => {
+		if (!getEventDelegator(event, '#clear-local-notification')) {
+			return;
+		}
+
 		await setNotifications([]);
 		location.reload();
 	});
@@ -343,16 +368,11 @@ function updateLocalParticipatingCount(notifications) {
 	}
 }
 
-function destroy() {
-	for (const listener of listeners) {
-		listener.destroy();
-	}
-
-	listeners.length = 0;
-}
-
 async function init() {
-	destroy();
+	document.removeEventListener('click', markNotificationRead);
+	document.removeEventListener('click', markAllNotificationsRead);
+	document.removeEventListener('click', updateUnreadIndicator);
+	document.removeEventListener('submit', markVisibleAsRead);
 
 	if (pageDetect.isNotifications()) {
 		const notifications = await getNotifications();
@@ -364,17 +384,10 @@ async function init() {
 			document.dispatchEvent(new CustomEvent('refined-github:mark-unread:notifications-added'));
 		}
 
-		listeners.push(
-			delegate('.btn-link.delete-note', 'click', markNotificationRead),
-			delegate('.js-mark-all-read', 'click', markAllNotificationsRead),
-			delegate('.js-delete-notification button', 'click', updateUnreadIndicator),
-			delegate('.js-mark-visible-as-read', 'submit', async event => {
-				const group = event.target.closest('.boxed-group');
-				const repo = select('.notifications-repo-link', group).textContent;
-				const notifications = await getNotifications();
-				setNotifications(notifications.filter(({repository}) => repository !== repo));
-			})
-		);
+		document.addEventListener('click', markNotificationRead);
+		document.addEventListener('click', markAllNotificationsRead);
+		document.addEventListener('click', updateUnreadIndicator);
+		document.addEventListener('submit', markVisibleAsRead);
 	} else if (pageDetect.isPR() || pageDetect.isIssue()) {
 		await markRead(location.href);
 

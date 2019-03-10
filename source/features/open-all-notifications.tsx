@@ -4,17 +4,17 @@ import select from 'select-dom';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 import {groupButtons} from '../libs/group-buttons';
+import {getEventDelegator} from '../libs/dom-utils';
 
 const confirmationRequiredCount = 10;
 const unreadNotificationsClass = '.unread .js-notification-target';
 
-function openNotifications({target}) {
-	// Homemade delegate event, simplifies addEventListener deduplication
-	if (!target.closest('.rgh-open-notifications-button')) {
+function openNotifications(event) {
+	if (!getEventDelegator(event, '.rgh-open-notifications-button')) {
 		return;
 	}
 
-	const container = target.closest('.boxed-group, .notification-center');
+	const container = event.target.closest('.boxed-group, .notification-center');
 
 	// Ask for confirmation
 	const unreadNotifications = select.all<HTMLAnchorElement>(unreadNotificationsClass, container);

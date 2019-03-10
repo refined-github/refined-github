@@ -1,9 +1,9 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 import observeEl from '../libs/simplified-element-observer';
+import {getEventDelegator} from '../libs/dom-utils';
 
 function addButton() {
 	const filesHeader = select('.commit-tease');
@@ -24,7 +24,12 @@ function addButton() {
 function init() {
 	const repoContent = select('.repository-content');
 	observeEl(repoContent, addButton);
-	delegate('.rgh-toggle-files', 'click', ({delegateTarget}) => {
+	document.addEventListener('click', event => {
+		const delegateTarget = getEventDelegator(event, '.rgh-toggle-files');
+		if (!delegateTarget) {
+			return;
+		}
+
 		delegateTarget.setAttribute('aria-expanded', !repoContent.classList.toggle('rgh-files-hidden'));
 	});
 }

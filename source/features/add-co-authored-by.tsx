@@ -1,8 +1,8 @@
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {getOwnerAndRepo, getDiscussionNumber, getOP} from '../libs/utils';
+import {getEventDelegator} from '../libs/dom-utils';
 
 let coAuthors;
 
@@ -35,7 +35,11 @@ async function fetchCoAuthoredData() {
 	return userInfo.repository.pullRequest.commits.nodes.map(node => node.commit.author);
 }
 
-function addCoAuthors() {
+function addCoAuthors(event) {
+	if (!getEventDelegator(event, '.merge-message [type=button]')) {
+		return;
+	}
+
 	const field = select<HTMLTextAreaElement>('#merge_message_field');
 	if (field.value.includes('Co-authored-by: ')) {
 		// Don't affect existing information
@@ -55,7 +59,7 @@ function addCoAuthors() {
 async function init() {
 	coAuthors = await fetchCoAuthoredData();
 
-	delegate('.discussion-timeline-actions', '.merge-message [type=button]', 'click', addCoAuthors);
+	select('.discussion-timeline-actions').addEventListener('click', addCoAuthors);
 }
 
 features.add({
