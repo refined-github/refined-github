@@ -15,7 +15,7 @@ function urlMatcherMacro(t, detectFn, shouldMatch = [], shouldNotMatch = []) {
 }
 
 test('is404', t => {
-	document.title = 'Page not found · GitHub';
+	document.title = 'GitHub · Where software is built';
 	t.true(pageDetect.is404());
 
 	document.title = 'examples/404: Page not found examples';
