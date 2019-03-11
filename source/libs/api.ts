@@ -32,7 +32,7 @@ export interface FetchOptions {
 	accept404: boolean;
 }
 
-export const v3 =  (query: string, options?: FetchOptions) => call(fetch3, query, options);
+export const v3 = (query: string, options?: FetchOptions) => call(fetch3, query, options);
 export const v4 = (query: string, options?: FetchOptions) => call(fetch4, query, options);
 
 export const escapeKey = (value: string) => '_' + value.replace(/[./-]/g, '_');
