@@ -10,14 +10,15 @@ function createDiffStyleToggle() {
 		'.table-of-contents .selected[href$=unified]' // Link in single commit
 	].join());
 
-	const makeLink = (type, icon, selected) => (
-		<a
+	const makeLink = (type, icon, selected) => {
+		params.set('diff', type);
+		return <a
 			className={`btn btn-sm BtnGroup-item tooltipped tooltipped-s ${selected ? 'selected' : ''}`}
 			aria-label={`Show ${type} diffs`}
-			href={`?${params.set('diff', type), params}`}>
+			href={`?${params}`}>
 			{icon}
-		</a>
-	);
+		</a>;
+	};
 
 	return <>
 		{makeLink('unified', icons.diff(), isUnified)}
