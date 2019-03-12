@@ -57,6 +57,34 @@
 	display: none !important;
 }
 
+/* Always show `Delete fork` button */
+.js-fork-cleanup-button-group {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.js-fork-cleanup-branch-button {
+	display: block !important;
+	border-radius: 3px;
+	border-right-width: 1px;
+}
+
+.js-fork-cleanup-fork-button {
+	display: block !important;
+	padding: initial;
+	border: initial;
+	font: inherit;
+	background: initial !important;
+	box-shadow: initial !important;
+	color: var(--github-red);
+	margin-top: 7px;
+}
+
+.js-fork-cleanup-select-menu {
+	display: none;
+}
+
 /* Visibly disable merge fields during submission for `wait-for-build` */
 [name='commit_message'][disabled],
 [name='commit_title'][disabled] {
