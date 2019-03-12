@@ -803,31 +803,78 @@ body > .footer li a {
 	display: none !important;
 }
 
-/* Reduce dashboard activity cards */
-/* `.flex-items-baseline` excludes label events */
-.dashboard .flex-items-baseline {
-	align-items: flex-start !important;
-}
-/* Align between event and repo description */
-.dashboard .py3 .avatar {
-	margin-top: 7px;
-}
-/* Hide duplicate repo name */
-.dashboard .flex-items-baseline .f3,
-.dashboard .flex-items-baseline .f4,
-.dashboard .flex-items-baseline .text-bold.text-gray-dark {
+/**
+* Reduce dashboard activity cards
+*
+* Notes:
+* `.flex-items-baseline` excludes label events
+* `.border-gray` excludes grouped events
+* `.js-news-feed-event-group` is only for grouped events
+*/
+
+/* Hide duplicate repo name in some non-grouped events */
+.dashboard .watch_started .border-gray.flex-items-baseline .text-bold.text-gray-dark,
+.dashboard .repo .border-gray.flex-items-baseline .text-bold.text-gray-dark,
+.dashboard .public .border-gray.flex-items-baseline .text-bold.text-gray-dark {
 	display: none;
 }
-/* Restore names and space them out if they are grouped */
-.dashboard .Details .flex-items-baseline .f3,
-.dashboard .Details .flex-items-baseline .f4,
+
+/* Add background and border to non-grouped events */
+.dashboard .border-gray.flex-items-baseline.py-3 {
+	background-color: #fff;
+	border: 1px solid #d1d5da;
+	border-radius: 3px;
+	padding: 16px !important;
+	margin-top: 8px !important;
+
+	/* Align avatar with first 2 lines */
+	align-items: flex-start !important;
+}
+
+/* Align avatar with first 2 lines */
+.dashboard .body .mr-3 + div {
+	margin-top: -5px;
+	margin-bottom: -5px;
+}
+
+/* Reduce spacing after repo description */
+.dashboard .repo-description p:last-child {
+	margin-bottom: 0;
+}
+
+/* Hide footer date on Created Repository events */
+.dashboard .repo .f6.text-gray {
+	display: none;
+}
+/* Drop "box" style for activities in non-grouped events */
+.dashboard .body .border-gray .Box.p-3.mt-2, /* Starred */
+.dashboard .body .border-gray .Box.p-3.my-2 { /* Made public */
+	margin-top: 0 !important;
+	padding: 0 !important;
+	border: none;
+	background: none;
+}
+
+/* Grouped events: Make repo name smaller */
 .dashboard .Details .flex-items-baseline .text-bold.text-gray-dark {
-	display: block;
 	font-size: 1em !important;
 }
-.dashboard .Details-content--hidden .flex-items-baseline {
-	margin-top: 20px !important;
+/* Grouped events: Hide separator */
+.Details.js-news-feed-event-group {
+	border-bottom: none !important;
 }
+
+/* Grouped events: Keep open */
+.Details.js-news-feed-event-group .js-details-target {
+	/* Hide toggle */
+	display: none;
+}
+.Details:not(.Details--on) .Details-content--hidden.dashboard-rollup-items {
+	/* Always show content. */
+	/* Selector must be stronger to override the native one. Yes, even with !important, for some reason. Firefox */
+	display: block !important;
+}
+
 /* Hide star button */
 .dashboard .flex-items-baseline [value='Star'],
 .dashboard .flex-items-baseline [value='Unstar'] {
@@ -836,25 +883,6 @@ body > .footer li a {
 
 .dashboard .flex-items-baseline .f6.mt-2 {
 	opacity: 0.5;
-}
-.dashboard .flex-items-baseline .border {
-	padding: 0 !important;
-	border: none !important;
-	margin: 0 !important;
-	color: var(--github-gray-text) !important;
-}
-/* Remove border between dashboard news items */
-.dashboard .body > .border-gray-light {
-	border: none !important;
-}
-
-/* Make activities narrower */
-.dashboard .d-flex.border-bottom.border-gray-light {
-	padding: 8px 0 !important;
-}
-/* Remove useless tip in the organization news feed */
-#dashboard .alert.git_hub {
-	display: none !important;
 }
 
 /* For 'extend-diff-expander' feature */
