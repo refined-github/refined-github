@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 
 function handleMenuOpening(event) {
@@ -37,18 +37,19 @@ function handleMenuOpening(event) {
 	form.classList.add('dropdown-menu', 'dropdown-menu-sw', 'text-gray-dark', 'show-more-popover', 'anim-scale-in');
 
 	// Show menu on top of optionList when "Hide" is clicked
-	// Hide it when dropdown closes
+	// Hide it when dropdown closes.
+	// Uses `v-hidden` and `d-none` to avoid conflicts with `close-out-of-view-modals`
 	const dropdown = hideButton.closest('details');
 	const optionList = select('.show-more-popover', dropdown);
 	hideButton.addEventListener('click', event => {
 		event.stopImmediatePropagation();
 		event.preventDefault();
-		optionList.setAttribute('hidden', 'true');
-		form.removeAttribute('hidden');
+		optionList.classList.add('v-hidden');
+		form.classList.remove('d-none');
 	});
 	dropdown.addEventListener('toggle', () => {
-		optionList.removeAttribute('hidden');
-		form.setAttribute('hidden', 'true');
+		optionList.classList.remove('v-hidden');
+		form.classList.add('d-none');
 	});
 
 	dropdown.append(form);
@@ -66,6 +67,6 @@ features.add({
 		features.isCommit,
 		features.isDiscussion
 	],
-	load: features.onDomReady,
+	load: features.onAjaxedPages,
 	init
 });
