@@ -1,4 +1,4 @@
-import select, {SelectDom} from 'select-dom';
+import select from 'select-dom';
 import 'webext-dynamic-content-scripts';
 
 import './features/useful-not-found-page';
@@ -90,10 +90,4 @@ import './features/preview-hidden-comments';
 import './features/collapsible-content-button';
 
 // Add global for easier debugging
-declare global {
-	interface Window {
-		select: SelectDom;
-	}
-}
-
-window.select = select;
+(<any>window).select = select;
