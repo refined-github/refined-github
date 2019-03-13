@@ -90,4 +90,4 @@ import './features/preview-hidden-comments';
 import './features/collapsible-content-button';
 
 // Add global for easier debugging
-(<any>window).select = select;
+(window as any).select = select;
