@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import features from '../libs/features';
-import {isTrending} from '../libs/page-detect';
 import {safeElementReady} from '../libs/dom-utils';
 
 async function init() {
@@ -14,11 +13,6 @@ async function init() {
 			<a href="/trending" className={exploreLink.className} data-hotkey="g t">Trending</a>
 		</li>
 	);
-
-	// Explore link highlights /trending urls by default, remove that behavior
-	if (isTrending()) {
-		exploreLink.classList.remove('selected');
-	}
 }
 
 features.add({
