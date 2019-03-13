@@ -4,7 +4,6 @@ import {isTrending} from '../libs/page-detect';
 import {safeElementReady} from '../libs/dom-utils';
 
 async function init() {
-	const selectedClass = isTrending() ? 'selected' : '';
 	const exploreLink = await safeElementReady('.HeaderNavlink[href="/explore"]');
 	if (!exploreLink) {
 		return false;
@@ -12,7 +11,7 @@ async function init() {
 
 	exploreLink.parentElement.before(
 		<li>
-			<a href="/trending" class={`js-selected-navigation-item HeaderNavlink px-2 ${selectedClass}`} data-hotkey="g t">Trending</a>
+			<a href="/trending" className={exploreLink.className} data-hotkey="g t">Trending</a>
 		</li>
 	);
 
