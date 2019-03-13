@@ -5,12 +5,12 @@ import {safeElementReady} from '../libs/dom-utils';
 
 async function init() {
 	const selectedClass = isTrending() ? 'selected' : '';
-	const issuesLink = await safeElementReady('.HeaderNavlink[href="/issues"]');
-	if (!issuesLink) {
+	const exploreLink = await safeElementReady('.HeaderNavlink[href="/explore"]');
+	if (!exploreLink) {
 		return false;
 	}
 
-	issuesLink.parentNode.after(
+	exploreLink.parentElement.before(
 		<li>
 			<a href="/trending" class={`js-selected-navigation-item HeaderNavlink px-2 ${selectedClass}`} data-hotkey="g t">Trending</a>
 		</li>
@@ -18,10 +18,7 @@ async function init() {
 
 	// Explore link highlights /trending urls by default, remove that behavior
 	if (isTrending()) {
-		const exploreLink = await safeElementReady('.HeaderNavlink[href="/explore"]');
-		if (exploreLink) {
-			exploreLink.classList.remove('selected');
-		}
+		exploreLink.classList.remove('selected');
 	}
 }
 
