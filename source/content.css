@@ -1085,7 +1085,7 @@ body > .footer li a {
 [action='/notifications/subscribe'] .btn-with-count {
 	border-radius: 0.25em; /* Matches GitHub's default */
 }
-.social-count[href$='/network/members'].rgh-hide-watch-and-fork-count,
-.social-count[href$='/watchers'].rgh-hide-watch-and-fork-count {
+.rgh-hide-watch-and-fork-count .social-count[href$='/network/members'],
+.rgh-hide-watch-and-fork-count .social-count[href$='/watchers'] {
 	display: none;
 }
