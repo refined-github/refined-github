@@ -12,7 +12,7 @@ export default function (el: Node|string, listener: MutationCallback, options: M
 	observer.observe(el, options);
 
 	// Run the first time
-	listener.call(observer, []);
+	listener.call(observer, [], observer);
 
 	return observer;
 }
