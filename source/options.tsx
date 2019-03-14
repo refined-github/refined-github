@@ -1,15 +1,8 @@
 import fitTextarea from 'fit-textarea';
 import OptionsSync from 'webext-options-sync';
-import indentTextarea from './libs/indent-textarea';
+import indentTextarea from 'indent-textarea';
 
 fitTextarea.watch('textarea');
-
-document.querySelector('[name="customCSS"]')!.addEventListener('keydown', event => {
-	const tsEvent = event as KeyboardEvent;
-	if (tsEvent.key === 'Tab' && !tsEvent.shiftKey) {
-		indentTextarea(tsEvent.target as HTMLTextAreaElement);
-		tsEvent.preventDefault();
-	}
-});
+indentTextarea.watch('textarea');
 
 new OptionsSync().syncForm('#options-form');

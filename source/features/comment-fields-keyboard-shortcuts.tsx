@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
+import indentTextarea from 'indent-textarea';
 import features from '../libs/features';
-import indentTextarea from '../libs/indent-textarea';
 
 // Element.blur() will reset the tab focus to the start of the document.
 // This places it back next to the blurred field
