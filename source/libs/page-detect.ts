@@ -2,7 +2,7 @@
 /* The tested var might not be a string */
 
 import select from 'select-dom';
-import {check as isReserved} from 'github-reserved-names';
+import reservedNames from 'github-reserved-names/reserved-names.json';
 import {getUsername, getCleanPathname, getRepoPath, getOwnerAndRepo} from './utils';
 
 export const is404 = (): boolean => document.title === 'GitHub · Where software is built';
@@ -72,7 +72,7 @@ export const isQuickPR = (): boolean => isCompare() && /[?&]quick_pull=1(&|$)/.t
 export const isReleasesOrTags = (): boolean => /^(releases|tags)/.test(getRepoPath());
 
 export const isRepo = (): boolean => /^[^/]+\/[^/]+/.test(getCleanPathname()) &&
-	!isReserved(getOwnerAndRepo().ownerName) &&
+	!reservedNames.includes(getOwnerAndRepo().ownerName) &&
 	!isNotifications() &&
 	!isDashboard() &&
 	!isGist() &&
