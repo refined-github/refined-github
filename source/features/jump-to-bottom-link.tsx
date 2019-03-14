@@ -6,7 +6,7 @@ import observeEl from '../libs/simplified-element-observer';
 function add() {
 	const meta = select('.gh-header-meta > .TableObject-item--primary');
 	if (!meta || select.exists('#rgh-jump-to-bottom-link')) {
-		return false;
+		return;
 	}
 
 	meta.append(

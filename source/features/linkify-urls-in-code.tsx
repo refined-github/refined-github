@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import linkifyUrls from 'linkify-urls';
 import linkifyIssues from 'linkify-issues';
-import features from '../libs/features';
+import features, {FeatureInit} from '../libs/features';
 import getTextNodes from '../libs/get-text-nodes';
 import {getOwnerAndRepo} from '../libs/utils';
 
@@ -48,7 +48,7 @@ export const editTextNodes = (fn, el) => {
 	}
 };
 
-function init() {
+function init(): FeatureInit {
 	const wrappers = select.all(`
 		.blob-wrapper:not(.${linkifiedURLClass}),
 		.comment-body:not(.${linkifiedURLClass})

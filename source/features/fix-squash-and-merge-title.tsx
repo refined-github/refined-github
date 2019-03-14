@@ -1,7 +1,7 @@
 import select from 'select-dom';
-import features from '../libs/features';
+import features, {FeatureInit} from '../libs/features';
 
-function init() {
+function init(): FeatureInit {
 	const btn = select('.merge-message .btn-group-squash [type=button]');
 	if (!btn) {
 		return false;

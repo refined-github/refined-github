@@ -11,7 +11,7 @@ type VoidFunction = () => void;
 type callerFunction = (callback: VoidFunction) => void;
 export type FeatureInit = boolean | void;
 export type AsyncFeatureInit = Promise<FeatureInit>;
-type FeatureFunction = () => AsyncFeatureInit;
+type FeatureFunction = () => FeatureInit;
 type FeaturePromisedFunction = () => AsyncFeatureInit;
 
 type FeatureShortcuts = Record<string, string>;

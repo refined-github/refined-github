@@ -6,7 +6,7 @@ This feature adds more useful 404 (not found) page.
 
 import React from 'dom-chef';
 import select from 'select-dom';
-import features from '../libs/features';
+import features, {FeatureInit} from '../libs/features';
 import {getCleanPathname} from '../libs/utils';
 import getDefaultBranch from '../libs/get-default-branch';
 
@@ -76,7 +76,7 @@ async function addDefaultBranchLink(bar) {
 	);
 }
 
-function init() {
+function init(): FeatureInit {
 	const parts = parseCurrentURL();
 	if (parts.length <= 1 || !select.exists('[alt*="This is not the web page you are looking for"]')) {
 		return false;

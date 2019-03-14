@@ -1,8 +1,8 @@
 import select from 'select-dom';
-import features from '../libs/features';
+import features, {FeatureInit} from '../libs/features';
 import {getRepoURL} from '../libs/utils';
 
-function init() {
+function init(): FeatureInit {
 	const uploadFilesButton = select(`.file-navigation a[href^="/${getRepoURL()}/upload"]`);
 	if (!uploadFilesButton) {
 		return false;

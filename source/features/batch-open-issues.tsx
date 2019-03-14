@@ -1,7 +1,7 @@
 /* eslint-disable no-alert */
 import React from 'dom-chef';
 import select from 'select-dom';
-import features from '../libs/features';
+import features, {FeatureInit} from '../libs/features';
 
 const confirmationRequiredCount = 10;
 
@@ -28,7 +28,7 @@ function openIssues() {
 	});
 }
 
-function init() {
+function init(): FeatureInit {
 	if (select.all('.js-issue-row').length < 2) {
 		return false;
 	}
