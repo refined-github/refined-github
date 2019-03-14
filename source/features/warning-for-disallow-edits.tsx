@@ -21,7 +21,7 @@ function init() {
 			select(`
 				.new-pr-form .timeline-comment,
 				.discussion-sidebar .js-collab-form + .dropdown
-			`).after(warning);
+			`)!.after(warning);
 		}
 	};
 

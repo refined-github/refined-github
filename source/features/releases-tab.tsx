@@ -23,7 +23,7 @@ const cached = cache.get(repoKey);
 function updateReleasesCount() {
 	if (isRepoRoot()) {
 		const releasesCountEl = select('.numbers-summary a[href$="/releases"] .num');
-		const releasesCount = Number(releasesCountEl ? releasesCountEl.textContent.replace(/,/g, '') : 0);
+		const releasesCount = Number(releasesCountEl ? releasesCountEl.textContent!.replace(/,/g, '') : 0);
 		cache.set(repoKey, releasesCount, 3);
 		return releasesCount;
 	}

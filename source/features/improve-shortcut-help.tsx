@@ -2,12 +2,12 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
-function splitKeys(keys) {
+function splitKeys(keys: string) {
 	return keys.split(' ').map(key => <>{' '}<kbd>{key}</kbd></>);
 }
 
 function improveShortcutHelp(dialog) {
-	select('.Box-body .col-5 .Box:first-child', dialog).after(
+	select('.Box-body .col-5 .Box:first-child', dialog)!.after(
 		<div className="Box Box--condensed m-4">
 			<div className="Box-header">
 				<h3 className="Box-title">Added by Refined GitHub</h3>
@@ -29,8 +29,8 @@ function improveShortcutHelp(dialog) {
 
 function fixKeys(dialog) {
 	for (const key of select.all('kbd', dialog)) {
-		if (key.textContent.includes(' ')) {
-			key.replaceWith(...splitKeys(key.textContent));
+		if (key.textContent!.includes(' ')) {
+			key.replaceWith(...splitKeys(key.textContent as string));
 		}
 	}
 }
@@ -46,7 +46,7 @@ const observer = new MutationObserver(([{target}]) => {
 function init() {
 	document.addEventListener('keypress', ({key}) => {
 		if (key === '?') {
-			observer.observe(select('.kb-shortcut-dialog'), {childList: true});
+			observer.observe(select('.kb-shortcut-dialog')!, {childList: true});
 		}
 	});
 }

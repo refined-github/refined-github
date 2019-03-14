@@ -57,9 +57,9 @@ function addOpenReposButton() {
 			continue;
 		}
 
-		const [, repo] = select<HTMLAnchorElement>('.notifications-repo-link', repoNotifications).title.split('/');
+		const [, repo] = select<HTMLAnchorElement>('.notifications-repo-link', repoNotifications)!.title.split('/');
 
-		select('.mark-all-as-read', repoNotifications).before(
+		select('.mark-all-as-read', repoNotifications)!.before(
 			<button type="button" className="open-repo-notifications tooltipped tooltipped-w rgh-open-notifications-button" aria-label={`Open all unread \`${repo}\` notifications in tabs`}>
 				{icons.externalLink()}
 			</button>
@@ -74,7 +74,7 @@ function addOpenAllButton() {
 
 		// Create an open button and add it into a button group
 		const button = <button className="btn btn-sm rgh-open-notifications-button">Open all unread in tabs</button>;
-		select('.tabnav .float-right').prepend(button);
+		select('.tabnav .float-right')!.prepend(button);
 		groupButtons([button, button.nextElementSibling]);
 	}
 }

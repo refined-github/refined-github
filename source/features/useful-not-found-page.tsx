@@ -99,7 +99,7 @@ function init(): FeatureInit {
 		}
 	}
 
-	select('main > :first-child').after(bar);
+	select('main > :first-child')!.after(bar);
 
 	// Check parts from right to left; skip the last part
 	for (let i = bar.children.length - 2; i >= 0; i--) {

@@ -10,11 +10,11 @@ function add() {
 		[aria-label*="will close once"]
 	`)) {
 		const ref = infoBubble
-			.closest('.discussion-item')
-			.querySelector('.issue-num, .commit-id');
+			.closest('.discussion-item')!
+			.querySelector('.issue-num, .commit-id')!;
 		const link = (ref.closest('[href]') as HTMLAnchorElement).href;
 
-		select('.gh-header-meta .TableObject-item').after(
+		select('.gh-header-meta .TableObject-item')!.after(
 			<div class="TableObject-item">
 				<a
 					href={link}
