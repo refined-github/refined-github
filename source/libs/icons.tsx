@@ -48,4 +48,5 @@ export const privateLockFilled = (): SVGElement => (
 		<path d="M11.88 6.54h-1v-2a3.9 3.9 0 0 0-7.8 0v2h-1a1 1 0 0 0-1 1v6.83a1 1 0 0 0 1 1h9.76a1 1 0 0 0 1-1V7.51a1 1 0 0 0-.96-.97zm-7 0v-2a2.15 2.15 0 0 1 4.3 0v2zm7 7.8H3.1V7.51h8.78z" />
 		<path d="M3.1 7.51h8.78v6.83H3.1z" fill="#eee" />
 		<path d="M5.05 9.46h-1v-1h1zm0 2.93h-1v1h1zm0-2h-1v1h1z" />
-	</svg>;
+	</svg>
+);

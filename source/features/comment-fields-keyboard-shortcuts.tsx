@@ -9,7 +9,7 @@ function blurAccessibly(field: HTMLElement) {
 	field.blur();
 
 	const range = new Range();
-	const selection = getSelection()!;
+	const selection = getSelection();
 	const focusHolder = new Text();
 	field.after(focusHolder);
 	range.selectNodeContents(focusHolder);

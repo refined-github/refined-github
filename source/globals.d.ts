@@ -1,21 +1,21 @@
 // TODO: Type anything that is of type AnyObject
 type AnyObject = Record<string, any> | undefined;
 
-declare module "copy-text-to-clipboard" {
+declare module 'copy-text-to-clipboard' {
 	export default function copyToClipboard(data: string): void;
 }
 
-declare module "github-reserved-names"; // TODO: PR types to that repo or DT
+declare module 'github-reserved-names'; // TODO: PR types to that repo or DT
 
 // TODO: PR these types to the delegate repository.
 
-declare module "delegate" {
+declare module 'delegate' {
 	// Custom event types used in RGH
 	type EventType = keyof GlobalEventHandlersEventMap | 'details:toggled';
 }
 
 // TODO: PR this into the delegate repo.
-declare module "delegate" {
+declare module 'delegate' {
 	export type EventType = keyof GlobalEventHandlersEventMap;
 
 	export type DelegateEvent<T extends Event = Event> = T & {
@@ -88,7 +88,7 @@ declare namespace JSX {
 	type All = SVGElement | HTMLElement;
 
 	// TODO: Get this working
-	//interface Element extends SVGElement {}
+	// interface Element extends SVGElement {}
 
 	interface IntrinsicElements {
 		'include-fragment': any;

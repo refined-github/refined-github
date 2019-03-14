@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate, { DelegateEvent } from 'delegate-it';
+import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 
 function handleMenuOpening(event: DelegateEvent) {
-	const hideButton = select('.js-comment-hide-button', ((event.delegateTarget as Element).parentElement!);
+	const hideButton = select('.js-comment-hide-button', ((event.delegateTarget as Element).parentElement!));
 	if (!hideButton) {
 		// User unable to hide or menu already created
 		return;
