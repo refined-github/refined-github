@@ -78,7 +78,7 @@ async function addDefaultBranchLink(bar) {
 
 function init() {
 	const parts = parseCurrentURL();
-	if (parts.length <= 1) {
+	if (parts.length <= 1 || !select.exists('[alt*="This is not the web page you are looking for"]')) {
 		return false;
 	}
 
@@ -99,7 +99,7 @@ function init() {
 		}
 	}
 
-	select('#js-pjax-container > :first-child').after(bar);
+	select('main > :first-child').after(bar);
 
 	// Check parts from right to left; skip the last part
 	for (let i = bar.children.length - 2; i >= 0; i--) {
