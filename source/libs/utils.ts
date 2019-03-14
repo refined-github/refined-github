@@ -52,7 +52,7 @@ export const groupBy = (iterable: Iterable<string>, grouper: (item: string) => s
 // Concats arrays but does so like a zipper instead of appending them
 // [[0, 1, 2], [0, 1]] => [0, 0, 1, 1, 2]
 // Like lodash.zip
-export const flatZip = (table: string[][], limit = Infinity) => {
+export const flatZip = (table: any[][], limit = Infinity) => {
 	const maxColumns = Math.max(...table.map(row => row.length));
 	const zipped = [];
 	for (let col = 0; col < maxColumns; col++) {

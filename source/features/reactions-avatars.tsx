@@ -16,9 +16,15 @@ import {getUsername, flatZip} from '../libs/utils';
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
 
-function getParticipants(container) {
+type Participant = {
+	container: HTMLElement;
+	username: string;
+}
+type ParticipantGroup = Participant[][];
+
+function getParticipants(container: Element): Participant[] {
 	const currentUser = getUsername();
-	return container.getAttribute('aria-label')
+	return container.getAttribute('aria-label')!
 		.replace(/ reacted with.*/, '')
 		.replace(/,? and /, ', ')
 		.replace(/, \d+ more/, '')
@@ -28,15 +34,15 @@ function getParticipants(container) {
 		.map(username => ({
 			container,
 			username
-		}));
+		}) as Participant);
 }
 
 function add() {
 	for (const list of select.all('.has-reactions .comment-reactions-options:not(.rgh-reactions)')) {
 		const avatarLimit = arbitraryAvatarLimit - (list.children.length * approximateHeaderLength);
 
-		const participantByReaction = [].map.call(list.children, getParticipants);
-		const flatParticipants = flatZip(participantByReaction, avatarLimit);
+		const participantByReaction: ParticipantGroup = [].map.call<HTMLCollection, any[], ParticipantGroup>(list.children, getParticipants);
+		const flatParticipants: Participant[] = flatZip(participantByReaction, avatarLimit);
 
 		for (const participant of flatParticipants) {
 			participant.container.append(
