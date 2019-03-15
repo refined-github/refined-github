@@ -1,10 +1,6 @@
 // TODO: Type anything that is of type AnyObject
 type AnyObject = Record<string, any> | undefined;
 
-declare module 'copy-text-to-clipboard' {
-	export default function copyToClipboard(data: string): void;
-}
-
 declare module 'github-reserved-names'; // TODO: PR types to that repo or DT
 
 // TODO: PR these types to the delegate repository.
