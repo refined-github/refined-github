@@ -200,12 +200,6 @@ followed someone
 	width: 20px;
 }
 
-/* Move `diff-view-without-whitespace-options` to the right on single commit page */
-#toc .refined-github-toggle-whitespace {
-	float: right;
-	margin-right: 16px;
-}
-
 /* Limit width of commit title and description inputs to 50/80 chars */
 .rgh-monospace-textareas #merge_title_field,
 .rgh-monospace-textareas #commit-summary-input {
@@ -847,19 +841,32 @@ body > .footer li a {
 	display: none;
 }
 
-/* Add background and border to non-grouped events */
-.dashboard .border-gray.flex-items-baseline.py-3 {
+/* Add background and border Whole list */
+.dashboard .js-all-activity-header + div {
 	background-color: #fff;
 	border: 1px solid #d1d5da;
 	border-radius: 3px;
-	padding: 16px !important;
 	margin-top: 8px !important;
+}
 
-	/* Align avatar with first 2 lines */
-	align-items: flex-start !important;
+/* Drop "box" style for all events */
+.dashboard .js-all-activity-header + div .Box {
+	padding: 0 !important;
+	border: none;
+	background: none;
+}
+
+/* Restore "row"-like spacing for all events */
+.dashboard .body > .border-bottom {
+	margin: 0;
+	padding-left: 16px;
+	padding-right: 16px;
 }
 
 /* Align avatar with first 2 lines */
+.dashboard .flex-items-baseline.py-3 {
+	align-items: flex-start !important;
+}
 .dashboard .body .mr-3 + div {
 	margin-top: -5px;
 	margin-bottom: -5px;
@@ -874,22 +881,21 @@ body > .footer li a {
 .dashboard .repo .f6.text-gray {
 	display: none;
 }
-/* Drop "box" style for activities in non-grouped events */
-.dashboard .body .border-gray .Box.p-3.mt-2, /* Starred */
-.dashboard .body .border-gray .Box.p-3.my-2 { /* Made public */
-	margin-top: 0 !important;
-	padding: 0 !important;
-	border: none;
-	background: none;
-}
 
 /* Grouped events: Make repo name smaller */
 .dashboard .Details .flex-items-baseline .text-bold.text-gray-dark {
 	font-size: 1em !important;
 }
-/* Grouped events: Hide separator */
-.Details.js-news-feed-event-group {
-	border-bottom: none !important;
+
+/* Grouped events: Show separator */
+.dashboard-rollup-items .body {
+	border-top: 1px solid #e1e4e8;
+	margin-top: 8px;
+}
+
+/* Grouped events: Bring horizontal lines to right border */
+.js-news-feed-event-group {
+	padding-right: 0 !important;
 }
 
 /* Grouped events: Keep open */
@@ -909,6 +915,7 @@ body > .footer li a {
 	display: none;
 }
 
+/* Fade out last line */
 .dashboard .flex-items-baseline .f6.mt-2 {
 	opacity: 0.5;
 }

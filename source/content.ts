@@ -1,4 +1,4 @@
-import select, {SelectDom} from 'select-dom';
+import select from 'select-dom';
 import 'webext-dynamic-content-scripts';
 
 import './features/useful-not-found-page';
@@ -41,7 +41,7 @@ import './features/commented-menu-item';
 import './features/sort-issues-by-update-time'; // Must be after add-yours-menu-item + add-commented-menu-item
 import './features/hide-readme-header';
 import './features/branch-buttons';
-import './features/diff-view-without-whitespace-option';
+import './features/faster-pr-diff-options';
 import './features/ci-link';
 import './features/sort-milestones-by-closest-due-date';
 import './features/star-repo-hotkey';
@@ -90,10 +90,4 @@ import './features/preview-hidden-comments';
 import './features/collapsible-content-button';
 
 // Add global for easier debugging
-declare global {
-	interface Window {
-		select: SelectDom;
-	}
-}
-
-window.select = select;
+(window as any).select = select;

@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import indentTextarea from 'indent-textarea';
 import features from '../libs/features';
-import indentTextarea from '../libs/indent-textarea';
 
 // Element.blur() will reset the tab focus to the start of the document.
 // This places it back next to the blurred field
@@ -19,7 +19,7 @@ function blurAccessibly(field) {
 }
 
 function init() {
-	delegate('.js-comment-field', 'keydown', event => {
+	delegate('.js-comment-field, #commit-description-textarea', 'keydown', event => {
 		const field: HTMLTextAreaElement = event.delegateTarget;
 
 		// Don't do anything if the suggester box is active
