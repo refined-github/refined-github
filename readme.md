@@ -187,9 +187,9 @@ And [many more…](source/content.css)
 - [Find a user’s most starred repositories in their profile.](https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93de-159ad4c6f283.png)
 - [Bypass the "Checks" page and go directly to build results when clicking the "Details" links on a PR](https://user-images.githubusercontent.com/2103975/49071220-c6596e80-f22d-11e8-8a1e-bdcd62aa6ece.png)
 - Star/unstar a repository by pressing <kbd>g</kbd> <kbd>s</kbd>.
+- [Delete a forked repo in one click after its PR has been merged.](https://user-images.githubusercontent.com/1402241/54188399-94bd9800-44ea-11e9-8d37-85170309bbef.png)
 - Toggle whitespace visibility in diffs by pressing <kbd>d</kbd> <kbd>w</kbd>.
 - [Change diff style and whitespace visibility in one click.](https://user-images.githubusercontent.com/1402241/54178764-d1c96080-44d1-11e9-889c-734ffd2a602d.png)
-
 
 ### Previously part of Refined GitHub
 
