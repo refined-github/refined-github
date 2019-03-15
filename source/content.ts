@@ -41,7 +41,7 @@ import './features/commented-menu-item';
 import './features/sort-issues-by-update-time'; // Must be after add-yours-menu-item + add-commented-menu-item
 import './features/hide-readme-header';
 import './features/branch-buttons';
-import './features/diff-view-without-whitespace-option';
+import './features/faster-pr-diff-options';
 import './features/ci-link';
 import './features/sort-milestones-by-closest-due-date';
 import './features/star-repo-hotkey';

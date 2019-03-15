@@ -172,12 +172,6 @@ followed someone
 	width: 20px;
 }
 
-/* Move `diff-view-without-whitespace-options` to the right on single commit page */
-#toc .refined-github-toggle-whitespace {
-	float: right;
-	margin-right: 16px;
-}
-
 /* Limit width of commit title and description inputs to 50/80 chars */
 .rgh-monospace-textareas #merge_title_field,
 .rgh-monospace-textareas #commit-summary-input {
