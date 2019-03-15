@@ -1,6 +1,6 @@
+import domify from 'doma';
 import select from 'select-dom';
 import onetime from 'onetime';
-import domify from '../libs/domify';
 import features from '../libs/features';
 import {appendBefore} from '../libs/dom-utils';
 import {getRepoURL, getRepoBranch} from '../libs/utils';
