@@ -9,7 +9,7 @@ import {safeElementReady} from '../libs/dom-utils';
 const observer = new MutationObserver(([{addedNodes}]) => {
 	// Remove events from dashboard
 	for (const item of select.all('#dashboard .news .watch_started, #dashboard .news .fork')) {
-		if (select(`a[href^="/${getUsername()}"]`, item)) {
+		if (select.exists(`a[href^="/${getUsername()}"]`, item)) {
 			item.style.display = 'none';
 		}
 	}

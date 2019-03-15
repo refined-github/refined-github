@@ -1,6 +1,6 @@
+import domify from 'doma';
 import select from 'select-dom';
-import onetime, {callCount} from 'onetime';
-import domify from '../libs/domify';
+import onetime from 'onetime';
 import features, {AsyncFeatureInit} from '../libs/features';
 import {appendBefore} from '../libs/dom-utils';
 import {getRepoURL, getRepoBranch} from '../libs/utils';
@@ -22,7 +22,7 @@ async function init(): AsyncFeatureInit {
 		return false;
 	}
 
-	if (callCount(fetchStatus) > 1) {
+	if (onetime.callCount(fetchStatus) > 1) {
 		icon.style.animation = 'none';
 	}
 

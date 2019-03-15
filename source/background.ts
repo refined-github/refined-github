@@ -24,6 +24,7 @@ new OptionsSync().define({
 				.replace('op-labels', '') // #1776
 				.replace('delete-fork-link', '') // #1791
 				.replace('exclude-filter-shortcut', '') // #1831
+				.replace('diff-view-without-whitespace-option', 'faster-pr-diff-options') // #1799
 			; // eslint-disable-line semi-style
 		},
 		OptionsSync.migrations.removeUnused

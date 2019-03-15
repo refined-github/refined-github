@@ -19,7 +19,7 @@ function blurAccessibly(field: HTMLElement) {
 }
 
 function init() {
-	delegate('.js-comment-field', 'keydown', (event: DelegateEvent<KeyboardEvent>) => {
+	delegate('.js-comment-field, #commit-description-textarea', 'keydown', (event: DelegateEvent<KeyboardEvent>) => {
 		const field: HTMLTextAreaElement = event.delegateTarget;
 
 		// Don't do anything if the suggester box is active

@@ -1,8 +1,8 @@
 import React from 'dom-chef';
+import domify from 'doma';
 import select from 'select-dom';
-import domify from '../libs/domify';
-import features, {AsyncFeatureInit} from '../libs/features';
 import {getCleanPathname} from '../libs/utils';
+import features, {AsyncFeatureInit} from '../libs/features';
 
 const fetchStargazers = async () => {
 	const url = `${location.origin}/${getCleanPathname()}/followers/you_know`;

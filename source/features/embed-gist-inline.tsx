@@ -1,6 +1,6 @@
 import React from 'dom-chef';
+import domify from 'doma';
 import select from 'select-dom';
-import domify from '../libs/domify';
 import features from '../libs/features';
 
 const isGist = (link: HTMLAnchorElement) =>
