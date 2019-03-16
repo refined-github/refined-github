@@ -1,8 +1,7 @@
-import select from 'select-dom';
 import features from '../libs/features';
 
 function init() {
-	select('.news').classList.add('rgh-no-useless-events');
+	document.body.classList.add('rgh-no-useless-events');
 }
 
 features.add({
