@@ -1118,8 +1118,8 @@ body > .footer li a {
 }
 
 /* Drop counters for Watch and Forks */
-.btn-with-count[title^='Fork your own'],
-[action='/notifications/subscribe'] .btn-with-count {
+.rgh-hide-watch-and-fork-count .btn-with-count[title^='Fork your own'],
+.rgh-hide-watch-and-fork-count [action='/notifications/subscribe'] .btn-with-count {
 	border-radius: 0.25em; /* Matches GitHub's default */
 }
 .rgh-hide-watch-and-fork-count .social-count[href$='/network/members'],
