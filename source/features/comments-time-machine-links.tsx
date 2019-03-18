@@ -31,11 +31,11 @@ function init() {
 		for (const link of links) {
 			const linkParts = link.pathname.split('/');
 			// Skip permalinks
-			if (/^[0-9a-f]{40}$/.test(linkParts[3])) {
+			if (/^[0-9a-f]{40}$/.test(linkParts[4])) {
 				continue;
 			}
 
-			linkParts[3] = `HEAD@{${timestamp}}`; // Change git ref
+			linkParts[4] = `HEAD@{${timestamp}}`; // Change git ref
 			link.after(
 				' ',
 				<a
