@@ -18,7 +18,7 @@
 		"@types/jsdom": "^12.2.3",
 		"copy-text-to-clipboard": "^2.0.0",
 		"debounce-fn": "^1.0.0",
-		"delegate-it": "^1.1.0-1",
+		"delegate-it": "^1.1.0-5",
 		"dom-chef": "^3.6.0",
 		"dom-loaded": "^1.1.0",
 		"doma": "^1.0.0",

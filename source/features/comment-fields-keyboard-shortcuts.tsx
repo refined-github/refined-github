@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import indentTextarea from 'indent-textarea';
 import features from '../libs/features';
 
@@ -19,8 +19,8 @@ function blurAccessibly(field: HTMLElement) {
 }
 
 function init() {
-	delegate('.js-comment-field, #commit-description-textarea', 'keydown', (event: DelegateEvent<KeyboardEvent>) => {
-		const field = event.delegateTarget as HTMLTextAreaElement;
+	delegate<HTMLTextAreaElement, KeyboardEvent>('.js-comment-field, #commit-description-textarea', 'keydown', event => {
+		const field = event.delegateTarget;
 
 		// Don't do anything if the suggester box is active
 		if (select.exists('.suggester:not([hidden])', field.form!)) {

@@ -13,7 +13,7 @@ function init() {
 	// so the selector is inverted
 	delegate('.details-overlay:not([open]) > summary', 'click', event => {
 		// What comes after <summary> is the dropdown
-		observer.observe((event.delegateTarget as Element).nextElementSibling!);
+		observer.observe(event.delegateTarget.nextElementSibling!);
 	});
 }
 
