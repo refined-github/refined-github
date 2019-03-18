@@ -45,6 +45,7 @@
 		"chrome-webstore-upload-cli": "^1.2.0",
 		"copy-webpack-plugin": "^5.0.1",
 		"dot-json": "^1.0.4",
+		"eslint": "^5.15.2",
 		"eslint-config-xo-typescript": "^0.8.0",
 		"jsdom": "^14.0.0",
 		"npm-run-all": "^4.1.3",
