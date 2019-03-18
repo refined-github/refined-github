@@ -35,7 +35,6 @@ import './features/linkify-branch-refs';
 import './features/batch-open-issues';
 import './features/hide-useless-comments';
 import './features/navigate-pages-with-arrow-keys';
-import './features/make-headers-sticky';
 import './features/yours-menu-item';
 import './features/commented-menu-item';
 import './features/sort-issues-by-update-time'; // Must be after add-yours-menu-item + add-commented-menu-item
