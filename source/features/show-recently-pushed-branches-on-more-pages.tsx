@@ -8,12 +8,12 @@ This feature also adds this widget to the Issues List, Issue page and PR page
 
 import React from 'dom-chef';
 import select from 'select-dom';
-import features, {AsyncFeatureInit} from '../libs/features';
+import features from '../libs/features';
 import {getRepoURL} from '../libs/utils';
 
 const repoUrl = getRepoURL();
 
-async function init(): AsyncFeatureInit {
+async function init(): Promise<boolean | void> {
 	const fragmentURL = `/${repoUrl}/show_partial?partial=tree%2Frecently_touched_branches_list`;
 	if (select.exists(`[data-url='${fragmentURL}'], [src='${fragmentURL}']`)) {
 		return false;

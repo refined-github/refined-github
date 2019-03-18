@@ -8,10 +8,10 @@ https://blog.jasonmeridth.com/posts/do-not-issue-pull-requests-from-your-master-
 
 import React from 'dom-chef';
 import select from 'select-dom';
-import features, {AsyncFeatureInit} from '../libs/features';
+import features from '../libs/features';
 import getDefaultBranch from '../libs/get-default-branch';
 
-async function init(): AsyncFeatureInit {
+async function init(): Promise<boolean | void> {
 	const defaultBranch = await getDefaultBranch();
 	// Expected: /user/repo/compare/master...user:master
 	if (!location.pathname.endsWith(':' + defaultBranch)) {

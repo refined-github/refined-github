@@ -5,7 +5,7 @@ https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93
 
 import React from 'dom-chef';
 import select from 'select-dom';
-import features, {FeatureInit} from '../libs/features';
+import features from '../libs/features';
 import {getCleanPathname} from '../libs/utils';
 
 function buildUrl(queryField: string) {
@@ -17,7 +17,7 @@ function buildUrl(queryField: string) {
 	return url;
 }
 
-function init(): FeatureInit {
+function init(): boolean | void {
 	const showcaseTitle = select('.js-pinned-items-reorder-container .text-normal')!;
 	if (!showcaseTitle) {
 		return false;

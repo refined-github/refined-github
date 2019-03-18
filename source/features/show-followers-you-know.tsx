@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import domify from 'doma';
 import select from 'select-dom';
 import {getCleanPathname} from '../libs/utils';
-import features, {AsyncFeatureInit} from '../libs/features';
+import features from '../libs/features';
 
 const fetchStargazers = async () => {
 	const url = `${location.origin}/${getCleanPathname()}/followers/you_know`;
@@ -30,7 +30,7 @@ const renderAvatar = (image: HTMLImageElement) => {
 	);
 };
 
-async function init(): AsyncFeatureInit {
+async function init(): Promise<boolean | void> {
 	const container = select('[itemtype="http://schema.org/Person"]');
 	if (!container) {
 		return false;

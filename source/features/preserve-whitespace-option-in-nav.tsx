@@ -3,9 +3,9 @@ When navigating with next/previous in review mode, preserve whitespace option.
 */
 
 import select from 'select-dom';
-import features, {FeatureInit} from '../libs/features';
+import features from '../libs/features';
 
-function init(): FeatureInit {
+function init(): boolean | void {
 	if (new URLSearchParams(location.search).get('w') !== '1') {
 		return false;
 	}

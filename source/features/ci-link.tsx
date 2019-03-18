@@ -1,7 +1,7 @@
 import domify from 'doma';
 import select from 'select-dom';
 import onetime from 'onetime';
-import features, {AsyncFeatureInit} from '../libs/features';
+import features from '../libs/features';
 import {appendBefore} from '../libs/dom-utils';
 import {getRepoURL, getRepoBranch} from '../libs/utils';
 
@@ -16,7 +16,7 @@ const fetchStatus = onetime(async () => {
 	return icon;
 });
 
-async function init(): AsyncFeatureInit {
+async function init(): Promise<boolean | void> {
 	const icon = await fetchStatus();
 	if (!icon) {
 		return false;

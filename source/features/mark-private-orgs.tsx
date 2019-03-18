@@ -1,10 +1,10 @@
 import select from 'select-dom';
 import {getUsername} from '../libs/utils';
-import features, {AsyncFeatureInit} from '../libs/features';
+import features from '../libs/features';
 import * as icons from '../libs/icons';
 import * as api from '../libs/api';
 
-async function init(): AsyncFeatureInit {
+async function init(): Promise<boolean | void> {
 	const orgs = select.all<HTMLAnchorElement>('.avatar-group-item[data-hovercard-type="organization"]');
 	if (orgs.length === 0) {
 		return false;

@@ -1,9 +1,9 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import {wrap} from '../libs/dom-utils';
-import features, {FeatureInit} from '../libs/features';
+import features from '../libs/features';
 
-function init(): FeatureInit {
+function init(): boolean | void {
 	if (select.exists('.gh-header-meta a .State')) {
 		return false;
 	}

@@ -1,13 +1,13 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import features, {FeatureInit} from '../libs/features';
+import features from '../libs/features';
 
 const btnClassMap = {
 	approve: 'btn-primary',
 	reject: 'btn-danger'
 };
 
-function init(): FeatureInit {
+function init(): boolean | void {
 	const form = select('[action$="/reviews"]')!;
 	const radios = select.all<HTMLInputElement>('[type="radio"][name="pull_request_review[event]"]', form);
 

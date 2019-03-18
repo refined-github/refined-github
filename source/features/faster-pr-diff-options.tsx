@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as icons from '../libs/icons';
-import features, {FeatureInit} from '../libs/features';
+import features from '../libs/features';
 
 function createDiffStyleToggle() {
 	const params = new URLSearchParams(location.search);
@@ -56,7 +56,7 @@ function wrap(...elements: Element[]) {
 	return <>{elements.map(element => <div className="diffbar-item">{element}</div>)}</>;
 }
 
-function init(): FeatureInit {
+function init(): boolean | void {
 	const container = select([
 		'.table-of-contents.Details .BtnGroup', // In single commit view
 		'.pr-review-tools > .diffbar-item' // In review view

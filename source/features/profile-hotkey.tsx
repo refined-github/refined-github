@@ -1,8 +1,8 @@
 import select from 'select-dom';
-import features, {FeatureInit} from '../libs/features';
+import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 
-function init(): FeatureInit {
+function init(): boolean | void {
 	const menuItem = select(`#user-links a.dropdown-item[href="/${getUsername()}"]`);
 
 	if (menuItem) {

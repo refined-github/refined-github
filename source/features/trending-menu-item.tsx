@@ -1,8 +1,8 @@
 import React from 'dom-chef';
-import features, {AsyncFeatureInit} from '../libs/features';
+import features from '../libs/features';
 import {safeElementReady} from '../libs/dom-utils';
 
-async function init(): AsyncFeatureInit {
+async function init(): Promise<boolean | void> {
 	const exploreLink = await safeElementReady('.HeaderNavlink[href="/explore"]');
 	if (!exploreLink) {
 		return false;

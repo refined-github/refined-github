@@ -7,7 +7,7 @@ The tab isn’t shown if there are no releases.
 
 import React from 'dom-chef';
 import select from 'select-dom';
-import features, {AsyncFeatureInit} from '../libs/features';
+import features from '../libs/features';
 import * as icons from '../libs/icons';
 import * as cache from '../libs/cache';
 import {getRepoURL} from '../libs/utils';
@@ -31,7 +31,7 @@ function updateReleasesCount() {
 	return cached;
 }
 
-async function init(): AsyncFeatureInit {
+async function init(): Promise<boolean | void> {
 	await safeElementReady('.pagehead + *'); // Wait for the tab bar to be loaded
 	const count = await updateReleasesCount();
 	if (count === 0) {

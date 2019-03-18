@@ -6,9 +6,9 @@ This feature duplicates the Prev/Next buttons and inserts them at the bottom of
 the page too.
 */
 import select from 'select-dom';
-import features, {FeatureInit} from '../libs/features';
+import features from '../libs/features';
 
-function init(): FeatureInit {
+function init(): boolean | void {
 	const originalPrevNext = select('.commit .BtnGroup.float-right');
 	if (!originalPrevNext) {
 		return false;

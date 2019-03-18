@@ -1,11 +1,11 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as api from '../libs/api';
-import features, {AsyncFeatureInit} from '../libs/features';
+import features from '../libs/features';
 import {getCleanPathname} from '../libs/utils';
 import {isEnterprise} from '../libs/page-detect';
 
-async function init(): AsyncFeatureInit {
+async function init(): Promise<boolean | void> {
 	const container = select('body.page-profile .UnderlineNav-body');
 
 	if (!container) {

@@ -7,7 +7,7 @@ New projects can still be created via the [`Create new…` menu](https://user-im
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
-import features, {AsyncFeatureInit} from '../libs/features';
+import features from '../libs/features';
 import {safeElementReady} from '../libs/dom-utils';
 import {isUserProfile, isOwnOrganizationProfile, isOrganizationProfile} from '../libs/page-detect';
 
@@ -38,7 +38,7 @@ const addNewProjectLink = onetime(() => {
 	);
 });
 
-async function init(): AsyncFeatureInit {
+async function init(): Promise<boolean | void> {
 	await safeElementReady(`
 		.orghead + *,
 		.repohead + *,

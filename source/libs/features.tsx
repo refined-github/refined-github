@@ -9,10 +9,9 @@ import {safeElementReady} from './dom-utils';
 type BooleanFunction = () => boolean;
 type VoidFunction = () => void;
 type callerFunction = (callback: VoidFunction) => void;
-export type FeatureInit = boolean | void;
-export type AsyncFeatureInit = Promise<FeatureInit>;
-type FeatureFunction = () => FeatureInit;
-type FeaturePromisedFunction = () => AsyncFeatureInit;
+
+// Cannot use a type due to https://github.com/benmosher/eslint-plugin-import/issues/1282
+// export type FeatureInit = boolean | void;
 
 type FeatureShortcuts = Record<string, string>;
 
@@ -32,7 +31,7 @@ interface FeatureDetails {
 	id: string;
 	include?: BooleanFunction[];
 	exclude?: BooleanFunction[];
-	init: FeatureFunction | FeaturePromisedFunction;
+	init: () => boolean | void | Promise<boolean | void>;
 	deinit?: () => void;
 	load?: callerFunction | Promise<void>;
 	shortcuts?: FeatureShortcuts;
