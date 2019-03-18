@@ -49,7 +49,8 @@ function init() {
 		} else if (event.key === 'ArrowUp' && field.value === '') {
 			const currentConversationContainer = field.closest([
 				'.js-inline-comments-container', // Current review thread container
-				'.discussion-timeline' // Or just ALL the comments
+				'.discussion-timeline', // Or just ALL the comments in issues
+				'#all_commit_comments' // Single commit comments at the bottom
 			].join());
 			const lastOwnComment = select
 				.all<HTMLDetailsElement>('.js-comment.current-user', currentConversationContainer)
