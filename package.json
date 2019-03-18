@@ -40,6 +40,7 @@
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^0.2.1",
 		"@types/firefox-webext-browser": "^65.0.2",
+		"@typescript-eslint/eslint-plugin": "^1.4.2",
 		"ava": "^1.3.1",
 		"chrome-webstore-upload-cli": "^1.2.0",
 		"copy-webpack-plugin": "^5.0.1",
