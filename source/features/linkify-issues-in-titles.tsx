@@ -8,12 +8,12 @@ function init() {
 	observeEl(
 		select('#partial-discussion-header')!.parentNode as Element,
 		() => {
-		const title = select('.js-issue-title:not(.refined-linkified-title)');
-		if (title) {
-			title.classList.add('refined-linkified-title');
-			editTextNodes(linkifyIssues, title);
-		}
-	});
+			const title = select('.js-issue-title:not(.refined-linkified-title)');
+			if (title) {
+				title.classList.add('refined-linkified-title');
+				editTextNodes(linkifyIssues, title);
+			}
+		});
 }
 
 features.add({

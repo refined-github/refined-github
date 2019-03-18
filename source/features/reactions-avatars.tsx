@@ -22,7 +22,7 @@ type Participant = {
 }
 type ParticipantGroup = Participant[][];
 
-function getParticipants(container: Element): Participant[] {
+function getParticipants(container: HTMLElement): Participant[] {
 	const currentUser = getUsername();
 	return container.getAttribute('aria-label')!
 		.replace(/ reacted with.*/, '')
@@ -31,10 +31,10 @@ function getParticipants(container: Element): Participant[] {
 		.replace(/\[bot\]/g, '')
 		.split(', ')
 		.filter(username => username !== currentUser)
-		.map(username => ({
+		.map((username): Participant => ({
 			container,
 			username
-		}) as Participant);
+		}));
 }
 
 function add() {

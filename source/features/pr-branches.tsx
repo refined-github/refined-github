@@ -64,7 +64,7 @@ function normalizeBranchInfo(data: BranchInfo): {
 	return {
 		base: base as RepositoryReference,
 		head: head as RepositoryReference
-	}
+	};
 }
 
 function buildQuery(numbers: number[]) {

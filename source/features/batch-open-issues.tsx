@@ -10,7 +10,7 @@ function getUrlFromItem(checkbox: Element) {
 		checkbox
 			.closest('.js-issue-row')!
 			.querySelector('.js-navigation-open') as HTMLAnchorElement
-		).href;
+	).href;
 }
 
 function openIssues() {
