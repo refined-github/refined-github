@@ -40,8 +40,8 @@ async function init(): AsyncFeatureInit {
 		if (name) {
 			// If it's a regular comment author, add it outside <strong>
 			// otherwise it's something like "User added some commits"
-			const insertionPoint = usernameEl.parentElement!.tagName === 'STRONG' ? usernameEl.parentElement : usernameEl;
-			insertionPoint!.after(' (', <bdo>{name}</bdo>, ') ');
+			const insertionPoint = usernameEl.parentElement!.tagName === 'STRONG' ? usernameEl.parentElement! : usernameEl;
+			insertionPoint.after(' (', <bdo>{name}</bdo>, ') ');
 		}
 	}
 }

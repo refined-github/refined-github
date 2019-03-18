@@ -43,7 +43,7 @@ function init() {
 }
 
 function addContentToDetails(event: DelegateEvent<MouseEvent>) {
-	const field = (event.delegateTarget as HTMLButtonElement)!.form!['comment[body]'];
+	const field = (event.delegateTarget as HTMLButtonElement).form!['comment[body]'];
 
 	// Don't indent <summary> because indentation will not be automatic on multi-line content
 	const newContent = `

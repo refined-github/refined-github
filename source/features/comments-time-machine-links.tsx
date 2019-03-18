@@ -9,7 +9,7 @@ function init() {
 
 	for (const comment of comments) {
 		const timestampEl = select('relative-time', comment.closest('.discussion-item-review') || comment)!;
-		const timestamp = timestampEl.attributes['datetime'].value; // eslint-disable-line dot-notation
+		const timestamp = (timestampEl.attributes as any).datetime.value;
 		const href = `/${getRepoURL()}/tree/HEAD@{${timestamp}}`;
 
 		timestampEl.parentElement!.after(

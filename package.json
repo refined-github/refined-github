@@ -29,7 +29,7 @@
 		"linkify-issues": "^1.3.0",
 		"linkify-urls": "^2.2.0",
 		"onetime": "^5.0.0",
-		"select-dom": "^5.0.0",
+		"select-dom": "^5.0.1",
 		"shorten-repo-url": "^1.5.0",
 		"tiny-version-compare": "^0.10.0",
 		"webext-domain-permission-toggle": "^0.1.0",

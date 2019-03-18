@@ -235,7 +235,7 @@ async function renderNotifications(unreadNotifications: Notification[]): Promise
 		const item = getNotification(notification);
 
 		pageList!.prepend(group);
-		group!
+		group
 			.querySelector('ul.notifications')!
 			.prepend(item);
 	});

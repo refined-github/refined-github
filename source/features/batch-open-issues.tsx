@@ -7,7 +7,7 @@ const confirmationRequiredCount = 10;
 
 function getUrlFromItem(checkbox: Element) {
 	return (
-		checkbox!
+		checkbox
 			.closest('.js-issue-row')!
 			.querySelector('.js-navigation-open') as HTMLAnchorElement
 		).href;
