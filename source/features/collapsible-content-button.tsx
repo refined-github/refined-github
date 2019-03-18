@@ -6,7 +6,7 @@ https://user-images.githubusercontent.com/1402241/53678019-0c721280-3cf4-11e9-9c
 
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
+import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 
@@ -42,8 +42,8 @@ function init() {
 	}
 }
 
-function addContentToDetails(event) {
-	const field = event.delegateTarget.form['comment[body]'];
+function addContentToDetails(event: DelegateEvent<MouseEvent>) {
+	const field = (event.delegateTarget as HTMLButtonElement)!.form!['comment[body]'];
 
 	// Don't indent <summary> because indentation will not be automatic on multi-line content
 	const newContent = `
