@@ -57,6 +57,34 @@
 	display: none !important;
 }
 
+/* Always show `Delete fork` button */
+.js-fork-cleanup-button-group {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.js-fork-cleanup-branch-button {
+	display: block !important;
+	border-radius: 3px;
+	border-right-width: 1px;
+}
+
+.js-fork-cleanup-fork-button {
+	display: block !important;
+	padding: initial;
+	border: initial;
+	font: inherit;
+	background: initial !important;
+	box-shadow: initial !important;
+	color: var(--github-red);
+	margin-top: 7px;
+}
+
+.js-fork-cleanup-select-menu {
+	display: none;
+}
+
 /* Visibly disable merge fields during submission for `wait-for-build` */
 [name='commit_message'][disabled],
 [name='commit_title'][disabled] {
@@ -132,17 +160,19 @@ a .commit-ref:hover span {
 	opacity: 1;
 }
 
-/* Hide news items when people:
+/*
+For `hide-useless-newsfeed-events`
+Hide news items when people:
 pushed to a branch
 deleted a branch
 added someone as a collaborator
 forked a repo
 followed someone
 */
-.rgh-no-useless-events .push,
-.rgh-no-useless-events .fork,
-.rgh-no-useless-events .delete,
-.rgh-no-useless-events .follow {
+.rgh-no-useless-events .news .push,
+.rgh-no-useless-events .news .fork,
+.rgh-no-useless-events .news .delete,
+.rgh-no-useless-events .news .follow {
 	display: none !important;
 }
 
@@ -813,19 +843,32 @@ body > .footer li a {
 	display: none;
 }
 
-/* Add background and border to non-grouped events */
-.dashboard .border-gray.flex-items-baseline.py-3 {
+/* Add background and border Whole list */
+.dashboard .js-all-activity-header + div {
 	background-color: #fff;
 	border: 1px solid #d1d5da;
 	border-radius: 3px;
-	padding: 16px !important;
 	margin-top: 8px !important;
+}
 
-	/* Align avatar with first 2 lines */
-	align-items: flex-start !important;
+/* Drop "box" style for all events */
+.dashboard .js-all-activity-header + div .Box {
+	padding: 0 !important;
+	border: none;
+	background: none;
+}
+
+/* Restore "row"-like spacing for all events */
+.dashboard .body > .border-bottom {
+	margin: 0;
+	padding-left: 16px;
+	padding-right: 16px;
 }
 
 /* Align avatar with first 2 lines */
+.dashboard .flex-items-baseline.py-3 {
+	align-items: flex-start !important;
+}
 .dashboard .body .mr-3 + div {
 	margin-top: -5px;
 	margin-bottom: -5px;
@@ -840,22 +883,21 @@ body > .footer li a {
 .dashboard .repo .f6.text-gray {
 	display: none;
 }
-/* Drop "box" style for activities in non-grouped events */
-.dashboard .body .border-gray .Box.p-3.mt-2, /* Starred */
-.dashboard .body .border-gray .Box.p-3.my-2 { /* Made public */
-	margin-top: 0 !important;
-	padding: 0 !important;
-	border: none;
-	background: none;
-}
 
 /* Grouped events: Make repo name smaller */
 .dashboard .Details .flex-items-baseline .text-bold.text-gray-dark {
 	font-size: 1em !important;
 }
-/* Grouped events: Hide separator */
-.Details.js-news-feed-event-group {
-	border-bottom: none !important;
+
+/* Grouped events: Show separator */
+.dashboard-rollup-items .body {
+	border-top: 1px solid #e1e4e8;
+	margin-top: 8px;
+}
+
+/* Grouped events: Bring horizontal lines to right border */
+.js-news-feed-event-group {
+	padding-right: 0 !important;
 }
 
 /* Grouped events: Keep open */
@@ -875,6 +917,7 @@ body > .footer li a {
 	display: none;
 }
 
+/* Fade out last line */
 .dashboard .flex-items-baseline .f6.mt-2 {
 	opacity: 0.5;
 }
@@ -1075,11 +1118,11 @@ body > .footer li a {
 }
 
 /* Drop counters for Watch and Forks */
-.btn-with-count[title^='Fork your own'],
-[action='/notifications/subscribe'] .btn-with-count {
+.rgh-hide-watch-and-fork-count .btn-with-count[title^='Fork your own'],
+.rgh-hide-watch-and-fork-count [action='/notifications/subscribe'] .btn-with-count {
 	border-radius: 0.25em; /* Matches GitHub's default */
 }
-.social-count[href$='/network/members'],
-.social-count[href$='/watchers'] {
+.rgh-hide-watch-and-fork-count .social-count[href$='/network/members'],
+.rgh-hide-watch-and-fork-count .social-count[href$='/watchers'] {
 	display: none;
 }

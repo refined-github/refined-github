@@ -140,7 +140,7 @@ GitHub Enterprise is also supported. More info in the options.
 
 ### Declutter
 
-- [Newsfeed events take up less space.](https://user-images.githubusercontent.com/1402241/53853757-b6f27a00-4001-11e9-9879-a75228b3df90.png)
+- [Newsfeed events take up less space and "User starred X repos" groups are now always expanded.](https://user-images.githubusercontent.com/1402241/54401114-39192780-4701-11e9-9934-7c71f01e957f.png)
 - Stars on your repos and some other useless events (commits, forks, new followers) are hidden.
 - The file hover effect in the repo file browser is removed.
 - [Unnecessary buttons in the comment box toolbar are hidden](https://user-images.githubusercontent.com/1402241/53629083-a4fe8900-3c47-11e9-8211-bfe2d254ffcb.png) (each one has a keyboard shortcut).
@@ -187,9 +187,9 @@ And [many more…](source/content.css)
 - [Find a user’s most starred repositories in their profile.](https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93de-159ad4c6f283.png)
 - [Bypass the "Checks" page and go directly to build results when clicking the "Details" links on a PR](https://user-images.githubusercontent.com/2103975/49071220-c6596e80-f22d-11e8-8a1e-bdcd62aa6ece.png)
 - Star/unstar a repository by pressing <kbd>g</kbd> <kbd>s</kbd>.
+- [Delete a forked repo in one click after its PR has been merged.](https://user-images.githubusercontent.com/1402241/54188399-94bd9800-44ea-11e9-8d37-85170309bbef.png)
 - Toggle whitespace visibility in diffs by pressing <kbd>d</kbd> <kbd>w</kbd>.
 - [Change diff style and whitespace visibility in one click.](https://user-images.githubusercontent.com/1402241/54178764-d1c96080-44d1-11e9-889c-734ffd2a602d.png)
-
 
 ### Previously part of Refined GitHub
 

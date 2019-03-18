@@ -20,7 +20,7 @@ async function embedGist(link: HTMLAnchorElement) {
 		const response = await fetch(`${link.href}.json`);
 		const gistData = await response.json();
 
-		const files = domify(gistData.div).firstElementChild!;
+		const files = domify.one(gistData.div)!;
 		const fileCount = files.children.length;
 
 		if (fileCount > 1) {
