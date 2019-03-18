@@ -19,11 +19,38 @@ declare namespace JSX {
 
 	// TODO: Get this working
 	// interface Element extends SVGElement {}
-
+	// interface IntrinsicElements extends AllElementsTagNameMap {
 	interface IntrinsicElements {
-		'include-fragment': any;
-		'has-rgh': any;
-		'relative-time': any;
+		// [name: string]: any; // or full list, to test one by one
+		a: any;
+		link: any;
+		em: any;
+		strong: any;
+		label: any;
+		input: any;
+		p: any;
+		h2: any;
+		h3: any;
+		del: any;
+		button: any;
+		form: any;
+		details: any;
+		summary: any;
+		ul: any;
+		li: any;
+		kbd: any;
+		bdo: any;
+		span: any;
+		img: any;
+		i: any;
+		svg: any;
+		div: any;
+		style: any;
+		path: any;
+		'include-fragment': {src: string};
+		'has-rgh': {};
+		'relative-time': {datetime: string; title: string};
+		'details-dialog': any;
 	}
 }
 
