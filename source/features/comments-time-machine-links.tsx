@@ -29,7 +29,6 @@ function init() {
 			[href^="${location.origin}"][href*="/tree/"]
 		`, comment.closest('.comment'));
 		for (const link of links) {
-			console.log(link)
 			const linkParts = link.pathname.split('/');
 			// Skip permalinks
 			if (/^[0-9a-f]{40}$/.test(linkParts[3])) {
