@@ -79,10 +79,10 @@ function addOpenAllButton() {
 	}
 }
 
-function update(): boolean | void {
+function update(): void {
 	const unreadCount = select.all(unreadNotificationsClass).length;
 	if (unreadCount === 0) {
-		return false;
+		return;
 	}
 
 	addOpenAllButton();
