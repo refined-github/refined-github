@@ -8,7 +8,7 @@ import debounce from 'debounce-fn';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 
-let btn;
+let btn: HTMLButtonElement;
 
 const loadMore = debounce(() => {
 	btn.click();
@@ -43,7 +43,7 @@ const findButton = () => {
 	inView.disconnect();
 
 	// Watch the new button, or stop everything
-	btn = select('.ajax-pagination-btn');
+	btn = select('.ajax-pagination-btn') as HTMLButtonElement;
 	if (btn) {
 		inView.observe(btn);
 	}

@@ -16,7 +16,7 @@ import {openPullRequest} from '../libs/icons';
 type RepositoryReference = {
 	owner: string;
 	branchExists: boolean;
-	url: string;
+	url?: string;
 	label: string;
 }
 
@@ -34,8 +34,8 @@ type BranchInfo = {
 }
 
 function normalizeBranchInfo(data: BranchInfo): {
-	base: RepositoryReference;
-	head: RepositoryReference;
+	base?: RepositoryReference;
+	head?: RepositoryReference;
 } {
 	const {ownerName, repoName} = getOwnerAndRepo();
 
@@ -61,7 +61,10 @@ function normalizeBranchInfo(data: BranchInfo): {
 		head.url = data.headRepository.url;
 	}
 
-	return {base, head};
+	return {
+		base: base as RepositoryReference,
+		head: head as RepositoryReference
+	}
 }
 
 function buildQuery(numbers: number[]) {
@@ -116,12 +119,12 @@ async function init(): AsyncFeatureInit {
 		let branches;
 		let {base, head} = normalizeBranchInfo(data!.repository[PR.id]);
 
-		if (base.label === defaultBranch) {
-			base = null;
+		if (base!.label === defaultBranch) {
+			base = undefined;
 		}
 
-		if (head.owner !== ownerName) {
-			head = null;
+		if (head!.owner !== ownerName) {
+			head = undefined;
 		}
 
 		if (base && head) {

@@ -10,18 +10,18 @@ import features, {FeatureInit} from '../libs/features';
 import {getCleanPathname} from '../libs/utils';
 import getDefaultBranch from '../libs/get-default-branch';
 
-async function is404(url) {
+async function is404(url: string) {
 	const {status} = await fetch(url, {method: 'head'});
 	return status === 404;
 }
 
-function getStrikeThrough(text) {
+function getStrikeThrough(text: string) {
 	return <del style={{color: '#6a737d'}}>{text}</del>;
 }
 
-async function checkAnchor(anchor) {
+async function checkAnchor(anchor: HTMLAnchorElement) {
 	if (await is404(anchor.href)) {
-		anchor.replaceWith(getStrikeThrough(anchor.textContent));
+		anchor.replaceWith(getStrikeThrough(anchor.textContent!));
 	}
 }
 
@@ -35,7 +35,7 @@ function parseCurrentURL() {
 }
 
 // If the resource was deleted, link to the commit history
-async function addCommitHistoryLink(bar) {
+async function addCommitHistoryLink(bar: Element) {
 	const parts = parseCurrentURL();
 	parts[2] = 'commits';
 	const url = '/' + parts.join('/');
@@ -51,7 +51,7 @@ async function addCommitHistoryLink(bar) {
 }
 
 // If the resource exists in the default branch, link to it
-async function addDefaultBranchLink(bar) {
+async function addDefaultBranchLink(bar: Element) {
 	const parts = getCleanPathname().split('/');
 	const branch = parts[3];
 	if (!branch) {

@@ -5,8 +5,12 @@ import features, {FeatureInit} from '../libs/features';
 
 const confirmationRequiredCount = 10;
 
-function getUrlFromItem(checkbox) {
-	return checkbox.closest('.js-issue-row').querySelector('.js-navigation-open').href;
+function getUrlFromItem(checkbox: Element) {
+	return (
+		checkbox!
+			.closest('.js-issue-row')!
+			.querySelector('.js-navigation-open') as HTMLAnchorElement
+		).href;
 }
 
 function openIssues() {

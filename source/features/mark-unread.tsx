@@ -10,6 +10,7 @@ import {getUsername, getOwnerAndRepo} from '../libs/utils';
 
 // TODO: Pull these types out.
 type NotificationType = 'pull-request' | 'issue';
+type NotificationState = 'open' | 'merged' | 'closed';
 
 interface Participant {
 	username: string;
@@ -18,7 +19,7 @@ interface Participant {
 
 interface Notification {
 	participants: Participant[]; // TODO: right type
-	state: unknown; // TODO: right type
+	state: NotificationState;
 	isParticipating: boolean;
 	repository: string;
 	dateTitle: string;
@@ -85,7 +86,7 @@ async function markRead(urls: string|string[]): Promise<void> {
 	await setNotifications(updated);
 }
 
-async function markUnread(): Promise<void> {
+async function markUnread({target}: Event): Promise<void> {
 	const participants = select.all('.participant-avatar').slice(0, 3).map(el => ({
 		username: el.getAttribute('aria-label')!,
 		avatar: el.querySelector('img')!.src
@@ -93,7 +94,7 @@ async function markUnread(): Promise<void> {
 
 	const {ownerName, repoName} = getOwnerAndRepo();
 	const stateLabel = select('.gh-header-meta .State')!;
-	let state;
+	let state: NotificationState;
 
 	if (stateLabel.classList.contains('State--green')) {
 		state = 'open';
@@ -101,6 +102,8 @@ async function markUnread(): Promise<void> {
 		state = 'merged';
 	} else if (stateLabel.classList.contains('State--red')) {
 		state = 'closed';
+	} else {
+		throw new Error('Refined GitHub: A new issue state was introduced?');
 	}
 
 	const lastCommentTime = select.all<HTMLTimeElement>('.timeline-comment-header relative-time').pop();
@@ -121,8 +124,9 @@ async function markUnread(): Promise<void> {
 	await setNotifications(unreadNotifications);
 	await updateUnreadIndicator();
 
-	this.setAttribute('disabled', 'disabled');
-	this.textContent = 'Marked as unread';
+	// TODO: move type to function parameters
+	(target as HTMLButtonElement).setAttribute('disabled', 'disabled');
+	(target as HTMLButtonElement).textContent = 'Marked as unread';
 }
 
 function getNotification(notification: Notification): Element {
@@ -223,7 +227,7 @@ async function renderNotifications(unreadNotifications: Notification[]): Promise
 
 	if (!pageList) {
 		pageList = <div className="notifications-list"></div>;
-		select('.blankslate')!.replaceWith(pageList);
+		select('.blankslate')!.replaceWith(pageList as HTMLElement);
 	}
 
 	unreadNotifications.reverse().forEach(notification => {

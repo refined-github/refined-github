@@ -10,7 +10,7 @@ function init() {
 		code.classList.add('rgh-copy-file');
 		const file = code.closest('.file');
 
-		const content = select.all('.blob-code-inner', file)
+		const content = select.all('.blob-code-inner', file!)
 			.map(blob => blob.innerText)
 			.map(line => line === '\n' ? '' : line)
 			.join('\n');
@@ -20,7 +20,7 @@ function init() {
 		};
 
 		// Prepend to list of buttons
-		const firstAction = select('.file-actions .btn', file);
+		const firstAction = select('.file-actions .btn', file!);
 		if (firstAction) {
 			firstAction.before(
 				<button onClick={handleClick} className="btn btn-sm copy-btn tooltipped tooltipped-n" aria-label="Copy file to clipboard" type="button">Copy</button>

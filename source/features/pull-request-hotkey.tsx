@@ -3,7 +3,7 @@ import features from '../libs/features';
 
 function init() {
 	const tabs = select.all('.tabnav-pr .tabnav-tab');
-	const selectedIndex = tabs.indexOf(select('.tabnav-pr .selected'));
+	const selectedIndex = tabs.indexOf(select('.tabnav-pr .selected')!);
 	const lastTab = tabs.length - 1;
 
 	for (const [index, tab] of tabs.entries()) {

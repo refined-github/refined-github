@@ -6,7 +6,7 @@ function splitKeys(keys: string) {
 	return keys.split(' ').map(key => <>{' '}<kbd>{key}</kbd></>);
 }
 
-function improveShortcutHelp(dialog) {
+function improveShortcutHelp(dialog: Element) {
 	select('.Box-body .col-5 .Box:first-child', dialog)!.after(
 		<div className="Box Box--condensed m-4">
 			<div className="Box-header">
@@ -27,7 +27,7 @@ function improveShortcutHelp(dialog) {
 	);
 }
 
-function fixKeys(dialog) {
+function fixKeys(dialog: Element) {
 	for (const key of select.all('kbd', dialog)) {
 		if (key.textContent!.includes(' ')) {
 			key.replaceWith(...splitKeys(key.textContent as string));
@@ -35,10 +35,11 @@ function fixKeys(dialog) {
 	}
 }
 
+// TODO: type target asap and drop `as Element`
 const observer = new MutationObserver(([{target}]) => {
 	if (!select.exists('.js-details-dialog-spinner', target as Element)) {
-		improveShortcutHelp(target);
-		fixKeys(target);
+		improveShortcutHelp(target as Element);
+		fixKeys(target as Element);
 		observer.disconnect();
 	}
 });

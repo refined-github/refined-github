@@ -13,7 +13,7 @@ import {getRepoURL, getOwnerAndRepo} from '../libs/utils';
 async function getTagLink() {
 	const tags = select
 		.all('.branch-select-menu .select-menu-list:last-child .select-menu-item')
-		.map(element => element.dataset.name);
+		.map(element => element.dataset.name as string);
 
 	if (tags.length === 0) {
 		return;
