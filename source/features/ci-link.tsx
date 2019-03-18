@@ -10,7 +10,10 @@ const fetchStatus = onetime(async () => {
 	const response = await fetch(url);
 	const dom = domify(await response.text());
 
-	const icon = select('.commit-build-statuses', dom)!;
+	const icon = select('.commit-build-statuses', dom);
+	if (!icon) {
+		return undefined;
+	}
 
 	icon.classList.add('rgh-ci-link');
 	return icon;
