@@ -220,9 +220,8 @@ followed someone
 }
 
 /* For `remove-diff-signs` feature */
-.rgh-remove-diff-signs .blob-code-addition:before,
-.rgh-remove-diff-signs .blob-code-deletion:before,
-.rgh-remove-diff-signs .blob-code-context:before {
+.rgh-remove-diff-signs .blob-code-inner::before,
+.rgh-remove-diff-signs .blob-code-marker-cell::before { /* Commit page */
 	content: none;
 }
 
