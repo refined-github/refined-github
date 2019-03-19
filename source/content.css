@@ -219,6 +219,13 @@ followed someone
 	font-size: 13px;
 }
 
+/* For `remove-diff-signs` feature */
+.rgh-remove-diff-signs .blob-code-addition:before,
+.rgh-remove-diff-signs .blob-code-deletion:before,
+.rgh-remove-diff-signs .blob-code-context:before {
+	content: none;
+}
+
 /* Make tab indented code more readable on GitHub and Gist */
 * {
 	-moz-tab-size: 4 !important;
