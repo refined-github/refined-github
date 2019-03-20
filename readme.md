@@ -13,6 +13,10 @@ GitHub Enterprise is also supported. More info in the options.
 
 ---
 
+<a href="https://entwicklerstube.com">
+	<img src="https://sindresorhus.com/assets/thanks/entwicklerstube-refined-github.svg" align="right">
+</a>
+
 - [Latest changes](https://github.com/sindresorhus/refined-github/issues/1137) *(Updated regularly. Subscribe!)*
 - [Product Hunt submission](https://www.producthunt.com/posts/refined-github) *(2017-07-08)*
 - [What's new lately](https://blog.sindresorhus.com/whats-new-in-refined-github-836d05582df7) *(2017-06-23)*
