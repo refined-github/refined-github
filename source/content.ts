@@ -86,6 +86,7 @@ import './features/warning-for-disallow-edits';
 import './features/warn-pr-from-master';
 import './features/split-issue-pr-search-results';
 import './features/preview-hidden-comments';
+import './features/fit-textareas';
 import './features/collapsible-content-button';
 import './features/hide-watch-and-fork-count';
 

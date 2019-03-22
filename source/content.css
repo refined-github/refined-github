@@ -219,6 +219,11 @@ followed someone
 	font-size: 13px;
 }
 
+/* For `fit-textareas` feature */
+.rgh-fit-textareas {
+	max-height: none !important;
+}
+
 /* Make tab indented code more readable on GitHub and Gist */
 * {
 	-moz-tab-size: 4 !important;
