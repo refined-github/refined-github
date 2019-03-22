@@ -23,11 +23,11 @@
 
 .rgh-markdown-source .blame-commit,
 .rgh-markdown-source .blob-reblame {
-	display: none
+	display: none;
 }
 
 .rgh-markdown-source .blame-hunk {
-	border-bottom: 0 !important
+	border-bottom: none !important;
 }
 
 /* Fade out the file icons */
