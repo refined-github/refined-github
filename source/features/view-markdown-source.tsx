@@ -1,6 +1,6 @@
 /*
 Add button to view the markdown source whereas GitHub only lets you see the rendered version.
-https://user-images.githubusercontent.com/1402241/54809113-4dd75b80-4cbd-11e9-9df6-6dbca4a4fc41.png
+https://user-images.githubusercontent.com/1402241/54814836-7bc39c80-4ccb-11e9-8996-9ecf4f6036cb.png
 */
 import React from 'dom-chef';
 import select from 'select-dom';
