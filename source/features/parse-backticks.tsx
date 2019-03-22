@@ -24,6 +24,8 @@ function init() {
 				.reduce(splitTextReducer, new DocumentFragment());
 
 			if (frag.children.length > 0) {
+				node.parentElement.classList.add('markdown-body');
+				node.parentElement.style.lineHeight = 'inherit';
 				node.replaceWith(frag);
 			}
 		}
