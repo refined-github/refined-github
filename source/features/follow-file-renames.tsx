@@ -6,7 +6,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 import * as api from '../libs/api';
-import {getCleanPathname, getOwnerAndRepo } from '../libs/utils';
+import {getCleanPathname} from '../libs/utils';
 
 async function findRename(
 	user: string,
@@ -17,18 +17,6 @@ async function findRename(
 	return api.v3(`repos/${user}/${repo}/commits/${lastCommitOnPage}`);
 }
 
-function linkifyButton(button: Element, sha: string, name: string, newName: boolean = false) {
-	const {ownerName, repoName} = getOwnerAndRepo();
-	const url = `/${ownerName}/${repoName}/commits/${sha}/${name}`;
-	button.replaceWith(
-		<a
-			href={url}
-			aria-label={`Renamed ${newName ? 'to' : 'from'} ${name}`}
-			className="btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay">
-			{button.textContent}
-		</a>
-	);
-}
 async function init(): Promise<false | void> {
 	const disabledPagination = select.all('.paginate-container [disabled]');
 
@@ -40,29 +28,29 @@ async function init(): Promise<false | void> {
 	const currentFilename = path.join('/');
 
 	disabledPagination.forEach(async button => {
-		if (button.textContent === 'Newer') {
-			const sha = select('.commit .sha')!.textContent!.trim();
-			const content = await findRename(user, repo, sha);
+		const isNewer = button.textContent === 'Newer';
 
-			for (const file of content.files) {
-				if (file.previous_filename === currentFilename) {
-					if (file.status === 'renamed') {
-						linkifyButton(button, ref, file.filename, true);
-					}
-					return;
-				}
-			}
-		} else {
-			const sha = select.all('.commit .sha').pop()!.textContent!.trim();
-			const content = await findRename(user, repo, sha);
+		const fromKey = isNewer ? 'previous_filename' : 'filename';
+		const toKey = isNewer ? 'filename' : 'previous_filename';
+		const sha = isNewer ? select('.commit .sha') : select.all('.commit .sha').pop();
 
-			for (const file of content.files) {
-				if (file.filename === currentFilename) {
-					if (file.status === 'renamed') {
-						linkifyButton(button, ref, file.previous_filename);
-					}
-					return;
+		const content = await findRename(user, repo, sha.textContent.trim());
+
+		for (const file of content.files) {
+			if (file[fromKey] === currentFilename) {
+				if (file.status === 'renamed') {
+					const url = `/${user}/${repo}/commits/${ref}/${file[toKey]}`;
+					button.replaceWith(
+						<a
+							href={url}
+							aria-label={`Renamed ${isNewer ? 'to' : 'from'} ${file[toKey]}`}
+							className="btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay">
+							{button.textContent}
+						</a>
+					);
 				}
+
+				return;
 			}
 		}
 	});
