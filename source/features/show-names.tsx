@@ -41,7 +41,15 @@ async function init() {
 			// If it's a regular comment author, add it outside <strong>
 			// otherwise it's something like "User added some commits"
 			const insertionPoint = usernameEl.parentElement.tagName === 'STRONG' ? usernameEl.parentElement : usernameEl;
-			insertionPoint.after(' (', <bdo>{name}</bdo>, ') ');
+			insertionPoint.after(
+				' (',
+				<bdo class="css-truncate">
+					<span class="css-truncate-target" style={{maxWidth: '200px'}}>
+						{name}
+					</span>
+				</bdo>,
+				') '
+			);
 		}
 	}
 }
