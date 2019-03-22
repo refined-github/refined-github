@@ -1,5 +1,6 @@
 /*
-	Automatically expands textareas to fit ALL of their content, rather than have a height limit like GitHub's native "fit to content" behavior
+Automatically expands textareas to fit ALL of their content, rather than have a height limit like GitHub's native "fit to content" behavior.
+https://user-images.githubusercontent.com/1402241/54336211-66fd5e00-4666-11e9-9c5e-111fccab004d.gif
 */
 
 import delegate from 'delegate-it';
