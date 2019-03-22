@@ -9,8 +9,10 @@ import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
 import * as icons from '../libs/icons';
 
+const linkedDom = Symbol('Attached RGH dom');
+
 async function fetchSource() {
-	const url = location.pathname.replace(/([^\/]+\/[^\/]+\/)(blob)/, '$1blame');
+	const url = location.pathname.replace(/([^/]+\/[^/]+\/)(blob)/, '$1blame');
 	const dom = await fetchDom(url, '.blob-wrapper');
 	dom.classList.add('rgh-markdown-source');
 	return dom;
@@ -22,13 +24,13 @@ This acts as an auto-discarded cache without globals, timers, etc.
 It should also work clicks on buttons sooner than the page loads.
 */
 async function showSource() {
-	const sourceButton = select('.rgh-md-source') as any;
-	const renderedButton = select('.rgh-md-rendered') as any;
+	const sourceButton = select('.rgh-md-source');
+	const renderedButton = select('.rgh-md-rendered');
 
-	const source = sourceButton.rgh || fetchSource();
-	const rendered = renderedButton.rgh || select('.blob.instapaper_body');
-	sourceButton.rgh = source;
-	renderedButton.rgh = rendered;
+	const source = sourceButton[linkedDom] || fetchSource();
+	const rendered = renderedButton[linkedDom] || select('.blob.instapaper_body');
+	sourceButton[linkedDom] = source;
+	renderedButton[linkedDom] = rendered;
 
 	rendered.replaceWith(await source);
 
@@ -37,10 +39,10 @@ async function showSource() {
 }
 
 async function showRendered() {
-	const sourceButton = select('.rgh-md-source') as any;
-	const renderedButton = select('.rgh-md-rendered') as any;
+	const sourceButton = select('.rgh-md-source');
+	const renderedButton = select('.rgh-md-rendered');
 
-	(await sourceButton.rgh).replaceWith(renderedButton.rgh);
+	(await sourceButton[linkedDom]).replaceWith(renderedButton[linkedDom]);
 
 	sourceButton.classList.remove('selected');
 	renderedButton.classList.add('selected');
