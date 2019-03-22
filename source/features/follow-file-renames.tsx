@@ -1,5 +1,5 @@
-
 /*
+In commits list, it enables Newer/Older buttons to follow file renames
 */
 
 import React from 'dom-chef';
