@@ -649,8 +649,13 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	float: left;
 	margin-left: 5px;
 	margin-right: 5px;
-	margin-bottom: 10px; /* Eases wrapping with on long breadcrumbs */
 }
+
+/* Hide `New pull request1 button` near file list */
+.file-navigation .new-pull-request-btn {
+	display: none;
+}
+
 /* Undo conflicting GitHub style */
 :root .rgh-branch-buttons .BtnGroup {
 	margin-bottom: 0;
