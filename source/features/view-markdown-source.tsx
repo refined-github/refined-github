@@ -12,8 +12,8 @@ import * as icons from '../libs/icons';
 const linkedDom = Symbol('Attached RGH dom');
 
 async function fetchSource() {
-	const url = location.pathname.replace(/([^/]+\/[^/]+\/)(blob)/, '$1blame');
-	const dom = await fetchDom(url, '.blob-wrapper');
+	const path = location.pathname.replace(/([^/]+\/[^/]+\/)(blob)/, '$1blame');
+	const dom = await fetchDom(location.origin + path, '.blob-wrapper');
 	dom.classList.add('rgh-markdown-source');
 	return dom;
 }
