@@ -88,6 +88,7 @@ import './features/split-issue-pr-search-results';
 import './features/preview-hidden-comments';
 import './features/collapsible-content-button';
 import './features/hide-watch-and-fork-count';
+import './features/follow-file-renames';
 
 // Add global for easier debugging
 (window as any).select = select;
