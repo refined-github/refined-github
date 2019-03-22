@@ -225,6 +225,11 @@ followed someone
 	content: none;
 }
 
+.rgh-remove-diff-signs .highlight-source-diff .pl-mi1 > .pl-mi1,
+.rgh-remove-diff-signs .highlight-source-diff .pl-md > .pl-md {
+	opacity: 0; /* Hides but keeps them copy-pastable */
+}
+
 /* Make tab indented code more readable on GitHub and Gist */
 * {
 	-moz-tab-size: 4 !important;
