@@ -6,9 +6,5 @@ function init() {
 
 features.add({
 	id: 'remove-diff-signs',
-	include: [
-		features.isPR,
-		features.isSingleCommit
-	],
 	init
 });
