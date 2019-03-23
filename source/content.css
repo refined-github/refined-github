@@ -991,11 +991,6 @@ body > .footer li a {
 	max-height: none;
 }
 
-/* For 'add-jump-to-bottom-link' feature */
-#rgh-jump-to-bottom-link {
-	display: inline-block; /* Avoid breaking link in two lines */
-}
-
 /* For `split-issue-pr-search-results` */
 .rgh-split-issue-pr-combined.selected:hover {
 	background-color: #f6f8fa;
