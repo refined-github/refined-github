@@ -30,6 +30,7 @@ function init() {
 
 features.add({
 	id: 'copy-file',
+	description: 'Copy file',
 	include: [
 		features.isSingleFile,
 		features.isGist

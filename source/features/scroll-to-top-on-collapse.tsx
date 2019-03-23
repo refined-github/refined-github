@@ -18,6 +18,7 @@ function init() {
 
 features.add({
 	id: 'scroll-to-top-on-collapse',
+	description: 'Scroll to top on collapse',
 	include: [
 		features.isPR
 	],

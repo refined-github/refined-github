@@ -20,6 +20,7 @@ function init() {
 
 features.add({
 	id: 'yours-menu-item',
+	description: 'Yours menu item',
 	include: [
 		features.isGlobalIssueSearch,
 		features.isGlobalPRSearch

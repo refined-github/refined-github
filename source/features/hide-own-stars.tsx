@@ -28,6 +28,7 @@ async function init() {
 
 features.add({
 	id: 'hide-own-stars',
+	description: 'Hide own stars',
 	include: [
 		features.isDashboard
 	],

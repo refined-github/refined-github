@@ -123,6 +123,7 @@ async function init() {
 
 features.add({
 	id: 'pr-branches',
+	description: 'Head and base branches are added to the PR list when they are significant',
 	include: [
 		features.isPRList
 	],

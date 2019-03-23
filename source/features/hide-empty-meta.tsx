@@ -10,6 +10,7 @@ function init() {
 
 features.add({
 	id: 'hide-empty-meta',
+	description: 'Hide empty meta',
 	include: [
 		features.isRepoRoot
 	],

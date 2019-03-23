@@ -19,6 +19,7 @@ function deinit() {
 
 features.add({
 	id: 'copy-on-y',
+	description: 'Copy on y',
 	include: [
 		features.isSingleFile
 	],

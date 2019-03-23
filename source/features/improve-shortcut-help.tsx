@@ -53,5 +53,6 @@ function init() {
 
 features.add({
 	id: 'improve-shortcut-help',
+	description: 'Improve shortcut help',
 	init
 });

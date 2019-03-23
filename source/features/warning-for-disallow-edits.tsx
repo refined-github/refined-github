@@ -31,6 +31,7 @@ function init() {
 
 features.add({
 	id: 'warning-for-disallow-edits',
+	description: 'Warning for disallow edits',
 	include: [
 		features.isCompare,
 		features.isPRConversation

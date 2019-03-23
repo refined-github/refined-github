@@ -17,6 +17,7 @@ async function bypass(check) {
 
 features.add({
 	id: 'bypass-checks',
+	description: 'Bypass checks',
 	include: [
 		features.isPRConversation
 	],

@@ -21,6 +21,7 @@ function init() {
 
 features.add({
 	id: 'filter-comments-by-you',
+	description: 'Filter comments by you',
 	include: [
 		features.isIssueList
 	],

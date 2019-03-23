@@ -28,6 +28,7 @@ interface GlobalOptions {
 
 interface FeatureDetails {
 	id: string;
+	description: string;
 	include?: BooleanFunction[];
 	exclude?: BooleanFunction[];
 	init: featureFunction | featurePromisedFunction;
@@ -141,6 +142,7 @@ const add = async (definition: FeatureDetails) => {
 	/* Input defaults and validation */
 	const {
 		id,
+		description,
 		include = [() => true], // Default: every page
 		exclude = [], // Default: nothing
 		load = fn => fn(), // Run it right away
@@ -177,7 +179,7 @@ const add = async (definition: FeatureDetails) => {
 	}
 
 	// Initialize the feature using the specified loading mechanism
-	const details: PrivateFeatureDetails = {id, include, exclude, init, deinit, options};
+	const details: PrivateFeatureDetails = {id, description, include, exclude, init, deinit, options};
 	if (load === onNewComments) {
 		details.init = async () => {
 			const result = await init();

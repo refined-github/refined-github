@@ -16,6 +16,7 @@ function init() {
 
 features.add({
 	id: 'move-marketplace-link-to-profile-dropdown',
+	description: 'Move marketplace link to profile dropdown',
 	exclude: [
 		features.isGist
 	],

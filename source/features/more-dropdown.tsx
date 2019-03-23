@@ -57,6 +57,7 @@ async function init() {
 
 features.add({
 	id: 'more-dropdown',
+	description: 'More dropdown',
 	include: [
 		features.isRepo
 	],

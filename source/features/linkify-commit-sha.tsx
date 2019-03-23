@@ -12,6 +12,7 @@ function init() {
 
 features.add({
 	id: 'linkify-commit-sha',
+	description: 'Linkify commit sha',
 	include: [
 		features.isPRCommit
 	],

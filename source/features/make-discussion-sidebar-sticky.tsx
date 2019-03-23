@@ -23,6 +23,7 @@ function deinit() {
 
 features.add({
 	id: 'make-discussion-sidebar-sticky',
+	description: 'Make discussion sidebar sticky',
 	include: [
 		features.isIssue,
 		features.isPRConversation

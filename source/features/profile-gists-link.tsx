@@ -25,6 +25,7 @@ async function init() {
 
 features.add({
 	id: 'profile-gists-link',
+	description: 'Profile gists link',
 	include: [
 		features.isUserProfile
 	],

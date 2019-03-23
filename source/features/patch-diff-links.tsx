@@ -21,6 +21,7 @@ function init() {
 
 features.add({
 	id: 'patch-diff-links',
+	description: 'Patch diff links',
 	include: [
 		features.isCommit
 	],

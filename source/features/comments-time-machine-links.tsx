@@ -29,6 +29,7 @@ function init() {
 
 features.add({
 	id: 'comments-time-machine-links',
+	description: 'Comments time machine links',
 	include: [
 		features.isPRConversation,
 		features.isIssue

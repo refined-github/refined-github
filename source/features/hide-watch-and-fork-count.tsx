@@ -6,6 +6,7 @@ function init() {
 
 features.add({
 	id: 'hide-watch-and-fork-count',
+	description: 'Hide watch and fork count',
 	include: [
 		features.isRepo
 	],

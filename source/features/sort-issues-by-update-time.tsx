@@ -51,6 +51,7 @@ function init() {
 
 features.add({
 	id: 'sort-issues-by-update-time',
+	description: 'Sort issues by update time',
 	load: features.onAjaxedPages,
 	init
 });

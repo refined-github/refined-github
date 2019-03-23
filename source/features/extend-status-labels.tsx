@@ -30,6 +30,7 @@ function init() {
 
 features.add({
 	id: 'extend-status-labels',
+	description: 'Extend status labels',
 	include: [
 		features.isPRConversation,
 		features.isIssue

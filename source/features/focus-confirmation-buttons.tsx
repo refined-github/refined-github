@@ -10,5 +10,6 @@ function init() {
 
 features.add({
 	id: 'focus-confirmation-buttons',
+	description: 'Focus confirmation buttons',
 	init
 });

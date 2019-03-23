@@ -14,6 +14,7 @@ function init() {
 
 features.add({
 	id: 'hide-inactive-deployments',
+	description: 'Hide inactive deployments',
 	include: [
 		features.isPRConversation
 	],

@@ -19,6 +19,7 @@ function init() {
 
 features.add({
 	id: 'preserve-whitespace-option-in-nav',
+	description: 'When navigating with next/previous in review mode, preserve whitespace option',
 	include: [
 		features.isRepo
 	],

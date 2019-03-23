@@ -65,6 +65,7 @@ function init() {
 
 features.add({
 	id: 'linkify-branch-refs',
+	description: 'Linkify branch refs',
 	include: [
 		features.isPR,
 		features.isQuickPR

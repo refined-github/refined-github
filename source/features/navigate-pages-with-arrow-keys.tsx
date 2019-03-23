@@ -15,6 +15,7 @@ function init() {
 
 features.add({
 	id: 'navigate-pages-with-arrow-keys',
+	description: 'Navigate pages with arrow keys',
 	load: features.onAjaxedPages,
 	shortcuts: {
 		'→': 'Go to the next page',

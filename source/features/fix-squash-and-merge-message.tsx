@@ -15,6 +15,7 @@ function init() {
 
 features.add({
 	id: 'fix-squash-and-merge-message',
+	description: 'Fix squash and merge message',
 	include: [
 		features.isPR
 	],

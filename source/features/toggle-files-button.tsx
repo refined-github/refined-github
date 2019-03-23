@@ -31,6 +31,7 @@ function init() {
 
 features.add({
 	id: 'toggle-files-button',
+	description: 'Toggle files button',
 	include: [
 		features.isRepoTree
 	],

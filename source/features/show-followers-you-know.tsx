@@ -51,6 +51,7 @@ async function init() {
 
 features.add({
 	id: 'show-followers-you-know',
+	description: 'Show followers you know',
 	include: [
 		features.isUserProfile
 	],

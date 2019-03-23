@@ -82,6 +82,7 @@ function init() {
 
 features.add({
 	id: 'faster-pr-diff-options',
+	description: 'Faster PR diff options',
 	include: [
 		features.isPRFiles,
 		features.isCommit

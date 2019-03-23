@@ -11,6 +11,7 @@ function init() {
 
 features.add({
 	id: 'highlight-own-issues-and-prs',
+	description: 'Highlight own issues and PRs',
 	include: [
 		features.isIssueList
 	],

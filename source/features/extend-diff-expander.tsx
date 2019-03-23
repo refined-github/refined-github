@@ -15,6 +15,7 @@ function init() {
 
 features.add({
 	id: 'extend-diff-expander',
+	description: 'Extend diff expander',
 	include: [
 		features.isPRFiles
 	],

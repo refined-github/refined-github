@@ -10,6 +10,7 @@ function init() {
 
 features.add({
 	id: 'star-repo-hotkey',
+	description: 'Star repo hot key',
 	include: [
 		features.isRepo
 	],

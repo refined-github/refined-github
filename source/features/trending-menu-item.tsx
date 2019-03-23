@@ -17,6 +17,7 @@ async function init() {
 
 features.add({
 	id: 'trending-menu-item',
+	description: 'Trending menu item',
 	exclude: [
 		features.isGist
 	],

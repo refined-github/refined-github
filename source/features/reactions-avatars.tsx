@@ -73,6 +73,7 @@ function init() {
 
 features.add({
 	id: 'reactions-avatars',
+	description: 'Reaction avatars showing who reacted to a comment.',
 	include: [
 		features.isPR,
 		features.isIssue,

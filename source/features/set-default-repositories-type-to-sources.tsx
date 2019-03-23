@@ -14,6 +14,7 @@ function init() {
 
 features.add({
 	id: 'set-default-repositories-type-to-sources',
+	description: 'Set default repositories type to sources',
 	load: features.onAjaxedPages,
 	init
 });

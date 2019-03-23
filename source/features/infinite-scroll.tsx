@@ -62,6 +62,7 @@ function init() {
 
 features.add({
 	id: 'infinite-scroll',
+	description: 'Adds infinite scrolling to News feed on the Dashboard',
 	include: [
 		features.isDashboard
 	],

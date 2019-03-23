@@ -16,6 +16,7 @@ function init() {
 
 features.add({
 	id: 'fix-squash-and-merge-title',
+	description: 'Fix squash and merge title',
 	include: [
 		features.isPR
 	],

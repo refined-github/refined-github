@@ -68,6 +68,7 @@ function addContentToDetails(event) {
 
 features.add({
 	id: 'collapsible-content-button',
+	description: 'Insert collapsible content when writing comments',
 	include: [
 		features.isPR,
 		features.isIssue,

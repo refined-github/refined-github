@@ -395,6 +395,7 @@ async function init() {
 
 features.add({
 	id: 'mark-unread',
+	description: 'Mark unread notifications',
 	load: features.onAjaxedPagesRaw,
 	init
 });

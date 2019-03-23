@@ -56,6 +56,7 @@ async function init() {
 
 features.add({
 	id: 'show-names',
+	description: 'Show names',
 	include: [
 		features.isPR,
 		features.isIssue,

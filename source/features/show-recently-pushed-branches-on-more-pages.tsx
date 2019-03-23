@@ -31,6 +31,7 @@ async function init() {
 
 features.add({
 	id: 'show-recently-pushed-branches-on-more-pages',
+	description: 'Shows recently pushed branches on more pages',
 	include: [
 		features.isPR,
 		features.isIssue,

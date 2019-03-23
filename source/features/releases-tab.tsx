@@ -60,6 +60,7 @@ async function init() {
 
 features.add({
 	id: 'releases-tab',
+	description: 'Access a repository’s releases using the Releases tab or by pressing g r',
 	include: [
 		features.isRepo
 	],

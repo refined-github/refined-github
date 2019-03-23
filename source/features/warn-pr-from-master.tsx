@@ -27,6 +27,7 @@ async function init() {
 
 features.add({
 	id: 'warn-pr-from-master',
+	description: 'Show warning when a user attempts to create a PR from their fork\'s default branch',
 	include: [
 		features.isCompare
 	],

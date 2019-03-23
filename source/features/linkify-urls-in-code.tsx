@@ -79,6 +79,7 @@ function init() {
 
 features.add({
 	id: 'linkify-urls-in-code',
+	description: 'Linkify urls in code',
 	load: features.onAjaxedPages,
 	init
 });

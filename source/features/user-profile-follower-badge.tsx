@@ -19,6 +19,7 @@ async function init() {
 
 features.add({
 	id: 'user-profile-follower-badge',
+	description: 'User profile follower badge',
 	include: [
 		features.isUserProfile
 	],

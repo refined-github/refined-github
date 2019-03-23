@@ -20,5 +20,6 @@ function init() {
 
 features.add({
 	id: 'hide-navigation-hover-highlight',
+	description: 'Hide navigation hover highlight',
 	init
 });

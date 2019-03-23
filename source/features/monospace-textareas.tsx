@@ -6,5 +6,6 @@ function init() {
 
 features.add({
 	id: 'monospace-textareas',
+	description: 'Monospace text areas',
 	init
 });

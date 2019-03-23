@@ -10,6 +10,7 @@ function init() {
 
 features.add({
 	id: 'create-release-shortcut',
+	description: 'Create release shortcut',
 	include: [
 		features.isReleasesOrTags
 	],

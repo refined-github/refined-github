@@ -12,6 +12,7 @@ function init() {
 
 features.add({
 	id: 'emojis-title',
+	description: 'Emojis title',
 	load: features.onAjaxedPages,
 	init
 });

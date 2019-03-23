@@ -22,6 +22,7 @@ function init() {
 
 features.add({
 	id: 'prev-next-commit-buttons',
+	description: 'Adds Prev/Next buttons at the bottom of the page when reviewing a PR',
 	include: [
 		features.isPRFiles,
 		features.isPRCommit

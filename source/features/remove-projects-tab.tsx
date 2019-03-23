@@ -74,6 +74,7 @@ async function init() {
 
 features.add({
 	id: 'remove-projects-tab',
+	description: 'The `Projects` tab is hidden from repositories and profiles when there are no projects',
 	include: [
 		features.isRepo,
 		features.isUserProfile,

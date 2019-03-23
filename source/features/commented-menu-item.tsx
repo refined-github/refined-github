@@ -22,6 +22,7 @@ function init() {
 
 features.add({
 	id: 'commented-menu-item',
+	description: 'Commented menu item',
 	include: [
 		features.isGlobalIssueSearch,
 		features.isGlobalPRSearch

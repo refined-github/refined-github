@@ -115,6 +115,7 @@ function init() {
 
 features.add({
 	id: 'wait-for-build',
+	description: 'Wait for build',
 	include: [
 		features.isPR
 	],

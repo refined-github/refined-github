@@ -13,6 +13,7 @@ function init() {
 
 features.add({
 	id: 'remove-upload-files-button',
+	description: 'Remove upload files button',
 	include: [
 		features.isRepoTree
 	],

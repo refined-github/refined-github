@@ -62,6 +62,7 @@ function init() {
 
 features.add({
 	id: 'batch-open-issues',
+	description: 'Batch open issues',
 	include: [
 		features.isGlobalIssueSearch,
 		features.isGlobalPRSearch,

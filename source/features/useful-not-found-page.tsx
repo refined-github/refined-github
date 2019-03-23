@@ -114,6 +114,7 @@ function init() {
 
 features.add({
 	id: 'useful-not-found-page',
+	description: 'Adds more useful 404 (not found) page',
 	include: [
 		features.is404
 	],

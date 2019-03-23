@@ -31,6 +31,7 @@ function init() {
 
 features.add({
 	id: 'show-user-top-repositories',
+	description: 'Find a user\'s most starred repositories in their profile.',
 	include: [
 		features.isUserProfile
 	],

@@ -37,6 +37,7 @@ function init() {
 
 features.add({
 	id: 'upload-button',
+	description: 'Upload button',
 	include: [
 		features.isPR,
 		features.isIssue,

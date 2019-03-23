@@ -14,6 +14,7 @@ function init() {
 
 features.add({
 	id: 'mark-merge-commits-in-list',
+	description: 'Mark merge commits in list',
 	include: [
 		features.isCommitList
 	],
