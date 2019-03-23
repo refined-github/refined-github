@@ -6,7 +6,7 @@ export const groupButtons = (buttons: Element[]) => {
 	// Ensure every button has this class
 	for (let button of buttons) {
 		if (!button.matches('.btn')) {
-			button.classList.add('BtnGroup-form');
+			button.classList.add('BtnGroup-parent');
 			button = button.querySelector('.btn')!;
 		}
 

@@ -649,58 +649,17 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	float: left;
 	margin-left: 5px;
 	margin-right: 5px;
-	margin-bottom: 10px; /* Eases wrapping with on long breadcrumbs */
 }
+
+/* Hide `New pull request1 button` near file list */
+.file-navigation .new-pull-request-btn {
+	display: none;
+}
+
 /* Undo conflicting GitHub style */
 :root .rgh-branch-buttons .BtnGroup {
 	margin-bottom: 0;
 	margin-left: 0;
-}
-
-/* Sticky file and table headers */
-.rgh-sticky-header .file-header,
-.rgh-sticky-header .table-list-header {
-	position: sticky;
-	top: 0;
-	/* Must be above .modal-backdrop (z-index 20) #1317 */
-	z-index: 25;
-}
-
-/* Since the header is sticky, filters must now fit the viewport */
-.rgh-sticky-header .table-list-header .select-menu-list {
-	max-height: calc(100vh - 150px);
-}
-/* Sticky file headers on pull request diff view and conversation view */
-.rgh-sticky-header .discussion-timeline .discussion-item-body .file-header,
-.rgh-sticky-header .pull-request-tab-content .diff-view .file-header {
-	top: 59px;
-}
-
-/* Momentarily offset the line so its #deeplink won’t be covered by the header #974 */
-.js-file-line.highlighted {
-	/* stylelint-disable time-min-milliseconds */
-	animation: sticky-file-header-target-fixer 0s 0.1ms backwards;
-}
-@keyframes sticky-file-header-target-fixer {
-	from {
-		transform: translateY(-78px); /* Matches GH’s regular line clicking position */
-		opacity: 0;
-	}
-}
-.file .markdown-body .anchor {
-	padding-top: 45px;
-	transform: translateY(-45px);
-}
-
-/* Similar fix to the above, for deep links to reviews */
-.review-comment:target {
-	animation: sticky-review-comment-target-fixer 0s 0.1ms backwards;
-}
-@keyframes sticky-review-comment-target-fixer {
-	from {
-		transform: translateY(-35px);
-		opacity: 0;
-	}
 }
 
 /* Remove annoying "helpful" banner on the issue tracker listing */
