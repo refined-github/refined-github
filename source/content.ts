@@ -59,7 +59,6 @@ import './features/extend-status-labels';
 import './features/highlight-closing-prs-in-open-issues';
 import './features/highlight-own-issues-and-prs';
 import './features/comments-time-machine-links';
-import './features/jump-to-bottom-link';
 import './features/filter-comments-by-you';
 import './features/hide-issue-list-autocomplete';
 import './features/show-recently-pushed-branches-on-more-pages';
