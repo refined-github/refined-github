@@ -41,6 +41,7 @@
 	},
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^0.2.1",
+		"@types/codemirror": "^0.0.72",
 		"@types/dom-loaded": "^1.0.0",
 		"@types/element-ready": "^2.1.0",
 		"@types/firefox-webext-browser": "^65.0.2",
