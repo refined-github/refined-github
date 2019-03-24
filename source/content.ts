@@ -13,6 +13,7 @@ import './features/hide-navigation-hover-highlight';
 import './features/monospace-textareas';
 import './features/selection-in-new-tab';
 import './features/hide-comments-faster';
+import './features/edit-comments-faster';
 import './features/mark-unread';
 import './features/open-all-notifications';
 import './features/copy-on-y';
