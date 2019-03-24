@@ -19,6 +19,13 @@ async function fetchSource() {
 	return dom;
 }
 
+// Hide tooltip after click, it’s shown on :focus
+function blurButton(button) {
+	if (button === document.activeElement) {
+		blurAccessibly(button);
+	}
+}
+
 /*
 The dom of each version is stored on each button.
 This acts as an auto-discarded cache without globals, timers, etc.
@@ -41,6 +48,7 @@ async function showSource() {
 
 	sourceButton.classList.add('selected');
 	renderedButton.classList.remove('selected');
+	blurButton(sourceButton);
 }
 
 async function showRendered() {
@@ -51,6 +59,7 @@ async function showRendered() {
 
 	sourceButton.classList.remove('selected');
 	renderedButton.classList.add('selected');
+	blurButton(renderedButton);
 }
 
 async function init(): Promise<false | void> {
@@ -60,9 +69,6 @@ async function init(): Promise<false | void> {
 
 	delegate('.rgh-md-source:not(.selected)', 'click', showSource);
 	delegate('.rgh-md-rendered:not(.selected)', 'click', showRendered);
-	delegate('.rgh-md-rendered, .rgh-md-source', 'click', event => {
-		blurAccessibly(event.delegateTarget); // Hide tooltip after click, it’s shown on :focus
-	});
 
 	select('.repository-content .Box-header .d-flex').prepend(
 		<div class="BtnGroup">
