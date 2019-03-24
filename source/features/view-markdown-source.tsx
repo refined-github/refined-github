@@ -74,6 +74,11 @@ async function init(): Promise<false | void> {
 			</button>
 		</div>
 	);
+
+	// Add support for permalinks to the code
+	if (location.hash.startsWith('#L')) {
+		showSource();
+	}
 }
 
 features.add({
