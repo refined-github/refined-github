@@ -3,7 +3,7 @@ import features from '../libs/features';
 import * as icons from '../libs/icons';
 
 function init() {
-	const menuItems = select.all('details-menu .js-comment-edit-button:not(.rgh-edit-comment)');
+	const menuItems = select.all('details .js-comment-edit-button:not(.rgh-edit-comment)');
 
 	for (const item of menuItems) {
 		item.classList.add('rgh-edit-comment');
@@ -18,8 +18,9 @@ function init() {
 features.add({
 	id: 'edit-comments-faster',
 	include: [
-		features.isPRConversation,
-		features.isIssue
+		features.isPR,
+		features.isIssue,
+		features.isCommit
 	],
 	load: features.onNewComments,
 	init
