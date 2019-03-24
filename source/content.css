@@ -649,8 +649,13 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	float: left;
 	margin-left: 5px;
 	margin-right: 5px;
-	margin-bottom: 10px; /* Eases wrapping with on long breadcrumbs */
 }
+
+/* Hide `New pull request1 button` near file list */
+.file-navigation .new-pull-request-btn {
+	display: none;
+}
+
 /* Undo conflicting GitHub style */
 :root .rgh-branch-buttons .BtnGroup {
 	margin-bottom: 0;
@@ -984,11 +989,6 @@ body > .footer li a {
 .comment-body blockquote blockquote,
 .comment-body blockquote pre {
 	max-height: none;
-}
-
-/* For 'add-jump-to-bottom-link' feature */
-#rgh-jump-to-bottom-link {
-	display: inline-block; /* Avoid breaking link in two lines */
 }
 
 /* For `split-issue-pr-search-results` */
