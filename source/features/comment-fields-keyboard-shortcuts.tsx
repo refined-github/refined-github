@@ -5,7 +5,7 @@ import features from '../libs/features';
 
 // Element.blur() will reset the tab focus to the start of the document.
 // This places it back next to the blurred field
-function blurAccessibly(field) {
+export function blurAccessibly(field) {
 	field.blur();
 
 	const range = new Range();

@@ -8,6 +8,7 @@ import delegate from 'delegate-it';
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
 import * as icons from '../libs/icons';
+import {blurAccessibly} from './comment-fields-keyboard-shortcuts';
 
 const linkedDom = Symbol('Attached RGH dom');
 
@@ -59,6 +60,9 @@ async function init(): Promise<false | void> {
 
 	delegate('.rgh-md-source:not(.selected)', 'click', showSource);
 	delegate('.rgh-md-rendered:not(.selected)', 'click', showRendered);
+	delegate('.rgh-md-rendered, .rgh-md-source', 'click', event => {
+		blurAccessibly(event.delegateTarget); // Hide tooltip after click, it’s shown on :focus
+	});
 
 	select('.repository-content .Box-header .d-flex').prepend(
 		<div class="BtnGroup">
