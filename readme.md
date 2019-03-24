@@ -192,6 +192,7 @@ And [many more…](source/content.css)
 - [Delete a forked repo in one click after its PR has been merged.](https://user-images.githubusercontent.com/1402241/54188399-94bd9800-44ea-11e9-8d37-85170309bbef.png)
 - Toggle whitespace visibility in diffs by pressing <kbd>d</kbd> <kbd>w</kbd>.
 - [Change diff style and whitespace visibility in one click.](https://user-images.githubusercontent.com/1402241/54178764-d1c96080-44d1-11e9-889c-734ffd2a602d.png)
+- [Edit comments in one click.](https://user-images.githubusercontent.com/1402241/54864831-92372a00-4d97-11e9-8c29-efba2dde1baa.png)
 
 ### Previously part of Refined GitHub
 
