@@ -47,7 +47,7 @@ function processConflicts() {
 // Create and add widget to a line
 function addWidgetToLine(lineNumber: number) {
 	const widget = newWidget();
-	editor.addLineWidget(lineNumber, widget, {above: true});
+	editor.addLineWidget(lineNumber, widget, {above: true, noHScroll: true});
 	// Add class for later detection
 	editor.addLineClass(lineNumber, '', 'rgh-conflict');
 }
