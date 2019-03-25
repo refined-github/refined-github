@@ -128,8 +128,8 @@ test('getRepoPath', t => {
 test('getOwnerAndRepo', t => {
 	const ownerAndRepo: {
 		[url: string]: {
-			[prop: string]: string
-		}
+			[prop: string]: string;
+		};
 	} = {
 		'https://github.com/sindresorhus/refined-github/pull/148': {
 			ownerName: 'sindresorhus',
