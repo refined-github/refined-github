@@ -1,33 +1,24 @@
 /// <reference types="codemirror" />
 
-interface CodeMirrorInstance extends CodeMirror.Editor, CodeMirror.Doc {
-}
+interface CodeMirrorInstance extends CodeMirror.Editor, CodeMirror.Doc {}
 
-let editor: CodeMirrorInstance;
-let incomingBranchName: string;
-let currentBranchName: string;
+const select: typeof document.querySelector = document.querySelector.bind(document);
 
-function init() {
-	const codeMirrorElement = document.querySelector('.CodeMirror');
-	editor = (codeMirrorElement as any).CodeMirror;
+const incomingBranchName = select('.head-ref').textContent;
+const currentBranchName = select('.base-ref').textContent;
 
-	incomingBranchName = document.querySelector('.head-ref').textContent;
-	currentBranchName = document.querySelector('.base-ref').textContent;
+const editor: CodeMirrorInstance = (select('.CodeMirror') as any).CodeMirror;
 
-	// Listen to swapDoc event in order to find out file change
-	editor.on('focus', () => {
-		const conflicts = document.querySelector('.CodeMirror .rgh-conflict');
-		if (conflicts === null) {
-			processConflicts();
-		}
-	});
-}
+// Event fired when each file is loaded
+editor.on('swapDoc', () => setTimeout(addWidget, 1));
 
-// Process editor lines and find conflict lines, assign class to each of lines
-// and add resolver widget to the first line of conflict
-function processConflicts() {
-	const lines = document.querySelectorAll('.CodeMirror .conflict-gutter-marker.js-start');
-	for (const line of lines) {
+// Create and add widget if not already in the document
+function addWidget() {
+	if (select('.CodeMirror .rgh-conflict')) {
+		return;
+	}
+
+	for (const line of document.querySelectorAll('.CodeMirror .conflict-gutter-marker.js-start')) {
 		const lineNumber = Number(line.parentElement.parentElement.textContent) - 1;
 		replaceLine(`<<<<<<< ${incomingBranchName} -- Incoming Change\n`, lineNumber);
 
@@ -140,7 +131,3 @@ function pos(line: number, index: number) {
 	const {CodeMirror} = window;
 	return new CodeMirror.Pos(line, index);
 }
-
-init();
-
-processConflicts();
