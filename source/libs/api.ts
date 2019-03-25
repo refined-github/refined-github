@@ -24,22 +24,26 @@ it lets you define accept a 404 error code as a valid response, like:
 so the call will not throw an error but it will return as usual.
  */
 
+import pMemoize from 'p-memoize';
 import OptionsSync from 'webext-options-sync';
+import {JsonObject} from 'type-fest';
 
-type FetchStrategy = typeof fetch3 | typeof fetch4;
-
-export interface FetchOptions {
-	accept404: boolean;
+type JsonError = {
+	message: string;
 }
 
-export const v3 = (
-	query: string,
-	options?: FetchOptions
-) => call(fetch3, query, options);
-export const v4 = (
-	query: string,
-	options?: FetchOptions
-) => call(fetch4, query, options);
+interface APIResponse {
+	message?: string;
+}
+
+interface GraphQLResponse extends APIResponse {
+	data?: JsonObject;
+	errors?: JsonError[];
+}
+
+export interface GHRestApiOptions {
+	accept404: boolean;
+}
 
 export const escapeKey = (value: string) => '_' + value.replace(/[./-]/g, '_');
 
@@ -49,7 +53,8 @@ export class RefinedGitHubAPIError extends Error {
 	}
 }
 
-const cache = new Map<string, AnyObject>();
+const settings = new OptionsSync().getAll();
+
 const api3 = location.hostname === 'github.com' ?
 	'https://api.github.com/' :
 	`${location.origin}/api/v3/`;
@@ -57,24 +62,39 @@ const api4 = location.hostname === 'github.com' ?
 	'https://api.github.com/graphql' :
 	`${location.origin}/api/graphql`;
 
-function fetch3(query: string, personalToken: string) {
-	const headers: HeadersInit = {
-		'User-Agent': 'Refined GitHub',
-		Accept: 'application/vnd.github.v3+json'
-	};
-	if (personalToken) {
-		headers.Authorization = `token ${personalToken}`;
+export const v3 = pMemoize(async (
+	query: string,
+	options: GHRestApiOptions = {accept404: false}
+): Promise<AnyObject> => {
+	const {personalToken} = await settings;
+
+	const response = await fetch(api3 + query, {
+		headers: {
+			'User-Agent': 'Refined GitHub',
+			Accept: 'application/vnd.github.v3+json',
+			...(personalToken ? {Authorization: `token ${personalToken}`} : {})
+		}
+	});
+	const textContent = await response.text();
+
+	// The response might just be a 200 or 404, it's the REST equivalent of `boolean`
+	const apiResponse: JsonObject = textContent.length > 0 ? JSON.parse(textContent) : {status: response.status};
+
+	if (response.ok || (options.accept404 === true && response.status === 404)) {
+		return apiResponse;
 	}
 
-	return fetch(api3 + query, {headers});
-}
+	throw getError(apiResponse);
+});
 
-function fetch4(query: string, personalToken: string) {
+export const v4 = pMemoize(async (query: string): Promise<JsonObject> => {
+	const {personalToken} = await settings;
+
 	if (!personalToken) {
 		throw new Error('Personal token required for this feature');
 	}
 
-	return fetch(api4, {
+	const response = await fetch(api4, {
 		headers: {
 			'User-Agent': 'Refined GitHub',
 			Authorization: `bearer ${personalToken}`
@@ -82,39 +102,33 @@ function fetch4(query: string, personalToken: string) {
 		method: 'POST',
 		body: JSON.stringify({query})
 	});
-}
 
-// Main function: handles cache, options, errors
-async function call(
-	fetch: FetchStrategy,
-	query: string,
-	options: FetchOptions = {accept404: false}
-) {
-	if (cache.has(query)) {
-		return cache.get(query);
-	}
+	const apiResponse: GraphQLResponse = await response.json();
 
-	const {personalToken} = await new OptionsSync().getAll();
-	const response = await fetch(query, personalToken as string);
-	const content = await response.text();
-
-	const result: {
-		data?: AnyObject;
-		errors?: Error[];
-		message?: string;
-		status?: number;
-	} = content.length > 0 ? JSON.parse(content) : {status: response.status};
-	const {data, errors = [], message = ''} = result;
+	const {
+		data = {},
+		errors = []
+	} = apiResponse;
 
 	if (errors.length > 0) {
 		throw Object.assign(
-			new RefinedGitHubAPIError('GraphQL:', ...errors.map(e => e.message)),
-			result
+			new RefinedGitHubAPIError('GraphQL:', ...errors.map(error => error.message)),
+			apiResponse
 		);
 	}
 
-	if (message.includes('API rate limit exceeded')) {
-		throw new RefinedGitHubAPIError(
+	if (response.ok) {
+		return data;
+	}
+
+	throw getError(apiResponse as JsonObject);
+});
+
+async function getError(apiResponse: JsonObject) {
+	const {personalToken} = await settings;
+
+	if (typeof apiResponse.message === 'string' && apiResponse.message.includes('API rate limit exceeded')) {
+		return new RefinedGitHubAPIError(
 			'Rate limit exceeded.',
 			personalToken ?
 				'It may be time for a walk! 🍃 🌞' :
@@ -122,23 +136,17 @@ async function call(
 		);
 	}
 
-	if (message === 'Bad credentials') {
-		throw new RefinedGitHubAPIError(
+	if (apiResponse.message === 'Bad credentials') {
+		return new RefinedGitHubAPIError(
 			'The token seems to be incorrect or expired. Update it in the options.'
 		);
 	}
 
-	if (response.ok || (options.accept404 === true && response.status === 404)) {
-		const output = fetch === fetch4 ? data : result;
-		cache.set(query, output);
-		return output;
-	}
-
-	throw new RefinedGitHubAPIError(
+	return new RefinedGitHubAPIError(
 		'Unable to fetch.',
 		personalToken ?
 			'Ensure that your token has access to this repo.' :
 			'Maybe adding a token in the options will fix this issue.',
-		JSON.stringify(result, null, '\t') // Beautify
+		JSON.stringify(apiResponse, null, '\t') // Beautify
 	);
 }

@@ -1,5 +1,5 @@
 // TODO: Type anything that is of type AnyObject
-type AnyObject = Record<string, any> | undefined;
+type AnyObject = Record<string, any>;
 
 declare module 'github-reserved-names'; // TODO: PR types to that repo or DT
 
