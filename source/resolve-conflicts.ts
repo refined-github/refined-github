@@ -7,7 +7,8 @@ const select: typeof document.querySelector = document.querySelector.bind(docume
 const incomingBranchName = select('.head-ref').textContent;
 const currentBranchName = select('.base-ref').textContent;
 
-const editor: CodeMirrorInstance = (select('.CodeMirror') as any).CodeMirror;
+// @ts-ignore
+const editor: CodeMirrorInstance = select('.CodeMirror').CodeMirror;
 
 // Event fired when each file is loaded
 editor.on('swapDoc', () => setTimeout(addWidget, 1));
@@ -121,13 +122,7 @@ function removeline(lineNumber: number, origin?: string) {
 }
 
 // Replace line with given text
-function replaceLine(newLine: string, lineNumber: number, origin?: string) {
-	editor.replaceRange(newLine, pos(lineNumber, 0), pos(lineNumber + 1, 0), origin);
-}
-
-// Create CodeMirror position object
-function pos(line: number, index: number) {
-	// @ts-ignore
-	const {CodeMirror} = window;
-	return new CodeMirror.Pos(line, index);
+function replaceLine(newLine: string, line: number, origin?: string) {
+	const ch = 0;
+	editor.replaceRange(newLine, {ch, line}, {ch, line: line + 1}, origin);
 }
