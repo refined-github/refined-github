@@ -4,10 +4,15 @@ interface CodeMirrorInstance extends CodeMirror.Editor, CodeMirror.Doc {
 }
 
 let editor: CodeMirrorInstance;
+let incomingBranchName: string;
+let currentBranchName: string;
 
 function init() {
 	const codeMirrorElement = document.querySelector('.CodeMirror');
 	editor = (codeMirrorElement as any).CodeMirror;
+
+	incomingBranchName = document.querySelector('.head-ref').textContent;
+	currentBranchName = document.querySelector('.base-ref').textContent;
 
 	// Listen to swapDoc event in order to find out file change
 	editor.on('focus', () => {
@@ -24,9 +29,19 @@ function processConflicts() {
 	const lines = document.querySelectorAll('.CodeMirror .conflict-gutter-marker.js-start');
 	for (const line of lines) {
 		const lineNumber = Number(line.parentElement.parentElement.textContent) - 1;
+		replaceLine(`<<<<<<< ${incomingBranchName} -- Incoming Change\n`, lineNumber);
 
 		addWidgetToLine(lineNumber);
 	}
+
+	const endLines = document.querySelectorAll('.CodeMirror .conflict-gutter-marker.js-end');
+	for (const line of endLines) {
+		const lineNumber = Number(line.parentElement.parentElement.textContent) - 1;
+		replaceLine(`>>>>>>> ${currentBranchName} -- Current Change\n`, lineNumber);
+	}
+
+	// Clear editor history, so our change can't be undone
+	editor.clearHistory();
 }
 
 // Create and add widget to a line
