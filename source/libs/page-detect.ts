@@ -7,7 +7,7 @@ import {getUsername, getCleanPathname, getRepoPath, getOwnerAndRepo} from './uti
 
 export const is404 = (): boolean => document.title === 'Page not found · GitHub';
 
-export const is500 = (): boolean => document.title === 'Server Error · GitHub';
+export const is500 = (): boolean => document.title === 'Server Error · GitHub' || document.title === 'Unicorn! · GitHub';
 
 export const isBlame = (): boolean => /^blame\//.test(getRepoPath());
 

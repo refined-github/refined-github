@@ -32,7 +32,13 @@ test('is500', t => {
 	document.title = 'Server Error · GitHub';
 	t.true(pageDetect.is500());
 
+	document.title = 'Unicorn! · GitHub';
+	t.true(pageDetect.is500());
+
 	document.title = 'examples/500: Server Error examples';
+	t.false(pageDetect.is500());
+
+	document.title = 'sindresorhus/unicorn: You can’t tell what doesn’t exist';
 	t.false(pageDetect.is500());
 
 	document.title = 'Dashboard';
