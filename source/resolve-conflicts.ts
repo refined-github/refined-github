@@ -31,7 +31,7 @@ function processConflicts() {
 // Create and add widget to a line
 function addWidgetToLine(lineNumber: number) {
 	const widget = newWidget();
-	editor.addLineWidget(lineNumber, widget, {above: true});
+	editor.addLineWidget(lineNumber, widget, { above: true });
 	// add class for later detection
 	editor.addLineClass(lineNumber, '', 'rgh-conflict')
 }
@@ -102,18 +102,18 @@ function removeLines(lines) {
 	lines.reverse();
 
 	for (const line of lines) {
-		removeline(line);
+		removeline(line, '+resolve');
 	}
 }
 
 // Remove a line
-function removeline(lineNumber) {
-	replaceLine('', lineNumber);
+function removeline(lineNumber: number, origin?: string) {
+	replaceLine('', lineNumber, origin);
 }
 
 // Replace line with given text
-function replaceLine(newLine, lineNumber) {
-	editor.replaceRange(newLine, pos(lineNumber, 0), pos(lineNumber + 1, 0));
+function replaceLine(newLine: string, lineNumber: number, origin?: string) {
+	editor.replaceRange(newLine, pos(lineNumber, 0), pos(lineNumber + 1, 0), origin);
 }
 
 // Create CodeMirror position object
