@@ -31,9 +31,9 @@ async function getTagLink() {
 
 	// If all tags are plain versions, parse them,
 	// otherwise just use the latest.
-	let latestRelease;
+	let latestRelease: string;
 	if (tags.every(tag => /^[vr]?\d/.test(tag))) {
-		latestRelease = tags.sort(compareVersions).pop();
+		latestRelease = tags.sort(compareVersions).pop()!;
 	} else {
 		latestRelease = tags[0];
 	}
