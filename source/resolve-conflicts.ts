@@ -1,6 +1,6 @@
-import {Editor, Doc} from 'codemirror';
+/// <reference types="codemirror" />
 
-interface CodeMirrorInstance extends Editor, Doc {
+interface CodeMirrorInstance extends CodeMirror.Editor, CodeMirror.Doc {
 }
 
 class Resolver {
