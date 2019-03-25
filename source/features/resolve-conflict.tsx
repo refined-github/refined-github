@@ -44,7 +44,6 @@ function embeddedInit() {
 					stepBranch = 'rgh-current-branch';
 				} else if (line.classList.contains('js-end')) {
 					cl += 'rgh-separator rgh-end rgh-incoming-branch rgh-current-branch';
-					stepBranch = '';
 					this.conflictNumber += 1;
 				} else if (line.classList.contains('js-line')) {
 					cl += 'rgh-middle ' + stepBranch;
