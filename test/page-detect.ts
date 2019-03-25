@@ -93,7 +93,7 @@ test('isDashboard', urlMatcherMacro, pageDetect.isDashboard, [
 	'https://github.com/sindresorhus'
 ]);
 
-test('isDiscussion', urlMatcherMacro, pageDetect.isDiscussion, [
+test('isOrganizationDiscussion', urlMatcherMacro, pageDetect.isOrganizationDiscussion, [
 	'https://github.com/orgs/refined-github/teams/core-team/discussions?pinned=1',
 	'https://github.com/orgs/refined-github/teams/core-team/discussions/1',
 	'https://github.com/orgs/refined-github/teams/core-team'
