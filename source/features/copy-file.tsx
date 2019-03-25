@@ -3,7 +3,7 @@ import select from 'select-dom';
 import copyToClipboard from 'copy-text-to-clipboard';
 import features from '../libs/features';
 
-function handleClick({target: button}) {
+function handleClick({target: button}: {target: HTMLButtonElement}) {
 	const file = button.closest('.Box');
 
 	const content = select.all('.blob-code-inner', file!)

@@ -24,7 +24,7 @@ async function getTagLink() {
 		}
 	}`);
 
-	const tags = repository.refs.nodes.map(tag => tag.name);
+	const tags: string[] = repository.refs.nodes.map((tag: {name: string}) => tag.name);
 	if (tags.length === 0) {
 		return '';
 	}
