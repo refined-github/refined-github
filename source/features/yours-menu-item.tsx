@@ -21,8 +21,6 @@ function init() {
 features.add({
 	id: 'yours-menu-item',
 	include: [
-		features.isGlobalIssueSearch,
-		features.isGlobalPRSearch
 	],
 	load: features.onAjaxedPages,
 	init

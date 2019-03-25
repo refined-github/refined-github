@@ -23,9 +23,7 @@ export const isEnterprise = (): boolean => location.hostname !== 'github.com' &&
 
 export const isGist = (): boolean => location.hostname.startsWith('gist.') || location.pathname.startsWith('gist/');
 
-export const isGlobalIssueSearch = (): boolean => location.pathname === '/issues';
-
-export const isGlobalPRSearch = (): boolean => location.pathname === '/pulls';
+export const isGlobalDiscussionList = (): boolean => location.pathname === '/issues' || location.pathname === '/pulls';
 
 export const isGlobalSearchResults = (): boolean => location.pathname === '/search' && new URLSearchParams(location.search).get('q') !== null;
 

@@ -23,8 +23,6 @@ function init() {
 features.add({
 	id: 'commented-menu-item',
 	include: [
-		features.isGlobalIssueSearch,
-		features.isGlobalPRSearch
 	],
 	load: features.onAjaxedPages,
 	init

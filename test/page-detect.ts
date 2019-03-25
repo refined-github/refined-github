@@ -159,12 +159,22 @@ test('isIssueList', urlMatcherMacro, pageDetect.isIssueList, [
 	'https://github.com/wildlifela/carmichael-lynch-2018/labels'
 ]);
 
-test('isGlobalIssueSearch', urlMatcherMacro, pageDetect.isGlobalIssueSearch, [
-	'https://github.com/issues'
+test('isGlobalDiscussionList', urlMatcherMacro, pageDetect.isGlobalDiscussionList, [
+	'https://github.com/issues',
+	'https://github.com/pulls',
+	'https://github.com/pulls?q=issues',
+	'https://github.com/issues?q=is%3Apr+is%3Aopen'
 ], [
 	'https://github.com/issuesorter',
 	'https://github.com/sindresorhus/refined-github/issues',
-	'https://github.com/sindresorhus/refined-github/issues/170'
+	'https://github.com/sindresorhus/refined-github/issues/170',
+	'https://github.com/pullsup',
+	'https://github.com/sindresorhus/refined-github/pulls',
+	'https://github.com/sindresorhus/refined-github/pull/148',
+	'http://github.com/sindresorhus/ava/issues',
+	'https://github.com/sindresorhus/refined-github/pulls',
+	'https://github.com/sindresorhus/refined-github/labels/Priority%3A%20critical',
+	'https://github.com/sindresorhus/refined-github/issues?q=is%3Aclosed+sort%3Aupdated-desc'
 ]);
 
 test('isMilestone', urlMatcherMacro, pageDetect.isMilestone, [
@@ -247,14 +257,6 @@ test('isPRFiles', urlMatcherMacro, pageDetect.isPRFiles, [
 	'https://github.com/sindresorhus/refined-github/pull/148',
 	'https://github.com/sindresorhus/refined-github/pull/commits',
 	'https://github.com/sindresorhus/refined-github/pulls'
-]);
-
-test('isGlobalPRSearch', urlMatcherMacro, pageDetect.isGlobalPRSearch, [
-	'https://github.com/pulls'
-], [
-	'https://github.com/pullsup',
-	'https://github.com/sindresorhus/refined-github/pulls',
-	'https://github.com/sindresorhus/refined-github/pull/148'
 ]);
 
 test('isQuickPR', urlMatcherMacro, pageDetect.isQuickPR, [
