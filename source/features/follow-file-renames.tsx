@@ -8,6 +8,7 @@ import features from '../libs/features';
 import * as api from '../libs/api';
 import {getCleanPathname} from '../libs/utils';
 
+// TODO: ensure that pages with a single commit aren't fetched twice (api.ts' cache should do it automatically, after #1783 is merged)
 async function findRename(
 	user: string,
 	repo: string,
