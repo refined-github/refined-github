@@ -22,6 +22,7 @@ new OptionsSync().define({
 				.replace('make-headers-sticky', '') // #1863
 				.replace('jump-to-bottom', '') // #1879
 				.replace('hide-readme-header', '') // #1883
+				.replace(/commented-menu-item|yours-menu-item/, 'global-discussion-list-filters') // #1883
 			; // eslint-disable-line semi-style
 		},
 		OptionsSync.migrations.removeUnused
