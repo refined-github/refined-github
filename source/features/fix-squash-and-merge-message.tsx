@@ -16,7 +16,7 @@ function init() {
 features.add({
 	id: 'fix-squash-and-merge-message',
 	include: [
-		features.isPR
+		features.isPRConversation
 	],
 	load: features.onAjaxedPages,
 	init

@@ -17,7 +17,7 @@ function init() {
 features.add({
 	id: 'fix-squash-and-merge-title',
 	include: [
-		features.isPR
+		features.isPRConversation
 	],
 	load: features.onAjaxedPages,
 	init

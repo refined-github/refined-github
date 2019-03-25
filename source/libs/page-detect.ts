@@ -93,3 +93,13 @@ export const isSingleFile = (): boolean => /^blob\//.test(getRepoPath());
 export const isTrending = (): boolean => location.pathname === '/trending' || location.pathname.startsWith('/trending/');
 
 export const isUserProfile = (): boolean => select.exists('.user-profile-nav');
+
+export const hasComments = (): boolean =>
+	isPR() ||
+	isIssue() ||
+	isCommit();
+
+export const hasRichTextEditor = (): boolean =>
+	hasComments() ||
+	isNewIssue() ||
+	isCompare();

@@ -18,9 +18,7 @@ function init() {
 features.add({
 	id: 'edit-comments-faster',
 	include: [
-		features.isPR,
-		features.isIssue,
-		features.isCommit
+		features.hasComments
 	],
 	load: features.onNewComments,
 	init

@@ -69,11 +69,7 @@ function addContentToDetails(event) {
 features.add({
 	id: 'collapsible-content-button',
 	include: [
-		features.isPR,
-		features.isIssue,
-		features.isNewIssue,
-		features.isCompare,
-		features.isCommit
+		features.hasRichTextEditor
 	],
 	load: features.onAjaxedPages,
 	init

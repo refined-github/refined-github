@@ -30,8 +30,7 @@ function init() {
 features.add({
 	id: 'comments-time-machine-links',
 	include: [
-		features.isPRConversation,
-		features.isIssue
+		features.hasComments
 	],
 	load: features.onNewComments,
 	init
