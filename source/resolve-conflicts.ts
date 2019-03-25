@@ -6,105 +6,104 @@ interface CodeMirrorInstance extends CodeMirror.Editor, CodeMirror.Doc {
 class Resolver {
 	editor: CodeMirrorInstance
 
-	conflictNumber = 1
-
 	constructor() {
 		const codeMirrorElement = document.querySelector('.CodeMirror');
 		this.editor = (codeMirrorElement as any).CodeMirror;
 
 		// Listen to swapDoc event in order to find out file change
-		this.editor.on('swapDoc', () => {
-			// Add 200 milisecond delay, we need keep calm until codemirror updates its content
-			setTimeout(() => {
-				const conflicts = document.querySelector('.CodeMirror .rgh-conflict');
-				if (conflicts === null) {
-					this.processConflicts();
-				}
-			}, 200);
+		this.editor.on('focus', () => {
+			const conflicts = document.querySelector('.CodeMirror .rgh-conflict');
+			if (conflicts === null) {
+				this.processConflicts();
+			}
 		});
 	}
 
 	// Process editor lines and find conflict lines, assign class to each of lines
 	// and add resolver widget to the first line of conflict
 	processConflicts() {
-		const lines = document.querySelectorAll('.CodeMirror .conflict-gutter-marker');
-		let stepBranch = '';
+		const lines = document.querySelectorAll('.CodeMirror .conflict-gutter-marker.js-start');
 		for (const line of lines) {
 			const lineNumber = Number(line.parentElement.parentElement.textContent) - 1;
-			let cl = `rgh-conflict c-${this.conflictNumber} `;
-			if (line.classList.contains('js-start')) {
-				cl += 'rgh-separator rgh-start rgh-incoming-branch rgh-current-branch';
-				stepBranch = 'rgh-incoming-branch';
-				this.addWidgetToLine(this.conflictNumber, lineNumber);
-			} else if (line.classList.contains('js-middle')) {
-				cl += 'rgh-separator rgh-middle rgh-incoming-branch rgh-current-branch';
-				stepBranch = 'rgh-current-branch';
-			} else if (line.classList.contains('js-end')) {
-				cl += 'rgh-separator rgh-end rgh-incoming-branch rgh-current-branch';
-				this.conflictNumber += 1;
-			} else if (line.classList.contains('js-line')) {
-				cl += 'rgh-middle ' + stepBranch;
-			}
-
-			this.editor.addLineClass(lineNumber, '', cl);
+			this.addWidgetToLine(lineNumber);
 		}
 	}
 
 	// Create and add widget to a line
-	addWidgetToLine(conflictNumber: number, lineNumber: number) {
-		const widget = this.newWidget(conflictNumber);
+	addWidgetToLine(lineNumber: number) {
+		const widget = this.newWidget();
 		this.editor.addLineWidget(lineNumber, widget, {above: true});
+		// add class for later detection
+		this.editor.addLineClass(lineNumber, '', 'rgh-conflict')
 	}
 
 	// Create and return conflict resolve widget for specific conflict
-	newWidget(conflictNumber: number) {
+	newWidget() {
 		const widget = document.createElement('div');
 		widget.classList.add('rgh-resolver');
 		widget.style.fontWeight = 'bold';
 
-		const link = (branch, conflictNumber) => {
+		const link = (branch) => {
 			const link = document.createElement('a');
 			link.href = `#accept${branch}`;
 			link.textContent = `Accept ${branch} Change`;
-			link.addEventListener('click', e => {
+			link.addEventListener('click', (e: any) => {
+				const line = e.target.parentElement.parentElement.parentElement;
 				e.preventDefault();
-				this.acceptBranch(branch, conflictNumber);
+				this.acceptBranch(branch, line);
+				
 			});
 			return link;
 		};
 
 		widget.append(
-			link('Current', conflictNumber),
+			link('Current'),
 			' | ',
-			link('Incoming', conflictNumber),
+			link('Incoming'),
 			' | ',
-			link('Both', conflictNumber)
+			link('Both')
 		);
 		return widget;
 	}
 
 	// Accept one or both of branches and remove unnecessary lines
-	acceptBranch(branch: string, conflictNumber: number) {
-		if (branch === 'Both') {
-			this.removeLines('.rgh-separator', conflictNumber);
-		} else if (branch === 'Incoming') {
-			this.removeLines('.rgh-current-branch', conflictNumber);
-		} else if (branch === 'Current') {
-			this.removeLines('.rgh-incoming-branch', conflictNumber);
+	acceptBranch(branch: string, line: Element) {
+		let el = line;
+		const linesToRemove = [];
+		let branchUnderProcess = 'Incoming'
+		while(true) {
+			const marker = el.querySelector('.conflict-gutter-marker');
+
+			if (!marker) {
+				break
+			}
+			if (marker.classList.contains('js-line')) {
+				if (branch === 'Both' || branch === branchUnderProcess) {
+					el = el.nextElementSibling;
+					continue
+				} 
+			}
+			if (marker.classList.contains('js-middle')) {
+				branchUnderProcess = 'Current';
+			}
+
+			const lineNumberElement = el.querySelector('.CodeMirror-linenumber');
+			const lineNumber = Number(lineNumberElement.textContent) - 1;
+
+			linesToRemove.push(lineNumber);
+
+			el = el.nextElementSibling;
 		}
+		this.removeLines(linesToRemove)
 	}
 
 	// Remove Lines of a conflict that matchs given selector
-	removeLines(selector, conflictNumber) {
-		const lines = [...document.querySelectorAll(`.rgh-conflict.c-${conflictNumber}${selector}`)];
-
+	removeLines(lines) {
 		// Remove lines in revese order
 		lines.reverse();
 
 		for (const line of lines) {
-			const element = line.querySelector('.CodeMirror-linenumber');
-			const lineNumber = Number(element.textContent);
-			this.removeline(lineNumber - 1);
+			this.removeline(line);
 		}
 	}
 
