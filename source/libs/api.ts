@@ -32,8 +32,14 @@ export interface FetchOptions {
 	accept404: boolean;
 }
 
-export const v3 = (query: string, options?: FetchOptions) => call(fetch3, query, options);
-export const v4 = (query: string, options?: FetchOptions) => call(fetch4, query, options);
+export const v3 = (
+	query: string,
+	options?: FetchOptions
+) => call(fetch3, query, options);
+export const v4 = (
+	query: string,
+	options?: FetchOptions
+) => call(fetch4, query, options);
 
 export const escapeKey = (value: string) => '_' + value.replace(/[./-]/g, '_');
 
@@ -79,7 +85,11 @@ function fetch4(query: string, personalToken: string) {
 }
 
 // Main function: handles cache, options, errors
-async function call(fetch: FetchStrategy, query: string, options: FetchOptions = {accept404: false}) {
+async function call(
+	fetch: FetchStrategy,
+	query: string,
+	options: FetchOptions = {accept404: false}
+) {
 	if (cache.has(query)) {
 		return cache.get(query);
 	}
@@ -88,7 +98,12 @@ async function call(fetch: FetchStrategy, query: string, options: FetchOptions =
 	const response = await fetch(query, personalToken as string);
 	const content = await response.text();
 
-	const result: { data?: AnyObject; errors?: Error[]; message?: string;status?: number} = content.length > 0 ? JSON.parse(content) : {status: response.status};
+	const result: {
+		data?: AnyObject;
+		errors?: Error[];
+		message?: string;
+		status?: number;
+	} = content.length > 0 ? JSON.parse(content) : {status: response.status};
 	const {data, errors = [], message = ''} = result;
 
 	if (errors.length > 0) {
