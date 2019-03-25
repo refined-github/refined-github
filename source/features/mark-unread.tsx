@@ -18,14 +18,14 @@ interface Participant {
 }
 
 interface Notification {
-	participants: Participant[]; // TODO: right type
+	participants: Participant[];
 	state: NotificationState;
 	isParticipating: boolean;
 	repository: string;
 	dateTitle: string;
 	title: string;
 	type: NotificationType;
-	date: string; // TODO: Maybe Date?
+	date: string;
 	url: string;
 }
 
@@ -86,8 +86,8 @@ async function markRead(urls: string|string[]): Promise<void> {
 	await setNotifications(updated);
 }
 
-async function markUnread({target}: Event): Promise<void> {
-	const participants = select.all('.participant-avatar').slice(0, 3).map(el => ({
+async function markUnread({target}: MouseEvent): Promise<void> {
+	const participants: Participant[] = select.all('.participant-avatar').slice(0, 3).map(el => ({
 		username: el.getAttribute('aria-label')!,
 		avatar: el.querySelector('img')!.src
 	}));
@@ -124,7 +124,7 @@ async function markUnread({target}: Event): Promise<void> {
 	await setNotifications(unreadNotifications);
 	await updateUnreadIndicator();
 
-	// TODO: move type to function parameters
+	// TODO: move type to function parameters, if elegant
 	(target as HTMLButtonElement).setAttribute('disabled', 'disabled');
 	(target as HTMLButtonElement).textContent = 'Marked as unread';
 }

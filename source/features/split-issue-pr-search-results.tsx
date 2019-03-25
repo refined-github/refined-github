@@ -20,10 +20,9 @@ function cleanSearchQuery(query: string) {
 		.replace(/\s{2,}/g, ' ').trim();
 }
 
-// TODO: This could have a better name
-type GitHubType = 'pr' | 'issue';
+type GitHubDiscussionType = 'pr' | 'issue';
 
-function createUrl(type: GitHubType, pathname = location.pathname) {
+function createUrl(type: GitHubDiscussionType, pathname = location.pathname) {
 	const url = new URL(pathname, location.origin);
 	url.searchParams.set('q', cleanSearchQuery(getSearchQuery()) + ` is:${type}`);
 	url.searchParams.set('type', 'Issues');

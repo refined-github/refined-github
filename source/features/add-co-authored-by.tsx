@@ -4,7 +4,6 @@ import * as api from '../libs/api';
 import features from '../libs/features';
 import {getOwnerAndRepo, getDiscussionNumber, getOP} from '../libs/utils';
 
-// TODO: See if these types are used elsewhere
 interface Author {
 	email: string;
 	user: {
