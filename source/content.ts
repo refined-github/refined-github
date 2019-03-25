@@ -39,7 +39,6 @@ import './features/navigate-pages-with-arrow-keys';
 import './features/yours-menu-item';
 import './features/commented-menu-item';
 import './features/sort-issues-by-update-time'; // Must be after add-yours-menu-item + add-commented-menu-item
-import './features/hide-readme-header';
 import './features/branch-buttons';
 import './features/faster-pr-diff-options';
 import './features/ci-link';

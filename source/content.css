@@ -129,11 +129,11 @@ a .commit-ref:hover span {
 }
 
 /* Hide the header in README section */
-#readme.rgh-hide-readme-header {
+.repository-content #readme:not(.blob) {
 	position: relative;
 }
 
-#readme.rgh-hide-readme-header .Box-header {
+.repository-content #readme:not(.blob) .Box-header {
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -142,11 +142,11 @@ a .commit-ref:hover span {
 	border: none;
 }
 
-#readme.rgh-hide-readme-header .Box-header .Box-title {
+.repository-content #readme:not(.blob) .Box-header .Box-title {
 	display: none;
 }
 
-#readme.rgh-hide-readme-header .Box-header .btn-octicon {
+.repository-content #readme:not(.blob) .Box-header .btn-octicon {
 	margin: 0;
 	padding: 12px;
 	right: 0;
@@ -155,8 +155,8 @@ a .commit-ref:hover span {
 	transition: opacity 250ms;
 }
 
-#readme.rgh-hide-readme-header .Box-header .btn-octicon:hover,
-#readme.rgh-hide-readme-header .Box-header .btn-octicon:focus {
+.repository-content #readme:not(.blob) .Box-header .btn-octicon:hover,
+.repository-content #readme:not(.blob) .Box-header .btn-octicon:focus {
 	opacity: 1;
 }
 

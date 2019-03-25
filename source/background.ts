@@ -20,6 +20,7 @@ new OptionsSync().define({
 				.replace('exclude-filter-shortcut', '') // #1831
 				.replace('diff-view-without-whitespace-option', 'faster-pr-diff-options') // #1799
 				.replace('make-headers-sticky', '') // #1863
+				.replace('hide-readme-header', '') // #
 			; // eslint-disable-line semi-style
 		},
 		OptionsSync.migrations.removeUnused
