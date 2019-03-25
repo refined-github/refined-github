@@ -13,25 +13,9 @@ interface Author {
 	};
 }
 
-interface CommitNode {
-	commit: {
-		author: Author;
-	};
-}
-
-interface UserInfo {
-	repository: {
-		pullRequest: {
-			commits: {
-				nodes: CommitNode[];
-			};
-		};
-	};
-}
-
 let coAuthors: Author[];
 
-async function fetchCoAuthoredData() {
+async function fetchCoAuthoredData(): Promise<Author[]> {
 	const prNumber = getDiscussionNumber();
 	const {ownerName, repoName} = getOwnerAndRepo();
 
@@ -55,9 +39,9 @@ async function fetchCoAuthoredData() {
 				}
 			}
 		}`
-	) as UserInfo; // TODO: make v4 generic for return value.
+	) as any;
 
-	return userInfo.repository.pullRequest.commits.nodes.map(node => node.commit.author);
+	return userInfo.repository.pullRequest.commits.nodes.map((node: any) => node.commit.author as Author);
 }
 
 function addCoAuthors() {
