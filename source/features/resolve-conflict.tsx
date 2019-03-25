@@ -1,89 +1,69 @@
 import React from 'dom-chef';
-import CodeMirror from 'codemirror';
+import {Editor, Doc} from 'codemirror';
 import features from '../libs/features';
 
-interface Editor extends CodeMirror.Editor, CodeMirror.Doc {
-}
-interface EditorDOMElement extends HTMLDivElement {
-	CodeMirror: Editor;
+interface CodeMirrorInstance extends Editor, Doc {
 }
 
 function embeddedInit() {
 	class Resolver {
-		editor: Editor
+		editor: CodeMirrorInstance
 
 		conflictNumber = 1
 
 		constructor() {
-			const codeMirrorElement: EditorDOMElement = document.querySelector('.CodeMirror');
-			this.editor = codeMirrorElement.CodeMirror;
+			const codeMirrorElement = document.querySelector('.CodeMirror');
+			this.editor = (codeMirrorElement as any).CodeMirror;
 
-			/**
-             * Listen to swapDoc event in order to find out file change
-             */
+			// Listen to swapDoc event in order to find out file change
 			this.editor.on('swapDoc', () => {
 				// Add 200 milisecond delay, we need keep calm until codemirror updates its content
 				setTimeout(() => {
-					const conflicts = [...document.querySelectorAll('.CodeMirror .rg-conflict')];
-					if (conflicts.length === 0) {
+					const conflicts = document.querySelector('.CodeMirror .rgh-conflict');
+					if (conflicts === null) {
 						this.processConflicts();
 					}
 				}, 200);
 			});
 		}
 
-		/**
-         * Process editor lines and find conflict lines, assign class to each of lines
-         * and add resolver widget to the first line of conflict
-         */
+		// Process editor lines and find conflict lines, assign class to each of lines
+		// and add resolver widget to the first line of conflict
 		processConflicts() {
-			const lines = [...document.querySelectorAll('.CodeMirror .conflict-gutter-marker')];
+			const lines = document.querySelectorAll('.CodeMirror .conflict-gutter-marker');
 			let stepBranch = '';
-			lines.forEach(line => {
-				const lineNumber = parseInt(line.parentElement.parentElement.innerText, 10) - 1;
-				let cl = `rg-conflict c-${this.conflictNumber} `;
+			for (const line of lines) {
+				const lineNumber = Number(line.parentElement.parentElement.textContent) - 1;
+				let cl = `rgh-conflict c-${this.conflictNumber} `;
 				if (line.classList.contains('js-start')) {
-					cl += 'rg-separator rg-start incoming-branch current-branch';
-					stepBranch = 'incoming-branch';
+					cl += 'rgh-separator rgh-start rgh-incoming-branch rgh-current-branch';
+					stepBranch = 'rgh-incoming-branch';
 					this.addWidgetToLine(this.conflictNumber, lineNumber);
-				}
-
-				if (line.classList.contains('js-middle')) {
-					cl += 'rg-separator rg-middle incoming-branch current-branch';
-					stepBranch = 'current-branch';
-				}
-
-				if (line.classList.contains('js-end')) {
-					cl += 'rg-separator rg-end incoming-branch current-branch';
+				} else if (line.classList.contains('js-middle')) {
+					cl += 'rgh-separator rgh-middle rgh-incoming-branch rgh-current-branch';
+					stepBranch = 'rgh-current-branch';
+				} else if (line.classList.contains('js-end')) {
+					cl += 'rgh-separator rgh-end rgh-incoming-branch rgh-current-branch';
 					stepBranch = '';
 					this.conflictNumber += 1;
-				}
-
-				if (line.classList.contains('js-line')) {
-					cl += 'rg-middle ' + stepBranch;
+				} else if (line.classList.contains('js-line')) {
+					cl += 'rgh-middle ' + stepBranch;
 				}
 
 				this.editor.addLineClass(lineNumber, '', cl);
-			});
+			}
 		}
 
-		/**
-         * Create and add widget to a line
-         * @param conflictNumber
-         * @param lineNumber
-         */
+		// Create and add widget to a line
 		addWidgetToLine(conflictNumber: number, lineNumber: number) {
 			const widget = this.newWidget(conflictNumber);
 			this.editor.addLineWidget(lineNumber, widget, {above: true});
 		}
 
-		/**
-         * Create and return conflict resolve widget for specific conflict
-         * @param conflictNumber
-         */
+		// Create and return conflict resolve widget for specific conflict
 		newWidget(conflictNumber: number) {
 			const widget = document.createElement('div');
-			widget.classList.add('rg-resolver');
+			widget.classList.add('rgh-resolver');
 			widget.style.fontWeight = 'bold';
 
 			const link = (branch, conflictNumber) => {
@@ -97,68 +77,52 @@ function embeddedInit() {
 				return link;
 			};
 
-			widget.append(link('Current', conflictNumber));
-			widget.append(document.createTextNode(' | '));
-			widget.append(link('Incoming', conflictNumber));
-			widget.append(document.createTextNode(' | '));
-			widget.append(link('Both', conflictNumber));
+			widget.append(
+				link('Current', conflictNumber),
+				' | ',
+				link('Incoming', conflictNumber),
+				' | ',
+				link('Both', conflictNumber)
+			);
 			return widget;
 		}
 
-		/**
-         * Accept one or both of branches and remove unnecessary lines
-         * @param _branch
-         * @param conflictNumber
-         */
-		acceptBranch(_branch: string, conflictNumber: number) {
-			const branch = _branch.toLowerCase();
-			if (branch === 'both') {
-				this.removeLines('.rg-separator', conflictNumber);
-			} else if (branch === 'incoming') {
-				this.removeLines('.current-branch', conflictNumber);
-			} else if (branch === 'current') {
-				this.removeLines('.incoming-branch', conflictNumber);
+		// Accept one or both of branches and remove unnecessary lines
+		acceptBranch(branch: string, conflictNumber: number) {
+			if (branch === 'Both') {
+				this.removeLines('.rgh-separator', conflictNumber);
+			} else if (branch === 'Incoming') {
+				this.removeLines('.rgh-current-branch', conflictNumber);
+			} else if (branch === 'Current') {
+				this.removeLines('.rgh-incoming-branch', conflictNumber);
 			}
 		}
 
-		/**
-         * Remove Lines of a conflict that matchs given selector
-         */
+		// Remove Lines of a conflict that matchs given selector
 		removeLines(selector, conflictNumber) {
-			const seps = [...document.querySelectorAll(`.rg-conflict.c-${conflictNumber}${selector}`)];
+			const lines = [...document.querySelectorAll(`.rgh-conflict.c-${conflictNumber}${selector}`)];
 
 			// Remove lines in revese order
-			seps.reverse();
+			lines.reverse();
 
-			seps.forEach(s => {
-				const element = s.querySelector('.CodeMirror-linenumber');
-				const lineNumber = parseInt(element.textContent, 10);
+			for (const line of lines) {
+				const element = line.querySelector('.CodeMirror-linenumber');
+				const lineNumber = Number(element.textContent);
 				this.removeline(lineNumber - 1);
-			});
+			}
 		}
 
-		/**
-         * Remove a line
-         * @param lineNumber
-         */
+		// Remove a line
 		removeline(lineNumber) {
 			this.replaceLine('', lineNumber);
 		}
 
-		/**
-         * Replace line with given text
-         * @param newLine
-         * @param lineNumber
-         */
+		// Replace line with given text
 		replaceLine(newLine, lineNumber) {
 			this.editor.replaceRange(newLine, this.pos(lineNumber, 0), this.pos(lineNumber + 1, 0));
 		}
 
-		/**
-         * Create CodeMirror position object
-         * @param line
-         * @param index
-         */
+		// Create CodeMirror position object
 		pos(line: number, index: number) {
 			// @ts-ignore
 			const {CodeMirror} = window;
@@ -166,8 +130,7 @@ function embeddedInit() {
 		}
 	}
 
-	const resolver = new Resolver();
-	resolver.processConflicts();
+	new Resolver().processConflicts();
 }
 
 function init() {
