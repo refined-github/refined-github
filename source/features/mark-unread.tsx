@@ -380,7 +380,7 @@ async function init() {
 
 		// The sidebar changes when new comments are added or the issue status changes
 		observeEl('.discussion-sidebar', addMarkUnreadButton);
-	} else if (pageDetect.isIssueList()) {
+	} else if (pageDetect.isDiscussionList()) {
 		for (const discussion of await getNotifications()) {
 			const {pathname} = new URL(discussion.url);
 			const listItem = select(`.read [href='${pathname}']`);

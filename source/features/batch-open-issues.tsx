@@ -63,7 +63,7 @@ function init() {
 features.add({
 	id: 'batch-open-issues',
 	include: [
-		features.isIssueList
+		features.isDiscussionList
 	],
 	load: features.onAjaxedPages,
 	init

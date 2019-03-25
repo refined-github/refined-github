@@ -29,7 +29,7 @@ export const isGlobalSearchResults = (): boolean => location.pathname === '/sear
 
 export const isIssue = (): boolean => /^issues\/\d+/.test(getRepoPath());
 
-export const isIssueList = (): boolean => /^(issues$|pulls$|labels\/)/.test(getRepoPath());
+export const isDiscussionList = (): boolean => isGlobalDiscussionList() || isRepoDiscussionList();
 
 export const isLabel = (): boolean => /^labels\/\w+/.test(getRepoPath());
 
@@ -74,6 +74,8 @@ export const isRepo = (): boolean => /^[^/]+\/[^/]+/.test(getCleanPathname()) &&
 	!isDashboard() &&
 	!isGist() &&
 	!isRepoSearch();
+
+export const isRepoDiscussionList = (): boolean => /^(issues$|pulls$|labels\/)/.test(getRepoPath());
 
 export const isRepoRoot = (): boolean => /^(tree[/][^/]+)?$/.test(getRepoPath());
 
