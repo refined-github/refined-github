@@ -22,7 +22,7 @@ function init() {
 features.add({
 	id: 'filter-comments-by-you',
 	include: [
-		features.isDiscussionList
+		features.isRepoDiscussionList
 	],
 	load: features.onAjaxedPages,
 	init
