@@ -3,7 +3,7 @@
 interface CodeMirrorInstance extends CodeMirror.Editor, CodeMirror.Doc {
 }
 
-let editor: CodeMirrorInstance
+let editor: CodeMirrorInstance;
 
 function init() {
 	const codeMirrorElement = document.querySelector('.CodeMirror');
@@ -17,6 +17,7 @@ function init() {
 		}
 	});
 }
+
 // Process editor lines and find conflict lines, assign class to each of lines
 // and add resolver widget to the first line of conflict
 function processConflicts() {
@@ -31,9 +32,9 @@ function processConflicts() {
 // Create and add widget to a line
 function addWidgetToLine(lineNumber: number) {
 	const widget = newWidget();
-	editor.addLineWidget(lineNumber, widget, { above: true });
-	// add class for later detection
-	editor.addLineClass(lineNumber, '', 'rgh-conflict')
+	editor.addLineWidget(lineNumber, widget, {above: true});
+	// Add class for later detection
+	editor.addLineClass(lineNumber, '', 'rgh-conflict');
 }
 
 // Create and return conflict resolve widget for specific conflict
@@ -47,10 +48,9 @@ function newWidget() {
 		link.href = `#accept${branch}`;
 		link.textContent = title || `Accept ${branch} Change`;
 		link.addEventListener('click', (e: any) => {
-			const line = e.target.parentElement.parentElement.parentElement;
 			e.preventDefault();
+			const line = e.target.parentElement.parentElement.parentElement;
 			acceptBranch(branch, line);
-			
 		});
 		return link;
 	};
@@ -60,7 +60,7 @@ function newWidget() {
 		' | ',
 		link('Incoming'),
 		' | ',
-		link('Both', `Accept Both Changes`)
+		link('Both', 'Accept Both Changes')
 	);
 	return widget;
 }
@@ -69,19 +69,21 @@ function newWidget() {
 function acceptBranch(branch: string, line: Element) {
 	let el = line;
 	const linesToRemove = [];
-	let branchUnderProcess = 'Incoming'
-	while(true) {
+	let branchUnderProcess = 'Incoming';
+	while (el !== null) {
 		const marker = el.querySelector('.conflict-gutter-marker');
 
 		if (!marker) {
-			break
+			break;
 		}
+
 		if (marker.classList.contains('js-line')) {
 			if (branch === 'Both' || branch === branchUnderProcess) {
 				el = el.nextElementSibling;
-				continue
-			} 
+				continue;
+			}
 		}
+
 		if (marker.classList.contains('js-middle')) {
 			branchUnderProcess = 'Current';
 		}
@@ -93,7 +95,8 @@ function acceptBranch(branch: string, line: Element) {
 
 		el = el.nextElementSibling;
 	}
-	removeLines(linesToRemove)
+
+	removeLines(linesToRemove);
 }
 
 // Remove Lines of a conflict that matchs given selector
@@ -123,6 +126,6 @@ function pos(line: number, index: number) {
 	return new CodeMirror.Pos(line, index);
 }
 
-init()
+init();
 
 processConflicts();

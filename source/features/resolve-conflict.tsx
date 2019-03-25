@@ -1,6 +1,6 @@
 import React from 'dom-chef';
-import features from '../libs/features';
 import elementReady from 'element-ready';
+import features from '../libs/features';
 
 async function init() {
 	await elementReady('.CodeMirror'); // *Not* safeElementReady
