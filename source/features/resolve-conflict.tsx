@@ -134,7 +134,7 @@ function embeddedInit() {
 
 function init() {
 	setTimeout(() => {
-		document.head.append(<script>{`(${embeddedInit.toString()})()`}</script>);
+		document.head.append(<script src={browser.runtime.getURL('resolve-conflicts.js')}/>);
 	}, 2000);
 }
 
