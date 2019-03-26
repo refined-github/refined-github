@@ -8,7 +8,7 @@ async function init() {
 }
 
 features.add({
-	id: 'resolve-conflict',
+	id: 'resolve-conflicts',
 	include: [
 		features.isConflict
 	],
