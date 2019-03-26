@@ -2,6 +2,13 @@
 
 interface CodeMirrorInstance extends CodeMirror.Editor, CodeMirror.Doc {}
 
+declare module 'CodeMirror' {
+	interface LineHandle {
+		widgets: unknown[];
+		lineNo(): number;
+	}
+}
+
 const select: typeof document.querySelector = document.querySelector.bind(document);
 const editor: CodeMirrorInstance = select<any>('.CodeMirror').CodeMirror;
 
@@ -28,7 +35,7 @@ function getLineNumber(lineChild: Element) {
 function appendLineInfo(lineHandle: CodeMirror.LineHandle, text: string) {
 	// Only append text if it's not already there
 	if (!lineHandle.text.includes(text)) {
-		const line = (lineHandle as any).lineNo();
+		const line = lineHandle.lineNo();
 		editor.replaceRange(text, {line, ch: Infinity}); // Infinity = end of line
 		editor.clearHistory();
 	}
@@ -37,13 +44,13 @@ function appendLineInfo(lineHandle: CodeMirror.LineHandle, text: string) {
 // Create and add widget if not already in the document
 function addWidget() {
 	editor.eachLine(lineHandle => {
-		if ((lineHandle as any).widgets) {
+		if (lineHandle.widgets) {
 			return;
 		}
 
 		if (lineHandle.text.startsWith('<<<<<<<')) {
 			appendLineInfo(lineHandle, ' -- Incoming Change');
-			const line = (lineHandle as any).lineNo();
+			const line = lineHandle.lineNo();
 			editor.addLineClass(line, '', 'rgh-resolve-conflicts');
 			editor.addLineWidget(line, newWidget(), {
 				above: true,
@@ -95,7 +102,7 @@ function acceptBranch(branch: string, line: number) {
 
 		// Delete tracked lines and all conflict markers
 		if (deleteNextLine || /^([<=>])\1{6}/.test(lineHandle.text)) {
-			linesToRemove.push((lineHandle as any).lineNo());
+			linesToRemove.push(lineHandle.lineNo());
 		}
 
 		if (lineHandle.text.startsWith('>>>>>>>')) {
