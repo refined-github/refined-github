@@ -103,26 +103,7 @@ function acceptBranch(branch: string, line: Element) {
 		el = el.nextElementSibling;
 	}
 
-	removeLines(linesToRemove);
-}
-
-// Remove Lines of a conflict that matchs given selector
-function removeLines(lines) {
-	// Remove lines in revese order
-	lines.reverse();
-
-	for (const line of lines) {
-		removeline(line, '+resolve');
+	for (const line of linesToRemove.reverse()) {
+		editor.replaceRange('', {line, ch: 0}, {line: line + 1, ch: 0}, '+resolve');
 	}
-}
-
-// Remove a line
-function removeline(lineNumber: number, origin?: string) {
-	replaceLine('', lineNumber, origin);
-}
-
-// Replace line with given text
-function replaceLine(newLine: string, line: number, origin?: string) {
-	const ch = 0;
-	editor.replaceRange(newLine, {ch, line}, {ch, line: line + 1}, origin);
 }
