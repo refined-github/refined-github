@@ -50,9 +50,8 @@ function createButton(branch, title?: string) {
 	link.type = 'button';
 	link.className = 'btn-link';
 	link.textContent = title || `Accept ${branch} Change`;
-	link.addEventListener('click', (e: any) => {
-		const line = e.target.parentElement.parentElement.parentElement;
-		acceptBranch(branch, line);
+	link.addEventListener('click', ({target}) => {
+		acceptBranch(branch, getLineNumber(target as Element));
 	});
 	return link;
 }
@@ -73,35 +72,27 @@ function newWidget() {
 }
 
 // Accept one or both of branches and remove unnecessary lines
-function acceptBranch(branch: string, line: Element) {
-	let el = line;
+function acceptBranch(branch: string, line: number) {
+	let deleteNextLine = false;
+
 	const linesToRemove = [];
-	let branchUnderProcess = 'Incoming';
-	while (el !== null) {
-		const marker = el.querySelector('.conflict-gutter-marker');
-
-		if (!marker) {
-			break;
+	editor.eachLine(line, Infinity, lineHandle => {
+		// Determine whether to remove the following line(s)
+		if (lineHandle.text.startsWith('<<<<<<<')) {
+			deleteNextLine = branch === 'Current';
+		} else if (lineHandle.text.startsWith('=======')) {
+			deleteNextLine = branch === 'Incoming';
 		}
 
-		if (marker.classList.contains('js-line')) {
-			if (branch === 'Both' || branch === branchUnderProcess) {
-				el = el.nextElementSibling;
-				continue;
-			}
+		// Delete tracked lines and all conflict markers
+		if (deleteNextLine || /^([<=>])\1{6}/.test(lineHandle.text)) {
+			linesToRemove.push((lineHandle as any).lineNo());
 		}
 
-		if (marker.classList.contains('js-middle')) {
-			branchUnderProcess = 'Current';
+		if (lineHandle.text.startsWith('>>>>>>>')) {
+			return true; // End loop
 		}
-
-		const lineNumberElement = el.querySelector('.CodeMirror-linenumber');
-		const lineNumber = Number(lineNumberElement.textContent) - 1;
-
-		linesToRemove.push(lineNumber);
-
-		el = el.nextElementSibling;
-	}
+	});
 
 	for (const line of linesToRemove.reverse()) {
 		editor.replaceRange('', {line, ch: 0}, {line: line + 1, ch: 0}, '+resolve');
