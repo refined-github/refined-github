@@ -44,6 +44,7 @@ function addWidget() {
 		if (lineHandle.text.startsWith('<<<<<<<')) {
 			appendLineInfo(lineHandle, ' -- Incoming Change');
 			const line = (lineHandle as any).lineNo();
+			editor.addLineClass(line, '', 'rgh-resolve-conflicts');
 			editor.addLineWidget(line, newWidget(), {
 				above: true,
 				noHScroll: true
@@ -68,7 +69,6 @@ function createButton(branch, title?: string) {
 // Create and return conflict resolve widget for specific conflict
 function newWidget() {
 	const widget = document.createElement('div');
-	widget.className = 'rgh-resolver';
 	widget.style.fontWeight = 'bold';
 	widget.append(
 		createButton('Current'),
