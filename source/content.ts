@@ -62,6 +62,7 @@ import './features/highlight-own-issues-and-prs';
 import './features/comments-time-machine-links';
 import './features/filter-comments-by-you';
 import './features/hide-issue-list-autocomplete';
+import './features/esc-to-deselect-line';
 import './features/show-recently-pushed-branches-on-more-pages';
 import './features/create-release-shortcut';
 import './features/patch-diff-links';
