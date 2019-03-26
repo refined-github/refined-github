@@ -25,9 +25,10 @@ function getLineNumber(lineChild: Element) {
 	) - 1;
 }
 
-function appendLineInfo(line: number, text: string) {
+function appendLineInfo(lineHandle: CodeMirror.LineHandle, text: string) {
 	// Only append text if it's not already there
-	if (!editor.getLine(line).includes(text)) {
+	if (!lineHandle.text.includes(text)) {
+		const line = (lineHandle as any).lineNo();
 		editor.replaceRange(text, {line, ch: Infinity}); // Infinity = end of line
 		editor.clearHistory();
 	}
@@ -35,22 +36,22 @@ function appendLineInfo(line: number, text: string) {
 
 // Create and add widget if not already in the document
 function addWidget() {
-	if (select('.CodeMirror .rgh-resolver')) {
-		return;
-	}
+	editor.eachLine(lineHandle => {
+		if ((lineHandle as any).widgets) {
+			return;
+		}
 
-	for (const conflict of document.querySelectorAll('.CodeMirror .conflict-gutter-marker.js-start')) {
-		const line = getLineNumber(conflict);
-		appendLineInfo(line, ' -- Incoming Change');
-		editor.addLineWidget(line, newWidget(), {
-			above: true,
-			noHScroll: true
-		});
-	}
-
-	for (const conflictEnd of document.querySelectorAll('.CodeMirror .conflict-gutter-marker.js-end')) {
-		appendLineInfo(getLineNumber(conflictEnd), ' -- Current Change');
-	}
+		if (lineHandle.text.startsWith('<<<<<<<')) {
+			appendLineInfo(lineHandle, ' -- Incoming Change');
+			const line = (lineHandle as any).lineNo();
+			editor.addLineWidget(line, newWidget(), {
+				above: true,
+				noHScroll: true
+			});
+		} else if (lineHandle.text.startsWith('>>>>>>>')) {
+			appendLineInfo(lineHandle, ' -- Current Change');
+		}
+	});
 }
 
 function createButton(branch, title?: string) {
