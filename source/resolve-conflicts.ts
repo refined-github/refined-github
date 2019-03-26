@@ -7,8 +7,7 @@ const select: typeof document.querySelector = document.querySelector.bind(docume
 const incomingBranchName = select('.head-ref').textContent;
 const currentBranchName = select('.base-ref').textContent;
 
-// @ts-ignore
-const editor: CodeMirrorInstance = select('.CodeMirror').CodeMirror;
+const editor: CodeMirrorInstance = select<any>('.CodeMirror').CodeMirror;
 
 // Event fired when each file is loaded
 editor.on('swapDoc', () => setTimeout(addWidget, 1));
