@@ -8,6 +8,13 @@ const editor: CodeMirrorInstance = select<any>('.CodeMirror').CodeMirror;
 // Event fired when each file is loaded
 editor.on('swapDoc', () => setTimeout(addWidget, 1));
 
+// Restore widget on undo
+editor.on('changes', (_, [firstChange]) => {
+	if (firstChange.origin === 'undo' && firstChange.text[0].startsWith('<<<<<<<')) {
+		addWidget();
+	}
+});
+
 function getLineNumber(lineChild: Element) {
 	return Number(
 		lineChild
@@ -18,8 +25,12 @@ function getLineNumber(lineChild: Element) {
 	) - 1;
 }
 
-function appendToLine(line: number, text: string) {
-	editor.replaceRange(text, {line, ch: Infinity}); // Infinity = end of line
+function appendLineInfo(line: number, text: string) {
+	// Only append text if it's not already there
+	if (!editor.getLine(line).includes(text)) {
+		editor.replaceRange(text, {line, ch: Infinity}); // Infinity = end of line
+		editor.clearHistory();
+	}
 }
 
 // Create and add widget if not already in the document
@@ -30,7 +41,7 @@ function addWidget() {
 
 	for (const conflict of document.querySelectorAll('.CodeMirror .conflict-gutter-marker.js-start')) {
 		const line = getLineNumber(conflict);
-		appendToLine(line, ' -- Incoming Change');
+		appendLineInfo(line, ' -- Incoming Change');
 		editor.addLineWidget(line, newWidget(), {
 			above: true,
 			noHScroll: true
@@ -38,11 +49,8 @@ function addWidget() {
 	}
 
 	for (const conflictEnd of document.querySelectorAll('.CodeMirror .conflict-gutter-marker.js-end')) {
-		appendToLine(getLineNumber(conflictEnd), ' -- Current Change');
+		appendLineInfo(getLineNumber(conflictEnd), ' -- Current Change');
 	}
-
-	// Clear editor history, so our change can't be undone
-	editor.clearHistory();
 }
 
 function createButton(branch, title?: string) {
