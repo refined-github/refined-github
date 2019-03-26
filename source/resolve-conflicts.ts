@@ -3,14 +3,24 @@
 interface CodeMirrorInstance extends CodeMirror.Editor, CodeMirror.Doc {}
 
 const select: typeof document.querySelector = document.querySelector.bind(document);
-
-const incomingBranchName = select('.head-ref').textContent;
-const currentBranchName = select('.base-ref').textContent;
-
 const editor: CodeMirrorInstance = select<any>('.CodeMirror').CodeMirror;
 
 // Event fired when each file is loaded
 editor.on('swapDoc', () => setTimeout(addWidget, 1));
+
+function getLineNumber(lineChild: Element) {
+	return Number(
+		lineChild
+			.closest('.CodeMirror-gutter-wrapper, .CodeMirror-linewidget')
+			.parentElement
+			.querySelector('.CodeMirror-linenumber')
+			.textContent
+	) - 1;
+}
+
+function appendToLine(line: number, text: string) {
+	editor.replaceRange(text, {line, ch: Infinity}); // Infinity = end of line
+}
 
 // Create and add widget if not already in the document
 function addWidget() {
@@ -18,17 +28,15 @@ function addWidget() {
 		return;
 	}
 
-	for (const line of document.querySelectorAll('.CodeMirror .conflict-gutter-marker.js-start')) {
-		const lineNumber = Number(line.parentElement.parentElement.textContent) - 1;
-		replaceLine(`<<<<<<< ${incomingBranchName} -- Incoming Change\n`, lineNumber);
+	for (const conflict of document.querySelectorAll('.CodeMirror .conflict-gutter-marker.js-start')) {
+		const line = getLineNumber(conflict);
+		appendToLine(line, ' -- Incoming Change');
 
-		addWidgetToLine(lineNumber);
+		addWidgetToLine(line);
 	}
 
-	const endLines = document.querySelectorAll('.CodeMirror .conflict-gutter-marker.js-end');
-	for (const line of endLines) {
-		const lineNumber = Number(line.parentElement.parentElement.textContent) - 1;
-		replaceLine(`>>>>>>> ${currentBranchName} -- Current Change\n`, lineNumber);
+	for (const conflictEnd of document.querySelectorAll('.CodeMirror .conflict-gutter-marker.js-end')) {
+		appendToLine(getLineNumber(conflictEnd), ' -- Current Change');
 	}
 
 	// Clear editor history, so our change can't be undone
