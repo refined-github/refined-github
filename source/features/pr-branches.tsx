@@ -117,7 +117,7 @@ async function init(): Promise<boolean | void> {
 
 	for (const PR of elements) {
 		let branches;
-		let {base, head} = normalizeBranchInfo((data as any).repository[PR.id]);
+		let {base, head} = normalizeBranchInfo(data.repository[PR.id]);
 
 		if (base!.label === defaultBranch) {
 			base = undefined;

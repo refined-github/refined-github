@@ -87,7 +87,7 @@ export const v3 = pMemoize(async (
 	throw getError(apiResponse);
 });
 
-export const v4 = pMemoize(async (query: string): Promise<JsonObject> => {
+export const v4 = pMemoize(async (query: string): Promise<AnyObject> => {
 	const {personalToken} = await settings;
 
 	if (!personalToken) {

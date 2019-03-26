@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import {JsonObject} from 'type-fest';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {getUsername} from '../libs/utils';
@@ -38,8 +37,7 @@ async function init(): Promise<boolean | void> {
 
 	for (const usernameEl of usernameElements) {
 		const userKey = api.escapeKey(usernameEl.textContent!);
-		const user = names[userKey] as JsonObject;
-		if (user && user.name) {
+		if (names[userKey]!.name) {
 			// If it's a regular comment author, add it outside <strong>
 			// otherwise it's something like "User added some commits"
 			const insertionPoint = usernameEl.parentElement!.tagName === 'STRONG' ? usernameEl.parentElement! : usernameEl;
