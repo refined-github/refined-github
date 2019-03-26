@@ -45,30 +45,29 @@ function addWidget() {
 	editor.clearHistory();
 }
 
+function createButton(branch, title?: string) {
+	const link = document.createElement('button');
+	link.type = 'button';
+	link.className = 'btn-link';
+	link.textContent = title || `Accept ${branch} Change`;
+	link.addEventListener('click', (e: any) => {
+		const line = e.target.parentElement.parentElement.parentElement;
+		acceptBranch(branch, line);
+	});
+	return link;
+}
+
 // Create and return conflict resolve widget for specific conflict
 function newWidget() {
 	const widget = document.createElement('div');
-	widget.classList.add('rgh-resolver');
+	widget.className = 'rgh-resolver';
 	widget.style.fontWeight = 'bold';
-
-	const link = (branch, title?: string) => {
-		const link = document.createElement('a');
-		link.href = `#accept${branch}`;
-		link.textContent = title || `Accept ${branch} Change`;
-		link.addEventListener('click', (e: any) => {
-			e.preventDefault();
-			const line = e.target.parentElement.parentElement.parentElement;
-			acceptBranch(branch, line);
-		});
-		return link;
-	};
-
 	widget.append(
-		link('Current'),
+		createButton('Current'),
 		' | ',
-		link('Incoming'),
+		createButton('Incoming'),
 		' | ',
-		link('Both', 'Accept Both Changes')
+		createButton('Both', 'Accept Both Changes')
 	);
 	return widget;
 }
