@@ -24,15 +24,17 @@ function appendToLine(line: number, text: string) {
 
 // Create and add widget if not already in the document
 function addWidget() {
-	if (select('.CodeMirror .rgh-conflict')) {
+	if (select('.CodeMirror .rgh-resolver')) {
 		return;
 	}
 
 	for (const conflict of document.querySelectorAll('.CodeMirror .conflict-gutter-marker.js-start')) {
 		const line = getLineNumber(conflict);
 		appendToLine(line, ' -- Incoming Change');
-
-		addWidgetToLine(line);
+		editor.addLineWidget(line, newWidget(), {
+			above: true,
+			noHScroll: true
+		});
 	}
 
 	for (const conflictEnd of document.querySelectorAll('.CodeMirror .conflict-gutter-marker.js-end')) {
@@ -41,14 +43,6 @@ function addWidget() {
 
 	// Clear editor history, so our change can't be undone
 	editor.clearHistory();
-}
-
-// Create and add widget to a line
-function addWidgetToLine(lineNumber: number) {
-	const widget = newWidget();
-	editor.addLineWidget(lineNumber, widget, {above: true, noHScroll: true});
-	// Add class for later detection
-	editor.addLineClass(lineNumber, '', 'rgh-conflict');
 }
 
 // Create and return conflict resolve widget for specific conflict
