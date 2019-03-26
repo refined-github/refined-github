@@ -39,8 +39,7 @@ GitHub Enterprise is also supported. More info in the options.
 			<em>(They will reappear in Notifications)</em>
 		</th>
 		<th width="50%">
-			No more jumps caused by recently pushed branches<br>
-			<em>(They are moved to the side)</em>
+			Fix merge conflicts in a click
 		</th>
 	</tr>
 	<tr><!-- Prevent zebra stripes --></tr>
@@ -49,7 +48,7 @@ GitHub Enterprise is also supported. More info in the options.
 			<img width="245" src="https://user-images.githubusercontent.com/1402241/27847663-963b7d7c-6171-11e7-9470-6e86d8463771.png">
 		</td>
 		<td>
-			<img width="400" src="https://user-images.githubusercontent.com/1402241/34099674-20433f60-e41b-11e7-8ca5-7ea23c70ab95.gif">
+			<img width="618" src="https://user-images.githubusercontent.com/1402241/54978791-45906080-4fdc-11e9-8fe1-45374f8ff636.png">
 		</td>
 	</tr>
 </table>
@@ -163,6 +162,7 @@ GitHub Enterprise is also supported. More info in the options.
 - The news feeds automagically expands when you scroll down.
 - The default sort order of milestones is changed to `Closest due date`.
 - The default sort order of issues and pull requests is changed to `Recently updated`.
+- Recently-pushed branches no longer cause the content to jump down ([they are moved to the side](https://user-images.githubusercontent.com/1402241/34099674-20433f60-e41b-11e7-8ca5-7ea23c70ab95.gif)).
 - [The `Expand diff` button is widened.](https://user-images.githubusercontent.com/6978877/34470024-eee4f43e-ef20-11e7-9036-65094bd58960.PNG)
 - [Dropdown menus are automatically closed when they’re no longer visible.](https://user-images.githubusercontent.com/1402241/37022353-531c676e-2155-11e8-96cc-80d934bb22e0.gif)
 - [Inactive deployments in PR timelines are hidden.](https://github.com/sindresorhus/refined-github/issues/1144)
