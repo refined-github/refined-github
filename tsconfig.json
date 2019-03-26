@@ -3,7 +3,7 @@
 	"compilerOptions": {
 		"target": "esnext",
 		"resolveJsonModule": true,
-		// "noEmit": true, // Useful when running `tsc` directly
+		"noEmit": true
 	},
 	"include": [
 		"source"
