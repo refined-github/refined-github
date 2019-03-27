@@ -1,6 +1,3 @@
-/*
-Hide other users starring/forking your repos
-*/
 import select from 'select-dom';
 import features from '../libs/features';
 import {getUsername} from '../libs/utils';
@@ -28,7 +25,7 @@ async function init() {
 
 features.add({
 	id: 'hide-own-stars',
-	description: 'Hide own stars',
+	description: 'Hide other users starring/forking your repos',
 	include: [
 		features.isDashboard
 	],

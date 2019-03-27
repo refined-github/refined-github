@@ -61,7 +61,7 @@ function init() {
 
 features.add({
 	id: 'hide-comments-faster',
-	description: 'Hide comments faster',
+	description: 'Hide comments in fewer clicks',
 	include: [
 		features.isPR,
 		features.isIssue,

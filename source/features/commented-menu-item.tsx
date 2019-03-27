@@ -22,7 +22,7 @@ function init() {
 
 features.add({
 	id: 'commented-menu-item',
-	description: 'Commented menu item',
+	description: 'Allows filtering issues and PRs that you commented on',
 	include: [
 		features.isGlobalIssueSearch,
 		features.isGlobalPRSearch
@@ -30,3 +30,4 @@ features.add({
 	load: features.onAjaxedPages,
 	init
 });
+

@@ -51,7 +51,7 @@ function init() {
 
 features.add({
 	id: 'sort-issues-by-update-time',
-	description: 'Sort issues by update time',
+	description: 'The default sort order of issues and pull requests is changed to `Recently updated`',
 	load: features.onAjaxedPages,
 	init
 });

@@ -56,7 +56,7 @@ async function init() {
 
 features.add({
 	id: 'show-names',
-	description: 'Show names',
+	description: 'Full names of comment authors are shown next to their username',
 	include: [
 		features.isPR,
 		features.isIssue,

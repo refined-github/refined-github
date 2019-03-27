@@ -119,7 +119,7 @@ async function init() {
 
 features.add({
 	id: 'branch-buttons',
-	description: 'Branch buttons',
+	description: 'Quickly visit a repository\'s default branch and latest version tag',
 	include: [
 		features.isRepo
 	],

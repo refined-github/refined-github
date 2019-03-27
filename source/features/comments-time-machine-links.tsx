@@ -29,7 +29,7 @@ function init() {
 
 features.add({
 	id: 'comments-time-machine-links',
-	description: 'Comments time machine links',
+	description: 'Browse a repository at the time of each comment',
 	include: [
 		features.isPRConversation,
 		features.isIssue

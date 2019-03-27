@@ -50,7 +50,7 @@ function init() {
 
 features.add({
 	id: 'embed-gist-inline',
-	description: 'Embed gist inline',
+	description: 'View linked gists inline in comments',
 	include: [
 		features.isPR,
 		features.isIssue

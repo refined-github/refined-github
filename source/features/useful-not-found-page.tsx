@@ -1,9 +1,3 @@
-/*
-This feature adds more useful 404 (not found) page.
-- Display the full URL clickable piece by piece
-- Strikethrough all anchor that return a 404 status code
-*/
-
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
@@ -114,7 +108,10 @@ function init() {
 
 features.add({
 	id: 'useful-not-found-page',
-	description: 'Adds more useful 404 (not found) page',
+	description: `This feature adds more useful 404 (not found) page.
+			- Display the full URL clickable piece by piece
+			- Strikethrough all anchor that return a 404 status code
+	`,
 	include: [
 		features.is404
 	],

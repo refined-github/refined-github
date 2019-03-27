@@ -115,7 +115,7 @@ function init() {
 
 features.add({
 	id: 'wait-for-build',
-	description: 'Wait for build',
+	description: 'The option to wait for checks when merging a PR',
 	include: [
 		features.isPR
 	],

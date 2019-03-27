@@ -53,6 +53,6 @@ function init() {
 
 features.add({
 	id: 'improve-shortcut-help',
-	description: 'Improve shortcut help',
+	description: 'All available keyboard shortcuts are shown in the help modal. (`?` hotkey)',
 	init
 });

@@ -17,7 +17,7 @@ async function init() {
 
 features.add({
 	id: 'trending-menu-item',
-	description: 'Trending menu item',
+	description: 'Access trending repositories using the Trending link in the global navbar or by pressing `g` ` t`',
 	exclude: [
 		features.isGist
 	],

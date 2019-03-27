@@ -1,10 +1,3 @@
-/*
-Head and base branches are added to the PR list when they are significant.
-
-The base branch is added when it's not the repo's default branch.
-The head branch is added when it's from the same repo or the PR is by the current user.
-*/
-
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as api from '../libs/api';
@@ -123,7 +116,10 @@ async function init() {
 
 features.add({
 	id: 'pr-branches',
-	description: 'Head and base branches are added to the PR list when they are significant',
+	description: `Head and base branches are added to the PR list when they are significant.
+			The base branch is added when it's not the repo's default branch.
+			The head branch is added when it's from the same repo or the PR is by the current user.
+	`,
 	include: [
 		features.isPRList
 	],

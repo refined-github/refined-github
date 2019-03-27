@@ -16,7 +16,7 @@ function init() {
 
 features.add({
 	id: 'linkify-issues-in-titles',
-	description: 'Linkify issues in titles',
+	description: ' Preview a issue/PR reference\'s title in comments',
 	include: [
 		features.isPR,
 		features.isIssue

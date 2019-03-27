@@ -22,7 +22,7 @@ function init() {
 
 features.add({
 	id: 'swap-branches-on-compare',
-	description: 'Swap branches on compare',
+	description: 'Swap branches in the branch compare view',
 	include: [
 		features.isCompare
 	],

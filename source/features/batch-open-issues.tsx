@@ -62,7 +62,7 @@ function init() {
 
 features.add({
 	id: 'batch-open-issues',
-	description: 'Batch open issues',
+	description: 'Open multiple issues at once in your repos',
 	include: [
 		features.isGlobalIssueSearch,
 		features.isGlobalPRSearch,

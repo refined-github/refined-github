@@ -11,7 +11,7 @@ function init() {
 
 features.add({
 	id: 'shorten-links',
-	description: 'Shorten links',
+	description: 'Repo URLs are shortened to readable references like `_user/repo/.file@d71718d`',
 	load: features.onAjaxedPages,
 	init
 });

@@ -18,7 +18,7 @@ function init() {
 
 features.add({
 	id: 'selection-in-new-tab',
-	description: 'Selection in new tab',
+	description: 'Open selection in new tab with `shift o` when navigating via `j` and `k`',
 	shortcuts: {
 		'shift o': 'Open selection in new tab'
 	},

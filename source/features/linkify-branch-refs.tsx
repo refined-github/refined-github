@@ -65,7 +65,7 @@ function init() {
 
 features.add({
 	id: 'linkify-branch-refs',
-	description: 'Linkify branch refs',
+	description: 'Click on branch references in pull requests',
 	include: [
 		features.isPR,
 		features.isQuickPR

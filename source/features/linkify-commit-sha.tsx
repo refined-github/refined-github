@@ -12,7 +12,7 @@ function init() {
 
 features.add({
 	id: 'linkify-commit-sha',
-	description: 'Linkify commit sha',
+	description: 'Navigate from PR commit to raw commit by clicking the commit hash',
 	include: [
 		features.isPRCommit
 	],

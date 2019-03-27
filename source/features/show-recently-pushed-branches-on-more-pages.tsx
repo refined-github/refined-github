@@ -1,11 +1,3 @@
-/*
-GitHub shows a widget to create a new Pull Request from a recently-pushed branch,
-but only on the repo root and on the PR list pages.
-https://blog.github.com/changelog/2018-08-14-quickly-create-a-new-pull-request-from-your-repositorys-pull-requests-page/
-
-This feature also adds this widget to the Issues List, Issue page and PR page
-*/
-
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
@@ -31,7 +23,11 @@ async function init() {
 
 features.add({
 	id: 'show-recently-pushed-branches-on-more-pages',
-	description: 'Shows recently pushed branches on more pages',
+	description: `GitHub shows a widget to create a new Pull Request from a recently-pushed branch,
+			but only on the repo root and on the PR list pages.
+			https://blog.github.com/changelog/2018-08-14-quickly-create-a-new-pull-request-from-your-repositorys-pull-requests-page/
+			This feature also adds this widget to the Issues List, Issue page and PR page
+	`,
 	include: [
 		features.isPR,
 		features.isIssue,

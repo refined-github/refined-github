@@ -60,7 +60,7 @@ async function init() {
 
 features.add({
 	id: 'add-co-authored-by',
-	description: 'Add co authored by',
+	description: 'Add co-authors when merging PRs with multiple committers',
 	include: [
 		features.isPRConversation
 	],

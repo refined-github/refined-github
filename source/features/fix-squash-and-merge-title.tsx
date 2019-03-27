@@ -16,7 +16,7 @@ function init() {
 
 features.add({
 	id: 'fix-squash-and-merge-title',
-	description: 'Fix squash and merge title',
+	description: 'Use the pull request title as the commit title when merging with `Squash and merge`',
 	include: [
 		features.isPR
 	],

@@ -395,7 +395,7 @@ async function init() {
 
 features.add({
 	id: 'mark-unread',
-	description: 'Mark unread notifications',
+	description: 'Mark issues and pull requests as unread',
 	load: features.onAjaxedPagesRaw,
 	init
 });

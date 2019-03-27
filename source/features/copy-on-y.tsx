@@ -19,7 +19,7 @@ function deinit() {
 
 features.add({
 	id: 'copy-on-y',
-	description: 'Copy on y',
+	description: 'Adds shortcut to copy permalink of file to clipboard',
 	include: [
 		features.isSingleFile
 	],

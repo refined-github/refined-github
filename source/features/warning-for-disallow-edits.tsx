@@ -31,7 +31,7 @@ function init() {
 
 features.add({
 	id: 'warning-for-disallow-edits',
-	description: 'Warning for disallow edits',
+	description: 'A warning appears when unchecking `Allow edits from maintainers`',
 	include: [
 		features.isCompare,
 		features.isPRConversation

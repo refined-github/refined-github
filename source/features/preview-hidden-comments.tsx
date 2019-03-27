@@ -34,7 +34,7 @@ const init = () => {
 
 features.add({
 	id: 'preview-hiddden-comments',
-	description: 'Preview hidden comments',
+	description: 'Hidden comments are previewed inline',
 	include: [
 		features.isPR,
 		features.isIssue,

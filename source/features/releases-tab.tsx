@@ -1,10 +1,3 @@
-/*
-Access a repository’s releases using the Releases tab or by pressing g r.
-https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png
-
-The tab isn’t shown if there are no releases.
-*/
-
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
@@ -60,7 +53,10 @@ async function init() {
 
 features.add({
 	id: 'releases-tab',
-	description: 'Access a repository’s releases using the Releases tab or by pressing g r',
+	description: `Access a repository’s releases using the Releases tab or by pressing g r.
+			https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png
+			The tab isn’t shown if there are no releases.
+	`,
 	include: [
 		features.isRepo
 	],

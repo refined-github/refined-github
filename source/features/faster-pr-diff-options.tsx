@@ -82,7 +82,7 @@ function init() {
 
 features.add({
 	id: 'faster-pr-diff-options',
-	description: 'Faster PR diff options',
+	description: 'Change diff style and whitespace visibility in one click',
 	include: [
 		features.isPRFiles,
 		features.isCommit

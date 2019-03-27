@@ -1,8 +1,3 @@
-/*
-Find a user’s most starred repositories in their profile.
-https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93de-159ad4c6f283.png
-*/
-
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
@@ -31,7 +26,9 @@ function init() {
 
 features.add({
 	id: 'show-user-top-repositories',
-	description: 'Find a user\'s most starred repositories in their profile.',
+	description: `Find a user’s most starred repositories in their profile.
+			https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93de-159ad4c6f283.png
+	`,
 	include: [
 		features.isUserProfile
 	],

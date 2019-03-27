@@ -1,11 +1,3 @@
-/*
-Reaction avatars showing who reacted to a comment.
-
-Feature testable on
-https://github.com/babel/babel/pull/3646
-https://github.com/dominictarr/event-stream/issues/116
-*/
-
 import React from 'dom-chef';
 import select from 'select-dom';
 import debounce from 'debounce-fn';
@@ -73,7 +65,11 @@ function init() {
 
 features.add({
 	id: 'reactions-avatars',
-	description: 'Reaction avatars showing who reacted to a comment.',
+	description: `Reaction avatars showing who reacted to a comment.
+			Feature testable on
+			https://github.com/babel/babel/pull/3646
+			https://github.com/dominictarr/event-stream/issues/116
+	`,
 	include: [
 		features.isPR,
 		features.isIssue,

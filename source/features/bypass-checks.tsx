@@ -17,7 +17,7 @@ async function bypass(check) {
 
 features.add({
 	id: 'bypass-checks',
-	description: 'Bypass checks',
+	description: 'Bypass the `Checks` page and go directly to build results when clicking the `Details` links on a PR',
 	include: [
 		features.isPRConversation
 	],

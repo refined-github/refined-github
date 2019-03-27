@@ -7,7 +7,7 @@ function init() {
 
 features.add({
 	id: 'hide-issue-list-autocomplete',
-	description: 'Hide issue list autocomplete',
+	description: 'The autocomplete on the issue search field is removed',
 	include: [
 		features.isIssueList
 	],

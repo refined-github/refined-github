@@ -14,7 +14,7 @@ function init() {
 
 features.add({
 	id: 'hide-inactive-deployments',
-	description: 'Hide inactive deployments',
+	description: 'Inactive deployments in PR timelines are hidden',
 	include: [
 		features.isPRConversation
 	],

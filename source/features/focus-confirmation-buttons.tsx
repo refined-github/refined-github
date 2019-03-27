@@ -1,7 +1,6 @@
 import select from 'select-dom';
 import features from '../libs/features';
 
-// Ensure that confirm buttons (like Mark all as read) are always in focus
 function init() {
 	window.addEventListener('facebox:reveal', () => {
 		select<HTMLButtonElement>('.facebox-content button').focus();
@@ -10,6 +9,6 @@ function init() {
 
 features.add({
 	id: 'focus-confirmation-buttons',
-	description: 'Focus confirmation buttons',
+	description: 'Ensure that confirm buttons (like `Mark all as read`) are always in focus',
 	init
 });

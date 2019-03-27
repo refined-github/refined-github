@@ -15,7 +15,7 @@ function init() {
 
 features.add({
 	id: 'sort-milestones-by-closest-due-date',
-	description: 'Sort milestones by closest due date',
+	description: 'The default sort order of milestones is changed to `Closest due date`',
 	include: [
 		features.isRepo
 	],
