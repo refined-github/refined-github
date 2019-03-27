@@ -38,11 +38,7 @@ function init() {
 features.add({
 	id: 'upload-button',
 	include: [
-		features.isPR,
-		features.isIssue,
-		features.isNewIssue,
-		features.isCompare,
-		features.isCommit
+		features.hasRichTextEditor
 	],
 	load: features.onAjaxedPages,
 	init

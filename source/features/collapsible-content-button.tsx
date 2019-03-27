@@ -43,7 +43,7 @@ function init() {
 }
 
 function addContentToDetails(event) {
-	const field = event.delegateTarget.form['comment[body]'];
+	const field = event.delegateTarget.form.querySelector('textarea');
 
 	// Don't indent <summary> because indentation will not be automatic on multi-line content
 	const newContent = `
@@ -56,6 +56,7 @@ function addContentToDetails(event) {
 	`.replace(/(\n|\b)\t+/g, '$1').trim();
 
 	// Inject new tags; it'll be undoable
+	field.focus();
 	document.execCommand('insertText', false, smartBlockWrap(newContent, field));
 
 	// Restore selection.
@@ -69,11 +70,7 @@ function addContentToDetails(event) {
 features.add({
 	id: 'collapsible-content-button',
 	include: [
-		features.isPR,
-		features.isIssue,
-		features.isNewIssue,
-		features.isCompare,
-		features.isCommit
+		features.hasRichTextEditor
 	],
 	load: features.onAjaxedPages,
 	init
