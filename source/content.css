@@ -21,6 +21,15 @@
 	display: none !important;
 }
 
+.rgh-markdown-source .blame-commit,
+.rgh-markdown-source .blob-reblame {
+	display: none;
+}
+
+.rgh-markdown-source .blame-hunk {
+	border-bottom: none !important;
+}
+
 /* Fade out the file icons */
 .file-wrap .files .octicon {
 	opacity: 0.6;

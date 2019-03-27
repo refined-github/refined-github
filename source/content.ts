@@ -67,6 +67,7 @@ import './features/patch-diff-links';
 import './features/swap-branches-on-compare';
 import './features/reactions-avatars';
 import './features/show-names';
+import './features/view-markdown-source';
 import './features/mark-merge-commits-in-list';
 import './features/prev-next-commit-buttons';
 import './features/preserve-whitespace-option-in-nav';
