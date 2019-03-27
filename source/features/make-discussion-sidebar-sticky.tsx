@@ -1,5 +1,3 @@
-// TODO: update position to avoid overlap with new top bar
-// https://github.com/sindresorhus/refined-github/issues/1300#issuecomment-446856763
 import select from 'select-dom';
 import debounce from 'debounce-fn';
 import features from '../libs/features';

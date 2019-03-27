@@ -20,6 +20,9 @@ new OptionsSync().define({
 				.replace('exclude-filter-shortcut', '') // #1831
 				.replace('diff-view-without-whitespace-option', 'faster-pr-diff-options') // #1799
 				.replace('make-headers-sticky', '') // #1863
+				.replace('jump-to-bottom', '') // #1879
+				.replace('hide-readme-header', '') // #1883
+				.replace(/commented-menu-item|yours-menu-item/, 'global-discussion-list-filters') // #1883
 			; // eslint-disable-line semi-style
 		},
 		OptionsSync.migrations.removeUnused

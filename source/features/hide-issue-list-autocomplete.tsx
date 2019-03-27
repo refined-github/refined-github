@@ -8,7 +8,7 @@ function init() {
 features.add({
 	id: 'hide-issue-list-autocomplete',
 	include: [
-		features.isIssueList
+		features.isDiscussionList
 	],
 	load: features.onAjaxedPages,
 	init

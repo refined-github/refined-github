@@ -14,11 +14,10 @@ function createDropdown() {
 		<div className="reponav-dropdown js-menu-container">
 			<button type="button" className="btn-link reponav-item js-menu-target" aria-expanded="false" aria-haspopup="true">
 				{'More '}
-				<span className="dropdown-caret"></span>
+				<span className="dropdown-caret"/>
 			</button>
 			<div className="dropdown-menu-content js-menu-content">
-				<div className="dropdown-menu dropdown-menu-se">
-				</div>
+				<div className="dropdown-menu dropdown-menu-se"/>
 			</div>
 		</div>
 	);
@@ -32,20 +31,25 @@ async function init(): Promise<void> {
 
 	select('.reponav-dropdown .dropdown-menu')!.append(
 		<a href={`/${repoUrl}/compare`} className="rgh-reponav-more dropdown-item" data-skip-pjax>
-			{icons.darkCompare()}
-			{' Compare'}
+			{icons.darkCompare()} Compare
 		</a>,
 
 		isEnterprise() ? '' :
 			<a href={`/${repoUrl}/network/dependencies`} className="rgh-reponav-more dropdown-item rgh-dependency-graph" data-skip-pjax>
-				{icons.dependency()}
-				{' Dependencies'}
+				{icons.dependency()} Dependencies
 			</a>,
 
 		<a href={`/${repoUrl}/pulse`} className="rgh-reponav-more dropdown-item" data-skip-pjax>
-			{icons.graph()}
-			{' Insights'}
-		</a>
+			{icons.graph()} Insights
+		</a>,
+
+		<a href={`/${repoUrl}/commits`} className="rgh-reponav-more dropdown-item" data-skip-pjax>
+			{icons.history()} Commits
+		</a>,
+
+		<a href={`/${repoUrl}/branches`} className="rgh-reponav-more dropdown-item" data-skip-pjax>
+			{icons.branch()} Branches
+		</a>,
 	);
 
 	// Remove native Insights tab

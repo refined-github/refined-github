@@ -57,10 +57,7 @@ async function init(): Promise<boolean | void> {
 features.add({
 	id: 'show-names',
 	include: [
-		features.isPR,
-		features.isIssue,
-		features.isCommit,
-		features.isDiscussion
+		features.hasComments
 	],
 	load: features.onNewComments,
 	init

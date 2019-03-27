@@ -7,6 +7,7 @@ https://user-images.githubusercontent.com/1402241/53678019-0c721280-3cf4-11e9-9c
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
+import insertText from 'insert-text-textarea';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 
@@ -43,7 +44,7 @@ function init() {
 }
 
 function addContentToDetails(event: DelegateEvent<MouseEvent, HTMLButtonElement>) {
-	const field = event.delegateTarget.form!['comment[body]'];
+	const field = event.delegateTarget.form!.querySelector('textarea');
 
 	// Don't indent <summary> because indentation will not be automatic on multi-line content
 	const newContent = `
@@ -56,7 +57,7 @@ function addContentToDetails(event: DelegateEvent<MouseEvent, HTMLButtonElement>
 	`.replace(/(\n|\b)\t+/g, '$1').trim();
 
 	// Inject new tags; it'll be undoable
-	document.execCommand('insertText', false, smartBlockWrap(newContent, field));
+	insertText(field, smartBlockWrap(newContent, field));
 
 	// Restore selection.
 	// `selectionStart` will be right after the newly-inserted text
@@ -69,11 +70,7 @@ function addContentToDetails(event: DelegateEvent<MouseEvent, HTMLButtonElement>
 features.add({
 	id: 'collapsible-content-button',
 	include: [
-		features.isPR,
-		features.isIssue,
-		features.isNewIssue,
-		features.isCompare,
-		features.isCommit
+		features.hasRichTextEditor
 	],
 	load: features.onAjaxedPages,
 	init

@@ -51,8 +51,7 @@ function init() {
 features.add({
 	id: 'embed-gist-inline',
 	include: [
-		features.isPR,
-		features.isIssue
+		features.hasComments
 	],
 	load: features.onAjaxedPages,
 	init

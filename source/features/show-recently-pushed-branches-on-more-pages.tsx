@@ -34,7 +34,7 @@ features.add({
 	include: [
 		features.isPR,
 		features.isIssue,
-		features.isIssueList,
+		features.isRepoDiscussionList,
 		features.isCompare
 	],
 	load: features.onAjaxedPages,

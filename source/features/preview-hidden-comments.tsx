@@ -35,9 +35,7 @@ const init = () => {
 features.add({
 	id: 'preview-hiddden-comments',
 	include: [
-		features.isPR,
-		features.isIssue,
-		features.isCommit
+		features.hasComments
 	],
 	load: features.onNewComments,
 	init
