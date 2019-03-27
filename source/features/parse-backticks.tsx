@@ -9,7 +9,7 @@ import getTextNodes from '../libs/get-text-nodes';
 
 const splittingRegex = /`(.*?)`/g;
 
-function splitTextReducer(fragment, text, index) {
+function splitTextReducer(fragment: DocumentFragment, text: string, index: number) {
 	// Code is always in odd positions
 	if (index % 2 && text.length >= 1) {
 		// `span.sr-only` keeps the backticks copy-pastable but invisible
@@ -30,13 +30,13 @@ function splitTextReducer(fragment, text, index) {
 function init() {
 	for (const title of select.all('.issues-listing .js-navigation-open')) {
 		for (const node of getTextNodes(title)) {
-			const frag = node.textContent
+			const frag = node.textContent!
 				.split(splittingRegex)
 				.reduce(splitTextReducer, new DocumentFragment());
 
 			if (frag.children.length > 0) {
-				node.parentElement.classList.add('markdown-body');
-				node.parentElement.style.lineHeight = 'inherit';
+				node.parentElement!.classList.add('markdown-body');
+				node.parentElement!.style.lineHeight = 'inherit';
 				node.replaceWith(frag);
 			}
 		}

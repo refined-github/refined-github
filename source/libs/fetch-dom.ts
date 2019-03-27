@@ -5,7 +5,7 @@ async function fetchDom(url: string, selector: string): Promise<Element>;
 async function fetchDom(url: string, selector?: string): Promise<Node> {
 	const response = await fetch(url);
 	const dom = domify(await response.text());
-	return selector ? dom.querySelector(selector) : dom;
+	return selector ? dom.querySelector(selector)! : dom;
 }
 
 export default fetchDom;

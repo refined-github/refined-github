@@ -79,7 +79,7 @@ async function handleMergeConfirmation(event: Event) {
 	}
 }
 
-function init() {
+function init(): false | void {
 	/* eslint-disable no-unreachable */
 	throw new Error('Feature currently broken, please contribute at https://github.com/sindresorhus/refined-github/issues/1792');
 

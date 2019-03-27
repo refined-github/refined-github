@@ -32,7 +32,7 @@ function smartBlockWrap(content: string, field: HTMLTextAreaElement) {
 	return newlinesToPrepend + content + newlinesToAppend;
 }
 
-function init() {
+function init(): void {
 	delegate('.rgh-collapsible-content-btn', 'click', addContentToDetails);
 	for (const anchor of select.all('md-ref')) {
 		anchor.after(
@@ -44,7 +44,7 @@ function init() {
 }
 
 function addContentToDetails(event: DelegateEvent<MouseEvent, HTMLButtonElement>) {
-	const field = event.delegateTarget.form!.querySelector('textarea');
+	const field = event.delegateTarget.form!.querySelector('textarea')!;
 
 	// Don't indent <summary> because indentation will not be automatic on multi-line content
 	const newContent = `

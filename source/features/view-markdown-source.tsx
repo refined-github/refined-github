@@ -20,7 +20,7 @@ async function fetchSource() {
 }
 
 // Hide tooltip after click, it’s shown on :focus
-function blurButton(button) {
+function blurButton(button: HTMLElement) {
 	if (button === document.activeElement) {
 		blurAccessibly(button);
 	}
@@ -32,8 +32,8 @@ This acts as an auto-discarded cache without globals, timers, etc.
 It should also work clicks on buttons sooner than the page loads.
 */
 async function showSource() {
-	const sourceButton = select('.rgh-md-source');
-	const renderedButton = select('.rgh-md-rendered');
+	const sourceButton = select('.rgh-md-source')!;
+	const renderedButton = select('.rgh-md-rendered')!;
 
 	document.dispatchEvent(new CustomEvent('pjax:start')); // Show loading bar
 
@@ -52,8 +52,8 @@ async function showSource() {
 }
 
 async function showRendered() {
-	const sourceButton = select('.rgh-md-source');
-	const renderedButton = select('.rgh-md-rendered');
+	const sourceButton = select('.rgh-md-source')!;
+	const renderedButton = select('.rgh-md-rendered')!;
 
 	(await sourceButton[linkedDom]).replaceWith(renderedButton[linkedDom]);
 
@@ -70,7 +70,7 @@ async function init(): Promise<false | void> {
 	delegate('.rgh-md-source:not(.selected)', 'click', showSource);
 	delegate('.rgh-md-rendered:not(.selected)', 'click', showRendered);
 
-	select('.repository-content .Box-header .d-flex').prepend(
+	select('.repository-content .Box-header .d-flex')!.prepend(
 		<div class="BtnGroup">
 			<button class="btn btn-sm BtnGroup-item tooltipped tooltipped tooltipped-n rgh-md-source" type="button" aria-label="Display the source blob">
 				{icons.code()}

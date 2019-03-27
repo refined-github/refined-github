@@ -63,7 +63,7 @@ function addMarkUnreadButton(): void {
 		button!.addEventListener('click', markUnread, {
 			once: true
 		});
-		select('.thread-subscription-status').after(button);
+		select('.thread-subscription-status')!.after(button);
 	}
 }
 

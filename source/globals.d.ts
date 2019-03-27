@@ -27,6 +27,7 @@ declare namespace JSX {
 		em: any;
 		strong: any;
 		label: any;
+		code: any;
 		input: any;
 		p: any;
 		h2: any;
