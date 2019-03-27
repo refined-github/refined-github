@@ -37,13 +37,12 @@ function stripHash(url) {
 }
 
 function addMarkUnreadButton() {
-	const container = select('.js-thread-subscription-status');
-	if (container && !select.exists('.rgh-btn-mark-unread')) {
+	if (!select.exists('.rgh-btn-mark-unread')) {
 		const button = <button class="btn btn-sm rgh-btn-mark-unread">Mark as unread</button>;
 		button.addEventListener('click', markUnread, {
 			once: true
 		});
-		container.after(button);
+		select('.thread-subscription-status').after(button);
 	}
 }
 
@@ -380,7 +379,7 @@ async function init() {
 
 		// The sidebar changes when new comments are added or the issue status changes
 		observeEl('.discussion-sidebar', addMarkUnreadButton);
-	} else if (pageDetect.isIssueList()) {
+	} else if (pageDetect.isDiscussionList()) {
 		for (const discussion of await getNotifications()) {
 			const {pathname} = new URL(discussion.url);
 			const listItem = select(`.read [href='${pathname}']`);
