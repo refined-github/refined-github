@@ -11,7 +11,7 @@ type VoidFunction = () => void;
 type callerFunction = (callback: VoidFunction) => void;
 
 // Cannot use a type due to https://github.com/benmosher/eslint-plugin-import/issues/1282
-// export type FeatureInit = boolean | void;
+// export type FeatureInit = false | void;
 
 type FeatureShortcuts = Record<string, string>;
 
@@ -31,7 +31,7 @@ interface FeatureDetails {
 	id: string;
 	include?: BooleanFunction[];
 	exclude?: BooleanFunction[];
-	init: () => boolean | void | Promise<boolean | void>;
+	init: () => false | void | Promise<false | void>;
 	deinit?: () => void;
 	load?: callerFunction | Promise<void>;
 	shortcuts?: FeatureShortcuts;

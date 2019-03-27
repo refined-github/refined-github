@@ -51,7 +51,7 @@ export const editTextNodes = (
 	}
 };
 
-function init(): boolean | void {
+function init(): false | void {
 	const wrappers = select.all(`
 		.blob-wrapper:not(.${linkifiedURLClass}),
 		.comment-body:not(.${linkifiedURLClass})

@@ -91,7 +91,7 @@ async function getDefaultBranchLink() {
 	);
 }
 
-async function init(): Promise<boolean | void> {
+async function init(): Promise<false | void> {
 	const breadcrumbs = select('.breadcrumb');
 	if (!breadcrumbs) {
 		return false;

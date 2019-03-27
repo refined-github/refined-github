@@ -56,7 +56,7 @@ function wrap(...elements: Element[]) {
 	return <>{elements.map(element => <div className="diffbar-item">{element}</div>)}</>;
 }
 
-function init(): boolean | void {
+function init(): false | void {
 	const container = select([
 		'.table-of-contents.Details .BtnGroup', // In single commit view
 		'.pr-review-tools > .diffbar-item' // In review view

@@ -32,7 +32,7 @@ function openIssues() {
 	});
 }
 
-function init(): boolean | void {
+function init(): false | void {
 	if (select.all('.js-issue-row').length < 2) {
 		return false;
 	}

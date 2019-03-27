@@ -38,7 +38,7 @@ const addNewProjectLink = onetime(() => {
 	);
 });
 
-async function init(): Promise<boolean | void> {
+async function init(): Promise<false | void> {
 	await safeElementReady(`
 		.orghead + *,
 		.repohead + *,

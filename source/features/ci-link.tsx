@@ -19,7 +19,7 @@ const fetchStatus = onetime(async () => {
 	return icon;
 });
 
-async function init(): Promise<boolean | void> {
+async function init(): Promise<false | void> {
 	const icon = await fetchStatus();
 	if (!icon) {
 		return false;

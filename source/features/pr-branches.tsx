@@ -102,7 +102,7 @@ function createLink(ref: RepositoryReference) {
 	);
 }
 
-async function init(): Promise<boolean | void> {
+async function init(): Promise<false | void> {
 	const elements = select.all('.js-issue-row');
 	if (elements.length === 0) {
 		return false;

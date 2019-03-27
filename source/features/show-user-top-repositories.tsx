@@ -17,7 +17,7 @@ function buildUrl(queryField: string) {
 	return url;
 }
 
-function init(): boolean | void {
+function init(): false | void {
 	const showcaseTitle = select('.js-pinned-items-reorder-container .text-normal')!;
 	if (!showcaseTitle) {
 		return false;

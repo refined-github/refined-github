@@ -4,7 +4,7 @@ import features from '../libs/features';
 import * as icons from '../libs/icons';
 import * as api from '../libs/api';
 
-async function init(): Promise<boolean | void> {
+async function init(): Promise<false | void> {
 	const orgs = select.all<HTMLAnchorElement>('.avatar-group-item[data-hovercard-type="organization"]');
 	if (orgs.length === 0) {
 		return false;

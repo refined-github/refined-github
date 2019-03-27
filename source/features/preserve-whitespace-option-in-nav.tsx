@@ -5,7 +5,7 @@ When navigating with next/previous in review mode, preserve whitespace option.
 import select from 'select-dom';
 import features from '../libs/features';
 
-function init(): boolean | void {
+function init(): false | void {
 	if (new URLSearchParams(location.search).get('w') !== '1') {
 		return false;
 	}

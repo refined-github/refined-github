@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import features from '../libs/features';
 
-function init(): boolean | void {
+function init(): false | void {
 	const button = select('.merge-message .btn-group-squash [type=button]');
 	if (!button) {
 		return false;

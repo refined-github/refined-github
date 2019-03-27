@@ -7,7 +7,7 @@ const btnClassMap = {
 	reject: 'btn-danger'
 };
 
-function init(): boolean | void {
+function init(): false | void {
 	const form = select('[action$="/reviews"]')!;
 	const radios = select.all<HTMLInputElement>('[type="radio"][name="pull_request_review[event]"]', form);
 
