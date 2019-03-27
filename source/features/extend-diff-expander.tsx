@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import delegate from 'delegate';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 
 function expandDiff(event) {
@@ -16,7 +16,8 @@ function init() {
 features.add({
 	id: 'extend-diff-expander',
 	include: [
-		features.isPRFiles
+		features.isPRFiles,
+		features.isCommit
 	],
 	load: features.onAjaxedPages,
 	init

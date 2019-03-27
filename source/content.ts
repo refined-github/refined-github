@@ -1,4 +1,4 @@
-import select, {SelectDom} from 'select-dom';
+import select from 'select-dom';
 import 'webext-dynamic-content-scripts';
 
 import './features/useful-not-found-page';
@@ -13,6 +13,7 @@ import './features/hide-navigation-hover-highlight';
 import './features/monospace-textareas';
 import './features/selection-in-new-tab';
 import './features/hide-comments-faster';
+import './features/edit-comments-faster';
 import './features/mark-unread';
 import './features/open-all-notifications';
 import './features/copy-on-y';
@@ -35,13 +36,10 @@ import './features/linkify-branch-refs';
 import './features/batch-open-issues';
 import './features/hide-useless-comments';
 import './features/navigate-pages-with-arrow-keys';
-import './features/make-headers-sticky';
-import './features/yours-menu-item';
-import './features/commented-menu-item';
-import './features/sort-issues-by-update-time'; // Must be after add-yours-menu-item + add-commented-menu-item
-import './features/hide-readme-header';
+import './features/global-discussion-list-filters';
+import './features/sort-issues-by-update-time'; // Must be after global-discussion-list-filters
 import './features/branch-buttons';
-import './features/diff-view-without-whitespace-option';
+import './features/faster-pr-diff-options';
 import './features/ci-link';
 import './features/sort-milestones-by-closest-due-date';
 import './features/star-repo-hotkey';
@@ -60,16 +58,17 @@ import './features/extend-status-labels';
 import './features/highlight-closing-prs-in-open-issues';
 import './features/highlight-own-issues-and-prs';
 import './features/comments-time-machine-links';
-import './features/jump-to-bottom-link';
 import './features/filter-comments-by-you';
 import './features/hide-issue-list-autocomplete';
-import './features/exclude-filter-shortcut';
+import './features/esc-to-deselect-line';
 import './features/show-recently-pushed-branches-on-more-pages';
 import './features/create-release-shortcut';
 import './features/patch-diff-links';
+import './features/parse-backticks';
 import './features/swap-branches-on-compare';
 import './features/reactions-avatars';
 import './features/show-names';
+import './features/view-markdown-source';
 import './features/mark-merge-commits-in-list';
 import './features/prev-next-commit-buttons';
 import './features/preserve-whitespace-option-in-nav';
@@ -89,12 +88,7 @@ import './features/warn-pr-from-master';
 import './features/split-issue-pr-search-results';
 import './features/preview-hidden-comments';
 import './features/collapsible-content-button';
+import './features/hide-watch-and-fork-count';
 
 // Add global for easier debugging
-declare global {
-	interface Window {
-		select: SelectDom;
-	}
-}
-
-window.select = select;
+(window as any).select = select;

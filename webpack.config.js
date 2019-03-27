@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports */
 'use strict';
 const path = require('path');
 const SizePlugin = require('size-plugin');
@@ -7,7 +7,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = (env, argv) => ({
 	devtool: 'sourcemap',
-	stats: false,
+	stats: 'errors-only',
 	entry: {
 		content: './source/content',
 		background: './source/background',
@@ -26,6 +26,9 @@ module.exports = (env, argv) => ({
 						loader: 'ts-loader',
 						query: {
 							compilerOptions: {
+								// Enables ModuleConcatenation. It must be in here to avoid conflic with ts-node
+								module: 'es2015',
+
 								// With this, TS will error but the file will still be generated (on watch only)
 								noEmitOnError: argv.watch === false
 							}

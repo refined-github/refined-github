@@ -1,6 +1,6 @@
 import React from 'dom-chef';
+import domify from 'doma';
 import select from 'select-dom';
-import domify from '../libs/domify';
 import features from '../libs/features';
 
 const isGist = link =>
@@ -20,7 +20,7 @@ async function embedGist(link) {
 		const response = await fetch(`${link.href}.json`);
 		const gistData = await response.json();
 
-		const files = domify(gistData.div).firstElementChild;
+		const files = domify.one(gistData.div);
 		const fileCount = files.children.length;
 
 		if (fileCount > 1) {
@@ -51,8 +51,7 @@ function init() {
 features.add({
 	id: 'embed-gist-inline',
 	include: [
-		features.isPR,
-		features.isIssue
+		features.hasComments
 	],
 	load: features.onAjaxedPages,
 	init

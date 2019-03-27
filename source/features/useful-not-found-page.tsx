@@ -39,12 +39,12 @@ async function addCommitHistoryLink(bar) {
 	const parts = parseCurrentURL();
 	parts[2] = 'commits';
 	const url = '/' + parts.join('/');
-	if (await is404(url)) {
+	if (await is404(location.origin + url)) {
 		return;
 	}
 
 	bar.after(
-		<p class="container">
+		<p class="container mt-4 text-center">
 			See also the file’s {<a href={url}>commit history</a>}
 		</p>
 	);
@@ -65,12 +65,12 @@ async function addDefaultBranchLink(bar) {
 
 	parts[3] = defaultBranch; // Change branch
 	const url = '/' + parts.join('/');
-	if (await is404(url)) {
+	if (await is404(location.origin + url)) {
 		return;
 	}
 
 	bar.after(
-		<p class="container">
+		<p class="container mt-4 text-center">
 			See also the file on the {<a href={url}>default branch</a>}
 		</p>
 	);
@@ -78,11 +78,11 @@ async function addDefaultBranchLink(bar) {
 
 function init() {
 	const parts = parseCurrentURL();
-	if (parts.length <= 1) {
+	if (parts.length <= 1 || !select.exists('[alt*="This is not the web page you are looking for"]')) {
 		return false;
 	}
 
-	const bar = <h2 class="container"/>;
+	const bar = <h2 class="container mt-4 text-center"/>;
 
 	for (const [i, part] of parts.entries()) {
 		if (i === 2 && part === 'tree') {
@@ -99,8 +99,7 @@ function init() {
 		}
 	}
 
-	// NOTE: We need to append it after the parallax_wrapper because other elements might not be available yet.
-	select('#parallax_wrapper').after(bar);
+	select('main > :first-child').after(bar);
 
 	// Check parts from right to left; skip the last part
 	for (let i = bar.children.length - 2; i >= 0; i--) {

@@ -1,7 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate';
-import onetime from 'onetime';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 
@@ -31,23 +30,15 @@ function triggerUploadUI({target}) {
 		.click(); // Open UI
 }
 
-const listenOnce = onetime(() => {
-	delegate('.rgh-upload-btn', 'click', triggerUploadUI);
-});
-
 function init() {
 	addButtons();
-	listenOnce();
+	delegate('.rgh-upload-btn', 'click', triggerUploadUI);
 }
 
 features.add({
 	id: 'upload-button',
 	include: [
-		features.isPR,
-		features.isIssue,
-		features.isNewIssue,
-		features.isCompare,
-		features.isCommit
+		features.hasRichTextEditor
 	],
 	load: features.onAjaxedPages,
 	init

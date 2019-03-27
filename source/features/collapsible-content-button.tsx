@@ -6,14 +6,10 @@ https://user-images.githubusercontent.com/1402241/53678019-0c721280-3cf4-11e9-9c
 
 import React from 'dom-chef';
 import select from 'select-dom';
-import onetime from 'onetime';
-import delegate from 'delegate';
+import delegate from 'delegate-it';
+import insertText from 'insert-text-textarea';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
-
-const addEvents = onetime(() => {
-	delegate('.rgh-collapsible-content-btn', 'click', addContentToDetails);
-});
 
 // Wraps string in at least 2 \n on each side,
 // as long as the field doesn't already have them.
@@ -37,7 +33,7 @@ function smartBlockWrap(content: string, field: HTMLTextAreaElement) {
 }
 
 function init() {
-	addEvents();
+	delegate('.rgh-collapsible-content-btn', 'click', addContentToDetails);
 	for (const anchor of select.all('md-ref')) {
 		anchor.after(
 			<button type="button" class="toolbar-item tooltipped tooltipped-n rgh-collapsible-content-btn" aria-label="Add collapsible content">
@@ -48,7 +44,7 @@ function init() {
 }
 
 function addContentToDetails(event) {
-	const field = event.delegateTarget.form['comment[body]'];
+	const field = event.delegateTarget.form.querySelector('textarea');
 
 	// Don't indent <summary> because indentation will not be automatic on multi-line content
 	const newContent = `
@@ -61,7 +57,7 @@ function addContentToDetails(event) {
 	`.replace(/(\n|\b)\t+/g, '$1').trim();
 
 	// Inject new tags; it'll be undoable
-	document.execCommand('insertText', false, smartBlockWrap(newContent, field));
+	insertText(field, smartBlockWrap(newContent, field));
 
 	// Restore selection.
 	// `selectionStart` will be right after the newly-inserted text
@@ -74,11 +70,7 @@ function addContentToDetails(event) {
 features.add({
 	id: 'collapsible-content-button',
 	include: [
-		features.isPR,
-		features.isIssue,
-		features.isNewIssue,
-		features.isCompare,
-		features.isCommit
+		features.hasRichTextEditor
 	],
 	load: features.onAjaxedPages,
 	init

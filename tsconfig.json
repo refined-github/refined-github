@@ -2,6 +2,7 @@
 	"extends": "@sindresorhus/tsconfig",
 	"compilerOptions": {
 		"target": "esnext",
+		"resolveJsonModule": true,
 		// "noEmit": true, // Useful when running `tsc` directly
 
 		// TODO: Get all these removed

@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 
 function handleMenuOpening(event) {
@@ -62,11 +62,8 @@ function init() {
 features.add({
 	id: 'hide-comments-faster',
 	include: [
-		features.isPR,
-		features.isIssue,
-		features.isCommit,
-		features.isDiscussion
+		features.hasComments
 	],
-	load: features.onDomReady,
+	load: features.onAjaxedPages,
 	init
 });

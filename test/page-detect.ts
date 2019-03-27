@@ -32,7 +32,13 @@ test('is500', t => {
 	document.title = 'Server Error · GitHub';
 	t.true(pageDetect.is500());
 
+	document.title = 'Unicorn! · GitHub';
+	t.true(pageDetect.is500());
+
 	document.title = 'examples/500: Server Error examples';
+	t.false(pageDetect.is500());
+
+	document.title = 'sindresorhus/unicorn: You can’t tell what doesn’t exist';
 	t.false(pageDetect.is500());
 
 	document.title = 'Dashboard';
@@ -93,7 +99,7 @@ test('isDashboard', urlMatcherMacro, pageDetect.isDashboard, [
 	'https://github.com/sindresorhus'
 ]);
 
-test('isDiscussion', urlMatcherMacro, pageDetect.isDiscussion, [
+test('isOrganizationDiscussion', urlMatcherMacro, pageDetect.isOrganizationDiscussion, [
 	'https://github.com/orgs/refined-github/teams/core-team/discussions?pinned=1',
 	'https://github.com/orgs/refined-github/teams/core-team/discussions/1',
 	'https://github.com/orgs/refined-github/teams/core-team'
@@ -139,7 +145,7 @@ test('isIssue', urlMatcherMacro, pageDetect.isIssue, [
 	'https://github.com/sindresorhus/refined-github/issues'
 ]);
 
-test('isIssueList', urlMatcherMacro, pageDetect.isIssueList, [
+test('isRepoDiscussionList', urlMatcherMacro, pageDetect.isRepoDiscussionList, [
 	'http://github.com/sindresorhus/ava/issues',
 	'https://github.com/sindresorhus/refined-github/pulls',
 	'https://github.com/sindresorhus/refined-github/labels/Priority%3A%20critical',
@@ -153,12 +159,22 @@ test('isIssueList', urlMatcherMacro, pageDetect.isIssueList, [
 	'https://github.com/wildlifela/carmichael-lynch-2018/labels'
 ]);
 
-test('isGlobalIssueSearch', urlMatcherMacro, pageDetect.isGlobalIssueSearch, [
-	'https://github.com/issues'
+test('isGlobalDiscussionList', urlMatcherMacro, pageDetect.isGlobalDiscussionList, [
+	'https://github.com/issues',
+	'https://github.com/pulls',
+	'https://github.com/pulls?q=issues',
+	'https://github.com/issues?q=is%3Apr+is%3Aopen'
 ], [
 	'https://github.com/issuesorter',
 	'https://github.com/sindresorhus/refined-github/issues',
-	'https://github.com/sindresorhus/refined-github/issues/170'
+	'https://github.com/sindresorhus/refined-github/issues/170',
+	'https://github.com/pullsup',
+	'https://github.com/sindresorhus/refined-github/pulls',
+	'https://github.com/sindresorhus/refined-github/pull/148',
+	'http://github.com/sindresorhus/ava/issues',
+	'https://github.com/sindresorhus/refined-github/pulls',
+	'https://github.com/sindresorhus/refined-github/labels/Priority%3A%20critical',
+	'https://github.com/sindresorhus/refined-github/issues?q=is%3Aclosed+sort%3Aupdated-desc'
 ]);
 
 test('isMilestone', urlMatcherMacro, pageDetect.isMilestone, [
@@ -241,14 +257,6 @@ test('isPRFiles', urlMatcherMacro, pageDetect.isPRFiles, [
 	'https://github.com/sindresorhus/refined-github/pull/148',
 	'https://github.com/sindresorhus/refined-github/pull/commits',
 	'https://github.com/sindresorhus/refined-github/pulls'
-]);
-
-test('isGlobalPRSearch', urlMatcherMacro, pageDetect.isGlobalPRSearch, [
-	'https://github.com/pulls'
-], [
-	'https://github.com/pullsup',
-	'https://github.com/sindresorhus/refined-github/pulls',
-	'https://github.com/sindresorhus/refined-github/pull/148'
 ]);
 
 test('isQuickPR', urlMatcherMacro, pageDetect.isQuickPR, [

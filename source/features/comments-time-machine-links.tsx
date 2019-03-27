@@ -8,7 +8,7 @@ function init() {
 	const comments = select.all('.timeline-comment-header:not(.rgh-timestamp-tree-link)');
 
 	for (const comment of comments) {
-		const timestampEl = select('relative-time', comment);
+		const timestampEl = select('relative-time', comment.closest('.discussion-item-review') || comment);
 		const timestamp = timestampEl.attributes['datetime'].value; // eslint-disable-line dot-notation
 		const href = `/${getRepoURL()}/tree/HEAD@{${timestamp}}`;
 
@@ -30,8 +30,7 @@ function init() {
 features.add({
 	id: 'comments-time-machine-links',
 	include: [
-		features.isPRConversation,
-		features.isIssue
+		features.hasComments
 	],
 	load: features.onNewComments,
 	init
