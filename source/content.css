@@ -21,6 +21,15 @@
 	display: none !important;
 }
 
+.rgh-markdown-source .blame-commit,
+.rgh-markdown-source .blob-reblame {
+	display: none;
+}
+
+.rgh-markdown-source .blame-hunk {
+	border-bottom: none !important;
+}
+
 /* Fade out the file icons */
 .file-wrap .files .octicon {
 	opacity: 0.6;
@@ -129,11 +138,11 @@ a .commit-ref:hover span {
 }
 
 /* Hide the header in README section */
-#readme.rgh-hide-readme-header {
+.repository-content #readme:not(.blob) {
 	position: relative;
 }
 
-#readme.rgh-hide-readme-header .Box-header {
+.repository-content #readme:not(.blob) .Box-header {
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -142,11 +151,11 @@ a .commit-ref:hover span {
 	border: none;
 }
 
-#readme.rgh-hide-readme-header .Box-header .Box-title {
+.repository-content #readme:not(.blob) .Box-header .Box-title {
 	display: none;
 }
 
-#readme.rgh-hide-readme-header .Box-header .btn-octicon {
+.repository-content #readme:not(.blob) .Box-header .btn-octicon {
 	margin: 0;
 	padding: 12px;
 	right: 0;
@@ -155,8 +164,8 @@ a .commit-ref:hover span {
 	transition: opacity 250ms;
 }
 
-#readme.rgh-hide-readme-header .Box-header .btn-octicon:hover,
-#readme.rgh-hide-readme-header .Box-header .btn-octicon:focus {
+.repository-content #readme:not(.blob) .Box-header .btn-octicon:hover,
+.repository-content #readme:not(.blob) .Box-header .btn-octicon:focus {
 	opacity: 1;
 }
 
@@ -217,6 +226,17 @@ followed someone
 .rgh-monospace-textareas textarea {
 	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
 	font-size: 13px;
+}
+
+/* For `remove-diff-signs` feature */
+.rgh-remove-diff-signs .blob-code-inner::before, /* Inline review blocks in PRs */
+.rgh-remove-diff-signs .blob-code-marker-cell::before { /* Commit page */
+	content: none;
+}
+
+/* For `fit-textareas` feature */
+.rgh-fit-textareas {
+	max-height: none !important;
 }
 
 /* Make tab indented code more readable on GitHub and Gist */
@@ -480,46 +500,44 @@ div.inline-comment-form .form-actions,
 	padding: 6px 9px;
 }
 
-/* Extend issue search input width when focused */
-.subnav-search {
-	width: 320px; /* Original width on GitHub */
+/* Expand issue search field width */
+.issues-listing .subnav,
+.issues-listing .subnav-search,
+.issues-listing .subnav-search-input,
+.issues-listing .subnav [role='search'],
+:not(.repository-content) > .issues-listing .subnav > .float-right { /* Global search field container */
+	flex-grow: 1;
+	display: flex;
 }
-.subnav-search .subnav-search-input {
-	position: relative;
-	z-index: 2;
-	transition: 0.2s ease-out;
-	transition-property: width, padding-left;
+
+/* Move `New issue` button back to the right */
+.issues-listing .subnav .btn-primary {
+	order: 100;
+	margin-left: 20px;
 }
-.subnav-search .subnav-search-input:focus {
-	width: 900px;
+
+/* Reset width of search field in global lists */
+.issues-listing .subnav-search-input-wide {
+	width: auto;
 }
-.subnav-search .subnav-search-icon {
-	z-index: 2; /* Ensure that it stays over the input */
+
+/* Hide `Filters` text in repo lists */
+.issues-listing .subnav-search-context summary {
+	display: flex;
+	width: 2.4em;
+	text-indent: -10000px;
 }
-.float-right .subnav-search {
-	width: 420px; /* Original: 500px; Decrease the size of the search box to fit 'Yours' menu item */
-}
-.float-right .subnav-search-input {
-	width: 100%;
+
+/* Hide `Filters` text in repo lists: center dropdown triangle */
+.issues-listing .subnav-search-context summary::after {
 	float: right;
+	margin-top: 0.6em;
+	transform: scale(1.2);
 }
-.float-right .subnav-search-input:focus {
-	padding-left: 8px;
-}
-.float-right .subnav-search-input:focus + .subnav-search-icon {
-	display: none; /* When aligned right, the icon will stay in the wrong position, so hide it */
-}
-/* Seach field on the projects page */
-.project-header-controls,
-.project-header-search,
-.project-header-search .subnav-search,
-.project-header-search .subnav-search-input:focus {
-	width: 100%;
-}
-@media (min-width: 1012px) {
-	.project-header-search {
-		padding-left: 24px;
-	}
+
+/* Hide icons in `Labels`/`Milestones` buttons */
+.issues-listing .subnav-item svg {
+	display: none;
 }
 
 /* Remove Marketplace marketing box on PRs */
@@ -596,10 +614,15 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	padding-left: 12px;
 }
 
-/* Fix for GHE More Dropdown items positioning */
+/* For `more-dropdown`: Fix pre-existing items' positioning on GHE */
 .reponav-dropdown a.dropdown-item:not(.rgh-reponav-more)::before {
 	content: '';
 	display: inline-block;
+	width: 16px;
+}
+
+/* For `more-dropdown`: Ensure all icons are 16px wide for alignment */
+.rgh-reponav-more svg {
 	width: 16px;
 }
 
@@ -649,58 +672,17 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	float: left;
 	margin-left: 5px;
 	margin-right: 5px;
-	margin-bottom: 10px; /* Eases wrapping with on long breadcrumbs */
 }
+
+/* Hide `New pull request1 button` near file list */
+.file-navigation .new-pull-request-btn {
+	display: none;
+}
+
 /* Undo conflicting GitHub style */
 :root .rgh-branch-buttons .BtnGroup {
 	margin-bottom: 0;
 	margin-left: 0;
-}
-
-/* Sticky file and table headers */
-.rgh-sticky-header .file-header,
-.rgh-sticky-header .table-list-header {
-	position: sticky;
-	top: 0;
-	/* Must be above .modal-backdrop (z-index 20) #1317 */
-	z-index: 25;
-}
-
-/* Since the header is sticky, filters must now fit the viewport */
-.rgh-sticky-header .table-list-header .select-menu-list {
-	max-height: calc(100vh - 150px);
-}
-/* Sticky file headers on pull request diff view and conversation view */
-.rgh-sticky-header .discussion-timeline .discussion-item-body .file-header,
-.rgh-sticky-header .pull-request-tab-content .diff-view .file-header {
-	top: 59px;
-}
-
-/* Momentarily offset the line so its #deeplink won’t be covered by the header #974 */
-.js-file-line.highlighted {
-	/* stylelint-disable time-min-milliseconds */
-	animation: sticky-file-header-target-fixer 0s 0.1ms backwards;
-}
-@keyframes sticky-file-header-target-fixer {
-	from {
-		transform: translateY(-78px); /* Matches GH’s regular line clicking position */
-		opacity: 0;
-	}
-}
-.file .markdown-body .anchor {
-	padding-top: 45px;
-	transform: translateY(-45px);
-}
-
-/* Similar fix to the above, for deep links to reviews */
-.review-comment:target {
-	animation: sticky-review-comment-target-fixer 0s 0.1ms backwards;
-}
-@keyframes sticky-review-comment-target-fixer {
-	from {
-		transform: translateY(-35px);
-		opacity: 0;
-	}
 }
 
 /* Remove annoying "helpful" banner on the issue tracker listing */
@@ -1022,11 +1004,6 @@ body > .footer li a {
 .comment-body blockquote blockquote,
 .comment-body blockquote pre {
 	max-height: none;
-}
-
-/* For 'add-jump-to-bottom-link' feature */
-#rgh-jump-to-bottom-link {
-	display: inline-block; /* Avoid breaking link in two lines */
 }
 
 /* For `split-issue-pr-search-results` */

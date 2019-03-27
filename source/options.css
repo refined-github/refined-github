@@ -1,5 +1,6 @@
-body {
+html {
 	min-width: 430px;
+	overflow-x: hidden;
 }
 
 :root {

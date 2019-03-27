@@ -63,9 +63,7 @@ function init() {
 features.add({
 	id: 'batch-open-issues',
 	include: [
-		features.isGlobalIssueSearch,
-		features.isGlobalPRSearch,
-		features.isIssueList
+		features.isDiscussionList
 	],
 	load: features.onAjaxedPages,
 	init

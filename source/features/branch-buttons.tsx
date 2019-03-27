@@ -5,54 +5,54 @@ import * as api from '../libs/api';
 import * as icons from '../libs/icons';
 import features from '../libs/features';
 import {isRepoRoot} from '../libs/page-detect';
-import {appendBefore} from '../libs/dom-utils';
 import {groupSiblings} from '../libs/group-buttons';
 import getDefaultBranch from '../libs/get-default-branch';
 import {getRepoURL, getOwnerAndRepo} from '../libs/utils';
 
 async function getTagLink() {
-	const tags = select
-		.all('.branch-select-menu .select-menu-list:last-child .select-menu-item')
-		.map(element => element.dataset.name);
-
-	if (tags.length === 0) {
-		return;
-	}
-
-	let latestParsedRelease;
-	// If all tags are plain versions, parse them,
-	// otherwise fetch the latest.
-	if (tags.every(tag => /^[vr]?\d/.test(tag))) {
-		latestParsedRelease = tags.sort(compareVersions).pop();
-	} else {
-		const {ownerName, repoName} = getOwnerAndRepo();
-		const {repository} = await api.v4(`{
-			repository(owner: "${ownerName}", name: "${repoName}") {
-				refs(first: 1, refPrefix: "refs/tags/", orderBy: {
-					field: TAG_COMMIT_DATE,
-					direction: DESC
-				}) {
-					nodes {
-						name
-					}
+	const {ownerName, repoName} = getOwnerAndRepo();
+	const {repository} = await api.v4(`{
+		repository(owner: "${ownerName}", name: "${repoName}") {
+			refs(first: 20, refPrefix: "refs/tags/", orderBy: {
+				field: TAG_COMMIT_DATE,
+				direction: DESC
+			}) {
+				nodes {
+					name
 				}
 			}
-		}`);
-		if (repository.refs.nodes.length > 0) {
-			latestParsedRelease = repository.refs.nodes[0].name;
 		}
+	}`);
+
+	const tags = repository.refs.nodes.map(tag => tag.name);
+	if (tags.length === 0) {
+		return '';
 	}
 
-	const latestRelease = latestParsedRelease || tags[0];
+	// If all tags are plain versions, parse them,
+	// otherwise just use the latest.
+	let latestRelease;
+	if (tags.every(tag => /^[vr]?\d/.test(tag))) {
+		latestRelease = tags.sort(compareVersions).pop();
+	} else {
+		latestRelease = tags[0];
+	}
 
 	const link = <a class="btn btn-sm btn-outline tooltipped tooltipped-ne">{icons.tag()}</a>;
 
-	const currentBranch = select('.branch-select-menu .js-select-button').textContent;
+	const currentBranch = select('.branch-select-menu .css-truncate-target').textContent;
 	if (currentBranch === latestRelease) {
 		link.classList.add('disabled');
 		link.setAttribute('aria-label', 'You’re on the latest release');
 	} else {
-		link.href = select<HTMLAnchorElement>(`[data-name="${latestRelease}"]`).href;
+		if (isRepoRoot()) {
+			link.href = `/${getRepoURL()}/tree/${latestRelease}`;
+		} else {
+			const urlParts = location.pathname.split('/');
+			urlParts[4] = latestRelease; // Change ref of current blob/tree
+			link.href = urlParts.join('/');
+		}
+
 		link.setAttribute('aria-label', 'Visit the latest release');
 		link.append(' ', <span class="css-truncate-target">{latestRelease}</span>);
 	}
@@ -73,12 +73,9 @@ async function getDefaultBranchLink() {
 	if (isRepoRoot()) {
 		url = `/${getRepoURL()}`;
 	} else {
-		const branchLink = select<HTMLAnchorElement>(`.select-menu-item[data-name='${defaultBranch}']`);
-		if (!branchLink) {
-			return;
-		}
-
-		url = branchLink.href;
+		const urlParts = location.pathname.split('/');
+		urlParts[4] = defaultBranch; // Change branch of current blob/tree
+		url = urlParts.join('/');
 	}
 
 	return (
@@ -94,8 +91,8 @@ async function getDefaultBranchLink() {
 }
 
 async function init() {
-	const container = select('.file-navigation');
-	if (!container) {
+	const breadcrumbs = select('.breadcrumb');
+	if (!breadcrumbs) {
 		return false;
 	}
 
@@ -112,7 +109,7 @@ async function init() {
 	);
 
 	if (wrapper.children.length > 0) {
-		appendBefore(container, '.breadcrumb', wrapper);
+		breadcrumbs.before(wrapper);
 	}
 
 	if (wrapper.children.length > 1) {
