@@ -16,7 +16,8 @@ function listener({delegateTarget: textarea}) {
 }
 
 function init(): void {
-	delegate('textarea', 'focusin', listener);
+	// Exclude PR review box because it's in a `position:fixed` container; The scroll has to appear within the fixed element.
+	delegate('textarea:not(#pull_request_review_body)', 'focusin', listener);
 }
 
 features.add({
