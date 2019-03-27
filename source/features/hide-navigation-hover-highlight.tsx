@@ -1,6 +1,3 @@
-/*
-
-*/
 import features from '../libs/features';
 
 const className = 'rgh-no-navigation-highlight';

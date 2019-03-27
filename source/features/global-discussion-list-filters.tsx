@@ -38,6 +38,7 @@ function init() {
 
 features.add({
 	id: 'global-discussion-list-filters',
+	description: 'Global discussion list filters',
 	include: [
 		features.isGlobalDiscussionList
 	],

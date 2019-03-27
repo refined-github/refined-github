@@ -1,7 +1,3 @@
-/*
-If you select a line in a file, pressing ESC will deselect it.
-*/
-
 import features from '../libs/features';
 
 function isLineSelected(): boolean {
@@ -29,5 +25,6 @@ function init() {
 
 features.add({
 	id: 'esc-to-deselect-line',
+	description: 'If you select a line in a file, pressing ESC will deselect it',
 	init
 });

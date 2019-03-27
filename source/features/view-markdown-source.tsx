@@ -1,7 +1,3 @@
-/*
-Add button to view the markdown source whereas GitHub only lets you see the rendered version.
-https://user-images.githubusercontent.com/1402241/54814836-7bc39c80-4ccb-11e9-8996-9ecf4f6036cb.png
-*/
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
@@ -89,6 +85,9 @@ async function init(): Promise<false | void> {
 
 features.add({
 	id: 'view-markdown-source',
+	description: `Add button to view the markdown source whereas GitHub only lets you see the rendered version.
+			https://user-images.githubusercontent.com/1402241/54814836-7bc39c80-4ccb-11e9-8996-9ecf4f6036cb.png
+	`,
 	include: [
 		features.isSingleFile
 	],
