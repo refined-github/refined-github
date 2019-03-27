@@ -20,6 +20,9 @@ editor.on('swapDoc', () => setTimeout(addWidget, 1));
 editor.on('changes', (_, [firstChange]) => {
 	if (firstChange.origin === 'undo' && firstChange.text[0].startsWith('<<<<<<<')) {
 		addWidget();
+		// remove selections
+		const firstCursorLocation = editor.getCursor();
+		editor.setSelection(firstCursorLocation, firstCursorLocation);
 	}
 });
 
