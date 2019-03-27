@@ -13,7 +13,7 @@ features.add({
 	id: 'highlight-own-issues-and-prs',
 	description: 'Highlight your own issues and PRs',
 	include: [
-		features.isIssueList
+		features.isDiscussionList
 	],
 	load: features.onAjaxedPages,
 	init

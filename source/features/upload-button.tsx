@@ -39,11 +39,7 @@ features.add({
 	id: 'upload-button',
 	description: 'Upload button',
 	include: [
-		features.isPR,
-		features.isIssue,
-		features.isNewIssue,
-		features.isCompare,
-		features.isCommit
+		features.hasRichTextEditor
 	],
 	load: features.onAjaxedPages,
 	init

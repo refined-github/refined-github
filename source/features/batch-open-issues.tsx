@@ -64,9 +64,7 @@ features.add({
 	id: 'batch-open-issues',
 	description: 'Open multiple issues at once in your repos',
 	include: [
-		features.isGlobalIssueSearch,
-		features.isGlobalPRSearch,
-		features.isIssueList
+		features.isDiscussionList
 	],
 	load: features.onAjaxedPages,
 	init

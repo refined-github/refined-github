@@ -17,7 +17,8 @@ features.add({
 	id: 'extend-diff-expander',
 	description: 'Widen `Expand diff` button',
 	include: [
-		features.isPRFiles
+		features.isPRFiles,
+		features.isCommit
 	],
 	load: features.onAjaxedPages,
 	init

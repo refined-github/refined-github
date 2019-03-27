@@ -17,7 +17,7 @@ features.add({
 	id: 'fix-squash-and-merge-message',
 	description: 'Use the pull request description as the commit message when merging with `Squash and merge`',
 	include: [
-		features.isPR
+		features.isPRConversation
 	],
 	load: features.onAjaxedPages,
 	init

@@ -52,8 +52,7 @@ features.add({
 	id: 'embed-gist-inline',
 	description: 'View linked gists inline in comments',
 	include: [
-		features.isPR,
-		features.isIssue
+		features.hasComments
 	],
 	load: features.onAjaxedPages,
 	init

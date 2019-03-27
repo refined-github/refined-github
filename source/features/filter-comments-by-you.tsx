@@ -23,7 +23,7 @@ features.add({
 	id: 'filter-comments-by-you',
 	description: 'Search for issues and PRs with the `Everything commented by you filter`',
 	include: [
-		features.isIssueList
+		features.isRepoDiscussionList
 	],
 	load: features.onAjaxedPages,
 	init

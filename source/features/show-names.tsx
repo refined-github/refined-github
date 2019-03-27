@@ -58,10 +58,7 @@ features.add({
 	id: 'show-names',
 	description: 'Full names of comment authors are shown next to their username',
 	include: [
-		features.isPR,
-		features.isIssue,
-		features.isCommit,
-		features.isDiscussion
+		features.hasComments
 	],
 	load: features.onNewComments,
 	init

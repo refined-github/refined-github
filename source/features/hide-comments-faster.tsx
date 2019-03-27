@@ -63,10 +63,7 @@ features.add({
 	id: 'hide-comments-faster',
 	description: 'Hide comments in fewer clicks',
 	include: [
-		features.isPR,
-		features.isIssue,
-		features.isCommit,
-		features.isDiscussion
+		features.hasComments
 	],
 	load: features.onAjaxedPages,
 	init

@@ -71,10 +71,7 @@ features.add({
 			https://github.com/dominictarr/event-stream/issues/116
 	`,
 	include: [
-		features.isPR,
-		features.isIssue,
-		features.isCommit,
-		features.isDiscussion
+		features.hasComments
 	],
 	load: features.onAjaxedPages,
 	init
