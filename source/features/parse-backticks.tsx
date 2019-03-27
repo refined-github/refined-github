@@ -5,15 +5,22 @@ import getTextNodes from '../libs/get-text-nodes';
 
 const splittingRegex = /`(.*?)`/g;
 
-function splitTextReducer(frag, text, index) {
+function splitTextReducer(fragment, text, index) {
+	// Code is always in odd positions
 	if (index % 2 && text.length >= 1) {
-		// Code is always in odd positions
-		frag.append(<code>{text}</code>);
+		// `span.sr-only` keeps the backticks copy-pastable but invisible
+		fragment.append(
+			<code>
+				<span class="sr-only">`</span>
+				{text}
+				<span class="sr-only">`</span>
+			</code>
+		);
 	} else if (text.length > 0) {
-		frag.append(text);
+		fragment.append(text);
 	}
 
-	return frag;
+	return fragment;
 }
 
 function init() {
