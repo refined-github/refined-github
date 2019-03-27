@@ -501,6 +501,25 @@ div.inline-comment-form .form-actions,
 	width: auto;
 }
 
+/* Hide `Filters` text in repo lists */
+.issues-listing .subnav-search-context summary {
+	display: flex;
+	width: 2.4em;
+	text-indent: -10000px;
+}
+
+/* Hide `Filters` text in repo lists: center dropdown triangle */
+.issues-listing .subnav-search-context summary:after {
+	float: right;
+	margin-top: 0.6em;
+	transform: scale(1.2);
+}
+
+/* Hide icons in `Labels`/`Milestones` buttons */
+.issues-listing .subnav-item svg {
+	display: none;
+}
+
 /* Remove Marketplace marketing box on PRs */
 .js-marketplace-callout-container {
 	display: none !important;
