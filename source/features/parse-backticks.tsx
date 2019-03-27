@@ -46,7 +46,7 @@ function init() {
 features.add({
 	id: 'parse-backticks',
 	include: [
-		features.isIssueList
+		features.isDiscussionList
 	],
 	load: features.onAjaxedPages,
 	init
