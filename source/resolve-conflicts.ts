@@ -111,7 +111,12 @@ function acceptBranch(branch: string, line: number) {
 		}
 	});
 
-	for (const line of linesToRemove.reverse()) {
-		editor.replaceRange('', {line, ch: 0}, {line: line + 1, ch: 0}, '+resolve');
-	}
+	// Delete all lines at once in a performant way
+	const ranges = linesToRemove.map(line => ({
+		anchor: {line, ch: 0},
+		head: {line, ch: 0}
+	}));
+	editor.setSelections(ranges);
+	editor.execCommand('deleteLine');
+	editor.setCursor(linesToRemove[0]);
 }
