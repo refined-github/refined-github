@@ -64,6 +64,7 @@ import './features/esc-to-deselect-line';
 import './features/show-recently-pushed-branches-on-more-pages';
 import './features/create-release-shortcut';
 import './features/patch-diff-links';
+import './features/parse-backticks';
 import './features/swap-branches-on-compare';
 import './features/reactions-avatars';
 import './features/show-names';
