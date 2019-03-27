@@ -489,46 +489,44 @@ div.inline-comment-form .form-actions,
 	padding: 6px 9px;
 }
 
-/* Extend issue search input width when focused */
-.subnav-search {
-	width: 320px; /* Original width on GitHub */
+/* Expand issue search field width */
+.issues-listing .subnav,
+.issues-listing .subnav-search,
+.issues-listing .subnav-search-input,
+.issues-listing .subnav [role='search'],
+:not(.repository-content) > .issues-listing .subnav > .float-right { /* Global search field container */
+	flex-grow: 1;
+	display: flex;
 }
-.subnav-search .subnav-search-input {
-	position: relative;
-	z-index: 2;
-	transition: 0.2s ease-out;
-	transition-property: width, padding-left;
+
+/* Move `New issue` button back to the right */
+.issues-listing .subnav .btn-primary {
+	order: 100;
+	margin-left: 20px;
 }
-.subnav-search .subnav-search-input:focus {
-	width: 900px;
+
+/* Reset width of search field in global lists */
+.issues-listing .subnav-search-input-wide {
+	width: auto;
 }
-.subnav-search .subnav-search-icon {
-	z-index: 2; /* Ensure that it stays over the input */
+
+/* Hide `Filters` text in repo lists */
+.issues-listing .subnav-search-context summary {
+	display: flex;
+	width: 2.4em;
+	text-indent: -10000px;
 }
-.float-right .subnav-search {
-	width: 420px; /* Original: 500px; Decrease the size of the search box to fit 'Yours' menu item */
-}
-.float-right .subnav-search-input {
-	width: 100%;
+
+/* Hide `Filters` text in repo lists: center dropdown triangle */
+.issues-listing .subnav-search-context summary::after {
 	float: right;
+	margin-top: 0.6em;
+	transform: scale(1.2);
 }
-.float-right .subnav-search-input:focus {
-	padding-left: 8px;
-}
-.float-right .subnav-search-input:focus + .subnav-search-icon {
-	display: none; /* When aligned right, the icon will stay in the wrong position, so hide it */
-}
-/* Seach field on the projects page */
-.project-header-controls,
-.project-header-search,
-.project-header-search .subnav-search,
-.project-header-search .subnav-search-input:focus {
-	width: 100%;
-}
-@media (min-width: 1012px) {
-	.project-header-search {
-		padding-left: 24px;
-	}
+
+/* Hide icons in `Labels`/`Milestones` buttons */
+.issues-listing .subnav-item svg {
+	display: none;
 }
 
 /* Remove Marketplace marketing box on PRs */
