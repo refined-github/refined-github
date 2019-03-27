@@ -170,6 +170,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [The PR/issues search box expands when focused.](https://user-images.githubusercontent.com/1402241/48473156-7ab8c500-e82a-11e8-95c7-a39b0529fe1b.gif)
 - [A warning appears when trying to create a PR from the default branch.](https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png)
 - [A warning appears when unchecking `Allow edits from maintainers`.](https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif)
+- [\`Code in backticks\` is highlighted in issue titles.](https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png)
 
 And [many more…](source/content.css)
 
