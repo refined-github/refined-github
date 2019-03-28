@@ -3,6 +3,7 @@
 	--github-red: #cb2431;
 	--github-gray-background: #fafbfc;
 	--github-gray-text: #6a737d;
+	--github-faint-yellow: #fffbdd;
 }
 
 /* Remove tooltips where unnecessary */
@@ -98,6 +99,11 @@
 [name='commit_message'][disabled],
 [name='commit_title'][disabled] {
 	color: #808080;
+}
+
+/* Fix bug caused by `resolve-conflicts` https://user-images.githubusercontent.com/1402241/54978279-d6663c80-4fda-11e9-9638-af25480fb988.png */
+.rgh-resolve-conflicts .CodeMirror-linenumber {
+	background-color: var(--github-faint-yellow);
 }
 
 /* Hide unnecessary comment toolbar items */

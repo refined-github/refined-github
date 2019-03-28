@@ -56,6 +56,8 @@ export const isProject = (): boolean => /^projects\/\d+/.test(getRepoPath());
 
 export const isPR = (): boolean => /^pull\/\d+/.test(getRepoPath());
 
+export const isConflict = (): boolean => /^pull\/\d+\/conflicts/.test(getRepoPath());
+
 export const isPRList = (): boolean => getRepoPath() === 'pulls';
 
 export const isPRCommit = (): boolean => /^pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(getRepoPath());
