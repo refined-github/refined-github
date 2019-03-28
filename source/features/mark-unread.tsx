@@ -256,6 +256,10 @@ async function updateUnreadIndicator() {
 	}
 
 	const statusMark = icon.querySelector('.mail-status');
+	if (!statusMark) {
+		return;
+	}
+
 	const hasRealNotifications = icon.matches('[data-ga-click$=":unread"]');
 	const rghUnreadCount = (await getNotifications()).length;
 
