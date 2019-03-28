@@ -198,6 +198,7 @@ And [many more…](source/content.css)
 - [Change diff style and whitespace visibility in one click.](https://user-images.githubusercontent.com/1402241/54178764-d1c96080-44d1-11e9-889c-734ffd2a602d.png)
 - [Press <kbd>esc</kbd> to deselect the current line when viewing files.](https://github.com/sindresorhus/refined-github/issues/1590)
 - [Edit comments in one click.](https://user-images.githubusercontent.com/1402241/54864831-92372a00-4d97-11e9-8c29-efba2dde1baa.png)
+- [Follow file renames in commits lists.](https://user-images.githubusercontent.com/1402241/54799957-7306a280-4c9a-11e9-86de-b9764ed93397.png)
 
 ### Previously part of Refined GitHub
 
@@ -249,7 +250,6 @@ See the [contribution guide](contributing.md) and join the [contributors](https:
 - [Notifications Preview for GitHub](https://github.com/tanmayrajani/notifications-preview-github) - See your notifications on hover on all pages
 - [Refined Twitter](https://github.com/sindresorhus/refined-twitter) - Improves Twitter
 - [GitHub Issue Link Status](https://github.com/bfred-it/github-issue-link-status) - Colorize issue and PR links to see their status (open, closed, merged)
-- [GitHub Follow](https://github.com/staff0rd/github-follow-extension) - Follow file renames on GitHub
 - [Friendly GitHub](https://github.com/Hermanya/friendly-github) - Make GitHub more social
 - [Sourcegraph](https://github.com/sourcegraph/browser-extensions) - Adds code intelligence to GitHub
 - [Potential changes for GitHub](https://github.com/dzhavat/potential-changes-for-github) - See which pull requests contain changes related to a file
