@@ -172,7 +172,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [A warning appears when trying to create a PR from the default branch.](https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png)
 - [A warning appears when unchecking `Allow edits from maintainers`.](https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif)
 - [Comment boxes expand with their content and no longer show scroll bars.](https://user-images.githubusercontent.com/1402241/54336211-66fd5e00-4666-11e9-9c5e-111fccab004d.gif)
-- [Text wrapped in backticks in issue titles is highlighted.](https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png)
+- [Text wrapped in backticks in issue titles and commit titles is highlighted.](https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png)
 
 And [many more…](source/content.css)
 
