@@ -10,7 +10,7 @@ function splitTextReducer(fragment, text, index) {
 	if (index % 2 && text.length >= 1) {
 		// `span.sr-only` keeps the backticks copy-pastable but invisible
 		fragment.append(
-			<code>
+			<code className="rgh-parse-backticks">
 				<span class="sr-only">`</span>
 				{text}
 				<span class="sr-only">`</span>
@@ -24,15 +24,13 @@ function splitTextReducer(fragment, text, index) {
 }
 
 function init() {
-	for (const title of select.all('.issues-listing .js-navigation-open')) {
+	for (const title of select.all('.issues-listing .js-navigation-open, .commit-title .js-navigation-open')) {
 		for (const node of getTextNodes(title)) {
 			const frag = node.textContent
 				.split(splittingRegex)
 				.reduce(splitTextReducer, new DocumentFragment());
 
 			if (frag.children.length > 0) {
-				node.parentElement.classList.add('markdown-body');
-				node.parentElement.style.lineHeight = 'inherit';
 				node.replaceWith(frag);
 			}
 		}
@@ -45,7 +43,8 @@ features.add({
 			https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png
 	`,
 	include: [
-		features.isDiscussionList
+		features.isDiscussionList,
+		features.isCommitList
 	],
 	load: features.onAjaxedPages,
 	init

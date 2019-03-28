@@ -11,7 +11,8 @@ module.exports = (env, argv) => ({
 	entry: {
 		content: './source/content',
 		background: './source/background',
-		options: './source/options'
+		options: './source/options',
+		'resolve-conflicts': './source/resolve-conflicts'
 	},
 	output: {
 		path: path.join(__dirname, 'distribution'),

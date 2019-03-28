@@ -91,6 +91,8 @@ import './features/preview-hidden-comments';
 import './features/fit-textareas';
 import './features/collapsible-content-button';
 import './features/hide-watch-and-fork-count';
+import './features/resolve-conflicts';
+import './features/follow-file-renames';
 
 // Add global for easier debugging
 (window as any).select = select;
