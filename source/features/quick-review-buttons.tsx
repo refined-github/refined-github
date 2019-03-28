@@ -36,8 +36,8 @@ function init(): false | void {
 			<button
 				name="pull_request_review[event]"
 				value={radio.value}
-				class={`btn btn-sm ${btnClassMap[radio.value] || ''} ${tooltip ? 'tooltipped tooltipped-nw tooltipped-no-delay' : ''}`}
-				aria-label={tooltip || false}
+				className={`btn btn-sm ${btnClassMap[radio.value] || ''} ${tooltip ? 'tooltipped tooltipped-nw tooltipped-no-delay' : ''}`}
+				aria-label={tooltip || undefined}
 				disabled={radio.disabled}>
 				{radio.nextSibling}
 			</button>

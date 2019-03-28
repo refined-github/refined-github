@@ -38,7 +38,7 @@ async function getTagLink() {
 		latestRelease = tags[0];
 	}
 
-	const link = <a className="btn btn-sm btn-outline tooltipped tooltipped-ne">{icons.tag()}</a>;
+	const link = <a className="btn btn-sm btn-outline tooltipped tooltipped-ne">{icons.tag()}</a> as HTMLAnchorElement;
 
 	const currentBranch = select('.branch-select-menu .css-truncate-target')!.textContent;
 

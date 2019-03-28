@@ -103,7 +103,7 @@ function init(): false | void {
 
 	// Check parts from right to left; skip the last part
 	for (let i = bar.children.length - 2; i >= 0; i--) {
-		checkAnchor(bar.children[i]);
+		checkAnchor(bar.children[i] as HTMLAnchorElement);
 	}
 
 	if (parts[2] === 'tree') {

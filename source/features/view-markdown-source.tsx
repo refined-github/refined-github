@@ -71,11 +71,11 @@ async function init(): Promise<false | void> {
 	delegate('.rgh-md-rendered:not(.selected)', 'click', showRendered);
 
 	select('.repository-content .Box-header .d-flex')!.prepend(
-		<div class="BtnGroup">
-			<button class="btn btn-sm BtnGroup-item tooltipped tooltipped tooltipped-n rgh-md-source" type="button" aria-label="Display the source blob">
+		<div className="BtnGroup">
+			<button className="btn btn-sm BtnGroup-item tooltipped tooltipped tooltipped-n rgh-md-source" type="button" aria-label="Display the source blob">
 				{icons.code()}
 			</button>
-			<button class="btn btn-sm BtnGroup-item tooltipped tooltipped-n rgh-md-rendered selected" type="button" aria-label="Display the rendered blob">
+			<button className="btn btn-sm BtnGroup-item tooltipped tooltipped-n rgh-md-rendered selected" type="button" aria-label="Display the rendered blob">
 				{icons.file()}
 			</button>
 		</div>

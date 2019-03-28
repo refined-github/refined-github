@@ -32,7 +32,7 @@ const addNewProjectLink = onetime(() => {
 	const path = location.pathname.split('/', 3);
 	const base = path.length > 2 ? path.join('/') : '/orgs' + path.join('/');
 	select('.HeaderMenu [href="/new"]')!.parentElement!.append(
-		<a class="dropdown-item" href={base + '/projects/new'}>
+		<a className="dropdown-item" href={base + '/projects/new'}>
 			New project
 		</a>
 	);

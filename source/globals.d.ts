@@ -16,38 +16,12 @@ declare module 'github-reserved-names'; // TODO: PR types to that repo or DT
 declare namespace JSX {
 	type AllElementsTagNameMap = SVGElementTagNameMap & HTMLElementTagNameMap
 	type All = SVGElement | HTMLElement;
+	type Element = SVGElement | HTMLElement;
 
 	// TODO: Get this working
 	// interface Element extends SVGElement {}
 	// interface IntrinsicElements extends AllElementsTagNameMap {
 	interface IntrinsicElements {
-		// [name: string]: any; // or full list, to test one by one
-		a: any;
-		link: any;
-		em: any;
-		strong: any;
-		label: any;
-		code: any;
-		input: any;
-		p: any;
-		h2: any;
-		h3: any;
-		del: any;
-		button: any;
-		form: any;
-		details: any;
-		summary: any;
-		ul: any;
-		li: any;
-		kbd: any;
-		bdo: any;
-		span: any;
-		img: any;
-		i: any;
-		svg: any;
-		div: any;
-		style: any;
-		path: any;
 		'include-fragment': {src: string};
 		'has-rgh': {};
 		'relative-time': {datetime: string; title: string};

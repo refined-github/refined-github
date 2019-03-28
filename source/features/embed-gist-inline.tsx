@@ -38,7 +38,7 @@ async function embedGist(link: HTMLAnchorElement) {
 			);
 		}
 	} catch {
-		info.remove(' (embed failed)');
+		info.replaceWith(' (embed failed)');
 	}
 }
 

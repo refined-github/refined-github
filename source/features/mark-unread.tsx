@@ -85,7 +85,7 @@ async function markRead(urls: string|string[]): Promise<void> {
 	await setNotifications(updated);
 }
 
-async function markUnread({target}: MouseEvent): Promise<void> {
+async function markUnread({target}: Event): Promise<void> {
 	const participants: Participant[] = select.all('.participant-avatar').slice(0, 3).map(el => ({
 		username: el.getAttribute('aria-label')!,
 		avatar: el.querySelector('img')!.src

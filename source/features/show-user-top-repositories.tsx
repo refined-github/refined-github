@@ -25,7 +25,7 @@ function init(): false | void {
 
 	showcaseTitle.firstChild!.after(
 		' / ',
-		<a href={buildUrl('stars')}>Top repositories</a>
+		<a href={String(buildUrl('stars'))}>Top repositories</a>
 	);
 }
 

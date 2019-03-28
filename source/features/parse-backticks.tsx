@@ -15,9 +15,9 @@ function splitTextReducer(fragment: DocumentFragment, text: string, index: numbe
 		// `span.sr-only` keeps the backticks copy-pastable but invisible
 		fragment.append(
 			<code>
-				<span class="sr-only">`</span>
+				<span className="sr-only">`</span>
 				{text}
-				<span class="sr-only">`</span>
+				<span className="sr-only">`</span>
 			</code>
 		);
 	} else if (text.length > 0) {

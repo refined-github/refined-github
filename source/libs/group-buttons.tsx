@@ -18,8 +18,8 @@ export const groupButtons = (buttons: Element[]) => {
 
 	// If it doesn't exist, wrap them in a new group
 	if (!group) {
-		group = <div className="BtnGroup"/> as Element;
-		wrapAll(buttons, group);
+		group = <div className="BtnGroup"/>;
+		wrapAll(buttons, group!);
 	}
 
 	return group;

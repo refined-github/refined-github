@@ -14,7 +14,7 @@ function init() {
 	for (const [label, query] of links) {
 		// Create link
 		const url = new URLSearchParams([['q', defaultQuery + query + type]]);
-		const link = <a href={`?${url}`} class="subnav-item">{label}</a>;
+		const link = <a href={`?${url}`} className="subnav-item">{label}</a>;
 
 		// Create regex for current query, including possible spaces around it, to drop it in .replace()
 		const queryRegex = new RegExp(`(^|\\s)?${query}(\\s|$)?`);
