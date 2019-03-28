@@ -259,6 +259,7 @@ async function updateUnreadIndicator() {
 	if (!statusMark) {
 		return;
 	}
+
 	const hasRealNotifications = icon.matches('[data-ga-click$=":unread"]');
 	const rghUnreadCount = (await getNotifications()).length;
 
