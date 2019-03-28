@@ -7,7 +7,7 @@ import {getUsername, getCleanPathname, getRepoPath, getOwnerAndRepo} from './uti
 
 export const is404 = (): boolean => document.title === 'Page not found · GitHub';
 
-export const is500 = (): boolean => document.title === 'Server Error · GitHub';
+export const is500 = (): boolean => document.title === 'Server Error · GitHub' || document.title === 'Unicorn! · GitHub';
 
 export const isBlame = (): boolean => /^blame\//.test(getRepoPath());
 
@@ -19,22 +19,17 @@ export const isCompare = (): boolean => /^compare/.test(getRepoPath());
 
 export const isDashboard = (): boolean => !isGist() && /^$|^(orgs[/][^/]+[/])?dashboard([/]|$)/.test(getCleanPathname());
 
-// TODO: change name to clarify what discussion this is
-export const isDiscussion = (): boolean => /^orgs\/[^/]+\/teams\/[^/]+($|\/discussions)/.test(getCleanPathname());
-
 export const isEnterprise = (): boolean => location.hostname !== 'github.com' && location.hostname !== 'gist.github.com';
 
 export const isGist = (): boolean => location.hostname.startsWith('gist.') || location.pathname.startsWith('gist/');
 
-export const isGlobalIssueSearch = (): boolean => location.pathname === '/issues';
-
-export const isGlobalPRSearch = (): boolean => location.pathname === '/pulls';
+export const isGlobalDiscussionList = (): boolean => location.pathname === '/issues' || location.pathname === '/pulls';
 
 export const isGlobalSearchResults = (): boolean => location.pathname === '/search' && new URLSearchParams(location.search).get('q') !== null;
 
 export const isIssue = (): boolean => /^issues\/\d+/.test(getRepoPath());
 
-export const isIssueList = (): boolean => /^(issues$|pulls$|labels\/)/.test(getRepoPath());
+export const isDiscussionList = (): boolean => isGlobalDiscussionList() || isRepoDiscussionList();
 
 export const isLabel = (): boolean => /^labels\/\w+/.test(getRepoPath());
 
@@ -49,6 +44,8 @@ export const isNewIssue = (): boolean => /^issues\/new/.test(getRepoPath());
 export const isNotifications = (): boolean => /^([^/]+[/][^/]+\/)?notifications/.test(getCleanPathname());
 
 export const isOrganizationProfile = (): boolean => select.exists('.orghead');
+
+export const isOrganizationDiscussion = (): boolean => /^orgs\/[^/]+\/teams\/[^/]+($|\/discussions)/.test(getCleanPathname());
 
 export const isOwnUserProfile = (): boolean => getCleanPathname() === getUsername();
 
@@ -80,6 +77,8 @@ export const isRepo = (): boolean => /^[^/]+\/[^/]+/.test(getCleanPathname()) &&
 	!isGist() &&
 	!isRepoSearch();
 
+export const isRepoDiscussionList = (): boolean => /^(issues$|pulls$|labels\/)/.test(getRepoPath());
+
 export const isRepoRoot = (): boolean => /^(tree[/][^/]+)?$/.test(getRepoPath());
 
 export const isRepoSearch = (): boolean => location.pathname.slice(1).split('/')[2] === 'search';
@@ -95,3 +94,14 @@ export const isSingleFile = (): boolean => /^blob\//.test(getRepoPath());
 export const isTrending = (): boolean => location.pathname === '/trending' || location.pathname.startsWith('/trending/');
 
 export const isUserProfile = (): boolean => select.exists('.user-profile-nav');
+
+export const hasComments = (): boolean =>
+	isPR() ||
+	isIssue() ||
+	isCommit() ||
+	isOrganizationDiscussion();
+
+export const hasRichTextEditor = (): boolean =>
+	hasComments() ||
+	isNewIssue() ||
+	isCompare();

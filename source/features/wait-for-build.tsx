@@ -116,7 +116,7 @@ function init() {
 features.add({
 	id: 'wait-for-build',
 	include: [
-		features.isPR
+		features.isPRConversation
 	],
 	load: features.onAjaxedPages,
 	init

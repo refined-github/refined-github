@@ -74,10 +74,7 @@ function init() {
 features.add({
 	id: 'reactions-avatars',
 	include: [
-		features.isPR,
-		features.isIssue,
-		features.isCommit,
-		features.isDiscussion
+		features.hasComments
 	],
 	load: features.onAjaxedPages,
 	init
