@@ -1,5 +1,5 @@
 /*
-`code in backticks` that appears in issue titles will be parsed as Markdown
+`code in backticks` that appears in issue titles and commit titles will be parsed as Markdown
 https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png
 */
 import select from 'select-dom';
@@ -14,8 +14,8 @@ function splitTextReducer(fragment: DocumentFragment, text: string, index: numbe
 	if (index % 2 && text.length >= 1) {
 		// `span.sr-only` keeps the backticks copy-pastable but invisible
 		fragment.append(
-			<code>
-				<span className="sr-only">`</span>
+			<code className="rgh-parse-backticks">
+					<span className="sr-only">`</span>
 				{text}
 				<span className="sr-only">`</span>
 			</code>
@@ -28,16 +28,14 @@ function splitTextReducer(fragment: DocumentFragment, text: string, index: numbe
 }
 
 function init() {
-	for (const title of select.all('.issues-listing .js-navigation-open')) {
+	for (const title of select.all('.issues-listing .js-navigation-open, .commit-title .js-navigation-open')) {
 		for (const node of getTextNodes(title)) {
-			const frag = node.textContent!
+			const fragment = node.textContent!
 				.split(splittingRegex)
 				.reduce(splitTextReducer, new DocumentFragment());
 
-			if (frag.children.length > 0) {
-				node.parentElement!.classList.add('markdown-body');
-				node.parentElement!.style.lineHeight = 'inherit';
-				node.replaceWith(frag);
+			if (fragment.children.length > 0) {
+				node.replaceWith(fragment);
 			}
 		}
 	}
@@ -46,7 +44,8 @@ function init() {
 features.add({
 	id: 'parse-backticks',
 	include: [
-		features.isDiscussionList
+		features.isDiscussionList,
+		features.isCommitList
 	],
 	load: features.onAjaxedPages,
 	init
