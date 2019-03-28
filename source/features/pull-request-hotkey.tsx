@@ -20,7 +20,7 @@ function init() {
 
 features.add({
 	id: 'pull-request-hotkey',
-	description: 'Pull request hot key',
+	description: 'Cycle through PR tabs by pressing `g` `←` and `g` `→`, or `g` `1`, `g` `2`, `g` `3` and `g` `4`',
 	include: [
 		features.isPR
 	],

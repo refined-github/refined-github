@@ -35,7 +35,7 @@ async function init() {
 
 features.add({
 	id: 'ci-link',
-	description: 'ci link',
+	description: 'Adds build status and link to CI by the repo\'s title',
 	include: [
 		features.isRepo
 	],

@@ -61,7 +61,7 @@ async function init() {
 
 features.add({
 	id: 'more-dropdown',
-	description: 'More dropdown',
+	description: 'Access `Commits`, `Branches`, `Dependencies`, and `Compare` pages from anywhere in a repository',
 	include: [
 		features.isRepo
 	],

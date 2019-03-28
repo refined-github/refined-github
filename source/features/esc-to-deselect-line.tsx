@@ -25,6 +25,6 @@ function init() {
 
 features.add({
 	id: 'esc-to-deselect-line',
-	description: 'If you select a line in a file, pressing ESC will deselect it',
+	description: 'Press `esc` to deselect the current line when viewing files',
 	init
 });

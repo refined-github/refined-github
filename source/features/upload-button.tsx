@@ -37,7 +37,7 @@ function init() {
 
 features.add({
 	id: 'upload-button',
-	description: 'Upload button',
+	description: 'Upload button to upload attachments in comments',
 	include: [
 		features.hasRichTextEditor
 	],

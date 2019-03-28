@@ -18,7 +18,7 @@ function init() {
 
 features.add({
 	id: 'scroll-to-top-on-collapse',
-	description: 'Scroll to top on collapse',
+	description: 'Collapse/expand files in a PR diff',
 	include: [
 		features.isPR
 	],
