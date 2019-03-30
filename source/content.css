@@ -735,6 +735,11 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	animation-fill-mode: backwards !important;
 }
 
+/* Smoothen mouse animation on 404 pages */
+.js-plaxify {
+	transition: transform 0.1s;
+}
+
 /* Remove "Seeing something unexpected?" from user profiles */
 #js-contribution-activity .js-show-more-timeline-form > p {
 	display: none;
