@@ -1061,6 +1061,11 @@ body > .footer li a {
 	z-index: 26 !important;
 }
 
+/* For `warning-for-disallow-edits` feature: hide warning when PR is closed */
+[data-pull-is-open='false'] + #discussion_bucket .warning-for-disallow-edits {
+	display: none;
+}
+
 /* Adding a lock icon to private organizations */
 .rgh-private-org {
 	position: relative;
