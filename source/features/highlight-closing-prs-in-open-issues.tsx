@@ -36,7 +36,7 @@ function init() {
 features.add({
 	id: 'highlight-closing-prs-in-open-issues',
 	include: [
-		features.isPR,
+		features.isPRConversation,
 		features.isIssue
 	],
 	load: features.onAjaxedPages,

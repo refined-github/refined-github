@@ -1,11 +1,11 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import indentTextarea from 'indent-textarea';
 import features from '../libs/features';
-import indentTextarea from '../libs/indent-textarea';
 
 // Element.blur() will reset the tab focus to the start of the document.
 // This places it back next to the blurred field
-function blurAccessibly(field) {
+export function blurAccessibly(field) {
 	field.blur();
 
 	const range = new Range();
@@ -19,7 +19,7 @@ function blurAccessibly(field) {
 }
 
 function init() {
-	delegate('.js-comment-field', 'keydown', event => {
+	delegate('.js-comment-field, #commit-description-textarea', 'keydown', event => {
 		const field: HTMLTextAreaElement = event.delegateTarget;
 
 		// Don't do anything if the suggester box is active
@@ -49,7 +49,8 @@ function init() {
 		} else if (event.key === 'ArrowUp' && field.value === '') {
 			const currentConversationContainer = field.closest([
 				'.js-inline-comments-container', // Current review thread container
-				'.discussion-timeline' // Or just ALL the comments
+				'.discussion-timeline', // Or just ALL the comments in issues
+				'#all_commit_comments' // Single commit comments at the bottom
 			].join());
 			const lastOwnComment = select
 				.all<HTMLDetailsElement>('.js-comment.current-user', currentConversationContainer)

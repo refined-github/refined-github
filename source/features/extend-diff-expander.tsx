@@ -16,7 +16,8 @@ function init() {
 features.add({
 	id: 'extend-diff-expander',
 	include: [
-		features.isPRFiles
+		features.isPRFiles,
+		features.isCommit
 	],
 	load: features.onAjaxedPages,
 	init

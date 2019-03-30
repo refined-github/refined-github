@@ -2,21 +2,18 @@ import select from 'select-dom';
 import features from '../libs/features';
 
 function init() {
-	// Get repositories link from user profile navigation
-	const link = select<HTMLAnchorElement>('.user-profile-nav a[href*="tab=repositories"]');
+	const links = select.all<HTMLAnchorElement>([
+		'.user-profile-nav [href$="tab=repositories"]', // "Your repositories" in header dropdown
+		'#user-links [href$="tab=repositories"]' // "Repositories" tab on profile
+	].join());
 
-	if (!link) {
-		return false;
+	for (const link of links) {
+		link.search += '&type=source';
 	}
-
-	link.search += '&type=source';
 }
 
 features.add({
 	id: 'set-default-repositories-type-to-sources',
-	include: [
-		features.isUserProfile
-	],
 	load: features.onAjaxedPages,
 	init
 });
