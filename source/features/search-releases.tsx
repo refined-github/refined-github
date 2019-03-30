@@ -61,8 +61,7 @@ async function init() {
 
 const isReleasesTabSelected = () => getSelectedTabText() === 'Releases';
 
-const hasAnyReleases = () =>
-	select('.release-entry') !== null || select('.release') !== null;
+const hasAnyReleases = () => select.exists('.release-entry') || select.exists('.release');
 
 const getSelectedTabText = () => {
 	const selectedTab = select('.subnav > .subnav-links > .selected');
