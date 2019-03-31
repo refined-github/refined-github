@@ -1,257 +1,145 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import OptionsSync from 'webext-options-sync';
 
-import * as api from '../libs/api';
 import features from '../libs/features';
-import {getOwnerAndRepo} from '../libs/utils';
 import {isReleasesOrTags} from '../libs/page-detect';
-import {checkInline, x as closeIcon} from '../libs/icons';
-
-type ReleasesResponseV4 = {
-	releases: {
-		totalCount: number;
-		edges: [
-			{
-				node: {
-					tagName: string;
-				};
-			}
-		];
-	};
-};
-
-/* eslint-disable @typescript-eslint/camelcase */
-type ReleasesResponseV3 = {
-	tag_name: string;
-	html_url: string;
-};
-/* eslint-enable @typescript-eslint/camelcase */
-
-type Release = {
-	tag: string;
-	htmlPage: string;
-};
+import {getOwnerAndRepo} from '../libs/utils';
+import {octoface} from '../libs/icons';
 
 async function init() {
 	if (!isReleasesOrTags()) {
-		console.debug('Not on releases or tag page');
-
 		return false;
 	}
 
-	if (!isReleasesTabSelected()) {
-		console.debug('Release tab is not selected.');
-
+	if (!isOnReleasePage()) {
 		return false;
 	}
 
-	if (!hasAnyReleases()) {
-		console.debug('No releases present for the selected repository.');
-
-		return false;
-	}
-
-	const {personalToken} = await new OptionsSync().getAll();
-
-	const releases = await fetchReleases(personalToken);
-	addSelectMenu(releases);
+	addSelectMenu();
 	registerEventListener();
 }
 
-const isReleasesTabSelected = () => getSelectedTabText() === 'Releases';
-
-const hasAnyReleases = () => select.exists('.release-entry') || select.exists('.release');
-
-const getSelectedTabText = () => {
-	const selectedTab = select('.subnav > .subnav-links > .selected');
-
-	return selectedTab ? selectedTab.innerText : null;
-};
-
-const fetchReleases = async (personalToken): Promise<Release[]> => {
-	const {ownerName, repoName} = getOwnerAndRepo();
-
-	if (personalToken && personalToken.trim().length > 0) {
-		return fetchReleasesV4(ownerName, repoName);
-	}
-
-	return fetchReleasesV3(ownerName, repoName);
-};
-
-const fetchReleasesV4 = async (ownerName, repoName): Promise<Release[]> => {
-	try {
-		const jsonResponse: Record<'repository', ReleasesResponseV4> = await api.v4(
-			`{
-			repository(owner: ${ownerName}, name: ${repoName}) {
-				releases(first: 100, orderBy: { field: CREATED_AT, direction: DESC }) {
-					totalCount
-					edges {
-						node {
-							tagName
-						}
-					}
-				}
-			}
-		}`
-		);
-
-		const releases: Release[] = jsonResponse.repository.releases.edges.map(
-			({node: {tagName}}) => {
-				return {
-					tag: tagName,
-					htmlPage: `https://github.com/${ownerName}/${repoName}/releases/tag/${tagName}`
-				};
-			}
-		);
-
-		return releases;
-	} catch (error) {
-		return Promise.reject(error);
-	}
-};
-
-const fetchReleasesV3 = async (ownerName, repoName): Promise<Release[]> => {
-	try {
-		const jsonResponse = await api.v3(`repos/${ownerName}/${repoName}/releases?per_page=100`) as ReleasesResponseV3[];
-
-		const releases: Release[] = jsonResponse.map(item => {
-			return {tag: item.tag_name, htmlPage: item.html_url};
-		});
-
-		return releases;
-	} catch (error) {
-		return Promise.reject(error);
-	}
-};
-
-const addSelectMenu = (releases: Release[]) => {
-	const container = select('.subnav');
-
-	const child = (
-		<div class="float-right">
-			{getSelectMenu({
-				title: 'Releases',
-				children: getAllReleasesLink(releases)
-			})}
-		</div>
-	);
-
-	container.append(child);
-};
-
-const getAllReleasesLink = (releases: Release[]) => {
-	const selectedTag = getSelectedTagFromUrl();
-
-	return releases.map(release => {
-		return (
-			<a
-				href={release.htmlPage}
-				class={`select-menu-item js-navigation-item ${
-					release.tag === selectedTag ? 'selected' : ''
-				}`}
-			>
-				{checkInline()}
-				<div class="select-menu-item-text js-select-button-text">
-					{release.tag}
-				</div>
-			</a>
-		);
-	});
-};
-
-const getSelectMenu = ({title, children}) => {
-	const selectedTag = getSelectedTagFromUrl();
-
-	// https://styleguide.github.com/primer/components/select-menu/#filter
-	return (
-		<div class="refined-github-search-releases select-menu js-menu-container js-select-menu">
-			<button
-				class="btn select-menu-button js-menu-target"
-				type="button"
-				aria-haspopup="true"
-				aria-expanded="false"
-			>
-				<i>Filter:</i>&nbsp;
-				<span class="js-select-button">
-					{selectedTag ? selectedTag : title}
-				</span>
-				&nbsp;
-			</button>
-			<div class="select-menu-modal-holder js-menu-content js-navigation-container">
-				<div class="select-menu-modal">
-					<div class="select-menu-header" tabindex="-1">
-						<button class="btn-link close-button js-menu-close" type="button">
-							{closeIcon()}
-						</button>
-						<span class="select-menu-title">{title}</span>
-					</div>
-					<div class="js-select-menu-deferred-content">
-						<div class="select-menu-filters">
-							<div class="select-menu-text-filter">
-								<input
-									type="text"
-									id="filter-field"
-									class="form-control js-filterable-field js-navigation-enable"
-									placeholder="Type to filter..."
-									aria-label="Type to filter"
-									autocomplete="off"
-								/>
-							</div>
-						</div>
-						<div
-							class="select-menu-list"
-							data-filterable-for="filter-field"
-							data-filterable-type="substring"
-						>
-							{children}
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	);
-};
+const isOnReleasePage = () => select.exists('.release-entry') || select.exists('.release');
 
 const getSelectedTagFromUrl = () => {
-	const currentUrl = location.href;
-	const index = currentUrl.indexOf('/releases/tag/');
+	const result = location.href.match(/releases\/tag\/([^>/]*)/) || [];
 
-	return index > -1 ?
-		currentUrl
-			.substr(index)
-			.split('/')
-			.pop() :
-		null;
+	return (result && result.length > 0) ? result[1] : null;
 };
 
-const getFilterInput = () =>
-	select('.refined-github-search-releases .js-filterable-field');
+const addSelectMenu = () => {
+	const container = select('.subnav');
+	const {ownerName, repoName} = getOwnerAndRepo();
+	const selectedTag = getSelectedTagFromUrl();
 
-const eventListener = e => {
-	if (e.which === 13) {
-		const selectedLink = select(
-			'.refined-github-search-releases .select-menu-item.js-navigation-item.navigation-focus'
-		);
-
-		window.location.assign(selectedLink.getAttribute('href'));
-	}
+	container.append((
+		<div class="refined-github-search-releases float-right d-flex flex-shrink-0 flex-items-center mb-3">
+			<details class="details-reset details-overlay select-menu branch-select-menu">
+				<summary class="btn btn-sm select-menu-button css-truncate" data-hotkey="w" title="Filter releases" aria-haspopup="menu">
+					<i>Filter:</i>&nbsp;
+					<span class="css-truncate-target">{selectedTag || 'Releases'}</span>&nbsp;
+				</summary>
+				<details-menu
+					class="js-release-details select-menu-modal position-absolute"
+					src={`/${ownerName}/${repoName}/ref-list/master?source_action=disambiguate&source_controller=files`}
+					preload
+					role="menu"
+					style="z-index: 99;"
+				>
+					<include-fragment class="select-menu-loading-overlay anim-pulse">
+						{octoface()}
+					</include-fragment>
+				</details-menu>
+			</details>
+		</div>
+	));
 };
 
 const registerEventListener = () => {
-	const filterInput = getFilterInput();
+	const includeFragment = select('.js-release-details > include-fragment');
 
-	return filterInput ?
-		filterInput.addEventListener('keydown', eventListener) :
-		null;
+	return includeFragment ? includeFragment.addEventListener('loadend', onFragmentLoaded) : null;
+};
+
+const onFragmentLoaded = () => {
+	adjustMenuStyles();
+	adjustTextInputStyles();
+	removeBranches();
+	adjustListStyles();
+	removeHeader();
+	removeTabs();
+	updateLinks();
+};
+
+// Needed because somehow style given at Line no 65 is getting removed.
+const adjustMenuStyles = () => {
+	const detailsMenu = select('.js-release-details');
+
+	if (!detailsMenu) {
+		return false;
+	}
+
+	detailsMenu.style.zIndex = '99';
+};
+
+const adjustTextInputStyles = () => {
+	const textInput = select('.js-release-details > tab-container > .select-menu-filters > .select-menu-text-filter > input');
+
+	if (!textInput) {
+		return false;
+	}
+
+	textInput.setAttribute('aria-label', 'Type to filter releases');
+	textInput.setAttribute('placeholder', 'Type to filter releases...');
+};
+
+const removeBranches = () => {
+	const branchList = select('.js-release-details > tab-container > .select-menu-list');
+
+	return branchList ? branchList.remove() : false;
+};
+
+const adjustListStyles = () => {
+	const tagList = select('.js-release-details > tab-container > .select-menu-list');
+
+	if (!tagList) {
+		return false;
+	}
+
+	tagList.removeAttribute('hidden');
+};
+
+const removeHeader = () => {
+	const header = select('.js-release-details > .select-menu-header');
+
+	return header ? header.remove() : false;
+};
+
+const removeTabs = () => {
+	const tabs = select('.js-release-details > tab-container > .select-menu-filters > .select-menu-tabs');
+
+	return tabs ? tabs.remove() : false;
+};
+
+const updateLinks = () => {
+	const links = select.all('.js-release-details > tab-container > .select-menu-list > div .select-menu-item');
+	const selectedTag = getSelectedTagFromUrl();
+
+	links.forEach(item => {
+		const link = item.getAttribute('href');
+
+		item.setAttribute('href', link.replace('/tree/', '/releases/tag/'));
+
+		if (item.innerText.trim() === selectedTag) {
+			item.classList.add('selected');
+		}
+	});
 };
 
 const deregisterEventListener = () => {
-	const filterInput = getFilterInput();
+	const includeFragment = select('.js-release-details > include-fragment');
 
-	return filterInput ?
-		filterInput.removeEventListener('keydown', eventListener) :
-		null;
+	return includeFragment ? includeFragment.removeEventListener('loadend', onFragmentLoaded) : null;
 };
 
 function deinit() {
@@ -261,7 +149,7 @@ function deinit() {
 features.add({
 	id: 'search-releases',
 	include: [features.isReleasesOrTags],
-	load: features.onDomReady,
+	load: features.onAjaxedPages,
 	init,
 	deinit
 });
