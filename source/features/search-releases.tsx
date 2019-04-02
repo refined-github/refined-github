@@ -7,8 +7,6 @@ import {octoface} from '../libs/icons';
 
 async function init() {
 	if (!hasAnyReleases()) {
-		console.debug('The repo does not have any releases.');
-
 		return false;
 	}
 
@@ -24,18 +22,18 @@ const addSelectMenu = () => {
 	const selectedTag = getSelectedTagFromUrl();
 
 	container.append(
-		<div class="refined-github-search-releases float-right d-flex flex-shrink-0 flex-items-center mb-3">
+		<div class="float-right d-flex flex-shrink-0 flex-items-center mb-3">
 			<details class="details-reset details-overlay select-menu branch-select-menu">
 				<summary class="btn btn-sm select-menu-button css-truncate" data-hotkey="w" title="Filter releases" aria-haspopup="menu">
 					<i>Filter:</i>&nbsp;
 					<span class="css-truncate-target">{selectedTag || 'Releases'}</span>&nbsp;
 				</summary>
 				<details-menu
-					class="js-release-details select-menu-modal position-absolute"
+					class="rgh-release-details select-menu-modal position-absolute"
 					src={`/${ownerName}/${repoName}/ref-list/master?source_action=disambiguate&source_controller=files`}
 					preload
 					role="menu"
-					style={{ zIndex: 99 }}
+					style={{zIndex: 99}}
 				>
 					<include-fragment class="select-menu-loading-overlay anim-pulse">
 						{octoface()}
@@ -47,49 +45,40 @@ const addSelectMenu = () => {
 };
 
 const getSelectedTagFromUrl = () => {
-	const [tag = null] = location.href.match(/(?<=\/releases\/tag\/)([^\/]+)/) || [];
+	const [tag = null] = location.href.match(/(?<=\/releases\/tag\/)([^/]+)/) || [];
 
 	return tag;
 };
 
 const registerEventListener = () => {
-	const includeFragment = select('.js-release-details > include-fragment');
+	const includeFragment = select('.rgh-release-details > include-fragment');
 
 	return includeFragment ? includeFragment.addEventListener('loadend', onFragmentLoaded) : null;
 };
 
 const onFragmentLoaded = () => {
-	adjustTextInputStyles();
-	removeBranches();
-	adjustListStyles();
-	removeHeader();
-	removeTabs();
-	updateLinks();
-};
-
-const adjustTextInputStyles = () => {
-	const textInput = select('.js-release-details > tab-container > .select-menu-filters > .select-menu-text-filter > input');
+	const textInput = select('.rgh-release-details > tab-container > .select-menu-filters > .select-menu-text-filter > input');
 
 	textInput.setAttribute('aria-label', 'Type to filter releases');
 	textInput.setAttribute('placeholder', 'Type to filter releases...');
-}
 
-const removeBranches = () => select('.js-release-details > tab-container > .select-menu-list').remove();
+	select('.rgh-release-details > tab-container > .select-menu-list').remove();
 
-const adjustListStyles = () => select('.js-release-details > tab-container > .select-menu-list').removeAttribute('hidden');
+	select('.rgh-release-details > tab-container > .select-menu-list').removeAttribute('hidden');
 
-const removeHeader = () => select('.js-release-details > .select-menu-header').remove();
+	select('.rgh-release-details > .select-menu-header').remove();
 
-const removeTabs = () => select('.js-release-details > tab-container > .select-menu-filters > .select-menu-tabs').remove();
+	select('.rgh-release-details > tab-container > .select-menu-filters > .select-menu-tabs').remove();
 
-const updateLinks = () => {
-	const links = select.all('.js-release-details > tab-container > .select-menu-list > div .select-menu-item');
+	const links = select.all<HTMLAnchorElement>('.rgh-release-details > tab-container > .select-menu-list > div .select-menu-item');
 	const selectedTag = getSelectedTagFromUrl();
 
 	for (const item of links) {
-		const link = item.getAttribute('href');
+		const arr = item.pathname.split('/');
 
-		item.setAttribute('href', link.replace('/tree/', '/releases/tag/'));
+		arr[3] = 'releases/tag'; // Replace "tree"
+
+		item.pathname = arr.join('/');
 
 		if (item.textContent.trim() === selectedTag) {
 			item.classList.add('selected');
@@ -101,5 +90,5 @@ features.add({
 	id: 'search-releases',
 	include: [features.isReleasesOrTags],
 	load: features.onAjaxedPages,
-	init,
+	init
 });
