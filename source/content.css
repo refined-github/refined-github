@@ -771,7 +771,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	margin-left: auto;
 	flex-direction: column-reverse;
 	background: none;
-	border-color: #fff;
+	border-color: currentColor;
 	border-radius: 5px;
 }
 .rgh-recently-pushed-branches .RecentBranches .btn {
