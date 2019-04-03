@@ -93,7 +93,7 @@ import './features/collapsible-content-button';
 import './features/hide-watch-and-fork-count';
 import './features/resolve-conflicts';
 import './features/follow-file-renames';
-import './features/search-releases';
+import './features/tags-dropdown';
 
 // Add global for easier debugging
 (window as any).select = select;

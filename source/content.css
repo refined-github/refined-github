@@ -1061,19 +1061,19 @@ body > .footer li a {
 	z-index: 26 !important;
 }
 
-/* For `rgh-search-tags`: add spacing between buttons when user change edit the current tag */
-.float-right + .rgh-search-tags {
+/* For `tags-dropdown`: add spacing between buttons when user change edit the current tag */
+.float-right + .rgh-tags-dropdown {
 	margin-right: 10px;
 }
 
-/* For `rgh-search-tags`: drop unneeded elements */
-:root .rgh-search-tags .select-menu-tab,
-:root .rgh-search-tags .select-menu-header {
+/* For `tags-dropdown`: drop unneeded elements */
+:root .rgh-tags-dropdown .select-menu-tab,
+:root .rgh-tags-dropdown .select-menu-header {
 	display: none;
 }
 
-/* For `rgh-search-tags`: make dropdown smaller, if possible */
-:root .select-menu-modal {
+/* For `tags-dropdown`: make dropdown smaller, if possible */
+:root .rgh-tags-dropdown .select-menu-modal {
 	width: max-content;  /* Default: 300px */
 	min-width: 150px;
 	max-width: 300px;
