@@ -17,8 +17,9 @@ function getList() {
 	const fragmentURL = `/${repoUrl}/show_partial?partial=tree%2Frecently_touched_branches_list`;
 
 	return (
-		select(`[data-url='${fragmentURL}'], [src='${fragmentURL}']`) || // Already on page
-		<include-fragment src={fragmentURL}></include-fragment> // Generate it if not
+		select(`[data-url='${fragmentURL}'], [src='${fragmentURL}']`) // Get the one already on the page
+		|| // eslint-disable-line operator-linebreak
+		<include-fragment src={fragmentURL}></include-fragment> // Or generate it
 	);
 }
 
