@@ -1061,12 +1061,24 @@ body > .footer li a {
 	z-index: 26 !important;
 }
 
+/* For `rgh-search-tags`: add spacing between buttons when user change edit the current tag */
+.float-right + .rgh-search-tags {
+	margin-right: 10px;
+}
 
 /* For `rgh-search-tags`: drop unneeded elements */
 :root .rgh-search-tags .select-menu-tab,
 :root .rgh-search-tags .select-menu-header {
 	display: none;
 }
+
+/* For `rgh-search-tags`: make dropdown smaller, if possible */
+:root .select-menu-modal {
+	width: max-content;  /* Default: 300px */
+	min-width: 150px;
+	max-width: 300px;
+}
+
 /* For `warning-for-disallow-edits` feature: hide warning when PR is closed */
 [data-pull-is-open='false'] ~ #discussion_bucket .rgh-warning-for-disallow-edits {
 	display: none;

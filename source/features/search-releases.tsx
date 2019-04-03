@@ -14,12 +14,12 @@ async function init() {
 
 	select('.subnav').append(
 		<div class="rgh-search-tags float-right d-flex flex-shrink-0 flex-items-center mb-3">
-			<details class="details-reset details-overlay select-menu branch-select-menu">
-				<summary class="btn btn-sm select-menu-button css-truncate" data-hotkey="w" title="Find tags" aria-haspopup="menu">
+			<details class="details-reset details-overlay select-menu branch-select-menu position-relative">
+				<summary class="btn select-menu-button css-truncate" data-hotkey="w" title="Find tags" aria-haspopup="menu">
 					Select tag&nbsp;
 				</summary>
 				<details-menu
-					class="rgh-release-details select-menu-modal position-absolute"
+					class="select-menu-modal position-absolute dropdown-menu-sw"
 					src={`/${ownerName}/${repoName}/ref-list/${getCurrentTag() || 'master'}?source_action=disambiguate&source_controller=files`}
 					preload
 					role="menu"
