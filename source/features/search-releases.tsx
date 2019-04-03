@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-
 import features from '../libs/features';
 import {getOwnerAndRepo} from '../libs/utils';
 import {octoface} from '../libs/icons';
@@ -36,20 +35,18 @@ async function init() {
 
 const getCurrentTag = () => {
 	const [tag] = location.href.match(/(?<=\/releases\/tag\/)([^/]+)/) || [undefined];
-
 	return tag;
 };
 
+// We’re reusing the Branch/Tag selector from the repo’s Code tab, so we need to update a few things
 const onFragmentLoaded = () => {
 	// Changes tab to Tags
 	select('.rgh-search-tags .select-menu-tab:last-child button').click();
 
-	const links = select.all<HTMLAnchorElement>('.rgh-release-details .select-menu-item');
-	for (const item of links) {
+	// Change links (which point to the content of each tag) to open the tag page instead
+	for (const item of select.all<HTMLAnchorElement>('.rgh-search-tags [href*="/tree/"]')) {
 		const arr = item.pathname.split('/');
-
 		arr[3] = 'releases/tag'; // Replace "tree"
-
 		item.pathname = arr.join('/');
 	}
 };
