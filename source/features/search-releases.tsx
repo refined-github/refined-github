@@ -15,9 +15,8 @@ async function init() {
 	select('.subnav').append(
 		<div class="rgh-search-tags float-right d-flex flex-shrink-0 flex-items-center mb-3">
 			<details class="details-reset details-overlay select-menu branch-select-menu">
-				<summary class="btn btn-sm select-menu-button css-truncate" data-hotkey="w" title="Filter releases" aria-haspopup="menu">
-					<i>Filter:</i>&nbsp;
-					<span class="css-truncate-target">{getCurrentTag() || 'Releases'}</span>&nbsp;
+				<summary class="btn btn-sm select-menu-button css-truncate" data-hotkey="w" title="Find tags" aria-haspopup="menu">
+					Select tag&nbsp;
 				</summary>
 				<details-menu
 					class="rgh-release-details select-menu-modal position-absolute"
@@ -42,10 +41,6 @@ const getCurrentTag = () => {
 };
 
 const onFragmentLoaded = () => {
-	const textInput = select('.rgh-release-details .select-menu-text-filter input');
-
-	textInput.setAttribute('aria-label', 'Type to filter releases');
-	textInput.setAttribute('placeholder', 'Type to filter releases...');
 	// Changes tab to Tags
 	select('.rgh-search-tags .select-menu-tab:last-child button').click();
 
