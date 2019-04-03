@@ -21,7 +21,7 @@ async function init() {
 				</summary>
 				<details-menu
 					class="rgh-release-details select-menu-modal position-absolute"
-					src={`/${ownerName}/${repoName}/ref-list/master?source_action=disambiguate&source_controller=files`}
+					src={`/${ownerName}/${repoName}/ref-list/${getCurrentTag() || 'master'}?source_action=disambiguate&source_controller=files`}
 					preload
 					role="menu"
 					style={{zIndex: 99}}
@@ -54,18 +54,12 @@ const onFragmentLoaded = () => {
 	select('.rgh-release-details .select-menu-tabs').remove();
 
 	const links = select.all<HTMLAnchorElement>('.rgh-release-details .select-menu-item');
-	const selectedTag = getCurrentTag();
-
 	for (const item of links) {
 		const arr = item.pathname.split('/');
 
 		arr[3] = 'releases/tag'; // Replace "tree"
 
 		item.pathname = arr.join('/');
-
-		if (item.textContent.trim() === selectedTag) {
-			item.classList.add('selected');
-		}
 	}
 };
 
