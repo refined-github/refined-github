@@ -13,30 +13,28 @@ import {getRepoURL} from '../libs/utils';
 
 const repoUrl = getRepoURL();
 
-async function init() {
+function getList() {
 	const fragmentURL = `/${repoUrl}/show_partial?partial=tree%2Frecently_touched_branches_list`;
-	if (select.exists(`[data-url='${fragmentURL}'], [src='${fragmentURL}']`)) {
-		return false;
-	}
 
-	const codeTabURL = select<HTMLAnchorElement>('[data-hotkey="g c"]').href;
-	const response = await fetch(codeTabURL);
-	const html = await response.text();
+	return (
+		select(`[data-url='${fragmentURL}'], [src='${fragmentURL}']`) || // Already on page
+		<include-fragment src={fragmentURL}></include-fragment> // Generate it if not
+	);
+}
 
-	// https://github.com/sindresorhus/refined-github/issues/216
-	if (html.includes(fragmentURL)) {
-		select('.repository-content').prepend(<include-fragment src={fragmentURL}></include-fragment>);
-	}
+async function init() {
+	// Make it smaller and `position:fixed` to avoid jumps
+	document.body.classList.add('.rgh-recently-pushed-branches');
+
+	// Move or add list
+	select('.HeaderMenu > :last-child').before(getList());
 }
 
 features.add({
-	id: 'show-recently-pushed-branches-on-more-pages',
+	id: 'recently-pushed-branches-enhancements',
 	include: [
-		features.isPR,
-		features.isIssue,
-		features.isRepoDiscussionList,
-		features.isCompare
+		features.isRepo
 	],
-	load: features.onAjaxedPages,
+	load: features.onDomReady,
 	init
 });
