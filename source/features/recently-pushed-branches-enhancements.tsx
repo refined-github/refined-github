@@ -29,7 +29,7 @@ async function init() {
 
 	// Move or add list
 	select('.HeaderMenu > :last-child').before(
-		<div className="position-relative" style={{marginLeft: 'auto'}}>{getList()}</div>
+		<div style={{marginLeft: 'auto', position: 'relative'}}>{getList()}</div>
 	);
 }
 
