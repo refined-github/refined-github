@@ -24,10 +24,12 @@ function getList() {
 
 async function init() {
 	// Make it smaller and `position:fixed` to avoid jumps
-	document.body.classList.add('.rgh-recently-pushed-branches');
+	document.body.classList.add('rgh-recently-pushed-branches');
 
 	// Move or add list
-	select('.HeaderMenu > :last-child').before(getList());
+	select('.HeaderMenu > :last-child').before(
+		<div className="position-relative" style={{marginLeft: 'auto'}}>{getList()}</div>
+	);
 }
 
 features.add({
