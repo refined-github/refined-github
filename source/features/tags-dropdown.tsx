@@ -33,13 +33,13 @@ async function init() {
 	);
 }
 
-function getCurrentTag () {
+function getCurrentTag() {
 	const [tag] = location.href.match(/(?<=\/releases\/tag\/)([^/]+)/) || [undefined];
 	return tag;
 }
 
 // We’re reusing the Branch/Tag selector from the repo’s Code tab, so we need to update a few things
-function onFragmentLoaded () {
+function onFragmentLoaded() {
 	// Changes tab to Tags
 	select('.rgh-tags-dropdown .select-menu-tab:last-child button').click();
 
