@@ -47,12 +47,9 @@ const onFragmentLoaded = () => {
 	textInput.setAttribute('aria-label', 'Type to filter releases');
 	textInput.setAttribute('placeholder', 'Type to filter releases...');
 
-	const [branchList, tagList] = select.all('.rgh-release-details .select-menu-list');
-
-	branchList.remove();
-	tagList.removeAttribute('hidden');
-
 	select('.rgh-release-details .select-menu-header').remove();
+	// Changes tab to Tags
+	select('.rgh-search-tags .select-menu-tab:last-child button').click();
 
 	select('.rgh-release-details .select-menu-tabs').remove();
 
