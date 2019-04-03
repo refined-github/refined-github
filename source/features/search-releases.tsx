@@ -6,27 +6,18 @@ import {getOwnerAndRepo} from '../libs/utils';
 import {octoface} from '../libs/icons';
 
 async function init() {
-	if (!hasAnyReleases()) {
+	if (select.exists('.blankslate')) {
 		return false;
 	}
 
-	addSelectMenu();
-	registerEventListener();
-}
-
-const hasAnyReleases = () => select.exists('.release-entry') || select.exists('.release');
-
-const addSelectMenu = () => {
-	const container = select('.subnav');
 	const {ownerName, repoName} = getOwnerAndRepo();
-	const selectedTag = getSelectedTagFromUrl();
 
-	container.append(
+	select('.subnav').append(
 		<div class="float-right d-flex flex-shrink-0 flex-items-center mb-3">
 			<details class="details-reset details-overlay select-menu branch-select-menu">
 				<summary class="btn btn-sm select-menu-button css-truncate" data-hotkey="w" title="Filter releases" aria-haspopup="menu">
 					<i>Filter:</i>&nbsp;
-					<span class="css-truncate-target">{selectedTag || 'Releases'}</span>&nbsp;
+					<span class="css-truncate-target">{getCurrentTag() || 'Releases'}</span>&nbsp;
 				</summary>
 				<details-menu
 					class="rgh-release-details select-menu-modal position-absolute"
@@ -35,43 +26,38 @@ const addSelectMenu = () => {
 					role="menu"
 					style={{zIndex: 99}}
 				>
-					<include-fragment class="select-menu-loading-overlay anim-pulse">
+					<include-fragment class="select-menu-loading-overlay anim-pulse" onload={onFragmentLoaded}>
 						{octoface()}
 					</include-fragment>
 				</details-menu>
 			</details>
 		</div>
 	);
-};
+}
 
-const getSelectedTagFromUrl = () => {
-	const [tag = null] = location.href.match(/(?<=\/releases\/tag\/)([^/]+)/) || [];
+const getCurrentTag = () => {
+	const [tag] = location.href.match(/(?<=\/releases\/tag\/)([^/]+)/) || [undefined];
 
 	return tag;
 };
 
-const registerEventListener = () => {
-	const includeFragment = select('.rgh-release-details > include-fragment');
-
-	return includeFragment ? includeFragment.addEventListener('loadend', onFragmentLoaded) : null;
-};
-
 const onFragmentLoaded = () => {
-	const textInput = select('.rgh-release-details > tab-container > .select-menu-filters > .select-menu-text-filter > input');
+	const textInput = select('.rgh-release-details .select-menu-text-filter input');
 
 	textInput.setAttribute('aria-label', 'Type to filter releases');
 	textInput.setAttribute('placeholder', 'Type to filter releases...');
 
-	select('.rgh-release-details > tab-container > .select-menu-list').remove();
+	const [branchList, tagList] = select.all('.rgh-release-details .select-menu-list');
 
-	select('.rgh-release-details > tab-container > .select-menu-list').removeAttribute('hidden');
+	branchList.remove();
+	tagList.removeAttribute('hidden');
 
-	select('.rgh-release-details > .select-menu-header').remove();
+	select('.rgh-release-details .select-menu-header').remove();
 
-	select('.rgh-release-details > tab-container > .select-menu-filters > .select-menu-tabs').remove();
+	select('.rgh-release-details .select-menu-tabs').remove();
 
-	const links = select.all<HTMLAnchorElement>('.rgh-release-details > tab-container > .select-menu-list > div .select-menu-item');
-	const selectedTag = getSelectedTagFromUrl();
+	const links = select.all<HTMLAnchorElement>('.rgh-release-details .select-menu-item');
+	const selectedTag = getCurrentTag();
 
 	for (const item of links) {
 		const arr = item.pathname.split('/');
@@ -88,7 +74,9 @@ const onFragmentLoaded = () => {
 
 features.add({
 	id: 'search-releases',
-	include: [features.isReleasesOrTags],
+	include: [
+		features.isReleasesOrTags
+	],
 	load: features.onAjaxedPages,
 	init
 });
