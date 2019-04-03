@@ -13,7 +13,7 @@ async function init() {
 	const {ownerName, repoName} = getOwnerAndRepo();
 
 	select('.subnav').append(
-		<div class="float-right d-flex flex-shrink-0 flex-items-center mb-3">
+		<div class="rgh-search-tags float-right d-flex flex-shrink-0 flex-items-center mb-3">
 			<details class="details-reset details-overlay select-menu branch-select-menu">
 				<summary class="btn btn-sm select-menu-button css-truncate" data-hotkey="w" title="Filter releases" aria-haspopup="menu">
 					<i>Filter:</i>&nbsp;
@@ -46,12 +46,8 @@ const onFragmentLoaded = () => {
 
 	textInput.setAttribute('aria-label', 'Type to filter releases');
 	textInput.setAttribute('placeholder', 'Type to filter releases...');
-
-	select('.rgh-release-details .select-menu-header').remove();
 	// Changes tab to Tags
 	select('.rgh-search-tags .select-menu-tab:last-child button').click();
-
-	select('.rgh-release-details .select-menu-tabs').remove();
 
 	const links = select.all<HTMLAnchorElement>('.rgh-release-details .select-menu-item');
 	for (const item of links) {
