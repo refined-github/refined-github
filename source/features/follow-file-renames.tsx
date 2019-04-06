@@ -19,7 +19,7 @@ async function findRename(
 }
 
 async function init(): Promise<false | void> {
-	const disabledPagination = select.all('.paginate-container [disabled]');
+	const disabledPagination = select.all('.paginate-container [disabled], .paginate-container .disabled');
 
 	if (disabledPagination.length === 0) {
 		return false;
