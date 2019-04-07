@@ -28,8 +28,8 @@ import OptionsSync from 'webext-options-sync';
 
 type FetchStrategy = typeof fetch3 | typeof fetch4;
 
-export interface FetchOptions {
-	accept404: boolean;
+export interface FetchOptions extends RequestInit {
+	accept404?: boolean;
 }
 
 export const v3 = (query: string, options?: FetchOptions) => call(fetch3, query, options);
@@ -51,19 +51,20 @@ const api4 = location.hostname === 'github.com' ?
 	'https://api.github.com/graphql' :
 	`${location.origin}/api/graphql`;
 
-function fetch3(query: string, personalToken: string) {
-	const headers: HeadersInit = {
+function fetch3(query: string, personalToken: string, { headers: customHeaders, ...options }: FetchOptions) {
+	const headers: HeadersInit & { Authorization?: string } = {
 		'User-Agent': 'Refined GitHub',
-		Accept: 'application/vnd.github.v3+json'
+		Accept: 'application/vnd.github.v3+json',
+		...customHeaders
 	};
 	if (personalToken) {
 		headers.Authorization = `token ${personalToken}`;
 	}
 
-	return fetch(api3 + query, {headers});
+	return fetch(api3 + query, {headers, ...options});
 }
 
-function fetch4(query: string, personalToken: string) {
+function fetch4(query: string, personalToken: string, { headers: customHeaders, ...options }: FetchOptions) {
 	if (!personalToken) {
 		throw new Error('Personal token required for this feature');
 	}
@@ -71,10 +72,11 @@ function fetch4(query: string, personalToken: string) {
 	return fetch(api4, {
 		headers: {
 			'User-Agent': 'Refined GitHub',
-			Authorization: `bearer ${personalToken}`
+			Authorization: `bearer ${personalToken}`,
 		},
 		method: 'POST',
-		body: JSON.stringify({query})
+		body: JSON.stringify({query}),
+		...options
 	});
 }
 
@@ -85,7 +87,7 @@ async function call(fetch: FetchStrategy, query: string, options: FetchOptions =
 	}
 
 	const {personalToken} = await new OptionsSync().getAll();
-	const response = await fetch(query, personalToken as string);
+	const response = await fetch(query, personalToken as string, options);
 	const content = await response.text();
 
 	const result: { data?: AnyObject; errors?: Error[]; message?: string;status?: number} = content.length > 0 ? JSON.parse(content) : {status: response.status};
