@@ -25,7 +25,7 @@ async function init(): Promise<false | void> {
 
 	// https://github.com/sindresorhus/refined-github/issues/216
 	if (html.includes(fragmentURL)) {
-		select('.repository-content')!.prepend(<include-fragment src={fragmentURL}></include-fragment>);
+		select('.repository-content')!.prepend(<include-fragment src={fragmentURL}/>);
 	}
 }
 
