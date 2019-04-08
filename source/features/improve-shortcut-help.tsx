@@ -30,7 +30,7 @@ function improveShortcutHelp(dialog: Element) {
 function fixKeys(dialog: Element) {
 	for (const key of select.all('kbd', dialog)) {
 		if (key.textContent!.includes(' ')) {
-			key.replaceWith(...splitKeys(key.textContent as string));
+			key.replaceWith(...splitKeys(key.textContent!));
 		}
 	}
 }
