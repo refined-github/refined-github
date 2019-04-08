@@ -26,7 +26,7 @@ async function embedGist(link: HTMLAnchorElement) {
 		if (fileCount > 1) {
 			info.textContent = ` (${fileCount} files)`;
 		} else {
-			(link.parentNode as HTMLElement).attachShadow({mode: 'open'}).append(
+			link.parentElement!.attachShadow({mode: 'open'}).append(
 				<style>{`
 					.gist .gist-data {
 						max-height: 16em;
