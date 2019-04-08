@@ -6,7 +6,7 @@ import {editTextNodes} from './linkify-urls-in-code';
 
 function init() {
 	observeEl(
-		select('#partial-discussion-header')!.parentNode as Element,
+		select('#partial-discussion-header')!.parentElement!,
 		() => {
 			const title = select('.js-issue-title:not(.refined-linkified-title)');
 			if (title) {
