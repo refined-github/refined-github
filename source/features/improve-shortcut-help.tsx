@@ -3,7 +3,7 @@ import select from 'select-dom';
 import features from '../libs/features';
 
 function splitKeys(keys: string) {
-	return keys.split(' ').map(key => <>{' '}<kbd>{key}</kbd></>);
+	return keys.split(' ').map(key => <> <kbd>{key}</kbd></>);
 }
 
 function improveShortcutHelp(dialog: Element) {
