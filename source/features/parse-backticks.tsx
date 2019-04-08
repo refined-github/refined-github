@@ -15,7 +15,7 @@ function splitTextReducer(fragment: DocumentFragment, text: string, index: numbe
 		// `span.sr-only` keeps the backticks copy-pastable but invisible
 		fragment.append(
 			<code className="rgh-parse-backticks">
-					<span className="sr-only">`</span>
+				<span className="sr-only">`</span>
 				{text}
 				<span className="sr-only">`</span>
 			</code>
