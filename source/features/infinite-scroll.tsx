@@ -43,7 +43,7 @@ const findButton = () => {
 	inView.disconnect();
 
 	// Watch the new button, or stop everything
-	btn = select('.ajax-pagination-btn') as HTMLButtonElement;
+	btn = select<HTMLButtonElement>('.ajax-pagination-btn');
 	if (btn) {
 		inView.observe(btn);
 	}
