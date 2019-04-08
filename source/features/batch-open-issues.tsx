@@ -6,11 +6,10 @@ import features from '../libs/features';
 const confirmationRequiredCount = 10;
 
 function getUrlFromItem(checkbox: Element) {
-	return (
-		checkbox
-			.closest('.js-issue-row')!
-			.querySelector('.js-navigation-open') as HTMLAnchorElement
-	).href;
+	return checkbox
+		.closest('.js-issue-row')!
+		.querySelector<HTMLAnchorElement>('.js-navigation-open')!
+		.href;
 }
 
 function openIssues() {
