@@ -17,9 +17,6 @@
 		"can-release": "if [ \"$TRAVIS_EVENT_TYPE\" = cron ] && [ $(git rev-list -n 1 --since=\"26 hours ago\" master) ]; then echo :ship-it:; else false; fi"
 	},
 	"dependencies": {
-		"@types/debounce-fn": "^1.0.0",
-		"@types/jsdom": "^12.2.3",
-		"@types/react": "^16.8.10",
 		"copy-text-to-clipboard": "^2.0.0",
 		"debounce-fn": "^1.0.0",
 		"delegate-it": "^1.1.0-5",
@@ -48,12 +45,14 @@
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^0.3.0",
 		"@types/codemirror": "0.0.72",
+		"@types/debounce-fn": "^1.0.0",
 		"@types/dom-loaded": "^1.0.0",
 		"@types/element-ready": "^2.1.0",
 		"@types/firefox-webext-browser": "^65.0.2",
+		"@types/jsdom": "^12.2.3",
+		"@types/react": "^16.8.10",
 		"@typescript-eslint/eslint-plugin": "^1.4.2",
 		"ava": "^1.4.0",
-		"@types/jsdom": "^12.2.3",
 		"chrome-webstore-upload-cli": "^1.2.0",
 		"copy-webpack-plugin": "^5.0.2",
 		"dot-json": "^1.0.4",
