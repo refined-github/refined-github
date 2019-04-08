@@ -25,7 +25,7 @@ function init(): false | void {
 	label.append(isMerged ? ' as ' : ' in ', lastActionRef.cloneNode(true));
 
 	// Link label to event in timeline
-	wrap(label, <a href={'#' + lastActionRef.closest('[id]')!.id}></a>);
+	wrap(label, <a href={'#' + lastActionRef.closest('[id]')!.id}/>);
 }
 
 features.add({
