@@ -15,7 +15,7 @@ const avatarSize = 35;
 const renderAvatar = (image: HTMLImageElement) => {
 	const src = new URL(image.src);
 	src.searchParams.set('s', String(avatarSize * window.devicePixelRatio));
-	image.src = src.toString();
+	image.src = String(src);
 	image.width = avatarSize;
 	image.height = avatarSize;
 
