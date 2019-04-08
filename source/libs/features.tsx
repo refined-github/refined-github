@@ -69,7 +69,7 @@ onAjaxedPages(async () => {
 
 	const ajaxContainer = select('#js-repo-pjax-container,#js-pjax-container');
 	if (ajaxContainer) {
-		ajaxContainer.append(<has-rgh/> as Node);
+		ajaxContainer.append(<has-rgh/>);
 	}
 });
 
