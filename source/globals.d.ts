@@ -3,11 +3,10 @@ type AnyObject = Record<string, any>;
 
 declare module 'github-reserved-names'; // TODO: PR types to that repo or DT
 
-// TODO: This actually causes more errors than it solves
-// declare module 'delegate-it' {
-// 	// Custom event types used in RGH
-// 	type EventType = keyof GlobalEventHandlersEventMap | 'details:toggled';
-// }
+// Custom UI events specific to RGH
+interface GlobalEventHandlersEventMap {
+	'details:toggled': UIEvent;
+}
 
 // TODO: Add to dom-chef types
 // type AllElementsTagNameMap = SVGElementTagNameMap & HTMLElementTagNameMap & {

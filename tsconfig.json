@@ -3,7 +3,12 @@
 	"compilerOptions": {
 		"target": "esnext",
 		"resolveJsonModule": true,
-		"noEmit": true
+		"noEmit": true,
+		"esModuleInterop": true,
+		"baseUrl": "./",
+		"paths": {
+			"delegate-it": ["./types/delegate-it.d.ts"]
+		}
 	},
 	"include": [
 		"source"
