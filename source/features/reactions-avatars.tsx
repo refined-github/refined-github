@@ -76,6 +76,6 @@ features.add({
 	include: [
 		features.hasComments
 	],
-	load: features.onAjaxedPages,
+	load: features.onNewComments,
 	init
 });
