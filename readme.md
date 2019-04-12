@@ -106,6 +106,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Add co-authors when merging PRs with multiple committers.](https://user-images.githubusercontent.com/1402241/51468821-71a42100-1da2-11e9-86aa-fc2a6a29da84.png)
 - [Search for issues and PRs separately in the top search.](https://user-images.githubusercontent.com/1402241/52181103-35a09f80-2829-11e9-9c6f-57f2e08fc5b2.png)
 - [View the source of Markdown files.](https://user-images.githubusercontent.com/1402241/54814836-7bc39c80-4ccb-11e9-8996-9ecf4f6036cb.png)
+- [Add Oldest and Newest buttons to commit list pagination.](https://user-images.githubusercontent.com/9721664/56057052-920ec680-5d66-11e9-9ab8-a8df22e8bc10.png)
 
 ### More actions
 
