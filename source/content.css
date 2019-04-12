@@ -562,7 +562,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 }
 
 /* Hide marketplace navbar button */
-.HeaderNavlink[href='/marketplace'] {
+.Header-link[href='/marketplace'] {
 	display: none !important;
 }
 
