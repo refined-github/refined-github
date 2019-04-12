@@ -55,7 +55,7 @@ export class RefinedGitHubAPIError extends Error {
 
 const settings = new OptionsSync().getAll();
 
-const api3 = location.hostname === 'github.com' ?
+export const api3 = location.hostname === 'github.com' ?
 	'https://api.github.com/' :
 	`${location.origin}/api/v3/`;
 const api4 = location.hostname === 'github.com' ?
