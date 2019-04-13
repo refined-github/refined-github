@@ -26,8 +26,12 @@ function newBranchFromIssue() {
 	})()
 }
 
+function isAllowedToCreateBranch() {
+	return !!select.exists('.js-issue-sidebar-form button')
+}
+
 function addNewBranchFromIssueButton() {
-	if (!select.exists('.rgh-btn-new-branch-from-issue')) {
+	if (isAllowedToCreateBranch() && !select.exists('.rgh-btn-new-branch-from-issue')) {
 		const button = <button class="btn btn-sm btn-primary float-right rgh-btn-new-branch-from-issue">New
 			branch</button>;
 		button.addEventListener('click', newBranchFromIssue, {
