@@ -1,6 +1,15 @@
 // TODO: Type anything that is of type AnyObject
 type AnyObject = Record<string, any>;
 
+declare module 'intervalometer' {
+	function timerIntervalometer(callback: () => void, timeInMillis: number);
+}
+
+// TODO: Type for @bfre-it's repo or convert it to TS
+declare module 'shorten-repo-url' {
+	function applyToLink(anchor: HTMLAnchorElement, url: string): void;
+}
+
 declare module 'github-reserved-names'; // TODO: PR types to that repo or DT
 
 // Custom UI events specific to RGH
