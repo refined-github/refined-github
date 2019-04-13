@@ -5,7 +5,7 @@ import {getUsername} from '../libs/utils';
 
 function init() {
 	const defaultQuery = 'is:open archived:false ';
-	const type = location.pathname === '/issues' ? ' is:issues' : ''; // Without this, the Issues page also displays PRs
+	const type = location.pathname === '/issues' ? ' is:issue' : ''; // Without this, the Issues page also displays PRs
 	const links = [
 		['Commented', `commenter:${getUsername()}`],
 		['Yours', `user:${getUsername()}`]
