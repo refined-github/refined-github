@@ -17,7 +17,7 @@ function init() {
 		const link = <a href={`?${url}`} className="subnav-item">{label}</a>;
 
 		// Create regex for current query, including possible spaces around it
-		const queryRegex = new RegExp(`(^|\\s)?${query}(\\s|$)?`);
+		const queryRegex = new RegExp(`(^|\\s)${query}(\\s|$)`);
 		const isCurrentPage = queryRegex.test(new URLSearchParams(location.search).get('q')!);
 
 		// Highlight it, if that's the current page
