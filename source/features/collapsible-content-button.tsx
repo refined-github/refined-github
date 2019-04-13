@@ -8,9 +8,9 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import insertText from 'insert-text-textarea';
+import {DelegateEvent} from 'types/delegate-it/types';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
-import { DelegateEvent } from 'types/delegate-it/types';
 
 // Wraps string in at least 2 \n on each side,
 // as long as the field doesn't already have them.
@@ -52,7 +52,7 @@ function addContentToDetails(event: DelegateEvent<MouseEvent, HTMLButtonElement>
 		<details>
 		<summary>Details</summary>
 
-		${getSelection()!.toString()}
+		${getSelection().toString()}
 
 		</details>
 	`.replace(/(\n|\b)\t+/g, '$1').trim();

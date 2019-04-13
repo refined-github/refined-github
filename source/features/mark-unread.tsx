@@ -1,13 +1,13 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import {DelegateSubscription, DelegateEvent} from 'types/delegate-it/types';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
 import {safeElementReady} from '../libs/dom-utils';
 import {getUsername, getOwnerAndRepo} from '../libs/utils';
-import { DelegateSubscription, DelegateEvent } from 'types/delegate-it/types';
 
 // TODO: Pull these types out.
 type NotificationType = 'pull-request' | 'issue';

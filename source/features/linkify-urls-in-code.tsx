@@ -32,7 +32,7 @@ export const editTextNodes = (
 			continue;
 		}
 
-		const linkified = fn(textNode.textContent, options);
+		const linkified = fn(textNode.textContent!, options);
 		if (linkified.children.length > 0) { // Children are <a>
 			if (fn === linkifyIssues) {
 				// Enable native issue title fetch

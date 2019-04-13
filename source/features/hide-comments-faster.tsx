@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
+import {DelegateEvent} from 'types/delegate-it/types';
 import features from '../libs/features';
 
 function handleMenuOpening(event: DelegateEvent) {
