@@ -20,7 +20,7 @@ function newBranchFromIssue() {
 
 		createBranch(ownerName, repoName, slug, defaultBranchObject.sha)
 			.finally(() => {
-				window.location.href = `${ownerName}/${repoName}/tree/${slug}`
+				window.location.href = `/${ownerName}/${repoName}/tree/${slug}`
 			})
 
 	})()
