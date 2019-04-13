@@ -5,7 +5,14 @@ import {getUsername} from '../libs/utils';
 
 function init() {
 	const defaultQuery = 'is:open archived:false ';
-	const type = location.pathname === '/issues' ? ' is:issue' : ''; // Without this, the Issues page also displays PRs
+
+	// Without this, the Issues page also displays PRs, and viceversa
+	const types: { [path: string]: string } = {
+		'/issues': 'is:issue ',
+		'/pulls': 'is:pr '
+	};
+	const type = types[location.pathname] || '';
+
 	const links = [
 		['Commented', `commenter:${getUsername()}`],
 		['Yours', `user:${getUsername()}`]
@@ -13,7 +20,7 @@ function init() {
 
 	for (const [label, query] of links) {
 		// Create link
-		const url = new URLSearchParams([['q', defaultQuery + query + type]]);
+		const url = new URLSearchParams([['q', type + defaultQuery + query]]);
 		const link = <a href={`?${url}`} className="subnav-item">{label}</a>;
 
 		// Create regex for current query, including possible spaces around it
