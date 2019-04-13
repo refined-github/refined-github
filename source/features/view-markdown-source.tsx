@@ -37,10 +37,10 @@ async function showSource() {
 
 	document.dispatchEvent(new CustomEvent('pjax:start')); // Show loading bar
 
-	const source = sourceButton[linkedDom] || fetchSource();
-	const rendered = renderedButton[linkedDom] || select('.blob.instapaper_body');
-	sourceButton[linkedDom] = source;
-	renderedButton[linkedDom] = rendered;
+	const source = (sourceButton as any)[linkedDom] as Element || fetchSource();
+	const rendered = (renderedButton as any)[linkedDom] as Element || select('.blob.instapaper_body');
+	(sourceButton as any)[linkedDom] = source;
+	(renderedButton as any)[linkedDom] = rendered;
 
 	rendered.replaceWith(await source);
 
@@ -55,7 +55,7 @@ async function showRendered() {
 	const sourceButton = select('.rgh-md-source')!;
 	const renderedButton = select('.rgh-md-rendered')!;
 
-	(await sourceButton[linkedDom]).replaceWith(renderedButton[linkedDom]);
+	(await (sourceButton as any)[linkedDom]).replaceWith((renderedButton as any)[linkedDom]);
 
 	sourceButton.classList.remove('selected');
 	renderedButton.classList.add('selected');

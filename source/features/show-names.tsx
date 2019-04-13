@@ -37,7 +37,7 @@ async function init(): Promise<false | void> {
 
 	for (const usernameEl of usernameElements) {
 		const userKey = api.escapeKey(usernameEl.textContent!);
-		if (names[userKey]!.name) {
+		if (names[userKey].name) {
 			// If it's a regular comment author, add it outside <strong>
 			// otherwise it's something like "User added some commits"
 			const insertionPoint = usernameEl.parentElement!.tagName === 'STRONG' ? usernameEl.parentElement! : usernameEl;

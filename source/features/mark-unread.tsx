@@ -1,12 +1,13 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate, {DelegateSubscription, DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
 import {safeElementReady} from '../libs/dom-utils';
 import {getUsername, getOwnerAndRepo} from '../libs/utils';
+import { DelegateSubscription, DelegateEvent } from 'types/delegate-it/types';
 
 // TODO: Pull these types out.
 type NotificationType = 'pull-request' | 'issue';
@@ -60,7 +61,7 @@ function stripHash(url: string): string {
 function addMarkUnreadButton(): void {
 	if (!select.exists('.rgh-btn-mark-unread')) {
 		const button = <button className="btn btn-sm rgh-btn-mark-unread">Mark as unread</button>;
-		button!.addEventListener('click', markUnread, {
+		button.addEventListener('click', markUnread, {
 			once: true
 		});
 		select('.thread-subscription-status')!.after(button);
@@ -243,7 +244,7 @@ async function renderNotifications(unreadNotifications: Notification[]): Promise
 	// This is necessary in the "All notifications" view
 	for (const repo of select.all('.boxed-group').reverse()) {
 		if (select.exists('.unread', repo)) {
-			pageList!.prepend(repo);
+			pageList.prepend(repo);
 		}
 	}
 }
