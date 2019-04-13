@@ -32,7 +32,7 @@ export interface FetchOptions {
 	accept404: boolean;
 }
 
-export const v3 = (query: string, options?: FetchOptions) => call(fetch3, query, options);
+export const v3 = (query: any, options?: FetchOptions) => call(fetch3, query, options);
 export const v4 = (query: string, options?: FetchOptions) => call(fetch4, query, options);
 
 export const escapeKey = (value: string) => '_' + value.replace(/[./-]/g, '_');
@@ -51,16 +51,19 @@ const api4 = location.hostname === 'github.com' ?
 	'https://api.github.com/graphql' :
 	`${location.origin}/api/graphql`;
 
-function fetch3(query: string, personalToken: string) {
-	const headers: HeadersInit = {
+function fetch3(query, personalToken: string) {
+	const defaultOptions = {
 		'User-Agent': 'Refined GitHub',
 		Accept: 'application/vnd.github.v3+json'
 	};
+	const headers: HeadersInit = query.headers ? Object.assign(query.headers, defaultOptions) : defaultOptions;
+	const endpoint = query.query || query;
+
 	if (personalToken) {
-		headers.Authorization = `token ${personalToken}`;
+		headers["Authorization"] = `token ${personalToken}`;
 	}
 
-	return fetch(api3 + query, {headers});
+	return fetch(api3 + endpoint, {headers, method: query.method || 'GET', body: JSON.stringify(query.body)});
 }
 
 function fetch4(query: string, personalToken: string) {
@@ -88,7 +91,7 @@ async function call(fetch: FetchStrategy, query: string, options: FetchOptions =
 	const response = await fetch(query, personalToken as string);
 	const content = await response.text();
 
-	const result: { data?: AnyObject; errors?: Error[]; message?: string;status?: number} = content.length > 0 ? JSON.parse(content) : {status: response.status};
+	const result: { data?: AnyObject; errors?: Error[]; message?: string; status?: number } = content.length > 0 ? JSON.parse(content) : {status: response.status};
 	const {data, errors = [], message = ''} = result;
 
 	if (errors.length > 0) {
