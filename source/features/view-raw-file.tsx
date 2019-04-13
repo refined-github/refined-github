@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
-const createRawUrl = (href: string) => 'https://raw.githubusercontent.com' + href.replace(/blob\//, '');
+const createRawUrl = (href: string) => href.replace(/blob\//, 'raw/');
 
 function init() {
 	const fileActionsGroups: HTMLElement[] = select.all(
