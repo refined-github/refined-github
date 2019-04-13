@@ -7,7 +7,7 @@
 		"esModuleInterop": true,
 		"baseUrl": "./",
 		"paths": {
-			"delegate-it": ["./types/delegate-it.d.ts"]
+			"delegate-it": ["types/delegate-it/delegate-it.d.ts"]
 		}
 	},
 	"include": [
