@@ -2,26 +2,26 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
-const childList = { childList: true };
+const childList = {childList: true};
 
 const createRawUrl = (href: string): string => {
-	let url = href.split('/');
+	const url = href.split('/');
 	url[3] = 'raw'; // Replaces 'blob'
 	return url.join('/');
-}
+};
 
-const observer = new MutationObserver(([{ addedNodes }]) => {
+const observer = new MutationObserver(([{addedNodes}]) => {
 	for (const node of addedNodes) {
 		const element = node as Element;
 		if (element.tagName === 'DIV') {
 			if (element.className === 'js-diff-progressive-container') {
-				observer.observe(element, childList)
+				observer.observe(element, childList);
 			} else {
 				addRawBtn(element);
 			}
 		}
 	}
-})
+});
 
 function addRawBtn(node: Element) {
 	for (const link of select.all('.file-header .file-actions > div.BtnGroup [href*=\'/blob/\']', node)) {
