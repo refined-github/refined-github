@@ -262,4 +262,4 @@ Want more? Here are some ideas you could develop!
 
 ## License
 
-MIT
+[![License](https://img.shields.io/github/license/sindresorhus/refined-github.svg?logo=github)](https://github.com/sindresorhus/refined-github/blob/master/license)
