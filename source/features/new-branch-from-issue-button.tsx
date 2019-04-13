@@ -1,12 +1,11 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import slugify from 'slugify';
 import features from '../libs/features';
 
-import slugify from 'slugify';
-import {getOwnerAndRepo} from '../libs/utils'
-import {getDefaultBranchObject} from "../libs/get-default-branch-object";
-import {createBranch} from "../libs/create-branch";
-
+import {getOwnerAndRepo} from '../libs/utils';
+import {getDefaultBranchObject} from '../libs/get-default-branch-object';
+import {createBranch} from '../libs/create-branch';
 
 function getIssueName(): string {
 	return select('.js-issue-title').innerText;
@@ -20,14 +19,13 @@ function newBranchFromIssue() {
 
 		createBranch(ownerName, repoName, slug, defaultBranchObject.sha)
 			.finally(() => {
-				window.location.href = `/${ownerName}/${repoName}/tree/${slug}`
-			})
-
-	})()
+				window.location.href = `/${ownerName}/${repoName}/tree/${slug}`;
+			});
+	})();
 }
 
 function isAllowedToCreateBranch() {
-	return !!select.exists('.js-issue-sidebar-form button')
+	return Boolean(select.exists('.js-issue-sidebar-form button'));
 }
 
 function addNewBranchFromIssueButton() {
@@ -42,7 +40,7 @@ function addNewBranchFromIssueButton() {
 }
 
 async function init() {
-	addNewBranchFromIssueButton()
+	addNewBranchFromIssueButton();
 }
 
 features.add({

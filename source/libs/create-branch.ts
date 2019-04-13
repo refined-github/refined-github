@@ -1,4 +1,4 @@
-import * as api from "./api";
+import * as api from './api';
 
 export async function createBranch(ownerName, repoName, slug, branchFromThisSHA) {
 	await api.v3({

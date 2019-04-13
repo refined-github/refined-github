@@ -56,11 +56,11 @@ function fetch3(query, personalToken: string) {
 		'User-Agent': 'Refined GitHub',
 		Accept: 'application/vnd.github.v3+json'
 	};
-	const headers: HeadersInit = query.headers ? Object.assign(query.headers, defaultOptions) : defaultOptions;
+	const headers = query.headers ? Object.assign(query.headers, defaultOptions) : defaultOptions;
 	const endpoint = query.query || query;
 
 	if (personalToken) {
-		headers["Authorization"] = `token ${personalToken}`;
+		headers.Authorization = `token ${personalToken}`;
 	}
 
 	return fetch(api3 + endpoint, {headers, method: query.method || 'GET', body: JSON.stringify(query.body)});
