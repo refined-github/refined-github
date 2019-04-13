@@ -36,7 +36,7 @@ export const editTextNodes = (
 		if (linkified.children.length > 0) { // Children are <a>
 			if (fn === linkifyIssues) {
 				// Enable native issue title fetch
-				for (const link of linkified.children) {
+				for (const link of (linkified.children as HTMLCollectionOf<HTMLAnchorElement>)) {
 					const issue = link.href.split('/').pop();
 					link.setAttribute('class', 'issue-link js-issue-link tooltipped tooltipped-ne');
 					link.setAttribute('data-error-text', 'Failed to load issue title');
