@@ -16,7 +16,7 @@ function init() {
 		const url = new URLSearchParams([['q', defaultQuery + query + type]]);
 		const link = <a href={`?${url}`} className="subnav-item">{label}</a>;
 
-		// Create regex for current query, including possible spaces around it, to drop it in .replace()
+		// Create regex for current query, including possible spaces around it
 		const queryRegex = new RegExp(`(^|\\s)?${query}(\\s|$)?`);
 		const isCurrentPage = queryRegex.test(new URLSearchParams(location.search).get('q')!);
 
@@ -27,7 +27,7 @@ function init() {
 			// Other links will keep the current query, that's not what we want
 			for (const otherLink of select.all<HTMLAnchorElement>('.subnav-links a')) {
 				const search = new URLSearchParams(otherLink.search);
-				search.set('q', search.get('q')!.replace(queryRegex, ''));
+				search.set('q', search.get('q')!.split(' ').filter(s => s !== query).join(' '));
 				otherLink.search = String(search);
 			}
 		}
