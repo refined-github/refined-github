@@ -6,7 +6,7 @@ const createRawUrl = (href: string) => href.replace(/blob\//, 'raw/');
 
 function init() {
 	const fileActionsGroups: HTMLElement[] = select.all(
-		'.file-header .file-actions > .BtnGroup'
+		'.file-header .file-actions > div.BtnGroup'
 	);
 
 	for (const group of fileActionsGroups) {
