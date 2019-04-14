@@ -16,7 +16,7 @@ function init() {
 	}
 
 	const icon = select('.octicon-arrow-left')!;
-	(icon.parentElement!.attributes as any)['aria-label'].value += '.\nClick to swap.';
+	icon.parentElement!.attributes['aria-label'].value += '.\nClick to swap.';
 	wrap(icon, <a href={`/${getRepoURL()}/compare/${references.join('...')}`}></a>);
 }
 

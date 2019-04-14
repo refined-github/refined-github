@@ -79,3 +79,7 @@ declare namespace JSX {
 	}
 }
 
+// Fixes access to attributes via a string indexer.
+interface NamedNodeMap {
+		[key: string]: Attr;
+}
