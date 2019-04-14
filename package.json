@@ -1,6 +1,7 @@
 {
 	"private": true,
 	"scripts": {
+		"dev": "run-p watch start:firefox",
 		"lint": "run-p --silent lint:*",
 		"lint:js": "xo",
 		"lint:css": "stylelint source/*.css",
@@ -14,7 +15,8 @@
 		"release": "run-s build update-version save-url release:*",
 		"save-url": "echo https://github.com/$TRAVIS_REPO_SLUG/tree/$TRAVIS_COMMIT > distribution/SOURCE_URL",
 		"update-version": "VERSION=$(utc-version); echo $VERSION; dot-json distribution/manifest.json version $VERSION",
-		"can-release": "if [ \"$TRAVIS_EVENT_TYPE\" = cron ] && [ $(git rev-list -n 1 --since=\"26 hours ago\" master) ]; then echo :ship-it:; else false; fi"
+		"can-release": "if [ \"$TRAVIS_EVENT_TYPE\" = cron ] && [ $(git rev-list -n 1 --since=\"26 hours ago\" master) ]; then echo :ship-it:; else false; fi",
+		"start:firefox": "web-ext run --source-dir ./distribution --firefox-profile=default"
 	},
 	"dependencies": {
 		"copy-text-to-clipboard": "^2.0.0",
@@ -63,6 +65,7 @@
 		"ts-node": "^8.0.3",
 		"typescript": "^3.3.3333",
 		"utc-version": "^1.1.0",
+		"web-ext": "^3.0.0",
 		"web-ext-submit": "^3.0.0",
 		"webpack": "^4.29.6",
 		"webpack-cli": "^3.3.0",

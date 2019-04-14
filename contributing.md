@@ -83,7 +83,12 @@ When working on the extension or checking out branches, use this to have it cons
 npm run watch # Listen for file changes and automatically rebuild
 ```
 
-Then load or reload it into the browser to see the changes (this does not happen automatically).
+Then load or reload it into the browser to see the changes (this does not happen automatically). If you'd like
+it to occur automatically than install firefox and:
+
+```sh
+npm run dev
+```
 
 ## Loading into the browser
 
@@ -113,4 +118,5 @@ Once built, load it in the browser of your choice:
 	</tr>
 </table>
 
-Firefox offers a more advanced loading technique that includes auto-reloading in the browser as well. Check-out [`web-ext run`](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/web-ext_command_reference#web-ext_run).
+Firefox offers a more advanced loading technique that includes auto-reloading in the browser as well. Check-out [`web-ext run`](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/web-ext_command_reference#web-ext_run). The `dev` script in package.json already take responsobility for
+using this package.
