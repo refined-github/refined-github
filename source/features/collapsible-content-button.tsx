@@ -8,7 +8,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import insertText from 'insert-text-textarea';
-import {DelegateEvent} from 'types/delegate-it/types';
+import {DelegateEvent} from 'delegate-it/types';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 

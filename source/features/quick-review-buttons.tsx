@@ -27,7 +27,7 @@ function init(): false | void {
 	for (const radio of radios) {
 		const tooltip = radio.parentElement!.getAttribute('aria-label');
 
-		let classes = ['btn btn-sm'];
+		const classes = ['btn btn-sm'];
 		if (radio.value === 'approve') {
 			classes.push('btn-primary');
 		} else if (radio.value === 'reject') {
