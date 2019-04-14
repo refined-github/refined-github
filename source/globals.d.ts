@@ -1,13 +1,14 @@
 // TODO: Type anything that is of type AnyObject
 type AnyObject = Record<string, any>;
 
+// TODO: Move types to tiny-version-compare repo
 declare module 'tiny-version-compare' {
 	function compareVersions(versionA: string, versionB: string): number
 
 	export = compareVersions
 }
 
-// TODO: Create types in the https://github.com/sindresorhus/linkify-urls repository.
+// TODO: Move types to https://github.com/sindresorhus/linkify-urls repository.
 declare module 'linkify-urls' {
 	type Options = {
 		user: string;
@@ -25,7 +26,7 @@ declare module 'linkify-urls' {
 	export = linkifyUrls
 }
 
-// TODO: Create types in the https://github.com/sindresorhus/linkify-issues repository.
+// TODO: Move types to the https://github.com/sindresorhus/linkify-issues repository.
 declare module 'linkify-issues' {
 	type Options = {
 		user: string;
@@ -43,21 +44,23 @@ declare module 'linkify-issues' {
 	export = linkifyIssues
 }
 
+// TODO: Move types in intervalometer repo
 declare module 'intervalometer' {
 	function timerIntervalometer(callback: () => void, timeInMillis: number);
 }
 
-// TODO: Type for @bfre-it's repo or convert it to TS
+// TODO: Move to shorten-repo-url repo
 declare module 'shorten-repo-url' {
 	function applyToLink(anchor: HTMLAnchorElement, url: string): void;
 }
 
-// TODO: Types
+// TODO: Move to type-fest repo
 declare module 'type-fest' {
 	type JsonObject = Record<string, any>;
 }
 
-declare module 'github-reserved-names'; // TODO: PR types to that repo or DT
+// TODO: Move types to github-reserver-names repo
+declare module 'github-reserved-names';
 
 // Custom UI events specific to RGH
 interface GlobalEventHandlersEventMap {
@@ -65,16 +68,9 @@ interface GlobalEventHandlersEventMap {
 	'focusin': UIEvent;
 }
 
-// TODO: Add to dom-chef types
-// type AllElementsTagNameMap = SVGElementTagNameMap & HTMLElementTagNameMap & {
-// 	"has-rgh": any;
-// };
 declare namespace JSX {
 	type Element = SVGElement | HTMLElement;
 
-	// TODO: Get this working
-	// interface Element extends SVGElement {}
-	// interface IntrinsicElements extends AllElementsTagNameMap {
 	interface IntrinsicElements {
 		'include-fragment': {src: string};
 		'has-rgh': {};
