@@ -93,7 +93,8 @@
 			],
 			"@typescript-eslint/explicit-function-return-type": "off",
 			"@typescript-eslint/restrict-plus-operands": "off",
-			"@typescript-eslint/promise-function-async": "off"
+			"@typescript-eslint/promise-function-async": "off",
+			"import/no-unresolved": "warn"
 		},
 		"globals": [
 			"browser"
