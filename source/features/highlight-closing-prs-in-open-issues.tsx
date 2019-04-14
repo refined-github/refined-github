@@ -19,7 +19,7 @@ function add() {
 				<a
 					href={link}
 					className="btn btn-outline btn-sm border-blue rgh-closing-pr tooltipped tooltipped-se"
-					aria-label={infoBubble.getAttribute('aria-label')}>
+					aria-label={infoBubble.getAttribute('aria-label')!}>
 					{ref.matches('.issue-num') ? icons.openPullRequest() : icons.commit()}
 					{' ' + ref.textContent}
 				</a>
