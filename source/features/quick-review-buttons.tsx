@@ -2,11 +2,6 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
-const btnClassMap = {
-	approve: 'btn-primary',
-	reject: 'btn-danger'
-};
-
 function init(): false | void {
 	const form = select('[action$="/reviews"]')!;
 	const radios = select.all<HTMLInputElement>('[type="radio"][name="pull_request_review[event]"]', form);
@@ -32,11 +27,22 @@ function init(): false | void {
 	for (const radio of radios) {
 		const tooltip = radio.parentElement!.getAttribute('aria-label');
 
+		let classes = ['btn btn-sm'];
+		if (radio.value === 'approve') {
+			classes.push('btn-primary');
+		} else if (radio.value === 'reject') {
+			classes.push('btn-danger');
+		}
+
+		if (tooltip) {
+			classes.push('tooltipped tooltipped-nw tooltipped-no-delay');
+		}
+
 		container.append(
 			<button
 				name="pull_request_review[event]"
 				value={radio.value}
-				className={`btn btn-sm ${btnClassMap[radio.value] || ''} ${tooltip ? 'tooltipped tooltipped-nw tooltipped-no-delay' : ''}`}
+				className={classes.join(' ')}
 				aria-label={tooltip || undefined}
 				disabled={radio.disabled}>
 				{radio.nextSibling}
