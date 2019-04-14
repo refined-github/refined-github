@@ -90,6 +90,8 @@ it to occur automatically than install firefox and:
 npm run dev
 ```
 
+This will load default profile (browser settings), but it will not keep the changes if made in session launched with the script.
+
 ## Loading into the browser
 
 Once built, load it in the browser of your choice:
