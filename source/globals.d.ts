@@ -70,8 +70,6 @@ interface GlobalEventHandlersEventMap {
 // 	"has-rgh": any;
 // };
 declare namespace JSX {
-	type AllElementsTagNameMap = SVGElementTagNameMap & HTMLElementTagNameMap
-	type All = SVGElement | HTMLElement;
 	type Element = SVGElement | HTMLElement;
 
 	// TODO: Get this working

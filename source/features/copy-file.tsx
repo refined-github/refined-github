@@ -3,8 +3,8 @@ import select from 'select-dom';
 import copyToClipboard from 'copy-text-to-clipboard';
 import features from '../libs/features';
 
-function handleClick({target: button}: {target: HTMLButtonElement}) {
-	const file = button.closest('.Box');
+function handleClick({target: button}: React.MouseEvent<HTMLButtonElement>) {
+	const file = (button as HTMLButtonElement).closest('.Box');
 
 	const content = select.all('.blob-code-inner', file!)
 		.map(blob => blob.innerText) // Must be `.innerText`

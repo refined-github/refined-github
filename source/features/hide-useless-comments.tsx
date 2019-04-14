@@ -45,7 +45,7 @@ function init() {
 	}
 }
 
-function unhide(event: MouseEvent) {
+function unhide(event: React.MouseEvent<HTMLButtonElement>) {
 	for (const comment of select.all('.rgh-hidden-comment')) {
 		comment.hidden = false;
 	}
