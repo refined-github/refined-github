@@ -506,6 +506,12 @@ div.inline-comment-form .form-actions,
 	padding: 6px 9px;
 }
 
+/* Decrease the padding of filters dropdown in PR filters to accommodate new filter - Filter by build status */
+.table-list-filters .table-list-header-toggle .select-menu-button {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
 /* Expand issue search field width */
 .issues-listing .subnav,
 .issues-listing .subnav-search,
