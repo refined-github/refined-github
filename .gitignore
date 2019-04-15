@@ -1,5 +1,3 @@
 node_modules
 yarn.lock
 distribution
-
-pnpm-lock\.yaml
