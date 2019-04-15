@@ -2,12 +2,11 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import {checkInline} from '../libs/icons';
 import features from '../libs/features';
-import {getOwnerAndRepo} from '../libs/utils';
 
 function init() {
-	const filterAssignee = select('.table-list-filters > .table-list-header-toggle:last-child > details:nth-child(7)');
+	const filterAssignee = select('.table-list-header-toggle > details:nth-last-child(2)');
 
-	filterAssignee.parentNode.insertBefore(
+	filterAssignee.before(
 		<details class="details-reset details-overlay float-left select-menu">
 			<summary class="btn-link select-menu-button" aria-haspopup="menu">
 				Status&nbsp;
@@ -16,41 +15,41 @@ function init() {
 				<div class="select-menu-header">
 					<span class="select-menu-title">Filter by Status</span>
 				</div>
-				<div class="select-menu-list">
-					{getStatusDropDown()}
-				</div>
+				<div class="select-menu-list"></div>
 			</details-menu>
-		</details>,
-		filterAssignee
+		</details>
 	);
+
+	select('.table-list-header-toggle > details:nth-last-child(3)').addEventListener('toggle', populateDropDown, {once: true});
 }
 
-const getStatusDropDown = () => {
-	const {ownerName, repoName} = getOwnerAndRepo();
-	const baseUrl = `https://github.com/${ownerName}/${repoName}/pulls`;
+function populateDropDown() {
+	const dropDownItems = getStatusDropDownItems();
+	const menu = select('.table-list-header-toggle > details:nth-last-child(3) .select-menu-list');
 
+	for (const item of dropDownItems) {
+		menu.append(item);
+	}
+}
+
+const getStatusDropDownItems = () => {
 	const statusList = ['Success', 'Failure', 'Pending'];
 
-	let existingFilter = select<HTMLInputElement>('#js-issues-search').value
-		.trim()
-		.replace(/\s+/, ' ');
+	const searchParam = new URLSearchParams(location.search);
+	let queryString = searchParam.get('q') || 'is:pr is:open';
 
-	const [currentStatus = ''] = existingFilter.match(/(?<=status:)(success|failure|pending)/) || [];
+	const [currentStatus] = queryString.match(/(?<=status:)(success|failure|pending)/) || [undefined];
 
 	if (currentStatus) {
-		existingFilter = existingFilter.replace(/status:(success|failure|pending)/g, '').trim();
+		queryString = queryString.replace(/status:(success|failure|pending)/g, '').trim();
 	}
 
-	const encodedUrl = existingFilter.split(' ').map(str => encodeURIComponent(str)).join('+');
-
-	const existingUrl = `${baseUrl}?q=${encodedUrl}`;
-
 	return statusList.map(status => {
-		const isSelected = currentStatus.toLowerCase() === status.toLowerCase();
+		const isSelected = currentStatus ? currentStatus.toLowerCase() === status.toLowerCase() : false;
 
 		return (
 			<a
-				href={`${existingUrl}+status%3A${status.toLowerCase()}`}
+				href={`?${String(new URLSearchParams({q: queryString + ` status:${status.toLowerCase()}`}))}`}
 				class={`select-menu-item ${isSelected ? 'selected' : ''}`}
 				aria-checked={isSelected ? 'true' : 'false'}
 				role="menuitemradio"
@@ -64,7 +63,9 @@ const getStatusDropDown = () => {
 
 features.add({
 	id: 'filter-pr-by-build-status',
-	include: [features.isPRList],
+	include: [
+		features.isPRList
+	],
 	load: features.onAjaxedPages,
 	init
 });
