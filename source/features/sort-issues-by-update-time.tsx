@@ -29,8 +29,8 @@ function getDefaultQuery(link, search) {
 function init() {
 	// Get issues links that don't already have a specific sorting applied
 	for (const link of select.all<HTMLAnchorElement>(`
-		[href*="/issues"]:not([href*="sort%3A"]):not(.issues-reset-query),
-		[href*="/pulls" ]:not([href*="sort%3A"]):not(.issues-reset-query)
+		a[href*="/issues"]:not([href*="sort%3A"]):not(.issues-reset-query),
+		a[href*="/pulls" ]:not([href*="sort%3A"]):not(.issues-reset-query)
 	`)) {
 		// Pick only links to lists, not single issues
 		// + skip pagination links
