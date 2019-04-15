@@ -1,6 +1,6 @@
 import OptionsSync from 'webext-options-sync';
-import domainPermissionToggle from 'webext-domain-permission-toggle';
-import dynamicContentScripts from 'webext-dynamic-content-scripts';
+import * as domainPermissionToggle from 'webext-domain-permission-toggle';
+import * as dynamicContentScripts from 'webext-dynamic-content-scripts';
 import './libs/cache';
 
 // Define defaults
