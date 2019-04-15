@@ -7,6 +7,7 @@ import './features/hide-useless-newsfeed-events';
 import './features/more-dropdown';
 import './features/releases-tab';
 import './features/remove-projects-tab';
+import './features/remove-checks-tab';
 import './features/focus-confirmation-buttons';
 import './features/comment-fields-keyboard-shortcuts';
 import './features/hide-navigation-hover-highlight';
