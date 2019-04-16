@@ -83,3 +83,7 @@ declare namespace JSX {
 interface NamedNodeMap {
 		[key: string]: Attr;
 }
+
+interface Window {
+	select: typeof select;
+}
