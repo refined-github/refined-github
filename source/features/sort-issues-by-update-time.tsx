@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import features from '../libs/features';
 import {getUsername} from '../libs/utils';
-import { safeElementReady } from '../libs/dom-utils';
+import {safeElementReady} from '../libs/dom-utils';
 
 function getDefaultQuery(link, search) {
 	// Query-less URLs imply some queries.
