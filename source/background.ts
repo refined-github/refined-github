@@ -1,6 +1,6 @@
 import OptionsSync from 'webext-options-sync';
-import * as domainPermissionToggle from 'webext-domain-permission-toggle';
-import * as dynamicContentScripts from 'webext-dynamic-content-scripts';
+import { addContextMenu } from 'webext-domain-permission-toggle';
+import { addToFutureTabs } from 'webext-dynamic-content-scripts';
 import './libs/cache';
 
 // Define defaults
@@ -67,5 +67,5 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 });
 
 // GitHub Enterprise support
-dynamicContentScripts.addToFutureTabs();
-domainPermissionToggle.addContextMenu();
+addToFutureTabs();
+addContextMenu();
