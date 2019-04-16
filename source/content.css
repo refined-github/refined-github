@@ -752,7 +752,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 .rgh-recently-pushed-branches [data-url$='recently_touched_branches_list'] {
 	max-height: 42px; /* Only cover the actions when there are multiple branches + :hover */
 	position: absolute;
-	top: 0;
+	top: -17px;
 	right: 10px;
 	z-index: 32; /* Set z-index higher than ul.pagehead-actions */
 	white-space: nowrap;
@@ -773,6 +773,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	background: none;
 	border-color: currentColor;
 	border-radius: 5px;
+	background-color: #24292e;
 }
 .rgh-recently-pushed-branches .RecentBranches .btn {
 	width: 32px;
