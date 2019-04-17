@@ -54,11 +54,6 @@ declare module 'shorten-repo-url' {
 	function applyToLink(anchor: HTMLAnchorElement, url: string): void;
 }
 
-// TODO: Move to type-fest repo
-declare module 'type-fest' {
-	type JsonObject = Record<string, any>;
-}
-
 // TODO: Move types to github-reserver-names repo
 declare module 'github-reserved-names';
 
