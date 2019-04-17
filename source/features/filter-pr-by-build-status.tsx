@@ -4,7 +4,7 @@ import {checkInline} from '../libs/icons';
 import features from '../libs/features';
 
 function init() {
-	const statusFilter = select('.table-list-header-toggle > details:nth-last-child(3)')!.cloneNode(true) as HTMLDetailsElement;
+	const statusFilter = select<HTMLDetailsElement>('.table-list-header-toggle > details:nth-last-child(3)')!.cloneNode(true) as HTMLDetailsElement;
 
 	select('summary', statusFilter)!.textContent = 'Status\u00A0';
 	select('.select-menu-title', statusFilter)!.textContent = 'Filter by build status';
@@ -20,10 +20,10 @@ function populateDropDown() {
 	const searchParam = new URLSearchParams(location.search);
 	let queryString = searchParam.get('q') || '';
 
-	const [, currentStatus] = queryString.match(/status:(success|failure|pending)/) || ['', ''];
+	const [, currentStatus = ''] = queryString.match(/\bstatus:(success|failure|pending)\b/) || [];
 
 	if (currentStatus) {
-		queryString = queryString.replace(/status:(success|failure|pending)/g, '').trim();
+		queryString = queryString.replace(/\bstatus:(success|failure|pending)\b/g, '').trim();
 	}
 
 	select('.table-list-header-toggle > details:nth-last-child(3) .select-menu-list')!.append(...statusList.map(status => {
