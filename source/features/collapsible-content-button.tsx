@@ -51,7 +51,7 @@ function addContentToDetails(event: DelegateEvent<MouseEvent, HTMLButtonElement>
 		<details>
 		<summary>Details</summary>
 
-		${getSelection().toString()}
+		${getSelection()!.toString()}
 
 		</details>
 	`.replace(/(\n|\b)\t+/g, '$1').trim();
