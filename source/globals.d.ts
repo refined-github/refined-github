@@ -83,3 +83,15 @@ declare namespace JSX {
 interface NamedNodeMap {
 	[key: string]: Attr;
 }
+// TODO: add support for `class` in JSX
+// The following code works if it's inside the file with JSX, but here it breaks all JSX definitions.
+// The `namespace JSX`  merges fine because in react's types it's `global`, but `namespace React` isn't
+//
+// import React from 'dom-chef';
+// declare global {
+// 	namespace React {
+// 		interface DOMAttributes<T> {
+// 			class?: string;
+// 		}
+// 	}
+// }
