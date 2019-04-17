@@ -14,8 +14,8 @@ const observer = new MutationObserver(([{addedNodes}]) => {
 });
 
 function setRichDiff(node: Element) {
-	for (const fileHeader of select.all('.file-header[data-file-type=".svg"]', node)) {
-		select('[aria-label="Display the rich diff"]', fileHeader).click();
+	for (const fileHeader of select.all('.file-header[data-file-type=".svg"] [aria-label="Display the rich diff"]', node)) {
+		fileHeader.click();
 	}
 }
 
