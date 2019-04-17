@@ -11,20 +11,20 @@ async function init() {
 
 	const {ownerName, repoName} = getOwnerAndRepo();
 
-	select('.subnav').append(
-		<div class="rgh-tags-dropdown float-right d-flex flex-shrink-0 flex-items-center mb-3">
-			<details class="details-reset details-overlay select-menu branch-select-menu position-relative">
-				<summary class="btn select-menu-button css-truncate" data-hotkey="w" title="Find tags" aria-haspopup="menu">
+	return select('.subnav')!.append(
+		<div className="rgh-tags-dropdown float-right d-flex flex-shrink-0 flex-items-center mb-3">
+			<details className="details-reset details-overlay select-menu branch-select-menu position-relative">
+				<summary className="btn select-menu-button css-truncate" data-hotkey="w" title="Find tags" aria-haspopup="menu">
 					Select tag&nbsp;
 				</summary>
 				<details-menu
-					class="select-menu-modal position-absolute dropdown-menu-sw"
+					className="select-menu-modal position-absolute dropdown-menu-sw"
 					src={`/${ownerName}/${repoName}/ref-list/${getCurrentTag() || 'master'}?source_action=disambiguate&source_controller=files`}
 					preload
 					role="menu"
 					style={{zIndex: 99}}
 				>
-					<include-fragment class="select-menu-loading-overlay anim-pulse" onload={onFragmentLoaded}>
+					<include-fragment className="select-menu-loading-overlay anim-pulse" onLoad={onFragmentLoaded}>
 						{octoface()}
 					</include-fragment>
 				</details-menu>
@@ -41,7 +41,7 @@ function getCurrentTag() {
 // We’re reusing the Branch/Tag selector from the repo’s Code tab, so we need to update a few things
 function onFragmentLoaded() {
 	// Changes tab to Tags
-	select('.rgh-tags-dropdown .select-menu-tab:last-child button').click();
+	select('.rgh-tags-dropdown .select-menu-tab:last-child button')!.click();
 
 	// Change links (which point to the content of each tag) to open the tag page instead
 	for (const item of select.all<HTMLAnchorElement>('.rgh-tags-dropdown [href*="/tree/"]')) {
