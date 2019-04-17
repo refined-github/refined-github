@@ -81,9 +81,10 @@ declare namespace JSX {
 
 // Fixes access to attributes via a string indexer.
 interface NamedNodeMap {
-		[key: string]: Attr;
+	[key: string]: Attr;
 }
 
 interface Window {
-	select: typeof select;
+	// This is defined and it's found and things compile fine. Maybe an eslint/TS issue?
+	select: typeof select; // eslint-disable-line no-undef
 }
