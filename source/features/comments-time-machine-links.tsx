@@ -26,8 +26,8 @@ function init() {
 		);
 
 		const links = select.all<HTMLAnchorElement>(`
-			[href^="${location.origin}"][href*="/blob/"],
-			[href^="${location.origin}"][href*="/tree/"]
+			[href^="${location.origin}"][href*="/blob/"]:not(.rgh-linkified-code),
+			[href^="${location.origin}"][href*="/tree/"]:not(.rgh-linkified-code)
 		`, comment.closest('.comment')!);
 		for (const link of links) {
 			const linkParts = link.pathname.split('/');
