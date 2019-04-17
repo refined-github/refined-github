@@ -2,21 +2,16 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
-const btnClassMap = {
-	approve: 'btn-primary',
-	reject: 'btn-danger'
-};
-
-function init() {
-	const form = select('[action$="/reviews"]');
+function init(): false | void {
+	const form = select('[action$="/reviews"]')!;
 	const radios = select.all<HTMLInputElement>('[type="radio"][name="pull_request_review[event]"]', form);
 
 	if (radios.length === 0) {
 		return false;
 	}
 
-	const submitButton = select<HTMLInputElement>('[type="submit"]', form);
-	const container = select('.form-actions', form);
+	const submitButton = select<HTMLInputElement>('[type="submit"]', form)!;
+	const container = select('.form-actions', form)!;
 
 	// Set the default action for cmd+enter to Comment
 	if (radios.length > 1) {
@@ -30,14 +25,25 @@ function init() {
 
 	// Generate the new buttons
 	for (const radio of radios) {
-		const tooltip = radio.parentElement.getAttribute('aria-label');
+		const tooltip = radio.parentElement!.getAttribute('aria-label');
+
+		const classes = ['btn btn-sm'];
+		if (radio.value === 'approve') {
+			classes.push('btn-primary');
+		} else if (radio.value === 'reject') {
+			classes.push('btn-danger');
+		}
+
+		if (tooltip) {
+			classes.push('tooltipped tooltipped-nw tooltipped-no-delay');
+		}
 
 		container.append(
 			<button
 				name="pull_request_review[event]"
 				value={radio.value}
-				class={`btn btn-sm ${btnClassMap[radio.value] || ''} ${tooltip ? 'tooltipped tooltipped-nw tooltipped-no-delay' : ''}`}
-				aria-label={tooltip || false}
+				className={classes.join(' ')}
+				aria-label={tooltip || undefined}
 				disabled={radio.disabled}>
 				{radio.nextSibling}
 			</button>
@@ -46,7 +52,7 @@ function init() {
 
 	// Comment button must be last; cancel button must be first
 	if (radios.length > 1) {
-		container.append(select('button[value="comment"]', form));
+		container.append(select('button[value="comment"]', form)!);
 		const cancelReview = select('.review-cancel-button', form);
 		if (cancelReview) {
 			cancelReview.classList.add('float-left');
@@ -56,7 +62,7 @@ function init() {
 
 	// Remove original fields at last to avoid leaving a broken form
 	for (const radio of radios) {
-		radio.closest('.form-checkbox').remove();
+		radio.closest('.form-checkbox')!.remove();
 	}
 
 	submitButton.remove();

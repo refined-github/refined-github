@@ -10,16 +10,16 @@ function add() {
 		[aria-label*="will close once"]
 	`)) {
 		const ref = infoBubble
-			.closest('.discussion-item')
-			.querySelector('.issue-num, .commit-id');
+			.closest('.discussion-item')!
+			.querySelector('.issue-num, .commit-id')!;
 		const link = (ref.closest('[href]') as HTMLAnchorElement).href;
 
-		select('.gh-header-meta .TableObject-item').after(
-			<div class="TableObject-item">
+		select('.gh-header-meta .TableObject-item')!.after(
+			<div className="TableObject-item">
 				<a
 					href={link}
-					class="btn btn-outline btn-sm border-blue rgh-closing-pr tooltipped tooltipped-se"
-					aria-label={infoBubble.getAttribute('aria-label')}>
+					className="btn btn-outline btn-sm border-blue rgh-closing-pr tooltipped tooltipped-se"
+					aria-label={infoBubble.getAttribute('aria-label')!}>
 					{ref.matches('.issue-num') ? icons.openPullRequest() : icons.commit()}
 					{' ' + ref.textContent}
 				</a>

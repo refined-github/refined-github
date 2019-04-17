@@ -8,15 +8,15 @@ function init() {
 	const comments = select.all('.timeline-comment-header:not(.rgh-timestamp-tree-link)');
 
 	for (const comment of comments) {
-		const timestampEl = select('relative-time', comment.closest('.discussion-item-review') || comment);
-		const timestamp = timestampEl.attributes['datetime'].value; // eslint-disable-line dot-notation
+		const timestampEl = select('relative-time', comment.closest('.discussion-item-review') || comment)!;
+		const timestamp = timestampEl.attributes.datetime.value;
 		const href = `/${getRepoURL()}/tree/HEAD@{${timestamp}}`;
 
-		timestampEl.parentElement.after(
+		timestampEl.parentElement!.after(
 			' ',
 			<a
 				href={href}
-				class="timeline-comment-action btn-link rgh-timestamp-button tooltipped tooltipped-n"
+				className="timeline-comment-action btn-link rgh-timestamp-button tooltipped tooltipped-n"
 				aria-label="View repo at the time of this comment"
 			>
 				{icons.code()}

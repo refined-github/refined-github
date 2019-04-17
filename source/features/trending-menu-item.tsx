@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import features from '../libs/features';
 import {safeElementReady} from '../libs/dom-utils';
 
-async function init() {
+async function init(): Promise<false | void> {
 	const exploreLink = await safeElementReady('.Header-link[href="/explore"]');
 	if (!exploreLink) {
 		return false;
