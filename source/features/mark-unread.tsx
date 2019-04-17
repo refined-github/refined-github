@@ -10,8 +10,7 @@ import {getUsername, getOwnerAndRepo} from '../libs/utils';
 
 // TODO: Pull these types out.
 type NotificationType = 'pull-request' | 'issue';
-type IssueNotificationState = 'open' | 'closed';
-type NotificationState = IssueNotificationState | 'merged'
+type NotificationState = 'open' | 'merged' | 'closed';
 
 interface Participant {
 	username: string;
@@ -31,13 +30,7 @@ interface Notification {
 }
 
 const listeners: DelegateSubscription[] = [];
-
-type StateIcons = {
-	issue: Record<IssueNotificationState, () => JSX.Element>;
-	'pull-request': Record<NotificationState, () => JSX.Element>;
-}
-
-const stateIcons: StateIcons = {
+const stateIcons = {
 	issue: {
 		open: icons.openIssue,
 		closed: icons.closedIssue
@@ -164,13 +157,11 @@ function getNotification(notification: Notification): Element {
 		</a>
 	);
 
-	const renderIcon = type === 'issue' ? stateIcons.issue[state as IssueNotificationState] : stateIcons['pull-request'][state];
-
 	return (
 		<li className={`list-group-item js-notification js-navigation-item unread ${type}-notification rgh-unread`}>
 			<span className="list-group-item-name css-truncate">
 				<span className={`type-icon type-icon-state-${state}`}>
-					{renderIcon()}
+					{stateIcons[type][state]()}
 				</span>
 				<a className="css-truncate-target js-notification-target js-navigation-open list-group-item-link" href={url}>
 					{title}
