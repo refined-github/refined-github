@@ -10,7 +10,7 @@ import fetchDom from '../libs/fetch-dom';
 import * as icons from '../libs/icons';
 import {blurAccessibly} from './comment-fields-keyboard-shortcuts';
 
-const rghButtons = new WeakMap<Element, Element>();
+const btnBodyMap = new WeakMap<Element, Element | Promise<Element>>();
 
 async function fetchSource() {
 	const path = location.pathname.replace(/([^/]+\/[^/]+\/)(blob)/, '$1blame');
@@ -37,13 +37,13 @@ async function showSource() {
 
 	document.dispatchEvent(new CustomEvent('pjax:start')); // Show loading bar
 
-	const source = rghButtons.get(sourceButton) || await fetchSource();
-	const rendered = rghButtons.get(renderedButton) || select('.blob.instapaper_body')!;
+	const source = btnBodyMap.get(sourceButton) || fetchSource();
+	const rendered = btnBodyMap.get(renderedButton) as Element || select('.blob.instapaper_body')!;
 
-	rghButtons.set(sourceButton, source);
-	rghButtons.set(renderedButton, rendered);
+	btnBodyMap.set(sourceButton, source);
+	btnBodyMap.set(renderedButton, rendered);
 
-	rendered.replaceWith(source);
+	rendered.replaceWith(await source);
 
 	document.dispatchEvent(new CustomEvent('pjax:end')); // Hide loading bar
 
@@ -56,7 +56,7 @@ async function showRendered() {
 	const sourceButton = select('.rgh-md-source')!;
 	const renderedButton = select('.rgh-md-rendered')!;
 
-	rghButtons.get(sourceButton)!.replaceWith(rghButtons.get(renderedButton)!);
+	(await btnBodyMap.get(sourceButton))!.replaceWith(btnBodyMap.get(renderedButton) as Element);
 
 	sourceButton.classList.remove('selected');
 	renderedButton.classList.add('selected');
