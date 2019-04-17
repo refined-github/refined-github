@@ -33,7 +33,8 @@ const listeners: DelegateSubscription[] = [];
 const stateIcons = {
 	issue: {
 		open: icons.openIssue,
-		closed: icons.closedIssue
+		closed: icons.closedIssue,
+		merged: icons.closedIssue // Required just for TypeScript
 	},
 	'pull-request': {
 		open: icons.openPullRequest,
