@@ -1,6 +1,6 @@
 import OptionsSync from 'webext-options-sync';
-import { addContextMenu } from 'webext-domain-permission-toggle';
-import { addToFutureTabs } from 'webext-dynamic-content-scripts';
+import {addContextMenu} from 'webext-domain-permission-toggle';
+import {addToFutureTabs} from 'webext-dynamic-content-scripts';
 import './libs/cache';
 
 // Define defaults
