@@ -20,19 +20,27 @@ const observer = new MutationObserver(([{addedNodes}]) => {
 	}
 });
 
-function addRawBtn(node: Element) {
-	for (const link of select.all('.file-header .file-actions > div.BtnGroup [href*=\'/blob/\']', node)) {
-		link.after(
-			<a href={createRawUrl(link.getAttribute('href'))} class="btn btn-sm BtnGroup-item">
-				Raw
-			</a>
-		);
+function addRawBtn(node: Element | null) {
+	if (node) {
+		for (const link of select.all('.file-header .file-actions > div.BtnGroup [href*=\'/blob/\']', node)) {
+			const href = link.getAttribute('href');
+			if (href) {
+				link.after(
+					<a href={createRawUrl(href)} className="btn btn-sm BtnGroup-item">
+						Raw
+					</a>
+				);
+			}
+		}
 	}
 }
 
 function init() {
 	addRawBtn(select('.js-diff-progressive-container:first-child'));
-	observer.observe(select('.js-diff-progressive-container:last-child'), {childList: true});
+	const lastProgressiveContainer = select('.js-diff-progressive-container:last-child');
+	if (lastProgressiveContainer) {
+		observer.observe(lastProgressiveContainer, {childList: true});
+	}
 }
 
 features.add({
