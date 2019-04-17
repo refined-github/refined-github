@@ -1,3 +1,9 @@
+/**
+ * To find release notes, release artifacts for any particular tag quickly by selecting the
+ * tag from the dropdown.
+ *
+ * See it in action at https://github.com/sindresorhus/refined-github/releases
+ */
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
