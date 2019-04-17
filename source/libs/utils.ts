@@ -2,7 +2,7 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import {isRepo, isPR, isIssue} from './page-detect';
 
-export const getUsername = onetime(() => select('meta[name="user-login"]').getAttribute('content'));
+export const getUsername = onetime(() => select('meta[name="user-login"]')!.getAttribute('content') as string);
 
 export const getDiscussionNumber = () => (isPR() || isIssue()) && getCleanPathname().split('/')[3];
 
@@ -37,8 +37,9 @@ export const getOwnerAndRepo = () => {
 	return {ownerName, repoName};
 };
 
-export const groupBy = (iterable, grouper) => {
-	const map = {};
+export const groupBy = (iterable: Iterable<string>, grouper: (item: string) => string) => {
+	const map: Record<string, string[]> = {};
+
 	for (const item of iterable) {
 		const key = grouper(item);
 		map[key] = map[key] || [];
@@ -51,7 +52,7 @@ export const groupBy = (iterable, grouper) => {
 // Concats arrays but does so like a zipper instead of appending them
 // [[0, 1, 2], [0, 1]] => [0, 0, 1, 1, 2]
 // Like lodash.zip
-export const flatZip = (table, limit = Infinity) => {
+export const flatZip = <T>(table: T[][], limit = Infinity) => {
 	const maxColumns = Math.max(...table.map(row => row.length));
 	const zipped = [];
 	for (let col = 0; col < maxColumns; col++) {
@@ -71,9 +72,9 @@ export const flatZip = (table, limit = Infinity) => {
 export function getOP(): string {
 	if (isPR()) {
 		const titleRegex = /^(.+) by (\S+) · Pull Request #(\d+)/;
-		const match = titleRegex.exec(document.title);
+		const match = titleRegex.exec(document.title)!;
 		return match && match[2];
 	}
 
-	return select('.timeline-comment-header-text .author').textContent;
+	return select('.timeline-comment-header-text .author')!.textContent!;
 }

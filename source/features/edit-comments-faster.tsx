@@ -11,7 +11,7 @@ function init() {
 		const button = item.cloneNode() as HTMLButtonElement;
 		button.append(icons.edit());
 		button.classList.replace('dropdown-item', 'timeline-comment-action');
-		item.closest('details').before(button);
+		item.closest('details')!.before(button);
 	}
 }
 

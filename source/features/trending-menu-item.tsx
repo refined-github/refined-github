@@ -2,13 +2,13 @@ import React from 'dom-chef';
 import features from '../libs/features';
 import {safeElementReady} from '../libs/dom-utils';
 
-async function init() {
+async function init(): Promise<false | void> {
 	const exploreLink = await safeElementReady('.HeaderNavlink[href="/explore"]');
 	if (!exploreLink) {
 		return false;
 	}
 
-	exploreLink.parentElement.before(
+	exploreLink.parentElement!.before(
 		<li>
 			<a href="/trending" className={exploreLink.className} data-hotkey="g t">Trending</a>
 		</li>
