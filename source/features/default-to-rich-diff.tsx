@@ -13,15 +13,20 @@ const observer = new MutationObserver(([{addedNodes}]) => {
 	}
 });
 
-function setRichDiff(node: Element) {
-	for (const fileHeader of select.all('.file-header[data-file-type=".svg"] [aria-label="Display the rich diff"]', node)) {
-		fileHeader.click();
+function setRichDiff(node: Element | null) {
+	if (node) {
+		for (const fileHeader of select.all('.file-header[data-file-type=".svg"] [aria-label="Display the rich diff"]', node)) {
+			fileHeader.click();
+		}
 	}
 }
 
 function init() {
 	setRichDiff(select('.js-diff-progressive-container:first-child'));
-	observer.observe(select('.js-diff-progressive-container:last-child'), {childList: true});
+	const lastProgressiveContainer = select('.js-diff-progressive-container:last-child');
+	if (lastProgressiveContainer) {
+		observer.observe(lastProgressiveContainer, { childList: true });
+	}
 }
 
 features.add({
