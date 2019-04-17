@@ -60,11 +60,11 @@ function stripHash(url: string): string {
 
 function addMarkUnreadButton(): void {
 	if (!select.exists('.rgh-btn-mark-unread')) {
-		const button = <button className="btn btn-sm rgh-btn-mark-unread">Mark as unread</button>;
-		button.addEventListener('click', markUnread, {
-			once: true
-		});
-		select('.thread-subscription-status')!.after(button);
+		select('.thread-subscription-status')!.after(
+			<button className="btn btn-sm rgh-btn-mark-unread" onClick={markUnread}>
+				Mark as unread
+			</button>
+		);
 	}
 }
 
@@ -86,7 +86,7 @@ async function markRead(urls: string|string[]): Promise<void> {
 	await setNotifications(updated);
 }
 
-async function markUnread({target}: Event): Promise<void> {
+async function markUnread({target}: React.MouseEvent): Promise<void> {
 	const participants: Participant[] = select.all('.participant-avatar').slice(0, 3).map(el => ({
 		username: el.getAttribute('aria-label')!,
 		avatar: el.querySelector('img')!.src
@@ -227,7 +227,7 @@ async function renderNotifications(unreadNotifications: Notification[]): Promise
 
 	if (!pageList) {
 		pageList = <div className="notifications-list"></div>;
-		select('.blankslate')!.replaceWith(pageList as HTMLElement);
+		select('.blankslate')!.replaceWith(pageList);
 	}
 
 	unreadNotifications.reverse().forEach(notification => {
