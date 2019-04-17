@@ -8,16 +8,16 @@ import {groupButtons} from '../libs/group-buttons';
 const confirmationRequiredCount = 10;
 const unreadNotificationsClass = '.unread .js-notification-target';
 
-function openNotifications({target}) {
+function openNotifications({target}: Event) {
 	// Homemade delegate event, simplifies addEventListener deduplication
-	if (!target.closest('.rgh-open-notifications-button')) {
+	if (!(target as Element).closest('.rgh-open-notifications-button')) {
 		return;
 	}
 
-	const container = target.closest('.boxed-group, .notification-center');
+	const container = (target as Element).closest('.boxed-group, .notification-center');
 
 	// Ask for confirmation
-	const unreadNotifications = select.all<HTMLAnchorElement>(unreadNotificationsClass, container);
+	const unreadNotifications = select.all<HTMLAnchorElement>(unreadNotificationsClass, container!);
 	if (
 		unreadNotifications.length >= confirmationRequiredCount &&
 		!confirm(`This will open ${unreadNotifications.length} new tabs. Continue?`)
@@ -31,7 +31,7 @@ function openNotifications({target}) {
 	});
 
 	// Mark all as read
-	for (const notification of select.all('.unread', container)) {
+	for (const notification of select.all('.unread', container!)) {
 		notification.classList.replace('unread', 'read');
 	}
 
@@ -41,7 +41,7 @@ function openNotifications({target}) {
 		.open-repo-notifications,
 		.mark-all-as-read,
 		[href='#mark_as_read_confirm_box']
-	`, container)) {
+	`, container!)) {
 		button.remove();
 	}
 }
@@ -57,10 +57,10 @@ function addOpenReposButton() {
 			continue;
 		}
 
-		const [, repo] = select<HTMLAnchorElement>('.notifications-repo-link', repoNotifications).title.split('/');
+		const [, repo] = select<HTMLAnchorElement>('.notifications-repo-link', repoNotifications)!.title.split('/');
 
-		select('.mark-all-as-read', repoNotifications).before(
-			<button type="button" class="open-repo-notifications tooltipped tooltipped-w rgh-open-notifications-button" aria-label={`Open all unread \`${repo}\` notifications in tabs`}>
+		select('.mark-all-as-read', repoNotifications)!.before(
+			<button type="button" className="open-repo-notifications tooltipped tooltipped-w rgh-open-notifications-button" aria-label={`Open all unread \`${repo}\` notifications in tabs`}>
 				{icons.externalLink()}
 			</button>
 		);
@@ -73,16 +73,16 @@ function addOpenAllButton() {
 		document.body.append(select('#mark_as_read_confirm_box') || '');
 
 		// Create an open button and add it into a button group
-		const button = <button class="btn btn-sm rgh-open-notifications-button">Open all unread in tabs</button>;
-		select('.tabnav .float-right').prepend(button);
-		groupButtons([button, button.nextElementSibling]);
+		const button = <button className="btn btn-sm rgh-open-notifications-button">Open all unread in tabs</button>;
+		select('.tabnav .float-right')!.prepend(button);
+		groupButtons([button, button.nextElementSibling!]);
 	}
 }
 
-function update() {
+function update(): void {
 	const unreadCount = select.all(unreadNotificationsClass).length;
 	if (unreadCount === 0) {
-		return false;
+		return;
 	}
 
 	addOpenAllButton();

@@ -7,7 +7,7 @@ function init() {
 	if (buttonGroup) {
 		buttonGroup.prepend(
 			<a
-				class="btn btn-sm BtnGroup-item"
+				className="btn btn-sm BtnGroup-item"
 				href={`https://download-directory.github.io/?url=${location.href}`}>
 				Download
 			</a>

@@ -10,7 +10,7 @@ function createDiffStyleToggle() {
 		'.table-of-contents .selected[href$=unified]' // Link in single commit
 	].join());
 
-	const makeLink = (type, icon, selected) => {
+	const makeLink = (type: string, icon: Element, selected: boolean) => {
 		params.set('diff', type);
 		return <a
 			className={`btn btn-sm BtnGroup-item tooltipped tooltipped-s ${selected ? 'selected' : ''}`}
@@ -46,7 +46,7 @@ function createWhitespaceButton() {
 	);
 }
 
-function wrap(...elements) {
+function wrap(...elements: Element[]) {
 	if (features.isSingleCommit()) {
 		return <div className="float-right">
 			{...elements.map(element => <div className="ml-3 BtnGroup">{element}</div>)}
@@ -56,7 +56,7 @@ function wrap(...elements) {
 	return <>{elements.map(element => <div className="diffbar-item">{element}</div>)}</>;
 }
 
-function init() {
+function init(): false | void {
 	const container = select([
 		'.table-of-contents.Details .BtnGroup', // In single commit view
 		'.pr-review-tools > .diffbar-item' // In review view
@@ -76,7 +76,7 @@ function init() {
 	// Make space for the new button by removing "Changes from" #655
 	const uselessCopy = select('[data-hotkey="c"]');
 	if (uselessCopy) {
-		uselessCopy.firstChild.remove();
+		uselessCopy.firstChild!.remove();
 	}
 }
 
