@@ -38,15 +38,15 @@ function getCurrentTag() {
 	return tag;
 }
 
-// We’re reusing the Branch/Tag selector from the repo’s Code tab, so we need to update a few things
+// We're reusing the Branch/Tag selector from the repo's Code tab, so we need to update a few things
 function onFragmentLoaded() {
-	// Changes tab to Tags
+	// Change the tab to "Tags"
 	select('.rgh-tags-dropdown .select-menu-tab:last-child button')!.click();
 
-	// Change links (which point to the content of each tag) to open the tag page instead
+	// Change links, which point to the content of each tag, to open the tag page instead
 	for (const item of select.all<HTMLAnchorElement>('.rgh-tags-dropdown [href*="/tree/"]')) {
 		const arr = item.pathname.split('/');
-		arr[3] = 'releases/tag'; // Replace "tree"
+		arr[3] = 'releases/tag'; // Replace `tree`
 		item.pathname = arr.join('/');
 	}
 }
