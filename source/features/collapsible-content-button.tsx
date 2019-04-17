@@ -6,9 +6,8 @@ https://user-images.githubusercontent.com/1402241/53678019-0c721280-3cf4-11e9-9c
 
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
+import delegate, {DelegateEvent} from 'delegate-it';
 import insertText from 'insert-text-textarea';
-import {DelegateEvent} from 'delegate-it/types';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 

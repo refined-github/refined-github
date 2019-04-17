@@ -2,13 +2,7 @@
 	"extends": "@sindresorhus/tsconfig",
 	"compilerOptions": {
 		"target": "esnext",
-		"noEmit": false,
-		"declaration": false,
-		"baseUrl": "./",
-		"paths": {
-			"delegate-it": ["types/delegate-it/delegate-it.d.ts"],
-			"delegate-it/types": ["types/delegate-it/types.d.ts"]
-		}
+		"declaration": false
 	},
 	"include": [
 		"source"
