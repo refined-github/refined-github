@@ -67,7 +67,8 @@ declare namespace JSX {
 	type Element = SVGElement | HTMLElement;
 
 	interface IntrinsicElements {
-		'include-fragment': {src: string};
+		'include-fragment': {src?: string} & React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>
+		'details-menu': {src: string, preload: boolean} & React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>
 		'has-rgh': {};
 		'relative-time': {datetime: string; title: string};
 		'details-dialog': any;
