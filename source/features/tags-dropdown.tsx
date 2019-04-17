@@ -19,7 +19,7 @@ async function init() {
 				</summary>
 				<details-menu
 					className="select-menu-modal position-absolute dropdown-menu-sw"
-					src={`/${ownerName}/${repoName}/ref-list/${getCurrentTag() || 'master'}?source_action=disambiguate&source_controller=files`}
+					src={`/${ownerName}/${repoName}/ref-list/master?source_action=disambiguate&source_controller=files`}
 					preload
 					role="menu"
 					style={{zIndex: 99}}
@@ -33,21 +33,16 @@ async function init() {
 	);
 }
 
-function getCurrentTag() {
-	const [tag] = location.href.match(/(?<=\/releases\/tag\/)([^/]+)/) || [undefined];
-	return tag;
-}
-
-// We're reusing the Branch/Tag selector from the repo's Code tab, so we need to update a few things
+// We’re reusing the Branch/Tag selector from the repo’s Code tab, so we need to update a few things
 function onFragmentLoaded() {
-	// Change the tab to "Tags"
+	// Change the tab to Tags
 	select('.rgh-tags-dropdown .select-menu-tab:last-child button')!.click();
 
-	// Change links, which point to the content of each tag, to open the tag page instead
-	for (const item of select.all<HTMLAnchorElement>('.rgh-tags-dropdown [href*="/tree/"]')) {
-		const arr = item.pathname.split('/');
-		arr[3] = 'releases/tag'; // Replace `tree`
-		item.pathname = arr.join('/');
+	// Change links (which point to the content of each tag) to open the tag page instead
+	for (const anchorElement of select.all<HTMLAnchorElement>('.rgh-tags-dropdown [href*="/tree/"]')) {
+		const splitPathName = anchorElement.pathname.split('/');
+		splitPathName[3] = 'releases/tag'; // Replace "tree"
+		anchorElement.pathname = splitPathName.join('/');
 	}
 }
 
