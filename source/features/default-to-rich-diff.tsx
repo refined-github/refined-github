@@ -25,7 +25,7 @@ function init() {
 	setRichDiff(select('.js-diff-progressive-container:first-child'));
 	const lastProgressiveContainer = select('.js-diff-progressive-container:last-child');
 	if (lastProgressiveContainer) {
-		observer.observe(lastProgressiveContainer, { childList: true });
+		observer.observe(lastProgressiveContainer, {childList: true});
 	}
 }
 
