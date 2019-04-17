@@ -28,7 +28,7 @@ function init() {
 		const links = select.all<HTMLAnchorElement>(`
 			[href^="${location.origin}"][href*="/blob/"],
 			[href^="${location.origin}"][href*="/tree/"]
-		`, comment.closest('.comment'));
+		`, comment.closest('.comment')!);
 		for (const link of links) {
 			const linkParts = link.pathname.split('/');
 			// Skip permalinks
@@ -41,7 +41,7 @@ function init() {
 				' ',
 				<a
 					href={linkParts.join('/')}
-					class="muted-link tooltipped tooltipped-n"
+					className="muted-link tooltipped tooltipped-n"
 					aria-label={`View default branch ${humanDate}`}
 				>
 					{icons.clock()}
