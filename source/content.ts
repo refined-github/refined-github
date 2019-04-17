@@ -95,4 +95,4 @@ import './features/resolve-conflicts';
 import './features/follow-file-renames';
 
 // Add global for easier debugging
-window.select = select;
+(window as any).select = select;

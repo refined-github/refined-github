@@ -83,8 +83,3 @@ declare namespace JSX {
 interface NamedNodeMap {
 	[key: string]: Attr;
 }
-
-interface Window {
-	// This is defined and it's found and things compile fine. Maybe an eslint/TS issue?
-	select: typeof select; // eslint-disable-line no-undef
-}
