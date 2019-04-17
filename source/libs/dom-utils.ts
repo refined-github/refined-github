@@ -40,7 +40,7 @@ export const safeElementReady = (selector: string) => {
  */
 export const appendBefore = (parent: string|Element, before: string, child: Element) => {
 	if (typeof parent === 'string') {
-		parent = select(parent);
+		parent = select(parent)!;
 	}
 
 	// Select direct children only

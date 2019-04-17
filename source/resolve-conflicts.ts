@@ -29,9 +29,9 @@ editor.on('changes', (_, [firstChange]) => {
 function getLineNumber(lineChild: Element) {
 	return Number(
 		lineChild
-			.closest('.CodeMirror-gutter-wrapper, .CodeMirror-linewidget')
-			.parentElement
-			.querySelector('.CodeMirror-linenumber')
+			.closest('.CodeMirror-gutter-wrapper, .CodeMirror-linewidget')!
+			.parentElement!
+			.querySelector('.CodeMirror-linenumber')!
 			.textContent
 	) - 1;
 }
@@ -66,7 +66,7 @@ function addWidget() {
 	});
 }
 
-function createButton(branch, title?: string) {
+function createButton(branch: string, title?: string) {
 	const link = document.createElement('button');
 	link.type = 'button';
 	link.className = 'btn-link';
@@ -95,7 +95,7 @@ function newWidget() {
 function acceptBranch(branch: string, line: number) {
 	let deleteNextLine = false;
 
-	const linesToRemove = [];
+	const linesToRemove: number[] = [];
 	editor.eachLine(line, Infinity, lineHandle => {
 		// Determine whether to remove the following line(s)
 		if (lineHandle.text.startsWith('<<<<<<<')) {
@@ -109,9 +109,7 @@ function acceptBranch(branch: string, line: number) {
 			linesToRemove.push(lineHandle.lineNo());
 		}
 
-		if (lineHandle.text.startsWith('>>>>>>>')) {
-			return true; // End loop
-		}
+		return lineHandle.text.startsWith('>>>>>>>'); // `true` ends loop
 	});
 
 	// Delete all lines at once in a performant way

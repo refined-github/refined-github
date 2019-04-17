@@ -13,19 +13,19 @@ import {getRepoURL} from '../libs/utils';
 
 const repoUrl = getRepoURL();
 
-async function init() {
+async function init(): Promise<false | void> {
 	const fragmentURL = `/${repoUrl}/show_partial?partial=tree%2Frecently_touched_branches_list`;
 	if (select.exists(`[data-url='${fragmentURL}'], [src='${fragmentURL}']`)) {
 		return false;
 	}
 
-	const codeTabURL = select<HTMLAnchorElement>('[data-hotkey="g c"]').href;
+	const codeTabURL = select<HTMLAnchorElement>('[data-hotkey="g c"]')!.href;
 	const response = await fetch(codeTabURL);
 	const html = await response.text();
 
 	// https://github.com/sindresorhus/refined-github/issues/216
 	if (html.includes(fragmentURL)) {
-		select('.repository-content').prepend(<include-fragment src={fragmentURL}></include-fragment>);
+		select('.repository-content')!.prepend(<include-fragment src={fragmentURL}/>);
 	}
 }
 

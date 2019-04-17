@@ -40,7 +40,7 @@ import select from 'select-dom';
 import features from '../libs/features';
 
 function log() {
-	console.log('✨', <div class="rgh-jsx-element"/>);
+	console.log('✨', <div className="rgh-jsx-element"/>);
 }
 function init() {
 	select('.btn').addEventListener('click', log);

@@ -1,16 +1,16 @@
 import select from 'select-dom';
 import features from '../libs/features';
 
-function init() {
+function init(): false | void {
 	const btn = select('.merge-message .btn-group-squash [type=button]');
 	if (!btn) {
 		return false;
 	}
 
 	btn.addEventListener('click', () => {
-		const title = select('.js-issue-title').textContent;
-		const number = select('.gh-header-number').textContent;
-		select<HTMLTextAreaElement>('#merge_title_field').value = `${title.trim()} (${number})`;
+		const title = select('.js-issue-title')!.textContent!;
+		const number = select('.gh-header-number')!.textContent;
+		select<HTMLTextAreaElement>('#merge_title_field')!.value = `${title.trim()} (${number})`;
 	});
 }
 
