@@ -2,9 +2,7 @@
 	"extends": "@sindresorhus/tsconfig",
 	"compilerOptions": {
 		"target": "esnext",
-		"resolveJsonModule": true,
 		"noEmit": true,
-		"esModuleInterop": true,
 		"baseUrl": "./",
 		"paths": {
 			"delegate-it": ["types/delegate-it/delegate-it.d.ts"],
