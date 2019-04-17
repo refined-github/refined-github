@@ -11,7 +11,8 @@ module.exports = (env, argv) => ({
 	entry: {
 		content: './source/content',
 		background: './source/background',
-		options: './source/options'
+		options: './source/options',
+		'resolve-conflicts': './source/resolve-conflicts'
 	},
 	output: {
 		path: path.join(__dirname, 'distribution'),
@@ -26,7 +27,7 @@ module.exports = (env, argv) => ({
 						loader: 'ts-loader',
 						query: {
 							compilerOptions: {
-								// Enables ModuleConcatenation. It must be in here to avoid conflic with ts-node
+								// Enables ModuleConcatenation. It must be in here to avoid conflict with ts-node
 								module: 'es2015',
 
 								// With this, TS will error but the file will still be generated (on watch only)

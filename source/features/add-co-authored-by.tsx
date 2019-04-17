@@ -4,9 +4,17 @@ import * as api from '../libs/api';
 import features from '../libs/features';
 import {getOwnerAndRepo, getDiscussionNumber, getOP} from '../libs/utils';
 
-let coAuthors;
+interface Author {
+	email: string;
+	user: {
+		name: string;
+		login: string;
+	};
+}
 
-async function fetchCoAuthoredData() {
+let coAuthors: Author[];
+
+async function fetchCoAuthoredData(): Promise<Author[]> {
 	const prNumber = getDiscussionNumber();
 	const {ownerName, repoName} = getOwnerAndRepo();
 
@@ -32,11 +40,11 @@ async function fetchCoAuthoredData() {
 		}`
 	);
 
-	return userInfo.repository.pullRequest.commits.nodes.map(node => node.commit.author);
+	return userInfo.repository.pullRequest.commits.nodes.map((node: any) => node.commit.author as Author);
 }
 
 function addCoAuthors() {
-	const field = select<HTMLTextAreaElement>('#merge_message_field');
+	const field = select<HTMLTextAreaElement>('#merge_message_field')!;
 	if (field.value.includes('Co-authored-by: ')) {
 		// Don't affect existing information
 		return;

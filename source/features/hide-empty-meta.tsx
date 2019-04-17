@@ -2,9 +2,8 @@ import select from 'select-dom';
 import features from '../libs/features';
 
 function init() {
-	const meta = select('.repository-meta');
-	if (select.exists('em', meta) && !select.exists('.js-edit-repo-meta-button')) {
-		meta.style.display = 'none';
+	if (select.exists('.repository-meta em') && !select.exists('.js-edit-repo-meta-button')) {
+		select('.repository-meta')!.style.display = 'none';
 	}
 }
 

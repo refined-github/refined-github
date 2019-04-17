@@ -10,18 +10,18 @@ import features from '../libs/features';
 import {getCleanPathname} from '../libs/utils';
 import getDefaultBranch from '../libs/get-default-branch';
 
-async function is404(url) {
+async function is404(url: string) {
 	const {status} = await fetch(url, {method: 'head'});
 	return status === 404;
 }
 
-function getStrikeThrough(text) {
+function getStrikeThrough(text: string) {
 	return <del style={{color: '#6a737d'}}>{text}</del>;
 }
 
-async function checkAnchor(anchor) {
+async function checkAnchor(anchor: HTMLAnchorElement) {
 	if (await is404(anchor.href)) {
-		anchor.replaceWith(getStrikeThrough(anchor.textContent));
+		anchor.replaceWith(getStrikeThrough(anchor.textContent!));
 	}
 }
 
@@ -35,7 +35,7 @@ function parseCurrentURL() {
 }
 
 // If the resource was deleted, link to the commit history
-async function addCommitHistoryLink(bar) {
+async function addCommitHistoryLink(bar: Element) {
 	const parts = parseCurrentURL();
 	parts[2] = 'commits';
 	const url = '/' + parts.join('/');
@@ -44,14 +44,14 @@ async function addCommitHistoryLink(bar) {
 	}
 
 	bar.after(
-		<p class="container mt-4 text-center">
+		<p className="container mt-4 text-center">
 			See also the file’s {<a href={url}>commit history</a>}
 		</p>
 	);
 }
 
 // If the resource exists in the default branch, link to it
-async function addDefaultBranchLink(bar) {
+async function addDefaultBranchLink(bar: Element) {
 	const parts = getCleanPathname().split('/');
 	const branch = parts[3];
 	if (!branch) {
@@ -70,19 +70,19 @@ async function addDefaultBranchLink(bar) {
 	}
 
 	bar.after(
-		<p class="container mt-4 text-center">
+		<p className="container mt-4 text-center">
 			See also the file on the {<a href={url}>default branch</a>}
 		</p>
 	);
 }
 
-function init() {
+function init(): false | void {
 	const parts = parseCurrentURL();
 	if (parts.length <= 1 || !select.exists('[alt*="This is not the web page you are looking for"]')) {
 		return false;
 	}
 
-	const bar = <h2 class="container mt-4 text-center"/>;
+	const bar = <h2 className="container mt-4 text-center"/>;
 
 	for (const [i, part] of parts.entries()) {
 		if (i === 2 && part === 'tree') {
@@ -99,11 +99,11 @@ function init() {
 		}
 	}
 
-	select('main > :first-child').after(bar);
+	select('main > :first-child, #parallax_illustration')!.after(bar);
 
 	// Check parts from right to left; skip the last part
 	for (let i = bar.children.length - 2; i >= 0; i--) {
-		checkAnchor(bar.children[i]);
+		checkAnchor(bar.children[i] as HTMLAnchorElement);
 	}
 
 	if (parts[2] === 'tree') {

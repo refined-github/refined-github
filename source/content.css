@@ -3,6 +3,7 @@
 	--github-red: #cb2431;
 	--github-gray-background: #fafbfc;
 	--github-gray-text: #6a737d;
+	--github-faint-yellow: #fffbdd;
 }
 
 /* Remove tooltips where unnecessary */
@@ -98,6 +99,11 @@
 [name='commit_message'][disabled],
 [name='commit_title'][disabled] {
 	color: #808080;
+}
+
+/* Fix bug caused by `resolve-conflicts` https://user-images.githubusercontent.com/1402241/54978279-d6663c80-4fda-11e9-9638-af25480fb988.png */
+.rgh-resolve-conflicts .CodeMirror-linenumber {
+	background-color: var(--github-faint-yellow);
 }
 
 /* Hide unnecessary comment toolbar items */
@@ -607,6 +613,15 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	color: var(--github-red) !important;
 }
 
+/* For `parse-backticks`. Style copied from GitHub */
+.rgh-parse-backticks {
+	background-color: rgba(27, 31, 35, 0.05);
+	border-radius: 3px;
+	font-size: 85%;
+	margin: 0;
+	padding: 0.2em 0.4em;
+}
+
 /* For `open-all-selected`: set a reduced padding for all buttons for #1830 */
 :root .rgh-open-all-selected,
 .rgh-open-all-selected ~ .select-menu .select-menu-button {
@@ -710,6 +725,11 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 .tooltipped:focus::after {
 	opacity: 1;
 	animation-fill-mode: backwards !important;
+}
+
+/* Smoothen mouse animation on 404 pages */
+.js-plaxify {
+	transition: transform 0.1s;
 }
 
 /* Remove "Seeing something unexpected?" from user profiles */
@@ -1031,6 +1051,11 @@ body > .footer li a {
 	position: sticky;
 	top: 60px !important; /* Matches sticky header's height */
 	z-index: 26 !important;
+}
+
+/* For `warning-for-disallow-edits` feature: hide warning when PR is closed */
+[data-pull-is-open='false'] ~ #discussion_bucket .rgh-warning-for-disallow-edits {
+	display: none;
 }
 
 /* Adding a lock icon to private organizations */

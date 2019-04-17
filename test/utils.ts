@@ -76,7 +76,7 @@ test('getDiscussionNumber', t => {
 });
 
 test('getRepoPath', t => {
-	const pairs = new Map<string, string>([
+	const pairs = new Map<string, string | undefined>([
 		[
 			'https://github.com',
 			undefined
@@ -126,7 +126,11 @@ test('getRepoPath', t => {
 });
 
 test('getOwnerAndRepo', t => {
-	const ownerAndRepo = {
+	const ownerAndRepo: {
+		[url: string]: {
+			[prop: string]: string;
+		};
+	} = {
 		'https://github.com/sindresorhus/refined-github/pull/148': {
 			ownerName: 'sindresorhus',
 			repoName: 'refined-github'

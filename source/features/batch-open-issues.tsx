@@ -5,8 +5,11 @@ import features from '../libs/features';
 
 const confirmationRequiredCount = 10;
 
-function getUrlFromItem(checkbox) {
-	return checkbox.closest('.js-issue-row').querySelector('.js-navigation-open').href;
+function getUrlFromItem(checkbox: Element) {
+	return checkbox
+		.closest('.js-issue-row')!
+		.querySelector<HTMLAnchorElement>('.js-navigation-open')!
+		.href;
 }
 
 function openIssues() {
@@ -28,7 +31,7 @@ function openIssues() {
 	});
 }
 
-function init() {
+function init(): false | void {
 	if (select.all('.js-issue-row').length < 2) {
 		return false;
 	}
@@ -39,7 +42,7 @@ function init() {
 			<button
 				type="button"
 				onClick={openIssues}
-				class="float-left btn-link rgh-open-all-selected"
+				className="float-left btn-link rgh-open-all-selected"
 			>
 				Open All
 			</button>
@@ -52,7 +55,7 @@ function init() {
 			<button
 				type="button"
 				onClick={openIssues}
-				class="float-left btn-link rgh-open-all-selected"
+				className="float-left btn-link rgh-open-all-selected"
 			>
 				Open in new tabs
 			</button>

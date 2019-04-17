@@ -8,7 +8,7 @@ import select from 'select-dom';
 import features from '../libs/features';
 import {getCleanPathname} from '../libs/utils';
 
-function buildUrl(queryField) {
+function buildUrl(queryField: string) {
 	const url = new URL('/search', location.href);
 	url.searchParams.set('o', 'desc');
 	url.searchParams.set('q', `user:${getCleanPathname()}`);
@@ -17,15 +17,15 @@ function buildUrl(queryField) {
 	return url;
 }
 
-function init() {
-	const showcaseTitle = select('.js-pinned-items-reorder-container .text-normal');
+function init(): false | void {
+	const showcaseTitle = select('.js-pinned-items-reorder-container .text-normal')!;
 	if (!showcaseTitle) {
 		return false;
 	}
 
-	showcaseTitle.firstChild.after(
+	showcaseTitle.firstChild!.after(
 		' / ',
-		<a href={buildUrl('stars')}>Top repositories</a>
+		<a href={String(buildUrl('stars'))}>Top repositories</a>
 	);
 }
 
