@@ -51,7 +51,7 @@ function init() {
 }
 
 async function cleanBar() {
-	(await safeElementReady('.header-search-input')).value = '';
+	(await safeElementReady<HTMLInputElement>('.header-search-input'))!.value = '';
 }
 
 features.add({
