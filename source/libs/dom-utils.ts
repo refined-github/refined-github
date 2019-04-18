@@ -5,8 +5,8 @@ import elementReady from 'element-ready';
 /*
  * Automatically stops checking for an element to appear once the DOM is ready.
  */
-export const safeElementReady = (selector: string) => {
-	const waiting = elementReady(selector);
+export const safeElementReady = <T extends Element>(selector: string): Promise<T | null> => {
+	const waiting = elementReady<T>(selector);
 
 	// Don't check ad-infinitum
 	// eslint-disable-next-line promise/prefer-await-to-then
