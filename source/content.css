@@ -752,7 +752,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 .rgh-recently-pushed-branches [data-url$='recently_touched_branches_list'] {
 	max-height: 42px; /* Only cover the actions when there are multiple branches + :hover */
 	position: absolute;
-	top: -17px;
+	top: -19px;
 	right: 10px;
 	z-index: 32; /* Set z-index higher than ul.pagehead-actions */
 	white-space: nowrap;
@@ -768,6 +768,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 .rgh-recently-pushed-branches .RecentBranches {
 	display: flex;
 	width: max-content;
+	overflow: hidden;
 	margin-left: auto;
 	flex-direction: column-reverse;
 	background: none;
@@ -791,26 +792,27 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	margin-top: 2px;
 	float: right;
 }
-.rgh-recently-pushed-branches :root .RecentBranches-item + .RecentBranches-item {
+.rgh-recently-pushed-branches .RecentBranches-item + .RecentBranches-item {
 	border-top: none;
-	border-bottom: 1px solid rgba(27, 31, 35, 0.05); /* Copied from GitHub */
+	border-bottom: 1px solid;
+}
+.rgh-recently-pushed-branches .RecentBranches-item {
+	color: inherit;
+	padding: 4px !important;
 }
 .rgh-recently-pushed-branches .RecentBranches:not(:hover) .RecentBranches-item:not(:last-child) {
 	/* Hide older branches */
 	display: none;
 }
 .rgh-recently-pushed-branches .RecentBranches:not(:hover) .RecentBranches-item:last-child {
-	border-bottom-width: 3px;
+	border-bottom-width: 2px;
 }
 .rgh-recently-pushed-branches .RecentBranches-item-link {
 	max-width: 250px !important;
 	font-size: 14px;
 	color: #fff;
 }
-.rgh-recently-pushed-branches .RecentBranches-item.p-2 {
-	color: #fff;
-	padding: 2px !important;
-}
+
 @keyframes rgh-slide-in-right {
 	from {
 		transform: translateX(-30px);
