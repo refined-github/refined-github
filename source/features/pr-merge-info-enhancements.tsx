@@ -53,7 +53,7 @@ function showNote(): void {
 
 	// The `hidden` attribute is used to remember the user's Cancellation
 	if (needsUpdate && !note.hidden) {
-		inputField.after(note)
+		inputField.after(note);
 	} else {
 		note.remove();
 	}
@@ -72,7 +72,6 @@ function updatePR() {
 	select<HTMLInputElement>('.edit-issue-title')!.value = prTitle;
 	select('.js-issue-update [type="submit"]')!.click(); // `form.submit()` isn't sent via ajax
 }
-
 
 // GitHub automatically restores value from the previous session and opens the form
 function restoreSession() {
