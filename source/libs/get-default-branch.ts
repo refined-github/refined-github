@@ -22,11 +22,11 @@ function parseBranchFromDom() {
 	}
 
 	// Parse the infobar
-	const [, branchName = undefined] = branchInfo.textContent.trim().match(branchInfoRegex) || [];
+	const [, branchName = undefined] = branchInfo.textContent!.trim().match(branchInfoRegex) || [];
 	return branchName; // `string` or undefined
 }
 
-async function fetchFromApi(user, repo) {
+async function fetchFromApi(user: string, repo: string) {
 	const response = await api.v3(`repos/${user}/${repo}`);
 	if (response && response.default_branch) {
 		return response.default_branch;

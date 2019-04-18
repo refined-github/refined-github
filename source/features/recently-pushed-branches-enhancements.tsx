@@ -23,12 +23,12 @@ function getList() {
 	);
 }
 
-async function init() {
+async function init(): Promise<false | void> {
 	// Make it smaller and `position:fixed` to avoid jumps
 	document.body.classList.add('rgh-recently-pushed-branches');
 
 	// Move or add list next to the notifications bell
-	select('.Header-item--full').after(
+	select('.Header-item--full')!.after(
 		<div style={{marginLeft: 'auto', position: 'relative'}}>{getList()}</div>
 	);
 }

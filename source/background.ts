@@ -1,6 +1,6 @@
 import OptionsSync from 'webext-options-sync';
-import domainPermissionToggle from 'webext-domain-permission-toggle';
-import dynamicContentScripts from 'webext-dynamic-content-scripts';
+import {addContextMenu} from 'webext-domain-permission-toggle';
+import {addToFutureTabs} from 'webext-dynamic-content-scripts';
 import './libs/cache';
 
 // Define defaults
@@ -55,8 +55,8 @@ browser.browserAction.onClicked.addListener(() => {
 browser.runtime.onInstalled.addListener(async ({reason}) => {
 	// Only notify on install
 	if (reason === 'install') {
-		const {installType} = await browser.management.getSelf();
-		if (installType === 'development') {
+		const self = await browser.management.getSelf();
+		if (self && self.installType === 'development') {
 			return;
 		}
 
@@ -68,5 +68,5 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 });
 
 // GitHub Enterprise support
-dynamicContentScripts.addToFutureTabs();
-domainPermissionToggle.addContextMenu();
+addToFutureTabs();
+addContextMenu();

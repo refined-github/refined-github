@@ -2,14 +2,7 @@
 	"extends": "@sindresorhus/tsconfig",
 	"compilerOptions": {
 		"target": "esnext",
-		"resolveJsonModule": true,
-		// "noEmit": true, // Useful when running `tsc` directly
-
-		// TODO: Get all these removed
-		"allowJs": true,
-		"declaration": false, // Needed because of `allowJs`
-		"strict": false,
-		"noImplicitReturns": false,
+		"declaration": false
 	},
 	"include": [
 		"source"

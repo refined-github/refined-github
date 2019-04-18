@@ -19,7 +19,7 @@ async function findRename(
 }
 
 async function init(): Promise<false | void> {
-	const disabledPagination = select.all('.paginate-container [disabled]');
+	const disabledPagination = select.all('.paginate-container [disabled], .paginate-container .disabled');
 
 	if (disabledPagination.length === 0) {
 		return false;
@@ -35,7 +35,7 @@ async function init(): Promise<false | void> {
 		const toKey = isNewer ? 'filename' : 'previous_filename';
 		const sha = isNewer ? select('.commit .sha') : select.all('.commit .sha').pop();
 
-		const content = await findRename(user, repo, sha.textContent.trim());
+		const content = await findRename(user, repo, sha!.textContent!.trim());
 
 		for (const file of content.files) {
 			if (file[fromKey] === currentFilename) {
