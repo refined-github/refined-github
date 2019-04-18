@@ -3,7 +3,7 @@ import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 import {safeElementReady} from '../libs/dom-utils';
 
-function getDefaultQuery(link, search) {
+function getDefaultQuery(link: HTMLAnchorElement, search: URLSearchParams) {
 	// Query-less URLs imply some queries.
 	// When we explicitly set ?q=* they're overridden,
 	// so they need to be manually added again.

@@ -7,7 +7,7 @@ export const groupButtons = (buttons: Element[]) => {
 	for (let button of buttons) {
 		if (!button.matches('.btn')) {
 			button.classList.add('BtnGroup-parent');
-			button = button.querySelector('.btn');
+			button = button.querySelector('.btn')!;
 		}
 
 		button.classList.add('BtnGroup-item');
@@ -18,7 +18,7 @@ export const groupButtons = (buttons: Element[]) => {
 
 	// If it doesn't exist, wrap them in a new group
 	if (!group) {
-		group = <div class="BtnGroup"/>;
+		group = <div className="BtnGroup"/>;
 		wrapAll(buttons, group);
 	}
 

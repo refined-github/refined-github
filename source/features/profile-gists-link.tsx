@@ -5,7 +5,7 @@ import features from '../libs/features';
 import {getCleanPathname} from '../libs/utils';
 import {isEnterprise} from '../libs/page-detect';
 
-async function init() {
+async function init(): Promise<false | void> {
 	const container = select('body.page-profile .UnderlineNav-body');
 
 	if (!container) {
@@ -14,12 +14,12 @@ async function init() {
 
 	const username = getCleanPathname();
 	const href = isEnterprise() ? `/gist/${username}` : `https://gist.github.com/${username}`;
-	const link = <a href={href} class="UnderlineNav-item" role="tab" aria-selected="false">Gists </a>;
+	const link = <a href={href} className="UnderlineNav-item" role="tab" aria-selected="false">Gists </a>;
 	container.append(link);
 
 	const userData = await api.v3(`users/${username}`);
 	if (userData.public_gists) {
-		link.append(<span class="Counter">{userData.public_gists}</span>);
+		link.append(<span className="Counter">{userData.public_gists}</span>);
 	}
 }
 
