@@ -6,11 +6,9 @@ import features from '../libs/features';
 
 const inputMap = new WeakMap();
 
-const createCommitTitle = debounce((): string => {
-	const title = select('.js-issue-title')!.textContent!;
-	const number = getPRNumber();
-	return `${title.trim()} (${number})`;
-}, {
+const createCommitTitle = debounce((): string =>
+	`${select('.js-issue-title')!.textContent!.trim()} (${getPRNumber()})`
+, {
 	wait: 1000,
 	immediate: true
 }) as () => string;
@@ -20,22 +18,17 @@ function getPRNumber(): string {
 }
 
 // Updates the field and dispatches the right events (focus is also used by `fit-textareas`)
-function updateField(field: HTMLTextAreaElement | HTMLInputElement, value: string): void {
+function updateField(selector: string, value: string): void {
+	const field = select<HTMLTextAreaElement | HTMLInputElement>(selector)!;
 	field.value = value;
 	field.focus();
 	field.dispatchEvent(new InputEvent('input'));
 }
 
-function updateCommit(): void {
-	updateField(
-		select<HTMLInputElement>('#merge_title_field')!,
-		createCommitTitle()
-	);
-
-	updateField(
-		select<HTMLTextAreaElement>('#merge_message_field')!,
-		select('.comment-form-textarea[name=\'pull_request[body]\']')!.textContent!.trim()
-	);
+function updateCommitInfo(): void {
+	const firstMessage = select('.comment-form-textarea[name=\'pull_request[body]\']')!.textContent!.trim();
+	updateField('#merge_message_field', firstMessage);
+	updateField('#merge_title_field', createCommitTitle()); // Called last, leaves the title field focused
 }
 
 function showNote(): void {
@@ -73,17 +66,8 @@ function updatePR() {
 	select('.js-issue-update [type="submit"]')!.click(); // `form.submit()` isn't sent via ajax
 }
 
-// GitHub automatically restores value from the previous session and opens the form
-function restoreSession() {
-	document.addEventListener('session:resume', debounce(showNote));
-}
-
 function init() {
-	delegate('#discussion_bucket', `
-		.js-merge-pr.is-squashing,
-		.js-merge-pr.is-merging
-	`, 'details:toggled', updateCommit);
-
+	delegate('#discussion_bucket', '.js-merge-pr:not(is-rebasing)', 'details:toggled', updateCommitInfo);
 	delegate('#discussion_bucket', '#merge_title_field', 'input', showNote);
 	delegate('#discussion_bucket', 'form.js-merge-pull-request', 'submit', updatePR);
 }
@@ -97,10 +81,11 @@ features.add({
 	init
 });
 
+// GitHub automatically restores value from the previous session and opens the form
 features.add({
 	id: 'pr-merge-info-enhancements',
 	include: [
 		features.isPRConversation
 	],
-	init: restoreSession
+	init: () => document.addEventListener('session:resume', debounce(showNote))
 });
