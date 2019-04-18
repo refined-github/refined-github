@@ -84,13 +84,13 @@ npm run watch # Listen for file changes and automatically rebuild
 ```
 
 Then load or reload it into the browser to see the changes (this does not happen automatically). If you'd like
-it to occur automatically than install firefox and:
+it to occur automatically, install firefox and:
 
 ```sh
 npm run dev
 ```
 
-This will load default profile (browser settings), but it will not keep the changes if made in session launched with the script.
+The above script will load the default profile which is reposnible for settings and session tokens, but the profile won't be edited if loaded by web-ext (the above script), so it's best to first make changes you like and than use the script.
 
 ## Loading into the browser
 
@@ -120,5 +120,4 @@ Once built, load it in the browser of your choice:
 	</tr>
 </table>
 
-Firefox offers a more advanced loading technique that includes auto-reloading in the browser as well. Check-out [`web-ext run`](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/web-ext_command_reference#web-ext_run). The `dev` script in package.json already take responsobility for
-using this package.
+Firefox offers a more advanced loading technique that includes auto-reloading in the browser as well. Check-out [`web-ext run`](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/web-ext_command_reference#web-ext_run). The `dev` script in package.json already makes usage of the package.

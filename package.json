@@ -16,7 +16,7 @@
 		"save-url": "echo https://github.com/$TRAVIS_REPO_SLUG/tree/$TRAVIS_COMMIT > distribution/SOURCE_URL",
 		"update-version": "VERSION=$(utc-version); echo $VERSION; dot-json distribution/manifest.json version $VERSION",
 		"can-release": "if [ \"$TRAVIS_EVENT_TYPE\" = cron ] && [ $(git rev-list -n 1 --since=\"26 hours ago\" master) ]; then echo :ship-it:; else false; fi",
-		"start:firefox": "web-ext run --source-dir ./distribution --firefox-profile=default"
+		"start:firefox": "web-ext run --source-dir=distribution --firefox-profile=default"
 	},
 	"dependencies": {
 		"copy-text-to-clipboard": "^2.0.0",
