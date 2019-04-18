@@ -513,42 +513,43 @@ div.inline-comment-form .form-actions,
 }
 
 /* Expand issue search field width */
-.issues-listing .subnav,
-.issues-listing .subnav-search,
-.issues-listing .subnav-search-input,
-.issues-listing .subnav [role='search'],
-:not(.repository-content) > .issues-listing .subnav > .float-right { /* Global search field container */
+.subnav,
+.subnav-search,
+.subnav-search-input,
+.subnav [role='search'],
+.page-content .subnav > .float-right { /* Global search field container */
 	flex-grow: 1;
 	display: flex;
+	font: none !important;
 }
 
 /* Move `New issue` button back to the right */
-.issues-listing .subnav .btn-primary {
+.subnav .btn-primary {
 	order: 100;
 	margin-left: 20px;
 }
 
 /* Reset width of search field in global lists */
-.issues-listing .subnav-search-input-wide {
+.page-content .subnav-search-input-wide {
 	width: auto;
 }
 
 /* Hide `Filters` text in repo lists */
-.issues-listing .subnav-search-context summary {
+.subnav-search-context summary {
 	display: flex;
 	width: 2.4em;
 	text-indent: -10000px;
 }
 
 /* Hide `Filters` text in repo lists: center dropdown triangle */
-.issues-listing .subnav-search-context summary::after {
+.subnav-search-context summary::after {
 	float: right;
 	margin-top: 0.6em;
 	transform: scale(1.2);
 }
 
 /* Hide icons in `Labels`/`Milestones` buttons */
-.issues-listing .subnav-item svg {
+.subnav-item svg {
 	display: none;
 }
 
@@ -568,7 +569,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 }
 
 /* Hide marketplace navbar button */
-.HeaderNavlink[href='/marketplace'] {
+.Header-link[href='/marketplace'] {
 	display: none !important;
 }
 
@@ -707,7 +708,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 }
 
 /* Remove annoying "helpful" banner on the issue tracker listing */
-.issues-listing .mb-4.js-notice {
+.repository-content .mb-4.js-notice {
 	display: none !important;
 }
 
@@ -1133,4 +1134,16 @@ body > .footer li a {
 .rgh-hide-watch-and-fork-count .social-count[href$='/network/members'],
 .rgh-hide-watch-and-fork-count .social-count[href$='/watchers'] {
 	display: none;
+}
+
+/* For `edit-file-faster`: only shows one icon at a time, depending on hover status */
+.rgh-edit-files-faster:not(:hover) .octicon-pencil,
+.rgh-edit-files-faster:hover .octicon-file {
+	display: none;
+}
+
+/* For `edit-file-faster`: widen column to avoid bumps in directory-less listings */
+.rgh-edit-files-faster {
+	width: 16px;
+	display: inline-block;
 }
