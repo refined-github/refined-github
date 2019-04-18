@@ -8,7 +8,7 @@ import {groupButtons} from '../libs/group-buttons';
 const confirmationRequiredCount = 10;
 const unreadNotificationsClass = '.unread .js-notification-target';
 
-function openNotifications({target}: Event) {
+function openNotifications({target}: Event): void {
 	// Homemade delegate event, simplifies addEventListener deduplication
 	if (!(target as Element).closest('.rgh-open-notifications-button')) {
 		return;
@@ -46,7 +46,7 @@ function openNotifications({target}: Event) {
 	}
 }
 
-function addOpenReposButton() {
+function addOpenReposButton(): void {
 	for (const repoNotifications of select.all('.boxed-group')) {
 		if (select.exists('.open-repo-notifications', repoNotifications)) {
 			continue;
@@ -67,7 +67,7 @@ function addOpenReposButton() {
 	}
 }
 
-function addOpenAllButton() {
+function addOpenAllButton(): void {
 	if (!select.exists('.rgh-open-notifications-button')) {
 		// Move out the extra node that messes with .BtnGroup-item:last-child
 		document.body.append(select('#mark_as_read_confirm_box') || '');
@@ -89,7 +89,7 @@ function update(): void {
 	addOpenReposButton();
 }
 
-function init() {
+function init(): void {
 	document.addEventListener('refined-github:mark-unread:notifications-added', update);
 	document.addEventListener('click', openNotifications);
 	update();

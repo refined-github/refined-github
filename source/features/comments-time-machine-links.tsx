@@ -4,7 +4,7 @@ import features from '../libs/features';
 import * as icons from '../libs/icons';
 import {getRepoURL} from '../libs/utils';
 
-function init() {
+function init(): void {
 	const comments = select.all('.timeline-comment-header:not(.rgh-timestamp-tree-link)');
 
 	for (const comment of comments) {

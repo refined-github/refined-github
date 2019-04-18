@@ -43,7 +43,7 @@ async function fetchCoAuthoredData(): Promise<Author[]> {
 	return userInfo.repository.pullRequest.commits.nodes.map((node: any) => node.commit.author as Author);
 }
 
-function addCoAuthors() {
+function addCoAuthors(): void {
 	const field = select<HTMLTextAreaElement>('#merge_message_field')!;
 	if (field.value.includes('Co-authored-by: ')) {
 		// Don't affect existing information
@@ -60,7 +60,7 @@ function addCoAuthors() {
 	field.value += '\n\n' + [...addendum.values()].join('\n');
 }
 
-async function init() {
+async function init(): Promise<void> {
 	coAuthors = await fetchCoAuthoredData();
 
 	delegate('.discussion-timeline-actions', '.merge-message [type=button]', 'click', addCoAuthors);

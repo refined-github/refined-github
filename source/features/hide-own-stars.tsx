@@ -22,7 +22,7 @@ const observer = new MutationObserver(([{addedNodes}]) => {
 	}
 });
 
-async function init() {
+async function init(): Promise<void> {
 	observer.observe((await safeElementReady('#dashboard .news'))!, {childList: true});
 }
 

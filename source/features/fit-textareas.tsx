@@ -7,7 +7,7 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import fitTextarea from 'fit-textarea';
 import features from '../libs/features';
 
-function listener({delegateTarget: textarea}: DelegateEvent<Event, HTMLTextAreaElement>) {
+function listener({delegateTarget: textarea}: DelegateEvent<Event, HTMLTextAreaElement>): void {
 	// `fit-textarea` adds only once listener
 	fitTextarea.watch(textarea);
 

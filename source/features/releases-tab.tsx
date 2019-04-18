@@ -20,7 +20,7 @@ const repoKey = `releases-count:${repoUrl}`;
 // Get as soon as possible, to have it ready before the first paint
 const cached = cache.get(repoKey);
 
-function updateReleasesCount() {
+function updateReleasesCount(): number | Promise<any> {
 	if (isRepoRoot()) {
 		const releasesCountEl = select('.numbers-summary a[href$="/releases"] .num');
 		const releasesCount = Number(releasesCountEl ? releasesCountEl.textContent!.replace(/,/g, '') : 0);

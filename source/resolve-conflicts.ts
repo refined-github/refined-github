@@ -26,7 +26,7 @@ editor.on('changes', (_, [firstChange]) => {
 	}
 });
 
-function getLineNumber(lineChild: Element) {
+function getLineNumber(lineChild: Element): number {
 	return Number(
 		lineChild
 			.closest('.CodeMirror-gutter-wrapper, .CodeMirror-linewidget')!
@@ -36,7 +36,7 @@ function getLineNumber(lineChild: Element) {
 	) - 1;
 }
 
-function appendLineInfo(lineHandle: CodeMirror.LineHandle, text: string) {
+function appendLineInfo(lineHandle: CodeMirror.LineHandle, text: string): void {
 	// Only append text if it's not already there
 	if (!lineHandle.text.includes(text)) {
 		const line = lineHandle.lineNo();
@@ -46,7 +46,7 @@ function appendLineInfo(lineHandle: CodeMirror.LineHandle, text: string) {
 }
 
 // Create and add widget if not already in the document
-function addWidget() {
+function addWidget(): void {
 	editor.eachLine(lineHandle => {
 		if (lineHandle.widgets) {
 			return;
@@ -66,7 +66,7 @@ function addWidget() {
 	});
 }
 
-function createButton(branch: string, title?: string) {
+function createButton(branch: string, title?: string): HTMLButtonElement {
 	const link = document.createElement('button');
 	link.type = 'button';
 	link.className = 'btn-link';
@@ -78,7 +78,7 @@ function createButton(branch: string, title?: string) {
 }
 
 // Create and return conflict resolve widget for specific conflict
-function newWidget() {
+function newWidget(): HTMLDivElement {
 	const widget = document.createElement('div');
 	widget.style.fontWeight = 'bold';
 	widget.append(
@@ -92,7 +92,7 @@ function newWidget() {
 }
 
 // Accept one or both of branches and remove unnecessary lines
-function acceptBranch(branch: string, line: number) {
+function acceptBranch(branch: string, line: number): void {
 	let deleteNextLine = false;
 
 	const linesToRemove: number[] = [];

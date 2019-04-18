@@ -9,7 +9,7 @@ import {groupSiblings} from '../libs/group-buttons';
 import getDefaultBranch from '../libs/get-default-branch';
 import {getRepoURL, getOwnerAndRepo} from '../libs/utils';
 
-async function getTagLink() {
+async function getTagLink(): Promise<'' | HTMLAnchorElement> {
 	const {ownerName, repoName} = getOwnerAndRepo();
 	const {repository} = await api.v4(`{
 		repository(owner: "${ownerName}", name: "${repoName}") {
@@ -61,7 +61,7 @@ async function getTagLink() {
 	return link;
 }
 
-async function getDefaultBranchLink() {
+async function getDefaultBranchLink(): Promise<HTMLElement | SVGElement | undefined> {
 	const defaultBranch = await getDefaultBranch();
 	const currentBranch = select('[data-hotkey="w"] span')!.textContent;
 

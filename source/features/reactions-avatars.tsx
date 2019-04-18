@@ -37,7 +37,7 @@ function getParticipants(container: HTMLElement): Participant[] {
 		}));
 }
 
-function add() {
+function add(): void {
 	for (const list of select.all('.has-reactions .comment-reactions-options:not(.rgh-reactions)')) {
 		const avatarLimit = arbitraryAvatarLimit - (list.children.length * approximateHeaderLength);
 
@@ -61,7 +61,7 @@ function add() {
 	}
 }
 
-function init() {
+function init(): void {
 	add();
 
 	// GitHub receives update messages via WebSocket, which seem to trigger

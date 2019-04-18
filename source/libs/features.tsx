@@ -47,13 +47,13 @@ interface PrivateFeatureDetails extends FeatureDetails {
  * Alternatively, use `onAjaxedPagesRaw` if your callback needs to be called at every page
  * change (e.g. to "unmount" a feature / listener) regardless of of *newness* of the page.
  */
-async function onAjaxedPagesRaw(callback: () => void) {
+async function onAjaxedPagesRaw(callback: () => void): Promise<void> {
 	await onDomReady;
 	document.addEventListener('pjax:end', callback);
 	callback();
 }
 
-function onAjaxedPages(callback: () => void) {
+function onAjaxedPages(callback: () => void): void {
 	onAjaxedPagesRaw(() => {
 		if (!select.exists('has-rgh')) {
 			callback();
@@ -113,7 +113,7 @@ const globalReady: Promise<GlobalOptions> = new Promise(async resolve => {
 	resolve(options);
 });
 
-const run = async ({id, include, exclude, init, deinit, options: {log}}: PrivateFeatureDetails) => {
+const run = async ({id, include, exclude, init, deinit, options: {log}}: PrivateFeatureDetails): Promise<void> => {
 	// If every `include` is false and no exclude is true, don’t run the feature
 	if (include!.every(c => !c()) || exclude!.some(c => c())) {
 		return deinit!();
@@ -131,12 +131,12 @@ const run = async ({id, include, exclude, init, deinit, options: {log}}: Private
 };
 
 const shortcutMap: Map<string, Shortcut> = new Map<string, Shortcut>();
-const getShortcuts: () => Shortcut[] = () => [...shortcutMap.values()];
+const getShortcuts = (): Shortcut[] => [...shortcutMap.values()];
 
 /*
  * Register a new feature
  */
-const add = async (definition: FeatureDetails) => {
+const add = async (definition: FeatureDetails): Promise<void> => {
 	/* Input defaults and validation */
 	const {
 		id,

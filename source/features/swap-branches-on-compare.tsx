@@ -4,7 +4,7 @@ import {wrap} from '../libs/dom-utils';
 import features from '../libs/features';
 import {getRepoPath, getRepoURL} from '../libs/utils';
 
-function init() {
+function init(): void {
 	const references = getRepoPath()!
 		.replace('compare/', '')
 		.split('...')

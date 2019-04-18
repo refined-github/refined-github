@@ -67,7 +67,7 @@ function normalizeBranchInfo(data: BranchInfo): {
 	};
 }
 
-function buildQuery(numbers: number[]) {
+function buildQuery(numbers: number[]): string {
 	const {ownerName, repoName} = getOwnerAndRepo();
 
 	return `{
@@ -86,7 +86,7 @@ function buildQuery(numbers: number[]) {
 	}`;
 }
 
-function createLink(ref: RepositoryReference) {
+function createLink(ref: RepositoryReference): JSX.Element {
 	return (
 		<span
 			className="commit-ref css-truncate user-select-contain mb-n1"

@@ -7,7 +7,7 @@ interface CacheRequest {
 	expiration?: number;
 }
 
-export async function getSet(key: string, getter: CacheGetter, expiration?: number) {
+export async function getSet(key: string, getter: CacheGetter, expiration?: number): Promise<any> {
 	const cache = await get(key);
 	if (cache !== undefined) {
 		return cache;
@@ -20,7 +20,7 @@ export async function getSet(key: string, getter: CacheGetter, expiration?: numb
 	}
 }
 
-export async function get(key: string) {
+export async function get(key: string): Promise<any> {
 	const value = await browser.runtime.sendMessage({
 		key,
 		code: 'get-cache'
@@ -34,7 +34,7 @@ export async function get(key: string) {
 	return value;
 }
 
-export function set<TValue>(key: string, value: TValue, expiration?: number /* in days */) {
+export function set<TValue>(key: string, value: TValue, expiration?: number /* in days */): Promise<any> {
 	return browser.runtime.sendMessage({
 		key,
 		value,
