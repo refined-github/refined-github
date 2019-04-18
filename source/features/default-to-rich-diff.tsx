@@ -1,31 +1,24 @@
 import select from 'select-dom';
 import features from '../libs/features';
 
-const observer = new MutationObserver(([{addedNodes}]) => {
-	for (const node of addedNodes) {
-		if (node instanceof Element) {
-			if (node.matches('.js-diff-progressive-container')) {
-				observer.observe(node, {childList: true});
-			} else {
-				setRichDiff(node);
-			}
-		}
-	}
-});
+function run() {
+	const buttons = select.all<HTMLButtonElement>(`
+		[data-file-type=".svg"]
+		[aria-label="Display the rich diff"]:not(.rgh-rich-diff)
+	`);
+	for (const button of buttons) {
+		button.classList.add('rgh-rich-diff');
 
-function setRichDiff(node: Element | null) {
-	if (node) {
-		for (const fileHeader of select.all('.file-header[data-file-type=".svg"] [aria-label="Display the rich diff"]', node)) {
-			fileHeader.click();
-		}
+		button.click();
 	}
 }
 
 function init() {
-	setRichDiff(select('.js-diff-progressive-container:first-child'));
-	const lastProgressiveContainer = select('.js-diff-progressive-container:last-child');
-	if (lastProgressiveContainer) {
-		observer.observe(lastProgressiveContainer, {childList: true});
+	run();
+
+	// Some files are loaded progressively later. On load, look for more buttons and more fragments
+	for (const fragment of select.all('include-fragment.diff-progressive-loader')) {
+		fragment.addEventListener('load', init);
 	}
 }
 
