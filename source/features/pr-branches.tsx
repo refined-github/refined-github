@@ -73,7 +73,7 @@ function buildQuery(issueIds: string[]) {
 	return `{
 		repository(owner: "${ownerName}", name: "${repoName}") {
 			${issueIds.map(id => `
-				${id}: pullRequest(number: ${String(id).replace('issue_', '')}) {
+				${id}: pullRequest(number: ${id.replace('issue_', '')}) {
 					baseRef {id}
 					headRef {id}
 					baseRefName
