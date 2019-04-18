@@ -1,5 +1,5 @@
 /*
-Edit files straight from a repo’s list
+Edit files straight from a repo’s list by clicking their icon.
 */
 
 import React from 'dom-chef';

@@ -1,3 +1,4 @@
+import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 
 // Copied from https://github.com/sindresorhus/hide-files-on-github
