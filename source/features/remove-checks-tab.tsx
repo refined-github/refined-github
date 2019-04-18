@@ -5,23 +5,18 @@ The `checks` tab in PR is removed unless you're owner
 import select from 'select-dom';
 import features from '../libs/features';
 import {safeElementReady} from '../libs/dom-utils';
-import {isOwnRepo} from '../libs/page-detect';
 
 async function init() {
-	if (isOwnRepo()) {
-		return;
-	}
 
-	await safeElementReady(`
+	const checksTab = await safeElementReady(`
 		[data-hotkey="g 3"]
 	`); // Wait for the tab to be loaded
 
-	const checksTab = select([
-		'[data-hotkey="g 3"]'
-	].join());
-
-	// Only remove the tab if it's not the current page and if it has 0 projects
-	if (!checksTab.matches('.selected') && select('.Counter', checksTab).textContent.trim() === '0') {
+	if (!checksTab) return
+	const counter = select('.Counter', checksTab)
+	if (!counter || !counter.textContent) return
+	// Only remove the tab if it's not the current page and if it has 0 checks
+	if (!checksTab.matches('.selected') && counter.textContent.trim() === '0') {
 		checksTab.remove();
 	}
 }
@@ -30,6 +25,9 @@ features.add({
 	id: 'remove-checks-tab',
 	include: [
 		features.isPR
+	],
+	exclude: [
+		features.isOwnRepo
 	],
 	load: features.onAjaxedPages,
 	init
