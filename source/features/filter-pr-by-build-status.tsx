@@ -10,14 +10,16 @@ import {checkInline} from '../libs/icons';
 import features from '../libs/features';
 
 function init() {
-	const statusFilter = select<HTMLDetailsElement>('.table-list-header-toggle > details:nth-last-child(3)')!.cloneNode(true) as HTMLDetailsElement;
+	const reviewsFilter = select('.table-list-header-toggle > details:nth-last-child(3)')!;
 
+	// Copy existing element and adapt its content
+	const statusFilter = reviewsFilter.cloneNode(true) as HTMLDetailsElement;
 	select('summary', statusFilter)!.textContent = 'Status\u00A0';
 	select('.select-menu-title', statusFilter)!.textContent = 'Filter by build status';
-	select('.select-menu-list', statusFilter)!.innerHTML = '';
+	select('.select-menu-list', statusFilter)!.textContent = ''; // Drop previous filters
 
-	select('.table-list-header-toggle > details:nth-last-child(2)')!.before(statusFilter);
-	select('.table-list-header-toggle > details:nth-last-child(3)')!.addEventListener('toggle', populateDropDown, {once: true});
+	statusFilter.addEventListener('toggle', populateDropDown, {once: true});
+	reviewsFilter.after(statusFilter);
 }
 
 function populateDropDown() {
