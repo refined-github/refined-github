@@ -28,7 +28,10 @@ function splitTextReducer(fragment: DocumentFragment, text: string, index: numbe
 }
 
 function init() {
-	for (const title of select.all('.issues-listing .js-navigation-open, .commit-title .js-navigation-open')) {
+	for (const title of select.all(`
+		[aria-label="Issues"][role="group"] .js-navigation-open,
+		.commit-title .js-navigation-open
+	`)) {
 		for (const node of getTextNodes(title)) {
 			const fragment = node.textContent!
 				.split(splittingRegex)

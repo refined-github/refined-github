@@ -37,7 +37,9 @@ async function init(): Promise<false | void> {
 
 	for (const usernameEl of usernameElements) {
 		const userKey = api.escapeKey(usernameEl.textContent!);
-		if (names[userKey].name) {
+
+		// For the currently logged in user, `names[userKey]` would not be present.
+		if (names[userKey] && names[userKey].name) {
 			// If it's a regular comment author, add it outside <strong>
 			// otherwise it's something like "User added some commits"
 			const insertionPoint = usernameEl.parentElement!.tagName === 'STRONG' ? usernameEl.parentElement! : usernameEl;
@@ -45,7 +47,7 @@ async function init(): Promise<false | void> {
 				' (',
 				<bdo className="css-truncate">
 					<span className="css-truncate-target" style={{maxWidth: '200px'}}>
-						{name}
+						{names[userKey].name}
 					</span>
 				</bdo>,
 				') '

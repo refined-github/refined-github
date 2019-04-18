@@ -1,6 +1,7 @@
 import select from 'select-dom';
 import features from '../libs/features';
 import {getUsername} from '../libs/utils';
+import {safeElementReady} from '../libs/dom-utils';
 
 function getDefaultQuery(link: HTMLAnchorElement, search: URLSearchParams) {
 	// Query-less URLs imply some queries.
@@ -49,8 +50,20 @@ function init() {
 	}
 }
 
+async function cleanBar() {
+	(await safeElementReady<HTMLInputElement>('.header-search-input'))!.value = '';
+}
+
 features.add({
 	id: 'sort-issues-by-update-time',
 	load: features.onAjaxedPages,
 	init
+});
+
+features.add({
+	id: 'sort-issues-by-update-time',
+	include: [
+		features.isGlobalDiscussionList
+	],
+	init: cleanBar
 });
