@@ -8,42 +8,6 @@ declare module 'tiny-version-compare' {
 	export = compareVersions
 }
 
-// TODO: Move types to https://github.com/sindresorhus/linkify-urls repository.
-declare module 'linkify-urls' {
-	type Options = {
-		user: string;
-		repo: string;
-		type: string;
-		baseUrl: string;
-		attributes: {
-			rel: string;
-			class: string;
-		};
-	};
-
-	function linkifyUrls(input: string, options: Options): DocumentFragment;
-
-	export = linkifyUrls
-}
-
-// TODO: Move types to the https://github.com/sindresorhus/linkify-issues repository.
-declare module 'linkify-issues' {
-	type Options = {
-		user: string;
-		repo: string;
-		type: string;
-		baseUrl: string;
-		attributes: {
-			rel: string;
-			class: string;
-		};
-	};
-
-	function linkifyIssues(input: string, options: Options): DocumentFragment;
-
-	export = linkifyIssues
-}
-
 // TODO: Move types in intervalometer repo
 declare module 'intervalometer' {
 	function timerIntervalometer(callback: () => void, timeInMillis: number);
