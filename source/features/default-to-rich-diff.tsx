@@ -9,12 +9,16 @@ function run() {
 	for (const button of buttons) {
 		button.classList.add('rgh-rich-diff');
 
+		// The ajax form handler might not be ready yet, so without this the page would change
+		button.form!.addEventListener('submit', event => event.preventDefault());
+
 		button.click();
 	}
 }
 
 function init() {
-	run();
+	// Arbitrary timeout because the form handler might not be ready yet
+	setTimeout(run, 1000);
 
 	// Some files are loaded progressively later. On load, look for more buttons and more fragments
 	for (const fragment of select.all('include-fragment.diff-progressive-loader')) {
