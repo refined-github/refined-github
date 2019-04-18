@@ -781,7 +781,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	text-indent: -999999px; /* Hide text */
 }
 .rgh-recently-pushed-branches .RecentBranches:not(:hover) .btn {
-	filter: grayscale(1) brightness(0.7) contrast(2);
+	filter: grayscale(1) brightness(0.8) contrast(2);
 }
 .rgh-recently-pushed-branches .RecentBranches .btn + div {
 	margin-right: 8px;
