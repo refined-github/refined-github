@@ -14,7 +14,7 @@ export const linkifiedURLClass = 'rgh-linkified-code';
 const currentRepo = getOwnerAndRepo();
 const options = {
 	user: currentRepo.ownerName || '/',
-	repo: currentRepo.repoName || '/',
+	repository: currentRepo.repoName || '/',
 	type: 'dom',
 	baseUrl: '',
 	attributes: {
