@@ -17,7 +17,7 @@ function init() {
 	for (const [label, query] of links) {
 		// Create link
 		const url = new URLSearchParams([['q', type + defaultQuery + query]]);
-		const link = <a href={`?${url}`} className="subnav-item">{label}</a>;
+		const link = <a href={`${location.pathname}?${url}`} className="subnav-item">{label}</a>;
 
 		const isCurrentPage = new RegExp(`(^|\\s)${query}(\\s|$)`).test(
 			new URLSearchParams(location.search).get('q')!
