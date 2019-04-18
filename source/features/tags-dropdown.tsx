@@ -1,7 +1,7 @@
 /**
 To find release notes, release artifacts for any particular tag quickly by selecting the tag from the dropdown.
 
-See it in action at https://github.com/sindresorhus/refined-github/releases
+See it in action at https://github.com/facebook/react/releases
 */
 import React from 'dom-chef';
 import select from 'select-dom';
@@ -38,16 +38,16 @@ async function init() {
 	);
 }
 
-// We’re reusing the Branch/Tag selector from the repo’s Code tab, so we need to update a few things
+// We're reusing the Branch/Tag selector from the repo's Code tab, so we need to update a few things
 function onFragmentLoaded() {
-	// Change the tab to Tags
+	// Change the tab to "Tags"
 	select('.rgh-tags-dropdown .select-menu-tab:last-child button')!.click();
 
-	// Change links (which point to the content of each tag) to open the tag page instead
+	// Change links, which point to the content of each tag, to open the tag page instead
 	for (const anchorElement of select.all<HTMLAnchorElement>('.rgh-tags-dropdown [href*="/tree/"]')) {
-		const splitPathName = anchorElement.pathname.split('/');
-		splitPathName[3] = 'releases/tag'; // Replace "tree"
-		anchorElement.pathname = splitPathName.join('/');
+		const pathnameParts = anchorElement.pathname.split('/');
+		pathnameParts[3] = 'releases/tag'; // Replace `tree`
+		anchorElement.pathname = pathnameParts.join('/');
 	}
 }
 
