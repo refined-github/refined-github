@@ -4,52 +4,63 @@ import features from '../libs/features';
 import * as icons from '../libs/icons';
 import {getRepoURL} from '../libs/utils';
 
-function init() {
-	const comments = select.all('.timeline-comment-header:not(.rgh-timestamp-tree-link)');
+function addInlineLinks(comment: HTMLElement, timestamp: string) {
+	const links = select.all<HTMLAnchorElement>(`
+		[href^="${location.origin}"][href*="/blob/"]:not(.rgh-linkified-code),
+		[href^="${location.origin}"][href*="/tree/"]:not(.rgh-linkified-code)
+	`, comment);
 
-	for (const comment of comments) {
-		const timestampEl = select('relative-time', comment.closest('.discussion-item-review') || comment)!;
-		const timestamp = timestampEl.attributes.datetime.value;
-    const humanDate = timestampEl.textContent;
-
-		const href = `/${getRepoURL()}/tree/HEAD@{${timestamp}}`;
-
-		timestampEl.parentElement!.after(
-			' ',
-			<a
-				href={href}
-				className="muted-link tooltipped tooltipped-n"
-				aria-label={`View repo ${humanDate}`}
-			>
-				{icons.code()}
-			</a>
-		);
-
-		const links = select.all<HTMLAnchorElement>(`
-			[href^="${location.origin}"][href*="/blob/"]:not(.rgh-linkified-code),
-			[href^="${location.origin}"][href*="/tree/"]:not(.rgh-linkified-code)
-		`, comment.closest('.comment')!);
-		for (const link of links) {
-			const linkParts = link.pathname.split('/');
-			// Skip permalinks
-			if (/^[0-9a-f]{40}$/.test(linkParts[4])) {
-				continue;
-			}
-
-			linkParts[4] = `HEAD@{${timestamp}}`; // Change git ref
-			link.after(
-				' ',
-				<a
-					href={linkParts.join('/')}
-					className="muted-link tooltipped tooltipped-n"
-					aria-label={`View default branch ${humanDate}`}
-				>
-					{icons.clock()}
-				</a>
-			);
+	for (const link of links) {
+		const linkParts = link.pathname.split('/');
+		// Skip permalinks
+		if (/^[0-9a-f]{40}$/.test(linkParts[4])) {
+			continue;
 		}
 
-		comment.classList.add('rgh-timestamp-tree-link');
+		linkParts[4] = `HEAD@{${timestamp}}`; // Change git ref
+		link.after(
+			' ',
+			<a
+				href={linkParts.join('/')}
+				className="muted-link tooltipped tooltipped-n"
+				aria-label="Visit as permalink">
+				{icons.clock()}
+			</a>
+		);
+	}
+}
+
+function addDropdownLink(comment: HTMLElement, timestamp: string) {
+	const dropdownPosition = select('.show-more-popover .dropdown-divider', comment);
+
+	// Comment-less reviews don't have a dropdown
+	if (!dropdownPosition) {
+		return;
+	}
+
+	dropdownPosition.after(
+		<a
+			href={`/${getRepoURL()}/tree/HEAD@{${timestamp}}`}
+			className="dropdown-item btn-link"
+			role="menuitem">
+			View repo at this time
+		</a>,
+		<div className="dropdown-divider" />
+	);
+}
+
+async function init() {
+	const comments = select.all(`
+		:not(.js-new-comment-form) > .timeline-comment:not(.rgh-time-machine-links),
+		.review-comment:not(.rgh-time-machine-links)
+	`);
+
+	for (const comment of comments) {
+		const timestamp = select('relative-time', comment)!.attributes.datetime.value;
+
+		addDropdownLink(comment, timestamp);
+		addInlineLinks(comment, timestamp);
+		comment.classList.add('rgh-time-machine-links');
 	}
 }
 
