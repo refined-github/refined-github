@@ -128,7 +128,7 @@ features.add({
 	id: 'branch-buttons',
 	include: [
 		features.isRepoRoot,
-		features.isSingleFile,
+		features.isSingleFile
 	],
 	load: features.onAjaxedPages,
 	init
