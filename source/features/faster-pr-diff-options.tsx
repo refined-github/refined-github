@@ -10,7 +10,7 @@ function createDiffStyleToggle(): DocumentFragment {
 		'.table-of-contents .selected[href$=unified]' // Link in single commit
 	].join());
 
-	const makeLink = (type: string, icon: Element, selected: boolean): HTMLAnchorElement => {
+	const makeLink = (type: string, icon: Element, selected: boolean): HTMLElement => {
 		params.set('diff', type);
 		return <a
 			className={`btn btn-sm BtnGroup-item tooltipped tooltipped-s ${selected ? 'selected' : ''}`}
@@ -26,7 +26,7 @@ function createDiffStyleToggle(): DocumentFragment {
 	</>;
 }
 
-function createWhitespaceButton(): HTMLAnchorElement {
+function createWhitespaceButton(): HTMLElement {
 	const searchParams = new URLSearchParams(location.search);
 	const isHidingWhitespace = searchParams.get('w') === '1';
 
