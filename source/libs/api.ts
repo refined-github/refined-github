@@ -41,10 +41,6 @@ interface GraphQLResponse extends APIResponse {
 	errors?: JsonError[];
 }
 
-export interface GHRestApiOptions {
-	accept404: boolean;
-}
-
 export const escapeKey = (value: string) => '_' + value.replace(/[./-]/g, '_');
 
 export class RefinedGitHubAPIError extends Error {
@@ -62,13 +58,28 @@ const api4 = location.hostname === 'github.com' ?
 	'https://api.github.com/graphql' :
 	`${location.origin}/api/graphql`;
 
+	interface GHRestApiOptions {
+	accept404?: boolean;
+	method?: 'GET' | 'POST',
+	body?: undefined | JsonObject
+}
+
+const v3defaults: GHRestApiOptions = {
+	accept404: false,
+	method: 'GET',
+	body: undefined
+};
+
 export const v3 = pMemoize(async (
 	query: string,
-	options: GHRestApiOptions = {accept404: false}
+	options: GHRestApiOptions = v3defaults
 ): Promise<AnyObject> => {
+	const {accept404, method, body} = {...v3defaults, ...options};
 	const {personalToken} = await settings;
 
 	const response = await fetch(api3 + query, {
+		method,
+		body: body && JSON.stringify(body),
 		headers: {
 			'User-Agent': 'Refined GitHub',
 			Accept: 'application/vnd.github.v3+json',
@@ -80,7 +91,7 @@ export const v3 = pMemoize(async (
 	// The response might just be a 200 or 404, it's the REST equivalent of `boolean`
 	const apiResponse: JsonObject = textContent.length > 0 ? JSON.parse(textContent) : {status: response.status};
 
-	if (response.ok || (options.accept404 === true && response.status === 404)) {
+	if (response.ok || (accept404 === true && response.status === 404)) {
 		return apiResponse;
 	}
 

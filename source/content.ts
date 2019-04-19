@@ -94,6 +94,7 @@ import './features/hide-watch-and-fork-count';
 import './features/resolve-conflicts';
 import './features/follow-file-renames';
 import './features/edit-files-faster';
+import './features/update-pr-from-master';
 
 // Add global for easier debugging
 (window as any).select = select;
