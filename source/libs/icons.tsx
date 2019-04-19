@@ -55,6 +55,8 @@ export const foldDown = (): JSX.Element => <svg aria-hidden="true" className="oc
 // The viewBox is actually needed here
 export const octoface = (): JSX.Element => <svg aria-hidden="true" className="octicon octicon-octoface" width="32" height="32" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M14.7 5.34c.13-.32.55-1.59-.13-3.31 0 0-1.05-.33-3.44 1.3-1-.28-2.07-.32-3.13-.32s-2.13.04-3.13.32c-2.39-1.64-3.44-1.3-3.44-1.3-.68 1.72-.26 2.99-.13 3.31C.49 6.21 0 7.33 0 8.69 0 13.84 3.33 15 7.98 15S16 13.84 16 8.69c0-1.36-.49-2.48-1.3-3.35zM8 14.02c-3.3 0-5.98-.15-5.98-3.35 0-.76.38-1.48 1.02-2.07 1.07-.98 2.9-.46 4.96-.46 2.07 0 3.88-.52 4.96.46.65.59 1.02 1.3 1.02 2.07 0 3.19-2.68 3.35-5.98 3.35zM5.49 9.01c-.66 0-1.2.8-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.54-1.78-1.2-1.78zm5.02 0c-.66 0-1.2.79-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.53-1.78-1.2-1.78z" /></svg>;
 
+export const checkInline = (): JSX.Element => <svg aria-hidden="true" className="octicon octicon-check select-menu-item-icon" width="12" height="16" viewBox="0 0 12 16"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"></path></svg>;
+
 export const privateLockFilled = (): JSX.Element => (
 	<svg className="octicon octicon-lock" width="14" height="16" aria-hidden="true">
 		<path d="M11.88 5.86h-.3V4.58a4.58 4.58 0 0 0-9.16 0v1.28h-.3A1.66 1.66 0 0 0 .46 7.51v6.83A1.66 1.66 0 0 0 2.12 16h9.76a1.66 1.66 0 0 0 1.66-1.66V7.51a1.66 1.66 0 0 0-1.66-1.65zM5.54 4.58a1.47 1.47 0 0 1 2.94 0v1.28H5.54zm5.66 3.61v5.47H3.78V8.19z" fill="#fff" />
