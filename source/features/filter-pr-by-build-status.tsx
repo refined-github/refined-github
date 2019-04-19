@@ -9,6 +9,37 @@ import select from 'select-dom';
 import {checkInline} from '../libs/icons';
 import features from '../libs/features';
 
+function populateDropDown({currentTarget}: Event) {
+	const searchParam = new URLSearchParams(location.search);
+	let queryString = searchParam.get('q') || '';
+
+	const [, currentStatus = ''] = queryString.match(/\bstatus:(success|failure|pending)\b/) || [];
+
+	if (currentStatus) {
+		queryString = queryString.replace(currentStatus, '').trim();
+	}
+
+	const dropdown = select('.select-menu-list', currentTarget as Element)!;
+	for (const status of ['Success', 'Failure', 'Pending']) {
+		const isSelected = currentStatus.toLowerCase() === status.toLowerCase();
+		const search = new URLSearchParams({
+			q: `${queryString} status:${status.toLowerCase()}`
+		});
+
+		dropdown.append(
+			<a
+				href={`?${search}`}
+				className={`select-menu-item ${isSelected ? 'selected' : ''}`}
+				aria-checked={isSelected}
+				role="menuitemradio"
+			>
+				{checkInline()}
+				<div className="select-menu-item-text">{status}</div>
+			</a>
+		);
+	}
+}
+
 function init() {
 	const reviewsFilter = select('.table-list-header-toggle > details:nth-last-child(3)')!;
 
@@ -20,39 +51,6 @@ function init() {
 
 	statusFilter.addEventListener('toggle', populateDropDown, {once: true});
 	reviewsFilter.after(statusFilter);
-}
-
-function populateDropDown() {
-	const statusList = [
-		'Success',
-		'Failure',
-		'Pending'
-	];
-
-	const searchParam = new URLSearchParams(location.search);
-	let queryString = searchParam.get('q') || '';
-
-	const [, currentStatus = ''] = queryString.match(/\bstatus:(success|failure|pending)\b/) || [];
-
-	if (currentStatus) {
-		queryString = queryString.replace(/\bstatus:(success|failure|pending)\b/g, '').trim();
-	}
-
-	select('.table-list-header-toggle > details:nth-last-child(3) .select-menu-list')!.append(...statusList.map(status => {
-		const isSelected = currentStatus.toLowerCase() === status.toLowerCase();
-
-		return (
-			<a
-				href={`?${new URLSearchParams({q: `${queryString} status:${status.toLowerCase()}`})}`}
-				className={`select-menu-item ${isSelected ? 'selected' : ''}`}
-				aria-checked={isSelected}
-				role="menuitemradio"
-			>
-				{checkInline()}
-				<div className="select-menu-item-text">{status}</div>
-			</a>
-		);
-	}));
 }
 
 features.add({
