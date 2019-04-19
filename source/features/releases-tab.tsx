@@ -32,7 +32,7 @@ function updateReleasesCount() {
 }
 
 async function init(): Promise<false | void> {
-	// If tab item is already added. Don't add again.
+	// If tab item is already added, don't add again.
 	// https://github.com/sindresorhus/refined-github/issues/1935#issuecomment-484849946
 	if (select.exists('.rgh-releases-tab')) {
 		return false;
