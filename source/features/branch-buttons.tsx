@@ -61,7 +61,7 @@ async function getTagLink(): Promise<'' | HTMLAnchorElement> {
 	return link;
 }
 
-async function getDefaultBranchLink(): Promise<HTMLElement | SVGElement | undefined> {
+async function getDefaultBranchLink(): Promise<JSX.Element | undefined> {
 	const defaultBranch = await getDefaultBranch();
 	const currentBranch = select('[data-hotkey="w"] span')!.textContent;
 
