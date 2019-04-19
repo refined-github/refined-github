@@ -506,10 +506,10 @@ div.inline-comment-form .form-actions,
 	padding: 6px 9px;
 }
 
-/* Decrease the padding of filters dropdown in PR filters to accommodate new filter - Filter by build status */
+/* For `open-all-selected` and `filter-pr-by-build-status`: set a reduced padding for all buttons for #1830 and #1904 */
 .table-list-filters .table-list-header-toggle .select-menu-button {
-	padding-left: 10px;
-	padding-right: 10px;
+	padding-right: 8px;
+	padding-left: 8px;
 }
 
 /* Expand issue search field width */
@@ -627,13 +627,6 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	font-size: 85%;
 	margin: 0;
 	padding: 0.2em 0.4em;
-}
-
-/* For `open-all-selected`: set a reduced padding for all buttons for #1830 */
-:root .rgh-open-all-selected,
-.rgh-open-all-selected ~ .select-menu .select-menu-button {
-	padding-right: 8px;
-	padding-left: 8px;
 }
 
 /* For `more-dropdown`: Fix pre-existing items' positioning on GHE */
