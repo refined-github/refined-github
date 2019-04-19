@@ -20,7 +20,7 @@ async function init(): Promise<false | void> {
 		{
 			repository(owner: "${ownerName}", name: "${repoName}") {
 				projects(states: [OPEN, CLOSED]){
-	      				totalCount
+					totalCount
 				}
 			}
 		}
