@@ -93,6 +93,7 @@ import './features/collapsible-content-button';
 import './features/hide-watch-and-fork-count';
 import './features/resolve-conflicts';
 import './features/follow-file-renames';
+import './features/filter-pr-by-build-status';
 import './features/edit-files-faster';
 
 // Add global for easier debugging
