@@ -121,7 +121,8 @@ async function init(): Promise<false | void> {
 features.add({
 	id: 'branch-buttons',
 	include: [
-		features.isRepo
+		features.isRepoRoot,
+		features.isSingleFile,
 	],
 	load: features.onAjaxedPages,
 	init
