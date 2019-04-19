@@ -14,7 +14,7 @@ export const groupButtons = (buttons: Element[]): Element => {
 	}
 
 	// They may already be part of a group
-	let group = buttons[0].closest('.BtnGroup');
+	let group = buttons[0].closest('.BtnGroup')!;
 
 	// If it doesn't exist, wrap them in a new group
 	if (!group) {

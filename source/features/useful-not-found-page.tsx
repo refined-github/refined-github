@@ -15,7 +15,7 @@ async function is404(url: string): Promise<boolean> {
 	return status === 404;
 }
 
-function getStrikeThrough(text: string): JSX.Element {
+function getStrikeThrough(text: string): HTMLElement {
 	return <del style={{color: '#6a737d'}}>{text}</del>;
 }
 

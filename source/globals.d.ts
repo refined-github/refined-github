@@ -64,7 +64,7 @@ interface GlobalEventHandlersEventMap {
 }
 
 declare namespace JSX {
-	type Element = SVGElement | HTMLElement;
+	type Element = Element | DocumentFragment;
 
 	interface IntrinsicElements {
 		'include-fragment': {src: string};

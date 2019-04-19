@@ -86,7 +86,7 @@ function buildQuery(numbers: number[]): string {
 	}`;
 }
 
-function createLink(ref: RepositoryReference): JSX.Element {
+function createLink(ref: RepositoryReference): HTMLSpanElement {
 	return (
 		<span
 			className="commit-ref css-truncate user-select-contain mb-n1"

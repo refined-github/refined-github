@@ -12,7 +12,7 @@ const fetchStargazers = async (): Promise<HTMLImageElement[]> => {
 };
 
 const avatarSize = 35;
-const renderAvatar = (image: HTMLImageElement): JSX.Element => {
+const renderAvatar = (image: HTMLImageElement): HTMLAnchorElement => {
 	const src = new URL(image.src);
 	src.searchParams.set('s', String(avatarSize * window.devicePixelRatio));
 	image.src = String(src);

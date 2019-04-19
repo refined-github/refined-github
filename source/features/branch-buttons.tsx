@@ -61,7 +61,7 @@ async function getTagLink(): Promise<'' | HTMLAnchorElement> {
 	return link;
 }
 
-async function getDefaultBranchLink(): Promise<JSX.Element | undefined> {
+async function getDefaultBranchLink(): Promise<HTMLAnchorElement | undefined> {
 	const defaultBranch = await getDefaultBranch();
 	const currentBranch = select('[data-hotkey="w"] span')!.textContent;
 
@@ -114,7 +114,7 @@ async function init(): Promise<false | void> {
 	}
 
 	if (wrapper.children.length > 1) {
-		groupSiblings(wrapper.firstElementChild!);
+		groupSiblings(wrapper.firstElementChild);
 	}
 }
 
