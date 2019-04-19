@@ -2,7 +2,7 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import {isRepo, isPR, isIssue} from './page-detect';
 
-export const getUsername = onetime(() => select('meta[name="user-login"]')!.getAttribute('content') as string);
+export const getUsername = onetime(() => select('meta[name="user-login"]')!.getAttribute('content')!);
 
 export const getDiscussionNumber = () => (isPR() || isIssue()) && getCleanPathname().split('/')[3];
 
