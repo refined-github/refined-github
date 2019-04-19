@@ -10,12 +10,8 @@ declare module CodeMirror {
 	}
 }
 
-interface EditorLinkedDom extends HTMLElement {
-	CodeMirror: CodeMirrorInstance;
-}
-
-const select = document.querySelector.bind(document);
-const editor = select<EditorLinkedDom>('.CodeMirror')!.CodeMirror;
+const select: typeof document.querySelector = document.querySelector.bind(document);
+const editor: CodeMirrorInstance = select<any>('.CodeMirror').CodeMirror;
 
 // Event fired when each file is loaded
 editor.on('swapDoc', () => setTimeout(addWidget, 1));
