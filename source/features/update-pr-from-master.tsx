@@ -17,7 +17,7 @@ async function handler(base: string, head: string, button: HTMLButtonElement) {
 	button.disabled = true;
 	button.textContent = 'Updating branch…';
 
-	const [, repoUrl = ''] = location.pathname.match(/\/([^/]+\/[^/]+)/)!
+	const [, repoUrl = ''] = location.pathname.match(/\/([^/]+\/[^/]+)/)!;
 
 	if (await mergeBranches(repoUrl, base, head)) {
 		button.closest('.branch-action-item')!.remove();
@@ -49,7 +49,7 @@ async function init(): Promise<false | void> {
 				Merge the latest changes from <span className="branch-name">{prBase}</span> into this branch.
 			</h3>
 		</div>
-	)
+	);
 }
 
 features.add({

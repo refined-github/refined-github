@@ -58,10 +58,10 @@ const api4 = location.hostname === 'github.com' ?
 	'https://api.github.com/graphql' :
 	`${location.origin}/api/graphql`;
 
-	interface GHRestApiOptions {
+interface GHRestApiOptions {
 	accept404?: boolean;
-	method?: 'GET' | 'POST',
-	body?: undefined | JsonObject
+	method?: 'GET' | 'POST';
+	body?: undefined | JsonObject;
 }
 
 const v3defaults: GHRestApiOptions = {
