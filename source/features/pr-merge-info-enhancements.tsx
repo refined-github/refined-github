@@ -1,3 +1,11 @@
+/*
+Use the PR’s title and description when merging and update the PR’s title to the merge commit title, if changed.
+
+https://github.com/sindresorhus/refined-github/issues/276
+
+https://user-images.githubusercontent.com/1402241/51669708-9a712400-1ff7-11e9-913a-ac1ea1050975.png
+*/
+
 import React from 'dom-chef';
 import select from 'select-dom';
 import debounce from 'debounce-fn';

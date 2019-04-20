@@ -99,13 +99,13 @@ GitHub Enterprise is also supported. More info in the options.
 
 - Copy the canonical link of a file with [the <kbd>y</kbd> hotkey](https://help.github.com/articles/getting-permanent-links-to-files/).
 - Indent text with <kbd>tab</kbd> inside comment fields (<kbd>shift</kbd> <kbd>tab</kbd> for original behavior).
-- [Use the pull request title as the commit title when merging with `Squash and merge`](https://github.com/sindresorhus/refined-github/issues/276).
+- [Use the PR’s title and description when merging](https://github.com/sindresorhus/refined-github/issues/276) and [update the PR’s title to the merge commit title, if changed.](https://user-images.githubusercontent.com/1402241/51669708-9a712400-1ff7-11e9-913a-ac1ea1050975.png)
 - [View linked gists inline in comments.](https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.PNG)
-- [Use the pull request description as the commit message when merging with `Squash and merge`.](https://github.com/sindresorhus/refined-github/issues/1322).
 - [Access related pages on 404 pages.](https://user-images.githubusercontent.com/1402241/46402857-7bdada80-c733-11e8-91a1-856573078ff5.png)
 - [Add co-authors when merging PRs with multiple committers.](https://user-images.githubusercontent.com/1402241/51468821-71a42100-1da2-11e9-86aa-fc2a6a29da84.png)
 - [Search for issues and PRs separately in the top search.](https://user-images.githubusercontent.com/1402241/52181103-35a09f80-2829-11e9-9c6f-57f2e08fc5b2.png)
 - [View the source of Markdown files.](https://user-images.githubusercontent.com/1402241/54814836-7bc39c80-4ccb-11e9-8996-9ecf4f6036cb.png)
+
 
 ### More actions
 
