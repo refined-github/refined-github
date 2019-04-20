@@ -97,12 +97,6 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	// If buttons are already added, don't add again.
-	// https://github.com/sindresorhus/refined-github/issues/1935#issuecomment-484849946
-	if (select.exists('.rgh-branch-buttons')) {
-		return false;
-	}
-
 	const [defaultLink = '', tagLink = ''] = await Promise.all([
 		getDefaultBranchLink(),
 		getTagLink()

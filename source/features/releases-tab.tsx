@@ -32,12 +32,6 @@ function updateReleasesCount() {
 }
 
 async function init(): Promise<false | void> {
-	// If tab item is already added, don't add again.
-	// https://github.com/sindresorhus/refined-github/issues/1935#issuecomment-484849946
-	if (select.exists('.rgh-releases-tab')) {
-		return false;
-	}
-
 	await safeElementReady('.pagehead + *'); // Wait for the tab bar to be loaded
 	const count = await updateReleasesCount();
 	if (count === 0) {
@@ -45,7 +39,7 @@ async function init(): Promise<false | void> {
 	}
 
 	const releasesTab = (
-		<a href={`/${repoUrl}/releases`} className="reponav-item rgh-releases-tab" data-hotkey="g r">
+		<a href={`/${repoUrl}/releases`} className="reponav-item" data-hotkey="g r">
 			{icons.tag()}
 			<span> Releases </span>
 			{count === undefined ? '' : <span className="Counter">{count}</span>}
