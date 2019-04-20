@@ -52,15 +52,24 @@ function showNote(): void {
 	);
 	inputMap.set(inputField, note);
 
-	// The `hidden` attribute is used to remember the user's Cancellation
+	// The `hidden` attribute is used to remember the user's Cancellation.
 	if (needsUpdate && !note.hidden) {
+		verifyTitleFields();
 		inputField.after(note);
 	} else {
 		note.remove();
 	}
 }
 
-function updatePR() {
+// This ensures that it doesn't fail *after* the note is added
+function verifyTitleFields(): void {
+	console.assert(select.all(`
+		.edit-issue-title,
+		.js-issue-update [type="submit"]
+	`).length === 2);
+}
+
+function updatePR(): void {
 	const inputField = select<HTMLInputElement>('#merge_title_field')!;
 	const note = inputMap.get(inputField);
 	if (!note || !note.parentElement) {
@@ -74,7 +83,7 @@ function updatePR() {
 	select('.js-issue-update [type="submit"]')!.click(); // `form.submit()` isn't sent via ajax
 }
 
-function init() {
+function init(): void {
 	delegate('#discussion_bucket', '.js-merge-pr:not(is-rebasing)', 'details:toggled', updateCommitInfo);
 	delegate('#discussion_bucket', '#merge_title_field', 'input', showNote);
 	delegate('#discussion_bucket', 'form.js-merge-pull-request', 'submit', updatePR);
