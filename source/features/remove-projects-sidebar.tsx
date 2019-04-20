@@ -1,6 +1,6 @@
 /*
-The `Projects` tab is hidden from repositories and profiles when there are no projects
-
+The `Projects` sidebar is hidden from repositories and profiles when there are no projects.
+The sidebar can't be used to create new projects.
 New projects can still be created via the [`Create new…` menu](https://user-images.githubusercontent.com/1402241/34909214-18b6fb2e-f8cf-11e7-8556-bed748596d3b.png).
 */
 
