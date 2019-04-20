@@ -4,12 +4,6 @@ import * as api from '../libs/api';
 import features from '../libs/features';
 import {getOwnerAndRepo, getDiscussionNumber, getOP} from '../libs/utils';
 
-interface CommitNode {
-	commit: {
-		author: Author;
-	};
-}
-
 interface Author {
 	email: string;
 	user: {
@@ -46,7 +40,7 @@ async function fetchCoAuthoredData(): Promise<Author[]> {
 		}`
 	);
 
-	return userInfo.repository.pullRequest.commits.nodes.map((node: CommitNode) => node.commit.author);
+	return userInfo.repository.pullRequest.commits.nodes.map((node: any) => node.commit.author as Author);
 }
 
 function addCoAuthors() {
