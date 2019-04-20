@@ -106,7 +106,6 @@ GitHub Enterprise is also supported. More info in the options.
 - [Search for issues and PRs separately in the top search.](https://user-images.githubusercontent.com/1402241/52181103-35a09f80-2829-11e9-9c6f-57f2e08fc5b2.png)
 - [View the source of Markdown files.](https://user-images.githubusercontent.com/1402241/54814836-7bc39c80-4ccb-11e9-8996-9ecf4f6036cb.png)
 
-
 ### More actions
 
 - [Click on branch references in pull requests.](https://github.com/sindresorhus/refined-github/issues/1)
