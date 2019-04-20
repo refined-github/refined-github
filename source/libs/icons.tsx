@@ -38,6 +38,8 @@ export const chevronDown = (): JSX.Element => <svg aria-hidden="true" className=
 
 export const chevronLeft = (): JSX.Element => <svg aria-hidden="true" className="octicon octicon-chevron-left" height="16" width="8"><path fill-rule="evenodd" d="M5.5 3L7 4.5 3.25 8 7 11.5 5.5 13l-5-5z"/></svg>;
 
+export const clock = (): JSX.Element => <svg aria-hidden="true" className="octicon octicon-clock" width="14" height="16"><path d="M8 8h3v2H7c-.55 0-1-.45-1-1V4h2v4zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"/></svg>;
+
 export const commit = (): JSX.Element => <svg aria-hidden="true" className="octicon octicon-git-commit" width="14" height="16" ><path d="M10.86 7c-.45-1.72-2-3-3.86-3-1.86 0-3.41 1.28-3.86 3H0v2h3.14c.45 1.72 2 3 3.86 3 1.86 0 3.41-1.28 3.86-3H14V7h-3.14zM7 10.2c-1.22 0-2.2-.98-2.2-2.2 0-1.22.98-2.2 2.2-2.2 1.22 0 2.2.98 2.2 2.2 0 1.22-.98 2.2-2.2 2.2z"/></svg>;
 
 export const diff = (): JSX.Element => <svg aria-hidden="true" className="octicon octicon-diff" width="13" height="16"><path d="M6 7h2v1H6v2H5V8H3V7h2V5h1v2zm-3 6h5v-1H3v1zM7.5 2L11 5.5V15c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h6.5zM10 6L7 3H1v12h9V6zM8.5 0H3v1h5l4 4v8h1V4.5L8.5 0z"/></svg>;
@@ -51,6 +53,8 @@ export const branch = (): JSX.Element => <svg aria-hidden="true" className="octi
 export const gear = (): JSX.Element => <svg aria-hidden="true" className="octicon octicon-gear" height="16" width="14"><path fill-rule="evenodd" d="M14 8.77v-1.6l-1.94-.64-.45-1.09.88-1.84-1.13-1.13-1.81.91-1.09-.45-.69-1.92h-1.6l-.63 1.94-1.11.45-1.84-.88-1.13 1.13.91 1.81-.45 1.09L0 7.23v1.59l1.94.64.45 1.09-.88 1.84 1.13 1.13 1.81-.91 1.09.45.69 1.92h1.59l.63-1.94 1.11-.45 1.84.88 1.13-1.13-.92-1.81.47-1.09L14 8.75v.02zM7 11c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"></path></svg>;
 
 export const foldDown = (): JSX.Element => <svg aria-hidden="true" className="octicon octicon-fold-down" width="14" height="16" ><path fill-rule="evenodd" d="M4 11l3 3 3-3H8V5H6v6H4zm-4 0c0 .55.45 1 1 1h2.5l-1-1h-1l2-2H5V8H3.5l-2-2H5V5H1c-.55 0-1 .45-1 1l2.5 2.5L0 11zm10.5-2H9V8h1.5l2-2H9V5h4c.55 0 1 .45 1 1l-2.5 2.5L14 11c0 .55-.45 1-1 1h-2.5l1-1h1l-2-2z"/></svg>;
+
+export const checkInline = (): JSX.Element => <svg aria-hidden="true" className="octicon octicon-check select-menu-item-icon" width="12" height="16" viewBox="0 0 12 16"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"></path></svg>;
 
 export const privateLockFilled = (): JSX.Element => (
 	<svg className="octicon octicon-lock" width="14" height="16" aria-hidden="true">

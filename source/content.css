@@ -506,6 +506,12 @@ div.inline-comment-form .form-actions,
 	padding: 6px 9px;
 }
 
+/* For `open-all-selected` and `filter-pr-by-build-status`: set a reduced padding for all buttons for #1830 and #1904 */
+.table-list-filters .table-list-header-toggle .select-menu-button {
+	padding-right: 8px;
+	padding-left: 8px;
+}
+
 /* Expand issue search field width */
 .subnav,
 .subnav-search,
@@ -623,13 +629,6 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	padding: 0.2em 0.4em;
 }
 
-/* For `open-all-selected`: set a reduced padding for all buttons for #1830 */
-:root .rgh-open-all-selected,
-.rgh-open-all-selected ~ .select-menu .select-menu-button {
-	padding-right: 12px;
-	padding-left: 12px;
-}
-
 /* For `more-dropdown`: Fix pre-existing items' positioning on GHE */
 .reponav-dropdown a.dropdown-item:not(.rgh-reponav-more)::before {
 	content: '';
@@ -709,14 +708,6 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 /* Remove annoying "helpful" popover on the repo label page */
 .labels-list .TutorialPopover {
 	display: none !important;
-}
-
-/* For the `add-time-machine-links-to-comments` feature */
-:root .rgh-timestamp-button {
-	padding: 0;
-}
-:root .rgh-timestamp-button .octicon {
-	vertical-align: middle;
 }
 
 @keyframes fade-in {
