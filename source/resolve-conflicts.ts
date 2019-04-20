@@ -10,8 +10,7 @@ declare module CodeMirror {
 	}
 }
 
-const select: typeof document.querySelector = document.querySelector.bind(document);
-const editor: CodeMirrorInstance = select<any>('.CodeMirror').CodeMirror;
+const editor: CodeMirrorInstance = document.querySelector<any>('.CodeMirror').CodeMirror;
 
 // Event fired when each file is loaded
 editor.on('swapDoc', () => setTimeout(addWidget, 1));

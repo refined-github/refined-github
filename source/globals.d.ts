@@ -1,4 +1,3 @@
-// TODO: Type anything that is of type AnyObject
 type AnyObject = Record<string, any>;
 
 // TODO: Move types to tiny-version-compare repo
@@ -70,7 +69,7 @@ declare namespace JSX {
 		'include-fragment': {src: string};
 		'has-rgh': {};
 		'relative-time': {datetime: string; title: string};
-		'details-dialog': any;
+		'details-dialog': AnyObject;
 	}
 }
 
