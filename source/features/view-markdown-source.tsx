@@ -32,10 +32,10 @@ This acts as an auto-discarded cache without globals, timers, etc.
 It should also work clicks on buttons sooner than the page loads.
 */
 async function showSource() {
-	const sourceButton = select('.rgh-md-source')!;
-	const renderedButton = select('.rgh-md-rendered')!;
+	const sourceButton = select<HTMLButtonElement>('.rgh-md-source')!;
+	const renderedButton = select<HTMLButtonElement>('.rgh-md-rendered')!;
 
-	document.dispatchEvent(new CustomEvent('pjax:start')); // Show loading bar
+	sourceButton.disabled = true;
 
 	const source = btnBodyMap.get(sourceButton) || fetchSource();
 	const rendered = btnBodyMap.get(renderedButton) as Element || select('.blob.instapaper_body')!;
@@ -45,7 +45,7 @@ async function showSource() {
 
 	rendered.replaceWith(await source);
 
-	document.dispatchEvent(new CustomEvent('pjax:end')); // Hide loading bar
+	sourceButton.disabled = false;
 
 	sourceButton.classList.add('selected');
 	renderedButton.classList.remove('selected');
@@ -53,10 +53,14 @@ async function showSource() {
 }
 
 async function showRendered() {
-	const sourceButton = select('.rgh-md-source')!;
-	const renderedButton = select('.rgh-md-rendered')!;
+	const sourceButton = select<HTMLButtonElement>('.rgh-md-source')!;
+	const renderedButton = select<HTMLButtonElement>('.rgh-md-rendered')!;
+
+	renderedButton.disabled = true;
 
 	(await btnBodyMap.get(sourceButton))!.replaceWith(btnBodyMap.get(renderedButton) as Element);
+
+	renderedButton.disabled = false;
 
 	sourceButton.classList.remove('selected');
 	renderedButton.classList.add('selected');
