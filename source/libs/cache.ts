@@ -20,7 +20,7 @@ export async function getSet(key: string, getter: CacheGetter, expiration?: numb
 	}
 }
 
-export async function get(key: string): Promise<any> {
+export async function get<T extends any>(key: string): Promise<T | undefined> {
 	const value = await browser.runtime.sendMessage({
 		key,
 		code: 'get-cache'
