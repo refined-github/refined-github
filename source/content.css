@@ -217,7 +217,7 @@ followed someone
 	width: 20px;
 }
 
-/* Limit width of commit title 70 chars */
+/* Limit width of commit title to 70 characters */
 .rgh-monospace-textareas #merge_title_field,
 .rgh-monospace-textareas #commit-summary-input {
 	width: 70ch;
