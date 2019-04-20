@@ -1,6 +1,7 @@
 /* eslint-disable no-alert */
 import React from 'dom-chef';
 import select from 'select-dom';
+import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 import {groupButtons} from '../libs/group-buttons';
@@ -8,13 +9,8 @@ import {groupButtons} from '../libs/group-buttons';
 const confirmationRequiredCount = 10;
 const unreadNotificationsClass = '.unread .js-notification-target';
 
-function openNotifications({target}: Event) {
-	// Homemade delegate event, simplifies addEventListener deduplication
-	if (!(target as Element).closest('.rgh-open-notifications-button')) {
-		return;
-	}
-
-	const container = (target as Element).closest('.boxed-group, .notification-center');
+function openNotifications({delegateTarget}: DelegateEvent) {
+	const container = delegateTarget.closest('.boxed-group, .notification-center');
 
 	// Ask for confirmation
 	const unreadNotifications = select.all<HTMLAnchorElement>(unreadNotificationsClass, container!);
@@ -91,7 +87,7 @@ function update(): void {
 
 function init() {
 	document.addEventListener('refined-github:mark-unread:notifications-added', update);
-	document.addEventListener('click', openNotifications);
+	delegate('.rgh-open-notifications-button', 'click', openNotifications);
 	update();
 }
 
