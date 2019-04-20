@@ -217,14 +217,10 @@ followed someone
 	width: 20px;
 }
 
-/* Limit width of commit title and description inputs to 50/80 chars */
+/* Limit width of commit title 70 chars */
 .rgh-monospace-textareas #merge_title_field,
 .rgh-monospace-textareas #commit-summary-input {
-	width: 50ch;
-}
-
-.rgh-monospace-textareas #commit-description-textarea {
-	width: 80ch;
+	width: 70ch;
 }
 
 .rgh-monospace-textareas #merge_title_field,
