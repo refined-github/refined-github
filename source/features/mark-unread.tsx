@@ -34,7 +34,8 @@ const stateIcons = {
 	issue: {
 		open: icons.openIssue,
 		closed: icons.closedIssue,
-		merged: icons.closedIssue // Required just for TypeScript
+		merged: icons.closedIssue, // Required just for TypeScript
+		draft: icons.closedIssue // Required just for TypeScript
 	},
 	'pull-request': {
 		open: icons.openPullRequest,
