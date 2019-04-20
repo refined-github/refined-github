@@ -1,4 +1,3 @@
-// TODO: Type anything that is of type AnyObject
 type AnyObject = Record<string, any>;
 
 // TODO: Move types to tiny-version-compare repo
@@ -65,11 +64,13 @@ interface GlobalEventHandlersEventMap {
 
 declare namespace JSX {
 	interface Element extends SVGElement, HTMLElement, DocumentFragment {}
+	type BaseIntrinsicElement = IntrinsicElements['div'];
 	interface IntrinsicElements {
-		'include-fragment': {src: string};
 		'has-rgh': {};
-		'relative-time': {datetime: string; title: string};
-		'details-dialog': any;
+		'include-fragment': BaseIntrinsicElement & {src?: string};
+		'details-menu': BaseIntrinsicElement & {src: string; preload: boolean};
+		'relative-time': BaseIntrinsicElement & {datetime: string; title: string};
+		'details-dialog': BaseIntrinsicElement & {tabindex: string};
 	}
 }
 

@@ -16,7 +16,7 @@ function listener(event: KeyboardEvent): void {
 	if (
 		event.key === 'Escape' && // Catch `Esc` key
 		isLineSelected() &&
-		!(event.target as Element).closest('textarea, input') // If a field isn’t focused
+		!(event.target instanceof HTMLTextAreaElement || event.target instanceof HTMLInputElement) // If a field isn’t focused
 	) {
 		location.hash = '#no-line'; // Update UI, without `scroll-to-top` behavior
 		history.replaceState({}, document.title, location.pathname); // Drop remaining # from url

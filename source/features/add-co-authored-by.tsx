@@ -40,7 +40,7 @@ async function fetchCoAuthoredData(): Promise<Author[]> {
 		}`
 	);
 
-	return userInfo.repository.pullRequest.commits.nodes.map((node: any) => node.commit.author as Author);
+	return userInfo.repository.pullRequest.commits.nodes.map((node: AnyObject) => node.commit.author as Author);
 }
 
 function addCoAuthors(): void {

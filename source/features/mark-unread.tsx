@@ -86,7 +86,7 @@ async function markRead(urls: string|string[]): Promise<void> {
 	await setNotifications(updated);
 }
 
-async function markUnread({target}: React.MouseEvent): Promise<void> {
+async function markUnread({currentTarget}: React.MouseEvent): Promise<void> {
 	const participants: Participant[] = select.all('.participant-avatar').slice(0, 3).map(el => ({
 		username: el.getAttribute('aria-label')!,
 		avatar: el.querySelector('img')!.src
@@ -124,9 +124,8 @@ async function markUnread({target}: React.MouseEvent): Promise<void> {
 	await setNotifications(unreadNotifications);
 	await updateUnreadIndicator();
 
-	// TODO: move type to function parameters, if elegant
-	(target as HTMLButtonElement).setAttribute('disabled', 'disabled');
-	(target as HTMLButtonElement).textContent = 'Marked as unread';
+	currentTarget.setAttribute('disabled', 'disabled');
+	currentTarget.textContent = 'Marked as unread';
 }
 
 function getNotification(notification: Notification): Element {
@@ -301,8 +300,8 @@ async function updateUnreadIndicator(): Promise<void> {
 	}
 }
 
-async function markNotificationRead({target}: DelegateEvent): Promise<void> {
-	const {href} = (target as Element)
+async function markNotificationRead({delegateTarget}: DelegateEvent): Promise<void> {
+	const {href} = delegateTarget
 		.closest('li.js-notification')!
 		.querySelector<HTMLAnchorElement>('a.js-notification-target')!;
 	await markRead(href);
@@ -311,10 +310,17 @@ async function markNotificationRead({target}: DelegateEvent): Promise<void> {
 
 async function markAllNotificationsRead(event: DelegateEvent): Promise<void> {
 	event.preventDefault();
-	const repoGroup = (event.target as Element).closest('.boxed-group')!;
+	const repoGroup = event.delegateTarget.closest('.boxed-group')!;
 	const urls = select.all<HTMLAnchorElement>('a.js-notification-target', repoGroup).map(a => a.href);
 	await markRead(urls);
 	await updateUnreadIndicator();
+}
+
+async function markVisibleNotificationsRead({delegateTarget}: DelegateEvent): Promise<void> {
+	const group = delegateTarget.closest('.boxed-group')!;
+	const repo = select('.notifications-repo-link', group)!.textContent;
+	const notifications = await getNotifications();
+	setNotifications(notifications.filter(({repository}) => repository !== repo));
 }
 
 function addCustomAllReadBtn(): void {
@@ -396,12 +402,7 @@ async function init(): Promise<void> {
 			delegate('.btn-link.delete-note', 'click', markNotificationRead),
 			delegate('.js-mark-all-read', 'click', markAllNotificationsRead),
 			delegate('.js-delete-notification button', 'click', updateUnreadIndicator),
-			delegate('.js-mark-visible-as-read', 'submit', async event => {
-				const group = (event.target as Element).closest('.boxed-group')!;
-				const repo = select('.notifications-repo-link', group)!.textContent;
-				const notifications = await getNotifications();
-				setNotifications(notifications.filter(({repository}) => repository !== repo));
-			})
+			delegate('.js-mark-visible-as-read', 'submit', markVisibleNotificationsRead)
 		);
 	} else if (pageDetect.isPR() || pageDetect.isIssue()) {
 		await markRead(location.href);

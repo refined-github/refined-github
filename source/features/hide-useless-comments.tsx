@@ -45,13 +45,13 @@ function init(): void {
 	}
 }
 
-function unhide(event: React.MouseEvent): void {
+function unhide(event: React.MouseEvent<HTMLButtonElement>): void {
 	for (const comment of select.all('.rgh-hidden-comment')) {
 		comment.hidden = false;
 	}
 
 	select('.rgh-hidden-comment')!.scrollIntoView();
-	(event.target as Element).parentElement!.remove();
+	event.currentTarget.parentElement!.remove();
 }
 
 features.add({

@@ -67,13 +67,13 @@ function normalizeBranchInfo(data: BranchInfo): {
 	};
 }
 
-function buildQuery(numbers: number[]): string {
+function buildQuery(issueIds: string[]): string {
 	const {ownerName, repoName} = getOwnerAndRepo();
 
 	return `{
 		repository(owner: "${ownerName}", name: "${repoName}") {
-			${numbers.map(number => `
-				${number}: pullRequest(number: ${String(number).replace('issue_', '')}) {
+			${issueIds.map(id => `
+				${id}: pullRequest(number: ${id.replace('issue_', '')}) {
 					baseRef {id}
 					headRef {id}
 					baseRefName
@@ -109,7 +109,7 @@ async function init(): Promise<false | void> {
 	}
 
 	const {ownerName} = getOwnerAndRepo();
-	const query = buildQuery(elements.map(pr => Number(pr.id)));
+	const query = buildQuery(elements.map(pr => pr.id));
 	const [data, defaultBranch] = await Promise.all([
 		api.v4(query),
 		getDefaultBranch()

@@ -12,7 +12,7 @@ function add(): void {
 		const ref = infoBubble
 			.closest('.discussion-item')!
 			.querySelector('.issue-num, .commit-id')!;
-		const link = (ref.closest('[href]') as HTMLAnchorElement).href;
+		const link = ref.closest('a')!.href;
 
 		select('.gh-header-meta .TableObject-item')!.after(
 			<div className="TableObject-item">
