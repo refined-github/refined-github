@@ -64,12 +64,13 @@ interface GlobalEventHandlersEventMap {
 
 declare namespace JSX {
 	type Element = SVGElement | HTMLElement;
-
+	type BaseIntrinsicElement = IntrinsicElements['div'];
 	interface IntrinsicElements {
-		'include-fragment': {src: string};
 		'has-rgh': {};
-		'relative-time': {datetime: string; title: string};
-		'details-dialog': AnyObject;
+		'include-fragment': BaseIntrinsicElement & {src?: string};
+		'details-menu': BaseIntrinsicElement & {src: string; preload: boolean};
+		'relative-time': BaseIntrinsicElement & {datetime: string; title: string};
+		'details-dialog': BaseIntrinsicElement & {tabindex: string};
 	}
 }
 
