@@ -15,6 +15,7 @@ async function init() {
 	].join())) {
 		return;
 	}
+
 	// Only remove the tab if it's not the current page and if it has 0 checks
 	const checksCounter = await safeElementReady('[data-hotkey="g 3"]:not(.selected) .Counter');
 
