@@ -23,9 +23,9 @@ function addButtons() {
 	}
 }
 
-function triggerUploadUI({target}: DelegateEvent) {
-	(target as Element)
-		.closest('form')!
+function triggerUploadUI({delegateTarget}: DelegateEvent<Event, HTMLButtonElement>) {
+	delegateTarget
+		.form!
 		.querySelector<HTMLElement>('.js-manual-file-chooser')! // Find <input [type=file]>
 		.click(); // Open UI
 }
