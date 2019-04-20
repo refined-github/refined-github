@@ -9,7 +9,7 @@ import * as api from '../libs/api';
 import {getCleanPathname} from '../libs/utils';
 
 interface File {
-	previous_filename: string;
+	previous_filename: string; // eslint-disable-line @typescript-eslint/camelcase
 	filename: string;
 	status: string;
 }
