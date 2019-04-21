@@ -74,10 +74,11 @@ declare namespace JSX {
 	}
 }
 
-// Drop when this bug fix is shipped in a version of TypeScript https://github.com/Microsoft/TypeScript/issues/30928
+// TODO: Drop when this bug fix is shipped in a version of TypeScript https://github.com/Microsoft/TypeScript/issues/30928
 interface NamedNodeMap {
 	[key: string]: Attr;
 }
+
 // TODO: add support for `class` in JSX
 // The following code works if it's inside the file with JSX, but here it breaks all JSX definitions.
 // The `namespace JSX`  merges fine because in react's types it's `global`, but `namespace React` isn't
