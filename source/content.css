@@ -748,6 +748,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 /* For `recently-pushed-branches-enhancements`: Move it out of the way */
 .rgh-recently-pushed-branches .container.new-discussion-timeline.experiment-repo-nav .repository-content {
 	position: relative;
+	margin-right: 6px;
 }
 .rgh-recently-pushed-branches [data-url$='recently_touched_branches_list'] {
 	max-height: 42px; /* Only cover the actions when there are multiple branches + :hover */
