@@ -9,7 +9,7 @@ import select from 'select-dom';
 import {checkInline} from '../libs/icons';
 import features from '../libs/features';
 
-function populateDropDown({currentTarget}: Event) {
+function populateDropDown({currentTarget}: Event): void {
 	const searchParam = new URLSearchParams(location.search);
 	let queryString = searchParam.get('q') || '';
 
@@ -40,7 +40,7 @@ function populateDropDown({currentTarget}: Event) {
 	}
 }
 
-function init() {
+function init(): void {
 	const reviewsFilter = select('.table-list-header-toggle > details:nth-last-child(3)')!;
 
 	// Copy existing element and adapt its content

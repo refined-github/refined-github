@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
-function cleanLinks() {
+function cleanLinks(): void {
 	for (const link of select.all<HTMLAnchorElement>('.menu-item')) {
 		const searchParams = new URLSearchParams(link.search);
 		searchParams.set('q', cleanSearchQuery(searchParams.get('q')!));
@@ -10,11 +10,11 @@ function cleanLinks() {
 	}
 }
 
-function getSearchQuery() {
+function getSearchQuery(): string {
 	return new URLSearchParams(location.search).get('q')!;
 }
 
-function cleanSearchQuery(query: string) {
+function cleanSearchQuery(query: string): string {
 	return query
 		.replace(/\bis:(pr|issue)\b/gi, '')
 		.replace(/\s{2,}/g, ' ').trim();
@@ -22,14 +22,14 @@ function cleanSearchQuery(query: string) {
 
 type GitHubDiscussionType = 'pr' | 'issue';
 
-function createUrl(type: GitHubDiscussionType, pathname = location.pathname) {
+function createUrl(type: GitHubDiscussionType, pathname = location.pathname): string {
 	const url = new URL(pathname, location.origin);
 	url.searchParams.set('q', cleanSearchQuery(getSearchQuery()) + ` is:${type}`);
 	url.searchParams.set('type', 'Issues');
 	return String(url);
 }
 
-function init() {
+function init(): void {
 	cleanLinks();
 
 	const issueLink = select<HTMLAnchorElement>('nav.menu a[href*="&type=Issues"]')!;

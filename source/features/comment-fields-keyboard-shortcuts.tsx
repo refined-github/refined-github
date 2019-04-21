@@ -5,7 +5,7 @@ import features from '../libs/features';
 
 // Element.blur() will reset the tab focus to the start of the document.
 // This places it back next to the blurred field
-export function blurAccessibly(field: HTMLElement) {
+export function blurAccessibly(field: HTMLElement): void {
 	field.blur();
 
 	const range = new Range();
@@ -18,7 +18,7 @@ export function blurAccessibly(field: HTMLElement) {
 	focusHolder.remove();
 }
 
-function init() {
+function init(): void {
 	delegate<HTMLTextAreaElement, KeyboardEvent>('.js-comment-field, #commit-description-textarea', 'keydown', event => {
 		const field = event.delegateTarget;
 

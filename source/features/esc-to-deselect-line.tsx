@@ -12,7 +12,7 @@ function isLineSelected(): boolean {
 	return /^#L|^#diff-[a-f0-9]+R\d+/.test(location.hash);
 }
 
-function listener(event: KeyboardEvent) {
+function listener(event: KeyboardEvent): void {
 	if (
 		event.key === 'Escape' && // Catch `Esc` key
 		isLineSelected() &&
@@ -23,7 +23,7 @@ function listener(event: KeyboardEvent) {
 	}
 }
 
-function init() {
+function init(): void {
 	document.body.addEventListener('keyup', listener);
 }
 

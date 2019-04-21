@@ -63,7 +63,7 @@ interface GlobalEventHandlersEventMap {
 }
 
 declare namespace JSX {
-	type Element = SVGElement | HTMLElement;
+	interface Element extends SVGElement, HTMLElement, DocumentFragment {}
 	type BaseIntrinsicElement = IntrinsicElements['div'];
 	interface IntrinsicElements {
 		'has-rgh': {};

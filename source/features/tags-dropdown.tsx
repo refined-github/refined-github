@@ -9,7 +9,7 @@ import features from '../libs/features';
 import {getOwnerAndRepo} from '../libs/utils';
 import {octoface} from '../libs/icons';
 
-async function init() {
+async function init(): Promise<false | void> {
 	if (select.exists('.blankslate')) {
 		return false;
 	}
@@ -39,7 +39,7 @@ async function init() {
 }
 
 // We're reusing the Branch/Tag selector from the repo's Code tab, so we need to update a few things
-function onFragmentLoaded() {
+function onFragmentLoaded(): void {
 	// Change the tab to "Tags"
 	select('.rgh-tags-dropdown .select-menu-tab:last-child button')!.click();
 

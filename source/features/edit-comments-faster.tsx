@@ -2,7 +2,7 @@ import select from 'select-dom';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 
-function init() {
+function init(): void {
 	const menuItems = select.all('details .js-comment-edit-button:not(.rgh-edit-comment)');
 
 	for (const item of menuItems) {

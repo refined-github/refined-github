@@ -222,7 +222,7 @@ async function renderNotifications(unreadNotifications: Notification[]): Promise
 	}
 
 	// Don’t simplify selector, it’s for cross-extension compatibility
-	let pageList = await safeElementReady('#notification-center .notifications-list');
+	let pageList = (await safeElementReady('#notification-center .notifications-list'))!;
 
 	if (!pageList) {
 		pageList = <div className="notifications-list"></div>;
@@ -233,7 +233,7 @@ async function renderNotifications(unreadNotifications: Notification[]): Promise
 		const group = getNotificationGroup(notification);
 		const item = getNotification(notification);
 
-		pageList!.prepend(group);
+		pageList.prepend(group);
 		group
 			.querySelector('ul.notifications')!
 			.prepend(item);
@@ -316,7 +316,7 @@ async function markAllNotificationsRead(event: DelegateEvent): Promise<void> {
 	await updateUnreadIndicator();
 }
 
-async function markVisibleNotificationsRead({delegateTarget}: DelegateEvent) {
+async function markVisibleNotificationsRead({delegateTarget}: DelegateEvent): Promise<void> {
 	const group = delegateTarget.closest('.boxed-group')!;
 	const repo = select('.notifications-repo-link', group)!.textContent;
 	const notifications = await getNotifications();

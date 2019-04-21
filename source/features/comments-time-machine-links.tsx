@@ -4,7 +4,7 @@ import features from '../libs/features';
 import * as icons from '../libs/icons';
 import {getRepoURL} from '../libs/utils';
 
-function addInlineLinks(comment: HTMLElement, timestamp: string) {
+function addInlineLinks(comment: HTMLElement, timestamp: string): void {
 	const links = select.all<HTMLAnchorElement>(`
 		[href^="${location.origin}"][href*="/blob/"]:not(.rgh-linkified-code),
 		[href^="${location.origin}"][href*="/tree/"]:not(.rgh-linkified-code)
@@ -30,7 +30,7 @@ function addInlineLinks(comment: HTMLElement, timestamp: string) {
 	}
 }
 
-function addDropdownLink(comment: HTMLElement, timestamp: string) {
+function addDropdownLink(comment: HTMLElement, timestamp: string): void {
 	const dropdownPosition = select('.show-more-popover .dropdown-divider', comment);
 
 	// Comment-less reviews don't have a dropdown
@@ -50,7 +50,7 @@ function addDropdownLink(comment: HTMLElement, timestamp: string) {
 	);
 }
 
-async function init() {
+function init(): void {
 	const comments = select.all(`
 		:not(.js-new-comment-form) > .timeline-comment:not(.rgh-time-machine-links),
 		.review-comment:not(.rgh-time-machine-links)
