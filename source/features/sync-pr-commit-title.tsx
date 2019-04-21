@@ -8,11 +8,12 @@ https://user-images.githubusercontent.com/1402241/51669708-9a712400-1ff7-11e9-91
 
 import React from 'dom-chef';
 import select from 'select-dom';
+import onetime from 'onetime';
 import debounce from 'debounce-fn';
-import delegate from 'delegate-it';
+import delegate, {DelegateSubscription} from 'delegate-it';
+import insertTextTextarea from 'insert-text-textarea';
+import fitTextarea from 'fit-textarea';
 import features from '../libs/features';
-
-const inputMap = new WeakMap();
 
 const createCommitTitle = debounce<[], string>((): string =>
 	`${select('.js-issue-title')!.textContent!.trim()} (${getPRNumber()})`
@@ -21,59 +22,42 @@ const createCommitTitle = debounce<[], string>((): string =>
 	immediate: true
 });
 
+const getNote = onetime<[], HTMLElement>((): HTMLElement =>
+	<p className="note">
+		The title of this PR will be updated to match this title. <button type="button" className="btn-link muted-link text-underline" onClick={event => {
+			deinit();
+			event.currentTarget.parentElement!.remove(); // Hide note
+		}}>Cancel</button>
+	</p>
+);
+
 function getPRNumber(): string {
 	return select('.gh-header-number')!.textContent!;
 }
 
-function updateCommitInfo(): void {
-	// Trigger `fit-textareas`
-	select('#merge_message_field')!.dispatchEvent(new FocusEvent('focusin', {bubbles: true}));
-
-	const field = select<HTMLInputElement>('#merge_title_field')!;
-	field.value = createCommitTitle();
-	field.focus();
-	field.dispatchEvent(new InputEvent('input', {
-		bubbles: true,
-		// TODO: drop the following 2 when https://github.com/DefinitelyTyped/DefinitelyTyped/issues/33903 is solved
-		isComposing: false,
-		inputType: 'insertText'
-	}));
-}
-
-function showNote(): void {
+function maybeShowNote(): void {
 	const inputField = select<HTMLInputElement>('#merge_title_field')!;
-	const needsUpdate = createCommitTitle() !== inputField.value;
+	const needsSubmission = createCommitTitle() !== inputField.value;
 
-	const note: HTMLElement = inputMap.get(inputField) || (
-		<p className="note">
-			The title of this PR will be updated to match this title. <button type="button" className="btn-link muted-link text-underline" onClick={() => {
-				note.hidden = true;
-			}}>Cancel</button>
-		</p>
-	);
-	inputMap.set(inputField, note);
-
-	// The `hidden` attribute is used to remember the user's Cancellation.
-	if (needsUpdate && !note.hidden) {
-		verifyTitleFields();
-		inputField.after(note);
-	} else {
-		note.remove();
+	if (needsSubmission) {
+		inputField.after(getNote());
+		return;
 	}
+
+	if (select.all('.edit-issue-title, .js-issue-update [type="submit"]').length !== 2) {
+		// Ensure that the required fields are there before adding the note
+		throw new Error('Refined GitHub: `sync-pr-commit-title` is broken');
+	}
+
+	getNote().remove();
+
 }
 
-// This ensures that it doesn't fail *after* the note is added
-function verifyTitleFields(): void {
-	console.assert(select.all(`
-		.edit-issue-title,
-		.js-issue-update [type="submit"]
-	`).length === 2);
-}
-
-function updatePR(): void {
+function submitPRTitleUpdate(): void {
 	const inputField = select<HTMLInputElement>('#merge_title_field')!;
-	const note = inputMap.get(inputField);
-	if (!note || !note.parentElement) {
+
+	// If the note isn't shown, the PR title doesn't need to be updated
+	if (!getNote().parentElement) {
 		return;
 	}
 
@@ -84,10 +68,45 @@ function updatePR(): void {
 	select('.js-issue-update [type="submit"]')!.click(); // `form.submit()` isn't sent via ajax
 }
 
+function triggerFitTextareas(): void {
+	fitTextarea(select<HTMLTextAreaElement>('#merge_message_field')!);
+}
+
+function onMergePanelToggle(event: CustomEvent): void {
+	if (!event.detail.open) {
+		return;
+	}
+
+	triggerFitTextareas();
+
+	// Replace default title and fire the correct events
+	const field = select<HTMLTextAreaElement>('.merge-branch-form:not(.is-dirty) #merge_title_field')!;
+	field.focus();
+	field.select();
+	insertTextTextarea(field, createCommitTitle());
+}
+
+async function onResume(): Promise<void> {
+	await Promise.resolve(); // The `session:resume` event fires a bit too early
+	maybeShowNote();
+	triggerFitTextareas();
+}
+
+let listeners: DelegateSubscription[];
 function init(): void {
-	delegate('#discussion_bucket', '.js-merge-pr:not(is-rebasing)', 'details:toggled', updateCommitInfo);
-	delegate('#discussion_bucket', '#merge_title_field', 'input', showNote);
-	delegate('#discussion_bucket', 'form.js-merge-pull-request', 'submit', updatePR);
+	listeners = [
+		...delegate('#discussion_bucket', '#merge_title_field', 'input', maybeShowNote),
+		...delegate('#discussion_bucket', 'form.js-merge-pull-request', 'submit', submitPRTitleUpdate),
+		...delegate('#discussion_bucket', '.js-merge-pr:not(.is-rebasing)', 'details:toggled', onMergePanelToggle)
+	];
+}
+
+function deinit(): void {
+	for (const delegation of listeners) {
+		delegation.destroy();
+	}
+
+	listeners.length = 0;
 }
 
 features.add({
@@ -105,5 +124,5 @@ features.add({
 	include: [
 		features.isPRConversation
 	],
-	init: () => document.addEventListener('session:resume', debounce(showNote))
+	init: () => document.addEventListener('session:resume', onResume)
 });

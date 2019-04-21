@@ -46,7 +46,6 @@
 		"@sindresorhus/tsconfig": "^0.3.0",
 		"@types/codemirror": "0.0.74",
 		"@types/debounce-fn": "^3.0.0",
-		"@types/dom-inputevent": "^1.0.4",
 		"@types/dom-loaded": "^1.0.0",
 		"@types/element-ready": "^2.1.0",
 		"@types/firefox-webext-browser": "^67.0.0",
