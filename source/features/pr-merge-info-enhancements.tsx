@@ -1,8 +1,8 @@
 /*
-Use the PR’s title and description when merging and update the PR’s title to the merge commit title, if changed.
-
+Use the PR’s title when merging
 https://github.com/sindresorhus/refined-github/issues/276
 
+Update the PR’s title to the merge commit title, if changed.
 https://user-images.githubusercontent.com/1402241/51669708-9a712400-1ff7-11e9-913a-ac1ea1050975.png
 */
 
@@ -25,18 +25,19 @@ function getPRNumber(): string {
 	return select('.gh-header-number')!.textContent!;
 }
 
-// Updates the field and dispatches the right events (focus is also used by `fit-textareas`)
-function updateField(selector: string, value: string): void {
-	const field = select<HTMLTextAreaElement | HTMLInputElement>(selector)!;
-	field.value = value;
-	field.focus();
-	field.dispatchEvent(new InputEvent('input'));
-}
-
 function updateCommitInfo(): void {
-	const firstMessage = select('.comment-form-textarea[name=\'pull_request[body]\']')!.textContent!.trim();
-	updateField('#merge_message_field', firstMessage);
-	updateField('#merge_title_field', createCommitTitle()); // Called last, leaves the title field focused
+	 // Trigger `fit-textareas`;
+	select('#merge_message_field')!.dispatchEvent(new FocusEvent('focusin', {bubbles: true}));
+
+	const field = select<HTMLInputElement>('#merge_title_field')!;
+	field.value = createCommitTitle();
+	field.focus();
+	field.dispatchEvent(new InputEvent('input', {
+		bubbles: true,
+		// TODO: drop the following 2 when https://github.com/DefinitelyTyped/DefinitelyTyped/issues/33903 is solved
+		isComposing: false,
+		inputType: 'insertText'
+	}));
 }
 
 function showNote(): void {
