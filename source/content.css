@@ -497,6 +497,16 @@ div.inline-comment-form .form-actions,
 	float: right;
 }
 
+/* To push the Draft new release and tags-dropdown to the right. */
+.subnav-links {
+	flex-grow: 1;
+}
+
+/* Select tag should appear first */
+.subnav-links + .float-right {
+	order: 1;
+}
+
 /* Decrease the padding of filter buttons to accommodate `Commented` */
 .subnav-links .subnav-item {
 	padding: 6px 9px;
