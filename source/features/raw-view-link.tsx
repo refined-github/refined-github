@@ -8,7 +8,7 @@ const createRawUrl = (href: string): string => {
 	return url.join('/');
 };
 
-function addRawButtons() {
+function addRawButtons(): void {
 	for (const anchor of select.all<HTMLAnchorElement>('.file-header .file-actions > div.BtnGroup [href*=\'/blob/\']:last-child')) {
 		anchor.after(
 			<a href={createRawUrl(anchor.pathname)} className="btn btn-sm BtnGroup-item">
@@ -18,7 +18,7 @@ function addRawButtons() {
 	}
 }
 
-function init() {
+function init(): void {
 	addRawButtons();
 
 	// Some files are loaded progressively later. On load, look for more buttons and more fragments
