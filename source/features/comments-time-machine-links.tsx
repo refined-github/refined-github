@@ -21,7 +21,7 @@ function addInlineLinks(comment: HTMLElement, timestamp: string): void {
 		link.after(
 			' ',
 			<a
-				href={linkParts.join('/')}
+				href={linkParts.join('/') + link.hash}
 				className="muted-link tooltipped tooltipped-n"
 				aria-label="Visit as permalink">
 				{icons.clock()}
