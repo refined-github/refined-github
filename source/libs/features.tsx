@@ -130,7 +130,7 @@ const run = async ({id, include, exclude, init, deinit, options: {log}}: Private
 	}
 };
 
-const shortcutMap: Map<string, Shortcut> = new Map<string, Shortcut>();
+const shortcutMap = new Map<string, Shortcut>();
 const getShortcuts = (): Shortcut[] => [...shortcutMap.values()];
 
 /*

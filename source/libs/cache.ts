@@ -1,4 +1,4 @@
- type CacheGetter<TValue extends any = any> = () => TValue | Promise<TValue>;
+type CacheGetter<TValue extends any = any> = () => TValue | Promise<TValue>;
 
 interface CacheRequest {
 	code: string;
@@ -14,11 +14,10 @@ export async function getSet<TValue extends any = any>(key: string, getter: Cach
 	}
 
 	const value = await getter();
-	if (value === undefined) {
-		return;
+	if (value !== undefined) {
+		await set(key, value, expiration);
 	}
 
-	await set(key, value, expiration);
 	return value;
 }
 
