@@ -26,7 +26,7 @@ function getPRNumber(): string {
 }
 
 function updateCommitInfo(): void {
-	 // Trigger `fit-textareas`;
+	// Trigger `fit-textareas`
 	select('#merge_message_field')!.dispatchEvent(new FocusEvent('focusin', {bubbles: true}));
 
 	const field = select<HTMLInputElement>('#merge_title_field')!;
