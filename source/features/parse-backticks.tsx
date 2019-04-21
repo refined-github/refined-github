@@ -9,7 +9,7 @@ import getTextNodes from '../libs/get-text-nodes';
 
 const splittingRegex = /`(.*?)`/g;
 
-function splitTextReducer(fragment: DocumentFragment, text: string, index: number) {
+function splitTextReducer(fragment: DocumentFragment, text: string, index: number): DocumentFragment {
 	// Code is always in odd positions
 	if (index % 2 && text.length >= 1) {
 		// `span.sr-only` keeps the backticks copy-pastable but invisible
@@ -27,8 +27,11 @@ function splitTextReducer(fragment: DocumentFragment, text: string, index: numbe
 	return fragment;
 }
 
-function init() {
-	for (const title of select.all('.issues-listing .js-navigation-open, .commit-title .js-navigation-open')) {
+function init(): void {
+	for (const title of select.all(`
+		[aria-label="Issues"][role="group"] .js-navigation-open,
+		.commit-title .js-navigation-open
+	`)) {
 		for (const node of getTextNodes(title)) {
 			const fragment = node.textContent!
 				.split(splittingRegex)

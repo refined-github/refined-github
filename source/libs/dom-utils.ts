@@ -5,8 +5,8 @@ import elementReady from 'element-ready';
 /*
  * Automatically stops checking for an element to appear once the DOM is ready.
  */
-export const safeElementReady = (selector: string) => {
-	const waiting = elementReady(selector);
+export const safeElementReady = <T extends Element>(selector: string): Promise<T | null> => {
+	const waiting = elementReady<T>(selector);
 
 	// Don't check ad-infinitum
 	// eslint-disable-next-line promise/prefer-await-to-then
@@ -38,7 +38,7 @@ export const safeElementReady = (selector: string) => {
  *   <nope/>
  * </parent>
  */
-export const appendBefore = (parent: string|Element, before: string, child: Element) => {
+export const appendBefore = (parent: string|Element, before: string, child: Element): void => {
 	if (typeof parent === 'string') {
 		parent = select(parent)!;
 	}
@@ -52,12 +52,12 @@ export const appendBefore = (parent: string|Element, before: string, child: Elem
 	}
 };
 
-export const wrap = (target: Element, wrapper: Element) => {
+export const wrap = (target: Element, wrapper: Element): void => {
 	target.before(wrapper);
 	wrapper.append(target);
 };
 
-export const wrapAll = (targets: Element[], wrapper: Element) => {
+export const wrapAll = (targets: Element[], wrapper: Element): void => {
 	targets[0].before(wrapper);
 	wrapper.append(...targets);
 };

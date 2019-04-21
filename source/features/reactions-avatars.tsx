@@ -20,7 +20,6 @@ type Participant = {
 	container: HTMLElement;
 	username: string;
 }
-type ParticipantGroup = Participant[][];
 
 function getParticipants(container: HTMLElement): Participant[] {
 	const currentUser = getUsername();
@@ -37,12 +36,12 @@ function getParticipants(container: HTMLElement): Participant[] {
 		}));
 }
 
-function add() {
+function add(): void {
 	for (const list of select.all('.has-reactions .comment-reactions-options:not(.rgh-reactions)')) {
 		const avatarLimit = arbitraryAvatarLimit - (list.children.length * approximateHeaderLength);
 
-		const participantByReaction: ParticipantGroup = [].map.call<HTMLCollection, any[], ParticipantGroup>(list.children, getParticipants);
-		const flatParticipants: Participant[] = flatZip(participantByReaction, avatarLimit);
+		const participantByReaction = [...list.children as HTMLCollectionOf<HTMLElement>].map(getParticipants);
+		const flatParticipants = flatZip(participantByReaction, avatarLimit);
 
 		for (const participant of flatParticipants) {
 			participant.container.append(
@@ -61,7 +60,7 @@ function add() {
 	}
 }
 
-function init() {
+function init(): void {
 	add();
 
 	// GitHub receives update messages via WebSocket, which seem to trigger

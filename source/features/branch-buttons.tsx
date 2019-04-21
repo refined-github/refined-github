@@ -9,7 +9,7 @@ import {groupSiblings} from '../libs/group-buttons';
 import getDefaultBranch from '../libs/get-default-branch';
 import {getRepoURL, getOwnerAndRepo} from '../libs/utils';
 
-async function getTagLink() {
+async function getTagLink(): Promise<'' | HTMLAnchorElement> {
 	const {ownerName, repoName} = getOwnerAndRepo();
 	const {repository} = await api.v4(`{
 		repository(owner: "${ownerName}", name: "${repoName}") {
@@ -38,7 +38,7 @@ async function getTagLink() {
 		latestRelease = tags[0];
 	}
 
-	const link = <a className="btn btn-sm btn-outline tooltipped tooltipped-ne">{icons.tag()}</a> as HTMLAnchorElement;
+	const link = <a className="btn btn-sm btn-outline tooltipped tooltipped-ne">{icons.tag()}</a> as unknown as HTMLAnchorElement;
 
 	const currentBranch = select('.branch-select-menu .css-truncate-target')!.textContent;
 
@@ -61,7 +61,7 @@ async function getTagLink() {
 	return link;
 }
 
-async function getDefaultBranchLink() {
+async function getDefaultBranchLink(): Promise<HTMLElement | undefined> {
 	const defaultBranch = await getDefaultBranch();
 	const currentBranch = select('[data-hotkey="w"] span')!.textContent;
 
@@ -121,7 +121,8 @@ async function init(): Promise<false | void> {
 features.add({
 	id: 'branch-buttons',
 	include: [
-		features.isRepo
+		features.isRepoTree,
+		features.isSingleFile
 	],
 	load: features.onAjaxedPages,
 	init

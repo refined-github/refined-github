@@ -8,7 +8,7 @@ import select from 'select-dom';
 import features from '../libs/features';
 import {getCleanPathname} from '../libs/utils';
 
-function buildUrl(queryField: string) {
+function buildUrl(queryField: string): URL {
 	const url = new URL('/search', location.href);
 	url.searchParams.set('o', 'desc');
 	url.searchParams.set('q', `user:${getCleanPathname()}`);

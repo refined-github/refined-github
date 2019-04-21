@@ -4,7 +4,7 @@ import select from 'select-dom';
 import {getCleanPathname} from '../libs/utils';
 import features from '../libs/features';
 
-const fetchStargazers = async () => {
+const fetchStargazers = async (): Promise<HTMLImageElement[]> => {
 	const url = `${location.origin}/${getCleanPathname()}/followers/you_know`;
 	const response = await fetch(url);
 	const dom = domify(await response.text());
@@ -12,7 +12,7 @@ const fetchStargazers = async () => {
 };
 
 const avatarSize = 35;
-const renderAvatar = (image: HTMLImageElement) => {
+const renderAvatar = (image: HTMLImageElement): HTMLElement => {
 	const src = new URL(image.src);
 	src.searchParams.set('s', String(avatarSize * window.devicePixelRatio));
 	image.src = String(src);
