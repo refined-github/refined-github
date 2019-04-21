@@ -45,13 +45,14 @@ function init(): void {
 
 function addContentToDetails(event: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	const field = event.delegateTarget.form!.querySelector('textarea')!;
+	const selection = field.value.slice(field.selectionStart, field.selectionEnd);
 
 	// Don't indent <summary> because indentation will not be automatic on multi-line content
 	const newContent = `
 		<details>
 		<summary>Details</summary>
 
-		${getSelection()!.toString()}
+		${selection}
 
 		</details>
 	`.replace(/(\n|\b)\t+/g, '$1').trim();
