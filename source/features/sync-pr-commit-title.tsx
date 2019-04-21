@@ -14,12 +14,12 @@ import features from '../libs/features';
 
 const inputMap = new WeakMap();
 
-const createCommitTitle = debounce((): string =>
+const createCommitTitle = debounce<[], string>((): string =>
 	`${select('.js-issue-title')!.textContent!.trim()} (${getPRNumber()})`
 , {
 	wait: 1000,
 	immediate: true
-}) as () => string;
+});
 
 function getPRNumber(): string {
 	return select('.gh-header-number')!.textContent!;
