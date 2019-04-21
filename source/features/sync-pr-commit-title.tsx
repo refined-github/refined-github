@@ -50,7 +50,6 @@ function maybeShowNote(): void {
 	}
 
 	getNote().remove();
-
 }
 
 function submitPRTitleUpdate(): void {
