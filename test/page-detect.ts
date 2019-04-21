@@ -7,7 +7,7 @@ function urlMatcherMacro(
 	detectFn: (url: string) => boolean,
 	shouldMatch: string[] = [],
 	shouldNotMatch: string[] = []
-) {
+): void {
 	for (const url of shouldMatch) {
 		location.href = url;
 		t.true(detectFn(url));

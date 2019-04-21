@@ -7,6 +7,7 @@ import './features/hide-useless-newsfeed-events';
 import './features/more-dropdown';
 import './features/releases-tab';
 import './features/remove-projects-tab';
+import './features/remove-checks-tab';
 import './features/focus-confirmation-buttons';
 import './features/comment-fields-keyboard-shortcuts';
 import './features/hide-navigation-hover-highlight';
@@ -93,6 +94,9 @@ import './features/collapsible-content-button';
 import './features/hide-watch-and-fork-count';
 import './features/resolve-conflicts';
 import './features/follow-file-renames';
+import './features/tags-dropdown';
+import './features/filter-pr-by-build-status';
+import './features/edit-files-faster';
 
 // Add global for easier debugging
 (window as any).select = select;

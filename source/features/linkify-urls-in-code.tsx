@@ -26,7 +26,7 @@ const options = {
 export const editTextNodes = (
 	fn: typeof linkifyIssues | typeof linkifyUrls,
 	el: HTMLElement
-) => {
+): void => {
 	for (const textNode of getTextNodes(el)) {
 		if (fn === linkifyUrls && textNode.textContent!.length < 11) { // Shortest url: http://j.mp
 			continue;

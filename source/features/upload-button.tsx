@@ -4,7 +4,7 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 
-function addButtons() {
+function addButtons(): void {
 	for (const toolbar of select.all('form:not(.rgh-has-upload-field) markdown-toolbar')) {
 		const form = toolbar.closest('form')!;
 		if (!select.exists('.js-manual-file-chooser[type=file]', form)) {
@@ -23,14 +23,14 @@ function addButtons() {
 	}
 }
 
-function triggerUploadUI({target}: DelegateEvent) {
-	(target as Element)
-		.closest('form')!
+function triggerUploadUI({delegateTarget}: DelegateEvent<Event, HTMLButtonElement>): void {
+	delegateTarget
+		.form!
 		.querySelector<HTMLElement>('.js-manual-file-chooser')! // Find <input [type=file]>
 		.click(); // Open UI
 }
 
-function init() {
+function init(): void {
 	addButtons();
 	delegate('.rgh-upload-btn', 'click', triggerUploadUI);
 }

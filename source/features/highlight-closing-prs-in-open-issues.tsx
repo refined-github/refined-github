@@ -4,7 +4,7 @@ import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
 
-function add() {
+function add(): void {
 	for (const infoBubble of select.all(`
 		[aria-label*="will close when"],
 		[aria-label*="will close once"]
@@ -12,7 +12,7 @@ function add() {
 		const ref = infoBubble
 			.closest('.discussion-item')!
 			.querySelector('.issue-num, .commit-id')!;
-		const link = (ref.closest('[href]') as HTMLAnchorElement).href;
+		const link = ref.closest('a')!.href;
 
 		select('.gh-header-meta .TableObject-item')!.after(
 			<div className="TableObject-item">
@@ -28,7 +28,7 @@ function add() {
 	}
 }
 
-function init() {
+function init(): void {
 	// The issue header changes when new comments are added or the issue status changes
 	observeEl('.js-issues-results', add);
 }

@@ -4,9 +4,9 @@ import features from '../libs/features';
 
 const allowedReasons = ['resolved', 'outdated', 'off-topic'];
 
-const capitalize = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
+const capitalize = (text: string): string => text.charAt(0).toUpperCase() + text.slice(1);
 
-const init = () => {
+const init = (): void => {
 	for (const details of select.all('.minimized-comment:not(.d-none) > details:not(.rgh-preview-hidden-comments)')) {
 		details.classList.add('rgh-preview-hidden-comments');
 
