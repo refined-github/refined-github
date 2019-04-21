@@ -58,7 +58,7 @@ declare module 'github-reserved-names';
 
 // Custom UI events specific to RGH
 interface GlobalEventHandlersEventMap {
-	'details:toggled': UIEvent;
+	'details:toggled': CustomEvent;
 	'focusin': UIEvent; // Drop when it reaches W3C Recommendation https://github.com/Microsoft/TSJS-lib-generator/pull/369
 }
 

@@ -11,16 +11,24 @@ import select from 'select-dom';
 import features from '../libs/features';
 import {getRepoURL} from '../libs/utils';
 
-const repoUrl = getRepoURL();
-
+const fragmentURL = `/${getRepoURL()}/show_partial?partial=tree%2Frecently_touched_branches_list`;
+const selector = `[data-url='${fragmentURL}'], [src='${fragmentURL}']`;
 function getList(): HTMLElement {
-	const fragmentURL = `/${repoUrl}/show_partial?partial=tree%2Frecently_touched_branches_list`;
-
 	return (
-		select(`[data-url='${fragmentURL}'], [src='${fragmentURL}']`) // Get the one already on the page
+		select(selector) // Get the one already on the page
 		|| // eslint-disable-line operator-linebreak
 		<include-fragment src={fragmentURL}></include-fragment> // Or generate it
 	);
+}
+
+// Ajaxed pages will load a new fragment on every ajaxed load;
+// but we only really need the one generated on the first load
+function removeDuplicateList(): void {
+	const duplicate = select(selector, select('main')!);
+
+	if (duplicate) {
+		duplicate.remove();
+	}
 }
 
 async function init(): Promise<false | void> {
@@ -38,4 +46,13 @@ features.add({
 	],
 	load: features.onDomReady,
 	init
+});
+
+features.add({
+	id: 'recently-pushed-branches-enhancements',
+	include: [
+		features.isRepo
+	],
+	load: features.onAjaxedPages,
+	init: removeDuplicateList
 });
