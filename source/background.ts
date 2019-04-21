@@ -23,6 +23,7 @@ new OptionsSync().define({
 				.replace('jump-to-bottom', '') // #1879
 				.replace('hide-readme-header', '') // #1883
 				.replace(/commented-menu-item|yours-menu-item/, 'global-discussion-list-filters') // #1883
+				.replace('show-recently-pushed-branches-on-more-pages', 'recently-pushed-branches-enhancements') // TODO: add PR number
 			; // eslint-disable-line semi-style
 		},
 		OptionsSync.migrations.removeUnused

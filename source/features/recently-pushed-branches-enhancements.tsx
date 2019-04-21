@@ -13,30 +13,29 @@ import {getRepoURL} from '../libs/utils';
 
 const repoUrl = getRepoURL();
 
-async function init(): Promise<false | void> {
+function getList(): HTMLElement {
 	const fragmentURL = `/${repoUrl}/show_partial?partial=tree%2Frecently_touched_branches_list`;
-	if (select.exists(`[data-url='${fragmentURL}'], [src='${fragmentURL}']`)) {
-		return false;
-	}
 
-	const codeTabURL = select<HTMLAnchorElement>('[data-hotkey="g c"]')!.href;
-	const response = await fetch(codeTabURL);
-	const html = await response.text();
+	return (
+		select(`[data-url='${fragmentURL}'], [src='${fragmentURL}']`) // Get the one already on the page
+		|| // eslint-disable-line operator-linebreak
+		<include-fragment src={fragmentURL}></include-fragment> // Or generate it
+	);
+}
 
-	// https://github.com/sindresorhus/refined-github/issues/216
-	if (html.includes(fragmentURL)) {
-		select('.repository-content')!.prepend(<include-fragment src={fragmentURL}/>);
-	}
+async function init(): Promise<false | void> {
+	// Make it smaller and `position:fixed` to avoid jumps
+	document.body.classList.add('rgh-recently-pushed-branches');
+
+	// Move or add list next to the notifications bell
+	select('.Header-item--full')!.after(getList());
 }
 
 features.add({
-	id: 'show-recently-pushed-branches-on-more-pages',
+	id: 'recently-pushed-branches-enhancements',
 	include: [
-		features.isPR,
-		features.isIssue,
-		features.isRepoDiscussionList,
-		features.isCompare
+		features.isRepo
 	],
-	load: features.onAjaxedPages,
+	load: features.onDomReady,
 	init
 });
