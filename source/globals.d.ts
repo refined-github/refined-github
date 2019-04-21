@@ -74,7 +74,7 @@ declare namespace JSX {
 	}
 }
 
-// Fixes access to attributes via a string indexer.
+// Drop when this bug fix is shipped in a version of TypeScript https://github.com/Microsoft/TypeScript/issues/30928
 interface NamedNodeMap {
 	[key: string]: Attr;
 }
