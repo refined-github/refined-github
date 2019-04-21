@@ -1,26 +1,28 @@
-type CacheGetter = () => string|Promise<string>;
+ type CacheGetter<TValue extends any = any> = () => TValue | Promise<TValue>;
 
 interface CacheRequest {
 	code: string;
 	key: string;
-	value?: string | number;
+	value?: unknown;
 	expiration?: number;
 }
 
-export async function getSet(key: string, getter: CacheGetter, expiration?: number): Promise<any> {
-	const cache = await get(key);
+export async function getSet<TValue extends any = any>(key: string, getter: CacheGetter<TValue>, expiration?: number): Promise<TValue | undefined> {
+	const cache = await get<TValue>(key);
 	if (cache !== undefined) {
 		return cache;
 	}
 
 	const value = await getter();
-	if (value !== undefined) {
-		await set(key, value, expiration);
-		return value;
+	if (value === undefined) {
+		return;
 	}
+
+	await set(key, value, expiration);
+	return value;
 }
 
-export async function get<T extends any>(key: string): Promise<T | undefined> {
+export async function get<TValue extends any = any>(key: string): Promise<TValue | undefined> {
 	const value = await browser.runtime.sendMessage({
 		key,
 		code: 'get-cache'
@@ -34,7 +36,7 @@ export async function get<T extends any>(key: string): Promise<T | undefined> {
 	return value;
 }
 
-export function set<TValue>(key: string, value: TValue, expiration?: number /* in days */): Promise<any> {
+export function set<TValue extends any = any>(key: string, value: TValue, expiration?: number /* in days */): Promise<any> {
 	return browser.runtime.sendMessage({
 		key,
 		value,
