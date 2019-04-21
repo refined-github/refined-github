@@ -47,7 +47,6 @@ import './features/star-repo-hotkey';
 import './features/toggle-files-button';
 import './features/scroll-to-top-on-collapse';
 import './features/fix-squash-and-merge-title';
-import './features/fix-squash-and-merge-message';
 import './features/open-ci-details-in-new-tab';
 import './features/wait-for-build';
 import './features/hide-inactive-deployments';
