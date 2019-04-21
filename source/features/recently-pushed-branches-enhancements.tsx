@@ -13,7 +13,7 @@ import {getRepoURL} from '../libs/utils';
 
 const repoUrl = getRepoURL();
 
-function getList() {
+function getList(): HTMLElement {
 	const fragmentURL = `/${repoUrl}/show_partial?partial=tree%2Frecently_touched_branches_list`;
 
 	return (
