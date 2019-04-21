@@ -18,7 +18,7 @@
 	},
 	"dependencies": {
 		"copy-text-to-clipboard": "^2.0.0",
-		"debounce-fn": "^3.0.0",
+		"debounce-fn": "^3.0.1",
 		"delegate-it": "^1.1.0-7",
 		"dom-chef": "^3.6.0",
 		"dom-loaded": "^1.1.0",
@@ -91,7 +91,6 @@
 					"varsIgnorePattern": "^React$"
 				}
 			],
-			"@typescript-eslint/explicit-function-return-type": "off",
 			"@typescript-eslint/restrict-plus-operands": "off",
 			"@typescript-eslint/promise-function-async": "off",
 			"import/no-unresolved": "warn"

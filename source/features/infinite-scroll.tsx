@@ -33,7 +33,7 @@ const inView = new IntersectionObserver(([{isIntersecting}]) => {
 	rootMargin: '500px' // https://github.com/sindresorhus/refined-github/pull/505#issuecomment-309273098
 });
 
-const findButton = () => {
+const findButton = (): void => {
 	// If the old button is still there, leave
 	if (btn && document.contains(btn)) {
 		return;
@@ -49,7 +49,7 @@ const findButton = () => {
 	}
 };
 
-function init() {
+function init(): void {
 	const form = select('.ajax-pagination-form');
 	if (form) {
 		// If GH hasn't loaded the JS,

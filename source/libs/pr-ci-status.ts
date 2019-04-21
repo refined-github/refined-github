@@ -4,7 +4,7 @@ import observeEl from './simplified-element-observer';
 type CommitStatus = false | typeof SUCCESS | typeof FAILURE | typeof PENDING | typeof COMMIT_CHANGED;
 type StatusListener = (status: CommitStatus) => void;
 
-function getLastCommit() {
+function getLastCommit(): string | null {
 	return select.all('.timeline-commits .commit-id').pop()!.textContent;
 }
 
@@ -31,7 +31,7 @@ export function get(): CommitStatus {
 	return false;
 }
 
-export function wait() {
+export function wait(): Promise<{}> {
 	return new Promise(resolve => {
 		addEventListener(function handler(newStatus: CommitStatus) {
 			removeEventListener(handler);
@@ -42,14 +42,14 @@ export function wait() {
 
 const observers = new WeakMap<StatusListener, MutationObserver>();
 
-export function addEventListener(listener: StatusListener) {
+export function addEventListener(listener: StatusListener): void {
 	if (observers.has(listener)) {
 		return;
 	}
 
 	let previousCommit = getLastCommit();
 	let previousStatus = get();
-	const filteredListener = () => {
+	const filteredListener = (): void => {
 		// Cancel submission if a new commit was pushed
 		const newCommit = getLastCommit();
 		if (newCommit !== previousCommit) {
@@ -72,6 +72,6 @@ export function addEventListener(listener: StatusListener) {
 	observers.set(listener, observer);
 }
 
-export function removeEventListener(listener: StatusListener) {
+export function removeEventListener(listener: StatusListener): void {
 	observers.get(listener)!.disconnect();
 }

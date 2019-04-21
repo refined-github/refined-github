@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
-import delegate from 'delegate-it';
+import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 import * as prCiStatus from '../libs/pr-ci-status';
@@ -20,16 +20,16 @@ const generateCheckbox = onetime(() => (
 	</label>
 ));
 
-function canMerge() {
+function canMerge(): boolean {
 	return select.exists('[data-details-container=".js-merge-pr"]:not(:disabled)');
 }
 
-function getCheckbox() {
+function getCheckbox(): HTMLInputElement | null {
 	return select<HTMLInputElement>('[name="rgh-pr-check-waiter"]');
 }
 
 // Only show the checkbox if there's a pending commit
-function showCheckboxIfNecessary() {
+function showCheckboxIfNecessary(): void {
 	const checkbox = getCheckbox();
 	const isNecessary = prCiStatus.get() === prCiStatus.PENDING;
 	if (!checkbox && isNecessary) {
@@ -42,7 +42,7 @@ function showCheckboxIfNecessary() {
 	}
 }
 
-function disableForm(disabled = true) {
+function disableForm(disabled = true): void {
 	for (const field of select.all<HTMLInputElement>(`
 		[name="commit_message"],
 		[name="commit_title"],
@@ -58,7 +58,7 @@ function disableForm(disabled = true) {
 	}
 }
 
-async function handleMergeConfirmation(event: Event) {
+async function handleMergeConfirmation(event: DelegateEvent<Event, HTMLButtonElement>): Promise<void> {
 	const checkbox = getCheckbox();
 	if (checkbox && checkbox.checked) {
 		event.preventDefault();
@@ -73,7 +73,7 @@ async function handleMergeConfirmation(event: Event) {
 			disableForm(false);
 
 			if (status === prCiStatus.SUCCESS) {
-				(event.target as HTMLButtonElement).click();
+				event.delegateTarget.click();
 			}
 		}
 	}

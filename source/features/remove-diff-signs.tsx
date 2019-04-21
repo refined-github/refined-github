@@ -1,6 +1,6 @@
 import features from '../libs/features';
 
-function init() {
+function init(): void {
 	document.body.classList.add('rgh-remove-diff-signs');
 }
 

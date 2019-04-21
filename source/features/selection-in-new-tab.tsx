@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import features from '../libs/features';
 
-function init() {
+function init(): void {
 	document.addEventListener('keypress', event => {
 		const selected = select<HTMLAnchorElement>('.navigation-focus .js-navigation-open[href]');
 		if (selected && event.key === 'O') {

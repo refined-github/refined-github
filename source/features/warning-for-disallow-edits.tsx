@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
-function init() {
+function init(): void {
 	const checkbox = select<HTMLInputElement>('[name="collab_privs"]');
 	if (!checkbox) {
 		return;
@@ -13,7 +13,7 @@ function init() {
 			<strong>Note:</strong> Maintainers may require changes. It’s easier and faster to allow them to make direct changes before merging.
 		</div>
 	);
-	const update = () => {
+	const update = (): void => {
 		if (checkbox.checked) {
 			warning.remove();
 		} else {

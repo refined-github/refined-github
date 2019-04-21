@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import features from '../libs/features';
 
-function init() {
+function init(): void {
 	const createNextPageButton = select('a.next_page');
 	if (createNextPageButton) {
 		createNextPageButton.setAttribute('data-hotkey', 'ArrowRight');

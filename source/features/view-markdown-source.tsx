@@ -12,7 +12,7 @@ import {blurAccessibly} from './comment-fields-keyboard-shortcuts';
 
 const btnBodyMap = new WeakMap<Element, Element | Promise<Element>>();
 
-async function fetchSource() {
+async function fetchSource(): Promise<Element> {
 	const path = location.pathname.replace(/([^/]+\/[^/]+\/)(blob)/, '$1blame');
 	const dom = await fetchDom(location.origin + path, '.blob-wrapper');
 	dom.classList.add('rgh-markdown-source');
@@ -20,7 +20,7 @@ async function fetchSource() {
 }
 
 // Hide tooltip after click, it’s shown on :focus
-function blurButton(button: HTMLElement) {
+function blurButton(button: HTMLElement): void {
 	if (button === document.activeElement) {
 		blurAccessibly(button);
 	}
@@ -31,7 +31,7 @@ The dom of each version is stored on each button.
 This acts as an auto-discarded cache without globals, timers, etc.
 It should also work clicks on buttons sooner than the page loads.
 */
-async function showSource() {
+async function showSource(): Promise<void> {
 	const sourceButton = select<HTMLButtonElement>('.rgh-md-source')!;
 	const renderedButton = select<HTMLButtonElement>('.rgh-md-rendered')!;
 
@@ -52,7 +52,7 @@ async function showSource() {
 	blurButton(sourceButton);
 }
 
-async function showRendered() {
+async function showRendered(): Promise<void> {
 	const sourceButton = select<HTMLButtonElement>('.rgh-md-source')!;
 	const renderedButton = select<HTMLButtonElement>('.rgh-md-rendered')!;
 

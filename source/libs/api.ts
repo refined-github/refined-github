@@ -45,7 +45,7 @@ export interface GHRestApiOptions {
 	accept404: boolean;
 }
 
-export const escapeKey = (value: string) => '_' + value.replace(/[./-]/g, '_');
+export const escapeKey = (value: string): string => '_' + value.replace(/[./-]/g, '_');
 
 export class RefinedGitHubAPIError extends Error {
 	constructor(...messages: string[]) {
@@ -124,7 +124,7 @@ export const v4 = pMemoize(async (query: string): Promise<AnyObject> => {
 	throw getError(apiResponse as JsonObject);
 });
 
-async function getError(apiResponse: JsonObject) {
+async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError> {
 	const {personalToken} = await settings;
 
 	if (typeof apiResponse.message === 'string' && apiResponse.message.includes('API rate limit exceeded')) {
