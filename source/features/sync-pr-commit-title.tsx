@@ -91,7 +91,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'pr-merge-info-enhancements',
+	id: 'sync-pr-commit-title',
 	include: [
 		features.isPRConversation
 	],
@@ -101,7 +101,7 @@ features.add({
 
 // GitHub automatically restores value from the previous session and opens the form
 features.add({
-	id: 'pr-merge-info-enhancements',
+	id: 'sync-pr-commit-title',
 	include: [
 		features.isPRConversation
 	],
