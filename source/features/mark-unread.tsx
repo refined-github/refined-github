@@ -270,7 +270,7 @@ function isCurrentSingleRepoPage({repository}: Notification): boolean {
 }
 
 function isParticipatingPage(): boolean {
-	return location.pathname.includes('/notifications/participating');
+	return location.pathname.startsWith('/notifications/participating');
 }
 
 async function updateUnreadIndicator(): Promise<void> {
