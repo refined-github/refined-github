@@ -13,6 +13,7 @@ function add(): void {
 			.closest('.discussion-item')!
 			.querySelector('.issue-num, .commit-id')!;
 		const link = ref.closest('a')!.href;
+		const isIssue = ref.classList.contains('issue-num');
 
 		select('.gh-header-meta .TableObject-item')!.after(
 			<div className="TableObject-item">
@@ -20,8 +21,8 @@ function add(): void {
 					href={link}
 					className="btn btn-outline btn-sm border-blue rgh-closing-pr tooltipped tooltipped-se"
 					aria-label={infoBubble.getAttribute('aria-label')!}>
-					{ref.matches('.issue-num') ? icons.openPullRequest() : icons.commit()}
-					{' ' + ref.textContent}
+					{isIssue ? icons.openPullRequest() : icons.commit()}
+					{isIssue ? ' ' + ref.textContent : ''}
 				</a>
 			</div>
 		);
