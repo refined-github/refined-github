@@ -11,7 +11,7 @@ async function init(): Promise<void> {
 
 	// Dropdown exists only if you have permission to add/remove projects
 	if (projectsDropdown) {
-		const dom = await fetchDom(projectsDropdown.dataset.url!);
+		const dom = await fetchDom(location.origin + projectsDropdown.dataset.url!);
 
 		if (select.exists('.select-menu-item', dom)) {
 			return;
