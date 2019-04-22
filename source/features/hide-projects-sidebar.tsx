@@ -1,7 +1,6 @@
 /*
 Hide projects under issue/PR sidebar if no projects exist
 */
-import domify from 'doma';
 import select from 'select-dom';
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
