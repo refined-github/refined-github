@@ -1,12 +1,5 @@
 type AnyObject = Record<string, any>;
 
-// TODO: Move types to tiny-version-compare repo
-declare module 'tiny-version-compare' {
-	function compareVersions(versionA: string, versionB: string): number
-
-	export = compareVersions
-}
-
 // TODO: Move types to https://github.com/sindresorhus/linkify-urls repository.
 declare module 'linkify-urls' {
 	type Options = {
