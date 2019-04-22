@@ -1,28 +1,20 @@
 /*
 Hide projects under issue/PR sidebar if no projects exist
 */
-import select from 'select-dom';
 import domify from 'doma';
+import select from 'select-dom';
 import features from '../libs/features';
-import {safeElementReady} from '../libs/dom-utils';
-
-const projectsSidebarSelector = '.js-issue-sidebar-form[action*="/projects/issues/"]';
+import fetchDom from '../libs/fetch-dom';
 
 async function init(): Promise<void> {
-	await safeElementReady(projectsSidebarSelector);
-
-	const projectsSidebar = select(projectsSidebarSelector)!;
+	const projectsSidebar = select('.js-issue-sidebar-form[action*="/projects/issues/"]')!;
 	const projectsDropdown = select('.js-select-menu-deferred-content', projectsSidebar);
 
 	// Dropdown exists only if you have permission to add/remove projects
 	if (projectsDropdown) {
-		const partialsUrl = projectsDropdown.dataset.url!;
+		const dom = await fetchDom(projectsDropdown.dataset.url!);
 
-		const response = await fetch(partialsUrl);
-		const dom = domify(await response.text());
-
-		const projects = select.all('.select-menu-item', dom);
-		if (projects && projects.length > 0) {
+		if (select.exists('.select-menu-item', dom)) {
 			return;
 		}
 	}
@@ -33,7 +25,7 @@ async function init(): Promise<void> {
 features.add({
 	id: 'hide-projects-sidebar',
 	include: [
-		features.isPR,
+		features.isPRConversation,
 		features.isIssue
 	],
 	load: features.onAjaxedPages,
