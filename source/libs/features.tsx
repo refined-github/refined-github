@@ -39,10 +39,9 @@ interface PrivateFeatureDetails extends FeatureDetails {
 	options: GlobalOptions;
 }
 
-function onNavigation(callback: ()=> void) {
-	addEventListener('pjax:start', callback)
+function onNavigation(callback: () => void) {
+	addEventListener('pjax:start', callback);
 }
-
 
 /*
  * When navigating back and forth in history, GitHub will preserve the DOM changes;

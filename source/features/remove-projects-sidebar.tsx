@@ -6,43 +6,63 @@ New projects can still be created via the [`Create new…` menu](https://user-im
 
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {getOwnerAndRepo} from '../libs/utils';
-import { safeElementReady } from '../libs/dom-utils';
+import {getOwnerAndRepo, getDiscussionNumber} from '../libs/utils';
+import {safeElementReady} from '../libs/dom-utils';
 
-var loading = false
-var res: Promise<any>
+let loading = false;
+let res: Promise<any>;
 
-function query (){
-	const { ownerName, repoName } = getOwnerAndRepo();
-	// return await onetime((){}())
-	loading = true
+function query() {
+	const {ownerName, repoName} = getOwnerAndRepo();
+	const number = parseInt(getDiscussionNumber() || "0") //feature include parameters match getdiscussionnumber, so never should it return false
+	console.log(number)
+	loading = true;
 	res = api.v4(`
 		{
 			repository(owner: "${ownerName}", name: "${repoName}") {
 				projects(states: [OPEN, CLOSED]){
 					totalCount
 				}
+				issue(number: ${number}){
+    				viewerCanUpdate
+    			  	projectCards{
+    			    	totalCount
+    				}
+    			}
 			}
+			organization(login: "${ownerName}"){
+			    projects(states: [OPEN, CLOSED]){
+        			totalCount
+    			}
+			}
+			user(login: "${ownerName}"){
+				projects(states: [OPEN, CLOSED]){
+					totalCount
+				}
+			}
+			
 		}
 	`);
-	loading = false
+	// res.then(console.log).catch(console.log)
 }
-
 
 async function init(): Promise<false | void> {
 	if (!loading) {
-		query()
+		query();
 	}
-	const project = await safeElementReady('[aria-label="Select projects"]')
+	loading = false;
+	const project = await safeElementReady('[aria-label="Select projects"]');
+
 	if (!project) {
 		return false;
 	}
-	loading = false
-	res.then(x => {
-		if (x.repository.projects.totalCount === 0) {
-			project.parentElement!.remove();
-		}
-	})
+
+	loading = false;
+	let resolved = await res
+	console.log(123, resolved)
+	// if (resolved.repository.projects.totalCount === 0) {
+	// 	project.parentElement!.remove();
+	// }
 }
 
 features.add({
@@ -63,4 +83,4 @@ features.add({
 	],
 	load: features.onNavigation,
 	init: query
-})
+});

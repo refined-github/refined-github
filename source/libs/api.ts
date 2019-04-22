@@ -110,12 +110,12 @@ export const v4 = pMemoize(async (query: string): Promise<AnyObject> => {
 		errors = []
 	} = apiResponse;
 
-	if (errors.length > 0) {
-		throw Object.assign(
-			new RefinedGitHubAPIError('GraphQL:', ...errors.map(error => error.message)),
-			apiResponse
-		);
-	}
+	// if (errors.length > 0) {
+	// 	throw Object.assign(
+	// 		new RefinedGitHubAPIError('GraphQL:', ...errors.map(error => error.message)),
+	// 		apiResponse
+	// 	);
+	// }
 
 	if (response.ok) {
 		return data;
