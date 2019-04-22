@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import features from '../libs/features';
 
-function run() {
+function run(): void {
 	const buttons = select.all<HTMLButtonElement>(`
 		[data-file-type=".svg"]
 		[aria-label="Display the rich diff"]:not(.rgh-rich-diff)
@@ -13,12 +13,21 @@ function run() {
 		button.form!.addEventListener('submit', event => event.preventDefault());
 
 		button.click();
+
+		const interval = setInterval(() => {
+			// Either button is selected (the last one to be clicked on) or rich diff container is being rendered
+			if (button.classList.contains('selected') || button.closest('.js-details-container')!.querySelector('.render-wrapper')) {
+				clearInterval(interval);
+			} else {
+				button.disabled = false;
+				button.click();
+			}
+		}, 300);
 	}
 }
 
-function init() {
-	// Arbitrary timeout because the form handler might not be ready yet
-	setTimeout(run, 1000);
+function init(): void {
+	run();
 
 	// Some files are loaded progressively later. On load, look for more buttons and more fragments
 	for (const fragment of select.all('include-fragment.diff-progressive-loader')) {
