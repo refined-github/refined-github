@@ -3,8 +3,8 @@ import select from 'select-dom';
 import copyToClipboard from 'copy-text-to-clipboard';
 import features from '../libs/features';
 
-function handleClick({target: button}: React.MouseEvent) {
-	const file = (button as HTMLButtonElement).closest('.Box');
+function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): void {
+	const file = button.closest('.Box');
 
 	const content = select.all('.blob-code-inner', file!)
 		.map(blob => blob.innerText) // Must be `.innerText`
@@ -14,7 +14,7 @@ function handleClick({target: button}: React.MouseEvent) {
 	copyToClipboard(content);
 }
 
-function init() {
+function init(): void {
 	// This selector skips binaries + markdowns with code
 	for (const code of select.all('.blob-wrapper > .highlight:not(.rgh-copy-file)')) {
 		code.classList.add('rgh-copy-file');

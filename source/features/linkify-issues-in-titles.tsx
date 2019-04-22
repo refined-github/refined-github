@@ -4,7 +4,7 @@ import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 import {editTextNodes} from './linkify-urls-in-code';
 
-function init() {
+function init(): void {
 	observeEl(
 		select('#partial-discussion-header')!.parentElement!,
 		() => {

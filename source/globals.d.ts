@@ -1,4 +1,3 @@
-// TODO: Type anything that is of type AnyObject
 type AnyObject = Record<string, any>;
 
 // TODO: Move types to tiny-version-compare repo
@@ -59,25 +58,27 @@ declare module 'github-reserved-names';
 
 // Custom UI events specific to RGH
 interface GlobalEventHandlersEventMap {
-	'details:toggled': UIEvent;
+	'details:toggled': CustomEvent;
 	'focusin': UIEvent; // Drop when it reaches W3C Recommendation https://github.com/Microsoft/TSJS-lib-generator/pull/369
 }
 
 declare namespace JSX {
-	type Element = SVGElement | HTMLElement;
-
+	interface Element extends SVGElement, HTMLElement, DocumentFragment {}
+	type BaseIntrinsicElement = IntrinsicElements['div'];
 	interface IntrinsicElements {
-		'include-fragment': {src: string};
 		'has-rgh': {};
-		'relative-time': {datetime: string; title: string};
-		'details-dialog': any;
+		'include-fragment': BaseIntrinsicElement & {src?: string};
+		'details-menu': BaseIntrinsicElement & {src: string; preload: boolean};
+		'relative-time': BaseIntrinsicElement & {datetime: string; title: string};
+		'details-dialog': BaseIntrinsicElement & {tabindex: string};
 	}
 }
 
-// Fixes access to attributes via a string indexer.
+// TODO: Drop when this bug fix is shipped in a version of TypeScript https://github.com/Microsoft/TypeScript/issues/30928
 interface NamedNodeMap {
 	[key: string]: Attr;
 }
+
 // TODO: add support for `class` in JSX
 // The following code works if it's inside the file with JSX, but here it breaks all JSX definitions.
 // The `namespace JSX`  merges fine because in react's types it's `global`, but `namespace React` isn't

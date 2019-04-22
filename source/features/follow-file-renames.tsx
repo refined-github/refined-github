@@ -8,14 +8,21 @@ import features from '../libs/features';
 import * as api from '../libs/api';
 import {getCleanPathname} from '../libs/utils';
 
+interface File {
+	previous_filename: string; // eslint-disable-line @typescript-eslint/camelcase
+	filename: string;
+	status: string;
+}
+
 // TODO: ensure that pages with a single commit aren't fetched twice (api.ts' cache should do it automatically, after #1783 is merged)
 async function findRename(
 	user: string,
 	repo: string,
 	lastCommitOnPage: string
-) {
+): Promise<File[]> {
 	// API v4 doesn't support it: https://github.community/t5/GitHub-API-Development-and/What-is-the-corresponding-object-in-GraphQL-API-v4-for-patch/m-p/14502?collapse_discussion=true&filter=location&location=board:api&q=files%20changed%20commit&search_type=thread
-	return api.v3(`repos/${user}/${repo}/commits/${lastCommitOnPage}`);
+	const {files} = await api.v3(`repos/${user}/${repo}/commits/${lastCommitOnPage}`);
+	return files as Promise<File[]>;
 }
 
 async function init(): Promise<false | void> {
@@ -35,9 +42,9 @@ async function init(): Promise<false | void> {
 		const toKey = isNewer ? 'filename' : 'previous_filename';
 		const sha = isNewer ? select('.commit .sha') : select.all('.commit .sha').pop();
 
-		const content = await findRename(user, repo, sha!.textContent!.trim());
+		const files = await findRename(user, repo, sha!.textContent!.trim());
 
-		for (const file of content.files) {
+		for (const file of files) {
 			if (file[fromKey] === currentFilename) {
 				if (file.status === 'renamed') {
 					const url = `/${user}/${repo}/commits/${ref}/${file[toKey]}`;

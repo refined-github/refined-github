@@ -8,7 +8,7 @@ import {appendBefore, safeElementReady} from '../libs/dom-utils';
 
 const repoUrl = getRepoURL();
 
-function createDropdown() {
+function createDropdown(): void {
 	// Markup copied from native GHE dropdown
 	appendBefore('.reponav', '[href$="settings"]',
 		<div className="reponav-dropdown js-menu-container">

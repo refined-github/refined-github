@@ -8,7 +8,7 @@ import features from '../libs/features';
 import * as icons from '../libs/icons';
 import {wrap} from '../libs/dom-utils';
 
-function init() {
+function init(): void {
 	for (const fileIcon of select.all('.files :not(a) > .octicon-file')) {
 		const pathnameParts = fileIcon
 			.closest('tr')!

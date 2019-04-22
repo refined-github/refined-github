@@ -3,7 +3,7 @@ import select from 'select-dom';
 import features from '../libs/features';
 import {isPRCommit} from '../libs/page-detect';
 
-function init() {
+function init(): void {
 	let commitUrl = location.pathname.replace(/\/$/, '');
 
 	if (isPRCommit()) {

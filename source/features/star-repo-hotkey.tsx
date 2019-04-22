@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import features from '../libs/features';
 
-function init() {
+function init(): void {
 	// There are two buttons: unstar and star
 	for (const button of select.all('.js-social-form > button')) {
 		button.setAttribute('data-hotkey', 'g s');

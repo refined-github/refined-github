@@ -21,7 +21,7 @@ function addButton(): void {
 	);
 }
 
-function init() {
+function init(): void {
 	const repoContent = select('.repository-content')!;
 	observeEl(repoContent, addButton);
 	delegate('.rgh-toggle-files', 'click', ({delegateTarget}) => {
