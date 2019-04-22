@@ -96,6 +96,7 @@ import './features/follow-file-renames';
 import './features/tags-dropdown';
 import './features/filter-pr-by-build-status';
 import './features/edit-files-faster';
+import './features/softwrap-code';
 
 // Add global for easier debugging
 (window as any).select = select;

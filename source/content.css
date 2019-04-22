@@ -1160,3 +1160,18 @@ body > .footer li a {
 	width: 16px;
 	display: inline-block;
 }
+
+/* For soft-wrapped code inside tables */
+.rgh-softwrapped-code {
+	table-layout: fixed;
+}
+.rgh-softwrapped-code .blob-num {
+	width: 50px;
+}
+.rgh-softwrapped-code .blob-code-inner {
+	display: block;
+	white-space: pre-wrap;
+}
+.rgh-softwrapped-code tr:not(.js-expandable-line) .blob-num ~ .blob-code {
+	display: block;
+}
