@@ -32,6 +32,10 @@ async function init(): Promise<void> {
 
 features.add({
 	id: 'hide-projects-sidebar',
+	include: [
+		features.isPR,
+		features.isIssue
+	],
 	load: features.onAjaxedPages,
 	init
 });
