@@ -1,4 +1,4 @@
-/* eslint-disable unicorn/prefer-starts-ends-with */
+/* eslint-disable unicorn/prefer-starts-ends-with, @typescript-eslint/prefer-string-starts-ends-with */
 /* The tested var might not be a string */
 
 import select from 'select-dom';
