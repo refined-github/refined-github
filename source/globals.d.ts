@@ -36,12 +36,7 @@ declare module 'linkify-issues' {
 	export = linkifyIssues
 }
 
-// TODO: Move to shorten-repo-url repo
-declare module 'shorten-repo-url' {
-	function applyToLink(anchor: HTMLAnchorElement, url: string): void;
-}
-
-// TODO: Move types to github-reserver-names repo
+// Declaration required so that reserved-names.json file can be imported from the package.
 declare module 'github-reserved-names';
 
 // Custom UI events specific to RGH
