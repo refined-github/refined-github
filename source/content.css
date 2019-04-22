@@ -1119,6 +1119,12 @@ body > .footer li a {
 	text-align: center;
 }
 
+/* Enable word wrap on code in comments (with line numbers only) */
+.discussion-item-body .blob-num ~ .blob-code-inner, /* Embedded code */
+.discussion-item-body .blob-num ~ .blob-code .blob-code-inner { /* Review diffs and suggestions */
+	white-space: pre-wrap;
+	word-wrap: break-word;
+}
 
 /* Improve dropdown expansion animation (e.g. top-right dropdown in comments) */
 /* It normally pops in from the center */
