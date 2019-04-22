@@ -36,11 +36,6 @@ declare module 'linkify-issues' {
 	export = linkifyIssues
 }
 
-// TODO: Move types in intervalometer repo
-declare module 'intervalometer' {
-	function timerIntervalometer(callback: () => void, timeInMillis: number);
-}
-
 // TODO: Move to shorten-repo-url repo
 declare module 'shorten-repo-url' {
 	function applyToLink(anchor: HTMLAnchorElement, url: string): void;
