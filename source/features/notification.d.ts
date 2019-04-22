@@ -1,6 +1,6 @@
 export interface Notification {
 	participants: Array<{
-		username: string | null;
+		username: string;
 		avatar: string;
 	}>;
 	state: unknown; // Is this just 'read' | 'unread' or something like that?
