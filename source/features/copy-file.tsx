@@ -5,7 +5,7 @@ import features from '../libs/features';
 import {fetchSource} from './view-markdown-source';
 
 // Copy to clipboard can't be async, and must be event driven
-let a: Element;
+let markdown: Element;
 let loaded = false;
 let loading: Promise<any>;
 const isMarkDown = features.isMarkDown();
@@ -16,20 +16,22 @@ async function loadFile(): Promise<void> {
 	loading = new Promise((resolve => {
 		resolve(fetchSource());
 	}));
-	const val = await loading;
-	console.log('the val', val);
+	const markdown = await loading;
+	console.log('the val', markdown);
 }
 
 function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): void {
+	console.log(1, markdown)
 	if (isMarkDown) {
-		const content = select.all('.blame-hunk', a)
+		const content = select.all('.blame-hunk', markdown)
 			.map(line => select('.blob-code', line))
-			.filter(blob => blob !== null && !blob === false)
+			// .filter(blob => blob !== null && !blob === false)
 			.map(blob => blob!.innerText)
 			.join('\n');
-		console.log(2, content, features.isMarkDown());
+		console.log(2, markdown, content);
 		copyToClipboard(content);
 	} else {
+		console.log("not markdown")
 		const file = button.closest('.Box');
 
 		const content = select.all('.blob-code-inner', file!)
