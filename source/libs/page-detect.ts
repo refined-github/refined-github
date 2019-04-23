@@ -91,7 +91,7 @@ export const isSingleCommit = (): boolean => /^commit\/[0-9a-f]{5,40}/.test(getR
 
 export const isSingleFile = (): boolean => /^blob\//.test(getRepoPath()!);
 
-export const isMarkDown = (): boolean => isSingleFile() && getRepoPath()!.substr(-2) == "md"
+export const isMarkDown = (): boolean => isSingleFile() && getRepoPath()!.substr(-2) === 'md';
 
 export const isTrending = (): boolean => location.pathname === '/trending' || location.pathname.startsWith('/trending/');
 

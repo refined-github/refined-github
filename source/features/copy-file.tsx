@@ -2,29 +2,32 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import copyToClipboard from 'copy-text-to-clipboard';
 import features from '../libs/features';
-import {fetchSource} from './view-markdown-source'
+import {fetchSource} from './view-markdown-source';
 
-//Copy to clipboard can't be async, and must be event driven
-let a: Element
-let loaded: boolean = false
-let loading: Promise<any>
-let isMarkDown = features.isMarkDown()
+// Copy to clipboard can't be async, and must be event driven
+let a: Element;
+let loaded = false;
+let loading: Promise<any>;
+const isMarkDown = features.isMarkDown();
 
-async function loadFile() {
-	loaded = true
-	loading = new Promise(async function (resolve, reject) {
-		a = await fetchSource()
-		resolve()
-	})
+async function loadFile(): Promise<void> {
+	loaded = true;
+	console.log('loading');
+	loading = new Promise((resolve => {
+		resolve(fetchSource());
+	}));
+	const val = await loading;
+	console.log('the val', val);
 }
 
-function handleClick({ currentTarget: button }: React.MouseEvent<HTMLButtonElement>): void {
-	if (isMarkDown){
+function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): void {
+	if (isMarkDown) {
 		const content = select.all('.blame-hunk', a)
 			.map(line => select('.blob-code', line))
-			.map(blob => blob.innerText)
+			.filter(blob => blob !== null && !blob === false)
+			.map(blob => blob!.innerText)
 			.join('\n');
-		console.log(2, content, features.isMarkDown())
+		console.log(2, content, features.isMarkDown());
 		copyToClipboard(content);
 	} else {
 		const file = button.closest('.Box');
@@ -38,17 +41,23 @@ function handleClick({ currentTarget: button }: React.MouseEvent<HTMLButtonEleme
 	}
 }
 
-async function init(): void {
+async function init(): Promise<void> {
 	// This selector skips binaries + markdowns with code
-	if (isMarkDown){
-		if (loaded == false) {
-			await loadFile()
+	console.log(1000000000000);
+
+	if (isMarkDown) {
+		console.log(11111);
+		if (loaded === false) {
+			console.log(222222);
+
+			await loadFile();
 		}
-		loaded = false
-		await loading //Keeps button from appearing util there's something to copy
+
+		loaded = false;
+		await loading; // Keeps button from appearing util there's something to copy
 	}
 
-	for (const code of select.all('[data-hotkey="b"]')) { //Blame button, avoiding binary files
+	for (const code of select.all('[data-hotkey="b"]')) { // Blame button, avoiding binary files
 		code
 			.parentElement! // `BtnGroup`
 			.prepend(
@@ -66,6 +75,15 @@ async function init(): void {
 features.add({
 	id: 'copy-file',
 	include: [
+		features.isMarkDown
+	],
+	load: features.onNavigation,
+	init: loadFile
+});
+
+features.add({
+	id: 'copy-file',
+	include: [
 		features.isSingleFile,
 		features.isGist
 	],
@@ -73,15 +91,7 @@ features.add({
 	init
 });
 
-features.add({
-	id: 'copy-file',
-	include: [
-		features.isMarkDown
-	],
-	load: features.onNavigation,
-	init: loadFile
-})
-////////////////////////////////////////////////////////////////////////////////////////////////////
+/// /////////////////////////////////////////////////////////////////////////////////////////////////
 
 // import React from 'dom-chef';
 // import select from 'select-dom';
