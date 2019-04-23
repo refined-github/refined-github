@@ -4,23 +4,35 @@ import copyToClipboard from 'copy-text-to-clipboard';
 import features from '../libs/features';
 import {fetchSource} from './view-markdown-source'
 import fetchDom from '../libs/fetch-dom';
+import { file } from '../libs/icons';
 
-let a 
-fetchSource().then(x=>{a=x})
+let a: Element 
+let loaded: boolean = false
+let loading: Promise<any>
+// fetchSource().then(x=>{a=x})
+
+async function loadFile(){
+	loaded = true
+	loading = new Promise(async function(resolve,reject){
+		a = await fetchSource()
+		resolve()
+	})
+}
 
  function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): void {
 	const file = button.closest('.Box');
-	// const a = //await fetchSource()
-	console.log(1, select.all('.blame-hunk', a))
-	let res
+	// console.log(1, select.all('.blame-hunk', a))
 	const content = select.all('.blame-hunk', a)// select.all('.blame-hunk', file!)//select.all('.blob-code-inner', file!)
 		.map(line => select('.blob-code', line))
 		.map(blob => blob.innerText) // Must be `.innerText`
 		// .map(line => line === '\n' ? '' : line)
 		.join('\n');
-	console.log(2, content)
+	// console.log(2, content)
+	// navigator.clipboard.writeText(content+"").then(()=>{}, console.log)
+	// let res = copyToClipboard(content);
+	 let res = copyToClipboard(content+"");
 
-	copyToClipboard(content);
+	console.log(res, content)
 }
 
 // function handleClick({ currentTarget: button }: React.MouseEvent<HTMLButtonElement>): void {
@@ -39,8 +51,12 @@ fetchSource().then(x=>{a=x})
 
 async function init(): Promise<any> {
 	// const a = await fetchSource()
-	const a = await fetchSource()
-	console.log(1, select.all('.blame-hunk', a))
+	if (loaded == false ) {
+		console.log("loading")
+		await loadFile()
+	}
+	loaded = false
+	await loading
 	// // This selector skips binaries + markdowns with code
 	for (const code of select.all('[data-hotkey="b"]')) {
 		// code.classList.add('rgh-copy-file');
@@ -73,8 +89,8 @@ features.add({
 features.add({
 	id: 'copy-file',
 	include: [
-		features.isSingleFile,
-		features.isGist
+		features.isMarkDown
 	],
-	load: features.on
+	load: features.onNavigation,
+	init: loadFile
 })
