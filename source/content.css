@@ -759,6 +759,10 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	white-space: nowrap;
 	animation: rgh-slide-in-right 0.3s ease-out;
 }
+/* Fix positioning on GHE */
+.rgh-recently-pushed-branches.enterprise [data-url$='recently_touched_branches_list'] .mb-3 {
+	position: initial;
+}
 .rgh-recently-pushed-branches [data-url$='recently_touched_branches_list'] p {
 	display: none;
 }
