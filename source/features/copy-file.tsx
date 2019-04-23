@@ -3,66 +3,53 @@ import select from 'select-dom';
 import copyToClipboard from 'copy-text-to-clipboard';
 import features from '../libs/features';
 import {fetchSource} from './view-markdown-source'
-import fetchDom from '../libs/fetch-dom';
-import { file } from '../libs/icons';
 
-let a: Element 
+//Copy to clipboard can't be async, and must be event driven
+let a: Element
 let loaded: boolean = false
 let loading: Promise<any>
-// fetchSource().then(x=>{a=x})
+let isMarkDown = features.isMarkDown()
 
-async function loadFile(){
+async function loadFile() {
 	loaded = true
-	loading = new Promise(async function(resolve,reject){
+	loading = new Promise(async function (resolve, reject) {
 		a = await fetchSource()
 		resolve()
 	})
 }
 
- function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): void {
-	const file = button.closest('.Box');
-	// console.log(1, select.all('.blame-hunk', a))
-	const content = select.all('.blame-hunk', a)// select.all('.blame-hunk', file!)//select.all('.blob-code-inner', file!)
-		.map(line => select('.blob-code', line))
-		.map(blob => blob.innerText) // Must be `.innerText`
-		// .map(line => line === '\n' ? '' : line)
-		.join('\n');
-	// console.log(2, content)
-	// navigator.clipboard.writeText(content+"").then(()=>{}, console.log)
-	// let res = copyToClipboard(content);
-	 let res = copyToClipboard(content+"");
+function handleClick({ currentTarget: button }: React.MouseEvent<HTMLButtonElement>): void {
+	if (isMarkDown){
+		const content = select.all('.blame-hunk', a)
+			.map(line => select('.blob-code', line))
+			.map(blob => blob.innerText)
+			.join('\n');
+		console.log(2, content, features.isMarkDown())
+		copyToClipboard(content);
+	} else {
+		const file = button.closest('.Box');
 
-	console.log(res, content)
+		const content = select.all('.blob-code-inner', file!)
+			.map(blob => blob.innerText) // Must be `.innerText`
+			.map(line => line === '\n' ? '' : line)
+			.join('\n');
+
+		copyToClipboard(content);
+	}
 }
 
-// function handleClick({ currentTarget: button }: React.MouseEvent<HTMLButtonElement>): void {
-// 	const file = button.closest('.Box');
-// 	const a = await fetchSource()
-// 	console.log(1, a.querySelectorAll('.blame-hunk'))
-// 	let res
-// 	const content = a.querySelectorAll('.blame-hunk')// select.all('.blame-hunk', file!)//select.all('.blob-code-inner', file!)
-// 		.map(blob => blob.innerText) // Must be `.innerText`
-// 		.map(line => line === '\n' ? '' : line)
-// 		.join('\n');
-
-// 	copyToClipboard(content);
-// }
-
-
-async function init(): Promise<any> {
-	// const a = await fetchSource()
-	if (loaded == false ) {
-		console.log("loading")
-		await loadFile()
+async function init(): void {
+	// This selector skips binaries + markdowns with code
+	if (isMarkDown){
+		if (loaded == false) {
+			await loadFile()
+		}
+		loaded = false
+		await loading //Keeps button from appearing util there's something to copy
 	}
-	loaded = false
-	await loading
-	// // This selector skips binaries + markdowns with code
-	for (const code of select.all('[data-hotkey="b"]')) {
-		// code.classList.add('rgh-copy-file');
+
+	for (const code of select.all('[data-hotkey="b"]')) { //Blame button, avoiding binary files
 		code
-			// .closest('.Box')! // Closest common container
-			// .querySelector('[data-hotkey="b"]')! // Easily-found `Blame` button
 			.parentElement! // `BtnGroup`
 			.prepend(
 				<button
@@ -94,3 +81,50 @@ features.add({
 	load: features.onNavigation,
 	init: loadFile
 })
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// import React from 'dom-chef';
+// import select from 'select-dom';
+// import copyToClipboard from 'copy-text-to-clipboard';
+// import features from '../libs/features';
+
+// function handleClick({ currentTarget: button }: React.MouseEvent<HTMLButtonElement>): void {
+// 	const file = button.closest('.Box');
+
+// 	const content = select.all('.blob-code-inner', file!)
+// 		.map(blob => blob.innerText) // Must be `.innerText`
+// 		.map(line => line === '\n' ? '' : line)
+// 		.join('\n');
+
+// 	copyToClipboard(content);
+// }
+
+// function init(): void {
+// 	// This selector skips binaries + markdowns with code
+// 	for (const code of select.all('.blob-wrapper > .highlight:not(.rgh-copy-file)')) {
+// 		code.classList.add('rgh-copy-file');
+// 		code
+// 			.closest('.Box')! // Closest common container
+// 			.querySelector('[data-hotkey="b"]')! // Easily-found `Blame` button
+// 			.parentElement! // `BtnGroup`
+// 			.prepend(
+// 				<button
+// 					onClick={handleClick}
+// 					className="btn btn-sm copy-btn tooltipped tooltipped-n BtnGroup-item"
+// 					aria-label="Copy file to clipboard"
+// 					type="button">
+// 					Copy
+// 				</button>
+// 			);
+// 	}
+// }
+
+// features.add({
+// 	id: 'copy-file',
+// 	include: [
+// 		features.isSingleFile,
+// 		features.isGist
+// 	],
+// 	load: features.onAjaxedPages,
+// 	init
+// });
