@@ -8,7 +8,6 @@ import * as pageDetect from '../libs/page-detect';
 import {safeElementReady} from '../libs/dom-utils';
 import {getUsername, getOwnerAndRepo} from '../libs/utils';
 
-// TODO: Pull these types out.
 type NotificationType = 'pull-request' | 'issue';
 type NotificationState = 'open' | 'merged' | 'closed';
 
@@ -270,7 +269,7 @@ function isCurrentSingleRepoPage({repository}: Notification): boolean {
 }
 
 function isParticipatingPage(): boolean {
-	return /\/notifications\/participating/.test(location.pathname);
+	return location.pathname.startsWith('/notifications/participating');
 }
 
 async function updateUnreadIndicator(): Promise<void> {
