@@ -36,9 +36,6 @@ declare module 'linkify-issues' {
 	export = linkifyIssues
 }
 
-// Declaration required so that reserved-names.json file can be imported from the package.
-declare module 'github-reserved-names';
-
 // Custom UI events specific to RGH
 interface GlobalEventHandlersEventMap {
 	'details:toggled': CustomEvent;
