@@ -40,13 +40,12 @@ function populateDropDown({currentTarget}: Event): void {
 	}
 }
 
-function init(): void {
-	// If there are no PRs then return
-	if (!select('.table-list-filters')) {
-		return;
-	}
-
+function init(): void | false {
 	const reviewsFilter = select('.table-list-header-toggle > details:nth-last-child(3)')!;
+
+	if (!reviewsFilter) {
+		return false;
+	}
 
 	// Copy existing element and adapt its content
 	const statusFilter = reviewsFilter.cloneNode(true) as HTMLDetailsElement;
