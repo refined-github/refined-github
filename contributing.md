@@ -34,19 +34,19 @@ features.add({
 Here's an example using all of the possible `feature.add` options:
 
 
-```js
+```ts
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
-function log() {
+function log(): void {
 	console.log('✨', <div class="rgh-jsx-element"/>);
 }
-function init() {
-	select('.btn').addEventListener('click', log);
+function init(): void {
+	select('.btn')!.addEventListener('click', log);
 }
-function deinit() {
-	select('.btn').removeEventListener('load', log);
+function deinit(): void {
+	select('.btn')!.removeEventListener('load', log);
 }
 
 features.add({
@@ -83,14 +83,7 @@ When working on the extension or checking out branches, use this to have it cons
 npm run watch # Listen for file changes and automatically rebuild
 ```
 
-Then load or reload it into the browser to see the changes (this does not happen automatically). If you'd like
-it to occur automatically, install firefox and:
-
-```sh
-npm run dev
-```
-
-The above script will load the default profile which is reposnible for settings and session tokens, but the profile won't be edited if loaded by web-ext (the above script), so it's best to first make changes you like and than use the script.
+Then load or reload it into the browser to see the changes (this does not happen automatically).
 
 ## Loading into the browser
 
@@ -102,7 +95,7 @@ Once built, load it in the browser of your choice:
 		<th>Firefox</th>
 	</tr>
 	<tr>
-		<td width="50%">
+		<td width="50%" valign="top">
 			<ol>
 				<li>Open <code>chrome://extensions</code>;
 				<li>Check the <strong>Developer mode</strong> checkbox;
@@ -110,12 +103,19 @@ Once built, load it in the browser of your choice:
 				<li>Select the folder <code>refined-github/distribution</code>.
 			</ol>
 		</td>
-		<td width="50%">
+		<td width="50%" valign="top">
 			<ol>
 				<li>Open <code>about:debugging#addons</code>;
 				<li>Click on the <strong>Load Temporary Add-on</strong> button;
 				<li>Select the file <code>refined-github/distribution/manifest.json</code>.
 			</ol>
+
+			Or you can use run this to have Firefox automatically load and reload it:
+
+			```sh
+			npm run watch:firefox
+			```
+
 		</td>
 	</tr>
 </table>
