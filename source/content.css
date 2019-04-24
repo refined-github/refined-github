@@ -500,16 +500,6 @@ div.inline-comment-form .form-actions,
 	float: right;
 }
 
-/* To push the Draft new release and Select tag dropdown to the right. */
-.subnav-links {
-	flex-grow: 1;
-}
-
-/* Select tag dropdown should appear first */
-.subnav-links + .float-right {
-	order: 1;
-}
-
 /* Decrease the padding of filter buttons to accommodate `Commented` */
 .subnav-links .subnav-item {
 	padding: 6px 9px;
@@ -536,6 +526,11 @@ div.inline-comment-form .form-actions,
 .subnav .btn-primary {
 	order: 100;
 	margin-left: 20px;
+}
+
+/* For `widen-search-field`: Move extra buttons to the right on Releases */
+.subnav-links {
+	margin-right: auto;
 }
 
 /* Reset width of search field in global lists */
