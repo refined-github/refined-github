@@ -386,6 +386,9 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 	padding-right: 7px;
 	padding-left: 3px;
 }
+.rgh-unread .notification-actions .age {
+	width: 150px; /* Align with GH's notifications */
+}
 
 /* Change color of marker if there are only discussion marked as unread */
 .notification-indicator[data-ga-click$=':read'] .unread {
