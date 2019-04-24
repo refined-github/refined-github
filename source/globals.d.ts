@@ -1,6 +1,6 @@
 type AnyObject = Record<string, any>;
 
-// TODO: Move types to https://github.com/sindresorhus/linkify-urls repository.
+// TODO: Waiting in lookbehind support in FireFox, https://github.com/sindresorhus/refined-github/pull/1936#discussion_r276515991
 declare module 'linkify-urls' {
 	type Options = {
 		user: string;
@@ -18,7 +18,7 @@ declare module 'linkify-urls' {
 	export = linkifyUrls
 }
 
-// TODO: Move types to the https://github.com/sindresorhus/linkify-issues repository.
+// TODO: Waiting in lookbehind support in FireFox, https://github.com/sindresorhus/refined-github/pull/1936#discussion_r276515991
 declare module 'linkify-issues' {
 	type Options = {
 		user: string;
