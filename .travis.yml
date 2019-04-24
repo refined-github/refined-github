@@ -4,15 +4,26 @@ node_js:
 env:
   - EXTENSION_ID=hlepfoohegkhhmjieoechaddaejaokhf
 deploy:
-  - provider: script
+  - # Publishes tagged version. Expects tag to be valid version
+    provider: script
     skip_cleanup: true
     script: npm run release
     on:
       tags: true
-  - provider: script
+      condition: $TRAVIS_TAG != hotfix
+
+  - # Creates versioned git tag when tag is `hotfix`
+    provider: script
     skip_cleanup: true
-    script: npm run release
+    script: npm run create-git-tag
     on:
-      # Set to deploy on: cron with recent commits
+      tags: true
+      condition: $TRAVIS_TAG = hotfix
+
+  - # Creates versioned git tag on daily Travis cronjobs if it has recent commits
+    provider: script
+    skip_cleanup: true
+    script: npm run create-git-tag
+    on:
       branch: master
       condition: $(npm run can-release --silent)
