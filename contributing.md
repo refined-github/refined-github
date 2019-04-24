@@ -110,14 +110,13 @@ Once built, load it in the browser of your choice:
 				<li>Select the file <code>refined-github/distribution/manifest.json</code>.
 			</ol>
 
-			Or you can use run this to have Firefox automatically load and reload it:
+Or you can use run this to have Firefox automatically load and reload it through [`web-ext run`](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/web-ext_command_reference#web-ext_run):
 
-			```sh
-			npm run watch:firefox
-			```
+```sh
+npm run watch:firefox
+```
+<!-- Higher indentation leads to this block being parsed as `pre` -->
 
 		</td>
 	</tr>
 </table>
-
-Firefox offers a more advanced loading technique that includes auto-reloading in the browser as well. Check-out [`web-ext run`](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/web-ext_command_reference#web-ext_run). The `dev` script in package.json already makes usage of the package.
