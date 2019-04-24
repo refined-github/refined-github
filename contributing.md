@@ -34,7 +34,7 @@ features.add({
 Here's an example using all of the possible `feature.add` options:
 
 
-```js
+```ts
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
@@ -42,11 +42,11 @@ import features from '../libs/features';
 function log() {
 	console.log('✨', <div className="rgh-jsx-element"/>);
 }
-function init() {
-	select('.btn').addEventListener('click', log);
+function init(): void {
+	select('.btn')!.addEventListener('click', log);
 }
-function deinit() {
-	select('.btn').removeEventListener('load', log);
+function deinit(): void {
+	select('.btn')!.removeEventListener('load', log);
 }
 
 features.add({
@@ -95,7 +95,7 @@ Once built, load it in the browser of your choice:
 		<th>Firefox</th>
 	</tr>
 	<tr>
-		<td width="50%">
+		<td width="50%" valign="top">
 			<ol>
 				<li>Open <code>chrome://extensions</code>;
 				<li>Check the <strong>Developer mode</strong> checkbox;
@@ -103,14 +103,14 @@ Once built, load it in the browser of your choice:
 				<li>Select the folder <code>refined-github/distribution</code>.
 			</ol>
 		</td>
-		<td width="50%">
+		<td width="50%" valign="top">
 			<ol>
 				<li>Open <code>about:debugging#addons</code>;
 				<li>Click on the <strong>Load Temporary Add-on</strong> button;
 				<li>Select the file <code>refined-github/distribution/manifest.json</code>.
 			</ol>
+			Or you can use run this command to have Firefox automatically load and reload it through <a href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/web-ext_command_reference#web-ext_run"><code>web-ext run</code></a>:</p>
+			<pre>npm run watch:firefox</pre>
 		</td>
 	</tr>
 </table>
-
-Firefox offers a more advanced loading technique that includes auto-reloading in the browser as well. Check-out [`web-ext run`](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/web-ext_command_reference#web-ext_run).
