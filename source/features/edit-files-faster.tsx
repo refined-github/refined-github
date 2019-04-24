@@ -27,7 +27,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'edit-comments-faster',
+	id: 'edit-files-faster',
 	include: [
 		features.isRepoTree
 	],

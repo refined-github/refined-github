@@ -386,6 +386,9 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 	padding-right: 7px;
 	padding-left: 3px;
 }
+.rgh-unread .notification-actions .age {
+	width: 150px; /* Align with GH's notifications */
+}
 
 /* Change color of marker if there are only discussion marked as unread */
 .notification-indicator[data-ga-click$=':read'] .unread {
@@ -758,6 +761,10 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	z-index: 32; /* Set z-index higher than ul.pagehead-actions */
 	white-space: nowrap;
 	animation: rgh-slide-in-right 0.3s ease-out;
+}
+/* Fix positioning on GHE */
+.rgh-recently-pushed-branches.enterprise [data-url$='recently_touched_branches_list'] .mb-3 {
+	position: initial;
 }
 .rgh-recently-pushed-branches [data-url$='recently_touched_branches_list'] p {
 	display: none;
