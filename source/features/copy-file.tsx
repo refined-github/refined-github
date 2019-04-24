@@ -2,69 +2,69 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import copyToClipboard from 'copy-text-to-clipboard';
 import features from '../libs/features';
-import {fetchSource} from './view-markdown-source';
 
-// Copy to clipboard can't be async, and must be event driven
-let markdown: Element;
-let loaded = false;
-let loading: Promise<any>;
-const isMarkDown = features.isMarkDown();
-
-async function loadFile(): Promise<void> {
-	loaded = true;
-	console.log('loading');
-	loading = new Promise((resolve => {
-		resolve(fetchSource());
-	}));
-	const markdown = await loading;
-	console.log('the val', markdown);
+function spaceLines (dom: NodeListOf<ChildNode>|HTMLElement){
+	console.log(dom)
+	return dom.innerText
 }
 
-function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): void {
-	console.log(1, markdown)
-	if (isMarkDown) {
-		const content = select.all('.blame-hunk', markdown)
-			.map(line => select('.blob-code', line))
-			// .filter(blob => blob !== null && !blob === false)
-			.map(blob => blob!.innerText)
-			.join('\n');
-		console.log(2, markdown, content);
-		copyToClipboard(content);
-	} else {
-		console.log("not markdown")
-		const file = button.closest('.Box');
+function handleClickFactory(markdown?: Element) {
+	return function handleClick({ currentTarget: button }: React.MouseEvent<HTMLButtonElement>): void {
+		console.log(1, markdown)
+		if (features.isMarkDown()) {
+			const content = select.all('.blame-hunk', markdown)
+				.map(line => select.all('.blob-code', line))
+				.map(line=>{
+					return line.map(spaceLines).map(line => line === '\n' ? '' : line).join("\n")
+					// if (line.childNodes.length !== 1){
+					// 	return Array.from(line.childNodes).map(spaceLines).join()
+					// }
+					// return spaceLines(line)
+				})
+				// .filter(blob => blob !== null && !blob === false)
+				// .map(line => {
+				// 	let a = line.innerText
+				// 	// console.log(typeof a, a.length, a, 1, a == '\n')
+				// 	return line!.innerText === '\n' ? "" : line})
+				// .map(blob => blob!.innerText)
+				// .map(blob=> blob+"\n")
+				// .join("");
+				.map(line => line === '\n' ? '' : line)
+				.join('\n');
+			console.log(2, content.substr(0, 900));
+			console.log(copyToClipboard(content))
+		} else {
+			console.log("not markdown")
+			const file = button.closest('.Box');
 
-		const content = select.all('.blob-code-inner', file!)
-			.map(blob => blob.innerText) // Must be `.innerText`
-			.map(line => line === '\n' ? '' : line)
-			.join('\n');
+			const content = select.all('.blob-code-inner', file!)
+				.map(blob => blob.innerText) // Must be `.innerText`
+				.map(line => line === '\n' ? '' : line)
+				.join('\n');
 
-		copyToClipboard(content);
+			copyToClipboard(content);
+		}
 	}
 }
 
 async function init(): Promise<void> {
 	// This selector skips binaries + markdowns with code
-	console.log(1000000000000);
-
-	if (isMarkDown) {
-		console.log(11111);
-		if (loaded === false) {
-			console.log(222222);
-
-			await loadFile();
-		}
-
-		loaded = false;
-		await loading; // Keeps button from appearing util there's something to copy
+	if (features.isMarkDown()) {
+		document.addEventListener('rgh:view-markdown-source', function (e) {
+			renderButton((e as CustomEvent).detail)
+		});
+	} else {
+		renderButton()
 	}
+}
 
+function renderButton(markdown?: Element) {
 	for (const code of select.all('[data-hotkey="b"]')) { // Blame button, avoiding binary files
 		code
 			.parentElement! // `BtnGroup`
 			.prepend(
 				<button
-					onClick={handleClick}
+					onClick={handleClickFactory(markdown)}
 					className="btn btn-sm copy-btn tooltipped tooltipped-n BtnGroup-item"
 					aria-label="Copy file to clipboard"
 					type="button">
@@ -73,15 +73,6 @@ async function init(): Promise<void> {
 			);
 	}
 }
-
-features.add({
-	id: 'copy-file',
-	include: [
-		features.isMarkDown
-	],
-	load: features.onNavigation,
-	init: loadFile
-});
 
 features.add({
 	id: 'copy-file',
