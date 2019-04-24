@@ -6,6 +6,7 @@ import {getOwnerAndRepo, getDiscussionNumber, getOP} from '../libs/utils';
 
 interface Author {
 	email: string;
+	name: string; // Used when the commit isn't linked to a GitHub user
 	user: {
 		name: string;
 		login: string;
@@ -27,6 +28,7 @@ async function fetchCoAuthoredData(): Promise<Author[]> {
 							commit {
 								author {
 									email
+									name
 									user {
 										login
 										name
@@ -51,8 +53,12 @@ function addCoAuthors(): void {
 	}
 
 	const addendum = new Map();
-	for (const {email, user} of coAuthors) {
-		addendum.set(user.login, `Co-authored-by: ${user.name} <${email}>`);
+	for (const {email, user, name} of coAuthors) {
+		if (user) {
+			addendum.set(user.login, `Co-authored-by: ${user.name} <${email}>`);
+		} else {
+			addendum.set(name, `Co-authored-by: ${name} <${email}>`);
+		}
 	}
 
 	addendum.delete(getOP());
