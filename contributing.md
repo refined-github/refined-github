@@ -109,14 +109,8 @@ Once built, load it in the browser of your choice:
 				<li>Click on the <strong>Load Temporary Add-on</strong> button;
 				<li>Select the file <code>refined-github/distribution/manifest.json</code>.
 			</ol>
-
-Or you can use run this to have Firefox automatically load and reload it through [`web-ext run`](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/web-ext_command_reference#web-ext_run):
-
-```sh
-npm run watch:firefox
-```
-<!-- Higher indentation leads to this block being parsed as `pre` -->
-
+			Or you can use run this command to have Firefox automatically load and reload it through <a href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/web-ext_command_reference#web-ext_run"><code>web-ext run</code></a>:</p>
+			<pre>npm run watch:firefox</pre>
 		</td>
 	</tr>
 </table>
