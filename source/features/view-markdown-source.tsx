@@ -10,9 +10,9 @@ import fetchDom from '../libs/fetch-dom';
 import * as icons from '../libs/icons';
 import {blurAccessibly} from './comment-fields-keyboard-shortcuts';
 
-const linkedDom = Symbol('Attached RGH dom');
+const btnBodyMap = new WeakMap<Element, Element | Promise<Element>>();
 
-async function fetchSource() {
+async function fetchSource(): Promise<Element> {
 	const path = location.pathname.replace(/([^/]+\/[^/]+\/)(blob)/, '$1blame');
 	const dom = await fetchDom(location.origin + path, '.blob-wrapper');
 	dom.classList.add('rgh-markdown-source');
@@ -20,7 +20,7 @@ async function fetchSource() {
 }
 
 // Hide tooltip after click, it’s shown on :focus
-function blurButton(button) {
+function blurButton(button: HTMLElement): void {
 	if (button === document.activeElement) {
 		blurAccessibly(button);
 	}
@@ -31,31 +31,36 @@ The dom of each version is stored on each button.
 This acts as an auto-discarded cache without globals, timers, etc.
 It should also work clicks on buttons sooner than the page loads.
 */
-async function showSource() {
-	const sourceButton = select('.rgh-md-source');
-	const renderedButton = select('.rgh-md-rendered');
+async function showSource(): Promise<void> {
+	const sourceButton = select<HTMLButtonElement>('.rgh-md-source')!;
+	const renderedButton = select<HTMLButtonElement>('.rgh-md-rendered')!;
 
-	document.dispatchEvent(new CustomEvent('pjax:start')); // Show loading bar
+	sourceButton.disabled = true;
 
-	const source = sourceButton[linkedDom] || fetchSource();
-	const rendered = renderedButton[linkedDom] || select('.blob.instapaper_body');
-	sourceButton[linkedDom] = source;
-	renderedButton[linkedDom] = rendered;
+	const source = btnBodyMap.get(sourceButton) || fetchSource();
+	const rendered = btnBodyMap.get(renderedButton) as Element || select('.blob.instapaper_body')!;
+
+	btnBodyMap.set(sourceButton, source);
+	btnBodyMap.set(renderedButton, rendered);
 
 	rendered.replaceWith(await source);
 
-	document.dispatchEvent(new CustomEvent('pjax:end')); // Hide loading bar
+	sourceButton.disabled = false;
 
 	sourceButton.classList.add('selected');
 	renderedButton.classList.remove('selected');
 	blurButton(sourceButton);
 }
 
-async function showRendered() {
-	const sourceButton = select('.rgh-md-source');
-	const renderedButton = select('.rgh-md-rendered');
+async function showRendered(): Promise<void> {
+	const sourceButton = select<HTMLButtonElement>('.rgh-md-source')!;
+	const renderedButton = select<HTMLButtonElement>('.rgh-md-rendered')!;
 
-	(await sourceButton[linkedDom]).replaceWith(renderedButton[linkedDom]);
+	renderedButton.disabled = true;
+
+	(await btnBodyMap.get(sourceButton))!.replaceWith(btnBodyMap.get(renderedButton) as Element);
+
+	renderedButton.disabled = false;
 
 	sourceButton.classList.remove('selected');
 	renderedButton.classList.add('selected');
@@ -70,12 +75,12 @@ async function init(): Promise<false | void> {
 	delegate('.rgh-md-source:not(.selected)', 'click', showSource);
 	delegate('.rgh-md-rendered:not(.selected)', 'click', showRendered);
 
-	select('.repository-content .Box-header .d-flex').prepend(
-		<div class="BtnGroup">
-			<button class="btn btn-sm BtnGroup-item tooltipped tooltipped tooltipped-n rgh-md-source" type="button" aria-label="Display the source blob">
+	select('.repository-content .Box-header .d-flex')!.prepend(
+		<div className="BtnGroup">
+			<button className="btn btn-sm BtnGroup-item tooltipped tooltipped tooltipped-n rgh-md-source" type="button" aria-label="Display the source blob">
 				{icons.code()}
 			</button>
-			<button class="btn btn-sm BtnGroup-item tooltipped tooltipped-n rgh-md-rendered selected" type="button" aria-label="Display the rendered blob">
+			<button className="btn btn-sm BtnGroup-item tooltipped tooltipped-n rgh-md-rendered selected" type="button" aria-label="Display the rendered blob">
 				{icons.file()}
 			</button>
 		</div>

@@ -4,7 +4,7 @@ import * as api from '../libs/api';
 import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 
-async function init() {
+async function init(): Promise<false | void> {
 	const usernameElements = select.all('.js-discussion .author:not(.rgh-fullname):not([href*="/apps/"])');
 
 	const usernames = new Set();
@@ -17,8 +17,8 @@ async function init() {
 		}
 
 		// Drop 'commented' label to shorten the copy
-		const commentedNode = el.parentNode.nextSibling as Text;
-		if (commentedNode && commentedNode.textContent.includes('commented')) {
+		const commentedNode = el.parentNode!.nextSibling as Text;
+		if (commentedNode && commentedNode.textContent!.includes('commented')) {
 			commentedNode.remove();
 		}
 	}
@@ -36,16 +36,18 @@ async function init() {
 	);
 
 	for (const usernameEl of usernameElements) {
-		const {name = ''} = names[api.escapeKey(usernameEl.textContent)] || {};
-		if (name) {
+		const userKey = api.escapeKey(usernameEl.textContent!);
+
+		// For the currently logged in user, `names[userKey]` would not be present.
+		if (names[userKey] && names[userKey].name) {
 			// If it's a regular comment author, add it outside <strong>
 			// otherwise it's something like "User added some commits"
-			const insertionPoint = usernameEl.parentElement.tagName === 'STRONG' ? usernameEl.parentElement : usernameEl;
+			const insertionPoint = usernameEl.parentElement!.tagName === 'STRONG' ? usernameEl.parentElement! : usernameEl;
 			insertionPoint.after(
 				' (',
-				<bdo class="css-truncate">
-					<span class="css-truncate-target" style={{maxWidth: '200px'}}>
-						{name}
+				<bdo className="css-truncate">
+					<span className="css-truncate-target" style={{maxWidth: '200px'}}>
+						{names[userKey].name}
 					</span>
 				</bdo>,
 				') '

@@ -1,11 +1,11 @@
 import select from 'select-dom';
 import observeEl from './simplified-element-observer';
 
-type CommitStatus = false | typeof SUCCESS | typeof FAILURE;
+type CommitStatus = false | typeof SUCCESS | typeof FAILURE | typeof PENDING | typeof COMMIT_CHANGED;
 type StatusListener = (status: CommitStatus) => void;
 
-function getLastCommit() {
-	return select.all('.timeline-commits .commit-id').pop().textContent;
+function getLastCommit(): string | null {
+	return select.all('.timeline-commits .commit-id').pop()!.textContent;
 }
 
 export const SUCCESS = Symbol('Success');
@@ -13,7 +13,7 @@ export const FAILURE = Symbol('Failure');
 export const PENDING = Symbol('Pending');
 export const COMMIT_CHANGED = Symbol('Commit changed');
 
-export function get() {
+export function get(): CommitStatus {
 	const commits = select.all('.commit-build-statuses > :first-child');
 	const lastCommit = commits[commits.length - 1];
 	if (lastCommit) {
@@ -31,7 +31,7 @@ export function get() {
 	return false;
 }
 
-export function wait() {
+export function wait(): Promise<{}> {
 	return new Promise(resolve => {
 		addEventListener(function handler(newStatus: CommitStatus) {
 			removeEventListener(handler);
@@ -42,14 +42,14 @@ export function wait() {
 
 const observers = new WeakMap<StatusListener, MutationObserver>();
 
-export function addEventListener(listener) {
+export function addEventListener(listener: StatusListener): void {
 	if (observers.has(listener)) {
 		return;
 	}
 
 	let previousCommit = getLastCommit();
 	let previousStatus = get();
-	const filteredListener = () => {
+	const filteredListener = (): void => {
 		// Cancel submission if a new commit was pushed
 		const newCommit = getLastCommit();
 		if (newCommit !== previousCommit) {
@@ -68,10 +68,10 @@ export function addEventListener(listener) {
 	const observer = observeEl('.js-discussion', filteredListener, {
 		childList: true,
 		subtree: true
-	});
+	})!;
 	observers.set(listener, observer);
 }
 
-export function removeEventListener(listener: StatusListener) {
-	observers.get(listener).disconnect();
+export function removeEventListener(listener: StatusListener): void {
+	observers.get(listener)!.disconnect();
 }

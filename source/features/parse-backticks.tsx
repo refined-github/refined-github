@@ -9,15 +9,15 @@ import getTextNodes from '../libs/get-text-nodes';
 
 const splittingRegex = /`(.*?)`/g;
 
-function splitTextReducer(fragment, text, index) {
+function splitTextReducer(fragment: DocumentFragment, text: string, index: number): DocumentFragment {
 	// Code is always in odd positions
 	if (index % 2 && text.length >= 1) {
 		// `span.sr-only` keeps the backticks copy-pastable but invisible
 		fragment.append(
 			<code className="rgh-parse-backticks">
-				<span class="sr-only">`</span>
+				<span className="sr-only">`</span>
 				{text}
-				<span class="sr-only">`</span>
+				<span className="sr-only">`</span>
 			</code>
 		);
 	} else if (text.length > 0) {
@@ -27,15 +27,18 @@ function splitTextReducer(fragment, text, index) {
 	return fragment;
 }
 
-function init() {
-	for (const title of select.all('.issues-listing .js-navigation-open, .commit-title .js-navigation-open')) {
+function init(): void {
+	for (const title of select.all(`
+		[aria-label="Issues"][role="group"] .js-navigation-open,
+		.commit-title .js-navigation-open
+	`)) {
 		for (const node of getTextNodes(title)) {
-			const frag = node.textContent
+			const fragment = node.textContent!
 				.split(splittingRegex)
 				.reduce(splitTextReducer, new DocumentFragment());
 
-			if (frag.children.length > 0) {
-				node.replaceWith(frag);
+			if (fragment.children.length > 0) {
+				node.replaceWith(fragment);
 			}
 		}
 	}

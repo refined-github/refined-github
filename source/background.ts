@@ -1,6 +1,6 @@
 import OptionsSync from 'webext-options-sync';
-import domainPermissionToggle from 'webext-domain-permission-toggle';
-import dynamicContentScripts from 'webext-dynamic-content-scripts';
+import {addContextMenu} from 'webext-domain-permission-toggle';
+import {addToFutureTabs} from 'webext-dynamic-content-scripts';
 import './libs/cache';
 
 // Define defaults
@@ -14,15 +14,13 @@ new OptionsSync().define({
 	migrations: [
 		options => {
 			options.disabledFeatures = (options.disabledFeatures as string)
-				.replace('milestone-navigation', '') // #1767
-				.replace('op-labels', '') // #1776
-				.replace('delete-fork-link', '') // #1791
-				.replace('exclude-filter-shortcut', '') // #1831
-				.replace('diff-view-without-whitespace-option', 'faster-pr-diff-options') // #1799
 				.replace('make-headers-sticky', '') // #1863
 				.replace('jump-to-bottom', '') // #1879
 				.replace('hide-readme-header', '') // #1883
 				.replace(/commented-menu-item|yours-menu-item/, 'global-discussion-list-filters') // #1883
+				.replace('show-recently-pushed-branches-on-more-pages', 'recently-pushed-branches-enhancements') // #1909
+				.replace('fix-squash-and-merge-message', '') // #1934
+				.replace('fix-squash-and-merge-title', 'sync-pr-commit-title') // #1934
 			; // eslint-disable-line semi-style
 		},
 		OptionsSync.migrations.removeUnused
@@ -54,8 +52,8 @@ browser.browserAction.onClicked.addListener(() => {
 browser.runtime.onInstalled.addListener(async ({reason}) => {
 	// Only notify on install
 	if (reason === 'install') {
-		const {installType} = await browser.management.getSelf();
-		if (installType === 'development') {
+		const self = await browser.management.getSelf();
+		if (self && self.installType === 'development') {
 			return;
 		}
 
@@ -67,5 +65,5 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 });
 
 // GitHub Enterprise support
-dynamicContentScripts.addToFutureTabs();
-domainPermissionToggle.addContextMenu();
+addToFutureTabs();
+addContextMenu();

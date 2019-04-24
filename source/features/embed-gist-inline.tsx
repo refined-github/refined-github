@@ -3,16 +3,16 @@ import domify from 'doma';
 import select from 'select-dom';
 import features from '../libs/features';
 
-const isGist = link =>
+const isGist = (link: HTMLAnchorElement): boolean =>
 	!link.pathname.includes('.') && // Exclude links to embed files
 	(
 		link.hostname.startsWith('gist.') ||
 		link.pathname.startsWith('gist/')
 	);
 
-const isOnlyChild = link => link.textContent.trim() === link.parentNode.textContent.trim();
+const isOnlyChild = (link: HTMLAnchorElement): boolean => link.textContent!.trim() === link.parentNode!.textContent!.trim();
 
-async function embedGist(link) {
+async function embedGist(link: HTMLAnchorElement): Promise<void> {
 	const info = <em> (loading)</em>;
 	link.after(info);
 
@@ -20,13 +20,13 @@ async function embedGist(link) {
 		const response = await fetch(`${link.href}.json`);
 		const gistData = await response.json();
 
-		const files = domify.one(gistData.div);
+		const files = domify.one(gistData.div)!;
 		const fileCount = files.children.length;
 
 		if (fileCount > 1) {
 			info.textContent = ` (${fileCount} files)`;
 		} else {
-			link.parentNode.attachShadow({mode: 'open'}).append(
+			link.parentElement!.attachShadow({mode: 'open'}).append(
 				<style>{`
 					.gist .gist-data {
 						max-height: 16em;
@@ -38,12 +38,12 @@ async function embedGist(link) {
 			);
 		}
 	} catch {
-		info.remove(' (embed failed)');
+		info.replaceWith(' (embed failed)');
 	}
 }
 
-function init() {
-	select.all('.js-comment-body p a:only-child')
+function init(): void {
+	select.all<HTMLAnchorElement>('.js-comment-body p a:only-child')
 		.filter(item => isGist(item) && isOnlyChild(item))
 		.forEach(embedGist);
 }

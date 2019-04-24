@@ -2,11 +2,11 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
-function init() {
+function init(): void {
 	let uselessCount = 0;
 	for (const commentText of select.all('.comment-body > p:only-child')) {
 		// Find useless comments
-		if (!/^([+-]\d+!*|👍|🙏|👎|👌|)+$/.test(commentText.textContent.trim())) {
+		if (!/^([+-]\d+!*|👍|🙏|👎|👌|)+$/.test(commentText.textContent!.trim())) {
 			continue;
 		}
 
@@ -22,7 +22,7 @@ function init() {
 		}
 
 		// If the person is having a conversation, then don't hide it
-		const author = select('.author', comment).getAttribute('href');
+		const author = select('.author', comment)!.getAttribute('href');
 		// If the first comment left by the author isn't a useless comment
 		// (previously hidden or about to be hidden), then leave this one as well
 		const previousComment = select(`.js-timeline-item:not([hidden]) .unminimized-comment .author[href="${author}"]`);
@@ -36,22 +36,22 @@ function init() {
 	}
 
 	if (uselessCount > 0) {
-		select('.discussion-timeline-actions').prepend(
-			<p class="rgh-useless-comments-note">
+		select('.discussion-timeline-actions')!.prepend(
+			<p className="rgh-useless-comments-note">
 				{`${uselessCount} unhelpful comment${uselessCount > 1 ? 's were' : ' was'} automatically hidden. `}
-				<button class="btn-link text-emphasized" onClick={unhide}>Show</button>
+				<button className="btn-link text-emphasized" onClick={unhide}>Show</button>
 			</p>
 		);
 	}
 }
 
-function unhide(event) {
+function unhide(event: React.MouseEvent<HTMLButtonElement>): void {
 	for (const comment of select.all('.rgh-hidden-comment')) {
 		comment.hidden = false;
 	}
 
-	select('.rgh-hidden-comment').scrollIntoView();
-	event.target.parentElement.remove();
+	select('.rgh-hidden-comment')!.scrollIntoView();
+	event.currentTarget.parentElement!.remove();
 }
 
 features.add({

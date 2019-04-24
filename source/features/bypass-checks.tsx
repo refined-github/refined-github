@@ -2,16 +2,16 @@ import domify from 'doma';
 import select from 'select-dom';
 import features from '../libs/features';
 
-async function init() {
+async function init(): Promise<void> {
 	// If anything errors, RGH will display the error next to the feature name
 	await Promise.all(select.all('.merge-status-item [href^="/apps/"]').map(bypass));
 }
 
-async function bypass(check) {
-	const details = select<HTMLAnchorElement>('.status-actions', check.parentElement);
+async function bypass(check: HTMLElement): Promise<void> {
+	const details = select<HTMLAnchorElement>('.status-actions', check.parentElement!)!;
 	const response = await fetch(details.href);
 	const dom = domify(await response.text());
-	const directLink = select('a.text-small .octicon-link-external', dom);
+	const directLink = select('a.text-small .octicon-link-external', dom)!;
 	details.href = (directLink.parentElement as HTMLAnchorElement).href;
 }
 

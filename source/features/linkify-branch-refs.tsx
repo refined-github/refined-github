@@ -5,35 +5,35 @@ import * as pageDetect from '../libs/page-detect';
 import {getOwnerAndRepo} from '../libs/utils';
 import {safeElementReady, wrap} from '../libs/dom-utils';
 
-function inPR() {
-	let deletedBranch: string;
+function inPR(): void {
+	let deletedBranch: string | undefined;
 	const lastBranchAction = select.all(`
 		.discussion-item-head_ref_deleted .commit-ref,
 		.discussion-item-head_ref_restored .commit-ref
 	`).pop();
 	if (lastBranchAction && lastBranchAction.closest('.discussion-item-head_ref_deleted')) {
-		deletedBranch = lastBranchAction.textContent.trim();
+		deletedBranch = lastBranchAction.textContent!.trim();
 	}
 
 	// Find the URLs first, some elements don't have titles
 	const urls = new Map<string, string>();
 	for (const el of select.all('.commit-ref[title], .base-ref[title], .head-ref[title]')) {
 		const [repo, branch] = el.title.split(':');
-		const branchName = el.textContent.trim();
+		const branchName = el.textContent!.trim();
 		urls.set(
-			el.textContent.trim(),
+			branchName,
 			`/${repo}`
 		);
 		if (branchName !== deletedBranch) {
 			urls.set(
-				el.textContent.trim(),
+				branchName,
 				`/${repo}/tree/${encodeURIComponent(branch)}`
 			);
 		}
 	}
 
 	for (const el of select.all('.commit-ref')) {
-		const branchName = el.textContent.trim();
+		const branchName = el.textContent!.trim();
 
 		if (branchName !== 'unknown repository') {
 			if (branchName === deletedBranch) {
@@ -46,16 +46,16 @@ function inPR() {
 	}
 }
 
-async function inQuickPR() {
+async function inQuickPR(): Promise<void> {
 	const el = await safeElementReady('.branch-name');
 	if (el) {
 		const {ownerName, repoName} = getOwnerAndRepo();
 		const branchUrl = `/${ownerName}/${repoName}/tree/${el.textContent}`;
-		wrap(el.closest('.branch-name'), <a href={branchUrl}></a>);
+		wrap(el.closest('.branch-name')!, <a href={branchUrl}></a>);
 	}
 }
 
-function init() {
+function init(): void {
 	if (pageDetect.isPR()) {
 		inPR();
 	} else if (pageDetect.isQuickPR()) {

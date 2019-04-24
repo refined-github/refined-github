@@ -31,14 +31,14 @@ const addNewProjectLink = onetime(() => {
 	// https://github.com/USER/REPO/projects/new
 	const path = location.pathname.split('/', 3);
 	const base = path.length > 2 ? path.join('/') : '/orgs' + path.join('/');
-	select('.HeaderMenu [href="/new"]').parentElement.append(
-		<a class="dropdown-item" href={base + '/projects/new'}>
+	select('.Header [href="/new"]')!.parentElement!.append(
+		<a className="dropdown-item" href={base + '/projects/new'}>
 			New project
 		</a>
 	);
 });
 
-async function init() {
+async function init(): Promise<false | void> {
 	await safeElementReady(`
 		.orghead + *,
 		.repohead + *,
@@ -67,7 +67,7 @@ async function init() {
 	}
 
 	// Only remove the tab if it's not the current page and if it has 0 projects
-	if (!projectsTab.matches('.selected') && select('.Counter', projectsTab).textContent.trim() === '0') {
+	if (!projectsTab.matches('.selected') && select('.Counter', projectsTab)!.textContent!.trim() === '0') {
 		projectsTab.remove();
 	}
 }

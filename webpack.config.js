@@ -27,7 +27,7 @@ module.exports = (env, argv) => ({
 						loader: 'ts-loader',
 						query: {
 							compilerOptions: {
-								// Enables ModuleConcatenation. It must be in here to avoid conflic with ts-node
+								// Enables ModuleConcatenation. It must be in here to avoid conflict with ts-node
 								module: 'es2015',
 
 								// With this, TS will error but the file will still be generated (on watch only)

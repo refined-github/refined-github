@@ -217,14 +217,10 @@ followed someone
 	width: 20px;
 }
 
-/* Limit width of commit title and description inputs to 50/80 chars */
+/* Limit width of commit title to 70 characters */
 .rgh-monospace-textareas #merge_title_field,
 .rgh-monospace-textareas #commit-summary-input {
-	width: 50ch;
-}
-
-.rgh-monospace-textareas #commit-description-textarea {
-	width: 80ch;
+	width: 70ch;
 }
 
 .rgh-monospace-textareas #merge_title_field,
@@ -390,6 +386,9 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 	padding-right: 7px;
 	padding-left: 3px;
 }
+.rgh-unread .notification-actions .age {
+	width: 150px; /* Align with GH's notifications */
+}
 
 /* Change color of marker if there are only discussion marked as unread */
 .notification-indicator[data-ga-click$=':read'] .unread {
@@ -501,48 +500,65 @@ div.inline-comment-form .form-actions,
 	float: right;
 }
 
+/* To push the Draft new release and Select tag dropdown to the right. */
+.subnav-links {
+	flex-grow: 1;
+}
+
+/* Select tag dropdown should appear first */
+.subnav-links + .float-right {
+	order: 1;
+}
+
 /* Decrease the padding of filter buttons to accommodate `Commented` */
 .subnav-links .subnav-item {
 	padding: 6px 9px;
 }
 
-/* Expand issue search field width */
-.issues-listing .subnav,
-.issues-listing .subnav-search,
-.issues-listing .subnav-search-input,
-.issues-listing .subnav [role='search'],
-:not(.repository-content) > .issues-listing .subnav > .float-right { /* Global search field container */
-	flex-grow: 1;
-	display: flex;
+/* For `open-all-selected` and `filter-pr-by-build-status`: set a reduced padding for all buttons for #1830 and #1904 */
+.table-list-filters .table-list-header-toggle .select-menu-button {
+	padding-right: 8px;
+	padding-left: 8px;
 }
 
-/* Move `New issue` button back to the right */
-.issues-listing .subnav .btn-primary {
+/* For `widen-search-field`: Expand issue search field width */
+.subnav,
+.subnav-search,
+.subnav-search-input,
+.subnav [role='search'],
+.page-content .subnav > .float-right { /* Global search field container */
+	flex-grow: 1;
+	display: flex;
+	font: none !important;
+}
+
+/* For `widen-search-field`: Move `New issue` button back to the right */
+.subnav .btn-primary {
 	order: 100;
 	margin-left: 20px;
 }
 
 /* Reset width of search field in global lists */
-.issues-listing .subnav-search-input-wide {
+.page-content .subnav-search-input-wide {
 	width: auto;
 }
 
 /* Hide `Filters` text in repo lists */
-.issues-listing .subnav-search-context summary {
+.subnav-search-context summary {
 	display: flex;
 	width: 2.4em;
 	text-indent: -10000px;
 }
 
 /* Hide `Filters` text in repo lists: center dropdown triangle */
-.issues-listing .subnav-search-context summary::after {
+.subnav-search-context summary::after {
 	float: right;
 	margin-top: 0.6em;
 	transform: scale(1.2);
 }
 
 /* Hide icons in `Labels`/`Milestones` buttons */
-.issues-listing .subnav-item svg {
+.subnav-item svg {
 	display: none;
 }
 
@@ -562,7 +578,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 }
 
 /* Hide marketplace navbar button */
-.HeaderNavlink[href='/marketplace'] {
+.Header-link[href='/marketplace'] {
 	display: none !important;
 }
 
@@ -620,13 +636,6 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	font-size: 85%;
 	margin: 0;
 	padding: 0.2em 0.4em;
-}
-
-/* For `open-all-selected`: set a reduced padding for all buttons for #1830 */
-:root .rgh-open-all-selected,
-.rgh-open-all-selected ~ .select-menu .select-menu-button {
-	padding-right: 12px;
-	padding-left: 12px;
 }
 
 /* For `more-dropdown`: Fix pre-existing items' positioning on GHE */
@@ -701,21 +710,13 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 }
 
 /* Remove annoying "helpful" banner on the issue tracker listing */
-.issues-listing .mb-4.js-notice {
+.repository-content .mb-4.js-notice {
 	display: none !important;
 }
 
 /* Remove annoying "helpful" popover on the repo label page */
 .labels-list .TutorialPopover {
 	display: none !important;
-}
-
-/* For the `add-time-machine-links-to-comments` feature */
-:root .rgh-timestamp-button {
-	padding: 0;
-}
-:root .rgh-timestamp-button .octicon {
-	vertical-align: middle;
 }
 
 @keyframes fade-in {
@@ -745,64 +746,77 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	display: none;
 }
 
-/* Move "recently pushed branches" out of the way */
-.container.new-discussion-timeline.experiment-repo-nav .repository-content {
+/* For `recently-pushed-branches-enhancements`: Move it out of the way */
+.rgh-recently-pushed-branches [data-url$='recently_touched_branches_list'] {
 	position: relative;
+	margin-left: auto;
+	margin-right: 6px;
 }
-[data-url$='recently_touched_branches_list'] {
+.rgh-recently-pushed-branches [data-url$='recently_touched_branches_list'] .mb-3 {
+	margin-bottom: 0 !important;
 	max-height: 42px; /* Only cover the actions when there are multiple branches + :hover */
 	position: absolute;
-	top: -117px;
-	right: 0;
+	top: -19px;
+	right: 10px;
 	z-index: 32; /* Set z-index higher than ul.pagehead-actions */
 	white-space: nowrap;
 	animation: rgh-slide-in-right 0.3s ease-out;
 }
-[data-url$='recently_touched_branches_list'] .my-3 {
-	margin-top: 0 !important;
-	margin-bottom: 0 !important;
+/* Fix positioning on GHE */
+.rgh-recently-pushed-branches.enterprise [data-url$='recently_touched_branches_list'] .mb-3 {
+	position: initial;
 }
-[data-url$='recently_touched_branches_list'] p {
+.rgh-recently-pushed-branches [data-url$='recently_touched_branches_list'] p {
 	display: none;
 }
-.RecentBranches {
+.rgh-recently-pushed-branches .RecentBranches {
 	display: flex;
 	width: max-content;
-	margin-top: 10px; /* Add extra padding to make it look right on forked repos */
+	overflow: hidden;
 	margin-left: auto;
 	flex-direction: column-reverse;
+	background: none;
+	border-color: currentColor;
+	border-radius: 5px;
+	background-color: #24292e;
 }
-.RecentBranches .btn {
+.rgh-recently-pushed-branches .RecentBranches .btn {
 	width: 32px;
 	text-indent: -999999px; /* Hide text */
 }
-.RecentBranches .btn + div {
+.rgh-recently-pushed-branches .RecentBranches:not(:hover) .btn {
+	background: #5d5d5d;
+}
+.rgh-recently-pushed-branches .RecentBranches .btn + div {
 	margin-right: 8px;
 	float: right;
 	font-size: 11px;
 }
-.RecentBranches .btn .octicon {
+.rgh-recently-pushed-branches .RecentBranches .btn .octicon {
 	margin-top: 2px;
 	float: right;
 }
-:root .RecentBranches-item + .RecentBranches-item {
+.rgh-recently-pushed-branches .RecentBranches-item + .RecentBranches-item {
 	border-top: none;
-	border-bottom: 1px solid rgba(27, 31, 35, 0.05); /* Copied from GitHub */
+	border-bottom: 1px solid;
 }
-.RecentBranches:not(:hover) .RecentBranches-item:not(:last-child) {
+.rgh-recently-pushed-branches .RecentBranches-item {
+	color: inherit;
+	padding: 4px !important;
+}
+.rgh-recently-pushed-branches .RecentBranches:not(:hover) .RecentBranches-item:not(:last-child) {
 	/* Hide older branches */
 	display: none;
 }
-.RecentBranches:not(:hover) .RecentBranches-item:last-child {
-	border-bottom-width: 3px;
+.rgh-recently-pushed-branches .RecentBranches:not(:hover) .RecentBranches-item:last-child {
+	border-bottom-width: 2px;
 }
-.RecentBranches-item-link {
+.rgh-recently-pushed-branches .RecentBranches-item-link {
 	max-width: 250px !important;
 	font-size: 14px;
+	color: #fff;
 }
-.RecentBranches-item.p-2 {
-	padding: 2px 5px !important;
-}
+
 @keyframes rgh-slide-in-right {
 	from {
 		transform: translateX(-30px);
@@ -1061,6 +1075,24 @@ body > .footer li a {
 	z-index: 26 !important;
 }
 
+/* For `tags-dropdown`: add spacing between buttons when user change edit the current tag */
+.float-right + .rgh-tags-dropdown {
+	margin-right: 10px;
+}
+
+/* For `tags-dropdown`: drop unneeded elements */
+:root .rgh-tags-dropdown .select-menu-tab,
+:root .rgh-tags-dropdown .select-menu-header {
+	display: none;
+}
+
+/* For `tags-dropdown`: make dropdown smaller, if possible */
+:root .rgh-tags-dropdown .select-menu-modal {
+	width: max-content;  /* Default: 300px */
+	min-width: 150px;
+	max-width: 300px;
+}
+
 /* For `warning-for-disallow-edits` feature: hide warning when PR is closed */
 [data-pull-is-open='false'] ~ #discussion_bucket .rgh-warning-for-disallow-edits {
 	display: none;
@@ -1127,4 +1159,16 @@ body > .footer li a {
 .rgh-hide-watch-and-fork-count .social-count[href$='/network/members'],
 .rgh-hide-watch-and-fork-count .social-count[href$='/watchers'] {
 	display: none;
+}
+
+/* For `edit-file-faster`: only shows one icon at a time, depending on hover status */
+.rgh-edit-files-faster:not(:hover) .octicon-pencil,
+.rgh-edit-files-faster:hover .octicon-file {
+	display: none;
+}
+
+/* For `edit-file-faster`: widen column to avoid bumps in directory-less listings */
+.rgh-edit-files-faster {
+	width: 16px;
+	display: inline-block;
 }

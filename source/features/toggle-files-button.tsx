@@ -5,15 +5,15 @@ import features from '../libs/features';
 import * as icons from '../libs/icons';
 import observeEl from '../libs/simplified-element-observer';
 
-function addButton() {
+function addButton(): void {
 	const filesHeader = select('.commit-tease');
 	if (!filesHeader || select.exists('.rgh-toggle-files')) {
-		return false;
+		return;
 	}
 
 	filesHeader.append(
 		<button
-			class="btn-octicon rgh-toggle-files"
+			className="btn-octicon rgh-toggle-files"
 			aria-label="Toggle files section"
 			aria-expanded="true">
 			{icons.chevronDown()}
@@ -21,11 +21,11 @@ function addButton() {
 	);
 }
 
-function init() {
-	const repoContent = select('.repository-content');
+function init(): void {
+	const repoContent = select('.repository-content')!;
 	observeEl(repoContent, addButton);
 	delegate('.rgh-toggle-files', 'click', ({delegateTarget}) => {
-		delegateTarget.setAttribute('aria-expanded', !repoContent.classList.toggle('rgh-files-hidden'));
+		delegateTarget.setAttribute('aria-expanded', String(!repoContent.classList.toggle('rgh-files-hidden')));
 	});
 }
 

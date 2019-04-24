@@ -18,12 +18,12 @@ const repoUrl = getRepoURL();
 const repoKey = `releases-count:${repoUrl}`;
 
 // Get as soon as possible, to have it ready before the first paint
-const cached = cache.get(repoKey);
+const cached = cache.get<number>(repoKey);
 
-function updateReleasesCount() {
+async function updateReleasesCount(): Promise<number | undefined> {
 	if (isRepoRoot()) {
 		const releasesCountEl = select('.numbers-summary a[href$="/releases"] .num');
-		const releasesCount = Number(releasesCountEl ? releasesCountEl.textContent.replace(/,/g, '') : 0);
+		const releasesCount = Number(releasesCountEl ? releasesCountEl.textContent!.replace(/,/g, '') : 0);
 		cache.set(repoKey, releasesCount, 3);
 		return releasesCount;
 	}
@@ -31,7 +31,7 @@ function updateReleasesCount() {
 	return cached;
 }
 
-async function init() {
+async function init(): Promise<false | void> {
 	await safeElementReady('.pagehead + *'); // Wait for the tab bar to be loaded
 	const count = await updateReleasesCount();
 	if (count === 0) {
@@ -39,13 +39,13 @@ async function init() {
 	}
 
 	const releasesTab = (
-		<a href={`/${repoUrl}/releases`} class="reponav-item" data-hotkey="g r">
+		<a href={`/${repoUrl}/releases`} className="reponav-item" data-hotkey="g r">
 			{icons.tag()}
 			<span> Releases </span>
-			{count === undefined ? '' : <span class="Counter">{count}</span>}
+			{count === undefined ? '' : <span className="Counter">{count}</span>}
 		</a>
 	);
-	select('.reponav-dropdown').before(releasesTab);
+	select('.reponav-dropdown')!.before(releasesTab);
 
 	if (isReleasesOrTags()) {
 		const selected = select('.reponav-item.selected');

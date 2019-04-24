@@ -8,46 +8,46 @@ import {appendBefore, safeElementReady} from '../libs/dom-utils';
 
 const repoUrl = getRepoURL();
 
-function createDropdown() {
+function createDropdown(): void {
 	// Markup copied from native GHE dropdown
 	appendBefore('.reponav', '[href$="settings"]',
-		<div class="reponav-dropdown js-menu-container">
-			<button type="button" class="btn-link reponav-item js-menu-target" aria-expanded="false" aria-haspopup="true">
+		<div className="reponav-dropdown js-menu-container">
+			<button type="button" className="btn-link reponav-item js-menu-target" aria-expanded="false" aria-haspopup="true">
 				{'More '}
-				<span class="dropdown-caret"/>
+				<span className="dropdown-caret"/>
 			</button>
-			<div class="dropdown-menu-content js-menu-content">
-				<div class="dropdown-menu dropdown-menu-se"/>
+			<div className="dropdown-menu-content js-menu-content">
+				<div className="dropdown-menu dropdown-menu-se"/>
 			</div>
 		</div>
 	);
 }
 
-async function init() {
+async function init(): Promise<void> {
 	await safeElementReady('.pagehead + *'); // Wait for the tab bar to be loaded
 	if (!select.exists('.reponav-dropdown')) {
 		createDropdown();
 	}
 
-	select('.reponav-dropdown .dropdown-menu').append(
-		<a href={`/${repoUrl}/compare`} class="rgh-reponav-more dropdown-item" data-skip-pjax>
+	select('.reponav-dropdown .dropdown-menu')!.append(
+		<a href={`/${repoUrl}/compare`} className="rgh-reponav-more dropdown-item" data-skip-pjax>
 			{icons.darkCompare()} Compare
 		</a>,
 
 		isEnterprise() ? '' :
-			<a href={`/${repoUrl}/network/dependencies`} class="rgh-reponav-more dropdown-item rgh-dependency-graph" data-skip-pjax>
+			<a href={`/${repoUrl}/network/dependencies`} className="rgh-reponav-more dropdown-item rgh-dependency-graph" data-skip-pjax>
 				{icons.dependency()} Dependencies
 			</a>,
 
-		<a href={`/${repoUrl}/pulse`} class="rgh-reponav-more dropdown-item" data-skip-pjax>
+		<a href={`/${repoUrl}/pulse`} className="rgh-reponav-more dropdown-item" data-skip-pjax>
 			{icons.graph()} Insights
 		</a>,
 
-		<a href={`/${repoUrl}/commits`} class="rgh-reponav-more dropdown-item" data-skip-pjax>
+		<a href={`/${repoUrl}/commits`} className="rgh-reponav-more dropdown-item" data-skip-pjax>
 			{icons.history()} Commits
 		</a>,
 
-		<a href={`/${repoUrl}/branches`} class="rgh-reponav-more dropdown-item" data-skip-pjax>
+		<a href={`/${repoUrl}/branches`} className="rgh-reponav-more dropdown-item" data-skip-pjax>
 			{icons.branch()} Branches
 		</a>,
 	);

@@ -2,18 +2,18 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
-function init() {
+function init(): void {
 	const checkbox = select<HTMLInputElement>('[name="collab_privs"]');
 	if (!checkbox) {
 		return;
 	}
 
 	const warning = (
-		<div class="flash flash-error mt-3 rgh-warning-for-disallow-edits">
+		<div className="flash flash-error mt-3 rgh-warning-for-disallow-edits">
 			<strong>Note:</strong> Maintainers may require changes. It’s easier and faster to allow them to make direct changes before merging.
 		</div>
 	);
-	const update = () => {
+	const update = (): void => {
 		if (checkbox.checked) {
 			warning.remove();
 		} else {
@@ -21,7 +21,7 @@ function init() {
 			select(`
 				.new-pr-form .timeline-comment,
 				.discussion-sidebar .js-collab-form + .dropdown
-			`).after(warning);
+			`)!.after(warning);
 		}
 	};
 

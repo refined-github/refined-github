@@ -1,8 +1,9 @@
 import select from 'select-dom';
 import features from '../libs/features';
 import {getUsername} from '../libs/utils';
+import {safeElementReady} from '../libs/dom-utils';
 
-function getDefaultQuery(link, search) {
+function getDefaultQuery(link: HTMLAnchorElement, search: URLSearchParams): string {
 	// Query-less URLs imply some queries.
 	// When we explicitly set ?q=* they're overridden,
 	// so they need to be manually added again.
@@ -26,7 +27,7 @@ function getDefaultQuery(link, search) {
 	return queries.join(' ');
 }
 
-function init() {
+function init(): void {
 	// Get issues links that don't already have a specific sorting applied
 	for (const link of select.all<HTMLAnchorElement>(`
 		[href*="/issues"]:not([href*="sort%3A"]):not(.issues-reset-query),
@@ -49,8 +50,20 @@ function init() {
 	}
 }
 
+async function cleanBar(): Promise<void> {
+	(await safeElementReady<HTMLInputElement>('.header-search-input'))!.value = '';
+}
+
 features.add({
 	id: 'sort-issues-by-update-time',
 	load: features.onAjaxedPages,
 	init
+});
+
+features.add({
+	id: 'sort-issues-by-update-time',
+	include: [
+		features.isGlobalDiscussionList
+	],
+	init: cleanBar
 });

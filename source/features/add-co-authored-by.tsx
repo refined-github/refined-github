@@ -4,9 +4,17 @@ import * as api from '../libs/api';
 import features from '../libs/features';
 import {getOwnerAndRepo, getDiscussionNumber, getOP} from '../libs/utils';
 
-let coAuthors;
+interface Author {
+	email: string;
+	user: {
+		name: string;
+		login: string;
+	};
+}
 
-async function fetchCoAuthoredData() {
+let coAuthors: Author[];
+
+async function fetchCoAuthoredData(): Promise<Author[]> {
 	const prNumber = getDiscussionNumber();
 	const {ownerName, repoName} = getOwnerAndRepo();
 
@@ -32,11 +40,11 @@ async function fetchCoAuthoredData() {
 		}`
 	);
 
-	return userInfo.repository.pullRequest.commits.nodes.map(node => node.commit.author);
+	return userInfo.repository.pullRequest.commits.nodes.map((node: AnyObject) => node.commit.author as Author);
 }
 
-function addCoAuthors() {
-	const field = select<HTMLTextAreaElement>('#merge_message_field');
+function addCoAuthors(): void {
+	const field = select<HTMLTextAreaElement>('#merge_message_field')!;
 	if (field.value.includes('Co-authored-by: ')) {
 		// Don't affect existing information
 		return;
@@ -52,7 +60,7 @@ function addCoAuthors() {
 	field.value += '\n\n' + [...addendum.values()].join('\n');
 }
 
-async function init() {
+async function init(): Promise<void> {
 	coAuthors = await fetchCoAuthoredData();
 
 	delegate('.discussion-timeline-actions', '.merge-message [type=button]', 'click', addCoAuthors);

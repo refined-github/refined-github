@@ -16,14 +16,14 @@ const observer = new MutationObserver(([{addedNodes}]) => {
 
 	// Observe the new ajaxed-in containers
 	for (const node of addedNodes) {
-		if ((node as Element).tagName === 'DIV') {
+		if (node instanceof HTMLDivElement) {
 			observer.observe(node, {childList: true});
 		}
 	}
 });
 
-async function init() {
-	observer.observe(await safeElementReady('#dashboard .news'), {childList: true});
+async function init(): Promise<void> {
+	observer.observe((await safeElementReady('#dashboard .news'))!, {childList: true});
 }
 
 features.add({

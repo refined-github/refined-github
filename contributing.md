@@ -39,8 +39,8 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
-function log(): void {
-	console.log('✨', <div class="rgh-jsx-element"/>);
+function log() {
+	console.log('✨', <div className="rgh-jsx-element"/>);
 }
 function init(): void {
 	select('.btn')!.addEventListener('click', log);

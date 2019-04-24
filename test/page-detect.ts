@@ -1,8 +1,13 @@
-import test from 'ava';
+import test, {ExecutionContext} from 'ava';
 import './fixtures/globals';
 import * as pageDetect from '../source/libs/page-detect';
 
-function urlMatcherMacro(t, detectFn, shouldMatch = [], shouldNotMatch = []) {
+function urlMatcherMacro(
+	t: ExecutionContext,
+	detectFn: (url: string) => boolean,
+	shouldMatch: string[] = [],
+	shouldNotMatch: string[] = []
+): void {
 	for (const url of shouldMatch) {
 		location.href = url;
 		t.true(detectFn(url));
