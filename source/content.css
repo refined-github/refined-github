@@ -61,25 +61,6 @@ markdown-toolbar > :nth-last-child(4) { /* H1, B, I */
 	display: none;
 }
 
-/* Remove upload message on comment box for `upload-button` */
-.rgh-has-upload-field .is-default .drag-and-drop {
-	display: none;
-}
-.rgh-has-upload-field .is-default textarea {
-	border-bottom-style: solid;
-	border-radius: 3px;
-}
-
-/* Remove random protip at the bottom of the page */
-.protip {
-	display: none !important;
-}
-
-/* Remove message under the `Unsubscribe` button */
-.sidebar-notifications .reason {
-	display: none !important;
-}
-
 /* Add hover underline for `linkify-branch-refs` */
 a .commit-ref:hover,
 a .commit-ref:hover span {
