@@ -394,24 +394,6 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	padding: 0.2em 0.4em;
 }
 
-/* For `more-dropdown`: Fix pre-existing items' positioning on GHE */
-.reponav-dropdown a.dropdown-item:not(.rgh-reponav-more)::before {
-	content: '';
-	display: inline-block;
-	width: 16px;
-}
-
-/* For `more-dropdown`: Ensure all icons are 16px wide for alignment */
-.rgh-reponav-more svg {
-	width: 16px;
-}
-
-/* Optically align Dependencies dropdown link */
-.rgh-dependency-graph .octicon-package {
-	margin-right: 2px;
-	margin-left: -2px;
-}
-
 /* Hide inactive deployment events */
 .discussion-item.rgh-inactive-deployment {
 	display: none;
