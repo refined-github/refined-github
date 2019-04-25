@@ -25,6 +25,7 @@ markdown-toolbar > :nth-last-child(4) { /* H1, B, I */
 }
 
 /* Collapse multiple discussion items */
+/* https://github.com/sindresorhus/refined-github/commit/efa38bfd1048f0daa1d3d147840b1709f53713bd */
 .discussion-item + .discussion-item {
 	padding-top: 0 !important;
 	border-top: none !important;
