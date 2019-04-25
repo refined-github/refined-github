@@ -1,3 +1,4 @@
+import './resolve-conflicts.css';
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import features from '../libs/features';

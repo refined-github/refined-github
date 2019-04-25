@@ -1,0 +1,4 @@
+/* Fix bug caused by feature https://user-images.githubusercontent.com/1402241/54978279-d6663c80-4fda-11e9-9638-af25480fb988.png */
+.rgh-resolve-conflicts .CodeMirror-linenumber {
+	background-color: var(--github-faint-yellow);
+}
