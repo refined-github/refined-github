@@ -99,6 +99,7 @@ import './features/filter-pr-by-build-status';
 import './features/edit-files-faster';
 
 import './features/scrollable-code-and-blockquote.css';
+import './features/center-reactions-popup.css';
 
 // Add global for easier debugging
 (window as any).select = select;
