@@ -1,0 +1,4 @@
+/* Hide warning when PR is closed */
+[data-pull-is-open='false'] ~ #discussion_bucket .rgh-warning-for-disallow-edits {
+	display: none;
+}
