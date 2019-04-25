@@ -1060,14 +1060,6 @@ body > .footer li a {
 	transform-origin: 90% top;
 }
 
-/* Truncate hidden comment preview text with ellipsis */
-.rgh-preview-hidden-comments .discussion-item-copy,
-.rgh-preview-hidden-comments .timeline-comment-header-text {
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-}
-
 /* Fix wrapping text on tabs when profile-gists-link feature is enabled #1757 */
 .UnderlineNav-item:nth-last-child(n+7),
 .UnderlineNav-item:nth-last-child(n+7) ~ * {
