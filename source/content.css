@@ -278,15 +278,6 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	display: none;
 }
 
-/* Colorize `extend-issue-status-label` */
-.gh-header-meta .State {
-	text-decoration: none;
-}
-.gh-header-meta .State a,
-.gh-header-meta .State code {
-	color: #fff;
-}
-
 /* Hide `New pull request button` near file list */
 .file-navigation .new-pull-request-btn {
 	display: none;
