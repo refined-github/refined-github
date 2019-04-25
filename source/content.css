@@ -554,18 +554,6 @@ body > .footer li a {
 	display: none;
 }
 
-/* Adding a lock icon to private organizations */
-.rgh-private-org {
-	position: relative;
-}
-.rgh-private-org svg {
-	pointer-events: none;
-	position: absolute;
-	bottom: 2px;
-	right: 2px;
-	fill: #333;
-}
-
 /* For badge on user profiles */
 .follower-badge {
 	font-size: 10px;
