@@ -995,12 +995,6 @@ body > .footer li a {
 	visibility: hidden;
 }
 
-/* For `split-issue-pr-search-results` */
-.rgh-split-issue-pr-combined.selected:hover {
-	background-color: #f6f8fa;
-	cursor: pointer;
-}
-
 /* Remove the useless "Continuous integration has not been set up" message on PRs */
 .branch-action-item.marketplace-product-callout {
 	display: none;
