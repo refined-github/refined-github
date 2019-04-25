@@ -287,11 +287,6 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	color: #fff;
 }
 
-/* Space out `rgh-closing-pr`; matches native `.gh-header-meta .State` spacing */
-.rgh-closing-pr {
-	margin-right: 8px;
-}
-
 /* Hide `New pull request button` near file list */
 .file-navigation .new-pull-request-btn {
 	display: none;
