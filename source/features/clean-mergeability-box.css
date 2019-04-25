@@ -1,0 +1,28 @@
+/* Hide extra copy on PR mergeability summary */
+.mergeability-details .js-details-container .h4,
+.mergeability-details .js-details-container .status-meta .btn-link,
+.mergeability-details > :not(.js-details-container) .status-meta {
+	display: none;
+}
+
+.mergeability-details .js-details-container .status-meta {
+	color: inherit;
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.mergeability-details .js-details-container .text-red+.status-meta {
+	color: var(--github-red);
+}
+
+.mergeability-details .branch-action-item-icon {
+	margin-top: -4px;
+}
+
+.mergeability-details .branch-action-item .btn {
+	margin-top: -6px;
+}
+
+.alt-merge-options {
+	display: none !important;
+}

@@ -104,6 +104,7 @@ import './features/widen-search-field.css';
 import './features/clean-dashboard.css';
 import './features/safer-destructive-actions.css';
 import './features/delete-fork-button.css';
+import './features/clean-mergeability-box.css';
 
 // Add global for easier debugging
 (window as any).select = select;
