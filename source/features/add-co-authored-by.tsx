@@ -63,7 +63,9 @@ function addCoAuthors(): void {
 
 	addendum.delete(getOP());
 
-	field.value += '\n\n' + [...addendum.values()].join('\n');
+	if (addendum.size > 0) {
+		field.value += '\n\n' + [...addendum.values()].join('\n');
+	}
 }
 
 async function init(): Promise<void> {
