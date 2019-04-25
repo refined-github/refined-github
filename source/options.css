@@ -9,18 +9,19 @@ html {
 }
 
 input:not([type='checkbox']):not(:placeholder-shown):valid {
-	color: var(--github-green);
+	color: var(--github-green) !important;
 	border: 1px solid;
 }
 
 input:not([type='checkbox']):invalid {
-	color: var(--github-red);
+	color: var(--github-red) !important;
 	border: 1px solid;
 }
 
 input:not([type='checkbox']),
 textarea {
 	display: block;
+	box-sizing: border-box;
 	width: 100%;
 	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
 	font-size: 11px;
@@ -74,6 +75,7 @@ h2 ~ h2 {
 
 	body > :not(hr) {
 		margin-left: 6px;
+		margin-right: 6px;
 	}
 
 	input[type='checkbox'] {
