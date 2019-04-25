@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports */
 'use strict';
 const path = require('path');
 const SizePlugin = require('size-plugin');
@@ -77,7 +76,7 @@ module.exports = (env, argv) => ({
 					compress: false,
 					output: {
 						beautify: true,
-						indent_level: 2 // eslint-disable-line @typescript-eslint/camelcase
+						indent_level: 2 // eslint-disable-line camelcase
 					}
 				}
 			})

@@ -76,29 +76,35 @@
 		"xo": "^0.24.0"
 	},
 	"xo": {
-		"extends": "xo-typescript",
 		"envs": [
 			"browser"
 		],
 		"extensions": [
-			"js",
 			"ts",
 			"tsx"
 		],
-		"rules": {
-			"import/no-unassigned-import": "off",
-			"@typescript-eslint/no-unused-vars": [
-				"error",
-				{
-					"varsIgnorePattern": "^React$"
-				}
-			],
-			"@typescript-eslint/restrict-plus-operands": "off",
-			"@typescript-eslint/promise-function-async": "off",
-			"import/no-unresolved": "warn"
-		},
 		"globals": [
 			"browser"
+		],
+		"rules": {
+			"import/no-unassigned-import": "off",
+			"import/no-unresolved": "warn"
+		},
+		"overrides": [
+			{
+				"files": "**/*.+(ts|tsx)",
+				"extends": "xo-typescript",
+				"rules": {
+					"@typescript-eslint/no-unused-vars": [
+						"error",
+						{
+							"varsIgnorePattern": "^React$"
+						}
+					],
+					"@typescript-eslint/restrict-plus-operands": "off",
+					"@typescript-eslint/promise-function-async": "off"
+				}
+			}
 		]
 	},
 	"ava": {
