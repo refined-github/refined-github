@@ -319,28 +319,6 @@ div.inline-comment-form .form-actions,
 	padding-left: 8px;
 }
 
-/* For `widen-search-field`: Expand issue search field width */
-.subnav,
-.subnav-search,
-.subnav-search-input,
-.subnav [role='search'],
-.page-content .subnav > .float-right { /* Global search field container */
-	flex-grow: 1;
-	display: flex;
-	font: none !important;
-}
-
-/* For `widen-search-field`: Move `New issue` button back to the right */
-.subnav .btn-primary {
-	order: 100;
-	margin-left: 20px;
-}
-
-/* For `widen-search-field`: Move extra buttons to the right on Releases */
-.subnav-links {
-	margin-right: auto;
-}
-
 /* Reset width of search field in global lists */
 .page-content .subnav-search-input-wide {
 	width: auto;
