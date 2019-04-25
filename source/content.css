@@ -252,57 +252,6 @@ followed someone
 	min-height: 200px !important;
 }
 
-/* Styles for avatars Refined GitHub adds to Reactions */
-.reaction-summary-item {
-	padding-right: 0.7em !important;
-	padding-left: 0.7em !important;
-}
-.reaction-summary-item.user-has-reacted {
-	--background: #f2f8fa;
-}
-.reaction-summary-item a {
-	display: inline-block;
-	width: 2em;
-	height: 2em;
-	border-radius: 3px;
-	margin-top: -0.3em;
-	margin-left: -0.2em;
-	vertical-align: middle;
-	background: #efefef; /* Placeholder before the images load */
-	box-shadow: 0 0 0 2px var(--background, #fff);
-	font-size: 10px; /* Base sizer */
-	transition: margin-left 0.2s;
-}
-.reaction-summary-item a:first-of-type {
-	margin-left: 0.5em;
-}
-.review-comment .reaction-summary-item a {
-	font-size: 9px;
-}
-.discussion-post .reaction-summary-item a {
-	margin-top: -1px;
-}
-
-/* This image will start at height:0 and will expand once loaded, covering the gray placeholder */
-.reaction-summary-item img {
-	max-width: 100%;
-	border-radius: inherit;
-	background-color: var(--background);
-}
-
-/* Overlap reaction avatars when there are 5+ types of reactions */
-.rgh-reactions-near-limit .reaction-summary-item:not(:hover) a:not(:first-of-type) {
-	margin-left: -12px;
-}
-/* Avoid wrapping */
-.has-reactions,
-.rgh-reactions-near-limit {
-	display: flex;
-}
-.rgh-reactions-near-limit {
-	background: #fff;
-}
-
 /* Collapse multiple discussion items */
 .discussion-item + .discussion-item {
 	padding-top: 0 !important;
