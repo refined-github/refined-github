@@ -2,11 +2,11 @@ import select from 'select-dom';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 
-function init() {
+function init(): void {
 	observeEl(select('.js-milestone-issues-container')!, () => {
 		const noPermissionIcons = select.all(
 			'[aria-label="You do not have permission to edit this milestone."]'
-		)!;
+		);
 
 		noPermissionIcons.forEach(icon => {
 			const dragButton = icon.parentElement!;
