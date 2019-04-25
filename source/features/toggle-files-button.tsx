@@ -1,3 +1,4 @@
+import './toggle-files-button.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
