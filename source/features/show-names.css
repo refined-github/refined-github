@@ -1,0 +1,4 @@
+/* Prevent text reversal Unicode hacks in full names */
+.timeline-comment-header-text bdo {
+	display: inline-block;
+}
