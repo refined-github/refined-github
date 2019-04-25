@@ -1,3 +1,4 @@
+import './monospace-textareas.css';
 import features from '../libs/features';
 
 function init(): void {
