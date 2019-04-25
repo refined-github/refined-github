@@ -11,13 +11,6 @@
 	opacity: 0.6;
 }
 
-/* For `rgh-no-navigation-highlight` */
-.rgh-no-navigation-highlight .list-group-item.navigation-focus, /* Notifications list */
-.rgh-no-navigation-highlight .Box-row.navigation-focus, /* Issue list */
-.rgh-no-navigation-highlight .navigation-focus td { /* File list  */
-	background: none !important;
-}
-
 /* Visibly disable merge fields during submission for `wait-for-build` */
 [name='commit_message'][disabled],
 [name='commit_title'][disabled] {
