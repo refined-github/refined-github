@@ -106,6 +106,7 @@ import './features/safer-destructive-actions.css';
 import './features/delete-fork-button.css';
 import './features/clean-mergeability-box.css';
 import './features/clean-footer.css';
+import './features/pr-approvals-count.css';
 
 // Add global for easier debugging
 (window as any).select = select;
