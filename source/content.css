@@ -294,30 +294,6 @@ div.inline-comment-form .form-actions,
 	padding-left: 8px;
 }
 
-/* Reset width of search field in global lists */
-.page-content .subnav-search-input-wide {
-	width: auto;
-}
-
-/* Hide `Filters` text in repo lists */
-.subnav-search-context summary {
-	display: flex;
-	width: 2.4em;
-	text-indent: -10000px;
-}
-
-/* Hide `Filters` text in repo lists: center dropdown triangle */
-.subnav-search-context summary::after {
-	float: right;
-	margin-top: 0.6em;
-	transform: scale(1.2);
-}
-
-/* Hide icons in `Labels`/`Milestones` buttons */
-.subnav-item svg {
-	display: none;
-}
-
 /* Remove Marketplace marketing box on PRs */
 .js-marketplace-callout-container {
 	display: none !important;
