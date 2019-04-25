@@ -191,20 +191,6 @@ followed someone
 	display: none !important;
 }
 
-/* Decrease font-size on commit details to help `patch-diff-links` fit */
-.commit .sha-block {
-	margin-left: 7px !important;
-}
-.commit .sha-block,
-.commit .sha {
-	font-size: 10px !important;
-}
-.signed-commit-badge-medium {
-	padding: 2px 4px !important;
-	margin-left: 5px !important;
-	font-size: 10px !important;
-}
-
 /* Fade out merge commits from commit list for `mark-merge-commits-in-list` */
 .refined-github-merge-commit .commit-title,
 .refined-github-merge-commit .commit-meta > div:not(.commit-indicator),
