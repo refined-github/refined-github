@@ -1,0 +1,15 @@
+body > .footer {
+	opacity: 0.3;
+}
+
+body > .footer > div > ul:first-of-type li:first-of-type { /* The `© 2017 GitHub, Inc.` text */
+	display: none;
+}
+
+.footer-octicon {
+	display: none;
+}
+
+body > .footer li a {
+	color: #666;
+}

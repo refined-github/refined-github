@@ -334,20 +334,6 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	display: none;
 }
 
-/* Clean up the global footer */
-body > .footer {
-	opacity: 0.3;
-}
-body > .footer > div > ul:first-of-type li:first-of-type { /* The `© 2017 GitHub, Inc.` text */
-	display: none;
-}
-.footer-octicon {
-	display: none;
-}
-body > .footer li a {
-	color: #666;
-}
-
 /* Remove the 'Review Summary' header from the form */
 .pull-request-review-menu label[for='pull_request_review_body'] {
 	display: none !important;
