@@ -1,3 +1,4 @@
+import './hide-useless-newsfeed-events.css';
 import features from '../libs/features';
 
 function init(): void {
