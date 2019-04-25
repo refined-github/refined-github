@@ -1,0 +1,15 @@
+/* Remove tooltips where unnecessary */
+[aria-label^='View the whole file']::before,
+[aria-label^='View the whole file']::after,
+[aria-label^='Change this file']::before,
+[aria-label^='Change this file']::after,
+[aria-label='Delete this file']::before,
+[aria-label='Delete this file']::after,
+[aria-label='Edit this file']::before,
+[aria-label='Edit this file']::after,
+[aria-label='Edit comment']::before,
+[aria-label='Edit comment']::after,
+.notification-indicator::before,
+.notification-indicator::after {
+	display: none !important;
+}
