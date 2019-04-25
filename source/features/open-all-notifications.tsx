@@ -1,4 +1,5 @@
 /* eslint-disable no-alert */
+import './open-all-notifications.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
