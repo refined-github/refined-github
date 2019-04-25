@@ -16,7 +16,7 @@ function populateDropDown({currentTarget}: Event): void {
 	const [, currentStatus = ''] = queryString.match(/\bstatus:(success|failure|pending)\b/) || [];
 
 	if (currentStatus) {
-		queryString = queryString.replace(currentStatus, '').trim();
+		queryString = queryString.replace(`status:${currentStatus}`, '').trim();
 	}
 
 	const dropdown = select('.select-menu-list', currentTarget as Element)!;
