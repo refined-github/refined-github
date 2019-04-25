@@ -54,11 +54,6 @@ markdown-toolbar > :nth-last-child(4) { /* H1, B, I */
 	margin-left: 0;
 }
 
-/* Hide inactive deployment events */
-.discussion-item.rgh-inactive-deployment {
-	display: none;
-}
-
 /* Hide `New pull request button` near file list */
 .file-navigation .new-pull-request-btn {
 	display: none;
