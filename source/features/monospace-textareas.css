@@ -1,0 +1,12 @@
+/* Limit width of commit title to 70 characters */
+.rgh-monospace-textareas #merge_title_field,
+.rgh-monospace-textareas #commit-summary-input {
+	width: 70ch;
+}
+
+.rgh-monospace-textareas #merge_title_field,
+.rgh-monospace-textareas #commit-summary-input,
+.rgh-monospace-textareas textarea {
+	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
+	font-size: 13px;
+}
