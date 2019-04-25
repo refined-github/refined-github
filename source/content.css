@@ -413,22 +413,6 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	margin-right: 8px;
 }
 
-/* For `add-ci-link` */
-.rgh-ci-link {
-	position: relative;
-	top: -0.1em;
-	animation: fade-in 0.2s;
-}
-
-.rgh-ci-link .octicon {
-	margin-top: 0 !important;
-}
-
-:root .repohead h1 .commit-build-statuses .octicon {
-	position: static;
-	color: inherit;
-}
-
 /* For `add-branch-buttons` */
 .rgh-branch-buttons {
 	float: left;
