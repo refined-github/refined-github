@@ -1,3 +1,4 @@
+import './extend-diff-expander.css';
 import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';

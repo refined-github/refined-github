@@ -503,16 +503,6 @@ body > .footer li a {
 	display: none !important;
 }
 
-/* For 'extend-diff-expander' feature */
-/* Hovering the line will highlight the first direction button, unless you hover the buttons directly */
-.js-expandable-line:hover .blob-num:not(:hover) .directional-expander:first-child,
-.js-expandable-line:hover .blob-num:not(:hover) + .blob-code {
-	border-color: #0366d6;
-	color: #fff;
-	background: #0366d6;
-	cursor: pointer;
-}
-
 /* Lighten deletions in Markdown */
 .markdown-body del {
 	color: #6a737d;
