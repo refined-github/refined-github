@@ -1,0 +1,14 @@
+/*
+Hide news items when people:
+pushed to a branch
+deleted a branch
+added someone as a collaborator
+forked a repo
+followed someone
+*/
+.rgh-no-useless-events .news .push,
+.rgh-no-useless-events .news .fork,
+.rgh-no-useless-events .news .delete,
+.rgh-no-useless-events .news .follow {
+	display: none !important;
+}
