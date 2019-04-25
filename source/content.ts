@@ -108,6 +108,7 @@ import './features/clean-mergeability-box.css';
 import './features/clean-footer.css';
 import './features/pr-approvals-count.css';
 import './features/align-issue-labels.css';
+import './features/hide-tips.css';
 
 // Add global for easier debugging
 (window as any).select = select;

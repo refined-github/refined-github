@@ -173,11 +173,6 @@ followed someone
 	border-top: none !important;
 }
 
-/* Remove "pro tip!" box on profile page (appears when name isn't set) */
-.new-user-avatar-cta {
-	display: none !important;
-}
-
 /* Multiple comment labels margin */
 .timeline-comment .timeline-comment-label + .timeline-comment-label {
 	margin-right: -5px;
@@ -191,16 +186,6 @@ followed someone
 .table-list-filters .table-list-header-toggle .select-menu-button {
 	padding-right: 8px;
 	padding-left: 8px;
-}
-
-/* Remove Marketplace marketing box on PRs */
-.js-marketplace-callout-container {
-	display: none !important;
-}
-
-/* Remove the "Styling with Markdown is supported" link when a PR comment is in edit mode */
-a.tabnav-extra[href$='mastering-markdown/'] {
-	display: none !important;
 }
 
 /* Hide empty description of repo */
@@ -229,16 +214,6 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 /* Hide `New pull request button` near file list */
 .file-navigation .new-pull-request-btn {
 	display: none;
-}
-
-/* Remove annoying "helpful" banner on the issue tracker listing */
-.repository-content .mb-4.js-notice {
-	display: none !important;
-}
-
-/* Remove annoying "helpful" popover on the repo label page */
-.labels-list .TutorialPopover {
-	display: none !important;
 }
 
 @keyframes fade-in {
@@ -303,11 +278,6 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 
 .mark-all-as-read-confirmed .open-repo-notifications {
 	visibility: hidden;
-}
-
-/* Remove the useless "Continuous integration has not been set up" message on PRs */
-.branch-action-item.marketplace-product-callout {
-	display: none;
 }
 
 /* Remove the "New repository" button in the dashboard sidebar */
