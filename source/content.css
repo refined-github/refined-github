@@ -413,22 +413,9 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	margin-right: 8px;
 }
 
-/* For `add-branch-buttons` */
-.rgh-branch-buttons {
-	float: left;
-	margin-left: 5px;
-	margin-right: 5px;
-}
-
-/* Hide `New pull request1 button` near file list */
+/* Hide `New pull request button` near file list */
 .file-navigation .new-pull-request-btn {
 	display: none;
-}
-
-/* Undo conflicting GitHub style */
-:root .rgh-branch-buttons .BtnGroup {
-	margin-bottom: 0;
-	margin-left: 0;
 }
 
 /* Remove annoying "helpful" banner on the issue tracker listing */
