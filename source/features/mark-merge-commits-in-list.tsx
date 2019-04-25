@@ -1,3 +1,4 @@
+import './mark-merge-commits-in-list.css';
 import select from 'select-dom';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
