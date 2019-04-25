@@ -111,6 +111,7 @@ import './features/align-issue-labels.css';
 import './features/hide-tips.css';
 import './features/hide-readme-header.css';
 import './features/hide-obvious-tooltips.css';
+import './features/clean-discussions.css';
 
 // Add global for easier debugging
 (window as any).select = select;
