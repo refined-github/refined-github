@@ -107,6 +107,7 @@ import './features/delete-fork-button.css';
 import './features/clean-mergeability-box.css';
 import './features/clean-footer.css';
 import './features/pr-approvals-count.css';
+import './features/align-issue-labels.css';
 
 // Add global for easier debugging
 (window as any).select = select;
