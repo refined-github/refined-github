@@ -91,20 +91,10 @@ a .commit-ref:hover span {
 	text-decoration: inherit;
 }
 
-/* For `fit-textareas` feature */
-.rgh-fit-textareas {
-	max-height: none !important;
-}
-
 /* Make tab indented code more readable on GitHub and Gist */
 * {
 	-moz-tab-size: 4 !important;
 	tab-size: 4 !important;
-}
-
-/* Larger comment box */
-.comment-form-textarea {
-	min-height: 200px !important;
 }
 
 /* Collapse multiple discussion items */
