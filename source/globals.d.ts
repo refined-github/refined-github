@@ -1,6 +1,7 @@
 type AnyObject = Record<string, any>;
 
-// TODO: Keeping types in the RGH for now. See https://github.com/sindresorhus/refined-github/pull/1936#discussion_r276515991
+// TODO: Drop when Firefox adds RegEx lookbehind support
+// https://github.com/sindresorhus/refined-github/pull/1936#discussion_r276515991
 declare module 'linkify-urls' {
 	type Options = {
 		user: string;
@@ -18,7 +19,8 @@ declare module 'linkify-urls' {
 	export = linkifyUrls
 }
 
-// TODO: Keeping types in the RGH for now. See https://github.com/sindresorhus/refined-github/pull/1936#discussion_r276515991
+// TODO: Drop when Firefox adds RegEx lookbehind support
+// https://github.com/sindresorhus/refined-github/pull/1936#discussion_r276515991
 declare module 'linkify-issues' {
 	type Options = {
 		user: string;
@@ -54,7 +56,8 @@ declare namespace JSX {
 	}
 }
 
-// TODO: Drop when this bug fix is shipped in a version of TypeScript https://github.com/Microsoft/TypeScript/issues/30928
+// TODO: Drop when this bug is fixed
+// https://github.com/Microsoft/TypeScript/issues/30928
 interface NamedNodeMap {
 	[key: string]: Attr;
 }
