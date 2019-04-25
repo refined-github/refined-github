@@ -1,12 +1,14 @@
-'use strict';
-const path = require('path');
-const SizePlugin = require('size-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+import path from 'path';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import webpack from 'webpack';
 
-module.exports = (env, argv) => ({
-	devtool: 'sourcemap',
+// eslint-disable-next-line @typescript-eslint/no-require-imports,@typescript-eslint/no-var-requires
+const SizePlugin = require('size-plugin');
+
+module.exports = (_env: string, argv: Record<string, boolean|number|string>): webpack.Configuration => ({
+	devtool: 'source-map',
 	stats: 'errors-only',
 	entry: {
 		content: './source/content',
@@ -87,7 +89,7 @@ module.exports = (env, argv) => ({
 					compress: false,
 					output: {
 						beautify: true,
-						indent_level: 2 // eslint-disable-line camelcase
+						indent_level: 2 // eslint-disable-line @typescript-eslint/camelcase
 					}
 				}
 			})
