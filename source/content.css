@@ -18,17 +18,6 @@ markdown-toolbar > :nth-last-child(4) { /* H1, B, I */
 	display: none;
 }
 
-/* Add hover underline for `linkify-branch-refs` */
-a .commit-ref:hover,
-a .commit-ref:hover span {
-	text-decoration: underline !important;
-}
-
-.commit-ref span {
-	/* The extra span on branch names interferes with a possible deletion line-through */
-	text-decoration: inherit;
-}
-
 /* Make tab indented code more readable on GitHub and Gist */
 * {
 	-moz-tab-size: 4 !important;
@@ -39,15 +28,6 @@ a .commit-ref:hover span {
 .discussion-item + .discussion-item {
 	padding-top: 0 !important;
 	border-top: none !important;
-}
-
-/* Multiple comment labels margin */
-.timeline-comment .timeline-comment-label + .timeline-comment-label {
-	margin-right: -5px;
-}
-
-.review-comment .timeline-comment-label + .timeline-comment-label {
-	margin-left: 5px;
 }
 
 /* For `open-all-selected` and `filter-pr-by-build-status`: set a reduced padding for all buttons for #1830 and #1904 */
@@ -88,17 +68,6 @@ a .commit-ref:hover span {
 	from {
 		opacity: 0;
 	}
-}
-
-/* Fix subpixel rendering Chrome bug in tooltips' triangles */
-.tooltipped:hover::before,
-.tooltipped:hover::after,
-.tooltipped:active::before,
-.tooltipped:active::after,
-.tooltipped:focus::before,
-.tooltipped:focus::after {
-	opacity: 1;
-	animation-fill-mode: backwards !important;
 }
 
 /* Smoothen mouse animation on 404 pages */
