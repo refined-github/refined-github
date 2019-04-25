@@ -224,9 +224,3 @@ a .commit-ref:hover span {
 .dropdown-menu-sw {
 	transform-origin: 90% top;
 }
-
-/* Fix wrapping text on tabs when profile-gists-link feature is enabled #1757 */
-.UnderlineNav-item:nth-last-child(n+7),
-.UnderlineNav-item:nth-last-child(n+7) ~ * {
-	margin-right: 6px;
-}
