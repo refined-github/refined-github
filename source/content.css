@@ -11,12 +11,6 @@
 	opacity: 0.6;
 }
 
-/* Visibly disable merge fields during submission for `wait-for-build` */
-[name='commit_message'][disabled],
-[name='commit_title'][disabled] {
-	color: #808080;
-}
-
 /* Hide unnecessary comment toolbar items */
 :root md-mention,
 :root md-ref,
