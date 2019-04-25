@@ -1131,15 +1131,3 @@ body > .footer li a {
 .UnderlineNav-item:nth-last-child(n+7) ~ * {
 	margin-right: 6px;
 }
-
-/* For `edit-file-faster`: only shows one icon at a time, depending on hover status */
-.rgh-edit-files-faster:not(:hover) .octicon-pencil,
-.rgh-edit-files-faster:hover .octicon-file {
-	display: none;
-}
-
-/* For `edit-file-faster`: widen column to avoid bumps in directory-less listings */
-.rgh-edit-files-faster {
-	width: 16px;
-	display: inline-block;
-}
