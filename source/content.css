@@ -258,38 +258,6 @@ followed someone
 	border-top: none !important;
 }
 
-/* +/- Pseudo elements on diffs */
-.refined-github-diff-signs .blob-code-addition::before,
-.refined-github-diff-signs .blob-code-deletion::before {
-	margin-top: 1px;
-	margin-left: 4px;
-	position: absolute;
-	color: rgba(0, 0, 0, 0.3);
-	font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
-	font-size: 11px;
-	text-indent: -8px;
-}
-
-.refined-github-diff-signs .blob-code-addition::before {
-	content: '+';
-}
-
-.refined-github-diff-signs .blob-code-deletion::before {
-	content: '-';
-}
-
-/* Prevent copy of ghost whitespace where supported (#317) */
-.refined-github-diff-signs .add-line-comment {
-	-moz-user-select: none;
-	user-select: none;
-}
-
-/* Restore removed space with unselectable one */
-.refined-github-diff-signs .blob-code-inner::before {
-	content: ' ' !important;
-	user-select: none;
-}
-
 /* Remove "pro tip!" box on profile page (appears when name isn't set) */
 .new-user-avatar-cta {
 	display: none !important;
@@ -302,29 +270,6 @@ followed someone
 
 .review-comment .timeline-comment-label + .timeline-comment-label {
 	margin-left: 5px;
-}
-
-/* Highlighted linked review comment */
-:root .review-comment:target {
-	background-color: #fffdef;
-}
-:root .review-comment:target .timeline-comment-label {
-	border-color: #e5d999;
-}
-:root .review-comment:target button.reaction-summary-item {
-	border-color: #e5d999;
-	background-color: #f9f3cb;
-	color: #7c6d0b;
-}
-:root .review-comment:target .add-reaction-btn {
-	color: #e09810;
-}
-:root .review-comment:target .reaction-summary-item {
-	--background: transparent;
-}
-/* Overwrite a .bg-white set on that element */
-.review-comment:target .minimized-comment .review-comment-contents {
-	background-color: #fffdef !important;
 }
 
 /* Prevent text reversal Unicode hacks in full names */
