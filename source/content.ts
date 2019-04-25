@@ -102,6 +102,7 @@ import './features/scrollable-code-and-blockquote.css';
 import './features/center-reactions-popup.css';
 import './features/widen-search-field.css';
 import './features/clean-dashboard.css';
+import './features/safer-destructive-actions.css';
 
 // Add global for easier debugging
 (window as any).select = select;

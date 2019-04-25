@@ -257,37 +257,6 @@ followed someone
 	display: inline-block;
 }
 
-/* Move "close issue" and "cancel" buttons on authoring comments to the left */
-
-/* ...in issue comment form */
-.form-actions .btn.js-comment-and-button {
-	float: left;
-}
-
-/* ...in comment edit form */
-div.previewable-edit .previewable-comment-form .form-actions {
-	margin-left: 10px;
-	float: none;
-}
-
-.previewable-edit .previewable-comment-form .form-actions .btn.js-comment-cancel-button {
-	float: left;
-}
-
-/* ...in inline comment form */
-div.inline-comment-form .form-actions,
-.inline-comment-form .form-actions .js-hide-inline-comment-form {
-	float: none;
-}
-
-/* ...in the merge confirmation form */
-.commit-form-actions .select-menu {
-	display: block !important;
-}
-.commit-form-actions button:not(.js-merge-commit-button) {
-	float: right;
-}
-
 /* For `open-all-selected` and `filter-pr-by-build-status`: set a reduced padding for all buttons for #1830 and #1904 */
 .table-list-filters .table-list-header-toggle .select-menu-button {
 	padding-right: 8px;
