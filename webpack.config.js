@@ -3,6 +3,7 @@ const path = require('path');
 const SizePlugin = require('size-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = (env, argv) => ({
 	devtool: 'sourcemap',
@@ -36,10 +37,20 @@ module.exports = (env, argv) => ({
 					}
 				],
 				exclude: /node_modules/
+			},
+			{
+				test: /\.css$/,
+				use: [
+					MiniCssExtractPlugin.loader,
+					'css-loader'
+				]
 			}
 		]
 	},
 	plugins: [
+		new MiniCssExtractPlugin({
+			filename: 'features.css'
+		}),
 		new SizePlugin(),
 		new CopyWebpackPlugin([
 			{

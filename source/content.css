@@ -1029,20 +1029,6 @@ body > .footer li a {
 	cursor: pointer;
 }
 
-.comment-body blockquote,
-.comment-body pre {
-	position: relative; /* OctoLinker compat: attach the purple balls to the scroll */
-	max-height: 30.5em;
-	overflow-y: auto;
-}
-
-.comment-body details blockquote,
-.comment-body details pre,
-.comment-body blockquote blockquote,
-.comment-body blockquote pre {
-	max-height: none;
-}
-
 /* For `split-issue-pr-search-results` */
 .rgh-split-issue-pr-combined.selected:hover {
 	background-color: #f6f8fa;
@@ -1144,16 +1130,6 @@ body > .footer li a {
 .UnderlineNav-item:nth-last-child(n+7),
 .UnderlineNav-item:nth-last-child(n+7) ~ * {
 	margin-right: 6px;
-}
-
-/* Drop counters for Watch and Forks */
-.rgh-hide-watch-and-fork-count .btn-with-count[title^='Fork your own'],
-.rgh-hide-watch-and-fork-count [action='/notifications/subscribe'] .btn-with-count {
-	border-radius: 0.25em; /* Matches GitHub's default */
-}
-.rgh-hide-watch-and-fork-count .social-count[href$='/network/members'],
-.rgh-hide-watch-and-fork-count .social-count[href$='/watchers'] {
-	display: none;
 }
 
 /* For `edit-file-faster`: only shows one icon at a time, depending on hover status */
