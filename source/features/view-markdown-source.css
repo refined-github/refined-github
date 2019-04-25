@@ -1,0 +1,8 @@
+.rgh-markdown-source .blame-commit,
+.rgh-markdown-source .blob-reblame {
+	display: none;
+}
+
+.rgh-markdown-source .blame-hunk {
+	border-bottom: none !important;
+}
