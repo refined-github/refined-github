@@ -1,3 +1,4 @@
+import './remove-diff-signs.css';
 import features from '../libs/features';
 
 function init(): void {
