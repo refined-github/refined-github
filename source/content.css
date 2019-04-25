@@ -288,11 +288,6 @@ div.inline-comment-form .form-actions,
 	float: right;
 }
 
-/* Decrease the padding of filter buttons to accommodate `Commented` */
-.subnav-links .subnav-item {
-	padding: 6px 9px;
-}
-
 /* For `open-all-selected` and `filter-pr-by-build-status`: set a reduced padding for all buttons for #1830 and #1904 */
 .table-list-filters .table-list-header-toggle .select-menu-button {
 	padding-right: 8px;
