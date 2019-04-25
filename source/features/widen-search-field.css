@@ -1,0 +1,21 @@
+/* Expand issue search field width */
+.subnav,
+.subnav-search,
+.subnav-search-input,
+.subnav [role='search'],
+.page-content .subnav > .float-right { /* Global search field container */
+	flex-grow: 1;
+	display: flex;
+	font: none !important;
+}
+
+/* Move `New issue` button back to the right */
+.subnav .btn-primary {
+	order: 100;
+	margin-left: 20px;
+}
+
+/* Move extra buttons to the right on Releases */
+.subnav-links {
+	margin-right: auto;
+}

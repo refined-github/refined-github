@@ -100,6 +100,7 @@ import './features/edit-files-faster';
 
 import './features/scrollable-code-and-blockquote.css';
 import './features/center-reactions-popup.css';
+import './features/widen-search-field.css';
 
 // Add global for easier debugging
 (window as any).select = select;
