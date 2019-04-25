@@ -1,0 +1,5 @@
+.rgh-sticky-sidebar {
+	position: sticky;
+	top: 60px !important; /* Matches sticky header's height */
+	z-index: 26 !important;
+}
