@@ -35,11 +35,10 @@ function fixKeys(dialog: Element): void {
 	}
 }
 
-// TODO: type target asap and drop `as Element`
 const observer = new MutationObserver(([{target}]) => {
-	if (!select.exists('.js-details-dialog-spinner', target as Element)) {
-		improveShortcutHelp(target as Element);
-		fixKeys(target as Element);
+	if (target instanceof Element && !select.exists('.js-details-dialog-spinner', target)) {
+		improveShortcutHelp(target);
+		fixKeys(target);
 		observer.disconnect();
 	}
 });
