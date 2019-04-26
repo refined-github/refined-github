@@ -61,3 +61,6 @@ declare namespace JSX {
 interface NamedNodeMap {
 	[key: string]: Attr;
 }
+
+
+declare module 'size-plugin';
