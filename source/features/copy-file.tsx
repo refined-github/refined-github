@@ -18,7 +18,7 @@ async function init(): Promise<void> {
 	if (select.exists('.blob.instapaper_body')) {
 		delegate('.rgh-md-source', 'rgh:view-markdown-source', () => {
 			// Prevents several buttons
-			if (select('[aria-label="Copy file to clipboard"]')) {
+			if (select.exists('[aria-label="Copy file to clipboard"]')) {
 				return
 			}
 			renderButton();
