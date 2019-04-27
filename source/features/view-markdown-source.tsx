@@ -43,7 +43,6 @@ async function showSource(): Promise<void> {
 	btnBodyMap.set(sourceButton, source);
 	btnBodyMap.set(renderedButton, rendered);
 
-
 	rendered.replaceWith(await source);
 
 	sourceButton.disabled = false;
@@ -52,7 +51,7 @@ async function showSource(): Promise<void> {
 	renderedButton.classList.remove('selected');
 	blurButton(sourceButton);
 
-	document.dispatchEvent(new CustomEvent('rgh:view-markdown-source', {detail: await source}))
+	document.dispatchEvent(new CustomEvent('rgh:view-markdown-source', {detail: await source}));
 }
 
 async function showRendered(): Promise<void> {
