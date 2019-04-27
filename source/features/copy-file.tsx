@@ -15,7 +15,7 @@ function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement
 
 async function init(): Promise<void> {
 	// This won't show button on markdown and binary files until the code is loaded
-	if (features.isMarkDown() || select.all('.blob-wrapper > .highlight').length === 0) {
+	if (select.exists('.blob.instapaper_body')) {
 		delegate('.rgh-md-source', 'rgh:view-markdown-source', () => {
 			renderButton();
 		});
