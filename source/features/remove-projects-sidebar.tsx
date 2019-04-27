@@ -1,7 +1,5 @@
 /*
-The `Projects` sidebar is hidden from repositories and profiles when there are no projects.
-The sidebar can't be used to create new projects.
-New projects can still be created via the [`Create new…` menu](https://user-images.githubusercontent.com/1402241/34909214-18b6fb2e-f8cf-11e7-8556-bed748596d3b.png).
+The projects sidebar can't be used to create new projects, therefore removed if empty and viewer without write access
 */
 
 import * as api from '../libs/api';
@@ -9,22 +7,27 @@ import features from '../libs/features';
 import {getOwnerAndRepo, getDiscussionNumber} from '../libs/utils';
 import {safeElementReady} from '../libs/dom-utils';
 
-// let res: {key: Promise<any>};
-let res: {[key: string]: {res: Promise<any>, loading: boolean}}
+type results = {
+	[key: string]: result;
+}
 
-function query() {
+type result = {
+	res?: Promise<any>;
+	loading: boolean;
+}
+
+const res: results = {};
+
+function query(): void {
 	const {ownerName, repoName} = getOwnerAndRepo();
-	const number = parseInt(getDiscussionNumber() || "0") //feature include parameters match getdiscussionnumber, so never should it return false
-	const repo = repoPick()
+	const number = Number(getDiscussionNumber() || '0'); // Feature include parameters match getdiscussionnumber, so never should it return false
+	const repo = repoPick();
 	repo.loading = true;
-	// projects(states: [OPEN, CLOSED]){
-	// 	totalCount
-	// }
 	repo.res = api.v4(`
 		{
 			repository(owner: "${ownerName}", name: "${repoName}") {
-				issue(number: ${number}){
-    				viewerCanUpdate
+				viewerPermission
+				${features.isPR() ? 'pullRequest' : 'issue'}(number: ${number}){
     			  	projectCards{
     			    	totalCount
     				}
@@ -34,26 +37,32 @@ function query() {
 	`);
 }
 
-function repoPick(){
-	const { ownerName, repoName } = getOwnerAndRepo();
-	return res[ownerName+repoName]
+function repoPick(): result {
+	const {ownerName, repoName} = getOwnerAndRepo();
+	if (!res[ownerName + repoName]) {
+		res[ownerName + repoName] = {loading: false};
+	}
+
+	return res[ownerName + repoName];
 }
 
 async function init(): Promise<false | void> {
-	const repo = repoPick()
+	const repo = repoPick();
 	if (!repo.loading) {
 		query();
 	}
+
 	repo.loading = false;
 	const project = await safeElementReady('[aria-label="Select projects"]');
-
 	if (!project) {
 		return false;
 	}
-	let {repository: issue} = await repo.res
-	console.log(issue)
-	if (issue.projectCards.totalCount === 0, !issue.viewerCanUpdate) {
-		console.log("removing")
+
+	const {repository} = await repo.res;
+	const {viewerPermission} = repository;
+	const item = repository.issue ? repository.issue : repository.pullRequest;
+	const access = viewerPermission === 'WRITE' || viewerPermission === 'ADMIN';
+	if (item.projectCards.totalCount === 0 && !access) {
 		project.parentElement!.remove();
 	}
 }

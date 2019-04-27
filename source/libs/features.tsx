@@ -39,7 +39,7 @@ interface PrivateFeatureDetails extends FeatureDetails {
 	options: GlobalOptions;
 }
 
-function onNavigation(callback: () => void) {
+function onNavigation(callback: () => void): void {
 	addEventListener('pjax:start', callback);
 }
 
