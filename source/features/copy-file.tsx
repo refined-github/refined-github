@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import copyToClipboard from 'copy-text-to-clipboard';
 import delegate from 'delegate-it';
+import copyToClipboard from 'copy-text-to-clipboard';
 import features from '../libs/features';
 
 function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): void {
@@ -10,6 +10,22 @@ function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement
 		.map(({innerText: line}) => line === '\n' ? '' : line) // Must be `.innerText`
 		.join('\n');
 	copyToClipboard(content);
+}
+
+function renderButton(): void {
+	for (const blameButton of select.all('[data-hotkey="b"]')) {
+		blameButton
+			.parentElement! // `BtnGroup`
+			.prepend(
+				<button
+					onClick={handleClick}
+					className="btn btn-sm tooltipped tooltipped-n BtnGroup-item rgh-copy-file"
+					aria-label="Copy file to clipboard"
+					type="button">
+					Copy
+				</button>
+			);
+	}
 }
 
 function init(): void {
@@ -23,22 +39,6 @@ function init(): void {
 		});
 	} else {
 		renderButton();
-	}
-}
-
-function renderButton(): void {
-	for (const blameButton of select.all('[data-hotkey="b"]')) {
-		blameButton
-			.parentElement! // `BtnGroup`
-			.prepend(
-				<button
-					onClick={handleClick}
-					className="btn btn-sm rgh-copy-file tooltipped tooltipped-n BtnGroup-item"
-					aria-label="Copy file to clipboard"
-					type="button">
-					Copy
-				</button>
-			);
 	}
 }
 

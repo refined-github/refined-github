@@ -26,6 +26,10 @@ function blurButton(button: HTMLElement): void {
 	}
 }
 
+function dispatchEvent(element: HTMLElement, type: keyof GlobalEventHandlersEventMap): void {
+	element.dispatchEvent(new CustomEvent(type, {bubbles: true}));
+}
+
 /*
 The dom of each version is stored on each button.
 This acts as an auto-discarded cache without globals, timers, etc.
@@ -51,7 +55,7 @@ async function showSource(): Promise<void> {
 	renderedButton.classList.remove('selected');
 	blurButton(sourceButton);
 
-	sourceButton.dispatchEvent(new CustomEvent('rgh:view-markdown-source', {bubbles: true}));
+	dispatchEvent(sourceButton, 'rgh:view-markdown-source');
 }
 
 async function showRendered(): Promise<void> {
@@ -67,7 +71,8 @@ async function showRendered(): Promise<void> {
 	sourceButton.classList.remove('selected');
 	renderedButton.classList.add('selected');
 	blurButton(renderedButton);
-	sourceButton.dispatchEvent(new CustomEvent('rgh:view-markdown-rendered', {bubbles: true}));
+
+	dispatchEvent(sourceButton, 'rgh:view-markdown-rendered');
 }
 
 async function init(): Promise<false | void> {
