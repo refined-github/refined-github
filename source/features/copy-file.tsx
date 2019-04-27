@@ -23,8 +23,8 @@ async function init(): Promise<void> {
 			}
 			renderButton();
 		});
+		//removes button if non-raw content is displayed
 		delegate('.rgh-md-source', 'rgh:view-markdown-rendered', () => {
-			// Prevents several buttons
 			const buttonSelector = '[aria-label="Copy file to clipboard"]'
 			if (select.exists(buttonSelector)){
 				select(buttonSelector)!.remove()
