@@ -9,20 +9,20 @@ import features from '../libs/features';
 import {getOwnerAndRepo, getDiscussionNumber} from '../libs/utils';
 import {safeElementReady} from '../libs/dom-utils';
 
-let loading = false;
-let res: Promise<any>;
+// let res: {key: Promise<any>};
+let res: {[key: string]: {res: Promise<any>, loading: boolean}}
 
 function query() {
 	const {ownerName, repoName} = getOwnerAndRepo();
 	const number = parseInt(getDiscussionNumber() || "0") //feature include parameters match getdiscussionnumber, so never should it return false
-	console.log(number)
-	loading = true;
-	res = api.v4(`
+	const repo = repoPick()
+	repo.loading = true;
+	// projects(states: [OPEN, CLOSED]){
+	// 	totalCount
+	// }
+	repo.res = api.v4(`
 		{
 			repository(owner: "${ownerName}", name: "${repoName}") {
-				projects(states: [OPEN, CLOSED]){
-					totalCount
-				}
 				issue(number: ${number}){
     				viewerCanUpdate
     			  	projectCards{
@@ -30,39 +30,32 @@ function query() {
     				}
     			}
 			}
-			organization(login: "${ownerName}"){
-			    projects(states: [OPEN, CLOSED]){
-        			totalCount
-    			}
-			}
-			user(login: "${ownerName}"){
-				projects(states: [OPEN, CLOSED]){
-					totalCount
-				}
-			}
-			
 		}
 	`);
-	// res.then(console.log).catch(console.log)
+}
+
+function repoPick(){
+	const { ownerName, repoName } = getOwnerAndRepo();
+	return res[ownerName+repoName]
 }
 
 async function init(): Promise<false | void> {
-	if (!loading) {
+	const repo = repoPick()
+	if (!repo.loading) {
 		query();
 	}
-	loading = false;
+	repo.loading = false;
 	const project = await safeElementReady('[aria-label="Select projects"]');
 
 	if (!project) {
 		return false;
 	}
-
-	loading = false;
-	let resolved = await res
-	console.log(123, resolved)
-	// if (resolved.repository.projects.totalCount === 0) {
-	// 	project.parentElement!.remove();
-	// }
+	let {repository: issue} = await repo.res
+	console.log(issue)
+	if (issue.projectCards.totalCount === 0, !issue.viewerCanUpdate) {
+		console.log("removing")
+		project.parentElement!.remove();
+	}
 }
 
 features.add({
