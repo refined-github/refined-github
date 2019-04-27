@@ -28,7 +28,7 @@ async function init(): Promise<void> {
 		delegate('.rgh-md-source', 'rgh:view-markdown-rendered', () => {
 			const button = select('.rgh-copy-file');
 			if (button) {
-				button.remove()
+				button.remove();
 			}
 		});
 	} else {
