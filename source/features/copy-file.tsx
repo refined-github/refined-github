@@ -37,8 +37,8 @@ async function init(): Promise<void> {
 }
 
 function renderButton(): void {
-	for (const code of select.all('[data-hotkey="b"]')) { // Blame button
-		code
+	for (const blameButton of select.all('[data-hotkey="b"]')) {
+		blameButton
 			.parentElement! // `BtnGroup`
 			.prepend(
 				<button
