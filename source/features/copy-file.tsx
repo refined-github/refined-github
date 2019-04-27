@@ -5,25 +5,24 @@ import delegate from 'delegate-it';
 import features from '../libs/features';
 
 function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): void {
-	const isMarkdown = features.isMarkDown();
-	const file = button.closest('.Box');
-	const content = select.all(isMarkdown ? '.blame-hunk' : '.blob-code-inner', file!);
-	let parsed: string | string[];
-	if (isMarkdown) {
-		parsed = content
+	if (features.isMarkDown()) {
+		const file = button.closest('.Box');
+		const content = select.all('.blame-hunk', file!)
 			.map(line => select.all('.blob-code', line))
 			.map(line => {
 				return line.map(x => x.innerText).map(line => line === '\n' ? '' : line).join('\n');
-			});
+			})
+			.map(line => line === '\n' ? '' : line)
+			.join('\n');
+		copyToClipboard(content);
 	} else {
-		parsed = content
-			.map(blob => blob.innerText); // Must be `.innerText`
+		const file = button.closest('.Box');
+		const content = select.all('.blob-code-inner', file!)
+			.map(blob => blob.innerText) // Must be `.innerText`
+			.map(line => line === '\n' ? '' : line)
+			.join('\n');
+		copyToClipboard(content);
 	}
-
-	parsed = parsed
-		.map(line => line === '\n' ? '' : line)
-		.join('\n');
-	copyToClipboard(parsed);
 }
 
 async function init(): Promise<void> {
