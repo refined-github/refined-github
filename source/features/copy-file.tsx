@@ -3,8 +3,8 @@ import select from 'select-dom';
 import copyToClipboard from 'copy-text-to-clipboard';
 import features from '../libs/features';
 
-function handleClickFactory(markdown?: Element): ({ currentTarget: button }: React.MouseEvent<HTMLButtonElement>)=> void {
-	return function handleClick ({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): void {
+function handleClickFactory(markdown?: Element): ({currentTarget: button}: React.MouseEvent<HTMLButtonElement>) => void {
+	return function ({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): void {
 		if (features.isMarkDown()) {
 			const content = select.all('.blame-hunk', markdown)
 				.map(line => select.all('.blob-code', line))
@@ -30,7 +30,7 @@ function handleClickFactory(markdown?: Element): ({ currentTarget: button }: Rea
 
 async function init(): Promise<void> {
 	// This won't show button on markdown and binary files until the code is loaded
-	if (features.isMarkDown() || select.all(".blob-wrapper > .highlight").length) {
+	if (features.isMarkDown() || select.all('.blob-wrapper > .highlight').length !== 0) {
 		document.addEventListener('rgh:view-markdown-source', e => {
 			renderButton((e as CustomEvent).detail);
 		});
