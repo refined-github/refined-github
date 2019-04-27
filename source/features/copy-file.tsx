@@ -18,7 +18,7 @@ async function init(): Promise<void> {
 	if (select.exists('.blob.instapaper_body')) {
 		delegate('.rgh-md-source', 'rgh:view-markdown-source', () => {
 			// Prevents several buttons
-			if (select.exists('[aria-label="Copy file to clipboard"]')) {
+			if (select.exists('.rgh-copy-file')) {
 				return;
 			}
 
@@ -26,9 +26,9 @@ async function init(): Promise<void> {
 		});
 		// Removes button if non-raw content is displayed
 		delegate('.rgh-md-source', 'rgh:view-markdown-rendered', () => {
-			const buttonSelector = '[aria-label="Copy file to clipboard"]';
-			if (select.exists(buttonSelector)) {
-				select(buttonSelector)!.remove();
+			const button = select('.rgh-copy-file');
+			if (button) {
+				button.remove()
 			}
 		});
 	} else {
@@ -43,7 +43,7 @@ function renderButton(): void {
 			.prepend(
 				<button
 					onClick={handleClick}
-					className="btn btn-sm copy-btn tooltipped tooltipped-n BtnGroup-item"
+					className="btn btn-sm rgh-copy-file tooltipped tooltipped-n BtnGroup-item"
 					aria-label="Copy file to clipboard"
 					type="button">
 					Copy
