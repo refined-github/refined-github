@@ -19,15 +19,16 @@ async function init(): Promise<void> {
 		delegate('.rgh-md-source', 'rgh:view-markdown-source', () => {
 			// Prevents several buttons
 			if (select.exists('[aria-label="Copy file to clipboard"]')) {
-				return
+				return;
 			}
+
 			renderButton();
 		});
-		//removes button if non-raw content is displayed
+		// Removes button if non-raw content is displayed
 		delegate('.rgh-md-source', 'rgh:view-markdown-rendered', () => {
-			const buttonSelector = '[aria-label="Copy file to clipboard"]'
-			if (select.exists(buttonSelector)){
-				select(buttonSelector)!.remove()
+			const buttonSelector = '[aria-label="Copy file to clipboard"]';
+			if (select.exists(buttonSelector)) {
+				select(buttonSelector)!.remove();
 			}
 		});
 	} else {
