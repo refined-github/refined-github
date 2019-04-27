@@ -51,7 +51,7 @@ async function showSource(): Promise<void> {
 	renderedButton.classList.remove('selected');
 	blurButton(sourceButton);
 
-	sourceButton.dispatchEvent(new CustomEvent('rgh:view-markdown-source', { bubbles: true }));
+	sourceButton.dispatchEvent(new CustomEvent('rgh:view-markdown-source', {bubbles: true}));
 }
 
 async function showRendered(): Promise<void> {
@@ -80,7 +80,7 @@ async function init(): Promise<false | void> {
 	select('.repository-content .Box-header .d-flex')!.prepend(
 		<div className="BtnGroup">
 			<button className="btn btn-sm BtnGroup-item tooltipped tooltipped tooltipped-n rgh-md-source" type="button" aria-label="Display the source blob">
-				{icons.code()} 
+				{icons.code()}
 			</button>
 			<button className="btn btn-sm BtnGroup-item tooltipped tooltipped-n rgh-md-rendered selected" type="button" aria-label="Display the rendered blob">
 				{icons.file()}

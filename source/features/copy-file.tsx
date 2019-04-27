@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import copyToClipboard from 'copy-text-to-clipboard';
-import features from '../libs/features';
 import delegate from 'delegate-it';
+import features from '../libs/features';
 
-function handleClick ({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): void {
+function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): void {
 	if (features.isMarkDown()) {
 		const file = button.closest('.Box');
 		const content = select.all('.blame-hunk', file!)
@@ -23,12 +23,11 @@ function handleClick ({currentTarget: button}: React.MouseEvent<HTMLButtonElemen
 			.join('\n');
 		copyToClipboard(content);
 	}
-};
-
+}
 
 async function init(): Promise<void> {
 	// This won't show button on markdown and binary files until the code is loaded
-	if (features.isMarkDown() || select.all('.blob-wrapper > .highlight').length !== 0) {
+	if (features.isMarkDown() || select.all('.blob-wrapper > .highlight').length === 0) {
 		delegate('.rgh-md-source', 'rgh:view-markdown-source', () => {
 			renderButton();
 		});
@@ -38,7 +37,7 @@ async function init(): Promise<void> {
 }
 
 function renderButton(): void {
-	for (const code of select.all('[data-hotkey="b"]')) { // Blame button, avoiding binary files
+	for (const code of select.all('[data-hotkey="b"]')) { // Blame button
 		code
 			.parentElement! // `BtnGroup`
 			.prepend(
