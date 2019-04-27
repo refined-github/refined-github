@@ -8,23 +8,21 @@ function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement
 	const isMarkdown = features.isMarkDown()
 	const file = button.closest('.Box');
 	const content = select.all(isMarkdown ? '.blame-hunk': '.blob-code-inner', file!)
-	let parsed: string
+	let parsed: string | string[]
 	if (isMarkdown) {
 		parsed = content
 			.map(line => select.all('.blob-code', line))
 			.map(line => {
 				return line.map(x => x.innerText).map(line => line === '\n' ? '' : line).join('\n');
 			})
-			.map(line => line === '\n' ? '' : line)
-			.join('\n');
-		copyToClipboard(parsed);
 	} else {
 		parsed = content
 			.map(blob => blob.innerText) // Must be `.innerText`
-			.map(line => line === '\n' ? '' : line)
-			.join('\n');
-		copyToClipboard(parsed);
 	}
+	parsed = parsed
+		.map(line => line === '\n' ? '' : line)
+		.join('\n');
+	copyToClipboard(parsed);
 }
 
 async function init(): Promise<void> {
