@@ -12,7 +12,7 @@ import {blurAccessibly} from './comment-fields-keyboard-shortcuts';
 
 const btnBodyMap = new WeakMap<Element, Element | Promise<Element>>();
 
-export async function fetchSource(): Promise<Element> {
+async function fetchSource(): Promise<Element> {
 	const path = location.pathname.replace(/([^/]+\/[^/]+\/)(blob)/, '$1blame');
 	const dom = await fetchDom(location.origin + path, '.blob-wrapper');
 	dom.classList.add('rgh-markdown-source');
@@ -51,7 +51,7 @@ async function showSource(): Promise<void> {
 	renderedButton.classList.remove('selected');
 	blurButton(sourceButton);
 
-	document.dispatchEvent(new CustomEvent('rgh:view-markdown-source', {detail: await source}));
+	sourceButton.dispatchEvent(new CustomEvent('rgh:view-markdown-source', { bubbles: true }));
 }
 
 async function showRendered(): Promise<void> {
@@ -80,7 +80,7 @@ async function init(): Promise<false | void> {
 	select('.repository-content .Box-header .d-flex')!.prepend(
 		<div className="BtnGroup">
 			<button className="btn btn-sm BtnGroup-item tooltipped tooltipped tooltipped-n rgh-md-source" type="button" aria-label="Display the source blob">
-				{icons.code()}
+				{icons.code()} 
 			</button>
 			<button className="btn btn-sm BtnGroup-item tooltipped tooltipped-n rgh-md-rendered selected" type="button" aria-label="Display the rendered blob">
 				{icons.file()}

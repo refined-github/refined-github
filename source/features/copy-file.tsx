@@ -2,50 +2,48 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import copyToClipboard from 'copy-text-to-clipboard';
 import features from '../libs/features';
+import delegate from 'delegate-it';
 
-function handleClickFactory(markdown?: Element): ({currentTarget: button}: React.MouseEvent<HTMLButtonElement>) => void {
-	return function ({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): void {
-		if (features.isMarkDown()) {
-			const content = select.all('.blame-hunk', markdown)
-				.map(line => select.all('.blob-code', line))
-				.map(line => {
-					return line.map(x => x.innerText).map(line => line === '\n' ? '' : line).join('\n');
-				})
-				.map(line => line === '\n' ? '' : line)
-				.join('\n');
-			copyToClipboard(content);
-		} else {
-			console.log('not markdown');
-			const file = button.closest('.Box');
+function handleClick ({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): void {
+	if (features.isMarkDown()) {
+		const file = button.closest('.Box');
+		const content = select.all('.blame-hunk', file!)
+			.map(line => select.all('.blob-code', line))
+			.map(line => {
+				return line.map(x => x.innerText).map(line => line === '\n' ? '' : line).join('\n');
+			})
+			.map(line => line === '\n' ? '' : line)
+			.join('\n');
+		copyToClipboard(content);
+	} else {
+		const file = button.closest('.Box');
+		const content = select.all('.blob-code-inner', file!)
+			.map(blob => blob.innerText) // Must be `.innerText`
+			.map(line => line === '\n' ? '' : line)
+			.join('\n');
+		copyToClipboard(content);
+	}
+};
 
-			const content = select.all('.blob-code-inner', file!)
-				.map(blob => blob.innerText) // Must be `.innerText`
-				.map(line => line === '\n' ? '' : line)
-				.join('\n');
-
-			copyToClipboard(content);
-		}
-	};
-}
 
 async function init(): Promise<void> {
 	// This won't show button on markdown and binary files until the code is loaded
 	if (features.isMarkDown() || select.all('.blob-wrapper > .highlight').length !== 0) {
-		document.addEventListener('rgh:view-markdown-source', e => {
-			renderButton((e as CustomEvent).detail);
+		delegate('.rgh-md-source', 'rgh:view-markdown-source', () => {
+			renderButton();
 		});
 	} else {
 		renderButton();
 	}
 }
 
-function renderButton(markdown?: Element): void {
+function renderButton(): void {
 	for (const code of select.all('[data-hotkey="b"]')) { // Blame button, avoiding binary files
 		code
 			.parentElement! // `BtnGroup`
 			.prepend(
 				<button
-					onClick={handleClickFactory(markdown)}
+					onClick={handleClick}
 					className="btn btn-sm copy-btn tooltipped tooltipped-n BtnGroup-item"
 					aria-label="Copy file to clipboard"
 					type="button">
