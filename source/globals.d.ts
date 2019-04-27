@@ -60,6 +60,8 @@ declare module 'github-reserved-names';
 interface GlobalEventHandlersEventMap {
 	'details:toggled': CustomEvent;
 	'focusin': UIEvent; // Drop when it reaches W3C Recommendation https://github.com/Microsoft/TSJS-lib-generator/pull/369
+	'rgh:view-markdown-source': CustomEvent;
+	'rgh:view-markdown-rendered': CustomEvent;
 }
 
 declare namespace JSX {

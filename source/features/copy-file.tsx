@@ -17,7 +17,18 @@ async function init(): Promise<void> {
 	// This won't show button on markdown and binary files until the code is loaded
 	if (select.exists('.blob.instapaper_body')) {
 		delegate('.rgh-md-source', 'rgh:view-markdown-source', () => {
+			// Prevents several buttons
+			if (select('[aria-label="Copy file to clipboard"]')) {
+				return
+			}
 			renderButton();
+		});
+		delegate('.rgh-md-source', 'rgh:view-markdown-rendered', () => {
+			// Prevents several buttons
+			const buttonSelector = '[aria-label="Copy file to clipboard"]'
+			if (select.exists(buttonSelector)){
+				select(buttonSelector)!.remove()
+			}
 		});
 	} else {
 		renderButton();
