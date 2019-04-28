@@ -28,13 +28,6 @@ deploy:
       branch: master
       condition: $(npm run can-release --silent)
 
-  - # TESTING ONLY; REMOVE BEFORE MERGING PR
-    provider: script
-    skip_cleanup: true
-    script: npm run create-git-tag
-    on:
-      branch: travis-tags
-
 # Setup Travis to be able to push git tags to GitHub
 after_success:
   - |
