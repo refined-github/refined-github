@@ -1,3 +1,4 @@
+import './mark-private-orgs.css';
 import select from 'select-dom';
 import {getUsername} from '../libs/utils';
 import features from '../libs/features';

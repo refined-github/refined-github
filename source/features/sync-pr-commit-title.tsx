@@ -79,9 +79,14 @@ function onMergePanelToggle(event: CustomEvent): void {
 	triggerFitTextareas();
 
 	// Replace default title and fire the correct events
-	const field = select<HTMLTextAreaElement>('.merge-branch-form:not(.is-dirty) #merge_title_field')!;
-	field.focus();
-	field.select();
+	const field = select<HTMLTextAreaElement>('#merge_title_field')!;
+
+	// Only if the user hasn't already interacted with it
+	if (field.closest('.is-dirty')) {
+		return;
+	}
+
+	field.value = '';
 	insertTextTextarea(field, createCommitTitle());
 }
 

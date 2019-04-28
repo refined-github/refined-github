@@ -1,3 +1,4 @@
+import './ci-link.css';
 import domify from 'doma';
 import select from 'select-dom';
 import onetime from 'onetime';

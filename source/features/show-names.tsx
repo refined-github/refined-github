@@ -1,3 +1,4 @@
+import './show-names.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as api from '../libs/api';

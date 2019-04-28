@@ -1,13 +1,7 @@
 type AnyObject = Record<string, any>;
 
-// TODO: Move types to tiny-version-compare repo
-declare module 'tiny-version-compare' {
-	function compareVersions(versionA: string, versionB: string): number
-
-	export = compareVersions
-}
-
-// TODO: Move types to https://github.com/sindresorhus/linkify-urls repository.
+// TODO: Drop when Firefox adds RegEx lookbehind support
+// https://github.com/sindresorhus/refined-github/pull/1936#discussion_r276515991
 declare module 'linkify-urls' {
 	type Options = {
 		user: string;
@@ -25,7 +19,8 @@ declare module 'linkify-urls' {
 	export = linkifyUrls
 }
 
-// TODO: Move types to the https://github.com/sindresorhus/linkify-issues repository.
+// TODO: Drop when Firefox adds RegEx lookbehind support
+// https://github.com/sindresorhus/refined-github/pull/1936#discussion_r276515991
 declare module 'linkify-issues' {
 	type Options = {
 		user: string;
@@ -42,19 +37,6 @@ declare module 'linkify-issues' {
 
 	export = linkifyIssues
 }
-
-// TODO: Move types in intervalometer repo
-declare module 'intervalometer' {
-	function timerIntervalometer(callback: () => void, timeInMillis: number);
-}
-
-// TODO: Move to shorten-repo-url repo
-declare module 'shorten-repo-url' {
-	function applyToLink(anchor: HTMLAnchorElement, url: string): void;
-}
-
-// TODO: Move types to github-reserver-names repo
-declare module 'github-reserved-names';
 
 // Custom UI events specific to RGH
 interface GlobalEventHandlersEventMap {
@@ -74,20 +56,8 @@ declare namespace JSX {
 	}
 }
 
-// TODO: Drop when this bug fix is shipped in a version of TypeScript https://github.com/Microsoft/TypeScript/issues/30928
+// TODO: Drop when this bug is fixed
+// https://github.com/Microsoft/TypeScript/issues/30928
 interface NamedNodeMap {
 	[key: string]: Attr;
 }
-
-// TODO: add support for `class` in JSX
-// The following code works if it's inside the file with JSX, but here it breaks all JSX definitions.
-// The `namespace JSX`  merges fine because in react's types it's `global`, but `namespace React` isn't
-//
-// import React from 'dom-chef';
-// declare global {
-// 	namespace React {
-// 		interface DOMAttributes<T> {
-// 			class?: string;
-// 		}
-// 	}
-// }
