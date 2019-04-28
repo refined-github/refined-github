@@ -12,9 +12,10 @@
 		"watch:firefox": "web-ext run --source-dir=distribution",
 		"release:amo": "cd distribution && web-ext-submit",
 		"release:cws": "cd distribution && webstore upload --auto-publish",
-		"release": "run-s build update-version save-url release:*",
-		"save-url": "echo https://github.com/$TRAVIS_REPO_SLUG/tree/$TRAVIS_COMMIT > distribution/SOURCE_URL",
-		"update-version": "VERSION=$(utc-version); echo $VERSION; dot-json distribution/manifest.json version $VERSION",
+		"release": "run-s build prerelease:* release:*",
+		"create-git-tag": "git tag $(utc-version) && git push --tags",
+		"prerelease:source-url": "echo https://github.com/$TRAVIS_REPO_SLUG/tree/$TRAVIS_COMMIT > distribution/SOURCE_URL",
+		"prerelease:version": "dot-json distribution/manifest.json version $TRAVIS_TAG",
 		"can-release": "if [ \"$TRAVIS_EVENT_TYPE\" = cron ] && [ $(git rev-list -n 1 --since=\"26 hours ago\" master) ]; then echo :ship-it:; else false; fi"
 	},
 	"dependencies": {
