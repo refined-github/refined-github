@@ -35,6 +35,7 @@ deploy:
     on:
       branch: travis-tags
 
+# Setup Travis to be able to push git tags to GitHub
 after_success:
   - |
     declare -r SSH_FILE="$(mktemp -u $HOME/.ssh/XXXXX)"
@@ -53,3 +54,5 @@ after_success:
           "  IdentityFile $SSH_FILE" \
           "  LogLevel ERROR" >> ~/.ssh/config
 
+    # Set SSH remote
+    git remote set-url origin git@github.com:sindresorhus/refined-github.git
