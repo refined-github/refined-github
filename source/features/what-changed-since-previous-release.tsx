@@ -2,7 +2,8 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
-import {getOwnerAndRepo, getRepoPath} from '../libs/utils';
+import {getOwnerAndRepo} from '../libs/utils';
+import {isTagsListPage, isReleasesListPage} from '../libs/page-detect';
 
 async function init(): Promise<void | false> {
 	if (select.exists('.blankslate')) {
@@ -12,10 +13,10 @@ async function init(): Promise<void | false> {
 	const {ownerName, repoName} = getOwnerAndRepo();
 
 	// To extract the tag "v16.8.6" from links like "/facebook/react/releases/tag/v16.8.6"
-	const tagRegExp = new RegExp(`\/${ownerName}\/${repoName}\/releases\/tag\/(.*)`);
+	const tagRegExp = new RegExp(`/${ownerName}/${repoName}/releases/tag/(.*)`);
 
 	// To extract the commit hash from links like "/facebook/react/commit/92a1d8feac32d03ab5ea6ac13ae4941f6ae93b54"
-	const commitRegExp = new RegExp(`\/${ownerName}\/${repoName}\/commit\/([0-9a-f]{5,40})`);
+	const commitRegExp = new RegExp(`/${ownerName}/${repoName}/commit/([0-9a-f]{5,40})`);
 
 	const allTagsAnchor = [...select.all<HTMLAnchorElement>(getTagSelector())];
 	const allTags = extractAnchorValues(allTagsAnchor, tagRegExp);
@@ -59,7 +60,7 @@ const extractAnchorValues = (anchors: HTMLAnchorElement[], regexp: RegExp): stri
 
 		return decodeURIComponent(value);
 	});
-}
+};
 
 const getPreviousTagIndex = (
 	startIndex: number,
@@ -67,7 +68,7 @@ const getPreviousTagIndex = (
 	allCommitIds: string[],
 	tag: string,
 	allTags: string[]
-) => {
+): number => {
 	let index = -1;
 
 	for (let i = startIndex; i < allCommitIds.length; i++) {
@@ -79,14 +80,16 @@ const getPreviousTagIndex = (
 			return i;
 		}
 
-		index = i;
+		if (index === -1) {
+			index = i;
+		}
 	}
 
 	return index;
-}
+};
 
-const isSameNameSpaceTag = (tag1: string, tag2: string) => {
-	if (tag1.indexOf('@') === -1 || tag2.indexOf('@') === -1) {
+const isSameNameSpaceTag = (tag1: string, tag2: string): boolean => {
+	if (!tag1.includes('@') || !tag2.includes('@')) {
 		return false;
 	}
 
@@ -96,7 +99,7 @@ const isSameNameSpaceTag = (tag1: string, tag2: string) => {
 	const [, tagTwoNameSpace = ''] = tag2.match(namespaceRegex)! || [];
 
 	return tagOneNameSpace === tagTwoNameSpace;
-}
+};
 
 // To select all links like "/facebook/react/commit/"
 const getCommitIdSelector = (): string => {
@@ -113,7 +116,7 @@ const getCommitIdSelector = (): string => {
 	}
 
 	return commitAnchorSelector;
-}
+};
 
 // To select all links like "/facebook/react/releases/tag"
 const getTagSelector = (): string => {
@@ -130,23 +133,19 @@ const getTagSelector = (): string => {
 	}
 
 	return tagAnchorSelector;
-}
+};
 
-const isReleasesListPage = () => /^(releases)/.test(getRepoPath()!);
-
-const isTagsListPage = () => /^(tags)/.test(getRepoPath()!);
-
-const getCompareIcon = (prevTag: string, nextTag: string): HTMLSpanElement => {
+const getCompareIcon = (prevTag: string, nextTag: string): HTMLElement => {
 	const {ownerName, repoName} = getOwnerAndRepo();
 
 	return (
-		<span className="ellipsis-expander rgh-what-changed">
-			<a href={`/${ownerName}/${repoName}/compare/${prevTag}...${nextTag}`}>
+		<a href={`/${ownerName}/${repoName}/compare/${prevTag}...${nextTag}`} className="rgh-what-changed">
+			<span className="ellipsis-expander">
 				<span>…</span>
-			</a>
-		</span>
-	)
-}
+			</span>
+		</a>
+	);
+};
 
 features.add({
 	id: 'what-changed-since-previous-release',
