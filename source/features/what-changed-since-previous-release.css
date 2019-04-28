@@ -1,0 +1,8 @@
+.release-entry .hidden-text-expander,
+.commit .hidden-text-expander {
+	display: none !important;
+}
+
+.rgh-what-changed {
+	margin-left: 5px;
+}

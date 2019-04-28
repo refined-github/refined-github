@@ -2,8 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
-import {getOwnerAndRepo, getRepoPath} from '../libs/utils';
-import { diff } from '../libs/icons';
+import {getOwnerAndRepo} from '../libs/utils';
 
 async function init(): Promise<void | false> {
 	if (select.exists('.blankslate')) {
@@ -25,7 +24,7 @@ async function init(): Promise<void | false> {
 		const diffAnchor = allTagsAnchor[i].cloneNode() as HTMLAnchorElement
 		diffAnchor.pathname = `/${ownerName}/${repoName}/compare/${extractTagName(allTagsAnchor[i + 1].pathname, tagAnchorRegExp)}...${extractTagName(allTagsAnchor[i].pathname, tagAnchorRegExp)}`;
 
-		appendDiffIcon(diffAnchor, i);
+		appendCompareIcon(allTagsAnchor[i], diffAnchor);
 	}
 
 	const nextPageLink = select<HTMLAnchorElement>('.pagination a:last-child');
@@ -36,38 +35,19 @@ async function init(): Promise<void | false> {
 
 	const firstTagAnchorOfNextPage = await fetchDom(nextPageLink.href, tagSelector) as HTMLAnchorElement;
 
-	lastTagAnchor.pathname = `/${ownerName}/${repoName}/compare/${extractTagName(firstTagAnchorOfNextPage.pathname, tagAnchorRegExp)}...${extractTagName(lastTagAnchor.pathname, tagAnchorRegExp)}`;
+	const diffAnchor = lastTagAnchor.cloneNode() as HTMLAnchorElement
+	diffAnchor.pathname = `/${ownerName}/${repoName}/compare/${extractTagName(firstTagAnchorOfNextPage.pathname, tagAnchorRegExp)}...${extractTagName(lastTagAnchor.pathname, tagAnchorRegExp)}`;
+
+	appendCompareIcon(lastTagAnchor, diffAnchor);
 }
 
-const compare = () => <div style={{ display: 'inline-block', marginLeft: '5px' }}>Compare</div>
-
-const appendDiffIcon = (anchorTag: HTMLAnchorElement, index: number): void => {
-	anchorTag.append(diff());
-	anchorTag.append(compare())
-	anchorTag.classList.add('muted-link');
-
-	if (isReleaseListPage() || isSingleTagPage()) {
-		select(
-			'.release > div:first-child > ul',
-			select(`.repository-content > .position-relative > .release-entry:nth-child(${index + 1}) > .release`)!
-		)!.append(anchorTag);
-	}
-
-	if (isTagsListPage()) {
-		select('.commit > ul')!.append(anchorTag);
-	}
-}
-
-const isReleaseListPage = (): boolean => {
-	return /^(releases)/.test(getRepoPath()!);
-}
-
-const isTagsListPage = (): boolean => {
-	return /^(tags)/.test(getRepoPath()!);
-}
-
-const isSingleTagPage = (): boolean => {
-	return /^(releases\/tag\/)/.test(getRepoPath()!);
+const appendCompareIcon = (anchor: HTMLAnchorElement, compareAnchor: HTMLAnchorElement) => {
+	compareAnchor.append(<span>…</span>)
+	anchor.after(
+		<span className="ellipsis-expander rgh-what-changed">
+			{compareAnchor}
+		</span>
+	)
 }
 
 const extractTagName = (tagPathname: string, regex: RegExp): string => {
