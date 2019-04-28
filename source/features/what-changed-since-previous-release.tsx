@@ -23,7 +23,7 @@ async function init(): Promise<void | false> {
 	const allCommitIds = extractAnchorValues([...select.all<HTMLAnchorElement>(getCommitIdSelector())], commitRegExp);
 
 	for (let index = 0; index < allTags.length - 1; index++) {
-		const previousCommitIndex = getPreviousTagCommitIndex(index + 1, allCommitIds[index], allCommitIds);
+		const previousCommitIndex = getPreviousTagIndex(index + 1, allCommitIds[index], allCommitIds, allTags[index], allTags);
 
 		if (previousCommitIndex !== -1) {
 			allTagsAnchor[index].after(getCompareIcon(allTags[previousCommitIndex], allTags[index]));
@@ -41,10 +41,10 @@ async function init(): Promise<void | false> {
 	const nextPageAllTagsAnchor = [...select.all<HTMLAnchorElement>(getTagSelector(), nextPage)];
 	const nextPageAllTags = extractAnchorValues(nextPageAllTagsAnchor, tagRegExp);
 
-	const nextPageAllCommitIds = extractAnchorValues([...select.all<HTMLAnchorElement>(getCommitIdSelector())], commitRegExp);
+	const nextPageAllCommitIds = extractAnchorValues([...select.all<HTMLAnchorElement>(getCommitIdSelector(), nextPage)], commitRegExp);
 
 	for (let index = 0; index < nextPageAllTags.length; index++) {
-		const previousCommitIndex = getPreviousTagCommitIndex(index, allCommitIds[allCommitIds.length - 1], nextPageAllCommitIds);
+		const previousCommitIndex = getPreviousTagIndex(index, allCommitIds[allCommitIds.length - 1], nextPageAllCommitIds, allTags[allTags.length - 1], nextPageAllTags);
 
 		if (previousCommitIndex !== -1) {
 			allTagsAnchor[allTagsAnchor.length - 1].after(getCompareIcon(nextPageAllTags[previousCommitIndex], allTags[allTags.length - 1]));
@@ -57,19 +57,46 @@ const extractAnchorValues = (anchors: HTMLAnchorElement[], regexp: RegExp): stri
 	return anchors.map((anchor: HTMLAnchorElement): string => {
 		const [, value] = anchor.pathname.match(regexp)!;
 
-		return value;
+		return decodeURIComponent(value);
 	});
 }
 
-const getPreviousTagCommitIndex = (startIndex: number, commitId: string, allCommitIds: string[]) => {
+const getPreviousTagIndex = (
+	startIndex: number,
+	commitId: string,
+	allCommitIds: string[],
+	tag: string,
+	allTags: string[]
+) => {
+	let index = -1;
+
 	for (let i = startIndex; i < allCommitIds.length; i++) {
-		if (allCommitIds[i] !== commitId) {
+		if (allCommitIds[i] === commitId) {
+			continue;
+		}
+
+		if (isSameNameSpaceTag(allTags[i], tag)) {
 			return i;
 		}
+
+		index = i;
 	}
 
-	return -1;
-};
+	return index;
+}
+
+const isSameNameSpaceTag = (tag1: string, tag2: string) => {
+	if (tag1.indexOf('@') === -1 || tag2.indexOf('@') === -1) {
+		return false;
+	}
+
+	const namespaceRegex = /(.*)@[0-9.]*/;
+
+	const [, tagOneNameSpace = ''] = tag1.match(namespaceRegex)! || [];
+	const [, tagTwoNameSpace = ''] = tag2.match(namespaceRegex)! || [];
+
+	return tagOneNameSpace === tagTwoNameSpace;
+}
 
 // To select all links like "/facebook/react/commit/"
 const getCommitIdSelector = (): string => {
