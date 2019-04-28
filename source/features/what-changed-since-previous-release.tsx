@@ -108,7 +108,7 @@ const getCommitIdSelector = (): string => {
 	const commitAnchorSelector = `a[href^="/${ownerName}/${repoName}/commit/"]`;
 
 	if (isReleasesListPage()) {
-		return `.release-entry .release-main-section .commit > ul ${commitAnchorSelector}, .release-entry > .release > div:first-child > ul ${commitAnchorSelector}`;
+		return `.release-entry .release-main-section .commit > ul ${commitAnchorSelector}, .release > div:first-child > ul ${commitAnchorSelector}`;
 	}
 
 	if (isTagsListPage()) {
