@@ -1,6 +1,6 @@
 /* Remove upload message on comment box */
 .rgh-has-upload-field .is-default .drag-and-drop {
-	display: none;
+	display: none !important;
 }
 
 .rgh-has-upload-field .is-default textarea {
