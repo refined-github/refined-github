@@ -14,21 +14,19 @@ async function init(): Promise<void | false> {
 	// To extract the tag "v16.8.6" from links like "/facebook/react/releases/tag/v16.8.6"
 	const tagRegExp = new RegExp(`\/${ownerName}\/${repoName}\/releases\/tag\/(.*)`);
 
-	// To extract the commit hash from links ike "/facebook/react/commits/92a1d8feac32d03ab5ea6ac13ae4941f6ae93b54"
+	// To extract the commit hash from links like "/facebook/react/commit/92a1d8feac32d03ab5ea6ac13ae4941f6ae93b54"
 	const commitRegExp = new RegExp(`\/${ownerName}\/${repoName}\/commit\/([0-9a-f]{5,40})`);
 
-	const tagSelector = getTagSelector(ownerName, repoName);
-	const commitIdSelector = getCommitIdSelector(ownerName, repoName);
+	const allTagsAnchor = [...select.all<HTMLAnchorElement>(getTagSelector())];
+	const allTags = extractAnchorValues(allTagsAnchor, tagRegExp);
 
-	const allTagsAnchor = [...select.all<HTMLAnchorElement>(tagSelector)];
-	const allTags = extractTagNames(allTagsAnchor, tagRegExp);
-	const allCommitIds = extractCommitIds([...select.all<HTMLAnchorElement>(commitIdSelector)], commitRegExp);
+	const allCommitIds = extractAnchorValues([...select.all<HTMLAnchorElement>(getCommitIdSelector())], commitRegExp);
 
-	for (let i = 0; i < allTags.length - 1; i++) {
-		const previousCommitIndex = getPreviousTagCommitIndex(i, allCommitIds);
+	for (let index = 0; index < allTags.length - 1; index++) {
+		const previousCommitIndex = getPreviousTagCommitIndex(index + 1, allCommitIds[index], allCommitIds);
 
 		if (previousCommitIndex !== -1) {
-			appendCompareIcon(allTagsAnchor[i], allTags[previousCommitIndex], allTags[i]);
+			allTagsAnchor[index].after(getCompareIcon(allTags[previousCommitIndex], allTags[index]));
 		}
 	}
 
@@ -38,18 +36,34 @@ async function init(): Promise<void | false> {
 		return;
 	}
 
-	const firstTagAnchorOfNextPage = await fetchDom(nextPageLink.href, tagSelector) as HTMLAnchorElement;
+	const nextPage = await fetchDom(nextPageLink.href);
 
-	appendCompareIcon(
-		allTagsAnchor[allTagsAnchor.length - 1],
-		extractTagName(firstTagAnchorOfNextPage.pathname, tagRegExp),
-		allTags[allTags.length - 1]
-	);
+	const nextPageAllTagsAnchor = [...select.all<HTMLAnchorElement>(getTagSelector(), nextPage)];
+	const nextPageAllTags = extractAnchorValues(nextPageAllTagsAnchor, tagRegExp);
+
+	const nextPageAllCommitIds = extractAnchorValues([...select.all<HTMLAnchorElement>(getCommitIdSelector())], commitRegExp);
+
+	for (let index = 0; index < nextPageAllTags.length; index++) {
+		const previousCommitIndex = getPreviousTagCommitIndex(index, allCommitIds[allCommitIds.length - 1], nextPageAllCommitIds);
+
+		if (previousCommitIndex !== -1) {
+			allTagsAnchor[allTagsAnchor.length - 1].after(getCompareIcon(nextPageAllTags[previousCommitIndex], allTags[allTags.length - 1]));
+			break;
+		}
+	}
 }
 
-const getPreviousTagCommitIndex = (currentIndex: number, allCommitIds: string[]) => {
-	for (let i = currentIndex + 1; i < allCommitIds.length - 1; i++) {
-		if (allCommitIds[i] !== allCommitIds[currentIndex]) {
+const extractAnchorValues = (anchors: HTMLAnchorElement[], regexp: RegExp): string[] => {
+	return anchors.map((anchor: HTMLAnchorElement): string => {
+		const [, value] = anchor.pathname.match(regexp)!;
+
+		return value;
+	});
+}
+
+const getPreviousTagCommitIndex = (startIndex: number, commitId: string, allCommitIds: string[]) => {
+	for (let i = startIndex; i < allCommitIds.length; i++) {
+		if (allCommitIds[i] !== commitId) {
 			return i;
 		}
 	}
@@ -57,23 +71,10 @@ const getPreviousTagCommitIndex = (currentIndex: number, allCommitIds: string[])
 	return -1;
 };
 
-const extractCommitIds = (allCommitIdsAnchor: HTMLAnchorElement[], commitRegExp: RegExp): string[] => {
-	return allCommitIdsAnchor.map((commitIdAnchor: HTMLAnchorElement): string => {
-		const [, commitId] = commitIdAnchor.pathname.match(commitRegExp)!;
+// To select all links like "/facebook/react/commit/"
+const getCommitIdSelector = (): string => {
+	const {ownerName, repoName} = getOwnerAndRepo();
 
-		return commitId;
-	});
-}
-
-const extractTagNames = (allTagsAnchor: HTMLAnchorElement[], tagRegExp: RegExp): string[] => {
-	return allTagsAnchor.map((tagAnchor: HTMLAnchorElement): string => {
-		const [, tagName] = tagAnchor.pathname.match(tagRegExp)!;
-
-		return tagName;
-	});
-}
-
-const getCommitIdSelector = (ownerName: string, repoName: string): string => {
 	const commitAnchorSelector = `a[href^="/${ownerName}/${repoName}/commit/"]`;
 
 	if (isReleasesListPage()) {
@@ -88,7 +89,9 @@ const getCommitIdSelector = (ownerName: string, repoName: string): string => {
 }
 
 // To select all links like "/facebook/react/releases/tag"
-const getTagSelector = (ownerName: string, repoName: string): string => {
+const getTagSelector = (): string => {
+	const {ownerName, repoName} = getOwnerAndRepo();
+
 	const tagAnchorSelector = `a[href^="/${ownerName}/${repoName}/releases/tag"]`;
 
 	if (isReleasesListPage()) {
@@ -102,18 +105,14 @@ const getTagSelector = (ownerName: string, repoName: string): string => {
 	return tagAnchorSelector;
 }
 
-const isReleasesListPage = () => {
-	return /^(releases)/.test(getRepoPath()!);
-}
+const isReleasesListPage = () => /^(releases)/.test(getRepoPath()!);
 
-const isTagsListPage = () => {
-	return /^(tags)/.test(getRepoPath()!);
-}
+const isTagsListPage = () => /^(tags)/.test(getRepoPath()!);
 
-const appendCompareIcon = (anchor: HTMLAnchorElement, prevTag: string, nextTag: string): void => {
+const getCompareIcon = (prevTag: string, nextTag: string): HTMLSpanElement => {
 	const {ownerName, repoName} = getOwnerAndRepo();
 
-	anchor.after(
+	return (
 		<span className="ellipsis-expander rgh-what-changed">
 			<a href={`/${ownerName}/${repoName}/compare/${prevTag}...${nextTag}`}>
 				<span>…</span>
@@ -121,12 +120,6 @@ const appendCompareIcon = (anchor: HTMLAnchorElement, prevTag: string, nextTag: 
 		</span>
 	)
 }
-
-const extractTagName = (tagPathname: string, regex: RegExp): string => {
-	const [, tag] = tagPathname.match(regex)!;
-
-	return tag;
-};
 
 features.add({
 	id: 'what-changed-since-previous-release',
