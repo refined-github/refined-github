@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
-import {getOwnerAndRepo} from '../libs/utils';
+import {getOwnerAndRepo, getRepoPath} from '../libs/utils';
 
 async function init(): Promise<void | false> {
 	if (select.exists('.blankslate')) {
@@ -14,8 +14,7 @@ async function init(): Promise<void | false> {
 	// To extract the tag name from links like "/facebook/react/releases/tag/v16.8.6"
 	const tagAnchorRegExp = new RegExp(`\/${ownerName}\/${repoName}\/releases\/tag\/(.*)`);
 
-	// To select all links like "/facebook/react/releases/tag"
-	const tagSelector = `*:not(li) > a[href^="/${ownerName}/${repoName}/releases/tag"]`;
+	const tagSelector = getTagSelector(ownerName, repoName);
 
 	const allTagsAnchor = [...select.all<HTMLAnchorElement>(tagSelector)];
 	const lastTagAnchor = allTagsAnchor[allTagsAnchor.length - 1];
@@ -39,6 +38,29 @@ async function init(): Promise<void | false> {
 	diffAnchor.pathname = `/${ownerName}/${repoName}/compare/${extractTagName(firstTagAnchorOfNextPage.pathname, tagAnchorRegExp)}...${extractTagName(lastTagAnchor.pathname, tagAnchorRegExp)}`;
 
 	appendCompareIcon(lastTagAnchor, diffAnchor);
+}
+
+// To select all links like "/facebook/react/releases/tag"
+const getTagSelector = (ownerName: string, repoName: string): string => {
+	const tagAnchorSelector = `a[href^="/${ownerName}/${repoName}/releases/tag"]`;
+
+	if (isReleasesListPage()) {
+		return `.release-main-section h4.commit-title ${tagAnchorSelector}, .release-main-section .release-header ${tagAnchorSelector}`;
+	}
+
+	if (isTagsListPage()) {
+		return `h4.commit-title > ${tagAnchorSelector}`;
+	}
+
+	return tagAnchorSelector;
+}
+
+const isReleasesListPage = () => {
+	return /^(releases)/.test(getRepoPath()!);
+}
+
+const isTagsListPage = () => {
+	return /^(tags)/.test(getRepoPath()!);
 }
 
 const appendCompareIcon = (anchor: HTMLAnchorElement, compareAnchor: HTMLAnchorElement) => {
