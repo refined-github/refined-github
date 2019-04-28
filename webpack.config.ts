@@ -2,6 +2,7 @@ import path from 'path';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+// @ts-ignore
 import SizePlugin from 'size-plugin';
 import webpack from 'webpack';
 
