@@ -26,7 +26,7 @@ deploy:
     script: npm run create-git-tag
     on:
       branch: master
-      condition: ("$TRAVIS_EVENT_TYPE" = cron) && ($(git tag -l --points-at HEAD) = "")
+      condition: ($TRAVIS_EVENT_TYPE = cron) && ($(git tag -l --points-at HEAD) = "")
 
 # Setup Travis to be able to push git tags to GitHub
 after_success:
