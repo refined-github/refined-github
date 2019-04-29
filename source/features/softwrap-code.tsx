@@ -4,8 +4,6 @@ Soft-wrap code inside codeblocks
 import select from 'select-dom';
 import features from '../libs/features';
 
-const tabSize = 4;
-
 async function init(): Promise<void> {
 	// Classes:
 	// `.diff-table` - Split and unified diffs
@@ -22,21 +20,27 @@ async function init(): Promise<void> {
 
 		const lines = select.all('.blob-code-inner', table);
 		for (const line of lines) {
-			const leadingSpaceCharacters = line.innerHTML.match(/^\s+/);
+			if (!line.firstChild || !line.firstChild.textContent) {
+				continue;
+			}
+
+			const leadingSpaceCharacters = line.firstChild.textContent.match(/^\s+/);
 			if (leadingSpaceCharacters) {
 				let spaceCount = 0;
+				let tabCount = 0;
 				for (const char of leadingSpaceCharacters[0]) {
 					if (char === ' ') {
 						spaceCount += 1;
 					} else if (char === '\t') {
-						spaceCount += tabSize;
+						tabCount += 1;
 					}
 				}
 
 				// Move the whole line where it is supposed to be, then unindent the
 				// start of the line to compensate for indentation, preserving spaces
-				line.style.paddingLeft = `${spaceCount}ch`;
-				line.style.textIndent = `-${spaceCount}ch`;
+				// We get `--tab-size` from RGH or compatible extensions like GCTS
+				line.style.paddingLeft = `calc((var(--tab-size, 4) * ${tabCount}ch) + ${spaceCount}ch)`;
+				line.style.textIndent = `calc((var(--tab-size, 4) * -${tabCount}ch) - ${spaceCount}ch)`;
 			}
 		}
 	}
