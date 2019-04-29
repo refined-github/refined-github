@@ -1,3 +1,4 @@
+import './mark-unread.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate, {DelegateSubscription, DelegateEvent} from 'delegate-it';
@@ -8,9 +9,8 @@ import * as pageDetect from '../libs/page-detect';
 import {safeElementReady} from '../libs/dom-utils';
 import {getUsername, getOwnerAndRepo} from '../libs/utils';
 
-// TODO: Pull these types out.
 type NotificationType = 'pull-request' | 'issue';
-type NotificationState = 'open' | 'merged' | 'closed';
+type NotificationState = 'open' | 'merged' | 'closed' | 'draft';
 
 interface Participant {
 	username: string;
@@ -34,12 +34,14 @@ const stateIcons = {
 	issue: {
 		open: icons.openIssue,
 		closed: icons.closedIssue,
-		merged: icons.closedIssue // Required just for TypeScript
+		merged: icons.closedIssue, // Required just for TypeScript
+		draft: icons.closedIssue // Required just for TypeScript
 	},
 	'pull-request': {
 		open: icons.openPullRequest,
 		closed: icons.closedPullRequest,
-		merged: icons.mergedPullRequest
+		merged: icons.mergedPullRequest,
+		draft: icons.openPullRequest
 	}
 };
 
@@ -102,6 +104,8 @@ async function markUnread({currentTarget}: React.MouseEvent): Promise<void> {
 		state = 'merged';
 	} else if (stateLabel.classList.contains('State--red')) {
 		state = 'closed';
+	} else if (stateLabel.title.includes('Draft')) {
+		state = 'draft';
 	} else {
 		throw new Error('Refined GitHub: A new issue state was introduced?');
 	}
@@ -163,7 +167,8 @@ function getNotification(notification: Notification): Element {
 				<span className={`type-icon type-icon-state-${state}`}>
 					{stateIcons[type][state]()}
 				</span>
-				<a className="css-truncate-target js-notification-target js-navigation-open list-group-item-link" href={url}>
+				<a className="css-truncate-target js-notification-target js-navigation-open list-group-item-link" href={url}
+					data-hovercard-url={`${url}/hovercard?show_subscription_status=true`}>
 					{title}
 				</a>
 			</span>

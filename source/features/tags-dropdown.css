@@ -1,0 +1,17 @@
+/* Add spacing between buttons when user change edit the current tag */
+.float-right + .rgh-tags-dropdown {
+	margin-right: 10px;
+}
+
+/* Drop unneeded elements */
+:root .rgh-tags-dropdown .select-menu-tab,
+:root .rgh-tags-dropdown .select-menu-header {
+	display: none;
+}
+
+/* Make dropdown smaller, if possible */
+:root .rgh-tags-dropdown .select-menu-modal {
+	width: max-content;  /* Default: 300px */
+	min-width: 150px;
+	max-width: 300px;
+}

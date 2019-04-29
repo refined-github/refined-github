@@ -1,12 +1,13 @@
-/* eslint-disable @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports */
-'use strict';
-const path = require('path');
-const SizePlugin = require('size-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
+import path from 'path';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+// @ts-ignore
+import SizePlugin from 'size-plugin';
+import webpack from 'webpack';
 
-module.exports = (env, argv) => ({
-	devtool: 'sourcemap',
+module.exports = (_env: string, argv: Record<string, boolean | number | string>): webpack.Configuration => ({
+	devtool: 'source-map',
 	stats: 'errors-only',
 	entry: {
 		content: './source/content',
@@ -37,10 +38,20 @@ module.exports = (env, argv) => ({
 					}
 				],
 				exclude: /node_modules/
+			},
+			{
+				test: /\.css$/,
+				use: [
+					MiniCssExtractPlugin.loader,
+					'css-loader'
+				]
 			}
 		]
 	},
 	plugins: [
+		new MiniCssExtractPlugin({
+			filename: 'features.css'
+		}),
 		new SizePlugin(),
 		new CopyWebpackPlugin([
 			{

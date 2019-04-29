@@ -3,6 +3,7 @@ import React from 'dom-chef';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 import {getRepoURL} from '../libs/utils';
+import {appendBefore} from '../libs/dom-utils';
 
 function addInlineLinks(comment: HTMLElement, timestamp: string): void {
 	const links = select.all<HTMLAnchorElement>(`
@@ -31,28 +32,31 @@ function addInlineLinks(comment: HTMLElement, timestamp: string): void {
 }
 
 function addDropdownLink(comment: HTMLElement, timestamp: string): void {
-	const dropdownPosition = select('.show-more-popover .dropdown-divider', comment);
+	const dropdown = select('.show-more-popover', comment);
 
 	// Comment-less reviews don't have a dropdown
-	if (!dropdownPosition) {
+	if (!dropdown) {
 		return;
 	}
 
-	dropdownPosition.after(
-		<a
-			href={`/${getRepoURL()}/tree/HEAD@{${timestamp}}`}
-			className="dropdown-item btn-link"
-			role="menuitem"
-			title="Browse repository like it appeared on this day">
-			View repo at this time
-		</a>,
-		<div className="dropdown-divider" />
+	appendBefore(dropdown, '.dropdown-divider',
+		<>
+			<div className="dropdown-divider" />
+			<a
+				href={`/${getRepoURL()}/tree/HEAD@{${timestamp}}`}
+				className="dropdown-item btn-link"
+				role="menuitem"
+				title="Browse repository like it appeared on this day">
+				View repo at this time
+			</a>
+		</>
 	);
 }
 
 function init(): void {
+	// PR reviews' main content has nested `.timeline-comment`, but the deepest one doesn't have `relative-time`. These are filtered out with `:not([id^="pullrequestreview"])`
 	const comments = select.all(`
-		:not(.js-new-comment-form) > .timeline-comment:not(.rgh-time-machine-links),
+		:not(.js-new-comment-form):not([id^="pullrequestreview"]) > .timeline-comment:not(.rgh-time-machine-links),
 		.review-comment:not(.rgh-time-machine-links)
 	`);
 

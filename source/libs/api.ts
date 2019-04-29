@@ -45,7 +45,7 @@ export interface GHRestApiOptions {
 	accept404: boolean;
 }
 
-export const escapeKey = (value: string): string => '_' + value.replace(/[./-]/g, '_');
+export const escapeKey = (value: string): string => '_' + value.replace(/[ ./-]/g, '_');
 
 export class RefinedGitHubAPIError extends Error {
 	constructor(...messages: string[]) {

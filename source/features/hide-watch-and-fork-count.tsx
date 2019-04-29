@@ -1,3 +1,4 @@
+import './hide-watch-and-fork-count.css';
 import features from '../libs/features';
 
 function init(): void {

@@ -1,3 +1,4 @@
+import './split-issue-pr-search-results.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';

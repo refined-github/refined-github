@@ -2,6 +2,7 @@
 Edit files straight from a repo’s list by clicking their icon.
 */
 
+import './edit-files-faster.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
@@ -27,7 +28,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'edit-comments-faster',
+	id: 'edit-files-faster',
 	include: [
 		features.isRepoTree
 	],

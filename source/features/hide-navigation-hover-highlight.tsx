@@ -7,6 +7,7 @@ when just moving the mouse around.
 This feature will hide the highlight until the first keyboard
 navigation, then it will be displayed until the next full reload.
 */
+import './hide-navigation-hover-highlight.css';
 import features from '../libs/features';
 
 const className = 'rgh-no-navigation-highlight';

@@ -93,10 +93,26 @@ import './features/collapsible-content-button';
 import './features/hide-watch-and-fork-count';
 import './features/resolve-conflicts';
 import './features/follow-file-renames';
+import './features/raw-file-link';
 import './features/tags-dropdown';
 import './features/filter-pr-by-build-status';
 import './features/edit-files-faster';
 import './features/softwrap-code';
+
+import './features/scrollable-code-and-blockquote.css';
+import './features/center-reactions-popup.css';
+import './features/widen-search-field.css';
+import './features/clean-dashboard.css';
+import './features/safer-destructive-actions.css';
+import './features/delete-fork-button.css';
+import './features/clean-mergeability-box.css';
+import './features/clean-footer.css';
+import './features/pr-approvals-count.css';
+import './features/align-issue-labels.css';
+import './features/hide-tips.css';
+import './features/hide-readme-header.css';
+import './features/hide-obvious-tooltips.css';
+import './features/clean-discussions.css';
 
 // Add global for easier debugging
 (window as any).select = select;

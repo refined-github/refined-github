@@ -4,15 +4,48 @@ node_js:
 env:
   - EXTENSION_ID=hlepfoohegkhhmjieoechaddaejaokhf
 deploy:
-  - provider: script
+  - # Publishes tagged version. Expects tag to be valid version
+    provider: script
     skip_cleanup: true
     script: npm run release
     on:
       tags: true
-  - provider: script
+      condition: $TRAVIS_TAG != hotfix
+
+  - # Creates versioned git tag when tag is `hotfix`
+    provider: script
     skip_cleanup: true
-    script: npm run release
+    script: npm run create-git-tag
     on:
-      # Set to deploy on: cron with recent commits
+      tags: true
+      condition: $TRAVIS_TAG = hotfix
+
+  - # Creates versioned git tag on daily Travis cronjobs if it has recent commits
+    provider: script
+    skip_cleanup: true
+    script: npm run create-git-tag
+    on:
       branch: master
       condition: $(npm run can-release --silent)
+
+# Setup Travis to be able to push git tags to GitHub
+after_success:
+  - |
+    declare -r SSH_FILE="$(mktemp -u $HOME/.ssh/XXXXX)"
+
+    # Decrypt the file containing the private key
+    openssl aes-256-cbc \
+      -K $encrypted_132e22846a88_key \
+      -iv $encrypted_132e22846a88_iv \
+         -in ".travis/github_deploy_key.enc" \
+      -out "$SSH_FILE" -d
+
+    # Enable SSH authentication
+    chmod 600 "$SSH_FILE" \
+      && printf "%s\n" \
+          "Host github.com" \
+          "  IdentityFile $SSH_FILE" \
+          "  LogLevel ERROR" >> ~/.ssh/config
+
+    # Set SSH remote
+    git remote set-url origin git@github.com:sindresorhus/refined-github.git
