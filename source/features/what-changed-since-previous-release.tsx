@@ -89,23 +89,21 @@ const getPreviousTagIndex = (
 };
 
 const isOfSameHierarchy = (tag1: string, tag2: string): boolean => {
-	const isTag1Hierarchical = tag1.includes('/');
-	const isTag2Hierarchical = tag2.includes('/');
+	const hierarchyRegex = /.*(\/)/;
 
-	if (isTag1Hierarchical && !isTag2Hierarchical) {
+	const [tagOneHierarchy = ''] = tag1.match(hierarchyRegex) || [];
+	const [tagTwoHierarchy = ''] = tag2.match(hierarchyRegex) || [];
+
+	if ((!tagOneHierarchy && tagTwoHierarchy) || (tagOneHierarchy && !tagTwoHierarchy)) {
 		return false;
 	}
 
-	if (!isTag1Hierarchical && isTag2Hierarchical) {
-		return false;
-	}
-
-	if (!isTag1Hierarchical && !isTag2Hierarchical) {
+	if (!tagOneHierarchy && !tagTwoHierarchy) {
 		return true;
 	}
 
-	return tag1.substring(0, tag1.lastIndexOf("/") + 1) === tag2.substring(0, tag2.lastIndexOf("/") + 1);
-}
+	return tagOneHierarchy === tagTwoHierarchy;
+};
 
 const isSameTagNameSpace = (tag1: string, tag2: string): boolean => {
 	const namespaceRegex = /(.*)@(.)*/;
@@ -114,7 +112,7 @@ const isSameTagNameSpace = (tag1: string, tag2: string): boolean => {
 	const [, tagTwoNameSpace = ''] = tag2.match(namespaceRegex) || [];
 
 	return tagOneNameSpace === tagTwoNameSpace;
-}
+};
 
 // To select all links like "/facebook/react/commit/"
 const getCommitIdSelector = (): string => {
