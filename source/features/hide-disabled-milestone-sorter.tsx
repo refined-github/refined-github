@@ -4,7 +4,7 @@ import observeEl from '../libs/simplified-element-observer';
 
 function hide(): void {
 	for (const icon of select.all('[aria-label="You do not have permission to edit this milestone."]')) {
-		icon.parentElement.remove();
+		icon.parentElement!.remove();
 	}
 }
 
