@@ -99,6 +99,8 @@ export const isReleasesListPage = (): boolean => /^(releases)/.test(getRepoPath(
 
 export const isTagsListPage = (): boolean => /^(tags)/.test(getRepoPath()!);
 
+export const isSingleTagPage = (): boolean => /^(releases\/tag)/.test(getRepoPath()!);
+
 export const hasComments = (): boolean =>
 	isPR() ||
 	isIssue() ||

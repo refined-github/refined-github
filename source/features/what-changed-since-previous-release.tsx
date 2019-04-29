@@ -3,7 +3,7 @@ import select from 'select-dom';
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
 import {getOwnerAndRepo} from '../libs/utils';
-import {isTagsListPage, isReleasesListPage} from '../libs/page-detect';
+import {isTagsListPage, isReleasesListPage, isSingleTagPage} from '../libs/page-detect';
 
 async function init(): Promise<void | false> {
 	if (select.exists('.blankslate')) {
@@ -20,7 +20,6 @@ async function init(): Promise<void | false> {
 
 	const allTagsAnchor = [...select.all<HTMLAnchorElement>(getTagSelector())];
 	const allTags = extractValuesFromPathname(allTagsAnchor, tagRegExp);
-
 	const allCommitIds = extractValuesFromPathname([...select.all<HTMLAnchorElement>(getCommitIdSelector())], commitRegExp);
 
 	for (let index = 0; index < allTags.length - 1; index++) {
@@ -31,13 +30,19 @@ async function init(): Promise<void | false> {
 		}
 	}
 
-	const nextPageLink = select<HTMLAnchorElement>('.pagination a:last-child');
+	let nextPage;
 
-	if (!nextPageLink) {
-		return;
+	if (isSingleTagPage()) {
+		nextPage = await fetchDom(`/${ownerName}/${repoName}/releases?after=${allTags[0]}`);
+	} else {
+		const nextPageLink = select<HTMLAnchorElement>('.pagination a:last-child');
+
+		if (!nextPageLink) {
+			return;
+		}
+
+		nextPage = await fetchDom(nextPageLink.href);
 	}
-
-	const nextPage = await fetchDom(nextPageLink.href);
 
 	const nextPageAllTagsAnchor = [...select.all<HTMLAnchorElement>(getTagSelector(), nextPage)];
 	const nextPageAllTags = extractValuesFromPathname(nextPageAllTagsAnchor, tagRegExp);
