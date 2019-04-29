@@ -1,6 +1,7 @@
 /*
 Soft-wrap code inside codeblocks
 */
+import './softwrap-code.css';
 import select from 'select-dom';
 import features from '../libs/features';
 
