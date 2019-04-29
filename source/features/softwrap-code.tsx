@@ -16,10 +16,6 @@ async function init(): Promise<void> {
 		table.classList.add('rgh-softwrapped-code');
 
 		for (const line of select.all('.blob-code-inner', table)) {
-			if (!line.firstChild || !line.firstChild.textContent) {
-				continue;
-			}
-
 			const leadingSpaceCharacters = line.firstChild!.textContent!.match(/^\s+/);
 			if (!leadingSpaceCharacters) {
 				continue;
