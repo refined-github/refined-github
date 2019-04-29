@@ -76,7 +76,7 @@ const getPreviousTagIndex = (
 			continue;
 		}
 
-		if (isSameNameSpaceTag(allTags[i], tag)) {
+		if (isOfSameHierarchy(allTags[i], tag) && isSameTagNameSpace(allTags[i], tag)) {
 			return i;
 		}
 
@@ -88,18 +88,33 @@ const getPreviousTagIndex = (
 	return index;
 };
 
-const isSameNameSpaceTag = (tag1: string, tag2: string): boolean => {
-	if (!tag1.includes('@') || !tag2.includes('@')) {
+const isOfSameHierarchy = (tag1: string, tag2: string): boolean => {
+	const isTag1Hierarchical = tag1.includes('/');
+	const isTag2Hierarchical = tag2.includes('/');
+
+	if (isTag1Hierarchical && !isTag2Hierarchical) {
 		return false;
 	}
 
-	const namespaceRegex = /(.*)@[0-9.]*/;
+	if (!isTag1Hierarchical && isTag2Hierarchical) {
+		return false;
+	}
 
-	const [, tagOneNameSpace = ''] = tag1.match(namespaceRegex)! || [];
-	const [, tagTwoNameSpace = ''] = tag2.match(namespaceRegex)! || [];
+	if (!isTag1Hierarchical && !isTag2Hierarchical) {
+		return true;
+	}
+
+	return tag1.substring(0, tag1.lastIndexOf("/") + 1) === tag2.substring(0, tag2.lastIndexOf("/") + 1);
+}
+
+const isSameTagNameSpace = (tag1: string, tag2: string): boolean => {
+	const namespaceRegex = /(.*)@(.)*/;
+
+	const [, tagOneNameSpace = ''] = tag1.match(namespaceRegex) || [];
+	const [, tagTwoNameSpace = ''] = tag2.match(namespaceRegex) || [];
 
 	return tagOneNameSpace === tagTwoNameSpace;
-};
+}
 
 // To select all links like "/facebook/react/commit/"
 const getCommitIdSelector = (): string => {
@@ -139,7 +154,7 @@ const getCompareIcon = (prevTag: string, nextTag: string): HTMLElement => {
 	const {ownerName, repoName} = getOwnerAndRepo();
 
 	return (
-		<a href={`/${ownerName}/${repoName}/compare/${prevTag}...${nextTag}`} className="rgh-what-changed">
+		<a className="rgh-what-changed" href={`/${ownerName}/${repoName}/compare/${prevTag}...${nextTag}`}>
 			<span className="ellipsis-expander">
 				<span>…</span>
 			</span>
