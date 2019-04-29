@@ -77,7 +77,9 @@ export const isRepo = (): boolean => /^[^/]+\/[^/]+/.test(getCleanPathname()) &&
 	!isGist() &&
 	!isRepoSearch();
 
-export const isRepoDiscussionList = (): boolean => /^(issues$|pulls$|labels\/)/.test(getRepoPath()!);
+export const isRepoDiscussionList = (): boolean =>
+	/^(issues|pulls)($|\/$|\/(?!\d+))/.test(getRepoPath()!) || // `issues/bfred-it` is a list but `issues/1` isn't
+	/^labels\/.+/.test(getRepoPath()!);
 
 export const isRepoRoot = (): boolean => /^(tree[/][^/]+)?$/.test(getRepoPath()!);
 
