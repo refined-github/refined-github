@@ -98,6 +98,7 @@ import './features/tags-dropdown';
 import './features/filter-pr-by-build-status';
 import './features/edit-files-faster';
 import './features/softwrap-code';
+import './features/hide-disabled-milestone-sorter';
 
 import './features/scrollable-code-and-blockquote.css';
 import './features/center-reactions-popup.css';
