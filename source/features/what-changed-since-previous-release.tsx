@@ -26,7 +26,7 @@ async function init(): Promise<void | false> {
 		const previousCommitIndex = getPreviousTagIndex(index + 1, allCommitIds[index], allCommitIds, allTags[index], allTags);
 
 		if (previousCommitIndex !== -1) {
-			allTagsAnchor[index].after(getCompareIcon(allTags[previousCommitIndex], allTags[index]));
+			allTagsAnchor[index].after(getTagComparisonLink(allTags[previousCommitIndex], allTags[index]));
 		}
 	}
 
@@ -50,10 +50,10 @@ async function init(): Promise<void | false> {
 	const nextPageAllCommitIds = extractValuesFromPathname([...select.all<HTMLAnchorElement>(getCommitIdSelector(), nextPage)], commitRegExp);
 
 	for (let index = 0; index < nextPageAllTags.length; index++) {
-		const previousCommitIndex = getPreviousTagIndex(index, allCommitIds[allCommitIds.length - 1], nextPageAllCommitIds, allTags[allTags.length - 1], nextPageAllTags);
+		const previousTagIndex = getPreviousTagIndex(index, allCommitIds[allCommitIds.length - 1], nextPageAllCommitIds, allTags[allTags.length - 1], nextPageAllTags);
 
-		if (previousCommitIndex !== -1) {
-			allTagsAnchor[allTagsAnchor.length - 1].after(getCompareIcon(nextPageAllTags[previousCommitIndex], allTags[allTags.length - 1]));
+		if (previousTagIndex !== -1) {
+			allTagsAnchor[allTagsAnchor.length - 1].after(getTagComparisonLink(nextPageAllTags[previousTagIndex], allTags[allTags.length - 1]));
 			break;
 		}
 	}
@@ -153,7 +153,7 @@ const getTagSelector = (): string => {
 	return tagAnchorSelector;
 };
 
-const getCompareIcon = (prevTag: string, nextTag: string): HTMLElement => {
+const getTagComparisonLink = (prevTag: string, nextTag: string): HTMLElement => {
 	const {ownerName, repoName} = getOwnerAndRepo();
 
 	return (
