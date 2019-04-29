@@ -117,39 +117,3 @@ markdown-toolbar > :nth-last-child(4) { /* H1, B, I */
 .dropdown-menu-sw {
 	transform-origin: 90% top;
 }
-
-/* Truncate hidden comment preview text with ellipsis */
-.rgh-preview-hidden-comments .discussion-item-copy,
-.rgh-preview-hidden-comments .timeline-comment-header-text {
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-}
-
-/* Fix wrapping text on tabs when profile-gists-link feature is enabled #1757 */
-.UnderlineNav-item:nth-last-child(n+7),
-.UnderlineNav-item:nth-last-child(n+7) ~ * {
-	margin-right: 6px;
-}
-
-/* Drop counters for Watch and Forks */
-.rgh-hide-watch-and-fork-count .btn-with-count[title^='Fork your own'],
-.rgh-hide-watch-and-fork-count [action='/notifications/subscribe'] .btn-with-count {
-	border-radius: 0.25em; /* Matches GitHub's default */
-}
-.rgh-hide-watch-and-fork-count .social-count[href$='/network/members'],
-.rgh-hide-watch-and-fork-count .social-count[href$='/watchers'] {
-	display: none;
-}
-
-/* For `edit-file-faster`: only shows one icon at a time, depending on hover status */
-.rgh-edit-files-faster:not(:hover) .octicon-pencil,
-.rgh-edit-files-faster:hover .octicon-file {
-	display: none;
-}
-
-/* For `edit-file-faster`: widen column to avoid bumps in directory-less listings */
-.rgh-edit-files-faster {
-	width: 16px;
-	display: inline-block;
-}
