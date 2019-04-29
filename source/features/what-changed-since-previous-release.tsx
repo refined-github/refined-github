@@ -19,9 +19,9 @@ async function init(): Promise<void | false> {
 	const commitRegExp = new RegExp(`/${ownerName}/${repoName}/commit/([0-9a-f]{5,40})`);
 
 	const allTagsAnchor = [...select.all<HTMLAnchorElement>(getTagSelector())];
-	const allTags = extractAnchorValues(allTagsAnchor, tagRegExp);
+	const allTags = extractValuesFromPathname(allTagsAnchor, tagRegExp);
 
-	const allCommitIds = extractAnchorValues([...select.all<HTMLAnchorElement>(getCommitIdSelector())], commitRegExp);
+	const allCommitIds = extractValuesFromPathname([...select.all<HTMLAnchorElement>(getCommitIdSelector())], commitRegExp);
 
 	for (let index = 0; index < allTags.length - 1; index++) {
 		const previousCommitIndex = getPreviousTagIndex(index + 1, allCommitIds[index], allCommitIds, allTags[index], allTags);
@@ -40,9 +40,9 @@ async function init(): Promise<void | false> {
 	const nextPage = await fetchDom(nextPageLink.href);
 
 	const nextPageAllTagsAnchor = [...select.all<HTMLAnchorElement>(getTagSelector(), nextPage)];
-	const nextPageAllTags = extractAnchorValues(nextPageAllTagsAnchor, tagRegExp);
+	const nextPageAllTags = extractValuesFromPathname(nextPageAllTagsAnchor, tagRegExp);
 
-	const nextPageAllCommitIds = extractAnchorValues([...select.all<HTMLAnchorElement>(getCommitIdSelector(), nextPage)], commitRegExp);
+	const nextPageAllCommitIds = extractValuesFromPathname([...select.all<HTMLAnchorElement>(getCommitIdSelector(), nextPage)], commitRegExp);
 
 	for (let index = 0; index < nextPageAllTags.length; index++) {
 		const previousCommitIndex = getPreviousTagIndex(index, allCommitIds[allCommitIds.length - 1], nextPageAllCommitIds, allTags[allTags.length - 1], nextPageAllTags);
@@ -54,7 +54,7 @@ async function init(): Promise<void | false> {
 	}
 }
 
-const extractAnchorValues = (anchors: HTMLAnchorElement[], regexp: RegExp): string[] => {
+const extractValuesFromPathname = (anchors: HTMLAnchorElement[], regexp: RegExp): string[] => {
 	return anchors.map((anchor: HTMLAnchorElement): string => {
 		const [, value] = anchor.pathname.match(regexp)!;
 
