@@ -49,9 +49,6 @@ async function init(): Promise<void> {
 
 features.add({
 	id: 'softwrap-code',
-	// include: [
-	// 	features.isPRConversation
-	// ],
-	load: features.onNewComments,
+	load: features.onAjaxedPages,
 	init
 });

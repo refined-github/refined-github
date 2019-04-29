@@ -2,10 +2,10 @@
 .rgh-softwrapped-code {
 	table-layout: fixed;
 }
-.rgh-softwrapped-code .blob-num {
+.rgh-softwrapped-code tr:not(.js-expandable-line) .blob-num {
 	width: 50px;
 }
-.rgh-softwrapped-code .blob-code-inner {
+.rgh-softwrapped-code tr:not(.js-expandable-line) .blob-code-inner {
 	display: block;
 	white-space: pre-wrap;
 }
