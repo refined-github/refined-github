@@ -156,7 +156,8 @@ GitHub Enterprise is also supported. More info in the options.
 - [Tall code blocks and quotes are limited in height.](https://github.com/sindresorhus/refined-github/issues/1123)
 - [Forks and watchers counters are hidden.](https://user-images.githubusercontent.com/1402241/53681077-f3328b80-3d1e-11e9-9e29-2cb017141769.png)
 - [Diff signs are hidden.](https://user-images.githubusercontent.com/1402241/54807718-149cec80-4cb9-11e9-869c-e265863211e3.png)
-- [Hide milestone drag button when no permission.](https://github.com/sindresorhus/refined-github/issues/1918)
+- [Hide disabled milestone sorter.](https://user-images.githubusercontent.com/7753001/56909673-43d62300-6adb-11e9-89d7-cb5452d4562e.PNG)
+
 
 ### UI improvements
 
