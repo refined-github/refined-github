@@ -3,7 +3,13 @@
 	display: none !important;
 }
 
+.commit > ul > li.rgh-what-changed {
+	display: inline-block;
+	margin-top: 4px;
+	margin-right: 8px;
+}
+
 .rgh-what-changed {
-	margin-left: 5px;
 	cursor: pointer;
+	font-size: 12px;
 }
