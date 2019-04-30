@@ -57,7 +57,7 @@ const getNextPageForSinglePageTag = async (tag: string): Promise<void | Document
 	const {ownerName, repoName} = getOwnerAndRepo();
 
 	return fetchDom(`/${ownerName}/${repoName}/releases?after=${tag}`);
-}
+};
 
 const getPreviousTagIndex = (startIndex: number, commitId: string, allCommitIds: string[], tag: string, allTags: string[]): number => {
 	let index = -1;
