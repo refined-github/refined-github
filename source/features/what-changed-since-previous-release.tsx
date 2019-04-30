@@ -27,26 +27,18 @@ async function init(): Promise<void | false> {
 	const nextPageLink = select<HTMLAnchorElement>('.pagination a:last-child');
 	const nextPage = nextPageLink ? await fetchDom(nextPageLink.href) : await getNextPageForSinglePageTag(allTags[0]);
 
-	allTags.push(...extractValuesFromPathname(select.all<HTMLAnchorElement>(tagSelector, nextPage || document), tagRegExp));
-	allCommitIds.push(...extractValuesFromPathname(select.all<HTMLAnchorElement>(commitIdSelector, nextPage || document), commitRegExp));
+	if (nextPage) {
+		allTags.push(...extractValuesFromPathname(select.all<HTMLAnchorElement>(tagSelector, nextPage), tagRegExp));
+		allCommitIds.push(...extractValuesFromPathname(select.all<HTMLAnchorElement>(commitIdSelector, nextPage), commitRegExp));
+	}
 
 	for (let index = 0; index < allCommitIdsAnchor.length; index++) {
-		const previousCommitIndex = getPreviousTagIndex(index + 1, allCommitIds[index], allCommitIds, allTags[index], allTags);
+		const previousTagIndex = getPreviousTagIndex(index + 1, allCommitIds[index], allCommitIds, allTags[index], allTags);
 
-		if (previousCommitIndex !== -1) {
-			allCommitIdsAnchor[index].parentElement!.parentElement!.append(getTagComparisonLink(allTags[previousCommitIndex], allTags[index]));
+		if (previousTagIndex !== -1) {
+			allCommitIdsAnchor[index].parentElement!.parentElement!.append(getTagComparisonLink(allTags[previousTagIndex], allTags[index]));
 		}
 	}
-}
-
-const getNextPageForSinglePageTag = async (singleTag: string): Promise<void | DocumentFragment> => {
-	if (!isSingleTagPage()) {
-		return;
-	}
-
-	const {ownerName, repoName} = getOwnerAndRepo();
-
-	return fetchDom(`/${ownerName}/${repoName}/releases?after=${singleTag}`);
 }
 
 const extractValuesFromPathname = (anchors: HTMLAnchorElement[], regexp: RegExp): string[] => {
@@ -57,13 +49,17 @@ const extractValuesFromPathname = (anchors: HTMLAnchorElement[], regexp: RegExp)
 	});
 };
 
-const getPreviousTagIndex = (
-	startIndex: number,
-	commitId: string,
-	allCommitIds: string[],
-	tag: string,
-	allTags: string[]
-): number => {
+const getNextPageForSinglePageTag = async (tag: string): Promise<void | DocumentFragment> => {
+	if (!isSingleTagPage()) {
+		return;
+	}
+
+	const {ownerName, repoName} = getOwnerAndRepo();
+
+	return fetchDom(`/${ownerName}/${repoName}/releases?after=${tag}`);
+}
+
+const getPreviousTagIndex = (startIndex: number, commitId: string, allCommitIds: string[], tag: string, allTags: string[]): number => {
 	let index = -1;
 
 	for (let i = startIndex; i < allCommitIds.length; i++) {
@@ -115,7 +111,7 @@ const getTagComparisonLink = (prevTag: string, nextTag: string): HTMLElement => 
 	return (
 		<li className="rgh-what-changed">
 			<a className="muted-link text-mono" href={`/${ownerName}/${repoName}/compare/${prevTag}...${nextTag}`}>
-				<div className="mr-1 d-inline-block">{diff()}</div>compare
+				<div className="d-inline-block mr-1">{diff()}</div>compare
 			</a>
 		</li>
 	);
