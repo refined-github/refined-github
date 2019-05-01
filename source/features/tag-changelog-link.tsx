@@ -19,25 +19,19 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	// To extract the tag "v16.8.6" from links like "/facebook/react/releases/tag/v16.8.6"
-	const tagRegExp = /releases\/tag\/(.*)$/;
-
-	// To extract the commit hash from links like "/facebook/react/commit/92a1d8feac32d03ab5ea6ac13ae4941f6ae93b54"
-	const commitRegExp = /commit\/([0-9a-f]{40})$/;
-
 	const tagSelector = 'h4.commit-title a[href*="/releases/tag"], .commit .release-header a[href*="/releases/tag"]';
 	const commitIdSelector = '.commit > ul a[href*="/commit/"], .release > div:first-child > ul a[href*="/commit/"]';
 
-	const allTags = extractValuesFromPathname(select.all<HTMLAnchorElement>(tagSelector), tagRegExp);
+	const allTags = extractTextFromAnchors(select.all<HTMLAnchorElement>(tagSelector));
 	const allCommitIdsAnchor = select.all<HTMLAnchorElement>(commitIdSelector);
-	const allCommitIds = extractValuesFromPathname(allCommitIdsAnchor, commitRegExp);
+	const allCommitIds = extractTextFromAnchors(allCommitIdsAnchor);
 
 	const nextPageLink = select<HTMLAnchorElement>('.pagination a:last-child');
 	const nextPage = nextPageLink ? await fetchDom(nextPageLink.href) : await getNextPageForSinglePageTag(allTags[0]);
 
 	if (nextPage) {
-		allTags.push(...extractValuesFromPathname(select.all<HTMLAnchorElement>(tagSelector, nextPage), tagRegExp));
-		allCommitIds.push(...extractValuesFromPathname(select.all<HTMLAnchorElement>(commitIdSelector, nextPage), commitRegExp));
+		allTags.push(...extractTextFromAnchors(select.all<HTMLAnchorElement>(tagSelector, nextPage)));
+		allCommitIds.push(...extractTextFromAnchors(select.all<HTMLAnchorElement>(commitIdSelector, nextPage)));
 	}
 
 	const {ownerName, repoName} = getOwnerAndRepo();
@@ -61,13 +55,8 @@ async function init(): Promise<void | false> {
 	}
 }
 
-const extractValuesFromPathname = (anchors: HTMLAnchorElement[], regexp: RegExp): string[] => {
-	return anchors.map((anchor: HTMLAnchorElement): string => {
-		const [, value] = anchor.pathname.match(regexp)!;
-
-		return decodeURIComponent(value);
-	});
-};
+const extractTextFromAnchors = (anchors: HTMLAnchorElement[]): string[] =>
+	anchors.map((anchor: HTMLAnchorElement): string => anchor.textContent!.trim());
 
 const getNextPageForSinglePageTag = async (tag: string): Promise<void | DocumentFragment> => {
 	if (!isSingleTagPage()) {
