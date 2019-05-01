@@ -65,7 +65,7 @@ const getNextPageForSinglePageTag = async (tag: string): Promise<void | Document
 
 	const {ownerName, repoName} = getOwnerAndRepo();
 
-	// Firefox requires `location.origin` for fetch, without that relative URLs will fail on Firefox.
+	// Firefox requires location.origin for fetch without that relative URLs will fail on Firefox.
 	// See: https://github.com/sindresorhus/refined-github/pull/1998#issuecomment-488231253
 	return fetchDom(`${location.origin}/${ownerName}/${repoName}/releases?after=${tag}`);
 };
