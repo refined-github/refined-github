@@ -79,12 +79,7 @@ const getPreviousTagIndex = (index: number, allCommitIds: string[], allTags: str
 	return prevTagIndex;
 };
 
-const doesNamespaceMatch = (tag1: string, tag2: string) => {
-	const [namespace1] = tag1.split(/@[^@]+$|^/);
-	const [namespace2] = tag2.split(/@[^@]+$|^/);
-
-	return namespace1 === namespace2;
-}
+const doesNamespaceMatch = (tag1: string, tag2: string): boolean => tag1.split(/@[^@]+$/)[0] === tag2.split(/@[^@]+$/)[0];
 
 const getTagComparisonLink = (prevTag: string, nextTag: string): HTMLElement => {
 	const {ownerName, repoName} = getOwnerAndRepo();
