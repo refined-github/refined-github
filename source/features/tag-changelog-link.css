@@ -1,0 +1,14 @@
+.commit > ul > li.rgh-tag-changelog-link {
+	display: inline-block;
+	margin-top: 4px;
+	margin-right: 8px;
+}
+
+.release > div:first-child > ul > li.rgh-tag-changelog-link {
+	margin-bottom: 4px;
+}
+
+.rgh-tag-changelog-link {
+	cursor: pointer;
+	font-size: 12px;
+}

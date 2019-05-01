@@ -5,7 +5,7 @@ get the previous release of the same namespaced tag.
 
 See it in action at: https://github.com/parcel-bundler/parcel/releases
 */
-import './what-changed-since-previous-release.css';
+import './tag-changelog-link.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
@@ -93,16 +93,16 @@ const getTagComparisonLink = (prevTag: string, nextTag: string): HTMLElement => 
 	const {ownerName, repoName} = getOwnerAndRepo();
 
 	return (
-		<li className="rgh-what-changed">
+		<li className="rgh-tag-changelog-link">
 			<a className="muted-link text-mono" href={`/${ownerName}/${repoName}/compare/${prevTag}...${nextTag}`}>
-				<div className="d-inline-block mr-1">{diff()}</div>compare
+				{diff()} Changelog
 			</a>
 		</li>
 	);
 };
 
 features.add({
-	id: 'what-changed-since-previous-release',
+	id: 'tag-changelog-link',
 	include: [
 		features.isReleasesOrTags
 	],
