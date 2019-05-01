@@ -34,7 +34,7 @@ async function getWidget(): Promise<HTMLElement | false> {
 	// We need to verify that the repo has any recently pushed branches or else it will break the page
 	// https://github.com/sindresorhus/refined-github/issues/1964
 	const repoRootUrl = location.pathname.split('/', 3).join('/');
-	const response = await fetch(location.origin + repoRootUrl);
+	const response = await fetch(repoRootUrl);
 	const html = await response.text();
 
 	if (html.includes(fragmentURL)) {

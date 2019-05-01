@@ -5,7 +5,7 @@ import {getCleanPathname} from '../libs/utils';
 import features from '../libs/features';
 
 const fetchStargazers = async (): Promise<HTMLImageElement[]> => {
-	const url = `${location.origin}/${getCleanPathname()}/followers/you_know`;
+	const url = `/${getCleanPathname()}/followers/you_know`;
 	const response = await fetch(url);
 	const dom = domify(await response.text());
 	return select.all<HTMLImageElement>('.follow-list-item .avatar', dom);

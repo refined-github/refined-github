@@ -7,7 +7,7 @@ import {appendBefore} from '../libs/dom-utils';
 import {getRepoURL, getRepoBranch} from '../libs/utils';
 
 const fetchStatus = onetime(async () => {
-	const url = `${location.origin}/${getRepoURL()}/commits/${getRepoBranch() || ''}`;
+	const url = `/${getRepoURL()}/commits/${getRepoBranch() || ''}`;
 	const response = await fetch(url);
 	const dom = domify(await response.text());
 
