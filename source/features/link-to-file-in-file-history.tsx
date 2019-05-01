@@ -23,6 +23,7 @@ function init(): void {
 		);
 
 		select('.commit-links-group + a.btn', commitLinkCell)!.before(fileAnchor);
+		commitLinkCell.classList.add('width-md-auto', 'width-sm-auto');
 		groupButtons([fileAnchor, fileAnchor.nextElementSibling!]);
 	}
 }
