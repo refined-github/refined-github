@@ -114,7 +114,6 @@ import './features/hide-tips.css';
 import './features/hide-readme-header.css';
 import './features/hide-obvious-tooltips.css';
 import './features/clean-discussions.css';
-import './features/what-changed-since-previous-release.css';
 
 // Add global for easier debugging
 (window as any).select = select;

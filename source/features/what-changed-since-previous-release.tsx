@@ -1,3 +1,4 @@
+import './what-changed-since-previous-release.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
