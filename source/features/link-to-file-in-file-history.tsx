@@ -1,3 +1,10 @@
+/**
+This feature adds direct link to file/directory when viewing the history.
+GitHub provides a link but it points to the root of the repo which is not that helpful.
+
+See it in action at https://github.com/sindresorhus/refined-github/commits/master/readme.md
+*/
+
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
