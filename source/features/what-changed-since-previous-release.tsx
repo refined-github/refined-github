@@ -33,10 +33,10 @@ async function init(): Promise<void | false> {
 	}
 
 	for (let index = 0; index < allCommitIdsAnchor.length; index++) {
-		const previousTagIndex = getPreviousTagIndex(index + 1, allCommitIds[index], allCommitIds, allTags[index], allTags);
+		const previousTagIndex = getPreviousTagIndex(index, allCommitIds, allTags);
 
 		if (previousTagIndex !== -1) {
-			allCommitIdsAnchor[index].parentElement!.parentElement!.append(getTagComparisonLink(allTags[previousTagIndex], allTags[index]));
+			allCommitIdsAnchor[index].closest('ul')!.append(getTagComparisonLink(allTags[previousTagIndex], allTags[index]));
 		}
 	}
 }
@@ -59,51 +59,32 @@ const getNextPageForSinglePageTag = async (tag: string): Promise<void | Document
 	return fetchDom(`/${ownerName}/${repoName}/releases?after=${tag}`);
 };
 
-const getPreviousTagIndex = (startIndex: number, commitId: string, allCommitIds: string[], tag: string, allTags: string[]): number => {
-	let index = -1;
+const getPreviousTagIndex = (index: number, allCommitIds: string[], allTags: string[]): number => {
+	let prevTagIndex = -1;
 
-	for (let i = startIndex; i < allCommitIds.length; i++) {
-		if (allCommitIds[i] === commitId) {
+	for (let i = index + 1; i < allCommitIds.length; i++) {
+		if (allCommitIds[i] === allCommitIds[index]) {
 			continue;
 		}
 
-		if (isOfSameHierarchy(allTags[i], tag) && isSameTagNameSpace(allTags[i], tag)) {
+		if (doesNamespaceMatch(allTags[i], allTags[index])) {
 			return i;
 		}
 
-		if (index === -1) {
-			index = i;
+		if (prevTagIndex === -1) {
+			prevTagIndex = i;
 		}
 	}
 
-	return index;
+	return prevTagIndex;
 };
 
-const isOfSameHierarchy = (tag1: string, tag2: string): boolean => {
-	const hierarchyRegex = /.*(\/)/;
+const doesNamespaceMatch = (tag1: string, tag2: string) => {
+	const [namespace1] = tag1.split(/@[^@]+$|^/);
+	const [namespace2] = tag2.split(/@[^@]+$|^/);
 
-	const [tagOneHierarchy = ''] = tag1.match(hierarchyRegex) || [];
-	const [tagTwoHierarchy = ''] = tag2.match(hierarchyRegex) || [];
-
-	if ((!tagOneHierarchy && tagTwoHierarchy) || (tagOneHierarchy && !tagTwoHierarchy)) {
-		return false;
-	}
-
-	if (!tagOneHierarchy && !tagTwoHierarchy) {
-		return true;
-	}
-
-	return tagOneHierarchy === tagTwoHierarchy;
-};
-
-const isSameTagNameSpace = (tag1: string, tag2: string): boolean => {
-	const namespaceRegex = /(.*)@(.)*/;
-
-	const [, tagOneNameSpace = ''] = tag1.match(namespaceRegex) || [];
-	const [, tagTwoNameSpace = ''] = tag2.match(namespaceRegex) || [];
-
-	return tagOneNameSpace === tagTwoNameSpace;
-};
+	return namespace1 === namespace2;
+}
 
 const getTagComparisonLink = (prevTag: string, nextTag: string): HTMLElement => {
 	const {ownerName, repoName} = getOwnerAndRepo();
