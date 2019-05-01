@@ -105,7 +105,7 @@ export const isHistoryPage = (): boolean => {
 	const breadCrumb = select('.file-navigation > .breadcrumb');
 
 	return breadCrumb ? breadCrumb.textContent!.trim().startsWith('History for') : false;
-}
+};
 
 export const hasComments = (): boolean =>
 	isPR() ||
