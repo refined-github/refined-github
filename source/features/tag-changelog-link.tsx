@@ -43,12 +43,16 @@ async function init(): Promise<void | false> {
 	const {ownerName, repoName} = getOwnerAndRepo();
 
 	for (let index = 0; index < allCommitIdsAnchor.length; index++) {
-		const previousTagIndex = getPreviousTagIndex(index, allCommitIds, allTags);
+		const prevTagIndex = getPreviousTagIndex(index, allCommitIds, allTags);
 
-		if (previousTagIndex !== -1) {
+		if (prevTagIndex !== -1) {
 			allCommitIdsAnchor[index].closest('ul')!.append(
 				<li className="d-inline-block mb-1 mt-1 f6">
-					<a className="muted-link text-mono" href={`/${ownerName}/${repoName}/compare/${allTags[previousTagIndex]}...${allTags[index]}`}>
+					<a
+						className="muted-link text-mono tooltipped tooltipped-n"
+						aria-label={'See changes since ' + allTags[prevTagIndex]}
+						href={`/${ownerName}/${repoName}/compare/${allTags[prevTagIndex]}...${allTags[index]}`}
+					>
 						{diff()} Changelog
 					</a>
 				</li>
