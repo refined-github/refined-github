@@ -40,11 +40,19 @@ async function init(): Promise<void | false> {
 		allCommitIds.push(...extractValuesFromPathname(select.all<HTMLAnchorElement>(commitIdSelector, nextPage), commitRegExp));
 	}
 
+	const {ownerName, repoName} = getOwnerAndRepo();
+
 	for (let index = 0; index < allCommitIdsAnchor.length; index++) {
 		const previousTagIndex = getPreviousTagIndex(index, allCommitIds, allTags);
 
 		if (previousTagIndex !== -1) {
-			allCommitIdsAnchor[index].closest('ul')!.append(getTagComparisonLink(allTags[previousTagIndex], allTags[index]));
+			allCommitIdsAnchor[index].closest('ul')!.append(
+				<li className="d-inline-block mb-1 mt-1 f6">
+					<a className="muted-link text-mono" href={`/${ownerName}/${repoName}/compare/${allTags[previousTagIndex]}...${allTags[index]}`}>
+						{diff()} Changelog
+					</a>
+				</li>
+			);
 		}
 	}
 }
@@ -87,19 +95,8 @@ const getPreviousTagIndex = (index: number, allCommitIds: string[], allTags: str
 	return prevTagIndex;
 };
 
-const doesNamespaceMatch = (tag1: string, tag2: string): boolean => tag1.split(/@[^@]+$/)[0] === tag2.split(/@[^@]+$/)[0];
-
-const getTagComparisonLink = (prevTag: string, nextTag: string): HTMLElement => {
-	const {ownerName, repoName} = getOwnerAndRepo();
-
-	return (
-		<li className="d-inline-block mb-1 mt-1 f6">
-			<a className="muted-link text-mono" href={`/${ownerName}/${repoName}/compare/${prevTag}...${nextTag}`}>
-				{diff()} Changelog
-			</a>
-		</li>
-	);
-};
+const doesNamespaceMatch = (tag1: string, tag2: string): boolean =>
+	tag1.split(/@[^@]+$/)[0] === tag2.split(/@[^@]+$/)[0];
 
 features.add({
 	id: 'tag-changelog-link',
