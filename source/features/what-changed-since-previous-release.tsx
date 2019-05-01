@@ -1,3 +1,10 @@
+/**
+This feature adds a compare link on each releases/tags/single tag page so that you can see
+what has changed since the previous release. If the tags are namespaced then it tries to
+get the previous release of the same namespaced tag.
+
+See it in action at: https://github.com/parcel-bundler/parcel/releases
+*/
 import './what-changed-since-previous-release.css';
 import React from 'dom-chef';
 import select from 'select-dom';
