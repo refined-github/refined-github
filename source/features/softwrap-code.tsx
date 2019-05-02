@@ -15,7 +15,8 @@ async function init(): Promise<void> {
 	for (const table of tables) {
 		table.classList.add('rgh-softwrapped-code');
 
-		for (const line of select.all('.blob-code-inner', table)) {
+		// `span` required to exclude `td` in PRFiles
+		for (const line of select.all('span.blob-code-inner', table)) {
 			const leadingSpaceCharacters = line.firstChild!.textContent!.match(/^\s+/);
 			if (!leadingSpaceCharacters) {
 				continue;
