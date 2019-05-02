@@ -20,13 +20,13 @@ deploy:
       tags: true
       condition: $TRAVIS_TAG = hotfix
 
-  - # Creates versioned git tag on daily Travis cronjobs if it has recent commits
+  - # Creates versioned git tag on daily Travis cronjobs if HEAD isn't already tagged
     provider: script
     skip_cleanup: true
     script: npm run create-git-tag
     on:
       branch: master
-      condition: $(npm run can-release --silent)
+      condition: ($TRAVIS_EVENT_TYPE = cron) && ($(git tag -l --points-at HEAD) = "")
 
 # Setup Travis to be able to push git tags to GitHub
 after_success:
