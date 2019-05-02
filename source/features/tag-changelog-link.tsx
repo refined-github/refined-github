@@ -34,7 +34,11 @@ async function init(): Promise<void | false> {
 	}
 
 	const documents = [document, await getNextPage()] as any; // TODO: fix select-dom types to accept mixed arrays
-	const tagElements = select.all('[href*="/releases/tag"]', documents);
+	// These selectors need to work on:
+	// https://github.com/facebook/react/tags (tags list)
+	// https://github.com/facebook/react/releases (releases list)
+	// https://github.com/parcel-bundler/parcel/releases (releases list without release notes)
+	const tagElements = select.all('.f1 [href*="/releases/tag"], .commit-title [href*="/releases/tag"]', documents);
 	const commitElements = select.all('.muted-link[href*="/commit/"]', documents);
 	const tags = tagElements.map(anchor => anchor.textContent!.trim());
 	const commits = commitElements.map(anchor => anchor.textContent!.trim());
