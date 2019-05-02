@@ -15,7 +15,7 @@ const btnBodyMap = new WeakMap<Element, Element | Promise<Element>>();
 
 async function fetchSource(): Promise<Element> {
 	const path = location.pathname.replace(/([^/]+\/[^/]+\/)(blob)/, '$1blame');
-	const dom = await fetchDom(location.origin + path, '.blob-wrapper');
+	const dom = await fetchDom(path, '.blob-wrapper');
 	dom.classList.add('rgh-markdown-source');
 	return dom;
 }
@@ -25,6 +25,10 @@ function blurButton(button: HTMLElement): void {
 	if (button === document.activeElement) {
 		blurAccessibly(button);
 	}
+}
+
+function dispatchEvent(element: HTMLElement, type: keyof GlobalEventHandlersEventMap): void {
+	element.dispatchEvent(new CustomEvent(type, {bubbles: true}));
 }
 
 /*
@@ -51,6 +55,8 @@ async function showSource(): Promise<void> {
 	sourceButton.classList.add('selected');
 	renderedButton.classList.remove('selected');
 	blurButton(sourceButton);
+
+	dispatchEvent(sourceButton, 'rgh:view-markdown-source');
 }
 
 async function showRendered(): Promise<void> {
@@ -66,6 +72,8 @@ async function showRendered(): Promise<void> {
 	sourceButton.classList.remove('selected');
 	renderedButton.classList.add('selected');
 	blurButton(renderedButton);
+
+	dispatchEvent(sourceButton, 'rgh:view-markdown-rendered');
 }
 
 async function init(): Promise<false | void> {
