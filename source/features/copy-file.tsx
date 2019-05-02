@@ -1,36 +1,44 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import delegate from 'delegate-it';
 import copyToClipboard from 'copy-text-to-clipboard';
 import features from '../libs/features';
 
 function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): void {
 	const file = button.closest('.Box');
-
 	const content = select.all('.blob-code-inner', file!)
-		.map(blob => blob.innerText) // Must be `.innerText`
-		.map(line => line === '\n' ? '' : line)
+		.map(({innerText: line}) => line === '\n' ? '' : line) // Must be `.innerText`
 		.join('\n');
-
 	copyToClipboard(content);
 }
 
-function init(): void {
-	// This selector skips binaries + markdowns with code
-	for (const code of select.all('.blob-wrapper > .highlight:not(.rgh-copy-file)')) {
-		code.classList.add('rgh-copy-file');
-		code
-			.closest('.Box')! // Closest common container
-			.querySelector('[data-hotkey="b"]')! // Easily-found `Blame` button
+function renderButton(): void {
+	for (const blameButton of select.all('[data-hotkey="b"]')) {
+		blameButton
 			.parentElement! // `BtnGroup`
 			.prepend(
 				<button
 					onClick={handleClick}
-					className="btn btn-sm copy-btn tooltipped tooltipped-n BtnGroup-item"
+					className="btn btn-sm tooltipped tooltipped-n BtnGroup-item rgh-copy-file"
 					aria-label="Copy file to clipboard"
 					type="button">
 					Copy
 				</button>
 			);
+	}
+}
+
+function init(): void {
+	if (select.exists('.blob.instapaper_body')) {
+		delegate('.rgh-md-source', 'rgh:view-markdown-source', renderButton);
+		delegate('.rgh-md-source', 'rgh:view-markdown-rendered', () => {
+			const button = select('.rgh-copy-file');
+			if (button) {
+				button.remove();
+			}
+		});
+	} else {
+		renderButton();
 	}
 }
 
