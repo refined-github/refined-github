@@ -4,6 +4,7 @@ import onDomReady from 'dom-loaded';
 import OptionsSync from 'webext-options-sync';
 import onNewComments from './on-new-comments';
 import onFileListUpdate from './on-file-list-update';
+import onPRFileLoad from './on-pr-file-load';
 import * as pageDetect from './page-detect';
 import {safeElementReady} from './dom-utils';
 
@@ -201,6 +202,7 @@ export default {
 	// Loading mechanisms
 	onDomReady,
 	onNewComments,
+	onPRFileLoad,
 	onFileListUpdate,
 	onAjaxedPages,
 	onAjaxedPagesRaw,

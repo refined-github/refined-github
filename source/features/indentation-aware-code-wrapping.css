@@ -1,7 +1,7 @@
-/* For soft-wrapped code inside tables */
 .rgh-softwrapped-code {
 	table-layout: fixed;
 }
+/* Required, so that block-ified code does not shrink the line numbers in review comments */
 .rgh-softwrapped-code tr:not(.js-expandable-line) .blob-num {
 	width: 50px;
 }

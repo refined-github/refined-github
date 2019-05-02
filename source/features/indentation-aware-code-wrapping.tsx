@@ -1,23 +1,27 @@
 /*
-Soft-wrap code inside codeblocks
+Wrap code inside all code blocks to match indentation
 */
-import './softwrap-code.css';
+import './indentation-aware-code-wrapping.css';
 import select from 'select-dom';
 import features from '../libs/features';
 
 async function init(): Promise<void> {
 	const tables = select.all([
-		'.diff-table:not(.rgh-softwrapped-code)', // Split and unified diffs
-		'.d-table:not(.rgh-softwrapped-code)', // "Suggested changes" in PRs
-		'.js-file-line-container:not(.rgh-softwrapped-code)' // Embedded code blocks
+		'.file .diff-table:not(.rgh-softwrapped-code)', // Split and unified diffs
+		'.file .d-table:not(.rgh-softwrapped-code)', // "Suggested changes" in PRs
+		'.file .js-file-line-container:not(.rgh-softwrapped-code)' // Embedded code blocks
 	].join());
 
 	for (const table of tables) {
 		table.classList.add('rgh-softwrapped-code');
 
-		// `span` required to exclude `td` in PRFiles
-		for (const line of select.all('span.blob-code-inner', table)) {
-			const leadingSpaceCharacters = line.firstChild!.textContent!.match(/^\s+/);
+		for (const line of select.all('.blob-code-inner', table)) {
+			// All lines may not have `firstChild`, set to `null`
+			if (!(line.firstChild && line.firstChild.textContent)) {
+				continue;
+			}
+
+			const leadingSpaceCharacters = line.firstChild.textContent.match(/^\s+/);
 			if (!leadingSpaceCharacters) {
 				continue;
 			}
@@ -43,7 +47,17 @@ async function init(): Promise<void> {
 }
 
 features.add({
-	id: 'softwrap-code',
-	load: features.onAjaxedPages,
+	id: 'indentation-aware-code-wrapping',
+	include: [
+		features.isPRFiles,
+		features.isCommit,
+		features.isPRConversation
+	],
+	load: (async () => {
+		init();
+
+		features.onPRFileLoad(init);
+		features.onNewComments(init);
+	})(),
 	init
 });
