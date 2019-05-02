@@ -47,10 +47,11 @@ async function init(): Promise<void | false> {
 		const previousTag = getPreviousTag(index, commits, tags);
 
 		if (previousTag !== false) {
-			commitElement.closest('ul')!.append(
-				<li className="d-inline-block mb-1 mt-1 f6">
+			const container = commitElement.closest('ul')!;
+			container.append(
+				<li className={container.lastElementChild!.className}>
 					<a
-						className="muted-link text-mono tooltipped tooltipped-n"
+						className="muted-link tooltipped tooltipped-n"
 						aria-label={'See changes since ' + previousTag}
 						href={`/${getRepoURL()}/compare/${previousTag}...${tags[index]}`}
 					>
@@ -64,7 +65,6 @@ async function init(): Promise<void | false> {
 
 const getPreviousTag = (index: number, commits: string[], tags: string[]): string | false => {
 	let previousTag: string | false = false;
-
 	for (let i = index + 1; i < commits.length; i++) {
 		if (commits[i] === commits[index]) {
 			continue;
