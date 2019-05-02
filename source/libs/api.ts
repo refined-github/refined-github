@@ -57,10 +57,10 @@ const settings = new OptionsSync().getAll();
 
 const api3 = location.hostname === 'github.com' ?
 	'https://api.github.com/' :
-	'/api/v3/';
+	`${location.origin}/api/v3/`;
 const api4 = location.hostname === 'github.com' ?
 	'https://api.github.com/graphql' :
-	'/api/graphql';
+	`${location.origin}/api/graphql`;
 
 export const v3 = pMemoize(async (
 	query: string,

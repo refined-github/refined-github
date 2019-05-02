@@ -1,6 +1,5 @@
 import select from 'select-dom';
 import 'webext-dynamic-content-scripts';
-import './libs/fix-firefox-fetch';
 
 import './features/useful-not-found-page';
 import './features/trending-menu-item';
