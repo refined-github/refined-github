@@ -123,6 +123,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Insert collapsible content when writing comments (via `<details>`).](https://user-images.githubusercontent.com/1402241/53678019-0c721280-3cf4-11e9-9c24-4d11a697f67c.png)
 - [Filter pull requests by their build status.](https://user-images.githubusercontent.com/22439276/56372372-7733ca80-621c-11e9-8b60-a0b95aa4cd4f.png)
 - [View raw version of files in PRs and commits.](https://user-images.githubusercontent.com/1402241/56484988-b99f2500-6504-11e9-9748-c944e1070cc8.png)
+- [SVG files in a PR default to rich-diff view.](https://user-images.githubusercontent.com/5243867/57125552-c08a2b00-6d81-11e9-9b84-cdb535baa98e.png)
 
 ### More info at a glance
 

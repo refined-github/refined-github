@@ -1,3 +1,8 @@
+/**
+ * Some of the files in PRs can be reviewed using a rich-diff mode: markdown and SVGs are some of the examples.
+ *
+ * This feature sets the rich-diff view as default for each SVG file in a PR
+ */
 import select from 'select-dom';
 import features from '../libs/features';
 
