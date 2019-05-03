@@ -99,6 +99,7 @@ import './features/tags-dropdown';
 import './features/filter-pr-by-build-status';
 import './features/edit-files-faster';
 import './features/hide-disabled-milestone-sorter';
+import './features/arrow-up-when-choosing-labels';
 
 import './features/scrollable-code-and-blockquote.css';
 import './features/center-reactions-popup.css';
