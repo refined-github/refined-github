@@ -1,3 +1,4 @@
 source/features/filter-pr-by-build-status.tsx @HardikModha
 source/features/tags-dropdown.tsx @HardikModha
 source/features/indentation-aware-code-wrapping.tsx @notlmn
+source/features/default-to-rich-diff.tsx @idasbiste
