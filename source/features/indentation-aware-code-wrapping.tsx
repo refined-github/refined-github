@@ -4,8 +4,10 @@ Wrap code inside all code blocks to match indentation
 import './indentation-aware-code-wrapping.css';
 import select from 'select-dom';
 import features from '../libs/features';
+import onPrFileLoad from '../libs/on-pr-file-load';
+import onNewComments from '../libs/on-new-comments';
 
-async function init(): Promise<void> {
+function run(): void {
 	const tables = select.all([
 		'.file .diff-table:not(.rgh-softwrapped-code)', // Split and unified diffs
 		'.file .d-table:not(.rgh-softwrapped-code)', // "Suggested changes" in PRs
@@ -46,6 +48,12 @@ async function init(): Promise<void> {
 	}
 }
 
+function init(): void {
+	run();
+	onNewComments(run);
+	onPrFileLoad(run);
+}
+
 features.add({
 	id: 'indentation-aware-code-wrapping',
 	include: [
@@ -53,11 +61,6 @@ features.add({
 		features.isCommit,
 		features.isPRConversation
 	],
-	load: (async () => {
-		init();
-
-		features.onPRFileLoad(init);
-		features.onNewComments(init);
-	})(),
+	load: features.onAjaxedPages,
 	init
 });
