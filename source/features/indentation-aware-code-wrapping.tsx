@@ -19,7 +19,7 @@ function run(): void {
 
 		for (const line of select.all('.blob-code-inner', table)) {
 			// Some matched elements don’t contain code
-			if (!line.firstChild || !line.firstChild.textContent) {
+			if (!line.firstChild || line.firstChild.textContent < 20) {
 				continue;
 			}
 
