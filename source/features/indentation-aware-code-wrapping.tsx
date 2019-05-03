@@ -19,11 +19,11 @@ function run(): void {
 
 		for (const line of select.all('.blob-code-inner', table)) {
 			// Some matched elements don’t contain code
-			if (!line.firstChild || line.firstChild.textContent < 20) {
+			if (!line.firstChild || line.firstChild.textContent!.length < 20) {
 				continue;
 			}
 
-			const leadingSpaceCharacters = line.firstChild.textContent.match(/^\s+/);
+			const leadingSpaceCharacters = line.firstChild.textContent!.match(/^\s+/);
 			if (!leadingSpaceCharacters) {
 				continue;
 			}
