@@ -1,3 +1,4 @@
+import './upload-button.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';

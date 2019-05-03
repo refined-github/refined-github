@@ -24,6 +24,7 @@ import './features/close-out-of-view-modals';
 import './features/improve-shortcut-help';
 import './features/upload-button';
 import './features/move-marketplace-link-to-profile-dropdown';
+import './features/view-markdown-source';
 import './features/copy-file';
 import './features/hide-own-stars';
 import './features/infinite-scroll';
@@ -69,7 +70,6 @@ import './features/swap-branches-on-compare';
 import './features/reactions-avatars';
 import './features/show-names';
 import './features/remove-diff-signs';
-import './features/view-markdown-source';
 import './features/mark-merge-commits-in-list';
 import './features/prev-next-commit-buttons';
 import './features/preserve-whitespace-option-in-nav';
@@ -98,6 +98,22 @@ import './features/raw-file-link';
 import './features/tags-dropdown';
 import './features/filter-pr-by-build-status';
 import './features/edit-files-faster';
+import './features/hide-disabled-milestone-sorter';
+
+import './features/scrollable-code-and-blockquote.css';
+import './features/center-reactions-popup.css';
+import './features/widen-search-field.css';
+import './features/clean-dashboard.css';
+import './features/safer-destructive-actions.css';
+import './features/delete-fork-button.css';
+import './features/clean-mergeability-box.css';
+import './features/clean-footer.css';
+import './features/pr-approvals-count.css';
+import './features/align-issue-labels.css';
+import './features/hide-tips.css';
+import './features/hide-readme-header.css';
+import './features/hide-obvious-tooltips.css';
+import './features/clean-discussions.css';
 
 // Add global for easier debugging
 (window as any).select = select;

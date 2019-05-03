@@ -26,10 +26,9 @@ function parseBranchFromDom(): string | undefined {
 	return branchName; // `string` or undefined
 }
 
-// TODO: drop `response &&`
 async function fetchFromApi(user: string, repo: string): Promise<any> {
 	const response = await api.v3(`repos/${user}/${repo}`);
-	if (response && response.default_branch) {
+	if (response.default_branch) {
 		return response.default_branch;
 	}
 }

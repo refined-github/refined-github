@@ -1,3 +1,4 @@
+import './make-discussion-sidebar-sticky.css';
 import select from 'select-dom';
 import debounce from 'debounce-fn';
 import features from '../libs/features';

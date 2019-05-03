@@ -1,0 +1,15 @@
+.notifications-list .boxed-group-action {
+	margin: 5px 6px;
+}
+
+.notifications-list .boxed-group-action button {
+	padding: 3px 10px;
+	border: none;
+	margin-left: 2px;
+	color: #586069;
+	background: none;
+}
+
+.mark-all-as-read-confirmed .open-repo-notifications {
+	visibility: hidden;
+}

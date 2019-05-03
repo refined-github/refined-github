@@ -1,0 +1,104 @@
+/**
+* Reduce dashboard activity cards
+*
+* Notes:
+* `.flex-items-baseline` excludes label events
+* `.border-gray` excludes grouped events
+* `.js-news-feed-event-group` is only for grouped events
+*/
+
+/* Hide duplicate repo name in some non-grouped events */
+.dashboard .watch_started .border-gray.flex-items-baseline .text-bold.text-gray-dark,
+.dashboard .repo .border-gray.flex-items-baseline .text-bold.text-gray-dark,
+.dashboard .public .border-gray.flex-items-baseline .text-bold.text-gray-dark {
+	display: none;
+}
+
+/* Add background and border Whole list */
+.dashboard .js-all-activity-header + div {
+	background-color: #fff;
+	border: 1px solid #d1d5da;
+	border-radius: 3px;
+	margin-top: 8px !important;
+}
+
+/* Drop "box" style for all events */
+.dashboard .js-all-activity-header + div .Box {
+	padding: 0 !important;
+	border: none;
+	background: none;
+}
+
+/* Restore "row"-like spacing for all events */
+.dashboard .body > .border-bottom {
+	margin: 0;
+	padding-left: 16px;
+	padding-right: 16px;
+}
+
+/* Align avatar with first 2 lines */
+.dashboard .flex-items-baseline.py-3 {
+	align-items: flex-start !important;
+}
+.dashboard .body .mr-3 + div {
+	margin-top: -5px;
+	margin-bottom: -5px;
+}
+
+/* Reduce spacing after repo description */
+.dashboard .repo-description p:last-child {
+	margin-bottom: 0;
+}
+
+/* Hide footer date on Created Repository events */
+.dashboard .repo .f6.text-gray {
+	display: none;
+}
+
+/* Grouped events: Make repo name smaller */
+.dashboard .Details .flex-items-baseline .text-bold.text-gray-dark {
+	font-size: 1em !important;
+}
+
+/* Grouped events: Show separator */
+.dashboard-rollup-items .body {
+	border-top: 1px solid #e1e4e8;
+	margin-top: 8px;
+}
+
+/* Grouped events: Bring horizontal lines to right border */
+.js-news-feed-event-group {
+	padding-right: 0 !important;
+}
+
+/* Grouped events: Keep open */
+.Details.js-news-feed-event-group .js-details-target {
+	/* Hide toggle */
+	display: none;
+}
+.Details:not(.Details--on) .Details-content--hidden.dashboard-rollup-items {
+	/* Always show content. */
+	/* Selector must be stronger to override the native one. Yes, even with !important, for some reason. Firefox */
+	display: block !important;
+}
+
+/* Hide star button */
+.dashboard .flex-items-baseline [value='Star'],
+.dashboard .flex-items-baseline [value='Unstar'] {
+	display: none;
+}
+
+/* Fade out last line */
+.dashboard .flex-items-baseline .f6.mt-2 {
+	opacity: 0.5;
+}
+
+/* Remove the "New repository" button in the dashboard sidebar */
+.dashboard-sidebar a[href='/new'] {
+	display: none;
+}
+
+.dashboard-sidebar .Box-title {
+	padding-top: 4px !important;
+	padding-bottom: 4px !important;
+}

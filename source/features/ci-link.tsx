@@ -1,16 +1,14 @@
-import domify from 'doma';
-import select from 'select-dom';
+import './ci-link.css';
 import onetime from 'onetime';
 import features from '../libs/features';
 import {appendBefore} from '../libs/dom-utils';
 import {getRepoURL, getRepoBranch} from '../libs/utils';
+import fetchDom from '../libs/fetch-dom';
 
 const fetchStatus = onetime(async () => {
-	const url = `${location.origin}/${getRepoURL()}/commits/${getRepoBranch() || ''}`;
-	const response = await fetch(url);
-	const dom = domify(await response.text());
+	const url = `/${getRepoURL()}/commits/${getRepoBranch() || ''}`;
+	const icon = await fetchDom<HTMLElement>(url, '.commit-build-statuses');
 
-	const icon = select('.commit-build-statuses', dom);
 	if (!icon) {
 		return undefined;
 	}
