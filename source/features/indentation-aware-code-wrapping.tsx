@@ -16,8 +16,8 @@ async function init(): Promise<void> {
 		table.classList.add('rgh-softwrapped-code');
 
 		for (const line of select.all('.blob-code-inner', table)) {
-			// All lines may not have `firstChild`, set to `null`
-			if (!(line.firstChild && line.firstChild.textContent)) {
+			// Some matched elements don’t contain code
+			if (!line.firstChild || !line.firstChild.textContent) {
 				continue;
 			}
 
