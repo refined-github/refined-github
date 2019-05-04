@@ -97,16 +97,6 @@ export const isTrending = (): boolean => location.pathname === '/trending' || lo
 
 export const isUserProfile = (): boolean => select.exists('.user-profile-nav');
 
-export const isHistoryPage = (): boolean => {
-	if (!isCommitList()) {
-		return false;
-	}
-
-	const breadCrumb = select('.file-navigation > .breadcrumb');
-
-	return breadCrumb ? breadCrumb.textContent!.trim().startsWith('History for') : false;
-};
-
 export const hasComments = (): boolean =>
 	isPR() ||
 	isIssue() ||

@@ -1,7 +1,5 @@
 /**
-This feature adds direct link to file/directory when viewing the history.
-GitHub provides a link but it points to the root of the repo which is not that helpful.
-
+Adds direct link to file/directory when viewing the history.
 See it in action at https://github.com/sindresorhus/refined-github/commits/master/readme.md
 */
 
@@ -12,8 +10,12 @@ import {getOwnerAndRepo} from '../libs/utils';
 import {file} from '../libs/icons';
 import {groupButtons} from '../libs/group-buttons';
 
-function init(): void {
-	const {repoName} = getOwnerAndRepo();
+function init(): void | false {
+	const breadCrumb = select('.file-navigation > .breadcrumb');
+
+	if (!breadCrumb || !breadCrumb.textContent!.trim().startsWith('History for')) {
+		return false;
+	}
 
 	const pathToFile = select('.breadcrumb')!.textContent!.trim().replace(new RegExp(`^History for ${repoName}`), '');
 
@@ -38,7 +40,7 @@ function init(): void {
 features.add({
 	id: 'link-to-file-in-file-history',
 	include: [
-		features.isHistoryPage
+		features.isCommitList
 	],
 	load: features.onAjaxedPages,
 	init
