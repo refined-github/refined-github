@@ -50,7 +50,7 @@ async function init(): Promise<void | false> {
 		const previousTag = getPreviousTag(index, commits, tags);
 
 		if (previousTag !== false) {
-			const unorderedLists = tagContainer.querySelectorAll('.commit > ul.f6, .commit > .release-header > ul, div:first-child > ul');
+			const unorderedLists = select.all('.commit > ul.f6, .commit > .release-header > ul, div:first-child > ul', tagContainer);
 
 			for (const list of unorderedLists) {
 				list.append(
