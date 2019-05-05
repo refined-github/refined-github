@@ -34,14 +34,14 @@ async function init(): Promise<void | false> {
 
 	const tagRegex = /\/releases\/tag\/(.*)/;
 	const documents = [document, await getNextPage()] as any; // TODO: fix select-dom types to accept mixed arrays
-	const tagContainers = select.all('.release, .Box-row .commit, .release-entry .release-main-section:not(.commit)', documents);
+	const tagContainers = select.all('.release, .Box-row .commit, .release-main-section:not(.commit)', documents);
 
 	// These selectors need to work on:
 	// https://github.com/facebook/react/tags (tags list)
 	// https://github.com/facebook/react/releases (releases list)
 	// https://github.com/parcel-bundler/parcel/releases (releases list without release notes)
 	const tagElements = select.all<HTMLAnchorElement>('h4.commit-title > a[href*="/releases/tag/"], div.release-header .f1 > a[href*="/releases/tag/"]', tagContainers);
-	const commitElements = select.all<HTMLAnchorElement>('div.release-header ul a[href*="/commit/"].muted-link, .commit ul a[href*="/commit/"].muted-link', tagContainers);
+	const commitElements = select.all<HTMLAnchorElement>('.commit ul a[href*="/commit/"].muted-link', tagContainers);
 
 	const tags = tagElements.map(anchor => decodeURIComponent(anchor.pathname.match(tagRegex)![1]));
 	const commits = commitElements.map(anchor => anchor.textContent!.trim());
