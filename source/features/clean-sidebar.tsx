@@ -6,6 +6,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
+import {isPR} from '../libs/page-detect';
 
 let canEditSidebar = false;
 
@@ -27,6 +28,12 @@ function cleanSection(selector: string): boolean {
 }
 
 function clean(): void {
+	if (select.exists('.rgh-clean-sidebar')) {
+		return;
+	}
+
+	select('#partial-discussion-sidebar')!.classList.add('rgh-clean-sidebar');
+
 	// Assignees
 	const assignees = select('.js-issue-assignees')!;
 	if (assignees.children.length === 0) {
