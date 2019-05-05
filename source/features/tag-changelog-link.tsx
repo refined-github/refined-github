@@ -34,7 +34,10 @@ async function init(): Promise<void | false> {
 
 	const tagRegex = /\/releases\/tag\/(.*)/;
 	const documents = [document, await getNextPage()] as any; // TODO: fix select-dom types to accept mixed arrays
-	const tagContainers = select.all('.release, .Box-row .commit, .release-main-section:not(.commit)', documents);
+
+	// not(.js-timeline-tags-expander) is needed as there can be some tags collapsed
+	// See https://github.com/facebook/react/releases?after=v16.7.0 for an example
+	const tagContainers = select.all('.release, .Box-row .commit, .release-main-section:not(.commit):not(.js-timeline-tags-expander)', documents);
 
 	// These selectors need to work on:
 	// https://github.com/facebook/react/tags (tags list)
