@@ -52,7 +52,7 @@ async function init(): Promise<void | false> {
 
 	const allTags: TagDetails[] = select.all(tagContainerSelector, documents).map(element => ({
 		element,
-		tag: decodeURIComponent(select<HTMLAnchorElement>('[href*="/releases/tag/"]', element)!.pathname.match(tagRegex)![1]),
+		tag: select<HTMLAnchorElement>('[href*="/releases/tag/"]', element)!.pathname.match(tagRegex)![1],
 		commit: select('[href*="/commit/"]', element)!.textContent!.trim()
 	}));
 
@@ -67,7 +67,7 @@ async function init(): Promise<void | false> {
 					<li className={list.lastElementChild!.className}>
 						<a
 							className="muted-link tooltipped tooltipped-n"
-							aria-label={'See changes since ' + previousTag}
+							aria-label={'See changes since ' + decodeURIComponent(previousTag)}
 							href={`/${getRepoURL()}/compare/${previousTag}...${allTags[index].tag}`}
 						>
 							{diff()} Changelog
