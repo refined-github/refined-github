@@ -6,36 +6,31 @@ See it in action at https://github.com/sindresorhus/refined-github/commits/maste
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
-import {getRepoPath} from '../libs/utils';
 import {file} from '../libs/icons';
-import {groupButtons} from '../libs/group-buttons';
+import {getRepoPath} from '../libs/utils';
+import {groupSiblings} from '../libs/group-buttons';
 
 function init(): void | false {
-	const breadCrumb = select('.file-navigation > .breadcrumb');
-
-	if (!breadCrumb || !breadCrumb.textContent!.trim().startsWith('History for')) {
+	// /user/repo/commits/master/readme.md -> 'readme.md'
+	// /user/repo/commits/master/          -> ''
+	const path = getRepoPath()!.replace(/^commits\/[^/]+\//, '');
+	if (!path) {
 		return false;
 	}
 
-	const relativeFilePath = getRepoPath()!.replace(/^commits\/[^/]*/, '');
-
-	for (const commitLinkCell of select.all<HTMLDivElement>('.commit-links-cell')) {
-		const fileUrl = `${select<HTMLAnchorElement>('.commit-links-group a.btn', commitLinkCell)!.pathname.replace('/commit/', '/blob/')}${relativeFilePath}`;
-
-		const fileUrlElement = (
+	for (const rootLink of select.all<HTMLAnchorElement>('[aria-label="Browse the repository at this point in the history"]')) {
+		// `rootLink.pathname` points to /tree/ but GitHub automatically redirects to /blob/ when the path is of a file
+		rootLink.before(
 			<a
-				href={fileUrl}
+				href={rootLink.pathname + '/' + path}
 				className="btn btn-outline tooltipped tooltipped-sw"
-				aria-label="Browse the file at this point in the history"
-				rel="nofollow"
+				aria-label="See object at this point in the history"
 			>
 				{file()}
 			</a>
 		);
 
-		select('.commit-links-group + a.btn', commitLinkCell)!.before(fileUrlElement);
-		commitLinkCell.classList.add('width-md-auto', 'width-sm-auto');
-		groupButtons([fileUrlElement, fileUrlElement.nextElementSibling!]);
+		groupSiblings(rootLink);
 	}
 }
 
