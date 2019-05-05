@@ -7,19 +7,26 @@ import select from 'select-dom';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 
-function clean(): void {
-	const canEditSidebar = select.exists('.discussion-sidebar .octicon-gear');
+let canEditSidebar = false;
 
-	// Reviewers
-	const reviewers = select('[aria-label="Select reviewers"] > .css-truncate')!;
-	if (reviewers.children.length === 0) {
+// Selector points to element containing list of elements or "No labels" text
+function cleanSection(selector: string): boolean {
+	const list = select(selector)!;
+	if (list.children.length === 0) {
+		const section = list.closest('.discussion-sidebar-item')!;
 		if (canEditSidebar) {
-			reviewers.remove();
+			list.remove();
 		} else {
-			reviewers.closest('.discussion-sidebar-item')!.remove();
+			section.remove();
 		}
+
+		return true;
 	}
 
+	return false;
+}
+
+function clean(): void {
 	// Assignees
 	const assignees = select('.js-issue-assignees')!;
 	if (assignees.children.length === 0) {
@@ -34,27 +41,18 @@ function clean(): void {
 		}
 	}
 
+	// Reviewers
+	if (isPR()) {
+		cleanSection('[aria-label="Select reviewers"] > .css-truncate');
+	}
+
 	// Labels
-	const labels = select('.js-issue-labels')!;
-	if (labels.children.length === 0) {
-		if (canEditSidebar) {
-			labels.remove();
-		} else {
-			labels.closest('.discussion-sidebar-item')!.remove();
-		}
-	} else if (!canEditSidebar) {
+	if (!cleanSection('.js-issue-labels') && !canEditSidebar) {
 		select('.sidebar-labels div.discussion-sidebar-heading')!.remove();
 	}
 
 	// Projects
-	const projects = select('.sidebar-projects')!;
-	if (projects.children.length === 0) {
-		if (canEditSidebar) {
-			projects.remove();
-		} else {
-			projects.closest('.discussion-sidebar-item')!.remove();
-		}
-	}
+	cleanSection('.sidebar-projects');
 
 	// Milestones
 	const milestones = select('.sidebar-milestone')!;
@@ -67,7 +65,7 @@ function clean(): void {
 				throw new Error('Refined GitHub: milestones in sidebar could not be hidden');
 			}
 		} else {
-			milestones.closest('.discussion-sidebar-item')!.remove();
+			milestones.remove();
 		}
 	}
 
@@ -76,6 +74,7 @@ function clean(): void {
 }
 
 function init(): void {
+	canEditSidebar = select.exists('.discussion-sidebar .octicon-gear');
 	clean();
 	observeEl('.discussion-sidebar', clean);
 }
