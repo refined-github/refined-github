@@ -13,6 +13,12 @@ import {diff} from '../libs/icons';
 import {isSingleTagPage} from '../libs/page-detect';
 import {getRepoPath, getRepoURL} from '../libs/utils';
 
+type TagDetails = {
+	element: HTMLElement;
+	commit: string;
+	tag: string;
+}
+
 async function getNextPage(): Promise<DocumentFragment> {
 	const nextPageLink = select<HTMLAnchorElement>('.pagination a:last-child');
 	if (nextPageLink) {
@@ -35,25 +41,27 @@ async function init(): Promise<void | false> {
 	const tagRegex = /\/releases\/tag\/(.*)/;
 	const documents = [document, await getNextPage()] as any; // TODO: fix select-dom types to accept mixed arrays
 
-	// not(.js-timeline-tags-expander) is needed as there can be some tags collapsed
+	// not(.js-timeline-tags-expander) is needed as there can be some collapsed tags
 	// See https://github.com/facebook/react/releases?after=v16.7.0 for an example
-	const tagContainers = select.all('.release, .Box-row .commit, .release-main-section:not(.commit):not(.js-timeline-tags-expander)', documents);
+	const tagContainerSelector = '.release, .Box-row .commit, .release-entry .release-main-section:not(.commit):not(.js-timeline-tags-expander)';
 
 	// These selectors need to work on:
 	// https://github.com/facebook/react/tags (tags list)
 	// https://github.com/facebook/react/releases (releases list)
 	// https://github.com/parcel-bundler/parcel/releases (releases list without release notes)
-	const tagElements = select.all<HTMLAnchorElement>('h4.commit-title > a[href*="/releases/tag/"], div.release-header .f1 > a[href*="/releases/tag/"]', tagContainers);
-	const commitElements = select.all<HTMLAnchorElement>('.commit ul a[href*="/commit/"].muted-link', tagContainers);
+	const tagSelector = 'h4.commit-title > a[href*="/releases/tag/"], div.release-header .f1 > a[href*="/releases/tag/"]';
 
-	const tags = tagElements.map(anchor => decodeURIComponent(anchor.pathname.match(tagRegex)![1]));
-	const commits = commitElements.map(anchor => anchor.textContent!.trim());
+	const allTags: TagDetails[] = select.all(tagContainerSelector, documents).map(element => ({
+		element,
+		tag: decodeURIComponent(select<HTMLAnchorElement>(tagSelector, element)!.pathname.match(tagRegex)![1]),
+		commit: select('.commit ul a[href*="/commit/"].muted-link', element)!.textContent!.trim()
+	}));
 
-	for (const [index, tagContainer] of tagContainers.entries()) {
-		const previousTag = getPreviousTag(index, commits, tags);
+	for (const [index, container] of allTags.entries()) {
+		const previousTag = getPreviousTag(index, allTags);
 
 		if (previousTag !== false) {
-			const unorderedLists = select.all('.commit > ul.f6, .commit > .release-header > ul, div:first-child > ul', tagContainer);
+			const unorderedLists = select.all('.commit > ul.f6, .commit > .release-header > ul, div:first-child > ul', container.element);
 
 			for (const list of unorderedLists) {
 				list.append(
@@ -61,7 +69,7 @@ async function init(): Promise<void | false> {
 						<a
 							className="muted-link tooltipped tooltipped-n"
 							aria-label={'See changes since ' + previousTag}
-							href={`/${getRepoURL()}/compare/${previousTag}...${tags[index]}`}
+							href={`/${getRepoURL()}/compare/${previousTag}...${allTags[index].tag}`}
 						>
 							{diff()} Changelog
 						</a>
@@ -72,24 +80,24 @@ async function init(): Promise<void | false> {
 	}
 }
 
-const getPreviousTag = (index: number, commits: string[], tags: string[]): string | false => {
+const getPreviousTag = (index: number, allTags: TagDetails[]): string | false => {
 	let previousTag: string | false = false;
 
 	// If tag is `@parcel/integration-tests@1.12.2` then namespace is `@parcel/integration-tests`
 	const namespaceRegex = /@[^@]+$/;
 
-	for (let i = index + 1; i < commits.length; i++) {
-		if (commits[i] === commits[index]) {
+	for (let i = index + 1; i < allTags.length; i++) {
+		if (allTags[i].commit === allTags[index].commit) {
 			continue;
 		}
 
 		// Ensure that they have the same namespace. e.g. `parcel@1.2.4` and `parcel@1.2.3`
-		if (tags[i].split(namespaceRegex)[0] === tags[index].split(namespaceRegex)[0]) {
-			return tags[i];
+		if (allTags[i].tag.split(namespaceRegex)[0] === allTags[index].tag.split(namespaceRegex)[0]) {
+			return allTags[i].tag;
 		}
 
 		if (previousTag === false) {
-			previousTag = tags[i];
+			previousTag = allTags[i].tag;
 		}
 	}
 
