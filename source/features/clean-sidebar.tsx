@@ -5,8 +5,9 @@ Hide all empty sections (or just their "empty" label) in discussion sidebar
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import observeEl from '../libs/simplified-element-observer';
 
-function init(): void {
+function clean(): void {
 	const canEditSidebar = select.exists('.discussion-sidebar .octicon-gear');
 
 	// Reviewers
@@ -72,6 +73,11 @@ function init(): void {
 
 	// Notifications
 	select('.sidebar-notifications .discussion-sidebar-heading')!.remove();
+}
+
+function init(): void {
+	clean();
+	observeEl('.discussion-sidebar', clean);
 }
 
 features.add({
