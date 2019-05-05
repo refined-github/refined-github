@@ -80,7 +80,7 @@ async function init(): Promise<void | false> {
 }
 
 // If tag is `@parcel/integration-tests@1.12.2` then namespace is `@parcel/integration-tests`
-const getNameSpace = (tag: string) => tag.split(/@[^@]+$/)[0];
+const getNameSpace = (tag: string): string => tag.split(/@[^@]+$/)[0];
 
 const getPreviousTag = (index: number, allTags: TagDetails[]): string | false => {
 	let previousTag: string | false = false;
