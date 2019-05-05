@@ -1,6 +1,6 @@
-import domify from 'doma';
 import select from 'select-dom';
 import features from '../libs/features';
+import fetchDom from '../libs/fetch-dom';
 
 async function init(): Promise<void> {
 	// If anything errors, RGH will display the error next to the feature name
@@ -9,9 +9,7 @@ async function init(): Promise<void> {
 
 async function bypass(check: HTMLElement): Promise<void> {
 	const details = select<HTMLAnchorElement>('.status-actions', check.parentElement!)!;
-	const response = await fetch(details.href);
-	const dom = domify(await response.text());
-	const directLink = select('a.text-small .octicon-link-external', dom)!;
+	const directLink = await fetchDom(details.href, 'a.text-small .octicon-link-external');
 	details.href = (directLink.parentElement as HTMLAnchorElement).href;
 }
 

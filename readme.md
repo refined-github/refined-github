@@ -139,6 +139,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Significant head and base branches are added to the PR list.](https://user-images.githubusercontent.com/1402241/51428391-ae9ed500-1c35-11e9-8e54-6b6a424fede4.png)
 - [Hidden comments are previewed inline.](https://user-images.githubusercontent.com/1402241/52545036-6e271700-2def-11e9-8c0c-b5e0fa6f37dd.png)
 - [Your issues and PRs are highlighted.](https://user-images.githubusercontent.com/1402241/53065281-01560000-3506-11e9-9a51-0bdf69e20b4a.png)
+- [SVG files in a PR default to rich-diff view.](https://user-images.githubusercontent.com/5243867/57125552-c08a2b00-6d81-11e9-9b84-cdb535baa98e.png)
 
 ### Declutter
 
