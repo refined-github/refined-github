@@ -49,12 +49,11 @@ async function init(): Promise<void | false> {
 	// https://github.com/facebook/react/tags (tags list)
 	// https://github.com/facebook/react/releases (releases list)
 	// https://github.com/parcel-bundler/parcel/releases (releases list without release notes)
-	const tagSelector = 'h4.commit-title > a[href*="/releases/tag/"], div.release-header .f1 > a[href*="/releases/tag/"]';
 
 	const allTags: TagDetails[] = select.all(tagContainerSelector, documents).map(element => ({
 		element,
-		tag: decodeURIComponent(select<HTMLAnchorElement>(tagSelector, element)!.pathname.match(tagRegex)![1]),
-		commit: select('.commit ul a[href*="/commit/"].muted-link', element)!.textContent!.trim()
+		tag: decodeURIComponent(select<HTMLAnchorElement>('[href*="/releases/tag/"]', element)!.pathname.match(tagRegex)![1]),
+		commit: select('[href*="/commit/"]', element)!.textContent!.trim()
 	}));
 
 	for (const [index, container] of allTags.entries()) {
@@ -80,11 +79,11 @@ async function init(): Promise<void | false> {
 	}
 }
 
+// If tag is `@parcel/integration-tests@1.12.2` then namespace is `@parcel/integration-tests`
+const getNameSpace = (tag: string) => tag.split(/@[^@]+$/)[0];
+
 const getPreviousTag = (index: number, allTags: TagDetails[]): string | false => {
 	let previousTag: string | false = false;
-
-	// If tag is `@parcel/integration-tests@1.12.2` then namespace is `@parcel/integration-tests`
-	const namespaceRegex = /@[^@]+$/;
 
 	for (let i = index + 1; i < allTags.length; i++) {
 		if (allTags[i].commit === allTags[index].commit) {
@@ -92,7 +91,7 @@ const getPreviousTag = (index: number, allTags: TagDetails[]): string | false =>
 		}
 
 		// Ensure that they have the same namespace. e.g. `parcel@1.2.4` and `parcel@1.2.3`
-		if (allTags[i].tag.split(namespaceRegex)[0] === allTags[index].tag.split(namespaceRegex)[0]) {
+		if (getNameSpace(allTags[i].tag) === getNameSpace(allTags[index].tag)) {
 			return allTags[i].tag;
 		}
 
