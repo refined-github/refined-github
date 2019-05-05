@@ -2,6 +2,7 @@
 Hide all empty sections (or just their "empty" label) in discussion sidebar
 */
 
+import './clean-sidebar.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
@@ -17,6 +18,7 @@ function cleanSection(selector: string): boolean {
 		const section = list.closest('.discussion-sidebar-item')!;
 		if (canEditSidebar) {
 			list.remove();
+			section.classList.add('rgh-clean-sidebar');
 		} else {
 			section.remove();
 		}
@@ -68,6 +70,7 @@ function clean(): void {
 			const lastTextNode = milestones.lastChild!.lastChild!;
 			if (lastTextNode.textContent!.trim() === 'No milestone') {
 				lastTextNode.remove();
+				milestones.classList.add('rgh-clean-sidebar');
 			} else {
 				throw new Error('Refined GitHub: milestones in sidebar could not be hidden');
 			}
