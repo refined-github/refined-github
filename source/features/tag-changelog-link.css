@@ -1,0 +1,3 @@
+.release div.release-header > ul > li {
+	flex-grow: 0 !important;
+}

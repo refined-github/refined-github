@@ -4,7 +4,7 @@ If the tags are namespaced then it tries to get the previous release of the same
 
 See it in action at: https://github.com/parcel-bundler/parcel/releases
 */
-
+import './tag-changelog-link.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
@@ -33,7 +33,6 @@ async function init(): Promise<void | false> {
 	}
 
 	const tagRegex = /\/releases\/tag\/(.*)/;
-
 	const documents = [document, await getNextPage()] as any; // TODO: fix select-dom types to accept mixed arrays
 	const tagContainers = select.all('.release, .Box-row .commit, .release-entry .release-main-section:not(.commit)', documents);
 
