@@ -158,6 +158,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Forks and watchers counters are hidden.](https://user-images.githubusercontent.com/1402241/53681077-f3328b80-3d1e-11e9-9e29-2cb017141769.png)
 - [Diff signs are hidden.](https://user-images.githubusercontent.com/1402241/54807718-149cec80-4cb9-11e9-869c-e265863211e3.png)
 - [Hide milestone sorter UI if you don’t have permission to use it.](https://user-images.githubusercontent.com/7753001/56913933-738a2880-6ae5-11e9-9d13-1973cbbf5df0.png)
+- [Empty sections in the issue/PRs sidebar are hidden.](https://user-images.githubusercontent.com/1402241/57199809-20691780-6fb6-11e9-9672-1ad3f9e1b827.png)
 
 
 ### UI improvements
@@ -203,6 +204,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Follow file renames in commits lists.](https://user-images.githubusercontent.com/1402241/54799957-7306a280-4c9a-11e9-86de-b9764ed93397.png)
 - [Edit files straight from a repo’s list by clicking their icon.](https://user-images.githubusercontent.com/1402241/56370462-d51cde00-622d-11e9-8cd3-8a173bd3dc08.png)
 - [Search or select tags from a dropdown in the `Releases` page.](https://user-images.githubusercontent.com/22439276/56373231-27ee9980-621e-11e9-9b21-601919d3dddf.png)
+- [Link to file itself in the history pages](https://user-images.githubusercontent.com/22439276/57195061-b88ddf00-6f6b-11e9-8ad9-13225d09266d.png)
 
 ### Previously part of Refined GitHub
 

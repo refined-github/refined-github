@@ -28,11 +28,6 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	display: none !important;
 }
 
-/* Remove message under the `Unsubscribe` button */
-.sidebar-notifications .reason {
-	display: none !important;
-}
-
 /* Remove Marketplace marketing box on PRs */
 .js-marketplace-callout-container {
 	display: none !important;
