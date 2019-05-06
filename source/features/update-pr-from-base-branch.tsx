@@ -53,7 +53,7 @@ async function init(): Promise<false | void> {
 }
 
 features.add({
-	id: 'update-pr-from-master',
+	id: 'update-pr-from-base-branch',
 	include: [
 		features.isPRConversation
 	],

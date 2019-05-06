@@ -95,7 +95,7 @@ import './features/resolve-conflicts';
 import './features/follow-file-renames';
 import './features/filter-pr-by-build-status';
 import './features/edit-files-faster';
-import './features/update-pr-from-master';
+import './features/update-pr-from-base-branch';
 
 // Add global for easier debugging
 (window as any).select = select;
