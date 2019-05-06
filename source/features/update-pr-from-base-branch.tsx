@@ -30,7 +30,7 @@ async function handler(event: DelegateEvent) {
 	const button = event.target as HTMLButtonElement;
 	button.disabled = true;
 	button.textContent = 'Updating branch…';
-	button.setAttribute('aria-label', '...');
+	button.classList.remove('tooltipped');
 
 	const response = await mergeBranches();
 	if (response.status && response.status < 300) {
