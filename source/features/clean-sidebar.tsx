@@ -84,7 +84,7 @@ function clean(): void {
 }
 
 function init(): void {
-	canEditSidebar = select.exists('.discussion-sidebar .octicon-gear');
+	canEditSidebar = select.exists('.sidebar-labels .octicon-gear');
 	clean();
 	observeEl('.discussion-sidebar', clean);
 }
