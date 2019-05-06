@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
@@ -57,8 +56,8 @@ async function addButton(): Promise<void> {
 	}
 
 	const {base, head} = getBranches();
-	const {behind_by} = await api.v3(`repos/${getRepoURL()}/compare/${base}...${head}`);
-	if (behind_by === 0) {
+	const {status} = await api.v3(`repos/${getRepoURL()}/compare/${base}...${head}`);
+	if (status !== 'diverged') {
 		return;
 	}
 
