@@ -38,8 +38,11 @@ async function handler(event: DelegateEvent) {
 	} else if (response.message) {
 		button.textContent = response.message;
 		button.prepend(alert(), ' ');
-		if (response.message === 'Merge conflict') { // Only shown on Draft PRs
-			button.setAttribute('aria-label', 'Set PR as "Read for review" or merge on your computer');
+		if (response.message === 'Merge conflict') {
+			// Only shown on Draft PRs
+			button.replaceWith(
+				<a href={location.pathname + '/conflicts'} className="btn float-right">{alert()} Resolve conflicts</a>
+			);
 		} // TODO: handle more errors
 	}
 }
