@@ -6,6 +6,7 @@ import features from '../libs/features';
 import * as api from '../libs/api';
 import observeEl from '../libs/simplified-element-observer';
 import {getRepoURL} from '../libs/utils';
+import {alert} from '../libs/icons';
 
 function getBranches(): {base: string; head: string} {
 	return {
@@ -14,27 +15,33 @@ function getBranches(): {base: string; head: string} {
 	};
 }
 
-export async function mergeBranches() {
+export async function mergeBranches(): Promise<AnyObject> {
 	const prBranches = getBranches();
-	const result = await api.v3(`repos/${getRepoURL()}/merges`, {
+	return api.v3(`repos/${getRepoURL()}/merges`, {
 		method: 'POST',
 		body: {
 			head: prBranches.base,
 			base: prBranches.head
-		}
+		},
+		ignoreHTTPStatus: true
 	});
-
-	return result.status >= 200 && result.status < 300;
 }
 
 async function handler(event: DelegateEvent) {
 	const button = event.target as HTMLButtonElement;
 	button.disabled = true;
 	button.textContent = 'Updating branch…';
+	button.setAttribute('aria-label', '...');
 
-	// TODO: show errors to the user
-	if (await mergeBranches()) {
+	const response = await mergeBranches();
+	if (response.status && response.status < 300) {
 		button.remove();
+	} else if (response.message) {
+		button.textContent = response.message;
+		button.prepend(alert(), ' ');
+		if (response.message === 'Merge conflict') { // Only shown on Draft PRs
+			button.setAttribute('aria-label', 'Set PR as "Read for review" or merge on your computer');
+		} // TODO: handle more errors
 	}
 }
 

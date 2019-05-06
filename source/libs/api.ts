@@ -15,10 +15,10 @@ a Promise that resolves into an object.
 If the response body is empty, you'll receive an object like {status: 200}
 
 The second argument is an options object,
-it lets you define accept a 404 error code as a valid response, like:
+it lets you define accept error HTTP codes as a valid response, like:
 
 {
-	accept404: true
+	ignoreHTTPStatus: true
 }
 
 so the call will not throw an error but it will return as usual.
@@ -59,13 +59,13 @@ const api4 = location.hostname === 'github.com' ?
 	`${location.origin}/api/graphql`;
 
 interface GHRestApiOptions {
-	accept404?: boolean;
+	ignoreHTTPStatus?: boolean;
 	method?: 'GET' | 'POST';
 	body?: undefined | JsonObject;
 }
 
 const v3defaults: GHRestApiOptions = {
-	accept404: false,
+	ignoreHTTPStatus: false,
 	method: 'GET',
 	body: undefined
 };
@@ -74,7 +74,7 @@ export const v3 = pMemoize(async (
 	query: string,
 	options: GHRestApiOptions = v3defaults
 ): Promise<AnyObject> => {
-	const {accept404, method, body} = {...v3defaults, ...options};
+	const {ignoreHTTPStatus, method, body} = {...v3defaults, ...options};
 	const {personalToken} = await settings;
 
 	const response = await fetch(api3 + query, {
@@ -91,7 +91,7 @@ export const v3 = pMemoize(async (
 	// The response might just be a 200 or 404, it's the REST equivalent of `boolean`
 	const apiResponse: JsonObject = textContent.length > 0 ? JSON.parse(textContent) : {status: response.status};
 
-	if (response.ok || (accept404 === true && response.status === 404)) {
+	if (response.ok || ignoreHTTPStatus) {
 		return apiResponse;
 	}
 
