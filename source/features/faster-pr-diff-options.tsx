@@ -3,14 +3,14 @@ import select from 'select-dom';
 import * as icons from '../libs/icons';
 import features from '../libs/features';
 
-function createDiffStyleToggle() {
+function createDiffStyleToggle(): DocumentFragment {
 	const params = new URLSearchParams(location.search);
 	const isUnified = select.exists([
 		'[value="unified"][checked]', // Form in PR
 		'.table-of-contents .selected[href$=unified]' // Link in single commit
 	].join());
 
-	const makeLink = (type: string, icon: Element, selected: boolean) => {
+	const makeLink = (type: string, icon: Element, selected: boolean): HTMLElement => {
 		params.set('diff', type);
 		return <a
 			className={`btn btn-sm BtnGroup-item tooltipped tooltipped-s ${selected ? 'selected' : ''}`}
@@ -26,7 +26,7 @@ function createDiffStyleToggle() {
 	</>;
 }
 
-function createWhitespaceButton() {
+function createWhitespaceButton(): HTMLElement {
 	const searchParams = new URLSearchParams(location.search);
 	const isHidingWhitespace = searchParams.get('w') === '1';
 
@@ -46,7 +46,7 @@ function createWhitespaceButton() {
 	);
 }
 
-function wrap(...elements: Element[]) {
+function wrap(...elements: Node[]): DocumentFragment {
 	if (features.isSingleCommit()) {
 		return <div className="float-right">
 			{...elements.map(element => <div className="ml-3 BtnGroup">{element}</div>)}

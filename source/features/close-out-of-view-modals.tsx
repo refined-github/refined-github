@@ -8,7 +8,7 @@ const observer = new IntersectionObserver(([{intersectionRatio, target}]) => {
 	}
 });
 
-function init() {
+function init(): void {
 	// The `open` attribute is added after this handler is run,
 	// so the selector is inverted
 	delegate('.details-overlay:not([open]) > summary', 'click', event => {

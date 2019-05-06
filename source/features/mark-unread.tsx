@@ -1,3 +1,4 @@
+import './mark-unread.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate, {DelegateSubscription, DelegateEvent} from 'delegate-it';
@@ -8,9 +9,8 @@ import * as pageDetect from '../libs/page-detect';
 import {safeElementReady} from '../libs/dom-utils';
 import {getUsername, getOwnerAndRepo} from '../libs/utils';
 
-// TODO: Pull these types out.
 type NotificationType = 'pull-request' | 'issue';
-type NotificationState = 'open' | 'merged' | 'closed';
+type NotificationState = 'open' | 'merged' | 'closed' | 'draft';
 
 interface Participant {
 	username: string;
@@ -34,12 +34,14 @@ const stateIcons = {
 	issue: {
 		open: icons.openIssue,
 		closed: icons.closedIssue,
-		merged: icons.closedIssue // Required just for TypeScript
+		merged: icons.closedIssue, // Required just for TypeScript
+		draft: icons.closedIssue // Required just for TypeScript
 	},
 	'pull-request': {
 		open: icons.openPullRequest,
 		closed: icons.closedPullRequest,
-		merged: icons.mergedPullRequest
+		merged: icons.mergedPullRequest,
+		draft: icons.openPullRequest
 	}
 };
 
@@ -86,7 +88,7 @@ async function markRead(urls: string|string[]): Promise<void> {
 	await setNotifications(updated);
 }
 
-async function markUnread({target}: React.MouseEvent): Promise<void> {
+async function markUnread({currentTarget}: React.MouseEvent): Promise<void> {
 	const participants: Participant[] = select.all('.participant-avatar').slice(0, 3).map(el => ({
 		username: el.getAttribute('aria-label')!,
 		avatar: el.querySelector('img')!.src
@@ -102,6 +104,8 @@ async function markUnread({target}: React.MouseEvent): Promise<void> {
 		state = 'merged';
 	} else if (stateLabel.classList.contains('State--red')) {
 		state = 'closed';
+	} else if (stateLabel.title.includes('Draft')) {
+		state = 'draft';
 	} else {
 		throw new Error('Refined GitHub: A new issue state was introduced?');
 	}
@@ -124,9 +128,8 @@ async function markUnread({target}: React.MouseEvent): Promise<void> {
 	await setNotifications(unreadNotifications);
 	await updateUnreadIndicator();
 
-	// TODO: move type to function parameters, if elegant
-	(target as HTMLButtonElement).setAttribute('disabled', 'disabled');
-	(target as HTMLButtonElement).textContent = 'Marked as unread';
+	currentTarget.setAttribute('disabled', 'disabled');
+	currentTarget.textContent = 'Marked as unread';
 }
 
 function getNotification(notification: Notification): Element {
@@ -164,7 +167,8 @@ function getNotification(notification: Notification): Element {
 				<span className={`type-icon type-icon-state-${state}`}>
 					{stateIcons[type][state]()}
 				</span>
-				<a className="css-truncate-target js-notification-target js-navigation-open list-group-item-link" href={url}>
+				<a className="css-truncate-target js-notification-target js-navigation-open list-group-item-link" href={url}
+					data-hovercard-url={`${url}/hovercard?show_subscription_status=true`}>
 					{title}
 				</a>
 			</span>
@@ -223,7 +227,7 @@ async function renderNotifications(unreadNotifications: Notification[]): Promise
 	}
 
 	// Don’t simplify selector, it’s for cross-extension compatibility
-	let pageList = await safeElementReady('#notification-center .notifications-list');
+	let pageList = (await safeElementReady('#notification-center .notifications-list'))!;
 
 	if (!pageList) {
 		pageList = <div className="notifications-list"></div>;
@@ -234,7 +238,7 @@ async function renderNotifications(unreadNotifications: Notification[]): Promise
 		const group = getNotificationGroup(notification);
 		const item = getNotification(notification);
 
-		pageList!.prepend(group);
+		pageList.prepend(group);
 		group
 			.querySelector('ul.notifications')!
 			.prepend(item);
@@ -271,7 +275,7 @@ function isCurrentSingleRepoPage({repository}: Notification): boolean {
 }
 
 function isParticipatingPage(): boolean {
-	return /\/notifications\/participating/.test(location.pathname);
+	return location.pathname.startsWith('/notifications/participating');
 }
 
 async function updateUnreadIndicator(): Promise<void> {
@@ -301,8 +305,8 @@ async function updateUnreadIndicator(): Promise<void> {
 	}
 }
 
-async function markNotificationRead({target}: DelegateEvent): Promise<void> {
-	const {href} = (target as Element)
+async function markNotificationRead({delegateTarget}: DelegateEvent): Promise<void> {
+	const {href} = delegateTarget
 		.closest('li.js-notification')!
 		.querySelector<HTMLAnchorElement>('a.js-notification-target')!;
 	await markRead(href);
@@ -311,10 +315,17 @@ async function markNotificationRead({target}: DelegateEvent): Promise<void> {
 
 async function markAllNotificationsRead(event: DelegateEvent): Promise<void> {
 	event.preventDefault();
-	const repoGroup = (event.target as Element).closest('.boxed-group')!;
+	const repoGroup = event.delegateTarget.closest('.boxed-group')!;
 	const urls = select.all<HTMLAnchorElement>('a.js-notification-target', repoGroup).map(a => a.href);
 	await markRead(urls);
 	await updateUnreadIndicator();
+}
+
+async function markVisibleNotificationsRead({delegateTarget}: DelegateEvent): Promise<void> {
+	const group = delegateTarget.closest('.boxed-group')!;
+	const repo = select('.notifications-repo-link', group)!.textContent;
+	const notifications = await getNotifications();
+	setNotifications(notifications.filter(({repository}) => repository !== repo));
 }
 
 function addCustomAllReadBtn(): void {
@@ -396,12 +407,7 @@ async function init(): Promise<void> {
 			delegate('.btn-link.delete-note', 'click', markNotificationRead),
 			delegate('.js-mark-all-read', 'click', markAllNotificationsRead),
 			delegate('.js-delete-notification button', 'click', updateUnreadIndicator),
-			delegate('.js-mark-visible-as-read', 'submit', async event => {
-				const group = (event.target as Element).closest('.boxed-group')!;
-				const repo = select('.notifications-repo-link', group)!.textContent;
-				const notifications = await getNotifications();
-				setNotifications(notifications.filter(({repository}) => repository !== repo));
-			})
+			delegate('.js-mark-visible-as-read', 'submit', markVisibleNotificationsRead)
 		);
 	} else if (pageDetect.isPR() || pageDetect.isIssue()) {
 		await markRead(location.href);

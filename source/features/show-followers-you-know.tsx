@@ -1,18 +1,17 @@
 import React from 'dom-chef';
-import domify from 'doma';
 import select from 'select-dom';
 import {getCleanPathname} from '../libs/utils';
 import features from '../libs/features';
+import fetchDom from '../libs/fetch-dom';
 
-const fetchStargazers = async () => {
-	const url = `${location.origin}/${getCleanPathname()}/followers/you_know`;
-	const response = await fetch(url);
-	const dom = domify(await response.text());
+const fetchStargazers = async (): Promise<HTMLImageElement[]> => {
+	const url = `/${getCleanPathname()}/followers/you_know`;
+	const dom = await fetchDom(url);
 	return select.all<HTMLImageElement>('.follow-list-item .avatar', dom);
 };
 
 const avatarSize = 35;
-const renderAvatar = (image: HTMLImageElement) => {
+const renderAvatar = (image: HTMLImageElement): HTMLElement => {
 	const src = new URL(image.src);
 	src.searchParams.set('s', String(avatarSize * window.devicePixelRatio));
 	image.src = String(src);

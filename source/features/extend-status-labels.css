@@ -1,0 +1,9 @@
+/* Colorize */
+.gh-header-meta .State {
+	text-decoration: none;
+}
+
+.gh-header-meta .State a,
+.gh-header-meta .State code {
+	color: #fff;
+}

@@ -1,6 +1,7 @@
+import './hide-useless-newsfeed-events.css';
 import features from '../libs/features';
 
-function init() {
+function init(): void {
 	document.body.classList.add('rgh-no-useless-events');
 }
 

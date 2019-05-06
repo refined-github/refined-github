@@ -3,16 +3,16 @@ import domify from 'doma';
 import select from 'select-dom';
 import features from '../libs/features';
 
-const isGist = (link: HTMLAnchorElement) =>
+const isGist = (link: HTMLAnchorElement): boolean =>
 	!link.pathname.includes('.') && // Exclude links to embed files
 	(
 		link.hostname.startsWith('gist.') ||
 		link.pathname.startsWith('gist/')
 	);
 
-const isOnlyChild = (link: HTMLAnchorElement) => link.textContent!.trim() === link.parentNode!.textContent!.trim();
+const isOnlyChild = (link: HTMLAnchorElement): boolean => link.textContent!.trim() === link.parentNode!.textContent!.trim();
 
-async function embedGist(link: HTMLAnchorElement) {
+async function embedGist(link: HTMLAnchorElement): Promise<void> {
 	const info = <em> (loading)</em>;
 	link.after(info);
 
@@ -42,7 +42,7 @@ async function embedGist(link: HTMLAnchorElement) {
 	}
 }
 
-function init() {
+function init(): void {
 	select.all<HTMLAnchorElement>('.js-comment-body p a:only-child')
 		.filter(item => isGist(item) && isOnlyChild(item))
 		.forEach(embedGist);

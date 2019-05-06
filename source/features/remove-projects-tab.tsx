@@ -31,7 +31,7 @@ const addNewProjectLink = onetime(() => {
 	// https://github.com/USER/REPO/projects/new
 	const path = location.pathname.split('/', 3);
 	const base = path.length > 2 ? path.join('/') : '/orgs' + path.join('/');
-	select('.HeaderMenu [href="/new"]')!.parentElement!.append(
+	select('.Header [href="/new"]')!.parentElement!.append(
 		<a className="dropdown-item" href={base + '/projects/new'}>
 			New project
 		</a>

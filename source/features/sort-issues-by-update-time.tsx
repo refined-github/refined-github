@@ -3,7 +3,7 @@ import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 import {safeElementReady} from '../libs/dom-utils';
 
-function getDefaultQuery(link: HTMLAnchorElement, search: URLSearchParams) {
+function getDefaultQuery(link: HTMLAnchorElement, search: URLSearchParams): string {
 	// Query-less URLs imply some queries.
 	// When we explicitly set ?q=* they're overridden,
 	// so they need to be manually added again.
@@ -27,7 +27,7 @@ function getDefaultQuery(link: HTMLAnchorElement, search: URLSearchParams) {
 	return queries.join(' ');
 }
 
-function init() {
+function init(): void {
 	// Get issues links that don't already have a specific sorting applied
 	for (const link of select.all<HTMLAnchorElement>(`
 		[href*="/issues"]:not([href*="sort%3A"]):not(.issues-reset-query),
@@ -50,7 +50,7 @@ function init() {
 	}
 }
 
-async function cleanBar() {
+async function cleanBar(): Promise<void> {
 	(await safeElementReady<HTMLInputElement>('.header-search-input'))!.value = '';
 }
 

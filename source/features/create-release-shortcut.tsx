@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import features from '../libs/features';
 
-function init() {
+function init(): void {
 	const createReleaseButton = select('a[href$="/releases/new"]:not([data-hotkey])');
 	if (createReleaseButton) {
 		createReleaseButton.setAttribute('data-hotkey', 'c');

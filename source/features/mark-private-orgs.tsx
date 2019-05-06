@@ -1,3 +1,4 @@
+import './mark-private-orgs.css';
 import select from 'select-dom';
 import {getUsername} from '../libs/utils';
 import features from '../libs/features';
@@ -10,7 +11,7 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	let publicOrgs = (await api.v3(`users/${getUsername()}/orgs`));
+	let publicOrgs = await api.v3(`users/${getUsername()}/orgs`);
 	publicOrgs = publicOrgs.map((orgData: AnyObject) => `/${orgData.login}`);
 
 	for (const org of orgs) {

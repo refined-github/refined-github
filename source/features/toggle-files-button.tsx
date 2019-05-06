@@ -1,3 +1,4 @@
+import './toggle-files-button.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
@@ -21,7 +22,7 @@ function addButton(): void {
 	);
 }
 
-function init() {
+function init(): void {
 	const repoContent = select('.repository-content')!;
 	observeEl(repoContent, addButton);
 	delegate('.rgh-toggle-files', 'click', ({delegateTarget}) => {

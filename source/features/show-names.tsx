@@ -1,3 +1,4 @@
+import './show-names.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as api from '../libs/api';
@@ -5,7 +6,8 @@ import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 
 async function init(): Promise<false | void> {
-	const usernameElements = select.all('.js-discussion .author:not(.rgh-fullname):not([href*="/apps/"])');
+	// `a` selector needed to skip commits by non-GitHub users
+	const usernameElements = select.all('.js-discussion a.author:not(.rgh-fullname):not([href*="/apps/"]):not([href*="/marketplace/"])');
 
 	const usernames = new Set();
 	const myUsername = getUsername();
