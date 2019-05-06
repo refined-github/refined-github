@@ -3,9 +3,9 @@ import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 import * as api from '../libs/api';
+import * as icons from '../libs/icons';
 import observeEl from '../libs/simplified-element-observer';
 import {getRepoURL} from '../libs/utils';
-import {alert} from '../libs/icons';
 
 function getBranches(): {base: string; head: string} {
 	return {
@@ -37,11 +37,11 @@ async function handler(event: DelegateEvent) {
 		button.remove();
 	} else if (response.message) {
 		button.textContent = response.message;
-		button.prepend(alert(), ' ');
+		button.prepend(icons.alert(), ' ');
 		if (response.message === 'Merge conflict') {
 			// Only shown on Draft PRs
 			button.replaceWith(
-				<a href={location.pathname + '/conflicts'} className="btn float-right">{alert()} Resolve conflicts</a>
+				<a href={location.pathname + '/conflicts'} className="btn float-right">{icons.alert()} Resolve conflicts</a>
 			);
 		} // TODO: handle more errors
 	}
