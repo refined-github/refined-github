@@ -8,24 +8,33 @@ function init(): false | void {
 		return false;
 	}
 
+	// Get the latest status update
 	const lastActionRef = select.all(`
-		.discussion-item-closed [href*="/pull/"],
-		.discussion-item-closed code,
+		.discussion-item-closed,
 		.discussion-item-reopened,
-		.discussion-item-merged [href*="/commit/"]
+		.discussion-item-merged
 	`).pop();
 
-	// Leave if it was never closed or if it was reopened
+	// Leave if the issue/PR was never closed or if it was reopened
 	if (!lastActionRef || lastActionRef.matches('.discussion-item-reopened')) {
 		return false;
 	}
 
+	// Find reference to a commit/PR
+	const lastActionLink = select('[href*="/pull/"], [href*="/commit/"], code', lastActionRef);
+
 	const label = select('.gh-header-meta .State')!;
-	const isMerged = lastActionRef.closest('.discussion-item-merged');
-	label.append(isMerged ? ' as ' : ' in ', lastActionRef.cloneNode(true));
+
+	if (lastActionLink) {
+		const isMerged = lastActionLink.closest('.discussion-item-merged');
+		label.append(isMerged ? ' as ' : ' in ', lastActionLink.cloneNode(true));
+	}
+
+	// Select the label inside the action ref and from there search an ID upwards
+	const closestIdSelector = '#' + select('.discussion-item-header', lastActionRef)!.closest('[id]')!.id;
 
 	// Link label to event in timeline
-	wrap(label, <a href={'#' + lastActionRef.closest('[id]')!.id}/>);
+	wrap(label, <a href={closestIdSelector}/>);
 }
 
 features.add({
