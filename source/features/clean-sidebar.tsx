@@ -66,15 +66,11 @@ function clean(): void {
 
 	// Milestones
 	const milestones = select('.sidebar-milestone')!;
-	if (!select.exists('.milestone-name', milestones)) {
+	const milestonesInfo = milestones.lastChild!.lastChild!;
+	if (milestonesInfo.textContent!.trim() === 'No milestone') {
 		if (canEditSidebar) {
-			const lastTextNode = milestones.lastChild!.lastChild!;
-			if (lastTextNode.textContent!.trim() === 'No milestone') {
-				lastTextNode.remove();
-				milestones.classList.add('rgh-clean-sidebar');
-			} else {
-				throw new Error('Refined GitHub: milestones in sidebar could not be hidden');
-			}
+			milestonesInfo.remove();
+			milestones.classList.add('rgh-clean-sidebar');
 		} else {
 			milestones.remove();
 		}
