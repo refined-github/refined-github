@@ -56,7 +56,7 @@ async function addButton(): Promise<void> {
 	}
 
 	select('.mergeability-details .merge-message')!.append(
-		<button type="button" className="btn float-right rgh-update-pr-from-master">
+		<button type="button" className="btn float-right rgh-update-pr-from-master tooltipped tooltipped-n" aria-label={`Merge the ${base} branch into ${head}`}>
 			Update branch
 		</button>
 	);
