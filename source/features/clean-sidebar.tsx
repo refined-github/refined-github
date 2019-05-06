@@ -47,6 +47,7 @@ function clean(): void {
 			select('[aria-label="Select assignees"] summary')!.append(
 				<span style={{fontWeight: 'normal'}}> – {assignYourself}</span>
 			);
+			assignees.closest('.discussion-sidebar-item')!.classList.add('rgh-clean-sidebar');
 		}
 	}
 
