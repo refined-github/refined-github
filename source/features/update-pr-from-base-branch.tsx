@@ -1,55 +1,80 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import React from 'dom-chef';
 import select from 'select-dom';
+import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 import * as api from '../libs/api';
-import * as icons from '../libs/icons';
+import observeEl from '../libs/simplified-element-observer';
+import {getRepoURL} from '../libs/utils';
 
-export async function mergeBranches(repoUrl: string, base: string, head: string) {
-	const result = await api.v3(`repos/${repoUrl}/merges`, {
+function getBranches(): {base: string; head: string} {
+	return {
+		base: select('.base-ref')!.textContent!.trim(),
+		head: select('.head-ref')!.textContent!.trim()
+	};
+}
+
+export async function mergeBranches() {
+	const prBranches = getBranches();
+	const result = await api.v3(`repos/${getRepoURL()}/merges`, {
 		method: 'POST',
-		body: {base, head}
+		body: {
+			head: prBranches.base,
+			base: prBranches.head
+		}
 	});
 
 	return result.status >= 200 && result.status < 300;
 }
 
-async function handler(base: string, head: string, button: HTMLButtonElement) {
+async function handler(event: DelegateEvent) {
+	const button = event.target as HTMLButtonElement;
 	button.disabled = true;
 	button.textContent = 'Updating branch…';
 
-	const [, repoUrl = ''] = location.pathname.match(/\/([^/]+\/[^/]+)/)!;
-
-	if (await mergeBranches(repoUrl, base, head)) {
-		button.closest('.branch-action-item')!.remove();
+	// TODO: show errors to the user
+	if (await mergeBranches()) {
+		button.remove();
 	}
 }
 
-async function init(): Promise<false | void> {
+async function addButton(): Promise<void> {
 	if (select.exists('.rgh-update-pr-from-master')) {
 		return;
 	}
 
-	const prBase = select('.base-ref')!.textContent!;
-	const prHead = select('.head-ref')!.textContent!;
-	if (prBase.includes(':')) {
+	const stillLoading = select('#partial-pull-merging poll-include-fragment');
+	if (stillLoading) {
+		stillLoading.addEventListener('load', addButton);
+		return;
+	}
+
+	const {base, head} = getBranches();
+	const {behind_by} = await api.v3(`repos/${getRepoURL()}/compare/${base}...${head}`);
+	if (behind_by === 0) {
+		return;
+	}
+
+	select('.mergeability-details .merge-message')!.append(
+		<button type="button" className="btn float-right rgh-update-pr-from-master">
+			Update branch
+		</button>
+	);
+}
+
+function init(): void | false {
+	// Only if user can merge it. This selects the Merge button, unless it's disabled (because of conflicts or requirements)
+	if (!select.exists('[data-details-container=".js-merge-pr"]:not([disabled])')) {
 		return false;
 	}
 
-	select('.mergeability-details .merge-message')!.before(
-		<div className="branch-action-item">
-			<div className="branch-action-btn float-right js-immediate-updates js-tryable-again js-needs-timeline-marker-header">
-				<button type="button" className="btn rgh-update-pr-from-master" onClick={event => handler(prHead, prBase, event.currentTarget)}>
-					Update branch
-				</button>
-			</div>
-			<div className="branch-action-item-icon completeness-indicator completeness-indicator-problem">
-				{icons.alert()}
-			</div>
-			<h3 className="h4 status-heading">
-				Merge the latest changes from <span className="branch-name">{prBase}</span> into this branch.
-			</h3>
-		</div>
-	);
+	// API doesn't support cross-fork merges
+	if (getBranches().base.includes(':')) {
+		return false;
+	}
+
+	observeEl('.discussion-timeline-actions', addButton);
+	delegate('.discussion-timeline-actions', '.rgh-update-pr-from-master', 'click', handler);
 }
 
 features.add({
@@ -57,6 +82,6 @@ features.add({
 	include: [
 		features.isPRConversation
 	],
-	load: features.onNewComments,
+	load: features.onAjaxedPages,
 	init
 });
