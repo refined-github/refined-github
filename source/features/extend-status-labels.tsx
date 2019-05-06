@@ -26,7 +26,7 @@ function init(): false | void {
 	const label = select('.gh-header-meta .State')!;
 
 	if (lastActionLink) {
-		const isMerged = lastActionLink.closest('.discussion-item-merged');
+		const isMerged = lastActionRef.matches('.discussion-item-merged');
 		label.append(isMerged ? ' as ' : ' in ', lastActionLink.cloneNode(true));
 	}
 
