@@ -1,12 +1,13 @@
+import './improve-shortcut-help.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
-function splitKeys(keys: string) {
+function splitKeys(keys: string): DocumentFragment[] {
 	return keys.split(' ').map(key => <> <kbd>{key}</kbd></>);
 }
 
-function improveShortcutHelp(dialog: Element) {
+function improveShortcutHelp(dialog: Element): void {
 	select('.Box-body .col-5 .Box:first-child', dialog)!.after(
 		<div className="Box Box--condensed m-4">
 			<div className="Box-header">
@@ -27,7 +28,7 @@ function improveShortcutHelp(dialog: Element) {
 	);
 }
 
-function fixKeys(dialog: Element) {
+function fixKeys(dialog: Element): void {
 	for (const key of select.all('kbd', dialog)) {
 		if (key.textContent!.includes(' ')) {
 			key.replaceWith(...splitKeys(key.textContent!));
@@ -35,16 +36,15 @@ function fixKeys(dialog: Element) {
 	}
 }
 
-// TODO: type target asap and drop `as Element`
 const observer = new MutationObserver(([{target}]) => {
-	if (!select.exists('.js-details-dialog-spinner', target as Element)) {
-		improveShortcutHelp(target as Element);
-		fixKeys(target as Element);
+	if (target instanceof Element && !select.exists('.js-details-dialog-spinner', target)) {
+		improveShortcutHelp(target);
+		fixKeys(target);
 		observer.disconnect();
 	}
 });
 
-function init() {
+function init(): void {
 	document.addEventListener('keypress', ({key}) => {
 		if (key === '?') {
 			observer.observe(select('.kb-shortcut-dialog')!, {childList: true});

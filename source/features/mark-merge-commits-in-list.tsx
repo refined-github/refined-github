@@ -1,8 +1,9 @@
+import './mark-merge-commits-in-list.css';
 import select from 'select-dom';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 
-function init() {
+function init(): void {
 	for (const commit of select.all('.commits-list-item')) {
 		if (select.exists('[title^="Merge pull request"]', commit)) {
 			commit.classList.add('refined-github-merge-commit');

@@ -2,7 +2,7 @@ import select from 'select-dom';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 
-function init() {
+function init(): void {
 	const menuItems = select.all('details .js-comment-edit-button:not(.rgh-edit-comment)');
 
 	for (const item of menuItems) {
@@ -12,6 +12,23 @@ function init() {
 		button.append(icons.edit());
 		button.classList.replace('dropdown-item', 'timeline-comment-action');
 		item.closest('details')!.before(button);
+
+		// Hide `Edit` from dropdown
+		item.hidden = true;
+		if (
+			item.matches(':last-child') &&
+			item.previousElementSibling &&
+			item.previousElementSibling.matches('.dropdown-divider')
+		) {
+			item.previousElementSibling.remove();
+		} else if (
+			item.previousElementSibling &&
+			item.previousElementSibling.matches('.dropdown-divider') &&
+			item.nextElementSibling &&
+			item.nextElementSibling.matches('.dropdown-divider')
+		) {
+			item.nextElementSibling.remove();
+		}
 	}
 }
 

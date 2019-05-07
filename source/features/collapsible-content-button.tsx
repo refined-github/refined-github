@@ -14,7 +14,7 @@ import * as icons from '../libs/icons';
 // Wraps string in at least 2 \n on each side,
 // as long as the field doesn't already have them.
 // Code adopted/adapted from GitHub.
-function smartBlockWrap(content: string, field: HTMLTextAreaElement) {
+function smartBlockWrap(content: string, field: HTMLTextAreaElement): string {
 	const before = field.value.slice(0, field.selectionStart);
 	const after = field.value.slice(field.selectionEnd);
 	const [whitespaceAtStart] = before.match(/\n*$/) || [''];
@@ -43,15 +43,16 @@ function init(): void {
 	}
 }
 
-function addContentToDetails(event: DelegateEvent<MouseEvent, HTMLButtonElement>) {
+function addContentToDetails(event: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	const field = event.delegateTarget.form!.querySelector('textarea')!;
+	const selection = field.value.slice(field.selectionStart, field.selectionEnd);
 
 	// Don't indent <summary> because indentation will not be automatic on multi-line content
 	const newContent = `
 		<details>
 		<summary>Details</summary>
 
-		${getSelection()!.toString()}
+		${selection}
 
 		</details>
 	`.replace(/(\n|\b)\t+/g, '$1').trim();

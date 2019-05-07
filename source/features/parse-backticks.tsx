@@ -2,6 +2,7 @@
 `code in backticks` that appears in issue titles and commit titles will be parsed as Markdown
 https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png
 */
+import './parse-backticks.css';
 import select from 'select-dom';
 import React from 'dom-chef';
 import features from '../libs/features';
@@ -9,7 +10,7 @@ import getTextNodes from '../libs/get-text-nodes';
 
 const splittingRegex = /`(.*?)`/g;
 
-function splitTextReducer(fragment: DocumentFragment, text: string, index: number) {
+function splitTextReducer(fragment: DocumentFragment, text: string, index: number): DocumentFragment {
 	// Code is always in odd positions
 	if (index % 2 && text.length >= 1) {
 		// `span.sr-only` keeps the backticks copy-pastable but invisible
@@ -27,7 +28,7 @@ function splitTextReducer(fragment: DocumentFragment, text: string, index: numbe
 	return fragment;
 }
 
-function init() {
+function init(): void {
 	for (const title of select.all(`
 		[aria-label="Issues"][role="group"] .js-navigation-open,
 		.commit-title .js-navigation-open

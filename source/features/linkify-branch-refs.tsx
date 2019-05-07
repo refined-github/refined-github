@@ -5,7 +5,7 @@ import * as pageDetect from '../libs/page-detect';
 import {getOwnerAndRepo} from '../libs/utils';
 import {safeElementReady, wrap} from '../libs/dom-utils';
 
-function inPR() {
+function inPR(): void {
 	let deletedBranch: string | undefined;
 	const lastBranchAction = select.all(`
 		.discussion-item-head_ref_deleted .commit-ref,
@@ -46,7 +46,7 @@ function inPR() {
 	}
 }
 
-async function inQuickPR() {
+async function inQuickPR(): Promise<void> {
 	const el = await safeElementReady('.branch-name');
 	if (el) {
 		const {ownerName, repoName} = getOwnerAndRepo();
@@ -55,7 +55,7 @@ async function inQuickPR() {
 	}
 }
 
-function init() {
+function init(): void {
 	if (pageDetect.isPR()) {
 		inPR();
 	} else if (pageDetect.isQuickPR()) {

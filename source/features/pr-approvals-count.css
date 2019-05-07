@@ -1,0 +1,16 @@
+/* Show approvals count in PR list */
+.js-issue-row .text-gray [aria-label*='approval'] {
+	font-size: 0;
+}
+
+.js-issue-row .text-gray [aria-label*='approval']::before {
+	all: unset;
+	content: attr(aria-label);
+	display: inline !important;
+	color: var(--github-green);
+	font-size: 12px;
+}
+
+.js-issue-row .text-gray [aria-label*='changes'] {
+	color: var(--github-red) !important;
+}

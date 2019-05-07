@@ -2,6 +2,7 @@
 Add button to view the markdown source whereas GitHub only lets you see the rendered version.
 https://user-images.githubusercontent.com/1402241/54814836-7bc39c80-4ccb-11e9-8996-9ecf4f6036cb.png
 */
+import './view-markdown-source.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
@@ -12,18 +13,22 @@ import {blurAccessibly} from './comment-fields-keyboard-shortcuts';
 
 const btnBodyMap = new WeakMap<Element, Element | Promise<Element>>();
 
-async function fetchSource() {
+async function fetchSource(): Promise<Element> {
 	const path = location.pathname.replace(/([^/]+\/[^/]+\/)(blob)/, '$1blame');
-	const dom = await fetchDom(location.origin + path, '.blob-wrapper');
+	const dom = await fetchDom(path, '.blob-wrapper');
 	dom.classList.add('rgh-markdown-source');
 	return dom;
 }
 
 // Hide tooltip after click, it’s shown on :focus
-function blurButton(button: HTMLElement) {
+function blurButton(button: HTMLElement): void {
 	if (button === document.activeElement) {
 		blurAccessibly(button);
 	}
+}
+
+function dispatchEvent(element: HTMLElement, type: keyof GlobalEventHandlersEventMap): void {
+	element.dispatchEvent(new CustomEvent(type, {bubbles: true}));
 }
 
 /*
@@ -31,11 +36,11 @@ The dom of each version is stored on each button.
 This acts as an auto-discarded cache without globals, timers, etc.
 It should also work clicks on buttons sooner than the page loads.
 */
-async function showSource() {
-	const sourceButton = select('.rgh-md-source')!;
-	const renderedButton = select('.rgh-md-rendered')!;
+async function showSource(): Promise<void> {
+	const sourceButton = select<HTMLButtonElement>('.rgh-md-source')!;
+	const renderedButton = select<HTMLButtonElement>('.rgh-md-rendered')!;
 
-	document.dispatchEvent(new CustomEvent('pjax:start')); // Show loading bar
+	sourceButton.disabled = true;
 
 	const source = btnBodyMap.get(sourceButton) || fetchSource();
 	const rendered = btnBodyMap.get(renderedButton) as Element || select('.blob.instapaper_body')!;
@@ -45,22 +50,30 @@ async function showSource() {
 
 	rendered.replaceWith(await source);
 
-	document.dispatchEvent(new CustomEvent('pjax:end')); // Hide loading bar
+	sourceButton.disabled = false;
 
 	sourceButton.classList.add('selected');
 	renderedButton.classList.remove('selected');
 	blurButton(sourceButton);
+
+	dispatchEvent(sourceButton, 'rgh:view-markdown-source');
 }
 
-async function showRendered() {
-	const sourceButton = select('.rgh-md-source')!;
-	const renderedButton = select('.rgh-md-rendered')!;
+async function showRendered(): Promise<void> {
+	const sourceButton = select<HTMLButtonElement>('.rgh-md-source')!;
+	const renderedButton = select<HTMLButtonElement>('.rgh-md-rendered')!;
+
+	renderedButton.disabled = true;
 
 	(await btnBodyMap.get(sourceButton))!.replaceWith(btnBodyMap.get(renderedButton) as Element);
+
+	renderedButton.disabled = false;
 
 	sourceButton.classList.remove('selected');
 	renderedButton.classList.add('selected');
 	blurButton(renderedButton);
+
+	dispatchEvent(sourceButton, 'rgh:view-markdown-rendered');
 }
 
 async function init(): Promise<false | void> {

@@ -1,9 +1,10 @@
+import './global-discussion-list-filters.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 
-function init() {
+function init(): void {
 	const defaultQuery = 'is:open archived:false ';
 
 	// Without this, the Issues page also displays PRs, and viceversa

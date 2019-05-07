@@ -1,8 +1,9 @@
+import './hide-useless-comments.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
-function init() {
+function init(): void {
 	let uselessCount = 0;
 	for (const commentText of select.all('.comment-body > p:only-child')) {
 		// Find useless comments
@@ -45,13 +46,13 @@ function init() {
 	}
 }
 
-function unhide(event: React.MouseEvent) {
+function unhide(event: React.MouseEvent<HTMLButtonElement>): void {
 	for (const comment of select.all('.rgh-hidden-comment')) {
 		comment.hidden = false;
 	}
 
 	select('.rgh-hidden-comment')!.scrollIntoView();
-	(event.target as Element).parentElement!.remove();
+	event.currentTarget.parentElement!.remove();
 }
 
 features.add({

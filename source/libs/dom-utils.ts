@@ -38,7 +38,7 @@ export const safeElementReady = <T extends Element>(selector: string): Promise<T
  *   <nope/>
  * </parent>
  */
-export const appendBefore = (parent: string|Element, before: string, child: Element) => {
+export const appendBefore = (parent: string|Element, before: string, child: Element): void => {
 	if (typeof parent === 'string') {
 		parent = select(parent)!;
 	}
@@ -52,12 +52,12 @@ export const appendBefore = (parent: string|Element, before: string, child: Elem
 	}
 };
 
-export const wrap = (target: Element, wrapper: Element) => {
+export const wrap = (target: Element, wrapper: Element): void => {
 	target.before(wrapper);
 	wrapper.append(target);
 };
 
-export const wrapAll = (targets: Element[], wrapper: Element) => {
+export const wrapAll = (targets: Element[], wrapper: Element): void => {
 	targets[0].before(wrapper);
 	wrapper.append(...targets);
 };

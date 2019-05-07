@@ -9,14 +9,14 @@ import select from 'select-dom';
 import {checkInline} from '../libs/icons';
 import features from '../libs/features';
 
-function populateDropDown({currentTarget}: Event) {
+function populateDropDown({currentTarget}: Event): void {
 	const searchParam = new URLSearchParams(location.search);
 	let queryString = searchParam.get('q') || '';
 
 	const [, currentStatus = ''] = queryString.match(/\bstatus:(success|failure|pending)\b/) || [];
 
 	if (currentStatus) {
-		queryString = queryString.replace(currentStatus, '').trim();
+		queryString = queryString.replace(`status:${currentStatus}`, '').trim();
 	}
 
 	const dropdown = select('.select-menu-list', currentTarget as Element)!;
@@ -40,8 +40,12 @@ function populateDropDown({currentTarget}: Event) {
 	}
 }
 
-function init() {
+function init(): void | false {
 	const reviewsFilter = select('.table-list-header-toggle > details:nth-last-child(3)')!;
+
+	if (!reviewsFilter) {
+		return false;
+	}
 
 	// Copy existing element and adapt its content
 	const statusFilter = reviewsFilter.cloneNode(true) as HTMLDetailsElement;

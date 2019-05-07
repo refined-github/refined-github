@@ -1,0 +1,17 @@
+/* Fix pre-existing items' positioning on GHE */
+.reponav-dropdown a.dropdown-item:not(.rgh-reponav-more)::before {
+	content: '';
+	display: inline-block;
+	width: 16px;
+}
+
+/* Ensure all icons are 16px wide for alignment */
+.rgh-reponav-more svg {
+	width: 16px;
+}
+
+/* Optically align Dependencies dropdown link */
+.rgh-dependency-graph .octicon-package {
+	margin-right: 2px;
+	margin-left: -2px;
+}

@@ -1,6 +1,7 @@
+import './monospace-textareas.css';
 import features from '../libs/features';
 
-function init() {
+function init(): void {
 	document.body.classList.add('rgh-monospace-textareas');
 }
 

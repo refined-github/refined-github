@@ -24,7 +24,7 @@ const addListenersOnNewElements = debounce(() => {
 	}
 }, {wait: 50});
 
-const setup = () => {
+const setup = (): void => {
 	const discussion = select('.js-discussion');
 	if (!discussion || observed.has(discussion)) {
 		return;
@@ -39,7 +39,7 @@ const setup = () => {
 	addListenersOnNewElements();
 };
 
-export default function (cb: VoidFunction) {
+export default function (cb: VoidFunction): void {
 	setup();
 	handlers.add(cb);
 }
