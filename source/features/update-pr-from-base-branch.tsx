@@ -26,7 +26,7 @@ export async function mergeBranches(): Promise<AnyObject> {
 	});
 }
 
-async function handler(event: DelegateEvent): void {
+async function handler(event: DelegateEvent): Promise<void> {
 	const button = event.target as HTMLButtonElement;
 	button.disabled = true;
 	button.textContent = 'Updating branch…';
