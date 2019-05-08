@@ -31,6 +31,20 @@ const getNote = onetime<[], HTMLElement>((): HTMLElement =>
 	</p>
 );
 
+const getSMCheck = onetime<[], HTMLElement>((): HTMLElement =>
+	<p className="note">
+		<input type="checkbox" name="fix-squash-and-merge-message" onChange={event => {
+			console.log(event.target.checked);
+			if (event.target.checked) {
+				const description = select('.comment-form-textarea[name=\'pull_request[body]\']')!.textContent;
+				select<HTMLTextAreaElement>('#merge_message_field')!.value = description!;
+			} else {
+				select<HTMLTextAreaElement>('#merge_message_field')!.value = "Test me!";
+			}
+		}} /> Use pull request description as commit message.<br />
+	</p>
+);
+
 function getPRNumber(): string {
 	return select('.gh-header-number')!.textContent!;
 }
@@ -76,6 +90,7 @@ function onMergePanelToggle(event: CustomEvent): void {
 		return;
 	}
 
+	select<HTMLInputElement>('#merge_message_field')!.after(getSMCheck());
 	triggerFitTextareas();
 
 	// Replace default title and fire the correct events
