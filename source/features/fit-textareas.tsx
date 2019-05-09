@@ -22,7 +22,7 @@ function focusListener({delegateTarget: textarea}: DelegateEvent<Event, HTMLText
 	enable(textarea);
 }
 
-function fitPrCommitMessageBox(event: Event) {
+function fitPrCommitMessageBox(): void {
 	enable(select<HTMLTextAreaElement>('[name="commit_message"]')!);
 }
 
@@ -35,7 +35,6 @@ features.add({
 	id: 'fit-textareas',
 	init
 });
-
 
 features.add({
 	id: 'fit-textareas',

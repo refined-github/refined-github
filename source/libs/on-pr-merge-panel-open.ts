@@ -35,5 +35,5 @@ export default function (callback: EventListener): DelegateSubscription[] {
 			'details:toggled',
 			delegateHandler(callback)
 		)
-	]
+	];
 }
