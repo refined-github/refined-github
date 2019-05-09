@@ -12,8 +12,8 @@ import onetime from 'onetime';
 import debounce from 'debounce-fn';
 import delegate, {DelegateSubscription} from 'delegate-it';
 import insertTextTextarea from 'insert-text-textarea';
-import fitTextarea from 'fit-textarea';
 import features from '../libs/features';
+import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
 
 const createCommitTitle = debounce<[], string>((): string =>
 	`${select('.js-issue-title')!.textContent!.trim()} (${getPRNumber()})`
@@ -67,33 +67,19 @@ function submitPRTitleUpdate(): void {
 	select('.js-issue-update [type="submit"]')!.click(); // `form.submit()` isn't sent via ajax
 }
 
-function triggerFitTextareas(): void {
-	fitTextarea(select<HTMLTextAreaElement>('#merge_message_field')!);
-}
+function onMergePanelOpen(event: Event): void {
+	maybeShowNote();
 
-function onMergePanelToggle(event: CustomEvent): void {
-	if (!event.detail.open) {
-		return;
-	}
-
-	triggerFitTextareas();
-
-	// Replace default title and fire the correct events
 	const field = select<HTMLTextAreaElement>('#merge_title_field')!;
 
-	// Only if the user hasn't already interacted with it
-	if (field.closest('.is-dirty')) {
+	// Only if the user hasn't already interacted with it in this session
+	if (field.closest('.is-dirty') || event.type === 'session:resume') {
 		return;
 	}
 
+	// Replace default title and fire the correct events
 	field.value = '';
 	insertTextTextarea(field, createCommitTitle());
-}
-
-async function onResume(): Promise<void> {
-	await Promise.resolve(); // The `session:resume` event fires a bit too early
-	maybeShowNote();
-	triggerFitTextareas();
 }
 
 let listeners: DelegateSubscription[];
@@ -101,7 +87,7 @@ function init(): void {
 	listeners = [
 		...delegate('#discussion_bucket', '#merge_title_field', 'input', maybeShowNote),
 		...delegate('#discussion_bucket', 'form.js-merge-pull-request', 'submit', submitPRTitleUpdate),
-		...delegate('#discussion_bucket', '.js-merge-pr:not(.is-rebasing)', 'details:toggled', onMergePanelToggle)
+		...onPrMergePanelOpen(onMergePanelOpen)
 	];
 }
 
@@ -120,13 +106,4 @@ features.add({
 	],
 	load: features.onAjaxedPages,
 	init
-});
-
-// GitHub automatically restores value from the previous session and opens the form
-features.add({
-	id: 'sync-pr-commit-title',
-	include: [
-		features.isPRConversation
-	],
-	init: () => document.addEventListener('session:resume', onResume)
 });
