@@ -1,8 +1,8 @@
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {getOwnerAndRepo, getDiscussionNumber, getOP} from '../libs/utils';
+import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
 
 interface Author {
 	email: string;
@@ -64,14 +64,19 @@ function addCoAuthors(): void {
 	addendum.delete(getOP());
 
 	if (addendum.size > 0) {
-		field.value += '\n\n' + [...addendum.values()].join('\n');
+		// TODO: use insertTextTextarea
+		if (field.value.trim() !== '') {
+			field.value += '\n\n'; // Only add spacing if the field isn't empty
+		}
+
+		field.value += [...addendum.values()].join('\n');
 	}
 }
 
 async function init(): Promise<void> {
 	coAuthors = await fetchCoAuthoredData();
 
-	delegate('.discussion-timeline-actions', '.merge-message [type=button]', 'click', addCoAuthors);
+	onPrMergePanelOpen(addCoAuthors);
 }
 
 features.add({
