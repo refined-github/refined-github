@@ -8,7 +8,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
-import {diff} from '../libs/icons';
+import * as icons from '../libs/icons';
 import {isSingleTagPage} from '../libs/page-detect';
 import {getRepoPath, getRepoURL} from '../libs/utils';
 
@@ -74,7 +74,7 @@ async function init(): Promise<void | false> {
 							aria-label={'See changes since ' + decodeURIComponent(previousTag)}
 							href={`/${getRepoURL()}/compare/${previousTag}...${allTags[index].tag}`}
 						>
-							{diff()} Changelog
+							{icons.diff()} Changelog
 						</a>
 					</li>
 				);
