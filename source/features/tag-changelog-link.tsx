@@ -67,7 +67,7 @@ async function init(): Promise<void | false> {
 	for (const [index, container] of allTags.entries()) {
 		const previousTag = getPreviousTag(index, allTags);
 
-		if (previousTag !== false) {
+		if (previousTag) {
 			// Signed releases include on mobile include a "Verified" <details> inside the `ul`. `li:last-of-type` excludes it.
 			// Example: https://github.com/tensorflow/tensorflow/releases?after=v1.12.0-rc1
 			for (const lastLink of select.all('.list-style-none > li:last-of-type', container.element)) {
@@ -91,25 +91,26 @@ async function init(): Promise<void | false> {
 	}
 }
 
-const getPreviousTag = (index: number, allTags: TagDetails[]): string | false => {
-	let previousTag: string | false = false;
+const getPreviousTag = (current: number, allTags: TagDetails[]): string | undefined => {
+	let unmatchedNamespaceTag: string | undefined;
 
-	for (let i = index + 1; i < allTags.length; i++) {
-		if (allTags[i].commit === allTags[index].commit) {
+	for (let next = current + 1; next < allTags.length; next++) {
+		// Find a version on a different commit, if there are multiple tags on the same one
+		if (allTags[next].commit === allTags[current].commit) {
 			continue;
 		}
 
-		if (allTags[index].namespace === allTags[i].namespace) {
-			return allTags[i].tag;
+		if (allTags[current].namespace === allTags[next].namespace) {
+			return allTags[next].tag;
 		}
 
 		// If no matching namespace is found, just use the next one
-		if (previousTag === false) {
-			previousTag = allTags[i].tag;
+		if (!unmatchedNamespaceTag) {
+			unmatchedNamespaceTag = allTags[next].tag;
 		}
 	}
 
-	return previousTag;
+	return unmatchedNamespaceTag;
 };
 
 features.add({
