@@ -39,7 +39,7 @@ async function init(): Promise<void | false> {
 	}
 
 	const tagRegex = /\/releases\/tag\/(.*)/;
-	const documents = [document, await getNextPage()] as any; // TODO: fix select-dom types to accept mixed arrays
+	const documents = [document, await getNextPage()];
 
 	// not(.js-timeline-tags-expander) is needed as there can be some collapsed tags
 	// See https://github.com/facebook/react/releases?after=v16.7.0 for an example
