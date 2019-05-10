@@ -6,6 +6,7 @@ See it in action at: https://github.com/parcel-bundler/parcel/releases
 */
 import React from 'dom-chef';
 import select from 'select-dom';
+import tinyVersionCompare from 'tiny-version-compare';
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
 import * as icons from '../libs/icons';
@@ -97,6 +98,11 @@ const getPreviousTag = (current: number, allTags: TagDetails[]): string | undefi
 	for (let next = current + 1; next < allTags.length; next++) {
 		// Find a version on a different commit, if there are multiple tags on the same one
 		if (allTags[next].commit === allTags[current].commit) {
+			continue;
+		}
+
+		// Find an earlier version
+		if (tinyVersionCompare(allTags[current].version, allTags[next].version) < 1) {
 			continue;
 		}
 
