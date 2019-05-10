@@ -4,7 +4,6 @@ If the tags are namespaced then it tries to get the previous release of the same
 
 See it in action at: https://github.com/parcel-bundler/parcel/releases
 */
-import './tag-changelog-link.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
@@ -65,11 +64,11 @@ async function init(): Promise<void | false> {
 		const previousTag = getPreviousTag(index, allTags);
 
 		if (previousTag !== false) {
-			const unorderedLists = select.all('.commit > ul.f6, .commit > .release-header > ul, div:first-child > ul', container.element);
-
-			for (const list of unorderedLists) {
-				list.append(
-					<li className={list.lastElementChild!.className}>
+			// Signed releases include on mobile include a "Verified" <details> inside the `ul`. `li:last-of-type` excludes it.
+			// Example: https://github.com/tensorflow/tensorflow/releases?after=v1.12.0-rc1
+			for (const lastLink of select.all('.list-style-none > li:last-of-type', container.element)) {
+				lastLink.after(
+					<li className={lastLink.className}>
 						<a
 							className="muted-link tooltipped tooltipped-n"
 							aria-label={'See changes since ' + decodeURIComponent(previousTag)}
@@ -79,6 +78,10 @@ async function init(): Promise<void | false> {
 						</a>
 					</li>
 				);
+
+				// `lastLink` is no longer the last link, so it shouldn't push our new link away.
+				// Same page as before: https://github.com/tensorflow/tensorflow/releases?after=v1.12.0-rc1
+				lastLink.classList.remove('flex-auto');
 			}
 		}
 	}
