@@ -10,12 +10,14 @@ import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
 import * as icons from '../libs/icons';
 import {isSingleTagPage} from '../libs/page-detect';
-import {getRepoPath, getRepoURL} from '../libs/utils';
+import {getRepoPath, getRepoURL, parseTag} from '../libs/utils';
 
 type TagDetails = {
 	element: HTMLElement;
 	commit: string;
 	tag: string;
+	version: string;
+	namespace: string;
 }
 
 async function getNextPage(): Promise<DocumentFragment> {
@@ -33,10 +35,12 @@ async function getNextPage(): Promise<DocumentFragment> {
 }
 
 function parseTags(element: HTMLElement): TagDetails {
+	const tag = select<HTMLAnchorElement>('[href*="/releases/tag/"]', element)!.pathname.match(/\/releases\/tag\/(.*)/)![1];
 	return {
 		element,
+		tag,
 		commit: select('[href*="/commit/"]', element)!.textContent!.trim(),
-		tag: select<HTMLAnchorElement>('[href*="/releases/tag/"]', element)!.pathname.match(/\/releases\/tag\/(.*)/)![1]
+		...parseTag(tag) // `version`, `namespace`
 	};
 }
 
@@ -87,9 +91,6 @@ async function init(): Promise<void | false> {
 	}
 }
 
-// If tag is `@parcel/integration-tests@1.12.2` then namespace is `@parcel/integration-tests`
-const getNameSpace = (tag: string): string => tag.split(/@[^@]+$/)[0];
-
 const getPreviousTag = (index: number, allTags: TagDetails[]): string | false => {
 	let previousTag: string | false = false;
 
@@ -98,11 +99,11 @@ const getPreviousTag = (index: number, allTags: TagDetails[]): string | false =>
 			continue;
 		}
 
-		// Ensure that they have the same namespace. e.g. `parcel@1.2.4` and `parcel@1.2.3`
-		if (getNameSpace(allTags[i].tag) === getNameSpace(allTags[index].tag)) {
+		if (allTags[index].namespace === allTags[i].namespace) {
 			return allTags[i].tag;
 		}
 
+		// If no matching namespace is found, just use the next one
 		if (previousTag === false) {
 			previousTag = allTags[i].tag;
 		}
