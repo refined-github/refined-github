@@ -16,7 +16,7 @@ declare module 'linkify-urls' {
 
 	function linkifyUrls(input: string, options: Options): DocumentFragment;
 
-	export = linkifyUrls
+	export = linkifyUrls;
 }
 
 // TODO: Drop when Firefox adds RegEx lookbehind support
@@ -35,7 +35,7 @@ declare module 'linkify-issues' {
 
 	function linkifyIssues(input: string, options: Options): DocumentFragment;
 
-	export = linkifyIssues
+	export = linkifyIssues;
 }
 
 // Custom UI events specific to RGH
