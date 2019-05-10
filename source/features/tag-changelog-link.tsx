@@ -33,28 +33,33 @@ async function getNextPage(): Promise<DocumentFragment> {
 	return new DocumentFragment();
 }
 
+function parseTags(element: HTMLElement): TagDetails {
+	return {
+		element,
+		commit: select('[href*="/commit/"]', element)!.textContent!.trim(),
+		tag: select<HTMLAnchorElement>('[href*="/releases/tag/"]', element)!.pathname.match(/\/releases\/tag\/(.*)/)![1]
+	};
+}
+
 async function init(): Promise<void | false> {
 	if (select.exists('.blankslate')) {
 		return false;
 	}
 
-	const tagRegex = /\/releases\/tag\/(.*)/;
-	const documents = [document, await getNextPage()];
+	const tagsSelectors = [
+		// https://github.com/facebook/react/releases (release in releases list)
+		'.release',
 
-	// not(.js-timeline-tags-expander) is needed as there can be some collapsed tags
-	// See https://github.com/facebook/react/releases?after=v16.7.0 for an example
-	const tagContainerSelector = '.release, .Box-row .commit, .release-entry .release-main-section:not(.commit):not(.js-timeline-tags-expander)';
+		// https://github.com/facebook/react/releases?after=v16.7.0 (tags in releases list)
+		'.release-main-section .commit',
 
-	// These selectors need to work on:
-	// https://github.com/facebook/react/tags (tags list)
-	// https://github.com/facebook/react/releases (releases list)
-	// https://github.com/parcel-bundler/parcel/releases (releases list without release notes)
+		// https://github.com/facebook/react/tags (tags list)
+		'.Box-row .commit'
+	].join();
 
-	const allTags: TagDetails[] = select.all(tagContainerSelector, documents).map(element => ({
-		element,
-		tag: select<HTMLAnchorElement>('[href*="/releases/tag/"]', element)!.pathname.match(tagRegex)![1],
-		commit: select('[href*="/commit/"]', element)!.textContent!.trim()
-	}));
+	// Look for tags in the current page and the next page
+	const pages = [document, await getNextPage()];
+	const allTags = select.all(tagsSelectors, pages).map(parseTags);
 
 	for (const [index, container] of allTags.entries()) {
 		const previousTag = getPreviousTag(index, allTags);
