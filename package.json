@@ -13,7 +13,7 @@
 		"release:amo": "cd distribution && web-ext-submit",
 		"release:cws": "cd distribution && webstore upload --auto-publish",
 		"release": "run-s build prerelease:* release:*",
-		"create-git-tag": "git tag $(utc-version) && git push --tags",
+		"create-git-tag": "git tag $(utc-version) -m '' && git push --tags",
 		"prerelease:source-url": "echo https://github.com/$TRAVIS_REPO_SLUG/tree/$TRAVIS_COMMIT > distribution/SOURCE_URL",
 		"prerelease:version": "dot-json distribution/manifest.json version $TRAVIS_TAG"
 	},
