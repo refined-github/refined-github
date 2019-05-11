@@ -36,7 +36,7 @@ function init(): void | false {
 		return false;
 	}
 
-	const filtersBar = select('.table-list-header .table-list-header-toggle:not(.states)');
+	const filtersBar = select('.table-list-header-toggle:not(.states)');
 	if (filtersBar) {
 		filtersBar.prepend(
 			<button
