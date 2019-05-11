@@ -20,7 +20,7 @@ const approximateHeaderLength = 3; // Each button header takes about as much as 
 type Participant = {
 	container: HTMLElement;
 	username: string;
-}
+};
 
 function getParticipants(container: HTMLElement): Participant[] {
 	const currentUser = getUsername();
