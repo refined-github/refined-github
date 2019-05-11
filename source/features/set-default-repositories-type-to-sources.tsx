@@ -1,5 +1,5 @@
 /*
-Forks and archive repos are hidden on profiles
+Forks and archived repos are hidden on profiles
 */
 import select from 'select-dom';
 import features from '../libs/features';
