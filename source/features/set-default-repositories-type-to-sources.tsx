@@ -10,7 +10,9 @@ function init() {
 	].join());
 
 	for (const link of links) {
-		link.search += '&type=source';
+		const search = new URLSearchParams(link.search);
+		search.set('type', 'source');
+		link.search = String(search);
 	}
 }
 
