@@ -98,7 +98,7 @@ import './features/raw-file-link';
 import './features/tags-dropdown';
 import './features/filter-pr-by-build-status';
 import './features/edit-files-faster';
-import './features/indentation-aware-code-wrapping';
+import './features/indented-code-wrapping';
 import './features/hide-disabled-milestone-sorter';
 import './features/link-to-file-in-file-history';
 import './features/clean-sidebar';

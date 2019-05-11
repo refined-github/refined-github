@@ -1,5 +1,5 @@
 source/features/filter-pr-by-build-status.tsx @HardikModha
 source/features/tags-dropdown.tsx @HardikModha
-source/features/indentation-aware-code-wrapping.tsx @notlmn
+source/features/indented-code-wrapping.tsx @notlmn
 source/features/link-to-file-in-file-history.tsx @HardikModha
 source/features/default-to-rich-diff.tsx @idasbiste

@@ -1,7 +1,7 @@
 /*
 Wrap code inside all code blocks to match indentation
 */
-import './indentation-aware-code-wrapping.css';
+import './indented-code-wrapping.css';
 import select from 'select-dom';
 import features from '../libs/features';
 import onPrFileLoad from '../libs/on-pr-file-load';
@@ -55,7 +55,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'indentation-aware-code-wrapping',
+	id: 'indented-code-wrapping',
 	include: [
 		features.isPRFiles,
 		features.isCommit,
