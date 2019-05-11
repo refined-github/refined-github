@@ -4,9 +4,9 @@ import features from '../libs/features';
 function init() {
 	const links = select.all<HTMLAnchorElement>([
 		'.user-profile-nav [href$="tab=repositories"]', // "Your repositories" in header dropdown
-		'#user-links [href$="tab=repositories"]', // "Repositories" tab on profile
-		'[data-hovercard-type="organization"]', // Handles breadcrumb nav on repository if org, and users profile org list
-		'nav.orgnav a.pagehead-tabs-item' // Nav menu item on org "profile"
+		'#user-links [href$="tab=repositories"]', // "Repositories" tab on user profile
+		'.orgnav .pagehead-tabs-item:first-child', // "Repositories" tab on organization profile
+		'[data-hovercard-type="organization"]' // Organization name on repo header + organization list on user profile
 	].join());
 
 	for (const link of links) {
