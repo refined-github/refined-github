@@ -12,19 +12,21 @@ function swapLabelFocus(labels: HTMLElement[], from: number, to: number): void {
 	labels[to].setAttribute('aria-selected', 'true');
 }
 
+function performSwapLabelBehaviour(event: KeyboardEvent, labels: HTMLElement[], from: number, to: number) {
+	event.stopImmediatePropagation();
+	event.preventDefault();
+	swapLabelFocus(labels, from, to);
+}
+
 function init(): void {
 	document.addEventListener('keydown', event => {
-		const labels = select.all('.sidebar-labels .js-active-navigation-container .js-navigation-item');
+		const labels = select.all('.js-active-navigation-container .js-navigation-item');
 		const lastLabelIndex = labels.length - 1;
 
 		if (event.key === 'ArrowUp' && labels[0].classList.contains('navigation-focus')) {
-			event.stopImmediatePropagation();
-			event.preventDefault();
-			swapLabelFocus(labels, 0, lastLabelIndex);
+			performSwapLabelBehaviour(event, labels, 0, lastLabelIndex);
 		} else if (event.key === 'ArrowDown' && labels[lastLabelIndex].classList.contains('navigation-focus')) {
-			event.stopImmediatePropagation();
-			event.preventDefault();
-			swapLabelFocus(labels, lastLabelIndex, 0);
+			performSwapLabelBehaviour(event, labels, lastLabelIndex, 0);
 			select('.js-issue-labels-menu-content > .select-menu-list')!.scrollTop = 0;
 		}
 	});
