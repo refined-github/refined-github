@@ -30,7 +30,7 @@ import {JsonObject} from 'type-fest';
 
 type JsonError = {
 	message: string;
-}
+};
 
 interface APIResponse {
 	message?: string;

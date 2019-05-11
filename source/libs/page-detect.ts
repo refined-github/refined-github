@@ -97,6 +97,8 @@ export const isTrending = (): boolean => location.pathname === '/trending' || lo
 
 export const isUserProfile = (): boolean => select.exists('.user-profile-nav');
 
+export const isSingleTagPage = (): boolean => /^(releases\/tag)/.test(getRepoPath()!);
+
 export const hasComments = (): boolean =>
 	isPR() ||
 	isIssue() ||

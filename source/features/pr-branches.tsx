@@ -18,7 +18,7 @@ type RepositoryReference = {
 	branchExists: boolean;
 	url?: string;
 	label: string;
-}
+};
 
 type BranchInfo = {
 	baseRef: string;
@@ -31,7 +31,7 @@ type BranchInfo = {
 	headRepository: {
 		url: string;
 	};
-}
+};
 
 function normalizeBranchInfo(data: BranchInfo): {
 	base?: RepositoryReference;

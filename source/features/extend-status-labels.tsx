@@ -9,24 +9,27 @@ function init(): false | void {
 		return false;
 	}
 
-	const lastActionRef = select.all(`
-		.discussion-item-closed [href*="/pull/"],
-		.discussion-item-closed code,
+	const lastStatusChange = select.all(`
+		.discussion-item-closed,
 		.discussion-item-reopened,
-		.discussion-item-merged [href*="/commit/"]
+		.discussion-item-merged
 	`).pop();
 
-	// Leave if it was never closed or if it was reopened
-	if (!lastActionRef || lastActionRef.matches('.discussion-item-reopened')) {
+	// Leave if the issue/PR was never closed or if it was reopened
+	if (!lastStatusChange || lastStatusChange.matches('.discussion-item-reopened')) {
 		return false;
 	}
 
 	const label = select('.gh-header-meta .State')!;
-	const isMerged = lastActionRef.closest('.discussion-item-merged');
-	label.append(isMerged ? ' as ' : ' in ', lastActionRef.cloneNode(true));
+	const lastActionLink = select('[href*="/pull/"], [href*="/commit/"], code', lastStatusChange);
+
+	if (lastActionLink) {
+		const isMerged = lastStatusChange.matches('.discussion-item-merged');
+		label.append(isMerged ? ' as ' : ' in ', lastActionLink.cloneNode(true));
+	}
 
 	// Link label to event in timeline
-	wrap(label, <a href={'#' + lastActionRef.closest('[id]')!.id}/>);
+	wrap(label, <a href={'#' + select('[id]', lastStatusChange)!.id}/>);
 }
 
 features.add({

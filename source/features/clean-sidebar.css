@@ -1,0 +1,9 @@
+/* Adjust spacing of empty sections */
+.discussion-sidebar-item.rgh-clean-sidebar {
+	margin-bottom: -5px;
+}
+
+/* Remove message under the `Unsubscribe` button */
+.sidebar-notifications .reason {
+	display: none !important;
+}
