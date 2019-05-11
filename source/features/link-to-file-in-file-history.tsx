@@ -17,7 +17,9 @@ function init(): void | false {
 	if (!path) {
 		return false;
 	}
-
+	if (path.includes('commits')) {
+		return false;
+	} 
 	for (const rootLink of select.all<HTMLAnchorElement>('[aria-label="Browse the repository at this point in the history"]')) {
 		// `rootLink.pathname` points to /tree/ but GitHub automatically redirects to /blob/ when the path is of a file
 		rootLink.before(
