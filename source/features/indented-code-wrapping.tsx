@@ -17,13 +17,12 @@ function run(): void {
 	for (const table of tables) {
 		table.classList.add('rgh-softwrapped-code');
 
-		for (const line of select.all('.blob-code-inner', table)) {
-			// Some matched elements don’t contain code
-			if (!line.firstChild || line.firstChild.textContent!.length < 20) {
+		for (const line of select.all('.blob-code-inner:not(.blob-code-hunk)', table)) {
+			if (line.textContent!.length < 20) {
 				continue;
 			}
 
-			const leadingSpaceCharacters = line.firstChild.textContent!.match(/^\s+/);
+			const leadingSpaceCharacters = line.firstChild!.textContent!.match(/^\s+/);
 			if (!leadingSpaceCharacters) {
 				continue;
 			}
