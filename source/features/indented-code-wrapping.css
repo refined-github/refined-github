@@ -1,14 +1,4 @@
-.rgh-softwrapped-code {
-	table-layout: fixed;
-}
-/* Required, so that block-ified code does not shrink the line numbers in review comments */
-.rgh-softwrapped-code tr:not(.js-expandable-line) .blob-num {
-	width: 50px;
-}
-.rgh-softwrapped-code tr:not(.js-expandable-line) .blob-code-inner {
+.rgh-softwrapped-code tr:not(.js-expandable-line) .blob-code-inner:not(.blob-code-hunk) {
 	display: block;
 	white-space: pre-wrap;
-}
-.rgh-softwrapped-code tr:not(.js-expandable-line) .blob-num ~ .blob-code {
-	display: block;
 }

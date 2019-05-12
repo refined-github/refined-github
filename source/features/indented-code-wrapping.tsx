@@ -9,9 +9,8 @@ import onNewComments from '../libs/on-new-comments';
 
 function run(): void {
 	const tables = select.all([
-		'.file .diff-table:not(.rgh-softwrapped-code)', // Split and unified diffs
-		'.file .d-table:not(.rgh-softwrapped-code)', // "Suggested changes" in PRs
-		'.file .js-file-line-container:not(.rgh-softwrapped-code)' // Embedded code blocks
+		'.file table.diff-table:not(.rgh-softwrapped-code)', // Split and unified diffs
+		'.file table.d-table:not(.rgh-softwrapped-code)' // "Suggested changes" in PRs
 	].join());
 
 	for (const table of tables) {
