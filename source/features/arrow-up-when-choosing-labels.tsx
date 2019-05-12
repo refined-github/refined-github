@@ -22,7 +22,7 @@ function init(): void {
 	document.addEventListener('keydown', event => {
 		const labels = select.all('.js-active-navigation-container .js-navigation-item');
 		const lastLabelIndex = labels.length - 1;
-		
+
 		if (event.key === 'ArrowUp' && labels[0].classList.contains('navigation-focus')) {
 			performSwapLabelBehaviour(event, labels, 0, lastLabelIndex);
 			const menuList = select('.js-active-navigation-container .select-menu-list')!;
