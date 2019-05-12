@@ -11,7 +11,7 @@ interface Asset {
 	downloadCount: number;
 }
 interface Tag {
-	[key: string]: Asset[]
+	[key: string]: Asset[];
 }
 async function getAssetsForTag(tags: string[]): Promise<Tag> {
 	const {ownerName, repoName} = getOwnerAndRepo();
@@ -19,13 +19,13 @@ async function getAssetsForTag(tags: string[]): Promise<Tag> {
 		'{' +
 			tags.map(tag =>
 				escapeKey(tag) + `: repository(owner: "${ownerName}", name: "${repoName}") { release(tagName:"${tag}") { releaseAssets(first: 100) { edges { node { name downloadCount } } } } }`
-			)
-		+ '}'
+			) +
+		'}'
 	);
 	const assets: Tag = {};
 	Object.entries(data).forEach(([tag, repo]) => {
 		assets[tag] = repo.release.releaseAssets.edges.map((edge: any) => edge.node);
-	})
+	});
 	return assets;
 }
 
@@ -34,7 +34,7 @@ async function init(): Promise<void | false> {
 		return;
 	}
 
-	const tags = select.all('svg.octicon-tag ~ span').map((tag) => tag.innerText);
+	const tags = select.all('svg.octicon-tag ~ span').map(tag => tag.innerText);
 	const tagAssets = await getAssetsForTag(tags);
 	for (const release of select.all('.release-entry:not(.release-timeline-tags)')) {
 		const tagName = escapeKey(select('svg.octicon-tag ~ span', release)!.innerText);
