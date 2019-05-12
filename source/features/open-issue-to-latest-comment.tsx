@@ -5,7 +5,7 @@ import { getRepoPath, getOwnerAndRepo } from '../libs/utils';
 function init(): void | false {
   if (getRepoPath() === 'issues') {
     const {ownerName, repoName} = getOwnerAndRepo();
-    select.all<HTMLAnchorElement>(`a[href^="/${ownerName}/${repoName}/issues/"]`).forEach((link) => {
+    select.all<HTMLAnchorElement>(`.js-issue-row a.muted-link[href^="/${ownerName}/${repoName}/issues/"]`).forEach((link) => {
       link.href = `${link.href}#last`;
     })
   } else {
