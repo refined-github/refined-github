@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
-import {v4} from '../libs/api';
+import {v4, escapeKey} from '../libs/api';
 import {cloudDownload} from '../libs/icons';
 import {getOwnerAndRepo, getRepoPath} from '../libs/utils';
 import {wrap} from '../libs/dom-utils';
@@ -10,25 +10,23 @@ interface Asset {
 	name: string;
 	downloadCount: number;
 }
-
-async function getAssetsForTag(tag: string): Promise<Asset[]> {
+interface Tag {
+	[key: string]: Asset[]
+}
+async function getAssetsForTag(tags: string[]): Promise<Tag> {
 	const {ownerName, repoName} = getOwnerAndRepo();
-	const {repository} = await v4(`{
-		repository(owner: "${ownerName}", name: "${repoName}") {
-			release(tagName:"${tag}") {
-				releaseAssets(first: 100) {
-					edges {
-						node {
-							name
-							downloadCount
-						}
-					}
-				}
-			}
-		}
-	}
-	`);
-	return repository.release.releaseAssets.edges.map((edge: any) => edge.node);
+	const data = await v4(
+		'{' +
+			tags.map(tag =>
+				escapeKey(tag) + `: repository(owner: "${ownerName}", name: "${repoName}") { release(tagName:"${tag}") { releaseAssets(first: 100) { edges { node { name downloadCount } } } } }`
+			)
+		+ '}'
+	);
+	const assets: Tag = {};
+	Object.entries(data).forEach(([tag, repo]) => {
+		assets[tag] = repo.release.releaseAssets.edges.map((edge: any) => edge.node);
+	})
+	return assets;
 }
 
 async function init(): Promise<void | false> {
@@ -36,24 +34,19 @@ async function init(): Promise<void | false> {
 		return;
 	}
 
-	let tag: any = /releases\/tag\/([^/]+)/.exec(getRepoPath()!);
-	const tags: {[key: string]: any} = {};
-	if (tag !== null) {
-		[, tag] = tag;
-		tags[tag] = await getAssetsForTag(tag);
-	}
-
-	for (const release of select.all('.release')) {
-		const tagName = select('svg.octicon-tag ~ span', release)!.innerText;
-		if (!tags[tagName]) {
-			return;
+	const tags = select.all('svg.octicon-tag ~ span').map((tag) => tag.innerText);
+	const tagAssets = await getAssetsForTag(tags);
+	for (const release of select.all('.release-entry:not(.release-timeline-tags)')) {
+		const tagName = escapeKey(select('svg.octicon-tag ~ span', release)!.innerText);
+		if (!tagAssets[tagName]) {
+			continue;
 		}
 
-		for (const assetTag of select.all('.release-main-section details.details-reset .Box-body.flex-justify-between')) {
+		for (const assetTag of select.all('.release-main-section details.details-reset .Box-body.flex-justify-between', release)) {
 			const assetName = select('svg.octicon-package ~ span', assetTag)!.innerText;
-			const asset = tags[tagName].find((a: any) => a.name === assetName);
+			const asset = tagAssets[tagName].find((a: any) => a.name === assetName);
 			if (!asset) {
-				return;
+				continue;
 			}
 
 			const right = select('small', assetTag)!;
