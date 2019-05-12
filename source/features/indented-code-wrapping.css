@@ -1,3 +1,7 @@
+.rgh-softwrapped-code .blob-code-hunk {
+	white-space: pre-wrap;
+}
+
 .rgh-softwrapped-code tr:not(.js-expandable-line) .blob-code-inner:not(.blob-code-hunk) {
 	display: block;
 	white-space: pre-wrap;
