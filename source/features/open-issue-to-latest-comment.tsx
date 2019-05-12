@@ -10,7 +10,12 @@ function init(): void | false {
     })
   } else {
     if (window.location.hash === '#last') {
-      window.scrollTo(0, document.body.scrollHeight);
+      setTimeout(() => {
+        const comments = select.all('.js-comment-container')
+        if (comments.length > 0) {
+          comments[comments.length - 1].scrollIntoView();
+        }
+      }, 100);
     }
   }
 }
