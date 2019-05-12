@@ -13,12 +13,8 @@ import {groupSiblings} from '../libs/group-buttons';
 function init(): void | false {
 	// /user/repo/commits/master/readme.md -> 'readme.md'
 	// /user/repo/commits/master/          -> ''
-	const path = getRepoPath()!.replace(/^commits\/[^/]+\//, '');
+	const path = getRepoPath()!.replace(/^commits\/[^/]+\/?/, '');
 	if (!path) {
-		return false;
-	}
-
-	if (getRepoPath() === path) {
 		return false;
 	}
 
