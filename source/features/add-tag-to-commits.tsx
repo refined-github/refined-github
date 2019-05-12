@@ -1,0 +1,67 @@
+import React from 'dom-chef';
+import select from 'select-dom';
+import features from '../libs/features';
+import {v4} from '../libs/api';
+import {getOwnerAndRepo} from '../libs/utils';
+import {tag} from '../libs/icons';
+
+interface Tag {
+	name: string;
+	commitResourcePath: string;
+	commit: string;
+}
+
+async function getTags(after?: string): Promise<Tag[]> {
+	const {ownerName, repoName} = getOwnerAndRepo();
+	const {repository} = await v4(`{
+		repository(owner: "${ownerName}", name: "${repoName}") {
+			refs(first: 100, refPrefix: "refs/tags/"${after ? `, after:"${after}"` : ''}) {
+				pageInfo {
+					hasNextPage
+					endCursor
+				}
+				edges {
+					node {
+						target {
+							... on Tag {
+								name
+								commitResourcePath
+							}
+						}
+					}
+				}
+			}
+		}
+	}`);
+	let tags: Tag[] = repository.refs.edges.map((edge: any) => edge.node.target).filter((tag: Tag) => tag.name && tag.commitResourcePath).map((tag: Tag) => ({...tag, commit: tag.commitResourcePath.split('/')[4]}));
+	if (repository.refs.pageInfo.hasNextPage) {
+		tags = tags.concat(await getTags(repository.refs.pageInfo.endCursor));
+	}
+
+	return tags;
+}
+
+async function init(): Promise<void | false> {
+	const tags = await getTags();
+	for (const commit of select.all('li.commit')) {
+		const targetCommit = (commit.dataset.channel as string).split(':')[3];
+		const targetTags = tags.filter(tag => tag.commit === targetCommit);
+		if (targetTags.length > 0) {
+			select('.commit-meta', commit)!.append(
+				<div className="ml-2">
+					{tag()}
+					<span className="ml-1">{targetTags.map(tags => tags.name).join(', ')}</span>
+				</div>
+			);
+		}
+	}
+}
+
+features.add({
+	id: 'add-tag-to-commits',
+	include: [
+		features.isCommitList
+	],
+	load: features.onAjaxedPages,
+	init
+});
