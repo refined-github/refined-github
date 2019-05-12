@@ -102,6 +102,7 @@ import './features/hide-disabled-milestone-sorter';
 import './features/tag-changelog-link';
 import './features/link-to-file-in-file-history';
 import './features/clean-sidebar';
+import './features/open-issue-to-latest-comment';
 
 import './features/scrollable-code-and-blockquote.css';
 import './features/center-reactions-popup.css';
