@@ -7,6 +7,8 @@ import * as icons from '../libs/icons';
 import observeEl from '../libs/simplified-element-observer';
 import {getRepoURL} from '../libs/utils';
 
+let observer: MutationObserver;
+
 function getBranches(): {base: string; head: string} {
 	return {
 		base: select('.base-ref')!.textContent!.trim(),
@@ -35,6 +37,7 @@ async function handler(event: DelegateEvent): Promise<void> {
 	const response = await mergeBranches();
 	if (response.status && response.status < 300) {
 		button.remove();
+		observer.disconnect();
 	} else if (response.message) {
 		button.textContent = response.message;
 		button.prepend(icons.alert(), ' ');
@@ -90,7 +93,7 @@ function init(): void | false {
 		return false;
 	}
 
-	observeEl('.discussion-timeline-actions', addButton);
+	observer = observeEl('.discussion-timeline-actions', addButton)!;
 	delegate('.discussion-timeline-actions', '.rgh-update-pr-from-master', 'click', handler);
 }
 
