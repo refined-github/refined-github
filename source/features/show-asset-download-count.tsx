@@ -34,7 +34,7 @@ async function init(): Promise<void | false> {
 		return;
 	}
 
-	const tags = select.all('svg.octicon-tag ~ span').map(tag => tag.innerText);
+	const tags = select.all('svg.octicon-tag ~ span').map(tag => tag.textContent!);
 	const tagAssets = await getAssetsForTag(tags);
 	for (const release of select.all('.release-entry:not(.release-timeline-tags)')) {
 		const tagName = escapeKey(select('svg.octicon-tag ~ span', release)!.innerText);
