@@ -5,10 +5,8 @@ labels: enhancement, under discussion
 
 ---
 
-<!--
+<!-- Thanks for contributing! 🏓 -->
 
-Thanks for contributing! 🏓
 
-Please specify a URL where the feature should appear.
-
--->
+Example URL:
+<!-- Please specify a URL where the feature should appear -->

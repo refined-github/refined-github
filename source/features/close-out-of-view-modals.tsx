@@ -19,5 +19,6 @@ function init(): void {
 
 features.add({
 	id: 'close-out-of-view-modals',
+	description: 'Automatically close modals when they’re no longer visible',
 	init
 });

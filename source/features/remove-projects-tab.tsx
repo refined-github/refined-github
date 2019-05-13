@@ -1,9 +1,3 @@
-/*
-The `Projects` tab is hidden from repositories and profiles when there are no projects
-
-New projects can still be created via the [`Create new…` menu](https://user-images.githubusercontent.com/1402241/34909214-18b6fb2e-f8cf-11e7-8556-bed748596d3b.png).
-*/
-
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
@@ -74,6 +68,7 @@ async function init(): Promise<false | void> {
 
 features.add({
 	id: 'remove-projects-tab',
+	description: 'Hide the "Projects" tab from repositories and profiles when there are no projects',
 	include: [
 		features.isRepo,
 		features.isUserProfile,

@@ -70,6 +70,7 @@ function init(): void {
 
 features.add({
 	id: 'split-issue-pr-search-results',
+	description: 'Search for issues and pull request separately in the global search',
 	include: [
 		features.isRepoSearch,
 		features.isGlobalSearchResults

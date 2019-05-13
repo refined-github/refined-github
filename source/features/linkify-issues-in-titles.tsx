@@ -18,6 +18,7 @@ function init(): void {
 
 features.add({
 	id: 'linkify-issues-in-titles',
+	description: 'Make issue/PR references in issue/PR titles clickable',
 	include: [
 		features.isPR,
 		features.isIssue
