@@ -29,8 +29,6 @@ export const isGlobalSearchResults = (): boolean => location.pathname === '/sear
 
 export const isIssue = (): boolean => /^issues\/\d+/.test(getRepoPath()!);
 
-export const isIssueList = (): boolean => getRepoPath() === 'issues';
-
 export const isDiscussionList = (): boolean => isGlobalDiscussionList() || isRepoDiscussionList();
 
 export const isLabel = (): boolean => /^labels\/\w+/.test(getRepoPath()!);
