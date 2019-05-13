@@ -23,9 +23,10 @@ async function getAssetsForTag(tags: string[]): Promise<Tag> {
 		'}'
 	);
 	const assets: Tag = {};
-	Object.entries(data).forEach(([tag, repo]) => {
+	for (const [tag, repo] of Object.entries(data)) {
 		assets[tag] = repo.release.releaseAssets.edges.map((edge: any) => edge.node);
 	});
+	}
 	return assets;
 }
 
