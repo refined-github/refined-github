@@ -12,6 +12,7 @@ function init(): void {
 
 features.add({
 	id: 'emojis-title',
+	description: 'Don’t add a title if the emoji’s parents already have one',
 	load: features.onAjaxedPages,
 	init
 });

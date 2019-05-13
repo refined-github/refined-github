@@ -9,6 +9,7 @@ function init(): void {
 
 features.add({
 	id: 'hide-empty-meta',
+	description: 'Hide nonessential files from the GitHub file browser',
 	include: [
 		features.isRepoRoot
 	],

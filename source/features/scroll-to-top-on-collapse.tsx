@@ -18,6 +18,7 @@ function init(): void {
 
 features.add({
 	id: 'scroll-to-top-on-collapse',
+	description: 'Collapse/expand files in a pull request diff',
 	include: [
 		features.isPR
 	],

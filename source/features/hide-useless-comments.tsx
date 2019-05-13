@@ -57,6 +57,7 @@ function unhide(event: React.MouseEvent<HTMLButtonElement>): void {
 
 features.add({
 	id: 'hide-useless-comments',
+	description: 'Hide useless comments',
 	include: [
 		features.isIssue
 	],

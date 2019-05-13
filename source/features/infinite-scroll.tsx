@@ -1,8 +1,3 @@
-/*
-This feature adds infinite scrolling to:
-- News feed on the Dashboard
-*/
-
 import select from 'select-dom';
 import debounce from 'debounce-fn';
 import features from '../libs/features';
@@ -62,6 +57,7 @@ function init(): void {
 
 features.add({
 	id: 'infinite-scroll',
+	description: 'Add infinite scrolling to the dashboard news feed',
 	include: [
 		features.isDashboard
 	],

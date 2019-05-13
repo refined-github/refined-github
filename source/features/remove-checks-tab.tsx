@@ -1,5 +1,5 @@
 /*
-The `checks` tab in PR is removed unless you're owner
+
 */
 
 import select from 'select-dom';
@@ -25,6 +25,7 @@ function init(): false | void {
 
 features.add({
 	id: 'remove-checks-tab',
+	description: 'Remove the "Checks" tab in pull requests unless you’re the owner',
 	include: [
 		features.isPR
 	],
