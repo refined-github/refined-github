@@ -16,5 +16,3 @@ features.add({
 	load: features.onAjaxedPages,
 	init
 });
-
-
