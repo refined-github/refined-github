@@ -46,7 +46,6 @@ import './features/ci-link';
 import './features/sort-milestones-by-closest-due-date';
 import './features/star-repo-hotkey';
 import './features/toggle-files-button';
-import './features/scroll-to-top-on-collapse';
 import './features/sync-pr-commit-title';
 import './features/open-ci-details-in-new-tab';
 import './features/wait-for-build';
