@@ -81,9 +81,6 @@ async function handleMergeConfirmation(event: DelegateEvent<Event, HTMLButtonEle
 }
 
 function init(): false | void {
-	/* eslint-disable no-unreachable */
-	throw new Error('Feature currently broken, please contribute at https://github.com/sindresorhus/refined-github/issues/1792');
-
 	if (!canMerge()) {
 		return false;
 	}
@@ -111,7 +108,6 @@ function init(): false | void {
 			event.returnValue = 'The PR hasn’t merged yet.';
 		}
 	});
-	/* eslint-enable no-unreachable */
 }
 
 features.add({
