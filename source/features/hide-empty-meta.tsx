@@ -3,7 +3,7 @@ import features from '../libs/features';
 
 function init(): void {
 	if (select.exists('.repository-content em') && !select.exists('.js-edit-repo-meta-button')) {
-		select('.repository-content').firstElementChild!.remove();
+		select('.repository-content')!.firstElementChild!.remove();
 	}
 }
 
