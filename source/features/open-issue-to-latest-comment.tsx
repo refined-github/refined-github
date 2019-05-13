@@ -3,7 +3,7 @@ import features from '../libs/features';
 
 function init(): void | false {
 	for (const link of select.all<HTMLAnchorElement>('a[aria-label*="comment"]')) {
-		link.href = `${link.href}#partial-timeline`;
+		link.hash = '#partial-timeline';
 	}
 }
 
