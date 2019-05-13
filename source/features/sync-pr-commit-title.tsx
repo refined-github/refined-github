@@ -1,11 +1,3 @@
-/*
-Use the PR’s title when merging
-https://github.com/sindresorhus/refined-github/issues/276
-
-Update the PR’s title to the merge commit title, if changed.
-https://user-images.githubusercontent.com/1402241/51669708-9a712400-1ff7-11e9-913a-ac1ea1050975.png
-*/
-
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
@@ -113,8 +105,11 @@ function deinit(): void {
 	listeners.length = 0;
 }
 
+const description = 'Use the same title for the PR and its merging commit (https://user-images.githubusercontent.com/1402241/51669708-9a712400-1ff7-11e9-913a-ac1ea1050975.png)';
+
 features.add({
 	id: 'sync-pr-commit-title',
+	description,
 	include: [
 		features.isPRConversation
 	],
@@ -125,6 +120,7 @@ features.add({
 // GitHub automatically restores value from the previous session and opens the form
 features.add({
 	id: 'sync-pr-commit-title',
+	description,
 	include: [
 		features.isPRConversation
 	],

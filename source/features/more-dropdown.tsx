@@ -62,6 +62,7 @@ async function init(): Promise<void> {
 
 features.add({
 	id: 'more-dropdown',
+	description: 'Access the `Commits`, `Branches`, `Dependencies`, and `Compare` pages from anywhere in a repository',
 	include: [
 		features.isRepo
 	],

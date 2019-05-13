@@ -12,6 +12,7 @@ function init(): void {
 
 features.add({
 	id: 'linkify-commit-sha',
+	description: 'Open the regular commit from PR-related commits by clicking the commit hash',
 	include: [
 		features.isPRCommit
 	],
