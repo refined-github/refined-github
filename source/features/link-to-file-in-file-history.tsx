@@ -34,7 +34,7 @@ function init(): void | false {
 
 features.add({
 	id: 'link-to-file-in-file-history',
-	description: 'Add a direct link to file/directory when viewing the history. See it in action at https://github.com/sindresorhus/refined-github/commits/master/readme.md',
+	description: 'Link to current file when viewing the history of a file',
 	include: [
 		features.isCommitList
 	],

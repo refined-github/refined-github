@@ -18,7 +18,7 @@ function init(): void {
 
 features.add({
 	id: 'set-default-repositories-type-to-sources',
-	description: 'Set default repositories type to "Sources" on profile pages',
+	description: 'Forks and archived repos are hidden on profiles',
 	load: features.onAjaxedPages,
 	init
 });

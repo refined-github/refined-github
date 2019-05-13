@@ -19,7 +19,7 @@ async function init(): Promise<false | void> {
 
 features.add({
 	id: 'warn-pr-from-master',
-	description: 'Creating a pull request from the master branch is an anti-pattern. This feature produces a warning when a user attempts to create a pull request from their fork’s default branch.',
+	description: 'Warns you when creating a pull request from the default branch, as it’s an anti-pattern',
 	include: [
 		features.isCompare
 	],

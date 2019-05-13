@@ -37,7 +37,7 @@ function init(): void {
 
 features.add({
 	id: 'highlight-closing-prs-in-open-issues',
-	description: 'Highlight pull requests referencing an open issue that closes it',
+	description: 'Link to pull requests that will close the current issue when merged',
 	include: [
 		features.isPRConversation,
 		features.isIssue

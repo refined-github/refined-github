@@ -429,7 +429,7 @@ async function init(): Promise<void> {
 
 features.add({
 	id: 'mark-unread',
-	description: 'Mark issues and pull requests as unread',
+	description: 'Mark any issues and pull requests as unread',
 	load: features.onAjaxedPagesRaw,
 	init
 });

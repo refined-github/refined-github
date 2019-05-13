@@ -49,7 +49,7 @@ function onFragmentLoaded(): void {
 
 features.add({
 	id: 'tags-dropdown',
-	description: 'Find release notes and release artifacts for any particular tag quickly by selecting the tag from the dropdown. See it in action at https://github.com/facebook/react/releases',
+	description: 'Search or select tags from a dropdown in the Releases page',
 	include: [
 		features.isReleasesOrTags
 	],

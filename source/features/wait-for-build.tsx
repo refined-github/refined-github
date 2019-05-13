@@ -116,7 +116,7 @@ function init(): false | void {
 
 features.add({
 	id: 'wait-for-build',
-	description: 'Add a checkbox to wait for checks when merging a pull request',
+	description: 'Wait for CI Checks to be finished and successful before merging a PR',
 	include: [
 		features.isPRConversation
 	],

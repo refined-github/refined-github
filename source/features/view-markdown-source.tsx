@@ -99,7 +99,7 @@ async function init(): Promise<false | void> {
 
 features.add({
 	id: 'view-markdown-source',
-	description: 'Add a button to view the Markdown source whereas GitHub only lets you see the rendered version',
+	description: 'See the source of Markdown files instead of just their rendered version',
 	include: [
 		features.isSingleFile
 	],

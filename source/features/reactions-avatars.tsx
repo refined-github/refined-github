@@ -71,7 +71,7 @@ function init(): void {
 
 features.add({
 	id: 'reactions-avatars',
-	description: 'Add reaction avatars that shows who reacted to a comment',
+	description: 'See the avatar of who reacted to a comment',
 	include: [
 		features.hasComments
 	],

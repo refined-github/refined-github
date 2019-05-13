@@ -53,7 +53,7 @@ function init(): void | false {
 
 features.add({
 	id: 'filter-pr-by-build-status',
-	description: 'Filter pull requests by their build status, namely success, failure, and pending.\nMore info: https://github.blog/2015-06-02-filter-pull-requests-by-status/\nSee it in action: https://github.com/sindresorhus/refined-github/pulls',
+	description: 'Filter pull requests by their build status (success, failure, and pending)',
 	include: [
 		features.isPRList
 	],

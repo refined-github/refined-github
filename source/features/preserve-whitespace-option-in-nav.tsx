@@ -15,7 +15,7 @@ function init(): false | void {
 
 features.add({
 	id: 'preserve-whitespace-option-in-nav',
-	description: 'Preserve the whitespace setting when navigating with next/previous in pull request review mode',
+	description: 'Preserve the whitespace setting when navigating with Next/Previous in pull request review mode',
 	include: [
 		features.isRepo
 	],
