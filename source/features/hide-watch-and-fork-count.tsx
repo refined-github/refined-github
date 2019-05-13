@@ -7,6 +7,7 @@ function init(): void {
 
 features.add({
 	id: 'hide-watch-and-fork-count',
+	description: 'Hide watch and fork count from repo pages',
 	include: [
 		features.isRepo
 	],

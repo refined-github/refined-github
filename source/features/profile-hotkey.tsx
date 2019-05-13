@@ -14,6 +14,7 @@ function init(): false | void {
 
 features.add({
 	id: 'profile-hotkey',
+	description: 'Go to your profile by pressing `g` `m`',
 	load: features.onDomReady,
 	shortcuts: {
 		'g m': 'Go to Profile'
