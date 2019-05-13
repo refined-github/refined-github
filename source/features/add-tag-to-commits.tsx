@@ -1,9 +1,9 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
-import {v4} from '../libs/api';
+import * as api from '../libs/api';
 import {getOwnerAndRepo} from '../libs/utils';
-import {tag} from '../libs/icons';
+import * as icons from '../libs/icons';
 
 interface Tag {
 	name: string;
@@ -13,7 +13,7 @@ interface Tag {
 
 async function getTags(after?: string): Promise<Tag[]> {
 	const {ownerName, repoName} = getOwnerAndRepo();
-	const {repository} = await v4(`{
+	const {repository} = await api.v4(`{
 		repository(owner: "${ownerName}", name: "${repoName}") {
 			refs(first: 100, refPrefix: "refs/tags/"${after ? `, after:"${after}"` : ''}) {
 				pageInfo {
@@ -49,7 +49,7 @@ async function init(): Promise<void | false> {
 		if (targetTags.length > 0) {
 			select('.commit-meta', commit)!.append(
 				<div className="ml-2">
-					{tag()}
+					{icons.tag()}
 					<span className="ml-1">{targetTags.map(tags => tags.name).join(', ')}</span>
 				</div>
 			);
