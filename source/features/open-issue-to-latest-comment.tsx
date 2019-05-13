@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import features from '../libs/features';
 
-function init(): void | false {
+function init(): void {
 	for (const link of select.all<HTMLAnchorElement>('a[aria-label*="comment"]')) {
 		link.hash = '#partial-timeline';
 	}
