@@ -33,7 +33,7 @@ async function getAssetsForTag(tags: string[]): Promise<Tag> {
 	);
 	const assets: Tag = {};
 	for (const [tag, release] of Object.entries(repository)) {
-		assets[tag] = (release as any).releaseAssets.nodes
+		assets[tag] = (release as any).releaseAssets.nodes;
 	}
 
 	return assets;
@@ -44,6 +44,7 @@ async function init(): Promise<void | false> {
 	if (tags.length === 0) {
 		return false;
 	}
+
 	const tagAssets = await getAssetsForTag(tags);
 	for (const release of select.all('.release-entry .release')) {
 		const tagName = api.escapeKey(select('svg.octicon-tag ~ span', release)!.textContent!);
