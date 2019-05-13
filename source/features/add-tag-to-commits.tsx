@@ -20,20 +20,18 @@ async function getTags(after?: string): Promise<Tag[]> {
 					hasNextPage
 					endCursor
 				}
-				edges {
-					node {
-						target {
-							... on Tag {
-								name
-								commitResourcePath
-							}
+				nodes {
+					target {
+						... on Tag {
+							name
+							commitResourcePath
 						}
 					}
 				}
 			}
 		}
 	}`);
-	let tags: Tag[] = repository.refs.edges.map((edge: any) => edge.node.target).filter((tag: Tag) => tag.name && tag.commitResourcePath).map((tag: Tag) => ({...tag, commit: tag.commitResourcePath.split('/')[4]}));
+	let tags: Tag[] = repository.refs.nodes.map((node: any) => node.target).filter((tag: Tag) => tag.name && tag.commitResourcePath).map((tag: Tag) => ({...tag, commit: tag.commitResourcePath.split('/')[4]}));
 	if (repository.refs.pageInfo.hasNextPage) {
 		tags = tags.concat(await getTags(repository.refs.pageInfo.endCursor));
 	}
