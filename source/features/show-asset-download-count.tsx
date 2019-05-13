@@ -28,8 +28,8 @@ async function getAssetsForTag(tags: string[]): Promise<Tag> {
 							}
 						}`
 				).join('\n') +
-			`}
-		}`
+				`}
+			}`
 	);
 	const assets: Tag = {};
 	for (const [tag, release] of Object.entries(repository)) {
@@ -65,6 +65,7 @@ async function init(): Promise<void | false> {
 
 features.add({
 	id: 'show-asset-download-count',
+	description: 'Adds a donwload count next to assets.',
 	include: [
 		features.isReleasesOrTags
 	],

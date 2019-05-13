@@ -140,6 +140,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Hidden comments are previewed inline.](https://user-images.githubusercontent.com/1402241/52545036-6e271700-2def-11e9-8c0c-b5e0fa6f37dd.png)
 - [Your issues and PRs are highlighted.](https://user-images.githubusercontent.com/1402241/53065281-01560000-3506-11e9-9a51-0bdf69e20b4a.png)
 - [SVG files in a PR default to rich-diff view.](https://user-images.githubusercontent.com/5243867/57125552-c08a2b00-6d81-11e9-9b84-cdb535baa98e.png)
+- [Release assets show a download count](https://user-images.githubusercontent.com/14323370/57587620-e62bd880-74d5-11e9-9819-90f18269882a.png)
 
 ### Declutter
 
