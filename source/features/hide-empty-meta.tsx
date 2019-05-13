@@ -2,7 +2,8 @@ import select from 'select-dom';
 import features from '../libs/features';
 
 function init(): void {
-	if (select.exists('.repository-content em') && !select.exists('.js-edit-repo-meta-button')) {
+	// Hide if it’s not editable by the current user
+	if (select.exists('.repository-content > :not(#repo-meta-edit) em')) {
 		select('.repository-content')!.firstElementChild!.remove();
 	}
 }
