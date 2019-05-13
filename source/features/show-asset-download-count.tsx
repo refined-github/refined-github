@@ -37,13 +37,13 @@ async function init(): Promise<void | false> {
 	const tags = select.all('svg.octicon-tag ~ span').map(tag => tag.textContent!);
 	const tagAssets = await getAssetsForTag(tags);
 	for (const release of select.all('.release-entry:not(.release-timeline-tags)')) {
-		const tagName = escapeKey(select('svg.octicon-tag ~ span', release)!.innerText);
+		const tagName = escapeKey(select('svg.octicon-tag ~ span', release)!.textContent!);
 		if (!tagAssets[tagName]) {
 			continue;
 		}
 
 		for (const assetTag of select.all('.release-main-section details.details-reset .Box-body.flex-justify-between', release)) {
-			const assetName = select('svg.octicon-package ~ span', assetTag)!.innerText;
+			const assetName = select('svg.octicon-package ~ span', assetTag)!.textContent!;
 			const asset = tagAssets[tagName].find((a: any) => a.name === assetName);
 			if (!asset) {
 				continue;
