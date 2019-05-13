@@ -16,20 +16,20 @@ interface Tag {
 async function getAssetsForTag(tags: string[]): Promise<Tag> {
 	const {ownerName, repoName} = getOwnerAndRepo();
 	const {repository} = await api.v4(
-		'{' +
-			tags.map(tag =>
-				`repository(owner: "${ownerName}", name: "${repoName}") {
-					${api.escapeKey(tag)}: release(tagName:"${tag}") {
-						releaseAssets(first: 100) {
-							nodes {
-								name
-								downloadCount
+		`{
+			repository(owner: "${ownerName}", name: "${repoName}") {` +
+				tags.map(tag =>
+					`${api.escapeKey(tag)}: release(tagName:"${tag}") {
+							releaseAssets(first: 100) {
+								nodes {
+									name
+									downloadCount
+								}
 							}
-						}
-					}
-				}`
-			) +
-		'}'
+						}`
+				).join('\n') +
+			`}
+		}`
 	);
 	const assets: Tag = {};
 	for (const [tag, release] of Object.entries(repository)) {
@@ -40,13 +40,14 @@ async function getAssetsForTag(tags: string[]): Promise<Tag> {
 }
 
 async function init(): Promise<void | false> {
-	const tags = select.all('svg.octicon-tag ~ span').map(tag => tag.textContent!);
+	let tags = select.all('svg.octicon-tag ~ span').map(tag => tag.textContent!);
+	tags = [...new Set(tags)];
 	if (tags.length === 0) {
 		return false;
 	}
 
 	const tagAssets = await getAssetsForTag(tags);
-	for (const release of select.all('.release-entry .release')) {
+	for (const release of select.all('.release')) {
 		const tagName = api.escapeKey(select('svg.octicon-tag ~ span', release)!.textContent!);
 		for (const assetTag of select.all('.release-main-section .Box-body.flex-justify-between', release)) {
 			const assetName = select('svg.octicon-package ~ span', assetTag)!.textContent!;
