@@ -2,10 +2,8 @@ import select from 'select-dom';
 import features from '../libs/features';
 
 function init(): void {
-	const emptyDescription = select('.repository-content > :not(#readme):not(.commit-tease) em');
-
-	if (emptyDescription && !select.exists('#repo-meta-edit')) {
-		emptyDescription.style.setProperty('display', 'none', 'important');
+	if (select.exists('.repository-content em') && !select.exists('.js-edit-repo-meta-button')) {
+		select('.repository-content').firstElementChild!.remove();
 	}
 }
 
