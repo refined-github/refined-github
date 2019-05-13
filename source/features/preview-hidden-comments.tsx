@@ -35,6 +35,7 @@ const init = (): void => {
 
 features.add({
 	id: 'preview-hiddden-comments',
+	description: 'Preview hidden comments inline',
 	include: [
 		features.hasComments
 	],

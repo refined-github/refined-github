@@ -14,6 +14,7 @@ function init(): void {
 
 features.add({
 	id: 'hide-inactive-deployments',
+	description: 'Hide inactive deployments in pull requests',
 	include: [
 		features.isPRConversation
 	],
