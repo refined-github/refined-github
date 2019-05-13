@@ -1,6 +1,3 @@
-/*
-Wrap code inside all code blocks to match indentation
-*/
 import './indented-code-wrapping.css';
 import select from 'select-dom';
 import features from '../libs/features';
@@ -54,6 +51,7 @@ function init(): void {
 
 features.add({
 	id: 'indented-code-wrapping',
+	description: 'Wrap code inside all code blocks to match indentation',
 	include: [
 		features.isPRFiles,
 		features.isCommit,
