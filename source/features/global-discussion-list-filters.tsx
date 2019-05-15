@@ -42,6 +42,7 @@ function init(): void {
 
 features.add({
 	id: 'global-discussion-list-filters',
+	description: 'See just the issues and PRs on your repos or commented on by you in the global Issues/Pull Requests pages',
 	include: [
 		features.isGlobalDiscussionList
 	],

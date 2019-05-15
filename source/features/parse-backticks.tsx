@@ -1,7 +1,3 @@
-/*
-`code in backticks` that appears in issue titles and commit titles will be parsed as Markdown
-https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png
-*/
 import './parse-backticks.css';
 import select from 'select-dom';
 import React from 'dom-chef';
@@ -47,6 +43,7 @@ function init(): void {
 
 features.add({
 	id: 'parse-backticks',
+	description: 'Parse `code in backticks` that appear in issue titles as Markdown (https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png)',
 	include: [
 		features.isDiscussionList,
 		features.isCommitList

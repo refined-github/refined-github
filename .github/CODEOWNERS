@@ -1,4 +1,5 @@
 source/features/filter-pr-by-build-status.tsx @HardikModha
 source/features/tags-dropdown.tsx @HardikModha
+source/features/tag-changelog-link.tsx @HardikModha
 source/features/link-to-file-in-file-history.tsx @HardikModha
 source/features/default-to-rich-diff.tsx @idasbiste

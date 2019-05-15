@@ -11,6 +11,7 @@ function init(): void {
 
 features.add({
 	id: 'highlight-own-issues-and-prs',
+	description: 'Highlight your own issues and pull requests in the issue list',
 	include: [
 		features.isDiscussionList
 	],

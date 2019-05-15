@@ -1,11 +1,3 @@
-/*
-Reaction avatars showing who reacted to a comment.
-
-Feature testable on
-https://github.com/babel/babel/pull/3646
-https://github.com/dominictarr/event-stream/issues/116
-*/
-
 import './reactions-avatars.css';
 import React from 'dom-chef';
 import select from 'select-dom';
@@ -20,7 +12,7 @@ const approximateHeaderLength = 3; // Each button header takes about as much as 
 type Participant = {
 	container: HTMLElement;
 	username: string;
-}
+};
 
 function getParticipants(container: HTMLElement): Participant[] {
 	const currentUser = getUsername();
@@ -79,6 +71,7 @@ function init(): void {
 
 features.add({
 	id: 'reactions-avatars',
+	description: 'See the avatar of who reacted to a comment',
 	include: [
 		features.hasComments
 	],

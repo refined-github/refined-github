@@ -1,8 +1,3 @@
-/**
-Adds direct link to file/directory when viewing the history.
-See it in action at https://github.com/sindresorhus/refined-github/commits/master/readme.md
-*/
-
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
@@ -13,7 +8,7 @@ import {groupSiblings} from '../libs/group-buttons';
 function init(): void | false {
 	// /user/repo/commits/master/readme.md -> 'readme.md'
 	// /user/repo/commits/master/          -> ''
-	const path = getRepoPath()!.replace(/^commits\/[^/]+\//, '');
+	const path = getRepoPath()!.replace(/^commits\/[^/]+\/?/, '');
 	if (!path) {
 		return false;
 	}
@@ -39,6 +34,7 @@ function init(): void | false {
 
 features.add({
 	id: 'link-to-file-in-file-history',
+	description: 'Link to current file when viewing the history of a file',
 	include: [
 		features.isCommitList
 	],

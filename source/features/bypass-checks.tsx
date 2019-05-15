@@ -15,6 +15,7 @@ async function bypass(check: HTMLElement): Promise<void> {
 
 features.add({
 	id: 'bypass-checks',
+	description: 'Bypass the `Checks` page and go directly to build results when clicking the `Details` links on a pull request',
 	include: [
 		features.isPRConversation
 	],

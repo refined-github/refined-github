@@ -380,3 +380,13 @@ test('isRepoSearch', urlMatcherMacro, pageDetect.isRepoSearch, [
 	'https://github.com/sindresorhus/search',
 	'https://github.com/search'
 ]);
+
+test('isSingleTagPage', urlMatcherMacro, pageDetect.isSingleTagPage, [
+	'https://github.com/sindresorhus/refined-github/releases/tag/v1.0.0-beta.4',
+	'https://github.com/sindresorhus/refined-github/releases/tag/0.2.1'
+], [
+	'https://github.com/sindresorhus/refined-github/tags',
+	'https://github.com/sindresorhus/refined-github/releases',
+	'https://github.com/sindresorhus/refined-github',
+	'https://github.com/sindresorhus/refined-github/graphs'
+]);

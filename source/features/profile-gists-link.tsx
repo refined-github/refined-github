@@ -26,6 +26,7 @@ async function init(): Promise<false | void> {
 
 features.add({
 	id: 'profile-gists-link',
+	description: 'Visit a user’s public gists from their profile',
 	include: [
 		features.isUserProfile
 	],

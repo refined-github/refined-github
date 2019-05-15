@@ -20,6 +20,7 @@ function init(): void {
 
 features.add({
 	id: 'pull-request-hotkey',
+	description: 'Cycle through pull request tabs by pressing `g` `←` and `g` `→`, or `g` `1`, `g` `2`, `g` `3` and `g` `4`',
 	include: [
 		features.isPR
 	],

@@ -81,6 +81,7 @@ function init(): void {
 
 features.add({
 	id: 'comment-fields-keyboard-shortcuts',
+	description: 'Quickly edit your last comment using the `↑` keyboard shortcut',
 	shortcuts: {
 		'↑': 'Edit your last comment'
 	},

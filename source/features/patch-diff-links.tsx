@@ -22,6 +22,7 @@ function init(): void {
 
 features.add({
 	id: 'patch-diff-links',
+	description: 'Quickly access a commit’s `.patch` and `.diff` files',
 	include: [
 		features.isCommit
 	],
