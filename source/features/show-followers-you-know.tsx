@@ -50,6 +50,7 @@ async function init(): Promise<false | void> {
 
 features.add({
 	id: 'show-followers-you-know',
+	description: 'Followers you know are shown on profile pages',
 	include: [
 		features.isUserProfile
 	],

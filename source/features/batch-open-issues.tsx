@@ -36,28 +36,29 @@ function init(): void | false {
 		return false;
 	}
 
-	const filtersBar = select('.table-list-header .table-list-header-toggle:not(.states)');
+	const filtersBar = select('.table-list-header-toggle:not(.states)');
 	if (filtersBar) {
 		filtersBar.prepend(
 			<button
 				type="button"
 				onClick={openIssues}
-				className="float-left btn-link rgh-open-all-selected"
+				className="btn-link rgh-open-all-selected pr-2"
 			>
 				Open All
 			</button>
 		);
 	}
 
-	const triageFiltersBar = select('.table-list-triage .table-list-header-toggle');
+	const triageFiltersBar = select('.table-list-triage > .text-gray');
 	if (triageFiltersBar) {
-		triageFiltersBar.prepend(
+		triageFiltersBar.classList.add('table-list-header-toggle'); // Handles link :hover style
+		triageFiltersBar.append(
 			<button
 				type="button"
 				onClick={openIssues}
-				className="float-left btn-link rgh-open-all-selected"
+				className="btn-link rgh-open-all-selected pl-3"
 			>
-				Open in new tabs
+				Open all
 			</button>
 		);
 	}
@@ -65,6 +66,7 @@ function init(): void | false {
 
 features.add({
 	id: 'batch-open-issues',
+	description: 'Open multiple issues in your repo at once',
 	include: [
 		features.isDiscussionList
 	],

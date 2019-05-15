@@ -54,5 +54,6 @@ function init(): void {
 
 features.add({
 	id: 'improve-shortcut-help',
+	description: 'Show Refined GitHub’s keyboard shortcuts in the help modal (`?` hotkey)',
 	init
 });

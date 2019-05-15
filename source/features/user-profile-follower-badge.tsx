@@ -20,6 +20,7 @@ async function init(): Promise<void> {
 
 features.add({
 	id: 'user-profile-follower-badge',
+	description: 'See whether a user follows you on their profile',
 	include: [
 		features.isUserProfile
 	],

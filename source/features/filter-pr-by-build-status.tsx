@@ -1,9 +1,3 @@
-/**
-This feature lets you filter the PRs by their build status, namely success, failure, and pending.
-For more information read the GitHub blog: https://github.blog/2015-06-02-filter-pull-requests-by-status/
-
-See it in action at https://github.com/sindresorhus/refined-github/pulls
-*/
 import React from 'dom-chef';
 import select from 'select-dom';
 import {checkInline} from '../libs/icons';
@@ -59,6 +53,7 @@ function init(): void | false {
 
 features.add({
 	id: 'filter-pr-by-build-status',
+	description: 'Filter pull requests by their build status (success, failure, and pending)',
 	include: [
 		features.isPRList
 	],

@@ -1,10 +1,3 @@
-/*
-Head and base branches are added to the PR list when they are significant.
-
-The base branch is added when it's not the repo's default branch.
-The head branch is added when it's from the same repo or the PR is by the current user.
-*/
-
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as api from '../libs/api';
@@ -18,7 +11,7 @@ type RepositoryReference = {
 	branchExists: boolean;
 	url?: string;
 	label: string;
-}
+};
 
 type BranchInfo = {
 	baseRef: string;
@@ -31,7 +24,7 @@ type BranchInfo = {
 	headRepository: {
 		url: string;
 	};
-}
+};
 
 function normalizeBranchInfo(data: BranchInfo): {
 	base?: RepositoryReference;
@@ -149,6 +142,7 @@ async function init(): Promise<false | void> {
 
 features.add({
 	id: 'pr-branches',
+	description: 'Some head and base branches are shown on the PR list: The base branch is added when it’s not the repo’s default branch; The head branch is added when it’s from the same repo or the PR is by the current user.',
 	include: [
 		features.isPRList
 	],

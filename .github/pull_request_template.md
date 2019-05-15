@@ -1,12 +1,8 @@
-<!--
+<!-- Thanks for contributing! 🍄 -->
 
-The more the merrier! 🍻 Thanks for contributing!
+Closes 
+<!--    👆 Does this PR close/fix an existing issue? Put it here. E.g. `Closes #10`
 
-1. List some URLs that reviewers can use to test your PR
 
-2. Make sure you specify the issue you're fixing/closing, if any, following this format:
-
-Fixes #123
-Closes #56
-
--->
+# Test
+<!-- List some URLs that reviewers can use to test your PR -->
