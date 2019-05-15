@@ -91,11 +91,9 @@ function deinit(): void {
 	listeners.length = 0;
 }
 
-const description = 'Use the same title for the PR and its merging commit (https://user-images.githubusercontent.com/1402241/51669708-9a712400-1ff7-11e9-913a-ac1ea1050975.png)';
-
 features.add({
 	id: 'sync-pr-commit-title',
-	description,
+	description: 'Use the same title for the PR and its merging commit (https://user-images.githubusercontent.com/1402241/51669708-9a712400-1ff7-11e9-913a-ac1ea1050975.png)',
 	include: [
 		features.isPRConversation
 	],
