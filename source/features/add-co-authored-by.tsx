@@ -64,12 +64,7 @@ function addCoAuthors(): void {
 	addendum.delete(getOP());
 
 	if (addendum.size > 0) {
-		// TODO: use insertTextTextarea
-		if (field.value.trim() !== '') {
-			field.value += '\n\n'; // Only add spacing if the field isn't empty
-		}
-
-		field.value += [...addendum.values()].join('\n');
+		field.value += '\n\n' + [...addendum.values()].join('\n');
 	}
 }
 
