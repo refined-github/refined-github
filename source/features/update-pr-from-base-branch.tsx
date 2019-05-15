@@ -35,7 +35,7 @@ async function handler(event: DelegateEvent): Promise<void> {
 	button.classList.remove('tooltipped');
 
 	const response = await mergeBranches();
-	if (response.status && response.status < 300) {
+	if (!response.status || response.status < 300) {
 		button.remove();
 		observer.disconnect();
 	} else if (response.message) {
