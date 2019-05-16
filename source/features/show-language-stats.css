@@ -1,0 +1,13 @@
+/* always show the language stats */
+.stats-switcher-viewport {
+	height: 60px !important;
+}
+
+.numbers-summary .nolink,
+.numbers-summary a {
+	padding: 5px 0 !important;
+}
+
+.repository-lang-stats .repository-lang-stats-numbers li {
+	padding: 5px 5px !important;
+}
