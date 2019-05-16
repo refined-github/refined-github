@@ -70,8 +70,8 @@ async function init(): Promise<void | false> {
 					<li className={lastLink.className}>
 						<a
 							className="muted-link tooltipped tooltipped-n"
-							aria-label={'See changes since ' + decodeURIComponent(previousTag)}
-							href={`/${getRepoURL()}/compare/${previousTag}...${allTags[index].tag}`}
+							aria-label={'See changes since ' + previousTag}
+							href={`/${getRepoURL()}/compare/${encodeURIComponent(previousTag)}...${encodeURIComponent(allTags[index].tag)}`}
 						>
 							{icons.diff()} Changelog
 						</a>
