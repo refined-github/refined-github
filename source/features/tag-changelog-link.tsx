@@ -30,12 +30,12 @@ async function getNextPage(): Promise<DocumentFragment> {
 }
 
 function parseTags(element: HTMLElement): TagDetails {
-	const tag = select<HTMLAnchorElement>('[href*="/releases/tag/"]', element)!.pathname.match(/\/releases\/tag\/(.*)/)![1];
+	const tag = decodeURIComponent(select<HTMLAnchorElement>('[href*="/releases/tag/"]', element)!.pathname.match(/\/releases\/tag\/(.*)/)![1]);
 	return {
 		element,
 		tag,
 		commit: select('[href*="/commit/"]', element)!.textContent!.trim(),
-		...parseTag(decodeURIComponent(tag)) // `version`, `namespace`
+		...parseTag(tag) // `version`, `namespace`
 	};
 }
 
