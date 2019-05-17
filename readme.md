@@ -104,7 +104,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Add co-authors when merging PRs with multiple committers.](https://user-images.githubusercontent.com/1402241/51468821-71a42100-1da2-11e9-86aa-fc2a6a29da84.png)
 - [Search for issues and PRs separately in the top search.](https://user-images.githubusercontent.com/1402241/52181103-35a09f80-2829-11e9-9c6f-57f2e08fc5b2.png)
 - [View the source of Markdown files.](https://user-images.githubusercontent.com/1402241/54814836-7bc39c80-4ccb-11e9-8996-9ecf4f6036cb.png)
-- [Update a PR from the base branch to ensure it build correctly before merging the PR itself (same-repo branches only).](https://user-images.githubusercontent.com/1402241/57790131-b9452300-776c-11e9-90cc-cf29a30f30d5.png)
+- [Update a PR from the base branch to ensure it build correctly before merging the PR itself (same-repo branches only).](https://user-images.githubusercontent.com/1402241/57941992-f2170080-7902-11e9-8f8a-594aad983559.png)
 
 ### More actions
 
