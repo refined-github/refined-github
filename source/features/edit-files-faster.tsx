@@ -15,11 +15,8 @@ function init(): void {
 
 		pathnameParts[3] = 'edit'; // Replaces `/blob/`
 
-		wrap(fileIcon,
-			<a href={pathnameParts.join('/')} className="rgh-edit-files-faster">
-				{icons.edit()}
-			</a>
-		);
+		wrap(fileIcon, <a href={pathnameParts.join('/')} className="rgh-edit-files-faster" />);
+		fileIcon.after(icons.edit());
 	}
 }
 
