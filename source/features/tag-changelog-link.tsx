@@ -31,12 +31,12 @@ async function getNextPage(): Promise<DocumentFragment> {
 }
 
 function parseTags(element: HTMLElement): TagDetails {
-	const tag = decodeURIComponent(select<HTMLAnchorElement>('[href*="/releases/tag/"]', element)!.pathname.match(/\/releases\/tag\/(.*)/)![1]);
+	const tag = select<HTMLAnchorElement>('[href*="/releases/tag/"]', element)!.pathname.match(/\/releases\/tag\/(.*)/)![1];
 	return {
 		element,
 		tag,
 		commit: select('[href*="/commit/"]', element)!.textContent!.trim(),
-		...parseTag(tag) // `version`, `namespace`
+		...parseTag(decodeURIComponent(tag)) // `version`, `namespace`
 	};
 }
 
@@ -75,8 +75,8 @@ async function init(): Promise<void | false> {
 					<li className={lastLink.className}>
 						<a
 							className="muted-link tooltipped tooltipped-n"
-							aria-label={'See changes since ' + previousTag}
-							href={`/${getRepoURL()}/compare/${encodeURIComponent(previousTag)}...${encodeURIComponent(allTags[index].tag)}`}
+							aria-label={'See changes since ' + decodeURIComponent(previousTag)}
+							href={`/${getRepoURL()}/compare/${previousTag}...${allTags[index].tag}`}
 						>
 							{icons.diff()} Changelog
 						</a>
