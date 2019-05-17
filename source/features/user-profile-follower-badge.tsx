@@ -8,7 +8,7 @@ import {getUsername, getCleanPathname} from '../libs/utils';
 async function init(): Promise<void> {
 	const {status} = await api.v3(
 		`users/${getCleanPathname()}/following/${getUsername()}`,
-		{accept404: true}
+		{ignoreHTTPStatus: true}
 	);
 
 	if (status === 204) {

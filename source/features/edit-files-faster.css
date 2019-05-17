@@ -1,6 +1,6 @@
 /* Only shows one icon at a time, depending on hover status */
 .rgh-edit-files-faster:not(:hover) .octicon-pencil,
-.rgh-edit-files-faster:hover .octicon-file {
+.rgh-edit-files-faster:hover > :first-child {
 	display: none;
 }
 
