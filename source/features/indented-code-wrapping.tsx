@@ -47,6 +47,8 @@ function init(): void {
 	run();
 	onNewComments(run);
 	onPrFileLoad(run);
+
+	document.body.classList.add('rgh-code-wrapping-enabled');
 }
 
 features.add({

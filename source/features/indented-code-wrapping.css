@@ -1,3 +1,8 @@
+.rgh-softwrapped-code .blob-code:not(.blob-code-hunk) {
+	line-height: 21px; /* Compensation for block-ifying table cells */
+}
+
+.rgh-code-wrapping-enabled .blob-code-hunk, /* Wrap code eagerly to avoid layout changes later */
 .rgh-softwrapped-code .blob-code-hunk {
 	white-space: pre-wrap;
 }
