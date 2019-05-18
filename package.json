@@ -36,7 +36,6 @@
 		"onetime": "^5.0.0",
 		"p-memoize": "^3.0.0",
 		"select-dom": "^5.0.2",
-		"semver-regex": "^3.1.0",
 		"shorten-repo-url": "^1.5.1",
 		"tiny-version-compare": "^1.0.0",
 		"type-fest": "^0.4.1",
