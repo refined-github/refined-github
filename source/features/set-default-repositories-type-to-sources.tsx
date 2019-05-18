@@ -1,6 +1,3 @@
-/*
-Forks and archived repos are hidden on profiles
-*/
 import select from 'select-dom';
 import features from '../libs/features';
 
@@ -21,6 +18,7 @@ function init(): void {
 
 features.add({
 	id: 'set-default-repositories-type-to-sources',
+	description: 'Forks and archived repos are hidden on profiles',
 	load: features.onAjaxedPages,
 	init
 });

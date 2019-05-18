@@ -11,6 +11,7 @@ function init(): void {
 
 features.add({
 	id: 'open-ci-details-in-new-tab',
+	description: 'Open CI details in a new tab',
 	include: [
 		features.isPR
 	],

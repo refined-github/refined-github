@@ -1,12 +1,7 @@
-/*
-Adds a compare link on each releases/tags/single tag page so that you can see what has changed since the previous release.
-If the tags are namespaced then it tries to get the previous release of the same namespaced tag.
-
-See it in action at: https://github.com/parcel-bundler/parcel/releases
-*/
 import React from 'dom-chef';
 import select from 'select-dom';
 import tinyVersionCompare from 'tiny-version-compare';
+import semverRegex from 'semver-regex';
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
 import * as icons from '../libs/icons';
@@ -41,7 +36,7 @@ function parseTags(element: HTMLElement): TagDetails {
 		element,
 		tag,
 		commit: select('[href*="/commit/"]', element)!.textContent!.trim(),
-		...parseTag(tag) // `version`, `namespace`
+		...parseTag(decodeURIComponent(tag)) // `version`, `namespace`
 	};
 }
 
@@ -64,6 +59,10 @@ async function init(): Promise<void | false> {
 	// Look for tags in the current page and the next page
 	const pages = [document, await getNextPage()];
 	const allTags = select.all(tagsSelectors, pages).map(parseTags);
+
+	if (allTags.every(tag => semverRegex().test(tag.version))) {
+		allTags.sort((tagA, tagB) => tinyVersionCompare(tagB.version, tagA.version));
+	}
 
 	for (const [index, container] of allTags.entries()) {
 		const previousTag = getPreviousTag(index, allTags);
@@ -121,6 +120,7 @@ const getPreviousTag = (current: number, allTags: TagDetails[]): string | undefi
 
 features.add({
 	id: 'tag-changelog-link',
+	description: 'See an automatic changelog for each tag or release.',
 	include: [
 		features.isReleasesOrTags
 	],

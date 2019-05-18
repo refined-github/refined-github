@@ -14,6 +14,7 @@ function init(): void {
 
 features.add({
 	id: 'hide-disabled-milestone-sorter',
+	description: 'Hide the milestone drag icon when you don’t have permission to sort the milestones',
 	include: [
 		features.isMilestone
 	],

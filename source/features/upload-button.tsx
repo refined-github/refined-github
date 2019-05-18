@@ -38,6 +38,7 @@ function init(): void {
 
 features.add({
 	id: 'upload-button',
+	description: 'Add an upload button in comments for uploading attachments',
 	include: [
 		features.hasRichTextEditor
 	],

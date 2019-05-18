@@ -10,6 +10,7 @@ function init(): void {
 
 features.add({
 	id: 'create-release-shortcut',
+	description: 'Add keyboard shortcut to quickly create a new release',
 	include: [
 		features.isReleasesOrTags
 	],

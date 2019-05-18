@@ -1,11 +1,3 @@
-/*
-Creating a PR from the master branch is an anti-pattern. This feature produces a
-warning when a user attempts to create a PR from their fork's default branch.
-
-See:
-https://blog.jasonmeridth.com/posts/do-not-issue-pull-requests-from-your-master-branch/
-*/
-
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
@@ -27,6 +19,7 @@ async function init(): Promise<false | void> {
 
 features.add({
 	id: 'warn-pr-from-master',
+	description: 'Warns you when creating a pull request from the default branch, as it’s an anti-pattern',
 	include: [
 		features.isCompare
 	],
