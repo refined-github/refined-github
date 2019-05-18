@@ -15,7 +15,7 @@ deploy:
   - # Creates versioned git tag when tag is `hotfix`
     provider: script
     skip_cleanup: true
-    script: npm run create-git-tag && git tag --delete origin hotfix
+    script: npm run create-git-tag && git push --delete origin hotfix
     on:
       tags: true
       condition: $TRAVIS_TAG = hotfix
