@@ -26,6 +26,7 @@ interface GlobalOptions {
 }
 
 interface FeatureDetails {
+	disabled?: false | string; // `false` | 'URL to issue'
 	id: string;
 	description: string;
 	include?: BooleanFunction[];
@@ -148,12 +149,8 @@ const add = async (definition: FeatureDetails): Promise<void> => {
 		init,
 		deinit = () => {}, // Noop
 		shortcuts = {},
-		...invalidProps
+		disabled = false
 	} = definition;
-
-	if (Object.keys(invalidProps).length > 0) {
-		throw new Error(`${id} was added with invalid props: ${Object.keys(invalidProps).join(', ')}`);
-	}
 
 	if ([...include, ...exclude].some(d => typeof d !== 'function')) {
 		throw new TypeError(`${id}: include/exclude must be boolean-returning functions`);
@@ -161,8 +158,8 @@ const add = async (definition: FeatureDetails): Promise<void> => {
 
 	/* Feature filtering and running */
 	const options = await globalReady;
-	if (options.disabledFeatures.includes(id)) {
-		options.log!('↩️', 'Skipping', id);
+	if (disabled || options.disabledFeatures.includes(id)) {
+		options.log!('↩️', 'Skipping', id, disabled ? `because of ${disabled}` : '');
 		return;
 	}
 
