@@ -2,6 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import onDomReady from 'dom-loaded';
 import OptionsSync from 'webext-options-sync';
+import {Options} from '../background';
 import onNewComments from './on-new-comments';
 import onFileListUpdate from './on-file-list-update';
 import * as pageDetect from './page-detect';
@@ -18,13 +19,6 @@ interface Shortcut {
 	description: string;
 }
 
-interface GlobalOptions {
-	disabledFeatures: string;
-	customCSS: string;
-	logging: boolean;
-	log?: (...args: unknown[]) => void;
-}
-
 export interface FeatureDetails {
 	disabled?: false | string; // `false` | 'URL to issue'
 	id: string;
@@ -36,10 +30,6 @@ export interface FeatureDetails {
 	deinit?: () => void;
 	load?: callerFunction | Promise<void>;
 	shortcuts?: FeatureShortcuts;
-}
-
-interface PrivateFeatureDetails extends FeatureDetails {
-	options: GlobalOptions;
 }
 
 /*
@@ -77,9 +67,11 @@ onAjaxedPages(async () => {
 	}
 });
 
+let log: typeof console.log;
+
 // Rule assumes we don't want to leave it pending:
 // eslint-disable-next-line no-async-promise-executor
-const globalReady: Promise<GlobalOptions> = new Promise(async resolve => {
+const globalReady: Promise<Options> = new Promise(async resolve => {
 	await safeElementReady('body');
 
 	if (pageDetect.is500()) {
@@ -99,24 +91,19 @@ const globalReady: Promise<GlobalOptions> = new Promise(async resolve => {
 	document.documentElement.classList.add('refined-github');
 
 	// Options defaults
-	const options: GlobalOptions = {
-		disabledFeatures: '',
-		customCSS: '',
-		logging: false,
-		...await new OptionsSync().getAll()
-	};
+	const options = await new OptionsSync().getAll();
 
-	if (options.customCSS.trim().length > 0) {
+	if ((options.customCSS as string).trim().length > 0) {
 		document.head.append(<style>{options.customCSS}</style>);
 	}
 
 	// Create logging function
-	options.log = options.logging ? console.log : () => {};
+	log = options.logging ? console.log : () => { };
 
-	resolve(options);
+	resolve(options as Options);
 });
 
-const run = async ({id, include, exclude, init, deinit, options: {log}}: PrivateFeatureDetails): Promise<void> => {
+const run = async ({id, include, exclude, init, deinit}: FeatureDetails): Promise<void> => {
 	// If every `include` is false and no exclude is true, don’t run the feature
 	if (include!.every(c => !c()) || exclude!.some(c => c())) {
 		return deinit!();
@@ -125,7 +112,7 @@ const run = async ({id, include, exclude, init, deinit, options: {log}}: Private
 	try {
 		// Features can return `false` if they declare themselves as not enabled
 		if (await init() !== false) {
-			log!('✅', id);
+			log('✅', id);
 		}
 	} catch (error) {
 		console.log('❌', id);
@@ -162,8 +149,8 @@ const add = async (definition: FeatureDetails): Promise<void> => {
 
 	/* Feature filtering and running */
 	const options = await globalReady;
-	if (disabled || options.disabledFeatures.includes(id)) {
-		options.log!('↩️', 'Skipping', id, disabled ? `because of ${disabled}` : '');
+	if (disabled || options[`feature:${id}`] === false) {
+		log('↩️', 'Skipping', id, disabled ? `because of ${disabled}` : '');
 		return;
 	}
 
@@ -179,7 +166,7 @@ const add = async (definition: FeatureDetails): Promise<void> => {
 	}
 
 	// Initialize the feature using the specified loading mechanism
-	const details: PrivateFeatureDetails = {id, description, include, exclude, init, deinit, options};
+	const details: FeatureDetails = {id, description, include, exclude, init, deinit};
 	if (load === onNewComments) {
 		details.init = async () => {
 			const result = await init();

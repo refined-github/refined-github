@@ -3,7 +3,14 @@ import {addContextMenu} from 'webext-domain-permission-toggle';
 import {addToFutureTabs} from 'webext-dynamic-content-scripts';
 import './libs/cache';
 
-const defaults: AnyObject = {
+export interface Options {
+	customCSS: string;
+	personalToken: string;
+	logging: boolean;
+	[featureName: string]: string | boolean;
+}
+
+const defaults: Options = {
 	customCSS: '',
 	personalToken: '',
 	logging: false
@@ -76,7 +83,7 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 addToFutureTabs();
 addContextMenu();
 
-function featureWasRenamed(from: string, to: string, options: typeof defaults): void {
+function featureWasRenamed(from: string, to: string, options: AnyObject): void {
 	if (typeof options[`feature:${from}`] === 'boolean') {
 		options[`feature:${to}`] = options[`feature:${from}`];
 	}
