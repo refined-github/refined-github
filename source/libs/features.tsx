@@ -1,8 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import onDomReady from 'dom-loaded';
-import OptionsSync from 'webext-options-sync';
-import {Options} from '../background';
+import optionsStorage, {Options} from '../options-storage';
 import onNewComments from './on-new-comments';
 import onFileListUpdate from './on-file-list-update';
 import * as pageDetect from './page-detect';
@@ -91,7 +90,7 @@ const globalReady: Promise<Options> = new Promise(async resolve => {
 	document.documentElement.classList.add('refined-github');
 
 	// Options defaults
-	const options = (await new OptionsSync().getAll()) as Options;
+	const options = (await optionsStorage.getAll()) as Options;
 
 	if (options.customCSS.trim().length > 0) {
 		document.head.append(<style>{options.customCSS}</style>);

@@ -2,10 +2,10 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import linkifyUrls from 'linkify-urls';
 import fitTextarea from 'fit-textarea';
-import OptionsSync from 'webext-options-sync';
-import {applyToLink as shortenLink} from 'shorten-repo-url';
 import indentTextarea from 'indent-textarea';
+import {applyToLink as shortenLink} from 'shorten-repo-url';
 import parseBackticks from './libs/parse-backticks';
+import optionsStorage from './options-storage';
 import {FeatureDetails} from './libs/features';
 import {editTextNodes} from './features/linkify-urls-in-code';
 
@@ -62,4 +62,4 @@ document
 	.querySelector('.js-features')!
 	.append(...sortedFeaturePairs.map(buildFeatureCheckbox));
 
-new OptionsSync().syncForm('#options-form');
+optionsStorage.syncForm('#options-form');
