@@ -1,39 +1,50 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import delegate from 'delegate-it';
 import copyToClipboard from 'copy-text-to-clipboard';
 import features from '../libs/features';
-import {groupSiblings} from '../libs/group-buttons';
 
-function init() {
-	// This selector skips binaries + markdowns with code
-	for (const code of select.all('.file .blob-wrapper > .highlight:not(.rgh-copy-file)')) {
-		code.classList.add('rgh-copy-file');
-		const file = code.closest('.file');
+function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): void {
+	const file = button.closest('.Box');
+	const content = select.all('.blob-code-inner', file!)
+		.map(({innerText: line}) => line === '\n' ? '' : line) // Must be `.innerText`
+		.join('\n');
+	copyToClipboard(content);
+}
 
-		const content = select.all('.blob-code-inner', file)
-			.map(blob => blob.innerText)
-			.map(line => line === '\n' ? '' : line)
-			.join('\n');
-
-		const handleClick = () => {
-			copyToClipboard(content);
-		};
-
-		// Prepend to list of buttons
-		const firstAction = select('.file-actions .btn', file);
-		if (firstAction) {
-			firstAction.before(
-				<button onClick={handleClick} class="btn btn-sm copy-btn tooltipped tooltipped-n" aria-label="Copy file to clipboard" type="button">Copy</button>
+function renderButton(): void {
+	for (const blameButton of select.all('[data-hotkey="b"]')) {
+		blameButton
+			.parentElement! // `BtnGroup`
+			.prepend(
+				<button
+					onClick={handleClick}
+					className="btn btn-sm tooltipped tooltipped-n BtnGroup-item rgh-copy-file"
+					aria-label="Copy file to clipboard"
+					type="button">
+					Copy
+				</button>
 			);
+	}
+}
 
-			// Group buttons if necessary
-			groupSiblings(firstAction);
-		}
+function init(): void {
+	if (select.exists('.blob.instapaper_body')) {
+		delegate('.rgh-md-source', 'rgh:view-markdown-source', renderButton);
+		delegate('.rgh-md-source', 'rgh:view-markdown-rendered', () => {
+			const button = select('.rgh-copy-file');
+			if (button) {
+				button.remove();
+			}
+		});
+	} else {
+		renderButton();
 	}
 }
 
 features.add({
 	id: 'copy-file',
+	description: 'Copy a file’s content',
 	include: [
 		features.isSingleFile,
 		features.isGist

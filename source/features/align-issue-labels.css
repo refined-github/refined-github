@@ -1,0 +1,28 @@
+/* Move labels in the Issue/PR list below the title */
+.js-issue-row .lh-condensed {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.js-issue-row .labels {
+	order: 1;
+}
+
+.js-issue-row .h4, /* Title */
+.js-issue-row .d-inline-block.mr-1 { /* Build status */
+	padding-right: 4px; /* Space before the build status */
+}
+
+.js-issue-row .mt-1.text-small.text-gray { /* Issue details line */
+	flex-basis: 100%;
+}
+
+.js-issue-row .h4 { /* Title */
+	max-width: 100%; /* #1518 */
+}
+
+.js-issue-row .IssueLabel {
+	padding: 2px 3px 3px !important;
+	margin-top: 4px;
+	font-size: 11px !important;
+}

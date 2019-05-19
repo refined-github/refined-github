@@ -1,14 +1,9 @@
-/*
-This feature adds infinite scrolling to:
-- News feed on the Dashboard
-*/
-
 import select from 'select-dom';
 import debounce from 'debounce-fn';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 
-let btn;
+let btn: HTMLButtonElement;
 
 const loadMore = debounce(() => {
 	btn.click();
@@ -33,7 +28,7 @@ const inView = new IntersectionObserver(([{isIntersecting}]) => {
 	rootMargin: '500px' // https://github.com/sindresorhus/refined-github/pull/505#issuecomment-309273098
 });
 
-const findButton = () => {
+const findButton = (): void => {
 	// If the old button is still there, leave
 	if (btn && document.contains(btn)) {
 		return;
@@ -43,13 +38,13 @@ const findButton = () => {
 	inView.disconnect();
 
 	// Watch the new button, or stop everything
-	btn = select('.ajax-pagination-btn');
+	btn = select<HTMLButtonElement>('.ajax-pagination-btn')!;
 	if (btn) {
 		inView.observe(btn);
 	}
 };
 
-function init() {
+function init(): void {
 	const form = select('.ajax-pagination-form');
 	if (form) {
 		// If GH hasn't loaded the JS,
@@ -62,6 +57,7 @@ function init() {
 
 features.add({
 	id: 'infinite-scroll',
+	description: 'Add infinite scrolling to the dashboard news feed',
 	include: [
 		features.isDashboard
 	],

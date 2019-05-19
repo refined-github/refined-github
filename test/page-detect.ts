@@ -1,8 +1,13 @@
-import test from 'ava';
+import test, {ExecutionContext} from 'ava';
 import './fixtures/globals';
 import * as pageDetect from '../source/libs/page-detect';
 
-function urlMatcherMacro(t, detectFn, shouldMatch = [], shouldNotMatch = []) {
+function urlMatcherMacro(
+	t: ExecutionContext,
+	detectFn: (url: string) => boolean,
+	shouldMatch: string[] = [],
+	shouldNotMatch: string[] = []
+): void {
 	for (const url of shouldMatch) {
 		location.href = url;
 		t.true(detectFn(url));
@@ -32,7 +37,13 @@ test('is500', t => {
 	document.title = 'Server Error · GitHub';
 	t.true(pageDetect.is500());
 
+	document.title = 'Unicorn! · GitHub';
+	t.true(pageDetect.is500());
+
 	document.title = 'examples/500: Server Error examples';
+	t.false(pageDetect.is500());
+
+	document.title = 'sindresorhus/unicorn: You can’t tell what doesn’t exist';
 	t.false(pageDetect.is500());
 
 	document.title = 'Dashboard';
@@ -93,7 +104,7 @@ test('isDashboard', urlMatcherMacro, pageDetect.isDashboard, [
 	'https://github.com/sindresorhus'
 ]);
 
-test('isDiscussion', urlMatcherMacro, pageDetect.isDiscussion, [
+test('isOrganizationDiscussion', urlMatcherMacro, pageDetect.isOrganizationDiscussion, [
 	'https://github.com/orgs/refined-github/teams/core-team/discussions?pinned=1',
 	'https://github.com/orgs/refined-github/teams/core-team/discussions/1',
 	'https://github.com/orgs/refined-github/teams/core-team'
@@ -139,9 +150,12 @@ test('isIssue', urlMatcherMacro, pageDetect.isIssue, [
 	'https://github.com/sindresorhus/refined-github/issues'
 ]);
 
-test('isIssueList', urlMatcherMacro, pageDetect.isIssueList, [
+test('isRepoDiscussionList', urlMatcherMacro, pageDetect.isRepoDiscussionList, [
 	'http://github.com/sindresorhus/ava/issues',
 	'https://github.com/sindresorhus/refined-github/pulls',
+	'https://github.com/sindresorhus/refined-github/pulls/',
+	'https://github.com/sindresorhus/refined-github/pulls/bfred-it',
+	'https://github.com/sindresorhus/refined-github/issues/bfred-it',
 	'https://github.com/sindresorhus/refined-github/labels/Priority%3A%20critical',
 	'https://github.com/sindresorhus/refined-github/issues?q=is%3Aclosed+sort%3Aupdated-desc'
 ], [
@@ -150,15 +164,26 @@ test('isIssueList', urlMatcherMacro, pageDetect.isIssueList, [
 	'https://github.com/sindresorhus/refined-github/issues/170',
 	'https://github.com/sindresorhus/refined-github/pull/148',
 	'http://github.com/sindresorhus/issues',
-	'https://github.com/wildlifela/carmichael-lynch-2018/labels'
+	'https://github.com/sindresorhus/refined-github/labels',
+	'https://github.com/sindresorhus/refined-github/labels/'
 ]);
 
-test('isGlobalIssueSearch', urlMatcherMacro, pageDetect.isGlobalIssueSearch, [
-	'https://github.com/issues'
+test('isGlobalDiscussionList', urlMatcherMacro, pageDetect.isGlobalDiscussionList, [
+	'https://github.com/issues',
+	'https://github.com/pulls',
+	'https://github.com/pulls?q=issues',
+	'https://github.com/issues?q=is%3Apr+is%3Aopen'
 ], [
 	'https://github.com/issuesorter',
 	'https://github.com/sindresorhus/refined-github/issues',
-	'https://github.com/sindresorhus/refined-github/issues/170'
+	'https://github.com/sindresorhus/refined-github/issues/170',
+	'https://github.com/pullsup',
+	'https://github.com/sindresorhus/refined-github/pulls',
+	'https://github.com/sindresorhus/refined-github/pull/148',
+	'http://github.com/sindresorhus/ava/issues',
+	'https://github.com/sindresorhus/refined-github/pulls',
+	'https://github.com/sindresorhus/refined-github/labels/Priority%3A%20critical',
+	'https://github.com/sindresorhus/refined-github/issues?q=is%3Aclosed+sort%3Aupdated-desc'
 ]);
 
 test('isMilestone', urlMatcherMacro, pageDetect.isMilestone, [
@@ -241,14 +266,6 @@ test('isPRFiles', urlMatcherMacro, pageDetect.isPRFiles, [
 	'https://github.com/sindresorhus/refined-github/pull/148',
 	'https://github.com/sindresorhus/refined-github/pull/commits',
 	'https://github.com/sindresorhus/refined-github/pulls'
-]);
-
-test('isGlobalPRSearch', urlMatcherMacro, pageDetect.isGlobalPRSearch, [
-	'https://github.com/pulls'
-], [
-	'https://github.com/pullsup',
-	'https://github.com/sindresorhus/refined-github/pulls',
-	'https://github.com/sindresorhus/refined-github/pull/148'
 ]);
 
 test('isQuickPR', urlMatcherMacro, pageDetect.isQuickPR, [
@@ -354,16 +371,6 @@ test('isTrending', urlMatcherMacro, pageDetect.isTrending, [
 	'https://github.com/jaredhanson/node-trending/tree/master/lib/trending'
 ]);
 
-test('isUserProfile', urlMatcherMacro, pageDetect.isUserProfile, [
-	'https://github.com/sindresorhus'
-], [
-	'https://github.com/',
-	'https://github.com/settings',
-	'https://github.com/watching',
-	'https://github.com/sindresorhus/refined-github',
-	'https://gist.github.com/bfred-it'
-]);
-
 test('isRepoSearch', urlMatcherMacro, pageDetect.isRepoSearch, [
 	'https://github.com/sindresorhus/refined-github/search?q=diff',
 	'https://github.com/sindresorhus/refined-github/search?q=diff&unscoped_q=diff&type=Issues',
@@ -372,4 +379,14 @@ test('isRepoSearch', urlMatcherMacro, pageDetect.isRepoSearch, [
 	'https://github.com/sindresorhus/refined-github',
 	'https://github.com/sindresorhus/search',
 	'https://github.com/search'
+]);
+
+test('isSingleTagPage', urlMatcherMacro, pageDetect.isSingleTagPage, [
+	'https://github.com/sindresorhus/refined-github/releases/tag/v1.0.0-beta.4',
+	'https://github.com/sindresorhus/refined-github/releases/tag/0.2.1'
+], [
+	'https://github.com/sindresorhus/refined-github/tags',
+	'https://github.com/sindresorhus/refined-github/releases',
+	'https://github.com/sindresorhus/refined-github',
+	'https://github.com/sindresorhus/refined-github/graphs'
 ]);

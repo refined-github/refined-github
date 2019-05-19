@@ -1,12 +1,21 @@
 import select from 'select-dom';
-import delegate from 'delegate';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {getOwnerAndRepo, getDiscussionNumber, getOP} from '../libs/utils';
+import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
 
-let coAuthors;
+interface Author {
+	email: string;
+	name: string; // Used when the commit isn't linked to a GitHub user
+	user: {
+		name: string;
+		login: string;
+	};
+}
 
-async function fetchCoAuthoredData() {
+let coAuthors: Author[];
+
+async function fetchCoAuthoredData(): Promise<Author[]> {
 	const prNumber = getDiscussionNumber();
 	const {ownerName, repoName} = getOwnerAndRepo();
 
@@ -19,6 +28,7 @@ async function fetchCoAuthoredData() {
 							commit {
 								author {
 									email
+									name
 									user {
 										login
 										name
@@ -32,34 +42,41 @@ async function fetchCoAuthoredData() {
 		}`
 	);
 
-	return userInfo.repository.pullRequest.commits.nodes.map(node => node.commit.author);
+	return userInfo.repository.pullRequest.commits.nodes.map((node: AnyObject) => node.commit.author as Author);
 }
 
-function addCoAuthors() {
-	const field = select<HTMLTextAreaElement>('#merge_message_field');
+function addCoAuthors(): void {
+	const field = select<HTMLTextAreaElement>('#merge_message_field')!;
 	if (field.value.includes('Co-authored-by: ')) {
 		// Don't affect existing information
 		return;
 	}
 
 	const addendum = new Map();
-	for (const {email, user} of coAuthors) {
-		addendum.set(user.login, `Co-authored-by: ${user.name} <${email}>`);
+	for (const {email, user, name} of coAuthors) {
+		if (user) {
+			addendum.set(user.login, `Co-authored-by: ${user.name} <${email}>`);
+		} else {
+			addendum.set(name, `Co-authored-by: ${name} <${email}>`);
+		}
 	}
 
 	addendum.delete(getOP());
 
-	field.value += '\n\n' + [...addendum.values()].join('\n');
+	if (addendum.size > 0) {
+		field.value += '\n\n' + [...addendum.values()].join('\n');
+	}
 }
 
-async function init() {
+async function init(): Promise<void> {
 	coAuthors = await fetchCoAuthoredData();
 
-	delegate('.discussion-timeline-actions', '.merge-message [type=button]', 'click', addCoAuthors);
+	onPrMergePanelOpen(addCoAuthors);
 }
 
 features.add({
 	id: 'add-co-authored-by',
+	description: 'Add co-authors when merging pull requests with multiple committers',
 	include: [
 		features.isPRConversation
 	],

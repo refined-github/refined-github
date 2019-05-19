@@ -5,11 +5,14 @@ import features from '../libs/features';
 
 const confirmationRequiredCount = 10;
 
-function getUrlFromItem(checkbox) {
-	return checkbox.closest('.js-issue-row').querySelector('.js-navigation-open').href;
+function getUrlFromItem(checkbox: Element): string {
+	return checkbox
+		.closest('.js-issue-row')!
+		.querySelector<HTMLAnchorElement>('.js-navigation-open')!
+		.href;
 }
 
-function openIssues() {
+function openIssues(): void {
 	const issues = select.all([
 		'#js-issues-toolbar.triage-mode + div [name="issues[]"]:checked', // Get checked checkboxes
 		'#js-issues-toolbar:not(.triage-mode) + div .js-issue-row' // Or all items
@@ -28,33 +31,34 @@ function openIssues() {
 	});
 }
 
-function init() {
+function init(): void | false {
 	if (select.all('.js-issue-row').length < 2) {
 		return false;
 	}
 
-	const filtersBar = select('.table-list-header .table-list-header-toggle:not(.states)');
+	const filtersBar = select('.table-list-header-toggle:not(.states)');
 	if (filtersBar) {
 		filtersBar.prepend(
 			<button
 				type="button"
 				onClick={openIssues}
-				class="float-left btn-link rgh-open-all-selected"
+				className="btn-link rgh-open-all-selected pr-2"
 			>
 				Open All
 			</button>
 		);
 	}
 
-	const triageFiltersBar = select('.table-list-triage .table-list-header-toggle');
+	const triageFiltersBar = select('.table-list-triage > .text-gray');
 	if (triageFiltersBar) {
-		triageFiltersBar.prepend(
+		triageFiltersBar.classList.add('table-list-header-toggle'); // Handles link :hover style
+		triageFiltersBar.append(
 			<button
 				type="button"
 				onClick={openIssues}
-				class="float-left btn-link rgh-open-all-selected"
+				className="btn-link rgh-open-all-selected pl-3"
 			>
-				Open in new tabs
+				Open all
 			</button>
 		);
 	}
@@ -62,10 +66,9 @@ function init() {
 
 features.add({
 	id: 'batch-open-issues',
+	description: 'Open multiple issues in your repo at once',
 	include: [
-		features.isGlobalIssueSearch,
-		features.isGlobalPRSearch,
-		features.isIssueList
+		features.isDiscussionList
 	],
 	load: features.onAjaxedPages,
 	init

@@ -13,7 +13,6 @@
 	},
 	"permissions": [
 		"storage",
-		"clipboardWrite",
 		"contextMenus",
 		"activeTab",
 		"https://api.github.com/*"
@@ -47,12 +46,16 @@
 				"https://gist.github.com/*"
 			],
 			"css": [
-				"content.css"
+				"content.css",
+				"features.css"
 			],
 			"js": [
 				"browser-polyfill.min.js",
 				"content.js"
 			]
 		}
+	],
+	"web_accessible_resources": [
+		"resolve-conflicts.js"
 	]
 }

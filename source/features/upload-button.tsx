@@ -1,13 +1,13 @@
+import './upload-button.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate';
-import onetime from 'onetime';
+import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 
-function addButtons() {
+function addButtons(): void {
 	for (const toolbar of select.all('form:not(.rgh-has-upload-field) markdown-toolbar')) {
-		const form = toolbar.closest('form');
+		const form = toolbar.closest('form')!;
 		if (!select.exists('.js-manual-file-chooser[type=file]', form)) {
 			continue;
 		}
@@ -15,7 +15,7 @@ function addButtons() {
 		const toolbarGroup = select('.toolbar-group:last-child', toolbar);
 		if (toolbarGroup) {
 			toolbarGroup.append(
-				<button type="button" class="toolbar-item rgh-upload-btn tooltipped tooltipped-nw" aria-label="Upload attachments" hotkey="u">
+				<button type="button" className="toolbar-item rgh-upload-btn tooltipped tooltipped-nw" aria-label="Upload attachments" data-hotkey="u">
 					{icons.cloudUpload()}
 				</button>
 			);
@@ -24,30 +24,23 @@ function addButtons() {
 	}
 }
 
-function triggerUploadUI({target}) {
-	target
-		.closest('form')
-		.querySelector('.js-manual-file-chooser') // Find <input [type=file]>
+function triggerUploadUI({delegateTarget}: DelegateEvent<Event, HTMLButtonElement>): void {
+	delegateTarget
+		.form!
+		.querySelector<HTMLElement>('.js-manual-file-chooser')! // Find <input [type=file]>
 		.click(); // Open UI
 }
 
-const listenOnce = onetime(() => {
-	delegate('.rgh-upload-btn', 'click', triggerUploadUI);
-});
-
-function init() {
+function init(): void {
 	addButtons();
-	listenOnce();
+	delegate('.rgh-upload-btn', 'click', triggerUploadUI);
 }
 
 features.add({
 	id: 'upload-button',
+	description: 'Add an upload button in comments for uploading attachments',
 	include: [
-		features.isPR,
-		features.isIssue,
-		features.isNewIssue,
-		features.isCompare,
-		features.isCommit
+		features.hasRichTextEditor
 	],
 	load: features.onAjaxedPages,
 	init

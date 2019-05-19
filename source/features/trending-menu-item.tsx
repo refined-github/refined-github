@@ -1,32 +1,21 @@
 import React from 'dom-chef';
 import features from '../libs/features';
-import {isTrending} from '../libs/page-detect';
 import {safeElementReady} from '../libs/dom-utils';
 
-async function init() {
-	const selectedClass = isTrending() ? 'selected' : '';
-	const issuesLink = await safeElementReady('.HeaderNavlink[href="/issues"], .header-nav-link[href="/issues"]');
-	if (!issuesLink) {
+async function init(): Promise<false | void> {
+	const exploreLink = await safeElementReady('.Header-link[href="/explore"]');
+	if (!exploreLink) {
 		return false;
 	}
 
-	issuesLink.parentNode.after(
-		<li class="header-nav-item">
-			<a href="/trending" class={`js-selected-navigation-item HeaderNavlink px-lg-2 py-2 py-lg-0 ${selectedClass}`} data-hotkey="g t">Trending</a>
-		</li>
+	exploreLink.before(
+		<a href="/trending" className={exploreLink.className} data-hotkey="g t">Trending</a>
 	);
-
-	// Explore link highlights /trending urls by default, remove that behavior
-	if (isTrending()) {
-		const exploreLink = await safeElementReady('a[href="/explore"]');
-		if (exploreLink) {
-			exploreLink.classList.remove('selected');
-		}
-	}
 }
 
 features.add({
 	id: 'trending-menu-item',
+	description: 'Access trending repositories using the "Trending" link in the global navigation bar or by pressing `g` ` t`',
 	exclude: [
 		features.isGist
 	],

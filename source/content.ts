@@ -1,4 +1,4 @@
-import select, {SelectDom} from 'select-dom';
+import select from 'select-dom';
 import 'webext-dynamic-content-scripts';
 
 import './features/useful-not-found-page';
@@ -7,12 +7,14 @@ import './features/hide-useless-newsfeed-events';
 import './features/more-dropdown';
 import './features/releases-tab';
 import './features/remove-projects-tab';
+import './features/remove-checks-tab';
 import './features/focus-confirmation-buttons';
 import './features/comment-fields-keyboard-shortcuts';
 import './features/hide-navigation-hover-highlight';
 import './features/monospace-textareas';
 import './features/selection-in-new-tab';
 import './features/hide-comments-faster';
+import './features/edit-comments-faster';
 import './features/mark-unread';
 import './features/open-all-notifications';
 import './features/copy-on-y';
@@ -22,6 +24,7 @@ import './features/close-out-of-view-modals';
 import './features/improve-shortcut-help';
 import './features/upload-button';
 import './features/move-marketplace-link-to-profile-dropdown';
+import './features/view-markdown-source';
 import './features/copy-file';
 import './features/hide-own-stars';
 import './features/infinite-scroll';
@@ -35,21 +38,15 @@ import './features/linkify-branch-refs';
 import './features/batch-open-issues';
 import './features/hide-useless-comments';
 import './features/navigate-pages-with-arrow-keys';
-import './features/make-headers-sticky';
-import './features/yours-menu-item';
-import './features/commented-menu-item';
-import './features/sort-issues-by-update-time'; // Must be after add-yours-menu-item + add-commented-menu-item
-import './features/hide-readme-header';
+import './features/global-discussion-list-filters';
+import './features/sort-issues-by-update-time'; // Must be after global-discussion-list-filters
 import './features/branch-buttons';
-import './features/diff-view-without-whitespace-option';
+import './features/faster-pr-diff-options';
 import './features/ci-link';
 import './features/sort-milestones-by-closest-due-date';
 import './features/star-repo-hotkey';
 import './features/toggle-files-button';
-import './features/scroll-to-top-on-collapse';
-import './features/delete-fork-link';
-import './features/fix-squash-and-merge-title';
-import './features/fix-squash-and-merge-message';
+import './features/sync-pr-commit-title';
 import './features/open-ci-details-in-new-tab';
 import './features/wait-for-build';
 import './features/hide-inactive-deployments';
@@ -59,17 +56,19 @@ import './features/linkify-issues-in-titles';
 import './features/embed-gist-inline';
 import './features/extend-status-labels';
 import './features/highlight-closing-prs-in-open-issues';
+import './features/highlight-own-issues-and-prs';
 import './features/comments-time-machine-links';
-import './features/jump-to-bottom-link';
 import './features/filter-comments-by-you';
 import './features/hide-issue-list-autocomplete';
-import './features/exclude-filter-shortcut';
-import './features/show-recently-pushed-branches-on-more-pages';
+import './features/esc-to-deselect-line';
+import './features/recently-pushed-branches-enhancements';
 import './features/create-release-shortcut';
 import './features/patch-diff-links';
+import './features/parse-backticks';
 import './features/swap-branches-on-compare';
 import './features/reactions-avatars';
 import './features/show-names';
+import './features/remove-diff-signs';
 import './features/mark-merge-commits-in-list';
 import './features/prev-next-commit-buttons';
 import './features/preserve-whitespace-option-in-nav';
@@ -84,14 +83,40 @@ import './features/mark-private-orgs';
 import './features/linkify-commit-sha';
 import './features/bypass-checks';
 import './features/add-co-authored-by';
+import './features/warning-for-disallow-edits';
+import './features/warn-pr-from-master';
 import './features/split-issue-pr-search-results';
 import './features/preview-hidden-comments';
+import './features/fit-textareas';
+import './features/collapsible-content-button';
+import './features/hide-watch-and-fork-count';
+import './features/resolve-conflicts';
+import './features/follow-file-renames';
+import './features/default-to-rich-diff';
+import './features/raw-file-link';
+import './features/tags-dropdown';
+import './features/filter-pr-by-build-status';
+import './features/edit-files-faster';
+import './features/update-pr-from-base-branch';
+import './features/hide-disabled-milestone-sorter';
+import './features/tag-changelog-link';
+import './features/link-to-file-in-file-history';
+import './features/clean-sidebar';
+
+import './features/scrollable-code-and-blockquote.css';
+import './features/center-reactions-popup.css';
+import './features/widen-search-field.css';
+import './features/clean-dashboard.css';
+import './features/safer-destructive-actions.css';
+import './features/delete-fork-button.css';
+import './features/clean-mergeability-box.css';
+import './features/clean-footer.css';
+import './features/pr-approvals-count.css';
+import './features/align-issue-labels.css';
+import './features/hide-tips.css';
+import './features/hide-readme-header.css';
+import './features/hide-obvious-tooltips.css';
+import './features/clean-discussions.css';
 
 // Add global for easier debugging
-declare global {
-	interface Window {
-		select: SelectDom;
-	}
-}
-
-window.select = select;
+(window as any).select = select;

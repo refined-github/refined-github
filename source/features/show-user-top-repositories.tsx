@@ -1,25 +1,32 @@
-/*
-Find a user’s most starred repositories in their profile.
-https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93de-159ad4c6f283.png
-*/
-
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 import {getCleanPathname} from '../libs/utils';
 
-function init() {
-	const showcaseTitle = select('.js-pinned-repos-reorder-container .text-normal');
+function buildUrl(queryField: string): URL {
+	const url = new URL('/search', location.href);
+	url.searchParams.set('o', 'desc');
+	url.searchParams.set('q', `user:${getCleanPathname()}`);
+	url.searchParams.set('s', queryField);
+	url.searchParams.set('type', 'Repositories');
+	return url;
+}
+
+function init(): false | void {
+	const showcaseTitle = select('.js-pinned-items-reorder-container .text-normal')!;
 	if (!showcaseTitle) {
 		return false;
 	}
 
-	const url = `/search?o=desc&q=user%3A${getCleanPathname()}&s=stars&type=Repositories`;
-	showcaseTitle.firstChild.after(' / ', <a href={url}>Top repositories</a>);
+	showcaseTitle.firstChild!.after(
+		' / ',
+		<a href={String(buildUrl('stars'))}>Top repositories</a>
+	);
 }
 
 features.add({
 	id: 'show-user-top-repositories',
+	description: 'Find a user’s most starred repositories in their profile (https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93de-159ad4c6f283.png)',
 	include: [
 		features.isUserProfile
 	],

@@ -1,6 +1,11 @@
 import test from 'ava';
 import './fixtures/globals';
-import * as utils from '../source/libs/utils';
+import {
+	getDiscussionNumber,
+	getOwnerAndRepo,
+	getRepoPath,
+	parseTag
+} from '../source/libs/utils';
 
 test('getDiscussionNumber', t => {
 	const pairs = new Map<string, boolean|string>([
@@ -71,12 +76,12 @@ test('getDiscussionNumber', t => {
 	]);
 	for (const [url, result] of pairs) {
 		location.href = url;
-		t.is(result, utils.getDiscussionNumber());
+		t.is(result, getDiscussionNumber());
 	}
 });
 
 test('getRepoPath', t => {
-	const pairs = new Map<string, string>([
+	const pairs = new Map<string, string | undefined>([
 		[
 			'https://github.com',
 			undefined
@@ -121,12 +126,16 @@ test('getRepoPath', t => {
 
 	for (const [url, result] of pairs) {
 		location.href = url;
-		t.is(result, utils.getRepoPath());
+		t.is(result, getRepoPath());
 	}
 });
 
 test('getOwnerAndRepo', t => {
-	const ownerAndRepo = {
+	const ownerAndRepo: {
+		[url: string]: {
+			[prop: string]: string;
+		};
+	} = {
 		'https://github.com/sindresorhus/refined-github/pull/148': {
 			ownerName: 'sindresorhus',
 			repoName: 'refined-github'
@@ -139,6 +148,15 @@ test('getOwnerAndRepo', t => {
 
 	Object.keys(ownerAndRepo).forEach(url => {
 		location.href = url;
-		t.deepEqual(ownerAndRepo[url], utils.getOwnerAndRepo());
+		t.deepEqual(ownerAndRepo[url], getOwnerAndRepo());
 	});
+});
+
+test('parseTag', t => {
+	t.deepEqual(parseTag(''), {namespace: '', version: ''});
+	t.deepEqual(parseTag('1.2.3'), {namespace: '', version: '1.2.3'});
+	t.deepEqual(parseTag('@1.2.3'), {namespace: '', version: '1.2.3'});
+	t.deepEqual(parseTag('hi@1.2.3'), {namespace: 'hi', version: '1.2.3'});
+	t.deepEqual(parseTag('hi/you@1.2.3'), {namespace: 'hi/you', version: '1.2.3'});
+	t.deepEqual(parseTag('@hi/you@1.2.3'), {namespace: '@hi/you', version: '1.2.3'});
 });

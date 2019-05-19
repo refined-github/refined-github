@@ -2,7 +2,7 @@ import select from 'select-dom';
 import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 
-function init() {
+function init(): false | void {
 	const menuItem = select(`#user-links a.dropdown-item[href="/${getUsername()}"]`);
 
 	if (menuItem) {
@@ -14,6 +14,7 @@ function init() {
 
 features.add({
 	id: 'profile-hotkey',
+	description: 'Go to your profile by pressing `g` `m`',
 	load: features.onDomReady,
 	shortcuts: {
 		'g m': 'Go to Profile'

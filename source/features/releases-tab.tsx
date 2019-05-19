@@ -1,10 +1,3 @@
-/*
-Access a repository’s releases using the Releases tab or by pressing g r.
-https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png
-
-The tab isn’t shown if there are no releases.
-*/
-
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
@@ -18,12 +11,12 @@ const repoUrl = getRepoURL();
 const repoKey = `releases-count:${repoUrl}`;
 
 // Get as soon as possible, to have it ready before the first paint
-const cached = cache.get(repoKey);
+const cached = cache.get<number>(repoKey);
 
-function updateReleasesCount() {
+async function updateReleasesCount(): Promise<number | undefined> {
 	if (isRepoRoot()) {
 		const releasesCountEl = select('.numbers-summary a[href$="/releases"] .num');
-		const releasesCount = Number(releasesCountEl ? releasesCountEl.textContent.replace(/,/g, '') : 0);
+		const releasesCount = Number(releasesCountEl ? releasesCountEl.textContent!.replace(/,/g, '') : 0);
 		cache.set(repoKey, releasesCount, 3);
 		return releasesCount;
 	}
@@ -31,7 +24,7 @@ function updateReleasesCount() {
 	return cached;
 }
 
-async function init() {
+async function init(): Promise<false | void> {
 	await safeElementReady('.pagehead + *'); // Wait for the tab bar to be loaded
 	const count = await updateReleasesCount();
 	if (count === 0) {
@@ -39,13 +32,13 @@ async function init() {
 	}
 
 	const releasesTab = (
-		<a href={`/${repoUrl}/releases`} class="reponav-item" data-hotkey="g r">
+		<a href={`/${repoUrl}/releases`} className="reponav-item" data-hotkey="g r">
 			{icons.tag()}
 			<span> Releases </span>
-			{count === undefined ? '' : <span class="Counter">{count}</span>}
+			{count === undefined ? '' : <span className="Counter">{count}</span>}
 		</a>
 	);
-	select('.reponav-dropdown').before(releasesTab);
+	select('.reponav-dropdown')!.before(releasesTab);
 
 	if (isReleasesOrTags()) {
 		const selected = select('.reponav-item.selected');
@@ -60,6 +53,7 @@ async function init() {
 
 features.add({
 	id: 'releases-tab',
+	description: 'Access a repository’s releases using the "Releases" tab or by pressing `g` `r`',
 	include: [
 		features.isRepo
 	],

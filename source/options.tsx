@@ -1,18 +1,10 @@
 import React from 'dom-chef';
-import textarea from 'storm-textarea';
+import fitTextarea from 'fit-textarea';
 import OptionsSync from 'webext-options-sync';
-import indentTextarea from './libs/indent-textarea';
+import indentTextarea from 'indent-textarea';
 
-textarea('textarea', {
-	events: ['input']
-});
-
-document.querySelector('[name="customCSS"]').addEventListener('keydown', (event: KeyboardEvent) => {
-	if (event.key === 'Tab' && !event.shiftKey) {
-		indentTextarea(event.target as HTMLTextAreaElement);
-		event.preventDefault();
-	}
-});
+fitTextarea.watch('textarea');
+indentTextarea.watch('textarea');
 
 declare global {
 	interface Window {

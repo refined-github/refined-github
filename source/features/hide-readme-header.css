@@ -1,0 +1,31 @@
+/* Hide the header in README section */
+.repository-content #readme:not(.blob) {
+	position: relative;
+}
+
+.repository-content #readme:not(.blob) .Box-header {
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-color: transparent;
+	padding: 0 !important;
+	border: none;
+}
+
+.repository-content #readme:not(.blob) .Box-header .Box-title {
+	display: none;
+}
+
+.repository-content #readme:not(.blob) .Box-header .btn-octicon {
+	margin: 0;
+	padding: 12px;
+	right: 0;
+	top: 0;
+	opacity: 0.2;
+	transition: opacity 250ms;
+}
+
+.repository-content #readme:not(.blob) .Box-header .btn-octicon:hover,
+.repository-content #readme:not(.blob) .Box-header .btn-octicon:focus {
+	opacity: 1;
+}

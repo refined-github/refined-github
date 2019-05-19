@@ -1,0 +1,5 @@
+/* Fix wrapping text on tabs when feature is enabled #1757 */
+.UnderlineNav-item:nth-last-child(n+7),
+.UnderlineNav-item:nth-last-child(n+7) ~ * {
+	margin-right: 6px;
+}

@@ -1,36 +1,35 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import domify from '../libs/domify';
-import features from '../libs/features';
 import {getCleanPathname} from '../libs/utils';
+import features from '../libs/features';
+import fetchDom from '../libs/fetch-dom';
 
-const fetchStargazers = async () => {
-	const url = `${location.origin}/${getCleanPathname()}/followers/you_know`;
-	const response = await fetch(url);
-	const dom = domify(await response.text());
-	return select.all('.follow-list-item .avatar', dom);
+const fetchStargazers = async (): Promise<HTMLImageElement[]> => {
+	const url = `/${getCleanPathname()}/followers/you_know`;
+	const dom = await fetchDom(url);
+	return select.all<HTMLImageElement>('.follow-list-item .avatar', dom);
 };
 
 const avatarSize = 35;
-const renderAvatar = image => {
+const renderAvatar = (image: HTMLImageElement): HTMLElement => {
 	const src = new URL(image.src);
 	src.searchParams.set('s', String(avatarSize * window.devicePixelRatio));
-	image.src = src;
+	image.src = String(src);
 	image.width = avatarSize;
 	image.height = avatarSize;
 
 	return (
 		<a
-			href={image.parentElement.href}
+			href={(image.parentElement as HTMLAnchorElement).href}
 			aria-label={image.alt.substr(1)}
-			class="tooltipped tooltipped-n avatar-group-item mr-1"
+			className="tooltipped tooltipped-n avatar-group-item mr-1"
 		>
 			{image}
 		</a>
 	);
 };
 
-async function init() {
+async function init(): Promise<false | void> {
 	const container = select('[itemtype="http://schema.org/Person"]');
 	if (!container) {
 		return false;
@@ -42,8 +41,8 @@ async function init() {
 	}
 
 	container.append(
-		<div class="border-top py-3 clearfix">
-			<h2 class="mb-1 h4">Followers you know</h2>
+		<div className="border-top py-3 clearfix">
+			<h2 className="mb-1 h4">Followers you know</h2>
 			{stargazers.map(renderAvatar)}
 		</div>
 	);
@@ -51,6 +50,7 @@ async function init() {
 
 features.add({
 	id: 'show-followers-you-know',
+	description: 'Followers you know are shown on profile pages',
 	include: [
 		features.isUserProfile
 	],

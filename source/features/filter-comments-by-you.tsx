@@ -5,13 +5,13 @@ import {getUsername, getRepoURL} from '../libs/utils';
 
 const repoUrl = getRepoURL();
 
-function init() {
-	select('.subnav-search-context li:last-child')
+function init(): void {
+	select('.subnav-search-context li:last-child')!
 		.before(
 			<li>
 				<a
 					href={`/${repoUrl}/issues?q=is%3Aopen+commenter:${getUsername()}`}
-					class="select-menu-item"
+					className="select-menu-item"
 					role="menuitem">
 						Everything commented by you
 				</a>
@@ -21,8 +21,9 @@ function init() {
 
 features.add({
 	id: 'filter-comments-by-you',
+	description: 'Search for issues and pull requests with the "Everything commented by you filter"',
 	include: [
-		features.isIssueList
+		features.isRepoDiscussionList
 	],
 	load: features.onAjaxedPages,
 	init
