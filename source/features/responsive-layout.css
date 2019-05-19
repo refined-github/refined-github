@@ -5,10 +5,6 @@
 body.rgh-responsive-layout {
 	min-width: 768px;
 }
-.rgh-responsive-layout .reponav {
-	display: flex;
-	flex-direction: row;
-}
 
 @media (max-width: 1080px) {
 	.rgh-responsive-layout .container {
@@ -24,6 +20,14 @@ body.rgh-responsive-layout {
 	.rgh-responsive-layout .discussion-timeline {
 		width: 100%;
 		max-width: none;
+	}
+	.rgh-responsive-layout .reponav {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap-reverse;
+	}
+	.rgh-responsive-layout .reponav .dropdown-menu {
+		width: 95px;
 	}
 }
 
