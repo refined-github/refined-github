@@ -152,14 +152,10 @@ const add = async (definition: FeatureDetails): Promise<void> => {
 		disabled = false
 	} = definition;
 
-	if ([...include, ...exclude].some(d => typeof d !== 'function')) {
-		throw new TypeError(`${id}: include/exclude must be boolean-returning functions`);
-	}
-
 	// In chrome:// pages, just collect the features in a global variable
 	if (!location.protocol.startsWith('http')) {
-		window.collectFeatures = window.collectFeatures || [];
-		window.collectFeatures.push(id);
+		window.collectFeatures = window.collectFeatures || new Map();
+		window.collectFeatures.set(id, description);
 		return;
 	}
 

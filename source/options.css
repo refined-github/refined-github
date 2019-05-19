@@ -56,11 +56,22 @@ h2 ~ h2 {
 }
 
 .js-features p {
-	margin: 0.2em 0;
+	display: flex;
 }
 
-.js-features :checked + span {
+.js-features input {
+	flex-shrink: 0;
+	margin-inline-end: 0.6em; /* Spacing for Chrome */
+	margin-top: 4px; /* Alignment for Chrome */
+}
+
+.js-features :not(:checked) + .info label {
 	text-decoration: line-through;
+}
+
+.js-features .description {
+	font-style: 0.8em;
+	opacity: 0.8;
 }
 
 .js-features a {

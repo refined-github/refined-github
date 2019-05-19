@@ -3,27 +3,35 @@ import {addContextMenu} from 'webext-domain-permission-toggle';
 import {addToFutureTabs} from 'webext-dynamic-content-scripts';
 import './libs/cache';
 
-// Define defaults
+const defaults: AnyObject = {
+	customCSS: '',
+	personalToken: '',
+	logging: false
+};
+
+
+for (const feature of window.collectFeatures.keys()) {
+	defaults[`feature:${feature}`] = true;
+}
+
 new OptionsSync().define({
-	defaults: {
-		disabledFeatures: '',
-		customCSS: '',
-		personalToken: '',
-		logging: false
-	},
+	defaults,
 	migrations: [
+		// Drop this migration after June 20
 		options => {
-			options.disabledFeatures = (options.disabledFeatures as string)
-				.replace('make-headers-sticky', '') // #1863
-				.replace('jump-to-bottom', '') // #1879
-				.replace('hide-readme-header', '') // #1883
-				.replace(/commented-menu-item|yours-menu-item/, 'global-discussion-list-filters') // #1883
-				.replace('show-recently-pushed-branches-on-more-pages', 'recently-pushed-branches-enhancements') // #1909
-				.replace('fix-squash-and-merge-message', '') // #1934
-				.replace('fix-squash-and-merge-title', 'sync-pr-commit-title') // #1934
-				.replace('scroll-to-top-on-collapse', '') // #2036
-			; // eslint-disable-line semi-style
+			if (typeof options.disabledFeatures !== 'string') {
+				return;
+			}
+
+			for (const feature of options.disabledFeatures.split(/s+/)) {
+				options[`feature:${feature}`] = false;
+			}
 		},
+
+		// To rename another feature, duplicate this line or replace it when it's older than 1 month
+		featureWasRenamed.bind(null, 'fix-squash-and-merge-title', 'sync-pr-commit-title'), // Merged on April 22
+
+		// Removed features will be automatically removed from the options as well
 		OptionsSync.migrations.removeUnused
 	]
 });
@@ -68,3 +76,9 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 // GitHub Enterprise support
 addToFutureTabs();
 addContextMenu();
+
+function featureWasRenamed(from: string, to: string, options: typeof defaults) {
+	if (typeof options[`feature:${from}`] === 'boolean') {
+		options[`feature:${to}`] = options[`feature:${from}`];
+	}
+}
