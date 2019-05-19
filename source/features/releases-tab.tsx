@@ -73,6 +73,6 @@ features.add({
 	],
 	init() {
 		// Get as soon as possible, to have it ready before the first paint
-		cached = cache.get<number>(repoKey)
+		cached = cache.get<number>(repoKey);
 	}
 });
