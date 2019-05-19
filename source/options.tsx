@@ -33,26 +33,28 @@ function parseDescription(description: string): DocumentFragment {
 	return descriptionFragment;
 }
 
-function buildFeatureCheckbox([name, {description, screenshots}]: [string, FeatureDetails]): HTMLElement {
+function buildFeatureCheckbox([name, {description, screenshots = []}]: [string, FeatureDetails]): HTMLElement {
 	if (typeof screenshots === 'string') {
 		screenshots = [screenshots];
-	} else if (typeof screenshots === 'undefined') {
-		screenshots = [];
 	}
+
+	const parsedDescription = parseDescription(
+		description.replace(/[^.]$/, '$&.') // Add period if missing
+	);
 
 	return (
 		<p>
 			<input type="checkbox" name={`feature:${name}`} id={`feature:${name}`} />
-			<span className="info">
-				<label for={`feature:${name}`}>{name}</label>
+			<label for={`feature:${name}`} className="info">
+				<span className="feature-name">{name}</span>
 				{' '}
 				<a href={`https://github.com/sindresorhus/refined-github/blob/master/source/features/${name}.tsx`}>
 					source
 				</a>
 				{...screenshots.map(url => <>, <a href={url}>screenshot</a></>)}
 				<br/>
-				<span className="description">{parseDescription(description)}</span>
-			</span>
+				<span className="description">{parsedDescription}</span>
+			</label>
 		</p>
 	);
 }

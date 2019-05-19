@@ -65,7 +65,7 @@ h2 ~ h2 {
 	margin-top: 4px; /* Alignment for Chrome */
 }
 
-.js-features :not(:checked) + .info label {
+.js-features :not(:checked) + .info .feature-name {
 	text-decoration: line-through;
 }
 
