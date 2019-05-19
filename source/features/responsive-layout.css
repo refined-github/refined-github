@@ -1,0 +1,121 @@
+/* different pages have various max-sizes set, make them responsive */
+
+/* general */
+
+body.rgh-responsive-layout {
+	min-width: 768px;
+}
+@media (max-width: 1080px) {
+	.rgh-responsive-layout .container {
+		/* container has fixed width set */
+		width: auto;
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+	.rgh-responsive-layout .subnav-search-input-wide {
+		/* font size changes to 16 on small size */
+		font-size: 14px;
+	}
+}
+
+/* issues page */
+
+@media (max-width: 1080px) {
+    .rgh-responsive-layout .reponav {
+        padding: 0;
+    }
+	.rgh-responsive-layout .discussion-timeline {
+		width: calc(100% - 200px);
+		max-width: none;
+		padding-right: 20px;
+	}
+}
+
+
+/* profile page */
+
+.rgh-responsive-layout .user-profile-nav {
+	width: 100% !important;
+}
+.rgh-responsive-layout .profile-timeline-year-list {
+	max-width: 100%;
+}
+.rgh-responsive-layout .js-calendar-graph {
+	overflow: auto;
+	direction: rtl;
+}
+.rgh-responsive-layout .user-profile-following-container .btn {
+	width: 100% !important;
+}
+@media (max-width: 1080px) {
+	.rgh-responsive-layout.user-profile-nav .discussion-timeline {
+		width: 100%;
+	}
+	.rgh-responsive-layout .header-search {
+		min-width: 150px !important;
+	}
+	.rgh-responsive-layout.page-profile .application-main .container-xl {
+		display: flex;
+		flex-direction: column;
+		place-content: stretch;
+	}
+	.rgh-responsive-layout.page-profile .h-card {
+		width: 100%;
+		padding-right: 0 !important;
+		padding-left: 0 !important;
+		display: grid;
+		grid-template-columns: 272px calc(100% - 272px - 40px);
+		grid-gap: 0 40px;
+		grid-template-rows: 72px 155px 45px;
+		padding-bottom: 10px;
+	}
+	.rgh-responsive-layout.page-profile .u-photo,
+	.rgh-responsive-layout.page-profile .user-status-container  {
+		max-width: 272px;
+		grid-column: 1;
+	}
+	.rgh-responsive-layout.page-profile .user-status-container .d-flex {
+		height: 100%;
+	}
+	.rgh-responsive-layout .js-user-status-context {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+	.rgh-responsive-layout .js-user-status-container {
+		flex: 1;
+	}
+	.rgh-responsive-layout.page-profile .vcard-names-container {
+		grid-column: 2;
+		grid-row: 1;
+	}
+	.rgh-responsive-layout.page-profile .u-photo {
+		grid-row: 1/4;
+	}
+	.rgh-responsive-layout.page-profile .js-profile-editable-area {
+		grid-column: 2;
+		grid-row: 2;
+	}
+	.rgh-responsive-layout .user-profile-following-container  {
+		grid-column: 2;
+		grid-row: 3;
+	}
+	.rgh-responsive-layout.page-profile .js-profile-editable-area + .pb-3 {
+		grid-row: 3;
+		grid-column: 2;
+		top: -26px;
+		position: relative;
+	}
+	.rgh-responsive-layout.page-profile .py-3.clearfix {
+		grid-row: 3;
+		grid-column: 2;
+		top: 0;
+	}
+	.rgh-responsive-layout .user-profile-following-container ~ .py-3.clearfix {
+		grid-row: 4;
+	}
+	.rgh-responsive-layout.page-profile .h-card+div {
+		width: 100%;
+		padding-left: 0 !important;
+	}
+}

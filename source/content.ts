@@ -102,6 +102,7 @@ import './features/hide-disabled-milestone-sorter';
 import './features/tag-changelog-link';
 import './features/link-to-file-in-file-history';
 import './features/clean-sidebar';
+import './features/responsive-layout';
 
 import './features/scrollable-code-and-blockquote.css';
 import './features/center-reactions-popup.css';
@@ -117,6 +118,7 @@ import './features/hide-tips.css';
 import './features/hide-readme-header.css';
 import './features/hide-obvious-tooltips.css';
 import './features/clean-discussions.css';
+import './features/responsive-layout.css';
 
 // Add global for easier debugging
 (window as any).select = select;
