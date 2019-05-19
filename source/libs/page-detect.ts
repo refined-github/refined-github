@@ -109,3 +109,5 @@ export const hasRichTextEditor = (): boolean =>
 	hasComments() ||
 	isNewIssue() ||
 	isCompare();
+
+export const isResponsive = (): boolean => document.body && document.body.classList.contains('page-responsive');
