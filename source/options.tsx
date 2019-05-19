@@ -23,11 +23,7 @@ function parseDescription(description: string): DocumentFragment {
 	editTextNodes(linkifyUrls, descriptionFragment);
 
 	for (const a of select.all('a', descriptionFragment)) {
-		if (/\.(jpe?g|gif|png)/g.test(a.pathname)) {
-			a.textContent = 'image';
-		} else {
-			shortenLink(a, location.href);
-		}
+		shortenLink(a, location.href);
 	}
 
 	return descriptionFragment;
