@@ -50,7 +50,7 @@ async function init(): Promise<false | void> {
 	select('.Header-item--full,.HeaderMenu nav')!.after(widget);
 }
 
-const description = 'GitHub shows a widget to create a new Pull Request from a recently-pushed branch, but only on the repo root and on the PR list pages. https://blog.github.com/changelog/2018-08-14-quickly-create-a-new-pull-request-from-your-repositorys-pull-requests-page/\n\nThis feature also adds this widget to the Issues List, Issue page, and Pull Request page.';
+const description = 'GitHub shows a widget to create a new Pull Request from a recently-pushed branch, but only on the repo root and on the PR list pages. This feature also adds this widget to the Issues List, Issue page, and Pull Request page.';
 
 features.add({
 	id: 'recently-pushed-branches-enhancements',

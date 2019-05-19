@@ -25,10 +25,11 @@ interface GlobalOptions {
 	log?: (...args: unknown[]) => void;
 }
 
-interface FeatureDetails {
+export interface FeatureDetails {
 	disabled?: false | string; // `false` | 'URL to issue'
 	id: string;
 	description: string;
+	screenshots?: string | string[];
 	include?: BooleanFunction[];
 	exclude?: BooleanFunction[];
 	init: () => false | void | Promise<false | void>;
@@ -139,6 +140,13 @@ const getShortcuts = (): Shortcut[] => [...shortcutMap.values()];
  * Register a new feature
  */
 const add = async (definition: FeatureDetails): Promise<void> => {
+	// In chrome:// pages, just collect the features in a global variable
+	if (!location.protocol.startsWith('http')) {
+		window.collectFeatures = window.collectFeatures || new Map();
+		window.collectFeatures.set(definition.id, definition);
+		return;
+	}
+
 	/* Input defaults and validation */
 	const {
 		id,
@@ -151,13 +159,6 @@ const add = async (definition: FeatureDetails): Promise<void> => {
 		shortcuts = {},
 		disabled = false
 	} = definition;
-
-	// In chrome:// pages, just collect the features in a global variable
-	if (!location.protocol.startsWith('http')) {
-		window.collectFeatures = window.collectFeatures || new Map();
-		window.collectFeatures.set(id, description);
-		return;
-	}
 
 	/* Feature filtering and running */
 	const options = await globalReady;

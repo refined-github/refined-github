@@ -6,6 +6,7 @@ import OptionsSync from 'webext-options-sync';
 import {applyToLink as shortenLink} from 'shorten-repo-url';
 import indentTextarea from 'indent-textarea';
 import parseBackticks from './libs/parse-backticks';
+import {FeatureDetails} from './libs/features';
 import {editTextNodes} from './features/linkify-urls-in-code';
 
 fitTextarea.watch('textarea');
@@ -13,7 +14,7 @@ indentTextarea.watch('textarea');
 
 declare global {
 	interface Window {
-		collectFeatures: Map<string, string>;
+		collectFeatures: Map<string, FeatureDetails>;
 	}
 }
 
@@ -32,18 +33,25 @@ function parseDescription(description: string): DocumentFragment {
 	return descriptionFragment;
 }
 
-function buildFeatureCheckbox([name, description]: [string, string]): HTMLElement {
+function buildFeatureCheckbox([name, {description, screenshots}]: [string, FeatureDetails]): HTMLElement {
+	if (typeof screenshots === 'string') {
+		screenshots = [screenshots];
+	} else if (typeof screenshots === 'undefined') {
+		screenshots = [];
+	}
+
 	return (
 		<p>
 			<input type="checkbox" name={`feature:${name}`} id={`feature:${name}`} />
 			<span className="info">
 				<label for={`feature:${name}`}>{name}</label>
-				{' – '}
-				<span className="description">{parseDescription(description)}</span>
 				{' '}
-				<a href={`https://github.com/sindresorhus/refined-github/blob/master/source/features/${name}.tsx`} target="_blank">
+				<a href={`https://github.com/sindresorhus/refined-github/blob/master/source/features/${name}.tsx`}>
 					source
 				</a>
+				{...screenshots.map(url => <>, <a href={url}>screenshot</a></>)}
+				<br/>
+				<span className="description">{parseDescription(description)}</span>
 			</span>
 		</p>
 	);
