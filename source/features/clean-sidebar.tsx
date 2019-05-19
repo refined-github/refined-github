@@ -83,7 +83,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'link-to-file-in-file-history',
+	id: 'clean-sidebar',
 	description: 'Hide all empty sections (or just their "empty" label) in the discussion sidebar',
 	include: [
 		features.isIssue,
