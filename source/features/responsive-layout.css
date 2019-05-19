@@ -74,8 +74,12 @@ body.rgh-responsive-layout {
 		display: grid;
 		grid-template-columns: 272px calc(100% - 272px - 40px);
 		grid-gap: 0 40px;
-		grid-template-rows: 72px 155px 45px;
-		padding-bottom: 10px;
+		grid-template-rows: auto auto auto auto auto;
+	}
+	.rgh-responsive-layout.page-profile .h-card .pb-3 .details-overlay {
+		/* block & report link */
+		float: right;
+		padding: 5px 0;
 	}
 	.rgh-responsive-layout.page-profile .u-photo,
 	.rgh-responsive-layout.page-profile .user-status-container  {
@@ -96,6 +100,7 @@ body.rgh-responsive-layout {
 	.rgh-responsive-layout.page-profile .vcard-names-container {
 		grid-column: 2;
 		grid-row: 1;
+		padding-top: 0 !important;
 	}
 	.rgh-responsive-layout.page-profile .u-photo {
 		grid-row: 1/4;
@@ -104,23 +109,22 @@ body.rgh-responsive-layout {
 		grid-column: 2;
 		grid-row: 2;
 	}
+	.rgh-responsive-layout.page-profile .js-profile-editable-area .btn {
+		margin-bottom: 0 !important;
+	}
 	.rgh-responsive-layout .user-profile-following-container  {
-		grid-column: 2;
-		grid-row: 3;
+		grid-column: 1;
+		grid-row: 5;
 	}
 	.rgh-responsive-layout.page-profile .js-profile-editable-area + .pb-3 {
-		grid-row: 3;
+		grid-row: 1;
 		grid-column: 2;
-		top: -26px;
 		position: relative;
 	}
 	.rgh-responsive-layout.page-profile .py-3.clearfix {
-		grid-row: 3;
+		grid-row: 3/6;
 		grid-column: 2;
 		top: 0;
-	}
-	.rgh-responsive-layout .user-profile-following-container ~ .py-3.clearfix {
-		grid-row: 4;
 	}
 	.rgh-responsive-layout.page-profile .h-card+div {
 		width: 100%;
