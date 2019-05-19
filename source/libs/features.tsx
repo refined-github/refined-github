@@ -91,16 +91,16 @@ const globalReady: Promise<Options> = new Promise(async resolve => {
 	document.documentElement.classList.add('refined-github');
 
 	// Options defaults
-	const options = await new OptionsSync().getAll();
+	const options = (await new OptionsSync().getAll()) as Options;
 
-	if ((options.customCSS as string).trim().length > 0) {
+	if (options.customCSS.trim().length > 0) {
 		document.head.append(<style>{options.customCSS}</style>);
 	}
 
 	// Create logging function
 	log = options.logging ? console.log : () => { };
 
-	resolve(options as Options);
+	resolve(options);
 });
 
 const run = async ({id, include, exclude, init, deinit}: FeatureDetails): Promise<void> => {
