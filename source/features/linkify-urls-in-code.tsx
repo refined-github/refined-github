@@ -25,14 +25,20 @@ const options = {
 
 export const editTextNodes = (
 	fn: typeof linkifyIssues | typeof linkifyUrls,
-	el: HTMLElement
+	el: Node,
+	nodeText?: string
 ): void => {
+	const localOptions = nodeText ? {
+		text: nodeText,
+		...options
+	} : options;
+
 	for (const textNode of getTextNodes(el)) {
 		if (fn === linkifyUrls && textNode.textContent!.length < 11) { // Shortest url: http://j.mp
 			continue;
 		}
 
-		const linkified = fn(textNode.textContent!, options);
+		const linkified = fn(textNode.textContent!, localOptions);
 		if (linkified.children.length > 0) { // Children are <a>
 			if (fn === linkifyIssues) {
 				// Enable native issue title fetch

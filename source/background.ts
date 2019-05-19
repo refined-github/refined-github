@@ -9,7 +9,6 @@ const defaults: AnyObject = {
 	logging: false
 };
 
-
 for (const feature of window.collectFeatures.keys()) {
 	defaults[`feature:${feature}`] = true;
 }
@@ -77,7 +76,7 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 addToFutureTabs();
 addContextMenu();
 
-function featureWasRenamed(from: string, to: string, options: typeof defaults) {
+function featureWasRenamed(from: string, to: string, options: typeof defaults): void {
 	if (typeof options[`feature:${from}`] === 'boolean') {
 		options[`feature:${to}`] = options[`feature:${from}`];
 	}

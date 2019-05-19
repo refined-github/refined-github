@@ -78,6 +78,10 @@ h2 ~ h2 {
 	font-size: 0.9em;
 }
 
+.sr-only {
+	display: none;
+}
+
 /* Firefox only */
 .only-firefox {
 	display: none;
