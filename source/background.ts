@@ -1,4 +1,4 @@
-import OptionsSync from 'webext-options-sync';
+import OptionsSync, {Migration} from 'webext-options-sync';
 import {addContextMenu} from 'webext-domain-permission-toggle';
 import {addToFutureTabs} from 'webext-dynamic-content-scripts';
 import './libs/cache';
@@ -34,8 +34,8 @@ new OptionsSync().define({
 			}
 		},
 
-		// To rename another feature, duplicate this line or replace it when it's older than 1 month
-		featureWasRenamed.bind(null, 'fix-squash-and-merge-title', 'sync-pr-commit-title'), // Merged on April 22
+		// Example to for renamed features:
+		// featureWasRenamed('fix-squash-and-merge-title', 'sync-pr-commit-title'), // Merged on April 22
 
 		// Removed features will be automatically removed from the options as well
 		OptionsSync.migrations.removeUnused
@@ -83,8 +83,11 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 addToFutureTabs();
 addContextMenu();
 
-function featureWasRenamed(from: string, to: string, options: AnyObject): void {
-	if (typeof options[`feature:${from}`] === 'boolean') {
-		options[`feature:${to}`] = options[`feature:${from}`];
-	}
+// @ts-ignore because this is only needed sometimes
+function featureWasRenamed(from: string, to: string): Migration { // eslint-disable-line @typescript-eslint/no-unused-vars
+	return (options: AnyObject) => {
+		if (typeof options[`feature:${from}`] === 'boolean') {
+			options[`feature:${to}`] = options[`feature:${from}`];
+		}
+	};
 }
