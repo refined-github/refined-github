@@ -5,7 +5,7 @@ type CommitStatus = false | typeof SUCCESS | typeof FAILURE | typeof PENDING | t
 type StatusListener = (status: CommitStatus) => void;
 
 function getLastCommit(): string | null {
-	return select.all('.timeline-commits .commit-id').pop()!.textContent;
+	return select.all('[id^="commits-pushed"] .commit-id').pop()!.textContent;
 }
 
 export const SUCCESS = Symbol('Success');
@@ -14,24 +14,27 @@ export const PENDING = Symbol('Pending');
 export const COMMIT_CHANGED = Symbol('Commit changed');
 
 export function get(): CommitStatus {
-	const commits = select.all('.commit-build-statuses > :first-child');
+	// Excludes commit references. Sometimes commits don't have a status icon at all, yet
+	const commits = select.all('[id^="commits-pushed"] .commit');
 	const lastCommit = commits[commits.length - 1];
 	if (lastCommit) {
-		if (lastCommit.matches('.text-green')) {
+		if (lastCommit.querySelector('.octicon-check')) {
 			return SUCCESS;
 		}
 
-		if (lastCommit.matches('.text-red')) {
+		if (lastCommit.querySelector('.octicon-x')) {
 			return FAILURE;
 		}
 
-		return PENDING;
+		if (lastCommit.querySelector('.octicon-primitive-dot')) {
+			return PENDING;
+		}
 	}
 
 	return false;
 }
 
-export function wait(): Promise<{}> {
+export function wait(): Promise<CommitStatus> {
 	return new Promise(resolve => {
 		addEventListener(function handler(newStatus: CommitStatus) {
 			removeEventListener(handler);
@@ -55,6 +58,7 @@ export function addEventListener(listener: StatusListener): void {
 		if (newCommit !== previousCommit) {
 			previousCommit = newCommit;
 			listener(COMMIT_CHANGED);
+			return;
 		}
 
 		// Ignore update if the status hasn't changed

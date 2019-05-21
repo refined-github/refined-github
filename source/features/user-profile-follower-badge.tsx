@@ -8,7 +8,7 @@ import {getUsername, getCleanPathname} from '../libs/utils';
 async function init(): Promise<void> {
 	const {status} = await api.v3(
 		`users/${getCleanPathname()}/following/${getUsername()}`,
-		{accept404: true}
+		{ignoreHTTPStatus: true}
 	);
 
 	if (status === 204) {
@@ -20,6 +20,7 @@ async function init(): Promise<void> {
 
 features.add({
 	id: 'user-profile-follower-badge',
+	description: 'See whether a user follows you on their profile',
 	include: [
 		features.isUserProfile
 	],

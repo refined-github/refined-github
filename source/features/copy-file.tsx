@@ -44,6 +44,7 @@ function init(): void {
 
 features.add({
 	id: 'copy-file',
+	description: 'Copy a file’s content',
 	include: [
 		features.isSingleFile,
 		features.isGist

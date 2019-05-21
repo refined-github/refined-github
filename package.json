@@ -13,7 +13,7 @@
 		"release:amo": "cd distribution && web-ext-submit",
 		"release:cws": "cd distribution && webstore upload --auto-publish",
 		"release": "run-s build prerelease:* release:*",
-		"create-git-tag": "git tag $(utc-version) -m '' && git push --tags",
+		"create-git-tag": "VER=$(utc-version) && git tag $VER -m $VER && git push origin $VER",
 		"prerelease:source-url": "echo https://github.com/$TRAVIS_REPO_SLUG/tree/$TRAVIS_COMMIT > distribution/SOURCE_URL",
 		"prerelease:version": "dot-json distribution/manifest.json version $TRAVIS_TAG"
 	},
@@ -32,6 +32,7 @@
 		"intervalometer": "^1.0.5",
 		"linkify-issues": "^1.3.0",
 		"linkify-urls": "^2.2.0",
+		"mem": "github:sindresorhus/mem#10f13c0",
 		"onetime": "^5.0.0",
 		"p-memoize": "^3.0.0",
 		"select-dom": "^5.0.2",

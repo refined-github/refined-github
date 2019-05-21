@@ -1,8 +1,3 @@
-/**
-To find release notes, release artifacts for any particular tag quickly by selecting the tag from the dropdown.
-
-See it in action at https://github.com/facebook/react/releases
-*/
 import './tags-dropdown.css';
 import React from 'dom-chef';
 import select from 'select-dom';
@@ -19,7 +14,7 @@ async function init(): Promise<false | void> {
 
 	return select('.subnav')!.append(
 		<div className="rgh-tags-dropdown float-right d-flex flex-shrink-0 flex-items-center mb-3">
-			<details className="details-reset details-overlay select-menu branch-select-menu position-relative">
+			<details className="details-reset details-overlay select-menu branch-select-menu position-relative ml-3">
 				<summary className="btn select-menu-button css-truncate" data-hotkey="w" title="Find tags" aria-haspopup="menu">
 					Select tag&nbsp;
 				</summary>
@@ -54,6 +49,7 @@ function onFragmentLoaded(): void {
 
 features.add({
 	id: 'tags-dropdown',
+	description: 'Search or select tags from a dropdown in the Releases page',
 	include: [
 		features.isReleasesOrTags
 	],
