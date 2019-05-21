@@ -3,3 +3,4 @@ source/features/tags-dropdown.tsx @HardikModha
 source/features/tag-changelog-link.tsx @HardikModha
 source/features/link-to-file-in-file-history.tsx @HardikModha
 source/features/default-to-rich-diff.tsx @idasbiste
+source/features/open-issue-to-latest-comment.tsx @dotconnor
