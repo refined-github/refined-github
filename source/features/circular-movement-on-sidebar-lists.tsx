@@ -35,7 +35,8 @@ function init(): void {
 }
 
 features.add({
-	id: 'arrow-up-when-choosing-labels',
+	id: 'circular-movement-on-sidebar-lists',
+	description: 'Circular movement with arrow-up and -down keys on sidebar lists in compare view',
 	include: [
 		features.isCompare
 	],
