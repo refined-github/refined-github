@@ -45,7 +45,7 @@ function add(): void {
 
 			// Without this, Firefox will follow the link instead of submitting the reaction button
 			if (!navigator.userAgent.includes('Firefox/')) {
-				(avatar as any).href = `/${participant.username}`
+				(avatar as any).href = `/${participant.username}`;
 			}
 
 			participant.container.append(avatar);
