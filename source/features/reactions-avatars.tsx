@@ -36,19 +36,17 @@ function add(): void {
 		const participantByReaction = [...list.children as HTMLCollectionOf<HTMLElement>].map(getParticipants);
 		const flatParticipants = flatZip(participantByReaction, avatarLimit);
 
-		for (const participant of flatParticipants) {
-			const avatar = (
+		for (const {container, username} of flatParticipants) {
+			container.append(
 				<a>
-					<img src={`/${participant.username}.png?size=${window.devicePixelRatio * 20}`} />
+					<img src={`/${username}.png?size=${window.devicePixelRatio * 20}`} />
 				</a>
 			);
 
 			// Without this, Firefox will follow the link instead of submitting the reaction button
 			if (!navigator.userAgent.includes('Firefox/')) {
-				(avatar as any).href = `/${participant.username}`;
+				(container.lastElementChild as HTMLAnchorElement).href = `/${username}`;
 			}
-
-			participant.container.append(avatar);
 		}
 
 		list.classList.add('rgh-reactions');
