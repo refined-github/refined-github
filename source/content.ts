@@ -39,7 +39,8 @@ import './features/batch-open-issues';
 import './features/hide-useless-comments';
 import './features/navigate-pages-with-arrow-keys';
 import './features/global-discussion-list-filters';
-import './features/sort-issues-by-update-time'; // Must be after global-discussion-list-filters
+import './features/filter-comments-by-you';
+import './features/sort-issues-by-update-time'; // Must be after global-discussion-list-filters and filter-comments-by-you
 import './features/branch-buttons';
 import './features/faster-pr-diff-options';
 import './features/ci-link';
@@ -58,7 +59,6 @@ import './features/extend-status-labels';
 import './features/highlight-closing-prs-in-open-issues';
 import './features/highlight-own-issues-and-prs';
 import './features/comments-time-machine-links';
-import './features/filter-comments-by-you';
 import './features/hide-issue-list-autocomplete';
 import './features/esc-to-deselect-line';
 import './features/recently-pushed-branches-enhancements';
