@@ -37,11 +37,18 @@ function add(): void {
 		const flatParticipants = flatZip(participantByReaction, avatarLimit);
 
 		for (const participant of flatParticipants) {
-			participant.container.append(
-				<a href={`/${participant.username}`}>
-					<img src={`/${participant.username}.png?size=${window.devicePixelRatio * 20}`}/>
+			const avatar = (
+				<a>
+					<img src={`/${participant.username}.png?size=${window.devicePixelRatio * 20}`} />
 				</a>
 			);
+
+			// Without this, Firefox will follow the link instead of submitting the reaction button
+			if (!navigator.userAgent.includes('Firefox/')) {
+				(avatar as any).href = `/${participant.username}`
+			}
+
+			participant.container.append(avatar);
 		}
 
 		list.classList.add('rgh-reactions');
