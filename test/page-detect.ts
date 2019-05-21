@@ -161,6 +161,7 @@ test('isRepoDiscussionList', urlMatcherMacro, pageDetect.isRepoDiscussionList, [
 ], [
 	'http://github.com/sindresorhus/ava',
 	'https://github.com',
+	'https://github.com/sindresorhus/refined-github/issues/new',
 	'https://github.com/sindresorhus/refined-github/issues/170',
 	'https://github.com/sindresorhus/refined-github/pull/148',
 	'http://github.com/sindresorhus/issues',
