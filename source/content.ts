@@ -39,14 +39,14 @@ import './features/batch-open-issues';
 import './features/hide-useless-comments';
 import './features/navigate-pages-with-arrow-keys';
 import './features/global-discussion-list-filters';
-import './features/sort-issues-by-update-time'; // Must be after global-discussion-list-filters
+import './features/filter-comments-by-you';
+import './features/sort-issues-by-update-time'; // Must be after global-discussion-list-filters and filter-comments-by-you
 import './features/branch-buttons';
 import './features/faster-pr-diff-options';
 import './features/ci-link';
 import './features/sort-milestones-by-closest-due-date';
 import './features/star-repo-hotkey';
 import './features/toggle-files-button';
-import './features/scroll-to-top-on-collapse';
 import './features/sync-pr-commit-title';
 import './features/open-ci-details-in-new-tab';
 import './features/wait-for-build';
@@ -59,7 +59,6 @@ import './features/extend-status-labels';
 import './features/highlight-closing-prs-in-open-issues';
 import './features/highlight-own-issues-and-prs';
 import './features/comments-time-machine-links';
-import './features/filter-comments-by-you';
 import './features/hide-issue-list-autocomplete';
 import './features/esc-to-deselect-line';
 import './features/recently-pushed-branches-enhancements';
@@ -104,6 +103,7 @@ import './features/hide-disabled-milestone-sorter';
 import './features/tag-changelog-link';
 import './features/link-to-file-in-file-history';
 import './features/clean-sidebar';
+import './features/open-issue-to-latest-comment';
 
 import './features/scrollable-code-and-blockquote.css';
 import './features/center-reactions-popup.css';
