@@ -1,5 +1,4 @@
 import OptionsSync from 'webext-options-sync';
-import features from './libs/features';
 
 export interface Options {
 	customCSS: string;
@@ -25,14 +24,14 @@ function featureWasRenamed(from: string, to: string): Migration { // eslint-disa
 
 const options = new OptionsSync();
 
-// `options-storage` is run before the rest of the features, so we need to wait for `features.list`
+// `options-storage` is run before the rest of the features, so we need to wait for `window.collectFeatures`
 setTimeout(() => {
 	// Definitions aren't used in the content script
 	if (location.protocol.startsWith('http')) {
 		return;
 	}
 
-	for (const feature of features.list.keys()) {
+	for (const feature of window.collectFeatures.keys()) {
 		defaults[`feature:${feature}`] = true;
 	}
 

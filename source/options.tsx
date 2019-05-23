@@ -6,7 +6,7 @@ import indentTextarea from 'indent-textarea';
 import {applyToLink as shortenLink} from 'shorten-repo-url';
 import parseBackticks from './libs/parse-backticks';
 import optionsStorage from './options-storage';
-import features, {FeatureDetails} from './libs/features';
+import {FeatureDetails} from './libs/features';
 import {editTextNodes} from './features/linkify-urls-in-code';
 
 fitTextarea.watch('textarea');
@@ -49,7 +49,7 @@ function buildFeatureCheckbox([name, {description, screenshots = []}]: [string, 
 	);
 }
 
-const featureCheckboxes = [...features.list.entries()]
+const featureCheckboxes = [...window.collectFeatures.entries()]
 	.sort(([a], [b]) => a.localeCompare(b)) // Sort bt feature name
 	.map(buildFeatureCheckbox);
 

@@ -1,5 +1,9 @@
 type AnyObject = Record<string, any>;
 
+interface Window {
+	collectFeatures: Map<string, FeatureDetails>;
+}
+
 // TODO: Drop when Firefox adds RegEx lookbehind support
 // https://github.com/sindresorhus/refined-github/pull/1936#discussion_r276515991
 declare module 'linkify-urls' {
