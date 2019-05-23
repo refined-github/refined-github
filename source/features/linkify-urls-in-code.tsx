@@ -53,6 +53,7 @@ export const editTextNodes = (
 
 function init(): false | void {
 	const wrappers = select.all(`
+		.js-blob-wrapper:not(.${linkifiedURLClass}),
 		.blob-wrapper:not(.${linkifiedURLClass}),
 		.comment-body:not(.${linkifiedURLClass})
 	`);
