@@ -19,10 +19,10 @@ interface Shortcut {
 }
 
 export interface FeatureDetails {
-	disabled?: false | string; // `false` | 'URL to issue'
+	disabled?: string; // If it's disabled, this should be the URL to the issue that explains why
 	id: string;
 	description: string;
-	screenshots?: string | string[];
+	screenshot?: string;
 	include?: BooleanFunction[];
 	exclude?: BooleanFunction[];
 	init: () => false | void | Promise<false | void>;

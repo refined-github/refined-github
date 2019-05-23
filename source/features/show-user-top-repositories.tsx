@@ -27,7 +27,7 @@ function init(): false | void {
 features.add({
 	id: 'show-user-top-repositories',
 	description: 'Find a user’s most starred repositories in their profile',
-	screenshots: 'https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93de-159ad4c6f283.png',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93de-159ad4c6f283.png',
 	include: [
 		features.isUserProfile
 	],
