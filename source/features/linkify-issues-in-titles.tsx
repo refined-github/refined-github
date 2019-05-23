@@ -2,7 +2,7 @@ import select from 'select-dom';
 import linkifyIssues from 'linkify-issues';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
-import {editTextNodes} from './linkify-urls-in-code';
+import editTextNodes from '../libs/linkify-text-nodes';
 
 function init(): void {
 	observeEl(

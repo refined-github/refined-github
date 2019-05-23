@@ -102,6 +102,8 @@ const globalReady: Promise<Options> = new Promise(async resolve => {
 	resolve(options);
 });
 
+window.collectFeatures = new Map();
+
 const run = async ({id, include, exclude, init, deinit}: FeatureDetails): Promise<void> => {
 	// If every `include` is false and no exclude is true, don’t run the feature
 	if (include!.every(c => !c()) || exclude!.some(c => c())) {

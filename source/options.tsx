@@ -4,10 +4,10 @@ import linkifyUrls from 'linkify-urls';
 import fitTextarea from 'fit-textarea';
 import indentTextarea from 'indent-textarea';
 import {applyToLink as shortenLink} from 'shorten-repo-url';
+import editTextNodes from './libs/linkify-text-nodes';
 import parseBackticks from './libs/parse-backticks';
 import optionsStorage from './options-storage';
 import {FeatureDetails} from './libs/features';
-import {editTextNodes} from './features/linkify-urls-in-code';
 
 fitTextarea.watch('textarea');
 indentTextarea.watch('textarea');
