@@ -6,17 +6,11 @@ import indentTextarea from 'indent-textarea';
 import {applyToLink as shortenLink} from 'shorten-repo-url';
 import parseBackticks from './libs/parse-backticks';
 import optionsStorage from './options-storage';
-import {FeatureDetails} from './libs/features';
+import features, {FeatureDetails} from './libs/features';
 import {editTextNodes} from './features/linkify-urls-in-code';
 
 fitTextarea.watch('textarea');
 indentTextarea.watch('textarea');
-
-declare global {
-	interface Window {
-		collectFeatures: Map<string, FeatureDetails>;
-	}
-}
 
 function parseDescription(description: string): DocumentFragment {
 	const descriptionFragment = parseBackticks(description);
@@ -55,11 +49,12 @@ function buildFeatureCheckbox([name, {description, screenshots = []}]: [string, 
 	);
 }
 
-const sortedFeaturePairs = [...window.collectFeatures.entries()]
-	.sort(([a], [b]) => a.localeCompare(b));
+const featureCheckboxes = [...features.list.entries()]
+	.sort(([a], [b]) => a.localeCompare(b)) // Sort bt feature name
+	.map(buildFeatureCheckbox);
 
 document
 	.querySelector('.js-features')!
-	.append(...sortedFeaturePairs.map(buildFeatureCheckbox));
+	.append(...featureCheckboxes);
 
 optionsStorage.syncForm('#options-form');

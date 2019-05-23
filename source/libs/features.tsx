@@ -102,6 +102,8 @@ const globalReady: Promise<Options> = new Promise(async resolve => {
 	resolve(options);
 });
 
+const list = new Map();
+
 const run = async ({id, include, exclude, init, deinit}: FeatureDetails): Promise<void> => {
 	// If every `include` is false and no exclude is true, don’t run the feature
 	if (include!.every(c => !c()) || exclude!.some(c => c())) {
@@ -126,10 +128,10 @@ const getShortcuts = (): Shortcut[] => [...shortcutMap.values()];
  * Register a new feature
  */
 const add = async (definition: FeatureDetails): Promise<void> => {
-	// In chrome:// pages, just collect the features in a global variable
+	list.set(definition.id, definition);
+
+	// In chrome:// pages, just collect the features in the list above
 	if (!location.protocol.startsWith('http')) {
-		window.collectFeatures = window.collectFeatures || new Map();
-		window.collectFeatures.set(definition.id, definition);
 		return;
 	}
 
@@ -186,6 +188,9 @@ export default {
 	// Module methods
 	add,
 	getShortcuts,
+
+	// Features list
+	list,
 
 	// Loading mechanisms
 	onDomReady,
