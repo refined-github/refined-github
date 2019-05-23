@@ -6,6 +6,26 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import SizePlugin from 'size-plugin';
 import webpack from 'webpack';
 
+class PrintFeaturesList {
+	apply(compiler: any) {
+		compiler.hooks.emit.tapAsync(
+			'PrintFeaturesList',
+			(compilation: any, callback: any) => {
+				const features: string[] = [];
+				for (const file of compilation.fileDependencies) {
+					const [, feature = false] = file.match(/source\/features\/([^/]+)\.tsx$/) || []
+					if (feature) {
+						features.push(feature);
+					}
+				}
+				console.log(...features);
+
+				callback();
+			}
+		);
+	}
+}
+
 module.exports = (_env: string, argv: Record<string, boolean | number | string>): webpack.Configuration => ({
 	devtool: 'source-map',
 	stats: 'errors-only',
@@ -49,6 +69,7 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 		]
 	},
 	plugins: [
+		new PrintFeaturesList(),
 		new MiniCssExtractPlugin({
 			filename: 'features.css'
 		}),
