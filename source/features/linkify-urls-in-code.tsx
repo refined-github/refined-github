@@ -5,7 +5,7 @@ import linkifyIssues from 'linkify-issues';
 import features from '../libs/features';
 import {getOwnerAndRepo} from '../libs/utils';
 
-export function linkifyIssuesInDom(element: Element) {
+export function linkifyIssuesInDom(element: Element): void {
 	const linkified = linkifyIssues(element.textContent!, options);
 	if (linkified.children.length === 0) { // Children are <a>
 		return;
