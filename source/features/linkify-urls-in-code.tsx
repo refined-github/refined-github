@@ -1,8 +1,8 @@
 import select from 'select-dom';
 import linkifyUrls from 'linkify-urls';
+import zipTextNodes from 'zip-text-nodes';
 import linkifyIssues from 'linkify-issues';
 import features from '../libs/features';
-import getTextNodes from '../libs/get-text-nodes';
 import {getOwnerAndRepo} from '../libs/utils';
 
 // Shared class necessary to avoid also shortening the links
@@ -25,29 +25,27 @@ const options = {
 
 export const editTextNodes = (
 	fn: typeof linkifyIssues | typeof linkifyUrls,
-	el: HTMLElement
+	element: HTMLElement
 ): void => {
-	for (const textNode of getTextNodes(el)) {
-		if (fn === linkifyUrls && textNode.textContent!.length < 11) { // Shortest url: http://j.mp
-			continue;
-		}
+	if (fn === linkifyUrls && element.textContent!.length < 11) { // Shortest url: http://j.mp
+		return;
+	}
 
-		const linkified = fn(textNode.textContent!, options);
-		if (linkified.children.length > 0) { // Children are <a>
-			if (fn === linkifyIssues) {
-				// Enable native issue title fetch
-				for (const link of (linkified.children as HTMLCollectionOf<HTMLAnchorElement>)) {
-					const issue = link.href.split('/').pop();
-					link.setAttribute('class', 'issue-link js-issue-link tooltipped tooltipped-ne');
-					link.setAttribute('data-error-text', 'Failed to load issue title');
-					link.setAttribute('data-permission-text', 'Issue title is private');
-					link.setAttribute('data-url', link.href);
-					link.setAttribute('data-id', `rgh-issue-${issue}`);
-				}
+	const linkified = fn(element.textContent!, options);
+	if (linkified.children.length > 0) { // Children are <a>
+		if (fn === linkifyIssues) {
+			// Enable native issue title fetch
+			for (const link of (linkified.children as HTMLCollectionOf<HTMLAnchorElement>)) {
+				const issue = link.href.split('/').pop();
+				link.setAttribute('class', 'issue-link js-issue-link tooltipped tooltipped-ne');
+				link.setAttribute('data-error-text', 'Failed to load issue title');
+				link.setAttribute('data-permission-text', 'Issue title is private');
+				link.setAttribute('data-url', link.href);
+				link.setAttribute('data-id', `rgh-issue-${issue}`);
 			}
-
-			textNode.replaceWith(linkified);
 		}
+
+		zipTextNodes(element, linkified);
 	}
 };
 
@@ -58,7 +56,6 @@ function init(): false | void {
 		.comment-body:not(.${linkifiedURLClass})
 	`);
 
-	// Don't linkify any already linkified code
 	if (wrappers.length === 0) {
 		return false;
 	}
