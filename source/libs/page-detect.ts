@@ -109,3 +109,10 @@ export const hasRichTextEditor = (): boolean =>
 	hasComments() ||
 	isNewIssue() ||
 	isCompare();
+
+export const hasCode = (): boolean => // Static code, not the editor
+	hasComments() ||
+	isRepoTree() || // Readme files
+	isSingleFile() ||
+	isCompare() ||
+	isBlame();
