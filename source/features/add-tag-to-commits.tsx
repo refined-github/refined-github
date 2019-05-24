@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 import * as api from '../libs/api';
-import {getOwnerAndRepo} from '../libs/utils';
+import {getOwnerAndRepo, getRepoURL} from '../libs/utils';
 import * as icons from '../libs/icons';
 
 interface Tag {
