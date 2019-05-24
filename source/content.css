@@ -11,13 +11,6 @@
 	opacity: 0.6;
 }
 
-/* Hide unnecessary comment toolbar items */
-:root md-mention,
-:root md-ref,
-markdown-toolbar > :nth-last-child(4) { /* H1, B, I */
-	display: none;
-}
-
 /* Make tab indented code more readable on GitHub and Gist */
 * {
 	-moz-tab-size: 4 !important;
