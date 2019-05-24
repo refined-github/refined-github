@@ -57,6 +57,7 @@ async function init(): Promise<void | false> {
 
 features.add({
 	id: 'add-tag-to-commits',
+	description: 'Display the corresponding tags next to commits',
 	include: [
 		features.isCommitList
 	],
