@@ -1,64 +1,42 @@
+import './show-whitespaces.css';
+import React from 'dom-chef';
 import features from '../libs/features';
 
-function loop(iterator: NodeIterator) {
-	if (iterator) {
-		const nodes = [];
-		let node;
+function loop(line: Element) {
+	const nodes = [...line.childNodes.values()].filter(node => node.nodeType === 3);
 
-		while ((node = iterator.nextNode())) {
-			nodes.push(node);
-		}
+	for (const textNode of nodes)  {
+		const nodeValue = textNode!.textContent!;
+		if (nodeValue.length !== 0 && (nodeValue.trim() !== nodeValue)) {
+			const fragment = document.createDocumentFragment();
 
-		console.log(nodes);
-
-		for (const textNode of nodes)  {
-			const nodeValue = textNode!.textContent!;
-			if (nodeValue.length !== 0 && (nodeValue.trim() !== nodeValue)) {
-
-				const spans = [];
-				let span;
-				let lastEncounteredChar;
-				for (const char of nodeValue) {
-					if (lastEncounteredChar !== char) {
-						if (span) {
-							spans.push(span);
-						}
-
-						span = document.createElement('span');
-						lastEncounteredChar = char;
-					}
-
-					if (char === ' ') {
-						span!.classList.add('pl-ws');
-						span!.classList.add('pl-space');
-						span!.textContent += '·';
-					} else if (char === '\t') {
-						span!.classList.add('pl-ws');
-						span!.classList.add('pl-tab');
-						span!.textContent += '→';
-					} else {
-						span!.textContent += char;
-					}
-				}
-
-				// console.log(span);
-
-				for (const span of spans) {
-					textNode.parentNode!.insertBefore(span, textNode);
+			for (const char of nodeValue) {
+				if (char === '\t') {
+					fragment.appendChild(<span className="pl-ws pl-tab"></span>);
+				} if (char === ' ') {
+					fragment.appendChild(<span className="pl-ws pl-space">{char}</span>);
+				} else {
+					fragment.append(char);
 				}
 			}
+
+			console.log(textNode, fragment.childNodes);
+
+			textNode.replaceWith(fragment);
 		}
 	}
+
+	// Add a new-line character at the end (optional)
+	const br = line.querySelector('br');
+	line.insertBefore(<span className="pl-ws pl-nl"></span>, br);
 }
 
 function init() {
 	const lines = document.querySelectorAll('.blob-code-inner');
 
-	console.log(lines);
-
 	for (const line of lines) {
-		const iterator = document.createNodeIterator(line, NodeFilter.SHOW_TEXT);
-		requestAnimationFrame(() => loop(iterator));
+		// const iterator = document.createNodeIterator(line, NodeFilter.SHOW_TEXT);
+		requestAnimationFrame(() => loop(line));
 
 		// const span = document.createElement('span');
 		// span.classList.add('pl-ws');

@@ -1,0 +1,25 @@
+.pl-ws {
+	color: #000;
+	opacity: 0.3;
+	user-select: none;
+	position: relative;
+	line-height: 1em;
+}
+
+.pl-ws::before {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+.pl-tab::before {
+	content: '→';
+}
+
+.pl-space::before {
+	content: '·';
+}
+
+.pl-nl::before {
+	content: '¬';
+}
