@@ -1,7 +1,7 @@
 .follower-badge {
 	font-size: 10px;
 	display: block;
-	animation: fade-in 0.2s;
+	animation: fade-in 0.2s; /* stylelint-disable-line no-unknown-animations */
 	margin-top: -15px;
 	margin-bottom: 5px;
 }
