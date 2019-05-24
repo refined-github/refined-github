@@ -22,7 +22,6 @@ import './features/profile-hotkey';
 import './features/make-discussion-sidebar-sticky';
 import './features/close-out-of-view-modals';
 import './features/improve-shortcut-help';
-import './features/upload-button';
 import './features/move-marketplace-link-to-profile-dropdown';
 import './features/view-markdown-source';
 import './features/copy-file';
@@ -118,6 +117,7 @@ import './features/hide-tips.css';
 import './features/hide-readme-header.css';
 import './features/hide-obvious-tooltips.css';
 import './features/clean-discussions.css';
+import './features/clean-rich-text-editor.css';
 
 // Add global for easier debugging
 (window as any).select = select;
