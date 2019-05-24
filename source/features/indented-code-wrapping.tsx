@@ -34,10 +34,12 @@ function run(): void {
 				}
 			}
 
-			// Move the whole line where it is supposed to be, then unindent the
-			// start of the line to compensate for indentation, preserving spaces
+			// Code suggestions already had some padding
+			const extraPadding = line.classList.contains('px-2') ? '8px + ' : '';
+
+			// Move the whole line where it is supposed to be, then unindent the start of the line to compensate for indentation, preserving spaces
 			// We might get `--tab-size` from compatible extensions like `github-custom-tab-size`
-			line.style.setProperty('padding-left', `calc((var(--tab-size, 4) * ${tabCount}ch) + ${spaceCount}ch)`, 'important');
+			line.style.setProperty('padding-left', `calc(${extraPadding}(var(--tab-size, 4) * ${tabCount}ch) + ${spaceCount}ch)`, 'important');
 			line.style.setProperty('text-indent', `calc((var(--tab-size, 4) * -${tabCount}ch) - ${spaceCount}ch)`, 'important');
 		}
 	}
