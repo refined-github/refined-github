@@ -49,6 +49,12 @@ async function init(): Promise<void | false> {
 				<div className="ml-2">
 					{icons.tag()}
 					<span className="ml-1">{targetTags.map(tags => tags.name).join(', ')}</span>
+					<span className="ml-1">{targetTags.map((tags,i) => (
+						<>
+							<a href={`/${getRepoURL()}/releases/${tags.name}`}>{tags.name}</a>
+							{(i + 1) === targetTags.length ? '' : ', '}
+						</>
+					))}</span>
 				</div>
 			);
 		}
