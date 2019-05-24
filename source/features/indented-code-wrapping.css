@@ -1,13 +1,10 @@
-.rgh-softwrapped-code .blob-code:not(.blob-code-hunk) {
-	line-height: 21px; /* Compensation for block-ifying table cells */
-}
 
-.rgh-code-wrapping-enabled .blob-code-hunk, /* Wrap code eagerly to avoid layout changes later */
-.rgh-softwrapped-code .blob-code-hunk {
+
+.rgh-code-wrapping-enabled .blob-code-inner {
 	white-space: pre-wrap;
 }
 
-.rgh-softwrapped-code tr:not(.js-expandable-line) .blob-code-inner:not(.blob-code-hunk) {
+.rgh-code-wrapping-enabled span.blob-code-inner {
 	display: block;
-	white-space: pre-wrap;
+	line-height: 21px; /* `display: block` reduces the line height; this undoes the change */
 }
