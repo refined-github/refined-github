@@ -104,6 +104,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Add co-authors when merging PRs with multiple committers.](https://user-images.githubusercontent.com/1402241/51468821-71a42100-1da2-11e9-86aa-fc2a6a29da84.png)
 - [Search for issues and PRs separately in the top search.](https://user-images.githubusercontent.com/1402241/52181103-35a09f80-2829-11e9-9c6f-57f2e08fc5b2.png)
 - [View the source of Markdown files.](https://user-images.githubusercontent.com/1402241/54814836-7bc39c80-4ccb-11e9-8996-9ecf4f6036cb.png)
+- [Update a PR from the base branch to ensure it build correctly before merging the PR itself (same-repo branches only).](https://user-images.githubusercontent.com/1402241/57941992-f2170080-7902-11e9-8f8a-594aad983559.png)
 
 ### More actions
 
@@ -206,6 +207,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Search or select tags from a dropdown in the `Releases` page.](https://user-images.githubusercontent.com/22439276/56373231-27ee9980-621e-11e9-9b21-601919d3dddf.png)
 - [Link to file itself in the history pages](https://user-images.githubusercontent.com/22439276/57195061-b88ddf00-6f6b-11e9-8ad9-13225d09266d.png)
 - [See an automatic changelog for each tag or release.](https://user-images.githubusercontent.com/1402241/57081611-ad4a7180-6d27-11e9-9cb6-c54ec1ac18bb.png)
+- [Open issues to the latest comment by clicking the comments icon.](https://user-images.githubusercontent.com/14323370/57962709-7019de00-78e8-11e9-8398-7e617ba7a96f.png)
 
 ### Previously part of Refined GitHub
 

@@ -1,11 +1,3 @@
-/*
-Reaction avatars showing who reacted to a comment.
-
-Feature testable on
-https://github.com/babel/babel/pull/3646
-https://github.com/dominictarr/event-stream/issues/116
-*/
-
 import './reactions-avatars.css';
 import React from 'dom-chef';
 import select from 'select-dom';
@@ -44,12 +36,17 @@ function add(): void {
 		const participantByReaction = [...list.children as HTMLCollectionOf<HTMLElement>].map(getParticipants);
 		const flatParticipants = flatZip(participantByReaction, avatarLimit);
 
-		for (const participant of flatParticipants) {
-			participant.container.append(
-				<a href={`/${participant.username}`}>
-					<img src={`/${participant.username}.png?size=${window.devicePixelRatio * 20}`}/>
+		for (const {container, username} of flatParticipants) {
+			container.append(
+				<a>
+					<img src={`/${username}.png?size=${window.devicePixelRatio * 20}`} />
 				</a>
 			);
+
+			// Without this, Firefox will follow the link instead of submitting the reaction button
+			if (!navigator.userAgent.includes('Firefox/')) {
+				(container.lastElementChild as HTMLAnchorElement).href = `/${username}`;
+			}
 		}
 
 		list.classList.add('rgh-reactions');
@@ -79,6 +76,7 @@ function init(): void {
 
 features.add({
 	id: 'reactions-avatars',
+	description: 'See the avatar of who reacted to a comment',
 	include: [
 		features.hasComments
 	],

@@ -1,8 +1,8 @@
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {getOwnerAndRepo, getDiscussionNumber, getOP} from '../libs/utils';
+import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
 
 interface Author {
 	email: string;
@@ -71,11 +71,12 @@ function addCoAuthors(): void {
 async function init(): Promise<void> {
 	coAuthors = await fetchCoAuthoredData();
 
-	delegate('.discussion-timeline-actions', '.merge-message [type=button]', 'click', addCoAuthors);
+	onPrMergePanelOpen(addCoAuthors);
 }
 
 features.add({
 	id: 'add-co-authored-by',
+	description: 'Add co-authors when merging pull requests with multiple committers',
 	include: [
 		features.isPRConversation
 	],

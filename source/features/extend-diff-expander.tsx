@@ -16,6 +16,7 @@ function init(): void {
 
 features.add({
 	id: 'extend-diff-expander',
+	description: 'Widen the `Expand diff` button',
 	include: [
 		features.isPRFiles,
 		features.isCommit

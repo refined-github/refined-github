@@ -1,7 +1,3 @@
-/*
-Hide all empty sections (or just their "empty" label) in discussion sidebar
-*/
-
 import './clean-sidebar.css';
 import React from 'dom-chef';
 import select from 'select-dom';
@@ -87,7 +83,8 @@ function init(): void {
 }
 
 features.add({
-	id: 'link-to-file-in-file-history',
+	id: 'clean-sidebar',
+	description: 'Hide all empty sections (or just their "empty" label) in the discussion sidebar',
 	include: [
 		features.isIssue,
 		features.isPRConversation

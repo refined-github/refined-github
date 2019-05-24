@@ -34,6 +34,7 @@ function init(): void {
 
 features.add({
 	id: 'edit-comments-faster',
+	description: 'Edit comments in one click',
 	include: [
 		features.hasComments
 	],

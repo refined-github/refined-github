@@ -66,6 +66,7 @@ function init(): void | false {
 
 features.add({
 	id: 'batch-open-issues',
+	description: 'Open multiple issues in your repo at once',
 	include: [
 		features.isDiscussionList
 	],

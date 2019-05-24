@@ -22,7 +22,6 @@ import './features/profile-hotkey';
 import './features/make-discussion-sidebar-sticky';
 import './features/close-out-of-view-modals';
 import './features/improve-shortcut-help';
-import './features/upload-button';
 import './features/move-marketplace-link-to-profile-dropdown';
 import './features/view-markdown-source';
 import './features/copy-file';
@@ -39,14 +38,14 @@ import './features/batch-open-issues';
 import './features/hide-useless-comments';
 import './features/navigate-pages-with-arrow-keys';
 import './features/global-discussion-list-filters';
-import './features/sort-issues-by-update-time'; // Must be after global-discussion-list-filters
+import './features/filter-comments-by-you';
+import './features/sort-issues-by-update-time'; // Must be after global-discussion-list-filters and filter-comments-by-you
 import './features/branch-buttons';
 import './features/faster-pr-diff-options';
 import './features/ci-link';
 import './features/sort-milestones-by-closest-due-date';
 import './features/star-repo-hotkey';
 import './features/toggle-files-button';
-import './features/scroll-to-top-on-collapse';
 import './features/sync-pr-commit-title';
 import './features/open-ci-details-in-new-tab';
 import './features/wait-for-build';
@@ -59,7 +58,6 @@ import './features/extend-status-labels';
 import './features/highlight-closing-prs-in-open-issues';
 import './features/highlight-own-issues-and-prs';
 import './features/comments-time-machine-links';
-import './features/filter-comments-by-you';
 import './features/hide-issue-list-autocomplete';
 import './features/esc-to-deselect-line';
 import './features/recently-pushed-branches-enhancements';
@@ -98,11 +96,14 @@ import './features/raw-file-link';
 import './features/tags-dropdown';
 import './features/filter-pr-by-build-status';
 import './features/edit-files-faster';
+import './features/indented-code-wrapping';
+import './features/update-pr-from-base-branch';
 import './features/hide-disabled-milestone-sorter';
 import './features/tag-changelog-link';
 import './features/link-to-file-in-file-history';
 import './features/clean-sidebar';
 import './features/add-tag-to-commits';
+import './features/open-issue-to-latest-comment';
 
 import './features/scrollable-code-and-blockquote.css';
 import './features/center-reactions-popup.css';
@@ -118,6 +119,7 @@ import './features/hide-tips.css';
 import './features/hide-readme-header.css';
 import './features/hide-obvious-tooltips.css';
 import './features/clean-discussions.css';
+import './features/clean-rich-text-editor.css';
 
 // Add global for easier debugging
 (window as any).select = select;

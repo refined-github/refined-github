@@ -1,8 +1,3 @@
-/**
- * Some of the files in PRs can be reviewed using a rich-diff mode: markdown and SVGs are some of the examples.
- *
- * This feature sets the rich-diff view as default for each SVG file in a PR
- */
 import select from 'select-dom';
 import features from '../libs/features';
 
@@ -41,7 +36,9 @@ function init(): void {
 }
 
 features.add({
+	disabled: 'https://github.com/sindresorhus/refined-github/issues/2041', // TODO
 	id: 'default-to-rich-diff',
+	description: 'Some of the files in pull requests can be reviewed using a rich-diff mode, for example, Markdown and SVG. This feature sets the rich-diff view as default in pull requests for files with a rich diff.',
 	include: [
 		features.isCommit,
 		features.isPRFiles

@@ -1,7 +1,3 @@
-/*
-Edit files straight from a repo’s list by clicking their icon.
-*/
-
 import './edit-files-faster.css';
 import React from 'dom-chef';
 import select from 'select-dom';
@@ -19,16 +15,14 @@ function init(): void {
 
 		pathnameParts[3] = 'edit'; // Replaces `/blob/`
 
-		wrap(fileIcon,
-			<a href={pathnameParts.join('/')} className="rgh-edit-files-faster">
-				{icons.edit()}
-			</a>
-		);
+		wrap(fileIcon, <a href={pathnameParts.join('/')} className="rgh-edit-files-faster" />);
+		fileIcon.after(icons.edit());
 	}
 }
 
 features.add({
 	id: 'edit-files-faster',
+	description: 'Edit files straight from a repo’s file list by clicking their file icon',
 	include: [
 		features.isRepoTree
 	],
