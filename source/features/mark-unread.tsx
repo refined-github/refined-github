@@ -49,7 +49,7 @@ async function getNotifications(): Promise<Notification[]> {
 	const {unreadNotifications} = await browser.storage.local.get({
 		unreadNotifications: []
 	});
-	return unreadNotifications;
+	return unreadNotifications.filter(({url}) => url.startsWith(location.origin));
 }
 
 async function setNotifications(unreadNotifications: Notification[]): Promise<void> {
