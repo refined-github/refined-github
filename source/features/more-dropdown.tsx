@@ -33,28 +33,24 @@ async function init(): Promise<void> {
 	const securityTab = select<HTMLAnchorElement>('[data-selected-links~="security"]')!;
 
 	select('.reponav-dropdown .dropdown-menu')!.append(
-		<a href={`/${repoUrl}/compare`} className="rgh-reponav-more dropdown-item" data-skip-pjax>
+		<a href={`/${repoUrl}/compare`} className="rgh-reponav-more dropdown-item">
 			{icons.darkCompare()} Compare
 		</a>,
 
 		isEnterprise() ? '' :
-			<a href={`/${repoUrl}/network/dependencies`} className="rgh-reponav-more dropdown-item" data-skip-pjax>
+			<a href={`/${repoUrl}/network/dependencies`} className="rgh-reponav-more dropdown-item">
 				{icons.dependency()} Dependencies
 			</a>,
 
-		<a href={`/${repoUrl}/pulse`} className="rgh-reponav-more dropdown-item" data-skip-pjax>
-			{icons.graph()} Insights
-		</a>,
-
-		<a href={`/${repoUrl}/commits`} className="rgh-reponav-more dropdown-item" data-skip-pjax>
+		<a href={`/${repoUrl}/commits`} className="rgh-reponav-more dropdown-item">
 			{icons.history()} Commits
 		</a>,
 
-		<a href={`/${repoUrl}/branches`} className="rgh-reponav-more dropdown-item" data-skip-pjax>
+		<a href={`/${repoUrl}/branches`} className="rgh-reponav-more dropdown-item">
 			{icons.branch()} Branches
 		</a>,
 
-		<a href={insightsTab.href} className="rgh-reponav-more dropdown-item" data-skip-pjax>
+		<a href={insightsTab.href} className="rgh-reponav-more dropdown-item">
 			{insightsTab.firstElementChild} Insights
 		</a>,
 
