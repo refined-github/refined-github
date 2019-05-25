@@ -30,10 +30,9 @@ async function init(): Promise<void> {
 		createDropdown();
 	}
 
-	const insightsTab = select<HTMLAnchorElement>('[data-selected-links~="pulse"]')!;
-	const securityTab = select<HTMLAnchorElement>('[data-selected-links~="security"]')!;
+	const menu = select('.reponav-dropdown .dropdown-menu')!;
 
-	select('.reponav-dropdown .dropdown-menu')!.append(
+	menu.append(
 		<a href={`/${repoUrl}/compare`} className="rgh-reponav-more dropdown-item">
 			{icons.darkCompare()} Compare
 		</a>,
@@ -50,18 +49,19 @@ async function init(): Promise<void> {
 		<a href={`/${repoUrl}/branches`} className="rgh-reponav-more dropdown-item">
 			{icons.branch()} Branches
 		</a>,
-
-		<a href={insightsTab.href} className="rgh-reponav-more dropdown-item">
-			{insightsTab.firstElementChild} Insights
-		</a>,
-
-		<a href={securityTab.href} className="rgh-reponav-more dropdown-item">
-			{securityTab.firstElementChild} Security
-		</a>,
 	);
 
-	insightsTab.remove();
-	securityTab.remove();
+	for (const tab of select.all<HTMLAnchorElement>(`
+			[data-selected-links~="pulse"],
+			[data-selected-links~="security"]
+		`)) {
+		tab.remove();
+		menu.append(
+			<a href={tab.href} className="rgh-reponav-more dropdown-item">
+				{[...tab.childNodes]}
+			</a>
+		);
+	}
 }
 
 features.add({
