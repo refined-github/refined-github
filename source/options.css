@@ -1,5 +1,5 @@
 html {
-	min-width: 430px;
+	min-width: 550px;
 	overflow-x: hidden;
 }
 
@@ -76,6 +76,10 @@ h2 ~ h2 {
 
 .js-features a {
 	font-size: 0.9em;
+}
+
+.js-features a:first-of-type {
+	margin-left: 0.6em;
 }
 
 .sr-only {
