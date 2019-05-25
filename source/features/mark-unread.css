@@ -9,8 +9,3 @@
 .rgh-unread .notification-actions .age {
 	width: 150px; /* Align with GH's notifications */
 }
-
-/* Change color of marker if there are only discussion marked as unread */
-.notification-indicator[data-ga-click$=':read'] .unread {
-	background: linear-gradient(#34d058, #28a745);
-}
