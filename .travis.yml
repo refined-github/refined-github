@@ -10,15 +10,14 @@ deploy:
     script: npm run release
     on:
       tags: true
-      condition: $TRAVIS_TAG != hotfix
 
-  - # Creates versioned git tag when tag is `hotfix`
+  - # Creates versioned git tag when commit message is `hotfix`
     provider: script
     skip_cleanup: true
-    script: npm run create-git-tag && git push --delete origin hotfix
+    script: npm run create-git-tag
     on:
-      tags: true
-      condition: $TRAVIS_TAG = hotfix
+      branch: master
+      condition: $TRAVIS_COMMIT_MESSAGE = hotfix
 
   - # Creates versioned git tag on daily Travis cronjobs if HEAD isn't already tagged
     provider: script
