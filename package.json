@@ -57,7 +57,7 @@
 		"@types/react": "^16.8.14",
 		"@types/terser-webpack-plugin": "^1.2.1",
 		"@types/webpack": "^4.4.27",
-		"@typescript-eslint/eslint-plugin": "^1.7.0",
+		"@typescript-eslint/eslint-plugin": "^1.9.0",
 		"ava": "^1.4.0",
 		"chrome-webstore-upload-cli": "^1.2.0",
 		"copy-webpack-plugin": "^5.0.2",
