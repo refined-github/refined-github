@@ -47,11 +47,10 @@ async function init(): Promise<void | false> {
 		const targetCommit = (commit.dataset.channel as string).split(':')[3];
 		const targetTags = tags.filter(tag => tag.commit === targetCommit);
 		if (targetTags.length > 0) {
-			foundOne = true;
 			select('.commit-meta', commit)!.append(
 				<div className="ml-2">
 					{icons.tag()}
-					<span className="ml-1">{targetTags.map((tags,i) => (
+					<span className="ml-1">{targetTags.map((tags, i) => (
 						<>
 							<a href={`/${getRepoURL()}/releases/${tags.name}`}>{tags.name}</a>
 							{(i + 1) === targetTags.length ? '' : ', '}
