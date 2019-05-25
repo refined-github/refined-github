@@ -29,6 +29,7 @@ async function init(): Promise<void> {
 	if (!select.exists('.reponav-dropdown')) {
 		createDropdown();
 	}
+	const securityTab = select<HTMLAnchorElement>('[data-selected-links~="security"]')!;
 
 	select('.reponav-dropdown .dropdown-menu')!.append(
 		<a href={`/${repoUrl}/compare`} className="rgh-reponav-more dropdown-item" data-skip-pjax>
@@ -51,6 +52,10 @@ async function init(): Promise<void> {
 		<a href={`/${repoUrl}/branches`} className="rgh-reponav-more dropdown-item" data-skip-pjax>
 			{icons.branch()} Branches
 		</a>,
+
+		<a href={securityTab.href} className="rgh-reponav-more dropdown-item">
+			{securityTab.firstElementChild} Security
+		</a>,
 	);
 
 	// Remove native Insights tab
@@ -58,6 +63,7 @@ async function init(): Promise<void> {
 	if (insightsTab) {
 		insightsTab.remove();
 	}
+	securityTab.remove();
 }
 
 features.add({
