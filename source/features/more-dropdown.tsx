@@ -29,6 +29,7 @@ async function init(): Promise<void> {
 	if (!select.exists('.reponav-dropdown')) {
 		createDropdown();
 	}
+
 	const insightsTab = select<HTMLAnchorElement>('[data-selected-links~="pulse"]')!;
 	const securityTab = select<HTMLAnchorElement>('[data-selected-links~="security"]')!;
 
