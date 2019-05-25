@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import onPrFileLoad from '../libs/on-pr-file-load';
 
 const createRawUrl = (href: string): string => {
 	const url = href.split('/');
@@ -20,11 +21,7 @@ function addRawButtons(): void {
 
 function init(): void {
 	addRawButtons();
-
-	// Some files are loaded progressively later. On load, look for more buttons and more fragments
-	for (const fragment of select.all('include-fragment.diff-progressive-loader')) {
-		fragment.addEventListener('load', init);
-	}
+	onPrFileLoad(addRawButtons);
 }
 
 features.add({

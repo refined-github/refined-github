@@ -1,0 +1,8 @@
+.rgh-code-wrapping-enabled .blob-code-inner {
+	white-space: pre-wrap;
+}
+
+.rgh-code-wrapping-enabled span.blob-code-inner {
+	display: block;
+	line-height: 21px; /* `display: block` reduces the line height; this undoes the change */
+}

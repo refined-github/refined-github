@@ -96,6 +96,7 @@ import './features/raw-file-link';
 import './features/tags-dropdown';
 import './features/filter-pr-by-build-status';
 import './features/edit-files-faster';
+import './features/indented-code-wrapping';
 import './features/update-pr-from-base-branch';
 import './features/hide-disabled-milestone-sorter';
 import './features/tag-changelog-link';
