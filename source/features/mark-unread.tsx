@@ -110,7 +110,7 @@ async function markUnread({currentTarget}: React.MouseEvent): Promise<void> {
 		throw new Error('Refined GitHub: A new issue state was introduced?');
 	}
 
-	const lastCommentTime = select.all<HTMLTimeElement>('.timeline-comment-header relative-time').pop();
+	const lastCommentTime = select.last<HTMLTimeElement>('.timeline-comment-header relative-time');
 	const unreadNotifications = await getNotifications();
 
 	unreadNotifications.push({

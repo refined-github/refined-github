@@ -5,7 +5,7 @@ type CommitStatus = false | typeof SUCCESS | typeof FAILURE | typeof PENDING | t
 type StatusListener = (status: CommitStatus) => void;
 
 function getLastCommit(): string | null {
-	return select.all('[id^="commits-pushed"] .commit-id').pop()!.textContent;
+	return select.last('[id^="commits-pushed"] .commit-id')!.textContent;
 }
 
 export const SUCCESS = Symbol('Success');
