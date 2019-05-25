@@ -5,7 +5,16 @@ import features from '../libs/features';
 import onPrFileLoad from '../libs/on-pr-file-load';
 import onNewComments from '../libs/on-new-comments';
 
-function showInvisiblesOnLine(line: Element): void {
+const queue: Node[] = [];
+
+// Process a single line for each frame loop
+function loop(): void {
+	const line = queue.shift();
+
+	if (line === undefined) {
+		return;
+	}
+
 	const iterator = document.createNodeIterator(line, NodeFilter.SHOW_TEXT, {
 		acceptNode: node => {
 			if (node.childNodes.length === 0) {
@@ -46,6 +55,8 @@ function showInvisiblesOnLine(line: Element): void {
 	// Add a new-line character at the end (optional)
 	// const br = line.querySelector('br');
 	// line.insertBefore(<span className="pl-ws pl-nl">&nbsp;</span>, br);
+
+	requestAnimationFrame(loop);
 }
 
 function run(): void {
@@ -59,9 +70,11 @@ function run(): void {
 		table.classList.add('rgh-showing-whitespace');
 
 		for (const line of select.all('.blob-code-inner', table)) {
-			requestAnimationFrame(() => showInvisiblesOnLine(line));
+			queue.push(line);
 		}
 	}
+
+	requestAnimationFrame(loop);
 }
 
 function init(): void {
