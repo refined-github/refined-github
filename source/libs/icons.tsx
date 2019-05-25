@@ -28,8 +28,6 @@ export const cloudUpload = (): SVGElement => <svg aria-hidden="true" className="
 
 export const darkCompare = (): SVGElement => <svg aria-hidden="true" className="octicon octicon-diff" width="15" height="16" viewBox="0 0 13 16"><path d="M6 7h2v1H6v2H5V8H3V7h2V5h1zm-3 6h5v-1H3zM7.5 2L11 5.5V15c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1zm1-2H3v1h5l4 4v8h1V4.5z" fill-rule="evenodd"/></svg>;
 
-export const graph = (): SVGElement => <svg aria-hidden="true" className="octicon octicon-graph" width="16" height="16"><path fill-rule="evenodd" d="M16 14v1H0V0h1v14h15zM5 13H3V8h2v5zm4 0H7V3h2v10zm4 0h-2V6h2v7z"/></svg>;
-
 export const history = (): SVGElement => <svg aria-hidden="true" className="octicon octicon-history" width="14" height="16"><path d="M8 13H6V6h5v2H8v5zM7 1C4.81 1 2.87 2.02 1.59 3.59L0 2v4h4L2.5 4.5C3.55 3.17 5.17 2.3 7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-.34.03-.67.09-1H.08C.03 7.33 0 7.66 0 8c0 3.86 3.14 7 7 7s7-3.14 7-7-3.14-7-7-7z"/></svg>;
 
 export const code = (): SVGElement => <svg aria-hidden="true" className="octicon octicon-code" width="14" height="16"><path fill-rule="evenodd" d="M9.5 3L8 4.5 11.5 8 8 11.5 9.5 13 14 8 9.5 3zm-5 0L0 8l4.5 5L6 11.5 2.5 8 6 4.5 4.5 3z"/></svg>;

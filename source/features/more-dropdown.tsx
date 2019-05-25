@@ -29,6 +29,7 @@ async function init(): Promise<void> {
 	if (!select.exists('.reponav-dropdown')) {
 		createDropdown();
 	}
+	const insightsTab = select<HTMLAnchorElement>('[data-selected-links~="pulse"]')!;
 	const securityTab = select<HTMLAnchorElement>('[data-selected-links~="security"]')!;
 
 	select('.reponav-dropdown .dropdown-menu')!.append(
@@ -53,16 +54,16 @@ async function init(): Promise<void> {
 			{icons.branch()} Branches
 		</a>,
 
+		<a href={insightsTab.href} className="rgh-reponav-more dropdown-item" data-skip-pjax>
+			{insightsTab.firstElementChild} Insights
+		</a>,
+
 		<a href={securityTab.href} className="rgh-reponav-more dropdown-item">
 			{securityTab.firstElementChild} Security
 		</a>,
 	);
 
-	// Remove native Insights tab
-	const insightsTab = select('[data-selected-links~="pulse"]');
-	if (insightsTab) {
-		insightsTab.remove();
-	}
+	insightsTab.remove();
 	securityTab.remove();
 }
 
