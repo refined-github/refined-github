@@ -51,12 +51,32 @@ async function init(): Promise<void> {
 		<a href={`/${repoUrl}/branches`} className="rgh-reponav-more dropdown-item" data-skip-pjax>
 			{icons.branch()} Branches
 		</a>,
+
+		<a href={`/${repoUrl}/network/alerts`} className="rgh-reponav-more dropdown-item" data-skip-pjax>
+			{icons.security()} Security
+		</a>,
+
+		<a href={`/${repoUrl}/actions`} className="rgh-reponav-more dropdown-item" data-skip-pjax>
+			{icons.action()} Actions
+		</a>,
 	);
 
 	// Remove native Insights tab
 	const insightsTab = select('[data-selected-links~="pulse"]');
 	if (insightsTab) {
 		insightsTab.remove();
+	}
+
+	// Remove native Security tab
+	const securityTab = select('[data-selected-links~="security"]');
+	if (securityTab) {
+		securityTab.remove();
+	}
+
+	// Remove native Actions tab
+	const actionsTab = select('[data-selected-links~="repo_actions"]');
+	if (actionsTab) {
+		actionsTab.remove();
 	}
 }
 
