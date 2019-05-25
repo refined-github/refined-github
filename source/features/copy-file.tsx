@@ -6,7 +6,7 @@ import features from '../libs/features';
 
 function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): void {
 	const file = button.closest('.Box');
-	const content = select.all('.blob-code-inner', file!)
+	const content = select.all('.blob-code-inner', file)
 		.map(({innerText: line}) => line === '\n' ? '' : line) // Must be `.innerText`
 		.join('\n');
 	copyToClipboard(content);

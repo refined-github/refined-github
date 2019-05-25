@@ -11,7 +11,7 @@ const selector = `[data-url='${fragmentURL}'], [src='${fragmentURL}']`;
 // Ajaxed pages will load a new fragment on every ajaxed load;
 // but we only really need the one generated on the first load
 function removeDuplicateList(): void {
-	const duplicate = select(selector, select('main')!);
+	const duplicate = select(selector, select('main'));
 
 	if (duplicate) {
 		duplicate.remove();

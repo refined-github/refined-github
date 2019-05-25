@@ -23,7 +23,7 @@ function init(): void {
 		const field = event.delegateTarget;
 
 		// Don't do anything if the suggester box is active
-		if (select.exists('.suggester:not([hidden])', field.form!)) {
+		if (select.exists('.suggester:not([hidden])', field.form)) {
 			return;
 		}
 
@@ -35,7 +35,7 @@ function init(): void {
 			const cancelButton = select<HTMLButtonElement>(`
 				.js-hide-inline-comment-form,
 				.js-comment-cancel-button
-			`, field.form!);
+			`, field.form);
 
 			// Cancel if there is a button, else blur the field
 			if (cancelButton) {

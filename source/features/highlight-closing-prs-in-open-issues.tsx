@@ -21,7 +21,7 @@ function add(): void {
 				<a
 					href={link}
 					className="btn btn-outline btn-sm border-blue rgh-closing-pr tooltipped tooltipped-se"
-					aria-label={infoBubble.getAttribute('aria-label')!}>
+					aria-label={infoBubble.getAttribute('aria-label')}>
 					{isIssue ? icons.openPullRequest() : icons.commit()}
 					{isIssue ? ' ' + ref.textContent : ''}
 				</a>

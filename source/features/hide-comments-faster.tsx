@@ -4,7 +4,7 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 
 function handleMenuOpening(event: DelegateEvent): void {
-	const hideButton = select('.js-comment-hide-button', event.delegateTarget.parentElement!);
+	const hideButton = select('.js-comment-hide-button', event.delegateTarget.parentElement);
 	if (!hideButton) {
 		// User unable to hide or menu already created
 		return;
