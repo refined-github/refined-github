@@ -5,9 +5,9 @@ import features from '../libs/features';
 import onPrFileLoad from '../libs/on-pr-file-load';
 import onNewComments from '../libs/on-new-comments';
 
-function showInvisiblesOnLine(line: Element) {
+function showInvisiblesOnLine(line: Element): void {
 	const iterator = document.createNodeIterator(line, NodeFilter.SHOW_TEXT, {
-		acceptNode: (node) => {
+		acceptNode: node => {
 			if (node.childNodes.length === 0) {
 				return NodeFilter.FILTER_ACCEPT;
 			}
@@ -24,22 +24,20 @@ function showInvisiblesOnLine(line: Element) {
 		textNodes.push(node);
 	}
 
-	for (const textNode of textNodes)  {
+	for (const textNode of textNodes) {
 		const nodeValue = textNode.textContent!;
 		if (nodeValue.length !== 0) {
 			const fragment = document.createDocumentFragment();
 
 			for (const char of nodeValue) {
 				if (char === '\t') {
-					fragment.appendChild(<span className="pl-ws pl-tab"></span>);
-				} if (char === ' ') {
-					fragment.appendChild(<span className="pl-ws pl-space">{char}</span>);
+					fragment.append(<span className="pl-ws pl-tab">{char}</span>);
+				} else if (char === ' ') {
+					fragment.append(<span className="pl-ws pl-space">{char}</span>);
 				} else {
 					fragment.append(char);
 				}
 			}
-
-			// console.log(textNode, fragment.childNodes);
 
 			(textNode as Element).replaceWith(fragment);
 		}
@@ -52,7 +50,7 @@ function showInvisiblesOnLine(line: Element) {
 
 function run(): void {
 	const tables = select.all([
-		'table.js-file-line-container:not(.rgh-showing-whitespace)', // Single blob file
+		'table.js-file-line-container:not(.rgh-showing-whitespace)', // Single blob file, and gist
 		'.file table.diff-table:not(.rgh-showing-whitespace)', // Split and unified diffs
 		'.file table.d-table:not(.rgh-showing-whitespace)' // "Suggested changes" in PRs
 	].join());
@@ -79,7 +77,9 @@ features.add({
 		features.isSingleFile,
 		features.isPRFiles,
 		features.isCommit,
-		features.isPRConversation
+		features.isPRConversation,
+		features.isGist,
+		features.isCompare
 	],
 	load: features.onAjaxedPages,
 	init

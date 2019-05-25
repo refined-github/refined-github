@@ -105,7 +105,6 @@ import './features/clean-sidebar';
 import './features/open-issue-to-latest-comment';
 import './features/show-whitespaces';
 
-
 import './features/scrollable-code-and-blockquote.css';
 import './features/center-reactions-popup.css';
 import './features/widen-search-field.css';
