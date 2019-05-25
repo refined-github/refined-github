@@ -1,13 +1,32 @@
 import './show-whitespaces.css';
 import React from 'dom-chef';
+import select from 'select-dom';
 import features from '../libs/features';
+import onPrFileLoad from '../libs/on-pr-file-load';
+import onNewComments from '../libs/on-new-comments';
 
-function loop(line: Element) {
-	const nodes = [...line.childNodes.values()].filter(node => node.nodeType === 3);
+function showInvisiblesOnLine(line: Element) {
+	const iterator = document.createNodeIterator(line, NodeFilter.SHOW_TEXT, {
+		acceptNode: (node) => {
+			if (node.childNodes.length === 0) {
+				return NodeFilter.FILTER_ACCEPT;
+			}
 
-	for (const textNode of nodes)  {
-		const nodeValue = textNode!.textContent!;
-		if (nodeValue.length !== 0 && (nodeValue.trim() !== nodeValue)) {
+			return NodeFilter.FILTER_REJECT;
+		}
+	});
+
+	const textNodes = [];
+	let node;
+
+	// Collect all nodes before modifying the root node anymore
+	while ((node = iterator.nextNode())) {
+		textNodes.push(node);
+	}
+
+	for (const textNode of textNodes)  {
+		const nodeValue = textNode.textContent!;
+		if (nodeValue.length !== 0) {
 			const fragment = document.createDocumentFragment();
 
 			for (const char of nodeValue) {
@@ -20,36 +39,48 @@ function loop(line: Element) {
 				}
 			}
 
-			console.log(textNode, fragment.childNodes);
+			// console.log(textNode, fragment.childNodes);
 
-			textNode.replaceWith(fragment);
+			(textNode as Element).replaceWith(fragment);
 		}
 	}
 
 	// Add a new-line character at the end (optional)
-	const br = line.querySelector('br');
-	line.insertBefore(<span className="pl-ws pl-nl"></span>, br);
+	// const br = line.querySelector('br');
+	// line.insertBefore(<span className="pl-ws pl-nl">&nbsp;</span>, br);
 }
 
-function init() {
-	const lines = document.querySelectorAll('.blob-code-inner');
+function run(): void {
+	const tables = select.all([
+		'table.js-file-line-container:not(.rgh-showing-whitespace)', // Single blob file
+		'.file table.diff-table:not(.rgh-showing-whitespace)', // Split and unified diffs
+		'.file table.d-table:not(.rgh-showing-whitespace)' // "Suggested changes" in PRs
+	].join());
 
-	for (const line of lines) {
-		// const iterator = document.createNodeIterator(line, NodeFilter.SHOW_TEXT);
-		requestAnimationFrame(() => loop(line));
+	for (const table of tables) {
+		table.classList.add('rgh-showing-whitespace');
 
-		// const span = document.createElement('span');
-		// span.classList.add('pl-ws');
-		// span.textContent = '¬';
-		// line.appendChild(span);
+		for (const line of select.all('.blob-code-inner', table)) {
+			requestAnimationFrame(() => showInvisiblesOnLine(line));
+		}
 	}
+}
+
+function init(): void {
+	run();
+	onNewComments(run);
+	onPrFileLoad(run);
 }
 
 features.add({
 	id: 'show-whitespaces',
 	description: 'Show whitespace characters in diffs',
-	init: () => {
-		setTimeout(init, 2000);
-	},
-	load: features.onAjaxedPages
+	include: [
+		features.isSingleFile,
+		features.isPRFiles,
+		features.isCommit,
+		features.isPRConversation
+	],
+	load: features.onAjaxedPages,
+	init
 });
