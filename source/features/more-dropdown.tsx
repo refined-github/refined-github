@@ -38,7 +38,7 @@ async function init(): Promise<void> {
 		</a>,
 
 		isEnterprise() ? '' :
-			<a href={`/${repoUrl}/network/dependencies`} className="rgh-reponav-more dropdown-item rgh-dependency-graph" data-skip-pjax>
+			<a href={`/${repoUrl}/network/dependencies`} className="rgh-reponav-more dropdown-item" data-skip-pjax>
 				{icons.dependency()} Dependencies
 			</a>,
 
