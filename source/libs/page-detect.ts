@@ -114,5 +114,6 @@ export const hasCode = (): boolean => // Static code, not the editor
 	hasComments() ||
 	isRepoTree() || // Readme files
 	isSingleFile() ||
+	isGist() ||
 	isCompare() ||
 	isBlame();
