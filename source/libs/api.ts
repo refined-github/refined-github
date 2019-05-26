@@ -24,7 +24,7 @@ it lets you define accept error HTTP codes as a valid response, like:
 so the call will not throw an error but it will return as usual.
  */
 
-import pMemoize from 'p-memoize';
+import mem from 'mem';
 import OptionsSync from 'webext-options-sync';
 import {JsonObject} from 'type-fest';
 
@@ -70,7 +70,7 @@ const v3defaults: GHRestApiOptions = {
 	body: undefined
 };
 
-export const v3 = pMemoize(async (
+export const v3 = mem(async (
 	query: string,
 	options: GHRestApiOptions = v3defaults
 ): Promise<AnyObject> => {
@@ -98,7 +98,7 @@ export const v3 = pMemoize(async (
 	throw getError(apiResponse);
 });
 
-export const v4 = pMemoize(async (query: string): Promise<AnyObject> => {
+export const v4 = mem(async (query: string): Promise<AnyObject> => {
 	const {personalToken} = await settings;
 
 	if (!personalToken) {

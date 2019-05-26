@@ -34,7 +34,6 @@
 		"linkify-urls": "^2.2.0",
 		"mem": "github:sindresorhus/mem#10f13c0",
 		"onetime": "^5.0.0",
-		"p-memoize": "^3.0.0",
 		"select-dom": "^5.1.0",
 		"shorten-repo-url": "^1.5.1",
 		"tiny-version-compare": "^1.0.0",
