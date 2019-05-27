@@ -6,7 +6,7 @@ markdown-toolbar > :nth-last-child(4) { /* H1, B, I */
 }
 
 /* Remove upload message on comment box */
-file-attachment.is-default .drag-and-drop {
+file-attachment.is-default .upload-enabled .drag-and-drop {
 	display: none !important;
 }
 
