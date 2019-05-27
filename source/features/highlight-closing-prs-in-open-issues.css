@@ -1,4 +1,5 @@
 /* Matches native `.gh-header-meta .State` spacing */
 .rgh-closing-pr {
+	font-size: 13px !important;
 	margin-right: 8px;
 }
