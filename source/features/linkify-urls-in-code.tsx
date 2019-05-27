@@ -58,12 +58,12 @@ function init(): false | void {
 	// `pre` in GitHub comments
 	for (const element of select.all('.blob-code-inner, pre', wrappers)) {
 		if (element.textContent!.length < 15) { // Must be long enough for a URL
-			return;
+			continue;
 		}
 
 		const linkified = linkifyUrls(element.textContent!, options);
 		if (linkified.children.length === 0) { // Children are <a>
-			return;
+			continue;
 		}
 
 		zipTextNodes(element, linkified);
