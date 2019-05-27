@@ -4,59 +4,74 @@ import select from 'select-dom';
 import features from '../libs/features';
 import onPrFileLoad from '../libs/on-pr-file-load';
 import onNewComments from '../libs/on-new-comments';
-
-const queue: Node[] = [];
+import getTextNodes from '../libs/get-text-nodes';
 
 // Process a single line for each frame loop
-function loop(): void {
-	const line = queue.shift();
-
-	if (line === undefined) {
-		return;
-	}
-
-	const iterator = document.createNodeIterator(line, NodeFilter.SHOW_TEXT, {
-		acceptNode: node => {
-			if (node.childNodes.length === 0) {
-				return NodeFilter.FILTER_ACCEPT;
-			}
-
-			return NodeFilter.FILTER_REJECT;
-		}
-	});
-
-	const textNodes = [];
-	let node;
-
-	// Collect all nodes before modifying the root node anymore
-	while ((node = iterator.nextNode())) {
-		textNodes.push(node);
-	}
+function showWhiteSpacesOn(line: Element): void {
+	const textNodes = getTextNodes(line);
 
 	for (const textNode of textNodes) {
 		const nodeValue = textNode.textContent!;
 		if (nodeValue.length !== 0) {
 			const fragment = document.createDocumentFragment();
 
+			let lastEncounteredCharType;
+			let charType: 'space' | 'tab' | 'other';
+			let node;
+
 			for (const char of nodeValue) {
-				if (char === '\t') {
-					fragment.append(<span className="pl-ws pl-tab">{char}</span>);
-				} else if (char === ' ') {
-					fragment.append(<span className="pl-ws pl-space">{char}</span>);
+				if (char === ' ') {
+					charType = 'space';
+				} else if (char === '\t') {
+					charType = 'tab';
 				} else {
-					fragment.append(char);
+					charType = 'other';
 				}
+
+				if (lastEncounteredCharType && lastEncounteredCharType === charType) {
+					if (node) {
+						node.append(char);
+
+						if (charType === 'space') {
+							node.dataset.rghSpaces += '·';
+						} else if (charType === 'tab') {
+							node.dataset.rghTabs += '→';
+						}
+					}
+				} else {
+					if (node) {
+						fragment.append(node);
+					}
+
+					if (charType === 'space') {
+						node = <span className="pl-ws pl-space" data-rgh-spaces="·">{char}</span>;
+					} else if (charType === 'tab') {
+						node = <span className="pl-ws pl-tab" data-rgh-tabs="→">{char}</span>;
+					} else {
+						node = <>{char}</>;
+					}
+				}
+
+				lastEncounteredCharType = charType;
 			}
 
-			(textNode as Element).replaceWith(fragment);
+			if (node) {
+				fragment.append(node);
+			}
+
+			textNode.replaceWith(fragment);
 		}
 	}
 
-	// Add a new-line character at the end (optional)
-	// const br = line.querySelector('br');
-	// line.insertBefore(<span className="pl-ws pl-nl">&nbsp;</span>, br);
-
-	requestAnimationFrame(loop);
+	// In diff view GitHub adds marker to indicate no new-line at end of file
+	if (!line.nextElementSibling || !line.nextElementSibling.classList.contains('no-nl-marker')) {
+		if (line.textContent === '\n' || line.textContent === '') { // Targeting empty new-lines
+			// Diff views use `<br>`, plain code views use `\n`
+			line.insertBefore(<span className="pl-ws pl-nl">&nbsp;</span>, select('br', line) || line.childNodes[0]);
+		} else { // Any regular line with text
+			line.append(<span className="pl-ws pl-nl">&nbsp;</span>);
+		}
+	}
 }
 
 function run(): void {
@@ -70,11 +85,9 @@ function run(): void {
 		table.classList.add('rgh-showing-whitespace');
 
 		for (const line of select.all('.blob-code-inner', table)) {
-			queue.push(line);
+			showWhiteSpacesOn(line);
 		}
 	}
-
-	requestAnimationFrame(loop);
 }
 
 function init(): void {

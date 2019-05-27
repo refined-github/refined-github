@@ -14,11 +14,12 @@
 }
 
 .pl-tab::before {
-	content: '→';
+	content: attr(data-rgh-tabs);
+	letter-spacing: calc(calc(var(--tab-size, 4) * 1ch) - 1ch);
 }
 
 .pl-space::before {
-	content: '·';
+	content: attr(data-rgh-spaces);
 }
 
 .pl-nl::before {
