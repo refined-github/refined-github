@@ -32,7 +32,7 @@ function getSimilarItems(item: HTMLElement): HTMLElement[] {
 
 function handleEvent(event: DelegateEvent<MouseEvent, HTMLElement>): void {
 	if (event.altKey) {
-		const clickedItem = event.delegateTarget as HTMLElement;
+		const clickedItem = event.delegateTarget;
 		const viewportOffset = clickedItem.getBoundingClientRect().top;
 		const similarItems = getSimilarItems(clickedItem);
 
