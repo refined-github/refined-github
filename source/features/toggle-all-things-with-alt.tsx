@@ -2,10 +2,10 @@ import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 
-function getSimilarItems(item: Element): HTMLButtonElement[] | HTMLLabelElement[] | HTMLElement[] {
+function getSimilarItems(item: HTMLElement): HTMLElement[] {
 	// Collapsed comments in PR conversations and files
 	if (item.matches('summary')) {
-		if ((item.parentElement! as HTMLDetailsElement).open === true) {
+		if ((item.parentElement as HTMLDetailsElement).open) {
 			return select.all('.minimized-comment details[open] summary');
 		}
 
@@ -18,9 +18,9 @@ function getSimilarItems(item: Element): HTMLButtonElement[] | HTMLLabelElement[
 	}
 
 	// "Show comments" checkboxes
-	if (item.matches('label')) {
+	if (item instanceof HTMLLabelElement) {
 		const inputs: HTMLInputElement[] = select.all('.js-file .dropdown-item .js-toggle-file-notes');
-		if (((item as HTMLLabelElement).control! as HTMLInputElement).checked === true) {
+		if ((item.control as HTMLInputElement).checked) {
 			return inputs.filter(input => !input.checked).map(input => input.labels![0]);
 		}
 
@@ -30,9 +30,9 @@ function getSimilarItems(item: Element): HTMLButtonElement[] | HTMLLabelElement[
 	return [];
 }
 
-function handleEvent(event: DelegateEvent<MouseEvent, HTMLButtonElement | HTMLLabelElement | HTMLElement>): void {
+function handleEvent(event: DelegateEvent<MouseEvent, HTMLElement>): void {
 	if (event.altKey) {
-		const clickedItem = event.delegateTarget as Element;
+		const clickedItem = event.delegateTarget as HTMLElement;
 		const viewportOffset = clickedItem.getBoundingClientRect().top;
 		const similarItems = getSimilarItems(clickedItem);
 
