@@ -46,7 +46,7 @@ function buildFeatureCheckbox([name, {description, screenshot}]: [string, Featur
 }
 
 const featureCheckboxes = [...window.collectFeatures.entries()]
-	.sort(([a], [b]) => a.localeCompare(b)) // Sort bt feature name
+	.sort(([a], [b]) => a.localeCompare(b)) // Sort by feature name
 	.map(buildFeatureCheckbox);
 
 document
