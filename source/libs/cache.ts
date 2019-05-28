@@ -45,30 +45,35 @@ export function set<TValue extends any = any>(key: string, value: TValue, expira
 }
 
 /* Accept messages in background page */
-if (!browser.runtime.getBackgroundPage) {
-	browser.runtime.onMessage.addListener((request: CacheRequest, _sender, sendResponse) => {
-		if (!request) {
-			return;
+export const handleCacheCalls = async (
+	request: CacheRequest,
+): Promise<any> => {
+	if (!request) {
+		return;
+	}
+
+	const {code, key, value, expiration} = request;
+	if (code === 'get-cache') {
+		const [cached] = document.cookie
+			.split('; ')
+			.filter(item => item.startsWith(key + '='));
+		if (cached) {
+			const [, value] = cached.split('=');
+			console.log('CACHE: found', key, value);
+			return value;
 		}
 
-		const {code, key, value, expiration} = request;
-		if (code === 'get-cache') {
-			const [cached] = document.cookie.split('; ')
-				.filter(item => item.startsWith(key + '='));
-			if (cached) {
-				const [, value] = cached.split('=');
-				sendResponse(JSON.parse(value));
-				console.log('CACHE: found', key, value);
-			} else {
-				sendResponse();
-				console.log('CACHE: not found', key);
-			}
-		} else if (code === 'set-cache') {
-			console.log('CACHE: setting', key, value);
+		console.log('CACHE: not found', key);
+		return undefined;
+	}
 
-			// Store as JSON to preserve data type
-			// otherwise Booleans and Numbers become strings
-			document.cookie = `${key}=${JSON.stringify(value)}; max-age=${expiration ? expiration * 3600 * 24 : ''}`;
-		}
-	});
-}
+	if (code === 'set-cache') {
+		console.log('CACHE: setting', key, value);
+
+		// Store as JSON to preserve data type
+		// otherwise Booleans and Numbers become strings
+		document.cookie = `${key}=${JSON.stringify(value)}; max-age=${
+			expiration ? expiration * 3600 * 24 : ''
+		}`;
+	}
+};
