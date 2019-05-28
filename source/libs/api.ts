@@ -25,8 +25,8 @@ so the call will not throw an error but it will return as usual.
  */
 
 import mem from 'mem';
-import OptionsSync from 'webext-options-sync';
 import {JsonObject} from 'type-fest';
+import optionsStorage from '../options-storage';
 
 type JsonError = {
 	message: string;
@@ -49,7 +49,7 @@ export class RefinedGitHubAPIError extends Error {
 	}
 }
 
-const settings = new OptionsSync().getAll();
+const settings = optionsStorage.getAll();
 
 const api3 = location.hostname === 'github.com' ?
 	'https://api.github.com/' :
