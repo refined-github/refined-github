@@ -2,10 +2,10 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import onDomReady from 'dom-loaded';
 import OptionsSync from 'webext-options-sync';
+import elementReady from 'element-ready';
 import onNewComments from './on-new-comments';
 import onFileListUpdate from './on-file-list-update';
 import * as pageDetect from './page-detect';
-import {safeElementReady} from './dom-utils';
 
 type BooleanFunction = () => boolean;
 type VoidFunction = () => void;
@@ -79,7 +79,7 @@ onAjaxedPages(async () => {
 // Rule assumes we don't want to leave it pending:
 // eslint-disable-next-line no-async-promise-executor
 const globalReady: Promise<GlobalOptions> = new Promise(async resolve => {
-	await safeElementReady('body');
+	await elementReady('body');
 
 	if (pageDetect.is500()) {
 		return;

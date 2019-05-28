@@ -1,20 +1,4 @@
 import select from 'select-dom';
-import domLoaded from 'dom-loaded';
-import elementReady from 'element-ready';
-
-/*
- * Automatically stops checking for an element to appear once the DOM is ready.
- */
-export const safeElementReady = <T extends Element>(selector: string): Promise<T | null> => {
-	const waiting = elementReady<T>(selector);
-
-	// Don't check ad-infinitum
-	// eslint-disable-next-line promise/prefer-await-to-then
-	domLoaded.then(() => requestAnimationFrame(() => waiting.cancel()));
-
-	// If cancelled, return null like a regular select() would
-	return waiting.catch(() => null);
-};
 
 /**
  * Append to an element, but before a element that might not exist.
