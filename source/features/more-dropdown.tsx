@@ -31,33 +31,38 @@ async function init(): Promise<void> {
 		createDropdown();
 	}
 
-	select('.reponav-dropdown .dropdown-menu')!.append(
-		<a href={`/${repoUrl}/compare`} className="rgh-reponav-more dropdown-item" data-skip-pjax>
+	const menu = select('.reponav-dropdown .dropdown-menu')!;
+
+	menu.append(
+		<a href={`/${repoUrl}/compare`} className="rgh-reponav-more dropdown-item">
 			{icons.darkCompare()} Compare
 		</a>,
 
 		isEnterprise() ? '' :
-			<a href={`/${repoUrl}/network/dependencies`} className="rgh-reponav-more dropdown-item rgh-dependency-graph" data-skip-pjax>
+			<a href={`/${repoUrl}/network/dependencies`} className="rgh-reponav-more dropdown-item">
 				{icons.dependency()} Dependencies
 			</a>,
 
-		<a href={`/${repoUrl}/pulse`} className="rgh-reponav-more dropdown-item" data-skip-pjax>
-			{icons.graph()} Insights
-		</a>,
-
-		<a href={`/${repoUrl}/commits`} className="rgh-reponav-more dropdown-item" data-skip-pjax>
+		<a href={`/${repoUrl}/commits`} className="rgh-reponav-more dropdown-item">
 			{icons.history()} Commits
 		</a>,
 
-		<a href={`/${repoUrl}/branches`} className="rgh-reponav-more dropdown-item" data-skip-pjax>
+		<a href={`/${repoUrl}/branches`} className="rgh-reponav-more dropdown-item">
 			{icons.branch()} Branches
 		</a>,
 	);
 
-	// Remove native Insights tab
-	const insightsTab = select('[data-selected-links~="pulse"]');
-	if (insightsTab) {
-		insightsTab.remove();
+	// Selector only affects desktop navigation
+	for (const tab of select.all<HTMLAnchorElement>(`
+		.hx_reponav [data-selected-links~="pulse"],
+		.hx_reponav [data-selected-links~="security"]
+	`)) {
+		tab.remove();
+		menu.append(
+			<a href={tab.href} className="rgh-reponav-more dropdown-item">
+				{[...tab.childNodes]}
+			</a>
+		);
 	}
 }
 
