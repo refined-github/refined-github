@@ -78,7 +78,7 @@ h2 ~ h2 {
 	font-size: 0.9em;
 }
 
-.js-features a:first-of-type {
+.feature-name + a {
 	margin-left: 0.6em;
 }
 
