@@ -53,8 +53,10 @@ const options = new OptionsSync();
 			// Example to for renamed features:
 			featureWasRenamed('fix-squash-and-merge-title', 'sync-pr-commit-title'), // Merged on April 22
 
-			// Removed features will be automatically removed from the options as well
-			OptionsSync.migrations.removeUnused
+			// Removed features will be automatically removed from the options as well, but doesn't run if for some reason the features failed to collect
+			window.collectFeatures.size > 90 ?
+				OptionsSync.migrations.removeUnused :
+				() => {}
 		]
 	});
 })();
