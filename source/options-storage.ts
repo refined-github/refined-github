@@ -46,7 +46,7 @@ const options = new OptionsSync();
 					return;
 				}
 
-				for (const feature of options.disabledFeatures.split(/s+/)) {
+				for (const feature of options.disabledFeatures.split(/\s+/)) {
 					options[`feature:${feature}`] = false;
 				}
 			},
