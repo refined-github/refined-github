@@ -4,7 +4,7 @@ import fetchDom from '../libs/fetch-dom';
 
 async function init(): Promise<void> {
 	// If anything errors, RGH will display the error next to the feature name
-	await Promise.all(select.all('.merge-status-item [href^="/apps/"]').map(bypass));
+	await Promise.all(select.all('.merge-status-item [href^="/apps/"]:not([href^="/apps/github-actions"])').map(bypass));
 }
 
 async function bypass(check: HTMLElement): Promise<void> {

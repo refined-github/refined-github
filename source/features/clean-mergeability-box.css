@@ -11,7 +11,7 @@
 	font-weight: 600;
 }
 
-.mergeability-details .js-details-container .text-red+.status-meta {
+.mergeability-details .js-details-container .text-red + .status-meta {
 	color: var(--github-red);
 }
 

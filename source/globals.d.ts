@@ -4,6 +4,12 @@ interface Window {
 	collectFeatures: Map<string, FeatureDetails>;
 }
 
+// TODO: Drop after https://github.com/sindresorhus/p-memoize/issues/9
+declare module 'mem' {
+	function mem<T = VoidFunction>(fn: T): T;
+	export = mem;
+}
+
 // TODO: Drop when Firefox adds RegEx lookbehind support
 // https://github.com/sindresorhus/refined-github/pull/1936#discussion_r276515991
 declare module 'linkify-urls' {

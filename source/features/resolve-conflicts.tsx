@@ -4,7 +4,10 @@ import elementReady from 'element-ready';
 import features from '../libs/features';
 
 async function init(): Promise<void> {
-	await elementReady('.CodeMirror'); // *Not* safeElementReady
+	await elementReady('.CodeMirror', {
+		stopOnDomReady: false
+	});
+
 	document.head.append(<script src={browser.runtime.getURL('resolve-conflicts.js')}/>);
 }
 

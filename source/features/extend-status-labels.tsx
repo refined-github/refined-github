@@ -9,11 +9,11 @@ function init(): false | void {
 		return false;
 	}
 
-	const lastStatusChange = select.all(`
+	const lastStatusChange = select.last(`
 		.discussion-item-closed,
 		.discussion-item-reopened,
 		.discussion-item-merged
-	`).pop();
+	`);
 
 	// Leave if the issue/PR was never closed or if it was reopened
 	if (!lastStatusChange || lastStatusChange.matches('.discussion-item-reopened')) {

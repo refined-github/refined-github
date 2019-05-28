@@ -1,11 +1,12 @@
 import './more-dropdown.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import elementReady from 'element-ready';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 import {getRepoURL} from '../libs/utils';
 import {isEnterprise} from '../libs/page-detect';
-import {appendBefore, safeElementReady} from '../libs/dom-utils';
+import {appendBefore} from '../libs/dom-utils';
 
 const repoUrl = getRepoURL();
 
@@ -25,7 +26,7 @@ function createDropdown(): void {
 }
 
 async function init(): Promise<void> {
-	await safeElementReady('.pagehead + *'); // Wait for the tab bar to be loaded
+	await elementReady('.pagehead + *'); // Wait for the tab bar to be loaded
 	if (!select.exists('.reponav-dropdown')) {
 		createDropdown();
 	}
