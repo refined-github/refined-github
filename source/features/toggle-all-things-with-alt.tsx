@@ -1,59 +1,70 @@
 import select from 'select-dom';
+import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 
-function getSimilarItems(item: Element): Element[] {
-	if (item.matches('.js-toggle-file-notes')) { // "Show/Hide comments" in PR files
-		return select.all('.js-toggle-file-notes:checked');
+function getSimilarItems(item: Element): HTMLButtonElement[] | HTMLLabelElement[] | HTMLElement[] {
+	// Collapsed comments in PR conversations and files
+	if (item.matches('summary')) {
+		if ((item.parentElement! as HTMLDetailsElement).open === true) {
+			return select.all('.minimized-comment details[open] summary');
+		}
+
+		return select.all('.minimized-comment details:not([open]) summary');
+	}
+
+	// "Load diff" buttons in PR files
+	if (item.matches('.js-diff-load')) {
+		return select.all('.js-file .js-diff-load');
+	}
+
+	// "Show comments" checkboxes
+	if (item.matches('label')) {
+		const inputs: HTMLInputElement[] = select.all('.js-file .dropdown-item .js-toggle-file-notes');
+		if (((item as HTMLLabelElement).control! as HTMLInputElement).checked === true) {
+			return inputs.filter(input => !input.checked).map(input => input.labels![0]);
+		}
+
+		return inputs.filter(input => input.checked).map(input => input.labels![0]);
 	}
 
 	return [];
 }
 
-function handleEvent(event: Event): void {
-	console.log(event);
+function handleEvent(event: DelegateEvent<MouseEvent, HTMLButtonElement | HTMLLabelElement | HTMLElement>): void {
+	if (event.altKey) {
+		const clickedItem = event.delegateTarget as Element;
+		const viewportOffset = clickedItem.getBoundingClientRect().top;
+		const similarItems = getSimilarItems(clickedItem);
 
-	if (!event.altKey) {
-		return;
-	}
-
-	const target = event.target as Element;
-	const clickedItem = target.tagName === 'INPUT' ? target : target.closest('button')!;
-	const viewportOffset = clickedItem.parentNode!.getBoundingClientRect().top;
-
-	const items = getSimilarItems(clickedItem);
-
-
-	for (const eventItem of items) {
-		if (eventItem !== clickedItem) {
-			if (eventItem.tagName === 'INPUT' && (eventItem as HTMLInputElement).type === 'checkbox') {
-				eventItem.checked = !eventItem.checked;
+		for (const item of similarItems) {
+			if (item !== clickedItem) {
+				item.click();
 			}
 		}
-	}
 
-	requestAnimationFrame(() => {
-		const newOffset = clickedItem.parentNode!.getBoundingClientRect().top;
-		window.scrollBy(0, newOffset - viewportOffset);
-	});
+		// Scroll to original position where the click occurred after the rendering of all click events is done
+		requestAnimationFrame(() => {
+			const newOffset = clickedItem.getBoundingClientRect().top;
+			window.scrollBy(0, newOffset - viewportOffset);
+		});
+	}
 }
 
 function init(): void {
-	const items = select.all([
-		'.js-toggle-file-notes'
-	].join(', '));
-
-	for (const item of items) {
-		if (item.tagName === 'INPUT') {
-			item.addEventListener('change', handleEvent);
-		} else {
-			item.addEventListener('click', handleEvent);
-		}
-	}
+	delegate('.repository-content', '.minimized-comment details summary', 'click', handleEvent);
+	delegate('.repository-content', '.js-file .js-diff-load', 'click', handleEvent);
+	delegate('.repository-content', '.js-file .dropdown-menu label.dropdown-item:first-child', 'click', handleEvent);
 }
 
 features.add({
 	id: 'toggle-all-things-with-alt',
 	load: features.onAjaxedPages,
+	description: 'Toggle all similar items while holding `alt`',
 	init,
-	description: 'Toggle all similar items while holding `alt`'
+	include: [
+		features.isPRConversation,
+		features.isPRFiles,
+		features.isCommit,
+		features.isCompare
+	]
 });
