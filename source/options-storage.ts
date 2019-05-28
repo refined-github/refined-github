@@ -13,8 +13,7 @@ const defaults: Options = {
 	logging: false
 };
 
-// @ts-ignore because this is only needed sometimes
-function featureWasRenamed(from: string, to: string): Migration { // eslint-disable-line @typescript-eslint/no-unused-vars
+function featureWasRenamed(from: string, to: string): any { // TODO: any should probably be `Migration` after `webext-options-sync`'s types are fixed
 	return (options: Options) => {
 		if (typeof options[`feature:${from}`] === 'boolean') {
 			options[`feature:${to}`] = options[`feature:${from}`];
@@ -52,7 +51,7 @@ const options = new OptionsSync();
 			},
 
 			// Example to for renamed features:
-			// featureWasRenamed('fix-squash-and-merge-title', 'sync-pr-commit-title'), // Merged on April 22
+			featureWasRenamed('fix-squash-and-merge-title', 'sync-pr-commit-title'), // Merged on April 22
 
 			// Removed features will be automatically removed from the options as well
 			OptionsSync.migrations.removeUnused
