@@ -6,3 +6,12 @@
 	display: block;
 	line-height: 21px; /* `display: block` reduces the line height; this undoes the change */
 }
+
+/*
+ * Inline-blockify all child nodes and reset text-indentation, a fix of Firefox
+ * https://github.com/sindresorhus/refined-github/issues/2085
+ */
+.rgh-code-wrapping-enabled .blob-code-inner * {
+	display: inline-block;
+	text-indent: 0;
+}
