@@ -1,9 +1,10 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import elementReady from 'element-ready';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
 import {getOwnerAndRepo} from '../libs/utils';
-import {safeElementReady, wrap} from '../libs/dom-utils';
+import {wrap} from '../libs/dom-utils';
 
 function inPR(): void {
 	let deletedBranch: string | undefined;
@@ -47,7 +48,7 @@ function inPR(): void {
 }
 
 async function inQuickPR(): Promise<void> {
-	const el = await safeElementReady('.branch-name');
+	const el = await elementReady('.branch-name');
 	if (el) {
 		const {ownerName, repoName} = getOwnerAndRepo();
 		const branchUrl = `/${ownerName}/${repoName}/tree/${el.textContent}`;

@@ -1,9 +1,9 @@
 import React from 'dom-chef';
+import elementReady from 'element-ready';
 import features from '../libs/features';
-import {safeElementReady} from '../libs/dom-utils';
 
 async function init(): Promise<false | void> {
-	const exploreLink = await safeElementReady('.Header-link[href="/explore"]');
+	const exploreLink = await elementReady('.Header-link[href="/explore"]');
 	if (!exploreLink) {
 		return false;
 	}

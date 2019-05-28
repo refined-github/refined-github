@@ -1,9 +1,28 @@
 import select from 'select-dom';
 import linkifyUrls from 'linkify-urls';
+import zipTextNodes from 'zip-text-nodes';
 import linkifyIssues from 'linkify-issues';
 import features from '../libs/features';
-import getTextNodes from '../libs/get-text-nodes';
 import {getOwnerAndRepo} from '../libs/utils';
+
+export function linkifyIssuesInDom(element: Element): void {
+	const linkified = linkifyIssues(element.textContent!, options);
+	if (linkified.children.length === 0) { // Children are <a>
+		return;
+	}
+
+	// Enable native issue title fetch
+	for (const link of (linkified.children as HTMLCollectionOf<HTMLAnchorElement>)) {
+		const issue = link.href.split('/').pop();
+		link.setAttribute('class', 'issue-link js-issue-link tooltipped tooltipped-ne');
+		link.setAttribute('data-error-text', 'Failed to load issue title');
+		link.setAttribute('data-permission-text', 'Issue title is private');
+		link.setAttribute('data-url', link.href);
+		link.setAttribute('data-id', `rgh-issue-${issue}`);
+	}
+
+	zipTextNodes(element, linkified);
+}
 
 // Shared class necessary to avoid also shortening the links
 export const linkifiedURLClass = 'rgh-linkified-code';
@@ -23,41 +42,13 @@ const options = {
 	}
 };
 
-export const editTextNodes = (
-	fn: typeof linkifyIssues | typeof linkifyUrls,
-	el: HTMLElement
-): void => {
-	for (const textNode of getTextNodes(el)) {
-		if (fn === linkifyUrls && textNode.textContent!.length < 11) { // Shortest url: http://j.mp
-			continue;
-		}
-
-		const linkified = fn(textNode.textContent!, options);
-		if (linkified.children.length > 0) { // Children are <a>
-			if (fn === linkifyIssues) {
-				// Enable native issue title fetch
-				for (const link of (linkified.children as HTMLCollectionOf<HTMLAnchorElement>)) {
-					const issue = link.href.split('/').pop();
-					link.setAttribute('class', 'issue-link js-issue-link tooltipped tooltipped-ne');
-					link.setAttribute('data-error-text', 'Failed to load issue title');
-					link.setAttribute('data-permission-text', 'Issue title is private');
-					link.setAttribute('data-url', link.href);
-					link.setAttribute('data-id', `rgh-issue-${issue}`);
-				}
-			}
-
-			textNode.replaceWith(linkified);
-		}
-	}
-};
-
 function init(): false | void {
 	const wrappers = select.all(`
+		.js-blob-wrapper:not(.${linkifiedURLClass}),
 		.blob-wrapper:not(.${linkifiedURLClass}),
 		.comment-body:not(.${linkifiedURLClass})
 	`);
 
-	// Don't linkify any already linkified code
 	if (wrappers.length === 0) {
 		return false;
 	}
@@ -65,13 +56,22 @@ function init(): false | void {
 	// Linkify full URLs
 	// `.blob-code-inner` in diffs
 	// `pre` in GitHub comments
-	for (const el of select.all('.blob-code-inner, pre', wrappers)) {
-		editTextNodes(linkifyUrls, el);
+	for (const element of select.all('.blob-code-inner, pre', wrappers)) {
+		if (element.textContent!.length < 15) { // Must be long enough for a URL
+			continue;
+		}
+
+		const linkified = linkifyUrls(element.textContent!, options);
+		if (linkified.children.length === 0) { // Children are <a>
+			continue;
+		}
+
+		zipTextNodes(element, linkified);
 	}
 
 	// Linkify issue refs in comments
-	for (const el of select.all('span.pl-c', wrappers)) {
-		editTextNodes(linkifyIssues, el);
+	for (const element of select.all('span.pl-c', wrappers)) {
+		linkifyIssuesInDom(element);
 	}
 
 	// Mark code block as touched
@@ -83,6 +83,9 @@ function init(): false | void {
 features.add({
 	id: 'linkify-urls-in-code',
 	description: 'Make URLs in code clickable',
+	include: [
+		features.hasCode
+	],
 	load: features.onAjaxedPages,
 	init
 });

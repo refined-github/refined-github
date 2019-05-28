@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import elementReady from 'element-ready';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 import * as cache from '../libs/cache';
 import {getRepoURL} from '../libs/utils';
-import {safeElementReady} from '../libs/dom-utils';
 import {isRepoRoot, isReleasesOrTags} from '../libs/page-detect';
 
 const repoUrl = getRepoURL();
@@ -25,7 +25,7 @@ async function updateReleasesCount(): Promise<number | undefined> {
 }
 
 async function init(): Promise<false | void> {
-	await safeElementReady('.pagehead + *'); // Wait for the tab bar to be loaded
+	await elementReady('.pagehead + *'); // Wait for the tab bar to be loaded
 	const count = await updateReleasesCount();
 	if (count === 0) {
 		return false;
