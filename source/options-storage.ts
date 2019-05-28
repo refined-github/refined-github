@@ -24,12 +24,14 @@ function featureWasRenamed(from: string, to: string): Migration { // eslint-disa
 
 const options = new OptionsSync();
 
-// `options-storage` is run before the rest of the features, so we need to wait for `window.collectFeatures`
-setTimeout(() => {
+(async () => {
 	// Definitions aren't used in the content script
 	if (location.protocol.startsWith('http')) {
 		return;
 	}
+
+	// `options-storage` is run before the rest of the features, so we need to wait for `window.collectFeatures` to be filled
+	await Promise.resolve();
 
 	for (const feature of window.collectFeatures.keys()) {
 		defaults[`feature:${feature}`] = true;
@@ -56,6 +58,6 @@ setTimeout(() => {
 			OptionsSync.migrations.removeUnused
 		]
 	});
-});
+})();
 
 export default options;
