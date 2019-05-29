@@ -4,5 +4,6 @@
 }
 
 .rgh-closing-pr svg {
-	margin-bottom: 2px;
+	position: relative;
+	top: -1px;
 }
