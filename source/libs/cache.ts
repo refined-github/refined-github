@@ -45,8 +45,8 @@ export function set<TValue extends any = any>(key: string, value: TValue, expira
 }
 
 /* Accept messages in background page */
-if (!browser.runtime.getBackgroundPage) {
-	browser.runtime.onMessage.addListener((request: CacheRequest, _sender, sendResponse) => {
+if (location.pathname === '/_generated_background_page.html') {
+	browser.runtime.onMessage.addListener(async (request: CacheRequest) => {
 		if (!request) {
 			return;
 		}
@@ -56,12 +56,12 @@ if (!browser.runtime.getBackgroundPage) {
 			const [cached] = document.cookie.split('; ')
 				.filter(item => item.startsWith(key + '='));
 			if (cached) {
-				const [, value] = cached.split('=');
-				sendResponse(JSON.parse(value));
+        const [, value] = cached.split('=');
 				console.log('CACHE: found', key, value);
+        return JSON.parse(value)
 			} else {
-				sendResponse();
 				console.log('CACHE: not found', key);
+        return
 			}
 		} else if (code === 'set-cache') {
 			console.log('CACHE: setting', key, value);
@@ -69,6 +69,7 @@ if (!browser.runtime.getBackgroundPage) {
 			// Store as JSON to preserve data type
 			// otherwise Booleans and Numbers become strings
 			document.cookie = `${key}=${JSON.stringify(value)}; max-age=${expiration ? expiration * 3600 * 24 : ''}`;
-		}
+    }
+    return
 	});
 }
