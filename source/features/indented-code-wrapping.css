@@ -4,6 +4,7 @@
 
 .rgh-code-wrapping-enabled span.blob-code-inner {
 	display: block;
+	text-indent: 0; /* Default indentation for all code blocks, see Firefox fix below */
 	line-height: 21px; /* `display: block` reduces the line height; this undoes the change */
 }
 
