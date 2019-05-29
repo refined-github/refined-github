@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';
-import features from '../libs/features';
 import domLoaded from 'dom-loaded';
+import features from '../libs/features';
 
 async function init(): Promise<void> {
 	(await elementReady('.Header-link[href="/marketplace"]'))!.remove();
