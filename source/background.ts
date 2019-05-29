@@ -1,15 +1,9 @@
 import {addContextMenu} from 'webext-domain-permission-toggle';
 import {addToFutureTabs} from 'webext-dynamic-content-scripts';
-import {handleCacheCalls} from './libs/cache';
+import './libs/cache';
 import './options-storage';
 
 browser.runtime.onMessage.addListener(async message => {
-	const messageCode = message.code || '';
-
-	if (messageCode === 'set-cache' || messageCode === 'get-cache') {
-		return handleCacheCalls(message);
-	}
-
 	if (!message || message.action !== 'openAllInTabs') {
 		return;
 	}
