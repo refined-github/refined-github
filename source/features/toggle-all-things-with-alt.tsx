@@ -19,7 +19,7 @@ function getSimilarItems(item: HTMLElement): HTMLElement[] {
 
 	// "Show comments" checkboxes
 	if (item instanceof HTMLLabelElement) {
-		const inputs: HTMLInputElement[] = select.all('.js-file .dropdown-item .js-toggle-file-notes');
+		const inputs = select.all<HTMLInputElement>('.js-file .dropdown-item .js-toggle-file-notes');
 		if ((item.control as HTMLInputElement).checked) {
 			return inputs.filter(input => !input.checked).map(input => input.labels![0]);
 		}
@@ -32,22 +32,24 @@ function getSimilarItems(item: HTMLElement): HTMLElement[] {
 
 function handleEvent(event: DelegateEvent<MouseEvent, HTMLElement>): void {
 	if (event.altKey) {
-		const clickedItem = event.delegateTarget;
-		const viewportOffset = clickedItem.getBoundingClientRect().top;
-		const similarItems = getSimilarItems(clickedItem);
-
-		for (const item of similarItems) {
-			if (item !== clickedItem) {
-				item.click();
-			}
-		}
-
-		// Scroll to original position where the click occurred after the rendering of all click events is done
-		requestAnimationFrame(() => {
-			const newOffset = clickedItem.getBoundingClientRect().top;
-			window.scrollBy(0, newOffset - viewportOffset);
-		});
+		return;
 	}
+
+	const clickedItem = event.delegateTarget;
+	const viewportOffset = clickedItem.getBoundingClientRect().top;
+	const similarItems = getSimilarItems(clickedItem);
+
+	for (const item of similarItems) {
+		if (item !== clickedItem) {
+			item.click();
+		}
+	}
+
+	// Scroll to original position where the click occurred after the rendering of all click events is done
+	requestAnimationFrame(() => {
+		const newOffset = clickedItem.getBoundingClientRect().top;
+		window.scrollBy(0, newOffset - viewportOffset);
+	});
 }
 
 function init(): void {
