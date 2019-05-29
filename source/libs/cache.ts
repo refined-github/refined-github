@@ -56,20 +56,18 @@ if (location.pathname === '/_generated_background_page.html') {
 			const [cached] = document.cookie.split('; ')
 				.filter(item => item.startsWith(key + '='));
 			if (cached) {
-        const [, value] = cached.split('=');
+				const [, value] = cached.split('=');
 				console.log('CACHE: found', key, value);
-        return JSON.parse(value)
-			} else {
-				console.log('CACHE: not found', key);
-        return
+				return JSON.parse(value);
 			}
+
+			console.log('CACHE: not found', key);
 		} else if (code === 'set-cache') {
 			console.log('CACHE: setting', key, value);
 
 			// Store as JSON to preserve data type
 			// otherwise Booleans and Numbers become strings
 			document.cookie = `${key}=${JSON.stringify(value)}; max-age=${expiration ? expiration * 3600 * 24 : ''}`;
-    }
-    return
+		}
 	});
 }
