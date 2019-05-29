@@ -31,7 +31,7 @@ function getSimilarItems(item: HTMLElement): HTMLElement[] {
 }
 
 function handleEvent(event: DelegateEvent<MouseEvent, HTMLElement>): void {
-	if (event.altKey) {
+	if (!event.altKey) {
 		return;
 	}
 
