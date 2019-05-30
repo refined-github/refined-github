@@ -10,17 +10,16 @@ const createRawUrl = (href: string): string => {
 };
 
 function addRawButtons(): void {
-	for (const anchor of select.all<HTMLAnchorElement>('.file-header .file-actions > div.BtnGroup [href*=\'/blob/\']:last-child')) {
+	for (const anchor of select.all<HTMLAnchorElement>('.file-header .file-actions > div > details > details-menu > a:nth-child(3)')) {
 		anchor.after(
-			<a href={createRawUrl(anchor.pathname)} className="btn btn-sm BtnGroup-item">
-				Raw
+			<a href={createRawUrl(anchor.pathname)} className="pl-5 dropdown-item btn-link">
+				View raw
 			</a>
 		);
 	}
 }
 
 function init(): void {
-	addRawButtons();
 	onPrFileLoad(addRawButtons);
 }
 
