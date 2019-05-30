@@ -24,8 +24,13 @@ function featureWasRenamed(from: string, to: string): any { // TODO: any should 
 
 const options = new OptionsSync();
 
+// This file maybe be included twice, (#2098) but we don't need the migrations to run more than once
+let migrationsRun = false;
+
 // Definitions aren't used in the content script
-if (!location.protocol.startsWith('http')) {
+if (!location.protocol.startsWith('http') && !migrationsRun) {
+	migrationsRun = true;
+
 	for (const feature of window.featuresList) {
 		defaults[`feature:${feature}`] = true;
 	}
