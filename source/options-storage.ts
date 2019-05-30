@@ -1,4 +1,3 @@
-/* IMPORTANT: this file requires `features-list.ts` to be loaded as well, via manifest.json */
 import OptionsSync from 'webext-options-sync';
 
 export interface Options {
