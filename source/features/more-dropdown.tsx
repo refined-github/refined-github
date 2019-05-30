@@ -31,10 +31,32 @@ async function init(): Promise<void> {
 		createDropdown();
 	}
 
+	let compareUrl = `/${repoUrl}/compare`;
+	let commitsUrl = `/${repoUrl}/commits`;
+	let tree = '';
+	const urlParts = location.pathname.split('/');
+	if (urlParts[3] === 'tree') { // On repo page
+		tree = urlParts[4];
+	} else if (urlParts[3] === 'compare' && urlParts[4]) { // On compare page
+		if (urlParts[4].includes('...')) {
+			tree = urlParts[4].split('...')[0];
+		} else {
+			tree = urlParts[4];
+		}
+	} else if (urlParts[3] === 'commits') { // On commits page
+		tree = urlParts[4];
+	} else if (urlParts[3] === 'releases' && urlParts[4] === 'tag') { // On tag page
+		tree = urlParts[5];
+	}
+	if (tree) {
+		compareUrl += `/${tree}`;
+		commitsUrl += `/${tree}`;
+	}
+
 	const menu = select('.reponav-dropdown .dropdown-menu')!;
 
 	menu.append(
-		<a href={`/${repoUrl}/compare`} className="rgh-reponav-more dropdown-item">
+		<a href={compareUrl} className="rgh-reponav-more dropdown-item">
 			{icons.darkCompare()} Compare
 		</a>,
 
@@ -43,7 +65,7 @@ async function init(): Promise<void> {
 				{icons.dependency()} Dependencies
 			</a>,
 
-		<a href={`/${repoUrl}/commits`} className="rgh-reponav-more dropdown-item">
+		<a href={commitsUrl} className="rgh-reponav-more dropdown-item">
 			{icons.history()} Commits
 		</a>,
 
