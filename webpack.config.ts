@@ -54,12 +54,13 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 		new AddAssetPlugin('features-list.js', (compilation: any) => {
 			const features: string[] = [];
 			for (const file of compilation.fileDependencies) {
-				const [, feature = false] = file.match(/source\/features\/([^/]+)\.tsx$/) || []
+				const [, feature = false] = file.match(/source\/features\/([^/]+)\.tsx$/) || [];
 				if (feature) {
 					features.push(feature);
 				}
 			}
-			return `window.featuresList = ${JSON.stringify(features)}`
+
+			return `window.featuresList = ${JSON.stringify(features)};`;
 		}),
 		new MiniCssExtractPlugin({
 			filename: 'features.css'

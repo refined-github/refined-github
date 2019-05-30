@@ -1,3 +1,4 @@
+/* IMPORTANT: this file requires `features-list.ts` to be loaded as well, via manifest.json */
 import OptionsSync from 'webext-options-sync';
 
 export interface Options {
@@ -23,23 +24,16 @@ function featureWasRenamed(from: string, to: string): any { // TODO: any should 
 
 const options = new OptionsSync();
 
-(async () => {
-	// Definitions aren't used in the content script
-	if (location.protocol.startsWith('http')) {
-		return;
-	}
-
-	// `options-storage` is run before the rest of the features, so we need to wait for `window.collectFeatures` to be filled
-	await Promise.resolve();
-
-	for (const feature of window.collectFeatures.keys()) {
+// Definitions aren't used in the content script
+if (!location.protocol.startsWith('http')) {
+	for (const feature of window.featuresList) {
 		defaults[`feature:${feature}`] = true;
 	}
 
 	options.define({
 		defaults,
 		migrations: [
-			// Drop this migration after June 20
+			// Drop this migration after July
 			options => {
 				if (typeof options.disabledFeatures !== 'string') {
 					return;
@@ -53,12 +47,10 @@ const options = new OptionsSync();
 			// Example to for renamed features:
 			featureWasRenamed('fix-squash-and-merge-title', 'sync-pr-commit-title'), // Merged on April 22
 
-			// Removed features will be automatically removed from the options as well, but doesn't run if for some reason the features failed to collect
-			window.collectFeatures.size > 90 ?
-				OptionsSync.migrations.removeUnused :
-				() => {}
+			// Removed features will be automatically removed from the options as well
+			OptionsSync.migrations.removeUnused
 		]
 	});
-})();
+}
 
 export default options;

@@ -2,6 +2,7 @@ type AnyObject = Record<string, any>;
 
 interface Window {
 	collectFeatures: Map<string, FeatureDetails>;
+	featuresList: string[];
 }
 
 // TODO: Drop after https://github.com/sindresorhus/p-memoize/issues/9
