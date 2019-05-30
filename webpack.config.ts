@@ -1,11 +1,11 @@
 import path from 'path';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
 import {readdirSync} from 'fs';
+import webpack from 'webpack';
 import TerserPlugin from 'terser-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 // @ts-ignore
 import SizePlugin from 'size-plugin';
-import webpack from 'webpack';
 
 module.exports = (_env: string, argv: Record<string, boolean | number | string>): webpack.Configuration => ({
 	devtool: 'source-map',
