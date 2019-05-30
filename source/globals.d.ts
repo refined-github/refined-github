@@ -1,8 +1,9 @@
 type AnyObject = Record<string, any>;
 
+declare const __featuresList__: string[];
+
 interface Window {
 	collectFeatures: Map<string, FeatureDetails>;
-	featuresList: string[];
 }
 
 // TODO: Drop after https://github.com/sindresorhus/p-memoize/issues/9

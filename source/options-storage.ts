@@ -30,7 +30,9 @@ let migrationsRun = false;
 if (!location.protocol.startsWith('http') && !migrationsRun) {
 	migrationsRun = true;
 
-	for (const feature of window.featuresList) {
+	// This variable is replaced at build time with the list
+	// eslint-disable-next-line no-undef
+	for (const feature of __featuresList__) {
 		defaults[`feature:${feature}`] = true;
 	}
 
