@@ -45,8 +45,8 @@ export function set<TValue extends any = any>(key: string, value: TValue, expira
 }
 
 /* Accept messages in background page */
-if (!browser.runtime.getBackgroundPage) {
-	browser.runtime.onMessage.addListener((request: CacheRequest, _sender, sendResponse) => {
+if (location.pathname === '/_generated_background_page.html') {
+	browser.runtime.onMessage.addListener(async (request: CacheRequest) => {
 		if (!request) {
 			return;
 		}
@@ -57,12 +57,11 @@ if (!browser.runtime.getBackgroundPage) {
 				.filter(item => item.startsWith(key + '='));
 			if (cached) {
 				const [, value] = cached.split('=');
-				sendResponse(JSON.parse(value));
 				console.log('CACHE: found', key, value);
-			} else {
-				sendResponse();
-				console.log('CACHE: not found', key);
+				return JSON.parse(value);
 			}
+
+			console.log('CACHE: not found', key);
 		} else if (code === 'set-cache') {
 			console.log('CACHE: setting', key, value);
 
