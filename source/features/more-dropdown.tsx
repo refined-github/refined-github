@@ -5,7 +5,7 @@ import elementReady from 'element-ready';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 import {getRepoURL} from '../libs/utils';
-import {isEnterprise} from '../libs/page-detect';
+import {isEnterprise, isCompare, isReleasesOrTags} from '../libs/page-detect';
 import {appendBefore} from '../libs/dom-utils';
 
 const repoUrl = getRepoURL();
@@ -31,26 +31,19 @@ async function init(): Promise<void> {
 		createDropdown();
 	}
 
+	let ref = '';
+	const pathnameParts = location.pathname.split('/');
+	if (isCompare() && location.pathname.includes('...')) {
+		[ref] = pathnameParts[4].split('...');
+	} else {
+		ref = pathnameParts[isReleasesOrTags() ? 5 : 4];
+	}
+
 	let compareUrl = `/${repoUrl}/compare`;
 	let commitsUrl = `/${repoUrl}/commits`;
-	let tree = '';
-	const urlParts = location.pathname.split('/');
-	if (urlParts[3] === 'tree') { // On repo page
-		tree = urlParts[4];
-	} else if (urlParts[3] === 'compare' && urlParts[4]) { // On compare page
-		if (urlParts[4].includes('...')) {
-			tree = urlParts[4].split('...')[0];
-		} else {
-			tree = urlParts[4];
-		}
-	} else if (urlParts[3] === 'commits') { // On commits page
-		tree = urlParts[4];
-	} else if (urlParts[3] === 'releases' && urlParts[4] === 'tag') { // On tag page
-		tree = urlParts[5];
-	}
-	if (tree) {
-		compareUrl += `/${tree}`;
-		commitsUrl += `/${tree}`;
+	if (ref) {
+		compareUrl += `/${ref}`;
+		commitsUrl += `/${ref}`;
 	}
 
 	const menu = select('.reponav-dropdown .dropdown-menu')!;
