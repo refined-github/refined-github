@@ -1,6 +1,6 @@
 import select from 'select-dom';
 import onetime from 'onetime';
-import {isRepo, isPR, isIssue} from './page-detect';
+import {isRepo, isPR, isIssue, isCompare, isReleasesOrTags} from './page-detect';
 
 export const getUsername = onetime(() => select('meta[name="user-login"]')!.getAttribute('content')!);
 
@@ -38,6 +38,21 @@ export const getOwnerAndRepo = (): {
 } => {
 	const [, ownerName, repoName] = location.pathname.split('/', 3);
 	return {ownerName, repoName};
+};
+
+export const getRef = (): string | undefined => {
+	let ref;
+
+	const pathnameParts = location.pathname.split('/');
+	if (['commits', 'blob', 'tree', 'blame'].includes(pathnameParts[3])) {
+		ref = pathnameParts[4];
+	} else if (isCompare() && pathnameParts[4]) {
+		[ref] = pathnameParts[4].split('...');
+	} else if (isReleasesOrTags()) {
+		ref = pathnameParts[5];
+	}
+
+	return ref;
 };
 
 export const parseTag = (tag: string): {version: string; namespace: string} => {
