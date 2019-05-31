@@ -182,7 +182,9 @@ test('getRef', t => {
 		'https://github.com/sindresorhus/refined-github/blame/master/readme.md': 'master',
 		'https://github.com/sindresorhus/refined-github/blame/62007c8b944808d1b46d42d5e22fa65883d1eaec/readme.md': '62007c8b944808d1b46d42d5e22fa65883d1eaec',
 
-		'https://github.com/sindresorhus/refined-github/pull/123': undefined
+		'https://github.com/sindresorhus/refined-github/pull/123': undefined,
+		'https://github.com/sindresorhus/refined-github/pull/2105/commits/': undefined,
+		'https://github.com/sindresorhus/refined-github/pull/2105/commits/9df50080dfddee5f7a2a6a1dc4465166339fedfe': '9df50080dfddee5f7a2a6a1dc4465166339fedfe'
 	};
 
 	Object.keys(refs).forEach(url => {

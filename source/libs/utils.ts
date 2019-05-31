@@ -1,6 +1,6 @@
 import select from 'select-dom';
 import onetime from 'onetime';
-import {isRepo, isPR, isIssue, isCompare, isReleasesOrTags} from './page-detect';
+import {isRepo, isPR, isPRCommit, isIssue, isCompare, isReleasesOrTags} from './page-detect';
 
 export const getUsername = onetime(() => select('meta[name="user-login"]')!.getAttribute('content')!);
 
@@ -50,6 +50,8 @@ export const getRef = (): string | undefined => {
 		[ref] = pathnameParts[4].split('...');
 	} else if (isReleasesOrTags()) {
 		ref = pathnameParts[5];
+	} else if (isPRCommit()) {
+		ref = pathnameParts[6];
 	}
 
 	return ref;
