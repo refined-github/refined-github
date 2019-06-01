@@ -1,16 +1,16 @@
 .rgh-highest-rated-comment.comment {
-	border-color: orange;
-    border-width: 2px;
+	border-color: #ffa500;
+	border-width: 2px;
 }
 
 .rgh-highest-rated-comment .rgh-highest-rated-comment-summary {
-	border: solid 1px orange;
-	border-bottom: solid 1px orange !important;
+	border: solid 1px #ffa500;
+	border-bottom: solid 1px #ffa500 !important;
 }
 
 .rgh-highest-rated-comment .rgh-highest-rated-comment-btn {
 	margin-right: 10px;
-	padding: 3px 3px;
+	padding: 3px;
 }
 
 .rgh-highest-rated-comment .rgh-highest-rated-comment-text {
@@ -22,5 +22,5 @@
 
 .rgh-highest-rated-comment a {
 	/* reset default styles */
-	text-decoration: none!important;
+	text-decoration: none !important;
 }
