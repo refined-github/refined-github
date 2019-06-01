@@ -31,8 +31,7 @@ function init(): false | void {
 	const parent = highest.like.closest('.js-timeline-item')!;
 	const {hash} = select<HTMLAnchorElement>('.timestamp', parent)!;
 	const text = select('.comment-body', parent)!.textContent!.substring(0, 100);
-	const avatar = select('.avatar-parent-child.timeline-comment-avatar', parent)!
-		.cloneNode(true);
+	const avatar = select('.avatar-parent-child.timeline-comment-avatar', parent)!.cloneNode(true);
 
 	select('.js-discussion')!.prepend((
 		<div className="timeline-comment-wrapper">
