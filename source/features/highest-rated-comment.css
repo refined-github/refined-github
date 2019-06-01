@@ -1,12 +1,9 @@
 .rgh-highest-rated-comment {
-	border-width: 1px;
-	border-style: solid;
-	border-color: #ffa500 !important;
+	border: 1px solid #ffa500 !important;
 }
 
 .rgh-highest-rated-comment .rgh-highest-rated-comment-text {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
-	flex-grow: 1;
 }

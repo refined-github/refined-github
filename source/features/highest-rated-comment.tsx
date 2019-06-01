@@ -4,30 +4,6 @@ import select from 'select-dom';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 
-type Props = {
-	hash: string;
-	text: string;
-	avatar: HTMLImageElement;
-}
-
-const element = ({hash, text, avatar}: Props): Node => (
-	<div className="timeline-comment-wrapper">
-		{avatar}
-
-		<a href={hash} className="no-underline rounded-1 rgh-highest-rated-comment d-block">
-			<div className="bg-gray px-2 d-flex flex-items-center">
-				<span className="btn btn-sm mr-2 pr-1">
-					{icons.arrowDown()}
-				</span>
-
-				<div className="text-gray timeline-comment-header-text rgh-highest-rated-comment-text">
-					Highest-rated comment: <em>{text}</em>
-				</div>
-			</div>
-		</a>
-	</div>
-);
-
 function getCount(reaction: HTMLElement): number {
 	return Number(reaction.textContent!.match(/\d+/)![0]);
 }
@@ -56,10 +32,23 @@ function init(): false | void {
 	const {hash} = select<HTMLAnchorElement>('.timestamp', parent)!;
 	const text = select('.comment-body', parent)!.textContent!.substring(0, 100);
 	const avatar = select('.avatar-parent-child.timeline-comment-avatar', parent)!
-		.cloneNode(true) as HTMLImageElement;
-	const props: Props = {hash, text, avatar};
+		.cloneNode(true);
 
-	select('.js-discussion')!.prepend(element(props));
+	select('.js-discussion')!.prepend((
+		<div className="timeline-comment-wrapper">
+			{avatar}
+
+			<a href={hash} className="no-underline rounded-1 rgh-highest-rated-comment bg-gray px-2 d-flex flex-items-center">
+				<span className="btn btn-sm mr-2 pr-1">
+					{icons.arrowDown()}
+				</span>
+
+				<span className="text-gray timeline-comment-header-text rgh-highest-rated-comment-text">
+					Highest-rated comment: <em>{text}</em>
+				</span>
+			</a>
+		</div>
+	));
 	select('.comment', parent)!.classList.add('rgh-highest-rated-comment');
 }
 
