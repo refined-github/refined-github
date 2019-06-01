@@ -44,21 +44,7 @@ export function set<TValue extends any = any>(key: string, value: TValue, expira
 	});
 }
 
-/* global chrome */
-const chromeStorage = {
-	get(keys: string | object | string[] | undefined) {
-		return new Promise(resolve => {
-			chrome.storage.local.get(keys, resolve);
-		});
-	},
-	set(items: any) {
-		return new Promise(resolve => {
-			chrome.storage.local.set(items, resolve);
-		});
-	}
-};
-
-const storage: browser.storage.StorageArea | undefined = (typeof browser === 'object' ? browser.storage.local : typeof chrome === 'object' ? (chromeStorage as unknown as browser.storage.StorageArea) : undefined);
+const storage: browser.storage.StorageArea | undefined = browser.storage.local;
 
 export function purge(): void {
 
