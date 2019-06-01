@@ -1,0 +1,26 @@
+.rgh-highest-rated-comment.comment {
+	border-color: orange;
+    border-width: 2px;
+}
+
+.rgh-highest-rated-comment .rgh-highest-rated-comment-summary {
+	border: solid 1px orange;
+	border-bottom: solid 1px orange !important;
+}
+
+.rgh-highest-rated-comment .rgh-highest-rated-comment-btn {
+	margin-right: 10px;
+	padding: 3px 3px;
+}
+
+.rgh-highest-rated-comment .rgh-highest-rated-comment-text {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	flex-grow: 1;
+}
+
+.rgh-highest-rated-comment a {
+	/* reset default styles */
+	text-decoration: none!important;
+}
