@@ -1,5 +1,7 @@
 .rgh-highest-rated-comment {
-	border: solid 1px #ffa500;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #ffa500 !important;
 }
 
 .rgh-highest-rated-comment .rgh-highest-rated-comment-text {
