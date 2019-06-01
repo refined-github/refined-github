@@ -44,6 +44,26 @@ export function set<TValue extends any = any>(key: string, value: TValue, expira
 	});
 }
 
+/* global chrome */
+const chromeStorage = {
+	get(keys: string | object | string[] | undefined) {
+		return new Promise(resolve => {
+			chrome.storage.local.get(keys, resolve);
+		});
+	},
+	set(items: any) {
+		return new Promise(resolve => {
+			chrome.storage.local.set(items, resolve);
+		});
+	}
+};
+
+const storage: browser.storage.StorageArea | undefined = (typeof browser === 'object' ? browser.storage.local : typeof chrome === 'object' ? (chromeStorage as unknown as browser.storage.StorageArea) : undefined);
+
+export function purge(): void {
+
+}
+
 /* Accept messages in background page */
 if (location.pathname === '/_generated_background_page.html') {
 	browser.runtime.onMessage.addListener(async (request: CacheRequest) => {
@@ -53,6 +73,17 @@ if (location.pathname === '/_generated_background_page.html') {
 
 		const {code, key, value, expiration} = request;
 		if (code === 'get-cache') {
+			if (storage) {
+				const values = await storage.get(key);
+				let value = values[key];
+				if (value) {
+					value = JSON.parse(value);
+					console.log('CACHE: found', key, value.data);
+					return value.data;
+				}
+			}
+
+			// Fallback to cookie based cache
 			const [cached] = document.cookie.split('; ')
 				.filter(item => item.startsWith(key + '='));
 			if (cached) {
@@ -67,7 +98,17 @@ if (location.pathname === '/_generated_background_page.html') {
 
 			// Store as JSON to preserve data type
 			// otherwise Booleans and Numbers become strings
-			document.cookie = `${key}=${JSON.stringify(value)}; max-age=${expiration ? expiration * 3600 * 24 : ''}`;
+			if (storage) {
+				storage.set({
+					[key]: JSON.stringify({
+						data: value,
+						lastUse: Date.now(),
+						expiration: Date.now() + (1000 * 3600 * 24)
+					})
+				});
+			} else {
+				document.cookie = `${key}=${JSON.stringify(value)}; max-age=${expiration ? expiration * 3600 * 24 : ''}`;
+			}
 		}
 	});
 }
