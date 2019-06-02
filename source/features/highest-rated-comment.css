@@ -2,7 +2,7 @@
 	border: 1px solid #ffa500 !important;
 }
 
-.rgh-highest-rated-comment .rgh-highest-rated-comment-text {
+a.rgh-highest-rated-comment .timeline-comment-header-text {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;

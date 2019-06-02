@@ -42,7 +42,7 @@ function init(): false | void {
 					{icons.arrowDown()}
 				</span>
 
-				<span className="text-gray timeline-comment-header-text rgh-highest-rated-comment-text">
+				<span className="text-gray timeline-comment-header-text">
 					Highest-rated comment: <em>{text}</em>
 				</span>
 			</a>
