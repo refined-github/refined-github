@@ -33,9 +33,13 @@ async function fetchFromApi(user: string, repo: string): Promise<any> {
 	}
 }
 
-export default function (): Promise<any> {
+export default async function (): Promise<any> {
 	const {ownerName, repoName} = getOwnerAndRepo();
-	return cache.getSet<string>(`default-branch:${ownerName}/${repoName}`,
-		() => parseBranchFromDom() || fetchFromApi(ownerName, repoName)
-	);
+	const cached = await cache.get(`default-branch:${ownerName}/${repoName}`);
+	if (cached) {
+		return cached;
+	}
+	const branch = parseBranchFromDom() || await fetchFromApi(ownerName, repoName);
+	await cache.set(`default-branch:${ownerName}/${repoName}`, branch);
+	return branch;
 }
