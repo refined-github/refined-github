@@ -9,17 +9,17 @@ function init(): void {
 	observeEl(
 		select('#partial-discussion-header')!.parentElement!,
 		() => {
-			const title = select('.js-issue-title')!;
+			const title = select('.js-issue-title:not(.rgh-formatted-title)');
 
-			if (!title.classList.contains('refined-linkified-title')) {
-				title.classList.add('refined-linkified-title');
+			if (title) {
+				title.classList.add('rgh-formatted-title');
 				linkifyIssuesInDom(title);
-			}
 
-			const fragment = parseBackticks(title.textContent!);
+				const fragment = parseBackticks(title.textContent!);
 
-			if (fragment.children.length > 0) {
-				zipTextNodes(title, fragment);
+				if (fragment.children.length > 0) {
+					zipTextNodes(title, fragment);
+				}
 			}
 		});
 }
