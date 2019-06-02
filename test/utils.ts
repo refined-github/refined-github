@@ -164,9 +164,9 @@ test('getRef', t => {
 		'https://github.com/sindresorhus/refined-github/tree/62007c8b944808d1b46d42d5e22fa65883d1eaec': '62007c8b944808d1b46d42d5e22fa65883d1eaec',
 
 		'https://github.com/sindresorhus/refined-github/compare': undefined,
-		'https://github.com/sindresorhus/refined-github/compare/master': 'master',
-		'https://github.com/sindresorhus/refined-github/compare/62007c8b944808d1b46d42d5e22fa65883d1eaec': '62007c8b944808d1b46d42d5e22fa65883d1eaec',
-		'https://github.com/sindresorhus/refined-github/compare/master...test': 'master',
+		'https://github.com/sindresorhus/refined-github/compare/master': undefined,
+		'https://github.com/sindresorhus/refined-github/compare/62007c8b944808d1b46d42d5e22fa65883d1eaec': undefined,
+		'https://github.com/sindresorhus/refined-github/compare/master...test': undefined,
 
 		'https://github.com/sindresorhus/refined-github/commits': undefined,
 		'https://github.com/sindresorhus/refined-github/commits/master': 'master',
