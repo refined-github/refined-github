@@ -172,7 +172,7 @@ test('getRef', t => {
 		'https://github.com/sindresorhus/refined-github/commits/master': 'master',
 		'https://github.com/sindresorhus/refined-github/commits/62007c8b944808d1b46d42d5e22fa65883d1eaec': '62007c8b944808d1b46d42d5e22fa65883d1eaec',
 
-		'https://github.com/sindresorhus/refined-github/releases/tag/v1.2.3': 'v1.2.3',
+		'https://github.com/sindresorhus/refined-github/releases/tag/v1.2.3': undefined,
 
 		'https://github.com/sindresorhus/refined-github/blob/master/readme.md': 'master',
 		'https://github.com/sindresorhus/refined-github/blob/62007c8b944808d1b46d42d5e22fa65883d1eaec/readme.md': '62007c8b944808d1b46d42d5e22fa65883d1eaec',
