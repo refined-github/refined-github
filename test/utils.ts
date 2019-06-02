@@ -184,7 +184,7 @@ test('getRef', t => {
 
 		'https://github.com/sindresorhus/refined-github/pull/123': undefined,
 		'https://github.com/sindresorhus/refined-github/pull/2105/commits/': undefined,
-		'https://github.com/sindresorhus/refined-github/pull/2105/commits/9df50080dfddee5f7a2a6a1dc4465166339fedfe': '9df50080dfddee5f7a2a6a1dc4465166339fedfe'
+		'https://github.com/sindresorhus/refined-github/pull/2105/commits/9df50080dfddee5f7a2a6a1dc4465166339fedfe': undefined
 	};
 
 	Object.keys(refs).forEach(url => {
