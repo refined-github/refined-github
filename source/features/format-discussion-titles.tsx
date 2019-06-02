@@ -25,8 +25,8 @@ function init(): void {
 }
 
 features.add({
-	id: 'linkify-issues-in-titles',
-	description: 'Make issue/PR references in issue/PR titles clickable',
+	id: 'format-discussion-titles',
+	description: 'Make issue/PR references in issue/PR titles clickable and parse `code in backticks` that appear as Markdown',
 	include: [
 		features.isPR,
 		features.isIssue
