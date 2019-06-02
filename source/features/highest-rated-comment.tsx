@@ -28,13 +28,13 @@ function init(): false | void {
 		return false;
 	}
 
-	const parent = highest.like.closest('.js-timeline-item')!;
-	const {hash} = select<HTMLAnchorElement>('.timestamp', parent)!;
-	const text = select('.comment-body', parent)!.textContent!.substring(0, 100);
-	const avatar = select('.avatar-parent-child.timeline-comment-avatar', parent)!.cloneNode(true);
+	const event = highest.like.closest('.js-timeline-item')!;
+	const text = select('.comment-body', event)!.textContent!.substring(0, 100);
+	const avatar = select('.timeline-comment-avatar', event)!.cloneNode(true);
+	const {hash} = select<HTMLAnchorElement>('.timestamp', event)!;
 
-	select('.unminimized-comment', parent)!.classList.add('rgh-highest-rated-comment');
-	parent.parentElement!.firstElementChild!.after((
+	select('.unminimized-comment', event)!.classList.add('rgh-highest-rated-comment');
+	event.parentElement!.firstElementChild!.after((
 		<div className="timeline-comment-wrapper">
 			{avatar}
 
