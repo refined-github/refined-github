@@ -6,5 +6,5 @@ a.rgh-highest-rated-comment .timeline-comment-header-text {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
-	max-width: auto;
+	max-width: none;
 }
