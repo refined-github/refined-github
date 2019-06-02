@@ -22,9 +22,9 @@ function getSimilarItems(item: HTMLElement): HTMLElement[] {
 		const targets = select.all('.js-resolvable-thread-toggler');
 		if (select.exists('svg.octicon-unfold', item)) {
 			return targets.filter(target => !target.matches('.d-none') && select.exists('svg.octicon-unfold', target));
-		} else {
-			return targets.filter(target => !target.matches('.d-none') && select.exists('svg.octicon-fold', target));
 		}
+
+		return targets.filter(target => !target.matches('.d-none') && select.exists('svg.octicon-fold', target));
 	}
 
 	// "Show comments" checkboxes
