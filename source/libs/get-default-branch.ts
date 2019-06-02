@@ -39,6 +39,7 @@ export default async function (): Promise<any> {
 	if (cached) {
 		return cached;
 	}
+
 	const branch = parseBranchFromDom() || await fetchFromApi(ownerName, repoName);
 	await cache.set(`default-branch:${ownerName}/${repoName}`, branch);
 	return branch;
