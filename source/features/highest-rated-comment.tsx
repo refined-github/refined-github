@@ -33,6 +33,7 @@ function init(): false | void {
 	const text = select('.comment-body', parent)!.textContent!.substring(0, 100);
 	const avatar = select('.avatar-parent-child.timeline-comment-avatar', parent)!.cloneNode(true);
 
+	select('.unminimized-comment', parent)!.classList.add('rgh-highest-rated-comment');
 	parent.parentElement!.firstElementChild!.after((
 		<div className="timeline-comment-wrapper">
 			{avatar}
@@ -48,7 +49,6 @@ function init(): false | void {
 			</a>
 		</div>
 	));
-	select('.comment', parent)!.classList.add('rgh-highest-rated-comment');
 }
 
 features.add({
