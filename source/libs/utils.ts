@@ -41,14 +41,12 @@ export const getOwnerAndRepo = (): {
 };
 
 export const getRef = (): string | undefined => {
-	let ref;
-
 	const pathnameParts = location.pathname.split('/');
 	if (['commits', 'blob', 'tree', 'blame'].includes(pathnameParts[3])) {
-		ref = pathnameParts[4];
+		return pathnameParts[4];
 	}
 
-	return ref;
+	return undefined;
 };
 
 export const parseTag = (tag: string): {version: string; namespace: string} => {
