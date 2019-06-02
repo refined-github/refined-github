@@ -53,8 +53,8 @@ function init(): false | void {
 
 features.add({
 	id: 'highest-rated-comment',
-	description: 'Highlight and make a shortcut to most useful comments in issues.',
-	screenshot: 'https://i.imgur.com/vXmv0R6.png',
+	description: 'The most useful comment in issues is highlighted.',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/58757449-5b238880-853f-11e9-9526-e86c41a32f00.png',
 	include: [
 		features.isIssue
 	],
