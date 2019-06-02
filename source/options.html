@@ -5,13 +5,27 @@
 <link rel="stylesheet" href="chrome://global/skin/in-content/common.css">
 <form id="options-form" class="detail-view-container">
 	<h2 class="only-firefox">Options</h2>
-
 	<p>
 		<label>
-			<strong>Features to disable</strong>, by <a href="https://github.com/sindresorhus/refined-github/tree/master/source/features" target="_blank">filename</a> (only <code>tsx</code> features)<br>
-			<textarea name="disabledFeatures" rows="2" placeholder="For example: &#10;mark-unread hide-own-stars" spellcheck="false"></textarea>
+			<strong>Personal token</strong>, <a href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo" target="_blank">found here</a> (<a href="https://github.com/sindresorhus/refined-github/search?q=libs/api" target="_blank">some features</a> use the API)<br>
+			<!-- placeholder is set to enable use of :placeholder-shown CSS selector -->
+			<input type="text" name="personalToken" spellcheck="false" autocomplete="off" size="40" maxlength="40" pattern="[\da-f]{40}" placeholder=" "></input>
 		</label>
 	</p>
+
+	<hr>
+
+	<p>
+		Want more features? Check out some <a href="https://github.com/sindresorhus/refined-github#related" target="_blank">related GitHub extensions</a> or <a href="https://github.com/sindresorhus/refined-github/blob/master/contributing.md" target="_blank">contribute</a>!
+	</p>
+
+	<hr>
+
+	<p>
+		If you're a GitHub Enterprise user, visit your Enterprise site, right-click on <a href="https://user-images.githubusercontent.com/1402241/32874388-e0c64150-cacc-11e7-9a50-eae3727fd3c2.png" target="_blank">Refined GitHub's icon in the toolbar</a> and select <strong>Enable Refined GitHub on this domain</strong>.
+	</p>
+
+	<hr>
 
 	<p>
 		<label>
@@ -20,11 +34,12 @@
 		</label>
 	</p>
 
+	<hr>
+
 	<p>
 		<label>
-			<strong>Personal token</strong>, <a href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo" target="_blank">found here</a> (<a href="https://github.com/sindresorhus/refined-github/search?q=libs/api" target="_blank">some features</a> use the API)<br>
-			<!-- placeholder is set to enable use of :placeholder-shown CSS selector -->
-			<input type="text" name="personalToken" spellcheck="false" autocomplete="off" size="40" maxlength="40" pattern="[\da-f]{40}" placeholder=" "></input>
+			<strong>Features</strong><br>
+			<div class="js-features"></div>
 		</label>
 	</p>
 
@@ -37,17 +52,7 @@
 		</label>
 	</p>
 
-	<hr>
-
-	<p>
-		Want more? Check out some <a href="https://github.com/sindresorhus/refined-github#related" target="_blank">related GitHub extensions</a> or <a href="https://github.com/sindresorhus/refined-github/blob/master/contributing.md" target="_blank">contribute</a>!
-	</p>
-
-	<hr>
-
-	<p>
-		If you're a GitHub Enterprise user, visit your Enterprise site, right-click on <a href="https://user-images.githubusercontent.com/1402241/32874388-e0c64150-cacc-11e7-9a50-eae3727fd3c2.png" target="_blank">Refined GitHub's icon in the toolbar</a> and select <strong>Enable Refined GitHub on this domain</strong>.
-	</p>
 </form>
 <script src="browser-polyfill.min.js"></script>
+<script src="content.js"></script>
 <script src="options.js"></script>

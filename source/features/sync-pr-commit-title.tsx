@@ -93,7 +93,8 @@ function deinit(): void {
 
 features.add({
 	id: 'sync-pr-commit-title',
-	description: 'Use the same title for the PR and its merging commit (https://user-images.githubusercontent.com/1402241/51669708-9a712400-1ff7-11e9-913a-ac1ea1050975.png)',
+	description: 'Use the same title for the PR and its merging commit',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/51669708-9a712400-1ff7-11e9-913a-ac1ea1050975.png',
 	include: [
 		features.isPRConversation
 	],

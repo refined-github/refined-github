@@ -1,5 +1,15 @@
 type AnyObject = Record<string, any>;
 
+interface Window {
+	collectFeatures: Map<string, FeatureDetails>;
+}
+
+// TODO: Drop after https://github.com/sindresorhus/p-memoize/issues/9
+declare module 'mem' {
+	function mem<T = VoidFunction>(fn: T): T;
+	export = mem;
+}
+
 // TODO: Drop when Firefox adds RegEx lookbehind support
 // https://github.com/sindresorhus/refined-github/pull/1936#discussion_r276515991
 declare module 'linkify-urls' {
@@ -49,8 +59,10 @@ interface GlobalEventHandlersEventMap {
 declare namespace JSX {
 	interface Element extends SVGElement, HTMLElement, DocumentFragment {}
 	type BaseIntrinsicElement = IntrinsicElements['div'];
+	type LabelIntrinsicElement = IntrinsicElements['label'];
 	interface IntrinsicElements {
 		'has-rgh': {};
+		'label': LabelIntrinsicElement & {for?: string};
 		'include-fragment': BaseIntrinsicElement & {src?: string};
 		'details-menu': BaseIntrinsicElement & {src: string; preload: boolean};
 		'relative-time': BaseIntrinsicElement & {datetime: string; title: string};

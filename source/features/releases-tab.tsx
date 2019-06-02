@@ -1,17 +1,16 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import elementReady from 'element-ready';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 import * as cache from '../libs/cache';
 import {getRepoURL} from '../libs/utils';
-import {safeElementReady} from '../libs/dom-utils';
 import {isRepoRoot, isReleasesOrTags} from '../libs/page-detect';
 
 const repoUrl = getRepoURL();
 const repoKey = `releases-count:${repoUrl}`;
 
-// Get as soon as possible, to have it ready before the first paint
-const cached = cache.get<number>(repoKey);
+let cached: Promise<number | undefined>;
 
 async function updateReleasesCount(): Promise<number | undefined> {
 	if (isRepoRoot()) {
@@ -25,7 +24,7 @@ async function updateReleasesCount(): Promise<number | undefined> {
 }
 
 async function init(): Promise<false | void> {
-	await safeElementReady('.pagehead + *'); // Wait for the tab bar to be loaded
+	await elementReady('.pagehead + *'); // Wait for the tab bar to be loaded
 	const count = await updateReleasesCount();
 	if (count === 0) {
 		return false;
@@ -51,9 +50,11 @@ async function init(): Promise<false | void> {
 	}
 }
 
+const description = 'Access a repository’s releases using the "Releases" tab or by pressing `g` `r`';
+
 features.add({
 	id: 'releases-tab',
-	description: 'Access a repository’s releases using the "Releases" tab or by pressing `g` `r`',
+	description,
 	include: [
 		features.isRepo
 	],
@@ -62,4 +63,16 @@ features.add({
 		'g r': 'Go to Releases'
 	},
 	init
+});
+
+features.add({
+	id: 'releases-tab',
+	description,
+	include: [
+		features.isRepo
+	],
+	init() {
+		// Get as soon as possible, to have it ready before the first paint
+		cached = cache.get<number>(repoKey);
+	}
 });

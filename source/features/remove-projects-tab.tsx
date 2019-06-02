@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
+import elementReady from 'element-ready';
 import features from '../libs/features';
-import {safeElementReady} from '../libs/dom-utils';
 import {isUserProfile, isOwnOrganizationProfile, isOrganizationProfile} from '../libs/page-detect';
 
 const addNewProjectLink = onetime(() => {
@@ -33,7 +33,7 @@ const addNewProjectLink = onetime(() => {
 });
 
 async function init(): Promise<false | void> {
-	await safeElementReady(`
+	await elementReady(`
 		.orghead + *,
 		.repohead + *,
 		.user-profile-nav + *

@@ -26,17 +26,20 @@ function init(): void {
 	delegate('textarea:not(#pull_request_review_body)', 'focusin', focusListener);
 }
 
-const description = 'Automatically expand textareas to fit all of their content, rather than have a height limit like GitHub’s native "fit to content" behavior (https://user-images.githubusercontent.com/1402241/54336211-66fd5e00-4666-11e9-9c5e-111fccab004d.gif)';
+const description = 'Automatically expand textareas to fit all of their content, rather than have a height limit like GitHub’s native "fit to content" behavior';
+const screenshot = 'https://user-images.githubusercontent.com/1402241/54336211-66fd5e00-4666-11e9-9c5e-111fccab004d.gif';
 
 features.add({
 	id: 'fit-textareas',
 	description,
+	screenshot,
 	init
 });
 
 features.add({
 	id: 'fit-textareas',
 	description,
+	screenshot,
 	include: [
 		features.isPRConversation
 	],
