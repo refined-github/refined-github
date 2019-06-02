@@ -100,12 +100,7 @@ features.add({
 	id: 'show-whitespaces',
 	description: 'Show whitespace characters in diffs',
 	include: [
-		features.isSingleFile,
-		features.isPRFiles,
-		features.isCommit,
-		features.isPRConversation,
-		features.isGist,
-		features.isCompare
+		features.hasCode
 	],
 	load: features.onAjaxedPages,
 	init
