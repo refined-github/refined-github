@@ -17,6 +17,16 @@ function getSimilarItems(item: HTMLElement): HTMLElement[] {
 		return select.all('.js-file .js-diff-load');
 	}
 
+	// Review comments in PR
+	if (item.matches('.js-resolvable-thread-toggler')) {
+		const targets = select.all('.js-resolvable-thread-toggler');
+		if (select.exists('svg.octicon-unfold', item)) {
+			return targets.filter(target => !target.matches('.d-none') && select.exists('svg.octicon-unfold', target));
+		} else {
+			return targets.filter(target => !target.matches('.d-none') && select.exists('svg.octicon-fold', target));
+		}
+	}
+
 	// "Show comments" checkboxes
 	if (item instanceof HTMLLabelElement) {
 		const inputs = select.all<HTMLInputElement>('.js-file .dropdown-item .js-toggle-file-notes');
@@ -36,7 +46,7 @@ function handleEvent(event: DelegateEvent<MouseEvent, HTMLElement>): void {
 	}
 
 	const clickedItem = event.delegateTarget;
-	const viewportOffset = clickedItem.getBoundingClientRect().top;
+	const viewportOffset = clickedItem.parentElement!.getBoundingClientRect().top;
 	const similarItems = getSimilarItems(clickedItem);
 
 	for (const item of similarItems) {
@@ -47,7 +57,7 @@ function handleEvent(event: DelegateEvent<MouseEvent, HTMLElement>): void {
 
 	// Scroll to original position where the click occurred after the rendering of all click events is done
 	requestAnimationFrame(() => {
-		const newOffset = clickedItem.getBoundingClientRect().top;
+		const newOffset = clickedItem.parentElement!.getBoundingClientRect().top;
 		window.scrollBy(0, newOffset - viewportOffset);
 	});
 }
@@ -56,6 +66,7 @@ function init(): void {
 	delegate('.repository-content', '.minimized-comment details summary', 'click', handleEvent);
 	delegate('.repository-content', '.js-file .js-diff-load', 'click', handleEvent);
 	delegate('.repository-content', '.js-file .dropdown-menu label.dropdown-item:first-child', 'click', handleEvent);
+	delegate('.repository-content', '.js-file .js-resolvable-thread-toggler', 'click', handleEvent);
 }
 
 features.add({
