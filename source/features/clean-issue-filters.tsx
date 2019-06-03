@@ -1,18 +1,20 @@
 import select from 'select-dom';
 import features from '../libs/features';
-import {v4} from '../libs/api';
-import {getOwnerAndRepo, idx} from '../libs/utils';
+import * as api from '../libs/api';
+import {getOwnerAndRepo} from '../libs/utils';
 
 async function init(): Promise<void> {
 	const {ownerName, repoName} = getOwnerAndRepo();
-	const result = await v4(`
+	const result = await api.v4(`
 		query {
 			repository(owner: "${ownerName}", name: "${repoName}") {
 				projects { totalCount }
 				milestones { totalCount }
-				labels { totalCount }
 			},
 			organization(login: "${ownerName}") {
+				projects { totalCount }
+			}
+			user(login: "${ownerName}") {
 				projects { totalCount }
 			}
 		}
@@ -20,8 +22,12 @@ async function init(): Promise<void> {
 		allowErrors: true
 	});
 
-	// Hide projects filter only if there are no repo and organization level projects
-	if (result.repository.projects.totalCount === 0 && !idx(result, ['organization', 'projects', 'totalCount'])) {
+	// Hide projects filter only if there are no repo, user, and organization level projects
+	if (
+		result.repository.projects.totalCount === 0 &&
+		(result.organization && result.organization.projects.totalCount === 0) &&
+		(result.user && result.user.projects.totalCount === 0)
+	) {
 		select('[data-hotkey="p"')!.parentElement!.remove();
 	}
 
@@ -33,7 +39,7 @@ async function init(): Promise<void> {
 
 features.add({
 	id: 'clean-issue-filters',
-	description: 'Hide irrelevant issue/PR filters',
+	description: 'Hide empty issue/PR filters',
 	init,
 	load: features.onAjaxedPages,
 	include: [
