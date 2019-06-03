@@ -28,8 +28,8 @@ function buildFeatureCheckbox([name, {description, screenshot, disabled}]: [stri
 	const id = disabled ? undefined : `feature:${name}`;
 
 	const parsedDescription = parseDescription(
-		(disabled ? `Disabled because of ${disabled}. \n` : '') +
-		description.replace(/[^.]$/, '$&.') // Add period if missing
+		(disabled ? `Disabled because of ${disabled}; \n` : '') +
+		description
 	);
 
 	return (

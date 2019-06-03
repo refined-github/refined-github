@@ -49,7 +49,8 @@ async function getNotifications(): Promise<Notification[]> {
 	const {unreadNotifications} = await browser.storage.local.get({
 		unreadNotifications: []
 	});
-	return unreadNotifications;
+	// Only show notifications for the current domain. Accounts for gist.github.com as well
+	return unreadNotifications.filter(({url}: Notification) => location.hostname.endsWith(new URL(url).hostname));
 }
 
 async function setNotifications(unreadNotifications: Notification[]): Promise<void> {

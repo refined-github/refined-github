@@ -11,13 +11,13 @@ deploy:
     on:
       tags: true
 
-  - # Creates versioned git tag when commit message is `hotfix`
+  - # Creates versioned git tag when build is triggered via "Trigger build" on Travis-ci.com
     provider: script
     skip_cleanup: true
     script: npm run create-git-tag
     on:
       branch: master
-      condition: $TRAVIS_COMMIT_MESSAGE = hotfix
+      condition: $TRAVIS_EVENT_TYPE = api
 
   - # Creates versioned git tag on daily Travis cronjobs if HEAD isn't already tagged
     provider: script
