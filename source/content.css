@@ -35,11 +35,6 @@
 	display: none !important;
 }
 
-/* Hide marketplace navbar button */
-.Header-link[href='/marketplace'] {
-	display: none !important;
-}
-
 /* Remove user avatar from new comment form on threads */
 .review-thread-reply .avatar {
 	display: none;

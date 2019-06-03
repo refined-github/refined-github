@@ -1,14 +1,15 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import elementReady from 'element-ready';
+import domLoaded from 'dom-loaded';
 import features from '../libs/features';
 
-function init(): false | void {
-	const lastDivider = select.last('.user-nav .dropdown-divider');
-	if (!lastDivider) {
-		return false;
-	}
+async function init(): Promise<void> {
+	(await elementReady('.Header-link[href="/marketplace"]'))!.remove();
 
-	lastDivider.before(
+	await domLoaded;
+
+	select.last('.header-nav-current-user ~ .dropdown-divider')!.before(
 		<div className="dropdown-divider"></div>,
 		<a className="dropdown-item" href="/marketplace">Marketplace</a>
 	);
@@ -16,10 +17,9 @@ function init(): false | void {
 
 features.add({
 	id: 'move-marketplace-link-to-profile-dropdown',
-	description: 'Move the "Marketplace" link to the profile dropdown',
+	description: 'Move the "Marketplace" link from the black header bar to the profile dropdown',
 	exclude: [
 		features.isGist
 	],
-	load: features.onDomReady,
 	init
 });
