@@ -10,7 +10,7 @@ const createRawUrl = (href: string): string => {
 };
 
 function addRawButtons(): void {
-	for (const anchor of select.all<HTMLAnchorElement>('.file-header .file-actions > div > details [href*=\'/blob/\']')) {
+	for (const anchor of select.all<HTMLAnchorElement>('.js-file-header-dropdown [data-ga-click^="View file"]')) {
 		anchor.after(
 			<a href={createRawUrl(anchor.pathname)} className="pl-5 dropdown-item btn-link" role="menuitem">
 				View raw
