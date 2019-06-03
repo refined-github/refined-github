@@ -86,3 +86,7 @@ export function getOP(): string {
 
 	return select('.timeline-comment-header-text .author')!.textContent!;
 }
+
+export function idx(target: any, path: string[]): any | null | undefined {
+	return path.reduce((obj, key) => obj && obj[key], target);
+}

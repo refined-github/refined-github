@@ -64,10 +64,18 @@ interface GHRestApiOptions {
 	body?: undefined | JsonObject;
 }
 
+interface GHGraphQLApiOptions {
+	allowErrors?: boolean;
+}
+
 const v3defaults: GHRestApiOptions = {
 	ignoreHTTPStatus: false,
 	method: 'GET',
 	body: undefined
+};
+
+const v4defaults: GHGraphQLApiOptions = {
+	allowErrors: false
 };
 
 export const v3 = mem(async (
@@ -98,7 +106,10 @@ export const v3 = mem(async (
 	throw getError(apiResponse);
 });
 
-export const v4 = mem(async (query: string): Promise<AnyObject> => {
+export const v4 = mem(async (
+	query: string,
+	options: GHGraphQLApiOptions = v4defaults
+): Promise<AnyObject> => {
 	const {personalToken} = await settings;
 
 	if (!personalToken) {
@@ -121,7 +132,7 @@ export const v4 = mem(async (query: string): Promise<AnyObject> => {
 		errors = []
 	} = apiResponse;
 
-	if (errors.length > 0) {
+	if (errors.length > 0 && !options.allowErrors) {
 		throw Object.assign(
 			new RefinedGitHubAPIError('GraphQL:', ...errors.map(error => error.message)),
 			apiResponse

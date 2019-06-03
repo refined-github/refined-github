@@ -234,6 +234,15 @@ test('isPRList', urlMatcherMacro, pageDetect.isPRList, [
 	'https://github.com/sindresorhus/refined-github/issues'
 ]);
 
+test('isIssueList', urlMatcherMacro, pageDetect.isIssueList, [
+	'https://github.com/sindresorhus/refined-github/issues',
+	'https://github.com/sindresorhus/refined-github/issues?q=is%3Aopen+is%3Aissue',
+	'https://github.com/sindresorhus/refined-github/issues?q=is%3Aissue+is%3Aclosed'
+], [
+	'https://github.com/sindresorhus/refined-github/issues/2016',
+	'https://github.com/sindresorhus/refined-github/pulls'
+]);
+
 test('isPR', urlMatcherMacro, pageDetect.isPR, [
 	'https://github.com/sindresorhus/refined-github/pull/148'
 ], [
