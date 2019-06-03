@@ -25,8 +25,8 @@ async function init(): Promise<void> {
 	// Hide projects filter only if there are no repo, user, and organization level projects
 	if (
 		result.repository.projects.totalCount === 0 &&
-		(result.organization && result.organization.projects.totalCount === 0) &&
-		(result.user && result.user.projects.totalCount === 0)
+		(!result.organization || result.organization.projects.totalCount === 0) &&
+		(!result.user || result.user.projects.totalCount === 0)
 	) {
 		select('[data-hotkey="p"')!.parentElement!.remove();
 	}
@@ -43,7 +43,6 @@ features.add({
 	init,
 	load: features.onAjaxedPages,
 	include: [
-		features.isPRList,
-		features.isIssueList
+		features.isRepoDiscussionList
 	]
 });
