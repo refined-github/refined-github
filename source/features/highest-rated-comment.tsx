@@ -34,21 +34,25 @@ function init(): false | void {
 	const {hash} = select<HTMLAnchorElement>('.timestamp', event)!;
 
 	select('.unminimized-comment', event)!.classList.add('rgh-highest-rated-comment');
-	event.parentElement!.firstElementChild!.after((
-		<div className="timeline-comment-wrapper">
-			{avatar}
 
-			<a href={hash} className="no-underline rounded-1 rgh-highest-rated-comment bg-gray px-2 d-flex flex-items-center">
-				<span className="btn btn-sm mr-2 pr-1">
-					{icons.arrowDown()}
-				</span>
+	const position = select.all('.js-comment').indexOf(highest.like.closest('.js-comment') as HTMLElement);
+	if (position >= 4) {
+		event.parentElement!.firstElementChild!.after((
+			<div className="timeline-comment-wrapper">
+				{avatar}
 
-				<span className="text-gray timeline-comment-header-text">
-					Highest-rated comment: <em>{text}</em>
-				</span>
-			</a>
-		</div>
-	));
+				<a href={hash} className="no-underline rounded-1 rgh-highest-rated-comment bg-gray px-2 d-flex flex-items-center">
+					<span className="btn btn-sm mr-2 pr-1">
+						{icons.arrowDown()}
+					</span>
+
+					<span className="text-gray timeline-comment-header-text">
+						Highest-rated comment: <em>{text}</em>
+					</span>
+				</a>
+			</div>
+		));
+	}
 }
 
 features.add({
