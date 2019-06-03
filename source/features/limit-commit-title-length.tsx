@@ -39,7 +39,6 @@ features.add({
 	load: features.onAjaxedPages,
 	include: [
 		features.isPRConversation,
-		features.isPRFiles,
 		features.isCompare,
 		features.isEditingFile
 	]
