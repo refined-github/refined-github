@@ -56,6 +56,11 @@ function prettyNumber(value: number): string {
 }
 
 async function init(): Promise<void | false> {
+	// If every release only has the source code downloads then skip
+	if (select.all('.release .release-main-section .Counter').every(count => Number(count.textContent!) <= 2)) {
+		return;
+	}
+
 	let tags = select.all('svg.octicon-tag ~ span').map(tag => tag.textContent!);
 	tags = [...new Set(tags)];
 	if (tags.length === 0) {
