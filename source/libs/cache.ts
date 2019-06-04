@@ -58,7 +58,6 @@ async function purge(): Promise<void> {
 
 // Automatically clear cache every day
 if (isBackgroundPage()) {
-	// Call immediately to ensure the cache gets purged at some point.
-	setTimeout(purge, 60000);
+	setTimeout(purge, 60000); // Purge cache on launch, but wait a bit
 	setInterval(purge, 1000 * 3600 * 24);
 }
