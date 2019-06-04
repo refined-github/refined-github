@@ -1,24 +1,3 @@
-type AnyFunction = (...args: any[]) => any;
-async function p<
-	TFun extends AnyFunction = AnyFunction,
-	TVal = unknown
->(
-	fn: TFun,
-	...args: Parameters<TFun>
-): Promise<TVal> {
-	return new Promise((resolve, reject) => {
-		const callback = (result: TVal) => {
-			if (chrome.runtime.lastError) {
-				reject(chrome.runtime.lastError);
-			} else {
-				resolve(result);
-			}
-		};
-
-		fn(...args, callback);
-	});
-}
-
 /* eslint-disable @typescript-eslint/no-namespace, no-redeclare */
 function urlGlobToRegex(matchPattern: string): string {
 	return '^' + matchPattern
