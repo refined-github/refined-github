@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import * as cache from './cache';
+import cache from './cache';
 import * as api from './api';
 import {getOwnerAndRepo} from './utils';
 

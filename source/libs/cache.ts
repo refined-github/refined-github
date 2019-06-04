@@ -7,13 +7,13 @@ interface CacheItem {
 
 const storage: browser.storage.StorageArea = browser.storage.local;
 
-export async function has(key: string): Promise<boolean> {
+async function has(key: string): Promise<boolean> {
 	const cachedKey = `cache:${key}`;
 	const values = await storage.get(cachedKey);
 	return values[cachedKey] !== undefined;
 }
 
-export async function get<TValue extends unknown = unknown>(key: string): Promise<TValue | undefined> {
+async function get<TValue extends unknown = unknown>(key: string): Promise<TValue | undefined> {
 	const cachedKey = `cache:${key}`;
 	const values = await storage.get(cachedKey);
 	const value = values[cachedKey];
@@ -31,7 +31,7 @@ export async function get<TValue extends unknown = unknown>(key: string): Promis
 	return value.data;
 }
 
-export function set<TValue extends unknown = unknown>(key: string, value: TValue, expiration: number /* in days */): Promise<void> {
+function set<TValue extends unknown = unknown>(key: string, value: TValue, expiration: number /* in days */): Promise<void> {
 	console.log('CACHE: setting', key, value);
 	const cachedKey = `cache:${key}`;
 	return storage.set({
@@ -60,4 +60,10 @@ async function purge(): Promise<void> {
 if (isBackgroundPage()) {
 	setTimeout(purge, 60000); // Purge cache on launch, but wait a bit
 	setInterval(purge, 1000 * 3600 * 24);
+}
+
+export default {
+	has,
+	get,
+	set
 }
