@@ -1,5 +1,5 @@
 import {addContextMenu} from 'webext-domain-permission-toggle';
-import {addToFutureTabs} from 'webext-dynamic-content-scripts';
+import './libs/content-scripts-register-polyfill';
 import './libs/cache';
 import './options-storage';
 
@@ -41,5 +41,32 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 });
 
 // GitHub Enterprise support
-addToFutureTabs();
 addContextMenu();
+
+// @ts-ignore
+chrome.permissions.onAdded.addListener(({origins}: {origins: string[]}) => {
+	console.log(origins)
+	if (origins.length === 0) {
+		return;
+	}
+
+	const configs = browser.runtime.getManifest().content_scripts!;
+	for (const config of configs) {
+		console.log({
+			js: (config.js || []).map(file => ({ file })),
+			css: (config.css || []).map(file => ({ file })),
+			allFrames: config.all_frames,
+			matches: origins,
+			runAt: config.run_at
+		})
+
+		// @ts-ignore
+		chrome.contentScripts.register({
+			js: (config.js || []).map(file => ({ file })),
+			css: (config.css || []).map(file => ({ file })),
+			allFrames: config.all_frames,
+			matches: origins,
+			runAt: config.run_at
+		});
+	}
+})
