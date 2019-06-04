@@ -401,5 +401,5 @@ test('isEditingFile', urlMatcherMacro, pageDetect.isEditingFile, [
 	'https://github.com/edit',
 	'https://github.com/orgs/edit/dashboard',
 	'https://github.com/sindresorhus/edit',
-	'https://github.com/sindresorhus/refined-github/blob/master/edit.txt',
+	'https://github.com/sindresorhus/refined-github/blob/master/edit.txt'
 ]);
