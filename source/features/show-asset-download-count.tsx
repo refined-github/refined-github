@@ -40,6 +40,21 @@ async function getAssetsForTag(tags: string[]): Promise<Tag> {
 	return assets;
 }
 
+function prettyNumber(value: number): string {
+	let newValue = value;
+	const suffixes = ['', 'K', 'M', 'B', 'T'];
+	let suffixNum = 0;
+	while (newValue >= 1000) {
+		newValue /= 1000;
+		suffixNum++;
+	}
+
+	let num = newValue.toPrecision(3);
+
+	num = `${num} ${suffixes[suffixNum]}`;
+	return num;
+}
+
 async function init(): Promise<void | false> {
 	let tags = select.all('svg.octicon-tag ~ span').map(tag => tag.textContent!);
 	tags = [...new Set(tags)];
@@ -57,7 +72,7 @@ async function init(): Promise<void | false> {
 			wrap(assetSize, <div className="flex-shrink-0">
 				<span className="mr-2">
 					{icons.cloudDownload()}
-					<small className="ml-1">{asset.downloadCount}</small>
+					<small className="ml-1">{prettyNumber(asset.downloadCount)}</small>
 				</span>
 			</div>);
 		}
