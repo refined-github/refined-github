@@ -17,20 +17,21 @@ async function getAssetsForTag(tags: string[]): Promise<Tag> {
 	const {ownerName, repoName} = getOwnerAndRepo();
 	const {repository} = await api.v4(
 		`{
-			repository(owner: "${ownerName}", name: "${repoName}") {` +
-				tags.map(tag =>
-					`${api.escapeKey(tag)}: release(tagName:"${tag}") {
-							releaseAssets(first: 100) {
-								nodes {
-									name
-									downloadCount
-								}
+			repository(owner: "${ownerName}", name: "${repoName}") {
+				${tags.map(tag => `
+					${api.escapeKey(tag)}: release(tagName:"${tag}") {
+						releaseAssets(first: 100) {
+							nodes {
+								name
+								downloadCount
 							}
-						}`
-				).join('\n') +
-				`}
-			}`
+						}
+					}
+				`)}
+			}
+		}`
 	);
+
 	const assets: Tag = {};
 	for (const [tag, release] of Object.entries(repository)) {
 		assets[tag] = (release as any).releaseAssets.nodes;
