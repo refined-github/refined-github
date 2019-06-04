@@ -1,11 +1,6 @@
-import React from 'dom-chef';
+import './limit-commit-title-length.css';
 import select from 'select-dom';
-import onetime from 'onetime';
 import features from '../libs/features';
-
-const getError = onetime<[], HTMLElement>((): HTMLElement =>
-	<p className="note text-red">Title of commit should be less than 70 characters.</p>
-);
 
 function init(): void {
 	const inputs = select.all<HTMLInputElement>([
@@ -15,20 +10,7 @@ function init(): void {
 	].join(','));
 
 	for (const inputField of inputs) {
-		const validityCallback = (): void => {
-			if (inputField.checkValidity()) {
-				getError().remove();
-				return;
-			}
-
-			inputField.after(getError());
-		};
-
 		inputField.setAttribute('maxlength', '70');
-
-		inputField.addEventListener('input', validityCallback);
-
-		validityCallback();
 	}
 }
 
