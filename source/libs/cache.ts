@@ -66,4 +66,4 @@ export default {
 	has,
 	get,
 	set
-}
+};
