@@ -1,7 +1,7 @@
 import {isBackgroundPage} from 'webext-detect-page';
 
-interface CacheItem {
-	data: unknown;
+interface CacheItem<TValue extends unknown = unknown> {
+	data: TValue;
 	expiration: number;
 }
 
@@ -16,13 +16,13 @@ async function has(key: string): Promise<boolean> {
 async function get<TValue extends unknown = unknown>(key: string): Promise<TValue | undefined> {
 	const cachedKey = `cache:${key}`;
 	const values = await storage.get(cachedKey);
-	const value = values[cachedKey];
+	const value = values[cachedKey] as CacheItem<TValue>;
 	// If it's not in the cache, it's best to return "undefined"
 	if (value === undefined) {
 		return undefined;
 	}
 
-	if (value.expiration > Date.now()) {
+	if (Date.now() > value.expiration) {
 		await storage.remove(cachedKey);
 		return undefined;
 	}
@@ -46,7 +46,7 @@ async function purge(): Promise<void> {
 	const values = await storage.get();
 	const removableItems = [];
 	for (const [key, value] of Object.entries(values)) {
-		if (key.startsWith('cache:') && (value as CacheItem).expiration > Date.now()) {
+		if (key.startsWith('cache:') && Date.now() > (value as CacheItem).expiration) {
 			removableItems.push(key);
 		}
 	}
