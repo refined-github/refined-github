@@ -1,4 +1,5 @@
-function urlGlobToRegex(matchPattern: string) {
+/* eslint-disable @typescript-eslint/no-namespace, no-redeclare */
+function urlGlobToRegex(matchPattern: string): string {
 	return '^' + matchPattern
 		.replace(/[.]/g, '\\.') // Escape dots
 		.replace(/[?]/, '.') // Single-character wildcards
@@ -23,6 +24,8 @@ declare namespace chrome.declarativeContent {
 		matchAboutBlank?: boolean;
 	}
 
+	// This follows `@types/chrome`'s style"
+	// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 	export class RequestContentScript {
 		constructor(contentScript: ContentScript);
 	}
@@ -36,9 +39,12 @@ function fileFilter(item: browser.extensionTypes.ExtensionFileOrCode): string {
 	throw new TypeError('Only files are supported by webext-content-script-register-polyfill');
 }
 
-function init() {
+if (!chrome.contentScripts && chrome.declarativeContent.onPageChanged) {
 	chrome.contentScripts = {
-		register(contentScriptOptions: browser.contentScripts.RegisteredContentScriptOptions, callback?: Function) {
+		register(
+			contentScriptOptions: browser.contentScripts.RegisteredContentScriptOptions,
+			callback?: (registeredContentScript: browser.contentScripts.RegisteredContentScript) => void
+		) {
 			const {
 				js = [],
 				css = [],
@@ -86,18 +92,14 @@ function init() {
 		}
 	};
 
-	console.log('cleaning up')
+	console.log('cleaning up');
 	chrome.declarativeContent.onPageChanged.getRules(globalRules => {
-		console.log(globalRules)
+		console.log(globalRules);
 		const moduleRules = globalRules.filter(rule => rule.id && rule.id.startsWith(moduleId));
-		console.log(moduleRules)
+		console.log(moduleRules);
 		if (moduleRules.length > 0) {
 			chrome.declarativeContent.onPageChanged.removeRules(moduleRules.map(rule => rule.id!));
-			console.log('cleaned!')
+			console.log('cleaned!');
 		}
-	})
-}
-
-if (!chrome.contentScripts && chrome.declarativeContent.onPageChanged) {
-	init();
+	});
 }

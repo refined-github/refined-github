@@ -1,5 +1,5 @@
 import {addContextMenu} from 'webext-domain-permission-toggle';
-import './libs/content-scripts-register-polyfill';
+import './libs/declarative-content-scripts';
 import './libs/cache';
 import './options-storage';
 
@@ -42,51 +42,3 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 
 // GitHub Enterprise support
 addContextMenu();
-
-const registeredScripts = new Map<string, browser.contentScripts.RegisteredContentScript>();
-function registerOnOrigins(origins: string[]) {
-	const configs = browser.runtime.getManifest().content_scripts!;
-	for (const config of configs) {
-		console.log({
-			js: (config.js || []).map(file => ({ file })),
-			css: (config.css || []).map(file => ({ file })),
-			allFrames: config.all_frames,
-			matches: origins,
-			runAt: config.run_at
-		})
-
-		// Needs to be registered one at a time to allow removing one at a time as well
-		for (const origin of origins) {
-			browser.contentScripts.register({
-				js: (config.js || []).map(file => ({ file })),
-				css: (config.css || []).map(file => ({ file })),
-				allFrames: config.all_frames,
-				matches: [origin],
-				runAt: config.run_at
-			}).then(registeredScript => registeredScripts.set(origin, registeredScript));
-		}
-	}
-}
-// @ts-ignore
-chrome.permissions.onAdded.addListener(async ({origins}: {origins: string[]}) => {
-	console.log(origins)
-	if (origins.length === 0) {
-		return;
-	}
-
-	registerOnOrigins(origins);
-})
-
-// @ts-ignore
-chrome.permissions.onRemoved.addListener(async ({origins}: {origins: string[]}) => {
-	console.log(origins)
-	if (origins.length === 0) {
-		return;
-	}
-
-	for (const [origin, script] of registeredScripts) {
-		if (origins.includes(origin)) {
-			await script.unregister();
-		}
-	}
-})
