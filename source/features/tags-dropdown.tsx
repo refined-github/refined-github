@@ -13,7 +13,7 @@ async function init(): Promise<false | void> {
 	const {ownerName, repoName} = getOwnerAndRepo();
 
 	return select('.subnav')!.append(
-		<div className="rgh-tags-dropdown float-right d-flex flex-shrink-0 flex-items-center mb-3">
+		<div className="rgh-tags-dropdown float-right d-flex flex-shrink-0 flex-items-center">
 			<details className="details-reset details-overlay select-menu branch-select-menu position-relative">
 				<summary className="btn select-menu-button css-truncate" data-hotkey="w" title="Find tags" aria-haspopup="menu">
 					Select tag&nbsp;

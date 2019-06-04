@@ -16,7 +16,7 @@
 }
 /* Fix positioning on GHE */
 .rgh-recently-pushed-branches.enterprise [data-url$='recently_touched_branches_list'] .mb-3 {
-	position: initial;
+	top: -1px;
 }
 .rgh-recently-pushed-branches [data-url$='recently_touched_branches_list'] p {
 	display: none;

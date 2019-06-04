@@ -11,13 +11,6 @@
 	opacity: 0.6;
 }
 
-/* Hide unnecessary comment toolbar items */
-:root md-mention,
-:root md-ref,
-markdown-toolbar > :nth-last-child(4) { /* H1, B, I */
-	display: none;
-}
-
 /* Make tab indented code more readable on GitHub and Gist */
 * {
 	-moz-tab-size: 4 !important;
@@ -39,11 +32,6 @@ markdown-toolbar > :nth-last-child(4) { /* H1, B, I */
 
 /* Hide empty description of repo */
 .repository-meta.mb-3 > .repository-meta-content > em {
-	display: none !important;
-}
-
-/* Hide marketplace navbar button */
-.Header-link[href='/marketplace'] {
 	display: none !important;
 }
 

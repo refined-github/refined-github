@@ -15,18 +15,18 @@ a Promise that resolves into an object.
 If the response body is empty, you'll receive an object like {status: 200}
 
 The second argument is an options object,
-it lets you define accept a 404 error code as a valid response, like:
+it lets you define accept error HTTP codes as a valid response, like:
 
 {
-	accept404: true
+	ignoreHTTPStatus: true
 }
 
 so the call will not throw an error but it will return as usual.
  */
 
-import pMemoize from 'p-memoize';
-import OptionsSync from 'webext-options-sync';
+import mem from 'mem';
 import {JsonObject} from 'type-fest';
+import optionsStorage from '../options-storage';
 
 type JsonError = {
 	message: string;
@@ -41,10 +41,6 @@ interface GraphQLResponse extends APIResponse {
 	errors?: JsonError[];
 }
 
-export interface GHRestApiOptions {
-	accept404: boolean;
-}
-
 export const escapeKey = (value: string): string => '_' + value.replace(/[ ./-]/g, '_');
 
 export class RefinedGitHubAPIError extends Error {
@@ -53,7 +49,7 @@ export class RefinedGitHubAPIError extends Error {
 	}
 }
 
-const settings = new OptionsSync().getAll();
+const settings = optionsStorage.getAll();
 
 const api3 = location.hostname === 'github.com' ?
 	'https://api.github.com/' :
@@ -62,13 +58,28 @@ const api4 = location.hostname === 'github.com' ?
 	'https://api.github.com/graphql' :
 	`${location.origin}/api/graphql`;
 
-export const v3 = pMemoize(async (
+interface GHRestApiOptions {
+	ignoreHTTPStatus?: boolean;
+	method?: 'GET' | 'POST';
+	body?: undefined | JsonObject;
+}
+
+const v3defaults: GHRestApiOptions = {
+	ignoreHTTPStatus: false,
+	method: 'GET',
+	body: undefined
+};
+
+export const v3 = mem(async (
 	query: string,
-	options: GHRestApiOptions = {accept404: false}
+	options: GHRestApiOptions = v3defaults
 ): Promise<AnyObject> => {
+	const {ignoreHTTPStatus, method, body} = {...v3defaults, ...options};
 	const {personalToken} = await settings;
 
 	const response = await fetch(api3 + query, {
+		method,
+		body: body && JSON.stringify(body),
 		headers: {
 			'User-Agent': 'Refined GitHub',
 			Accept: 'application/vnd.github.v3+json',
@@ -80,14 +91,14 @@ export const v3 = pMemoize(async (
 	// The response might just be a 200 or 404, it's the REST equivalent of `boolean`
 	const apiResponse: JsonObject = textContent.length > 0 ? JSON.parse(textContent) : {status: response.status};
 
-	if (response.ok || (options.accept404 === true && response.status === 404)) {
+	if (response.ok || ignoreHTTPStatus) {
 		return apiResponse;
 	}
 
 	throw getError(apiResponse);
 });
 
-export const v4 = pMemoize(async (query: string): Promise<AnyObject> => {
+export const v4 = mem(async (query: string): Promise<AnyObject> => {
 	const {personalToken} = await settings;
 
 	if (!personalToken) {

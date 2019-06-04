@@ -1,31 +1,7 @@
-import OptionsSync from 'webext-options-sync';
 import {addContextMenu} from 'webext-domain-permission-toggle';
 import {addToFutureTabs} from 'webext-dynamic-content-scripts';
 import './libs/cache';
-
-// Define defaults
-new OptionsSync().define({
-	defaults: {
-		disabledFeatures: '',
-		customCSS: '',
-		personalToken: '',
-		logging: false
-	},
-	migrations: [
-		options => {
-			options.disabledFeatures = (options.disabledFeatures as string)
-				.replace('make-headers-sticky', '') // #1863
-				.replace('jump-to-bottom', '') // #1879
-				.replace('hide-readme-header', '') // #1883
-				.replace(/commented-menu-item|yours-menu-item/, 'global-discussion-list-filters') // #1883
-				.replace('show-recently-pushed-branches-on-more-pages', 'recently-pushed-branches-enhancements') // #1909
-				.replace('fix-squash-and-merge-message', '') // #1934
-				.replace('fix-squash-and-merge-title', 'sync-pr-commit-title') // #1934
-			; // eslint-disable-line semi-style
-		},
-		OptionsSync.migrations.removeUnused
-	]
-});
+import './options-storage';
 
 browser.runtime.onMessage.addListener(async message => {
 	if (!message || message.action !== 'openAllInTabs') {

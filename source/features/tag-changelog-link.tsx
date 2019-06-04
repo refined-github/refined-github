@@ -35,7 +35,7 @@ function parseTags(element: HTMLElement): TagDetails {
 		element,
 		tag,
 		commit: select('[href*="/commit/"]', element)!.textContent!.trim(),
-		...parseTag(tag) // `version`, `namespace`
+		...parseTag(decodeURIComponent(tag)) // `version`, `namespace`
 	};
 }
 

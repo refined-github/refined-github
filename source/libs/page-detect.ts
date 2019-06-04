@@ -78,7 +78,7 @@ export const isRepo = (): boolean => /^[^/]+\/[^/]+/.test(getCleanPathname()) &&
 	!isRepoSearch();
 
 export const isRepoDiscussionList = (): boolean =>
-	/^(issues|pulls)($|\/$|\/(?!\d+))/.test(getRepoPath()!) || // `issues/bfred-it` is a list but `issues/1` isn't
+	/^(issues|pulls)($|\/$|\/(?!\d+|new))/.test(getRepoPath()!) || // `issues/bfred-it` is a list but `issues/1` isn't
 	/^labels\/.+/.test(getRepoPath()!);
 
 export const isRepoRoot = (): boolean => /^(tree[/][^/]+)?$/.test(getRepoPath()!);
@@ -109,3 +109,11 @@ export const hasRichTextEditor = (): boolean =>
 	hasComments() ||
 	isNewIssue() ||
 	isCompare();
+
+export const hasCode = (): boolean => // Static code, not the editor
+	hasComments() ||
+	isRepoTree() || // Readme files
+	isSingleFile() ||
+	isGist() ||
+	isCompare() ||
+	isBlame();
