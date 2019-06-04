@@ -1,6 +1,6 @@
 .pl-ws {
 	position: relative;
-	line-height: 1em;
+	line-height: 1rem;
 	text-indent: 0; /* Reset indentation added by `indented-code-wrapping` feature */
 	display: inline-block;
 }
