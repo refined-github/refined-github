@@ -67,3 +67,5 @@ export const privateLockFilled = (): SVGElement => (
 		<path d="M5.05 9.46h-1v-1h1zm0 2.93h-1v1h1zm0-2h-1v1h1z" />
 	</svg>
 );
+
+export const arrowDown = (): SVGElement => <svg aria-hidden="true" className="octicon octicon-arrow-down" width="16" height="16"><path d="M7 7V3H3v4H0l5 6 5-6H7z" /></svg>;
