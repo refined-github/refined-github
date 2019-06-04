@@ -60,7 +60,7 @@ async function init() {
 
 			const registeredContentScript = {
 				unregister() {
-					chrome.declarativeContent.PageStateMatcher.removeRules([id]);
+					chrome.declarativeContent.onPageChanged.removeRules([id]);
 				}
 			};
 			if (typeof callback === 'function') {
