@@ -33,9 +33,9 @@ async function fetchFromApi(user: string, repo: string): Promise<any> {
 	}
 }
 
-export default async function (): Promise<any> {
+export default async function (): Promise<string> {
 	const {ownerName, repoName} = getOwnerAndRepo();
-	const cached = await cache.get(`default-branch:${ownerName}/${repoName}`);
+	const cached = await cache.get<string>(`default-branch:${ownerName}/${repoName}`);
 	if (cached) {
 		return cached;
 	}

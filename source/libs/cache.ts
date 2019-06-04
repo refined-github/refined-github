@@ -1,3 +1,5 @@
+import {isBackgroundPage} from 'webext-detect-page';
+
 interface CacheItem {
 	data: unknown;
 	expiration: number;
@@ -6,11 +8,12 @@ interface CacheItem {
 const storage: browser.storage.StorageArea = browser.storage.local;
 
 export async function has(key: string): Promise<boolean> {
-	const values = await storage.get(key);
-	return values[key] !== undefined;
+	const cachedKey = `cache:${key}`;
+	const values = await storage.get(cachedKey);
+	return values[cachedKey] !== undefined;
 }
 
-export async function get<TValue extends any = any>(key: string): Promise<TValue | undefined> {
+export async function get<TValue extends unknown = unknown>(key: string): Promise<TValue | undefined> {
 	const cachedKey = `cache:${key}`;
 	const values = await storage.get(cachedKey);
 	const value = values[cachedKey];
@@ -28,7 +31,7 @@ export async function get<TValue extends any = any>(key: string): Promise<TValue
 	return value.data;
 }
 
-export function set<TValue extends any = any>(key: string, value: TValue, expiration: number /* in days */): Promise<any> {
+export function set<TValue extends unknown = unknown>(key: string, value: TValue, expiration: number /* in days */): Promise<void> {
 	console.log('CACHE: setting', key, value);
 	const cachedKey = `cache:${key}`;
 	return storage.set({
@@ -40,15 +43,10 @@ export function set<TValue extends any = any>(key: string, value: TValue, expira
 }
 
 async function purge(): Promise<void> {
-	const values = await storage.get() as {[key: string]: CacheItem};
+	const values = await storage.get();
 	const removableItems = [];
 	for (const [key, value] of Object.entries(values)) {
-		if (!key.startsWith('cache:')) {
-			// Item not created by the cache, skip
-			continue;
-		}
-
-		if (value.expiration > Date.now()) {
+		if (key.startsWith('cache:') && (value as CacheItem).expiration > Date.now()) {
 			removableItems.push(key);
 		}
 	}
@@ -59,8 +57,8 @@ async function purge(): Promise<void> {
 }
 
 // Automatically clear cache every day
-if (location.pathname === '/_generated_background_page.html') {
+if (isBackgroundPage()) {
 	// Call immediately to ensure the cache gets purged at some point.
-	purge();
+	setTimeout(purge, 60000);
 	setInterval(purge, 1000 * 3600 * 24);
 }
