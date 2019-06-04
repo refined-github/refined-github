@@ -23,30 +23,9 @@ function urlGlobToRegex(matchPattern) {
 
 const moduleId = 'webext-content-script-register:';
 
-let clean = false;
-async function cleanup() {
-	if (clean) {
-		return;
-	}
-
-	console.log('cleaning up')
-	const globalRules = await p(r => chrome.declarativeContent.onPageChanged.getRules(r));
-	console.log(globalRules)
-	const moduleRules = globalRules.filter(rule => rule.id.startsWith(moduleId));
-	console.log(moduleRules)
-	if (moduleRules.length > 0) {
-		await p(r => chrome.declarativeContent.onPageChanged.removeRules(r), moduleRules);
-	}
-
-	console.log('cleaned')
-
-	clean = true;
-}
-
-function init() {
+async function init() {
 	chrome.contentScripts = {
-		async register(contentScriptOptions, callback) {
-			await cleanup();
+		register(contentScriptOptions, callback) {
 			const {
 				js = [],
 				css = [],
@@ -79,15 +58,27 @@ function init() {
 				]
 			}]);
 
+			const registeredContentScript = {
+				unregister() {
+					chrome.declarativeContent.PageStateMatcher.removeRules([id]);
+				}
+			};
 			if (typeof callback === 'function') {
-				callback({
-					unregister() {
-						chrome.declarativeContent.PageStateMatcher.removeRules([id]);
-					}
-				});
+				callback(registeredContentScript);
+			} else {
+				return Promise.resolve(registeredContentScript);
 			}
 		}
 	};
+
+	console.log('cleaning up')
+	const globalRules = await p(r => chrome.declarativeContent.onPageChanged.getRules(r));
+	console.log(globalRules)
+	const moduleRules = globalRules.filter(rule => rule.id.startsWith(moduleId));
+	console.log(moduleRules)
+	if (moduleRules.length > 0) {
+		await p(r => chrome.declarativeContent.onPageChanged.removeRules(moduleRules.map(rule => rule.id), r));
+	}
 }
 
 if (!chrome.contentScripts && chrome.declarativeContent.onPageChanged) {
