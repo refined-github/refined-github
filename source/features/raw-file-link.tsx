@@ -10,10 +10,12 @@ const createRawUrl = (href: string): string => {
 };
 
 function addRawButtons(): void {
-	for (const anchor of select.all<HTMLAnchorElement>('.file-header .file-actions > div.BtnGroup [href*=\'/blob/\']:last-child')) {
-		anchor.after(
-			<a href={createRawUrl(anchor.pathname)} className="btn btn-sm BtnGroup-item">
-				Raw
+	const links = select.all<HTMLAnchorElement>('.js-file-header-dropdown [data-ga-click^="View file"]:not(.rgh-has-raw-file-link)');
+	for (const fileLink of links) {
+		fileLink.classList.add('rgh-has-raw-file-link');
+		fileLink.after(
+			<a href={createRawUrl(fileLink.pathname)} className="pl-5 dropdown-item btn-link" role="menuitem">
+				View raw
 			</a>
 		);
 	}
