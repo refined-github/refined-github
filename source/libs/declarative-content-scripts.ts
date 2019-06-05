@@ -3,7 +3,7 @@ import './content-scripts-register-polyfill';
 import './permission-events-polyfill';
 
 const registeredScripts = new Map<string, browser.contentScripts.RegisteredContentScript>();
-function registerOnOrigins(origins: string[]): void {
+async function registerOnOrigins(origins: string[]): Promise<void> {
 	console.log('getting origins')
 	const configs = browser.runtime.getManifest().content_scripts!;
 	console.log('orogins are shit', configs)
@@ -24,21 +24,26 @@ function registerOnOrigins(origins: string[]): void {
 		// Needs to be registered one at a time to allow removing one at a time as well
 		for (const origin of origins) {
 			console.log('will register', origin)
-			browser.contentScripts.register({
-				js: (config.js || []).map(convertPath),
-				css: (config.css || []).map(convertPath),
-				allFrames: config.all_frames,
-				matches: [origin],
-				runAt: config.run_at
+			let registeredScript;
+			try {
 
-				/* `await` requires a separate Promise[], an additional loop, and/or complicates the loop in `chrome.permissions.onRemoved` */
-				// eslint-disable-next-line promise/prefer-await-to-then
-			}).then(registeredScript => {
-				console.log(registeredScript, origin);
-				registeredScripts.set(origin, registeredScript);
-			}, lol => {
-				console.log('ERROR?!, WTF', lol)
-			});
+				registeredScript = await browser.contentScripts.register({
+					js: (config.js || []).map(convertPath),
+					css: (config.css || []).map(convertPath),
+					allFrames: config.all_frames,
+					matches: [origin],
+					runAt: config.run_at
+				});
+			} catch(error) {
+				console.log('error you', error);
+			}finally {
+				console.log('yoooooooooooooooooo');
+
+			}
+			console.log('done!!')
+
+			registeredScripts.set(origin, registeredScript);
+			console.log(origin, registeredScript)
 		}
 	}
 }
