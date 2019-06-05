@@ -99,7 +99,7 @@ import './features/filter-pr-by-build-status';
 import './features/edit-files-faster';
 import './features/update-pr-from-base-branch';
 import './features/hide-disabled-milestone-sorter';
-import './features/circular-movement-on-sidebar-lists';
+import './features/cycle-lists-with-keyboard-shortcuts';
 import './features/tag-changelog-link';
 import './features/link-to-file-in-file-history';
 import './features/clean-sidebar';
