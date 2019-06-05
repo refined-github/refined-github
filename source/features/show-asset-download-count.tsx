@@ -90,6 +90,7 @@ async function init(): Promise<void | false> {
 features.add({
 	id: 'show-asset-download-count',
 	description: 'Adds a download count next to release assets.',
+	screenshot: `https://user-images.githubusercontent.com/14323370/58944460-e1aeb480-874f-11e9-8052-2d4dc794ecab.png`,
 	include: [
 		features.isReleasesOrTags
 	],
