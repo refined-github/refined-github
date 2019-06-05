@@ -68,18 +68,21 @@ async function init(): Promise<void | false> {
 	const assets = await getAssetsForTag([...releases.keys()]);
 
 	for (const [name, release] of releases) {
+		const sortedDownloads = assets[api.escapeKey(name)].sort((a, b) => b.downloadCount - a.downloadCount);
 		for (const assetName of select.all('.octicon-package ~ span', release)) {
-			const {downloadCount} = assets[api.escapeKey(name)]
-				.find(({name}: any) => name === assetName.textContent!)!;
-
-			const assetSize = assetName.closest('.Box-body')!.querySelector('small')!;
-			wrap(assetSize,
-				<div className="flex-shrink-0 text-gray">
-					<small className="mr-2">
-						{icons.cloudDownload()} {prettyNumber(downloadCount)}
-					</small>
-				</div>
-			);
+			// Match the asset in the DOM to the asset in the API response
+			for (const [index, {name, downloadCount}] of sortedDownloads.entries()) {
+				if (name === assetName.textContent) {
+					// Place next to asset size, keeping both aligned right
+					wrap(assetName.closest('.Box-body')!.querySelector('small')!,
+						<div className="flex-shrink-0 text-gray">
+							<small className="mr-2" style={index === 0 ? {fontWeight: 'bold'} : {}} title="Downloads">
+								{icons.cloudDownload()} {prettyNumber(downloadCount)}
+							</small>
+						</div>
+					);
+				}
+			}
 		}
 	}
 }
