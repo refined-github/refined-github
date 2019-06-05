@@ -1,5 +1,4 @@
 /* global chrome */
-import './content-scripts-register-polyfill';
 import './permission-events-polyfill';
 
 const registeredScripts = new Map<string, browser.contentScripts.RegisteredContentScript>();
@@ -27,22 +26,24 @@ async function registerOnOrigins(origins: string[]): Promise<void> {
 			let registeredScript;
 			try {
 
-				registeredScript = await browser.contentScripts.register({
+				const LOL = browser.contentScripts.register({
 					js: (config.js || []).map(convertPath),
 					css: (config.css || []).map(convertPath),
 					allFrames: config.all_frames,
 					matches: [origin],
 					runAt: config.run_at
 				});
+				console.log('lol is ', LOL)
+				window.WWWWWWWWWW = LOL;
+				LOL.then(y0 => console.log('NUTSSSS', y0), y0 => console.error('peanuts', y0))
 			} catch(error) {
 				console.log('error you', error);
 			}finally {
 				console.log('yoooooooooooooooooo');
 
 			}
-			console.log('done!!')
 
-			registeredScripts.set(origin, registeredScript);
+			// registeredScripts.set(origin, registeredScript);
 			console.log(origin, registeredScript)
 		}
 	}
