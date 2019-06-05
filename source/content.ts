@@ -51,7 +51,7 @@ import './features/wait-for-build';
 import './features/hide-inactive-deployments';
 import './features/pull-request-hotkey';
 import './features/quick-review-buttons';
-import './features/linkify-issues-in-titles';
+import './features/format-discussion-titles';
 import './features/embed-gist-inline';
 import './features/extend-status-labels';
 import './features/highlight-closing-prs-in-open-issues';
