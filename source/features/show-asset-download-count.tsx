@@ -15,8 +15,8 @@ interface Tag {
 }
 async function getAssetsForTag(tags: string[]): Promise<Tag> {
 	const {ownerName, repoName} = getOwnerAndRepo();
-	const {repository} = await api.v4(
-		`{
+	const {repository} = await api.v4(`
+		{
 			repository(owner: "${ownerName}", name: "${repoName}") {
 				${tags.map(tag => `
 					${api.escapeKey(tag)}: release(tagName:"${tag}") {
@@ -29,8 +29,8 @@ async function getAssetsForTag(tags: string[]): Promise<Tag> {
 					}
 				`)}
 			}
-		}`
-	);
+		}
+	`);
 
 	const assets: Tag = {};
 	for (const [tag, release] of Object.entries(repository)) {
@@ -49,10 +49,7 @@ function prettyNumber(value: number): string {
 		suffixNum++;
 	}
 
-	let num = newValue.toPrecision(3);
-
-	num = `${num} ${suffixes[suffixNum]}`;
-	return num;
+	return `${newValue.toPrecision(3)} ${suffixes[suffixNum]}`;
 }
 
 async function init(): Promise<void | false> {
@@ -74,12 +71,13 @@ async function init(): Promise<void | false> {
 			const assetName = select('svg.octicon-package ~ span', assetTag)!.textContent!;
 			const asset = tagAssets[tagName].find((a: any) => a.name === assetName)!;
 			const assetSize = select('small', assetTag)!;
-			wrap(assetSize, <div className="flex-shrink-0">
-				<span className="mr-2">
-					{icons.cloudDownload()}
-					<small className="ml-1">{prettyNumber(asset.downloadCount)}</small>
-				</span>
-			</div>);
+			wrap(assetSize,
+				<div className="flex-shrink-0 text-gray">
+					<span className="mr-2">
+						{icons.cloudDownload()} {prettyNumber(asset.downloadCount)}
+					</span>
+				</div>
+			);
 		}
 	}
 }
