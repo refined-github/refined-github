@@ -10,17 +10,14 @@ const createRawUrl = (href: string): string => {
 };
 
 function addRawButtons(): void {
-	for (const dropdown of select.all<HTMLElement>('.js-file-header-dropdown')) {
-		const anchor: HTMLAnchorElement | null = select('[data-ga-click^="View file"]', dropdown);
-
-		// Skip if the link has already been added
-		if (!select.exists('.raw-file-link', dropdown) && anchor) {
-			anchor.after(
-				<a href={createRawUrl(anchor.pathname)} className="pl-5 dropdown-item btn-link raw-file-link" role="menuitem">
-          View raw
-				</a>
-			);
-		}
+	const links = select.all<HTMLAnchorElement>('.js-file-header-dropdown [data-ga-click^="View file"]:not(.rgh-has-raw-file-link)');
+	for (const fileLink of links) {
+		fileLink.classList.add('rgh-has-raw-file-link');
+		fileLink.after(
+			<a href={createRawUrl(fileLink.pathname)} className="pl-5 dropdown-item btn-link" role="menuitem">
+				View raw
+			</a>
+		);
 	}
 }
 
