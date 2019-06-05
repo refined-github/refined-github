@@ -19,14 +19,19 @@ if (chrome.permissions && !chrome.permissions.onAdded) {
 
 		// Listen into requests and fire callbacks
 		chrome.permissions[action] = (permissions, callback) => {
+			console.log('will you', action, permissions)
 			act(permissions, successful => {
+				console.log(successful)
 				if (callback) {
 					callback(successful);
 				}
 
 				if (successful) {
 					for (const listener of listeners) {
-						setTimeout(listener, 0, permissions); // Run all listeners even if one errors
+						console.log('will call', permissions)
+						console.log(listener.toString())
+						listener(permissions)
+						// setTimeout(listener, 0, permissions); // Run all listeners even if one errors
 					}
 				}
 			});
