@@ -34,7 +34,6 @@
 	"background": {
 		"scripts": [
 			"browser-polyfill.min.js",
-			"features-list.js",
 			"background.js"
 		],
 		"persistent": false
