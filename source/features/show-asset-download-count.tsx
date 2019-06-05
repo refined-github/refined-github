@@ -41,10 +41,6 @@ async function getAssetsForTag(tags: string[]): Promise<Tag> {
 }
 
 function prettyNumber(value: number): string {
-	if (value <= 999) {
-		return value.toString();
-	}
-
 	let newValue = value;
 	const suffixes = ['', 'K', 'M', 'B', 'T'];
 	let suffixNum = 0;
@@ -53,7 +49,7 @@ function prettyNumber(value: number): string {
 		suffixNum++;
 	}
 
-	return `${newValue.toPrecision(3)} ${suffixes[suffixNum]}`;
+	return `${Number(newValue.toPrecision(3))} ${suffixes[suffixNum]}`;
 }
 
 async function init(): Promise<void | false> {
