@@ -53,29 +53,31 @@ function prettyNumber(value: number): string {
 }
 
 async function init(): Promise<void | false> {
-	// If every release only has the source code downloads then skip
-	if (select.all('.release .release-main-section .Counter').every(count => Number(count.textContent!) <= 2)) {
-		return;
+	const releases = new Map();
+	for (const release of select.all('.release')) {
+		if (select.exists('.octicon-package', release)) {
+			const name = select('svg.octicon-tag ~ span', release)!.textContent!;
+			releases.set(name, release);
+		}
 	}
 
-	let tags = select.all('svg.octicon-tag ~ span').map(tag => tag.textContent!);
-	tags = [...new Set(tags)];
-	if (tags.length === 0) {
+	if (releases.size === 0) {
 		return false;
 	}
 
-	const tagAssets = await getAssetsForTag(tags);
-	for (const release of select.all('.release')) {
-		const tagName = api.escapeKey(select('svg.octicon-tag ~ span', release)!.textContent!);
-		for (const assetTag of select.all('.release-main-section .Box-body.flex-justify-between', release)) {
-			const assetName = select('svg.octicon-package ~ span', assetTag)!.textContent!;
-			const asset = tagAssets[tagName].find((a: any) => a.name === assetName)!;
-			const assetSize = select('small', assetTag)!;
+	const assets = await getAssetsForTag([...releases.keys()]);
+
+	for (const [name, release] of releases) {
+		for (const assetName of select.all('.octicon-package ~ span', release)) {
+			const {downloadCount} = assets[api.escapeKey(name)]
+				.find(({name}: any) => name === assetName.textContent!)!;
+
+			const assetSize = assetName.closest('.Box-body')!.querySelector('small')!;
 			wrap(assetSize,
 				<div className="flex-shrink-0 text-gray">
-					<span className="mr-2">
-						{icons.cloudDownload()} {prettyNumber(asset.downloadCount)}
-					</span>
+					<small className="mr-2">
+						{icons.cloudDownload()} {prettyNumber(downloadCount)}
+					</small>
 				</div>
 			);
 		}
@@ -84,7 +86,7 @@ async function init(): Promise<void | false> {
 
 features.add({
 	id: 'show-asset-download-count',
-	description: 'Adds a donwload count next to assets.',
+	description: 'Adds a download count next to release assets.',
 	include: [
 		features.isReleasesOrTags
 	],
