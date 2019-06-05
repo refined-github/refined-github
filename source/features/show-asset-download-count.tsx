@@ -41,6 +41,9 @@ async function getAssetsForTag(tags: string[]): Promise<Tag> {
 }
 
 function prettyNumber(value: number): string {
+	if (value <= 999) {
+		return value.toString();
+	}
 	let newValue = value;
 	const suffixes = ['', 'K', 'M', 'B', 'T'];
 	let suffixNum = 0;
