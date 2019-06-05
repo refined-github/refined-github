@@ -38,7 +38,7 @@ chrome.permissions.onAdded.addListener(async ({origins}) => {
 	registerOnOrigins(origins);
 });
 
-chrome.permissions.onRemoved.addListener(async ({origins}}) => {
+chrome.permissions.onRemoved.addListener(async ({origins}) => {
 	console.log(origins);
 	if (!origins || origins.length === 0) {
 		return;
