@@ -1,90 +1,52 @@
 /* global chrome */
 import './permission-events-polyfill';
 
-const registeredScripts = new Map<string, browser.contentScripts.RegisteredContentScript>();
+const registeredScripts = new Map<
+string,
+Promise<browser.contentScripts.RegisteredContentScript>
+>();
+
+// In Firefox, paths in the manifest are converted to full URLs under `moz-extension://` but browser.contentScripts expects exclusively relative paths
+function convertPath(file: string): browser.extensionTypes.ExtensionFileOrCode {
+	const url = new URL(file, location.origin);
+	return {file: url.pathname};
+}
+
 async function registerOnOrigins(origins: string[]): Promise<void> {
-	console.log('getting origins')
 	const configs = browser.runtime.getManifest().content_scripts!;
-	console.log('orogins are shit', configs)
-	// In Firefox, paths in the manifest are converted to full URLs under `moz-extension://` but browser.contentScripts expects exclusively relative paths
-	const convertPath = (file: string) => {
-		const url = new URL(file, location.origin);
-		return {file: url.pathname}; // Firefox
-	};
+
 	for (const config of configs) {
-		console.log({
-			js: (config.js || []).map(convertPath),
-			css: (config.css || []).map(convertPath),
-			allFrames: config.all_frames,
-			matches: origins,
-			runAt: config.run_at
-		});
-
-		// Needs to be registered one at a time to allow removing one at a time as well
+		// Register one at a time to allow removing one at a time as well
 		for (const origin of origins) {
-			console.log('will register', origin)
-			let registeredScript;
-			try {
-
-				const LOL = browser.contentScripts.register({
-					js: (config.js || []).map(convertPath),
-					css: (config.css || []).map(convertPath),
-					allFrames: config.all_frames,
-					matches: [origin],
-					runAt: config.run_at
-				});
-				console.log('lol is ', LOL)
-				window.WWWWWWWWWW = LOL;
-				LOL.then(y0 => console.log('NUTSSSS', y0), y0 => console.error('peanuts', y0))
-			} catch(error) {
-				console.log('error you', error);
-			}finally {
-				console.log('yoooooooooooooooooo');
-
-			}
-
-			// registeredScripts.set(origin, registeredScript);
-			console.log(origin, registeredScript)
+			const registeredScript = browser.contentScripts.register({
+				js: (config.js || []).map(convertPath),
+				css: (config.css || []).map(convertPath),
+				allFrames: config.all_frames,
+				matches: [origin],
+				runAt: config.run_at
+			});
+			registeredScripts.set(origin, registeredScript);
 		}
 	}
 }
-console.log('****************************')
-console.log('****************************')
-console.log('****************************')
-console.log('****************************')
-console.log('****************************')
-console.log('****************************')
-console.log('****************************')
-console.log('****************************')
-console.log('****************************')
-console.log('****************************')
-console.log('****************************')
-console.log('****************************')
-console.log('****************************')
-chrome.permissions.onAdded.addListener(async ({origins}) => {
-	console.log('PERMISSIONS WERE ADDED')
 
-	console.log(origins);
+chrome.permissions.onAdded.addListener(({origins}) => {
 	if (!origins || origins.length === 0) {
 		return;
 	}
 
-	console.log('will register shit on', origins);
 	registerOnOrigins(origins);
 });
 
 chrome.permissions.onRemoved.addListener(async ({origins}) => {
-	console.log('PERMISSIONS WERE DROPPED')
-	console.log(origins);
-	console.log(registeredScripts)
 	if (!origins || origins.length === 0) {
 		return;
 	}
 
 	for (const [origin, script] of registeredScripts) {
-		console.log(origin)
 		if (origins.includes(origin)) {
-			script.unregister();
+			// eslint-disable-next-line no-await-in-loop
+			(await script).unregister();
 		}
 	}
 });
