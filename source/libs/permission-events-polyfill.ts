@@ -8,20 +8,12 @@ const events = [
 if (chrome.permissions && !chrome.permissions.onAdded) {
 	for (const [action, event] of events) {
 		const act = chrome.permissions[action];
+		const listeners = new Set<(permission: any) => void>();
 
 		// Collect
 		chrome.permissions[event] = {
 			addListener(callback) {
-				console.log('setting listener for', action, callback.toString());
-
-				window.addEventListener('message', event => {
-					console.log('got message!', event.data, action)
-					if (event.data && event.data.action === action) {
-						console.log('got permissions', event.data.permissions)
-						callback(event.data.permissions)
-						console.log('called callback')
-					}
-				});
+				listeners.add(callback);
 			}
 		};
 
@@ -35,8 +27,12 @@ if (chrome.permissions && !chrome.permissions.onAdded) {
 				}
 
 				if (successful) {
-					console.log(location.href)
-					window.postMessage({action, permissions}, '*');
+					for (const listener of listeners) {
+						console.log('will call', permissions)
+						console.log(listener.toString())
+						listener(permissions)
+						// setTimeout(listener, 0, permissions); // Run all listeners even if one errors
+					}
 				}
 			});
 		};
