@@ -45,7 +45,7 @@
 }
 .rgh-recently-pushed-branches .RecentBranches .btn + div {
 	margin-right: 8px;
-	float: left;
+	float: right;
 	font-size: 11px;
 }
 .rgh-recently-pushed-branches .RecentBranches .btn .octicon {
