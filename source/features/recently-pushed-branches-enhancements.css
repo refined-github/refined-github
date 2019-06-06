@@ -32,6 +32,10 @@
 	border-radius: 5px;
 	background-color: #24292e;
 }
+.rgh-recently-pushed-branches .RecentBranches .octicon-git-branch {
+	vertical-align: middle;
+	margin-right: 2px;
+}
 .rgh-recently-pushed-branches .RecentBranches .btn {
 	width: 32px;
 	text-indent: -999999px; /* Hide text */
