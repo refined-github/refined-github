@@ -92,14 +92,10 @@ if (!chrome.contentScripts && chrome.declarativeContent.onPageChanged) {
 		}
 	};
 
-	console.log('cleaning up');
 	chrome.declarativeContent.onPageChanged.getRules(globalRules => {
-		console.log(globalRules);
-		const moduleRules = globalRules.filter(rule => rule.id && rule.id.startsWith(moduleId));
-		console.log(moduleRules);
-		if (moduleRules.length > 0) {
-			chrome.declarativeContent.onPageChanged.removeRules(moduleRules.map(rule => rule.id!));
-			console.log('cleaned!');
+		const moduleIds = globalRules.map(rule => rule.id!).filter(id => id && id.startsWith(moduleId));
+		if (moduleIds.length > 0) {
+			chrome.declarativeContent.onPageChanged.removeRules(moduleIds);
 		}
 	});
 }
