@@ -10,12 +10,12 @@
 		"build": "webpack --mode=production",
 		"watch": "webpack --mode=development --watch",
 		"watch:firefox": "web-ext run --source-dir=distribution",
-		"release:cws": "cd distribution && webstore upload --auto-publish",
+		"prerelease:version": "dot-json distribution/manifest.json version $VER",
+		"prerelease:source-url": "echo https://github.com/sindresorhus/refined-github/tree/\"${TRAVIS_COMMIT:-$VER}\" > distribution/SOURCE_URL",
 		"release:amo": "cd distribution && web-ext-submit",
-		"release": "npm-run-all build prerelease:* release:*",
-		"create-git-tag": "VER=$(daily-version) && git tag $VER -m $VER && git push origin $VER",
-		"prerelease:source-url": "echo https://github.com/$TRAVIS_REPO_SLUG/tree/$TRAVIS_COMMIT > distribution/SOURCE_URL",
-		"prerelease:version": "dot-json distribution/manifest.json version $TRAVIS_TAG"
+		"release:cws": "cd distribution && webstore upload --auto-publish",
+		"release": "VER=$(daily-version) && npm-run-all build prerelease:* release:* create-git-tag",
+		"create-git-tag": "git tag $VER -m $VER && git push origin $VER"
 	},
 	"dependencies": {
 		"copy-text-to-clipboard": "^2.0.0",
