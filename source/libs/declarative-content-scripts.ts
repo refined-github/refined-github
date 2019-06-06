@@ -14,11 +14,21 @@ function convertPath(file: string): browser.extensionTypes.ExtensionFileOrCode {
 }
 
 async function registerOnOrigins(origins: string[]): Promise<void> {
-	const configs = browser.runtime.getManifest().content_scripts!;
+	const manifest = browser.runtime.getManifest();
+	const configs = manifest.content_scripts!;
+	const manifestOrigins = [
+		...(manifest.permissions || []).filter(permission => permission.includes('://')),
+		...configs.flatMap(config => config.matches)
+	];
 
 	for (const config of configs) {
 		// Register one at a time to allow removing one at a time as well
 		for (const origin of origins) {
+			// This origin is already part of `manifest.json`
+			if (manifestOrigins.includes(origin)) {
+				continue;
+			}
+
 			const registeredScript = browser.contentScripts.register({
 				js: (config.js || []).map(convertPath),
 				css: (config.css || []).map(convertPath),
@@ -30,6 +40,10 @@ async function registerOnOrigins(origins: string[]): Promise<void> {
 		}
 	}
 }
+
+// Automatically register the content scripts on the new origins.
+// `registerOnOrigins` already takes care of excluding origins in `manifest.json`
+chrome.permissions.getAll(({origins}) => registerOnOrigins(origins!));
 
 chrome.permissions.onAdded.addListener(({origins}) => {
 	if (!origins || origins.length === 0) {
