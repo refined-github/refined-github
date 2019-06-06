@@ -12,10 +12,16 @@ if (chrome.permissions && !chrome.permissions.onAdded) {
 		// Collect
 		chrome.permissions[event] = {
 			addListener(callback) {
-				document.addEventListener('lol:' + action, ((event: CustomEvent<{permissions: chrome.permissions.Permissions}>) => {
-					console.log('got event', event)
-					callback(event.detail.permissions)
-				}) as EventListener)
+				console.log('setting listener for', action, callback.toString());
+
+				window.addEventListener('message', event => {
+					console.log('got message!', event.data, action)
+					if (event.data && event.data.action === action) {
+						console.log('got permissions', event.data.permissions)
+						callback(event.data.permissions)
+						console.log('called callback')
+					}
+				});
 			}
 		};
 
@@ -29,7 +35,8 @@ if (chrome.permissions && !chrome.permissions.onAdded) {
 				}
 
 				if (successful) {
-					document.dispatchEvent(new CustomEvent('lol:'+ action, {detail: {permissions}}));
+					console.log(location.href)
+					window.postMessage({action, permissions}, '*');
 				}
 			});
 		};
