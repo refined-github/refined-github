@@ -51,7 +51,7 @@ if (!location.protocol.startsWith('http') && !migrationsRun) {
 			},
 
 			// Example to for renamed features:
-			featureWasRenamed('fix-squash-and-merge-title', 'sync-pr-commit-title'), // Merged on April 22
+			featureWasRenamed('move-marketplace-link-to-profile-dropdown', 'deprioritize-marketplace-link'), // Merged on June 7th
 
 			// Removed features will be automatically removed from the options as well
 			OptionsSync.migrations.removeUnused

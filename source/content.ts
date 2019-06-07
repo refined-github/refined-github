@@ -22,7 +22,7 @@ import './features/profile-hotkey';
 import './features/make-discussion-sidebar-sticky';
 import './features/close-out-of-view-modals';
 import './features/improve-shortcut-help';
-import './features/move-marketplace-link-to-profile-dropdown';
+import './features/deprioritize-marketplace-link';
 import './features/view-markdown-source';
 import './features/copy-file';
 import './features/hide-own-stars';
