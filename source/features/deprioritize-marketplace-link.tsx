@@ -7,7 +7,7 @@ import features from '../libs/features';
 async function init(): Promise<void> {
 	(await elementReady('.Header-link[href="/marketplace"]'))!
 		// The Marketplace link seems to have an additional wrapper that other links don't have https://i.imgur.com/KV9rtSq.png
-		.closest('.border-top')!.remove();
+		.closest('.border-top, .mr-3')!.remove();
 
 	await domLoaded;
 
