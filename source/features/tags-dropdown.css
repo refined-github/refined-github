@@ -1,8 +1,3 @@
-/* Add spacing between buttons when user change edit the current tag */
-.float-right + .rgh-tags-dropdown {
-	margin-right: 10px;
-}
-
 /* Drop unneeded elements */
 :root .rgh-tags-dropdown .select-menu-tab,
 :root .rgh-tags-dropdown .select-menu-header {

@@ -10,10 +10,12 @@ const createRawUrl = (href: string): string => {
 };
 
 function addRawButtons(): void {
-	for (const anchor of select.all<HTMLAnchorElement>('.file-header .file-actions > div.BtnGroup [href*=\'/blob/\']:last-child')) {
-		anchor.after(
-			<a href={createRawUrl(anchor.pathname)} className="btn btn-sm BtnGroup-item">
-				Raw
+	const links = select.all<HTMLAnchorElement>('.js-file-header-dropdown [data-ga-click^="View file"]:not(.rgh-has-raw-file-link)');
+	for (const fileLink of links) {
+		fileLink.classList.add('rgh-has-raw-file-link');
+		fileLink.after(
+			<a href={createRawUrl(fileLink.pathname)} className="pl-5 dropdown-item btn-link" role="menuitem">
+				View raw
 			</a>
 		);
 	}
@@ -26,7 +28,8 @@ function init(): void {
 
 features.add({
 	id: 'raw-file-link',
-	description: 'Link to raw files in pull requests and commits (https://user-images.githubusercontent.com/1402241/56484988-b99f2500-6504-11e9-9748-c944e1070cc8.png)',
+	description: 'Link to raw files in pull requests and commits',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/56484988-b99f2500-6504-11e9-9748-c944e1070cc8.png',
 	include: [
 		features.isCommit,
 		features.isPRFiles

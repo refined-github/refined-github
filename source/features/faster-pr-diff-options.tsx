@@ -58,25 +58,33 @@ function wrap(...elements: Node[]): DocumentFragment {
 
 function init(): false | void {
 	const container = select([
-		'.table-of-contents.Details .BtnGroup', // In single commit view
-		'.pr-review-tools > .diffbar-item' // In review view
+		'#toc', // In single commit view
+		'.pr-review-tools' // In review view
 	].join(','));
-
 	if (!container) {
 		return false;
 	}
 
-	container.replaceWith(
+	container.prepend(
 		wrap(
 			createDiffStyleToggle(),
 			createWhitespaceButton()
 		)
 	);
 
-	// Make space for the new button by removing "Changes from" #655
-	const uselessCopy = select('[data-hotkey="c"]');
-	if (uselessCopy) {
-		uselessCopy.firstChild!.remove();
+	// Remove previous options UI
+	const singleCommitUI = select('[data-ga-load="Diff, view, Viewed Split Diff"]');
+	if (singleCommitUI) {
+		singleCommitUI.remove();
+		return;
+	}
+
+	const prUI = select('.js-diff-settings');
+	if (prUI) {
+		prUI.closest('details')!.remove();
+
+		// Make space for the new button by removing "Changes from" #655
+		select('[data-hotkey="c"]')!.firstChild!.remove();
 	}
 }
 

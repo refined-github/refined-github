@@ -17,7 +17,7 @@ function init(): void {
 
 features.add({
 	id: 'download-folder-button',
-	description: 'Download entire folders from repositories using the `Download folder` button. (Uses https://download-directory.github.io)',
+	description: 'Download entire folders from repositories using the `Download folder` button, via https://download-directory.github.io',
 	include: [
 		features.isRepoTree
 	],

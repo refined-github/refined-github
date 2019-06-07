@@ -1,18 +1,7 @@
 /* Hide reaction popover text */
-.reaction-popover-form.js-pick-reaction span.js-reaction-description,
-.reaction-popover-form.js-pick-reaction .dropdown-divider {
+.js-add-reaction-popover .text-gray,
+.js-add-reaction-popover .dropdown-divider {
 	display: none;
-}
-
-/* Increase reaction popover hitbox area to avoid involuntary closes */
-.reaction-popover-form::before {
-	content: '';
-	position: absolute;
-	top: -20px;
-	right: -10px;
-	bottom: -20px;
-	left: -10px;
-	z-index: -1;
 }
 
 /* Center reactions popup and its triangle */

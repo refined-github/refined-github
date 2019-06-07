@@ -1,12 +1,12 @@
 import './mark-unread.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import elementReady from 'element-ready';
 import delegate, {DelegateSubscription, DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
-import {safeElementReady} from '../libs/dom-utils';
 import {getUsername, getOwnerAndRepo} from '../libs/utils';
 
 type NotificationType = 'pull-request' | 'issue';
@@ -49,7 +49,8 @@ async function getNotifications(): Promise<Notification[]> {
 	const {unreadNotifications} = await browser.storage.local.get({
 		unreadNotifications: []
 	});
-	return unreadNotifications;
+	// Only show notifications for the current domain. Accounts for gist.github.com as well
+	return unreadNotifications.filter(({url}: Notification) => location.hostname.endsWith(new URL(url).hostname));
 }
 
 async function setNotifications(unreadNotifications: Notification[]): Promise<void> {
@@ -227,7 +228,7 @@ async function renderNotifications(unreadNotifications: Notification[]): Promise
 	}
 
 	// Don’t simplify selector, it’s for cross-extension compatibility
-	let pageList = (await safeElementReady('#notification-center .notifications-list'))!;
+	let pageList = (await elementReady('#notification-center .notifications-list'))!;
 
 	if (!pageList) {
 		pageList = <div className="notifications-list"></div>;

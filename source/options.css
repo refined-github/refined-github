@@ -1,5 +1,5 @@
 html {
-	min-width: 430px;
+	min-width: 550px;
 	overflow-x: hidden;
 }
 
@@ -53,6 +53,37 @@ input[type='checkbox'] {
 /* Increase spacing between sections */
 h2 ~ h2 {
 	margin-top: 2em;
+}
+
+.js-features p {
+	display: flex;
+}
+
+.js-features input {
+	flex-shrink: 0;
+	margin-inline-end: 0.6em; /* Spacing for Chrome */
+	margin-top: 4px; /* Alignment for Chrome */
+}
+
+.js-features :not(:checked) + .info .feature-name {
+	text-decoration: line-through;
+}
+
+.js-features .description {
+	font-style: 0.8em;
+	opacity: 0.8;
+}
+
+.js-features a {
+	font-size: 0.9em;
+}
+
+.feature-name + a {
+	margin-left: 0.6em;
+}
+
+.sr-only {
+	display: none;
 }
 
 /* Firefox only */
