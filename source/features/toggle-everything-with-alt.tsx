@@ -70,7 +70,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'toggle-all-things-with-alt',
+	id: 'toggle-everything-with-alt',
 	load: features.onAjaxedPages,
 	description: 'Toggle all similar items while holding `alt`',
 	init,
