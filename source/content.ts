@@ -104,6 +104,7 @@ import './features/clean-sidebar';
 import './features/show-asset-download-count';
 import './features/open-issue-to-latest-comment';
 import './features/highest-rated-comment';
+import './features/clean-issue-filters';
 
 import './features/scrollable-code-and-blockquote.css';
 import './features/center-reactions-popup.css';
