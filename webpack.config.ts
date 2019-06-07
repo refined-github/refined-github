@@ -1,10 +1,11 @@
 import path from 'path';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
+import {readdirSync} from 'fs';
+import webpack from 'webpack';
 import TerserPlugin from 'terser-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 // @ts-ignore
 import SizePlugin from 'size-plugin';
-import webpack from 'webpack';
 
 module.exports = (_env: string, argv: Record<string, boolean | number | string>): webpack.Configuration => ({
 	devtool: 'source-map',
@@ -21,6 +22,25 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 	},
 	module: {
 		rules: [
+			{
+				test: /options-storage/,
+				loader: 'string-replace-loader',
+				options: {
+					search: '__featuresList__',
+					replace: (() => {
+						const features = [];
+
+						const directoryPath = path.join(__dirname, 'source/features');
+						for (const filename of readdirSync(directoryPath)) {
+							if (filename.endsWith('.tsx')) {
+								features.push(filename.replace('.tsx', ''));
+							}
+						}
+
+						return JSON.stringify(features);
+					})()
+				}
+			},
 			{
 				test: /\.(js|ts|tsx)$/,
 				use: [
