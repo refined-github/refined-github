@@ -10,11 +10,8 @@ async function init(): Promise<void> {
 			repository(owner: "${ownerName}", name: "${repoName}") {
 				projects { totalCount }
 				milestones { totalCount }
-			},
-			organization(login: "${ownerName}") {
-				projects { totalCount }
 			}
-			user(login: "${ownerName}") {
+			organization(login: "${ownerName}") {
 				projects { totalCount }
 			}
 		}
@@ -22,16 +19,15 @@ async function init(): Promise<void> {
 		allowErrors: true
 	});
 
-	// Hide projects filter only if there are no repo, user, and organization level projects
+	// If the repo and organization has no projects, its selector will be empty
 	if (
 		result.repository.projects.totalCount === 0 &&
-		(!result.organization || result.organization.projects.totalCount === 0) &&
-		(!result.user || result.user.projects.totalCount === 0)
+		(!result.organization || result.organization.projects.totalCount === 0)
 	) {
 		select('[data-hotkey="p"')!.parentElement!.remove();
 	}
 
-	// Hide milestones filter if there are none
+	// If the repo has no milestones, its selector will be empty
 	if (result.repository.milestones.totalCount === 0) {
 		select('[data-hotkey="m"')!.parentElement!.remove();
 	}
