@@ -14,7 +14,7 @@
 		"prerelease:source-url": "echo https://github.com/sindresorhus/refined-github/tree/\"${TRAVIS_COMMIT:-$VER}\" > distribution/SOURCE_URL",
 		"release:amo": "cd distribution && web-ext-submit",
 		"release:cws": "cd distribution && webstore upload --auto-publish",
-		"release": "VER=$(daily-version) && npm-run-all build prerelease:* release:* create-git-tag",
+		"release": "VER=$(daily-version) npm-run-all build prerelease:* release:* create-git-tag",
 		"create-git-tag": "git tag $VER -m $VER && git push origin $VER"
 	},
 	"dependencies": {
