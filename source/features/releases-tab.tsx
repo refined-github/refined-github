@@ -3,7 +3,7 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
-import * as cache from '../libs/cache';
+import cache from '../libs/cache';
 import {getRepoURL} from '../libs/utils';
 import {isRepoRoot, isReleasesOrTags} from '../libs/page-detect';
 

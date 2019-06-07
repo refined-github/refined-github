@@ -10,12 +10,12 @@
 		"build": "webpack --mode=production",
 		"watch": "webpack --mode=development --watch",
 		"watch:firefox": "web-ext run --source-dir=distribution",
-		"release:cws": "cd distribution && webstore upload --auto-publish",
+		"prerelease:version": "dot-json distribution/manifest.json version $VER",
+		"prerelease:source-url": "echo https://github.com/sindresorhus/refined-github/tree/\"${TRAVIS_COMMIT:-$VER}\" > distribution/SOURCE_URL",
 		"release:amo": "cd distribution && web-ext-submit",
-		"release": "npm-run-all build prerelease:* release:*",
-		"create-git-tag": "VER=$(daily-version) && git tag $VER -m $VER && git push origin $VER",
-		"prerelease:source-url": "echo https://github.com/$TRAVIS_REPO_SLUG/tree/$TRAVIS_COMMIT > distribution/SOURCE_URL",
-		"prerelease:version": "dot-json distribution/manifest.json version $TRAVIS_TAG"
+		"release:cws": "cd distribution && webstore upload --auto-publish",
+		"release": "VER=$(daily-version) npm-run-all build prerelease:* release:* create-git-tag",
+		"create-git-tag": "git tag $VER -m $VER && git push origin $VER"
 	},
 	"dependencies": {
 		"copy-text-to-clipboard": "^2.0.0",
@@ -38,6 +38,7 @@
 		"shorten-repo-url": "^1.5.1",
 		"tiny-version-compare": "^1.0.0",
 		"type-fest": "^0.4.1",
+		"webext-detect-page": "^0.9.1",
 		"webext-domain-permission-toggle": "^0.1.0",
 		"webext-dynamic-content-scripts": "^5.0.2-0",
 		"webext-options-sync": "^0.15.5",
@@ -67,6 +68,7 @@
 		"mini-css-extract-plugin": "^0.6.0",
 		"npm-run-all": "^4.1.3",
 		"size-plugin": "^1.2.0",
+		"string-replace-loader": "^2.1.1",
 		"stylelint": "^10.0.1",
 		"stylelint-config-xo": "^0.15.0",
 		"terser-webpack-plugin": "^1.2.3",

@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import * as cache from './cache';
+import cache from './cache';
 import * as api from './api';
 import {getOwnerAndRepo} from './utils';
 
@@ -33,9 +33,14 @@ async function fetchFromApi(user: string, repo: string): Promise<any> {
 	}
 }
 
-export default function (): Promise<any> {
+export default async function (): Promise<string> {
 	const {ownerName, repoName} = getOwnerAndRepo();
-	return cache.getSet<string>(`default-branch:${ownerName}/${repoName}`,
-		() => parseBranchFromDom() || fetchFromApi(ownerName, repoName)
-	);
+	const cached = await cache.get<string>(`default-branch:${ownerName}/${repoName}`);
+	if (cached) {
+		return cached;
+	}
+
+	const branch = parseBranchFromDom() || await fetchFromApi(ownerName, repoName);
+	await cache.set(`default-branch:${ownerName}/${repoName}`, branch, 1);
+	return branch;
 }

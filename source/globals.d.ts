@@ -1,5 +1,7 @@
 type AnyObject = Record<string, any>;
 
+declare const __featuresList__: string[];
+
 interface Window {
 	collectFeatures: Map<string, FeatureDetails>;
 }
