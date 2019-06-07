@@ -14,7 +14,15 @@ async function getTags(after?: string): Promise<Tag[]> {
 	const {ownerName, repoName} = getOwnerAndRepo();
 	const {repository} = await api.v4(`{
 		repository(owner: "${ownerName}", name: "${repoName}") {
-			refs(first: 100, refPrefix: "refs/tags/", orderBy: {field: TAG_COMMIT_DATE, direction: DESC}${after ? `, after:"${after}"` : ''}) {
+			refs(
+				first: 100,
+				refPrefix: "refs/tags/",
+				orderBy: {
+					field: TAG_COMMIT_DATE,
+					direction: DESC
+				}
+				${after ? `, after: "${after}"` : ''}
+			) {
 				pageInfo {
 					hasNextPage
 					endCursor
@@ -33,7 +41,10 @@ async function getTags(after?: string): Promise<Tag[]> {
 			}
 		}
 	}`);
-	let tags: Tag[] = repository.refs.nodes.map((node: any) => ({name: node.name, commit: node.target.commitResourcePath.split('/')[4]}));
+	let tags: Tag[] = repository.refs.nodes.map((node: any) => ({
+		name: node.name,
+		commit: node.target.commitResourcePath.split('/')[4]
+	}));
 	if (repository.refs.pageInfo.hasNextPage) {
 		tags = tags.concat(await getTags(repository.refs.pageInfo.endCursor));
 	}
