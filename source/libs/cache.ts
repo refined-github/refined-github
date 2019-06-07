@@ -1,73 +1,69 @@
-type CacheGetter<TValue extends any = any> = () => TValue | Promise<TValue>;
+import {isBackgroundPage} from 'webext-detect-page';
 
-interface CacheRequest {
-	code: string;
-	key: string;
-	value?: unknown;
-	expiration?: number;
+interface CacheItem<TValue extends unknown = unknown> {
+	data: TValue;
+	expiration: number;
 }
 
-export async function getSet<TValue extends any = any>(key: string, getter: CacheGetter<TValue>, expiration?: number): Promise<TValue | undefined> {
-	const cache = await get<TValue>(key);
-	if (cache !== undefined) {
-		return cache;
-	}
+const storage: browser.storage.StorageArea = browser.storage.local;
 
-	const value = await getter();
-	if (value !== undefined) {
-		await set(key, value, expiration);
-	}
-
-	return value;
+async function has(key: string): Promise<boolean> {
+	const cachedKey = `cache:${key}`;
+	const values = await storage.get(cachedKey);
+	return values[cachedKey] !== undefined;
 }
 
-export async function get<TValue extends any = any>(key: string): Promise<TValue | undefined> {
-	const value = await browser.runtime.sendMessage({
-		key,
-		code: 'get-cache'
-	});
-
+async function get<TValue extends unknown = unknown>(key: string): Promise<TValue | undefined> {
+	const cachedKey = `cache:${key}`;
+	const values = await storage.get(cachedKey);
+	const value = values[cachedKey] as CacheItem<TValue>;
 	// If it's not in the cache, it's best to return "undefined"
-	if (value === null || value === undefined) {
+	if (value === undefined) {
 		return undefined;
 	}
 
-	return value;
+	if (Date.now() > value.expiration) {
+		await storage.remove(cachedKey);
+		return undefined;
+	}
+
+	console.log('CACHE: found', key, value.data);
+	return value.data;
 }
 
-export function set<TValue extends any = any>(key: string, value: TValue, expiration?: number /* in days */): Promise<any> {
-	return browser.runtime.sendMessage({
-		key,
-		value,
-		expiration,
-		code: 'set-cache'
-	});
-}
-
-/* Accept messages in background page */
-if (location.pathname === '/_generated_background_page.html') {
-	browser.runtime.onMessage.addListener(async (request: CacheRequest) => {
-		if (!request) {
-			return;
-		}
-
-		const {code, key, value, expiration} = request;
-		if (code === 'get-cache') {
-			const [cached] = document.cookie.split('; ')
-				.filter(item => item.startsWith(key + '='));
-			if (cached) {
-				const [, value] = cached.split('=');
-				console.log('CACHE: found', key, value);
-				return JSON.parse(value);
-			}
-
-			console.log('CACHE: not found', key);
-		} else if (code === 'set-cache') {
-			console.log('CACHE: setting', key, value);
-
-			// Store as JSON to preserve data type
-			// otherwise Booleans and Numbers become strings
-			document.cookie = `${key}=${JSON.stringify(value)}; max-age=${expiration ? expiration * 3600 * 24 : ''}`;
+function set<TValue extends unknown = unknown>(key: string, value: TValue, expiration: number /* in days */): Promise<void> {
+	console.log('CACHE: setting', key, value);
+	const cachedKey = `cache:${key}`;
+	return storage.set({
+		[cachedKey]: {
+			data: value,
+			expiration: Date.now() + (1000 * 3600 * 24 * expiration)
 		}
 	});
 }
+
+async function purge(): Promise<void> {
+	const values = await storage.get();
+	const removableItems = [];
+	for (const [key, value] of Object.entries(values)) {
+		if (key.startsWith('cache:') && Date.now() > (value as CacheItem).expiration) {
+			removableItems.push(key);
+		}
+	}
+
+	if (removableItems.length > 0) {
+		await storage.remove(removableItems);
+	}
+}
+
+// Automatically clear cache every day
+if (isBackgroundPage()) {
+	setTimeout(purge, 60000); // Purge cache on launch, but wait a bit
+	setInterval(purge, 1000 * 3600 * 24);
+}
+
+export default {
+	has,
+	get,
+	set
+};
