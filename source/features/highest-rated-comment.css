@@ -1,0 +1,10 @@
+.rgh-highest-rated-comment {
+	border: 2px solid #ffa500 !important;
+}
+
+a.rgh-highest-rated-comment .timeline-comment-header-text {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	max-width: none;
+}

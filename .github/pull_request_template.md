@@ -1,7 +1,7 @@
 <!-- Thanks for contributing! 🍄 -->
 
 Closes 
-<!--    👆 Does this PR close/fix an existing issue? Put it here. E.g. `Closes #10`
+<!--    👆 Does this PR close/fix an existing issue? Put it here. E.g. `Closes #10` -->
 
 
 # Test
