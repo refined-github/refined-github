@@ -30,12 +30,7 @@ async function getTags(after?: string): Promise<Tag[]> {
 				nodes {
 					name
 					target {
-						... on Tag {
-							commitResourcePath
-						}
-						... on Commit {
-							commitResourcePath
-						}
+						commitResourcePath
 					}
 				}
 			}
