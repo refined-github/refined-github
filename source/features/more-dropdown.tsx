@@ -4,7 +4,7 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
-import {getRepoURL} from '../libs/utils';
+import {getRepoURL, getRef} from '../libs/utils';
 import {isEnterprise} from '../libs/page-detect';
 import {appendBefore} from '../libs/dom-utils';
 
@@ -31,10 +31,18 @@ async function init(): Promise<void> {
 		createDropdown();
 	}
 
+	let compareUrl = `/${repoUrl}/compare`;
+	let commitsUrl = `/${repoUrl}/commits`;
+	const ref = getRef();
+	if (ref) {
+		compareUrl += `/${ref}`;
+		commitsUrl += `/${ref}`;
+	}
+
 	const menu = select('.reponav-dropdown .dropdown-menu')!;
 
 	menu.append(
-		<a href={`/${repoUrl}/compare`} className="rgh-reponav-more dropdown-item">
+		<a href={compareUrl} className="rgh-reponav-more dropdown-item">
 			{icons.darkCompare()} Compare
 		</a>,
 
@@ -43,7 +51,7 @@ async function init(): Promise<void> {
 				{icons.dependency()} Dependencies
 			</a>,
 
-		<a href={`/${repoUrl}/commits`} className="rgh-reponav-more dropdown-item">
+		<a href={commitsUrl} className="rgh-reponav-more dropdown-item">
 			{icons.history()} Commits
 		</a>,
 

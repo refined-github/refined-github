@@ -10,7 +10,7 @@
 }
 
 /* Move `New issue` button back to the right */
-.subnav .btn-primary {
+.subnav .float-right {
 	order: 100;
 	margin-left: 20px;
 }

@@ -40,6 +40,15 @@ export const getOwnerAndRepo = (): {
 	return {ownerName, repoName};
 };
 
+export const getRef = (): string | undefined => {
+	const pathnameParts = location.pathname.split('/');
+	if (['commits', 'blob', 'tree', 'blame'].includes(pathnameParts[3])) {
+		return pathnameParts[4];
+	}
+
+	return undefined;
+};
+
 export const parseTag = (tag: string): {version: string; namespace: string} => {
 	const [, namespace = '', version = ''] = tag.match(/(?:(.*)@)?([^@]+)/) || [];
 	return {namespace, version};

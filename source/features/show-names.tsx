@@ -9,13 +9,13 @@ async function init(): Promise<false | void> {
 	// `a` selector needed to skip commits by non-GitHub users
 	const usernameElements = select.all('.js-discussion a.author:not(.rgh-fullname):not([href*="/apps/"]):not([href*="/marketplace/"])');
 
-	const usernames = new Set();
+	const usernames = new Set<string>();
 	const myUsername = getUsername();
 	for (const el of usernameElements) {
 		el.classList.add('rgh-fullname');
 		const username = el.textContent;
 		if (username !== myUsername && username !== 'ghost') {
-			usernames.add(el.textContent);
+			usernames.add(el.textContent!);
 		}
 
 		// Drop 'commented' label to shorten the copy

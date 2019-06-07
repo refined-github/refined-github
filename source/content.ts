@@ -51,7 +51,7 @@ import './features/wait-for-build';
 import './features/hide-inactive-deployments';
 import './features/pull-request-hotkey';
 import './features/quick-review-buttons';
-import './features/linkify-issues-in-titles';
+import './features/format-discussion-titles';
 import './features/embed-gist-inline';
 import './features/extend-status-labels';
 import './features/highlight-closing-prs-in-open-issues';
@@ -101,7 +101,9 @@ import './features/hide-disabled-milestone-sorter';
 import './features/tag-changelog-link';
 import './features/link-to-file-in-file-history';
 import './features/clean-sidebar';
+import './features/show-asset-download-count';
 import './features/open-issue-to-latest-comment';
+import './features/highest-rated-comment';
 import './features/clean-issue-filters';
 
 import './features/scrollable-code-and-blockquote.css';

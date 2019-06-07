@@ -3,29 +3,18 @@ node_js:
   - 'node'
 env:
   - EXTENSION_ID=hlepfoohegkhhmjieoechaddaejaokhf
+
+# To deploy locally, you'll need to setup all the ENV variables required by `web-ext-submit` and `chrome-webstore-upload-cli`
 deploy:
-  - # Publishes tagged version. Expects tag to be valid version
-    provider: script
-    skip_cleanup: true
-    script: npm run release
-    on:
-      tags: true
-
-  - # Creates versioned git tag when build is triggered via "Trigger build" on Travis-ci.com
-    provider: script
-    skip_cleanup: true
-    script: npm run create-git-tag
-    on:
-      branch: master
-      condition: $TRAVIS_EVENT_TYPE = api
-
-  - # Creates versioned git tag on daily Travis cronjobs if HEAD isn't already tagged
-    provider: script
-    skip_cleanup: true
-    script: npm run create-git-tag
-    on:
-      branch: master
-      condition: ($TRAVIS_EVENT_TYPE = cron) && ($(git tag -l --points-at HEAD) = "")
+  provider: script
+  skip_cleanup: true
+  script: npm run release
+  on:
+    branch: master
+    # If HEAD isn't already tagged, then release
+    #   On cron jobs, or
+    #   When triggered via "Trigger build" on https://travis-ci.org/sindresorhus/refined-github/
+    condition: ($TRAVIS_EVENT_TYPE = api || $TRAVIS_EVENT_TYPE = cron) && ($(git tag -l --points-at HEAD) = "")
 
 # Setup Travis to be able to push git tags to GitHub
 after_success:
