@@ -171,9 +171,14 @@ test('isRepoDiscussionList', urlMatcherMacro, pageDetect.isRepoDiscussionList, [
 
 test('isGlobalDiscussionList', urlMatcherMacro, pageDetect.isGlobalDiscussionList, [
 	'https://github.com/issues',
+	'https://github.com/issues?q=is%3Apr+is%3Aopen',
+	'https://github.com/issues/assigned',
+	'https://github.com/issues/mentioned',
 	'https://github.com/pulls',
 	'https://github.com/pulls?q=issues',
-	'https://github.com/issues?q=is%3Apr+is%3Aopen'
+	'https://github.com/pulls/assigned',
+	'https://github.com/pulls/mentioned',
+	'https://github.com/pulls/review-requested'
 ], [
 	'https://github.com/issuesorter',
 	'https://github.com/sindresorhus/refined-github/issues',
