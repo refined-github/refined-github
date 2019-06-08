@@ -36,9 +36,9 @@ function populateDropDown({currentTarget}: Event): void {
 }
 
 async function init(): Promise<void | false> {
-	const ciStatusIcon = await fetchCIStatus();
+	const hasCI = await fetchCIStatus();
 
-	if (!ciStatusIcon) {
+	if (!hasCI) {
 		return false;
 	}
 
