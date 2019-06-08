@@ -75,9 +75,10 @@ async function init(): Promise<void | false> {
 				if (name === assetName.textContent) {
 					// Place next to asset size, keeping both aligned right
 					wrap(assetName.closest('.Box-body')!.querySelector('small')!,
-						<div className="flex-shrink-0 text-gray">
-							<small className="mr-2" style={index === 0 ? {fontWeight: 'bold'} : {}} title="Downloads">
-								{icons.cloudDownload()} {prettyNumber(downloadCount)}
+						<div className="d-flex flex-items-center flex-shrink-0 text-gray">
+							<small className="mr-2 d-flex flex-items-center" style={index === 0 ? {fontWeight: 'bold'} : {}} title="Downloads">
+								{icons.cloudDownload()}
+								<span className="pl-1">{prettyNumber(downloadCount)}</span>
 							</small>
 						</div>
 					);
