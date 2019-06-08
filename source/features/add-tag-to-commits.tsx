@@ -4,14 +4,28 @@ import features from '../libs/features';
 import * as api from '../libs/api';
 import {getOwnerAndRepo, getRepoURL} from '../libs/utils';
 import * as icons from '../libs/icons';
+import cache from '../libs/cache';
 
-interface Tag {
-	name: string;
-	commit: string;
+interface CommitTags {
+	[name: string]: string[];
+}
+const {ownerName, repoName} = getOwnerAndRepo();
+const cacheKey = `tags:${ownerName}/${repoName}`;
+
+function mergeTags(oldTags: CommitTags, newTags: CommitTags): CommitTags {
+	const result: CommitTags = {...oldTags};
+	for (const commit in newTags) {
+		if (result[commit]) {
+			result[commit] = [...new Set(result[commit].concat(newTags[commit]))];
+		} else {
+			result[commit] = newTags[commit];
+		}
+	}
+
+	return result;
 }
 
-async function getTags(after?: string): Promise<Tag[]> {
-	const {ownerName, repoName} = getOwnerAndRepo();
+async function getTags(lastCommit: string, after?: string): Promise<CommitTags> {
 	const {repository} = await api.v4(`{
 		repository(owner: "${ownerName}", name: "${repoName}") {
 			refs(
@@ -31,34 +45,75 @@ async function getTags(after?: string): Promise<Tag[]> {
 					name
 					target {
 						commitResourcePath
+						... on Tag {
+							tagger {
+								date
+							}
+						}
+						... on Commit {
+							committedDate
+						}
 					}
+				}
+			}
+			object(expression: "${lastCommit}") {
+				... on Commit {
+					committedDate
 				}
 			}
 		}
 	}`);
-	let tags: Tag[] = repository.refs.nodes.map((node: any) => ({
-		name: node.name,
-		commit: node.target.commitResourcePath.split('/')[4]
-	}));
-	if (repository.refs.pageInfo.hasNextPage) {
-		tags = tags.concat(await getTags(repository.refs.pageInfo.endCursor));
+	const {nodes} = repository.refs;
+	let tags: CommitTags = nodes.reduce((tags: CommitTags, node: any) => {
+		const commit = node.target.commitResourcePath.split('/')[4];
+		const {name} = node;
+		if (!tags[commit]) {
+			tags[commit] = [];
+		}
+
+		tags[commit].push(name);
+
+		return tags;
+	}, {} as CommitTags);
+
+	const lastTag = nodes[nodes.length - 1].target;
+	const lastTagIsYounger = new Date(repository.object.committedDate) < new Date(lastTag.tagger ? lastTag.tagger.date : lastTag.committedDate);
+
+	// If the last tag is younger than last commit on the page, then not all commits are accounted for, keep looking
+	if (lastTagIsYounger && repository.refs.pageInfo.hasNextPage) {
+		tags = mergeTags(tags, await getTags(lastCommit, repository.refs.pageInfo.endCursor));
 	}
 
+	// There are no tags for this commit
 	return tags;
 }
 
 async function init(): Promise<void | false> {
-	const tags = await getTags();
-	for (const commit of select.all('li.commit')) {
+	const commitsOnPage = select.all('li.commit');
+	const lastCommitOnPage = (commitsOnPage[commitsOnPage.length - 1].dataset.channel as string).split(':')[3];
+	let cached = await cache.get<{[commit: string]: string[]}>(cacheKey) || {};
+	const commitsWithNoTags = [];
+	for (const commit of commitsOnPage) {
 		const targetCommit = (commit.dataset.channel as string).split(':')[3];
-		const targetTags = tags.filter(tag => tag.commit === targetCommit);
-		if (targetTags.length > 0) {
+		let targetTags = cached[targetCommit];
+		if (!targetTags) {
+			// No tags for this commit found in the cache, check in github
+			cached = mergeTags(cached, await getTags(lastCommitOnPage)); // eslint-disable-line no-await-in-loop
+			targetTags = cached[targetCommit];
+		}
+
+		if (!targetTags) {
+			// There was no tags for this commit, save that info to the cache
+			commitsWithNoTags.push(targetCommit);
+		}
+
+		if (targetTags && targetTags.length > 0) {
 			select('.commit-meta', commit)!.append(
 				<div className="ml-2">
 					{icons.tag()}
 					<span className="ml-1">{targetTags.map((tags, i) => (
 						<>
-							<a href={`/${getRepoURL()}/releases/${tags.name}`}>{tags.name}</a>
+							<a href={`/${getRepoURL()}/releases/${tags}`}>{tags}</a>
 							{(i + 1) === targetTags.length ? '' : ', '}
 						</>
 					))}</span>
@@ -66,6 +121,14 @@ async function init(): Promise<void | false> {
 			);
 		}
 	}
+
+	if (commitsWithNoTags.length > 0) {
+		for (const commit of commitsWithNoTags) {
+			cached[commit] = [];
+		}
+	}
+
+	await cache.set(cacheKey, cached, 1);
 }
 
 features.add({
