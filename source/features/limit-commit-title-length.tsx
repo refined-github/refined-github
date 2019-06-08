@@ -10,7 +10,7 @@ function init(): void {
 	].join(','));
 
 	for (const inputField of inputs) {
-		inputField.setAttribute('maxlength', '70');
+		inputField.setAttribute('maxlength', '72');
 	}
 }
 
