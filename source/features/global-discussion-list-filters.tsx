@@ -8,7 +8,7 @@ function init(): void {
 	const defaultQuery = 'is:open archived:false ';
 
 	// Without this, the Issues page also displays PRs, and viceversa
-	const type = location.pathname === '/issues' ? 'is:issue ' : 'is:pr ';
+	const type = location.pathname.split('/', 2)[1] === 'issues' ? 'is:issue ' : 'is:pr ';
 
 	const links = [
 		['Commented', `commenter:${getUsername()}`],
