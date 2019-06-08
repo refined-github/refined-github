@@ -121,6 +121,6 @@ import './features/hide-readme-header.css';
 import './features/hide-obvious-tooltips.css';
 import './features/clean-discussions.css';
 import './features/clean-rich-text-editor.css';
-
+import './features/show-asset-download-count.css';
 // Add global for easier debugging
 (window as any).select = select;
