@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 import cache from '../libs/cache';
-import {getRepoURL} from '../libs/utils';
+import {getRepoURL, getUsername} from '../libs/utils';
 import {isOwnRepo} from '../libs/page-detect';
 
 const currentRepo = getRepoURL();
@@ -21,8 +21,7 @@ async function init(): Promise<void> {
 // Check for cached forks.
 async function checkForks(): Promise<void> {
 	const repo = getOriginalRepo();
-	const repoKey = key(repo);
-	const cached = await cache.get<string[]>(repoKey) || [];
+	const cached = await getCache(repo);
 	const validForks = cached.filter(validateFork);
 	for (const fork of await Promise.all(validForks)) {
 		if (fork !== currentRepo) {
@@ -34,7 +33,7 @@ async function checkForks(): Promise<void> {
 
 // Check if the fork still exists.
 async function validateFork(repo: string): Promise<boolean> {
-	const url = new URL('/' + repo, location.href);
+	const url = new URL(`/${repo}`, location.href);
 	try {
 		const response = await fetch(String(url),
 			{
@@ -67,11 +66,13 @@ function onFragmentLoaded(parent: HTMLElement): void {
 	removeAllHtml();
 
 	const repo = getOriginalRepo();
-	for (const forkElm of select.all<HTMLElement>('.octicon-repo-forked', parent)) {
+	const forks = select.all<HTMLElement>('.octicon-repo-forked', parent).map(forkElm => {
 		const fork = forkElm.parentNode!.textContent!.trim();
 		appendHtml(fork);
-		storeCache(repo, fork);
-	}
+		return fork;
+	});
+
+	storeCache(repo, ...forks);
 }
 
 // Get the original repo, by checking if we are already on a fork.
@@ -86,18 +87,36 @@ function getOriginalRepo(): string {
 	return repo;
 }
 
-// Save forks to cache.
-async function storeCache(repo: string, fork: string): Promise<void> {
-	console.log('storeCache', arguments);
+// Get cache and sort it.
+async function getCache(repo: string): Promise<string[]> {
+	const currentUser = getUsername();
 	const repoKey = key(repo);
 	const cached = await cache.get<string[]>(repoKey) || [];
-	if (!cached.includes(fork)) {
-		cached.push(fork);
-	}
+	cached.sort((a, b) => {
+		let order = a.localeCompare(b);
+		if (a.startsWith(currentUser + '/')) {
+			order -= 100;
+		}
 
-	cache.set<string[]>(repoKey, cached, 10);
+		return order;
+	});
+	return Promise.resolve(cached);
 }
 
+// Save forks to cache.
+async function storeCache(repo: string, ...forks: string[]): Promise<void> {
+	const repoKey = key(repo);
+	const cached = await cache.get<string[]>(repoKey) || [];
+	for (const fork of forks) {
+		if (!cached.includes(fork)) {
+			cached.push(fork);
+		}
+	}
+
+	await cache.set<string[]>(repoKey, cached, 10);
+}
+
+// Remove the HTML created.
 function removeAllHtml(): void {
 	const forks = select.all<HTMLElement>('.rgh-forked');
 	for (const fork of forks) {
@@ -121,7 +140,7 @@ function appendHtml(fork: string): void {
 
 // Create the cache key.
 function key(repo: string): string {
-	return `forked-to5:${repo}`;
+	return `forked-to12:${repo}`;
 }
 
 features.add({
