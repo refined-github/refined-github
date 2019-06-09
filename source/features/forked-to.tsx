@@ -94,7 +94,7 @@ async function getCache(repo: string): Promise<string[]> {
 	const cached = await cache.get<string[]>(repoKey) || [];
 	cached.sort((a, b) => {
 		let order = a.localeCompare(b);
-		if (a.startsWith(currentUser + '/')) {
+		if (a.startsWith(`${currentUser}/`)) {
 			order -= 100;
 		}
 
@@ -140,7 +140,7 @@ function appendHtml(fork: string): void {
 
 // Create the cache key.
 function key(repo: string): string {
-	return `forked-to12:${repo}`;
+	return `forked-to:${repo}`;
 }
 
 features.add({
