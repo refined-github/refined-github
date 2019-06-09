@@ -9,7 +9,7 @@ const currentRepo = getRepoURL();
 
 // Check for cached forks.
 async function checkForks(): Promise<void> {
-	const repo = getOriginalRepo();
+	const repo = getSourceRepo();
 	const cached = await getCache(repo);
 	const validForks = cached.filter(validateFork);
 	for (const fork of await Promise.all(validForks)) {
@@ -54,9 +54,9 @@ function onForkDialogOpened(): void {
 function onFragmentLoaded(forkDialog: HTMLElement): void {
 	removeLinks();
 
-	const repo = getOriginalRepo();
-	const forks = select.all<HTMLElement>('.octicon-repo-forked', forkDialog).map(forkElm => {
-		const fork = forkElm.parentNode!.textContent!.trim();
+	const repo = getSourceRepo();
+	const forks = select.all<HTMLElement>('.octicon-repo-forked', forkDialog).map(forkElement => {
+		const fork = forkElement.parentNode!.textContent!.trim();
 		appendLink(fork);
 		return fork;
 	});
@@ -64,9 +64,9 @@ function onFragmentLoaded(forkDialog: HTMLElement): void {
 	storeCache(repo, ...forks);
 }
 
-// Get the original repo, by checking if we are already on a fork.
-function getOriginalRepo(): string {
-	let repo;
+// Get the source repo, by checking if we are already on a fork.
+function getSourceRepo(): string {
+	let repo: string;
 
 	const forkSourceElement = select<HTMLElement>('.fork-flag:not(.rgh-forked) a');
 	if (forkSourceElement) {
@@ -81,8 +81,9 @@ function getOriginalRepo(): string {
 // Get cache and sort it.
 async function getCache(repo: string): Promise<string[]> {
 	const cached = await cache.get<string[]>(key(repo)) || [];
-	cached.sort(undefined);
-	return cached;
+	const validForks = cached.filter(validateFork);
+	validForks.sort(undefined);
+	return validForks;
 }
 
 // Save forks to cache.
@@ -132,7 +133,7 @@ async function init(): Promise<void> {
 
 features.add({
 	id: 'forked-to',
-	description: 'Add link to forked repo below the original',
+	description: 'Add link to forked repo below the source',
 	include: [
 		features.isRepo
 	],
