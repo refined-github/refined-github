@@ -11,23 +11,8 @@ const currentRepo = getRepoURL();
 async function checkForks(): Promise<void> {
 	const repo = getSourceRepo();
 	const cached = await getCache(repo);
-	const validForks = cached.filter(validateFork);
-	for (const fork of await Promise.all(validForks)) {
-		if (fork !== currentRepo) {
-			appendLink(fork);
-			storeCache(repo, fork);
-		}
-	}
-}
-
-// Check if the fork still exists.
-async function validateFork(repo: string): Promise<boolean> {
-	const url = new URL(`/${repo}`, location.href);
-	const response = await fetch(String(url),
-		{
-			method: 'HEAD'
-		});
-	return response.ok;
+	const forks = cached.filter(fork => fork !== currentRepo);
+	appendLink(...forks);
 }
 
 // Check if we are on a forked page.
@@ -56,11 +41,10 @@ function onFragmentLoaded(forkDialog: HTMLElement): void {
 
 	const repo = getSourceRepo();
 	const forks = select.all<HTMLElement>('.octicon-repo-forked', forkDialog).map(forkElement => {
-		const fork = forkElement.parentNode!.textContent!.trim();
-		appendLink(fork);
-		return fork;
+		return forkElement.parentNode!.textContent!.trim();
 	});
 
+	appendLink(...forks);
 	storeCache(repo, ...forks);
 }
 
@@ -78,11 +62,27 @@ function getSourceRepo(): string {
 	return repo;
 }
 
+// Check if the fork still exists.
+async function validateFork(repo: string): Promise<boolean> {
+	const url = new URL(`/${repo}`, location.href);
+	const response = await fetch(String(url),
+		{
+			method: 'HEAD'
+		});
+	return response.ok;
+}
+
 // Get cache and sort it.
 async function getCache(repo: string): Promise<string[]> {
-	const cached = await cache.get<string[]>(key(repo)) || [];
+	const repoKey = key(repo);
+	const cached = await cache.get<string[]>(repoKey) || [];
 	const validForks = cached.filter(validateFork);
 	validForks.sort(undefined);
+
+	if (cached.length !== validForks.length) {
+		await cache.set<string[]>(repoKey, validForks, 10);
+	}
+
 	return validForks;
 }
 
@@ -108,14 +108,17 @@ function removeLinks(): void {
 }
 
 // Create a fork link.
-function appendLink(fork: string): void {
-	select<HTMLElement>('.pagehead h1.public')!.append(
-		<span className="fork-flag rgh-forked">
-			<span className="text">forked to&nbsp;
-				<a href={`/${fork}`}>{fork}</a>
+function appendLink(...forks: string[]): void {
+	const pageHeader = select<HTMLElement>('.pagehead h1.public')!;
+	for (const fork of forks) {
+		pageHeader.append(
+			<span className="fork-flag rgh-forked">
+				<span className="text">forked to&nbsp;
+					<a href={`/${fork}`}>{fork}</a>
+				</span>
 			</span>
-		</span>
-	);
+		);
+	}
 }
 
 // Create the cache key.
