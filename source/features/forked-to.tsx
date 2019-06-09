@@ -3,6 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 import {getRepoURL} from '../libs/utils';
+import {isOwnRepo} from '../libs/page-detect';
 import cache from '../libs/cache';
 
 const currentRepo = getRepoURL();
@@ -10,7 +11,9 @@ const currentRepo = getRepoURL();
 async function init(): Promise<void> {
 	checkForks();
 	onForkDialogOpened();
-	onForkedPage();
+	if (isOwnRepo()) {
+		onForkedPage();
+	}
 }
 
 // Check for cached forks.
