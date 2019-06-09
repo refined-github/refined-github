@@ -18,12 +18,22 @@ async function init(): Promise<void> {
 
 // Check for cached forks.
 async function checkForks(): Promise<void> {
-	const repoKey = key(currentRepo);
+	let repoKey = key(currentRepo);
+
+	// Check if we are already on a fork.
+	const forkedFromElm = select<HTMLElement>('.fork-flag:not(.ghr-forked) a');
+	if (forkedFromElm) {
+		const forkedRepo = forkedFromElm.getAttribute('href')!.substring(1);
+		repoKey = key(forkedRepo);
+	}
+
 	const cached = await cache.get<string[]>(repoKey) || [];
 	const validForks = cached.filter(validateFork);
 	for (const fork of await Promise.all(validForks)) {
-		appendHtml(fork);
-		storeCache(currentRepo, fork);
+		if (fork !== currentRepo) {
+			appendHtml(fork);
+			storeCache(currentRepo, fork);
+		}
 	}
 }
 
