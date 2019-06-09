@@ -9,11 +9,13 @@ import {isOwnRepo} from '../libs/page-detect';
 const currentRepo = getRepoURL();
 
 async function init(): Promise<void> {
-	checkForks();
 	onForkDialogOpened();
+
 	if (isOwnRepo()) {
 		onForkedPage();
 	}
+
+	await checkForks();
 }
 
 // Check for cached forks.
