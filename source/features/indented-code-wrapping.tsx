@@ -55,6 +55,7 @@ function init(): void {
 
 features.add({
 	id: 'indented-code-wrapping',
+	disabled: 'https://github.com/sindresorhus/refined-github/issues/2085',
 	description: 'Wrap code inside all code blocks to match indentation',
 	include: [
 		features.isPRFiles,

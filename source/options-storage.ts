@@ -50,8 +50,8 @@ if (!location.protocol.startsWith('http') && !migrationsRun) {
 				}
 			},
 
-			// Example to for renamed features:
 			featureWasRenamed('move-marketplace-link-to-profile-dropdown', 'deprioritize-marketplace-link'), // Merged on June 7th
+			featureWasRenamed('show-asset-download-count', 'release-download-count'), // Merged on June 9th
 
 			// Removed features will be automatically removed from the options as well
 			OptionsSync.migrations.removeUnused
