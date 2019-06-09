@@ -48,7 +48,7 @@ async function validateFork(repo: string): Promise<boolean> {
 
 // Check if we are on a forked page.
 function onForkedPage(): void {
-	const forkedFromElm = select<HTMLElement>('.fork-flag:not(.ghr-forked) a');
+	const forkedFromElm = select<HTMLElement>('.fork-flag:not(.rgh-forked) a');
 	if (forkedFromElm) {
 		const forkedRepo = forkedFromElm.getAttribute('href')!.substring(1);
 		storeCache(forkedRepo, currentRepo);
@@ -76,7 +76,7 @@ function onFragmentLoaded(parent: HTMLElement): void {
 function getOriginalRepo(): string {
 	let repo = currentRepo;
 
-	const forkedFromElm = select<HTMLElement>('.fork-flag:not(.ghr-forked) a');
+	const forkedFromElm = select<HTMLElement>('.fork-flag:not(.rgh-forked) a');
 	if (forkedFromElm) {
 		repo = forkedFromElm.getAttribute('href')!.substring(1);
 	}
@@ -100,7 +100,7 @@ async function storeCache(repo: string, fork: string): Promise<void> {
 function appendHtml(fork: string): void {
 	const pageHeader = select<HTMLElement>('.pagehead h1.public')!;
 	pageHeader.append(
-		<span className={'fork-flag ghr-forked'} data-repository-hovercards-enabled>
+		<span className={'fork-flag rgh-forked'} data-repository-hovercards-enabled>
 			<span className={'text'}>forked to&nbsp;
 				<a data-hovercard-type="repository" data-hovercard-url={`/${fork}/hovercard`} href={`/${fork}`}>
 					{fork}
