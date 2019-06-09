@@ -7,14 +7,6 @@ import {isOwnRepo} from '../libs/page-detect';
 
 const currentRepo = getRepoURL();
 
-async function init(): Promise<void> {
-	onForkDialogOpened();
-
-	onForkedPage();
-
-	await checkForks();
-}
-
 // Check for cached forks.
 async function checkForks(): Promise<void> {
 	const repo = getOriginalRepo();
@@ -128,6 +120,14 @@ function appendLink(fork: string): void {
 // Create the cache key.
 function key(repo: string): string {
 	return `forked-to:${repo}`;
+}
+
+async function init(): Promise<void> {
+	onForkDialogOpened();
+
+	onForkedPage();
+
+	await checkForks();
 }
 
 features.add({
