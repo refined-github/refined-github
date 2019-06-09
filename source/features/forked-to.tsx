@@ -20,13 +20,10 @@ async function init(): Promise<void> {
 async function checkForks(): Promise<void> {
 	const repoKey = key(currentRepo);
 	const cached = await cache.get<string[]>(repoKey) || [];
-	/* eslint-disable no-await-in-loop */
-	for (const fork of cached) {
-		const valid = await validateFork(fork);
-		if (valid) {
-			appendHtml(fork);
-			storeCache(currentRepo, fork);
-		}
+	const validForks = cached.filter(validateFork);
+	for (const fork of await Promise.all(validForks)) {
+		appendHtml(fork);
+		storeCache(currentRepo, fork);
 	}
 }
 
