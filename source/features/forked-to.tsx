@@ -1,10 +1,10 @@
 import './more-dropdown.css';
 import React from 'dom-chef';
+import cache from '../libs/cache';
 import select from 'select-dom';
 import features from '../libs/features';
 import {getRepoURL} from '../libs/utils';
 import {isOwnRepo} from '../libs/page-detect';
-import cache from '../libs/cache';
 
 const currentRepo = getRepoURL();
 
@@ -18,21 +18,14 @@ async function init(): Promise<void> {
 
 // Check for cached forks.
 async function checkForks(): Promise<void> {
-	let repoKey = key(currentRepo);
-
-	// Check if we are already on a fork.
-	const forkedFromElm = select<HTMLElement>('.fork-flag:not(.ghr-forked) a');
-	if (forkedFromElm) {
-		const forkedRepo = forkedFromElm.getAttribute('href')!.substring(1);
-		repoKey = key(forkedRepo);
-	}
-
+	const repo = getOriginalRepo();
+	const repoKey = key(repo);
 	const cached = await cache.get<string[]>(repoKey) || [];
 	const validForks = cached.filter(validateFork);
 	for (const fork of await Promise.all(validForks)) {
 		if (fork !== currentRepo) {
 			appendHtml(fork);
-			storeCache(currentRepo, fork);
+			storeCache(repo, fork);
 		}
 	}
 }
@@ -69,15 +62,29 @@ function onForkDialogOpened(): void {
 
 // Event called when fork dialog is opened.
 function onFragmentLoaded(parent: HTMLElement): void {
+	const repo = getOriginalRepo();
 	for (const forkElm of select.all<HTMLElement>('.octicon-repo-forked', parent)) {
 		const fork = forkElm.parentNode!.textContent!.trim();
 		appendHtml(fork);
-		storeCache(currentRepo, fork);
+		storeCache(repo, fork);
 	}
+}
+
+// Get the original repo, by checking if we are already on a fork.
+function getOriginalRepo(): string {
+	let repo = currentRepo;
+
+	const forkedFromElm = select<HTMLElement>('.fork-flag:not(.ghr-forked) a');
+	if (forkedFromElm) {
+		repo = forkedFromElm.getAttribute('href')!.substring(1);
+	}
+
+	return repo;
 }
 
 // Save forks to cache.
 async function storeCache(repo: string, fork: string): Promise<void> {
+	console.log('storeCache', arguments);
 	const repoKey = key(repo);
 	const cached = await cache.get<string[]>(repoKey) || [];
 	if (!cached.includes(fork)) {
@@ -103,7 +110,7 @@ function appendHtml(fork: string): void {
 
 // Create the cache key.
 function key(repo: string): string {
-	return `forked-to:${repo}`;
+	return `forked-to5:${repo}`;
 }
 
 features.add({
