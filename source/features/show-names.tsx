@@ -7,7 +7,7 @@ import {getUsername} from '../libs/utils';
 
 async function init(): Promise<false | void> {
 	// `a` selector needed to skip commits by non-GitHub users
-	const usernameElements = select.all('.js-discussion a.author:not(.rgh-fullname):not([href*="/apps/"]):not([href*="/marketplace/"])');
+	const usernameElements = select.all('.js-discussion a.author:not(.rgh-fullname):not([href*="/apps/"]):not([href*="/marketplace/"]):not([data-hovercard-type="organization"])');
 
 	const usernames = new Set<string>();
 	const myUsername = getUsername();
