@@ -1,9 +1,8 @@
-import './more-dropdown.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 import cache from '../libs/cache';
-import {getRepoURL, getUsername} from '../libs/utils';
+import {getRepoURL} from '../libs/utils';
 import {isOwnRepo} from '../libs/page-detect';
 
 const currentRepo = getRepoURL();
@@ -11,9 +10,7 @@ const currentRepo = getRepoURL();
 async function init(): Promise<void> {
 	onForkDialogOpened();
 
-	if (isOwnRepo()) {
-		onForkedPage();
-	}
+	onForkedPage();
 
 	await checkForks();
 }
@@ -34,19 +31,19 @@ async function checkForks(): Promise<void> {
 // Check if the fork still exists.
 async function validateFork(repo: string): Promise<boolean> {
 	const url = new URL(`/${repo}`, location.href);
-	try {
-		const response = await fetch(String(url),
-			{
-				method: 'HEAD'
-			});
-		return response.ok;
-	} catch (error) {
-		return false;
-	}
+	const response = await fetch(String(url),
+		{
+			method: 'HEAD'
+		});
+	return response.ok;
 }
 
 // Check if we are on a forked page.
 function onForkedPage(): void {
+	if (!isOwnRepo()) {
+		return;
+	}
+
 	const forkedFromElm = select<HTMLElement>('.fork-flag:not(.rgh-forked) a');
 	if (forkedFromElm) {
 		const forkedRepo = forkedFromElm.getAttribute('href')!.substring(1);
@@ -62,11 +59,11 @@ function onForkDialogOpened(): void {
 }
 
 // Event called when fork dialog is opened.
-function onFragmentLoaded(parent: HTMLElement): void {
-	removeAllHtml();
+function onFragmentLoaded(forkDialog: HTMLElement): void {
+	removeLinks();
 
 	const repo = getOriginalRepo();
-	const forks = select.all<HTMLElement>('.octicon-repo-forked', parent).map(forkElm => {
+	const forks = select.all<HTMLElement>('.octicon-repo-forked', forkDialog).map(forkElm => {
 		const fork = forkElm.parentNode!.textContent!.trim();
 		appendHtml(fork);
 		return fork;
@@ -89,17 +86,8 @@ function getOriginalRepo(): string {
 
 // Get cache and sort it.
 async function getCache(repo: string): Promise<string[]> {
-	const currentUser = getUsername();
-	const repoKey = key(repo);
-	const cached = await cache.get<string[]>(repoKey) || [];
-	cached.sort((a, b) => {
-		let order = a.localeCompare(b);
-		if (a.startsWith(`${currentUser}/`)) {
-			order -= 100;
-		}
-
-		return order;
-	});
+	const cached = await cache.get<string[]>(key(repo)) || [];
+	cached.sort(undefined);
 	return Promise.resolve(cached);
 }
 
@@ -117,7 +105,7 @@ async function storeCache(repo: string, ...forks: string[]): Promise<void> {
 }
 
 // Remove the HTML created.
-function removeAllHtml(): void {
+function removeLinks(): void {
 	const forks = select.all<HTMLElement>('.rgh-forked');
 	for (const fork of forks) {
 		fork.remove();
@@ -126,10 +114,9 @@ function removeAllHtml(): void {
 
 // Create the HTML.
 function appendHtml(fork: string): void {
-	const pageHeader = select<HTMLElement>('.pagehead h1.public')!;
-	pageHeader.append(
-		<span className={'fork-flag rgh-forked'} data-repository-hovercards-enabled>
-			<span className={'text'}>forked to&nbsp;
+	select<HTMLElement>('.pagehead h1.public')!.append(
+		<span className="fork-flag rgh-forked" data-repository-hovercards-enabled>
+			<span className="text">forked to&nbsp;
 				<a data-hovercard-type="repository" data-hovercard-url={`/${fork}/hovercard`} href={`/${fork}`}>
 					{fork}
 				</a>
