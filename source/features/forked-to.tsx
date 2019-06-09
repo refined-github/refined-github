@@ -44,9 +44,9 @@ function onForkedPage(): void {
 		return;
 	}
 
-	const forkedFromElm = select<HTMLElement>('.fork-flag:not(.rgh-forked) a');
-	if (forkedFromElm) {
-		const forkedRepo = forkedFromElm.getAttribute('href')!.substring(1);
+	const forkSourceElement = select<HTMLElement>('.fork-flag:not(.rgh-forked) a');
+	if (forkSourceElement) {
+		const forkedRepo = forkSourceElement.getAttribute('href')!.substring(1);
 		storeCache(forkedRepo, currentRepo);
 	}
 }
@@ -90,7 +90,7 @@ function getOriginalRepo(): string {
 async function getCache(repo: string): Promise<string[]> {
 	const cached = await cache.get<string[]>(key(repo)) || [];
 	cached.sort(undefined);
-	return Promise.resolve(cached);
+	return cached;
 }
 
 // Save forks to cache.
@@ -117,11 +117,9 @@ function removeLinks(): void {
 // Create a fork link.
 function appendLink(fork: string): void {
 	select<HTMLElement>('.pagehead h1.public')!.append(
-		<span className="fork-flag rgh-forked" data-repository-hovercards-enabled>
+		<span className="fork-flag rgh-forked">
 			<span className="text">forked to&nbsp;
-				<a data-hovercard-type="repository" data-hovercard-url={`/${fork}/hovercard`} href={`/${fork}`}>
-					{fork}
-				</a>
+				<a href={`/${fork}`}>{fork}</a>
 			</span>
 		</span>
 	);
