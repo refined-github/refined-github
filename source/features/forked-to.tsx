@@ -22,7 +22,7 @@ async function checkForks(): Promise<void> {
 	const validForks = cached.filter(validateFork);
 	for (const fork of await Promise.all(validForks)) {
 		if (fork !== currentRepo) {
-			appendHtml(fork);
+			appendLink(fork);
 			storeCache(repo, fork);
 		}
 	}
@@ -65,7 +65,7 @@ function onFragmentLoaded(forkDialog: HTMLElement): void {
 	const repo = getOriginalRepo();
 	const forks = select.all<HTMLElement>('.octicon-repo-forked', forkDialog).map(forkElm => {
 		const fork = forkElm.parentNode!.textContent!.trim();
-		appendHtml(fork);
+		appendLink(fork);
 		return fork;
 	});
 
@@ -74,11 +74,13 @@ function onFragmentLoaded(forkDialog: HTMLElement): void {
 
 // Get the original repo, by checking if we are already on a fork.
 function getOriginalRepo(): string {
-	let repo = currentRepo;
+	let repo;
 
-	const forkedFromElm = select<HTMLElement>('.fork-flag:not(.rgh-forked) a');
-	if (forkedFromElm) {
-		repo = forkedFromElm.getAttribute('href')!.substring(1);
+	const forkSourceElement = select<HTMLElement>('.fork-flag:not(.rgh-forked) a');
+	if (forkSourceElement) {
+		repo = forkSourceElement.getAttribute('href')!.substring(1);
+	} else {
+		repo = currentRepo;
 	}
 
 	return repo;
@@ -104,7 +106,7 @@ async function storeCache(repo: string, ...forks: string[]): Promise<void> {
 	await cache.set<string[]>(repoKey, cached, 10);
 }
 
-// Remove the HTML created.
+// Remove the fork links created.
 function removeLinks(): void {
 	const forks = select.all<HTMLElement>('.rgh-forked');
 	for (const fork of forks) {
@@ -112,8 +114,8 @@ function removeLinks(): void {
 	}
 }
 
-// Create the HTML.
-function appendHtml(fork: string): void {
+// Create a fork link.
+function appendLink(fork: string): void {
 	select<HTMLElement>('.pagehead h1.public')!.append(
 		<span className="fork-flag rgh-forked" data-repository-hovercards-enabled>
 			<span className="text">forked to&nbsp;
