@@ -64,6 +64,8 @@ function onForkDialogOpened(): void {
 
 // Event called when fork dialog is opened.
 function onFragmentLoaded(parent: HTMLElement): void {
+	removeAllHtml();
+
 	const repo = getOriginalRepo();
 	for (const forkElm of select.all<HTMLElement>('.octicon-repo-forked', parent)) {
 		const fork = forkElm.parentNode!.textContent!.trim();
@@ -94,6 +96,13 @@ async function storeCache(repo: string, fork: string): Promise<void> {
 	}
 
 	cache.set<string[]>(repoKey, cached, 10);
+}
+
+function removeAllHtml(): void {
+	const forks = select.all<HTMLElement>('.rgh-forked');
+	for (const fork of forks) {
+		fork.remove();
+	}
 }
 
 // Create the HTML.
