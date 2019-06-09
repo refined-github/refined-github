@@ -1,8 +1,8 @@
 import './more-dropdown.css';
 import React from 'dom-chef';
-import cache from '../libs/cache';
 import select from 'select-dom';
 import features from '../libs/features';
+import cache from '../libs/cache';
 import {getRepoURL} from '../libs/utils';
 import {isOwnRepo} from '../libs/page-detect';
 
