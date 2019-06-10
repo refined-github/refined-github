@@ -1,7 +1,11 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import indentTextarea from 'indent-textarea';
+import insertText from 'insert-text-textarea';
 import features from '../libs/features';
+
+const formattingCharacters = ['`', '\'', '"', '[', '(', '*', '_', '~'];
+const keysRequiringSelection = ['*', '_', '~']; // Keys that require selection to be wrappable
 
 // Element.blur() will reset the tab focus to the start of the document.
 // This places it back next to the blurred field
@@ -75,6 +79,23 @@ function init(): void {
 					select<HTMLTextAreaElement>('.js-comment-field', lastOwnComment)!.selectionStart = Number.MAX_SAFE_INTEGER;
 				});
 			}
+		} else if (formattingCharacters.includes(event.key)) {
+			const formattingChar = event.key;
+			const [start, end] = [field.selectionStart, field.selectionEnd];
+
+			// If `start` and `end` of selection are the same, then no text is selected
+			// For keys that require selection, if no text is selected, bail immediately
+			if (keysRequiringSelection.includes(formattingChar) && start === end) {
+				return;
+			}
+
+			event.preventDefault();
+
+			const selectedText = field.value.slice(start, end);
+			insertText(field, formattingChar + selectedText + formattingChar);
+
+			// Keep the selection as it is, to be able to chain shortcuts
+			field.setSelectionRange(start + 1, end + 1);
 		}
 	});
 }
