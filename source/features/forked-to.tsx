@@ -14,7 +14,16 @@ async function showForks(): Promise<void> {
 	const repo = getSourceRepo();
 	const cached = await getCache(repo);
 	const forks = cached.filter(fork => fork !== currentRepo);
-	appendLink(...forks);
+	const pageHeader = select<HTMLElement>('.pagehead h1.public')!;
+	for (const fork of forks) {
+		pageHeader.append(
+			<span className="fork-flag rgh-forked">
+				<span className="text">forked to&nbsp;
+					<a href={`/${fork}`}>{fork}</a>
+				</span>
+			</span>
+		);
+	}
 }
 
 // Store fork if we are on a forked page.
@@ -92,20 +101,6 @@ async function storeCache(repo: string, ...forks: string[]): Promise<void> {
 	}
 
 	await cache.set<string[]>(repoKey, cached, 10);
-}
-
-// Create a fork link.
-function appendLink(...forks: string[]): void {
-	const pageHeader = select<HTMLElement>('.pagehead h1.public')!;
-	for (const fork of forks) {
-		pageHeader.append(
-			<span className="fork-flag rgh-forked">
-				<span className="text">forked to&nbsp;
-					<a href={`/${fork}`}>{fork}</a>
-				</span>
-			</span>
-		);
-	}
 }
 
 async function init(): Promise<void> {
