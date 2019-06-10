@@ -2,8 +2,10 @@ import './hide-useless-comments.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import {appendBefore} from '../libs/dom-utils';
+import optionsStorage, {Options} from '../options-storage';
 
-function init(): void {
+function hideUselessComments() {
 	let uselessCount = 0;
 	for (const commentText of select.all('.comment-body > p:only-child')) {
 		// Find useless comments
@@ -40,13 +42,13 @@ function init(): void {
 		select('.discussion-timeline-actions')!.prepend(
 			<p className="rgh-useless-comments-note">
 				{`${uselessCount} unhelpful comment${uselessCount > 1 ? 's were' : ' was'} automatically hidden. `}
-				<button className="btn-link text-emphasized" onClick={unhide}>Show</button>
+				<button className="btn-link text-emphasized" onClick={unhideUselessComments}>Show</button>
 			</p>
 		);
 	}
 }
 
-function unhide(event: React.MouseEvent<HTMLButtonElement>): void {
+function unhideUselessComments(event: React.MouseEvent<HTMLButtonElement>): void {
 	for (const comment of select.all('.rgh-hidden-comment')) {
 		comment.hidden = false;
 	}
@@ -55,11 +57,108 @@ function unhide(event: React.MouseEvent<HTMLButtonElement>): void {
 	event.currentTarget.parentElement!.remove();
 }
 
+async function getMutedUsers() {
+	return ((await optionsStorage.getAll() as Options).mutedUsers).split(' ');
+}
+
+async function setMutedUsers(mutedUsers: string[]) {
+	return optionsStorage.set({mutedUsers: mutedUsers.join(' ')})
+}
+
+function minimizeComment(comment: HTMLElement) {
+	if (select.exists('.js-targetable-comment[id^="issue-"]', comment)) {
+		return;
+	}
+
+	select('.minimized-comment', comment)!.classList.remove('d-none');
+	select('.minimized-comment .Details-element', comment)!.removeAttribute('open');
+	select('.unminimized-comment', comment)!.classList.add('d-none');
+}
+
+function unminimizeComment(comment: HTMLElement) {
+	if (select.exists('.js-targetable-comment[id^="issue-"]', comment)) {
+		return;
+	}
+
+	select('.minimized-comment', comment)!.classList.add('d-none');
+	select('.minimized-comment .Details-element', comment)!.removeAttribute('open');
+	select('.unminimized-comment', comment)!.classList.remove('d-none');
+}
+
+async function onMuteUnmuteClick(event: React.MouseEvent<HTMLButtonElement>) {
+	let mutedUsers = await getMutedUsers();
+
+	const comment = (event.target as HTMLElement).closest('.js-comment-container')!;
+	const viewportOffset = comment.getBoundingClientRect().top;
+	const user = select('.author', comment)!.textContent!;
+
+	if (mutedUsers.includes(user)) {
+		mutedUsers = mutedUsers.filter(mutedUser => mutedUser !== user);
+	} else {
+		mutedUsers.push(user);
+	}
+
+	await setMutedUsers(mutedUsers);
+
+	const avatars = select.all(`.js-discussion .js-comment-container .avatar[alt="@${user}"`);
+	const comments = avatars.map(avatar => avatar.closest('.js-comment-container') as HTMLElement);
+
+	for (const comment of comments) {
+		if (mutedUsers.includes(user)) {
+			minimizeComment(comment);
+			select.all('.rgh-mute-unmute-button', comment).map(button => button.textContent = 'Unmute user');
+		} else {
+			unminimizeComment(comment);
+			select.all('.rgh-mute-unmute-button', comment).map(button => button.textContent = 'Mute user');
+		}
+	}
+
+	requestAnimationFrame(() => {
+		const newOffset = comment.getBoundingClientRect().top;
+		window.scrollBy(0, newOffset - viewportOffset);
+	});
+}
+
+async function minimizeMutedUserComments() {
+	const mutedUsers = await getMutedUsers();
+
+	const comments = select.all('.js-discussion .js-comment-container');
+	for (const comment of comments) {
+		const user = select('.author', comment)!.textContent!;
+		const isMutedUser = mutedUsers.includes(user);
+
+		const dropdowns = select.all('.show-more-popover', comment)!;
+		for (const dropdown of dropdowns) {
+			// Add option to mute or unmute user
+			appendBefore(dropdown, 'a[data-ga-click^="Report"]',
+				<button
+					className="dropdown-item btn-link rgh-mute-unmute-button"
+					role="menuitem"
+					title="Browse repository like it appeared on this day"
+					onClick={onMuteUnmuteClick}>
+					{isMutedUser ? 'Unmute' : 'Mute'} user
+				</button>
+			);
+		}
+
+		// If the use _is_ muted, minimize their comment
+		if (isMutedUser) {
+			minimizeComment(comment);
+		}
+	}
+}
+
+function init(): void {
+	hideUselessComments();
+	minimizeMutedUserComments();
+}
+
 features.add({
 	id: 'hide-useless-comments',
 	description: 'Hide useless comments like "+1"',
 	include: [
-		features.isIssue
+		features.isIssue,
+		features.isPRConversation
 	],
 	load: features.onAjaxedPages,
 	init
