@@ -117,7 +117,7 @@ async function init(): Promise<void> {
 }
 
 features.add({
-	id: id,
+	id,
 	description: 'Add link to forked repo below the source',
 	include: [
 		features.isRepo
