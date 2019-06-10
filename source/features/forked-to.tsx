@@ -5,18 +5,20 @@ import cache from '../libs/cache';
 import {getRepoURL} from '../libs/utils';
 import {isOwnRepo} from '../libs/page-detect';
 
+const id = 'forked-to';
+
 const currentRepo = getRepoURL();
 
-// Check for cached forks.
-async function checkForks(): Promise<void> {
+// Show cached forks.
+async function showForks(): Promise<void> {
 	const repo = getSourceRepo();
 	const cached = await getCache(repo);
 	const forks = cached.filter(fork => fork !== currentRepo);
 	appendLink(...forks);
 }
 
-// Check if we are on a forked page.
-function onForkedPage(): void {
+// Store fork if we are on a forked page.
+function checkForForkedPage(): void {
 	if (!isOwnRepo()) {
 		return;
 	}
@@ -28,24 +30,17 @@ function onForkedPage(): void {
 	}
 }
 
-// Check for opening the fork dialog.
-function onForkDialogOpened(): void {
+// Watch for opening the fork dialog.
+function watchForkDialog(): void {
 	const forkDialog = select<HTMLElement>('details-dialog[src*="/fork"]')!;
 	const forkFragment = select<HTMLElement>('include-fragment', forkDialog)!;
-	forkFragment.addEventListener('load', () => onFragmentLoaded(forkDialog));
-}
-
-// Event called when fork dialog is opened.
-function onFragmentLoaded(forkDialog: HTMLElement): void {
-	removeLinks();
-
-	const repo = getSourceRepo();
-	const forks = select.all<HTMLElement>('.octicon-repo-forked', forkDialog).map(forkElement => {
-		return forkElement.parentNode!.textContent!.trim();
+	forkFragment.addEventListener('load', () => {
+		const repo = getSourceRepo();
+		const forks = select.all<HTMLElement>('.octicon-repo-forked', forkDialog).map(forkElement => {
+			return forkElement.parentNode!.textContent!.trim();
+		});
+		storeCache(repo, ...forks);
 	});
-
-	appendLink(...forks);
-	storeCache(repo, ...forks);
 }
 
 // Get the source repo, by checking if we are already on a fork.
@@ -74,7 +69,7 @@ async function validateFork(repo: string): Promise<boolean> {
 
 // Get cache and sort it.
 async function getCache(repo: string): Promise<string[]> {
-	const repoKey = key(repo);
+	const repoKey = `${id}:${repo}`;
 	const cached = await cache.get<string[]>(repoKey) || [];
 	const validForks = cached.filter(validateFork);
 	validForks.sort(undefined);
@@ -88,7 +83,7 @@ async function getCache(repo: string): Promise<string[]> {
 
 // Save forks to cache.
 async function storeCache(repo: string, ...forks: string[]): Promise<void> {
-	const repoKey = key(repo);
+	const repoKey = `${id}:${repo}`;
 	const cached = await cache.get<string[]>(repoKey) || [];
 	for (const fork of forks) {
 		if (!cached.includes(fork)) {
@@ -97,14 +92,6 @@ async function storeCache(repo: string, ...forks: string[]): Promise<void> {
 	}
 
 	await cache.set<string[]>(repoKey, cached, 10);
-}
-
-// Remove the fork links created.
-function removeLinks(): void {
-	const forks = select.all<HTMLElement>('.rgh-forked');
-	for (const fork of forks) {
-		fork.remove();
-	}
 }
 
 // Create a fork link.
@@ -121,21 +108,16 @@ function appendLink(...forks: string[]): void {
 	}
 }
 
-// Create the cache key.
-function key(repo: string): string {
-	return `forked-to:${repo}`;
-}
-
 async function init(): Promise<void> {
-	onForkDialogOpened();
+	watchForkDialog();
 
-	onForkedPage();
+	checkForForkedPage();
 
-	await checkForks();
+	showForks();
 }
 
 features.add({
-	id: 'forked-to',
+	id: id,
 	description: 'Add link to forked repo below the source',
 	include: [
 		features.isRepo
