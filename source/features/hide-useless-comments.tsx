@@ -5,7 +5,7 @@ import features from '../libs/features';
 import {appendBefore} from '../libs/dom-utils';
 import optionsStorage, {Options} from '../options-storage';
 
-function hideUselessComments() {
+function hideUselessComments(): void {
 	let uselessCount = 0;
 	for (const commentText of select.all('.comment-body > p:only-child')) {
 		// Find useless comments
@@ -57,15 +57,15 @@ function unhideUselessComments(event: React.MouseEvent<HTMLButtonElement>): void
 	event.currentTarget.parentElement!.remove();
 }
 
-async function getMutedUsers() {
+async function getMutedUsers(): Promise<string[]> {
 	return ((await optionsStorage.getAll() as Options).mutedUsers).split(' ');
 }
 
-async function setMutedUsers(mutedUsers: string[]) {
-	return optionsStorage.set({mutedUsers: mutedUsers.join(' ')})
+async function setMutedUsers(mutedUsers: string[]): Promise<void> {
+	return optionsStorage.set({mutedUsers: mutedUsers.join(' ')});
 }
 
-function minimizeComment(comment: HTMLElement) {
+function minimizeComment(comment: HTMLElement): void {
 	if (select.exists('.js-targetable-comment[id^="issue-"]', comment)) {
 		return;
 	}
@@ -75,7 +75,7 @@ function minimizeComment(comment: HTMLElement) {
 	select('.unminimized-comment', comment)!.classList.add('d-none');
 }
 
-function unminimizeComment(comment: HTMLElement) {
+function unminimizeComment(comment: HTMLElement): void {
 	if (select.exists('.js-targetable-comment[id^="issue-"]', comment)) {
 		return;
 	}
@@ -85,7 +85,7 @@ function unminimizeComment(comment: HTMLElement) {
 	select('.unminimized-comment', comment)!.classList.remove('d-none');
 }
 
-async function onMuteUnmuteClick(event: React.MouseEvent<HTMLButtonElement>) {
+async function onMuteUnmuteClick(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
 	let mutedUsers = await getMutedUsers();
 
 	const comment = (event.target as HTMLElement).closest('.js-comment-container')!;
@@ -106,10 +106,14 @@ async function onMuteUnmuteClick(event: React.MouseEvent<HTMLButtonElement>) {
 	for (const comment of comments) {
 		if (mutedUsers.includes(user)) {
 			minimizeComment(comment);
-			select.all('.rgh-mute-unmute-button', comment).map(button => button.textContent = 'Unmute user');
+			for (const button of select.all('.rgh-mute-unmute-button', comment)) {
+				button.textContent = 'Unmute user';
+			}
 		} else {
 			unminimizeComment(comment);
-			select.all('.rgh-mute-unmute-button', comment).map(button => button.textContent = 'Mute user');
+			for (const button of select.all('.rgh-mute-unmute-button', comment)) {
+				button.textContent = 'Mute user';
+			}
 		}
 	}
 
@@ -119,7 +123,7 @@ async function onMuteUnmuteClick(event: React.MouseEvent<HTMLButtonElement>) {
 	});
 }
 
-async function minimizeMutedUserComments() {
+async function minimizeMutedUserComments(): Promise<void> {
 	const mutedUsers = await getMutedUsers();
 
 	const comments = select.all('.js-discussion .js-comment-container');
@@ -127,7 +131,7 @@ async function minimizeMutedUserComments() {
 		const user = select('.author', comment)!.textContent!;
 		const isMutedUser = mutedUsers.includes(user);
 
-		const dropdowns = select.all('.show-more-popover', comment)!;
+		const dropdowns = select.all('.show-more-popover', comment);
 		for (const dropdown of dropdowns) {
 			// Add option to mute or unmute user
 			appendBefore(dropdown, 'a[data-ga-click^="Report"]',

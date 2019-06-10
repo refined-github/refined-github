@@ -4,8 +4,8 @@ export interface Options {
 	customCSS: string;
 	personalToken: string;
 	logging: boolean;
-	[featureName: string]: string | boolean;
 	mutedUsers: string;
+	[featureName: string]: string | boolean;
 }
 
 const defaults: Options = {
