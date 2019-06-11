@@ -4,7 +4,8 @@ import indentTextarea from 'indent-textarea';
 import insertText from 'insert-text-textarea';
 import features from '../libs/features';
 
-const formattingCharacters = ['`', '\'', '"', '[', '(', '*', '_', '~'];
+const formattingCharacters = ['`', '\'', '"', '[', '(', '{', '*', '_', '~'];
+const matchingCharacters = ['`', '\'', '"', ']', ')', '}','*', '_', '~'];
 const keysRequiringSelection = ['*', '_', '~']; // Keys that require selection to be wrappable
 
 // Element.blur() will reset the tab focus to the start of the document.
@@ -92,7 +93,8 @@ function init(): void {
 			event.preventDefault();
 
 			const selectedText = field.value.slice(start, end);
-			insertText(field, formattingChar + selectedText + formattingChar);
+			const matchingEndChar = matchingCharacters[formattingCharacters.indexOf(formattingChar)];
+			insertText(field, formattingChar + selectedText + matchingEndChar);
 
 			// Keep the selection as it is, to be able to chain shortcuts
 			field.setSelectionRange(start + 1, end + 1);
