@@ -5,8 +5,8 @@ import insertText from 'insert-text-textarea';
 import features from '../libs/features';
 
 const formattingCharacters = ['`', '\'', '"', '[', '(', '{', '*', '_', '~'];
-const matchingCharacters = ['`', '\'', '"', ']', ')', '}','*', '_', '~'];
-const keysRequiringSelection = ['*', '_', '~']; // Keys that require selection to be wrappable
+const matchingCharacters = ['`', '\'', '"', ']', ')', '}', '*', '_', '~'];
+const keysRequiringSelection = ['\'', '*', '_', '~']; // Keys that require selection to be wrappable
 
 // Element.blur() will reset the tab focus to the start of the document.
 // This places it back next to the blurred field
