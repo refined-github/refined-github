@@ -12,10 +12,8 @@ async function showForks(): Promise<void> {
 	const pageHeader = select('.pagehead h1.public')!;
 	for (const fork of cached.filter(fork => fork !== getRepoURL())) {
 		pageHeader.append(
-			<span className="fork-flag rgh-forked">
-				<span className="text">forked to&nbsp;
-					<a href={`/${fork}`}>{fork}</a>
-				</span>
+			<span className="fork-flag rgh-forked">forked to&nbsp;
+				<a href={`/${fork}`}>{fork}</a>
 			</span>
 		);
 	}
@@ -26,9 +24,8 @@ function rememberCurrentFork(): void {
 		return;
 	}
 
-	const forkSourceElement = select<HTMLAnchorElement>('.fork-flag:not(.rgh-forked) a');
-	if (forkSourceElement) {
-		const forkedRepo = forkSourceElement.pathname.substring(1);
+	const forkedRepo = findForkedRepo();
+	if (forkedRepo) {
 		addAndStoreCache(forkedRepo, getRepoURL());
 	}
 }
@@ -45,13 +42,17 @@ function watchForkDialog(): void {
 	});
 }
 
-function getSourceRepo(): string {
+function findForkedRepo(): string | undefined {
 	const forkSourceElement = select<HTMLAnchorElement>('.fork-flag:not(.rgh-forked) a');
 	if (forkSourceElement) {
 		return forkSourceElement.pathname.substring(1);
 	}
 
-	return getRepoURL();
+	return undefined;
+}
+
+function getSourceRepo(): string {
+	return findForkedRepo() || getRepoURL();
 }
 
 async function validateFork(repo: string): Promise<boolean> {
