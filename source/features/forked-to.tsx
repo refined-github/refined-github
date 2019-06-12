@@ -54,16 +54,12 @@ function watchForkDialog(): void {
 
 // Get the source repo, by checking if we are already on a fork.
 function getSourceRepo(): string {
-	let repo: string;
-
 	const forkSourceElement = select<HTMLElement>('.fork-flag:not(.rgh-forked) a');
 	if (forkSourceElement) {
-		repo = forkSourceElement.getAttribute('href')!.substring(1);
-	} else {
-		repo = currentRepo;
+		return forkSourceElement.getAttribute('href')!.substring(1);
 	}
 
-	return repo;
+	return currentRepo;
 }
 
 // Check if the fork still exists.
@@ -80,8 +76,7 @@ async function validateFork(repo: string): Promise<boolean> {
 async function getCache(repo: string): Promise<string[]> {
 	const repoKey = `${id}:${repo}`;
 	const cached = await cache.get<string[]>(repoKey) || [];
-	const validForks = cached.filter(validateFork);
-	validForks.sort(undefined);
+	const validForks = cached.filter(validateFork).sort(undefined);
 
 	if (cached.length !== validForks.length) {
 		await cache.set<string[]>(repoKey, validForks, 10);
