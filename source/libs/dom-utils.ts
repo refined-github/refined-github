@@ -49,5 +49,5 @@ export const wrapAll = (targets: Element[], wrapper: Element): void => {
 export const isEditable = (target: Element | EventTarget): boolean => {
 	return target instanceof HTMLTextAreaElement ||
 		target instanceof HTMLInputElement ||
-		(target instanceof Element && (target as any as Element).matches('[contenteditable=true]'));
+		(target instanceof HTMLElement && (target as ElementContentEditable).isContentEditable);
 };
