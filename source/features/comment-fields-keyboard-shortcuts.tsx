@@ -6,7 +6,6 @@ import features from '../libs/features';
 
 const formattingCharacters = ['`', '\'', '"', '[', '(', '{', '*', '_', '~'];
 const matchingCharacters = ['`', '\'', '"', ']', ')', '}', '*', '_', '~'];
-const keysRequiringSelection = ['\'', '*', '_', '~']; // Keys that require selection to be wrappable
 
 // Element.blur() will reset the tab focus to the start of the document.
 // This places it back next to the blurred field
@@ -81,17 +80,16 @@ function init(): void {
 				});
 			}
 		} else if (formattingCharacters.includes(event.key)) {
-			const formattingChar = event.key;
 			const [start, end] = [field.selectionStart, field.selectionEnd];
 
 			// If `start` and `end` of selection are the same, then no text is selected
-			// For keys that require selection, if no text is selected, bail immediately
-			if (keysRequiringSelection.includes(formattingChar) && start === end) {
+			if (start === end) {
 				return;
 			}
 
 			event.preventDefault();
 
+			const formattingChar = event.key;
 			const selectedText = field.value.slice(start, end);
 			const matchingEndChar = matchingCharacters[formattingCharacters.indexOf(formattingChar)];
 			insertText(field, formattingChar + selectedText + matchingEndChar);
