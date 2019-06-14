@@ -1,0 +1,9 @@
+.rgh-has-upload-field .upload-enabled textarea {
+	border-bottom-style: solid;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+
+.rgh-has-upload-field .drag-and-drop {
+	display: none !important;
+}
