@@ -13,7 +13,7 @@ function listener(event: KeyboardEvent): void {
 	if (
 		event.key === 'Escape' && // Catch `Esc` key
 		isLineSelected() &&
-		(event.target && !isEditable(event.target)) // If a field isn’t focused
+		!isEditable(event.target) // If a field isn’t focused
 	) {
 		location.hash = '#no-line'; // Update UI, without `scroll-to-top` behavior
 		history.replaceState({}, document.title, location.pathname); // Drop remaining # from url
