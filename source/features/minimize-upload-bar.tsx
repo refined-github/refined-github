@@ -1,13 +1,13 @@
 import './minimize-upload-bar.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
+import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 
 async function addButton(): Promise<void> {
 	for (const toolbar of select.all('form:not(.rgh-has-upload-field) markdown-toolbar')) {
-		select(':scope > div:last-child', toolbar)!.prepend(
+		toolbar.lastElementChild!.prepend(
 			<button type="button" className="toolbar-item tooltipped tooltipped-n rgh-upload-btn" aria-label="Attach files">
 				{icons.cloudUpload()}
 			</button>
@@ -16,9 +16,9 @@ async function addButton(): Promise<void> {
 	}
 }
 
-function triggerUpload(event: KeyboardEvent): void {
-	(event.target as Element)
-		.closest('form')!
+function triggerUpload(event: DelegateEvent<Event, HTMLButtonElement>): void {
+	event.delegateTarget
+		.form!
 		.querySelector<HTMLInputElement>('.js-manual-file-chooser')!
 		.click(); // Open UI
 }
