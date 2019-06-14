@@ -8,7 +8,7 @@ import * as icons from '../libs/icons';
 async function addButton(): Promise<void> {
 	for (const toolbar of select.all('form:not(.rgh-has-upload-field) markdown-toolbar')) {
 		select(':scope > div:last-child', toolbar)!.prepend(
-			<button type="button" className="toolbar-item rgh-upload-btn">
+			<button type="button" className="toolbar-item tooltipped tooltipped-n rgh-upload-btn" aria-label="Attach files">
 				{icons.cloudUpload()}
 			</button>
 		);
