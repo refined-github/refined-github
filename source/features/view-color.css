@@ -1,0 +1,9 @@
+.rgh-color-block {
+	width: 12px;
+	height: 12px;
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 4px;
+	border-radius: 3px;
+	border: 1px solid rgba(119, 119, 119, 0.5);
+}

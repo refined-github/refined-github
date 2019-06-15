@@ -105,6 +105,7 @@ import './features/release-download-count';
 import './features/open-issue-to-latest-comment';
 import './features/highest-rated-comment';
 import './features/clean-issue-filters';
+import './features/view-color';
 
 import './features/scrollable-code-and-blockquote.css';
 import './features/center-reactions-popup.css';
@@ -121,6 +122,7 @@ import './features/hide-readme-header.css';
 import './features/hide-obvious-tooltips.css';
 import './features/clean-discussions.css';
 import './features/clean-rich-text-editor.css';
+import './features/view-color.css';
 
 // Add global for easier debugging
 (window as any).select = select;
