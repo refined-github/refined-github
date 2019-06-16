@@ -1,3 +1,4 @@
+/* `.js-upload-markdown-image` excludes non-comment attachment drop areas. See #2086 */
 .rgh-has-upload-field file-attachment.js-upload-markdown-image.is-default .drag-and-drop {
 	display: none !important;
 }
