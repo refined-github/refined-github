@@ -70,7 +70,8 @@ features.add({
 	include: [
 		features.isPRFiles,
 		features.isCommit,
-		features.isPRConversation
+		features.isPRConversation,
+		features.isCompare
 	],
 	load: features.onAjaxedPages,
 	init
