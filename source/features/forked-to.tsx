@@ -43,7 +43,7 @@ function watchForkDialog(): void {
 function findForkedRepo(): string | undefined {
 	const forkSourceElement = select<HTMLAnchorElement>('.fork-flag:not(.rgh-forked) a');
 	if (forkSourceElement) {
-		return forkSourceElement.pathname.substring(1);
+		return forkSourceElement.pathname.slice(1);
 	}
 
 	return undefined;
