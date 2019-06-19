@@ -3,7 +3,7 @@ import select from 'select-dom';
 import features from '../libs/features';
 import cache from '../libs/cache';
 import {getRepoURL} from '../libs/utils';
-import {isOwnRepo} from '../libs/page-detect';
+import {isRepoWithAccess} from '../libs/page-detect';
 
 const getCacheKey = (repo: string): string => `forked-to:${repo}`;
 
@@ -20,7 +20,7 @@ async function showForks(): Promise<void> {
 }
 
 function rememberCurrentFork(): void {
-	if (!isOwnRepo()) {
+	if (!isRepoWithAccess()) {
 		return;
 	}
 
