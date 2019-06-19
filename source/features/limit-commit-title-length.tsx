@@ -2,6 +2,8 @@ import './limit-commit-title-length.css';
 import select from 'select-dom';
 import features from '../libs/features';
 
+const commitTitleLimit = 72;
+
 function init(): void {
 	const inputs = select.all<HTMLInputElement>([
 		'#commit-summary-input', // Commit title on edit file page
@@ -10,7 +12,17 @@ function init(): void {
 	].join(','));
 
 	for (const inputField of inputs) {
-		inputField.setAttribute('maxlength', '72');
+		inputField.setAttribute('maxlength', commitTitleLimit.toString());
+		inputField.addEventListener('input', () => {
+			const inputValueLength = inputField.value.length;
+			let customValidityMessage = '';
+
+			if (inputValueLength > commitTitleLimit) {
+				customValidityMessage = `The title should not be longer than 72 characters, but is currently ${inputValueLength} characters`;
+			}
+
+			inputField.setCustomValidity(customValidityMessage);
+		});
 	}
 }
 
