@@ -31,7 +31,8 @@ function init(): void {
 
 features.add({
 	id: 'minimize-upload-bar',
-	description: 'Add upload button and removes upload message',
+	description: 'Add upload button to the comment toolbar and remove the upload message',
+	screenshot: 'https://user-images.githubusercontent.com/55841/59802383-3d994180-92e9-11e9-835d-60de67611c30.png',
 	include: [
 		features.hasRichTextEditor
 	],
