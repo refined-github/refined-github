@@ -69,13 +69,19 @@ async function onMuteUnmuteClick(event: React.MouseEvent<HTMLButtonElement>): Pr
 }
 
 async function handleMenuOpening(event: DelegateEvent): Promise<void> {
-	const mutedUsers = await getMutedUsers();
 	const dropdown = select('.show-more-popover', event.delegateTarget.parentElement!)!;
 	const user = select('.author', dropdown.closest('.js-comment-container')!)!.textContent!;
 
+	if (user === currentUser) {
+		return;
+	}
+
+	const mutedUsers = await getMutedUsers();
+	const isMutedUser = mutedUsers.includes(user);
+
 	const existingButton = select('.rgh-mute-unmute-button', event.delegateTarget.parentElement!);
 	if (existingButton) {
-		if (mutedUsers.includes(user)) {
+		if (isMutedUser) {
 			existingButton.textContent = 'Unmute user';
 		} else {
 			existingButton.textContent = 'Mute user';
@@ -83,12 +89,6 @@ async function handleMenuOpening(event: DelegateEvent): Promise<void> {
 
 		return;
 	}
-
-	if (user === currentUser) {
-		return;
-	}
-
-	const isMutedUser = mutedUsers.includes(user);
 
 	// Add option to mute or unmute user
 	appendBefore(dropdown, 'a[data-ga-click^="Report"]',
