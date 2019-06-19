@@ -33,18 +33,20 @@ function buildFeatureCheckbox([name, {description, screenshot, disabled}]: [stri
 	);
 
 	return (
-		<p>
+		<p className="feature">
 			<input type="checkbox" name={id} id={id} disabled={Boolean(disabled)} />
-			<label for={id} className="info">
-				<span className="feature-name">{name}</span>
-				{' '}
-				<a href={`https://github.com/sindresorhus/refined-github/blob/master/source/features/${name}.tsx`}>
-					source
-				</a>
-				{screenshot ? <>, <a href={screenshot}>screenshot</a></> : ''}
-				<br/>
-				<span className="description">{parsedDescription}</span>
-			</label>
+			<div className="info">
+				<label for={id}>
+					<span className="feature-name">{name}</span>
+					{' '}
+					<a href={`https://github.com/sindresorhus/refined-github/blob/master/source/features/${name}.tsx`}>
+						source
+					</a>
+					{screenshot ? <>, <a href={screenshot}>screenshot</a></> : ''}
+					<br/>
+					<span className="description">{parsedDescription}</span>
+				</label>
+			</div>
 		</p>
 	);
 }
@@ -53,8 +55,9 @@ const featureCheckboxes = [...window.collectFeatures.entries()]
 	.sort(([a], [b]) => a.localeCompare(b)) // Sort by feature name
 	.map(buildFeatureCheckbox);
 
-document
-	.querySelector('.js-features')!
-	.append(...featureCheckboxes);
+select('.js-features')!.append(...featureCheckboxes);
+
+// Move mute users input field to the respective feature checkbox
+select('[for="feature:mute-users"]')!.after(select('.js-muted-users-container')!);
 
 optionsStorage.syncForm('#options-form');

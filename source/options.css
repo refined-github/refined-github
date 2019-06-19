@@ -55,7 +55,7 @@ h2 ~ h2 {
 	margin-top: 2em;
 }
 
-.js-features p {
+.js-features .feature {
 	display: flex;
 }
 
@@ -69,13 +69,24 @@ h2 ~ h2 {
 	text-decoration: line-through;
 }
 
+.js-features :not(:checked) + .info .extended-options {
+	display: none;
+}
+
 .js-features .description {
-	font-style: 0.8em;
 	opacity: 0.8;
 }
 
 .js-features a {
 	font-size: 0.9em;
+}
+
+.js-features .info {
+	flex: 1;
+}
+
+.js-features .info p {
+	margin-bottom: 0;
 }
 
 .feature-name + a {
