@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
-function hideUselessComments(): void {
+function init(): void {
 	let uselessCount = 0;
 	for (const commentText of select.all('.comment-body > p:only-child')) {
 		// Find useless comments
@@ -40,13 +40,13 @@ function hideUselessComments(): void {
 		select('.discussion-timeline-actions')!.prepend(
 			<p className="rgh-useless-comments-note">
 				{`${uselessCount} unhelpful comment${uselessCount > 1 ? 's were' : ' was'} automatically hidden. `}
-				<button className="btn-link text-emphasized" onClick={unhideUselessComments}>Show</button>
+				<button className="btn-link text-emphasized" onClick={unhide}>Show</button>
 			</p>
 		);
 	}
 }
 
-function unhideUselessComments(event: React.MouseEvent<HTMLButtonElement>): void {
+function unhide(event: React.MouseEvent<HTMLButtonElement>): void {
 	for (const comment of select.all('.rgh-hidden-comment')) {
 		comment.hidden = false;
 	}
@@ -55,16 +55,11 @@ function unhideUselessComments(event: React.MouseEvent<HTMLButtonElement>): void
 	event.currentTarget.parentElement!.remove();
 }
 
-function init(): void {
-	hideUselessComments();
-}
-
 features.add({
 	id: 'hide-useless-comments',
 	description: 'Hide useless comments like "+1"',
 	include: [
-		features.isIssue,
-		features.isPRConversation
+		features.isIssue
 	],
 	load: features.onAjaxedPages,
 	init
