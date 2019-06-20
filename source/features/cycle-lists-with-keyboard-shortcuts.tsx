@@ -56,7 +56,7 @@ function init(): void {
 
 features.add({
 	id: 'cycle-lists-with-keyboard-shortcuts',
-	description: 'Cycle "select lists" (labels, etc) when selecting them with the `↑` and `↓` keys.',
+	description: 'Cycle "popover lists" (labels, milestones, etc) when selecting them with the `↑` and `↓` keys.',
 	init,
 	load: features.onAjaxedPages,
 	include: [
