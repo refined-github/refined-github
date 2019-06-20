@@ -5,44 +5,32 @@ import features from '../libs/features';
 import {appendBefore} from '../libs/dom-utils';
 import optionsStorage, {Options} from '../options-storage';
 import {getUsername} from '../libs/utils';
-
-let currentUser: string;
+import onNewComments from '../libs/on-new-comments';
 
 async function getMutedUsers(): Promise<string[]> {
-	return (await optionsStorage.getAll() as Options).mutedUsers.split(/\s+/);
+	return (await optionsStorage.getAll() as Options).mutedUsers.split(/\s+/).filter(Boolean);
 }
 
 async function setMutedUsers(mutedUsers: string[]): Promise<void> {
 	return optionsStorage.set({mutedUsers: mutedUsers.join(' ')});
 }
 
-function minimizeComment(comment: HTMLElement): void {
-	if (select.exists('.js-targetable-comment[id^="issue-"]', comment)) {
+function toggleComment(comment: HTMLElement, minimize: boolean): void {
+	if (comment.id.startsWith('issue-')) {
 		return;
 	}
 
-	select('.minimized-comment', comment)!.classList.remove('d-none');
-	select('.minimized-comment .Details-element', comment)!.removeAttribute('open');
-	select('.unminimized-comment', comment)!.classList.add('d-none');
-}
-
-function unminimizeComment(comment: HTMLElement): void {
-	if (select.exists('.js-targetable-comment[id^="issue-"]', comment)) {
-		return;
-	}
-
-	select('.minimized-comment', comment)!.classList.add('d-none');
-	select('.minimized-comment .Details-element', comment)!.setAttribute('open', 'true');
-	select('.unminimized-comment', comment)!.classList.remove('d-none');
+	select('.minimized-comment', comment)!.classList[minimize ? 'remove' : 'add']('d-none');
+	select('.minimized-comment .Details-element', comment)![minimize ? 'removeAttribute' : 'setAttribute']('open', 'true');
+	select('.unminimized-comment', comment)!.classList[minimize ? 'add' : 'remove']('d-none');
 }
 
 async function onMuteUnmuteClick(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
-	let mutedUsers = await getMutedUsers();
-
-	const comment = (event.target as HTMLElement).closest('.js-comment-container')!;
+	const comment = event.currentTarget.closest('.js-comment-container')!;
 	const viewportOffset = comment.getBoundingClientRect().top;
 	const user = select('.author', comment)!.textContent!;
 
+	let mutedUsers = await getMutedUsers();
 	if (mutedUsers.includes(user)) {
 		mutedUsers = mutedUsers.filter(mutedUser => mutedUser !== user);
 	} else {
@@ -50,17 +38,7 @@ async function onMuteUnmuteClick(event: React.MouseEvent<HTMLButtonElement>): Pr
 	}
 
 	await setMutedUsers(mutedUsers);
-
-	const avatars = select.all(`.js-discussion .js-comment-container .avatar[alt="@${user}"`);
-	const comments = avatars.map(avatar => avatar.closest('.js-comment-container') as HTMLElement);
-
-	for (const comment of comments) {
-		if (mutedUsers.includes(user)) {
-			minimizeComment(comment);
-		} else {
-			unminimizeComment(comment);
-		}
-	}
+	await minimizeMutedUserComments();
 
 	requestAnimationFrame(() => {
 		const newOffset = comment.getBoundingClientRect().top;
@@ -72,7 +50,7 @@ async function handleMenuOpening(event: DelegateEvent): Promise<void> {
 	const dropdown = select('.show-more-popover', event.delegateTarget.parentElement!)!;
 	const user = select('.author', dropdown.closest('.js-comment-container')!)!.textContent!;
 
-	if (user === currentUser) {
+	if (user === getUsername()) {
 		return;
 	}
 
@@ -105,19 +83,21 @@ async function handleMenuOpening(event: DelegateEvent): Promise<void> {
 async function minimizeMutedUserComments(): Promise<void> {
 	const mutedUsers = await getMutedUsers();
 
-	for (const comment of select.all('.js-discussion .js-comment-container')) {
+	for (const comment of select.all('.js-discussion .js-minimizable-comment-group')) {
 		const user = select('.author', comment)!.textContent!;
 
 		// If the user _is_ muted, minimize their comment
-		if (mutedUsers.includes(user) && user !== currentUser) {
-			minimizeComment(comment);
+		if (mutedUsers.includes(user) && user !== getUsername()) {
+			toggleComment(comment, true);
+		} else {
+			toggleComment(comment, false);
 		}
 	}
 }
 
 function init(): void {
-	currentUser = getUsername();
 	minimizeMutedUserComments();
+	onNewComments(minimizeMutedUserComments);
 
 	delegate('.timeline-comment-action', 'click', handleMenuOpening);
 }

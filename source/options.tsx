@@ -33,7 +33,7 @@ function buildFeatureCheckbox([name, {description, screenshot, disabled}]: [stri
 	);
 
 	return (
-		<p className="feature">
+		<div className="feature">
 			<input type="checkbox" name={id} id={id} disabled={Boolean(disabled)} />
 			<div className="info">
 				<label for={id}>
@@ -44,10 +44,10 @@ function buildFeatureCheckbox([name, {description, screenshot, disabled}]: [stri
 					</a>
 					{screenshot ? <>, <a href={screenshot}>screenshot</a></> : ''}
 					<br/>
-					<span className="description">{parsedDescription}</span>
+					<p className="description">{parsedDescription}</p>
 				</label>
 			</div>
-		</p>
+		</div>
 	);
 }
 

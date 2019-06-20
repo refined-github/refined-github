@@ -57,6 +57,7 @@ h2 ~ h2 {
 
 .js-features .feature {
 	display: flex;
+	margin-top: 1em;
 }
 
 .js-features input {
@@ -82,11 +83,12 @@ h2 ~ h2 {
 }
 
 .js-features .info {
-	flex: 1;
+	flex-grow: 1;
 }
 
 .js-features .info p {
-	margin-bottom: 0;
+	margin-top: 0.25em;
+	margin-bottom: 0.125em;
 }
 
 .feature-name + a {
