@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import cache from './cache';
+import cache from 'webext-storage-cache';
 import * as api from './api';
 import {getOwnerAndRepo} from './utils';
 
