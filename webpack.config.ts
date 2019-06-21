@@ -42,7 +42,7 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 				}
 			},
 			{
-				test: /\.(js|ts|tsx)$/,
+				test: /\.tsx?$/,
 				use: [
 					{
 						loader: 'ts-loader',

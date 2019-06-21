@@ -1,5 +1,5 @@
 import {addContextMenu} from 'webext-domain-permission-toggle';
-import {addToFutureTabs} from 'webext-dynamic-content-scripts';
+import './libs/declarative-content-scripts';
 import './options-storage';
 
 browser.runtime.onMessage.addListener(async message => {
@@ -40,5 +40,4 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 });
 
 // GitHub Enterprise support
-addToFutureTabs();
 addContextMenu();
