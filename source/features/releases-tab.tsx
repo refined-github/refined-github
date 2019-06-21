@@ -1,9 +1,9 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';
+import cache from 'webext-storage-cache';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
-import cache from '../libs/cache';
 import {getRepoURL} from '../libs/utils';
 import {isRepoRoot, isReleasesOrTags} from '../libs/page-detect';
 

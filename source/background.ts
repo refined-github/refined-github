@@ -1,6 +1,5 @@
 import {addContextMenu} from 'webext-domain-permission-toggle';
 import {addToFutureTabs} from 'webext-dynamic-content-scripts';
-import './libs/cache';
 import './options-storage';
 
 browser.runtime.onMessage.addListener(async message => {

@@ -38,10 +38,10 @@
 		"shorten-repo-url": "^1.5.1",
 		"tiny-version-compare": "^1.0.0",
 		"type-fest": "^0.4.1",
-		"webext-detect-page": "^0.9.1",
 		"webext-domain-permission-toggle": "^0.1.0",
 		"webext-dynamic-content-scripts": "^5.0.2-0",
 		"webext-options-sync": "^0.15.5",
+		"webext-storage-cache": "0.0.0",
 		"webextension-polyfill": "^0.4.0",
 		"zip-text-nodes": "^1.0.0-0"
 	},
