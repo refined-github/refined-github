@@ -1,5 +1,4 @@
 import select from 'select-dom';
-import 'webext-dynamic-content-scripts';
 
 import './features/useful-not-found-page';
 import './features/trending-menu-item';
@@ -105,6 +104,7 @@ import './features/release-download-count';
 import './features/open-issue-to-latest-comment';
 import './features/highest-rated-comment';
 import './features/clean-issue-filters';
+import './features/cycle-lists-with-keyboard-shortcuts';
 import './features/forked-to';
 
 import './features/scrollable-code-and-blockquote.css';
