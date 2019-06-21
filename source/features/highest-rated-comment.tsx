@@ -10,7 +10,8 @@ function getCount(reaction: HTMLElement): number {
 
 function init(): false | void {
 	let highest;
-	for (const like of select.all('[aria-label*="reacted with thumbs up"]')) {
+	// `.js-timeline-item` excludes the very first comment
+	for (const like of select.all('.js-timeline-item [aria-label*="reacted with thumbs up"]')) {
 		const count = getCount(like);
 		const dislike = select('[aria-label*="reacted with thumbs down"]', like.parentElement!);
 

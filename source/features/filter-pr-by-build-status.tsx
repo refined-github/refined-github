@@ -2,6 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import {checkInline} from '../libs/icons';
 import features from '../libs/features';
+import {fetchCIStatus} from './ci-link';
 
 function populateDropDown({currentTarget}: Event): void {
 	const searchParam = new URLSearchParams(location.search);
@@ -34,7 +35,13 @@ function populateDropDown({currentTarget}: Event): void {
 	}
 }
 
-function init(): void | false {
+async function init(): Promise<void | false> {
+	const hasCI = await fetchCIStatus();
+
+	if (!hasCI) {
+		return false;
+	}
+
 	const reviewsFilter = select('.table-list-header-toggle > details:nth-last-child(3)')!;
 
 	if (!reviewsFilter) {
