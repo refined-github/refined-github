@@ -1,10 +1,11 @@
 import select from 'select-dom';
 import features from '../libs/features';
+import {isEditable} from '../libs/dom-utils';
 
 function init(): void {
-	document.addEventListener('keypress', event => {
+	document.addEventListener('keypress', (event: KeyboardEvent) => {
 		const selected = select<HTMLAnchorElement>('.navigation-focus .js-navigation-open[href]');
-		if (selected && event.key === 'O') {
+		if (selected && event.key === 'O' && !isEditable(event.target)) {
 			browser.runtime.sendMessage({
 				urls: [selected.href],
 				action: 'openAllInTabs'
