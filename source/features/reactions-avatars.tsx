@@ -12,21 +12,40 @@ const approximateHeaderLength = 3; // Each button header takes about as much as 
 type Participant = {
 	container: HTMLElement;
 	username: string;
+	src: string;
 };
 
 function getParticipants(container: HTMLElement): Participant[] {
 	const currentUser = getUsername();
-	return container.getAttribute('aria-label')!
+	const users = container.getAttribute('aria-label')!
 		.replace(/ reacted with.*/, '')
 		.replace(/,? and /, ', ')
 		.replace(/, \d+ more/, '')
-		.replace(/\[bot\]/g, '')
-		.split(', ')
-		.filter(username => username !== currentUser)
-		.map((username): Participant => ({
-			container,
-			username
-		}));
+		.split(', ');
+
+	const participants = [];
+	for (const username of users) {
+		if (username === currentUser) {
+			continue;
+		}
+
+		const cleanName = username.replace('[bot]', '');
+
+		// Find image on page. Saves a request and a redirect + add support for bots
+		const existingAvatar = select<HTMLImageElement>(`[alt="@${cleanName}"]`);
+		if (existingAvatar) {
+			participants.push({container, username, src: existingAvatar.src});
+			continue;
+		}
+
+		// If it's not a bot, use a shortcut URL #2125
+		if (cleanName === username) {
+			const src = `/${username}.png?size=${window.devicePixelRatio * 20}`;
+			participants.push({container, username, src});
+		}
+	}
+
+	return participants;
 }
 
 function add(): void {
@@ -36,10 +55,10 @@ function add(): void {
 		const participantByReaction = [...list.children as HTMLCollectionOf<HTMLElement>].map(getParticipants);
 		const flatParticipants = flatZip(participantByReaction, avatarLimit);
 
-		for (const {container, username} of flatParticipants) {
+		for (const {container, username, src} of flatParticipants) {
 			container.append(
 				<a>
-					<img src={`/${username}.png?size=${window.devicePixelRatio * 20}`} />
+					<img src={src} />
 				</a>
 			);
 
