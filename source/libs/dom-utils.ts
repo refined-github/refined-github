@@ -46,8 +46,8 @@ export const wrapAll = (targets: Element[], wrapper: Element): void => {
 	wrapper.append(...targets);
 };
 
-export const isEditable = (node: any): boolean => {
+export const isEditable = (node: unknown): boolean => {
 	return node instanceof HTMLTextAreaElement ||
 		node instanceof HTMLInputElement ||
-		(node instanceof HTMLElement && (node as ElementContentEditable).isContentEditable);
+		(node instanceof HTMLElement && node.isContentEditable);
 };
