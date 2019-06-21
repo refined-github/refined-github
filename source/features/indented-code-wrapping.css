@@ -1,3 +1,9 @@
+/* GitHub adds negative text indentation, reset it */
+.rgh-code-wrapping-enabled .soft-wrap .blob-code {
+	text-indent: 0;
+	padding-left: 10px;
+}
+
 .rgh-code-wrapping-enabled .blob-code-inner {
 	white-space: pre-wrap;
 }
