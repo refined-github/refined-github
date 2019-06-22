@@ -6,18 +6,6 @@ import TerserPlugin from 'terser-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
-function getFeatureList(): string[] {
-	// List of filenames like ['ci-link.tsx', 'show-names.tsx', ...]
-	const files =  readdirSync(path.join(__dirname, 'source/features'));
-	const list: string[] = [];
-	for (const file of files) {
-		if (file.endsWith('.tsx')) {
-			list.push(file.replace('.tsx', ''));
-		}
-	}
-	return list;
-}
-
 function parseFeatureDetails(name: string): FeatureInfo {
 	const fullPath = path.join(__dirname, 'source/features', `${name}.tsx`);
 
@@ -37,7 +25,9 @@ function parseFeatureDetails(name: string): FeatureInfo {
 	return feature as FeatureInfo;
 }
 
-const features = getFeatureList();
+const features = readdirSync(path.join(__dirname, 'source/features'))
+	.filter(filename => filename.endsWith('.tsx'))
+	.map(filename => filename.replace('.tsx', ''));
 
 module.exports = (_env: string, argv: Record<string, boolean | number | string>): webpack.Configuration => ({
 	devtool: 'source-map',
