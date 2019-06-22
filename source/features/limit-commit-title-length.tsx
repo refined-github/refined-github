@@ -11,9 +11,14 @@ function init(): void {
 	for (const inputField of inputs) {
 		const validityCallback = (event: Event): void => {
 			if (inputField.value.length > 72) {
-				inputField.setCustomValidity(`The title should be maximum 72 characters, but is ${inputField.value.length}`);
 				event.preventDefault();
 				event.stopImmediatePropagation();
+
+				inputField.setCustomValidity(`The title should be maximum 72 characters, but is ${inputField.value.length}`);
+
+				if (event.type === 'submit') {
+					inputField.reportValidity();
+				}
 			} else {
 				inputField.setCustomValidity('');
 			}
