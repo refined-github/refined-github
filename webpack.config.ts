@@ -1,11 +1,43 @@
 import path from 'path';
-import {readdirSync} from 'fs';
+import {readdirSync, readFileSync} from 'fs';
 import webpack from 'webpack';
+import SizePlugin from 'size-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-// @ts-ignore
-import SizePlugin from 'size-plugin';
+
+function getFeatureList(): string[] {
+	// List of filenames like ['ci-link.tsx', 'show-names.tsx', ...]
+	const files =  readdirSync(path.join(__dirname, 'source/features'));
+	const list: string[] = [];
+	for (const file of files) {
+		if (file.endsWith('.tsx')) {
+			list.push(file.replace('.tsx', ''));
+		}
+	}
+	return list;
+}
+
+function parseFeatureDetails(name: string): FeatureInfo {
+	const fullPath = path.join(__dirname, 'source/features', `${name}.tsx`);
+
+	const content = readFileSync(fullPath, {encoding: 'utf-8'});
+
+	const fields = ['description', 'screenshot', 'disabled'] as const;
+	const feature: Partial<FeatureInfo> = {name};
+
+	// Use named groups if Firefox ever supports them: https://bugzilla.mozilla.org/show_bug.cgi?id=1362154
+	for (const field of fields) {
+		const [, value = undefined] = new RegExp(`${field}: '([^\\n]+)'`).exec(content) || [];
+		if (value) {
+			feature[field] = value.replace('\\\'', '\'');
+		}
+	}
+
+	return feature as FeatureInfo;
+}
+
+const features = getFeatureList();
 
 module.exports = (_env: string, argv: Record<string, boolean | number | string>): webpack.Configuration => ({
 	devtool: 'source-map',
@@ -51,19 +83,10 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 	},
 	plugins: [
 		new webpack.DefinePlugin({
-			// @ts-ignore
-			__featuresList__: webpack.DefinePlugin.runtimeValue(() => {
-				const features = [];
+			// These aren't dynamic because `runtimeValue` doesn't update when "any" file updates, but only when the files with these variables update — which is not very useful.
+			__featuresList__: JSON.stringify(features),
+			__featuresInfo__: JSON.stringify(features.map(parseFeatureDetails)),
 
-				const directoryPath = path.join(__dirname, 'source/features');
-				for (const filename of readdirSync(directoryPath)) {
-					if (filename.endsWith('.tsx')) {
-						features.push(filename.replace('.tsx', ''));
-					}
-				}
-
-				return JSON.stringify(features);
-			}),
 			// @ts-ignore
 			__featureName__: webpack.DefinePlugin.runtimeValue(({module}) => {
 				return JSON.stringify(path.basename(module.resource, '.tsx'));

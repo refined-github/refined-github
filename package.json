@@ -7,8 +7,8 @@
 		"lint-fix": "run-p --silent 'lint:* -- --fix'",
 		"test": "run-p --silent test:js lint:* build",
 		"test:js": "ava",
-		"build": "webpack --mode=production",
-		"watch": "webpack --mode=development --watch",
+		"build": "TS_NODE_FILES=true webpack --mode=production",
+		"watch": "TS_NODE_FILES=true webpack --mode=development --watch",
 		"watch:firefox": "web-ext run --source-dir=distribution",
 		"prerelease:version": "dot-json distribution/manifest.json version $VER",
 		"prerelease:source-url": "echo https://github.com/sindresorhus/refined-github/tree/\"${TRAVIS_COMMIT:-$VER}\" > distribution/SOURCE_URL",
@@ -92,6 +92,7 @@
 		"globals": [
 			"browser",
 			"__featuresList__",
+			"__featuresInfo__",
 			"__featureName__"
 		],
 		"rules": {
