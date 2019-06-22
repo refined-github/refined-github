@@ -1,6 +1,7 @@
 import './limit-commit-title-length.css';
 import select from 'select-dom';
 import features from '../libs/features';
+import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
 
 function init(): void {
 	const inputs = select.all<HTMLInputElement>([
@@ -27,6 +28,14 @@ function init(): void {
 		inputField.addEventListener('input', validityCallback);
 		inputField.form!.addEventListener('submit', validityCallback);
 	}
+
+	// For PR merges, GitHub restores any saved commit messages on page load
+	// Triggering input event for these fields immediately validates the form
+	onPrMergePanelOpen(() => {
+		for (const inputField of inputs) {
+			inputField.dispatchEvent(new Event('input'));
+		}
+	});
 }
 
 features.add({
