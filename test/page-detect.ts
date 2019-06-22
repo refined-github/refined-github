@@ -203,9 +203,19 @@ test('isMilestone', urlMatcherMacro, pageDetect.isMilestone, [
 test('isNewIssue', urlMatcherMacro, pageDetect.isNewIssue, [
 	'https://github.com/sindresorhus/refined-github/issues/new'
 ], [
-	'http://github.com/sindresorhus/ava',
+	'http://github.com/issues/new',
 	'https://github.com',
-	'https://github.com/sindresorhus/refined-github/issues'
+	'https://github.com/sindresorhus/refined-github/issues',
+	'https://github.com/sindresorhus/refined-github/blob/issues/new'
+]);
+
+test('isNewRelease', urlMatcherMacro, pageDetect.isNewRelease, [
+	'https://github.com/sindresorhus/refined-github/releases/new'
+], [
+	'http://github.com/releases/new',
+	'https://github.com',
+	'https://github.com/sindresorhus/refined-github/releases',
+	'https://github.com/sindresorhus/refined-github/blob/releases/new'
 ]);
 
 test('isNotifications', urlMatcherMacro, pageDetect.isNotifications, [

@@ -163,6 +163,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Hide milestone sorter UI if you don’t have permission to use it.](https://user-images.githubusercontent.com/7753001/56913933-738a2880-6ae5-11e9-9d13-1973cbbf5df0.png)
 - [Empty sections in the issue/PRs sidebar are hidden.](https://user-images.githubusercontent.com/1402241/57199809-20691780-6fb6-11e9-9672-1ad3f9e1b827.png)
 - [Projects and Milestones filters are dropped if they are empty.](https://user-images.githubusercontent.com/37769974/59083449-0ef88f80-8915-11e9-8296-68af1ddcf191.png)
+- [Add upload button to the comment toolbar and remove the upload message.](https://user-images.githubusercontent.com/55841/59802383-3d994180-92e9-11e9-835d-60de67611c30.png)
 
 
 ### UI improvements
