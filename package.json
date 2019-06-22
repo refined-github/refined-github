@@ -53,7 +53,6 @@
 		"@types/mini-css-extract-plugin": "^0.2.1",
 		"@types/react": "^16.8.22",
 		"@types/terser-webpack-plugin": "^1.2.1",
-		"@types/webpack": "^4.4.33",
 		"@typescript-eslint/eslint-plugin": "^1.10.2",
 		"@typescript-eslint/parser": "^1.10.2",
 		"ava": "^2.1.0",
@@ -91,7 +90,9 @@
 			"tsx"
 		],
 		"globals": [
-			"browser"
+			"browser",
+			"__featuresList__",
+			"__featureName__"
 		],
 		"rules": {
 			"import/no-unassigned-import": "off",

@@ -25,7 +25,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'esc-to-deselect-line',
+	id: __featureName__,
 	description: 'Press the `esc` key to deselect the current line when viewing files',
 	init
 });

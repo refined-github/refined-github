@@ -59,7 +59,7 @@ async function init(): Promise<void | false> {
 }
 
 features.add({
-	id: 'filter-pr-by-build-status',
+	id: __featureName__,
 	description: 'Filter pull requests by their build status (success, failure, and pending)',
 	include: [
 		features.isPRList

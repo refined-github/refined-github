@@ -48,7 +48,7 @@ function onFragmentLoaded(): void {
 }
 
 features.add({
-	id: 'tags-dropdown',
+	id: __featureName__,
 	description: 'Search or select tags from a dropdown in the Releases page',
 	include: [
 		features.isReleasesOrTags

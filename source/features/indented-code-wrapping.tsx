@@ -65,7 +65,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'indented-code-wrapping',
+	id: __featureName__,
 	description: 'Wrap code inside all code blocks to match indentation',
 	include: [
 		features.isPRFiles,

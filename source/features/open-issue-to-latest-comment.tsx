@@ -8,7 +8,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'open-issue-to-latest-comment',
+	id: __featureName__,
 	description: 'Clicking the comments icon in issue lists will take you to latest comment.',
 	include: [
 		features.isDiscussionList

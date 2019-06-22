@@ -59,7 +59,7 @@ async function init(): Promise<false | void> {
 }
 
 features.add({
-	id: 'show-names',
+	id: __featureName__,
 	description: 'The full name of users is shown next to their username',
 	include: [
 		features.hasComments

@@ -21,7 +21,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'swap-branches-on-compare',
+	id: __featureName__,
 	description: 'Swap head and base branches in the branch compare view',
 	include: [
 		features.isCompare

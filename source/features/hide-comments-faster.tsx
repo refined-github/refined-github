@@ -60,7 +60,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'hide-comments-faster',
+	id: __featureName__,
 	description: 'Hide comments in fewer clicks',
 	include: [
 		features.hasComments

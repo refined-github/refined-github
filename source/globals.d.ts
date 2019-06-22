@@ -1,6 +1,7 @@
 type AnyObject = Record<string, any>;
 
 declare const __featuresList__: string[];
+declare const __featureName__: 'webpack will replace this string';
 
 interface Window {
 	collectFeatures: Map<string, FeatureDetails>;

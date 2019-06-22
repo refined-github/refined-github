@@ -57,7 +57,7 @@ async function init(): Promise<void> {
 }
 
 features.add({
-	id: 'clean-issue-filters',
+	id: __featureName__,
 	description: 'Hide empty issue/PR filters in lists',
 	init,
 	load: features.onAjaxedPages,

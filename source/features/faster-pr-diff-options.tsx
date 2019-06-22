@@ -89,7 +89,7 @@ function init(): false | void {
 }
 
 features.add({
-	id: 'faster-pr-diff-options',
+	id: __featureName__,
 	description: 'Change diff style and whitespace visibility in one click',
 	include: [
 		features.isPRFiles,

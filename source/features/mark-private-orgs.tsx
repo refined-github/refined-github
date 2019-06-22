@@ -23,7 +23,7 @@ async function init(): Promise<false | void> {
 }
 
 features.add({
-	id: 'mark-private-orgs',
+	id: __featureName__,
 	description: 'Mark private organizations on your own profile',
 	include: [
 		features.isOwnUserProfile
