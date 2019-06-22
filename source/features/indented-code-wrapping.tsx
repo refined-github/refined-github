@@ -19,7 +19,7 @@ function run(): void {
 				continue;
 			}
 
-			const leadingSpaceCharacters = line.firstChild!.textContent!.match(/^\s+/);
+			const leadingSpaceCharacters = /^\s+/.exec(line.firstChild!.textContent!);
 			if (!leadingSpaceCharacters) {
 				continue;
 			}

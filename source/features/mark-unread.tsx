@@ -111,7 +111,7 @@ async function markUnread({currentTarget}: React.MouseEvent): Promise<void> {
 		throw new Error('Refined GitHub: A new issue state was introduced?');
 	}
 
-	const lastCommentTime = select.last<HTMLTimeElement>('.timeline-comment-header relative-time');
+	const lastCommentTime = select.last<HTMLTimeElement>('.timeline-comment-header relative-time')!;
 	const unreadNotifications = await getNotifications();
 
 	unreadNotifications.push({
@@ -119,10 +119,10 @@ async function markUnread({currentTarget}: React.MouseEvent): Promise<void> {
 		state,
 		isParticipating: select.exists(`.participant-avatar[href="/${getUsername()}"]`),
 		repository: `${ownerName}/${repoName}`,
-		dateTitle: lastCommentTime!.title,
+		dateTitle: lastCommentTime.title,
 		title: select('.js-issue-title')!.textContent!.trim(),
 		type: pageDetect.isPR() ? 'pull-request' : 'issue',
-		date: lastCommentTime!.getAttribute('datetime')!,
+		date: lastCommentTime.getAttribute('datetime')!,
 		url: stripHash(location.href)
 	});
 

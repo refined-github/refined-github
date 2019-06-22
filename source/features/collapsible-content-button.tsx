@@ -11,15 +11,15 @@ import * as icons from '../libs/icons';
 function smartBlockWrap(content: string, field: HTMLTextAreaElement): string {
 	const before = field.value.slice(0, field.selectionStart);
 	const after = field.value.slice(field.selectionEnd);
-	const [whitespaceAtStart] = before.match(/\n*$/) || [''];
-	const [whitespaceAtEnd] = after.match(/^\n*/) || [''];
+	const [whitespaceAtStart] = /\n*$/.exec(before)!;
+	const [whitespaceAtEnd] = /^\n*/.exec(after)!;
 	let newlinesToAppend = '';
 	let newlinesToPrepend = '';
-	if (before.match(/\S/) && whitespaceAtStart.length < 2) {
+	if (/\S/.test(before) && whitespaceAtStart.length < 2) {
 		newlinesToPrepend = '\n'.repeat(2 - whitespaceAtStart.length);
 	}
 
-	if (after.match(/\S/) && whitespaceAtEnd.length < 2) {
+	if (/\S/.test(after) && whitespaceAtEnd.length < 2) {
 		newlinesToAppend = '\n'.repeat(2 - whitespaceAtEnd.length);
 	}
 
