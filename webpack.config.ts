@@ -27,7 +27,7 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 				loader: 'string-replace-loader',
 				options: {
 					search: '__featuresList__',
-					replace: (() => {
+					replace: () => {
 						const features = [];
 
 						const directoryPath = path.join(__dirname, 'source/features');
@@ -38,7 +38,7 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 						}
 
 						return JSON.stringify(features);
-					})()
+					}
 				}
 			},
 			{

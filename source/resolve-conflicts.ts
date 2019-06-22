@@ -2,8 +2,7 @@
 
 interface CodeMirrorInstance extends CodeMirror.Editor, CodeMirror.Doc {}
 
-// eslint-disable-next-line @typescript-eslint/no-namespace, @typescript-eslint/prefer-namespace-keyword
-declare module CodeMirror {
+declare namespace CodeMirror {
 	interface LineHandle {
 		widgets: unknown[];
 		lineNo(): number;

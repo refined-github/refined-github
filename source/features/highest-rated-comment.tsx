@@ -5,7 +5,7 @@ import features from '../libs/features';
 import * as icons from '../libs/icons';
 
 function getCount(reaction: HTMLElement): number {
-	return Number(reaction.textContent!.match(/\d+/)![0]);
+	return Number(/\d+/.exec(reaction.textContent!)![0]);
 }
 
 function init(): false | void {

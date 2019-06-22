@@ -36,9 +36,9 @@ async function init(): Promise<false | void> {
 
 		const fromKey = isNewer ? 'previous_filename' : 'filename';
 		const toKey = isNewer ? 'filename' : 'previous_filename';
-		const sha = (isNewer ? select : select.last)('.commit .sha');
+		const sha = (isNewer ? select : select.last)('.commit .sha')!;
 
-		const files = await findRename(user, repo, sha!.textContent!.trim());
+		const files = await findRename(user, repo, sha.textContent!.trim());
 
 		for (const file of files) {
 			if (file[fromKey] === currentFilename) {
