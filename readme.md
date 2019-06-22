@@ -211,6 +211,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Link to file itself in the history pages](https://user-images.githubusercontent.com/22439276/57195061-b88ddf00-6f6b-11e9-8ad9-13225d09266d.png)
 - [See an automatic changelog for each tag or release.](https://user-images.githubusercontent.com/1402241/57081611-ad4a7180-6d27-11e9-9cb6-c54ec1ac18bb.png)
 - [Open issues to the latest comment by clicking the comments icon.](https://user-images.githubusercontent.com/14323370/57962709-7019de00-78e8-11e9-8398-7e617ba7a96f.png)
+- [Format selected text with a key press when writing comments.](https://user-images.githubusercontent.com/37769974/59958878-39c51500-94cb-11e9-910a-061bf8ca6575.gif)
 - [Cycle "popover lists" (labels, milestones, etc) when selecting them with the <kbd>↑</kbd> and <kbd>↓</kbd> keys.](https://user-images.githubusercontent.com/37769974/59158786-6fd2c400-8add-11e9-9db1-db80186fa6ea.gif)
 
 ### Previously part of Refined GitHub
