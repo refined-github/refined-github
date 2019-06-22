@@ -1,0 +1,10 @@
+/* Aligns it right */
+.rgh-release-download-count {
+	margin-left: auto;
+}
+
+/* Simulates fixed columns */
+.rgh-release-download-count + small {
+	min-width: 4.5em;
+	text-align: right;
+}

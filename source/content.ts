@@ -1,5 +1,4 @@
 import select from 'select-dom';
-import 'webext-dynamic-content-scripts';
 
 import './features/useful-not-found-page';
 import './features/trending-menu-item';
@@ -101,10 +100,11 @@ import './features/hide-disabled-milestone-sorter';
 import './features/tag-changelog-link';
 import './features/link-to-file-in-file-history';
 import './features/clean-sidebar';
-import './features/show-asset-download-count';
+import './features/release-download-count';
 import './features/open-issue-to-latest-comment';
 import './features/highest-rated-comment';
 import './features/clean-issue-filters';
+import './features/cycle-lists-with-keyboard-shortcuts';
 
 import './features/scrollable-code-and-blockquote.css';
 import './features/center-reactions-popup.css';

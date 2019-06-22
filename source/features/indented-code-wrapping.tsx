@@ -12,6 +12,7 @@ function run(): void {
 
 	for (const table of tables) {
 		table.classList.add('rgh-softwrapped-code');
+		const tabSize = parseInt(table.style.getPropertyValue('--tab-size') || document.documentElement.style.getPropertyValue('tab-size'), 10);
 
 		for (const line of select.all('.blob-code-inner:not(.blob-code-hunk)', table)) {
 			if (line.textContent!.length < 20) {
@@ -37,6 +38,16 @@ function run(): void {
 			// Code suggestions already had some padding
 			const extraPadding = line.classList.contains('px-2') ? '8px + ' : '';
 
+			// If there is mixed indentation on a line, spaces before a tab are collapsed with the following tab until `spaceCount` is more than `tabSize`
+			// So, ignore any number of spaces that are below `tabSize` or more than any multiple of `tabSize`
+			if (tabCount > 0) {
+				if (spaceCount > tabSize) {
+					spaceCount %= tabSize;
+				} else {
+					spaceCount = 0;
+				}
+			}
+
 			// Move the whole line where it is supposed to be, then unindent the start of the line to compensate for indentation, preserving spaces
 			// We might get `--tab-size` from compatible extensions like `github-custom-tab-size`
 			line.style.setProperty('padding-left', `calc(${extraPadding}(var(--tab-size, 4) * ${tabCount}ch) + ${spaceCount}ch)`, 'important');
@@ -55,12 +66,12 @@ function init(): void {
 
 features.add({
 	id: 'indented-code-wrapping',
-	disabled: 'https://github.com/sindresorhus/refined-github/issues/2085',
 	description: 'Wrap code inside all code blocks to match indentation',
 	include: [
 		features.isPRFiles,
 		features.isCommit,
-		features.isPRConversation
+		features.isPRConversation,
+		features.isCompare
 	],
 	load: features.onAjaxedPages,
 	init
