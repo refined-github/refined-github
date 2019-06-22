@@ -41,6 +41,8 @@ export const isMilestoneList = (): boolean => getRepoPath() === 'milestones';
 
 export const isNewIssue = (): boolean => /^issues\/new/.test(getRepoPath()!);
 
+export const isNewRelease = (): boolean => /^releases\/new/.test(getRepoPath()!);
+
 export const isNotifications = (): boolean => /^([^/]+[/][^/]+\/)?notifications/.test(getCleanPathname());
 
 export const isOrganizationProfile = (): boolean => select.exists('.orghead');
