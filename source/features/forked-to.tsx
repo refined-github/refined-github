@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import cache from 'webext-storage-cache';
 import features from '../libs/features';
-import cache from '../libs/cache';
 import {getRepoURL} from '../libs/utils';
 import {isRepoWithAccess} from '../libs/page-detect';
 
