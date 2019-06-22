@@ -6,13 +6,13 @@ import features from '../libs/features';
 import * as icons from '../libs/icons';
 
 async function addButton(): Promise<void> {
-	for (const toolbarGroup of select.all('form:not(.rgh-has-upload-field) markdown-toolbar > :last-child')) {
+	for (const toolbarGroup of select.all('form:not(.rgh-minimize-upload-bar) markdown-toolbar > :last-child')) {
 		toolbarGroup.prepend(
 			<button type="button" className="toolbar-item tooltipped tooltipped-n rgh-upload-btn" aria-label="Attach files">
 				{icons.cloudUpload()}
 			</button>
 		);
-		toolbarGroup.closest('form')!.classList.add('rgh-has-upload-field');
+		toolbarGroup.closest('form')!.classList.add('rgh-minimize-upload-bar');
 	}
 }
 
