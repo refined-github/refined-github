@@ -57,7 +57,7 @@ const featureCheckboxes = [...window.collectFeatures.entries()]
 
 select('.js-features')!.append(...featureCheckboxes);
 
-// Move mute users input field to the respective feature checkbox
-select('[for="feature:mute-users"]')!.after(select('.js-muted-users-container')!);
+// Move minimized users input field below the respective feature checkbox
+select('[for="feature:minimize-user-comments"]')!.after(select('.js-minimized-users-container')!);
 
 optionsStorage.syncForm('#options-form');

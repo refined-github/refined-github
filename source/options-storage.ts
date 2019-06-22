@@ -4,7 +4,7 @@ export interface Options {
 	customCSS: string;
 	personalToken: string;
 	logging: boolean;
-	mutedUsers: string;
+	minimizedUsers: string;
 	[featureName: string]: string | boolean;
 }
 
@@ -12,7 +12,7 @@ const defaults: Options = {
 	customCSS: '',
 	personalToken: '',
 	logging: false,
-	mutedUsers: ''
+	minimizedUsers: ''
 };
 
 function featureWasRenamed(from: string, to: string): any { // TODO: any should probably be `Migration` after `webext-options-sync`'s types are fixed
