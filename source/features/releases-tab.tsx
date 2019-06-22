@@ -50,11 +50,9 @@ async function init(): Promise<false | void> {
 	}
 }
 
-const description = 'Access a repository’s releases using the "Releases" tab or by pressing `g` `r`';
-
 features.add({
 	id: __featureName__,
-	description,
+	description: 'Access a repository’s releases using the "Releases" tab or by pressing `g` `r`',
 	include: [
 		features.isRepo
 	],
@@ -67,7 +65,7 @@ features.add({
 
 features.add({
 	id: __featureName__,
-	description,
+	description: '',
 	include: [
 		features.isRepo
 	],

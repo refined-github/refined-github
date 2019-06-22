@@ -9,22 +9,14 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 function parseFeatureDetails(name: string): FeatureInfo {
-	const fullPath = path.join(__dirname, 'source/features', `${name}.tsx`);
+	const content = readFileSync(`source/features/${name}.tsx`, {encoding: 'utf-8'});
+	const rawRegex = ['description', 'screenshot', 'disabled']
+		.map(field => `\n\t${field}: '(?<${field}>[^\\n]+)'`) // Named group regex
+		.join('|');
 
-	const content = readFileSync(fullPath, {encoding: 'utf-8'});
-
-	const fields = ['description', 'screenshot', 'disabled'] as const;
-	const feature: Partial<FeatureInfo> = {name};
-
-	// Use named groups if Firefox ever supports them: https://bugzilla.mozilla.org/show_bug.cgi?id=1362154
-	for (const field of fields) {
-		const [, value = undefined] = new RegExp(`${field}: '([^\\n]+)'`).exec(content) || [];
-		if (value) {
-			feature[field] = value.replace('\\\'', '\'');
-		}
-	}
-
-	return feature as FeatureInfo;
+	const feature = new RegExp(rawRegex).exec(content)!.groups!;
+	feature.name = name;
+	return feature as unknown as FeatureInfo;
 }
 
 const features = readdirSync(path.join(__dirname, 'source/features'))
