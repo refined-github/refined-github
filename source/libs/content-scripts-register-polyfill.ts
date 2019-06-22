@@ -52,10 +52,7 @@ if (!chrome.contentScripts && chrome.declarativeContent.onPageChanged) {
 				matches
 			} = contentScriptOptions;
 
-			const id = moduleId + Date.now();
-			console.log(id);
-			console.log(matches);
-			console.log(matches.map(urlGlobToRegex));
+			const id = moduleId + String(Date.now());
 
 			chrome.declarativeContent.onPageChanged.addRules([{
 				id,

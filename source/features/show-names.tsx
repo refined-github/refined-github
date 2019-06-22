@@ -33,7 +33,7 @@ async function init(): Promise<false | void> {
 		'{' +
 			[...usernames].map(user =>
 				api.escapeKey(user) + `: user(login: "${user}") {name}`
-			) +
+			).join() +
 		'}'
 	);
 

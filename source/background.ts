@@ -8,7 +8,7 @@ browser.runtime.onMessage.addListener(async message => {
 	}
 
 	const [currentTab] = await browser.tabs.query({currentWindow: true, active: true});
-	for (const [i, url] of message.urls.entries()) {
+	for (const [i, url] of (message.urls as string[]).entries()) {
 		browser.tabs.create({
 			url,
 			index: currentTab.index + i + 1,
