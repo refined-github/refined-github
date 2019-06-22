@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-namespace, no-redeclare */
 function urlGlobToRegex(matchPattern: string): string {
 	return '^' + matchPattern
 		.replace(/[.]/g, '\\.') // Escape dots

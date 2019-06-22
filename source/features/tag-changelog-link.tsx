@@ -13,7 +13,7 @@ type TagDetails = {
 	tag: string;
 	version: string;
 	namespace: string;
-}
+};
 
 async function getNextPage(): Promise<DocumentFragment> {
 	const nextPageLink = select<HTMLAnchorElement>('.pagination a:last-child');
@@ -30,7 +30,9 @@ async function getNextPage(): Promise<DocumentFragment> {
 }
 
 function parseTags(element: HTMLElement): TagDetails {
-	const tag = select<HTMLAnchorElement>('[href*="/releases/tag/"]', element)!.pathname.match(/\/releases\/tag\/(.*)/)![1];
+	const {pathname: tagUrl} = select<HTMLAnchorElement>('[href*="/releases/tag/"]', element)!;
+	const tag = /\/releases\/tag\/(.*)/.exec(tagUrl)![1];
+
 	return {
 		element,
 		tag,
