@@ -93,7 +93,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'open-all-notifications',
+	id: __featureName__,
 	description: 'Open all your notifications in one click',
 	include: [
 		features.isNotifications

@@ -14,7 +14,7 @@ function init(): false | void {
 }
 
 features.add({
-	id: 'prev-next-commit-buttons',
+	id: __featureName__,
 	description: 'Navigate PR commits with Previous/Next buttons at the bottom of the page',
 	include: [
 		features.isPRFiles,

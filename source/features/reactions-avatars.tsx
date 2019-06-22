@@ -94,7 +94,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'reactions-avatars',
+	id: __featureName__,
 	description: 'See the avatar of who reacted to a comment',
 	include: [
 		features.hasComments

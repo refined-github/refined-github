@@ -9,7 +9,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'star-repo-hotkey',
+	id: __featureName__,
 	description: 'Star/unstar a repository by pressing `g` `s`',
 	include: [
 		features.isRepo

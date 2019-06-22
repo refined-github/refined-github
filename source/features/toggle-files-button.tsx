@@ -31,7 +31,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'toggle-files-button',
+	id: __featureName__,
 	description: 'Add a "Toggle all files" button to file lists in repositories',
 	include: [
 		features.isRepoTree

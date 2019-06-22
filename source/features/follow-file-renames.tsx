@@ -61,7 +61,7 @@ async function init(): Promise<false | void> {
 }
 
 features.add({
-	id: 'follow-file-renames',
+	id: __featureName__,
 	description: 'Enable Newer/Older buttons in commit lists to follow file renames',
 	include: [
 		features.isCommitList

@@ -81,7 +81,7 @@ function init(): false | void {
 }
 
 features.add({
-	id: 'linkify-urls-in-code',
+	id: __featureName__,
 	description: 'Make URLs in code clickable',
 	include: [
 		features.hasCode

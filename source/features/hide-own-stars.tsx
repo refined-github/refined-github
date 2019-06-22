@@ -24,7 +24,7 @@ async function init(): Promise<void> {
 }
 
 features.add({
-	id: 'hide-own-stars',
+	id: __featureName__,
 	description: 'Hide other users starring/forking your repos in the dashboard',
 	include: [
 		features.isDashboard

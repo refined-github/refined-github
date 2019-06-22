@@ -116,7 +116,7 @@ const getPreviousTag = (current: number, allTags: TagDetails[]): string | undefi
 };
 
 features.add({
-	id: 'tag-changelog-link',
+	id: __featureName__,
 	description: 'See an automatic changelog for each tag or release.',
 	include: [
 		features.isReleasesOrTags

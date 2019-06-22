@@ -98,7 +98,7 @@ function init(): void | false {
 }
 
 features.add({
-	id: 'update-pr-from-base-branch',
+	id: __featureName__,
 	description: 'Button to update a PR from the base branch to ensure it build correctly before merging the PR itself (same-repo branches only)',
 	include: [
 		features.isPRConversation

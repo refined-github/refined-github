@@ -91,7 +91,9 @@
 			"tsx"
 		],
 		"globals": [
-			"browser"
+			"browser",
+			"__featuresList__",
+			"__featureName__"
 		],
 		"rules": {
 			"import/no-unassigned-import": "off",

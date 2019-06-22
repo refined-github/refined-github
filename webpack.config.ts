@@ -63,6 +63,10 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 				}
 
 				return JSON.stringify(features);
+			}),
+			// @ts-ignore
+			__featureName__: webpack.DefinePlugin.runtimeValue(({module}) => {
+				return JSON.stringify(path.basename(module.resource, '.tsx'));
 			})
 		}),
 		new MiniCssExtractPlugin({

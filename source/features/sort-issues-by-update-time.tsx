@@ -57,14 +57,14 @@ async function cleanBar(): Promise<void> {
 const description = 'Change the default sort order of issues and pull requests to "Recently updated"';
 
 features.add({
-	id: 'sort-issues-by-update-time',
+	id: __featureName__,
 	description,
 	load: features.onAjaxedPages,
 	init
 });
 
 features.add({
-	id: 'sort-issues-by-update-time',
+	id: __featureName__,
 	description,
 	include: [
 		features.isGlobalDiscussionList

@@ -43,7 +43,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'copy-file',
+	id: __featureName__,
 	description: 'Copy a file’s content',
 	include: [
 		features.isSingleFile,

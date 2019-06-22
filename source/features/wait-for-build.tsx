@@ -110,7 +110,7 @@ function init(): false | void {
 }
 
 features.add({
-	id: 'wait-for-build',
+	id: __featureName__,
 	description: 'Wait for CI Checks to be finished and successful before merging a PR',
 	include: [
 		features.isPRConversation

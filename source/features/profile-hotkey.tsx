@@ -13,7 +13,7 @@ function init(): false | void {
 }
 
 features.add({
-	id: 'profile-hotkey',
+	id: __featureName__,
 	description: 'Go to your profile by pressing `g` `m`',
 	load: features.onDomReady,
 	shortcuts: {
