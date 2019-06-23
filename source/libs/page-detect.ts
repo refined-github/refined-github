@@ -72,6 +72,8 @@ export const isQuickPR = (): boolean => isCompare() && /[?&]quick_pull=1(&|$)/.t
 
 export const isReleasesOrTags = (): boolean => /^(releases|tags)/.test(getRepoPath()!);
 
+export const isEditingFile = (): boolean => /^edit/.test(getRepoPath()!);
+
 export const isRepo = (): boolean => /^[^/]+\/[^/]+/.test(getCleanPathname()) &&
 	!reservedNames.includes(getOwnerAndRepo().ownerName) &&
 	!isNotifications() &&
