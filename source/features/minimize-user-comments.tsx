@@ -11,7 +11,10 @@ import anchorScroll from '../libs/anchor-scroll';
 const getLabel = (maximize: boolean): string => `${maximize ? 'Maximize' : 'Minimize'} user’s comments`;
 
 async function getMinimizedUsers(): Promise<string[]> {
-	return (await optionsStorage.getAll() as Options).minimizedUsers.split(/\s+/).filter(Boolean);
+	return (await optionsStorage.getAll() as Options)
+		.minimizedUsers
+		.split(/\s+/)
+		.filter(Boolean);
 }
 
 async function setMinimizedUsers(minimizedUsers: string[]): Promise<void> {
@@ -23,12 +26,12 @@ function toggleComment(comment: HTMLElement, minimize: boolean): void {
 		return;
 	}
 
+	select('.unminimized-comment', comment)!.classList.toggle('d-none', minimize);
 	select('.minimized-comment', comment)!.classList.toggle('d-none', !minimize);
 	select('.minimized-comment .Details-element', comment)!.toggleAttribute('open', !minimize);
-	select('.unminimized-comment', comment)!.classList.toggle('d-none', minimize);
 }
 
-async function onMinimizeButtonClick(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
+async function onButtonClick(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
 	const comment = event.currentTarget.closest('.js-comment-container')!;
 	const user = select('.author', comment)!.textContent!;
 
@@ -45,7 +48,10 @@ async function onMinimizeButtonClick(event: React.MouseEvent<HTMLButtonElement>)
 
 async function handleMenuOpening(event: DelegateEvent): Promise<void> {
 	const dropdown = select('.show-more-popover', event.delegateTarget.parentElement!)!;
-	const user = select('.author', dropdown.closest('.js-comment-container')!)!.textContent!;
+	const user = dropdown
+		.closest('.js-comment-container')!
+		.querySelector('.author')!
+		.textContent!;
 
 	if (user === getUsername()) {
 		return;
@@ -54,7 +60,7 @@ async function handleMenuOpening(event: DelegateEvent): Promise<void> {
 	const minimizedUsers = await getMinimizedUsers();
 	const shouldMinimizeComment = minimizedUsers.includes(user);
 
-	const existingButton = select('.rgh-minimize-user-comments-button', event.delegateTarget.parentElement!);
+	const existingButton = select('.rgh-minimize-user-comments-button', dropdown);
 	if (existingButton) {
 		existingButton.textContent = getLabel(shouldMinimizeComment);
 		return;
@@ -66,7 +72,7 @@ async function handleMenuOpening(event: DelegateEvent): Promise<void> {
 			className="dropdown-item btn-link rgh-minimize-user-comments-button"
 			role="menuitem"
 			title={`${shouldMinimizeComment ? 'Maximize' : 'Minimize'} comments from this user`}
-			onClick={onMinimizeButtonClick}>
+			onClick={onButtonClick}>
 			{getLabel(shouldMinimizeComment)}
 		</button>
 	);
@@ -84,7 +90,6 @@ async function minimizeMutedUserComments(): Promise<void> {
 function init(): void {
 	minimizeMutedUserComments();
 	onNewComments(minimizeMutedUserComments);
-
 	delegate('.timeline-comment-action', 'click', handleMenuOpening);
 }
 
