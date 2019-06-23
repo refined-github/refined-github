@@ -49,7 +49,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'embed-gist-inline',
+	id: __featureName__,
 	description: 'View linked gists inline in comments',
 	include: [
 		features.hasComments

@@ -107,7 +107,7 @@ function init(): false | void {
 }
 
 features.add({
-	id: 'useful-not-found-page',
+	id: __featureName__,
 	description: 'Suggest alternative links on 404 Not Found pages',
 	include: [
 		features.is404

@@ -1,7 +1,11 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import indentTextarea from 'indent-textarea';
+import insertText from 'insert-text-textarea';
 import features from '../libs/features';
+
+const formattingCharacters = ['`', '\'', '"', '[', '(', '{', '*', '_', '~'];
+const matchingCharacters = ['`', '\'', '"', ']', ')', '}', '*', '_', '~'];
 
 // Element.blur() will reset the tab focus to the start of the document.
 // This places it back next to the blurred field
@@ -75,12 +79,29 @@ function init(): void {
 					select<HTMLTextAreaElement>('.js-comment-field', lastOwnComment)!.selectionStart = Number.MAX_SAFE_INTEGER;
 				});
 			}
+		} else if (formattingCharacters.includes(event.key)) {
+			const [start, end] = [field.selectionStart, field.selectionEnd];
+
+			// If `start` and `end` of selection are the same, then no text is selected
+			if (start === end) {
+				return;
+			}
+
+			event.preventDefault();
+
+			const formattingChar = event.key;
+			const selectedText = field.value.slice(start, end);
+			const matchingEndChar = matchingCharacters[formattingCharacters.indexOf(formattingChar)];
+			insertText(field, formattingChar + selectedText + matchingEndChar);
+
+			// Keep the selection as it is, to be able to chain shortcuts
+			field.setSelectionRange(start + 1, end + 1);
 		}
 	});
 }
 
 features.add({
-	id: 'comment-fields-keyboard-shortcuts',
+	id: __featureName__,
 	description: 'Quickly edit your last comment using the `↑` keyboard shortcut',
 	shortcuts: {
 		'↑': 'Edit your last comment'

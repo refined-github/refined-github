@@ -5,7 +5,7 @@ import features from '../libs/features';
 import * as icons from '../libs/icons';
 
 function getCount(reaction: HTMLElement): number {
-	return Number(reaction.textContent!.match(/\d+/)![0]);
+	return Number(/\d+/.exec(reaction.textContent!)![0]);
 }
 
 function init(): false | void {
@@ -56,7 +56,7 @@ function init(): false | void {
 }
 
 features.add({
-	id: 'highest-rated-comment',
+	id: __featureName__,
 	description: 'The most useful comment in issues is highlighted.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/58757449-5b238880-853f-11e9-9526-e86c41a32f00.png',
 	include: [

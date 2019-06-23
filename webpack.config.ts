@@ -23,26 +23,7 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 	module: {
 		rules: [
 			{
-				test: /options-storage/,
-				loader: 'string-replace-loader',
-				options: {
-					search: '__featuresList__',
-					replace: (() => {
-						const features = [];
-
-						const directoryPath = path.join(__dirname, 'source/features');
-						for (const filename of readdirSync(directoryPath)) {
-							if (filename.endsWith('.tsx')) {
-								features.push(filename.replace('.tsx', ''));
-							}
-						}
-
-						return JSON.stringify(features);
-					})()
-				}
-			},
-			{
-				test: /\.(js|ts|tsx)$/,
+				test: /\.tsx?$/,
 				use: [
 					{
 						loader: 'ts-loader',
@@ -69,6 +50,25 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 		]
 	},
 	plugins: [
+		new webpack.DefinePlugin({
+			// @ts-ignore
+			__featuresList__: webpack.DefinePlugin.runtimeValue(() => {
+				const features = [];
+
+				const directoryPath = path.join(__dirname, 'source/features');
+				for (const filename of readdirSync(directoryPath)) {
+					if (filename.endsWith('.tsx')) {
+						features.push(filename.replace('.tsx', ''));
+					}
+				}
+
+				return JSON.stringify(features);
+			}),
+			// @ts-ignore
+			__featureName__: webpack.DefinePlugin.runtimeValue(({module}) => {
+				return JSON.stringify(path.basename(module.resource, '.tsx'));
+			})
+		}),
 		new MiniCssExtractPlugin({
 			filename: 'features.css'
 		}),

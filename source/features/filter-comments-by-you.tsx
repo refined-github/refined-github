@@ -20,7 +20,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'filter-comments-by-you',
+	id: __featureName__,
 	description: 'Search for issues and pull requests with the "Everything commented by you filter"',
 	include: [
 		features.isRepoDiscussionList

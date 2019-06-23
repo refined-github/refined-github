@@ -1,6 +1,7 @@
 type AnyObject = Record<string, any>;
 
 declare const __featuresList__: string[];
+declare const __featureName__: 'webpack will replace this string';
 
 interface Window {
 	collectFeatures: Map<string, FeatureDetails>;
@@ -56,6 +57,7 @@ interface GlobalEventHandlersEventMap {
 	'focusin': UIEvent; // Drop when it reaches W3C Recommendation https://github.com/Microsoft/TSJS-lib-generator/pull/369
 	'rgh:view-markdown-source': CustomEvent;
 	'rgh:view-markdown-rendered': CustomEvent;
+	'filterable:change': CustomEvent;
 }
 
 declare namespace JSX {

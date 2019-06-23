@@ -50,7 +50,7 @@ export const getRef = (): string | undefined => {
 };
 
 export const parseTag = (tag: string): {version: string; namespace: string} => {
-	const [, namespace = '', version = ''] = tag.match(/(?:(.*)@)?([^@]+)/) || [];
+	const [, namespace = '', version = ''] = /(?:(.*)@)?([^@]+)/.exec(tag) || [];
 	return {namespace, version};
 };
 

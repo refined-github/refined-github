@@ -8,10 +8,10 @@ function populateDropDown({currentTarget}: Event): void {
 	const searchParam = new URLSearchParams(location.search);
 	let queryString = searchParam.get('q') || '';
 
-	const [, currentStatus = ''] = queryString.match(/\bstatus:(success|failure|pending)\b/) || [];
+	const [currentStatus = ''] = /\bstatus:(?:success|failure|pending)\b/.exec(queryString) || [];
 
 	if (currentStatus) {
-		queryString = queryString.replace(`status:${currentStatus}`, '').trim();
+		queryString = queryString.replace(currentStatus, '').trim();
 	}
 
 	const dropdown = select('.select-menu-list', currentTarget as Element)!;
@@ -59,7 +59,7 @@ async function init(): Promise<void | false> {
 }
 
 features.add({
-	id: 'filter-pr-by-build-status',
+	id: __featureName__,
 	description: 'Filter pull requests by their build status (success, failure, and pending)',
 	include: [
 		features.isPRList

@@ -8,7 +8,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'focus-confirmation-buttons',
+	id: __featureName__,
 	description: 'Ensure that confirm buttons, like "Mark all as read", are always in focus',
 	init
 });

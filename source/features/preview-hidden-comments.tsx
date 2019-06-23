@@ -21,7 +21,7 @@ const init = (): void => {
 			summary .discussion-item-copy
 		`, details)!;
 
-		const [, reason]: string[] = header.textContent!.trim().match(/was marked as ([^.]+)/)!;
+		const [, reason = ''] = /was marked as ([^.]+)/.exec(header.textContent!) || [];
 		if (!allowedReasons.includes(reason)) {
 			continue;
 		}
@@ -34,7 +34,7 @@ const init = (): void => {
 };
 
 features.add({
-	id: 'preview-hidden-comments',
+	id: __featureName__,
 	description: 'Preview hidden comments inline',
 	include: [
 		features.hasComments

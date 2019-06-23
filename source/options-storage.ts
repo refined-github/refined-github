@@ -33,7 +33,6 @@ if (!location.protocol.startsWith('http') && !migrationsRun) {
 	migrationsRun = true;
 
 	// This variable is replaced at build time with the list
-	// eslint-disable-next-line no-undef
 	for (const feature of __featuresList__) {
 		defaults[`feature:${feature}`] = true;
 	}
@@ -52,8 +51,8 @@ if (!location.protocol.startsWith('http') && !migrationsRun) {
 				}
 			},
 
-			// Example to for renamed features:
 			featureWasRenamed('move-marketplace-link-to-profile-dropdown', 'deprioritize-marketplace-link'), // Merged on June 7th
+			featureWasRenamed('show-asset-download-count', 'release-download-count'), // Merged on June 9th
 
 			// Removed features will be automatically removed from the options as well
 			OptionsSync.migrations.removeUnused

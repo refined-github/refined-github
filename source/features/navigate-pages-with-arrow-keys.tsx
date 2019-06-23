@@ -14,7 +14,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'navigate-pages-with-arrow-keys',
+	id: __featureName__,
 	description: 'Use the `←` and `→` keys to navigate through pages with pagination',
 	load: features.onAjaxedPages,
 	shortcuts: {
