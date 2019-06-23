@@ -13,7 +13,7 @@ declare module 'mem' {
 	export = mem;
 }
 
-// TODO: Drop when Firefox adds RegEx lookbehind support
+// TODO: Drop linkify-* types when Firefox adds RegEx lookbehind support
 // https://github.com/sindresorhus/refined-github/pull/1936#discussion_r276515991
 declare module 'linkify-urls' {
 	type Options = {
@@ -32,8 +32,6 @@ declare module 'linkify-urls' {
 	export = linkifyUrls;
 }
 
-// TODO: Drop when Firefox adds RegEx lookbehind support
-// https://github.com/sindresorhus/refined-github/pull/1936#discussion_r276515991
 declare module 'linkify-issues' {
 	type Options = {
 		user: string;

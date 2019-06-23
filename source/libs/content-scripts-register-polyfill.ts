@@ -31,8 +31,8 @@ declare namespace chrome.declarativeContent {
 }
 
 function fileFilter(item: browser.extensionTypes.ExtensionFileOrCode): string {
-	if (typeof (item as any).file === 'string') {
-		return (item as any).file;
+	if ('file' in item) {
+		return item.file;
 	}
 
 	throw new TypeError('Only files are supported by webext-content-script-register-polyfill');
