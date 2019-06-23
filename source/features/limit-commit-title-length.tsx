@@ -9,6 +9,11 @@ function init(): void {
 		'#merge_title_field' // PR merge message field
 	].join(','));
 
+	// The input field doesn't exist on PR merge page if you don't have access to that repo
+	if (!inputField) {
+		return;
+	}
+
 	inputField.addEventListener('input', () => {
 		inputField.setCustomValidity(inputField.value.length > 72 ? `The title should be maximum 72 characters, but is ${inputField.value.length}` : '');
 	});
