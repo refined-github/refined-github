@@ -70,9 +70,9 @@ function init(): void {
 }
 
 features.add({
-	id: 'toggle-everything-with-alt',
+	id: __featureName__,
 	load: features.onAjaxedPages,
-	description: 'Toggle all similar items while holding `alt`',
+	description: 'Toggle all similar items (minimized comments, deferred diffs, etc) while holding `alt`',
 	init,
 	include: [
 		features.isPRConversation,
