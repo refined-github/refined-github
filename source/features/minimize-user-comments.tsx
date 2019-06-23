@@ -8,7 +8,7 @@ import {getUsername} from '../libs/utils';
 import onNewComments from '../libs/on-new-comments';
 import anchorScroll from '../libs/anchor-scroll';
 
-const getLabel = (maximize: boolean): string => `${maximize ? 'Maximize' : 'Minimize'} user’s comments`;
+const getLabel = (restore: boolean): string => `${restore ? 'Restore' : 'Minimize'} user’s comments`;
 
 async function getMinimizedUsers(): Promise<string[]> {
 	return (await optionsStorage.getAll() as Options)
@@ -71,7 +71,6 @@ async function handleMenuOpening(event: DelegateEvent): Promise<void> {
 		<button
 			className="dropdown-item btn-link rgh-minimize-user-comments-button"
 			role="menuitem"
-			title={`${shouldMinimizeComment ? 'Maximize' : 'Minimize'} comments from this user`}
 			type="button"
 			onClick={onButtonClick}>
 			{getLabel(shouldMinimizeComment)}
