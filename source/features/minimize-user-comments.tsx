@@ -47,7 +47,7 @@ async function onButtonClick(event: React.MouseEvent<HTMLButtonElement>): Promis
 }
 
 async function handleMenuOpening(event: DelegateEvent): Promise<void> {
-	const dropdown = select('.show-more-popover', event.delegateTarget.parentElement!)!;
+	const dropdown = event.delegateTarget.nextElementSibling!;
 	const user = dropdown
 		.closest('.js-comment-container')!
 		.querySelector('.author')!
