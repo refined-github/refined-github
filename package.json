@@ -38,7 +38,7 @@
 		"shorten-repo-url": "^1.5.1",
 		"tiny-version-compare": "^1.0.0",
 		"webext-domain-permission-toggle": "^1.0.0-1",
-		"webext-options-sync": "^0.16.0",
+		"webext-options-sync": "^0.21.0",
 		"webext-storage-cache": "0.0.0",
 		"webextension-polyfill": "^0.4.0",
 		"zip-text-nodes": "^1.0.0-0"
