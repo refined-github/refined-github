@@ -6,7 +6,6 @@ import onPrFileLoad from '../libs/on-pr-file-load';
 import onNewComments from '../libs/on-new-comments';
 import getTextNodes from '../libs/get-text-nodes';
 
-// Process a single line for each frame loop
 function showWhiteSpacesOn(line: Element): void {
 	const textNodes = getTextNodes(line);
 
@@ -97,7 +96,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'show-whitespaces',
+	id: __featureName__,
 	description: 'Show whitespace characters in diffs',
 	include: [
 		features.hasCode
