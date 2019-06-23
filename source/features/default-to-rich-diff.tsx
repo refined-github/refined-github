@@ -37,7 +37,7 @@ function init(): void {
 
 features.add({
 	disabled: 'https://github.com/sindresorhus/refined-github/issues/2041', // TODO
-	id: 'default-to-rich-diff',
+	id: __featureName__,
 	description: 'Some of the files in pull requests can be reviewed using a rich-diff mode, for example, Markdown and SVG. This feature sets the rich-diff view as default in pull requests for files with a rich diff.',
 	include: [
 		features.isCommit,

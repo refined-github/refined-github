@@ -98,7 +98,7 @@ async function init(): Promise<false | void> {
 }
 
 features.add({
-	id: 'view-markdown-source',
+	id: __featureName__,
 	description: 'See the source of Markdown files instead of just their rendered version',
 	include: [
 		features.isSingleFile

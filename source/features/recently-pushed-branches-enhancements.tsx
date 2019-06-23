@@ -53,7 +53,7 @@ async function init(): Promise<false | void> {
 const description = 'GitHub shows a widget to create a new Pull Request from a recently-pushed branch, but only on the repo root and on the PR list pages. This feature also adds this widget to the Issues List, Issue page, and Pull Request page.';
 
 features.add({
-	id: 'recently-pushed-branches-enhancements',
+	id: __featureName__,
 	description,
 	include: [
 		features.isRepo
@@ -63,7 +63,7 @@ features.add({
 });
 
 features.add({
-	id: 'recently-pushed-branches-enhancements',
+	id: __featureName__,
 	description,
 	include: [
 		features.isRepo

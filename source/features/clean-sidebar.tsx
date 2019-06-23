@@ -83,7 +83,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'clean-sidebar',
+	id: __featureName__,
 	description: 'Hide all empty sections (or just their "empty" label) in the discussion sidebar',
 	include: [
 		features.isIssue,

@@ -8,7 +8,7 @@ function init(): void {
 	const defaultQuery = 'is:open archived:false ';
 
 	// Without this, the Issues page also displays PRs, and viceversa
-	const type = location.pathname === '/issues' ? 'is:issue ' : 'is:pr ';
+	const type = location.pathname.split('/', 2)[1] === 'issues' ? 'is:issue ' : 'is:pr ';
 
 	const links = [
 		['Commented', `commenter:${getUsername()}`],
@@ -41,7 +41,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'global-discussion-list-filters',
+	id: __featureName__,
 	description: 'See just the issues and PRs on your repos or commented on by you in the global Issues/Pull Requests pages',
 	include: [
 		features.isGlobalDiscussionList

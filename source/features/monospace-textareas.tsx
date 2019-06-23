@@ -6,7 +6,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'monospace-textareas',
+	id: __featureName__,
 	description: 'Limit the width of the commit title and description inputs to 50/80 characters and use a monospace font',
 	init
 });

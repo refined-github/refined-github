@@ -21,7 +21,7 @@ function deinit(): void {
 }
 
 features.add({
-	id: 'make-discussion-sidebar-sticky',
+	id: __featureName__,
 	description: 'Make the discussion sidebar sticky',
 	include: [
 		features.isIssue,

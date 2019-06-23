@@ -31,7 +31,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'warning-for-disallow-edits',
+	id: __featureName__,
 	description: 'Shows a warning when unchecking "Allow edits from maintainers" when creating pull request',
 	include: [
 		features.isCompare,

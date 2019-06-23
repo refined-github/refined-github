@@ -2,15 +2,16 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import {checkInline} from '../libs/icons';
 import features from '../libs/features';
+import {fetchCIStatus} from './ci-link';
 
 function populateDropDown({currentTarget}: Event): void {
 	const searchParam = new URLSearchParams(location.search);
 	let queryString = searchParam.get('q') || '';
 
-	const [, currentStatus = ''] = queryString.match(/\bstatus:(success|failure|pending)\b/) || [];
+	const [currentStatus = ''] = /\bstatus:(?:success|failure|pending)\b/.exec(queryString) || [];
 
 	if (currentStatus) {
-		queryString = queryString.replace(`status:${currentStatus}`, '').trim();
+		queryString = queryString.replace(currentStatus, '').trim();
 	}
 
 	const dropdown = select('.select-menu-list', currentTarget as Element)!;
@@ -34,7 +35,13 @@ function populateDropDown({currentTarget}: Event): void {
 	}
 }
 
-function init(): void | false {
+async function init(): Promise<void | false> {
+	const hasCI = await fetchCIStatus();
+
+	if (!hasCI) {
+		return false;
+	}
+
 	const reviewsFilter = select('.table-list-header-toggle > details:nth-last-child(3)')!;
 
 	if (!reviewsFilter) {
@@ -52,7 +59,7 @@ function init(): void | false {
 }
 
 features.add({
-	id: 'filter-pr-by-build-status',
+	id: __featureName__,
 	description: 'Filter pull requests by their build status (success, failure, and pending)',
 	include: [
 		features.isPRList
