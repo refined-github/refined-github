@@ -10,23 +10,9 @@ function init(): void {
 	].join(','));
 
 	for (const inputField of inputs) {
-		const validityCallback = (event: Event): void => {
-			if (inputField.value.length > 72) {
-				event.preventDefault();
-				event.stopImmediatePropagation();
-
-				inputField.setCustomValidity(`The title should be maximum 72 characters, but is ${inputField.value.length}`);
-
-				if (event.type === 'submit') {
-					inputField.reportValidity();
-				}
-			} else {
-				inputField.setCustomValidity('');
-			}
-		};
-
-		inputField.addEventListener('input', validityCallback);
-		inputField.form!.addEventListener('submit', validityCallback);
+		inputField.addEventListener('input', () => {
+			inputField.setCustomValidity(inputField.value.length > 72 ? `The title should be maximum 72 characters, but is ${inputField.value.length}` : '');
+		});
 	}
 
 	// For PR merges, GitHub restores any saved commit messages on page load
