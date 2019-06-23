@@ -97,7 +97,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'minimize-user-comments',
+	id: __featureName__,
 	description: 'Minimize comments for users you don\'t want to see',
 	include: [
 		features.isIssue,
