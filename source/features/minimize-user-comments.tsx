@@ -72,6 +72,7 @@ async function handleMenuOpening(event: DelegateEvent): Promise<void> {
 			className="dropdown-item btn-link rgh-minimize-user-comments-button"
 			role="menuitem"
 			title={`${shouldMinimizeComment ? 'Maximize' : 'Minimize'} comments from this user`}
+			type="button"
 			onClick={onButtonClick}>
 			{getLabel(shouldMinimizeComment)}
 		</button>
