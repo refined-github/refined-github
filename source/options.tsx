@@ -52,7 +52,9 @@ const featureCheckboxes = [...window.collectFeatures.entries()]
 	.sort(([a], [b]) => a.localeCompare(b)) // Sort by feature name
 	.map(buildFeatureCheckbox);
 
-select('.js-features')!.append(...featureCheckboxes);
+document
+	.querySelector('.js-features')!
+	.append(...featureCheckboxes);
 
 // Move minimized users input field below the respective feature checkbox
 select('[for="feature:minimize-user-comments"]')!.after(select('.js-minimized-users-container')!);
