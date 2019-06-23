@@ -8,6 +8,8 @@ import {getUsername} from '../libs/utils';
 import onNewComments from '../libs/on-new-comments';
 import anchorScroll from '../libs/anchor-scroll';
 
+const getLabel = (maximize: boolean): string => `${maximize ? 'Maximize' : 'Minimize'} user’s comments`;
+
 async function getMinimizedUsers(): Promise<string[]> {
 	return (await optionsStorage.getAll() as Options).minimizedUsers.split(/\s+/).filter(Boolean);
 }
@@ -54,7 +56,7 @@ async function handleMenuOpening(event: DelegateEvent): Promise<void> {
 
 	const existingButton = select('.rgh-minimize-user-comments-button', event.delegateTarget.parentElement!);
 	if (existingButton) {
-		existingButton.textContent = `${shouldMinimizeComment ? 'Maximize' : 'Minimize'} user's comments`;
+		existingButton.textContent = getLabel(shouldMinimizeComment);
 		return;
 	}
 
@@ -65,7 +67,7 @@ async function handleMenuOpening(event: DelegateEvent): Promise<void> {
 			role="menuitem"
 			title={`${shouldMinimizeComment ? 'Maximize' : 'Minimize'} comments from this user`}
 			onClick={onMinimizeButtonClick}>
-			{shouldMinimizeComment ? 'Maximize' : 'Minimize'} user's comments
+			{getLabel(shouldMinimizeComment)}
 		</button>
 	);
 }
@@ -93,7 +95,7 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Minimize comments for users you don\'t want to see',
+	description: 'Minimize comments for users you don’t want to see',
 	include: [
 		features.isIssue,
 		features.isPRConversation
