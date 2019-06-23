@@ -77,12 +77,7 @@ async function minimizeMutedUserComments(): Promise<void> {
 
 	for (const comment of select.all('.js-discussion .js-minimizable-comment-group')) {
 		const user = select('.author', comment)!.textContent!;
-
-		// Minimize comment from a user only if
-		// * they are already in the minimized users list
-		// * and if the comment being minimized is not the current user (disable self-minimizing)
-		const shouldMinimizeComment = minimizedUsers.includes(user) && (user !== getUsername());
-		toggleComment(comment, shouldMinimizeComment);
+		toggleComment(comment, minimizedUsers.includes(user));
 	}
 }
 
