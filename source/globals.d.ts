@@ -1,6 +1,14 @@
 type AnyObject = Record<string, any>;
 
+interface FeatureInfo {
+	name: string;
+	description: string;
+	screenshot?: string;
+	disabled?: string;
+}
+
 declare const __featuresList__: string[];
+declare const __featuresInfo__: FeatureInfo[];
 declare const __featureName__: 'webpack will replace this string';
 
 interface Window {
@@ -12,6 +20,8 @@ declare module 'mem' {
 	function mem<T = VoidFunction>(fn: T): T;
 	export = mem;
 }
+
+declare module 'size-plugin';
 
 // TODO: Drop linkify-* types when Firefox adds RegEx lookbehind support
 // https://github.com/sindresorhus/refined-github/pull/1936#discussion_r276515991

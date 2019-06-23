@@ -92,6 +92,7 @@
 		"globals": [
 			"browser",
 			"__featuresList__",
+			"__featuresInfo__",
 			"__featureName__"
 		],
 		"rules": {
