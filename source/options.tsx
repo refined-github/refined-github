@@ -9,9 +9,6 @@ import parseBackticks from './libs/parse-backticks';
 import optionsStorage from './options-storage';
 import {FeatureDetails} from './libs/features';
 
-fitTextarea.watch('textarea');
-indentTextarea.watch('textarea');
-
 function parseDescription(description: string): DocumentFragment {
 	const descriptionFragment = parseBackticks(description);
 	editTextNodes(linkifyUrls, descriptionFragment);
@@ -61,3 +58,10 @@ select('.js-features')!.append(...featureCheckboxes);
 select('[for="feature:minimize-user-comments"]')!.after(select('.js-minimized-users-container')!);
 
 optionsStorage.syncForm('#options-form');
+
+// TODO: use `await` when this is solved: https://github.com/bfred-it/webext-options-sync/issues/24
+requestAnimationFrame(() => {
+	// `minimizedUsers` is hidden by a CSS selector until the options are updated, so its height will be 0px until then
+	fitTextarea.watch('textarea');
+	indentTextarea.watch('textarea');
+});
