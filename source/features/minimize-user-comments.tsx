@@ -6,6 +6,7 @@ import {appendBefore} from '../libs/dom-utils';
 import optionsStorage, {Options} from '../options-storage';
 import {getUsername} from '../libs/utils';
 import onNewComments from '../libs/on-new-comments';
+import anchorScroll from '../libs/anchor-scroll';
 
 async function getMinimizedUsers(): Promise<string[]> {
 	return (await optionsStorage.getAll() as Options).minimizedUsers.split(/\s+/).filter(Boolean);
@@ -27,7 +28,6 @@ function toggleComment(comment: HTMLElement, minimize: boolean): void {
 
 async function onMinimizeButtonClick(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
 	const comment = event.currentTarget.closest('.js-comment-container')!;
-	const viewportOffset = comment.getBoundingClientRect().top;
 	const user = select('.author', comment)!.textContent!;
 
 	let minimizedUsers = await getMinimizedUsers();
@@ -38,12 +38,7 @@ async function onMinimizeButtonClick(event: React.MouseEvent<HTMLButtonElement>)
 	}
 
 	await setMinimizedUsers(minimizedUsers);
-	await minimizeMutedUserComments();
-
-	requestAnimationFrame(() => {
-		const newOffset = comment.getBoundingClientRect().top;
-		window.scrollBy(0, newOffset - viewportOffset);
-	});
+	anchorScroll(minimizeMutedUserComments, comment);
 }
 
 async function handleMenuOpening(event: DelegateEvent): Promise<void> {

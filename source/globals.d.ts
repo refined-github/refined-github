@@ -1,4 +1,5 @@
 type AnyObject = Record<string, any>;
+type AsyncVoidFunction = () => Promise<void>;
 
 declare const __featuresList__: string[];
 declare const __featureName__: 'webpack will replace this string';
