@@ -7,9 +7,19 @@ import insertTextTextarea from 'insert-text-textarea';
 import features from '../libs/features';
 import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
 
-const createCommitTitle = debounce<[], string>((): string =>
-	`${select('.js-issue-title')!.textContent!.trim()} (${getPRNumber()})`
-, {
+const commitTitleLimit = 72;
+
+const createCommitTitle = debounce<[], string>((): string => {
+	const issueTitle = select('.js-issue-title')!.textContent!.trim();
+	const issueInfo = ` (${getPRNumber()})`;
+	const targetTitleLength = commitTitleLimit - issueInfo.length;
+
+	if (issueTitle.length > targetTitleLength) {
+		return issueTitle.substring(0, targetTitleLength - 1).trim() + '…' + issueInfo;
+	}
+
+	return issueTitle + issueInfo;
+}, {
 	wait: 1000,
 	immediate: true
 });

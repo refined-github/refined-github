@@ -1,7 +1,15 @@
 type AnyObject = Record<string, any>;
 type AsyncVoidFunction = () => Promise<void>;
 
+interface FeatureInfo {
+	name: string;
+	description: string;
+	screenshot?: string;
+	disabled?: string;
+}
+
 declare const __featuresList__: string[];
+declare const __featuresInfo__: FeatureInfo[];
 declare const __featureName__: 'webpack will replace this string';
 
 interface Window {
@@ -14,7 +22,9 @@ declare module 'mem' {
 	export = mem;
 }
 
-// TODO: Drop when Firefox adds RegEx lookbehind support
+declare module 'size-plugin';
+
+// TODO: Drop linkify-* types when Firefox adds RegEx lookbehind support
 // https://github.com/sindresorhus/refined-github/pull/1936#discussion_r276515991
 declare module 'linkify-urls' {
 	type Options = {
@@ -33,8 +43,6 @@ declare module 'linkify-urls' {
 	export = linkifyUrls;
 }
 
-// TODO: Drop when Firefox adds RegEx lookbehind support
-// https://github.com/sindresorhus/refined-github/pull/1936#discussion_r276515991
 declare module 'linkify-issues' {
 	type Options = {
 		user: string;

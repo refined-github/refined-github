@@ -10,7 +10,6 @@ interface File {
 	status: string;
 }
 
-// TODO: Ensure that pages with a single commit aren't fetched twice (api.ts' cache should do it automatically)
 async function findRename(
 	user: string,
 	repo: string,
