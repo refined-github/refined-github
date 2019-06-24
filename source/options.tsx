@@ -8,9 +8,6 @@ import editTextNodes from './libs/linkify-text-nodes';
 import parseBackticks from './libs/parse-backticks';
 import optionsStorage from './options-storage';
 
-fitTextarea.watch('textarea');
-indentTextarea.watch('textarea');
-
 function parseDescription(description: string): DocumentFragment {
 	const descriptionFragment = parseBackticks(description);
 	editTextNodes(linkifyUrls, descriptionFragment);
@@ -50,9 +47,16 @@ function buildFeatureCheckbox({name, description, screenshot, disabled}: Feature
 	);
 }
 
-select('.js-features')!.append(...__featuresInfo__.map(buildFeatureCheckbox));
+async function init(): Promise<void> {
+	select('.js-features')!.append(...__featuresInfo__.map(buildFeatureCheckbox));
 
-// Move minimized users input field below the respective feature checkbox
-select('[for="feature:minimize-user-comments"]')!.after(select('.js-minimized-users-container')!);
+  // Move minimized users input field below the respective feature checkbox
+  select('[for="feature:minimize-user-comments"]')!.after(select('.js-minimized-users-container')!);
 
-optionsStorage.syncForm('#options-form');
+	await optionsStorage.syncForm('#options-form');
+
+	fitTextarea.watch('textarea');
+	indentTextarea.watch('textarea');
+}
+
+init();
