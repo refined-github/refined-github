@@ -50,8 +50,8 @@ function buildFeatureCheckbox({name, description, screenshot, disabled}: Feature
 async function init(): Promise<void> {
 	select('.js-features')!.append(...__featuresInfo__.map(buildFeatureCheckbox));
 
-  // Move minimized users input field below the respective feature checkbox
-  select('[for="feature:minimize-user-comments"]')!.after(select('.js-minimized-users-container')!);
+	// Move minimized users input field below the respective feature checkbox
+	select('[for="feature:minimize-user-comments"]')!.after(select('.js-minimized-users-container')!);
 
 	await optionsStorage.syncForm('#options-form');
 

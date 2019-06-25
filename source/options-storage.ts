@@ -28,6 +28,7 @@ export default new OptionsSync({
 		customCSS: '',
 		personalToken: '',
 		logging: false,
+		minimizedUsers: '',
 		...featureOptions
 	} as RGHOptions,
 	migrations: [
