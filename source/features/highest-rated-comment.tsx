@@ -33,7 +33,18 @@ function init(): false | void {
 	const avatar = select('.timeline-comment-avatar', event)!.cloneNode(true);
 	const {hash} = select<HTMLAnchorElement>('.timestamp', event)!;
 
-	select('.unminimized-comment', event)!.classList.add('rgh-highest-rated-comment');
+	const comment = select('.unminimized-comment', event)!;
+
+	comment.classList.add('rgh-highest-rated-comment');
+
+	select('.timeline-comment-header .timeline-comment-header-text', event)!.parentElement!.lastElementChild!.before((
+		<span
+			className="timeline-comment-label tooltipped"
+			aria-label="This comment has the most positive reactions on this issue."
+		>
+			Highest-rated comment
+		</span>
+	));
 
 	const position = select.all('.js-comment').indexOf(highest.like.closest('.js-comment') as HTMLElement);
 	if (position >= 4) {
