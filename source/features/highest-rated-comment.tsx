@@ -37,7 +37,7 @@ function init(): false | void {
 
 	comment.classList.add('rgh-highest-rated-comment');
 
-	select('.timeline-comment-header .timeline-comment-header-text', event)!.parentElement!.lastElementChild!.before((
+	select('.timeline-comment-header-text', event)!.before((
 		<span
 			className="timeline-comment-label tooltipped tooltipped-n"
 			aria-label="This comment has the most positive reactions on this issue."
