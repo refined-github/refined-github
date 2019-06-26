@@ -39,7 +39,7 @@ function init(): false | void {
 
 	select('.timeline-comment-header .timeline-comment-header-text', event)!.parentElement!.lastElementChild!.before((
 		<span
-			className="timeline-comment-label tooltipped"
+			className="timeline-comment-label tooltipped tooltipped-n"
 			aria-label="This comment has the most positive reactions on this issue."
 		>
 			Highest-rated comment
