@@ -95,3 +95,16 @@ export function getOP(): string {
 
 	return select('.timeline-comment-header-text .author')!.textContent!;
 }
+
+export async function poll<T>(callback: () => T, frequency: number): Promise<T> {
+	return new Promise(resolve => {
+		(function loop() {
+			const result = callback();
+			if (result !== null && typeof result !== undefined) {
+				resolve(result);
+			} else {
+				setTimeout(loop, frequency);
+			}
+		})();
+	});
+}
