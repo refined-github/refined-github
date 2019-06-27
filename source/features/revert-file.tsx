@@ -49,7 +49,7 @@ async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>)
 				branch,
 				sha: file.sha,
 				content: file.content,
-				message: `Revert ${filePath.split('/').pop()}`
+				message: `Revert ${file.name}`
 			}
 		});
 
