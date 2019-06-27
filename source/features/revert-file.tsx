@@ -3,7 +3,7 @@ import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {getOwnerAndRepo} from '../libs/utils';
+import {getOwnerAndRepo, getRepoURL} from '../libs/utils';
 
 async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
 	const menuItem = event.currentTarget;
@@ -23,33 +23,34 @@ async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>)
 			}
 		}`);
 
-		const filePath = (menuItem.closest('[data-path]') as HTMLElement).dataset.path!; // TODO: works with spaces?
-		const file = await api.v3(`repos/${ownerName}/${repoName}/contents/${filePath}?ref=${baseRefOid}`, {
-			ignoreHTTPStatus: true
-		});
+		const filePath = (menuItem.closest('[data-path]') as HTMLElement).dataset.path!;
+		const [, forkRepoURL, forkBranch]: string[] = /^([^:]+):(.+)$/.exec(select('.head-ref')!.title) || [];
+		const [originalFile, forkFile] = await Promise.all([
+			api.v3(`repos/${getRepoURL()}/contents/${filePath}?ref=${baseRefOid}`, {ignoreHTTPStatus: true}),
+			api.v3(`repos/${forkRepoURL}/contents/${filePath}?ref=${forkBranch}`, {ignoreHTTPStatus: true})
+		]);
 
-		if (file.content === undefined) {
+		if (originalFile.content === undefined) {
 			// The file was added by this PR. Click the "Delete file" link instead
 			(menuItem.nextElementSibling as HTMLElement).click();
 			return;
 		}
 
 		// API limit: https://developer.github.com/v3/repos/contents/#get-contents
-		if (file.size > 1000000) {
+		if (originalFile.size > 1000000) {
 			menuItem.disabled = true;
 			menuItem.textContent = 'Revert failed: File too big';
 			menuItem.style.cssText = 'white-space: pre-wrap';
 		}
 
-		const [, repoUrl, branch]: string[] = /^([^:]+):(.+)$/.exec(select('.head-ref')!.title) || [];
 
-		await api.v3(`repos/${repoUrl}/contents/${filePath}`, {
+		await api.v3(`repos/${forkRepoURL}/contents/${filePath}`, {
 			method: 'PUT',
 			body: {
-				branch,
-				sha: file.sha,
-				content: file.content,
-				message: `Revert ${file.name}`
+				sha: forkFile.sha,
+				branch: forkBranch,
+				content: originalFile.content,
+				message: `Revert ${originalFile.name}`
 			}
 		});
 
