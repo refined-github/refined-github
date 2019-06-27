@@ -107,6 +107,7 @@ import './features/highest-rated-comment';
 import './features/clean-issue-filters';
 import './features/minimize-upload-bar';
 import './features/cycle-lists-with-keyboard-shortcuts';
+import './features/pr-branch-auto-delete';
 
 import './features/scrollable-code-and-blockquote.css';
 import './features/center-reactions-popup.css';
@@ -123,6 +124,7 @@ import './features/hide-readme-header.css';
 import './features/hide-obvious-tooltips.css';
 import './features/clean-discussions.css';
 import './features/clean-rich-text-editor.css';
+
 // DO NOT add CSS files if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
 
