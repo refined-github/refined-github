@@ -7,7 +7,8 @@ import * as icons from '../libs/icons';
 import observeEl from '../libs/simplified-element-observer';
 
 function addButton(): void {
-	const filesHeader = select('.commit-tease');
+	// `div` excludes `include-fragment`, which means the list is still loading. #2160
+	const filesHeader = select('div.commit-tease');
 	if (!filesHeader || select.exists('.rgh-toggle-files')) {
 		return;
 	}
