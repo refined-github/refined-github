@@ -12,7 +12,7 @@ async function init(): Promise<void> {
 	);
 
 	if (status === 204) {
-		select('.vcard-names-container.py-3.js-sticky.js-user-profile-sticky-fields')!.after(
+		select('.vcard-names-container.js-sticky.js-user-profile-sticky-fields')!.after(
 			<div className="follower-badge">Follows you</div>
 		);
 	}
