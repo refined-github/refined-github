@@ -62,7 +62,7 @@ interface GHRestApiOptions {
 	ignoreHTTPStatus?: boolean;
 	method?: 'GET' | 'POST' | 'PUT';
 	body?: undefined | JsonObject;
-	headers?: HeadersInit
+	headers?: HeadersInit;
 }
 
 interface GHGraphQLApiOptions {

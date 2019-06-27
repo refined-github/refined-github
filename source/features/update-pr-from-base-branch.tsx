@@ -36,18 +36,24 @@ async function handler(event: DelegateEvent): Promise<void> {
 	const response = await mergeBranches();
 	if (response.ok) {
 		button.remove();
+	} else if (response.message && response.message.toLowerCase().startsWith('merge conflict')) {
+		// Only shown on Draft PRs
+		button.replaceWith(
+			<a href={location.pathname + '/conflicts'} className="btn float-right">{icons.alert()} Resolve conflicts</a>
+		);
 	} else {
-		if (response.message && response.message.toLowerCase().startsWith('merge conflict')) {
-			// Only shown on Draft PRs
-			button.replaceWith(
-				<a href={location.pathname + '/conflicts'} className="btn float-right">{icons.alert()} Resolve conflicts</a>
-				);
-			} else {
-				button.textContent = response.message || 'Error';
-				button.prepend(icons.alert(), ' ');
-			throw new api.RefinedGitHubAPIError('update-pr-from-base-branch: ' + JSON.stringify(response));
-		}
+		button.textContent = response.message || 'Error';
+		button.prepend(icons.alert(), ' ');
+		throw new api.RefinedGitHubAPIError('update-pr-from-base-branch: ' + JSON.stringify(response));
 	}
+}
+
+function createButton(base: string, head: string): HTMLElement {
+	return (
+		<button type="button" className="btn float-right rgh-update-pr-from-master tooltipped tooltipped-n" aria-label={`Merge the ${base} branch into ${head}`}>
+			Update branch
+		</button>
+	);
 }
 
 async function addButton(): Promise<void> {
@@ -62,16 +68,21 @@ async function addButton(): Promise<void> {
 	}
 
 	const {base, head} = getBranches();
+
+	// Draft PRs already have this info on the page
+	const [outOfDateContainer] = select.all('.completeness-indicator-problem + .status-heading')
+		.filter(title => (title.textContent!).includes('out-of-date'));
+	if (outOfDateContainer) {
+		outOfDateContainer.append(createButton(base, head));
+		return;
+	}
+
 	const {status} = await api.v3(`repos/${getRepoURL()}/compare/${base}...${head}`);
 	if (status !== 'diverged') {
 		return;
 	}
 
-	select('.mergeability-details .merge-message')!.append(
-		<button type="button" className="btn float-right rgh-update-pr-from-master tooltipped tooltipped-n" aria-label={`Merge the ${base} branch into ${head}`}>
-			Update branch
-		</button>
-	);
+	select('.mergeability-details .merge-message')!.append(createButton(base, head));
 }
 
 function init(): void | false {
