@@ -60,7 +60,7 @@ const api4 = location.hostname === 'github.com' ?
 
 interface GHRestApiOptions {
 	ignoreHTTPStatus?: boolean;
-	method?: 'GET' | 'POST';
+	method?: 'GET' | 'POST' | 'PUT';
 	body?: undefined | JsonObject;
 }
 
@@ -103,7 +103,7 @@ export const v3 = mem(async (
 		return apiResponse;
 	}
 
-	throw getError(apiResponse);
+	throw await getError(apiResponse);
 });
 
 export const v4 = mem(async (
@@ -143,7 +143,7 @@ export const v4 = mem(async (
 		return data;
 	}
 
-	throw getError(apiResponse as JsonObject);
+	throw await getError(apiResponse as JsonObject);
 });
 
 async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError> {

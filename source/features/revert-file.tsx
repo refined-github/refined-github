@@ -1,77 +1,78 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import onetime from 'onetime';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {getOwnerAndRepo} from '../libs/utils';
 
-const getLoader = onetime((): HTMLElement =>
-	<img alt="" className="loader" src="https://github.githubassets.com/images/spinners/octocat-spinner-32-EAF2F5.gif" width="16" height="16" />
-);
-
 async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
 	const menuItem = event.currentTarget;
-	menuItem.append(getLoader());
+	menuItem.textContent = 'Reverting…';
 	event.preventDefault();
 	event.stopPropagation();
 
 	const {ownerName, repoName} = getOwnerAndRepo();
-
+	const [, prNumber]: string[] = /pull[/](\d+)[/]files/.exec(location.pathname) || [];
 	try {
-		const {repository: {pullRequest: {baseRef}}} = await api.v4(`{
+		// Get the real base commit of this PR, not the HEAD of base branch
+		const {repository: {pullRequest: {baseRefOid}}} = await api.v4(`{
 			repository(owner: "${ownerName}", name: "${repoName}") {
-				pullRequest(number: 46) {
-					baseRef: baseRefOid
+				pullRequest(number: ${prNumber}) {
+					baseRefOid
 				}
 			}
 		}`);
 
 		const filePath = (menuItem.closest('[data-path]') as HTMLElement).dataset.path!; // TODO: works with spaces?
-		const {repository: {file}} = await api.v4(`{
-			repository(owner: "${ownerName}", name: "${repoName}") {
-				file: object(expression: "${baseRef}:${filePath}") {
-					... on Blob {
-						text
-					}
-				}
-			}
-		}`);
+		const file = await api.v3(`repos/${ownerName}/${repoName}/contents/${filePath}?ref=${baseRefOid}`, {
+			ignoreHTTPStatus: true
+		});
 
-		if (!file) {
+		if (!file.content) {
 			// The file was added by this PR. Click the "Delete file" link instead
 			(menuItem.nextElementSibling as HTMLElement).click();
 			return;
 		}
 
-		if (file.isTruncated) {
-			menuItem.remove();
-			alert('File too big. Can’t do.'); // TODO
+		// API limit: https://developer.github.com/v3/repos/contents/#get-contents
+		if (file.size > 1000000) {
+			menuItem.disabled = true;
+			menuItem.textContent = 'Revert failed: File too big';
+			menuItem.style.cssText = 'white-space: pre-wrap';
 		}
 
-		console.log(file)
-	} catch (error) {
-		console.log(error)
-		menuItem.append('. Error.');
-	}
+		const [, repoUrl, branch]: string[] = /^([^:]+):(.+)$/.exec(select('.head-ref')!.title) || [];
 
-	getLoader().remove();
+		await api.v3(`repos/${repoUrl}/contents/${filePath}?branch=${branch}`, {
+			method: 'PUT',
+			body: {
+				sha: file.sha,
+				content: file.content,
+				message: `Revert ${filePath.split('/').pop()}`
+			}
+		});
+
+		// Hide file from view
+		menuItem.closest('.file')!.remove();
+	} catch (error) {
+		console.log(error);
+		menuItem.disabled = true;
+		menuItem.textContent = 'Revert failed. See console for errors';
+		menuItem.style.cssText = 'white-space: pre-wrap';
+	}
 }
 
 async function handleMenuOpening(event: DelegateEvent): Promise<void> {
 	const dropdown = event.delegateTarget.nextElementSibling!;
 
 	const editFile = select<HTMLAnchorElement>('[aria-label^="Change this"]', dropdown);
-	if (!editFile || select.exists('[href*="rgh-revert-to="]', dropdown)) {
+	if (!editFile || select.exists('.rgh-revert-file', dropdown)) {
 		return;
 	}
 
-	const url = new URL(editFile.href);
-	url.searchParams.set('rgh-revert-to', select('.base-ref')!.title);
-
 	editFile.after(
 		<button
-			className="pl-5 dropdown-item btn-link"
+			className="pl-5 dropdown-item btn-link rgh-revert-file"
 			role="menuitem"
 			type="button"
 			onClick={handleRevertFileClick}
