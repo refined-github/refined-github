@@ -43,9 +43,10 @@ async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>)
 
 		const [, repoUrl, branch]: string[] = /^([^:]+):(.+)$/.exec(select('.head-ref')!.title) || [];
 
-		await api.v3(`repos/${repoUrl}/contents/${filePath}?branch=${branch}`, {
+		await api.v3(`repos/${repoUrl}/contents/${filePath}`, {
 			method: 'PUT',
 			body: {
+				branch,
 				sha: file.sha,
 				content: file.content,
 				message: `Revert ${filePath.split('/').pop()}`
