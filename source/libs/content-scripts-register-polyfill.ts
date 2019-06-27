@@ -38,6 +38,53 @@ function fileFilter(item: browser.extensionTypes.ExtensionFileOrCode): string {
 	throw new TypeError('Only files are supported by webext-content-script-register-polyfill');
 }
 
+function registerCSS(contentScriptOptions: browser.contentScripts.RegisteredContentScriptOptions): void {
+	const {
+		css = [],
+		allFrames,
+		matchAboutBlank,
+		matches
+	} = contentScriptOptions;
+
+	const matchesRegex = new RegExp(matches.map(urlGlobToRegex).join('$') + '$');
+
+	chrome.tabs.onUpdated.addListener(async (tabId, {status}) => {
+		if (status !== 'loading') {
+			return;
+		}
+
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+		const {url} = await new Promise(resolve => {
+			chrome.tabs.get(tabId, resolve);
+		}) as chrome.tabs.Tab;
+
+		// No URL = no permission;
+		// Needs to match the requested globs
+		if (!url || !matchesRegex.test(url)) {
+			return;
+		}
+
+		const isOriginPermitted = await new Promise(resolve => {
+			chrome.permissions.contains({
+				origins: [new URL(url).origin + '/*']
+			}, resolve);
+		});
+
+		if (!isOriginPermitted) {
+			return;
+		}
+
+		for (const file of css) {
+			chrome.tabs.insertCSS(tabId, {
+				...file,
+				allFrames,
+				matchAboutBlank,
+				runAt: 'document_start'
+			}, console.log);
+		}
+	});
+}
+
 if (!chrome.contentScripts && chrome.declarativeContent.onPageChanged) {
 	chrome.contentScripts = {
 		register(
@@ -46,7 +93,6 @@ if (!chrome.contentScripts && chrome.declarativeContent.onPageChanged) {
 		) {
 			const {
 				js = [],
-				css = [],
 				allFrames,
 				matchAboutBlank,
 				matches
@@ -66,12 +112,13 @@ if (!chrome.contentScripts && chrome.declarativeContent.onPageChanged) {
 				actions: [
 					new chrome.declarativeContent.RequestContentScript({
 						js: js.map(fileFilter),
-						css: css.map(fileFilter),
 						allFrames,
 						matchAboutBlank
 					})
 				]
 			}]);
+
+			registerCSS(contentScriptOptions);
 
 			const registeredContentScript = {
 				unregister() {
