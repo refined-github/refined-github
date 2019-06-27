@@ -5,7 +5,7 @@ import features from '../libs/features';
 import * as api from '../libs/api';
 import * as icons from '../libs/icons';
 import observeEl from '../libs/simplified-element-observer';
-import {getRepoURL} from '../libs/utils';
+import {getRepoURL, getDiscussionNumber} from '../libs/utils';
 
 let observer: MutationObserver;
 
@@ -17,12 +17,10 @@ function getBranches(): {base: string; head: string} {
 }
 
 export async function mergeBranches(): Promise<AnyObject> {
-	const prBranches = getBranches();
-	return api.v3(`repos/${getRepoURL()}/merges`, {
-		method: 'POST',
-		body: {
-			head: prBranches.base,
-			base: prBranches.head
+	return api.v3(`repos/${getRepoURL()}/pulls/${getDiscussionNumber()}/update-branch`, {
+		method: 'PUT',
+		headers: {
+			Accept: 'application/vnd.github.lydian-preview+json'
 		},
 		ignoreHTTPStatus: true
 	});
@@ -33,21 +31,21 @@ async function handler(event: DelegateEvent): Promise<void> {
 	button.disabled = true;
 	button.textContent = 'Updating branch…';
 	button.classList.remove('tooltipped');
+	observer.disconnect();
 
 	const response = await mergeBranches();
-	if (!response.status || response.status < 300) {
+	if (response.ok) {
 		button.remove();
-		observer.disconnect();
-	} else if (typeof response.message === 'string') {
-		button.textContent = response.message;
-		button.prepend(icons.alert(), ' ');
-		if (response.message === 'Merge conflict') {
+	} else {
+		if (response.message && response.message.toLowerCase().startsWith('merge conflict')) {
 			// Only shown on Draft PRs
 			button.replaceWith(
 				<a href={location.pathname + '/conflicts'} className="btn float-right">{icons.alert()} Resolve conflicts</a>
-			);
-		} else {
-			throw new api.RefinedGitHubAPIError('update-pr-from-base-branch: ' + response.message);
+				);
+			} else {
+				button.textContent = response.message || 'Error';
+				button.prepend(icons.alert(), ' ');
+			throw new api.RefinedGitHubAPIError('update-pr-from-base-branch: ' + JSON.stringify(response));
 		}
 	}
 }
