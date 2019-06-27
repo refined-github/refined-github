@@ -43,7 +43,6 @@ async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>)
 			menuItem.style.cssText = 'white-space: pre-wrap';
 		}
 
-
 		await api.v3(`repos/${forkRepoURL}/contents/${filePath}`, {
 			method: 'PUT',
 			body: {
