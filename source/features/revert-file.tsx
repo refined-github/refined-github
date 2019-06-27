@@ -28,7 +28,7 @@ async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>)
 			ignoreHTTPStatus: true
 		});
 
-		if (!file.content) {
+		if (file.content === undefined) {
 			// The file was added by this PR. Click the "Delete file" link instead
 			(menuItem.nextElementSibling as HTMLElement).click();
 			return;
