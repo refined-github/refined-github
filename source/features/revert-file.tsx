@@ -84,7 +84,7 @@ async function handleMenuOpening(event: DelegateEvent): Promise<void> {
 }
 
 function init(): void {
-	delegate('.js-file-header-dropdown > summary', 'click', handleMenuOpening);
+	delegate('#files', '.js-file-header-dropdown > summary', 'click', handleMenuOpening);
 }
 
 features.add({
