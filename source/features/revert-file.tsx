@@ -3,7 +3,7 @@ import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {getOwnerAndRepo, getRepoURL} from '../libs/utils';
+import {getOwnerAndRepo, getRepoURL, getDiscussionNumber} from '../libs/utils';
 
 async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
 	const menuItem = event.currentTarget;
@@ -12,12 +12,11 @@ async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>)
 	event.stopPropagation();
 
 	const {ownerName, repoName} = getOwnerAndRepo();
-	const [, prNumber]: string[] = /pull[/](\d+)[/]files/.exec(location.pathname) || [];
 	try {
 		// Get the real base commit of this PR, not the HEAD of base branch
 		const {repository: {pullRequest: {baseRefOid}}} = await api.v4(`{
 			repository(owner: "${ownerName}", name: "${repoName}") {
-				pullRequest(number: ${prNumber}) {
+				pullRequest(number: ${getDiscussionNumber()}) {
 					baseRefOid
 				}
 			}
@@ -31,8 +30,9 @@ async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>)
 		]);
 
 		if (originalFile.content === undefined) {
-			// The file was added by this PR. Click the "Delete file" link instead
-			(menuItem.nextElementSibling as HTMLElement).click();
+			// The file was added by this PR. Click the "Delete file" link instead.
+			// The `a` selector skips the broken Delete link on some pages. GitHub's bug.
+			select('[aria-label^="Delete this"]', menuItem.parentElement!)!.click();
 			return;
 		}
 
