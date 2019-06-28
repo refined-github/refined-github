@@ -110,7 +110,11 @@ export async function poll<T>(callback: () => T, frequency: number): Promise<T> 
 }
 
 export function reportBug(featureName: string, bugName: string): void {
-	if (confirm(`Refined GitHub: ${bugName}. Can you report this issue?`)) {
-		window.open('https://github.com/sindresorhus/refined-github/issues/new?labels=bug&template=bug_report.md&title=' + encodeURIComponent(`\`${featureName}\` ${bugName}`));
-	}
+	alert(`Refined GitHub: ${bugName}. Can you report this issue? You’ll find more information in the console.`);
+	const issuesUrl = new URL('https://github.com/sindresorhus/refined-github/issues');
+	const newIssueUrl = new URL('https://github.com/sindresorhus/refined-github/new?labels=bug&template=bug_report.md');
+	issuesUrl.searchParams.set('q', `is:issue ${featureName}`);
+	newIssueUrl.searchParams.set('title', `\`${featureName}\` ${bugName}`);
+	console.log('Find existing issues:\n' + String(issuesUrl));
+	console.log('Open new issue:\n' + String(newIssueUrl));
 }

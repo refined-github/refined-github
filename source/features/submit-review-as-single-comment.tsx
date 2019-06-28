@@ -50,32 +50,6 @@ async function getNewCommentField(commentContainer: Element, lineBeingCommentedO
 	return (await listener).target as HTMLTextAreaElement;
 }
 
-async function sendNow(commentContainer: Element, commentText: string): Promise<void> {
-	// The comments are in a <tr> right after the code
-	const lineBeingCommentedOn = commentContainer.closest('tr')!.previousElementSibling!;
-
-	// Use nearby comment box
-	const comment = await getNewCommentField(commentContainer, lineBeingCommentedOn);
-	comment.disabled = true;
-
-	// Copy comment to new comment box
-	insertText(comment.form!.elements['comment[body]'] as HTMLTextAreaElement, commentText);
-
-	// Delete comment without asking confirmation
-	const deleteLink = select<HTMLButtonElement>('[aria-label="Delete comment"]', commentContainer)!;
-	deleteLink.removeAttribute('data-confirm');
-	deleteLink.click();
-
-	// Wait for the comment to be removed
-	await observeOneMutation(lineBeingCommentedOn.parentElement!);
-
-	// Enable form and submit new comment
-	const submitButton = select<HTMLButtonElement>('[name="single_comment"]', comment.form!)!;
-	comment.disabled = false;
-	submitButton.disabled = false;
-	submitButton.click();
-}
-
 async function handleSubmitSingle(event: DelegateEvent): Promise<void> {
 	const commentContainer = event.delegateTarget.closest('.js-comment')!;
 	const commentText = select<HTMLTextAreaElement>('[name="pull_request_review_comment[body]"]', commentContainer)!.value;
@@ -84,15 +58,40 @@ async function handleSubmitSingle(event: DelegateEvent): Promise<void> {
 		return;
 	}
 
-	// Place comment in console for safety
-	console.log(`Refined GitHub: \`${__featureName__}\` sending this comment:`);
-	console.log(commentText);
+	// The comments are in a <tr> right after the code
+	const lineBeingCommentedOn = commentContainer.closest('tr')!.previousElementSibling!;
 
+	// Use nearby comment box
+	const comment = await getNewCommentField(commentContainer, lineBeingCommentedOn);
+	const submitButton = select<HTMLButtonElement>('[name="single_comment"]', comment.form!)!;
+
+	// Copy comment to new comment box
+	insertText(comment.form!.elements['comment[body]'] as HTMLTextAreaElement, commentText);
+
+	// Safely try comment deletion
 	try {
-		await sendNow(commentContainer, commentText);
+		comment.disabled = true;
+
+		// Delete comment without asking confirmation
+		const deleteLink = select<HTMLButtonElement>('[aria-label="Delete comment"]', commentContainer)!;
+		deleteLink.removeAttribute('data-confirm');
+		deleteLink.click();
+
+		// Wait for the comment to be removed
+		await observeOneMutation(lineBeingCommentedOn.parentElement!);
+
+		// Enable form and submit new comment
+		comment.disabled = false;
+		submitButton.disabled = false;
+		submitButton.click();
 	} catch (error) {
-		alert('There was an error sending the comment. If it was already deleted, you can find it in the browser console.');
-		reportBug(__featureName__, error.message);
+		comment.disabled = false;
+		submitButton.disabled = false;
+
+		// Place comment in console to allow recovery
+		console.log('You were trying to sending this comment:');
+		console.log(commentText);
+		reportBug(__featureName__, 'there was an error sending the comment');
 		console.error(error);
 	}
 }
