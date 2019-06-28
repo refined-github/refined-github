@@ -33,36 +33,33 @@ async function handleReviewSubmission(event: DelegateEvent): Promise<void> {
 	// If no label is found, "Add single comment" was clicked
 }
 
-async function sendNow(commentContainer: Element, commentText: string): Promise<void> {
-	const lineBeingCommentedOn = commentContainer.closest('tr')!.previousElementSibling!; // The comments are in a <tr> right after the code
-	let formHolder;
-
-	// Use nearby comment box. "Open" it to make it functional but keep it hidden from the user
+// Finds nearby comment field by listening it to its `focus` event.
+// Supports multiple threads on same line, split diffs, replies and new threads.
+async function getNewCommentField(commentContainer: Element, lineBeingCommentedOn: Element): Promise<HTMLTextAreaElement> {
 	const isReplyingToExistingThread = commentContainer.closest('.js-comments-holder')!.childElementCount > 1;
+	const listener = oneEvent(lineBeingCommentedOn.parentElement!, 'focusin');
 	if (isReplyingToExistingThread) {
 		const newCommentContainer = commentContainer.closest('.js-resolvable-thread-contents')!;
 		select('.review-thread-reply-button', newCommentContainer)!.click();
-		select('.open', newCommentContainer)!.classList.remove('open');
-		formHolder = newCommentContainer;
 	} else {
-		// The whole comment area may have been removed.
-
-		// Comment box is focused after being inserted/shown. This event helps us find its position in the dom
-		const listener = oneEvent(lineBeingCommentedOn.parentElement!, 'focusin');
 		const isRightSide = commentContainer.closest('.js-addition');
 		(isRightSide ? select.last : select)<HTMLButtonElement>('.js-add-line-comment', lineBeingCommentedOn)!.click();
-
-		// Hide comment box
-		const {target} = await listener;
-		formHolder = (target as HTMLTextAreaElement).closest('.inline-comment-form-container') as HTMLElement;
-		formHolder.hidden = true;
 	}
 
-	// Add comment to new comment box
-	insertText(
-		select<HTMLTextAreaElement>('[name="comment[body]"]', formHolder)!,
-		commentText
-	);
+	// Hide comment box
+	return (await listener).target as HTMLTextAreaElement;
+}
+
+async function sendNow(commentContainer: Element, commentText: string): Promise<void> {
+	// The comments are in a <tr> right after the code
+	const lineBeingCommentedOn = commentContainer.closest('tr')!.previousElementSibling!;
+
+	// Use nearby comment box
+	const comment = await getNewCommentField(commentContainer, lineBeingCommentedOn);
+	comment.disabled = true;
+
+	// Copy comment to new comment box
+	insertText(comment.form!.elements['comment[body]'] as HTMLTextAreaElement, commentText);
 
 	// Delete comment without asking confirmation
 	const deleteLink = select<HTMLButtonElement>('[aria-label="Delete comment"]', commentContainer)!;
@@ -72,8 +69,10 @@ async function sendNow(commentContainer: Element, commentText: string): Promise<
 	// Wait for the comment to be removed
 	await observeOneMutation(lineBeingCommentedOn.parentElement!);
 
-	const submitButton = select<HTMLButtonElement>('[name="single_comment"]', formHolder)!;
-	submitButton.disabled = false; // This should be enabled by GitHub, but sometimes the UI doesn't update in time
+	// Enable form and submit new comment
+	const submitButton = select<HTMLButtonElement>('[name="single_comment"]', comment.form!)!;
+	comment.disabled = false;
+	submitButton.disabled = false;
 	submitButton.click();
 }
 

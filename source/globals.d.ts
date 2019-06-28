@@ -87,3 +87,7 @@ declare namespace JSX {
 interface NamedNodeMap {
 	[key: string]: Attr;
 }
+// https://github.com/Microsoft/TypeScript/issues/30928
+interface HTMLFormControlsCollection {
+	[key: string]: HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement;
+}
