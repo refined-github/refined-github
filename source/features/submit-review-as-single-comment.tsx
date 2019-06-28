@@ -34,23 +34,13 @@ async function handleReviewSubmission(event: DelegateEvent): Promise<void> {
 }
 
 async function sendNow(commentContainer: Element, commentText: string): Promise<void> {
-	// The following values need to be found *before* deleteLink.click()
-	const isReplyingToExistingThread = commentContainer.closest('.js-comments-holder')!.childElementCount > 1;
-	const isRightSide = commentContainer.closest('.js-addition');
-	const newCommentContainer = commentContainer.closest('.js-resolvable-thread-contents')!;
 	const lineBeingCommentedOn = commentContainer.closest('tr')!.previousElementSibling!; // The comments are in a <tr> right after the code
 	let formHolder;
 
-	// Delete comment without asking confirmation
-	const deleteLink = select<HTMLButtonElement>('[aria-label="Delete comment"]', commentContainer)!;
-	deleteLink.removeAttribute('data-confirm');
-	deleteLink.click();
-
-	// Wait for the comment to be removed
-	await observeOneMutation(lineBeingCommentedOn.parentElement!);
-
 	// Use nearby comment box. "Open" it to make it functional but keep it hidden from the user
+	const isReplyingToExistingThread = commentContainer.closest('.js-comments-holder')!.childElementCount > 1;
 	if (isReplyingToExistingThread) {
+		const newCommentContainer = commentContainer.closest('.js-resolvable-thread-contents')!;
 		select('.review-thread-reply-button', newCommentContainer)!.click();
 		select('.open', newCommentContainer)!.classList.remove('open');
 		formHolder = newCommentContainer;
@@ -59,6 +49,7 @@ async function sendNow(commentContainer: Element, commentText: string): Promise<
 
 		// Comment box is focused after being inserted/shown. This event helps us find its position in the dom
 		const listener = oneEvent(lineBeingCommentedOn.parentElement!, 'focusin');
+		const isRightSide = commentContainer.closest('.js-addition');
 		(isRightSide ? select.last : select)<HTMLButtonElement>('.js-add-line-comment', lineBeingCommentedOn)!.click();
 
 		// Hide comment box
@@ -72,6 +63,14 @@ async function sendNow(commentContainer: Element, commentText: string): Promise<
 		select<HTMLTextAreaElement>('[name="comment[body]"]', formHolder)!,
 		commentText
 	);
+
+	// Delete comment without asking confirmation
+	const deleteLink = select<HTMLButtonElement>('[aria-label="Delete comment"]', commentContainer)!;
+	deleteLink.removeAttribute('data-confirm');
+	deleteLink.click();
+
+	// Wait for the comment to be removed
+	await observeOneMutation(lineBeingCommentedOn.parentElement!);
 
 	const submitButton = select<HTMLButtonElement>('[name="single_comment"]', formHolder)!;
 	submitButton.disabled = false; // This should be enabled by GitHub, but sometimes the UI doesn't update in time
