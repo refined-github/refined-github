@@ -17,11 +17,14 @@ export default function observeEl(el: Node|string, listener: MutationCallback, o
 	return observer;
 }
 
-export async function observeOneMutation(element: Element, options: MutationObserverInit = {childList: true}): Promise<void> {
+export async function observeOneMutation(element: Element, options: MutationObserverInit = {
+	childList: true,
+	subtree: true
+}): Promise<MutationRecord> {
 	return new Promise(resolve => {
-		new MutationObserver((_, observer) => {
+		new MutationObserver(([change], observer) => {
 			observer.disconnect();
-			resolve();
+			resolve(change);
 		}).observe(element, options);
-	})
+	});
 }

@@ -5,7 +5,8 @@ import insertText from 'insert-text-textarea';
 import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 import {observeOneMutation} from '../libs/simplified-element-observer';
-import { reportBug } from '../libs/utils';
+import {reportBug} from '../libs/utils';
+import oneEvent from '../libs/one-event';
 
 const pendingSelector = '.timeline-comment-label.is-pending';
 
@@ -38,10 +39,12 @@ async function sendNow(commentContainer: Element, delegateTarget: Element, comme
 	const newCommentContainer = delegateTarget.closest('.js-resolvable-thread-contents')!;
 	const isReplyingToExistingThread = commentContainer.closest('.js-comments-holder')!.childElementCount > 1;
 	const lineBeingCommentedOn = newCommentContainer.closest('tr')!.previousElementSibling!;
+	const isRightSide = commentContainer.closest('.js-addition');
 
 	const deleteLink = select<HTMLButtonElement>('[aria-label="Delete comment"]', commentContainer)!;
 	deleteLink.removeAttribute('data-confirm');
 	deleteLink.click();
+	let formHolder;
 
 	if (isReplyingToExistingThread) {
 		// Only one comment is being removed
@@ -50,25 +53,28 @@ async function sendNow(commentContainer: Element, delegateTarget: Element, comme
 		// Open reply box, but keep it hidden
 		select('.review-thread-reply-button', newCommentContainer)!.click();
 		select('.open', newCommentContainer)!.classList.remove('open');
+		formHolder = newCommentContainer;
 	} else {
 		// The whole thread is being removed
-		await observeOneMutation(lineBeingCommentedOn.parentElement!, {
-			childList: true,
-			subtree: true
-		});
+		await observeOneMutation(lineBeingCommentedOn.parentElement!);
 
 		// Open reply box, but keep it hidden
-		select<HTMLButtonElement>('.js-add-single-line-comment', lineBeingCommentedOn)!.click();
-		select('.js-inline-comment-form-container.open', lineBeingCommentedOn.nextElementSibling!)!.hidden = true;
+		const listener = oneEvent(lineBeingCommentedOn.parentElement!, 'focusin');
+		(isRightSide ? select.last : select)<HTMLButtonElement>('.js-add-line-comment', lineBeingCommentedOn)!.click();
+		const {target} = await listener;
+		formHolder = (target as HTMLTextAreaElement).closest('.inline-comment-form-container') as HTMLElement;
+		formHolder.hidden = true;
 	}
 
-	const formHolder = isReplyingToExistingThread ? newCommentContainer : select.last('.js-inline-comment-form', lineBeingCommentedOn.nextElementSibling!);
-
-	const field = select<HTMLTextAreaElement>('[name="comment[body]"]', formHolder!)!;
-	insertText(field, commentText);
-	const submitButton = select<HTMLButtonElement>('[name="single_comment"]', field.form!)!;
+	insertText(
+		select<HTMLTextAreaElement>('[name="comment[body]"]', formHolder)!,
+		commentText
+	);
+	const submitButton = select<HTMLButtonElement>('[name="single_comment"]', formHolder)!;
+	submitButton.disabled = false; // This should be enabled by GitHub, but sometimes the UI doesn't update in time
 	submitButton.click();
 }
+
 async function handleSubmitSingle({delegateTarget}: DelegateEvent): Promise<void> {
 	const commentContainer = delegateTarget.closest('.js-comment')!;
 

@@ -96,6 +96,7 @@
 			"__featureName__"
 		],
 		"rules": {
+			"no-alert": "off",
 			"import/no-unassigned-import": "off",
 			"import/no-unresolved": "warn"
 		},
