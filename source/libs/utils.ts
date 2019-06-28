@@ -108,3 +108,9 @@ export async function poll<T>(callback: () => T, frequency: number): Promise<T> 
 		})();
 	});
 }
+
+export function reportBug(featureName: string, bugName: string) {
+	if (confirm(`Refined GitHub: ${bugName}. Can you report this issue?`)) {
+		window.open('https://github.com/sindresorhus/refined-github/issues/new?labels=bug&template=bug_report.md&title=' + encodeURIComponent(`\`${featureName}\` ${bugName}`));
+	}
+}

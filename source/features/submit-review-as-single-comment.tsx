@@ -5,6 +5,7 @@ import insertText from 'insert-text-textarea';
 import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 import {observeOneMutation} from '../libs/simplified-element-observer';
+import { reportBug } from '../libs/utils';
 
 const pendingSelector = '.timeline-comment-label.is-pending';
 
@@ -74,17 +75,18 @@ async function handleSubmitSingle({delegateTarget}: DelegateEvent): Promise<void
 	const commentText = select<HTMLTextAreaElement>('[name="pull_request_review_comment[body]"]', commentContainer)!.value;
 
 	if (!commentText) {
-		alert('Refined GitHub: new bug. Can’t find the comment');
+		reportBug(__featureName__, 'comment not found');
 		return;
 	}
 
 	// Place comment in console for safety
-	console.log('Refined GitHub: `submit-review-as-single-comment` sending this comment:');
+	console.log(`Refined GitHub: \`${__featureName__}\` sending this comment:`);
 	console.log(commentText);
 	try {
 		await sendNow(commentContainer, delegateTarget, commentText);
 	} catch (error) {
-		alert('Refined GitHub: there was an error sending the comment. If it was already deleted, you can find it in the browser console.');
+		alert('There was an error sending the comment. If it was already deleted, you can find it in the browser console.');
+		reportBug(__featureName__, error.message);
 		console.error(error);
 	}
 }
