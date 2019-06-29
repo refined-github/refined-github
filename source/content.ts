@@ -103,6 +103,7 @@ import './features/clean-sidebar';
 import './features/release-download-count';
 import './features/open-issue-to-latest-comment';
 import './features/show-whitespaces';
+import './features/limit-commit-title-length';
 import './features/highest-rated-comment';
 import './features/clean-issue-filters';
 import './features/minimize-upload-bar';

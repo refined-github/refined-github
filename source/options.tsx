@@ -7,10 +7,6 @@ import {applyToLink as shortenLink} from 'shorten-repo-url';
 import editTextNodes from './libs/linkify-text-nodes';
 import parseBackticks from './libs/parse-backticks';
 import optionsStorage from './options-storage';
-import {FeatureDetails} from './libs/features';
-
-fitTextarea.watch('textarea');
-indentTextarea.watch('textarea');
 
 function parseDescription(description: string): DocumentFragment {
 	const descriptionFragment = parseBackticks(description);
@@ -23,7 +19,7 @@ function parseDescription(description: string): DocumentFragment {
 	return descriptionFragment;
 }
 
-function buildFeatureCheckbox([name, {description, screenshot, disabled}]: [string, FeatureDetails]): HTMLElement {
+function buildFeatureCheckbox({name, description, screenshot, disabled}: FeatureInfo): HTMLElement {
 	// `undefined` disconnects it from the options
 	const id = disabled ? undefined : `feature:${name}`;
 
@@ -49,12 +45,13 @@ function buildFeatureCheckbox([name, {description, screenshot, disabled}]: [stri
 	);
 }
 
-const featureCheckboxes = [...window.collectFeatures.entries()]
-	.sort(([a], [b]) => a.localeCompare(b)) // Sort by feature name
-	.map(buildFeatureCheckbox);
+async function init(): Promise<void> {
+	select('.js-features')!.append(...__featuresInfo__.map(buildFeatureCheckbox));
 
-document
-	.querySelector('.js-features')!
-	.append(...featureCheckboxes);
+	await optionsStorage.syncForm('#options-form');
 
-optionsStorage.syncForm('#options-form');
+	fitTextarea.watch('textarea');
+	indentTextarea.watch('textarea');
+}
+
+init();

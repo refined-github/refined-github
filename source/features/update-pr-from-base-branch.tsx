@@ -38,7 +38,7 @@ async function handler(event: DelegateEvent): Promise<void> {
 	if (!response.status || response.status < 300) {
 		button.remove();
 		observer.disconnect();
-	} else if (response.message) {
+	} else if (typeof response.message === 'string') {
 		button.textContent = response.message;
 		button.prepend(icons.alert(), ' ');
 		if (response.message === 'Merge conflict') {
@@ -46,7 +46,9 @@ async function handler(event: DelegateEvent): Promise<void> {
 			button.replaceWith(
 				<a href={location.pathname + '/conflicts'} className="btn float-right">{icons.alert()} Resolve conflicts</a>
 			);
-		} // TODO: handle more errors
+		} else {
+			throw new api.RefinedGitHubAPIError('update-pr-from-base-branch: ' + response.message);
+		}
 	}
 }
 

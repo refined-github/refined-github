@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import onDomReady from 'dom-loaded';
 import elementReady from 'element-ready';
-import optionsStorage, {Options} from '../options-storage';
+import optionsStorage, {RGHOptions} from '../options-storage';
 import onNewComments from './on-new-comments';
 import onFileListUpdate from './on-file-list-update';
 import * as pageDetect from './page-detect';
@@ -70,7 +70,7 @@ let log: typeof console.log;
 
 // Rule assumes we don't want to leave it pending:
 // eslint-disable-next-line no-async-promise-executor
-const globalReady: Promise<Options> = new Promise(async resolve => {
+const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	await elementReady('body');
 
 	if (pageDetect.is500()) {
@@ -90,7 +90,7 @@ const globalReady: Promise<Options> = new Promise(async resolve => {
 	document.documentElement.classList.add('refined-github');
 
 	// Options defaults
-	const options = (await optionsStorage.getAll()) as Options;
+	const options = await optionsStorage.getAll();
 
 	if (options.customCSS.trim().length > 0) {
 		document.head.append(<style>{options.customCSS}</style>);
@@ -101,8 +101,6 @@ const globalReady: Promise<Options> = new Promise(async resolve => {
 
 	resolve(options);
 });
-
-window.collectFeatures = new Map();
 
 const run = async ({id, include, exclude, init, deinit}: FeatureDetails): Promise<void> => {
 	// If every `include` is false and no exclude is true, don’t run the feature
@@ -128,13 +126,6 @@ const getShortcuts = (): Shortcut[] => [...shortcutMap.values()];
  * Register a new feature
  */
 const add = async (definition: FeatureDetails): Promise<void> => {
-	window.collectFeatures.set(definition.id, definition);
-
-	// In chrome:// pages, just collect the features in `window.collectFeatures`
-	if (!location.protocol.startsWith('http')) {
-		return;
-	}
-
 	/* Input defaults and validation */
 	const {
 		id,
