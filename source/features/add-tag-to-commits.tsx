@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import cache from 'webext-storage-cache';
 import features from '../libs/features';
 import * as api from '../libs/api';
 import {getOwnerAndRepo, getRepoURL} from '../libs/utils';
 import * as icons from '../libs/icons';
-import cache from 'webext-storage-cache';
 
 interface CommitTags {
 	[name: string]: string[];
