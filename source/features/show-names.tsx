@@ -5,6 +5,13 @@ import * as api from '../libs/api';
 import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 
+// Returns true if username is basiclly the same as realname
+function compareNames(username: string, realname: string): boolean {
+	const reg = /[ .]/g;
+
+	return username.replace(reg, '').toLowerCase() === realname.replace(reg, '').toLowerCase();
+}
+
 async function init(): Promise<false | void> {
 	// `a` selector needed to skip commits by non-GitHub users
 	const usernameElements = select.all('.js-discussion a.author:not(.rgh-fullname):not([href*="/apps/"]):not([href*="/marketplace/"]):not([data-hovercard-type="organization"])');
@@ -38,22 +45,27 @@ async function init(): Promise<false | void> {
 	);
 
 	for (const usernameEl of usernameElements) {
-		const userKey = api.escapeKey(usernameEl.textContent!);
+		const username = usernameEl.textContent!;
+		const userKey = api.escapeKey(username);
 
 		// For the currently logged in user, `names[userKey]` would not be present.
 		if (names[userKey] && names[userKey].name) {
 			// If it's a regular comment author, add it outside <strong>
 			// otherwise it's something like "User added some commits"
-			const insertionPoint = usernameEl.parentElement!.tagName === 'STRONG' ? usernameEl.parentElement! : usernameEl;
-			insertionPoint.after(
-				' (',
-				<bdo className="css-truncate">
-					<span className="css-truncate-target" style={{maxWidth: '200px'}}>
-						{names[userKey].name}
-					</span>
-				</bdo>,
-				') '
-			);
+			if (compareNames(username, names[userKey].name)) {
+				usernameEl.textContent = names[userKey].name;
+			} else {
+				const insertionPoint = usernameEl.parentElement!.tagName === 'STRONG' ? usernameEl.parentElement! : usernameEl;
+				insertionPoint.after(
+					' (',
+					<bdo className="css-truncate">
+						<span className="css-truncate-target" style={{maxWidth: '200px'}}>
+							{names[userKey].name}
+						</span>
+					</bdo>,
+					') '
+				);
+			}
 		}
 	}
 }
