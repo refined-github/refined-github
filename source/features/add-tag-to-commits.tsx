@@ -4,7 +4,7 @@ import features from '../libs/features';
 import * as api from '../libs/api';
 import {getOwnerAndRepo, getRepoURL} from '../libs/utils';
 import * as icons from '../libs/icons';
-import cache from '../libs/cache';
+import cache from 'webext-storage-cache';
 
 interface CommitTags {
 	[name: string]: string[];
@@ -132,7 +132,7 @@ async function init(): Promise<void | false> {
 }
 
 features.add({
-	id: 'add-tag-to-commits',
+	id: __featureName__,
 	description: 'Display the corresponding tags next to commits',
 	include: [
 		features.isCommitList
