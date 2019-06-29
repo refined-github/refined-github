@@ -11,65 +11,55 @@ function showWhiteSpacesOn(line: Element): void {
 
 	for (const textNode of textNodes) {
 		const nodeValue = textNode.textContent!;
-		if (nodeValue.length !== 0) {
-			const fragment = document.createDocumentFragment();
+		if (nodeValue.length === 0) {
+			continue;
+		}
 
-			let lastEncounteredCharType;
-			let charType: 'space' | 'tab' | 'other';
-			let node;
+		const fragment = document.createDocumentFragment();
 
-			for (const char of nodeValue) {
-				if (char === ' ') {
-					charType = 'space';
-				} else if (char === '\t') {
-					charType = 'tab';
-				} else {
-					charType = 'other';
-				}
+		let lastEncounteredCharType;
+		let charType: 'space' | 'tab' | 'other';
+		let node;
 
-				if (lastEncounteredCharType && lastEncounteredCharType === charType) {
-					if (node) {
-						node.append(char);
-
-						if (charType === 'space') {
-							node.dataset.rghSpaces += '·';
-						} else if (charType === 'tab') {
-							node.dataset.rghTabs += '→';
-						}
-					}
-				} else {
-					if (node) {
-						fragment.append(node);
-					}
-
-					if (charType === 'space') {
-						node = <span className="pl-ws pl-space" data-rgh-spaces="·">{char}</span>;
-					} else if (charType === 'tab') {
-						node = <span className="pl-ws pl-tab" data-rgh-tabs="→">{char}</span>;
-					} else {
-						node = <>{char}</>;
-					}
-				}
-
-				lastEncounteredCharType = charType;
+		for (const char of nodeValue) {
+			if (char === ' ') {
+				charType = 'space';
+			} else if (char === '\t') {
+				charType = 'tab';
+			} else {
+				charType = 'other';
 			}
 
-			if (node) {
-				fragment.append(node);
+			if ((lastEncounteredCharType && lastEncounteredCharType === charType) && node) {
+				node.textContent += char;
+
+				if (charType === 'space') {
+					node.dataset.rghSpaces += '·';
+				} else if (charType === 'tab') {
+					node.dataset.rghTabs += '→';
+				}
+			} else {
+				if (node) {
+					fragment.append(node);
+				}
+
+				if (charType === 'space') {
+					node = <span className="pl-ws pl-space" data-rgh-spaces="·">{char}</span>;
+				} else if (charType === 'tab') {
+					node = <span className="pl-ws pl-tab" data-rgh-tabs="→">{char}</span>;
+				} else {
+					node = <>{char}</>;
+				}
 			}
 
-			textNode.replaceWith(fragment);
+			lastEncounteredCharType = charType;
 		}
-	}
 
-	// In diff view GitHub adds marker to indicate no new-line at end of file
-	if (!line.nextElementSibling || !line.nextElementSibling.classList.contains('no-nl-marker')) {
-		if (line.textContent === '\n' || line.textContent === '') { // Targeting empty new-lines
-			// Diff views use `<br>`, plain code views use `\n`
-			line.insertBefore(<span className="pl-ws pl-nl">&nbsp;</span>, select('br', line) || line.childNodes[0]);
-		} else { // Any regular line with text
-			line.append(<span className="pl-ws pl-nl">&nbsp;</span>);
+		if (node) {
+			fragment.append(node);
 		}
+
+		textNode.replaceWith(fragment);
 	}
 }
 
@@ -97,7 +87,7 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Show whitespace characters in diffs',
+	description: 'Renders whitespace characters in code',
 	include: [
 		features.hasCode
 	],
