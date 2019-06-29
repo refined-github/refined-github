@@ -21,7 +21,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'edit-files-faster',
+	id: __featureName__,
 	description: 'Edit files straight from a repo’s file list by clicking their file icon',
 	include: [
 		features.isRepoTree

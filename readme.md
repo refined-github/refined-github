@@ -163,6 +163,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Hide milestone sorter UI if you don’t have permission to use it.](https://user-images.githubusercontent.com/7753001/56913933-738a2880-6ae5-11e9-9d13-1973cbbf5df0.png)
 - [Empty sections in the issue/PRs sidebar are hidden.](https://user-images.githubusercontent.com/1402241/57199809-20691780-6fb6-11e9-9672-1ad3f9e1b827.png)
 - [Projects and Milestones filters are dropped if they are empty.](https://user-images.githubusercontent.com/37769974/59083449-0ef88f80-8915-11e9-8296-68af1ddcf191.png)
+- [Add upload button to the comment toolbar and remove the upload message.](https://user-images.githubusercontent.com/55841/59802383-3d994180-92e9-11e9-835d-60de67611c30.png)
 
 
 ### UI improvements
@@ -182,6 +183,8 @@ GitHub Enterprise is also supported. More info in the options.
 - [A warning appears when unchecking `Allow edits from maintainers`.](https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif)
 - [Comment boxes expand with their content and no longer show scroll bars.](https://user-images.githubusercontent.com/1402241/54336211-66fd5e00-4666-11e9-9c5e-111fccab004d.gif)
 - [Text wrapped in backticks in issue titles and commit titles is highlighted.](https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png)
+- [Wrapped code in diff views is aligned at the indented level of original line.](https://user-images.githubusercontent.com/37769974/60379474-0ba67e80-9a51-11e9-97f9-077d282e5bdb.png)
+- [Limit the number of characters that can be used as a commit title while editing files or merging PRs.](https://user-images.githubusercontent.com/37769974/60379478-106b3280-9a51-11e9-88b9-0e3607f214cd.gif)
 
 ### More shortcuts
 
@@ -211,6 +214,8 @@ GitHub Enterprise is also supported. More info in the options.
 - [Link to file itself in the history pages](https://user-images.githubusercontent.com/22439276/57195061-b88ddf00-6f6b-11e9-8ad9-13225d09266d.png)
 - [See an automatic changelog for each tag or release.](https://user-images.githubusercontent.com/1402241/57081611-ad4a7180-6d27-11e9-9cb6-c54ec1ac18bb.png)
 - [Open issues to the latest comment by clicking the comments icon.](https://user-images.githubusercontent.com/14323370/57962709-7019de00-78e8-11e9-8398-7e617ba7a96f.png)
+- [Format selected text with a key press when writing comments.](https://user-images.githubusercontent.com/37769974/59958878-39c51500-94cb-11e9-910a-061bf8ca6575.gif)
+- [Cycle "popover lists" (labels, milestones, etc) when selecting them with the <kbd>↑</kbd> and <kbd>↓</kbd> keys.](https://user-images.githubusercontent.com/37769974/59158786-6fd2c400-8add-11e9-9db1-db80186fa6ea.gif)
 
 ### Previously part of Refined GitHub
 

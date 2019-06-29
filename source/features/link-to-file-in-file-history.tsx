@@ -33,7 +33,7 @@ function init(): void | false {
 }
 
 features.add({
-	id: 'link-to-file-in-file-history',
+	id: __featureName__,
 	description: 'Link to current file when viewing the history of a file',
 	include: [
 		features.isCommitList

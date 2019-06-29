@@ -10,7 +10,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'open-ci-details-in-new-tab',
+	id: __featureName__,
 	description: 'Open CI details in a new tab',
 	include: [
 		features.isPR

@@ -1,6 +1,5 @@
 import {addContextMenu} from 'webext-domain-permission-toggle';
-import {addToFutureTabs} from 'webext-dynamic-content-scripts';
-import './libs/cache';
+import './libs/declarative-content-scripts';
 import './options-storage';
 
 browser.runtime.onMessage.addListener(async message => {
@@ -9,7 +8,7 @@ browser.runtime.onMessage.addListener(async message => {
 	}
 
 	const [currentTab] = await browser.tabs.query({currentWindow: true, active: true});
-	for (const [i, url] of message.urls.entries()) {
+	for (const [i, url] of (message.urls as string[]).entries()) {
 		browser.tabs.create({
 			url,
 			index: currentTab.index + i + 1,
@@ -41,5 +40,4 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 });
 
 // GitHub Enterprise support
-addToFutureTabs();
 addContextMenu();

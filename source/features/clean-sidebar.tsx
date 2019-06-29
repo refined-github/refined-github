@@ -71,9 +71,6 @@ function clean(): void {
 			milestones.remove();
 		}
 	}
-
-	// Notifications
-	select('.sidebar-notifications .discussion-sidebar-heading')!.remove();
 }
 
 function init(): void {
@@ -83,7 +80,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'clean-sidebar',
+	id: __featureName__,
 	description: 'Hide all empty sections (or just their "empty" label) in the discussion sidebar',
 	include: [
 		features.isIssue,

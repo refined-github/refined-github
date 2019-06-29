@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import cache from './cache';
+import cache from 'webext-storage-cache';
 import * as api from './api';
 import {getOwnerAndRepo} from './utils';
 
@@ -22,8 +22,8 @@ function parseBranchFromDom(): string | undefined {
 	}
 
 	// Parse the infobar
-	const [, branchName = undefined] = branchInfo.textContent!.trim().match(branchInfoRegex) || [];
-	return branchName; // `string` or undefined
+	const matches = branchInfoRegex.exec(branchInfo.textContent!.trim());
+	return matches ? matches[0] : undefined;
 }
 
 async function fetchFromApi(user: string, repo: string): Promise<any> {

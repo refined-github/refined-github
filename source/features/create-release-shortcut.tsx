@@ -9,7 +9,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'create-release-shortcut',
+	id: __featureName__,
 	description: 'Add keyboard shortcut to quickly create a new release',
 	include: [
 		features.isReleasesOrTags

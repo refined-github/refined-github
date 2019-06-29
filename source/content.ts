@@ -1,5 +1,4 @@
 import select from 'select-dom';
-import 'webext-dynamic-content-scripts';
 
 import './features/useful-not-found-page';
 import './features/trending-menu-item';
@@ -101,11 +100,13 @@ import './features/hide-disabled-milestone-sorter';
 import './features/tag-changelog-link';
 import './features/link-to-file-in-file-history';
 import './features/clean-sidebar';
-import './features/add-tag-to-commits';
-import './features/show-asset-download-count';
 import './features/open-issue-to-latest-comment';
+import './features/limit-commit-title-length';
 import './features/highest-rated-comment';
 import './features/clean-issue-filters';
+import './features/minimize-upload-bar';
+import './features/cycle-lists-with-keyboard-shortcuts';
+import './features/add-tag-to-commits';
 
 import './features/scrollable-code-and-blockquote.css';
 import './features/center-reactions-popup.css';
@@ -122,6 +123,8 @@ import './features/hide-readme-header.css';
 import './features/hide-obvious-tooltips.css';
 import './features/clean-discussions.css';
 import './features/clean-rich-text-editor.css';
+// DO NOT add CSS files if they are part of a JavaScript feature.
+// Import the `.css` file from the `.tsx` instead.
 
 // Add global for easier debugging
 (window as any).select = select;
