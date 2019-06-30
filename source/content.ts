@@ -107,6 +107,7 @@ import './features/highest-rated-comment';
 import './features/clean-issue-filters';
 import './features/minimize-upload-bar';
 import './features/cycle-lists-with-keyboard-shortcuts';
+import './features/highlight-file-in-prs';
 
 import './features/scrollable-code-and-blockquote.css';
 import './features/center-reactions-popup.css';
