@@ -18,6 +18,7 @@
 		"create-git-tag": "git tag $VER -m $VER && git push origin $VER"
 	},
 	"dependencies": {
+		"content-scripts-register-polyfill": "^1.0.0",
 		"copy-text-to-clipboard": "^2.0.0",
 		"debounce-fn": "^3.0.1",
 		"delegate-it": "^1.1.0-7",
@@ -39,7 +40,7 @@
 		"tiny-version-compare": "^1.0.0",
 		"webext-domain-permission-toggle": "^1.0.0-1",
 		"webext-options-sync": "^0.21.1",
-		"webext-storage-cache": "^1.0.0",
+		"webext-storage-cache": "^1.0.2",
 		"webextension-polyfill": "^0.4.0",
 		"zip-text-nodes": "^1.0.0-0"
 	},

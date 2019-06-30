@@ -1,3 +1,4 @@
+/* global chrome */
 import {addContextMenu} from 'webext-domain-permission-toggle';
 import './libs/declarative-content-scripts';
 import './options-storage';
@@ -41,3 +42,13 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 
 // GitHub Enterprise support
 addContextMenu();
+
+// Drop in August because we need unregister any previously-registered scripts
+if (chrome && chrome.declarativeContent) {
+	chrome.declarativeContent.onPageChanged.getRules(globalRules => {
+		const moduleIds = globalRules.map(rule => rule.id!).filter(id => id && id.startsWith('webext-content-script-register:'));
+		if (moduleIds.length > 0) {
+			chrome.declarativeContent.onPageChanged.removeRules(moduleIds);
+		}
+	});
+}

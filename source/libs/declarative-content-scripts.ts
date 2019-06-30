@@ -1,5 +1,5 @@
 /* global chrome */
-import './content-scripts-register-polyfill';
+import 'content-scripts-register-polyfill';
 import './permission-events-polyfill';
 
 const registeredScripts = new Map<
