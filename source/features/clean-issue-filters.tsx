@@ -4,7 +4,7 @@ import features from '../libs/features';
 import * as api from '../libs/api';
 import {getOwnerAndRepo} from '../libs/utils';
 
-interface CacheEntry {
+type CacheEntry = {
 	repoProjectCount: number;
 	orgProjectCount: number;
 	milestoneCount: number;

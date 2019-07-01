@@ -43,7 +43,7 @@ async function registerOnOrigins(origins: string[]): Promise<void> {
 
 // Automatically register the content scripts on the new origins.
 // `registerOnOrigins` already takes care of excluding origins in `manifest.json`
-chrome.permissions.getAll(({origins}) => registerOnOrigins(origins!));
+chrome.permissions.getAll(async ({origins}) => registerOnOrigins(origins!));
 
 chrome.permissions.onAdded.addListener(({origins}) => {
 	if (!origins || origins.length === 0) {
