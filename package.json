@@ -18,6 +18,7 @@
 		"create-git-tag": "git tag $VER -m $VER && git push origin $VER"
 	},
 	"dependencies": {
+		"chrome-permissions-events-polyfill": "^1.0.0",
 		"content-scripts-register-polyfill": "^1.0.0",
 		"copy-text-to-clipboard": "^2.0.0",
 		"debounce-fn": "^3.0.1",
