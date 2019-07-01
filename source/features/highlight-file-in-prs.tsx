@@ -91,7 +91,7 @@ async function init(): Promise<void> {
 
 features.add({
 	id: __featureName__,
-	description: '',
+	description: 'Highlight file in PRs',
 	include: [
 		features.isEditingFile,
 		features.isSingleFile
