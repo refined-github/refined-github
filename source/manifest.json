@@ -15,7 +15,6 @@
 		"storage",
 		"contextMenus",
 		"activeTab",
-		"declarativeContent",
 		"https://github.com/*",
 		"https://api.github.com/*"
 	],
