@@ -89,8 +89,9 @@ async function init(): Promise<void> {
 }
 
 features.add({
-	id: 'forked-to',
+	id: __featureName__,
 	description: 'Add link to forked repo below the source',
+	screenshot: 'https://user-images.githubusercontent.com/55841/60462644-25f77c80-9c4a-11e9-8c69-582d00dd75dd.png',
 	include: [
 		features.isRepo
 	],
