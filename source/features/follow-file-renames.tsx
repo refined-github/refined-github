@@ -10,7 +10,6 @@ interface File {
 	status: string;
 }
 
-// TODO: Ensure that pages with a single commit aren't fetched twice (api.ts' cache should do it automatically)
 async function findRename(
 	user: string,
 	repo: string,
@@ -61,7 +60,7 @@ async function init(): Promise<false | void> {
 }
 
 features.add({
-	id: 'follow-file-renames',
+	id: __featureName__,
 	description: 'Enable Newer/Older buttons in commit lists to follow file renames',
 	include: [
 		features.isCommitList

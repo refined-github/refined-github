@@ -406,3 +406,15 @@ test('isSingleTagPage', urlMatcherMacro, pageDetect.isSingleTagPage, [
 	'https://github.com/sindresorhus/refined-github',
 	'https://github.com/sindresorhus/refined-github/graphs'
 ]);
+
+test('isEditingFile', urlMatcherMacro, pageDetect.isEditingFile, [
+	'https://github.com/sindresorhus/refined-github/edit/master/readme.md',
+	'https://github.com/sindresorhus/refined-github/edit/ghe-injection/source/background.ts'
+], [
+	'https://github.com/sindresorhus/refined-github',
+	'https://github.com/sindresorhus/refined-github/pulls',
+	'https://github.com/edit',
+	'https://github.com/orgs/edit/dashboard',
+	'https://github.com/sindresorhus/edit',
+	'https://github.com/sindresorhus/refined-github/blob/master/edit.txt'
+]);

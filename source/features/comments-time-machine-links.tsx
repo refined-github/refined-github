@@ -70,7 +70,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'comments-time-machine-links',
+	id: __featureName__,
 	description: 'Browse a repository at the time of each comment',
 	include: [
 		features.hasComments

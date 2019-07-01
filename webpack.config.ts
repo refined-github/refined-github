@@ -1,11 +1,27 @@
+/// <reference types="./source/globals" />
+
 import path from 'path';
-import {readdirSync} from 'fs';
+import {readdirSync, readFileSync} from 'fs';
 import webpack from 'webpack';
+import SizePlugin from 'size-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-// @ts-ignore
-import SizePlugin from 'size-plugin';
+
+function parseFeatureDetails(name: string): FeatureInfo {
+	const content = readFileSync(`source/features/${name}.tsx`, {encoding: 'utf-8'});
+	const rawRegex = ['description', 'screenshot', 'disabled']
+		.map(field => `\n\t${field}: '(?<${field}>[^\\n]+)'`) // Named group regex
+		.join('|');
+
+	const feature = new RegExp(rawRegex).exec(content)!.groups!;
+	feature.name = name;
+	return feature as unknown as FeatureInfo;
+}
+
+const features = readdirSync(path.join(__dirname, 'source/features'))
+	.filter(filename => filename.endsWith('.tsx'))
+	.map(filename => filename.replace('.tsx', ''));
 
 module.exports = (_env: string, argv: Record<string, boolean | number | string>): webpack.Configuration => ({
 	devtool: 'source-map',
@@ -22,25 +38,6 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 	},
 	module: {
 		rules: [
-			{
-				test: /options-storage/,
-				loader: 'string-replace-loader',
-				options: {
-					search: '__featuresList__',
-					replace: () => {
-						const features = [];
-
-						const directoryPath = path.join(__dirname, 'source/features');
-						for (const filename of readdirSync(directoryPath)) {
-							if (filename.endsWith('.tsx')) {
-								features.push(filename.replace('.tsx', ''));
-							}
-						}
-
-						return JSON.stringify(features);
-					}
-				}
-			},
 			{
 				test: /\.tsx?$/,
 				use: [
@@ -69,6 +66,16 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 		]
 	},
 	plugins: [
+		new webpack.DefinePlugin({
+			// These aren't dynamic because `runtimeValue` doesn't update when "any" file updates, but only when the files with these variables update — which is not very useful.
+			__featuresList__: JSON.stringify(features),
+			__featuresInfo__: JSON.stringify(features.map(parseFeatureDetails)),
+
+			// @ts-ignore
+			__featureName__: webpack.DefinePlugin.runtimeValue(({module}) => {
+				return JSON.stringify(path.basename(module.resource, '.tsx'));
+			})
+		}),
 		new MiniCssExtractPlugin({
 			filename: 'features.css'
 		}),

@@ -32,7 +32,7 @@ async function init(): Promise<false | void> {
 }
 
 features.add({
-	id: 'ci-link',
+	id: __featureName__,
 	description: 'Add build status and link to CI after the repo’s title',
 	include: [
 		features.isRepo

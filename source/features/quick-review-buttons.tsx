@@ -79,7 +79,7 @@ function init(): false | void {
 }
 
 features.add({
-	id: 'quick-review-buttons',
+	id: __featureName__,
 	description: 'Approve or reject reviews faster with one-click review-type buttons',
 	include: [
 		features.isPR

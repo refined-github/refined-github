@@ -33,7 +33,7 @@ function init(): false | void {
 }
 
 features.add({
-	id: 'extend-status-labels',
+	id: __featureName__,
 	description: 'Add reference to PR/commit that closed the current issue/PR',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/35973522-5c00acb6-0d08-11e8-89ca-03071de15c6f.png',
 	include: [

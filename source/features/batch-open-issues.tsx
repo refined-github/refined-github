@@ -26,8 +26,7 @@ function openIssues(): void {
 	}
 
 	browser.runtime.sendMessage({
-		urls: issues.map(getUrlFromItem),
-		action: 'openAllInTabs'
+		openUrls: issues.map(getUrlFromItem)
 	});
 }
 
@@ -65,7 +64,7 @@ function init(): void | false {
 }
 
 features.add({
-	id: 'batch-open-issues',
+	id: __featureName__,
 	description: 'Open multiple issues in your repo at once',
 	include: [
 		features.isDiscussionList

@@ -15,7 +15,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'extend-diff-expander',
+	id: __featureName__,
 	description: 'Widen the `Expand diff` button',
 	include: [
 		features.isPRFiles,

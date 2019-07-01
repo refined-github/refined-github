@@ -6,7 +6,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'remove-diff-signs',
+	id: __featureName__,
 	description: 'Hide diff signs (+-)',
 	init
 });
