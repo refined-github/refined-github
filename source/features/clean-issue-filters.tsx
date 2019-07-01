@@ -8,7 +8,7 @@ type CacheEntry = {
 	repoProjectCount: number;
 	orgProjectCount: number;
 	milestoneCount: number;
-}
+};
 
 async function getCount(): Promise<CacheEntry> {
 	const {ownerName, repoName} = getOwnerAndRepo();
