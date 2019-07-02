@@ -1,10 +1,11 @@
-import './hide-useless-comments.css';
+import './hide-discussion-noise.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import {isIssue} from '../libs/page-detect';
 
-function init(): void {
-	let uselessCount = 0;
+function hideComments(): number {
+	let hiddenCommentsCount = 0;
 	for (const commentText of select.all('.comment-body > p:only-child')) {
 		// Find useless comments
 		if (!/^([+-]\d+!*|👍|🙏|👎|👌|)+$/.test(commentText.textContent!.trim())) {
@@ -33,13 +34,19 @@ function init(): void {
 
 		comment.hidden = true;
 		comment.classList.add('rgh-hidden-comment');
-		uselessCount++;
+		hiddenCommentsCount++;
 	}
 
-	if (uselessCount > 0) {
+	return hiddenCommentsCount;
+}
+
+function init(): void {
+	// Only hide comments in issues #1543
+	const hiddenCommentsCount = isIssue() ? hideComments() : 0;
+	if (hiddenCommentsCount > 0) {
 		select('.discussion-timeline-actions')!.prepend(
-			<p className="rgh-useless-comments-note">
-				{`${uselessCount} unhelpful comment${uselessCount > 1 ? 's were' : ' was'} automatically hidden. `}
+			<p className="rgh-noisy-discussion-note">
+				{`${hiddenCommentsCount} unhelpful comment${hiddenCommentsCount > 1 ? 's were' : ' was'} automatically hidden. `}
 				<button className="btn-link text-emphasized" onClick={unhide}>Show</button>
 			</p>
 		);
@@ -59,7 +66,8 @@ features.add({
 	id: __featureName__,
 	description: 'Hide useless comments like "+1"',
 	include: [
-		features.isIssue
+		features.isIssue,
+		features.isPRConversation
 	],
 	load: features.onAjaxedPages,
 	init

@@ -43,6 +43,7 @@ export default new OptionsSync({
 
 		featureWasRenamed('move-marketplace-link-to-profile-dropdown', 'deprioritize-marketplace-link'), // Merged on June 7th
 		featureWasRenamed('show-asset-download-count', 'release-download-count'), // Merged on June 9th
+		featureWasRenamed('hide-useless-comments', 'hide-discussion-noise'), // Merged on July 9th
 
 		// Removed features will be automatically removed from the options as well
 		OptionsSync.migrations.removeUnused
