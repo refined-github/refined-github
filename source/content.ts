@@ -102,7 +102,7 @@ import './features/link-to-file-in-file-history';
 import './features/clean-sidebar';
 import './features/release-download-count';
 import './features/open-issue-to-latest-comment';
-import './features/show-whitespaces';
+import './features/show-whitespace';
 import './features/limit-commit-title-length';
 import './features/highest-rated-comment';
 import './features/clean-issue-filters';

@@ -1,23 +1,23 @@
-.pl-ws {
+.rgh-ws-char {
 	position: relative;
 	line-height: 1em;
 	text-indent: 0; /* Reset any indentation added by `indented-code-wrapping` feature */
 }
 
-.pl-ws::before {
+.rgh-ws-char::before {
 	user-select: none;
 	position: absolute;
 	left: 0;
 	top: 0;
 	color: #000;
-	opacity: 0.3;
+	opacity: 0.25;
 }
 
-.pl-tab::before {
+.rgh-tab-char::before {
 	content: attr(data-rgh-tabs);
 	letter-spacing: calc(calc(var(--tab-size, 4) * 1ch) - 1ch);
 }
 
-.pl-space::before {
+.rgh-space-char::before {
 	content: attr(data-rgh-spaces);
 }

@@ -1,4 +1,4 @@
-import './show-whitespaces.css';
+import './show-whitespace.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
@@ -10,8 +10,8 @@ function showWhiteSpacesOn(line: Element): void {
 	const textNodes = getTextNodes(line);
 
 	for (const textNode of textNodes) {
-		const nodeValue = textNode.textContent!;
-		if (nodeValue.length === 0) {
+		const textContent = textNode.textContent!;
+		if (textContent.length === 0 || !(textContent.includes(' ') || textContent.includes('\t'))) {
 			continue;
 		}
 
@@ -21,7 +21,7 @@ function showWhiteSpacesOn(line: Element): void {
 		let charType: 'space' | 'tab' | 'other';
 		let node;
 
-		for (const char of nodeValue) {
+		for (const char of textContent) {
 			if (char === ' ') {
 				charType = 'space';
 			} else if (char === '\t') {
@@ -30,7 +30,7 @@ function showWhiteSpacesOn(line: Element): void {
 				charType = 'other';
 			}
 
-			if ((lastEncounteredCharType && lastEncounteredCharType === charType) && node) {
+			if (node && lastEncounteredCharType === charType) {
 				node.textContent += char;
 
 				if (charType === 'space') {
@@ -44,9 +44,9 @@ function showWhiteSpacesOn(line: Element): void {
 				}
 
 				if (charType === 'space') {
-					node = <span className="pl-ws pl-space" data-rgh-spaces="·">{char}</span>;
+					node = <span className="rgh-ws-char rgh-space-char" data-rgh-spaces="·">{char}</span>;
 				} else if (charType === 'tab') {
-					node = <span className="pl-ws pl-tab" data-rgh-tabs="→">{char}</span>;
+					node = <span className="rgh-ws-char rgh-tab-char" data-rgh-tabs="→">{char}</span>;
 				} else {
 					node = <>{char}</>;
 				}
@@ -63,7 +63,7 @@ function showWhiteSpacesOn(line: Element): void {
 	}
 }
 
-function run(): void {
+async function run(): Promise<void> {
 	const tables = select.all([
 		'table.js-file-line-container:not(.rgh-showing-whitespace)', // Single blob file, and gist
 		'.file table.diff-table:not(.rgh-showing-whitespace)', // Split and unified diffs
@@ -75,6 +75,7 @@ function run(): void {
 
 		for (const line of select.all('.blob-code-inner', table)) {
 			showWhiteSpacesOn(line);
+			await true;
 		}
 	}
 }
