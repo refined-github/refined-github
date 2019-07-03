@@ -63,7 +63,7 @@ async function init(): Promise<void> {
 				href={`/${getRepoURL()}/pull/${pr}/files`}
 				target="_blank"
 				className="btn btn-sm btn-outline tooltipped tooltipped-ne"
-				aria-label={`This file is altered in PR #${pr}`}>
+				aria-label={`This file is affected by PR #${pr}`}>
 				{icons.openPullRequest()} #{pr}
 			</a>
 		);
