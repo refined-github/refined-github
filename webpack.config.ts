@@ -87,7 +87,8 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 				ignore: [
 					'*.js',
 					'*.ts',
-					'*.tsx'
+					'*.tsx',
+					'*.css'
 				]
 			},
 			{

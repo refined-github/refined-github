@@ -1,5 +1,24 @@
 import select from 'select-dom';
 
+import './content.css';
+import './features/scrollable-code-and-blockquote.css';
+import './features/center-reactions-popup.css';
+import './features/widen-search-field.css';
+import './features/clean-dashboard.css';
+import './features/safer-destructive-actions.css';
+import './features/delete-fork-button.css';
+import './features/clean-mergeability-box.css';
+import './features/clean-footer.css';
+import './features/pr-approvals-count.css';
+import './features/align-issue-labels.css';
+import './features/hide-tips.css';
+import './features/hide-readme-header.css';
+import './features/hide-obvious-tooltips.css';
+import './features/clean-discussions.css';
+import './features/clean-rich-text-editor.css';
+// DO NOT add CSS files here if they are part of a JavaScript feature.
+// Import the `.css` file from the `.tsx` instead.
+
 import './features/useful-not-found-page';
 import './features/trending-menu-item';
 import './features/hide-useless-newsfeed-events';
@@ -107,24 +126,6 @@ import './features/highest-rated-comment';
 import './features/clean-issue-filters';
 import './features/minimize-upload-bar';
 import './features/cycle-lists-with-keyboard-shortcuts';
-
-import './features/scrollable-code-and-blockquote.css';
-import './features/center-reactions-popup.css';
-import './features/widen-search-field.css';
-import './features/clean-dashboard.css';
-import './features/safer-destructive-actions.css';
-import './features/delete-fork-button.css';
-import './features/clean-mergeability-box.css';
-import './features/clean-footer.css';
-import './features/pr-approvals-count.css';
-import './features/align-issue-labels.css';
-import './features/hide-tips.css';
-import './features/hide-readme-header.css';
-import './features/hide-obvious-tooltips.css';
-import './features/clean-discussions.css';
-import './features/clean-rich-text-editor.css';
-// DO NOT add CSS files if they are part of a JavaScript feature.
-// Import the `.css` file from the `.tsx` instead.
 
 // Add global for easier debugging
 (window as any).select = select;
