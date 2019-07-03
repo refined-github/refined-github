@@ -126,6 +126,7 @@ import './features/highest-rated-comment';
 import './features/clean-issue-filters';
 import './features/minimize-upload-bar';
 import './features/cycle-lists-with-keyboard-shortcuts';
+import './features/forked-to';
 
 // Add global for easier debugging
 (window as any).select = select;
