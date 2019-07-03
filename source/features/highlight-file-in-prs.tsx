@@ -13,7 +13,6 @@ import * as icons from '../libs/icons';
 async function init(): Promise<void> {
 	const {ownerName, repoName} = getOwnerAndRepo();
 	const cacheKey = `highlight-file-in-prs:${ownerName}/${repoName}`;
-	console.log(cacheKey, getRepoURL());
 
 	let files = await cache.get<Record<string, string[]>>(cacheKey);
 	if (files === undefined) {
@@ -44,7 +43,6 @@ async function init(): Promise<void> {
 		select('.breadcrumb')!.before(wrapper);
 	} else {
 		select('.breadcrumb')!.append(wrapper);
-		console.log(select('.breadcrumb'));
 	}
 
 	if (wrapper.children.length > 1) {
@@ -55,7 +53,6 @@ async function init(): Promise<void> {
 async function fetch(): Promise<Record<string, string[]>> {
 	const {ownerName, repoName} = getOwnerAndRepo();
 	const defaultBranch = await getDefaultBranch();
-	console.log(defaultBranch);
 
 	// TODO: replace first (2x) with 100.
 	const result = await api.v4(
@@ -74,13 +71,10 @@ async function fetch(): Promise<Record<string, string[]>> {
 			}
 		}`
 	);
-	console.log('result', result, result.repository.pullRequests.nodes);
 
 	const files: Record<string, string[]> = {};
 	for (const node of result.repository.pullRequests.nodes) {
-		console.log('node', node);
 		for (const file of node.files.nodes) {
-			console.log('file', file);
 			if (!files[file.path]) {
 				files[file.path] = [];
 			}
