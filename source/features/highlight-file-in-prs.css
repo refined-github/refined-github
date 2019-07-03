@@ -1,10 +1,10 @@
 .rgh-highlight-file-in-prs {
-    float: left;
-    margin-left: 5px;
-    margin-right: 5px;
+	float: left;
+	margin-left: 5px;
+	margin-right: 5px;
 }
 
-    .rgh-highlight-file-in-prs + .rgh-branch-buttons,
-    .rgh-branch-buttons + .rgh-highlight-file-in-prs {
-        margin-left: 0;
-    }
+.rgh-highlight-file-in-prs + .rgh-branch-buttons,
+.rgh-branch-buttons + .rgh-highlight-file-in-prs {
+	margin-left: 0;
+}
