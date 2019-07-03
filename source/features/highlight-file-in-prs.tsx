@@ -56,7 +56,7 @@ async function init(): Promise<void> {
 		return;
 	}
 
-	const wrapper = <div className="rgh-highlight-file-in-prs"></div>;
+	const wrapper = <div className="rgh-highlight-file-in-prs" />;
 	for (const pr of files[path]) {
 		wrapper.append(
 			<a
