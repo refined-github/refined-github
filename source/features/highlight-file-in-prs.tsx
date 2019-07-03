@@ -50,7 +50,7 @@ async function init(): Promise<void> {
 
 	console.log('files', files);
 
-	const path = select<HTMLElement>('clipboard-copy, #blob-edit-path')!.getAttribute('value')!; // `clipboard-copy` on blob page, `#blob-edit-path` on edit page.
+	const path = select('clipboard-copy, #blob-edit-path')!.getAttribute('value')!; // `clipboard-copy` on blob page, `#blob-edit-path` on edit page.
 	console.log('path', path);
 	if (!files[path]) {
 		return;
@@ -61,7 +61,6 @@ async function init(): Promise<void> {
 		wrapper.append(
 			<a
 				href={`/${getRepoURL()}/pull/${pr}/files`}
-				target="_blank"
 				className="btn btn-sm btn-outline tooltipped tooltipped-ne"
 				aria-label={`This file is affected by PR #${pr}`}>
 				{icons.openPullRequest()} #{pr}
@@ -69,11 +68,10 @@ async function init(): Promise<void> {
 		);
 	}
 
-	const breadcrumbs = select('.breadcrumb')!;
 	if (isSingleFile()) {
-		breadcrumbs.before(wrapper);
+		select('.breadcrumb')!.before(wrapper);
 	} else {
-		breadcrumbs.append(wrapper);
+		select('.breadcrumb')!.append(wrapper);
 	}
 
 	if (wrapper.children.length > 1) {
