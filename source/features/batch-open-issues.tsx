@@ -26,8 +26,7 @@ function openIssues(): void {
 	}
 
 	browser.runtime.sendMessage({
-		urls: issues.map(getUrlFromItem),
-		action: 'openAllInTabs'
+		openUrls: issues.map(getUrlFromItem)
 	});
 }
 

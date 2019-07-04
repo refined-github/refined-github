@@ -23,8 +23,7 @@ function openNotifications({delegateTarget}: DelegateEvent): void {
 	}
 
 	browser.runtime.sendMessage({
-		urls: unreadNotifications.map(el => el.href),
-		action: 'openAllInTabs'
+		openUrls: unreadNotifications.map(el => el.href)
 	});
 
 	// Mark all as read
