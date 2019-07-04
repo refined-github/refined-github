@@ -99,11 +99,6 @@ function init(): void | false {
 		return false;
 	}
 
-	// API doesn't support cross-fork merges
-	if (getBranches().base.includes(':')) {
-		return false;
-	}
-
 	observer = observeEl('.discussion-timeline-actions', addButton)!;
 	delegate('.discussion-timeline-actions', '.rgh-update-pr-from-master', 'click', handler);
 }
