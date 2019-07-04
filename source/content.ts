@@ -1,5 +1,23 @@
 import select from 'select-dom';
-import 'webext-dynamic-content-scripts';
+
+import './content.css';
+import './features/scrollable-code-and-blockquote.css';
+import './features/center-reactions-popup.css';
+import './features/widen-search-field.css';
+import './features/clean-dashboard.css';
+import './features/safer-destructive-actions.css';
+import './features/delete-fork-button.css';
+import './features/clean-mergeability-box.css';
+import './features/clean-footer.css';
+import './features/pr-approvals-count.css';
+import './features/align-issue-labels.css';
+import './features/hide-tips.css';
+import './features/hide-readme-header.css';
+import './features/hide-obvious-tooltips.css';
+import './features/clean-discussions.css';
+import './features/clean-rich-text-editor.css';
+// DO NOT add CSS files here if they are part of a JavaScript feature.
+// Import the `.css` file from the `.tsx` instead.
 
 import './features/useful-not-found-page';
 import './features/trending-menu-item';
@@ -101,27 +119,15 @@ import './features/hide-disabled-milestone-sorter';
 import './features/tag-changelog-link';
 import './features/link-to-file-in-file-history';
 import './features/clean-sidebar';
-import './features/show-asset-download-count';
+import './features/release-download-count';
 import './features/open-issue-to-latest-comment';
 import './features/toggle-everything-with-alt';
+import './features/limit-commit-title-length';
 import './features/highest-rated-comment';
 import './features/clean-issue-filters';
-
-import './features/scrollable-code-and-blockquote.css';
-import './features/center-reactions-popup.css';
-import './features/widen-search-field.css';
-import './features/clean-dashboard.css';
-import './features/safer-destructive-actions.css';
-import './features/delete-fork-button.css';
-import './features/clean-mergeability-box.css';
-import './features/clean-footer.css';
-import './features/pr-approvals-count.css';
-import './features/align-issue-labels.css';
-import './features/hide-tips.css';
-import './features/hide-readme-header.css';
-import './features/hide-obvious-tooltips.css';
-import './features/clean-discussions.css';
-import './features/clean-rich-text-editor.css';
+import './features/minimize-upload-bar';
+import './features/cycle-lists-with-keyboard-shortcuts';
+import './features/forked-to';
 
 // Add global for easier debugging
 (window as any).select = select;

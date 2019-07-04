@@ -7,9 +7,19 @@ import insertTextTextarea from 'insert-text-textarea';
 import features from '../libs/features';
 import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
 
-const createCommitTitle = debounce<[], string>((): string =>
-	`${select('.js-issue-title')!.textContent!.trim()} (${getPRNumber()})`
-, {
+const commitTitleLimit = 72;
+
+const createCommitTitle = debounce<[], string>((): string => {
+	const issueTitle = select('.js-issue-title')!.textContent!.trim();
+	const issueInfo = ` (${getPRNumber()})`;
+	const targetTitleLength = commitTitleLimit - issueInfo.length;
+
+	if (issueTitle.length > targetTitleLength) {
+		return issueTitle.substring(0, targetTitleLength - 1).trim() + '…' + issueInfo;
+	}
+
+	return issueTitle + issueInfo;
+}, {
 	wait: 1000,
 	immediate: true
 });
@@ -92,7 +102,7 @@ function deinit(): void {
 }
 
 features.add({
-	id: 'sync-pr-commit-title',
+	id: __featureName__,
 	description: 'Use the same title for the PR and its merging commit',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/51669708-9a712400-1ff7-11e9-913a-ac1ea1050975.png',
 	include: [

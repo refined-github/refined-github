@@ -14,7 +14,7 @@ async function init(): Promise<false | void> {
 }
 
 features.add({
-	id: 'trending-menu-item',
+	id: __featureName__,
 	description: 'Access trending repositories using the "Trending" link in the global navigation bar or by pressing `g` ` t`',
 	exclude: [
 		features.isGist

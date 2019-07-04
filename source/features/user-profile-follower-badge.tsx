@@ -12,14 +12,14 @@ async function init(): Promise<void> {
 	);
 
 	if (status === 204) {
-		select('.vcard-names-container.py-3.js-sticky.js-user-profile-sticky-fields')!.after(
-			<div className="follower-badge">Follows you</div>
+		select('.vcard-names-container:not(.is-placeholder)')!.after(
+			<div className="rgh-follower-badge">Follows you</div>
 		);
 	}
 }
 
 features.add({
-	id: 'user-profile-follower-badge',
+	id: __featureName__,
 	description: 'See whether a user follows you on their profile',
 	include: [
 		features.isUserProfile

@@ -18,7 +18,7 @@ async function init(): Promise<void> {
 }
 
 features.add({
-	id: 'deprioritize-marketplace-link',
+	id: __featureName__,
 	description: 'Move the "Marketplace" link from the black header bar to the profile dropdown',
 	exclude: [
 		features.isGist

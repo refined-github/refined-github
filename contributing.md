@@ -26,7 +26,7 @@ function init () {
 }
 
 features.add({
-	id: 'make-github-more-refined',
+	id: __featureName__,
 	description: 'Simplify the GitHub interface and adds useful features',
 	init
 });
@@ -51,7 +51,7 @@ function deinit(): void {
 }
 
 features.add({
-	id: 'make-github-more-refined',
+	id: __featureName__,
 	description: 'Simplify the GitHub interface and adds useful features',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/58238638-3cbcd080-7d7a-11e9-80f6-be6c0520cfed.jpg',
 	shortcuts: { // This only adds the shortcut to the help screen, it doesn't enable it

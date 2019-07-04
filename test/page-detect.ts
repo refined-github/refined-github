@@ -171,9 +171,14 @@ test('isRepoDiscussionList', urlMatcherMacro, pageDetect.isRepoDiscussionList, [
 
 test('isGlobalDiscussionList', urlMatcherMacro, pageDetect.isGlobalDiscussionList, [
 	'https://github.com/issues',
+	'https://github.com/issues?q=is%3Apr+is%3Aopen',
+	'https://github.com/issues/assigned',
+	'https://github.com/issues/mentioned',
 	'https://github.com/pulls',
 	'https://github.com/pulls?q=issues',
-	'https://github.com/issues?q=is%3Apr+is%3Aopen'
+	'https://github.com/pulls/assigned',
+	'https://github.com/pulls/mentioned',
+	'https://github.com/pulls/review-requested'
 ], [
 	'https://github.com/issuesorter',
 	'https://github.com/sindresorhus/refined-github/issues',
@@ -198,9 +203,19 @@ test('isMilestone', urlMatcherMacro, pageDetect.isMilestone, [
 test('isNewIssue', urlMatcherMacro, pageDetect.isNewIssue, [
 	'https://github.com/sindresorhus/refined-github/issues/new'
 ], [
-	'http://github.com/sindresorhus/ava',
+	'http://github.com/issues/new',
 	'https://github.com',
-	'https://github.com/sindresorhus/refined-github/issues'
+	'https://github.com/sindresorhus/refined-github/issues',
+	'https://github.com/sindresorhus/refined-github/blob/issues/new'
+]);
+
+test('isNewRelease', urlMatcherMacro, pageDetect.isNewRelease, [
+	'https://github.com/sindresorhus/refined-github/releases/new'
+], [
+	'http://github.com/releases/new',
+	'https://github.com',
+	'https://github.com/sindresorhus/refined-github/releases',
+	'https://github.com/sindresorhus/refined-github/blob/releases/new'
 ]);
 
 test('isNotifications', urlMatcherMacro, pageDetect.isNotifications, [
@@ -390,4 +405,16 @@ test('isSingleTagPage', urlMatcherMacro, pageDetect.isSingleTagPage, [
 	'https://github.com/sindresorhus/refined-github/releases',
 	'https://github.com/sindresorhus/refined-github',
 	'https://github.com/sindresorhus/refined-github/graphs'
+]);
+
+test('isEditingFile', urlMatcherMacro, pageDetect.isEditingFile, [
+	'https://github.com/sindresorhus/refined-github/edit/master/readme.md',
+	'https://github.com/sindresorhus/refined-github/edit/ghe-injection/source/background.ts'
+], [
+	'https://github.com/sindresorhus/refined-github',
+	'https://github.com/sindresorhus/refined-github/pulls',
+	'https://github.com/edit',
+	'https://github.com/orgs/edit/dashboard',
+	'https://github.com/sindresorhus/edit',
+	'https://github.com/sindresorhus/refined-github/blob/master/edit.txt'
 ]);

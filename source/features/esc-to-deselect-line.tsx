@@ -1,4 +1,5 @@
 import features from '../libs/features';
+import {isEditable} from '../libs/dom-utils';
 
 function isLineSelected(): boolean {
 	// Example hashes:
@@ -12,7 +13,7 @@ function listener(event: KeyboardEvent): void {
 	if (
 		event.key === 'Escape' && // Catch `Esc` key
 		isLineSelected() &&
-		!(event.target instanceof HTMLTextAreaElement || event.target instanceof HTMLInputElement) // If a field isn’t focused
+		!isEditable(event.target) // If a field isn’t focused
 	) {
 		location.hash = '#no-line'; // Update UI, without `scroll-to-top` behavior
 		history.replaceState({}, document.title, location.pathname); // Drop remaining # from url
@@ -24,7 +25,7 @@ function init(): void {
 }
 
 features.add({
-	id: 'esc-to-deselect-line',
+	id: __featureName__,
 	description: 'Press the `esc` key to deselect the current line when viewing files',
 	init
 });

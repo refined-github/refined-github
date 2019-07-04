@@ -1,6 +1,15 @@
 type AnyObject = Record<string, any>;
 
+interface FeatureInfo {
+	name: string;
+	description: string;
+	screenshot?: string;
+	disabled?: string;
+}
+
 declare const __featuresList__: string[];
+declare const __featuresInfo__: FeatureInfo[];
+declare const __featureName__: 'webpack will replace this string';
 
 interface Window {
 	collectFeatures: Map<string, FeatureDetails>;
@@ -12,7 +21,9 @@ declare module 'mem' {
 	export = mem;
 }
 
-// TODO: Drop when Firefox adds RegEx lookbehind support
+declare module 'size-plugin';
+
+// TODO: Drop linkify-* types when Firefox adds RegEx lookbehind support
 // https://github.com/sindresorhus/refined-github/pull/1936#discussion_r276515991
 declare module 'linkify-urls' {
 	type Options = {
@@ -31,8 +42,6 @@ declare module 'linkify-urls' {
 	export = linkifyUrls;
 }
 
-// TODO: Drop when Firefox adds RegEx lookbehind support
-// https://github.com/sindresorhus/refined-github/pull/1936#discussion_r276515991
 declare module 'linkify-issues' {
 	type Options = {
 		user: string;
@@ -56,6 +65,7 @@ interface GlobalEventHandlersEventMap {
 	'focusin': UIEvent; // Drop when it reaches W3C Recommendation https://github.com/Microsoft/TSJS-lib-generator/pull/369
 	'rgh:view-markdown-source': CustomEvent;
 	'rgh:view-markdown-rendered': CustomEvent;
+	'filterable:change': CustomEvent;
 }
 
 declare namespace JSX {
@@ -76,4 +86,9 @@ declare namespace JSX {
 // https://github.com/Microsoft/TypeScript/issues/30928
 interface NamedNodeMap {
 	[key: string]: Attr;
+}
+
+// TODO: Drop when this appears on npm https://github.com/microsoft/TypeScript/blob/340f81035ff1d753e6a1f0fedc2323d169c86cc6/src/lib/dom.generated.d.ts#L9686
+interface KeyboardEvent {
+	readonly isComposing: boolean;
 }

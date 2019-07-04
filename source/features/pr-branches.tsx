@@ -141,7 +141,7 @@ async function init(): Promise<false | void> {
 }
 
 features.add({
-	id: 'pr-branches',
+	id: __featureName__,
 	description: 'Some head and base branches are shown on the PR list: The base branch is added when it’s not the repo’s default branch; The head branch is added when it’s from the same repo or the PR is by the current user.',
 	include: [
 		features.isPRList

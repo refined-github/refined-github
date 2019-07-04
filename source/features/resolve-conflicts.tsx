@@ -12,7 +12,7 @@ async function init(): Promise<void> {
 }
 
 features.add({
-	id: 'resolve-conflicts',
+	id: __featureName__,
 	description: 'Fix merge conflicts in a click',
 	include: [
 		features.isConflict

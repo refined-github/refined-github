@@ -23,7 +23,7 @@ export const isEnterprise = (): boolean => location.hostname !== 'github.com' &&
 
 export const isGist = (): boolean => location.hostname.startsWith('gist.') || location.pathname.startsWith('gist/');
 
-export const isGlobalDiscussionList = (): boolean => location.pathname === '/issues' || location.pathname === '/pulls';
+export const isGlobalDiscussionList = (): boolean => ['issues', 'pulls'].includes(location.pathname.split('/', 2)[1]);
 
 export const isGlobalSearchResults = (): boolean => location.pathname === '/search' && new URLSearchParams(location.search).get('q') !== null;
 
@@ -40,6 +40,8 @@ export const isMilestone = (): boolean => /^milestone\/\d+/.test(getRepoPath()!)
 export const isMilestoneList = (): boolean => getRepoPath() === 'milestones';
 
 export const isNewIssue = (): boolean => /^issues\/new/.test(getRepoPath()!);
+
+export const isNewRelease = (): boolean => /^releases\/new/.test(getRepoPath()!);
 
 export const isNotifications = (): boolean => /^([^/]+[/][^/]+\/)?notifications/.test(getCleanPathname());
 
@@ -70,6 +72,8 @@ export const isQuickPR = (): boolean => isCompare() && /[?&]quick_pull=1(&|$)/.t
 
 export const isReleasesOrTags = (): boolean => /^(releases|tags)/.test(getRepoPath()!);
 
+export const isEditingFile = (): boolean => /^edit/.test(getRepoPath()!);
+
 export const isRepo = (): boolean => /^[^/]+\/[^/]+/.test(getCleanPathname()) &&
 	!reservedNames.includes(getOwnerAndRepo().ownerName) &&
 	!isNotifications() &&
@@ -88,6 +92,8 @@ export const isRepoSearch = (): boolean => location.pathname.slice(1).split('/')
 export const isRepoSettings = (): boolean => /^settings/.test(getRepoPath()!);
 
 export const isRepoTree = (): boolean => isRepoRoot() || /^tree\//.test(getRepoPath()!);
+
+export const isRepoWithAccess = (): boolean => isRepo() && select.exists('.reponav-item[href$="/settings"]');
 
 export const isSingleCommit = (): boolean => /^commit\/[0-9a-f]{5,40}/.test(getRepoPath()!);
 
