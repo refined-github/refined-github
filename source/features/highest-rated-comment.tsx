@@ -34,6 +34,14 @@ function init(): false | void {
 	const {hash} = select<HTMLAnchorElement>('.timestamp', event)!;
 
 	select('.unminimized-comment', event)!.classList.add('rgh-highest-rated-comment');
+	select('.unminimized-comment .timeline-comment-header-text', event)!.before(
+		<span
+			className="timeline-comment-label tooltipped tooltipped-n"
+			aria-label="This comment has the most positive reactions on this issue."
+		>
+			Highest-rated comment
+		</span>
+	);
 
 	const position = select.all('.js-comment').indexOf(highest.like.closest('.js-comment') as HTMLElement);
 	if (position >= 4) {

@@ -143,6 +143,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [SVG files in a PR default to rich-diff view.](https://user-images.githubusercontent.com/5243867/57125552-c08a2b00-6d81-11e9-9b84-cdb535baa98e.png)
 - [Download count next to release assets.](https://user-images.githubusercontent.com/14323370/58944460-e1aeb480-874f-11e9-8052-2d4dc794ecab.png)
 - [The most useful comment in issues is highlighted.](https://user-images.githubusercontent.com/1402241/58757449-5b238880-853f-11e9-9526-e86c41a32f00.png)
+- [Your repo forks are shown under the repo title.](https://user-images.githubusercontent.com/55841/60543588-f5c9df80-9d16-11e9-8667-52ff16b2cb16.png)
 
 ### Declutter
 
@@ -183,6 +184,8 @@ GitHub Enterprise is also supported. More info in the options.
 - [A warning appears when unchecking `Allow edits from maintainers`.](https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif)
 - [Comment boxes expand with their content and no longer show scroll bars.](https://user-images.githubusercontent.com/1402241/54336211-66fd5e00-4666-11e9-9c5e-111fccab004d.gif)
 - [Text wrapped in backticks in issue titles and commit titles is highlighted.](https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png)
+- [Wrapped code in diff views is aligned at the indented level of original line.](https://user-images.githubusercontent.com/37769974/60379474-0ba67e80-9a51-11e9-97f9-077d282e5bdb.png)
+- [Limit the number of characters that can be used as a commit title while editing files or merging PRs.](https://user-images.githubusercontent.com/37769974/60379478-106b3280-9a51-11e9-88b9-0e3607f214cd.gif)
 
 ### More shortcuts
 

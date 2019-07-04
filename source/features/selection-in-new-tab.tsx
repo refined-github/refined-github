@@ -7,8 +7,7 @@ function init(): void {
 		const selected = select<HTMLAnchorElement>('.navigation-focus .js-navigation-open[href]');
 		if (selected && event.key === 'O' && !isEditable(event.target)) {
 			browser.runtime.sendMessage({
-				urls: [selected.href],
-				action: 'openAllInTabs'
+				openUrls: [selected.href]
 			});
 
 			// Get the list element that contains the unread class and mark it as read.

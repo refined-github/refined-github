@@ -71,9 +71,6 @@ function clean(): void {
 			milestones.remove();
 		}
 	}
-
-	// Notifications
-	select('.sidebar-notifications .discussion-sidebar-heading')!.remove();
 }
 
 function init(): void {
