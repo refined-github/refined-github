@@ -77,7 +77,7 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 			})
 		}),
 		new MiniCssExtractPlugin({
-			filename: 'features.css'
+			filename: 'content.css'
 		}),
 		new SizePlugin(),
 		new CopyWebpackPlugin([
@@ -87,7 +87,8 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 				ignore: [
 					'*.js',
 					'*.ts',
-					'*.tsx'
+					'*.tsx',
+					'*.css'
 				]
 			},
 			{

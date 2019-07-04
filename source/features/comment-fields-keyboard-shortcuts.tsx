@@ -79,7 +79,7 @@ function init(): void {
 					select<HTMLTextAreaElement>('.js-comment-field', lastOwnComment)!.selectionStart = Number.MAX_SAFE_INTEGER;
 				});
 			}
-		} else if (formattingCharacters.includes(event.key)) {
+		} else if (formattingCharacters.includes(event.key) && !event.isComposing) {
 			const [start, end] = [field.selectionStart, field.selectionEnd];
 
 			// If `start` and `end` of selection are the same, then no text is selected
