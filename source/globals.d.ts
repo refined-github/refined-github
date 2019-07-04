@@ -87,3 +87,8 @@ declare namespace JSX {
 interface NamedNodeMap {
 	[key: string]: Attr;
 }
+
+// TODO: Drop when this appears on npm https://github.com/microsoft/TypeScript/blob/340f81035ff1d753e6a1f0fedc2323d169c86cc6/src/lib/dom.generated.d.ts#L9686
+interface KeyboardEvent {
+	readonly isComposing: boolean;
+}
