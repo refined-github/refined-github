@@ -20,10 +20,7 @@ async function init(): Promise<void> {
 		cache.set(cacheKey, files, 3);
 	}
 
-	console.log('files', files);
-
 	const path = select('clipboard-copy, #blob-edit-path')!.getAttribute('value')!; // `clipboard-copy` on blob page, `#blob-edit-path` on edit page.
-	console.log('path', path);
 	if (!files[path]) {
 		return;
 	}
