@@ -60,8 +60,9 @@ const api4 = location.hostname === 'github.com' ?
 
 interface GHRestApiOptions {
 	ignoreHTTPStatus?: boolean;
-	method?: 'GET' | 'POST';
+	method?: 'GET' | 'POST' | 'PUT';
 	body?: undefined | JsonObject;
+	headers?: HeadersInit;
 }
 
 interface GHGraphQLApiOptions {
@@ -82,7 +83,7 @@ export const v3 = mem(async (
 	query: string,
 	options: GHRestApiOptions = v3defaults
 ): Promise<AnyObject> => {
-	const {ignoreHTTPStatus, method, body} = {...v3defaults, ...options};
+	const {ignoreHTTPStatus, method, body, headers} = {...v3defaults, ...options};
 	const {personalToken} = await settings;
 
 	const response = await fetch(api3 + query, {
@@ -91,16 +92,21 @@ export const v3 = mem(async (
 		headers: {
 			'User-Agent': 'Refined GitHub',
 			Accept: 'application/vnd.github.v3+json',
+			...headers,
 			...(personalToken ? {Authorization: `token ${personalToken}`} : {})
 		}
 	});
 	const textContent = await response.text();
 
 	// The response might just be a 200 or 404, it's the REST equivalent of `boolean`
-	const apiResponse: JsonObject = textContent.length > 0 ? JSON.parse(textContent) : {status: response.status};
+	const apiResponse: JsonObject = textContent.length > 0 ? JSON.parse(textContent) : {};
 
 	if (response.ok || ignoreHTTPStatus) {
-		return apiResponse;
+		return {
+			status: response.status,
+			...apiResponse,
+			ok: response.ok
+		};
 	}
 
 	throw getError(apiResponse);

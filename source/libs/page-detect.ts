@@ -93,6 +93,8 @@ export const isRepoSettings = (): boolean => /^settings/.test(getRepoPath()!);
 
 export const isRepoTree = (): boolean => isRepoRoot() || /^tree\//.test(getRepoPath()!);
 
+export const isRepoWithAccess = (): boolean => isRepo() && select.exists('.reponav-item[href$="/settings"]');
+
 export const isSingleCommit = (): boolean => /^commit\/[0-9a-f]{5,40}/.test(getRepoPath()!);
 
 export const isSingleFile = (): boolean => /^blob\//.test(getRepoPath()!);
