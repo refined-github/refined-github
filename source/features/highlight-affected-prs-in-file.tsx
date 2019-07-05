@@ -1,4 +1,4 @@
-import './highlight-file-in-prs.css';
+import './highlight-affected-prs-in-file.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import cache from 'webext-storage-cache';
@@ -12,7 +12,7 @@ import * as icons from '../libs/icons';
 
 async function init(): Promise<void> {
 	const {ownerName, repoName} = getOwnerAndRepo();
-	const cacheKey = `highlight-file-in-prs:${ownerName}/${repoName}`;
+	const cacheKey = `highlight-affected-prs-in-file:${ownerName}/${repoName}`;
 
 	let files = await cache.get<Record<string, string[]>>(cacheKey);
 	if (files === undefined) {
@@ -28,7 +28,7 @@ async function init(): Promise<void> {
 		return;
 	}
 
-	const wrapper = <div className="rgh-highlight-file-in-prs" />;
+	const wrapper = <div className="rgh-highlight-affected-prs-in-file" />;
 	for (const pr of files[path].slice(0, 10)) {
 		wrapper.append(
 			<a
