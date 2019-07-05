@@ -85,7 +85,7 @@ async function fetch(): Promise<Record<string, string[]>> {
 
 features.add({
 	id: __featureName__,
-	description: 'Highlight file in PRs',
+	description: 'Highlight affected PRs in file',
 	screenshot: 'https://user-images.githubusercontent.com/55841/60622834-879e1f00-9de1-11e9-9a9e-bae5ec0b3728.png',
 	include: [
 		features.isEditingFile,
