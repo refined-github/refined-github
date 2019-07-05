@@ -29,7 +29,7 @@ async function init(): Promise<void> {
 	}
 
 	const wrapper = <div className="rgh-highlight-file-in-prs" />;
-	for (const pr of files[path]) {
+	for (const pr of files[path].slice(0, 10)) {
 		wrapper.append(
 			<a
 				href={`/${getRepoURL()}/pull/${pr}/files`}
@@ -55,14 +55,13 @@ async function fetch(): Promise<Record<string, string[]>> {
 	const {ownerName, repoName} = getOwnerAndRepo();
 	const defaultBranch = await getDefaultBranch();
 
-	// TODO: replace first (2x) with 100.
 	const result = await api.v4(
 		`{
 			repository(owner: "${ownerName}", name: "${repoName}") {
-				pullRequests(first: 2, states: OPEN, baseRefName: "${defaultBranch}") {
+				pullRequests(first: 25, states: OPEN, baseRefName: "${defaultBranch}", orderBy: {field: UPDATED_AT, direction: DESC}) {
 					nodes {
 						number
-						files(first: 3) {
+						files(first: 100) {
 							nodes {
 								path
 							}
@@ -74,13 +73,13 @@ async function fetch(): Promise<Record<string, string[]>> {
 	);
 
 	const files: Record<string, string[]> = {};
-	for (const node of result.repository.pullRequests.nodes) {
-		for (const file of node.files.nodes) {
+	for (const pr of result.repository.pullRequests.nodes) {
+		for (const file of pr.files.nodes) {
 			if (!files[file.path]) {
 				files[file.path] = [];
 			}
 
-			files[file.path].push(node.number);
+			files[file.path].push(pr.number);
 		}
 	}
 
