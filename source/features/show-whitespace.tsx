@@ -63,7 +63,7 @@ function showWhiteSpacesOn(line: Element): void {
 	}
 }
 
-async function run(): Promise<void> {
+function * getLineIterator(): IterableIterator<Element> {
 	const tables = select.all([
 		'table.js-file-line-container:not(.rgh-showing-whitespace)', // Single blob file, and gist
 		'.file table.diff-table:not(.rgh-showing-whitespace)', // Split and unified diffs
@@ -74,10 +74,43 @@ async function run(): Promise<void> {
 		table.classList.add('rgh-showing-whitespace');
 
 		for (const line of select.all('.blob-code-inner', table)) {
-			showWhiteSpacesOn(line);
-			await true;
+			yield line;
 		}
 	}
+}
+
+async function run(): Promise<void> {
+	const iterator = getLineIterator();
+
+	let processedLineCount = 0;
+	let iteratorResult: IteratorResult<Element>;
+
+	// Process 100 lines at a time for each event loop, without janking the main thread
+	const loop = async (): Promise<void> => {
+		for (let i = 0; i < 100; i++) {
+			iteratorResult = iterator.next();
+			if (iteratorResult.done) {
+				break;
+			}
+
+			showWhiteSpacesOn(iteratorResult.value);
+			processedLineCount++;
+		}
+
+		console.log(`Processed ${processedLineCount} lines`);
+
+		if (processedLineCount >= 10000) {
+			console.warn('Stopped showing whitespaces, too many lines to process!');
+			return;
+		}
+
+		if (!iteratorResult.done) {
+			await new Promise(resolve => setTimeout(resolve));
+			loop();
+		}
+	};
+
+	loop();
 }
 
 function init(): void {

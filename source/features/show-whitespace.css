@@ -15,7 +15,7 @@
 
 .rgh-tab-char::before {
 	content: attr(data-rgh-tabs);
-	letter-spacing: calc(calc(var(--tab-size, 4) * 1ch) - 1ch);
+	letter-spacing: calc((var(--tab-size, 4) * 1ch) - 1ch);
 }
 
 .rgh-space-char::before {
