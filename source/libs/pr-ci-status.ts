@@ -34,7 +34,7 @@ export function get(): CommitStatus {
 	return false;
 }
 
-export function wait(): Promise<CommitStatus> {
+export async function wait(): Promise<CommitStatus> {
 	return new Promise(resolve => {
 		addEventListener(function handler(newStatus: CommitStatus) {
 			removeEventListener(handler);
