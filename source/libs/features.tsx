@@ -166,12 +166,12 @@ const add = async (definition: FeatureDetails): Promise<void> => {
 			return result;
 		};
 
-		onAjaxedPages(() => run(details));
+		onAjaxedPages(async () => run(details));
 	} else if (load instanceof Promise) {
 		await load;
 		run(details);
 	} else {
-		load(() => run(details));
+		load(async () => run(details));
 	}
 };
 
