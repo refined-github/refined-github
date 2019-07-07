@@ -86,7 +86,7 @@ async function run(): Promise<void> {
 			}
 
 			if (i % 100 === 0) {
-				await new Promise(resolve => setTimeout(resolve));
+				await new Promise(resolve => setTimeout(resolve)); // eslint-disable-line no-await-in-loop
 			}
 		}
 	}
