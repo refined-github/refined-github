@@ -26,7 +26,11 @@ const features = readdirSync(path.join(__dirname, 'source/features'))
 
 module.exports = (_env: string, argv: Record<string, boolean | number | string>): webpack.Configuration => ({
 	devtool: 'source-map',
-	stats: 'errors-only',
+	stats: {
+		all: false,
+		errors: true,
+		builtAt: true
+	},
 	entry: {
 		content: './source/content',
 		background: './source/background',
