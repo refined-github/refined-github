@@ -7,6 +7,7 @@ import SizePlugin from 'size-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
 function parseFeatureDetails(name: string): FeatureInfo {
 	const content = readFileSync(`source/features/${name}.tsx`, {encoding: 'utf-8'});
@@ -25,7 +26,11 @@ const features = readdirSync(path.join(__dirname, 'source/features'))
 
 module.exports = (_env: string, argv: Record<string, boolean | number | string>): webpack.Configuration => ({
 	devtool: 'source-map',
-	stats: 'errors-only',
+	stats: {
+		all: false,
+		errors: true,
+		builtAt: true
+	},
 	entry: {
 		content: './source/content',
 		background: './source/background',
@@ -50,7 +55,10 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 
 								// With this, TS will error but the file will still be generated (on watch only)
 								noEmitOnError: argv.watch === false
-							}
+							},
+
+							// Make compilation faster with `fork-ts-checker-webpack-plugin`
+							transpileOnly: true
 						}
 					}
 				],
@@ -66,6 +74,7 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 		]
 	},
 	plugins: [
+		new ForkTsCheckerWebpackPlugin(),
 		new webpack.DefinePlugin({
 			// These aren't dynamic because `runtimeValue` doesn't update when "any" file updates, but only when the files with these variables update — which is not very useful.
 			__featuresList__: JSON.stringify(features),
