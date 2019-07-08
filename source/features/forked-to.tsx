@@ -62,8 +62,8 @@ async function init(): Promise<void> {
 	const pageHeader = select('.pagehead h1.public')!;
 	for (const fork of await getForks()) {
 		pageHeader.append(
-			<span className="fork-flag rgh-forked">forked to&nbsp;
-				<a href={`/${fork}`}>{fork}</a>
+			<span className="fork-flag rgh-forked">
+				forked to <a href={`/${fork}`}>{fork}</a>
 			</span>
 		);
 	}
