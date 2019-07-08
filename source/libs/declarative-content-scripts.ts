@@ -1,6 +1,6 @@
 /* global chrome */
 import 'content-scripts-register-polyfill';
-import 'chrome-permissions-events-polyfill';
+import 'webext-permissions-events-polyfill';
 
 const registeredScripts = new Map<
 string,

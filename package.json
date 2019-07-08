@@ -18,7 +18,6 @@
 		"create-git-tag": "git tag $VER -m $VER && git push origin $VER"
 	},
 	"dependencies": {
-		"chrome-permissions-events-polyfill": "^1.0.0",
 		"content-scripts-register-polyfill": "^1.0.0",
 		"copy-text-to-clipboard": "^2.0.0",
 		"debounce-fn": "^3.0.1",
@@ -34,13 +33,14 @@
 		"intervalometer": "^1.0.5",
 		"linkify-issues": "^1.3.0",
 		"linkify-urls": "^2.2.0",
-		"mem": "github:sindresorhus/mem#10f13c0",
+		"mem": "^5.1.1",
 		"onetime": "^5.0.0",
 		"select-dom": "^5.1.0",
 		"shorten-repo-url": "^1.5.1",
 		"tiny-version-compare": "^1.0.0",
 		"webext-domain-permission-toggle": "^1.0.0-1",
 		"webext-options-sync": "^0.21.1",
+		"webext-permissions-events-polyfill": "^1.0.1",
 		"webext-storage-cache": "^1.0.2",
 		"webextension-polyfill": "^0.4.0",
 		"zip-text-nodes": "^1.0.0-0"
