@@ -1,3 +1,4 @@
+import './forked-to.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import cache from 'webext-storage-cache';
