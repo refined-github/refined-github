@@ -1,20 +1,42 @@
 import './show-names.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import elementReady from 'element-ready';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 
+const observer = new MutationObserver(async ([{addedNodes}]) => {
+	await usernames();
+
+	// Observe the new ajaxed-in containers
+	for (const node of addedNodes) {
+		if (node instanceof HTMLDivElement) {
+			observer.observe(node, {childList: true});
+		}
+	}
+});
+
 async function init(): Promise<false | void> {
-	// `a` selector needed to skip commits by non-GitHub users
-	const usernameElements = select.all('.js-discussion a.author:not(.rgh-fullname):not([href*="/apps/"]):not([href*="/marketplace/"]):not([data-hovercard-type="organization"])');
+	if (features.isDashboard()) {
+		observer.observe((await elementReady('#dashboard .news'))!, {childList: true});
+	}
+
+	await usernames();
+}
+
+async function usernames(): Promise<false | void> {
+	const usernameElements = select.all([
+		'.js-discussion a.author:not(.rgh-fullname):not([href*="/apps/"]):not([href*="/marketplace/"]):not([data-hovercard-type="organization"])', // `a` selector needed to skip commits by non-GitHub users.
+		'#dashboard a.text-bold[data-hovercard-type="user"]:not(.rgh-fullname)' // On dashboard `.text-bold` is required to not fetch avatars.
+	].join());
 
 	const usernames = new Set<string>();
 	const myUsername = getUsername();
 	for (const el of usernameElements) {
 		el.classList.add('rgh-fullname');
 		const username = el.textContent;
-		if (username !== myUsername && username !== 'ghost') {
+		if (username && username !== myUsername && username !== 'ghost') {
 			usernames.add(el.textContent!);
 		}
 
@@ -62,7 +84,8 @@ features.add({
 	id: __featureName__,
 	description: 'The full name of users is shown next to their username',
 	include: [
-		features.hasComments
+		features.hasComments,
+		features.isDashboard
 	],
 	load: features.onNewComments,
 	init
