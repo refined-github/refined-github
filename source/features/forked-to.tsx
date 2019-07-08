@@ -2,10 +2,10 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import cache from 'webext-storage-cache';
 import features from '../libs/features';
-import {getRepoURL} from '../libs/utils';
+import {getRepoURL, getUsername} from '../libs/utils';
 import {isRepoWithAccess} from '../libs/page-detect';
 
-const getCacheKey = (repo: string): string => `forked-to:${repo}`;
+const getCacheKey = (repo: string): string => `forked-to:${getUsername()}@${repo}`;
 
 async function showForks(): Promise<void> {
 	const cached = await getValidatedCache(getSourceRepo());
