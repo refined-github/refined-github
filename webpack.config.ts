@@ -11,13 +11,28 @@ import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
 function parseFeatureDetails(name: string): FeatureInfo {
 	const content = readFileSync(`source/features/${name}.tsx`, {encoding: 'utf-8'});
-	const rawRegex = ['description', 'screenshot', 'disabled']
-		.map(field => `\n\t${field}: '(?<${field}>[^\\n]+)'`) // Named group regex
-		.join('|');
+	const fields = ['description', 'screenshot', 'disabled'] as const;
+	const regex = new RegExp(`\n\t(?<field>${fields.join('|')}): '(?<value>[^\\n]+)'`, 'g'); // Named group regex
 
-	const feature = new RegExp(rawRegex).exec(content)!.groups!;
-	feature.name = name;
-	return feature as unknown as FeatureInfo;
+	const feature: FeatureInfo = {
+		name,
+		description: ''
+	};
+
+	// Iterate over all the matches from the file
+	let match: RegExpExecArray | null;
+	while ((match = regex.exec(content)) !== null) {
+		const {field, value} = match.groups as { field: typeof fields[number]; value: string };
+		if (value) {
+			feature[field] = value;
+		}
+	}
+
+	if (!feature.description) {
+		throw new Error(`Description is empty for feature: ${name}`);
+	}
+
+	return feature;
 }
 
 const features = readdirSync(path.join(__dirname, 'source/features'))
