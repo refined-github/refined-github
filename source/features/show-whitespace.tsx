@@ -70,20 +70,11 @@ async function run(): Promise<void> {
 		'.file table.d-table:not(.rgh-showing-whitespace)' // "Suggested changes" in PRs
 	].join());
 
-	let processedLineCount = 0;
-
 	for (const table of tables) {
 		table.classList.add('rgh-showing-whitespace');
 
 		for (const [i, line] of select.all('.blob-code-inner', table).entries()) {
 			showWhiteSpacesOn(line);
-
-			processedLineCount++;
-
-			if (processedLineCount > 10000) {
-				console.warn('Stopped showing whitespaces, too many lines to process!');
-				break;
-			}
 
 			if (i % 100 === 0) {
 				await new Promise(resolve => setTimeout(resolve)); // eslint-disable-line no-await-in-loop
