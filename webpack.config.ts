@@ -36,9 +36,11 @@ Invalid characters found in \`${name}\`. Apply this patch:
 	return feature as FeatureInfo;
 }
 
-const features = readdirSync(path.join(__dirname, 'source/features'))
-	.filter(filename => filename.endsWith('.tsx'))
-	.map(filename => filename.replace('.tsx', ''));
+function getFeatures(): string[] {
+	return readdirSync(path.join(__dirname, 'source/features'))
+		.filter(filename => filename.endsWith('.tsx'))
+		.map(filename => filename.replace('.tsx', ''));
+}
 
 module.exports = (_env: string, argv: Record<string, boolean | number | string>): webpack.Configuration => ({
 	devtool: 'source-map',
@@ -92,9 +94,15 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 	plugins: [
 		new ForkTsCheckerWebpackPlugin(),
 		new webpack.DefinePlugin({
-			// These aren't dynamic because `runtimeValue` doesn't update when "any" file updates, but only when the files with these variables update — which is not very useful.
-			__featuresList__: JSON.stringify(features),
-			__featuresInfo__: JSON.stringify(features.map(parseFeatureDetails)),
+			// Passing `true` as the second argument makes these values dynamic — so every file change will update their value.
+			// @ts-ignore
+			__featuresList__: webpack.DefinePlugin.runtimeValue(() => {
+				return JSON.stringify(getFeatures());
+			}, true),
+			// @ts-ignore
+			__featuresInfo__: webpack.DefinePlugin.runtimeValue(() => {
+				return JSON.stringify(getFeatures().map(parseFeatureDetails));
+			}, true),
 
 			// @ts-ignore
 			__featureName__: webpack.DefinePlugin.runtimeValue(({module}) => {
