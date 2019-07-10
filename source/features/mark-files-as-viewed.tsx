@@ -3,7 +3,9 @@ import delegate from 'delegate-it';
 import features from '../libs/features';
 
 function markAllFilesAsViewed(): void {
-	select.all('.js-reviewed-checkbox').forEach(c => c.click());
+	for (const checkbox of select.all('.js-reviewed-checkbox')) {
+		checkbox.click();
+	}
 }
 
 function init(): void {
