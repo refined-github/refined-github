@@ -102,9 +102,8 @@ export const v3 = mem(async (
 	const apiResponse: JsonObject = textContent.length > 0 ? JSON.parse(textContent) : {};
 
 	if (response.ok || ignoreHTTPStatus) {
-		return Object.assign([], {
+		return Object.assign(apiResponse, {
 			status: response.status,
-			...apiResponse,
 			ok: response.ok
 		});
 	}
