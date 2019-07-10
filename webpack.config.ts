@@ -11,7 +11,7 @@ import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
 function parseFeatureDetails(name: string): FeatureInfo {
 	const content = readFileSync(`source/features/${name}.tsx`, {encoding: 'utf-8'});
-	const fields = ['description', 'screenshot', 'disabled'] as const;
+	const fields = ['disabled', 'description', 'screenshot'] as const;
 	const regex = new RegExp(`\n\t(?<field>${fields.join('|')}): '(?<value>[^\\n]+)'`, 'g'); // Named group regex
 
 	const feature: FeatureInfo = {
