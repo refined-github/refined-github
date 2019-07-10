@@ -43,7 +43,7 @@ async function getNewCommentField(commentContainer: Element, lineBeingCommentedO
 		select('.review-thread-reply-button', newCommentContainer)!.click();
 	} else {
 		const isRightSide = commentContainer.closest('.js-addition');
-		(isRightSide ? select.last : select)<HTMLButtonElement>('.js-add-line-comment', lineBeingCommentedOn)!.click();
+		(isRightSide ? select.last : select)('.js-add-line-comment', lineBeingCommentedOn)!.click();
 	}
 
 	// Hide comment box
@@ -64,13 +64,15 @@ async function handleSubmitSingle(event: DelegateEvent): Promise<void> {
 	// Use nearby comment box
 	const comment = await getNewCommentField(commentContainer, lineBeingCommentedOn);
 	const submitButton = select<HTMLButtonElement>('[name="single_comment"]', comment.form!)!;
+	const commentForm = comment.closest('.inline-comment-form-container') as HTMLElement;
 
 	// Copy comment to new comment box
 	insertText(comment.form!.elements['comment[body]'] as HTMLTextAreaElement, commentText);
 
 	// Safely try comment deletion
 	try {
-		comment.disabled = true;
+		console.log(commentForm);
+		commentForm.hidden = true;
 
 		// Delete comment without asking confirmation
 		const deleteLink = select<HTMLButtonElement>('[aria-label="Delete comment"]', commentContainer)!;
@@ -81,12 +83,14 @@ async function handleSubmitSingle(event: DelegateEvent): Promise<void> {
 		await observeOneMutation(lineBeingCommentedOn.parentElement!);
 
 		// Enable form and submit new comment
-		comment.disabled = false;
 		submitButton.disabled = false;
 		submitButton.click();
+
+		// Wait for the comment to be added
+		await observeOneMutation(lineBeingCommentedOn.parentElement!);
+		commentForm.hidden = false;
 	} catch (error) {
-		comment.disabled = false;
-		submitButton.disabled = false;
+		commentForm.hidden = false;
 
 		// Place comment in console to allow recovery
 		console.log('You were trying to sending this comment:');
