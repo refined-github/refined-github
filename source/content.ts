@@ -128,6 +128,7 @@ import './features/minimize-upload-bar';
 import './features/cycle-lists-with-keyboard-shortcuts';
 import './features/forked-to';
 import './features/submit-review-as-single-comment';
+import './features/mark-files-as-viewed';
 
 // Add global for easier debugging
 (window as any).select = select;
