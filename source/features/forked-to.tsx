@@ -39,9 +39,7 @@ async function validateFork(repo: string): Promise<boolean> {
 	return response.ok;
 }
 
-async function getForks(): Promise<string[]> {
-	const forks = await cache.get<string[]>(getCacheKey()) || [];
-
+async function validateForks(forks: string[]): Promise<void> {
 	// Don't validate current page: it exists; it won't be shown in the list; it will be added later anyway
 	const validForks = await pFilter(forks.filter(fork => fork !== getRepoURL()), validateFork);
 
@@ -51,22 +49,29 @@ async function getForks(): Promise<string[]> {
 	} else {
 		save(validForks);
 	}
-
-	return validForks;
 }
 
 async function init(): Promise<void> {
 	select('details-dialog[src*="/fork"] include-fragment')!
 		.addEventListener('load', saveAllForks);
 
+	const forks = await cache.get<string[]>(getCacheKey());
+
+	if (!forks) {
+		return;
+	}
+
 	const pageHeader = select('.pagehead h1.public')!;
-	for (const fork of await getForks()) {
+	for (const fork of forks) {
 		pageHeader.append(
 			<span className="fork-flag rgh-forked">
 				forked to <a href={`/${fork}`}>{fork}</a>
 			</span>
 		);
 	}
+
+	// Validate cache after showing links once, to make it faster
+	await validateForks(forks);
 }
 
 features.add({
