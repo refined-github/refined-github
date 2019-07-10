@@ -1,43 +1,28 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import cache from 'webext-storage-cache';
+import select from 'select-dom';
+import pFilter from 'p-filter';
+import onetime from 'onetime';
 import features from '../libs/features';
-import {getRepoURL, getUsername} from '../libs/utils';
 import {isRepoWithAccess} from '../libs/page-detect';
+import {getRepoURL, getUsername} from '../libs/utils';
 
-const getCacheKey = (repo: string): string => `forked-to:${getUsername()}@${repo}`;
+const getCacheKey = onetime((): string => `forked-to:${getUsername()}@${findForkedRepo() || getRepoURL()}`);
 
-async function showForks(): Promise<void> {
-	const cached = await getValidatedCache(getSourceRepo());
-	const pageHeader = select('.pagehead h1.public')!;
-	for (const fork of cached.filter(fork => fork !== getRepoURL())) {
-		pageHeader.append(
-			<span className="fork-flag rgh-forked">forked to&nbsp;
-				<a href={`/${fork}`}>{fork}</a>
-			</span>
-		);
+async function save(forks: string[]): Promise<void> {
+	if (forks.length === 0) {
+		return cache.delete(getCacheKey());
 	}
+
+	return cache.set(getCacheKey(), forks, 10);
 }
 
-function rememberCurrentFork(): void {
-	if (!isRepoWithAccess()) {
-		return;
-	}
+async function saveAllForks(): Promise<void> {
+	const forks = select
+		.all('details-dialog[src*="/fork"] .octicon-repo-forked')
+		.map(({nextSibling}) => nextSibling!.textContent!.trim());
 
-	const forkedRepo = findForkedRepo();
-	if (forkedRepo) {
-		addAndStoreCache(forkedRepo, getRepoURL());
-	}
-}
-
-function watchForkDialog(): void {
-	const forkDialog = select('details-dialog[src*="/fork"]')!;
-	select('include-fragment', forkDialog)!.addEventListener('load', () => {
-		const forks = select.all('.octicon-repo-forked', forkDialog).map(forkElement => {
-			return forkElement.parentNode!.textContent!.trim();
-		});
-		addAndStoreCache(getSourceRepo(), ...forks);
-	});
+	save(forks);
 }
 
 function findForkedRepo(): string | undefined {
@@ -49,43 +34,44 @@ function findForkedRepo(): string | undefined {
 	return undefined;
 }
 
-function getSourceRepo(): string {
-	return findForkedRepo() || getRepoURL();
-}
-
 async function validateFork(repo: string): Promise<boolean> {
 	const response = await fetch(location.origin + '/' + repo, {method: 'HEAD'});
 	return response.ok;
 }
 
-async function getValidatedCache(repo: string): Promise<string[]> {
-	const cached = await cache.get<string[]>(getCacheKey(repo)) || [];
-	const validForks = cached.filter(validateFork).sort(undefined);
+async function validateForks(forks: string[]): Promise<void> {
+	// Don't validate current page: it exists; it won't be shown in the list; it will be added later anyway
+	const validForks = await pFilter(forks.filter(fork => fork !== getRepoURL()), validateFork);
 
-	if (cached.length !== validForks.length) {
-		await cache.set<string[]>(getCacheKey(repo), validForks, 10);
+	// Add current repo to cache if it's a fork
+	if (isRepoWithAccess() && findForkedRepo()) {
+		save([...validForks, getRepoURL()].sort(undefined));
+	} else {
+		save(validForks);
 	}
-
-	return validForks;
-}
-
-async function addAndStoreCache(repo: string, ...forks: string[]): Promise<void> {
-	const cached = await cache.get<string[]>(getCacheKey(repo)) || [];
-	for (const fork of forks) {
-		if (!cached.includes(fork)) {
-			cached.push(fork);
-		}
-	}
-
-	await cache.set<string[]>(getCacheKey(repo), cached, 10);
 }
 
 async function init(): Promise<void> {
-	watchForkDialog();
+	select('details-dialog[src*="/fork"] include-fragment')!
+		.addEventListener('load', saveAllForks);
 
-	rememberCurrentFork();
+	const forks = await cache.get<string[]>(getCacheKey());
 
-	showForks();
+	if (!forks) {
+		return;
+	}
+
+	const pageHeader = select('.pagehead h1.public')!;
+	for (const fork of forks) {
+		pageHeader.append(
+			<span className="fork-flag rgh-forked">
+				forked to <a href={`/${fork}`}>{fork}</a>
+			</span>
+		);
+	}
+
+	// Validate cache after showing links once, to make it faster
+	await validateForks(forks);
 }
 
 features.add({

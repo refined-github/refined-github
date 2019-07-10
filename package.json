@@ -35,6 +35,7 @@
 		"linkify-urls": "^2.2.0",
 		"mem": "^5.1.1",
 		"onetime": "^5.0.0",
+		"p-filter": "^2.1.0",
 		"select-dom": "^5.1.0",
 		"shorten-repo-url": "^1.5.1",
 		"tiny-version-compare": "^1.0.0",
