@@ -17,7 +17,19 @@ function parseFeatureDetails(name: string): FeatureInfo {
 	for (const field of fields) {
 		const [, value]: string[] | [] = new RegExp(`\n\t${field}: '([^\\n]+)'`).exec(content) || [];
 		if (value) {
-			feature[field] = value;
+			const validValue = value.trim().replace(/\\'/g, '’'); // Catch trailing spaces and incorrect apostrophes
+			if (value !== validValue) {
+				throw new Error(`
+Invalid characters found in \`${name}\`’s ${field} field. It’s
+${field}: '${value}'
+
+but it should be
+
+${field}: '${validValue}'
+`);
+			}
+
+			feature[field] = value.replace(/\\\\/g, '\\');
 		} else if (field === 'description') {
 			throw new Error(`Description wasn't found in the \`${name}\` feature`);
 		}
