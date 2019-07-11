@@ -21,6 +21,7 @@ function parseFeatureDetails(name: string): FeatureInfo {
 			if (value !== validValue) {
 				throw new Error(`
 Invalid characters found in \`${name}\`’s ${field} field. It’s
+
 ${field}: '${value}'
 
 but it should be
