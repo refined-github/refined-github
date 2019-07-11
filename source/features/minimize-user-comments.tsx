@@ -11,7 +11,7 @@ import anchorScroll from '../libs/anchor-scroll';
 const getLabel = (restore: boolean): string => `${restore ? 'Restore' : 'Minimize'} user’s comments`;
 
 async function getMinimizedUsers(): Promise<string[]> {
-	return (await optionsStorage.getAll()).minimizedUsers.split(/\s+/).filter(Boolean);
+	return (await optionsStorage.getAll()).minimizedUsers.trim().split(/\s+/);
 }
 
 async function setMinimizedUsers(minimizedUsers: string[]): Promise<void> {
