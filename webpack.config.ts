@@ -11,13 +11,29 @@ import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
 function parseFeatureDetails(name: string): FeatureInfo {
 	const content = readFileSync(`source/features/${name}.tsx`, {encoding: 'utf-8'});
-	const rawRegex = ['description', 'screenshot', 'disabled']
-		.map(field => `\n\t${field}: '(?<${field}>[^\\n]+)'`) // Named group regex
-		.join('|');
+	const fields = ['disabled', 'description', 'screenshot'] as const;
 
-	const feature = new RegExp(rawRegex).exec(content)!.groups!;
-	feature.name = name;
-	return feature as unknown as FeatureInfo;
+	const feature: Partial<FeatureInfo> = {name};
+	for (const field of fields) {
+		const [, value]: string[] | [] = new RegExp(`\n\t${field}: '([^\\n]+)'`).exec(content) || [];
+		if (value) {
+			const validValue = value.trim().replace(/\\'/g, '’'); // Catch trailing spaces and incorrect apostrophes
+			if (value !== validValue) {
+				throw new Error(`
+Invalid characters found in \`${name}\`. Apply this patch:
+
+- ${field}: '${value}'
++ ${field}: '${validValue}'
+`);
+			}
+
+			feature[field] = value.replace(/\\\\/g, '\\');
+		} else if (field === 'description') {
+			throw new Error(`Description wasn't found in the \`${name}\` feature`);
+		}
+	}
+
+	return feature as FeatureInfo;
 }
 
 const features = readdirSync(path.join(__dirname, 'source/features'))
