@@ -95,3 +95,26 @@ export function getOP(): string {
 
 	return select('.timeline-comment-header-text .author')!.textContent!;
 }
+
+export async function poll<T>(callback: () => T, frequency: number): Promise<T> {
+	return new Promise(resolve => {
+		(function loop() {
+			const result = callback();
+			if (result !== null && typeof result !== undefined) {
+				resolve(result);
+			} else {
+				setTimeout(loop, frequency);
+			}
+		})();
+	});
+}
+
+export function reportBug(featureName: string, bugName: string): void {
+	alert(`Refined GitHub: ${bugName}. Can you report this issue? You’ll find more information in the console.`);
+	const issuesUrl = new URL('https://github.com/sindresorhus/refined-github/issues');
+	const newIssueUrl = new URL('https://github.com/sindresorhus/refined-github/new?labels=bug&template=bug_report.md');
+	issuesUrl.searchParams.set('q', `is:issue ${featureName}`);
+	newIssueUrl.searchParams.set('title', `\`${featureName}\` ${bugName}`);
+	console.log('Find existing issues:\n' + String(issuesUrl));
+	console.log('Open new issue:\n' + String(newIssueUrl));
+}
