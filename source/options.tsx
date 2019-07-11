@@ -1,3 +1,4 @@
+import './options.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import linkifyUrls from 'linkify-urls';
