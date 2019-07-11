@@ -20,13 +20,10 @@ function parseFeatureDetails(name: string): FeatureInfo {
 			const validValue = value.trim().replace(/\\'/g, '’'); // Catch trailing spaces and incorrect apostrophes
 			if (value !== validValue) {
 				throw new Error(`
-Invalid characters found in \`${name}\`’s ${field} field. It’s
+Invalid characters found in \`${name}\`. Apply this patch:
 
-${field}: '${value}'
-
-but it should be
-
-${field}: '${validValue}'
+- ${field}: '${value}'
++ ${field}: '${validValue}'
 `);
 			}
 
