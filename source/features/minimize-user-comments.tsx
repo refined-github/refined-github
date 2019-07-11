@@ -3,7 +3,7 @@ import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 import {appendBefore} from '../libs/dom-utils';
-import optionsStorage, {RGHOptions} from '../options-storage';
+import optionsStorage from '../options-storage';
 import {getUsername} from '../libs/utils';
 import onNewComments from '../libs/on-new-comments';
 import anchorScroll from '../libs/anchor-scroll';
@@ -11,10 +11,7 @@ import anchorScroll from '../libs/anchor-scroll';
 const getLabel = (restore: boolean): string => `${restore ? 'Restore' : 'Minimize'} user’s comments`;
 
 async function getMinimizedUsers(): Promise<string[]> {
-	return (await optionsStorage.getAll() as RGHOptions)
-		.minimizedUsers
-		.split(/\s+/)
-		.filter(Boolean);
+	return (await optionsStorage.getAll()).minimizedUsers.split(/\s+/).filter(Boolean);
 }
 
 async function setMinimizedUsers(minimizedUsers: string[]): Promise<void> {
