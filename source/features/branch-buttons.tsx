@@ -7,7 +7,17 @@ import features from '../libs/features';
 import {isRepoRoot} from '../libs/page-detect';
 import {groupSiblings} from '../libs/group-buttons';
 import getDefaultBranch from '../libs/get-default-branch';
-import {getRepoURL, getOwnerAndRepo, getCurrentBranch} from '../libs/utils';
+import {getRepoURL, getRepoPath, getOwnerAndRepo, getCurrentBranch} from '../libs/utils';
+
+function replaceBranch(currentBranch: string, newBranch: string): string {
+	// Should be either `/tree/<branch>` or `/blob/<branch>/<filePath>`
+	const repoPath = getRepoPath()!;
+	// Replace the first matched branch name to the new one
+	const newBranchRepoPath = repoPath.replace(currentBranch, newBranch);
+
+	// Join the repo url with new branch repo path
+	return `/${getRepoURL()}/${newBranchRepoPath}`;
+}
 
 async function getTagLink(): Promise<'' | HTMLAnchorElement> {
 	const {ownerName, repoName} = getOwnerAndRepo();
@@ -49,7 +59,7 @@ async function getTagLink(): Promise<'' | HTMLAnchorElement> {
 		if (isRepoRoot()) {
 			link.href = `/${getRepoURL()}/tree/${latestRelease}`;
 		} else {
-			link.href = location.pathname.replace(currentBranch, latestRelease);
+			link.href = replaceBranch(currentBranch, latestRelease);
 		}
 
 		link.setAttribute('aria-label', 'Visit the latest release');
@@ -72,7 +82,7 @@ async function getDefaultBranchLink(): Promise<HTMLElement | undefined> {
 	if (isRepoRoot()) {
 		url = `/${getRepoURL()}`;
 	} else {
-		url = location.pathname.replace(currentBranch, defaultBranch);
+		url = replaceBranch(currentBranch, defaultBranch);
 	}
 
 	return (
