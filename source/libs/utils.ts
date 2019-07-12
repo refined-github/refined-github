@@ -30,13 +30,13 @@ export const getRepoBranch = (): string | false => {
 	return false;
 };
 
-export const getCurrentBranch = (): string | undefined => {
-	const recentCommitsLink = select('link[title^="Recent Commits to"]')!;
-	// Will be something like https://github.com/sindresorhus/refined-github/commits/master.atom
-	const href = recentCommitsLink.getAttribute('href')!;
-	const group = /\/commits\/(.+)\.atom$/.exec(href);
-
-	return group ? group[1] : undefined;
+// Return empty string for default branch
+export const getCurrentBranch = (): string => {
+	return (select('[data-hotkey="g c"]')! as HTMLAnchorElement) // The `Code` tab
+		.pathname // /<user>/<repo>[/tree/<branch/slashed-branch>]
+		.split('/')
+		.slice(4) // Drops everything and including `tree`
+		.join('/');
 };
 
 export const getRepoURL = (): string => location.pathname.slice(1).split('/', 2).join('/');

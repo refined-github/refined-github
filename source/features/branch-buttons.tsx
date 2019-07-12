@@ -50,7 +50,7 @@ async function getTagLink(): Promise<'' | HTMLAnchorElement> {
 
 	const link = <a className="btn btn-sm btn-outline tooltipped tooltipped-ne">{icons.tag()}</a> as unknown as HTMLAnchorElement;
 
-	const currentBranch = getCurrentBranch()!;
+	const currentBranch = getCurrentBranch();
 
 	if (currentBranch === latestRelease) {
 		link.classList.add('disabled');
@@ -71,7 +71,7 @@ async function getTagLink(): Promise<'' | HTMLAnchorElement> {
 
 async function getDefaultBranchLink(): Promise<HTMLElement | undefined> {
 	const defaultBranch = await getDefaultBranch();
-	const currentBranch = getCurrentBranch()!;
+	const currentBranch = getCurrentBranch() || defaultBranch;
 
 	// Don't show the button if we’re already on the default branch
 	if (defaultBranch === undefined || defaultBranch === currentBranch) {
