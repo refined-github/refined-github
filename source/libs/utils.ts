@@ -37,7 +37,7 @@ export const getCurrentBranch = (): string | undefined => {
 	const group = /\/commits\/(.+)\.atom$/.exec(href);
 
 	return group ? group[1] : undefined;
-}
+};
 
 export const getRepoURL = (): string => location.pathname.slice(1).split('/', 2).join('/');
 
