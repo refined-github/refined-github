@@ -127,6 +127,8 @@ import './features/clean-issue-filters';
 import './features/minimize-upload-bar';
 import './features/cycle-lists-with-keyboard-shortcuts';
 import './features/forked-to';
+import './features/submit-review-as-single-comment';
+import './features/mark-files-as-viewed';
 import './features/highlight-affected-prs-in-file';
 
 // Add global for easier debugging
