@@ -1,3 +1,4 @@
+import './forked-to.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
@@ -6,6 +7,7 @@ import onetime from 'onetime';
 import features from '../libs/features';
 import {isRepoWithAccess} from '../libs/page-detect';
 import {getRepoURL, getUsername} from '../libs/utils';
+import * as icons from '../libs/icons';
 
 const getCacheKey = onetime((): string => `forked-to:${getUsername()}@${findForkedRepo() || getRepoURL()}`);
 
@@ -26,7 +28,7 @@ async function saveAllForks(): Promise<void> {
 }
 
 function findForkedRepo(): string | undefined {
-	const forkSourceElement = select<HTMLAnchorElement>('.fork-flag:not(.rgh-forked) a');
+	const forkSourceElement = select<HTMLAnchorElement>('.fork-flag a');
 	if (forkSourceElement) {
 		return forkSourceElement.pathname.slice(1);
 	}
@@ -61,12 +63,37 @@ async function init(): Promise<void> {
 		return;
 	}
 
-	const pageHeader = select('.pagehead h1.public')!;
-	for (const fork of forks) {
-		pageHeader.append(
-			<span className="fork-flag rgh-forked">
-				forked to <a href={`/${fork}`}>{fork}</a>
-			</span>
+	const forkCounter = select('.social-count[href$="/network/members"]')!;
+	if (forks.length === 1) {
+		forkCounter.before(
+			<a href={`/${forks[0]}`}
+				className="btn btn-sm float-left rgh-forked"
+				title={`Open your fork to ${forks[0]}`}>
+				{icons.externalLink()}
+			</a>
+		);
+	} else {
+		forkCounter.before(
+			<details className="details-reset details-overlay select-menu float-left">
+				<summary
+					className="select-menu-button float-left btn btn-sm btn-with-count rgh-forked"
+					title="Open any of your forks"></summary>
+				<details-menu
+					style={{zIndex: 99}}
+					className="select-menu-modal position-absolute right-0 mt-5">
+					<div className="select-menu-header">
+						<span className="select-menu-title">Your forks</span>
+					</div>
+					{...forks.map(fork =>
+						<a href={`/${fork}`}
+							className="select-menu-item"
+							title={`Open your fork to ${fork}`}>
+							{icons.fork()}
+							{fork}
+						</a>
+					)}
+				</details-menu>
+			</details>
 		);
 	}
 
