@@ -4,7 +4,7 @@
 }
 
 /* Play nice with `hide-watch-and-fork-count` feature */
-.rgh-hide-watch-and-fork-count .btn-with-count[title^='Fork your own'] {
+.rgh-hide-watch-and-fork-count .btn-with-count[title^='Fork your own']:not(.select-menu-button) {
 	border-bottom-right-radius: unset;
 	border-top-right-radius: unset;
 }

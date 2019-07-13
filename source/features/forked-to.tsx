@@ -54,8 +54,8 @@ async function validateForks(forks: string[]): Promise<void> {
 }
 
 async function init(): Promise<void> {
-	select('details-dialog[src*="/fork"] include-fragment')!
-		.addEventListener('load', saveAllForks);
+	const forkDialog = select('details-dialog[src*="/fork"] include-fragment')!;
+	forkDialog.addEventListener('load', saveAllForks);
 
 	const forks = await cache.get<string[]>(getCacheKey());
 
@@ -63,9 +63,9 @@ async function init(): Promise<void> {
 		return;
 	}
 
-	const forkCounter = select('.social-count[href$="/network/members"]')!;
+	const forkButton = select('summary[title^="Fork your own copy of"]')!;
 	if (forks.length === 1) {
-		forkCounter.before(
+		forkButton.before(
 			<a href={`/${forks[0]}`}
 				className="btn btn-sm float-left rgh-forked"
 				title={`Open your fork to ${forks[0]}`}>
@@ -73,28 +73,27 @@ async function init(): Promise<void> {
 			</a>
 		);
 	} else {
-		forkCounter.before(
-			<details className="details-reset details-overlay select-menu float-left">
-				<summary
-					className="select-menu-button float-left btn btn-sm btn-with-count rgh-forked"
-					title="Open any of your forks"></summary>
+		forkButton.classList.add('select-menu-button');
+		forkButton.append(
+			<span>
+				<span className="Counter">{forks.length}</span>
+				<> </>
+			</span>
+		);
+		forkDialog.addEventListener('load', () => {
+			const detailsDialog = select('details-dialog[src*="/fork"]')!;
+			const detailsDialogContent = [...detailsDialog.cloneNode(true).childNodes];
+			const detailsMenu = (
 				<details-menu
 					style={{zIndex: 99}}
 					className="select-menu-modal position-absolute right-0 mt-5">
-					<div className="select-menu-header">
-						<span className="select-menu-title">Your forks</span>
-					</div>
-					{...forks.map(fork =>
-						<a href={`/${fork}`}
-							className="select-menu-item"
-							title={`Open your fork to ${fork}`}>
-							{icons.fork()}
-							{fork}
-						</a>
-					)}
+					{detailsDialogContent}
 				</details-menu>
-			</details>
-		);
+			);
+			select('[data-close-dialog]', detailsMenu)!.remove();
+			forkButton.after(detailsMenu);
+			detailsDialog.remove();
+		});
 	}
 
 	// Validate cache after showing links once, to make it faster
