@@ -80,19 +80,31 @@ async function init(): Promise<void> {
 				<> </>
 			</span>
 		);
+		forkButton.after(
+			<details-menu
+				style={{zIndex: 99}}
+				className="select-menu-modal position-absolute right-0 mt-5">
+				<div className="select-menu-header">
+					<span className="select-menu-title">Your forks</span>
+				</div>
+				{...forks.map(fork =>
+					<a href={`/${fork}`}
+						className="select-menu-item"
+						title={`Open your fork to ${fork}`}>
+						{icons.fork()}
+						{fork}
+					</a>
+				)}
+				<a href={`/${getRepoURL()}/fork`}
+					className="select-menu-item">
+					{icons.fork()}
+					Create fork...
+				</a>
+
+			</details-menu>
+		);
 		forkDialog.addEventListener('load', () => {
-			const detailsDialog = select('details-dialog[src*="/fork"]')!;
-			const detailsDialogContent = [...detailsDialog.cloneNode(true).childNodes];
-			const detailsMenu = (
-				<details-menu
-					style={{zIndex: 99}}
-					className="select-menu-modal position-absolute right-0 mt-5">
-					{detailsDialogContent}
-				</details-menu>
-			);
-			select('[data-close-dialog]', detailsMenu)!.remove();
-			forkButton.after(detailsMenu);
-			detailsDialog.remove();
+			select('details-dialog[src*="/fork"]')!.remove();
 		});
 	}
 
