@@ -6,15 +6,13 @@ import features from '../libs/features';
 import * as icons from '../libs/icons';
 
 async function addButton(): Promise<void> {
-	for (const toolbar of select.all('form:not(.rgh-minimize-upload-bar) markdown-toolbar')!) {
-		// Can't use `:last-child` selector, because new issue contains an hidden element.
-		const toolbarGroup = select.all(':scope > :not(.Details-content--hidden)', toolbar).slice(-1)[0]!;
-		toolbarGroup.prepend(
+	for (const toolbarButton of select.all('md-ref')) {
+		toolbarButton.after(
 			<button type="button" className="toolbar-item tooltipped tooltipped-n rgh-upload-btn" aria-label="Attach files">
 				{icons.cloudUpload()}
 			</button>
 		);
-		toolbarGroup.closest('form')!.classList.add('rgh-minimize-upload-bar');
+		toolbarButton.closest('form')!.classList.add('rgh-minimize-upload-bar');
 	}
 }
 
