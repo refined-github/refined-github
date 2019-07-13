@@ -94,6 +94,10 @@ async function init(): Promise<false | void> {
 	// Add support for permalinks to the code
 	if (location.hash.startsWith('#L')) {
 		showSource();
+		// Enable highlighting
+		const originalHash = location.hash;
+		location.hash = '';
+		location.hash = originalHash;
 	}
 }
 
