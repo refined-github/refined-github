@@ -3,14 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {getUsername} from '../libs/utils';
-
-// Returns true if username is basiclly the same as realname
-function compareNames(username: string, realname: string): boolean {
-	const reg = /[ .]/g;
-
-	return username.replace(reg, '').toLowerCase() === realname.replace(reg, '').toLowerCase();
-}
+import {getUsername, compareNames} from '../libs/utils';
 
 async function init(): Promise<false | void> {
 	// `a` selector needed to skip commits by non-GitHub users

@@ -5,7 +5,8 @@ import {
 	getOwnerAndRepo,
 	getRepoPath,
 	getRef,
-	parseTag
+	parseTag,
+	compareNames
 } from '../source/libs/utils';
 
 test('getDiscussionNumber', t => {
@@ -200,4 +201,12 @@ test('parseTag', t => {
 	t.deepEqual(parseTag('hi@1.2.3'), {namespace: 'hi', version: '1.2.3'});
 	t.deepEqual(parseTag('hi/you@1.2.3'), {namespace: 'hi/you', version: '1.2.3'});
 	t.deepEqual(parseTag('@hi/you@1.2.3'), {namespace: '@hi/you', version: '1.2.3'});
+});
+
+test('compareNames', t => {
+	t.true(compareNames('johndoe', 'John Doe'));
+	t.true(compareNames('john-doe', 'John Doe'));
+	t.true(compareNames('nicolo', 'Nicolò'));
+	t.false(compareNames('dotconnor', 'Connor Love'));
+	t.false(compareNames('bfred-it ', 'Federico Brigante'));
 });

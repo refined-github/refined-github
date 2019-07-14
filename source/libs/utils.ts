@@ -95,3 +95,7 @@ export function getOP(): string {
 
 	return select('.timeline-comment-header-text .author')!.textContent!;
 }
+
+export function compareNames(username: string, realname: string): boolean {
+	return username.replace(/[.-]/g, '').toLowerCase() === realname.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[\W]/giu, '').toLowerCase();
+}
