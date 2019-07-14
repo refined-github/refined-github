@@ -1,13 +1,13 @@
 import './show-names.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import elementReady from 'element-ready';
 import * as api from '../libs/api';
 import features from '../libs/features';
+import observeEl from '../libs/simplified-element-observer';
 import {getUsername} from '../libs/utils';
 
-const observer = new MutationObserver(async ([{addedNodes}]) => {
-	fetchAndAppendUsernames();
+async function updateAndWatch([{addedNodes}]: MutationRecord[], observer: MutationObserver): Promise<void> {
+	await fetchAndAppendUsernames();
 
 	// Observe the new ajaxed-in containers
 	for (const node of addedNodes) {
@@ -15,14 +15,14 @@ const observer = new MutationObserver(async ([{addedNodes}]) => {
 			observer.observe(node, {childList: true});
 		}
 	}
-});
+}
 
 async function init(): Promise<false | void> {
 	if (features.isDashboard()) {
-		observer.observe((await elementReady('#dashboard .news'))!, {childList: true});
+		observeEl('.news', updateAndWatch);
+	} else {
+		return await fetchAndAppendUsernames(); // This is called by observeEl, so it needs to be inside `else`
 	}
-
-	await fetchAndAppendUsernames();
 }
 
 async function fetchAndAppendUsernames(): Promise<false | void> {
