@@ -30,6 +30,24 @@ export const getRepoBranch = (): string | false => {
 	return false;
 };
 
+export const replaceBranch = (currentBranch: string, newBranch: string): string => {
+	// `pageType` will be either `blob' or 'tree'
+	const [pageType, ...branchAndPathParts] = getRepoPath()!.split('/');
+
+	const newBranchRepoPath = branchAndPathParts.join('/').replace(currentBranch, newBranch);
+
+	return `/${getRepoURL()}/${pageType}/${newBranchRepoPath}`;
+};
+
+export const getCurrentBranch = (): string => {
+	return select<HTMLLinkElement>('link[rel="alternate"]')!
+		.href
+		.split('/')
+		.slice(6)
+		.join('/')
+		.replace(/\.atom$/, '');
+};
+
 export const getRepoURL = (): string => location.pathname.slice(1).split('/', 2).join('/');
 
 export const getOwnerAndRepo = (): {
