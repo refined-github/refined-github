@@ -7,7 +7,7 @@ import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 
 const observer = new MutationObserver(async ([{addedNodes}]) => {
-	await usernames();
+	usernames();
 
 	// Observe the new ajaxed-in containers
 	for (const node of addedNodes) {
