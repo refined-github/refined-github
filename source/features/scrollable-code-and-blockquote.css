@@ -5,9 +5,7 @@
 	overflow-y: auto;
 }
 
-/*
-A tiny scroll bar appears when the last paragraph of a quote contains an Emoji.
-*/
+/* A tiny scroll bar appears when the last paragraph of a quote contains an Emoji */
 .comment-body blockquote > :last-child g-emoji {
 	line-height: 1.33;
 }
