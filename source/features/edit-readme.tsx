@@ -5,7 +5,6 @@ import * as icons from '../libs/icons';
 import {getRepoURL, getCurrentBranch} from '../libs/utils';
 
 async function init(): Promise<void | false> {
-	// Detect if we are on the repo homepage, and readme file exists.
 	const readmeHeader = select('#readme .Box-header h3');
 	if (!readmeHeader) {
 		return false;
@@ -28,9 +27,8 @@ async function init(): Promise<void | false> {
 
 features.add({
 	id: __featureName__,
-	description: 'Quickly edit a repository’s README from the repository root',
+	description: 'Quickly edit a repository’s README when previewed in a directory',
 	include: [
-		features.isRepoRoot,
 		features.isRepoTree
 	],
 	load: features.onAjaxedPages,
