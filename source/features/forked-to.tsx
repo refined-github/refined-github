@@ -63,50 +63,65 @@ async function init(): Promise<void> {
 		return;
 	}
 
-	const forkButton = select('summary[title^="Fork your own copy of"]')!;
-	if (forks.length === 1) {
-		forkButton.before(
-			<a href={`/${forks[0]}`}
-				className="btn btn-sm float-left rgh-forked"
-				title={`Open your fork to ${forks[0]}`}>
-				{icons.externalLink()}
-			</a>
-		);
-	} else {
-		forkButton.classList.add('select-menu-button');
-		forkButton.append(
-			<span>
-				<span className="Counter">{forks.length}</span>
-				<> </>
-			</span>
-		);
-		forkButton.after(
-			<details-menu
-				style={{zIndex: 99}}
-				className="select-menu-modal position-absolute right-0 mt-5">
-				<div className="select-menu-header">
-					<span className="select-menu-title">Your forks</span>
-				</div>
-				{...forks.map(fork =>
-					<a href={`/${fork}`}
-						className="select-menu-item"
-						title={`Open your fork to ${fork}`}>
-						{icons.fork()}
-						{fork}
-					</a>
-				)}
-				<a href={`/${getRepoURL()}/fork`}
-					className="select-menu-item">
-					{icons.fork()}
-					Create fork...
-				</a>
+	forkDialog.addEventListener('load', () => {
 
-			</details-menu>
-		);
-		forkDialog.addEventListener('load', () => {
-			select('details-dialog[src*="/fork"]')!.remove();
-		});
-	}
+	});
+	forkDialog.click();
+
+
+	const forkButton = select('summary[title^="Fork your own copy of"]')!;
+	forkButton.parentElement!.classList.remove('details-overlay-dark');
+	forkButton.classList.add('select-menu-button');
+	forkButton.append(
+		<span>
+			<span className="Counter">{forks.length}</span>
+			<> </>
+		</span>
+	);
+	forkButton.after(
+		<details-menu
+			style={{ zIndex: 99 }}
+			className="select-menu-modal position-absolute right-0 mt-5">
+			<div className="select-menu-header">
+				<span className="select-menu-title">Your forks</span>
+			</div>
+			{...forks.map(fork =>
+				<a href={`/${fork}`}
+					className="select-menu-item"
+					title={`Open your fork to ${fork}`}>
+					{icons.fork()}
+					{fork}
+				</a>
+			)}
+			<a href={`/${getRepoURL()}/fork`}
+				className="select-menu-item">
+				{icons.fork()}
+				Create fork...
+				</a>
+			<div className="select-menu-header">
+				<span className="select-menu-title">Create fork</span>
+			</div>
+			<form className="" method="post" action="/sindresorhus/refined-github/fork">
+				<button type="submit" name="organization" value="motivaction" className="select-menu-item width-full"
+					aria-label="Will be created as motivaction/refined-github." title="@motivaction">
+
+					<span className="select-menu-item-gravatar select-menu-item-icon">
+						<img src="https://avatars1.githubusercontent.com/u/50828444?s=40&amp;v=4" alt="@motivaction" width="20" height="20" />
+					</span>
+					<span className="select-menu-item-text">
+						motivaction
+					</span>
+
+
+
+				</button>
+				<input type="hidden" name="authenticity_token" value="PeZdPNir2GvFaE5LtnugXL28qrbk4oec8b8fGOiEaRGimUYn801iY8nGiNqeU7cKXGf1XyFc34Tmn4P9WYzRJA==" />
+			</form>
+		</details-menu>
+	);
+	forkDialog.addEventListener('load', () => {
+		select('details-dialog[src*="/fork"]')!.remove();
+	});
 
 	// Validate cache after showing links once, to make it faster
 	await validateForks(forks);
