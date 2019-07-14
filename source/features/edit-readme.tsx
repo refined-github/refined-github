@@ -11,7 +11,7 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	// Detect if you are on a page with access.
+	// The button already exists on repos you can push to.
 	if (select.exists('a[aria-label="Edit this file"]')) {
 		return false;
 	}
@@ -20,13 +20,11 @@ async function init(): Promise<void | false> {
 	const readmeName = readmeHeader.textContent!.trim();
 	const path = select('.breadcrumb')!.textContent!.trim().split('/').slice(1).join('/');
 	readmeHeader.after(
-		<div id="rgh-readme-buttons">
-			<a href={`/${getRepoURL()}/edit/${currentBranch}/${path}${readmeName}`}
-				className="Box-btn-octicon btn-octicon float-right"
-				aria-label="Edit this file">
-				{icons.edit()}
-			</a>
-		</div>
+		<a href={`/${getRepoURL()}/edit/${currentBranch}/${path}${readmeName}`}
+			className="Box-btn-octicon btn-octicon float-right"
+			aria-label="Edit this file">
+			{icons.edit()}
+		</a>
 	);
 }
 
@@ -34,7 +32,8 @@ features.add({
 	id: __featureName__,
 	description: 'Quickly edit a repository’s README from the repository root',
 	include: [
-		features.isRepo
+		features.isRepoRoot,
+		features.isRepoTree
 	],
 	load: features.onAjaxedPages,
 	init
