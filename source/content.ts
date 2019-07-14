@@ -129,6 +129,10 @@ import './features/cycle-lists-with-keyboard-shortcuts';
 import './features/forked-to';
 import './features/submit-review-as-single-comment';
 import './features/mark-files-as-viewed';
+import './features/edit-readme';
+import './features/list-prs-for-file';
+import './features/pr-branch-auto-delete';
+import './features/show-whitespace';
 
 // Add global for easier debugging
 (window as any).select = select;
