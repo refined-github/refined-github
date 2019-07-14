@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
-import {getRepoURL} from '../libs/utils';
+import {getRepoURL, getCurrentBranch} from '../libs/utils';
 
 async function init(): Promise<void | false> {
 	// Detect if we are on the repo homepage, and readme file exists.
@@ -16,11 +16,9 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const currentBranch = select('#branch-select-menu .css-truncate-target')!.textContent!.trim();
-	const readmeName = readmeHeader.textContent!.trim();
-	const path = select('.breadcrumb')!.textContent!.trim().split('/').slice(1).join('/');
+	const readmePath = select('.js-tagsearch-popover')!.dataset.tagsearchPath;
 	readmeHeader.after(
-		<a href={`/${getRepoURL()}/edit/${currentBranch}/${path}${readmeName}`}
+		<a href={`/${getRepoURL()}/edit/${getCurrentBranch()}/${readmePath}`}
 			className="Box-btn-octicon btn-octicon float-right"
 			aria-label="Edit this file">
 			{icons.edit()}
