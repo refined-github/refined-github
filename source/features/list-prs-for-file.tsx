@@ -1,4 +1,4 @@
-import './highlight-affected-prs-in-file.css';
+import './list-prs-for-file.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import cache from 'webext-storage-cache';
@@ -12,7 +12,7 @@ import * as icons from '../libs/icons';
 
 async function init(): Promise<void> {
 	const {ownerName, repoName} = getOwnerAndRepo();
-	const cacheKey = `highlight-affected-prs-in-file:${ownerName}/${repoName}`;
+	const cacheKey = `list-prs-for-file:${ownerName}/${repoName}`;
 
 	let files = await cache.get<Record<string, string[]>>(cacheKey);
 	if (files === undefined) {
@@ -25,13 +25,13 @@ async function init(): Promise<void> {
 		return;
 	}
 
-	const wrapper = <div className="rgh-highlight-affected-prs-in-file" />;
+	const wrapper = <div className="rgh-list-prs-for-file" />;
 	for (const pr of files[path].slice(0, 10)) {
 		wrapper.append(
 			<a
 				href={`/${getRepoURL()}/pull/${pr}/files`}
 				className="btn btn-sm btn-outline tooltipped tooltipped-ne"
-				aria-label={`This file is affected by PR #${pr}`}>
+				aria-label={`This file is touched by PR #${pr}`}>
 				{icons.openPullRequest()} #{pr}
 			</a>
 		);
@@ -85,7 +85,7 @@ async function fetch(): Promise<Record<string, string[]>> {
 
 features.add({
 	id: __featureName__,
-	description: 'Highlight affected PRs in file',
+	description: 'Lists PRs that touch the current file',
 	screenshot: 'https://user-images.githubusercontent.com/55841/60622834-879e1f00-9de1-11e9-9a9e-bae5ec0b3728.png',
 	include: [
 		features.isEditingFile,
