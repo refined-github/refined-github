@@ -54,9 +54,9 @@ async function handleEvent(event: DelegateEvent<MouseEvent, HTMLElement>): Promi
 			if (Date.now() - timeKeeper > 50) {
 				// eslint-disable-next-line no-await-in-loop
 				await new Promise(resolve => setTimeout(resolve));
+				timeKeeper = Date.now();
 			}
 
-			timeKeeper = Date.now();
 			item.click();
 		}
 	}
