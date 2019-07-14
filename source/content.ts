@@ -121,7 +121,6 @@ import './features/link-to-file-in-file-history';
 import './features/clean-sidebar';
 import './features/release-download-count';
 import './features/open-issue-to-latest-comment';
-import './features/show-whitespace';
 import './features/limit-commit-title-length';
 import './features/highest-rated-comment';
 import './features/clean-issue-filters';
@@ -133,6 +132,7 @@ import './features/mark-files-as-viewed';
 import './features/edit-readme';
 import './features/list-prs-for-file';
 import './features/pr-branch-auto-delete';
+import './features/show-whitespace';
 
 // Add global for easier debugging
 (window as any).select = select;

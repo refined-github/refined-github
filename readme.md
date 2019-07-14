@@ -146,6 +146,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [The most useful comment in issues is highlighted.](https://user-images.githubusercontent.com/1402241/58757449-5b238880-853f-11e9-9526-e86c41a32f00.png)
 - [List PRs that touch the current file.](https://user-images.githubusercontent.com/55841/60622834-879e1f00-9de1-11e9-9a9e-bae5ec0b3728.png)
 - [Your repo forks are shown under the repo title.](https://user-images.githubusercontent.com/55841/60543588-f5c9df80-9d16-11e9-8667-52ff16b2cb16.png)
+- [Whitespace characters are displayed.](https://user-images.githubusercontent.com/1402241/61187598-f9118380-a6a5-11e9-985a-990a7f798805.png)
 
 ### Declutter
 
