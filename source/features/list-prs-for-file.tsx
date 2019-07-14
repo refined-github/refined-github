@@ -26,7 +26,7 @@ async function init(): Promise<void> {
 	}
 
 	const wrapper = <div className="rgh-list-prs-for-file" />;
-	for (const pr of files[path].slice(0, 10)) {
+	for (const pr of files[path]) {
 		wrapper.append(
 			<a
 				href={`/${getRepoURL()}/pull/${pr}/files`}
@@ -77,13 +77,13 @@ async function fetch(): Promise<Record<string, string[]>> {
 	);
 
 	const files: Record<string, string[]> = {};
-	for (const pr of result.repository.pullRequests.nodes) {
-		for (const file of pr.files.nodes) {
-			if (!files[file.path]) {
-				files[file.path] = [];
-			}
 
-			files[file.path].push(pr.number);
+	for (const pr of repository.pullRequests.nodes) {
+		for (const {path} of pr.files.nodes) {
+			files[path] = files[path] || [];
+			if (files[path].length < 10) {
+				files[path].push(pr.number);
+			}
 		}
 	}
 
