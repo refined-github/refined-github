@@ -16,7 +16,7 @@ async function init(): Promise<void> {
 
 	let files = await cache.get<Record<string, string[]>>(cacheKey);
 	if (files === undefined) {
-		files = await fetch();
+		files = await getPrsByFile();
 		cache.set(cacheKey, files, 3);
 	}
 
@@ -48,7 +48,10 @@ async function init(): Promise<void> {
 	}
 }
 
-async function fetch(): Promise<Record<string, string[]>> {
+/**
+@returns prsByFile {"filename1": [10, 3], "filename2": [2]}
+*/
+async function getPrsByFile(): Promise<Record<string, string[]>> {
 	const {ownerName, repoName} = getOwnerAndRepo();
 
 	const result = await api.v4(
