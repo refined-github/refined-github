@@ -4,11 +4,11 @@ import features from '../libs/features';
 import * as api from '../libs/api';
 import {getOwnerAndRepo} from '../libs/utils';
 
-interface CacheEntry {
+type CacheEntry = {
 	repoProjectCount: number;
 	orgProjectCount: number;
 	milestoneCount: number;
-}
+};
 
 async function getCount(): Promise<CacheEntry> {
 	const {ownerName, repoName} = getOwnerAndRepo();
@@ -59,6 +59,7 @@ async function init(): Promise<void> {
 features.add({
 	id: __featureName__,
 	description: 'Hide empty issue/PR filters in lists',
+	screenshot: 'https://user-images.githubusercontent.com/37769974/59083449-0ef88f80-8915-11e9-8296-68af1ddcf191.png',
 	init,
 	load: features.onAjaxedPages,
 	include: [

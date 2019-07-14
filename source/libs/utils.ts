@@ -30,6 +30,24 @@ export const getRepoBranch = (): string | false => {
 	return false;
 };
 
+export const replaceBranch = (currentBranch: string, newBranch: string): string => {
+	// `pageType` will be either `blob' or 'tree'
+	const [pageType, ...branchAndPathParts] = getRepoPath()!.split('/');
+
+	const newBranchRepoPath = branchAndPathParts.join('/').replace(currentBranch, newBranch);
+
+	return `/${getRepoURL()}/${pageType}/${newBranchRepoPath}`;
+};
+
+export const getCurrentBranch = (): string => {
+	return select<HTMLLinkElement>('link[rel="alternate"]')!
+		.href
+		.split('/')
+		.slice(6)
+		.join('/')
+		.replace(/\.atom$/, '');
+};
+
 export const getRepoURL = (): string => location.pathname.slice(1).split('/', 2).join('/');
 
 export const getOwnerAndRepo = (): {
@@ -98,4 +116,27 @@ export function getOP(): string {
 
 export function compareNames(username: string, realname: string): boolean {
 	return username.replace(/[.-]/g, '').toLowerCase() === realname.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[\W]/giu, '').toLowerCase();
+}
+
+export async function poll<T>(callback: () => T, frequency: number): Promise<T> {
+	return new Promise(resolve => {
+		(function loop() {
+			const result = callback();
+			if (result !== null && typeof result !== undefined) {
+				resolve(result);
+			} else {
+				setTimeout(loop, frequency);
+			}
+		})();
+	});
+}
+
+export function reportBug(featureName: string, bugName: string): void {
+	alert(`Refined GitHub: ${bugName}. Can you report this issue? You’ll find more information in the console.`);
+	const issuesUrl = new URL('https://github.com/sindresorhus/refined-github/issues');
+	const newIssueUrl = new URL('https://github.com/sindresorhus/refined-github/new?labels=bug&template=bug_report.md');
+	issuesUrl.searchParams.set('q', `is:issue ${featureName}`);
+	newIssueUrl.searchParams.set('title', `\`${featureName}\` ${bugName}`);
+	console.log('Find existing issues:\n' + String(issuesUrl));
+	console.log('Open new issue:\n' + String(newIssueUrl));
 }

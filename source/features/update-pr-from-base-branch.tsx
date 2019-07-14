@@ -5,7 +5,7 @@ import features from '../libs/features';
 import * as api from '../libs/api';
 import * as icons from '../libs/icons';
 import observeEl from '../libs/simplified-element-observer';
-import {getRepoURL} from '../libs/utils';
+import {getRepoURL, getDiscussionNumber} from '../libs/utils';
 
 let observer: MutationObserver;
 
@@ -17,12 +17,10 @@ function getBranches(): {base: string; head: string} {
 }
 
 export async function mergeBranches(): Promise<AnyObject> {
-	const prBranches = getBranches();
-	return api.v3(`repos/${getRepoURL()}/merges`, {
-		method: 'POST',
-		body: {
-			head: prBranches.base,
-			base: prBranches.head
+	return api.v3(`repos/${getRepoURL()}/pulls/${getDiscussionNumber()}/update-branch`, {
+		method: 'PUT',
+		headers: {
+			Accept: 'application/vnd.github.lydian-preview+json'
 		},
 		ignoreHTTPStatus: true
 	});
@@ -33,23 +31,29 @@ async function handler(event: DelegateEvent): Promise<void> {
 	button.disabled = true;
 	button.textContent = 'Updating branch…';
 	button.classList.remove('tooltipped');
+	observer.disconnect();
 
 	const response = await mergeBranches();
-	if (!response.status || response.status < 300) {
+	if (response.ok) {
 		button.remove();
-		observer.disconnect();
-	} else if (typeof response.message === 'string') {
-		button.textContent = response.message;
+	} else if (response.message && response.message.toLowerCase().startsWith('merge conflict')) {
+		// Only shown on Draft PRs
+		button.replaceWith(
+			<a href={location.pathname + '/conflicts'} className="btn float-right">{icons.alert()} Resolve conflicts</a>
+		);
+	} else {
+		button.textContent = response.message || 'Error';
 		button.prepend(icons.alert(), ' ');
-		if (response.message === 'Merge conflict') {
-			// Only shown on Draft PRs
-			button.replaceWith(
-				<a href={location.pathname + '/conflicts'} className="btn float-right">{icons.alert()} Resolve conflicts</a>
-			);
-		} else {
-			throw new api.RefinedGitHubAPIError('update-pr-from-base-branch: ' + response.message);
-		}
+		throw new api.RefinedGitHubAPIError('update-pr-from-base-branch: ' + JSON.stringify(response));
 	}
+}
+
+function createButton(base: string, head: string): HTMLElement {
+	return (
+		<button type="button" className="btn float-right rgh-update-pr-from-master tooltipped tooltipped-n" aria-label={`Merge the ${base} branch into ${head}`}>
+			Update branch
+		</button>
+	);
 }
 
 async function addButton(): Promise<void> {
@@ -64,16 +68,21 @@ async function addButton(): Promise<void> {
 	}
 
 	const {base, head} = getBranches();
+
+	// Draft PRs already have this info on the page
+	const [outOfDateContainer] = select.all('.completeness-indicator-problem + .status-heading')
+		.filter(title => (title.textContent!).includes('out-of-date'));
+	if (outOfDateContainer) {
+		outOfDateContainer.append(createButton(base, head));
+		return;
+	}
+
 	const {status} = await api.v3(`repos/${getRepoURL()}/compare/${base}...${head}`);
 	if (status !== 'diverged') {
 		return;
 	}
 
-	select('.mergeability-details .merge-message')!.append(
-		<button type="button" className="btn float-right rgh-update-pr-from-master tooltipped tooltipped-n" aria-label={`Merge the ${base} branch into ${head}`}>
-			Update branch
-		</button>
-	);
+	select('.mergeability-details .merge-message')!.append(createButton(base, head));
 }
 
 function init(): void | false {
@@ -90,18 +99,13 @@ function init(): void | false {
 		return false;
 	}
 
-	// API doesn't support cross-fork merges
-	if (getBranches().base.includes(':')) {
-		return false;
-	}
-
 	observer = observeEl('.discussion-timeline-actions', addButton)!;
 	delegate('.discussion-timeline-actions', '.rgh-update-pr-from-master', 'click', handler);
 }
 
 features.add({
 	id: __featureName__,
-	description: 'Button to update a PR from the base branch to ensure it build correctly before merging the PR itself (same-repo branches only)',
+	description: 'Button to update a PR from the base branch to ensure it build correctly before merging the PR itself.',
 	include: [
 		features.isPRConversation
 	],
