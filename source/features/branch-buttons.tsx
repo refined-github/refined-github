@@ -7,17 +7,7 @@ import features from '../libs/features';
 import {isRepoRoot} from '../libs/page-detect';
 import {groupSiblings} from '../libs/group-buttons';
 import getDefaultBranch from '../libs/get-default-branch';
-import {getRepoURL, getRepoPath, getOwnerAndRepo, getCurrentBranch} from '../libs/utils';
-
-function replaceBranch(currentBranch: string, newBranch: string): string {
-	// Should be either `/tree/<branch>` or `/blob/<branch>/<filePath>`
-	const repoPath = getRepoPath()!;
-	// Replace the first matched branch name to the new one
-	const newBranchRepoPath = repoPath.replace(currentBranch, newBranch);
-
-	// Join the repo url with new branch repo path
-	return `/${getRepoURL()}/${newBranchRepoPath}`;
-}
+import {getRepoURL, getOwnerAndRepo, getCurrentBranch, replaceBranch} from '../libs/utils';
 
 async function getTagLink(): Promise<'' | HTMLAnchorElement> {
 	const {ownerName, repoName} = getOwnerAndRepo();
