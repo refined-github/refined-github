@@ -11,22 +11,15 @@ import {groupSiblings} from '../libs/group-buttons';
 import * as icons from '../libs/icons';
 
 async function init(): Promise<void> {
-	const {ownerName, repoName} = getOwnerAndRepo();
-	const cacheKey = `list-prs-for-file:${ownerName}/${repoName}`;
-
-	let files = await cache.get<Record<string, string[]>>(cacheKey);
-	if (files === undefined) {
-		files = await getPrsByFile();
-		cache.set(cacheKey, files, 3);
-	}
-
-	const path = select('clipboard-copy, #blob-edit-path')!.getAttribute('value')!; // `clipboard-copy` on blob page, `#blob-edit-path` on edit page.
-	if (!files[path]) {
+	// `clipboard-copy` on blob page, `#blob-edit-path` on edit page
+	const path = select('clipboard-copy, #blob-edit-path')!.getAttribute('value')!;
+	const {[path]: prs} = await getPrsByFile();
+	if (!prs) {
 		return;
 	}
 
 	const wrapper = <div className="rgh-list-prs-for-file" />;
-	for (const pr of files[path]) {
+	for (const pr of prs) {
 		wrapper.append(
 			<a
 				href={`/${getRepoURL()}/pull/${pr}/files`}
@@ -51,10 +44,15 @@ async function init(): Promise<void> {
 /**
 @returns prsByFile {"filename1": [10, 3], "filename2": [2]}
 */
-async function getPrsByFile(): Promise<Record<string, string[]>> {
+async function getPrsByFile(): Promise<Record<string, number[]>> {
 	const {ownerName, repoName} = getOwnerAndRepo();
+	const cacheKey = `list-prs-for-file:${ownerName}/${repoName}`;
+	const cachedFiles = await cache.get<Record<string, number[]>>(cacheKey);
+	if (cachedFiles !== undefined) {
+		return cachedFiles;
+	}
 
-	const result = await api.v4(
+	const {repository} = await api.v4(
 		`{
 			repository(owner: "${ownerName}", name: "${repoName}") {
 				pullRequests(
@@ -79,7 +77,7 @@ async function getPrsByFile(): Promise<Record<string, string[]>> {
 		}`
 	);
 
-	const files: Record<string, string[]> = {};
+	const files: Record<string, number[]> = {};
 
 	for (const pr of repository.pullRequests.nodes) {
 		for (const {path} of pr.files.nodes) {
@@ -90,6 +88,7 @@ async function getPrsByFile(): Promise<Record<string, string[]>> {
 		}
 	}
 
+	cache.set(cacheKey, files, 3);
 	return files;
 }
 
