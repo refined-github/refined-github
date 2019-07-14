@@ -40,16 +40,23 @@ function getSimilarItems(item: HTMLElement): HTMLElement[] {
 	return [];
 }
 
-function handleEvent(event: DelegateEvent<MouseEvent, HTMLElement>): void {
+async function handleEvent(event: DelegateEvent<MouseEvent, HTMLElement>): Promise<void> {
 	if (!event.altKey) {
 		return;
 	}
 
 	const clickedItem = event.delegateTarget;
-	const similarItems = getSimilarItems(clickedItem);
 
-	for (const item of similarItems) {
+	let timeKeeper = Date.now();
+	for (const item of getSimilarItems(clickedItem)) {
 		if (item !== clickedItem) {
+			// Avoid holding the thread for much longer than 50ms
+			if (Date.now() - timeKeeper > 50) {
+				// eslint-disable-next-line no-await-in-loop
+				await new Promise(resolve => setTimeout(resolve));
+			}
+
+			timeKeeper = Date.now();
 			item.click();
 		}
 	}
