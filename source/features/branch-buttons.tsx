@@ -71,7 +71,7 @@ async function getTagLink(): Promise<'' | HTMLAnchorElement> {
 
 async function getDefaultBranchLink(): Promise<HTMLElement | undefined> {
 	const defaultBranch = await getDefaultBranch();
-	const currentBranch = getCurrentBranch() || defaultBranch;
+	const currentBranch = getCurrentBranch();
 
 	// Don't show the button if we’re already on the default branch
 	if (defaultBranch === undefined || defaultBranch === currentBranch) {
