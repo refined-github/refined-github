@@ -7,7 +7,7 @@ import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 
 const observer = new MutationObserver(async ([{addedNodes}]) => {
-	usernames();
+	fetchAndAppendUsernames();
 
 	// Observe the new ajaxed-in containers
 	for (const node of addedNodes) {
@@ -22,10 +22,10 @@ async function init(): Promise<false | void> {
 		observer.observe((await elementReady('#dashboard .news'))!, {childList: true});
 	}
 
-	await usernames();
+	await fetchAndAppendUsernames();
 }
 
-async function usernames(): Promise<false | void> {
+async function fetchAndAppendUsernames(): Promise<false | void> {
 	const usernameElements = select.all([
 		'.js-discussion a.author:not(.rgh-fullname):not([href*="/apps/"]):not([href*="/marketplace/"]):not([data-hovercard-type="organization"])', // `a` selector needed to skip commits by non-GitHub users.
 		'#dashboard a.text-bold[data-hovercard-type="user"]:not(.rgh-fullname)' // On dashboard `.text-bold` is required to not fetch avatars.
