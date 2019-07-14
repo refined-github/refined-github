@@ -1,4 +1,3 @@
-import './list-prs-for-file.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import cache from 'webext-storage-cache';
@@ -18,7 +17,7 @@ async function init(): Promise<void> {
 		return;
 	}
 
-	const wrapper = <div className="rgh-list-prs-for-file" />;
+	const wrapper = <span className="ml-2" />;
 	for (const pr of prs) {
 		wrapper.append(
 			<a
@@ -33,10 +32,16 @@ async function init(): Promise<void> {
 	if (isSingleFile()) {
 		select('.breadcrumb')!.before(wrapper);
 	} else {
-		select('.breadcrumb')!.append(wrapper);
+		wrapper.style.cssText = 'margin-top: -0.8em; margin-bottom: -0.5em;'; // Vertical alignment
+		select('.file')!.after(
+			<div className="form-warning p-3 mb-3 mx-lg-3">
+				Careful, some open PRs are already touching this file {wrapper}
+			</div>
+		);
 	}
 
 	if (wrapper.children.length > 1) {
+		wrapper.classList.add('BtnGroup'); // Avoids extra wrapper
 		groupSiblings(wrapper.firstElementChild!);
 	}
 }
