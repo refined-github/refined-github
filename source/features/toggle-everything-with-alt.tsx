@@ -46,7 +46,6 @@ function handleEvent(event: DelegateEvent<MouseEvent, HTMLElement>): void {
 	}
 
 	const clickedItem = event.delegateTarget;
-	const viewportOffset = clickedItem.parentElement!.getBoundingClientRect().top;
 	const similarItems = getSimilarItems(clickedItem);
 
 	for (const item of similarItems) {
@@ -54,12 +53,6 @@ function handleEvent(event: DelegateEvent<MouseEvent, HTMLElement>): void {
 			item.click();
 		}
 	}
-
-	// Scroll to original position where the click occurred after the rendering of all click events is done
-	requestAnimationFrame(() => {
-		const newOffset = clickedItem.parentElement!.getBoundingClientRect().top;
-		window.scrollBy(0, newOffset - viewportOffset);
-	});
 }
 
 function init(): void {
