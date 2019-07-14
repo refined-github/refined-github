@@ -37,7 +37,7 @@ export const replaceBranch = (currentBranch: string, newBranch: string): string 
 	const newBranchRepoPath = branchAndPathParts.join('/').replace(currentBranch, newBranch);
 
 	return `/${getRepoURL()}/${pageType}/${newBranchRepoPath}`;
-}
+};
 
 export const getCurrentBranch = (): string => {
 	return select<HTMLLinkElement>('link[rel="alternate"]')!
@@ -46,7 +46,7 @@ export const getCurrentBranch = (): string => {
 		.slice(6)
 		.join('/')
 		.replace(/\.atom$/, '');
-}
+};
 
 export const getRepoURL = (): string => location.pathname.slice(1).split('/', 2).join('/');
 
