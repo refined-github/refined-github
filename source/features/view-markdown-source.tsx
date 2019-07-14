@@ -95,9 +95,10 @@ async function init(): Promise<false | void> {
 	if (location.hash.startsWith('#L')) {
 		showSource();
 		// Enable highlighting
-		const originalHash = location.hash;
-		location.hash = '';
-		location.hash = originalHash;
+		window.dispatchEvent(new HashChangeEvent('hashchange', {
+			oldURL: location.href,
+			newURL: location.href
+		}));
 	}
 }
 
