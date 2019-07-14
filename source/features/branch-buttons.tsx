@@ -1,4 +1,3 @@
-import './branch-buttons.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import compareVersions from 'tiny-version-compare';
@@ -8,7 +7,7 @@ import features from '../libs/features';
 import {isRepoRoot} from '../libs/page-detect';
 import {groupSiblings} from '../libs/group-buttons';
 import getDefaultBranch from '../libs/get-default-branch';
-import {getRepoURL, getOwnerAndRepo} from '../libs/utils';
+import {getRepoURL, getOwnerAndRepo, getCurrentBranch, replaceBranch} from '../libs/utils';
 
 async function getTagLink(): Promise<'' | HTMLAnchorElement> {
 	const {ownerName, repoName} = getOwnerAndRepo();
@@ -41,7 +40,7 @@ async function getTagLink(): Promise<'' | HTMLAnchorElement> {
 
 	const link = <a className="btn btn-sm btn-outline tooltipped tooltipped-ne">{icons.tag()}</a> as unknown as HTMLAnchorElement;
 
-	const currentBranch = select('.branch-select-menu .css-truncate-target')!.textContent;
+	const currentBranch = getCurrentBranch();
 
 	if (currentBranch === latestRelease) {
 		link.classList.add('disabled');
@@ -50,9 +49,7 @@ async function getTagLink(): Promise<'' | HTMLAnchorElement> {
 		if (isRepoRoot()) {
 			link.href = `/${getRepoURL()}/tree/${latestRelease}`;
 		} else {
-			const urlParts = location.pathname.split('/');
-			urlParts[4] = latestRelease; // Change ref of current blob/tree
-			link.href = urlParts.join('/');
+			link.href = replaceBranch(currentBranch, latestRelease);
 		}
 
 		link.setAttribute('aria-label', 'Visit the latest release');
@@ -64,7 +61,7 @@ async function getTagLink(): Promise<'' | HTMLAnchorElement> {
 
 async function getDefaultBranchLink(): Promise<HTMLElement | undefined> {
 	const defaultBranch = await getDefaultBranch();
-	const currentBranch = select('[data-hotkey="w"] span')!.textContent;
+	const currentBranch = getCurrentBranch();
 
 	// Don't show the button if we’re already on the default branch
 	if (defaultBranch === undefined || defaultBranch === currentBranch) {
@@ -75,9 +72,7 @@ async function getDefaultBranchLink(): Promise<HTMLElement | undefined> {
 	if (isRepoRoot()) {
 		url = `/${getRepoURL()}`;
 	} else {
-		const urlParts = location.pathname.split('/');
-		urlParts[4] = defaultBranch; // Change branch of current blob/tree
-		url = urlParts.join('/');
+		url = replaceBranch(currentBranch, defaultBranch);
 	}
 
 	return (
@@ -104,7 +99,7 @@ async function init(): Promise<false | void> {
 	]);
 
 	const wrapper = (
-		<div className="rgh-branch-buttons">
+		<div className="ml-2">
 			{defaultLink}
 			{tagLink}
 		</div>
