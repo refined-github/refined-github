@@ -50,12 +50,19 @@ async function init(): Promise<void> {
 
 async function fetch(): Promise<Record<string, string[]>> {
 	const {ownerName, repoName} = getOwnerAndRepo();
-	const defaultBranch = await getDefaultBranch();
 
 	const result = await api.v4(
 		`{
 			repository(owner: "${ownerName}", name: "${repoName}") {
-				pullRequests(first: 25, states: OPEN, baseRefName: "${defaultBranch}", orderBy: {field: UPDATED_AT, direction: DESC}) {
+				pullRequests(
+					first: 25,
+					states: OPEN,
+					baseRefName: "${await getDefaultBranch()}",
+					orderBy: {
+						field: UPDATED_AT,
+						direction: DESC
+					}
+				) {
 					nodes {
 						number
 						files(first: 100) {
