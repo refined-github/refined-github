@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
@@ -26,8 +25,7 @@ function openIssues(): void {
 	}
 
 	browser.runtime.sendMessage({
-		urls: issues.map(getUrlFromItem),
-		action: 'openAllInTabs'
+		openUrls: issues.map(getUrlFromItem)
 	});
 }
 

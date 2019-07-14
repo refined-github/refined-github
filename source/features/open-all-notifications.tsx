@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import './open-all-notifications.css';
 import React from 'dom-chef';
 import select from 'select-dom';
@@ -23,8 +22,7 @@ function openNotifications({delegateTarget}: DelegateEvent): void {
 	}
 
 	browser.runtime.sendMessage({
-		urls: unreadNotifications.map(el => el.href),
-		action: 'openAllInTabs'
+		openUrls: unreadNotifications.map(el => el.href)
 	});
 
 	// Mark all as read

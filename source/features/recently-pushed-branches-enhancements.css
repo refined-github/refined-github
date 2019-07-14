@@ -21,7 +21,7 @@
 .rgh-recently-pushed-branches [data-url$='recently_touched_branches_list'] p {
 	display: none;
 }
-.rgh-recently-pushed-branches .RecentBranches {
+.rgh-recently-pushed-branches .Header .RecentBranches {
 	display: flex;
 	width: max-content;
 	overflow: hidden;
@@ -32,23 +32,23 @@
 	border-radius: 5px;
 	background-color: #24292e;
 }
-.rgh-recently-pushed-branches .RecentBranches .octicon-git-branch {
+.rgh-recently-pushed-branches .Header .RecentBranches .octicon-git-branch {
 	vertical-align: middle;
 	margin-right: 2px;
 }
-.rgh-recently-pushed-branches .RecentBranches .btn {
+.rgh-recently-pushed-branches .Header .RecentBranches .btn {
 	width: 32px;
 	text-indent: -999999px; /* Hide text */
 }
-.rgh-recently-pushed-branches .RecentBranches:not(:hover) .btn {
+.rgh-recently-pushed-branches .Header .RecentBranches:not(:hover) .btn {
 	background: #5d5d5d;
 }
-.rgh-recently-pushed-branches .RecentBranches .btn + div {
+.rgh-recently-pushed-branches .Header .RecentBranches .btn + div {
 	margin-right: 8px;
 	float: right;
 	font-size: 11px;
 }
-.rgh-recently-pushed-branches .RecentBranches .btn .octicon {
+.rgh-recently-pushed-branches .Header .RecentBranches .btn .octicon {
 	margin-top: 2px;
 	float: right;
 }
@@ -56,7 +56,7 @@
 	border-top: none;
 	border-bottom: 1px solid;
 }
-.rgh-recently-pushed-branches .RecentBranches-item {
+.rgh-recently-pushed-branches .Header .RecentBranches-item {
 	color: inherit;
 	padding: 4px !important;
 }
@@ -64,10 +64,10 @@
 	/* Hide older branches */
 	display: none;
 }
-.rgh-recently-pushed-branches .RecentBranches:not(:hover) .RecentBranches-item:last-child {
+.rgh-recently-pushed-branches .Header .RecentBranches:not(:hover) .RecentBranches-item:last-child {
 	border-bottom-width: 2px;
 }
-.rgh-recently-pushed-branches .RecentBranches-item-link {
+.rgh-recently-pushed-branches .Header .RecentBranches-item-link {
 	max-width: 250px !important;
 	font-size: 14px;
 	color: #fff;
