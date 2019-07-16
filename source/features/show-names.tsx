@@ -6,13 +6,15 @@ import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 import {getUsername} from '../libs/utils';
 
-async function updateAndWatch([{addedNodes}]: MutationRecord[], observer: MutationObserver): Promise<void> {
+async function updateAndWatch([firstChange]: MutationRecord[], observer: MutationObserver): Promise<void> {
 	await fetchAndAppendUsernames();
 
 	// Observe the new ajaxed-in containers
-	for (const node of addedNodes) {
-		if (node instanceof HTMLDivElement) {
-			observer.observe(node, {childList: true});
+	if (firstChange) {
+		for (const node of firstChange.addedNodes) {
+			if (node instanceof HTMLDivElement) {
+				observer.observe(node, {childList: true});
+			}
 		}
 	}
 }
@@ -21,7 +23,8 @@ async function init(): Promise<false | void> {
 	if (features.isDashboard()) {
 		observeEl('.news', updateAndWatch);
 	} else {
-		return await fetchAndAppendUsernames(); // This is called by observeEl, so it needs to be inside `else`
+		const hasUsernames = await fetchAndAppendUsernames(); // This is called by observeEl, so it needs to be inside `else`
+		return hasUsernames;
 	}
 }
 
