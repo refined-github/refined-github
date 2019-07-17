@@ -72,6 +72,12 @@ function init(): false | void {
 		)
 	);
 
+	// Trim title
+	const prTitle = select('.pr-toolbar .js-issue-title');
+	if (prTitle && select.exists('.pr-toolbar progress-bar')) { // Only review view has progress-bar
+		prTitle.style.maxWidth = '24em';
+	}
+
 	// Remove previous options UI
 	const singleCommitUI = select('[data-ga-load="Diff, view, Viewed Split Diff"]');
 	if (singleCommitUI) {
