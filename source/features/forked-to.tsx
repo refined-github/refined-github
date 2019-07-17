@@ -62,7 +62,7 @@ async function init(): Promise<void> {
 	}
 
 	const pageHeader = select('.pagehead h1.public')!;
-	for (const fork of forks) {
+	for (const fork of forks.filter(fork => fork !== getRepoURL())) {
 		pageHeader.append(
 			<span className="fork-flag rgh-forked">
 				forked to <a href={`/${fork}`}>{fork}</a>
