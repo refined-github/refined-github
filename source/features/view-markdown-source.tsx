@@ -94,7 +94,8 @@ async function init(): Promise<false | void> {
 	// Add support for permalinks to the code
 	if (location.hash.startsWith('#L')) {
 		await showSource();
-		// Enable highlighting
+
+		// Enable selected line highlight
 		window.dispatchEvent(new HashChangeEvent('hashchange', {
 			oldURL: location.href,
 			newURL: location.href
