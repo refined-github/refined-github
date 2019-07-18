@@ -26,6 +26,10 @@ async function saveAllForks(): Promise<void> {
 }
 
 function findForkedRepo(): string | undefined {
+	if (!isRepoWithAccess()) {
+		return;
+	}
+
 	const forkSourceElement = select<HTMLAnchorElement>('.fork-flag:not(.rgh-forked) a');
 	if (forkSourceElement) {
 		return forkSourceElement.pathname.slice(1);
@@ -39,12 +43,12 @@ async function validateFork(repo: string): Promise<boolean> {
 	return response.ok;
 }
 
-async function validateForks(forks: string[]): Promise<void> {
+async function updateForks(forks: string[]): Promise<void> {
 	// Don't validate current page: it exists; it won't be shown in the list; it will be added later anyway
 	const validForks = await pFilter(forks.filter(fork => fork !== getRepoURL()), validateFork);
 
 	// Add current repo to cache if it's a fork
-	if (isRepoWithAccess() && findForkedRepo()) {
+	if (findForkedRepo()) {
 		save([...validForks, getRepoURL()].sort(undefined));
 	} else {
 		save(validForks);
@@ -57,21 +61,19 @@ async function init(): Promise<void> {
 
 	const forks = await cache.get<string[]>(getCacheKey());
 
-	if (!forks) {
-		return;
-	}
-
-	const pageHeader = select('.pagehead h1.public')!;
-	for (const fork of forks.filter(fork => fork !== getRepoURL())) {
-		pageHeader.append(
-			<span className="fork-flag rgh-forked">
-				forked to <a href={`/${fork}`}>{fork}</a>
-			</span>
-		);
+	if (forks) {
+		const pageHeader = select('.pagehead h1.public')!;
+		for (const fork of forks.filter(fork => fork !== getRepoURL())) {
+			pageHeader.append(
+				<span className="fork-flag rgh-forked">
+					forked to <a href={`/${fork}`}>{fork}</a>
+				</span>
+			);
+		}
 	}
 
 	// Validate cache after showing links once, to make it faster
-	await validateForks(forks);
+	await updateForks(forks || []);
 }
 
 features.add({
