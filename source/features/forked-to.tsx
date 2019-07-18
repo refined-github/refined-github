@@ -26,10 +26,6 @@ async function saveAllForks(): Promise<void> {
 }
 
 function findForkedRepo(): string | undefined {
-	if (!isRepoWithAccess()) {
-		return;
-	}
-
 	const forkSourceElement = select<HTMLAnchorElement>('.fork-flag:not(.rgh-forked) a');
 	if (forkSourceElement) {
 		return forkSourceElement.pathname.slice(1);
@@ -48,7 +44,7 @@ async function updateForks(forks: string[]): Promise<void> {
 	const validForks = await pFilter(forks.filter(fork => fork !== getRepoURL()), validateFork);
 
 	// Add current repo to cache if it's a fork
-	if (findForkedRepo()) {
+	if (isRepoWithAccess() && findForkedRepo()) {
 		save([...validForks, getRepoURL()].sort(undefined));
 	} else {
 		save(validForks);
