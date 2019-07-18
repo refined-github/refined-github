@@ -76,7 +76,7 @@ function init(): false | void {
 	const prTitle = select('.pr-toolbar .js-issue-title');
 	if (prTitle && select.exists('.pr-toolbar progress-bar')) { // Only review view has progress-bar
 		prTitle.style.maxWidth = '24em';
-		prTitle.title = prTitle.textContent;
+		prTitle.title = prTitle.textContent!;
 	}
 
 	// Remove previous options UI
