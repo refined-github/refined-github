@@ -79,8 +79,8 @@
 		"ts-node": "^8.3.0",
 		"type-fest": "^0.6.0",
 		"typescript": "^3.5.3",
-		"web-ext": "^3.1.0",
-		"web-ext-submit": "^3.1.0",
+		"web-ext": "^3.1.1",
+		"web-ext-submit": "^3.1.1",
 		"webpack": "^4.35.3",
 		"webpack-cli": "^3.3.5",
 		"xo": "^0.24.0"
