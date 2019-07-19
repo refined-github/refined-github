@@ -9,8 +9,7 @@ function init(): void {
 	observeEl(
 		select('#partial-discussion-header')!.parentElement!,
 		() => {
-			const title = select('.js-issue-title:not(.rgh-formatted-title)');
-
+			for (const title of select.all('.js-issue-title:not(.rgh-formatted-title), .js-issue-title.css-truncate.css-truncate-target.link-gray-dark:not(.rgh-formatted-title)')) {
 			if (title) {
 				title.classList.add('rgh-formatted-title');
 				linkifyIssuesInDom(title);
@@ -21,6 +20,7 @@ function init(): void {
 					zipTextNodes(title, fragment);
 				}
 			}
+		}
 		});
 }
 
