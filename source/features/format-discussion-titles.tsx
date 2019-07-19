@@ -10,17 +10,17 @@ function init(): void {
 		select('#partial-discussion-header')!.parentElement!,
 		() => {
 			for (const title of select.all('.js-issue-title:not(.rgh-formatted-title), .js-issue-title.css-truncate.css-truncate-target.link-gray-dark:not(.rgh-formatted-title)')) {
-			if (title) {
-				title.classList.add('rgh-formatted-title');
-				linkifyIssuesInDom(title);
+				if (title) {
+					title.classList.add('rgh-formatted-title');
+					linkifyIssuesInDom(title);
 
-				const fragment = parseBackticks(title.textContent!);
+					const fragment = parseBackticks(title.textContent!);
 
-				if (fragment.children.length > 0) {
-					zipTextNodes(title, fragment);
+					if (fragment.children.length > 0) {
+						zipTextNodes(title, fragment);
+					}
 				}
 			}
-		}
 		});
 }
 
