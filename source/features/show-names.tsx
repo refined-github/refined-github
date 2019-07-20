@@ -3,23 +3,9 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import observeEl from '../libs/simplified-element-observer';
 import {getUsername} from '../libs/utils';
 
-async function updateAndWatch([firstChange]: MutationRecord[], observer: MutationObserver): Promise<void> {
-	await fetchAndAppendUsernames();
-
-	// Observe the new ajaxed-in containers
-	if (firstChange) {
-		for (const node of firstChange.addedNodes) {
-			if (node instanceof HTMLDivElement) {
-				observer.observe(node, {childList: true});
-			}
-		}
-	}
-}
-
-async function fetchAndAppendUsernames(): Promise<false | void> {
+async function init(): Promise<false | void> {
 	const usernameElements = select.all([
 		'.js-discussion a.author:not(.rgh-fullname):not([href*="/apps/"]):not([href*="/marketplace/"]):not([data-hovercard-type="organization"])', // `a` selector needed to skip commits by non-GitHub users.
 		'#dashboard a.text-bold[data-hovercard-type="user"]:not(.rgh-fullname)' // On dashboard `.text-bold` is required to not fetch avatars.
@@ -74,19 +60,13 @@ async function fetchAndAppendUsernames(): Promise<false | void> {
 	}
 }
 
-async function init(): Promise<false | void> {
-	if (features.isDashboard()) {
-		observeEl('.news', updateAndWatch);
-	}
-}
-
 features.add({
 	id: __featureName__,
 	description: 'The full name of users is shown next to their username',
 	include: [
 		features.isDashboard
 	],
-	load: features.onAjaxedPages,
+	load: features.onNewsfeedLoad,
 	init
 });
 
@@ -97,5 +77,5 @@ features.add({
 		features.hasComments
 	],
 	load: features.onNewComments,
-	init: addNames
+	init
 });
