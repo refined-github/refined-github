@@ -13,7 +13,7 @@ function init(): void {
 }
 
 features.add({
-	disabled: 'https://github.com/sindresorhus/refined-github/issues/2252',
+	disabled: '#2252',
 	id: __featureName__,
 	description: 'Mark all files as viewed when approving a PR',
 	include: [
