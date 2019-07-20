@@ -77,9 +77,6 @@ async function fetchAndAppendUsernames(): Promise<false | void> {
 async function init(): Promise<false | void> {
 	if (features.isDashboard()) {
 		observeEl('.news', updateAndWatch);
-	} else {
-		const hasUsernames = await fetchAndAppendUsernames();
-		return hasUsernames;
 	}
 }
 
@@ -87,9 +84,18 @@ features.add({
 	id: __featureName__,
 	description: 'The full name of users is shown next to their username',
 	include: [
-		features.hasComments,
 		features.isDashboard
 	],
-	load: features.onNewComments,
+	load: features.onAjaxedPages,
 	init
+});
+
+features.add({
+	id: __featureName__,
+	description: '',
+	include: [
+		features.hasComments
+	],
+	load: features.onNewComments,
+	init: addNames
 });
