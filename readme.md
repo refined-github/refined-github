@@ -189,6 +189,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Text wrapped in backticks in issue titles and commit titles is highlighted.](https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png)
 - [Wrapped code in diff views is aligned at the indented level of original line.](https://user-images.githubusercontent.com/37769974/60379474-0ba67e80-9a51-11e9-97f9-077d282e5bdb.png)
 - [Limit the number of characters that can be used as a commit title while editing files or merging PRs.](https://user-images.githubusercontent.com/37769974/60379478-106b3280-9a51-11e9-88b9-0e3607f214cd.gif)
+- [Minimize comments for users you don’t want to see.](https://user-images.githubusercontent.com/37769974/61595681-d6d4b400-ac17-11e9-98b9-03f27b004a94.gif)
 
 ### More shortcuts
 

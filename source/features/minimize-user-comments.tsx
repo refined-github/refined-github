@@ -19,7 +19,7 @@ async function setMinimizedUsers(minimizedUsers: string[]): Promise<void> {
 }
 
 function toggleComment(comment: HTMLElement, minimize: boolean): void {
-	if (comment.id.startsWith('issue-')) {
+	if (comment.id.startsWith('issue-') || comment.id.startsWith('pullrequestreview-')) {
 		return;
 	}
 
@@ -29,7 +29,7 @@ function toggleComment(comment: HTMLElement, minimize: boolean): void {
 }
 
 async function onButtonClick(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
-	const comment = event.currentTarget.closest('.js-comment-container')!;
+	const comment = event.currentTarget.closest('.js-targetable-comment')!;
 	const user = select('.author', comment)!.textContent!;
 
 	let minimizedUsers = await getMinimizedUsers();
@@ -46,7 +46,7 @@ async function onButtonClick(event: React.MouseEvent<HTMLButtonElement>): Promis
 async function handleMenuOpening(event: DelegateEvent): Promise<void> {
 	const dropdown = event.delegateTarget.nextElementSibling!;
 	const user = dropdown
-		.closest('.js-comment-container')!
+		.closest('.js-targetable-comment')!
 		.querySelector('.author')!
 		.textContent!;
 
