@@ -1,5 +1,6 @@
 import linkifyUrls from 'linkify-urls';
 import linkifyIssues from 'linkify-issues';
+import {isOptionsPage} from 'webext-detect-page';
 import getTextNodes from './get-text-nodes';
 import {getOwnerAndRepo} from './utils';
 
@@ -21,6 +22,12 @@ const options = {
 		class: linkifiedURLClass // Necessary to avoid also shortening the links
 	}
 };
+
+if (isOptionsPage()) {
+	options.baseUrl = 'https://github.com';
+	options.user = 'sindresorhus';
+	options.repo = 'refined-github';
+}
 
 export default (
 	fn: typeof linkifyIssues | typeof linkifyUrls,

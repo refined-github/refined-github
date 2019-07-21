@@ -3,6 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import linkifyUrls from 'linkify-urls';
 import fitTextarea from 'fit-textarea';
+import linkifyIssues from 'linkify-issues';
 import indentTextarea from 'indent-textarea';
 import {applyToLink as shortenLink} from 'shorten-repo-url';
 import editTextNodes from './libs/linkify-text-nodes';
@@ -12,6 +13,7 @@ import optionsStorage from './options-storage';
 function parseDescription(description: string): DocumentFragment {
 	const descriptionFragment = parseBackticks(description);
 	editTextNodes(linkifyUrls, descriptionFragment);
+	editTextNodes(linkifyIssues, descriptionFragment);
 
 	for (const a of select.all('a', descriptionFragment)) {
 		shortenLink(a, location.href);

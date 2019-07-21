@@ -23,7 +23,7 @@ function parseBranchFromDom(): string | undefined {
 
 	// Parse the infobar
 	const matches = branchInfoRegex.exec(branchInfo.textContent!.trim());
-	return matches ? matches[0] : undefined;
+	return matches ? matches[1] : undefined;
 }
 
 async function fetchFromApi(user: string, repo: string): Promise<any> {
