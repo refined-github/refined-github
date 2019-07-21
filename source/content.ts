@@ -43,6 +43,7 @@ import './features/improve-shortcut-help';
 import './features/deprioritize-marketplace-link';
 import './features/view-markdown-source';
 import './features/copy-file';
+import './features/jsdelivr-cdn';
 import './features/hide-own-stars';
 import './features/infinite-scroll';
 import './features/hide-empty-meta';
