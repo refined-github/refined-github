@@ -31,21 +31,31 @@ function getSimilarItems(item: HTMLElement): HTMLElement[] {
 	if (item instanceof HTMLLabelElement) {
 		const inputs = select.all<HTMLInputElement>('.js-file .dropdown-item .js-toggle-file-notes');
 		if ((item.control as HTMLInputElement).checked) {
-			return inputs.filter(input => !input.checked).map(input => input.labels![0]);
+			return inputs.filter(input => input.checked).map(input => input.labels![0]);
 		}
 
-		return inputs.filter(input => input.checked).map(input => input.labels![0]);
+		return inputs.filter(input => !input.checked).map(input => input.labels![0]);
 	}
 
 	return [];
 }
 
 async function handleEvent(event: DelegateEvent<MouseEvent, HTMLElement>): Promise<void> {
-	if (!event.altKey) {
+	if (!event.altKey || !event.isTrusted || event.srcElement instanceof HTMLInputElement) {
 		return;
 	}
 
 	const clickedItem = event.delegateTarget;
+
+	// The closest parent element that is not `position: sticky`, i.e. scrolls with page
+	let anchorElement: HTMLElement;
+	if (clickedItem instanceof HTMLLabelElement) {
+		anchorElement = clickedItem.closest('.js-file')! as HTMLElement;
+	} else {
+		anchorElement = clickedItem.parentElement!;
+	}
+
+	const viewportOffset = anchorElement.getBoundingClientRect().top;
 
 	let timeKeeper = Date.now();
 	for (const item of getSimilarItems(clickedItem)) {
@@ -60,6 +70,17 @@ async function handleEvent(event: DelegateEvent<MouseEvent, HTMLElement>): Promi
 			item.click();
 		}
 	}
+
+	// Scroll to original position where the click occurred after the rendering of all click events is done
+	requestAnimationFrame(() => {
+		const newOffset = anchorElement.getBoundingClientRect().top;
+		window.scrollBy(0, newOffset - viewportOffset);
+
+		// For "Show comments", `.click()` calls change the focused element, restore focus
+		if (clickedItem instanceof HTMLLabelElement) {
+			clickedItem.closest('details')!.querySelector('summary')!.focus();
+		}
+	});
 }
 
 function init(): void {
