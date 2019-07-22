@@ -18,12 +18,6 @@ function handleClick(): void {
 	const cdnURL = baseURL + path;
 
 	copyToClipboard(cdnURL);
-
-	select('main > .Box.mt-3.position-relative')!.prepend(
-		<div className='container flash flash-success my-3 anim-fade-in fast'>
-			<strong>Success!</strong> CDN url copied to clipboard
-		</div>,
-	);
 }
 
 function renderButton(): void {
@@ -31,18 +25,16 @@ function renderButton(): void {
 		blameButton.parentElement!.prepend(
 			<button
 				onClick={handleClick}
-				className='btn btn-sm tooltipped tooltipped-n BtnGroup-item rgh-copy-file'
-				aria-label='Copy CDN url to clipboard'
-				type='button'>
-				CDN Url
+				className="btn btn-sm tooltipped tooltipped-n BtnGroup-item rgh-copy-file"
+				aria-label="Copy JSDelivr CDN url"
+				type="button">
+				Copy CDN
 			</button>,
 		);
 	}
 }
 
 function init(): void {
-	console.log('Hey!');
-
 	if (select.exists('.blob.instapaper_body')) {
 		delegate('.rgh-md-source', 'rgh:view-markdown-source', renderButton);
 		delegate('.rgh-md-source', 'rgh:view-markdown-rendered', () => {
@@ -58,9 +50,9 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Create a CDN link for the current file via https://jsdelivr.com',
+	description: 'Generate a CDN url for the current file via https://jsdelivr.com',
 	include: [features.isSingleFile],
 	exclude: [features.isRepoRoot, features.isGist],
 	load: features.onAjaxedPages,
-	init,
+	init
 });
