@@ -3,7 +3,9 @@ import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {getOwnerAndRepo, getRepoURL, getDiscussionNumber} from '../libs/utils';
+import fetchDom from '../libs/fetch-dom';
+import postForm from '../libs/post-form';
+import {getOwnerAndRepo, getDiscussionNumber} from '../libs/utils';
 
 async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
 	const menuItem = event.currentTarget;
@@ -13,6 +15,9 @@ async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>)
 
 	const {ownerName, repoName} = getOwnerAndRepo();
 	try {
+		// Prefetch form asynchronously. Only await it later when needed
+		const editFormPromise = fetchDom<HTMLFormElement>(select<HTMLAnchorElement>('[aria-label^="Change this"]')!.href, '#new_blob');
+
 		// Get the real base commit of this PR, not the HEAD of base branch
 		const {repository: {pullRequest: {baseRefOid}}} = await api.v4(`{
 			repository(owner: "${ownerName}", name: "${repoName}") {
@@ -23,35 +28,36 @@ async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>)
 		}`);
 
 		const filePath = (menuItem.closest('[data-path]') as HTMLElement).dataset.path!;
-		const [, forkRepoURL, forkBranch]: string[] = /^([^:]+):(.+)$/.exec(select('.head-ref')!.title) || [];
-		const [originalFile, forkFile] = await Promise.all([
-			api.v3(`repos/${getRepoURL()}/contents/${filePath}?ref=${baseRefOid}`, {ignoreHTTPStatus: true}),
-			api.v3(`repos/${forkRepoURL}/contents/${filePath}?ref=${forkBranch}`, {ignoreHTTPStatus: true})
-		]);
 
-		if (originalFile.content === undefined) {
+		const {repository: {file}} = await api.v4(`{
+			repository(owner: "${ownerName}", name: "${repoName}") {
+				file: object(expression: "${baseRefOid}:${filePath}") {
+					... on Blob {
+						isTruncated
+						text
+					}
+				}
+			}
+		}`);
+
+		if (!file) {
 			// The file was added by this PR. Click the "Delete file" link instead.
 			// The `a` selector skips the broken Delete link on some pages. GitHub's bug.
+			// TODO: load it and submit the form automatically via ajax
 			select('[aria-label^="Delete this"]', menuItem.parentElement!)!.click();
 			return;
 		}
 
-		// API limit: https://developer.github.com/v3/repos/contents/#get-contents
-		if (originalFile.size > 1000000) {
+		if (file.isTruncated) {
 			menuItem.disabled = true;
 			menuItem.textContent = 'Revert failed: File too big';
 			menuItem.style.cssText = 'white-space: pre-wrap';
+			return;
 		}
 
-		await api.v3(`repos/${forkRepoURL}/contents/${filePath}`, {
-			method: 'PUT',
-			body: {
-				sha: forkFile.sha,
-				branch: forkBranch,
-				content: originalFile.content,
-				message: `Revert ${originalFile.name}`
-			}
-		});
+		const editForm = await editFormPromise;
+		editForm.value = file.text; // Revert content
+		await postForm(editForm);
 
 		// Hide file from view
 		menuItem.closest('.file')!.remove();
