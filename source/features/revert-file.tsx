@@ -96,6 +96,7 @@ function init(): void {
 features.add({
 	id: __featureName__,
 	description: 'Revert all the changes to a file in a PR',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/60279449-a610a000-9933-11e9-8b40-fe8b935dc7ad.gif',
 	include: [
 		features.isPRFiles
 	],
