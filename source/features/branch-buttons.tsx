@@ -1,4 +1,3 @@
-import './branch-buttons.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import compareVersions from 'tiny-version-compare';
@@ -100,7 +99,7 @@ async function init(): Promise<false | void> {
 	]);
 
 	const wrapper = (
-		<div className="rgh-branch-buttons">
+		<div className="ml-2">
 			{defaultLink}
 			{tagLink}
 		</div>

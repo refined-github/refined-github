@@ -51,3 +51,16 @@ export const isEditable = (node: unknown): boolean => {
 		node instanceof HTMLInputElement ||
 		(node instanceof HTMLElement && node.isContentEditable);
 };
+
+export async function elementFinder<T extends HTMLElement = HTMLElement>(selector: string, frequency: number): Promise<T> {
+	return new Promise(resolve => {
+		(function loop() {
+			const element = select<T>(selector);
+			if (element) {
+				resolve(element);
+			} else {
+				setTimeout(loop, frequency);
+			}
+		})();
+	});
+}

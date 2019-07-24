@@ -13,6 +13,7 @@ function init(): void {
 }
 
 features.add({
+	disabled: '#2252',
 	id: __featureName__,
 	description: 'Mark all files as viewed when approving a PR',
 	include: [

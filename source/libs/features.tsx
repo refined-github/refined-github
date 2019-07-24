@@ -19,7 +19,11 @@ interface Shortcut {
 }
 
 export interface FeatureDetails {
-	disabled?: string; // If it's disabled, this should be the URL to the issue that explains why
+	/**
+	If it's disabled, this should be the issue that explains why, as a reference
+	@example '#123'
+	*/
+	disabled?: string;
 	id: string;
 	description: string;
 	screenshot?: string;
