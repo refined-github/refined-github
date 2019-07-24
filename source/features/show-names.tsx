@@ -6,15 +6,17 @@ import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 
 async function init(): Promise<false | void> {
-	// `a` selector needed to skip commits by non-GitHub users
-	const usernameElements = select.all('.js-discussion a.author:not(.rgh-fullname):not([href*="/apps/"]):not([href*="/marketplace/"]):not([data-hovercard-type="organization"])');
+	const usernameElements = select.all([
+		'.js-discussion a.author:not(.rgh-fullname):not([href*="/apps/"]):not([href*="/marketplace/"]):not([data-hovercard-type="organization"])', // `a` selector needed to skip commits by non-GitHub users.
+		'#dashboard a.text-bold[data-hovercard-type="user"]:not(.rgh-fullname)' // On dashboard `.text-bold` is required to not fetch avatars.
+	].join());
 
 	const usernames = new Set<string>();
 	const myUsername = getUsername();
 	for (const el of usernameElements) {
 		el.classList.add('rgh-fullname');
 		const username = el.textContent;
-		if (username !== myUsername && username !== 'ghost') {
+		if (username && username !== myUsername && username !== 'ghost') {
 			usernames.add(el.textContent!);
 		}
 
@@ -61,6 +63,16 @@ async function init(): Promise<false | void> {
 features.add({
 	id: __featureName__,
 	description: 'The full name of users is shown next to their username',
+	include: [
+		features.isDashboard
+	],
+	load: features.onNewsfeedLoad,
+	init
+});
+
+features.add({
+	id: __featureName__,
+	description: '',
 	include: [
 		features.hasComments
 	],
