@@ -41,33 +41,36 @@ function getSimilarItems(item: HTMLElement): HTMLElement[] {
 }
 
 async function handleEvent(event: DelegateEvent<MouseEvent, HTMLElement>): Promise<void> {
-	if (!event.altKey || !event.isTrusted || event.srcElement instanceof HTMLInputElement) {
+	if (!event.altKey || !event.isTrusted || event.target instanceof HTMLInputElement) {
 		return;
 	}
 
 	const clickedItem = event.delegateTarget;
 
 	// The closest parent element that is not `position: sticky`, i.e. scrolls with page
-	let anchorElement: HTMLElement;
+	let anchorElement = clickedItem.parentElement! as HTMLElement;
+	let viewportOffset = anchorElement.getBoundingClientRect().top;
+
 	if (clickedItem instanceof HTMLLabelElement) {
 		anchorElement = clickedItem.closest('.js-file')! as HTMLElement;
-	} else {
-		anchorElement = clickedItem.parentElement!;
-	}
+		viewportOffset = anchorElement.getBoundingClientRect().top;
 
-	const viewportOffset = anchorElement.getBoundingClientRect().top;
+		const checkedState = (clickedItem.control as HTMLInputElement)!.checked;
 
-	let timeKeeper = Date.now();
-	for (const item of getSimilarItems(clickedItem)) {
-		if (item !== clickedItem) {
-			// Avoid holding the thread for much longer than 50ms
-			if (Date.now() - timeKeeper > 50) {
-				// eslint-disable-next-line no-await-in-loop
-				await new Promise(resolve => setTimeout(resolve));
-				timeKeeper = Date.now();
+		for (const item of getSimilarItems(clickedItem) as HTMLLabelElement[]) {
+			if (item === clickedItem as HTMLLabelElement) {
+				continue;
 			}
 
-			item.click();
+			(item.control as HTMLInputElement)!.checked = !checkedState;
+			item.setAttribute('aria-checked', String(!checkedState));
+			item.closest('.js-file')!.classList.toggle('show-inline-notes', !checkedState);
+		}
+	} else {
+		for (const item of getSimilarItems(clickedItem)) {
+			if (item !== clickedItem) {
+				item.click();
+			}
 		}
 	}
 
