@@ -1,3 +1,4 @@
-.rgh-deleted-branch span, .rgh-deleted-branch {
-    text-decoration: line-through;
+.rgh-deleted-branch span,
+.rgh-deleted-branch {
+	text-decoration: line-through;
 }
