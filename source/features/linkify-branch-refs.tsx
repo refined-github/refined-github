@@ -1,3 +1,4 @@
+import './linkify-branch-refs.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';
@@ -39,7 +40,7 @@ function inPR(): void {
 		if (branchName !== 'unknown repository') {
 			if (branchName === deletedBranch) {
 				el.title = 'Deleted';
-				el.style.textDecoration = 'line-through';
+				el.classList.add('rgh-deleted-branch');
 			}
 
 			wrap(el, <a href={urls.get(branchName)}></a>);
