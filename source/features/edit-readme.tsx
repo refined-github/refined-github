@@ -35,7 +35,7 @@ async function init(): Promise<void | false> {
 
 features.add({
 	id: __featureName__,
-	description: 'Quickly edit a repository’s README when previewed in a directory',
+	description: 'Adds an Edit button on previewed Readmes in folders, even if you have to make a fork.',
 	include: [
 		features.isRepoTree
 	],
