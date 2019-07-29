@@ -10,7 +10,8 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Star/unstar a repository by pressing `g` `s`',
+	description: 'Adds a keyboard shortcut to star/unstar the current repo: `g` `s`.',
+	screenshot: false,
 	include: [
 		features.isRepo
 	],

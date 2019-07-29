@@ -14,6 +14,7 @@ function init(): false | void {
 features.add({
 	id: __featureName__,
 	description: 'Remove the "Upload files" button',
+	screenshot: false,
 	include: [
 		features.isRepoTree
 	],

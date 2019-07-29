@@ -20,7 +20,8 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Cycle through pull request tabs by pressing `g` `←` and `g` `→`, or `g` `1`, `g` `2`, `g` `3` and `g` `4`',
+	description: 'Adds keyboard shortcuts to cycle through PR tabs: `g` `←` and `g` `→`, or `g` `1`, `g` `2`, `g` `3` and `g` `4`',
+	screenshot: false,
 	include: [
 		features.isPR
 	],

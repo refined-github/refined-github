@@ -15,7 +15,8 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Merge commits are dimmed in the commit list',
+	description: 'Dims merge commits in commits list.',
+	screenshot: false,
 	include: [
 		features.isCommitList
 	],

@@ -9,7 +9,7 @@ interface FeatureInfo {
 
 declare const __featuresList__: string[];
 declare const __featuresInfo__: FeatureInfo[];
-declare const __featureName__: 'webpack will replace this string';
+declare const __featureName__: 'use the __featureName__ variable';
 
 interface Window {
 	collectFeatures: Map<string, FeatureDetails>;

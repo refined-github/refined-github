@@ -11,7 +11,8 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Highlight your own issues and pull requests in the issue list',
+	description: 'Highlights discussions opened by you.',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/53065281-01560000-3506-11e9-9a51-0bdf69e20b4a.png',
 	include: [
 		features.isDiscussionList
 	],
