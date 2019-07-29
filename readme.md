@@ -221,6 +221,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Format selected text with a key press when writing comments.](https://user-images.githubusercontent.com/37769974/59958878-39c51500-94cb-11e9-910a-061bf8ca6575.gif)
 - [Cycle "popover lists" (labels, milestones, etc) when selecting them with the <kbd>↑</kbd> and <kbd>↓</kbd> keys.](https://user-images.githubusercontent.com/37769974/59158786-6fd2c400-8add-11e9-9db1-db80186fa6ea.gif)
 - [Mark all files as viewed when approving a PR.](https://user-images.githubusercontent.com/11782/60969312-8740df00-a31f-11e9-8e34-d1f0c1a871aa.gif)
+- [Visit symbolic links with a click.](https://user-images.githubusercontent.com/1402241/62036664-6d0e6880-b21c-11e9-9270-4ae30cc10de2.png)
 
 ### Previously part of Refined GitHub
 
