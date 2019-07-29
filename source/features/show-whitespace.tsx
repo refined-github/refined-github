@@ -91,7 +91,7 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Renders whitespace characters in code',
+	description: 'Shows whitespace characters.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/61187598-f9118380-a6a5-11e9-985a-990a7f798805.png',
 	include: [
 		features.hasCode

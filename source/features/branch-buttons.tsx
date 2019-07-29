@@ -116,7 +116,8 @@ async function init(): Promise<false | void> {
 
 features.add({
 	id: __featureName__,
-	description: 'Quickly visit a repository’s default branch and latest version tag',
+	description: 'Adds links to the default branch and to the latest version tag.',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/38107328-ccb3fb46-33bb-11e8-9654-23a6410943cc.png',
 	include: [
 		features.isRepoTree,
 		features.isSingleFile

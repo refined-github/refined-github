@@ -22,7 +22,8 @@ function deinit(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Make the discussion sidebar sticky',
+	description: 'Makes the discussion filters bar sticky.',
+	screenshot: 'https://user-images.githubusercontent.com/380914/39878141-7632e61a-542c-11e8-9c66-74fcd3a134aa.gif',
 	include: [
 		features.isIssue,
 		features.isPRConversation

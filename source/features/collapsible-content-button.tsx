@@ -64,7 +64,7 @@ function addContentToDetails(event: DelegateEvent<MouseEvent, HTMLButtonElement>
 
 features.add({
 	id: __featureName__,
-	description: 'Insert collapsible content when writing comments (via `<summary>`)',
+	description: 'Adds a button to insert collapsible content (via `<details>`).',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/53678019-0c721280-3cf4-11e9-9c24-4d11a697f67c.png',
 	include: [
 		features.hasRichTextEditor
