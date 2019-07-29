@@ -2,7 +2,6 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
-import {getRepoURL, getCurrentBranch} from '../libs/utils';
 
 async function init(): Promise<void | false> {
 	const readmeHeader = select('#readme .Box-header h3');
@@ -15,9 +14,12 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const readmePath = select('.js-tagsearch-popover')!.dataset.tagsearchPath;
+	const filename = readmeHeader.textContent!.trim();
+	const pathnameParts = select<HTMLAnchorElement>(`.files [title="${filename}"]`)!.pathname.split('/');
+	pathnameParts[3] = 'edit'; // Replaces /blob/
+
 	readmeHeader.after(
-		<a href={`/${getRepoURL()}/edit/${getCurrentBranch()}/${readmePath}`}
+		<a href={pathnameParts.join('/')}
 			className="Box-btn-octicon btn-octicon float-right"
 			aria-label="Edit this file">
 			{icons.edit()}
