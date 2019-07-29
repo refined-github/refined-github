@@ -115,7 +115,7 @@ export function getOP(): string {
 }
 
 export function compareNames(username: string, realname: string): boolean {
-	return username.replace(/[.-]/g, '').toLowerCase() === realname.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[\W]/giu, '').toLowerCase();
+	return username.replace(/-/g, '').toLowerCase() === realname.normalize('NFD').replace(/[\u0300-\u036f\W.]/g, '').toLowerCase();
 }
 
 export async function poll<T>(callback: () => T, frequency: number): Promise<T> {

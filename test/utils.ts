@@ -206,7 +206,9 @@ test('parseTag', t => {
 test('compareNames', t => {
 	t.true(compareNames('johndoe', 'John Doe'));
 	t.true(compareNames('john-doe', 'John Doe'));
+	t.true(compareNames('john-wdoe', 'John W. Doe'));
+	t.true(compareNames('john-doe-jr', 'John Doe Jr.'));
 	t.true(compareNames('nicolo', 'Nicolò'));
 	t.false(compareNames('dotconnor', 'Connor Love'));
-	t.false(compareNames('bfred-it ', 'Federico Brigante'));
+	t.false(compareNames('fregante ', 'Federico Brigante'));
 });
