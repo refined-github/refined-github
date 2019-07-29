@@ -19,7 +19,8 @@ async function init(): Promise<false | void> {
 
 features.add({
 	id: __featureName__,
-	description: 'Warns you when creating a pull request from the default branch, as it’s an anti-pattern',
+	description: 'Warns you when creating a pull request from the default branch, as it’s an anti-pattern.',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png',
 	include: [
 		features.isCompare
 	],

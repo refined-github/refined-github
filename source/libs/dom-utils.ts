@@ -36,12 +36,12 @@ export const appendBefore = (parent: string|Element, before: string, child: Elem
 	}
 };
 
-export const wrap = (target: Element, wrapper: Element): void => {
+export const wrap = (target: Element | ChildNode, wrapper: Element): void => {
 	target.before(wrapper);
 	wrapper.append(target);
 };
 
-export const wrapAll = (targets: Element[], wrapper: Element): void => {
+export const wrapAll = (targets: Array<Element | ChildNode>, wrapper: Element): void => {
 	targets[0].before(wrapper);
 	wrapper.append(...targets);
 };

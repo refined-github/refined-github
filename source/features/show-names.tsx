@@ -6,15 +6,17 @@ import features from '../libs/features';
 import {getUsername, compareNames} from '../libs/utils';
 
 async function init(): Promise<false | void> {
-	// `a` selector needed to skip commits by non-GitHub users
-	const usernameElements = select.all('.js-discussion a.author:not(.rgh-fullname):not([href*="/apps/"]):not([href*="/marketplace/"]):not([data-hovercard-type="organization"])');
+	const usernameElements = select.all([
+		'.js-discussion a.author:not(.rgh-fullname):not([href*="/apps/"]):not([href*="/marketplace/"]):not([data-hovercard-type="organization"])', // `a` selector needed to skip commits by non-GitHub users.
+		'#dashboard a.text-bold[data-hovercard-type="user"]:not(.rgh-fullname)' // On dashboard `.text-bold` is required to not fetch avatars.
+	].join());
 
 	const usernames = new Set<string>();
 	const myUsername = getUsername();
 	for (const el of usernameElements) {
 		el.classList.add('rgh-fullname');
 		const username = el.textContent;
-		if (username !== myUsername && username !== 'ghost') {
+		if (username && username !== myUsername && username !== 'ghost') {
 			usernames.add(el.textContent!);
 		}
 
@@ -65,7 +67,19 @@ async function init(): Promise<false | void> {
 
 features.add({
 	id: __featureName__,
-	description: 'The full name of users is shown next to their username',
+	description: 'Adds the real name of users next to their usernames.',
+	screenshot: 'https://cloud.githubusercontent.com/assets/170270/16172068/0a67b98c-3580-11e6-92f0-6fc930ee17d1.png',
+	include: [
+		features.isDashboard
+	],
+	load: features.onNewsfeedLoad,
+	init
+});
+
+features.add({
+	id: __featureName__,
+	description: false,
+	screenshot: false,
 	include: [
 		features.hasComments
 	],

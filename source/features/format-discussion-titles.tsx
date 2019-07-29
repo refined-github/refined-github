@@ -9,16 +9,16 @@ function init(): void {
 	observeEl(
 		select('#partial-discussion-header')!.parentElement!,
 		() => {
-			const title = select('.js-issue-title:not(.rgh-formatted-title)');
+			for (const title of select.all('.js-issue-title:not(.rgh-formatted-title)')) {
+				if (title) {
+					title.classList.add('rgh-formatted-title');
+					linkifyIssuesInDom(title);
 
-			if (title) {
-				title.classList.add('rgh-formatted-title');
-				linkifyIssuesInDom(title);
+					const fragment = parseBackticks(title.textContent!);
 
-				const fragment = parseBackticks(title.textContent!);
-
-				if (fragment.children.length > 0) {
-					zipTextNodes(title, fragment);
+					if (fragment.children.length > 0) {
+						zipTextNodes(title, fragment);
+					}
 				}
 			}
 		});

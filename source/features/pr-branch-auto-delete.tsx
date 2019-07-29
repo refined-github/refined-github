@@ -10,6 +10,7 @@ function init(): void {
 		observeEl('.discussion-timeline-actions', (_, observer) => {
 			const deleteButton = select('[action$="/cleanup"] [type="submit"]');
 			if (deleteButton) {
+				deleteButton.dataset.disableWith = 'Auto-deleting…';
 				deleteButton.click();
 				observer.disconnect();
 			}
@@ -19,7 +20,8 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Automatically deletes the branch right after merging a PR, if possible',
+	description: 'Automatically deletes the branch right after merging a PR, if possible.',
+	screenshot: false,
 	include: [
 		features.isPRConversation
 	],
