@@ -113,18 +113,6 @@ Thanks for contributing! 🦋🙌
 
 -->
 
-### Profiles
-
-- [Shows the followers you have in common.](https://user-images.githubusercontent.com/2906365/42009293-b1503f62-7a57-11e8-88f5-9c2fb3651a14.png)
-- [Tells you whether the user follows you.](https://user-images.githubusercontent.com/3723666/45190460-03ecc380-b20c-11e8-832b-839959ee2c99.gif)
-- [Adds a link to the user’s public gists.](https://user-images.githubusercontent.com/11544418/34268306-1c974fd2-e678-11e7-9e82-861dfe7add22.png)
-- [Marks private organizations on your own profile.](https://user-images.githubusercontent.com/6775216/44633467-d5dcc900-a959-11e8-9116-e6b0ffef66af.png)
-- Adds a keyboard shortcut to visit your own profile: <kbd>g</kbd> <kbd>m</kbd>.
-- [Adds a link to the user’s most starred repositories.](https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93de-159ad4c6f283.png)
-- [Hides forks and archived repos from profiles (but they can still be shown)](https://user-images.githubusercontent.com/1402241/45133648-fe21be80-b1c8-11e8-9052-e38cb443efa9.png)
-
-<!-- Refer to style guide above. Keep this message between sections. -->
-
 ### Repositories
 
 - 🔥 [Adds a build/CI status icon next to the repo’s name.](https://user-images.githubusercontent.com/1402241/32562120-d65166e4-c4e8-11e7-90fb-cbaf36e2709f.png)
@@ -245,6 +233,18 @@ Thanks for contributing! 🦋🙌
 - [Widens the `Expand diff` button to be clickable across the screen.](https://user-images.githubusercontent.com/6978877/34470024-eee4f43e-ef20-11e7-9036-65094bd58960.PNG)
 - [Hides diff signs](https://user-images.githubusercontent.com/1402241/54807718-149cec80-4cb9-11e9-869c-e265863211e3.png) (since diffs are color coded.)
 - [Limits the commit title fields to 72 characters.](https://user-images.githubusercontent.com/37769974/60379478-106b3280-9a51-11e9-88b9-0e3607f214cd.gif)
+
+<!-- Refer to style guide above. Keep this message between sections. -->
+
+### Profiles
+
+- [Shows the followers you have in common.](https://user-images.githubusercontent.com/2906365/42009293-b1503f62-7a57-11e8-88f5-9c2fb3651a14.png)
+- [Tells you whether the user follows you.](https://user-images.githubusercontent.com/3723666/45190460-03ecc380-b20c-11e8-832b-839959ee2c99.gif)
+- [Adds a link to the user’s public gists.](https://user-images.githubusercontent.com/11544418/34268306-1c974fd2-e678-11e7-9e82-861dfe7add22.png)
+- [Marks private organizations on your own profile.](https://user-images.githubusercontent.com/6775216/44633467-d5dcc900-a959-11e8-9116-e6b0ffef66af.png)
+- Adds a keyboard shortcut to visit your own profile: <kbd>g</kbd> <kbd>m</kbd>.
+- [Adds a link to the user’s most starred repositories.](https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93de-159ad4c6f283.png)
+- [Hides forks and archived repos from profiles (but they can still be shown)](https://user-images.githubusercontent.com/1402241/45133648-fe21be80-b1c8-11e8-9052-e38cb443efa9.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
