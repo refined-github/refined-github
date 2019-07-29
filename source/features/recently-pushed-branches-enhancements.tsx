@@ -52,7 +52,8 @@ async function init(): Promise<false | void> {
 
 features.add({
 	id: __featureName__,
-	description: 'GitHub shows a widget to create a new Pull Request from a recently-pushed branch, but only on the repo root and on the PR list pages. This feature also adds this widget to the Issues List, Issue page, and Pull Request page.',
+	description: 'Moves the "Recently-pushed branches" widget to the header to avoid content jumps. Also adds it to more pages in the repo.',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/56466173-da517700-643f-11e9-8eb5-9b20017fa613.gif',
 	include: [
 		features.isRepo
 	],
@@ -62,7 +63,8 @@ features.add({
 
 features.add({
 	id: __featureName__,
-	description: '',
+	description: false,
+	screenshot: false,
 	include: [
 		features.isRepo
 	],

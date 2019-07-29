@@ -13,7 +13,7 @@ function init(): void | false {
 
 features.add({
 	id: __featureName__,
-	description: 'Linkify symbolic link files',
+	description: 'Linkifies symbolic links files.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/62036664-6d0e6880-b21c-11e9-9270-4ae30cc10de2.png',
 	include: [
 		features.isSingleFile

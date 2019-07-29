@@ -19,7 +19,8 @@ function deinit(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Add keyboard shortcut to copy the permalink of a file to the clipboard',
+	description: 'Enhances the `y` hotkey to also copy the permalink.',
+	screenshot: false,
 	include: [
 		features.isSingleFile
 	],

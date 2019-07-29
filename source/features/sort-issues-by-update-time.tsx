@@ -56,14 +56,16 @@ async function cleanBar(): Promise<void> {
 
 features.add({
 	id: __featureName__,
-	description: 'Change the default sort order of issues and pull requests to "Recently updated"',
+	description: 'Changes the default sort order of discussions to `Recently updated`.',
+	screenshot: false,
 	load: features.onAjaxedPages,
 	init
 });
 
 features.add({
 	id: __featureName__,
-	description: '',
+	description: false,
+	screenshot: false,
 	include: [
 		features.isGlobalDiscussionList
 	],

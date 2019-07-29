@@ -44,7 +44,8 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Copy a file’s content',
+	description: 'Adds a button to copy a file’s content.',
+	screenshot: 'https://cloud.githubusercontent.com/assets/170270/14453865/8abeaefe-00c1-11e6-8718-9406cee1dc0d.png',
 	include: [
 		features.isSingleFile,
 		features.isGist

@@ -62,7 +62,8 @@ async function init(): Promise<false | void> {
 
 features.add({
 	id: __featureName__,
-	description: 'The full name of users is shown next to their username',
+	description: 'Adds the real name of users next to their usernames.',
+	screenshot: 'https://cloud.githubusercontent.com/assets/170270/16172068/0a67b98c-3580-11e6-92f0-6fc930ee17d1.png',
 	include: [
 		features.isDashboard
 	],
@@ -72,7 +73,8 @@ features.add({
 
 features.add({
 	id: __featureName__,
-	description: '',
+	description: false,
+	screenshot: false,
 	include: [
 		features.hasComments
 	],

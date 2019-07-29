@@ -71,7 +71,8 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Browse a repository at the time of each comment',
+	description: 'Adds links to browse the repository and linked files at the time of each comment.',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/56450896-68076680-635b-11e9-8b24-ebd11cc4e655.png',
 	include: [
 		features.hasComments
 	],
