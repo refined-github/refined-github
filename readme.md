@@ -164,7 +164,7 @@ Thanks for contributing! 🦋🙌
 ### Writing comments
 
 - Enables the <kbd>tab</kbd> key for indentation in comment fields.
-######## - [Adds a button to submit a single PR comment if you mistakenly started a new review.](https://user-images.githubusercontent.com/1402241/60331761-f6394200-99c7-11e9-81c2-c671cba9602a.gif)
+- [Adds a button to submit a single PR comment if you mistakenly started a new review.](https://user-images.githubusercontent.com/1402241/60331761-f6394200-99c7-11e9-81c2-c671cba9602a.gif)
 - [Adds a button to insert collapsible content (via `<details>`).](https://user-images.githubusercontent.com/1402241/53678019-0c721280-3cf4-11e9-9c24-4d11a697f67c.png)
 - [Auto-resizes comment fields to fit their content and no longer show scroll bars.](https://user-images.githubusercontent.com/1402241/54336211-66fd5e00-4666-11e9-9c5e-111fccab004d.gif)
 - [Moves the `Edit comment` button out of the `...` dropdown.](https://user-images.githubusercontent.com/1402241/54864831-92372a00-4d97-11e9-8c29-efba2dde1baa.png)
@@ -228,7 +228,7 @@ Thanks for contributing! 🦋🙌
 - [Warns you when trying to create a PR from the default branch.](https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png)
 - [Warns you when unchecking `Allow edits from maintainers`.](https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif)
 - Adds keyboard shortcuts to cycle through PR tabs: <kbd>g</kbd> <kbd>←</kbd> and <kbd>g</kbd> <kbd>→</kbd>, or <kbd>g</kbd> <kbd>1</kbd>, <kbd>g</kbd> <kbd>2</kbd>, <kbd>g</kbd> <kbd>3</kbd> and <kbd>g</kbd> <kbd>4</kbd>.
-- [Bypasses the "Checks" intersitial when clicking the "Details" links on a PR.](https://user-images.githubusercontent.com/2103975/49071220-c6596e80-f22d-11e8-8a1e-bdcd62aa6ece.png)
+- [Bypasses the "Checks" interstitial when clicking the "Details" links on a PR.](https://user-images.githubusercontent.com/2103975/49071220-c6596e80-f22d-11e8-8a1e-bdcd62aa6ece.png)
 - [Marks all files as "viewed" when approving a PR.](https://user-images.githubusercontent.com/11782/60969312-8740df00-a31f-11e9-8e34-d1f0c1a871aa.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
