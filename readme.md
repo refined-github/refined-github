@@ -94,7 +94,24 @@ GitHub Enterprise is also supported. More info in the options.
 	</tr>
 </table>
 
+<!--
 
+############################
+  Descriptions style guide
+############################
+
+- Starts with: "(Refined GitHub) <verb in third person> ..."
+- Ends with period (inside link or parens, if present, like this.)
+- Keyboard shortcuts must follow:
+	- "Adds a keyboard shortcut to ...: <kbd>key1</kbd> <kbd>key2</kbd>"
+	- "Adds keyboard shortcuts to ...: <kbd>a</kbd> and <kbd>alt</kbd> <kbd>a</kbd>"
+- You should try to use the same description and screenshot in the feature’s file (inside `features.add`)
+- Use smart apostrophes: ’ instead of '
+- Keep it concise.
+
+Thanks for contributing! 🦋🙌
+
+-->
 
 ### Profiles
 
@@ -105,6 +122,8 @@ GitHub Enterprise is also supported. More info in the options.
 - Adds a keyboard shortcut to visit your own profile: <kbd>g</kbd> <kbd>m</kbd>.
 - [Adds a link to the user’s most starred repositories.](https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93de-159ad4c6f283.png)
 - [Hides forks and archived repos from profiles (but they can still be shown)](https://user-images.githubusercontent.com/1402241/45133648-fe21be80-b1c8-11e8-9052-e38cb443efa9.png)
+
+<!-- Refer to style guide above. Keep this message between sections. -->
 
 ### Repositories
 
@@ -127,16 +146,20 @@ GitHub Enterprise is also supported. More info in the options.
 - [Adds links to the default branch and to the latest version tag.](https://user-images.githubusercontent.com/1402241/38107328-ccb3fb46-33bb-11e8-9654-23a6410943cc.png)
 - [Adds link to swap branches in the branch compare view.](https://user-images.githubusercontent.com/857700/42854438-821096f2-8a01-11e8-8752-76f7563b5e18.png)
 
+<!-- Refer to style guide above. Keep this message between sections. -->
+
 ### Files
 
 - Enhances [the <kbd>y</kbd> hotkey](https://help.github.com/articles/getting-permanent-links-to-files/) to also copy the permalink.
 - [Adds a button to view the source of Markdown files.](https://user-images.githubusercontent.com/1402241/54814836-7bc39c80-4ccb-11e9-8996-9ecf4f6036cb.png)
-- [Adds a button to copy a file's content.](https://cloud.githubusercontent.com/assets/170270/14453865/8abeaefe-00c1-11e6-8718-9406cee1dc0d.png)
+- [Adds a button to copy a file’s content.](https://cloud.githubusercontent.com/assets/170270/14453865/8abeaefe-00c1-11e6-8718-9406cee1dc0d.png)
 - [Linkifies symbolic links files.](https://user-images.githubusercontent.com/1402241/62036664-6d0e6880-b21c-11e9-9270-4ae30cc10de2.png)
 - [Shows PRs that touch the current file.](https://user-images.githubusercontent.com/55841/60622834-879e1f00-9de1-11e9-9a9e-bae5ec0b3728.png)
 - [Shows whitespace characters.](https://user-images.githubusercontent.com/1402241/61187598-f9118380-a6a5-11e9-985a-990a7f798805.png)
 - [Reduces tabs’ size to 4 spaces instead of 8.](https://cloud.githubusercontent.com/assets/170270/14170088/d3be931e-f755-11e5-8edf-c5f864336382.png)
 - [Adds a keyboard shortcut to deselect the current line: <kbd>esc</kbd>.](https://github.com/sindresorhus/refined-github/issues/1590)
+
+<!-- Refer to style guide above. Keep this message between sections. -->
 
 ### Writing comments
 
@@ -150,6 +173,8 @@ GitHub Enterprise is also supported. More info in the options.
 - [Reduces the upload bar to a small button.](https://user-images.githubusercontent.com/55841/59802383-3d994180-92e9-11e9-835d-60de67611c30.png)
 - [Hides unnecessary buttons in the comment box toolbar](https://user-images.githubusercontent.com/1402241/53629083-a4fe8900-3c47-11e9-8211-bfe2d254ffcb.png) (each one has a keyboard shortcut).
 
+<!-- Refer to style guide above. Keep this message between sections. -->
+
 ### Reading comments
 
 - [Embeds linked gists.](https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.PNG)
@@ -158,10 +183,12 @@ GitHub Enterprise is also supported. More info in the options.
 - [Shortens URLs and repo URLs to readable references like "_user/repo/.file@`d71718d`".](https://user-images.githubusercontent.com/1402241/27252232-8fdf8ed0-538b-11e7-8f19-12d317c9cd32.png)
 - [Previews hidden comments inline.](https://user-images.githubusercontent.com/1402241/52545036-6e271700-2def-11e9-8c0c-b5e0fa6f37dd.png)
 - [Highlights the most useful comment in issues.](https://user-images.githubusercontent.com/1402241/58757449-5b238880-853f-11e9-9526-e86c41a32f00.png)
-- [Hides reaction comments ("+1", "👍", …)](https://user-images.githubusercontent.com/1402241/45543717-d45f3c00-b847-11e8-84a5-8c439d0ad1a5.png) (except the maintainers') [but they can still be shown.](https://user-images.githubusercontent.com/1402241/45543720-d628ff80-b847-11e8-9fb6-758a3102e3a9.png)
+- [Hides reaction comments ("+1", "👍", …)](https://user-images.githubusercontent.com/1402241/45543717-d45f3c00-b847-11e8-84a5-8c439d0ad1a5.png) (except the maintainers’) [but they can still be shown.](https://user-images.githubusercontent.com/1402241/45543720-d628ff80-b847-11e8-9fb6-758a3102e3a9.png)
 - [Limits the height of tall code blocks and quotes.](https://github.com/sindresorhus/refined-github/issues/1123)
 - [Simplifies the UI to hide comments.](https://user-images.githubusercontent.com/1402241/43039221-1ddc91f6-8d29-11e8-9ed4-93459191a510.gif)
 - [Links the comments icon to the latest comment.](https://user-images.githubusercontent.com/14323370/57962709-7019de00-78e8-11e9-8398-7e617ba7a96f.png)
+
+<!-- Refer to style guide above. Keep this message between sections. -->
 
 ### Discussions
 
@@ -178,6 +205,7 @@ GitHub Enterprise is also supported. More info in the options.
 - [Hides `Projects` and `Milestones` filters in discussion lists if they are empty.](https://user-images.githubusercontent.com/37769974/59083449-0ef88f80-8915-11e9-8296-68af1ddcf191.png)
 - [Allows the <kbd>↑</kbd> and <kbd>↓</kbd> keys to cycle "popover lists" (labels, milestones, etc).](https://user-images.githubusercontent.com/37769974/59158786-6fd2c400-8add-11e9-9db1-db80186fa6ea.gif)
 
+<!-- Refer to style guide above. Keep this message between sections. -->
 
 ### Viewing pull requests
 
@@ -188,6 +216,8 @@ GitHub Enterprise is also supported. More info in the options.
 - Hides the `Checks` tab if it’s empty.
 - [Hides inactive deployments.](https://github.com/sindresorhus/refined-github/issues/1144)
 - [Adds duplicate commit navigation buttons at the bottom of the `Commits` tab page.](https://user-images.githubusercontent.com/24777/41755271-741773de-75a4-11e8-9181-fcc1c73df633.png)
+
+<!-- Refer to style guide above. Keep this message between sections. -->
 
 ### Editing pull requests
 
@@ -200,6 +230,8 @@ GitHub Enterprise is also supported. More info in the options.
 - Adds keyboard shortcuts to cycle through PR tabs: <kbd>g</kbd> <kbd>←</kbd> and <kbd>g</kbd> <kbd>→</kbd>, or <kbd>g</kbd> <kbd>1</kbd>, <kbd>g</kbd> <kbd>2</kbd>, <kbd>g</kbd> <kbd>3</kbd> and <kbd>g</kbd> <kbd>4</kbd>.
 - [Bypasses the "Checks" intersitial when clicking the "Details" links on a PR.](https://user-images.githubusercontent.com/2103975/49071220-c6596e80-f22d-11e8-8a1e-bdcd62aa6ece.png)
 - [Marks all files as "viewed" when approving a PR.](https://user-images.githubusercontent.com/11782/60969312-8740df00-a31f-11e9-8e34-d1f0c1a871aa.gif)
+
+<!-- Refer to style guide above. Keep this message between sections. -->
 
 ### Commits
 
@@ -214,12 +246,16 @@ GitHub Enterprise is also supported. More info in the options.
 - [Hides diff signs](https://user-images.githubusercontent.com/1402241/54807718-149cec80-4cb9-11e9-869c-e265863211e3.png) (since diffs are color coded.)
 - [Limits the commit title fields to 72 characters.](https://user-images.githubusercontent.com/37769974/60379478-106b3280-9a51-11e9-88b9-0e3607f214cd.gif)
 
+<!-- Refer to style guide above. Keep this message between sections. -->
+
 ### Newsfeed
 
 - [Condenses the events to take up less space and uncollapses "User starred X repos" groups.](https://user-images.githubusercontent.com/1402241/54401114-39192780-4701-11e9-9934-7c71f01e957f.png)
 - Hides "starred" events for your own repos
 - Hides other inutile events (commits, forks, new followers).
 - Automagically expands the newsfeed when you scroll down.
+
+<!-- Refer to style guide above. Keep this message between sections. -->
 
 ### Global
 
@@ -232,6 +268,8 @@ GitHub Enterprise is also supported. More info in the options.
 - [Open all your notifications at once.](https://user-images.githubusercontent.com/1402241/31700005-1b3be428-b38c-11e7-90a6-8f572968993b.png)
 - [All available keyboard shortcuts are shown in the help modal.](https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png)  *(<kbd>?</kbd> hotkey)*
 
+<!-- Refer to style guide above. Keep this message between sections. -->
+
 ### Fixes for GitHub bugs
 
 - [Indents wrapped code correctly.](https://user-images.githubusercontent.com/37769974/60379474-0ba67e80-9a51-11e9-97f9-077d282e5bdb.png)
@@ -239,6 +277,8 @@ GitHub Enterprise is also supported. More info in the options.
 - [Removes the autocomplete on search fields.](https://user-images.githubusercontent.com/1402241/42991841-1f057e4e-8c07-11e8-909c-b051db7a2a03.png)
 - Removes tooltips from self-explanatory buttons.
 - [Moves the "Recently-pushed branches" widget to the header to avoid content jumps.](https://user-images.githubusercontent.com/1402241/56466173-da517700-643f-11e9-8eb5-9b20017fa613.gif)
+
+<!-- Refer to style guide above. Keep this message between sections. -->
 
 ### Previously part of Refined GitHub
 
@@ -248,9 +288,9 @@ GitHub implemented 20 features that used to be part of Refined GitHub 🎉
 
 - [Blog post](https://github.com/blog/2304-navigate-file-history-faster-with-improved-blame-view): [Blame parent commits in blame view.](https://github.com/sindresorhus/refined-github/issues/2#issuecomment-189141373)
 - [Blog post](https://cloud.githubusercontent.com/assets/170270/25772137/6a6b678e-3296-11e7-97c7-02e31ef17743.png): [Collapse/expand files in a PR diff.](https://cloud.githubusercontent.com/assets/170270/13954167/40caa604-f072-11e5-89ba-3145217c4e28.png)
-- [Blog post](https://user-images.githubusercontent.com/1402241/31265633-779ad0fe-aa35-11e7-8c42-a3b375f8f32c.png): [Preview a issue/PR reference's title in comments.](https://user-images.githubusercontent.com/170270/30729486-2816df06-9f8a-11e7-8069-8999302e9ddd.png)
+- [Blog post](https://user-images.githubusercontent.com/1402241/31265633-779ad0fe-aa35-11e7-8c42-a3b375f8f32c.png): [Preview a issue/PR reference’s title in comments.](https://user-images.githubusercontent.com/170270/30729486-2816df06-9f8a-11e7-8069-8999302e9ddd.png)
 - [Blog post](https://github.com/sindresorhus/refined-github/pull/1330): The dashboard organization switcher is moved to the right column.
-- [Blog post](https://blog.github.com/changelog/2018-07-24-button-to-edit-a-repositorys-readme-from-the-repository-root/): [Quickly edit a repository's README from the repository root.](https://user-images.githubusercontent.com/170270/27501200-31a1fa20-586c-11e7-9a3f-ce270014bf0a.png)
+- [Blog post](https://blog.github.com/changelog/2018-07-24-button-to-edit-a-repositorys-readme-from-the-repository-root/): [Quickly edit a repository’s README from the repository root.](https://user-images.githubusercontent.com/170270/27501200-31a1fa20-586c-11e7-9a3f-ce270014bf0a.png)
 - [Blog post](https://blog.github.com/changelog/2018-07-25-access-your-repositories-straight-from-the-profile-dropdown/): [Access `Your repositories` from the profile dropdown.](https://user-images.githubusercontent.com/4201088/34920280-479e2454-f996-11e7-8e24-ad69793b9d9b.png)
 - [Blog post](https://blog.github.com/changelog/2018-07-26-highlighting-of-permalinked-comments/): [Permalinked comments are highlighted.](https://user-images.githubusercontent.com/1402241/37349492-226bd37a-2709-11e8-8087-d9686b330240.png)
 - [Blog post](https://blog.github.com/changelog/2018-07-24-keyboard-shortcut-to-leave-a-single-comment-in-pull-requests-reviews/): Leave a single comment in pull request diffs instead of starting a review by pressing <kbd>shift</kbd> <kbd>enter</kbd>.
