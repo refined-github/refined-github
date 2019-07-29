@@ -7,6 +7,7 @@ import {wrap} from '../libs/dom-utils';
 import getDefaultBranch from '../libs/get-default-branch';
 
 async function init(): Promise<void> {
+	const defaultBranch = await getDefaultBranch();
 	for (const fileIcon of select.all('.files :not(a) > .octicon-file')) {
 		const pathnameParts = fileIcon
 			.closest('tr')!
@@ -18,7 +19,7 @@ async function init(): Promise<void> {
 
 		const isPermalink = /Tag|Tree/.test(select('.branch-select-menu i')!.textContent!);
 		if (isPermalink) {
-			pathnameParts[4] = await getDefaultBranch(); // Replaces /${tag|commit}/
+			pathnameParts[4] = defaultBranch; // Replaces /${tag|commit}/
 		}
 
 		wrap(fileIcon, <a href={pathnameParts.join('/')} className="rgh-edit-files-faster" />);
