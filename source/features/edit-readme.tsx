@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
-import {getRepoURL, getCurrentBranch} from '../libs/utils';
+import getDefaultBranch from '../libs/get-default-branch';
 
 async function init(): Promise<void | false> {
 	const readmeHeader = select('#readme .Box-header h3');
@@ -15,9 +15,17 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const readmePath = select('.js-tagsearch-popover')!.dataset.tagsearchPath;
+	const isPermalink = /Tag|Tree/.test(select('.branch-select-menu i')!.textContent!);
+
+	const filename = readmeHeader.textContent!.trim();
+	const pathnameParts = select<HTMLAnchorElement>(`.files [title="${filename}"]`)!.pathname.split('/');
+	pathnameParts[3] = 'edit'; // Replaces /blob/
+	if (isPermalink) {
+		pathnameParts[4] = await getDefaultBranch(); // Replaces /${tag|commit}/
+	}
+
 	readmeHeader.after(
-		<a href={`/${getRepoURL()}/edit/${getCurrentBranch()}/${readmePath}`}
+		<a href={pathnameParts.join('/')}
 			className="Box-btn-octicon btn-octicon float-right"
 			aria-label="Edit this file">
 			{icons.edit()}
@@ -27,7 +35,7 @@ async function init(): Promise<void | false> {
 
 features.add({
 	id: __featureName__,
-	description: 'Quickly edit a repository’s README when previewed in a directory',
+	description: 'Adds an Edit button on previewed Readmes in folders, even if you have to make a fork.',
 	include: [
 		features.isRepoTree
 	],
