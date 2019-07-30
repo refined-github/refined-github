@@ -116,7 +116,7 @@ Thanks for contributing! 🦋🙌
 ### Repositories
 
 - [](# "ci-link") 🔥 [Adds a build/CI status icon next to the repo’s name.](https://user-images.githubusercontent.com/1402241/32562120-d65166e4-c4e8-11e7-90fb-cbaf36e2709f.png)
-- [](# "elease-download-count") [Adds a download count next to release assets.](https://user-images.githubusercontent.com/14323370/58944460-e1aeb480-874f-11e9-8052-2d4dc794ecab.png)
+- [](# "release-download-count") [Adds a download count next to release assets.](https://user-images.githubusercontent.com/14323370/58944460-e1aeb480-874f-11e9-8052-2d4dc794ecab.png)
 - [](# "hide-navigation-hover-highlight") Removes the file hover effect in the repo file browser.
 - [](# "hide-empty-meta") Hides the placeholder text in repos without a description.
 - [](# "remove-projects-tab") Hides the `Projects` tab from repositories and profiles when it’s empty.
