@@ -48,7 +48,7 @@ async function handleEvent(event: DelegateEvent<MouseEvent, HTMLElement>): Promi
 	const clickedItem = event.delegateTarget;
 
 	// The closest parent element that is not `position: sticky`, i.e. scrolls with page
-	let anchorElement = clickedItem.parentElement! as HTMLElement;
+	let anchorElement = clickedItem.parentElement!;
 	let viewportOffset = anchorElement.getBoundingClientRect().top;
 
 	if (clickedItem instanceof HTMLLabelElement) {
@@ -58,7 +58,7 @@ async function handleEvent(event: DelegateEvent<MouseEvent, HTMLElement>): Promi
 		const checkedState = (clickedItem.control as HTMLInputElement)!.checked;
 
 		for (const item of getSimilarItems(clickedItem) as HTMLLabelElement[]) {
-			if (item === clickedItem as HTMLLabelElement) {
+			if (item === clickedItem) {
 				continue;
 			}
 
@@ -96,7 +96,7 @@ function init(): void {
 features.add({
 	id: __featureName__,
 	load: features.onAjaxedPages,
-	description: 'Toggle all similar items (minimized comments, deferred diffs, etc) while holding `alt`',
+	description: 'Adds a shortcut to toggle all similar items (minimized comments, deferred diffs, etc) at once: `alt` `click` on each button or checkbox.',
 	init,
 	include: [
 		features.isPRConversation,
