@@ -56,8 +56,9 @@ async function handleEvent(event: DelegateEvent<MouseEvent, HTMLElement>): Promi
 		viewportOffset = anchorElement.getBoundingClientRect().top;
 
 		const checkedState = (clickedItem.control as HTMLInputElement)!.checked;
+		const similarItems = getSimilarItems(clickedItem) as HTMLLabelElement[];
 
-		for (const item of getSimilarItems(clickedItem) as HTMLLabelElement[]) {
+		for (const item of similarItems) {
 			if (item === clickedItem) {
 				continue;
 			}
