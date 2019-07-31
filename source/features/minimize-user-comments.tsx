@@ -93,6 +93,7 @@ function init(): void {
 features.add({
 	id: __featureName__,
 	description: 'Minimize comments for users you don’t want to see',
+	screenshot: 'https://user-images.githubusercontent.com/37769974/61595681-d6d4b400-ac17-11e9-98b9-03f27b004a94.gif',
 	include: [
 		features.isIssue,
 		features.isPRConversation
