@@ -61,7 +61,8 @@ async function init(): Promise<false | void> {
 
 features.add({
 	id: __featureName__,
-	description: 'Enable Newer/Older buttons in commit lists to follow file renames',
+	description: 'Enhances files’ commit lists navigation to follow file renames.',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/54799957-7306a280-4c9a-11e9-86de-b9764ed93397.png',
 	include: [
 		features.isCommitList
 	],

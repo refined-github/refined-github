@@ -25,7 +25,8 @@ function init(): false | void {
 
 features.add({
 	id: __featureName__,
-	description: 'Remove the "Checks" tab in pull requests unless you’re the owner',
+	description: 'Hides the `Checks` tab if it’s empty, unless you’re the owner.',
+	screenshot: false,
 	include: [
 		features.isPR
 	],

@@ -26,7 +26,8 @@ async function init(): Promise<false | void> {
 
 features.add({
 	id: __featureName__,
-	description: 'Visit a user’s public gists from their profile',
+	description: 'Adds a link to the user’s public gists.',
+	screenshot: 'https://user-images.githubusercontent.com/11544418/34268306-1c974fd2-e678-11e7-9e82-861dfe7add22.png',
 	include: [
 		features.isUserProfile
 	],

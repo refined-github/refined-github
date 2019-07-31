@@ -76,7 +76,8 @@ async function init(): Promise<void> {
 
 features.add({
 	id: __featureName__,
-	description: 'Add co-authors when merging pull requests with multiple committers',
+	description: 'Adds `co-authored-by` to the commit when merging PRs with multiple committers.',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/51468821-71a42100-1da2-11e9-86aa-fc2a6a29da84.png',
 	include: [
 		features.isPRConversation
 	],

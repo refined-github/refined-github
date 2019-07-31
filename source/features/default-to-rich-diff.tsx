@@ -38,7 +38,8 @@ function init(): void {
 features.add({
 	disabled: '#2041',
 	id: __featureName__,
-	description: 'Some of the files in pull requests can be reviewed using a rich-diff mode, for example, Markdown and SVG. This feature sets the rich-diff view as default in pull requests for files with a rich diff.',
+	description: 'Renders the rich diff by default in SVG files’ diffs.',
+	screenshot: 'https://user-images.githubusercontent.com/5243867/57125552-c08a2b00-6d81-11e9-9b84-cdb535baa98e.png',
 	include: [
 		features.isCommit,
 		features.isPRFiles
