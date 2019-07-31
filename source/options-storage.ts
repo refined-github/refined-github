@@ -53,11 +53,11 @@ const getOptions = (storageName = 'options'): OptionsSync<RGHOptions> => new Opt
 
 const defaultOptions = getOptions();
 
-export default defaultOptions
+export default defaultOptions;
 
 export const everyDomain = new Map<string, OptionsSync<RGHOptions>>();
 
-async function enterpriseInit() {
+async function enterpriseInit(): Promise<void> {
 	const {origins} = await getAdditionalPermissions();
 	everyDomain.set('github.com', defaultOptions);
 	for (const origin of origins) {

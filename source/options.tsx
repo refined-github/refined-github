@@ -49,9 +49,9 @@ function buildFeatureCheckbox({name, description, screenshot, disabled}: Feature
 	);
 }
 
-function getDomainSwitcher(origin: string) {
+function getDomainSwitcher(origin: string): JSX.Element {
 	const {hostname} = new URL(origin);
-	return <option value={hostname}>{hostname}</option>
+	return <option value={hostname}>{hostname}</option>;
 }
 
 async function init(): Promise<void> {
