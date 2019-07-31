@@ -98,6 +98,7 @@ features.add({
 	id: __featureName__,
 	load: features.onAjaxedPages,
 	description: 'Adds a shortcut to toggle all similar items (minimized comments, deferred diffs, etc) at once: `alt` `click` on each button or checkbox.',
+	screenshot: 'https://user-images.githubusercontent.com/37769974/62208543-dcb75b80-b3b4-11e9-984f-ddb479ea149d.gif',
 	init,
 	include: [
 		features.isPRConversation,
