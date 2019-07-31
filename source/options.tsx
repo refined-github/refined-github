@@ -5,10 +5,11 @@ import linkifyUrls from 'linkify-urls';
 import fitTextarea from 'fit-textarea';
 import linkifyIssues from 'linkify-issues';
 import indentTextarea from 'indent-textarea';
+import getAdditionalPermissions from 'webext-additional-permissions';
 import {applyToLink as shortenLink} from 'shorten-repo-url';
 import editTextNodes from './libs/linkify-text-nodes';
 import parseBackticks from './libs/parse-backticks';
-import optionsStorage from './options-storage';
+import optionsStorage, {everyDomain} from './options-storage';
 
 function parseDescription(description: string): DocumentFragment {
 	const descriptionFragment = parseBackticks(description);
@@ -48,13 +49,39 @@ function buildFeatureCheckbox({name, description, screenshot, disabled}: Feature
 	);
 }
 
+function getDomainSwitcher(origin: string) {
+	const {hostname} = new URL(origin);
+	return <option value={hostname}>{hostname}</option>
+}
+
 async function init(): Promise<void> {
 	select('.js-features')!.append(...__featuresInfo__.map(buildFeatureCheckbox));
 
-	await optionsStorage.syncForm('#options-form');
+	const form = select('form')!;
+	await optionsStorage.syncForm(form);
 
 	fitTextarea.watch('textarea');
 	indentTextarea.watch('textarea');
+
+	const {origins} = await getAdditionalPermissions();
+	if (origins.length > 0) {
+		const dropdown = (
+			<select>
+				{getDomainSwitcher('https://github.com')}
+				{...origins.map(getDomainSwitcher)}
+			</select>
+		) as any as HTMLSelectElement;
+		form.before(<p>Domain selector: {dropdown}</p>, <hr/>);
+		dropdown.addEventListener('change', () => {
+			for (const [domain, options] of everyDomain) {
+				if (dropdown.value === domain) {
+					options.syncForm(form);
+				} else {
+					options.stopSyncForm(form);
+				}
+			}
+		});
+	}
 }
 
 init();

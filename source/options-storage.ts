@@ -1,4 +1,5 @@
 import OptionsSync from 'webext-options-sync';
+import getAdditionalPermissions from 'webext-additional-permissions';
 
 export interface RGHOptions {
 	customCSS: string;
@@ -21,7 +22,8 @@ for (const feature of __featuresList__) {
 	featureOptions[`feature:${feature}`] = true;
 }
 
-export default new OptionsSync({
+const getOptions = (storageName = 'options'): OptionsSync<RGHOptions> => new OptionsSync({
+	storageName,
 	// eslint-disable-next-line @typescript-eslint/no-object-literal-type-assertion
 	defaults: {
 		customCSS: '',
@@ -48,3 +50,20 @@ export default new OptionsSync({
 		OptionsSync.migrations.removeUnused
 	]
 });
+
+const defaultOptions = getOptions();
+
+export default defaultOptions
+
+export const everyDomain = new Map<string, OptionsSync<RGHOptions>>();
+
+async function enterpriseInit() {
+	const {origins} = await getAdditionalPermissions();
+	everyDomain.set('github.com', defaultOptions);
+	for (const origin of origins) {
+		const {hostname} = new URL(origin);
+		everyDomain.set(hostname, getOptions(hostname));
+	}
+}
+
+enterpriseInit();
