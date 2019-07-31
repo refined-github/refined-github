@@ -11,7 +11,8 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Open CI details in a new tab',
+	description: 'Opens the Checks "details" link in a new tab.',
+	screenshot: false,
 	include: [
 		features.isPR
 	],

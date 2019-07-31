@@ -4,6 +4,7 @@ import onDomReady from 'dom-loaded';
 import elementReady from 'element-ready';
 import optionsStorage, {RGHOptions} from '../options-storage';
 import onNewComments from './on-new-comments';
+import onNewsfeedLoad from './on-newsfeed-load';
 import onFileListUpdate from './on-file-list-update';
 import * as pageDetect from './page-detect';
 
@@ -19,10 +20,14 @@ interface Shortcut {
 }
 
 export interface FeatureDetails {
-	disabled?: string; // If it's disabled, this should be the URL to the issue that explains why
-	id: string;
-	description: string;
-	screenshot?: string;
+	/**
+	If it's disabled, this should be the issue that explains why, as a reference
+	@example '#123'
+	*/
+	disabled?: string;
+	id: typeof __featureName__;
+	description: string | false;
+	screenshot: string | false;
 	include?: BooleanFunction[];
 	exclude?: BooleanFunction[];
 	init: () => false | void | Promise<false | void>;
@@ -130,6 +135,7 @@ const add = async (definition: FeatureDetails): Promise<void> => {
 	const {
 		id,
 		description,
+		screenshot,
 		include = [() => true], // Default: every page
 		exclude = [], // Default: nothing
 		load = (fn: VoidFunction) => fn(), // Run it right away
@@ -158,7 +164,7 @@ const add = async (definition: FeatureDetails): Promise<void> => {
 	}
 
 	// Initialize the feature using the specified loading mechanism
-	const details: FeatureDetails = {id, description, include, exclude, init, deinit};
+	const details: FeatureDetails = {id, description, screenshot, include, exclude, init, deinit};
 	if (load === onNewComments) {
 		details.init = async () => {
 			const result = await init();
@@ -182,6 +188,7 @@ export default {
 
 	// Loading mechanisms
 	onDomReady,
+	onNewsfeedLoad,
 	onNewComments,
 	onFileListUpdate,
 	onAjaxedPages,

@@ -102,7 +102,8 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Quickly edit your last comment using the `↑` keyboard shortcut',
+	description: 'Adds various shortcuts to comment fields: `↑` `tab` `esc` and Markdown formatting shortcuts',
+	screenshot: false,
 	shortcuts: {
 		'↑': 'Edit your last comment'
 	},

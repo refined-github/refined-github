@@ -36,7 +36,7 @@ input[type='checkbox'] {
 }
 
 [name='personalToken'] {
-	width: 50% !important; /* https://github.com/sindresorhus/refined-github/issues/1374#issuecomment-397906701 */
+	width: 20em !important; /* https://github.com/sindresorhus/refined-github/issues/1374#issuecomment-397906701 */
 }
 
 .small {

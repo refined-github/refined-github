@@ -114,6 +114,10 @@ export function getOP(): string {
 	return select('.timeline-comment-header-text .author')!.textContent!;
 }
 
+export function compareNames(username: string, realname: string): boolean {
+	return username.replace(/-/g, '').toLowerCase() === realname.normalize('NFD').replace(/[\u0300-\u036f\W.]/g, '').toLowerCase();
+}
+
 export async function poll<T>(callback: () => T, frequency: number): Promise<T> {
 	return new Promise(resolve => {
 		(function loop() {

@@ -85,7 +85,6 @@ import './features/swap-branches-on-compare';
 import './features/reactions-avatars';
 import './features/show-names';
 import './features/remove-diff-signs';
-import './features/mark-merge-commits-in-list';
 import './features/prev-next-commit-buttons';
 import './features/preserve-whitespace-option-in-nav';
 import './features/extend-diff-expander';
@@ -132,6 +131,9 @@ import './features/submit-review-as-single-comment';
 import './features/mark-files-as-viewed';
 import './features/edit-readme';
 import './features/list-prs-for-file';
+import './features/pr-branch-auto-delete';
+import './features/show-whitespace';
+import './features/linkify-symbolic-links';
 
 // Add global for easier debugging
 (window as any).select = select;

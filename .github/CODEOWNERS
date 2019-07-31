@@ -5,6 +5,7 @@ source/features/link-to-file-in-file-history.tsx @HardikModha
 source/features/default-to-rich-diff.tsx @idasbiste
 source/features/release-download-count.tsx @dotconnor
 source/features/indented-code-wrapping.tsx @notlmn
+source/features/show-whitespaces.tsx @notlmn
 source/features/open-issue-to-latest-comment.tsx @dotconnor
 source/features/highest-rated-comment.tsx @lubien
 source/features/clean-issue-filters.tsx @notlmn

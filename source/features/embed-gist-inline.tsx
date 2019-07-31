@@ -50,7 +50,8 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'View linked gists inline in comments',
+	description: 'Embeds linked gists.',
+	screenshot: 'https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.',
 	include: [
 		features.hasComments
 	],

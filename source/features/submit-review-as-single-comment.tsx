@@ -108,7 +108,7 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Submit a single PR comment if you mistakenly started a new review',
+	description: 'Adds a button to submit a single PR comment if you mistakenly started a new review.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/60331761-f6394200-99c7-11e9-81c2-c671cba9602a.gif',
 	include: [
 		features.isPRFiles

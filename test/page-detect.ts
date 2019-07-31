@@ -154,8 +154,8 @@ test('isRepoDiscussionList', urlMatcherMacro, pageDetect.isRepoDiscussionList, [
 	'http://github.com/sindresorhus/ava/issues',
 	'https://github.com/sindresorhus/refined-github/pulls',
 	'https://github.com/sindresorhus/refined-github/pulls/',
-	'https://github.com/sindresorhus/refined-github/pulls/bfred-it',
-	'https://github.com/sindresorhus/refined-github/issues/bfred-it',
+	'https://github.com/sindresorhus/refined-github/pulls/fregante',
+	'https://github.com/sindresorhus/refined-github/issues/fregante',
 	'https://github.com/sindresorhus/refined-github/labels/Priority%3A%20critical',
 	'https://github.com/sindresorhus/refined-github/issues?q=is%3Aclosed+sort%3Aupdated-desc'
 ], [
