@@ -1,6 +1,7 @@
 /* global chrome */
 import 'content-scripts-register-polyfill';
 import 'webext-permissions-events-polyfill';
+import {getAdditionalPermissions} from 'webext-additional-permissions';
 
 const registeredScripts = new Map<
 string,
@@ -13,22 +14,13 @@ function convertPath(file: string): browser.extensionTypes.ExtensionFileOrCode {
 	return {file: url.pathname};
 }
 
-async function registerOnOrigins(origins: string[]): Promise<void> {
-	const manifest = browser.runtime.getManifest();
-	const configs = manifest.content_scripts!;
-	const manifestOrigins = [
-		...(manifest.permissions || []).filter(permission => permission.includes('://')),
-		...configs.flatMap(config => config.matches)
-	];
+// Automatically register the content scripts on the new origins
+async function registerOnOrigins({origins: newOrigins}: chrome.permissions.Permissions): Promise<void> {
+	const manifest = browser.runtime.getManifest().content_scripts!;
 
-	for (const config of configs) {
-		// Register one at a time to allow removing one at a time as well
-		for (const origin of origins) {
-			// This origin is already part of `manifest.json`
-			if (manifestOrigins.includes(origin)) {
-				continue;
-			}
-
+	// Register one at a time to allow removing one at a time as well
+	for (const origin of newOrigins || []) {
+		for (const config of manifest) {
 			const registeredScript = browser.contentScripts.register({
 				js: (config.js || []).map(convertPath),
 				css: (config.css || []).map(convertPath),
@@ -41,16 +33,14 @@ async function registerOnOrigins(origins: string[]): Promise<void> {
 	}
 }
 
-// Automatically register the content scripts on the new origins.
-// `registerOnOrigins` already takes care of excluding origins in `manifest.json`
-chrome.permissions.getAll(async ({origins}) => registerOnOrigins(origins!));
+(async () => {
+	registerOnOrigins(await getAdditionalPermissions());
+})();
 
-chrome.permissions.onAdded.addListener(({origins}) => {
-	if (!origins || origins.length === 0) {
-		return;
+chrome.permissions.onAdded.addListener(permissions => {
+	if (permissions.origins && permissions.origins.length > 0) {
+		registerOnOrigins(permissions);
 	}
-
-	registerOnOrigins(origins);
 });
 
 chrome.permissions.onRemoved.addListener(async ({origins}) => {
