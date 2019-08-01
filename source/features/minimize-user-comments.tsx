@@ -10,6 +10,10 @@ import anchorScroll from '../libs/anchor-scroll';
 
 const getLabel = (restore: boolean): string => `${restore ? 'Restore' : 'Minimize'} user’s comments`;
 
+function getUsernameFromComment(comment: Element): string {
+	return select<HTMLAnchorElement>('.author', comment)!.pathname.slice(1);
+}
+
 async function getMinimizedUsers(): Promise<string[]> {
 	return (await optionsStorage.getAll()).minimizedUsers.trim().split(/\s+/);
 }
@@ -30,7 +34,7 @@ function toggleComment(comment: HTMLElement, minimize: boolean): void {
 
 async function onButtonClick(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
 	const comment = event.currentTarget.closest('.js-targetable-comment')!;
-	const user = select('.author', comment)!.textContent!;
+	const user = getUsernameFromComment(comment);
 
 	let minimizedUsers = await getMinimizedUsers();
 	if (minimizedUsers.includes(user)) {
@@ -45,11 +49,7 @@ async function onButtonClick(event: React.MouseEvent<HTMLButtonElement>): Promis
 
 async function handleMenuOpening(event: DelegateEvent): Promise<void> {
 	const dropdown = event.delegateTarget.nextElementSibling!;
-	const user = dropdown
-		.closest('.js-targetable-comment')!
-		.querySelector('.author')!
-		.textContent!;
-
+	const user = getUsernameFromComment(dropdown.closest('.js-targetable-comment')!);
 	if (user === getUsername()) {
 		return;
 	}
@@ -79,8 +79,9 @@ async function minimizeMutedUserComments(): Promise<void> {
 	const minimizedUsers = await getMinimizedUsers();
 
 	for (const comment of select.all('.js-discussion .js-minimizable-comment-group')) {
-		const user = select('.author', comment)!.textContent!;
-		toggleComment(comment, minimizedUsers.includes(user));
+		if (minimizedUsers.includes(getUsernameFromComment(comment))) {
+			toggleComment(comment, true);
+		}
 	}
 }
 
