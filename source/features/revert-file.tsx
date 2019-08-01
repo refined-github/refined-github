@@ -16,7 +16,7 @@ async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>)
 	const {ownerName, repoName} = getOwnerAndRepo();
 	try {
 		// Prefetch form asynchronously. Only await it later when needed
-		const editFormPromise = fetchDom<HTMLFormElement>(select<HTMLAnchorElement>('[aria-label^="Change this"]')!.href, '#new_blob');
+		const editFormPromise = fetchDom<HTMLFormElement>((menuItem.previousElementSibling as HTMLAnchorElement).href, '#new_blob');
 
 		// Get the real base commit of this PR, not the HEAD of base branch
 		const {repository: {pullRequest: {baseRefOid}}} = await api.v4(`{
