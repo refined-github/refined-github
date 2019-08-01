@@ -1,19 +1,16 @@
 export default async function postForm(form: HTMLFormElement): Promise<Response> {
-	return new Promise((resolve, reject) => {
-		const request = new XMLHttpRequest();
-		request.open('POST', form.action);
-		// request.responseType = 'json';
-		request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		request.onerror = reject;
-		request.onload = function () {
-			if (request.status >= 200 && request.status < 400) {
-				return resolve(request.response);
-			}
-
-			reject(new Error(request.statusText));
-		};
+	const response = await fetch(form.action, {
 		// `as` required until https://github.com/microsoft/TSJS-lib-generator/issues/741
-
-		request.send(new URLSearchParams(new FormData(form) as URLSearchParams).toString());
+		body: new URLSearchParams(new FormData(form) as URLSearchParams),
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+		}
 	});
+
+	if (!response.ok) {
+		throw new Error(response.statusText);
+	}
+
+	return response;
 }
