@@ -3,6 +3,5 @@
 .Box#js-issues-toolbar > .Box-header { /* https://github.com/issues */
 	position: sticky;
 	top: 0;
-	/* Must be above .modal-backdrop (z-index 20) #1317 */
-	z-index: 25;
+	z-index: 25; /* Must be above .modal-backdrop (z-index 20) #1317 */
 }
