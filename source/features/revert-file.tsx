@@ -55,7 +55,7 @@ async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>)
 		}
 
 		const editForm = await editFormPromise;
-		editForm.value = file.text; // Revert content
+		editForm.elements.value.value = file.text; // Revert content (`value` is the name of the file content field)
 		await postForm(editForm);
 
 		// Hide file from view
