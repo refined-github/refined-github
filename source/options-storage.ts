@@ -1,5 +1,5 @@
 import OptionsSync from 'webext-options-sync';
-import getAdditionalPermissions from 'webext-additional-permissions';
+import {getAdditionalPermissions} from 'webext-additional-permissions';
 
 export interface RGHOptions {
 	customCSS: string;

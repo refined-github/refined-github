@@ -1,7 +1,7 @@
 /* global chrome */
 import 'content-scripts-register-polyfill';
 import 'webext-permissions-events-polyfill';
-import getAdditionalPermissions from 'webext-additional-permissions';
+import {getAdditionalPermissions} from 'webext-additional-permissions';
 
 const registeredScripts = new Map<
 string,
