@@ -123,6 +123,7 @@ import './features/open-issue-to-latest-comment';
 import './features/limit-commit-title-length';
 import './features/highest-rated-comment';
 import './features/clean-issue-filters';
+import './features/minimize-user-comments';
 import './features/minimize-upload-bar';
 import './features/cycle-lists-with-keyboard-shortcuts';
 import './features/forked-to';

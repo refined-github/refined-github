@@ -4,6 +4,7 @@ export interface RGHOptions {
 	customCSS: string;
 	personalToken: string;
 	logging: boolean;
+	minimizedUsers: string;
 	[featureName: string]: string | boolean;
 }
 
@@ -27,6 +28,7 @@ export default new OptionsSync({
 		customCSS: '',
 		personalToken: '',
 		logging: false,
+		minimizedUsers: '',
 		...featureOptions
 	} as RGHOptions,
 	migrations: [
