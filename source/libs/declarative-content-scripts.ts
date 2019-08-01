@@ -3,10 +3,7 @@ import 'content-scripts-register-polyfill';
 import 'webext-permissions-events-polyfill';
 import {getAdditionalPermissions} from 'webext-additional-permissions';
 
-const registeredScripts = new Map<
-string,
-Promise<browser.contentScripts.RegisteredContentScript>
->();
+const registeredScripts = new Map<string, Promise<browser.contentScripts.RegisteredContentScript>>();
 
 // In Firefox, paths in the manifest are converted to full URLs under `moz-extension://` but browser.contentScripts expects exclusively relative paths
 function convertPath(file: string): browser.extensionTypes.ExtensionFileOrCode {
