@@ -36,7 +36,7 @@ import './features/mark-unread';
 import './features/open-all-notifications';
 import './features/copy-on-y';
 import './features/profile-hotkey';
-import './features/make-discussion-sidebar-sticky';
+import './features/sticky-discussion-sidebar';
 import './features/close-out-of-view-modals';
 import './features/improve-shortcut-help';
 import './features/deprioritize-marketplace-link';

@@ -29,7 +29,7 @@ for (const feature of __featuresList__) {
 }
 
 const migrations = [
-	featureWasRenamed('show-asset-download-count', 'release-download-count'), // Merged on June 9th
+	featureWasRenamed('make-discussion-sidebar-sticky', 'sticky-discussion-sidebar'), // Merged on August 1st
 
 	// Removed features will be automatically removed from the options as well
 	OptionsSync.migrations.removeUnused
