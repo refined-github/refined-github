@@ -1,0 +1,7 @@
+/* Sticky table header on issues list */
+.Box-header#js-issues-toolbar, /* https://github.com/:username-or-org/:repo/issues */
+.Box#js-issues-toolbar > .Box-header { /* https://github.com/issues */
+	position: sticky;
+	top: 0;
+	z-index: 25; /* Must be above .modal-backdrop (z-index 20) #1317 */
+}
