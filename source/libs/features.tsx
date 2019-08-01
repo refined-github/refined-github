@@ -4,7 +4,6 @@ import onDomReady from 'dom-loaded';
 import elementReady from 'element-ready';
 import optionsStorage, {RGHOptions} from '../options-storage';
 import onNewComments from './on-new-comments';
-import onNewsfeedLoad from './on-newsfeed-load';
 import onFileListUpdate from './on-file-list-update';
 import * as pageDetect from './page-detect';
 
@@ -188,7 +187,6 @@ export default {
 
 	// Loading mechanisms
 	onDomReady,
-	onNewsfeedLoad,
 	onNewComments,
 	onFileListUpdate,
 	onAjaxedPages,
