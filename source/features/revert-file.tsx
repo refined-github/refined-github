@@ -51,7 +51,6 @@ async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>)
 		if (file.isTruncated) {
 			menuItem.disabled = true;
 			menuItem.textContent = 'Revert failed: File too big';
-			menuItem.style.cssText = 'white-space: pre-wrap';
 			return;
 		}
 
@@ -65,7 +64,6 @@ async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>)
 		console.log(error);
 		menuItem.disabled = true;
 		menuItem.textContent = 'Revert failed. See console for errors';
-		menuItem.style.cssText = 'white-space: pre-wrap';
 	}
 }
 
@@ -80,6 +78,7 @@ async function handleMenuOpening(event: DelegateEvent): Promise<void> {
 	editFile.after(
 		<button
 			className="pl-5 dropdown-item btn-link rgh-revert-file"
+			style={{whiteSpace: 'pre-wrap'}}
 			role="menuitem"
 			type="button"
 			onClick={handleRevertFileClick}
