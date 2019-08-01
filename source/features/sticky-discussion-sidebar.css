@@ -2,4 +2,14 @@
 	position: sticky;
 	top: 60px !important; /* Matches sticky header's height */
 	z-index: 26 !important;
+	/*
+	Set the sidebar container's height to make it fit its contents
+	(instead of being the full height of the discussion)
+	*/
+	height: max-content;
+}
+
+/* Remove bottom padding from last divider (on pull requests) */
+.rgh-sticky-sidebar > .py-3:last-child {
+	padding-bottom: inherit !important;
 }
