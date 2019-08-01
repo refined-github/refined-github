@@ -15,6 +15,7 @@ import './features/hide-readme-header.css';
 import './features/hide-obvious-tooltips.css';
 import './features/clean-discussions.css';
 import './features/clean-rich-text-editor.css';
+import './features/sticky-discussion-list-toolbar.css';
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
 
@@ -53,7 +54,6 @@ import './features/linkify-branch-refs';
 import './features/batch-open-issues';
 import './features/hide-useless-comments';
 import './features/navigate-pages-with-arrow-keys';
-import './features/make-discussion-list-toolbar-sticky';
 import './features/global-discussion-list-filters';
 import './features/filter-comments-by-you';
 import './features/sort-issues-by-update-time'; // Must be after global-discussion-list-filters and filter-comments-by-you

@@ -1,7 +1,0 @@
-/* Sticky table header on issues list */
-.rgh-sticky-discussion-list-toolbar #js-issues-toolbar {
-	position: sticky;
-	top: 0;
-	/* Must be above .modal-backdrop (z-index 20) #1317 */
-	z-index: 25;
-}
