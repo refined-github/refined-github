@@ -95,6 +95,7 @@ function init(): void {
 }
 
 features.add({
+	disabled: '#2298',
 	id: __featureName__,
 	description: 'Adds ability to minimize comments of certain users.',
 	screenshot: 'https://user-images.githubusercontent.com/37769974/61595681-d6d4b400-ac17-11e9-98b9-03f27b004a94.gif',
