@@ -6,6 +6,7 @@ export interface RGHOptions {
 	customCSS: string;
 	personalToken: string;
 	logging: boolean;
+	minimizedUsers: string;
 	[featureName: string]: string | boolean;
 }
 
@@ -20,7 +21,8 @@ function featureWasRenamed(from: string, to: string): any { // TODO: any should 
 const defaults: RGHOptions = {
 	customCSS: '',
 	personalToken: '',
-	logging: false
+	logging: false,
+	minimizedUsers: ''
 };
 
 // This variable is replaced at build time with the list

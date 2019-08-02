@@ -32,19 +32,21 @@ function buildFeatureCheckbox({name, description, screenshot, disabled}: Feature
 	);
 
 	return (
-		<p>
+		<div className="feature">
 			<input type="checkbox" name={id} id={id} disabled={Boolean(disabled)} />
-			<label for={id} className="info">
-				<span className="feature-name">{name}</span>
-				{' '}
-				<a href={`https://github.com/sindresorhus/refined-github/blob/master/source/features/${name}.tsx`}>
-					source
-				</a>
-				{screenshot ? <>, <a href={screenshot}>screenshot</a></> : ''}
-				<br/>
-				<span className="description">{parsedDescription}</span>
-			</label>
-		</p>
+			<div className="info">
+				<label for={id}>
+					<span className="feature-name">{name}</span>
+					{' '}
+					<a href={`https://github.com/sindresorhus/refined-github/blob/master/source/features/${name}.tsx`}>
+						source
+					</a>
+					{screenshot ? <>, <a href={screenshot}>screenshot</a></> : ''}
+					<br/>
+					<p className="description">{parsedDescription}</p>
+				</label>
+			</div>
+		</div>
 	);
 }
 
@@ -58,6 +60,7 @@ async function init(): Promise<void> {
 	fitTextarea.watch('textarea');
 	indentTextarea.watch('textarea');
 
+	// GitHub Enterprise domain picker
 	if (optionsByDomain.size > 1) {
 		const dropdown = (
 			<select>
@@ -75,6 +78,10 @@ async function init(): Promise<void> {
 			}
 		});
 	}
+
+	// Move minimized users input field below the respective feature checkbox
+	// TODO: restore after #2298
+	// select('[for="feature:minimize-user-comments"]')!.after(select('.js-minimized-users-container')!);
 }
 
 init();
