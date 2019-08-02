@@ -48,7 +48,7 @@ async function onButtonClick(event: React.MouseEvent<HTMLButtonElement>): Promis
 }
 
 async function handleMenuOpening(event: DelegateEvent): Promise<void> {
-	const dropdown = event.delegateTarget.nextElementSibling!;
+	const dropdown = event.delegateTarget.nextElementSibling as HTMLElement;
 	const user = getUsernameFromComment(dropdown.closest('.js-targetable-comment')!);
 	if (user === getUsername()) {
 		return;
@@ -73,22 +73,25 @@ async function handleMenuOpening(event: DelegateEvent): Promise<void> {
 			{getLabel(shouldMinimizeComment)}
 		</button>
 	);
+
+	// The new button's label is too long for the dropdown
+	dropdown.style.width = '205px';
 }
 
 async function minimizeMutedUserComments(): Promise<void> {
 	const minimizedUsers = await getMinimizedUsers();
 
 	for (const comment of select.all('.js-discussion .js-minimizable-comment-group')) {
-		if (minimizedUsers.includes(getUsernameFromComment(comment))) {
-			toggleComment(comment, true);
-		}
+		const user = getUsernameFromComment(comment);
+		toggleComment(comment, minimizedUsers.includes(user));
 	}
 }
 
 function init(): void {
 	minimizeMutedUserComments();
 	onNewComments(minimizeMutedUserComments);
-	delegate('.timeline-comment-action', 'click', handleMenuOpening);
+	// `summary` excludes the `edit-comments-faster` button
+	delegate('summary.timeline-comment-action:not([aria-label="Add your reaction"])', 'click', handleMenuOpening);
 }
 
 features.add({
