@@ -24,6 +24,7 @@ async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>)
 	try {
 		const viewFileLink = menuItem.parentElement!.querySelector<HTMLAnchorElement>('[data-ga-click^="View file"]')!;
 		// The `a` selector skips the broken Delete link on some pages. GitHub's bug.
+		const deleteFileLink = menuItem.parentElement!.querySelector<HTMLAnchorElement>('a[aria-label^="Delete this"]')!;
 
 		// Prefetch form asynchronously. Only await it later when needed
 		const editFormPromise = fetchDom<HTMLFormElement>((menuItem.previousElementSibling as HTMLAnchorElement).href, '#new_blob');
@@ -40,10 +41,9 @@ async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>)
 		// Fetch file source
 		const response = await fetch(createRawUrlAtCommit(viewFileLink.pathname, baseRefOid));
 		if (!response.ok) {
-			// The file was added by this PR. Click the "Delete file" link instead.
-			// The `a` selector skips the broken Delete link on some pages. GitHub's bug.
-			// TODO: load it and submit the form automatically via ajax
-			select('[aria-label^="Delete this"]', menuItem.parentElement!)!.click();
+			// The file was added by this PR. Delete the file instead
+			const deleteForm = await fetchDom<HTMLFormElement>(deleteFileLink.href, '#new_blob');
+			await postForm(deleteForm);
 			return;
 		}
 
