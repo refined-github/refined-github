@@ -48,7 +48,7 @@ async function onButtonClick(event: React.MouseEvent<HTMLButtonElement>): Promis
 }
 
 async function handleMenuOpening(event: DelegateEvent): Promise<void> {
-	const dropdown = event.delegateTarget.nextElementSibling!;
+	const dropdown = event.delegateTarget.nextElementSibling as HTMLElement;
 	const user = getUsernameFromComment(dropdown.closest('.js-targetable-comment')!);
 	if (user === getUsername()) {
 		return;
@@ -73,6 +73,8 @@ async function handleMenuOpening(event: DelegateEvent): Promise<void> {
 			{getLabel(shouldMinimizeComment)}
 		</button>
 	);
+	// The new button's label is too long for the dropdown
+	dropdown.style.width = '205px';
 }
 
 async function minimizeMutedUserComments(): Promise<void> {
@@ -88,7 +90,7 @@ async function minimizeMutedUserComments(): Promise<void> {
 function init(): void {
 	minimizeMutedUserComments();
 	onNewComments(minimizeMutedUserComments);
-	delegate('.timeline-comment-action', 'click', handleMenuOpening);
+	delegate('summary.timeline-comment-action:not([aria-label="Add your reaction"])', 'click', handleMenuOpening);
 }
 
 features.add({
