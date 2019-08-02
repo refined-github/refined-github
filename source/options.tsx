@@ -70,7 +70,7 @@ async function init(): Promise<void> {
 				if (dropdown.value === domain) {
 					options.syncForm(form);
 				} else {
-					options.stopSyncForm(form);
+					options.stopSyncForm();
 				}
 			}
 		});
