@@ -7,6 +7,13 @@ import fetchDom from '../libs/fetch-dom';
 import postForm from '../libs/post-form';
 import {getOwnerAndRepo, getDiscussionNumber} from '../libs/utils';
 
+function createRawUrlAtCommit(pathname: string, commit: string): string {
+	const url = pathname.split('/');
+	url[3] = 'raw'; // Replaces 'blob'
+	url[4] = commit;
+	return new URL(url.join('/'), location.origin).href; // Full URL required by Firefox
+}
+
 async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
 	const menuItem = event.currentTarget;
 	menuItem.textContent = 'Reverting…';
@@ -15,6 +22,9 @@ async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>)
 
 	const {ownerName, repoName} = getOwnerAndRepo();
 	try {
+		const viewFileLink = menuItem.parentElement!.querySelector<HTMLAnchorElement>('[data-ga-click^="View file"]')!;
+		// The `a` selector skips the broken Delete link on some pages. GitHub's bug.
+
 		// Prefetch form asynchronously. Only await it later when needed
 		const editFormPromise = fetchDom<HTMLFormElement>((menuItem.previousElementSibling as HTMLAnchorElement).href, '#new_blob');
 
@@ -27,20 +37,9 @@ async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>)
 			}
 		}`);
 
-		const filePath = (menuItem.closest('[data-path]') as HTMLElement).dataset.path!;
-
-		const {repository: {file}} = await api.v4(`{
-			repository(owner: "${ownerName}", name: "${repoName}") {
-				file: object(expression: "${baseRefOid}:${filePath}") {
-					... on Blob {
-						isTruncated
-						text
-					}
-				}
-			}
-		}`);
-
-		if (!file) {
+		// Fetch file source
+		const response = await fetch(createRawUrlAtCommit(viewFileLink.pathname, baseRefOid));
+		if (!response.ok) {
 			// The file was added by this PR. Click the "Delete file" link instead.
 			// The `a` selector skips the broken Delete link on some pages. GitHub's bug.
 			// TODO: load it and submit the form automatically via ajax
@@ -48,14 +47,8 @@ async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>)
 			return;
 		}
 
-		if (file.isTruncated) {
-			menuItem.disabled = true;
-			menuItem.textContent = 'Revert failed: File too big';
-			return;
-		}
-
 		const editForm = await editFormPromise;
-		editForm.elements.value.value = file.text; // Revert content (`value` is the name of the file content field)
+		editForm.elements.value.value = await response.text(); // Revert content (`value` is the name of the file content field)
 		await postForm(editForm);
 
 		// Hide file from view
