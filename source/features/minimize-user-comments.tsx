@@ -90,6 +90,7 @@ async function minimizeMutedUserComments(): Promise<void> {
 function init(): void {
 	minimizeMutedUserComments();
 	onNewComments(minimizeMutedUserComments);
+	// `summary` excludes the `edit-comments-faster` button
 	delegate('summary.timeline-comment-action:not([aria-label="Add your reaction"])', 'click', handleMenuOpening);
 }
 
