@@ -22,12 +22,13 @@ async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>)
 
 	const {ownerName, repoName} = getOwnerAndRepo();
 	try {
+		const editFileLink = menuItem.previousElementSibling as HTMLAnchorElement;
 		const viewFileLink = menuItem.parentElement!.querySelector<HTMLAnchorElement>('[data-ga-click^="View file"]')!;
 		// The `a` selector skips the broken Delete link on some pages. GitHub's bug.
 		const deleteFileLink = menuItem.parentElement!.querySelector<HTMLAnchorElement>('a[aria-label^="Delete this"]')!;
 
 		// Prefetch form asynchronously. Only await it later when needed
-		const editFormPromise = fetchDom<HTMLFormElement>((menuItem.previousElementSibling as HTMLAnchorElement).href, '#new_blob');
+		const editFormPromise = fetchDom<HTMLFormElement>(editFileLink.href, '#new_blob');
 
 		// Get the real base commit of this PR, not the HEAD of base branch
 		const {repository: {pullRequest: {baseRefOid}}} = await api.v4(`{
