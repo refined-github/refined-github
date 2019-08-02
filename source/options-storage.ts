@@ -1,4 +1,6 @@
 import OptionsSync from 'webext-options-sync';
+import {isBackgroundPage} from 'webext-detect-page';
+import {getAdditionalPermissions} from 'webext-additional-permissions';
 
 export interface RGHOptions {
 	customCSS: string;
@@ -16,38 +18,70 @@ function featureWasRenamed(from: string, to: string): any { // TODO: any should 
 	};
 }
 
+const defaults: RGHOptions = {
+	customCSS: '',
+	personalToken: '',
+	logging: false,
+	minimizedUsers: ''
+};
+
 // This variable is replaced at build time with the list
-const featureOptions: Partial<RGHOptions> = {};
 for (const feature of __featuresList__) {
-	featureOptions[`feature:${feature}`] = true;
+	defaults[`feature:${feature}`] = true;
 }
 
-export default new OptionsSync({
-	// eslint-disable-next-line @typescript-eslint/no-object-literal-type-assertion
-	defaults: {
-		customCSS: '',
-		personalToken: '',
-		logging: false,
-		minimizedUsers: '',
-		...featureOptions
-	} as RGHOptions,
-	migrations: [
-		// Drop this migration after July
-		options => {
-			if (typeof options.disabledFeatures !== 'string') {
-				return;
-			}
+const migrations = [
+	featureWasRenamed('make-discussion-sidebar-sticky', 'sticky-discussion-sidebar'), // Merged on August 1st
 
-			for (const feature of options.disabledFeatures.split(/\s+/)) {
-				options[`feature:${feature}`] = false;
-			}
-		},
+	// Removed features will be automatically removed from the options as well
+	OptionsSync.migrations.removeUnused
+];
 
-		featureWasRenamed('move-marketplace-link-to-profile-dropdown', 'deprioritize-marketplace-link'), // Merged on June 7th
-		featureWasRenamed('show-asset-download-count', 'release-download-count'), // Merged on June 9th
-		featureWasRenamed('make-discussion-sidebar-sticky', 'sticky-discussion-sidebar'), // Merged on August 1st
+function getStorageName(host: string): string {
+	if (host === 'github.com') {
+		return 'options';
+	}
 
-		// Removed features will be automatically removed from the options as well
-		OptionsSync.migrations.removeUnused
-	]
-});
+	return `options-${host}`;
+}
+
+function getOptions(host: string): OptionsSync<RGHOptions> {
+	return new OptionsSync({storageName: getStorageName(host), migrations, defaults});
+}
+
+// Default to `options` on github.com and in the background script
+// Automatically picks the right domain to support GitHub Enteprise
+export default getOptions(location.host);
+
+export async function getAllOptions(): Promise<Map<string, OptionsSync<RGHOptions>>> {
+	const optionsByDomain = new Map<string, OptionsSync<RGHOptions>>();
+	optionsByDomain.set('github.com', getOptions('github.com'));
+
+	const {origins} = await getAdditionalPermissions();
+	for (const origin of origins) {
+		const {host} = new URL(origin);
+		optionsByDomain.set(host, getOptions(host));
+	}
+
+	return optionsByDomain;
+}
+
+async function initializeAllOptions(): Promise<void> {
+	// This will run all migrations
+	const {origins} = await getAdditionalPermissions();
+	for (const origin of origins) {
+		getOptions(new URL(origin).host);
+	}
+
+	// This will clean up dropped domains
+	browser.permissions.onRemoved!.addListener(({origins}) => {
+		if (origins) {
+			const optionKeysToRemove = origins.map(origin => getStorageName(new URL(origin).host));
+			browser.storage.sync.remove(optionKeysToRemove);
+		}
+	});
+}
+
+if (isBackgroundPage()) {
+	initializeAllOptions();
+}
