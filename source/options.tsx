@@ -24,7 +24,7 @@ function parseDescription(description: string): DocumentFragment {
 
 function buildFeatureCheckbox({name, description, screenshot, disabled}: FeatureInfo): HTMLElement {
 	// `undefined` disconnects it from the options
-	const id = disabled ? undefined : `feature:${name}`;
+	const key = disabled ? undefined : `feature:${name}`;
 
 	const parsedDescription = parseDescription(
 		(disabled ? `Disabled because of ${disabled}; \n` : '') +
@@ -33,9 +33,9 @@ function buildFeatureCheckbox({name, description, screenshot, disabled}: Feature
 
 	return (
 		<div className="feature">
-			<input type="checkbox" name={id} id={id} disabled={Boolean(disabled)} />
+			<input type="checkbox" name={key} id={name} disabled={Boolean(disabled)} />
 			<div className="info">
-				<label for={id}>
+				<label for={name}>
 					<span className="feature-name">{name}</span>
 					{' '}
 					<a href={`https://github.com/sindresorhus/refined-github/blob/master/source/features/${name}.tsx`}>
@@ -80,8 +80,7 @@ async function init(): Promise<void> {
 	}
 
 	// Move minimized users input field below the respective feature checkbox
-	// TODO: restore after #2298
-	// select('[for="feature:minimize-user-comments"]')!.after(select('.js-minimized-users-container')!);
+	select('[for="minimize-user-comments"]')!.after(select('.js-minimized-users-container')!);
 }
 
 init();
