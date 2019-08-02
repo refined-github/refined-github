@@ -16,7 +16,8 @@
 		"contextMenus",
 		"activeTab",
 		"https://github.com/*",
-		"https://api.github.com/*"
+		"https://api.github.com/*",
+		"https://raw.githubusercontent.com/*"
 	],
 	"browser_action": {
 		"default_icon": "icon.png"
