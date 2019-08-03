@@ -38,7 +38,8 @@ const migrations = [
 ];
 
 function getStorageName(host: string): string {
-	if (host === 'github.com') {
+	// The first two will match the hosts of Chrome’s and Firefox’s extension pages
+	if (/^([^.]{32}|[^.]{36}|github.com|gist.github.com)$/.test(location.host)) {
 		return 'options';
 	}
 
@@ -51,7 +52,7 @@ function getOptions(host: string): OptionsSync<RGHOptions> {
 
 // Default to `options` on github.com and in the background script
 // Automatically picks the right domain to support GitHub Enteprise
-export default getOptions(location.protocol.startsWith('http') ? location.host : 'github.com');
+export default getOptions(location.host);
 
 export async function getAllOptions(): Promise<Map<string, OptionsSync<RGHOptions>>> {
 	const optionsByDomain = new Map<string, OptionsSync<RGHOptions>>();
