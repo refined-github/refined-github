@@ -51,7 +51,7 @@ function getOptions(host: string): OptionsSync<RGHOptions> {
 
 // Default to `options` on github.com and in the background script
 // Automatically picks the right domain to support GitHub Enteprise
-export default getOptions(location.host);
+export default getOptions(location.protocol.startsWith('http') ? location.host : 'github.com');
 
 export async function getAllOptions(): Promise<Map<string, OptionsSync<RGHOptions>>> {
 	const optionsByDomain = new Map<string, OptionsSync<RGHOptions>>();
@@ -67,13 +67,22 @@ export async function getAllOptions(): Promise<Map<string, OptionsSync<RGHOption
 }
 
 async function initializeAllOptions(): Promise<void> {
-	// This will run all migrations
+	// Run migrations for every domain
 	const {origins} = await getAdditionalPermissions();
 	for (const origin of origins) {
 		getOptions(new URL(origin).host);
 	}
 
-	// This will clean up dropped domains
+	// Add new domains
+	browser.permissions.onAdded!.addListener(({origins}) => {
+		if (origins) {
+			for (const origin of origins) {
+				getOptions(new URL(origin).host);
+			}
+		}
+	});
+
+	// Remove old domains
 	browser.permissions.onRemoved!.addListener(({origins}) => {
 		if (origins) {
 			const optionKeysToRemove = origins.map(origin => getStorageName(new URL(origin).host));

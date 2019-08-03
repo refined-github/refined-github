@@ -42,6 +42,7 @@
 		"webext-additional-permissions": "^0.1.0",
 		"webext-detect-page": "^1.0.2",
 		"webext-domain-permission-toggle": "^1.0.0-1",
+		"webext-dynamic-content-scripts": "^6.0.0",
 		"webext-options-sync": "^1.0.0-8",
 		"webext-permissions-events-polyfill": "^1.0.1",
 		"webext-storage-cache": "^1.0.2",
