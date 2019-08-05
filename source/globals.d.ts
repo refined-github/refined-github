@@ -1,4 +1,5 @@
 type AnyObject = Record<string, any>;
+type AsyncVoidFunction = () => Promise<void>;
 
 interface FeatureInfo {
 	name: string;
