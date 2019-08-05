@@ -136,6 +136,7 @@ Thanks for contributing! 🦋🙌
 - [](# "branch-buttons") 🔥 [Adds links to the default branch and to the latest version tag.](https://user-images.githubusercontent.com/1402241/38107328-ccb3fb46-33bb-11e8-9654-23a6410943cc.png)
 - [](# "swap-branches-on-compare") [Adds link to swap branches in the branch compare view.](https://user-images.githubusercontent.com/857700/42854438-821096f2-8a01-11e8-8752-76f7563b5e18.png)
 - [](# "linkify-branch-refs") [Linkifies branch references in "Quick PR" pages.](https://user-images.githubusercontent.com/1402241/30208043-fa1ceaec-94bb-11e7-9c32-feabcf7db296.png)
+- [](# "hide-zero-packages") [Hides the `Packages` tab in repositories if it’s empty.](https://user-images.githubusercontent.com/35382021/62426530-688ef780-b6d5-11e9-93f2-515110aed1eb.jpg)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 

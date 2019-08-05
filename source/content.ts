@@ -134,6 +134,7 @@ import './features/list-prs-for-file';
 import './features/pr-branch-auto-delete';
 import './features/show-whitespace';
 import './features/linkify-symbolic-links';
+import './features/hide-zero-packages';
 
 // Add global for easier debugging
 (window as any).select = select;
