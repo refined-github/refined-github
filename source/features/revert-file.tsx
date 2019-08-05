@@ -6,12 +6,19 @@ import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
 import postForm from '../libs/post-form';
 import {getOwnerAndRepo, getDiscussionNumber} from '../libs/utils';
+import {isEnterprise} from '../libs/page-detect';
 
+/**
+@param pathname Like '/sindresorhus/refined-github/blob/currentcommit/readme.md'
+*/
 function createRawUrlAtCommit(pathname: string, commit: string): string {
-	const url = pathname.split('/');
-	url[3] = 'raw'; // Replaces 'blob'
-	url[4] = commit;
-	return new URL(url.join('/'), location.origin).href; // Full URL required by Firefox
+	// eslint-disable-next-line unicorn/no-unreadable-array-destructuring
+	const [, user, repo, /* 'blob' */, /* currentCommit */, ...file] = pathname.split('/');
+	if (isEnterprise()) {
+		return `${location.origin}/${user}/${repo}/raw/${commit}/${file.join('/')}`;
+	}
+
+	return `https://raw.githubusercontent.com/${user}/${repo}/${commit}/${file.join('/')}`;
 }
 
 async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
@@ -58,6 +65,7 @@ async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>)
 	} catch (error) {
 		console.log(error);
 		menuItem.disabled = true;
+		menuItem.style.whiteSpace = 'pre-wrap';
 		menuItem.textContent = 'Revert failed. See console for errors';
 	}
 }
@@ -73,7 +81,6 @@ async function handleMenuOpening(event: DelegateEvent): Promise<void> {
 	editFile.after(
 		<button
 			className="pl-5 dropdown-item btn-link rgh-revert-file"
-			style={{whiteSpace: 'pre-wrap'}}
 			role="menuitem"
 			type="button"
 			onClick={handleRevertFileClick}
