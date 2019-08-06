@@ -37,9 +37,9 @@ const migrations = [
 	OptionsSync.migrations.removeUnused
 ];
 
+// Keep this function "dumb". Don't move more "smart" domain selection logic in here
 function getStorageName(host: string): string {
-	// The first two will match the hosts of Chrome’s and Firefox’s extension pages
-	if (/^([^.]{32}|[^.]{36}|github.com|gist.github.com)$/.test(location.host)) {
+	if (/(^|\.)github\.com$/.test(host)) {
 		return 'options';
 	}
 
@@ -50,9 +50,8 @@ function getOptions(host: string): OptionsSync<RGHOptions> {
 	return new OptionsSync({storageName: getStorageName(host), migrations, defaults});
 }
 
-// Default to `options` on github.com and in the background script
-// Automatically picks the right domain to support GitHub Enteprise
-export default getOptions(location.host);
+// This should return the options for the current domain or, if called from an extension page, for `github.com`
+export default getOptions(location.protocol.startsWith('http') ? location.host : 'github.com');
 
 export async function getAllOptions(): Promise<Map<string, OptionsSync<RGHOptions>>> {
 	const optionsByDomain = new Map<string, OptionsSync<RGHOptions>>();
