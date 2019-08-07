@@ -52,8 +52,8 @@ async function init(): Promise<false | void> {
 features.add({
 	id: __featureName__,
 	description: 'Shows merging status of a PR',
-	// TODO: Add screenshot
-	screenshot: '',
+	screenshot:
+		'https://user-images.githubusercontent.com/9092510/62612817-86906e00-b908-11e9-8d2e-e40cf12404b4.png',
 	include: [features.isPRList],
 	load: features.onAjaxedPages,
 	init,
