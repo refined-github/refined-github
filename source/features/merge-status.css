@@ -1,0 +1,9 @@
+.timeline-comment-label.rgh-merge-conflicts-label {
+	float: none;
+	margin: 0;
+	margin-right: 4px;
+	color: #cb2431;
+	border-color: #cb2431;
+	white-space: nowrap;
+	display: inline-block;
+}
