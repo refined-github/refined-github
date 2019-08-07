@@ -2,22 +2,26 @@ import './merge-status.css';
 import select from 'select-dom';
 import React from 'dom-chef';
 import * as api from '../libs/api';
-import { getOwnerAndRepo } from '../libs/utils';
+import {getOwnerAndRepo} from '../libs/utils';
 import features from '../libs/features';
 
 const CONFLICTING = 'CONFLICTING';
 
-function buildQuery(ownerName: string, repoName: string, prs: string[]) {
+function buildQuery(
+	ownerName: string,
+	repoName: string,
+	prs: string[],
+): string {
 	return `
 		query {
 			repository(owner: "${ownerName}", name: "${repoName}") {
 				${prs.map(
-					(pr: string) => `
+		(pr: string) => `
 					${pr}: pullRequest(number: ${pr.replace('issue_', '')}) {
 						mergeable
 					}
 				`,
-				)}
+	)}
 			}
 		}
 	`;
@@ -29,7 +33,7 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	const { ownerName, repoName } = getOwnerAndRepo();
+	const {ownerName, repoName} = getOwnerAndRepo();
 
 	const query = buildQuery(ownerName, repoName, elements.map(e => e.id));
 
@@ -56,5 +60,5 @@ features.add({
 		'https://user-images.githubusercontent.com/9092510/62612817-86906e00-b908-11e9-8d2e-e40cf12404b4.png',
 	include: [features.isPRList],
 	load: features.onAjaxedPages,
-	init,
+	init
 });
