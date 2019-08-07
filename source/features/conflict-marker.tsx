@@ -4,6 +4,7 @@ import React from 'dom-chef';
 import * as api from '../libs/api';
 import {getOwnerAndRepo} from '../libs/utils';
 import features from '../libs/features';
+import {merge} from '../libs/icons';
 
 const CONFLICTING = 'CONFLICTING';
 
@@ -43,10 +44,10 @@ async function init(): Promise<false | void> {
 		if (data.repository[pr.id].mergeable === CONFLICTING) {
 			select('.d-inline-block.mr-1 > .commit-build-statuses', pr)!.before(
 				<span
-					className="timeline-comment-label tooltipped tooltipped-s rgh-conflict-marker"
+					className="tooltipped tooltipped-s rgh-conflict-marker v-align-middle"
 					aria-label="The PR can be merged but only after resolving the conflicts."
 				>
-					Merge conflicts
+					{merge()}
 				</span>,
 			);
 		}
@@ -56,7 +57,7 @@ async function init(): Promise<false | void> {
 features.add({
 	id: __featureName__,
 	description: 'Shows which PRs have conflicts in PR lists',
-	screenshot: 'https://user-images.githubusercontent.com/9092510/62612817-86906e00-b908-11e9-8d2e-e40cf12404b4.png',
+	screenshot: 'https://user-images.githubusercontent.com/9092510/62647237-62587f80-b950-11e9-9f66-cb99f008e19d.png',
 	include: [
 		features.isPRList
 	],
