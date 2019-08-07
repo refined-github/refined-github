@@ -1,4 +1,4 @@
-import './merge-status.css';
+import './conflict-marker.css';
 import select from 'select-dom';
 import React from 'dom-chef';
 import * as api from '../libs/api';
@@ -17,10 +17,10 @@ function buildQuery(
 			repository(owner: "${ownerName}", name: "${repoName}") {
 				${prs.map(
 		(pr: string) => `
-					${pr}: pullRequest(number: ${pr.replace('issue_', '')}) {
-						mergeable
-					}
-				`,
+						${pr}: pullRequest(number: ${pr.replace('issue_', '')}) {
+							mergeable
+						}
+					`,
 	)}
 			}
 		}
@@ -43,8 +43,8 @@ async function init(): Promise<false | void> {
 		if (data.repository[pr.id].mergeable === CONFLICTING) {
 			select('.d-inline-block.mr-1 > .commit-build-statuses', pr)!.before(
 				<span
-					className="timeline-comment-label tooltipped tooltipped-s rgh-merge-conflicts-label"
-					aria-label="This PR cannot be merged because of conflicts."
+					className="timeline-comment-label tooltipped tooltipped-s rgh-conflict-marker"
+					aria-label="The PR can be merged but only after resolving the conflicts."
 				>
 					Merge conflicts
 				</span>,
@@ -55,10 +55,11 @@ async function init(): Promise<false | void> {
 
 features.add({
 	id: __featureName__,
-	description: 'Shows merging status of a PR',
-	screenshot:
-		'https://user-images.githubusercontent.com/9092510/62612817-86906e00-b908-11e9-8d2e-e40cf12404b4.png',
-	include: [features.isPRList],
+	description: 'Shows which PRs have conflicts in PR lists',
+	screenshot: 'https://user-images.githubusercontent.com/9092510/62612817-86906e00-b908-11e9-8d2e-e40cf12404b4.png',
+	include: [
+		features.isPRList
+	],
 	load: features.onAjaxedPages,
 	init
 });
