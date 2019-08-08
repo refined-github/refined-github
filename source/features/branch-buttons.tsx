@@ -100,7 +100,7 @@ async function init(): Promise<false | void> {
 	]);
 
 	const wrapper = (
-		<div className="rgh-branch-buttons float-left">
+		<div className="rgh-branch-buttons ml-2">
 			{defaultLink}
 			{tagLink}
 		</div>
