@@ -1,0 +1,11 @@
+.rgh-branch-buttons {
+	margin-left: 0.5rem;
+}
+
+.file-navigation .rgh-branch-buttons {
+	margin: 0 3px !important;
+}
+
+.rgh-branch-buttons .BtnGroup {
+	margin: 0 !important;
+}
