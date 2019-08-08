@@ -1,6 +1,7 @@
 /*
 Set the sidebar container's height to make it fit its contents
 (instead of being the full height of the discussion)
+`#discussion_bucket` holds two columns: the conversation container (1st) and the sidebar container (2nd)
 */
 #discussion_bucket > :last-child {
 	height: max-content;
