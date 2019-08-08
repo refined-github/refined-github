@@ -2,7 +2,7 @@
 Set the sidebar container's height to make it fit its contents
 (instead of being the full height of the discussion)
 */
-.discussion-sidebar {
+#discussion_bucket > :last-child {
 	height: max-content;
 }
 
