@@ -1,12 +1,15 @@
-import './conflict-marker.css';
 import select from 'select-dom';
 import React from 'dom-chef';
 import * as api from '../libs/api';
-import {getOwnerAndRepo} from '../libs/utils';
+import {getOwnerAndRepo, getRepoURL} from '../libs/utils';
 import features from '../libs/features';
-import {merge} from '../libs/icons';
+import {alert} from '../libs/icons';
 
 const CONFLICTING = 'CONFLICTING';
+
+function getPrNumber(pr: string): string {
+	return pr.replace('issue_', '');
+}
 
 function buildQuery(
 	ownerName: string,
@@ -16,9 +19,8 @@ function buildQuery(
 	return `
 		query {
 			repository(owner: "${ownerName}", name: "${repoName}") {
-				${prs.map(
-		(pr: string) => `
-						${pr}: pullRequest(number: ${pr.replace('issue_', '')}) {
+				${prs.map((pr: string) => `
+						${pr}: pullRequest(number: ${getPrNumber(pr)}) {
 							mergeable
 						}
 					`,
@@ -43,12 +45,13 @@ async function init(): Promise<false | void> {
 	for (const pr of elements) {
 		if (data.repository[pr.id].mergeable === CONFLICTING) {
 			select('.d-inline-block.mr-1 > .commit-build-statuses', pr)!.before(
-				<span
-					className="tooltipped tooltipped-s rgh-conflict-marker v-align-middle"
-					aria-label="The PR can be merged but only after resolving the conflicts."
+				<a
+					className="tooltipped tooltipped-s m-0 text-gray mr-2"
+					aria-label="This PR has conflicts that must be resolved"
+					href={`/${getRepoURL()}/pull/${getPrNumber(pr.id)}#partial-pull-merging`}
 				>
-					{merge()}
-				</span>,
+					{alert()}
+				</a>,
 			);
 		}
 	}
@@ -57,7 +60,7 @@ async function init(): Promise<false | void> {
 features.add({
 	id: __featureName__,
 	description: 'Shows which PRs have conflicts in PR lists',
-	screenshot: 'https://user-images.githubusercontent.com/9092510/62647237-62587f80-b950-11e9-9f66-cb99f008e19d.png',
+	screenshot: 'https://user-images.githubusercontent.com/9092510/62777389-aad97f80-baad-11e9-9014-14d0b7eb033b.png',
 	include: [
 		features.isPRList
 	],
