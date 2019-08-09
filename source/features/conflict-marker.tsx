@@ -46,7 +46,7 @@ async function init(): Promise<false | void> {
 		if (data.repository[pr.id].mergeable === CONFLICTING) {
 			select('.d-inline-block.mr-1 > .commit-build-statuses', pr)!.before(
 				<a
-					className="tooltipped tooltipped-s m-0 text-gray mr-2"
+					className="tooltipped tooltipped-n m-0 text-gray mr-2"
 					aria-label="This PR has conflicts that must be resolved"
 					href={`/${getRepoURL()}/pull/${getPrNumber(pr.id)}#partial-pull-merging`}
 				>
@@ -60,7 +60,7 @@ async function init(): Promise<false | void> {
 features.add({
 	id: __featureName__,
 	description: 'Shows which PRs have conflicts in PR lists',
-	screenshot: 'https://user-images.githubusercontent.com/9092510/62777389-aad97f80-baad-11e9-9014-14d0b7eb033b.png',
+	screenshot: 'https://user-images.githubusercontent.com/9092510/62777551-2affe500-baae-11e9-8ba4-67f078347913.png',
 	include: [
 		features.isPRList
 	],
