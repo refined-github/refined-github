@@ -6,20 +6,6 @@ import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
 import postForm from '../libs/post-form';
 import {getOwnerAndRepo, getDiscussionNumber} from '../libs/utils';
-import {isEnterprise} from '../libs/page-detect';
-
-/**
-@param pathname Like '/sindresorhus/refined-github/blob/currentcommit/readme.md'
-*/
-function createRawUrlAtCommit(pathname: string, commit: string): string {
-	// eslint-disable-next-line unicorn/no-unreadable-array-destructuring
-	const [, user, repo, /* 'blob' */, /* currentCommit */, ...file] = pathname.split('/');
-	if (isEnterprise()) {
-		return `${location.origin}/${user}/${repo}/raw/${commit}/${file.join('/')}`;
-	}
-
-	return `https://raw.githubusercontent.com/${user}/${repo}/${commit}/${file.join('/')}`;
-}
 
 async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
 	const menuItem = event.currentTarget;
@@ -46,21 +32,34 @@ async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>)
 			}
 		}`);
 
-		// Fetch file source
-		const response = await fetch(createRawUrlAtCommit(viewFileLink.pathname, baseRefOid));
-		if (response.status === 404) {
+		const filePath = (menuItem.closest('[data-path]') as HTMLElement).dataset.path!;
+
+		const {repository: {file}} = await api.v4(`{
+			repository(owner: "${ownerName}", name: "${repoName}") {
+				file: object(expression: "${baseRefOid}:${filePath}") {
+					... on Blob {
+						isTruncated
+						text
+					}
+				}
+			}
+		}`);
+
+		if (!file) {
 			// The file was added by this PR. Delete the file instead
 			const deleteForm = await fetchDom<HTMLFormElement>(deleteFileLink.href, '#new_blob');
 			await postForm(deleteForm);
 			return;
 		}
 
-		if (!response.ok) {
-			throw new Error(response.statusText);
+		if (file.isTruncated) {
+			menuItem.disabled = true;
+			menuItem.textContent = 'Revert failed: File too big';
+			return;
 		}
 
 		const editForm = await editFormPromise;
-		editForm.elements.value.value = await response.text(); // Revert content (`value` is the name of the file content field)
+		editForm.elements.value.value = file.text; // Revert content (`value` is the name of the file content field)
 		editForm.elements.message.value = (editForm.elements.message as HTMLInputElement).placeholder.replace('Update', 'Revert');
 		await postForm(editForm);
 
@@ -69,7 +68,6 @@ async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>)
 	} catch (error) {
 		console.log(error);
 		menuItem.disabled = true;
-		menuItem.style.whiteSpace = 'pre-wrap';
 		menuItem.textContent = 'Revert failed. See console for errors';
 	}
 }
@@ -85,6 +83,7 @@ async function handleMenuOpening(event: DelegateEvent): Promise<void> {
 	editFile.after(
 		<button
 			className="pl-5 dropdown-item btn-link rgh-revert-file"
+			style={{whiteSpace: 'pre-wrap'}}
 			role="menuitem"
 			type="button"
 			onClick={handleRevertFileClick}
