@@ -3,7 +3,7 @@ import select from 'select-dom';
 import cache from 'webext-storage-cache';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {getOwnerAndRepo, getRepoURL} from '../libs/utils';
+import {getRepoURL, getRepoGQL} from '../libs/utils';
 import {isSingleFile} from '../libs/page-detect';
 import getDefaultBranch from '../libs/get-default-branch';
 import {groupSiblings} from '../libs/group-buttons';
@@ -50,37 +50,34 @@ async function init(): Promise<void> {
 @returns prsByFile {"filename1": [10, 3], "filename2": [2]}
 */
 async function getPrsByFile(): Promise<Record<string, number[]>> {
-	const {ownerName, repoName} = getOwnerAndRepo();
-	const cacheKey = `list-prs-for-file:${ownerName}/${repoName}`;
+	const cacheKey = `list-prs-for-file:${getRepoURL()}`;
 	const cachedFiles = await cache.get<Record<string, number[]>>(cacheKey);
 	if (cachedFiles !== undefined) {
 		return cachedFiles;
 	}
 
-	const {repository} = await api.v4(
-		`{
-			repository(owner: "${ownerName}", name: "${repoName}") {
-				pullRequests(
-					first: 25,
-					states: OPEN,
-					baseRefName: "${await getDefaultBranch()}",
-					orderBy: {
-						field: UPDATED_AT,
-						direction: DESC
-					}
-				) {
-					nodes {
-						number
-						files(first: 100) {
-							nodes {
-								path
-							}
+	const {repository} = await api.v4(`
+		repository(${getRepoGQL()}) {
+			pullRequests(
+				first: 25,
+				states: OPEN,
+				baseRefName: "${await getDefaultBranch()}",
+				orderBy: {
+					field: UPDATED_AT,
+					direction: DESC
+				}
+			) {
+				nodes {
+					number
+					files(first: 100) {
+						nodes {
+							path
 						}
 					}
 				}
 			}
-		}`
-	);
+		}
+	`);
 
 	const files: Record<string, number[]> = {};
 

@@ -117,6 +117,10 @@ export const v4 = mem(async (
 ): Promise<AnyObject> => {
 	const {personalToken} = await settings;
 
+	if (/^(query )?{/.test(query.trimStart())) {
+		throw new TypeError('`query` should only be what’s inside \'query {...}\', like \'user(login: "foo") { name }\', but is \n' + query);
+	}
+
 	if (!personalToken) {
 		throw new Error('Personal token required for this feature');
 	}
@@ -127,7 +131,7 @@ export const v4 = mem(async (
 			Authorization: `bearer ${personalToken}`
 		},
 		method: 'POST',
-		body: JSON.stringify({query})
+		body: JSON.stringify({query: `{${query}}`})
 	});
 
 	const apiResponse: GraphQLResponse = await response.json();
