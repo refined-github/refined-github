@@ -10,19 +10,16 @@ function getPrNumber(pr: string): string {
 }
 
 function buildQuery(
-	ownerName: string,
-	repoName: string,
 	prs: string[],
 ): string {
+	const {ownerName, repoName} = getOwnerAndRepo();
 	return `
-		query {
-			repository(owner: "${ownerName}", name: "${repoName}") {
-				${prs.map((pr: string) => `
-					${pr}: pullRequest(number: ${getPrNumber(pr)}) {
-						mergeable
-					}
-				`)}
-			}
+		repository(owner: "${ownerName}", name: "${repoName}") {
+			${prs.map((pr: string) => `
+				${pr}: pullRequest(number: ${getPrNumber(pr)}) {
+					mergeable
+				}
+			`)}
 		}
 	`;
 }
@@ -33,14 +30,11 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	const {ownerName, repoName} = getOwnerAndRepo();
-
-	const query = buildQuery(ownerName, repoName, elements.map(e => e.id));
-
-	const data = await api.v4(query);
+	const query = buildQuery(elements.map(e => e.id));
+	const {repository} = await api.v4(query);
 
 	for (const pr of elements) {
-		if (data.repository[pr.id].mergeable === 'CONFLICTING') {
+		if (repository[pr.id].mergeable === 'CONFLICTING') {
 			select('.d-inline-block.mr-1 > .commit-build-statuses', pr)!.before(
 				<a
 					className="tooltipped tooltipped-n m-0 text-gray mr-2"
