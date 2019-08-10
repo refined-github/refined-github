@@ -21,7 +21,7 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Parse `code in backticks` that appear in issue titles as Markdown',
+	description: 'Renders text in `backticks` in issue titles and commit titles.',
 	screenshot: 'https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png',
 	include: [
 		features.isDiscussionList,

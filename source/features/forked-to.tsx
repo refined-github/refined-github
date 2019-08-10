@@ -41,7 +41,7 @@ async function validateFork(repo: string): Promise<boolean> {
 	return response.ok;
 }
 
-async function validateForks(forks: string[]): Promise<void> {
+async function updateForks(forks: string[]): Promise<void> {
 	// Don't validate current page: it exists; it won't be shown in the list; it will be added later anyway
 	const validForks = await pFilter(forks.filter(fork => fork !== getRepoURL()), validateFork);
 
@@ -124,7 +124,7 @@ async function init(): Promise<void> {
 	});
 
 	// Validate cache after showing links once, to make it faster
-	await validateForks(forks);
+	await updateForks(forks || []);
 }
 
 features.add({

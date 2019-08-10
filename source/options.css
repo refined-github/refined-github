@@ -1,5 +1,7 @@
 html {
 	min-width: 550px;
+	max-width: 700px;
+	margin: auto;
 	overflow-x: hidden;
 }
 
@@ -36,7 +38,7 @@ input[type='checkbox'] {
 }
 
 [name='personalToken'] {
-	width: 50% !important; /* https://github.com/sindresorhus/refined-github/issues/1374#issuecomment-397906701 */
+	width: 20em !important; /* https://github.com/sindresorhus/refined-github/issues/1374#issuecomment-397906701 */
 }
 
 .small {
@@ -55,8 +57,9 @@ h2 ~ h2 {
 	margin-top: 2em;
 }
 
-.js-features p {
+.js-features .feature {
 	display: flex;
+	margin-top: 1em;
 }
 
 .js-features input {
@@ -69,13 +72,25 @@ h2 ~ h2 {
 	text-decoration: line-through;
 }
 
+.js-features :not(:checked) + .info .extended-options {
+	display: none;
+}
+
 .js-features .description {
-	font-style: 0.8em;
 	opacity: 0.8;
 }
 
 .js-features a {
 	font-size: 0.9em;
+}
+
+.js-features .info {
+	flex-grow: 1;
+}
+
+.js-features .info p {
+	margin-top: 0.25em;
+	margin-bottom: 0.125em;
 }
 
 .feature-name + a {

@@ -1,9 +1,12 @@
 import OptionsSync from 'webext-options-sync';
+import {isBackgroundPage} from 'webext-detect-page';
+import {getAdditionalPermissions} from 'webext-additional-permissions';
 
 export interface RGHOptions {
 	customCSS: string;
 	personalToken: string;
 	logging: boolean;
+	minimizedUsers: string;
 	[featureName: string]: string | boolean;
 }
 
@@ -15,36 +18,79 @@ function featureWasRenamed(from: string, to: string): any { // TODO: any should 
 	};
 }
 
+const defaults: RGHOptions = {
+	customCSS: '',
+	personalToken: '',
+	logging: false,
+	minimizedUsers: ''
+};
+
 // This variable is replaced at build time with the list
-const featureOptions: Partial<RGHOptions> = {};
 for (const feature of __featuresList__) {
-	featureOptions[`feature:${feature}`] = true;
+	defaults[`feature:${feature}`] = true;
 }
 
-export default new OptionsSync({
-	// eslint-disable-next-line @typescript-eslint/no-object-literal-type-assertion
-	defaults: {
-		customCSS: '',
-		personalToken: '',
-		logging: false,
-		...featureOptions
-	} as RGHOptions,
-	migrations: [
-		// Drop this migration after July
-		options => {
-			if (typeof options.disabledFeatures !== 'string') {
-				return;
+const migrations = [
+	featureWasRenamed('make-discussion-sidebar-sticky', 'sticky-discussion-sidebar'), // Merged on August 1st
+
+	// Removed features will be automatically removed from the options as well
+	OptionsSync.migrations.removeUnused
+];
+
+// Keep this function "dumb". Don't move more "smart" domain selection logic in here
+function getStorageName(host: string): string {
+	if (/(^|\.)github\.com$/.test(host)) {
+		return 'options';
+	}
+
+	return `options-${host}`;
+}
+
+function getOptions(host: string): OptionsSync<RGHOptions> {
+	return new OptionsSync({storageName: getStorageName(host), migrations, defaults});
+}
+
+// This should return the options for the current domain or, if called from an extension page, for `github.com`
+export default getOptions(location.protocol.startsWith('http') ? location.host : 'github.com');
+
+export async function getAllOptions(): Promise<Map<string, OptionsSync<RGHOptions>>> {
+	const optionsByDomain = new Map<string, OptionsSync<RGHOptions>>();
+	optionsByDomain.set('github.com', getOptions('github.com'));
+
+	const {origins} = await getAdditionalPermissions();
+	for (const origin of origins) {
+		const {host} = new URL(origin);
+		optionsByDomain.set(host, getOptions(host));
+	}
+
+	return optionsByDomain;
+}
+
+async function initializeAllOptions(): Promise<void> {
+	// Run migrations for every domain
+	const {origins} = await getAdditionalPermissions();
+	for (const origin of origins) {
+		getOptions(new URL(origin).host);
+	}
+
+	// Add new domains
+	browser.permissions.onAdded!.addListener(({origins}) => {
+		if (origins) {
+			for (const origin of origins) {
+				getOptions(new URL(origin).host);
 			}
+		}
+	});
 
-			for (const feature of options.disabledFeatures.split(/\s+/)) {
-				options[`feature:${feature}`] = false;
-			}
-		},
+	// Remove old domains
+	browser.permissions.onRemoved!.addListener(({origins}) => {
+		if (origins) {
+			const optionKeysToRemove = origins.map(origin => getStorageName(new URL(origin).host));
+			browser.storage.sync.remove(optionKeysToRemove);
+		}
+	});
+}
 
-		featureWasRenamed('move-marketplace-link-to-profile-dropdown', 'deprioritize-marketplace-link'), // Merged on June 7th
-		featureWasRenamed('show-asset-download-count', 'release-download-count'), // Merged on June 9th
-
-		// Removed features will be automatically removed from the options as well
-		OptionsSync.migrations.removeUnused
-	]
-});
+if (isBackgroundPage()) {
+	initializeAllOptions();
+}

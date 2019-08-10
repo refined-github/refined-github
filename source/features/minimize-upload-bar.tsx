@@ -6,13 +6,13 @@ import features from '../libs/features';
 import * as icons from '../libs/icons';
 
 async function addButton(): Promise<void> {
-	for (const toolbarGroup of select.all('form:not(.rgh-minimize-upload-bar) markdown-toolbar > :last-child')) {
-		toolbarGroup.prepend(
+	for (const toolbarButton of select.all('md-ref')) {
+		toolbarButton.after(
 			<button type="button" className="toolbar-item tooltipped tooltipped-n rgh-upload-btn" aria-label="Attach files">
 				{icons.cloudUpload()}
 			</button>
 		);
-		toolbarGroup.closest('form')!.classList.add('rgh-minimize-upload-bar');
+		toolbarButton.closest('form')!.classList.add('rgh-minimize-upload-bar');
 	}
 }
 
@@ -30,7 +30,7 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Add upload button to the comment toolbar and remove the upload message',
+	description: 'Reduces the upload bar to a small button.',
 	screenshot: 'https://user-images.githubusercontent.com/55841/59802383-3d994180-92e9-11e9-835d-60de67611c30.png',
 	include: [
 		features.hasRichTextEditor

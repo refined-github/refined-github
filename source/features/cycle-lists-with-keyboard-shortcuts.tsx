@@ -56,13 +56,13 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Cycle "popover lists" (labels, milestones, etc) when selecting them with the `↑` and `↓` keys.',
+	description: 'Allows the `↑` and `↓` keys to cycle "popover lists" (labels, milestones, etc).',
 	screenshot: 'https://user-images.githubusercontent.com/37769974/59158786-6fd2c400-8add-11e9-9db1-db80186fa6ea.gif',
-	init,
 	load: features.onAjaxedPages,
 	include: [
 		features.isPRConversation,
 		features.isIssue,
 		features.isCompare
-	]
+	],
+	init
 });

@@ -1,3 +1,5 @@
+import select from 'select-dom';
+
 // In PRs' Files tab, some files are loaded progressively later.
 const handlers = new WeakMap<EventListener, EventListener>();
 
@@ -9,7 +11,12 @@ export default function onPrFileLoad(callback: EventListener): void {
 	});
 	handlers.set(callback, recursiveCallback);
 
-	for (const fragment of document.querySelectorAll('include-fragment.diff-progressive-loader')) {
+	const fragments = select.all([
+		'include-fragment.diff-progressive-loader', // Incremental file loader on scroll
+		'include-fragment.js-diff-entry-loader' // File diff loader on clicking "Load Diff"
+	].join());
+
+	for (const fragment of fragments) {
 		fragment.addEventListener('load', recursiveCallback);
 	}
 }

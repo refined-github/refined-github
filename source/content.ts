@@ -6,7 +6,6 @@ import './features/center-reactions-popup.css';
 import './features/widen-search-field.css';
 import './features/clean-dashboard.css';
 import './features/safer-destructive-actions.css';
-import './features/delete-fork-button.css';
 import './features/clean-mergeability-box.css';
 import './features/clean-footer.css';
 import './features/pr-approvals-count.css';
@@ -16,6 +15,7 @@ import './features/hide-readme-header.css';
 import './features/hide-obvious-tooltips.css';
 import './features/clean-discussions.css';
 import './features/clean-rich-text-editor.css';
+import './features/sticky-discussion-list-toolbar.css';
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
 
@@ -37,7 +37,7 @@ import './features/mark-unread';
 import './features/open-all-notifications';
 import './features/copy-on-y';
 import './features/profile-hotkey';
-import './features/make-discussion-sidebar-sticky';
+import './features/sticky-discussion-sidebar';
 import './features/close-out-of-view-modals';
 import './features/improve-shortcut-help';
 import './features/deprioritize-marketplace-link';
@@ -85,7 +85,6 @@ import './features/swap-branches-on-compare';
 import './features/reactions-avatars';
 import './features/show-names';
 import './features/remove-diff-signs';
-import './features/mark-merge-commits-in-list';
 import './features/prev-next-commit-buttons';
 import './features/preserve-whitespace-option-in-nav';
 import './features/extend-diff-expander';
@@ -124,11 +123,18 @@ import './features/open-issue-to-latest-comment';
 import './features/limit-commit-title-length';
 import './features/highest-rated-comment';
 import './features/clean-issue-filters';
+import './features/minimize-user-comments';
 import './features/minimize-upload-bar';
 import './features/cycle-lists-with-keyboard-shortcuts';
 import './features/forked-to';
 import './features/submit-review-as-single-comment';
 import './features/mark-files-as-viewed';
+import './features/edit-readme';
+import './features/list-prs-for-file';
+import './features/pr-branch-auto-delete';
+import './features/show-whitespace';
+import './features/linkify-symbolic-links';
+import './features/hide-zero-packages';
 
 // Add global for easier debugging
 (window as any).select = select;

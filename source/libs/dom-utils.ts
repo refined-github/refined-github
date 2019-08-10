@@ -36,12 +36,12 @@ export const appendBefore = (parent: string|Element, before: string, child: Elem
 	}
 };
 
-export const wrap = (target: Element, wrapper: Element): void => {
+export const wrap = (target: Element | ChildNode, wrapper: Element): void => {
 	target.before(wrapper);
 	wrapper.append(target);
 };
 
-export const wrapAll = (targets: Element[], wrapper: Element): void => {
+export const wrapAll = (targets: Array<Element | ChildNode>, wrapper: Element): void => {
 	targets[0].before(wrapper);
 	wrapper.append(...targets);
 };
@@ -51,3 +51,16 @@ export const isEditable = (node: unknown): boolean => {
 		node instanceof HTMLInputElement ||
 		(node instanceof HTMLElement && node.isContentEditable);
 };
+
+export async function elementFinder<T extends HTMLElement = HTMLElement>(selector: string, frequency: number): Promise<T> {
+	return new Promise(resolve => {
+		(function loop() {
+			const element = select<T>(selector);
+			if (element) {
+				resolve(element);
+			} else {
+				setTimeout(loop, frequency);
+			}
+		})();
+	});
+}
