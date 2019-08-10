@@ -228,6 +228,7 @@ Thanks for contributing! 🦋🙌
 - [](# "pull-request-hotkey") Adds keyboard shortcuts to cycle through PR tabs: <kbd>g</kbd> <kbd>←</kbd> and <kbd>g</kbd> <kbd>→</kbd>, or <kbd>g</kbd> <kbd>1</kbd>, <kbd>g</kbd> <kbd>2</kbd>, <kbd>g</kbd> <kbd>3</kbd> and <kbd>g</kbd> <kbd>4</kbd>.
 - [](# "mark-files-as-viewed") [Marks all files as "viewed" when approving a PR.](https://user-images.githubusercontent.com/11782/60969312-8740df00-a31f-11e9-8e34-d1f0c1a871aa.gif)
 - [](# "pr-branch-auto-delete") Automatically deletes the branch right after merging a PR, if possible.
+- [](# "revert-file") 🔥 [Adds button to revert all the changes to a file in a PR.](https://user-images.githubusercontent.com/1402241/62826118-73b7bb00-bbe0-11e9-9449-2dd64c469bb9.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 

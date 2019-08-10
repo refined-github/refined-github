@@ -3,11 +3,11 @@ import select from 'select-dom';
 import features from '../libs/features';
 import onPrFileLoad from '../libs/on-pr-file-load';
 
-const createRawUrl = (href: string): string => {
-	const url = href.split('/');
+function createRawUrl(pathname: string): string {
+	const url = pathname.split('/');
 	url[3] = 'raw'; // Replaces 'blob'
 	return url.join('/');
-};
+}
 
 function addRawButtons(): void {
 	const links = select.all<HTMLAnchorElement>('.js-file-header-dropdown [data-ga-click^="View file"]:not(.rgh-has-raw-file-link)');

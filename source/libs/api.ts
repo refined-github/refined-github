@@ -108,7 +108,7 @@ export const v3 = mem(async (
 		});
 	}
 
-	throw getError(apiResponse);
+	throw await getError(apiResponse);
 });
 
 export const v4 = mem(async (
@@ -152,7 +152,7 @@ export const v4 = mem(async (
 		return data;
 	}
 
-	throw getError(apiResponse as JsonObject);
+	throw await getError(apiResponse as JsonObject);
 });
 
 async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError> {
