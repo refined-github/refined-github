@@ -1,18 +1,10 @@
-/*
-Set the sidebar container's height to make it fit its contents
-(instead of being the full height of the discussion)
-*/
-.discussion-sidebar {
-	height: max-content;
-}
-
 .rgh-sticky-sidebar {
 	position: sticky;
 	top: 60px !important; /* Matches sticky header's height */
 	z-index: 26 !important;
 }
 
-/* Remove padding from last divider (on pull requests) */
-.rgh-sticky-sidebar > .py-3:last-child {
-	padding: 0 !important;
+/* Hides the last divider (on pull requests) to avoid https://user-images.githubusercontent.com/10238474/62282128-af6fb980-b457-11e9-8b18-c29687b88da1.gif */
+.rgh-sticky-sidebar + .border-top {
+	display: none;
 }
