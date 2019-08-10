@@ -7,7 +7,7 @@ import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
-import {getUsername, getOwnerAndRepo} from '../libs/utils';
+import {getUsername, getRepoURL} from '../libs/utils';
 
 type NotificationType = 'pull-request' | 'issue';
 type NotificationState = 'open' | 'merged' | 'closed' | 'draft';
@@ -95,7 +95,6 @@ async function markUnread({currentTarget}: React.MouseEvent): Promise<void> {
 		avatar: el.querySelector('img')!.src
 	}));
 
-	const {ownerName, repoName} = getOwnerAndRepo();
 	const stateLabel = select('.gh-header-meta .State')!;
 	let state: NotificationState;
 
@@ -118,7 +117,7 @@ async function markUnread({currentTarget}: React.MouseEvent): Promise<void> {
 		participants,
 		state,
 		isParticipating: select.exists(`.participant-avatar[href="/${getUsername()}"]`),
-		repository: `${ownerName}/${repoName}`,
+		repository: getRepoURL(),
 		dateTitle: lastCommentTime.title,
 		title: select('.js-issue-title')!.textContent!.trim(),
 		type: pageDetect.isPR() ? 'pull-request' : 'issue',

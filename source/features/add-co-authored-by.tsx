@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {getOwnerAndRepo, getDiscussionNumber, getOP} from '../libs/utils';
+import {getDiscussionNumber, getOP, getRepoGQL} from '../libs/utils';
 import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
 
 interface Author {
@@ -16,31 +16,26 @@ interface Author {
 let coAuthors: Author[];
 
 async function fetchCoAuthoredData(): Promise<Author[]> {
-	const prNumber = getDiscussionNumber();
-	const {ownerName, repoName} = getOwnerAndRepo();
-
-	const userInfo = await api.v4(
-		`{
-			repository(owner: "${ownerName}", name: "${repoName}") {
-				pullRequest(number: ${prNumber}) {
-					commits(first: 100) {
-						nodes {
-							commit {
-								author {
-									email
+	const userInfo = await api.v4(`
+		repository(${getRepoGQL()}) {
+			pullRequest(number: ${getDiscussionNumber()}) {
+				commits(first: 100) {
+					nodes {
+						commit {
+							author {
+								email
+								name
+								user {
+									login
 									name
-									user {
-										login
-										name
-									}
 								}
 							}
 						}
 					}
 				}
 			}
-		}`
-	);
+		}
+	`);
 
 	return userInfo.repository.pullRequest.commits.nodes.map((node: AnyObject) => node.commit.author as Author);
 }
