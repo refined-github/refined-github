@@ -19,6 +19,7 @@ import './features/sticky-discussion-list-toolbar.css';
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
 
+import './features/review-comments-hidden-indicator';
 import './features/useful-not-found-page';
 import './features/trending-menu-item';
 import './features/hide-useless-newsfeed-events';

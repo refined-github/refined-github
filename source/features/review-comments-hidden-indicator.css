@@ -1,0 +1,37 @@
+tr.refined-toggle-comments {
+	position: relative;
+}
+tr.refined-toggle-comments td {
+	position: absolute;
+}
+
+tr.refined-toggle-comments td:after {
+	background: currentColor;
+	content: "";
+	height: 1px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 200%;
+}
+
+.show-inline-notes tr.refined-toggle-comments td:after {
+	background: transparent;
+}
+
+tr.refined-toggle-comments button {
+	position: absolute;
+	left: 0;
+	transform: translate(-100%, -50%);
+	padding: 5px 10px;
+	background: none;
+	color: inherit;
+	border: none;
+	display: flex;
+	align-items: center;
+	line-height: 1;
+}
+
+tr.refined-toggle-comments button:hover {
+	color: #586069;
+}
