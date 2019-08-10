@@ -1,5 +1,5 @@
 import 'webext-dynamic-content-scripts';
-import {addContextMenu} from 'webext-domain-permission-toggle';
+import addDomainPermissionToggle from 'webext-domain-permission-toggle';
 import './options-storage';
 
 browser.runtime.onMessage.addListener(async (message, {tab}) => {
@@ -37,4 +37,4 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 });
 
 // GitHub Enterprise support
-addContextMenu();
+addDomainPermissionToggle();
