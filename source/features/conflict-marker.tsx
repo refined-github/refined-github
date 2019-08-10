@@ -5,8 +5,6 @@ import {getOwnerAndRepo, getRepoURL} from '../libs/utils';
 import features from '../libs/features';
 import {alert} from '../libs/icons';
 
-const CONFLICTING = 'CONFLICTING';
-
 function getPrNumber(pr: string): string {
 	return pr.replace('issue_', '');
 }
@@ -20,11 +18,10 @@ function buildQuery(
 		query {
 			repository(owner: "${ownerName}", name: "${repoName}") {
 				${prs.map((pr: string) => `
-						${pr}: pullRequest(number: ${getPrNumber(pr)}) {
-							mergeable
-						}
-					`,
-	)}
+					${pr}: pullRequest(number: ${getPrNumber(pr)}) {
+						mergeable
+					}
+				`)}
 			}
 		}
 	`;
@@ -43,7 +40,7 @@ async function init(): Promise<false | void> {
 	const data = await api.v4(query);
 
 	for (const pr of elements) {
-		if (data.repository[pr.id].mergeable === CONFLICTING) {
+		if (data.repository[pr.id].mergeable === 'CONFLICTING') {
 			select('.d-inline-block.mr-1 > .commit-build-statuses', pr)!.before(
 				<a
 					className="tooltipped tooltipped-n m-0 text-gray mr-2"
@@ -51,7 +48,7 @@ async function init(): Promise<false | void> {
 					href={`/${getRepoURL()}/pull/${getPrNumber(pr.id)}#partial-pull-merging`}
 				>
 					{alert()}
-				</a>,
+				</a>
 			);
 		}
 	}
