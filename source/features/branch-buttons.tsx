@@ -1,3 +1,4 @@
+import './branch-buttons.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import compareVersions from 'tiny-version-compare';
@@ -7,12 +8,11 @@ import features from '../libs/features';
 import {isRepoRoot} from '../libs/page-detect';
 import {groupSiblings} from '../libs/group-buttons';
 import getDefaultBranch from '../libs/get-default-branch';
-import {getRepoURL, getOwnerAndRepo, getCurrentBranch, replaceBranch} from '../libs/utils';
+import {getRepoURL, getCurrentBranch, replaceBranch, getRepoGQL} from '../libs/utils';
 
 async function getTagLink(): Promise<'' | HTMLAnchorElement> {
-	const {ownerName, repoName} = getOwnerAndRepo();
-	const {repository} = await api.v4(`{
-		repository(owner: "${ownerName}", name: "${repoName}") {
+	const {repository} = await api.v4(`
+		repository(${getRepoGQL()}) {
 			refs(first: 20, refPrefix: "refs/tags/", orderBy: {
 				field: TAG_COMMIT_DATE,
 				direction: DESC
@@ -22,7 +22,7 @@ async function getTagLink(): Promise<'' | HTMLAnchorElement> {
 				}
 			}
 		}
-	}`);
+	`);
 
 	const tags: string[] = repository.refs.nodes.map((tag: {name: string}) => tag.name);
 	if (tags.length === 0) {
@@ -99,7 +99,7 @@ async function init(): Promise<false | void> {
 	]);
 
 	const wrapper = (
-		<div className="ml-2">
+		<div className="rgh-branch-buttons ml-2">
 			{defaultLink}
 			{tagLink}
 		</div>

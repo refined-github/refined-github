@@ -14,6 +14,7 @@ declare const __featureName__: 'use the __featureName__ variable';
 
 interface Window {
 	collectFeatures: Map<string, FeatureDetails>;
+	content: GlobalFetch;
 }
 
 // TODO: Drop after https://github.com/sindresorhus/p-memoize/issues/9

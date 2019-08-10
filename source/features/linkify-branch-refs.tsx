@@ -1,14 +1,13 @@
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import features from '../libs/features';
-import {getOwnerAndRepo} from '../libs/utils';
+import {getRepoURL} from '../libs/utils';
 import {wrap} from '../libs/dom-utils';
 
 async function init(): Promise<void> {
 	const el = await elementReady('.branch-name');
 	if (el) {
-		const {ownerName, repoName} = getOwnerAndRepo();
-		const branchUrl = `/${ownerName}/${repoName}/tree/${el.textContent}`;
+		const branchUrl = `/${getRepoURL()}/tree/${el.textContent}`;
 		wrap(el.closest('.branch-name')!, <a href={branchUrl}></a>);
 	}
 }
