@@ -1,74 +1,110 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import onetime from 'onetime';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
 import postForm from '../libs/post-form';
-import {getOwnerAndRepo, getDiscussionNumber} from '../libs/utils';
+import {getDiscussionNumber, getRepoGQL, getRepoURL, getCurrentBranch} from '../libs/utils';
+
+function showError(menuItem: HTMLButtonElement, error: string): void {
+	menuItem.disabled = true;
+	menuItem.style.background = 'none'; // Disables hover background color
+	menuItem.textContent = error;
+}
+
+/**
+Get the current base commit of this PR. It should change after rebases and merges in this PR.
+This value is not consistently available on the page (appears in `/files` but not when only 1 commit is selected)
+*/
+const getBaseRef = onetime(async (): Promise<string> => {
+	const {repository} = await api.v4(`
+		repository(${getRepoGQL()}) {
+			pullRequest(number: ${getDiscussionNumber()}) {
+				baseRefOid
+			}
+		}
+	`);
+	return repository.pullRequest.baseRefOid;
+});
+
+async function getFile(menuItem: Element): Promise<{isTruncated: boolean; text: string}> {
+	const filePath = (menuItem.closest('[data-path]') as HTMLElement).dataset.path!;
+	const {repository} = await api.v4(`
+		repository(${getRepoGQL()}) {
+			file: object(expression: "${await getBaseRef()}:${filePath}") {
+				... on Blob {
+					isTruncated
+					text
+				}
+			}
+		}
+	`);
+	return repository.file;
+}
+
+async function deleteFile(menuItem: Element): Promise<void> {
+	// The `a` selector skips the broken Delete link on some pages. GitHub's bug.
+	// TODO: where? What happens when it's not found?
+	menuItem.textContent = 'Deleting…';
+
+	const deleteFileLink = select<HTMLAnchorElement>('a[aria-label^="Delete this"]', menuItem.parentElement!)!;
+	const form = await fetchDom<HTMLFormElement>(deleteFileLink.href, '#new_blob');
+	await postForm(form);
+}
+
+async function commitFileContent(menuItem: Element, content: string): Promise<void> {
+	let {pathname} = (menuItem.previousElementSibling as HTMLAnchorElement);
+	// Check if file was deleted by PR
+	if (menuItem.closest('[data-file-deleted="true"]')) {
+		menuItem.textContent = 'Undeleting…';
+		const filePath = pathname.split('/')[5]; // The URL was something like /$user/$repo/blob/$startingCommit/$path
+		pathname = `/${getRepoURL()}/new/${getCurrentBranch()}?filename=` + filePath;
+	} else {
+		menuItem.textContent = 'Committing…';
+	}
+
+	// This is either an `edit` or `create` form
+	const form = await fetchDom<HTMLFormElement>(pathname, '.js-blob-form');
+	form.elements.value.value = content; // Revert content (`value` is the name of the file content field)
+	form.elements.message.value = (form.elements.message as HTMLInputElement).placeholder
+		.replace(/^Update/, 'Revert')
+		.replace(/^Create/, 'Restore');
+	await postForm(form);
+}
 
 async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
 	const menuItem = event.currentTarget;
+	// Allow only one click
+	menuItem.removeEventListener('click', handleRevertFileClick as any); // TODO: change JSX event types to be plain browser events
 	menuItem.textContent = 'Reverting…';
 	event.preventDefault();
 	event.stopPropagation();
 
-	const {ownerName, repoName} = getOwnerAndRepo();
 	try {
-		const editFileLink = menuItem.previousElementSibling as HTMLAnchorElement;
-		const viewFileLink = menuItem.parentElement!.querySelector<HTMLAnchorElement>('[data-ga-click^="View file"]')!;
-		// The `a` selector skips the broken Delete link on some pages. GitHub's bug.
-		const deleteFileLink = menuItem.parentElement!.querySelector<HTMLAnchorElement>('a[aria-label^="Delete this"]')!;
-
-		// Prefetch form asynchronously. Only await it later when needed
-		const editFormPromise = fetchDom<HTMLFormElement>(editFileLink.href, '#new_blob');
-
-		// Get the real base commit of this PR, not the HEAD of base branch
-		const {repository: {pullRequest: {baseRefOid}}} = await api.v4(`{
-			repository(owner: "${ownerName}", name: "${repoName}") {
-				pullRequest(number: ${getDiscussionNumber()}) {
-					baseRefOid
-				}
-			}
-		}`);
-
-		const filePath = (menuItem.closest('[data-path]') as HTMLElement).dataset.path!;
-
-		const {repository: {file}} = await api.v4(`{
-			repository(owner: "${ownerName}", name: "${repoName}") {
-				file: object(expression: "${baseRefOid}:${filePath}") {
-					... on Blob {
-						isTruncated
-						text
-					}
-				}
-			}
-		}`);
+		const file = await getFile(menuItem);
 
 		if (!file) {
-			// The file was added by this PR. Delete the file instead
-			const deleteForm = await fetchDom<HTMLFormElement>(deleteFileLink.href, '#new_blob');
-			await postForm(deleteForm);
+			// The file was created by this PR. Revert === Delete.
+			// If there was a way to tell if a file was created by the PR, we could skip `getFile`
+			// TODO: find this info on the page
+			await deleteFile(menuItem);
 			return;
 		}
 
 		if (file.isTruncated) {
-			menuItem.disabled = true;
-			menuItem.textContent = 'Revert failed: File too big';
+			showError(menuItem, 'Revert failed: File too big');
 			return;
 		}
 
-		const editForm = await editFormPromise;
-		editForm.elements.value.value = file.text; // Revert content (`value` is the name of the file content field)
-		editForm.elements.message.value = (editForm.elements.message as HTMLInputElement).placeholder.replace('Update', 'Revert');
-		await postForm(editForm);
+		await commitFileContent(menuItem, file.text);
 
 		// Hide file from view
 		menuItem.closest('.file')!.remove();
 	} catch (error) {
-		console.log(error);
-		menuItem.disabled = true;
-		menuItem.textContent = 'Revert failed. See console for errors';
+		showError(menuItem, 'Revert failed. See console for details');
+		throw error;
 	}
 }
 
@@ -88,7 +124,7 @@ async function handleMenuOpening(event: DelegateEvent): Promise<void> {
 			type="button"
 			onClick={handleRevertFileClick}
 		>
-			Revert file
+			Revert changes
 		</button>
 	);
 }
@@ -102,7 +138,8 @@ features.add({
 	description: 'Adds button to revert all the changes to a file in a PR.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/60279449-a610a000-9933-11e9-8b40-fe8b935dc7ad.gif',
 	include: [
-		features.isPRFiles
+		features.isPRFiles,
+		features.isPRCommit
 	],
 	load: features.onAjaxedPages,
 	init
