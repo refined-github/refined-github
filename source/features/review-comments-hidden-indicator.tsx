@@ -3,33 +3,22 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
+import anchorScroll from '../libs/anchor-scroll';
 import {comment as commentIcon} from '../libs/icons';
 
 const SELECTOR_COMMENT_CONTAINER = 'tr.inline-comments';
 const SELECTOR_CUSTOM_TOGGLE = 'tr.refined-toggle-comments';
 const SELECTOR_COMMENT = '.review-comment .js-comment';
 
-let isVisible = true; // Are comments visible?
-
-const getOffsetY = (el: Element): number =>
-	el.getBoundingClientRect().top + window.pageYOffset;
-
 // Toggle comments while maintaining scroll position
-const toggleComments = (target: HTMLElement): void => {
-	const container = target.closest(SELECTOR_CUSTOM_TOGGLE)!;
-	const scrollOld = window.scrollY;
-	const offsetOld = getOffsetY(container);
-
-	select.all<HTMLInputElement>('input.js-toggle-file-notes').forEach(input => {
-		if (isVisible === input.checked) {
-			input.click();
-		}
-	});
-	isVisible = !isVisible;
-
-	const offsetNew = getOffsetY(container);
-	const scrollY = offsetNew - offsetOld + scrollOld;
-	window.scrollTo(0, scrollY);
+// TODO: remove `any`, use Event
+const toggleComments = (event: any): void => {
+	const target = event.target as Element;
+	anchorScroll(() => {
+		const file = target.closest('.file.js-file')!;
+		const inputToggle = select('input.js-toggle-file-notes', file)!;
+		inputToggle.click();
+	}, target);
 };
 
 const removeToggles = (): void => {
@@ -70,7 +59,7 @@ const countListener = (mutations: MutationRecord[]): void => {
 const commentToggle = (count: number): JSX.Element => (
 	<tr className="refined-toggle-comments">
 		<td className="blob-num" colSpan={2}>
-			<button onClick={ev => toggleComments(ev.target as HTMLElement)}>
+			<button onClick={toggleComments}>
 				{commentIcon()}
 				<span>{count}</span>
 			</button>
