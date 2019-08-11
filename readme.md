@@ -351,6 +351,7 @@ See the [contribution guide](contributing.md) and join the [contributors](https:
 - [Friendly GitHub](https://github.com/Hermanya/friendly-github) - Make GitHub more social
 - [Sourcegraph](https://github.com/sourcegraph/browser-extensions) - Adds code intelligence to GitHub
 - [Potential changes for GitHub](https://github.com/dzhavat/potential-changes-for-github) - See which pull requests contain changes related to a file
+- [PR Monitor](https://github.com/fwouts/prmonitor) - Notifies you about incoming and outgoing PRs
 
 Want more? Here are some ideas you could develop!
 
