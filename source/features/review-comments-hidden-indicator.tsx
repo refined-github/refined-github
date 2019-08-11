@@ -11,14 +11,16 @@ const SELECTOR_CUSTOM_TOGGLE = 'tr.refined-toggle-comments';
 const SELECTOR_COMMENT = '.review-comment .js-comment';
 
 // Toggle comments while maintaining scroll position
-// TODO: remove `any`, use Event
-const toggleComments = (event: any): void => {
-	const target = event.target as Element;
-	anchorScroll(() => {
-		const file = target.closest('.file.js-file')!;
-		const inputToggle = select('input.js-toggle-file-notes', file)!;
-		inputToggle.click();
-	}, target);
+const toggleComments = (event: React.MouseEvent<HTMLButtonElement>): void => {
+	anchorScroll(
+		() => {
+			(event.target as Element)
+				.closest('.file.js-file')!
+				.querySelector<HTMLInputElement>('.js-toggle-file-notes')!
+				.click();
+		},
+		event.target as Element
+	);
 };
 
 const removeToggles = (): void => {
