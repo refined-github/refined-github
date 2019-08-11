@@ -5,9 +5,9 @@ tr.refined-toggle-comments td {
 	position: absolute;
 }
 
-tr.refined-toggle-comments td:after {
+tr.refined-toggle-comments td::after {
 	background: currentColor;
-	content: "";
+	content: '';
 	height: 1px;
 	position: absolute;
 	top: 0;
@@ -15,7 +15,7 @@ tr.refined-toggle-comments td:after {
 	width: 200%;
 }
 
-.show-inline-notes tr.refined-toggle-comments td:after {
+.show-inline-notes tr.refined-toggle-comments td::after {
 	background: transparent;
 }
 
