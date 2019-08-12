@@ -1,4 +1,4 @@
-import './review-comments-hidden-indicator.css';
+import './hidden-review-comments-indicator.css';
 import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
