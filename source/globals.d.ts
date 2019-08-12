@@ -19,7 +19,7 @@ interface Window {
 
 // TODO: Drop after https://github.com/sindresorhus/p-memoize/issues/9
 declare module 'mem' {
-	function mem<T = VoidFunction>(fn: T): T;
+	function mem<T = VoidFunction>(fn: T, options?: AnyObject): T;
 	export = mem;
 }
 

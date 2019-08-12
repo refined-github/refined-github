@@ -1,14 +1,11 @@
 import './review-comments-hidden-indicator.css';
+import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
-import observeEl from '../libs/simplified-element-observer';
 import anchorScroll from '../libs/anchor-scroll';
 import onPrFileLoad from '../libs/on-pr-file-load';
 import * as icons from '../libs/icons';
-
-const COMMENT_CONTAINER_SELECTOR = 'tr.inline-comments';
-const COMMENTS_SELECTOR = '.review-comment .js-comment';
 
 // When an indicator is clicked, this will show comments on the current file
 const handleIndicatorClick = ({currentTarget}: React.MouseEvent<HTMLElement>): void => {
@@ -21,13 +18,11 @@ const handleIndicatorClick = ({currentTarget}: React.MouseEvent<HTMLElement>): v
 	}, commentedLine);
 };
 
-const addIndicator = (container: HTMLElement): void => {
-	const commentCount = container.querySelectorAll(COMMENTS_SELECTOR).length;
-	if (!commentCount) {
-		return;
-	}
+// `mem` avoids adding the indicator twice to the same thread
+const addIndicator = mem((commentThread: HTMLElement): void => {
+	const commentCount = commentThread.querySelectorAll('.review-comment .js-comment').length;
 
-	container.before(
+	commentThread.before(
 		<tr className="rgh-comments-indicator">
 			<td className="blob-num" colSpan={2} onClick={handleIndicatorClick}>
 				<button type="button">
@@ -37,42 +32,41 @@ const addIndicator = (container: HTMLElement): void => {
 			</td>
 		</tr>
 	);
-};
-
-const addIndicators = (containers: HTMLElement[]): void => {
-	containers.filter(el => !hasIndicator(el)).forEach(addIndicator);
-};
+}, {
+	// TODO: Drop ignore after https://github.com/sindresorhus/p-memoize/issues/9
+	// @ts-ignore
+	cacheKey: element => element
+});
 
 // Watch for comment hide (removal of .show-inline-notes) to add new
 // indicators
-const commentToggleListener = (mutations: MutationRecord[]): void => {
+const observer = new MutationObserver(mutations => {
 	for (const mutation of mutations) {
 		const file = mutation.target as HTMLElement;
 		const wasVisible = mutation.oldValue!.includes('show-inline-notes');
 		const isHidden = !file.classList.contains('show-inline-notes');
 		if (wasVisible && isHidden) {
-			addIndicators(select.all(COMMENT_CONTAINER_SELECTOR, file));
+			for (const thread of select.all('tr.inline-comments', file)) {
+				addIndicator(thread);
+			}
 		}
 	}
-};
+});
 
-const updateIndicatorsOnHide = (file: HTMLElement): void => {
-	observeEl(file, commentToggleListener, {
-		attributes: true,
-		attributeOldValue: true,
-		attributeFilter: ['class']
-	});
-};
+function observeFiles(): void {
+	for (const element of select.all('.file.js-file')) {
+		// #observe won't observe the same element twice
+		observer.observe(element, {
+			attributes: true,
+			attributeOldValue: true,
+			attributeFilter: ['class']
+		});
+	}
+}
 
 function init(): void {
-	addIndicators(select.all(COMMENT_CONTAINER_SELECTOR));
-	select.all('.file.js-file').forEach(updateIndicatorsOnHide);
-
-	onPrFileLoad(() => {
-		// TODO: find a better selector to add indicators only to newly added files
-		// instead of trying to add on all of them
-		addIndicators(select.all(COMMENT_CONTAINER_SELECTOR));
-	});
+	observeFiles();
+	onPrFileLoad(observeFiles);
 }
 
 features.add({
