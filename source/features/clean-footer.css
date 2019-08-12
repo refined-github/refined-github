@@ -1,4 +1,8 @@
 body > .footer {
+	transition: opacity 0.2s ease;
+}
+
+body > .footer:not(:hover) {
 	opacity: 0.3;
 }
 
