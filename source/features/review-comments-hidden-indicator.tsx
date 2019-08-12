@@ -31,52 +31,22 @@ const removeToggles = (): void => {
 	toRemove.forEach(el => el.remove());
 };
 
-// Watch for comment addition/deletions and update comment count
-const countListener = (mutations: MutationRecord[]): void => {
-	const selectors = 'td.line-comments, .review-comment, .js-comments-holder';
-	for (const mutation of mutations) {
-		if (mutation.target.nodeType !== 1) {
-			continue;
-		}
-
-		const target = mutation.target as HTMLElement;
-		if (!target.matches(selectors)) {
-			continue;
-		}
-
-		const container = (mutation.target as HTMLElement).closest('tr')!;
-		const toggler = container.previousElementSibling;
-		if (toggler && toggler.matches(SELECTOR_CUSTOM_TOGGLE)) {
-			const comments = select.all(SELECTOR_COMMENT, container);
-			const counter = select('span', toggler)!;
-			counter.textContent = comments.length.toString();
-		} else {
-			removeToggles();
-		}
-
-		break;
-	}
-};
-
-const commentToggle = (count: number): JSX.Element => (
-	<tr className="refined-toggle-comments">
-		<td className="blob-num" colSpan={2}>
-			<button onClick={toggleComments}>
-				{icons.comment()}
-				<span>{count}</span>
-			</button>
-		</td>
-	</tr>
-);
-
 const addToggle = (container: HTMLElement): void => {
 	const commentCount = select.all(SELECTOR_COMMENT, container).length;
 	if (!commentCount) {
 		return;
 	}
 
-	container.before(commentToggle(commentCount));
-	observeEl(container, countListener, {childList: true, subtree: true});
+	container.before(
+		<tr className="refined-toggle-comments">
+			<td className="blob-num" colSpan={2}>
+				<button onClick={toggleComments}>
+					{icons.comment()}
+					<span>{commentCount}</span>
+				</button>
+			</td>
+		</tr>
+	);
 };
 
 function init(): void {
