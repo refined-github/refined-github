@@ -35,3 +35,7 @@ tr.rgh-comments-indicator button {
 tr.rgh-comments-indicator button:hover {
 	color: #586069;
 }
+
+.show-inline-notes .rgh-comments-indicator {
+	display: none;
+}
