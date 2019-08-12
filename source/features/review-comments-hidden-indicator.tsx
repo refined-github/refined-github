@@ -6,8 +6,8 @@ import observeEl from '../libs/simplified-element-observer';
 import anchorScroll from '../libs/anchor-scroll';
 import * as icons from '../libs/icons';
 
-const SELECTOR_COMMENT_CONTAINER = 'tr.inline-comments';
-const SELECTOR_COMMENT = '.review-comment .js-comment';
+const COMMENT_CONTAINER_SELECTOR = 'tr.inline-comments';
+const COMMENTS_SELECTOR = '.review-comment .js-comment';
 
 // Toggle comments while maintaining scroll position
 const toggleComments = (event: React.MouseEvent<HTMLButtonElement>): void => {
@@ -24,17 +24,17 @@ const toggleComments = (event: React.MouseEvent<HTMLButtonElement>): void => {
 
 const hasIndicator = (container: HTMLElement): boolean => {
 	const prev = container.previousElementSibling;
-	return !!prev && prev.matches('tr.refined-toggle-comments');
+	return !!prev && prev.matches('tr.rgh-comments-indicator');
 };
 
 const addIndicator = (container: HTMLElement): void => {
-	const commentCount = select.all(SELECTOR_COMMENT, container).length;
+	const commentCount = container.querySelectorAll(COMMENTS_SELECTOR).length;
 	if (!commentCount) {
 		return;
 	}
 
 	container.before(
-		<tr className="refined-toggle-comments">
+		<tr className="rgh-comments-indicator">
 			<td className="blob-num" colSpan={2}>
 				<button onClick={toggleComments}>
 					{icons.comment()}
@@ -57,7 +57,7 @@ const commentToggleListener = (mutations: MutationRecord[]): void => {
 		const wasVisible = mutation.oldValue!.includes('show-inline-notes');
 		const isHidden = !file.classList.contains('show-inline-notes');
 		if (wasVisible && isHidden) {
-			addIndicators(select.all(SELECTOR_COMMENT_CONTAINER, file));
+			addIndicators(select.all(COMMENT_CONTAINER_SELECTOR, file));
 		}
 	}
 };
@@ -71,7 +71,7 @@ const updateIndicatorsOnHide = (file: HTMLElement): void => {
 };
 
 function init(): void {
-	addIndicators(select.all(SELECTOR_COMMENT_CONTAINER));
+	addIndicators(select.all(COMMENT_CONTAINER_SELECTOR));
 	select.all('.file.js-file').forEach(updateIndicatorsOnHide);
 }
 

@@ -1,11 +1,11 @@
-tr.refined-toggle-comments {
+tr.rgh-comments-indicator {
 	position: relative;
 }
-tr.refined-toggle-comments td {
+tr.rgh-comments-indicator td {
 	position: absolute;
 }
 
-tr.refined-toggle-comments td::after {
+tr.rgh-comments-indicator td::after {
 	background: currentColor;
 	content: '';
 	height: 1px;
@@ -15,11 +15,11 @@ tr.refined-toggle-comments td::after {
 	width: 200%;
 }
 
-.show-inline-notes tr.refined-toggle-comments td::after {
+.show-inline-notes tr.rgh-comments-indicator td::after {
 	background: transparent;
 }
 
-tr.refined-toggle-comments button {
+tr.rgh-comments-indicator button {
 	position: absolute;
 	left: 0;
 	transform: translate(-100%, -50%);
@@ -32,6 +32,6 @@ tr.refined-toggle-comments button {
 	line-height: 1;
 }
 
-tr.refined-toggle-comments button:hover {
+tr.rgh-comments-indicator button:hover {
 	color: #586069;
 }
