@@ -25,7 +25,7 @@ const toggleComments = (event: React.MouseEvent<HTMLButtonElement>): void => {
 
 const hasIndicator = (container: HTMLElement): boolean => {
 	const prev = container.previousElementSibling;
-	return !!prev && prev.matches('tr.rgh-comments-indicator');
+	return Boolean(prev) && prev!.matches('tr.rgh-comments-indicator');
 };
 
 const addIndicator = (container: HTMLElement): void => {
