@@ -10,22 +10,15 @@ import * as icons from '../libs/icons';
 const COMMENT_CONTAINER_SELECTOR = 'tr.inline-comments';
 const COMMENTS_SELECTOR = '.review-comment .js-comment';
 
-// Toggle comments while maintaining scroll position
-const toggleComments = (event: React.MouseEvent<HTMLButtonElement>): void => {
-	anchorScroll(
-		() => {
-			(event.target as Element)
-				.closest('.file.js-file')!
-				.querySelector<HTMLInputElement>('.js-toggle-file-notes')!
-				.click();
-		},
-		event.target as Element
-	);
-};
-
-const hasIndicator = (container: HTMLElement): boolean => {
-	const prev = container.previousElementSibling;
-	return Boolean(prev) && prev!.matches('tr.rgh-comments-indicator');
+// When an indicator is clicked, this will show comments on the current file
+const handleIndicatorClick = ({currentTarget}: React.MouseEvent<HTMLButtonElement>): void => {
+	const commentedLine = currentTarget.closest('tr')!.previousElementSibling!;
+	anchorScroll(() => {
+		currentTarget
+			.closest('.file.js-file')!
+			.querySelector<HTMLInputElement>('.js-toggle-file-notes')!
+			.click();
+	}, commentedLine);
 };
 
 const addIndicator = (container: HTMLElement): void => {
@@ -37,7 +30,7 @@ const addIndicator = (container: HTMLElement): void => {
 	container.before(
 		<tr className="rgh-comments-indicator">
 			<td className="blob-num" colSpan={2}>
-				<button onClick={toggleComments}>
+				<button type="button" onClick={handleIndicatorClick}>
 					{icons.comment()}
 					<span>{commentCount}</span>
 				</button>
