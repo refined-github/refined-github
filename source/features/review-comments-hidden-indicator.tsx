@@ -4,6 +4,7 @@ import select from 'select-dom';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 import anchorScroll from '../libs/anchor-scroll';
+import onPrFileLoad from '../libs/on-pr-file-load';
 import * as icons from '../libs/icons';
 
 const COMMENT_CONTAINER_SELECTOR = 'tr.inline-comments';
@@ -73,6 +74,12 @@ const updateIndicatorsOnHide = (file: HTMLElement): void => {
 function init(): void {
 	addIndicators(select.all(COMMENT_CONTAINER_SELECTOR));
 	select.all('.file.js-file').forEach(updateIndicatorsOnHide);
+
+	onPrFileLoad(() => {
+		// TODO: find a better selector to add indicators only to newly added files
+		// instead of trying to add on all of them
+		addIndicators(select.all(COMMENT_CONTAINER_SELECTOR));
+	});
 }
 
 features.add({
