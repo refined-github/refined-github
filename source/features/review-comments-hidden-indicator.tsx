@@ -38,8 +38,7 @@ const addIndicator = mem((commentThread: HTMLElement): void => {
 	cacheKey: element => element
 });
 
-// Watch for comment hide (removal of .show-inline-notes) to add new
-// indicators
+// Add indicator when the `show-inline-notes` class is removed (i.e. the comments are hidden)
 const observer = new MutationObserver(mutations => {
 	for (const mutation of mutations) {
 		const file = mutation.target as HTMLElement;
