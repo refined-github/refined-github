@@ -11,7 +11,7 @@ const COMMENT_CONTAINER_SELECTOR = 'tr.inline-comments';
 const COMMENTS_SELECTOR = '.review-comment .js-comment';
 
 // When an indicator is clicked, this will show comments on the current file
-const handleIndicatorClick = ({currentTarget}: React.MouseEvent<HTMLButtonElement>): void => {
+const handleIndicatorClick = ({currentTarget}: React.MouseEvent<HTMLElement>): void => {
 	const commentedLine = currentTarget.closest('tr')!.previousElementSibling!;
 	anchorScroll(() => {
 		currentTarget
@@ -29,8 +29,8 @@ const addIndicator = (container: HTMLElement): void => {
 
 	container.before(
 		<tr className="rgh-comments-indicator">
-			<td className="blob-num" colSpan={2}>
-				<button type="button" onClick={handleIndicatorClick}>
+			<td className="blob-num" colSpan={2} onClick={handleIndicatorClick}>
+				<button type="button">
 					{icons.comment()}
 					<span>{commentCount}</span>
 				</button>
