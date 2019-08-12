@@ -7,7 +7,6 @@ import anchorScroll from '../libs/anchor-scroll';
 import * as icons from '../libs/icons';
 
 const SELECTOR_COMMENT_CONTAINER = 'tr.inline-comments';
-const SELECTOR_CUSTOM_TOGGLE = 'tr.refined-toggle-comments';
 const SELECTOR_COMMENT = '.review-comment .js-comment';
 
 // Toggle comments while maintaining scroll position
@@ -23,15 +22,12 @@ const toggleComments = (event: React.MouseEvent<HTMLButtonElement>): void => {
 	);
 };
 
-const removeToggles = (): void => {
-	const toRemove = select.all(SELECTOR_CUSTOM_TOGGLE).filter(el => {
-		const next = el.nextElementSibling;
-		return !next || !next.matches(SELECTOR_COMMENT_CONTAINER);
-	});
-	toRemove.forEach(el => el.remove());
+const hasIndicator = (container: HTMLElement): boolean => {
+	const prev = container.previousElementSibling;
+	return !!prev && prev.matches('tr.refined-toggle-comments');
 };
 
-const addToggle = (container: HTMLElement): void => {
+const addIndicator = (container: HTMLElement): void => {
 	const commentCount = select.all(SELECTOR_COMMENT, container).length;
 	if (!commentCount) {
 		return;
@@ -49,36 +45,34 @@ const addToggle = (container: HTMLElement): void => {
 	);
 };
 
-function init(): void {
-	select.all(SELECTOR_COMMENT_CONTAINER).forEach(el => addToggle(el));
+const addIndicators = (containers: HTMLElement[]): void => {
+	containers.filter(el => !hasIndicator(el)).forEach(addIndicator);
+};
 
-	// Watch for addition/deletion of comment containers
-	const onTableMutation = (mutations: MutationRecord[]): void => {
-		for (const mutation of mutations) {
-			if (mutation.target.nodeType !== 1) {
-				continue;
-			}
-
-			const target = mutation.target as HTMLElement;
-			if (!target.matches('td.line-comments')) {
-				continue;
-			}
-
-			const container = target.closest(
-				SELECTOR_COMMENT_CONTAINER
-			) as HTMLElement;
-			const comments = select.all(SELECTOR_COMMENT, container);
-			if (comments.length === 0) {
-				removeToggles();
-			} else {
-				addToggle(container);
-			}
+// Watch for comment hide (removal of .show-inline-notes) to add new
+// indicators
+const commentToggleListener = (mutations: MutationRecord[]): void => {
+	for (const mutation of mutations) {
+		const file = mutation.target as HTMLElement;
+		const wasVisible = mutation.oldValue!.includes('show-inline-notes');
+		const isHidden = !file.classList.contains('show-inline-notes');
+		if (wasVisible && isHidden) {
+			addIndicators(select.all(SELECTOR_COMMENT_CONTAINER, file));
 		}
-	};
+	}
+};
 
-	select.all('.diff-table tbody').forEach(tbody => {
-		observeEl(tbody, onTableMutation, {childList: true, subtree: true});
+const updateIndicatorsOnHide = (file: HTMLElement): void => {
+	observeEl(file, commentToggleListener, {
+		attributes: true,
+		attributeOldValue: true,
+		attributeFilter: ['class']
 	});
+};
+
+function init(): void {
+	addIndicators(select.all(SELECTOR_COMMENT_CONTAINER));
+	select.all('.file.js-file').forEach(updateIndicatorsOnHide);
 }
 
 features.add({
