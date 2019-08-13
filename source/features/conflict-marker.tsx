@@ -65,7 +65,7 @@ async function init(): Promise<false | void> {
 
 	for (const pr of elements) {
 		if (data[api.escapeKey(pr.id)].pullRequest.mergeable === 'CONFLICTING') {
-			select('.d-inline-block.mr-1 > .commit-build-statuses', pr)!.before(
+			select('.d-inline-block.mr-1', pr)!.insertAdjacentElement('afterbegin',
 				<a
 					className="tooltipped tooltipped-n m-0 text-gray mr-2"
 					aria-label="This PR has conflicts that must be resolved"
