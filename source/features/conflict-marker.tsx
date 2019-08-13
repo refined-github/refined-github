@@ -5,23 +5,52 @@ import {getOwnerAndRepo, getRepoURL} from '../libs/utils';
 import features from '../libs/features';
 import {alert} from '../libs/icons';
 
+interface PRConfig {
+	id: string;
+	owner: string;
+	name: string;
+}
+
 function getPrNumber(pr: string): string {
-	return pr.replace('issue_', '');
+	return pr.split('_')[1];
+}
+
+function createQueryFragment(pr: PRConfig) {
+	return `
+		${api.escapeKey(pr.id)}: repository(owner: "${pr.owner}", name: "${pr.name}") {
+			pullRequest(number: ${getPrNumber(pr.id)}) {
+				mergeable
+			}
+		}
+	`
 }
 
 function buildQuery(
-	prs: string[],
+	prs: Array<PRConfig>
 ): string {
-	const {ownerName, repoName} = getOwnerAndRepo();
-	return `
-		repository(owner: "${ownerName}", name: "${repoName}") {
-			${prs.map((pr: string) => `
-				${pr}: pullRequest(number: ${getPrNumber(pr)}) {
-					mergeable
-				}
-			`)}
+	return prs.map(createQueryFragment).join('\n');
+}
+
+function getPRConfig(element: HTMLElement): PRConfig {
+	try {
+		const prTitle = select(`a[data-hovercard-type="repository"]`, element)!.textContent!;
+		const [owner, name] = prTitle.trim().split('/');
+
+		return {
+			id: element.id,
+			owner,
+			name,
+		};
+	} catch (e) {
+		const {ownerName, repoName} = getOwnerAndRepo();
+
+		return {
+			id: element.id,
+			owner: ownerName,
+			name: repoName,
 		}
-	`;
+	}
+
 }
 
 async function init(): Promise<false | void> {
@@ -30,11 +59,14 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	const query = buildQuery(elements.map(e => e.id));
-	const {repository} = await api.v4(query);
+	const prs = elements.map(getPRConfig);
+
+
+	const query = buildQuery(prs);
+	const data = await api.v4(query);
 
 	for (const pr of elements) {
-		if (repository[pr.id].mergeable === 'CONFLICTING') {
+		if (data[api.escapeKey(pr.id)].pullRequest.mergeable === 'CONFLICTING') {
 			select('.d-inline-block.mr-1 > .commit-build-statuses', pr)!.before(
 				<a
 					className="tooltipped tooltipped-n m-0 text-gray mr-2"
