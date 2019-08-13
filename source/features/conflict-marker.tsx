@@ -15,42 +15,41 @@ function getPrNumber(pr: string): string {
 	return pr.split('_')[1];
 }
 
-function createQueryFragment(pr: PRConfig) {
+function createQueryFragment(pr: PRConfig): string {
 	return `
 		${api.escapeKey(pr.id)}: repository(owner: "${pr.owner}", name: "${pr.name}") {
 			pullRequest(number: ${getPrNumber(pr.id)}) {
 				mergeable
 			}
 		}
-	`
+	`;
 }
 
 function buildQuery(
-	prs: Array<PRConfig>
+	prs: PRConfig[]
 ): string {
 	return prs.map(createQueryFragment).join('\n');
 }
 
 function getPRConfig(element: HTMLElement): PRConfig {
 	try {
-		const prTitle = select(`a[data-hovercard-type="repository"]`, element)!.textContent!;
+		const prTitle = select('a[data-hovercard-type="repository"]', element)!.textContent!;
 		const [owner, name] = prTitle.trim().split('/');
 
 		return {
 			id: element.id,
 			owner,
-			name,
+			name
 		};
-	} catch (e) {
+	} catch (error) {
 		const {ownerName, repoName} = getOwnerAndRepo();
 
 		return {
 			id: element.id,
 			owner: ownerName,
-			name: repoName,
-		}
+			name: repoName
+		};
 	}
-
 }
 
 async function init(): Promise<false | void> {
@@ -60,7 +59,6 @@ async function init(): Promise<false | void> {
 	}
 
 	const prs = elements.map(getPRConfig);
-
 
 	const query = buildQuery(prs);
 	const data = await api.v4(query);
