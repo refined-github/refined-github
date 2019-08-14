@@ -10,3 +10,8 @@
 	min-width: 150px;
 	max-width: 300px;
 }
+
+/* Fix for https://github.com/sindresorhus/refined-github/issues/2325 */
+:root .subnav > :first-child {
+	flex-grow: 1;
+}
