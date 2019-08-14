@@ -7,6 +7,7 @@ tr.rgh-comments-indicator td {
 
 tr.rgh-comments-indicator td::after {
 	background: currentColor;
+	opacity: 0.4;
 	content: '';
 	height: 1px;
 	position: absolute;
@@ -34,8 +35,4 @@ tr.rgh-comments-indicator button {
 
 tr.rgh-comments-indicator button:hover {
 	color: #586069;
-}
-
-.show-inline-notes .rgh-comments-indicator {
-	display: none;
 }
