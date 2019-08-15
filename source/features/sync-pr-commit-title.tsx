@@ -58,14 +58,14 @@ function submitPRTitleUpdate(): void {
 	const inputField = select<HTMLInputElement>('#merge_title_field')!;
 
 	// If the note isn't shown, the PR title doesn't need to be updated
-	if (!getNote().parentElement) {
+	if (!getNote().isConnected) {
 		return;
 	}
 
 	const prTitle = inputField.value.replace(new RegExp(`\\s*\\(${getPRNumber()}\\)$`), '');
 
 	// Fill and submit title-change form
-	select<HTMLInputElement>('.edit-issue-title')!.value = prTitle;
+	select<HTMLInputElement>('[name="issue[title]"]')!.value = prTitle;
 	select('.js-issue-update [type="submit"]')!.click(); // `form.submit()` isn't sent via ajax
 }
 
