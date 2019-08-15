@@ -48,6 +48,7 @@ function maybeShowNote(): void {
 			// Ensure that the required fields are there before adding the note
 			throw new Error('Refined GitHub: `sync-pr-commit-title` can’t update the PR title');
 		}
+
 		inputField.after(getNote());
 		return;
 	}
