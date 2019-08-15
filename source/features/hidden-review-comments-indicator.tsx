@@ -23,9 +23,9 @@ const addIndicator = mem((commentThread: HTMLElement): void => {
 	const commentCount = commentThread.querySelectorAll('.review-comment .js-comment').length;
 
 	commentThread.before(
-		<tr className="rgh-comments-indicator">
-			<td className="blob-num" colSpan={2} onClick={handleIndicatorClick}>
-				<button type="button">
+		<tr>
+			<td className="rgh-comments-indicator blob-num" colSpan={2} onClick={handleIndicatorClick}>
+				<button type="button" className="btn-link">
 					{icons.comment()}
 					<span>{commentCount}</span>
 				</button>
