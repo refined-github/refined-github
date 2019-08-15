@@ -8,7 +8,7 @@ Limitations:
  * @param updatable The `.js-updatable-content` element to watch
  * @param callback The function to call after it's replaced
 */
-export default function onUpdatableContentUpdate(updatable: HTMLElement, callback: VoidFunction) {
+export default function onUpdatableContentUpdate(updatable: HTMLElement, callback: VoidFunction): void {
 	new MutationObserver(mutations => {
 		if (updatable.isConnected) {
 			return;
