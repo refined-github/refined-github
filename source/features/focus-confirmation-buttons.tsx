@@ -2,9 +2,15 @@ import select from 'select-dom';
 import features from '../libs/features';
 
 function init(): void {
-	window.addEventListener('facebox:reveal', () => {
-		select<HTMLButtonElement>('.facebox-content button')!.focus();
-	});
+	document.body.addEventListener('toggle', event => {
+		const confirmButton = select<HTMLButtonElement>('[open] details-dialog [type="submit"]', event.target as HTMLElement);
+		if (confirmButton) {
+			setTimeout(() => {
+				confirmButton.focus();
+				document.body.classList.remove('intent-mouse'); // Without this, the :focus style isn't applied
+			});
+		}
+	}, true); // The `toggle` event doesn't bubble, so it needs to be captured
 }
 
 features.add({
