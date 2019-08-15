@@ -137,6 +137,7 @@ import './features/linkify-symbolic-links';
 import './features/hide-zero-packages';
 import './features/revert-file';
 import './features/hidden-review-comments-indicator';
+import './features/cross-deleted-pr-branches';
 
 // Add global for easier debugging
 (window as any).select = select;
