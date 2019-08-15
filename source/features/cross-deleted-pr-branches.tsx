@@ -52,7 +52,7 @@ function init(): void {
 features.add({
 	id: __featureName__,
 	description: 'Adds a line-through to the deleted branches',
-	screenshot: 'URL-HERE',
+	screenshot: 'https://user-images.githubusercontent.com/30543444/63117366-480a4b80-bfb9-11e9-949f-f624c8f0485c.png',
 	include: [
 		features.isPR
 	],

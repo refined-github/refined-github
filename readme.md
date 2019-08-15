@@ -230,7 +230,7 @@ Thanks for contributing! 🦋🙌
 - [](# "mark-files-as-viewed") [Marks all files as "viewed" when approving a PR.](https://user-images.githubusercontent.com/11782/60969312-8740df00-a31f-11e9-8e34-d1f0c1a871aa.gif)
 - [](# "pr-branch-auto-delete") Automatically deletes the branch right after merging a PR, if possible.
 - [](# "revert-file") 🔥 [Adds button to revert all the changes to a file in a PR.](https://user-images.githubusercontent.com/1402241/62826118-73b7bb00-bbe0-11e9-9449-2dd64c469bb9.gif)
-- [](# "cross-deleted-pr-branches") [Adds a line-through to the deleted branches.](URL)
+- [](# "cross-deleted-pr-branches") [Adds a line-through to the deleted branches.](https://user-images.githubusercontent.com/30543444/63117366-480a4b80-bfb9-11e9-949f-f624c8f0485c.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
