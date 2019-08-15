@@ -413,7 +413,9 @@ async function init(): Promise<void> {
 		await markRead(location.href);
 
 		// The sidebar changes when new comments are added or the issue status changes
-		observeEl('#partial-discussion-sidebar', addMarkUnreadButton);
+		// This selector targets the sidebar column, because the sidebar content can be updated after page load.
+		// See: https://user-images.githubusercontent.com/10238474/62722516-41a72d00-ba17-11e9-96fc-432df4688204.png
+		observeEl('#discussion_bucket > :last-child', addMarkUnreadButton);
 	} else if (pageDetect.isDiscussionList()) {
 		for (const discussion of await getNotifications()) {
 			const {pathname} = new URL(discussion.url);
