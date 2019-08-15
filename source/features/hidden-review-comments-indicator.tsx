@@ -70,9 +70,9 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Adds comment indicators when comments are hidden in PR review',
+	description: 'Adds comment indicators when comments are hidden in PR review.',
 	screenshot:
-		'https://user-images.githubusercontent.com/1402241/35480123-68b9af1a-043a-11e8-8934-3ead3cff8328.gif', // TODO
+		'https://user-images.githubusercontent.com/1402241/63112671-011d5580-bfbb-11e9-9e19-53e11641990e.gif',
 	include: [
 		features.isPRFiles,
 		features.isPRCommit
