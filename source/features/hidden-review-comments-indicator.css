@@ -37,3 +37,17 @@
 .rgh-comments-indicator span {
 	margin-left: 3px;
 }
+
+/* Split diffs only have 1 line number on the left */
+.file-diff-split .rgh-comments-indicator::after,
+.file-diff-split .rgh-comments-indicator::before {
+	width: 100%;
+}
+
+/* Split diffs fill the screen so there's only 18px available. We only show the icon */
+.file-diff-split .rgh-comments-indicator span {
+	display: none;
+}
+.file-diff-split .rgh-comments-indicator button {
+	padding-right: 1px;
+}
