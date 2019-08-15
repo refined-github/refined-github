@@ -63,7 +63,7 @@ function stripHash(url: string): string {
 function addMarkUnreadButton(): void {
 	if (!select.exists('.rgh-btn-mark-unread')) {
 		select('.thread-subscription-status')!.after(
-			<button className="btn btn-sm rgh-btn-mark-unread" onClick={markUnread}>
+			<button className="btn btn-sm btn-block mt-2 rgh-btn-mark-unread" onClick={markUnread}>
 				Mark as unread
 			</button>
 		);
