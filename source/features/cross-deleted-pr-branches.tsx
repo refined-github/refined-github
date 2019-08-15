@@ -3,19 +3,19 @@ import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
 
 function inPR(): void {
-    let deletedBranch: string | undefined;
-    const lastBranchAction = select.all(`
+	let deletedBranch: string | undefined;
+	const lastBranchAction = select.all(`
 		.discussion-item-head_ref_deleted .commit-ref,
 		.discussion-item-head_ref_restored .commit-ref
     `).pop();
 
-    if (lastBranchAction && lastBranchAction.closest('.discussion-item-head_ref_deleted')) {
+	if (lastBranchAction && lastBranchAction.closest('.discussion-item-head_ref_deleted')) {
 		deletedBranch = lastBranchAction.textContent!.trim();
-    }
+	}
 
 	// Making deleted branch link to the default fork
 	for (const el of select.all('.commit-ref[title].head-ref[title]')) {
-        const [repo] = el.title.split(':', 1);
+		const [repo] = el.title.split(':', 1);
 		const branchName = el.textContent!.trim();
 		if (branchName !== 'unknown repository') {
 			if (branchName === deletedBranch) {
@@ -30,12 +30,13 @@ function inPR(): void {
 
 		if (branchName !== 'unknown repository') {
 			if (branchName === deletedBranch) {
-				if ( el.classList.contains('head-ref')) {
-					let deletedBranchElement = el.children[0].children;
-					for (let item of deletedBranchElement) {
+				if (el.classList.contains('head-ref')) {
+					const deletedBranchElement = el.children[0].children;
+					for (const item of deletedBranchElement) {
 						item.setAttribute('style', 'text-decoration: line-through;');
 					}
 				}
+
 				el.title = 'Deleted';
 				el.style.textDecoration = 'line-through';
 			}
@@ -44,9 +45,9 @@ function inPR(): void {
 }
 
 function init(): void {
-    if (pageDetect.isPR()) {
-        inPR();
-    }
+	if (pageDetect.isPR()) {
+		inPR();
+	}
 }
 
 features.add({
