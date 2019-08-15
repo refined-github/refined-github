@@ -64,7 +64,6 @@ function observeFiles(): void {
 }
 
 function init(): void {
-	select.all('tr.inline-comments').forEach(addIndicator);
 	observeFiles();
 	onPrFileLoad(observeFiles);
 }
