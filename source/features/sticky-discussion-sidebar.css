@@ -1,3 +1,7 @@
+:root .pagehead ul.pagehead-actions {
+	z-index: initial; /* This affects the social buttons. It seems to have no effect but it constantly causes trouble with other features. */
+}
+
 .rgh-sticky-sidebar {
 	position: sticky;
 	top: 60px !important; /* Matches sticky header's height */
