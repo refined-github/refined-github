@@ -4,10 +4,10 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import delegate, {DelegateSubscription, DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
-import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
 import {getUsername, getRepoURL} from '../libs/utils';
+import onUpdatableContentUpdate from '../libs/on-updatable-content-update';
 
 type NotificationType = 'pull-request' | 'issue';
 type NotificationState = 'open' | 'merged' | 'closed' | 'draft';
@@ -64,7 +64,7 @@ function stripHash(url: string): string {
 function addMarkUnreadButton(): void {
 	if (!select.exists('.rgh-btn-mark-unread')) {
 		select('.thread-subscription-status')!.after(
-			<button className="btn btn-sm rgh-btn-mark-unread" onClick={markUnread}>
+			<button className="btn btn-sm btn-block mt-2 rgh-btn-mark-unread" onClick={markUnread}>
 				Mark as unread
 			</button>
 		);
@@ -412,8 +412,8 @@ async function init(): Promise<void> {
 	} else if (pageDetect.isPR() || pageDetect.isIssue()) {
 		await markRead(location.href);
 
-		// The sidebar changes when new comments are added or the issue status changes
-		observeEl('.discussion-sidebar', addMarkUnreadButton);
+		addMarkUnreadButton();
+		onUpdatableContentUpdate(select('#partial-discussion-sidebar')!, addMarkUnreadButton);
 	} else if (pageDetect.isDiscussionList()) {
 		for (const discussion of await getNotifications()) {
 			const {pathname} = new URL(discussion.url);
