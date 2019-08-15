@@ -12,16 +12,11 @@ function getUrlFromItem(checkbox: Element): string {
 }
 
 function openIssues(): void {
-	let selectors = [
-		'#js-issues-toolbar.triage-mode [name="issues[]"]:checked', // Get checked checkboxes
-		'#js-issues-toolbar:not(.triage-mode) .js-issue-row' // Or all items
-	];
-
-	if (!features.isGlobalDiscussionList()) {
-		selectors = selectors.map(selector => selector.replace(' ', ' + div '));
-	}
-
-	const issues = select.all(selectors.join(','));
+	const modifier = features.isGlobalDiscussionList() ? '' : ' + div ';
+	const issues = select.all([
+		`#js-issues-toolbar.triage-mode ${modifier} [name="issues[]"]:checked`, // Get checked checkboxes
+		`#js-issues-toolbar:not(.triage-mode) ${modifier} .js-issue-row` // Or all items
+	].join(','));
 
 	if (
 		issues.length >= confirmationRequiredCount &&
