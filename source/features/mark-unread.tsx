@@ -1,13 +1,12 @@
-import './mark-unread.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import delegate, {DelegateSubscription, DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
-import observeEl from '../libs/simplified-element-observer';
 import * as icons from '../libs/icons';
 import * as pageDetect from '../libs/page-detect';
 import {getUsername, getRepoURL} from '../libs/utils';
+import onUpdatableContentUpdate from '../libs/on-updatable-content-update';
 
 type NotificationType = 'pull-request' | 'issue';
 type NotificationState = 'open' | 'merged' | 'closed' | 'draft';
@@ -412,10 +411,8 @@ async function init(): Promise<void> {
 	} else if (pageDetect.isPR() || pageDetect.isIssue()) {
 		await markRead(location.href);
 
-		// The sidebar changes when new comments are added or the issue status changes
-		// This selector targets the sidebar column, because the sidebar content can be updated after page load.
-		// See: https://user-images.githubusercontent.com/10238474/62722516-41a72d00-ba17-11e9-96fc-432df4688204.png
-		observeEl('#discussion_bucket > :last-child', addMarkUnreadButton);
+		addMarkUnreadButton();
+		onUpdatableContentUpdate(select('#partial-discussion-sidebar')!, addMarkUnreadButton);
 	} else if (pageDetect.isDiscussionList()) {
 		for (const discussion of await getNotifications()) {
 			const {pathname} = new URL(discussion.url);
