@@ -82,8 +82,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	}
 
 	if (document.body.classList.contains('logged-out')) {
-		console.warn('%cRefined GitHub%c only works when you’re logged in to GitHub.', 'font-weight: bold', '');
-		return;
+		console.warn('%cRefined GitHub%c is only expected to work when you’re logged in to GitHub.', 'font-weight: bold', '');
 	}
 
 	if (select.exists('html.refined-github')) {
