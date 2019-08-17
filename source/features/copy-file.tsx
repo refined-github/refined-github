@@ -5,7 +5,7 @@ import copyToClipboard from 'copy-text-to-clipboard';
 import features from '../libs/features';
 
 function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): void {
-	const selector = features.isGist() ? '.js-gist-file-update-container': '.Box';
+	const selector = features.isGist() ? '.js-gist-file-update-container' : '.Box';
 	const file = button.closest(selector);
 	const content = select.all('.blob-code-inner', file!)
 		.map(({innerText: line}) => line === '\n' ? '' : line) // Must be `.innerText`
@@ -17,7 +17,7 @@ function renderButton(): void {
 	const selector = features.isGist() ? '.file-actions .btn' : '[data-hotkey="b"]';
 	for (const blameButton of select.all(selector)) {
 		if (features.isGist()) {
-			blameButton.classList.add('BtnGroup-item')
+			blameButton.classList.add('BtnGroup-item');
 		}
 
 		blameButton
