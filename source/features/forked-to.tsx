@@ -63,11 +63,13 @@ async function init(): Promise<void> {
 		return;
 	}
 
+	document.body.classList.add('rgh-forked');
+
 	const forkCounter = select('.social-count[href$="/network/members"]')!;
 	if (forks.length === 1) {
 		forkCounter.before(
 			<a href={`/${forks[0]}`}
-				className="btn btn-sm float-left rgh-forked"
+				className="btn btn-sm float-left rgh-forked-button"
 				title={`Open your fork to ${forks[0]}`}>
 				{icons.externalLink()}
 			</a>
@@ -76,7 +78,7 @@ async function init(): Promise<void> {
 		forkCounter.before(
 			<details className="details-reset details-overlay select-menu float-left">
 				<summary
-					className="select-menu-button float-left btn btn-sm btn-with-count rgh-forked"
+					className="select-menu-button float-left btn btn-sm btn-with-count rgh-forked-button"
 					title="Open any of your forks"></summary>
 				<details-menu
 					style={{zIndex: 99}}
