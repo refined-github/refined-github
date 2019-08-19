@@ -3,7 +3,7 @@ import features from '../libs/features';
 
 function init(): void {
 	const embedViaScript = select('.select-menu-item')!;
-	const embedViaIframe = embedViaScript.cloneNode(true) as HTMLElement;
+	const embedViaIframe = embedViaScript.cloneNode(true) as HTMLButtonElement;
 
 	// Modify description to distinguish the two items
 	// This is also consistent with the existing "Clone via HTTPS" and "Clone via SSH" items
@@ -18,7 +18,7 @@ function init(): void {
 
 	// Set required content
 	embedViaIframe.setAttribute('aria-checked', 'false');
-	embedViaIframe.setAttribute('value', embedViaIframe.getAttribute('value')!.replace(/script/g, 'iframe').replace('.js', '.pibb'));
+	embedViaIframe.value = `<iframe src="${location.origin}${location.pathname}.pibb"></iframe>`;
 	select('.select-menu-item-heading', embedViaIframe)!.textContent = 'Embed via <iframe>';
 	select('.description', embedViaIframe)!.textContent = 'Embed this gist in your website via <iframe>.';
 
