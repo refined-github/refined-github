@@ -2,13 +2,13 @@ import select from 'select-dom';
 import features from '../libs/features';
 
 function init(): void {
-	const embedViaScript = select('.select-menu-item')!;
+	const embedViaScript = select('.file-navigation-option .select-menu-item')!;
 	const embedViaIframe = embedViaScript.cloneNode(true) as HTMLButtonElement;
 
 	// Modify description to distinguish the two items
 	// This is also consistent with the existing "Clone via HTTPS" and "Clone via SSH" items
 	const viaScript = 'Embed via <script>';
-	select('[data-menu-button]')!.textContent = viaScript;
+	select('.file-navigation-option [data-menu-button]')!.textContent = viaScript;
 	select('.select-menu-item-heading', embedViaScript)!.textContent = viaScript;
 	select('.description', embedViaScript)!.textContent = 'Embed this gist in your website via <script>.';
 
