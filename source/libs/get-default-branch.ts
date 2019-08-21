@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import cache from 'webext-storage-cache';
 import * as api from './api';
-import {getOwnerAndRepo} from './utils';
+import {getRepoURL} from './utils';
 
 // This regex should match all of these combinations:
 // "This branch is even with master."
@@ -26,21 +26,20 @@ function parseBranchFromDom(): string | undefined {
 	return matches ? matches[1] : undefined;
 }
 
-async function fetchFromApi(user: string, repo: string): Promise<any> {
-	const response = await api.v3(`repos/${user}/${repo}`);
+async function fetchFromApi(): Promise<any> {
+	const response = await api.v3(`repos/${getRepoURL()}`);
 	if (response.default_branch) {
 		return response.default_branch;
 	}
 }
 
 export default async function (): Promise<string> {
-	const {ownerName, repoName} = getOwnerAndRepo();
-	const cached = await cache.get<string>(`default-branch:${ownerName}/${repoName}`);
+	const cached = await cache.get<string>(`default-branch:${getRepoURL()}`);
 	if (cached) {
 		return cached;
 	}
 
-	const branch = parseBranchFromDom() || await fetchFromApi(ownerName, repoName);
-	await cache.set(`default-branch:${ownerName}/${repoName}`, branch, 1);
+	const branch = parseBranchFromDom() || await fetchFromApi();
+	await cache.set(`default-branch:${getRepoURL()}`, branch, 1);
 	return branch;
 }

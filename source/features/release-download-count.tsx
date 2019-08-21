@@ -4,7 +4,7 @@ import select from 'select-dom';
 import features from '../libs/features';
 import * as api from '../libs/api';
 import * as icons from '../libs/icons';
-import {getOwnerAndRepo} from '../libs/utils';
+import {getRepoGQL} from '../libs/utils';
 
 interface Asset {
 	name: string;
@@ -14,21 +14,18 @@ interface Tag {
 	[key: string]: Asset[];
 }
 async function getAssetsForTag(tags: string[]): Promise<Tag> {
-	const {ownerName, repoName} = getOwnerAndRepo();
 	const {repository} = await api.v4(`
-		{
-			repository(owner: "${ownerName}", name: "${repoName}") {
-				${tags.map(tag => `
-					${api.escapeKey(tag)}: release(tagName:"${tag}") {
-						releaseAssets(first: 100) {
-							nodes {
-								name
-								downloadCount
-							}
+		repository(${getRepoGQL()}) {
+			${tags.map(tag => `
+				${api.escapeKey(tag)}: release(tagName:"${tag}") {
+					releaseAssets(first: 100) {
+						nodes {
+							name
+							downloadCount
 						}
 					}
-				`)}
-			}
+				}
+			`)}
 		}
 	`);
 

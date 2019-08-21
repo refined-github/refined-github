@@ -49,6 +49,10 @@ export const getCurrentBranch = (): string => {
 };
 
 export const getRepoURL = (): string => location.pathname.slice(1).split('/', 2).join('/');
+export const getRepoGQL = (): string => {
+	const {ownerName, repoName} = getOwnerAndRepo();
+	return `owner: "${ownerName}", name: "${repoName}"`;
+};
 
 export const getOwnerAndRepo = (): {
 	ownerName: string;

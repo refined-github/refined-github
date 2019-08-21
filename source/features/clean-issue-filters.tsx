@@ -19,14 +19,12 @@ async function getCount(): Promise<CacheEntry> {
 	}
 
 	const result = await api.v4(`
-		query {
-			repository(owner: "${ownerName}", name: "${repoName}") {
-				projects { totalCount }
-				milestones { totalCount }
-			}
-			organization(login: "${ownerName}") {
-				projects { totalCount }
-			}
+		repository(owner: "${ownerName}", name: "${repoName}") {
+			projects { totalCount }
+			milestones { totalCount }
+		}
+		organization(login: "${ownerName}") {
+			projects { totalCount }
 		}
 	`, {
 		allowErrors: true

@@ -21,7 +21,7 @@ function init(): void {
 			// Select every time because the sidebar content may be replaced
 			select(`
 				.new-pr-form .timeline-comment,
-				.discussion-sidebar .js-collab-form + .js-dropdown-details
+				#partial-discussion-sidebar .js-collab-form + .js-dropdown-details
 			`)!.after(warning);
 		}
 	};

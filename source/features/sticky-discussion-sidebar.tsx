@@ -4,7 +4,7 @@ import debounce from 'debounce-fn';
 import features from '../libs/features';
 
 function updateStickiness(): void {
-	const sidebar = select<HTMLElement>('.discussion-sidebar')!;
+	const sidebar = select<HTMLElement>('#partial-discussion-sidebar')!;
 	const sidebarHeight = sidebar.offsetHeight + 60; // 60 matches sticky header's height
 	sidebar.classList.toggle('rgh-sticky-sidebar', sidebarHeight < window.innerHeight);
 }

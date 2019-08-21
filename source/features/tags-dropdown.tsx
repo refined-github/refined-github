@@ -2,15 +2,13 @@ import './tags-dropdown.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
-import {getOwnerAndRepo} from '../libs/utils';
+import {getRepoURL} from '../libs/utils';
 import {octoface} from '../libs/icons';
 
 async function init(): Promise<false | void> {
 	if (select.exists('.blankslate')) {
 		return false;
 	}
-
-	const {ownerName, repoName} = getOwnerAndRepo();
 
 	return select('.subnav')!.append(
 		<div className="rgh-tags-dropdown float-right d-flex flex-shrink-0 flex-items-center">
@@ -20,7 +18,7 @@ async function init(): Promise<false | void> {
 				</summary>
 				<details-menu
 					className="select-menu-modal position-absolute dropdown-menu-sw"
-					src={`/${ownerName}/${repoName}/ref-list/master?source_action=disambiguate&source_controller=files`}
+					src={`/${getRepoURL()}/ref-list/master?source_action=disambiguate&source_controller=files`}
 					preload
 					role="menu"
 					style={{zIndex: 99}}

@@ -214,6 +214,7 @@ Thanks for contributing! 🦋🙌
 - [](# "preserve-whitespace-option-in-nav") Preserves the "ignore whitespace" setting when navigating with Next/Previous in PR review mode.
 - [](# "bypass-checks") [Bypasses the "Checks" interstitial when clicking the "Details" links on a PR.](https://user-images.githubusercontent.com/2103975/49071220-c6596e80-f22d-11e8-8a1e-bdcd62aa6ece.png)
 - [](# "open-ci-details-in-new-tab") Opens the Checks "details" link in a new tab.
+- [](# "hidden-review-comments-indicator") [Adds comment indicators when comments are hidden in PR review.](https://user-images.githubusercontent.com/1402241/63112671-011d5580-bfbb-11e9-9e19-53e11641990e.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -228,6 +229,7 @@ Thanks for contributing! 🦋🙌
 - [](# "pull-request-hotkey") Adds keyboard shortcuts to cycle through PR tabs: <kbd>g</kbd> <kbd>←</kbd> and <kbd>g</kbd> <kbd>→</kbd>, or <kbd>g</kbd> <kbd>1</kbd>, <kbd>g</kbd> <kbd>2</kbd>, <kbd>g</kbd> <kbd>3</kbd> and <kbd>g</kbd> <kbd>4</kbd>.
 - [](# "mark-files-as-viewed") [Marks all files as "viewed" when approving a PR.](https://user-images.githubusercontent.com/11782/60969312-8740df00-a31f-11e9-8e34-d1f0c1a871aa.gif)
 - [](# "pr-branch-auto-delete") Automatically deletes the branch right after merging a PR, if possible.
+- [](# "revert-file") 🔥 [Adds button to revert all the changes to a file in a PR.](https://user-images.githubusercontent.com/1402241/62826118-73b7bb00-bbe0-11e9-9449-2dd64c469bb9.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -350,6 +352,7 @@ See the [contribution guide](contributing.md) and join the [contributors](https:
 - [Friendly GitHub](https://github.com/Hermanya/friendly-github) - Make GitHub more social
 - [Sourcegraph](https://github.com/sourcegraph/browser-extensions) - Adds code intelligence to GitHub
 - [Potential changes for GitHub](https://github.com/dzhavat/potential-changes-for-github) - See which pull requests contain changes related to a file
+- [PR Monitor](https://github.com/fwouts/prmonitor) - Notifies you about incoming and outgoing PRs
 
 Want more? Here are some ideas you could develop!
 
