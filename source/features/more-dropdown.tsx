@@ -13,15 +13,15 @@ const repoUrl = getRepoURL();
 function createDropdown(): void {
 	// Markup copied from native GHE dropdown
 	appendBefore('.reponav', '[href$="settings"]',
-		<div className="reponav-dropdown js-menu-container">
-			<button type="button" className="btn-link reponav-item js-menu-target" aria-expanded="false" aria-haspopup="true">
-				{'More '}
-				<span className="dropdown-caret"/>
-			</button>
-			<div className="dropdown-menu-content js-menu-content">
-				<div className="dropdown-menu dropdown-menu-se"/>
-			</div>
-		</div>
+		<details className="reponav-dropdown details-overlay details-reset">
+			<summary>
+				<span className="btn-link reponav-item">
+					{'More '}
+					<span className="dropdown-caret"/>
+				</span>
+			</summary>
+			<details-menu className="dropdown-menu dropdown-menu-se"/>
+		</details>
 	);
 }
 
