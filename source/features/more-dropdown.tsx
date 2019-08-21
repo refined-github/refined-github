@@ -14,11 +14,9 @@ function createDropdown(): void {
 	// Markup copied from native GHE dropdown
 	appendBefore('.reponav', '[href$="settings"]',
 		<details className="reponav-dropdown details-overlay details-reset">
-			<summary>
-				<span className="btn-link reponav-item">
-					{'More '}
-					<span className="dropdown-caret"/>
-				</span>
+			<summary className="btn-link reponav-item">
+				{'More '}
+				<span className="dropdown-caret"/>
 			</summary>
 			<details-menu className="dropdown-menu dropdown-menu-se"/>
 		</details>
