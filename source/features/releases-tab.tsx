@@ -37,7 +37,12 @@ async function init(): Promise<false | void> {
 			{count === undefined ? '' : <span className="Counter">{count}</span>}
 		</a>
 	);
-	select('.reponav-dropdown')!.before(releasesTab);
+
+	if(select('.reponav-dropdown')) {
+		select('.reponav-dropdown')!.before(releasesTab);
+	} else {
+		select.last('.reponav-item')!.after(releasesTab);
+	}
 
 	if (isReleasesOrTags()) {
 		const selected = select('.reponav-item.selected');
