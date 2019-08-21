@@ -6,6 +6,7 @@ import features from '../libs/features';
 import * as icons from '../libs/icons';
 import {getRepoURL} from '../libs/utils';
 import {isRepoRoot, isReleasesOrTags} from '../libs/page-detect';
+import {appendBefore} from '../libs/dom-utils';
 
 const repoUrl = getRepoURL();
 const repoKey = `releases-count:${repoUrl}`;
@@ -38,11 +39,8 @@ async function init(): Promise<false | void> {
 		</a>
 	);
 
-	if(select('.reponav-dropdown')) {
-		select('.reponav-dropdown')!.before(releasesTab);
-	} else {
-		select.last('.reponav-item')!.after(releasesTab);
-	}
+	const selector = select('.reponav-dropdown') ? '.reponav-dropdown' : '[href$="settings"]';
+	appendBefore('.reponav', selector, releasesTab);
 
 	if (isReleasesOrTags()) {
 		const selected = select('.reponav-item.selected');
