@@ -5,7 +5,7 @@ import domLoaded from 'dom-loaded';
 import features from '../libs/features';
 
 async function init(): Promise<void> {
-	const marketPlaceLink = (await elementReady('.Header-link[href="/marketplace"]'))!;
+	const marketPlaceLink = (await elementReady('.Header-link[href="/marketplace"]'));
 	if (marketPlaceLink) {
 		// The Marketplace link seems to have an additional wrapper that other links don't have https://i.imgur.com/KV9rtSq.png
 		marketPlaceLink.closest('.border-top, .mr-3')!.remove();
