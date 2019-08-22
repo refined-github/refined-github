@@ -409,7 +409,7 @@ async function init(): Promise<void> {
 			delegate('.js-delete-notification button', 'click', updateUnreadIndicator),
 			delegate('.js-mark-visible-as-read', 'submit', markVisibleNotificationsRead)
 		);
-	} else if (pageDetect.isPRList() || pageDetect.isIssue()) {
+	} else if (pageDetect.isPR() || pageDetect.isIssue()) {
 		await markRead(location.href);
 
 		if (pageDetect.isPRConversation() || pageDetect.isIssue()) {
