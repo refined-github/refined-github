@@ -6,7 +6,7 @@ import features from '../libs/features';
 import {groupButtons} from '../libs/group-buttons';
 
 function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): void {
-	const file = button.closest('.js-gist-file-update-container, .Box');
+	const file = button.closest('.Box, .js-gist-file-update-container');
 	const content = select.all('.blob-code-inner', file!)
 		.map(({innerText: line}) => line === '\n' ? '' : line) // Must be `.innerText`
 		.join('\n');
@@ -29,7 +29,6 @@ function renderButton(): void {
 		button
 			.parentElement! // `BtnGroup`
 			.prepend(copyButton);
-
 		groupButtons([copyButton, button]);
 	}
 }
