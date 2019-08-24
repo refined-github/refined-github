@@ -291,6 +291,7 @@ Thanks for contributing! 🦋🙌
 - [](# "hide-issue-list-autocomplete") [Removes the autocomplete on search fields.](https://user-images.githubusercontent.com/1402241/42991841-1f057e4e-8c07-11e8-909c-b051db7a2a03.png)
 - [](# "hide-obvious-tooltips") Removes tooltips from self-explanatory buttons.
 - [](# "recently-pushed-branches-enhancements") 🔥 [Moves the "Recently-pushed branches" widget to the header to avoid content jumps. Also adds it to more pages in the repo.](https://user-images.githubusercontent.com/1402241/56466173-da517700-643f-11e9-8eb5-9b20017fa613.gif)
+- [](# "embed-gist-via-iframe") [Adds a menu item to embed a gist via `<iframe>`.](https://user-images.githubusercontent.com/44045911/63212711-30f36700-c13b-11e9-945e-3b7946156fa8.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
