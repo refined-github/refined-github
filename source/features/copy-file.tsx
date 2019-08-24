@@ -3,7 +3,7 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import copyToClipboard from 'copy-text-to-clipboard';
 import features from '../libs/features';
-import {groupButtons} from '../libs/group-buttons';
+import {groupSiblings} from '../libs/group-buttons';
 
 function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): void {
 	const file = button.closest('.Box, .js-gist-file-update-container');
@@ -16,20 +16,18 @@ function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement
 function renderButton(): void {
 	const selector = features.isGist() ? '.file-actions .btn' : '[data-hotkey="b"]';
 	for (const button of select.all(selector)) {
-		const copyButton = (
-			<button
-				onClick={handleClick}
-				className="btn btn-sm tooltipped tooltipped-n BtnGroup-item rgh-copy-file"
-				aria-label="Copy file to clipboard"
-				type="button">
-				Copy
-			</button>
-		);
-
 		button
 			.parentElement! // `BtnGroup`
-			.prepend(copyButton);
-		groupButtons([copyButton, button]);
+			.prepend(
+				<button
+					onClick={handleClick}
+					className="btn btn-sm tooltipped tooltipped-n BtnGroup-item rgh-copy-file"
+					aria-label="Copy file to clipboard"
+					type="button">
+					Copy
+				</button>
+			);
+		groupSiblings(button);
 	}
 }
 
