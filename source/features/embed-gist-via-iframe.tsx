@@ -6,10 +6,6 @@ function init(): void {
 	const embedViaIframe = embedViaScript.cloneNode(true) as HTMLButtonElement;
 
 	// Modify description to distinguish the two items
-	// This is also consistent with the existing "Clone via HTTPS" and "Clone via SSH" items
-	const viaScript = 'Embed via <script>';
-	select('.file-navigation-option [data-menu-button]')!.textContent = viaScript;
-	select('.select-menu-item-heading', embedViaScript)!.textContent = viaScript;
 	select('.description', embedViaScript)!.textContent = 'Embed this gist in your website via <script>.';
 
 	// Remove analytics attributes
@@ -28,7 +24,7 @@ function init(): void {
 features.add({
 	id: __featureName__,
 	description: 'Adds a menu item to embed a gist via <iframe>.',
-	screenshot: 'https://user-images.githubusercontent.com/44045911/63212711-30f36700-c13b-11e9-945e-3b7946156fa8.png',
+	screenshot: 'https://user-images.githubusercontent.com/44045911/63633382-6a1b6200-c67a-11e9-9038-aedd62e4f6a8.png',
 	include: [
 		features.isGist
 	],
