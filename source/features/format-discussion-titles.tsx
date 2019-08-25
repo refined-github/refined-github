@@ -1,9 +1,10 @@
+import linkifyIssues from 'linkify-issues';
 import select from 'select-dom';
 import zipTextNodes from 'zip-text-nodes';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 import parseBackticks from '../libs/parse-backticks';
-import {linkifyIssuesInDom} from './linkify-urls-in-code';
+import linkify from '../libs/linkify-text-nodes';
 
 function init(): void {
 	observeEl(
@@ -12,7 +13,7 @@ function init(): void {
 			for (const title of select.all('.js-issue-title:not(.rgh-formatted-title)')) {
 				if (title) {
 					title.classList.add('rgh-formatted-title');
-					linkifyIssuesInDom(title);
+					linkify(linkifyIssues, title);
 
 					const fragment = parseBackticks(title.textContent!);
 
