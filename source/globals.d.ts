@@ -19,7 +19,7 @@ interface Window {
 
 // TODO: Drop after https://github.com/sindresorhus/p-memoize/issues/9
 declare module 'mem' {
-	function mem<T = VoidFunction>(fn: T): T;
+	function mem<T = VoidFunction>(fn: T, options?: AnyObject): T;
 	export = mem;
 }
 
@@ -78,7 +78,7 @@ declare namespace JSX {
 		'has-rgh': {};
 		'label': LabelIntrinsicElement & {for?: string};
 		'include-fragment': BaseIntrinsicElement & {src?: string};
-		'details-menu': BaseIntrinsicElement & {src: string; preload: boolean};
+		'details-menu': BaseIntrinsicElement & {src?: string; preload?: boolean};
 		'relative-time': BaseIntrinsicElement & {datetime: string; title: string};
 		'details-dialog': BaseIntrinsicElement & {tabindex: string};
 	}
