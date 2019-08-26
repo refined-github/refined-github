@@ -14,7 +14,7 @@ function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement
 }
 
 function renderButton(): void {
-	for (const button of select.all(features.isGist() ? '.file-actions .btn' : '[data-hotkey="b"]')) {
+	for (const button of select.all('.file-actions .btn, [data-hotkey="b"]')) {
 		button
 			.parentElement! // `BtnGroup`
 			.prepend(
