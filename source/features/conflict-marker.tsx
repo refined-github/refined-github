@@ -1,9 +1,9 @@
 import select from 'select-dom';
 import React from 'dom-chef';
 import * as api from '../libs/api';
-import {getOwnerAndRepo, getRepoURL} from '../libs/utils';
+import { getOwnerAndRepo, getRepoURL } from '../libs/utils';
 import features from '../libs/features';
-import {alert} from '../libs/icons';
+import { alert } from '../libs/icons';
 
 interface PRConfig {
 	id: string;
@@ -25,35 +25,34 @@ function createQueryFragment(pr: PRConfig): string {
 	`;
 }
 
-function buildQuery(
-	prs: PRConfig[]
-): string {
+function buildQuery(prs: PRConfig[]): string {
 	return prs.map(createQueryFragment).join('\n');
 }
 
 function getPRConfig(element: HTMLElement): PRConfig {
 	try {
-		const prTitle = select('a[data-hovercard-type="repository"]', element)!.textContent!;
+		const prTitle = select('a[data-hovercard-type="repository"]', element)!
+			.textContent!;
 		const [owner, name] = prTitle.trim().split('/');
 
 		return {
 			id: element.id,
 			owner,
-			name
+			name,
 		};
 	} catch (error) {
-		const {ownerName, repoName} = getOwnerAndRepo();
+		const { ownerName, repoName } = getOwnerAndRepo();
 
 		return {
 			id: element.id,
 			owner: ownerName,
-			name: repoName
+			name: repoName,
 		};
 	}
 }
 
 async function init(): Promise<false | void> {
-	const elements = select.all('.js-issue-row');
+	const elements = select.all('.js-issue-row .js-navigation-open');
 	if (elements.length === 0) {
 		return false;
 	}
@@ -65,14 +64,16 @@ async function init(): Promise<false | void> {
 
 	for (const pr of elements) {
 		if (data[api.escapeKey(pr.id)].pullRequest.mergeable === 'CONFLICTING') {
-			select('.d-inline-block.mr-1', pr)!.insertAdjacentElement('afterbegin',
+			select('.d-inline-block.mr-1', pr)!.prepend(
 				<a
 					className="tooltipped tooltipped-n m-0 text-gray mr-2"
 					aria-label="This PR has conflicts that must be resolved"
-					href={`/${getRepoURL()}/pull/${getPrNumber(pr.id)}#partial-pull-merging`}
+					href={`/${getRepoURL()}/pull/${getPrNumber(
+						pr.id,
+					)}#partial-pull-merging`}
 				>
 					{alert()}
-				</a>
+				</a>,
 			);
 		}
 	}
@@ -81,10 +82,9 @@ async function init(): Promise<false | void> {
 features.add({
 	id: __featureName__,
 	description: 'Shows which PRs have conflicts in PR lists',
-	screenshot: 'https://user-images.githubusercontent.com/9092510/62777551-2affe500-baae-11e9-8ba4-67f078347913.png',
-	include: [
-		features.isPRList
-	],
+	screenshot:
+		'https://user-images.githubusercontent.com/9092510/62777551-2affe500-baae-11e9-8ba4-67f078347913.png',
+	include: [features.isPRList],
 	load: features.onAjaxedPages,
-	init
+	init,
 });
