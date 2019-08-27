@@ -1,25 +1,23 @@
 import './options.css';
+import doma from 'doma';
 import React from 'dom-chef';
 import select from 'select-dom';
-import linkifyUrls from 'linkify-urls';
+import doubledown from 'doubledown';
 import fitTextarea from 'fit-textarea';
-import linkifyIssues from 'linkify-issues';
 import indentTextarea from 'indent-textarea';
 import {applyToLink as shortenLink} from 'shorten-repo-url';
-import editTextNodes from './libs/linkify-text-nodes';
-import parseBackticks from './libs/parse-backticks';
 import {getAllOptions} from './options-storage';
+import {linkifyIssuesInDom} from './features/linkify-code';
 
-function parseDescription(description: string): DocumentFragment {
-	const descriptionFragment = parseBackticks(description);
-	editTextNodes(linkifyUrls, descriptionFragment);
-	editTextNodes(linkifyIssues, descriptionFragment);
+function parseDescription(description: string): Element {
+	const descriptionElement = doma.one(`<span>${doubledown(description)}</span>`)!;
+	linkifyIssuesInDom(descriptionElement);
 
-	for (const a of select.all('a', descriptionFragment)) {
+	for (const a of select.all('a', descriptionElement)) {
 		shortenLink(a, location.href);
 	}
 
-	return descriptionFragment;
+	return descriptionElement;
 }
 
 function buildFeatureCheckbox({name, description, screenshot, disabled}: FeatureInfo): HTMLElement {

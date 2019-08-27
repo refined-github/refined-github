@@ -61,6 +61,11 @@ declare module 'linkify-issues' {
 	export = linkifyIssues;
 }
 
+declare module 'doubledown' {
+	function doubledown(input: string): string;
+	export = doubledown;
+}
+
 // Custom UI events specific to RGH
 interface GlobalEventHandlersEventMap {
 	'details:toggled': CustomEvent;

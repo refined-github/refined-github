@@ -25,6 +25,7 @@
 		"dom-chef": "^3.6.1",
 		"dom-loaded": "^1.1.0",
 		"doma": "^1.0.3",
+		"doubledown": "^1.1.0",
 		"element-ready": "^4.1.0",
 		"fit-textarea": "^1.1.0",
 		"github-reserved-names": "^1.1.5",
