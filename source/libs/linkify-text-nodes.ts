@@ -1,6 +1,5 @@
 import linkifyUrls from 'linkify-urls';
 import linkifyIssues from 'linkify-issues';
-import zipTextNodes from 'zip-text-nodes';
 import {isOptionsPage} from 'webext-detect-page';
 import getTextNodes from './get-text-nodes';
 import {getOwnerAndRepo} from './utils';
@@ -60,10 +59,6 @@ export default (
 			}
 
 			textNode.replaceWith(linkified);
-		}
-
-		if (el instanceof Element) {
-			zipTextNodes(el, linkified);
 		}
 	}
 };
