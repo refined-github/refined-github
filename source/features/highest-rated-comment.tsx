@@ -48,7 +48,7 @@ function getBestComment(): HTMLElement | null {
 		}
 	}
 
-	// If count is not past threshold don't bother telling user
+	// If count is not high enough don't bother telling user
 	if (!highest || highest.count < 10 || !highest.nearestComment) {
 		return null;
 	}
@@ -81,8 +81,7 @@ function linkBestComment(bestComment: HTMLElement) {
 			<div className="timeline-comment-wrapper">
 				{avatar}
 
-				<a href={hash}
-				   className="no-underline rounded-1 rgh-highest-rated-comment bg-gray px-2 d-flex flex-items-center">
+				<a href={hash} className="no-underline rounded-1 rgh-highest-rated-comment bg-gray px-2 d-flex flex-items-center">
 					<span className="btn btn-sm mr-2 pr-1">
 						{icons.arrowDown()}
 					</span>
