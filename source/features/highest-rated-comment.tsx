@@ -4,42 +4,61 @@ import select from 'select-dom';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 
+// `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)
+const COMMENT_SELECTOR = ".js-timeline-item";
+
+const positiveReactions = [
+	'[aria-label*="reacted with thumbs up"]',
+	'[aria-label*="reacted with hooray"]',
+	'[aria-label*="reacted with heart"]',
+];
+
+const negativeReactions = [
+	'[aria-label*="reacted with thumbs down"]'
+];
 
 function init(): false | void {
-	let highest;
+	const bestComment = getBestComment();
+	if (!bestComment) {
+		return false;
+	}
 
-	// `.js-timeline-item` excludes the very first comment
-	for (const comment of getComments()) {
-		const likes = getPositiveReactions(comment);
-		const dislikes = getNegativeReactions(comment);
+	highlightBestComment(bestComment);
+	linkBestComment(bestComment);
+}
+
+function getBestComment(): HTMLElement | null {
+	let highest;
+	for (const posReaction of getWatchedReactions()) {
+		const nearestComment = posReaction.closest(COMMENT_SELECTOR) as HTMLElement;
+
+		const likes = getPositiveReactions(nearestComment);
+		const dislikes = getNegativeReactions(nearestComment);
 
 		const likeCount = getCount(likes);
 		const dislikeCount = getCount(dislikes);
 
+		// Controversial comment, ignore
 		if (dislikeCount >= likeCount / 2) {
-			continue; // Controversial comment
+			continue;
 		}
 
 		if (!highest || likeCount > highest.count) {
-			highest = {comment, count: likeCount};
+			highest = {nearestComment, count: likeCount};
 		}
 	}
 
-	if (!highest || highest.count < 10) {
-		return false;
+	// If count is not past threshold don't bother telling user
+	if (!highest || highest.count < 10 || !highest.nearestComment) {
+		return null;
 	}
 
-	const event = highest.comment.closest('.js-timeline-item')!;
-	if(!event) {
-		return false;
-	}
+	return highest.nearestComment;
+}
 
-	const text = select('.comment-body', event)!.textContent!.substring(0, 100);
-	const avatar = select('.timeline-comment-avatar', event)!.cloneNode(true);
-	const {hash} = select<HTMLAnchorElement>('.timestamp', event)!;
-
-	select('.unminimized-comment', event)!.classList.add('rgh-highest-rated-comment');
-	select('.unminimized-comment .timeline-comment-header-text', event)!.before(
+function highlightBestComment(bestComment: HTMLElement) {
+	select('.unminimized-comment', bestComment)!.classList.add('rgh-highest-rated-comment');
+	select('.unminimized-comment .timeline-comment-header-text', bestComment)!.before(
 		<span
 			className="timeline-comment-label tooltipped tooltipped-n"
 			aria-label="This comment has the most positive reactions on this issue."
@@ -47,10 +66,18 @@ function init(): false | void {
 			Highest-rated comment
 		</span>
 	);
+}
 
-	const position = select.all('.js-comment').indexOf(highest.comment.closest('.js-comment') as HTMLElement);
-	if (position >= 4) {
-		event.parentElement!.firstElementChild!.after((
+function linkBestComment(bestComment: HTMLElement) {
+	// Find position of comment in thread
+	const position = select.all('.js-timeline-item').indexOf(bestComment);
+	// Only insert element if there are enough comments in the thread to warrant it
+	if (position >= 3) {
+		const text = select('.comment-body', bestComment)!.textContent!.substring(0, 100);
+		const avatar = select('.timeline-comment-avatar', bestComment)!.cloneNode(true);
+		const {hash} = select<HTMLAnchorElement>('.timestamp', bestComment)!;
+
+		bestComment.parentElement!.firstElementChild!.after((
 			<div className="timeline-comment-wrapper">
 				{avatar}
 
@@ -69,19 +96,16 @@ function init(): false | void {
 	}
 }
 
-function getComments(): HTMLElement[] {
-	// Skip first comment because that is OP post
-	return select.all('.js-comment').slice(1);
+function getWatchedReactions(): HTMLElement[] {
+	return positiveReactions.flatMap((reaction) => select.all(`${COMMENT_SELECTOR} ${reaction}`));
 }
 
 function getNegativeReactions(reactionBox: HTMLElement): HTMLElement[] {
-	return select.all('[aria-label*="reacted with thumbs down"]', reactionBox);
+	return negativeReactions.flatMap((reaction) => select.all(`${reaction}`, reactionBox));
 }
 
 function getPositiveReactions(reactionBox: HTMLElement): HTMLElement[] {
-	return select.all('[aria-label*="reacted with thumbs up"]', reactionBox)
-		.concat(select.all('[aria-label*="reacted with hooray"]', reactionBox))
-		.concat(select.all('[aria-label*="reacted with heart"]', reactionBox))
+	return positiveReactions.flatMap((reaction) => select.all(`${reaction}`, reactionBox));
 }
 
 function getCount(reactions: HTMLElement[]): number {
