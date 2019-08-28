@@ -11,8 +11,8 @@
 }
 
 /* Bring the counts above the lightbox, to make them clickable */
-.social-count[href$='/network/members'],
-.social-count[href$='/watchers'] {
+.rgh-hide-watch-and-fork-count details[open] + .social-count[href$='/network/members'],
+.rgh-hide-watch-and-fork-count details[open] + .social-count[href$='/watchers'] {
 	position: relative;
 	z-index: 100;
 }
