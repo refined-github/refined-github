@@ -5,12 +5,12 @@ import features from '../libs/features';
 import * as icons from '../libs/icons';
 
 // `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)
-const COMMENT_SELECTOR = ".js-timeline-item";
+const COMMENT_SELECTOR = '.js-timeline-item';
 
 const positiveReactions = [
 	'[aria-label*="reacted with thumbs up"]',
 	'[aria-label*="reacted with hooray"]',
-	'[aria-label*="reacted with heart"]',
+	'[aria-label*="reacted with heart"]'
 ];
 
 const negativeReactions = [
@@ -56,7 +56,7 @@ function getBestComment(): HTMLElement | null {
 	return highest.nearestComment;
 }
 
-function highlightBestComment(bestComment: HTMLElement) {
+function highlightBestComment(bestComment: HTMLElement): void {
 	select('.unminimized-comment', bestComment)!.classList.add('rgh-highest-rated-comment');
 	select('.unminimized-comment .timeline-comment-header-text', bestComment)!.before(
 		<span
@@ -68,7 +68,7 @@ function highlightBestComment(bestComment: HTMLElement) {
 	);
 }
 
-function linkBestComment(bestComment: HTMLElement) {
+function linkBestComment(bestComment: HTMLElement): void {
 	// Find position of comment in thread
 	const position = select.all('.js-timeline-item').indexOf(bestComment);
 	// Only insert element if there are enough comments in the thread to warrant it
@@ -96,15 +96,15 @@ function linkBestComment(bestComment: HTMLElement) {
 }
 
 function getWatchedReactions(): HTMLElement[] {
-	return positiveReactions.flatMap((reaction) => select.all(`${COMMENT_SELECTOR} ${reaction}`));
+	return positiveReactions.flatMap(reaction => select.all(`${COMMENT_SELECTOR} ${reaction}`));
 }
 
 function getNegativeReactions(reactionBox: HTMLElement): HTMLElement[] {
-	return negativeReactions.flatMap((reaction) => select.all(`${reaction}`, reactionBox));
+	return negativeReactions.flatMap(reaction => select.all(`${reaction}`, reactionBox));
 }
 
 function getPositiveReactions(reactionBox: HTMLElement): HTMLElement[] {
-	return positiveReactions.flatMap((reaction) => select.all(`${reaction}`, reactionBox));
+	return positiveReactions.flatMap(reaction => select.all(`${reaction}`, reactionBox));
 }
 
 function getCount(reactions: HTMLElement[]): number {
