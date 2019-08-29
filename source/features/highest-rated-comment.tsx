@@ -29,11 +29,9 @@ function init(): false | void {
 
 function getBestComment(): HTMLElement | null {
 	let highest;
-	for (const posReaction of getWatchedReactions()) {
-		const nearestComment = posReaction.closest(COMMENT_SELECTOR) as HTMLElement;
-
-		const likes = getPositiveReactions(nearestComment);
-		const dislikes = getNegativeReactions(nearestComment);
+	for (const comment of getCommentsWithReactions()) {
+		const likes = getPositiveReactions(comment);
+		const dislikes = getNegativeReactions(comment);
 
 		const likeCount = getCount(likes);
 		const dislikeCount = getCount(dislikes);
@@ -44,16 +42,16 @@ function getBestComment(): HTMLElement | null {
 		}
 
 		if (!highest || likeCount > highest.count) {
-			highest = {nearestComment, count: likeCount};
+			highest = {comment, count: likeCount};
 		}
 	}
 
 	// If count is not high enough don't bother telling user
-	if (!highest || highest.count < 10 || !highest.nearestComment) {
+	if (!highest || highest.count < 10 || !highest.comment) {
 		return null;
 	}
 
-	return highest.nearestComment;
+	return highest.comment;
 }
 
 function highlightBestComment(bestComment: HTMLElement): void {
@@ -71,7 +69,7 @@ function highlightBestComment(bestComment: HTMLElement): void {
 function linkBestComment(bestComment: HTMLElement): void {
 	// Find position of comment in thread
 	const position = select.all('.js-timeline-item').indexOf(bestComment);
-	// Only insert element if there are enough comments in the thread to warrant it
+	// Only link to it if it doesn't already appear at the top of the conversation
 	if (position >= 3) {
 		const text = select('.comment-body', bestComment)!.textContent!.substring(0, 100);
 		const avatar = select('.timeline-comment-avatar', bestComment)!.cloneNode(true);
@@ -95,9 +93,13 @@ function linkBestComment(bestComment: HTMLElement): void {
 	}
 }
 
-function getWatchedReactions(): HTMLElement[] {
+function getCommentsWithReactions(): Set<HTMLElement> {
 	// Map reaction [aria-label*=...] to .js-item [aria-label*=...], then join and pass to select.all
-	return select.all(positiveReactions.map(reaction => `${COMMENT_SELECTOR} ${reaction}`).join(','));
+	const reactions = select.all(positiveReactions.map(reaction => `${COMMENT_SELECTOR} ${reaction}`).join(','));
+	// Find closest comment to each reaction, cast to HTMLElement, then filter out null values
+	const comments = reactions.map(reaction => reaction.closest(COMMENT_SELECTOR))
+		.map(comment => comment as HTMLElement).filter(comment => comment);
+	return new Set(comments);
 }
 
 function getNegativeReactions(reactionBox: HTMLElement): HTMLElement[] {
