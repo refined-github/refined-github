@@ -96,15 +96,16 @@ function linkBestComment(bestComment: HTMLElement): void {
 }
 
 function getWatchedReactions(): HTMLElement[] {
-	return positiveReactions.flatMap(reaction => select.all(`${COMMENT_SELECTOR} ${reaction}`));
+	// Map reaction [aria-label*=...] to .js-item [aria-label*=...], then join and pass to select.all
+	return select.all(positiveReactions.map(reaction => `${COMMENT_SELECTOR} ${reaction}`).join(','));
 }
 
 function getNegativeReactions(reactionBox: HTMLElement): HTMLElement[] {
-	return negativeReactions.flatMap(reaction => select.all(`${reaction}`, reactionBox));
+	return select.all(negativeReactions.join(','), reactionBox);
 }
 
 function getPositiveReactions(reactionBox: HTMLElement): HTMLElement[] {
-	return positiveReactions.flatMap(reaction => select.all(`${reaction}`, reactionBox));
+	return select.all(positiveReactions.join(','), reactionBox);
 }
 
 function getCount(reactions: HTMLElement[]): number {
