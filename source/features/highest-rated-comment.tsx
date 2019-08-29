@@ -30,24 +30,25 @@ function init(): false | void {
 function getBestComment(): HTMLElement | null {
 	let highest;
 	for (const comment of getCommentsWithReactions()) {
-		const likes = getPositiveReactions(comment);
-		const dislikes = getNegativeReactions(comment);
+		const positiveReactions = getCount(getPositiveReactions(comment));
 
-		const likeCount = getCount(likes);
-		const dislikeCount = getCount(dislikes);
-
-		// Controversial comment, ignore
-		if (dislikeCount >= likeCount / 2) {
+		// It needs to be upvoted enough times to be considered an useful comment
+		if (positiveReactions < 10) {
 			continue;
 		}
 
-		if (!highest || likeCount > highest.count) {
-			highest = {comment, count: likeCount};
+		// Controversial comment, ignore
+		const negativeReactions = getCount(getNegativeReactions(comment));
+		if (negativeReactions >= positiveReactions / 2) {
+			continue;
+		}
+
+		if (!highest || positiveReactions > highest.count) {
+			highest = {comment, count: positiveReactions};
 		}
 	}
 
-	// If count is not high enough don't bother telling user
-	if (!highest || highest.count < 10 || !highest.comment) {
+	if (!highest) {
 		return null;
 	}
 
