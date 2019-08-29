@@ -105,13 +105,17 @@
 		"rules": {
 			"no-alert": "off",
 			"import/no-unassigned-import": "off",
-			"import/no-unresolved": "warn"
+			"import/no-unresolved": "warn",
+			"import/named": "warn"
 		},
 		"overrides": [
 			{
 				"files": "**/*.+(ts|tsx)",
 				"extends": "xo-typescript",
 				"rules": {
+					"@typescript-eslint/no-misused-promises": "off",
+					"@typescript-eslint/require-await": "off",
+					"@typescript-eslint/no-explicit-any": "off",
 					"@typescript-eslint/no-unused-vars": [
 						"error",
 						{
