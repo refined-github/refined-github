@@ -30,7 +30,7 @@ const getBaseRef = onetime(async (): Promise<string> => {
 });
 
 async function getFile(menuItem: Element): Promise<{isTruncated: boolean; text: string}> {
-	const filePath = (menuItem.closest('[data-path]') as HTMLElement).dataset.path!;
+	const filePath = menuItem.closest<HTMLElement>('[data-path]')!.dataset.path!;
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			file: object(expression: "${await getBaseRef()}:${filePath}") {
@@ -45,8 +45,6 @@ async function getFile(menuItem: Element): Promise<{isTruncated: boolean; text: 
 }
 
 async function deleteFile(menuItem: Element): Promise<void> {
-	// The `a` selector skips the broken Delete link on some pages. GitHub's bug.
-	// TODO: where? What happens when it's not found?
 	menuItem.textContent = 'Deleting…';
 
 	const deleteFileLink = select<HTMLAnchorElement>('a[aria-label^="Delete this"]', menuItem.parentElement!)!;
@@ -77,7 +75,8 @@ async function commitFileContent(menuItem: Element, content: string): Promise<vo
 async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
 	const menuItem = event.currentTarget;
 	// Allow only one click
-	menuItem.removeEventListener('click', handleRevertFileClick as any); // TODO: change JSX event types to be plain browser events
+	// TODO: change JSX event types to be plain browser events
+	menuItem.removeEventListener('click', handleRevertFileClick as any);
 	menuItem.textContent = 'Reverting…';
 	event.preventDefault();
 	event.stopPropagation();
@@ -88,7 +87,7 @@ async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>)
 		if (!file) {
 			// The file was created by this PR. Revert === Delete.
 			// If there was a way to tell if a file was created by the PR, we could skip `getFile`
-			// TODO: find this info on the page
+			// TODO: find this info on the page ("was this file created by this PR?")
 			await deleteFile(menuItem);
 			return;
 		}
@@ -108,7 +107,7 @@ async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>)
 	}
 }
 
-async function handleMenuOpening(event: DelegateEvent): Promise<void> {
+function handleMenuOpening(event: DelegateEvent): void {
 	const dropdown = event.delegateTarget.nextElementSibling!;
 
 	const editFile = select<HTMLAnchorElement>('[aria-label^="Change this"]', dropdown);
