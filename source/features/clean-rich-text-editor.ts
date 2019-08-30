@@ -2,9 +2,11 @@ import './clean-rich-text-editor.css';
 import select from 'select-dom';
 import features from '../libs/features';
 
-function init(): void {
+function hideButtons(): void {
 	document.body.classList.add('rgh-clean-rich-text-editor');
+}
 
+function hideTextareaTooltip(): void {
 	for (const textarea of select.all('.comment-form-textarea')) {
 		textarea.title = '';
 	}
@@ -18,5 +20,15 @@ features.add({
 		features.hasRichTextEditor
 	],
 	load: features.onAjaxedPages,
-	init
+	init: hideTextareaTooltip
+});
+
+features.add({
+	id: __featureName__,
+	description: '',
+	screenshot: '',
+	include: [
+		features.hasRichTextEditor
+	],
+	init: hideButtons
 });
