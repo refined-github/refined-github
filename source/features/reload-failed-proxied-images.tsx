@@ -12,6 +12,7 @@ const ReloadMaxTries = 4;
 function isGithubProxiedImg(image: HTMLImageElement): boolean {
 	return (/^https:\/\/camo\.githubusercontent\.com\/.*/).test(image.src);
 }
+
 // Check if image has zero dimensions
 function isZeroSizeImg(image: HTMLImageElement): boolean {
 	return (image.naturalHeight === 0 && image.naturalWidth === 0);
