@@ -28,7 +28,7 @@ features.add({
 	description: '',
 	screenshot: '',
 	include: [
-		features.hasRichTextEditor
+		features.isRepo
 	],
 	init: hideButtons
 });
