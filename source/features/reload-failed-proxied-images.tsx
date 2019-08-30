@@ -45,6 +45,8 @@ function test(image: HTMLImageElement): void {
 			// but this will expose the user to the server that hosts the image
 			return;
 		}
+
+		// Update tries
 		image.dataset.brokenProxiedImage = String(++tries);
 
 		// Try again later
