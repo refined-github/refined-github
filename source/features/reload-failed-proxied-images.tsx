@@ -40,9 +40,7 @@ function test(image: HTMLImageElement): void {
 		let tries = parseInt(image.dataset.brokenProxiedImage || '0', 10);
 
 		// Flag image (to limit max tries)
-		if (tries === 0) {
-			image.dataset.brokenProxiedImage = '1';
-		} else if (tries > ReloadMaxTries) {
+		if (tries > ReloadMaxTries) {
 			// Here we could also try to directly load the image from the `image.dataset.canonicalSrc`
 			// but this will expose the user to the server that hosts the image
 			return;
