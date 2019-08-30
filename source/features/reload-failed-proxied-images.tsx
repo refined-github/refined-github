@@ -30,7 +30,7 @@ function test(image: HTMLImageElement): void {
 		if (image.naturalHeight === 0 && image.naturalWidth === 0) {
 			// Tested loaded the image so now the visual broken image can be updated
 			// Update image
-			image.src = image.src + '';
+			image.src = String(image.src);
 		}
 	});
 
