@@ -1,7 +1,7 @@
 /* Hide only when the dropdown is closed */
 
-.rgh-hide-watch-and-fork-count:not(.rgh-forked) details:not([open]) .btn-with-count[title^='Fork your own'],
-.rgh-hide-watch-and-fork-count:not(.rgh-forked) [action='/notifications/subscribe'] details:not([open]) .btn-with-count {
+.rgh-hide-watch-and-fork-count:not(.rgh-forked-to) details:not([open]) .btn-with-count[title^='Fork your own'],
+.rgh-hide-watch-and-fork-count:not(.rgh-forked-to) [action='/notifications/subscribe'] details:not([open]) .btn-with-count {
 	border-radius: 0.25em; /* Matches GitHub's default */
 }
 

@@ -63,7 +63,7 @@ async function init(): Promise<void> {
 		return;
 	}
 
-	document.body.classList.add('rgh-forked');
+	document.body.classList.add('rgh-forked-to');
 
 	const forkCounter = select('.social-count[href$="/network/members"]')!;
 	if (forks.length === 1) {
