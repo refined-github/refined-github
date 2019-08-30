@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import features from '../libs/features';
 
-// This feature tries to fix the problem with the borken badges on github
+// This feature tries to fix the problem with the broken badges on github
 // You can read more on a related issue here https://github.com/badges/shields/issues/1568
 
 // Reload Constants
