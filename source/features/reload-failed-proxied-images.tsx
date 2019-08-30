@@ -1,5 +1,5 @@
-import features from '../libs/features';
 import select from 'select-dom';
+import features from '../libs/features';
 
 // This feature tries to fix the problem with the borken badges on github
 // You can read more on a related issue here https://github.com/badges/shields/issues/1568
@@ -16,7 +16,9 @@ function isGithubProxiedImg(image: HTMLImageElement): boolean {
 // Test if image loads correcty, and reload it if there is an error
 function test(image: HTMLImageElement): void {
 	// Check if image is on DOM
-	if (!document.contains(image)) return;
+	if (!document.contains(image)) {
+		return;
+	}
 
 	// Debug/Proof-of-work message
 	//console.log('Testing proxied image', image.src, image.dataset.canonicalSrc, 'try ' + (image.dataset.brokenProxiedImage || '0'));
@@ -28,7 +30,7 @@ function test(image: HTMLImageElement): void {
 	// Handle successful loading
 	tester.onload = () => {
 		// If image don't have correct dimentions
-		if (image.naturalHeight == 0 && image.naturalWidth == 0) {
+		if (image.naturalHeight === 0 && image.naturalWidth === 0) {
 			// Tested loaded the image so now the visual broken image can be updated
 			// Update image
 			image.src = image.src;
@@ -41,13 +43,15 @@ function test(image: HTMLImageElement): void {
 		let tries = parseInt(image.dataset.brokenProxiedImage || '0', 10);
 
 		// Flag image (to limit max tries)
-		if (tries == 0) image.dataset.brokenProxiedImage = '1';
-		else if (tries > ReloadMaxTries) {
+		if (tries === 0) {
+			image.dataset.brokenProxiedImage = '1';
+		} else if (tries > ReloadMaxTries) {
 			// Here we could also try to directly load the image from the `image.dataset.canonicalSrc`
 			// but this will expose the user to the server that hosts the image
 			return;
+		} else {
+			image.dataset.brokenProxiedImage = String(++tries);
 		}
-		else image.dataset.brokenProxiedImage = String(++tries);
 
 		// Try again later
 		setTimeout(() => {
@@ -64,13 +68,13 @@ async function init(): Promise<false | void> {
 	select.all('img').forEach(function (image) {
 		// If it is a proxied image
 		if (isGithubProxiedImg(image)) test(image);
-	}); 
+	});
 }
 
 features.add({
 	id: __featureName__,
 	description: 'Auto reload failed github proxied images',
-	screenshot : false,
+	screenshot: false,
 	load: features.onAjaxedPages,
 	init
 });
