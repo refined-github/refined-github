@@ -12,25 +12,29 @@ const ReloadMaxTries = 4;
 function isGithubProxiedImg(image: HTMLImageElement): boolean {
 	return (/^https:\/\/camo\.githubusercontent\.com\/.*/).test(image.src);
 }
+// Check if image has zero dimensions
+function isZeroSizeImg(image: HTMLImageElement): boolean {
+	return (image.naturalHeight === 0 && image.naturalWidth === 0);
+}
 
 // Test if image loads correctly, and reload it if there is an error
 function test(image: HTMLImageElement): void {
-	// Check if image is on DOM
-	if (!document.contains(image)) {
+	// Check if image is on page's DOM
+	if (!document.contains(image) || !isZeroSizeImg(image)) {
 		return;
 	}
 
-	// Set up an image object
-	// to check if image loads with no problems
-	const tester = new Image();
+	// Clone image object to check if image loads with no problems
+	// We need to clone the element so that we can later replace it on the page
+	const tester = image.cloneNode(false) as HTMLImageElement;
 
 	// Handle successful loading
 	tester.addEventListener('load', () => {
-		// If image don't have correct dimentions
-		if (image.naturalHeight === 0 && image.naturalWidth === 0) {
-			// Tested loaded the image so now the visual broken image can be updated
+		// If image on page is not loaded
+		if (isZeroSizeImg(image) && image.parentNode) {
 			// Update image
-			image.src = String(image.src);
+			// Updating the image in an other way may result on an addition request if it is not cached
+			image.parentNode.replaceChild(tester, image);
 		}
 	});
 
