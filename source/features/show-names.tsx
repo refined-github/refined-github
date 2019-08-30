@@ -72,7 +72,7 @@ features.add({
 		features.isDashboard
 	],
 	load: features.onDomReady,
-	init: async () => onNewsfeedLoad(init)
+	init: () => onNewsfeedLoad(init)
 });
 
 features.add({

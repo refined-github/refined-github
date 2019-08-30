@@ -66,7 +66,7 @@ async function init(): Promise<void> {
 			<select>
 				{[...optionsByDomain.keys()].map(domain => <option value={domain}>{domain}</option>)}
 			</select>
-		) as any as HTMLSelectElement;
+		) as unknown as HTMLSelectElement;
 		form.before(<p>Domain selector: {dropdown}</p>, <hr/>);
 		dropdown.addEventListener('change', () => {
 			for (const [domain, options] of optionsByDomain) {
