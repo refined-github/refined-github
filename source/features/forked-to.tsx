@@ -79,7 +79,7 @@ async function init(): Promise<void> {
 			<details className="details-reset details-overlay select-menu float-left">
 				<summary
 					className="select-menu-button float-left btn btn-sm btn-with-count rgh-forked-button"
-					title="Open any of your forks"></summary>
+					title="Open any of your forks"/>
 				<details-menu
 					style={{zIndex: 99}}
 					className="select-menu-modal position-absolute right-0 mt-5">
