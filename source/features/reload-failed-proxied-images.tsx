@@ -39,14 +39,13 @@ function test(image: HTMLImageElement): void {
 	tester.addEventListener('error', () => {
 		let tries = parseInt(image.dataset.brokenProxiedImage || '0', 10);
 
-		// Flag image (to limit max tries)
+		// Limit max tries
 		if (tries > ReloadMaxTries) {
 			// Here we could also try to directly load the image from the `image.dataset.canonicalSrc`
 			// but this will expose the user to the server that hosts the image
 			return;
-		} else {
-			image.dataset.brokenProxiedImage = String(++tries);
 		}
+		image.dataset.brokenProxiedImage = String(++tries);
 
 		// Try again later
 		setTimeout(() => {
