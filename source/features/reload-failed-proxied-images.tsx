@@ -25,18 +25,18 @@ function test(image: HTMLImageElement): void {
 	const tester = new Image();
 
 	// Handle successful loading
-	tester.onload = () => {
+	tester.addEventListener('load', () => {
 		// If image don't have correct dimentions
 		if (image.naturalHeight === 0 && image.naturalWidth === 0) {
 			// Tested loaded the image so now the visual broken image can be updated
 			// Update image
-			image.src = image.src;
+			image.src = image.src + '';
 		}
-	};
+	});
 
 	// Handle failure of loading the image
 	// (maybe, the original image source failed to provide the image to the proxy in the 4 seconds timeframe)
-	tester.onerror = () => {
+	tester.addEventListener('error', () => {
 		let tries = parseInt(image.dataset.brokenProxiedImage || '0', 10);
 
 		// Flag image (to limit max tries)
@@ -54,7 +54,7 @@ function test(image: HTMLImageElement): void {
 		setTimeout(() => {
 			test(image);
 		}, ReloadTryInterval);
-	};
+	});
 
 	// Start testing
 	tester.src = image.src;
@@ -62,7 +62,7 @@ function test(image: HTMLImageElement): void {
 
 async function init(): Promise<false | void> {
 	// Get each image on the page
-	select.all('img').forEach((image) => {
+	select.all('img').forEach(image => {
 		// If it is a proxied image
 		if (isGithubProxiedImg(image)) {
 			test(image);
