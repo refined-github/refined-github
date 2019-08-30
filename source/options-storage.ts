@@ -1,4 +1,4 @@
-import OptionsSync from 'webext-options-sync';
+import OptionsSync, {Migration} from 'webext-options-sync';
 import {isBackgroundPage} from 'webext-detect-page';
 import {getAdditionalPermissions} from 'webext-additional-permissions';
 
@@ -10,7 +10,7 @@ export interface RGHOptions {
 	[featureName: string]: string | boolean;
 }
 
-function featureWasRenamed(from: string, to: string): any { // TODO: any should probably be `Migration` after `webext-options-sync`'s types are fixed
+function featureWasRenamed(from: string, to: string): Migration<RGHOptions> {
 	return (options: RGHOptions) => {
 		if (typeof options[`feature:${from}`] === 'boolean') {
 			options[`feature:${to}`] = options[`feature:${from}`];

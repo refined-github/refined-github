@@ -17,7 +17,7 @@ async function save(forks: string[]): Promise<void> {
 	return cache.set(getCacheKey(), forks, 10);
 }
 
-async function saveAllForks(): Promise<void> {
+function saveAllForks(): void {
 	const forks = select
 		.all('details-dialog[src*="/fork"] .octicon-repo-forked')
 		.map(({nextSibling}) => nextSibling!.textContent!.trim());

@@ -64,7 +64,7 @@ async function handleSubmitSingle(event: DelegateEvent): Promise<void> {
 	// Use nearby comment box
 	const comment = await getNewCommentField(commentContainer, lineBeingCommentedOn);
 	const submitButton = select<HTMLButtonElement>('[name="single_comment"]', comment.form!)!;
-	const commentForm = comment.closest('.inline-comment-form-container') as HTMLElement;
+	const commentForm = comment.closest<HTMLElement>('.inline-comment-form-container')!;
 
 	// Copy comment to new comment box
 	insertText(comment.form!.elements['comment[body]'] as HTMLTextAreaElement, commentText);
