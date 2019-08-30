@@ -5,9 +5,6 @@ function init(): void {
 	const embedViaScript = select('.file-navigation-option [value^="<script"]')!;
 	const embedViaIframe = embedViaScript.cloneNode(true) as HTMLButtonElement;
 
-	// Modify description to distinguish the two items
-	select('.description', embedViaScript)!.textContent = 'Embed this gist in your website via <script>.';
-
 	// Remove analytics attributes
 	embedViaIframe.removeAttribute('data-hydro-click');
 	embedViaIframe.removeAttribute('data-hydro-click-hmac');
@@ -17,6 +14,10 @@ function init(): void {
 	embedViaIframe.value = `<iframe src="${location.origin}${location.pathname}.pibb"></iframe>`;
 	select('.select-menu-item-heading', embedViaIframe)!.textContent = 'Embed via <iframe>';
 	select('.description', embedViaIframe)!.textContent = 'Embed this gist in your website via <iframe>.';
+
+	// Modify description of the original embed type to distinguish the two items
+	select('.select-menu-item-heading', embedViaScript)!.textContent = 'Embed via <script>';
+	select('.description', embedViaScript)!.textContent = 'Embed this gist in your website via <script>.';
 
 	embedViaScript.after(embedViaIframe);
 }
