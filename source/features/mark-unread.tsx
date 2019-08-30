@@ -412,8 +412,10 @@ async function init(): Promise<void> {
 	} else if (pageDetect.isPR() || pageDetect.isIssue()) {
 		await markRead(location.href);
 
-		addMarkUnreadButton();
-		onUpdatableContentUpdate(select('#partial-discussion-sidebar')!, addMarkUnreadButton);
+		if (pageDetect.isPRConversation() || pageDetect.isIssue()) {
+			addMarkUnreadButton();
+			onUpdatableContentUpdate(select('#partial-discussion-sidebar')!, addMarkUnreadButton);
+		}
 	} else if (pageDetect.isDiscussionList()) {
 		for (const discussion of await getNotifications()) {
 			const {pathname} = new URL(discussion.url);

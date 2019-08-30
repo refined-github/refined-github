@@ -358,8 +358,3 @@ Want more? Here are some ideas you could develop!
 
 - [Format JS code blocks with Prettier](https://github.com/sindresorhus/module-requests/issues/99)
 - [Customize the font of code blocks](https://github.com/sindresorhus/module-requests/issues/97)
-
-
-## License
-
-MIT

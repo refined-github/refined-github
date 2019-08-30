@@ -6,7 +6,7 @@ import features from '../libs/features';
 const isGist = (link: HTMLAnchorElement): boolean =>
 	!link.pathname.includes('.') && // Exclude links to embed files
 	(
-		link.hostname.startsWith('gist.') ||
+		(link.hostname.startsWith('gist.') && link.pathname.includes('/', 1)) || // Exclude user links
 		link.pathname.startsWith('gist/')
 	);
 
