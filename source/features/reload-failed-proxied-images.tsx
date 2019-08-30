@@ -1,19 +1,19 @@
 import select from 'select-dom';
 import features from '../libs/features';
 
-// This feature tries to fix the problem with the broken badges on github
+// This feature tries to fix the problem with the broken badges on GitHub
 // You can read more on a related issue here https://github.com/badges/shields/issues/1568
 
 // Reload Constants
 const ReloadTryInterval = 1000;
 const ReloadMaxTries = 4;
 
-// Check if image is from the github's proxy
+// Check if image is from the GitHub's proxy
 function isGithubProxiedImg(image: HTMLImageElement): boolean {
 	return (/^https:\/\/camo\.githubusercontent\.com\/.*/).test(image.src);
 }
 
-// Test if image loads correcty, and reload it if there is an error
+// Test if image loads correctly, and reload it if there is an error
 function test(image: HTMLImageElement): void {
 	// Check if image is on DOM
 	if (!document.contains(image)) {
@@ -35,7 +35,7 @@ function test(image: HTMLImageElement): void {
 	});
 
 	// Handle failure of loading the image
-	// (maybe, the original image source failed to provide the image to the proxy in the 4 seconds timeframe)
+	// (maybe, the original image source failed to provide the image to the proxy in the 4 seconds time-frame)
 	tester.addEventListener('error', () => {
 		let tries = parseInt(image.dataset.brokenProxiedImage || '0', 10);
 
@@ -71,7 +71,7 @@ async function init(): Promise<false | void> {
 
 features.add({
 	id: __featureName__,
-	description: 'Auto reload failed github proxied images',
+	description: 'Auto reload failed GitHub proxied images',
 	screenshot: false,
 	load: features.onAjaxedPages,
 	init
