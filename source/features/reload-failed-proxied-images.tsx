@@ -20,12 +20,9 @@ function test(image: HTMLImageElement): void {
 		return;
 	}
 
-	// Debug/Proof-of-work message
-	//console.log('Testing proxied image', image.src, image.dataset.canonicalSrc, 'try ' + (image.dataset.brokenProxiedImage || '0'));
-
 	// Set up an image object
 	// to check if image loads with no problems
-	let tester = new Image();
+	const tester = new Image();
 
 	// Handle successful loading
 	tester.onload = () => {
@@ -65,9 +62,11 @@ function test(image: HTMLImageElement): void {
 
 async function init(): Promise<false | void> {
 	// Get each image on the page
-	select.all('img').forEach(function (image) {
+	select.all('img').forEach((image) => {
 		// If it is a proxied image
-		if (isGithubProxiedImg(image)) test(image);
+		if (isGithubProxiedImg(image)) {
+			test(image);
+		}
 	});
 }
 
