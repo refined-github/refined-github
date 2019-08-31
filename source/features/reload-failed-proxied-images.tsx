@@ -1,5 +1,5 @@
 import delay from 'delay';
-import select from 'select-dom';
+import delegate from 'delegate-it';
 import loadImage from 'image-promise';
 import features from '../libs/features';
 
@@ -14,9 +14,7 @@ async function handleErroredImage({target}: any): Promise<void> {
 }
 
 function init(): void {
-	select.all('img[src^="https://camo.githubusercontent.com/"]').forEach(img => {
-		img.addEventListener('error', handleErroredImage);
-	});
+	delegate('img[src^="https://camo.githubusercontent.com/"]', 'error', handleErroredImage, true);
 }
 
 features.add({
