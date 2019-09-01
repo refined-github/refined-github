@@ -27,7 +27,7 @@ function init(): false | void {
 	linkBestComment(bestComment);
 }
 
-function getBestComment(): HTMLElement | null {
+function getBestComment(): Element | null {
 	let highest;
 	for (const comment of getCommentsWithReactions()) {
 		const positiveReactions = getCount(getPositiveReactions(comment));
@@ -55,7 +55,7 @@ function getBestComment(): HTMLElement | null {
 	return highest.comment;
 }
 
-function highlightBestComment(bestComment: HTMLElement): void {
+function highlightBestComment(bestComment: Element): void {
 	select('.unminimized-comment', bestComment)!.classList.add('rgh-highest-rated-comment');
 	select('.unminimized-comment .timeline-comment-header-text', bestComment)!.before(
 		<span
@@ -67,9 +67,9 @@ function highlightBestComment(bestComment: HTMLElement): void {
 	);
 }
 
-function linkBestComment(bestComment: HTMLElement): void {
+function linkBestComment(bestComment: Element): void {
 	// Find position of comment in thread
-	const position = select.all('.js-timeline-item').indexOf(bestComment);
+	const position = select.all(COMMENT_SELECTOR).indexOf(bestComment as HTMLElement);
 	// Only link to it if it doesn't already appear at the top of the conversation
 	if (position >= 3) {
 		const text = select('.comment-body', bestComment)!.textContent!.substring(0, 100);
@@ -94,24 +94,23 @@ function linkBestComment(bestComment: HTMLElement): void {
 	}
 }
 
-function getCommentsWithReactions(): Set<HTMLElement> {
+function getCommentsWithReactions(): Set<Element> {
 	// Map reaction [aria-label*=...] to .js-item [aria-label*=...], then join and pass to select.all
 	const reactions = select.all(positiveReactions.map(reaction => `${COMMENT_SELECTOR} ${reaction}`).join(','));
 	// Find closest comment to each reaction, cast to HTMLElement, then filter out null values
-	const comments = reactions.map(reaction => reaction.closest(COMMENT_SELECTOR))
-		.map(comment => comment as HTMLElement).filter(comment => comment);
+	const comments = reactions.map(reaction => reaction.closest(COMMENT_SELECTOR)!);
 	return new Set(comments);
 }
 
-function getNegativeReactions(reactionBox: HTMLElement): HTMLElement[] {
+function getNegativeReactions(reactionBox: Element): Element[] {
 	return select.all(negativeReactions.join(','), reactionBox);
 }
 
-function getPositiveReactions(reactionBox: HTMLElement): HTMLElement[] {
+function getPositiveReactions(reactionBox: Element): Element[] {
 	return select.all(positiveReactions.join(','), reactionBox);
 }
 
-function getCount(reactions: HTMLElement[]): number {
+function getCount(reactions: Element[]): number {
 	return reactions.reduce((count, reaction) => count + Number(/\d+/.exec(reaction.textContent!)![0]), 0);
 }
 
