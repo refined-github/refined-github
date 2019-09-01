@@ -106,8 +106,8 @@ async function init(): Promise<void> {
 
 features.add({
 	id: __featureName__,
-	description: 'Your repo forks are shown under the repo title',
-	screenshot: 'https://user-images.githubusercontent.com/55841/60543588-f5c9df80-9d16-11e9-8667-52ff16b2cb16.png',
+	description: 'Adds a shortcut to your forks next to the `Fork` button on the current repo.',
+	screenshot: 'https://user-images.githubusercontent.com/55841/64077281-17bbf000-cccf-11e9-9123-092063f65357.png',
 	include: [
 		features.isRepo
 	],
