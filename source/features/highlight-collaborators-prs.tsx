@@ -1,31 +1,19 @@
 import './highlight-collaborators-prs.css';
 import select from 'select-dom';
 import features from '../libs/features';
-import * as api from '../libs/api';
-import {getRepoGQL} from '../libs/utils';
-
-function buildQuery(): string {
-	return `
-		repository(${getRepoGQL()}) {
-			collaborators(first: 100) {
-				nodes { login }
-			}
-		}
-	`;
-}
+import {getRepoURL} from '../libs/utils';
+import fetchDom from '../libs/fetch-dom';
 
 async function init(): Promise<false | void> {
-	if (!features.isRepoWithAccess()) {
-		return false;
-	}
-
 	const authors = select.all('.js-issue-row [data-hovercard-type="user"]');
 	if (authors.length === 0) {
 		return false;
 	}
 
-	const data = await api.v4(buildQuery());
-	const collaborators = data.repository.collaborators.nodes.map((node: AnyObject) => node.login);
+	const dom = await fetchDom(getRepoURL() + '/issues/show_menu_content?partial=issues/filters/authors_content');
+	const collaborators = select.all('.select-menu-item-text', dom).map(collaborator => {
+		return collaborator.firstChild!.textContent!.trim();
+	});
 
 	for (const author of authors) {
 		if (collaborators.includes(author.textContent!.trim())) {
@@ -36,11 +24,11 @@ async function init(): Promise<false | void> {
 
 features.add({
 	id: __featureName__,
-	description: 'Highlights PRs opened by organization collaborators.',
+	description: 'Highlights discussions opened by organization collaborators.',
 	screenshot: '',
-	load: features.onAjaxedPages,
 	include: [
-		features.isPRList
+		features.isDiscussionList
 	],
+	load: features.onAjaxedPages,
 	init
 });
