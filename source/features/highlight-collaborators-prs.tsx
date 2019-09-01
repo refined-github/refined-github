@@ -1,7 +1,7 @@
 import './highlight-collaborators-prs.css';
 import select from 'select-dom';
 import features from '../libs/features';
-import {getRepoURL} from '../libs/utils';
+import {getRepoURL, getUsername} from '../libs/utils';
 import fetchDom from '../libs/fetch-dom';
 
 async function init(): Promise<false | void> {
@@ -13,7 +13,7 @@ async function init(): Promise<false | void> {
 	const dom = await fetchDom(getRepoURL() + '/issues/show_menu_content?partial=issues/filters/authors_content');
 	const collaborators = select.all('.select-menu-item-text', dom).map(collaborator => {
 		return collaborator.firstChild!.textContent!.trim();
-	});
+	}).filter(collaborator => collaborator !== getUsername());
 
 	for (const author of authors) {
 		if (collaborators.includes(author.textContent!.trim())) {
