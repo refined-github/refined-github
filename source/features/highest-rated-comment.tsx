@@ -95,18 +95,15 @@ function linkBestComment(bestComment: Element): void {
 }
 
 function getCommentsWithReactions(): Set<Element> {
-	// Map reaction [aria-label*=...] to .js-item [aria-label*=...], then join and pass to select.all
-	const reactions = select.all(positiveReactions.map(reaction => `${COMMENT_SELECTOR} ${reaction}`).join(','));
-	// Find closest comment to each reaction, cast to HTMLElement, then filter out null values
-	const comments = reactions.map(reaction => reaction.closest(COMMENT_SELECTOR)!);
+	const comments = getPositiveReactions().map(reaction => reaction.closest(COMMENT_SELECTOR)!);
 	return new Set(comments);
 }
 
-function getNegativeReactions(reactionBox: Element): Element[] {
+function getNegativeReactions(reactionBox = document): Element[] {
 	return select.all(negativeReactions.join(','), reactionBox);
 }
 
-function getPositiveReactions(reactionBox: Element): Element[] {
+function getPositiveReactions(reactionBox = document): Element[] {
 	return select.all(positiveReactions.join(','), reactionBox);
 }
 
