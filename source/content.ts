@@ -136,6 +136,7 @@ import './features/linkify-symbolic-links';
 import './features/hide-zero-packages';
 import './features/revert-file';
 import './features/hidden-review-comments-indicator';
+import './features/reload-failed-proxied-images';
 import './features/clean-rich-text-editor';
 
 // Add global for easier debugging
