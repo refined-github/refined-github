@@ -1,3 +1,4 @@
+import './forked-to.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
@@ -6,6 +7,7 @@ import onetime from 'onetime';
 import features from '../libs/features';
 import {isRepoWithAccess} from '../libs/page-detect';
 import {getRepoURL, getUsername} from '../libs/utils';
+import * as icons from '../libs/icons';
 
 const getCacheKey = onetime((): string => `forked-to:${getUsername()}@${findForkedRepo() || getRepoURL()}`);
 
@@ -26,7 +28,7 @@ function saveAllForks(): void {
 }
 
 function findForkedRepo(): string | undefined {
-	const forkSourceElement = select<HTMLAnchorElement>('.fork-flag:not(.rgh-forked) a');
+	const forkSourceElement = select<HTMLAnchorElement>('.fork-flag a');
 	if (forkSourceElement) {
 		return forkSourceElement.pathname.slice(1);
 	}
@@ -57,25 +59,55 @@ async function init(): Promise<void> {
 
 	const forks = await cache.get<string[]>(getCacheKey());
 
-	if (forks) {
-		const pageHeader = select('.pagehead h1.public')!;
-		for (const fork of forks.filter(fork => fork !== getRepoURL())) {
-			pageHeader.append(
-				<span className="fork-flag rgh-forked">
-					forked to <a href={`/${fork}`}>{fork}</a>
-				</span>
-			);
-		}
+	if (!forks) {
+		return;
+	}
+
+	document.body.classList.add('rgh-forked-to');
+
+	const forkCounter = select('.social-count[href$="/network/members"]')!;
+	if (forks.length === 1) {
+		forkCounter.before(
+			<a href={`/${forks[0]}`}
+				className="btn btn-sm float-left rgh-forked-button"
+				title={`Open your fork to ${forks[0]}`}>
+				{icons.externalLink()}
+			</a>
+		);
+	} else {
+		forkCounter.before(
+			<details className="details-reset details-overlay select-menu float-left">
+				<summary
+					className="select-menu-button float-left btn btn-sm btn-with-count rgh-forked-button"
+					title="Open any of your forks"/>
+				<details-menu
+					style={{zIndex: 99}}
+					className="select-menu-modal position-absolute right-0 mt-5">
+					<div className="select-menu-header">
+						<span className="select-menu-title">Your forks</span>
+					</div>
+					{...forks.map(fork =>
+						<a
+							href={`/${fork}`}
+							className="select-menu-item"
+							title={`Open your fork to ${fork}`}>
+							{icons.fork()}
+							{fork}
+						</a>
+					)}
+				</details-menu>
+			</details>
+		);
 	}
 
 	// Validate cache after showing links once, to make it faster
-	await updateForks(forks || []);
+	await updateForks(forks);
 }
 
 features.add({
 	id: __featureName__,
-	description: 'Your repo forks are shown under the repo title',
-	screenshot: 'https://user-images.githubusercontent.com/55841/60543588-f5c9df80-9d16-11e9-8667-52ff16b2cb16.png',
+	description: 'Adds a shortcut to your forks next to the `Fork` button on the current repo.',
+	screenshot: 'https://user-images.githubusercontent.com/55841/64077281-17bbf000-cccf-11e9-9123-092063f65357.png',
 	include: [
 		features.isRepo
 	],
