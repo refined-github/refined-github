@@ -112,7 +112,9 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 		new MiniCssExtractPlugin({
 			filename: '[name].css'
 		}),
-		new SizePlugin(),
+		new SizePlugin({
+			writeFile: false
+		}),
 		new CopyWebpackPlugin([
 			{
 				from: '*',

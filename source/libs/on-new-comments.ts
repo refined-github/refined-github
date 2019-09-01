@@ -7,6 +7,7 @@ const observed = new WeakSet();
 
 const run = debounce(() => {
 	// Safely run all callbacks
+	// eslint-disable-next-line @typescript-eslint/require-await
 	handlers.forEach(async cb => cb());
 }, {wait: 200});
 
