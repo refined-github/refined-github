@@ -26,11 +26,9 @@ function parseBranchFromDom(): string | undefined {
 	return matches ? matches[1] : undefined;
 }
 
-async function fetchFromApi(): Promise<any> {
+async function fetchFromApi(): Promise<string> {
 	const response = await api.v3(`repos/${getRepoURL()}`);
-	if (response.default_branch) {
-		return response.default_branch;
-	}
+	return response.default_branch as string;
 }
 
 export default async function (): Promise<string> {
