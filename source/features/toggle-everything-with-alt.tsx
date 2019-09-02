@@ -40,7 +40,7 @@ function getSimilarItems(item: HTMLElement): HTMLElement[] {
 	return [];
 }
 
-async function handleEvent(event: DelegateEvent<MouseEvent, HTMLElement>): Promise<void> {
+function handleEvent(event: DelegateEvent<MouseEvent, HTMLElement>): void {
 	if (!event.altKey || !event.isTrusted || event.target instanceof HTMLInputElement) {
 		return;
 	}
@@ -79,11 +79,6 @@ async function handleEvent(event: DelegateEvent<MouseEvent, HTMLElement>): Promi
 	requestAnimationFrame(() => {
 		const newOffset = anchorElement.getBoundingClientRect().top;
 		window.scrollBy(0, newOffset - viewportOffset);
-
-		// For "Show comments", `.click()` calls change the focused element, restore focus
-		if (clickedItem instanceof HTMLLabelElement) {
-			clickedItem.closest('details')!.querySelector('summary')!.focus();
-		}
 	});
 }
 
