@@ -6,10 +6,10 @@ function getSimilarItems(item: HTMLElement): HTMLElement[] {
 	// Collapsed comments in PR conversations and files
 	if (item.matches('summary')) {
 		if ((item.parentElement as HTMLDetailsElement).open) {
-			return select.all('.minimized-comment details[open] summary');
+			return select.all('.minimized-comment > details[open] > summary');
 		}
 
-		return select.all('.minimized-comment details:not([open]) summary');
+		return select.all('.minimized-comment > details:not([open]) > summary');
 	}
 
 	// "Load diff" buttons in PR files
