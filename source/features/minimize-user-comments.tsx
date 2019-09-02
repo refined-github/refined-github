@@ -44,7 +44,9 @@ async function onButtonClick(event: React.MouseEvent<HTMLButtonElement>): Promis
 	}
 
 	await setMinimizedUsers(minimizedUsers);
-	anchorScroll(minimizeMutedUserComments, comment);
+	const resetScroll = anchorScroll(comment);
+	await minimizeMutedUserComments();
+	resetScroll();
 }
 
 async function handleMenuOpening(event: DelegateEvent): Promise<void> {
