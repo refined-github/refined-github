@@ -5,7 +5,7 @@ import features from '../libs/features';
 import * as icons from '../libs/icons';
 
 // `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)
-const COMMENT_SELECTOR = '.js-timeline-item';
+const commentSelector = '.js-timeline-item';
 
 const positiveReactions = [
 	'[aria-label*="reacted with thumbs up"]',
@@ -69,7 +69,7 @@ function highlightBestComment(bestComment: Element): void {
 
 function linkBestComment(bestComment: Element): void {
 	// Find position of comment in thread
-	const position = select.all(COMMENT_SELECTOR).indexOf(bestComment as HTMLElement);
+	const position = select.all(commentSelector).indexOf(bestComment as HTMLElement);
 	// Only link to it if it doesn't already appear at the top of the conversation
 	if (position >= 3) {
 		const text = select('.comment-body', bestComment)!.textContent!.substring(0, 100);
@@ -95,7 +95,7 @@ function linkBestComment(bestComment: Element): void {
 }
 
 function getCommentsWithReactions(): Set<Element> {
-	const comments = getPositiveReactions().map(reaction => reaction.closest(COMMENT_SELECTOR)!);
+	const comments = getPositiveReactions().map(reaction => reaction.closest(commentSelector)!);
 	return new Set(comments);
 }
 
