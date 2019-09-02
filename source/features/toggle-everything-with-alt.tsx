@@ -19,7 +19,8 @@ function init(): void {
 function clickAll(selectorGetter: ((clickedItem: HTMLElement) => string)): EventHandler {
 	return event => {
 		if (event.altKey && event.isTrusted) {
-			anchorScroll(() => clickAllExcept(selectorGetter(event.delegateTarget), event.delegateTarget));
+			const clickedItem = event.delegateTarget;
+			anchorScroll(() => clickAllExcept(selectorGetter(clickedItem), clickedItem), clickedItem);
 		}
 	};
 }
