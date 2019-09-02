@@ -2,6 +2,16 @@
 	border: 2px solid #ffa500 !important;
 }
 
+.rgh-highest-rated-comment.timeline-comment--caret::before {
+	border-right-color: #ffa500;
+}
+
+.rgh-highest-rated-comment.timeline-comment--caret::after {
+	border-width: 5px;
+	margin-left: 6px;
+	margin-top: 3px;
+}
+
 a.rgh-highest-rated-comment .timeline-comment-header-text {
 	text-overflow: ellipsis;
 	white-space: nowrap;
