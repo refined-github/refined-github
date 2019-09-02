@@ -20,12 +20,11 @@ function clickAll(selectorGetter: ((clickedItem: HTMLElement) => string)): Event
 	return event => {
 		if (event.altKey && event.isTrusted) {
 			const clickedItem = event.delegateTarget;
-			anchorScroll(
-				() => clickAllExcept(selectorGetter(clickedItem), clickedItem),
 
-				// `parentElement` is the anchor because `clickedItem` might be hidden/replaced after the click
-				clickedItem.parentElement!
-			);
+			// `parentElement` is the anchor because `clickedItem` might be hidden/replaced after the click
+			const resetScroll = anchorScroll(clickedItem.parentElement!);
+			clickAllExcept(selectorGetter(clickedItem), clickedItem);
+			resetScroll();
 		}
 	};
 }
