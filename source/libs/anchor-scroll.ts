@@ -8,8 +8,8 @@ export default async function anchorScroll(
 		await action();
 
 		requestAnimationFrame(() => {
-			const newPositon = anchor.getBoundingClientRect().top;
-			window.scrollBy(0, newPositon - originalPosition);
+			const newPosition = anchor.getBoundingClientRect().top;
+			window.scrollBy(0, newPosition - originalPosition);
 		});
 	} else {
 		// Anchor not found; proceed without anchoring
