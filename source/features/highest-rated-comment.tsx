@@ -99,12 +99,12 @@ function getCommentsWithReactions(): Set<Element> {
 	return new Set(comments);
 }
 
-function getNegativeReactions(reactionBox = document): Element[] {
-	return select.all(negativeReactions.join(','), reactionBox);
+function getNegativeReactions(reactionBox?: Element): Element[] {
+	return select.all(negativeReactions.join(','), reactionBox || document);
 }
 
-function getPositiveReactions(reactionBox = document): Element[] {
-	return select.all(positiveReactions.join(','), reactionBox);
+function getPositiveReactions(reactionBox?: Element): Element[] {
+	return select.all(positiveReactions.join(','), reactionBox || document);
 }
 
 function getCount(reactions: Element[]): number {
