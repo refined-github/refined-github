@@ -5,7 +5,7 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 
-async function addButton(): Promise<void> {
+function addButton(): void {
 	for (const toolbarButton of select.all('md-ref')) {
 		toolbarButton.after(
 			<button type="button" className="toolbar-item tooltipped tooltipped-n rgh-upload-btn" aria-label="Attach files">

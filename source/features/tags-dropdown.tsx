@@ -5,7 +5,7 @@ import features from '../libs/features';
 import {getRepoURL} from '../libs/utils';
 import {octoface} from '../libs/icons';
 
-async function init(): Promise<false | void> {
+function init(): false | void {
 	if (select.exists('.blankslate')) {
 		return false;
 	}

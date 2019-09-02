@@ -17,10 +17,10 @@ async function findRename(
 ): Promise<File[]> {
 	// API v4 doesn't support it: https://github.community/t5/GitHub-API-Development-and/What-is-the-corresponding-object-in-GraphQL-API-v4-for-patch/m-p/14502?collapse_discussion=true&filter=location&location=board:api&q=files%20changed%20commit&search_type=thread
 	const {files} = await api.v3(`repos/${user}/${repo}/commits/${lastCommitOnPage}`);
-	return files as Promise<File[]>;
+	return files as File[];
 }
 
-async function init(): Promise<false | void> {
+function init(): false | void {
 	const disabledPagination = select.all('.paginate-container [disabled], .paginate-container .disabled');
 
 	if (disabledPagination.length === 0) {
