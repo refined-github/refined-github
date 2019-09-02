@@ -46,7 +46,7 @@ function minimizedCommentsSelector(clickedItem: HTMLElement): string {
 }
 
 function resolvedCommentsSelector(clickedItem: HTMLElement): string {
-	return `.js-resolvable-thread-toggler[aria-expanded="${clickedItem.getAttribute('aria-expanded')}"]`;
+	return `.js-resolvable-thread-toggler[aria-expanded="${clickedItem.getAttribute('aria-expanded')}"]:not(.d-none)`;
 }
 
 features.add({
