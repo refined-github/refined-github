@@ -1,92 +1,51 @@
 import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
+import anchorScroll from '../libs/anchor-scroll';
 
-function getSimilarItems(item: HTMLElement): HTMLElement[] {
-	// Collapsed comments in PR conversations and files
-	if (item.matches('summary')) {
-		if ((item.parentElement as HTMLDetailsElement).open) {
-			return select.all('.minimized-comment > details[open] > summary');
-		}
-
-		return select.all('.minimized-comment > details:not([open]) > summary');
-	}
-
-	// "Load diff" buttons in PR files
-	if (item.matches('.js-diff-load')) {
-		return select.all('.js-file .js-diff-load');
-	}
-
-	// Review comments in PR
-	if (item.matches('.js-resolvable-thread-toggler')) {
-		const targets = select.all('.js-resolvable-thread-toggler');
-		if (select.exists('svg.octicon-unfold', item)) {
-			return targets.filter(target => !target.matches('.d-none') && select.exists('svg.octicon-unfold', target));
-		}
-
-		return targets.filter(target => !target.matches('.d-none') && select.exists('svg.octicon-fold', target));
-	}
-
-	// "Show comments" checkboxes
-	if (item instanceof HTMLLabelElement) {
-		const inputs = select.all<HTMLInputElement>('.js-file .dropdown-item .js-toggle-file-notes');
-		if ((item.control as HTMLInputElement).checked) {
-			return inputs.filter(input => input.checked).map(input => input.labels![0]);
-		}
-
-		return inputs.filter(input => !input.checked).map(input => input.labels![0]);
-	}
-
-	return [];
-}
-
-function handleEvent(event: DelegateEvent<MouseEvent, HTMLElement>): void {
-	if (!event.altKey || !event.isTrusted || event.target instanceof HTMLInputElement) {
-		return;
-	}
-
-	const clickedItem = event.delegateTarget;
-
-	// The closest parent element that is not `position: sticky`, i.e. scrolls with page
-	let anchorElement = clickedItem.parentElement!;
-	let viewportOffset = anchorElement.getBoundingClientRect().top;
-
-	if (clickedItem instanceof HTMLLabelElement) {
-		anchorElement = clickedItem.closest('.js-file')! as HTMLElement;
-		viewportOffset = anchorElement.getBoundingClientRect().top;
-
-		const checkedState = (clickedItem.control as HTMLInputElement)!.checked;
-		const similarItems = getSimilarItems(clickedItem) as HTMLLabelElement[];
-
-		for (const item of similarItems) {
-			if (item === clickedItem) {
-				continue;
-			}
-
-			(item.control as HTMLInputElement)!.checked = !checkedState;
-			item.setAttribute('aria-checked', String(!checkedState));
-			item.closest('.js-file')!.classList.toggle('show-inline-notes', !checkedState);
-		}
-	} else {
-		for (const item of getSimilarItems(clickedItem)) {
-			if (item !== clickedItem) {
-				item.click();
-			}
-		}
-	}
-
-	// Scroll to original position where the click occurred after the rendering of all click events is done
-	requestAnimationFrame(() => {
-		const newOffset = anchorElement.getBoundingClientRect().top;
-		window.scrollBy(0, newOffset - viewportOffset);
-	});
-}
+type EventHandler = (event: DelegateEvent<MouseEvent, HTMLElement>) => void;
 
 function init(): void {
-	delegate('.repository-content', '.minimized-comment details summary', 'click', handleEvent);
-	delegate('.repository-content', '.js-file .js-diff-load', 'click', handleEvent);
-	delegate('.repository-content', '.js-file .dropdown-menu label.dropdown-item:first-child', 'click', handleEvent);
-	delegate('.repository-content', '.js-file .js-resolvable-thread-toggler', 'click', handleEvent);
+	// Collapsed comments in PR conversations and files
+	delegate('.repository-content', '.minimized-comment details summary', 'click', clickAll(minimizedCommentsSelector));
+
+	// "Load diff" buttons in PR files
+	delegate('.repository-content', '.js-file .js-diff-load', 'click', clickAll(allDiffsSelector));
+
+	// Review comments in PR
+	delegate('.repository-content', '.js-file .js-resolvable-thread-toggler', 'click', clickAll(resolvedCommentsSelector));
+}
+
+function clickAll(selectorGetter: ((clickedItem: HTMLElement) => string)): EventHandler {
+	return event => {
+		if (event.altKey && event.isTrusted) {
+			anchorScroll(() => clickAllExcept(selectorGetter(event.delegateTarget), event.delegateTarget));
+		}
+	};
+}
+
+function clickAllExcept(elementsToClick: string, except: HTMLElement): void {
+	for (const item of select.all(elementsToClick)) {
+		if (item !== except) {
+			item.click();
+		}
+	}
+}
+
+function allDiffsSelector(): string {
+	return '.js-file .js-diff-load';
+}
+
+function minimizedCommentsSelector(clickedItem: HTMLElement): string {
+	if ((clickedItem.parentElement as HTMLDetailsElement).open) {
+		return '.minimized-comment > details[open] > summary';
+	}
+
+	return '.minimized-comment > details:not([open]) > summary';
+}
+
+function resolvedCommentsSelector(clickedItem: HTMLElement): string {
+	return `.js-resolvable-thread-toggler[aria-expanded="${clickedItem.getAttribute('aria-expanded')}"]`;
 }
 
 features.add({
