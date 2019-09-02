@@ -22,7 +22,7 @@
 	right: 0;
 	top: 0;
 	opacity: 0.2;
-	transition: opacity 250ms;
+	transition: opacity 0.25s;
 }
 
 .repository-content #readme:not(.blob) .Box-header .btn-octicon:hover,

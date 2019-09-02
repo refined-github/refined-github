@@ -39,7 +39,7 @@ async function showSource(): Promise<void> {
 	sourceButton.disabled = true;
 
 	const source = btnBodyMap.get(sourceButton) || fetchSource();
-	const rendered = btnBodyMap.get(renderedButton) as Element || select('.blob.instapaper_body')!;
+	const rendered = await btnBodyMap.get(renderedButton) || select('.blob.instapaper_body')!;
 
 	btnBodyMap.set(sourceButton, source);
 	btnBodyMap.set(renderedButton, rendered);
@@ -61,7 +61,7 @@ async function showRendered(): Promise<void> {
 
 	renderedButton.disabled = true;
 
-	(await btnBodyMap.get(sourceButton))!.replaceWith(btnBodyMap.get(renderedButton) as Element);
+	(await btnBodyMap.get(sourceButton))!.replaceWith(await btnBodyMap.get(renderedButton)!);
 
 	renderedButton.disabled = false;
 

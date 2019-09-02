@@ -4,6 +4,7 @@ import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {getUsername, compareNames} from '../libs/utils';
+import onNewsfeedLoad from '../libs/on-newsfeed-load';
 
 async function init(): Promise<false | void> {
 	const usernameElements = select.all([
@@ -32,11 +33,9 @@ async function init(): Promise<false | void> {
 	}
 
 	const names = await api.v4(
-		'{' +
-			[...usernames].map(user =>
-				api.escapeKey(user) + `: user(login: "${user}") {name}`
-			).join() +
-		'}'
+		[...usernames].map(user =>
+			api.escapeKey(user) + `: user(login: "${user}") {name}`
+		).join()
 	);
 
 	for (const usernameEl of usernameElements) {
@@ -72,8 +71,8 @@ features.add({
 	include: [
 		features.isDashboard
 	],
-	load: features.onNewsfeedLoad,
-	init
+	load: features.onDomReady,
+	init: () => onNewsfeedLoad(init)
 });
 
 features.add({

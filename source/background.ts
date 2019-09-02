@@ -1,9 +1,8 @@
-/* global chrome */
-import {addContextMenu} from 'webext-domain-permission-toggle';
-import './libs/declarative-content-scripts';
+import 'webext-dynamic-content-scripts';
+import addDomainPermissionToggle from 'webext-domain-permission-toggle';
 import './options-storage';
 
-browser.runtime.onMessage.addListener(async (message, {tab}) => {
+browser.runtime.onMessage.addListener((message, {tab}) => {
 	if (message && Array.isArray(message.openUrls)) {
 		for (const [i, url] of (message.openUrls as string[]).entries()) {
 			browser.tabs.create({
@@ -38,14 +37,4 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 });
 
 // GitHub Enterprise support
-addContextMenu();
-
-// Drop in August because we need unregister any previously-registered scripts
-if (chrome && chrome.declarativeContent) {
-	chrome.declarativeContent.onPageChanged.getRules(globalRules => {
-		const moduleIds = globalRules.map(rule => rule.id!).filter(id => id && id.startsWith('webext-content-script-register:'));
-		if (moduleIds.length > 0) {
-			chrome.declarativeContent.onPageChanged.removeRules(moduleIds);
-		}
-	});
-}
+addDomainPermissionToggle();

@@ -1,0 +1,20 @@
+.file-navigation {
+	display: flex;
+}
+
+.file-navigation .branch-select-menu {
+	margin-right: 0 !important;
+}
+
+.file-navigation .BtnGroup.float-right {
+	order: 100;
+}
+
+.file-navigation .breadcrumb {
+	flex: 1;
+	margin-left: 8px !important;
+}
+
+.file-navigation .rgh-branch-buttons .BtnGroup {
+	margin: 0;
+}

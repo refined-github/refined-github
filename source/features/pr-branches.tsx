@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import getDefaultBranch from '../libs/get-default-branch';
-import {getOwnerAndRepo} from '../libs/utils';
+import {getOwnerAndRepo, getRepoGQL} from '../libs/utils';
 import {openPullRequest} from '../libs/icons';
 
 type RepositoryReference = {
@@ -61,10 +61,8 @@ function normalizeBranchInfo(data: BranchInfo): {
 }
 
 function buildQuery(issueIds: string[]): string {
-	const {ownerName, repoName} = getOwnerAndRepo();
-
-	return `{
-		repository(owner: "${ownerName}", name: "${repoName}") {
+	return `
+		repository(${getRepoGQL()}) {
 			${issueIds.map(id => `
 				${id}: pullRequest(number: ${id.replace('issue_', '')}) {
 					baseRef {id}
@@ -76,7 +74,7 @@ function buildQuery(issueIds: string[]): string {
 				}
 			`)}
 		}
-	}`;
+	`;
 }
 
 function createLink(ref: RepositoryReference): HTMLSpanElement {

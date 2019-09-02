@@ -25,8 +25,7 @@ function init(): void | false {
 			</a>
 		);
 
-		// TODO: drop `as` after https://github.com/Microsoft/TSJS-lib-generator/pull/697
-		(rootLink.closest('.commit-links-cell') as HTMLElement).style.width = 'auto';
+		rootLink.closest<HTMLElement>('.commit-links-cell')!.style.width = 'auto';
 
 		groupSiblings(rootLink);
 	}

@@ -4,7 +4,6 @@ import onDomReady from 'dom-loaded';
 import elementReady from 'element-ready';
 import optionsStorage, {RGHOptions} from '../options-storage';
 import onNewComments from './on-new-comments';
-import onNewsfeedLoad from './on-newsfeed-load';
 import onFileListUpdate from './on-file-list-update';
 import * as pageDetect from './page-detect';
 
@@ -42,7 +41,7 @@ export interface FeatureDetails {
  * For this reason `onAjaxedPages` will only call its callback when a *new* page is loaded.
  *
  * Alternatively, use `onAjaxedPagesRaw` if your callback needs to be called at every page
- * change (e.g. to "unmount" a feature / listener) regardless of of *newness* of the page.
+ * change (e.g. to "unmount" a feature / listener) regardless of *newness* of the page.
  */
 async function onAjaxedPagesRaw(callback: () => void): Promise<void> {
 	await onDomReady;
@@ -83,8 +82,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	}
 
 	if (document.body.classList.contains('logged-out')) {
-		console.warn('%cRefined GitHub%c only works when you’re logged in to GitHub.', 'font-weight: bold', '');
-		return;
+		console.warn('%cRefined GitHub%c is only expected to work when you’re logged in to GitHub.', 'font-weight: bold', '');
 	}
 
 	if (select.exists('html.refined-github')) {
@@ -172,12 +170,12 @@ const add = async (definition: FeatureDetails): Promise<void> => {
 			return result;
 		};
 
-		onAjaxedPages(async () => run(details));
+		onAjaxedPages(() => run(details));
 	} else if (load instanceof Promise) {
 		await load;
 		run(details);
 	} else {
-		load(async () => run(details));
+		load(() => run(details));
 	}
 };
 
@@ -188,7 +186,6 @@ export default {
 
 	// Loading mechanisms
 	onDomReady,
-	onNewsfeedLoad,
 	onNewComments,
 	onFileListUpdate,
 	onAjaxedPages,

@@ -45,10 +45,14 @@ export const getCurrentBranch = (): string => {
 		.split('/')
 		.slice(6)
 		.join('/')
-		.replace(/\.atom$/, '');
+		.replace(/\.atom.*/, '');
 };
 
 export const getRepoURL = (): string => location.pathname.slice(1).split('/', 2).join('/');
+export const getRepoGQL = (): string => {
+	const {ownerName, repoName} = getOwnerAndRepo();
+	return `owner: "${ownerName}", name: "${repoName}"`;
+};
 
 export const getOwnerAndRepo = (): {
 	ownerName: string;

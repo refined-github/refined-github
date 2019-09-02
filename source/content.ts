@@ -6,7 +6,6 @@ import './features/center-reactions-popup.css';
 import './features/widen-search-field.css';
 import './features/clean-dashboard.css';
 import './features/safer-destructive-actions.css';
-import './features/delete-fork-button.css';
 import './features/clean-mergeability-box.css';
 import './features/clean-footer.css';
 import './features/pr-approvals-count.css';
@@ -15,7 +14,7 @@ import './features/hide-tips.css';
 import './features/hide-readme-header.css';
 import './features/hide-obvious-tooltips.css';
 import './features/clean-discussions.css';
-import './features/clean-rich-text-editor.css';
+import './features/sticky-discussion-list-toolbar.css';
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
 
@@ -37,7 +36,7 @@ import './features/mark-unread';
 import './features/open-all-notifications';
 import './features/copy-on-y';
 import './features/profile-hotkey';
-import './features/make-discussion-sidebar-sticky';
+import './features/sticky-discussion-sidebar';
 import './features/close-out-of-view-modals';
 import './features/improve-shortcut-help';
 import './features/deprioritize-marketplace-link';
@@ -124,6 +123,7 @@ import './features/toggle-everything-with-alt';
 import './features/limit-commit-title-length';
 import './features/highest-rated-comment';
 import './features/clean-issue-filters';
+import './features/minimize-user-comments';
 import './features/minimize-upload-bar';
 import './features/cycle-lists-with-keyboard-shortcuts';
 import './features/forked-to';
@@ -134,6 +134,11 @@ import './features/list-prs-for-file';
 import './features/pr-branch-auto-delete';
 import './features/show-whitespace';
 import './features/linkify-symbolic-links';
+import './features/hide-zero-packages';
+import './features/revert-file';
+import './features/hidden-review-comments-indicator';
+import './features/reload-failed-proxied-images';
+import './features/clean-rich-text-editor';
 
 // Add global for easier debugging
 (window as any).select = select;

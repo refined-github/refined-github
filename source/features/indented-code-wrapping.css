@@ -12,3 +12,7 @@
 	display: block;
 	line-height: 21px; /* `display: block` reduces the line height; this undoes the change */
 }
+
+.rgh-code-wrapping-enabled .tooltipped::after {
+	text-indent: initial;
+}

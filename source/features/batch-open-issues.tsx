@@ -12,9 +12,10 @@ function getUrlFromItem(checkbox: Element): string {
 }
 
 function openIssues(): void {
+	const modifier = features.isGlobalDiscussionList() ? '' : ' + div ';
 	const issues = select.all([
-		'#js-issues-toolbar.triage-mode + div [name="issues[]"]:checked', // Get checked checkboxes
-		'#js-issues-toolbar:not(.triage-mode) + div .js-issue-row' // Or all items
+		`#js-issues-toolbar.triage-mode ${modifier} [name="issues[]"]:checked`, // Get checked checkboxes
+		`#js-issues-toolbar:not(.triage-mode) ${modifier} .js-issue-row` // Or all items
 	].join(','));
 
 	if (
