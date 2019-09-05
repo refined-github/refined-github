@@ -70,7 +70,7 @@ function addOpenAllButton(): void {
 		// Create an open button and add it into a button group
 		const button = <button className="btn btn-sm rgh-open-notifications-button">Open all unread in tabs</button>;
 		select('.tabnav .float-right')!.prepend(button);
-		groupButtons([button, button.nextElementSibling!]);
+		groupButtons([button, button.nextElementSibling!].filter(Boolean));
 	}
 }
 
