@@ -1,20 +1,20 @@
 import './options.css';
-import doma from 'doma';
 import React from 'dom-chef';
 import select from 'select-dom';
-import doubledown from 'doubledown';
 import fitTextarea from 'fit-textarea';
+import {applyToLink} from 'shorten-repo-url';
 import indentTextarea from 'indent-textarea';
-import {applyToLink as shortenLink} from 'shorten-repo-url';
 import {getAllOptions} from './options-storage';
-import {linkifyIssuesInDom} from './features/linkify-code';
+import * as domFormatters from './libs/dom-formatters';
 
-function parseDescription(description: string): Element {
-	const descriptionElement = doma.one(`<span>${doubledown(description)}</span>`)!;
-	linkifyIssuesInDom(descriptionElement);
+function parseDescription(description: string): DocumentFragment {
+	const descriptionElement = <span>{description}</span>;
+	domFormatters.linkifyIssues(descriptionElement);
+	domFormatters.linkifyURLs(descriptionElement);
+	domFormatters.parseBackticks(descriptionElement);
 
 	for (const a of select.all('a', descriptionElement)) {
-		shortenLink(a, location.href);
+		applyToLink(a);
 	}
 
 	return descriptionElement;
@@ -24,10 +24,9 @@ function buildFeatureCheckbox({name, description, screenshot, disabled}: Feature
 	// `undefined` disconnects it from the options
 	const key = disabled ? undefined : `feature:${name}`;
 
-	const parsedDescription = parseDescription(
-		(disabled ? `Disabled because of ${disabled}; \n` : '') +
-		description
-	);
+	const disabledText = disabled ?
+		<small>{parseDescription(`(Disabled because of ${disabled}) `)}</small> :
+		false;
 
 	return (
 		<div className="feature">
@@ -36,12 +35,13 @@ function buildFeatureCheckbox({name, description, screenshot, disabled}: Feature
 				<label for={name}>
 					<span className="feature-name">{name}</span>
 					{' '}
+					{disabledText}
 					<a href={`https://github.com/sindresorhus/refined-github/blob/master/source/features/${name}.tsx`}>
 						source
 					</a>
 					{screenshot ? <>, <a href={screenshot}>screenshot</a></> : ''}
 					<br/>
-					<p className="description">{parsedDescription}</p>
+					<p className="description">{parseDescription(description)}</p>
 				</label>
 			</div>
 		</div>

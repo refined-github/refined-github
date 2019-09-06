@@ -1,21 +1,14 @@
 import './parse-backticks.css';
 import select from 'select-dom';
 import features from '../libs/features';
-import getTextNodes from '../libs/get-text-nodes';
-import parseBackticks from '../libs/parse-backticks';
+import {parseBackticks} from '../libs/dom-formatters';
 
 function init(): void {
 	for (const title of select.all(`
 		[aria-label="Issues"][role="group"] .js-navigation-open,
 		.commit-title .js-navigation-open
 	`)) {
-		for (const node of getTextNodes(title)) {
-			const fragment = parseBackticks(node.textContent!);
-
-			if (fragment.children.length > 0) {
-				node.replaceWith(fragment);
-			}
-		}
+		parseBackticks(title);
 	}
 }
 
