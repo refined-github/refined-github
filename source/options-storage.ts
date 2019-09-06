@@ -32,6 +32,7 @@ for (const feature of __featuresList__) {
 
 const migrations = [
 	featureWasRenamed('make-discussion-sidebar-sticky', 'sticky-discussion-sidebar'), // Merged on August 1st
+	featureWasRenamed('linkify-code', 'linkify-urls-in-code'), // Merged on September 1st
 
 	// Removed features will be automatically removed from the options as well
 	OptionsSync.migrations.removeUnused

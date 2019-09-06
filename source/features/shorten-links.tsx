@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import {applyToLink} from 'shorten-repo-url';
 import features from '../libs/features';
-import {linkifiedURLClass} from '../libs/linkify-text-nodes';
+import {linkifiedURLClass} from '../libs/dom-formatters';
 
 function init(): void {
 	for (const a of select.all<HTMLAnchorElement>(`a[href]:not(.${linkifiedURLClass})`)) {
