@@ -39,7 +39,7 @@
 		"onetime": "^5.0.0",
 		"p-filter": "^2.1.0",
 		"select-dom": "^5.1.0",
-		"shorten-repo-url": "^1.5.2",
+		"shorten-repo-url": "^1.5.3",
 		"tiny-version-compare": "^1.0.0",
 		"webext-additional-permissions": "^0.1.0",
 		"webext-detect-page": "^1.0.3",
@@ -69,7 +69,7 @@
 		"css-loader": "^3.2.0",
 		"daily-version": "^0.12.0",
 		"dot-json": "^1.0.4",
-		"eslint": "^6.2.2",
+		"eslint": "^6.3.0",
 		"eslint-config-xo-typescript": "^0.16.0",
 		"fork-ts-checker-webpack-plugin": "^1.5.0",
 		"jsdom": "^15.1.1",
@@ -87,7 +87,7 @@
 		"web-ext": "^3.1.1",
 		"web-ext-submit": "^3.1.1",
 		"webpack": "^4.39.3",
-		"webpack-cli": "^3.3.7",
+		"webpack-cli": "^3.3.8",
 		"xo": "^0.24.0"
 	},
 	"xo": {

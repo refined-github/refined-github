@@ -7,15 +7,15 @@ import * as icons from '../libs/icons';
 // `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)
 const commentSelector = '.js-timeline-item';
 
-const positiveReactions = [
-	`${commentSelector} [aria-label*="reacted with thumbs up"]`,
-	`${commentSelector} [aria-label*="reacted with hooray"]`,
-	`${commentSelector} [aria-label*="reacted with heart"]`
-];
+const positiveReactionsSelector = `
+	${commentSelector} [aria-label*="reacted with thumbs up"],
+	${commentSelector} [aria-label*="reacted with hooray"],
+	${commentSelector} [aria-label*="reacted with heart"]
+`;
 
-const negativeReactions = [
-	`${commentSelector} [aria-label*="reacted with thumbs down"]`
-];
+const negativeReactionsSelector = `
+	${commentSelector} [aria-label*="reacted with thumbs down"]
+`;
 
 function init(): false | void {
 	const bestComment = getBestComment();
@@ -100,11 +100,11 @@ function getCommentsWithReactions(): Set<Element> {
 }
 
 function getNegativeReactions(reactionBox?: Element): Element[] {
-	return select.all(negativeReactions.join(','), reactionBox || document);
+	return select.all(negativeReactionsSelector, reactionBox || document);
 }
 
 function getPositiveReactions(reactionBox?: Element): Element[] {
-	return select.all(positiveReactions.join(','), reactionBox || document);
+	return select.all(positiveReactionsSelector, reactionBox || document);
 }
 
 function getCount(reactions: Element[]): number {
