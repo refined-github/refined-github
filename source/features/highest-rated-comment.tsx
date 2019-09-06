@@ -8,13 +8,13 @@ import * as icons from '../libs/icons';
 const commentSelector = '.js-timeline-item';
 
 const positiveReactions = [
-	'[aria-label*="reacted with thumbs up"]',
-	'[aria-label*="reacted with hooray"]',
-	'[aria-label*="reacted with heart"]'
+	`${commentSelector} [aria-label*="reacted with thumbs up"]`,
+	`${commentSelector} [aria-label*="reacted with hooray"]`,
+	`${commentSelector} [aria-label*="reacted with heart"]`
 ];
 
 const negativeReactions = [
-	'[aria-label*="reacted with thumbs down"]'
+	`${commentSelector} [aria-label*="reacted with thumbs down"]`
 ];
 
 function init(): false | void {
