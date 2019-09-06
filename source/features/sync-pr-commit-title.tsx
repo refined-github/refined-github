@@ -8,7 +8,7 @@ import features from '../libs/features';
 import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
 
 const commitTitleLimit = 72;
-const prTitleFieldSelector = '[name="issue[title]"]';
+const prTitleFieldSelector = '.js-issue-update [name="issue[title]"]';
 const prTitleSubmitSelector = '.js-issue-update [type="submit"]';
 
 const createCommitTitle = debounce<[], string>((): string => {
