@@ -10,12 +10,13 @@ import * as icons from '../libs/icons';
 // When an indicator is clicked, this will show comments on the current file
 const handleIndicatorClick = ({currentTarget}: React.MouseEvent<HTMLElement>): void => {
 	const commentedLine = currentTarget.closest('tr')!.previousElementSibling!;
-	anchorScroll(() => {
-		currentTarget
-			.closest('.file.js-file')!
-			.querySelector<HTMLInputElement>('.js-toggle-file-notes')!
-			.click();
-	}, commentedLine);
+	const resetScroll = anchorScroll(commentedLine);
+	currentTarget
+		.closest('.file.js-file')!
+		.querySelector<HTMLInputElement>('.js-toggle-file-notes')!
+		.click();
+
+	resetScroll();
 };
 
 // `mem` avoids adding the indicator twice to the same thread

@@ -15,9 +15,13 @@
 	margin-left: 20px;
 }
 
-/* Move extra buttons to the right on Releases */
-.subnav-links {
-	margin-right: auto;
+/*
+Take full available width for extra buttons on Releases page.
+It excludes anchor tags which are `New Issue` and `New Pull Request` on
+issues and pull-requests tab respectively.
+*/
+.subnav > :first-child:not(a) {
+	flex-grow: 1;
 }
 
 /* Reset width of search field in global lists */

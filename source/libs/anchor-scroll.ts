@@ -1,18 +1,15 @@
-export default async function anchorScroll(
-	action: VoidFunction | AsyncVoidFunction,
+export default function anchorScroll(
 	anchor: Element = document.elementFromPoint(innerWidth / 2, innerHeight / 2)!
-): Promise<void> {
-	if (anchor) {
-		const originalPosition = anchor.getBoundingClientRect().top;
+): VoidFunction {
+	const originalPosition = anchor.getBoundingClientRect().top;
 
-		await action();
-
+	/**
+	Resets the previously-saved scroll
+	*/
+	return () => {
 		requestAnimationFrame(() => {
-			const newPositon = anchor.getBoundingClientRect().top;
-			window.scrollBy(0, newPositon - originalPosition);
+			const newPosition = anchor.getBoundingClientRect().top;
+			window.scrollBy(0, newPosition - originalPosition);
 		});
-	} else {
-		// Anchor not found; proceed without anchoring
-		action();
-	}
+	};
 }

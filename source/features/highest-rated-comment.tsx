@@ -4,37 +4,60 @@ import select from 'select-dom';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
 
-function getCount(reaction: HTMLElement): number {
-	return Number(/\d+/.exec(reaction.textContent!)![0]);
-}
+// `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)
+const commentSelector = '.js-timeline-item';
+
+const positiveReactions = [
+	`${commentSelector} [aria-label*="reacted with thumbs up"]`,
+	`${commentSelector} [aria-label*="reacted with hooray"]`,
+	`${commentSelector} [aria-label*="reacted with heart"]`
+];
+
+const negativeReactions = [
+	`${commentSelector} [aria-label*="reacted with thumbs down"]`
+];
 
 function init(): false | void {
-	let highest;
-	// `.js-timeline-item` excludes the very first comment
-	for (const like of select.all('.js-timeline-item [aria-label*="reacted with thumbs up"]')) {
-		const count = getCount(like);
-		const dislike = select('[aria-label*="reacted with thumbs down"]', like.parentElement!);
-
-		if (dislike && getCount(dislike) >= count / 2) {
-			continue; // Controversial comment
-		}
-
-		if (!highest || count > highest.count) {
-			highest = {like, count};
-		}
-	}
-
-	if (!highest || highest.count < 10) {
+	const bestComment = getBestComment();
+	if (!bestComment) {
 		return false;
 	}
 
-	const event = highest.like.closest('.js-timeline-item')!;
-	const text = select('.comment-body', event)!.textContent!.substring(0, 100);
-	const avatar = select('.timeline-comment-avatar', event)!.cloneNode(true);
-	const {hash} = select<HTMLAnchorElement>('.timestamp', event)!;
+	highlightBestComment(bestComment);
+	linkBestComment(bestComment);
+}
 
-	select('.unminimized-comment', event)!.classList.add('rgh-highest-rated-comment');
-	select('.unminimized-comment .timeline-comment-header-text', event)!.before(
+function getBestComment(): Element | null {
+	let highest;
+	for (const comment of getCommentsWithReactions()) {
+		const positiveReactions = getCount(getPositiveReactions(comment));
+
+		// It needs to be upvoted enough times to be considered an useful comment
+		if (positiveReactions < 10) {
+			continue;
+		}
+
+		// Controversial comment, ignore
+		const negativeReactions = getCount(getNegativeReactions(comment));
+		if (negativeReactions >= positiveReactions / 2) {
+			continue;
+		}
+
+		if (!highest || positiveReactions > highest.count) {
+			highest = {comment, count: positiveReactions};
+		}
+	}
+
+	if (!highest) {
+		return null;
+	}
+
+	return highest.comment;
+}
+
+function highlightBestComment(bestComment: Element): void {
+	select('.unminimized-comment', bestComment)!.classList.add('rgh-highest-rated-comment');
+	select('.unminimized-comment .timeline-comment-header-text', bestComment)!.before(
 		<span
 			className="timeline-comment-label tooltipped tooltipped-n"
 			aria-label="This comment has the most positive reactions on this issue."
@@ -42,10 +65,18 @@ function init(): false | void {
 			Highest-rated comment
 		</span>
 	);
+}
 
-	const position = select.all('.js-comment').indexOf(highest.like.closest('.js-comment') as HTMLElement);
-	if (position >= 4) {
-		event.parentElement!.firstElementChild!.after((
+function linkBestComment(bestComment: Element): void {
+	// Find position of comment in thread
+	const position = select.all(commentSelector).indexOf(bestComment as HTMLElement);
+	// Only link to it if it doesn't already appear at the top of the conversation
+	if (position >= 3) {
+		const text = select('.comment-body', bestComment)!.textContent!.substring(0, 100);
+		const avatar = select('.timeline-comment-avatar', bestComment)!.cloneNode(true);
+		const {hash} = select<HTMLAnchorElement>('.timestamp', bestComment)!;
+
+		bestComment.parentElement!.firstElementChild!.after((
 			<div className="timeline-comment-wrapper">
 				{avatar}
 
@@ -61,6 +92,23 @@ function init(): false | void {
 			</div>
 		));
 	}
+}
+
+function getCommentsWithReactions(): Set<Element> {
+	const comments = getPositiveReactions().map(reaction => reaction.closest(commentSelector)!);
+	return new Set(comments);
+}
+
+function getNegativeReactions(reactionBox?: Element): Element[] {
+	return select.all(negativeReactions.join(','), reactionBox || document);
+}
+
+function getPositiveReactions(reactionBox?: Element): Element[] {
+	return select.all(positiveReactions.join(','), reactionBox || document);
+}
+
+function getCount(reactions: Element[]): number {
+	return reactions.reduce((count, reaction) => count + Number(/\d+/.exec(reaction.textContent!)![0]), 0);
 }
 
 features.add({
