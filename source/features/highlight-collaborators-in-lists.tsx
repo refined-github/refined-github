@@ -24,8 +24,8 @@ async function init(): Promise<false | void> {
 
 features.add({
 	id: __featureName__,
-	description: 'Highlights discussions opened by organization collaborators.',
-	screenshot: '',
+	description: 'Highlights discussions opened by the current repo’s collaborators.',
+	screenshot: 'https://user-images.githubusercontent.com/55841/64478536-0a5ca500-d1aa-11e9-8284-a39114d37824.png',
 	include: [
 		features.isDiscussionList
 	],
