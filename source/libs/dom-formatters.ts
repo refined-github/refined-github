@@ -12,19 +12,18 @@ export const linkifiedURLClass = 'rgh-linkified-code';
 // but `user`/`repo` need to be set to avoid breaking errors in `linkify-issues`
 // https://github.com/sindresorhus/refined-github/issues/1305
 const currentRepo = getOwnerAndRepo();
-const options = {
-	user: currentRepo.ownerName || '/',
-	repo: currentRepo.repoName || '/',
-	type: 'dom',
-	baseUrl: '',
-	attributes: {
-		rel: 'noreferrer noopener',
-		class: linkifiedURLClass // Necessary to avoid also shortening the links
-	}
-};
 
 export function linkifyIssues(element: Element): void {
-	const linkified = linkifyIssuesCore(element.textContent!, options);
+	const linkified = linkifyIssuesCore(element.textContent!, {
+		user: currentRepo.ownerName || '/',
+		repository: currentRepo.repoName || '/',
+		type: 'dom',
+		baseUrl: '',
+		attributes: {
+			rel: 'noreferrer noopener',
+			class: linkifiedURLClass // Necessary to avoid also shortening the links
+		}
+	});
 	if (linkified.children.length === 0) { // Children are <a>
 		return;
 	}
@@ -47,7 +46,14 @@ export function linkifyURLs(element: Element): void {
 		return;
 	}
 
-	const linkified = linkifyURLsCore(element.textContent!, options);
+	const linkified = linkifyURLsCore(element.textContent!, {
+		type: 'dom' as const,
+		attributes: {
+			rel: 'noreferrer noopener',
+			class: linkifiedURLClass // Necessary to avoid also shortening the links
+		}
+	});
+
 	if (linkified.children.length === 0) { // Children are <a>
 		return;
 	}
@@ -60,7 +66,7 @@ export function parseBackticks(element: Element): void {
 		const fragment = parseBackticksCore(node.textContent!);
 
 		if (fragment.children.length > 0) {
-			zipTextNodes(element, fragment);
+			node.replaceWith(fragment);
 		}
 	}
 }

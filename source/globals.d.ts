@@ -27,42 +27,6 @@ declare module 'mem' {
 
 declare module 'size-plugin';
 
-// Drop when Firefox adds RegEx lookbehind support https://github.com/sindresorhus/refined-github/pull/1936#discussion_r276515991
-declare module 'linkify-urls' {
-	type Options = {
-		user: string;
-		repo: string;
-		type: string;
-		baseUrl: string;
-		attributes: {
-			rel: string;
-			class: string;
-		};
-	};
-
-	function linkifyUrls(input: string, options: Options): DocumentFragment;
-
-	export = linkifyUrls;
-}
-
-// Drop when Firefox adds RegEx lookbehind support https://github.com/sindresorhus/refined-github/pull/1936#discussion_r276515991
-declare module 'linkify-issues' {
-	type Options = {
-		user: string;
-		repo: string;
-		type: string;
-		baseUrl: string;
-		attributes: {
-			rel: string;
-			class: string;
-		};
-	};
-
-	function linkifyIssues(input: string, options: Options): DocumentFragment;
-
-	export = linkifyIssues;
-}
-
 // Custom UI events specific to RGH
 interface GlobalEventHandlersEventMap {
 	'details:toggled': CustomEvent;
