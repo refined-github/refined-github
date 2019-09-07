@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 
 function init(): false | void {
@@ -66,6 +67,11 @@ function init(): false | void {
 	}
 
 	submitButton.remove();
+	// This will prevent submission when clicking "Comment" and "Request changes" without entering a comment
+	delegate<HTMLButtonElement>(form, 'button', 'click', ({delegateTarget: {value}}) => {
+		const submissionRequiresComment = value === 'reject' || value === 'comment';
+		select('#pull_request_review_body', form)!.toggleAttribute('required', submissionRequiresComment);
+	});
 
 	// Freeze form to avoid duplicate submissions
 	form.addEventListener('submit', () => {
