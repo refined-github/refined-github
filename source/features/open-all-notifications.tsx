@@ -4,7 +4,7 @@ import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
-import {groupSiblings} from '../libs/group-buttons';
+import {groupButtons} from '../libs/group-buttons';
 
 const confirmationRequiredCount = 10;
 const unreadNotificationsClass = '.unread .js-notification-target';
@@ -70,7 +70,11 @@ function addOpenAllButton(): void {
 		// Create an open button and add it into a button group
 		const button = <button className="btn btn-sm rgh-open-notifications-button">Open all unread in tabs</button>;
 		select('.tabnav .float-right')!.prepend(button);
-		groupSiblings(button);
+
+		// There is no sibling on `/<org>/<repo>/notifications` page
+		if (button.nextElementSibling) {
+			groupButtons([button, button.nextElementSibling]);
+		}
 	}
 }
 
