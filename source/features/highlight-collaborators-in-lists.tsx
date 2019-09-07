@@ -1,4 +1,4 @@
-import './highlight-collaborators-prs.css';
+import './highlight-collaborators-in-lists.css';
 import select from 'select-dom';
 import features from '../libs/features';
 import {getRepoURL, getUsername} from '../libs/utils';
