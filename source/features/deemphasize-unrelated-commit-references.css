@@ -1,0 +1,3 @@
+.TimelineItem:not(.TimelineItem--condensed) ~ .TimelineItem .TimelineItem-badge {
+	visibility: hidden;
+}
