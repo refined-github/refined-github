@@ -4,10 +4,9 @@ import select from 'select-dom';
 import debounce from 'debounce-fn';
 import {timerIntervalometer} from 'intervalometer';
 import features from '../libs/features';
-import {getUsername, flatZip} from '../libs/utils';
+import {getUsername} from '../libs/utils';
 
-const arbitraryAvatarLimit = 36;
-const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
+const approximateAvatarCount = 16; // Each row takes about as much as 16 avatars.
 
 type Participant = {
 	container: HTMLElement;
@@ -49,31 +48,31 @@ function getParticipants(container: HTMLElement): Participant[] {
 }
 
 function add(): void {
-	for (const list of select.all('.has-reactions .comment-reactions-options:not(.rgh-reactions)')) {
-		const avatarLimit = arbitraryAvatarLimit - (list.children.length * approximateHeaderLength);
+	for (const list of select.all('.has-reactions:not(.rgh-reactions) .comment-reactions-options')) {
+		const rows = list.children.length >= 4 ? 2 : 1;
+		const columnCount = Math.ceil(list.children.length / rows);
+		const avatarTotalCount = Math.ceil(approximateAvatarCount / columnCount);
 
 		const participantByReaction = [...list.children as HTMLCollectionOf<HTMLElement>].map(getParticipants);
-		const flatParticipants = flatZip(participantByReaction, avatarLimit);
 
-		for (const {container, username, src} of flatParticipants) {
-			container.append(
-				<a>
-					<img src={src} />
-				</a>
-			);
+		for (const flatParticipants of participantByReaction) {
+			for (const { container, username, src } of flatParticipants.slice(0, avatarTotalCount)) {
+				container.append(
+					<a>
+						<img src={src} />
+					</a>
+				);
 
-			// Without this, Firefox will follow the link instead of submitting the reaction button
-			if (!navigator.userAgent.includes('Firefox/')) {
-				(container.lastElementChild as HTMLAnchorElement).href = `/${username}`;
+				// Without this, Firefox will follow the link instead of submitting the reaction button
+				if (!navigator.userAgent.includes('Firefox/')) {
+					(container.lastElementChild as HTMLAnchorElement).href = `/${username}`;
+				}
 			}
 		}
 
-		list.classList.add('rgh-reactions');
+		list.closest('.has-reactions')!.classList.add('rgh-reactions');
 
-		// Overlap reaction avatars when near the avatarLimit
-		if (flatParticipants.length > avatarLimit * 0.9) {
-			list.classList.add('rgh-reactions-near-limit');
-		}
+		list.style.gridTemplateColumns = `repeat(${columnCount}, ${100 / columnCount}%)`;
 	}
 }
 
