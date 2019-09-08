@@ -56,7 +56,7 @@ function add(): void {
 		const participantByReaction = [...list.children as HTMLCollectionOf<HTMLElement>].map(getParticipants);
 
 		for (const flatParticipants of participantByReaction) {
-			for (const { container, username, src } of flatParticipants.slice(0, avatarTotalCount)) {
+			for (const {container, username, src} of flatParticipants.slice(0, avatarTotalCount)) {
 				container.append(
 					<a>
 						<img src={src} />
