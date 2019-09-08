@@ -1,10 +1,8 @@
 .rgh-reactions .comment-reactions-options {
-	margin-bottom: -1px;
-	background: transparent;
 	display: grid;
 	grid-template-columns: repeat(8, 25%);
-	width: 100%;
-	justify-content: stretch;
+	margin-bottom: -1px;
+	background: transparent;
 }
 
 .rgh-reactions .reaction-summary-item {
