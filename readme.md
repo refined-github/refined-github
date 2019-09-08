@@ -345,6 +345,7 @@ See the [contribution guide](contributing.md) and join the [contributors](https:
 - [Awesome browser extensions for GitHub](https://github.com/stefanbuck/awesome-browser-extensions-for-github) - Awesome list
 - [Octo Linker](https://github.com/octo-linker/chrome-extension/) - Navigate across files and packages
 - [Notifier for GitHub](https://github.com/sindresorhus/notifier-for-github-chrome) - Shows your notification unread count
+- [Mottie's Userscripts](https://github.com/Mottie/GitHub-userscripts) - Countless features to improve GitHub granularly
 - [Contributors on GitHub](https://github.com/hzoo/contributors-on-github) - Shows stats about contributors
 - [Hide Files on GitHub](https://github.com/sindresorhus/hide-files-on-github) - Hides dotfiles from the file browser
 - [GitHub Issue Link Status](https://github.com/fregante/github-issue-link-status) - Colorize issue and PR links to see their status (open, closed, merged)
