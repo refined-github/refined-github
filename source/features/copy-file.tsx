@@ -3,9 +3,10 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import copyToClipboard from 'copy-text-to-clipboard';
 import features from '../libs/features';
+import {groupSiblings} from '../libs/group-buttons';
 
 function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): void {
-	const file = button.closest('.Box');
+	const file = button.closest('.Box, .js-gist-file-update-container');
 	const content = select.all('.blob-code-inner', file!)
 		.map(({innerText: line}) => line === '\n' ? '' : line) // Must be `.innerText`
 		.join('\n');
@@ -13,8 +14,8 @@ function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement
 }
 
 function renderButton(): void {
-	for (const blameButton of select.all('[data-hotkey="b"]')) {
-		blameButton
+	for (const button of select.all('.file-actions .btn, [data-hotkey="b"]')) {
+		button
 			.parentElement! // `BtnGroup`
 			.prepend(
 				<button
@@ -25,6 +26,7 @@ function renderButton(): void {
 					Copy
 				</button>
 			);
+		groupSiblings(button);
 	}
 }
 

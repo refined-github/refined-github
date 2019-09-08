@@ -15,6 +15,7 @@ import './features/hide-readme-header.css';
 import './features/hide-obvious-tooltips.css';
 import './features/clean-discussions.css';
 import './features/sticky-discussion-list-toolbar.css';
+import './features/deemphasize-unrelated-commit-references.css';
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
 
@@ -139,6 +140,7 @@ import './features/revert-file';
 import './features/hidden-review-comments-indicator';
 import './features/reload-failed-proxied-images';
 import './features/clean-rich-text-editor';
+import './features/highlight-collaborators-in-lists';
 
 // Add global for easier debugging
 (window as any).select = select;
