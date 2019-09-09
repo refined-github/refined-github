@@ -6,7 +6,9 @@ import {timerIntervalometer} from 'intervalometer';
 import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 
-const approximateAvatarCount = 16; // Each row takes about as much as 16 avatars.
+const avatarRowLimit = 16;
+
+const isFirefox = navigator.userAgent.includes('Firefox/');
 
 type Participant = {
 	container: HTMLElement;
@@ -49,24 +51,20 @@ function getParticipants(container: HTMLElement): Participant[] {
 
 function add(): void {
 	for (const list of select.all('.has-reactions:not(.rgh-reactions) .comment-reactions-options')) {
-		const rows = list.children.length >= 4 ? 2 : 1;
-		const columnCount = Math.ceil(list.children.length / rows);
-		const avatarTotalCount = Math.ceil(approximateAvatarCount / columnCount);
-
 		const participantByReaction = [...list.children as HTMLCollectionOf<HTMLElement>].map(getParticipants);
+		const participantsCount = participantByReaction.map(a => a.length).reduce((a, b) => a + b);
+		const rows = list.children.length >= 4 && participantsCount > 10 ? 2 : 1;
+		const columnCount = Math.ceil(list.children.length / rows);
+		const avatarReactionLimit = Math.ceil(avatarRowLimit / columnCount);
 
-		for (const flatParticipants of participantByReaction) {
-			for (const {container, username, src} of flatParticipants.slice(0, avatarTotalCount)) {
+		for (const participants of participantByReaction) {
+			for (const {container, username, src} of participants.slice(0, avatarReactionLimit)) {
 				container.append(
-					<a>
+					// Firefox doesn't handle links inside buttons correctly
+					<a href={isFirefox ? undefined : `/${username}`}>
 						<img src={src} />
 					</a>
 				);
-
-				// Without this, Firefox will follow the link instead of submitting the reaction button
-				if (!navigator.userAgent.includes('Firefox/')) {
-					(container.lastElementChild as HTMLAnchorElement).href = `/${username}`;
-				}
 			}
 		}
 

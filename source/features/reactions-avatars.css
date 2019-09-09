@@ -50,7 +50,7 @@
 
 /* No border below the "Add your reaction" button. */
 .rgh-reactions .reaction-popover-container .reaction-summary-item {
-	border-bottom: 0 none;
+	border-bottom: none;
 }
 
 /* Avoid wrapping */
