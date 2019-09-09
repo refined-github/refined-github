@@ -6,7 +6,7 @@ import {timerIntervalometer} from 'intervalometer';
 import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 
-const avatarRowLimit = 16;
+const avatarRowLimit = 20;
 
 const isFirefox = navigator.userAgent.includes('Firefox/');
 
@@ -55,7 +55,7 @@ function add(): void {
 		const participantsCount = participantByReaction.map(a => a.length).reduce((a, b) => a + b);
 		const rows = list.children.length >= 4 && participantsCount > 10 ? 2 : 1;
 		const columnCount = Math.ceil(list.children.length / rows);
-		const avatarReactionLimit = Math.ceil(avatarRowLimit / columnCount);
+		const avatarReactionLimit = Math.round(avatarRowLimit / columnCount) - 1;
 
 		for (const participants of participantByReaction) {
 			for (const {container, username, src} of participants.slice(0, avatarReactionLimit)) {
