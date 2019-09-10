@@ -1,0 +1,14 @@
+.copy-code-block {
+	color: #6a737d !important;
+	display: none !important;
+	padding-left: 5px !important;
+}
+
+code:hover + .copy-code-block,
+.copy-code-block:hover {
+	display: inline-block !important;
+}
+
+.copy-code-block:hover {
+	color: #0366d6 !important;
+}
