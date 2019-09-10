@@ -31,7 +31,7 @@ async function getAssetsForTag(tags: string[]): Promise<Tag> {
 
 	const assets: Tag = {};
 	for (const [tag, release] of Object.entries(repository)) {
-		assets[tag] = (release as any).releaseAssets.nodes;
+		assets[tag] = (release as AnyObject).releaseAssets.nodes;
 	}
 
 	return assets;

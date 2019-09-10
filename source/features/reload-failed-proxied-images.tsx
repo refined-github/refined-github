@@ -1,15 +1,15 @@
 import delay from 'delay';
-import delegate from 'delegate-it';
+import delegate, {DelegateEvent} from 'delegate-it';
 import loadImage from 'image-promise';
 import features from '../libs/features';
 
-async function handleErroredImage({target}: any): Promise<void> {
+async function handleErroredImage({delegateTarget}: DelegateEvent<ErrorEvent, HTMLImageElement>): Promise<void> {
 	await delay(5000);
 	try {
 		// A clone image retries downloading
 		// `loadImage` awaits it
 		// If successfully loaded, the failed image will be replaced.
-		target.replaceWith(await loadImage(target.cloneNode() as HTMLImageElement));
+		delegateTarget.replaceWith(await loadImage(delegateTarget.cloneNode() as HTMLImageElement));
 	} catch {}
 }
 

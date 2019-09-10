@@ -75,8 +75,7 @@ async function commitFileContent(menuItem: Element, content: string): Promise<vo
 async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
 	const menuItem = event.currentTarget;
 	// Allow only one click
-	// TODO: change JSX event types to be plain browser events
-	menuItem.removeEventListener('click', handleRevertFileClick as any);
+	menuItem.removeEventListener('click', handleRevertFileClick as unknown as EventListener);
 	menuItem.textContent = 'Reverting…';
 	event.preventDefault();
 	event.stopPropagation();
