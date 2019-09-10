@@ -11,21 +11,14 @@ function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement
 	}
 }
 
-function renderButton(): void {
+function init(): void {
 	for (const codeBlock of select.all('code')) {
-		console.log(codeBlock);
 		codeBlock
 			.after(
 				<button className="copy-code-block btn-link" aria-label="Copy the code block" onClick={handleClick}>
 					{clippy()}
 				</button>
 			);
-	}
-}
-
-function init(): void {
-	if (select.exists('code')) {
-		renderButton();
 	}
 }
 
