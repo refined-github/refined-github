@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import copyToClipboard from 'copy-text-to-clipboard';
 import features from '../libs/features';
-import { clippy } from '../libs/icons';
+import {clippy} from '../libs/icons';
 
 function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): void {
 	if (button.previousSibling && button.previousSibling.textContent) {
@@ -16,9 +16,9 @@ function renderButton(): void {
 		console.log(codeBlock);
 		codeBlock
 			.after(
-              <button className="copy-code-block btn-link" aria-label="Copy the code block" onClick={handleClick}>
-				  {clippy()}
-              </button>
+				<button className="copy-code-block btn-link" aria-label="Copy the code block" onClick={handleClick}>
+					{clippy()}
+				</button>
 			);
 	}
 }
