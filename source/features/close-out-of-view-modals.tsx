@@ -1,4 +1,5 @@
 import delegate from 'delegate-it';
+import select from 'select-dom';
 import features from '../libs/features';
 
 const observer = new IntersectionObserver(([{intersectionRatio, target}]) => {
@@ -13,7 +14,7 @@ function init(): void {
 	// so the selector is inverted
 	delegate('.details-overlay:not([open]) > summary', 'click', event => {
 		// What comes after <summary> is the dropdown
-		observer.observe(event.delegateTarget.nextElementSibling!);
+		observer.observe(select('.dropdown-menu', event.delegateTarget.parentElement!)!);
 	});
 }
 
