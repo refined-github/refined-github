@@ -143,4 +143,5 @@ import './features/clean-rich-text-editor';
 import './features/highlight-collaborators-in-lists';
 
 // Add global for easier debugging
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 (window as any).select = select;

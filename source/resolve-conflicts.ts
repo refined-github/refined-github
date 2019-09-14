@@ -9,7 +9,7 @@ declare namespace CodeMirror {
 	}
 }
 
-const editor: CodeMirrorInstance = document.querySelector<any>('.CodeMirror').CodeMirror;
+const editor = document.querySelector<Element & {CodeMirror: CodeMirrorInstance}>('.CodeMirror')!.CodeMirror;
 
 // Event fired when each file is loaded
 editor.on('swapDoc', () => setTimeout(addWidget, 1));
