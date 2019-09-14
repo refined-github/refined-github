@@ -4,7 +4,7 @@ import features from '../libs/features';
 
 const expanderSelector = '.js-expand.directional-expander';
 
-// When diff table's childlist changes, select and click expand button to load more lines
+// Waits for the next loaded diff part and clicks on any additional "Expand" buttons it finds
 const clickOnAutoexpandObserver = new MutationObserver(mutations => {
 	for (const mutation of mutations) {
 		const btn = select(expanderSelector, mutation.target as HTMLElement);
@@ -19,7 +19,7 @@ function unfold(event: DelegateEvent<MouseEvent>): void {
 		return;
 	}
 
-	const table = (event.target as Element).closest('.diff-table > tbody');
+	const table = (event.target as Element).closest('.diff-table > tbody')!;
 
 	if (table) {
 		clickOnAutoexpandObserver.observe(table, {childList: true});
@@ -27,13 +27,12 @@ function unfold(event: DelegateEvent<MouseEvent>): void {
 }
 
 function init(): void {
-	// Add alt-click listener to expand buttons
 	delegate(expanderSelector, 'click', unfold);
 }
 
 features.add({
 	id: __featureName__,
-	description: 'Unfolds all files when user alt-clicks on any expand button when viewing PR or commit.',
+	description: 'Expands the entire file when you alt-click on any "Expand code" button in diffs.',
 	screenshot: '',
 	include: [
 		features.isPRCommit,
