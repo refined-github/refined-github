@@ -1,68 +1,77 @@
+import select from 'select-dom';
+import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 
-// Chain clicking on expand buttons by observing mutations of the corresponding .diff-table element
-function unfold(): void {
-	document.querySelectorAll('.diff-table').forEach(element => {
-		function callback(): void {
-			const btn: HTMLElement = element.querySelector(
-				'.js-expand.directional-expander.single-expander'
-			) as HTMLElement;
+// When diff table's childlist changes, select and click expand button to load more lines
+const clickOnAutoexpandObserver = new MutationObserver(mutations => {
+	for (const mutation of mutations) {
+		if (mutation.type === 'childList') {
+			const btn = select('.js-expand.directional-expander.single-expander', mutation.target as HTMLElement);
 			if (btn) {
 				btn.click();
 			}
 		}
+	}
+});
 
-		const observer = new MutationObserver(callback);
-		observer.observe(element, {childList: true, subtree: true});
-	});
+function clickOnAutoexpand(element: HTMLElement): void {
+	clickOnAutoexpandObserver.observe(element, {childList: true});
+}
 
-	document
-		.querySelectorAll('.js-expand.directional-expander.single-expander')
-		.forEach(element => (element as HTMLElement).click());
+function unfoldOnAltClick(event: DelegateEvent<MouseEvent>): void {
+	if (event.altKey) {
+		event.preventDefault();
+		unfold();
+	}
+}
+
+const addListenersObserver = new MutationObserver(mutations => {
+	for (const mutation of mutations) {
+		if (mutation.type === 'childList') {
+			delegate(
+				mutation.target as HTMLElement,
+				'.js-expand.directional-expander.single-expander',
+				'click',
+				unfoldOnAltClick
+			);
+		}
+	}
+});
+
+// When user clicks on expand button without alt, we need to add alt-click listeners to newly created buttons
+function addListenersOnExpand(element: HTMLElement): void {
+	addListenersObserver.observe(element, {childList: true});
+}
+
+function unfold(): void {
+	const diffTables = select.all('.diff-table > tbody');
+
+	for (const diffTable of diffTables) {
+		clickOnAutoexpand(diffTable);
+	}
+
+	const expandButtons = select.all('.js-expand.directional-expander.single-expander');
+	for (const button of expandButtons) {
+		button.click();
+	}
 }
 
 function init(): void {
-	// Add alt-click listener to all new expand button elements that are created when additional file lines are loaded
-	document.querySelectorAll('.diff-table').forEach(element => {
-		function callback(): void {
-			const btns = element.querySelectorAll(
-				'.js-expand.directional-expander.single-expander'
-			);
+	const diffTables = select.all('.diff-table > tbody');
 
-			if (btns.length > 0) {
-				btns.forEach(btn => {
-					btn.addEventListener('click', event => {
-						if ((event as MouseEvent).altKey) {
-							event.preventDefault();
-							unfold();
-						}
-					});
-				});
-			}
-		}
-
-		const observer = new MutationObserver(callback);
-		observer.observe(element, {childList: true, subtree: true});
-	});
+	for (const diffTable of diffTables) {
+		addListenersOnExpand(diffTable);
+	}
 
 	// Add alt-click listener to the initial expand buttons
-	document
-		.querySelectorAll('.js-expand.directional-expander.single-expander')
-		.forEach(element => {
-			element.addEventListener('click', event => {
-				if ((event as MouseEvent).altKey) {
-					event.preventDefault();
-					unfold();
-				}
-			});
-		});
+	delegate('.js-expand.directional-expander.single-expander', 'click', unfoldOnAltClick);
 }
 
 features.add({
 	id: __featureName__,
 	description: 'Unfolds all files when user alt-clicks on any expand button when viewing PR or commit.',
 	screenshot: '',
-	include: [features.isPRCommit, features.isSingleCommit],
+	include: [features.isPRCommit, features.isPRFiles, features.isSingleCommit],
 	load: features.onAjaxedPages,
 	init
 });
