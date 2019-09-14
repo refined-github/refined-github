@@ -141,6 +141,7 @@ import './features/hidden-review-comments-indicator';
 import './features/reload-failed-proxied-images';
 import './features/clean-rich-text-editor';
 import './features/highlight-collaborators-in-lists';
+
 import './features/expand-all-collapsed-code';
 // Add global for easier debugging
 (window as any).select = select;
