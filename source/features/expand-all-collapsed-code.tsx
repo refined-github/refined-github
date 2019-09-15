@@ -6,11 +6,17 @@ const expanderSelector = '.js-expand.directional-expander';
 
 // Waits for the next loaded diff part and clicks on any additional "Expand" buttons it finds
 const expandingCodeObserver = new MutationObserver(mutations => {
+	let found = false;
 	for (const mutation of mutations) {
 		const btn = select(expanderSelector, mutation.target as HTMLElement);
 		if (btn) {
+			found = true;
 			btn.click();
 		}
+	}
+
+	if (!found) {
+		expandingCodeObserver.disconnect();
 	}
 });
 
