@@ -88,26 +88,6 @@ export const groupBy = (iterable: Iterable<string>, grouper: (item: string) => s
 	return map;
 };
 
-// Concats arrays but does so like a zipper instead of appending them
-// [[0, 1, 2], [0, 1]] => [0, 0, 1, 1, 2]
-// Like lodash.zip
-export const flatZip = <T>(table: T[][], limit = Infinity): T[] => {
-	const maxColumns = Math.max(...table.map(row => row.length));
-	const zipped = [];
-	for (let col = 0; col < maxColumns; col++) {
-		for (const row of table) {
-			if (row[col]) {
-				zipped.push(row[col]);
-				if (zipped.length === limit) {
-					return zipped;
-				}
-			}
-		}
-	}
-
-	return zipped;
-};
-
 export function getOP(): string {
 	if (isPR()) {
 		const titleRegex = /^(.+) by (\S+) · Pull Request #(\d+)/;
