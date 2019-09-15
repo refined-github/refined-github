@@ -17,12 +17,27 @@
 }
 
 /*
-Take full available width for extra buttons on Releases page.
-It excludes anchor tags which are `New Issue` and `New Pull Request` on
-issues and pull-requests tab respectively.
+On Labels page
+search box now on the same side with other buttons
+push `New label` button to the right
+On Releases page
+take full available width for extra buttons
+On Issues and Pull requests page
+push `New issue` and `New pull request` button to the right
 */
 .subnav > :first-child:not(a) {
-	flex-grow: 1;
+	flex-grow: 0;
+	margin-right: auto;
+}
+
+/*
+On Issues and Pull requests page
+remove flex-grow on `New issue` and `New pull request` button
+On Labels page
+remove flex-grow on `New label` button
+*/
+.subnav:nth-last-child(1) {
+    flex-grow: 0;
 }
 
 /* Reset width of search field in global lists */
