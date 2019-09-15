@@ -33,11 +33,9 @@ push `New issue` and `New pull request` button to the right
 /*
 On Issues and Pull requests page
 remove flex-grow on `New issue` and `New pull request` button
-On Labels page
-remove flex-grow on `New label` button
 */
 .subnav:nth-last-child(1) {
-    flex-grow: 0;
+	flex-grow: 0;
 }
 
 /* Reset width of search field in global lists */
