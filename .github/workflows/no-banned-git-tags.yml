@@ -4,15 +4,15 @@ on:
   push:
     tags:
       - hotfix
-
 jobs:
-  build:
-
+  delete:
     runs-on: ubuntu-latest
-    
     steps:
-    - uses: actions/checkout@v1
+    - name: Checkout repo
+      uses: actions/checkout@v1
     - name: Delete extra tag
-      run: hub push --delete origin hotfix
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git remote set-url origin "https://sindresorhus:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
+        git push --delete origin hotfix
