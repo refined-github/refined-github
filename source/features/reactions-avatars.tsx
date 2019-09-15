@@ -70,7 +70,7 @@ function add(): void {
 
 		list.closest('.has-reactions')!.classList.add('rgh-reactions');
 
-		list.style.gridTemplateColumns = `repeat(${columnCount}, ${100 / columnCount}%)`;
+		list.style.gridTemplateColumns = `repeat(${columnCount}, 1fr)`;
 	}
 }
 
