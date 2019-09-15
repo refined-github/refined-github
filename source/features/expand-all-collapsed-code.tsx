@@ -5,7 +5,7 @@ import features from '../libs/features';
 const expanderSelector = '.js-expand.directional-expander';
 
 // Waits for the next loaded diff part and clicks on any additional "Expand" buttons it finds
-const clickOnAutoexpandObserver = new MutationObserver(mutations => {
+const expandingCodeObserver = new MutationObserver(mutations => {
 	for (const mutation of mutations) {
 		const btn = select(expanderSelector, mutation.target as HTMLElement);
 		if (btn) {
@@ -14,18 +14,19 @@ const clickOnAutoexpandObserver = new MutationObserver(mutations => {
 	}
 });
 
-function unfold(event: DelegateEvent<MouseEvent>): void {
+function handleAltClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	if (!event.altKey) {
 		return;
 	}
 
-	const table = (event.target as Element).closest('.diff-table > tbody')!;
-
-	clickOnAutoexpandObserver.observe(table, {childList: true});
+	expandingCodeObserver.observe(
+		event.delegateTarget.closest('.diff-table > tbody')!,
+		{childList: true}
+	);
 }
 
 function init(): void {
-	delegate(expanderSelector, 'click', unfold);
+	delegate(expanderSelector, 'click', handleAltClick);
 }
 
 features.add({
