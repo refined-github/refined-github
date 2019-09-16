@@ -38,6 +38,22 @@ remove flex-grow on `New issue` and `New pull request` button
 	flex-grow: 0;
 }
 
+/*
+On `Issues` and `Pull Requests` page
+expand search field width
+*/
+.d-flex[role="search"] {
+	flex-grow: 1;
+}
+
+/*
+On `Issues` and `Pull Requests` page
+add margin-left to `New Issue` and `New Pull Request` button
+*/
+.subnav > .btn-primary {
+	margin-left: 20px;
+}
+
 /* Reset width of search field in global lists */
 .page-content .subnav-search-input-wide {
 	width: auto;
