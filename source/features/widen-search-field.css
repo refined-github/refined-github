@@ -1,38 +1,44 @@
+/**
+This feature has to work on:
+https: //github.com/issues
+https: //github.com/pulls
+https: //github.com/sindresorhus/refined-github/issues
+https: //github.com/sindresorhus/refined-github/pulls
+https: //github.com/sindresorhus/refined-github/labels
+https: //github.com/sindresorhus/refined-github/milestones
+
 /* Expand issue search field width */
+.repository-content [role='search'], /* Repo issue/PR lists */
+.subnav-links + .float-right, /* Global search pages */
 .subnav-search,
-.subnav-search-input,
-.subnav [role='search'],
-.page-content .subnav > .float-right { /* Global search field container */
+.subnav-search text-expander, /* Labels pages*/
+.subnav-search-input {
 	flex-grow: 1;
 	display: flex;
-	font: none !important;
 	align-items: flex-start;
 }
 
-/* On Releases page, add margin between buttons */
-.subnav .float-right {
-	order: 100;
-	margin-left: 20px;
-}
-
-/* On Releases page, use flex to align buttons */
+/* Global search, labels: enable field expansion */
+/* Releases: place Releases/Tags selector on the same line as `Draft new release` (GitHub bug) */
 .subnav {
 	display: flex;
 }
 
-/* On Releases page, push extra buttons to the right. */
-.subnav > :first-child:not(a) {
-	margin-right: auto;
-}
-
-/* On `Issues` and `Pull Requests` page, expand search field width */
-.d-flex[role='search'] {
-	flex-grow: 1;
-}
-
-/* On `Issues` and `Pull Requests` page, add margin-left to `New Issue` and `New Pull Request` button */
-.subnav > .btn-primary {
+/* Space out buttons */
+.subnav > .float-right, /* On Releases page */
+.subnav > .btn-primary { /* On `Issues` and `Pull Requests` pages */
 	margin-left: 20px;
+}
+
+/* Push nav buttons to the right */
+.subnav .d-flex.flex-md-row.flex-justify-between.flex-md-items-center + div, /* Tags: Draft new release, Edit tag, Delete */
+.subnav > .float-right {  /* Labels, Milestones: "New ****" button */
+	order: 100;
+}
+
+/* Releases: push nav buttons to the right */
+.subnav .d-flex.flex-md-row.flex-justify-between.flex-md-items-center {
+	margin-right: auto;
 }
 
 /* Reset width of search field in global lists */
