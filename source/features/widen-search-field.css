@@ -42,7 +42,7 @@ remove flex-grow on `New issue` and `New pull request` button
 On `Issues` and `Pull Requests` page
 expand search field width
 */
-.d-flex[role="search"] {
+.d-flex[role='search'] {
 	flex-grow: 1;
 }
 
