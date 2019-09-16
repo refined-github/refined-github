@@ -1,5 +1,4 @@
 /* Expand issue search field width */
-.subnav,
 .subnav-search,
 .subnav-search-input,
 .subnav [role='search'],
@@ -10,25 +9,20 @@
 	align-items: flex-start;
 }
 
-/* Move `New issue` button back to the right */
+/* On Releases page, add margin between buttons */
 .subnav .float-right {
 	order: 100;
 	margin-left: 20px;
 }
 
-/*
-On Labels page, bring search field to the left, and push `New label` button to the right
-On Releases page, push extra buttons to the right.
-On Issues and Pull requests page, push `New issue` and `New pull request` button to the right
-*/
-.subnav > :first-child:not(a) {
-	flex-grow: 0;
-	margin-right: auto;
+/* On Releases page, use flex to align buttons */
+.subnav {
+	display: flex;
 }
 
-/* On Issues and Pull requests page, remove flex-grow on `New issue` and `New pull request` button */
-.subnav:nth-last-child(1) {
-	flex-grow: 0;
+/* On Releases page, push extra buttons to the right. */
+.subnav > :first-child:not(a) {
+	margin-right: auto;
 }
 
 /* On `Issues` and `Pull Requests` page, expand search field width */
