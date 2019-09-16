@@ -1,17 +1,22 @@
-/**
+/*
 This feature has to work on:
-https: //github.com/issues
-https: //github.com/pulls
-https: //github.com/sindresorhus/refined-github/issues
-https: //github.com/sindresorhus/refined-github/pulls
-https: //github.com/sindresorhus/refined-github/labels
-https: //github.com/sindresorhus/refined-github/milestones
+https://github.com/issues
+https://github.com/pulls
+https://github.com/sindresorhus/refined-github/issues
+https://github.com/sindresorhus/refined-github/pulls
+
+But not affect these pages, because they also use `.subnav` but don't benefit from a larger field
+https://github.com/sindresorhus/refined-github/releases
+https://github.com/sindresorhus/refined-github/tags
+https://github.com/sindresorhus/refined-github/labels
+https://github.com/sindresorhus/refined-github/milestones
+https://github.com/sindresorhus/refined-github/releases/tag/19.9.16
+*/
 
 /* Expand issue search field width */
 .repository-content [role='search'], /* Repo issue/PR lists */
 .subnav-links + .float-right, /* Global search pages */
 .subnav-search,
-.subnav-search text-expander, /* Labels pages*/
 .subnav-search-input {
 	flex-grow: 1;
 	display: flex;
@@ -19,8 +24,7 @@ https: //github.com/sindresorhus/refined-github/milestones
 }
 
 /* Global search, labels: enable field expansion */
-/* Releases: place Releases/Tags selector on the same line as `Draft new release` (GitHub bug) */
-.subnav {
+.page-content > .subnav:first-child {
 	display: flex;
 }
 
@@ -30,15 +34,9 @@ https: //github.com/sindresorhus/refined-github/milestones
 	margin-left: 20px;
 }
 
-/* Push nav buttons to the right */
-.subnav .d-flex.flex-md-row.flex-justify-between.flex-md-items-center + div, /* Tags: Draft new release, Edit tag, Delete */
-.subnav > .float-right {  /* Labels, Milestones: "New ****" button */
-	order: 100;
-}
-
-/* Releases: push nav buttons to the right */
+/* Releases: place Releases/Tags selector on the same line as `Draft new release` (GitHub bug) */
 .subnav .d-flex.flex-md-row.flex-justify-between.flex-md-items-center {
-	margin-right: auto;
+	float: left;
 }
 
 /* Reset width of search field in global lists */
