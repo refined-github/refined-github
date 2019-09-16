@@ -6,7 +6,7 @@ import features from '../libs/features';
 const isGist = (link: HTMLAnchorElement): boolean =>
 	!link.pathname.includes('.') && // Exclude links to embed files
 	(
-		link.hostname.startsWith('gist.') ||
+		(link.hostname.startsWith('gist.') && link.pathname.includes('/', 1)) || // Exclude user links
 		link.pathname.startsWith('gist/')
 	);
 
@@ -38,7 +38,7 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 			);
 		}
 	} catch {
-		info.replaceWith(' (embed failed)');
+		info.remove();
 	}
 }
 
@@ -50,10 +50,14 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Embeds linked gists.',
+	description: 'Embeds linked gists. Not supported by Firefox.',
 	screenshot: 'https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.',
 	include: [
 		features.hasComments
+	],
+	exclude: [
+		// https://github.com/sindresorhus/refined-github/issues/2022
+		() => navigator.userAgent.includes('Firefox/')
 	],
 	load: features.onAjaxedPages,
 	init

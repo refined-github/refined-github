@@ -137,6 +137,8 @@ Thanks for contributing! 🦋🙌
 - [](# "swap-branches-on-compare") [Adds link to swap branches in the branch compare view.](https://user-images.githubusercontent.com/857700/42854438-821096f2-8a01-11e8-8752-76f7563b5e18.png)
 - [](# "linkify-branch-refs") [Linkifies branch references in "Quick PR" pages.](https://user-images.githubusercontent.com/1402241/30208043-fa1ceaec-94bb-11e7-9c32-feabcf7db296.png)
 - [](# "hide-zero-packages") [Hides the `Packages` tab in repositories if it’s empty.](https://user-images.githubusercontent.com/35382021/62426530-688ef780-b6d5-11e9-93f2-515110aed1eb.jpg)
+- [](# "reload-failed-proxied-images") [Retries downloading images that failed downloading due to GitHub limited proxying.](https://user-images.githubusercontent.com/14858959/64068746-21991100-cc45-11e9-844e-827f5ac9b51e.png)
+- [](# "forked-to") [Adds a shortcut to your forks next to the `Fork` button on the current repo.](https://user-images.githubusercontent.com/55841/64077281-17bbf000-cccf-11e9-9123-092063f65357.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -163,7 +165,7 @@ Thanks for contributing! 🦋🙌
 - [](# "comment-fields-keyboard-shortcuts") [Adds a shortcut to edit your last comment: <kbd>↑</kbd>.](https://github.com/sindresorhus/refined-github/pull/961) (Only works in the following comment field, if it’s empty.)
 - [](# "comment-fields-keyboard-shortcuts") [Wraps selected text when pressing one of Markdown symbols instead of replacing it:](https://user-images.githubusercontent.com/37769974/59958878-39c51500-94cb-11e9-910a-061bf8ca6575.gif) `[` <code>\`</code> `'` `"` `*` `~` `_`
 - [](# "minimize-upload-bar") [Reduces the upload bar to a small button.](https://user-images.githubusercontent.com/55841/59802383-3d994180-92e9-11e9-835d-60de67611c30.png)
-- [](# "clean-rich-text-editor") [Hides unnecessary buttons in the comment box toolbar](https://user-images.githubusercontent.com/1402241/53629083-a4fe8900-3c47-11e9-8211-bfe2d254ffcb.png) (each one has a keyboard shortcut).
+- [](# "clean-rich-text-editor") [Hides unnecessary comment field tooltips and toolbar items](https://user-images.githubusercontent.com/1402241/53629083-a4fe8900-3c47-11e9-8211-bfe2d254ffcb.png) (each one has a keyboard shortcut.)
 - [](# "monospace-textareas") Use a monospace font for all textareas.
 
 <!-- Refer to style guide above. Keep this message between sections. -->
@@ -191,6 +193,7 @@ Thanks for contributing! 🦋🙌
 - [](# "sticky-discussion-sidebar") [Makes the discussion sidebar sticky.](https://user-images.githubusercontent.com/10238474/62276723-5a2eaa80-b44d-11e9-810b-ff598d1c5c6a.gif)
 - [](# "sticky-discussion-list-toolbar") [Makes the discussion list’s filters toolbar sticky.](https://user-images.githubusercontent.com/380914/39878141-7632e61a-542c-11e8-9c66-74fcd3a134aa.gif)
 - [](# "highlight-own-issues-and-prs") [Highlights discussions opened by you.](https://user-images.githubusercontent.com/1402241/53065281-01560000-3506-11e9-9a51-0bdf69e20b4a.png)
+- [](# "highlight-collaborators-in-lists") [Highlights discussions opened by the current repo’s collaborators.](https://user-images.githubusercontent.com/55841/64478536-0a5ca500-d1aa-11e9-8284-a39114d37824.png)
 - [](# "align-issue-labels") [Aligns labels in lists to the left.](https://user-images.githubusercontent.com/1402241/28006237-070b8214-6581-11e7-94bc-2b01a007d00b.png)
 - [](# "sort-issues-by-update-time") 🔥 Changes the default sort order of discussions to `Recently updated`.
 - [](# "widen-search-field") [Widens the discussion search box.](https://user-images.githubusercontent.com/1402241/55069759-bceaf080-50bf-11e9-84d0-7707de2eb9e9.png)
@@ -199,6 +202,7 @@ Thanks for contributing! 🦋🙌
 - [](# "clean-sidebar") 🔥 [Hides empty sections (or just their "empty" label) in the discussion sidebar.](https://user-images.githubusercontent.com/1402241/57199809-20691780-6fb6-11e9-9672-1ad3f9e1b827.png)
 - [](# "clean-issue-filters") [Hides `Projects` and `Milestones` filters in discussion lists if they are empty.](https://user-images.githubusercontent.com/37769974/59083449-0ef88f80-8915-11e9-8296-68af1ddcf191.png)
 - [](# "cycle-lists-with-keyboard-shortcuts") [Allows the <kbd>↑</kbd> and <kbd>↓</kbd> keys to cycle "popover lists" (labels, milestones, etc).](https://user-images.githubusercontent.com/37769974/59158786-6fd2c400-8add-11e9-9db1-db80186fa6ea.gif)
+- [](# "toggle-everything-with-alt") [Adds a shortcut to toggle all similar items (minimized comments, deferred diffs, etc) at once: <kbd>alt</kbd> <kbd>click</kbd> on each button or checkbox.](https://user-images.githubusercontent.com/37769974/62208543-dcb75b80-b3b4-11e9-984f-ddb479ea149d.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -283,7 +287,7 @@ Thanks for contributing! 🦋🙌
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
-### Fixes for GitHub bugs
+### Fixes for GitHub shortcomings
 
 - [](# "indented-code-wrapping") 🔥 [Indents wrapped code correctly.](https://user-images.githubusercontent.com/37769974/60379474-0ba67e80-9a51-11e9-97f9-077d282e5bdb.png)
 - [](# "focus-confirmation-buttons") [Always focuses confirm buttons in custom modal boxes, like "Mark all as read".](https://user-images.githubusercontent.com/1402241/31700158-1499bdd8-b38d-11e7-9aba-77a0a4b6bf3c.png)
@@ -291,6 +295,7 @@ Thanks for contributing! 🦋🙌
 - [](# "hide-issue-list-autocomplete") [Removes the autocomplete on search fields.](https://user-images.githubusercontent.com/1402241/42991841-1f057e4e-8c07-11e8-909c-b051db7a2a03.png)
 - [](# "hide-obvious-tooltips") Removes tooltips from self-explanatory buttons.
 - [](# "recently-pushed-branches-enhancements") 🔥 [Moves the "Recently-pushed branches" widget to the header to avoid content jumps. Also adds it to more pages in the repo.](https://user-images.githubusercontent.com/1402241/56466173-da517700-643f-11e9-8eb5-9b20017fa613.gif)
+- [](# "deemphasize-unrelated-commit-references") [Makes it easier to tell apart commits added to the current PR versus plain commits that reference the PR.](https://user-images.githubusercontent.com/1402241/64478939-398b0a80-d1da-11e9-8c6a-bb98668cb78c.gif)
 - [](# "embed-gist-via-iframe") [Adds a menu item to embed a gist via `<iframe>`.](https://user-images.githubusercontent.com/44045911/63633382-6a1b6200-c67a-11e9-9038-aedd62e4f6a8.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
@@ -341,26 +346,21 @@ See the [contribution guide](contributing.md) and join the [contributors](https:
 - [Awesome browser extensions for GitHub](https://github.com/stefanbuck/awesome-browser-extensions-for-github) - Awesome list
 - [Octo Linker](https://github.com/octo-linker/chrome-extension/) - Navigate across files and packages
 - [Notifier for GitHub](https://github.com/sindresorhus/notifier-for-github-chrome) - Shows your notification unread count
+- [Mottie's Userscripts](https://github.com/Mottie/GitHub-userscripts) - Countless features to improve GitHub granularly
 - [Contributors on GitHub](https://github.com/hzoo/contributors-on-github) - Shows stats about contributors
 - [Hide Files on GitHub](https://github.com/sindresorhus/hide-files-on-github) - Hides dotfiles from the file browser
+- [GitHub Issue Link Status](https://github.com/fregante/github-issue-link-status) - Colorize issue and PR links to see their status (open, closed, merged)
 - [Twitter for GitHub](https://github.com/bevacqua/twitter-for-github) - Shows a user's Twitter handle on their profile page
 - [OctoEdit](https://github.com/DrewML/OctoEdit) - Markdown syntax highlighting in comments
+- [Notifications Preview for GitHub](https://github.com/tanmayrajani/notifications-preview-github) - See your notifications on hover on all pages
 - [GitHub Custom Tab Size](https://github.com/lukechilds/github-custom-tab-size) - Set custom tab size for code views *(Refined GitHub hard-codes it to 4)*
 - [Show All GitHub Issues](https://github.com/sindresorhus/show-all-github-issues) - Shows both Issues and Pull Requests in the Issues tab
-- [Notifications Preview for GitHub](https://github.com/tanmayrajani/notifications-preview-github) - See your notifications on hover on all pages
 - [Refined Twitter](https://github.com/sindresorhus/refined-twitter) - Improves Twitter
-- [GitHub Issue Link Status](https://github.com/fregante/github-issue-link-status) - Colorize issue and PR links to see their status (open, closed, merged)
 - [Friendly GitHub](https://github.com/Hermanya/friendly-github) - Make GitHub more social
-- [Sourcegraph](https://github.com/sourcegraph/browser-extensions) - Adds code intelligence to GitHub
-- [Potential changes for GitHub](https://github.com/dzhavat/potential-changes-for-github) - See which pull requests contain changes related to a file
+- [Sourcegraph](https://github.com/sourcegraph/sourcegraph/tree/master/browser) - Code search and navigation tool
 - [PR Monitor](https://github.com/fwouts/prmonitor) - Notifies you about incoming and outgoing PRs
 
 Want more? Here are some ideas you could develop!
 
 - [Format JS code blocks with Prettier](https://github.com/sindresorhus/module-requests/issues/99)
 - [Customize the font of code blocks](https://github.com/sindresorhus/module-requests/issues/97)
-
-
-## License
-
-MIT

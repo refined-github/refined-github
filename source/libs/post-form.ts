@@ -6,7 +6,7 @@ export default async function postForm(form: HTMLFormElement): Promise<Response>
 	const contentFetch = typeof window.content === 'object' ? window.content.fetch : window.fetch;
 
 	const response = await contentFetch(form.action, {
-		// `as` required until https://github.com/microsoft/TSJS-lib-generator/issues/741
+		// TODO: drop `as` after https://github.com/microsoft/TSJS-lib-generator/issues/741
 		body: new URLSearchParams(new FormData(form) as URLSearchParams),
 		method: 'POST',
 		headers: {

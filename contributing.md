@@ -64,9 +64,9 @@ features.add({
 	exclude: [
 		features.isOwnUserProfile
 	],
-	load: features.domReady, // Wait for dom-ready
-	// load: features.onAjaxedPages, // Or: Wait for dom-ready AND run on all ajaxed loads
-	// load: features.onNewComments, // Or: Wait for dom-ready AND run on all ajaxed loads AND watch for new comments
+	load: features.onDomReady, // Wait for DOM ready
+	// load: features.onAjaxedPages, // Or: Wait for DOM ready AND run on all AJAXed loads
+	// load: features.onNewComments, // Or: Wait for DOM ready AND run on all AJAXed loads AND watch for new comments
 	deinit, // Rarely needed
 	init
 });

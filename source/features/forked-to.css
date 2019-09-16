@@ -1,0 +1,14 @@
+.rgh-forked-button {
+	border-radius: unset;
+	margin-left: -1px;
+}
+
+/* Play nice with `hide-watch-and-fork-count` feature */
+.rgh-forked-to.rgh-hide-watch-and-fork-count .btn-with-count[title^='Fork your own'] {
+	border-bottom-right-radius: unset;
+	border-top-right-radius: unset;
+}
+.rgh-forked-to.rgh-hide-watch-and-fork-count .rgh-forked-button {
+	border-bottom-right-radius: 0.25em; /* Matches GitHub's default */
+	border-top-right-radius: 0.25em; /* Matches GitHub's default */
+}

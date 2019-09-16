@@ -9,11 +9,9 @@ const observer = new IntersectionObserver(([{intersectionRatio, target}]) => {
 });
 
 function init(): void {
-	// The `open` attribute is added after this handler is run,
-	// so the selector is inverted
-	delegate('.details-overlay:not([open]) > summary', 'click', event => {
-		// What comes after <summary> is the dropdown
-		observer.observe(event.delegateTarget.nextElementSibling!);
+	// The `open` attribute is added after this handler is run, so the selector is inverted
+	delegate('.details-overlay:not([open]) > summary', 'click', ({delegateTarget: summary}) => {
+		observer.observe(summary.parentElement!.querySelector('.dropdown-menu')!);
 	});
 }
 

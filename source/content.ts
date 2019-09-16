@@ -14,8 +14,8 @@ import './features/hide-tips.css';
 import './features/hide-readme-header.css';
 import './features/hide-obvious-tooltips.css';
 import './features/clean-discussions.css';
-import './features/clean-rich-text-editor.css';
 import './features/sticky-discussion-list-toolbar.css';
+import './features/deemphasize-unrelated-commit-references.css';
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
 
@@ -48,7 +48,7 @@ import './features/infinite-scroll';
 import './features/hide-empty-meta';
 import './features/remove-upload-files-button';
 import './features/shorten-links';
-import './features/linkify-urls-in-code';
+import './features/linkify-code';
 import './features/download-folder-button';
 import './features/linkify-branch-refs';
 import './features/batch-open-issues';
@@ -120,6 +120,7 @@ import './features/link-to-file-in-file-history';
 import './features/clean-sidebar';
 import './features/release-download-count';
 import './features/open-issue-to-latest-comment';
+import './features/toggle-everything-with-alt';
 import './features/limit-commit-title-length';
 import './features/highest-rated-comment';
 import './features/clean-issue-filters';
@@ -132,12 +133,16 @@ import './features/mark-files-as-viewed';
 import './features/edit-readme';
 import './features/list-prs-for-file';
 import './features/pr-branch-auto-delete';
+import './features/linkify-symbolic-links'; // Must be before show-whitespace
 import './features/show-whitespace';
-import './features/linkify-symbolic-links';
 import './features/hide-zero-packages';
 import './features/revert-file';
 import './features/hidden-review-comments-indicator';
+import './features/reload-failed-proxied-images';
+import './features/clean-rich-text-editor';
+import './features/highlight-collaborators-in-lists';
 import './features/embed-gist-via-iframe';
 
 // Add global for easier debugging
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 (window as any).select = select;

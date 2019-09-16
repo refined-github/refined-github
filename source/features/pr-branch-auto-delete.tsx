@@ -4,7 +4,7 @@ import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 
 function init(): void {
-	const [subscription] = delegate('#discussion_bucket', '.js-merge-commit-button', 'click', async () => {
+	const [subscription] = delegate('#discussion_bucket', '.js-merge-commit-button', 'click', () => {
 		subscription.destroy();
 
 		observeEl('.discussion-timeline-actions', (_, observer) => {
