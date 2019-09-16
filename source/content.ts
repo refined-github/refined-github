@@ -133,8 +133,8 @@ import './features/mark-files-as-viewed';
 import './features/edit-readme';
 import './features/list-prs-for-file';
 import './features/pr-branch-auto-delete';
+import './features/linkify-symbolic-links'; // Must be before show-whitespace
 import './features/show-whitespace';
-import './features/linkify-symbolic-links';
 import './features/hide-zero-packages';
 import './features/revert-file';
 import './features/hidden-review-comments-indicator';
