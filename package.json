@@ -61,8 +61,8 @@
 		"@types/mini-css-extract-plugin": "^0.8.0",
 		"@types/react": "^16.9.2",
 		"@types/terser-webpack-plugin": "^1.2.1",
-		"@typescript-eslint/eslint-plugin": "^1.13.0",
-		"@typescript-eslint/parser": "^1.13.0",
+		"@typescript-eslint/eslint-plugin": "^2.2.0",
+		"@typescript-eslint/parser": "^2.2.0",
 		"ava": "^2.3.0",
 		"chrome-webstore-upload-cli": "^1.2.0",
 		"copy-webpack-plugin": "^5.0.4",
@@ -70,7 +70,7 @@
 		"daily-version": "^0.12.0",
 		"dot-json": "^1.0.4",
 		"eslint": "^6.3.0",
-		"eslint-config-xo-typescript": "^0.16.0",
+		"eslint-config-xo-typescript": "^0.18.0",
 		"fork-ts-checker-webpack-plugin": "^1.5.0",
 		"jsdom": "^15.1.1",
 		"mini-css-extract-plugin": "^0.8.0",
@@ -83,7 +83,7 @@
 		"ts-loader": "^6.0.4",
 		"ts-node": "^8.3.0",
 		"type-fest": "^0.7.1",
-		"typescript": "^3.6.2",
+		"typescript": "^3.6.3",
 		"web-ext": "^3.1.1",
 		"web-ext-submit": "^3.1.1",
 		"webpack": "^4.39.3",
@@ -107,8 +107,8 @@
 		"rules": {
 			"no-alert": "off",
 			"import/no-unassigned-import": "off",
-			"import/no-unresolved": "warn",
-			"import/named": "warn"
+			"import/no-unresolved": "off",
+			"import/named": "off"
 		},
 		"overrides": [
 			{
@@ -117,6 +117,7 @@
 				"rules": {
 					"@typescript-eslint/no-misused-promises": "off",
 					"@typescript-eslint/promise-function-async": "off",
+					"@typescript-eslint/no-explicit-any": "error",
 					"@typescript-eslint/no-unused-vars": [
 						"error",
 						{
