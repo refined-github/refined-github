@@ -69,6 +69,9 @@ function add(): void {
 		}
 
 		list.closest('.has-reactions')!.classList.add('rgh-reactions');
+		if (rows > 1) {
+			list.closest('.has-reactions')!.classList.add('rgh-reactions-grid');
+		}
 
 		list.style.gridTemplateColumns = `repeat(${columnCount}, 1fr)`;
 	}

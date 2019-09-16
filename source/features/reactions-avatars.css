@@ -1,21 +1,33 @@
-.rgh-reactions .comment-reactions-options {
-	display: grid;
-	grid-template-columns: repeat(8, 25%);
+.rgh-reactions {
+	display: flex; /* Avoid wrapping */
+}
+
+.rgh-reactions.rgh-reactions-grid form {
+	width: 100%;
+}
+
+.rgh-reactions form .comment-reactions-options {
+	display: flex;
 	margin-bottom: -1px;
 	background: transparent;
 }
 
-.rgh-reactions .reaction-summary-item {
+.rgh-reactions.rgh-reactions-grid form .comment-reactions-options {
+	display: grid;
+	grid-template-columns: repeat(8, 25%);
+}
+
+.rgh-reactions form .comment-reactions-options .reaction-summary-item {
 	padding-right: 0.7em !important;
 	padding-left: 0.7em !important;
 	border-bottom: 1px solid #d1d5da;
 }
 
-.rgh-reactions .reaction-summary-item.user-has-reacted {
+.rgh-reactions form .comment-reactions-options .reaction-summary-item.user-has-reacted {
 	--background: #f2f8fa;
 }
 
-.rgh-reactions .reaction-summary-item a {
+.rgh-reactions form .comment-reactions-options .reaction-summary-item a {
 	display: inline-block;
 	width: 2em;
 	height: 2em;
@@ -29,20 +41,20 @@
 	transition: margin-left 0.2s;
 }
 
-.rgh-reactions .reaction-summary-item a:first-of-type {
+.rgh-reactions form .comment-reactions-options .reaction-summary-item a:first-of-type {
 	margin-left: 0.5em;
 }
 
-.review-comment .rgh-reactions .reaction-summary-item a {
+.review-comment .rgh-reactions form .comment-reactions-options .reaction-summary-item a {
 	font-size: 9px;
 }
 
-.discussion-post .rgh-reactions .reaction-summary-item a {
+.discussion-post .rgh-reactions form .comment-reactions-options .reaction-summary-item a {
 	margin-top: -1px;
 }
 
 /* This image will start at height:0 and will expand once loaded, covering the gray placeholder */
-.rgh-reactions .reaction-summary-item img {
+.rgh-reactions form .comment-reactions-options .reaction-summary-item img {
 	max-width: 100%;
 	border-radius: inherit;
 	background-color: var(--background);
@@ -51,13 +63,4 @@
 /* No border below the "Add your reaction" button. */
 .rgh-reactions .reaction-popover-container .reaction-summary-item {
 	border-bottom: none;
-}
-
-/* Avoid wrapping */
-.rgh-reactions.has-reactions {
-	display: flex;
-}
-
-.rgh-reactions.has-reactions form {
-	width: 100%;
 }
