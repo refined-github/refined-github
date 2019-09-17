@@ -10,5 +10,5 @@ jobs:
     - run: npm test
     - uses: actions/upload-artifact@v1
       with:
-        name: refined-github.zip
+        name: refined-github
         path: distribution
