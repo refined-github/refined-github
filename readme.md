@@ -231,7 +231,6 @@ Thanks for contributing! 🦋🙌
 - [](# "warn-pr-from-master") [Warns you when creating a pull request from the default branch, as it’s an anti-pattern.](https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png)
 - [](# "warning-for-disallow-edits") [Warns you when unchecking `Allow edits from maintainers`, as it’s maintainer-hostile.](https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif)
 - [](# "pull-request-hotkey") Adds keyboard shortcuts to cycle through PR tabs: <kbd>g</kbd> <kbd>←</kbd> and <kbd>g</kbd> <kbd>→</kbd>, or <kbd>g</kbd> <kbd>1</kbd>, <kbd>g</kbd> <kbd>2</kbd>, <kbd>g</kbd> <kbd>3</kbd> and <kbd>g</kbd> <kbd>4</kbd>.
-- [](# "mark-files-as-viewed") [Marks all files as "viewed" when approving a PR.](https://user-images.githubusercontent.com/11782/60969312-8740df00-a31f-11e9-8e34-d1f0c1a871aa.gif)
 - [](# "pr-branch-auto-delete") Automatically deletes the branch right after merging a PR, if possible.
 - [](# "revert-file") 🔥 [Adds button to revert all the changes to a file in a PR.](https://user-images.githubusercontent.com/1402241/62826118-73b7bb00-bbe0-11e9-9449-2dd64c469bb9.gif)
 
