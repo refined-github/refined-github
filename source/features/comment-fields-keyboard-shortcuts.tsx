@@ -13,6 +13,9 @@ export function listenToCommentFields(callback: DelegateEventHandler<KeyboardEve
 		}
 
 		callback(event);
+	}, {
+		// Adds support for `esc` key; GitHub seems to use `stopPropagation` on it
+		capture: true
 	});
 }
 
