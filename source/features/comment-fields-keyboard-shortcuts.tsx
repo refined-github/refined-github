@@ -1,22 +1,8 @@
 import select from 'select-dom';
 import delegate, {DelegateEvent, DelegateEventHandler} from 'delegate-it';
 import features from '../libs/features';
+import blurAccessibly from '../libs/blur-field-accessibly';
 
-
-// Element.blur() will reset the tab focus to the start of the document.
-// This places it back next to the blurred field
-export function blurAccessibly(field: HTMLElement): void {
-	field.blur();
-
-	const range = new Range();
-	const selection = getSelection()!;
-	const focusHolder = new Text();
-	field.after(focusHolder);
-	range.selectNodeContents(focusHolder);
-	selection.removeAllRanges();
-	selection.addRange(range);
-	focusHolder.remove();
-}
 export function listenToCommentFields(callback: DelegateEventHandler<KeyboardEvent, HTMLTextAreaElement>) {
 	delegate<HTMLTextAreaElement, KeyboardEvent>('.js-comment-field, #commit-description-textarea', 'keydown', event => {
 		const field = event.delegateTarget;
