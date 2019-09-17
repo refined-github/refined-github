@@ -28,6 +28,8 @@ import './features/remove-projects-tab';
 import './features/remove-checks-tab';
 import './features/focus-confirmation-buttons';
 import './features/comment-fields-keyboard-shortcuts';
+import './features/one-key-formatting';
+import './features/tab-to-indent';
 import './features/hide-navigation-hover-highlight';
 import './features/monospace-textareas';
 import './features/selection-in-new-tab';
