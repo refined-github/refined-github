@@ -4,7 +4,7 @@ import features from '../libs/features';
 import {getRepoURL, getUsername} from '../libs/utils';
 import fetchDom from '../libs/fetch-dom';
 
-async function init(): Promise<false | void> {
+async function highlightCollaborators(): Promise<false | void> {
 	const authors = select.all('.js-issue-row [data-hovercard-type="user"]');
 	if (authors.length === 0) {
 		return false;
@@ -16,13 +16,17 @@ async function init(): Promise<false | void> {
 	});
 
 	for (const author of authors) {
-		const username = author.textContent!.trim();
-		if (collaborators.includes(username)) {
+		if (collaborators.includes(author.textContent!.trim())) {
 			author.classList.add('rgh-collaborator');
-			if (username === getUsername()) {
-				author.style.fontWeight = 'bold';
-			}
 		}
+	}
+}
+
+function highlightSelf(): void {
+	// "Opened by {user}" and "Created by {user}"
+	for (const author of select.all(`.opened-by a[title$="ed by ${CSS.escape(getUsername())}"]`)) {
+		author.classList.add('rgh-collaborator');
+		author.style.fontStyle = 'italic';
 	}
 }
 
@@ -31,8 +35,20 @@ features.add({
 	description: 'Highlights discussions opened by you or the current repo’s collaborators.',
 	screenshot: 'https://user-images.githubusercontent.com/55841/64478536-0a5ca500-d1aa-11e9-8284-a39114d37824.png',
 	include: [
+		features.isRepoDiscussionList
+	],
+	load: features.onAjaxedPages,
+	init: highlightCollaborators
+});
+
+features.add({
+	id: __featureName__,
+	description: '',
+	screenshot: false,
+	include: [
 		features.isDiscussionList
 	],
 	load: features.onAjaxedPages,
-	init
+	init: highlightSelf
 });
+
