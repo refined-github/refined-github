@@ -1,4 +1,4 @@
-import './highlight-collaborators-in-lists.css';
+import './highlight-collaborators-and-own-discussions.css';
 import select from 'select-dom';
 import features from '../libs/features';
 import {getRepoURL, getUsername} from '../libs/utils';
@@ -33,7 +33,7 @@ function highlightSelf(): void {
 features.add({
 	id: __featureName__,
 	description: 'Highlights discussions opened by you or the current repo’s collaborators.',
-	screenshot: 'https://user-images.githubusercontent.com/55841/64478536-0a5ca500-d1aa-11e9-8284-a39114d37824.png',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/65013882-03225d80-d947-11e9-8eb8-5507bc1fc14b.png',
 	include: [
 		features.isRepoDiscussionList
 	],
