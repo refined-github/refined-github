@@ -8,7 +8,7 @@ jobs:
     - uses: actions/setup-node@v1
     - run: npm ci
     - run: npm test
-    - uses: actions/upload-artifact@master
+    - uses: actions/upload-artifact@v1
       with:
-        name: refined-github
+        name: refined-github.zip
         path: distribution
