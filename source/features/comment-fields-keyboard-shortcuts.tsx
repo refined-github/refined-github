@@ -3,7 +3,7 @@ import delegate, {DelegateEvent, DelegateEventHandler} from 'delegate-it';
 import features from '../libs/features';
 import blurAccessibly from '../libs/blur-field-accessibly';
 
-export function listenToCommentFields(callback: DelegateEventHandler<KeyboardEvent, HTMLTextAreaElement>) {
+export function listenToCommentFields(callback: DelegateEventHandler<KeyboardEvent, HTMLTextAreaElement>): void {
 	delegate<HTMLTextAreaElement, KeyboardEvent>('.js-comment-field, #commit-description-textarea', 'keydown', event => {
 		const field = event.delegateTarget;
 
@@ -80,7 +80,7 @@ features.add({
 	screenshot: false,
 	shortcuts: {
 		'↑': 'Edit your last comment',
-		'esc': 'Unfocuses comment field'
+		esc: 'Unfocuses comment field'
 	},
 	init
 });
