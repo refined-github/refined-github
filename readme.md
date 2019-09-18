@@ -157,13 +157,13 @@ Thanks for contributing! 🦋🙌
 
 ### Writing comments
 
-- [](# "comment-fields-keyboard-shortcuts") 🔥 Enables the <kbd>tab</kbd> key for indentation in comment fields.
+- [](# "tab-to-indent") 🔥 [Enables the <kbd>tab</kbd> key for indentation in comment fields.](https://user-images.githubusercontent.com/1402241/33802977-beb8497c-ddbf-11e7-899c-698d89298de4.gif)
 - [](# "submit-review-as-single-comment") [Adds a button to submit a single PR comment if you mistakenly started a new review.](https://user-images.githubusercontent.com/1402241/60331761-f6394200-99c7-11e9-81c2-c671cba9602a.gif)
 - [](# "collapsible-content-button") [Adds a button to insert collapsible content (via `<details>`).](https://user-images.githubusercontent.com/1402241/53678019-0c721280-3cf4-11e9-9c24-4d11a697f67c.png)
 - [](# "fit-textareas") 🔥 [Auto-resizes comment fields to fit their content and no longer show scroll bars.](https://user-images.githubusercontent.com/1402241/54336211-66fd5e00-4666-11e9-9c5e-111fccab004d.gif)
 - [](# "edit-comments-faster") [Moves the `Edit comment` button out of the `...` dropdown.](https://user-images.githubusercontent.com/1402241/54864831-92372a00-4d97-11e9-8c29-efba2dde1baa.png)
 - [](# "comment-fields-keyboard-shortcuts") [Adds a shortcut to edit your last comment: <kbd>↑</kbd>.](https://github.com/sindresorhus/refined-github/pull/961) (Only works in the following comment field, if it’s empty.)
-- [](# "comment-fields-keyboard-shortcuts") [Wraps selected text when pressing one of Markdown symbols instead of replacing it:](https://user-images.githubusercontent.com/37769974/59958878-39c51500-94cb-11e9-910a-061bf8ca6575.gif) `[` <code>\`</code> `'` `"` `*` `~` `_`
+- [](# "one-key-formatting") [Wraps selected text when pressing one of Markdown symbols instead of replacing it:](https://user-images.githubusercontent.com/1402241/65020298-1f2dfb00-d957-11e9-9a2a-1c0ceab8d9e0.gif) `[` <code>\`</code> `'` `"` `*` `~` `_`
 - [](# "minimize-upload-bar") [Reduces the upload bar to a small button.](https://user-images.githubusercontent.com/55841/59802383-3d994180-92e9-11e9-835d-60de67611c30.png)
 - [](# "clean-rich-text-editor") [Hides unnecessary comment field tooltips and toolbar items](https://user-images.githubusercontent.com/1402241/53629083-a4fe8900-3c47-11e9-8211-bfe2d254ffcb.png) (each one has a keyboard shortcut.)
 - [](# "monospace-textareas") Use a monospace font for all textareas.

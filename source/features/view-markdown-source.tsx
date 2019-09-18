@@ -5,7 +5,7 @@ import delegate from 'delegate-it';
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
 import * as icons from '../libs/icons';
-import {blurAccessibly} from './comment-fields-keyboard-shortcuts';
+import blurAccessibly from '../libs/blur-field-accessibly';
 
 const btnBodyMap = new WeakMap<Element, Element | Promise<Element>>();
 
