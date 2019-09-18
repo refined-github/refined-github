@@ -73,7 +73,6 @@ import './features/format-discussion-titles';
 import './features/embed-gist-inline';
 import './features/extend-status-labels';
 import './features/highlight-closing-prs-in-open-issues';
-import './features/highlight-own-issues-and-prs';
 import './features/comments-time-machine-links';
 import './features/hide-issue-list-autocomplete';
 import './features/esc-to-deselect-line';
@@ -139,7 +138,7 @@ import './features/revert-file';
 import './features/hidden-review-comments-indicator';
 import './features/reload-failed-proxied-images';
 import './features/clean-rich-text-editor';
-import './features/highlight-collaborators-in-lists';
+import './features/highlight-collaborators-and-own-discussions';
 import './features/embed-gist-via-iframe';
 
 // Add global for easier debugging
