@@ -3,7 +3,14 @@
 	margin-bottom: -5px;
 }
 
-/* Remove message under the `Unsubscribe` button */
-.sidebar-notifications .reason {
-	display: none !important;
+/* Move message under the `Unsubscribe` button above the button */
+.thread-subscription-status {
+	display: flex;
+	flex-direction: column;
+}
+form.thread-subscribe-form { /* `form` excludes the header */
+	order: 1;
+}
+.thread-subscription-status .reason {
+	margin: 0 0 10px !important;
 }

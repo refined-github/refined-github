@@ -192,8 +192,7 @@ Thanks for contributing! 🦋🙌
 - [](# "split-issue-pr-search-results") [Separates issues from PRs in the global search.](https://user-images.githubusercontent.com/1402241/52181103-35a09f80-2829-11e9-9c6f-57f2e08fc5b2.png)
 - [](# "sticky-discussion-sidebar") [Makes the discussion sidebar sticky.](https://user-images.githubusercontent.com/10238474/62276723-5a2eaa80-b44d-11e9-810b-ff598d1c5c6a.gif)
 - [](# "sticky-discussion-list-toolbar") [Makes the discussion list’s filters toolbar sticky.](https://user-images.githubusercontent.com/380914/39878141-7632e61a-542c-11e8-9c66-74fcd3a134aa.gif)
-- [](# "highlight-own-issues-and-prs") [Highlights discussions opened by you.](https://user-images.githubusercontent.com/1402241/53065281-01560000-3506-11e9-9a51-0bdf69e20b4a.png)
-- [](# "highlight-collaborators-in-lists") [Highlights discussions opened by the current repo’s collaborators.](https://user-images.githubusercontent.com/55841/64478536-0a5ca500-d1aa-11e9-8284-a39114d37824.png)
+- [](# "highlight-collaborators-and-own-discussions") [Highlights discussions opened by you or the current repo’s collaborators.](https://user-images.githubusercontent.com/1402241/65013882-03225d80-d947-11e9-8eb8-5507bc1fc14b.png)
 - [](# "align-issue-labels") [Aligns labels in lists to the left.](https://user-images.githubusercontent.com/1402241/28006237-070b8214-6581-11e7-94bc-2b01a007d00b.png)
 - [](# "sort-issues-by-update-time") 🔥 Changes the default sort order of discussions to `Recently updated`.
 - [](# "widen-search-field") [Widens the discussion search box.](https://user-images.githubusercontent.com/1402241/55069759-bceaf080-50bf-11e9-84d0-7707de2eb9e9.png)
@@ -231,7 +230,6 @@ Thanks for contributing! 🦋🙌
 - [](# "warn-pr-from-master") [Warns you when creating a pull request from the default branch, as it’s an anti-pattern.](https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png)
 - [](# "warning-for-disallow-edits") [Warns you when unchecking `Allow edits from maintainers`, as it’s maintainer-hostile.](https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif)
 - [](# "pull-request-hotkey") Adds keyboard shortcuts to cycle through PR tabs: <kbd>g</kbd> <kbd>←</kbd> and <kbd>g</kbd> <kbd>→</kbd>, or <kbd>g</kbd> <kbd>1</kbd>, <kbd>g</kbd> <kbd>2</kbd>, <kbd>g</kbd> <kbd>3</kbd> and <kbd>g</kbd> <kbd>4</kbd>.
-- [](# "mark-files-as-viewed") [Marks all files as "viewed" when approving a PR.](https://user-images.githubusercontent.com/11782/60969312-8740df00-a31f-11e9-8e34-d1f0c1a871aa.gif)
 - [](# "pr-branch-auto-delete") Automatically deletes the branch right after merging a PR, if possible.
 - [](# "revert-file") 🔥 [Adds button to revert all the changes to a file in a PR.](https://user-images.githubusercontent.com/1402241/62826118-73b7bb00-bbe0-11e9-9449-2dd64c469bb9.gif)
 
@@ -297,6 +295,7 @@ Thanks for contributing! 🦋🙌
 - [](# "hide-obvious-tooltips") Removes tooltips from self-explanatory buttons.
 - [](# "recently-pushed-branches-enhancements") 🔥 [Moves the "Recently-pushed branches" widget to the header to avoid content jumps. Also adds it to more pages in the repo.](https://user-images.githubusercontent.com/1402241/56466173-da517700-643f-11e9-8eb5-9b20017fa613.gif)
 - [](# "deemphasize-unrelated-commit-references") [Makes it easier to tell apart commits added to the current PR versus plain commits that reference the PR.](https://user-images.githubusercontent.com/1402241/64478939-398b0a80-d1da-11e9-8c6a-bb98668cb78c.gif)
+- [](# "embed-gist-via-iframe") [Adds a menu item to embed a gist via `<iframe>`.](https://user-images.githubusercontent.com/44045911/63633382-6a1b6200-c67a-11e9-9038-aedd62e4f6a8.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
