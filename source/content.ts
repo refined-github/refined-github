@@ -140,6 +140,7 @@ import './features/reload-failed-proxied-images';
 import './features/clean-rich-text-editor';
 import './features/highlight-collaborators-and-own-discussions';
 import './features/embed-gist-via-iframe';
+import './features/expand-all-collapsed-code';
 
 // Add global for easier debugging
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -247,6 +247,7 @@ Thanks for contributing! 🦋🙌
 - [](# "extend-diff-expander") [Widens the `Expand diff` button to be clickable across the screen.](https://user-images.githubusercontent.com/6978877/34470024-eee4f43e-ef20-11e7-9036-65094bd58960.PNG)
 - [](# "remove-diff-signs") [Hides diff signs](https://user-images.githubusercontent.com/1402241/54807718-149cec80-4cb9-11e9-869c-e265863211e3.png) (since diffs are color coded already.)
 - [](# "limit-commit-title-length") [Limits the commit title fields to 72 characters.](https://user-images.githubusercontent.com/37769974/60379478-106b3280-9a51-11e9-88b9-0e3607f214cd.gif)
+- [](# "expand-all-collapsed-code") [Expands the entire file when you <kbd>alt</kbd> <kbd>click</kbd> on any "Expand code" button in diffs.](https://user-images.githubusercontent.com/44227187/64923605-d0138900-d7e3-11e9-9dc2-461aba81c1cb.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -322,7 +323,7 @@ GitHub implemented 20 features that used to be part of Refined GitHub 🎉
 - [Blog post](https://user-images.githubusercontent.com/36004334/52573199-ea365480-2e19-11e9-8ebf-3ea6a7a640f8.png): [Access the `Labels` `Milestones` navigation from individual milestone pages.](https://cloud.githubusercontent.com/assets/170270/25217211/37b67aea-25d0-11e7-8482-bead2b04ee74.png)
 - [Blog post](https://github.blog/changelog/2019-02-13-comment-author-label/): [The comments of who opened an issue/PR are marked with `Original Poster` label.](https://cloud.githubusercontent.com/assets/4331946/25075520/d62fbbd0-2316-11e7-921f-ab736dc3522e.png)
 - [Blog post](https://github.blog/changelog/2019-02-14-prompt-to-clean-up-merged-forks): [Quickly delete a forked repo after its pull request has been merged.](https://cloud.githubusercontent.com/assets/170270/13520281/b2c9335c-e211-11e5-9e36-b0f325166356.png)
-- [Blog post](https://github.blog/changelog/2019-03-05-exclude-labels-from-search/): [Exclude PR/issue filters from their list](https://user-images.githubusercontent.com/1402241/48470535-493cfb00-e824-11e8-863a-964f52b62553.png) with <kbd>alt/option</kbd>-<kbd>click</kbd>.
+- [Blog post](https://github.blog/changelog/2019-03-05-exclude-labels-from-search/): [Exclude PR/issue filters from their list](https://user-images.githubusercontent.com/1402241/48470535-493cfb00-e824-11e8-863a-964f52b62553.png) with <kbd>alt</kbd> <kbd>click</kbd>.
 - [Blog post](https://github.blog/changelog/2019-03-18-sticky-file-headers-in-pull-requests/): [File headers are always visible.](https://user-images.githubusercontent.com/81981/28682784-78bac340-72fe-11e7-9386-bdbab7703693.gif)
 
 </details>
