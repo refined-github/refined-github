@@ -1,0 +1,14 @@
+name: Test
+on: push
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+    - run: npm ci
+    - run: npm test
+    - uses: actions/upload-artifact@v1
+      with:
+        name: refined-github
+        path: distribution
