@@ -15,7 +15,7 @@ function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement
 	button.textContent = 'Copied!';
 	button.classList.remove('tooltipped');
 	setTimeout(() => {
-		button.textContent = 'Copy'
+		button.textContent = 'Copy';
 		button.classList.add('tooltipped');
 	}, 2000);
 }
