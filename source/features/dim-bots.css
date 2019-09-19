@@ -1,0 +1,23 @@
+.rgh-dim-bot.commit,
+.rgh-dim-bot.commit .commit-title,
+.rgh-dim-bot.commit .commit-meta,
+.rgh-dim-bot.commit .commit-links-cell > * {
+	transition: 0.1s 0.3s;
+	transition-property: max-heigh, opacity, margin-bottom;
+}
+.rgh-dim-bot.commit:not(.navigation-focus) {
+	max-height: 2em;
+	transition-delay: 0s;
+}
+.rgh-dim-bot.commit:not(.navigation-focus) .commit-title {
+	opacity: 0.2;
+	transition-delay: 0s;
+}
+
+.rgh-dim-bot.commit:not(.navigation-focus) .commit-meta,
+.rgh-dim-bot.commit:not(.navigation-focus) .commit-links-cell > * {
+	opacity: 0;
+	visibility: hidden;
+	margin-bottom: -2em;
+	transition-delay: 0s;
+}
