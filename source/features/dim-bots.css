@@ -1,3 +1,14 @@
+/*
+READ BEFORE EDITING. Some selectors match the same items ("hovered" selector vs non-hovered); make sure to update them in tandem.
+
+In PR lists we can hide the meta just by acting on `max-height` + `overflow: hidden`
+In Commit lists however this is not possible because they are tables, so we need to hack around `margin-bottom`
+
+Transitions are used to delay the "hover" status so it's not too annoying when moving the mouse over a list of dimmed items.
+
+PRs: .Box-row
+Commits: .commit
+*/
 .rgh-dim-bot.Box-row,
 .rgh-dim-bot.Box-row > .d-table,
 .rgh-dim-bot.commit .commit-title,
