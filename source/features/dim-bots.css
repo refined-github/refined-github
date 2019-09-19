@@ -1,21 +1,30 @@
-.rgh-dim-bot.commit,
+.rgh-dim-bot.Box-row,
+.rgh-dim-bot.Box-row > .d-table,
 .rgh-dim-bot.commit .commit-title,
 .rgh-dim-bot.commit .commit-meta,
 .rgh-dim-bot.commit .commit-links-cell > * {
 	transition: 0.1s 0.3s;
-	transition-property: max-heigh, opacity, margin-bottom;
+	transition-property: max-height, opacity, margin-bottom;
 }
-.rgh-dim-bot.commit:not(.navigation-focus) {
-	max-height: 2em;
+
+.rgh-dim-bot.Box-row {
+	overflow: hidden;
+	max-height: 10em;
+}
+
+.rgh-dim-bot.Box-row:not(.navigation-focus) {
+	max-height: 2.7em;
 	transition-delay: 0s;
 }
-.rgh-dim-bot.commit:not(.navigation-focus) .commit-title {
+
+.rgh-dim-bot.Box-row:not(.navigation-focus) > .d-table, /* Whole PR row */
+.rgh-dim-bot.commit:not(.navigation-focus) .commit-title { /* Commit title only */
 	opacity: 0.2;
 	transition-delay: 0s;
 }
 
-.rgh-dim-bot.commit:not(.navigation-focus) .commit-meta,
-.rgh-dim-bot.commit:not(.navigation-focus) .commit-links-cell > * {
+.rgh-dim-bot.commit:not(.navigation-focus) .commit-meta
+.rgh-dim-bot.commit:not(.navigation-focus) .commit-links-cell > * { /* Buttons on the right*/
 	opacity: 0;
 	visibility: hidden;
 	margin-bottom: -2em;
