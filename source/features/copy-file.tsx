@@ -1,16 +1,17 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
-import copyToClipboard from 'copy-text-to-clipboard';
+import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
+import * as icons from '../libs/icons';
 import {groupSiblings} from '../libs/group-buttons';
 
-function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): void {
-	const file = button.closest('.Box, .js-gist-file-update-container');
+function handleClick({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
+	const file = button.closest('.Box, .js-gist-file-update-container')!;
 	const content = select.all('.blob-code-inner', file!)
 		.map(({innerText: line}) => line === '\n' ? '' : line) // Must be `.innerText`
 		.join('\n');
-	copyToClipboard(content);
+
+	button.setAttribute('value', content);
 }
 
 function renderButton(): void {
@@ -18,13 +19,17 @@ function renderButton(): void {
 		button
 			.parentElement! // `BtnGroup`
 			.prepend(
-				<button
-					onClick={handleClick}
-					className="btn btn-sm tooltipped tooltipped-n BtnGroup-item rgh-copy-file"
-					aria-label="Copy file to clipboard"
-					type="button">
-					Copy
-				</button>
+				<clipboard-copy
+					aria-label="Copy to clipboard"
+					className="ClipboardButton btn btn-sm js-clipboard-copy rgh-copy-file"
+					role="button">
+					<span className="js-clipboard-clippy-icon">
+						{icons.clippy()}
+					</span>
+					<span className="js-clipboard-check-icon d-none text-green">
+						{icons.check()}
+					</span>
+				</clipboard-copy>
 			);
 		groupSiblings(button);
 	}
@@ -42,6 +47,8 @@ function init(): void {
 	} else {
 		renderButton();
 	}
+
+	delegate('.rgh-copy-file', 'click', handleClick, true);
 }
 
 features.add({
