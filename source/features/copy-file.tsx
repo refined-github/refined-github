@@ -23,7 +23,9 @@ function renderButton(): void {
 					aria-label="Copy to clipboard"
 					className="ClipboardButton btn btn-sm js-clipboard-copy rgh-copy-file"
 					role="button">
-					<span className="js-clipboard-clippy-icon">Copy</span>
+					<span className="js-clipboard-clippy-icon">
+						{icons.clippy()}
+					</span>
 					<span className="js-clipboard-check-icon d-none text-green">
 						{icons.check()}
 					</span>
