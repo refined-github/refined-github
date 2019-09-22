@@ -31,7 +31,7 @@ Transitions are used to delay the "hover" status so it's not too annoying when m
 /* PRs’ whole box, reduce height */
 .rgh-dim-bot.Box-row {
 	overflow: hidden;
-	max-height: 10em;
+	max-height: 10em; /* This value is only needed to transition the height since `max-height: none` can't be transitioned */
 	transition: max-height 0.1s 0.3s;
 }
 
