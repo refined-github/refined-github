@@ -35,7 +35,7 @@ const addIndicator = mem((commentThread: HTMLElement): void => {
 	);
 }, {
 	// TODO [mem@>=6]: Drop argument
-	cacheKey: element => element
+	cacheKey: (element: HTMLElement) => element
 });
 
 // Add indicator when the `show-inline-notes` class is removed (i.e. the comments are hidden)
