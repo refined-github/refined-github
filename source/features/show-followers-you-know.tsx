@@ -21,7 +21,7 @@ const renderAvatar = (image: HTMLImageElement): HTMLElement => {
 	return (
 		<a
 			href={(image.parentElement as HTMLAnchorElement).href}
-			aria-label={image.alt.substr(1)}
+			aria-label={image.alt.slice(1)}
 			className="tooltipped tooltipped-n avatar-group-item mr-1"
 		>
 			{image}

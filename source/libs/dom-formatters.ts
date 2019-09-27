@@ -32,10 +32,10 @@ export function linkifyIssues(element: Element): void {
 	for (const link of linkified.children as HTMLCollectionOf<HTMLAnchorElement>) {
 		const issue = link.href.split('/').pop();
 		link.setAttribute('class', 'issue-link js-issue-link tooltipped tooltipped-ne');
-		link.setAttribute('data-error-text', 'Failed to load issue title');
-		link.setAttribute('data-permission-text', 'Issue title is private');
-		link.setAttribute('data-url', link.href);
-		link.setAttribute('data-id', `rgh-issue-${issue}`);
+		link.dataset.errorText = 'Failed to load issue title';
+		link.dataset.permissionText = 'Issue title is private';
+		link.dataset.url = link.href;
+		link.dataset.id = `rgh-issue-${issue}`;
 	}
 
 	zipTextNodes(element, linkified);
