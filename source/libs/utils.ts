@@ -110,16 +110,16 @@ export const flatZip = <T>(table: T[][], limit = Infinity): T[] => {
 
 export function getOP(): string {
 	if (isPR()) {
-		const titleRegex = /^(.+) by (\S+) · Pull Request #(\d+)/;
+		const titleRegex = /^(?:.+) by (?<user>\S+) · Pull Request #(?:\d+)/;
 		const match = titleRegex.exec(document.title)!;
-		return match && match[2];
+		return match && match.groups!.user;
 	}
 
 	return select('.timeline-comment-header-text .author')!.textContent!;
 }
 
 export function compareNames(username: string, realname: string): boolean {
-	return username.replace(/-/g, '').toLowerCase() === realname.normalize('NFD').replace(/[\u0300-\u036f\W.]/g, '').toLowerCase();
+	return username.replace(/-/g, '').toLowerCase() === realname.normalize('NFD').replace(/[\u0300-\u036F\W.]/g, '').toLowerCase();
 }
 
 export async function poll<T>(callback: () => T, frequency: number): Promise<T> {

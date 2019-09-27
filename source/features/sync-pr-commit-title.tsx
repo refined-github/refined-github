@@ -17,7 +17,7 @@ const createCommitTitle = debounce<[], string>((): string => {
 	const targetTitleLength = commitTitleLimit - issueInfo.length;
 
 	if (issueTitle.length > targetTitleLength) {
-		return issueTitle.substring(0, targetTitleLength - 1).trim() + '…' + issueInfo;
+		return issueTitle.slice(0, targetTitleLength - 1).trim() + '…' + issueInfo;
 	}
 
 	return issueTitle + issueInfo;

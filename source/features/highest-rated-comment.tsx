@@ -72,7 +72,7 @@ function linkBestComment(bestComment: Element): void {
 	const position = select.all(commentSelector).indexOf(bestComment as HTMLElement);
 	// Only link to it if it doesn't already appear at the top of the conversation
 	if (position >= 3) {
-		const text = select('.comment-body', bestComment)!.textContent!.substring(0, 100);
+		const text = select('.comment-body', bestComment)!.textContent!.slice(0, 100);
 		const avatar = select('.timeline-comment-avatar', bestComment)!.cloneNode(true);
 		const {hash} = select<HTMLAnchorElement>('.timestamp', bestComment)!;
 

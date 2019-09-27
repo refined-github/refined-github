@@ -34,8 +34,7 @@ const addIndicator = mem((commentThread: HTMLElement): void => {
 		</tr>
 	);
 }, {
-	// TODO: Drop ignore after https://github.com/sindresorhus/p-memoize/issues/9
-	// @ts-ignore
+	// TODO [mem@>=6]: Drop argument
 	cacheKey: element => element
 });
 

@@ -8,7 +8,7 @@ import {getRepoURL} from './utils';
 // "This branch is 1 commit behind master."
 // "This branch is 1 commit ahead of master."
 // "This branch is 1 commit ahead, 27 commits behind master."
-const branchInfoRegex = /([^ ]+)\.$/;
+const branchInfoRegex = /(?<branch>[^ ]+)\.$/;
 
 function parseBranchFromDom(): string | undefined {
 	if (select.exists('.repohead h1 .octicon-repo-forked')) {
@@ -23,7 +23,7 @@ function parseBranchFromDom(): string | undefined {
 
 	// Parse the infobar
 	const matches = branchInfoRegex.exec(branchInfo.textContent!.trim());
-	return matches ? matches[1] : undefined;
+	return matches ? matches.groups!.branch : undefined;
 }
 
 async function fetchFromApi(): Promise<string> {

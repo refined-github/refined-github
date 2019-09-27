@@ -4,7 +4,7 @@ import features from '../libs/features';
 function init(): void {
 	const createReleaseButton = select('a[href$="/releases/new"]:not([data-hotkey])');
 	if (createReleaseButton) {
-		createReleaseButton.setAttribute('data-hotkey', 'c');
+		createReleaseButton.dataset.hotkey = 'c';
 	}
 }
 
