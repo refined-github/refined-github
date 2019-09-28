@@ -105,3 +105,10 @@
 .dropdown-menu-sw {
 	transform-origin: 90% top;
 }
+
+/* Restore "Delete branch" button in responsive branch list */
+@media (min-width: 768px) {
+	.js-branch-destroy.d-lg-inline-block {
+		display: inline-block !important;
+	}
+}
