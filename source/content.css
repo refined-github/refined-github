@@ -107,8 +107,11 @@
 }
 
 /* Restore "Delete branch" button in responsive branch list */
-@media (min-width: 768px) {
-	.js-branch-destroy.d-lg-inline-block {
-		display: inline-block !important;
+@media (max-width: 1011px) {
+	.js-branch-row .Details-content--shown {
+		display: flex !important;
+	}
+	form.js-branch-destroy {
+		display: block !important;
 	}
 }
