@@ -109,7 +109,10 @@
 /* Restore "Delete branch" button in responsive branch list */
 @media (max-width: 1011px) {
 	.js-branch-row .Details-content--shown {
-		display: flex !important;
+		display: block !important;
+	}
+	.js-branch-row .col-12 {
+		width: 91.667%;
 	}
 	form.js-branch-destroy {
 		display: block !important;
