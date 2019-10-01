@@ -1,6 +1,7 @@
 /* Restore "Delete branch" button in responsive branch list */
 @media (max-width: 1011px) {
-	.js-branch-row .Details-content--shown, form.js-branch-destroy {
+	.js-branch-row .Details-content--shown,
+	form.js-branch-destroy {
 		display: block !important;
 	}
 }
