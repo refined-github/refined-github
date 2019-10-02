@@ -13,7 +13,9 @@ function add(): void {
 		const isPR = !infoBubble.getAttribute('aria-label')!.includes("commit");
 		let ref = null;
 		if (isPR) {
-			ref = select(".TableObject-item--primary span a")!;
+			ref = infoBubble
+				.closest('.TimelineItem-body')!
+				.querySelector("a span")!;
 		} else {
 			ref = select(".commit-message .issue-keyword a")!;
 		}
