@@ -10,20 +10,23 @@ function add(): void {
 		[aria-label*="will close when"],
 		[aria-label*="will close once"]
 	`)) {
-		const ref = infoBubble
-			.closest('.discussion-item')!
-			.querySelector('.issue-num, .commit-id')!;
-		const link = ref.closest('a')!.href;
-		const isIssue = ref.classList.contains('issue-num');
+		const isPR = !infoBubble.getAttribute('aria-label')!.includes("commit");
+		let ref = null;
+		if (isPR) {
+			ref = select(".TableObject-item--primary span a")!;
+		} else {
+			ref = select(".commit-message .issue-keyword a")!;
+		}
 
+		const link = ref.getAttribute("href")!;
 		select('.gh-header-meta .TableObject-item')!.after(
 			<div className="TableObject-item">
 				<a
 					href={link}
 					className="btn btn-outline btn-sm border-blue rgh-closing-pr tooltipped tooltipped-se"
 					aria-label={infoBubble.getAttribute('aria-label')!}>
-					{isIssue ? icons.openPullRequest() : icons.commit()}
-					{isIssue ? ' ' + ref.textContent! : ''}
+					{isPR ? icons.openPullRequest() : icons.commit()}
+					{isPR ? ' ' + ref.textContent! : ''}
 				</a>
 			</div>
 		);
