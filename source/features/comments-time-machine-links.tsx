@@ -61,11 +61,15 @@ function init(): void {
 	`);
 
 	for (const comment of comments) {
-		const timestamp = select('relative-time', comment)!.attributes.datetime.value;
+		const timestampEl = select('relative-time', comment)!;
 
-		addDropdownLink(comment, timestamp);
-		addInlineLinks(comment, timestamp);
-		comment.classList.add('rgh-time-machine-links');
+		if (timestampEl) {
+			const timestamp = timestampEl.attributes.datetime.value;
+
+			addDropdownLink(comment, timestamp);
+			addInlineLinks(comment, timestamp);
+			comment.classList.add('rgh-time-machine-links');
+		}
 	}
 }
 
