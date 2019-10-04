@@ -53,7 +53,7 @@ async function init(): Promise<void> {
 
 	const form = select('form')!;
 	const optionsByDomain = await getAllOptions();
-	await optionsByDomain.get('github.com')!.syncForm(form);
+	await optionsByDomain.get('https://github.com')!.syncForm(form);
 
 	fitTextarea.watch('textarea');
 	indentTextarea.watch('textarea');
@@ -66,7 +66,7 @@ async function init(): Promise<void> {
 			</select>
 		) as unknown as HTMLSelectElement;
 		form.before(<p>Domain selector: {dropdown}</p>, <hr/>);
-		dropdown.addEventListener('change', () => {
+		dropdown.addEventListener('change', (event) => {
 			for (const [domain, options] of optionsByDomain) {
 				if (dropdown.value === domain) {
 					options.syncForm(form);
@@ -74,6 +74,8 @@ async function init(): Promise<void> {
 					options.stopSyncForm();
 				}
 			}
+			const newDomain = (event.target as HTMLInputElement).value;
+			select('#personal-token-link')!.setAttribute('href', `${newDomain}/settings/tokens/new?description=Refined%20GitHub&scopes=repo`);
 		});
 	}
 
