@@ -58,10 +58,10 @@ function clean(): void {
 	}
 
 	// Projects
-	cleanSection('.sidebar-projects');
+	cleanSection('.sidebar-projects, .sidebar-progress-bar');
 
 	// Milestones
-	const milestones = select('.sidebar-milestone')!;
+	const milestones = select('.sidebar-milestone, .sidebar-progress-bar')!;
 	const milestonesInfo = milestones.lastChild!.lastChild!;
 	if (milestonesInfo.textContent!.trim() === 'No milestone') {
 		if (canEditSidebar) {
