@@ -1,23 +1,42 @@
+/*
+This feature has to work on:
+https://github.com/issues
+https://github.com/pulls
+https://github.com/sindresorhus/refined-github/issues
+https://github.com/sindresorhus/refined-github/pulls
+
+But not affect these pages, because they also use `.subnav` but don't benefit from a larger field
+https://github.com/sindresorhus/refined-github/releases
+https://github.com/sindresorhus/refined-github/tags
+https://github.com/sindresorhus/refined-github/labels
+https://github.com/sindresorhus/refined-github/milestones
+https://github.com/sindresorhus/refined-github/releases/tag/19.9.16
+*/
+
 /* Expand issue search field width */
-.subnav,
+.repository-content [role='search'], /* Repo issue/PR lists */
+.subnav-links + .float-right, /* Global search pages */
 .subnav-search,
-.subnav-search-input,
-.subnav [role='search'],
-.page-content .subnav > .float-right { /* Global search field container */
+.subnav-search-input {
 	flex-grow: 1;
 	display: flex;
-	font: none !important;
+	align-items: flex-start;
 }
 
-/* Move `New issue` button back to the right */
-.subnav .float-right {
-	order: 100;
+/* Global search, labels: enable field expansion */
+.page-content > .subnav:first-child {
+	display: flex;
+}
+
+/* Space out buttons */
+.subnav > .float-right, /* On Releases page */
+.subnav > .btn-primary { /* On `Issues` and `Pull Requests` pages */
 	margin-left: 20px;
 }
 
-/* Move extra buttons to the right on Releases */
-.subnav-links {
-	margin-right: auto;
+/* Releases: place Releases/Tags selector on the same line as `Draft new release` (GitHub bug) */
+.subnav .d-flex.flex-md-row.flex-justify-between.flex-md-items-center {
+	float: left;
 }
 
 /* Reset width of search field in global lists */

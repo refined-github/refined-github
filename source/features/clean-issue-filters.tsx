@@ -4,11 +4,11 @@ import features from '../libs/features';
 import * as api from '../libs/api';
 import {getOwnerAndRepo} from '../libs/utils';
 
-interface CacheEntry {
+type CacheEntry = {
 	repoProjectCount: number;
 	orgProjectCount: number;
 	milestoneCount: number;
-}
+};
 
 async function getCount(): Promise<CacheEntry> {
 	const {ownerName, repoName} = getOwnerAndRepo();
@@ -19,14 +19,12 @@ async function getCount(): Promise<CacheEntry> {
 	}
 
 	const result = await api.v4(`
-		query {
-			repository(owner: "${ownerName}", name: "${repoName}") {
-				projects { totalCount }
-				milestones { totalCount }
-			}
-			organization(login: "${ownerName}") {
-				projects { totalCount }
-			}
+		repository(owner: "${ownerName}", name: "${repoName}") {
+			projects { totalCount }
+			milestones { totalCount }
+		}
+		organization(login: "${ownerName}") {
+			projects { totalCount }
 		}
 	`, {
 		allowErrors: true
@@ -58,10 +56,11 @@ async function init(): Promise<void> {
 
 features.add({
 	id: __featureName__,
-	description: 'Hide empty issue/PR filters in lists',
-	init,
+	description: 'Hides `Projects` and `Milestones` filters in discussion lists if they are empty.',
+	screenshot: 'https://user-images.githubusercontent.com/37769974/59083449-0ef88f80-8915-11e9-8296-68af1ddcf191.png',
 	load: features.onAjaxedPages,
 	include: [
 		features.isRepoDiscussionList
-	]
+	],
+	init
 });

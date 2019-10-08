@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 
 function init(): false | void {
@@ -10,7 +11,6 @@ function init(): false | void {
 		return false;
 	}
 
-	const submitButton = select<HTMLInputElement>('[type="submit"]', form)!;
 	const container = select('.form-actions', form)!;
 
 	// Set the default action for cmd+enter to Comment
@@ -65,7 +65,13 @@ function init(): false | void {
 		radio.closest('.form-checkbox')!.remove();
 	}
 
-	submitButton.remove();
+	select('[type="submit"]:not([name])', form)!.remove(); // The selector excludes the "Cancel" button
+
+	// This will prevent submission when clicking "Comment" and "Request changes" without entering a comment and no other review comments are pending
+	delegate<HTMLButtonElement>(form, 'button', 'click', ({delegateTarget: {value}}) => {
+		const submissionRequiresComment = !select.exists('.is-review-pending') && (value === 'reject' || value === 'comment');
+		select('#pull_request_review_body', form)!.toggleAttribute('required', submissionRequiresComment);
+	});
 
 	// Freeze form to avoid duplicate submissions
 	form.addEventListener('submit', () => {
@@ -80,7 +86,8 @@ function init(): false | void {
 
 features.add({
 	id: __featureName__,
-	description: 'Approve or reject reviews faster with one-click review-type buttons',
+	description: 'Simplifies the PR review form: Approve or reject reviews faster with one-click review-type buttons.',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png',
 	include: [
 		features.isPR
 	],

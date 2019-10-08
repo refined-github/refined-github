@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
@@ -13,9 +12,10 @@ function getUrlFromItem(checkbox: Element): string {
 }
 
 function openIssues(): void {
+	const modifier = features.isGlobalDiscussionList() ? '' : ' + div ';
 	const issues = select.all([
-		'#js-issues-toolbar.triage-mode + div [name="issues[]"]:checked', // Get checked checkboxes
-		'#js-issues-toolbar:not(.triage-mode) + div .js-issue-row' // Or all items
+		`#js-issues-toolbar.triage-mode ${modifier} [name="issues[]"]:checked`, // Get checked checkboxes
+		`#js-issues-toolbar:not(.triage-mode) ${modifier} .js-issue-row` // Or all items
 	].join(','));
 
 	if (
@@ -26,8 +26,7 @@ function openIssues(): void {
 	}
 
 	browser.runtime.sendMessage({
-		urls: issues.map(getUrlFromItem),
-		action: 'openAllInTabs'
+		openUrls: issues.map(getUrlFromItem)
 	});
 }
 
@@ -66,7 +65,8 @@ function init(): void | false {
 
 features.add({
 	id: __featureName__,
-	description: 'Open multiple issues in your repo at once',
+	description: 'Adds a button to open multiple discussions at once in your repos.',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/38084752-4820b0d8-3378-11e8-868c-a1582b16f915.gif',
 	include: [
 		features.isDiscussionList
 	],

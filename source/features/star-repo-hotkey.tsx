@@ -4,13 +4,14 @@ import features from '../libs/features';
 function init(): void {
 	// There are two buttons: unstar and star
 	for (const button of select.all('.js-social-form > button')) {
-		button.setAttribute('data-hotkey', 'g s');
+		button.dataset.hotkey = 'g s';
 	}
 }
 
 features.add({
 	id: __featureName__,
-	description: 'Star/unstar a repository by pressing `g` `s`',
+	description: 'Adds a keyboard shortcut to star/unstar the current repo: `g` `s`.',
+	screenshot: false,
 	include: [
 		features.isRepo
 	],

@@ -1,0 +1,24 @@
+.rgh-ws-char {
+	position: relative;
+	line-height: 1em;
+	text-indent: 0; /* Reset any indentation added by `indented-code-wrapping` feature */
+}
+
+.rgh-ws-char::before {
+	pointer-events: none;
+	user-select: none;
+	position: absolute;
+	left: 0;
+	top: 0;
+	color: #000;
+	opacity: 0.25;
+}
+
+.rgh-tab-char::before {
+	content: attr(data-rgh-tabs);
+	letter-spacing: calc((var(--tab-size, 4) * 1ch) - 1ch);
+}
+
+.rgh-space-char::before {
+	content: attr(data-rgh-spaces);
+}

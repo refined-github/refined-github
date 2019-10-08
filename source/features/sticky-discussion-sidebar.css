@@ -1,0 +1,13 @@
+#js-repo-pjax-container .pagehead ul.pagehead-actions {
+	z-index: initial; /* This affects the social buttons. It seems to have no effect but it constantly causes trouble with other features. */
+}
+
+.rgh-sticky-sidebar {
+	position: sticky;
+	top: 60px !important; /* Matches sticky header's height */
+}
+
+/* Hides the last divider (on pull requests) to avoid https://user-images.githubusercontent.com/10238474/62282128-af6fb980-b457-11e9-8b18-c29687b88da1.gif */
+.rgh-sticky-sidebar + .border-top {
+	display: none;
+}

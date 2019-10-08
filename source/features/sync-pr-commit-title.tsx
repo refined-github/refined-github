@@ -8,6 +8,8 @@ import features from '../libs/features';
 import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
 
 const commitTitleLimit = 72;
+const prTitleFieldSelector = '.js-issue-update [name="issue[title]"]';
+const prTitleSubmitSelector = '.js-issue-update [type="submit"]';
 
 const createCommitTitle = debounce<[], string>((): string => {
 	const issueTitle = select('.js-issue-title')!.textContent!.trim();
@@ -15,7 +17,7 @@ const createCommitTitle = debounce<[], string>((): string => {
 	const targetTitleLength = commitTitleLimit - issueInfo.length;
 
 	if (issueTitle.length > targetTitleLength) {
-		return issueTitle.substring(0, targetTitleLength - 1).trim() + '…' + issueInfo;
+		return issueTitle.slice(0, targetTitleLength - 1).trim() + '…' + issueInfo;
 	}
 
 	return issueTitle + issueInfo;
@@ -42,13 +44,13 @@ function maybeShowNote(): void {
 	const needsSubmission = createCommitTitle() !== inputField.value;
 
 	if (needsSubmission) {
+		if (select.all([prTitleFieldSelector, prTitleSubmitSelector].join()).length !== 2) {
+			// Ensure that the required fields are there before adding the note
+			throw new Error('Refined GitHub: `sync-pr-commit-title` can’t update the PR title');
+		}
+
 		inputField.after(getNote());
 		return;
-	}
-
-	if (select.all('.edit-issue-title, .js-issue-update [type="submit"]').length !== 2) {
-		// Ensure that the required fields are there before adding the note
-		throw new Error('Refined GitHub: `sync-pr-commit-title` is broken');
 	}
 
 	getNote().remove();
@@ -58,15 +60,15 @@ function submitPRTitleUpdate(): void {
 	const inputField = select<HTMLInputElement>('#merge_title_field')!;
 
 	// If the note isn't shown, the PR title doesn't need to be updated
-	if (!getNote().parentElement) {
+	if (!getNote().isConnected) {
 		return;
 	}
 
 	const prTitle = inputField.value.replace(new RegExp(`\\s*\\(${getPRNumber()}\\)$`), '');
 
 	// Fill and submit title-change form
-	select<HTMLInputElement>('.edit-issue-title')!.value = prTitle;
-	select('.js-issue-update [type="submit"]')!.click(); // `form.submit()` isn't sent via ajax
+	select<HTMLInputElement>(prTitleFieldSelector)!.value = prTitle;
+	select(prTitleSubmitSelector)!.click(); // `form.submit()` isn't sent via ajax
 }
 
 function onMergePanelOpen(event: Event): void {
@@ -103,7 +105,7 @@ function deinit(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Use the same title for the PR and its merging commit',
+	description: 'Uses the PR’s title and description when merging and updates the PR’s title to the match the commit title, if changed.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/51669708-9a712400-1ff7-11e9-913a-ac1ea1050975.png',
 	include: [
 		features.isPRConversation

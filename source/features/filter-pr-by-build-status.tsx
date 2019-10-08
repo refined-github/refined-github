@@ -60,7 +60,8 @@ async function init(): Promise<void | false> {
 
 features.add({
 	id: __featureName__,
-	description: 'Filter pull requests by their build status (success, failure, and pending)',
+	description: 'Adds a `Build status` dropdown filter in PR lists.',
+	screenshot: 'https://user-images.githubusercontent.com/22439276/56372372-7733ca80-621c-11e9-8b60-a0b95aa4cd4f.png',
 	include: [
 		features.isPRList
 	],

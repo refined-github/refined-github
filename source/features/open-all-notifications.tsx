@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import './open-all-notifications.css';
 import React from 'dom-chef';
 import select from 'select-dom';
@@ -23,8 +22,7 @@ function openNotifications({delegateTarget}: DelegateEvent): void {
 	}
 
 	browser.runtime.sendMessage({
-		urls: unreadNotifications.map(el => el.href),
-		action: 'openAllInTabs'
+		openUrls: unreadNotifications.map(el => el.href)
 	});
 
 	// Mark all as read
@@ -72,7 +70,11 @@ function addOpenAllButton(): void {
 		// Create an open button and add it into a button group
 		const button = <button className="btn btn-sm rgh-open-notifications-button">Open all unread in tabs</button>;
 		select('.tabnav .float-right')!.prepend(button);
-		groupButtons([button, button.nextElementSibling!]);
+
+		// There is no sibling on `/<org>/<repo>/notifications` page
+		if (button.nextElementSibling) {
+			groupButtons([button, button.nextElementSibling]);
+		}
 	}
 }
 
@@ -94,7 +96,8 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Open all your notifications in one click',
+	description: 'Open all your notifications at once.',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/31700005-1b3be428-b38c-11e7-90a6-8f572968993b.png',
 	include: [
 		features.isNotifications
 	],

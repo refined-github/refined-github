@@ -1,8 +1,18 @@
-.rgh-hide-watch-and-fork-count .btn-with-count[title^='Fork your own'],
-.rgh-hide-watch-and-fork-count [action='/notifications/subscribe'] .btn-with-count {
+/* Hide only when the dropdown is closed */
+
+.rgh-hide-watch-and-fork-count:not(.rgh-forked-to) details:not([open]) .btn-with-count[title^='Fork your own'],
+.rgh-hide-watch-and-fork-count:not(.rgh-forked-to) [action='/notifications/subscribe'] details:not([open]) .btn-with-count {
 	border-radius: 0.25em; /* Matches GitHub's default */
 }
-.rgh-hide-watch-and-fork-count .social-count[href$='/network/members'],
-.rgh-hide-watch-and-fork-count .social-count[href$='/watchers'] {
+
+.rgh-hide-watch-and-fork-count details:not([open]) ~ .social-count[href$='/network/members'],
+.rgh-hide-watch-and-fork-count details:not([open]) ~ .social-count[href$='/watchers'] {
 	display: none;
+}
+
+/* Bring the watcher counts above the lightbox, to make them clickable */
+/* Forks count is excluded because it has a lightbox. Appears similarly to #2368 */
+.rgh-hide-watch-and-fork-count details[open] ~ .social-count[href$='/watchers'] {
+	position: relative;
+	z-index: 100;
 }

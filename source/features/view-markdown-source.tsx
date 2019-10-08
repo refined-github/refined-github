@@ -5,7 +5,7 @@ import delegate from 'delegate-it';
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
 import * as icons from '../libs/icons';
-import {blurAccessibly} from './comment-fields-keyboard-shortcuts';
+import blurAccessibly from '../libs/blur-field-accessibly';
 
 const btnBodyMap = new WeakMap<Element, Element | Promise<Element>>();
 
@@ -39,7 +39,7 @@ async function showSource(): Promise<void> {
 	sourceButton.disabled = true;
 
 	const source = btnBodyMap.get(sourceButton) || fetchSource();
-	const rendered = btnBodyMap.get(renderedButton) as Element || select('.blob.instapaper_body')!;
+	const rendered = await btnBodyMap.get(renderedButton) || select('.blob.instapaper_body')!;
 
 	btnBodyMap.set(sourceButton, source);
 	btnBodyMap.set(renderedButton, rendered);
@@ -61,7 +61,7 @@ async function showRendered(): Promise<void> {
 
 	renderedButton.disabled = true;
 
-	(await btnBodyMap.get(sourceButton))!.replaceWith(btnBodyMap.get(renderedButton) as Element);
+	(await btnBodyMap.get(sourceButton))!.replaceWith(await btnBodyMap.get(renderedButton)!);
 
 	renderedButton.disabled = false;
 
@@ -93,13 +93,20 @@ async function init(): Promise<false | void> {
 
 	// Add support for permalinks to the code
 	if (location.hash.startsWith('#L')) {
-		showSource();
+		await showSource();
+
+		// Enable selected line highlight
+		window.dispatchEvent(new HashChangeEvent('hashchange', {
+			oldURL: location.href,
+			newURL: location.href
+		}));
 	}
 }
 
 features.add({
 	id: __featureName__,
-	description: 'See the source of Markdown files instead of just their rendered version',
+	description: 'Adds a button to view the source of Markdown files.',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/54814836-7bc39c80-4ccb-11e9-8996-9ecf4f6036cb.png',
 	include: [
 		features.isSingleFile
 	],

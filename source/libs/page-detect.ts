@@ -82,7 +82,7 @@ export const isRepo = (): boolean => /^[^/]+\/[^/]+/.test(getCleanPathname()) &&
 	!isRepoSearch();
 
 export const isRepoDiscussionList = (): boolean =>
-	/^(issues|pulls)($|\/$|\/(?!\d+|new))/.test(getRepoPath()!) || // `issues/bfred-it` is a list but `issues/1` isn't
+	/^(issues|pulls)($|\/$|\/(?!\d+|new))/.test(getRepoPath()!) || // `issues/fregante` is a list but `issues/1` isn't
 	/^labels\/.+/.test(getRepoPath()!);
 
 export const isRepoRoot = (): boolean => /^(tree[/][^/]+)?$/.test(getRepoPath()!);
@@ -92,6 +92,8 @@ export const isRepoSearch = (): boolean => location.pathname.slice(1).split('/')
 export const isRepoSettings = (): boolean => /^settings/.test(getRepoPath()!);
 
 export const isRepoTree = (): boolean => isRepoRoot() || /^tree\//.test(getRepoPath()!);
+
+export const isRepoWithAccess = (): boolean => isRepo() && select.exists('.reponav-item[href$="/settings"]');
 
 export const isSingleCommit = (): boolean => /^commit\/[0-9a-f]{5,40}/.test(getRepoPath()!);
 

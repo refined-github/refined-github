@@ -1,5 +1,24 @@
 import select from 'select-dom';
 
+import './content.css';
+import './features/scrollable-code-and-blockquote.css';
+import './features/center-reactions-popup.css';
+import './features/widen-search-field.css';
+import './features/clean-dashboard.css';
+import './features/safer-destructive-actions.css';
+import './features/clean-mergeability-box.css';
+import './features/clean-footer.css';
+import './features/pr-approvals-count.css';
+import './features/align-issue-labels.css';
+import './features/hide-tips.css';
+import './features/hide-readme-header.css';
+import './features/hide-obvious-tooltips.css';
+import './features/clean-discussions.css';
+import './features/sticky-discussion-list-toolbar.css';
+import './features/deemphasize-unrelated-commit-references.css';
+// DO NOT add CSS files here if they are part of a JavaScript feature.
+// Import the `.css` file from the `.tsx` instead.
+
 import './features/useful-not-found-page';
 import './features/trending-menu-item';
 import './features/hide-useless-newsfeed-events';
@@ -9,6 +28,8 @@ import './features/remove-projects-tab';
 import './features/remove-checks-tab';
 import './features/focus-confirmation-buttons';
 import './features/comment-fields-keyboard-shortcuts';
+import './features/one-key-formatting';
+import './features/tab-to-indent';
 import './features/hide-navigation-hover-highlight';
 import './features/monospace-textareas';
 import './features/selection-in-new-tab';
@@ -18,7 +39,7 @@ import './features/mark-unread';
 import './features/open-all-notifications';
 import './features/copy-on-y';
 import './features/profile-hotkey';
-import './features/make-discussion-sidebar-sticky';
+import './features/sticky-discussion-sidebar';
 import './features/close-out-of-view-modals';
 import './features/improve-shortcut-help';
 import './features/deprioritize-marketplace-link';
@@ -29,7 +50,7 @@ import './features/infinite-scroll';
 import './features/hide-empty-meta';
 import './features/remove-upload-files-button';
 import './features/shorten-links';
-import './features/linkify-urls-in-code';
+import './features/linkify-code';
 import './features/download-folder-button';
 import './features/linkify-branch-refs';
 import './features/batch-open-issues';
@@ -54,7 +75,6 @@ import './features/format-discussion-titles';
 import './features/embed-gist-inline';
 import './features/extend-status-labels';
 import './features/highlight-closing-prs-in-open-issues';
-import './features/highlight-own-issues-and-prs';
 import './features/comments-time-machine-links';
 import './features/hide-issue-list-autocomplete';
 import './features/esc-to-deselect-line';
@@ -66,7 +86,6 @@ import './features/swap-branches-on-compare';
 import './features/reactions-avatars';
 import './features/show-names';
 import './features/remove-diff-signs';
-import './features/mark-merge-commits-in-list';
 import './features/prev-next-commit-buttons';
 import './features/preserve-whitespace-option-in-nav';
 import './features/extend-diff-expander';
@@ -102,12 +121,29 @@ import './features/link-to-file-in-file-history';
 import './features/clean-sidebar';
 import './features/release-download-count';
 import './features/open-issue-to-latest-comment';
+import './features/toggle-everything-with-alt';
 import './features/limit-commit-title-length';
 import './features/highest-rated-comment';
 import './features/clean-issue-filters';
+import './features/minimize-user-comments';
 import './features/minimize-upload-bar';
 import './features/cycle-lists-with-keyboard-shortcuts';
 import './features/add-tag-to-commits';
+import './features/forked-to';
+import './features/submit-review-as-single-comment';
+import './features/edit-readme';
+import './features/list-prs-for-file';
+import './features/pr-branch-auto-delete';
+import './features/linkify-symbolic-links'; // Must be before show-whitespace
+import './features/show-whitespace';
+import './features/hide-zero-packages';
+import './features/revert-file';
+import './features/hidden-review-comments-indicator';
+import './features/reload-failed-proxied-images';
+import './features/clean-rich-text-editor';
+import './features/highlight-collaborators-and-own-discussions';
+import './features/embed-gist-via-iframe';
+import './features/expand-all-collapsed-code';
 
 import './features/scrollable-code-and-blockquote.css';
 import './features/center-reactions-popup.css';
@@ -128,4 +164,5 @@ import './features/clean-rich-text-editor.css';
 // Import the `.css` file from the `.tsx` instead.
 
 // Add global for easier debugging
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 (window as any).select = select;

@@ -1,19 +1,16 @@
-import {addContextMenu} from 'webext-domain-permission-toggle';
-import './libs/declarative-content-scripts';
+import 'webext-dynamic-content-scripts';
+import addDomainPermissionToggle from 'webext-domain-permission-toggle';
 import './options-storage';
 
-browser.runtime.onMessage.addListener(async message => {
-	if (!message || message.action !== 'openAllInTabs') {
-		return;
-	}
-
-	const [currentTab] = await browser.tabs.query({currentWindow: true, active: true});
-	for (const [i, url] of (message.urls as string[]).entries()) {
-		browser.tabs.create({
-			url,
-			index: currentTab.index + i + 1,
-			active: false
-		});
+browser.runtime.onMessage.addListener((message, {tab}) => {
+	if (message && Array.isArray(message.openUrls)) {
+		for (const [i, url] of (message.openUrls as string[]).entries()) {
+			browser.tabs.create({
+				url,
+				index: tab!.index + i + 1,
+				active: false
+			});
+		}
 	}
 });
 
@@ -40,4 +37,4 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 });
 
 // GitHub Enterprise support
-addContextMenu();
+addDomainPermissionToggle();

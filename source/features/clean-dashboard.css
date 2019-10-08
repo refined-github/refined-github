@@ -102,3 +102,8 @@
 	padding-top: 4px !important;
 	padding-bottom: 4px !important;
 }
+
+/* Hide "Security" ad */
+[data-ga-load='Dashboard, view, Advanced Security'] {
+	display: none;
+}

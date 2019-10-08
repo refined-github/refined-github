@@ -46,13 +46,14 @@ async function init(): Promise<false | void> {
 		}
 
 		releasesTab.classList.add('js-selected-navigation-item', 'selected');
-		releasesTab.setAttribute('data-selected-links', 'repo_releases'); // Required for ajaxLoad
+		releasesTab.dataset.selectedLinks = 'repo_releases'; // Required for ajaxLoad
 	}
 }
 
 features.add({
 	id: __featureName__,
-	description: 'Access a repository’s releases using the "Releases" tab or by pressing `g` `r`',
+	description: 'Adds a `Releases` tab and a keyboard shortcut: `g` `r`.',
+	screenshot: 'https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png',
 	include: [
 		features.isRepo
 	],
@@ -65,7 +66,8 @@ features.add({
 
 features.add({
 	id: __featureName__,
-	description: '',
+	description: false,
+	screenshot: false,
 	include: [
 		features.isRepo
 	],

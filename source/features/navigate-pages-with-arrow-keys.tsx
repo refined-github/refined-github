@@ -4,18 +4,19 @@ import features from '../libs/features';
 function init(): void {
 	const createNextPageButton = select('a.next_page');
 	if (createNextPageButton) {
-		createNextPageButton.setAttribute('data-hotkey', 'ArrowRight');
+		createNextPageButton.dataset.hotkey = 'ArrowRight';
 	}
 
 	const createPreviousPageButton = select('a.previous_page');
 	if (createPreviousPageButton) {
-		createPreviousPageButton.setAttribute('data-hotkey', 'ArrowLeft');
+		createPreviousPageButton.dataset.hotkey = 'ArrowLeft';
 	}
 }
 
 features.add({
 	id: __featureName__,
-	description: 'Use the `←` and `→` keys to navigate through pages with pagination',
+	description: 'Adds shortcuts to navigate through pages with pagination: `←` and `→`.',
+	screenshot: false,
 	load: features.onAjaxedPages,
 	shortcuts: {
 		'→': 'Go to the next page',

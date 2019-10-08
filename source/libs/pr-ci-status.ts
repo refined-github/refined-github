@@ -4,8 +4,11 @@ import observeEl from './simplified-element-observer';
 type CommitStatus = false | typeof SUCCESS | typeof FAILURE | typeof PENDING | typeof COMMIT_CHANGED;
 type StatusListener = (status: CommitStatus) => void;
 
-function getLastCommit(): string | null {
-	return select.last('[id^="commits-pushed"] .commit-id')!.textContent;
+// `.TimelineItem--condensed` excludes unrelated references. See `deemphasize-unrelated-commit-references` feature
+const commitSelector = '.js-commit.TimelineItem--condensed';
+
+function getLastCommitRef(): string | null {
+	return select.last(`${commitSelector} code`)!.textContent;
 }
 
 export const SUCCESS = Symbol('Success');
@@ -15,8 +18,7 @@ export const COMMIT_CHANGED = Symbol('Commit changed');
 
 export function get(): CommitStatus {
 	// Excludes commit references. Sometimes commits don't have a status icon at all, yet
-	const commits = select.all('[id^="commits-pushed"] .commit');
-	const lastCommit = commits[commits.length - 1];
+	const lastCommit = select.last(commitSelector);
 	if (lastCommit) {
 		if (lastCommit.querySelector('.octicon-check')) {
 			return SUCCESS;
@@ -34,7 +36,7 @@ export function get(): CommitStatus {
 	return false;
 }
 
-export function wait(): Promise<CommitStatus> {
+export async function wait(): Promise<CommitStatus> {
 	return new Promise(resolve => {
 		addEventListener(function handler(newStatus: CommitStatus) {
 			removeEventListener(handler);
@@ -50,11 +52,11 @@ export function addEventListener(listener: StatusListener): void {
 		return;
 	}
 
-	let previousCommit = getLastCommit();
+	let previousCommit = getLastCommitRef();
 	let previousStatus = get();
 	const filteredListener = (): void => {
 		// Cancel submission if a new commit was pushed
-		const newCommit = getLastCommit();
+		const newCommit = getLastCommitRef();
 		if (newCommit !== previousCommit) {
 			previousCommit = newCommit;
 			listener(COMMIT_CHANGED);

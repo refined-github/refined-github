@@ -7,25 +7,48 @@ import SizePlugin from 'size-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
 function parseFeatureDetails(name: string): FeatureInfo {
 	const content = readFileSync(`source/features/${name}.tsx`, {encoding: 'utf-8'});
-	const rawRegex = ['description', 'screenshot', 'disabled']
-		.map(field => `\n\t${field}: '(?<${field}>[^\\n]+)'`) // Named group regex
-		.join('|');
+	const fields = ['disabled', 'description', 'screenshot'] as const;
 
-	const feature = new RegExp(rawRegex).exec(content)!.groups!;
-	feature.name = name;
-	return feature as unknown as FeatureInfo;
+	const feature: Partial<FeatureInfo> = {name};
+	for (const field of fields) {
+		const [, value]: string[] | [] = new RegExp(`\n\t${field}: '([^\\n]+)'`).exec(content) || [];
+		if (value) {
+			const validValue = value.trim().replace(/\\'/g, '’'); // Catch trailing spaces and incorrect apostrophes
+			if (value !== validValue) {
+				throw new Error(`
+Invalid characters found in \`${name}\`. Apply this patch:
+
+- ${field}: '${value}'
++ ${field}: '${validValue}'
+`);
+			}
+
+			feature[field] = value.replace(/\\\\/g, '\\');
+		} else if (field === 'description') {
+			throw new Error(`Description wasn't found in the \`${name}\` feature`);
+		}
+	}
+
+	return feature as FeatureInfo;
 }
 
-const features = readdirSync(path.join(__dirname, 'source/features'))
-	.filter(filename => filename.endsWith('.tsx'))
-	.map(filename => filename.replace('.tsx', ''));
+function getFeatures(): string[] {
+	return readdirSync(path.join(__dirname, 'source/features'))
+		.filter(filename => filename.endsWith('.tsx'))
+		.map(filename => filename.replace('.tsx', ''));
+}
 
 module.exports = (_env: string, argv: Record<string, boolean | number | string>): webpack.Configuration => ({
 	devtool: 'source-map',
-	stats: 'errors-only',
+	stats: {
+		all: false,
+		errors: true,
+		builtAt: true
+	},
 	entry: {
 		content: './source/content',
 		background: './source/background',
@@ -50,7 +73,10 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 
 								// With this, TS will error but the file will still be generated (on watch only)
 								noEmitOnError: argv.watch === false
-							}
+							},
+
+							// Make compilation faster with `fork-ts-checker-webpack-plugin`
+							transpileOnly: true
 						}
 					}
 				],
@@ -66,10 +92,17 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 		]
 	},
 	plugins: [
+		new ForkTsCheckerWebpackPlugin(),
 		new webpack.DefinePlugin({
-			// These aren't dynamic because `runtimeValue` doesn't update when "any" file updates, but only when the files with these variables update — which is not very useful.
-			__featuresList__: JSON.stringify(features),
-			__featuresInfo__: JSON.stringify(features.map(parseFeatureDetails)),
+			// Passing `true` as the second argument makes these values dynamic — so every file change will update their value.
+			// @ts-ignore
+			__featuresList__: webpack.DefinePlugin.runtimeValue(() => {
+				return JSON.stringify(getFeatures());
+			}, true),
+			// @ts-ignore
+			__featuresInfo__: webpack.DefinePlugin.runtimeValue(() => {
+				return JSON.stringify(getFeatures().map(parseFeatureDetails));
+			}, true),
 
 			// @ts-ignore
 			__featureName__: webpack.DefinePlugin.runtimeValue(({module}) => {
@@ -77,9 +110,11 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 			})
 		}),
 		new MiniCssExtractPlugin({
-			filename: 'features.css'
+			filename: '[name].css'
 		}),
-		new SizePlugin(),
+		new SizePlugin({
+			writeFile: false
+		}),
 		new CopyWebpackPlugin([
 			{
 				from: '*',
@@ -87,7 +122,8 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 				ignore: [
 					'*.js',
 					'*.ts',
-					'*.tsx'
+					'*.tsx',
+					'*.css'
 				]
 			},
 			{

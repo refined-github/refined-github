@@ -1,0 +1,15 @@
+name: No banned git tags
+
+on:
+  push:
+    tags:
+      - hotfix
+jobs:
+  delete:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: fregante/setup-git-token@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - run: git push --delete origin hotfix

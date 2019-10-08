@@ -5,9 +5,11 @@ import domLoaded from 'dom-loaded';
 import features from '../libs/features';
 
 async function init(): Promise<void> {
-	(await elementReady('.Header-link[href="/marketplace"]'))!
+	const marketPlaceLink = (await elementReady('.Header-link[href="/marketplace"]'));
+	if (marketPlaceLink) {
 		// The Marketplace link seems to have an additional wrapper that other links don't have https://i.imgur.com/KV9rtSq.png
-		.closest('.border-top, .mr-3')!.remove();
+		marketPlaceLink.closest('.border-top, .mr-3')!.remove();
+	}
 
 	await domLoaded;
 
@@ -19,7 +21,8 @@ async function init(): Promise<void> {
 
 features.add({
 	id: __featureName__,
-	description: 'Move the "Marketplace" link from the black header bar to the profile dropdown',
+	description: 'Moves the "Marketplace" link from the black header bar to the profile dropdown.',
+	screenshot: false,
 	exclude: [
 		features.isGist
 	],

@@ -21,7 +21,7 @@ const renderAvatar = (image: HTMLImageElement): HTMLElement => {
 	return (
 		<a
 			href={(image.parentElement as HTMLAnchorElement).href}
-			aria-label={image.alt.substr(1)}
+			aria-label={image.alt.slice(1)}
 			className="tooltipped tooltipped-n avatar-group-item mr-1"
 		>
 			{image}
@@ -51,6 +51,7 @@ async function init(): Promise<false | void> {
 features.add({
 	id: __featureName__,
 	description: 'Followers you know are shown on profile pages',
+	screenshot: false,
 	include: [
 		features.isUserProfile
 	],

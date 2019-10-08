@@ -26,12 +26,13 @@ function init(): void {
 }
 
 features.add({
-	id: 'limit-commit-title-length',
-	description: 'Limits the length of commit fields to 72 characters',
-	init,
+	id: __featureName__,
+	description: 'Limits the commit title fields to 72 characters.',
+	screenshot: 'https://user-images.githubusercontent.com/37769974/60379478-106b3280-9a51-11e9-88b9-0e3607f214cd.gif',
 	load: features.onAjaxedPages,
 	include: [
 		features.isPRConversation,
 		features.isEditingFile
-	]
+	],
+	init
 });
