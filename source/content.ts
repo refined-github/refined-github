@@ -145,24 +145,6 @@ import './features/highlight-collaborators-and-own-discussions';
 import './features/embed-gist-via-iframe';
 import './features/expand-all-collapsed-code';
 
-import './features/scrollable-code-and-blockquote.css';
-import './features/center-reactions-popup.css';
-import './features/widen-search-field.css';
-import './features/clean-dashboard.css';
-import './features/safer-destructive-actions.css';
-import './features/delete-fork-button.css';
-import './features/clean-mergeability-box.css';
-import './features/clean-footer.css';
-import './features/pr-approvals-count.css';
-import './features/align-issue-labels.css';
-import './features/hide-tips.css';
-import './features/hide-readme-header.css';
-import './features/hide-obvious-tooltips.css';
-import './features/clean-discussions.css';
-import './features/clean-rich-text-editor.css';
-// DO NOT add CSS files if they are part of a JavaScript feature.
-// Import the `.css` file from the `.tsx` instead.
-
 // Add global for easier debugging
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 (window as any).select = select;
