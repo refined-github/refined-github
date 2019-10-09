@@ -10,7 +10,7 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 	const filterQuery = `${filterCategory}:${filterValue}`;
 
 	const isSelected = currentQuerySegments.some(
-		segment => segment.toLowerCase() ===  filterQuery
+		segment => segment.toLowerCase() === filterQuery
 	);
 
 	const query = currentQuerySegments.filter(
@@ -43,7 +43,7 @@ function addDraftFilter(reviewsFilter: HTMLElement): void {
 		>
 			Filter by draft pull requests
 		</div>
-	)
+	);
 
 	addDropdownItem(dropdown, 'Ready for review', 'draft', 'false');
 	addDropdownItem(dropdown, 'Not ready for review (Draft PR)', 'draft', 'true');
