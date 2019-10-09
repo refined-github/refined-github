@@ -35,25 +35,20 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 }
 
 function addDraftFilter(reviewsFilter: HTMLElement): void {
-	const dropdown = select('.select-menu-list', reviewsFilter as Element)!;
+	reviewsFilter.addEventListener('toggle', () => {
+		const dropdown = select('.select-menu-list', reviewsFilter)!;
 
-	dropdown.append(
-		<div
-			className="SelectMenu-divider"
-		>
-			Filter by draft pull requests
-		</div>
-	);
+		dropdown.append(
+			<div
+				className="SelectMenu-divider"
+			>
+				Filter by draft pull requests
+			</div>
+		);
 
-	addDropdownItem(dropdown, 'Ready for review', 'draft', 'false');
-	addDropdownItem(dropdown, 'Not ready for review (Draft PR)', 'draft', 'true');
-}
-
-function populateStatusDropdown({currentTarget}: Event): void {
-	const dropdown = select('.select-menu-list', currentTarget as Element)!;
-	for (const status of ['Success', 'Failure', 'Pending']) {
-		addDropdownItem(dropdown, status, 'status', status.toLowerCase());
-	}
+		addDropdownItem(dropdown, 'Ready for review', 'draft', 'false');
+		addDropdownItem(dropdown, 'Not ready for review (Draft PR)', 'draft', 'true');
+	}, {once: true});
 }
 
 async function addStatusFilter(reviewsFilter: HTMLElement): Promise<void | false> {
@@ -65,11 +60,17 @@ async function addStatusFilter(reviewsFilter: HTMLElement): Promise<void | false
 
 	// Copy existing element and adapt its content
 	const statusFilter = reviewsFilter.cloneNode(true) as HTMLDetailsElement;
+	const dropdown = select('.select-menu-list', statusFilter)!;
+
 	select('summary', statusFilter)!.textContent = 'Status\u00A0';
 	select('.select-menu-title', statusFilter)!.textContent = 'Filter by build status';
-	select('.select-menu-list', statusFilter)!.textContent = ''; // Drop previous filters
+	dropdown.textContent = ''; // Drop previous filters
 
-	statusFilter.addEventListener('toggle', populateStatusDropdown, {once: true});
+	statusFilter.addEventListener('toggle', () => {
+		for (const status of ['Success', 'Failure', 'Pending']) {
+			addDropdownItem(dropdown, status, 'status', status.toLowerCase());
+		}
+	}, {once: true});
 	reviewsFilter.after(statusFilter);
 }
 
