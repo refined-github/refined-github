@@ -4,47 +4,62 @@ import {checkInline} from '../libs/icons';
 import features from '../libs/features';
 import {fetchCIStatus} from './ci-link';
 
-function populateDropDown({currentTarget}: Event): void {
-	const searchParam = new URLSearchParams(location.search);
-	let queryString = searchParam.get('q') || '';
+let currentQuerySegments: string[];
 
-	const [currentStatus = ''] = /\bstatus:(?:success|failure|pending)\b/.exec(queryString) || [];
+function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: string, filterValue: string): void {
+	const filterQuery = `${filterCategory}:${filterValue}`;
 
-	if (currentStatus) {
-		queryString = queryString.replace(currentStatus, '').trim();
-	}
+	const isSelected = currentQuerySegments.some(
+		segment => segment.toLowerCase() ===  filterQuery
+	);
 
+	const query = currentQuerySegments.filter(
+		segment => !segment.startsWith(`${filterCategory}:`)
+	).join(' ');
+
+	const search = new URLSearchParams({
+		q: query + (isSelected ? '' : ` ${filterQuery}`)
+	});
+
+	dropdown.append(
+		<a
+			href={`?${search}`}
+			className={`select-menu-item ${isSelected ? 'selected' : ''}`}
+			aria-checked={isSelected}
+			role="menuitemradio"
+		>
+			{checkInline()}
+			<div className="select-menu-item-text">{title}</div>
+		</a>
+	);
+}
+
+function addDraftFilter(reviewsFilter: HTMLElement): void {
+	const dropdown = select('.select-menu-list', reviewsFilter as Element)!;
+
+	dropdown.append(
+		<div
+			className="SelectMenu-divider"
+		>
+			Filter by draft pull requests
+		</div>
+	)
+
+	addDropdownItem(dropdown, 'Ready for review', 'draft', 'false');
+	addDropdownItem(dropdown, 'Not ready for review (Draft PR)', 'draft', 'true');
+}
+
+function populateStatusDropdown({currentTarget}: Event): void {
 	const dropdown = select('.select-menu-list', currentTarget as Element)!;
 	for (const status of ['Success', 'Failure', 'Pending']) {
-		const isSelected = currentStatus.toLowerCase() === status.toLowerCase();
-		const search = new URLSearchParams({
-			q: `${queryString} status:${status.toLowerCase()}`
-		});
-
-		dropdown.append(
-			<a
-				href={`?${search}`}
-				className={`select-menu-item ${isSelected ? 'selected' : ''}`}
-				aria-checked={isSelected}
-				role="menuitemradio"
-			>
-				{checkInline()}
-				<div className="select-menu-item-text">{status}</div>
-			</a>
-		);
+		addDropdownItem(dropdown, status, 'status', status.toLowerCase());
 	}
 }
 
-async function init(): Promise<void | false> {
+async function addStatusFilter(reviewsFilter: HTMLElement): Promise<void | false> {
 	const hasCI = await fetchCIStatus();
 
 	if (!hasCI) {
-		return false;
-	}
-
-	const reviewsFilter = select('.table-list-header-toggle > details:nth-last-child(3)')!;
-
-	if (!reviewsFilter) {
 		return false;
 	}
 
@@ -54,13 +69,28 @@ async function init(): Promise<void | false> {
 	select('.select-menu-title', statusFilter)!.textContent = 'Filter by build status';
 	select('.select-menu-list', statusFilter)!.textContent = ''; // Drop previous filters
 
-	statusFilter.addEventListener('toggle', populateDropDown, {once: true});
+	statusFilter.addEventListener('toggle', populateStatusDropdown, {once: true});
 	reviewsFilter.after(statusFilter);
+}
+
+async function init(): Promise<void | false> {
+	const reviewsFilter = select('.table-list-header-toggle > details:nth-last-child(3)')!;
+
+	if (!reviewsFilter) {
+		return false;
+	}
+
+	const searchParam = new URLSearchParams(location.search);
+	currentQuerySegments = (searchParam.get('q') || '').split(/\s+/);
+
+	addDraftFilter(reviewsFilter);
+
+	return addStatusFilter(reviewsFilter);
 }
 
 features.add({
 	id: __featureName__,
-	description: 'Adds a `Build status` dropdown filter in PR lists.',
+	description: 'Adds `Build status` and draft PR dropdown filters in PR lists.',
 	screenshot: 'https://user-images.githubusercontent.com/22439276/56372372-7733ca80-621c-11e9-8b60-a0b95aa4cd4f.png',
 	include: [
 		features.isPRList
