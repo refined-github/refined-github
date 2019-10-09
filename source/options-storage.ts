@@ -33,6 +33,7 @@ for (const feature of __featuresList__) {
 const migrations = [
 	featureWasRenamed('linkify-code', 'linkify-urls-in-code'), // Merged on September 1st
 	featureWasRenamed('highlight-collaborators-in-lists', 'highlight-collaborators-and-own-discussions'), // Merged on September 20th
+	featureWasRenamed('filter-pr-by-build-status', 'pr-filters'),
 
 	// Removed features will be automatically removed from the options as well
 	OptionsSync.migrations.removeUnused

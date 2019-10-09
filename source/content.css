@@ -24,7 +24,7 @@
 	border-top: none !important;
 }
 
-/* For `open-all-selected` and `filter-pr-by-build-status`: set a reduced padding for all buttons for #1830 and #1904 */
+/* For `open-all-selected` and `pr-filters`: set a reduced padding for all buttons for #1830 and #1904 */
 .table-list-filters .table-list-header-toggle .select-menu-button {
 	padding-right: 8px;
 	padding-left: 8px;
