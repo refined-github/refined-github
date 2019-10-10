@@ -2,10 +2,10 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
-async function init(): Promise<false | void> {
+function init(): void {
 	const previewForm = select('.new-pr-form')! as HTMLFormElement;
 
-	// move the "Allow edits from maintainers" to its own line if it exists
+	// Move the "Allow edits from maintainers" to its own line if it exists
 	const allowEditsCheckbox = select('.float-left', previewForm);
 	if (allowEditsCheckbox) {
 		allowEditsCheckbox.classList.remove('float-left');
@@ -14,7 +14,6 @@ async function init(): Promise<false | void> {
 	const buttonBar = select('.flex-justify-end', previewForm)!;
 	const defaultButton = select('.BtnGroup', buttonBar)!;
 
-	// hide default button with dropdown
 	defaultButton.hidden = true;
 
 	const menuItems = select.all('.select-menu-item', defaultButton);
@@ -29,7 +28,7 @@ async function init(): Promise<false | void> {
 			classList.push('btn-primary');
 		}
 
-		const submitForm = () => {
+		const submitForm = (): void => {
 			radioButton.checked = true;
 			previewForm.submit();
 		};
@@ -43,7 +42,7 @@ async function init(): Promise<false | void> {
 			>
 				{title}
 			</button>
-		)
+		);
 	}
 }
 
