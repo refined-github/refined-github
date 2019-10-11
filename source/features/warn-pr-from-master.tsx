@@ -12,7 +12,7 @@ async function init(): Promise<false | void> {
 
 	select('.gh-header-new-pr')!.append(
 		<div className="flash flash-error my-3">
-			<strong>Note:</strong> Creating a PR from the the default branch is an <a href="https://blog.jasonmeridth.com/posts/do-not-issue-pull-requests-from-your-master-branch/" target="_blank">anti-pattern</a>.
+			<strong>Note:</strong> Creating a PR from the default branch is an <a href="https://blog.jasonmeridth.com/posts/do-not-issue-pull-requests-from-your-master-branch/" target="_blank">anti-pattern</a>.
 		</div>
 	);
 }
