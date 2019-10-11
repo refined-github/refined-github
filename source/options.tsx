@@ -53,7 +53,7 @@ async function init(): Promise<void> {
 
 	const form = select('form')!;
 	const optionsByDomain = await getAllOptions();
-	await optionsByDomain.get('https://github.com')!.syncForm(form);
+	await optionsByDomain.get('github.com')!.syncForm(form);
 
 	fitTextarea.watch('textarea');
 	indentTextarea.watch('textarea');
@@ -74,8 +74,8 @@ async function init(): Promise<void> {
 					options.stopSyncForm();
 				}
 			}
-			const newDomain = (event.target as HTMLInputElement).value;
-			select('#personal-token-link')!.setAttribute('href', `${newDomain}/settings/tokens/new?description=Refined%20GitHub&scopes=repo`);
+			const newHost = (event.target as HTMLInputElement).value;
+			(select('#personal-token-link') as HTMLAnchorElement)!.host = newHost;
 		});
 	}
 

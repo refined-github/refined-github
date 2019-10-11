@@ -56,12 +56,12 @@ export default getOptions(location.protocol.startsWith('http') ? location.host :
 
 export async function getAllOptions(): Promise<Map<string, OptionsSync<RGHOptions>>> {
 	const optionsByDomain = new Map<string, OptionsSync<RGHOptions>>();
-	optionsByDomain.set('https://github.com', getOptions('github.com'));
+	optionsByDomain.set('github.com', getOptions('github.com'));
 
 	const {origins} = await getAdditionalPermissions();
 	for (const origin of origins) {
-		const {protocol, host} = new URL(origin);
-		optionsByDomain.set(`${protocol}//${host}`, getOptions(host));
+		const {host} = new URL(origin);
+		optionsByDomain.set(host, getOptions(host));
 	}
 
 	return optionsByDomain;
