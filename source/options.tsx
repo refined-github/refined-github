@@ -76,7 +76,7 @@ async function init(): Promise<void> {
 			}
 
 			const newHost = (event.target as HTMLInputElement).value;
-			(select('#personal-token-link') as HTMLAnchorElement)!.host = newHost;
+			select<HTMLAnchorElement>('#personal-token-link')!.host = newHost;
 		});
 	}
 
