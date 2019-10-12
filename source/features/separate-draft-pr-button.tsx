@@ -3,7 +3,13 @@ import select from 'select-dom';
 import features from '../libs/features';
 
 function init(): void {
-	const previewForm = select('.new-pr-form')! as HTMLFormElement;
+	const previewForm = select('.new-pr-form') as HTMLFormElement;
+
+	// PRs can't be created from some comparison pages:
+	// Either base is a tag, not a branch; or there already exists a PR.
+	if (!previewForm) {
+		return;
+	}
 
 	// Move the "Allow edits from maintainers" to its own line if it exists
 	const allowEditsCheckbox = select('.float-left', previewForm);
