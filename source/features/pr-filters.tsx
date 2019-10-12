@@ -25,7 +25,7 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 		<a
 			href={`?${search}`}
 			className={`select-menu-item ${isSelected ? 'selected' : ''}`}
-			aria-checked={isSelected}
+			aria-checked={isSelected ? 'true' : 'false'}
 			role="menuitemradio"
 		>
 			{checkInline()}
@@ -39,9 +39,7 @@ function addDraftFilter(reviewsFilter: HTMLElement): void {
 		const dropdown = select('.select-menu-list', reviewsFilter)!;
 
 		dropdown.append(
-			<div
-				className="SelectMenu-divider"
-			>
+			<div className="SelectMenu-divider">
 				Filter by draft pull requests
 			</div>
 		);
