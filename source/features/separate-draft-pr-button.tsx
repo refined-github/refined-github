@@ -14,8 +14,6 @@ function init(): void {
 	const buttonBar = select('.flex-justify-end', previewForm)!;
 	const defaultButton = select('.BtnGroup', buttonBar)!;
 
-	defaultButton.hidden = true;
-
 	const menuItems = select.all('.select-menu-item', defaultButton);
 
 	for (const menuItem of menuItems) {
@@ -28,21 +26,19 @@ function init(): void {
 			classList.push('btn-primary');
 		}
 
-		const submitForm = (): void => {
-			radioButton.checked = true;
-			previewForm.submit();
-		};
-
 		buttonBar.prepend(
 			<button
 				className={classList.join(' ')}
 				aria-label={description}
-				type="button"
-				onClick={submitForm}
+				type="submit"
+				name={radioButton.name}
+				value={radioButton.value}
 			>
 				{title}
 			</button>
 		);
+
+		defaultButton.remove();
 	}
 }
 
