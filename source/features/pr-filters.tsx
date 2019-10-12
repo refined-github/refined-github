@@ -35,25 +35,23 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 }
 
 function addDraftFilter(reviewsFilter: HTMLElement): void {
-	reviewsFilter.addEventListener('toggle', () => {
-		const dropdown = select('.select-menu-list', reviewsFilter)!;
+	const dropdown = select('.select-menu-list', reviewsFilter)!;
 
-		dropdown.append(
-			<div className="SelectMenu-divider">
-				Filter by draft pull requests
-			</div>
-		);
+	dropdown.append(
+		<div className="SelectMenu-divider">
+			Filter by draft pull requests
+		</div>
+	);
 
-		addDropdownItem(dropdown, 'Ready for review', 'draft', 'false');
-		addDropdownItem(dropdown, 'Not ready for review (Draft PR)', 'draft', 'true');
-	}, {once: true});
+	addDropdownItem(dropdown, 'Ready for review', 'draft', 'false');
+	addDropdownItem(dropdown, 'Not ready for review (Draft PR)', 'draft', 'true');
 }
 
-async function addStatusFilter(reviewsFilter: HTMLElement): Promise<void | false> {
+async function addStatusFilter(reviewsFilter: HTMLElement): Promise<void> {
 	const hasCI = await fetchCIStatus();
 
 	if (!hasCI) {
-		return false;
+		return;
 	}
 
 	// Copy existing element and adapt its content
@@ -72,19 +70,18 @@ async function addStatusFilter(reviewsFilter: HTMLElement): Promise<void | false
 	reviewsFilter.after(statusFilter);
 }
 
-async function init(): Promise<void | false> {
-	const reviewsFilter = select('.table-list-header-toggle > details:nth-last-child(3)')!;
+function init(): void {
+	const reviewsFilter = select('.table-list-header-toggle > details:nth-last-child(3)');
 
 	if (!reviewsFilter) {
-		return false;
+		return;
 	}
 
 	const searchParam = new URLSearchParams(location.search);
 	currentQuerySegments = (searchParam.get('q') || '').split(/\s+/);
 
-	addDraftFilter(reviewsFilter);
-
-	return addStatusFilter(reviewsFilter);
+	reviewsFilter.addEventListener('toggle', () => addDraftFilter(reviewsFilter), {once: true});
+	addStatusFilter(reviewsFilter);
 }
 
 features.add({
