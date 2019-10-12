@@ -12,14 +12,13 @@ function init(): void {
 	}
 
 	const buttonBar = select('.flex-justify-end', previewForm)!;
-	const defaultButton = select('.BtnGroup', buttonBar)!;
+	const createPrButtonGroup = select('.BtnGroup', buttonBar)!;
+	const createPrDropdownItems = select.all('.select-menu-item', createPrButtonGroup);
 
-	const menuItems = select.all('.select-menu-item', defaultButton);
-
-	for (const menuItem of menuItems) {
-		const title = select('.select-menu-item-heading', menuItem)!.textContent!.trim();
-		const description = select('.description', menuItem)!.textContent!.trim();
-		const radioButton = select('[type=radio]', menuItem)! as HTMLInputElement;
+	for (const dropdownItem of createPrDropdownItems) {
+		const title = select('.select-menu-item-heading', dropdownItem)!.textContent!.trim();
+		const description = select('.description', dropdownItem)!.textContent!.trim();
+		const radioButton = select('[type=radio]', dropdownItem)! as HTMLInputElement;
 
 		const classList = ['btn', 'ml-2', 'tooltipped', 'tooltipped-s'];
 		if (!title.toLowerCase().includes('draft')) {
@@ -38,7 +37,7 @@ function init(): void {
 			</button>
 		);
 
-		defaultButton.remove();
+		createPrButtonGroup.remove();
 	}
 }
 
