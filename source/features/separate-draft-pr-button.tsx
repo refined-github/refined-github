@@ -25,9 +25,9 @@ function init(): void {
 		const title = select('.select-menu-item-heading', dropdownItem)!.textContent!.trim();
 		const description = select('.description', dropdownItem)!.textContent!.trim();
 		const radioButton = select('[type=radio]', dropdownItem)! as HTMLInputElement;
-
 		const classList = ['btn', 'ml-2', 'tooltipped', 'tooltipped-s'];
-		if (!title.toLowerCase().includes('draft')) {
+
+		if (!/\bdraft\b/i.test(title)) {
 			classList.push('btn-primary');
 		}
 
