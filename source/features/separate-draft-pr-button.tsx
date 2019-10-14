@@ -46,7 +46,7 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Separates `Create draft pull request` and `Create pull request` buttons.',
+	description: 'Lets you create draft pull requests in one click.',
 	screenshot: 'https://user-images.githubusercontent.com/202916/66609826-4a081980-ebba-11e9-80d8-cdef503a8a80.png',
 	include: [
 		features.isCompare
