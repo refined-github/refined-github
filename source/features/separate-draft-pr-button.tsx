@@ -23,8 +23,7 @@ function init(): void {
 
 		if (/\bdraft\b/i.test(title)) {
 			title = 'Create draft PR';
-		}
-		else {
+		} else {
 			classList.push('btn-primary');
 		}
 
