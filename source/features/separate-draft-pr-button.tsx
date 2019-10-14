@@ -11,23 +11,20 @@ function init(): void {
 		return;
 	}
 
-	// Move the "Allow edits from maintainers" to its own line if it exists
-	const allowEditsCheckbox = select('.float-left', previewForm);
-	if (allowEditsCheckbox) {
-		allowEditsCheckbox.classList.remove('float-left');
-	}
-
 	const buttonBar = select('.flex-justify-end', previewForm)!;
 	const createPrButtonGroup = select('.BtnGroup', buttonBar)!;
 	const createPrDropdownItems = select.all('.select-menu-item', createPrButtonGroup);
 
 	for (const dropdownItem of createPrDropdownItems) {
-		const title = select('.select-menu-item-heading', dropdownItem)!.textContent!.trim();
+		let title = select('.select-menu-item-heading', dropdownItem)!.textContent!.trim();
 		const description = select('.description', dropdownItem)!.textContent!.trim();
 		const radioButton = select('[type=radio]', dropdownItem)! as HTMLInputElement;
 		const classList = ['btn', 'ml-2', 'tooltipped', 'tooltipped-s'];
 
-		if (!/\bdraft\b/i.test(title)) {
+		if (/\bdraft\b/i.test(title)) {
+			title = 'Create draft PR';
+		}
+		else {
 			classList.push('btn-primary');
 		}
 
