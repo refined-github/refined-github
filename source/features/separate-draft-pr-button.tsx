@@ -3,7 +3,7 @@ import select from 'select-dom';
 import features from '../libs/features';
 
 function init(): void {
-	const previewForm = select('.new-pr-form') as HTMLFormElement;
+	const previewForm = select<HTMLFormElement>('.new-pr-form');
 
 	// PRs can't be created from some comparison pages:
 	// Either base is a tag, not a branch; or there already exists a PR.
@@ -11,14 +11,14 @@ function init(): void {
 		return;
 	}
 
-	const buttonBar = select('.flex-justify-end', previewForm)!;
+	const buttonBar = select('.timeline-comment > :last-child', previewForm)!;
 	const createPrButtonGroup = select('.BtnGroup', buttonBar)!;
 	const createPrDropdownItems = select.all('.select-menu-item', createPrButtonGroup);
 
 	for (const dropdownItem of createPrDropdownItems) {
 		let title = select('.select-menu-item-heading', dropdownItem)!.textContent!.trim();
 		const description = select('.description', dropdownItem)!.textContent!.trim();
-		const radioButton = select('[type=radio]', dropdownItem)! as HTMLInputElement;
+		const radioButton = select<HTMLInputElement>('[type=radio]', dropdownItem)!;
 		const classList = ['btn', 'ml-2', 'tooltipped', 'tooltipped-s'];
 
 		if (/\bdraft\b/i.test(title)) {
