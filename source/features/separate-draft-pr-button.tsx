@@ -3,7 +3,7 @@ import select from 'select-dom';
 import features from '../libs/features';
 
 function init(): void {
-	const previewForm = select<HTMLFormElement>('.new-pr-form');
+	const previewForm = select('.new-pr-form');
 
 	// PRs can't be created from some comparison pages:
 	// Either base is a tag, not a branch; or there already exists a PR.
