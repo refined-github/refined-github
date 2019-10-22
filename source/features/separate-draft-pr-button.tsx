@@ -38,9 +38,9 @@ function init(): void {
 				{title}
 			</button>
 		);
-
-		createPrButtonGroup.remove();
 	}
+
+	createPrButtonGroup.remove();
 }
 
 features.add({
