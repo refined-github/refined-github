@@ -4,7 +4,7 @@ import features from '../libs/features';
 import {groupSiblings} from '../libs/group-buttons';
 
 function init(): void {
-	const rawButton = select('#raw-url') as HTMLAnchorElement;
+	const rawButton = select<HTMLAnchorElement>('#raw-url');
 	if (rawButton && /\.html?/.test(rawButton.pathname)) {
 		const link = rawButton.pathname.split('/');
 		// Remove /raw/
