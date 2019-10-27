@@ -6,15 +6,15 @@ import {groupSiblings} from '../libs/group-buttons';
 function init(): void {
 	const rawButton = select('#raw-url') as HTMLAnchorElement;
 	if (rawButton && /\.html?/.test(rawButton.pathname)) {
-		const link = rawButton.pathname.split('/')
+		const link = rawButton.pathname.split('/');
 		// Remove /raw/
-		link.splice(3, 1)
+		link.splice(3, 1);
 		rawButton
 			.parentElement! // `BtnGroup`
 			.prepend(
 				<a
 					className="btn btn-sm BtnGroup-item"
-				  href={`https://cdn.statically.io/gh${link.join('/')}`}>
+					href={`https://cdn.statically.io/gh${link.join('/')}`}>
 					Preview
 				</a>
 			);
@@ -34,4 +34,4 @@ features.add({
 	],
 	load: features.onAjaxedPages,
 	init
-})
+});
