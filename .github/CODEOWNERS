@@ -10,3 +10,4 @@ source/features/open-issue-to-latest-comment.tsx @dotconnor
 source/features/highest-rated-comment.tsx @lubien
 source/features/clean-issue-filters.tsx @notlmn
 source/features/cycle-lists-with-keyboard-shortcuts.tsx @notlmn
+source/features/separate-draft-pr-button.tsx @FloEdelmann

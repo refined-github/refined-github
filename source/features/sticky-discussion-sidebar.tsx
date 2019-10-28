@@ -2,9 +2,12 @@ import './sticky-discussion-sidebar.css';
 import select from 'select-dom';
 import debounce from 'debounce-fn';
 import features from '../libs/features';
+import onUpdatableContentUpdate from '../libs/on-updatable-content-update';
+
+const sideBarSelector = '#partial-discussion-sidebar, .discussion-sidebar';
 
 function updateStickiness(): void {
-	const sidebar = select('#partial-discussion-sidebar')!;
+	const sidebar = select(sideBarSelector)!;
 	const sidebarHeight = sidebar.offsetHeight + 60; // 60 matches sticky header's height
 	sidebar.classList.toggle('rgh-sticky-sidebar', sidebarHeight < window.innerHeight);
 }
@@ -14,6 +17,7 @@ const handler = debounce(updateStickiness, {wait: 100});
 function init(): void {
 	updateStickiness();
 	window.addEventListener('resize', handler);
+	onUpdatableContentUpdate(select(sideBarSelector)!, updateStickiness);
 }
 
 function deinit(): void {
