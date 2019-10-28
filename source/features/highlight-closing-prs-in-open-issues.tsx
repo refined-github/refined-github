@@ -10,10 +10,10 @@ function add(): void {
 		[aria-label*="will close when"],
 		[aria-label*="will close once"]
 	`)) {
-		const isPR = !infoBubble.getAttribute('aria-label')!.includes('commit');
+		const isCommit = !infoBubble.getAttribute('aria-label')!.includes('commit');
 		let ref;
 		let link;
-		if (isPR) {
+		if (isCommit) {
 			ref = infoBubble
 				.closest('.TimelineItem-body')!
 				.querySelector('a span')!;
@@ -29,8 +29,8 @@ function add(): void {
 					href={link}
 					className="btn btn-outline btn-sm border-blue rgh-closing-pr tooltipped tooltipped-se"
 					aria-label={infoBubble.getAttribute('aria-label')!}>
-					{isPR ? icons.openPullRequest() : icons.commit()}
-					{isPR ? ' ' + ref.textContent! : ''}
+					{isCommit ? icons.openPullRequest() : icons.commit()}
+					{isCommit ? ' ' + ref.textContent! : ''}
 				</a>
 			</div>
 		);
