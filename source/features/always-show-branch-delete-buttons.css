@@ -11,6 +11,7 @@
 		width: auto;
 		flex-grow: 1;
 	}
+
 	:root .js-branch-row .col-12 .css-truncate-target {
 		white-space: initial;
 	}
