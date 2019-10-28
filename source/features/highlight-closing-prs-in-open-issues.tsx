@@ -10,18 +10,19 @@ function add(): void {
 		[aria-label*="will close when"],
 		[aria-label*="will close once"]
 	`)) {
-		const isPR = !infoBubble.getAttribute('aria-label')!.includes("commit");
-		let ref = null;
-		let link = null;
+		const isPR = !infoBubble.getAttribute('aria-label')!.includes('commit');
+		let ref;
+		let link;
 		if (isPR) {
 			ref = infoBubble
 				.closest('.TimelineItem-body')!
-				.querySelector("a span")!;
-			link = ref.closest("a")!.getAttribute("href")!;
+				.querySelector('a span')!;
+			link = ref.closest('a')!.getAttribute('href')!;
 		} else {
-			ref = select(".commit-message .issue-keyword a")!;
-			link = ref.getAttribute("href")!;
+			ref = select('.commit-message .issue-keyword a')!;
+			link = ref.getAttribute('href')!;
 		}
+
 		select('.gh-header-meta .TableObject-item')!.after(
 			<div className="TableObject-item">
 				<a
