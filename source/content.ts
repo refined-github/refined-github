@@ -144,6 +144,7 @@ import './features/highlight-collaborators-and-own-discussions';
 import './features/embed-gist-via-iframe';
 import './features/expand-all-collapsed-code';
 import './features/separate-draft-pr-button';
+import './features/link-to-prior-blame-line';
 
 // Add global for easier debugging
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
