@@ -129,6 +129,7 @@ import './features/clean-issue-filters';
 import './features/minimize-user-comments';
 import './features/minimize-upload-bar';
 import './features/cycle-lists-with-keyboard-shortcuts';
+import './features/add-tag-to-commits';
 import './features/forked-to';
 import './features/submit-review-as-single-comment';
 import './features/edit-readme';
