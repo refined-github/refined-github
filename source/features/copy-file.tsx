@@ -3,7 +3,6 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import copyToClipboard from 'copy-text-to-clipboard';
 import features from '../libs/features';
-import {groupSiblings} from '../libs/group-buttons';
 
 function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): void {
 	const file = button.closest('.Box, .js-gist-file-update-container');
@@ -33,7 +32,6 @@ function renderButton(): void {
 					Copy
 				</button>
 			);
-		groupSiblings(button);
 	}
 }
 
