@@ -16,6 +16,7 @@ import './features/hide-obvious-tooltips.css';
 import './features/clean-discussions.css';
 import './features/sticky-discussion-list-toolbar.css';
 import './features/deemphasize-unrelated-commit-references.css';
+import './features/always-show-branch-delete-buttons.css';
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
 
