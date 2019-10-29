@@ -6,8 +6,36 @@ html {
 }
 
 :root {
+	--background-color: #fff;
+	--text-color: #202124;
+	--secondary-text-color: #5f6368;
+	--link-color: #3367d6;
+	--input-border-color: rgba(0, 0, 0, 0.2);
 	--github-green: #28a745;
 	--github-red: #cb2431;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--background-color: #292a2d;
+		--text-color: #e8eaed;
+		--secondary-text-color: #9aa0a6;
+		--link-color: #8ab4f8;
+		--input-border-color: rgba(255, 255, 255, 0.3);
+	}
+}
+
+body {
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+
+input,
+textarea,
+button {
+	background-color: var(--background-color);
+	color: var(--text-color);
+	border: 1px solid var(--input-border-color);
 }
 
 input:not([type='checkbox']):not(:placeholder-shown):valid {
@@ -45,11 +73,21 @@ input[type='checkbox'] {
 	font-size: 0.9em;
 }
 
+a {
+	color: var(--link-color);
+}
+
 :root hr {
 	margin-right: -17px;
 	margin-left: -17px;
 	border: none;
-	border-bottom: solid #d3d3d3 1px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root hr {
+		border-color: rgs(255, 255, 255, 0.1);
+	}
 }
 
 /* Increase spacing between sections */
@@ -77,7 +115,7 @@ h2 ~ h2 {
 }
 
 .js-features .description {
-	opacity: 0.8;
+	color: var(--secondary-text-color);
 }
 
 .js-features a {

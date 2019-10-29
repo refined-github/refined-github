@@ -16,6 +16,7 @@ import './features/hide-obvious-tooltips.css';
 import './features/clean-discussions.css';
 import './features/sticky-discussion-list-toolbar.css';
 import './features/deemphasize-unrelated-commit-references.css';
+import './features/always-show-branch-delete-buttons.css';
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
 
@@ -128,6 +129,7 @@ import './features/clean-issue-filters';
 import './features/minimize-user-comments';
 import './features/minimize-upload-bar';
 import './features/cycle-lists-with-keyboard-shortcuts';
+import './features/add-tag-to-commits';
 import './features/forked-to';
 import './features/submit-review-as-single-comment';
 import './features/edit-readme';
@@ -143,6 +145,9 @@ import './features/clean-rich-text-editor';
 import './features/highlight-collaborators-and-own-discussions';
 import './features/embed-gist-via-iframe';
 import './features/expand-all-collapsed-code';
+import './features/separate-draft-pr-button';
+import './features/link-to-prior-blame-line';
+import './features/dim-bots';
 
 // Add global for easier debugging
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

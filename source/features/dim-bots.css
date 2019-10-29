@@ -1,0 +1,51 @@
+/*
+READ BEFORE EDITING. Some selectors match the same items ("hovered" selector vs non-hovered); make sure to update them in tandem.
+
+In PR lists we can hide the meta just by acting on `max-height` + `overflow: hidden`
+In Commit lists however this is not possible because they are tables, so we need to hack around `margin-bottom`
+
+Transitions are used to delay the "hover" status so it's not too annoying when moving the mouse over a list of dimmed items.
+*/
+.rgh-dim-bot.commit .commit-title,
+.rgh-dim-bot.commit .commit-meta,
+.rgh-dim-bot.commit .commit-links-cell summary,
+.rgh-dim-bot.commit .commit-links-cell .btn {
+	transition: 0.1s 0.3s;
+	transition-property: opacity, margin-bottom;
+}
+
+.rgh-dim-bot.commit:not(.navigation-focus) .commit-title {
+	opacity: 0.3;
+	transition-delay: 0s;
+}
+
+.rgh-dim-bot.commit:not(.navigation-focus) .commit-meta,
+.rgh-dim-bot.commit:not(.navigation-focus) .commit-links-cell summary, /* `Verified` badge */
+.rgh-dim-bot.commit:not(.navigation-focus) .commit-links-cell .btn { /* Buttons on the right */
+	opacity: 0;
+	visibility: hidden;
+	margin-bottom: -2em;
+	transition-delay: 0s;
+}
+
+/* PRs’ whole box, reduce height */
+.rgh-dim-bot.Box-row {
+	overflow: hidden;
+	max-height: 10em; /* This value is only needed to transition the height since `max-height: none` can't be transitioned */
+	transition: max-height 0.1s 0.3s;
+}
+
+.rgh-dim-bot.Box-row:not(.navigation-focus) {
+	max-height: 2.7em;
+	transition-delay: 0s;
+}
+
+/* PRs’ titles, dim */
+.rgh-dim-bot.Box-row > .d-table {
+	transition: opacity 0.1s 0.3s;
+}
+
+.rgh-dim-bot.Box-row:not(.navigation-focus) > .d-table {
+	opacity: 0.2; /* This can't applied to .Box-row because that includes the top border. */
+	transition-delay: 0s;
+}
