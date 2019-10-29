@@ -13,15 +13,17 @@ export const linkifiedURLClass = 'rgh-linkified-code';
 // https://github.com/sindresorhus/refined-github/issues/1305
 const currentRepo = getOwnerAndRepo();
 
-export function linkifyIssues(element: Element): void {
+export function linkifyIssues(element: Element, options: Partial<linkifyIssuesCore.TypeDomOptions> = {}): void {
 	const linkified = linkifyIssuesCore(element.textContent!, {
 		user: currentRepo.ownerName || '/',
 		repository: currentRepo.repoName || '/',
 		type: 'dom',
 		baseUrl: '',
+		...options,
 		attributes: {
 			rel: 'noreferrer noopener',
-			class: linkifiedURLClass // Necessary to avoid also shortening the links
+			class: linkifiedURLClass, // Necessary to avoid also shortening the links
+			...options.attributes
 		}
 	});
 	if (linkified.children.length === 0) { // Children are <a>
@@ -32,10 +34,10 @@ export function linkifyIssues(element: Element): void {
 	for (const link of linkified.children as HTMLCollectionOf<HTMLAnchorElement>) {
 		const issue = link.href.split('/').pop();
 		link.setAttribute('class', 'issue-link js-issue-link tooltipped tooltipped-ne');
-		link.setAttribute('data-error-text', 'Failed to load issue title');
-		link.setAttribute('data-permission-text', 'Issue title is private');
-		link.setAttribute('data-url', link.href);
-		link.setAttribute('data-id', `rgh-issue-${issue}`);
+		link.dataset.errorText = 'Failed to load issue title';
+		link.dataset.permissionText = 'Issue title is private';
+		link.dataset.url = link.href;
+		link.dataset.id = `rgh-issue-${issue}`;
 	}
 
 	zipTextNodes(element, linkified);

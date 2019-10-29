@@ -1,8 +1,14 @@
 /* Move "close issue" and "cancel" buttons on authoring comments to the left */
 
 /* ...in issue comment form */
+/* the legacy way (kept for GitHub Enterprise) */
 .form-actions .btn.js-comment-and-button {
 	float: left;
+}
+
+/* the current github.com way */
+#partial-new-comment-form-actions > .d-flex {
+	justify-content: space-between !important;
 }
 
 /* ...in comment edit form */

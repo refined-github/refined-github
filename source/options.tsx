@@ -9,7 +9,11 @@ import * as domFormatters from './libs/dom-formatters';
 
 function parseDescription(description: string): DocumentFragment {
 	const descriptionElement = <span>{description}</span>;
-	domFormatters.linkifyIssues(descriptionElement);
+	domFormatters.linkifyIssues(descriptionElement, {
+		baseUrl: 'https://github.com',
+		user: 'sindresorhus',
+		repository: 'refined-github'
+	});
 	domFormatters.linkifyURLs(descriptionElement);
 	domFormatters.parseBackticks(descriptionElement);
 
@@ -66,7 +70,7 @@ async function init(): Promise<void> {
 			</select>
 		) as unknown as HTMLSelectElement;
 		form.before(<p>Domain selector: {dropdown}</p>, <hr/>);
-		dropdown.addEventListener('change', () => {
+		dropdown.addEventListener('change', event => {
 			for (const [domain, options] of optionsByDomain) {
 				if (dropdown.value === domain) {
 					options.syncForm(form);
@@ -74,6 +78,9 @@ async function init(): Promise<void> {
 					options.stopSyncForm();
 				}
 			}
+
+			const newHost = (event.target as HTMLInputElement).value;
+			select<HTMLAnchorElement>('#personal-token-link')!.host = newHost;
 		});
 	}
 

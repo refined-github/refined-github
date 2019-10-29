@@ -46,7 +46,7 @@ async function init(): Promise<false | void> {
 		}
 
 		releasesTab.classList.add('js-selected-navigation-item', 'selected');
-		releasesTab.setAttribute('data-selected-links', 'repo_releases'); // Required for ajaxLoad
+		releasesTab.dataset.selectedLinks = 'repo_releases'; // Required for ajaxLoad
 	}
 }
 

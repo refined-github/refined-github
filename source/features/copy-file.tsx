@@ -11,6 +11,13 @@ function handleClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement
 		.map(({innerText: line}) => line === '\n' ? '' : line) // Must be `.innerText`
 		.join('\n');
 	copyToClipboard(content);
+
+	button.textContent = 'Copied!';
+	button.classList.remove('tooltipped');
+	setTimeout(() => {
+		button.textContent = 'Copy';
+		button.classList.add('tooltipped');
+	}, 2000);
 }
 
 function renderButton(): void {

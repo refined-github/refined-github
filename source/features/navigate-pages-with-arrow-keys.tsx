@@ -4,12 +4,12 @@ import features from '../libs/features';
 function init(): void {
 	const createNextPageButton = select('a.next_page');
 	if (createNextPageButton) {
-		createNextPageButton.setAttribute('data-hotkey', 'ArrowRight');
+		createNextPageButton.dataset.hotkey = 'ArrowRight';
 	}
 
 	const createPreviousPageButton = select('a.previous_page');
 	if (createPreviousPageButton) {
-		createPreviousPageButton.setAttribute('data-hotkey', 'ArrowLeft');
+		createPreviousPageButton.dataset.hotkey = 'ArrowLeft';
 	}
 }
 
