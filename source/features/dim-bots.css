@@ -15,7 +15,7 @@ Transitions are used to delay the "hover" status so it's not too annoying when m
 }
 
 .rgh-dim-bot.commit:not(.navigation-focus) .commit-title {
-	opacity: 0.2;
+	opacity: 0.3;
 	transition-delay: 0s;
 }
 
