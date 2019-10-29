@@ -65,6 +65,7 @@ async function addStatusFilter(reviewsFilter: HTMLElement): Promise<void> {
 	for (const status of ['Success', 'Failure', 'Pending']) {
 		addDropdownItem(dropdown, status, 'status', status.toLowerCase());
 	}
+
 	reviewsFilter.after(statusFilter);
 }
 
