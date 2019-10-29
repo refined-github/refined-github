@@ -62,11 +62,9 @@ async function addStatusFilter(reviewsFilter: HTMLElement): Promise<void> {
 	select('.select-menu-title', statusFilter)!.textContent = 'Filter by build status';
 	dropdown.textContent = ''; // Drop previous filters
 
-	statusFilter.addEventListener('toggle', () => {
-		for (const status of ['Success', 'Failure', 'Pending']) {
-			addDropdownItem(dropdown, status, 'status', status.toLowerCase());
-		}
-	}, {once: true});
+	for (const status of ['Success', 'Failure', 'Pending']) {
+		addDropdownItem(dropdown, status, 'status', status.toLowerCase());
+	}
 	reviewsFilter.after(statusFilter);
 }
 
