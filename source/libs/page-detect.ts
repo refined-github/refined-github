@@ -203,7 +203,12 @@ export const isQuickPRTest = [
 	'https://github.com/sindresorhus/refined-github/compare/test-branch?quick_pull=1'
 ];
 
-export const isReleasesOrTags = [
+export const isReleasesOrTags = (): boolean => {
+	const parts = (getRepoPath() || '').split('/');
+	return /^(releases|tags)$/.test(parts[0]) && parts[1] !== 'new';
+};
+
+export const isReleasesOrTagsTest = [
 	'https://github.com/sindresorhus/refined-github/releases',
 	'https://github.com/sindresorhus/refined-github/tags',
 	'https://github.com/sindresorhus/refined-github/releases/tag/v1.0.0-beta.4',
