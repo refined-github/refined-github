@@ -8,17 +8,19 @@ function init(): void {
 	const defaultQuery = 'is:open archived:false ';
 
 	// Without this, the Issues page also displays PRs, and viceversa
-	const type = location.pathname.split('/', 2)[1] === 'issues' ? 'is:issue ' : 'is:pr ';
+	const type = location.pathname.split('/', 2)[1];
+	const typeQuery = type === 'issues' ? 'is:issue ' : 'is:pr ';
+	const typeText = type === 'issues' ? 'Issues' : 'Pull Requests';
 
 	const links = [
-		['Commented', `commenter:${getUsername()}`],
-		['Yours', `user:${getUsername()}`]
+		['Commented', `${typeText} you've commented on`, `commenter:${getUsername()}`],
+		['Yours', `${typeText} that are owned by you`, `user:${getUsername()}`]
 	];
 
-	for (const [label, query] of links) {
+	for (const [label, title, query] of links) {
 		// Create link
-		const url = new URLSearchParams([['q', type + defaultQuery + query]]);
-		const link = <a href={`${location.pathname}?${url}`} className="subnav-item">{label}</a>;
+		const url = new URLSearchParams([['q', typeQuery + defaultQuery + query]]);
+		const link = <a href={`${location.pathname}?${url}`} title={title} aria-label={title} className="subnav-item">{label}</a>;
 
 		const isCurrentPage = new RegExp(`(^|\\s)${query}(\\s|$)`).test(
 			new URLSearchParams(location.search).get('q')!
