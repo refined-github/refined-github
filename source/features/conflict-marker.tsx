@@ -8,12 +8,13 @@ interface PRConfig {
 	number: string;
 	user: string;
 	repo: string;
-	link: HTMLAnchorElement
+	link: HTMLAnchorElement;
+	key: string;
 }
 
 function createQueryFragment(pr: PRConfig): string {
 	return `
-		${api.escapeKey(pr.number)}: repository(owner: "${pr.user}", name: "${pr.repo}") {
+		${pr.key}: repository(owner: "${pr.user}", name: "${pr.repo}") {
 			pullRequest(number: ${pr.number}) {
 				mergeable
 			}
@@ -27,7 +28,13 @@ function buildQuery(prs: PRConfig[]): string {
 
 function getPRConfig(prLink: HTMLAnchorElement): PRConfig {
 	const [, user, repo, , number] = prLink.pathname.split('/');
-	return {user, repo, number, link: prLink};
+	return {
+		user,
+		repo,
+		number,
+		key: api.escapeKey(`${user}_${repo}_${number}`),
+		link: prLink
+	};
 }
 
 async function init(): Promise<false | void> {
@@ -37,11 +44,10 @@ async function init(): Promise<false | void> {
 	}
 
 	const prs = prLinks.map(getPRConfig);
-	console.log(buildQuery(prs))
 	const data = await api.v4(buildQuery(prs));
 
 	for (const pr of prs) {
-		if (data[api.escapeKey(pr.number)].pullRequest.mergeable === 'CONFLICTING') {
+		if (data[pr.key].pullRequest.mergeable === 'CONFLICTING') {
 			pr.link.after(
 				<a
 					className="tooltipped tooltipped-n m-0 text-gray mr-2"
