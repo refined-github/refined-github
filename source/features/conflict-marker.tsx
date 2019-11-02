@@ -1,24 +1,20 @@
-import select from 'select-dom';
 import React from 'dom-chef';
+import select from 'select-dom';
 import * as api from '../libs/api';
-import { getOwnerAndRepo, getRepoURL } from '../libs/utils';
 import features from '../libs/features';
-import { alert } from '../libs/icons';
+import * as icons from '../libs/icons';
 
 interface PRConfig {
-	id: string;
-	owner: string;
-	name: string;
-}
-
-function getPrNumber(pr: string): string {
-	return pr.split('_')[1];
+	number: string;
+	user: string;
+	repo: string;
+	link: HTMLAnchorElement
 }
 
 function createQueryFragment(pr: PRConfig): string {
 	return `
-		${api.escapeKey(pr.id)}: repository(owner: "${pr.owner}", name: "${pr.name}") {
-			pullRequest(number: ${getPrNumber(pr.id)}) {
+		${api.escapeKey(pr.number)}: repository(owner: "${pr.user}", name: "${pr.repo}") {
+			pullRequest(number: ${pr.number}) {
 				mergeable
 			}
 		}
@@ -29,50 +25,30 @@ function buildQuery(prs: PRConfig[]): string {
 	return prs.map(createQueryFragment).join('\n');
 }
 
-function getPRConfig(element: HTMLElement): PRConfig {
-	try {
-		const prTitle = select('a[data-hovercard-type="repository"]', element)!
-			.textContent!;
-		const [owner, name] = prTitle.trim().split('/');
-
-		return {
-			id: element.id,
-			owner,
-			name,
-		};
-	} catch (error) {
-		const { ownerName, repoName } = getOwnerAndRepo();
-
-		return {
-			id: element.id,
-			owner: ownerName,
-			name: repoName,
-		};
-	}
+function getPRConfig(prLink: HTMLAnchorElement): PRConfig {
+	const [, user, repo, , number] = prLink.pathname.split('/');
+	return {user, repo, number, link: prLink};
 }
 
 async function init(): Promise<false | void> {
-	const elements = select.all('.js-issue-row .js-navigation-open');
-	if (elements.length === 0) {
+	const prLinks = select.all<HTMLAnchorElement>('.js-issue-row .js-navigation-open');
+	if (prLinks.length === 0) {
 		return false;
 	}
 
-	const prs = elements.map(getPRConfig);
+	const prs = prLinks.map(getPRConfig);
+	console.log(buildQuery(prs))
+	const data = await api.v4(buildQuery(prs));
 
-	const query = buildQuery(prs);
-	const data = await api.v4(query);
-
-	for (const pr of elements) {
-		if (data[api.escapeKey(pr.id)].pullRequest.mergeable === 'CONFLICTING') {
-			select('.d-inline-block.mr-1', pr)!.prepend(
+	for (const pr of prs) {
+		if (data[api.escapeKey(pr.number)].pullRequest.mergeable === 'CONFLICTING') {
+			pr.link.after(
 				<a
 					className="tooltipped tooltipped-n m-0 text-gray mr-2"
 					aria-label="This PR has conflicts that must be resolved"
-					href={`/${getRepoURL()}/pull/${getPrNumber(
-						pr.id,
-					)}#partial-pull-merging`}
+					href={`${pr.link.pathname}#partial-pull-merging`}
 				>
-					{alert()}
+					{icons.alert()}
 				</a>,
 			);
 		}
@@ -84,7 +60,9 @@ features.add({
 	description: 'Shows which PRs have conflicts in PR lists',
 	screenshot:
 		'https://user-images.githubusercontent.com/9092510/62777551-2affe500-baae-11e9-8ba4-67f078347913.png',
-	include: [features.isPRList],
+	include: [
+		features.isPRList
+	],
 	load: features.onAjaxedPages,
-	init,
+	init
 });
