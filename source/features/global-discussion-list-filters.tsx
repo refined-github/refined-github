@@ -5,22 +5,23 @@ import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 
 function init(): void {
-	const defaultQuery = 'is:open archived:false ';
+	const defaultQuery = 'is:open archived:false';
 
 	// Without this, the Issues page also displays PRs, and viceversa
-	const type = location.pathname.split('/', 2)[1];
-	const typeQuery = type === 'issues' ? 'is:issue ' : 'is:pr ';
-	const typeText = type === 'issues' ? 'Issues' : 'Pull Requests';
+	const isIssues = location.pathname.startsWith('/issues');
+	const typeQuery = isIssues ? 'is:issue' : 'is:pr';
+	const typeName = isIssues ? 'Issues' : 'Pull Requests';
 
 	const links = [
-		['Commented', `${typeText} you've commented on`, `commenter:${getUsername()}`],
-		['Yours', `${typeText} that are owned by you`, `user:${getUsername()}`]
+		['Commented', `${typeName} you’ve commented on`, `commenter:${getUsername()}`],
+		['Yours', `${typeName} that are owned by you`, `user:${getUsername()}`]
 	];
 
 	for (const [label, title, query] of links) {
 		// Create link
-		const url = new URLSearchParams([['q', typeQuery + defaultQuery + query]]);
-		const link = <a href={`${location.pathname}?${url}`} title={title} aria-label={title} className="subnav-item">{label}</a>;
+		const url = new URL(location.pathname, location.origin);
+		url.searchParams.set('q', `${typeQuery} ${defaultQuery} ${query}`);
+		const link = <a href={url} title={title} className="subnav-item">{label}</a>;
 
 		const isCurrentPage = new RegExp(`(^|\\s)${query}(\\s|$)`).test(
 			new URLSearchParams(location.search).get('q')!
