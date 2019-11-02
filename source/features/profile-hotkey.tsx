@@ -3,10 +3,10 @@ import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 
 function init(): false | void {
-	const menuItem = select(`#user-links a.dropdown-item[href="/${getUsername()}"]`);
+	const menuItem = select(`a[href="/${getUsername()}"]`);
 
 	if (menuItem) {
-		menuItem.setAttribute('data-hotkey', 'g m');
+		menuItem.dataset.hotkey = 'g m';
 	} else {
 		return false;
 	}

@@ -20,7 +20,7 @@ function splitTextReducer(fragment: DocumentFragment, text: string, index: numbe
 	return fragment;
 }
 
-export default function (description: string): DocumentFragment {
+export default function parseBackticks(description: string): DocumentFragment {
 	return description
 		.split(splittingRegex)
 		.reduce(splitTextReducer, new DocumentFragment());

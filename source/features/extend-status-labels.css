@@ -5,5 +5,5 @@
 
 .gh-header-meta .State a,
 .gh-header-meta .State code {
-	color: #fff;
+	color: #fff !important;
 }

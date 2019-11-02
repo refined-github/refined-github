@@ -47,7 +47,7 @@ const observer = new MutationObserver(([{target}]) => {
 function init(): void {
 	document.addEventListener('keypress', ({key}) => {
 		if (key === '?') {
-			observer.observe(select('.kb-shortcut-dialog')!, {childList: true});
+			observer.observe(select('body > details > details-dialog')!, {childList: true});
 		}
 	});
 }

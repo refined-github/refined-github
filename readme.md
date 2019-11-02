@@ -157,13 +157,13 @@ Thanks for contributing! 🦋🙌
 
 ### Writing comments
 
-- [](# "comment-fields-keyboard-shortcuts") 🔥 Enables the <kbd>tab</kbd> key for indentation in comment fields.
+- [](# "tab-to-indent") 🔥 [Enables the <kbd>tab</kbd> key for indentation in comment fields.](https://user-images.githubusercontent.com/1402241/33802977-beb8497c-ddbf-11e7-899c-698d89298de4.gif)
 - [](# "submit-review-as-single-comment") [Adds a button to submit a single PR comment if you mistakenly started a new review.](https://user-images.githubusercontent.com/1402241/60331761-f6394200-99c7-11e9-81c2-c671cba9602a.gif)
 - [](# "collapsible-content-button") [Adds a button to insert collapsible content (via `<details>`).](https://user-images.githubusercontent.com/1402241/53678019-0c721280-3cf4-11e9-9c24-4d11a697f67c.png)
 - [](# "fit-textareas") 🔥 [Auto-resizes comment fields to fit their content and no longer show scroll bars.](https://user-images.githubusercontent.com/1402241/54336211-66fd5e00-4666-11e9-9c5e-111fccab004d.gif)
 - [](# "edit-comments-faster") [Moves the `Edit comment` button out of the `...` dropdown.](https://user-images.githubusercontent.com/1402241/54864831-92372a00-4d97-11e9-8c29-efba2dde1baa.png)
 - [](# "comment-fields-keyboard-shortcuts") [Adds a shortcut to edit your last comment: <kbd>↑</kbd>.](https://github.com/sindresorhus/refined-github/pull/961) (Only works in the following comment field, if it’s empty.)
-- [](# "comment-fields-keyboard-shortcuts") [Wraps selected text when pressing one of Markdown symbols instead of replacing it:](https://user-images.githubusercontent.com/37769974/59958878-39c51500-94cb-11e9-910a-061bf8ca6575.gif) `[` <code>\`</code> `'` `"` `*` `~` `_`
+- [](# "one-key-formatting") [Wraps selected text when pressing one of Markdown symbols instead of replacing it:](https://user-images.githubusercontent.com/1402241/65020298-1f2dfb00-d957-11e9-9a2a-1c0ceab8d9e0.gif) `[` <code>\`</code> `'` `"` `*` `~` `_`
 - [](# "minimize-upload-bar") [Reduces the upload bar to a small button.](https://user-images.githubusercontent.com/55841/59802383-3d994180-92e9-11e9-835d-60de67611c30.png)
 - [](# "clean-rich-text-editor") [Hides unnecessary comment field tooltips and toolbar items](https://user-images.githubusercontent.com/1402241/53629083-a4fe8900-3c47-11e9-8211-bfe2d254ffcb.png) (each one has a keyboard shortcut.)
 - [](# "monospace-textareas") Use a monospace font for all textareas.
@@ -192,7 +192,7 @@ Thanks for contributing! 🦋🙌
 - [](# "split-issue-pr-search-results") [Separates issues from PRs in the global search.](https://user-images.githubusercontent.com/1402241/52181103-35a09f80-2829-11e9-9c6f-57f2e08fc5b2.png)
 - [](# "sticky-discussion-sidebar") [Makes the discussion sidebar sticky.](https://user-images.githubusercontent.com/10238474/62276723-5a2eaa80-b44d-11e9-810b-ff598d1c5c6a.gif)
 - [](# "sticky-discussion-list-toolbar") [Makes the discussion list’s filters toolbar sticky.](https://user-images.githubusercontent.com/380914/39878141-7632e61a-542c-11e8-9c66-74fcd3a134aa.gif)
-- [](# "highlight-own-issues-and-prs") [Highlights discussions opened by you.](https://user-images.githubusercontent.com/1402241/53065281-01560000-3506-11e9-9a51-0bdf69e20b4a.png)
+- [](# "highlight-collaborators-and-own-discussions") [Highlights discussions opened by you or the current repo’s collaborators.](https://user-images.githubusercontent.com/1402241/65013882-03225d80-d947-11e9-8eb8-5507bc1fc14b.png)
 - [](# "align-issue-labels") [Aligns labels in lists to the left.](https://user-images.githubusercontent.com/1402241/28006237-070b8214-6581-11e7-94bc-2b01a007d00b.png)
 - [](# "sort-issues-by-update-time") 🔥 Changes the default sort order of discussions to `Recently updated`.
 - [](# "widen-search-field") [Widens the discussion search box.](https://user-images.githubusercontent.com/1402241/55069759-bceaf080-50bf-11e9-84d0-7707de2eb9e9.png)
@@ -201,6 +201,7 @@ Thanks for contributing! 🦋🙌
 - [](# "clean-sidebar") 🔥 [Hides empty sections (or just their "empty" label) in the discussion sidebar.](https://user-images.githubusercontent.com/1402241/57199809-20691780-6fb6-11e9-9672-1ad3f9e1b827.png)
 - [](# "clean-issue-filters") [Hides `Projects` and `Milestones` filters in discussion lists if they are empty.](https://user-images.githubusercontent.com/37769974/59083449-0ef88f80-8915-11e9-8296-68af1ddcf191.png)
 - [](# "cycle-lists-with-keyboard-shortcuts") [Allows the <kbd>↑</kbd> and <kbd>↓</kbd> keys to cycle "popover lists" (labels, milestones, etc).](https://user-images.githubusercontent.com/37769974/59158786-6fd2c400-8add-11e9-9db1-db80186fa6ea.gif)
+- [](# "toggle-everything-with-alt") [Adds a shortcut to toggle all similar items (minimized comments, deferred diffs, etc) at once: <kbd>alt</kbd> <kbd>click</kbd> on each button or checkbox.](https://user-images.githubusercontent.com/37769974/62208543-dcb75b80-b3b4-11e9-984f-ddb479ea149d.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -229,9 +230,9 @@ Thanks for contributing! 🦋🙌
 - [](# "warn-pr-from-master") [Warns you when creating a pull request from the default branch, as it’s an anti-pattern.](https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png)
 - [](# "warning-for-disallow-edits") [Warns you when unchecking `Allow edits from maintainers`, as it’s maintainer-hostile.](https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif)
 - [](# "pull-request-hotkey") Adds keyboard shortcuts to cycle through PR tabs: <kbd>g</kbd> <kbd>←</kbd> and <kbd>g</kbd> <kbd>→</kbd>, or <kbd>g</kbd> <kbd>1</kbd>, <kbd>g</kbd> <kbd>2</kbd>, <kbd>g</kbd> <kbd>3</kbd> and <kbd>g</kbd> <kbd>4</kbd>.
-- [](# "mark-files-as-viewed") [Marks all files as "viewed" when approving a PR.](https://user-images.githubusercontent.com/11782/60969312-8740df00-a31f-11e9-8e34-d1f0c1a871aa.gif)
 - [](# "pr-branch-auto-delete") Automatically deletes the branch right after merging a PR, if possible.
 - [](# "revert-file") 🔥 [Adds button to revert all the changes to a file in a PR.](https://user-images.githubusercontent.com/1402241/62826118-73b7bb00-bbe0-11e9-9449-2dd64c469bb9.gif)
+- [](# "separate-draft-pr-button") [Lets you create draft pull requests in one click.](https://user-images.githubusercontent.com/202916/67269317-cd791300-f4b6-11e9-89d1-392de7ef71e1.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -247,6 +248,8 @@ Thanks for contributing! 🦋🙌
 - [](# "extend-diff-expander") [Widens the `Expand diff` button to be clickable across the screen.](https://user-images.githubusercontent.com/6978877/34470024-eee4f43e-ef20-11e7-9036-65094bd58960.PNG)
 - [](# "remove-diff-signs") [Hides diff signs](https://user-images.githubusercontent.com/1402241/54807718-149cec80-4cb9-11e9-869c-e265863211e3.png) (since diffs are color coded already.)
 - [](# "limit-commit-title-length") [Limits the commit title fields to 72 characters.](https://user-images.githubusercontent.com/37769974/60379478-106b3280-9a51-11e9-88b9-0e3607f214cd.gif)
+- [](# "expand-all-collapsed-code") [Expands the entire file when you <kbd>alt</kbd> <kbd>click</kbd> on any "Expand code" button in diffs.](https://user-images.githubusercontent.com/44227187/64923605-d0138900-d7e3-11e9-9dc2-461aba81c1cb.gif)
+- [](# "add-tag-to-commits") [Displays the corresponding tags next to commits.](https://user-images.githubusercontent.com/14323370/66400400-64ba7280-e9af-11e9-8d6c-07b35afde91f.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -285,7 +288,7 @@ Thanks for contributing! 🦋🙌
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
-### Fixes for GitHub bugs
+### Fixes for GitHub shortcomings
 
 - [](# "indented-code-wrapping") 🔥 [Indents wrapped code correctly.](https://user-images.githubusercontent.com/37769974/60379474-0ba67e80-9a51-11e9-97f9-077d282e5bdb.png)
 - [](# "focus-confirmation-buttons") [Always focuses confirm buttons in custom modal boxes, like "Mark all as read".](https://user-images.githubusercontent.com/1402241/31700158-1499bdd8-b38d-11e7-9aba-77a0a4b6bf3c.png)
@@ -293,6 +296,9 @@ Thanks for contributing! 🦋🙌
 - [](# "hide-issue-list-autocomplete") [Removes the autocomplete on search fields.](https://user-images.githubusercontent.com/1402241/42991841-1f057e4e-8c07-11e8-909c-b051db7a2a03.png)
 - [](# "hide-obvious-tooltips") Removes tooltips from self-explanatory buttons.
 - [](# "recently-pushed-branches-enhancements") 🔥 [Moves the "Recently-pushed branches" widget to the header to avoid content jumps. Also adds it to more pages in the repo.](https://user-images.githubusercontent.com/1402241/56466173-da517700-643f-11e9-8eb5-9b20017fa613.gif)
+- [](# "deemphasize-unrelated-commit-references") [Makes it easier to tell apart commits added to the current PR versus plain commits that reference the PR.](https://user-images.githubusercontent.com/1402241/64478939-398b0a80-d1da-11e9-8c6a-bb98668cb78c.gif)
+- [](# "embed-gist-via-iframe") [Adds a menu item to embed a gist via `<iframe>`.](https://user-images.githubusercontent.com/44045911/63633382-6a1b6200-c67a-11e9-9038-aedd62e4f6a8.png)
+- [](# "link-to-prior-blame-line") [Preserves the current line on “View blame prior to this change” links.](https://user-images.githubusercontent.com/1402241/60064482-26b47e00-9733-11e9-803c-c113ea612fbe.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -320,7 +326,7 @@ GitHub implemented 20 features that used to be part of Refined GitHub 🎉
 - [Blog post](https://user-images.githubusercontent.com/36004334/52573199-ea365480-2e19-11e9-8ebf-3ea6a7a640f8.png): [Access the `Labels` `Milestones` navigation from individual milestone pages.](https://cloud.githubusercontent.com/assets/170270/25217211/37b67aea-25d0-11e7-8482-bead2b04ee74.png)
 - [Blog post](https://github.blog/changelog/2019-02-13-comment-author-label/): [The comments of who opened an issue/PR are marked with `Original Poster` label.](https://cloud.githubusercontent.com/assets/4331946/25075520/d62fbbd0-2316-11e7-921f-ab736dc3522e.png)
 - [Blog post](https://github.blog/changelog/2019-02-14-prompt-to-clean-up-merged-forks): [Quickly delete a forked repo after its pull request has been merged.](https://cloud.githubusercontent.com/assets/170270/13520281/b2c9335c-e211-11e5-9e36-b0f325166356.png)
-- [Blog post](https://github.blog/changelog/2019-03-05-exclude-labels-from-search/): [Exclude PR/issue filters from their list](https://user-images.githubusercontent.com/1402241/48470535-493cfb00-e824-11e8-863a-964f52b62553.png) with <kbd>alt/option</kbd>-<kbd>click</kbd>.
+- [Blog post](https://github.blog/changelog/2019-03-05-exclude-labels-from-search/): [Exclude PR/issue filters from their list](https://user-images.githubusercontent.com/1402241/48470535-493cfb00-e824-11e8-863a-964f52b62553.png) with <kbd>alt</kbd> <kbd>click</kbd>.
 - [Blog post](https://github.blog/changelog/2019-03-18-sticky-file-headers-in-pull-requests/): [File headers are always visible.](https://user-images.githubusercontent.com/81981/28682784-78bac340-72fe-11e7-9386-bdbab7703693.gif)
 
 </details>
@@ -342,18 +348,18 @@ See the [contribution guide](contributing.md) and join the [contributors](https:
 - [Awesome browser extensions for GitHub](https://github.com/stefanbuck/awesome-browser-extensions-for-github) - Awesome list
 - [Octo Linker](https://github.com/octo-linker/chrome-extension/) - Navigate across files and packages
 - [Notifier for GitHub](https://github.com/sindresorhus/notifier-for-github-chrome) - Shows your notification unread count
+- [Mottie's Userscripts](https://github.com/Mottie/GitHub-userscripts) - Countless features to improve GitHub granularly
 - [Contributors on GitHub](https://github.com/hzoo/contributors-on-github) - Shows stats about contributors
 - [Hide Files on GitHub](https://github.com/sindresorhus/hide-files-on-github) - Hides dotfiles from the file browser
+- [GitHub Issue Link Status](https://github.com/fregante/github-issue-link-status) - Colorize issue and PR links to see their status (open, closed, merged)
 - [Twitter for GitHub](https://github.com/bevacqua/twitter-for-github) - Shows a user's Twitter handle on their profile page
 - [OctoEdit](https://github.com/DrewML/OctoEdit) - Markdown syntax highlighting in comments
+- [Notifications Preview for GitHub](https://github.com/tanmayrajani/notifications-preview-github) - See your notifications on hover on all pages
 - [GitHub Custom Tab Size](https://github.com/lukechilds/github-custom-tab-size) - Set custom tab size for code views *(Refined GitHub hard-codes it to 4)*
 - [Show All GitHub Issues](https://github.com/sindresorhus/show-all-github-issues) - Shows both Issues and Pull Requests in the Issues tab
-- [Notifications Preview for GitHub](https://github.com/tanmayrajani/notifications-preview-github) - See your notifications on hover on all pages
 - [Refined Twitter](https://github.com/sindresorhus/refined-twitter) - Improves Twitter
-- [GitHub Issue Link Status](https://github.com/fregante/github-issue-link-status) - Colorize issue and PR links to see their status (open, closed, merged)
 - [Friendly GitHub](https://github.com/Hermanya/friendly-github) - Make GitHub more social
-- [Sourcegraph](https://github.com/sourcegraph/browser-extensions) - Adds code intelligence to GitHub
-- [Potential changes for GitHub](https://github.com/dzhavat/potential-changes-for-github) - See which pull requests contain changes related to a file
+- [Sourcegraph](https://github.com/sourcegraph/sourcegraph/tree/master/browser) - Code search and navigation tool
 - [PR Monitor](https://github.com/fwouts/prmonitor) - Notifies you about incoming and outgoing PRs
 
 Want more? Here are some ideas you could develop!

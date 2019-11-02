@@ -9,6 +9,10 @@ Limitations:
  * @param callback The function to call after it's replaced
 */
 export default function onUpdatableContentUpdate(updatable: HTMLElement, callback: VoidFunction): void {
+	if (!updatable.classList.contains('js-updatable-content')) {
+		throw new Error('Element is missing js-updateable-content class');
+	}
+
 	new MutationObserver(mutations => {
 		if (updatable.isConnected) {
 			return;

@@ -1,0 +1,7 @@
+/*
+Makes it easier to tell apart commits added to the current PR versus plain commits that reference the PR.
+https: //user-images.githubusercontent.com/1402241/64478939-398b0a80-d1da-11e9-8c6a-bb98668cb78c.gif
+*/
+.TimelineItem:not(.TimelineItem--condensed) ~ .TimelineItem .TimelineItem-badge .octicon-git-commit {
+	display: none;
+}

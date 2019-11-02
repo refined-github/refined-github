@@ -5,6 +5,7 @@
 }
 
 .rgh-ws-char::before {
+	pointer-events: none;
 	user-select: none;
 	position: absolute;
 	left: 0;

@@ -4,7 +4,7 @@ import features from '../libs/features';
 function init(): void {
 	// There are two buttons: unstar and star
 	for (const button of select.all('.js-social-form > button')) {
-		button.setAttribute('data-hotkey', 'g s');
+		button.dataset.hotkey = 'g s';
 	}
 }
 

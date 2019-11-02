@@ -10,12 +10,13 @@ import * as icons from '../libs/icons';
 // When an indicator is clicked, this will show comments on the current file
 const handleIndicatorClick = ({currentTarget}: React.MouseEvent<HTMLElement>): void => {
 	const commentedLine = currentTarget.closest('tr')!.previousElementSibling!;
-	anchorScroll(() => {
-		currentTarget
-			.closest('.file.js-file')!
-			.querySelector<HTMLInputElement>('.js-toggle-file-notes')!
-			.click();
-	}, commentedLine);
+	const resetScroll = anchorScroll(commentedLine);
+	currentTarget
+		.closest('.file.js-file')!
+		.querySelector<HTMLInputElement>('.js-toggle-file-notes')!
+		.click();
+
+	resetScroll();
 };
 
 // `mem` avoids adding the indicator twice to the same thread
@@ -33,9 +34,8 @@ const addIndicator = mem((commentThread: HTMLElement): void => {
 		</tr>
 	);
 }, {
-	// TODO: Drop ignore after https://github.com/sindresorhus/p-memoize/issues/9
-	// @ts-ignore
-	cacheKey: element => element
+	// TODO [mem@>=6]: Drop argument
+	cacheKey: (element: HTMLElement) => element
 });
 
 // Add indicator when the `show-inline-notes` class is removed (i.e. the comments are hidden)

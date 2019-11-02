@@ -1,5 +1,15 @@
 .rgh-highest-rated-comment {
-	border: 2px solid #ffa500 !important;
+	border: 2px solid #2cbe4e !important;
+}
+
+.rgh-highest-rated-comment.timeline-comment--caret::before {
+	border-right-color: #2cbe4e;
+}
+
+.rgh-highest-rated-comment.timeline-comment--caret::after {
+	border-width: 5px;
+	margin-left: 6px;
+	margin-top: 3px;
 }
 
 a.rgh-highest-rated-comment .timeline-comment-header-text {
