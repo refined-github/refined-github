@@ -209,7 +209,7 @@ Thanks for contributing! 🦋🙌
 ### Viewing pull requests
 
 - [](# "linkify-commit-sha") [Adds link to non-PR commit when visiting a PR commit.](https://user-images.githubusercontent.com/101152/42968387-606b23f2-8ba3-11e8-8a4b-667bddc8d33c.png)
-- [](# "filter-pr-by-build-status") [Adds a `Build status` dropdown filter in PR lists.](https://user-images.githubusercontent.com/22439276/56372372-7733ca80-621c-11e9-8b60-a0b95aa4cd4f.png)
+- [](# "pr-filters") [Adds `Build status` and draft PR dropdown filters in PR lists.](https://user-images.githubusercontent.com/22439276/56372372-7733ca80-621c-11e9-8b60-a0b95aa4cd4f.png)
 - [](# "pr-approvals-count") [Shows color-coded review counts in PR lists.](https://user-images.githubusercontent.com/1402241/33474535-a814ee78-d6ad-11e7-8f08-a8b72799e376.png)
 - [](# "pr-branches") [Shows head and base branches in PR lists if they’re significant.](https://user-images.githubusercontent.com/1402241/51428391-ae9ed500-1c35-11e9-8e54-6b6a424fede4.png)
 - [](# "remove-checks-tab") Hides the `Checks` tab if it’s empty, unless you’re the owner.

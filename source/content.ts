@@ -112,7 +112,7 @@ import './features/follow-file-renames';
 import './features/default-to-rich-diff';
 import './features/raw-file-link';
 import './features/tags-dropdown';
-import './features/filter-pr-by-build-status';
+import './features/pr-filters';
 import './features/edit-files-faster';
 import './features/indented-code-wrapping';
 import './features/update-pr-from-base-branch';
