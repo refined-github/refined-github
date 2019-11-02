@@ -14,14 +14,14 @@ function init(): void {
 
 	const links = [
 		['Commented', `${typeName} you’ve commented on`, `commenter:${getUsername()}`],
-		['Yours', `${typeName} that are owned by you`, `user:${getUsername()}`]
+		['Yours', `${typeName} on your repos`, `user:${getUsername()}`]
 	];
 
 	for (const [label, title, query] of links) {
 		// Create link
 		const url = new URL(location.pathname, location.origin);
 		url.searchParams.set('q', `${typeQuery} ${defaultQuery} ${query}`);
-		const link = <a href={url} title={title} className="subnav-item">{label}</a>;
+		const link = <a href={String(url)} title={title} className="subnav-item">{label}</a>;
 
 		const isCurrentPage = new RegExp(`(^|\\s)${query}(\\s|$)`).test(
 			new URLSearchParams(location.search).get('q')!
