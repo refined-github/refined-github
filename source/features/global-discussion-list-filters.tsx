@@ -5,20 +5,23 @@ import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 
 function init(): void {
-	const defaultQuery = 'is:open archived:false ';
+	const defaultQuery = 'is:open archived:false';
 
 	// Without this, the Issues page also displays PRs, and viceversa
-	const type = location.pathname.split('/', 2)[1] === 'issues' ? 'is:issue ' : 'is:pr ';
+	const isIssues = location.pathname.startsWith('/issues');
+	const typeQuery = isIssues ? 'is:issue' : 'is:pr';
+	const typeName = isIssues ? 'Issues' : 'Pull Requests';
 
 	const links = [
-		['Commented', `commenter:${getUsername()}`],
-		['Yours', `user:${getUsername()}`]
+		['Commented', `${typeName} you’ve commented on`, `commenter:${getUsername()}`],
+		['Yours', `${typeName} on your repos`, `user:${getUsername()}`]
 	];
 
-	for (const [label, query] of links) {
+	for (const [label, title, query] of links) {
 		// Create link
-		const url = new URLSearchParams([['q', type + defaultQuery + query]]);
-		const link = <a href={`${location.pathname}?${url}`} className="subnav-item">{label}</a>;
+		const url = new URL(location.pathname, location.origin);
+		url.searchParams.set('q', `${typeQuery} ${defaultQuery} ${query}`);
+		const link = <a href={String(url)} title={title} className="subnav-item">{label}</a>;
 
 		const isCurrentPage = new RegExp(`(^|\\s)${query}(\\s|$)`).test(
 			new URLSearchParams(location.search).get('q')!
