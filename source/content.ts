@@ -148,6 +148,7 @@ import './features/expand-all-collapsed-code';
 import './features/separate-draft-pr-button';
 import './features/link-to-prior-blame-line';
 import './features/dim-bots';
+import './features/conflict-marker';
 
 // Add global for easier debugging
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
