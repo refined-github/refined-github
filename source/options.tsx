@@ -84,7 +84,6 @@ function addSearch(): void {
 				if (hasPattern) {
 					const index = Number(feature.dataset.index);
 					const featureObj = __featuresInfo__[index]; // minimize DOM interaction
-					// show = fuzzyMath(pattern, patternLength, `${featureObj.name} ${featureObj.description}`);
 					show = plainMatch(
 						patternArray,
 						replaceCharacters(`${featureObj.name} ${featureObj.description}`),
