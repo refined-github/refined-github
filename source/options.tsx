@@ -73,7 +73,7 @@ function addSearch(): void {
 		const pattern = (event.target as HTMLInputElement).value || '';
 		const patternArray = replaceCharacters(pattern)
 			.split(separators)
-			.filter(s => s); // Remove empty strings
+			.filter(Boolean); // Remove empty strings
 		const hasPattern = pattern !== '';
 		// Use quotes to get an exact match
 		const matchAll = pattern.includes('"');
