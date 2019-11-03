@@ -58,8 +58,9 @@ function addSearch(): void {
 
 	const separators = /\s/;
 	const ignoredCharacters = /[,.:;'"’`]/g;
-	const replaceIgnoredCharacters = (string:string): string => (
-		string.toLowerCase().replace(ignoredCharacters, '')
+	const convertToSpace = /[-]/;
+	const replaceCharacters = (string:string): string => (
+		string.toLowerCase().replace(convertToSpace, ' ').replace(ignoredCharacters, '')
 	)
 
 	const plainMatch = (pattern:string[], text:string, matchAll:boolean): boolean => (
@@ -70,7 +71,7 @@ function addSearch(): void {
 
 	const searchHandler = (event: Event): void => {
 		const pattern = (event.target as HTMLInputElement).value || '';
-		const patternArray = replaceIgnoredCharacters(pattern)
+		const patternArray = replaceCharacters(pattern)
 			.split(separators)
 			.filter(s => s); // remove empty strings
 		const hasPattern = pattern !== '';
@@ -86,7 +87,7 @@ function addSearch(): void {
 					// show = fuzzyMath(pattern, patternLength, `${featureObj.name} ${featureObj.description}`);
 					show = plainMatch(
 						patternArray,
-						replaceIgnoredCharacters(`${featureObj.name} ${featureObj.description}`),
+						replaceCharacters(`${featureObj.name} ${featureObj.description}`),
 						matchAll
 					);
 
