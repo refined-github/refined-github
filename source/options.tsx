@@ -6,6 +6,7 @@ import {applyToLink} from 'shorten-repo-url';
 import indentTextarea from 'indent-textarea';
 import {getAllOptions} from './options-storage';
 import * as domFormatters from './libs/dom-formatters';
+import debounce from 'debounce-fn';
 
 function parseDescription(description: string): DocumentFragment {
 	const descriptionElement = <span>{description}</span>;
@@ -24,7 +25,7 @@ function parseDescription(description: string): DocumentFragment {
 	return descriptionElement;
 }
 
-function buildFeatureCheckbox({name, description, screenshot, disabled}: FeatureInfo): HTMLElement {
+function buildFeatureCheckbox({name, description, screenshot, disabled}: FeatureInfo, index: Number): HTMLElement {
 	// `undefined` disconnects it from the options
 	const key = disabled ? undefined : `feature:${name}`;
 
@@ -33,7 +34,7 @@ function buildFeatureCheckbox({name, description, screenshot, disabled}: Feature
 		false;
 
 	return (
-		<div className="feature">
+		<div className="feature" data-index={index}>
 			<input type="checkbox" name={key} id={name} disabled={Boolean(disabled)} />
 			<div className="info">
 				<label for={name}>
@@ -52,6 +53,54 @@ function buildFeatureCheckbox({name, description, screenshot, disabled}: Feature
 	);
 }
 
+function addSearch(): void {
+	const searchInput = select<HTMLInputElement>('input[name="search-features"]')!;
+
+	const separators = /\s/;
+	const ignoredCharacters = /[,.:;'"’`]/g;
+	const replaceIgnoredCharacters = (string:string): string => (
+		string.toLowerCase().replace(ignoredCharacters, '')
+	)
+
+	const plainMatch = (pattern:string[], text:string, matchAll:boolean): boolean => (
+		matchAll
+			?	pattern.every((str:string) => text.includes(str))
+			: pattern.some((str:string) => text.includes(str))
+	);
+
+	const searchHandler = (event: Event): void => {
+		const pattern = (event.target as HTMLInputElement).value || '';
+		const patternArray = replaceIgnoredCharacters(pattern)
+			.split(separators)
+			.filter(s => s); // remove empty strings
+		const hasPattern = pattern !== '';
+		// use quotes to get an exact match
+		const matchAll = pattern.includes('"');
+
+		for (const feature of select.all('.feature')) {
+			if (feature) {
+				let show = true;
+				if (hasPattern) {
+					const index = Number(feature.dataset.index);
+					const featureObj = __featuresInfo__[index]; // minimize DOM interaction
+					// show = fuzzyMath(pattern, patternLength, `${featureObj.name} ${featureObj.description}`);
+					show = plainMatch(
+						patternArray,
+						replaceIgnoredCharacters(`${featureObj.name} ${featureObj.description}`),
+						matchAll
+					);
+
+					// console.log(index, featureObj.name, show)
+				}
+				feature.style.display = show ? '' : 'none';
+			}
+		}
+	};
+
+	searchInput.addEventListener('search', debounce(searchHandler, {wait: 200}));
+	searchInput.addEventListener('keydown', debounce(searchHandler, {wait: 200}));
+}
+
 async function init(): Promise<void> {
 	select('.js-features')!.append(...__featuresInfo__.map(buildFeatureCheckbox));
 
@@ -61,6 +110,9 @@ async function init(): Promise<void> {
 
 	fitTextarea.watch('textarea');
 	indentTextarea.watch('textarea');
+
+	// search feature options
+	addSearch();
 
 	// GitHub Enterprise domain picker
 	if (optionsByDomain.size > 1) {
