@@ -17,10 +17,10 @@ function add(): void {
 			ref = infoBubble
 				.closest('.TimelineItem-body')!
 				.querySelector('a span')!;
-			link = ref.closest('a')!.getAttribute('.href')!;
+			link = ref.closest('a')!.href;
 		} else {
-			ref = select('.commit-message .issue-keyword a')!;
-			link = ref.getAttribute('.href')!;
+			ref = select('.commit-message .issue-keyword a')! as HTMLAnchorElement;
+			link = ref.href;
 		}
 
 		select('.gh-header-meta .TableObject-item')!.after(
