@@ -33,7 +33,7 @@ function buildFeatureCheckbox({name, description, screenshot, disabled}: Feature
 		false;
 
 	return (
-		<div className="feature" data-text={`${name} ${description}`}>
+		<div className="feature" data-text={`${name} ${description}`.toLowerCase()}>
 			<input type="checkbox" name={key} id={name} disabled={Boolean(disabled)} />
 			<div className="info">
 				<label for={name}>
@@ -66,6 +66,7 @@ async function init(): Promise<void> {
 	const filterField = select<HTMLInputElement>('#filter-features')!;
 	filterField.addEventListener('input', () => {
 		const keywords = filterField.value.toLowerCase()
+			.replace(/\W/g, ' ')
 			.split(/\s+/)
 			.filter(Boolean); // Ignore empty strings
 		for (const feature of select.all('.feature')) {
