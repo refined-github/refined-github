@@ -58,7 +58,7 @@ function addSearch(): void {
 
 	const separators = /\s/;
 	const ignoredCharacters = /[,.:;'"’`]/g;
-	const convertToSpace = /[-]/;
+	const convertToSpace = /[-]/g;
 	const replaceCharacters = (string: string): string => (
 		string.toLowerCase().replace(convertToSpace, ' ').replace(ignoredCharacters, '')
 	);
