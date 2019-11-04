@@ -55,7 +55,7 @@ function buildFeatureCheckbox({name, description, screenshot, disabled}: Feature
 async function init(): Promise<void> {
 	// Generate list
 	const container = select('.js-features')!;
-	container.append(...__featuresInfo__.sort().map(buildFeatureCheckbox));
+	container.append(...__featuresInfo__.map(buildFeatureCheckbox));
 
 	// Update list from saved options
 	const form = select('form')!;
@@ -64,7 +64,8 @@ async function init(): Promise<void> {
 
 	// Move disabled features first
 	for (const unchecked of select.all('[type=checkbox]:not(:checked)', container).reverse()) {
-		container.prepend(unchecked.closest('.feature')!)
+		// .reverse() needed to preserve alphabetical order while prepending
+		container.prepend(unchecked.closest('.feature')!);
 	}
 
 	// Improve textareas editing
