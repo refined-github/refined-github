@@ -67,7 +67,9 @@ async function init(): Promise<void> {
 		const keywords = (event.target as HTMLInputElement)!.value.toLowerCase().split(' ').filter((s: string) => s.length);
 		const hasKeywords = keywords.length > 0;
 		for (const feature of select.all('.feature')) {
-			feature!.hidden = hasKeywords ? !keywords.every((word: string) => String(feature.dataset.text).includes(word)) : false;
+			feature.hidden = hasKeywords ?
+				!keywords.every(word => feature.dataset.text.includes(word)) :
+				false;
 		}
 	});
 
