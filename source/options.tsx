@@ -82,7 +82,7 @@ async function init(): Promise<void> {
 			</select>
 		) as unknown as HTMLSelectElement;
 		form.before(<p>Domain selector: {dropdown}</p>, <hr/>);
-		dropdown.addEventListener('change', event => {
+		dropdown.addEventListener('change', () => {
 			for (const [domain, options] of optionsByDomain) {
 				if (dropdown.value === domain) {
 					options.syncForm(form);
@@ -91,8 +91,7 @@ async function init(): Promise<void> {
 				}
 			}
 
-			const newHost = (event.target as HTMLInputElement).value;
-			select<HTMLAnchorElement>('#personal-token-link')!.host = newHost;
+			select<HTMLAnchorElement>('#personal-token-link')!.host = dropdown.value;
 		});
 	}
 
