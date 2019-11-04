@@ -110,7 +110,8 @@ h2 ~ h2 {
 	text-decoration: line-through;
 }
 
-.js-features :not(:checked) + .info .extended-options {
+.js-features :not(:checked) + .info .extended-options,
+.feature[hidden] {
 	display: none;
 }
 
