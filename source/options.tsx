@@ -63,10 +63,13 @@ async function init(): Promise<void> {
 	indentTextarea.watch('textarea');
 
 	// Filter feature options
-	select<HTMLInputElement>('#filter-features')!.addEventListener('input', event => {
-		const keywords = (event.target as HTMLInputElement)!.value.toLowerCase().split(' ').filter((s: string) => s.length);
+	const filterField = select<HTMLInputElement>('#filter-features')!;
+	filterField.addEventListener('input', () => {
+		const keywords = filterField.value.toLowerCase()
+			.split(/\s+/)
+			.filter(Boolean); // Ignore empty strings
 		for (const feature of select.all('.feature')) {
-			feature.hidden = !keywords.every(word => String(feature.dataset.text).includes(word));
+			feature.hidden = !keywords.every(word => feature.dataset.text!.includes(word));
 		}
 	});
 
