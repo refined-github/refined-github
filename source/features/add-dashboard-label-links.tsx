@@ -10,14 +10,14 @@ function linkifyLabels(activity: HTMLElement): void {
 		return;
 	}
 
-	const repository = select('a[data-hovercard-type="repository"]', activity) as HTMLAnchorElement;
+	const repository = select<HTMLAnchorElement>('a[data-hovercard-type="repository"]', activity)!;
 	if (!repository) {
 		return;
 	}
 
 	for (const label of labels) {
 		const search = new URLSearchParams();
-		const text = (label.textContent || '').trim();
+		const text = label.textContent!.trim();
 		search.set('q', `is:issue is:open sort:updated-desc label:"${text}"`);
 		wrap(label, <a href={`${repository.href}/issues?${search}`} />);
 	}
