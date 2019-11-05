@@ -11,10 +11,6 @@ function linkifyLabels(activity: HTMLElement): void {
 	}
 
 	const repository = select<HTMLAnchorElement>('a[data-hovercard-type="repository"]', activity)!;
-	if (!repository) {
-		return;
-	}
-
 	for (const label of labels) {
 		const search = new URLSearchParams();
 		const text = label.textContent!.trim();
