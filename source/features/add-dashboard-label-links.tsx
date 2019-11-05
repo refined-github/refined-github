@@ -19,20 +19,18 @@ function linkifyLabels(activity: HTMLElement): void {
 	}
 }
 
-function findActivities(): void {
-	const container = select('.js-recent-activity-container:not(.rgh-linkified-labels)');
-	if (!container) {
-		return;
-	}
-
-	container.classList.add('rgh-linkified-labels');
-	for (const activity of select.all('.Box-row', container)) {
-		linkifyLabels(activity);
-	}
-}
-
 function init(): void {
-	observeEl('#dashboard .news', findActivities);
+	observeEl('#dashboard .news', (_, observer) => {
+		const container = select('.js-recent-activity-container');
+		if (!container) {
+			return;
+		}
+
+		observer.disconnect();
+		for (const activity of select.all('.Box-row', container)) {
+			linkifyLabels(activity);
+		}
+	});
 }
 
 features.add({
