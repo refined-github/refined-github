@@ -33,7 +33,7 @@ function buildFeatureCheckbox({name, description, screenshot, disabled}: Feature
 		false;
 
 	return (
-		<div className="feature">
+		<div className={`feature feature--${disabled ? 'disabled': 'enabled'}`}>
 			<input type="checkbox" name={key} id={name} disabled={Boolean(disabled)} />
 			<div className="info">
 				<label for={name}>
@@ -63,7 +63,7 @@ async function init(): Promise<void> {
 	await optionsByDomain.get('github.com')!.syncForm(form);
 
 	// Move disabled features first
-	for (const unchecked of select.all('[type=checkbox]:not(:checked)', container).reverse()) {
+	for (const unchecked of select.all('.feature--enabled [type=checkbox]:not(:checked)', container).reverse()) {
 		// .reverse() needed to preserve alphabetical order while prepending
 		container.prepend(unchecked.closest('.feature')!);
 	}
