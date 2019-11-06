@@ -130,9 +130,7 @@ async function init(): Promise<void | false> {
 		if (!targetTags) {
 			// There was no tags for this commit, save that info to the cache
 			commitsWithNoTags.push(targetCommit);
-		}
-
-		if (targetTags && targetTags.length > 0) {
+		} else if (targetTags.length > 0) {
 			select('.commit-meta', commit)!.append(
 				<div className="ml-2">
 					{icons.tag()}

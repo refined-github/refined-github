@@ -51,8 +51,8 @@ export const getRepoGQL = (): string => {
 };
 
 export const getOwnerAndRepo = (): {
-	ownerName: string;
-	repoName: string;
+	ownerName: string | undefined;
+	repoName: string | undefined;
 } => {
 	const [, ownerName, repoName] = location.pathname.split('/', 3);
 	return {ownerName, repoName};

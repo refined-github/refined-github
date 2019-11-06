@@ -24,8 +24,8 @@ browser.browserAction.onClicked.addListener(() => {
 browser.runtime.onInstalled.addListener(async ({reason}) => {
 	// Only notify on install
 	if (reason === 'install') {
-		const self = await browser.management.getSelf();
-		if (self && self.installType === 'development') {
+		const {installType} = await browser.management.getSelf();
+		if (installType === 'development') {
 			return;
 		}
 

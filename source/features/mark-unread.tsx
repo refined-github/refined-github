@@ -195,7 +195,7 @@ function getNotification(notification: Notification): Element {
 }
 
 function getNotificationGroup({repository}: Notification): Element {
-	const existing = select(`a.notifications-repo-link[title="${repository}"]`)!;
+	const existing = select(`a.notifications-repo-link[title="${repository}"]`);
 	if (existing) {
 		return existing.closest('.boxed-group')!;
 	}
@@ -279,12 +279,12 @@ function isParticipatingPage(): boolean {
 }
 
 async function updateUnreadIndicator(): Promise<void> {
-	const icon = select<HTMLAnchorElement>('a.notification-indicator')!; // "a" required in responsive views
+	const icon = select<HTMLAnchorElement>('a.notification-indicator'); // "a" required in responsive views
 	if (!icon) {
 		return;
 	}
 
-	const statusMark = icon.querySelector('.mail-status')!;
+	const statusMark = icon.querySelector('.mail-status');
 	if (!statusMark) {
 		return;
 	}

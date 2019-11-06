@@ -22,7 +22,7 @@ async function init(): Promise<false | void> {
 		}
 
 		// Drop 'commented' label to shorten the copy
-		const commentedNode = el.parentNode!.nextSibling as Text;
+		const commentedNode = el.parentNode!.nextSibling;
 		if (commentedNode && commentedNode.textContent!.includes('commented')) {
 			commentedNode.remove();
 		}

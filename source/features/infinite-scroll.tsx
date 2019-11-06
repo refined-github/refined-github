@@ -3,16 +3,16 @@ import debounce from 'debounce-fn';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 
-let btn: HTMLButtonElement;
+let btn: HTMLButtonElement | undefined;
 
 const loadMore = debounce(() => {
-	btn.click();
-	btn.textContent = 'Loading...';
+	btn!.click();
+	btn!.textContent = 'Loading...';
 
 	// If GH hasn't loaded the JS, the click will not load anything.
 	// We can detect if it worked by looking at the button's state,
 	// and then trying again (auto-debounced)
-	if (!btn.disabled) {
+	if (!btn!.disabled) {
 		loadMore();
 	}
 }, {wait: 200});

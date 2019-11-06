@@ -10,15 +10,13 @@ function init(): void {
 		select('#partial-discussion-header')!.parentElement!,
 		() => {
 			for (const title of select.all('.js-issue-title:not(.rgh-formatted-title)')) {
-				if (title) {
-					title.classList.add('rgh-formatted-title');
-					linkifyIssues(title);
+				title.classList.add('rgh-formatted-title');
+				linkifyIssues(title);
 
-					const fragment = parseBackticks(title.textContent!);
+				const fragment = parseBackticks(title.textContent!);
 
-					if (fragment.children.length > 0) {
-						zipTextNodes(title, fragment);
-					}
+				if (fragment.children.length > 0) {
+					zipTextNodes(title, fragment);
 				}
 			}
 		});

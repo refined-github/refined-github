@@ -75,7 +75,7 @@ export const isReleasesOrTags = (): boolean => /^(releases|tags)/.test(getRepoPa
 export const isEditingFile = (): boolean => /^edit/.test(getRepoPath()!);
 
 export const isRepo = (): boolean => /^[^/]+\/[^/]+/.test(getCleanPathname()) &&
-	!reservedNames.includes(getOwnerAndRepo().ownerName) &&
+	!reservedNames.includes(getOwnerAndRepo().ownerName!) &&
 	!isNotifications() &&
 	!isDashboard() &&
 	!isGist() &&

@@ -150,6 +150,7 @@ test('getOwnerAndRepo', t => {
 
 	Object.keys(ownerAndRepo).forEach(url => {
 		location.href = url;
+		// @ts-ignore
 		t.deepEqual(ownerAndRepo[url], getOwnerAndRepo());
 	});
 });
