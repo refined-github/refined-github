@@ -33,7 +33,7 @@ function buildFeatureCheckbox({name, description, screenshot, disabled}: Feature
 		false;
 
 	return (
-		<div className={`feature feature--${disabled ? 'disabled': 'enabled'}`}>
+		<div className={`feature feature--${disabled ? 'disabled' : 'enabled'}`}>
 			<input type="checkbox" name={key} id={name} disabled={Boolean(disabled)} />
 			<div className="info">
 				<label for={name}>
