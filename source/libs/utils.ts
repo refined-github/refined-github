@@ -21,13 +21,9 @@ export const getRepoPath = (): string | undefined => {
 	return undefined;
 };
 
-export const getRepoBranch = (): string | false => {
-	const [type, branch] = getCleanPathname().split('/').slice(2);
-	if (isRepo() && type === 'tree') {
-		return branch;
-	}
-
-	return false;
+export const getRepoBranch = (): string | undefined => {
+	const [type, branch] = location.pathname.split('/').slice(3);
+	return isRepo() && type === 'tree' ? branch : undefined;
 };
 
 export const replaceBranch = (currentBranch: string, newBranch: string): string => {
