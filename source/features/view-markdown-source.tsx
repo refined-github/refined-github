@@ -12,8 +12,8 @@ const btnBodyMap = new WeakMap<Element, Element | Promise<Element>>();
 async function fetchSource(): Promise<Element> {
 	const path = location.pathname.replace(/([^/]+\/[^/]+\/)(blob)/, '$1blame');
 	const dom = await fetchDom(path, '.blob-wrapper');
-	dom.classList.add('rgh-markdown-source');
-	return dom;
+	dom!.classList.add('rgh-markdown-source');
+	return dom!;
 }
 
 // Hide tooltip after click, it’s shown on :focus

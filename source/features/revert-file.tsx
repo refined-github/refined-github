@@ -49,7 +49,7 @@ async function deleteFile(menuItem: Element): Promise<void> {
 
 	const deleteFileLink = select<HTMLAnchorElement>('a[aria-label^="Delete this"]', menuItem.parentElement!)!;
 	const form = await fetchDom<HTMLFormElement>(deleteFileLink.href, '#new_blob');
-	await postForm(form);
+	await postForm(form!);
 }
 
 async function commitFileContent(menuItem: Element, content: string): Promise<void> {
@@ -64,7 +64,7 @@ async function commitFileContent(menuItem: Element, content: string): Promise<vo
 	}
 
 	// This is either an `edit` or `create` form
-	const form = await fetchDom<HTMLFormElement>(pathname, '.js-blob-form');
+	const form = (await fetchDom<HTMLFormElement>(pathname, '.js-blob-form'))!;
 	form.elements.value.value = content; // Revert content (`value` is the name of the file content field)
 	form.elements.message.value = (form.elements.message as HTMLInputElement).placeholder
 		.replace(/^Update/, 'Revert')
