@@ -1,10 +1,10 @@
-export default function observeEl(el: Node|string, listener: MutationCallback, options: MutationObserverInit = {childList: true}): MutationObserver | undefined {
+export default function observeEl(
+	el: Node | string,
+	listener: MutationCallback,
+	options: MutationObserverInit = {childList: true}
+): MutationObserver | undefined {
 	if (typeof el === 'string') {
 		el = document.querySelector(el)!;
-	}
-
-	if (!el) {
-		return;
 	}
 
 	// Run on updates
