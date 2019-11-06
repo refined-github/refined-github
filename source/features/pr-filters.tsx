@@ -49,7 +49,6 @@ function addDraftFilter(reviewsFilter: HTMLElement): void {
 
 async function addStatusFilter(reviewsFilter: HTMLElement): Promise<void> {
 	const hasCI = await fetchCIStatus();
-
 	if (!hasCI) {
 		return;
 	}

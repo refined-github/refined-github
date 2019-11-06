@@ -55,7 +55,7 @@ async function init(): Promise<void> {
 
 		<a href={`/${repoUrl}/branches`} className="rgh-reponav-more dropdown-item">
 			{icons.branch()} Branches
-		</a>,
+		</a>
 	);
 
 	// Selector only affects desktop navigation
