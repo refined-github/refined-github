@@ -29,7 +29,7 @@ const getBaseRef = onetime(async (): Promise<string> => {
 	return repository.pullRequest.baseRefOid;
 });
 
-async function getFile(menuItem: Element): Promise<{isTruncated: boolean; text: string}> {
+async function getFile(menuItem: Element): Promise<{isTruncated: boolean; text: string} | null> {
 	const filePath = menuItem.closest<HTMLElement>('[data-path]')!.dataset.path!;
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {

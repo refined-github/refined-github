@@ -7,7 +7,7 @@ import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
 interface Author {
 	email: string;
 	name: string; // Used when the commit isn't linked to a GitHub user
-	user: {
+	user?: {
 		name: string;
 		login: string;
 	};

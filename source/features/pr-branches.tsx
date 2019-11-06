@@ -21,7 +21,7 @@ type BranchInfo = {
 		login: string;
 	};
 	headRefName: string;
-	headRepository: {
+	headRepository?: {
 		url: string;
 	};
 };
@@ -42,14 +42,14 @@ function normalizeBranchInfo(data: BranchInfo): {
 	const head: Partial<RepositoryReference> = {};
 	head.branchExists = Boolean(data.headRef);
 	head.owner = data.headOwner.login;
-	if (!data.headOwner || data.headOwner.login === ownerName) {
+	if (data.headOwner.login === ownerName) {
 		head.label = data.headRefName;
 	} else {
 		head.label = `${data.headOwner.login}:${data.headRefName}`;
 	}
 
 	if (head.branchExists) { // If the branch hasn't been deleted
-		head.url = `${data.headRepository.url}/tree/${data.headRefName}`;
+		head.url = `${data.headRepository!.url}/tree/${data.headRefName}`;
 	} else if (data.headRepository) { // If the repo hasn't been deleted
 		head.url = data.headRepository.url;
 	}
