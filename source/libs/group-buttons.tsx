@@ -28,10 +28,10 @@ export const groupButtons = (buttons: Element[]): Element => {
 // Find immediate `.btn` siblings of `button` and wrap them with groupButtons
 export const groupSiblings = (button: Element): Element => {
 	const siblings = [button];
-	let prev = button.previousElementSibling;
-	while (prev && prev.classList.contains('btn')) {
-		siblings.unshift(prev);
-		prev = prev.previousElementSibling;
+	let previous = button.previousElementSibling;
+	while (previous && previous.classList.contains('btn')) {
+		siblings.unshift(previous);
+		previous = previous.previousElementSibling;
 	}
 
 	let next = button.nextElementSibling;

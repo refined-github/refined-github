@@ -1,5 +1,5 @@
-export default (el: Node): Text[] => {
-	const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+export default (element: Node): Text[] => {
+	const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
 	const nodes: Text[] = [];
 	let node;
 

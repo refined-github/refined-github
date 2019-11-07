@@ -58,7 +58,7 @@ export const getOwnerAndRepo = (): {
 	return {ownerName, repoName};
 };
 
-export const getRef = (): string | undefined => {
+export const getReference = (): string | undefined => {
 	const pathnameParts = location.pathname.split('/');
 	if (['commits', 'blob', 'tree', 'blame'].includes(pathnameParts[3])) {
 		return pathnameParts[4];

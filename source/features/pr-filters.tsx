@@ -75,8 +75,8 @@ function init(): void {
 		return;
 	}
 
-	const searchParam = new URLSearchParams(location.search);
-	currentQuerySegments = (searchParam.get('q') || '').split(/\s+/);
+	const searchParameter = new URLSearchParams(location.search);
+	currentQuerySegments = (searchParameter.get('q') || '').split(/\s+/);
 
 	reviewsFilter.addEventListener('toggle', () => addDraftFilter(reviewsFilter), {once: true});
 	addStatusFilter(reviewsFilter);

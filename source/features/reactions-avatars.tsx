@@ -12,7 +12,7 @@ const approximateHeaderLength = 3; // Each button header takes about as much as 
 type Participant = {
 	container: HTMLElement;
 	username: string;
-	src: string;
+	imageUrl: string;
 };
 
 function getParticipants(container: HTMLElement): Participant[] {
@@ -34,14 +34,14 @@ function getParticipants(container: HTMLElement): Participant[] {
 		// Find image on page. Saves a request and a redirect + add support for bots
 		const existingAvatar = select<HTMLImageElement>(`[alt="@${cleanName}"]`);
 		if (existingAvatar) {
-			participants.push({container, username, src: existingAvatar.src});
+			participants.push({container, username, imageUrl: existingAvatar.src});
 			continue;
 		}
 
 		// If it's not a bot, use a shortcut URL #2125
 		if (cleanName === username) {
-			const src = `/${username}.png?size=${window.devicePixelRatio * 20}`;
-			participants.push({container, username, src});
+			const imageUrl = `/${username}.png?size=${window.devicePixelRatio * 20}`;
+			participants.push({container, username, imageUrl});
 		}
 	}
 
@@ -55,10 +55,10 @@ function add(): void {
 		const participantByReaction = [...list.children as HTMLCollectionOf<HTMLElement>].map(getParticipants);
 		const flatParticipants = flatZip(participantByReaction, avatarLimit);
 
-		for (const {container, username, src} of flatParticipants) {
+		for (const {container, username, imageUrl} of flatParticipants) {
 			container.append(
 				<a>
-					<img src={src} />
+					<img src={imageUrl} />
 				</a>
 			);
 

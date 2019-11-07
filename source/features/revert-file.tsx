@@ -18,7 +18,7 @@ function showError(menuItem: HTMLButtonElement, error: string): void {
 Get the current base commit of this PR. It should change after rebases and merges in this PR.
 This value is not consistently available on the page (appears in `/files` but not when only 1 commit is selected)
 */
-const getBaseRef = onetime(async (): Promise<string> => {
+const getBaseReference = onetime(async (): Promise<string> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			pullRequest(number: ${getDiscussionNumber()}) {
@@ -33,7 +33,7 @@ async function getFile(menuItem: Element): Promise<{isTruncated: boolean; text: 
 	const filePath = menuItem.closest<HTMLElement>('[data-path]')!.dataset.path!;
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
-			file: object(expression: "${await getBaseRef()}:${filePath}") {
+			file: object(expression: "${await getBaseReference()}:${filePath}") {
 				... on Blob {
 					isTruncated
 					text

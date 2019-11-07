@@ -77,15 +77,15 @@ function buildQuery(issueIds: string[]): string {
 	`;
 }
 
-function createLink(ref: RepositoryReference): HTMLSpanElement {
+function createLink(reference: RepositoryReference): HTMLSpanElement {
 	return (
 		<span
 			className="commit-ref css-truncate user-select-contain mb-n1"
-			style={(ref.branchExists ? {} : {textDecoration: 'line-through'})}>
+			style={(reference.branchExists ? {} : {textDecoration: 'line-through'})}>
 			{
-				ref.url ?
-					<a title={(ref.branchExists ? ref.label : 'Deleted')} href={ref.url}>
-						{ref.label}
+				reference.url ?
+					<a title={(reference.branchExists ? reference.label : 'Deleted')} href={reference.url}>
+						{reference.label}
 					</a> :
 					<span className="unknown-repo">unknown repository</span>
 			}

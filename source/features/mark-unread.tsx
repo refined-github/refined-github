@@ -90,9 +90,9 @@ async function markRead(urls: string|string[]): Promise<void> {
 }
 
 async function markUnread({currentTarget}: React.MouseEvent): Promise<void> {
-	const participants: Participant[] = select.all('.participant-avatar').slice(0, 3).map(el => ({
-		username: el.getAttribute('aria-label')!,
-		avatar: el.querySelector('img')!.src
+	const participants: Participant[] = select.all('.participant-avatar').slice(0, 3).map(element => ({
+		username: element.getAttribute('aria-label')!,
+		avatar: element.querySelector('img')!.src
 	}));
 
 	const stateLabel = select('.gh-header-meta .State')!;
@@ -328,7 +328,7 @@ async function markVisibleNotificationsRead({delegateTarget}: DelegateEvent): Pr
 	setNotifications(notifications.filter(({repository}) => repository !== repo));
 }
 
-function addCustomAllReadBtn(): void {
+function addCustomAllReadButton(): void {
 	const nativeMarkUnreadForm = select('details [action="/notifications/mark"]');
 	if (nativeMarkUnreadForm) {
 		nativeMarkUnreadForm.addEventListener('submit', () => {
@@ -397,7 +397,7 @@ async function init(): Promise<void> {
 		const notifications = await getNotifications();
 		if (notifications.length > 0) {
 			await renderNotifications(notifications);
-			addCustomAllReadBtn();
+			addCustomAllReadButton();
 			updateLocalNotificationsCount(notifications);
 			updateLocalParticipatingCount(notifications);
 			document.dispatchEvent(new CustomEvent('refined-github:mark-unread:notifications-added'));

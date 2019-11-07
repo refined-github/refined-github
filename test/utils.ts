@@ -4,7 +4,7 @@ import {
 	getDiscussionNumber,
 	getOwnerAndRepo,
 	getRepoPath,
-	getRef,
+	getReference,
 	parseTag,
 	compareNames
 } from '../source/libs/utils';
@@ -155,8 +155,8 @@ test('getOwnerAndRepo', t => {
 	});
 });
 
-test('getRef', t => {
-	const refs: {
+test('getReference', t => {
+	const references: {
 		[url: string]: string | undefined;
 	} = {
 		'https://github.com/sindresorhus/refined-github': undefined,
@@ -189,9 +189,9 @@ test('getRef', t => {
 		'https://github.com/sindresorhus/refined-github/pull/2105/commits/9df50080dfddee5f7a2a6a1dc4465166339fedfe': undefined
 	};
 
-	Object.keys(refs).forEach(url => {
+	Object.keys(references).forEach(url => {
 		location.href = url;
-		t.is(refs[url], getRef(), url);
+		t.is(references[url], getReference(), url);
 	});
 });
 

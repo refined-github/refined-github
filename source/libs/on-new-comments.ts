@@ -7,7 +7,7 @@ const observed = new WeakSet();
 
 const run = debounce(() => {
 	// Safely run all callbacks
-	handlers.forEach(async cb => cb());
+	handlers.forEach(async callback => callback());
 }, {wait: 200});
 
 // On new page loads, run the callbacks and look for the new elements.
@@ -39,7 +39,7 @@ const setup = (): void => {
 	addListenersOnNewElements();
 };
 
-export default function (cb: VoidFunction): void {
+export default function (callback: VoidFunction): void {
 	setup();
-	handlers.add(cb);
+	handlers.add(callback);
 }

@@ -7,7 +7,7 @@ type StatusListener = (status: CommitStatus) => void;
 // `.TimelineItem--condensed` excludes unrelated references. See `deemphasize-unrelated-commit-references` feature
 const commitSelector = '.js-commit.TimelineItem--condensed';
 
-function getLastCommitRef(): string | null {
+function getLastCommitReference(): string | null {
 	return select.last(`${commitSelector} code`)!.textContent;
 }
 
@@ -52,11 +52,11 @@ export function addEventListener(listener: StatusListener): void {
 		return;
 	}
 
-	let previousCommit = getLastCommitRef();
+	let previousCommit = getLastCommitReference();
 	let previousStatus = get();
 	const filteredListener = (): void => {
 		// Cancel submission if a new commit was pushed
-		const newCommit = getLastCommitRef();
+		const newCommit = getLastCommitReference();
 		if (newCommit !== previousCommit) {
 			previousCommit = newCommit;
 			listener(COMMIT_CHANGED);

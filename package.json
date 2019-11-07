@@ -109,7 +109,8 @@
 			"prefer-named-capture-group": "off",
 			"import/no-unassigned-import": "off",
 			"import/no-unresolved": "off",
-			"import/named": "off"
+			"import/named": "off",
+			"unicorn/prevent-abbreviations": "error"
 		},
 		"overrides": [
 			{
