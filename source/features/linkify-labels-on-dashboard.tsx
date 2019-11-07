@@ -10,12 +10,13 @@ async function init(): Promise<void> {
 	});
 
 	for (const activity of select.all('.Box-row', container)) {
+		const isPR = select.exists('.octicon-git-pull-request', activity);
 		const repository = select<HTMLAnchorElement>('a[data-hovercard-type="repository"]', activity)!;
 		for (const label of select.all('.IssueLabel', activity)) {
 			const search = new URLSearchParams();
 			const labelName = label.textContent!.trim();
-			search.set('q', `is:issue is:open sort:updated-desc label:"${labelName}"`);
-			wrap(label, <a href={`${repository.href}/issues?${search}`} />);
+			search.set('q', `is:${isPR ? 'pr' : 'issue'} is:open sort:updated-desc label:"${labelName}"`);
+			wrap(label, <a href={`${repository.href}/${isPR ? 'pulls' : 'issues'}?${search}`} />);
 		}
 	}
 }
