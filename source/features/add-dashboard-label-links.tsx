@@ -1,43 +1,31 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import elementReady from 'element-ready';
 import features from '../libs/features';
 import {wrap} from '../libs/dom-utils';
-import observeEl from '../libs/simplified-element-observer';
 
-function linkifyLabels(activity: HTMLElement): void {
-	const labels = select.all('.IssueLabel', activity);
-	if (labels.length === 0) {
-		return;
-	}
-
-	const repository = select<HTMLAnchorElement>('a[data-hovercard-type="repository"]', activity)!;
-	for (const label of labels) {
-		const search = new URLSearchParams();
-		const text = label.textContent!.trim();
-		search.set('q', `is:issue is:open sort:updated-desc label:"${text}"`);
-		wrap(label, <a href={`${repository.href}/issues?${search}`} />);
-	}
-}
-
-function init(): void {
-	observeEl('#dashboard .news', (_, observer) => {
-		const container = select('.js-recent-activity-container');
-		if (!container) {
-			return;
-		}
-
-		observer.disconnect();
-		for (const activity of select.all('.Box-row', container)) {
-			linkifyLabels(activity);
-		}
+async function init(): Promise<void> {
+	const container = await elementReady('.js-recent-activity-container', {
+		stopOnDomReady: false
 	});
+
+	for (const activity of select.all('.Box-row', container)) {
+		const repository = select<HTMLAnchorElement>('a[data-hovercard-type="repository"]', activity)!;
+		for (const label of select.all('.IssueLabel', activity)) {
+			const search = new URLSearchParams();
+			const labelName = label.textContent!.trim();
+			search.set('q', `is:issue is:open sort:updated-desc label:"${labelName}"`);
+			wrap(label, <a href={`${repository.href}/issues?${search}`} />);
+		}
+	}
 }
 
 features.add({
 	id: __featureName__,
-	description: 'Add links to labels in recent activities.',
+	description: 'Makes labels clickable in the dashboard’s "Recent activity" box.',
 	screenshot: false,
-	include: [features.isDashboard],
-	load: features.onDomReady,
+	include: [
+		features.isDashboard
+	],
 	init
 });
