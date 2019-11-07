@@ -52,7 +52,7 @@
 		"zip-text-nodes": "^1.0.0-0"
 	},
 	"devDependencies": {
-		"@sindresorhus/tsconfig": "^0.5.0",
+		"@sindresorhus/tsconfig": "^0.6.0",
 		"@types/chrome": "0.0.91",
 		"@types/codemirror": "0.0.80",
 		"@types/copy-webpack-plugin": "^5.0.0",
@@ -65,12 +65,12 @@
 		"@typescript-eslint/parser": "^2.6.1",
 		"ava": "^2.4.0",
 		"chrome-webstore-upload-cli": "^1.2.0",
-		"copy-webpack-plugin": "^5.0.4",
+		"copy-webpack-plugin": "^5.0.5",
 		"css-loader": "^3.2.0",
 		"daily-version": "^0.12.0",
 		"dot-json": "^1.0.4",
 		"eslint": "^6.6.0",
-		"eslint-config-xo-typescript": "^0.19.0",
+		"eslint-config-xo-typescript": "^0.21.0",
 		"fork-ts-checker-webpack-plugin": "^3.0.1",
 		"jsdom": "^15.2.1",
 		"mini-css-extract-plugin": "^0.8.0",
