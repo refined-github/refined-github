@@ -124,7 +124,7 @@ async function init(): Promise<void | false> {
 		if (!targetTags) {
 			// No tags for this commit found in the cache, check in github
 			cached = mergeTags(cached, await getTags(lastCommitOnPage)); // eslint-disable-line no-await-in-loop
-			targetTags = cached[targetCommit]; // eslint-disable-line require-atomic-updates
+			targetTags = cached[targetCommit];
 		}
 
 		if (!targetTags) {

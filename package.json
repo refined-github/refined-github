@@ -119,7 +119,6 @@
 				"rules": {
 					"@typescript-eslint/no-misused-promises": "off",
 					"@typescript-eslint/promise-function-async": "off",
-					"@typescript-eslint/strict-boolean-expressions": "off",
 					"@typescript-eslint/no-unnecessary-condition": "off",
 					"@typescript-eslint/no-explicit-any": "error",
 					"@typescript-eslint/no-unused-vars": [
