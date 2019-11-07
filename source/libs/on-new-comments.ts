@@ -6,7 +6,7 @@ const handlers = new Set<VoidFunction>();
 const observed = new WeakSet();
 
 const run = debounce(() => {
-	// Safely run all callbacks
+	// Run all callbacks without letting an error stop the loop and without silencing it
 	handlers.forEach(async callback => callback());
 }, {wait: 200});
 
