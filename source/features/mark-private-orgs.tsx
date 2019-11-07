@@ -12,7 +12,7 @@ async function init(): Promise<false | void> {
 	}
 
 	const response = await api.v3(`users/${getUsername()}/orgs`);
-	const publicOrgs = response.map((orgData: AnyObject) => `/${orgData.login}`) as string[];
+	const publicOrgs: string[] = response.map((orgData: AnyObject) => `/${orgData.login}`);
 
 	for (const org of orgs) {
 		if (!publicOrgs.includes(org.pathname)) {
