@@ -133,20 +133,17 @@ test('getRepoPath', t => {
 });
 
 test('getOwnerAndRepo', t => {
-	const examples = new Map();
-	examples.set('https://github.com/sindresorhus/refined-github/pull/148', {
+	location.href = 'https://github.com/sindresorhus/refined-github/pull/148';
+	t.deepEqual(getOwnerAndRepo(), {
 		ownerName: 'sindresorhus',
 		repoName: 'refined-github'
 	});
-	examples.set('https://github.com/DrewML/GifHub/blob/master/.gitignore', {
+
+	location.href = 'https://github.com/DrewML/GifHub/blob/master/.gitignore';
+	t.deepEqual(getOwnerAndRepo(), {
 		ownerName: 'DrewML',
 		repoName: 'GifHub'
 	});
-
-	for (const [url, expectationForUrl] of examples.entries()) {
-		location.href = url;
-		t.deepEqual(getOwnerAndRepo(), expectationForUrl);
-	}
 });
 
 test('getReference', t => {
