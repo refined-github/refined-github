@@ -33,7 +33,7 @@ function buildFeatureCheckbox({name, description, screenshot, disabled}: Feature
 		false;
 
 	return (
-		<div className={`feature feature--${disabled ? 'disabled' : 'enabled'}`}>
+		<div className={`feature feature--${disabled ? 'disabled' : 'enabled'}`} data-text={`${name} ${description}`.toLowerCase()}>
 			<input type="checkbox" name={key} id={name} disabled={Boolean(disabled)} />
 			<div className="info">
 				<label for={name}>
@@ -72,6 +72,18 @@ async function init(): Promise<void> {
 	fitTextarea.watch('textarea');
 	indentTextarea.watch('textarea');
 
+	// Filter feature options
+	const filterField = select<HTMLInputElement>('#filter-features')!;
+	filterField.addEventListener('input', () => {
+		const keywords = filterField.value.toLowerCase()
+			.replace(/\W/g, ' ')
+			.split(/\s+/)
+			.filter(Boolean); // Ignore empty strings
+		for (const feature of select.all('.feature')) {
+			feature.hidden = !keywords.every(word => feature.dataset.text!.includes(word));
+		}
+	});
+
 	// GitHub Enterprise domain picker
 	if (optionsByDomain.size > 1) {
 		const dropdown = (
@@ -80,7 +92,7 @@ async function init(): Promise<void> {
 			</select>
 		) as unknown as HTMLSelectElement;
 		form.before(<p>Domain selector: {dropdown}</p>, <hr/>);
-		dropdown.addEventListener('change', event => {
+		dropdown.addEventListener('change', () => {
 			for (const [domain, options] of optionsByDomain) {
 				if (dropdown.value === domain) {
 					options.syncForm(form);
@@ -89,8 +101,7 @@ async function init(): Promise<void> {
 				}
 			}
 
-			const newHost = (event.target as HTMLInputElement).value;
-			select<HTMLAnchorElement>('#personal-token-link')!.host = newHost;
+			select<HTMLAnchorElement>('#personal-token-link')!.host = dropdown.value;
 		});
 	}
 
