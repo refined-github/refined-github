@@ -301,6 +301,7 @@ Thanks for contributing! 🦋🙌
 - [](# "deemphasize-unrelated-commit-references") [Makes it easier to tell apart commits added to the current PR versus plain commits that reference the PR.](https://user-images.githubusercontent.com/1402241/64478939-398b0a80-d1da-11e9-8c6a-bb98668cb78c.gif)
 - [](# "embed-gist-via-iframe") [Adds a menu item to embed a gist via `<iframe>`.](https://user-images.githubusercontent.com/44045911/63633382-6a1b6200-c67a-11e9-9038-aedd62e4f6a8.png)
 - [](# "link-to-prior-blame-line") [Preserves the current line on “View blame prior to this change” links.](https://user-images.githubusercontent.com/1402241/60064482-26b47e00-9733-11e9-803c-c113ea612fbe.png)
+- [](# "linkify-labels-on-dashboard") [Makes labels clickable in the dashboard’s "Recent activity" box.](https://user-images.githubusercontent.com/9264728/68426593-bb7ebc00-01a8-11ea-9e92-5efdf4ff5f0d.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
