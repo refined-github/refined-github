@@ -21,7 +21,7 @@ const init = (): void => {
 			summary .discussion-item-copy
 		`, details)!;
 
-		const reason = /was marked as ([^.]+)/.exec(header.textContent!)?.[1] || '';
+		const reason = /was marked as ([^.]+)/.exec(header.textContent!)?.[1] ?? '';
 		if (!allowedReasons.includes(reason)) {
 			continue;
 		}
