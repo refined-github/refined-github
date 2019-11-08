@@ -4,14 +4,14 @@ import observeEl from '../libs/simplified-element-observer';
 import * as domFormatters from '../libs/dom-formatters';
 
 function init(): void {
-  const ajaxedTitleArea = select('#partial-discussion-header')!.parentElement!;
+	const ajaxedTitleArea = select('#partial-discussion-header')!.parentElement!;
 	observeEl(ajaxedTitleArea, () => {
-    for (const title of select.all('.js-issue-title:not(.rgh-formatted-title)')) {
-      title.classList.add('rgh-formatted-title');
-      domFormatters.linkifyIssues(title);
-      domFormatters.parseBackticks(title);
-    }
-  });
+		for (const title of select.all('.js-issue-title:not(.rgh-formatted-title)')) {
+			title.classList.add('rgh-formatted-title');
+			domFormatters.linkifyIssues(title);
+			domFormatters.parseBackticks(title);
+		}
+	});
 }
 
 features.add({
