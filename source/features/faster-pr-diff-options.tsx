@@ -4,18 +4,18 @@ import * as icons from '../libs/icons';
 import features from '../libs/features';
 
 function createDiffStyleToggle(): DocumentFragment {
-	const params = new URLSearchParams(location.search);
+	const parameters = new URLSearchParams(location.search);
 	const isUnified = select.exists([
 		'[value="unified"][checked]', // Form in PR
 		'.table-of-contents .selected[href$=unified]' // Link in single commit
 	].join());
 
 	const makeLink = (type: string, icon: Element, selected: boolean): HTMLElement => {
-		params.set('diff', type);
+		parameters.set('diff', type);
 		return <a
 			className={`btn btn-sm BtnGroup-item tooltipped tooltipped-s ${selected ? 'selected' : ''}`}
 			aria-label={`Show ${type} diffs`}
-			href={`?${params}`}>
+			href={`?${parameters}`}>
 			{icon}
 		</a>;
 	};
@@ -27,17 +27,17 @@ function createDiffStyleToggle(): DocumentFragment {
 }
 
 function createWhitespaceButton(): HTMLElement {
-	const searchParams = new URLSearchParams(location.search);
-	const isHidingWhitespace = searchParams.get('w') === '1';
+	const searchParameters = new URLSearchParams(location.search);
+	const isHidingWhitespace = searchParameters.get('w') === '1';
 
 	if (isHidingWhitespace) {
-		searchParams.delete('w');
+		searchParameters.delete('w');
 	} else {
-		searchParams.set('w', '1');
+		searchParameters.set('w', '1');
 	}
 
 	return (
-		<a href={`?${searchParams}`}
+		<a href={`?${searchParameters}`}
 			data-hotkey="d w"
 			className={`btn btn-sm btn-outline tooltipped tooltipped-s ${isHidingWhitespace ? 'bg-gray-light text-gray-light' : ''}`}
 			aria-label={`${isHidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}>

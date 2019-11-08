@@ -46,7 +46,7 @@ function appendLineInfo(lineHandle: CodeMirror.LineHandle, text: string): void {
 // Create and add widget if not already in the document
 function addWidget(): void {
 	editor.eachLine(lineHandle => {
-		if (lineHandle.widgets) {
+		if (lineHandle.widgets.length > 0) {
 			return;
 		}
 
@@ -64,11 +64,11 @@ function addWidget(): void {
 	});
 }
 
-function createButton(branch: string, title?: string): HTMLButtonElement {
+function createButton(branch: string, title = `Accept ${branch} Change`): HTMLButtonElement {
 	const link = document.createElement('button');
 	link.type = 'button';
 	link.className = 'btn-link';
-	link.textContent = title || `Accept ${branch} Change`;
+	link.textContent = title;
 	link.addEventListener('click', ({target}) => {
 		acceptBranch(branch, getLineNumber(target as Element));
 	});

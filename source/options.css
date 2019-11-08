@@ -38,11 +38,6 @@ button {
 	border: 1px solid var(--input-border-color);
 }
 
-input:not([type='checkbox']):not(:placeholder-shown):valid {
-	color: var(--github-green) !important;
-	border: 1px solid;
-}
-
 input:not([type='checkbox']):invalid {
 	color: var(--github-red) !important;
 	border: 1px solid;
@@ -95,7 +90,7 @@ h2 ~ h2 {
 	margin-top: 2em;
 }
 
-.js-features .feature {
+.js-features .feature:not([hidden]) {
 	display: flex;
 	margin-top: 1em;
 }

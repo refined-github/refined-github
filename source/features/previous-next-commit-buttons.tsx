@@ -2,15 +2,15 @@ import select from 'select-dom';
 import features from '../libs/features';
 
 function init(): false | void {
-	const originalPrevNext = select('.commit .BtnGroup.float-right');
-	if (!originalPrevNext) {
+	const originalPreviousNext = select('.commit .BtnGroup.float-right');
+	if (!originalPreviousNext) {
 		return false;
 	}
 
-	const prevNext = originalPrevNext.cloneNode(true);
+	const previousNext = originalPreviousNext.cloneNode(true);
 	const files = select('#files')!;
 
-	files.after(prevNext);
+	files.after(previousNext);
 }
 
 features.add({

@@ -4,7 +4,7 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
-import {getRepoURL, getRef} from '../libs/utils';
+import {getRepoURL, getReference} from '../libs/utils';
 import {isEnterprise} from '../libs/page-detect';
 import {appendBefore} from '../libs/dom-utils';
 
@@ -31,10 +31,10 @@ async function init(): Promise<void> {
 
 	let compareUrl = `/${repoUrl}/compare`;
 	let commitsUrl = `/${repoUrl}/commits`;
-	const ref = getRef();
-	if (ref) {
-		compareUrl += `/${ref}`;
-		commitsUrl += `/${ref}`;
+	const reference = getReference();
+	if (reference) {
+		compareUrl += `/${reference}`;
+		commitsUrl += `/${reference}`;
 	}
 
 	const menu = select('.reponav-dropdown .dropdown-menu')!;
@@ -55,7 +55,7 @@ async function init(): Promise<void> {
 
 		<a href={`/${repoUrl}/branches`} className="rgh-reponav-more dropdown-item">
 			{icons.branch()} Branches
-		</a>,
+		</a>
 	);
 
 	// Selector only affects desktop navigation

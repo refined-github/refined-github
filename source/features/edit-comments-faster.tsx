@@ -17,15 +17,12 @@ function init(): void {
 		item.hidden = true;
 		if (
 			item.matches(':last-child') &&
-			item.previousElementSibling &&
-			item.previousElementSibling.matches('.dropdown-divider')
+			item.previousElementSibling?.matches('.dropdown-divider')
 		) {
 			item.previousElementSibling.remove();
 		} else if (
-			item.previousElementSibling &&
-			item.previousElementSibling.matches('.dropdown-divider') &&
-			item.nextElementSibling &&
-			item.nextElementSibling.matches('.dropdown-divider')
+			item.previousElementSibling?.matches('.dropdown-divider') &&
+			item.nextElementSibling?.matches('.dropdown-divider')
 		) {
 			item.nextElementSibling.remove();
 		}

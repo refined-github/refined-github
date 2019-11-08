@@ -21,13 +21,9 @@ export const getRepoPath = (): string | undefined => {
 	return undefined;
 };
 
-export const getRepoBranch = (): string | false => {
-	const [type, branch] = getCleanPathname().split('/').slice(2);
-	if (isRepo() && type === 'tree') {
-		return branch;
-	}
-
-	return false;
+export const getRepoBranch = (): string | undefined => {
+	const [type, branch] = location.pathname.split('/').slice(3);
+	return isRepo() && type === 'tree' ? branch : undefined;
 };
 
 export const replaceBranch = (currentBranch: string, newBranch: string): string => {
@@ -55,14 +51,14 @@ export const getRepoGQL = (): string => {
 };
 
 export const getOwnerAndRepo = (): {
-	ownerName: string;
-	repoName: string;
+	ownerName: string | undefined;
+	repoName: string | undefined;
 } => {
 	const [, ownerName, repoName] = location.pathname.split('/', 3);
 	return {ownerName, repoName};
 };
 
-export const getRef = (): string | undefined => {
+export const getReference = (): string | undefined => {
 	const pathnameParts = location.pathname.split('/');
 	if (['commits', 'blob', 'tree', 'blame'].includes(pathnameParts[3])) {
 		return pathnameParts[4];
@@ -72,7 +68,7 @@ export const getRef = (): string | undefined => {
 };
 
 export const parseTag = (tag: string): {version: string; namespace: string} => {
-	const [, namespace = '', version = ''] = /(?:(.*)@)?([^@]+)/.exec(tag) || [];
+	const [, namespace = '', version = ''] = /(?:(.*)@)?([^@]+)/.exec(tag) ?? [];
 	return {namespace, version};
 };
 
@@ -81,7 +77,7 @@ export const groupBy = (iterable: Iterable<string>, grouper: (item: string) => s
 
 	for (const item of iterable) {
 		const key = grouper(item);
-		map[key] = map[key] || [];
+		map[key] = map[key] ?? [];
 		map[key].push(item);
 	}
 
@@ -110,9 +106,7 @@ export const flatZip = <T>(table: T[][], limit = Infinity): T[] => {
 
 export function getOP(): string {
 	if (isPR()) {
-		const titleRegex = /^(.+) by (\S+) · Pull Request #(\d+)/;
-		const match = titleRegex.exec(document.title)!;
-		return match && match[2];
+		return /^(?:.+) by (\S+) · Pull Request #(?:\d+)/.exec(document.title)?.[1]!;
 	}
 
 	return select('.timeline-comment-header-text .author')!.textContent!;

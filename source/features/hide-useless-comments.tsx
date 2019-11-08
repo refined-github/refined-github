@@ -27,7 +27,7 @@ function init(): void {
 		// If the first comment left by the author isn't a useless comment
 		// (previously hidden or about to be hidden), then leave this one as well
 		const previousComment = select(`.js-timeline-item:not([hidden]) .unminimized-comment .author[href="${author}"]`);
-		if (previousComment && previousComment.closest('.js-timeline-item') !== comment) {
+		if (previousComment?.closest('.js-timeline-item') !== comment) {
 			continue;
 		}
 

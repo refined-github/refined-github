@@ -21,7 +21,7 @@ type BranchInfo = {
 		login: string;
 	};
 	headRefName: string;
-	headRepository: {
+	headRepository?: {
 		url: string;
 	};
 };
@@ -42,14 +42,14 @@ function normalizeBranchInfo(data: BranchInfo): {
 	const head: Partial<RepositoryReference> = {};
 	head.branchExists = Boolean(data.headRef);
 	head.owner = data.headOwner.login;
-	if (!data.headOwner || data.headOwner.login === ownerName) {
+	if (data.headOwner.login === ownerName) {
 		head.label = data.headRefName;
 	} else {
 		head.label = `${data.headOwner.login}:${data.headRefName}`;
 	}
 
 	if (head.branchExists) { // If the branch hasn't been deleted
-		head.url = `${data.headRepository.url}/tree/${data.headRefName}`;
+		head.url = `${data.headRepository!.url}/tree/${data.headRefName}`;
 	} else if (data.headRepository) { // If the repo hasn't been deleted
 		head.url = data.headRepository.url;
 	}
@@ -77,15 +77,15 @@ function buildQuery(issueIds: string[]): string {
 	`;
 }
 
-function createLink(ref: RepositoryReference): HTMLSpanElement {
+function createLink(reference: RepositoryReference): HTMLSpanElement {
 	return (
 		<span
 			className="commit-ref css-truncate user-select-contain mb-n1"
-			style={(ref.branchExists ? {} : {textDecoration: 'line-through'})}>
+			style={(reference.branchExists ? {} : {textDecoration: 'line-through'})}>
 			{
-				ref.url ?
-					<a title={(ref.branchExists ? ref.label : 'Deleted')} href={ref.url}>
-						{ref.label}
+				reference.url ?
+					<a title={(reference.branchExists ? reference.label : 'Deleted')} href={reference.url}>
+						{reference.label}
 					</a> :
 					<span className="unknown-repo">unknown repository</span>
 			}

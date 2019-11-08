@@ -14,8 +14,8 @@ let cached: Promise<number | undefined>;
 
 async function updateReleasesCount(): Promise<number | undefined> {
 	if (isRepoRoot()) {
-		const releasesCountEl = select('.numbers-summary a[href$="/releases"] .num');
-		const releasesCount = Number(releasesCountEl ? releasesCountEl.textContent!.replace(/,/g, '') : 0);
+		const releasesCountElement = select('.numbers-summary a[href$="/releases"] .num');
+		const releasesCount = Number(releasesCountElement ? releasesCountElement.textContent!.replace(/,/g, '') : 0);
 		cache.set(repoKey, releasesCount, 3);
 		return releasesCount;
 	}

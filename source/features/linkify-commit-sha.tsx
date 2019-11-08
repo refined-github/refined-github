@@ -4,9 +4,9 @@ import {wrap} from '../libs/dom-utils';
 import features from '../libs/features';
 
 function init(): void {
-	const el = select('.sha.user-select-contain');
-	if (el) {
-		wrap(el, <a href={location.pathname.replace(/pull\/\d+\/commits/, 'commit')}/>);
+	const element = select('.sha.user-select-contain');
+	if (element) {
+		wrap(element, <a href={location.pathname.replace(/pull\/\d+\/commits/, 'commit')}/>);
 	}
 }
 

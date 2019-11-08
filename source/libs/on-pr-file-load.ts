@@ -5,7 +5,7 @@ const handlers = new WeakMap<EventListener, EventListener>();
 
 export default function onPrFileLoad(callback: EventListener): void {
 	// When a fragment loads, more fragments might be nested in it. The following code avoids duplicate event handlers.
-	const recursiveCallback = handlers.get(callback) || ((event: Event) => {
+	const recursiveCallback = handlers.get(callback) ?? ((event: Event) => {
 		callback(event);
 		onPrFileLoad(callback);
 	});

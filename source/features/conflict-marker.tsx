@@ -55,7 +55,7 @@ async function init(): Promise<false | void> {
 					href={`${pr.link.pathname}#partial-pull-merging`}
 				>
 					{icons.alert()}
-				</a>,
+				</a>
 			);
 		}
 	}
