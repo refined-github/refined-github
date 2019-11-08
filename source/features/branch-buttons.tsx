@@ -64,7 +64,7 @@ async function getDefaultBranchLink(): Promise<HTMLElement | undefined> {
 	const currentBranch = getCurrentBranch();
 
 	// Don't show the button if we’re already on the default branch
-	if (defaultBranch === undefined || defaultBranch === currentBranch) {
+	if (defaultBranch === currentBranch) {
 		return;
 	}
 

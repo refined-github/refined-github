@@ -15,7 +15,6 @@ type TagDetails = {
 	namespace: string;
 };
 
-// eslint-disable-next-line @typescript-eslint/require-await
 async function getNextPage(): Promise<DocumentFragment> {
 	const nextPageLink = select<HTMLAnchorElement>('.pagination a:last-child');
 	if (nextPageLink) {

@@ -3,16 +3,16 @@ import debounce from 'debounce-fn';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 
-let btn: HTMLButtonElement;
+let button: HTMLButtonElement | undefined;
 
 const loadMore = debounce(() => {
-	btn.click();
-	btn.textContent = 'Loading...';
+	button!.click();
+	button!.textContent = 'Loading...';
 
 	// If GH hasn't loaded the JS, the click will not load anything.
 	// We can detect if it worked by looking at the button's state,
 	// and then trying again (auto-debounced)
-	if (!btn.disabled) {
+	if (!button!.disabled) {
 		loadMore();
 	}
 }, {wait: 200});
@@ -30,7 +30,7 @@ const inView = new IntersectionObserver(([{isIntersecting}]) => {
 
 const findButton = (): void => {
 	// If the old button is still there, leave
-	if (btn && document.contains(btn)) {
+	if (button && document.contains(button)) {
 		return;
 	}
 
@@ -38,9 +38,9 @@ const findButton = (): void => {
 	inView.disconnect();
 
 	// Watch the new button, or stop everything
-	btn = select<HTMLButtonElement>('.ajax-pagination-btn')!;
-	if (btn) {
-		inView.observe(btn);
+	button = select<HTMLButtonElement>('.ajax-pagination-btn')!;
+	if (button) {
+		inView.observe(button);
 	}
 };
 

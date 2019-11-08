@@ -38,7 +38,7 @@ function init(): void {
 		// + skip pr/issue filter dropdowns (some are lazyloaded)
 		if (/(issues|pulls)\/?$/.test(link.pathname) && !link.closest('.pagination, .table-list-filters')) {
 			const search = new URLSearchParams(link.search);
-			const existingQuery = search.get('q') || getDefaultQuery(link, search);
+			const existingQuery = search.get('q') ?? getDefaultQuery(link, search);
 			search.set('q', `${existingQuery} sort:updated-desc`);
 			link.search = String(search);
 		}

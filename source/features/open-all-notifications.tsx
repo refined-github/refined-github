@@ -22,7 +22,7 @@ function openNotifications({delegateTarget}: DelegateEvent): void {
 	}
 
 	browser.runtime.sendMessage({
-		openUrls: unreadNotifications.map(el => el.href)
+		openUrls: unreadNotifications.map(element => element.href)
 	});
 
 	// Mark all as read

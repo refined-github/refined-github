@@ -43,7 +43,7 @@ function init(): false | void {
 				name="pull_request_review[event]"
 				value={radio.value}
 				className={classes.join(' ')}
-				aria-label={tooltip || undefined}
+				aria-label={tooltip ?? undefined}
 				disabled={radio.disabled}>
 				{radio.nextSibling}
 			</button>

@@ -5,16 +5,13 @@ import {appendBefore} from '../libs/dom-utils';
 import {getRepoURL, getRepoBranch} from '../libs/utils';
 import fetchDom from '../libs/fetch-dom';
 
-export const fetchCIStatus = onetime(async () => {
+export const fetchCIStatus = onetime(async (): Promise<HTMLElement | void> => {
 	const url = `/${getRepoURL()}/commits/${getRepoBranch() || ''}`;
 	const icon = await fetchDom<HTMLElement>(url, '.commit-build-statuses');
-
-	if (!icon) {
-		return undefined;
+	if (icon) {
+		icon.classList.add('rgh-ci-link');
+		return icon;
 	}
-
-	icon.classList.add('rgh-ci-link');
-	return icon;
 });
 
 async function init(): Promise<false | void> {

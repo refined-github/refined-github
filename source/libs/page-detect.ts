@@ -222,7 +222,7 @@ export const isEditingFileTest = [
 ];
 
 export const isRepo = (): boolean => /^[^/]+\/[^/]+/.test(getCleanPathname()) &&
-	!reservedNames.includes(getOwnerAndRepo().ownerName) &&
+	!reservedNames.includes(getOwnerAndRepo().ownerName!) &&
 	!isNotifications() &&
 	!isDashboard() &&
 	!isGist() &&

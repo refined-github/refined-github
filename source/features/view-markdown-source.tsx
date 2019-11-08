@@ -7,13 +7,13 @@ import fetchDom from '../libs/fetch-dom';
 import * as icons from '../libs/icons';
 import blurAccessibly from '../libs/blur-field-accessibly';
 
-const btnBodyMap = new WeakMap<Element, Element | Promise<Element>>();
+const buttonBodyMap = new WeakMap<Element, Element | Promise<Element>>();
 
 async function fetchSource(): Promise<Element> {
 	const path = location.pathname.replace(/([^/]+\/[^/]+\/)(blob)/, '$1blame');
 	const dom = await fetchDom(path, '.blob-wrapper');
-	dom.classList.add('rgh-markdown-source');
-	return dom;
+	dom!.classList.add('rgh-markdown-source');
+	return dom!;
 }
 
 // Hide tooltip after click, it’s shown on :focus
@@ -38,11 +38,11 @@ async function showSource(): Promise<void> {
 
 	sourceButton.disabled = true;
 
-	const source = btnBodyMap.get(sourceButton) || fetchSource();
-	const rendered = await btnBodyMap.get(renderedButton) || select('.blob.instapaper_body')!;
+	const source = buttonBodyMap.get(sourceButton) ?? fetchSource();
+	const rendered = await buttonBodyMap.get(renderedButton) ?? select('.blob.instapaper_body')!;
 
-	btnBodyMap.set(sourceButton, source);
-	btnBodyMap.set(renderedButton, rendered);
+	buttonBodyMap.set(sourceButton, source);
+	buttonBodyMap.set(renderedButton, rendered);
 
 	rendered.replaceWith(await source);
 
@@ -61,7 +61,7 @@ async function showRendered(): Promise<void> {
 
 	renderedButton.disabled = true;
 
-	(await btnBodyMap.get(sourceButton))!.replaceWith(await btnBodyMap.get(renderedButton)!);
+	(await buttonBodyMap.get(sourceButton))!.replaceWith(await buttonBodyMap.get(renderedButton)!);
 
 	renderedButton.disabled = false;
 

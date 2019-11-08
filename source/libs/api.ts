@@ -158,7 +158,7 @@ export const v4 = mem(async (
 async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError> {
 	const {personalToken} = await settings;
 
-	if (typeof apiResponse.message === 'string' && apiResponse.message.includes('API rate limit exceeded')) {
+	if ((apiResponse.message as string)?.includes('API rate limit exceeded')) {
 		return new RefinedGitHubAPIError(
 			'Rate limit exceeded.',
 			personalToken ?

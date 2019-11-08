@@ -27,7 +27,7 @@ function init(): false | void {
 		return false;
 	}
 
-	const [user, repo,, ref, ...path] = getCleanPathname().split('/');
+	const [user, repo,, reference, ...path] = getCleanPathname().split('/');
 	const currentFilename = path.join('/');
 
 	disabledPagination.forEach(async button => {
@@ -42,7 +42,7 @@ function init(): false | void {
 		for (const file of files) {
 			if (file[fromKey] === currentFilename) {
 				if (file.status === 'renamed') {
-					const url = `/${user}/${repo}/commits/${ref}/${file[toKey]}`;
+					const url = `/${user}/${repo}/commits/${reference}/${file[toKey]}`;
 					button.replaceWith(
 						<a
 							href={url}

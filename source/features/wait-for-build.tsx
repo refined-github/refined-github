@@ -61,7 +61,7 @@ function disableForm(disabled = true): void {
 
 async function handleMergeConfirmation(event: DelegateEvent<Event, HTMLButtonElement>): Promise<void> {
 	const checkbox = getCheckbox();
-	if (checkbox && checkbox.checked) {
+	if (checkbox?.checked) {
 		event.preventDefault();
 
 		disableForm();

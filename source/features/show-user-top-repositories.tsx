@@ -13,7 +13,7 @@ function buildUrl(queryField: string): URL {
 }
 
 function init(): false | void {
-	const showcaseTitle = select('.js-pinned-items-reorder-container .text-normal')!;
+	const showcaseTitle = select('.js-pinned-items-reorder-container .text-normal');
 	if (!showcaseTitle) {
 		return false;
 	}

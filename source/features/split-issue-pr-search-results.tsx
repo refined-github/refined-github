@@ -5,9 +5,9 @@ import features from '../libs/features';
 
 function cleanLinks(): void {
 	for (const link of select.all<HTMLAnchorElement>('.menu-item')) {
-		const searchParams = new URLSearchParams(link.search);
-		searchParams.set('q', cleanSearchQuery(searchParams.get('q')!));
-		link.search = String(searchParams);
+		const searchParameters = new URLSearchParams(link.search);
+		searchParameters.set('q', cleanSearchQuery(searchParameters.get('q')!));
+		link.search = String(searchParameters);
 	}
 }
 
