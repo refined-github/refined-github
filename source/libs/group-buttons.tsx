@@ -29,13 +29,13 @@ export const groupButtons = (buttons: Element[]): Element => {
 export const groupSiblings = (button: Element): Element => {
 	const siblings = [button];
 	let previous = button.previousElementSibling;
-	while (previous && previous.classList.contains('btn')) {
+	while (previous?.classList.contains('btn')) {
 		siblings.unshift(previous);
 		previous = previous.previousElementSibling;
 	}
 
 	let next = button.nextElementSibling;
-	while (next && next.classList.contains('btn')) {
+	while (next?.classList.contains('btn')) {
 		siblings.push(next);
 		next = next.nextElementSibling;
 	}

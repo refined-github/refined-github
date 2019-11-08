@@ -3,7 +3,7 @@ import addDomainPermissionToggle from 'webext-domain-permission-toggle';
 import './options-storage';
 
 browser.runtime.onMessage.addListener((message, {tab}) => {
-	if (message && Array.isArray(message.openUrls)) {
+	if (Array.isArray(message?.openUrls)) {
 		for (const [i, url] of (message.openUrls as string[]).entries()) {
 			browser.tabs.create({
 				url,

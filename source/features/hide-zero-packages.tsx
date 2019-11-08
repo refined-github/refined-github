@@ -3,8 +3,8 @@ import features from '../libs/features';
 
 function init(): void {
 	const packagesLabel = select('.numbers-summary [href$="/packages"]');
-	if (packagesLabel && packagesLabel.textContent!.trim().startsWith('0')) {
-		packagesLabel.parentElement!.remove();
+	if (packagesLabel?.textContent!.trim().startsWith('0')) {
+		packagesLabel!.parentElement!.remove();
 	}
 }
 

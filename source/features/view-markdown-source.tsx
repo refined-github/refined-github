@@ -38,8 +38,8 @@ async function showSource(): Promise<void> {
 
 	sourceButton.disabled = true;
 
-	const source = buttonBodyMap.get(sourceButton) || fetchSource();
-	const rendered = await buttonBodyMap.get(renderedButton) || select('.blob.instapaper_body')!;
+	const source = buttonBodyMap.get(sourceButton) ?? fetchSource();
+	const rendered = await buttonBodyMap.get(renderedButton) ?? select('.blob.instapaper_body')!;
 
 	buttonBodyMap.set(sourceButton, source);
 	buttonBodyMap.set(renderedButton, rendered);

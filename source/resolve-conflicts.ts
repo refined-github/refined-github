@@ -64,11 +64,11 @@ function addWidget(): void {
 	});
 }
 
-function createButton(branch: string, title?: string): HTMLButtonElement {
+function createButton(branch: string, title = `Accept ${branch} Change`): HTMLButtonElement {
 	const link = document.createElement('button');
 	link.type = 'button';
 	link.className = 'btn-link';
-	link.textContent = title || `Accept ${branch} Change`;
+	link.textContent = title;
 	link.addEventListener('click', ({target}) => {
 		acceptBranch(branch, getLineNumber(target as Element));
 	});

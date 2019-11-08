@@ -36,13 +36,13 @@ async function handler(event: DelegateEvent): Promise<void> {
 	const response = await mergeBranches();
 	if (response.ok) {
 		button.remove();
-	} else if (response.message && response.message.toLowerCase().startsWith('merge conflict')) {
+	} else if (response.message?.toLowerCase().startsWith('merge conflict')) {
 		// Only shown on Draft PRs
 		button.replaceWith(
 			<a href={location.pathname + '/conflicts'} className="btn float-right">{icons.alert()} Resolve conflicts</a>
 		);
 	} else {
-		button.textContent = response.message || 'Error';
+		button.textContent = response.message ?? 'Error';
 		button.prepend(icons.alert(), ' ');
 		throw new api.RefinedGitHubAPIError('update-pr-from-base-branch: ' + JSON.stringify(response));
 	}

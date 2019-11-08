@@ -68,7 +68,7 @@ export const getReference = (): string | undefined => {
 };
 
 export const parseTag = (tag: string): {version: string; namespace: string} => {
-	const [, namespace = '', version = ''] = /(?:(.*)@)?([^@]+)/.exec(tag) || [];
+	const [, namespace = '', version = ''] = /(?:(.*)@)?([^@]+)/.exec(tag) ?? [];
 	return {namespace, version};
 };
 
@@ -77,7 +77,7 @@ export const groupBy = (iterable: Iterable<string>, grouper: (item: string) => s
 
 	for (const item of iterable) {
 		const key = grouper(item);
-		map[key] = map[key] || [];
+		map[key] = map[key] ?? [];
 		map[key].push(item);
 	}
 
@@ -106,9 +106,7 @@ export const flatZip = <T>(table: T[][], limit = Infinity): T[] => {
 
 export function getOP(): string {
 	if (isPR()) {
-		const titleRegex = /^(.+) by (\S+) · Pull Request #(\d+)/;
-		const match = titleRegex.exec(document.title)!;
-		return match && match[2];
+		return /^(?:.+) by (\S+) · Pull Request #(?:\d+)/.exec(document.title)?.[1]!;
 	}
 
 	return select('.timeline-comment-header-text .author')!.textContent!;
