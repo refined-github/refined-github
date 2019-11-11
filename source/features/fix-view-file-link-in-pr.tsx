@@ -10,8 +10,8 @@ function handleMenuOpening(event: DelegateEvent): void {
 		return;
 	}
 
-	// Only enabled on Open PRs. Editing files doesn't make sense after a PR is closed/merged.
-	if (!select.exists('.gh-header-meta .State--green')) {
+	// Only enabled on Open/Draft PRs. Editing files doesn't make sense after a PR is closed/merged.
+	if (!select.exists('.gh-header-meta [title$="Open"], .gh-header-meta [title$="Draft"]')) {
 		return;
 	}
 
