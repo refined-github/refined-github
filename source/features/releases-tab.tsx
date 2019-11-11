@@ -3,8 +3,9 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import cache from 'webext-storage-cache';
 import features from '../libs/features';
+import * as api from '../libs/api';
 import * as icons from '../libs/icons';
-import {getRepoURL} from '../libs/utils';
+import {getRepoURL, getRepoGQL} from '../libs/utils';
 import {isRepoRoot, isReleasesOrTags} from '../libs/page-detect';
 
 const repoUrl = getRepoURL();
@@ -13,19 +14,37 @@ const repoKey = `releases-count:${repoUrl}`;
 let cached: Promise<number | undefined>;
 
 async function updateReleasesCount(): Promise<number | undefined> {
+	// If it’s available on the current page, always serve it fresh rather than from cache
 	if (isRepoRoot()) {
-		const releasesCountElement = select('.numbers-summary a[href$="/releases"] .num');
+		const releasesCountElement = await elementReady('.numbers-summary a[href$="/releases"] .num');
 		const releasesCount = Number(releasesCountElement ? releasesCountElement.textContent!.replace(/,/g, '') : 0);
 		cache.set(repoKey, releasesCount, 3);
 		return releasesCount;
 	}
 
-	return cached;
+	// Check the cache
+	const cachedValue = await cache.get<number>(repoKey);
+	if (typeof cachedValue !== 'undefined') {
+		return cachedValue;
+	}
+
+	// As a last resort, query the API
+	const {repository} = await api.v4(`
+		repository(${getRepoGQL()}) {
+			refs(refPrefix: "refs/tags/") {
+				totalCount
+			}
+		}
+	`);
+
+	cache.set(repoKey, repository.refs.totalCount, 3);
+
+	return repository.refs.totalCount;
 }
 
 async function init(): Promise<false | void> {
 	await elementReady('.pagehead + *'); // Wait for the tab bar to be loaded
-	const count = await updateReleasesCount();
+	const count = await cached;
 	if (count === 0) {
 		return false;
 	}
@@ -73,6 +92,6 @@ features.add({
 	],
 	init() {
 		// Get as soon as possible, to have it ready before the first paint
-		cached = cache.get<number>(repoKey);
+		cached = updateReleasesCount();
 	}
 });
