@@ -9,7 +9,7 @@ async function init(): Promise<void> {
 		stopOnDomReady: false
 	});
 
-	for (const activity of select.all('.Box-row', container)) {
+	for (const activity of select.all('li', container)) {
 		const isPR = select.exists('.octicon-git-pull-request', activity);
 		const repository = select<HTMLAnchorElement>('a[data-hovercard-type="repository"]', activity)!;
 		for (const label of select.all('.IssueLabel', activity)) {
