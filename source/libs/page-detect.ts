@@ -323,7 +323,13 @@ export const isSingleFile = (): boolean => /^blob\//.test(getRepoPath()!);
 export const isSingleFileTest = [
 	'https://github.com/sindresorhus/refined-github/blob/master/.gitattributes',
 	'https://github.com/sindresorhus/refined-github/blob/fix-narrow-diff/distribution/content.css',
-	'https://github.com/sindresorhus/refined-github/blob/master/edit.txt'
+	'https://github.com/sindresorhus/refined-github/blob/master/edit.txt',
+	'https://github.com/sindresorhus/refined-github/blob/master/source/options.html'
+];
+
+export const isSingleHTMLFile = (): boolean => isSingleFile() && (location.pathname.endsWith('.html') || location.pathname.endsWith('.htm'));
+export const isSingleHTMLFileTest = [
+	'https://github.com/sindresorhus/refined-github/blob/master/source/options.html'
 ];
 
 export const isTrending = (): boolean => location.pathname === '/trending' || location.pathname.startsWith('/trending/');
