@@ -328,7 +328,7 @@ export const isSingleFileTest = [
 
 export const isSingleGist = (): boolean => isGist() && select.exists('.file-navigation-option');
 export const isSingleGistTest = [
-	'https://gist.github.com/yakov116/2d81580f7907839f9065e670f0aba64c'
+	'https://gist.github.com/sindresorhus/0ea3c2845718a0a0f0beb579ff14f064'
 ];
 
 export const isTrending = (): boolean => location.pathname === '/trending' || location.pathname.startsWith('/trending/');
