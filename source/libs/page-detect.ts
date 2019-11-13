@@ -326,6 +326,11 @@ export const isSingleFileTest = [
 	'https://github.com/sindresorhus/refined-github/blob/master/edit.txt'
 ];
 
+export const isSingleGist = (): boolean => isGist() && select.exists('.file-navigation-option')
+export const isSingleGistTest = [
+	'https://gist.github.com/yakov116/2d81580f7907839f9065e670f0aba64c'
+]
+
 export const isTrending = (): boolean => location.pathname === '/trending' || location.pathname.startsWith('/trending/');
 export const isTrendingTest = [
 	'https://github.com/trending',
