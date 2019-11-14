@@ -138,5 +138,3 @@ export function reportBug(featureName: string, bugName: string): void {
 	console.log('Find existing issues:\n' + String(issuesUrl));
 	console.log('Open new issue:\n' + String(newIssueUrl));
 }
-
-export const isSingleHTMLFile = (): boolean => /\.html?$/.test(location.pathname);
