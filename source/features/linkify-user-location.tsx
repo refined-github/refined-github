@@ -32,11 +32,9 @@ function init(): void | false {
 	}
 
 	const hovercardContainer = select('.js-hovercard-content > .Popover-message')!;
-	if (!hovercardContainer) {
-		return;
+	if (hovercardContainer) {
+		hovercardObserver.observe(hovercardContainer, {childList: true});
 	}
-
-	hovercardObserver.observe(hovercardContainer, {childList: true});
 }
 
 features.add({
