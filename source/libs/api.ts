@@ -111,6 +111,8 @@ export const v3 = mem(async (
 	}
 
 	throw await getError(apiResponse);
+}, {
+	cacheKey: JSON.stringify
 });
 
 export const v4 = mem(async (
@@ -155,6 +157,8 @@ export const v4 = mem(async (
 	}
 
 	throw await getError(apiResponse as JsonObject);
+}, {
+	cacheKey: JSON.stringify
 });
 
 async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError> {
