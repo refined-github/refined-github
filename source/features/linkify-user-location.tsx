@@ -11,7 +11,7 @@ function addLocation(baseElement?: HTMLElement): void {
 	}
 
 	const location = locationIcon.parentElement!.textContent!.trim();
-	const googleMapsLink = `https://www.google.com/maps/place/${encodeURIComponent(location)}/`;
+	const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`;
 
 	wrap(locationIcon.nextElementSibling || locationIcon.nextSibling!, <a href={googleMapsLink} />);
 }
