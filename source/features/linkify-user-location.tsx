@@ -6,8 +6,7 @@ import features from '../libs/features';
 function addLocation(baseElement: HTMLElement): void {
 	for (const {nextElementSibling, nextSibling} of select.all('.octicon-location', baseElement)) {
 		const location = nextElementSibling || nextSibling!;
-
-		location.before(document.createTextNode(' '));
+		location.before(' '); // Keeps the link’s underline from extending out to the icon
 
 		const locationName = location.textContent!.trim();
 		const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(locationName)}`;
