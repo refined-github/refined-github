@@ -264,6 +264,7 @@ Thanks for contributing! 🦋🙌
 - [](# "profile-hotkey") Adds a keyboard shortcut to visit your own profile: <kbd>g</kbd> <kbd>m</kbd>.
 - [](# "show-user-top-repositories") [Adds a link to the user’s most starred repositories.](https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93de-159ad4c6f283.png)
 - [](# "set-default-repositories-type-to-sources") [Hides forks and archived repos from profiles (but they can still be shown.)](https://user-images.githubusercontent.com/1402241/45133648-fe21be80-b1c8-11e8-9052-e38cb443efa9.png)
+- [](# "linkify-user-location") [Linkifies the user location in their hovercard and profile page.]('https://user-images.githubusercontent.com/44227187/68993158-809e1780-087d-11ea-9e22-de82da8aef29.png')
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
