@@ -6,13 +6,12 @@ import features from '../libs/features';
 function addLocation(baseElement: HTMLElement): void {
 	for (const {nextElementSibling, nextSibling} of select.all('.octicon-location', baseElement)) {
 		const location = nextElementSibling || nextSibling!;
-		location.textContent = location.textContent!.trim();
 
 		if (!nextElementSibling) {
 			location.before(document.createTextNode(' '));
 		}
 
-		const locationName = location.textContent;
+		const locationName = location.textContent!.trim();
 		const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(locationName)}`;
 
 		wrap(location, <a href={googleMapsLink} />);
