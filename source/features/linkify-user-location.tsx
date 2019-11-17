@@ -7,9 +7,7 @@ function addLocation(baseElement: HTMLElement): void {
 	for (const {nextElementSibling, nextSibling} of select.all('.octicon-location', baseElement)) {
 		const location = nextElementSibling || nextSibling!;
 
-		if (!nextElementSibling) {
-			location.before(document.createTextNode(' '));
-		}
+		location.before(document.createTextNode(' '));
 
 		const locationName = location.textContent!.trim();
 		const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(locationName)}`;
