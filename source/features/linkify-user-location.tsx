@@ -31,7 +31,7 @@ function init(): void {
 features.add({
 	id: __featureName__,
 	description: 'Linkifies the user location in their hovercard.',
-	screenshot: '',
+	screenshot: 'https://user-images.githubusercontent.com/44227187/68993158-809e1780-087d-11ea-9e22-de82da8aef29.png',
 	load: features.onAjaxedPages,
 	init
 });
