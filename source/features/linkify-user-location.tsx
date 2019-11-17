@@ -4,15 +4,19 @@ import {wrap} from '../libs/dom-utils';
 import features from '../libs/features';
 
 function addLocation(baseElement: HTMLElement): void {
-	const location = select('.octicon-location', baseElement)?.nextSibling;
-	if (!location) {
-		return;
+	for (const {nextElementSibling, nextSibling} of select.all('.octicon-location', baseElement)) {
+		const location = nextElementSibling || nextSibling!;
+		location.textContent = location.textContent!.trim();
+
+		if (!nextElementSibling) {
+			location.before(document.createTextNode(' '));
+		}
+
+		const locationName = location.textContent;
+		const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(locationName)}`;
+
+		wrap(location, <a href={googleMapsLink} />);
 	}
-
-	const locationName = location.textContent!.trim();
-	const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(locationName)}`;
-
-	wrap(location, <a href={googleMapsLink} className="text-gray" />);
 }
 
 const hovercardObserver = new MutationObserver(([mutation]) => {
