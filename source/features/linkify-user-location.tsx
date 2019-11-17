@@ -3,17 +3,16 @@ import select from 'select-dom';
 import {wrap} from '../libs/dom-utils';
 import features from '../libs/features';
 
-function addLocation(baseElement?: HTMLElement): void {
-	const locationIcon = select('.octicon-location', baseElement)!;
-
-	if (!locationIcon) {
+function addLocation(baseElement: HTMLElement): void {
+	const location = select('.octicon-location', baseElement)?.nextSibling;
+	if (!location) {
 		return;
 	}
 
-	const location = locationIcon.parentElement!.textContent!.trim();
-	const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`;
+	const locationName = location.textContent!.trim();
+	const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(locationName)}`;
 
-	wrap(locationIcon.nextElementSibling || locationIcon.nextSibling!, <a href={googleMapsLink} />);
+	wrap(location, <a href={googleMapsLink} className="text-gray" />);
 }
 
 const hovercardObserver = new MutationObserver(([mutation]) => {
@@ -21,17 +20,9 @@ const hovercardObserver = new MutationObserver(([mutation]) => {
 });
 
 function init(): void | false {
-	if (features.isUserProfile()) {
-		for (const profileElement of select.all('.js-profile-editable-area')) {
-			addLocation(profileElement);
-		}
-	}
+	addLocation(document.body);
 
-	if (features.isOrganizationProfile()) {
-		addLocation(select('.orghead')!);
-	}
-
-	const hovercardContainer = select('.js-hovercard-content > .Popover-message')!;
+	const hovercardContainer = select('.js-hovercard-content > .Popover-message');
 	if (hovercardContainer) {
 		hovercardObserver.observe(hovercardContainer, {childList: true});
 	}
@@ -41,7 +32,6 @@ features.add({
 	id: __featureName__,
 	description: 'Linkifies user location.',
 	screenshot: '',
-	include: [() => true],
 	load: features.onAjaxedPages,
 	init
 });
