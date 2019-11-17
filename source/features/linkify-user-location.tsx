@@ -30,7 +30,7 @@ function init(): void | false {
 
 features.add({
 	id: __featureName__,
-	description: 'Linkifies user location.',
+	description: 'Linkifies the user location in their hovercard.',
 	screenshot: '',
 	load: features.onAjaxedPages,
 	init
