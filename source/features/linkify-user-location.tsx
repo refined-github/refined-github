@@ -19,7 +19,7 @@ const hovercardObserver = new MutationObserver(([mutation]) => {
 	addLocation(mutation.target as HTMLElement);
 });
 
-function init(): void | false {
+function init(): void {
 	addLocation(document.body);
 
 	const hovercardContainer = select('.js-hovercard-content > .Popover-message');
