@@ -30,7 +30,7 @@ function init(): void {
 features.add({
 	id: __featureName__,
 	description: 'Linkifies the user location in their hovercard and profile page.',
-	screenshot: 'https://user-images.githubusercontent.com/44227187/68993158-809e1780-087d-11ea-9e22-de82da8aef29.png',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/69076885-00d3a100-0a67-11ea-952a-690acec0826f.png',
 	load: features.onAjaxedPages,
 	init
 });
