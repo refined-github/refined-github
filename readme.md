@@ -302,6 +302,8 @@ Thanks for contributing! 🦋🙌
 - [](# "embed-gist-via-iframe") [Adds a menu item to embed a gist via `<iframe>`.](https://user-images.githubusercontent.com/44045911/63633382-6a1b6200-c67a-11e9-9038-aedd62e4f6a8.png)
 - [](# "link-to-prior-blame-line") [Preserves the current line on “View blame prior to this change” links.](https://user-images.githubusercontent.com/1402241/60064482-26b47e00-9733-11e9-803c-c113ea612fbe.png)
 - [](# "fix-view-file-link-in-pr") [Points the "View file" in PRs to the branch instead of the commit, so the Edit/Delete buttons will be enabled on the "View file" page, if needed.](https://user-images.githubusercontent.com/1402241/69044026-c5b17d80-0a26-11ea-86ae-c95f89d3669a.png)
+- [](# "linkify-labels-on-dashboard") [Makes labels clickable in the dashboard’s "Recent activity" box.](https://user-images.githubusercontent.com/9264728/68426593-bb7ebc00-01a8-11ea-9e92-5efdf4ff5f0d.png)
+- [](# "linkify-labels-on-dashboard") [Makes labels clickable in the dashboard’s "Recent activity" box.](https://user-images.githubusercontent.com/1402241/69045444-6ef97300-0a29-11ea-99a3-9a622c395709.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
