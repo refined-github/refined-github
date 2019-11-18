@@ -5,7 +5,7 @@ import features from '../libs/features';
 
 function addLocation(baseElement: HTMLElement): void {
 	for (const {nextElementSibling, nextSibling} of select.all('.octicon-location', baseElement)) {
-		const location = nextElementSibling || nextSibling!;
+		const location = nextElementSibling || nextSibling!; // `nextSibling` alone might point to an empty TextNode before an element, if there’s an element
 		location.before(' '); // Keeps the link’s underline from extending out to the icon
 
 		const locationName = location.textContent!.trim();
