@@ -110,6 +110,7 @@ import './features/hide-watch-and-fork-count';
 import './features/resolve-conflicts';
 import './features/follow-file-renames';
 import './features/default-to-rich-diff';
+import './features/fix-view-file-link-in-pr'; // Must be before raw-file-link
 import './features/raw-file-link';
 import './features/tags-dropdown';
 import './features/pr-filters';

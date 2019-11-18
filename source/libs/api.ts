@@ -32,13 +32,15 @@ type JsonError = {
 	message: string;
 };
 
-interface APIResponse {
+interface GraphQLResponse {
 	message?: string;
-}
-
-interface GraphQLResponse extends APIResponse {
 	data?: JsonObject;
 	errors?: JsonError[];
+}
+
+interface RestResponse extends AnyObject {
+	httpStatus: number;
+	ok: boolean;
 }
 
 export const escapeKey = (value: string): string => '_' + value.replace(/[ ./-]/g, '_');
@@ -82,7 +84,7 @@ const v4defaults: GHGraphQLApiOptions = {
 export const v3 = mem(async (
 	query: string,
 	options: GHRestApiOptions = v3defaults
-): Promise<AnyObject> => {
+): Promise<RestResponse> => {
 	const {ignoreHTTPStatus, method, body, headers} = {...v3defaults, ...options};
 	const {personalToken} = await settings;
 
@@ -103,7 +105,7 @@ export const v3 = mem(async (
 
 	if (response.ok || ignoreHTTPStatus) {
 		return Object.assign(apiResponse, {
-			status: response.status,
+			httpStatus: response.status,
 			ok: response.ok
 		});
 	}

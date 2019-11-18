@@ -1,7 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
-import {isSingleHTMLFile} from '../libs/utils';
+
+const isSingleHTMLFile = (): boolean => features.isSingleFile() && (location.pathname.endsWith('.html') || location.pathname.endsWith('.htm'));
 
 function init(): void {
 	const rawButton = select<HTMLAnchorElement>('#raw-url')!;

@@ -6,12 +6,12 @@ import features from '../libs/features';
 import {getUsername, getCleanPathname} from '../libs/utils';
 
 async function init(): Promise<void> {
-	const {status} = await api.v3(
+	const {httpStatus} = await api.v3(
 		`users/${getCleanPathname()}/following/${getUsername()}`,
 		{ignoreHTTPStatus: true}
 	);
 
-	if (status === 204) {
+	if (httpStatus === 204) {
 		select('.vcard-names-container:not(.is-placeholder)')!.after(
 			<div className="rgh-follower-badge">Follows you</div>
 		);

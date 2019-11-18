@@ -1,29 +1,29 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
-import onPrFileLoad from '../libs/on-pr-file-load';
 
-function createRawUrl(pathname: string): string {
-	const url = pathname.split('/');
-	url[3] = 'raw'; // Replaces 'blob'
-	return url.join('/');
-}
+function handleMenuOpening(event: DelegateEvent): void {
+	const dropdown = event.delegateTarget.nextElementSibling!;
 
-function addRawButtons(): void {
-	const links = select.all<HTMLAnchorElement>('.js-file-header-dropdown [data-ga-click^="View file"]:not(.rgh-has-raw-file-link)');
-	for (const fileLink of links) {
-		fileLink.classList.add('rgh-has-raw-file-link');
-		fileLink.after(
-			<a href={createRawUrl(fileLink.pathname)} className="pl-5 dropdown-item btn-link" role="menuitem">
-				View raw
-			</a>
-		);
+	// Only if it's not already there
+	if (select.exists('.rgh-raw-file-link', dropdown)) {
+		return;
 	}
+
+	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
+	const url = viewFile.pathname.split('/');
+	url[3] = 'raw'; // Replaces 'blob'
+
+	viewFile.after(
+		<a href={url.join('/')} className="pl-5 dropdown-item btn-link rgh-raw-file-link" role="menuitem">
+			View raw
+		</a>
+	);
 }
 
 function init(): void {
-	addRawButtons();
-	onPrFileLoad(addRawButtons);
+	delegate('#files', '.js-file-header-dropdown > summary', 'click', handleMenuOpening);
 }
 
 features.add({
