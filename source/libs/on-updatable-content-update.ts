@@ -1,9 +1,7 @@
-/**
-This will call the callback when the supplied `.js-updatable-content` element is replaced.
+import select from 'select-dom';
 
-Limitations:
-- only tested in the discussion sidebar
-- won't detect removals of ancestors (it could recursively look for `.js-updatable-content`)
+/**
+This will call the callback when the supplied `.js-updatable-content` element (or its updatable ancestors) are replaced.
 
  * @param updatable The `.js-updatable-content` element to watch
  * @param callback The function to call after it's replaced
@@ -13,23 +11,31 @@ export default function onUpdatableContentUpdate(updatable: HTMLElement, callbac
 		throw new Error('Element is missing js-updateable-content class');
 	}
 
-	new MutationObserver(mutations => {
+	const observer = new MutationObserver(() => {
 		if (updatable.isConnected) {
 			return;
 		}
 
-		for (const mutation of mutations) {
-			const replacedElement = [...mutation.addedNodes].find(newNode =>
-				newNode instanceof HTMLElement && newNode.dataset.url === updatable.dataset.url
-			);
+		const replacedElement = select(`[data-url="${updatable.dataset.url}"]`);
+		if (replacedElement) {
+			callback();
 
-			if (replacedElement) {
-				callback();
-
-				// Listen to future updates
-				updatable = replacedElement as HTMLElement;
-				return;
-			}
+			// Future updates will be tested against the new element
+			updatable = replacedElement;
+		} else {
+			observer.disconnect();
 		}
-	}).observe(updatable.parentElement!, {childList: true});
+	});
+
+	recursivelyObserve(updatable, observer);
+}
+
+/**
+Observe nested `.js-updatable-content` element without using a page-wide `{subtree: true}` or polling
+*/
+function recursivelyObserve(updatableAncestor: HTMLElement, observer: MutationObserver): void {
+	do {
+		observer.observe(updatableAncestor.parentElement!, {childList: true});
+		updatableAncestor = updatableAncestor.parentElement!.closest<HTMLElement>('.js-updatable-content')!;
+	} while (updatableAncestor);
 }
