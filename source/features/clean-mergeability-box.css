@@ -1,7 +1,12 @@
+/*
+.mergeability-details is the whole merge widget with CI results and merging form
+.js-details-container is the Checks results container/dropdown/list
+:not(.js-details-container) is the final mergeability status ("No conflicts", "Merge blocked", etc)
+
 /* Hide extra copy on PR mergeability summary */
 .mergeability-details .js-details-container .h4,
 .mergeability-details .js-details-container .status-meta .btn-link,
-.mergeability-details > :not(.js-details-container) .status-meta {
+.mergeability-details > :not(.js-details-container) .completeness-indicator-success ~ .status-meta { /* Hides merge information unless it's negative */
 	display: none;
 }
 
