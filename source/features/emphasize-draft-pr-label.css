@@ -1,0 +1,15 @@
+.rgh-emphasize-draft-pr-label span[aria-label="Open draft pull request"] {
+	background: #BBB;
+	width: 1.6em;
+	display: inline-flex;
+	height: 1.6em;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	margin-left: -0.4em;
+	margin-right: -0.1em;
+}
+
+.rgh-emphasize-draft-pr-label	span[aria-label="Open draft pull request"] svg {
+	color: white !important;
+}
