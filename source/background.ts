@@ -3,7 +3,7 @@ import addDomainPermissionToggle from 'webext-domain-permission-toggle';
 import './options-storage';
 
 browser.runtime.onMessage.addListener((message, {tab}) => {
-	if (message && Array.isArray(message.openUrls)) {
+	if (Array.isArray(message?.openUrls)) {
 		for (const [i, url] of (message.openUrls as string[]).entries()) {
 			browser.tabs.create({
 				url,
@@ -24,8 +24,8 @@ browser.browserAction.onClicked.addListener(() => {
 browser.runtime.onInstalled.addListener(async ({reason}) => {
 	// Only notify on install
 	if (reason === 'install') {
-		const self = await browser.management.getSelf();
-		if (self && self.installType === 'development') {
+		const {installType} = await browser.management.getSelf();
+		if (installType === 'development') {
 			return;
 		}
 

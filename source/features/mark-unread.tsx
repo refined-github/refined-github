@@ -90,9 +90,9 @@ async function markRead(urls: string|string[]): Promise<void> {
 }
 
 async function markUnread({currentTarget}: React.MouseEvent): Promise<void> {
-	const participants: Participant[] = select.all('.participant-avatar').slice(0, 3).map(el => ({
-		username: el.getAttribute('aria-label')!,
-		avatar: el.querySelector('img')!.src
+	const participants: Participant[] = select.all('.participant-avatar').slice(0, 3).map(element => ({
+		username: element.getAttribute('aria-label')!,
+		avatar: element.querySelector('img')!.src
 	}));
 
 	const stateLabel = select('.gh-header-meta .State')!;
@@ -195,7 +195,7 @@ function getNotification(notification: Notification): Element {
 }
 
 function getNotificationGroup({repository}: Notification): Element {
-	const existing = select(`a.notifications-repo-link[title="${repository}"]`)!;
+	const existing = select(`a.notifications-repo-link[title="${repository}"]`);
 	if (existing) {
 		return existing.closest('.boxed-group')!;
 	}
@@ -270,7 +270,7 @@ function isSingleRepoPage(): boolean {
 }
 
 function isCurrentSingleRepoPage({repository}: Notification): boolean {
-	const [, singleRepo = ''] = /^[/](.+[/].+)[/]notifications/.exec(location.pathname) || [];
+	const singleRepo = /^[/](.+[/].+)[/]notifications/.exec(location.pathname)?.[1];
 	return singleRepo === repository;
 }
 
@@ -279,12 +279,12 @@ function isParticipatingPage(): boolean {
 }
 
 async function updateUnreadIndicator(): Promise<void> {
-	const icon = select<HTMLAnchorElement>('a.notification-indicator')!; // "a" required in responsive views
+	const icon = select<HTMLAnchorElement>('a.notification-indicator'); // "a" required in responsive views
 	if (!icon) {
 		return;
 	}
 
-	const statusMark = icon.querySelector('.mail-status')!;
+	const statusMark = icon.querySelector('.mail-status');
 	if (!statusMark) {
 		return;
 	}
@@ -328,7 +328,7 @@ async function markVisibleNotificationsRead({delegateTarget}: DelegateEvent): Pr
 	setNotifications(notifications.filter(({repository}) => repository !== repo));
 }
 
-function addCustomAllReadBtn(): void {
+function addCustomAllReadButton(): void {
 	const nativeMarkUnreadForm = select('details [action="/notifications/mark"]');
 	if (nativeMarkUnreadForm) {
 		nativeMarkUnreadForm.addEventListener('submit', () => {
@@ -397,7 +397,7 @@ async function init(): Promise<void> {
 		const notifications = await getNotifications();
 		if (notifications.length > 0) {
 			await renderNotifications(notifications);
-			addCustomAllReadBtn();
+			addCustomAllReadButton();
 			updateLocalNotificationsCount(notifications);
 			updateLocalParticipatingCount(notifications);
 			document.dispatchEvent(new CustomEvent('refined-github:mark-unread:notifications-added'));

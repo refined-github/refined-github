@@ -1,4 +1,4 @@
-source/features/filter-pr-by-build-status.tsx @hardikmodha
+source/features/pr-filters.tsx @hardikmodha @FloEdelmann
 source/features/tags-dropdown.tsx @hardikmodha
 source/features/tag-changelog-link.tsx @hardikmodha
 source/features/link-to-file-in-file-history.tsx @hardikmodha

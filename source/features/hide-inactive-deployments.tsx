@@ -7,7 +7,7 @@ function init(): void {
 
 	for (const deployment of deployments) {
 		if (select.exists('.is-inactive', deployment)) {
-			(deployment.closest('.discussion-item') as HTMLElement).hidden = true;
+			deployment.closest<HTMLElement>('.discussion-item')!.hidden = true;
 		}
 	}
 }

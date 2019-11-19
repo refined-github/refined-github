@@ -4,7 +4,7 @@ import {
 	getDiscussionNumber,
 	getOwnerAndRepo,
 	getRepoPath,
-	getRef,
+	getReference,
 	parseTag,
 	compareNames
 } from '../source/libs/utils';
@@ -133,29 +133,21 @@ test('getRepoPath', t => {
 });
 
 test('getOwnerAndRepo', t => {
-	const ownerAndRepo: {
-		[url: string]: {
-			[prop: string]: string;
-		};
-	} = {
-		'https://github.com/sindresorhus/refined-github/pull/148': {
-			ownerName: 'sindresorhus',
-			repoName: 'refined-github'
-		},
-		'https://github.com/DrewML/GifHub/blob/master/.gitignore': {
-			ownerName: 'DrewML',
-			repoName: 'GifHub'
-		}
-	};
+	location.href = 'https://github.com/sindresorhus/refined-github/pull/148';
+	t.deepEqual(getOwnerAndRepo(), {
+		ownerName: 'sindresorhus',
+		repoName: 'refined-github'
+	});
 
-	Object.keys(ownerAndRepo).forEach(url => {
-		location.href = url;
-		t.deepEqual(ownerAndRepo[url], getOwnerAndRepo());
+	location.href = 'https://github.com/DrewML/GifHub/blob/master/.gitignore';
+	t.deepEqual(getOwnerAndRepo(), {
+		ownerName: 'DrewML',
+		repoName: 'GifHub'
 	});
 });
 
-test('getRef', t => {
-	const refs: {
+test('getReference', t => {
+	const references: {
 		[url: string]: string | undefined;
 	} = {
 		'https://github.com/sindresorhus/refined-github': undefined,
@@ -188,9 +180,9 @@ test('getRef', t => {
 		'https://github.com/sindresorhus/refined-github/pull/2105/commits/9df50080dfddee5f7a2a6a1dc4465166339fedfe': undefined
 	};
 
-	Object.keys(refs).forEach(url => {
+	Object.keys(references).forEach(url => {
 		location.href = url;
-		t.is(refs[url], getRef(), url);
+		t.is(references[url], getReference(), url);
 	});
 });
 

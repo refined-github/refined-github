@@ -26,8 +26,8 @@ function init(): false | void {
 	}
 
 	// Mark code block as touched
-	for (const el of wrappers) {
-		el.classList.add(linkifiedURLClass);
+	for (const element of wrappers) {
+		element.classList.add(linkifiedURLClass);
 	}
 }
 

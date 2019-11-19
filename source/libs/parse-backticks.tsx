@@ -9,7 +9,7 @@ function splitTextReducer(fragment: DocumentFragment, text: string, index: numbe
 		fragment.append(
 			<code className="rgh-parse-backticks">
 				<span className="sr-only">`</span>
-				{text}
+				{text.trim()}
 				<span className="sr-only">`</span>
 			</code>
 		);

@@ -36,13 +36,13 @@ async function handler(event: DelegateEvent): Promise<void> {
 	const response = await mergeBranches();
 	if (response.ok) {
 		button.remove();
-	} else if (response.message && response.message.toLowerCase().startsWith('merge conflict')) {
+	} else if (response.message?.toLowerCase().startsWith('merge conflict')) {
 		// Only shown on Draft PRs
 		button.replaceWith(
 			<a href={location.pathname + '/conflicts'} className="btn float-right">{icons.alert()} Resolve conflicts</a>
 		);
 	} else {
-		button.textContent = response.message || 'Error';
+		button.textContent = response.message ?? 'Error';
 		button.prepend(icons.alert(), ' ');
 		throw new api.RefinedGitHubAPIError('update-pr-from-base-branch: ' + JSON.stringify(response));
 	}
@@ -86,16 +86,13 @@ async function addButton(): Promise<void> {
 }
 
 function init(): void | false {
-	const mergeButton = select<HTMLButtonElement>('[data-details-container=".js-merge-pr"]');
-	// Only if user can merge it
-	if (!mergeButton) {
-		return false;
-	}
-
+	// Button exists when the current user can merge the PR.
 	// Button is disabled when:
 	// - There are conflicts (there's already a native "Resolve conflicts" button)
 	// - Draft PR (show the button anyway)
-	if (mergeButton.disabled && !select.exists('[action$="ready_for_review"]')) {
+	const canMerge = select.exists('[data-details-container=".js-merge-pr"]:not(:disabled)');
+	const isDraftPR = select.exists('[action$="ready_for_review"]');
+	if (!canMerge && !isDraftPR) {
 		return false;
 	}
 

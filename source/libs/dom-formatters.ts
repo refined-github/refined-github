@@ -15,8 +15,8 @@ const currentRepo = getOwnerAndRepo();
 
 export function linkifyIssues(element: Element, options: Partial<linkifyIssuesCore.TypeDomOptions> = {}): void {
 	const linkified = linkifyIssuesCore(element.textContent!, {
-		user: currentRepo.ownerName || '/',
-		repository: currentRepo.repoName || '/',
+		user: currentRepo.ownerName ?? '/',
+		repository: currentRepo.repoName ?? '/',
 		type: 'dom',
 		baseUrl: '',
 		...options,

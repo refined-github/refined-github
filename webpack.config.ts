@@ -42,7 +42,7 @@ function getFeatures(): string[] {
 		.map(filename => filename.replace('.tsx', ''));
 }
 
-module.exports = (_env: string, argv: Record<string, boolean | number | string>): webpack.Configuration => ({
+module.exports = (_environment: string, argv: Record<string, boolean | number | string>): webpack.Configuration => ({
 	devtool: 'source-map',
 	stats: {
 		all: false,

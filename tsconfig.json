@@ -1,7 +1,7 @@
 {
 	"extends": "@sindresorhus/tsconfig",
 	"compilerOptions": {
-		"target": "esnext",
+		"target": "es2018",
 		"declaration": false,
 		"esModuleInterop": true
 	},

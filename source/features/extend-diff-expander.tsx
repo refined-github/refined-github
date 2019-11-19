@@ -5,7 +5,7 @@ import features from '../libs/features';
 
 function expandDiff(event: DelegateEvent): void {
 	// Skip if the user clicked directly on the icon
-	if (!(event.target as Element).closest('.js-expand')!) {
+	if (!(event.target as Element).closest('.js-expand')) {
 		select<HTMLAnchorElement>('.js-expand', event.delegateTarget)!.click();
 	}
 }

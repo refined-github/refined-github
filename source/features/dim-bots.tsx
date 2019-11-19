@@ -5,8 +5,8 @@ import features from '../libs/features';
 function init(): void {
 	const bots = select.all([
 		/* Commits */
-		'.commit-author[href$="%5Bbot%5D"]',
-		'.commit-author[href$="renovate-bot"]',
+		'.commit-author[href$="%5Bbot%5D"]:first-child',
+		'.commit-author[href$="renovate-bot"]:first-child',
 
 		/* PRs */
 		'.opened-by [href*="author%3Aapp%2F"]'

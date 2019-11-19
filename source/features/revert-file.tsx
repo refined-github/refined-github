@@ -18,7 +18,7 @@ function showError(menuItem: HTMLButtonElement, error: string): void {
 Get the current base commit of this PR. It should change after rebases and merges in this PR.
 This value is not consistently available on the page (appears in `/files` but not when only 1 commit is selected)
 */
-const getBaseRef = onetime(async (): Promise<string> => {
+const getBaseReference = onetime(async (): Promise<string> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			pullRequest(number: ${getDiscussionNumber()}) {
@@ -29,11 +29,11 @@ const getBaseRef = onetime(async (): Promise<string> => {
 	return repository.pullRequest.baseRefOid;
 });
 
-async function getFile(menuItem: Element): Promise<{isTruncated: boolean; text: string}> {
+async function getFile(menuItem: Element): Promise<{isTruncated: boolean; text: string} | null> {
 	const filePath = menuItem.closest<HTMLElement>('[data-path]')!.dataset.path!;
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
-			file: object(expression: "${await getBaseRef()}:${filePath}") {
+			file: object(expression: "${await getBaseReference()}:${filePath}") {
 				... on Blob {
 					isTruncated
 					text
@@ -49,7 +49,7 @@ async function deleteFile(menuItem: Element): Promise<void> {
 
 	const deleteFileLink = select<HTMLAnchorElement>('a[aria-label^="Delete this"]', menuItem.parentElement!)!;
 	const form = await fetchDom<HTMLFormElement>(deleteFileLink.href, '#new_blob');
-	await postForm(form);
+	await postForm(form!);
 }
 
 async function commitFileContent(menuItem: Element, content: string): Promise<void> {
@@ -64,7 +64,7 @@ async function commitFileContent(menuItem: Element, content: string): Promise<vo
 	}
 
 	// This is either an `edit` or `create` form
-	const form = await fetchDom<HTMLFormElement>(pathname, '.js-blob-form');
+	const form = (await fetchDom<HTMLFormElement>(pathname, '.js-blob-form'))!;
 	form.elements.value.value = content; // Revert content (`value` is the name of the file content field)
 	form.elements.message.value = (form.elements.message as HTMLInputElement).placeholder
 		.replace(/^Update/, 'Revert')

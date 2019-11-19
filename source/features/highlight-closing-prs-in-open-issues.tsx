@@ -10,11 +10,11 @@ function add(): void {
 		[aria-label*="will close when"],
 		[aria-label*="will close once"]
 	`)) {
-		const ref = infoBubble
+		const reference = infoBubble
 			.closest('.discussion-item')!
 			.querySelector('.issue-num, .commit-id')!;
-		const link = ref.closest('a')!.href;
-		const isIssue = ref.classList.contains('issue-num');
+		const link = reference.closest('a')!.href;
+		const isIssue = reference.classList.contains('issue-num');
 
 		select('.gh-header-meta .TableObject-item')!.after(
 			<div className="TableObject-item">
@@ -23,7 +23,7 @@ function add(): void {
 					className="btn btn-outline btn-sm border-blue rgh-closing-pr tooltipped tooltipped-se"
 					aria-label={infoBubble.getAttribute('aria-label')!}>
 					{isIssue ? icons.openPullRequest() : icons.commit()}
-					{isIssue ? ' ' + ref.textContent! : ''}
+					{isIssue ? ' ' + reference.textContent! : ''}
 				</a>
 			</div>
 		);

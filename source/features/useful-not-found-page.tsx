@@ -53,7 +53,7 @@ async function addDefaultBranchLink(bar: Element): Promise<void> {
 	}
 
 	const defaultBranch = await getDefaultBranch();
-	if (!defaultBranch || branch === defaultBranch) {
+	if (branch === defaultBranch) {
 		return;
 	}
 

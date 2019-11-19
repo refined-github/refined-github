@@ -14,15 +14,15 @@ async function init(): Promise<false | void> {
 
 	const usernames = new Set<string>();
 	const myUsername = getUsername();
-	for (const el of usernameElements) {
-		el.classList.add('rgh-fullname');
-		const username = el.textContent;
+	for (const element of usernameElements) {
+		element.classList.add('rgh-fullname');
+		const username = element.textContent;
 		if (username && username !== myUsername && username !== 'ghost') {
-			usernames.add(el.textContent!);
+			usernames.add(element.textContent!);
 		}
 
 		// Drop 'commented' label to shorten the copy
-		const commentedNode = el.parentNode!.nextSibling as Text;
+		const commentedNode = element.parentNode!.nextSibling;
 		if (commentedNode && commentedNode.textContent!.includes('commented')) {
 			commentedNode.remove();
 		}
@@ -38,8 +38,8 @@ async function init(): Promise<false | void> {
 		).join()
 	);
 
-	for (const usernameEl of usernameElements) {
-		const username = usernameEl.textContent!;
+	for (const usernameElement of usernameElements) {
+		const username = usernameElement.textContent!;
 		const userKey = api.escapeKey(username);
 
 		// For the currently logged in user, `names[userKey]` would not be present.
@@ -47,9 +47,9 @@ async function init(): Promise<false | void> {
 			// If it's a regular comment author, add it outside <strong>
 			// otherwise it's something like "User added some commits"
 			if (compareNames(username, names[userKey].name)) {
-				usernameEl.textContent = names[userKey].name;
+				usernameElement.textContent = names[userKey].name;
 			} else {
-				const insertionPoint = usernameEl.parentElement!.tagName === 'STRONG' ? usernameEl.parentElement! : usernameEl;
+				const insertionPoint = usernameElement.parentElement!.tagName === 'STRONG' ? usernameElement.parentElement! : usernameElement;
 				insertionPoint.after(
 					' (',
 					<bdo className="css-truncate">

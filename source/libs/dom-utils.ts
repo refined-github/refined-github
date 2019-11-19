@@ -28,9 +28,9 @@ export const appendBefore = (parent: string|Element, before: string, child: Elem
 	}
 
 	// Select direct children only
-	const beforeEl = select(`:scope > ${before}`, parent);
-	if (beforeEl) {
-		beforeEl.before(child);
+	const beforeElement = select(`:scope > ${before}`, parent);
+	if (beforeElement) {
+		beforeElement.before(child);
 	} else {
 		parent.append(child);
 	}
