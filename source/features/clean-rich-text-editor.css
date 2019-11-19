@@ -1,7 +1,8 @@
 /* Hide unnecessary comment toolbar items */
 .rgh-clean-rich-text-editor md-mention,
 .rgh-clean-rich-text-editor md-ref,
-.rgh-clean-rich-text-editor form#new_issue markdown-toolbar > :nth-last-child(5),
-.rgh-clean-rich-text-editor form:not(#new_issue) markdown-toolbar > :nth-last-child(4) { /* H1, B, I */
+.rgh-clean-rich-text-editor md-header,
+.rgh-clean-rich-text-editor md-bold,
+.rgh-clean-rich-text-editor md-italic {
 	display: none !important; /* Has to override `.d-inline-block` */
 }
