@@ -4,23 +4,17 @@ import features from '../libs/features';
 import {getOwnerAndRepo} from '../libs/utils';
 import * as api from '../libs/api';
 import {appendBefore} from '../libs/dom-utils';
-// import {getUsername} from '../libs/utils';
 
-// function log() {
-//     console.log('✨', <div className="rgh-jsx-element"/>);
-// }
+interface UserInfo {
+    id: number,
+    name: string,
+    state: string
+};
+interface UserStateMap {
+    [id: number]: UserInfo
+};
 
-// type PrPlaceholder = {
-//     id: number;
-//     title: string;
-// };
-
-// async function getPrs(): Promise<PrPlaceholder[]> {
-//     return [{id: 1, title: "placeholder"}]
-// }
-interface UserInfo { id: number, name: string, state: string};
-interface UserStateMap {[id: number] : UserInfo};
-
+// helper function to get a color based upon the state of a PR.
 function getPrColor(state: string): any {
     if (state == "APPROVED") {
         return "#28a745";
@@ -31,42 +25,23 @@ function getPrColor(state: string): any {
     else if (state == "CHANGES_REQUESTED") {
         return "var(--github-red)";
     }
-
-    // Pending? This is a yellow color
-    // else if (state == "") {
-    //     return "#dbab09";
-    // }
     return "";
 }
 
 function addToPrList(pull_number: string, reviewStates: UserStateMap): void
 {
-    // if (pull_number != "3585"){
-    //     return;
-    // }
     const tableRow = select(`#issue_${pull_number}`)!;
     const titleDiv = select("div .float-left.col-8", tableRow)!;
-    const symbolSpan = select("span", titleDiv)!;
-    // const detailsDiv = select("div.mt-1.text-small", titleDiv)!;
-    // const rightHalf = select(`div .float-right.col-3`, tableRow)!;
-    // const commentsBlock = select(`div .float-right`, rightHalf)!;
-    console.log(tableRow);
-    console.log(titleDiv);
-    console.log(symbolSpan);
-    // console.log(commentsBlock);
-    // commentsBlock.append("background", "#ff00ff");
-    // commentsBlock.append(<p/>);
+    // For each reviewer, add a thumbnail to the end of the title in the pull
+    // request listing.
+    //  * each thumbnail has a 1px border indicating if the reviewer has
+    //    commented, approved, or requested changes.
     for (const reviewerId in reviewStates)
     {
         const reviewer = reviewStates[reviewerId];
-        console.log(reviewer);
-        // commentsBlock.append(<span>{reviewer.name}: {reviewer.state}</span>);
-        // appendBefore(titleDiv, "div.mt-1.text-small", <span>{reviewer.name}: {reviewer.state}</span>)
-        // appendBefore(titleDiv, "div.mt-1.text-small", <img class="from-avatar" src="https://avatars0.githubusercontent.com/u/${reviewer.id}?s=40&amp;v=4" alt="@${reviewer.name}" width="20" height="20"/>)
         const thumbnailStyles = {
-            // "border-width": "2px",
-            // "border-style": "solid",
-            "border": `1px solid ${getPrColor(reviewer.state)}`
+            "border": `1px solid ${getPrColor(reviewer.state)}`,
+            "padding": `1px`
         };
         let thumbnail = <img
                         src={`https://avatars0.githubusercontent.com/u/${reviewer.id}?s=40&amp;v=4`}
@@ -74,44 +49,36 @@ function addToPrList(pull_number: string, reviewStates: UserStateMap): void
                         className="avatar mr-1 from-avatar"
                         width="20"
                         height="20"
-                        // style={`border: ${getPrColor(reviewer.state)};border-width: 2px;border-style: solid;`}
-                        // style={`border-width: 2px;border-style: solid;`}
                         style={thumbnailStyles}
                     />;
 
         appendBefore(titleDiv,
                      "div.mt-1.text-small",
                      thumbnail);
-        // appendBefore(titleDiv,
-        //              "div.mt-1.text-small",
-        //              <svg
-        //                  className="octicon octicon-primitive-dot v-align-middle .color-yellow-7"
-        //                  viewBox="0 0 8 16"
-        //                  version="1.1"
-        //                  width="8"
-        //                  height="16"
-        //                  aria-hidden="true"
-        //              >
-        //                 <path fill-rule="evenodd" d="M0 8c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4-4-1.8-4-4z"></path>
-        //              </svg>);
-        // symbolSpan.append(<span>{reviewer.name}: {reviewer.state}</span>);
-        // commentsBlock.append(<p/>);
     }
-    // commentsBlock.append(<span>{Object.keys(reviewStates).length}</span>);
-    reviewStates;
 }
 
 async function getPRState(ownerName: any, repoName: any, pull_number: string): Promise<void> {
-    const result = await api.v3(`repos/${ownerName}/${repoName}/pulls/${pull_number}/reviews`)
-    // console.log(result);
+    // Get all the reviews on this pull request
+    const result = await api.v3(`repos/${ownerName}/${repoName}/pulls/${pull_number}/reviews`);
 
-    let user_state:UserStateMap = {};
-    for (let i = 0; i < result.length; i++)
-    // for (const review of result)
-    {
+    // We only care about the last state a user was in for this PR, so iterate
+    // over the reviews, and keep track of the curent state of each user. As we
+    // see new reviews from a user, we'll update their state.
+    let user_state: UserStateMap = {};
+    for (let i = 0; i < result.length; i++) {
         const review = result[i];
-        if (review.state)
-        {
+        if (review.state) {
+            if (user_state[review.user.id]) {
+                let lastReview = user_state[review.user.id];
+                if (lastReview.state == "CHANGES_REQUESTED" && review.state == "COMMENTED") {
+                    // skip this review. The reviewer is still blocking the
+                    // review until they explicitly approve or dismiss their
+                    // state review, (which will change the old review's state
+                    // to blocking).
+                    continue;
+                }
+            }
             user_state[review.user.id] = {
                 id: review.user.id,
                 name: review.user.login,
@@ -119,67 +86,35 @@ async function getPRState(ownerName: any, repoName: any, pull_number: string): P
             };
         }
     }
-    // console.log(user_state);
+
+    // Update the row in the PR list with the thumbnails for each reviewer.
     addToPrList(pull_number, user_state);
 }
 
 async function init(): Promise<void> {
-    // select('.btn')!.addEventListener('click', log);
-    console.log('This is my extension loading ✨');
-
-
     // Without this, the Issues page also displays PRs, and viceversa
-    // const isIssues = location.pathname.startsWith('/issues');
-    // const isPulls = location.pathname.startsWith('/pulls');
-    // const typeQuery = isIssues ? 'is:issue' : 'is:pr';
-    // const typeName = isIssues ? 'Issues' : 'Pull Requests';
+    let currentPageParts = location.pathname.split('/');
+    const isPulls = currentPageParts.length > 2 && currentPageParts[3] == 'pulls';
+    if (!isPulls) {
+        return;
+    }
 
     const {ownerName, repoName} = getOwnerAndRepo();
-    console.log(`${ownerName}/${repoName}`);
-
-    // const links = select<HTMLAnchorElement>('[data-hovercard-type^="pull_request"]')!;
+    // Collect each of the PRs on this page
     const links = select.all<HTMLAnchorElement>('[data-hovercard-type="pull_request"]');
-    // console.log(links);
-
-    let prIDs = [];
-    for (const link of links)
-    {
+    for (const link of links) {
         const pathnameParts = link.pathname.split('/');
-        const prID = pathnameParts[4];
-        prIDs.push(prID);
-        if (prID)
-        {
-            getPRState(ownerName, repoName, prID);
-
+        const pull_number = pathnameParts[4];
+        if (pull_number) {
+            getPRState(ownerName, repoName, pull_number);
         }
-
-        // // const result = await api.v4(`
-        // //     reviews(owner: "${ownerName}", name: "${repoName}", pull_number: ${prID})
-        // //     {
-        // //         id
-        // //     }
-        // // `, {
-        // //     allowErrors: true
-        // // });
-        // const result = await api.v3(`repos/${ownerName}/${repoName}/pulls/${prID}/reviews`)
-        // console.log(result);
-
-
-
     }
-    console.log(prIDs);
-
-
-    // const prs = await getPrs();
-
-    // console.log(prs);
 }
 
 features.add({
     id: __featureName__,
-    description: 'Add reviewer thumbnails to the pulls list',
-    // TODO: Set a real screenshot
-    screenshot: 'https://user-images.githubusercontent.com/14323370/66400400-64ba7280-e9af-11e9-8d6c-07b35afde91f.png',
-    load: features.onDomReady, // Wait for DOM ready
+    description: 'Adds thumbnails of reviewers to the pulls list, to check their status at a glance',
+    screenshot: 'https://user-images.githubusercontent.com/18356694/69174051-aff39500-0ac6-11ea-9249-24cc2bdbc1bb.png',
+    load: features.onAjaxedPages,
     init
 });
