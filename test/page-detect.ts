@@ -12,11 +12,11 @@ for (const imported of Object.values(pageDetect)) {
 }
 
 for (const [key, detect] of Object.entries(pageDetect)) {
-	if (key.endsWith('Test') || typeof detect !== 'function') {
+	if (key.startsWith('_') || typeof detect !== 'function') {
 		continue;
 	}
 
-	const testsKey = key + 'Test';
+	const testsKey = '_' + key;
 	// @ts-ignore `import-all` has no index signature https://github.com/Microsoft/TypeScript/issues/16248
 	const validURLs = pageDetect[testsKey] as string[] | string;
 
@@ -37,7 +37,7 @@ for (const [key, detect] of Object.entries(pageDetect)) {
 	}
 
 	// @ts-ignore `import-all` has no index signature https://github.com/Microsoft/TypeScript/issues/16248
-	if (pageDetect[key + 'TestSkipNegatives']) {
+	if (pageDetect[testsKey + 'SkipNegatives']) {
 		continue;
 	}
 
