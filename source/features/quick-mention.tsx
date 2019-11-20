@@ -1,4 +1,3 @@
-
 import './quick-mention.css';
 import React from 'dom-chef';
 import select from 'select-dom';
