@@ -327,7 +327,9 @@ export const _isSingleFile = [
 ];
 
 export const isSingleGist = (): boolean => isGist() && select.exists('.file-navigation-option');
-export const isSingleGistTest = domBased;
+export const _isSingleGist = [
+	// TODO: add test URLs
+];
 
 export const isTrending = (): boolean => location.pathname === '/trending' || location.pathname.startsWith('/trending/');
 export const _isTrending = [
