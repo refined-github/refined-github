@@ -140,24 +140,24 @@ export function reportBug(featureName: string, bugName: string): void {
 }
 
 export function timeAgo(since: Date): {interval: number; unit: string} {
-  const units = ['second', 'minute', 'hour', 'day', 'year'];
-  const timespans = [1000, 60000, 3600000, 86400000, 31540000000];
-  const ago = since.getTime() - Date.now();
-  const diff = Math.abs(ago);
-  
-  let timespan = timespans[0];
-  let unit = units[0];
-  for (var i = 1; i < timespans.length; i++) {
-    if (diff > timespans[i]) {
-      timespan = timespans[i];
-      unit = units[i];
-    }
-  }
+	const units = ['second', 'minute', 'hour', 'day', 'year'];
+	const timespans = [1000, 60000, 3600000, 86400000, 31540000000];
+	const ago = since.getTime() - Date.now();
+	const diff = Math.abs(ago);
 
-  const interval = Math.round(diff / timespan);
-  if(interval > 1) {
-  	unit += 's';
+	let timespan = timespans[0];
+	let unit = units[0];
+	for (let i = 1; i < timespans.length; i++) {
+		if (diff > timespans[i]) {
+			timespan = timespans[i];
+			unit = units[i];
+		}
 	}
-	
-  return {interval, unit}
+
+	const interval = Math.round(diff / timespan);
+	if (interval > 1) {
+		unit += 's';
+	}
+
+	return {interval, unit};
 }

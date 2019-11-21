@@ -12,7 +12,7 @@ async function getRepoCreationDate(): Promise<Date> {
 		}
 	`);
 
-	return new Date(repository.createdAt)
+	return new Date(repository.createdAt);
 }
 
 async function init(): Promise<void> {
@@ -22,11 +22,11 @@ async function init(): Promise<void> {
 		<li title={`Repository created ${date.toDateString()}`}>
 			{icons.calendar()}
 
-			<span className='num text-emphasized'>{interval}</span> {unit} old
+			<span className="num text-emphasized">{interval}</span> {unit} old
 		</li>
 	);
 
-	if(select.all('.numbers-summary li').length > 4) {
+	if (select.all('.numbers-summary li').length > 4) {
 		select('.numbers-summary li:last-child')!.before(element);
 	} else {
 		select('.numbers-summary li:last-child')!.after(element);
