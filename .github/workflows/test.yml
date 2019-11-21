@@ -3,13 +3,27 @@ on:
   - pull_request
   - push
 jobs:
-  run:
+
+  AVA:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
     - run: npm ci
-    - run: npm test
+    - run: npx ava
+
+  Lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - run: npm ci
+    - run: npm run lint
+
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - run: npm ci
+    - run: npm run build
     - uses: actions/upload-artifact@v1
       with:
         name: refined-github

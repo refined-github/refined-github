@@ -129,7 +129,7 @@ async function init(): Promise<false | void> {
 		}
 
 		select('.text-small.text-gray', PR)!.append(
-			<span className="issue-meta-section d-inline-block">
+			<span className="mt-1 issue-meta-section d-inline-block">
 				{openPullRequest()}
 				{' '}
 				{branches}
