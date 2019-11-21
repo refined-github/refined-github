@@ -80,7 +80,7 @@ function init(): false | void {
 	}
 
 	// Remove previous options UI
-	const singleCommitUI = select('[data-ga-load="Diff, view, Viewed Split Diff"],[data-ga-load="Diff, view, Viewed Unified Diff"]');
+	const singleCommitUI = select('[data-ga-load^="Diff, view"]');
 
 	if (singleCommitUI) {
 		singleCommitUI.remove();
