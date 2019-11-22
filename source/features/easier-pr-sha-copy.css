@@ -1,0 +1,9 @@
+/*
+This feature has to work on:
+https://github.com/sindresorhus/refined-github/pulls
+*/
+
+/* Add margin to commit SHA to reduce likelihood of selection overflow */
+.repository-content .js-commit .text-right code .link-gray {
+	margin-right: 16px;
+}

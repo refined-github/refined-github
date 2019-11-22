@@ -82,7 +82,7 @@ async function addButton(): Promise<void> {
 		return;
 	}
 
-	select('.mergeability-details .merge-message')!.append(createButton(base, head));
+	select('.mergeability-details> :not(.js-details-container) .status-heading')!.append(createButton(base, head));
 }
 
 function init(): void | false {
