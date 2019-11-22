@@ -8,10 +8,13 @@ import {clock} from '../libs/icons';
 interface Commit {
 	url: string;
 }
+
 interface Event {
 	type: string;
 	payload: AnyObject;
-	actor: {id: number};
+	actor: {
+		id: number;
+	};
 }
 
 // NOTE: This is basically copied from api.v3() but we can't use it because
@@ -38,7 +41,7 @@ const api = async (query: string, options: RequestInit = {}): Promise<Response> 
 	});
 };
 
-async function loadLastCommit(url: string): Promise<Commit|null> {
+async function loadLastCommit(url: string): Promise<Commit | null> {
 	const response = await api(url);
 	if (!response.ok) {
 		return null;
@@ -88,9 +91,15 @@ async function loadLastCommit(url: string): Promise<Commit|null> {
 	return loadLastCommit(next);
 }
 
-const getLastCommit = (login: string): Promise<Commit|null> => loadLastCommit(`users/${login}/events`);
+const getLastCommit = (login: string): Promise<Commit | null> => loadLastCommit(`users/${login}/events`);
+
 async function getCommitPatch(commit: Commit): Promise<string> {
-	const response = await api(commit.url, {headers: {Accept: 'application/vnd.github.v3.patch'}});
+	const response = await api(commit.url, {
+		headers: {
+			Accept: 'application/vnd.github.v3.patch'
+		}
+	});
+
 	return response.ok ? response.text() : '';
 }
 
@@ -123,8 +132,10 @@ function getTimezoneOffset(login: string): Promise<number> {
 }
 
 const format = (number: number): string => number.toString().padStart(2, '0');
+
 function init(): void {
 	const container = select('.js-hovercard-content > .Popover-message')!;
+
 	observeEl(container, async () => {
 		if (!container.childElementCount || select.exists('.rgh-local-user-time')) {
 			return;
