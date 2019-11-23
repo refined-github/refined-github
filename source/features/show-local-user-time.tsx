@@ -1,3 +1,6 @@
+/* eslint-disable no-await-in-loop */
+
+import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
@@ -11,7 +14,9 @@ interface Commit {
 
 interface Event {
 	type: string;
-	payload: AnyObject;
+	payload: {
+		commits: Commit[];
+	};
 	actor: {
 		id: number;
 	};
@@ -41,10 +46,10 @@ const api = async (query: string, options: RequestInit = {}): Promise<Response> 
 	});
 };
 
-async function loadLastCommit(url: string): Promise<Commit | null> {
+async function loadLastCommit(url: string): Promise<Commit|undefined> {
 	const response = await api(url);
 	if (!response.ok) {
-		return null;
+		return;
 	}
 
 	// NOTE: We iterate in series here to reduce requests
@@ -55,11 +60,8 @@ async function loadLastCommit(url: string): Promise<Commit | null> {
 			continue;
 		}
 
-		// NOTE: We want to iterate the commits in reverse to start with the latest commit
-		const commits = event.payload.commits as Commit[];
-		for (let i = commits.length - 1; i >= 0; i--) {
-			const commit = commits[i];
-			// eslint-disable-next-line no-await-in-loop
+		// NOTE: We want to iterate the commits in reverse to start with the latest commitjust
+		for (const commit of event.payload.commits.reverse()) {
 			const response = await api(commit.url);
 			if (!response.ok) {
 				// NOTE: Ignore 404 errors and check the next commit
@@ -67,31 +69,24 @@ async function loadLastCommit(url: string): Promise<Commit | null> {
 					continue;
 				}
 
-				return null;
+				return;
 			}
 
-			// eslint-disable-next-line no-await-in-loop
 			const {author} = await response.json();
 			// NOTE: Some commits don't have an author when there is no github user for the autor email.
-			if (author && author.id === event.actor.id) {
+			if (author?.id === event.actor.id) {
 				return commit;
 			}
 		}
 	}
 
-	if (!response.headers.has('link')) {
-		return null;
-	}
-
-	const [, next] = (/<([^>]+)>; rel="next"/).exec(response.headers.get('link')!) || [];
+	const [, next] = /<([^>]+)>; rel="next"/.exec(response.headers.get('link')!) ?? [];
 	if (!next) {
-		return null;
+		return;
 	}
 
 	return loadLastCommit(next);
 }
-
-const getLastCommit = (login: string): Promise<Commit | null> => loadLastCommit(`users/${login}/events`);
 
 async function getCommitPatch(commit: Commit): Promise<string> {
 	const response = await api(commit.url, {
@@ -105,31 +100,19 @@ async function getCommitPatch(commit: Commit): Promise<string> {
 
 // IDEA: We could also return the date from the patch
 // This could help to identify "wrong" offsets e.g. daylight saving
-async function loadTimezoneOffset(login: string): Promise<number> {
-	const commit = await getLastCommit(login);
+const loadTimezoneOffset = mem(async (login: string): Promise<number|undefined> => {
+	const commit = await loadLastCommit(`users/${login}/events`);
 	if (!commit) {
-		return NaN;
+		return;
 	}
 
 	const patch = await getCommitPatch(commit);
-	const match = (/^Date: .*? (\+|-)(\d\d)(\d\d)$/m).exec(patch);
-	if (!match) {
-		return NaN;
-	}
+	const [, hourString, minuteString] = (/^Date: .* ([-+]\d\d)(\d\d)$/m).exec(patch) ?? [];
 
-	const [, sign, hours, minutes] = match;
-	const offset = (parseInt(hours, 10) * 60) + parseInt(minutes, 10);
-	return sign === '-' ? -offset : offset;
-}
-
-const cache = new Map<string, Promise<number>>();
-function getTimezoneOffset(login: string): Promise<number> {
-	if (!cache.has(login)) {
-		cache.set(login, loadTimezoneOffset(login));
-	}
-
-	return cache.get(login)!;
-}
+	const hours = parseInt(hourString, 10);
+	const minutes = parseInt(minuteString, 10);
+	return (hours * 60) + (hours < 0 ? -minutes : minutes);
+});
 
 const format = (number: number): string => number.toString().padStart(2, '0');
 
@@ -137,17 +120,12 @@ function init(): void {
 	const container = select('.js-hovercard-content > .Popover-message')!;
 
 	observeEl(container, async () => {
-		if (!container.childElementCount || select.exists('.rgh-local-user-time')) {
+		if (container.childElementCount === 0 || select.exists('.rgh-local-user-time')) {
 			return;
 		}
 
-		const profile = select<HTMLAnchorElement>('a[data-octo-dimensions="link_type:profile"', container);
+		const profile = select<HTMLAnchorElement>('a[data-octo-dimensions="link_type:profile"]', container);
 		if (!profile) {
-			return;
-		}
-
-		const content = select('div.d-flex.mt-3 > div.overflow-hidden.ml-3', container);
-		if (!content) {
 			return;
 		}
 
@@ -157,8 +135,9 @@ function init(): void {
 		const classNames = ['Popover-message--bottom-right', 'Popover-message--bottom-left'];
 		const needsAdjustment = classNames.some(name => container.classList.contains(name));
 
-		const placeholder = <span>Loading...</span>;
-		content.append(
+		const placeholder = <span>Loading…</span>;
+
+		select('div.d-flex.mt-3 > div.overflow-hidden.ml-3', container)!.append(
 			<div className="rgh-local-user-time mt-2 text-gray text-small">
 				{clock()} {placeholder}
 			</div>
@@ -168,20 +147,20 @@ function init(): void {
 			const diff = container.offsetHeight - containerHeight;
 			if (diff > 0) {
 				const parent = container.parentElement!;
-				const top = parseInt(parent.style.top || '0', 10);
+				const top = parseInt(parent.style.top ?? '0', 10);
 				parent.style.top = `${top - diff}px`;
 			}
 		}
 
 		const login = profile.pathname.replace(/^\//, '');
-		const offset = await getTimezoneOffset(login);
-		if (Number.isNaN(offset)) {
+		const offset = await loadTimezoneOffset(login);
+		if (!Number.isFinite(offset!)) {
 			placeholder.textContent = '-';
 			return;
 		}
 
 		const date = new Date();
-		date.setMinutes(offset + date.getTimezoneOffset() + date.getMinutes());
+		date.setMinutes(offset! + date.getTimezoneOffset() + date.getMinutes());
 		placeholder.textContent = `${format(date.getHours())}:${format(date.getMinutes())}`;
 	});
 }
