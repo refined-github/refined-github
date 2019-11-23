@@ -21,9 +21,11 @@ async function init(): Promise<void> {
 	const {value, unit} = timeAgo(date);
 
 	const element = (
-		<li title={`Repository created on ${date.toDateString()}`} className="text-gray">
-			{icons.repo()}
-			<span className="num text-emphasized">{value}</span> {unit} old
+		<li title={`Repository created on ${date.toDateString()}`}>
+			<a className="text-gray"> {/* Required just to match GitHub’s style */}
+				{icons.repo()}
+				<span className="num text-emphasized">{value}</span> {unit} old
+			</a>
 		</li>
 	);
 
