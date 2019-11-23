@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import * as icons from '../libs/icons';
-import {getRepoGQL, timeAgo} from '../libs/utils';
+import {getRepoGQL} from '../libs/utils';
 
 async function getRepoCreationDate(): Promise<Date> {
 	const {repository} = await api.v4(`
@@ -15,22 +15,31 @@ async function getRepoCreationDate(): Promise<Date> {
 	return new Date(repository.createdAt);
 }
 
+function timeAgo(date: Date): {interval: number; timespan: string} {
+	const units = ['minute', 'hour', 'day', 'year']
+
+	const ago = (<time-ago datetime={date.toISOString()} format="micro"/>).textContent;
+	const [interval, short] = ago!.match(/[a-z]+|[^a-z]+/gi)! as [number, string];
+
+	let timespan = units.find(unit => unit.slice(0, 1) == short)!;
+	timespan = interval > 1 ? timespan + 's' : timespan
+
+	return {interval, timespan};
+}
+
 async function init(): Promise<void> {
 	const date = await getRepoCreationDate();
-	const {interval, unit} = timeAgo(date);
+	const {interval, timespan} = timeAgo(date);
+
 	const element = (
 		<li title={`Repository created ${date.toDateString()}`}>
 			{icons.calendar()}
 
-			<span className="num text-emphasized">{interval}</span> {unit} old
+			<span className='num text-emphasized'>{interval}</span> {timespan} old
 		</li>
 	);
 
-	if (select.all('.numbers-summary li').length > 4) {
-		select('.numbers-summary li:last-child')!.before(element);
-	} else {
-		select('.numbers-summary li:last-child')!.after(element);
-	}
+	select('.numbers-summary li:last-child')!.before(element);
 }
 
 features.add({
