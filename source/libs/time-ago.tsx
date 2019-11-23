@@ -1,13 +1,13 @@
 import React from 'dom-chef';
 
-export default function timeAgo(date: Date): {interval: number; timespan: string} {
+export default function timeAgo(date: Date): {value: number; unit: string} {
 	const units = ['minute', 'hour', 'day', 'year'];
 
-	const ago = (<time-ago datetime={date.toISOString()} format="micro"/>).textContent;
-	const [interval, short] = ago!.match(/[a-z]+|[^a-z]+/gi)! as [number, string];
+	const time = (<time-ago datetime={date.toISOString()} format="micro"/>).textContent!;
+	const [value, short] = time.match(/[a-z]+|[^a-z]+/gi)! as [number, string];
 
-	let timespan = units.find(unit => unit.startsWith(short))!;
-	timespan = interval > 1 ? timespan + 's' : timespan;
+	let unit = units.find(unit => unit.startsWith(short))!;
+	unit = value > 1 ? unit + 's' : unit;
 
-	return {interval, timespan};
+	return {value, unit};
 }

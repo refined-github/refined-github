@@ -18,13 +18,12 @@ async function getRepoCreationDate(): Promise<Date> {
 
 async function init(): Promise<void> {
 	const date = await getRepoCreationDate();
-	const {interval, timespan} = timeAgo(date);
+	const {value, unit} = timeAgo(date);
 
 	const element = (
 		<li title={`Repository created ${date.toDateString()}`}>
 			{icons.repo()}
-
-			<span className="num text-emphasized">{interval}</span> {timespan} old
+			<span className="num text-emphasized">{value}</span> {unit} old
 		</li>
 	);
 
