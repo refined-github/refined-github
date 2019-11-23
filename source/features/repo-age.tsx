@@ -33,7 +33,7 @@ async function init(): Promise<void> {
 
 	const element = (
 		<li title={`Repository created ${date.toDateString()}`}>
-			{icons.calendar()}
+			{icons.repo()}
 
 			<span className="num text-emphasized">{interval}</span> {timespan} old
 		</li>
