@@ -21,7 +21,7 @@ async function init(): Promise<void> {
 	const {value, unit} = timeAgo(date);
 
 	const element = (
-		<li title={`Repository created ${date.toDateString()}`}>
+		<li title={`Repository created on ${date.toDateString()}`} className="text-gray">
 			{icons.repo()}
 			<span className="num text-emphasized">{value}</span> {unit} old
 		</li>
