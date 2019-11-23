@@ -29,7 +29,12 @@ async function init(): Promise<void> {
 		</li>
 	);
 
-	select('.numbers-summary li:last-child')!.before(element);
+	const license = select('.numbers-summary .octicon-law');
+	if (license) {
+		license.closest('li')!.before(element);
+	} else {
+		select('.numbers-summary')!.append(element);
+	}
 }
 
 features.add({
