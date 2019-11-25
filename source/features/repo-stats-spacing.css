@@ -1,0 +1,4 @@
+.numbers-summary {
+	display: flex;
+	justify-content: space-around;
+}

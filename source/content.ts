@@ -18,6 +18,7 @@ import './features/sticky-discussion-list-toolbar.css';
 import './features/deemphasize-unrelated-commit-references.css';
 import './features/always-show-branch-delete-buttons.css';
 import './features/easier-pr-sha-copy.css';
+import './features/repo-stats-spacing.css';
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
 
@@ -154,6 +155,7 @@ import './features/conflict-marker';
 import './features/html-preview-link';
 import './features/linkify-labels-on-dashboard';
 import './features/linkify-user-location';
+import './features/repo-age';
 
 // Add global for easier debugging
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
