@@ -1,6 +1,8 @@
 import select from 'select-dom';
 import features from '../libs/features';
 
+const isSingleGist = (): boolean => features.isGist() && /^\/(gist\/)?[^/]+\/[0-9a-f]{32}$/.test(location.pathname);
+
 function init(): void {
 	const embedViaScript = select('.file-navigation-option [value^="<script"]')!;
 	const embedViaIframe = embedViaScript.cloneNode(true) as HTMLButtonElement;
@@ -27,7 +29,7 @@ features.add({
 	description: 'Adds a menu item to embed a gist via <iframe>.',
 	screenshot: 'https://user-images.githubusercontent.com/44045911/63633382-6a1b6200-c67a-11e9-9038-aedd62e4f6a8.png',
 	include: [
-		features.isSingleGist
+		isSingleGist
 	],
 	load: features.onDomReady,
 	init
