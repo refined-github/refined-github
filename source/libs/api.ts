@@ -125,7 +125,7 @@ export const v3 = mem(async (
 
 export const v3paginated = async function * (
 	query: string,
-	options: GHRestApiOptions
+	options?: GHRestApiOptions
 ): AsyncGenerator<AsyncReturnType<typeof v3>> {
 	while (true) {
 		// eslint-disable-next-line no-await-in-loop
