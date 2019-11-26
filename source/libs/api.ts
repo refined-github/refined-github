@@ -91,6 +91,12 @@ export const v3 = mem(async (
 	const {ignoreHTTPStatus, method, body, headers, json} = {...v3defaults, ...options};
 	const {personalToken} = await settings;
 
+	// Handle full URLs we might have received from the API itself
+	if (query.startsWith('https://')) {
+		query = new URL(query).pathname.slice(1).replace('api/v3/', '');
+	}
+
+	console.log('Will fetch', api3 + query); // TODO: remove temporary logging
 	const response = await fetch(api3 + query, {
 		method,
 		body: body && JSON.stringify(body),
@@ -116,6 +122,22 @@ export const v3 = mem(async (
 
 	throw await getError(apiResponse);
 });
+
+export const v3paginated = async function * (
+	query: string,
+	options: GHRestApiOptions
+): AsyncGenerator<AsyncReturnType<typeof v3>> {
+	while (true) {
+		// eslint-disable-next-line no-await-in-loop
+		const response = await v3(query, options);
+		yield response;
+
+		[, query] = /<([^>]+)>; rel="next"/.exec(response.headers.get('link')!) ?? [];
+		if (!query) {
+			return;
+		}
+	}
+};
 
 export const v4 = mem(async (
 	query: string,

@@ -18,38 +18,28 @@ const timeFormatter = new Intl.DateTimeFormat('en-US', {
 	hour12: false
 });
 
-function normalizeApiUrl(url: string): string {
-	return new URL(url).pathname.slice(1).replace('api/v3/', '');
-}
+async function loadLastCommit(pathname: string): Promise<Commit | void> {
+	for await (const page of api.v3paginated(pathname)) {
+		for (const event of page as any) { // eslint-disable-line @typescript-eslint/no-explicit-any
+			if (event.type !== 'PushEvent') {
+				continue;
+			}
 
-async function loadLastCommit(pathname: string): Promise<Commit | undefined> {
-	const events = await api.v3(pathname) as any; // eslint-disable-line @typescript-eslint/no-explicit-any
-	for (const event of events) {
-		if (event.type !== 'PushEvent') {
-			continue;
-		}
+			// Start from the latest commit, which is the last one in the list
+			for (const commit of event.payload.commits.reverse()) {
+				const response = await api.v3(commit.url, {ignoreHTTPStatus: true});
 
-		// NOTE: We want to iterate the commits in reverse to start with the latest commitjust
-		for (const commit of event.payload.commits.reverse()) {
-			const response = await api.v3(normalizeApiUrl(commit.url), {ignoreHTTPStatus: true});
-
-			// `response.author` only appears if GitHub can match the email to a GitHub user
-			if (response.author?.id === event.actor.id) {
-				return commit;
+				// `response.author` only appears if GitHub can match the email to a GitHub user
+				if (response.author?.id === event.actor.id) {
+					return commit;
+				}
 			}
 		}
 	}
-
-	const [, next] = /<([^>]+)>; rel="next"/.exec(events.headers.get('link')!) ?? [];
-	if (!next) {
-		return;
-	}
-
-	return loadLastCommit(normalizeApiUrl(next));
 }
 
 async function getCommitPatch(commitUrl: string): Promise<string> {
-	const {textContent} = await api.v3(normalizeApiUrl(commitUrl), {
+	const {textContent} = await api.v3(commitUrl, {
 		json: false,
 		headers: {
 			Accept: 'application/vnd.github.v3.patch'
