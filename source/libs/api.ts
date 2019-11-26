@@ -40,6 +40,7 @@ interface GraphQLResponse {
 
 interface RestResponse extends AnyObject {
 	httpStatus: number;
+	headers: Headers;
 	ok: boolean;
 }
 
@@ -65,6 +66,7 @@ interface GHRestApiOptions {
 	method?: 'GET' | 'POST' | 'PUT';
 	body?: undefined | JsonObject;
 	headers?: HeadersInit;
+	json?: boolean;
 }
 
 interface GHGraphQLApiOptions {
@@ -74,7 +76,8 @@ interface GHGraphQLApiOptions {
 const v3defaults: GHRestApiOptions = {
 	ignoreHTTPStatus: false,
 	method: 'GET',
-	body: undefined
+	body: undefined,
+	json: true
 };
 
 const v4defaults: GHGraphQLApiOptions = {
@@ -85,7 +88,7 @@ export const v3 = mem(async (
 	query: string,
 	options: GHRestApiOptions = v3defaults
 ): Promise<RestResponse> => {
-	const {ignoreHTTPStatus, method, body, headers} = {...v3defaults, ...options};
+	const {ignoreHTTPStatus, method, body, headers, json} = {...v3defaults, ...options};
 	const {personalToken} = await settings;
 
 	const response = await fetch(api3 + query, {
@@ -101,11 +104,12 @@ export const v3 = mem(async (
 	const textContent = await response.text();
 
 	// The response might just be a 200 or 404, it's the REST equivalent of `boolean`
-	const apiResponse: JsonObject = textContent.length > 0 ? JSON.parse(textContent) : {};
+	const apiResponse: JsonObject = json ? JSON.parse(textContent) : {textContent};
 
 	if (response.ok || ignoreHTTPStatus) {
 		return Object.assign(apiResponse, {
 			httpStatus: response.status,
+			headers: response.headers,
 			ok: response.ok
 		});
 	}

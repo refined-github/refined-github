@@ -4,9 +4,9 @@ import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
-import optionsStorage from '../options-storage';
 import observeEl from '../libs/simplified-element-observer';
 import {clock} from '../libs/icons';
+import * as api from '../libs/api';
 
 interface Commit {
 	url: string;
@@ -22,59 +22,32 @@ interface Event {
 	};
 }
 
-// NOTE: This is basically copied from api.v3() but we can't use it because
-// it always parses the res as json it also can't handle absolute urls yet.
-// TODO: Add this to lib/api somehow
-const settings = optionsStorage.getAll();
-const api3 = location.hostname === 'github.com' ?
-	'https://api.github.com/' :
-	`${location.origin}/api/v3/`;
-const api = async (query: string, options: RequestInit = {}): Promise<Response> => {
-	const {personalToken} = await settings;
-
-	const url = query.startsWith('http') ? query : (api3 + query);
-	const headers = {
-		'User-Agent': 'Refined GitHub',
-		Accept: 'application/vnd.github.v3+json',
-		...options.headers,
-		...(personalToken ? {Authorization: `token ${personalToken}`} : {})
-	};
-
-	return fetch(url, {
-		...options,
-		headers
-	});
+const normalizeApiUrl = (url: string): string => {
+	const {pathname} = new URL(url);
+	return pathname.replace(/^\/(api\/v3\/)?/, '');
 };
 
-async function loadLastCommit(url: string): Promise<Commit|undefined> {
-	const response = await api(url);
-	if (!response.ok) {
-		return;
-	}
+async function loadLastCommit(pathname: string): Promise<Commit|undefined> {
+	const response = await api.v3(pathname);
 
 	// NOTE: We iterate in series here to reduce requests
 	// The first commit should already work in most cases
-	const events = await response.json() as Event[];
+	const events = response.filter((event: Event) => event.type === 'PushEvent') as Event[];
 	for (const event of events) {
-		if (event.type !== 'PushEvent') {
-			continue;
-		}
-
 		// NOTE: We want to iterate the commits in reverse to start with the latest commitjust
 		for (const commit of event.payload.commits.reverse()) {
-			const response = await api(commit.url);
+			const response = await api.v3(normalizeApiUrl(commit.url), {ignoreHTTPStatus: true});
 			if (!response.ok) {
 				// NOTE: Ignore 404 errors and check the next commit
-				if (response.status === 404) {
+				if (response.httpStatus === 404) {
 					continue;
 				}
 
 				return;
 			}
 
-			const {author} = await response.json();
 			// NOTE: Some commits don't have an author when there is no github user for the autor email.
-			if (author?.id === event.actor.id) {
+			if (response.author?.id === event.actor.id) {
 				return commit;
 			}
 		}
@@ -85,17 +58,18 @@ async function loadLastCommit(url: string): Promise<Commit|undefined> {
 		return;
 	}
 
-	return loadLastCommit(next);
+	return loadLastCommit(normalizeApiUrl(next));
 }
 
 async function getCommitPatch(commit: Commit): Promise<string> {
-	const response = await api(commit.url, {
+	const {textContent} = await api.v3(normalizeApiUrl(commit.url), {
+		json: false,
 		headers: {
 			Accept: 'application/vnd.github.v3.patch'
 		}
 	});
 
-	return response.ok ? response.text() : '';
+	return textContent;
 }
 
 // IDEA: We could also return the date from the patch
