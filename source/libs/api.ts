@@ -110,7 +110,7 @@ export const v3 = mem(async (
 	const textContent = await response.text();
 
 	// The response might just be a 200 or 404, it's the REST equivalent of `boolean`
-	const apiResponse: JsonObject = json ? JSON.parse(textContent) : {textContent};
+	const apiResponse: JsonObject = json ? JSON.parse(textContent.length > 0 ? textContent : '') : {textContent};
 
 	if (response.ok || ignoreHTTPStatus) {
 		return Object.assign(apiResponse, {
