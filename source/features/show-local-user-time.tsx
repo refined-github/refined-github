@@ -79,13 +79,10 @@ function init(): void {
 			return;
 		}
 
-		// NOTE: Adding the time element might changes the height of the hovercard and thuse break the positioning.
-		// So we store the container height and adjust the positioning if needed after adding the placeholder.
+		// Adding the time element might change the height of the hovercard and thus break its positioning
 		const containerHeight = container.offsetHeight;
-		const classNames = ['Popover-message--bottom-right', 'Popover-message--bottom-left'];
-		const needsAdjustment = classNames.some(name => container.classList.contains(name));
 
-		const placeholder = <span>Loading…</span>;
+		const placeholder = <span>Loading timezone…</span>;
 
 		select('div.d-flex.mt-3 > div.overflow-hidden.ml-3', container)!.append(
 			<div className="rgh-local-user-time mt-2 text-gray text-small">
@@ -93,11 +90,11 @@ function init(): void {
 			</div>
 		);
 
-		if (needsAdjustment) {
+		if (container.matches('.Popover-message--bottom-right, .Popover-message--bottom-left')) {
 			const diff = container.offsetHeight - containerHeight;
 			if (diff > 0) {
 				const parent = container.parentElement!;
-				const top = parseInt(parent.style.top ?? '0', 10);
+				const top = parseInt(parent.style.top, 10);
 				parent.style.top = `${top - diff}px`;
 			}
 		}
