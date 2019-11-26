@@ -7,6 +7,7 @@ import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 import {clock} from '../libs/icons';
 import * as api from '../libs/api';
+import {getUsername} from '../libs/utils';
 
 interface Commit {
 	url: string;
@@ -74,7 +75,7 @@ function init(): void {
 		}
 
 		const login = select<HTMLAnchorElement>('a[data-octo-dimensions="link_type:profile"]', container)?.pathname.slice(1);
-		if (!login) {
+		if (!login || login === getUsername()) {
 			return;
 		}
 
