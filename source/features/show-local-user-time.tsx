@@ -12,48 +12,35 @@ interface Commit {
 	url: string;
 }
 
-interface Event {
-	type: string;
-	payload: {
-		commits: Commit[];
-	};
-	actor: {
-		id: number;
-	};
+const timeFormatter = new Intl.DateTimeFormat('en-US', {
+	hour: 'numeric',
+	minute: 'numeric',
+	hour12: false
+});
+
+function normalizeApiUrl(url: string): string {
+	return new URL(url).pathname.slice(1).replace('api/v3/', '');
 }
 
-const normalizeApiUrl = (url: string): string => {
-	const {pathname} = new URL(url);
-	return pathname.replace(/^\/(api\/v3\/)?/, '');
-};
-
-async function loadLastCommit(pathname: string): Promise<Commit|undefined> {
-	const response = await api.v3(pathname);
-
-	// NOTE: We iterate in series here to reduce requests
-	// The first commit should already work in most cases
-	const events = response.filter((event: Event) => event.type === 'PushEvent') as Event[];
+async function loadLastCommit(pathname: string): Promise<Commit | undefined> {
+	const events = await api.v3(pathname) as any; // eslint-disable-line @typescript-eslint/no-explicit-any
 	for (const event of events) {
+		if (event.type !== 'PushEvent') {
+			continue;
+		}
+
 		// NOTE: We want to iterate the commits in reverse to start with the latest commitjust
 		for (const commit of event.payload.commits.reverse()) {
 			const response = await api.v3(normalizeApiUrl(commit.url), {ignoreHTTPStatus: true});
-			if (!response.ok) {
-				// NOTE: Ignore 404 errors and check the next commit
-				if (response.httpStatus === 404) {
-					continue;
-				}
 
-				return;
-			}
-
-			// NOTE: Some commits don't have an author when there is no github user for the autor email.
+			// `response.author` only appears if GitHub can match the email to a GitHub user
 			if (response.author?.id === event.actor.id) {
 				return commit;
 			}
 		}
 	}
 
-	const [, next] = /<([^>]+)>; rel="next"/.exec(response.headers.get('link')!) ?? [];
+	const [, next] = /<([^>]+)>; rel="next"/.exec(events.headers.get('link')!) ?? [];
 	if (!next) {
 		return;
 	}
@@ -61,8 +48,8 @@ async function loadLastCommit(pathname: string): Promise<Commit|undefined> {
 	return loadLastCommit(normalizeApiUrl(next));
 }
 
-async function getCommitPatch(commit: Commit): Promise<string> {
-	const {textContent} = await api.v3(normalizeApiUrl(commit.url), {
+async function getCommitPatch(commitUrl: string): Promise<string> {
+	const {textContent} = await api.v3(normalizeApiUrl(commitUrl), {
 		json: false,
 		headers: {
 			Accept: 'application/vnd.github.v3.patch'
@@ -80,15 +67,13 @@ const loadTimezoneOffset = mem(async (login: string): Promise<number|undefined> 
 		return;
 	}
 
-	const patch = await getCommitPatch(commit);
+	const patch = await getCommitPatch(commit.url);
 	const [, hourString, minuteString] = (/^Date: .* ([-+]\d\d)(\d\d)$/m).exec(patch) ?? [];
 
 	const hours = parseInt(hourString, 10);
 	const minutes = parseInt(minuteString, 10);
 	return (hours * 60) + (hours < 0 ? -minutes : minutes);
 });
-
-const format = (number: number): string => number.toString().padStart(2, '0');
 
 function init(): void {
 	const container = select('.js-hovercard-content > .Popover-message')!;
@@ -98,8 +83,8 @@ function init(): void {
 			return;
 		}
 
-		const profile = select<HTMLAnchorElement>('a[data-octo-dimensions="link_type:profile"]', container);
-		if (!profile) {
+		const login = select<HTMLAnchorElement>('a[data-octo-dimensions="link_type:profile"]', container)?.pathname.slice(1);
+		if (!login) {
 			return;
 		}
 
@@ -126,16 +111,15 @@ function init(): void {
 			}
 		}
 
-		const login = profile.pathname.replace(/^\//, '');
 		const offset = await loadTimezoneOffset(login);
-		if (!Number.isFinite(offset!)) {
+		if (typeof offset === 'undefined') {
 			placeholder.textContent = '-';
 			return;
 		}
 
 		const date = new Date();
-		date.setMinutes(offset! + date.getTimezoneOffset() + date.getMinutes());
-		placeholder.textContent = `${format(date.getHours())}:${format(date.getMinutes())}`;
+		date.setMinutes(offset + date.getTimezoneOffset() + date.getMinutes());
+		placeholder.textContent = timeFormatter.format(date);
 	});
 }
 
