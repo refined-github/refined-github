@@ -30,6 +30,16 @@ async function loadLastCommit(pathname: string): Promise<Commit | void> {
 			for (const commit of event.payload.commits.reverse()) {
 				const response = await api.v3(commit.url, {ignoreHTTPStatus: true});
 
+				// Commits might not exist anymore even if they are listed in the events
+				// This can happen if the repository was deleted so we can also skip all other commits
+				if (response.httpStatus === 404) {
+					break;
+				}
+
+				if (!response.ok) {
+					throw await api.getError(response);
+				}
+
 				// `response.author` only appears if GitHub can match the email to a GitHub user
 				if (response.author?.id === event.actor.id) {
 					return commit;
