@@ -9,18 +9,25 @@ import {clock} from '../libs/icons';
 import * as api from '../libs/api';
 import {getUsername} from '../libs/utils';
 
-interface Commit {
-	url: string;
-}
-
 const timeFormatter = new Intl.DateTimeFormat('en-US', {
 	hour: 'numeric',
 	minute: 'numeric',
 	hour12: false
 });
 
-async function loadLastCommit(pathname: string): Promise<Commit | void> {
-	for await (const page of api.v3paginated(pathname)) {
+async function loadCommitPatch(commitUrl: string): Promise<string> {
+	const {textContent} = await api.v3(commitUrl, {
+		json: false,
+		headers: {
+			Accept: 'application/vnd.github.v3.patch'
+		}
+	});
+
+	return textContent;
+}
+
+async function loadLastCommitPatch(login: string): Promise<string | void> {
+	for await (const page of api.v3paginated(`users/${login}/events`)) {
 		for (const event of page as any) { // eslint-disable-line @typescript-eslint/no-explicit-any
 			if (event.type !== 'PushEvent') {
 				continue;
@@ -41,34 +48,28 @@ async function loadLastCommit(pathname: string): Promise<Commit | void> {
 				}
 
 				// `response.author` only appears if GitHub can match the email to a GitHub user
-				if (response.author?.id === event.actor.id) {
-					return commit;
+				if (response.author?.id !== event.actor.id) {
+					continue;
+				}
+
+				const patch = await loadCommitPatch(commit.url);
+				// The patch of merge commits doesn't include the commit sha so the date might be from another user
+				if (patch.startsWith(`From ${commit.sha} `)) {
+					return patch;
 				}
 			}
 		}
 	}
 }
 
-async function getCommitPatch(commitUrl: string): Promise<string> {
-	const {textContent} = await api.v3(commitUrl, {
-		json: false,
-		headers: {
-			Accept: 'application/vnd.github.v3.patch'
-		}
-	});
-
-	return textContent;
-}
-
 // IDEA: We could also return the date from the patch
 // This could help to identify "wrong" offsets e.g. daylight saving
-const loadTimezoneOffset = mem(async (login: string): Promise<number|undefined> => {
-	const commit = await loadLastCommit(`users/${login}/events`);
-	if (!commit) {
+const loadTimezoneOffset = mem(async (login: string): Promise<number | void> => {
+	const patch = await loadLastCommitPatch(login);
+	if (!patch) {
 		return;
 	}
 
-	const patch = await getCommitPatch(commit.url);
 	const [, hourString, minuteString] = (/^Date: .* ([-+]\d\d)(\d\d)$/m).exec(patch) ?? [];
 
 	const hours = parseInt(hourString, 10);
