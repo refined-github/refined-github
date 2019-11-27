@@ -91,13 +91,13 @@ export const v3 = mem(async (
 	const {ignoreHTTPStatus, method, body, headers, json} = {...v3defaults, ...options};
 	const {personalToken} = await settings;
 
-	// Handle full URLs we might have received from the API itself
-	if (query.startsWith('https://')) {
-		query = new URL(query).pathname.slice(1).replace('api/v3/', '');
+	if (query.startsWith('/')) {
+		throw new TypeError('The query parameter must not start with a slash.');
 	}
 
-	console.log('Will fetch', api3 + query); // TODO: remove temporary logging
-	const response = await fetch(api3 + query, {
+	const url = new URL(query, api3);
+	console.log('Will fetch', url.href); // TODO: remove temporary logging
+	const response = await fetch(url.href, {
 		method,
 		body: body && JSON.stringify(body),
 		headers: {
@@ -110,7 +110,7 @@ export const v3 = mem(async (
 	const textContent = await response.text();
 
 	// The response might just be a 200 or 404, it's the REST equivalent of `boolean`
-	const apiResponse: JsonObject = json ? JSON.parse(textContent.length > 0 ? textContent : '') : {textContent};
+	const apiResponse: JsonObject = (json && textContent.length > 0) ? JSON.parse(textContent) : {textContent};
 
 	if (response.ok || ignoreHTTPStatus) {
 		return Object.assign(apiResponse, {
