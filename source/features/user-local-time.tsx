@@ -3,6 +3,7 @@
 import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
+import cache from 'webext-storage-cache';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 import {clock} from '../libs/icons';
@@ -80,6 +81,22 @@ const loadLastCommitDate = mem(async (login: string): Promise<string | void> => 
 	return date;
 });
 
+async function getLastCommit(login: string): Promise<string | void> {
+	const key = `${__featureName__}:${login}`;
+
+	const cached = await cache.get<string>(key);
+	if (cached) {
+		return cached;
+	}
+
+	const date = await loadLastCommitDate(login);
+	if (date) {
+		await cache.set(key, date, 10);
+	}
+
+	return date;
+}
+
 function init(): void {
 	const hovercard = select('.js-hovercard-content > .Popover-message')!;
 
@@ -111,7 +128,7 @@ function init(): void {
 			}
 		}
 
-		const date = await loadLastCommitDate(login);
+		const date = await getLastCommit(login);
 		if (!date) {
 			placeholder.textContent = '-';
 			container.title = 'No commit found';
