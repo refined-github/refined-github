@@ -84,7 +84,7 @@ function init(): void {
 	const hovercard = select('.js-hovercard-content > .Popover-message')!;
 
 	observeEl(hovercard, async () => {
-		if (hovercard.childElementCount === 0 || select.exists('.rgh-local-user-time')) {
+		if (hovercard.childElementCount === 0 || select.exists('.rgh-local-user-time', hovercard)) {
 			return;
 		}
 
