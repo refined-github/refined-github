@@ -62,63 +62,66 @@ async function loadLastCommitPatch(login: string): Promise<string | void> {
 	}
 }
 
-// IDEA: We could also return the date from the patch
-// This could help to identify "wrong" offsets e.g. daylight saving
-const loadTimezoneOffset = mem(async (login: string): Promise<number | void> => {
+const parseOffset = (date: string): number => {
+	const [, hourString, minuteString] = (/([-+]\d\d)(\d\d)$/).exec(date) ?? [];
+
+	const hours = parseInt(hourString, 10);
+	const minutes = parseInt(minuteString, 10);
+	return (hours * 60) + (hours < 0 ? -minutes : minutes);
+};
+
+const loadLastCommitDate = mem(async (login: string): Promise<string | void> => {
 	const patch = await loadLastCommitPatch(login);
 	if (!patch) {
 		return;
 	}
 
-	const [, hourString, minuteString] = (/^Date: .* ([-+]\d\d)(\d\d)$/m).exec(patch) ?? [];
-
-	const hours = parseInt(hourString, 10);
-	const minutes = parseInt(minuteString, 10);
-	return (hours * 60) + (hours < 0 ? -minutes : minutes);
+	const [, date] = (/^Date: (.*)$/m).exec(patch) ?? [];
+	return date;
 });
 
 function init(): void {
-	const container = select('.js-hovercard-content > .Popover-message')!;
+	const hovercard = select('.js-hovercard-content > .Popover-message')!;
 
-	observeEl(container, async () => {
-		if (container.childElementCount === 0 || select.exists('.rgh-local-user-time')) {
+	observeEl(hovercard, async () => {
+		if (hovercard.childElementCount === 0 || select.exists('.rgh-local-user-time')) {
 			return;
 		}
 
-		const login = select<HTMLAnchorElement>('a[data-octo-dimensions="link_type:profile"]', container)?.pathname.slice(1);
+		const login = select<HTMLAnchorElement>('a[data-octo-dimensions="link_type:profile"]', hovercard)?.pathname.slice(1);
 		if (!login || login === getUsername()) {
 			return;
 		}
 
-		// Adding the time element might change the height of the hovercard and thus break its positioning
-		const containerHeight = container.offsetHeight;
-
 		const placeholder = <span>Loading timezone…</span>;
+		const container = <div className="rgh-local-user-time mt-2 text-gray text-small">
+			{clock()} {placeholder}
+		</div>;
 
-		select('div.d-flex.mt-3 > div.overflow-hidden.ml-3', container)!.append(
-			<div className="rgh-local-user-time mt-2 text-gray text-small">
-				{clock()} {placeholder}
-			</div>
-		);
+		// Adding the time element might change the height of the hovercard and thus break its positioning
+		const hovercardHeight = hovercard.offsetHeight;
+		select('div.d-flex.mt-3 > div.overflow-hidden.ml-3', hovercard)!.append(container);
 
-		if (container.matches('.Popover-message--bottom-right, .Popover-message--bottom-left')) {
-			const diff = container.offsetHeight - containerHeight;
+		if (hovercard.matches('.Popover-message--bottom-right, .Popover-message--bottom-left')) {
+			const diff = hovercard.offsetHeight - hovercardHeight;
 			if (diff > 0) {
-				const parent = container.parentElement!;
+				const parent = hovercard.parentElement!;
 				const top = parseInt(parent.style.top, 10);
 				parent.style.top = `${top - diff}px`;
 			}
 		}
 
-		const offset = await loadTimezoneOffset(login);
-		if (typeof offset === 'undefined') {
+		const date = await loadLastCommitDate(login);
+		if (!date) {
 			placeholder.textContent = '-';
+			container.title = 'No commit found';
 			return;
 		}
 
-		const date = new Date();
-		date.setMinutes(offset + date.getTimezoneOffset() + date.getMinutes());
-		placeholder.textContent = timeFormatter.format(date);
+		const now = new Date();
+		now.setMinutes(parseOffset(date) + now.getTimezoneOffset() + now.getMinutes());
+		placeholder.textContent = timeFormatter.format(now);
+		container.title = `Last commit found: ${date}`;
 	});
 }
 
