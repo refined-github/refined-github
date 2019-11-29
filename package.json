@@ -35,7 +35,7 @@
 		"intervalometer": "^1.0.5",
 		"linkify-issues": "2.0.0-nolookbehind",
 		"linkify-urls": "3.1.0-nolookbehind",
-		"mem": "^5.1.1",
+		"mem": "^6.0.1",
 		"onetime": "^5.0.0",
 		"p-filter": "^2.1.0",
 		"select-dom": "^5.1.0",

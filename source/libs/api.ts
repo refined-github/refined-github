@@ -121,6 +121,8 @@ export const v3 = mem(async (
 	}
 
 	throw await getError(apiResponse);
+}, {
+	cacheKey: JSON.stringify
 });
 
 export const v3paginated = async function * (
@@ -181,6 +183,8 @@ export const v4 = mem(async (
 	}
 
 	throw await getError(apiResponse as JsonObject);
+}, {
+	cacheKey: JSON.stringify
 });
 
 export async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError> {

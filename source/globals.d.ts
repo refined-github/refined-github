@@ -24,12 +24,6 @@ interface Window {
 	content: GlobalFetch;
 }
 
-// Drop after https://github.com/sindresorhus/p-memoize/issues/9
-declare module 'mem' {
-	function mem<T = VoidFunction>(fn: T, options?: AnyObject): T;
-	export = mem;
-}
-
 declare module 'size-plugin';
 
 // Custom UI events specific to RGH
