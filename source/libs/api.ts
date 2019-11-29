@@ -40,6 +40,7 @@ interface GraphQLResponse {
 
 interface RestResponse extends AnyObject {
 	httpStatus: number;
+	headers: Headers;
 	ok: boolean;
 }
 
@@ -65,6 +66,7 @@ interface GHRestApiOptions {
 	method?: 'GET' | 'POST' | 'PUT';
 	body?: undefined | JsonObject;
 	headers?: HeadersInit;
+	json?: boolean;
 }
 
 interface GHGraphQLApiOptions {
@@ -74,7 +76,8 @@ interface GHGraphQLApiOptions {
 const v3defaults: GHRestApiOptions = {
 	ignoreHTTPStatus: false,
 	method: 'GET',
-	body: undefined
+	body: undefined,
+	json: true
 };
 
 const v4defaults: GHGraphQLApiOptions = {
@@ -85,10 +88,16 @@ export const v3 = mem(async (
 	query: string,
 	options: GHRestApiOptions = v3defaults
 ): Promise<RestResponse> => {
-	const {ignoreHTTPStatus, method, body, headers} = {...v3defaults, ...options};
+	const {ignoreHTTPStatus, method, body, headers, json} = {...v3defaults, ...options};
 	const {personalToken} = await settings;
 
-	const response = await fetch(api3 + query, {
+	if (query.startsWith('/')) {
+		throw new TypeError('The query parameter must not start with a slash.');
+	}
+
+	const url = new URL(query, api3);
+	console.log('Will fetch', url.href); // TODO: remove temporary logging
+	const response = await fetch(url.href, {
 		method,
 		body: body && JSON.stringify(body),
 		headers: {
@@ -101,17 +110,34 @@ export const v3 = mem(async (
 	const textContent = await response.text();
 
 	// The response might just be a 200 or 404, it's the REST equivalent of `boolean`
-	const apiResponse: JsonObject = textContent.length > 0 ? JSON.parse(textContent) : {};
+	const apiResponse: JsonObject = (json && textContent.length > 0) ? JSON.parse(textContent) : {textContent};
 
 	if (response.ok || ignoreHTTPStatus) {
 		return Object.assign(apiResponse, {
 			httpStatus: response.status,
+			headers: response.headers,
 			ok: response.ok
 		});
 	}
 
 	throw await getError(apiResponse);
 });
+
+export const v3paginated = async function * (
+	query: string,
+	options?: GHRestApiOptions
+): AsyncGenerator<AsyncReturnType<typeof v3>> {
+	while (true) {
+		// eslint-disable-next-line no-await-in-loop
+		const response = await v3(query, options);
+		yield response;
+
+		[, query] = /<([^>]+)>; rel="next"/.exec(response.headers.get('link')!) ?? [];
+		if (!query) {
+			return;
+		}
+	}
+};
 
 export const v4 = mem(async (
 	query: string,
@@ -157,7 +183,7 @@ export const v4 = mem(async (
 	throw await getError(apiResponse as JsonObject);
 });
 
-async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError> {
+export async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError> {
 	const {personalToken} = await settings;
 
 	if ((apiResponse.message as string)?.includes('API rate limit exceeded')) {
