@@ -97,7 +97,7 @@ function init(): void {
 			return;
 		}
 
-		const placeholder = <span>Loading timezone…</span>;
+		const placeholder = <span>Guessing local time…</span>;
 		const container = <div className="rgh-local-user-time mt-2 text-gray text-small">
 			{clock()} {placeholder}
 		</div>;
@@ -118,14 +118,14 @@ function init(): void {
 		const date = await getLastCommit(login);
 		if (!date) {
 			placeholder.textContent = '-';
-			container.title = 'No commit found';
+			container.title = 'Timezone couldn’t be determined from their last commits';
 			return;
 		}
 
 		const now = new Date();
 		now.setMinutes(parseOffset(date) + now.getTimezoneOffset() + now.getMinutes());
 		placeholder.textContent = timeFormatter.format(now);
-		container.title = `Last commit found: ${date}`;
+		container.title = `Timezone guessed from their last commit: ${date}`;
 	});
 }
 
