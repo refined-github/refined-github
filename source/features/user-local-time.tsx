@@ -27,7 +27,7 @@ async function loadCommitPatch(commitUrl: string): Promise<string> {
 	return textContent;
 }
 
-async function loadLastCommitPatch(login: string): Promise<string | void> {
+async function loadLastCommitDate(login: string): Promise<string | void> {
 	for await (const page of api.v3paginated(`users/${login}/events`)) {
 		for (const event of page as any) { // eslint-disable-line @typescript-eslint/no-explicit-any
 			if (event.type !== 'PushEvent') {
@@ -56,7 +56,7 @@ async function loadLastCommitPatch(login: string): Promise<string | void> {
 				const patch = await loadCommitPatch(commit.url);
 				// The patch of merge commits doesn't include the commit sha so the date might be from another user
 				if (patch.startsWith(`From ${commit.sha} `)) {
-					return patch;
+					return /^Date: (.*)$/m.exec(patch)?.[1];
 				}
 			}
 		}
@@ -69,17 +69,7 @@ const parseOffset = (date: string): number => {
 	const hours = parseInt(hourString, 10);
 	const minutes = parseInt(minuteString, 10);
 	return (hours * 60) + (hours < 0 ? -minutes : minutes);
-};
-
-const loadLastCommitDate = mem(async (login: string): Promise<string | void> => {
-	const patch = await loadLastCommitPatch(login);
-	if (!patch) {
-		return;
-	}
-
-	const [, date] = (/^Date: (.*)$/m).exec(patch) ?? [];
-	return date;
-});
+}
 
 const getLastCommit = mem(async (login: string): Promise<string | false> => {
 	const key = `${__featureName__}:${login}`;
