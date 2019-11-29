@@ -38,6 +38,7 @@
 		"mem": "^6.0.1",
 		"onetime": "^5.0.0",
 		"p-filter": "^2.1.0",
+		"p-memoize": "^4.0.0-1",
 		"select-dom": "^5.1.0",
 		"shorten-repo-url": "^1.5.3",
 		"tiny-version-compare": "^1.0.0",

@@ -1,7 +1,8 @@
+import cache from 'webext-storage-cache';
 import React from 'dom-chef';
 import select from 'select-dom';
+import pMemoize from 'p-memoize';
 import elementReady from 'element-ready';
-import cache from 'webext-storage-cache';
 import features from '../libs/features';
 import * as api from '../libs/api';
 import * as icons from '../libs/icons';
@@ -9,26 +10,17 @@ import {getRepoURL, getRepoGQL} from '../libs/utils';
 import {isRepoRoot, isReleasesOrTags} from '../libs/page-detect';
 
 const repoUrl = getRepoURL();
-const repoKey = `releases-count:${repoUrl}`;
+const cacheKey = `releases-count:${repoUrl}`;
+let cached: Promise<number | void>;
 
-let cached: Promise<number | undefined>;
-
-async function updateReleasesCount(): Promise<number | undefined> {
-	// If it’s available on the current page, always serve it fresh rather than from cache
+async function parseCountFromDom(): Promise<number | void> {
 	if (isRepoRoot()) {
 		const releasesCountElement = await elementReady('.numbers-summary a[href$="/releases"] .num');
-		const releasesCount = Number(releasesCountElement ? releasesCountElement.textContent!.replace(/,/g, '') : 0);
-		cache.set(repoKey, releasesCount, 3);
-		return releasesCount;
+		return Number(releasesCountElement ? releasesCountElement.textContent!.replace(/,/g, '') : 0);
 	}
+}
 
-	// Check the cache
-	const cachedValue = await cache.get<number>(repoKey);
-	if (typeof cachedValue !== 'undefined') {
-		return cachedValue;
-	}
-
-	// As a last resort, query the API
+async function fetchFromApi(): Promise<number | undefined> {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			refs(refPrefix: "refs/tags/") {
@@ -37,12 +29,19 @@ async function updateReleasesCount(): Promise<number | undefined> {
 		}
 	`);
 
-	cache.set(repoKey, repository.refs.totalCount, 3);
-
 	return repository.refs.totalCount;
 }
 
+const getReleaseCount = pMemoize(async () => parseCountFromDom() ?? await fetchFromApi(), {
+	cache,
+	cacheKey: () => cacheKey
+});
+
 async function init(): Promise<false | void> {
+	if (isRepoRoot()) {
+		await cache.delete(cacheKey);
+	}
+
 	await elementReady('.pagehead + *'); // Wait for the tab bar to be loaded
 	const count = await cached;
 	if (count === 0) {
@@ -58,6 +57,7 @@ async function init(): Promise<false | void> {
 	);
 	select('.reponav-dropdown')!.before(releasesTab);
 
+	// Update "selected" tab mark
 	if (isReleasesOrTags()) {
 		const selected = select('.reponav-item.selected');
 		if (selected) {
@@ -92,6 +92,6 @@ features.add({
 	],
 	init() {
 		// Get as soon as possible, to have it ready before the first paint
-		cached = updateReleasesCount();
+		cached = getReleaseCount();
 	}
 });

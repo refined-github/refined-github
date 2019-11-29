@@ -1,9 +1,9 @@
 /* eslint-disable no-await-in-loop */
 
-import mem from 'mem';
 import cache from 'webext-storage-cache';
 import React from 'dom-chef';
 import select from 'select-dom';
+import pMemoize from 'p-memoize';
 import features from '../libs/features';
 import * as api from '../libs/api';
 import * as icons from '../libs/icons';
@@ -32,7 +32,7 @@ async function loadCommitPatch(commitUrl: string): Promise<string> {
 	return textContent;
 }
 
-async function loadLastCommitDate(login: string): Promise<string | void> {
+const getLastCommitDate = pMemoize(async (login: string): Promise<string | void> => {
 	for await (const page of api.v3paginated(`users/${login}/events`)) {
 		for (const event of page as any) { // eslint-disable-line @typescript-eslint/no-explicit-any
 			if (event.type !== 'PushEvent') {
@@ -65,7 +65,10 @@ async function loadLastCommitDate(login: string): Promise<string | void> {
 			}
 		}
 	}
-}
+}, {
+	cache,
+	cacheKey: login => __featureName__ + ':' + login
+});
 
 function parseOffset(date: string): number {
 	const [, hourString, minuteString] = (/([-+]\d\d)(\d\d)$/).exec(date) ?? [];
@@ -74,19 +77,6 @@ function parseOffset(date: string): number {
 	const minutes = parseInt(minuteString, 10);
 	return (hours * 60) + (hours < 0 ? -minutes : minutes);
 }
-
-const getLastCommit = mem(async (login: string): Promise<string | false> => {
-	const key = `${__featureName__}:${login}`;
-
-	const cached = await cache.get<string | false>(key);
-	if (typeof cached !== 'undefined') {
-		return cached;
-	}
-
-	const date = await loadLastCommitDate(login) || false;
-	await cache.set(key, date, 10);
-	return date;
-});
 
 function init(): void {
 	const hovercard = select('.js-hovercard-content > .Popover-message')!;
@@ -121,7 +111,8 @@ function init(): void {
 			}
 		}
 
-		const date = await getLastCommit(login);
+		debugger;
+		const date = await getLastCommitDate(login);
 		if (!date) {
 			placeholder.textContent = '-';
 			container.title = 'Timezone couldn’t be determined from their last commits';
