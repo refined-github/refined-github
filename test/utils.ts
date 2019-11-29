@@ -6,7 +6,8 @@ import {
 	getRepoPath,
 	getReference,
 	parseTag,
-	compareNames
+	compareNames,
+	sliceAsyncIterator
 } from '../source/libs/utils';
 
 test('getDiscussionNumber', t => {
@@ -193,6 +194,38 @@ test('parseTag', t => {
 	t.deepEqual(parseTag('hi@1.2.3'), {namespace: 'hi', version: '1.2.3'});
 	t.deepEqual(parseTag('hi/you@1.2.3'), {namespace: 'hi/you', version: '1.2.3'});
 	t.deepEqual(parseTag('@hi/you@1.2.3'), {namespace: '@hi/you', version: '1.2.3'});
+});
+
+test('sliceAsyncIterator', async t => {
+	t.plan(18);
+	let index;
+	const baseTruth = [0, 1, 2, 3, 4, 5];
+	async function * asyncGenerator(): AsyncIterable<number> {
+		for (const item of baseTruth) {
+			yield item;
+		}
+	}
+
+	index = 0;
+	for await (const item of asyncGenerator()) {
+		t.is(item, index++);
+	}
+
+	t.is(index, baseTruth.length);
+
+	index = 0;
+	for await (const item of sliceAsyncIterator(asyncGenerator(), index)) {
+		t.is(item, index++);
+	}
+
+	t.is(index, baseTruth.length);
+
+	index = 3;
+	for await (const item of sliceAsyncIterator(asyncGenerator(), index)) {
+		t.is(item, index++);
+	}
+
+	t.is(index, baseTruth.length);
 });
 
 test('compareNames', t => {

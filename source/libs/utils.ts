@@ -67,6 +67,17 @@ export const getReference = (): string | undefined => {
 	return undefined;
 };
 
+export async function * sliceAsyncIterator<T>(iterator: AsyncIterable<T>, start = 0): AsyncIterable<T> {
+	let i = 0;
+	for await (const x of iterator) {
+		if (i >= start) {
+			yield x;
+		}
+
+		i++;
+	}
+}
+
 export const parseTag = (tag: string): {version: string; namespace: string} => {
 	const [, namespace = '', version = ''] = /(?:(.*)@)?([^@]+)/.exec(tag) ?? [];
 	return {namespace, version};
