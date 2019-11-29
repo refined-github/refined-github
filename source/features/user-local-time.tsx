@@ -10,6 +10,11 @@ import {clock} from '../libs/icons';
 import * as api from '../libs/api';
 import {getUsername} from '../libs/utils';
 
+interface Commit {
+	url: string;
+	sha: string;
+}
+
 const timeFormatter = new Intl.DateTimeFormat('en-US', {
 	hour: 'numeric',
 	minute: 'numeric',
@@ -35,7 +40,7 @@ async function loadLastCommitDate(login: string): Promise<string | void> {
 			}
 
 			// Start from the latest commit, which is the last one in the list
-			for (const commit of event.payload.commits.reverse()) {
+			for (const commit of event.payload.commits.reverse() as Commit[]) {
 				const response = await api.v3(commit.url, {ignoreHTTPStatus: true});
 
 				// Commits might not exist anymore even if they are listed in the events
