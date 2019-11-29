@@ -81,21 +81,18 @@ const loadLastCommitDate = mem(async (login: string): Promise<string | void> => 
 	return date;
 });
 
-async function getLastCommit(login: string): Promise<string | void> {
+const getLastCommit = mem(async (login: string): Promise<string | false> => {
 	const key = `${__featureName__}:${login}`;
 
-	const cached = await cache.get<string>(key);
-	if (cached) {
+	const cached = await cache.get<string | false>(key);
+	if (typeof cached !== 'undefined') {
 		return cached;
 	}
 
-	const date = await loadLastCommitDate(login);
-	if (date) {
-		await cache.set(key, date, 10);
-	}
-
+	const date = await loadLastCommitDate(login) || false;
+	await cache.set(key, date, 10);
 	return date;
-}
+});
 
 function init(): void {
 	const hovercard = select('.js-hovercard-content > .Popover-message')!;
