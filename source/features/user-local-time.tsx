@@ -1,13 +1,13 @@
 /* eslint-disable no-await-in-loop */
 
 import mem from 'mem';
+import cache from 'webext-storage-cache';
 import React from 'dom-chef';
 import select from 'select-dom';
-import cache from 'webext-storage-cache';
 import features from '../libs/features';
-import observeEl from '../libs/simplified-element-observer';
-import {clock} from '../libs/icons';
 import * as api from '../libs/api';
+import * as icons from '../libs/icons';
+import observeEl from '../libs/simplified-element-observer';
 import {getUsername} from '../libs/utils';
 
 interface Commit {
@@ -42,7 +42,6 @@ async function loadLastCommitDate(login: string): Promise<string | void> {
 			// Start from the latest commit, which is the last one in the list
 			for (const commit of event.payload.commits.reverse() as Commit[]) {
 				const response = await api.v3(commit.url, {ignoreHTTPStatus: true});
-
 				// Commits might not exist anymore even if they are listed in the events
 				// This can happen if the repository was deleted so we can also skip all other commits
 				if (response.httpStatus === 404) {
@@ -68,7 +67,7 @@ async function loadLastCommitDate(login: string): Promise<string | void> {
 	}
 }
 
-const parseOffset = (date: string): number => {
+function parseOffset(date: string): number {
 	const [, hourString, minuteString] = (/([-+]\d\d)(\d\d)$/).exec(date) ?? [];
 
 	const hours = parseInt(hourString, 10);
@@ -103,9 +102,11 @@ function init(): void {
 		}
 
 		const placeholder = <span>Guessing local time…</span>;
-		const container = <div className="rgh-local-user-time mt-2 text-gray text-small">
-			{clock()} {placeholder}
-		</div>;
+		const container = (
+			<div className="rgh-local-user-time mt-2 text-gray text-small">
+				{icons.clock()} {placeholder}
+			</div>
+		);
 
 		// Adding the time element might change the height of the hovercard and thus break its positioning
 		const hovercardHeight = hovercard.offsetHeight;
