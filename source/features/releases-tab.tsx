@@ -10,7 +10,6 @@ import {isRepoRoot, isReleasesOrTags} from '../libs/page-detect';
 
 const repoUrl = getRepoURL();
 const cacheKey = `releases-count:${repoUrl}`;
-let cached: Promise<number | void>;
 
 async function parseCountFromDom(): Promise<number | void> {
 	if (isRepoRoot()) {
@@ -37,12 +36,17 @@ const getReleaseCount = cache.function(async () => parseCountFromDom() ?? fetchF
 });
 
 async function init(): Promise<false | void> {
+	// Always prefer the information in the DOM
 	if (isRepoRoot()) {
 		await cache.delete(cacheKey);
 	}
 
-	await elementReady('.pagehead + *'); // Wait for the tab bar to be loaded
-	const count = await cached;
+	// TODO: currently `elementReady` is useless because `onAjaxedPages` always awaits domReady
+	const [count] = await Promise.all([
+		getReleaseCount(),
+		elementReady('.pagehead + *')
+	]);
+
 	if (count === 0) {
 		return false;
 	}
@@ -80,17 +84,4 @@ features.add({
 		'g r': 'Go to Releases'
 	},
 	init
-});
-
-features.add({
-	id: __featureName__,
-	description: false,
-	screenshot: false,
-	include: [
-		features.isRepo
-	],
-	init() {
-		// Get as soon as possible, to have it ready before the first paint
-		cached = getReleaseCount();
-	}
 });
