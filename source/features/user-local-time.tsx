@@ -66,7 +66,7 @@ const getLastCommitDate = cache.function(async (login: string): Promise<string |
 	}
 }, {
 	expiration: 10,
-	cacheKey: login => __featureName__ + ':' + login
+	cacheKey: ([login]) => __featureName__ + ':' + login
 });
 
 function parseOffset(date: string): number {
@@ -110,7 +110,6 @@ function init(): void {
 			}
 		}
 
-		debugger;
 		const date = await getLastCommitDate(login);
 		if (!date) {
 			placeholder.textContent = '-';

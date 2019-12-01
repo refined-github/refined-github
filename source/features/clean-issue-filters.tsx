@@ -31,7 +31,7 @@ const getCounts = cache.function(async (): Promise<Counts> => {
 }, {
 	expiration: 3,
 	cacheKey: () => __featureName__ + ':' + getRepoURL()
-})
+});
 
 async function init(): Promise<void> {
 	const {repoProjectCount, orgProjectCount, milestoneCount} = await getCounts();
