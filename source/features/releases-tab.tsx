@@ -1,7 +1,6 @@
 import cache from 'webext-storage-cache';
 import React from 'dom-chef';
 import select from 'select-dom';
-import elementReady from 'element-ready';
 import features from '../libs/features';
 import * as api from '../libs/api';
 import * as icons from '../libs/icons';
@@ -41,12 +40,7 @@ async function init(): Promise<false | void> {
 		await cache.delete(cacheKey);
 	}
 
-	// TODO: currently `elementReady` is useless because `onAjaxedPages` always awaits domReady
-	const [count] = await Promise.all([
-		getReleaseCount(),
-		elementReady('.pagehead + *')
-	]);
-
+	const count = await getReleaseCount();
 	if (count === 0) {
 		return false;
 	}
