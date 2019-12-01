@@ -1,6 +1,5 @@
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import pMemoize from 'p-memoize';
 import features from '../libs/features';
 import * as api from '../libs/api';
 import {getOwnerAndRepo, getRepoURL, getRepoGQL} from '../libs/utils';
@@ -11,7 +10,7 @@ type Counts = {
 	milestoneCount: number;
 };
 
-const getCounts = pMemoize(async (): Promise<Counts> => {
+const getCounts = cache.function(async (): Promise<Counts> => {
 	const {repository, organization} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			projects { totalCount }
@@ -30,7 +29,7 @@ const getCounts = pMemoize(async (): Promise<Counts> => {
 		milestoneCount: repository.milestones.totalCount
 	};
 }, {
-	cache,
+	expiration: 3,
 	cacheKey: () => __featureName__ + ':' + getRepoURL()
 })
 

@@ -1,6 +1,5 @@
 import select from 'select-dom';
 import cache from 'webext-storage-cache';
-import pMemoize from 'p-memoize';
 import * as api from './api';
 import {getRepoURL} from './utils';
 
@@ -32,7 +31,6 @@ async function fetchFromApi(): Promise<string> {
 	return response.default_branch as string;
 }
 
-export default pMemoize(async () => parseBranchFromDom() ?? await fetchFromApi(), {
-	cache,
+export default cache.function(async () => parseBranchFromDom() ?? await fetchFromApi(), {
 	cacheKey: repo => 'default-branch:' + repo
 });

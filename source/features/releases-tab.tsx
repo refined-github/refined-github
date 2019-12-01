@@ -1,7 +1,6 @@
 import cache from 'webext-storage-cache';
 import React from 'dom-chef';
 import select from 'select-dom';
-import pMemoize from 'p-memoize';
 import elementReady from 'element-ready';
 import features from '../libs/features';
 import * as api from '../libs/api';
@@ -32,8 +31,8 @@ async function fetchFromApi(): Promise<number | undefined> {
 	return repository.refs.totalCount;
 }
 
-const getReleaseCount = pMemoize(async () => parseCountFromDom() ?? await fetchFromApi(), {
-	cache,
+const getReleaseCount = cache.function(async () => parseCountFromDom() ?? await fetchFromApi(), {
+	expiration: 3,
 	cacheKey: () => cacheKey
 });
 

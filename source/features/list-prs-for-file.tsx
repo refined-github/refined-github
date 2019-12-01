@@ -8,7 +8,6 @@ import {isSingleFile} from '../libs/page-detect';
 import getDefaultBranch from '../libs/get-default-branch';
 import {groupSiblings} from '../libs/group-buttons';
 import * as icons from '../libs/icons';
-import pMemoize from 'p-memoize';
 
 async function init(): Promise<void> {
 	// `clipboard-copy` on blob page, `#blob-edit-path` on edit page
@@ -50,7 +49,7 @@ async function init(): Promise<void> {
 /**
 @returns prsByFile {"filename1": [10, 3], "filename2": [2]}
 */
-const getPrsByFile = pMemoize(async (): Promise<Record<string, number[]>> => {
+const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			pullRequests(
@@ -87,7 +86,7 @@ const getPrsByFile = pMemoize(async (): Promise<Record<string, number[]>> => {
 
 	return files;
 }, {
-	cache,
+	expiration: 3,
 	cacheKey: () => `list-prs-for-file:${getRepoURL()}`
 });
 

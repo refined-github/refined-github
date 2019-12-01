@@ -38,7 +38,6 @@
 		"mem": "^6.0.1",
 		"onetime": "^5.0.0",
 		"p-filter": "^2.1.0",
-		"p-memoize": "^4.0.0-1",
 		"select-dom": "^5.1.0",
 		"shorten-repo-url": "^1.5.3",
 		"tiny-version-compare": "^1.0.0",
@@ -48,7 +47,7 @@
 		"webext-dynamic-content-scripts": "^6.0.3",
 		"webext-options-sync": "^1.0.0-8",
 		"webext-permissions-events-polyfill": "^1.0.1",
-		"webext-storage-cache": "^1.0.2",
+		"webext-storage-cache": "^2.0.0-0",
 		"webextension-polyfill": "^0.5.0",
 		"zip-text-nodes": "^1.0.0-0"
 	},

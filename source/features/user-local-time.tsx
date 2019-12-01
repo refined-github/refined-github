@@ -3,7 +3,6 @@
 import cache from 'webext-storage-cache';
 import React from 'dom-chef';
 import select from 'select-dom';
-import pMemoize from 'p-memoize';
 import features from '../libs/features';
 import * as api from '../libs/api';
 import * as icons from '../libs/icons';
@@ -32,7 +31,7 @@ async function loadCommitPatch(commitUrl: string): Promise<string> {
 	return textContent;
 }
 
-const getLastCommitDate = pMemoize(async (login: string): Promise<string | void> => {
+const getLastCommitDate = cache.function(async (login: string): Promise<string | void> => {
 	for await (const page of api.v3paginated(`users/${login}/events`)) {
 		for (const event of page as any) { // eslint-disable-line @typescript-eslint/no-explicit-any
 			if (event.type !== 'PushEvent') {
@@ -66,7 +65,7 @@ const getLastCommitDate = pMemoize(async (login: string): Promise<string | void>
 		}
 	}
 }, {
-	cache,
+	expiration: 10,
 	cacheKey: login => __featureName__ + ':' + login
 });
 
