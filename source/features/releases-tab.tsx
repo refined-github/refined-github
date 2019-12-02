@@ -10,9 +10,9 @@ import {isRepoRoot, isReleasesOrTags} from '../libs/page-detect';
 const repoUrl = getRepoURL();
 const cacheKey = `releases-count:${repoUrl}`;
 
-async function parseCountFromDom(): Promise<number | void> {
+function parseCountFromDom(): number | void {
 	if (isRepoRoot()) {
-		const releasesCountElement = await elementReady('.numbers-summary a[href$="/releases"] .num');
+		const releasesCountElement = select('.numbers-summary a[href$="/releases"] .num');
 		return Number(releasesCountElement ? releasesCountElement.textContent!.replace(/,/g, '') : 0);
 	}
 }
