@@ -34,7 +34,7 @@ function getPRConfig(prIcon: Element): PRConfig {
 		repo,
 		number,
 		link,
-		key: api.escapeKey(`${user}_${repo}_${number}`),
+		key: api.escapeKey(`${user}_${repo}_${number}`)
 	};
 }
 
