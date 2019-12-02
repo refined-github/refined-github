@@ -46,7 +46,7 @@ function appendLineInfo(lineHandle: CodeMirror.LineHandle, text: string): void {
 // Create and add widget if not already in the document
 function addWidget(): void {
 	editor.eachLine(lineHandle => {
-		if (lineHandle.widgets.length > 0) {
+		if (Array.isArray(lineHandle.widgets) && lineHandle.widgets.length > 0) {
 			return;
 		}
 

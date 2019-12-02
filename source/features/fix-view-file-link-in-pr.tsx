@@ -21,12 +21,17 @@ function handleMenuOpening(event: DelegateEvent): void {
 		return;
 	}
 
-	const branch = select('.head-ref + span clipboard-copy')!.getAttribute('value')!;
+	// Looks like `https://github.com/kidonng/refined-github/tree/fix-console-error`
+	const headReferenceLink = select<HTMLAnchorElement>('.head-ref a')!;
+	const branchPathnameParts = headReferenceLink.pathname.split('/');
+	branchPathnameParts[3] = 'blob'; // This replaces `tree`
+	branchPathnameParts[4] = headReferenceLink.title.replace(/^[^:]+:/, ''); // Ensures that the branch name is attached even when it links to the default branch
 
+	// Looks like `https://github.com/sindresorhus/refined-github/blob/cddac8d7e158c336552aa694a4698d4764754b64/source/features/embed-gist-via-iframe.tsx`
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
-	const pathnameParts = viewFile.pathname.split('/');
-	pathnameParts[4] = branch;
-	viewFile.pathname = pathnameParts.join('/');
+	const viewFilePathnameParts = viewFile.pathname.split('/');
+	viewFilePathnameParts.splice(0, 5, ...branchPathnameParts); // Replaces `user/repo/blob/sha` with `forkuser/repo/blob/branch`
+	viewFile.pathname = viewFilePathnameParts.join('/');
 }
 
 function init(): void {

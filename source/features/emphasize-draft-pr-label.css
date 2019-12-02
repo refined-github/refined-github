@@ -1,0 +1,15 @@
+span[aria-label='Open draft pull request'] {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 1.6em;
+	height: 1.6em;
+	margin-left: -0.4em;
+	margin-right: -0.1em;
+	background: #bbb;
+	border-radius: 50%;
+}
+
+span[aria-label='Open draft pull request'] svg {
+	color: #fff !important;
+}
