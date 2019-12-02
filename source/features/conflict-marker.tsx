@@ -38,7 +38,7 @@ function getPRConfig(prLink: HTMLAnchorElement): PRConfig {
 }
 
 async function init(): Promise<false | void> {
-	const prLinks = select.all<HTMLAnchorElement>('.js-issue-row .js-navigation-open');
+	const prLinks = select.all<HTMLAnchorElement>('.js-issue-row .js-navigation-open[data-hovercard-type="pull_request"]');
 	if (prLinks.length === 0) {
 		return false;
 	}
@@ -67,7 +67,7 @@ features.add({
 	screenshot:
 		'https://user-images.githubusercontent.com/9092510/62777551-2affe500-baae-11e9-8ba4-67f078347913.png',
 	include: [
-		features.isPRList
+		features.isDiscussionList
 	],
 	load: features.onAjaxedPages,
 	init
