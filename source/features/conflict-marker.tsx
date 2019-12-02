@@ -26,24 +26,25 @@ function buildQuery(prs: PRConfig[]): string {
 	return prs.map(createQueryFragment).join('\n');
 }
 
-function getPRConfig(prLink: HTMLAnchorElement): PRConfig {
-	const [, user, repo, , number] = prLink.pathname.split('/');
+function getPRConfig(prIcon: Element): PRConfig {
+	const link = prIcon.closest('.js-navigation-item')!.querySelector<HTMLAnchorElement>('.js-navigation-open')!;
+	const [, user, repo, , number] = link.pathname.split('/');
 	return {
 		user,
 		repo,
 		number,
+		link,
 		key: api.escapeKey(`${user}_${repo}_${number}`),
-		link: prLink
 	};
 }
 
 async function init(): Promise<false | void> {
-	const prLinks = select.all<HTMLAnchorElement>('.js-issue-row .js-navigation-open[data-hovercard-type="pull_request"]');
-	if (prLinks.length === 0) {
+	const openPrIcons = select.all('.js-issue-row .octicon-git-pull-request.open');
+	if (openPrIcons.length === 0) {
 		return false;
 	}
 
-	const prs = prLinks.map(getPRConfig);
+	const prs = openPrIcons.map(getPRConfig);
 	const data = await api.v4(buildQuery(prs));
 
 	for (const pr of prs) {
