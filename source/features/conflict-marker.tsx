@@ -1,3 +1,4 @@
+import './conflict-marker.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as api from '../libs/api';
@@ -50,7 +51,7 @@ async function init(): Promise<false | void> {
 		if (data[pr.key].pullRequest.mergeable === 'CONFLICTING') {
 			pr.link.after(
 				<a
-					className="tooltipped tooltipped-n m-0 text-gray mr-2"
+					className="rgh-conflict-marker tooltipped tooltipped-n m-0 text-gray mr-1"
 					aria-label="This PR has conflicts that must be resolved"
 					href={`${pr.link.pathname}#partial-pull-merging`}
 				>
