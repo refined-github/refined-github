@@ -1,11 +1,15 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import {wrap} from '../libs/dom-utils';
+import {wrap, isEditable} from '../libs/dom-utils';
 import features from '../libs/features';
 
 function addLocation(baseElement: HTMLElement): void {
 	for (const {nextElementSibling, nextSibling} of select.all('.octicon-location', baseElement)) {
 		const location = nextElementSibling || nextSibling!; // `nextSibling` alone might point to an empty TextNode before an element, if there’s an element
+		if (isEditable(location)) {
+			continue;
+		}
+
 		const locationName = location.textContent!.trim();
 		const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(locationName)}`;
 
