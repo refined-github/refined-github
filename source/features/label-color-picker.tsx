@@ -22,20 +22,27 @@ function init(): void {
   select('.btn-link')!.after(
     <div className='rgh-follower-badge'>Follows you</div>
   );
-  console.log(select.all('.js-new-label-color-input'))
+  // console.log(select.all('.js-new-label-color-input'))
   for (const field of select.all('.js-new-label-color-input')) {
     // console.log('begin iteration')
     // console.log(field)
     //field.type = 'color';
     // field.after(<input type="color" className={field.className} style={{width:'4em'}} /><p>asddsa</p>);
-    field.after(<input type="color" className={field.className} style={{width:'4em'}} />);
+    console.log('original_element: ')
+    console.log(field)
+    console.log(field.value)
+    const new_element=<input type="color" className={field.className} style={{width:'4em'}} value={field.value} />
+    console.log('new element: ')
+    console.log(new_element)
+    console.log(new_element.value)
+    field.after(new_element);
     // field.after(<input type="color" style={{width:'4em'}} />);
     // console.log('field type has changed')
     // console.log(field)
     // console.log('end iteration')
   }
   delegate('.js-new-label-color-input', 'input', firstDelegate);
-  delegate('.js-new-label-color-input + input', 'input', secondDelegate);
+  // delegate('.js-new-label-color-input + input', 'input', secondDelegate);
   console.log("Ultimo")
 }
 
