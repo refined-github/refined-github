@@ -8,6 +8,7 @@ function log() {
 }
 
 async function firstDelegate(event: DelegateEvent<Event, HTMLButtonElement>): Promise<void> {
+  console.log(event.delegateTarget);
   event.delegateTarget.nextElementSibling.value = event.delegateTarget.value
   // event.delegateTarget.value
   // event.delegateTarget.nextElementSibling.value 
@@ -36,6 +37,7 @@ async function firstDelegate(event: DelegateEvent<Event, HTMLButtonElement>): Pr
 }
 
 async function secondDelegate(event: DelegateEvent<Event, HTMLButtonElement>): Promise<void> {
+  console.log(event.delegateTarget);
   event.delegateTarget.previousElementSibling.value = event.delegateTarget.value
 }
 
