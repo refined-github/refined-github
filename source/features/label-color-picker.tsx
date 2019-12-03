@@ -10,30 +10,6 @@ function log() {
 async function firstDelegate(event: DelegateEvent<Event, HTMLButtonElement>): Promise<void> {
   console.log(event.delegateTarget);
   event.delegateTarget.nextElementSibling.value = event.delegateTarget.value
-  // event.delegateTarget.value
-  // event.delegateTarget.nextElementSibling.value 
-  // event.delegateTarget.nextElementSibling.value = event.delegateTarget.value;
-  // event.delegateTarget.nextElementSibling.value = event.delegateTarget.value;
-  /*
-	const checkbox = getCheckbox();
-	if (checkbox?.checked) {
-		event.preventDefault();
-
-		disableForm();
-		const currentConfirmation = Symbol('');
-		waiting = currentConfirmation;
-		const status = await prCiStatus.wait();
-
-		// Ensure that it wasn't cancelled/changed in the meanwhile
-		if (waiting === currentConfirmation) {
-			disableForm(false);
-
-			if (status === prCiStatus.SUCCESS) {
-				event.delegateTarget.click();
-			}
-		}
-  }
-  */
 }
 
 async function secondDelegate(event: DelegateEvent<Event, HTMLButtonElement>): Promise<void> {
@@ -43,13 +19,6 @@ async function secondDelegate(event: DelegateEvent<Event, HTMLButtonElement>): P
 
 function init(): void {
   console.log('init: label-color-picker')
-  // if (select.exists('.btn-link')) {
-  //   console.log('viento! detectado el boton')
-  // }
-	// // select('.btn-link')!.addEventListener('click', log);
-  // // );
-	// // select('.btn-link')!.addEventListener('click', log);
-  // select('.btn-link:not(.is-placeholder)')!.after(
   select('.btn-link')!.after(
     <div className='rgh-follower-badge'>Follows you</div>
   );
@@ -67,14 +36,6 @@ function init(): void {
   }
   delegate('.js-new-label-color-input', 'input', firstDelegate);
   delegate('.js-new-label-color-input + input', 'input', secondDelegate);
-  /*
-  delegate('.js-new-label-color-input', 'input', event:any => {
-    event.delegateTarget.nextElementSibling.value = event.delegateTarget.value;
-  });
-  delegate('.js-new-label-color-input + input', 'input', event => {
-    event.delegateTarget.previousElementSibling.value = event.delegateTarget.value;
-  });
-  */
   console.log("Ultimo")
 }
 
