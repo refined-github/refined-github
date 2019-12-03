@@ -15,6 +15,7 @@ function init () {
 */
 
 function init(): void {
+  console.log("asd")
 	select('.btn')!.addEventListener('click', log);
 }
 function deinit(): void {
@@ -29,7 +30,6 @@ features.add({
 		'↑': 'Edit your last comment'
 	},
 	include: [
-		features.isUserProfile,
 		features.isRepo
 	],
 	exclude: [
