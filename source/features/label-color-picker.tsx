@@ -21,13 +21,13 @@ async function colorPaletteDelegateEvent(event: DelegateEvent<Event, HTMLButtonE
   console.log(event.delegateTarget.value);
   console.log(event.delegateTarget.previousElementSibling);
   event.delegateTarget.previousElementSibling.value = event.delegateTarget.value
+  event.delegateTarget.parentElement.previousElementSibling.style.backgroundColor = event.delegateTarget.value
 }
 
 async function testClickEvent(event: DelegateEvent<Event, HTMLButtonElement>): Promise<void> {
   console.log("CLICK")
   console.log(event.delegateTarget.nextElementSibling.children[0].value)
   event.delegateTarget.nextElementSibling.children[1].value = event.delegateTarget.nextElementSibling.children[0].value
-  // debugger
 }
 
 function init(): void {
