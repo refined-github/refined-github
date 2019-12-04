@@ -2,53 +2,31 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate, { DelegateEvent } from 'delegate-it';
 import features from '../libs/features';
-import { func } from 'prop-types';
-
-function log() {
-	console.log('✨', <div className="rgh-jsx-element"/>);
-}
-// FIXME: when color palette changes its value, the text input changes, but the label color don't change
+// FIXME: whenever color palette changes its value, the label color example above the edit form doesn't change it's value
+// FIXME: whenever the Save Changes button is pressed, if the web page is not reloaded and the "Edit" link is
+//        pressed again, when the new edit form will be prompted, the colorPalette would not appear.
 
 async function labelDelegateEvent(event: DelegateEvent<Event, HTMLButtonElement>): Promise<void> {
-  console.log(event.delegateTarget);
-  console.log(event.delegateTarget.value);
-  console.log(event.delegateTarget.nextElementSibling);
   event.delegateTarget.nextElementSibling.value = event.delegateTarget.value
 }
 
 async function colorPaletteDelegateEvent(event: DelegateEvent<Event, HTMLButtonElement>): Promise<void> {
-  console.log(event.delegateTarget);
-  console.log(event.delegateTarget.value);
-  console.log(event.delegateTarget.previousElementSibling);
   event.delegateTarget.previousElementSibling.value = event.delegateTarget.value
   event.delegateTarget.parentElement.previousElementSibling.style.backgroundColor = event.delegateTarget.value
 }
 
 async function testClickEvent(event: DelegateEvent<Event, HTMLButtonElement>): Promise<void> {
-  console.log("CLICK")
-  console.log(event.delegateTarget.nextElementSibling.children[0].value)
   event.delegateTarget.nextElementSibling.children[1].value = event.delegateTarget.nextElementSibling.children[0].value
 }
 
 function init(): void {
-  console.log('init: label-color-picker')
   for (const field of select.all('.js-new-label-color-input')) {
-    console.log('original_element: ')
-    console.log(field.value)
     const new_element=<input type="color" className={field.className} style={{width:'4em'}} value={field.value} />
-    console.log('new element: ')
-    console.log(new_element.value)
     field.after(new_element);
   }
-  // Here
-  // delegate(<selector>, <event type>, <callback to delegate>)
-  //select the js-new-label-color-input, set the type as input, add the event to delegate
   delegate('.js-new-label-color', 'click', testClickEvent);
   delegate('.js-new-label-color-input', 'input', labelDelegateEvent);
-  //select the js-new-label-color-input + input: CSS, select js-new-label and the input next to it: the color palette
-  //, set the type as input, add the event to delegate
   delegate('.js-new-label-color-input + input', 'input', colorPaletteDelegateEvent);
-  console.log("Ultimo")
 }
 
 features.add({
