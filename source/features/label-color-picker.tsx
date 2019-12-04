@@ -2,6 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate, { DelegateEvent } from 'delegate-it';
 import features from '../libs/features';
+import { func } from 'prop-types';
 
 function log() {
 	console.log('✨', <div className="rgh-jsx-element"/>);
@@ -23,6 +24,13 @@ async function colorPaletteDelegateEvent(event: DelegateEvent<Event, HTMLButtonE
   event.delegateTarget.previousElementSibling.value = event.delegateTarget.value
 }
 
+async function testClickEvent(event: DelegateEvent<Event, HTMLButtonElement>): Promise<void> {
+  console.log("CLICK")
+  console.log(event.delegateTarget.nextElementSibling.children[0].value)
+  event.delegateTarget.nextElementSibling.children[1].value = event.delegateTarget.nextElementSibling.children[0].value
+  // debugger
+}
+
 function init(): void {
   console.log('init: label-color-picker')
   for (const field of select.all('.js-new-label-color-input')) {
@@ -36,6 +44,7 @@ function init(): void {
   // Here
   // delegate(<selector>, <event type>, <callback to delegate>)
   //select the js-new-label-color-input, set the type as input, add the event to delegate
+  delegate('.js-new-label-color', 'click', testClickEvent);
   delegate('.js-new-label-color-input', 'input', labelDelegateEvent);
   //select the js-new-label-color-input + input: CSS, select js-new-label and the input next to it: the color palette
   //, set the type as input, add the event to delegate
