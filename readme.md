@@ -140,6 +140,7 @@ Thanks for contributing! 🦋🙌
 - [](# "reload-failed-proxied-images") [Retries downloading images that failed downloading due to GitHub limited proxying.](https://user-images.githubusercontent.com/14858959/64068746-21991100-cc45-11e9-844e-827f5ac9b51e.png)
 - [](# "forked-to") [Adds a shortcut to your forks next to the `Fork` button on the current repo.](https://user-images.githubusercontent.com/55841/64077281-17bbf000-cccf-11e9-9123-092063f65357.png)
 - [](# "repo-age") [Adds the age of the repository to the statistics bar.](https://user-images.githubusercontent.com/3848317/69494069-7d2b1180-0eb7-11ea-9aa1-d4194e566340.png)
+- [](# "label-color-picker") [Adds a color picker palette next to the input color for a label.](https://user-images.githubusercontent.com/3003032/70195586-df201e00-16e4-11ea-9c4e-7699e44d24bc.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
