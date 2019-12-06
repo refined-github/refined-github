@@ -49,13 +49,7 @@ async function init(): Promise<void> {
 /**
 @returns prsByFile {"filename1": [10, 3], "filename2": [2]}
 */
-async function getPrsByFile(): Promise<Record<string, number[]>> {
-	const cacheKey = `list-prs-for-file:${getRepoURL()}`;
-	const cachedFiles = await cache.get<Record<string, number[]>>(cacheKey);
-	if (cachedFiles !== undefined) {
-		return cachedFiles;
-	}
-
+const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			pullRequests(
@@ -90,9 +84,11 @@ async function getPrsByFile(): Promise<Record<string, number[]>> {
 		}
 	}
 
-	cache.set(cacheKey, files, 3);
 	return files;
-}
+}, {
+	expiration: 3,
+	cacheKey: () => `list-prs-for-file:${getRepoURL()}`
+});
 
 features.add({
 	id: __featureName__,

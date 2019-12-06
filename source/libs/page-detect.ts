@@ -170,6 +170,9 @@ export const _isConflict = [
 	'https://github.com/sindresorhus/refined-github/pull/148/conflicts'
 ];
 
+/**
+ * Do not use this detection if you're looking for PRs, they may appear mixed with issues in search. Use `isDiscussionList`
+ */
 export const isPRList = (): boolean => location.pathname === '/pulls' || getRepoPath() === 'pulls';
 export const _isPRList = [
 	'https://github.com/pulls',
@@ -324,6 +327,10 @@ export const _isSingleFile = [
 	'https://github.com/sindresorhus/refined-github/blob/master/.gitattributes',
 	'https://github.com/sindresorhus/refined-github/blob/fix-narrow-diff/distribution/content.css',
 	'https://github.com/sindresorhus/refined-github/blob/master/edit.txt'
+];
+export const isSingleGist = (): boolean => isGist() && /^\/(gist\/)?[^/]+\/[0-9a-f]{32}$/.test(location.pathname);
+export const _isSingleGist = [
+	'https://gist.github.com/sindresorhus/0ea3c2845718a0a0f0beb579ff14f064'
 ];
 
 export const isTrending = (): boolean => location.pathname === '/trending' || location.pathname.startsWith('/trending/');
