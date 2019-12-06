@@ -81,7 +81,7 @@
 		"stylelint-config-xo": "^0.15.0",
 		"terser-webpack-plugin": "^2.2.1",
 		"ts-loader": "^6.2.1",
-		"ts-node": "^8.4.1",
+		"ts-node": "^8.5.4",
 		"type-fest": "^0.8.1",
 		"typescript": "^3.7.2",
 		"web-ext": "^3.2.1",
