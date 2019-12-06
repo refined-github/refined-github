@@ -26,7 +26,7 @@ function handleMenuOpening(event: DelegateEvent): void {
 	// - PRs opened from the default branch
 	const headReferenceLink = select<HTMLAnchorElement>('.head-ref a')!;
 	const [, owner, repository] = headReferenceLink.pathname.split('/', 3); // Example pathname: '/kidonng/refined-github/tree/fix-console-error'
- 	const branch = headReferenceLink.title.replace(/^[^:]+:/, ''); // Example title: 'tejanium/refined-github:bra/nch' or just 'local-branch`
+	const branch = headReferenceLink.title.replace(/^[^:]+:/, ''); // Example title: 'tejanium/refined-github:bra/nch' or just 'local-branch`
 
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
 	const filepath = viewFile.pathname.split('/').slice(5).join('/'); // Example pathname: $owner/$repository/blob/$sha/$path_to_file.tsx
