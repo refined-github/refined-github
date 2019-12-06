@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import * as api from '../libs/api';
 import features from '../libs/features';
+import * as api from '../libs/api';
+import * as icons from '../libs/icons';
 import getDefaultBranch from '../libs/get-default-branch';
 import {getOwnerAndRepo, getRepoGQL} from '../libs/utils';
-import * as icons from '../libs/icons';
 
 type RepositoryReference = {
 	owner: string;
