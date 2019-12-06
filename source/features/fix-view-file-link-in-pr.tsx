@@ -21,17 +21,18 @@ function handleMenuOpening(event: DelegateEvent): void {
 		return;
 	}
 
-	// Looks like `https://github.com/kidonng/refined-github/tree/fix-console-error`
+	// This solution accounts for:
+	// - Branches with slashes in it
+	// - PRs opened from the default branch
 	const headReferenceLink = select<HTMLAnchorElement>('.head-ref a')!;
-	const branchPathnameParts = headReferenceLink.pathname.split('/');
-	branchPathnameParts[3] = 'blob'; // This replaces `tree`
-	branchPathnameParts[4] = headReferenceLink.title.replace(/^[^:]+:/, ''); // Ensures that the branch name is attached even when it links to the default branch
+	const [, owner, repository] = headReferenceLink.pathname.split('/', 3); // Example pathname: '/kidonng/refined-github/tree/fix-console-error'
+	const branch = headReferenceLink.title.replace(/^[^:]+:/, ''); // Example title: 'tejanium/refined-github:bra/nch' or just 'local-branch`
 
-	// Looks like `https://github.com/sindresorhus/refined-github/blob/cddac8d7e158c336552aa694a4698d4764754b64/source/features/embed-gist-via-iframe.tsx`
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
-	const viewFilePathnameParts = viewFile.pathname.split('/');
-	viewFilePathnameParts.splice(0, 5, ...branchPathnameParts); // Replaces `user/repo/blob/sha` with `forkuser/repo/blob/branch`
-	viewFile.pathname = viewFilePathnameParts.join('/');
+	const filepath = viewFile.pathname.split('/').slice(5).join('/'); // Example pathname: $owner/$repository/blob/$sha/$path_to_file.tsx
+	viewFile.pathname = '/' + [owner, repository, 'blob', branch, filepath].join('/');
+
+	viewFile.classList.add('rgh-actionable-link'); // Mark this as processed
 }
 
 function init(): void {
