@@ -23,7 +23,7 @@ function add(): void {
 					className="btn btn-outline btn-sm border-blue rgh-closing-pr tooltipped tooltipped-se"
 					aria-label={infoBubble.getAttribute('aria-label')!}>
 					{isIssue ? icons.openPullRequest() : icons.commit()}
-					{isIssue ? ' ' + reference.textContent! : ''}
+					{isIssue && ' ' + reference.textContent!}
 				</a>
 			</div>
 		);

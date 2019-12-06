@@ -15,7 +15,7 @@ function parseFeatureDetails(name: string): FeatureInfo {
 
 	const feature: Partial<FeatureInfo> = {name};
 	for (const field of fields) {
-		const [, value]: string[] | [] = new RegExp(`\n\t${field}: '([^\\n]+)'`).exec(content) || [];
+		const value = new RegExp(`\n\t${field}: '([^\\n]+)'`).exec(content)?.[1];
 		if (value) {
 			const validValue = value.trim().replace(/\\'/g, '’'); // Catch trailing spaces and incorrect apostrophes
 			if (value !== validValue) {
