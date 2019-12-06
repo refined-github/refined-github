@@ -2,8 +2,10 @@ import select from 'select-dom';
 import features from '../libs/features';
 
 function init(): void {
-	if(!isGistValid())
+	if (!isGistValid()) {
 		return;
+	}
+
 	const embedViaScript = select('.file-navigation-option [value^="<script"]')!;
 	const embedViaIframe = embedViaScript.cloneNode(true) as HTMLButtonElement;
 
@@ -35,9 +37,10 @@ features.add({
 	init
 });
 
-
-function isGistValid() {
-	if(/.?\/gist\.github\.com\/.+\/[a-zA-Z\d]+/.test(window.location.href))
+// Checks if a single gist is open
+function isGistValid() : boolean {
+	if (/.?\/gist\.github\.com\/.+\/[a-zA-Z\d]+/.test(window.location.href)) {
 		return true;
+	}
 	return false;
 }
