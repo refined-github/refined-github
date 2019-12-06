@@ -38,9 +38,10 @@ features.add({
 });
 
 // Checks if a single gist is open
-function isGistValid() : boolean {
+function isGistValid(): boolean {
 	if (/.?\/gist\.github\.com\/.+\/[a-zA-Z\d]+/.test(window.location.href)) {
 		return true;
 	}
+	
 	return false;
 }
