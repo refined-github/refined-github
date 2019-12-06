@@ -4,7 +4,7 @@ import select from 'select-dom';
 import fitTextarea from 'fit-textarea';
 import {applyToLink} from 'shorten-repo-url';
 import * as indentTextarea from 'indent-textarea';
-import {getAllOptions} from './options-storage';
+import optionsStorage from './options-storage';
 import * as domFormatters from './libs/dom-formatters';
 
 function parseDescription(description: string): DocumentFragment {
@@ -48,58 +48,72 @@ function buildFeatureCheckbox({name, description, screenshot, disabled}: Feature
 	);
 }
 
-async function init(): Promise<void> {
-	// Generate list
+function featuresFilterHandler(event: Event): void {
+	const keywords = (event.currentTarget as HTMLInputElement).value.toLowerCase()
+		.replace(/\W/g, ' ')
+		.split(/\s+/)
+		.filter(Boolean); // Ignore empty strings
+
+	for (const feature of select.all('.feature')) {
+		feature.hidden = !keywords.every(word => feature.dataset.text!.includes(word));
+	}
+}
+
+function moveDisabledFeaturesToTop(): void {
 	const container = select('.js-features')!;
-	container.append(...__featuresInfo__.map(buildFeatureCheckbox));
 
-	// Update list from saved options
-	const form = select('form')!;
-	const optionsByDomain = await getAllOptions();
-	await optionsByDomain.get('github.com')!.syncForm(form);
-
-	// Move disabled features first
-	for (const unchecked of select.all('.feature--enabled [type=checkbox]:not(:checked)', container).reverse()) {
-		// .reverse() needed to preserve alphabetical order while prepending
+	// .reverse() needed to preserve alphabetical order while prepending
+	for (const unchecked of select.all('.feature--enabled [type=checkbox]:not(:checked)').reverse()) {
 		container.prepend(unchecked.closest('.feature')!);
 	}
+}
+
+async function domainPickerHandler({currentTarget: dropdown}: React.ChangeEvent<HTMLSelectElement>): Promise<void> {
+	const optionsByOrigin = await optionsStorage.getAllOrigins();
+	for (const [domain, options] of optionsByOrigin) {
+		if (dropdown.value === domain) {
+			options.syncForm(dropdown.form!);
+		} else {
+			options.stopSyncForm();
+		}
+	}
+
+	select<HTMLAnchorElement>('#personal-token-link')!.host = dropdown.value;
+}
+
+async function addDomainSelector(): Promise<void> {
+	const optionsByOrigin = await optionsStorage.getAllOrigins();
+	if (optionsByOrigin.size === 1) {
+		return;
+	}
+
+	select('form')!.before(
+		<p>Domain selector:
+			<select onChange={domainPickerHandler}>
+				{[...optionsByOrigin.keys()].map(domain => <option value={domain}>{domain}</option>)}
+			</select>
+		</p>,
+		<hr />
+	);
+}
+
+function init(): void {
+	// Generate list
+	select('.js-features')!.append(...__featuresInfo__.map(buildFeatureCheckbox));
+
+	// Update list from saved options
+	optionsStorage.syncForm('form');
+	moveDisabledFeaturesToTop();
 
 	// Improve textareas editing
 	fitTextarea.watch('textarea');
 	indentTextarea.watch('textarea');
 
-	// Filter feature options
-	const filterField = select<HTMLInputElement>('#filter-features')!;
-	filterField.addEventListener('input', () => {
-		const keywords = filterField.value.toLowerCase()
-			.replace(/\W/g, ' ')
-			.split(/\s+/)
-			.filter(Boolean); // Ignore empty strings
-		for (const feature of select.all('.feature')) {
-			feature.hidden = !keywords.every(word => feature.dataset.text!.includes(word));
-		}
-	});
+	// Enable feature filter
+	select('#filter-features')!.addEventListener('input', featuresFilterHandler);
 
-	// GitHub Enterprise domain picker
-	if (optionsByDomain.size > 1) {
-		const dropdown = (
-			<select>
-				{[...optionsByDomain.keys()].map(domain => <option value={domain}>{domain}</option>)}
-			</select>
-		) as unknown as HTMLSelectElement;
-		form.before(<p>Domain selector: {dropdown}</p>, <hr/>);
-		dropdown.addEventListener('change', () => {
-			for (const [domain, options] of optionsByDomain) {
-				if (dropdown.value === domain) {
-					options.syncForm(form);
-				} else {
-					options.stopSyncForm();
-				}
-			}
-
-			select<HTMLAnchorElement>('#personal-token-link')!.host = dropdown.value;
-		});
-	}
+	// Add support for GHE domain selector
+	addDomainSelector();
 }
 
 init();
