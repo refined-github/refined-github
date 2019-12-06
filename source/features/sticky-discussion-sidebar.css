@@ -13,6 +13,6 @@
 }
 
 /* Fixes issue #2576 where opening sidebar modal changes the z-index of certain images and elements */
-[class*="TimelineItem"] {
-    z-index: 0 !important;
+[class*='TimelineItem'] {
+	z-index: 0 !important;
 }
