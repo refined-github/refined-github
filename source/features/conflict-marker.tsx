@@ -27,24 +27,25 @@ function buildQuery(prs: PRConfig[]): string {
 	return prs.map(createQueryFragment).join('\n');
 }
 
-function getPRConfig(prLink: HTMLAnchorElement): PRConfig {
-	const [, user, repo, , number] = prLink.pathname.split('/');
+function getPRConfig(prIcon: Element): PRConfig {
+	const link = prIcon.closest('.js-navigation-item')!.querySelector<HTMLAnchorElement>('.js-navigation-open')!;
+	const [, user, repo, , number] = link.pathname.split('/');
 	return {
 		user,
 		repo,
 		number,
-		key: api.escapeKey(`${user}_${repo}_${number}`),
-		link: prLink
+		link,
+		key: api.escapeKey(`${user}_${repo}_${number}`)
 	};
 }
 
 async function init(): Promise<false | void> {
-	const prLinks = select.all<HTMLAnchorElement>('.js-issue-row .js-navigation-open');
-	if (prLinks.length === 0) {
+	const openPrIcons = select.all('.js-issue-row .octicon-git-pull-request.open');
+	if (openPrIcons.length === 0) {
 		return false;
 	}
 
-	const prs = prLinks.map(getPRConfig);
+	const prs = openPrIcons.map(getPRConfig);
 	const data = await api.v4(buildQuery(prs));
 
 	for (const pr of prs) {
@@ -68,7 +69,7 @@ features.add({
 	screenshot:
 		'https://user-images.githubusercontent.com/9092510/62777551-2affe500-baae-11e9-8ba4-67f078347913.png',
 	include: [
-		features.isPRList
+		features.isDiscussionList
 	],
 	load: features.onAjaxedPages,
 	init

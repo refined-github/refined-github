@@ -170,6 +170,9 @@ export const _isConflict = [
 	'https://github.com/sindresorhus/refined-github/pull/148/conflicts'
 ];
 
+/**
+ * Do not use this detection if you're looking for PRs, they may appear mixed with issues in search. Use `isDiscussionList`
+ */
 export const isPRList = (): boolean => location.pathname === '/pulls' || getRepoPath() === 'pulls';
 export const _isPRList = [
 	'https://github.com/pulls',

@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import * as api from '../libs/api';
 import features from '../libs/features';
+import * as api from '../libs/api';
+import * as icons from '../libs/icons';
 import getDefaultBranch from '../libs/get-default-branch';
 import {getOwnerAndRepo, getRepoGQL} from '../libs/utils';
-import {openPullRequest} from '../libs/icons';
 
 type RepositoryReference = {
 	owner: string;
@@ -64,7 +64,7 @@ function buildQuery(issueIds: string[]): string {
 	return `
 		repository(${getRepoGQL()}) {
 			${issueIds.map(id => `
-				${id}: pullRequest(number: ${id.replace('issue_', '')}) {
+				${id}: pullRequest(number: ${id.replace(/\D/g, '')}) {
 					baseRef {id}
 					headRef {id}
 					baseRefName
@@ -94,21 +94,21 @@ function createLink(reference: RepositoryReference): HTMLSpanElement {
 }
 
 async function init(): Promise<false | void> {
-	const elements = select.all('.js-issue-row');
-	if (elements.length === 0) {
+	const prLinks = select.all('.js-issue-row .js-navigation-open[data-hovercard-type="pull_request"]');
+	if (prLinks.length === 0) {
 		return false;
 	}
 
 	const {ownerName} = getOwnerAndRepo();
-	const query = buildQuery(elements.map(pr => pr.id));
+	const query = buildQuery(prLinks.map(pr => pr.id));
 	const [data, defaultBranch] = await Promise.all([
 		api.v4(query),
 		getDefaultBranch()
 	]);
 
-	for (const PR of elements) {
+	for (const prLink of prLinks) {
 		let branches;
-		let {base, head} = normalizeBranchInfo(data.repository[PR.id]);
+		let {base, head} = normalizeBranchInfo(data.repository[prLink.id]);
 
 		if (base!.label === defaultBranch) {
 			base = undefined;
@@ -128,11 +128,9 @@ async function init(): Promise<false | void> {
 			continue;
 		}
 
-		select('.text-small.text-gray', PR)!.append(
+		prLink.parentElement!.querySelector('.text-small.text-gray')!.append(
 			<span className="issue-meta-section d-inline-block">
-				{openPullRequest()}
-				{' '}
-				{branches}
+				{icons.openPullRequest()} {branches}
 			</span>
 		);
 	}
@@ -143,7 +141,7 @@ features.add({
 	description: 'Shows head and base branches in PR lists if they’re significant: The base branch is added when it’s not the repo’s default branch; The head branch is added when it’s from the same repo or the PR is by the current user.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/51428391-ae9ed500-1c35-11e9-8e54-6b6a424fede4.png',
 	include: [
-		features.isPRList
+		features.isDiscussionList
 	],
 	load: features.onAjaxedPages,
 	init
