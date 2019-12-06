@@ -6,7 +6,6 @@ import optionsStorage, {RGHOptions} from '../options-storage';
 import onNewComments from './on-new-comments';
 import onFileListUpdate from './on-file-list-update';
 import * as pageDetect from './page-detect';
-import {noOp} from './utils';
 
 type BooleanFunction = () => boolean;
 type VoidFunction = () => void;
@@ -101,7 +100,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	}
 
 	// Create logging function
-	log = options.logging ? console.log : noOp;
+	log = options.logging ? console.log : () => { };
 
 	resolve(options);
 });
@@ -139,7 +138,7 @@ const add = async (definition: FeatureDetails): Promise<void> => {
 		exclude = [], // Default: nothing
 		load = (fn: VoidFunction) => fn(), // Run it right away
 		init,
-		deinit = noOp,
+		deinit = () => {}, // Noop
 		shortcuts = {},
 		disabled = false
 	} = definition;
