@@ -100,7 +100,7 @@
 		],
 		"globals": [
 			"browser",
-			"__featuresList__",
+			"__featuresOptionDefaults__",
 			"__featuresInfo__",
 			"__featureName__"
 		],

@@ -2,13 +2,7 @@ import OptionsSync, {Migration} from 'webext-options-sync';
 import {isBackgroundPage} from 'webext-detect-page';
 import {getAdditionalPermissions} from 'webext-additional-permissions';
 
-export interface RGHOptions {
-	customCSS: string;
-	personalToken: string;
-	logging: boolean;
-	minimizedUsers: string;
-	[featureName: string]: string | boolean;
-}
+export type RGHOptions = typeof defaults;
 
 function featureWasRenamed(from: string, to: string): Migration<RGHOptions> {
 	return (options: RGHOptions) => {
@@ -18,17 +12,14 @@ function featureWasRenamed(from: string, to: string): Migration<RGHOptions> {
 	};
 }
 
-const defaults: RGHOptions = {
+// TypeScript doesn't merge the definitions so `...` is not equivalent.
+// eslint-disable-next-line prefer-object-spread
+const defaults = Object.assign({
 	customCSS: '',
 	personalToken: '',
 	logging: false,
 	minimizedUsers: ''
-};
-
-// This variable is replaced at build time with the list
-for (const feature of __featuresList__) {
-	defaults[`feature:${feature}`] = true;
-}
+}, __featuresOptionDefaults__); // This variable is replaced at build time
 
 const migrations = [
 	featureWasRenamed('filter-pr-by-build-status', 'pr-filters'), // Merged on November 1st
