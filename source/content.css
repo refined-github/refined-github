@@ -105,3 +105,12 @@
 .dropdown-menu-sw {
 	transform-origin: 90% top;
 }
+
+/* Improve spacing in discussion lists meta, made feel crowded by:
+highlight-collaborators-and-own-discussions
+parse-backticks
+pr-branches
+*/
+.js-issue-row .text-small.text-gray {
+	line-height: 1.8;
+}

@@ -1,47 +1,40 @@
-import select from 'select-dom';
 import cache from 'webext-storage-cache';
+import select from 'select-dom';
 import features from '../libs/features';
 import * as api from '../libs/api';
-import {getOwnerAndRepo} from '../libs/utils';
+import {getOwnerAndRepo, getRepoURL, getRepoGQL} from '../libs/utils';
 
-type CacheEntry = {
+type Counts = {
 	repoProjectCount: number;
 	orgProjectCount: number;
 	milestoneCount: number;
 };
 
-async function getCount(): Promise<CacheEntry> {
-	const {ownerName, repoName} = getOwnerAndRepo();
-	const cacheKey = `clean-issue-filters:${ownerName}/${repoName}`;
-	const cachedData = await cache.get<CacheEntry>(cacheKey);
-	if (cachedData) {
-		return cachedData;
-	}
-
-	const result = await api.v4(`
-		repository(owner: "${ownerName}", name: "${repoName}") {
+const getCounts = cache.function(async (): Promise<Counts> => {
+	const {repository, organization} = await api.v4(`
+		repository(${getRepoGQL()}) {
 			projects { totalCount }
 			milestones { totalCount }
 		}
-		organization(login: "${ownerName}") {
+		organization(login: "${getOwnerAndRepo().ownerName}") {
 			projects { totalCount }
 		}
 	`, {
 		allowErrors: true
 	});
 
-	const cacheEntry = {
-		repoProjectCount: result.repository.projects.totalCount,
-		orgProjectCount: result.organization ? result.organization.projects.totalCount : 0,
-		milestoneCount: result.repository.milestones.totalCount
+	return {
+		repoProjectCount: repository.projects.totalCount,
+		orgProjectCount: organization ? organization.projects.totalCount : 0,
+		milestoneCount: repository.milestones.totalCount
 	};
-
-	cache.set(cacheKey, cacheEntry, 1);
-	return cacheEntry;
-}
+}, {
+	expiration: 3,
+	cacheKey: () => __featureName__ + ':' + getRepoURL()
+});
 
 async function init(): Promise<void> {
-	const {repoProjectCount, orgProjectCount, milestoneCount} = await getCount();
+	const {repoProjectCount, orgProjectCount, milestoneCount} = await getCounts();
 
 	// If the repo and organization has no projects, its selector will be empty
 	if (repoProjectCount === 0 && orgProjectCount === 0 && select.exists('[data-hotkey="p"')) {

@@ -4,7 +4,7 @@ import * as api from '../libs/api';
 import features from '../libs/features';
 import getDefaultBranch from '../libs/get-default-branch';
 import {getOwnerAndRepo, getRepoGQL} from '../libs/utils';
-import {openPullRequest} from '../libs/icons';
+import * as icons from '../libs/icons';
 
 type RepositoryReference = {
 	owner: string;
@@ -129,10 +129,8 @@ async function init(): Promise<false | void> {
 		}
 
 		prLink.parentElement!.querySelector('.text-small.text-gray')!.append(
-			<span className="mt-1 issue-meta-section d-inline-block">
-				{openPullRequest()}
-				{' '}
-				{branches}
+			<span className="issue-meta-section d-inline-block">
+				{icons.openPullRequest()} {branches}
 			</span>
 		);
 	}

@@ -31,13 +31,6 @@ async function fetchFromApi(): Promise<string> {
 	return response.default_branch as string;
 }
 
-export default async function (): Promise<string> {
-	const cached = await cache.get<string>(`default-branch:${getRepoURL()}`);
-	if (cached) {
-		return cached;
-	}
-
-	const branch = parseBranchFromDom() ?? await fetchFromApi();
-	await cache.set(`default-branch:${getRepoURL()}`, branch, 1);
-	return branch;
-}
+export default cache.function(async () => parseBranchFromDom() ?? fetchFromApi(), {
+	cacheKey: () => 'default-branch:' + getRepoURL()
+});
