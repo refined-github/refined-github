@@ -108,8 +108,6 @@
 			"no-alert": "off",
 			"prefer-named-capture-group": "off",
 			"import/no-unassigned-import": "off",
-			"import/no-unresolved": "off",
-			"import/named": "off",
 			"unicorn/prevent-abbreviations": "error"
 		},
 		"overrides": [
@@ -117,9 +115,8 @@
 				"files": "**/*.+(ts|tsx)",
 				"extends": "xo-typescript",
 				"rules": {
-					"@typescript-eslint/no-misused-promises": "off",
 					"@typescript-eslint/promise-function-async": "off",
-					"@typescript-eslint/no-unnecessary-condition": "off",
+					"@typescript-eslint/no-empty-function": "off",
 					"@typescript-eslint/no-explicit-any": "error",
 					"@typescript-eslint/no-unused-vars": [
 						"error",
