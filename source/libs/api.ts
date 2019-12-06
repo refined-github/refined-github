@@ -96,7 +96,6 @@ export const v3 = mem(async (
 	}
 
 	const url = new URL(query, api3);
-	console.log('Will fetch', url.href); // TODO: remove temporary logging
 	const response = await fetch(url.href, {
 		method,
 		body: body && JSON.stringify(body),
