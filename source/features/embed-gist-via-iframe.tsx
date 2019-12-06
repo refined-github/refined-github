@@ -42,6 +42,6 @@ function isGistValid(): boolean {
 	if (/.?\/gist\.github\.com\/.+\/[a-zA-Z\d]+/.test(window.location.href)) {
 		return true;
 	}
-	
+
 	return false;
 }
