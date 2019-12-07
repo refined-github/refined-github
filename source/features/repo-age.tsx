@@ -1,23 +1,27 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import cache from 'webext-storage-cache';
 import timeAgo from '../libs/time-ago';
 import features from '../libs/features';
 import * as api from '../libs/api';
 import * as icons from '../libs/icons';
-import {getRepoGQL} from '../libs/utils';
+import {getRepoGQL, getRepoURL} from '../libs/utils';
 
-async function getRepoCreationDate(): Promise<Date> {
+const getRepoCreationDate = cache.function(async (): Promise<string> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			createdAt
 		}
 	`);
 
-	return new Date(repository.createdAt);
-}
+	return repository.createdAt;
+}, {
+	expiration: 3,
+	cacheKey: () => __featureName__ + ':' + getRepoURL()
+});
 
 async function init(): Promise<void> {
-	const date = await getRepoCreationDate();
+	const date = new Date(await getRepoCreationDate());
 	const {value, unit} = timeAgo(date);
 
 	const element = (
