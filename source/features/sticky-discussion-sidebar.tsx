@@ -1,6 +1,7 @@
 import './sticky-discussion-sidebar.css';
 import select from 'select-dom';
 import debounce from 'debounce-fn';
+import onDomReady from 'dom-loaded';
 import features from '../libs/features';
 import onUpdatableContentUpdate from '../libs/on-updatable-content-update';
 
@@ -14,7 +15,8 @@ function updateStickiness(): void {
 
 const handler = debounce(updateStickiness, {wait: 100});
 
-function init(): void {
+async function init(): Promise<void> {
+	await onDomReady;
 	updateStickiness();
 	window.addEventListener('resize', handler);
 	onUpdatableContentUpdate(select(sideBarSelector)!, updateStickiness);
