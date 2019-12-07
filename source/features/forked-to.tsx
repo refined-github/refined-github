@@ -4,11 +4,11 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import pFilter from 'p-filter';
 import onetime from 'onetime';
+import elementReady from 'element-ready';
 import features from '../libs/features';
 import {isRepoWithAccess} from '../libs/page-detect';
 import {getRepoURL, getUsername} from '../libs/utils';
 import * as icons from '../libs/icons';
-import elementReady from 'element-ready';
 
 const getCacheKey = onetime((): string => `forked-to:${getUsername()}@${findForkedRepo() || getRepoURL()}`);
 

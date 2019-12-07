@@ -56,7 +56,7 @@ async function init(): Promise<false | void> {
 	);
 
 	await elementReady('.pagehead + *'); // Wait for the tab bar to be loaded
-	appendBefore('.reponav', '.reponav-dropdown, [href$="settings"]', releasesTab)
+	appendBefore('.reponav', '.reponav-dropdown, [href$="settings"]', releasesTab);
 
 	// Update "selected" tab mark
 	if (isReleasesOrTags()) {
