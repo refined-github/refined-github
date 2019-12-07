@@ -35,11 +35,11 @@ function buildFeatureCheckbox({name, description, screenshot, disabled}: Feature
 				<label for={name}>
 					<span className="feature-name">{name}</span>
 					{' '}
-					{disabled ?? <small>{parseDescription(`(Disabled because of ${disabled}) `)}</small>}
+					{disabled && <small>{parseDescription(`(Disabled because of ${disabled}) `)}</small>}
 					<a href={`https://github.com/sindresorhus/refined-github/blob/master/source/features/${name}.tsx`}>
 						source
 					</a>
-					{screenshot ?? <>, <a href={screenshot}>screenshot</a></>}
+					{screenshot && <>, <a href={screenshot}>screenshot</a></>}
 					<br/>
 					<p className="description">{parseDescription(description)}</p>
 				</label>
