@@ -1,7 +1,8 @@
+import twas from 'twas';
 import React from 'dom-chef';
-import select from 'select-dom';
 import cache from 'webext-storage-cache';
-import timeAgo from '../libs/time-ago';
+import select from 'select-dom';
+import elementReady from 'element-ready';
 import features from '../libs/features';
 import * as api from '../libs/api';
 import * as icons from '../libs/icons';
@@ -22,7 +23,11 @@ const getRepoCreationDate = cache.function(async (): Promise<string> => {
 
 async function init(): Promise<void> {
 	const date = new Date(await getRepoCreationDate());
-	const {value, unit} = timeAgo(date);
+	// `twas` could also return `an hour ago` or `just now`
+	const [value, unit] = twas(date.getTime())
+	.replace('just now', '1 second')
+	.replace(/^an?/, '1')
+	.split(' ');
 
 	const element = (
 		<li title={`Repository created on ${date.toDateString()}`}>
