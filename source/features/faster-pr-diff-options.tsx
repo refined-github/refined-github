@@ -41,7 +41,7 @@ function createWhitespaceButton(): HTMLElement {
 			data-hotkey="d w"
 			className={`btn btn-sm btn-outline tooltipped tooltipped-s ${isHidingWhitespace ? 'bg-gray-light text-gray-light' : ''}`}
 			aria-label={`${isHidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}>
-			{isHidingWhitespace ? icons.check() : false} No Whitespace
+			{isHidingWhitespace && icons.check()} No Whitespace
 		</a>
 	);
 }
