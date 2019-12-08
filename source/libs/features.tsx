@@ -73,7 +73,10 @@ onAjaxedPages(async () => {
 	await globalReady; // Match `add()`
 	await Promise.resolve(); // Kicks it to the next tick, after the other features have `run()`
 
-	select('#js-repo-pjax-container,#js-pjax-container')?.append(<has-rgh/>);
+	const ajaxContainer = select('#js-repo-pjax-container,#js-pjax-container');
+	if (ajaxContainer) {
+		ajaxContainer.append(<has-rgh/>);
+	}
 });
 
 let log: typeof console.log;
