@@ -41,6 +41,7 @@
 		"select-dom": "^5.1.0",
 		"shorten-repo-url": "^1.5.3",
 		"tiny-version-compare": "^1.0.0",
+		"twas": "^2.1.1",
 		"webext-additional-permissions": "^0.1.0",
 		"webext-detect-page": "^1.0.3",
 		"webext-domain-permission-toggle": "^1.0.0",
