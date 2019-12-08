@@ -17,7 +17,6 @@ const getRepoCreationDate = cache.function(async (): Promise<string> => {
 
 	return repository.createdAt;
 }, {
-	expiration: 3,
 	cacheKey: () => __featureName__ + ':' + getRepoURL()
 });
 
