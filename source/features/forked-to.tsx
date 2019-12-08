@@ -4,6 +4,7 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import pFilter from 'p-filter';
 import onetime from 'onetime';
+import elementReady from 'element-ready';
 import features from '../libs/features';
 import {isRepoWithAccess} from '../libs/page-detect';
 import {getRepoURL, getUsername} from '../libs/utils';
@@ -65,7 +66,7 @@ async function init(): Promise<void> {
 
 	document.body.classList.add('rgh-forked-to');
 
-	const forkCounter = select('.social-count[href$="/network/members"]')!;
+	const forkCounter = (await elementReady('.social-count[href$="/network/members"]'))!;
 	if (forks.length === 1) {
 		forkCounter.before(
 			<a href={`/${forks[0]}`}
@@ -111,6 +112,6 @@ features.add({
 	include: [
 		features.isRepo
 	],
-	load: features.onAjaxedPages,
+	load: features.nowAndOnAjaxedPages,
 	init
 });
