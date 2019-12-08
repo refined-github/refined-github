@@ -37,6 +37,7 @@ async function init(): Promise<void> {
 		</li>
 	);
 
+	await elementReady('.overall-summary + *');
 	const license = select('.numbers-summary .octicon-law');
 	if (license) {
 		license.closest('li')!.before(element);
@@ -52,6 +53,6 @@ features.add({
 	include: [
 		features.isRepoRoot
 	],
-	load: features.onAjaxedPages,
+	load: features.nowAndOnAjaxedPages,
 	init
 });
