@@ -8,6 +8,12 @@ import * as api from '../libs/api';
 import * as icons from '../libs/icons';
 import {getRepoGQL, getRepoURL} from '../libs/utils';
 
+const dateFormatter = new Intl.DateTimeFormat('en-US', {
+	year: 'numeric',
+	month: 'long',
+	day: 'numeric'
+});
+
 const getRepoCreationDate = cache.function(async (): Promise<string> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
@@ -22,6 +28,7 @@ const getRepoCreationDate = cache.function(async (): Promise<string> => {
 
 async function init(): Promise<void> {
 	const date = new Date(await getRepoCreationDate());
+
 	// `twas` could also return `an hour ago` or `just now`
 	const [value, unit] = twas(date.getTime())
 		.replace('just now', '1 second')
@@ -29,7 +36,7 @@ async function init(): Promise<void> {
 		.split(' ');
 
 	const element = (
-		<li title={`Repository created on ${date.toDateString()}`}>
+		<li title={`Repository created on ${dateFormatter.format(date)}`}>
 			<a className="text-gray"> {/* Required just to match GitHub’s style */}
 				{icons.repo()}
 				<span className="num text-emphasized">{value}</span> {unit} old
