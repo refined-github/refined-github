@@ -24,9 +24,9 @@ async function init(): Promise<void> {
 	const date = new Date(await getRepoCreationDate());
 	// `twas` could also return `an hour ago` or `just now`
 	const [value, unit] = twas(date.getTime())
-	.replace('just now', '1 second')
-	.replace(/^an?/, '1')
-	.split(' ');
+		.replace('just now', '1 second')
+		.replace(/^an?/, '1')
+		.split(' ');
 
 	const element = (
 		<li title={`Repository created on ${date.toDateString()}`}>
