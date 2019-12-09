@@ -1,7 +1,7 @@
 import './release-download-count.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import cloudDownloadIcon from '@primer/octicons/build/svg/cloud-download.svg';
+import cloudDownloadIcon from 'octicon/cloud-download.svg';
 import features from '../libs/features';
 import * as api from '../libs/api';
 import {getRepoGQL} from '../libs/utils';

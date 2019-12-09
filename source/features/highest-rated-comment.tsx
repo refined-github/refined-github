@@ -1,7 +1,7 @@
 import './highest-rated-comment.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import arrowDownIcon from '@primer/octicons/build/svg/arrow-down.svg';
+import arrowDownIcon from 'octicon/arrow-down.svg';
 import features from '../libs/features';
 
 // `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)

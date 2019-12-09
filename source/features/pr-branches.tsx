@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import pullRequestIcon from '@primer/octicons/build/svg/git-pull-request.svg';
+import pullRequestIcon from 'octicon/git-pull-request.svg';
 import features from '../libs/features';
 import * as api from '../libs/api';
 import getDefaultBranch from '../libs/get-default-branch';

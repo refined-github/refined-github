@@ -2,7 +2,7 @@ import './toggle-files-button.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import chevronDownIcon from '@primer/octicons/build/svg/chevron-down.svg';
+import chevronDownIcon from 'octicon/chevron-down.svg';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 

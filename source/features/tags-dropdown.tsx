@@ -1,7 +1,7 @@
 import './tags-dropdown.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import octofaceIcon from '@primer/octicons/build/svg/octoface.svg';
+import octofaceIcon from 'octicon/octoface.svg';
 import features from '../libs/features';
 import {getRepoURL} from '../libs/utils';
 

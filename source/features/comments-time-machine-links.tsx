@@ -1,6 +1,6 @@
 import select from 'select-dom';
 import React from 'dom-chef';
-import clockIcon from '@primer/octicons/build/svg/clock.svg';
+import clockIcon from 'octicon/clock.svg';
 import features from '../libs/features';
 import {getRepoURL} from '../libs/utils';
 import {appendBefore} from '../libs/dom-utils';

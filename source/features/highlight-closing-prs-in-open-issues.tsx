@@ -1,8 +1,8 @@
 import './highlight-closing-prs-in-open-issues.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import commitIcon from '@primer/octicons/build/svg/git-commit.svg';
-import pullRequestIcon from '@primer/octicons/build/svg/git-pull-request.svg';
+import commitIcon from 'octicon/git-commit.svg';
+import pullRequestIcon from 'octicon/git-pull-request.svg';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
 

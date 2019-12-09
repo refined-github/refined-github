@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import diffIcon from '@primer/octicons/build/svg/diff.svg';
+import diffIcon from 'octicon/diff.svg';
 import tinyVersionCompare from 'tiny-version-compare';
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';

@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import fileIcon from '@primer/octicons/build/svg/file.svg';
+import fileIcon from 'octicon/file.svg';
 import features from '../libs/features';
 import {getRepoPath} from '../libs/utils';
 import {groupSiblings} from '../libs/group-buttons';

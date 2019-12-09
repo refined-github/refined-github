@@ -2,7 +2,7 @@ import './hidden-review-comments-indicator.css';
 import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
-import commentIcon from '@primer/octicons/build/svg/comment.svg';
+import commentIcon from 'octicon/comment.svg';
 import features from '../libs/features';
 import anchorScroll from '../libs/anchor-scroll';
 import onPrFileLoad from '../libs/on-pr-file-load';

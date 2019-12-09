@@ -1,7 +1,7 @@
 import './minimize-upload-bar.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import cloudUploadIcon from '@primer/octicons/build/svg/cloud-upload.svg';
+import cloudUploadIcon from 'octicon/cloud-upload.svg';
 import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 

@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import alertIcon from '@primer/octicons/build/svg/alert.svg';
+import alertIcon from 'octicon/alert.svg';
 import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 import * as api from '../libs/api';

@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import pencilIcon from '@primer/octicons/build/svg/pencil.svg';
+import pencilIcon from 'octicon/pencil.svg';
 import features from '../libs/features';
 
 function init(): void {

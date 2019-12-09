@@ -2,7 +2,7 @@ import cache from 'webext-storage-cache';
 import React from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';
-import tagIcon from '@primer/octicons/build/svg/tag.svg';
+import tagIcon from 'octicon/tag.svg';
 import features from '../libs/features';
 import * as api from '../libs/api';
 import {appendBefore} from '../libs/dom-utils';

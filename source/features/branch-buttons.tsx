@@ -1,8 +1,8 @@
 import './branch-buttons.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import tagIcon from '@primer/octicons/build/svg/tag.svg';
-import branchIcon from '@primer/octicons/build/svg/git-branch.svg';
+import tagIcon from 'octicon/tag.svg';
+import branchIcon from 'octicon/git-branch.svg';
 import compareVersions from 'tiny-version-compare';
 import * as api from '../libs/api';
 import features from '../libs/features';

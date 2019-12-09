@@ -1,7 +1,7 @@
 import './conflict-marker.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import alertIcon from '@primer/octicons/build/svg/alert.svg';
+import alertIcon from 'octicon/alert.svg';
 import * as api from '../libs/api';
 import features from '../libs/features';
 

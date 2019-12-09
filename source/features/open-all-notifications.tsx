@@ -1,7 +1,7 @@
 import './open-all-notifications.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import linkExternalIcon from '@primer/octicons/build/svg/link-external.svg';
+import linkExternalIcon from 'octicon/link-external.svg';
 import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 import {groupButtons} from '../libs/group-buttons';

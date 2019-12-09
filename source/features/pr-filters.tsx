@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import checkIcon from '@primer/octicons/build/svg/check.svg';
+import checkIcon from 'octicon/check.svg';
 import features from '../libs/features';
 import {fetchCIStatus} from './ci-link';
 

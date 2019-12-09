@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import diffIcon from '@primer/octicons/build/svg/diff.svg';
-import bookIcon from '@primer/octicons/build/svg/book.svg';
-import checkIcon from '@primer/octicons/build/svg/check.svg';
+import diffIcon from 'octicon/diff.svg';
+import bookIcon from 'octicon/book.svg';
+import checkIcon from 'octicon/check.svg';
 import features from '../libs/features';
 
 function createDiffStyleToggle(): DocumentFragment {

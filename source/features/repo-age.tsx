@@ -2,7 +2,7 @@ import twas from 'twas';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import repoIcon from '@primer/octicons/build/svg/repo.svg';
+import repoIcon from 'octicon/repo.svg';
 import elementReady from 'element-ready';
 import features from '../libs/features';
 import * as api from '../libs/api';

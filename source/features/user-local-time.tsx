@@ -3,7 +3,7 @@
 import cache from 'webext-storage-cache';
 import React from 'dom-chef';
 import select from 'select-dom';
-import clockIcon from '@primer/octicons/build/svg/clock.svg';
+import clockIcon from 'octicon/clock.svg';
 import features from '../libs/features';
 import * as api from '../libs/api';
 import observeEl from '../libs/simplified-element-observer';

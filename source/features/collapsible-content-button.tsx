@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import insertText from 'insert-text-textarea';
-import foldDownIcon from '@primer/octicons/build/svg/fold-down.svg';
+import foldDownIcon from 'octicon/fold-down.svg';
 import features from '../libs/features';
 
 // Wraps string in at least 2 \n on each side,
