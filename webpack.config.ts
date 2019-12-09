@@ -88,6 +88,19 @@ module.exports = (_environment: string, argv: Record<string, boolean | number | 
 					MiniCssExtractPlugin.loader,
 					'css-loader'
 				]
+			},
+			{
+				// Allows us to import SVG as JSX modules
+				test: /\.svg$/i,
+				use: [
+					{
+						loader: 'buble-loader', // Converts SVG to vanilla `React.createElement` calls
+						options: {
+							objectAssign: 'Object.assign'
+						}
+					},
+					path.resolve(__dirname, 'octicon-svg-loader.ts')
+				]
 			}
 		]
 	},
@@ -135,6 +148,9 @@ module.exports = (_environment: string, argv: Record<string, boolean | number | 
 		])
 	],
 	resolve: {
+		alias: {
+			octicon: '@primer/octicons/build/svg'
+		},
 		extensions: [
 			'.tsx',
 			'.ts',
