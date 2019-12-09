@@ -4,10 +4,11 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import pFilter from 'p-filter';
 import onetime from 'onetime';
+import forkIcon from '@primer/octicons/build/svg/repo-forked.svg';
+import linkExternalIcon from '@primer/octicons/build/svg/link-external.svg';
 import features from '../libs/features';
 import {isRepoWithAccess} from '../libs/page-detect';
 import {getRepoURL, getUsername} from '../libs/utils';
-import * as icons from '../libs/icons';
 
 const getCacheKey = onetime((): string => `forked-to:${getUsername()}@${findForkedRepo() || getRepoURL()}`);
 
@@ -71,7 +72,7 @@ async function init(): Promise<void> {
 			<a href={`/${forks[0]}`}
 				className="btn btn-sm float-left rgh-forked-button"
 				title={`Open your fork to ${forks[0]}`}>
-				{icons.externalLink()}
+				{linkExternalIcon()}
 			</a>
 		);
 	} else {
@@ -91,7 +92,7 @@ async function init(): Promise<void> {
 							href={`/${fork}`}
 							className="select-menu-item"
 							title={`Open your fork to ${fork}`}>
-							{icons.fork()}
+							{forkIcon()}
 							{fork}
 						</a>
 					)}

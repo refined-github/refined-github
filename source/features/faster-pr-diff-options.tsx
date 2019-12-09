@@ -1,6 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import * as icons from '../libs/icons';
+import diffIcon from '@primer/octicons/build/svg/diff.svg';
+import bookIcon from '@primer/octicons/build/svg/book.svg';
+import checkIcon from '@primer/octicons/build/svg/check.svg';
 import features from '../libs/features';
 
 function createDiffStyleToggle(): DocumentFragment {
@@ -21,8 +23,8 @@ function createDiffStyleToggle(): DocumentFragment {
 	};
 
 	return <>
-		{makeLink('unified', icons.diff(), isUnified)}
-		{makeLink('split', icons.book(), !isUnified)}
+		{makeLink('unified', diffIcon(), isUnified)}
+		{makeLink('split', bookIcon(), !isUnified)}
 	</>;
 }
 
@@ -41,7 +43,7 @@ function createWhitespaceButton(): HTMLElement {
 			data-hotkey="d w"
 			className={`btn btn-sm btn-outline tooltipped tooltipped-s ${isHidingWhitespace ? 'bg-gray-light text-gray-light' : ''}`}
 			aria-label={`${isHidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}>
-			{isHidingWhitespace ? icons.check() : false} No Whitespace
+			{isHidingWhitespace && checkIcon()} No Whitespace
 		</a>
 	);
 }

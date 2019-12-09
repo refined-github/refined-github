@@ -1,10 +1,10 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import cache from 'webext-storage-cache';
+import select from 'select-dom';
+import repoIcon from '@primer/octicons/build/svg/repo.svg';
 import timeAgo from '../libs/time-ago';
 import features from '../libs/features';
 import * as api from '../libs/api';
-import * as icons from '../libs/icons';
 import {getRepoGQL, getRepoURL} from '../libs/utils';
 
 const getRepoCreationDate = cache.function(async (): Promise<string> => {
@@ -27,7 +27,7 @@ async function init(): Promise<void> {
 	const element = (
 		<li title={`Repository created on ${date.toDateString()}`}>
 			<a className="text-gray"> {/* Required just to match GitHub’s style */}
-				{icons.repo()}
+				{repoIcon()}
 				<span className="num text-emphasized">{value}</span> {unit} old
 			</a>
 		</li>
