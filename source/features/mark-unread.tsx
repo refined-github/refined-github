@@ -1,6 +1,7 @@
 import './mark-unread.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import onDomReady from 'dom-loaded';
 import elementReady from 'element-ready';
 import delegate, {DelegateSubscription, DelegateEvent} from 'delegate-it';
 import xIcon from '@primer/octicons/build/svg/x.svg';
@@ -398,6 +399,7 @@ function destroy(): void {
 
 async function init(): Promise<void> {
 	destroy();
+	await onDomReady;
 
 	if (pageDetect.isNotifications()) {
 		const notifications = await getNotifications();

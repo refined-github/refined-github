@@ -204,6 +204,7 @@ Thanks for contributing! 🦋🙌
 - [](# "clean-issue-filters") [Hides `Projects` and `Milestones` filters in discussion lists if they are empty.](https://user-images.githubusercontent.com/37769974/59083449-0ef88f80-8915-11e9-8296-68af1ddcf191.png)
 - [](# "cycle-lists-with-keyboard-shortcuts") [Allows the <kbd>↑</kbd> and <kbd>↓</kbd> keys to cycle "popover lists" (labels, milestones, etc).](https://user-images.githubusercontent.com/37769974/59158786-6fd2c400-8add-11e9-9db1-db80186fa6ea.gif)
 - [](# "toggle-everything-with-alt") [Adds a shortcut to toggle all similar items (minimized comments, deferred diffs, etc) at once: <kbd>alt</kbd> <kbd>click</kbd> on each button or checkbox.](https://user-images.githubusercontent.com/37769974/62208543-dcb75b80-b3b4-11e9-984f-ddb479ea149d.gif)
+- [](# "quick-mention") [Adds a button to `@mention` a user in discussions.](https://user-images.githubusercontent.com/1402241/70406615-f445d580-1a73-11ea-9ab1-bf6bd9aa70a3.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 

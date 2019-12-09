@@ -1,9 +1,11 @@
 import cache from 'webext-storage-cache';
 import React from 'dom-chef';
 import select from 'select-dom';
+import elementReady from 'element-ready';
 import tagIcon from '@primer/octicons/build/svg/tag.svg';
 import features from '../libs/features';
 import * as api from '../libs/api';
+import {appendBefore} from '../libs/dom-utils';
 import {getRepoURL, getRepoGQL} from '../libs/utils';
 import {isRepoRoot, isReleasesOrTags} from '../libs/page-detect';
 
@@ -52,7 +54,9 @@ async function init(): Promise<false | void> {
 			{count === undefined ? '' : <span className="Counter">{count}</span>}
 		</a>
 	);
-	select('.reponav-dropdown')!.before(releasesTab);
+
+	await elementReady('.pagehead + *'); // Wait for the tab bar to be loaded
+	appendBefore('.reponav', '.reponav-dropdown, [href$="settings"]', releasesTab);
 
 	// Update "selected" tab mark
 	if (isReleasesOrTags()) {
@@ -73,7 +77,7 @@ features.add({
 	include: [
 		features.isRepo
 	],
-	load: features.onAjaxedPages,
+	load: features.nowAndOnAjaxedPages,
 	shortcuts: {
 		'g r': 'Go to Releases'
 	},

@@ -2,7 +2,7 @@
 
 import path from 'path';
 import {readdirSync, readFileSync} from 'fs';
-import webpack from 'webpack';
+import webpack, {Configuration} from 'webpack';
 import SizePlugin from 'size-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
@@ -15,7 +15,7 @@ function parseFeatureDetails(name: string): FeatureInfo {
 
 	const feature: Partial<FeatureInfo> = {name};
 	for (const field of fields) {
-		const [, value]: string[] | [] = new RegExp(`\n\t${field}: '([^\\n]+)'`).exec(content) || [];
+		const value = new RegExp(`\n\t${field}: '([^\\n]+)'`).exec(content)?.[1];
 		if (value) {
 			const validValue = value.trim().replace(/\\'/g, '’'); // Catch trailing spaces and incorrect apostrophes
 			if (value !== validValue) {
@@ -42,7 +42,7 @@ function getFeatures(): string[] {
 		.map(filename => filename.replace('.tsx', ''));
 }
 
-module.exports = (_environment: string, argv: Record<string, boolean | number | string>): webpack.Configuration => ({
+const config: Configuration = {
 	devtool: 'source-map',
 	stats: {
 		all: false,
@@ -69,10 +69,7 @@ module.exports = (_environment: string, argv: Record<string, boolean | number | 
 						query: {
 							compilerOptions: {
 								// Enables ModuleConcatenation. It must be in here to avoid conflict with ts-node
-								module: 'es2015',
-
-								// With this, TS will error but the file will still be generated (on watch only)
-								noEmitOnError: argv.watch === false
+								module: 'es2015'
 							},
 
 							// Make compilation faster with `fork-ts-checker-webpack-plugin`
@@ -176,4 +173,6 @@ module.exports = (_environment: string, argv: Record<string, boolean | number | 
 			})
 		]
 	}
-});
+};
+
+export default config;

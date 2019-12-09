@@ -1,11 +1,18 @@
+import twas from 'twas';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import repoIcon from '@primer/octicons/build/svg/repo.svg';
-import timeAgo from '../libs/time-ago';
+import elementReady from 'element-ready';
 import features from '../libs/features';
 import * as api from '../libs/api';
 import {getRepoGQL, getRepoURL} from '../libs/utils';
+
+const dateFormatter = new Intl.DateTimeFormat('en-US', {
+	year: 'numeric',
+	month: 'long',
+	day: 'numeric'
+});
 
 const getRepoCreationDate = cache.function(async (): Promise<string> => {
 	const {repository} = await api.v4(`
@@ -16,23 +23,26 @@ const getRepoCreationDate = cache.function(async (): Promise<string> => {
 
 	return repository.createdAt;
 }, {
-	expiration: 3,
 	cacheKey: () => __featureName__ + ':' + getRepoURL()
 });
 
 async function init(): Promise<void> {
 	const date = new Date(await getRepoCreationDate());
-	const {value, unit} = timeAgo(date);
+
+	// `twas` could also return `an hour ago` or `just now`
+	const [value, unit] = twas(date.getTime())
+		.replace('just now', '1 second')
+		.replace(/^an?/, '1')
+		.split(' ');
 
 	const element = (
-		<li title={`Repository created on ${date.toDateString()}`}>
-			<a className="text-gray"> {/* Required just to match GitHub’s style */}
-				{repoIcon()}
-				<span className="num text-emphasized">{value}</span> {unit} old
-			</a>
+		<li className="text-gray" title={`Repository created on ${dateFormatter.format(date)}`}>
+			{repoIcon()}
+			<span className="num text-emphasized">{value}</span> {unit} old
 		</li>
 	);
 
+	await elementReady('.overall-summary + *');
 	const license = select('.numbers-summary .octicon-law');
 	if (license) {
 		license.closest('li')!.before(element);
@@ -48,6 +58,6 @@ features.add({
 	include: [
 		features.isRepoRoot
 	],
-	load: features.onAjaxedPages,
+	load: features.nowAndOnAjaxedPages,
 	init
 });
