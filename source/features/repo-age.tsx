@@ -36,11 +36,9 @@ async function init(): Promise<void> {
 		.split(' ');
 
 	const element = (
-		<li title={`Repository created on ${dateFormatter.format(date)}`}>
-			<a className="text-gray"> {/* Required just to match GitHub’s style */}
-				{icons.repo()}
-				<span className="num text-emphasized">{value}</span> {unit} old
-			</a>
+		<li className="text-gray" title={`Repository created on ${dateFormatter.format(date)}`}>
+			{icons.repo()}
+			<span className="num text-emphasized">{value}</span> {unit} old
 		</li>
 	);
 
