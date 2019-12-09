@@ -16,14 +16,8 @@ function parseBranchFromDom(): string | undefined {
 	}
 
 	// We can find the name in the infobar, available in folder views
-	const branchInfo = select('.branch-infobar');
-	if (!branchInfo) {
-		return;
-	}
-
-	// Parse the infobar
-	const matches = branchInfoRegex.exec(branchInfo.textContent!.trim());
-	return matches ? matches[1] : undefined;
+	const branchInfo = select('.branch-infobar')?.textContent?.trim();
+	return branchInfoRegex.exec(branchInfo!)?.[1];
 }
 
 async function fetchFromApi(): Promise<string> {
@@ -31,13 +25,6 @@ async function fetchFromApi(): Promise<string> {
 	return response.default_branch as string;
 }
 
-export default async function (): Promise<string> {
-	const cached = await cache.get<string>(`default-branch:${getRepoURL()}`);
-	if (cached) {
-		return cached;
-	}
-
-	const branch = parseBranchFromDom() ?? await fetchFromApi();
-	await cache.set(`default-branch:${getRepoURL()}`, branch, 1);
-	return branch;
-}
+export default cache.function(async () => parseBranchFromDom() ?? fetchFromApi(), {
+	cacheKey: () => 'default-branch:' + getRepoURL()
+});

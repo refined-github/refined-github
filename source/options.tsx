@@ -28,10 +28,6 @@ function buildFeatureCheckbox({name, description, screenshot, disabled}: Feature
 	// `undefined` disconnects it from the options
 	const key = disabled ? undefined : `feature:${name}`;
 
-	const disabledText = disabled ?
-		<small>{parseDescription(`(Disabled because of ${disabled}) `)}</small> :
-		false;
-
 	return (
 		<div className={`feature feature--${disabled ? 'disabled' : 'enabled'}`} data-text={`${name} ${description}`.toLowerCase()}>
 			<input type="checkbox" name={key} id={name} disabled={Boolean(disabled)} />
@@ -39,14 +35,21 @@ function buildFeatureCheckbox({name, description, screenshot, disabled}: Feature
 				<label for={name}>
 					<span className="feature-name">{name}</span>
 					{' '}
-					{disabledText}
+					{disabled && <small>{parseDescription(`(Disabled because of ${disabled}) `)}</small>}
 					<a href={`https://github.com/sindresorhus/refined-github/blob/master/source/features/${name}.tsx`}>
 						source
 					</a>
-					{screenshot ? <>, <a href={screenshot}>screenshot</a></> : ''}
+					{screenshot && <>, <a href={screenshot}>screenshot</a></>}
 					<br/>
 					<p className="description">{parseDescription(description)}</p>
 				</label>
+				{
+					name === 'minimize-user-comments' &&
+						<div className="extended-options">
+							<p>User list:</p>
+							<textarea name="minimizedUsers" rows={2} spellCheck="false"/>
+						</div>
+				}
 			</div>
 		</div>
 	);
@@ -104,9 +107,6 @@ async function init(): Promise<void> {
 			select<HTMLAnchorElement>('#personal-token-link')!.host = dropdown.value;
 		});
 	}
-
-	// Move minimized users input field below the respective feature checkbox
-	select('[for="minimize-user-comments"]')!.after(select('.js-minimized-users-container')!);
 }
 
 init();

@@ -43,13 +43,22 @@ export interface FeatureDetails {
  * Alternatively, use `onAjaxedPagesRaw` if your callback needs to be called at every page
  * change (e.g. to "unmount" a feature / listener) regardless of *newness* of the page.
  */
-async function onAjaxedPagesRaw(callback: () => void): Promise<void> {
-	await onDomReady;
+function onAjaxedPagesRaw(callback: () => void): void {
 	document.addEventListener('pjax:end', callback);
 	callback();
 }
 
 function onAjaxedPages(callback: () => void): void {
+	onAjaxedPagesRaw(async () => {
+		await onDomReady;
+		if (!select.exists('has-rgh')) {
+			callback();
+		}
+	});
+}
+
+// Like onAjaxedPages but doesn't wait for `dom-ready`
+function nowAndOnAjaxedPages(callback: () => void): void {
 	onAjaxedPagesRaw(() => {
 		if (!select.exists('has-rgh')) {
 			callback();
@@ -64,10 +73,7 @@ onAjaxedPages(async () => {
 	await globalReady; // Match `add()`
 	await Promise.resolve(); // Kicks it to the next tick, after the other features have `run()`
 
-	const ajaxContainer = select('#js-repo-pjax-container,#js-pjax-container');
-	if (ajaxContainer) {
-		ajaxContainer.append(<has-rgh/>);
-	}
+	select('#js-repo-pjax-container, #js-pjax-container')?.append(<has-rgh/>);
 });
 
 let log: typeof console.log;
@@ -189,6 +195,7 @@ export default {
 	onNewComments,
 	onFileListUpdate,
 	onAjaxedPages,
+	nowAndOnAjaxedPages,
 	onAjaxedPagesRaw,
 
 	// Loading filters

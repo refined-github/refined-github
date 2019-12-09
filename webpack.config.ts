@@ -15,7 +15,7 @@ function parseFeatureDetails(name: string): FeatureInfo {
 
 	const feature: Partial<FeatureInfo> = {name};
 	for (const field of fields) {
-		const [, value]: string[] | [] = new RegExp(`\n\t${field}: '([^\\n]+)'`).exec(content) || [];
+		const value = new RegExp(`\n\t${field}: '([^\\n]+)'`).exec(content)?.[1];
 		if (value) {
 			const validValue = value.trim().replace(/\\'/g, '’'); // Catch trailing spaces and incorrect apostrophes
 			if (value !== validValue) {
@@ -96,8 +96,11 @@ module.exports = (_environment: string, argv: Record<string, boolean | number | 
 		new webpack.DefinePlugin({
 			// Passing `true` as the second argument makes these values dynamic — so every file change will update their value.
 			// @ts-ignore
-			__featuresList__: webpack.DefinePlugin.runtimeValue(() => {
-				return JSON.stringify(getFeatures());
+			__featuresOptionDefaults__: webpack.DefinePlugin.runtimeValue(() => {
+				return JSON.stringify(getFeatures().reduce((defaults, feature) => {
+					defaults[`feature:${feature}`] = true;
+					return defaults;
+				}, {} as AnyObject));
 			}, true),
 			// @ts-ignore
 			__featuresInfo__: webpack.DefinePlugin.runtimeValue(() => {

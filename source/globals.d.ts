@@ -15,7 +15,11 @@ interface FeatureInfo {
 	disabled?: string;
 }
 
-declare const __featuresList__: string[];
+interface FeatureConfig {
+	[featureName: string]: string | boolean;
+}
+
+declare const __featuresOptionDefaults__: FeatureConfig;
 declare const __featuresInfo__: FeatureInfo[];
 declare const __featureName__: 'use the __featureName__ variable';
 
