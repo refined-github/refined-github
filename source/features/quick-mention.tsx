@@ -15,9 +15,12 @@ function mentionUser({delegateTarget: button}: DelegateEvent): void {
 	// If the new comment field has selected text, don’t replace it
 	newComment.selectionStart = newComment.selectionEnd;
 
-	// The space before is ignored by Markdown if it's at the start of a new line
+	// If the cursor is preceded by a space (or is at place 0), don't add a space before the mention
+	const precedingCharacter = newComment.value.slice(newComment.selectionStart - 1, newComment.selectionStart);
+	const spacer = /\s|^$/.test(precedingCharacter) ? '' : ' ';
+
 	// The space after closes the autocomplete box and places the cursor where the user would start typing
-	insertText(newComment, ` ${userMention} `);
+	insertText(newComment, `${spacer}${userMention} `);
 }
 
 function init(): void | false {
