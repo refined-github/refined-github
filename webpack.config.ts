@@ -90,13 +90,8 @@ const config: Configuration = {
 				// Allows us to import SVG as JSX modules
 				test: /\.svg$/i,
 				use: [
-					{
-						loader: 'buble-loader', // Converts SVG to vanilla `React.createElement` calls
-						options: {
-							objectAssign: 'Object.assign'
-						}
-					},
-					path.resolve(__dirname, 'octicon-svg-loader.ts')
+					'buble-loader', // Converts JSX to vanilla `React.createElement` calls because TypeScript can't handle JSX outside jsx/tsx files: https://github.com/microsoft/TypeScript/issues/10939
+					path.resolve(__dirname, 'octicon-svg-loader.ts') // Converts the SVG file into a JSX module with default export
 				]
 			}
 		]
