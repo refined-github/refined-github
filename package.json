@@ -11,7 +11,7 @@
 		"watch": "webpack --mode=development --watch",
 		"watch:firefox": "web-ext run --source-dir=distribution",
 		"prerelease:version": "dot-json distribution/manifest.json version $VER",
-		"prerelease:source-url": "echo https://github.com/sindresorhus/refined-github/tree/\"${TRAVIS_COMMIT:-$VER}\" > distribution/SOURCE_URL",
+		"prerelease:source-url": "echo https://github.com/sindresorhus/refined-github/archive/\"${TRAVIS_COMMIT:-$VER}\".zip > distribution/SOURCE_URL",
 		"release:amo": "cd distribution && web-ext-submit",
 		"release:cws": "cd distribution && webstore upload --auto-publish",
 		"release": "VER=$(daily-version) npm-run-all build prerelease:* create-git-tag release:*",
