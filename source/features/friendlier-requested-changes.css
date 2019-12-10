@@ -1,8 +1,8 @@
 .branch-action-state-unstable .branch-action-item > .status-meta,
 .branch-action-state-unstable .octicon-request-changes {
-	color: #f66a0a!important;
+	color: #f66a0a !important;
 }
 
 .branch-action-state-unstable .donut-chart > .error {
-	fill: #f66a0a!important;
+	fill: #f66a0a !important;
 }
