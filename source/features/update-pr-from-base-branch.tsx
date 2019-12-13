@@ -57,7 +57,7 @@ function createButton(base: string, head: string): HTMLElement {
 }
 
 async function addButton(): Promise<void> {
-	if (select.exists('.rgh-update-pr-from-master, .branch-action-btn > .btn')) {
+	if (select.exists('.rgh-update-pr-from-master, .branch-action-btn:not([action$="ready_for_review"]) > .btn')) {
 		return;
 	}
 
