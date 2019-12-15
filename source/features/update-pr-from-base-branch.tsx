@@ -57,7 +57,7 @@ function createButton(base: string, head: string): HTMLElement {
 }
 
 async function addButton(): Promise<void> {
-	if (select.exists('.rgh-update-pr-from-master, .branch-action-btn > .btn')) {
+	if (select.exists('.rgh-update-pr-from-master, .branch-action-btn:not([action$="ready_for_review"]) > .btn')) {
 		return;
 	}
 
@@ -82,7 +82,9 @@ async function addButton(): Promise<void> {
 		return;
 	}
 
-	select('.mergeability-details> :not(.js-details-container) .status-heading')!.append(createButton(base, head));
+	for (const heading of select.all('.mergeability-details > :not(.js-details-container) .status-heading')) {
+		heading.append(createButton(base, head));
+	}
 }
 
 function init(): void | false {
