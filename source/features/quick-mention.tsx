@@ -28,7 +28,8 @@ function init(): void | false {
 		return false; // Discussion is locked
 	}
 
-	for (const avatar of select.all(`.TimelineItem-avatar > :not([href="/${getUsername()}"]):not(.rgh-quick-mention)`)) {
+	// `:first-child` avoids app badges #2630
+	for (const avatar of select.all(`.TimelineItem-avatar > :first-child:not([href="/${getUsername()}"]):not(.rgh-quick-mention)`)) {
 		avatar.classList.add('rgh-quick-mention');
 		avatar.after(
 			<button
