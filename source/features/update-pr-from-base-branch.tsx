@@ -82,7 +82,9 @@ async function addButton(): Promise<void> {
 		return;
 	}
 
-	select('.mergeability-details> :not(.js-details-container) .status-heading')!.append(createButton(base, head));
+	for (const heading of select.all('.mergeability-details > :not(.js-details-container) .status-heading')) {
+		heading.append(createButton(base, head));
+	}
 }
 
 function init(): void | false {
