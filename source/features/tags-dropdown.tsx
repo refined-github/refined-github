@@ -1,9 +1,9 @@
 import './tags-dropdown.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import octofaceIcon from 'octicon/octoface.svg';
 import features from '../libs/features';
 import {getRepoURL} from '../libs/utils';
-import {octoface} from '../libs/icons';
 
 function init(): false | void {
 	if (select.exists('.blankslate')) {
@@ -24,7 +24,7 @@ function init(): false | void {
 					style={{zIndex: 99}}
 				>
 					<include-fragment className="select-menu-loading-overlay anim-pulse" onLoad={onFragmentLoaded}>
-						{octoface()}
+						{octofaceIcon()}
 					</include-fragment>
 				</details-menu>
 			</details>

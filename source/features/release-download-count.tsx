@@ -1,9 +1,9 @@
 import './release-download-count.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import cloudDownloadIcon from 'octicon/cloud-download.svg';
 import features from '../libs/features';
 import * as api from '../libs/api';
-import * as icons from '../libs/icons';
 import {getRepoGQL} from '../libs/utils';
 
 interface Asset {
@@ -77,7 +77,7 @@ async function init(): Promise<void | false> {
 						.querySelector('small')!
 						.before(
 							<small className={classes} title="Downloads">
-								{prettyNumber(downloadCount)} {icons.cloudDownload()}
+								{prettyNumber(downloadCount)} {cloudDownloadIcon()}
 							</small>
 						);
 				}

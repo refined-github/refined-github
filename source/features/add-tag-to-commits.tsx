@@ -1,10 +1,10 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import cache from 'webext-storage-cache';
+import select from 'select-dom';
+import tagIcon from 'octicon/tag.svg';
 import features from '../libs/features';
 import * as api from '../libs/api';
 import {getOwnerAndRepo, getRepoURL, getRepoGQL} from '../libs/utils';
-import * as icons from '../libs/icons';
 
 interface CommitTags {
 	[name: string]: string[];
@@ -133,7 +133,7 @@ async function init(): Promise<void | false> {
 		} else if (targetTags.length > 0) {
 			select('.commit-meta', commit)!.append(
 				<div className="ml-2">
-					{icons.tag()}
+					{tagIcon()}
 					<span className="ml-1">{targetTags.map((tags, i) => (
 						<>
 							<a href={`/${getRepoURL()}/releases/tag/${tags}`}>{tags}</a>

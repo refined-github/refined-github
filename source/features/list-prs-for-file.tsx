@@ -1,13 +1,13 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import cache from 'webext-storage-cache';
+import pullRequestIcon from 'octicon/git-pull-request.svg';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {getRepoURL, getRepoGQL} from '../libs/utils';
 import {isSingleFile} from '../libs/page-detect';
 import getDefaultBranch from '../libs/get-default-branch';
 import {groupSiblings} from '../libs/group-buttons';
-import * as icons from '../libs/icons';
 
 async function init(): Promise<void> {
 	// `clipboard-copy` on blob page, `#blob-edit-path` on edit page
@@ -24,7 +24,7 @@ async function init(): Promise<void> {
 				href={`/${getRepoURL()}/pull/${pr}/files`}
 				className="btn btn-sm btn-outline tooltipped tooltipped-ne"
 				aria-label={`This file is touched by PR #${pr}`}>
-				{icons.openPullRequest()} #{pr}
+				{pullRequestIcon()} #{pr}
 			</a>
 		);
 	}

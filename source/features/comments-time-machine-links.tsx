@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import React from 'dom-chef';
+import clockIcon from 'octicon/clock.svg';
 import features from '../libs/features';
-import * as icons from '../libs/icons';
 import {getRepoURL} from '../libs/utils';
 import {appendBefore} from '../libs/dom-utils';
 
@@ -25,7 +25,7 @@ function addInlineLinks(comment: HTMLElement, timestamp: string): void {
 				href={linkParts.join('/') + link.hash}
 				className="muted-link tooltipped tooltipped-n"
 				aria-label="Visit as permalink">
-				{icons.clock()}
+				{clockIcon()}
 			</a>
 		);
 	}
