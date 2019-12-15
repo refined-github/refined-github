@@ -11,9 +11,3 @@
 .rgh-sticky-sidebar + .border-top {
 	display: none;
 }
-
-/* Fixes issue #2576 and #2601 where opening sidebar modal changes the z-index of certain images and elements */
-[class*='TimelineItem'],
-.tabnav-tabs {
-	z-index: 0 !important;
-}
