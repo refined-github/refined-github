@@ -62,7 +62,7 @@ function init(): false | void {
 	const container = select([
 		'#toc', // In single commit view
 		'.pr-review-tools' // In review view
-	].join(','));
+	]);
 	if (!container) {
 		return false;
 	}

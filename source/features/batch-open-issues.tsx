@@ -16,7 +16,7 @@ function openIssues(): void {
 	const issues = select.all([
 		`#js-issues-toolbar.triage-mode ${modifier} [name="issues[]"]:checked`, // Get checked checkboxes
 		`#js-issues-toolbar:not(.triage-mode) ${modifier} .js-issue-row` // Or all items
-	].join(','));
+	]);
 
 	if (
 		issues.length >= confirmationRequiredCount &&
