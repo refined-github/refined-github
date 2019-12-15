@@ -2,7 +2,7 @@
 
 import path from 'path';
 import {readdirSync, readFileSync} from 'fs';
-import webpack from 'webpack';
+import webpack, {Configuration} from 'webpack';
 import SizePlugin from 'size-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
@@ -42,7 +42,7 @@ function getFeatures(): string[] {
 		.map(filename => filename.replace('.tsx', ''));
 }
 
-module.exports = (_environment: string, argv: Record<string, boolean | number | string>): webpack.Configuration => ({
+const config: Configuration = {
 	devtool: 'source-map',
 	stats: {
 		all: false,
@@ -69,10 +69,7 @@ module.exports = (_environment: string, argv: Record<string, boolean | number | 
 						query: {
 							compilerOptions: {
 								// Enables ModuleConcatenation. It must be in here to avoid conflict with ts-node
-								module: 'es2015',
-
-								// With this, TS will error but the file will still be generated (on watch only)
-								noEmitOnError: argv.watch === false
+								module: 'es2015'
 							},
 
 							// Make compilation faster with `fork-ts-checker-webpack-plugin`
@@ -87,6 +84,14 @@ module.exports = (_environment: string, argv: Record<string, boolean | number | 
 				use: [
 					MiniCssExtractPlugin.loader,
 					'css-loader'
+				]
+			},
+			{
+				// Allows us to import SVG as JSX modules
+				test: /\.svg$/i,
+				use: [
+					'buble-loader', // Converts JSX to vanilla `React.createElement` calls because TypeScript can't handle JSX outside jsx/tsx files: https://github.com/microsoft/TypeScript/issues/10939
+					path.resolve(__dirname, 'octicon-svg-loader.ts') // Converts the SVG file into a JSX module with default export
 				]
 			}
 		]
@@ -135,6 +140,9 @@ module.exports = (_environment: string, argv: Record<string, boolean | number | 
 		])
 	],
 	resolve: {
+		alias: {
+			octicon: '@primer/octicons/build/svg'
+		},
 		extensions: [
 			'.tsx',
 			'.ts',
@@ -160,4 +168,6 @@ module.exports = (_environment: string, argv: Record<string, boolean | number | 
 			})
 		]
 	}
-});
+};
+
+export default config;

@@ -3,9 +3,9 @@
 import cache from 'webext-storage-cache';
 import React from 'dom-chef';
 import select from 'select-dom';
+import clockIcon from 'octicon/clock.svg';
 import features from '../libs/features';
 import * as api from '../libs/api';
-import * as icons from '../libs/icons';
 import observeEl from '../libs/simplified-element-observer';
 import {getUsername} from '../libs/utils';
 
@@ -93,7 +93,7 @@ function init(): void {
 		const placeholder = <span>Guessing local time…</span>;
 		const container = (
 			<div className="rgh-local-user-time mt-2 text-gray text-small">
-				{icons.clock()} {placeholder}
+				{clockIcon()} {placeholder}
 			</div>
 		);
 

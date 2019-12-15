@@ -62,3 +62,7 @@ interface NamedNodeMap {
 interface HTMLFormControlsCollection {
 	[key: string]: HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement;
 }
+
+declare module '*.svg' {
+	export default (): SVGElement => SVGElement;
+}

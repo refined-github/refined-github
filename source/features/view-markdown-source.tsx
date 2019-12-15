@@ -2,9 +2,10 @@ import './view-markdown-source.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import codeIcon from 'octicon/code.svg';
+import fileIcon from 'octicon/file.svg';
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
-import * as icons from '../libs/icons';
 import blurAccessibly from '../libs/blur-field-accessibly';
 
 const buttonBodyMap = new WeakMap<Element, Element | Promise<Element>>();
@@ -83,10 +84,10 @@ async function init(): Promise<false | void> {
 	select('.repository-content .Box-header .d-flex')!.prepend(
 		<div className="BtnGroup">
 			<button className="btn btn-sm BtnGroup-item tooltipped tooltipped tooltipped-n rgh-md-source" type="button" aria-label="Display the source blob">
-				{icons.code()}
+				{codeIcon()}
 			</button>
 			<button className="btn btn-sm BtnGroup-item tooltipped tooltipped-n rgh-md-rendered selected" type="button" aria-label="Display the rendered blob">
-				{icons.file()}
+				{fileIcon()}
 			</button>
 		</div>
 	);

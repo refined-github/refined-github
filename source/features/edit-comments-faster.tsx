@@ -1,6 +1,6 @@
 import select from 'select-dom';
+import pencilIcon from 'octicon/pencil.svg';
 import features from '../libs/features';
-import * as icons from '../libs/icons';
 
 function init(): void {
 	const menuItems = select.all('details .js-comment-edit-button:not(.rgh-edit-comment)');
@@ -9,7 +9,7 @@ function init(): void {
 		item.classList.add('rgh-edit-comment');
 
 		const button = item.cloneNode() as HTMLButtonElement;
-		button.append(icons.edit());
+		button.append(pencilIcon());
 		button.classList.replace('dropdown-item', 'timeline-comment-action');
 		item.closest('details')!.before(button);
 
