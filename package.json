@@ -18,6 +18,7 @@
 		"create-git-tag": "git tag $VER -m $VER && git push origin $VER"
 	},
 	"dependencies": {
+		"@primer/octicons": "^9.3.1",
 		"content-scripts-register-polyfill": "^1.0.0",
 		"copy-text-to-clipboard": "^2.1.1",
 		"debounce-fn": "^3.0.1",
@@ -65,6 +66,8 @@
 		"@typescript-eslint/eslint-plugin": "^2.10.0",
 		"@typescript-eslint/parser": "^2.10.0",
 		"ava": "^2.4.0",
+		"buble": "^0.19.8",
+		"buble-loader": "^0.5.1",
 		"chrome-webstore-upload-cli": "^1.2.0",
 		"copy-webpack-plugin": "^5.0.5",
 		"css-loader": "^3.2.1",
@@ -109,7 +112,14 @@
 			"no-alert": "off",
 			"prefer-named-capture-group": "off",
 			"import/no-unassigned-import": "off",
-			"unicorn/prevent-abbreviations": "error"
+			"unicorn/prevent-abbreviations": "error",
+			"import/extensions": [
+				"error",
+				"never",
+				{
+					"svg": "always"
+				}
+			]
 		},
 		"overrides": [
 			{

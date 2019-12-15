@@ -1,9 +1,9 @@
 import './open-all-notifications.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import linkExternalIcon from 'octicon/link-external.svg';
 import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
-import * as icons from '../libs/icons';
 import {groupButtons} from '../libs/group-buttons';
 
 const confirmationRequiredCount = 10;
@@ -56,7 +56,7 @@ function addOpenReposButton(): void {
 
 		select('.mark-all-as-read', repoNotifications)!.before(
 			<button type="button" className="open-repo-notifications tooltipped tooltipped-w rgh-open-notifications-button" aria-label={`Open all unread \`${repo}\` notifications in tabs`}>
-				{icons.externalLink()}
+				{linkExternalIcon()}
 			</button>
 		);
 	}

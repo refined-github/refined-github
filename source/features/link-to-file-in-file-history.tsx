@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import fileIcon from 'octicon/file.svg';
 import features from '../libs/features';
-import {file} from '../libs/icons';
 import {getRepoPath} from '../libs/utils';
 import {groupSiblings} from '../libs/group-buttons';
 
@@ -21,7 +21,7 @@ function init(): void | false {
 				className="btn btn-outline tooltipped tooltipped-sw"
 				aria-label="See object at this point in the history"
 			>
-				{file()}
+				{fileIcon()}
 			</a>
 		);
 
