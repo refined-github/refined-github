@@ -37,8 +37,7 @@ async function init(): Promise<void> {
 
 	const element = (
 		<li className="text-gray" title={`Repository created on ${dateFormatter.format(date)}`}>
-			{repoIcon()}
-			<span className="num text-emphasized">{value}</span> {unit} old
+			{repoIcon()} <span className="num text-emphasized">{value}</span> {unit} old
 		</li>
 	);
 
