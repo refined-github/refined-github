@@ -44,6 +44,8 @@ export const getCurrentBranch = (): string => {
 		.replace(/\.atom.*/, '');
 };
 
+export const isFirefox = navigator.userAgent.includes('Firefox/');
+
 export const getRepoURL = (): string => location.pathname.slice(1).split('/', 2).join('/');
 export const getRepoGQL = (): string => {
 	const {ownerName, repoName} = getOwnerAndRepo();
