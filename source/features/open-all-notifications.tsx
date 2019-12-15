@@ -65,7 +65,7 @@ function addOpenReposButton(): void {
 function addOpenAllButton(): void {
 	if (!select.exists('.rgh-open-notifications-button')) {
 		// Move out the extra node that messes with .BtnGroup-item:last-child
-		document.body.append(select('#mark_as_read_confirm_box') || '');
+		document.body.append(select('#mark_as_read_confirm_box') ?? '');
 
 		// Create an open button and add it into a button group
 		const button = <button className="btn btn-sm rgh-open-notifications-button">Open all unread in tabs</button>;
