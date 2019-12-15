@@ -21,7 +21,7 @@ This value is not consistently available on the page (appears in `/files` but no
 const getBaseReference = onetime(async (): Promise<string> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
-			pullRequest(number: ${getDiscussionNumber()}) {
+			pullRequest(number: ${getDiscussionNumber()!}) {
 				baseRefOid
 			}
 		}

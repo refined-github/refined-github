@@ -18,7 +18,7 @@ let coAuthors: Author[];
 async function fetchCoAuthoredData(): Promise<Author[]> {
 	const userInfo = await api.v4(`
 		repository(${getRepoGQL()}) {
-			pullRequest(number: ${getDiscussionNumber()}) {
+			pullRequest(number: ${getDiscussionNumber()!}) {
 				commits(first: 100) {
 					nodes {
 						commit {

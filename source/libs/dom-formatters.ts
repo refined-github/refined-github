@@ -37,7 +37,7 @@ export function linkifyIssues(element: Element, options: Partial<linkifyIssuesCo
 		link.dataset.errorText = 'Failed to load issue title';
 		link.dataset.permissionText = 'Issue title is private';
 		link.dataset.url = link.href;
-		link.dataset.id = `rgh-issue-${issue}`;
+		link.dataset.id = `rgh-issue-${issue!}`;
 	}
 
 	zipTextNodes(element, linkified);

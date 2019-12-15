@@ -23,7 +23,7 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 
 	dropdown.append(
 		<a
-			href={`?${search}`}
+			href={`?${String(search)}`}
 			className={`select-menu-item ${isSelected ? 'selected' : ''}`}
 			aria-checked={isSelected ? 'true' : 'false'}
 			role="menuitemradio"

@@ -16,7 +16,7 @@ function getDefaultQuery(link: HTMLAnchorElement, search: URLSearchParams): stri
 	// Header nav example: is:open is:issue author:you archived:false
 	if (link.pathname === '/issues' || link.pathname === '/pulls') {
 		if (search.has('user')) { // #1211
-			queries.push(`user:${search.get('user')}`);
+			queries.push(`user:${search.get('user')!}`);
 		} else {
 			queries.push(`author:${getUsername()}`);
 		}

@@ -31,7 +31,7 @@ interface TagNode {
 }
 
 const {ownerName, repoName} = getOwnerAndRepo();
-const cacheKey = `tags:${ownerName}/${repoName}`;
+const cacheKey = `tags:${ownerName!}/${repoName!}`;
 
 function mergeTags(oldTags: CommitTags, newTags: CommitTags): CommitTags {
 	const result: CommitTags = {...oldTags};
