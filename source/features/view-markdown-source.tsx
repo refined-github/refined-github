@@ -2,11 +2,11 @@ import './view-markdown-source.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import blurAccessibly from 'blur-accessibly';
 import codeIcon from 'octicon/code.svg';
 import fileIcon from 'octicon/file.svg';
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
-import blurAccessibly from '../libs/blur-field-accessibly';
 
 const buttonBodyMap = new WeakMap<Element, Element | Promise<Element>>();
 
