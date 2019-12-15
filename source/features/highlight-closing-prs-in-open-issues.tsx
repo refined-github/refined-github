@@ -1,9 +1,10 @@
 import './highlight-closing-prs-in-open-issues.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import commitIcon from 'octicon/git-commit.svg';
+import pullRequestIcon from 'octicon/git-pull-request.svg';
 import features from '../libs/features';
 import observeEl from '../libs/simplified-element-observer';
-import * as icons from '../libs/icons';
 
 function add(): void {
 	for (const infoBubble of select.all(`
@@ -22,7 +23,7 @@ function add(): void {
 					href={link}
 					className="btn btn-outline btn-sm border-blue rgh-closing-pr tooltipped tooltipped-se"
 					aria-label={infoBubble.getAttribute('aria-label')!}>
-					{isIssue ? icons.openPullRequest() : icons.commit()}
+					{isIssue ? pullRequestIcon() : commitIcon()}
 					{isIssue && ' ' + reference.textContent!}
 				</a>
 			</div>

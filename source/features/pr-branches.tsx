@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import pullRequestIcon from 'octicon/git-pull-request.svg';
 import features from '../libs/features';
 import * as api from '../libs/api';
-import * as icons from '../libs/icons';
 import getDefaultBranch from '../libs/get-default-branch';
 import {getOwnerAndRepo, getRepoGQL} from '../libs/utils';
 
@@ -130,7 +130,7 @@ async function init(): Promise<false | void> {
 
 		prLink.parentElement!.querySelector('.text-small.text-gray')!.append(
 			<span className="issue-meta-section d-inline-block">
-				{icons.openPullRequest()} {branches}
+				{pullRequestIcon()} {branches}
 			</span>
 		);
 	}

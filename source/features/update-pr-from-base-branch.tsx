@@ -1,9 +1,9 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import alertIcon from 'octicon/alert.svg';
 import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 import * as api from '../libs/api';
-import * as icons from '../libs/icons';
 import observeEl from '../libs/simplified-element-observer';
 import {getRepoURL, getDiscussionNumber} from '../libs/utils';
 
@@ -39,11 +39,11 @@ async function handler(event: DelegateEvent): Promise<void> {
 	} else if (response.message?.toLowerCase().startsWith('merge conflict')) {
 		// Only shown on Draft PRs
 		button.replaceWith(
-			<a href={location.pathname + '/conflicts'} className="btn float-right">{icons.alert()} Resolve conflicts</a>
+			<a href={location.pathname + '/conflicts'} className="btn float-right">{alertIcon()} Resolve conflicts</a>
 		);
 	} else {
 		button.textContent = response.message ?? 'Error';
-		button.prepend(icons.alert(), ' ');
+		button.prepend(alertIcon(), ' ');
 		throw new api.RefinedGitHubAPIError('update-pr-from-base-branch: ' + JSON.stringify(response));
 	}
 }
@@ -57,7 +57,7 @@ function createButton(base: string, head: string): HTMLElement {
 }
 
 async function addButton(): Promise<void> {
-	if (select.exists('.rgh-update-pr-from-master, .branch-action-btn > .btn')) {
+	if (select.exists('.rgh-update-pr-from-master, .branch-action-btn:not([action$="ready_for_review"]) > .btn')) {
 		return;
 	}
 
@@ -82,7 +82,9 @@ async function addButton(): Promise<void> {
 		return;
 	}
 
-	select('.mergeability-details> :not(.js-details-container) .status-heading')!.append(createButton(base, head));
+	for (const heading of select.all('.mergeability-details > :not(.js-details-container) .status-heading')) {
+		heading.append(createButton(base, head));
+	}
 }
 
 function init(): void | false {

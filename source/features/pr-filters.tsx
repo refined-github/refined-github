@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import {checkInline} from '../libs/icons';
+import checkIcon from 'octicon/check.svg';
 import features from '../libs/features';
 import {fetchCIStatus} from './ci-link';
 
@@ -28,7 +28,7 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 			aria-checked={isSelected ? 'true' : 'false'}
 			role="menuitemradio"
 		>
-			{checkInline()}
+			<span className="select-menu-item-icon">{checkIcon}</span>
 			<div className="select-menu-item-text">{title}</div>
 		</a>
 	);

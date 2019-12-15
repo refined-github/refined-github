@@ -2,10 +2,10 @@ import twas from 'twas';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
+import repoIcon from 'octicon/repo.svg';
 import elementReady from 'element-ready';
 import features from '../libs/features';
 import * as api from '../libs/api';
-import * as icons from '../libs/icons';
 import {getRepoGQL, getRepoURL} from '../libs/utils';
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
@@ -37,7 +37,7 @@ async function init(): Promise<void> {
 
 	const element = (
 		<li className="text-gray" title={`Repository created on ${dateFormatter.format(date)}`}>
-			{icons.repo()}
+			{repoIcon()}
 			<span className="num text-emphasized">{value}</span> {unit} old
 		</li>
 	);

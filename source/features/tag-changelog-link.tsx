@@ -1,9 +1,9 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import diffIcon from 'octicon/diff.svg';
 import tinyVersionCompare from 'tiny-version-compare';
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
-import * as icons from '../libs/icons';
 import {isSingleTagPage} from '../libs/page-detect';
 import {getRepoPath, getRepoURL, parseTag} from '../libs/utils';
 
@@ -75,7 +75,7 @@ async function init(): Promise<void | false> {
 							aria-label={'See changes since ' + decodeURIComponent(previousTag)}
 							href={`/${getRepoURL()}/compare/${previousTag}...${allTags[index].tag}`}
 						>
-							{icons.diff()} Changelog
+							{diffIcon()} Changelog
 						</a>
 					</li>
 				);
