@@ -3,12 +3,12 @@ button.rgh-quick-mention {
 	padding: 4px 12px; /* Centers and improves clickable area */
 }
 
-/* Show button when the avatar or the button itself are hovered/focused */
-:not(:hover):not(:focus) + button.rgh-quick-mention:not(:hover):not(:focus) {
-	opacity: 0.1;
-}
-
 /* Show icon in black if it's not hovered/focused, instead of the blue color caused by .btn-link */
 button.rgh-quick-mention:not(:hover):not(:focus) {
 	color: inherit;
+}
+
+/* Show button when the avatar or the button itself are hovered/focused */
+:not(:hover):not(:focus) + button.rgh-quick-mention:not(:hover):not(:focus) {
+	opacity: 0.1;
 }
