@@ -7,7 +7,7 @@ import {wrap} from '../libs/dom-utils';
 async function init(): Promise<void> {
 	const element = await elementReady('.branch-name');
 	if (element) {
-		const branchUrl = `/${getRepoURL()}/tree/${element.textContent}`;
+		const branchUrl = `/${getRepoURL()}/tree/${element.textContent!}`;
 		wrap(element.closest('.branch-name')!, <a href={branchUrl}></a>);
 	}
 }

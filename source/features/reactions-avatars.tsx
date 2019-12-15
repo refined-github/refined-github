@@ -2,13 +2,11 @@ import './reactions-avatars.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
-import {getUsername, flatZip} from '../libs/utils';
+import {getUsername, flatZip, isFirefox} from '../libs/utils';
 import onUpdatableContentUpdate from '../libs/on-updatable-content-update';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
-
-const isFirefox = navigator.userAgent.includes('Firefox/');
 
 type Participant = {
 	container: HTMLElement;

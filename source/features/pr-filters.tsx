@@ -23,7 +23,7 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 
 	dropdown.append(
 		<a
-			href={`?${search}`}
+			href={`?${String(search)}`}
 			className={`select-menu-item ${isSelected ? 'selected' : ''}`}
 			aria-checked={isSelected ? 'true' : 'false'}
 			role="menuitemradio"
@@ -76,7 +76,7 @@ function init(): void {
 	}
 
 	const searchParameter = new URLSearchParams(location.search);
-	currentQuerySegments = (searchParameter.get('q') || '').split(/\s+/);
+	currentQuerySegments = (searchParameter.get('q') ?? '').split(/\s+/);
 
 	reviewsFilter.addEventListener('toggle', () => addDraftFilter(reviewsFilter), {once: true});
 	addStatusFilter(reviewsFilter);

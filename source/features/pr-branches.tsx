@@ -36,7 +36,7 @@ function normalizeBranchInfo(data: BranchInfo): {
 	base.branchExists = Boolean(data.baseRef);
 	base.label = data.baseRefName;
 	if (base.branchExists) {
-		base.url = `/${ownerName}/${repoName}/tree/${data.baseRefName}`;
+		base.url = `/${ownerName!}/${repoName!}/tree/${data.baseRefName}`;
 	}
 
 	const head: Partial<RepositoryReference> = {};
@@ -72,7 +72,7 @@ function buildQuery(issueIds: string[]): string {
 					headRepository {url}
 					headOwner: headRepositoryOwner {login}
 				}
-			`)}
+			`).join('\n')}
 		}
 	`;
 }

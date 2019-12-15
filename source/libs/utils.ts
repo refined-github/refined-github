@@ -4,7 +4,13 @@ import {isRepo, isPR, isIssue} from './page-detect';
 
 export const getUsername = onetime(() => select('meta[name="user-login"]')!.getAttribute('content')!);
 
-export const getDiscussionNumber = (): string | false => (isPR() || isIssue()) && getCleanPathname().split('/')[3];
+export const getDiscussionNumber = (): string | undefined => {
+	if (isPR() || isIssue()) {
+		return getCleanPathname().split('/')[3];
+	}
+
+	return undefined;
+};
 
 // Drops leading and trailing slash to avoid /\/?/ everywhere
 export const getCleanPathname = (): string => location.pathname.replace(/^[/]|[/]$/g, '');
@@ -44,10 +50,12 @@ export const getCurrentBranch = (): string => {
 		.replace(/\.atom.*/, '');
 };
 
+export const isFirefox = navigator.userAgent.includes('Firefox/');
+
 export const getRepoURL = (): string => location.pathname.slice(1).split('/', 2).join('/');
 export const getRepoGQL = (): string => {
 	const {ownerName, repoName} = getOwnerAndRepo();
-	return `owner: "${ownerName}", name: "${repoName}"`;
+	return `owner: "${ownerName!}", name: "${repoName!}"`;
 };
 
 export const getOwnerAndRepo = (): {

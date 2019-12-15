@@ -17,7 +17,7 @@ function createDiffStyleToggle(): DocumentFragment {
 		return <a
 			className={`btn btn-sm BtnGroup-item tooltipped tooltipped-s ${selected ? 'selected' : ''}`}
 			aria-label={`Show ${type} diffs`}
-			href={`?${parameters}`}>
+			href={`?${String(parameters)}`}>
 			{icon}
 		</a>;
 	};
@@ -39,7 +39,7 @@ function createWhitespaceButton(): HTMLElement {
 	}
 
 	return (
-		<a href={`?${searchParameters}`}
+		<a href={`?${String(searchParameters)}`}
 			data-hotkey="d w"
 			className={`btn btn-sm btn-outline tooltipped tooltipped-s ${isHidingWhitespace ? 'bg-gray-light text-gray-light' : ''}`}
 			aria-label={`${isHidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}>
@@ -62,7 +62,7 @@ function init(): false | void {
 	const container = select([
 		'#toc', // In single commit view
 		'.pr-review-tools' // In review view
-	].join(','));
+	]);
 	if (!container) {
 		return false;
 	}

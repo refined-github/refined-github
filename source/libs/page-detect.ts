@@ -207,7 +207,7 @@ export const _isQuickPR = [
 ];
 
 export const isReleasesOrTags = (): boolean => {
-	const parts = (getRepoPath() || '').split('/');
+	const parts = (getRepoPath() ?? '').split('/');
 	return /^(releases|tags)$/.test(parts[0]) && parts[1] !== 'new';
 };
 
@@ -255,7 +255,7 @@ export const _isRepoDiscussionList = [
 	'https://github.com/sindresorhus/refined-github/issues'
 ];
 
-export const isRepoPRList = (): boolean => (getRepoPath() || '').startsWith('pulls');
+export const isRepoPRList = (): boolean => (getRepoPath() ?? '').startsWith('pulls');
 export const _isRepoPRList = [
 	'https://github.com/sindresorhus/refined-github/pulls',
 	'https://github.com/sindresorhus/refined-github/pulls/',
@@ -265,7 +265,7 @@ export const _isRepoPRList = [
 ];
 
 export const isRepoIssueList = (): boolean => {
-	const parts = (getRepoPath() || '').split('/');
+	const parts = (getRepoPath() ?? '').split('/');
 	return parts[0] === 'issues' && parts[1] !== 'new' && !/\d/.test(parts[1]); // `issues/fregante` is a list but `issues/1` isn't
 };
 

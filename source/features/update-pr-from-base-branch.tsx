@@ -17,7 +17,7 @@ function getBranches(): {base: string; head: string} {
 }
 
 export async function mergeBranches(): Promise<AnyObject> {
-	return api.v3(`repos/${getRepoURL()}/pulls/${getDiscussionNumber()}/update-branch`, {
+	return api.v3(`repos/${getRepoURL()}/pulls/${getDiscussionNumber()!}/update-branch`, {
 		method: 'PUT',
 		headers: {
 			Accept: 'application/vnd.github.lydian-preview+json'

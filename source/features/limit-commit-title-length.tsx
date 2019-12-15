@@ -7,7 +7,7 @@ function init(): void {
 	const inputField = select<HTMLInputElement>([
 		'#commit-summary-input', // Commit title on edit file page
 		'#merge_title_field' // PR merge message field
-	].join(','));
+	]);
 
 	// The input field doesn't exist on PR merge page if you don't have access to that repo
 	if (!inputField) {

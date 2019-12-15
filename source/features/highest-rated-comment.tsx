@@ -100,11 +100,11 @@ function getCommentsWithReactions(): Set<Element> {
 }
 
 function getNegativeReactions(reactionBox?: Element): Element[] {
-	return select.all(negativeReactionsSelector, reactionBox || document);
+	return select.all(negativeReactionsSelector, reactionBox ?? document);
 }
 
 function getPositiveReactions(reactionBox?: Element): Element[] {
-	return select.all(positiveReactionsSelector, reactionBox || document);
+	return select.all(positiveReactionsSelector, reactionBox ?? document);
 }
 
 function getCount(reactions: Element[]): number {

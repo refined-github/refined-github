@@ -16,7 +16,7 @@ const getCounts = cache.function(async (): Promise<Counts> => {
 			projects { totalCount }
 			milestones { totalCount }
 		}
-		organization(login: "${getOwnerAndRepo().ownerName}") {
+		organization(login: "${getOwnerAndRepo().ownerName!}") {
 			projects { totalCount }
 		}
 	`, {

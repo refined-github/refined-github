@@ -11,7 +11,7 @@ import features from '../libs/features';
 import {isRepoWithAccess} from '../libs/page-detect';
 import {getRepoURL, getUsername} from '../libs/utils';
 
-const getCacheKey = onetime((): string => `forked-to:${getUsername()}@${findForkedRepo() || getRepoURL()}`);
+const getCacheKey = onetime((): string => `forked-to:${getUsername()}@${findForkedRepo() ?? getRepoURL()}`);
 
 async function save(forks: string[]): Promise<void> {
 	if (forks.length === 0) {
