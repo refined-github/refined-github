@@ -73,7 +73,7 @@ test('getDiscussionNumber', t => {
 		],
 		[
 			'https://github.com/sindresorhus/refined-github/issues',
-			false
+			undefined
 		]
 	]);
 	for (const [url, result] of pairs) {

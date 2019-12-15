@@ -4,7 +4,13 @@ import {isRepo, isPR, isIssue} from './page-detect';
 
 export const getUsername = onetime(() => select('meta[name="user-login"]')!.getAttribute('content')!);
 
-export const getDiscussionNumber = (): string | undefined => ((isPR() || isIssue()) && getCleanPathname().split('/')[3]) || undefined;
+export const getDiscussionNumber = (): string | undefined => {
+	if (isPR() || isIssue()) {
+		return getCleanPathname().split('/')[3];
+	}
+
+	return undefined;
+};
 
 // Drops leading and trailing slash to avoid /\/?/ everywhere
 export const getCleanPathname = (): string => location.pathname.replace(/^[/]|[/]$/g, '');
