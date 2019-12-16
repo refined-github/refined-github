@@ -8,6 +8,7 @@
 	"include": [
 		"source",
 		"test",
+		"octicon-svg-loader.ts",
 		"webpack.config.ts"
 	]
 }

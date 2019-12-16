@@ -16,7 +16,7 @@ export default function onUpdatableContentUpdate(updatable: HTMLElement, callbac
 			return;
 		}
 
-		const replacedElement = select(`[data-url="${updatable.dataset.url}"]`);
+		const replacedElement = select(`[data-url="${updatable.dataset.url!}"]`);
 		if (replacedElement) {
 			callback();
 

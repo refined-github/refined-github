@@ -1,10 +1,10 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import cache from 'webext-storage-cache';
+import select from 'select-dom';
+import tagIcon from 'octicon/tag.svg';
 import features from '../libs/features';
 import * as api from '../libs/api';
 import {getOwnerAndRepo, getRepoURL, getRepoGQL} from '../libs/utils';
-import * as icons from '../libs/icons';
 
 interface CommitTags {
 	[name: string]: string[];
@@ -31,7 +31,7 @@ interface TagNode {
 }
 
 const {ownerName, repoName} = getOwnerAndRepo();
-const cacheKey = `tags:${ownerName}/${repoName}`;
+const cacheKey = `tags:${ownerName!}/${repoName!}`;
 
 function mergeTags(oldTags: CommitTags, newTags: CommitTags): CommitTags {
 	const result: CommitTags = {...oldTags};
@@ -116,7 +116,7 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 async function init(): Promise<void | false> {
 	const commitsOnPage = select.all('li.commit');
 	const lastCommitOnPage = (commitsOnPage[commitsOnPage.length - 1].dataset.channel as string).split(':')[3];
-	let cached = await cache.get<{[commit: string]: string[]}>(cacheKey) || {};
+	let cached = await cache.get<{[commit: string]: string[]}>(cacheKey) ?? {};
 	const commitsWithNoTags = [];
 	for (const commit of commitsOnPage) {
 		const targetCommit = (commit.dataset.channel as string).split(':')[3];
@@ -133,7 +133,7 @@ async function init(): Promise<void | false> {
 		} else if (targetTags.length > 0) {
 			select('.commit-meta', commit)!.append(
 				<div className="ml-2">
-					{icons.tag()}
+					{tagIcon()}
 					<span className="ml-1">{targetTags.map((tags, i) => (
 						<>
 							<a href={`/${getRepoURL()}/releases/tag/${tags}`}>{tags}</a>

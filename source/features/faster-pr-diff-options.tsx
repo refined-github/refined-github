@@ -1,6 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import * as icons from '../libs/icons';
+import diffIcon from 'octicon/diff.svg';
+import bookIcon from 'octicon/book.svg';
+import checkIcon from 'octicon/check.svg';
 import features from '../libs/features';
 
 function createDiffStyleToggle(): DocumentFragment {
@@ -15,14 +17,14 @@ function createDiffStyleToggle(): DocumentFragment {
 		return <a
 			className={`btn btn-sm BtnGroup-item tooltipped tooltipped-s ${selected ? 'selected' : ''}`}
 			aria-label={`Show ${type} diffs`}
-			href={`?${parameters}`}>
+			href={`?${String(parameters)}`}>
 			{icon}
 		</a>;
 	};
 
 	return <>
-		{makeLink('unified', icons.diff(), isUnified)}
-		{makeLink('split', icons.book(), !isUnified)}
+		{makeLink('unified', diffIcon(), isUnified)}
+		{makeLink('split', bookIcon(), !isUnified)}
 	</>;
 }
 
@@ -37,11 +39,11 @@ function createWhitespaceButton(): HTMLElement {
 	}
 
 	return (
-		<a href={`?${searchParameters}`}
+		<a href={`?${String(searchParameters)}`}
 			data-hotkey="d w"
 			className={`btn btn-sm btn-outline tooltipped tooltipped-s ${isHidingWhitespace ? 'bg-gray-light text-gray-light' : ''}`}
 			aria-label={`${isHidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}>
-			{isHidingWhitespace && icons.check()} No Whitespace
+			{isHidingWhitespace && checkIcon()} No Whitespace
 		</a>
 	);
 }
@@ -60,7 +62,7 @@ function init(): false | void {
 	const container = select([
 		'#toc', // In single commit view
 		'.pr-review-tools' // In review view
-	].join(','));
+	]);
 	if (!container) {
 		return false;
 	}

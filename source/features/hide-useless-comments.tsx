@@ -23,7 +23,7 @@ function init(): void {
 		}
 
 		// If the person is having a conversation, then don't hide it
-		const author = select('.author', comment)!.getAttribute('href');
+		const author = select('.author', comment)!.getAttribute('href')!;
 		// If the first comment left by the author isn't a useless comment
 		// (previously hidden or about to be hidden), then leave this one as well
 		const previousComment = select(`.js-timeline-item:not([hidden]) .unminimized-comment .author[href="${author}"]`);

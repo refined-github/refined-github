@@ -1,9 +1,9 @@
 import './open-all-notifications.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import linkExternalIcon from 'octicon/link-external.svg';
 import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
-import * as icons from '../libs/icons';
 import {groupButtons} from '../libs/group-buttons';
 
 const confirmationRequiredCount = 10;
@@ -56,7 +56,7 @@ function addOpenReposButton(): void {
 
 		select('.mark-all-as-read', repoNotifications)!.before(
 			<button type="button" className="open-repo-notifications tooltipped tooltipped-w rgh-open-notifications-button" aria-label={`Open all unread \`${repo}\` notifications in tabs`}>
-				{icons.externalLink()}
+				{linkExternalIcon()}
 			</button>
 		);
 	}
@@ -65,7 +65,7 @@ function addOpenReposButton(): void {
 function addOpenAllButton(): void {
 	if (!select.exists('.rgh-open-notifications-button')) {
 		// Move out the extra node that messes with .BtnGroup-item:last-child
-		document.body.append(select('#mark_as_read_confirm_box') || '');
+		document.body.append(select('#mark_as_read_confirm_box') ?? '');
 
 		// Create an open button and add it into a button group
 		const button = <button className="btn btn-sm rgh-open-notifications-button">Open all unread in tabs</button>;

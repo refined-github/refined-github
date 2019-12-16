@@ -2,10 +2,10 @@ import './hidden-review-comments-indicator.css';
 import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
+import commentIcon from 'octicon/comment.svg';
 import features from '../libs/features';
 import anchorScroll from '../libs/anchor-scroll';
 import onPrFileLoad from '../libs/on-pr-file-load';
-import * as icons from '../libs/icons';
 
 // When an indicator is clicked, this will show comments on the current file
 const handleIndicatorClick = ({currentTarget}: React.MouseEvent<HTMLElement>): void => {
@@ -27,7 +27,7 @@ const addIndicator = mem((commentThread: HTMLElement): void => {
 		<tr>
 			<td className="rgh-comments-indicator blob-num" colSpan={2} onClick={handleIndicatorClick}>
 				<button type="button" className="btn-link">
-					{icons.comment()}
+					{commentIcon()}
 					<span>{commentCount}</span>
 				</button>
 			</td>

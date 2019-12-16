@@ -1,7 +1,3 @@
-.show-inline-notes .rgh-comments-indicator {
-	display: none;
-}
-
 .rgh-comments-indicator {
 	position: absolute;
 }
@@ -22,6 +18,10 @@
 .rgh-comments-indicator::after {
 	border-top-width: 5px;
 	color: transparent;
+}
+
+.show-inline-notes .rgh-comments-indicator {
+	display: none;
 }
 
 .rgh-comments-indicator button {

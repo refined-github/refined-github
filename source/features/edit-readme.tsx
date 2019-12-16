@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import pencilIcon from 'octicon/pencil.svg';
 import features from '../libs/features';
-import * as icons from '../libs/icons';
 import getDefaultBranch from '../libs/get-default-branch';
 
 async function init(): Promise<void | false> {
@@ -28,7 +28,7 @@ async function init(): Promise<void | false> {
 		<a href={pathnameParts.join('/')}
 			className="Box-btn-octicon btn-octicon float-right"
 			aria-label="Edit this file">
-			{icons.edit()}
+			{pencilIcon()}
 		</a>
 	);
 }

@@ -5,7 +5,7 @@ import features from '../libs/features';
 
 function addLocation(baseElement: HTMLElement): void {
 	for (const {nextElementSibling, nextSibling} of select.all('.octicon-location', baseElement)) {
-		const location = nextElementSibling || nextSibling!; // `nextSibling` alone might point to an empty TextNode before an element, if there’s an element
+		const location = nextElementSibling ?? nextSibling!; // `nextSibling` alone might point to an empty TextNode before an element, if there’s an element
 		if (isEditable(location)) {
 			continue;
 		}

@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import {checkInline} from '../libs/icons';
+import checkIcon from 'octicon/check.svg';
 import features from '../libs/features';
 import {fetchCIStatus} from './ci-link';
 
@@ -23,12 +23,12 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 
 	dropdown.append(
 		<a
-			href={`?${search}`}
+			href={`?${String(search)}`}
 			className={`select-menu-item ${isSelected ? 'selected' : ''}`}
 			aria-checked={isSelected ? 'true' : 'false'}
 			role="menuitemradio"
 		>
-			{checkInline()}
+			<span className="select-menu-item-icon">{checkIcon}</span>
 			<div className="select-menu-item-text">{title}</div>
 		</a>
 	);
@@ -76,7 +76,7 @@ function init(): void {
 	}
 
 	const searchParameter = new URLSearchParams(location.search);
-	currentQuerySegments = (searchParameter.get('q') || '').split(/\s+/);
+	currentQuerySegments = (searchParameter.get('q') ?? '').split(/\s+/);
 
 	reviewsFilter.addEventListener('toggle', () => addDraftFilter(reviewsFilter), {once: true});
 	addStatusFilter(reviewsFilter);

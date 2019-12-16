@@ -10,46 +10,46 @@ import {
 } from '../source/libs/utils';
 
 test('getDiscussionNumber', t => {
-	const pairs = new Map<string, boolean|string>([
+	const pairs = new Map<string, string | undefined>([
 		[
 			'https://github.com',
-			false
+			undefined
 		],
 		[
 			'https://gist.github.com/',
-			false
+			undefined
 		],
 		[
 			'https://github.com/settings/developers',
-			false
+			undefined
 		],
 		[
 			'https://github.com/sindresorhus/notifications/notifications',
-			false
+			undefined
 		],
 		[
 			'https://github.com/sindresorhus/refined-github',
-			false
+			undefined
 		],
 		[
 			'https://github.com/sindresorhus/refined-github/',
-			false
+			undefined
 		],
 		[
 			'https://github.com/sindresorhus/refined-github/blame/master/package.json',
-			false
+			undefined
 		],
 		[
 			'https://github.com/sindresorhus/refined-github/commit/57bf4',
-			false
+			undefined
 		],
 		[
 			'https://github.com/sindresorhus/refined-github/compare/test-branch?quick_pull=0',
-			false
+			undefined
 		],
 		[
 			'https://github.com/sindresorhus/refined-github/tree/master/distribution',
-			false
+			undefined
 		],
 		[
 			'https://github.com/sindresorhus/refined-github/pull/148/commits/0019603b83bd97c2f7ef240969f49e6126c5ec85',
@@ -73,7 +73,7 @@ test('getDiscussionNumber', t => {
 		],
 		[
 			'https://github.com/sindresorhus/refined-github/issues',
-			false
+			undefined
 		]
 	]);
 	for (const [url, result] of pairs) {

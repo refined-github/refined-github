@@ -78,8 +78,6 @@ import './features/pull-request-hotkey';
 import './features/quick-review-buttons';
 import './features/format-discussion-titles';
 import './features/embed-gist-inline';
-import './features/extend-status-labels';
-import './features/highlight-closing-prs-in-open-issues';
 import './features/comments-time-machine-links';
 import './features/hide-issue-list-autocomplete';
 import './features/esc-to-deselect-line';

@@ -6,7 +6,7 @@ import {getRepoURL, getRepoBranch} from '../libs/utils';
 import fetchDom from '../libs/fetch-dom';
 
 export const fetchCIStatus = onetime(async (): Promise<HTMLElement | void> => {
-	const url = `/${getRepoURL()}/commits/${getRepoBranch() || ''}`;
+	const url = `/${getRepoURL()}/commits/${getRepoBranch() ?? ''}`;
 	const icon = await fetchDom<HTMLElement>(url, '.commit-build-statuses');
 	if (icon) {
 		icon.classList.add('rgh-ci-link');

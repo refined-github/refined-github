@@ -3,8 +3,8 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import insertText from 'insert-text-textarea';
+import replyIcon from 'octicon/reply.svg';
 import features from '../libs/features';
-import * as icons from '../libs/icons';
 import {getUsername} from '../libs/utils';
 
 function mentionUser({delegateTarget: button}: DelegateEvent): void {
@@ -28,7 +28,8 @@ function init(): void | false {
 		return false; // Discussion is locked
 	}
 
-	for (const avatar of select.all(`.TimelineItem-avatar > :not([href="/${getUsername()}"]):not(.rgh-quick-mention)`)) {
+	// `:first-child` avoids app badges #2630
+	for (const avatar of select.all(`.TimelineItem-avatar > :first-child:not([href="/${getUsername()}"]):not(.rgh-quick-mention)`)) {
 		avatar.classList.add('rgh-quick-mention');
 		avatar.after(
 			<button
@@ -36,7 +37,7 @@ function init(): void | false {
 				className="rgh-quick-mention tooltipped tooltipped-e btn-link"
 				aria-label="Mention user in a new comment"
 			>
-				{icons.reply()}
+				{replyIcon()}
 			</button>
 		);
 	}

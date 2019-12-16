@@ -12,7 +12,7 @@ function init(): void {
 				'.js-active-navigation-container .select-menu-list:not([hidden]) .js-navigation-item:not([hidden])', // All selectable items in the current tab
 				'.js-active-navigation-container .js-new-label-modal:not(.d-none) .js-navigation-item', // "Create label" button, when selecting labels
 				'.js-active-navigation-container a.js-navigation-item.js-label-options' // "Edit labels" link, when selecting labels
-			].join(','));
+			]);
 
 			lastSelectableItemIndex = selectableItems.length - 1;
 		});

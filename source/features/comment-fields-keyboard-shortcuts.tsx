@@ -1,7 +1,7 @@
 import select from 'select-dom';
+import blurAccessibly from 'blur-accessibly';
 import delegate, {DelegateEvent, DelegateEventHandler} from 'delegate-it';
 import features from '../libs/features';
-import blurAccessibly from '../libs/blur-field-accessibly';
 
 export function listenToCommentFields(callback: DelegateEventHandler<KeyboardEvent, HTMLTextAreaElement>): void {
 	delegate<HTMLTextAreaElement, KeyboardEvent>('.js-comment-field, #commit-description-textarea', 'keydown', event => {

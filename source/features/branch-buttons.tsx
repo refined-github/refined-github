@@ -1,9 +1,10 @@
 import './branch-buttons.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import tagIcon from 'octicon/tag.svg';
+import branchIcon from 'octicon/git-branch.svg';
 import compareVersions from 'tiny-version-compare';
 import * as api from '../libs/api';
-import * as icons from '../libs/icons';
 import features from '../libs/features';
 import {isRepoRoot} from '../libs/page-detect';
 import {groupSiblings} from '../libs/group-buttons';
@@ -38,7 +39,7 @@ async function getTagLink(): Promise<'' | HTMLAnchorElement> {
 		latestRelease = tags[0];
 	}
 
-	const link = <a className="btn btn-sm btn-outline tooltipped tooltipped-ne">{icons.tag()}</a> as unknown as HTMLAnchorElement;
+	const link = <a className="btn btn-sm btn-outline tooltipped tooltipped-ne">{tagIcon()}</a> as unknown as HTMLAnchorElement;
 
 	const currentBranch = getCurrentBranch();
 
@@ -80,7 +81,7 @@ async function getDefaultBranchLink(): Promise<HTMLElement | undefined> {
 			className="btn btn-sm btn-outline tooltipped tooltipped-ne"
 			href={url}
 			aria-label="Visit the default branch">
-			{icons.branch()}
+			{branchIcon()}
 			{' '}
 			{defaultBranch}
 		</a>
