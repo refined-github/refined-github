@@ -79,7 +79,7 @@ GitHub Enterprise is also supported. More info in the options.
 			Linkifies issue/PR references and URLs in code
 		</th>
 		<th width="50%">
-			Adds link to an issue’s closing commit or pull request
+			<a title="revert-file"></a> Adds button to revert all the changes to a file in a PR.
 		</th>
 	</tr>
 	<tr><!-- Prevent zebra stripes --></tr>
@@ -88,8 +88,7 @@ GitHub Enterprise is also supported. More info in the options.
 			<img src="https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png">
 		</td>
 		<td>
-			<img src="https://user-images.githubusercontent.com/1402241/35973522-5c00acb6-0d08-11e8-89ca-03071de15c6f.png">
-			<img src="https://user-images.githubusercontent.com/1402241/37037746-8b8eac8a-2185-11e8-94f6-4d50a9c8a152.png">
+			<img src="https://user-images.githubusercontent.com/1402241/62826118-73b7bb00-bbe0-11e9-9449-2dd64c469bb9.gif">
 		</td>
 	</tr>
 </table>
@@ -235,7 +234,6 @@ Thanks for contributing! 🦋🙌
 - [](# "warning-for-disallow-edits") [Warns you when unchecking `Allow edits from maintainers`, as it’s maintainer-hostile.](https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif)
 - [](# "pull-request-hotkey") Adds keyboard shortcuts to cycle through PR tabs: <kbd>g</kbd> <kbd>←</kbd> and <kbd>g</kbd> <kbd>→</kbd>, or <kbd>g</kbd> <kbd>1</kbd>, <kbd>g</kbd> <kbd>2</kbd>, <kbd>g</kbd> <kbd>3</kbd> and <kbd>g</kbd> <kbd>4</kbd>.
 - [](# "pr-branch-auto-delete") Automatically deletes the branch right after merging a PR, if possible.
-- [](# "revert-file") 🔥 [Adds button to revert all the changes to a file in a PR.](https://user-images.githubusercontent.com/1402241/62826118-73b7bb00-bbe0-11e9-9449-2dd64c469bb9.gif)
 - [](# "separate-draft-pr-button") [Lets you create draft pull requests in one click.](https://user-images.githubusercontent.com/202916/67269317-cd791300-f4b6-11e9-89d1-392de7ef71e1.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
@@ -312,7 +310,7 @@ Thanks for contributing! 🦋🙌
 
 ### Previously part of Refined GitHub
 
-GitHub implemented 20 features that used to be part of Refined GitHub 🎉
+GitHub implemented 21 features that used to be part of Refined GitHub 🎉
 
 <details><summary>See list</summary>
 
@@ -336,6 +334,7 @@ GitHub implemented 20 features that used to be part of Refined GitHub 🎉
 - [Blog post](https://github.blog/changelog/2019-02-14-prompt-to-clean-up-merged-forks): [Quickly delete a forked repo after its pull request has been merged.](https://cloud.githubusercontent.com/assets/170270/13520281/b2c9335c-e211-11e5-9e36-b0f325166356.png)
 - [Blog post](https://github.blog/changelog/2019-03-05-exclude-labels-from-search/): [Exclude PR/issue filters from their list](https://user-images.githubusercontent.com/1402241/48470535-493cfb00-e824-11e8-863a-964f52b62553.png) with <kbd>alt</kbd> <kbd>click</kbd>.
 - [Blog post](https://github.blog/changelog/2019-03-18-sticky-file-headers-in-pull-requests/): [File headers are always visible.](https://user-images.githubusercontent.com/81981/28682784-78bac340-72fe-11e7-9386-bdbab7703693.gif)
+- [Blog post](https://github.blog/changelog/2019-08-21-improved-visibility-for-related-pull-requests-in-issues/): Adds link to an issue’s closing commit or pull request. [1](https://user-images.githubusercontent.com/1402241/35973522-5c00acb6-0d08-11e8-89ca-03071de15c6f.png) [2](https://user-images.githubusercontent.com/1402241/37037746-8b8eac8a-2185-11e8-94f6-4d50a9c8a152.png)
 
 </details>
 
