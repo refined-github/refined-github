@@ -40,7 +40,7 @@ async function showSource(): Promise<void> {
 	sourceButton.disabled = true;
 
 	const source = buttonBodyMap.get(sourceButton) ?? fetchSource();
-	const rendered = await buttonBodyMap.get(renderedButton) ?? select('.blob .markdown-body')!;
+	const rendered = await buttonBodyMap.get(renderedButton) ?? select('.blob.js-code-block-container')!;
 
 	buttonBodyMap.set(sourceButton, source);
 	buttonBodyMap.set(renderedButton, rendered);
