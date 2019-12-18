@@ -91,7 +91,7 @@ function init(): void {
 	listeners = [
 		...delegate('#discussion_bucket', '#merge_title_field', 'input', maybeShowNote),
 		...delegate('#discussion_bucket', 'form.js-merge-pull-request', 'submit', submitPRTitleUpdate),
-		...onPrMergePanelOpen(onMergePanelOpen)
+		onPrMergePanelOpen(onMergePanelOpen)
 	];
 }
 
