@@ -1,7 +1,31 @@
 import './warning-for-disallow-edits.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import oneTime from 'onetime';
+import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
+
+const getWarning = oneTime(() => (
+	<div className="flash flash-error mt-3 rgh-warning-for-disallow-edits">
+		<strong>Note:</strong> Maintainers may require changes. It’s easier and faster to allow them to make direct changes before merging.
+	</div>
+));
+
+function update(checkbox: HTMLInputElement): void {
+	if (checkbox.checked) {
+		getWarning().remove();
+	} else {
+		// Select every time because the sidebar content may be replaced
+		select(`
+				.new-pr-form .timeline-comment,
+				#partial-discussion-sidebar .js-collab-form + .js-dropdown-details
+			`)!.after(getWarning());
+	}
+}
+
+function toggleHandler(event: DelegateEvent<UIEvent, HTMLInputElement>): void {
+	update(event.delegateTarget);
+}
 
 function init(): void {
 	const checkbox = select<HTMLInputElement>('[name="collab_privs"]');
@@ -9,25 +33,8 @@ function init(): void {
 		return;
 	}
 
-	const warning = (
-		<div className="flash flash-error mt-3 rgh-warning-for-disallow-edits">
-			<strong>Note:</strong> Maintainers may require changes. It’s easier and faster to allow them to make direct changes before merging.
-		</div>
-	);
-	const update = (): void => {
-		if (checkbox.checked) {
-			warning.remove();
-		} else {
-			// Select every time because the sidebar content may be replaced
-			select(`
-				.new-pr-form .timeline-comment,
-				#partial-discussion-sidebar .js-collab-form + .js-dropdown-details
-			`)!.after(warning);
-		}
-	};
-
-	update(); // The sidebar checkbox may already be un-checked
-	checkbox.addEventListener('change', update);
+	update(checkbox); // The sidebar checkbox may already be un-checked
+	delegate('[name="collab_privs"]', 'change', toggleHandler);
 }
 
 features.add({
