@@ -36,6 +36,7 @@ interface GlobalEventHandlersEventMap {
 	'rgh:view-markdown-source': CustomEvent;
 	'rgh:view-markdown-rendered': CustomEvent;
 	'filterable:change': CustomEvent;
+	'page:loaded': CustomEvent;
 }
 
 declare namespace JSX {

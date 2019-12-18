@@ -1,22 +1,10 @@
-import select from 'select-dom';
+import delegate, {DelegateSubscription} from 'delegate-it';
 
-// In PRs' Files tab, some files are loaded progressively later.
-const handlers = new WeakMap<EventListener, EventListener>();
+const fragmentSelector = [
+	'include-fragment.diff-progressive-loader', // Incremental file loader on scroll
+	'include-fragment.js-diff-entry-loader' // File diff loader on clicking "Load Diff"
+].join();
 
-export default function onPrFileLoad(callback: EventListener): void {
-	// When a fragment loads, more fragments might be nested in it. The following code avoids duplicate event handlers.
-	const recursiveCallback = handlers.get(callback) ?? ((event: Event) => {
-		callback(event);
-		onPrFileLoad(callback);
-	});
-	handlers.set(callback, recursiveCallback);
-
-	const fragments = select.all([
-		'include-fragment.diff-progressive-loader', // Incremental file loader on scroll
-		'include-fragment.js-diff-entry-loader' // File diff loader on clicking "Load Diff"
-	].join());
-
-	for (const fragment of fragments) {
-		fragment.addEventListener('load', recursiveCallback);
-	}
+export default function onPrFileLoad(callback: EventListener): DelegateSubscription {
+	return delegate(fragmentSelector, 'load', callback, true);
 }
