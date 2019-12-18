@@ -36,7 +36,7 @@ function handleMenuOpening(event: DelegateEvent): void {
 }
 
 function init(): void {
-	delegate('#files', '.js-file-header-dropdown > summary', 'click', handleMenuOpening);
+	delegate('.js-file-header-dropdown > summary', 'click', handleMenuOpening);
 }
 
 features.add({

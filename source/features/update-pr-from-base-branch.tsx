@@ -99,7 +99,7 @@ function init(): void | false {
 	}
 
 	observer = observeEl('.discussion-timeline-actions', addButton)!;
-	delegate('.discussion-timeline-actions', '.rgh-update-pr-from-master', 'click', handler);
+	delegate('.rgh-update-pr-from-master', 'click', handler);
 }
 
 features.add({

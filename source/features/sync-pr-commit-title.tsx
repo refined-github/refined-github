@@ -91,8 +91,8 @@ function onMergePanelOpen(event: Event): void {
 let listeners: DelegateSubscription[];
 function init(): void {
 	listeners = [
-		...delegate('#discussion_bucket', '#merge_title_field', 'input', maybeShowNote),
-		...delegate('#discussion_bucket', 'form.js-merge-pull-request', 'submit', submitPRTitleUpdate),
+		delegate('#merge_title_field', 'input', maybeShowNote),
+		delegate('form.js-merge-pull-request', 'submit', submitPRTitleUpdate),
 		delegate('.rgh-sync-pr-commit-title', 'click', handleCancelClick),
 		onPrMergePanelOpen(onMergePanelOpen)
 	];
