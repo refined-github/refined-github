@@ -30,12 +30,13 @@ function init(): void | false {
 
 	// `:first-child` avoids app badges #2630
 	for (const avatar of select.all(`.TimelineItem-avatar > :first-child:not([href="/${getUsername()}"]):not(.rgh-quick-mention)`)) {
+		const userMention = select('img', avatar)!.alt;
 		avatar.classList.add('rgh-quick-mention');
 		avatar.after(
 			<button
 				type="button"
 				className="rgh-quick-mention tooltipped tooltipped-e btn-link"
-				aria-label="Mention user in a new comment"
+				aria-label={`Mention ${userMention} in a new comment`}
 			>
 				{replyIcon()}
 			</button>
