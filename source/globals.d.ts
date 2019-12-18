@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 // TODO: Drop some definitions when their related bugs are resolved
-// TODO: Improve JSX types for event listeners so we can use `MouseEvent` instead of `React.MouseEvent`, which is incompatible with regular `addEventListeners` calls
 
 type AnyObject = Record<string, any>;
 type AsyncVoidFunction = () => Promise<void>;

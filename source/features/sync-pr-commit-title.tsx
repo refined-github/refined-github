@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 import debounce from 'debounce-fn';
-import delegate, {DelegateSubscription} from 'delegate-it';
+import delegate, {DelegateSubscription, DelegateEvent} from 'delegate-it';
 import insertTextTextarea from 'insert-text-textarea';
 import features from '../libs/features';
 import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
@@ -28,15 +28,17 @@ const createCommitTitle = debounce<[], string>((): string => {
 
 const getNote = onetime<[], HTMLElement>((): HTMLElement =>
 	<p className="note">
-		The title of this PR will be updated to match this title. <button type="button" className="btn-link muted-link text-underline" onClick={event => {
-			deinit();
-			event.currentTarget.parentElement!.remove(); // Hide note
-		}}>Cancel</button>
+		The title of this PR will be updated to match this title. <button type="button" className="btn-link muted-link text-underline rgh-sync-pr-commit-title">Cancel</button>
 	</p>
 );
 
 function getPRNumber(): string {
 	return select('.gh-header-number')!.textContent!;
+}
+
+function handleCancelClick(event: DelegateEvent): void {
+	deinit();
+	event.delegateTarget.parentElement!.remove(); // Hide note
 }
 
 function maybeShowNote(): void {
@@ -91,6 +93,7 @@ function init(): void {
 	listeners = [
 		...delegate('#discussion_bucket', '#merge_title_field', 'input', maybeShowNote),
 		...delegate('#discussion_bucket', 'form.js-merge-pull-request', 'submit', submitPRTitleUpdate),
+		delegate('.rgh-sync-pr-commit-title', 'click', handleCancelClick),
 		onPrMergePanelOpen(onMergePanelOpen)
 	];
 }

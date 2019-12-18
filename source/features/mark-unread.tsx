@@ -71,7 +71,7 @@ function stripHash(url: string): string {
 function addMarkUnreadButton(): void {
 	if (!select.exists('.rgh-btn-mark-unread')) {
 		select('.thread-subscription-status')!.after(
-			<button className="btn btn-sm btn-block mt-2 rgh-btn-mark-unread" onClick={markUnread}>
+			<button className="btn btn-sm btn-block mt-2 rgh-btn-mark-unread">
 				Mark as unread
 			</button>
 		);
@@ -96,7 +96,7 @@ async function markRead(urls: string|string[]): Promise<void> {
 	await setNotifications(updated);
 }
 
-async function markUnread({currentTarget}: React.MouseEvent): Promise<void> {
+async function markUnread({delegateTarget}: DelegateEvent): Promise<void> {
 	const participants: Participant[] = select.all('.participant-avatar').slice(0, 3).map(element => ({
 		username: element.getAttribute('aria-label')!,
 		avatar: element.querySelector('img')!.src
@@ -135,8 +135,8 @@ async function markUnread({currentTarget}: React.MouseEvent): Promise<void> {
 	await setNotifications(unreadNotifications);
 	await updateUnreadIndicator();
 
-	currentTarget.setAttribute('disabled', 'disabled');
-	currentTarget.textContent = 'Marked as unread';
+	delegateTarget.setAttribute('disabled', 'disabled');
+	delegateTarget.textContent = 'Marked as unread';
 }
 
 function getNotification(notification: Notification): Element {
@@ -415,7 +415,8 @@ async function init(): Promise<void> {
 			delegate('.btn-link.delete-note', 'click', markNotificationRead),
 			delegate('.js-mark-all-read', 'click', markAllNotificationsRead),
 			delegate('.js-delete-notification button', 'click', updateUnreadIndicator),
-			delegate('.js-mark-visible-as-read', 'submit', markVisibleNotificationsRead)
+			delegate('.js-mark-visible-as-read', 'submit', markVisibleNotificationsRead),
+			delegate('.rgh-btn-mark-unread', 'submit', markUnread)
 		);
 	} else if (pageDetect.isPR() || pageDetect.isIssue()) {
 		await markRead(location.href);
