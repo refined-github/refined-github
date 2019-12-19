@@ -27,11 +27,6 @@ export const getRepoPath = (): string | undefined => {
 	return undefined;
 };
 
-export const getRepoBranch = (): string | undefined => {
-	const [type, branch] = location.pathname.split('/').slice(3);
-	return isRepo() && type === 'tree' ? branch : undefined;
-};
-
 export const replaceBranch = (currentBranch: string, newBranch: string): string => {
 	// `pageType` will be either `blob' or 'tree'
 	const [pageType, ...branchAndPathParts] = getRepoPath()!.split('/');

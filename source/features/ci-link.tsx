@@ -2,12 +2,11 @@ import './ci-link.css';
 import onetime from 'onetime';
 import features from '../libs/features';
 import {appendBefore} from '../libs/dom-utils';
-import {getRepoURL, getRepoBranch} from '../libs/utils';
+import {getRepoURL} from '../libs/utils';
 import fetchDom from '../libs/fetch-dom';
 
 export const fetchCIStatus = onetime(async (): Promise<HTMLElement | void> => {
-	const url = `/${getRepoURL()}/commits/${getRepoBranch() ?? ''}`;
-	const icon = await fetchDom<HTMLElement>(url, '.commit-build-statuses');
+	const icon = await fetchDom<HTMLElement>(`/${getRepoURL()}/commits`, '.commit-build-statuses');
 	if (icon) {
 		icon.classList.add('rgh-ci-link');
 		return icon;
