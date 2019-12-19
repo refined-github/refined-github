@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import checkIcon from 'octicon/check.svg';
 import features from '../libs/features';
-import {fetchCIStatus} from './ci-link';
+import {getIcon as fetchCIStatus} from './ci-link';
 
 let currentQuerySegments: string[];
 
@@ -48,6 +48,7 @@ function addDraftFilter(reviewsFilter: HTMLElement): void {
 }
 
 async function addStatusFilter(reviewsFilter: HTMLElement): Promise<void> {
+	// TODO: replace this with an API call
 	const hasCI = await fetchCIStatus();
 	if (!hasCI) {
 		return;
