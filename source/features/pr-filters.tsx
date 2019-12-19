@@ -54,7 +54,7 @@ async function addStatusFilter(reviewsFilter: HTMLElement): Promise<void> {
 	}
 
 	// Copy existing element and adapt its content
-	const statusFilter = reviewsFilter.cloneNode(true) as HTMLDetailsElement;
+	const statusFilter = reviewsFilter.cloneNode(true);
 	const dropdown = select('.select-menu-list', statusFilter)!;
 
 	select('summary', statusFilter)!.textContent = 'Status\u00A0';

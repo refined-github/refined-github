@@ -40,7 +40,7 @@ function init(): void {
 		<include-fragment src={createUrl('issue', location.pathname + '/count')} />
 	);
 
-	const prLink = issueLink.cloneNode(true) as HTMLAnchorElement;
+	const prLink = issueLink.cloneNode(true);
 	prLink.textContent = 'Pull requests';
 	prLink.href = createUrl('pr');
 	prLink.append(
