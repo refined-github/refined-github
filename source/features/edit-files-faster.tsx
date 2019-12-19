@@ -4,7 +4,7 @@ import select from 'select-dom';
 import pencilIcon from 'octicon/pencil.svg';
 import features from '../libs/features';
 import {wrap} from '../libs/dom-utils';
-import getDefaultBranch from '../libs/get-default-branch';
+import {getDefaultBranch} from '../libs/get-default-branch';
 
 async function init(): Promise<void> {
 	const defaultBranch = await getDefaultBranch();

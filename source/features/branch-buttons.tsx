@@ -8,7 +8,7 @@ import * as api from '../libs/api';
 import features from '../libs/features';
 import {isRepoRoot} from '../libs/page-detect';
 import {groupSiblings} from '../libs/group-buttons';
-import getDefaultBranch from '../libs/get-default-branch';
+import {getDefaultBranch} from '../libs/get-default-branch';
 import {getRepoURL, getCurrentBranch, replaceBranch, getRepoGQL} from '../libs/utils';
 
 async function getTagLink(): Promise<'' | HTMLAnchorElement> {

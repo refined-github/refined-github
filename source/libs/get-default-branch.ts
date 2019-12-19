@@ -25,11 +25,9 @@ async function fetchFromApi(): Promise<string> {
 	return response.default_branch as string;
 }
 
-const getDefaultBranch = cache.function(async () => parseBranchFromDom() ?? fetchFromApi(), {
+export const getDefaultBranch = cache.function(async () => parseBranchFromDom() ?? fetchFromApi(), {
 	cacheKey: () => 'default-branch:' + getRepoURL()
 });
-
-export default getCurrentBranch;
 
 export async function isDefaultBranch(branchToCompare = getCurrentBranch()): Promise<boolean> {
 	return branchToCompare === await getDefaultBranch();
