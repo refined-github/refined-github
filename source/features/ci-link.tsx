@@ -1,22 +1,29 @@
 import './ci-link.css';
 import select from 'select-dom';
 import onetime from 'onetime';
+import elementReady from 'element-ready';
 import features from '../libs/features';
-import {appendBefore} from '../libs/dom-utils';
-import {getRepoURL} from '../libs/utils';
 import fetchDom from '../libs/fetch-dom';
-import {isDefaultBranch} from '../libs/get-default-branch';
+import oneEvent from '../libs/one-event';
+import {getRepoURL} from '../libs/utils';
+import {isRepoRoot} from '../libs/page-detect';
+import {appendBefore} from '../libs/dom-utils';
 
-export const getIcon = onetime(async (): Promise<HTMLElement | void> => {
-	// Copy icon from the current page if it's already the same
-	const document_ = await isDefaultBranch() ? document : await fetchDom(`/${getRepoURL()}/commits`);
-	const icon = select('.commit-build-statuses', document_);
-
-	if (icon) {
-		const iconCopy = icon.cloneNode(true);
-		iconCopy.classList.add('rgh-ci-link');
-		return iconCopy;
+export const getIcon = onetime(async (): Promise<HTMLElement | null> => {
+	let document_: ParentNode = document;
+	if (isRepoRoot()) {
+		// The icon is loaded by GitHub via AJAX. If there's no loader, either it already loaded or there's no icon
+		const loader = await elementReady('.commit-tease include-fragment[href$="/rollup"]');
+		if (loader) {
+			await oneEvent(loader, 'load');
+		}
+	} else {
+		document_ = await fetchDom(`/${getRepoURL()}/commits`);
 	}
+
+	const icon = select('.commit-build-statuses', document_);
+	icon?.classList.add('rgh-ci-link');
+	return icon;
 });
 
 async function init(): Promise<false | void> {
@@ -40,6 +47,6 @@ features.add({
 	include: [
 		features.isRepo
 	],
-	load: features.onAjaxedPages,
+	load: features.nowAndOnAjaxedPages,
 	init
 });
