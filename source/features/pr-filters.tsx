@@ -28,7 +28,7 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 			aria-checked={isSelected ? 'true' : 'false'}
 			role="menuitemradio"
 		>
-			<span className="select-menu-item-icon">{checkIcon}</span>
+			<span className="select-menu-item-icon">{checkIcon()}</span>
 			<div className="select-menu-item-text">{title}</div>
 		</a>
 	);
