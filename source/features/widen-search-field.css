@@ -47,6 +47,7 @@ https://github.com/sindresorhus/refined-github/releases/tag/19.9.16
 /* Hide `Filters` text in repo lists */
 .subnav-search-context summary {
 	display: flex;
+	align-items: center;
 	width: 2.4em;
 	text-indent: -10000px;
 }
