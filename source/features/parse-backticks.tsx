@@ -19,7 +19,7 @@ features.add({
 	include: [
 		features.isDiscussionList,
 		features.isCommitList,
-		features.isRepo
+		features.isRepoRoot
 	],
 	load: features.onAjaxedPages,
 	init
