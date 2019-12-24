@@ -6,16 +6,14 @@ import {getUsername, getRepoURL} from '../libs/utils';
 const repoUrl = getRepoURL();
 
 function init(): void {
-	select('.subnav-search-context li:last-child')!
+	select('.subnav-search-context .SelectMenu-list a:last-child')!
 		.before(
-			<li>
-				<a
-					href={`/${repoUrl}/issues?q=is%3Aopen+commenter:${getUsername()}`}
-					className="select-menu-item"
-					role="menuitem">
-						Everything commented by you
-				</a>
-			</li>
+			<a
+				href={`/${repoUrl}/issues?q=is%3Aopen+commenter:${getUsername()}`}
+				className="SelectMenu-item"
+				role="menuitem">
+					Everything commented by you
+			</a>
 		);
 }
 
