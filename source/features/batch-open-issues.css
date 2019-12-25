@@ -1,0 +1,8 @@
+#author-select-menu {
+	padding-left: 16px !important;
+}
+
+.btn-link.rgh-open-all-selected.pr-2 {
+	/* Why 24 instead of 16? Because Open All doesn't have the caret, and that's 8px wide. */
+	padding-right: 24px !important;
+}
