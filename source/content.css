@@ -35,6 +35,10 @@
 	padding-left: 8px !important;
 }
 
+.table-list-filters .details-reset:last-child {
+	padding-right: 0 !important;
+}
+
 /* Hide empty description of repo */
 .repository-meta.mb-3 > .repository-meta-content > em {
 	display: none !important;
