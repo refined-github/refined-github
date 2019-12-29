@@ -37,12 +37,15 @@ function onFragmentLoaded(): void {
 	// Change the tab to "Tags"
 	select('.rgh-tags-dropdown .select-menu-tab:last-child button')!.click();
 
-	// Change links, which point to the content of each tag, to open the tag page instead
-	for (const anchorElement of select.all<HTMLAnchorElement>('.rgh-tags-dropdown [href*="/tree/"]')) {
-		const pathnameParts = anchorElement.pathname.split('/');
-		pathnameParts[3] = 'releases/tag'; // Replace `tree`
-		anchorElement.pathname = pathnameParts.join('/');
-	}
+	// Wait until the network request is finished and HTML body is updated
+	select('.rgh-tags-dropdown remote-input')!.addEventListener('remote-input-success', () => {
+		// Change links, which point to the content of each tag, to open the tag page instead
+		for (const anchorElement of select.all<HTMLAnchorElement>('.rgh-tags-dropdown .select-menu-list:last-child [href*="/tree/"]')) {
+			const pathnameParts = anchorElement.pathname.split('/');
+			pathnameParts[3] = 'releases/tag'; // Replace `tree`
+			anchorElement.pathname = pathnameParts.join('/');
+		}
+	});
 }
 
 features.add({
