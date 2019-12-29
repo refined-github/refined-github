@@ -37,6 +37,7 @@ function onFragmentLoaded(): void {
 	// Change the tab to "Tags"
 	select('.rgh-tags-dropdown .select-menu-tab:last-child button')!.click();
 
+	// https://github.com/github/remote-input-element#events
 	// Wait until the network request is finished and HTML body is updated
 	select('.rgh-tags-dropdown remote-input')!.addEventListener('remote-input-success', () => {
 		// Change links, which point to the content of each tag, to open the tag page instead
