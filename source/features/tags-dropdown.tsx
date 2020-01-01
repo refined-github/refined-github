@@ -4,6 +4,7 @@ import select from 'select-dom';
 import octofaceIcon from 'octicon/octoface.svg';
 import features from '../libs/features';
 import {getRepoURL} from '../libs/utils';
+import oneEvent from '../libs/one-event';
 
 function init(): false | void {
 	if (select.exists('.blankslate')) {
@@ -33,20 +34,20 @@ function init(): false | void {
 }
 
 // We're reusing the Branch/Tag selector from the repo's Code tab, so we need to update a few things
-function onFragmentLoaded(): void {
+async function onFragmentLoaded(): Promise<void> {
 	// Change the tab to "Tags"
 	select('.rgh-tags-dropdown .select-menu-tab:last-child button')!.click();
 
 	// https://github.com/github/remote-input-element#events
 	// Wait until the network request is finished and HTML body is updated
-	select('.rgh-tags-dropdown remote-input')!.addEventListener('remote-input-success', () => {
-		// Change links, which point to the content of each tag, to open the tag page instead
-		for (const anchorElement of select.all<HTMLAnchorElement>('.rgh-tags-dropdown .select-menu-list:last-child [href*="/tree/"]')) {
-			const pathnameParts = anchorElement.pathname.split('/');
-			pathnameParts[3] = 'releases/tag'; // Replace `tree`
-			anchorElement.pathname = pathnameParts.join('/');
-		}
-	});
+	await oneEvent(select('.rgh-tags-dropdown remote-input')!, 'remote-input-success');
+
+	// Change links, which point to the content of each tag, to open the tag page instead
+	for (const anchorElement of select.all<HTMLAnchorElement>('.rgh-tags-dropdown .select-menu-list:last-child [href*="/tree/"]')) {
+		const pathnameParts = anchorElement.pathname.split('/');
+		pathnameParts[3] = 'releases/tag'; // Replace `tree`
+		anchorElement.pathname = pathnameParts.join('/');
+	}
 }
 
 features.add({
