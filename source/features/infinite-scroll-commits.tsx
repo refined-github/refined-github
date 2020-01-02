@@ -25,7 +25,7 @@ const loadMore = debounce(() => {
 		if (xmlhttp.readyState === DONE) {
 			if (xmlhttp.status === success) {
 				// Move over list
-				const olderList = select('.commits-listing', this!.responseXML!)!;
+				const olderList = select('.commits-listing', this.responseXML!)!;
 				let node = olderList.firstChild;
 				while (node) {
 					listing!.append(node);
@@ -33,7 +33,7 @@ const loadMore = debounce(() => {
 				}
 
 				// Set next buttons
-				container!.innerHTML = select<HTMLDivElement>('.paginate-container', this!.responseXML!)!.innerHTML;
+				container!.innerHTML = select<HTMLDivElement>('.paginate-container', this.responseXML!)!.innerHTML;
 				link = select<HTMLAnchorElement>('div > a:last-child', container)!;
 				inView.disconnect();
 				inView.observe(link);
@@ -44,10 +44,9 @@ const loadMore = debounce(() => {
 		}
 	};
 
-	xmlhttp.open('GET', link!.href, true );
+	xmlhttp.open('GET', link!.href, true);
 	xmlhttp.responseType = 'document';
 	xmlhttp.send();
-
 }, {wait: 200});
 const inView = new IntersectionObserver(([{isIntersecting}]) => {
 	if (isIntersecting) {
