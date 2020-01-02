@@ -13,7 +13,7 @@ let link: HTMLAnchorElement | undefined;
 
 const loadMore = debounce(() => {
 	if (!link!.href) {
-		return; 
+		return;
 	}
 
 	const githubLoadingButton = '<button class="btn mt-3" disabled><span>Loading</span><span class="AnimatedEllipsis"></span></button>';
@@ -24,10 +24,8 @@ const loadMore = debounce(() => {
 	xmlhttp.onreadystatechange = function () {
 		if (xmlhttp.readyState === DONE) {
 			if (xmlhttp.status === success) {
-				const olderContent = this!.responseXML!;
-
 				// Move over list
-				let olderList = select('.commits-listing', olderContent)!;
+				const olderList = select('.commits-listing', this!.responseXML!)!;
 				let node = olderList.firstChild;
 				while (node) {
 					listing!.append(node);
@@ -35,27 +33,24 @@ const loadMore = debounce(() => {
 				}
 
 				// Set next buttons
-				container!.innerHTML = select<HTMLDivElement>('.paginate-container', olderContent)!.innerHTML;
+				container!.innerHTML = select<HTMLDivElement>('.paginate-container', this!.responseXML!)!.innerHTML;
 				link = select<HTMLAnchorElement>('div > a:last-child', container)!;
 				inView.disconnect();
 				inView.observe(link);
 			} else {
 				console.log(' Failed to load olderContent');
-				console.log({readyState: xmlhttp.readyState, status: xmlhttp.status });
+				console.log({readyState: xmlhttp.readyState, status: xmlhttp.status});
 			}
 		}
 	}
 
-	xmlhttp.open("GET", link!.href, true );
-	xmlhttp.responseType = "document";
+	xmlhttp.open('GET', link!.href, true );
+	xmlhttp.responseType = 'document';
 	xmlhttp.send();
-
-}, {
-	wait: 200
-});
+}, { wait: 200 });
 
 const inView = new IntersectionObserver(([{isIntersecting}]) => {
-	if (isIntersecting) {
+	if(isIntersecting) {
 		loadMore();
 	}
 }, {
