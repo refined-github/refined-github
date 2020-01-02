@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import features from '../libs/features';
-// import debounce from 'debounce-fn';
-// import observeEl from '../libs/simplified-element-observer';
+import debounce from 'debounce-fn';
+
 const DONE = 4;
 const success = 200;
 
@@ -9,12 +9,13 @@ let listing:   HTMLDivElement    | null;
 let container: HTMLDivElement    | undefined;
 let link:      HTMLAnchorElement | undefined;
 
+// Used feature: infinite-scroll as template
 
-const loadMore = (): void => {  //debounce(() => {
-
+const loadMore = debounce(() => {
 	if( !link!.href ) return; 
 
-	container!.innerHTML = '<footer> <span class="Label bg-blue mt-3"><span>Loading</span><span class="AnimatedEllipsis"></span></span><br> </footer>'
+	var github_loading_button = '<button class="btn mt-3" disabled><span>Loading</span><span class="AnimatedEllipsis"></span></button>';
+	container!.innerHTML = github_loading_button;
 
 	let xmlhttp = new XMLHttpRequest()
 
@@ -53,7 +54,7 @@ const loadMore = (): void => {  //debounce(() => {
 	xmlhttp.send();
 
 
-}//, {wait: 200});
+}, {wait: 200});
 
 const inView = new IntersectionObserver(([{isIntersecting}]) => {
 	if (isIntersecting) { 
@@ -63,10 +64,6 @@ const inView = new IntersectionObserver(([{isIntersecting}]) => {
 }, {
 	rootMargin: '500px'
 });
-
-// const findLink = (): void => {
-// 	// Watch the new link, or stop everything
-// };
 
 function init(): void {
 	listing = select<HTMLDivElement>('.commits-listing')!;
