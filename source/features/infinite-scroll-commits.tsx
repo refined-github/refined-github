@@ -42,15 +42,15 @@ const loadMore = debounce(() => {
 				console.log({readyState: xmlhttp.readyState, status: xmlhttp.status});
 			}
 		}
-	}
+	};
 
 	xmlhttp.open('GET', link!.href, true );
 	xmlhttp.responseType = 'document';
 	xmlhttp.send();
-}, { wait: 200 });
 
+}, {wait: 200});
 const inView = new IntersectionObserver(([{isIntersecting}]) => {
-	if(isIntersecting) {
+	if (isIntersecting) {
 		loadMore();
 	}
 }, {
