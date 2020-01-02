@@ -1,35 +1,36 @@
 import select from 'select-dom';
-import features from '../libs/features';
 import debounce from 'debounce-fn';
+import features from '../libs/features';
 
 const DONE = 4;
 const success = 200;
 
-let listing:   HTMLDivElement    | null;
-let container: HTMLDivElement    | undefined;
-let link:      HTMLAnchorElement | undefined;
+let listing: HTMLDivElement | null;
+let container: HTMLDivElement | undefined;
+let link: HTMLAnchorElement | undefined;
 
 // Used feature: infinite-scroll as template
 
 const loadMore = debounce(() => {
-	if( !link!.href ) return; 
+	if (!link!.href) {
+		return; 
+	}
 
-	var github_loading_button = '<button class="btn mt-3" disabled><span>Loading</span><span class="AnimatedEllipsis"></span></button>';
-	container!.innerHTML = github_loading_button;
+	const githubLoadingButton = '<button class="btn mt-3" disabled><span>Loading</span><span class="AnimatedEllipsis"></span></button>';
+	container!.innerHTML = githubLoadingButton;
 
-	let xmlhttp = new XMLHttpRequest()
+	const xmlhttp = new XMLHttpRequest();
 
-	let olderContent: Document | null;
-	xmlhttp.onreadystatechange = function() {
-		if( xmlhttp.readyState == DONE ) {
-			if( xmlhttp.status == success ) {
-				olderContent = this!.responseXML!;
+	xmlhttp.onreadystatechange = function () {
+		if (xmlhttp.readyState === DONE) {
+			if (xmlhttp.status === success) {
+				const olderContent = this!.responseXML!;
 
 				// Move over list
 				let olderList = select('.commits-listing', olderContent)!;
 				let node = olderList.firstChild;
-				while( node ) {
-					listing!.appendChild( node );
+				while (node) {
+					listing!.append(node);
 					node = olderList.firstChild;
 				}
 
@@ -38,27 +39,23 @@ const loadMore = debounce(() => {
 				link = select<HTMLAnchorElement>('div > a:last-child', container)!;
 				inView.disconnect();
 				inView.observe(link);
-				// let content = olderList.parentNode!;
-				// content.removeChild(container!);
-				// let newContainer = select<HTMLDivElement>('.paginate-container', olderContent)!;
-				// content.appendChild( newContainer );
 			} else {
-				console.log(" Failed to load olderContent");
+				console.log(' Failed to load olderContent');
 				console.log({readyState: xmlhttp.readyState, status: xmlhttp.status });
 			}
 		}
 	}
 
 	xmlhttp.open("GET", link!.href, true );
-	xmlhttp.responseType = "document"
+	xmlhttp.responseType = "document";
 	xmlhttp.send();
 
-
-}, {wait: 200});
+}, {
+	wait: 200
+});
 
 const inView = new IntersectionObserver(([{isIntersecting}]) => {
-	if (isIntersecting) { 
-		console.log("loading more");
+	if (isIntersecting) {
 		loadMore();
 	}
 }, {
@@ -70,9 +67,7 @@ function init(): void {
 	container = select<HTMLDivElement>('.paginate-container')!;
 	link = select<HTMLAnchorElement>('div > a:last-child', container)!;
 
-	// findLink();
 	if (link) {
-		debugger;
 		inView.observe(link);
 	}
 }
@@ -84,6 +79,6 @@ features.add({
 	include: [
 		features.isCommitList
 	],
-	load: features.onDomReady, 
+	load: features.onDomReady,
 	init
 });
