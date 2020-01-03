@@ -52,7 +52,7 @@ import './features/view-markdown-source';
 import './features/copy-file';
 import './features/hide-own-stars';
 import './features/infinite-scroll';
-import './features/infinite-scroll-commits';
+import './features/infinite-commit-list-scroll';
 import './features/hide-empty-meta';
 import './features/remove-upload-files-button';
 import './features/shorten-links';
