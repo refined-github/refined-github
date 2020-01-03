@@ -8,10 +8,24 @@ const githubLoadingButton = '<button class="btn mt-3" disabled><span>Loading</sp
 
 let container: HTMLDivElement;
 let link: HTMLAnchorElement | undefined;
+let lastDate: string;
+
+function getLastDate(document_ = select<HTMLDivElement>('.commits-listing')!): string {
+	const lastDivInCommitListing = select('.commits-listing > div:last-of-type', document_);
+	return lastDivInCommitListing!.textContent!;
+}
 
 function addContent(olderContent: HTMLDivElement): void {
 	// List that we add
-	const olderList = select('.commits-listing', olderContent)!;
+	const olderList = select<HTMLDivElement>('.commits-listing', olderContent)!;
+
+	// Remove duplicate "Commits on %date%" lines
+	const firstDate = select('div', olderList);
+	if (firstDate!.textContent === lastDate) {
+		olderList.removeChild(firstDate!);
+	}
+
+	lastDate = getLastDate(olderList);
 
 	olderList.classList.add('border-top', 'border-gray-dark');
 	container.parentNode!.insertBefore(olderList, container);
@@ -60,6 +74,8 @@ const inView = new IntersectionObserver(([{isIntersecting}]) => {
 });
 
 function init(): void {
+	lastDate = getLastDate();
+
 	container = select<HTMLDivElement>('.paginate-container')!;
 	link = select<HTMLAnchorElement>('div > a:last-child', container)!;
 
