@@ -23,7 +23,7 @@ function addContent(olderContent: HTMLDivElement): void {
 	inView.observe(link);
 }
 
-async function loadOlder() {
+async function loadOlder(): Promise<void> {
 	// Don't load if we don't have the link
 	if (!link!.href) {
 		return;
@@ -34,22 +34,22 @@ async function loadOlder() {
 	// Replace buttons with loading button
 	container.innerHTML = githubLoadingButton;
 
-	const options = { 
+	const options = {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'text/html'
 		}
-	}
+	};
 
 	const response = await fetch(link!.href, options);
 	const html = await response.text();
-	
-	let parser = new DOMParser();
+
+	const parser = new DOMParser();
 	const oldDocument = parser.parseFromString(html, 'text/html');
 	const olderContent = select<HTMLDivElement>('.repository-content', oldDocument);
 
 	addContent(olderContent!);
-};
+}
 
 const inView = new IntersectionObserver(([{isIntersecting}]) => {
 	if (isIntersecting) {
