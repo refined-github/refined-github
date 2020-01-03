@@ -1,5 +1,4 @@
 import select from 'select-dom';
-import debounce from 'debounce-fn';
 import features from '../libs/features';
 
 // Used feature: infinite-scroll as template
@@ -15,41 +14,46 @@ function addContent(olderContent: HTMLDivElement): void {
 	const olderList = select('.commits-listing', olderContent)!;
 
 	olderList.classList.add('border-top', 'border-gray-dark');
-	container.parentNode!.insertBefore( olderList,  container );
+	container.parentNode!.insertBefore(olderList, container);
 
-	// setting container directly breaks it
+	// Setting container directly breaks it
 	container.innerHTML = select<HTMLDivElement>('.paginate-container', olderContent)!.innerHTML;
 
 	link = select<HTMLAnchorElement>('div > a:last-child', container)!;
-	inView.disconnect();
 	inView.observe(link);
 }
 
-const loadMore = debounce(() => {
+async function loadOlder() {
+	// Don't load if we don't have the link
 	if (!link!.href) {
 		return;
 	}
 
-	// Set Older and New buttons to laoding
-	// While we load the next page
+	inView.disconnect();
+
+	// Replace buttons with loading button
 	container.innerHTML = githubLoadingButton;
 
-	fetch(link!.href, {
+	const options = { 
 		method: 'GET',
-		headers: { 'Content-Type': 'text/html' }
-	}).then((response) => {
-		return response.text();
-	}).then((html) => {
-		let oldDoc  = new DOMParser().parseFromString(html, "text/html");
-		let olderContent = select<HTMLDivElement>('.repository-content', oldDoc)
-		addContent(olderContent!);
-	});
+		headers: {
+			'Content-Type': 'text/html'
+		}
+	}
 
-}, {wait: 200});
+	const response = await fetch(link!.href, options);
+	const html = await response.text();
+	
+	let parser = new DOMParser();
+	const oldDocument = parser.parseFromString(html, 'text/html');
+	const olderContent = select<HTMLDivElement>('.repository-content', oldDocument);
+
+	addContent(olderContent!);
+};
 
 const inView = new IntersectionObserver(([{isIntersecting}]) => {
 	if (isIntersecting) {
-		loadMore();
+		loadOlder();
 	}
 }, {
 	rootMargin: '500px'
