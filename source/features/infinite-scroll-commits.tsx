@@ -2,52 +2,51 @@ import select from 'select-dom';
 import debounce from 'debounce-fn';
 import features from '../libs/features';
 
-const DONE = 4;
-const success = 200;
+// Used feature: infinite-scroll as template
 
-let listing: HTMLDivElement | null;
-let container: HTMLDivElement | undefined;
+// Button from: https://primer.style/css/components/loaders
+const githubLoadingButton = '<button class="btn mt-3" disabled><span>Loading</span><span class="AnimatedEllipsis"></span></button>';
+
+let container: HTMLDivElement;
 let link: HTMLAnchorElement | undefined;
 
-// Used feature: infinite-scroll as template
+function addContent(olderContent: HTMLDivElement): void {
+	// List that we add
+	const olderList = select('.commits-listing', olderContent)!;
+
+	olderList.classList.add('border-top', 'border-gray-dark');
+	container.parentNode!.insertBefore( olderList,  container );
+
+	// setting container directly breaks it
+	container.innerHTML = select<HTMLDivElement>('.paginate-container', olderContent)!.innerHTML;
+
+	link = select<HTMLAnchorElement>('div > a:last-child', container)!;
+	inView.disconnect();
+	inView.observe(link);
+}
 
 const loadMore = debounce(() => {
 	if (!link!.href) {
 		return;
 	}
 
-	const githubLoadingButton = '<button class="btn mt-3" disabled><span>Loading</span><span class="AnimatedEllipsis"></span></button>';
-	container!.innerHTML = githubLoadingButton;
+	// Set Older and New buttons to laoding
+	// While we load the next page
+	container.innerHTML = githubLoadingButton;
 
-	const xmlhttp = new XMLHttpRequest();
+	fetch(link!.href, {
+		method: 'GET',
+		headers: { 'Content-Type': 'text/html' }
+	}).then((response) => {
+		return response.text();
+	}).then((html) => {
+		let oldDoc  = new DOMParser().parseFromString(html, "text/html");
+		let olderContent = select<HTMLDivElement>('.repository-content', oldDoc)
+		addContent(olderContent!);
+	});
 
-	xmlhttp.onreadystatechange = function () {
-		if (xmlhttp.readyState === DONE) {
-			if (xmlhttp.status === success) {
-				// Move over list
-				const olderList = select('.commits-listing', this.responseXML!)!;
-				let node = olderList.firstChild;
-				while (node) {
-					listing!.append(node);
-					node = olderList.firstChild;
-				}
-
-				// Set next buttons
-				container!.innerHTML = select<HTMLDivElement>('.paginate-container', this.responseXML!)!.innerHTML;
-				link = select<HTMLAnchorElement>('div > a:last-child', container)!;
-				inView.disconnect();
-				inView.observe(link);
-			} else {
-				console.log(' Failed to load olderContent');
-				console.log({readyState: xmlhttp.readyState, status: xmlhttp.status});
-			}
-		}
-	};
-
-	xmlhttp.open('GET', link!.href, true);
-	xmlhttp.responseType = 'document';
-	xmlhttp.send();
 }, {wait: 200});
+
 const inView = new IntersectionObserver(([{isIntersecting}]) => {
 	if (isIntersecting) {
 		loadMore();
@@ -57,7 +56,6 @@ const inView = new IntersectionObserver(([{isIntersecting}]) => {
 });
 
 function init(): void {
-	listing = select<HTMLDivElement>('.commits-listing')!;
 	container = select<HTMLDivElement>('.paginate-container')!;
 	link = select<HTMLAnchorElement>('div > a:last-child', container)!;
 
