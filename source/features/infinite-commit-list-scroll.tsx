@@ -9,17 +9,6 @@ const githubLoadingButton = <button className="btn mn-3" disabled><span>Loading<
 let container: HTMLElement;
 let link: HTMLAnchorElement | undefined;
 
-let lastDate: string;
-
-function getLastDate(document_?: HTMLElement): string {
-	if (!document_) {
-		document_ = select('.commits-listing')!;
-	}
-
-	const lastDivInCommitListing = select('.commits-listing > div:last-of-type', document_);
-	return lastDivInCommitListing!.textContent!;
-}
-
 async function appendOlder(): Promise<void> {
 	// Replace buttons with loading button
 	select('*', container)!.remove();
@@ -28,14 +17,6 @@ async function appendOlder(): Promise<void> {
 	// Fetch older content
 	const olderContent = await fetchDom(link!.href, '.repository-content')!;
 	const olderList = select('.commits-listing', olderContent)!;
-
-	// Remove duplicate "Commits on %date%" lines
-	const firstDate = select('div', olderList);
-	if (firstDate!.textContent === lastDate) {
-		olderList.removeChild(firstDate!);
-	}
-
-	lastDate = getLastDate(olderList);
 
 	// Add border to differentiate appended content
 	olderList.classList.add('border-top', 'border-gray-dark');
@@ -57,8 +38,6 @@ const inView = new IntersectionObserver(([{isIntersecting}]) => {
 });
 
 function init(): void {
-	lastDate = getLastDate();
-
 	container = select('.paginate-container')!;
 	link = select<HTMLAnchorElement>('div > a:last-child', container)!;
 
