@@ -3,8 +3,6 @@ import React from 'dom-chef';
 import fetchDom from '../libs/fetch-dom';
 import features from '../libs/features';
 
-// Used feature: infinite-scroll as template
-
 // Button from: https://primer.style/css/components/loaders
 const githubLoadingButton = <button className="btn mn-3" disabled><span>Loading</span><span className="AnimatedEllipsis"></span></button>;
 
@@ -13,9 +11,9 @@ let link: HTMLAnchorElement | undefined;
 
 let lastDate: string;
 
-function getLastDate(document_?: HTMLDivElement): string {
+function getLastDate(document_?: HTMLElement): string {
 	if (!document_) {
-		document_ = select<HTMLDivElement>('.commits-listing')!;
+		document_ = select('.commits-listing')!;
 	}
 
 	const lastDivInCommitListing = select('.commits-listing > div:last-of-type', document_);
@@ -23,24 +21,13 @@ function getLastDate(document_?: HTMLDivElement): string {
 }
 
 async function appendOlder(): Promise<void> {
-	// Don't load if we don't have the link
-
-	if (!link?.href) {
-		return;
-	}
-
 	// Replace buttons with loading button
 	select('*', container)!.remove();
 	container.append(githubLoadingButton);
 
 	// Fetch older content
-	const olderContent = await fetchDom(link.href, '.repository-content')!;
-	if (!olderContent) {
-		console.log('Failed to fetch next page');
-		return;
-	}
-
-	const olderList = select<HTMLDivElement>('.commits-listing', olderContent)!;
+	const olderContent = await fetchDom(link!.href, '.repository-content')!;
+	const olderList = select('.commits-listing', olderContent)!;
 
 	// Remove duplicate "Commits on %date%" lines
 	const firstDate = select('div', olderList);
@@ -72,7 +59,7 @@ const inView = new IntersectionObserver(([{isIntersecting}]) => {
 function init(): void {
 	lastDate = getLastDate();
 
-	container = select<HTMLDivElement>('.paginate-container')!;
+	container = select('.paginate-container')!;
 	link = select<HTMLAnchorElement>('div > a:last-child', container)!;
 
 	if (link) {
