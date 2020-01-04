@@ -11,14 +11,9 @@ let link: HTMLAnchorElement | undefined;
 
 let lastDate: string;
 
-function setLastDate(document_?: HTMLElement): void {
+function setLastDate(document_: HTMLElement = select('.commits-listing > div:last-of-type')!): void {
 	let lastDateInOlderListing: HTMLElement | null;
-
-	if (!document_) {
-		lastDateInOlderListing = select('.commits-listing > div:last-of-type');
-	} else {
-		lastDateInOlderListing = select('.commits-listing > div:last-of-type', document_);
-	}
+	lastDateInOlderListing = select('.commits-listing > div:last-of-type', document_);
 
 	// If there were enough commits in one day there is not last date
 	if (lastDateInOlderListing) {
@@ -37,10 +32,11 @@ async function appendOlder(): Promise<void> {
 
 	const firstDate = select('div', olderList);
 	if (firstDate?.textContent) {
-		if(lastDate === firstDate?.textContent) {
+		if (lastDate === firstDate?.textContent) {
 			olderList.removeChild(firstDate);
 		}
 	}
+
 	setLastDate(olderList);
 
 	// Add border to differentiate appended content
