@@ -14,7 +14,7 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
 	day: 'numeric'
 });
 
-const getRepoCreationDate = cache.function(async (): Promise<string | void> => {
+const getOldestCommitDetails = cache.function(async (): Promise<string | void> => {
 	const commitsCount = Number(select('li.commits .num')!.textContent!.replace(',', ''));
 	const lastCommitHash = select<HTMLAnchorElement>('.commit-tease-sha')!.href.split('/').pop();
 
@@ -22,23 +22,28 @@ const getRepoCreationDate = cache.function(async (): Promise<string | void> => {
 		return;
 	}
 
-	const relativeTime = await fetchDom(
-		`${getCleanPathname()}/commits?after=${lastCommitHash}+${commitsCount - 2}`, 'ol:last-child > li.commits-list-item relative-time'
+	const oldestCommit = await fetchDom(
+		`${getCleanPathname()}/commits?after=${lastCommitHash}+${commitsCount - 2}`, 'ol:last-child > li.commits-list-item'
 	);
 
-	return relativeTime!.getAttribute('datetime')!;
+	return JSON.stringify({
+		link: select<HTMLAnchorElement>('.commit-title [href*="/commit/"]', oldestCommit)!.href,
+		datetime: select('relative-time', oldestCommit)!.getAttribute('datetime')
+	});
 }, {
 	cacheKey: () => __featureName__ + ':' + getRepoURL()
 });
 
 async function init(): Promise<void> {
-	const creationDate = await getRepoCreationDate();
+	const details = await getOldestCommitDetails();
 
-	if (!creationDate) {
+	if (!details) {
 		return;
 	}
 
-	const date = new Date(creationDate);
+	const {link, datetime} = JSON.parse(details);
+
+	const date = new Date(datetime);
 
 	// `twas` could also return `an hour ago` or `just now`
 	const [value, unit] = twas(date.getTime())
@@ -48,7 +53,9 @@ async function init(): Promise<void> {
 
 	const element = (
 		<li className="text-gray" title={`Repository created on ${dateFormatter.format(date)}`}>
-			{repoIcon()} <span className="num text-emphasized">{value}</span> {unit} old
+			<a href={link}>
+				{repoIcon()} <span className="num text-emphasized">{value}</span> {unit} old
+			</a>
 		</li>
 	);
 
