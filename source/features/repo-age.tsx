@@ -64,7 +64,7 @@ async function init(): Promise<void> {
 
 	if (!details) {
 		select('.js_repo_age_placeholder', placeholder)!.textContent = '-';
-		placeholder.title = 'Cannot determine repo age from the oldest commit'
+		placeholder.title = 'Cannot determine repo age from the oldest commit';
 
 		return;
 	}
