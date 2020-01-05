@@ -4,9 +4,9 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import repoIcon from 'octicon/repo.svg';
 import elementReady from 'element-ready';
+import fetchDom from '../libs/fetch-dom';
 import features from '../libs/features';
-import * as api from '../libs/api';
-import {getRepoGQL, getRepoURL} from '../libs/utils';
+import {getCleanPathname, getRepoURL} from '../libs/utils';
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
 	year: 'numeric',
@@ -15,15 +15,21 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
 });
 
 const getRepoCreationDate = cache.function(async (): Promise<string> => {
-	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
-			createdAt
-		}
-	`);
+	const commitsCount = Number(select('li.commits .num')!.textContent!.trim()!.replace(',', ''));
+	const lastCommitHash = select('.commit-tease .commit-tease-sha')!.getAttribute('href')!.split('/').pop();
 
-	return repository.createdAt;
+	if (!commitsCount || !lastCommitHash) {
+		return Promise.reject(new Error('Cannot get commit count or last commit hash'));
+	}
+
+	const relativeTime = await fetchDom(
+		`${getCleanPathname()}/commits?after=${lastCommitHash}+${commitsCount - 2}`, 'ol:last-child > li.commits-list-item relative-time'
+	);
+
+	return relativeTime!.getAttribute('datetime')!;
 }, {
-	cacheKey: () => __featureName__ + ':' + getRepoURL()
+	expiration: Number.MAX_SAFE_INTEGER,
+	cacheKey: () => __featureName__ + 'updated:' + getRepoURL() // Don't know how to update the existing cache so.
 });
 
 async function init(): Promise<void> {
