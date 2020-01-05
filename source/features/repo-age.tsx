@@ -14,12 +14,12 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
 	day: 'numeric'
 });
 
-const getRepoCreationDate = cache.function(async (): Promise<string> => {
-	const commitsCount = Number(select('li.commits .num')!.textContent!.trim()!.replace(',', ''));
-	const lastCommitHash = select('.commit-tease .commit-tease-sha')!.getAttribute('href')!.split('/').pop();
+const getRepoCreationDate = cache.function(async (): Promise<string | void> => {
+	const commitsCount = Number(select('li.commits .num')!.textContent!.replace(',', ''));
+	const lastCommitHash = select<HTMLAnchorElement>('.commit-tease-sha')!.href.split('/').pop();
 
 	if (!commitsCount || !lastCommitHash) {
-		return Promise.reject(new Error('Cannot get commit count or last commit hash'));
+		return;
 	}
 
 	const relativeTime = await fetchDom(
@@ -28,12 +28,17 @@ const getRepoCreationDate = cache.function(async (): Promise<string> => {
 
 	return relativeTime!.getAttribute('datetime')!;
 }, {
-	expiration: Number.MAX_SAFE_INTEGER,
-	cacheKey: () => __featureName__ + 'updated:' + getRepoURL() // Don't know how to update the existing cache so.
+	cacheKey: () => __featureName__ + ':' + getRepoURL()
 });
 
 async function init(): Promise<void> {
-	const date = new Date(await getRepoCreationDate());
+	const creationDate = await getRepoCreationDate();
+
+	if (!creationDate) {
+		return;
+	}
+
+	const date = new Date(creationDate);
 
 	// `twas` could also return `an hour ago` or `just now`
 	const [value, unit] = twas(date.getTime())
