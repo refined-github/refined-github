@@ -13,6 +13,7 @@ html {
 	--input-border-color: rgba(0, 0, 0, 0.2);
 	--github-green: #28a745;
 	--github-red: #cb2431;
+	--feature-new: #ff4f4f;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -128,6 +129,17 @@ h2 ~ h2 {
 
 .feature-name + a {
 	margin-left: 0.6em;
+}
+
+.feature-new .feature-name::after {
+	content: 'New';
+	color: var(--feature-new);
+	font-size: 14px;
+	border: 1px solid var(--feature-new);
+	border-radius: 2px;
+	padding: 0 5px;
+	margin-left: 5px;
+	text-transform: uppercase;
 }
 
 .sr-only {

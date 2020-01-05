@@ -1,6 +1,7 @@
 import './options.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import cache from 'webext-storage-cache';
 import fitTextarea from 'fit-textarea';
 import {applyToLink} from 'shorten-repo-url';
 import * as indentTextarea from 'indent-textarea';
@@ -70,6 +71,25 @@ async function init(): Promise<void> {
 		// .reverse() needed to preserve alphabetical order while prepending
 		container.prepend(unchecked.closest('.feature')!);
 	}
+
+	// Highlight new features
+	const newFeatures: Record<string, string> = await cache.get<Record<string, string>>('features-new') ?? {};
+	const manifest = browser.runtime.getManifest();
+	if (manifest.version !== '19.12.22') { // First version introducing highlighting
+		for (const feature of select.all('.feature [type=checkbox]')) {
+			if (!(feature.id in newFeatures) || newFeatures[feature.id] === manifest.version) {
+				feature.parentElement!.classList.add('feature-new');
+			}
+		}
+	}
+
+	for (const feature of __featuresInfo__) {
+		if (!(feature.name in newFeatures)) {
+			newFeatures[feature.name] = manifest.version;
+		}
+	}
+
+	await cache.set('features-new', newFeatures, 1000);
 
 	// Improve textareas editing
 	fitTextarea.watch('textarea');
