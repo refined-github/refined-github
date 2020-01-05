@@ -92,10 +92,14 @@ async function init(): Promise<void> {
 
 	const repoAge = <>{repoIcon()} <span className="num text-emphasized">{value}</span> {unit} old</>;
 
-	const element = (
+	// Commit url won't be present for the existing cached values
+	const element = oldestCommitUrl ? (
 		<li className="text-gray" title={`First commit dated ${dateFormatter.format(date)}`}>
-			{/* commit url won't be present for the existing cached values */}
-			{oldestCommitUrl ? <a href={oldestCommitUrl}>{repoAge}</a> : <>{repoAge}</>}
+			<a href={oldestCommitUrl}>{repoAge}</a>
+		</li>
+	) : (
+		<li className="text-gray" title={`Repository created on ${dateFormatter.format(date)}`}>
+			{repoAge}
 		</li>
 	);
 
