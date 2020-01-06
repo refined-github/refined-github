@@ -69,7 +69,7 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Infinite scroll on commit list',
+	description: 'Infinite scroll on commit lists.',
 	screenshot: false,
 	include: [
 		features.isCommitList
