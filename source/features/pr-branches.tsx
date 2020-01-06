@@ -3,7 +3,7 @@ import select from 'select-dom';
 import pullRequestIcon from 'octicon/git-pull-request.svg';
 import features from '../libs/features';
 import * as api from '../libs/api';
-import {getDefaultBranch} from '../libs/get-default-branch';
+import getDefaultBranch from '../libs/get-default-branch';
 import {getOwnerAndRepo, getRepoGQL} from '../libs/utils';
 
 type RepositoryReference = {

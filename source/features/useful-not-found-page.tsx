@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 import {getCleanPathname} from '../libs/utils';
-import {getDefaultBranch} from '../libs/get-default-branch';
+import getDefaultBranch from '../libs/get-default-branch';
 
 async function is404(url: string): Promise<boolean> {
 	const {status} = await fetch(url, {method: 'head'});

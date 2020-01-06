@@ -6,7 +6,7 @@ import * as api from '../libs/api';
 import features from '../libs/features';
 import {getRepoURL, getRepoGQL} from '../libs/utils';
 import {isSingleFile} from '../libs/page-detect';
-import {getDefaultBranch} from '../libs/get-default-branch';
+import getDefaultBranch from '../libs/get-default-branch';
 import {groupSiblings} from '../libs/group-buttons';
 
 async function init(): Promise<void> {

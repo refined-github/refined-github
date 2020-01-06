@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import pencilIcon from 'octicon/pencil.svg';
 import features from '../libs/features';
-import {getDefaultBranch} from '../libs/get-default-branch';
+import getDefaultBranch from '../libs/get-default-branch';
 
 async function init(): Promise<void | false> {
 	const readmeHeader = select('#readme .Box-header h3');

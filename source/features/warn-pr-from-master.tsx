@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
-import {getDefaultBranch} from '../libs/get-default-branch';
+import getDefaultBranch from '../libs/get-default-branch';
 
 async function init(): Promise<false | void> {
 	const defaultBranch = await getDefaultBranch();
