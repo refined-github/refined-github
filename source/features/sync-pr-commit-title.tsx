@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import onetime from 'onetime';
 import debounce from 'debounce-fn';
 import delegate, {DelegateSubscription, DelegateEvent} from 'delegate-it';
 import insertTextTextarea from 'insert-text-textarea';
@@ -26,11 +25,13 @@ const createCommitTitle = debounce<[], string>((): string => {
 	immediate: true
 });
 
-const getNote = onetime<[], HTMLElement>((): HTMLElement =>
-	<p className="note">
-		The title of this PR will be updated to match this title. <button type="button" className="btn-link muted-link text-underline rgh-sync-pr-commit-title">Cancel</button>
-	</p>
-);
+function getNote(): HTMLElement {
+	return select('.note.rgh-sync-pr-commit-title-note') ?? (
+		<p className="note rgh-sync-pr-commit-title-note">
+			The title of this PR will be updated to match this title. <button type="button" className="btn-link muted-link text-underline rgh-sync-pr-commit-title">Cancel</button>
+		</p>
+	);
+}
 
 function getPRNumber(): string {
 	return select('.gh-header-number')!.textContent!;
