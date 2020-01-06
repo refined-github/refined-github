@@ -12,7 +12,7 @@ let link: HTMLAnchorElement | undefined;
 let lastDate: string;
 
 function setLastDate(document_ = select('.commits-listing')!): void {
-	const lastDateInOlderListing = select('div:last-of-type', document_);
+	const lastDateInOlderListing = select('div.commit-group-title:last-of-type', document_);
 
 	// If there were enough commits in one day there is not last date
 	if (lastDateInOlderListing) {
