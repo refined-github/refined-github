@@ -1,26 +1,23 @@
 import './ci-link.css';
-import onetime from 'onetime';
 import features from '../libs/features';
-import {appendBefore} from '../libs/dom-utils';
-import {getRepoURL, getRepoBranch} from '../libs/utils';
 import fetchDom from '../libs/fetch-dom';
+import {getRepoURL} from '../libs/utils';
+import {appendBefore} from '../libs/dom-utils';
 
-export const fetchCIStatus = onetime(async (): Promise<HTMLElement | void> => {
-	const url = `/${getRepoURL()}/commits/${getRepoBranch() ?? ''}`;
-	const icon = await fetchDom<HTMLElement>(url, '.commit-build-statuses');
-	if (icon) {
-		icon.classList.add('rgh-ci-link');
-		return icon;
-	}
-});
+let callCount = 0;
+export function getIcon(): Promise<HTMLElement | undefined> {
+	callCount += 1;
+	return fetchDom(`/${getRepoURL()}/commits`, '.commit-build-statuses');
+}
 
 async function init(): Promise<false | void> {
-	const icon = await fetchCIStatus();
+	const icon = await getIcon();
 	if (!icon) {
 		return false;
 	}
 
-	if (onetime.callCount(fetchCIStatus) > 1) {
+	icon.classList.add('rgh-ci-link');
+	if (callCount > 1) {
 		icon.style.animation = 'none';
 	}
 
@@ -35,6 +32,6 @@ features.add({
 	include: [
 		features.isRepo
 	],
-	load: features.onAjaxedPages,
+	load: features.nowAndOnAjaxedPages,
 	init
 });
