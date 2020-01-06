@@ -1,4 +1,5 @@
 import select from 'select-dom';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 
 function run(): void {
@@ -30,9 +31,7 @@ function init(): void {
 	run();
 
 	// Some files are loaded progressively later. On load, look for more buttons and more fragments
-	for (const fragment of select.all('include-fragment.diff-progressive-loader')) {
-		fragment.addEventListener('load', init);
-	}
+	delegate('include-fragment.diff-progressive-loader', 'load', run);
 }
 
 features.add({

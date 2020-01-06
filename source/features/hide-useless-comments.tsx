@@ -1,6 +1,7 @@
 import './hide-useless-comments.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 
 function init(): void {
@@ -40,19 +41,20 @@ function init(): void {
 		select('.discussion-timeline-actions')!.prepend(
 			<p className="rgh-useless-comments-note">
 				{`${uselessCount} unhelpful comment${uselessCount > 1 ? 's were' : ' was'} automatically hidden. `}
-				<button className="btn-link text-emphasized" onClick={unhide}>Show</button>
+				<button className="btn-link text-emphasized rgh-unhide-useless-comments">Show</button>
 			</p>
 		);
+		delegate('.rgh-unhide-useless-comments', 'click', unhide);
 	}
 }
 
-function unhide(event: React.MouseEvent<HTMLButtonElement>): void {
+function unhide(event: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	for (const comment of select.all('.rgh-hidden-comment')) {
 		comment.hidden = false;
 	}
 
 	select('.rgh-hidden-comment')!.scrollIntoView();
-	event.currentTarget.parentElement!.remove();
+	event.delegateTarget.parentElement!.remove();
 }
 
 features.add({

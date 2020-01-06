@@ -11,7 +11,7 @@ function expandDiff(event: DelegateEvent): void {
 }
 
 function init(): void {
-	delegate('.diff-view', '.js-expandable-line', 'click', expandDiff);
+	delegate('.diff-view .js-expandable-line', 'click', expandDiff);
 }
 
 features.add({

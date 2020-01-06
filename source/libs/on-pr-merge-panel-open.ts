@@ -13,27 +13,25 @@ const sessionResumeHandler = mem((callback: EventListener) => async (event: Even
 	callback(event);
 });
 
-export default function (callback: EventListener): DelegateSubscription[] {
+export default function (callback: EventListener): DelegateSubscription {
 	document.addEventListener(
 		'session:resume',
 		sessionResumeHandler(callback)
 	);
+	const toggleSubscription = delegate(
+		'.js-merge-pr:not(.is-rebasing)',
+		'details:toggled',
+		delegateHandler(callback)
+	);
 
-	return [
-		{
-			// Imitate a DelegateSubscription for this event as well
-			destroy() {
-				document.removeEventListener(
-					'session:resume',
-					sessionResumeHandler(callback)
-				);
-			}
-		},
-		...delegate(
-			'#discussion_bucket',
-			'.js-merge-pr:not(.is-rebasing)',
-			'details:toggled',
-			delegateHandler(callback)
-		)
-	];
+	// Imitate a DelegateSubscription for this event as well
+	return {
+		destroy() {
+			toggleSubscription.destroy();
+			document.removeEventListener(
+				'session:resume',
+				sessionResumeHandler(callback)
+			);
+		}
+	};
 }
