@@ -12,16 +12,16 @@ const githubLoadingButton = (
 );
 
 let pagination: HTMLElement;
-let link: HTMLAnchorElement | undefined;
+let nextPage: HTMLAnchorElement;
 
 async function appendOlder(): Promise<void> {
 	// Replace buttons with loading button
 	pagination.firstElementChild!.replaceWith(githubLoadingButton);
 
 	// Fetch older content
-	const olderContent = await fetchDom(link!.href, '.repository-content')!;
+	const olderContent = await fetchDom(nextPage.href)!;
 
-	// Drop duplicate date header before merging the lines
+	// Drop duplicate date header before merging the commits
 	const oldestDateHeaderOnPage = select.last('.commit-group-title')!;
 	const newestDateHeaderInLoadedContent = select('.commit-group-title', olderContent)!;
 	if (oldestDateHeaderOnPage.textContent === newestDateHeaderInLoadedContent.textContent) {
@@ -29,13 +29,15 @@ async function appendOlder(): Promise<void> {
 	}
 
 	// Append older commits
-	select('.commits-listing')!.append(...select.all('.commits-listing > *', olderContent));
+	select('.commits-listing')!.append(
+		...select.all('.commits-listing > *', olderContent)
+	);
 
 	// Set loading button to Newer and Older links
 	pagination.firstElementChild!.replaceWith(select('.paginate-container > .BtnGroup', olderContent)!);
-	link = select<HTMLAnchorElement>('div > a:last-child', pagination)!;
+	nextPage = select<HTMLAnchorElement>('a:last-child', pagination)!;
 
-	if (!link) {
+	if (!nextPage) {
 		inView.disconnect();
 	}
 }
@@ -50,9 +52,9 @@ const inView = new IntersectionObserver(([{isIntersecting}]) => {
 
 function init(): void {
 	pagination = select('.paginate-container')!;
-	link = select<HTMLAnchorElement>('div > a:last-child', pagination)!;
+	nextPage = select<HTMLAnchorElement>('a:last-child', pagination)!;
 
-	if (link) {
+	if (nextPage) {
 		inView.observe(pagination);
 	}
 }
