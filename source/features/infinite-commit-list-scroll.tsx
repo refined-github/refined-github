@@ -1,3 +1,4 @@
+import './infinite-commit-list-scroll.css';
 import select from 'select-dom';
 import React from 'dom-chef';
 import fetchDom from '../libs/fetch-dom';
@@ -35,9 +36,8 @@ async function appendOlder(): Promise<void> {
 
 	setLastCommitGroupTitle(olderList);
 
-	// Add border to differentiate appended content
-	olderList.classList.add('border-top', 'border-gray-dark');
-	pagination.before(olderList);
+	// Append older commits
+	select('.commits-listing')!.append(...select.all('.commits-listing > *', olderContent));
 
 	// Set loading button to Newer and Older links
 	pagination.firstElementChild!.replaceWith(select('.paginate-container > .BtnGroup', olderContent)!);

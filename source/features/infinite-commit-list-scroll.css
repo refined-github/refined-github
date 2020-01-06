@@ -1,0 +1,3 @@
+.commit-group + .commit-group {
+	margin-top: -1px; /* Collapses marging and duplicate border */
+}
