@@ -73,11 +73,11 @@ async function init(): Promise<void> {
 	}
 
 	// Highlight new features
-	const newFeatures: Record<string, string> = await cache.get<Record<string, string>>('features-new') ?? {};
-	const manifest = browser.runtime.getManifest();
-	if (manifest.version !== '19.12.22') { // First version introducing highlighting
+	const newFeatures: Record<string, number> = await cache.get<Record<string, number>>('features-new') ?? {};
+	if (browser.runtime.getManifest().version !== '19.12.22') { // First version introducing highlighting
+		const timespan = 10 * 24 * 60 * 60 * 1000; // Highlighting will be shown for 10 days after opening the options
 		for (const feature of select.all('.feature [type=checkbox]')) {
-			if (!(feature.id in newFeatures) || newFeatures[feature.id] === manifest.version) {
+			if (!(feature.id in newFeatures) || Date.now() - newFeatures[feature.id] <= timespan) {
 				feature.parentElement!.classList.add('feature-new');
 			}
 		}
@@ -85,7 +85,7 @@ async function init(): Promise<void> {
 
 	for (const feature of __featuresInfo__) {
 		if (!(feature.name in newFeatures)) {
-			newFeatures[feature.name] = manifest.version;
+			newFeatures[feature.name] = Date.now();
 		}
 	}
 
