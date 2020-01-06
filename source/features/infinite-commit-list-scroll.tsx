@@ -42,6 +42,10 @@ async function appendOlder(): Promise<void> {
 	// Set loading button to Newer and Older links
 	pagination.firstElementChild!.replaceWith(select('.paginate-container > .BtnGroup', olderContent)!);
 	link = select<HTMLAnchorElement>('div > a:last-child', pagination)!;
+
+	if (!link) {
+		inView.disconnect()
+	}
 }
 
 const inView = new IntersectionObserver(([{isIntersecting}]) => {
