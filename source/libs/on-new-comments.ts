@@ -1,44 +1,51 @@
 import select from 'select-dom';
-import observeEl from './simplified-element-observer';
+import delegate, {DelegateSubscription} from 'delegate-it';
 
+const discussionsWithListeners = new WeakSet();
 const handlers = new Set<VoidFunction>();
-const observed = new WeakSet();
+const delegates = new Set<DelegateSubscription>();
+const observer = new MutationObserver(run);
 
 function run(): void {
 	// Run all callbacks without letting an error stop the loop and without silencing it
 	handlers.forEach(async callback => callback());
 }
 
-// On new page loads, run the callbacks and look for the new elements.
-// (addEventListener doesn't add duplicate listeners)
-function addListenersOnNewElements(): void {
-	for (const loadMore of select.all('.js-ajax-pagination')) {
-		loadMore.addEventListener('page:loaded', run);
-		loadMore.addEventListener('page:loaded', addListenersOnNewElements);
+function removeListeners(): void {
+	for (const subscription of delegates) {
+		subscription.destroy();
 	}
 
-	// Outdated comment are loaded later using an include-fragment element
-	for (const fragment of select.all('details.outdated-comment > include-fragment')) {
-		fragment.addEventListener('load', run);
-	}
+	delegates.clear();
+	handlers.clear();
+	observer.disconnect();
 }
 
-function setup(): void {
+function addListeners(): void {
 	const discussion = select('.js-discussion');
-	if (!discussion || observed.has(discussion)) {
+	if (!discussion || discussionsWithListeners.has(discussion)) {
 		return;
 	}
 
-	observed.add(discussion);
+	// Ensure listeners are only ever added once
+	discussionsWithListeners.add(discussion);
+
+	// Remember to remove all listeners when a new page is loaded
+	document.addEventListener('pjax:beforeReplace', removeListeners);
 
 	// When new comments come in via AJAX
-	observeEl(discussion, run);
+	observer.observe(discussion, {
+		childList: true
+	});
 
 	// When hidden comments are loaded by clicking "Load more..."
-	addListenersOnNewElements();
+	delegates.add(delegate('.js-ajax-pagination', 'page:loaded', run));
+
+	// Outdated comment are loaded later using an include-fragment element
+	delegates.add(delegate('details.outdated-comment > include-fragment', 'load', run, true));
 }
 
 export default function (callback: VoidFunction): void {
-	setup();
+	addListeners();
 	handlers.add(callback);
 }

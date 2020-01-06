@@ -1,14 +1,18 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import delegate, {DelegateEvent} from 'delegate-it';
 import checkIcon from 'octicon/check.svg';
 import features from '../libs/features';
 import {getIcon as fetchCIStatus} from './ci-link';
 
-let currentQuerySegments: string[];
+// The Reviews dropdown doesn't have a specific class, so we expect this sequence (span contains Projects and Milestones)
+const reviewsFilterSelector = '#label-select-menu + span + details';
 
 function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: string, filterValue: string): void {
 	const filterQuery = `${filterCategory}:${filterValue}`;
 
+	const searchParameter = new URLSearchParams(location.search);
+	const currentQuerySegments = searchParameter.get('q')?.split(/\s+/) ?? [];
 	const isSelected = currentQuerySegments.some(
 		segment => segment.toLowerCase() === filterQuery
 	);
@@ -34,7 +38,14 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 	);
 }
 
-function addDraftFilter(reviewsFilter: HTMLElement): void {
+const hasDraftFilter = new WeakSet();
+function addDraftFilter({delegateTarget: reviewsFilter}: DelegateEvent): void {
+	if (hasDraftFilter.has(reviewsFilter)) {
+		return;
+	}
+
+	hasDraftFilter.add(reviewsFilter);
+
 	const dropdown = select('.select-menu-list', reviewsFilter)!;
 
 	dropdown.append(
@@ -47,7 +58,12 @@ function addDraftFilter(reviewsFilter: HTMLElement): void {
 	addDropdownItem(dropdown, 'Not ready for review (Draft PR)', 'draft', 'true');
 }
 
-async function addStatusFilter(reviewsFilter: HTMLElement): Promise<void> {
+async function addStatusFilter(): Promise<void> {
+	const reviewsFilter = select(reviewsFilterSelector);
+	if (!reviewsFilter) {
+		return;
+	}
+
 	// TODO: replace this with an API call
 	const hasCI = await fetchCIStatus();
 	if (!hasCI) {
@@ -70,17 +86,8 @@ async function addStatusFilter(reviewsFilter: HTMLElement): Promise<void> {
 }
 
 function init(): void {
-	const reviewsFilter = select('.table-list-header-toggle > details:nth-last-child(3)');
-
-	if (!reviewsFilter) {
-		return;
-	}
-
-	const searchParameter = new URLSearchParams(location.search);
-	currentQuerySegments = (searchParameter.get('q') ?? '').split(/\s+/);
-
-	reviewsFilter.addEventListener('toggle', () => addDraftFilter(reviewsFilter), {once: true});
-	addStatusFilter(reviewsFilter);
+	delegate(reviewsFilterSelector, 'toggle', addDraftFilter, true);
+	addStatusFilter();
 }
 
 features.add({
