@@ -1,22 +1,19 @@
-import select from 'select-dom';
+import mem from 'mem';
+import delegate, {DelegateSubscription, DelegateEventHandler, DelegateEvent} from 'delegate-it';
 
-// In PRs' Files tab, some files are loaded progressively later.
-const handlers = new WeakMap<EventListener, EventListener>();
+const fragmentSelector = [
+	'include-fragment.diff-progressive-loader', // Incremental file loader on scroll
+	'include-fragment.js-diff-entry-loader' // File diff loader on clicking "Load Diff"
+].join();
 
-export default function onPrFileLoad(callback: EventListener): void {
-	// When a fragment loads, more fragments might be nested in it. The following code avoids duplicate event handlers.
-	const recursiveCallback = handlers.get(callback) ?? ((event: Event) => {
-		callback(event);
-		onPrFileLoad(callback);
-	});
-	handlers.set(callback, recursiveCallback);
+// This lets you call `onPrFileLoad` multiple times with the same callback but only ever a `load` listener is registered
+const getDeduplicatedHandler = mem((callback: EventListener): DelegateEventHandler => {
+	return (event: DelegateEvent) => event.delegateTarget.addEventListener('load', callback);
+});
 
-	const fragments = select.all([
-		'include-fragment.diff-progressive-loader', // Incremental file loader on scroll
-		'include-fragment.js-diff-entry-loader' // File diff loader on clicking "Load Diff"
-	].join());
-
-	for (const fragment of fragments) {
-		fragment.addEventListener('load', recursiveCallback);
-	}
+export default function onPrFileLoad(callback: EventListener): DelegateSubscription {
+	// `loadstart` is fired when the fragment is still attached so event delegation works.
+	// `load` is fired after it’s detached, so `delegate` would never listen to it.
+	// This is why we listen to a global `loadstart` and then add a specific `load` listener on the element, which is fired even when the element is detached.
+	return delegate(fragmentSelector, 'loadstart', getDeduplicatedHandler(callback), true);
 }

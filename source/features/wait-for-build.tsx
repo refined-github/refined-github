@@ -90,13 +90,11 @@ function init(): false | void {
 
 	onPrMergePanelOpen(showCheckboxIfNecessary);
 
-	const container = select('.discussion-timeline-actions')!;
-
 	// One of the merge buttons has been clicked
-	delegate(container, '.js-merge-commit-button', 'click', handleMergeConfirmation);
+	delegate('.js-merge-commit-button', 'click', handleMergeConfirmation);
 
 	// Cancel wait when the user presses the Cancel button
-	delegate(container, '.commit-form-actions button:not(.js-merge-commit-button)', 'click', () => {
+	delegate('.commit-form-actions button:not(.js-merge-commit-button)', 'click', () => {
 		disableForm(false);
 	});
 

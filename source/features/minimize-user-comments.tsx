@@ -32,8 +32,8 @@ function toggleComment(comment: HTMLElement, minimize: boolean): void {
 	select('.minimized-comment .Details-element', comment)!.toggleAttribute('open', !minimize);
 }
 
-async function onButtonClick(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
-	const comment = event.currentTarget.closest('.js-targetable-comment')!;
+async function handleMinimizeClick(event: DelegateEvent): Promise<void> {
+	const comment = event.delegateTarget.closest('.js-targetable-comment')!;
 	const user = getUsernameFromComment(comment);
 
 	let minimizedUsers = await getMinimizedUsers();
@@ -71,7 +71,7 @@ async function handleMenuOpening(event: DelegateEvent): Promise<void> {
 			className="dropdown-item btn-link rgh-minimize-user-comments-button"
 			role="menuitem"
 			type="button"
-			onClick={onButtonClick}>
+		>
 			{getLabel(shouldMinimizeComment)}
 		</button>
 	);
@@ -94,6 +94,7 @@ function init(): void {
 	onNewComments(minimizeMutedUserComments);
 	// `summary` excludes the `edit-comments-faster` button
 	delegate('summary.timeline-comment-action:not([aria-label="Add your reaction"])', 'click', handleMenuOpening);
+	delegate('.rgh-minimize-user-comments-button', 'click', handleMinimizeClick);
 }
 
 features.add({

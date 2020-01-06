@@ -43,7 +43,7 @@ function init(): void | false {
 		);
 	}
 
-	delegate('#discussion_bucket', 'button.rgh-quick-mention', 'click', mentionUser);
+	delegate('button.rgh-quick-mention', 'click', mentionUser);
 }
 
 features.add({

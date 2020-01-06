@@ -46,12 +46,8 @@ function init(): void {
 
 	// Input fields for projects and milestones are added dynamically to the page
 	// GitHub triggers events on the document element for us, which can be used to detect new input elements
-	delegate(document, '.js-filterable-field', 'filterable:change', event => {
-		populateSelectableItems();
-
-		const input = event.delegateTarget as HTMLElement;
-		input.addEventListener('keydown', handleKeyDown);
-	});
+	delegate(document, '.js-filterable-field', 'filterable:change', populateSelectableItems);
+	delegate(document, '.js-filterable-field', 'keydown', handleKeyDown);
 }
 
 features.add({
