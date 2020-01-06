@@ -415,8 +415,7 @@ async function init(): Promise<void> {
 			delegate('.btn-link.delete-note', 'click', markNotificationRead),
 			delegate('.js-mark-all-read', 'click', markAllNotificationsRead),
 			delegate('.js-delete-notification button', 'click', updateUnreadIndicator),
-			delegate('.js-mark-visible-as-read', 'submit', markVisibleNotificationsRead),
-			delegate('.rgh-btn-mark-unread', 'submit', markUnread)
+			delegate('.js-mark-visible-as-read', 'submit', markVisibleNotificationsRead)
 		);
 	} else if (pageDetect.isPR() || pageDetect.isIssue()) {
 		await markRead(location.href);
@@ -424,6 +423,7 @@ async function init(): Promise<void> {
 		if (pageDetect.isPRConversation() || pageDetect.isIssue()) {
 			addMarkUnreadButton();
 			onUpdatableContentUpdate(select('#partial-discussion-sidebar')!, addMarkUnreadButton);
+			delegate('.rgh-btn-mark-unread', 'click', markUnread);
 		}
 	} else if (pageDetect.isDiscussionList()) {
 		for (const discussion of await getNotifications()) {
