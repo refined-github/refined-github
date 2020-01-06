@@ -99,7 +99,7 @@ function init(): void {
 
 		// Adding the time element might change the height of the hovercard and thus break its positioning
 		const hovercardHeight = hovercard.offsetHeight;
-		select('div.d-flex.mt-3 > div.overflow-hidden.ml-3', hovercard)!.append(container);
+		select('div.d-flex.mt-3 > div.overflow-hidden.ml-3:not([data-hovercard-type="contributors"]', hovercard)!.append(container);
 
 		if (hovercard.matches('.Popover-message--bottom-right, .Popover-message--bottom-left')) {
 			const diff = hovercard.offsetHeight - hovercardHeight;

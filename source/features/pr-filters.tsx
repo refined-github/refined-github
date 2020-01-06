@@ -3,7 +3,7 @@ import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import checkIcon from 'octicon/check.svg';
 import features from '../libs/features';
-import {fetchCIStatus} from './ci-link';
+import {getIcon as fetchCIStatus} from './ci-link';
 
 const reviewsFilterSelector = '.table-list-header-toggle > details:nth-last-child(3)';
 
@@ -31,7 +31,7 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 			aria-checked={isSelected ? 'true' : 'false'}
 			role="menuitemradio"
 		>
-			<span className="select-menu-item-icon">{checkIcon}</span>
+			<span className="select-menu-item-icon">{checkIcon()}</span>
 			<div className="select-menu-item-text">{title}</div>
 		</a>
 	);
@@ -58,18 +58,19 @@ function addDraftFilter({delegateTarget: reviewsFilter}: DelegateEvent): void {
 }
 
 async function addStatusFilter(): Promise<void> {
-	const reviewsFilter = select('reviewsFilterSelector');
+	const reviewsFilter = select(reviewsFilterSelector);
 	if (!reviewsFilter) {
 		return;
 	}
 
+	// TODO: replace this with an API call
 	const hasCI = await fetchCIStatus();
 	if (!hasCI) {
 		return;
 	}
 
 	// Copy existing element and adapt its content
-	const statusFilter = reviewsFilter.cloneNode(true) as HTMLDetailsElement;
+	const statusFilter = reviewsFilter.cloneNode(true);
 	const dropdown = select('.select-menu-list', statusFilter)!;
 
 	select('summary', statusFilter)!.textContent = 'Status\u00A0';
