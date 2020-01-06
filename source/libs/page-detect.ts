@@ -27,8 +27,18 @@ export const _isCommit = [
 	'https://github.com/sindresorhus/refined-github/pull/148/commits/00196'
 ];
 
-export const isCommitList = (): boolean => /^commits\//.test(getRepoPath()!);
+export const isCommitList = (): boolean => isRepoCommitList() || isPRCommitList();
 export const _isCommitList = [
+	'https://github.com/sindresorhus/refined-github/commits/master?page=2',
+	'https://github.com/sindresorhus/refined-github/commits/test-branch',
+	'https://github.com/sindresorhus/refined-github/commits/0.13.0',
+	'https://github.com/sindresorhus/refined-github/commits/230c2',
+	'https://github.com/sindresorhus/refined-github/commits/230c2935fc5aea9a681174ddbeba6255ca040d63',
+	'https://github.com/sindresorhus/refined-github/pull/148/commits'
+];
+
+export const isRepoCommitList = (): boolean => /^commits\//.test(getRepoPath()!);
+export const _isRepoCommitList = [
 	'https://github.com/sindresorhus/refined-github/commits/master?page=2',
 	'https://github.com/sindresorhus/refined-github/commits/test-branch',
 	'https://github.com/sindresorhus/refined-github/commits/0.13.0',
@@ -159,6 +169,7 @@ export const _isProject = [
 export const isPR = (): boolean => /^pull\/\d+/.test(getRepoPath()!);
 export const _isPR = [
 	'https://github.com/sindresorhus/refined-github/pull/148',
+	'https://github.com/sindresorhus/refined-github/pull/148/commits',
 	'https://github.com/sindresorhus/refined-github/pull/148/files',
 	'https://github.com/sindresorhus/refined-github/pull/148/conflicts',
 	'https://github.com/sindresorhus/refined-github/pull/148/commits/00196',
@@ -192,6 +203,11 @@ export const _isPRCommit = [
 export const isPRConversation = (): boolean => /^pull\/\d+$/.test(getRepoPath()!);
 export const _isPRConversation = [
 	'https://github.com/sindresorhus/refined-github/pull/148'
+];
+
+export const isPRCommitList = (): boolean => /^pull\/\d+\/commits$/.test(getRepoPath()!);
+export const _isPRCommitList = [
+	'https://github.com/sindresorhus/refined-github/pull/148/commits'
 ];
 
 export const isPRFiles = (): boolean => /^pull\/\d+\/files/.test(getRepoPath()!);
