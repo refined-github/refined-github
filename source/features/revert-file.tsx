@@ -135,7 +135,7 @@ function handleMenuOpening(event: DelegateEvent): void {
 
 function init(): void {
 	delegate('.js-file-header-dropdown > summary', 'click', handleMenuOpening);
-	delegate('.rgh-revert-file', 'click', handleRevertFileClick);
+	delegate('.rgh-revert-file', 'click', handleRevertFileClick, true);
 }
 
 features.add({
