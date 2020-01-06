@@ -66,3 +66,7 @@ interface HTMLFormControlsCollection {
 declare module '*.svg' {
 	export default (): SVGElement => SVGElement;
 }
+
+interface Node extends EventTarget {
+	cloneNode(deep?: boolean): this;
+}
