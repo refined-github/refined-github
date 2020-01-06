@@ -22,8 +22,7 @@ function setLastCommitGroupTitle(document_ = select('.commits-listing')!): void 
 
 async function appendOlder(): Promise<void> {
 	// Replace buttons with loading button
-	select('*', pagination)!.remove();
-	pagination.append(githubLoadingButton);
+	pagination.firstElementChild!.replaceWith(githubLoadingButton);
 
 	// Fetch older content
 	const olderContent = await fetchDom(link!.href, '.repository-content')!;
@@ -41,8 +40,7 @@ async function appendOlder(): Promise<void> {
 	pagination.before(olderList);
 
 	// Set loading button to Newer and Older links
-	select('*', pagination)!.remove();
-	pagination.append(select('.paginate-container > .BtnGroup', olderContent)!);
+	pagination.firstElementChild!.replaceWith(select('.paginate-container > .BtnGroup', olderContent)!);
 	link = select<HTMLAnchorElement>('div > a:last-child', pagination)!;
 }
 
