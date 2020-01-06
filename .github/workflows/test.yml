@@ -4,6 +4,12 @@ on:
   - push
 jobs:
 
+  Security:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - run: npx lockfile-lint --path package-lock.json --validate-https
+
   AVA:
     runs-on: ubuntu-latest
     steps:

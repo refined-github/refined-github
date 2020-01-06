@@ -20,7 +20,6 @@
 	"dependencies": {
 		"@primer/octicons": "^9.3.1",
 		"blur-accessibly": "^0.9.1",
-		"content-scripts-register-polyfill": "^1.0.0",
 		"copy-text-to-clipboard": "^2.1.1",
 		"debounce-fn": "^3.0.1",
 		"delay": "^4.3.0",
@@ -34,7 +33,6 @@
 		"image-promise": "^7.0.0",
 		"indent-textarea": "^2.0.0-1",
 		"insert-text-textarea": "^2.0.0",
-		"intervalometer": "^1.0.5",
 		"linkify-issues": "2.0.0-nolookbehind",
 		"linkify-urls": "3.1.0-nolookbehind",
 		"mem": "^6.0.1",
@@ -49,7 +47,6 @@
 		"webext-domain-permission-toggle": "^1.0.0",
 		"webext-dynamic-content-scripts": "^6.0.3",
 		"webext-options-sync": "^1.2.0",
-		"webext-permissions-events-polyfill": "^1.0.1",
 		"webext-storage-cache": "^2.0.0-1",
 		"webextension-polyfill": "^0.5.0",
 		"zip-text-nodes": "^1.0.0-0"

@@ -40,7 +40,7 @@ async function showSource(): Promise<void> {
 	sourceButton.disabled = true;
 
 	const source = buttonBodyMap.get(sourceButton) ?? fetchSource();
-	const rendered = await buttonBodyMap.get(renderedButton) ?? select('.blob.instapaper_body')!;
+	const rendered = await buttonBodyMap.get(renderedButton) ?? select('.blob.js-code-block-container')!;
 
 	buttonBodyMap.set(sourceButton, source);
 	buttonBodyMap.set(renderedButton, rendered);
@@ -74,7 +74,7 @@ async function showRendered(): Promise<void> {
 }
 
 async function init(): Promise<false | void> {
-	if (!select.exists('.blob.instapaper_body')) {
+	if (!select.exists('.blob .markdown-body')) {
 		return false;
 	}
 

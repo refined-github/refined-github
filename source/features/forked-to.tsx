@@ -93,7 +93,7 @@ async function init(): Promise<void> {
 							href={`/${fork}`}
 							className="select-menu-item"
 							title={`Open your fork to ${fork}`}>
-							{forkIcon()}
+							<span className="select-menu-item-icon">{forkIcon()}</span>
 							{fork}
 						</a>
 					)}

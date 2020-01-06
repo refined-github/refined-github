@@ -26,8 +26,17 @@
 
 /* For `open-all-selected` and `pr-filters`: set a reduced padding for all buttons for #1830 and #1904 */
 .table-list-filters .table-list-header-toggle .select-menu-button {
-	padding-right: 8px;
-	padding-left: 8px;
+	padding-right: 0;
+	padding-left: 0;
+}
+
+.table-list-filters .details-reset {
+	padding-right: 8px !important;
+	padding-left: 8px !important;
+}
+
+.table-list-filters .details-reset:last-child {
+	padding-right: 0 !important;
 }
 
 /* Hide empty description of repo */
