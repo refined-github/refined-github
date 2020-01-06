@@ -138,7 +138,7 @@ h2 ~ h2 {
 	border: 1px solid var(--feature-new);
 	border-radius: 2px;
 	padding: 0 5px;
-	margin-left: 5px;
+	margin-left: 12px;
 	text-transform: uppercase;
 }
 
