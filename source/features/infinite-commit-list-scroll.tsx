@@ -5,7 +5,11 @@ import fetchDom from '../libs/fetch-dom';
 import features from '../libs/features';
 
 // Button from: https://primer.style/css/components/loaders
-const githubLoadingButton = <button className="btn mn-3" disabled><span>Loading</span><span className="AnimatedEllipsis"></span></button>;
+const githubLoadingButton = (
+	<button className="btn mn-3" disabled>
+		<span>Loading</span><span className="AnimatedEllipsis"/>
+	</button>
+);
 
 let pagination: HTMLElement;
 let link: HTMLAnchorElement | undefined;
