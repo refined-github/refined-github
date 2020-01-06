@@ -5,7 +5,8 @@ import checkIcon from 'octicon/check.svg';
 import features from '../libs/features';
 import {getIcon as fetchCIStatus} from './ci-link';
 
-const reviewsFilterSelector = '.table-list-header-toggle > details:nth-last-child(3)';
+// The Reviews dropdown doesn't have a specific class, so we expect this sequence (span contains Projects and Milestones)
+const reviewsFilterSelector = '#label-select-menu + span + details';
 
 function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: string, filterValue: string): void {
 	const filterQuery = `${filterCategory}:${filterValue}`;
@@ -85,7 +86,7 @@ async function addStatusFilter(): Promise<void> {
 }
 
 function init(): void {
-	delegate(reviewsFilterSelector, 'toggle', addDraftFilter);
+	delegate(reviewsFilterSelector, 'toggle', addDraftFilter, true);
 	addStatusFilter();
 }
 
