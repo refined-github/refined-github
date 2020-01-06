@@ -9,14 +9,14 @@ const githubLoadingButton = <button className="btn mn-3" disabled><span>Loading<
 let pagination: HTMLElement;
 let link: HTMLAnchorElement | undefined;
 
-let lastDate: string;
+let lastCommitGroupTitle: string;
 
-function setLastDate(document_ = select('.commits-listing')!): void {
+function setLastCommitGroupTitle(document_ = select('.commits-listing')!): void {
 	const lastDateInOlderListing = select('div.commit-group-title:last-of-type', document_);
 
 	// If there were enough commits in one day there is not last date
 	if (lastDateInOlderListing) {
-		lastDate = lastDateInOlderListing?.textContent!;
+		lastCommitGroupTitle = lastDateInOlderListing?.textContent!;
 	}
 }
 
@@ -29,14 +29,12 @@ async function appendOlder(): Promise<void> {
 	const olderContent = await fetchDom(link!.href, '.repository-content')!;
 	const olderList = select('.commits-listing', olderContent)!;
 
-	const firstDate = select('div', olderList);
-	if (firstDate?.textContent) {
-		if (lastDate === firstDate?.textContent) {
-			olderList.removeChild(firstDate);
-		}
+	const fistCommitGroupTitle = select('div', olderList)!;
+	if (lastCommitGroupTitle === fistCommitGroupTitle.textContent) {
+		olderList.removeChild(fistCommitGroupTitle);
 	}
 
-	setLastDate(olderList);
+	setLastCommitGroupTitle(olderList);
 
 	// Add border to differentiate appended content
 	olderList.classList.add('border-top', 'border-gray-dark');
@@ -57,7 +55,7 @@ const inView = new IntersectionObserver(([{isIntersecting}]) => {
 });
 
 function init(): void {
-	setLastDate();
+	setLastCommitGroupTitle();
 
 	pagination = select('.paginate-container')!;
 	link = select<HTMLAnchorElement>('div > a:last-child', pagination)!;
