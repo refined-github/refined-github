@@ -10,31 +10,19 @@ const githubLoadingButton = <button className="btn mn-3" disabled><span>Loading<
 let pagination: HTMLElement;
 let link: HTMLAnchorElement | undefined;
 
-let lastCommitGroupTitle: string;
-
-function setLastCommitGroupTitle(document_ = select('.commits-listing')!): void {
-	const lastDateInOlderListing = select('div.commit-group-title:last-of-type', document_);
-
-	// If there were enough commits in one day there is not last date
-	if (lastDateInOlderListing) {
-		lastCommitGroupTitle = lastDateInOlderListing?.textContent!;
-	}
-}
-
 async function appendOlder(): Promise<void> {
 	// Replace buttons with loading button
 	pagination.firstElementChild!.replaceWith(githubLoadingButton);
 
 	// Fetch older content
 	const olderContent = await fetchDom(link!.href, '.repository-content')!;
-	const olderList = select('.commits-listing', olderContent)!;
 
-	const fistCommitGroupTitle = select('div', olderList)!;
-	if (lastCommitGroupTitle === fistCommitGroupTitle.textContent) {
-		olderList.removeChild(fistCommitGroupTitle);
+	// Drop duplicate date header before merging the lines
+	const oldestDateHeaderOnPage = select.last('.commit-group-title')!;
+	const newestDateHeaderInLoadedContent = select('.commit-group-title', olderContent)!;
+	if (oldestDateHeaderOnPage.textContent === newestDateHeaderInLoadedContent.textContent) {
+		newestDateHeaderInLoadedContent.remove();
 	}
-
-	setLastCommitGroupTitle(olderList);
 
 	// Append older commits
 	select('.commits-listing')!.append(...select.all('.commits-listing > *', olderContent));
@@ -57,8 +45,6 @@ const inView = new IntersectionObserver(([{isIntersecting}]) => {
 });
 
 function init(): void {
-	setLastCommitGroupTitle();
-
 	pagination = select('.paginate-container')!;
 	link = select<HTMLAnchorElement>('div > a:last-child', pagination)!;
 
