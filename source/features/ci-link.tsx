@@ -1,13 +1,14 @@
 import './ci-link.css';
-import onetime from 'onetime';
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
 import {getRepoURL} from '../libs/utils';
 import {appendBefore} from '../libs/dom-utils';
 
-export const getIcon = onetime(async (): Promise<HTMLElement | undefined> => {
+let callCount = 0;
+export function getIcon(): Promise<HTMLElement | undefined> {
+	callCount += 1;
 	return fetchDom(`/${getRepoURL()}/commits`, '.commit-build-statuses');
-});
+}
 
 async function init(): Promise<false | void> {
 	const icon = await getIcon();
@@ -16,7 +17,7 @@ async function init(): Promise<false | void> {
 	}
 
 	icon.classList.add('rgh-ci-link');
-	if (onetime.callCount(getIcon) > 1) {
+	if (callCount > 1) {
 		icon.style.animation = 'none';
 	}
 
