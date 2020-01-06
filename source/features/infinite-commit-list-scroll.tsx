@@ -36,7 +36,7 @@ async function appendOlder(): Promise<void> {
 	link = select<HTMLAnchorElement>('div > a:last-child', pagination)!;
 
 	if (!link) {
-		inView.disconnect()
+		inView.disconnect();
 	}
 }
 
