@@ -17,8 +17,7 @@ function featureWasRenamed(from: string, to: string): Migration<RGHOptions> {
 const defaults = Object.assign({
 	customCSS: '',
 	personalToken: '',
-	logging: false,
-	minimizedUsers: ''
+	logging: false
 }, __featuresOptionDefaults__); // This variable is replaced at build time
 
 const migrations = [
