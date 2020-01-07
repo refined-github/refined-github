@@ -43,13 +43,6 @@ function buildFeatureCheckbox({name, description, screenshot, disabled}: Feature
 					<br/>
 					<p className="description">{parseDescription(description)}</p>
 				</label>
-				{
-					name === 'minimize-user-comments' &&
-						<div className="extended-options">
-							<p>User list:</p>
-							<textarea name="minimizedUsers" rows={2} spellCheck="false"/>
-						</div>
-				}
 			</div>
 		</div>
 	);
