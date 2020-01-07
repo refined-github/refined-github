@@ -1,7 +1,6 @@
 import './options.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import cache from 'webext-storage-cache';
 import fitTextarea from 'fit-textarea';
 import {applyToLink} from 'shorten-repo-url';
 import * as indentTextarea from 'indent-textarea';
@@ -73,23 +72,26 @@ async function init(): Promise<void> {
 	}
 
 	// Highlight new features
-	const newFeatures: Record<string, number> = await cache.get<Record<string, number>>('features-new') ?? {};
-	if (browser.runtime.getManifest().version !== '19.12.22') { // First version introducing highlighting
-		const timespan = 10 * 24 * 60 * 60 * 1000; // Highlighting will be shown for 10 days after opening the options
+	let {featuresAlreadySeen} = await browser.storage.local.get('featuresAlreadySeen');
+	const firstTimeVisit = featuresAlreadySeen === undefined;
+	const tenDaysAgo = Date.now() - (10 * 24 * 60 * 60 * 1000);
+	featuresAlreadySeen = featuresAlreadySeen ?? {};
+
+	if (!firstTimeVisit) {
 		for (const feature of select.all('.feature [type=checkbox]')) {
-			if (!(feature.id in newFeatures) || Date.now() - newFeatures[feature.id] <= timespan) {
+			if (!(feature.id in featuresAlreadySeen) || featuresAlreadySeen[feature.id] > tenDaysAgo) {
 				feature.parentElement!.classList.add('feature-new');
 			}
 		}
 	}
 
 	for (const feature of __featuresInfo__) {
-		if (!(feature.name in newFeatures)) {
-			newFeatures[feature.name] = Date.now();
+		if (!(feature.name in featuresAlreadySeen)) {
+			featuresAlreadySeen[feature.name] = firstTimeVisit ? tenDaysAgo : Date.now();
 		}
 	}
 
-	await cache.set('features-new', newFeatures, 1000);
+	browser.storage.local.set({featuresAlreadySeen});
 
 	// Improve textareas editing
 	fitTextarea.watch('textarea');

@@ -13,7 +13,6 @@ html {
 	--input-border-color: rgba(0, 0, 0, 0.2);
 	--github-green: #28a745;
 	--github-red: #cb2431;
-	--feature-new: #ff4f4f;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -133,12 +132,12 @@ h2 ~ h2 {
 
 .feature-new .feature-name::after {
 	content: 'New';
-	color: var(--feature-new);
-	font-size: 14px;
-	border: 1px solid var(--feature-new);
-	border-radius: 2px;
-	padding: 0 5px;
-	margin-left: 12px;
+	color: var(--github-red);
+	font-size: 1em;
+	border: 1px solid;
+	border-radius: 0.1em;
+	padding: 0 0.3em;
+	margin-left: 0.8em;
 	text-transform: uppercase;
 }
 
