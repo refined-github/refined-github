@@ -1,5 +1,6 @@
+/* eslint-disable promise/prefer-await-to-then */
 import cache from 'webext-storage-cache';
-import select from 'select-dom';
+import elementReady from 'element-ready';
 import features from '../libs/features';
 import * as api from '../libs/api';
 import {getOwnerAndRepo, getRepoURL, getRepoGQL} from '../libs/utils';
@@ -33,17 +34,21 @@ const getCounts = cache.function(async (): Promise<Counts> => {
 	cacheKey: () => __featureName__ + ':' + getRepoURL()
 });
 
+function removeParent(element?: Element): void {
+	if (element) { // If may be missing when the feature is entirely disabled
+		element.parentElement!.remove();
+	}
+}
+
 async function init(): Promise<void> {
 	const {repoProjectCount, orgProjectCount, milestoneCount} = await getCounts();
 
-	// If the repo and organization has no projects, its selector will be empty
-	if (repoProjectCount === 0 && orgProjectCount === 0 && select.exists('[data-hotkey="p"')) {
-		select('[data-hotkey="p"')!.parentElement!.remove();
+	if (repoProjectCount === 0 && orgProjectCount === 0) {
+		elementReady('[data-hotkey="p"]').then(removeParent);
 	}
 
-	// If the repo has no milestones, its selector will be empty
-	if (milestoneCount === 0 && select.exists('[data-hotkey="m"')) {
-		select('[data-hotkey="m"')!.parentElement!.remove();
+	if (milestoneCount === 0) {
+		elementReady('[data-hotkey="m"]').then(removeParent);
 	}
 }
 
@@ -51,7 +56,7 @@ features.add({
 	id: __featureName__,
 	description: 'Hides `Projects` and `Milestones` filters in discussion lists if they are empty.',
 	screenshot: 'https://user-images.githubusercontent.com/37769974/59083449-0ef88f80-8915-11e9-8296-68af1ddcf191.png',
-	load: features.onAjaxedPages,
+	load: features.nowAndOnAjaxedPages,
 	include: [
 		features.isRepoDiscussionList
 	],
