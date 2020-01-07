@@ -1,14 +1,11 @@
-import './branch-buttons.css';
+import './latest-tag-button.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import tagIcon from 'octicon/tag.svg';
-import branchIcon from 'octicon/git-branch.svg';
 import compareVersions from 'tiny-version-compare';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {isRepoRoot} from '../libs/page-detect';
-import {groupSiblings} from '../libs/group-buttons';
-import getDefaultBranch from '../libs/get-default-branch';
 import {getRepoURL, getCurrentBranch, replaceBranch, getRepoGQL} from '../libs/utils';
 
 async function getTagLink(): Promise<'' | HTMLAnchorElement> {
@@ -39,7 +36,7 @@ async function getTagLink(): Promise<'' | HTMLAnchorElement> {
 		latestRelease = tags[0];
 	}
 
-	const link = <a className="btn btn-sm btn-outline tooltipped tooltipped-ne">{tagIcon()}</a> as unknown as HTMLAnchorElement;
+	const link = <a className="btn btn-sm btn-outline tooltipped tooltipped-ne ml-2">{tagIcon()}</a> as unknown as HTMLAnchorElement;
 
 	const currentBranch = getCurrentBranch();
 
@@ -60,65 +57,22 @@ async function getTagLink(): Promise<'' | HTMLAnchorElement> {
 	return link;
 }
 
-async function getDefaultBranchLink(): Promise<HTMLElement | undefined> {
-	const defaultBranch = await getDefaultBranch();
-	const currentBranch = getCurrentBranch();
-
-	// Don't show the button if we’re already on the default branch
-	if (defaultBranch === currentBranch) {
-		return;
-	}
-
-	let url;
-	if (isRepoRoot()) {
-		url = `/${getRepoURL()}`;
-	} else {
-		url = replaceBranch(currentBranch, defaultBranch);
-	}
-
-	return (
-		<a
-			className="btn btn-sm btn-outline tooltipped tooltipped-ne"
-			href={url}
-			aria-label="Visit the default branch">
-			{branchIcon()}
-			{' '}
-			{defaultBranch}
-		</a>
-	);
-}
-
 async function init(): Promise<false | void> {
 	const breadcrumbs = select('.breadcrumb');
 	if (!breadcrumbs) {
 		return false;
 	}
 
-	const [defaultLink = '', tagLink = ''] = await Promise.all([
-		getDefaultBranchLink(),
-		getTagLink()
-	]);
-
-	const wrapper = (
-		<div className="rgh-branch-buttons ml-2">
-			{defaultLink}
-			{tagLink}
-		</div>
-	);
-
-	if (wrapper.children.length > 0) {
-		breadcrumbs.before(wrapper);
-	}
-
-	if (wrapper.children.length > 1) {
-		groupSiblings(wrapper.firstElementChild!);
+	const tagLink = await getTagLink();
+	if (tagLink) {
+		breadcrumbs.before(tagLink);
 	}
 }
 
 features.add({
 	id: __featureName__,
-	description: 'Adds links to the default branch and to the latest version tag.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/38107328-ccb3fb46-33bb-11e8-9654-23a6410943cc.png',
+	description: 'Adds link to the latest version tag on directory listings and files.',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/71885167-63464500-316c-11ea-806c-5abe37281eca.png',
 	include: [
 		features.isRepoTree,
 		features.isSingleFile

@@ -21,9 +21,7 @@ const defaults = Object.assign({
 }, __featuresOptionDefaults__); // This variable is replaced at build time
 
 const migrations = [
-	featureWasRenamed('filter-pr-by-build-status', 'pr-filters'), // Merged on November 1st
-	featureWasRenamed('linkify-branch-refs', 'linkify-branch-references'), // Merged on November 10th
-	featureWasRenamed('prev-next-commit-buttons', 'previous-next-commit-buttons'), // Merged on November 10th
+	featureWasRenamed('branch-buttons', 'latest-tag-button'), // Merged on January 10th
 
 	// Removed features will be automatically removed from the options as well
 	OptionsSync.migrations.removeUnused
