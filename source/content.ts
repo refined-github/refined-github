@@ -64,7 +64,8 @@ import './features/navigate-pages-with-arrow-keys';
 import './features/global-discussion-list-filters';
 import './features/filter-comments-by-you';
 import './features/sort-issues-by-update-time'; // Must be after global-discussion-list-filters and filter-comments-by-you
-import './features/branch-buttons';
+import './features/latest-tag-button';
+import './features/default-branch-button';
 import './features/faster-pr-diff-options';
 import './features/ci-link';
 import './features/sort-milestones-by-closest-due-date';
