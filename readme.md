@@ -240,7 +240,6 @@ Thanks for contributing! 🦋🙌
 
 - [](# "faster-pr-diff-options") Adds a keyboard shortcut to ignore the whitespace in diffs: <kbd>d</kbd> <kbd>w</kbd>.
 - [](# "patch-diff-links") [Adds links to `.patch` and `.diff` files in commits.](https://cloud.githubusercontent.com/assets/737065/13605562/22faa79e-e516-11e5-80db-2da6aa7965ac.png)
-- [](# "default-to-rich-diff") [Renders the rich diff by default in SVG files’ diffs.](https://user-images.githubusercontent.com/5243867/57125552-c08a2b00-6d81-11e9-9b84-cdb535baa98e.png)
 - [](# "raw-file-link") [Adds link to view the raw version of files in PRs and commits.](https://user-images.githubusercontent.com/1402241/56484988-b99f2500-6504-11e9-9748-c944e1070cc8.png)
 - [](# "faster-pr-diff-options") [Adds one-click buttons to change diff style and to ignore the whitespace.](https://user-images.githubusercontent.com/1402241/54178764-d1c96080-44d1-11e9-889c-734ffd2a602d.png)
 - [](# "follow-file-renames") 🔥 [Enhances files’ commit lists navigation to follow file renames.](https://user-images.githubusercontent.com/1402241/54799957-7306a280-4c9a-11e9-86de-b9764ed93397.png)
