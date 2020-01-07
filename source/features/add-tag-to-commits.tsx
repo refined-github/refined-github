@@ -139,7 +139,8 @@ async function init(): Promise<void | false> {
 							<a href={`/${getRepoURL()}/releases/tag/${tags}`}>{tags}</a>
 							{(i + 1) === targetTags.length ? '' : ', '}
 						</>
-					))}</span>
+					))}
+					</span>
 				</div>
 			);
 		}

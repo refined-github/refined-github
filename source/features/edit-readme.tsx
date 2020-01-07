@@ -27,7 +27,8 @@ async function init(): Promise<void | false> {
 	readmeHeader.after(
 		<a href={pathnameParts.join('/')}
 			className="Box-btn-octicon btn-octicon float-right"
-			aria-label="Edit this file">
+			aria-label="Edit this file"
+		>
 			{pencilIcon()}
 		</a>
 	);

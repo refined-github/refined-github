@@ -14,18 +14,23 @@ function createDiffStyleToggle(): DocumentFragment {
 
 	const makeLink = (type: string, icon: Element, selected: boolean): HTMLElement => {
 		parameters.set('diff', type);
-		return <a
-			className={`btn btn-sm BtnGroup-item tooltipped tooltipped-s ${selected ? 'selected' : ''}`}
-			aria-label={`Show ${type} diffs`}
-			href={`?${String(parameters)}`}>
-			{icon}
-		</a>;
+		return (
+			<a
+				className={`btn btn-sm BtnGroup-item tooltipped tooltipped-s ${selected ? 'selected' : ''}`}
+				aria-label={`Show ${type} diffs`}
+				href={`?${String(parameters)}`}
+			>
+				{icon}
+			</a>
+		);
 	};
 
-	return <>
-		{makeLink('unified', diffIcon(), isUnified)}
-		{makeLink('split', bookIcon(), !isUnified)}
-	</>;
+	return (
+		<>
+			{makeLink('unified', diffIcon(), isUnified)}
+			{makeLink('split', bookIcon(), !isUnified)}
+		</>
+	);
 }
 
 function createWhitespaceButton(): HTMLElement {
@@ -42,7 +47,8 @@ function createWhitespaceButton(): HTMLElement {
 		<a href={`?${String(searchParameters)}`}
 			data-hotkey="d w"
 			className={`btn btn-sm btn-outline tooltipped tooltipped-s ${isHidingWhitespace ? 'bg-gray-light text-gray-light' : ''}`}
-			aria-label={`${isHidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}>
+			aria-label={`${isHidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}
+		>
 			{isHidingWhitespace && checkIcon()} No Whitespace
 		</a>
 	);
@@ -50,9 +56,11 @@ function createWhitespaceButton(): HTMLElement {
 
 function wrap(...elements: Node[]): DocumentFragment {
 	if (features.isSingleCommit()) {
-		return <div className="float-right">
+		return (
+			<div className="float-right">
 			{...elements.map(element => <div className="ml-3 BtnGroup">{element}</div>)}
-		</div>;
+			</div>
+		);
 	}
 
 	return <>{elements.map(element => <div className="diffbar-item">{element}</div>)}</>;

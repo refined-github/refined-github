@@ -37,14 +37,14 @@ function init(): void {
 	issueLink.textContent = 'Issues'; // Drops any possible counter
 	issueLink.href = createUrl('issue');
 	issueLink.append(
-		<include-fragment src={createUrl('issue', location.pathname + '/count')} />
+		<include-fragment src={createUrl('issue', location.pathname + '/count')}/>
 	);
 
 	const prLink = issueLink.cloneNode(true);
 	prLink.textContent = 'Pull requests';
 	prLink.href = createUrl('pr');
 	prLink.append(
-		<include-fragment src={createUrl('pr', location.pathname + '/count')} />
+		<include-fragment src={createUrl('pr', location.pathname + '/count')}/>
 	);
 
 	issueLink.after(prLink);

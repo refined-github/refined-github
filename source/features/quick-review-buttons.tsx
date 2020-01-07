@@ -40,11 +40,13 @@ function init(): false | void {
 
 		container.append(
 			<button
+				type="button"
 				name="pull_request_review[event]"
 				value={radio.value}
 				className={classes.join(' ')}
 				aria-label={tooltip ?? undefined}
-				disabled={radio.disabled}>
+				disabled={radio.disabled}
+			>
 				{radio.nextSibling}
 			</button>
 		);
