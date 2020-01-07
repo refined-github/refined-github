@@ -1,11 +1,11 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import elementReady from 'element-ready';
 import chevronLeftIcon from 'octicon/chevron-left.svg';
 import features from '../libs/features';
 import {isRepoRoot} from '../libs/page-detect';
+import {groupButtons} from '../libs/group-buttons';
 import getDefaultBranch from '../libs/get-default-branch';
 import {getRepoURL, getCurrentBranch, replaceBranch} from '../libs/utils';
-import {groupButtons} from '../libs/group-buttons';
 
 async function init(): Promise<false | void> {
 	const defaultBranch = await getDefaultBranch();
@@ -23,7 +23,7 @@ async function init(): Promise<false | void> {
 		url = replaceBranch(currentBranch, defaultBranch);
 	}
 
-	const branchSelector = select('#branch-select-menu')!;
+	const branchSelector = (await elementReady('#branch-select-menu'))!;
 	const defaultLink = (
 		<a
 			className="btn btn-sm tooltipped tooltipped-ne"
@@ -47,6 +47,6 @@ features.add({
 		features.isRepoTree,
 		features.isSingleFile
 	],
-	load: features.onAjaxedPages,
+	load: features.nowAndOnAjaxedPages,
 	init
 });
