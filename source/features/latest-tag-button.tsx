@@ -1,14 +1,15 @@
 import './latest-tag-button.css';
 import React from 'dom-chef';
-import select from 'select-dom';
+import cache from 'webext-storage-cache';
 import tagIcon from 'octicon/tag.svg';
+import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {isRepoRoot} from '../libs/page-detect';
 import {getRepoURL, getCurrentBranch, replaceBranch, getRepoGQL} from '../libs/utils';
 
-async function getLatestTag(): Promise<string | undefined> {
+const getLatestTag = cache.function(async (): Promise<string | false> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			refs(first: 20, refPrefix: "refs/tags/", orderBy: {
@@ -24,7 +25,7 @@ async function getLatestTag(): Promise<string | undefined> {
 
 	const tags: string[] = repository.refs.nodes.map((tag: {name: string}) => tag.name);
 	if (tags.length === 0) {
-		return;
+		return false;
 	}
 
 	// If all tags are plain versions, parse them
@@ -34,7 +35,10 @@ async function getLatestTag(): Promise<string | undefined> {
 
 	// Otherwise just use the latest
 	return tags[0];
-}
+}, {
+	expiration: 1,
+	cacheKey: () => __featureName__ + ':' + getRepoURL()
+});
 
 function getTagLink(latestRelease: string): HTMLAnchorElement {
 	const link = <a className="btn btn-sm btn-outline tooltipped tooltipped-ne ml-2">{tagIcon()}</a> as unknown as HTMLAnchorElement;
@@ -59,15 +63,16 @@ function getTagLink(latestRelease: string): HTMLAnchorElement {
 }
 
 async function init(): Promise<false | void> {
-	const breadcrumbs = select('.breadcrumb');
-	if (!breadcrumbs) {
+	const [breadcrumbs, latestTag] = await Promise.all([
+		elementReady('.breadcrumb'),
+		getLatestTag()
+	]);
+
+	if (!breadcrumbs || !latestTag) {
 		return false;
 	}
 
-	const latestTag = await getLatestTag();
-	if (latestTag) {
-		breadcrumbs.before(getTagLink(latestTag));
-	}
+	breadcrumbs.before(getTagLink(latestTag));
 }
 
 features.add({
@@ -78,6 +83,6 @@ features.add({
 		features.isRepoTree,
 		features.isSingleFile
 	],
-	load: features.onAjaxedPages,
+	load: features.nowAndOnAjaxedPages,
 	init
 });
