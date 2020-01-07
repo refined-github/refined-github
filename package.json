@@ -116,6 +116,7 @@
 			"prefer-named-capture-group": "off",
 			"import/no-unassigned-import": "off",
 			"react/jsx-key": "off",
+			"react/no-unknown-property": "off",
 			"unicorn/prevent-abbreviations": "error",
 			"import/extensions": [
 				"error",
