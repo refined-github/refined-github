@@ -8,7 +8,7 @@ import features from '../libs/features';
 import {isRepoRoot} from '../libs/page-detect';
 import {getRepoURL, getCurrentBranch, replaceBranch, getRepoGQL} from '../libs/utils';
 
-async function getTagLink(): Promise<'' | HTMLAnchorElement> {
+async function getLatestTag(): Promise<string | undefined> {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			refs(first: 20, refPrefix: "refs/tags/", orderBy: {
@@ -24,18 +24,19 @@ async function getTagLink(): Promise<'' | HTMLAnchorElement> {
 
 	const tags: string[] = repository.refs.nodes.map((tag: {name: string}) => tag.name);
 	if (tags.length === 0) {
-		return '';
+		return;
 	}
 
-	// If all tags are plain versions, parse them,
-	// otherwise just use the latest.
-	let latestRelease: string;
+	// If all tags are plain versions, parse them
 	if (tags.every(tag => /^[vr]?\d/.test(tag))) {
-		latestRelease = tags.sort(compareVersions).pop()!;
-	} else {
-		latestRelease = tags[0];
+		return tags.sort(compareVersions).pop()!;
 	}
 
+	// Otherwise just use the latest
+	return tags[0];
+}
+
+function getTagLink(latestRelease: string): HTMLAnchorElement {
 	const link = <a className="btn btn-sm btn-outline tooltipped tooltipped-ne ml-2">{tagIcon()}</a> as unknown as HTMLAnchorElement;
 
 	const currentBranch = getCurrentBranch();
@@ -63,9 +64,9 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	const tagLink = await getTagLink();
-	if (tagLink) {
-		breadcrumbs.before(tagLink);
+	const latestTag = await getLatestTag();
+	if (latestTag) {
+		breadcrumbs.before(getTagLink(latestTag));
 	}
 }
 
