@@ -1,4 +1,3 @@
-import './default-branch-button.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import chevronLeftIcon from 'octicon/chevron-left.svg';
@@ -35,7 +34,9 @@ async function init(): Promise<false | void> {
 	);
 
 	branchSelector.before(defaultLink);
-	groupButtons([defaultLink, branchSelector]);
+
+	const group = groupButtons([defaultLink, branchSelector]);
+	group.classList.add('m-0');
 }
 
 features.add({
