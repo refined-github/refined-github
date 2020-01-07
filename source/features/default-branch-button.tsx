@@ -8,13 +8,13 @@ import getDefaultBranch from '../libs/get-default-branch';
 import {getRepoURL, getCurrentBranch, replaceBranch} from '../libs/utils';
 import {groupButtons} from '../libs/group-buttons';
 
-async function getDefaultBranchLink(): Promise<HTMLElement | undefined> {
+async function init(): Promise<false | void> {
 	const defaultBranch = await getDefaultBranch();
 	const currentBranch = getCurrentBranch();
 
 	// Don't show the button if we’re already on the default branch
 	if (defaultBranch === currentBranch) {
-		return;
+		return false;
 	}
 
 	let url;
@@ -24,7 +24,8 @@ async function getDefaultBranchLink(): Promise<HTMLElement | undefined> {
 		url = replaceBranch(currentBranch, defaultBranch);
 	}
 
-	return (
+	const branchSelector = select('#branch-select-menu')!;
+	const defaultLink = (
 		<a
 			className="btn btn-sm tooltipped tooltipped-ne"
 			href={url}
@@ -32,14 +33,9 @@ async function getDefaultBranchLink(): Promise<HTMLElement | undefined> {
 			{chevronLeftIcon()}
 		</a>
 	);
-}
 
-async function init(): Promise<false | void> {
-	const defaultLink = await getDefaultBranchLink();
-	if (defaultLink) {
-		select('#branch-select-menu')!.before(defaultLink);
-		groupButtons([defaultLink, defaultLink.nextElementSibling!]);
-	}
+	branchSelector.before(defaultLink);
+	groupButtons([defaultLink, branchSelector]);
 }
 
 features.add({
