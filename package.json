@@ -118,6 +118,7 @@
 			"react/jsx-key": "off",
 			"react/no-unknown-property": "off",
 			"unicorn/prevent-abbreviations": "error",
+			"react/jsx-first-prop-new-line": "error",
 			"import/extensions": [
 				"error",
 				"never",

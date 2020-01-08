@@ -174,7 +174,9 @@ function getNotification(notification: Notification): Element {
 				<span className={`type-icon type-icon-state-${state}`}>
 					{stateIcons[type][state]()}
 				</span>
-				<a className="css-truncate-target js-notification-target js-navigation-open list-group-item-link" href={url}
+				<a
+					className="css-truncate-target js-notification-target js-navigation-open list-group-item-link"
+					href={url}
 					data-hovercard-url={`${url}/hovercard?show_subscription_status=true`}
 				>
 					{title}

@@ -70,7 +70,8 @@ async function init(): Promise<void> {
 	const forkCounter = (await elementReady('.social-count[href$="/network/members"]'))!;
 	if (forks.length === 1) {
 		forkCounter.before(
-			<a href={`/${forks[0]}`}
+			<a
+				href={`/${forks[0]}`}
 				className="btn btn-sm float-left rgh-forked-button"
 				title={`Open your fork to ${forks[0]}`}
 			>
