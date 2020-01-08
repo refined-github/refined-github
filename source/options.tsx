@@ -74,20 +74,16 @@ async function init(): Promise<void> {
 	// Highlight new features
 	let {featuresAlreadySeen} = await browser.storage.local.get('featuresAlreadySeen');
 	const firstTimeVisit = featuresAlreadySeen === undefined;
-	const tenDaysAgo = Date.now() - (10 * 24 * 60 * 60 * 1000);
+	const now = Date.now();
+	const tenDaysAgo = now - (10 * 24 * 60 * 60 * 1000);
 	featuresAlreadySeen = featuresAlreadySeen ?? {};
-
-	if (!firstTimeVisit) {
-		for (const feature of select.all('.feature [type=checkbox]')) {
-			if (!(feature.id in featuresAlreadySeen) || featuresAlreadySeen[feature.id] > tenDaysAgo) {
-				feature.parentElement!.classList.add('feature-new');
-			}
+	for (const feature of select.all('.feature [type=checkbox]')) {
+		if (!(feature.id in featuresAlreadySeen)) {
+			featuresAlreadySeen[feature.id] = firstTimeVisit ? tenDaysAgo : now;
 		}
-	}
 
-	for (const feature of __featuresInfo__) {
-		if (!(feature.name in featuresAlreadySeen)) {
-			featuresAlreadySeen[feature.name] = firstTimeVisit ? tenDaysAgo : Date.now();
+		if (!firstTimeVisit && featuresAlreadySeen[feature.id] > tenDaysAgo) {
+			feature.parentElement!.classList.add('feature-new');
 		}
 	}
 
