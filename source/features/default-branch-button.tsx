@@ -28,7 +28,8 @@ async function init(): Promise<false | void> {
 		<a
 			className="btn btn-sm tooltipped tooltipped-ne"
 			href={url}
-			aria-label="See this view on the default branch">
+			aria-label="See this view on the default branch"
+		>
 			{chevronLeftIcon()}
 		</a>
 	);

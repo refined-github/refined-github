@@ -70,9 +70,11 @@ async function init(): Promise<void> {
 	const forkCounter = (await elementReady('.social-count[href$="/network/members"]'))!;
 	if (forks.length === 1) {
 		forkCounter.before(
-			<a href={`/${forks[0]}`}
+			<a
+				href={`/${forks[0]}`}
 				className="btn btn-sm float-left rgh-forked-button"
-				title={`Open your fork to ${forks[0]}`}>
+				title={`Open your fork to ${forks[0]}`}
+			>
 				{linkExternalIcon()}
 			</a>
 		);
@@ -84,19 +86,21 @@ async function init(): Promise<void> {
 					title="Open any of your forks"/>
 				<details-menu
 					style={{zIndex: 99}}
-					className="select-menu-modal position-absolute right-0 mt-5">
+					className="select-menu-modal position-absolute right-0 mt-5"
+				>
 					<div className="select-menu-header">
 						<span className="select-menu-title">Your forks</span>
 					</div>
-					{...forks.map(fork =>
+					{...forks.map(fork => (
 						<a
 							href={`/${fork}`}
 							className="select-menu-item"
-							title={`Open your fork to ${fork}`}>
+							title={`Open your fork to ${fork}`}
+						>
 							<span className="select-menu-item-icon">{forkIcon()}</span>
 							{fork}
 						</a>
-					)}
+					))}
 				</details-menu>
 			</details>
 		);

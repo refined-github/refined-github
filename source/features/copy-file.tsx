@@ -27,7 +27,8 @@ function renderButton(): void {
 				<button
 					className="btn btn-sm tooltipped tooltipped-n BtnGroup-item rgh-copy-file"
 					aria-label="Copy file to clipboard"
-					type="button">
+					type="button"
+				>
 					Copy
 				</button>
 			);

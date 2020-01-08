@@ -72,7 +72,10 @@
 		"daily-version": "^0.12.0",
 		"dot-json": "^1.0.4",
 		"eslint": "^6.7.2",
+		"eslint-config-xo-react": "^0.20.0",
 		"eslint-config-xo-typescript": "^0.23.0",
+		"eslint-plugin-react": "^7.17.0",
+		"eslint-plugin-react-hooks": "^2.3.0",
 		"esm": "^3.2.25",
 		"fork-ts-checker-webpack-plugin": "^3.1.1",
 		"jsdom": "^15.2.1",
@@ -94,6 +97,7 @@
 		"xo": "^0.25.3"
 	},
 	"xo": {
+		"extends": "xo-react",
 		"envs": [
 			"browser"
 		],
@@ -111,7 +115,10 @@
 			"no-alert": "off",
 			"prefer-named-capture-group": "off",
 			"import/no-unassigned-import": "off",
+			"react/jsx-key": "off",
+			"react/no-unknown-property": "off",
 			"unicorn/prevent-abbreviations": "error",
+			"react/jsx-first-prop-new-line": "error",
 			"import/extensions": [
 				"error",
 				"never",
@@ -123,7 +130,10 @@
 		"overrides": [
 			{
 				"files": "**/*.+(ts|tsx)",
-				"extends": "xo-typescript",
+				"extends": [
+					"xo-typescript",
+					"xo-react"
+				],
 				"rules": {
 					"@typescript-eslint/promise-function-async": "off",
 					"@typescript-eslint/no-empty-function": "off",

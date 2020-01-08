@@ -8,7 +8,7 @@ async function init(): Promise<void> {
 	const element = await elementReady('.branch-name');
 	if (element) {
 		const branchUrl = `/${getRepoURL()}/tree/${element.textContent!}`;
-		wrap(element.closest('.branch-name')!, <a href={branchUrl}></a>);
+		wrap(element.closest('.branch-name')!, <a href={branchUrl}/>);
 	}
 }
 

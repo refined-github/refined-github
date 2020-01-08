@@ -11,7 +11,8 @@ function init(): void {
 			<a
 				href={`/${repoUrl}/issues?q=is%3Aopen+commenter:${getUsername()}`}
 				className="SelectMenu-item"
-				role="menuitem">
+				role="menuitem"
+			>
 					Everything commented by you
 			</a>
 		);

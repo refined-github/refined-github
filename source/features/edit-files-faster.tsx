@@ -22,7 +22,7 @@ async function init(): Promise<void> {
 			pathnameParts[4] = defaultBranch; // Replaces /${tag|commit}/
 		}
 
-		wrap(fileIcon, <a href={pathnameParts.join('/')} className="rgh-edit-files-faster" />);
+		wrap(fileIcon, <a href={pathnameParts.join('/')} className="rgh-edit-files-faster"/>);
 		fileIcon.after(pencilIcon());
 	}
 }

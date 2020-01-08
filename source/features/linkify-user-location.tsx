@@ -14,7 +14,7 @@ function addLocation(baseElement: HTMLElement): void {
 		const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(locationName)}`;
 
 		location.before(' '); // Keeps the link’s underline from extending out to the icon
-		wrap(location, <a href={googleMapsLink} />);
+		wrap(location, <a href={googleMapsLink}/>);
 	}
 }
 

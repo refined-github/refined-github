@@ -41,7 +41,7 @@ function init(): void {
 		select('.discussion-timeline-actions')!.prepend(
 			<p className="rgh-useless-comments-note">
 				{`${uselessCount} unhelpful comment${uselessCount > 1 ? 's were' : ' was'} automatically hidden. `}
-				<button className="btn-link text-emphasized rgh-unhide-useless-comments">Show</button>
+				<button className="btn-link text-emphasized rgh-unhide-useless-comments" type="button">Show</button>
 			</p>
 		);
 		delegate('.rgh-unhide-useless-comments', 'click', unhide);
