@@ -18,7 +18,7 @@ async function save(forks: string[]): Promise<void> {
 		return cache.delete(getCacheKey());
 	}
 
-	return cache.set(getCacheKey(), forks, 10);
+	await cache.set(getCacheKey(), forks, 10);
 }
 
 function saveAllForks(): void {
