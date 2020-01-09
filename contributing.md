@@ -112,6 +112,8 @@ Once built, load it in the browser of your choice:
 				<li>Click on the <strong>Load unpacked extension</strong> button;
 				<li>Select the folder <code>refined-github/distribution</code>.
 			</ol>
+			Or you can use run this command to have Chrome automatically load and reload it through <a href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/web-ext_command_reference#web-ext_run"><code>web-ext run</code></a>:
+			<pre>npm run watch:chrome</pre>
 		</td>
 		<td width="50%" valign="top">
 			<ol>
@@ -119,7 +121,7 @@ Once built, load it in the browser of your choice:
 				<li>Click on the <strong>Load Temporary Add-on</strong> button;
 				<li>Select the file <code>refined-github/distribution/manifest.json</code>.
 			</ol>
-			Or you can use run this command to have Firefox automatically load and reload it through <a href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/web-ext_command_reference#web-ext_run"><code>web-ext run</code></a>:</p>
+			Or you can use run this command to have Firefox automatically load and reload it through <a href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/web-ext_command_reference#web-ext_run"><code>web-ext run</code></a>:
 			<pre>npm run watch:firefox</pre>
 		</td>
 	</tr>
