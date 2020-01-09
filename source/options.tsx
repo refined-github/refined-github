@@ -1,5 +1,6 @@
 import './options.css';
 import React from 'dom-chef';
+import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import fitTextarea from 'fit-textarea';
 import {applyToLink} from 'shorten-repo-url';
@@ -78,6 +79,18 @@ async function init(): Promise<void> {
 		for (const feature of select.all('.feature')) {
 			feature.hidden = !keywords.every(word => feature.dataset.text!.includes(word));
 		}
+	});
+
+	const button = select<HTMLButtonElement>('#clear-cache')!;
+	button.addEventListener('click', async () => {
+		await cache.clear();
+		const initialText = button.textContent;
+		button.textContent = 'Cache cleared!';
+		button.disabled = true;
+		setTimeout(() => {
+			button.textContent = initialText;
+			button.disabled = false;
+		}, 2000);
 	});
 
 	// GitHub Enterprise domain picker
