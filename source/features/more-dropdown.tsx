@@ -44,14 +44,15 @@ async function init(): Promise<void> {
 	menu.append(
 		<a href={compareUrl} className="rgh-reponav-more dropdown-item">
 			<svg aria-hidden="true" className="octicon octicon-diff" width="15" height="16" viewBox="0 0 13 16">
-				<path d="M6 7h2v1H6v2H5V8H3V7h2V5h1zm-3 6h5v-1H3zM7.5 2L11 5.5V15c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1zm1-2H3v1h5l4 4v8h1V4.5z" fill-rule="evenodd" />
+				<path d="M6 7h2v1H6v2H5V8H3V7h2V5h1zm-3 6h5v-1H3zM7.5 2L11 5.5V15c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1zm1-2H3v1h5l4 4v8h1V4.5z" fillRule="evenodd"/>
 			</svg> Compare
 		</a>,
 
-		isEnterprise() ? '' :
+		isEnterprise() ? '' : (
 			<a href={`/${repoUrl}/network/dependencies`} className="rgh-reponav-more dropdown-item">
 				{packageIcon()} Dependencies
-			</a>,
+			</a>
+		),
 
 		<a href={commitsUrl} className="rgh-reponav-more dropdown-item">
 			{historyIcon()} Commits

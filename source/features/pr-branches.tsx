@@ -81,7 +81,8 @@ function createLink(reference: RepositoryReference): HTMLSpanElement {
 	return (
 		<span
 			className="commit-ref css-truncate user-select-contain mb-n1"
-			style={(reference.branchExists ? {} : {textDecoration: 'line-through'})}>
+			style={(reference.branchExists ? {} : {textDecoration: 'line-through'})}
+		>
 			{
 				reference.url ?
 					<a title={(reference.branchExists ? reference.label : 'Deleted')} href={reference.url}>

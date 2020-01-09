@@ -19,10 +19,12 @@ function generateSubmenu(hideButton: Element): void {
 	for (const reason of select.all<HTMLInputElement>('[name="classifier"] :not([value=""])', comment)) {
 		hideCommentForm.append(
 			<button
+				type="button"
 				name="classifier"
 				value={reason.value}
 				className="dropdown-item btn-link"
-				role="menuitem">
+				role="menuitem"
+			>
 				{reason.textContent}
 			</button>
 		);

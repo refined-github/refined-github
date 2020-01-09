@@ -64,7 +64,8 @@ import './features/navigate-pages-with-arrow-keys';
 import './features/global-discussion-list-filters';
 import './features/filter-comments-by-you';
 import './features/sort-issues-by-update-time'; // Must be after global-discussion-list-filters and filter-comments-by-you
-import './features/branch-buttons';
+import './features/latest-tag-button';
+import './features/default-branch-button';
 import './features/faster-pr-diff-options';
 import './features/ci-link';
 import './features/sort-milestones-by-closest-due-date';
@@ -110,7 +111,6 @@ import './features/collapsible-content-button';
 import './features/hide-watch-and-fork-count';
 import './features/resolve-conflicts';
 import './features/follow-file-renames';
-import './features/default-to-rich-diff';
 import './features/fix-view-file-link-in-pr'; // Must be before raw-file-link
 import './features/raw-file-link';
 import './features/tags-dropdown';
@@ -128,7 +128,6 @@ import './features/toggle-everything-with-alt';
 import './features/limit-commit-title-length';
 import './features/highest-rated-comment';
 import './features/clean-issue-filters';
-import './features/minimize-user-comments';
 import './features/minimize-upload-bar';
 import './features/cycle-lists-with-keyboard-shortcuts';
 import './features/add-tag-to-commits';

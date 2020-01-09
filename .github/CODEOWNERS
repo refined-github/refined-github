@@ -2,7 +2,6 @@ source/features/pr-filters.tsx @hardikmodha @FloEdelmann
 source/features/tags-dropdown.tsx @hardikmodha
 source/features/tag-changelog-link.tsx @hardikmodha
 source/features/link-to-file-in-file-history.tsx @hardikmodha
-source/features/default-to-rich-diff.tsx @idasbiste
 source/features/add-tag-to-commits.tsx @dotconnor
 source/features/release-download-count.tsx @dotconnor
 source/features/indented-code-wrapping.tsx @notlmn

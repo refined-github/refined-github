@@ -68,7 +68,7 @@ function addOpenAllButton(): void {
 		document.body.append(select('#mark_as_read_confirm_box') ?? '');
 
 		// Create an open button and add it into a button group
-		const button = <button className="btn btn-sm rgh-open-notifications-button">Open all unread in tabs</button>;
+		const button = <button className="btn btn-sm rgh-open-notifications-button" type="button">Open all unread in tabs</button>;
 		select('.tabnav .float-right')!.prepend(button);
 
 		// There is no sibling on `/<org>/<repo>/notifications` page

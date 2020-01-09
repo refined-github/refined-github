@@ -1,5 +1,6 @@
 import './options.css';
 import React from 'dom-chef';
+import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import fitTextarea from 'fit-textarea';
 import {applyToLink} from 'shorten-repo-url';
@@ -30,7 +31,7 @@ function buildFeatureCheckbox({name, description, screenshot, disabled}: Feature
 
 	return (
 		<div className={`feature feature--${disabled ? 'disabled' : 'enabled'}`} data-text={`${name} ${description}`.toLowerCase()}>
-			<input type="checkbox" name={key} id={name} disabled={Boolean(disabled)} />
+			<input type="checkbox" name={key} id={name} disabled={Boolean(disabled)}/>
 			<div className="info">
 				<label for={name}>
 					<span className="feature-name">{name}</span>
@@ -43,13 +44,6 @@ function buildFeatureCheckbox({name, description, screenshot, disabled}: Feature
 					<br/>
 					<p className="description">{parseDescription(description)}</p>
 				</label>
-				{
-					name === 'minimize-user-comments' &&
-						<div className="extended-options">
-							<p>User list:</p>
-							<textarea name="minimizedUsers" rows={2} spellCheck="false"/>
-						</div>
-				}
 			</div>
 		</div>
 	);
@@ -102,6 +96,18 @@ async function init(): Promise<void> {
 		for (const feature of select.all('.feature')) {
 			feature.hidden = !keywords.every(word => feature.dataset.text!.includes(word));
 		}
+	});
+
+	const button = select<HTMLButtonElement>('#clear-cache')!;
+	button.addEventListener('click', async () => {
+		await cache.clear();
+		const initialText = button.textContent;
+		button.textContent = 'Cache cleared!';
+		button.disabled = true;
+		setTimeout(() => {
+			button.textContent = initialText;
+			button.disabled = false;
+		}, 2000);
 	});
 
 	// GitHub Enterprise domain picker

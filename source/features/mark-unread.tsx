@@ -71,7 +71,7 @@ function stripHash(url: string): string {
 function addMarkUnreadButton(): void {
 	if (!select.exists('.rgh-btn-mark-unread')) {
 		select('.thread-subscription-status')!.after(
-			<button className="btn btn-sm btn-block mt-2 rgh-btn-mark-unread">
+			<button className="btn btn-sm btn-block mt-2 rgh-btn-mark-unread" type="button">
 				Mark as unread
 			</button>
 		);
@@ -162,11 +162,11 @@ function getNotification(notification: Notification): Element {
 		.join(' and ')
 		.replace(/ and (.+) and/, ', $1, and'); // 3 people only: A, B, and C
 
-	const avatars = participants.map(participant =>
+	const avatars = participants.map(participant => (
 		<a href={`/${participant.username}`} className="avatar">
 			<img alt={`@${participant.username}`} height="20" src={participant.avatar} width="20"/>
 		</a>
-	);
+	));
 
 	return (
 		<li className={`list-group-item js-notification js-navigation-item unread ${type}-notification rgh-unread`}>
@@ -174,14 +174,17 @@ function getNotification(notification: Notification): Element {
 				<span className={`type-icon type-icon-state-${state}`}>
 					{stateIcons[type][state]()}
 				</span>
-				<a className="css-truncate-target js-notification-target js-navigation-open list-group-item-link" href={url}
-					data-hovercard-url={`${url}/hovercard?show_subscription_status=true`}>
+				<a
+					className="css-truncate-target js-notification-target js-navigation-open list-group-item-link"
+					href={url}
+					data-hovercard-url={`${url}/hovercard?show_subscription_status=true`}
+				>
 					{title}
 				</a>
 			</span>
 			<ul className="notification-actions">
 				<li className="delete">
-					<button className="btn-link delete-note">
+					<button className="btn-link delete-note" type="button">
 						{checkIcon()}
 					</button>
 				</li>
@@ -210,7 +213,7 @@ function getNotificationGroup({repository}: Notification): Element {
 	return (
 		<div className="boxed-group flush">
 			<form className="boxed-group-action">
-				<button className="mark-all-as-read css-truncate js-mark-all-read">
+				<button className="mark-all-as-read css-truncate js-mark-all-read" type="button">
 					{checkIcon()}
 				</button>
 			</form>
@@ -237,7 +240,7 @@ async function renderNotifications(unreadNotifications: Notification[]): Promise
 	let pageList = (await elementReady('#notification-center .notifications-list'))!;
 
 	if (!pageList) {
-		pageList = <div className="notifications-list"></div>;
+		pageList = <div className="notifications-list"/>;
 		select('.blankslate')!.replaceWith(pageList);
 	}
 

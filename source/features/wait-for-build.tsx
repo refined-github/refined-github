@@ -13,9 +13,9 @@ let waiting: symbol | undefined;
 // Reuse the same checkbox to preserve its status
 const generateCheckbox = onetime(() => (
 	<label className="d-inline-block">
-		<input type="checkbox" name="rgh-pr-check-waiter" checked/>
+		<input checked type="checkbox" name="rgh-pr-check-waiter"/>
 		{' Wait for successful checks '}
-		<a className="discussion-item-help tooltipped tooltipped-n" target="_blank" href="https://github.com/sindresorhus/refined-github/pull/975" aria-label="This only works if you keep this tab open while waiting.">
+		<a className="discussion-item-help tooltipped tooltipped-n" target="_blank" rel="noopener noreferrer" href="https://github.com/sindresorhus/refined-github/pull/975" aria-label="This only works if you keep this tab open while waiting.">
 			{infoIcon()}
 		</a>
 	</label>

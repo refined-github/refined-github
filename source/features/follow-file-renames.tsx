@@ -47,7 +47,8 @@ function init(): false | void {
 						<a
 							href={url}
 							aria-label={`Renamed ${isNewer ? 'to' : 'from'} ${file[toKey]}`}
-							className="btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay">
+							className="btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay"
+						>
 							{button.textContent}
 						</a>
 					);

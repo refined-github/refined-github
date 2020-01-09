@@ -15,9 +15,11 @@ function addButton(): void {
 
 	filesHeader.append(
 		<button
+			type="button"
 			className="btn-octicon rgh-toggle-files"
 			aria-label="Toggle files section"
-			aria-expanded="true">
+			aria-expanded="true"
+		>
 			{chevronDownIcon()}
 		</button>
 	);
