@@ -7,9 +7,13 @@ function init(): void {
 	for (const title of select.all([
 		'.commit-title', // `isCommit`
 		'.commit-desc', // `isCommit`, `isCommitList`, `isRepoTree`
+		'.commit-message', // Pushed commits in `isPRConversation`
 		'.message', // `isCommitList`, `isRepoTree`
 		'.Box--condensed .link-gray[href*="/commit/"]', // `isSingleFile`
-		'[aria-label="Issues"][role="group"] .js-navigation-open' // `isDiscussionList`
+		'[aria-label="Issues"][role="group"] .js-navigation-open', // `isDiscussionList`
+		'[id^=ref-issue-]', // Issue references in `isIssue`, `isPRConversation`
+		'[id^=ref-pullrequest-]', // PR references in `isIssue`, `isPRConversation`
+		'.TimelineItem-body' // Title changes in `isIssue`, `isPRConversation`
 	])) {
 		parseBackticks(title);
 	}
@@ -23,6 +27,8 @@ features.add({
 		features.isCommit,
 		features.isCommitList,
 		features.isDiscussionList,
+		features.isIssue,
+		features.isPRConversation,
 		features.isRepoTree,
 		features.isSingleFile
 	],
