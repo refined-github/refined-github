@@ -23,7 +23,7 @@ function initGeneral(): void {
 // Highlight code in issue/PR titles on Dashboard page ("Recent activity" container)
 async function initDashboard(): Promise<void> {
 	await elementReady('.js-recent-activity-container', {stopOnDomReady: false});
-	for (const title of select.all(['.js-recent-activity-container .text-bold'])) {
+	for (const title of select.all('.js-recent-activity-container .text-bold')) {
 		parseBackticks(title);
 	}
 }
