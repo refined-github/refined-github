@@ -131,6 +131,7 @@ h2 ~ h2 {
 }
 
 .feature-new .feature-name::after {
+	display: inline-block; /* Avoids the strikethrough on disabled features */
 	content: 'New';
 	color: var(--github-red);
 	font-size: 1em;
