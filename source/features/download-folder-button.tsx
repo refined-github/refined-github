@@ -8,7 +8,8 @@ function init(): void {
 		buttonGroup.prepend(
 			<a
 				className="btn btn-sm BtnGroup-item"
-				href={`https://download-directory.github.io/?url=${location.href}`}>
+				href={`https://download-directory.github.io/?url=${location.href}`}
+			>
 				Download
 			</a>
 		);

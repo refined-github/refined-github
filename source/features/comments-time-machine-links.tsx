@@ -24,7 +24,8 @@ function addInlineLinks(comment: HTMLElement, timestamp: string): void {
 			<a
 				href={linkParts.join('/') + link.hash}
 				className="muted-link tooltipped tooltipped-n"
-				aria-label="Visit as permalink">
+				aria-label="Visit as permalink"
+			>
 				{clockIcon()}
 			</a>
 		);
@@ -41,12 +42,13 @@ function addDropdownLink(comment: HTMLElement, timestamp: string): void {
 
 	appendBefore(dropdown, '.dropdown-divider',
 		<>
-			<div className="dropdown-divider" />
+			<div className="dropdown-divider"/>
 			<a
 				href={`/${getRepoURL()}/tree/HEAD@{${timestamp}}`}
 				className="dropdown-item btn-link"
 				role="menuitem"
-				title="Browse repository like it appeared on this day">
+				title="Browse repository like it appeared on this day"
+			>
 				View repo at this time
 			</a>
 		</>

@@ -12,14 +12,16 @@ import {isRepoRoot, isReleasesOrTags} from '../libs/page-detect';
 const repoUrl = getRepoURL();
 const cacheKey = `releases-count:${repoUrl}`;
 
-function parseCountFromDom(): number | void {
+function parseCountFromDom(): number | false {
 	if (isRepoRoot()) {
 		const releasesCountElement = select('.numbers-summary a[href$="/releases"] .num');
 		return Number(releasesCountElement ? releasesCountElement.textContent!.replace(/,/g, '') : 0);
 	}
+
+	return false;
 }
 
-async function fetchFromApi(): Promise<number | undefined> {
+async function fetchFromApi(): Promise<number> {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			refs(refPrefix: "refs/tags/") {

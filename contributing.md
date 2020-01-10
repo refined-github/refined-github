@@ -38,16 +38,20 @@ Here's an example using all of the possible `feature.add` options:
 ```ts
 import React from 'dom-chef';
 import select from 'select-dom';
+import delegate, {DelegateSubscription} from 'delegate-it';
 import features from '../libs/features';
 
+let delegate;
 function log() {
 	console.log('✨', <div className="rgh-jsx-element"/>);
 }
 function init(): void {
-	select('.btn')!.addEventListener('click', log);
+	// Events must be set via delegate, unless shortlived
+	delegate = delegate('.btn', 'click', log);
 }
 function deinit(): void {
-	select('.btn')!.removeEventListener('load', log);
+	delegate?.destroy();
+	delegate = undefined;
 }
 
 features.add({

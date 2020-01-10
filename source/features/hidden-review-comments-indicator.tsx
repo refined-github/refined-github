@@ -3,15 +3,16 @@ import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
 import commentIcon from 'octicon/comment.svg';
+import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 import anchorScroll from '../libs/anchor-scroll';
 import onPrFileLoad from '../libs/on-pr-file-load';
 
 // When an indicator is clicked, this will show comments on the current file
-const handleIndicatorClick = ({currentTarget}: React.MouseEvent<HTMLElement>): void => {
-	const commentedLine = currentTarget.closest('tr')!.previousElementSibling!;
+const handleIndicatorClick = ({delegateTarget}: DelegateEvent): void => {
+	const commentedLine = delegateTarget.closest('tr')!.previousElementSibling!;
 	const resetScroll = anchorScroll(commentedLine);
-	currentTarget
+	delegateTarget
 		.closest('.file.js-file')!
 		.querySelector<HTMLInputElement>('.js-toggle-file-notes')!
 		.click();
@@ -25,7 +26,7 @@ const addIndicator = mem((commentThread: HTMLElement): void => {
 
 	commentThread.before(
 		<tr>
-			<td className="rgh-comments-indicator blob-num" colSpan={2} onClick={handleIndicatorClick}>
+			<td className="rgh-comments-indicator blob-num" colSpan={2}>
 				<button type="button" className="btn-link">
 					{commentIcon()}
 					<span>{commentCount}</span>
@@ -63,6 +64,7 @@ function observeFiles(): void {
 function init(): void {
 	observeFiles();
 	onPrFileLoad(observeFiles);
+	delegate('.rgh-comments-indicator', 'click', handleIndicatorClick);
 }
 
 features.add({

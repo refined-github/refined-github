@@ -101,8 +101,8 @@ async function handleSubmitSingle(event: DelegateEvent): Promise<void> {
 }
 
 function init(): void {
-	delegate('#files', '[action$="/review_comment/create"]', 'submit', handleReviewSubmission);
-	delegate('#files', '.rgh-submit-single', 'click', handleSubmitSingle);
+	delegate('#files [action$="/review_comment/create"]', 'submit', handleReviewSubmission);
+	delegate('.rgh-submit-single', 'click', handleSubmitSingle);
 	updateUI();
 }
 

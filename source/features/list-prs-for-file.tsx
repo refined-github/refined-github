@@ -17,13 +17,14 @@ async function init(): Promise<void> {
 		return;
 	}
 
-	const wrapper = <span className="ml-2" />;
+	const wrapper = <span className="ml-2"/>;
 	for (const pr of prs) {
 		wrapper.append(
 			<a
 				href={`/${getRepoURL()}/pull/${pr}/files`}
 				className="btn btn-sm btn-outline tooltipped tooltipped-ne"
-				aria-label={`This file is touched by PR #${pr}`}>
+				aria-label={`This file is touched by PR #${pr}`}
+			>
 				{pullRequestIcon()} #{pr}
 			</a>
 		);

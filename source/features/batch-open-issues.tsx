@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 
 const confirmationRequiredCount = 10;
@@ -35,13 +36,14 @@ function init(): void | false {
 		return false;
 	}
 
+	delegate('.rgh-batch-open-issues', 'click', openIssues);
+
 	const filtersBar = select('.table-list-header-toggle:not(.states)');
 	if (filtersBar) {
 		filtersBar.prepend(
 			<button
 				type="button"
-				onClick={openIssues}
-				className="btn-link rgh-open-all-selected pr-2"
+				className="btn-link rgh-batch-open-issues pr-2"
 			>
 				Open All
 			</button>
@@ -54,8 +56,7 @@ function init(): void | false {
 		triageFiltersBar.append(
 			<button
 				type="button"
-				onClick={openIssues}
-				className="btn-link rgh-open-all-selected pl-3"
+				className="btn-link rgh-batch-open-issues pl-3"
 			>
 				Open all
 			</button>
