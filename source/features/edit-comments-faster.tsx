@@ -8,7 +8,7 @@ function init(): void {
 	for (const item of menuItems) {
 		item.classList.add('rgh-edit-comment');
 
-		const button = item.cloneNode() as HTMLButtonElement;
+		const button = item.cloneNode();
 		button.append(pencilIcon());
 		button.classList.replace('dropdown-item', 'timeline-comment-action');
 		item.closest('details')!.before(button);

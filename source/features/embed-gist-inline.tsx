@@ -33,8 +33,9 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 						max-height: 16em;
 						overflow-y: auto;
 					}
-				`}</style>,
-				<link rel="stylesheet" href={gistData.stylesheet} />,
+				`}
+				</style>,
+				<link rel="stylesheet" href={gistData.stylesheet}/>,
 				files
 			);
 		}

@@ -47,7 +47,8 @@ function init(): false | void {
 						<a
 							href={url}
 							aria-label={`Renamed ${isNewer ? 'to' : 'from'} ${file[toKey]}`}
-							className="btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay">
+							className="btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay"
+						>
 							{button.textContent}
 						</a>
 					);
@@ -64,7 +65,7 @@ features.add({
 	description: 'Enhances files’ commit lists navigation to follow file renames.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/54799957-7306a280-4c9a-11e9-86de-b9764ed93397.png',
 	include: [
-		features.isCommitList
+		features.isRepoCommitList
 	],
 	load: features.onAjaxedPages,
 	init

@@ -31,7 +31,7 @@ async function loadCommitPatch(commitUrl: string): Promise<string> {
 	return textContent;
 }
 
-const getLastCommitDate = cache.function(async (login: string): Promise<string | void> => {
+const getLastCommitDate = cache.function(async (login: string): Promise<string | false> => {
 	for await (const page of api.v3paginated(`users/${login}/events`)) {
 		for (const event of page as any) { // eslint-disable-line @typescript-eslint/no-explicit-any
 			if (event.type !== 'PushEvent') {
@@ -59,11 +59,13 @@ const getLastCommitDate = cache.function(async (login: string): Promise<string |
 				const patch = await loadCommitPatch(commit.url);
 				// The patch of merge commits doesn't include the commit sha so the date might be from another user
 				if (patch.startsWith(`From ${commit.sha} `)) {
-					return /^Date: (.*)$/m.exec(patch)?.[1];
+					return /^Date: (.*)$/m.exec(patch)?.[1] ?? false;
 				}
 			}
 		}
 	}
+
+	return false;
 }, {
 	expiration: 10,
 	cacheKey: ([login]) => __featureName__ + ':' + login
