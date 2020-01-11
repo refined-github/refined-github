@@ -95,7 +95,7 @@ h2 ~ h2 {
 	margin-top: 1em;
 }
 
-.js-features input {
+.js-features input[type='checkbox'] {
 	flex-shrink: 0;
 	margin-inline-end: 0.6em; /* Spacing for Chrome */
 	margin-top: 4px; /* Alignment for Chrome */
@@ -140,6 +140,11 @@ h2 ~ h2 {
 }
 
 @-moz-document url-prefix('') {
+	body > :not(hr) {
+		margin-left: 6px;
+		margin-right: 6px;
+	}
+
 	:root {
 		background: none !important;
 	}
@@ -150,11 +155,6 @@ h2 ~ h2 {
 
 	:root hr {
 		margin-right: 0;
-	}
-
-	body > :not(hr) {
-		margin-left: 6px;
-		margin-right: 6px;
 	}
 
 	input[type='checkbox'] {

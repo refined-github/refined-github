@@ -3,7 +3,7 @@
 	"scripts": {
 		"lint": "run-p --silent lint:*",
 		"lint:js": "xo",
-		"lint:css": "stylelint source/**/*.css",
+		"lint:css": "stylelint 'source/**/*.css'",
 		"lint-fix": "run-p --silent 'lint:* -- --fix'",
 		"test": "run-p --silent test:js lint:* build",
 		"test:js": "ava",
