@@ -140,6 +140,11 @@ h2 ~ h2 {
 }
 
 @-moz-document url-prefix('') {
+	body > :not(hr) {
+		margin-left: 6px;
+		margin-right: 6px;
+	}
+
 	:root {
 		background: none !important;
 	}
@@ -150,11 +155,6 @@ h2 ~ h2 {
 
 	:root hr {
 		margin-right: 0;
-	}
-
-	body > :not(hr) { /* stylelint-disable-line no-descending-specificity */
-		margin-left: 6px;
-		margin-right: 6px;
 	}
 
 	input[type='checkbox'] {
