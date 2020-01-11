@@ -95,7 +95,7 @@ h2 ~ h2 {
 	margin-top: 1em;
 }
 
-.js-features input { /* stylelint-disable-line no-descending-specificity */
+.js-features input[type='checkbox'] {
 	flex-shrink: 0;
 	margin-inline-end: 0.6em; /* Spacing for Chrome */
 	margin-top: 4px; /* Alignment for Chrome */
