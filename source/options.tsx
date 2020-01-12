@@ -65,6 +65,23 @@ async function init(): Promise<void> {
 		container.prepend(unchecked.closest('.feature')!);
 	}
 
+	// Highlight new features
+	const {featuresAlreadySeen} = await browser.storage.local.get({featuresAlreadySeen: {}});
+	const isFirstVisit = Object.keys(featuresAlreadySeen).length === 0;
+	const tenDaysAgo = Date.now() - (10 * 24 * 60 * 60 * 1000);
+
+	for (const feature of select.all('.feature [type=checkbox]')) {
+		if (!(feature.id in featuresAlreadySeen)) {
+			featuresAlreadySeen[feature.id] = isFirstVisit ? tenDaysAgo : Date.now();
+		}
+
+		if (featuresAlreadySeen[feature.id] > tenDaysAgo) {
+			feature.parentElement!.classList.add('feature-new');
+		}
+	}
+
+	browser.storage.local.set({featuresAlreadySeen});
+
 	// Improve textareas editing
 	fitTextarea.watch('textarea');
 	indentTextarea.watch('textarea');
