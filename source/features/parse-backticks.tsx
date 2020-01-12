@@ -1,16 +1,29 @@
+import elementReady from 'element-ready';
 import './parse-backticks.css';
 import select from 'select-dom';
 import features from '../libs/features';
 import {parseBackticks} from '../libs/dom-formatters';
 
-function init(): void {
+function initGeneral(): void {
 	for (const title of select.all([
 		'.commit-title', // `isCommit`
 		'.commit-desc', // `isCommit`, `isCommitList`, `isRepoTree`
+		'.commit-message', // Pushed commits in `isPRConversation`
 		'.message', // `isCommitList`, `isRepoTree`
 		'.Box--condensed .link-gray[href*="/commit/"]', // `isSingleFile`
-		'[aria-label="Issues"][role="group"] .js-navigation-open' // `isDiscussionList`
+		'[aria-label="Issues"][role="group"] .js-navigation-open', // `isDiscussionList`
+		'[id^=ref-issue-]', // Issue references in `isIssue`, `isPRConversation`
+		'[id^=ref-pullrequest-]', // PR references in `isIssue`, `isPRConversation`
+		'.TimelineItem-body > del, .TimelineItem-body > ins' // Title edits in `isIssue`, `isPRConversation`
 	])) {
+		parseBackticks(title);
+	}
+}
+
+// Highlight code in issue/PR titles on Dashboard page ("Recent activity" container)
+async function initDashboard(): Promise<void> {
+	await elementReady('.js-recent-activity-container', {stopOnDomReady: false});
+	for (const title of select.all('.js-recent-activity-container .text-bold')) {
 		parseBackticks(title);
 	}
 }
@@ -23,9 +36,21 @@ features.add({
 		features.isCommit,
 		features.isCommitList,
 		features.isDiscussionList,
+		features.isIssue,
+		features.isPRConversation,
 		features.isRepoTree,
 		features.isSingleFile
 	],
 	load: features.onAjaxedPages,
-	init
+	init: initGeneral
+});
+
+features.add({
+	id: __featureName__,
+	description: '',
+	screenshot: '',
+	include: [
+		features.isDashboard
+	],
+	init: initDashboard
 });
