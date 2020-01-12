@@ -30,7 +30,7 @@ const getOldestCommitDetails = cache.function(async (): Promise<OldestCommitDeta
 
 	if (commitsCount === 1) {
 		return {
-			url: `${getCleanPathname()}/commit/${lastCommitHash}`,
+			url: `/${getCleanPathname()}/commit/${lastCommitHash}`,
 			datetime: select('.commit-tease-sha + span relative-time')!.getAttribute('datetime')!
 		};
 	}
