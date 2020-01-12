@@ -6,7 +6,7 @@ import repoIcon from 'octicon/repo.svg';
 import elementReady from 'element-ready';
 import fetchDom from '../libs/fetch-dom';
 import features from '../libs/features';
-import {getCleanPathname, getRepoURL} from '../libs/utils';
+import {getRepoURL} from '../libs/utils';
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
 	year: 'numeric',
@@ -30,13 +30,13 @@ const getOldestCommitDetails = cache.function(async (): Promise<OldestCommitDeta
 
 	if (commitsCount === 1) {
 		return {
-			url: `/${getCleanPathname()}/commit/${lastCommitHash}`,
+			url: `/${getRepoURL()}/commit/${lastCommitHash}`,
 			datetime: select('.commit-tease-sha + span relative-time')!.getAttribute('datetime')!
 		};
 	}
 
 	const oldestCommit = await fetchDom(
-		`${getCleanPathname()}/commits?after=${lastCommitHash}+${commitsCount - 2}`, 'ol:last-child > li.commits-list-item'
+		`${getRepoURL()}/commits?after=${lastCommitHash}+${commitsCount - 2}`, 'ol:last-child > li.commits-list-item'
 	);
 
 	return {
