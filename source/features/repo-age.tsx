@@ -20,9 +20,9 @@ type OldestCommitDetails = {
 };
 
 const getOldestCommitDetails = cache.function(async (): Promise<OldestCommitDetails | false> => {
-	await elementReady<HTMLAnchorElement>('.commit-tease-sha', { target: select('.commit-tease')! });
+	await elementReady<HTMLAnchorElement>('.commit-tease-sha', {target: select('.commit-tease')!});
 	const commitsCount = Number(select('li.commits .num')!.textContent!.replace(',', ''));
-	const lastCommitHash = select<HTMLAnchorElement>('.commit-tease-sha')!.href.split('/').pop();
+	const lastCommitHash = select<HTMLAnchorElement>('.commit-tease-sha')!.href.split('/').pop()!;
 
 	if (commitsCount === 0) {
 		return false;
@@ -36,7 +36,7 @@ const getOldestCommitDetails = cache.function(async (): Promise<OldestCommitDeta
 	}
 
 	const oldestCommit = await fetchDom(
-		`${getCleanPathname()}/commits?after=${lastCommitHash!}+${commitsCount - 2}`, 'ol:last-child > li.commits-list-item'
+		`${getCleanPathname()}/commits?after=${lastCommitHash}+${commitsCount - 2}`, 'ol:last-child > li.commits-list-item'
 	);
 
 	return {
@@ -82,7 +82,7 @@ async function init(): Promise<void> {
 		.replace(/^an?/, '1')
 		.split(' ');
 
-	placeholder.title = `First commit dated ${dateFormatter.format(date)}`
+	placeholder.title = `First commit dated ${dateFormatter.format(date)}`;
 	placeholder.innerHTML = '';
 	placeholder.append(<a href={details.url}>{repoIcon()} <span className="num text-emphasized">{value}</span> {unit} old</a>);
 }
