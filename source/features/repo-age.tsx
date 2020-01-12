@@ -28,6 +28,13 @@ const getOldestCommitDetails = cache.function(async (): Promise<OldestCommitDeta
 		return false;
 	}
 
+	if (commitsCount === 1) {
+		return {
+			url: `${getCleanPathname()}/commit/${lastCommitHash}`,
+			datetime: select('.commit-tease-sha + span relative-time')!.getAttribute('datetime')!
+		};
+	}
+
 	const oldestCommit = await fetchDom(
 		`${getCleanPathname()}/commits?after=${lastCommitHash!}+${commitsCount - 2}`, 'ol:last-child > li.commits-list-item'
 	);
