@@ -39,7 +39,7 @@ async function addCommitHistoryLink(bar: Element): Promise<void> {
 
 	bar.after(
 		<p className="container mt-4 text-center">
-			See also the file’s {<a href={url}>commit history</a>}
+			See also the file’s <a href={url}>commit history</a>
 		</p>
 	);
 }
@@ -65,7 +65,7 @@ async function addDefaultBranchLink(bar: Element): Promise<void> {
 
 	bar.after(
 		<p className="container mt-4 text-center">
-			See also the file on the {<a href={url}>default branch</a>}
+			See also the file on the <a href={url}>default branch</a>
 		</p>
 	);
 }

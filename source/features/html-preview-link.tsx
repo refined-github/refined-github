@@ -14,7 +14,8 @@ function init(): void {
 		.prepend(
 			<a
 				className="btn btn-sm BtnGroup-item"
-				href={`https://cdn.statically.io/gh${link.join('/')}`}>
+				href={`https://cdn.statically.io/gh${link.join('/')}`}
+			>
 				Preview
 			</a>
 		);

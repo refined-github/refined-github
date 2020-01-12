@@ -7,13 +7,13 @@ type EventHandler = (event: DelegateEvent<MouseEvent, HTMLElement>) => void;
 
 function init(): void {
 	// Collapsed comments in PR conversations and files
-	delegate('.repository-content', '.minimized-comment details summary', 'click', clickAll(minimizedCommentsSelector));
+	delegate('.minimized-comment details summary', 'click', clickAll(minimizedCommentsSelector));
 
 	// "Load diff" buttons in PR files
-	delegate('.repository-content', '.js-file .js-diff-load', 'click', clickAll(allDiffsSelector));
+	delegate('.js-file .js-diff-load', 'click', clickAll(allDiffsSelector));
 
 	// Review comments in PR
-	delegate('.repository-content', '.js-file .js-resolvable-thread-toggler', 'click', clickAll(resolvedCommentsSelector));
+	delegate('.js-file .js-resolvable-thread-toggler', 'click', clickAll(resolvedCommentsSelector));
 }
 
 function clickAll(selectorGetter: ((clickedItem: HTMLElement) => string)): EventHandler {

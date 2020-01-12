@@ -9,7 +9,7 @@ async function handleErroredImage({delegateTarget}: DelegateEvent<ErrorEvent, HT
 		// A clone image retries downloading
 		// `loadImage` awaits it
 		// If successfully loaded, the failed image will be replaced.
-		delegateTarget.replaceWith(await loadImage(delegateTarget.cloneNode() as HTMLImageElement));
+		delegateTarget.replaceWith(await loadImage(delegateTarget.cloneNode()));
 	} catch {}
 }
 

@@ -72,10 +72,17 @@ async function commitFileContent(menuItem: Element, content: string): Promise<vo
 	await postForm(form);
 }
 
-async function handleRevertFileClick(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
-	const menuItem = event.currentTarget;
-	// Allow only one click
-	menuItem.removeEventListener('click', handleRevertFileClick as unknown as EventListener);
+const filesReverted = new WeakSet<HTMLButtonElement>();
+async function handleRevertFileClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
+	const menuItem = event.delegateTarget;
+
+	// Only allow one click
+	if (filesReverted.has(menuItem)) {
+		return;
+	}
+
+	filesReverted.add(menuItem);
+
 	menuItem.textContent = 'Reverting…';
 	event.preventDefault();
 	event.stopPropagation();
@@ -120,7 +127,6 @@ function handleMenuOpening(event: DelegateEvent): void {
 			style={{whiteSpace: 'pre-wrap'}}
 			role="menuitem"
 			type="button"
-			onClick={handleRevertFileClick}
 		>
 			Revert changes
 		</button>
@@ -128,7 +134,8 @@ function handleMenuOpening(event: DelegateEvent): void {
 }
 
 function init(): void {
-	delegate('#files', '.js-file-header-dropdown > summary', 'click', handleMenuOpening);
+	delegate('.js-file-header-dropdown > summary', 'click', handleMenuOpening);
+	delegate('.rgh-revert-file', 'click', handleRevertFileClick, true);
 }
 
 features.add({

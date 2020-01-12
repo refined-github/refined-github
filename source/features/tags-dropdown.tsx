@@ -17,9 +17,9 @@ function init(): false | void {
 					Select tag&nbsp;
 				</summary>
 				<details-menu
+					preload
 					className="select-menu-modal position-absolute dropdown-menu-sw"
 					src={`/${getRepoURL()}/ref-list/master?source_action=disambiguate&source_controller=files`}
-					preload
 					role="menu"
 					style={{zIndex: 99}}
 				>

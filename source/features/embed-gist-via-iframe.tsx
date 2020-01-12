@@ -2,8 +2,8 @@ import select from 'select-dom';
 import features from '../libs/features';
 
 function init(): void {
-	const embedViaScript = select('.file-navigation-option [value^="<script"]')!;
-	const embedViaIframe = embedViaScript.cloneNode(true) as HTMLButtonElement;
+	const embedViaScript = select<HTMLButtonElement>('.file-navigation-option [value^="<script"]')!;
+	const embedViaIframe = embedViaScript.cloneNode(true);
 
 	// Remove analytics attributes
 	embedViaIframe.removeAttribute('data-hydro-click');

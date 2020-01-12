@@ -58,7 +58,7 @@ function init(): void {
 			container.append(
 				// Without this, Firefox will follow the link instead of submitting the reaction button
 				<a href={isFirefox ? undefined : `/${username}`}>
-					<img src={imageUrl} />
+					<img src={imageUrl}/>
 				</a>
 			);
 		}

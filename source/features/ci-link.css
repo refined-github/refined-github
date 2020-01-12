@@ -12,3 +12,7 @@
 	position: static;
 	color: inherit;
 }
+
+:root .repohead h1 .Label {
+	margin-right: 8px;
+}

@@ -139,7 +139,8 @@ async function init(): Promise<void | false> {
 							<a href={`/${getRepoURL()}/releases/tag/${tags}`}>{tags}</a>
 							{(i + 1) === targetTags.length ? '' : ', '}
 						</>
-					))}</span>
+					))}
+					</span>
 				</div>
 			);
 		}
@@ -159,7 +160,7 @@ features.add({
 	description: 'Display the corresponding tags next to commits',
 	screenshot: 'https://user-images.githubusercontent.com/14323370/66400400-64ba7280-e9af-11e9-8d6c-07b35afde91f.png',
 	include: [
-		features.isCommitList
+		features.isRepoCommitList
 	],
 	load: features.onAjaxedPages,
 	init

@@ -13,9 +13,9 @@ let waiting: symbol | undefined;
 // Reuse the same checkbox to preserve its status
 const generateCheckbox = onetime(() => (
 	<label className="d-inline-block">
-		<input type="checkbox" name="rgh-pr-check-waiter" checked/>
+		<input checked type="checkbox" name="rgh-pr-check-waiter"/>
 		{' Wait for successful checks '}
-		<a className="discussion-item-help tooltipped tooltipped-n" target="_blank" href="https://github.com/sindresorhus/refined-github/pull/975" aria-label="This only works if you keep this tab open while waiting.">
+		<a className="discussion-item-help tooltipped tooltipped-n" target="_blank" rel="noopener noreferrer" href="https://github.com/sindresorhus/refined-github/pull/975" aria-label="This only works if you keep this tab open while waiting.">
 			{infoIcon()}
 		</a>
 	</label>
@@ -90,13 +90,11 @@ function init(): false | void {
 
 	onPrMergePanelOpen(showCheckboxIfNecessary);
 
-	const container = select('.discussion-timeline-actions')!;
-
 	// One of the merge buttons has been clicked
-	delegate(container, '.js-merge-commit-button', 'click', handleMergeConfirmation);
+	delegate('.js-merge-commit-button', 'click', handleMergeConfirmation);
 
 	// Cancel wait when the user presses the Cancel button
-	delegate(container, '.commit-form-actions button:not(.js-merge-commit-button)', 'click', () => {
+	delegate('.commit-form-actions button:not(.js-merge-commit-button)', 'click', () => {
 		disableForm(false);
 	});
 
