@@ -20,7 +20,7 @@ type OldestCommitDetails = {
 };
 
 const getOldestCommitDetails = cache.function(async (): Promise<OldestCommitDetails | false> => {
-	await elementReady('.commit-tease-sha');
+	await elementReady<HTMLAnchorElement>('.commit-tease-sha', { target: select('.commit-tease')! });
 	const commitsCount = Number(select('li.commits .num')!.textContent!.replace(',', ''));
 	const lastCommitHash = select<HTMLAnchorElement>('.commit-tease-sha')!.href.split('/').pop();
 
