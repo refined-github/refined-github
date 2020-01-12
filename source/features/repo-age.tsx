@@ -19,13 +19,13 @@ type OldestCommitDetails = {
 	datetime: string;
 };
 
-const getOldestCommitDetails = cache.function(async (): Promise<OldestCommitDetails | void> => {
+const getOldestCommitDetails = cache.function(async (): Promise<OldestCommitDetails | false> => {
 	await elementReady('.commit-tease-sha');
 	const commitsCount = Number(select('li.commits .num')!.textContent!.replace(',', ''));
 	const lastCommitHash = select<HTMLAnchorElement>('.commit-tease-sha')!.href.split('/').pop();
 
 	if (commitsCount === 0) {
-		return;
+		return false;
 	}
 
 	const oldestCommit = await fetchDom(
@@ -37,6 +37,7 @@ const getOldestCommitDetails = cache.function(async (): Promise<OldestCommitDeta
 		datetime: select('relative-time', oldestCommit)!.getAttribute('datetime')!
 	};
 }, {
+	isExpired: (cachedValue: OldestCommitDetails | false) => !cachedValue || typeof cachedValue.url === 'undefined',
 	cacheKey: () => __featureName__ + ':' + getRepoURL()
 });
 
