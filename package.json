@@ -7,7 +7,7 @@
 		"lint-fix": "run-p --silent 'lint:* -- --fix'",
 		"test": "run-p --silent test:js lint:* build",
 		"test:js": "ava",
-		"build": "webpack --mode=production",
+		"build": "parcel build source/content.ts",
 		"watch": "webpack --mode=development --watch",
 		"watch:firefox": "web-ext run --source-dir=distribution",
 		"prerelease:version": "dot-json distribution/manifest.json version $VER",
