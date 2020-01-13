@@ -1,5 +1,6 @@
 .file-navigation {
 	display: flex;
+	align-items: flex-start;
 }
 
 .file-navigation .branch-select-menu {
