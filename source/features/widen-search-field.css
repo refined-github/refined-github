@@ -16,7 +16,7 @@ https://github.com/sindresorhus/refined-github/releases/tag/19.9.16
 /* Expand issue search field width */
 .repository-content [role='search'], /* Repo issue/PR lists */
 .subnav-links + .float-right, /* Global search pages */
-.subnav-search,
+.subnav-search:not(form.js-notification-search-form), /* Ignore notifications (beta) search form */
 .subnav-search-input {
 	flex-grow: 1;
 	display: flex;
