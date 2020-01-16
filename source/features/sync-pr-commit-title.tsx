@@ -5,6 +5,7 @@ import delegate, {DelegateSubscription, DelegateEvent} from 'delegate-it';
 import insertTextTextarea from 'insert-text-textarea';
 import features from '../libs/features';
 import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
+import {logError} from '../libs/utils';
 
 const commitTitleLimit = 72;
 const prTitleFieldSelector = '.js-issue-update [name="issue[title]"]';
@@ -49,7 +50,7 @@ function maybeShowNote(): void {
 	if (needsSubmission) {
 		if (select.all([prTitleFieldSelector, prTitleSubmitSelector].join()).length !== 2) {
 			// Ensure that the required fields are there before adding the note
-			throw new Error('Refined GitHub: `sync-pr-commit-title` can’t update the PR title');
+			throw logError(__featureName__, 'Can’t update the PR title');
 		}
 
 		inputField.after(getNote());
