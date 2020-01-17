@@ -77,11 +77,11 @@ function linkBestComment(bestComment: Element): void {
 		const {hash} = select<HTMLAnchorElement>('.js-timestamp', bestComment)!;
 
 		bestComment.parentElement!.firstElementChild!.after((
-			<div className="timeline-comment-wrapper">
+			<div className="timeline-comment-wrapper pl-0 my-0">
 				{avatar}
 
 				<a href={hash} className="no-underline rounded-1 rgh-highest-rated-comment bg-gray px-2 d-flex flex-items-center">
-					<span className="btn btn-sm mr-2 pr-1">
+					<span className="btn btn-sm mr-2">
 						{arrowDownIcon()}
 					</span>
 
