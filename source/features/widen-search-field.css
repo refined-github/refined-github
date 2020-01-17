@@ -16,11 +16,16 @@ https://github.com/sindresorhus/refined-github/releases/tag/19.9.16
 /* Expand issue search field width */
 .repository-content [role='search'], /* Repo issue/PR lists */
 .subnav-links + .float-right, /* Global search pages */
-.subnav-search:not(form.js-notification-search-form), /* Ignore notifications (beta) search form */
+.subnav-search,
 .subnav-search-input {
 	flex-grow: 1;
 	display: flex;
 	align-items: flex-start;
+}
+
+/* Clear .subnav-search input field when using display: flex */
+form.subnav-search > div.card-filter-autocomplete-dropdown {
+	margin-top: 40px !important;
 }
 
 /* Global search, labels: enable field expansion */
