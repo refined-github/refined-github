@@ -44,7 +44,7 @@ const getOldestCommitDetails = cache.function(async (): Promise<OldestCommitDeta
 		datetime: select('relative-time', oldestCommit)!.getAttribute('datetime')!
 	};
 }, {
-	isExpired: (cachedValue: OldestCommitDetails | false) => !cachedValue || typeof cachedValue.url === 'undefined',
+	isExpired: (cachedValue: OldestCommitDetails | false | string) => !cachedValue || typeof cachedValue === 'string',
 	cacheKey: () => __featureName__ + ':' + getRepoURL()
 });
 
@@ -83,7 +83,7 @@ async function init(): Promise<void> {
 		.split(' ');
 
 	placeholder.title = `First commit dated ${dateFormatter.format(date)}`;
-	placeholder.innerHTML = '';
+	placeholder.textContent = '';
 	placeholder.append(<a href={details.url}>{repoIcon()} <span className="num text-emphasized">{value}</span> {unit} old</a>);
 }
 
