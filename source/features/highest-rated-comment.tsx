@@ -76,6 +76,10 @@ function linkBestComment(bestComment: Element): void {
 		const avatar = select('.TimelineItem-avatar', bestComment)!.cloneNode(true);
 		const {hash} = select<HTMLAnchorElement>('.js-timestamp', bestComment)!;
 
+		// We don't copy the exact timeline item structure,
+		// so we need to align the avatar with the other avatars in the timeline.
+		avatar.style.left = '-55px';
+
 		bestComment.parentElement!.firstElementChild!.after((
 			<div className="timeline-comment-wrapper pl-0 my-0">
 				{avatar}
