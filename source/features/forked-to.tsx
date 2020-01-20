@@ -56,12 +56,7 @@ async function updateForks(forks: string[]): Promise<void> {
 }
 
 async function init(): Promise<void> {
-	const fragment = select('details-dialog[src*="/fork"] include-fragment');
-	if (!fragment) {
-		return;
-	}
-
-	fragment.addEventListener('load', saveAllForks);
+	select('details-dialog[src*="/fork"] include-fragment')?.addEventListener('load', saveAllForks);
 
 	const forks = await cache.get<string[]>(getCacheKey());
 
