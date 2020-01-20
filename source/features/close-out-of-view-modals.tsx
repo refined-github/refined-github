@@ -1,5 +1,6 @@
 import delegate from 'delegate-it';
 import features from '../libs/features';
+import {logError} from '../libs/utils';
 
 const observer = new IntersectionObserver(([{intersectionRatio, target}]) => {
 	if (intersectionRatio === 0) {
@@ -15,7 +16,7 @@ function init(): void {
 		setTimeout(() => {
 			const modalBox = summary.parentElement!.querySelector('.dropdown-menu')!;
 			if (modalBox.getBoundingClientRect().width === 0) {
-				console.error(__featureName__, 'Modal element was not correctly detected for', summary);
+				logError(__featureName__, 'Modal element was not correctly detected for', summary);
 				return;
 			}
 

@@ -6,6 +6,7 @@ import optionsStorage, {RGHOptions} from '../options-storage';
 import onNewComments from './on-new-comments';
 import onFileListUpdate from './on-file-list-update';
 import * as pageDetect from './page-detect';
+import {logError} from './utils';
 
 type BooleanFunction = () => boolean;
 type VoidFunction = () => void;
@@ -123,8 +124,11 @@ const run = async ({id, include, exclude, init, deinit}: FeatureDetails): Promis
 			log('✅', id);
 		}
 	} catch (error) {
-		console.log('❌', id);
-		console.error(error);
+		if (error.message.includes('personal token')) {
+			console.error(error.message);
+		} else {
+			logError(id as typeof __featureName__, error.message);
+		}
 	}
 };
 

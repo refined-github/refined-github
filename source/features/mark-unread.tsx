@@ -13,7 +13,7 @@ import issueClosedIcon from 'octicon/issue-closed.svg';
 import pullRequestIcon from 'octicon/git-pull-request.svg';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
-import {getUsername, getRepoURL} from '../libs/utils';
+import {getUsername, getRepoURL, logError} from '../libs/utils';
 import onUpdatableContentUpdate from '../libs/on-updatable-content-update';
 
 type NotificationType = 'pull-request' | 'issue';
@@ -114,7 +114,8 @@ async function markUnread({delegateTarget}: DelegateEvent): Promise<void> {
 	} else if (stateLabel.title.includes('Draft')) {
 		state = 'draft';
 	} else {
-		throw new Error('Refined GitHub: A new issue state was introduced?');
+		logError(__featureName__, 'A new issue state was introduced?');
+		return;
 	}
 
 	const lastCommentTime = select.last<HTMLTimeElement>('.timeline-comment-header relative-time')!;

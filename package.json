@@ -40,6 +40,7 @@
 		"p-filter": "^2.1.0",
 		"select-dom": "^6.0.0",
 		"shorten-repo-url": "^1.5.3",
+		"strip-indent": "^3.0.0",
 		"tiny-version-compare": "^1.0.0",
 		"twas": "^2.1.1",
 		"webext-additional-permissions": "^0.1.0",
