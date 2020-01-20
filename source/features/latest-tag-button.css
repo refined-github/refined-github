@@ -3,10 +3,6 @@
 	align-items: flex-start;
 }
 
-.file-navigation .branch-select-menu {
-	margin-right: 0 !important;
-}
-
 .file-navigation .BtnGroup.float-right {
 	order: 100;
 }
