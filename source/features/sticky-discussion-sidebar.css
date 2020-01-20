@@ -5,6 +5,7 @@
 .rgh-sticky-sidebar {
 	position: sticky;
 	top: 60px !important; /* Matches sticky header's height */
+	z-index: 110; /* Needed so the backdrop of notification modal is over the other elements in the discussion */
 }
 
 /* Hides the last divider (on pull requests) to avoid https://user-images.githubusercontent.com/10238474/62282128-af6fb980-b457-11e9-8b18-c29687b88da1.gif */
