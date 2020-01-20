@@ -8,6 +8,10 @@
 	margin-top: 0 !important;
 }
 
+.Label + .rgh-ci-link {
+	left: 8px; /* Based on Primer’s `mr-2`’s `margin-right` value. */
+}
+
 :root .repohead h1 .commit-build-statuses .octicon {
 	position: static;
 	color: inherit;
