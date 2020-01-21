@@ -20,7 +20,7 @@ async function init(): Promise<false | void> {
 
 	const userData = await api.v3(`users/${username}`);
 	if (userData.public_gists) {
-		link.append(<span className="Counter">{userData.public_gists}</span>);
+		link.append(<span className="Counter hide-lg hide-md hide-sm">{userData.public_gists}</span>);
 	}
 }
 
