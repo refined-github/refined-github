@@ -73,8 +73,14 @@ function linkBestComment(bestComment: Element): void {
 	// Only link to it if it doesn't already appear at the top of the conversation
 	if (position >= 3) {
 		const text = select('.comment-body', bestComment)!.textContent!.slice(0, 100);
-		const avatar = select('.TimelineItem-avatar', bestComment)!.cloneNode(true);
 		const {hash} = select<HTMLAnchorElement>('.js-timestamp', bestComment)!;
+
+		// Copy avatar but link it to the comment
+		const avatar = select('.TimelineItem-avatar', bestComment)!.cloneNode(true);
+		const link = select<HTMLAnchorElement>('[data-hovercard-type="user"]', avatar)!;
+		link.removeAttribute('data-hovercard-type');
+		link.removeAttribute('data-hovercard-url');
+		link.href = hash;
 
 		// We don't copy the exact timeline item structure,
 		// so we need to align the avatar with the other avatars in the timeline.
