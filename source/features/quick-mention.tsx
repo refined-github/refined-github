@@ -29,7 +29,8 @@ function init(): void | false {
 	}
 
 	// `:first-child` avoids app badges #2630
-	for (const avatar of select.all(`.TimelineItem-avatar > :first-child:not([href="/${getUsername()}"]):not(.rgh-quick-mention)`)) {
+	// The hovercard attribute avoids `highest-rated-comment`
+	for (const avatar of select.all(`.TimelineItem-avatar > [data-hovercard-type="user"]:first-child:not([href="/${getUsername()}"]):not(.rgh-quick-mention)`)) {
 		const userMention = select('img', avatar)!.alt;
 		avatar.classList.add('rgh-quick-mention');
 		avatar.after(
