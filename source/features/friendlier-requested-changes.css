@@ -1,5 +1,17 @@
+.branch-action-state-unstable .branch-action-icon {
+	background-color: var(--github-gray) !important;
+}
+
+.branch-action-state-unstable .branch-action-body {
+	border-color: var(--github-gray-300) !important;
+}
+
+.branch-action-state-unstable .branch-action-body::before {
+	border-right-color: var(--github-gray-300) !important;
+}
+
 .branch-action-state-unstable .octicon-request-changes {
-	color: var(--github-dark-yellow) !important;
+	color: var(--github-gray) !important;
 }
 
 .branch-action-state-unstable .branch-action-item > .status-meta {
@@ -7,5 +19,5 @@
 }
 
 .branch-action-state-unstable .donut-chart > .error {
-	fill: var(--github-dark-yellow) !important;
+	fill: var(--github-gray) !important;
 }
