@@ -8,9 +8,12 @@ import {groupSiblings} from '../libs/group-buttons';
 function init(): void | false {
 	// /user/repo/commits/master/readme.md -> 'readme.md'
 	// /user/repo/commits/master/          -> ''
-	const path = getRepoPath()!.replace(/^commits\/[^/]+\/?/, '');
+	let path = getRepoPath()!.replace(/^commits\/[^/]+\/?/, '');
 	if (!path) {
-		return false;
+		path = select.all('.breadcrumb > .js-path-segment, .breadcrumb > .final-path')?.map(segment => segment.textContent).join('/');
+		if (!path) {
+			return false;
+		}
 	}
 
 	for (const rootLink of select.all<HTMLAnchorElement>('[aria-label="Browse the repository at this point in the history"]')) {
