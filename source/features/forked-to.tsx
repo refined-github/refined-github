@@ -55,12 +55,15 @@ async function updateForks(forks: string[]): Promise<void> {
 	}
 }
 
-async function init(): Promise<void> {
-	select('details-dialog[src*="/fork"] include-fragment')!
-		.addEventListener('load', saveAllForks);
+async function init(): Promise<void | false> {
+	const fragment = select('details-dialog[src*="/fork"] include-fragment');
+	if (!fragment) {
+		return false;
+	}
+
+	fragment.addEventListener('load', saveAllForks);
 
 	const forks = await cache.get<string[]>(getCacheKey());
-
 	if (!forks) {
 		return;
 	}
