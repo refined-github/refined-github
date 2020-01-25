@@ -11,7 +11,14 @@ function showWhiteSpacesOn(line: Element): void {
 
 	for (const textNode of textNodes) {
 		const textContent = textNode.textContent!;
-		if (textContent.length === 0 || !(textContent.includes(' ') || textContent.includes('\t'))) {
+		if (
+			textContent.length === 0 ||
+			textContent.length > 1000 || // #2732
+			!(
+				textContent.includes(' ') || 
+				textContent.includes('\t')
+			)
+		) {
 			continue;
 		}
 
