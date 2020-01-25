@@ -1,12 +1,12 @@
 import select from 'select-dom';
 import features from '../libs/features';
-import { getUsername } from '../libs/utils';
+import {getUsername} from '../libs/utils';
 
 function init(): void {
 	const userProfilePackagesLabel = select(`div.user-profile-nav [href$="/${getUsername()}?tab=packages"]`);
 	if (userProfilePackagesLabel) {
 		if (select.last('span', userProfilePackagesLabel)?.textContent?.trim() === '0') {
-            userProfilePackagesLabel.remove();
+			userProfilePackagesLabel.remove();
 		}
 	}
 }
