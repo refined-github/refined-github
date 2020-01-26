@@ -139,7 +139,6 @@ import './features/pr-branch-auto-delete';
 import './features/linkify-symbolic-links'; // Must be before show-whitespace
 import './features/show-whitespace';
 import './features/hide-zero-packages';
-import './features/hide-zero-packages-user-profile';
 import './features/revert-file';
 import './features/hidden-review-comments-indicator';
 import './features/reload-failed-proxied-images';
