@@ -264,6 +264,8 @@ Thanks for contributing! 🦋🙌
 - [](# "set-default-repositories-type-to-sources") [Hides forks and archived repos from profiles (but they can still be shown.)](https://user-images.githubusercontent.com/1402241/45133648-fe21be80-b1c8-11e8-9052-e38cb443efa9.png)
 - [](# "linkify-user-location") [Linkifies the user location in their hovercard and profile page.](https://user-images.githubusercontent.com/1402241/69076885-00d3a100-0a67-11ea-952a-690acec0826f.png)
 - [](# "user-local-time") [Shows the user local time in their hovercard (based on their last commit).](https://user-images.githubusercontent.com/1402241/69863648-ef449180-12cf-11ea-8f36-7c92fc487f31.gif)
+- [](# "hide-zero-packages") [Hides the `Packages` tab on user profiles if it’s empty.](https://user-images.githubusercontent.com/35382021/62426530-688ef780-b6d5-11e9-93f2-515110aed1eb.jpg)
+
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
