@@ -7,86 +7,49 @@ import onNewComments from '../libs/on-new-comments';
 import getTextNodes from '../libs/get-text-nodes';
 
 function showWhiteSpacesOn(line: Element): void {
-	const textNodes = getTextNodes(line);
-
-	for (const textNode of textNodes) {
-		const textContent = textNode.textContent!;
-		if (
-			textContent.length === 0 ||
-			textContent.length > 1000 || // #2732
-			!(
-				textContent.includes(' ') || 
-				textContent.includes('\t')
-			)
-		) {
-			continue;
-		}
-
-		const fragment = document.createDocumentFragment();
-
-		let lastEncounteredCharType;
-		let charType: 'space' | 'tab' | 'other';
-		let node;
-
-		for (const char of textContent) {
-			if (char === ' ') {
-				charType = 'space';
-			} else if (char === '\t') {
-				charType = 'tab';
-			} else {
-				charType = 'other';
+	for (const textNode of getTextNodes(line)) {
+		let text = textNode.textContent!;
+		for (let i = text.length - 1; i >= 0; i--) {
+			const thisCharacter = text[i];
+			if (thisCharacter !== ' ' && thisCharacter !== '\t') {
+				continue;
 			}
 
-			if (node && lastEncounteredCharType === charType) {
-				node.textContent += char;
-
-				if (charType === 'space') {
-					node.dataset.rghSpaces += '·';
-				} else if (charType === 'tab') {
-					node.dataset.rghTabs += '→';
-				}
-			} else {
-				if (node) {
-					fragment.append(node);
-				}
-
-				if (charType === 'space') {
-					node = <span className="rgh-ws-char rgh-space-char" data-rgh-spaces="·">{char}</span>;
-				} else if (charType === 'tab') {
-					node = <span className="rgh-ws-char rgh-tab-char" data-rgh-tabs="→">{char}</span>;
-				} else {
-					node = <>{char}</>;
-				}
+			let l = i;
+			while (text[l - 1] === text[i]) {
+				l--;
 			}
 
-			lastEncounteredCharType = charType;
-		}
+			if (i < text.length - 2) {
+				textNode.splitText(i + 1);
+			}
 
-		if (node) {
-			fragment.append(node);
-		}
+			textNode.splitText(l);
+			text = textNode.textContent!; // Update cached variable here because it just changed
 
-		textNode.replaceWith(fragment);
+			const whitespace = textNode.nextSibling!.textContent!
+				.replace(/ /g, '·')
+				.replace(/\t/g, '→');
+
+			textNode.after(
+				<span data-rgh-whitespace={whitespace}>
+					{textNode.nextSibling}
+				</span>
+			);
+		}
 	}
 }
 
 async function run(): Promise<void> {
-	const tables = select.all([
-		'table.js-file-line-container:not(.rgh-showing-whitespace)', // Single blob file, and gist
-		'.file table.diff-table:not(.rgh-showing-whitespace)', // Split and unified diffs
-		'.file table.d-table:not(.rgh-showing-whitespace)' // "Suggested changes" in PRs
-	].join());
+	const lines = select.all([
+		'table.js-file-line-container .blob-code-inner', // Single blob file, and gist
+		'.file table.diff-table .blob-code-inner', // Split and unified diffs
+		'.file table.d-table .blob-code-inner' // "Suggested changes" in PRs
+	]);
 
-	for (const table of tables) {
-		table.classList.add('rgh-showing-whitespace');
-
-		for (const [i, line] of select.all('.blob-code-inner', table).entries()) {
-			showWhiteSpacesOn(line);
-
-			if (i % 100 === 0) {
-				await new Promise(resolve => setTimeout(resolve)); // eslint-disable-line no-await-in-loop
-			}
-		}
+	for (const line of lines) {
+		line.classList.add('rgh-showing-whitespace');
+		showWhiteSpacesOn(line);
 	}
 }
 
