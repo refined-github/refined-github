@@ -2,25 +2,24 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import fileIcon from 'octicon/file.svg';
 import features from '../libs/features';
-import {getRepoPath} from '../libs/utils';
 import {groupSiblings} from '../libs/group-buttons';
 
 function init(): void | false {
-	// /user/repo/commits/master/readme.md -> 'readme.md'
-	// /user/repo/commits/master/          -> ''
-	let path = getRepoPath()!.replace(/^commits\/[^/]+\/?/, '');
-	if (!path) {
-		path = select.all('.breadcrumb > .js-path-segment, .breadcrumb > .final-path')?.map(segment => segment.textContent).join('/');
-		if (!path) {
-			return false;
-		}
+	const repoRootForCurrentBranch = select<HTMLAnchorElement>('.js-repo-root a');
+	if (!repoRootForCurrentBranch) {
+		// Probably looking at the base /commits/<branch> page, not a subfolder or file.
+		return false;
 	}
+
+	// Extract the file path. Aware of branche names that contain slashes
+	// /<user>/<repo>/commits/<slashed/branch>/readme.md -> '/readme.md'
+	const path = location.pathname.replace(repoRootForCurrentBranch.pathname, '');
 
 	for (const rootLink of select.all<HTMLAnchorElement>('[aria-label="Browse the repository at this point in the history"]')) {
 		// `rootLink.pathname` points to /tree/ but GitHub automatically redirects to /blob/ when the path is of a file
 		rootLink.before(
 			<a
-				href={rootLink.pathname + '/' + path}
+				href={rootLink.pathname + path}
 				className="btn btn-outline tooltipped tooltipped-sw"
 				aria-label="See object at this point in the history"
 			>
