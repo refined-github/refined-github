@@ -6,11 +6,17 @@ import onPrFileLoad from '../libs/on-pr-file-load';
 import onNewComments from '../libs/on-new-comments';
 import getTextNodes from '../libs/get-text-nodes';
 
+// `splitText` is used before and after each whitespace group so a new whitespace-only text node is created. This new node is then wrapped in a <span>
 function showWhiteSpacesOn(line: Element): void {
 	for (const textNode of getTextNodes(line)) {
+		// `textContent` reads must be cached #2737
 		let text = textNode.textContent!;
+
+		// Loop goes in reverse otherwise `splitText`'s `index` parameter needs to keep track of the previous split
 		for (let i = text.length - 1; i >= 0; i--) {
 			const thisCharacter = text[i];
+
+			// Exclude irrelevant characters
 			if (thisCharacter !== ' ' && thisCharacter !== '\t') {
 				continue;
 			}
@@ -19,11 +25,14 @@ function showWhiteSpacesOn(line: Element): void {
 				textNode.splitText(i + 1);
 			}
 
+			// Find the same character so they can be wrapped together
 			while (text[i - 1] === thisCharacter) {
 				i--;
 			}
 
 			textNode.splitText(i);
+
+			// Update cached variable here because it just changed
 			text = textNode.textContent!;
 
 			const whitespace = textNode.nextSibling!.textContent!
