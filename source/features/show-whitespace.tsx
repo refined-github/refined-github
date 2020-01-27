@@ -48,15 +48,19 @@ function showWhiteSpacesOn(line: Element): void {
 	}
 }
 
-async function run(): Promise<void> {
-	let timeKeeper = Date.now();
-	for (const line of select.all('.blob-code-inner')) {
-		line.classList.add('rgh-showing-whitespace');
-		showWhiteSpacesOn(line);
-		if (timeKeeper + 100 < Date.now()) {
-			await new Promise(resolve => setTimeout(resolve, 50));
-			timeKeeper = Date.now();
+const viewportObserver = new IntersectionObserver(changes => {
+	for (const change of changes) {
+		if (change.isIntersecting) {
+			showWhiteSpacesOn(change.target);
+			viewportObserver.unobserve(change.target);
 		}
+	}
+});
+
+async function run(): Promise<void> {
+	for (const line of select.all('.blob-code-inner:not(.rgh-observing-whitespace)')) {
+		line.classList.add('rgh-observing-whitespace');
+		viewportObserver.observe(line);
 	}
 }
 
