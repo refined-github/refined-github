@@ -49,13 +49,7 @@ function showWhiteSpacesOn(line: Element): void {
 }
 
 async function run(): Promise<void> {
-	const lines = select.all([
-		'table.js-file-line-container .blob-code-inner', // Single blob file, and gist
-		'.file table.diff-table .blob-code-inner', // Split and unified diffs
-		'.file table.d-table .blob-code-inner' // "Suggested changes" in PRs
-	]);
-
-	for (const line of lines) {
+	for (const line of select.all('.blob-code-inner')) {
 		line.classList.add('rgh-showing-whitespace');
 		showWhiteSpacesOn(line);
 	}
