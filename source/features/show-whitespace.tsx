@@ -20,7 +20,7 @@ function showWhiteSpacesOn(line: Element): void {
 				l--;
 			}
 
-			if (i < text.length - 2) {
+			if (i < text.length - 1) {
 				textNode.splitText(i + 1);
 			}
 
