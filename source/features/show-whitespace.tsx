@@ -49,9 +49,14 @@ function showWhiteSpacesOn(line: Element): void {
 }
 
 async function run(): Promise<void> {
+	let timeKeeper = Date.now();
 	for (const line of select.all('.blob-code-inner')) {
 		line.classList.add('rgh-showing-whitespace');
 		showWhiteSpacesOn(line);
+		if (timeKeeper + 100 < Date.now()) {
+			await new Promise(resolve => setTimeout(resolve, 50));
+			timeKeeper = Date.now();
+		}
 	}
 }
 
