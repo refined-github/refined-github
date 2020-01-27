@@ -8,7 +8,6 @@ import getTextNodes from '../libs/get-text-nodes';
 
 // `splitText` is used before and after each whitespace group so a new whitespace-only text node is created. This new node is then wrapped in a <span>
 function showWhiteSpacesOn(line: Element): void {
-	const range = new Range();
 	for (const textNode of getTextNodes(line)) {
 		// `textContent` reads must be cached #2737
 		let text = textNode.textContent!;
@@ -22,23 +21,29 @@ function showWhiteSpacesOn(line: Element): void {
 				continue;
 			}
 
-			range.setEnd(textNode, i + 1);
+			if (i < text.length - 1) {
+				textNode.splitText(i + 1);
+			}
 
 			// Find the same character so they can be wrapped together
 			while (text[i - 1] === thisCharacter) {
 				i--;
 			}
 
-			range.setStart(textNode, i);
-
-			const whitespace = range.toString()
-				.replace(/ /g, '·')
-				.replace(/\t/g, '→');
-
-			range.surroundContents(<span data-rgh-whitespace={whitespace}/>);
+			textNode.splitText(i);
 
 			// Update cached variable here because it just changed
 			text = textNode.textContent!;
+
+			const whitespace = textNode.nextSibling!.textContent!
+				.replace(/ /g, '·')
+				.replace(/\t/g, '→');
+
+			textNode.after(
+				<span data-rgh-whitespace={whitespace}>
+					{textNode.nextSibling}
+				</span>
+			);
 		}
 	}
 }
