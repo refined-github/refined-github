@@ -15,17 +15,16 @@ function showWhiteSpacesOn(line: Element): void {
 				continue;
 			}
 
-			let l = i;
-			while (text[l - 1] === text[i]) {
-				l--;
-			}
-
 			if (i < text.length - 1) {
 				textNode.splitText(i + 1);
 			}
 
-			textNode.splitText(l);
-			text = textNode.textContent!; // Update cached variable here because it just changed
+			while (text[i - 1] === thisCharacter) {
+				i--;
+			}
+
+			textNode.splitText(i);
+			text = textNode.textContent!;
 
 			const whitespace = textNode.nextSibling!.textContent!
 				.replace(/ /g, '·')
