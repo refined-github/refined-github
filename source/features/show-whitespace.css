@@ -14,6 +14,6 @@
 	opacity: 0.25;
 }
 
-[data-rgh-whitespace^='→'] {
+[data-rgh-whitespace^='→']::before {
 	letter-spacing: calc((var(--tab-size, 4) * 1ch) - 1ch);
 }
