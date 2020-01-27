@@ -5,15 +5,14 @@ import features from '../libs/features';
 import {groupSiblings} from '../libs/group-buttons';
 
 function init(): void | false {
-	const repoRootForCurrentBranch = select<HTMLAnchorElement>('.js-repo-root a');
-	if (!repoRootForCurrentBranch) {
+	const breadcrumb = select('.breadcrumb');
+	if (!breadcrumb) {
 		// Probably looking at the base /commits/<branch> page, not a subfolder or file.
 		return false;
 	}
 
-	// Extract the file path. Aware of branche names that contain slashes
-	// /<user>/<repo>/commits/<slashed/branch>/readme.md -> '/readme.md'
-	const path = location.pathname.replace(repoRootForCurrentBranch.pathname, '');
+	// Extract the file path from the breadcrumb. Aware of branch names that contain slashes
+	const path = breadcrumb.textContent!.trim().replace(/^History for [^/]+/, '');
 
 	for (const rootLink of select.all<HTMLAnchorElement>('[aria-label="Browse the repository at this point in the history"]')) {
 		// `rootLink.pathname` points to /tree/ but GitHub automatically redirects to /blob/ when the path is of a file
