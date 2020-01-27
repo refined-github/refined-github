@@ -124,8 +124,8 @@ const run = async ({id, include, exclude, init, deinit}: FeatureDetails): Promis
 			log('✅', id);
 		}
 	} catch (error) {
-		if (error.message.includes('personal token')) {
-			console.error(error.message);
+		if (error.message.includes('Personal token')) {
+			console.log(`ℹ️ Refined GitHub: \`${id}\`:`, error.message);
 		} else {
 			logError(id as typeof __featureName__, error.message);
 		}
