@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
-function init(): void {
+function init(): void | false {
 	const previewForm = select('.new-pr-form');
 
 	// PRs can't be created from some comparison pages:
@@ -12,7 +12,12 @@ function init(): void {
 	}
 
 	const buttonBar = select('.timeline-comment > :last-child', previewForm)!;
-	const createPrButtonGroup = select('.BtnGroup', buttonBar)!;
+	const createPrButtonGroup = select('.BtnGroup', buttonBar);
+	if (!createPrButtonGroup) {
+		// Free accounts can't open Draft PRs in private repos, so this element is missing
+		return false;
+	}
+
 	const createPrDropdownItems = select.all('.select-menu-item', createPrButtonGroup);
 
 	for (const dropdownItem of createPrDropdownItems) {
