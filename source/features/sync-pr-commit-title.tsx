@@ -76,9 +76,11 @@ function submitPRTitleUpdate(): void {
 }
 
 function onMergePanelOpen(event: Event): void {
+	const field = select<HTMLTextAreaElement>('.is-squashing #merge_title_field');
+	if (!field) {
+		return;
+	}
 	maybeShowNote();
-
-	const field = select<HTMLTextAreaElement>('#merge_title_field')!;
 
 	// Only if the user hasn't already interacted with it in this session
 	if (field.closest('.is-dirty') || event.type === 'session:resume') {
@@ -110,7 +112,7 @@ function deinit(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Uses the PR’s title and description when merging and updates the PR’s title to the match the commit title, if changed.',
+	description: 'When squashing PRs, it will suggest to have the same PR’s title and merge commit title.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/51669708-9a712400-1ff7-11e9-913a-ac1ea1050975.png',
 	include: [
 		features.isPRConversation
