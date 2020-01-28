@@ -45,7 +45,7 @@ function needsSubmission(): boolean {
 		return false;
 	}
 
-	// If the commit title was clipped, be more lenient when comparing it to the PR title. 
+	// If the commit title was clipped, be more lenient when comparing it to the PR title.
 	// If the user doesn't change the clipped commit title, the PR doesn't need to change.
 	const commitTitle = createCommitTitle();
 	if (commitTitle.includes('…')) {
@@ -66,7 +66,7 @@ function maybeShowNote(): void {
 		select<HTMLInputElement>('#merge_title_field')!.after(getNote());
 		return;
 	}
-	
+
 	logError(__featureName__, 'Can’t update the PR title');
 }
 
