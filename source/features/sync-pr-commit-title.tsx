@@ -39,18 +39,24 @@ function handleCancelClick(event: DelegateEvent): void {
 	event.delegateTarget.parentElement!.remove(); // Hide note
 }
 
-function maybeShowNote(): void {
-	const inputField = select<HTMLInputElement>('#merge_title_field')!;
-	const needsSubmission = createCommitTitle() !== inputField.value;
+function needsSubmission(): boolean {
+	const inputField = select<HTMLTextAreaElement>('.is-squashing #merge_title_field');
+	if (!inputField) {
+		return false;
+	}
 
-	if (!needsSubmission) {
+	return createCommitTitle() !== inputField.value;
+}
+
+function maybeShowNote(): void {
+	if (!needsSubmission()) {
 		getNote().remove();
 		return;
 	}
 
 	// Ensure that the required fields are there before adding the note
 	if (select.all([prTitleFieldSelector, prTitleSubmitSelector].join()).length === 2) {
-		inputField.after(getNote());
+		select<HTMLInputElement>('#merge_title_field')!.after(getNote());
 		return;
 	}
 	
@@ -75,6 +81,7 @@ function submitPRTitleUpdate(): void {
 async function onMergePanelOpen(event: Event): Promise<void> {
 	const field = select<HTMLTextAreaElement>('.is-squashing #merge_title_field');
 	if (!field) {
+		maybeShowNote();
 		return;
 	}
 
