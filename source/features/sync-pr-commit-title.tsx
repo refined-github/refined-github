@@ -72,7 +72,7 @@ function updatePRTitle(): void {
 	if (!needsSubmission()) {
 		return;
 	}
-	
+
 	// Remove PR number from commit title
 	const prTitle = getCommitTitleField()!.value
 		.replace(new RegExp(`\\s*\\(${getPRNumber()}\\)$`), '');
@@ -82,7 +82,7 @@ function updatePRTitle(): void {
 	select(prTitleSubmitSelector)!.click(); // `form.submit()` isn't sent via ajax
 }
 
-async function updateCommitTitle(event: Event): Promise<void> {	
+async function updateCommitTitle(event: Event): Promise<void> {
 	const field = getCommitTitleField();
 
 	// Only if the user hasn't already interacted with it in this session
@@ -106,7 +106,7 @@ function init(): void {
 		onPrMergePanelOpen(updateCommitTitle),
 		delegate('#merge_title_field', 'input', updateUI),
 		delegate('form.js-merge-pull-request', 'submit', updatePRTitle),
-		delegate('.rgh-sync-pr-commit-title', 'click', disableSubmission),
+		delegate('.rgh-sync-pr-commit-title', 'click', disableSubmission)
 	];
 }
 
