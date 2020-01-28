@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate, {DelegateSubscription, DelegateEvent} from 'delegate-it';
+import delegate, {DelegateSubscription} from 'delegate-it';
 import insertTextTextarea from 'insert-text-textarea';
 import features from '../libs/features';
 import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
@@ -9,6 +9,14 @@ import {logError} from '../libs/utils';
 const commitTitleLimit = 72;
 const prTitleFieldSelector = '.js-issue-update [name="issue[title]"]';
 const prTitleSubmitSelector = '.js-issue-update [type="submit"]';
+
+function getCommitTitleField(): HTMLInputElement | undefined {
+	return select<HTMLInputElement>('.is-squashing #merge_title_field') ?? undefined;
+}
+
+function getPRNumber(): string {
+	return select('.gh-header-number')!.textContent!;
+}
 
 function createCommitTitle(): string {
 	const prTitle = select('.js-issue-title')!.textContent!.trim();
@@ -22,26 +30,15 @@ function createCommitTitle(): string {
 	return prTitle + prInfo;
 }
 
-function getNote(): HTMLElement {
-	return select('.note.rgh-sync-pr-commit-title-note') ?? (
-		<p className="note rgh-sync-pr-commit-title-note">
-			The title of this PR will be updated to match this title. <button type="button" className="btn-link muted-link text-underline rgh-sync-pr-commit-title">Cancel</button>
-		</p>
-	);
-}
-
-function getPRNumber(): string {
-	return select('.gh-header-number')!.textContent!;
-}
-
-function handleCancelClick(event: DelegateEvent): void {
-	deinit();
-	event.delegateTarget.parentElement!.remove(); // Hide note
-}
-
 function needsSubmission(): boolean {
-	const inputField = select<HTMLTextAreaElement>('.is-squashing #merge_title_field');
-	if (!inputField) {
+	const inputField = getCommitTitleField();
+	if (!inputField || inputField.value === '') {
+		return false;
+	}
+
+	// Ensure that the required fields are on the page
+	if (!select.exists(prTitleFieldSelector) || !select.exists(prTitleSubmitSelector)) {
+		logError(__featureName__, 'Can’t update the PR title');
 		return false;
 	}
 
@@ -52,63 +49,64 @@ function needsSubmission(): boolean {
 		return !inputField.value.startsWith(commitTitle.replace(/….+/, ''));
 	}
 
-	return createCommitTitle() !== inputField.value;
+	return commitTitle !== inputField.value;
 }
 
-function maybeShowNote(): void {
+function getUI(): HTMLElement {
+	return select('.note.rgh-sync-pr-commit-title-note') ?? (
+		<p className="note rgh-sync-pr-commit-title-note">
+			The title of this PR will be updated to match this title. <button type="button" className="btn-link muted-link text-underline rgh-sync-pr-commit-title">Cancel</button>
+		</p>
+	);
+}
+
+function updateUI(): void {
+	if (needsSubmission()) {
+		getCommitTitleField()!.after(getUI());
+	} else {
+		getUI().remove();
+	}
+}
+
+function updatePRTitle(): void {
 	if (!needsSubmission()) {
-		getNote().remove();
 		return;
 	}
-
-	// Ensure that the required fields are there before adding the note
-	if (select.all([prTitleFieldSelector, prTitleSubmitSelector].join()).length === 2) {
-		select<HTMLInputElement>('#merge_title_field')!.after(getNote());
-		return;
-	}
-
-	logError(__featureName__, 'Can’t update the PR title');
-}
-
-function submitPRTitleUpdate(): void {
-	const inputField = select<HTMLInputElement>('#merge_title_field')!;
-
-	// If the note isn't shown, the PR title doesn't need to be updated
-	if (!getNote().isConnected) {
-		return;
-	}
-
-	const prTitle = inputField.value.replace(new RegExp(`\\s*\\(${getPRNumber()}\\)$`), '');
+	
+	// Remove PR number from commit title
+	const prTitle = getCommitTitleField()!.value
+		.replace(new RegExp(`\\s*\\(${getPRNumber()}\\)$`), '');
 
 	// Fill and submit title-change form
 	select<HTMLInputElement>(prTitleFieldSelector)!.value = prTitle;
 	select(prTitleSubmitSelector)!.click(); // `form.submit()` isn't sent via ajax
 }
 
-async function onMergePanelOpen(event: Event): Promise<void> {
-	const field = select<HTMLTextAreaElement>('.is-squashing #merge_title_field');
-	if (!field) {
-		maybeShowNote();
-		return;
-	}
+async function updateCommitTitle(event: Event): Promise<void> {	
+	const field = getCommitTitleField();
 
 	// Only if the user hasn't already interacted with it in this session
-	if (event.type !== 'session:resume') {
+	if (field && event.type !== 'session:resume') {
 		// Replace default title and fire the correct events
 		field.select();
 		insertTextTextarea(field, createCommitTitle());
 	}
 
-	maybeShowNote();
+	updateUI();
+}
+
+function disableSubmission(): void {
+	deinit();
+	getUI().remove(); // Hide note
 }
 
 let listeners: DelegateSubscription[];
 function init(): void {
 	listeners = [
-		delegate('#merge_title_field', 'input', maybeShowNote),
-		delegate('form.js-merge-pull-request', 'submit', submitPRTitleUpdate),
-		delegate('.rgh-sync-pr-commit-title', 'click', handleCancelClick),
-		onPrMergePanelOpen(onMergePanelOpen)
+		onPrMergePanelOpen(updateCommitTitle),
+		delegate('#merge_title_field', 'input', updateUI),
+		delegate('form.js-merge-pull-request', 'submit', updatePRTitle),
+		delegate('.rgh-sync-pr-commit-title', 'click', disableSubmission),
 	];
 }
 
