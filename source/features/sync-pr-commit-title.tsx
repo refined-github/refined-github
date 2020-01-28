@@ -92,11 +92,8 @@ async function onMergePanelOpen(event: Event): Promise<void> {
 		return;
 	}
 
-	// Wait for field to be restored first, otherwise it's never dirty
-	await new Promise(resolve => setTimeout(resolve));
-
 	// Only if the user hasn't already interacted with it in this session
-	if (!field.closest('.is-dirty') && event.type !== 'session:resume') {
+	if (event.type !== 'session:resume') {
 		// Replace default title and fire the correct events
 		field.select();
 		insertTextTextarea(field, createCommitTitle());
