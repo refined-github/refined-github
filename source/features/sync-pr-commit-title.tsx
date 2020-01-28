@@ -43,17 +43,18 @@ function maybeShowNote(): void {
 	const inputField = select<HTMLInputElement>('#merge_title_field')!;
 	const needsSubmission = createCommitTitle() !== inputField.value;
 
-	if (needsSubmission) {
-		if (select.all([prTitleFieldSelector, prTitleSubmitSelector].join()).length !== 2) {
-			// Ensure that the required fields are there before adding the note
-			throw logError(__featureName__, 'Can’t update the PR title');
-		}
-
-		inputField.after(getNote());
+	if (!needsSubmission) {
+		getNote().remove();
 		return;
 	}
 
-	getNote().remove();
+	// Ensure that the required fields are there before adding the note
+	if (select.all([prTitleFieldSelector, prTitleSubmitSelector].join()).length === 2) {
+		inputField.after(getNote());
+		return;
+	}
+	
+	logError(__featureName__, 'Can’t update the PR title');
 }
 
 function submitPRTitleUpdate(): void {
@@ -76,18 +77,18 @@ async function onMergePanelOpen(event: Event): Promise<void> {
 	if (!field) {
 		return;
 	}
-	maybeShowNote();
 
 	// Wait for field to be restored first, otherwise it's never dirty
 	await new Promise(resolve => setTimeout(resolve));
+
 	// Only if the user hasn't already interacted with it in this session
-	if (field.closest('.is-dirty') || event.type === 'session:resume') {
-		return;
+	if (!field.closest('.is-dirty') && event.type !== 'session:resume') {
+		// Replace default title and fire the correct events
+		field.select();
+		insertTextTextarea(field, createCommitTitle());
 	}
 
-	// Replace default title and fire the correct events
-	field.value = '';
-	insertTextTextarea(field, createCommitTitle());
+	maybeShowNote();
 }
 
 let listeners: DelegateSubscription[];
