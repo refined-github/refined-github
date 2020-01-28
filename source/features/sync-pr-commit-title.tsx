@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import debounce from 'debounce-fn';
 import delegate, {DelegateSubscription, DelegateEvent} from 'delegate-it';
 import insertTextTextarea from 'insert-text-textarea';
 import features from '../libs/features';
@@ -11,20 +10,17 @@ const commitTitleLimit = 72;
 const prTitleFieldSelector = '.js-issue-update [name="issue[title]"]';
 const prTitleSubmitSelector = '.js-issue-update [type="submit"]';
 
-const createCommitTitle = debounce<[], string>((): string => {
-	const issueTitle = select('.js-issue-title')!.textContent!.trim();
-	const issueInfo = ` (${getPRNumber()})`;
-	const targetTitleLength = commitTitleLimit - issueInfo.length;
+function createCommitTitle(): string {
+	const prTitle = select('.js-issue-title')!.textContent!.trim();
+	const prInfo = ` (${getPRNumber()})`;
+	const targetTitleLength = commitTitleLimit - prInfo.length;
 
-	if (issueTitle.length > targetTitleLength) {
-		return issueTitle.slice(0, targetTitleLength - 1).trim() + '…' + issueInfo;
+	if (prTitle.length > targetTitleLength) {
+		return prTitle.slice(0, targetTitleLength - 1).trim() + '…' + prInfo;
 	}
 
-	return issueTitle + issueInfo;
-}, {
-	wait: 1000,
-	immediate: true
-});
+	return prTitle + prInfo;
+}
 
 function getNote(): HTMLElement {
 	return select('.note.rgh-sync-pr-commit-title-note') ?? (
