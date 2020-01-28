@@ -71,13 +71,15 @@ function submitPRTitleUpdate(): void {
 	select(prTitleSubmitSelector)!.click(); // `form.submit()` isn't sent via ajax
 }
 
-function onMergePanelOpen(event: Event): void {
+async function onMergePanelOpen(event: Event): Promise<void> {
 	const field = select<HTMLTextAreaElement>('.is-squashing #merge_title_field');
 	if (!field) {
 		return;
 	}
 	maybeShowNote();
 
+	// Wait for field to be restored first, otherwise it's never dirty
+	await new Promise(resolve => setTimeout(resolve));
 	// Only if the user hasn't already interacted with it in this session
 	if (field.closest('.is-dirty') || event.type === 'session:resume') {
 		return;
