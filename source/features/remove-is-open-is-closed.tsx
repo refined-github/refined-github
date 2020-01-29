@@ -20,8 +20,18 @@ function init(): void {
 	console.log(select.all('a.btn-link'));
 	console.log(select.all('open, close'));
 	// For (const link of select.all('open, close')) { // This line doesn't work, the only
-	for (const link of select.all('a.btn-link')) {
+	// for (const link of select.all('a.btn-link')) {
+	// const container_target_buttons = select.all('div.table-list-header-toggle');
+	// const container_target_buttons = select.all('div.table-list-filters')[0].children[0];
+	const container_target_buttons = select('div.table-list-filters').children[0].children[0];
+	const target_buttons = container_target_buttons.children;
+	console.log(container_target_buttons);
+	console.log(target_buttons);
+	console.log('These were the target buttons');
+	for (const link of target_buttons) {
 		console.log(link);
+		console.log(link.children);
+		// Debugger;
 		const linkSearchParameters = new URLSearchParams(link.search);
 		const linkQuery = linkSearchParameters.get('q');
 		if (linkQuery === currentQuery) {
