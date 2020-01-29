@@ -1,10 +1,10 @@
 import React from 'dom-chef';
-// Import select from 'select-dom';
+import select from 'select-dom';
 // import delegate, { DelegateSubscription } from 'delegate-it';
 import delegate from 'delegate-it';
 import features from '../libs/features';
 
-let delegate_temporary:any;
+let delegate_temporary: any;
 function log() {
 	console.log('✨', <div className="rgh-jsx-element"/>);
 	console.log('A message log from my brand new feature!!!');
@@ -15,6 +15,21 @@ function init(): void {
 	delegate_temporary = delegate('.btn', 'click', log);
 	console.log('Init Karl the great!!!');
 	log();
+	const currentQuery = new URLSearchParams(location.search).get('q') ?? select('#js-issues-search').value;
+	console.log('Vamos a hacer el for');
+	console.log(select.all('a.btn-link'));
+	console.log(select.all('open, close'));
+	// For (const link of select.all('open, close')) { // This line doesn't work, the only
+	for (const link of select.all('a.btn-link')) {
+		console.log(link);
+		const linkSearchParameters = new URLSearchParams(link.search);
+		const linkQuery = linkSearchParameters.get('q');
+		if (linkQuery === currentQuery) {
+			linkSearchParameters.set('q', linkQuery.replace(/is:open|is:closed/, '').trim());
+			link.search = String(linkSearchParameters);
+			return; // The next link won't match this condition for sure
+		}
+	}
 }
 
 function deinit(): void {
