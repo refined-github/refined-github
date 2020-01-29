@@ -13,31 +13,34 @@ function log() {
 function init(): void {
 	// Events must be set via delegate, unless shortlived
 	delegate_temporary = delegate('.btn', 'click', log);
-	console.log('Init Karl the great!!!');
 	log();
 	const currentQuery = new URLSearchParams(location.search).get('q') ?? select('#js-issues-search').value;
-	console.log('Vamos a hacer el for');
-	console.log(select.all('a.btn-link'));
-	console.log(select.all('open, close'));
 	// For (const link of select.all('open, close')) { // This line doesn't work, the only
 	// for (const link of select.all('a.btn-link')) {
 	// const container_target_buttons = select.all('div.table-list-header-toggle');
 	// const container_target_buttons = select.all('div.table-list-filters')[0].children[0];
 	const container_target_buttons = select('div.table-list-filters').children[0].children[0];
 	const target_buttons = container_target_buttons.children;
+	const svg_check_icon = <svg className="octicon octicon-check" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true">
+		<path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"></path>
+	</svg>
 	console.log(container_target_buttons);
 	console.log(target_buttons);
 	console.log('These were the target buttons');
+	console.log(currentQuery);
 	for (const link of target_buttons) {
 		console.log(link);
 		console.log(link.children);
-		// Debugger;
+		link.firstElementChild.remove();
+		// debugger;
 		const linkSearchParameters = new URLSearchParams(link.search);
 		const linkQuery = linkSearchParameters.get('q');
+		console.log(linkSearchParameters);
+		console.log(linkQuery);
 		if (linkQuery === currentQuery) {
 			linkSearchParameters.set('q', linkQuery.replace(/is:open|is:closed/, '').trim());
 			link.search = String(linkSearchParameters);
-			return; // The next link won't match this condition for sure
+			// return; // The next link won't match this condition for sure
 		}
 	}
 }
