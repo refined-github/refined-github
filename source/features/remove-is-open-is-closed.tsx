@@ -19,6 +19,11 @@ function init(): void {
 	// for (const link of select.all('a.btn-link')) {
 	// const container_target_buttons = select.all('div.table-list-header-toggle');
 	// const container_target_buttons = select.all('div.table-list-filters')[0].children[0];
+	const linkIsMerged = <a href="/sindresorhus/refined-github/issues?q=is%3Amerged" className="btn-link">
+		<svg className="octicon octicon-check" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"></path></svg>
+		{/* 2,634 Merged */}
+		Merged
+	</a>
 	const container_target_buttons = select('div.table-list-filters').children[0].children[0];
 	const target_buttons = container_target_buttons.children;
 	console.log(container_target_buttons);
@@ -45,6 +50,7 @@ function init(): void {
 			// return; // The next link won't match this condition for sure
 		}
 	}
+	container_target_buttons.append(linkIsMerged);
 }
 
 function deinit(): void {
