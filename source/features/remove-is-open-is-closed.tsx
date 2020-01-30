@@ -60,7 +60,6 @@ features.add({
 		'↑': 'Edit your last comment'
 	},
 	include: [
-		features.isUserProfile,
 		features.isRepo
 	],
 	exclude: [
