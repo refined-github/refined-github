@@ -57,11 +57,8 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Simplify the GitHub interface and adds useful features',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/58238638-3cbcd080-7d7a-11e9-80f6-be6c0520cfed.jpg',
-	shortcuts: { // This only adds the shortcut to the help screen, it doesn't enable it
-		'↑': 'Edit your last comment'
-	},
+	description: 'Remove is:open/is:closed issue search query with a click, add Merged link button next to them',
+	screenshot: 'https://user-images.githubusercontent.com/3003032/73557979-02d7ba00-4431-11ea-90da-5e9e37688d61.png',
 	include: [
 		features.isRepo
 	],
