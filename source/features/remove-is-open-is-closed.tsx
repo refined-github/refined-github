@@ -7,12 +7,10 @@ const count = (str:String, re:RegExp) => {
 }
 
 function init(): void {
-	// Events must be set via delegate, unless shortlived
 	const currentQuery = new URLSearchParams(location.search).get('q') ?? select<HTMLInputElement>('#js-issues-search').value;
 
 	const linkMergedSearchParams = new URLSearchParams(location.search)//.get('q')// ?? select('#js-issues-search').value;
 	const linkIsMerged:HTMLAnchorElement = <a href="" className="btn-link">
-		{/* <svg className="octicon octicon-check" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"></path></svg> */}
 		Merged
 	</a>
 	const regexp_query_total = /is:open|is:closed|is:issue/g
@@ -45,8 +43,6 @@ function init(): void {
 		const linkQuery = linkSearchParameters.get('q');
 		if (linkQuery === currentQuery) {
 			linkSearchParameters.set('q', linkQuery.replace(/is:open|is:closed/, '').trim());
-			console.log("ACHTUNG")
-			console.log(linkSearchParameters)
 			link.search = String(linkSearchParameters);
 			// return; // The next link won't match this condition for sure
 		}
@@ -66,7 +62,5 @@ features.add({
 		features.isOwnUserProfile
 	],
 	load: features.onDomReady, // Wait for DOM ready
-	// load: features.onAjaxedPages, // Or: Wait for DOM ready AND run on all AJAXed loads
-	// load: features.onNewComments, // Or: Wait for DOM ready AND run on all AJAXed loads AND watch for new comments
 	init
 });
