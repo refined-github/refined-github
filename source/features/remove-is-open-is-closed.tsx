@@ -45,9 +45,10 @@ function init(): void {
 	const mergeLink = createMergeLink();
 
 	const containerTargetButtons = divTableListFiltersParent.children[0].children[0];
-	const targetButtons = containerTargetButtons.children;
+	const targetButtons: HTMLCollectionOf<HTMLAnchorElement> = containerTargetButtons.children;
+	// for (const link: HTMLAnchorElement of targetButtons) {
 	for (const link of targetButtons) {
-		link.firstElementChild.remove();
+		link.firstElementChild!.remove();
 		if (link.classList.contains('selected')) {
 			link.prepend(
 				<svg className="octicon octicon-check" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true">
@@ -56,7 +57,7 @@ function init(): void {
 			);
 			const linkSearchParameters = new URLSearchParams(link.search);
 			const linkQuery = linkSearchParameters.get('q');
-			linkSearchParameters.set('q', linkQuery.replace(/is:open|is:closed/, '').trim());
+			linkSearchParameters.set('q', linkQuery!.replace(/is:open|is:closed/, '').trim());
 			link.search = String(linkSearchParameters);
 		}
 	}
