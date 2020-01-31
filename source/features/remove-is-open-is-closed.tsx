@@ -22,32 +22,21 @@ function init(): void {
 	var linkMergedSearchString = new URLSearchParams(location.search).get('q') ?? select<HTMLInputElement>('#js-issues-search').value;
 	const linkMergedSearchParams = new URLSearchParams(location.search)//.get('q')// ?? select('#js-issues-search').value;
 	const linkIsMerged:HTMLAnchorElement = <a href="" className="btn-link">
-	{/* const linkIsMerged:HTMLElement = <a href="" className="btn-link"> */}
 		{/* <svg className="octicon octicon-check" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"></path></svg> */}
-		{/* 2,634 Merged */}
 		Merged
 	</a>
 	const regexp_query_total = /is:open|is:closed|is:issue/g
 	const regexp_query = /is:open|is:closed|is:issue/
-	// console.log(count(linkMergedSearchString, /is:open|is:closed|is:issue/g))
-	console.log(count(linkMergedSearchString, regexp_query_total))
-	/*
-	 *	currentQuery.replace(/is:open|is:closed|is:issue/, 'is:merged')
-	 *	"is:merged is:open "
-	 *	currentQuery
-	 *	"is:issue is:open "
-	 */
 	while (count(linkMergedSearchString, regexp_query_total) > 1) {
-		console.log("ITERACION")
-		console.log(linkMergedSearchString)
 		linkMergedSearchString = linkMergedSearchString.replace(regexp_query, '').trim()
 	}
-	console.log("END")
 
-	linkMergedSearchParams.set('q', linkMergedSearchString.replace(regexp_query, 'is:merged').trim())
+	if (count(linkMergedSearchString, /is:merged/) == 1) {
+		linkMergedSearchParams.set('q', linkMergedSearchString.replace(/is:merged/, '').trim())
+	} else if (count(linkMergedSearchString, regexp_query_total) == 1) {
+		linkMergedSearchParams.set('q', linkMergedSearchString.replace(regexp_query, 'is:merged').trim())
+	}
 	linkIsMerged.search = String(linkMergedSearchParams) // "/sindresorhus/refined-github/issues?q=is%3Amerged"
-	// linkIsMerged.search = "q=is%3Amerged" // "/sindresorhus/refined-github/issues?q=is%3Amerged"
-	// linkIsMerged.search = "is:merged" // "/sindresorhus/refined-github/issues?q=is%3Amerged"
 	const container_target_buttons = select('div.table-list-filters').children[0].children[0];
 	const target_buttons = container_target_buttons.children;
 	for (const link of target_buttons) {
@@ -69,6 +58,7 @@ function init(): void {
 			// return; // The next link won't match this condition for sure
 		}
 	}
+
 	container_target_buttons.append(linkIsMerged);
 }
 
