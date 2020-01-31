@@ -9,33 +9,42 @@ function log() {
 	console.log('Init remove-is-open-is-closed feature');
 }
 
+const count = (str:String, re:RegExp) => {
+  // const re = /[a-z]{3}/g
+  return ((str || '').match(re) || []).length
+}
+
 function init(): void {
 	// Events must be set via delegate, unless shortlived
 	delegate_temporary = delegate('.btn', 'click', log);
 	log();
-	const currentQuery = new URLSearchParams(location.search).get('q') ?? select('#js-issues-search').value;
+	const currentQuery = new URLSearchParams(location.search).get('q') ?? select<HTMLInputElement>('#js-issues-search').value;
+	var linkMergedSearchString = new URLSearchParams(location.search).get('q') ?? select<HTMLInputElement>('#js-issues-search').value;
 	const linkMergedSearchParams = new URLSearchParams(location.search)//.get('q')// ?? select('#js-issues-search').value;
-	// For (const link of select.all('open, close')) { // This line doesn't work, the only
-	// for (const link of select.all('a.btn-link')) {
-	// const container_target_buttons = select.all('div.table-list-header-toggle');
-	// const container_target_buttons = select.all('div.table-list-filters')[0].children[0];
-	// const linkIsMerged = <a href="/sindresorhus/refined-github/issues?q=is%3Amerged" className="btn-link">
-	const linkIsMerged = <a href="" className="btn-link">
+	const linkIsMerged:HTMLAnchorElement = <a href="" className="btn-link">
+	{/* const linkIsMerged:HTMLElement = <a href="" className="btn-link"> */}
 		{/* <svg className="octicon octicon-check" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"></path></svg> */}
 		{/* 2,634 Merged */}
 		Merged
 	</a>
-	// linkIsMerged.search = "/sindresorhus/refined-github/issues?q=is%3Amerged"
-	console.log(currentQuery)
-	console.log(linkMergedSearchParams)
-	debugger
+	const regexp_query_total = /is:open|is:closed|is:issue/g
+	const regexp_query = /is:open|is:closed|is:issue/
+	// console.log(count(linkMergedSearchString, /is:open|is:closed|is:issue/g))
+	console.log(count(linkMergedSearchString, regexp_query_total))
 	/*
 	 *	currentQuery.replace(/is:open|is:closed|is:issue/, 'is:merged')
 	 *	"is:merged is:open "
 	 *	currentQuery
 	 *	"is:issue is:open "
 	 */
-	linkMergedSearchParams.set('q', currentQuery.replace(/is:open|is:closed|is:issue/g, 'is:merged').trim())
+	while (count(linkMergedSearchString, regexp_query_total) > 1) {
+		console.log("ITERACION")
+		console.log(linkMergedSearchString)
+		linkMergedSearchString = linkMergedSearchString.replace(regexp_query, '').trim()
+	}
+	console.log("END")
+
+	linkMergedSearchParams.set('q', linkMergedSearchString.replace(regexp_query, 'is:merged').trim())
 	linkIsMerged.search = String(linkMergedSearchParams) // "/sindresorhus/refined-github/issues?q=is%3Amerged"
 	// linkIsMerged.search = "q=is%3Amerged" // "/sindresorhus/refined-github/issues?q=is%3Amerged"
 	// linkIsMerged.search = "is:merged" // "/sindresorhus/refined-github/issues?q=is%3Amerged"
