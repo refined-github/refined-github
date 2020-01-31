@@ -1,25 +1,15 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-// import delegate, { DelegateSubscription } from 'delegate-it';
-import delegate from 'delegate-it';
 import features from '../libs/features';
 
-let delegate_temporary: any;
-function log() {
-	console.log('Init remove-is-open-is-closed feature');
-}
-
 const count = (str:String, re:RegExp) => {
-  // const re = /[a-z]{3}/g
   return ((str || '').match(re) || []).length
 }
 
 function init(): void {
 	// Events must be set via delegate, unless shortlived
-	delegate_temporary = delegate('.btn', 'click', log);
-	log();
 	const currentQuery = new URLSearchParams(location.search).get('q') ?? select<HTMLInputElement>('#js-issues-search').value;
-	var linkMergedSearchString = new URLSearchParams(location.search).get('q') ?? select<HTMLInputElement>('#js-issues-search').value;
+
 	const linkMergedSearchParams = new URLSearchParams(location.search)//.get('q')// ?? select('#js-issues-search').value;
 	const linkIsMerged:HTMLAnchorElement = <a href="" className="btn-link">
 		{/* <svg className="octicon octicon-check" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"></path></svg> */}
@@ -27,6 +17,9 @@ function init(): void {
 	</a>
 	const regexp_query_total = /is:open|is:closed|is:issue/g
 	const regexp_query = /is:open|is:closed|is:issue/
+
+	var linkMergedSearchString = new URLSearchParams(location.search).get('q') ?? select<HTMLInputElement>('#js-issues-search').value;
+
 	while (count(linkMergedSearchString, regexp_query_total) > 1) {
 		linkMergedSearchString = linkMergedSearchString.replace(regexp_query, '').trim()
 	}
@@ -37,6 +30,7 @@ function init(): void {
 		linkMergedSearchParams.set('q', linkMergedSearchString.replace(regexp_query, 'is:merged').trim())
 	}
 	linkIsMerged.search = String(linkMergedSearchParams) // "/sindresorhus/refined-github/issues?q=is%3Amerged"
+
 	const container_target_buttons = select('div.table-list-filters').children[0].children[0];
 	const target_buttons = container_target_buttons.children;
 	for (const link of target_buttons) {
@@ -48,7 +42,6 @@ function init(): void {
 		}
 
 		const linkSearchParameters = new URLSearchParams(link.search);
-		// debugger
 		const linkQuery = linkSearchParameters.get('q');
 		if (linkQuery === currentQuery) {
 			linkSearchParameters.set('q', linkQuery.replace(/is:open|is:closed/, '').trim());
@@ -60,11 +53,6 @@ function init(): void {
 	}
 
 	container_target_buttons.append(linkIsMerged);
-}
-
-function deinit(): void {
-	delegate_temporary?.destroy();
-	delegate_temporary = undefined;
 }
 
 features.add({
@@ -83,6 +71,5 @@ features.add({
 	load: features.onDomReady, // Wait for DOM ready
 	// load: features.onAjaxedPages, // Or: Wait for DOM ready AND run on all AJAXed loads
 	// load: features.onNewComments, // Or: Wait for DOM ready AND run on all AJAXed loads AND watch for new comments
-	deinit, // Rarely needed
 	init
 });
