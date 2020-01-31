@@ -2,31 +2,34 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
-const count = (str:String, re:RegExp) => {
-  return ((str || '').match(re) || []).length
-}
+const count = (string, re: RegExp) => {
+	return ((string || '').match(re) ?? []).length;
+};
 
-function createMergeLink():HTMLAnchorElement {
-	const linkMergedSearchParams = new URLSearchParams(location.search)//.get('q')// ?? select('#js-issues-search').value;
-	const linkIsMerged:HTMLAnchorElement = <a href="" className="btn-link">
+function createMergeLink(): HTMLAnchorElement {
+	const linkMergedSearchParameters = new URLSearchParams(location.search);// .get('q')// ?? select('#js-issues-search').value;
+	const linkIsMerged: HTMLAnchorElement = (
+		<a href="" className="btn-link">
 		Merged
-	</a>
-	const regexp_query_total = /is:open|is:closed|is:issue/g
-	const regexp_query = /is:open|is:closed|is:issue/
+		</a>
+	);
+	const regexp_query_total = /is:open|is:closed|is:issue/g;
+	const regexp_query = /is:open|is:closed|is:issue/;
 
-	var linkMergedSearchString = new URLSearchParams(location.search).get('q') ?? select<HTMLInputElement>('#js-issues-search').value;
+	let linkMergedSearchString = new URLSearchParams(location.search).get('q') ?? select<HTMLInputElement>('#js-issues-search').value;
 
 	while (count(linkMergedSearchString, regexp_query_total) > 1) {
-		linkMergedSearchString = linkMergedSearchString.replace(regexp_query, '').trim()
+		linkMergedSearchString = linkMergedSearchString.replace(regexp_query, '').trim();
 	}
 
 	if (count(linkMergedSearchString, /is:merged/) == 1) {
-		linkMergedSearchParams.set('q', linkMergedSearchString.replace(/is:merged/, 'is:issue').trim())
-		linkIsMerged.classList.add("selected")
+		linkMergedSearchParameters.set('q', linkMergedSearchString.replace(/is:merged/, 'is:issue').trim());
+		linkIsMerged.classList.add('selected');
 	} else if (count(linkMergedSearchString, regexp_query_total) == 1) {
-		linkMergedSearchParams.set('q', linkMergedSearchString.replace(regexp_query, 'is:merged').trim())
+		linkMergedSearchParameters.set('q', linkMergedSearchString.replace(regexp_query, 'is:merged').trim());
 	}
-	linkIsMerged.search = String(linkMergedSearchParams) // "/sindresorhus/refined-github/issues?q=is%3Amerged"
+
+	linkIsMerged.search = String(linkMergedSearchParameters); // "/sindresorhus/refined-github/issues?q=is%3Amerged"
 
 	return linkIsMerged;
 }
