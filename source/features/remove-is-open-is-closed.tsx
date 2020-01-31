@@ -2,8 +2,9 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
-const count = (string, re: RegExp): number => {
+const count = (string: string, re: RegExp): number => {
 	return ((string || '').match(re) ?? []).length;
+	// return (re.exec(string || '') ?? []).length;
 };
 
 function createMergeLink(): HTMLAnchorElement {
@@ -16,7 +17,7 @@ function createMergeLink(): HTMLAnchorElement {
 	const regexpQueryTotal = /is:open|is:closed|is:issue/g;
 	const regexpQuery = /is:open|is:closed|is:issue/;
 
-	let linkMergedSearchString = new URLSearchParams(location.search).get('q') ?? select<HTMLInputElement>('#js-issues-search').value;
+	let linkMergedSearchString = new URLSearchParams(location.search).get('q') ?? select<HTMLInputElement>('#js-issues-search')!.value;
 
 	while (count(linkMergedSearchString, regexpQueryTotal) > 1) {
 		linkMergedSearchString = linkMergedSearchString.replace(regexpQuery, '').trim();
@@ -35,9 +36,15 @@ function createMergeLink(): HTMLAnchorElement {
 }
 
 function init(): void {
+	const divTableListFiltersParent = select('div.table-list-filters');
+	const inputJsIssuesSearch = select<HTMLInputElement>('#js-issues-search');
+	if ((divTableListFiltersParent === null) || (inputJsIssuesSearch === null)) {
+		return;
+	}
+
 	const mergeLink = createMergeLink();
 
-	const containerTargetButtons = select('div.table-list-filters').children[0].children[0];
+	const containerTargetButtons = divTableListFiltersParent.children[0].children[0];
 	const targetButtons = containerTargetButtons.children;
 	for (const link of targetButtons) {
 		link.firstElementChild.remove();
