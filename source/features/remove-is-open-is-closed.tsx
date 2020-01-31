@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
-const count = (string, re: RegExp) => {
+const count = (string, re: RegExp): number => {
 	return ((string || '').match(re) ?? []).length;
 };
 
@@ -13,20 +13,20 @@ function createMergeLink(): HTMLAnchorElement {
 		Merged
 		</a>
 	);
-	const regexp_query_total = /is:open|is:closed|is:issue/g;
-	const regexp_query = /is:open|is:closed|is:issue/;
+	const regexpQueryTotal = /is:open|is:closed|is:issue/g;
+	const regexpQuery = /is:open|is:closed|is:issue/;
 
 	let linkMergedSearchString = new URLSearchParams(location.search).get('q') ?? select<HTMLInputElement>('#js-issues-search').value;
 
-	while (count(linkMergedSearchString, regexp_query_total) > 1) {
-		linkMergedSearchString = linkMergedSearchString.replace(regexp_query, '').trim();
+	while (count(linkMergedSearchString, regexpQueryTotal) > 1) {
+		linkMergedSearchString = linkMergedSearchString.replace(regexpQuery, '').trim();
 	}
 
-	if (count(linkMergedSearchString, /is:merged/) == 1) {
+	if (count(linkMergedSearchString, /is:merged/) === 1) {
 		linkMergedSearchParameters.set('q', linkMergedSearchString.replace(/is:merged/, 'is:issue').trim());
 		linkIsMerged.classList.add('selected');
-	} else if (count(linkMergedSearchString, regexp_query_total) == 1) {
-		linkMergedSearchParameters.set('q', linkMergedSearchString.replace(regexp_query, 'is:merged').trim());
+	} else if (count(linkMergedSearchString, regexpQueryTotal) === 1) {
+		linkMergedSearchParameters.set('q', linkMergedSearchString.replace(regexpQuery, 'is:merged').trim());
 	}
 
 	linkIsMerged.search = String(linkMergedSearchParameters); // "/sindresorhus/refined-github/issues?q=is%3Amerged"
@@ -35,18 +35,18 @@ function createMergeLink(): HTMLAnchorElement {
 }
 
 function init(): void {
-	const currentQuery = new URLSearchParams(location.search).get('q') ?? select<HTMLInputElement>('#js-issues-search').value;
-
 	const mergeLink = createMergeLink();
 
-	const container_target_buttons = select('div.table-list-filters').children[0].children[0];
-	const target_buttons = container_target_buttons.children;
-	for (const link of target_buttons) {
+	const containerTargetButtons = select('div.table-list-filters').children[0].children[0];
+	const targetButtons = containerTargetButtons.children;
+	for (const link of targetButtons) {
 		link.firstElementChild.remove();
 		if (link.classList.contains('selected')) {
-			link.prepend(<svg className="octicon octicon-check" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true">
-				<path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/>
-			</svg>);
+			link.prepend(
+				<svg className="octicon octicon-check" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true">
+					<path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/>
+				</svg>
+			);
 			const linkSearchParameters = new URLSearchParams(link.search);
 			const linkQuery = linkSearchParameters.get('q');
 			linkSearchParameters.set('q', linkQuery.replace(/is:open|is:closed/, '').trim());
@@ -54,7 +54,7 @@ function init(): void {
 		}
 	}
 
-	container_target_buttons.append(mergeLink);
+	containerTargetButtons.append(mergeLink);
 }
 
 features.add({
