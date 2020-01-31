@@ -56,7 +56,7 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Remove is:open/is:closed issue search query with a click, add Merged link button next to them',
+	description: 'Remove is:open/is:closed issue search query with a click, add Merged link button next to them.',
 	screenshot: 'https://user-images.githubusercontent.com/3003032/73557979-02d7ba00-4431-11ea-90da-5e9e37688d61.png',
 	include: [
 		features.isRepo

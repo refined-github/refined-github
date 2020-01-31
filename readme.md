@@ -140,6 +140,7 @@ Thanks for contributing! 🦋🙌
 - [](# "reload-failed-proxied-images") [Retries downloading images that failed downloading due to GitHub limited proxying.](https://user-images.githubusercontent.com/14858959/64068746-21991100-cc45-11e9-844e-827f5ac9b51e.png)
 - [](# "forked-to") [Adds a shortcut to your forks next to the `Fork` button on the current repo.](https://user-images.githubusercontent.com/55841/64077281-17bbf000-cccf-11e9-9123-092063f65357.png)
 - [](# "repo-age") [Adds the age of the repository to the statistics bar.](https://user-images.githubusercontent.com/3848317/69494069-7d2b1180-0eb7-11ea-9aa1-d4194e566340.png)
+- [](# "remove-iopen-isclosed-filter") [Remove is:open/is:closed issue search query with a click, add Merged link button next to them.](https://user-images.githubusercontent.com/3003032/73557979-02d7ba00-4431-11ea-90da-5e9e37688d61.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
