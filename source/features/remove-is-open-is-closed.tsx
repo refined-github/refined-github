@@ -6,9 +6,7 @@ const count = (str:String, re:RegExp) => {
   return ((str || '').match(re) || []).length
 }
 
-function init(): void {
-	const currentQuery = new URLSearchParams(location.search).get('q') ?? select<HTMLInputElement>('#js-issues-search').value;
-
+function createMergeLink():HTMLAnchorElement {
 	const linkMergedSearchParams = new URLSearchParams(location.search)//.get('q')// ?? select('#js-issues-search').value;
 	const linkIsMerged:HTMLAnchorElement = <a href="" className="btn-link">
 		Merged
@@ -23,11 +21,20 @@ function init(): void {
 	}
 
 	if (count(linkMergedSearchString, /is:merged/) == 1) {
-		linkMergedSearchParams.set('q', linkMergedSearchString.replace(/is:merged/, '').trim())
+		linkMergedSearchParams.set('q', linkMergedSearchString.replace(/is:merged/, 'is:issue').trim())
+		linkIsMerged.classList.add("selected")
 	} else if (count(linkMergedSearchString, regexp_query_total) == 1) {
 		linkMergedSearchParams.set('q', linkMergedSearchString.replace(regexp_query, 'is:merged').trim())
 	}
 	linkIsMerged.search = String(linkMergedSearchParams) // "/sindresorhus/refined-github/issues?q=is%3Amerged"
+
+	return linkIsMerged;
+}
+
+function init(): void {
+	const currentQuery = new URLSearchParams(location.search).get('q') ?? select<HTMLInputElement>('#js-issues-search').value;
+
+	const mergeLink = createMergeLink();
 
 	const container_target_buttons = select('div.table-list-filters').children[0].children[0];
 	const target_buttons = container_target_buttons.children;
@@ -48,7 +55,7 @@ function init(): void {
 		}
 	}
 
-	container_target_buttons.append(linkIsMerged);
+	container_target_buttons.append(mergeLink);
 }
 
 features.add({
