@@ -6,8 +6,7 @@ import features from '../libs/features';
 
 let delegate_temporary: any;
 function log() {
-	console.log('✨', <div className="rgh-jsx-element"/>);
-	console.log('A message log from my brand new feature!!!');
+	console.log('Init remove-is-open-is-closed feature');
 }
 
 function init(): void {
@@ -15,6 +14,7 @@ function init(): void {
 	delegate_temporary = delegate('.btn', 'click', log);
 	log();
 	const currentQuery = new URLSearchParams(location.search).get('q') ?? select('#js-issues-search').value;
+	const linkMergedSearchParams = new URLSearchParams(location.search)//.get('q')// ?? select('#js-issues-search').value;
 	// For (const link of select.all('open, close')) { // This line doesn't work, the only
 	// for (const link of select.all('a.btn-link')) {
 	// const container_target_buttons = select.all('div.table-list-header-toggle');
@@ -26,16 +26,22 @@ function init(): void {
 		Merged
 	</a>
 	// linkIsMerged.search = "/sindresorhus/refined-github/issues?q=is%3Amerged"
-	linkIsMerged.search = "q=is%3Aissue" // "/sindresorhus/refined-github/issues?q=is%3Amerged"
+	console.log(currentQuery)
+	console.log(linkMergedSearchParams)
+	debugger
+	/*
+	 *	currentQuery.replace(/is:open|is:closed|is:issue/, 'is:merged')
+	 *	"is:merged is:open "
+	 *	currentQuery
+	 *	"is:issue is:open "
+	 */
+	linkMergedSearchParams.set('q', currentQuery.replace(/is:open|is:closed|is:issue/g, 'is:merged').trim())
+	linkIsMerged.search = String(linkMergedSearchParams) // "/sindresorhus/refined-github/issues?q=is%3Amerged"
+	// linkIsMerged.search = "q=is%3Amerged" // "/sindresorhus/refined-github/issues?q=is%3Amerged"
+	// linkIsMerged.search = "is:merged" // "/sindresorhus/refined-github/issues?q=is%3Amerged"
 	const container_target_buttons = select('div.table-list-filters').children[0].children[0];
 	const target_buttons = container_target_buttons.children;
-	console.log(container_target_buttons);
-	console.log(target_buttons);
-	console.log('These were the target buttons');
-	console.log(currentQuery);
 	for (const link of target_buttons) {
-		console.log(link);
-		console.log(link.children);
 		link.firstElementChild.remove();
 		if (link.classList.contains('selected')) {
 			link.prepend(<svg className="octicon octicon-check" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true">
@@ -44,13 +50,12 @@ function init(): void {
 		}
 
 		const linkSearchParameters = new URLSearchParams(link.search);
+		// debugger
 		const linkQuery = linkSearchParameters.get('q');
-		console.log(linkSearchParameters);
-		console.log(linkQuery);
 		if (linkQuery === currentQuery) {
 			linkSearchParameters.set('q', linkQuery.replace(/is:open|is:closed/, '').trim());
-			console.log("ACHTUNG!!!")
-			console.log(String(linkSearchParameters))
+			console.log("ACHTUNG")
+			console.log(linkSearchParameters)
 			link.search = String(linkSearchParameters);
 			// return; // The next link won't match this condition for sure
 		}
