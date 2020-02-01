@@ -50,21 +50,21 @@ function init(): void {
 
 	const linkFilters = select.all('.btn-link', divTableListFiltersParent);
 
-	const selectedLink = linkFilters.filter(element => element.classList.contains('selected'))[0];
+	const selectedLink = linkFilters.filter((element: HTMLElement) => element.classList.contains('selected'))[0];
 	let mergeLink;
 	if (typeof selectedLink === 'undefined') {
-		mergeLink = addMergedLink(linkFilters[0].cloneNode(true), 'is:open');
+		mergeLink = addMergedLink(linkFilters[0].cloneNode(true));
 	} else if (selectedLink.textContent.includes('Closed')) {
-		mergeLink = addMergedLink(linkFilters.filter(element => element.textContent.includes('Open'))[0].cloneNode(true));
+		mergeLink = addMergedLink(linkFilters.filter((element: HTMLElement) => element.textContent.includes('Open'))[0].cloneNode(true));
 	} else if (selectedLink.textContent.includes('Open')) {
-		mergeLink = addMergedLink(linkFilters.filter(element => element.textContent.includes('Closed'))[0].cloneNode(true));
+		mergeLink = addMergedLink(linkFilters.filter((element: HTMLElement) => element.textContent.includes('Closed'))[0].cloneNode(true));
 	} else if (selectedLink.textContent.includes('Total')) {
-		mergeLink = addMergedLink(linkFilters.filter(element => element.textContent.includes('Total'))[0].cloneNode(true));
+		mergeLink = addMergedLink(linkFilters.filter((element: HTMLElement) => element.textContent.includes('Total'))[0].cloneNode(true));
 	}
 
 	togglableFilters(divTableListFiltersParent);
 
-	divTableListFiltersParent.append(mergeLink);
+	divTableListFiltersParent!.append(mergeLink);
 }
 
 features.add({
