@@ -3,11 +3,11 @@ import select from 'select-dom';
 import features from '../libs/features';
 
 const countMatches = (string: string, regex: RegExp): number => {
-	return ((string || '').match(re) ?? []).length;
+	return ((string || '').match(regex) ?? []).length;
 };
 
 function createMergeLink(): HTMLAnchorElement {
-	const linkMergedSearchParameters = new URLSearchParams(location.search);// .get('q')// ?? select('#js-issues-search').value;
+	const linkMergedSearchParameters = new URLSearchParams(location.search);
 	const linkIsMerged: HTMLAnchorElement = (
 		<a href="" className="btn-link">
 		Merged
@@ -18,18 +18,18 @@ function createMergeLink(): HTMLAnchorElement {
 
 	let linkMergedSearchString = new URLSearchParams(location.search).get('q') ?? select<HTMLInputElement>('#js-issues-search')!.value;
 
-	while (count(linkMergedSearchString, regexpQueryTotal) > 1) {
+	while (countMatches(linkMergedSearchString, regexpQueryTotal) > 1) {
 		linkMergedSearchString = linkMergedSearchString.replace(regexpQuery, '').trim();
 	}
 
-	if (count(linkMergedSearchString, /is:merged/) === 1) {
+	if (countMatches(linkMergedSearchString, /is:merged/) === 1) {
 		linkMergedSearchParameters.set('q', linkMergedSearchString.replace(/is:merged/, 'is:issue').trim());
 		linkIsMerged.classList.add('selected');
-	} else if (count(linkMergedSearchString, regexpQueryTotal) === 1) {
+	} else if (countMatches(linkMergedSearchString, regexpQueryTotal) === 1) {
 		linkMergedSearchParameters.set('q', linkMergedSearchString.replace(regexpQuery, 'is:merged').trim());
 	}
 
-	linkIsMerged.search = String(linkMergedSearchParameters); // "/sindresorhus/refined-github/issues?q=is%3Amerged"
+	linkIsMerged.search = String(linkMergedSearchParameters);
 
 	return linkIsMerged;
 }
@@ -45,7 +45,6 @@ function init(): void {
 
 	const containerTargetButtons = divTableListFiltersParent.children[0].children[0];
 	const targetButtons: HTMLCollectionOf<HTMLAnchorElement> = containerTargetButtons.children;
-	// for (const link: HTMLAnchorElement of targetButtons) {
 	for (const link of targetButtons) {
 		link.firstElementChild!.remove();
 		if (link.classList.contains('selected')) {
