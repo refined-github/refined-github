@@ -4,7 +4,6 @@ import features from '../libs/features';
 
 const countMatches = (string: string, regex: RegExp): number => {
 	return ((string || '').match(re) ?? []).length;
-	// return (re.exec(string || '') ?? []).length;
 };
 
 function createMergeLink(): HTMLAnchorElement {
@@ -75,6 +74,6 @@ features.add({
 	exclude: [
 		features.isOwnUserProfile
 	],
-	load: features.onDomReady, // Wait for DOM ready
+	load: features.onDomReady,
 	init
 });
