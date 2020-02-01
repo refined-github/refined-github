@@ -36,7 +36,7 @@ function createMergeLink(): HTMLAnchorElement {
 }
 
 function init(): void {
-	const divTableListFiltersParent = select('div.table-list-filters');
+	const divTableListFiltersParent = select('.table-list-header-toggle.states');
 	const inputJsIssuesSearch = select<HTMLInputElement>('#js-issues-search');
 	if ((divTableListFiltersParent === null) || (inputJsIssuesSearch === null)) {
 		return;
@@ -44,8 +44,7 @@ function init(): void {
 
 	const mergeLink = createMergeLink();
 
-	const containerTargetButtons = divTableListFiltersParent.children[0].children[0];
-	const targetButtons: HTMLCollectionOf<HTMLAnchorElement> = containerTargetButtons.children;
+	const targetButtons = select.all('.btn-link', divTableListFiltersParent)
 	for (const link of targetButtons) {
 		select('.octicon', link)!.remove();
 		if (link.classList.contains('selected')) {
@@ -57,7 +56,7 @@ function init(): void {
 		}
 	}
 
-	containerTargetButtons.append(mergeLink);
+	divTableListFiltersParent.append(mergeLink)
 }
 
 features.add({
