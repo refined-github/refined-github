@@ -7,7 +7,7 @@ const countMatches = (string: string, regex: RegExp): number => {
 	return ((string || '').match(regex) ?? []).length;
 };
 
-function createMergeLink(linkIsMerged: HTMLAnchorElement): HTMLAnchorElement {
+function addMergedLink(linkIsMerged: HTMLAnchorElement): HTMLAnchorElement {
 	const linkMergedSearchParameters = new URLSearchParams(location.search);
 	linkIsMerged.textContent = 'Merged';
 	const regexpQueryTotal = /is:open|is:closed|is:issue/g;
@@ -31,27 +31,7 @@ function createMergeLink(linkIsMerged: HTMLAnchorElement): HTMLAnchorElement {
 	return linkIsMerged;
 }
 
-function init(): void {
-	const divTableListFiltersParent = select('.table-list-header-toggle.states');
-	const inputJsIssuesSearch = select<HTMLInputElement>('#js-issues-search');
-	if ((divTableListFiltersParent === null) || (inputJsIssuesSearch === null)) {
-		return;
-	}
-
-	const linkFilters = select.all('.btn-link', divTableListFiltersParent);
-
-	const selectedLink = linkFilters.filter(element => element.classList.contains('selected'))[0];
-	let mergeLink;
-	if (typeof selectedLink === 'undefined') {
-		mergeLink = createMergeLink(linkFilters[0].cloneNode(true), 'is:open');
-	} else if (selectedLink.textContent.includes('Closed')) {
-		mergeLink = createMergeLink(linkFilters.filter(element => element.textContent.includes('Open'))[0].cloneNode(true));
-	} else if (selectedLink.textContent.includes('Open')) {
-		mergeLink = createMergeLink(linkFilters.filter(element => element.textContent.includes('Closed'))[0].cloneNode(true));
-	} else if (selectedLink.textContent.includes('Total')) {
-		mergeLink = createMergeLink(linkFilters.filter(element => element.textContent.includes('Total'))[0].cloneNode(true));
-	}
-
+function togglableFilters(divTableListFiltersParent): void {
 	const targetButtons = select.all('.btn-link', divTableListFiltersParent);
 	for (const link of targetButtons) {
 		select('.octicon', link)!.remove();
@@ -63,6 +43,26 @@ function init(): void {
 			link.search = String(linkSearchParameters);
 		}
 	}
+}
+
+function init(): void {
+	const divTableListFiltersParent = select('.table-list-header-toggle.states');
+
+	const linkFilters = select.all('.btn-link', divTableListFiltersParent);
+
+	const selectedLink = linkFilters.filter(element => element.classList.contains('selected'))[0];
+	let mergeLink;
+	if (typeof selectedLink === 'undefined') {
+		mergeLink = addMergedLink(linkFilters[0].cloneNode(true), 'is:open');
+	} else if (selectedLink.textContent.includes('Closed')) {
+		mergeLink = addMergedLink(linkFilters.filter(element => element.textContent.includes('Open'))[0].cloneNode(true));
+	} else if (selectedLink.textContent.includes('Open')) {
+		mergeLink = addMergedLink(linkFilters.filter(element => element.textContent.includes('Closed'))[0].cloneNode(true));
+	} else if (selectedLink.textContent.includes('Total')) {
+		mergeLink = addMergedLink(linkFilters.filter(element => element.textContent.includes('Total'))[0].cloneNode(true));
+	}
+
+	togglableFilters(divTableListFiltersParent);
 
 	divTableListFiltersParent.append(mergeLink);
 }
