@@ -7,7 +7,7 @@ const countMatches = (string: string, regex: RegExp): number => {
 	return ((string || '').match(regex) ?? []).length;
 };
 
-function createMergeLink(linkIsMerged:HTMLAnchorElement, textToReplace): HTMLAnchorElement {
+function createMergeLink(linkIsMerged:HTMLAnchorElement): HTMLAnchorElement {
 	const linkMergedSearchParameters = new URLSearchParams(location.search);
 	linkIsMerged.textContent = "Merged";
 	const regexpQueryTotal = /is:open|is:closed|is:issue/g;
@@ -18,8 +18,6 @@ function createMergeLink(linkIsMerged:HTMLAnchorElement, textToReplace): HTMLAnc
 	while (countMatches(linkMergedSearchString, regexpQueryTotal) > 1) {
 		linkMergedSearchString = linkMergedSearchString.replace(regexpQuery, '').trim();
 	}
-
-	// linkMergedSearchParameters.set('q', linkMergedSearchString.replace(textToReplace, 'is:merged').trim());
 
 	if (countMatches(linkMergedSearchString, /is:merged/) === 1) {
 		linkMergedSearchParameters.set('q', linkMergedSearchString.replace(/is:merged/, 'is:issue').trim());
@@ -34,7 +32,6 @@ function createMergeLink(linkIsMerged:HTMLAnchorElement, textToReplace): HTMLAnc
 }
 
 function init(): void {
-	console.log("INIT")
 	const divTableListFiltersParent = select('.table-list-header-toggle.states');
 	const inputJsIssuesSearch = select<HTMLInputElement>('#js-issues-search');
 	if ((divTableListFiltersParent === null) || (inputJsIssuesSearch === null)) {
@@ -48,17 +45,14 @@ function init(): void {
 	const selectedLink = linkFilters.filter(element => element.classList.contains('selected'))[0]
 	let mergeLink
 	if (typeof selectedLink === 'undefined') {
-		console.log("NO HAY SELECTED LINK");
 		mergeLink = createMergeLink(linkFilters[0].cloneNode(true), 'is:open')
 	} else if (selectedLink.innerText.includes('Closed')) {
-		mergeLink = createMergeLink(linkFilters.filter(element => element.innerText.includes('Open'))[0].cloneNode(true), 'is:open')
+		mergeLink = createMergeLink(linkFilters.filter(element => element.innerText.includes('Open'))[0].cloneNode(true))
 	} else if (selectedLink.innerText.includes('Open')) {
-		mergeLink = createMergeLink(linkFilters.filter(element => element.innerText.includes('Closed'))[0].cloneNode(true), 'is:closed')
+		mergeLink = createMergeLink(linkFilters.filter(element => element.innerText.includes('Closed'))[0].cloneNode(true))
 	} else if (selectedLink.innerText.includes('Total')) {
-		console.log("OHHH NOOOOoooo!!")
-		mergeLink = createMergeLink(linkFilters.filter(element => element.innerText.includes('Total'))[0].cloneNode(true), 'is:closed')
+		mergeLink = createMergeLink(linkFilters.filter(element => element.innerText.includes('Total'))[0].cloneNode(true))
 	}
-	console.log(selectedLink)
 
 	const targetButtons = select.all('.btn-link', divTableListFiltersParent)
 	for (const link of targetButtons) {
