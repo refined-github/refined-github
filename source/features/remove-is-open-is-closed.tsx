@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import checkIcon from 'octicon/check.svg';
 
 const countMatches = (string: string, regex: RegExp): number => {
 	return ((string || '').match(regex) ?? []).length;
@@ -46,13 +47,9 @@ function init(): void {
 	const containerTargetButtons = divTableListFiltersParent.children[0].children[0];
 	const targetButtons: HTMLCollectionOf<HTMLAnchorElement> = containerTargetButtons.children;
 	for (const link of targetButtons) {
-		link.firstElementChild!.remove();
+		select('.octicon', link)!.remove();
 		if (link.classList.contains('selected')) {
-			link.prepend(
-				<svg className="octicon octicon-check" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true">
-					<path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/>
-				</svg>
-			);
+			link.prepend(<>{checkIcon()}</>);
 			const linkSearchParameters = new URLSearchParams(link.search);
 			const linkQuery = linkSearchParameters.get('q');
 			linkSearchParameters.set('q', linkQuery!.replace(/is:open|is:closed/, '').trim());
