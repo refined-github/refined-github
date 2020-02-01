@@ -1,18 +1,15 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import checkIcon from 'octicon/check.svg';
 import features from '../libs/features';
 
 const countMatches = (string: string, regex: RegExp): number => {
 	return ((string || '').match(regex) ?? []).length;
 };
 
-function createMergeLink(): HTMLAnchorElement {
+function addMergedLink(linkIsMerged: HTMLAnchorElement): HTMLAnchorElement {
 	const linkMergedSearchParameters = new URLSearchParams(location.search);
-	const linkIsMerged: HTMLAnchorElement = (
-		<a href="" className="btn-link">
-		Merged
-		</a>
-	);
+	linkIsMerged.textContent = 'Merged';
 	const regexpQueryTotal = /is:open|is:closed|is:issue/g;
 	const regexpQuery = /is:open|is:closed|is:issue/;
 
@@ -34,33 +31,40 @@ function createMergeLink(): HTMLAnchorElement {
 	return linkIsMerged;
 }
 
-function init(): void {
-	const divTableListFiltersParent = select('div.table-list-filters');
-	const inputJsIssuesSearch = select<HTMLInputElement>('#js-issues-search');
-	if ((divTableListFiltersParent === null) || (inputJsIssuesSearch === null)) {
-		return;
-	}
-
-	const mergeLink = createMergeLink();
-
-	const containerTargetButtons = divTableListFiltersParent.children[0].children[0];
-	const targetButtons: HTMLCollectionOf<HTMLAnchorElement> = containerTargetButtons.children;
+function togglableFilters(divTableListFiltersParent): void {
+	const targetButtons = select.all('.btn-link', divTableListFiltersParent);
 	for (const link of targetButtons) {
-		link.firstElementChild!.remove();
+		select('.octicon', link)!.remove();
 		if (link.classList.contains('selected')) {
-			link.prepend(
-				<svg className="octicon octicon-check" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true">
-					<path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/>
-				</svg>
-			);
+			link.prepend(<>{checkIcon()}</>);
 			const linkSearchParameters = new URLSearchParams(link.search);
 			const linkQuery = linkSearchParameters.get('q');
 			linkSearchParameters.set('q', linkQuery!.replace(/is:open|is:closed/, '').trim());
 			link.search = String(linkSearchParameters);
 		}
 	}
+}
 
-	containerTargetButtons.append(mergeLink);
+function init(): void {
+	const divTableListFiltersParent = select('.table-list-header-toggle.states');
+
+	const linkFilters = select.all('.btn-link', divTableListFiltersParent);
+
+	const selectedLink = linkFilters.filter((element: HTMLElement) => element.classList.contains('selected'))[0];
+	let mergeLink;
+	if (typeof selectedLink === 'undefined') {
+		mergeLink = addMergedLink(linkFilters[0].cloneNode(true));
+	} else if (selectedLink.textContent.includes('Closed')) {
+		mergeLink = addMergedLink(linkFilters.filter((element: HTMLElement) => element.textContent.includes('Open'))[0].cloneNode(true));
+	} else if (selectedLink.textContent.includes('Open')) {
+		mergeLink = addMergedLink(linkFilters.filter((element: HTMLElement) => element.textContent.includes('Closed'))[0].cloneNode(true));
+	} else if (selectedLink.textContent.includes('Total')) {
+		mergeLink = addMergedLink(linkFilters.filter((element: HTMLElement) => element.textContent.includes('Total'))[0].cloneNode(true));
+	}
+
+	togglableFilters(divTableListFiltersParent);
+
+	divTableListFiltersParent!.append(mergeLink);
 }
 
 features.add({
@@ -68,7 +72,7 @@ features.add({
 	description: 'Remove is:open/is:closed issue search query with a click, add Merged link button next to them.',
 	screenshot: 'https://user-images.githubusercontent.com/3003032/73557979-02d7ba00-4431-11ea-90da-5e9e37688d61.png',
 	include: [
-		features.isRepo
+		features.isRepoIssueList
 	],
 	exclude: [
 		features.isOwnUserProfile
