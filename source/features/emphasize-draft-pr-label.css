@@ -1,4 +1,4 @@
 .js-issue-row [aria-label='Open draft pull request'] svg {
 	color: #fff !important;
-	filter: drop-shadow(#6a737d 0 0 0.5px);
+	filter: drop-shadow(#000 0 0 0.7px);
 }
