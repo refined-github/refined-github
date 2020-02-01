@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
-const count = (string: string, re: RegExp): number => {
+const countMatches = (string: string, regex: RegExp): number => {
 	return ((string || '').match(re) ?? []).length;
 	// return (re.exec(string || '') ?? []).length;
 };
