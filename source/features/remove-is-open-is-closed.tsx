@@ -3,33 +3,28 @@ import select from 'select-dom';
 import checkIcon from 'octicon/check.svg';
 import features from '../libs/features';
 
-const countMatches = (string: string, regex: RegExp): number => {
-	return ((string || '').match(regex) ?? []).length;
-};
-
-function addMergedLink(linkIsMerged: HTMLAnchorElement): HTMLAnchorElement {
-	const linkMergedSearchParameters = new URLSearchParams(location.search);
-	linkIsMerged.textContent = 'Merged';
-	const regexpQueryTotal = /is:open|is:closed|is:issue/g;
-	const regexpQuery = /is:open|is:closed|is:issue/;
-
-	let linkMergedSearchString = new URLSearchParams(location.search).get('q') ?? select<HTMLInputElement>('#js-issues-search')!.value;
-
-	while (countMatches(linkMergedSearchString, regexpQueryTotal) > 1) {
-		linkMergedSearchString = linkMergedSearchString.replace(regexpQuery, '').trim();
+function addMergeLink(): void {
+	if (!features.isPRList()) {
+		return;
 	}
 
-	if (countMatches(linkMergedSearchString, /is:merged/) === 1) {
-		linkMergedSearchParameters.set('q', linkMergedSearchString.replace(/is:merged/, 'is:issue').trim());
-		linkIsMerged.classList.add('selected');
-	} else if (countMatches(linkMergedSearchString, regexpQueryTotal) === 1) {
-		linkMergedSearchParameters.set('q', linkMergedSearchString.replace(regexpQuery, 'is:merged').trim());
+	const lastLink = select<HTMLAnchorElement>('.table-list-header-toggle > :last-child')!;
+
+	// In this case, it's a "Total" link, which appears if the query includes "is:merged".
+	// This means that the link itself is showing the number of merged issues, so it can be renamed to "Merged".
+	if (!lastLink.search.includes('is%3Aclosed')) {
+		lastLink.lastChild!.textContent = lastLink.lastChild!.textContent!.replace('Total', 'Merged');
+		return;
 	}
 
-	linkIsMerged.search = String(linkMergedSearchParameters);
-
-	return linkIsMerged;
+	// In this case, `lastLink` is expected to be a "Closed" link
+	const mergeLink = lastLink.cloneNode(true);
+	mergeLink.textContent = 'Merged';
+	mergeLink.search = mergeLink.search.replace('is%3Aclosed', 'is%3Amerged');
+	mergeLink.classList.toggle('selected', location.search.includes('is%3Amerged'));
+	lastLink.after(' ', mergeLink);
 }
+
 
 function togglableFilters(divTableListFiltersParent): void {
 	const targetButtons = select.all('.btn-link', divTableListFiltersParent);
@@ -47,33 +42,16 @@ function togglableFilters(divTableListFiltersParent): void {
 
 function init(): void {
 	const divTableListFiltersParent = select('.table-list-header-toggle.states');
-
-	const linkFilters = select.all('.btn-link', divTableListFiltersParent);
-
-	const selectedLink = linkFilters.filter((element: HTMLElement) => element.classList.contains('selected'))[0];
-	let mergeLink;
-	if (typeof selectedLink === 'undefined') {
-		mergeLink = addMergedLink(linkFilters[0].cloneNode(true));
-	} else if (selectedLink.textContent.includes('Closed')) {
-		mergeLink = addMergedLink(linkFilters.filter((element: HTMLElement) => element.textContent.includes('Open'))[0].cloneNode(true));
-	} else if (selectedLink.textContent.includes('Open')) {
-		mergeLink = addMergedLink(linkFilters.filter((element: HTMLElement) => element.textContent.includes('Closed'))[0].cloneNode(true));
-	} else if (selectedLink.textContent.includes('Total')) {
-		mergeLink = addMergedLink(linkFilters.filter((element: HTMLElement) => element.textContent.includes('Total'))[0].cloneNode(true));
-	}
-
 	togglableFilters(divTableListFiltersParent);
-
-	divTableListFiltersParent!.append(mergeLink);
+	addMergeLink();
 }
 
 features.add({
 	id: __featureName__,
-	description: 'Remove is:open/is:closed issue search query with a click, add Merged link button next to them.',
+	description: 'Lets you toggle between is:open/is:closed/is:merged filters in searches.',
 	screenshot: 'https://user-images.githubusercontent.com/3003032/73557979-02d7ba00-4431-11ea-90da-5e9e37688d61.png',
 	include: [
 		features.isDiscussionList
 	],
-	load: features.onDomReady,
 	init
 });
