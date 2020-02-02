@@ -157,7 +157,7 @@ import './features/linkify-user-location';
 import './features/repo-age';
 import './features/user-local-time';
 import './features/quick-mention';
-import './features/remove-is-open-is-closed';
+import './features/extend-discussion-status-filters';
 
 // Add global for easier debugging
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
