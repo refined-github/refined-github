@@ -3,7 +3,7 @@
 }
 
 .rgh-highest-rated-comment.timeline-comment--caret::before {
-	border-right-color: #2cbe4e;
+	border-right-color: #2cbe4e !important;
 }
 
 .rgh-highest-rated-comment.timeline-comment--caret::after {
