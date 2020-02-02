@@ -8,6 +8,9 @@ function addMergeLink(): void {
 		return;
 	}
 
+	// The links in `.table-list-header-toggle` are either:
+	//   1 Open | 1 Closed
+	//   1 Total  // This apparently only appears when the query contains is:merged
 	const lastLink = select<HTMLAnchorElement>('.table-list-header-toggle > :last-child')!;
 
 	// In this case, it's a "Total" link, which appears if the query includes "is:merged".
