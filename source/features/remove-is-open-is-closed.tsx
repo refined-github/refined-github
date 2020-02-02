@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import checkIcon from 'octicon/check.svg';
+import elementReady from 'element-ready';
 import features from '../libs/features';
 
 function addMergeLink(): void {
@@ -34,6 +35,9 @@ function togglableFilters(): void {
 	}
 }
 
+async function init(): Promise<void | false> {
+	await elementReady('.table-list-filters + *');
+
 	addMergeLink();
 	togglableFilters();
 }
@@ -45,5 +49,6 @@ features.add({
 	include: [
 		features.isDiscussionList
 	],
+	load: features.nowAndOnAjaxedPages,
 	init
 });
