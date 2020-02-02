@@ -1,4 +1,3 @@
-import React from 'dom-chef';
 import select from 'select-dom';
 import checkIcon from 'octicon/check.svg';
 import features from '../libs/features';
@@ -25,25 +24,18 @@ function addMergeLink(): void {
 	lastLink.after(' ', mergeLink);
 }
 
-
-function togglableFilters(divTableListFiltersParent): void {
-	const targetButtons = select.all('.btn-link', divTableListFiltersParent);
-	for (const link of targetButtons) {
-		select('.octicon', link)!.remove();
+function togglableFilters(): void {
+	for (const link of select.all<HTMLAnchorElement>('.table-list-header-toggle a')) {
+		select('.octicon', link)?.remove();
 		if (link.classList.contains('selected')) {
-			link.prepend(<>{checkIcon()}</>);
-			const linkSearchParameters = new URLSearchParams(link.search);
-			const linkQuery = linkSearchParameters.get('q');
-			linkSearchParameters.set('q', linkQuery!.replace(/is:open|is:closed/, '').trim());
-			link.search = String(linkSearchParameters);
+			link.prepend(checkIcon());
+			link.search = link.search.replace(/is%3A(open|closed|merged)/, '');
 		}
 	}
 }
 
-function init(): void {
-	const divTableListFiltersParent = select('.table-list-header-toggle.states');
-	togglableFilters(divTableListFiltersParent);
 	addMergeLink();
+	togglableFilters();
 }
 
 features.add({
