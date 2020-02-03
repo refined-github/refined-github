@@ -1,10 +1,11 @@
-.rgh-ws-char {
+[data-rgh-whitespace] {
 	position: relative;
 	line-height: 1em;
 	text-indent: 0; /* Reset any indentation added by `indented-code-wrapping` feature */
 }
 
-.rgh-ws-char::before {
+[data-rgh-whitespace]::before {
+	content: attr(data-rgh-whitespace);
 	pointer-events: none;
 	user-select: none;
 	position: absolute;
@@ -13,11 +14,6 @@
 	opacity: 0.25;
 }
 
-.rgh-tab-char::before {
-	content: attr(data-rgh-tabs);
+[data-rgh-whitespace^='→']::before {
 	letter-spacing: calc((var(--tab-size, 4) * 1ch) - 1ch);
-}
-
-.rgh-space-char::before {
-	content: attr(data-rgh-spaces);
 }
