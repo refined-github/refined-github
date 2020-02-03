@@ -17,13 +17,6 @@
 	tab-size: 4 !important;
 }
 
-/* Collapse multiple discussion items */
-/* https://github.com/sindresorhus/refined-github/commit/efa38bfd1048f0daa1d3d147840b1709f53713bd */
-.discussion-item + .discussion-item {
-	padding-top: 0 !important;
-	border-top: none !important;
-}
-
 /* For `open-all-selected` and `pr-filters`: set a reduced padding for all buttons for #1830 and #1904 */
 .table-list-filters .table-list-header-toggle .select-menu-button {
 	padding-right: 0;
