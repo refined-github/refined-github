@@ -86,7 +86,7 @@ async function addStatusFilter(): Promise<void> {
 	const statusFilter = reviewsFilter.cloneNode(true);
 	statusFilter.id = '';
 
-	select('summary', statusFilter)!.firstChild!.textContent = 'Status '; // Only replace text node, keep caret
+	select('summary', statusFilter)!.firstChild!.textContent = 'Status\u00A0'; // Only replace text node, keep caret
 	select('.SelectMenu-title', statusFilter)!.textContent = 'Filter by build status';
 
 	const dropdown = select('.SelectMenu-list', statusFilter)!;
