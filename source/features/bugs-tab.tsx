@@ -48,28 +48,28 @@ async function init(): Promise<void | false> {
 	// Query API as early as possible, even if it's not necessary on archived repos
 	const countPromise = countBugs();
 
+	// On a label:bug listing:
+	// - always show the tab, as soon as possible
+	// - update the count later
+	// On other pages:
+	// - only show the tab if needed
 	const isBugsPage = new SearchQuery(location).includes('label:bug');
+	if (!isBugsPage && await countPromise === 0) {
+		return false
+	}
 
-	let bugsTab: HTMLElement | false;
+	const bugsTab = await addBugsTab(isBugsPage);
+	if (!bugsTab) {
+		return false;
+	}
+
 	if (isBugsPage) {
-		// Add tab instantly if the user is on the Bug label
-		bugsTab = await addBugsTab(isBugsPage);
-
 		// Hide pinned issues on the tab page, they might not belong there
 		// Don't await; if there are no pinned issues, this would delay the bug count update
 		elementReady('.js-pinned-issues-reorder-container').then(pinnedIssues => pinnedIssues?.remove());
-	} else if (await countPromise === 0) {
-		// No bugs page, no bugs, don't add tab
-		return false;
-	} else {
-		// No bugs page, but has bugs
-		bugsTab = await addBugsTab(isBugsPage);
 	}
 
-	if (bugsTab) {
-		const count = await countPromise;
-		select('.Counter', bugsTab)!.textContent = String(count);
-	}
+	select('.Counter', bugsTab)!.textContent = String(await countPromise);
 }
 
 features.add({
