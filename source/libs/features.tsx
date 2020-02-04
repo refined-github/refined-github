@@ -113,21 +113,21 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 });
 
 const run = async ({id, include, exclude, init, deinit}: FeatureDetails): Promise<void> => {
-	// If every `include` is false and no exclude is true, don’t run the feature
+	// If every `include` is false and no `exclude` is true, don’t run the feature
 	if (include!.every(c => !c()) || exclude!.some(c => c())) {
 		return deinit!();
 	}
 
 	try {
-		// Features can return `false` if they declare themselves as not enabled
+		// Features can return `false` when they decide not to run on the current page
 		if (await init() !== false) {
 			log('✅', id);
 		}
 	} catch (error) {
-		if (error.message.includes('Personal token')) {
+		if (error.message.includes('token')) {
 			console.log(`ℹ️ Refined GitHub: \`${id}\`:`, error.message);
 		} else {
-			logError(id as typeof __featureName__, error.message);
+			logError(id as typeof __featureName__, error);
 		}
 	}
 };

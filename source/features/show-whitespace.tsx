@@ -6,80 +6,61 @@ import onPrFileLoad from '../libs/on-pr-file-load';
 import onNewComments from '../libs/on-new-comments';
 import getTextNodes from '../libs/get-text-nodes';
 
+// `splitText` is used before and after each whitespace group so a new whitespace-only text node is created. This new node is then wrapped in a <span>
 function showWhiteSpacesOn(line: Element): void {
-	const textNodes = getTextNodes(line);
+	for (const textNode of getTextNodes(line)) {
+		// `textContent` reads must be cached #2737
+		let text = textNode.textContent!;
 
-	for (const textNode of textNodes) {
-		const textContent = textNode.textContent!;
-		if (textContent.length === 0 || !(textContent.includes(' ') || textContent.includes('\t'))) {
-			continue;
-		}
+		// Loop goes in reverse otherwise `splitText`'s `index` parameter needs to keep track of the previous split
+		for (let i = text.length - 1; i >= 0; i--) {
+			const thisCharacter = text[i];
 
-		const fragment = document.createDocumentFragment();
-
-		let lastEncounteredCharType;
-		let charType: 'space' | 'tab' | 'other';
-		let node;
-
-		for (const char of textContent) {
-			if (char === ' ') {
-				charType = 'space';
-			} else if (char === '\t') {
-				charType = 'tab';
-			} else {
-				charType = 'other';
+			// Exclude irrelevant characters
+			if (thisCharacter !== ' ' && thisCharacter !== '\t') {
+				continue;
 			}
 
-			if (node && lastEncounteredCharType === charType) {
-				node.textContent += char;
-
-				if (charType === 'space') {
-					node.dataset.rghSpaces += '·';
-				} else if (charType === 'tab') {
-					node.dataset.rghTabs += '→';
-				}
-			} else {
-				if (node) {
-					fragment.append(node);
-				}
-
-				if (charType === 'space') {
-					node = <span className="rgh-ws-char rgh-space-char" data-rgh-spaces="·">{char}</span>;
-				} else if (charType === 'tab') {
-					node = <span className="rgh-ws-char rgh-tab-char" data-rgh-tabs="→">{char}</span>;
-				} else {
-					node = <>{char}</>;
-				}
+			if (i < text.length - 1) {
+				textNode.splitText(i + 1);
 			}
 
-			lastEncounteredCharType = charType;
-		}
+			// Find the same character so they can be wrapped together
+			while (text[i - 1] === thisCharacter) {
+				i--;
+			}
 
-		if (node) {
-			fragment.append(node);
-		}
+			textNode.splitText(i);
 
-		textNode.replaceWith(fragment);
+			// Update cached variable here because it just changed
+			text = textNode.textContent!;
+
+			const whitespace = textNode.nextSibling!.textContent!
+				.replace(/ /g, '·')
+				.replace(/\t/g, '→');
+
+			textNode.after(
+				<span data-rgh-whitespace={whitespace}>
+					{textNode.nextSibling}
+				</span>
+			);
+		}
 	}
 }
 
-async function run(): Promise<void> {
-	const tables = select.all([
-		'table.js-file-line-container:not(.rgh-showing-whitespace)', // Single blob file, and gist
-		'.file table.diff-table:not(.rgh-showing-whitespace)', // Split and unified diffs
-		'.file table.d-table:not(.rgh-showing-whitespace)' // "Suggested changes" in PRs
-	].join());
-
-	for (const table of tables) {
-		table.classList.add('rgh-showing-whitespace');
-
-		for (const [i, line] of select.all('.blob-code-inner', table).entries()) {
-			showWhiteSpacesOn(line);
-
-			if (i % 100 === 0) {
-				await new Promise(resolve => setTimeout(resolve)); // eslint-disable-line no-await-in-loop
-			}
+const viewportObserver = new IntersectionObserver(changes => {
+	for (const change of changes) {
+		if (change.isIntersecting) {
+			showWhiteSpacesOn(change.target);
+			viewportObserver.unobserve(change.target);
 		}
+	}
+});
+
+async function run(): Promise<void> {
+	for (const line of select.all('.blob-code-inner:not(.rgh-observing-whitespace)')) {
+		line.classList.add('rgh-observing-whitespace');
+		viewportObserver.observe(line);
 	}
 }
 

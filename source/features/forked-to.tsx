@@ -94,7 +94,7 @@ async function init(): Promise<void | false> {
 					<div className="select-menu-header">
 						<span className="select-menu-title">Your forks</span>
 					</div>
-					{...forks.map(fork => (
+					{forks.map(fork => (
 						<a
 							href={`/${fork}`}
 							className="select-menu-item"

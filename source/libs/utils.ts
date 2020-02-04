@@ -3,10 +3,11 @@ import onetime from 'onetime';
 import stripIndent from 'strip-indent';
 import {isRepo, isPR, isIssue} from './page-detect';
 
-export function logError(featureName: typeof __featureName__, message: string, ...extras: unknown[]): void {
+export function logError(featureName: typeof __featureName__, error: Error | string, ...extras: unknown[]): void {
+	const message = typeof error === 'string' ? error : error.message;
 	// Don't change this to `throw Error` because Firefox doesn't show extensions' errors in the console.
 	// Use `return` after calling this function.
-	console.error(`❌ Refined GitHub: feature \`${featureName}\`\n\n${message}`, ...extras, stripIndent(`
+	console.error(`❌ Refined GitHub: feature \`${featureName}\`\n\n`, error, ...extras, stripIndent(`
 	
 		Search for open issues:
 		https://github.com/sindresorhus/refined-github/issues?q=is%3Aissue+${encodeURIComponent(message)}
@@ -146,6 +147,7 @@ export async function poll<T>(callback: () => T, frequency: number): Promise<T> 
 	});
 }
 
+// TODO: Merge this with `logError`
 export function reportBug(featureName: string, bugName: string): void {
 	alert(`Refined GitHub: ${bugName}. Can you report this issue? You’ll find more information in the console.`);
 	const issuesUrl = new URL('https://github.com/sindresorhus/refined-github/issues');

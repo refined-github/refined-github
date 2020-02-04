@@ -1,4 +1,3 @@
-/* eslint-disable promise/prefer-await-to-then */
 import cache from 'webext-storage-cache';
 import elementReady from 'element-ready';
 import features from '../libs/features';
