@@ -43,7 +43,7 @@ declare namespace JSX {
 	type BaseIntrinsicElement = IntrinsicElements['div'];
 	type LabelIntrinsicElement = IntrinsicElements['label'];
 	interface IntrinsicElements {
-		'has-rgh': {};
+		'has-rgh': BaseIntrinsicElement;
 		'label': LabelIntrinsicElement & {for?: string};
 		'include-fragment': BaseIntrinsicElement & {src?: string};
 		'details-menu': BaseIntrinsicElement & {src?: string; preload?: boolean};
@@ -70,3 +70,4 @@ declare module '*.svg' {
 interface Node extends EventTarget {
 	cloneNode(deep?: boolean): this;
 }
+

@@ -100,20 +100,22 @@ const config: Configuration = {
 		new ForkTsCheckerWebpackPlugin(),
 		new webpack.DefinePlugin({
 			// Passing `true` as the second argument makes these values dynamic — so every file change will update their value.
-			// @ts-ignore
 			__featuresOptionDefaults__: webpack.DefinePlugin.runtimeValue(() => {
 				return JSON.stringify(getFeatures().reduce((defaults, feature) => {
 					defaults[`feature:${feature}`] = true;
 					return defaults;
 				}, {} as AnyObject));
-			}, true),
-			// @ts-ignore
-			__featuresInfo__: webpack.DefinePlugin.runtimeValue(() => {
-				return JSON.stringify(getFeatures().map(parseFeatureDetails));
+				// TODO: unignore after https://github.com/DefinitelyTyped/DefinitelyTyped/pull/42036
+				// @ts-ignore
 			}, true),
 
-			// @ts-ignore
+			__featuresInfo__: webpack.DefinePlugin.runtimeValue(() => {
+				return JSON.stringify(getFeatures().map(parseFeatureDetails));
+				// @ts-ignore
+			}, true),
+
 			__featureName__: webpack.DefinePlugin.runtimeValue(({module}) => {
+				// @ts-ignore
 				return JSON.stringify(path.basename(module.resource, '.tsx'));
 			})
 		}),

@@ -13,7 +13,7 @@ function init(): void {
 				className="SelectMenu-item"
 				role="menuitem"
 			>
-					Everything commented by you
+				Everything commented by you
 			</a>
 		);
 }
