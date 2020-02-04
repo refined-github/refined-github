@@ -18,25 +18,17 @@ async function countBugs(): Promise<number> {
 	return repository.bugs.totalCount;
 }
 
-async function init(): Promise<void | false> {
-	// Query API as early as possible, even if it's not necessary on archived repos
-	const count = await countBugs();
-	if (count === 0) {
-		return false;
-	}
-
+async function addBugsTab(isBugsPage: boolean): Promise<HTMLElement | false> {
 	const issuesTab = (await elementReady('.reponav [data-hotkey="g i"]'))?.parentElement;
 	if (!issuesTab) {
 		// Repo is archived
 		return false;
 	}
 
-	const isBugsPage = new SearchQuery(location).includes('label:bug');
-
 	// Copy Issues tab but update its appearance
 	const bugsTab = issuesTab.cloneNode(true);
 	select('.octicon', bugsTab)!.replaceWith(bugIcon());
-	select('.Counter', bugsTab)!.textContent = String(count);
+	select('.Counter', bugsTab)!.textContent = '0';
 	select('[itemprop="name"]', bugsTab)!.textContent = 'Bugs';
 
 	// Update Bugs’ link
@@ -49,9 +41,34 @@ async function init(): Promise<void | false> {
 
 	issuesTab.after(bugsTab);
 
-	// Hide pinned issues on the tab page, they might not belong there
+	return bugsTab;
+}
+
+async function init(): Promise<void | false> {
+	// Query API as early as possible, even if it's not necessary on archived repos
+	const countPromise = countBugs();
+
+	const isBugsPage = new SearchQuery(location).includes('label:bug');
+
+	let bugsTab: HTMLElement | false;
 	if (isBugsPage) {
-		(await elementReady('.js-pinned-issues-reorder-container'))?.remove();
+		// Add tab instantly if the user is on the Bug label
+		bugsTab = await addBugsTab(isBugsPage);
+
+		// Hide pinned issues on the tab page, they might not belong there
+		// Don't await; if there are no pinned issues, this would delay the bug count update
+		elementReady('.js-pinned-issues-reorder-container').then(pinnedIssues => pinnedIssues?.remove());
+	} else if (await countPromise === 0) {
+		// No bugs page, no bugs, don't add tab
+		return false;
+	} else {
+		// No bugs page, but has bugs
+		bugsTab = await addBugsTab(isBugsPage);
+	}
+
+	if (bugsTab) {
+		const count = await countPromise;
+		select('.Counter', bugsTab)!.textContent = String(count);
 	}
 }
 
