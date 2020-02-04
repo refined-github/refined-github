@@ -2,13 +2,14 @@ import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 
-const expanderSelector = '.ajax-pagination-form .ajax-pagination-btn';
+const expanderSelector = '.ajax-pagination-form';
+const expanderButtonSelector = `${expanderSelector} .ajax-pagination-btn`;
 const containerSelector = '#js-progressive-timeline-item-container';
 
 function observe(expanderElement: HTMLElement) {
 	// Waits for the next loaded comments and clicks on any additional "Load more..." buttons it finds
 	const expandingCodeObserver = new MutationObserver(([mutation]) => {
-		const expandButton = select(expanderSelector, mutation.target as Element);
+		const expandButton = select(expanderButtonSelector, mutation.target as Element);
 
 		if (expandButton) {
 			expandButton.click();
