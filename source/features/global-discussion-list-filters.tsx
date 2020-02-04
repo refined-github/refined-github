@@ -3,6 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 import {getUsername} from '../libs/utils';
+import SearchQuery from '../libs/search-query';
 
 function init(): void {
 	const defaultQuery = 'is:open archived:false';
@@ -23,9 +24,7 @@ function init(): void {
 		url.searchParams.set('q', `${typeQuery} ${defaultQuery} ${query}`);
 		const link = <a href={String(url)} title={title} className="subnav-item">{label}</a>;
 
-		const isCurrentPage = new RegExp(`(^|\\s)${query}(\\s|$)`).test(
-			new URLSearchParams(location.search).get('q')!
-		);
+		const isCurrentPage = new SearchQuery(location).includes(query);
 
 		// Highlight it, if that's the current page
 		if (isCurrentPage && !select.exists('.subnav-links .selected')) {
@@ -33,9 +32,7 @@ function init(): void {
 
 			// Other links will keep the current query, that's not what we want
 			for (const otherLink of select.all<HTMLAnchorElement>('.subnav-links a')) {
-				const search = new URLSearchParams(otherLink.search);
-				search.set('q', search.get('q')!.split(' ').filter(s => s !== query).join(' '));
-				otherLink.search = String(search);
+				new SearchQuery(otherLink).remove(query);
 			}
 		}
 
