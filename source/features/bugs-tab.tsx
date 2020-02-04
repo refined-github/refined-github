@@ -32,18 +32,23 @@ async function init(): Promise<void | false> {
 
 	const isBugsPage = /[^-]label:bug/.test(new URLSearchParams(location.search).get('q')!);
 
+	// Copy Issues tab but update its appearance
 	const bugsTab = issuesTab.cloneNode(true);
 	select('.octicon', bugsTab)!.replaceWith(bugIcon());
 	select('.Counter', bugsTab)!.textContent = String(count);
 	select('[itemprop="name"]', bugsTab)!.textContent = 'Bugs';
 
+	// Update Bugs’ link
 	const bugsLink = select('a', bugsTab)!;
 	bugsLink.search += '+label%3Abug';
+
+	// Change the Selected tab if necessary
 	bugsLink.classList.toggle('selected', isBugsPage);
 	select('.selected', issuesTab)?.classList.toggle('selected', !isBugsPage);
 
 	issuesTab.after(bugsTab);
 
+	// Hide pinned issues on the tab page, they might not belong there
 	if (isBugsPage) {
 		(await elementReady('.js-pinned-issues-reorder-container'))?.remove();
 	}
@@ -52,7 +57,7 @@ async function init(): Promise<void | false> {
 features.add({
 	id: __featureName__,
 	description: 'Adds a "Bugs" tab to repos, if there are any open issues with the "bugs" label.',
-	screenshot: '',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/73720910-a688d900-4755-11ea-9c8d-70e5ddb3bfe5.png',
 	include: [
 		features.isRepo
 	],
