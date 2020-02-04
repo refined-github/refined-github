@@ -1,12 +1,13 @@
+import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import bugIcon from '@primer/octicons/build/svg/bug.svg';
 import elementReady from 'element-ready';
 import features from '../libs/features';
 import * as api from '../libs/api';
-import {getRepoGQL} from '../libs/utils';
 import SearchQuery from '../libs/search-query';
+import {getRepoGQL, getRepoURL} from '../libs/utils';
 
-async function countBugs(): Promise<number> {
+const countBugs = cache.function(async (): Promise<number> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			bugs: issues(labels: ["bug"], states: [OPEN]) {
@@ -16,7 +17,10 @@ async function countBugs(): Promise<number> {
 	`);
 
 	return repository.bugs.totalCount;
-}
+}, {
+	expiration: 1,
+	cacheKey: (): string => __featureName__ + ':' + getRepoURL()
+});
 
 async function addBugsTab(isBugsPage: boolean): Promise<HTMLElement | false> {
 	const issuesTab = (await elementReady('.reponav [data-hotkey="g i"]'))?.parentElement;
@@ -55,7 +59,7 @@ async function init(): Promise<void | false> {
 	// - only show the tab if needed
 	const isBugsPage = new SearchQuery(location).includes('label:bug');
 	if (!isBugsPage && await countPromise === 0) {
-		return false
+		return false;
 	}
 
 	const bugsTab = await addBugsTab(isBugsPage);
