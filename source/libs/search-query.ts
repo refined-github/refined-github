@@ -27,6 +27,11 @@ export default class SearchQuery {
 		return this.searchParams.get('q') ?? '';
 	}
 
+	// TODO: add support for values with spaces, e.g. `label:"help wanted"`
+	getQueryParts(): string[] {
+		return this.get().split(/\s+/);
+	}
+
 	set(newQuery: string): void {
 		const cleanQuery = newQuery.trim().replace(/\s+/, ' ');
 		this.searchParams.set('q', cleanQuery);
@@ -40,24 +45,9 @@ export default class SearchQuery {
 		this.set(this.get().replace(searchValue, replaceValue));
 	}
 
-	removeByRegex(queryPartToRemove: RegExp): void {
-		if (queryPartToRemove instanceof RegExp && queryPartToRemove.global) {
-			throw new TypeError('The `g` flag on RegExp can’t be used here because it will lead to unexpected results (and is unnecessary)');
-		}
-
-		const newQuery = this
-			.get()
-			.split(/\s+/)
-			.filter(queryPart => !queryPartToRemove.test(queryPart))
-			.join(' ');
-
-		this.set(newQuery);
-	}
-
 	remove(...queryPartToRemove: string[]): void {
 		const newQuery = this
-			.get()
-			.split(/\s+/)
+			.getQueryParts()
 			.filter(queryPart => !queryPartToRemove.includes(queryPart))
 			.join(' ');
 
@@ -65,9 +55,6 @@ export default class SearchQuery {
 	}
 
 	includes(...searchStrings: string[]): boolean {
-		return this
-			.get()
-			.split(/\s+/)
-			.some(queryPart => searchStrings.includes(queryPart));
+		return this.getQueryParts().some(queryPart => searchStrings.includes(queryPart));
 	}
 }
