@@ -147,6 +147,7 @@ export async function poll<T>(callback: () => T, frequency: number): Promise<T> 
 	});
 }
 
+// TODO: Merge this with `logError`
 export function reportBug(featureName: string, bugName: string): void {
 	alert(`Refined GitHub: ${bugName}. Can you report this issue? You’ll find more information in the console.`);
 	const issuesUrl = new URL('https://github.com/sindresorhus/refined-github/issues');

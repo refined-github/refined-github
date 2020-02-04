@@ -59,11 +59,12 @@ function wrap(...elements: Node[]): DocumentFragment {
 	if (features.isSingleCommit()) {
 		return (
 			<div className="float-right">
-			{...elements.map(element => <div className="ml-3 BtnGroup">{element}</div>)}
+				{elements.map(element => <div className="ml-3 BtnGroup">{element}</div>)}
 			</div>
 		);
 	}
 
+	// eslint-disable-next-line react/jsx-no-useless-fragment
 	return <>{elements.map(element => <div className="diffbar-item">{element}</div>)}</>;
 }
 
