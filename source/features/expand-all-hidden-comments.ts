@@ -6,7 +6,7 @@ const expanderSelector = '.ajax-pagination-form';
 const expanderButtonSelector = `${expanderSelector} .ajax-pagination-btn`;
 const containerSelector = '#js-progressive-timeline-item-container';
 
-function observe(expanderElement: HTMLElement) {
+function observe(expanderElement: HTMLElement): void {
 	// Waits for the next loaded comments and clicks on any additional "Load more..." buttons it finds
 	const expandingCodeObserver = new MutationObserver(([mutation]) => {
 		const expandButton = select(expanderButtonSelector, mutation.target as Element);
