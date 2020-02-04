@@ -11,14 +11,19 @@ function addMergeLink(): void {
 
 	// The links in `.table-list-header-toggle` are either:
 	//   1 Open | 1 Closed
-	//   1 Total  // This apparently only appears when the query contains is:merged
+	//   1 Total            // Apparently appears with is:merged/is:unmerged
 	const lastLink = select<HTMLAnchorElement>('.table-list-header-toggle > :last-child')!;
 	const searchQuery = new SearchQuery(lastLink);
 
-	// In this case, it's a "Total" link, which appears if the query includes "is:merged".
-	// This means that the link itself is showing the number of merged issues, so it can be renamed to "Merged".
 	if (searchQuery.includes('is:merged')) {
+		// It's a "Total" link for "is:merged"
 		lastLink.lastChild!.textContent = lastLink.lastChild!.textContent!.replace('Total', 'Merged');
+		return;
+	}
+
+	if (searchQuery.includes('is:unmerged')) {
+		// It's a "Total" link for "is:unmerged"
+		lastLink.lastChild!.textContent = lastLink.lastChild!.textContent!.replace('Total', 'Unmerged');
 		return;
 	}
 
@@ -38,7 +43,8 @@ function togglableFilters(): void {
 			new SearchQuery(link).remove(
 				'is:open',
 				'is:closed',
-				'is:merged'
+				'is:merged',
+				'is:unmerged'
 			);
 		}
 	}
