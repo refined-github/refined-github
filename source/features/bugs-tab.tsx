@@ -4,6 +4,7 @@ import elementReady from 'element-ready';
 import features from '../libs/features';
 import * as api from '../libs/api';
 import {getRepoGQL} from '../libs/utils';
+import SearchQuery from '../libs/search-query';
 
 async function countBugs(): Promise<number> {
 	const {repository} = await api.v4(`
@@ -30,7 +31,7 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const isBugsPage = /[^-]label:bug/.test(new URLSearchParams(location.search).get('q')!);
+	const isBugsPage = new SearchQuery(location).includes('label:bug');
 
 	// Copy Issues tab but update its appearance
 	const bugsTab = issuesTab.cloneNode(true);
@@ -40,7 +41,7 @@ async function init(): Promise<void | false> {
 
 	// Update Bugs’ link
 	const bugsLink = select('a', bugsTab)!;
-	bugsLink.search += '+label%3Abug';
+	new SearchQuery(bugsLink).edit(query => `${query} label:bug`);
 
 	// Change the Selected tab if necessary
 	bugsLink.classList.toggle('selected', isBugsPage);
