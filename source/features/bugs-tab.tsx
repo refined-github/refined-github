@@ -37,7 +37,7 @@ async function addBugsTab(isBugsPage: boolean): Promise<HTMLElement | false> {
 
 	// Update Bugs’ link
 	const bugsLink = select('a', bugsTab)!;
-	new SearchQuery(bugsLink).edit(query => `${query} label:bug`);
+	new SearchQuery(bugsLink).add('label:bug');
 
 	// Change the Selected tab if necessary
 	bugsLink.classList.toggle('selected', isBugsPage);
