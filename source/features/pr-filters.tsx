@@ -1,8 +1,10 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
+import cache from 'webext-storage-cache';
 import checkIcon from 'octicon/check.svg';
 import features from '../libs/features';
+import {getRepoURL} from '../libs/utils';
 import {getIcon as fetchCIStatus} from './ci-link';
 
 const reviewsFilterSelector = '#reviews-select-menu';
@@ -66,8 +68,16 @@ async function addStatusFilter(): Promise<void> {
 		return;
 	}
 
-	// TODO: replace this with an API call
-	const hasCI = await fetchCIStatus();
+	const cachedCIStatus = cache.function(async () => {
+		// TODO: replace this with an API call
+		const statusIcon = await fetchCIStatus();
+		return statusIcon !== undefined;
+	}, {
+		expiration: 3,
+		cacheKey: () => __featureName__ + ':' + getRepoURL()
+	});
+
+	const hasCI = await cachedCIStatus();
 	if (!hasCI) {
 		return;
 	}
