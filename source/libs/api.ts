@@ -171,10 +171,8 @@ export const v4 = mem(async (
 	} = apiResponse;
 
 	if (errors.length > 0 && !options.allowErrors) {
-		throw Object.assign(
-			new RefinedGitHubAPIError('GraphQL:', ...errors.map(error => error.message)),
-			apiResponse
-		);
+		// TODO: also log `apiResponse` somehow, maybe via logErrors?
+		throw new RefinedGitHubAPIError('GraphQL:', ...errors.map(error => error.message));
 	}
 
 	if (response.ok) {
