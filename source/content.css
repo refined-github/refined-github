@@ -28,7 +28,8 @@
 	padding-left: 8px !important;
 }
 
-.table-list-filters .details-reset:last-child {
+/* Some filters are wrapped inside a padding-less span */
+.table-list-filters .table-list-header-toggle > .details-reset:last-child {
 	padding-right: 0 !important;
 }
 

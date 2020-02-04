@@ -86,7 +86,7 @@ async function addStatusFilter(): Promise<void> {
 		addDropdownItem(dropdown, status, 'status', status.toLowerCase());
 	}
 
-	reviewsFilter.after(statusFilter);
+	reviewsFilter.after(' ', statusFilter);
 }
 
 function init(): void {
