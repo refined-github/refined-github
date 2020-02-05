@@ -38,7 +38,7 @@ function init(): void {
 features.add({
 	id: __featureName__,
 	description: 'Expands all the hidden comments when you alt-click on any "Load more..." button in issues.',
-	screenshot: 'https://user-images.githubusercontent.com/7753001/73732470-338f5a80-4775-11ea-8756-070102ba3858.gif',
+	screenshot: 'https://user-images.githubusercontent.com/7753001/73830151-1f179480-483f-11ea-97b5-635fd9d3f0bd.gif',
 	include: [
 		features.isIssue,
 		features.isPRConversation
