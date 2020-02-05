@@ -26,7 +26,7 @@ function handleAltClick(event: DelegateEvent<MouseEvent, HTMLFormElement>): void
 	By setting "variables[first]" to total number of hidden items (extracted from the button tex), we can fetch all hidden comments at once.
 	 */
 	const actionPath = form.getAttribute('action')!;
-	const url = new URL(actionPath, location.origin);
+	const url = new URL(form.action);
 	url.searchParams.set('variables[first]', remainComments);
 	form.setAttribute('action', url.pathname + url.search);
 }
