@@ -16,9 +16,9 @@ function handleAltClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): vo
 	}
 
 	const form = event.delegateTarget.form!;
-	const remainComments = form.textContent!.replace(/\D+/g, '');
+	const hiddenItemsCount = form.textContent!.replace(/\D+/g, '');
 	const url = new URL(form.action);
-	url.searchParams.set('variables[first]', remainComments);
+	url.searchParams.set('variables[first]', hiddenItemsCount);
 	form.action = url.href;
 }
 
