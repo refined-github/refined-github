@@ -2,9 +2,6 @@ import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 
-const EXPANDER_SELECTOR = '.ajax-pagination-form';
-const REMAIN_COMMENTS_REGEX = /\s*(\d+) hidden items\s*/;
-
 function handleAltClick(event: DelegateEvent<MouseEvent, HTMLFormElement>): void {
 	if (!event.altKey) {
 		return;
@@ -13,8 +10,8 @@ function handleAltClick(event: DelegateEvent<MouseEvent, HTMLFormElement>): void
 	const form = event.delegateTarget;
 
 	const buttons = select.all('button', form);
-	const remainCommentsButton = buttons.find(button => REMAIN_COMMENTS_REGEX.test(button.textContent!))!;
-	const [remainComments] = REMAIN_COMMENTS_REGEX.exec(remainCommentsButton.textContent!)!;
+	const remainCommentsButton = buttons.find(button => /\s*(\d+) hidden items\s*/.test(button.textContent!))!;
+	const remainComments = remainCommentsButton.textContent!.replace(/\D+g/, '');
 
 	/**
 	As per #2625:
@@ -32,7 +29,7 @@ function handleAltClick(event: DelegateEvent<MouseEvent, HTMLFormElement>): void
 }
 
 function init(): void {
-	delegate(EXPANDER_SELECTOR, 'click', handleAltClick);
+	delegate('.ajax-pagination-form', 'click', handleAltClick);
 }
 
 features.add({
