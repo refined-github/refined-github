@@ -37,8 +37,8 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Expands all the hidden comments when you alt-click on any "Load more..." button in issues.',
-	screenshot: 'https://user-images.githubusercontent.com/7753001/73830151-1f179480-483f-11ea-97b5-635fd9d3f0bd.gif',
+	description: 'On long discussions where GitHub hides comments under a "Load more...", alt-clicking "Load more..." will load *all* the comments at once instead of part of them.',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/73838332-0c548e00-4846-11ea-935f-28d728b30ae9.png',
 	include: [
 		features.isIssue,
 		features.isPRConversation
