@@ -28,7 +28,7 @@ function handleAltClick(event: DelegateEvent<MouseEvent, HTMLFormElement>): void
 	const actionPath = form.getAttribute('action')!;
 	const url = new URL(form.action);
 	url.searchParams.set('variables[first]', remainComments);
-	form.setAttribute('action', url.pathname + url.search);
+	form.action = url.href;
 }
 
 function init(): void {
