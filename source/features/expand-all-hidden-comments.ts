@@ -10,8 +10,8 @@ function handleAltClick(event: DelegateEvent<MouseEvent, HTMLFormElement>): void
 	const form = event.delegateTarget;
 
 	const buttons = select.all('button', form);
-	const remainCommentsButton = buttons.find(button => /\s*(\d+) hidden items\s*/.test(button.textContent!))!;
-	const remainComments = remainCommentsButton.textContent!.replace(/\D+g/, '');
+	const remainCommentsButton = buttons.find(button => /\s*\d+ hidden items\s*/.test(button.textContent!))!;
+	const remainComments = remainCommentsButton.textContent!.replace(/\D+/g, '');
 
 	/**
 	As per #2625:
