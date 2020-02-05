@@ -22,7 +22,6 @@ function handleAltClick(event: DelegateEvent<MouseEvent, HTMLFormElement>): void
 	Github appears to always set this to 60, but it can be increased up to the total number of hidden items.
 	By setting "variables[first]" to total number of hidden items (extracted from the button tex), we can fetch all hidden comments at once.
 	 */
-	const actionPath = form.getAttribute('action')!;
 	const url = new URL(form.action);
 	url.searchParams.set('variables[first]', remainComments);
 	form.action = url.href;
