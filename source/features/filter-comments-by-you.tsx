@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
-import {getUsername, getRepoURL} from '../libs/utils';
+import {getRepoURL} from '../libs/utils';
 
 const repoUrl = getRepoURL();
 
@@ -9,7 +9,7 @@ function init(): void {
 	select('.subnav-search-context .SelectMenu-list a:last-child')!
 		.before(
 			<a
-				href={`/${repoUrl}/issues?q=is%3Aopen+commenter:${getUsername()}`}
+				href={`/${repoUrl}/issues?q=is%3Aopen+commenter:@me`}
 				className="SelectMenu-item"
 				role="menuitem"
 			>
