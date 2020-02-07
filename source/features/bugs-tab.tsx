@@ -22,11 +22,30 @@ const countBugs = cache.function(async (): Promise<number> => {
 	cacheKey: (): string => __featureName__ + ':' + getRepoURL()
 });
 
-async function addBugsTab(isBugsPage: boolean): Promise<HTMLElement | false> {
+async function init(): Promise<void | false> {
+	// Query API as early as possible, even if it's not necessary on archived repos
+	const countPromise = countBugs();
+
+	// On a label:bug listing:
+	// - always show the tab, as soon as possible
+	// - update the count later
+	// On other pages:
+	// - only show the tab if needed
+	const isBugsPage = new SearchQuery(location).includes('label:bug');
+	if (!isBugsPage && await countPromise === 0) {
+		return false;
+	}
+
 	const issuesTab = (await elementReady('.reponav [data-hotkey="g i"]'))?.parentElement;
 	if (!issuesTab) {
 		// Repo is archived
 		return false;
+	}
+
+	if (isBugsPage) {
+		// Hide pinned issues on the tab page, they might not belong there
+		// Don't await; if there are no pinned issues, this would delay the bug count update
+		elementReady('.js-pinned-issues-reorder-container').then(pinnedIssues => pinnedIssues?.remove());
 	}
 
 	// Copy Issues tab but update its appearance
@@ -45,35 +64,9 @@ async function addBugsTab(isBugsPage: boolean): Promise<HTMLElement | false> {
 
 	issuesTab.after(bugsTab);
 
-	return bugsTab;
-}
-
-async function init(): Promise<void | false> {
-	// Query API as early as possible, even if it's not necessary on archived repos
-	const countPromise = countBugs();
-
-	// On a label:bug listing:
-	// - always show the tab, as soon as possible
-	// - update the count later
-	// On other pages:
-	// - only show the tab if needed
-	const isBugsPage = new SearchQuery(location).includes('label:bug');
-	if (!isBugsPage && await countPromise === 0) {
-		return false;
-	}
-
-	const bugsTab = await addBugsTab(isBugsPage);
-	if (!bugsTab) {
-		return false;
-	}
-
-	if (isBugsPage) {
-		// Hide pinned issues on the tab page, they might not belong there
-		// Don't await; if there are no pinned issues, this would delay the bug count update
-		elementReady('.js-pinned-issues-reorder-container').then(pinnedIssues => pinnedIssues?.remove());
-	}
-
-	select('.Counter', bugsTab)!.textContent = String(await countPromise);
+	// Update issue counts
+	const bugsCount = await countPromise;
+	select('.Counter', bugsTab)!.textContent = String(bugsCount);
 }
 
 features.add({
