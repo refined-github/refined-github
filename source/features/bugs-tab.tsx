@@ -58,6 +58,10 @@ async function init(): Promise<void | false> {
 	const bugsLink = select('a', bugsTab)!;
 	new SearchQuery(bugsLink).add('label:bug');
 
+	// Hide bugs from Issues tab
+	const issuesLink = select('a', issuesTab)!;
+	new SearchQuery(issuesLink).add('-label:bug');
+
 	// Change the Selected tab if necessary
 	bugsLink.classList.toggle('selected', isBugsPage);
 	select('.selected', issuesTab)?.classList.toggle('selected', !isBugsPage);
@@ -67,6 +71,8 @@ async function init(): Promise<void | false> {
 	// Update issue counts
 	const bugsCount = await countPromise;
 	select('.Counter', bugsTab)!.textContent = String(bugsCount);
+	// @ts-ignore substraction on string. The alternative is much longer.
+	select('.Counter', issuesTab)!.textContent -= bugsCount;
 }
 
 features.add({
