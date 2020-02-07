@@ -157,6 +157,7 @@ import './features/linkify-user-location';
 import './features/repo-age';
 import './features/user-local-time';
 import './features/quick-mention';
+import './features/extend-discussion-status-filters';
 import './features/expand-all-hidden-comments';
 import './features/bugs-tab';
 
