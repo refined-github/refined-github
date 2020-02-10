@@ -5,8 +5,7 @@ import checkIcon from 'octicon/check.svg';
 import features from '../libs/features';
 import {getIcon as fetchCIStatus} from './ci-link';
 
-// The Reviews dropdown doesn't have a specific class, so we expect this sequence (span contains Projects and Milestones)
-const reviewsFilterSelector = '#label-select-menu + span + details';
+const reviewsFilterSelector = '#reviews-select-menu';
 
 function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: string, filterValue: string): void {
 	const filterQuery = `${filterCategory}:${filterValue}`;
@@ -25,15 +24,18 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 		q: query + (isSelected ? '' : ` ${filterQuery}`)
 	});
 
+	const icon = checkIcon();
+	icon.classList.add('SelectMenu-icon', 'SelectMenu-icon--check');
+
 	dropdown.append(
 		<a
 			href={`?${String(search)}`}
-			className={`select-menu-item ${isSelected ? 'selected' : ''}`}
+			className="SelectMenu-item"
 			aria-checked={isSelected ? 'true' : 'false'}
 			role="menuitemradio"
 		>
-			<span className="select-menu-item-icon">{checkIcon()}</span>
-			<div className="select-menu-item-text">{title}</div>
+			{icon}
+			<span>{title}</span>
 		</a>
 	);
 }
@@ -46,7 +48,7 @@ function addDraftFilter({delegateTarget: reviewsFilter}: DelegateEvent): void {
 
 	hasDraftFilter.add(reviewsFilter);
 
-	const dropdown = select('.select-menu-list', reviewsFilter)!;
+	const dropdown = select('.SelectMenu-list', reviewsFilter)!;
 
 	dropdown.append(
 		<div className="SelectMenu-divider">
@@ -72,17 +74,19 @@ async function addStatusFilter(): Promise<void> {
 
 	// Copy existing element and adapt its content
 	const statusFilter = reviewsFilter.cloneNode(true);
-	const dropdown = select('.select-menu-list', statusFilter)!;
+	statusFilter.id = '';
 
-	select('summary', statusFilter)!.textContent = 'Status\u00A0';
-	select('.select-menu-title', statusFilter)!.textContent = 'Filter by build status';
+	select('summary', statusFilter)!.firstChild!.textContent = 'Status\u00A0'; // Only replace text node, keep caret
+	select('.SelectMenu-title', statusFilter)!.textContent = 'Filter by build status';
+
+	const dropdown = select('.SelectMenu-list', statusFilter)!;
 	dropdown.textContent = ''; // Drop previous filters
 
 	for (const status of ['Success', 'Failure', 'Pending']) {
 		addDropdownItem(dropdown, status, 'status', status.toLowerCase());
 	}
 
-	reviewsFilter.after(statusFilter);
+	reviewsFilter.after(' ', statusFilter);
 }
 
 function init(): void {

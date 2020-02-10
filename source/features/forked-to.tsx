@@ -76,7 +76,7 @@ async function init(): Promise<void | false> {
 			<a
 				href={`/${forks[0]}`}
 				className="btn btn-sm float-left rgh-forked-button"
-				title={`Open your fork to ${forks[0]}`}
+				title={`Open your fork at ${forks[0]}`}
 			>
 				{linkExternalIcon()}
 			</a>
@@ -94,11 +94,11 @@ async function init(): Promise<void | false> {
 					<div className="select-menu-header">
 						<span className="select-menu-title">Your forks</span>
 					</div>
-					{...forks.map(fork => (
+					{forks.map(fork => (
 						<a
 							href={`/${fork}`}
 							className="select-menu-item"
-							title={`Open your fork to ${fork}`}
+							title={`Open your fork at ${fork}`}
 						>
 							<span className="select-menu-item-icon">{forkIcon()}</span>
 							{fork}

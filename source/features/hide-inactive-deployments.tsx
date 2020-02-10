@@ -2,12 +2,12 @@ import select from 'select-dom';
 import features from '../libs/features';
 
 function init(): void {
-	const deployments = select.all('.discussion-item .deployment-meta');
+	const deployments = select.all('.TimelineItem .deployment-meta');
 	deployments.pop(); // Don't hide the last deployment, even if it is inactive
 
 	for (const deployment of deployments) {
 		if (select.exists('.is-inactive', deployment)) {
-			deployment.closest<HTMLElement>('.discussion-item')!.hidden = true;
+			deployment.closest<HTMLElement>('.TimelineItem')!.hidden = true;
 		}
 	}
 }

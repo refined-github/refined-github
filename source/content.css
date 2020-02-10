@@ -1,8 +1,8 @@
 :root {
 	--github-green: #28a745;
 	--github-red: #cb2431;
-	--github-gray-background: #fafbfc;
-	--github-gray-text: #6a737d;
+	--github-gray: #6a737d;
+	--github-gray-300: #d1d5da;
 	--github-faint-yellow: #fffbdd;
 }
 
@@ -17,13 +17,6 @@
 	tab-size: 4 !important;
 }
 
-/* Collapse multiple discussion items */
-/* https://github.com/sindresorhus/refined-github/commit/efa38bfd1048f0daa1d3d147840b1709f53713bd */
-.discussion-item + .discussion-item {
-	padding-top: 0 !important;
-	border-top: none !important;
-}
-
 /* For `open-all-selected` and `pr-filters`: set a reduced padding for all buttons for #1830 and #1904 */
 .table-list-filters .table-list-header-toggle .select-menu-button {
 	padding-right: 0;
@@ -35,7 +28,8 @@
 	padding-left: 8px !important;
 }
 
-.table-list-filters .details-reset:last-child {
+/* Some filters are wrapped inside a padding-less span */
+.table-list-filters .table-list-header-toggle > .details-reset:last-child {
 	padding-right: 0 !important;
 }
 
