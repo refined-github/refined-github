@@ -13,8 +13,8 @@ GitHub Enterprise is also supported. More info in the options.
 
 ---
 
-<a href="https://entwicklerstube.com">
-	<img src="https://sindresorhus.com/assets/thanks/entwicklerstube-refined-github.svg" align="right">
+<a href="https://alm.sh">
+	<img src="https://sindresorhus.com/assets/thanks/alm-refined-github-logo.svg" align="right">
 </a>
 
 - [Latest changes](https://github.com/sindresorhus/refined-github/issues/1137) *(Updated regularly. Subscribe!)*
