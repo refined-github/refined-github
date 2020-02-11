@@ -1,8 +1,10 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
+import cache from 'webext-storage-cache';
 import checkIcon from 'octicon/check.svg';
 import features from '../libs/features';
+import {getRepoURL} from '../libs/utils';
 import {getIcon as fetchCIStatus} from './ci-link';
 
 const reviewsFilterSelector = '#reviews-select-menu';
@@ -60,14 +62,22 @@ function addDraftFilter({delegateTarget: reviewsFilter}: DelegateEvent): void {
 	addDropdownItem(dropdown, 'Not ready for review (Draft PR)', 'draft', 'true');
 }
 
+const cachedCIStatus = cache.function(async () => {
+	// TODO: replace this with an API call
+	const statusIcon = await fetchCIStatus();
+	return statusIcon !== undefined;
+}, {
+	expiration: 3,
+	cacheKey: () => __featureName__ + ':' + getRepoURL()
+});
+
 async function addStatusFilter(): Promise<void> {
 	const reviewsFilter = select(reviewsFilterSelector);
 	if (!reviewsFilter) {
 		return;
 	}
 
-	// TODO: replace this with an API call
-	const hasCI = await fetchCIStatus();
+	const hasCI = await cachedCIStatus();
 	if (!hasCI) {
 		return;
 	}
