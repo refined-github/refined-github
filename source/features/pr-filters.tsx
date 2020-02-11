@@ -62,7 +62,7 @@ function addDraftFilter({delegateTarget: reviewsFilter}: DelegateEvent): void {
 	addDropdownItem(dropdown, 'Not ready for review (Draft PR)', 'draft', 'true');
 }
 
-const cachedCIStatus = cache.function(async () => {
+const cachedChecksStatus = cache.function(async () => {
 	// TODO: replace this with an API call
 	const statusIcon = await fetchCIStatus();
 	return statusIcon !== undefined;
@@ -71,42 +71,42 @@ const cachedCIStatus = cache.function(async () => {
 	cacheKey: () => __featureName__ + ':' + getRepoURL()
 });
 
-async function addStatusFilter(): Promise<void> {
+async function addChecksFilter(): Promise<void> {
 	const reviewsFilter = select(reviewsFilterSelector);
 	if (!reviewsFilter) {
 		return;
 	}
 
-	const hasCI = await cachedCIStatus();
+	const hasCI = await cachedChecksStatus();
 	if (!hasCI) {
 		return;
 	}
 
 	// Copy existing element and adapt its content
-	const statusFilter = reviewsFilter.cloneNode(true);
-	statusFilter.id = '';
+	const checksFilter = reviewsFilter.cloneNode(true);
+	checksFilter.id = '';
 
-	select('summary', statusFilter)!.firstChild!.textContent = 'Status\u00A0'; // Only replace text node, keep caret
-	select('.SelectMenu-title', statusFilter)!.textContent = 'Filter by build status';
+	select('summary', checksFilter)!.firstChild!.textContent = 'Checks\u00A0'; // Only replace text node, keep caret
+	select('.SelectMenu-title', checksFilter)!.textContent = 'Filter by checks status';
 
-	const dropdown = select('.SelectMenu-list', statusFilter)!;
+	const dropdown = select('.SelectMenu-list', checksFilter)!;
 	dropdown.textContent = ''; // Drop previous filters
 
 	for (const status of ['Success', 'Failure', 'Pending']) {
 		addDropdownItem(dropdown, status, 'status', status.toLowerCase());
 	}
 
-	reviewsFilter.after(' ', statusFilter);
+	reviewsFilter.after(' ', checksFilter);
 }
 
 function init(): void {
 	delegate(reviewsFilterSelector, 'toggle', addDraftFilter, true);
-	addStatusFilter();
+	addChecksFilter();
 }
 
 features.add({
 	id: __featureName__,
-	description: 'Adds `Build status` and draft PR dropdown filters in PR lists.',
+	description: 'Adds Checks and draft PR dropdown filters in PR lists.',
 	screenshot: 'https://user-images.githubusercontent.com/22439276/56372372-7733ca80-621c-11e9-8b60-a0b95aa4cd4f.png',
 	include: [
 		features.isPRList
