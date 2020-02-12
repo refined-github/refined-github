@@ -8,20 +8,10 @@ import compareVersions from 'tiny-version-compare';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {isRepoRoot} from '../libs/page-detect';
+import getDefaultBranch from '../libs/get-default-branch';
 import {getRepoURL, getCurrentBranch, replaceBranch, getRepoGQL} from '../libs/utils';
 
-class TagInfo {
-	name: string;
-	oid: string;
-	date: string;
-	constructor(tag: {name: string; target: {oid: string; committedDate: string}}) {
-		this.name = tag.name;
-		this.oid = tag.target.oid;
-		this.date = tag.target.committedDate;
-	}
-}
-
-const getLatestTag = cache.function(async (): Promise<TagInfo | false> => {
+const getLatestTag = cache.function(async (): Promise<string | false> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			refs(first: 20, refPrefix: "refs/tags/", orderBy: {
@@ -30,25 +20,19 @@ const getLatestTag = cache.function(async (): Promise<TagInfo | false> => {
 			}) {
 				nodes {
 					name
-					target {
-						oid
-						... on Commit {
-							committedDate
-						}
-					}
 				}
 			}
 		}
 	`);
 
-	const tags: TagInfo[] = repository.refs.nodes.map((tag: {name: string; target: {oid: string; committedDate: string}}) => new TagInfo(tag));
+	const tags: string[] = repository.refs.nodes.map((tag: {name: string}) => tag.name);
 	if (tags.length === 0) {
 		return false;
 	}
 
 	// If all tags are plain versions, parse them
-	if (tags.every(tag => /^[vr]?\d/.test(tag.name))) {
-		return tags.sort((o1, o2) => compareVersions(o1.name, o2.name)).pop()!;
+	if (tags.every(tag => /^[vr]?\d/.test(tag))) {
+		return tags.sort(compareVersions).pop()!;
 	}
 
 	// Otherwise just use the latest
@@ -58,55 +42,56 @@ const getLatestTag = cache.function(async (): Promise<TagInfo | false> => {
 	cacheKey: () => __featureName__ + '_tags:' + getRepoURL()
 });
 
-const masterHasCommitsAfter = cache.function(async (commitDate: string): Promise<boolean> => {
-	// Find out whether we have commits after a certain date
+async function currentBranchIsBleedingEdge(latestTag: string, defaultBranch: string, currentBranch: string): Promise<boolean> {
+	// Only default branch can be cutting edge (i.e., ahead of latest release)
+	if (currentBranch !== defaultBranch) {
+		return false;
+	}
+
+	// Find the last commits from the default branch and latest tag
 	const repository = await api.v4(`
 		repository(${getRepoGQL()}) {
-			object(expression: "master") {
+			latestTag:object(expression: "${latestTag}") {
 				... on Commit {
-				    oid
-				    history(first: 10, since: "${commitDate}") {
-					    nodes {
-					        committedDate
-					    }
-				    }
+					oid
+				}
+			  },
+			  defaultBranch:object(expression: "${defaultBranch}") {
+				... on Commit {
+					oid
 				}
 			}
 		}
 	`);
-	const commitList = repository.repository.object.history.nodes;
-	// The commit on this exact date is always returned - we only want to know whether there was another commit afterwards
-	return commitList && commitList.length > 1;
-}, {
-	expiration: 1,
-	cacheKey: () => __featureName__ + '_commits:' + getRepoURL()
-});
+	// If the default branch has a different (later) commit, it's considered bleeding edge
+	return repository.repository.defaultBranch!.oid !== repository.repository.latestTag!.oid;
+}
 
-async function getTagLink(latestRelease: TagInfo): Promise<HTMLAnchorElement> {
+async function getTagLink(latestRelease: string): Promise<HTMLAnchorElement> {
 	const link = <a className="btn btn-sm btn-outline tooltipped tooltipped-ne ml-2">{tagIcon()}</a> as unknown as HTMLAnchorElement;
 
 	const currentBranch = getCurrentBranch();
-	if (currentBranch === latestRelease.name) {
-		const [isBleedingEdge] = await Promise.all([
-			masterHasCommitsAfter(latestRelease.date)
-		]);
+	const defaultBranch = await getDefaultBranch();
+	const [isBleedingEdge] = await Promise.all([
+		currentBranchIsBleedingEdge(latestRelease, defaultBranch, currentBranch)
+	]);
+	if (currentBranch === latestRelease) {
+		link.classList.add('disabled');
+		link.setAttribute('aria-label', 'You’re on the latest release');
+	} else {
+		link.append(' ', <span className="css-truncate-target">{latestRelease}</span>);
 		if (isBleedingEdge) {
 			link.setAttribute('aria-label', 'Current branch is bleeding edge');
-			link.append(' ', <span className="css-truncate-target">{latestRelease.name}</span>);
 			link.append(' ', alertIcon());
 		} else {
-			link.setAttribute('aria-label', 'You’re on the latest release');
-			link.classList.add('disabled');
-		}
-	} else {
-		if (isRepoRoot()) {
-			link.href = `/${getRepoURL()}/tree/${latestRelease.name}`;
-		} else {
-			link.href = replaceBranch(currentBranch, latestRelease.name);
+			link.setAttribute('aria-label', 'Visit the latest release');
 		}
 
-		link.setAttribute('aria-label', 'Visit the latest release');
-		link.append(' ', <span className="css-truncate-target">{latestRelease.name}</span>);
+		if (isRepoRoot()) {
+			link.href = `/${getRepoURL()}/tree/${latestRelease}`;
+		} else {
+			link.href = replaceBranch(currentBranch, latestRelease);
+		}
 	}
 
 	return link;
