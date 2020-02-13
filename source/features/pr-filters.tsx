@@ -4,8 +4,8 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import cache from 'webext-storage-cache';
 import checkIcon from 'octicon/check.svg';
 import features from '../libs/features';
-import {getRepoURL} from '../libs/utils';
-import {getIcon as fetchCIStatus} from './ci-link';
+import * as api from '../libs/api';
+import {getRepoGQL, getRepoURL} from '../libs/utils';
 
 const reviewsFilterSelector = '#reviews-select-menu';
 
@@ -63,9 +63,21 @@ function addDraftFilter({delegateTarget: reviewsFilter}: DelegateEvent): void {
 }
 
 const cachedChecksStatus = cache.function(async () => {
-	// TODO: replace this with an API call
-	const statusIcon = await fetchCIStatus();
-	return statusIcon !== undefined;
+	const {repository} = await api.v4(`repository(${getRepoGQL()}) {
+		head: object(expression: "HEAD") {
+			... on Commit {
+				history(first: 10) {
+					nodes {
+						status {
+							state
+						}
+					}
+				}
+			}
+		}
+	}`);
+
+	return repository.head.history.nodes.some((commit: AnyObject) => commit.status);
 }, {
 	expiration: 3,
 	cacheKey: () => __featureName__ + ':' + getRepoURL()
