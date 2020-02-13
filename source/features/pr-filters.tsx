@@ -119,8 +119,8 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Adds Checks and draft PR dropdown filters in PR lists.',
-	screenshot: 'https://user-images.githubusercontent.com/22439276/56372372-7733ca80-621c-11e9-8b60-a0b95aa4cd4f.png',
+	description: 'Adds Checks and Draft PR dropdown filters in PR lists.',
+	screenshot: 'https://user-images.githubusercontent.com/202916/74453250-6d9de200-4e82-11ea-8fd4-7c0de57e001a.png',
 	include: [
 		features.isPRList
 	],
