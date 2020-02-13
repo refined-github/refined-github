@@ -62,20 +62,22 @@ function addDraftFilter({delegateTarget: reviewsFilter}: DelegateEvent): void {
 	addDropdownItem(dropdown, 'Not ready for review (Draft PR)', 'draft', 'true');
 }
 
-const cachedChecksStatus = cache.function(async () => {
-	const {repository} = await api.v4(`repository(${getRepoGQL()}) {
-		head: object(expression: "HEAD") {
-			... on Commit {
-				history(first: 10) {
-					nodes {
-						status {
-							state
+const hasChecks = cache.function(async (): Promise<boolean> => {
+	const {repository} = await api.v4(`
+		repository(${getRepoGQL()}) {
+			head: object(expression: "HEAD") {
+				... on Commit {
+					history(first: 10) {
+						nodes {
+							status {
+								state
+							}
 						}
 					}
 				}
 			}
 		}
-	}`);
+	`);
 
 	return repository.head.history.nodes.some((commit: AnyObject) => commit.status);
 }, {
@@ -89,8 +91,7 @@ async function addChecksFilter(): Promise<void> {
 		return;
 	}
 
-	const hasCI = await cachedChecksStatus();
-	if (!hasCI) {
+	if (!await hasChecks()) {
 		return;
 	}
 
