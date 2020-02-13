@@ -11,7 +11,7 @@ import {isRepoRoot} from '../libs/page-detect';
 import getDefaultBranch from '../libs/get-default-branch';
 import {getRepoURL, getCurrentBranch, replaceBranch, getRepoGQL} from '../libs/utils';
 
-const getLatestTag = cache.function(async (defaultBranch: string): Promise<{'name': string; 'isBehind': boolean} | false> => {
+const getLatestTag = cache.function(async (): Promise<{'name': string; 'isBehind': boolean} | false> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			refs(first: 20, refPrefix: "refs/tags/", orderBy: {
@@ -25,10 +25,10 @@ const getLatestTag = cache.function(async (defaultBranch: string): Promise<{'nam
 					}
 				}
 			}
-			defaultBranch: object(expression: "${defaultBranch}") {
-			  ... on Commit {
-				oid
-			  }
+			defaultBranchRef {
+				target {
+					oid 
+				}
 			}
 		}
 	`);
@@ -48,11 +48,11 @@ const getLatestTag = cache.function(async (defaultBranch: string): Promise<{'nam
 	}
 
 	const latestTagOid = repository.refs.nodes.filter((tag: {name: string}) => tag.name === latestTag).map((tag: {target: {oid: string}}) => tag.target.oid)[0];
-	const latestTagIsBehind = latestTagOid !== repository.defaultBranch.oid;
+	const latestTagIsBehind = latestTagOid !== repository.defaultBranchRef.target.oid;
 	return {name: latestTag, isBehind: latestTagIsBehind};
 }, {
 	expiration: 1,
-	cacheKey: () => __featureName__ + getRepoURL()
+	cacheKey: () => __featureName__ + ':' + getRepoURL()
 });
 
 function getTagLink(latestRelease: string, defaultBranch: string, isAhead: boolean): HTMLAnchorElement {
@@ -86,7 +86,7 @@ async function init(): Promise<false | void> {
 	const defaultBranch = await getDefaultBranch();
 	const [breadcrumbs, latestTag] = await Promise.all([
 		elementReady('.breadcrumb'),
-		getLatestTag(defaultBranch)
+		getLatestTag()
 	]);
 
 	if (!breadcrumbs || !latestTag) {
