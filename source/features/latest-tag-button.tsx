@@ -11,7 +11,7 @@ import {isRepoRoot} from '../libs/page-detect';
 import getDefaultBranch from '../libs/get-default-branch';
 import {getRepoURL, getCurrentBranch, replaceBranch, getRepoGQL} from '../libs/utils';
 
-const getLatestTag = cache.function(async (): Promise<string | false> => {
+const getLatestTag = cache.function(async (defaultBranch: string): Promise<{'name': string; 'isBehind': boolean} | false> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			refs(first: 20, refPrefix: "refs/tags/", orderBy: {
@@ -20,7 +20,15 @@ const getLatestTag = cache.function(async (): Promise<string | false> => {
 			}) {
 				nodes {
 					name
+					target {
+						oid
+					}
 				}
+			}
+			defaultBranch: object(expression: "${defaultBranch}") {
+			  ... on Commit {
+				oid
+			  }
 			}
 		}
 	`);
@@ -30,58 +38,35 @@ const getLatestTag = cache.function(async (): Promise<string | false> => {
 		return false;
 	}
 
+	let latestTag: string;
 	// If all tags are plain versions, parse them
 	if (tags.every(tag => /^[vr]?\d/.test(tag))) {
-		return tags.sort(compareVersions).pop()!;
+		latestTag = tags.sort(compareVersions).pop()!;
+	} else {
+		// Otherwise just use the latest
+		latestTag = tags[0];
 	}
 
-	// Otherwise just use the latest
-	return tags[0];
+	const latestTagOid = repository.refs.nodes.filter((tag: {name: string}) => tag.name === latestTag).map((tag: {target: {oid: string}}) => tag.target.oid)[0];
+	const latestTagIsBehind = latestTagOid !== repository.defaultBranch.oid;
+	return {name: latestTag, isBehind: latestTagIsBehind};
 }, {
 	expiration: 1,
-	cacheKey: () => __featureName__ + '_tags:' + getRepoURL()
+	cacheKey: () => __featureName__ + getRepoURL()
 });
 
-async function currentBranchIsBleedingEdge(latestTag: string, defaultBranch: string, currentBranch: string): Promise<boolean> {
-	// Only default branch can be cutting edge (i.e., ahead of latest release)
-	if (currentBranch !== defaultBranch) {
-		return false;
-	}
-
-	// Find the last commits from the default branch and latest tag
-	const repository = await api.v4(`
-		repository(${getRepoGQL()}) {
-			latestTag:object(expression: "${latestTag}") {
-				... on Commit {
-					oid
-				}
-			  },
-			  defaultBranch:object(expression: "${defaultBranch}") {
-				... on Commit {
-					oid
-				}
-			}
-		}
-	`);
-	// If the default branch has a different (later) commit, it's considered bleeding edge
-	return repository.repository.defaultBranch!.oid !== repository.repository.latestTag!.oid;
-}
-
-async function getTagLink(latestRelease: string): Promise<HTMLAnchorElement> {
+function getTagLink(latestRelease: string, defaultBranch: string, isAhead: boolean): HTMLAnchorElement {
 	const link = <a className="btn btn-sm btn-outline tooltipped tooltipped-ne ml-2">{tagIcon()}</a> as unknown as HTMLAnchorElement;
 
 	const currentBranch = getCurrentBranch();
-	const defaultBranch = await getDefaultBranch();
-	const [isBleedingEdge] = await Promise.all([
-		currentBranchIsBleedingEdge(latestRelease, defaultBranch, currentBranch)
-	]);
+
 	if (currentBranch === latestRelease) {
 		link.classList.add('disabled');
 		link.setAttribute('aria-label', 'You’re on the latest release');
 	} else {
 		link.append(' ', <span className="css-truncate-target">{latestRelease}</span>);
-		if (isBleedingEdge) {
-			link.setAttribute('aria-label', 'Current branch is bleeding edge');
+		if (currentBranch === defaultBranch && isAhead) {
+			link.setAttribute('aria-label', `${defaultBranch} is ahead of the latest release`);
 			link.append(' ', alertIcon());
 		} else {
 			link.setAttribute('aria-label', 'Visit the latest release');
@@ -98,18 +83,17 @@ async function getTagLink(latestRelease: string): Promise<HTMLAnchorElement> {
 }
 
 async function init(): Promise<false | void> {
+	const defaultBranch = await getDefaultBranch();
 	const [breadcrumbs, latestTag] = await Promise.all([
 		elementReady('.breadcrumb'),
-		getLatestTag()
+		getLatestTag(defaultBranch)
 	]);
 
 	if (!breadcrumbs || !latestTag) {
 		return false;
 	}
 
-	const [tagLink] = await Promise.all([getTagLink(latestTag)]);
-
-	breadcrumbs.before(tagLink);
+	breadcrumbs.before(getTagLink(latestTag.name, defaultBranch, latestTag.isBehind));
 }
 
 features.add({
