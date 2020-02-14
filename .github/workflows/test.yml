@@ -18,7 +18,7 @@ jobs:
       with:
         node-version: 11.x
     - run: npm ci
-    - run: npx ava
+    - run: npx ava --serial
 
   Lint:
     runs-on: ubuntu-latest
