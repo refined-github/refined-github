@@ -14,8 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 11.x
     - run: npm ci
-    - run: npx ava
+    - run: npx ava --serial
 
   Lint:
     runs-on: ubuntu-latest
