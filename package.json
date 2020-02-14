@@ -5,7 +5,7 @@
 		"lint:js": "xo",
 		"lint:css": "stylelint 'source/**/*.css'",
 		"lint-fix": "run-p --silent 'lint:* -- --fix'",
-		"test": "run-p test:js lint:* build",
+		"test": "run-s test:js lint:* build",
 		"test:js": "ava --serial --verbose",
 		"build": "webpack --mode=production",
 		"watch": "webpack --mode=development --watch",
