@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
+    - run: n 11
     - run: npm ci
     - run: npx ava
 
@@ -21,7 +22,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - run: n 11
     - run: npm ci
     - run: npm run lint
 
