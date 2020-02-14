@@ -7,33 +7,33 @@ jobs:
   Security:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - run: npx lockfile-lint --path package-lock.json --validate-https
+      - uses: actions/checkout@v2
+      - run: npx lockfile-lint --path package-lock.json --validate-https
 
   AVA:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
-      with:
-        node-version: 11.x
-    - run: npm ci
-    - run: npx ava --serial
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 11.x
+      - run: npm ci
+      - run: npx ava --serial
 
   Lint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - run: npm ci
-    - run: npm run lint
+      - uses: actions/checkout@v2
+      - run: npm ci
+      - run: npm run lint
 
   Build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - run: npm ci
-    - run: npm run build
-    - uses: actions/upload-artifact@v1
-      with:
-        name: refined-github
-        path: distribution
+      - uses: actions/checkout@v2
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-artifact@v1
+        with:
+          name: refined-github
+          path: distribution
