@@ -11,6 +11,11 @@ import {isRepoRoot} from '../libs/page-detect';
 import getDefaultBranch from '../libs/get-default-branch';
 import {getRepoURL, getCurrentBranch, replaceBranch, getRepoGQL} from '../libs/utils';
 
+interface Tag {
+	name: string;
+	commit: string;
+}
+
 const getLatestTag = cache.function(async (): Promise<{'name': string; 'isBehind': boolean} | false> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
@@ -27,29 +32,33 @@ const getLatestTag = cache.function(async (): Promise<{'name': string; 'isBehind
 			}
 			defaultBranchRef {
 				target {
-					oid 
+					oid
 				}
 			}
 		}
 	`);
 
-	const tags: string[] = repository.refs.nodes.map((tag: {name: string}) => tag.name);
-	if (tags.length === 0) {
+	if (repository.refs.nodes.length === 0) {
 		return false;
 	}
 
-	let latestTag: string;
-	// If all tags are plain versions, parse them
-	if (tags.every(tag => /^[vr]?\d/.test(tag))) {
-		latestTag = tags.sort(compareVersions).pop()!;
-	} else {
-		// Otherwise just use the latest
-		latestTag = tags[0];
+	const tags: Tag[] = repository.refs.nodes.map((tag: AnyObject) => ({
+		name: tag.name,
+		commit: tag.target.oid,
+	}));
+
+	// Default to the first tag in the (reverse chronologically-sorted) list
+	let [latestTag] = tags;
+
+	// If all tags are plain versions, sort them as versions
+	if (tags.every(tag => /^[vr]?\d/.test(tag.name))) {
+		latestTag = tags.sort((tag1, tag2) => compareVersions(tag1.name, tag2.name)).pop()!;
 	}
 
-	const latestTagOid = repository.refs.nodes.filter((tag: {name: string}) => tag.name === latestTag).map((tag: {target: {oid: string}}) => tag.target.oid)[0];
-	const latestTagIsBehind = latestTagOid !== repository.defaultBranchRef.target.oid;
-	return {name: latestTag, isBehind: latestTagIsBehind};
+	return {
+		name: latestTag.name,
+		isBehind: latestTag.commit !== repository.defaultBranchRef.target.oid
+	};
 }, {
 	expiration: 1,
 	cacheKey: () => __featureName__ + ':' + getRepoURL()
