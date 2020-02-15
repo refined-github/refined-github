@@ -23,7 +23,7 @@ function init(): false | void {
 					role="menu"
 					style={{zIndex: 99}}
 				>
-					<include-fragment className="select-menu-loading-overlay anim-pulse" onLoad={changeTabToTags}>
+					<include-fragment className="select-menu-loading-overlay anim-pulse" onLoad={onFragmentLoaded}>
 						{octofaceIcon()}
 					</include-fragment>
 				</details-menu>
@@ -37,15 +37,27 @@ function init(): false | void {
 	select('.rgh-tags-dropdown')!.addEventListener('remote-input-success', updateLinksToTag);
 }
 
+function onFragmentLoaded(): void {
+	changeTabToTags();
+	removeTabsAndHeader();
+}
+
 // We're reusing the Branch/Tag selector from the repo's Code tab, so we need to update a few things
 function changeTabToTags(): void {
-	// Change the tab to "Tags"
-	select('.rgh-tags-dropdown .select-menu-tab:last-child button')!.click();
+	// Select "Tags" tab
+	select('.rgh-tags-dropdown .SelectMenu-tab:last-child')!.click();
+}
+
+function removeTabsAndHeader(): void {
+	// Remove header
+	select('.rgh-tags-dropdown .SelectMenu-header')!.remove();
+	// Remove "tabs"
+	select('.rgh-tags-dropdown .SelectMenu-tabs')!.remove();
 }
 
 function updateLinksToTag(): void {
 	// Change links, which point to the content of each tag, to open the tag page instead
-	for (const anchorElement of select.all<HTMLAnchorElement>('.rgh-tags-dropdown .select-menu-list:last-child [href*="/tree/"]')) {
+	for (const anchorElement of select.all<HTMLAnchorElement>('.rgh-tags-dropdown .SelectMenu-list:last-child [href*="/tree/"]')) {
 		const pathnameParts = anchorElement.pathname.split('/');
 		pathnameParts[3] = 'releases/tag'; // Replace `tree`
 		anchorElement.pathname = pathnameParts.join('/');
