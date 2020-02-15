@@ -25,8 +25,12 @@ const getLatestTag = cache.function(async (): Promise<{'name': string; 'isBehind
 			}) {
 				nodes {
 					name
-					target {
-						oid
+					tag: target {
+						... on Tag {
+							commit: target {
+								oid
+							}
+						}
 					}
 				}
 			}
@@ -42,9 +46,9 @@ const getLatestTag = cache.function(async (): Promise<{'name': string; 'isBehind
 		return false;
 	}
 
-	const tags: Tag[] = repository.refs.nodes.map((tag: AnyObject) => ({
-		name: tag.name,
-		commit: tag.target.oid,
+	const tags: Tag[] = repository.refs.nodes.map((node: AnyObject) => ({
+		name: node.name,
+		commit: node.tag.commit.oid
 	}));
 
 	// Default to the first tag in the (reverse chronologically-sorted) list
