@@ -40,7 +40,7 @@ function init(): false | void {
 // We're reusing the Branch/Tag selector from the repo's Code tab, so we need to update a few things
 function changeTabToTags(): void {
 	// Change the tab to "Tags"
-	select('.rgh-tags-dropdown .select-menu-tab:last-child button')!.click();
+	select('.rgh-tags-dropdown .SelectMenu-tab:last-child')!.click();
 }
 
 function updateLinksToTag(): void {
