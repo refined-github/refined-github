@@ -1,6 +1,6 @@
 import './mark-private-orgs.css';
 import select from 'select-dom';
-import eyeClosedIcon from 'octicon/eye-closed-icon.svg';
+import eyeClosedIcon from 'octicon/eye-closed.svg';
 import {getUsername} from '../libs/utils';
 import features from '../libs/features';
 import * as api from '../libs/api';
