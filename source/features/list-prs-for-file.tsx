@@ -89,7 +89,7 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 }, {
 	expiration: 10,
 	keepFresh: 1,
-	cacheKey: () => `list-prs-for-file:${getRepoURL()}`
+	cacheKey: () => __featureName__ + ':' + getRepoURL()
 });
 
 features.add({
