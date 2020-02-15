@@ -16,7 +16,12 @@ interface Tag {
 	commit: string;
 }
 
-const getLatestTag = cache.function(async (): Promise<{'name': string; 'isBehind': boolean} | false> => {
+interface RepoPublishState {
+	latestTag: string;
+	isUpToDate: boolean;
+}
+
+const getRepoPublishState = cache.function(async (): Promise<RepoPublishState | false> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			refs(first: 20, refPrefix: "refs/tags/", orderBy: {
@@ -60,15 +65,15 @@ const getLatestTag = cache.function(async (): Promise<{'name': string; 'isBehind
 	}
 
 	return {
-		name: latestTag.name,
-		isBehind: latestTag.commit !== repository.defaultBranchRef.target.oid
+		latestTag: latestTag.name,
+		isUpToDate: latestTag.commit === repository.defaultBranchRef.target.oid
 	};
 }, {
 	expiration: 1,
 	cacheKey: () => __featureName__ + ':' + getRepoURL()
 });
 
-function getTagLink(latestRelease: string, defaultBranch: string, isAhead: boolean): HTMLAnchorElement {
+function getTagLink(latestRelease: string, defaultBranch: string, isUpToDate: boolean): HTMLAnchorElement {
 	const link = <a className="btn btn-sm btn-outline tooltipped tooltipped-ne ml-2">{tagIcon()}</a> as unknown as HTMLAnchorElement;
 
 	const currentBranch = getCurrentBranch();
@@ -78,7 +83,7 @@ function getTagLink(latestRelease: string, defaultBranch: string, isAhead: boole
 		link.setAttribute('aria-label', 'You’re on the latest release');
 	} else {
 		link.append(' ', <span className="css-truncate-target">{latestRelease}</span>);
-		if (currentBranch === defaultBranch && isAhead) {
+		if (currentBranch === defaultBranch && !isUpToDate) {
 			link.setAttribute('aria-label', `${defaultBranch} is ahead of the latest release`);
 			link.append(' ', alertIcon());
 		} else {
@@ -97,16 +102,16 @@ function getTagLink(latestRelease: string, defaultBranch: string, isAhead: boole
 
 async function init(): Promise<false | void> {
 	const defaultBranch = await getDefaultBranch();
-	const [breadcrumbs, latestTag] = await Promise.all([
+	const [breadcrumbs, repoState] = await Promise.all([
 		elementReady('.breadcrumb'),
-		getLatestTag()
+		getRepoPublishState()
 	]);
 
-	if (!breadcrumbs || !latestTag) {
+	if (!breadcrumbs || !repoState) {
 		return false;
 	}
 
-	breadcrumbs.before(getTagLink(latestTag.name, defaultBranch, latestTag.isBehind));
+	breadcrumbs.before(getTagLink(repoState.latestTag, defaultBranch, repoState.isUpToDate));
 }
 
 features.add({
