@@ -23,7 +23,7 @@ function init(): false | void {
 					role="menu"
 					style={{zIndex: 99}}
 				>
-					<include-fragment className="select-menu-loading-overlay anim-pulse" onLoad={onFragmentLoaded}>
+					<include-fragment className="select-menu-loading-overlay anim-pulse" onLoad={changeTabToTags}>
 						{octofaceIcon()}
 					</include-fragment>
 				</details-menu>
@@ -37,22 +37,10 @@ function init(): false | void {
 	select('.rgh-tags-dropdown')!.addEventListener('remote-input-success', updateLinksToTag);
 }
 
-function onFragmentLoaded(): void {
-	changeTabToTags();
-	removeTabsAndHeader();
-}
-
 // We're reusing the Branch/Tag selector from the repo's Code tab, so we need to update a few things
 function changeTabToTags(): void {
 	// Select "Tags" tab
 	select('.rgh-tags-dropdown .SelectMenu-tab:last-child')!.click();
-}
-
-function removeTabsAndHeader(): void {
-	// Remove header
-	select('.rgh-tags-dropdown .SelectMenu-header')!.remove();
-	// Remove "tabs"
-	select('.rgh-tags-dropdown .SelectMenu-tabs')!.remove();
 }
 
 function updateLinksToTag(): void {
