@@ -17,7 +17,6 @@ function init(): false | void {
 					Select tag&nbsp;
 				</summary>
 				<details-menu
-					preload
 					className="select-menu-modal position-absolute dropdown-menu-sw"
 					src={`/${getRepoURL()}/ref-list/master?source_action=disambiguate&source_controller=files`}
 					role="menu"
@@ -45,7 +44,7 @@ function changeTabToTags(): void {
 
 function updateLinksToTag(): void {
 	// Change links, which point to the content of each tag, to open the tag page instead
-	for (const anchorElement of select.all<HTMLAnchorElement>('.rgh-tags-dropdown .select-menu-list:last-child [href*="/tree/"]')) {
+	for (const anchorElement of select.all<HTMLAnchorElement>('.rgh-tags-dropdown .SelectMenu-list:last-child [href*="/tree/"]')) {
 		const pathnameParts = anchorElement.pathname.split('/');
 		pathnameParts[3] = 'releases/tag'; // Replace `tree`
 		anchorElement.pathname = pathnameParts.join('/');
