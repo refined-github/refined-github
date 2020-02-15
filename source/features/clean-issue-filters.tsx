@@ -29,7 +29,7 @@ const getCounts = cache.function(async (): Promise<Counts> => {
 		milestones: repository.milestones.totalCount
 	};
 }, {
-	expiration: 3,
+	keepFresh: 3,
 	cacheKey: () => __featureName__ + ':' + getRepoURL()
 });
 

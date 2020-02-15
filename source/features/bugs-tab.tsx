@@ -18,7 +18,8 @@ const countBugs = cache.function(async (): Promise<number> => {
 
 	return repository.bugs.totalCount;
 }, {
-	expiration: 1,
+	expiration: 5,
+	keepFresh: 1 / 24 / 2, // Refresh every half hour
 	cacheKey: (): string => __featureName__ + ':' + getRepoURL()
 });
 
