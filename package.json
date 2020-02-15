@@ -48,6 +48,7 @@
 		"webext-domain-permission-toggle": "^1.0.0",
 		"webext-dynamic-content-scripts": "^6.0.3",
 		"webext-options-sync": "^1.2.2",
+		"webext-storage-cache": "^2.4.0-0",
 		"webextension-polyfill": "^0.6.0",
 		"zip-text-nodes": "^1.0.0"
 	},
@@ -93,7 +94,6 @@
 		"typescript": "^3.7.5",
 		"web-ext": "^4.0.0",
 		"web-ext-submit": "^4.0.0",
-		"webext-storage-cache": "^2.4.0-0",
 		"webpack": "^4.41.5",
 		"webpack-cli": "^3.3.10",
 		"xo": "^0.25.3"
