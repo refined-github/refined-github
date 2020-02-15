@@ -17,11 +17,11 @@ interface Tag {
 }
 
 interface RepoPublishState {
-	latestTag: string;
+	latestTag: string | false;
 	isUpToDate: boolean;
 }
 
-const getRepoPublishState = cache.function(async (): Promise<RepoPublishState | false> => {
+const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			refs(first: 20, refPrefix: "refs/tags/", orderBy: {
@@ -48,7 +48,10 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState | 
 	`);
 
 	if (repository.refs.nodes.length === 0) {
-		return false;
+		return {
+			latestTag: false,
+			isUpToDate: false
+		};
 	}
 
 	const tags: Tag[] = repository.refs.nodes.map((node: AnyObject) => ({
@@ -73,45 +76,49 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState | 
 	cacheKey: () => __featureName__ + ':' + getRepoURL()
 });
 
-function getTagLink(latestRelease: string, defaultBranch: string, isUpToDate: boolean): HTMLAnchorElement {
-	const link = <a className="btn btn-sm btn-outline tooltipped tooltipped-ne ml-2">{tagIcon()}</a> as unknown as HTMLAnchorElement;
-
-	const currentBranch = getCurrentBranch();
-
-	if (currentBranch === latestRelease) {
-		link.classList.add('disabled');
-		link.setAttribute('aria-label', 'You’re on the latest release');
-	} else {
-		link.append(' ', <span className="css-truncate-target">{latestRelease}</span>);
-		if (currentBranch === defaultBranch && !isUpToDate) {
-			link.setAttribute('aria-label', `${defaultBranch} is ahead of the latest release`);
-			link.append(' ', alertIcon());
-		} else {
-			link.setAttribute('aria-label', 'Visit the latest release');
-		}
-
-		if (isRepoRoot()) {
-			link.href = `/${getRepoURL()}/tree/${latestRelease}`;
-		} else {
-			link.href = replaceBranch(currentBranch, latestRelease);
-		}
-	}
-
-	return link;
-}
-
 async function init(): Promise<false | void> {
-	const defaultBranch = await getDefaultBranch();
-	const [breadcrumbs, repoState] = await Promise.all([
-		elementReady('.breadcrumb'),
-		getRepoPublishState()
-	]);
-
-	if (!breadcrumbs || !repoState) {
+	const {latestTag, isUpToDate} = await getRepoPublishState();
+	if (!latestTag) {
 		return false;
 	}
 
-	breadcrumbs.before(getTagLink(repoState.latestTag, defaultBranch, repoState.isUpToDate));
+	const breadcrumb = await elementReady('.breadcrumb');
+	if (!breadcrumb) {
+		return;
+	}
+
+	const currentBranch = getCurrentBranch();
+	let href: string;
+	if (isRepoRoot()) {
+		href = `/${getRepoURL()}/tree/${latestTag}`;
+	} else {
+		href = replaceBranch(currentBranch, latestTag);
+	}
+
+	const link = (
+		<a className="btn btn-sm btn-outline tooltipped tooltipped-ne ml-2" href={href}>
+			{tagIcon()}
+		</a>
+	);
+
+	breadcrumb.before(link);
+	if (currentBranch !== latestTag) {
+		link.append(' ', <span className="css-truncate-target">{latestTag}</span>);
+	}
+
+	if (currentBranch === latestTag || isUpToDate) {
+		link.setAttribute('aria-label', 'You’re on the latest release');
+		link.classList.add('disabled');
+		return;
+	}
+
+	const defaultBranch = await getDefaultBranch();
+	if (currentBranch === defaultBranch) {
+		link.setAttribute('aria-label', `${defaultBranch} is ahead of the latest release`);
+		link.append(' ', alertIcon());
+	} else {
+		link.setAttribute('aria-label', 'Visit the latest release');
+	}
 }
 
 features.add({
