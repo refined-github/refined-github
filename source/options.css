@@ -23,6 +23,9 @@ html {
 		--link-color: #8ab4f8;
 		--input-border-color: rgba(255, 255, 255, 0.3);
 	}
+	.is-firefox {
+		--background-color: #201F24;
+	}
 }
 
 body {

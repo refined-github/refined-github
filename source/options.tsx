@@ -7,6 +7,7 @@ import {applyToLink} from 'shorten-repo-url';
 import * as indentTextarea from 'indent-textarea';
 import {getAllOptions} from './options-storage';
 import * as domFormatters from './libs/dom-formatters';
+import { isFirefox } from './libs/utils';
 
 function parseDescription(description: string): DocumentFragment {
 	const descriptionElement = <span>{description}</span>;
@@ -131,8 +132,8 @@ async function init(): Promise<void> {
 		});
 	}
 
-	if(navigator.userAgent.indexOf('Firefox') > -1) {
-		select<HTMLBodyElement>('body')!.style.backgroundColor = '#201F24';
+	if(isFirefox) {
+		document.body.classList.add('is-firefox');
 	}
 }
 
