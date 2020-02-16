@@ -18,21 +18,23 @@ const getFirstCommitDate = cache.function(async (): Promise<string | undefined> 
 	const lastCommitHash = (await elementReady<HTMLAnchorElement>('.commit-tease-sha', {stopOnDomReady: false}))!.href.split('/').pop()!;
 	const commitsCount = Number(select('li.commits .num')!.textContent!.replace(',', ''));
 
+	// Returning undefined will make sure that it is not cached. It will check again for commits on the next load.
+	// Reference: https://github.com/fregante/webext-storage-cache/#getter
 	if (commitsCount === 0) {
 		return;
 	}
 
 	if (commitsCount === 1) {
-		return select('.commit-tease-sha + span relative-time')!.getAttribute('datetime')!;
+		return select('.commit-tease-sha + span relative-time')!.attributes.datetime.value;
 	}
 
-	const oldestCommit = await fetchDom(
-		`${getRepoURL()}/commits?after=${lastCommitHash}+${commitsCount - 2}`, 'ol:last-child > li.commits-list-item'
+	const relativeTime = await fetchDom(
+		`${getRepoURL()}/commits?after=${lastCommitHash}+${commitsCount - 2}`,
+		'ol:last-child > li.commits-list-item relative-time'
 	);
 
-	return select('relative-time', oldestCommit)!.getAttribute('datetime')!;
+	return relativeTime!.attributes.datetime.value;
 }, {
-	isExpired: (cachedValue: string) => !cachedValue,
 	cacheKey: () => __featureName__ + ':' + getRepoURL()
 });
 
