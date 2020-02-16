@@ -130,6 +130,10 @@ async function init(): Promise<void> {
 			select<HTMLAnchorElement>('#personal-token-link')!.host = dropdown.value;
 		});
 	}
+
+	if(navigator.userAgent.indexOf('Firefox') > -1) {
+		select<HTMLBodyElement>('body')!.style.backgroundColor = '#201F24';
+	}
 }
 
 init();
