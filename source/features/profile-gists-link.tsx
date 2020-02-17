@@ -1,5 +1,6 @@
 import './profile-gists-link.css';
 import React from 'dom-chef';
+import select from 'select-dom';
 import elementReady from 'element-ready';
 import cache from 'webext-storage-cache';
 import * as api from '../libs/api';
@@ -21,16 +22,13 @@ const getGistCount = cache.function(async (username: string): Promise<number> =>
 });
 
 async function init(): Promise<false | void> {
-	const container = await elementReady('body.page-profile .UnderlineNav-body');
-
-	if (!container) {
-		return false;
-	}
+	await elementReady('.UnderlineNav-body + *');
 
 	const username = getCleanPathname();
 	const href = isEnterprise() ? `/gist/${username}` : `https://gist.github.com/${username}`;
 	const link = <a href={href} className="UnderlineNav-item" role="tab" aria-selected="false">Gists </a>;
-	container.append(link);
+
+	select('.UnderlineNav-body')!.append(link);
 
 	link.append(
 		<span className="Counter hide-lg hide-md hide-sm">
@@ -45,6 +43,9 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/11544418/34268306-1c974fd2-e678-11e7-9e82-861dfe7add22.png',
 	include: [
 		features.isUserProfile
+	],
+	exclude: [
+		features.isOrganizationProfile
 	],
 	load: features.nowAndOnAjaxedPages,
 	init
