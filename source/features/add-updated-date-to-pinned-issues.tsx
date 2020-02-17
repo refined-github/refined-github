@@ -6,7 +6,6 @@ import React from 'dom-chef';
 import select from 'select-dom';
 
 async function init(): Promise<false | void | any> {
-	// Get issues links that don't already have a specific sorting applied
 	for (const link of select.all<HTMLAnchorElement | any>('.pinned-issue-item')) {
 		const issueNUmber: any = Number((select<any>('a.link-gray-dark.no-underline.h4[href]', link)).href.split('/').slice(-1).pop());
 		const [lastCommented, lastUpdated] = await getLastCommented(issueNUmber);
