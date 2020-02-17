@@ -11,5 +11,5 @@
 	stroke: #fff;
 	stroke-width: 4px;
 	paint-order: stroke;
-	overflow: visible;
+	overflow: visible !important;
 }
