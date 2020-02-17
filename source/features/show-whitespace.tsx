@@ -8,12 +8,18 @@ import getTextNodes from '../libs/get-text-nodes';
 
 // `splitText` is used before and after each whitespace group so a new whitespace-only text node is created. This new node is then wrapped in a <span>
 function showWhiteSpacesOn(line: Element): void {
-	for (const textNode of getTextNodes(line)) {
+	const shouldAvoidSurroundingSpaces = Boolean(line.closest('.blob-wrapper-embedded')); // #2285
+	const textNodesOnThisLine = getTextNodes(line);
+	for (const [nodeIndex, textNode] of textNodesOnThisLine.entries()) {
 		// `textContent` reads must be cached #2737
 		let text = textNode.textContent!;
 
+		const startingCharacter = shouldAvoidSurroundingSpaces && nodeIndex === 0 ? 1 : 0;
+		const skipLastCharacter = shouldAvoidSurroundingSpaces && nodeIndex === textNodesOnThisLine.length - 1;
+		const endingCharacter = text.length - 1 - Number(skipLastCharacter);
+
 		// Loop goes in reverse otherwise `splitText`'s `index` parameter needs to keep track of the previous split
-		for (let i = text.length - 1; i >= 0; i--) {
+		for (let i = endingCharacter; i >= startingCharacter; i--) {
 			const thisCharacter = text[i];
 
 			// Exclude irrelevant characters
@@ -25,8 +31,8 @@ function showWhiteSpacesOn(line: Element): void {
 				textNode.splitText(i + 1);
 			}
 
-			// Find the same character so they can be wrapped together
-			while (text[i - 1] === thisCharacter) {
+			// Find the same character so they can be wrapped together, but stop at `startingCharacter`
+			while (text[i - 1] === thisCharacter && !(i === startingCharacter)) {
 				i--;
 			}
 
