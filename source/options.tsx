@@ -7,7 +7,6 @@ import {applyToLink} from 'shorten-repo-url';
 import * as indentTextarea from 'indent-textarea';
 import {getAllOptions} from './options-storage';
 import * as domFormatters from './libs/dom-formatters';
-import {isFirefox} from './libs/utils';
 
 function parseDescription(description: string): DocumentFragment {
 	const descriptionElement = <span>{description}</span>;
@@ -130,10 +129,6 @@ async function init(): Promise<void> {
 
 			select<HTMLAnchorElement>('#personal-token-link')!.host = dropdown.value;
 		});
-	}
-
-	if (isFirefox) {
-		document.body.classList.add('is-firefox');
 	}
 }
 
