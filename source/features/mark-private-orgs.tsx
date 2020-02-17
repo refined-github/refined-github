@@ -13,7 +13,7 @@ const getPublicOrganizations = cache.function(async (username: string): Promise<
 	return response.map((organization: AnyObject) => organization.login);
 }, {
 	cacheKey: ([username]) => __featureName__ + ':' + username,
-	keepFresh: 10
+	expiration: 10
 });
 
 async function init(): Promise<false | void> {
