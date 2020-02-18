@@ -144,8 +144,8 @@ export const _isNotifications = [
 	'https://github.com/notifications?all=1'
 ];
 
-export const isOrganizationProfile = (): boolean => select.exists('.orghead');
-export const _isOrganizationProfile = domBased;
+export const isOrganizationProfile = (): boolean => select.exists('meta[name="hovercard-subject-tag"][content^="organization"]');
+export const _isOrganizationProfile = domBased; // Safe for `nowAndOnAjaxedPages` because this element is in the <head>
 
 export const isOrganizationDiscussion = (): boolean => /^orgs\/[^/]+\/teams\/[^/]+($|\/discussions)/.test(getCleanPathname());
 export const _isOrganizationDiscussion = [
