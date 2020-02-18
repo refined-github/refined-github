@@ -157,13 +157,15 @@ h2 ~ h2 {
 		margin-right: 6px;
 	}
 
-	:root {
-		background: none !important;
-	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--background-color: #201f24;
+		}
 
-	html,
-	body {
-		--background-color: #201f24;
+		#options-form input[type='text'],
+		#options-form textarea {
+			background-color: #2a292e !important;
+		}
 	}
 
 	:root h2 {
