@@ -23,10 +23,6 @@ html {
 		--link-color: #8ab4f8;
 		--input-border-color: rgba(255, 255, 255, 0.3);
 	}
-
-	.is-firefox {
-		--background-color: #201f24;
-	}
 }
 
 body {
@@ -163,6 +159,10 @@ h2 ~ h2 {
 
 	:root {
 		background: none !important;
+	}
+
+	html, body {
+		--background-color: #201f24;;
 	}
 
 	:root h2 {
