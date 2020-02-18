@@ -18,6 +18,7 @@ html {
 @media (prefers-color-scheme: dark) {
 	:root {
 		--background-color: #292a2d;
+		--moz-input-background-color: #2a292e;
 		--text-color: #e8eaed;
 		--secondary-text-color: #9aa0a6;
 		--link-color: #8ab4f8;
@@ -152,15 +153,6 @@ h2 ~ h2 {
 }
 
 @-moz-document url-prefix('') {
-	body > :not(hr) {
-		margin-left: 6px;
-		margin-right: 6px;
-	}
-
-	:root {
-		background: none !important;
-	}
-
 	@media (prefers-color-scheme: dark) {
 		:root {
 			--background-color: #201f24;
@@ -168,8 +160,17 @@ h2 ~ h2 {
 
 		#options-form input[type='text'],
 		#options-form textarea {
-			background-color: #2a292e !important;
+			background-color: var(--moz-input-background-color) !important;
 		}
+	}
+
+	body > :not(hr) {
+		margin-left: 6px;
+		margin-right: 6px;
+	}
+
+	:root {
+		background: none !important;
 	}
 
 	:root h2 {
