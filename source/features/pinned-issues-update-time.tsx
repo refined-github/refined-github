@@ -5,7 +5,7 @@ import * as api from '../libs/api';
 import features from '../libs/features';
 import { getRepoGQL } from '../libs/utils';
 
-async function init(): Promise<false | void> {
+async function init(): Promise<void> {
 	for (const pinnedIssue of select.all('.pinned-issue-item')) {
 		const issueNumber = select('.opened-by', pinnedIssue)!.firstChild!.textContent!.replace(/\D/g, '');
 		const lastUpdated = await getLastUpdated(issueNumber);
