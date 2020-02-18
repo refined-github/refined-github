@@ -6,7 +6,7 @@ import select from 'select-dom';
 import clockIcon from 'octicon/clock.svg';
 import features from '../libs/features';
 import * as api from '../libs/api';
-import observeEl from '../libs/simplified-element-observer';
+import observeElement from '../libs/simplified-element-observer';
 import {getUsername} from '../libs/utils';
 
 interface Commit {
@@ -82,7 +82,7 @@ function parseOffset(date: string): number {
 function init(): void {
 	const hovercard = select('.js-hovercard-content > .Popover-message')!;
 
-	observeEl(hovercard, async () => {
+	observeElement(hovercard, async () => {
 		if (hovercard.childElementCount === 0 || select.exists('.rgh-local-user-time', hovercard)) {
 			return;
 		}

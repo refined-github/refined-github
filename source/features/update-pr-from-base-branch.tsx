@@ -4,7 +4,7 @@ import alertIcon from 'octicon/alert.svg';
 import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 import * as api from '../libs/api';
-import observeEl from '../libs/simplified-element-observer';
+import observeElement from '../libs/simplified-element-observer';
 import {getRepoURL, getDiscussionNumber} from '../libs/utils';
 
 let observer: MutationObserver;
@@ -98,7 +98,7 @@ function init(): void | false {
 		return false;
 	}
 
-	observer = observeEl('.discussion-timeline-actions', addButton)!;
+	observer = observeElement('.discussion-timeline-actions', addButton)!;
 	delegate('.rgh-update-pr-from-master', 'click', handler);
 }
 

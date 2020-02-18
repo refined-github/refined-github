@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import observeEl from './simplified-element-observer';
+import observeElement from './simplified-element-observer';
 
 type CommitStatus = false | typeof SUCCESS | typeof FAILURE | typeof PENDING | typeof COMMIT_CHANGED;
 type StatusListener = (status: CommitStatus) => void;
@@ -71,7 +71,7 @@ export function addEventListener(listener: StatusListener): void {
 		}
 	};
 
-	const observer = observeEl('.js-discussion', filteredListener, {
+	const observer = observeElement('.js-discussion', filteredListener, {
 		childList: true,
 		subtree: true
 	})!;
