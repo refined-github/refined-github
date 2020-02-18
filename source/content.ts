@@ -66,7 +66,6 @@ import './features/global-discussion-list-filters';
 import './features/filter-comments-by-you';
 import './features/sort-issues-by-update-time'; // Must be after global-discussion-list-filters and filter-comments-by-you
 import './features/pinned-issues-update-time';
-
 import './features/latest-tag-button';
 import './features/default-branch-button';
 import './features/faster-pr-diff-options';
