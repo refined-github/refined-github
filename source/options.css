@@ -161,8 +161,9 @@ h2 ~ h2 {
 		background: none !important;
 	}
 
-	html, body {
-		--background-color: #201f24;;
+	html,
+	body {
+		--background-color: #201f24;
 	}
 
 	:root h2 {
