@@ -164,7 +164,7 @@ const config: Configuration = {
 					compress: false,
 					output: {
 						beautify: true,
-						indent_level: 2 // eslint-disable-line @typescript-eslint/camelcase
+						indent_level: 2
 					}
 				}
 			})
