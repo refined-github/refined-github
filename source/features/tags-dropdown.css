@@ -1,6 +1,6 @@
 /* Drop unneeded elements */
-:root .rgh-tags-dropdown .select-menu-tab,
-:root .rgh-tags-dropdown .select-menu-header {
+:root .rgh-tags-dropdown .SelectMenu-tabs,
+:root .rgh-tags-dropdown .SelectMenu-header {
 	display: none;
 }
 
