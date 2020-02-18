@@ -18,24 +18,20 @@ async function init(): Promise<void> {
 			timeZoneName: 'short'
 		}).format(new Date(lastUpdated));
 
-		const bottomBar = select.all(['.open', '.closed'], pinnedIssue)[0].parentElement!;
-
-		bottomBar.append(
-			<span className="d-none d-md-inline">
-				<span className="issue-meta-section ml-2">
-					{clockIcon()} updated <relative-time datetime={lastUpdated} title={lastUpdatedTitle}/>
-				</span>
+		pinnedIssue.lastElementChild!.append(
+			<span className="d-md-inline issue-meta-section ml-2 text-gray text-small">
+				{clockIcon()} updated <relative-time datetime={lastUpdated} title={lastUpdatedTitle} />
 			</span>
 		);
 	}
 }
 
-const getLastUpdated = async (issue: string): Promise<string | false | any> => {
-	const {repository} = await api.v4(`
+const getLastUpdated = async (issue: string): Promise<string> => {
+	const { repository } = await api.v4(`
 		repository(${getRepoGQL()}) {
 			issue (number:${issue}){
-    			updatedAt
-    		}
+				updatedAt
+			}
 		}
 	`);
 
@@ -44,7 +40,7 @@ const getLastUpdated = async (issue: string): Promise<string | false | any> => {
 
 features.add({
 	id: __featureName__,
-	description: 'Changes the default sort order of discussions to `Recently updated`.',
+	description: 'Adds the updated time to pinned issues.',
 	screenshot: false,
 	include: [
 		features.isRepoIssueList
