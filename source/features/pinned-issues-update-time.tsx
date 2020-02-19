@@ -10,24 +10,6 @@ interface IssueInfo {
 	updatedAt: string;
 }
 
-async function init(): Promise<void | false> {
-	const pinnedIssues = select.all('.pinned-issue-item');
-	if (pinnedIssues.length === 0) {
-		return false;
-	}
-
-	const lastUpdated: Record<string, IssueInfo> = await getLastUpdated(pinnedIssues.map(getPinnedIssueNumber));
-	for (const pinnedIssue of pinnedIssues) {
-		const issueNumber = getPinnedIssueNumber(pinnedIssue);
-		const {updatedAt} = lastUpdated[api.escapeKey(issueNumber)];
-		pinnedIssue.lastElementChild!.append(
-			<span className="d-md-inline issue-meta-section ml-2 text-gray text-small">
-				{clockIcon()} updated <relative-time datetime={updatedAt}/>
-			</span>
-		);
-	}
-}
-
 const getLastUpdated = cache.function(async (issueNumbers: string[]): Promise<Record<string, IssueInfo>> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
@@ -47,6 +29,24 @@ const getLastUpdated = cache.function(async (issueNumbers: string[]): Promise<Re
 
 function getPinnedIssueNumber(pinnedIssue: HTMLElement): string {
 	return select('.opened-by', pinnedIssue)!.firstChild!.textContent!.replace(/\D/g, '');
+}
+
+async function init(): Promise<void | false> {
+	const pinnedIssues = select.all('.pinned-issue-item');
+	if (pinnedIssues.length === 0) {
+		return false;
+	}
+
+	const lastUpdated: Record<string, IssueInfo> = await getLastUpdated(pinnedIssues.map(getPinnedIssueNumber));
+	for (const pinnedIssue of pinnedIssues) {
+		const issueNumber = getPinnedIssueNumber(pinnedIssue);
+		const {updatedAt} = lastUpdated[api.escapeKey(issueNumber)];
+		pinnedIssue.lastElementChild!.append(
+			<span className="d-md-inline issue-meta-section ml-2 text-gray text-small">
+				{clockIcon()} updated <relative-time datetime={updatedAt}/>
+			</span>
+		);
+	}
 }
 
 features.add({
