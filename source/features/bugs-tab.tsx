@@ -7,16 +7,18 @@ import * as api from '../libs/api';
 import SearchQuery from '../libs/search-query';
 import {getRepoGQL, getRepoURL} from '../libs/utils';
 
-const countBugs = cache.function(async (): Promise<number> => {
+const countIssuesAndBugs = cache.function(async (): Promise<{totalCount: number; bugsCount: number}> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			bugs: issues(labels: ["bug"], states: [OPEN]) {
 				totalCount
 			}
+			open: issues(states: [OPEN]) {
+				totalCount
+			}
 		}
 	`);
-
-	return repository.bugs.totalCount;
+	return {totalCount: repository.open.totalCount, bugsCount: repository.bugs.totalCount};
 }, {
 	expiration: 1,
 	cacheKey: (): string => __featureName__ + ':' + getRepoURL()
@@ -24,7 +26,7 @@ const countBugs = cache.function(async (): Promise<number> => {
 
 async function init(): Promise<void | false> {
 	// Query API as early as possible, even if it's not necessary on archived repos
-	const countPromise = countBugs();
+	const countPromise = countIssuesAndBugs();
 
 	// On a label:bug listing:
 	// - always show the tab, as soon as possible
@@ -32,7 +34,7 @@ async function init(): Promise<void | false> {
 	// On other pages:
 	// - only show the tab if needed
 	const isBugsPage = new SearchQuery(location).includes('label:bug');
-	if (!isBugsPage && await countPromise === 0) {
+	if (!isBugsPage && (await countPromise).bugsCount === 0) {
 		return false;
 	}
 
@@ -68,11 +70,16 @@ async function init(): Promise<void | false> {
 
 	issuesTab.after(bugsTab);
 
+	const {totalCount, bugsCount} = await countPromise;
+	const nf = new Intl.NumberFormat();
+
 	// Update issue counts
-	const bugsCount = await countPromise;
-	select('.Counter', bugsTab)!.textContent = String(bugsCount);
-	// @ts-ignore substraction on string. The alternative is much longer.
-	select('.Counter', issuesTab)!.textContent -= bugsCount;
+	select('.Counter', bugsTab)!.textContent = nf.format(bugsCount);
+	const issueCount = totalCount - bugsCount;
+	// Github displays count as "5,000+" in issues tab if more than 5000 issues. Keep the same behaviour.
+	const ISSUE_UPPER_LIMIT = 5000;
+	const issueCountString = issueCount > ISSUE_UPPER_LIMIT ? `${nf.format(ISSUE_UPPER_LIMIT)}+` : nf.format(issueCount);
+	select('.Counter', issuesTab)!.textContent = issueCountString;
 }
 
 features.add({
