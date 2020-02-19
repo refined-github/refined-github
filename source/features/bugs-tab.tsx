@@ -22,6 +22,17 @@ const countBugs = cache.function(async (): Promise<number> => {
 	cacheKey: (): string => __featureName__ + ':' + getRepoURL()
 });
 
+const numberFormatter = new Intl.NumberFormat();
+function setCount(tab: HTMLElement, count: number, add: boolean): void {
+	const counter = select('.Counter', tab)!;
+	const exceedsLimit = add && counter.textContent!.includes('+');
+	if (add) {
+		count = Number(counter.textContent!.replace(/\D/g, '')) + count;
+	}
+
+	counter.textContent = numberFormatter.format(count) + (exceedsLimit ? '+' : '');
+}
+
 async function init(): Promise<void | false> {
 	// Query API as early as possible, even if it's not necessary on archived repos
 	const countPromise = countBugs();
@@ -70,9 +81,8 @@ async function init(): Promise<void | false> {
 
 	// Update issue counts
 	const bugsCount = await countPromise;
-	select('.Counter', bugsTab)!.textContent = String(bugsCount);
-	// @ts-ignore substraction on string. The alternative is much longer.
-	select('.Counter', issuesTab)!.textContent -= bugsCount;
+	setCount(bugsTab, bugsCount, false);
+	setCount(issuesTab, -bugsCount, true);
 }
 
 features.add({
