@@ -29,7 +29,6 @@ interface Notification {
 	state: NotificationState;
 	isParticipating: boolean;
 	repository: string;
-	dateTitle: string;
 	title: string;
 	type: NotificationType;
 	date: string;
@@ -126,7 +125,6 @@ async function markUnread({delegateTarget}: DelegateEvent): Promise<void> {
 		state,
 		isParticipating: select.exists(`.participant-avatar[href="/${getUsername()}"]`),
 		repository: getRepoURL(),
-		dateTitle: lastCommentTime.title,
 		title: select('.js-issue-title')!.textContent!.trim(),
 		type: pageDetect.isPR() ? 'pull-request' : 'issue',
 		date: lastCommentTime.getAttribute('datetime')!,
@@ -143,7 +141,6 @@ async function markUnread({delegateTarget}: DelegateEvent): Promise<void> {
 function getNotification(notification: Notification): Element {
 	const {
 		participants,
-		dateTitle,
 		title,
 		state,
 		type,
@@ -193,7 +190,7 @@ function getNotification(notification: Notification): Element {
 					{infoIcon()}
 				</li>
 				<li className="age">
-					<relative-time datetime={date} title={dateTitle}/>
+					<relative-time datetime={date}/>
 				</li>
 				<div className="AvatarStack AvatarStack--three-plus AvatarStack--right clearfix d-inline-block" style={{marginTop: 1}}>
 					<div className="AvatarStack-body tooltipped tooltipped-sw tooltipped-align-right-1" aria-label={usernames}>

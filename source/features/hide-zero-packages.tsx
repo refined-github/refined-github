@@ -7,8 +7,8 @@ async function init(): Promise<void> {
 		'.UnderlineNav-item[href$="?tab=packages"] .Counter' // `isUserProfile`
 	].join(','));
 
-	if (packagesCounter?.textContent!.trim() === '0') {
-		packagesCounter!.closest('li, .UnderlineNav-item')!.remove();
+	if (packagesCounter?.textContent?.trim() === '0') {
+		packagesCounter.closest('li, .UnderlineNav-item')!.remove();
 	}
 }
 

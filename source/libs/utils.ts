@@ -8,10 +8,10 @@ export function logError(featureName: typeof __featureName__, error: Error | str
 	// Don't change this to `throw Error` because Firefox doesn't show extensions' errors in the console.
 	// Use `return` after calling this function.
 	console.error(`❌ Refined GitHub: feature \`${featureName}\`\n\n`, error, ...extras, stripIndent(`
-	
+
 		Search for open issues:
 		https://github.com/sindresorhus/refined-github/issues?q=is%3Aissue+${encodeURIComponent(message)}
-		
+
 		or open a new one:
 		https://github.com/sindresorhus/refined-github/issues/new?labels=bug&template=bug_report.md&title=${encodeURIComponent(`\`${featureName}\`: ${message}`)}
 	`));
@@ -121,14 +121,6 @@ export const flatZip = <T>(table: T[][], limit = Infinity): T[] => {
 
 	return zipped;
 };
-
-export function getOP(): string {
-	if (isPR()) {
-		return /^(?:.+) by (\S+) · Pull Request #(?:\d+)/.exec(document.title)?.[1]!;
-	}
-
-	return select('.timeline-comment-header-text .author')!.textContent!;
-}
 
 export function compareNames(username: string, realname: string): boolean {
 	return username.replace(/-/g, '').toLowerCase() === realname.normalize('NFD').replace(/[\u0300-\u036F\W.]/g, '').toLowerCase();

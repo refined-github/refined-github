@@ -8,4 +8,8 @@
 	bottom: 2px;
 	right: 2px;
 	fill: #333;
+	stroke: #fff;
+	stroke-width: 4px;
+	paint-order: stroke;
+	overflow: visible !important;
 }
