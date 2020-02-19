@@ -1,9 +1,20 @@
 import './mark-private-orgs.css';
+import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import eyeClosedIcon from 'octicon/eye-closed.svg';
 import {getUsername} from '../libs/utils';
 import features from '../libs/features';
 import * as api from '../libs/api';
+
+const getPublicOrganizations = cache.function(async (username: string): Promise<string[]> => {
+	// API v4 seems to *require* `org:read` permission AND it includes private organizations as well, which defeats the purpose. There's no way to filter them.
+	// GitHub's API explorer inexplicably only includes public organizations.
+	const response = await api.v3(`users/${username}/orgs`);
+	return response.map((organization: AnyObject) => organization.login);
+}, {
+	cacheKey: ([username]) => __featureName__ + ':' + username,
+	expiration: 10
+});
 
 async function init(): Promise<false | void> {
 	const orgs = select.all<HTMLAnchorElement>('.avatar-group-item[data-hovercard-type="organization"]');
@@ -11,11 +22,9 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	const response = await api.v3(`users/${getUsername()}/orgs`);
-	const publicOrgs: string[] = response.map((orgData: AnyObject) => `/${orgData.login as string}`);
-
+	const publicOrganizations = await getPublicOrganizations(getUsername());
 	for (const org of orgs) {
-		if (!publicOrgs.includes(org.pathname)) {
+		if (!publicOrganizations.includes(org.pathname.slice(1))) {
 			org.classList.add('rgh-private-org');
 			org.append(eyeClosedIcon());
 		}
