@@ -27,7 +27,7 @@ function setCount(tab: HTMLElement, count: number, add: boolean): void {
 	const counter = select('.Counter', tab)!;
 	const exceedsLimit = add && counter.textContent!.includes('+');
 	if (add) {
-		count = Number(counter.textContent.replace(/\D/g, '')) + count;
+		count = Number(counter.textContent!.replace(/\D/g, '')) + count;
 	}
 
 	counter.textContent = numberFormatter.format(count) + (exceedsLimit ? '+' : '');
