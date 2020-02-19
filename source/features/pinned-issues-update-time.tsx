@@ -1,9 +1,10 @@
 import React from 'dom-chef';
+import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import clockIcon from 'octicon/clock.svg';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {getRepoGQL} from '../libs/utils';
+import {getRepoGQL, getRepoURL} from '../libs/utils';
 
 interface IssueInfo {
 	updatedAt: string;
@@ -27,7 +28,7 @@ async function init(): Promise<void | false> {
 	}
 }
 
-const getLastUpdated = async (issueNumbers: string[]): Promise<Record<string, IssueInfo>> => {
+const getLastUpdated = cache.function(async (issueNumbers: string[]): Promise<Record<string, IssueInfo>> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			${issueNumbers.map(number => `
@@ -39,7 +40,10 @@ const getLastUpdated = async (issueNumbers: string[]): Promise<Record<string, Is
 	`);
 
 	return repository;
-};
+}, {
+	expiration: 1,
+	cacheKey: () => __featureName__ + ':' + getRepoURL()
+});
 
 function getPinnedIssueNumber(pinnedIssue: HTMLElement): string {
 	return select('.opened-by', pinnedIssue)!.firstChild!.textContent!.replace(/\D/g, '');
