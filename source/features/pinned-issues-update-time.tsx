@@ -3,40 +3,49 @@ import select from 'select-dom';
 import clockIcon from 'octicon/clock.svg';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import { getRepoGQL } from '../libs/utils';
+import {getRepoGQL} from '../libs/utils';
 
 async function init(): Promise<void> {
+	const lastUpdated: any = await getLastUpdated(buildQuery(getPinnedIssueNumbers()));
 	for (const pinnedIssue of select.all('.pinned-issue-item')) {
 		const issueNumber = select('.opened-by', pinnedIssue)!.firstChild!.textContent!.replace(/\D/g, '');
-		const lastUpdated = await getLastUpdated(issueNumber);
-		const lastUpdatedTitle = new Intl.DateTimeFormat('default', {
-			month: 'short',
-			day: 'numeric',
-			year: 'numeric',
-			hour: '2-digit',
-			minute: 'numeric',
-			timeZoneName: 'short'
-		}).format(new Date(lastUpdated));
-
+		const {updatedAt} = lastUpdated[`_${issueNumber}_`];
 		pinnedIssue.lastElementChild!.append(
 			<span className="d-md-inline issue-meta-section ml-2 text-gray text-small">
-				{clockIcon()} updated <relative-time datetime={lastUpdated} title={lastUpdatedTitle} />
+				{clockIcon()} updated <relative-time datetime={updatedAt} title={updatedAt}/>
 			</span>
 		);
 	}
 }
 
-const getLastUpdated = async (issue: string): Promise<string> => {
-	const { repository } = await api.v4(`
+const getLastUpdated = async (query: string): Promise<string[]> => {
+	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
-			issue (number:${issue}){
-				updatedAt
-			}
+			${query}
 		}
 	`);
 
-	return repository.issue.updatedAt;
+	return repository;
 };
+
+function getPinnedIssueNumbers(): string[] {
+	return select.all('.pinned-issue-item').map(pinnedIssue => {
+		return select('.opened-by', pinnedIssue)!.firstChild!.textContent!.replace(/\D/g, '');
+	});
+}
+
+function createQueryFragment(issue: string): string {
+	return `
+		_${issue}_:issue (number:${issue}){
+			number,
+			updatedAt
+		}
+	`;
+}
+
+function buildQuery(issueNumbers: string[]): string {
+	return issueNumbers.map(createQueryFragment).join('\n');
+}
 
 features.add({
 	id: __featureName__,
