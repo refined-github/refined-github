@@ -1,12 +1,13 @@
 import './latest-tag-button.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import alertIcon from 'octicon/alert.svg';
 import tagIcon from 'octicon/tag.svg';
 import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
+import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
+import fetchDom from '../libs/fetch-dom';
 import {isRepoRoot} from '../libs/page-detect';
 import getDefaultBranch from '../libs/get-default-branch';
 import {getRepoURL, getCurrentBranch, replaceBranch, getRepoGQL} from '../libs/utils';
@@ -31,6 +32,7 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 				nodes {
 					name
 					tag: target {
+						oid
 						... on Tag {
 							commit: target {
 								oid
@@ -56,7 +58,7 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 
 	const tags: Tag[] = repository.refs.nodes.map((node: AnyObject) => ({
 		name: node.name,
-		commit: node.tag.commit.oid
+		commit: getTagOid(node)
 	}));
 
 	// Default to the first tag in the (reverse chronologically-sorted) list
@@ -74,6 +76,28 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 }, {
 	expiration: 1,
 	cacheKey: () => __featureName__ + ':' + getRepoURL()
+});
+
+function getTagOid(node: AnyObject): string {
+	if (node.tag === {}) {
+		return node.tag.commit.oid;
+	}
+
+	return node.tag.oid;
+}
+
+const getDifference = cache.function(async (latestTag: string): Promise<string> => {
+	const tagPage = await fetchDom(`/${getRepoURL()}/releases/tag/${latestTag}`);
+	// This text is "4 commits to master since this tag"
+	const commitsToMaster = select('.release-header relative-time + a[href*="/compare/"]', tagPage)!.textContent;
+	if (commitsToMaster === null) {
+		return '';
+	}
+
+	return commitsToMaster.replace(/\D/g, '');
+}, {
+	expiration: 1,
+	cacheKey: () => __featureName__ + ':aheadBy:' + getRepoURL()
 });
 
 async function init(): Promise<false | void> {
@@ -114,8 +138,9 @@ async function init(): Promise<false | void> {
 
 	const defaultBranch = await getDefaultBranch();
 	if (currentBranch === defaultBranch) {
-		link.setAttribute('aria-label', `${defaultBranch} is ahead of the latest release`);
-		link.append(' ', alertIcon());
+		const aheadBy = await getDifference(latestTag);
+		link.setAttribute('aria-label', `${defaultBranch} is ${aheadBy} commits ahead of the latest release`);
+		link.append(' ', <sup>+{aheadBy}</sup>);
 	} else {
 		link.setAttribute('aria-label', 'Visit the latest release');
 	}
