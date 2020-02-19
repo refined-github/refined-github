@@ -11,6 +11,10 @@ interface IssueInfo {
 
 async function init(): Promise<void | false> {
 	const pinnedIssues = select.all('.pinned-issue-item');
+	if (pinnedIssues.length === 0) {
+		return false;
+	}
+
 	const lastUpdated: Record<string, IssueInfo> = await getLastUpdated(pinnedIssues.map(getPinnedIssueNumber));
 	for (const pinnedIssue of pinnedIssues) {
 		const issueNumber = getPinnedIssueNumber(pinnedIssue);
