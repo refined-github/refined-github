@@ -6,7 +6,7 @@ import features from '../libs/features';
 import * as api from '../libs/api';
 import SearchQuery from '../libs/search-query';
 import {getRepoGQL, getRepoURL} from '../libs/utils';
-/*
+
 const countBugs = cache.function(async (): Promise<number> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
@@ -20,14 +20,14 @@ const countBugs = cache.function(async (): Promise<number> => {
 }, {
 	expiration: 1,
 	cacheKey: (): string => __featureName__ + ':' + getRepoURL()
-});*/
+});
 
 const numberFormatter = new Intl.NumberFormat();
 function setCount(tab: HTMLElement, count: number, add: boolean): void {
 	const counter = select('.Counter', tab)!;
 	const exceedsLimit = add && counter.textContent!.includes('+');
 	if (add) {
-		count = Number(counter.textContent.replace(/\D/g, '') + count;
+		count = Number(counter.textContent.replace(/\D/g, '')) + count;
 	}
 
 	counter.textContent = numberFormatter.format(count) + (exceedsLimit ? '+' : '');
