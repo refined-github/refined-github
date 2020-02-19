@@ -12,7 +12,7 @@ async function init(): Promise<void> {
 		const {updatedAt} = lastUpdated[`_${issueNumber}_`];
 		pinnedIssue.lastElementChild!.append(
 			<span className="d-md-inline issue-meta-section ml-2 text-gray text-small">
-				{clockIcon()} updated <relative-time datetime={updatedAt} title={updatedAt}/>
+				{clockIcon()} updated <relative-time datetime={updatedAt}/>
 			</span>
 		);
 	}
