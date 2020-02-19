@@ -87,8 +87,8 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 
 	return files;
 }, {
-	expiration: 10,
-	keepFresh: 1,
+	maxAge: 1,
+	staleWhileRevalidate: 9,
 	cacheKey: () => __featureName__ + ':' + getRepoURL()
 });
 

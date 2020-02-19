@@ -26,6 +26,7 @@ async function fetchFromApi(): Promise<string> {
 }
 
 export default cache.function(async () => parseBranchFromDom() ?? fetchFromApi(), {
-	keepFresh: 10,
+	maxAge: 10,
+	staleWhileRevalidate: 20,
 	cacheKey: () => 'default-branch:' + getRepoURL()
 });

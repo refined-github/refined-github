@@ -36,7 +36,7 @@ const getLatestTag = cache.function(async (): Promise<string | false> => {
 	// Otherwise just use the latest
 	return tags[0];
 }, {
-	expiration: 1,
+	maxAge: 1,
 	cacheKey: () => __featureName__ + ':' + getRepoURL()
 });
 

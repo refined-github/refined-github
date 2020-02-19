@@ -34,8 +34,8 @@ async function fetchFromApi(): Promise<number> {
 }
 
 const getReleaseCount = cache.function(async () => parseCountFromDom() ?? fetchFromApi(), {
-	expiration: 5,
-	keepFresh: 1,
+	maxAge: 1,
+	staleWhileRevalidate: 4,
 	cacheKey: () => cacheKey
 });
 
