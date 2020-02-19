@@ -152,6 +152,12 @@ h2 ~ h2 {
 }
 
 @-moz-document url-prefix('') {
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--background-color: #201f24;
+		}
+	}
+
 	body > :not(hr) {
 		margin-left: 6px;
 		margin-right: 6px;
