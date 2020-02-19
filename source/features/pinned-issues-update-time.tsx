@@ -5,11 +5,16 @@ import * as api from '../libs/api';
 import features from '../libs/features';
 import {getRepoGQL} from '../libs/utils';
 
-async function init(): Promise<void> {
-	const lastUpdated: any = await getLastUpdated(buildQuery(getPinnedIssueNumbers()));
-	for (const pinnedIssue of select.all('.pinned-issue-item')) {
-		const issueNumber = select('.opened-by', pinnedIssue)!.firstChild!.textContent!.replace(/\D/g, '');
-		const {updatedAt} = lastUpdated[`_${issueNumber}_`];
+interface IssueInfo {
+	updatedAt: string;
+}
+
+async function init(): Promise<void | false> {
+	const pinnedIssues = select.all('.pinned-issue-item');
+	const lastUpdated: Record<string, IssueInfo> = await getLastUpdated(pinnedIssues.map(getPinnedIssueNumber));
+	for (const pinnedIssue of pinnedIssues) {
+		const issueNumber = getPinnedIssueNumber(pinnedIssue);
+		const {updatedAt} = lastUpdated[api.escapeKey(issueNumber)];
 		pinnedIssue.lastElementChild!.append(
 			<span className="d-md-inline issue-meta-section ml-2 text-gray text-small">
 				{clockIcon()} updated <relative-time datetime={updatedAt}/>
@@ -18,33 +23,22 @@ async function init(): Promise<void> {
 	}
 }
 
-const getLastUpdated = async (query: string): Promise<string[]> => {
+const getLastUpdated = async (issueNumbers: string[]): Promise<Record<string, IssueInfo>> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
-			${query}
+			${issueNumbers.map(number => `
+				${api.escapeKey(number)}: issue(number: ${number}) {
+					updatedAt
+				}
+			`).join('\n')}
 		}
 	`);
 
 	return repository;
 };
 
-function getPinnedIssueNumbers(): string[] {
-	return select.all('.pinned-issue-item').map(pinnedIssue => {
-		return select('.opened-by', pinnedIssue)!.firstChild!.textContent!.replace(/\D/g, '');
-	});
-}
-
-function createQueryFragment(issue: string): string {
-	return `
-		_${issue}_:issue (number:${issue}){
-			number,
-			updatedAt
-		}
-	`;
-}
-
-function buildQuery(issueNumbers: string[]): string {
-	return issueNumbers.map(createQueryFragment).join('\n');
+function getPinnedIssueNumber(pinnedIssue: HTMLElement): string {
+	return select('.opened-by', pinnedIssue)!.firstChild!.textContent!.replace(/\D/g, '');
 }
 
 features.add({
