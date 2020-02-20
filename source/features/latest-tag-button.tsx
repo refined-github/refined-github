@@ -1,10 +1,10 @@
 import './latest-tag-button.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
+import select from 'select-dom';
 import tagIcon from 'octicon/tag.svg';
 import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
-import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
