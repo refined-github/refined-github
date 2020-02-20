@@ -58,7 +58,7 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 
 	const tags: Tag[] = repository.refs.nodes.map((node: AnyObject) => ({
 		name: node.name,
-		commit: getTagOid(node)
+		commit: node.tag.commit?.oid ?? node.tag.oid
 	}));
 
 	// Default to the first tag in the (reverse chronologically-sorted) list
@@ -78,23 +78,10 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 	cacheKey: () => __featureName__ + ':' + getRepoURL()
 });
 
-function getTagOid(node: AnyObject): string {
-	if (node.tag === {}) {
-		return node.tag.commit.oid;
-	}
-
-	return node.tag.oid;
-}
-
-const getDifference = cache.function(async (latestTag: string): Promise<string> => {
+const getAheadByCount = cache.function(async (latestTag: string): Promise<string> => {
 	const tagPage = await fetchDom(`/${getRepoURL()}/releases/tag/${latestTag}`);
 	// This text is "4 commits to master since this tag"
-	const commitsToMaster = select('.release-header relative-time + a[href*="/compare/"]', tagPage)!.textContent;
-	if (commitsToMaster === null) {
-		return '';
-	}
-
-	return commitsToMaster.replace(/\D/g, '');
+	return select('.release-header relative-time + a[href*="/compare/"]', tagPage)!.textContent!.replace(/\D/g, '');
 }, {
 	expiration: 1,
 	cacheKey: () => __featureName__ + ':aheadBy:' + getRepoURL()
@@ -138,7 +125,7 @@ async function init(): Promise<false | void> {
 
 	const defaultBranch = await getDefaultBranch();
 	if (currentBranch === defaultBranch) {
-		const aheadBy = await getDifference(latestTag);
+		const aheadBy = await getAheadByCount(latestTag);
 		link.setAttribute('aria-label', `${defaultBranch} is ${aheadBy} commits ahead of the latest release`);
 		link.append(' ', <sup>+{aheadBy}</sup>);
 	} else {
