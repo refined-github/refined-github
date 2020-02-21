@@ -160,6 +160,7 @@ import './features/quick-mention';
 import './features/extend-discussion-status-filters';
 import './features/expand-all-hidden-comments';
 import './features/bugs-tab';
+import './features/repo-wide-file-finder';
 
 // Add global for easier debugging
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
