@@ -103,7 +103,7 @@ export const _isGlobalSearchResults = [
 	'https://github.com/search?q=refined-github&ref=opensearch'
 ];
 
-export const isIssue = (): boolean => /^issues\/\d+/.test(getRepoPath()!);
+export const isIssue = (): boolean => /^issues\/\d+/.test(getRepoPath()!) && select.exists('#partial-discussion-header');
 export const _isIssue = [
 	'https://github.com/sindresorhus/refined-github/issues/146'
 ];
