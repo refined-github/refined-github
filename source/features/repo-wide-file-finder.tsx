@@ -3,8 +3,10 @@ import React from 'dom-chef';
 import features from '../libs/features';
 import select from 'select-dom';
 import {getRepoURL} from '../libs/utils';
+import getDefaultBranch from '../libs/get-default-branch';
 
-function init(): void {
+async function init(): Promise<void> {
+	const defaultBranch = await getDefaultBranch();
 	const pageHeaderElement = select<HTMLUListElement>('.pagehead-actions');
 	const fileFinderButtonExists = select.exists('[data-hotkey="t"]');
 	const hiddenButton: HTMLElement = (
@@ -13,7 +15,7 @@ function init(): void {
 				className="btn btn-sm empty-icon float-right BtnGroup-item"
 				data-hotkey="t"
 				data-pjax="true"
-				href={`/${getRepoURL()}/find/master`}
+				href={`/${getRepoURL()}/find/${defaultBranch}`}
 			>
 				Hidden Find
 			</a>
