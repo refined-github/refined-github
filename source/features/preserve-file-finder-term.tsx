@@ -6,8 +6,8 @@ import delegate, {DelegateEvent} from 'delegate-it';
 const FILE_FINDER_INPUT_SELECTOR = '.js-tree-finder > .breadcrumb > #tree-finder-field';
 
 let flag = false;
-let buffer: string = '';
-let fileFinderText: string;
+let fileFinderBuffer: string;
+let fileFinderMemory: string;
 
 // check if key pressed is valid search term character
 const isValidCharacter = (char: string): boolean => (
@@ -21,10 +21,11 @@ const isValidCharacter = (char: string): boolean => (
   char <= '9'
 );
 
-// the current search term is fetched from local storage onto variable
+// the current search term & buffer is fetched from local storage onto variable
 const initializeValues = async (): Promise<void> => {
-  const textFromStorage: string = (await browser.storage.local.get({fileFinderText: ''})).fileFinderText;
-  fileFinderText = textFromStorage;
+  const valuesFromStorage = (await browser.storage.local.get({fileFinderMemory: '', fileFinderBuffer: ''}));
+  fileFinderMemory = valuesFromStorage.fileFinderMemory;
+  fileFinderBuffer = valuesFromStorage.fileFinderBuffer;
 };
 
 const keyDownHandler = ({key, target}: KeyboardEvent): void => {
@@ -32,7 +33,7 @@ const keyDownHandler = ({key, target}: KeyboardEvent): void => {
     if (flag) {
       const input = select<HTMLInputElement>(FILE_FINDER_INPUT_SELECTOR);
       if (!input && isValidCharacter(key)) {
-        buffer = buffer.concat(key);
+        setBuffer(fileFinderBuffer.concat(key))
       }
     } else if (key === 't') {
       flag = true;
@@ -41,30 +42,48 @@ const keyDownHandler = ({key, target}: KeyboardEvent): void => {
 };
 
 // the current search term is stored in local storage
-const setValueInStorage = async (value: string): Promise<void> => {
-  fileFinderText = value;
-  await browser.storage.local.set({fileFinderText});
+const setText = async (value: string): Promise<void> => {
+  fileFinderMemory = value;
+  await browser.storage.local.set({fileFinderMemory});
+};
+
+// chars pressed after 't' is stored in local storage
+const setBuffer = async (value: string): Promise<void> => {
+  fileFinderBuffer = value;
+  await browser.storage.local.set({fileFinderBuffer});
 };
 
 const inputHandler = async (event: DelegateEvent<InputEvent, HTMLInputElement>): Promise<void> => {
   const value: string = (event.delegateTarget as HTMLInputElement).value;
-  await setValueInStorage(value);
+  await setText(value);
+};
+
+// set the input field value & trigger event
+const setValueInField = (value: string): void => {
+  const inputElement = select<HTMLInputElement>(FILE_FINDER_INPUT_SELECTOR);
+  if ( inputElement ) {
+    inputElement.value = value;
+    inputElement.dispatchEvent(new Event('input'));  // manually trigger event to trigger search
+  }
+};
+
+// function that will set the current value of input field to buffer or memory
+const setValueFromBufferOrText = async (): Promise<void> => {
+  if ( fileFinderBuffer.length > 0 ) {
+    setValueInField(fileFinderBuffer)
+    await setText(fileFinderBuffer);
+    await setBuffer('');
+  } else if ( fileFinderMemory ) {
+    setValueInField(fileFinderMemory)
+  }
 };
 
 // function that is used for polling until file finder input becomes ready
 const pollFn = (): boolean | null => {
   const inputElement = select<HTMLInputElement>(FILE_FINDER_INPUT_SELECTOR);
   if ( inputElement ) {
-    if ( buffer.length > 0 ) {
-      inputElement.value = buffer;
-      inputElement.dispatchEvent(new Event('input'));  // manually trigger event for search to happen
-      setValueInStorage(buffer);
-    } else if ( fileFinderText ) {
-      inputElement.value = fileFinderText;
-      inputElement.dispatchEvent(new Event('input'));
-    }
+    setValueFromBufferOrText();
     flag = false;
-    buffer = '';
     return true;
   } else {
     return null;
@@ -74,6 +93,7 @@ const pollFn = (): boolean | null => {
 async function init(): Promise<void> {
   await initializeValues();
   if (features.isFileFinder()) {
+    await setValueFromBufferOrText();
     delegate(FILE_FINDER_INPUT_SELECTOR, 'input', inputHandler);
   } else {  // wait for file finder page to be opened
     poll(pollFn, 300);
