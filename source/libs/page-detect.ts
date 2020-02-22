@@ -348,7 +348,7 @@ export const _isSingleFile = [
 
 export const isFileFinder = (): boolean => /^find\//.test(getRepoPath()!);
 export const _isFileFinder = [
-	'https://github.com/sindresorhus/refined-github/find/master',
+	'https://github.com/sindresorhus/refined-github/find/master'
 ];
 
 export const isSingleGist = (): boolean => isGist() && /^\/(gist\/)?[^/]+\/[0-9a-f]{32}$/.test(location.pathname);
