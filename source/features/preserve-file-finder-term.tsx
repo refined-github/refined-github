@@ -29,7 +29,8 @@ const initializeValues = async (): Promise<void> => {
 };
 
 const keyDownHandler = ({key, target}: KeyboardEvent): void => {
-  if ((target as Element).nodeName !== 'INPUT') {
+  const nodeName = (target as Element).nodeName;
+  if (nodeName !== 'INPUT' && nodeName !== 'TEXTAREA') {
     if (flag) {
       const input = select<HTMLInputElement>(FILE_FINDER_INPUT_SELECTOR);
       if (!input && isValidCharacter(key)) {
