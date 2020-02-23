@@ -49,14 +49,16 @@ function pollFn(): boolean | null {
 	return null;
 }
 
-async function init(): Promise<void> {
-	await initializeValues();
-	if (features.isFileFinder()) {
-		await setValueFromBufferOrText();
-		delegate(FILE_FINDER_INPUT_SELECTOR, 'input', inputHandler);
-	} else { // Wait for file finder page to be opened
-		poll(pollFn, 300);
-	}
+function init(): Promise<void> {
+	const inputElement = select<HTMLInputElement>(FILE_FINDER_INPUT_SELECTOR);
+	inputElement?.classList
+	// await initializeValues();
+	// if (features.isFileFinder()) {
+	// 	await setValueFromBufferOrText();
+	// 	delegate(FILE_FINDER_INPUT_SELECTOR, 'input', inputHandler);
+	// } else { // Wait for file finder page to be opened
+	// 	poll(pollFn, 300);
+	// }
 }
 
 features.add({

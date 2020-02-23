@@ -36,8 +36,9 @@ const pjaxCompleteHandler = (): void => {
 	const input = select<HTMLInputElement>(FILE_FINDER_INPUT_SELECTOR);
 	if (input) {
 		input.value = fileFinderBuffer.slice(1); // First character is the 't' pressed
-		fileFinderBuffer = '';
+		input.dispatchEvent(new Event('input')); // Manually trigger event to trigger search
 	}
+	fileFinderBuffer = '';
 
 	window.removeEventListener('keydown', keyDownHandler);
 };
@@ -58,6 +59,8 @@ features.add({
 	screenshot: false,
 	include: [
 		features.isRepoDiscussionList,
+		features.isPR,
+		features.isIssue,
 		features.isRepoRoot,
 		features.isRepoTree,
 		features.isSingleFile
