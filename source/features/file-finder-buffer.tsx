@@ -26,7 +26,7 @@ const keyDownHandler = ({key, target}: KeyboardEvent): void => {
 };
 
 const pjaxStartHandler = ((event: CustomEvent): void => {
-	const destinationURL: string = event.detail.url;
+	const destinationURL: string = event.detail?.url || '';
 	if (destinationURL.includes('/find/')) {
 		window.addEventListener('keydown', keyDownHandler);
 	}
@@ -38,6 +38,7 @@ const pjaxCompleteHandler = (): void => {
 		input.value = fileFinderBuffer.slice(1); // First character is the 't' pressed
 		input.dispatchEvent(new Event('input')); // Manually trigger event to trigger search
 	}
+
 	fileFinderBuffer = '';
 
 	window.removeEventListener('keydown', keyDownHandler);
