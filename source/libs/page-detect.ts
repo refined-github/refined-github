@@ -14,9 +14,6 @@ export const _is404 = domBased; // They're specified in page-detect.ts
 export const is500 = (): boolean => document.title === 'Server Error · GitHub' || document.title === 'Unicorn! · GitHub';
 export const _is500 = domBased; // They're specified in page-detect.ts
 
-export const isPasswordPage = (): boolean => document.title === 'Confirm password';
-export const _isPasswordPage = domBased;
-
 export const isBlame = (): boolean => /^blame\//.test(getRepoPath()!);
 export const _isBlame = [
 	'https://github.com/sindresorhus/refined-github/blame/master/package.json'
@@ -248,8 +245,7 @@ export const isRepo = (): boolean => /^[^/]+\/[^/]+/.test(getCleanPathname()) &&
 	!isNotifications() &&
 	!isDashboard() &&
 	!isGist() &&
-	!isRepoSearch() &&
-	!isPasswordPage();
+	!isRepoSearch();
 export const _isRepo = [
 	'https://github.com/sindresorhus/refined-github/blame/master/package.json',
 	'https://github.com/sindresorhus/refined-github/issues/146',
