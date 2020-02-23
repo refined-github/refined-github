@@ -2,8 +2,15 @@ import select from 'select-dom';
 import {applyToLink} from 'shorten-repo-url';
 import features from '../libs/features';
 import {linkifiedURLClass} from '../libs/dom-formatters';
+import {isGlobalSearchResults} from '../libs/page-detect'
 
 function init(): void {
+  if (isGlobalSearchResults()) {
+		for (const a of select.all('.repo-list-item p a')) {
+			a.classList.add(linkifiedURLClass)
+		}
+	}
+
 	for (const a of select.all<HTMLAnchorElement>(`a[href]:not(.${linkifiedURLClass})`)) {
 		applyToLink(a, location.href);
 	}
