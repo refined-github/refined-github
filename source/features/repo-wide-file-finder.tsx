@@ -7,40 +7,37 @@ import getDefaultBranch from '../libs/get-default-branch';
 
 async function init(): Promise<void> {
 	const defaultBranch = await getDefaultBranch();
-	const pageHeaderElement = select<HTMLUListElement>('.pagehead-actions');
+	const pjaxContainer = select<HTMLElement>('#js-repo-pjax-container');
 	const fileFinderButtonExists = select.exists('[data-hotkey="t"]');
 	const hiddenButton: HTMLElement = (
-		<li className="rgh-file-finder-hidden-btn">
-			<a
-				className="btn btn-sm empty-icon float-right BtnGroup-item"
-				data-hotkey="t"
-				data-pjax="true"
-				href={`/${getRepoURL()}/find/${defaultBranch}`}
-			>
-				Hidden Find
-			</a>
-		</li>
+		<a
+			hidden
+			id="rgh-file-finder-hidden-btn"
+			data-hotkey="t"
+			data-pjax="true"
+			href={`/${getRepoURL()}/find/${defaultBranch}`}
+		/>
 	);
 	if (!fileFinderButtonExists) {
-    pageHeaderElement?.appendChild(hiddenButton);
+    pjaxContainer?.appendChild(hiddenButton);
 	}
 }
 
 function deinit(): void {
-	const pageHeaderElement = select<HTMLUListElement>('.pagehead-actions');
-	const hiddenButton = select<HTMLLIElement>('.rgh-file-finder-hidden-btn');
+	const pjaxContainer = select<HTMLElement>('#js-repo-pjax-container');
+	const hiddenButton = select<HTMLAnchorElement>("#rgh-file-finder-hidden-btn");
 
 	if (hiddenButton) {
-    pageHeaderElement?.removeChild(hiddenButton);
+    pjaxContainer?.removeChild(hiddenButton);
 	}
 }
 
 features.add({
 	id: __featureName__,
-	description: 'Enables file finder on `t` on pages other than code tree',
+	description: 'Enables file finder on `t` on Issues & Pull Requests tab',
 	screenshot: false,
 	include: [
-		features.isRepo
+		features.isRepoDiscussionList
 	],
 	exclude: [
 		features.isRepoRoot,
