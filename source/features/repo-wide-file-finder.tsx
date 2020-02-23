@@ -1,4 +1,3 @@
-import './repo-wide-file-finder.css';
 import React from 'dom-chef';
 import features from '../libs/features';
 import select from 'select-dom';
