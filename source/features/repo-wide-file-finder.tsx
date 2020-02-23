@@ -7,7 +7,7 @@ import getDefaultBranch from '../libs/get-default-branch';
 
 async function init(): Promise<void> {
 	const defaultBranch = await getDefaultBranch();
-	const pjaxContainer = select<HTMLElement>('#js-repo-pjax-container');
+	const pjaxContainer = select('#js-repo-pjax-container');
 	const fileFinderButtonExists = select.exists('[data-hotkey="t"]');
 	const hiddenButton: HTMLElement = (
 		<a
@@ -24,8 +24,8 @@ async function init(): Promise<void> {
 }
 
 function deinit(): void {
-	const pjaxContainer = select<HTMLElement>('#js-repo-pjax-container');
-	const hiddenButton = select<HTMLAnchorElement>("#rgh-file-finder-hidden-btn");
+	const pjaxContainer = select('#js-repo-pjax-container');
+	const hiddenButton = select<HTMLAnchorElement>('#rgh-file-finder-hidden-btn');
 
 	if (hiddenButton) {
     pjaxContainer?.removeChild(hiddenButton);
