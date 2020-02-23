@@ -14,7 +14,8 @@ function initGeneral(): void {
 		'[aria-label="Issues"][role="group"] .js-navigation-open', // `isDiscussionList`
 		'[id^=ref-issue-]', // Issue references in `isIssue`, `isPRConversation`
 		'[id^=ref-pullrequest-]', // PR references in `isIssue`, `isPRConversation`
-		'.TimelineItem-body > del, .TimelineItem-body > ins' // Title edits in `isIssue`, `isPRConversation`
+		'.TimelineItem-body > del, .TimelineItem-body > ins', // Title edits in `isIssue`, `isPRConversation`
+		'.js-pinned-issue-list-item > span' // Pinned Issues
 	])) {
 		parseBackticks(title);
 	}
