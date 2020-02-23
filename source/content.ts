@@ -162,6 +162,7 @@ import './features/expand-all-hidden-comments';
 import './features/bugs-tab';
 import './features/repo-wide-file-finder';
 import './features/preserve-file-finder-term';
+import './features/file-finder-buffer';
 
 // Add global for easier debugging
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

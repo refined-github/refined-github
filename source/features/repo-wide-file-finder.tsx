@@ -37,7 +37,9 @@ features.add({
 	description: 'Enables file finder on `t` on Issues & Pull Requests tab',
 	screenshot: false,
 	include: [
-		features.isRepoDiscussionList
+		features.isRepoDiscussionList,
+		features.isPR,
+		features.isIssue
 	],
 	exclude: [
 		features.isRepoRoot,
