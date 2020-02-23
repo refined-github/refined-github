@@ -106,7 +106,7 @@ export const _isGlobalSearchResults = [
 	'https://github.com/search?q=refined-github&ref=opensearch'
 ];
 
-export const isIssue = (): boolean => /^issues\/\d+/.test(getRepoPath()!) && document.title !== 'GitHub · Where software is built';
+export const isIssue = (): boolean => /^issues\/\d+/.test(getRepoPath()!) && document.title !== 'GitHub · Where software is built'; // The title check excludes deleted issues
 export const _isIssue = [
 	'https://github.com/sindresorhus/refined-github/issues/146'
 ];
