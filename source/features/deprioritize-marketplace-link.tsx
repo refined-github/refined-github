@@ -24,7 +24,8 @@ features.add({
 	description: 'Moves the "Marketplace" link from the black header bar to the profile dropdown.',
 	screenshot: false,
 	exclude: [
-		features.isGist
+		features.isGist,
+		features.isPasswordPage
 	],
 	init
 });
