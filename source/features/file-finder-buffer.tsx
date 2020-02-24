@@ -3,7 +3,7 @@ import features from '../libs/features';
 import select from 'select-dom';
 
 const pjaxStartHandler = ((event: CustomEvent): void => {
-	const destinationURL: string = event.detail?.url || '';
+	const destinationURL = event.detail?.url || '';
 	if (destinationURL.split('/')[5] === 'find') {
 		const hiddenInput = (
 			<input
