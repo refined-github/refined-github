@@ -1,21 +1,23 @@
-import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
-import {getRepoURL} from '../libs/utils';
+import {getUsername, getRepoURL} from '../libs/utils';
 
 const repoUrl = getRepoURL();
 
 function init(): void {
-	select('.subnav-search-context .SelectMenu-list a:last-child')!
-		.before(
-			<a
-				href={`/${repoUrl}/issues?q=is%3Aopen+commenter:@me`}
-				className="SelectMenu-item"
-				role="menuitem"
-			>
-				Everything commented by you
-			</a>
-		);
+	const dropDownElement = select('#filters-select-menu a:last-child, .subnav-search-context li:last-child');
+	// Exit if not logged in or selector does not match
+	if (!dropDownElement) {
+		return;
+	}
+
+	const newDropDownElement = dropDownElement.cloneNode(true);
+	const href = `/${repoUrl}/issues?q=is%3Aopen+commenter:${getUsername()}`;
+	const newDropDownElementLink = newDropDownElement.matches('a') ? newDropDownElement : select('a', newDropDownElement)!;
+	newDropDownElementLink.textContent = 'Everything commented by you';
+	newDropDownElementLink.setAttribute('href', href);
+	newDropDownElementLink.removeAttribute('target');
+	dropDownElement.before(newDropDownElement);
 }
 
 features.add({
