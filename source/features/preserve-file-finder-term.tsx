@@ -5,10 +5,7 @@ import elementReady from 'element-ready';
 const FILE_FINDER_INPUT_SELECTOR = '.js-tree-finder > .breadcrumb > #tree-finder-field';
 
 const unloadHandler = (): void => {
-	const inputElement = select<HTMLInputElement>(FILE_FINDER_INPUT_SELECTOR);
-	if (inputElement) {
-		sessionStorage.setItem('rgh-file-finder-term', inputElement.value);
-	}
+	sessionStorage.setItem('rgh-file-finder-term', select<HTMLInputElement>(FILE_FINDER_INPUT_SELECTOR)!.value);
 };
 
 // Set the input field value & trigger event
