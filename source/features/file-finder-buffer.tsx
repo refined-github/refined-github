@@ -7,14 +7,14 @@ const FILE_FINDER_INPUT_SELECTOR = '.js-tree-finder > .breadcrumb > #tree-finder
 const pjaxStartHandler = ((event: CustomEvent): void => {
 	const destinationURL: string = event.detail?.url || '';
 	if (destinationURL.split('/')[5] === 'find') {
-		const hiddenInput = select<HTMLInputElement>('#rgh-file-finder-buffer') ?? document.body.insertBefore(
+		const hiddenInput = (
 			<input
 				type="text"
 				className="sr-only"
 				id="rgh-file-finder-buffer"
-			/>,
-			document.body.firstChild
+			/>
 		);
+		document.body.prepend(hiddenInput);
 		hiddenInput.focus();
 	}
 }) as EventListener; // Explicit type cast. See https://github.com/microsoft/TypeScript/issues/28357#issuecomment-436484705
@@ -25,18 +25,13 @@ const pjaxCompleteHandler = (): void => {
 	if (hiddenInput && fileFinderInput) {
 		fileFinderInput.value = hiddenInput.value;
 		fileFinderInput.dispatchEvent(new Event('input')); // Manually trigger event to trigger search
-		hiddenInput.value = '';
+		document.body.removeChild(hiddenInput);
 	}
 };
 
 function init(): void {
 	window.addEventListener('pjax:start', pjaxStartHandler);
 	window.addEventListener('pjax:complete', pjaxCompleteHandler);
-}
-
-function deinit(): void {
-	window.removeEventListener('pjax:beforeSend', pjaxStartHandler);
-	window.removeEventListener('pjax:complete', pjaxCompleteHandler);
 }
 
 features.add({
@@ -46,7 +41,5 @@ features.add({
 	include: [
 		features.isRepo
 	],
-	load: features.onAjaxedPages,
-	init,
-	deinit
+	init
 });
