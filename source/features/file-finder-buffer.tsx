@@ -23,7 +23,7 @@ const pjaxCompleteHandler = (): void => {
 	if (hiddenInput && fileFinderInput) {
 		fileFinderInput.value = hiddenInput.value;
 		fileFinderInput.dispatchEvent(new Event('input')); // Manually trigger event to trigger search
-		document.body.removeChild(hiddenInput);
+		hiddenInput.remove();
 	}
 };
 
