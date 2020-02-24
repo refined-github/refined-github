@@ -1,4 +1,3 @@
-import './file-finder-buffer.css';
 import React from 'dom-chef';
 import features from '../libs/features';
 import select from 'select-dom';
@@ -11,7 +10,7 @@ const pjaxStartHandler = ((event: CustomEvent): void => {
 		const hiddenInput = select<HTMLInputElement>('#rgh-file-finder-buffer') ?? document.body.insertBefore(
 			<input
 				type="text"
-				className="visuallyhidden"
+				className="sr-only"
 				id="rgh-file-finder-buffer"
 			/>,
 			document.body.firstChild
