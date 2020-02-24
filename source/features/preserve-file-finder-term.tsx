@@ -15,12 +15,10 @@ const unloadHandler = (): void => {
 const setValueInField = async (): Promise<void> => {
 	const value: string = sessionStorage.getItem('rgh-file-finder-term') ?? '';
 	const inputElement = select<HTMLInputElement>(FILE_FINDER_INPUT_SELECTOR);
-	if (inputElement) {
-		if (!inputElement.value && value) {
-			await elementReady('.js-tree-browser-results > li', {stopOnDomReady: false});	// For search to work
-			inputElement.value = value;
-			inputElement.dispatchEvent(new Event('input')); // Manually trigger event to trigger search
-		}
+	if (inputElement && !inputElement.value && value) {
+		await elementReady('.js-tree-browser-results > li', {stopOnDomReady: false});	// For search to work
+		inputElement.value = value;
+		inputElement.dispatchEvent(new Event('input')); // Manually trigger event to trigger search
 	}
 };
 

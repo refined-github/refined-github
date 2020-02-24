@@ -7,7 +7,7 @@ const FILE_FINDER_INPUT_SELECTOR = '.js-tree-finder > .breadcrumb > #tree-finder
 
 const pjaxStartHandler = ((event: CustomEvent): void => {
 	const destinationURL: string = event.detail?.url || '';
-	if (destinationURL.includes('/find/')) {
+	if (destinationURL.split('/')[5] === 'find') {
 		const hiddenInput = select<HTMLInputElement>('#rgh-file-finder-buffer') ?? document.body.insertBefore(
 			<input
 				type="text"
