@@ -3,7 +3,7 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 
 const unloadHandler = (): void => {
-	const inputElement = select<HTMLInputElement>('.js-tree-finder > .breadcrumb > #tree-finder-field');
+	const inputElement = select<HTMLInputElement>('#tree-finder-field');
 	if (inputElement) {
 		sessionStorage.setItem('rgh-file-finder-term', inputElement.value);
 	}
@@ -12,7 +12,7 @@ const unloadHandler = (): void => {
 // Set the input field value & trigger event
 const setValueInField = async (): Promise<void> => {
 	const value: string = sessionStorage.getItem('rgh-file-finder-term') ?? '';
-	const inputElement = select<HTMLInputElement>('.js-tree-finder > .breadcrumb > #tree-finder-field');
+	const inputElement = select<HTMLInputElement>('#tree-finder-field');
 	if (inputElement && !inputElement.value && value) {
 		await elementReady('.js-tree-browser-results > li', {stopOnDomReady: false});	// For search to work
 		inputElement.value = value;

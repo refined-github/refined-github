@@ -18,7 +18,7 @@ const pjaxStartHandler = ((event: CustomEvent): void => {
 }) as EventListener; // Explicit type cast. See https://github.com/microsoft/TypeScript/issues/28357#issuecomment-436484705
 
 const pjaxCompleteHandler = (): void => {
-	const fileFinderInput = select<HTMLInputElement>('.js-tree-finder > .breadcrumb > #tree-finder-field');
+	const fileFinderInput = select<HTMLInputElement>('#tree-finder-field');
 	const hiddenInput = select<HTMLInputElement>('#rgh-file-finder-buffer');
 	if (hiddenInput && fileFinderInput) {
 		fileFinderInput.value = hiddenInput.value;
