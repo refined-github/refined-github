@@ -2,8 +2,6 @@ import React from 'dom-chef';
 import features from '../libs/features';
 import select from 'select-dom';
 
-const FILE_FINDER_INPUT_SELECTOR = '.js-tree-finder > .breadcrumb > #tree-finder-field';
-
 const pjaxStartHandler = ((event: CustomEvent): void => {
 	const destinationURL: string = event.detail?.url || '';
 	if (destinationURL.split('/')[5] === 'find') {
@@ -20,7 +18,7 @@ const pjaxStartHandler = ((event: CustomEvent): void => {
 }) as EventListener; // Explicit type cast. See https://github.com/microsoft/TypeScript/issues/28357#issuecomment-436484705
 
 const pjaxCompleteHandler = (): void => {
-	const fileFinderInput = select<HTMLInputElement>(FILE_FINDER_INPUT_SELECTOR);
+	const fileFinderInput = select<HTMLInputElement>('.js-tree-finder > .breadcrumb > #tree-finder-field');
 	const hiddenInput = select<HTMLInputElement>('#rgh-file-finder-buffer');
 	if (hiddenInput && fileFinderInput) {
 		fileFinderInput.value = hiddenInput.value;
