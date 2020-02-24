@@ -6,13 +6,13 @@ import getDefaultBranch from '../libs/get-default-branch';
 
 async function init(): Promise<void> {
 	if (!select.exists('[data-hotkey="t"]')) {
-    select('#js-repo-pjax-container')?.appendChild(
-	<a
-		hidden
-		data-hotkey="t"
-		data-pjax="true"
-		href={`/${getRepoURL()}/find/${await getDefaultBranch()}`}
-	/>
+		select('#js-repo-pjax-container')?.appendChild(
+			<a
+				hidden
+				data-hotkey="t"
+				data-pjax="true"
+				href={`/${getRepoURL()}/find/${await getDefaultBranch()}`}
+			/>
 		);
 	}
 }
