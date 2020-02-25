@@ -20,8 +20,8 @@ const setValueInField = async (): Promise<void> => {
 	}
 };
 
-async function init(): Promise<void> {
-	await setValueInField();
+function init(): void {
+	setValueInField();
 	window.addEventListener('beforeunload', unloadHandler);
 	window.addEventListener('pjax:start', unloadHandler);
 }
