@@ -5,7 +5,7 @@ import SearchQuery from '../libs/search-query';
 
 function init(): void {
 	// Use an existing dropdown item to preserve its DOM structure (supports old GHE versions)
-	const sourceItem = select([
+	const sourceItem = select<HTMLAnchorElement>([
 		'#filters-select-menu a:last-child', // GHE
 		'.subnav-search-context li:last-child'
 	])!;
