@@ -1,18 +1,22 @@
 import select from 'select-dom';
 import features from '../libs/features';
-import {getUsername, getRepoURL} from '../libs/utils';
-
-const repoUrl = getRepoURL();
+import {getUsername} from '../libs/utils';
+import SearchQuery from '../libs/search-query';
 
 function init(): void {
-	const dropDownElement = select('#filters-select-menu a:last-child, .subnav-search-context li:last-child')!;
-	const newDropDownElement = dropDownElement.cloneNode(true);
-	const href = `/${repoUrl}/issues?q=is%3Aopen+commenter:${getUsername()}`;
-	const newDropDownElementLink = newDropDownElement.matches('a') ? newDropDownElement : select('a', newDropDownElement)!;
-	newDropDownElementLink.textContent = 'Everything commented by you';
-	newDropDownElementLink.setAttribute('href', href);
-	newDropDownElementLink.removeAttribute('target');
-	dropDownElement.before(newDropDownElement);
+	// Use an existing dropdown item to preserve its DOM structure (supports old GHE versions)
+	const sourceItem = select([
+		'#filters-select-menu a:last-child', // GHE
+		'.subnav-search-context li:last-child'
+	])!;
+
+	const menuItem = sourceItem.cloneNode(true);
+	const link = select('a', menuItem) ?? menuItem;
+	link.textContent = 'Everything commented by you';
+	link.removeAttribute('target');
+	new SearchQuery(link).set(`is:open commenter:${getUsername()}`);
+
+	sourceItem.before(menuItem);
 }
 
 features.add({
