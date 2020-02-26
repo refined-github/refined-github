@@ -4,12 +4,17 @@ import * as api from '../libs/api';
 import features from '../libs/features';
 import {getRepoGQL} from '../libs/utils';
 
-const getLastUpdated = async (commits: any): any => {
+interface IssueInfo {
+	parents: any;
+	totalCount: any;
+}
+
+const getCommitParentCount = async (commits: string[]): Promise<Record<string, IssueInfo>> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			${commits.map((commit: string) => `
 				${api.escapeKey(commit)}: object(expression: "${commit}") {
-						... on Commit {
+					... on Commit {
 							parents{
 								totalCount
 							}
@@ -28,7 +33,7 @@ function getCommitHash(commit: any): any {
 
 async function init(): Promise<void | false> {
 	const pageCommits = select.all('li.commit');
-	const parentCommitCount = await getLastUpdated(pageCommits.map(getCommitHash));
+	const parentCommitCount = await getCommitParentCount(pageCommits.map(getCommitHash));
 	for (const commit of pageCommits) {
 		const commitHash = getCommitHash(commit);
 		const {totalCount} = parentCommitCount[api.escapeKey(commitHash)].parents;
