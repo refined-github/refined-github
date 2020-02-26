@@ -27,8 +27,8 @@ const getCommitParentCount = async (commits: string[]): Promise<Record<string, I
 	return repository;
 };
 
-function getCommitHash(commit: any): string {
-	return commit.dataset.channel.split(':')[3];
+function getCommitHash(commit: HTMLElement): string {
+	return (commit.dataset.channel as string).split(':')[3];
 }
 
 async function init(): Promise<void | false> {
