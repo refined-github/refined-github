@@ -4,13 +4,13 @@ import * as api from '../libs/api';
 import features from '../libs/features';
 import {getRepoGQL} from '../libs/utils';
 
-interface IssueInfo {
+interface CommitInfo {
 	parents: {
 		totalCount: number | string;
 	};
 }
 
-const getCommitParentCount = async (commits: string[]): Promise<Record<string, IssueInfo>> => {
+const getCommitParentCount = async (commits: string[]): Promise<Record<string, CommitInfo>> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			${commits.map((commit: string) => `
