@@ -5,8 +5,9 @@ import features from '../libs/features';
 import {getRepoGQL} from '../libs/utils';
 
 interface IssueInfo {
-	parents: any;
-	totalCount: any;
+	parents: {
+		totalCount: number | string;
+	};
 }
 
 const getCommitParentCount = async (commits: string[]): Promise<Record<string, IssueInfo>> => {
