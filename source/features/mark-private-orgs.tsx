@@ -25,7 +25,7 @@ async function init(): Promise<false | void> {
 	const publicOrganizationsNames = await getPublicOrganizationsNames(getUsername());
 	for (const org of orgs) {
 		// https://github.com/sindresorhus/refined-github/issues/2830#issuecomment-591111897
-		if (!publicOrganizationsNames.includes(org.pathname.slice('/organizations/'.length))) {
+		if (!publicOrganizationsNames.includes(org.pathname.slice(1).replace('organizations/', ''))) {
 			org.classList.add('rgh-private-org');
 			org.append(eyeClosedIcon());
 		}
