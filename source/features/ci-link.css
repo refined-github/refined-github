@@ -2,6 +2,7 @@
 	position: relative;
 	top: -0.1em;
 	animation: fade-in 0.2s;
+	align-self: stretch !important;
 }
 
 .rgh-ci-link .octicon {
