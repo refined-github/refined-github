@@ -1,5 +1,6 @@
 import './mark-merge-commits-in-list.css';
 import select from 'select-dom';
+import gitmerge from 'octicon/git-merge.svg';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {getRepoGQL} from '../libs/utils';
@@ -45,6 +46,7 @@ async function init(): Promise<void | false> {
 
 		if (parentCommitCount.includes(commitHash)) {
 			commit.classList.add('rgh-merge-commit');
+			select('.commit-title', commit)!.prepend(gitmerge());
 		}
 	}
 }
