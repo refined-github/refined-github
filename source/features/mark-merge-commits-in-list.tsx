@@ -4,13 +4,7 @@ import * as api from '../libs/api';
 import features from '../libs/features';
 import {getRepoGQL} from '../libs/utils';
 
-interface CommitInfo {
-	parents: {
-		totalCount: number | string;
-	};
-}
-
-const getCommitParentCount = async (commits: string[]): Promise<Record<string, CommitInfo>> => {
+const getMergeCommits = async (commits: string[]): Promise<string[]> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			${commits.map((commit: string) => `
@@ -25,8 +19,19 @@ const getCommitParentCount = async (commits: string[]): Promise<Record<string, C
 		}
 	`);
 
-	return repository;
+	return filterCommits(repository);
 };
+
+function filterCommits(commits: object): string[] {
+	const mergeCommits = [];
+	for (const commit of Object.entries(commits)) {
+		if (commit[1].parents.totalCount === 2) {
+			mergeCommits.push(commit[0]);
+		}
+	}
+
+	return mergeCommits;
+}
 
 function getCommitHash(commit: HTMLElement): string {
 	return (commit.dataset.channel as string).split(':')[3];
@@ -34,11 +39,11 @@ function getCommitHash(commit: HTMLElement): string {
 
 async function init(): Promise<void | false> {
 	const pageCommits = select.all('li.commit');
-	const parentCommitCount = await getCommitParentCount(pageCommits.map(getCommitHash));
+	const parentCommitCount = await getMergeCommits(pageCommits.map(getCommitHash));
 	for (const commit of pageCommits) {
-		const commitHash = getCommitHash(commit);
-		const {totalCount} = parentCommitCount[api.escapeKey(commitHash)].parents;
-		if (totalCount === 2) {
+		const commitHash = api.escapeKey(getCommitHash(commit));
+
+		if (parentCommitCount.includes(commitHash)) {
 			commit.classList.add('refined-github-merge-commit');
 		}
 	}
