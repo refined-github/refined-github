@@ -5,7 +5,7 @@
 	opacity: 0.7;
 }
 
-.rgh-merge-commit .octicon-git-merge {
+.rgh-merge-commit .octicon-git-pull-request {
 	color: #4078c0;
 	width: 20px;
 }
