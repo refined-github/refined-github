@@ -40,11 +40,11 @@ function getCommitHash(commit: HTMLElement): string {
 
 async function init(): Promise<void | false> {
 	const pageCommits = select.all('li.commit');
-	const parentCommitCount = await getMergeCommits(pageCommits.map(getCommitHash));
+	const mergeCommits = await getMergeCommits(pageCommits.map(getCommitHash));
 	for (const commit of pageCommits) {
 		const commitHash = api.escapeKey(getCommitHash(commit));
 
-		if (parentCommitCount.includes(commitHash)) {
+		if (mergeCommits.includes(commitHash)) {
 			commit.classList.add('rgh-merge-commit');
 			select('.commit-title', commit)!.prepend(gitmerge());
 		}
