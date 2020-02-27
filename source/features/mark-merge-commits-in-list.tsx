@@ -44,7 +44,7 @@ async function init(): Promise<void | false> {
 		const commitHash = api.escapeKey(getCommitHash(commit));
 
 		if (parentCommitCount.includes(commitHash)) {
-			commit.classList.add('refined-github-merge-commit');
+			commit.classList.add('rgh-merge-commit');
 		}
 	}
 }
