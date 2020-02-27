@@ -5,7 +5,7 @@ import * as api from '../libs/api';
 import features from '../libs/features';
 import {getRepoGQL} from '../libs/utils';
 
-const getMergeCommits = async (commits: string[]): Promise<string[]> => {
+const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			${commits.map((commit: string) => `
@@ -37,7 +37,7 @@ function getCommitHash(commit: HTMLElement): string {
 
 async function init(): Promise<void | false> {
 	const pageCommits = select.all('li.commit');
-	const mergeCommits = await getMergeCommits(pageCommits.map(getCommitHash));
+	const mergeCommits = await filterMergeCommits(pageCommits.map(getCommitHash));
 	for (const commit of pageCommits) {
 		if (mergeCommits.includes(getCommitHash(commit))) {
 			commit.classList.add('rgh-merge-commit');
