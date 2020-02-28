@@ -1,6 +1,6 @@
 import './mark-merge-commits-in-list.css';
 import select from 'select-dom';
-import gitPullRequest from 'octicon/git-pull-request.svg';
+import pullRequestIcon from 'octicon/git-pull-request.svg';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {getRepoGQL} from '../libs/utils';
@@ -40,7 +40,7 @@ async function init(): Promise<void | false> {
 	for (const commit of pageCommits) {
 		if (mergeCommits.includes(getCommitHash(commit))) {
 			commit.classList.add('rgh-merge-commit');
-			select('.commit-title', commit)!.prepend(gitPullRequest());
+			select('.commit-title', commit)!.prepend(pullRequestIcon());
 		}
 	}
 }
