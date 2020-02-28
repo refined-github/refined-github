@@ -83,7 +83,10 @@ function init(): void {
 	const hovercard = select('.js-hovercard-content > .Popover-message')!;
 
 	observeElement(hovercard, async () => {
-		if (hovercard.childElementCount === 0 || select.exists('.rgh-local-user-time', hovercard)) {
+		if (
+			select.exists('.rgh-local-user-time', hovercard) || // Time already added
+			!select.exists('[data-hydro-view*="user-hovercard-hover"]', hovercard) // It's not the hovercard type we expect
+		) {
 			return;
 		}
 
