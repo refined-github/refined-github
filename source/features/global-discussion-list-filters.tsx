@@ -2,6 +2,7 @@ import './global-discussion-list-filters.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import {getUsername} from '../libs/utils';
 import SearchQuery from '../libs/search-query';
 
 function init(): void {
@@ -13,8 +14,8 @@ function init(): void {
 	const typeName = isIssues ? 'Issues' : 'Pull Requests';
 
 	const links = [
-		['Commented', `${typeName} you’ve commented on`, 'commenter:@me'],
-		['Yours', `${typeName} on your repos`, 'user:@me']
+		['Commented', `${typeName} you’ve commented on`, `commenter:${getUsername()}`],
+		['Yours', `${typeName} on your repos`, `user:${getUsername()}`]
 	];
 
 	for (const [label, title, query] of links) {
