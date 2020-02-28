@@ -1,21 +1,22 @@
-import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
-import {getRepoURL} from '../libs/utils';
-
-const repoUrl = getRepoURL();
+import {getUsername} from '../libs/utils';
+import SearchQuery from '../libs/search-query';
 
 function init(): void {
-	select('.subnav-search-context .SelectMenu-list a:last-child')!
-		.before(
-			<a
-				href={`/${repoUrl}/issues?q=is%3Aopen+commenter:@me`}
-				className="SelectMenu-item"
-				role="menuitem"
-			>
-				Everything commented by you
-			</a>
-		);
+	// Use an existing dropdown item to preserve its DOM structure (supports old GHE versions)
+	const sourceItem = select([
+		'#filters-select-menu a:nth-last-child(2)', // GHE
+		'.subnav-search-context li:nth-last-child(2)'
+	])!;
+
+	const menuItem = sourceItem.cloneNode(true);
+	const link = select('a', menuItem) ?? menuItem as HTMLAnchorElement;
+	link.textContent = 'Everything commented by you';
+	link.removeAttribute('target');
+	new SearchQuery(link).set(`is:open commenter:${getUsername()}`);
+
+	sourceItem.after(menuItem);
 }
 
 features.add({
