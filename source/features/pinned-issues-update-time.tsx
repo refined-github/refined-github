@@ -51,7 +51,6 @@ async function init(): Promise<void | false> {
 features.add({
 	id: __featureName__,
 	description: 'Adds the updated time to pinned issues.',
-	screenshot: false,
 	include: [
 		features.isRepoIssueList
 	],
