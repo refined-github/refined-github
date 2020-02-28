@@ -38,18 +38,17 @@ function init(): void | false {
 
 	delegate('.rgh-batch-open-issues', 'click', openIssues);
 
-	const filtersBar = select('.table-list-header-toggle:not(.states)');
-	if (filtersBar) {
-		filtersBar.prepend(
-			<button
-				type="button"
-				className="btn-link rgh-batch-open-issues pr-2"
-			>
-				Open All
-			</button>
-		);
-	}
+	// Add button to open all visible discussions
+	select('.table-list-header-toggle:not(.states)')?.prepend(
+		<button
+			type="button"
+			className="btn-link rgh-batch-open-issues pr-2"
+		>
+			Open all
+		</button>
+	);
 
+	// Add button to open selected discussions
 	const triageFiltersBar = select('.table-list-triage > .text-gray');
 	if (triageFiltersBar) {
 		triageFiltersBar.classList.add('table-list-header-toggle'); // Handles link :hover style
@@ -58,7 +57,7 @@ function init(): void | false {
 				type="button"
 				className="btn-link rgh-batch-open-issues pl-3"
 			>
-				Open all
+				Open selected
 			</button>
 		);
 	}
