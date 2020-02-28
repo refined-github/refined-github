@@ -1,23 +1,25 @@
 import React from 'dom-chef';
-import features from '../libs/features';
 import select from 'select-dom';
+import features from '../libs/features';
 
-const pjaxStartHandler = ((event: CustomEvent): void => {
+function pjaxStartHandler(event: CustomEvent): void {
 	const destinationURL = event.detail?.url || '';
-	if (destinationURL.split('/')[5] === 'find') {
-		const hiddenInput = (
-			<input
-				type="text"
-				className="sr-only"
-				id="rgh-file-finder-buffer"
-			/>
-		);
-		document.body.prepend(hiddenInput);
-		hiddenInput.focus();
+	if (destinationURL.split('/')[5] !== 'find') {
+		return;
 	}
-}) as EventListener; // Explicit type cast. See https://github.com/microsoft/TypeScript/issues/28357#issuecomment-436484705
 
-const pjaxCompleteHandler = (): void => {
+	const hiddenInput = (
+		<input
+			type="text"
+			className="sr-only"
+			id="rgh-file-finder-buffer"
+		/>
+	);
+	document.body.prepend(hiddenInput);
+	hiddenInput.focus();
+}
+
+function pjaxCompleteHandler(): void {
 	const fileFinderInput = select<HTMLInputElement>('#tree-finder-field');
 	const hiddenInput = select<HTMLInputElement>('#rgh-file-finder-buffer');
 	if (hiddenInput && fileFinderInput) {
@@ -25,7 +27,7 @@ const pjaxCompleteHandler = (): void => {
 		fileFinderInput.dispatchEvent(new Event('input')); // Manually trigger event to trigger search
 		hiddenInput.remove();
 	}
-};
+}
 
 function init(): void {
 	window.addEventListener('pjax:start', pjaxStartHandler);
