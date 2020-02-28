@@ -13,7 +13,7 @@
 		"prerelease:version": "dot-json distribution/manifest.json version $VER",
 		"prerelease:source-url": "echo https://github.com/sindresorhus/refined-github/archive/\"${TRAVIS_COMMIT:-$VER}\".zip > distribution/SOURCE_URL",
 		"release:amo": "cd distribution && web-ext-submit",
-		"disabled:release:cws": "cd distribution && webstore upload --auto-publish",
+		"release:cws": "cd distribution && webstore upload --auto-publish",
 		"release": "VER=$(daily-version) npm-run-all build prerelease:* create-git-tag release:*",
 		"create-git-tag": "git tag $VER -m $VER && git push origin $VER"
 	},
