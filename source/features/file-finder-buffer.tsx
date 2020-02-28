@@ -1,6 +1,15 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import onetime from 'onetime';
 import features from '../libs/features';
+
+const getBufferField = onetime((): HTMLInputElement => (
+	<input
+		type="text"
+		className="form-control tree-finder-input p-0 ml-1 border-0"
+		style={{marginTop: '-0.19em'}}
+	/> as unknown as HTMLInputElement
+));
 
 function pjaxStartHandler(event: CustomEvent): void {
 	const destinationURL = event.detail?.url || '';
@@ -8,24 +17,24 @@ function pjaxStartHandler(event: CustomEvent): void {
 		return;
 	}
 
-	const hiddenInput = (
-		<input
-			type="text"
-			className="sr-only"
-			id="rgh-file-finder-buffer"
-		/>
+	const bufferField = getBufferField();
+	bufferField.value = '';
+
+	const repoName = select('.pagehead h1 strong')!;
+	repoName.classList.remove('mr-2');
+	repoName.after(
+		<span className="path-divider flex-self-stretch">/</span>,
+		<span className="flex-self-stretch mr-2">{bufferField}</span>
 	);
-	document.body.prepend(hiddenInput);
-	hiddenInput.focus();
+	bufferField.focus();
+	select('.pagehead-actions')!.remove();
 }
 
 function pjaxCompleteHandler(): void {
 	const fileFinderInput = select<HTMLInputElement>('#tree-finder-field');
-	const hiddenInput = select<HTMLInputElement>('#rgh-file-finder-buffer');
-	if (hiddenInput && fileFinderInput) {
-		fileFinderInput.value = hiddenInput.value;
-		fileFinderInput.dispatchEvent(new Event('input')); // Manually trigger event to trigger search
-		hiddenInput.remove();
+	if (fileFinderInput) {
+		fileFinderInput.value = getBufferField().value;
+		fileFinderInput.dispatchEvent(new Event('input')); // Trigger search
 	}
 }
 
