@@ -21,9 +21,8 @@ const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 	`);
 
 	const mergeCommits = [];
-	// @ts-ignore
-	for (const [key, {parents}] of Object.entries(repository)) {
-		if (parents.totalCount === 2) {
+	for (const [key, commit] of Object.entries<AnyObject>(repository)) {
+		if (commit.parents.totalCount === 2) {
 			mergeCommits.push(key.slice(1));
 		}
 	}
