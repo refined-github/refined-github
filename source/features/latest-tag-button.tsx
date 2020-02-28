@@ -74,8 +74,8 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 		isUpToDate: latestTag.commit === repository.defaultBranchRef.target.oid
 	};
 }, {
-	expiration: 1,
-	isExpired: value => typeof value === 'string',
+	maxAge: 1,
+	shouldRevalidate: value => typeof value === 'string',
 	cacheKey: () => __featureName__ + ':' + getRepoURL()
 });
 
@@ -84,7 +84,8 @@ const getAheadByCount = cache.function(async (latestTag: string): Promise<string
 	// This text is "4 commits to master since this tag"
 	return select('.release-header relative-time + a[href*="/compare/"]', tagPage)!.textContent!.replace(/\D/g, '');
 }, {
-	expiration: 1,
+	maxAge: 1,
+	staleWhileRevalidate: 2,
 	cacheKey: () => __featureName__ + ':aheadBy:' + getRepoURL()
 });
 

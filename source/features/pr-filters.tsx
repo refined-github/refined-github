@@ -81,7 +81,7 @@ const hasChecks = cache.function(async (): Promise<boolean> => {
 
 	return repository.head.history.nodes.some((commit: AnyObject) => commit.status);
 }, {
-	expiration: 3,
+	maxAge: 3,
 	cacheKey: () => __featureName__ + ':' + getRepoURL()
 });
 
