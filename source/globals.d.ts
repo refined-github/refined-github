@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 // TODO: Drop some definitions when their related bugs are resolved
 
 type AnyObject = Record<string, any>;

@@ -162,5 +162,4 @@ import './features/expand-all-hidden-comments';
 import './features/bugs-tab';
 
 // Add global for easier debugging
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 (window as any).select = select;

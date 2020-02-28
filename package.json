@@ -63,8 +63,8 @@
 		"@types/mini-css-extract-plugin": "^0.9.0",
 		"@types/react": "^16.9.20",
 		"@types/terser-webpack-plugin": "^2.2.0",
-		"@typescript-eslint/eslint-plugin": "^2.20.0",
-		"@typescript-eslint/parser": "^2.20.0",
+		"@typescript-eslint/eslint-plugin": "^2.21.0",
+		"@typescript-eslint/parser": "^2.21.0",
 		"ava": "^3.2.0",
 		"buble": "^0.19.8",
 		"buble-loader": "^0.5.1",
@@ -75,7 +75,6 @@
 		"dot-json": "^1.2.0",
 		"eslint": "^6.8.0",
 		"eslint-config-xo-react": "^0.23.0",
-		"eslint-config-xo-typescript": "^0.26.0",
 		"eslint-plugin-react": "^7.18.3",
 		"eslint-plugin-react-hooks": "^2.4.0",
 		"esm": "^3.2.25",
@@ -96,16 +95,12 @@
 		"web-ext-submit": "^4.0.0",
 		"webpack": "^4.41.5",
 		"webpack-cli": "^3.3.10",
-		"xo": "^0.26.1"
+		"xo": "^0.27.2"
 	},
 	"xo": {
 		"extends": "xo-react",
 		"envs": [
 			"browser"
-		],
-		"extensions": [
-			"ts",
-			"tsx"
 		],
 		"globals": [
 			"browser",
@@ -114,47 +109,28 @@
 			"__featureName__"
 		],
 		"rules": {
+			"@typescript-eslint/promise-function-async": "off",
+			"@typescript-eslint/no-empty-function": "off",
 			"no-alert": "off",
-			"prefer-named-capture-group": "off",
-			"import/no-unassigned-import": "off",
-			"react/jsx-key": "off",
-			"react/no-unknown-property": "off",
-			"unicorn/prevent-abbreviations": "error",
-			"react/jsx-first-prop-new-line": "error",
 			"react/function-component-definition": [
 				"error",
 				{
 					"namedComponents": "function-declaration"
 				}
 			],
+			"react/jsx-first-prop-new-line": "error",
+			"react/jsx-key": "off",
+			"react/no-unknown-property": "off",
 			"import/extensions": [
 				"error",
 				"never",
 				{
 					"svg": "always"
 				}
-			]
+			],
+			"import/no-unassigned-import": "off",
+			"unicorn/prevent-abbreviations": "error"
 		},
-		"overrides": [
-			{
-				"files": "**/*.+(ts|tsx)",
-				"extends": [
-					"xo-typescript",
-					"xo-react"
-				],
-				"rules": {
-					"@typescript-eslint/promise-function-async": "off",
-					"@typescript-eslint/no-empty-function": "off",
-					"@typescript-eslint/no-explicit-any": "error",
-					"@typescript-eslint/no-unused-vars": [
-						"error",
-						{
-							"varsIgnorePattern": "^React$"
-						}
-					]
-				}
-			}
-		],
 		"settings": {
 			"react": {
 				"version": "16.3"
