@@ -47,8 +47,7 @@ async function init(): Promise<void | false> {
 
 features.add({
 	id: __featureName__,
-	description: 'Dims merge commits in commits list.',
-	screenshot: false,
+	description: 'Marks merge commits in commit lists.',
 	include: [
 		features.isCommitList
 	],
