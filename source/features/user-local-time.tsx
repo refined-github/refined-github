@@ -83,7 +83,10 @@ function init(): void {
 	const hovercard = select('.js-hovercard-content > .Popover-message')!;
 
 	observeElement(hovercard, async () => {
-		if (hovercard.childElementCount === 0 || select.exists('.rgh-local-user-time', hovercard)) {
+		if (
+			select.exists('.rgh-local-user-time', hovercard) || // Time already added
+			!select.exists('[data-hydro-view*="user-hovercard-hover"]', hovercard) // It's not the hovercard type we expect
+		) {
 			return;
 		}
 
@@ -101,7 +104,8 @@ function init(): void {
 
 		// Adding the time element might change the height of the hovercard and thus break its positioning
 		const hovercardHeight = hovercard.offsetHeight;
-		select('div.d-flex.mt-3 > div.overflow-hidden.ml-3:not([data-hovercard-type="contributors"]', hovercard)!.append(container);
+
+		select('div.d-flex.mt-3 > div.overflow-hidden.ml-3', hovercard)!.append(container);
 
 		if (hovercard.matches('.Popover-message--bottom-right, .Popover-message--bottom-left')) {
 			const diff = hovercard.offsetHeight - hovercardHeight;

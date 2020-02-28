@@ -88,6 +88,10 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 		return;
 	}
 
+	if (document.title === 'Confirm password') {
+		return;
+	}
+
 	if (document.body.classList.contains('logged-out')) {
 		console.warn('%cRefined GitHub%c is only expected to work when you’re logged in to GitHub.', 'font-weight: bold', '');
 	}
