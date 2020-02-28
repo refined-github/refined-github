@@ -67,7 +67,8 @@ const getLastCommitDate = cache.function(async (login: string): Promise<string |
 
 	return false;
 }, {
-	expiration: 10,
+	maxAge: 10,
+	staleWhileRevalidate: 20,
 	cacheKey: ([login]) => __featureName__ + ':' + login
 });
 

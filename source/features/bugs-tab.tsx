@@ -18,7 +18,8 @@ const countBugs = cache.function(async (): Promise<number> => {
 
 	return repository.bugs.totalCount;
 }, {
-	expiration: 1,
+	maxAge: 1 / 24 / 2, // Stale after half an hour
+	staleWhileRevalidate: 4,
 	cacheKey: (): string => __featureName__ + ':' + getRepoURL()
 });
 
