@@ -27,7 +27,8 @@ GitHub Enterprise is also supported. More info in the options.
 
 - [**Chrome** extension][link-cws] [<img valign="middle" src="https://img.shields.io/chrome-web-store/v/hlepfoohegkhhmjieoechaddaejaokhf.svg?label=%20">][link-cws]
 - [**Firefox** add-on][link-amo] [<img valign="middle" src="https://img.shields.io/amo/v/refined-github-.svg?label=%20">][link-amo]
-- **Opera** extension: Use [this Opera extension](https://addons.opera.com/en/extensions/details/download-chrome-extension-9/) to install the Chrome version.
+
+The chrome version also works in Opera (using [this](https://addons.opera.com/en/extensions/details/download-chrome-extension-9/)) and Edge.
 
 
 ## Highlights 🔥
@@ -213,7 +214,7 @@ Thanks for contributing! 🦋🙌
 ### Viewing pull requests
 
 - [](# "linkify-commit-sha") [Adds link to non-PR commit when visiting a PR commit.](https://user-images.githubusercontent.com/101152/42968387-606b23f2-8ba3-11e8-8a4b-667bddc8d33c.png)
-- [](# "pr-filters") [Adds `Build status` and draft PR dropdown filters in PR lists.](https://user-images.githubusercontent.com/22439276/56372372-7733ca80-621c-11e9-8b60-a0b95aa4cd4f.png)
+- [](# "pr-filters") [Adds Checks and Draft PR dropdown filters in PR lists.](https://user-images.githubusercontent.com/202916/74453250-6d9de200-4e82-11ea-8fd4-7c0de57e001a.png)
 - [](# "pr-approvals-count") [Shows color-coded review counts in PR lists.](https://user-images.githubusercontent.com/1402241/33474535-a814ee78-d6ad-11e7-8f08-a8b72799e376.png)
 - [](# "pr-branches") [Shows head and base branches in PR lists if they’re significant.](https://user-images.githubusercontent.com/1402241/51428391-ae9ed500-1c35-11e9-8e54-6b6a424fede4.png)
 - [](# "remove-checks-tab") Hides the `Checks` tab if it’s empty, unless you’re the owner.
@@ -229,7 +230,7 @@ Thanks for contributing! 🦋🙌
 
 ### Editing pull requests
 
-- [](# "sync-pr-commit-title") 🔥 [Uses the PR’s title and description when merging](https://github.com/sindresorhus/refined-github/issues/276) and [updates the PR’s title to the match the commit title, if changed.](https://user-images.githubusercontent.com/1402241/51669708-9a712400-1ff7-11e9-913a-ac1ea1050975.png)
+- [](# "sync-pr-commit-title") 🔥 [Uses the PR’s title as the default squash commit title](https://github.com/sindresorhus/refined-github/issues/276) and [updates the PR’s title to the match the commit title, if changed.](https://user-images.githubusercontent.com/1402241/51669708-9a712400-1ff7-11e9-913a-ac1ea1050975.png)
 - [](# "update-pr-from-base-branch") [Adds button to update a PR from the base branch to ensure it builds correctly before merging the PR itself.](https://user-images.githubusercontent.com/1402241/57941992-f2170080-7902-11e9-8f8a-594aad983559.png) GitHub only adds it when the base branch is "protected".
 - [](# "quick-review-buttons") [Simplifies the PR review form: Approve or reject reviews faster with one-click review-type buttons.](https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png)
 - [](# "warn-pr-from-master") [Warns you when creating a pull request from the default branch, as it’s an anti-pattern.](https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png)

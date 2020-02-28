@@ -144,8 +144,8 @@ export const _isNotifications = [
 	'https://github.com/notifications?all=1'
 ];
 
-export const isOrganizationProfile = (): boolean => select.exists('.orghead');
-export const _isOrganizationProfile = domBased;
+export const isOrganizationProfile = (): boolean => select.exists('meta[name="hovercard-subject-tag"][content^="organization"]');
+export const _isOrganizationProfile = domBased; // Safe for `nowAndOnAjaxedPages` because this element is in the <head>
 
 export const isOrganizationDiscussion = (): boolean => /^orgs\/[^/]+\/teams\/[^/]+($|\/discussions)/.test(getCleanPathname());
 export const _isOrganizationDiscussion = [
@@ -257,7 +257,7 @@ export const _isRepoSkipNegatives = true;
 export const isRepoDiscussionList = (): boolean =>
 	isRepoPRList() ||
 	isRepoIssueList() ||
-	/^labels\/.+/.test(getRepoPath()!);
+	/^(labels|milestones)\/.+/.test(getRepoPath()!);
 export const _isRepoDiscussionList = [
 	'http://github.com/sindresorhus/ava/issues',
 	'https://github.com/sindresorhus/refined-github/pulls',
@@ -265,6 +265,7 @@ export const _isRepoDiscussionList = [
 	'https://github.com/sindresorhus/refined-github/pulls/fregante',
 	'https://github.com/sindresorhus/refined-github/issues/fregante',
 	'https://github.com/sindresorhus/refined-github/labels/Priority%3A%20critical',
+	'https://github.com/sindresorhus/refined-github/milestones/1.0',
 	'https://github.com/sindresorhus/refined-github/issues?q=is%3Aclosed+sort%3Aupdated-desc',
 	'https://github.com/sindresorhus/refined-github/pulls?q=is%3Aopen+is%3Apr',
 	'https://github.com/sindresorhus/refined-github/pulls?q=is%3Apr+is%3Aclosed',

@@ -11,7 +11,7 @@ const fetchStargazers = async (): Promise<HTMLImageElement[]> => {
 };
 
 const avatarSize = 35;
-const renderAvatar = (image: HTMLImageElement): HTMLElement => {
+function renderAvatar(image: HTMLImageElement): HTMLElement {
 	const imageUrl = new URL(image.src);
 	imageUrl.searchParams.set('s', String(avatarSize * window.devicePixelRatio));
 	image.src = String(imageUrl);
@@ -27,7 +27,7 @@ const renderAvatar = (image: HTMLImageElement): HTMLElement => {
 			{image}
 		</a>
 	);
-};
+}
 
 async function init(): Promise<false | void> {
 	const container = select('[itemtype="http://schema.org/Person"]');

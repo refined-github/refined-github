@@ -12,7 +12,7 @@ function createDiffStyleToggle(): DocumentFragment {
 		'.table-of-contents .selected[href$=unified]' // Link in single commit
 	].join());
 
-	const makeLink = (type: string, icon: Element, selected: boolean): HTMLElement => {
+	function makeLink(type: string, icon: Element, selected: boolean): HTMLElement {
 		parameters.set('diff', type);
 		return (
 			<a
@@ -23,7 +23,7 @@ function createDiffStyleToggle(): DocumentFragment {
 				{icon}
 			</a>
 		);
-	};
+	}
 
 	return (
 		<>

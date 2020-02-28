@@ -1,27 +1,40 @@
 import './profile-gists-link.css';
 import React from 'dom-chef';
+import cache from 'webext-storage-cache';
 import select from 'select-dom';
+import elementReady from 'element-ready';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {getCleanPathname} from '../libs/utils';
 import {isEnterprise} from '../libs/page-detect';
 
-async function init(): Promise<false | void> {
-	const container = select('body.page-profile .UnderlineNav-body');
+const getGistCount = cache.function(async (username: string): Promise<number> => {
+	const {user} = await api.v4(`
+		user(login: "${username}") {
+			gists(first: 0) {
+				totalCount
+			}
+		}
+	`);
+	return user.gists.totalCount;
+}, {
+	cacheKey: ([username]) => 'gist-count:' + username
+});
 
-	if (!container) {
-		return false;
-	}
+async function init(): Promise<false | void> {
+	await elementReady('.UnderlineNav-body + *');
 
 	const username = getCleanPathname();
 	const href = isEnterprise() ? `/gist/${username}` : `https://gist.github.com/${username}`;
 	const link = <a href={href} className="UnderlineNav-item" role="tab" aria-selected="false">Gists </a>;
-	container.append(link);
 
-	const userData = await api.v3(`users/${username}`);
-	if (userData.public_gists) {
-		link.append(<span className="Counter hide-lg hide-md hide-sm">{userData.public_gists}</span>);
-	}
+	select('.UnderlineNav-body')!.append(link);
+
+	link.append(
+		<span className="Counter hide-lg hide-md hide-sm">
+			{await getGistCount(username)}
+		</span>
+	);
 }
 
 features.add({
@@ -31,6 +44,9 @@ features.add({
 	include: [
 		features.isUserProfile
 	],
-	load: features.onAjaxedPages,
+	exclude: [
+		features.isOrganizationProfile
+	],
+	load: features.nowAndOnAjaxedPages,
 	init
 });

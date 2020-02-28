@@ -1,6 +1,6 @@
 import select from 'select-dom';
 import features from '../libs/features';
-import observeEl from '../libs/simplified-element-observer';
+import observeElement from '../libs/simplified-element-observer';
 
 function hide(): void {
 	for (const icon of select.all('[aria-label="You do not have permission to edit this milestone."]')) {
@@ -9,7 +9,7 @@ function hide(): void {
 }
 
 function init(): void {
-	observeEl('.js-milestone-issues-container', hide);
+	observeElement('.js-milestone-issues-container', hide);
 }
 
 features.add({

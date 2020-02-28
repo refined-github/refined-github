@@ -19,7 +19,7 @@ function addButton(): void {
 function triggerUpload(event: DelegateEvent<Event, HTMLButtonElement>): void {
 	event.delegateTarget
 		.form!
-		.querySelector<HTMLInputElement>('.js-manual-file-chooser')!
+		.querySelector<HTMLInputElement>('[type="file"]')!
 		.click(); // Open UI
 }
 
