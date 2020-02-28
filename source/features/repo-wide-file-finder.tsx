@@ -1,12 +1,12 @@
 import React from 'dom-chef';
-import features from '../libs/features';
 import select from 'select-dom';
+import features from '../libs/features';
 import {getRepoURL} from '../libs/utils';
 import getDefaultBranch from '../libs/get-default-branch';
 
 async function init(): Promise<void> {
 	if (!select.exists('[data-hotkey="t"]')) {
-		select('#js-repo-pjax-container')?.appendChild(
+		document.body.append(
 			<a
 				hidden
 				data-hotkey="t"
