@@ -75,6 +75,7 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 	};
 }, {
 	expiration: 1,
+	isExpired: value => typeof value === 'string',
 	cacheKey: () => __featureName__ + ':' + getRepoURL()
 });
 
