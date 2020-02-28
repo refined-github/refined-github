@@ -52,7 +52,7 @@ export const replaceBranch = (currentBranch: string, newBranch: string): string 
 };
 
 export const getCurrentBranch = (): string => {
-	return select<HTMLLinkElement>('link[rel="alternate"]')!
+	return select.last<HTMLLinkElement>('link[rel="alternate"]')!
 		.href
 		.split('/')
 		.slice(6)

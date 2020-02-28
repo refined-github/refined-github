@@ -1,3 +1,5 @@
+import {getUsername} from './utils';
+
 type Source = HTMLAnchorElement | URL | URLSearchParams | Location;
 
 /**
@@ -44,7 +46,7 @@ export default class SearchQuery {
 			if (this.searchParams.has('user')) { // #1211
 				queries.push(`user:${this.searchParams.get('user')!}`);
 			} else {
-				queries.push('author:@me');
+				queries.push(`author:${getUsername()}`);
 			}
 
 			queries.push('archived:false');
