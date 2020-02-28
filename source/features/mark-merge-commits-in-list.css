@@ -1,7 +1,10 @@
 /* Fade out merge commits from commit list */
 .rgh-merge-commit .commit-title,
 .rgh-merge-commit .commit-meta > div:not(.commit-indicator),
-.rgh-merge-commit .commit-build-statuses > summary {
+.rgh-merge-commit .commit-build-statuses > summary,
+.rgh-merge-commit .signed-commit-badge,
+.rgh-merge-commit .commit-links-group,
+.rgh-merge-commit .tooltipped:not(:hover) {
 	opacity: 0.7;
 }
 
