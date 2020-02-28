@@ -5,13 +5,13 @@ import SearchQuery from '../libs/search-query';
 
 function init(): void {
 	// Use an existing dropdown item to preserve its DOM structure (supports old GHE versions)
-	const sourceItem = select<HTMLAnchorElement>([
+	const sourceItem = select([
 		'#filters-select-menu a:nth-last-child(2)', // GHE
 		'.subnav-search-context li:nth-last-child(2)'
 	])!;
 
 	const menuItem = sourceItem.cloneNode(true);
-	const link = select('a', menuItem) ?? menuItem;
+	const link = select('a', menuItem) ?? menuItem as HTMLAnchorElement;
 	link.textContent = 'Everything commented by you';
 	link.removeAttribute('target');
 	new SearchQuery(link).set(`is:open commenter:${getUsername()}`);
