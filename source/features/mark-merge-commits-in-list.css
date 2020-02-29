@@ -1,9 +1,5 @@
-/* Fade out merge commits from commit list */
-.rgh-merge-commit .commit-title,
-.rgh-merge-commit .commit-meta > div:not(.commit-indicator),
-.rgh-merge-commit .commit-links-group *:not(.tooltipped),
-.rgh-merge-commit .tooltipped:not(:hover) {
-	opacity: 0.7;
+.rgh-merge-commit:not(.navigation-focus) > div > * {
+	opacity: 0.4;
 }
 
 .rgh-merge-commit .octicon-git-pull-request {
