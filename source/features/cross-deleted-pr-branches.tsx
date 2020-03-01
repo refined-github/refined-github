@@ -4,8 +4,8 @@ import features from '../libs/features';
 import {wrap} from '../libs/dom-utils';
 
 function init(): void {
-	const lastBranchAction = select.last('.user-select-contain > span:not(.base-ref)');
-	if (!lastBranchAction || select.exists('.post-merge-message')) {
+	const lastBranchAction = select.last('.TimelineItem-body .user-select-contain > span:not(.base-ref)');
+	if (!lastBranchAction) {
 		return;
 	}
 
