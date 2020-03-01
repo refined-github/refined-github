@@ -9,13 +9,13 @@ function init(): void {
 		deletedBranch = lastBranchAction.textContent!.trim();
 	}
 
-	// Adding a linethrough to the branch name
 	for (const element of select.all('.commit-ref')) {
 		const branchName = element.textContent!.trim();
 		if (branchName !== 'unknown repository' && branchName === deletedBranch) {
-			const deleteBranchElement = select.last('span', element)!;
-			deleteBranchElement.title = 'Deleted';
-			deleteBranchElement.style.textDecoration = 'line-through';
+			for (const deletedBranchElement of select.all('span', element)) {
+				deletedBranchElement.title = 'Deleted';
+				deletedBranchElement.style.textDecoration = 'line-through';
+			}
 		}
 	}
 }
@@ -23,7 +23,7 @@ function init(): void {
 features.add({
 	id: __featureName__,
 	description: 'Adds a line-through to the deleted branches in PRs',
-	screenshot: 'https://user-images.githubusercontent.com/30543444/63117366-480a4b80-bfb9-11e9-949f-f624c8f0485c.png',
+	screenshot: 'https://user-images.githubusercontent.com/16872793/75619638-9bef1300-5b4c-11ea-850e-3a8f95c86d83.png',
 	include: [
 		features.isPR
 	],
