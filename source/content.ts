@@ -160,6 +160,7 @@ import './features/quick-mention';
 import './features/extend-discussion-status-filters';
 import './features/expand-all-hidden-comments';
 import './features/bugs-tab';
+import './features/cross-deleted-pr-branches';
 
 // Add global for easier debugging
 (window as any).select = select;
