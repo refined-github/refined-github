@@ -15,7 +15,10 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
 });
 
 const getFirstCommitDate = cache.function(async (): Promise<string | undefined> => {
-	const lastCommitHash = (await elementReady<HTMLAnchorElement>('.commit-tease-sha', {stopOnDomReady: false}))!.href.split('/').pop()!;
+	const commitInfo = await elementReady<HTMLAnchorElement | HTMLScriptElement>('a.commit-tease-sha, include-fragment.commit-tease');
+	const commitUrl = commitInfo instanceof HTMLAnchorElement ? commitInfo.href : commitInfo!.src;
+	const commitSha = commitUrl.split('/').pop()!;
+
 	const commitsCount = Number(select('li.commits .num')!.textContent!.replace(',', ''));
 
 	// Returning undefined will make sure that it is not cached. It will check again for commits on the next load.
@@ -29,7 +32,7 @@ const getFirstCommitDate = cache.function(async (): Promise<string | undefined> 
 	}
 
 	const relativeTime = await fetchDom(
-		`${getRepoURL()}/commits?after=${lastCommitHash}+${commitsCount - 2}`,
+		`${getRepoURL()}/commits?after=${commitSha}+${commitsCount - 2}`,
 		'ol:last-child > li.commits-list-item relative-time'
 	);
 
