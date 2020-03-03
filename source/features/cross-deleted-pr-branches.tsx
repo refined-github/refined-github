@@ -9,7 +9,7 @@ function init(): void {
 		return;
 	}
 
-	if (!lastBranchAction.closest('.TimelineItem-body')!.textContent!.includes('deleted')) {
+	if (!lastBranchAction.closest('.TimelineItem-body')!.textContent!.includes(' deleted ')) {
 		return;
 	}
 
