@@ -7,6 +7,7 @@ import * as api from '../libs/api';
 import SearchQuery from '../libs/search-query';
 import {getRepoGQL, getRepoURL} from '../libs/utils';
 
+const numberFormatter = new Intl.NumberFormat();
 const countBugs = cache.function(async (): Promise<number> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
@@ -22,17 +23,6 @@ const countBugs = cache.function(async (): Promise<number> => {
 	staleWhileRevalidate: 4,
 	cacheKey: (): string => __featureName__ + ':' + getRepoURL()
 });
-
-const numberFormatter = new Intl.NumberFormat();
-function setCount(tab: HTMLElement, count: number, add: boolean): void {
-	const counter = select('.Counter', tab)!;
-	const exceedsLimit = add && counter.textContent!.includes('+');
-	if (add) {
-		count = Number(counter.textContent!.replace(/\D/g, '')) + count;
-	}
-
-	counter.textContent = numberFormatter.format(count) + (exceedsLimit ? '+' : '');
-}
 
 async function init(): Promise<void | false> {
 	// Query API as early as possible, even if it's not necessary on archived repos
@@ -70,20 +60,14 @@ async function init(): Promise<void | false> {
 	const bugsLink = select('a', bugsTab)!;
 	new SearchQuery(bugsLink).add('label:bug');
 
-	// Hide bugs from Issues tab
-	const issuesLink = select('a', issuesTab)!;
-	new SearchQuery(issuesLink).add('-label:bug');
-
 	// Change the Selected tab if necessary
 	bugsLink.classList.toggle('selected', isBugsPage);
 	select('.selected', issuesTab)?.classList.toggle('selected', !isBugsPage);
 
 	issuesTab.after(bugsTab);
 
-	// Update issue counts
-	const bugsCount = await countPromise;
-	setCount(bugsTab, bugsCount, false);
-	setCount(issuesTab, -bugsCount, true);
+	// Update bugs count
+	select('.Counter', bugsTab)!.textContent = numberFormatter.format(await countPromise);
 }
 
 features.add({
