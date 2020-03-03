@@ -101,6 +101,11 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 		return tags;
 	}, {} as CommitTags);
 
+	// If there are no tags in the repository
+	if (nodes.length === 0) {
+		return tags;
+	}
+
 	const lastTag = nodes[nodes.length - 1].target;
 	const lastTagIsYounger = new Date(repository.object.committedDate) < new Date(isTagTarget(lastTag) ? lastTag.tagger.date : lastTag.committedDate);
 

@@ -4,7 +4,7 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import chevronDownIcon from 'octicon/chevron-down.svg';
 import features from '../libs/features';
-import observeEl from '../libs/simplified-element-observer';
+import observeElement from '../libs/simplified-element-observer';
 
 function addButton(): void {
 	// `div` excludes `include-fragment`, which means the list is still loading. #2160
@@ -27,7 +27,7 @@ function addButton(): void {
 
 function init(): void {
 	const repoContent = select('.repository-content')!;
-	observeEl(repoContent, addButton);
+	observeElement(repoContent, addButton);
 	delegate('.rgh-toggle-files', 'click', ({delegateTarget}) => {
 		delegateTarget.setAttribute('aria-expanded', String(!repoContent.classList.toggle('rgh-files-hidden')));
 	});

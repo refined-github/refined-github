@@ -1,11 +1,11 @@
 import select from 'select-dom';
 import features from '../libs/features';
-import observeEl from '../libs/simplified-element-observer';
+import observeElement from '../libs/simplified-element-observer';
 import * as domFormatters from '../libs/dom-formatters';
 
 function init(): void {
 	const ajaxedTitleArea = select('#partial-discussion-header')!.parentElement!;
-	observeEl(ajaxedTitleArea, () => {
+	observeElement(ajaxedTitleArea, () => {
 		for (const title of select.all('.js-issue-title:not(.rgh-formatted-title)')) {
 			title.classList.add('rgh-formatted-title');
 			domFormatters.linkifyIssues(title);

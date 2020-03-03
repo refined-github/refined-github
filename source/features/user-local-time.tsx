@@ -6,7 +6,7 @@ import select from 'select-dom';
 import clockIcon from 'octicon/clock.svg';
 import features from '../libs/features';
 import * as api from '../libs/api';
-import observeEl from '../libs/simplified-element-observer';
+import observeElement from '../libs/simplified-element-observer';
 import {getUsername} from '../libs/utils';
 
 interface Commit {
@@ -33,7 +33,7 @@ async function loadCommitPatch(commitUrl: string): Promise<string> {
 
 const getLastCommitDate = cache.function(async (login: string): Promise<string | false> => {
 	for await (const page of api.v3paginated(`users/${login}/events`)) {
-		for (const event of page as any) { // eslint-disable-line @typescript-eslint/no-explicit-any
+		for (const event of page as any) {
 			if (event.type !== 'PushEvent') {
 				continue;
 			}
@@ -67,7 +67,8 @@ const getLastCommitDate = cache.function(async (login: string): Promise<string |
 
 	return false;
 }, {
-	expiration: 10,
+	maxAge: 10,
+	staleWhileRevalidate: 20,
 	cacheKey: ([login]) => __featureName__ + ':' + login
 });
 
@@ -82,8 +83,11 @@ function parseOffset(date: string): number {
 function init(): void {
 	const hovercard = select('.js-hovercard-content > .Popover-message')!;
 
-	observeEl(hovercard, async () => {
-		if (hovercard.childElementCount === 0 || select.exists('.rgh-local-user-time', hovercard)) {
+	observeElement(hovercard, async () => {
+		if (
+			select.exists('.rgh-local-user-time', hovercard) || // Time already added
+			!select.exists('[data-hydro-view*="user-hovercard-hover"]', hovercard) // It's not the hovercard type we expect
+		) {
 			return;
 		}
 
@@ -101,7 +105,8 @@ function init(): void {
 
 		// Adding the time element might change the height of the hovercard and thus break its positioning
 		const hovercardHeight = hovercard.offsetHeight;
-		select('div.d-flex.mt-3 > div.overflow-hidden.ml-3:not([data-hovercard-type="contributors"]', hovercard)!.append(container);
+
+		select('div.d-flex.mt-3 > div.overflow-hidden.ml-3', hovercard)!.append(container);
 
 		if (hovercard.matches('.Popover-message--bottom-right, .Popover-message--bottom-left')) {
 			const diff = hovercard.offsetHeight - hovercardHeight;

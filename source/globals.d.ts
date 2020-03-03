@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 // TODO: Drop some definitions when their related bugs are resolved
 
 type AnyObject = Record<string, any>;
@@ -48,7 +46,7 @@ declare namespace JSX {
 		'include-fragment': BaseIntrinsicElement & {src?: string};
 		'details-menu': BaseIntrinsicElement & {src?: string; preload?: boolean};
 		'time-ago': BaseIntrinsicElement & {datetime: string; format?: string};
-		'relative-time': BaseIntrinsicElement & {datetime: string; title: string};
+		'relative-time': BaseIntrinsicElement & {datetime: string};
 		'details-dialog': BaseIntrinsicElement & {tabindex: string};
 	}
 }
