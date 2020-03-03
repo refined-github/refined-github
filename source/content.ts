@@ -88,6 +88,7 @@ import './features/recently-pushed-branches-enhancements';
 import './features/create-release-shortcut';
 import './features/patch-diff-links';
 import './features/parse-backticks';
+import './features/mark-merge-commits-in-list';
 import './features/swap-branches-on-compare';
 import './features/reactions-avatars';
 import './features/show-names';
