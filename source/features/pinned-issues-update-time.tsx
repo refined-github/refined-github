@@ -23,7 +23,7 @@ const getLastUpdated = cache.function(async (issueNumbers: string[]): Promise<Re
 
 	return repository;
 }, {
-	expiration: 1,
+	maxAge: 1,
 	cacheKey: () => __featureName__ + ':' + getRepoURL()
 });
 
