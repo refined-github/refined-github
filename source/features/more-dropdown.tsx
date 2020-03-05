@@ -2,6 +2,7 @@ import './more-dropdown.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';
+import diffIcon from 'octicon/diff.svg';
 import branchIcon from 'octicon/git-branch.svg';
 import historyIcon from 'octicon/history.svg';
 import packageIcon from 'octicon/package.svg';
@@ -43,9 +44,7 @@ async function init(): Promise<void> {
 
 	menu.append(
 		<a href={compareUrl} className="rgh-reponav-more dropdown-item">
-			<svg aria-hidden="true" className="octicon octicon-diff" width="15" height="16" viewBox="0 0 13 16">
-				<path d="M6 7h2v1H6v2H5V8H3V7h2V5h1zm-3 6h5v-1H3zM7.5 2L11 5.5V15c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1zm1-2H3v1h5l4 4v8h1V4.5z" fillRule="evenodd"/>
-			</svg> Compare
+			{diffIcon()} Compare
 		</a>,
 
 		isEnterprise() ? '' : (
