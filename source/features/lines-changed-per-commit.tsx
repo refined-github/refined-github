@@ -1,11 +1,12 @@
 import select from 'select-dom';
+import cache from 'webext-storage-cache';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {getRepoGQL} from '../libs/utils';
+import {getRepoGQL, getRepoURL} from '../libs/utils';
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 
-const getCommitChanges = async (commit: string): Promise<[number, number]> => {
+const getCommitChanges = cache.function(async (commit: string): Promise<[number, number]> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
             object(expression: "${commit}") {
@@ -18,7 +19,10 @@ const getCommitChanges = async (commit: string): Promise<[number, number]> => {
     `);
 
 	return [repository.object.additions, repository.object.deletions];
-};
+}, {
+	maxAge: 10,
+	cacheKey: () => __featureName__ + ':' + getRepoURL()
+});
 
 async function init(): Promise<void> {
 	const commitSha = (await elementReady('.sha.user-select-contain'))!.textContent!;
@@ -34,7 +38,6 @@ async function init(): Promise<void> {
 			<span className="diffstat-block-neutral"/>
 			<span className="diffstat-block-neutral"/>
 			<span className="diffstat-block-neutral"/>
-
 		</span>);
 }
 
