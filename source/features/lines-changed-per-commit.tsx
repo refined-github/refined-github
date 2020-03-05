@@ -5,7 +5,7 @@ import {getRepoGQL} from '../libs/utils';
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 
-const getCommitChanges = async (commit: string): Promise<number[]> => {
+const getCommitChanges = async (commit: string): Promise<[number, number]> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
             object(expression: "${commit}") {
