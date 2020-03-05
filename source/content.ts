@@ -65,6 +65,7 @@ import './features/navigate-pages-with-arrow-keys';
 import './features/global-discussion-list-filters';
 import './features/filter-comments-by-you';
 import './features/sort-issues-by-update-time'; // Must be after global-discussion-list-filters and filter-comments-by-you
+import './features/pinned-issues-update-time';
 import './features/latest-tag-button';
 import './features/default-branch-button';
 import './features/faster-pr-diff-options';
@@ -87,6 +88,7 @@ import './features/recently-pushed-branches-enhancements';
 import './features/create-release-shortcut';
 import './features/patch-diff-links';
 import './features/parse-backticks';
+import './features/mark-merge-commits-in-list';
 import './features/swap-branches-on-compare';
 import './features/reactions-avatars';
 import './features/show-names';
