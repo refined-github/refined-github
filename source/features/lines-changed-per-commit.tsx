@@ -22,7 +22,7 @@ const getCommitChanges = async (commit: string): Promise<[number, number]> => {
 };
 
 async function init(): Promise<void | false> {
-	const pageCommit = (await elementReady('.sha.user-select-contain'))!;
+	const commitSha = (await elementReady('.sha.user-select-contain'))!.textContent!;`
 	const commitSha = String(pageCommit.textContent);
 	const [additions, deletions] = await getCommitChanges(commitSha);
 	const totalLinesChanged = additions + deletions;
