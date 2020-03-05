@@ -14,7 +14,7 @@ function init(): void {
 	}
 
 	const deletedBranchName = lastBranchAction.textContent!.trim();
-	const repoRoot = (select('.head-ref a')! as HTMLAnchorElement).href.replace(/\/tree.*$/, '');
+	const repoRoot = select<HTMLAnchorElement>('.head-ref a')!.href.split('/', 5).join('/')
 
 	for (const element of select.all('.commit-ref')) {
 		const branchName = element.textContent!.trim();
