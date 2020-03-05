@@ -19,18 +19,12 @@ function init(): void {
 	for (const element of select.all('.commit-ref')) {
 		const branchName = element.textContent!.trim();
 		if (branchName !== 'unknown repository' && branchName === deletedBranchName) {
-			for (const deletedBranchElement of select.all('span', element)) {
-				deletedBranchElement.title = 'Deleted';
-				deletedBranchElement.style.textDecoration = 'line-through';
-				// The head-ref already has an a element
-				if (element.classList.contains('head-ref')) {
-					const linkElement = select('a', element)!;
-					linkElement.href = repoRoot;
-					linkElement.style.textDecoration = 'line-through';
-					linkElement.classList.remove('no-underline');
-				} else {
-					wrap(element, <a href={repoRoot}/>);
-				}
+			element.title = 'Deleted';
+
+			if (element.classList.contains('head-ref')) {
+				select('a', element)!.href = repoRoot;
+			} else {
+				wrap(element, <a href={repoRoot}/>);
 			}
 		}
 	}
