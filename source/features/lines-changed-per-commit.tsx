@@ -26,7 +26,7 @@ async function init(): Promise<void | false> {
 	const commitSha = String(pageCommit.textContent);
 	const [additions, deletions] = await getCommitChanges(commitSha);
 	const totalLinesChanged = additions + deletions;
-	const totalLinesChangedText = `${totalLinesChanged} Line${totalLinesChanged > 1 ? 's' : ''} Changed`;
+	const totalLinesChangedText = `${totalLinesChanged} ${totalLinesChanged > 1 ? 'Lines Changed' : 'Line Change'}`;
 	select('.diffstat')!.replaceWith(
 		<span className="ml-2 diffstat tooltipped tooltipped-s" aria-label={totalLinesChangedText}>
 			<span className="text-green">+{additions}</span>
