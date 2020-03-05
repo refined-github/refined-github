@@ -1,4 +1,4 @@
-import './cross-deleted-pr-branches.css'
+import './cross-deleted-pr-branches.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
@@ -15,7 +15,7 @@ function init(): void {
 	}
 
 	const deletedBranchName = lastBranchAction.textContent!.trim();
-	const repoRoot = select<HTMLAnchorElement>('.head-ref a')!.href.split('/', 5).join('/')
+	const repoRoot = select<HTMLAnchorElement>('.head-ref a')!.href.split('/', 5).join('/');
 
 	for (const element of select.all('.commit-ref')) {
 		const branchName = element.textContent!.trim();
