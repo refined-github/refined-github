@@ -16,14 +16,12 @@ const getCommitChanges = async (commit: string): Promise<[number, number]> => {
                 }
 		}
     `);
-	// @ts-ignore
-	const {additions, deletions} = repository.object;
+
 	return [repository.object.additions, repository.object.deletions];
 };
 
 async function init(): Promise<void | false> {
-	const commitSha = (await elementReady('.sha.user-select-contain'))!.textContent!;`
-	const commitSha = String(pageCommit.textContent);
+	const commitSha = (await elementReady('.sha.user-select-contain'))!.textContent!;
 	const [additions, deletions] = await getCommitChanges(commitSha);
 	const totalLinesChanged = additions + deletions;
 	const totalLinesChangedText = `${totalLinesChanged} ${totalLinesChanged > 1 ? 'Lines Changed' : 'Line Change'}`;
