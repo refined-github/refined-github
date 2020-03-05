@@ -33,7 +33,10 @@ function pjaxStartHandler(event: CustomEvent): void {
 function pjaxCompleteHandler(): void {
 	const fileFinderInput = select<HTMLInputElement>('#tree-finder-field');
 	if (fileFinderInput) {
-		fileFinderInput.value = getBufferField().value;
+		const bufferField = getBufferField();
+		fileFinderInput.value = bufferField.value;
+		fileFinderInput.selectionStart = bufferField.selectionStart;
+		fileFinderInput.selectionEnd = bufferField.selectionEnd;
 		fileFinderInput.dispatchEvent(new Event('input')); // Trigger search
 	}
 }
