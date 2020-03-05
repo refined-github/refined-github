@@ -18,7 +18,7 @@ const getCommitChanges = async (commit: string): Promise<[number, number]> => {
     `);
 	// @ts-ignore
 	const {additions, deletions} = repository.object;
-	return [additions, deletions];
+	return [repository.object.additions, repository.object.deletions];
 };
 
 async function init(): Promise<void | false> {
