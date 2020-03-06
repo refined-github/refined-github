@@ -9,12 +9,12 @@ import {getRepoGQL, pluralize} from '../libs/utils';
 const getCommitChanges = cache.function(async (commit: string): Promise<[number, number]> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
-            object(expression: "${commit}") {
-                ... on Commit {
-                    additions
-                    deletions
-                    }
-                }
+			object(expression: "${commit}") {
+				... on Commit {
+					additions
+					deletions
+				}
+			}
 		}
     `);
 
