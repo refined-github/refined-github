@@ -27,6 +27,18 @@ export const getDiscussionNumber = (): string | undefined => {
 	return undefined;
 };
 
+export const pluralize = (count: number, single: string, plural: string, zero?: string): string => {
+	if (count === 0 && zero) {
+		return zero.replace('$$', '0');
+	}
+
+	if (count === 1) {
+		return single.replace('$$', '1');
+	}
+
+	return plural.replace('$$', String(count));
+};
+
 // Drops leading and trailing slash to avoid /\/?/ everywhere
 export const getCleanPathname = (): string => location.pathname.replace(/^[/]|[/]$/g, '');
 

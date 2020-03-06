@@ -2,9 +2,9 @@ import select from 'select-dom';
 import cache from 'webext-storage-cache';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {getRepoGQL, getRepoURL} from '../libs/utils';
 import React from 'dom-chef';
 import elementReady from 'element-ready';
+import {getRepoGQL, pluralize} from '../libs/utils';
 
 const getCommitChanges = cache.function(async (commit: string): Promise<[number, number]> => {
 	const {repository} = await api.v4(`
@@ -27,10 +27,9 @@ const getCommitChanges = cache.function(async (commit: string): Promise<[number,
 async function init(): Promise<void> {
 	const commitSha = (await elementReady('.sha.user-select-contain'))!.textContent!;
 	const [additions, deletions] = await getCommitChanges(commitSha);
-	const totalLinesChanged = additions + deletions;
-	const totalLinesChangedText = `${totalLinesChanged} ${totalLinesChanged > 1 ? 'Lines Changed' : 'Line Change'}`;
+	const tooltip = pluralize(additions + deletions, '1 line changed', '$$ lines changed');
 	select('.diffstat')!.replaceWith(
-		<span className="ml-2 diffstat tooltipped tooltipped-s" aria-label={totalLinesChangedText}>
+		<span className="ml-2 diffstat tooltipped tooltipped-s" aria-label={tooltip}>
 			<span className="text-green">+{additions}</span>
 			<span className="ml-1 mr-2 text-red">−{deletions}</span>
 			<span className="diffstat-block-neutral"/>
