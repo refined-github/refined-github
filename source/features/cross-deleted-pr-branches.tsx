@@ -41,7 +41,7 @@ features.add({
 	description: 'Adds a line-through to the deleted branches in PRs',
 	screenshot: 'https://user-images.githubusercontent.com/16872793/75619638-9bef1300-5b4c-11ea-850e-3a8f95c86d83.png',
 	include: [
-		features.isPR
+		features.isPRConversation
 	],
 	load: features.onAjaxedPages,
 	init
