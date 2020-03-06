@@ -49,9 +49,10 @@ function init(): void {
 		if (key !== '?' || target instanceof HTMLTextAreaElement || target instanceof HTMLInputElement) {
 			return;
 		}
-			observer.observe(select('body > details > details-dialog')!, {childList: true});
-		}
-	});
+
+		observer.observe(select('body > details > details-dialog')!, {childList: true});
+	}
+	);
 }
 
 features.add({
