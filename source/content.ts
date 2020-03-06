@@ -164,7 +164,7 @@ import './features/bugs-tab';
 import './features/repo-wide-file-finder';
 import './features/preserve-file-finder-term';
 import './features/file-finder-buffer';
-import './features/lines-changed-per-commit';
+import './features/pr-commit-lines-changed';
 
 // Add global for easier debugging
 (window as any).select = select;
