@@ -20,8 +20,7 @@ const getCommitChanges = cache.function(async (commit: string): Promise<[number,
 
 	return [repository.object.additions, repository.object.deletions];
 }, {
-	maxAge: 10,
-	cacheKey: () => __featureName__ + ':' + getRepoURL()
+	cacheKey: ([commit]) => 'commit-changes:' + commit
 });
 
 async function init(): Promise<void> {
