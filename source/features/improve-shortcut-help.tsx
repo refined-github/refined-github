@@ -45,9 +45,14 @@ const observer = new MutationObserver(([{target}]) => {
 });
 
 function init(): void {
-	document.addEventListener('keypress', ({key}) => {
-		if (key === '?') {
-			observer.observe(select('body > details > details-dialog')!, {childList: true});
+	document.addEventListener('keypress', ({key, target}) => {
+		if (key !== '?' || target instanceof HTMLTextAreaElement || target instanceof HTMLInputElement) {
+			return;
+		}
+
+		const modal = select('body > details > details-dialog');
+		if (modal) {
+			observer.observe(modal, {childList: true});
 		}
 	});
 }
