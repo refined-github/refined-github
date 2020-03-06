@@ -8,8 +8,9 @@ Transitions are used to delay the "hover" status so it's not too annoying when m
 */
 .rgh-dim-bot.commit .commit-title,
 .rgh-dim-bot.commit .commit-meta,
-.rgh-dim-bot.commit .commit-links-cell summary,
-.rgh-dim-bot.commit .commit-links-cell .btn {
+.rgh-dim-bot.commit summary,
+.rgh-dim-bot.commit .commit-links-group,
+.rgh-dim-bot.commit .commit-links-group + .btn {
 	transition: 0.1s 0.3s;
 	transition-property: opacity, margin-bottom;
 }
@@ -20,8 +21,9 @@ Transitions are used to delay the "hover" status so it's not too annoying when m
 }
 
 .rgh-dim-bot.commit:not(.navigation-focus) .commit-meta,
-.rgh-dim-bot.commit:not(.navigation-focus) .commit-links-cell summary, /* `Verified` badge */
-.rgh-dim-bot.commit:not(.navigation-focus) .commit-links-cell .btn { /* Buttons on the right */
+.rgh-dim-bot.commit:not(.navigation-focus) summary, /* `Verified` badge */
+.rgh-dim-bot.commit:not(.navigation-focus) .commit-links-group, /* Hash and Copy hash buttons */
+.rgh-dim-bot.commit:not(.navigation-focus) .commit-links-group + .btn { /* Browse repository button */
 	opacity: 0;
 	visibility: hidden;
 	margin-bottom: -2em;
