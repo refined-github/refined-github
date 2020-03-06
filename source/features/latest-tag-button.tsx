@@ -87,7 +87,7 @@ const getAheadByCount = cache.function(async (latestTag: string): Promise<string
 }, {
 	maxAge: 1 / 24, // One hour
 	staleWhileRevalidate: 2,
-	cacheKey: ([latestTag]) => `tag-head-by:${getRepoURL()}/${latestTag}`
+	cacheKey: ([latestTag]) => `tag-ahead-by:${getRepoURL()}/${latestTag}`
 });
 
 async function init(): Promise<false | void> {
