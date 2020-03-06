@@ -1,9 +1,9 @@
-import select from 'select-dom';
+import React from 'dom-chef';
 import cache from 'webext-storage-cache';
+import select from 'select-dom';
+import elementReady from 'element-ready';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import React from 'dom-chef';
-import elementReady from 'element-ready';
 import {getRepoGQL, pluralize} from '../libs/utils';
 
 const getCommitChanges = cache.function(async (commit: string): Promise<[number, number]> => {
@@ -36,12 +36,13 @@ async function init(): Promise<void> {
 			<span className="diffstat-block-neutral"/>
 			<span className="diffstat-block-neutral"/>
 			<span className="diffstat-block-neutral"/>
-		</span>);
+		</span>
+	);
 }
 
 features.add({
 	id: __featureName__,
-	description: 'Add line changes on pr commits',
+	description: 'Add line changes on PR commits.',
 	screenshot: 'https://user-images.githubusercontent.com/16872793/75835025-cb3f9300-5d8b-11ea-8126-d8778c71e467.png',
 	include: [
 		features.isPRCommit
