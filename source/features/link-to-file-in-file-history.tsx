@@ -26,8 +26,6 @@ function init(): void | false {
 			</a>
 		);
 
-		rootLink.closest<HTMLElement>('.commit-links-cell')!.style.width = 'auto';
-
 		groupSiblings(rootLink);
 	}
 }
