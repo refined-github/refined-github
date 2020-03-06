@@ -23,7 +23,7 @@ function getDropdown(prs: number[]): HTMLElement {
 
 			<ul className="dropdown-menu dropdown-menu-se">
 				<div className="dropdown-header">
-					File touched by
+					File touched by PRs
 				</div>
 				{prs.map(prNumber => (
 					<li>
