@@ -43,7 +43,6 @@ async function init(): Promise<void> {
 features.add({
 	id: __featureName__,
 	description: 'Add line changes on PR commits.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/75835025-cb3f9300-5d8b-11ea-8126-d8778c71e467.png',
 	include: [
 		features.isPRCommit
 	],
