@@ -30,8 +30,8 @@ async function init(): Promise<void> {
 	const tooltip = pluralize(additions + deletions, '1 line changed', '$$ lines changed');
 	select('.diffstat')!.replaceWith(
 		<span className="ml-2 diffstat tooltipped tooltipped-s" aria-label={tooltip}>
-			<span className="text-green">+{additions}</span>
-			<span className="ml-1 mr-2 text-red">−{deletions}</span>
+			<span className="text-green">+{additions}</span>{' '}
+			<span className="text-red">−{deletions}</span>{' '}
 			<span className="diffstat-block-neutral"/>
 			<span className="diffstat-block-neutral"/>
 			<span className="diffstat-block-neutral"/>
