@@ -1,4 +1,3 @@
-import './list-prs-for-file.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import cache from 'webext-storage-cache';
@@ -6,7 +5,7 @@ import pullRequestIcon from 'octicon/git-pull-request.svg';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {getRepoURL, getRepoGQL} from '../libs/utils';
-import {isSingleFile} from '../libs/page-detect';
+import {isEditingFile} from '../libs/page-detect';
 import getDefaultBranch from '../libs/get-default-branch';
 
 function getPRUrl(prNumber: number): string {
@@ -41,8 +40,7 @@ function getSingleButton(prNumber: number, _?: number, prs?: number[]): HTMLElem
 	return (
 		<a
 			href={getPRUrl(prNumber)}
-			className={'btn btn-sm btn-outline tooltipped tooltipped-ne' + (prs ? ' BtnGroup-item' : '')}
-			aria-label={`This file is touched by PR #${prNumber}`}
+			className={'btn btn-sm btn-outline' + (prs ? ' BtnGroup-item' : '')}
 		>
 			{pullRequestIcon()} #{prNumber}
 		</a>
@@ -57,28 +55,36 @@ async function init(): Promise<void> {
 		return;
 	}
 
-	if (isSingleFile()) {
-		select('.breadcrumb')!.before(
-			prs.length === 1 ?
-				<span className="ml-2">{getSingleButton(prs[0])}</span> :
-				getDropdown(prs)
-		);
-	} else {
+	const [prNumber] = prs; // First one or only one
+
+	if (isEditingFile()) {
 		select('.file')!.after(
 			<div className="form-warning p-3 mb-3 mx-lg-3">
 				{
 					prs.length === 1 ?
-						<>Careful, PR <a href={getPRUrl(prs[0])}>#{prs[0]}</a> is already touching this file</> :
+						<>Careful, PR <a href={getPRUrl(prNumber)}>#{prNumber}</a> is already touching this file</> :
 						<>
 							Careful, {prs.length} open PRs are already touching this file
-							<span className="ml-2 BtnGroup">
+							<span className="ml-2 BtnGroup" style={{verticalAlign: '-0.6em'}}>
 								{prs.map(getSingleButton)}
 							</span>
 						</>
 				}
 			</div>
 		);
+
+		return;
 	}
+
+	if (prs.length > 1) {
+		select('.breadcrumb')!.before(getDropdown(prs));
+		return;
+	}
+
+	const link = getSingleButton(prNumber);
+	link.classList.add('ml-2', 'tooltipped', 'tooltipped-ne');
+	link.setAttribute('aria-label', `This file is touched by PR #${prNumber}`);
+	select('.breadcrumb')!.before(link);
 }
 
 /**
