@@ -50,11 +50,8 @@ function init(): void {
 			return;
 		}
 
-		if (key === '?' && (target as HTMLTextAreaElement).type !== 'textarea') {
-			observer.observe(select('body > details > details-dialog')!, {childList: true});
-		}
-	}
-	);
+		observer.observe(select('body > details > details-dialog')!, {childList: true});
+	});
 }
 
 features.add({
