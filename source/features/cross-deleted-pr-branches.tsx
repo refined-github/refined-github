@@ -16,7 +16,7 @@ function init(): void {
 
 	const deletedBranchName = lastBranchAction.textContent!.trim();
 
-	const repoRoot = select<HTMLAnchorElement>('.head-ref a')!;
+	const headRefLink = select<HTMLAnchorElement>('.head-ref a')!;
 	const repoRootUrl = repoRoot.href.split('/', 5).join('/');
 	const repoIsDeleted = repoRoot.textContent === 'unknown repository';
 
