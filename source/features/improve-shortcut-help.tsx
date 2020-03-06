@@ -50,7 +50,10 @@ function init(): void {
 			return;
 		}
 
-		observer.observe(select('body > details > details-dialog')!, {childList: true});
+		const modal = select('body > details > details-dialog');
+		if (modal) {
+			observer.observe(modal, {childList: true});
+		}
 	});
 }
 
