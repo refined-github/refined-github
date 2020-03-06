@@ -15,17 +15,22 @@ function init(): void {
 	}
 
 	const deletedBranchName = lastBranchAction.textContent!.trim();
-	const repoRoot = select<HTMLAnchorElement>('.head-ref a')!.href.split('/', 5).join('/');
+
+	const repoRoot = select<HTMLAnchorElement>('.head-ref a')!;
+	const repoRootUrl = repoRoot.href.split('/', 5).join('/');
+	const repoIsDeleted = repoRoot.textContent === 'unknown repository';
 
 	for (const element of select.all('.commit-ref')) {
 		const branchName = element.textContent!.trim();
-		if (branchName !== 'unknown repository' && branchName === deletedBranchName) {
+		if (branchName === deletedBranchName || branchName === 'unknown repository') {
 			element.title = 'Deleted';
 
-			if (element.classList.contains('head-ref')) {
-				select('a', element)!.href = repoRoot;
+			if (repoIsDeleted) {
+				select('a', element)?.removeAttribute('href');
+			} else if (element.classList.contains('head-ref')) {
+				select('a', element)!.href = repoRootUrl;
 			} else {
-				wrap(element, <a href={repoRoot}/>);
+				wrap(element, <a href={repoRootUrl}/>);
 			}
 		}
 	}
