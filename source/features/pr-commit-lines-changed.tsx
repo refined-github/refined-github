@@ -16,7 +16,7 @@ const getCommitChanges = cache.function(async (commit: string): Promise<[number,
 				}
 			}
 		}
-    `);
+	`);
 
 	return [repository.object.additions, repository.object.deletions];
 }, {
