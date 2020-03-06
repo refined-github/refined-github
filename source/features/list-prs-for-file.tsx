@@ -1,3 +1,4 @@
+import './list-prs-for-file.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import cache from 'webext-storage-cache';
@@ -7,7 +8,46 @@ import features from '../libs/features';
 import {getRepoURL, getRepoGQL} from '../libs/utils';
 import {isSingleFile} from '../libs/page-detect';
 import getDefaultBranch from '../libs/get-default-branch';
-import {groupSiblings} from '../libs/group-buttons';
+
+function getPRUrl(prNumber: number): string {
+	return `/${getRepoURL()}/pull/${prNumber}/files`;
+}
+
+function getDropdown(prs: number[]): HTMLElement {
+	// Markup copied from https://primer.style/css/components/dropdown
+	return (
+		<details className="ml-2 dropdown details-reset details-overlay d-inline-block">
+			<summary aria-haspopup="true" className="btn btn-sm">
+				{pullRequestIcon()} {prs.length} <div className="dropdown-caret"/>
+			</summary>
+
+			<ul className="dropdown-menu dropdown-menu-se">
+				<div className="dropdown-header">
+					File touched by
+				</div>
+				{prs.map(prNumber => (
+					<li>
+						<a className="dropdown-item" href={getPRUrl(prNumber)}>
+							#{prNumber}
+						</a>
+					</li>
+				))}
+			</ul>
+		</details>
+	);
+}
+
+function getSingleButton(prNumber: number, _?: number, prs?: number[]): HTMLElement {
+	return (
+		<a
+			href={getPRUrl(prNumber)}
+			className={'btn btn-sm btn-outline tooltipped tooltipped-ne' + (prs ? ' BtnGroup-item' : '')}
+			aria-label={`This file is touched by PR #${prNumber}`}
+		>
+			{pullRequestIcon()} #{prNumber}
+		</a>
+	);
+}
 
 async function init(): Promise<void> {
 	// `clipboard-copy` on blob page, `#blob-edit-path` on edit page
@@ -17,33 +57,27 @@ async function init(): Promise<void> {
 		return;
 	}
 
-	const wrapper = <span className="ml-2"/>;
-	for (const pr of prs) {
-		wrapper.append(
-			<a
-				href={`/${getRepoURL()}/pull/${pr}/files`}
-				className="btn btn-sm btn-outline tooltipped tooltipped-ne"
-				aria-label={`This file is touched by PR #${pr}`}
-			>
-				{pullRequestIcon()} #{pr}
-			</a>
-		);
-	}
-
 	if (isSingleFile()) {
-		select('.breadcrumb')!.before(wrapper);
+		select('.breadcrumb')!.before(
+			prs.length === 1 ?
+				<span className="ml-2">{getSingleButton(prs[0])}</span> :
+				getDropdown(prs)
+		);
 	} else {
-		wrapper.style.cssText = 'margin-top: -0.8em; margin-bottom: -0.5em;'; // Vertical alignment
 		select('.file')!.after(
 			<div className="form-warning p-3 mb-3 mx-lg-3">
-				Careful, some open PRs are already touching this file {wrapper}
+				{
+					prs.length === 1 ?
+						<>Careful, PR <a href={getPRUrl(prs[0])}>#{prs[0]}</a> is already touching this file</> :
+						<>
+							Careful, {prs.length} open PRs are already touching this file
+							<span className="ml-2 BtnGroup">
+								{prs.map(getSingleButton)}
+							</span>
+						</>
+				}
 			</div>
 		);
-	}
-
-	if (wrapper.children.length > 1) {
-		wrapper.classList.add('BtnGroup'); // Avoids extra wrapper
-		groupSiblings(wrapper.firstElementChild!);
 	}
 }
 
