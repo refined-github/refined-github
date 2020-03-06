@@ -1,4 +1,4 @@
-<!-- 
+<!--
 
 Thanks for contributing! 🍄
 

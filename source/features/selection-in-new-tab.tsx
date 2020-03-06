@@ -18,7 +18,7 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Adds a keyboard shortcut to open selection in new tab when navigating via  `j` and `k`: `Shift` `o`.',
+	description: 'Adds a keyboard shortcut to open selection in new tab when navigating via `j` and `k`: `Shift` `o`.',
 	screenshot: false,
 	shortcuts: {
 		'shift o': 'Open selection in new tab'

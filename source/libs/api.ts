@@ -6,7 +6,7 @@ next to the name of the feature that caused them.
 Usage:
 
 import * as api from '../libs/api';
-const user  = await api.v3(`users/${username}`);
+const user = await api.v3(`users/${username}`);
 const data = await api.v4('{user(login: "user") {name}}');
 
 Returns:
