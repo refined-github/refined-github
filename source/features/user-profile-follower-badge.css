@@ -4,6 +4,7 @@
 	animation: fade-in 0.2s;
 	margin-top: -15px;
 	margin-bottom: 5px;
+	clear: both;
 }
 
 .user-profile-bio {
