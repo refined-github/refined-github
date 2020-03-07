@@ -48,8 +48,8 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Buffering for search term pressed after `t`',
-	screenshot: false,
+	description: 'Lets you start typing your search immediately after invoking the File Finder (`t`), instead of having you wait for it to load first.',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/75542106-1c811700-5a5a-11ea-8aa5-bea0472c59e2.gif',
 	include: [
 		features.isRepo
 	],
