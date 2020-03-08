@@ -16,9 +16,9 @@ function init(): void {
 
 	const deletedBranchName = lastBranchAction.textContent!.trim();
 
-	const headRefLink = select<HTMLAnchorElement>('.head-ref a')!;
-	const repoRootUrl = headRefLink.href.split('/', 5).join('/');
-	const repoIsDeleted = headRefLink.textContent === 'unknown repository';
+	const headReferenceLink = select<HTMLAnchorElement>('.head-ref a')!;
+	const repoRootUrl = headReferenceLink.href.split('/', 5).join('/');
+	const repoIsDeleted = headReferenceLink.textContent === 'unknown repository';
 
 	for (const element of select.all('.commit-ref')) {
 		const branchName = element.textContent!.trim();
