@@ -6,7 +6,7 @@
 
 /* Make dropdown smaller, if possible */
 :root .rgh-tags-dropdown .select-menu-modal {
-	width: max-content;  /* Default: 300px */
+	width: max-content; /* Default: 300px */
 	min-width: 150px;
 	max-width: 300px;
 }

@@ -33,7 +33,7 @@ const getFirstCommitDate = cache.function(async (): Promise<string | undefined> 
 
 	const relativeTime = await fetchDom(
 		`${getRepoURL()}/commits?after=${commitSha}+${commitsCount - 2}`,
-		'ol:last-child > li.commits-list-item relative-time'
+		'.commit-meta relative-time'
 	);
 
 	return relativeTime!.attributes.datetime.value;

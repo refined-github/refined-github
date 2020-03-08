@@ -108,6 +108,10 @@ async function init(): Promise<false | void> {
 	]);
 
 	for (const prLink of prLinks) {
+		if (!data.repository[prLink.id].headOwner) { // 👻 @ghost user
+			return;
+		}
+
 		let branches;
 		let {base, head} = normalizeBranchInfo(data.repository[prLink.id]);
 

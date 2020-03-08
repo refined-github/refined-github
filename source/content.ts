@@ -20,7 +20,6 @@ import './features/always-show-branch-delete-buttons.css';
 import './features/easier-pr-sha-copy.css';
 import './features/repo-stats-spacing.css';
 import './features/emphasize-draft-pr-label.css';
-import './features/friendlier-requested-changes.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
@@ -163,6 +162,9 @@ import './features/extend-discussion-status-filters';
 import './features/expand-all-hidden-comments';
 import './features/bugs-tab';
 import './features/cross-deleted-pr-branches';
+import './features/repo-wide-file-finder';
+import './features/preserve-file-finder-term';
+import './features/file-finder-buffer';
 
 // Add global for easier debugging
 (window as any).select = select;

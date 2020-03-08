@@ -14,7 +14,7 @@ interface Commit {
 	sha: string;
 }
 
-const timeFormatter = new Intl.DateTimeFormat('en-US', {
+const timeFormatter = new Intl.DateTimeFormat('en-GB', {
 	hour: 'numeric',
 	minute: 'numeric',
 	hour12: false
