@@ -372,6 +372,11 @@ export const _isSingleTagPage = [
 	'https://github.com/sindresorhus/refined-github/releases/tag/0.2.1'
 ];
 
+export const isPulse = (): boolean => /^pulse/.test(getRepoPath()!);
+export const _isPulse = [
+	'https://github.com/sindresorhus/refined-github/pulse'
+];
+
 export const _hasComments = skip;
 export const hasComments = (): boolean =>
 	isPR() ||
