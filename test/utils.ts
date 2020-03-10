@@ -11,7 +11,7 @@ import {
 	getReference,
 	parseTag,
 	compareNames,
-	getScopedSelector,
+	getScopedSelector
 } from '../source/libs/utils';
 
 test('getDiscussionNumber', t => {
@@ -223,7 +223,7 @@ test('getScopedSelector', t => {
 		[
 			'.reponav-dropdown, [href$="settings"]',
 			':scope > .reponav-dropdown,:scope > [href$="settings"]'
-		],
+		]
 	]);
 
 	for (const [selector, result] of pairs) {

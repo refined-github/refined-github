@@ -156,4 +156,4 @@ export function reportBug(featureName: string, bugName: string): void {
  */
 export const getScopedSelector = (selector: string): string => {
 	return selector.split(',').map(sub => `:scope > ${sub.trim()}`).join(',');
-}
+};

@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import { getScopedSelector } from './utils';
+import {getScopedSelector} from './utils';
 
 /**
  * Append to an element, but before a element that might not exist.
