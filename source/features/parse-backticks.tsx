@@ -16,7 +16,8 @@ function initGeneral(): void {
 		'[id^=ref-pullrequest-]', // PR references in `isIssue`, `isPRConversation`
 		'.TimelineItem-body > del, .TimelineItem-body > ins', // Title edits in `isIssue`, `isPRConversation`
 		'.js-pinned-issue-list-item > span', // Pinned Issues
-		'.pulse-section li' // `isPulse`
+		'.pulse-section li', // `isPulse`
+		'[data-channel] a' // `isActions`
 	])) {
 		parseBackticks(title);
 	}
@@ -42,7 +43,8 @@ features.add({
 		features.isPRConversation,
 		features.isRepoTree,
 		features.isSingleFile,
-		features.isPulse
+		features.isPulse,
+		features.isActions
 	],
 	load: features.onAjaxedPages,
 	init: initGeneral

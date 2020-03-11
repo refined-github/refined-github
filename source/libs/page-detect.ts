@@ -377,6 +377,11 @@ export const _isPulse = [
 	'https://github.com/sindresorhus/refined-github/pulse'
 ];
 
+export const isActions = (): boolean => /^actions/.test(getRepoPath()!);
+export const _isActions = [
+	'https://github.com/sindresorhus/refined-github/actions'
+];
+
 export const _hasComments = skip;
 export const hasComments = (): boolean =>
 	isPR() ||
