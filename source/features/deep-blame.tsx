@@ -51,9 +51,11 @@ async function init(): Promise<void | false> {
 
 	for (const pullRequest of pullRequests) {
 		const test = commits[getCommitHash(pullRequest)];
-		const a = pullRequest.closest('.blame-commit.flex-self-stretch.mr-1');
-		console.log(a!.closest('.octicon.octicon-versions'));
-		console.log(pullRequest.parentElement?.closest('.octicon.octicon-versions'));
+		const currentParentElement = pullRequest.closest('.blame-hunk');
+		const versionsIcon = select('.blob-reblame',currentParentElement);
+		const currentLineNumber = select('.js-line-number',currentParentElement)!.textContent;
+		console.log(versionsIcon);
+		console.log(currentLineNumber);
 	}
 }
 
