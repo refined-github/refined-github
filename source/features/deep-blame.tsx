@@ -1,7 +1,9 @@
 import select from 'select-dom';
 import * as api from '../libs/api';
+import React from 'dom-chef';
 import features from '../libs/features';
-import {getRepoGQL} from '../libs/utils';
+import {getRepoGQL, getReference} from '../libs/utils';
+import versionIcon from 'octicon/versions.svg';
 
 const filterMergeCommits = async (commits: string[]): Promise<AnyObject> => {
 	const {repository} = await api.v4(`
@@ -27,14 +29,15 @@ const filterMergeCommits = async (commits: string[]): Promise<AnyObject> => {
 				}
 			`).join('\n')}
 		}
-    `);
+	`);
 
-	const lastCommits = {};
+	const lastCommits = new Map();
 	for (const [key, commit] of Object.entries<AnyObject>(repository)) {
-		const mergeCommit = (commit.associatedPullRequests.nodes[0].mergeCommit.oid as string);
-		const lastCommit = commit.associatedPullRequests.nodes[0].commits.nodes[0].commit.oid;
+		const {nodes} = commit.associatedPullRequests;
+		const mergeCommit = nodes[0].mergeCommit.oid;
+		const lastCommit = nodes[0].commits.nodes[0].commit.oid;
 		if (mergeCommit === key.slice(1)) {
-			lastCommits[mergeCommit] = lastCommit;
+			lastCommits.set(mergeCommit, lastCommit);
 		}
 	}
 
@@ -47,15 +50,45 @@ function getCommitHash(commit: HTMLElement): string {
 
 async function init(): Promise<void | false> {
 	const pullRequests = select.all('[data-hovercard-type="pull_request"]');
+	if (pullRequests.length === 0) {
+		return;
+	}
+
 	const commits = await filterMergeCommits([...new Set(pullRequests.map(getCommitHash))]);
 
 	for (const pullRequest of pullRequests) {
-		const test = commits[getCommitHash(pullRequest)];
+		const prBlameCommit = commits.get(getCommitHash(pullRequest));
+		// If a pull request number was associated with a random commit.
+		if (!prBlameCommit) {
+			return;
+		}
+
 		const currentParentElement = pullRequest.closest('.blame-hunk');
-		const versionsIcon = select('.blob-reblame',currentParentElement);
-		const currentLineNumber = select('.js-line-number',currentParentElement)!.textContent;
-		console.log(versionsIcon);
-		console.log(currentLineNumber);
+		const versionsParent = select('.blob-reblame', currentParentElement!);
+		const currentLineNumber = select('.js-line-number', currentParentElement!)!.textContent!;
+
+		const href = new URL(window.location.href.replace(String(getReference()), prBlameCommit));
+		href.hash = 'L' + currentLineNumber;
+
+		if (select.exists('a', versionsParent!)) {
+			const versionsElement = select('a', versionsParent!);
+			versionsElement!.setAttribute('aria-label', 'View blame prior to this change. Press Alt to see `something....`');
+			versionsElement!.addEventListener('click', event => {
+				if (event.altKey) {
+					event.preventDefault();
+					location.href = String(href);
+				}
+			});
+		} else {
+			versionsParent!.append(
+				<a
+					href={String(href)}
+					aria-label="View blame prior to this change"
+					className="reblame-link link-hover-blue no-underline tooltipped tooltipped-e d-inline-block pr-1"
+				> {versionIcon()}
+				</a>
+			);
+		}
 	}
 }
 
