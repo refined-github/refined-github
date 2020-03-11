@@ -61,7 +61,7 @@ async function init(): Promise<void | false> {
 
 features.add({
 	id: __featureName__,
-	description: '',
+	description: 'Hello',
 	screenshot: false,
 	include: [
 		features.isBlame
