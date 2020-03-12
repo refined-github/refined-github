@@ -1,6 +1,7 @@
 import './deep-blame.css';
 import select from 'select-dom';
 import * as api from '../libs/api';
+import elementReady from 'element-ready';
 import React from 'dom-chef';
 import features from '../libs/features';
 import {getRepoGQL, getReference} from '../libs/utils';
@@ -93,11 +94,12 @@ function getCommitHash(commit: HTMLElement): string {
 }
 
 async function init(): Promise<void | false> {
+	const buttonGroup = await elementReady('.file-actions .BtnGroup');
 	if (!select.exists('[data-hovercard-type="pull_request"]')) {
 		return;
 	}
 
-	select('.file-actions .BtnGroup')!.append(
+	buttonGroup!.append(
 		<a
 			className="btn btn-sm BtnGroup-item tooltipped tooltipped tooltipped-n rgh-md-source rgh-deep-blame-button"
 			type="button"
@@ -116,6 +118,6 @@ features.add({
 	include: [
 		features.isBlame
 	],
-	load: features.onAjaxedPages,
+	load: features.nowAndOnAjaxedPages,
 	init
 });
