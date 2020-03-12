@@ -1,3 +1,4 @@
+import './deep-blame.css';
 import select from 'select-dom';
 import * as api from '../libs/api';
 import React from 'dom-chef';
@@ -72,7 +73,8 @@ async function init(): Promise<void | false> {
 
 		if (select.exists('a', versionsParent!)) {
 			const versionsElement = select('a', versionsParent!);
-			versionsElement!.setAttribute('aria-label', 'View blame prior to this change. Press Alt to see `something....`');
+			versionsElement!.setAttribute('aria-label', 'View blame prior to this change. Press Alt to view the `deep-blame`');
+			versionsElement!.classList.add('rgh-deeper-blame');
 			versionsElement!.addEventListener('click', event => {
 				if (event.altKey) {
 					event.preventDefault();
@@ -83,8 +85,8 @@ async function init(): Promise<void | false> {
 			versionsParent!.append(
 				<a
 					href={String(href)}
-					aria-label="View blame prior to this change"
-					className="reblame-link link-hover-blue no-underline tooltipped tooltipped-e d-inline-block pr-1"
+					aria-label="View `deep-blame` prior to this change"
+					className="reblame-link link-hover-blue no-underline tooltipped tooltipped-e d-inline-block pr-1 rgh-deep-blame"
 				> {versionIcon()}
 				</a>
 			);
@@ -94,7 +96,7 @@ async function init(): Promise<void | false> {
 
 features.add({
 	id: __featureName__,
-	description: 'Hello',
+	description: 'Add Deep Blame to commits',
 	screenshot: false,
 	include: [
 		features.isBlame
