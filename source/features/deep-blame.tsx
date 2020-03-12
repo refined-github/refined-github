@@ -45,7 +45,7 @@ const filterMergeCommits = async (commits: string[]): Promise<AnyObject> => {
 	return lastCommits;
 };
 
-async function runme(): Promise<void | false> {
+async function getDeepBlame(): Promise<void | false> {
 	const pullRequests = select.all('[data-hovercard-type="pull_request"]');
 	const commits = await filterMergeCommits([...new Set(pullRequests.map(getCommitHash))]);
 
@@ -84,6 +84,8 @@ async function runme(): Promise<void | false> {
 			);
 		}
 	}
+
+	select('.rgh-deep-blame-button')!.remove();
 }
 
 function getCommitHash(commit: HTMLElement): string {
@@ -91,8 +93,7 @@ function getCommitHash(commit: HTMLElement): string {
 }
 
 async function init(): Promise<void | false> {
-	const pullRequests = select.all('[data-hovercard-type="pull_request"]');
-	if (pullRequests.length === 0) {
+	if (!select.exists('[data-hovercard-type="pull_request"]')) {
 		return;
 	}
 
@@ -101,11 +102,11 @@ async function init(): Promise<void | false> {
 			className="btn btn-sm BtnGroup-item tooltipped tooltipped tooltipped-n rgh-md-source rgh-deep-blame-button"
 			type="button"
 			aria-label="Get the deep blame"
+			onClick={getDeepBlame}
 		>
 			{versionIcon()}
 		</a>
 	);
-	select('.rgh-deep-blame-button')!.addEventListener('click', runme);
 }
 
 features.add({
