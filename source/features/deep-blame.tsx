@@ -45,16 +45,8 @@ const filterMergeCommits = async (commits: string[]): Promise<AnyObject> => {
 	return lastCommits;
 };
 
-function getCommitHash(commit: HTMLElement): string {
-	return (commit.nextElementSibling! as HTMLAnchorElement).href.split('/').slice(-1)[0];
-}
-
-async function init(): Promise<void | false> {
+async function runme(): Promise<void | false> {
 	const pullRequests = select.all('[data-hovercard-type="pull_request"]');
-	if (pullRequests.length === 0) {
-		return;
-	}
-
 	const commits = await filterMergeCommits([...new Set(pullRequests.map(getCommitHash))]);
 
 	for (const pullRequest of pullRequests) {
@@ -92,6 +84,28 @@ async function init(): Promise<void | false> {
 			);
 		}
 	}
+}
+
+function getCommitHash(commit: HTMLElement): string {
+	return (commit.nextElementSibling! as HTMLAnchorElement).href.split('/').slice(-1)[0];
+}
+
+async function init(): Promise<void | false> {
+	const pullRequests = select.all('[data-hovercard-type="pull_request"]');
+	if (pullRequests.length === 0) {
+		return;
+	}
+
+	select('.file-actions .BtnGroup')!.append(
+		<a
+			className="btn btn-sm BtnGroup-item tooltipped tooltipped tooltipped-n rgh-md-source rgh-deep-blame-button"
+			type="button"
+			aria-label="Get the deep blame"
+		>
+			{versionIcon()}
+		</a>
+	);
+	select('.rgh-deep-blame-button')!.addEventListener('click', runme);
 }
 
 features.add({
