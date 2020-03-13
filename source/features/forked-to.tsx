@@ -9,9 +9,9 @@ import forkIcon from 'octicon/repo-forked.svg';
 import linkExternalIcon from 'octicon/link-external.svg';
 import features from '../libs/features';
 import {isRepoWithAccess} from '../libs/page-detect';
-import {getRepoURL, getUsername} from '../libs/utils';
+import {getRepoURL, getUsername, getForkedRepo} from '../libs/utils';
 
-const getCacheKey = onetime((): string => `forked-to:${getUsername()}@${findForkedRepo() ?? getRepoURL()}`);
+const getCacheKey = onetime((): string => `forked-to:${getUsername()}@${getForkedRepo() ?? getRepoURL()}`);
 
 async function save(forks: string[]): Promise<void> {
 	if (forks.length === 0) {
@@ -29,15 +29,6 @@ function saveAllForks(): void {
 	save(forks);
 }
 
-function findForkedRepo(): string | undefined {
-	const forkSourceElement = select<HTMLAnchorElement>('.fork-flag a');
-	if (forkSourceElement) {
-		return forkSourceElement.pathname.slice(1);
-	}
-
-	return undefined;
-}
-
 async function validateFork(repo: string): Promise<boolean> {
 	const response = await fetch(location.origin + '/' + repo, {method: 'HEAD'});
 	return response.ok;
@@ -48,7 +39,7 @@ async function updateForks(forks: string[]): Promise<void> {
 	const validForks = await pFilter(forks.filter(fork => fork !== getRepoURL()), validateFork);
 
 	// Add current repo to cache if it's a fork
-	if (isRepoWithAccess() && findForkedRepo()) {
+	if (isRepoWithAccess() && getForkedRepo()) {
 		save([...validForks, getRepoURL()].sort(undefined));
 	} else {
 		save(validForks);

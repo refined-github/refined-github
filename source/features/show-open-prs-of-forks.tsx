@@ -1,117 +1,99 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import cache from 'webext-storage-cache';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {isRepoWithAccess} from '../libs/page-detect';
-import {getUsername} from '../libs/utils';
+import {getForkedRepo, getUsername} from '../libs/utils';
 
-function findForkedRepo(): string | undefined {
-	const forkSourceElement = select<HTMLAnchorElement>('.fork-flag a');
-	if (forkSourceElement) {
-		return forkSourceElement.pathname.slice(1);
-	}
-
-	return undefined;
-}
-
-interface SearchResponse {
-	issueCount: number;
-	edges: Array<{
-		node: {
-			url: string;
-		};
-	}>;
+interface PullRequestData {
+	count: number;
+	firstUrl: string;
 }
 
 function getUserPullRequestsURL(forkedRepo: string, user: string): string {
 	return `https://github.com/${forkedRepo}/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc+author%3A${user}`;
 }
 
-async function getOpenPullRequestsData(): Promise<void | SearchResponse> {
-	if (!isRepoWithAccess()) {
-		return;
+const getOpenPullRequestsData = cache.function(async (forkedRepo: string|undefined): Promise<PullRequestData | false> => {
+	if (!forkedRepo || !isRepoWithAccess()) {
+		return false;
 	}
-
-	const forkedRepo = findForkedRepo();
-
-	if (!forkedRepo) {
-		return;
-	}
-
-	const user = getUsername();
 
 	// Grab the PR count and the first PR's URL
 	// This allows to link to the PR directly if only one is found
 	const {search} = await api.v4(`
-		search(type: ISSUE, query: "repo:${forkedRepo} is:pr is:open author:${user}", first: 1) {
+		search(type: ISSUE, query: "repo:${forkedRepo} is:pr is:open author:${getUsername()}", first: 1) {
 			issueCount
-			edges {
-				node {
-					... on PullRequest {
-						url
-					}
+			nodes {
+				... on PullRequest {
+					url
 				}
 			}
 		}
 	`);
 
 	if (search.issueCount === 0) {
-		return;
+		return false;
 	}
 
-	return search;
-}
+	return {
+		count: search.issueCount,
+		firstUrl: search.nodes[0].url
+	};
+}, {
+	maxAge: 1 / 2, // Stale after 12 hours
+	staleWhileRevalidate: 2,
+	cacheKey: ([forkedRepo]): string => `${__featureName__}:pr-data:${forkedRepo ?? '-'}`
+});
 
 async function initHeadHint(): Promise<void | false> {
-	const result = await getOpenPullRequestsData();
+	const forkedRepo = getForkedRepo();
+	const pullRequestsData = await getOpenPullRequestsData(forkedRepo);
 
-	if (!result) {
+	if (!pullRequestsData) {
 		return;
 	}
 
-	const forkedRepo = findForkedRepo()!;
 	const user = getUsername();
-
-	const count: number = result.issueCount;
 	const textContainer = select('.fork-flag .text')!;
 
-	if (count === 1) {
+	if (pullRequestsData.count === 1) {
 		textContainer.append(
-			<> with <a href={result.edges[0].node.url}>one open pull request</a></>
+			<> with <a href={pullRequestsData.firstUrl}>one open pull request</a></>
 		);
 	} else {
-		const pullRequestsURL = getUserPullRequestsURL(forkedRepo, user);
+		const pullRequestsURL = getUserPullRequestsURL(forkedRepo!, user);
 
 		textContainer.append(
-			<> with <a href={pullRequestsURL}>{count} open pull requests</a></>
+			<> with <a href={pullRequestsURL}>{pullRequestsData.count} open pull requests</a></>
 		);
 	}
 }
 
 async function initDeleteHint(): Promise<void | false> {
-	const result = await getOpenPullRequestsData();
+	const forkedRepo = getForkedRepo();
+	const pullRequestsData = await getOpenPullRequestsData(forkedRepo);
 
-	if (!result) {
+	if (!pullRequestsData) {
 		return;
 	}
 
-	const forkedRepo = findForkedRepo()!;
 	const user = getUsername();
-	const pullRequestsCount: number = result.issueCount;
-
 	const deleteDialogParagraph = select('details-dialog[aria-label*="Delete"] .Box-body p:first-child');
+
 	if (!deleteDialogParagraph) {
 		return;
 	}
 
-	const pullRequestsLink = pullRequestsCount === 1 ?
-		<a href={result.edges[0].node.url}>your open pull request</a> :
-		<a href={getUserPullRequestsURL(forkedRepo, user)}>your {pullRequestsCount} open pull requests</a>;
+	const pullRequestsLink = pullRequestsData.count === 1 ?
+		<a href={pullRequestsData.firstUrl}>your open pull request</a> :
+		<a href={getUserPullRequestsURL(forkedRepo!, user)}>your {pullRequestsData.count} open pull requests</a>;
 
 	deleteDialogParagraph.after(
-		<p>
+		<p className="flash flash-warn">
 			It will also abandon {pullRequestsLink} in <strong>{forkedRepo}</strong> and
-			you&apos;ll no longer be able to edit {pullRequestsCount === 1 ? 'it' : 'them'}.
+			you&apos;ll no longer be able to edit {pullRequestsData.count === 1 ? 'it' : 'them'}.
 		</p>
 	);
 }
@@ -129,8 +111,8 @@ features.add({
 
 features.add({
 	id: __featureName__,
-	description: 'Add a warning about open outgoing PRs when you\'re about to delete a repo.',
-	screenshot: 'https://user-images.githubusercontent.com/1922624/76398603-726c8d80-637d-11ea-95ca-fdf493302195.png',
+	description: '',
+	screenshot: '',
 	include: [
 		features.isRepoSettings
 	],
