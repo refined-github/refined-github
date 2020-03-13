@@ -48,7 +48,7 @@ const getPullRequestBlameCommit = cache.function(async (commit: string, prNumber
 });
 
 function getCommitHash(commit: HTMLElement): string {
-	return (commit.nextElementSibling! as HTMLAnchorElement).href.split('/').slice(-1)[0];
+	return (commit.nextElementSibling as HTMLAnchorElement).href.split('/').pop();
 }
 
 const githubSpinner = (
