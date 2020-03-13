@@ -154,6 +154,6 @@ export function reportBug(featureName: string, bugName: string): void {
  * Prepend `:scope >` to a single or group of css selectors.
  * @param {string} selector A css selector.
  */
-export const getScopedSelector = (selector: string): string => {
-	return selector.split(',').map(sub => `:scope > ${sub.trim()}`).join(',');
-};
+export function getScopedSelector(selector: string): string {
+	return selector.split().map(sub => `:scope > ${sub.trim()}`).join();
+}
