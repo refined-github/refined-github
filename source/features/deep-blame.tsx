@@ -71,6 +71,7 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLLinkEl
 
 	const prBlameCommit = await getPullRequestBlameCommit(pullRequestCommit!, Number(prNumber));
 	if (!prBlameCommit) {
+		// Restore the regular version link if there was one
 		if (blameLink.href) {
 			blameLink.setAttribute('aria-label', 'View blame prior to this change.');
 			blameLink.classList.remove('rgh-deep-blame');
