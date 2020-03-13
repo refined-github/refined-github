@@ -4,13 +4,14 @@ import * as api from '../libs/api';
 import React from 'dom-chef';
 import features from '../libs/features';
 import {getRepoGQL, getReference} from '../libs/utils';
-import delegate from 'delegate-it';
+import delegate, {DelegateEvent} from 'delegate-it';
 import versionIcon from 'octicon/versions.svg';
+import octofaceIcon from 'octicon/octoface.svg';
 
-const filterMergeCommits = async (commit: string): Promise<AnyObject | undefined> => {
+const getPullRequestBlameCommit = async (commit: string): Promise<string | undefined> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
-			${api.escapeKey(commit)}: object(expression: "${commit}") {
+			object(expression: "${commit}") {
 				... on Commit {
 					associatedPullRequests(last: 1) {
 						nodes {
@@ -31,7 +32,7 @@ const filterMergeCommits = async (commit: string): Promise<AnyObject | undefined
 		}
 	`);
 
-	const {nodes} = repository[api.escapeKey(commit)].associatedPullRequests;
+	const {nodes} = repository.object.associatedPullRequests;
 	const mergeCommit = nodes[0].mergeCommit.oid;
 
 	if (mergeCommit === commit) {
@@ -45,14 +46,23 @@ function getCommitHash(commit: HTMLElement): string {
 	return (commit.nextElementSibling! as HTMLAnchorElement).href.split('/').slice(-1)[0];
 }
 
-async function getDeepBlame(event): Promise<void | false> {
-	const currentParentElement = event.target.closest('.blame-hunk');
-	const currentLineNumber = select('.js-line-number', currentParentElement)!.textContent!;
-	const pullRequestCommit = event.target.parentElement.dataset.commit;
-	const prBlameCommit = await filterMergeCommits(pullRequestCommit);
+async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLLinkElement>): Promise<void | false> {
+	const {lineNumber, commit: pullRequestCommit} = event.delegateTarget.dataset;
+	if (event.delegateTarget.href && event.altKey) {
+		event.preventDefault();
+	}
+
+	event.delegateTarget.classList.add('anim-pulse');
+	event.delegateTarget.replaceChild(octofaceIcon(), event.delegateTarget.firstElementChild!);
+
+	const prBlameCommit = await getPullRequestBlameCommit(String(pullRequestCommit));
+	if (!prBlameCommit) {
+		event.delegateTarget.removeChild(event.delegateTarget.firstElementChild!);
+		return;
+	}
 
 	const href = new URL(window.location.href.replace(String(getReference()), prBlameCommit));
-	href.hash = 'L' + currentLineNumber;
+	href.hash = 'L' + String(lineNumber);
 	location.href = String(href);
 }
 
@@ -63,25 +73,21 @@ async function init(): Promise<void | false> {
 	}
 
 	for (const pullRequest of pullRequests) {
-		// If a pull request number was associated with a random commit.
-
-		const currentParentElement = pullRequest.closest('.blame-hunk');
-		const versionsParent = select('.blob-reblame', currentParentElement!);
+		const currentParentElement = pullRequest.closest('.blame-hunk')!;
+		const versionsParent = select('.blob-reblame', currentParentElement);
+		const currentLineNumber = select('.js-line-number', currentParentElement)!.textContent!;
 
 		if (select.exists('a', versionsParent!)) {
-			const versionsElement = select('a', versionsParent!);
-			versionsElement!.setAttribute('aria-label', 'View blame prior to this change. Press Alt to view the `deep-blame`');
-			versionsElement!.classList.add('rgh-deeper-blame');
-			versionsElement!.addEventListener('click', event => {
-				if (event.altKey) {
-					event.preventDefault();
-					location.href = String('');
-				}
-			});
+			const versionsElement = select('a', versionsParent!)!;
+			versionsElement.setAttribute('aria-label', 'View blame prior to this change. Press Alt to view the `deep-blame`');
+			versionsElement.classList.add('rgh-deep-blame');
+			versionsElement.dataset.commit = getCommitHash(pullRequest);
+			versionsElement.dataset.lineNumber = currentLineNumber;
 		} else {
 			versionsParent!.append(
 				<a
 					data-commit={getCommitHash(pullRequest)}
+					data-line-number={currentLineNumber}
 					aria-label="View `deep-blame` prior to this change"
 					className="reblame-link link-hover-blue no-underline tooltipped tooltipped-e d-inline-block pr-1 rgh-deep-blame"
 				> {versionIcon()}
@@ -90,7 +96,7 @@ async function init(): Promise<void | false> {
 		}
 	}
 
-	delegate('.rgh-deep-blame', 'click', getDeepBlame);
+	delegate('.rgh-deep-blame', 'click', redirectToBlameCommit);
 }
 
 features.add({

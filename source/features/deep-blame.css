@@ -1,7 +1,7 @@
-.rgh-deep-blame .octicon-versions {
-	color: #8000808c;
+a:not([href]).rgh-deep-blame .octicon-versions {
+	color: #e40de48c;
 }
 
-.rgh-deeper-blame .octicon-versions:hover {
+a.rgh-deep-blame .octicon-versions:hover {
 	color: #8000808c;
 }
