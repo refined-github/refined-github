@@ -149,3 +149,11 @@ export function reportBug(featureName: string, bugName: string): void {
 	console.log('Find existing issues:\n' + String(issuesUrl));
 	console.log('Open new issue:\n' + String(newIssueUrl));
 }
+
+/**
+ * Prepend `:scope >` to a single or group of css selectors.
+ * @param {string} selector A css selector.
+ */
+export function getScopedSelector(selector: string): string {
+	return selector.split(',').map(sub => `:scope > ${sub.trim()}`).join(',');
+}
