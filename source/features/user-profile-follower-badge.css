@@ -3,6 +3,10 @@
 	display: block;
 	animation: fade-in 0.2s;
 	clear: both;
+	/* Avoid jumping */
+	margin-bottom: -15px;
+	position: relative;
+	bottom: 12.5px;
 }
 
 .user-profile-bio {
