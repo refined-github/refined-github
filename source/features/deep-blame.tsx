@@ -119,7 +119,8 @@ async function init(): Promise<void | false> {
 					data-pr-number={prNumber}
 					aria-label="View `deep-blame` prior to this change"
 					className="reblame-link link-hover-blue no-underline tooltipped tooltipped-e d-inline-block pr-1 rgh-deep-blame"
-				> {versionIcon()}
+				>
+					{versionIcon()}
 				</a>
 			);
 		}
