@@ -68,6 +68,8 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLLinkEl
 	}
 
 	blameLink.firstElementChild!.replaceWith(githubSpinner);
+	// Hide tooltip after click, it’s shown on :focus
+	blurAccessibly(blameLink);
 
 	const prBlameCommit = await getPullRequestBlameCommit(pullRequestCommit!, Number(prNumber));
 	if (!prBlameCommit) {
@@ -76,8 +78,6 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLLinkEl
 			blameLink.setAttribute('aria-label', 'View blame prior to this change.');
 			blameLink.classList.remove('rgh-deep-blame');
 			blameLink.firstElementChild!.replaceWith(versionIcon());
-			// Hide tooltip after click, it’s shown on :focus
-			blurAccessibly(blameLink);
 		} else {
 			blameLink.firstElementChild!.remove();
 		}
