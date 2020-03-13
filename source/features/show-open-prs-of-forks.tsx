@@ -12,7 +12,7 @@ interface PullRequestData {
 }
 
 function getUserPullRequestsURL(forkedRepo: string, user: string): string {
-	return `https://github.com/${forkedRepo}/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc+author%3A${user}`;
+	return `/${forkedRepo}/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc+author%3A${user}`;
 }
 
 const getOpenPullRequestsData = cache.function(async (forkedRepo: string|undefined): Promise<PullRequestData | false> => {
