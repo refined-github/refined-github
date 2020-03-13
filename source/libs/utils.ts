@@ -122,7 +122,7 @@ export const flatZip = <T>(table: T[][], limit = Infinity): T[] => {
 	const zipped = [];
 	for (let col = 0; col < maxColumns; col++) {
 		for (const row of table) {
-			if (row[col]) {
+			if (row.length > col) {
 				zipped.push(row[col]);
 				if (zipped.length === limit) {
 					return zipped;
