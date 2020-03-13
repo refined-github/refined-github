@@ -229,6 +229,7 @@ Thanks for contributing! 🦋🙌
 - [](# "open-ci-details-in-new-tab") Opens the Checks "details" link in a new tab.
 - [](# "hidden-review-comments-indicator") [Adds comment indicators when comments are hidden in PR review.](https://user-images.githubusercontent.com/1402241/63112671-011d5580-bfbb-11e9-9e19-53e11641990e.gif)
 - [](# "conflict-marker") [Shows which PRs have conflicts in PR lists.](https://user-images.githubusercontent.com/9092510/62777551-2affe500-baae-11e9-8ba4-67f078347913.png)
+- [](# "pr-commit-lines-changed") [Adds diff stats on PR commits.](https://user-images.githubusercontent.com/16872793/76107253-48deeb00-5fa6-11ea-9931-721cde553bdf.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 

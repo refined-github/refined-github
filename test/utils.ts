@@ -11,6 +11,7 @@ import {
 	getReference,
 	parseTag,
 	compareNames,
+	pluralize,
 	getScopedSelector
 } from '../source/libs/utils';
 
@@ -198,6 +199,14 @@ test('parseTag', t => {
 	t.deepEqual(parseTag('hi@1.2.3'), {namespace: 'hi', version: '1.2.3'});
 	t.deepEqual(parseTag('hi/you@1.2.3'), {namespace: 'hi/you', version: '1.2.3'});
 	t.deepEqual(parseTag('@hi/you@1.2.3'), {namespace: '@hi/you', version: '1.2.3'});
+});
+
+test('pluralize', t => {
+	t.is(pluralize(0, 'A number', '$$ numbers'), '0 numbers');
+	t.is(pluralize(0, 'A number', '$$ numbers', 'No numbers'), 'No numbers');
+	t.is(pluralize(1, 'A number', '$$ numbers', 'No numbers'), 'A number');
+	t.is(pluralize(2, 'A number', '$$ numbers', 'No numbers'), '2 numbers');
+	t.is(pluralize(2, 'A number', 'Many numbers', 'No numbers'), 'Many numbers');
 });
 
 test('compareNames', t => {
