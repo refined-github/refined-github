@@ -1,6 +1,7 @@
 import './deep-blame.css';
 import select from 'select-dom';
 import * as api from '../libs/api';
+import cache from 'webext-storage-cache';
 import React from 'dom-chef';
 import features from '../libs/features';
 import {getRepoGQL, getReference} from '../libs/utils';
@@ -8,7 +9,7 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import versionIcon from 'octicon/versions.svg';
 import octofaceIcon from 'octicon/octoface.svg';
 
-const getPullRequestBlameCommit = async (commit: string): Promise<string | undefined> => {
+const getPullRequestBlameCommit = cache.function(async (commit: string): Promise<string | false> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			object(expression: "${commit}") {
@@ -39,8 +40,10 @@ const getPullRequestBlameCommit = async (commit: string): Promise<string | undef
 		return nodes[0].commits.nodes[0].commit.oid;
 	}
 
-	return undefined;
-};
+	return false;
+}, {
+	cacheKey: ([commit]) => __featureName__ + commit
+});
 
 function getCommitHash(commit: HTMLElement): string {
 	return (commit.nextElementSibling! as HTMLAnchorElement).href.split('/').slice(-1)[0];
