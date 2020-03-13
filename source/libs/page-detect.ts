@@ -250,7 +250,9 @@ export const _isRepo = [
 	'https://github.com/sindresorhus/refined-github/blame/master/package.json',
 	'https://github.com/sindresorhus/refined-github/issues/146',
 	'https://github.com/sindresorhus/notifications/',
-	'https://github.com/sindresorhus/refined-github/pull/148'
+	'https://github.com/sindresorhus/refined-github/pull/148',
+	'https://github.com/sindresorhus/actions',
+	'https://github.com/sindresorhus/pulse'
 ];
 export const _isRepoSkipNegatives = true;
 
