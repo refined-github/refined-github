@@ -1,13 +1,12 @@
 import './deep-blame.css';
+import cache from 'webext-storage-cache';
+import delegate, {DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
+import versionIcon from 'octicon/versions.svg';
 import select from 'select-dom';
 import * as api from '../libs/api';
-import cache from 'webext-storage-cache';
-import React from 'dom-chef';
 import features from '../libs/features';
 import {getRepoGQL, getReference} from '../libs/utils';
-import delegate, {DelegateEvent} from 'delegate-it';
-import versionIcon from 'octicon/versions.svg';
-import octofaceIcon from 'octicon/octoface.svg';
 
 const getPullRequestBlameCommit = cache.function(async (commit: string): Promise<string | false> => {
 	const {repository} = await api.v4(`
@@ -49,18 +48,27 @@ function getCommitHash(commit: HTMLElement): string {
 	return (commit.nextElementSibling! as HTMLAnchorElement).href.split('/').slice(-1)[0];
 }
 
+const githubSpinner = (
+	<img
+		src="https://github.githubassets.com/images/spinners/octocat-spinner-128.gif"
+		alt="Octocat Spinner Icon"
+		className="mr-2"
+		width="18"
+	/>
+);
+
 async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLLinkElement>): Promise<void | false> {
-	const {lineNumber, commit: pullRequestCommit} = event.delegateTarget.dataset;
-	if (event.delegateTarget.href && event.altKey) {
+	const blameLink = event.delegateTarget;
+	const {lineNumber, commit: pullRequestCommit} = blameLink.dataset;
+	if (blameLink.href && event.altKey) {
 		event.preventDefault();
 	}
 
-	event.delegateTarget.classList.add('anim-pulse');
-	event.delegateTarget.replaceChild(octofaceIcon(), event.delegateTarget.firstElementChild!);
+	blameLink.firstElementChild!.replaceWith(githubSpinner);
 
 	const prBlameCommit = await getPullRequestBlameCommit(String(pullRequestCommit));
 	if (!prBlameCommit) {
-		event.delegateTarget.removeChild(event.delegateTarget.firstElementChild!);
+		blameLink.firstElementChild!.remove();
 		return;
 	}
 
@@ -72,7 +80,7 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLLinkEl
 async function init(): Promise<void | false> {
 	const pullRequests = select.all('[data-hovercard-type="pull_request"]');
 	if (pullRequests.length === 0) {
-		return;
+		return false;
 	}
 
 	for (const pullRequest of pullRequests) {
