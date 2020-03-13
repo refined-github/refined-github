@@ -17,7 +17,7 @@ function initGeneral(): void {
 		'.TimelineItem-body > del, .TimelineItem-body > ins', // Title edits in `isIssue`, `isPRConversation`
 		'.js-pinned-issue-list-item > span', // Pinned Issues
 		'.pulse-section li', // `isPulse`
-		'[data-channel] a', // `isActions`
+		'[data-channel^="check_suites"] a', // `isActions`
 		'blame-commit-message a' // `isBlame`
 	])) {
 		parseBackticks(title);
