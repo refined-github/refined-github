@@ -155,5 +155,5 @@ export function reportBug(featureName: string, bugName: string): void {
  * @param {string} selector A css selector.
  */
 export function getScopedSelector(selector: string): string {
-	return selector.split().map(sub => `:scope > ${sub.trim()}`).join();
+	return selector.split(',').map(sub => `:scope > ${sub.trim()}`).join(',');
 }
