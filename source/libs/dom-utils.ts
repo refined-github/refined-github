@@ -28,10 +28,8 @@ export const appendBefore = (parent: string|Element, before: string, child: Elem
 		parent = select(parent)!;
 	}
 
-	const scopedBefore = getScopedSelector(before);
-
 	// Select direct children only
-	const beforeElement = select(scopedBefore, parent);
+	const beforeElement = select(getScopedSelector(before), parent);
 	if (beforeElement) {
 		beforeElement.before(child);
 	} else {
