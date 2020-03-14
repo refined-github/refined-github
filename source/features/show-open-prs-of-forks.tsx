@@ -93,7 +93,7 @@ async function initDeleteHint(): Promise<void | false> {
 	deleteDialogParagraph.after(
 		<p className="flash flash-warn">
 			It will also abandon {pullRequestsLink} in <strong>{forkedRepo}</strong> and
-			you&apos;ll no longer be able to edit {pullRequestsData.count === 1 ? 'it' : 'them'}.
+			you’ll no longer be able to edit {pullRequestsData.count === 1 ? 'it' : 'them'}.
 		</p>
 	);
 }
