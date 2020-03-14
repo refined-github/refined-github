@@ -44,7 +44,7 @@ const getOpenPullRequestsData = cache.function(async (forkedRepo: string|undefin
 }, {
 	maxAge: 1 / 2, // Stale after 12 hours
 	staleWhileRevalidate: 2,
-	cacheKey: ([forkedRepo]): string => `${__featureName__}:pr-data:${forkedRepo ?? '-'}`
+	cacheKey: ([forkedRepo]): string => __featureName__ + ':' + forkedRepo
 });
 
 async function initHeadHint(): Promise<void | false> {
