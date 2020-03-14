@@ -86,7 +86,11 @@ async function updateUI(forks: string[]): Promise<void> {
 async function init(): Promise<void | false> {
 	const forks = await cache.get<string[]>(getCacheKey());
 	if (forks) {
-		await updateUI(forks);
+		// Don't add button if you're visiting the only fork available
+		if (forks.length > 1 || forks[0] !== getRepoURL()) {
+			await updateUI(forks);
+		}
+
 		await updateCache();
 		return;
 	}
