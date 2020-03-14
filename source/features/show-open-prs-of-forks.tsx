@@ -15,11 +15,7 @@ function getUserPullRequestsURL(forkedRepo: string, user: string): string {
 	return `/${forkedRepo}/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc+author%3A${user}`;
 }
 
-const getOpenPullRequestsData = cache.function(async (forkedRepo: string|undefined): Promise<PullRequestData | false> => {
-	if (!forkedRepo || !isRepoWithAccess()) {
-		return false;
-	}
-
+const getOpenPullRequestsData = cache.function(async (forkedRepo: string): Promise<PullRequestData | false> => {
 	// Grab the PR count and the first PR's URL
 	// This allows to link to the PR directly if only one is found
 	const {search} = await api.v4(`
@@ -49,6 +45,11 @@ const getOpenPullRequestsData = cache.function(async (forkedRepo: string|undefin
 
 async function initHeadHint(): Promise<void | false> {
 	const forkedRepo = getForkedRepo();
+
+	if (!forkedRepo || !isRepoWithAccess()) {
+		return false;
+	}
+
 	const pullRequestsData = await getOpenPullRequestsData(forkedRepo);
 
 	if (!pullRequestsData) {
@@ -63,7 +64,7 @@ async function initHeadHint(): Promise<void | false> {
 			<> with <a href={pullRequestsData.firstUrl}>one open pull request</a></>
 		);
 	} else {
-		const pullRequestsURL = getUserPullRequestsURL(forkedRepo!, user);
+		const pullRequestsURL = getUserPullRequestsURL(forkedRepo, user);
 
 		textContainer.append(
 			<> with <a href={pullRequestsURL}>{pullRequestsData.count} open pull requests</a></>
@@ -73,6 +74,11 @@ async function initHeadHint(): Promise<void | false> {
 
 async function initDeleteHint(): Promise<void | false> {
 	const forkedRepo = getForkedRepo();
+
+	if (!forkedRepo || !isRepoWithAccess()) {
+		return false;
+	}
+
 	const pullRequestsData = await getOpenPullRequestsData(forkedRepo);
 
 	if (!pullRequestsData) {
@@ -88,7 +94,7 @@ async function initDeleteHint(): Promise<void | false> {
 
 	const pullRequestsLink = pullRequestsData.count === 1 ?
 		<a href={pullRequestsData.firstUrl}>your open pull request</a> :
-		<a href={getUserPullRequestsURL(forkedRepo!, user)}>your {pullRequestsData.count} open pull requests</a>;
+		<a href={getUserPullRequestsURL(forkedRepo, user)}>your {pullRequestsData.count} open pull requests</a>;
 
 	deleteDialogParagraph.after(
 		<p className="flash flash-warn">
