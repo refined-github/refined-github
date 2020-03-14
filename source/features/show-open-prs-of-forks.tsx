@@ -49,7 +49,7 @@ async function getOpenPullRequestsData(forkedRepo: string): Promise<PullRequestD
 
 	return {
 		count: rawOpenPullRequestsData[0],
-		firstUrl: `/${forkedRepo}/pulls/${rawOpenPullRequestsData[1]}`
+		firstUrl: `/${forkedRepo}/pull/${rawOpenPullRequestsData[1]}`
 	};
 }
 
