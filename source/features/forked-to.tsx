@@ -36,6 +36,11 @@ function findForkedRepo(): string | undefined {
 }
 
 async function updateUI(forks: string[]): Promise<void> {
+	// Don't add button if you're visiting the only fork available
+	if (forks.length === 1 && forks[0] === getRepoURL()) {
+		return;
+	}
+
 	document.body.classList.add('rgh-forked-to');
 	const forkCounter = (await elementReady('.social-count[href$="/network/members"]'))!;
 	if (forks.length === 1) {
@@ -79,23 +84,19 @@ async function updateUI(forks: string[]): Promise<void> {
 	}
 }
 
-/* This feature only applies to users that have multiple organizations, because that makes a fork picker modal appear on "Fork" click */
-
-/* Only fetch/update forks when we see a fork (on the current page or in the cache).
-   This avoids having to `updateCache` for every single repo they visit. */
 async function init(): Promise<void | false> {
 	const forks = await cache.get<string[]>(getCacheKey());
 	if (forks) {
-		// Don't add button if you're visiting the only fork available
-		if (forks.length > 1 || forks[0] !== getRepoURL()) {
-			await updateUI(forks);
-		}
-
-		await updateCache();
-		return;
+		await updateUI(forks);
 	}
 
-	if (findForkedRepo()) {
+	// This feature only applies to users that have multiple organizations, because that makes a fork picker modal appear when clicking on "Fork"
+	const hasOrganizations = await elementReady('details-dialog[src*="/fork"] include-fragment');
+	const isForkedRepo = findForkedRepo();
+
+	// Only fetch/update forks when we see a fork (on the current page or in the cache).
+	// This avoids having to `updateCache` for every single repo you visit.
+	if (forks || (hasOrganizations && isForkedRepo)) {
 		await updateCache();
 	} else {
 		return false;
