@@ -15,7 +15,7 @@ function getUserPullRequestsURL(forkedRepo: string, user: string): string {
 	return `/${forkedRepo}/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc+author%3A${user}`;
 }
 
-const getOpenPullRequestsData = cache.function(async (forkedRepo: string): Promise<PullRequestData | false> => {
+const getRawOpenPullRequestsData = cache.function(async (forkedRepo: string): Promise<[number, number] | false> => {
 	// Grab the PR count and the first PR's URL
 	// This allows to link to the PR directly if only one is found
 	const {search} = await api.v4(`
@@ -23,7 +23,7 @@ const getOpenPullRequestsData = cache.function(async (forkedRepo: string): Promi
 			issueCount
 			nodes {
 				... on PullRequest {
-					url
+					number
 				}
 			}
 		}
@@ -33,15 +33,25 @@ const getOpenPullRequestsData = cache.function(async (forkedRepo: string): Promi
 		return false;
 	}
 
-	return {
-		count: search.issueCount,
-		firstUrl: search.nodes[0].url
-	};
+	return [search.issueCount, search.nodes[0].number];
 }, {
 	maxAge: 1 / 2, // Stale after 12 hours
 	staleWhileRevalidate: 2,
 	cacheKey: ([forkedRepo]): string => __featureName__ + ':' + forkedRepo
 });
+
+async function getOpenPullRequestsData(forkedRepo: string): Promise<PullRequestData | undefined> {
+	const rawOpenPullRequestsData = await getRawOpenPullRequestsData(forkedRepo);
+
+	if (!rawOpenPullRequestsData) {
+		return;
+	}
+
+	return {
+		count: rawOpenPullRequestsData[0],
+		firstUrl: `/${forkedRepo}/pulls/${rawOpenPullRequestsData[1]}`
+	};
+}
 
 async function initHeadHint(): Promise<void | false> {
 	const forkedRepo = getForkedRepo();
