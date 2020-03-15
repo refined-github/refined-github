@@ -41,7 +41,7 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>):
 async function init(): Promise<void> {
 	// Is the user does not have rights to create a branch
 	if (!select.exists('[aria-label="Delete this branch"]')) {
-		return;
+		return false;
 	}
 
 	for (const branch of select.all('[aria-label="Delete this branch"]')) {
