@@ -60,8 +60,6 @@ async function init(): Promise<void> {
 
 features.add({
 	id: __featureName__,
-	description: 'Clone blanch',
-	screenshot: false,
 	include: [
 		features.isBranches
 	],
