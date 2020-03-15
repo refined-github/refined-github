@@ -8,18 +8,18 @@ import {getCleanPathname} from '../libs/utils';
 
 async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): Promise<void|false> {
 	const currentTarget = event.delegateTarget;
+	const branchElement = (currentTarget.closest('[data-branch-name]') as HTMLAnchorElement);
 	const newBranchName = prompt('Enter the new branch name');
 	if (!newBranchName) {
 		return false;
 	}
 
-	const spinner = currentTarget.nextElementSibling!.nextElementSibling! as HTMLAnchorElement;
+	const spinner = select('.js-loading-spinner', branchElement)!;
 	spinner.hidden = false;
 	currentTarget.hidden = true;
 
 	const [user, repo] = getCleanPathname().split('/');
-	const {branchName} = (currentTarget.closest('[data-branch-name]') as HTMLAnchorElement).dataset;
-	const getBranchInfo = await api.v3(`repos/${user}/${repo}/git/refs/heads/${branchName!}`);
+	const getBranchInfo = await api.v3(`repos/${user}/${repo}/git/refs/heads/${branchElement.dataset.branchName!}`);
 	try {
 		await api.v3(`repos/${user}/${repo}/git/refs`, {
 			method: 'POST',
@@ -28,13 +28,14 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>):
 				ref: 'refs/heads/' + newBranchName
 			}
 		});
-		location.reload();
+		branchElement.after(branchElement.cloneNode(true));
 	} catch (error) {
-		spinner.hidden = true;
-		currentTarget.hidden = false;
 		const errorMessage = JSON.parse(error.message.slice(Math.max(0, error.message.indexOf('{')))).message;
 		alert(errorMessage);
 	}
+
+	spinner.hidden = true;
+	currentTarget.hidden = false;
 }
 
 async function init(): Promise<void> {
@@ -44,7 +45,7 @@ async function init(): Promise<void> {
 	}
 
 	for (const branch of select.all('[aria-label="Delete this branch"]')) {
-		branch.parentElement!.parentElement!.after(
+		branch.closest('.Details-content--shown')!.after(
 			<a
 				aria-label="Clone Branch"
 				className="reblame-link link-hover-blue no-underline tooltipped tooltipped-e d-inline-block ml-1 rgh-clone-branch"
