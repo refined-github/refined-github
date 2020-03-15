@@ -47,7 +47,7 @@ async function init(): Promise<void> {
 		branch.parentElement!.parentElement!.after(
 			<a
 				aria-label="Clone Branch"
-				className="reblame-link link-hover-blue no-underline tooltipped tooltipped-e d-inline-block ml-1 rgh-clone-branch"
+				className="link-hover-blue no-underline tooltipped tooltipped-e d-inline-block ml-1 rgh-clone-branch"
 			>
 				{gitBranch()}
 			</a>
