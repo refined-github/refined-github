@@ -96,7 +96,7 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	location.href = String(href);
 }
 
-async function init(): Promise<void | false> {
+function init(): void|false {
 	const pullRequests = select.all('[data-hovercard-type="pull_request"]');
 	if (pullRequests.length === 0) {
 		return false;
