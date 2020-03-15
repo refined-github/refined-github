@@ -54,7 +54,6 @@ function getCommitHash(commit: HTMLElement): string {
 const githubSpinner = (
 	<img
 		src="https://github.githubassets.com/images/spinners/octocat-spinner-128.gif"
-		alt="Octocat Spinner Icon"
 		className="mr-2"
 		width="18"
 	/>
