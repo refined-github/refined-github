@@ -375,16 +375,14 @@ export const _isSingleTagPage = [
 ];
 
 export const isPulse = (): boolean => /^pulse/.test(getRepoPath()!) &&
-	location.pathname.split('/')[3] === 'pulse' &&
-	document.title.startsWith('Pulse ·');
+	location.pathname.split('/')[3] === 'pulse';
 export const _isPulse = [
 	'https://github.com/sindresorhus/refined-github/pulse',
 	'https://github.com/sindresorhus/pulse/pulse'
 ];
 
 export const isActions = (): boolean => /^actions/.test(getRepoPath()!) &&
-	location.pathname.split('/')[3] === 'actions' &&
-	document.title.startsWith('Actions ·');
+	location.pathname.split('/')[3] === 'actions';
 export const _isActions = [
 	'https://github.com/sindresorhus/refined-github/actions',
 	'https://github.com/sindresorhus/actions/actions'
