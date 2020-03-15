@@ -85,7 +85,7 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLLinkEl
 		return;
 	}
 
-	const href = new URL(location.href.replace(getReference()!, prBlameCommit));
+	const href = new URL(`/${getRepoURL()}/blame/${prBlameCommit}`, location.origin);
 	href.hash = 'L' + lineNumber!;
 	location.href = String(href);
 }
