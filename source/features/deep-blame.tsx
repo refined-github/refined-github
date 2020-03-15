@@ -34,7 +34,7 @@ const getPullRequestBlameCommit = cache.function(async (commit: string, prNumber
 		}
 	`);
 
-	const {[associatedPR]} = repository.object.associatedPullRequests;
+	const associatedPR = repository.object.associatedPullRequests;
 	const mergeCommit = associatedPR.mergeCommit.oid;
 
 	if (associatedPR.number === prNumber && mergeCommit === commit) {
@@ -47,16 +47,8 @@ const getPullRequestBlameCommit = cache.function(async (commit: string, prNumber
 });
 
 function getCommitHash(commit: HTMLElement): string {
-	return (commit.nextElementSibling as HTMLAnchorElement).href.split('/').pop();
+	return (commit.nextElementSibling as HTMLAnchorElement).href.split('/').pop()!;
 }
-
-const githubSpinner = (
-	<img
-		src="https://github.githubassets.com/images/spinners/octocat-spinner-128.gif"
-		className="mr-2"
-		width="18"
-	/>
-);
 
 async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): Promise<void> {
 	const blameLink = event.delegateTarget;
@@ -64,6 +56,14 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	if (blameLink.href && event.altKey) {
 		event.preventDefault();
 	}
+
+	const githubSpinner = (
+		<img
+			src="https://github.githubassets.com/images/spinners/octocat-spinner-128.gif"
+			className="mr-2"
+			width="18"
+		/>
+	);
 
 	blameLink.firstElementChild!.replaceWith(githubSpinner);
 	// Hide tooltip after click, it’s shown on :focus
