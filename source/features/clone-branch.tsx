@@ -20,8 +20,8 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>):
 
 	const [user, repo] = getCleanPathname().split('/');
 	try {
-		const getBranchInfo = await api.v3(`repos/${user}/${repo}/git/refs/heads/${branchElement.dataset.branchName!}`);
-		await api.v3(`repos/${user}/${repo}/git/refs`, {
+		const getBranchInfo = await api.v3(`repos/${getRepoURL()}/git/refs/heads/${branchElement.dataset.branchName!}`);
+		await api.v3(`repos/${getRepoURL()}/git/refs`, {
 			method: 'POST',
 			body: {
 				sha: String(getBranchInfo.object.sha),
