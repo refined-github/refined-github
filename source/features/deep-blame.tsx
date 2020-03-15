@@ -34,12 +34,11 @@ const getPullRequestBlameCommit = cache.function(async (commit: string, prNumber
 		}
 	`);
 
-	const {nodes} = repository.object.associatedPullRequests;
-	const mergeCommit = nodes[0].mergeCommit.oid;
-	const pullRequestNumber = nodes[0].number;
+	const {[associatedPR]} = repository.object.associatedPullRequests;
+	const mergeCommit = associatedPR.mergeCommit.oid;
 
-	if (pullRequestNumber === prNumber && mergeCommit === commit) {
-		return nodes[0].commits.nodes[0].commit.oid;
+	if (associatedPR.number === prNumber && mergeCommit === commit) {
+		return associatedPR.commits.nodes[0].commit.oid;
 	}
 
 	return false;
