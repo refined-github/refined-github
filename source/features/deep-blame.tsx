@@ -4,6 +4,7 @@ import cache from 'webext-storage-cache';
 import delegate, {DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import versionIcon from 'octicon/versions.svg';
+import xIcon from 'octicon/x.svg';
 import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
@@ -34,7 +35,7 @@ const getPullRequestBlameCommit = cache.function(async (commit: string, prNumber
 		}
 	`);
 
-	const associatedPR = repository.object.associatedPullRequests;
+	const associatedPR = repository.object.associatedPullRequests.nodes[0];
 	const mergeCommit = associatedPR.mergeCommit.oid;
 
 	if (associatedPR.number === prNumber && mergeCommit === commit) {
@@ -80,7 +81,13 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 			blameLink.firstElementChild!.remove();
 		}
 
-		alert('Unable to find linked Pull Request');
+		select('.file')!.before(
+			<div className="flash flash-error mt-2">
+				<button className="flash-close js-flash-close" type="button">{xIcon()}
+				</button> Unable to find linked Pull Request.
+			</div>
+		);
+
 		return;
 	}
 
