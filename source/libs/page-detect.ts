@@ -363,6 +363,11 @@ export const _isTrending = [
 	'https://github.com/trending/unknown'
 ];
 
+export const isBranches = (): boolean => /^branches/.test(getRepoPath()!);
+export const _isBranches = [
+	'https://github.com/sindresorhus/refined-github/branches'
+];
+
 export const isUserProfile = (): boolean => select.exists('.user-profile-nav');
 export const _isUserProfile = domBased;
 
