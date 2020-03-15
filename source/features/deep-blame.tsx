@@ -58,7 +58,7 @@ const githubSpinner = (
 	/>
 );
 
-async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLLinkElement>): Promise<void | false> {
+async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): Promise<void> {
 	const blameLink = event.delegateTarget;
 	const {lineNumber, commit: pullRequestCommit, prNumber} = blameLink.dataset;
 	if (blameLink.href && event.altKey) {
