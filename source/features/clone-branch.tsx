@@ -19,8 +19,8 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>):
 	currentTarget.hidden = true;
 
 	const [user, repo] = getCleanPathname().split('/');
-	const getBranchInfo = await api.v3(`repos/${user}/${repo}/git/refs/heads/${branchElement.dataset.branchName!}`);
 	try {
+		const getBranchInfo = await api.v3(`repos/${user}/${repo}/git/refs/heads/${branchElement.dataset.branchName!}`);
 		await api.v3(`repos/${user}/${repo}/git/refs`, {
 			method: 'POST',
 			body: {
