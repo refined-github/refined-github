@@ -22,12 +22,12 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>):
 		return;
 	}
 
-	const spinner = select('.js-loading-spinner', branchElement)!;
+	const spinner = select('.js-loading-spinner', branchElement!)!;
 	spinner.hidden = false;
 	currentTarget.hidden = true;
 
 	try {
-		const getBranchInfo = await api.v3(`repos/${getRepoURL()}/git/refs/heads/${branchElement.dataset.branchName!}`);
+		const getBranchInfo = await api.v3(`repos/${getRepoURL()}/git/refs/heads/${branchElement!.dataset.branchName!}`);
 		await api.v3(`repos/${getRepoURL()}/git/refs`, {
 			method: 'POST',
 			body: {
