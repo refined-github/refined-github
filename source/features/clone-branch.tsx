@@ -30,7 +30,7 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>):
 		await api.v3(`repos/${getRepoURL()}/git/refs`, {
 			method: 'POST',
 			body: {
-				sha: String(getBranchInfo.object.sha),
+				sha: getBranchInfo.object.sha,
 				ref: 'refs/heads/' + newBranchName
 			}
 		});
