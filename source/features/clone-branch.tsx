@@ -8,7 +8,7 @@ import {getRepoURL} from '../libs/utils';
 
 async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): Promise<void|false> {
 	const currentTarget = event.delegateTarget;
-	const branchElement = (currentTarget.closest('[data-branch-name]') as HTMLAnchorElement);
+	const branchElement = currentTarget.closest<HTMLAnchorElement>('[data-branch-name]');
 
 	// eslint-disable-next-line no-control-regex
 	const invalidBranchName = new RegExp(/^[./]|\.\.|@{|[/.]$|^@$|[~^:\u0000-\u0020\u007F\s?*]/); // Taken from https://stackoverflow.com/questions/3651860/which-characters-are-illegal-within-a-branch-name#comment71900602_3651867
