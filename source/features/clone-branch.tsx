@@ -40,7 +40,7 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>):
 		const search = new URLSearchParams(location.search);
 		search.set('query', newBranchName);
 		redirectURL.search = String(search);
-		location.href = String(redirectURL);
+		location.replace(String(redirectURL));
 	} catch (error) {
 		console.error(error);
 		alert('Creating branch failed. See console for details');
