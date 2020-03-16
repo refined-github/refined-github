@@ -9,16 +9,17 @@ import {getRepoURL} from '../libs/utils';
 async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): Promise<void|false> {
 	const currentTarget = event.delegateTarget;
 	const branchElement = (currentTarget.closest('[data-branch-name]') as HTMLAnchorElement);
-	const newBranchName = prompt('Enter the new branch name')?.trim();
-	if (!newBranchName) {
-		return false;
-	}
 
 	// eslint-disable-next-line no-control-regex
 	const invalidBranchName = new RegExp(/^[./]|\.\.|@{|[/.]$|^@$|[~^:\u0000-\u0020\u007F\s?*]/);
-	if (invalidBranchName.test(newBranchName)) {
-		alert(`'${newBranchName}' contains an invalid branch name character \n see https://git-scm.com/docs/git-check-ref-format for more details`);
-		return false;
+	let newBranchName = prompt('Enter the new branch name')?.trim();
+
+	while (invalidBranchName.test(newBranchName as string)) {
+		newBranchName = prompt('Unsupported branch name (https://git-scm.com/docs/git-check-ref-format) \nEnter the new branch name', newBranchName)?.trim();
+	}
+
+	if (!newBranchName) {
+		return;
 	}
 
 	const spinner = select('.js-loading-spinner', branchElement)!;
