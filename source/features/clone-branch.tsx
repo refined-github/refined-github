@@ -6,7 +6,7 @@ import * as api from '../libs/api';
 import features from '../libs/features';
 import {getRepoURL} from '../libs/utils';
 
-async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): Promise<void|false> {
+async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): Promise<void | false> {
 	const currentTarget = event.delegateTarget;
 	const branchElement = currentTarget.closest<HTMLAnchorElement>('[data-branch-name]');
 
@@ -19,7 +19,7 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>):
 	}
 
 	if (!newBranchName) {
-		return;
+		return false;
 	}
 
 	const spinner = select('.js-loading-spinner', branchElement!)!;
