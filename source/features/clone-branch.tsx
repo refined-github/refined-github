@@ -1,7 +1,8 @@
+import delegate, {DelegateEvent} from 'delegate-it';
 import gitBranch from 'octicon/git-branch.svg';
+import insertTextTextarea from 'insert-text-textarea';
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate, {DelegateEvent} from 'delegate-it';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {getRepoURL} from '../libs/utils';
@@ -10,7 +11,7 @@ import {getRepoURL} from '../libs/utils';
 const invalidBranchName = new RegExp(/^[./]|\.\.|@{|[/.]$|^@$|[~^:\u0000-\u0020\u007F\s?*]/); // eslint-disable-line no-control-regex
 async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): Promise<void> {
 	const currentTarget = event.delegateTarget;
-	const branchElement = currentTarget.closest('[data-branch-name]') as HTMLAnchorElement;
+	const branchElement = currentTarget.closest<HTMLAnchorElement>('[data-branch-name]');
 
 	let newBranchName = prompt('Enter the new branch name')?.trim();
 
@@ -22,12 +23,12 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>):
 		return;
 	}
 
-	const spinner = select('.js-loading-spinner', branchElement)!;
+	const spinner = select('.js-loading-spinner', branchElement!)!;
 	spinner.hidden = false;
 	currentTarget.hidden = true;
 
 	try {
-		const getBranchInfo = await api.v3(`repos/${getRepoURL()}/git/refs/heads/${branchElement.dataset.branchName!}`);
+		const getBranchInfo = await api.v3(`repos/${getRepoURL()}/git/refs/heads/${branchElement!.dataset.branchName!}`);
 		await api.v3(`repos/${getRepoURL()}/git/refs`, {
 			method: 'POST',
 			body: {
@@ -36,7 +37,7 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>):
 			}
 		});
 
-		const searchField = select('.js-branch-search-field')!;
+		const searchField = select<HTMLInputElement>('.js-branch-search-field')!;
 		searchField.select();
 		insertTextTextarea(searchField, newBranchName);
 	} catch (error) {
