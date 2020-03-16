@@ -40,7 +40,7 @@ export const pluralize = (count: number, single: string, plural: string, zero?: 
 };
 
 // Drops leading and trailing slash to avoid /\/?/ everywhere
-export const getCleanPathname = (): string => location.pathname.replace(/^[/]|[/]$/g, '');
+export const getCleanPathname = (): string => location.pathname.replace(/^\/|\/$/g, '');
 
 // Parses a repo's subpage, e.g.
 // '/user/repo/issues/' -> 'issues'

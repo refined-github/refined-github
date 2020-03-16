@@ -6,7 +6,7 @@ function isLineSelected(): boolean {
 	// #L1
 	// #L1-L7
 	// #diff-1030ad175a393516333e18ea51c415caR1
-	return /^#L|^#diff-[a-f0-9]+R\d+/.test(location.hash);
+	return /^#L|^#diff-[\da-f]+R\d+/.test(location.hash);
 }
 
 function listener(event: KeyboardEvent): void {
