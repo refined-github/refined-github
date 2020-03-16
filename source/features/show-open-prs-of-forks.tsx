@@ -1,25 +1,25 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import cache from 'webext-storage-cache';
+import select from 'select-dom';
+import elementReady from 'element-ready';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {isRepoWithAccess} from '../libs/page-detect';
+import {isForkedRepo, isRepoWithAccess} from '../libs/page-detect';
 import {getForkedRepo, getUsername} from '../libs/utils';
 
-interface PullRequestData {
-	count: number;
-	firstUrl: string;
+function getLinkCopy(count: number): string {
+	return `${count > 1 ? count : 'one'} open pull request${count > 1 ? 's' : ''}`;
 }
 
-function getUserPullRequestsURL(forkedRepo: string, user: string): string {
-	return `/${forkedRepo}/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc+author%3A${user}`;
-}
-
-const getRawOpenPullRequestsData = cache.function(async (forkedRepo: string): Promise<[number, number] | false> => {
+const countPRs = cache.function(async (forkedRepo: string): Promise<[number, number?]> => {
 	// Grab the PR count and the first PR's URL
 	// This allows to link to the PR directly if only one is found
 	const {search} = await api.v4(`
-		search(type: ISSUE, query: "repo:${forkedRepo} is:pr is:open author:${getUsername()}", first: 1) {
+		search(
+			first: 1,
+			type: ISSUE,
+			query: "repo:${forkedRepo} is:pr is:open author:${getUsername()}"
+		) {
 			issueCount
 			nodes {
 				... on PullRequest {
@@ -29,87 +29,52 @@ const getRawOpenPullRequestsData = cache.function(async (forkedRepo: string): Pr
 		}
 	`);
 
-	if (search.issueCount === 0) {
-		return false;
+	if (search.issueCount === 1) {
+		return [1, search.nodes[0].number];
 	}
 
-	return [search.issueCount, search.nodes[0].number];
+	return [search.issueCount];
 }, {
 	maxAge: 1 / 2, // Stale after 12 hours
 	staleWhileRevalidate: 2,
-	cacheKey: ([forkedRepo]): string => __featureName__ + ':' + forkedRepo
+	cacheKey: ([forkedRepo]): string => 'prs-on-forked-repo:' + forkedRepo
 });
 
-async function getOpenPullRequestsData(forkedRepo: string): Promise<PullRequestData | undefined> {
-	const rawOpenPullRequestsData = await getRawOpenPullRequestsData(forkedRepo);
-
-	if (!rawOpenPullRequestsData) {
-		return;
+async function getPRs(): Promise<[number, string] | []> {
+	await elementReady('.repohead + *'); // Wait for the tab bar to be loaded
+	if (!isRepoWithAccess()) {
+		return [];
 	}
 
-	return {
-		count: rawOpenPullRequestsData[0],
-		firstUrl: `/${forkedRepo}/pull/${rawOpenPullRequestsData[1]}`
-	};
+	const forkedRepo = getForkedRepo()!;
+	const [count, firstPr] = await countPRs(forkedRepo);
+	if (count === 1) {
+		return [count, `/${forkedRepo}/pull/${firstPr!}`];
+	}
+
+	return [count, `/${forkedRepo}/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc+author%3A${getUsername()}`];
 }
 
 async function initHeadHint(): Promise<void | false> {
-	const forkedRepo = getForkedRepo();
-
-	if (!forkedRepo || !isRepoWithAccess()) {
+	const [count, url] = await getPRs();
+	if (!count) {
 		return false;
 	}
 
-	const pullRequestsData = await getOpenPullRequestsData(forkedRepo);
-
-	if (!pullRequestsData) {
-		return;
-	}
-
-	const user = getUsername();
-	const textContainer = select('.fork-flag .text')!;
-
-	if (pullRequestsData.count === 1) {
-		textContainer.append(
-			<> with <a href={pullRequestsData.firstUrl}>one open pull request</a></>
-		);
-	} else {
-		const pullRequestsURL = getUserPullRequestsURL(forkedRepo, user);
-
-		textContainer.append(
-			<> with <a href={pullRequestsURL}>{pullRequestsData.count} open pull requests</a></>
-		);
-	}
+	select('.fork-flag .text')!.append(
+		<> with <a href={url}>{getLinkCopy(count)}</a></>
+	);
 }
 
 async function initDeleteHint(): Promise<void | false> {
-	const forkedRepo = getForkedRepo();
-
-	if (!forkedRepo || !isRepoWithAccess()) {
+	const [count, url] = await getPRs();
+	if (!count) {
 		return false;
 	}
 
-	const pullRequestsData = await getOpenPullRequestsData(forkedRepo);
-
-	if (!pullRequestsData) {
-		return;
-	}
-
-	const user = getUsername();
-	const deleteDialogParagraph = select('details-dialog[aria-label*="Delete"] .Box-body p:first-child');
-
-	if (!deleteDialogParagraph) {
-		return;
-	}
-
-	const pullRequestsLink = pullRequestsData.count === 1 ?
-		<a href={pullRequestsData.firstUrl}>your open pull request</a> :
-		<a href={getUserPullRequestsURL(forkedRepo, user)}>your {pullRequestsData.count} open pull requests</a>;
-
-	deleteDialogParagraph.after(
+	select('details-dialog[aria-label*="Delete"] .Box-body p:first-child')!.after(
 		<p className="flash flash-warn">
-			It will also abandon {pullRequestsLink} in <strong>{forkedRepo}</strong> and
-			you’ll no longer be able to edit {pullRequestsData.count === 1 ? 'it' : 'them'}.
+			It will also abandon <a href={url}>your {getLinkCopy(count)}</a> in <strong>{getForkedRepo()!}</strong> and you’ll no longer be able to edit {count === 1 ? 'it' : 'them'}.
 		</p>
 	);
 }
@@ -121,6 +86,9 @@ features.add({
 	include: [
 		features.isRepo
 	],
+	exclude: [
+		() => !isForkedRepo()
+	],
 	load: features.nowAndOnAjaxedPages,
 	init: initHeadHint
 });
@@ -131,6 +99,9 @@ features.add({
 	screenshot: '',
 	include: [
 		features.isRepoSettings
+	],
+	exclude: [
+		() => !isForkedRepo()
 	],
 	load: features.nowAndOnAjaxedPages,
 	init: initDeleteHint
