@@ -8,13 +8,13 @@ import {getRepoURL} from '../libs/utils';
 
 async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): Promise<void | false> {
 	const currentTarget = event.delegateTarget;
-	const branchElement = currentTarget.closest<HTMLAnchorElement>('[data-branch-name]');
+	const branchElement = currentTarget.closest('[data-branch-name]') as HTMLAnchorElement;
 
 	// eslint-disable-next-line no-control-regex
 	const invalidBranchName = new RegExp(/^[./]|\.\.|@{|[/.]$|^@$|[~^:\u0000-\u0020\u007F\s?*]/); // Taken from https://stackoverflow.com/questions/3651860/which-characters-are-illegal-within-a-branch-name#comment71900602_3651867
 	let newBranchName = prompt('Enter the new branch name')?.trim();
 
-	while (invalidBranchName.test(newBranchName as string)) {
+	while (invalidBranchName.test(newBranchName!)) {
 		newBranchName = prompt('Unsupported branch name (https://git-scm.com/docs/git-check-ref-format) \nEnter the new branch name', newBranchName)?.trim();
 	}
 
@@ -22,12 +22,12 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>):
 		return false;
 	}
 
-	const spinner = select('.js-loading-spinner', branchElement!)!;
+	const spinner = select('.js-loading-spinner', branchElement)!;
 	spinner.hidden = false;
 	currentTarget.hidden = true;
 
 	try {
-		const getBranchInfo = await api.v3(`repos/${getRepoURL()}/git/refs/heads/${branchElement!.dataset.branchName!}`);
+		const getBranchInfo = await api.v3(`repos/${getRepoURL()}/git/refs/heads/${branchElement.dataset.branchName!}`);
 		await api.v3(`repos/${getRepoURL()}/git/refs`, {
 			method: 'POST',
 			body: {
