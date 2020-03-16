@@ -161,9 +161,11 @@ import './features/quick-mention';
 import './features/extend-discussion-status-filters';
 import './features/expand-all-hidden-comments';
 import './features/bugs-tab';
+import './features/cross-deleted-pr-branches';
 import './features/repo-wide-file-finder';
 import './features/preserve-file-finder-term';
 import './features/file-finder-buffer';
+import './features/pr-commit-lines-changed';
 import './features/show-open-prs-of-forks';
 
 // Add global for easier debugging

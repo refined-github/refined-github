@@ -229,6 +229,7 @@ Thanks for contributing! 🦋🙌
 - [](# "open-ci-details-in-new-tab") Opens the Checks "details" link in a new tab.
 - [](# "hidden-review-comments-indicator") [Adds comment indicators when comments are hidden in PR review.](https://user-images.githubusercontent.com/1402241/63112671-011d5580-bfbb-11e9-9e19-53e11641990e.gif)
 - [](# "conflict-marker") [Shows which PRs have conflicts in PR lists.](https://user-images.githubusercontent.com/9092510/62777551-2affe500-baae-11e9-8ba4-67f078347913.png)
+- [](# "pr-commit-lines-changed") [Adds diff stats on PR commits.](https://user-images.githubusercontent.com/16872793/76107253-48deeb00-5fa6-11ea-9931-721cde553bdf.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -242,6 +243,7 @@ Thanks for contributing! 🦋🙌
 - [](# "pull-request-hotkey") Adds keyboard shortcuts to cycle through PR tabs: <kbd>g</kbd> <kbd>←</kbd> and <kbd>g</kbd> <kbd>→</kbd>, or <kbd>g</kbd> <kbd>1</kbd>, <kbd>g</kbd> <kbd>2</kbd>, <kbd>g</kbd> <kbd>3</kbd> and <kbd>g</kbd> <kbd>4</kbd>.
 - [](# "pr-branch-auto-delete") Automatically deletes the branch right after merging a PR, if possible.
 - [](# "separate-draft-pr-button") [Lets you create draft pull requests in one click.](https://user-images.githubusercontent.com/202916/67269317-cd791300-f4b6-11e9-89d1-392de7ef71e1.png)
+- [](# "cross-deleted-pr-branches") [Adds a line-through to the deleted branches.]('https://user-images.githubusercontent.com/16872793/75619638-9bef1300-5b4c-11ea-850e-3a8f95c86d83.png')
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 

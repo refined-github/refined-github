@@ -27,6 +27,18 @@ export const getDiscussionNumber = (): string | undefined => {
 	return undefined;
 };
 
+export const pluralize = (count: number, single: string, plural: string, zero?: string): string => {
+	if (count === 0 && zero) {
+		return zero.replace('$$', '0');
+	}
+
+	if (count === 1) {
+		return single.replace('$$', '1');
+	}
+
+	return plural.replace('$$', String(count));
+};
+
 // Drops leading and trailing slash to avoid /\/?/ everywhere
 export const getCleanPathname = (): string => location.pathname.replace(/^[/]|[/]$/g, '');
 
@@ -62,7 +74,7 @@ export const getCurrentBranch = (): string => {
 
 export const isFirefox = navigator.userAgent.includes('Firefox/');
 
-export const getRepoURL = (): string => location.pathname.slice(1).split('/', 2).join('/');
+export const getRepoURL = (): string => location.pathname.slice(1).split('/', 2).join('/').toLowerCase();
 export const getRepoGQL = (): string => {
 	const {ownerName, repoName} = getOwnerAndRepo();
 	return `owner: "${ownerName!}", name: "${repoName!}"`;
@@ -152,4 +164,12 @@ export function reportBug(featureName: string, bugName: string): void {
 	newIssueUrl.searchParams.set('title', `\`${featureName}\` ${bugName}`);
 	console.log('Find existing issues:\n' + String(issuesUrl));
 	console.log('Open new issue:\n' + String(newIssueUrl));
+}
+
+/**
+ * Prepend `:scope >` to a single or group of css selectors.
+ * @param {string} selector A css selector.
+ */
+export function getScopedSelector(selector: string): string {
+	return selector.split(',').map(sub => `:scope > ${sub.trim()}`).join(',');
 }

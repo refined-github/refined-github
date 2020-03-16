@@ -1,4 +1,5 @@
 import select from 'select-dom';
+import {getScopedSelector} from './utils';
 
 /**
  * Append to an element, but before a element that might not exist.
@@ -28,7 +29,7 @@ export const appendBefore = (parent: string|Element, before: string, child: Elem
 	}
 
 	// Select direct children only
-	const beforeElement = select(`:scope > ${before}`, parent);
+	const beforeElement = select(getScopedSelector(before), parent);
 	if (beforeElement) {
 		beforeElement.before(child);
 	} else {
