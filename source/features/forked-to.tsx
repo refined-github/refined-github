@@ -8,9 +8,10 @@ import elementReady from 'element-ready';
 import linkExternalIcon from 'octicon/link-external.svg';
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
-import {getRepoURL, getUsername} from '../libs/utils';
+import {isForkedRepo} from '../libs/page-detect';
+import {getRepoURL, getUsername, getForkedRepo} from '../libs/utils';
 
-const getForkSourceRepo = (): string => findForkedRepo() ?? getRepoURL();
+const getForkSourceRepo = (): string => getForkedRepo() ?? getRepoURL();
 const getCacheKey = (): string => `forked-to:${getUsername()}@${getForkSourceRepo()}`;
 
 const updateCache = cache.function(async (): Promise<string[] | undefined> => {
@@ -25,15 +26,6 @@ const updateCache = cache.function(async (): Promise<string[] | undefined> => {
 	maxAge: 1 / 24,
 	staleWhileRevalidate: 5
 });
-
-function findForkedRepo(): string | undefined {
-	const forkSourceElement = select<HTMLAnchorElement>('.fork-flag a');
-	if (forkSourceElement) {
-		return forkSourceElement.pathname.slice(1);
-	}
-
-	return undefined;
-}
 
 async function updateUI(forks: string[]): Promise<void> {
 	// Don't add button if you're visiting the only fork available
@@ -92,11 +84,10 @@ async function init(): Promise<void | false> {
 
 	// This feature only applies to users that have multiple organizations, because that makes a fork picker modal appear when clicking on "Fork"
 	const hasOrganizations = await elementReady('details-dialog[src*="/fork"] include-fragment');
-	const isForkedRepo = findForkedRepo();
 
 	// Only fetch/update forks when we see a fork (on the current page or in the cache).
 	// This avoids having to `updateCache` for every single repo you visit.
-	if (forks || (hasOrganizations && isForkedRepo)) {
+	if (forks || (hasOrganizations && isForkedRepo())) {
 		await updateCache();
 	} else {
 		return false;

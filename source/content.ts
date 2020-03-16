@@ -166,6 +166,7 @@ import './features/repo-wide-file-finder';
 import './features/preserve-file-finder-term';
 import './features/file-finder-buffer';
 import './features/pr-commit-lines-changed';
+import './features/show-open-prs-of-forks';
 import './features/clone-branch';
 
 // Add global for easier debugging

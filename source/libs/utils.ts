@@ -88,6 +88,10 @@ export const getOwnerAndRepo = (): {
 	return {ownerName, repoName};
 };
 
+export function getForkedRepo(): string | undefined {
+	return select<HTMLAnchorElement>('.fork-flag a')?.pathname.slice(1);
+}
+
 export const getReference = (): string | undefined => {
 	const pathnameParts = location.pathname.split('/');
 	if (['commits', 'blob', 'tree', 'blame'].includes(pathnameParts[3])) {

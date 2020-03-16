@@ -135,6 +135,7 @@ Thanks for contributing! 🦋🙌
 - [](# "hide-zero-packages") [Hides the `Packages` tab in repositories if it’s empty.](https://user-images.githubusercontent.com/35382021/62426530-688ef780-b6d5-11e9-93f2-515110aed1eb.jpg)
 - [](# "forked-to") [Adds a shortcut to your forks next to the `Fork` button on the current repo.](https://user-images.githubusercontent.com/55841/64077281-17bbf000-cccf-11e9-9123-092063f65357.png)
 - [](# "repo-age") [Adds the age of the repository to the statistics bar.](https://user-images.githubusercontent.com/3848317/69494069-7d2b1180-0eb7-11ea-9aa1-d4194e566340.png)
+- [](# "show-open-prs-of-forks") [In your forked repos, shows number of your open PRs to the original repo.](https://user-images.githubusercontent.com/1922624/76398271-e0648500-637c-11ea-8210-53dda1be9d51.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
