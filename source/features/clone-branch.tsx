@@ -44,6 +44,12 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>):
 	currentTarget.hidden = false;
 }
 
+function hideCloneIcon(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): void|false {
+	const currentTarget = event.delegateTarget;
+	const branchElement = (currentTarget.closest('[data-branch-name]') as HTMLAnchorElement);
+	select('.rgh-clone-branch', branchElement)!.hidden = currentTarget.classList.contains('js-branch-destroy');
+}
+
 function init(): void|false {
 	// Is the user does not have rights to create a branch
 	if (!select.exists('[aria-label="Delete this branch"]')) {
@@ -62,6 +68,7 @@ function init(): void|false {
 	}
 
 	delegate('.rgh-clone-branch', 'click', cloneBranch);
+	delegate('.js-branch-destroy, .js-branch-restore', 'click', hideCloneIcon);
 }
 
 features.add({
