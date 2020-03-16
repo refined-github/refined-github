@@ -11,7 +11,7 @@ import fetchDom from '../libs/fetch-dom';
 const buttonBodyMap = new WeakMap<Element, Element | Promise<Element>>();
 
 async function fetchSource(): Promise<Element> {
-	const path = location.pathname.replace(/([^/]+\/[^/]+\/)(blob)/, '$1blame');
+	const path = location.pathname.replace(/((?:[^/]+\/){2})(blob)/, '$1blame');
 	const dom = await fetchDom(path, '.blob-wrapper');
 	dom!.classList.add('rgh-markdown-source');
 	return dom!;

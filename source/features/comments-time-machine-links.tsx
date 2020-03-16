@@ -14,7 +14,7 @@ function addInlineLinks(comment: HTMLElement, timestamp: string): void {
 	for (const link of links) {
 		const linkParts = link.pathname.split('/');
 		// Skip permalinks
-		if (/^[0-9a-f]{40}$/.test(linkParts[4])) {
+		if (/^[\da-f]{40}$/.test(linkParts[4])) {
 			continue;
 		}
 

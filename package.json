@@ -6,7 +6,7 @@
 		"lint:css": "stylelint 'source/**/*.css'",
 		"lint-fix": "run-p --silent 'lint:* -- --fix'",
 		"test": "run-s test:js lint:* build",
-		"test:js": "ava --serial --verbose",
+		"test:js": "ava --serial # Due to Travis",
 		"build": "webpack --mode=production",
 		"watch": "webpack --mode=development --watch",
 		"watch:firefox": "web-ext run --source-dir=distribution",
@@ -52,17 +52,17 @@
 		"zip-text-nodes": "^1.0.0"
 	},
 	"devDependencies": {
-		"@ava/typescript": "^1.1.0",
+		"@ava/typescript": "^1.1.1",
 		"@sindresorhus/tsconfig": "^0.7.0",
-		"@types/chrome": "0.0.95",
-		"@types/codemirror": "0.0.85",
+		"@types/chrome": "0.0.100",
+		"@types/codemirror": "0.0.87",
 		"@types/copy-webpack-plugin": "^5.0.0",
 		"@types/firefox-webext-browser": "^70.0.1",
 		"@types/jsdom": "^16.1.0",
-		"@types/mini-css-extract-plugin": "^0.9.0",
-		"@types/react": "^16.9.20",
+		"@types/mini-css-extract-plugin": "^0.9.1",
+		"@types/react": "^16.9.23",
 		"@types/terser-webpack-plugin": "^2.2.0",
-		"ava": "^3.2.0",
+		"ava": "^3.5.0",
 		"buble": "^0.19.8",
 		"buble-loader": "^0.5.1",
 		"chrome-webstore-upload-cli": "^1.2.0",
@@ -72,27 +72,27 @@
 		"dot-json": "^1.2.0",
 		"eslint": "^6.8.0",
 		"eslint-config-xo-react": "^0.23.0",
-		"eslint-plugin-react": "^7.18.3",
-		"eslint-plugin-react-hooks": "^2.4.0",
+		"eslint-plugin-react": "^7.19.0",
+		"eslint-plugin-react-hooks": "^2.5.0",
 		"esm": "^3.2.25",
-		"fork-ts-checker-webpack-plugin": "^4.0.4",
-		"jsdom": "^16.1.0",
+		"fork-ts-checker-webpack-plugin": "^4.1.0",
+		"jsdom": "^16.2.1",
 		"mini-css-extract-plugin": "^0.9.0",
 		"npm-run-all": "^4.1.5",
 		"size-plugin": "^2.0.1",
 		"string-replace-loader": "^2.2.0",
-		"stylelint": "^13.2.0",
+		"stylelint": "^13.2.1",
 		"stylelint-config-xo": "^0.16.1",
 		"terser-webpack-plugin": "^2.3.5",
 		"ts-loader": "^6.2.1",
 		"ts-node": "^8.6.2",
-		"type-fest": "^0.10.0",
-		"typescript": "^3.7.5",
-		"web-ext": "^4.0.0",
-		"web-ext-submit": "^4.0.0",
-		"webpack": "^4.41.5",
-		"webpack-cli": "^3.3.10",
-		"xo": "^0.27.2"
+		"type-fest": "^0.12.0",
+		"typescript": "^3.8.3",
+		"web-ext": "^4.1.0",
+		"web-ext-submit": "^4.1.0",
+		"webpack": "^4.42.0",
+		"webpack-cli": "^3.3.11",
+		"xo": "^0.28.0"
 	},
 	"xo": {
 		"extends": "xo-react",
@@ -126,7 +126,8 @@
 				}
 			],
 			"import/no-unassigned-import": "off",
-			"unicorn/prevent-abbreviations": "error"
+			"unicorn/prevent-abbreviations": "error",
+			"unicorn/string-content": "off"
 		},
 		"settings": {
 			"react": {
@@ -158,8 +159,5 @@
 			"rule-empty-line-before": null,
 			"at-rule-empty-line-before": null
 		}
-	},
-	"engines": {
-		"node": ">=10.0.0 && <13"
 	}
 }

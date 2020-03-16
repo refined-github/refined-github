@@ -7,7 +7,7 @@ let button: HTMLButtonElement | undefined;
 
 const loadMore = debounce(() => {
 	button!.click();
-	button!.textContent = 'Loading...';
+	button!.textContent = 'Loading…';
 
 	// If GH hasn't loaded the JS, the click will not load anything.
 	// We can detect if it worked by looking at the button's state,
