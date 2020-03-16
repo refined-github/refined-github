@@ -44,7 +44,7 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>):
 	currentTarget.hidden = false;
 }
 
-function changeIconVisibility(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): void|false {
+function changeIconVisibility(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): void {
 	const currentTarget = event.delegateTarget;
 	const branchElement = (currentTarget.closest('[data-branch-name]') as HTMLAnchorElement);
 	select('.rgh-clone-branch', branchElement)!.hidden = currentTarget.classList.contains('js-branch-destroy');
