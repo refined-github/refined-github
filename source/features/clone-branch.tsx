@@ -44,7 +44,7 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>):
 	currentTarget.hidden = false;
 }
 
-function hideCloneIcon(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): void|false {
+function changeIconVisibility(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): void|false {
 	const currentTarget = event.delegateTarget;
 	const branchElement = (currentTarget.closest('[data-branch-name]') as HTMLAnchorElement);
 	select('.rgh-clone-branch', branchElement)!.hidden = currentTarget.classList.contains('js-branch-destroy');
@@ -68,12 +68,13 @@ function init(): void|false {
 	}
 
 	delegate('.rgh-clone-branch', 'click', cloneBranch);
-	delegate('.js-branch-destroy, .js-branch-restore', 'click', hideCloneIcon);
+	delegate('.js-branch-destroy, .js-branch-restore', 'click', changeIconVisibility);
 }
 
 features.add({
 	id: __featureName__,
-	screenshot: 'https://user-images.githubusercontent.com/16872793/76714763-6d059f00-66ff-11ea-976f-7305def964b2.png',
+	description: 'Clone a branch from the branches list',
+	screenshot: 'https://user-images.githubusercontent.com/16872793/76715710-e0111480-6703-11ea-8b47-6c428e83a4e3.png',
 	include: [
 		features.isBranches
 	],
