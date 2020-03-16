@@ -11,7 +11,7 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>):
 	const branchElement = (currentTarget.closest('[data-branch-name]') as HTMLAnchorElement);
 
 	// eslint-disable-next-line no-control-regex
-	const invalidBranchName = new RegExp(/^[./]|\.\.|@{|[/.]$|^@$|[~^:\u0000-\u0020\u007F\s?*]/);
+	const invalidBranchName = new RegExp(/^[./]|\.\.|@{|[/.]$|^@$|[~^:\u0000-\u0020\u007F\s?*]/); // Taken from https://stackoverflow.com/questions/3651860/which-characters-are-illegal-within-a-branch-name#comment71900602_3651867
 	let newBranchName = prompt('Enter the new branch name')?.trim();
 
 	while (invalidBranchName.test(newBranchName as string)) {
@@ -45,31 +45,26 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>):
 	currentTarget.hidden = false;
 }
 
-function changeIconVisibility(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): void {
-	const currentTarget = event.delegateTarget;
-	const branchElement = (currentTarget.closest('[data-branch-name]') as HTMLAnchorElement);
-	select('.rgh-clone-branch', branchElement)!.hidden = currentTarget.classList.contains('js-branch-destroy');
-}
-
 function init(): void | false {
 	// Is the user does not have rights to create a branch
-	if (!select.exists('[aria-label="Delete this branch"]')) {
+	const branchElement = select.all('[aria-label="Delete this branch"]');
+	if (branchElement.length === 0) {
 		return false;
 	}
 
-	for (const branch of select.all('[aria-label="Delete this branch"]')) {
+	for (const branch of branchElement) {
 		branch.closest('.js-branch-destroy')!.before(
-			<a
+			<button
+				type="button"
 				aria-label="Clone this branch"
-				className="link-gray no-underline tooltipped tooltipped-e d-inline-block ml-3 rgh-clone-branch"
+				className="link-gray btn-link tooltipped tooltipped-nw ml-3 rgh-clone-branch"
 			>
 				{gitBranch()}
-			</a>
+			</button>
 		);
 	}
 
 	delegate('.rgh-clone-branch', 'click', cloneBranch);
-	delegate('.js-branch-destroy, .js-branch-restore', 'click', changeIconVisibility);
 }
 
 features.add({
