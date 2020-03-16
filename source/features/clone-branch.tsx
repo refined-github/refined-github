@@ -54,7 +54,7 @@ function init(): void|false {
 		branch.closest('.Details-content--shown')!.after(
 			<a
 				aria-label="Clone Branch"
-				className="no-underline tooltipped tooltipped-e d-inline-block ml-3 rgh-clone-branch"
+				className="link-gray no-underline tooltipped tooltipped-e d-inline-block ml-3 rgh-clone-branch"
 			>
 				{gitBranch()}
 			</a>
