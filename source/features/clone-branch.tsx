@@ -4,13 +4,20 @@ import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {getCleanPathname} from '../libs/utils';
+import {getRepoURL} from '../libs/utils';
 
 async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): Promise<void|false> {
 	const currentTarget = event.delegateTarget;
 	const branchElement = (currentTarget.closest('[data-branch-name]') as HTMLAnchorElement);
-	const newBranchName = prompt('Enter the new branch name');
+	const newBranchName = prompt('Enter the new branch name')?.trim();
 	if (!newBranchName) {
+		return false;
+	}
+
+	// eslint-disable-next-line no-control-regex
+	const invalidBranchName = new RegExp(/^[./]|\.\.|@{|[/.]$|^@$|[~^:\u0000-\u0020\u007F\s?*]/);
+	if (invalidBranchName.test(newBranchName)) {
+		alert(`'${newBranchName}' contains an invalid branch name character \n see https://git-scm.com/docs/git-check-ref-format for more details`);
 		return false;
 	}
 
@@ -18,7 +25,6 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>):
 	spinner.hidden = false;
 	currentTarget.hidden = true;
 
-	const [user, repo] = getCleanPathname().split('/');
 	try {
 		const getBranchInfo = await api.v3(`repos/${getRepoURL()}/git/refs/heads/${branchElement.dataset.branchName!}`);
 		await api.v3(`repos/${getRepoURL()}/git/refs`, {
@@ -28,17 +34,17 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>):
 				ref: 'refs/heads/' + newBranchName
 			}
 		});
-		branchElement.after(branchElement.cloneNode(true));
+		location.reload();
 	} catch (error) {
-		const errorMessage = JSON.parse(error.message.slice(Math.max(0, error.message.indexOf('{')))).message;
-		alert(errorMessage);
+		console.error(error);
+		alert('Creating branch failed. See console for details');
 	}
 
 	spinner.hidden = true;
 	currentTarget.hidden = false;
 }
 
-async function init(): Promise<void> {
+function init(): void|false {
 	// Is the user does not have rights to create a branch
 	if (!select.exists('[aria-label="Delete this branch"]')) {
 		return false;
@@ -48,7 +54,7 @@ async function init(): Promise<void> {
 		branch.closest('.Details-content--shown')!.after(
 			<a
 				aria-label="Clone Branch"
-				className="link-hover-blue no-underline tooltipped tooltipped-e d-inline-block ml-1 rgh-clone-branch"
+				className="no-underline tooltipped tooltipped-e d-inline-block ml-3 rgh-clone-branch"
 			>
 				{gitBranch()}
 			</a>
@@ -60,6 +66,7 @@ async function init(): Promise<void> {
 
 features.add({
 	id: __featureName__,
+	screenshot: 'https://user-images.githubusercontent.com/16872793/76714763-6d059f00-66ff-11ea-976f-7305def964b2.png',
 	include: [
 		features.isBranches
 	],
