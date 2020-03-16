@@ -10,6 +10,10 @@ export default class SearchQuery {
 	link?: HTMLAnchorElement | Location;
 	searchParams: URLSearchParams;
 
+	static compare(a: SearchQuery, b: SearchQuery): boolean {
+		return a.getQueryParts().sort().join(' ') === b.getQueryParts().sort().join(' ')
+	}
+
 	constructor(link: Source) {
 		if (link instanceof HTMLAnchorElement || link instanceof Location) {
 			this.link = link;
@@ -90,5 +94,9 @@ export default class SearchQuery {
 
 	includes(...searchStrings: string[]): boolean {
 		return this.getQueryParts().some(queryPart => searchStrings.includes(queryPart));
+	}
+
+	clone(): SearchQuery {
+		return new SearchQuery(new URLSearchParams(String(this.searchParams)))
 	}
 }

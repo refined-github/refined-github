@@ -8,6 +8,11 @@ import SearchQuery from '../libs/search-query';
 import {getRepoGQL, getRepoURL} from '../libs/utils';
 
 const numberFormatter = new Intl.NumberFormat();
+const cacheOptions = {
+	maxAge: 1 / 24 / 2, // Stale after half an hour
+	staleWhileRevalidate: 4,
+	cacheKey: (): string => __featureName__ + ':' + getRepoURL()
+};
 const countBugs = cache.function(async (): Promise<number> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
@@ -18,11 +23,13 @@ const countBugs = cache.function(async (): Promise<number> => {
 	`);
 
 	return repository.bugs.totalCount;
-}, {
-	maxAge: 1 / 24 / 2, // Stale after half an hour
-	staleWhileRevalidate: 4,
-	cacheKey: (): string => __featureName__ + ':' + getRepoURL()
-});
+}, cacheOptions);
+
+function cleanForComparison(searchQuery: SearchQuery): SearchQuery {
+	const newQuery = searchQuery.clone();
+	newQuery.remove('sort:updated-desc', 'is:open', 'is:closed');
+	return newQuery;
+}
 
 async function init(): Promise<void | false> {
 	// Query API as early as possible, even if it's not necessary on archived repos
@@ -58,7 +65,8 @@ async function init(): Promise<void | false> {
 
 	// Update Bugs’ link
 	const bugsLink = select('a', bugsTab)!;
-	new SearchQuery(bugsLink).add('label:bug');
+	const bugsQuery = new SearchQuery(bugsLink);
+	bugsQuery.add('label:bug');
 
 	// Change the Selected tab if necessary
 	bugsLink.classList.toggle('selected', isBugsPage);
@@ -67,7 +75,15 @@ async function init(): Promise<void | false> {
 	issuesTab.after(bugsTab);
 
 	// Update bugs count
-	select('.Counter', bugsTab)!.textContent = numberFormatter.format(await countPromise);
+	let bugsCount: number;
+	if(SearchQuery.compare(cleanForComparison(new SearchQuery(location)), cleanForComparison(bugsQuery))) {
+		bugsCount = Number(select('.table-list-header-toggle')!.firstElementChild!.textContent!.replace(/\D+/g, ''));
+		cache.set(cacheOptions.cacheKey(), bugsCount, cacheOptions.maxAge + cacheOptions.staleWhileRevalidate);
+	} else {
+		bugsCount = await countPromise;
+	}
+
+	select('.Counter', bugsTab)!.textContent = numberFormatter.format(bugsCount);
 }
 
 features.add({
