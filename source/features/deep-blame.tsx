@@ -1,16 +1,15 @@
 import './deep-blame.css';
 import blurAccessibly from 'blur-accessibly';
-import cache from 'webext-storage-cache';
 import delegate, {DelegateEvent} from 'delegate-it';
+import mem from 'mem';
 import React from 'dom-chef';
 import versionIcon from 'octicon/versions.svg';
-import xIcon from 'octicon/x.svg';
 import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {getRepoGQL, getReference} from '../libs/utils';
 
-const getPullRequestBlameCommit = cache.function(async (commit: string, prNumber: number): Promise<string | false> => {
+const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number): Promise<string | false> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			object(expression: "${commit}") {
@@ -43,8 +42,6 @@ const getPullRequestBlameCommit = cache.function(async (commit: string, prNumber
 	}
 
 	return false;
-}, {
-	cacheKey: ([commit]) => __featureName__ + commit
 });
 
 function getCommitHash(commit: HTMLElement): string {
@@ -81,12 +78,7 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 			blameLink.firstElementChild!.remove();
 		}
 
-		select('.file')!.before(
-			<div className="flash flash-error mt-2">
-				<button className="flash-close js-flash-close" type="button">{xIcon()}
-				</button> Unable to find linked Pull Request.
-			</div>
-		);
+		alert('Unable to find linked Pull Request.');
 
 		return;
 	}
