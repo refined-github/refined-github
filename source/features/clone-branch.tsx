@@ -50,7 +50,7 @@ function changeIconVisibility(event: DelegateEvent<MouseEvent, HTMLAnchorElement
 	select('.rgh-clone-branch', branchElement)!.hidden = currentTarget.classList.contains('js-branch-destroy');
 }
 
-function init(): void|false {
+function init(): void | false {
 	// Is the user does not have rights to create a branch
 	if (!select.exists('[aria-label="Delete this branch"]')) {
 		return false;
