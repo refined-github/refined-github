@@ -351,6 +351,9 @@ export const _isFileFinder = [
 	'https://github.com/sindresorhus/refined-github/find/master'
 ];
 
+export const isForkedRepo = (): boolean => select.exists('meta[name="octolytics-dimension-repository_is_fork"][content="true"]');
+export const _isForkedRepo = domBased;
+
 export const isSingleGist = (): boolean => isGist() && /^\/(gist\/)?[^/]+\/[\da-f]{32}$/.test(location.pathname);
 export const _isSingleGist = [
 	'https://gist.github.com/sindresorhus/0ea3c2845718a0a0f0beb579ff14f064'
