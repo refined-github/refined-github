@@ -40,7 +40,7 @@ export const pluralize = (count: number, single: string, plural: string, zero?: 
 };
 
 // Drops leading and trailing slash to avoid /\/?/ everywhere
-export const getCleanPathname = (): string => location.pathname.replace(/^[/]|[/]$/g, '');
+export const getCleanPathname = (): string => location.pathname.replace(/^\/|\/$/g, '');
 
 // Parses a repo's subpage, e.g.
 // '/user/repo/issues/' -> 'issues'
@@ -74,7 +74,7 @@ export const getCurrentBranch = (): string => {
 
 export const isFirefox = navigator.userAgent.includes('Firefox/');
 
-export const getRepoURL = (): string => location.pathname.slice(1).split('/', 2).join('/');
+export const getRepoURL = (): string => location.pathname.slice(1).split('/', 2).join('/').toLowerCase();
 export const getRepoGQL = (): string => {
 	const {ownerName, repoName} = getOwnerAndRepo();
 	return `owner: "${ownerName!}", name: "${repoName!}"`;
@@ -122,7 +122,7 @@ export const flatZip = <T>(table: T[][], limit = Infinity): T[] => {
 	const zipped = [];
 	for (let col = 0; col < maxColumns; col++) {
 		for (const row of table) {
-			if (row[col]) {
+			if (row.length > col) {
 				zipped.push(row[col]);
 				if (zipped.length === limit) {
 					return zipped;
