@@ -6,7 +6,7 @@
 		"lint:css": "stylelint 'source/**/*.css'",
 		"lint-fix": "run-p --silent 'lint:* -- --fix'",
 		"test": "run-s test:js lint:* build",
-		"test:js": "ava --serial --verbose",
+		"test:js": "ava --serial",
 		"build": "webpack --mode=production",
 		"watch": "webpack --mode=development --watch",
 		"watch:firefox": "web-ext run --source-dir=distribution",
@@ -62,7 +62,7 @@
 		"@types/mini-css-extract-plugin": "^0.9.0",
 		"@types/react": "^16.9.20",
 		"@types/terser-webpack-plugin": "^2.2.0",
-		"ava": "^3.2.0",
+		"ava": "^3.5.0",
 		"buble": "^0.19.8",
 		"buble-loader": "^0.5.1",
 		"chrome-webstore-upload-cli": "^1.2.0",
@@ -143,7 +143,7 @@
 		],
 		"require": [
 			"esm",
-			"ts-node/register"
+			"ts-node/register/transpile-only"
 		]
 	},
 	"stylelint": {
@@ -158,8 +158,5 @@
 			"rule-empty-line-before": null,
 			"at-rule-empty-line-before": null
 		}
-	},
-	"engines": {
-		"node": ">=10.0.0 && <13"
 	}
 }
