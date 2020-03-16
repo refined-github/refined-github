@@ -363,7 +363,7 @@ export const _isTrending = [
 	'https://github.com/trending/unknown'
 ];
 
-export const isBranches = (): boolean => /^branches/.test(getRepoPath()!);
+export const isBranches = (): boolean => getRepoPath()?.startsWith('branches');
 export const _isBranches = [
 	'https://github.com/sindresorhus/refined-github/branches'
 ];
