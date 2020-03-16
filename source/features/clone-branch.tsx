@@ -58,7 +58,7 @@ function init(): void | false {
 	}
 
 	for (const branch of select.all('[aria-label="Delete this branch"]')) {
-		branch.closest('.Details-content--shown')!.after(
+		branch.closest('.js-branch-destroy')!.before(
 			<a
 				aria-label="Clone this branch"
 				className="link-gray no-underline tooltipped tooltipped-e d-inline-block ml-3 rgh-clone-branch"
