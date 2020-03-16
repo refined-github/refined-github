@@ -5,10 +5,10 @@ import elementReady from 'element-ready';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {isForkedRepo, isRepoWithAccess} from '../libs/page-detect';
-import {getForkedRepo, getUsername} from '../libs/utils';
+import {getForkedRepo, getUsername, pluralize} from '../libs/utils';
 
 function getLinkCopy(count: number): string {
-	return `${count > 1 ? count : 'one'} open pull request${count > 1 ? 's' : ''}`;
+	return pluralize(count, 'one open pull request', '$$ open pull requests');
 }
 
 const countPRs = cache.function(async (forkedRepo: string): Promise<[number, number?]> => {
