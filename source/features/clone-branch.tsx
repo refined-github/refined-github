@@ -35,12 +35,10 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>):
 				ref: 'refs/heads/' + newBranchName
 			}
 		});
-		const redirectURL = new URL(location.href);
-		redirectURL.pathname = redirectURL.pathname.endsWith('/all') ? redirectURL.pathname : redirectURL.pathname + '/all';
-		const search = new URLSearchParams(location.search);
-		search.set('query', newBranchName);
-		redirectURL.search = String(search);
-		location.replace(String(redirectURL));
+
+		const searchField = select('.js-branch-search-field')!;
+		searchField.select();
+		insertTextTextarea(searchField, newBranchName);
 	} catch (error) {
 		console.error(error);
 		alert('Creating branch failed. See console for details');
