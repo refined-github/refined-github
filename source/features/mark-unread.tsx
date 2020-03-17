@@ -278,7 +278,7 @@ function isSingleRepoPage(): boolean {
 }
 
 function isCurrentSingleRepoPage({repository}: Notification): boolean {
-	const singleRepo = /^[/](.+[/].+)[/]notifications/.exec(location.pathname)?.[1];
+	const singleRepo = /^\/(.+\/.+)\/notifications/.exec(location.pathname)?.[1];
 	return singleRepo === repository;
 }
 

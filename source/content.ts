@@ -44,7 +44,6 @@ import './features/mark-unread';
 import './features/open-all-notifications';
 import './features/copy-on-y';
 import './features/profile-hotkey';
-import './features/sticky-discussion-sidebar';
 import './features/close-out-of-view-modals';
 import './features/improve-shortcut-help';
 import './features/deprioritize-marketplace-link';
@@ -125,6 +124,7 @@ import './features/tag-changelog-link';
 import './features/link-to-file-in-file-history';
 import './features/deep-blame';
 import './features/clean-sidebar';
+import './features/sticky-discussion-sidebar';
 import './features/release-download-count';
 import './features/open-issue-to-latest-comment';
 import './features/toggle-everything-with-alt';
@@ -162,9 +162,12 @@ import './features/quick-mention';
 import './features/extend-discussion-status-filters';
 import './features/expand-all-hidden-comments';
 import './features/bugs-tab';
+import './features/cross-deleted-pr-branches';
 import './features/repo-wide-file-finder';
 import './features/preserve-file-finder-term';
 import './features/file-finder-buffer';
+import './features/pr-commit-lines-changed';
+import './features/show-open-prs-of-forks';
 
 // Add global for easier debugging
 (window as any).select = select;

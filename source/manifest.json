@@ -36,8 +36,7 @@
 		"scripts": [
 			"browser-polyfill.min.js",
 			"background.js"
-		],
-		"persistent": false
+		]
 	},
 	"content_scripts": [
 		{
