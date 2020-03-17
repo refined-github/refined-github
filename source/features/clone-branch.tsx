@@ -8,15 +8,19 @@ import features from '../libs/features';
 import {getRepoURL} from '../libs/utils';
 
 // Taken from https://stackoverflow.com/questions/3651860/which-characters-are-illegal-within-a-branch-name#comment71900602_3651867
-const invalidBranchName = new RegExp(/^[./]|\.\.|@{|[/.]$|^@$|[~^:\u0000-\u0020\u007F\s?*]/); // eslint-disable-line no-control-regex
+const invalidBranchName = new RegExp(/^[./]|\.\.|@{|[./]$|^@$|[\s\u0000-\u0020*:?^~\u007F]/); // eslint-disable-line no-control-regex
 async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): Promise<void> {
 	const currentTarget = event.delegateTarget;
 	const branchElement = currentTarget.closest<HTMLAnchorElement>('[data-branch-name]');
-
+	const allExistingBranchNames = select.all('[data-branch-name]').map(element => element.dataset.branchName);
 	let newBranchName = prompt('Enter the new branch name')?.trim();
 
-	while (invalidBranchName.test(newBranchName!)) {
-		newBranchName = prompt('Unsupported branch name (https://git-scm.com/docs/git-check-ref-format) \nEnter the new branch name', newBranchName)?.trim();
+	while (invalidBranchName.test(newBranchName!) || allExistingBranchNames.includes(newBranchName)) {
+		if (invalidBranchName.test(newBranchName!)) {
+			newBranchName = prompt('Unsupported branch name (https://git-scm.com/docs/git-check-ref-format) \nEnter the new branch name', newBranchName)?.trim();
+		} else {
+			newBranchName = prompt('A branch exists with that name already \nEnter the new branch name', newBranchName)?.trim();
+		}
 	}
 
 	if (!newBranchName) {
