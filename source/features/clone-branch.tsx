@@ -7,50 +7,52 @@ import * as api from '../libs/api';
 import features from '../libs/features';
 import {getRepoURL} from '../libs/utils';
 
-// Taken from https://stackoverflow.com/questions/3651860/which-characters-are-illegal-within-a-branch-name#comment71900602_3651867
-const invalidBranchName = new RegExp(/^[./]|\.\.|@{|[./]$|^@$|[\s\u0000-\u0020*:?^~\u007F]/); // eslint-disable-line no-control-regex
 async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): Promise<void> {
 	const currentTarget = event.delegateTarget;
 	const branchElement = currentTarget.closest<HTMLAnchorElement>('[data-branch-name]');
-	const allExistingBranchNames = select.all('[data-branch-name]').map(element => element.dataset.branchName);
-	let newBranchName = prompt('Enter the new branch name')?.trim();
+	const spinner = select('.js-loading-spinner', branchElement!)!;
+	spinner.hidden = false;
+	currentTarget.hidden = true;
 
-	while (invalidBranchName.test(newBranchName!) || allExistingBranchNames.includes(newBranchName)) {
-		if (invalidBranchName.test(newBranchName!)) {
-			newBranchName = prompt('Unsupported branch name (https://git-scm.com/docs/git-check-ref-format) \nEnter the new branch name', newBranchName)?.trim();
-		} else {
-			newBranchName = prompt('A branch exists with that name already \nEnter the new branch name', newBranchName)?.trim();
-		}
+	let newBranchName = prompt('Enter the new branch name')?.trim();
+	if (!newBranchName) {
+		return;
 	}
+
+	const getBranchInfo = await api.v3(`repos/${getRepoURL()}/git/refs/heads/${branchElement!.dataset.branchName!}`);
+	let createBranch = await createNewBranch(newBranchName, getBranchInfo);
+
+	while (createBranch.httpStatus === 422) {
+		newBranchName = prompt(createBranch.message as string + '\n Enter the new branch name', newBranchName)!;
+		if (!newBranchName) {
+			break;
+		}
+
+		createBranch = await createNewBranch(newBranchName, getBranchInfo); // eslint-disable-line no-await-in-loop
+	}
+
+	spinner.hidden = true;
+	currentTarget.hidden = false;
 
 	if (!newBranchName) {
 		return;
 	}
 
-	const spinner = select('.js-loading-spinner', branchElement!)!;
-	spinner.hidden = false;
-	currentTarget.hidden = true;
+	const searchField = select<HTMLInputElement>('.js-branch-search-field')!;
+	searchField.select();
+	insertTextTextarea(searchField, newBranchName);
+}
 
-	try {
-		const getBranchInfo = await api.v3(`repos/${getRepoURL()}/git/refs/heads/${branchElement!.dataset.branchName!}`);
-		await api.v3(`repos/${getRepoURL()}/git/refs`, {
-			method: 'POST',
-			body: {
-				sha: getBranchInfo.object.sha,
-				ref: 'refs/heads/' + newBranchName
-			}
-		});
-
-		const searchField = select<HTMLInputElement>('.js-branch-search-field')!;
-		searchField.select();
-		insertTextTextarea(searchField, newBranchName);
-	} catch (error) {
-		console.error(error);
-		alert('Creating branch failed. See console for details');
-	}
-
-	spinner.hidden = true;
-	currentTarget.hidden = false;
+async function createNewBranch(newBranchName: string, getBranchInfo: AnyObject): Promise<void | AnyObject> {
+	const createBranch = await api.v3(`repos/${getRepoURL()}/git/refs`, {
+		method: 'POST',
+		body: {
+			sha: getBranchInfo.object.sha,
+			ref: 'refs/heads/' + newBranchName
+		},
+		ignoreHTTPStatus: true
+	});
+	return createBranch;
 }
 
 function init(): void | false {
