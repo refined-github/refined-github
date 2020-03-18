@@ -3,6 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import arrowDownIcon from 'octicon/arrow-down.svg';
 import features from '../libs/features';
+import {looseParseInt} from '../libs/utils';
 
 // `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)
 const commentSelector = '.js-timeline-item';
@@ -118,7 +119,7 @@ function getPositiveReactions(reactionBox?: Element): Element[] {
 }
 
 function getCount(reactions: Element[]): number {
-	return reactions.reduce((count, reaction) => count + Number(/\d+/.exec(reaction.textContent!)![0]), 0);
+	return reactions.reduce((count, reaction) => count + looseParseInt(reaction.textContent!), 0);
 }
 
 features.add({

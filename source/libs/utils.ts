@@ -173,3 +173,7 @@ export function reportBug(featureName: string, bugName: string): void {
 export function getScopedSelector(selector: string): string {
 	return selector.split(',').map(sub => `:scope > ${sub.trim()}`).join(',');
 }
+
+export function looseParseInt(text: string): number {
+	return Number(text.replace(/\D+/g, ''));
+}

@@ -4,13 +4,13 @@ import select from 'select-dom';
 import clockIcon from 'octicon/clock.svg';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {getRepoGQL, getRepoURL} from '../libs/utils';
+import {getRepoGQL, getRepoURL, looseParseInt} from '../libs/utils';
 
 interface IssueInfo {
 	updatedAt: string;
 }
 
-const getLastUpdated = cache.function(async (issueNumbers: string[]): Promise<Record<string, IssueInfo>> => {
+const getLastUpdated = cache.function(async (issueNumbers: number[]): Promise<Record<string, IssueInfo>> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			${issueNumbers.map(number => `
@@ -27,8 +27,8 @@ const getLastUpdated = cache.function(async (issueNumbers: string[]): Promise<Re
 	cacheKey: () => __featureName__ + ':' + getRepoURL()
 });
 
-function getPinnedIssueNumber(pinnedIssue: HTMLElement): string {
-	return select('.opened-by', pinnedIssue)!.firstChild!.textContent!.replace(/\D/g, '');
+function getPinnedIssueNumber(pinnedIssue: HTMLElement): number {
+	return looseParseInt(select('.opened-by', pinnedIssue)!.firstChild!.textContent!);
 }
 
 async function init(): Promise<void | false> {

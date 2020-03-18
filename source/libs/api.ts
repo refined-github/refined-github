@@ -44,7 +44,7 @@ interface RestResponse extends AnyObject {
 	ok: boolean;
 }
 
-export const escapeKey = (value: string): string => '_' + value.replace(/[ ./-]/g, '_');
+export const escapeKey = (value: string | number): string => '_' + String(value).replace(/[ ./-]/g, '_');
 
 export class RefinedGitHubAPIError extends Error {
 	constructor(...messages: string[]) {

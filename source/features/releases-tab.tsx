@@ -6,7 +6,7 @@ import tagIcon from 'octicon/tag.svg';
 import features from '../libs/features';
 import * as api from '../libs/api';
 import {appendBefore} from '../libs/dom-utils';
-import {getRepoURL, getRepoGQL} from '../libs/utils';
+import {getRepoURL, getRepoGQL, looseParseInt} from '../libs/utils';
 import {isRepoRoot, isReleasesOrTags} from '../libs/page-detect';
 
 const repoUrl = getRepoURL();
@@ -15,7 +15,7 @@ const cacheKey = `releases-count:${repoUrl}`;
 function parseCountFromDom(): number | false {
 	if (isRepoRoot()) {
 		const releasesCountElement = select('.numbers-summary a[href$="/releases"] .num');
-		return Number(releasesCountElement ? releasesCountElement.textContent!.replace(/,/g, '') : 0);
+		return Number(releasesCountElement ? looseParseInt(releasesCountElement.textContent!) : 0);
 	}
 
 	return false;
