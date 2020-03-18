@@ -22,8 +22,8 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>):
 	const getBranchInfo = await api.v3(`repos/${getRepoURL()}/git/refs/heads/${branchElement!.dataset.branchName!}`);
 	let createBranch = await createNewBranch(newBranchName, getBranchInfo);
 
-	while (createBranch.httpStatus === 422) {
-		newBranchName = prompt(createBranch.message as string + '\n Enter the new branch name', newBranchName)!;
+	while (Number(createBranch.httpStatus) === 422) {
+		newBranchName = prompt(String(createBranch.message) + '\n Enter the new branch name', newBranchName)!;
 		if (!newBranchName) {
 			break;
 		}
@@ -43,7 +43,7 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>):
 	insertTextTextarea(searchField, newBranchName);
 }
 
-async function createNewBranch(newBranchName: string, getBranchInfo: AnyObject): Promise<void | AnyObject> {
+async function createNewBranch(newBranchName: string, getBranchInfo: AnyObject): Promise<AnyObject> {
 	const createBranch = await api.v3(`repos/${getRepoURL()}/git/refs`, {
 		method: 'POST',
 		body: {
