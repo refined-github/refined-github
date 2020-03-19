@@ -109,7 +109,7 @@ async function addChecksFilter(): Promise<void> {
 		addDropdownItem(dropdown, status, 'status', status.toLowerCase());
 	}
 
-	reviewsFilter.after(' ', checksFilter);
+	reviewsFilter.after(checksFilter);
 }
 
 function init(): void {

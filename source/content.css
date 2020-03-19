@@ -18,18 +18,15 @@
 }
 
 /* For `open-all-selected` and `pr-filters`: set a reduced padding for all buttons for #1830 and #1904 */
-.table-list-filters .table-list-header-toggle .select-menu-button {
-	padding-right: 0;
-	padding-left: 0;
+#js-issues-toolbar .table-list-header-toggle details {
+	padding: 0 !important;
 }
 
-.table-list-filters .details-reset {
-	padding-right: 8px !important;
-	padding-left: 8px !important;
+#js-issues-toolbar .table-list-header-toggle summary {
+	padding: 0 8px !important;
 }
 
-/* Some filters are wrapped inside a padding-less span */
-.table-list-filters .table-list-header-toggle > .details-reset:last-child {
+#js-issues-toolbar .table-list-header-toggle > :last-child > summary {
 	padding-right: 0 !important;
 }
 
