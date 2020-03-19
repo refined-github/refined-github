@@ -25,7 +25,7 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 	while (Number(createBranch.httpStatus) === 422) {
 		newBranchName = prompt(String(createBranch.message) + '\n Enter the new branch name', newBranchName)?.trim();
 		if (!newBranchName) {
-			break;
+			return;
 		}
 
 		createBranch = await createNewBranch(newBranchName, getBranchInfo); // eslint-disable-line no-await-in-loop
