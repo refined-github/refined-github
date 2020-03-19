@@ -56,13 +56,13 @@ async function createNewBranch(newBranchName: string, getBranchInfo: AnyObject):
 }
 
 function init(): void | false {
+	const deleteIcons = select.all('[aria-label="Delete this branch"]');
 	// Is the user does not have rights to create a branch
-	const branchElement = select.all('[aria-label="Delete this branch"]');
-	if (branchElement.length === 0) {
+	if (deleteIcons.length === 0) {
 		return false;
 	}
 
-	for (const branch of branchElement) {
+	for (const branch of deleteIcons) {
 		branch.closest('.js-branch-destroy')!.before(
 			<button
 				type="button"
