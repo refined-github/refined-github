@@ -123,7 +123,7 @@ function init(): void|false {
 features.add({
 	id: __featureName__,
 	description: 'Add Deep Blame to commits',
-	screenshot: false,
+	screenshot: 'https://user-images.githubusercontent.com/16872793/77025598-e9022000-6967-11ea-92dd-6f49875a225e.png',
 	include: [
 		features.isBlame
 	],
