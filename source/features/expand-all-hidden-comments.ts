@@ -1,5 +1,6 @@
 import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
+import {looseParseInt} from '../libs/utils';
 
 /*
 The ajaxed form that loads the new comments points to a URL like:
@@ -12,9 +13,9 @@ function handleAltClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): vo
 	}
 
 	const form = event.delegateTarget.form!;
-	const hiddenItemsCount = form.textContent!.replace(/\D+/g, '');
+	const hiddenItemsCount = looseParseInt(form.textContent!);
 	const url = new URL(form.action);
-	url.searchParams.set('variables[first]', hiddenItemsCount);
+	url.searchParams.set('variables[first]', String(hiddenItemsCount));
 	form.action = url.href;
 }
 

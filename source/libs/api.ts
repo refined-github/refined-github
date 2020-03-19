@@ -44,7 +44,7 @@ interface RestResponse extends AnyObject {
 	ok: boolean;
 }
 
-export const escapeKey = (value: string): string => '_' + value.replace(/[ ./-]/g, '_');
+export const escapeKey = (value: string | number): string => '_' + String(value).replace(/[ ./-]/g, '_');
 
 export class RefinedGitHubAPIError extends Error {
 	constructor(...messages: string[]) {
@@ -171,7 +171,6 @@ export const v4 = mem(async (
 	} = apiResponse;
 
 	if (errors.length > 0 && !options.allowErrors) {
-		// TODO: also log `apiResponse` somehow, maybe via logErrors?
 		throw new RefinedGitHubAPIError('GraphQL:', ...errors.map(error => error.message));
 	}
 

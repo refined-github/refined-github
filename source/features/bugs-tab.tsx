@@ -5,19 +5,17 @@ import elementReady from 'element-ready';
 import features from '../libs/features';
 import * as api from '../libs/api';
 import SearchQuery from '../libs/search-query';
-import {getRepoGQL, getRepoURL} from '../libs/utils';
+import {getRepoURL} from '../libs/utils';
 
 const numberFormatter = new Intl.NumberFormat();
 const countBugs = cache.function(async (): Promise<number> => {
-	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
-			bugs: issues(labels: ["bug"], states: [OPEN]) {
-				totalCount
-			}
+	const {search} = await api.v4(`
+		search(type: ISSUE, query: "label:bug is:open is:issue repo:${getRepoURL()}") {
+			issueCount
 		}
 	`);
 
-	return repository.bugs.totalCount;
+	return search.issueCount;
 }, {
 	maxAge: 1 / 24 / 2, // Stale after half an hour
 	staleWhileRevalidate: 4,

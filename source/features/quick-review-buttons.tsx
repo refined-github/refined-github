@@ -76,7 +76,6 @@ function init(): false | void {
 	});
 
 	// Freeze form to avoid duplicate submissions
-	// TODO: maybe `data-disable-with` can do this like it does for the generic "Comment" button
 	form.addEventListener('submit', () => {
 		// Delay disabling the fields to let them be submitted first
 		setTimeout(() => {

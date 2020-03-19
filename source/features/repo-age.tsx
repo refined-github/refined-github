@@ -6,7 +6,7 @@ import repoIcon from 'octicon/repo.svg';
 import elementReady from 'element-ready';
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
-import {getRepoURL} from '../libs/utils';
+import {getRepoURL, looseParseInt} from '../libs/utils';
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
 	year: 'numeric',
@@ -19,7 +19,7 @@ const getFirstCommitDate = cache.function(async (): Promise<string | undefined> 
 	const commitUrl = commitInfo instanceof HTMLAnchorElement ? commitInfo.href : commitInfo!.src;
 	const commitSha = commitUrl.split('/').pop()!;
 
-	const commitsCount = Number(select('li.commits .num')!.textContent!.replace(',', ''));
+	const commitsCount = looseParseInt(select('li.commits .num')!.textContent!);
 
 	// Returning undefined will make sure that it is not cached. It will check again for commits on the next load.
 	// Reference: https://github.com/fregante/webext-storage-cache/#getter
