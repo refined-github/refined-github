@@ -22,9 +22,12 @@
 	padding: 0 !important;
 }
 
-#js-issues-toolbar .table-list-header-toggle .rgh-batch-open-issues,
 #js-issues-toolbar .table-list-header-toggle summary {
 	padding: 0 8px !important;
+}
+
+#js-issues-toolbar .table-list-header-toggle :last-child > summary {
+	padding-right: 0 !important;
 }
 
 /* Hide empty description of repo */
