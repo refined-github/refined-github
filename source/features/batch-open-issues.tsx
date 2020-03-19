@@ -42,7 +42,7 @@ function init(): void | false {
 	select('.table-list-header-toggle:not(.states)')?.prepend(
 		<button
 			type="button"
-			className="btn-link rgh-batch-open-issues pr-2"
+			className="btn-link rgh-batch-open-issues px-2"
 		>
 			Open all
 		</button>
