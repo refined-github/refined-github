@@ -7,7 +7,7 @@ import versionIcon from 'octicon/versions.svg';
 import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {getRepoGQL, getReference} from '../libs/utils';
+import {getRepoGQL, getReference, looseParseInt} from '../libs/utils';
 
 const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number): Promise<string | false> => {
 	const {repository} = await api.v4(`
@@ -44,13 +44,16 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number): 
 	return false;
 });
 
-function getCommitHash(commit: HTMLElement): string {
-	return (commit.nextElementSibling as HTMLAnchorElement).href.split('/').pop()!;
+function getCommitHash(commit: HTMLLinkElement): string {
+	return commit.href.split('/').pop()!;
 }
 
 async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): Promise<void> {
 	const blameLink = event.delegateTarget;
-	const {lineNumber, commit: pullRequestCommit, prNumber} = blameLink.dataset;
+	const currentParentElement = blameLink.closest('.blame-hunk')!;
+	const lineNumber = select('.js-line-number', currentParentElement)!.textContent!;
+	const prNumber = looseParseInt(select('.issue-link', currentParentElement)!.textContent!);
+	const pullRequestCommit = getCommitHash(select<HTMLLinkElement>('a.message', currentParentElement)!);
 	if (blameLink.href && event.altKey) {
 		event.preventDefault();
 	}
@@ -67,7 +70,7 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	// Hide tooltip after click, it’s shown on :focus
 	blurAccessibly(blameLink);
 
-	const prBlameCommit = await getPullRequestBlameCommit(pullRequestCommit!, Number(prNumber));
+	const prBlameCommit = await getPullRequestBlameCommit(pullRequestCommit, Number(prNumber));
 	if (!prBlameCommit) {
 		// Restore the regular version link if there was one
 		if (blameLink.href) {
@@ -84,7 +87,7 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	}
 
 	const href = new URL(location.href.replace(getReference()!, prBlameCommit));
-	href.hash = 'L' + lineNumber!;
+	href.hash = 'L' + lineNumber;
 	location.href = String(href);
 }
 
@@ -97,23 +100,14 @@ function init(): void|false {
 	for (const pullRequest of pullRequests) {
 		const currentParentElement = pullRequest.closest('.blame-hunk')!;
 		const versionsParent = select('.blob-reblame', currentParentElement);
-		const currentLineNumber = select('.js-line-number', currentParentElement)!.textContent!;
-		const prNumber = select('.issue-link', currentParentElement)!.textContent!.replace('#', '');
-		const commitHash = getCommitHash(pullRequest);
 
 		if (select.exists('a', versionsParent!)) {
 			const versionsElement = select('a', versionsParent!)!;
 			versionsElement.setAttribute('aria-label', 'View blame prior to this change. Press Alt to view the `deep-blame`');
 			versionsElement.classList.add('rgh-deep-blame');
-			versionsElement.dataset.commit = commitHash;
-			versionsElement.dataset.lineNumber = currentLineNumber;
-			versionsElement.dataset.prNumber = prNumber;
 		} else {
 			versionsParent!.append(
 				<a
-					data-commit={commitHash}
-					data-line-number={currentLineNumber}
-					data-pr-number={prNumber}
 					aria-label="View `deep-blame` prior to this change"
 					className="reblame-link link-hover-blue no-underline tooltipped tooltipped-e d-inline-block pr-1 rgh-deep-blame"
 				>
