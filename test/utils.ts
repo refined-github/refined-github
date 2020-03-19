@@ -12,7 +12,8 @@ import {
 	parseTag,
 	compareNames,
 	pluralize,
-	getScopedSelector
+	getScopedSelector,
+	looseParseInt
 } from '../source/libs/utils';
 
 test('getDiscussionNumber', t => {
@@ -238,4 +239,10 @@ test('getScopedSelector', t => {
 	for (const [selector, result] of pairs) {
 		t.is(result, getScopedSelector(selector));
 	}
+});
+
+test('looseParseInt', t => {
+	t.is(looseParseInt('1,234'), 1234);
+	t.is(looseParseInt('Bugs 1,234'), 1234);
+	t.is(looseParseInt('5000+ issues'), 5000);
 });

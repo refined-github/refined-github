@@ -93,7 +93,6 @@ async function handleRevertFileClick(event: DelegateEvent<MouseEvent, HTMLButton
 		if (!file) {
 			// The file was created by this PR. Revert === Delete.
 			// If there was a way to tell if a file was created by the PR, we could skip `getFile`
-			// TODO: find this info on the page ("was this file created by this PR?")
 			await deleteFile(menuItem);
 			return;
 		}

@@ -1,5 +1,3 @@
-// TODO: Drop some definitions when their related bugs are resolved
-
 type AnyObject = Record<string, any>;
 type AsyncVoidFunction = () => Promise<void>;
 type Unpromise<MaybePromise> = MaybePromise extends Promise<infer Type> ? Type : MaybePromise;
