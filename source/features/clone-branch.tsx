@@ -27,19 +27,14 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 
 	const currentBranch = getBranchBaseSha(branchElement!.dataset.branchName!);
 	let newBranchName = prompt('Enter the new branch name')?.trim();
-	if (!newBranchName) {
-		return;
-	}
 
-	let result = await createBranch(newBranchName, await currentBranch, currentTarget);
-
-	while (result !== true) {
-		newBranchName = prompt(result + '\n Enter the new branch name', newBranchName)?.trim();
-		if (!newBranchName) {
-			return;
+	while (newBranchName) {
+		const result = await createBranch(newBranchName, await currentBranch, currentTarget); // eslint-disable-line no-await-in-loop
+		if (result === true) {
+			break;
 		}
 
-		result = await createBranch(newBranchName, await currentBranch, currentTarget); // eslint-disable-line no-await-in-loop
+		newBranchName = prompt(result + '\n Enter the new branch name', newBranchName)?.trim();
 	}
 
 	if (!newBranchName) {
