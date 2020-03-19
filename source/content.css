@@ -33,6 +33,11 @@
 	padding-right: 0 !important;
 }
 
+/* For `security` page: increase padding because markup is different than other pages with filters */
+#dependencies + .table-list-header .table-list-filters .table-list-header-toggle > .details-reset:last-child {
+	padding-right: 16px !important;
+}
+
 /* Hide empty description of repo */
 .repository-meta.mb-3 > .repository-meta-content > em {
 	display: none !important;
