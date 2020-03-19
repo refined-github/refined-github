@@ -44,16 +44,12 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number): 
 	return false;
 });
 
-function getCommitHash(commit: HTMLLinkElement): string {
-	return commit.href.split('/').pop()!;
-}
-
 async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): Promise<void> {
 	const blameLink = event.delegateTarget;
 	const blameHunk = blameLink.closest('.blame-hunk')!;
-	const lineNumber = select('.js-line-number', currentParentElement)!.textContent!;
-	const prNumber = looseParseInt(select('.issue-link', currentParentElement)!.textContent!);
-	const prCommit = select<HTMLAnchorElement>('a.message', currentParentElement)!.href.split('/').pop()!;
+	const lineNumber = select('.js-line-number', blameHunk)!.textContent!;
+	const prNumber = looseParseInt(select('.issue-link', blameHunk)!.textContent!);
+	const prCommit = select<HTMLAnchorElement>('a.message', blameHunk)!.href.split('/').pop()!;
 	if (blameLink.href && event.altKey) {
 		event.preventDefault();
 	}
@@ -70,7 +66,7 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	// Hide tooltip after click, it’s shown on :focus
 	blurAccessibly(blameLink);
 
-	const prBlameCommit = await getPullRequestBlameCommit(pullRequestCommit, Number(prNumber));
+	const prBlameCommit = await getPullRequestBlameCommit(prCommit, Number(prNumber));
 	if (!prBlameCommit) {
 		// Restore the regular version link if there was one
 		if (blameLink.href) {
