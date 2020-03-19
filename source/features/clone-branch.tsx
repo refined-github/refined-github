@@ -43,7 +43,7 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 	insertTextTextarea(searchField, newBranchName);
 }
 
-async function createNewBranch(newBranchName: string, getBranchInfo: AnyObject): Promise<AnyObject> {
+async function createBranch(newBranchName: string, baseSha: string): Promise<AnyObject> {
 	const createBranch = await api.v3(`repos/${getRepoURL()}/git/refs`, {
 		method: 'POST',
 		body: {
