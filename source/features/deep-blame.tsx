@@ -50,7 +50,7 @@ function getCommitHash(commit: HTMLLinkElement): string {
 
 async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): Promise<void> {
 	const blameLink = event.delegateTarget;
-	const currentParentElement = blameLink.closest('.blame-hunk')!;
+	const blameHunk = blameLink.closest('.blame-hunk')!;
 	const lineNumber = select('.js-line-number', currentParentElement)!.textContent!;
 	const prNumber = looseParseInt(select('.issue-link', currentParentElement)!.textContent!);
 	const pullRequestCommit = getCommitHash(select<HTMLLinkElement>('a.message', currentParentElement)!);
