@@ -18,7 +18,7 @@
 }
 
 /* For `open-all-selected` and `pr-filters`: set a reduced padding for all buttons for #1830 and #1904 */
-#js-issues-toolbar .table-list-header-toggle > details {
+#js-issues-toolbar .table-list-header-toggle details {
 	padding: 0 !important;
 }
 
@@ -26,7 +26,7 @@
 	padding: 0 8px !important;
 }
 
-#js-issues-toolbar .table-list-header-toggle :last-child > summary {
+#js-issues-toolbar .table-list-header-toggle > :last-child > summary {
 	padding-right: 0 !important;
 }
 
