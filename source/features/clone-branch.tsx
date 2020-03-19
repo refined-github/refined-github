@@ -7,7 +7,7 @@ import * as api from '../libs/api';
 import features from '../libs/features';
 import {getRepoURL, getRepoGQL} from '../libs/utils';
 
-const getBranchInfo = async (branchName: string): Promise<string> => {
+const getBranchBaseSha = async (branchName: string): Promise<string> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			ref(qualifiedName: "${branchName}") {
@@ -28,17 +28,16 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 	spinner.hidden = false;
 	currentTarget.hidden = true;
 
-	const currentBranch = getBranchInfo(branchElement!.dataset.branchName!);
+	const currentBranch = getBranchBaseSha(branchElement!.dataset.branchName!);
 	let newBranchName = prompt('Enter the new branch name')?.trim();
 	if (!newBranchName) {
 		return;
 	}
 
 	let result = await createBranch(newBranchName, await currentBranch);
-	console.log(result);
 
-	while (!result.ok) {
-		newBranchName = prompt(String(result.message) + '\n Enter the new branch name', newBranchName)?.trim();
+	while (result !== true) {
+		newBranchName = prompt(result + '\n Enter the new branch name', newBranchName)?.trim();
 		if (!newBranchName) {
 			return;
 		}
@@ -58,16 +57,21 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 	insertTextTextarea(searchField, newBranchName);
 }
 
-async function createBranch(newBranchName: string, baseSha: string): Promise<AnyObject> {
-	const createBranch = await api.v3(`repos/${getRepoURL()}/git/refs`, {
+async function createBranch(newBranchName: string, baseSha: string): Promise<true | string> {
+	return api.v3(`repos/${getRepoURL()}/git/refs`, {
 		method: 'POST',
 		body: {
 			sha: baseSha,
 			ref: 'refs/heads/' + newBranchName
 		},
 		ignoreHTTPStatus: true
+	}).then(response => {
+		if (response.ok) {
+			return true;
+		}
+
+		return response.message;
 	});
-	return createBranch;
 }
 
 function init(): void | false {
