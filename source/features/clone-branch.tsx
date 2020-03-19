@@ -9,7 +9,7 @@ import {getRepoURL} from '../libs/utils';
 
 async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): Promise<void> {
 	const currentTarget = event.delegateTarget;
-	const branchElement = currentTarget.closest<HTMLAnchorElement>('[data-branch-name]');
+	const branchElement = currentTarget.closest<HTMLElement>('[data-branch-name]');
 	const spinner = select('.js-loading-spinner', branchElement!)!;
 	spinner.hidden = false;
 	currentTarget.hidden = true;
