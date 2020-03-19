@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - 11 # TODO: fix v13 compatibility in the build
+  - 11 # https://github.com/sindresorhus/refined-github/issues/2900
 env:
   - EXTENSION_ID=hlepfoohegkhhmjieoechaddaejaokhf
 

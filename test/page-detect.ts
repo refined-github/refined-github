@@ -1,7 +1,3 @@
-// TODO: resolve this exception. AVA doesn't run without reference
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
-/// <reference path="../source/globals.d.ts" />
-
 import test from 'ava';
 import './fixtures/globals';
 import * as pageDetect from '../source/libs/page-detect';
