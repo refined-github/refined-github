@@ -23,7 +23,7 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLAnchorElement>):
 	let createBranch = await createNewBranch(newBranchName, getBranchInfo);
 
 	while (Number(createBranch.httpStatus) === 422) {
-		newBranchName = prompt(String(createBranch.message) + '\n Enter the new branch name', newBranchName)!;
+		newBranchName = prompt(String(createBranch.message) + '\n Enter the new branch name', newBranchName)?.trim();
 		if (!newBranchName) {
 			break;
 		}
