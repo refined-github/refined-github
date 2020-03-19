@@ -63,9 +63,9 @@ async function createBranch(newBranchName: string, baseSha: string, currentTarge
 		},
 		ignoreHTTPStatus: true
 	}).then(response => {
+		spinner.hidden = true;
+		currentTarget.hidden = false;
 		if (response.ok) {
-			spinner.hidden = true;
-			currentTarget.hidden = false;
 			return true;
 		}
 
