@@ -53,7 +53,7 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	const blameHunk = blameLink.closest('.blame-hunk')!;
 	const lineNumber = select('.js-line-number', currentParentElement)!.textContent!;
 	const prNumber = looseParseInt(select('.issue-link', currentParentElement)!.textContent!);
-	const pullRequestCommit = getCommitHash(select<HTMLLinkElement>('a.message', currentParentElement)!);
+	const prCommit = select<HTMLAnchorElement>('a.message', currentParentElement)!.href.split('/').pop()!;
 	if (blameLink.href && event.altKey) {
 		event.preventDefault();
 	}
