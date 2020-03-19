@@ -5,7 +5,21 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {getRepoURL} from '../libs/utils';
+import {getRepoURL, getRepoGQL} from '../libs/utils';
+
+const getBranchInfo = async (branchName: string): Promise<string> => {
+	const {repository} = await api.v4(`
+		repository(${getRepoGQL()}) {
+			ref(qualifiedName: "${branchName}") {
+				target {
+					oid
+				}
+			}
+		}
+	`);
+
+	return repository.ref.target.oid;
+};
 
 async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	const currentTarget = event.delegateTarget;
@@ -14,21 +28,22 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 	spinner.hidden = false;
 	currentTarget.hidden = true;
 
+	const currentBranch = getBranchInfo(branchElement!.dataset.branchName!);
 	let newBranchName = prompt('Enter the new branch name')?.trim();
 	if (!newBranchName) {
 		return;
 	}
 
-	const getBranchInfo = await api.v3(`repos/${getRepoURL()}/git/refs/heads/${branchElement!.dataset.branchName!}`);
-	let createBranch = await createNewBranch(newBranchName, getBranchInfo);
+	let result = await createBranch(newBranchName, await currentBranch);
+	console.log(result);
 
-	while (Number(createBranch.httpStatus) === 422) {
-		newBranchName = prompt(String(createBranch.message) + '\n Enter the new branch name', newBranchName)?.trim();
+	while (!result.ok) {
+		newBranchName = prompt(String(result.message) + '\n Enter the new branch name', newBranchName)?.trim();
 		if (!newBranchName) {
 			return;
 		}
 
-		createBranch = await createNewBranch(newBranchName, getBranchInfo); // eslint-disable-line no-await-in-loop
+		result = await createBranch(newBranchName, await currentBranch); // eslint-disable-line no-await-in-loop
 	}
 
 	spinner.hidden = true;
@@ -47,7 +62,7 @@ async function createBranch(newBranchName: string, baseSha: string): Promise<Any
 	const createBranch = await api.v3(`repos/${getRepoURL()}/git/refs`, {
 		method: 'POST',
 		body: {
-			sha: getBranchInfo.object.sha,
+			sha: baseSha,
 			ref: 'refs/heads/' + newBranchName
 		},
 		ignoreHTTPStatus: true
