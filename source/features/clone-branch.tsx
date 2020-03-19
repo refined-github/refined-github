@@ -24,9 +24,6 @@ const getBranchBaseSha = async (branchName: string): Promise<string> => {
 async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	const currentTarget = event.delegateTarget;
 	const branchElement = currentTarget.closest<HTMLElement>('[data-branch-name]');
-	const spinner = select('.js-loading-spinner', branchElement!)!;
-	spinner.hidden = false;
-	currentTarget.hidden = true;
 
 	const currentBranch = getBranchBaseSha(branchElement!.dataset.branchName!);
 	let newBranchName = prompt('Enter the new branch name')?.trim();
@@ -34,7 +31,7 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 		return;
 	}
 
-	let result = await createBranch(newBranchName, await currentBranch);
+	let result = await createBranch(newBranchName, await currentBranch, currentTarget);
 
 	while (result !== true) {
 		newBranchName = prompt(result + '\n Enter the new branch name', newBranchName)?.trim();
@@ -42,11 +39,8 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 			return;
 		}
 
-		result = await createBranch(newBranchName, await currentBranch); // eslint-disable-line no-await-in-loop
+		result = await createBranch(newBranchName, await currentBranch, currentTarget); // eslint-disable-line no-await-in-loop
 	}
-
-	spinner.hidden = true;
-	currentTarget.hidden = false;
 
 	if (!newBranchName) {
 		return;
@@ -57,7 +51,10 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 	insertTextTextarea(searchField, newBranchName);
 }
 
-async function createBranch(newBranchName: string, baseSha: string): Promise<true | string> {
+async function createBranch(newBranchName: string, baseSha: string, currentTarget: HTMLElement): Promise<true | string> {
+	const spinner = select('.js-loading-spinner', currentTarget.closest<HTMLElement>('[data-branch-name]')!)!;
+	spinner.hidden = false;
+	currentTarget.hidden = true;
 	return api.v3(`repos/${getRepoURL()}/git/refs`, {
 		method: 'POST',
 		body: {
@@ -67,6 +64,8 @@ async function createBranch(newBranchName: string, baseSha: string): Promise<tru
 		ignoreHTTPStatus: true
 	}).then(response => {
 		if (response.ok) {
+			spinner.hidden = true;
+			currentTarget.hidden = false;
 			return true;
 		}
 
