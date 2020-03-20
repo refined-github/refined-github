@@ -45,6 +45,14 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number): 
 });
 
 async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): Promise<void> {
+ 	const blameLink = event.delegateTarget;
+	if (blameLink.href) {
+		if (event.altKey) {
+			event.preventDefault();
+		} else {
+			return; // Unmodified click on regular link: let it proceed
+		}
+	}
 	const blameLink = event.delegateTarget;
 	const blameHunk = blameLink.closest('.blame-hunk')!;
 	const lineNumber = select('.js-line-number', blameHunk)!.textContent!;
