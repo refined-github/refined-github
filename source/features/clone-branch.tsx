@@ -28,15 +28,13 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 	const currentBranch = getBranchBaseSha(branchElement.dataset.branchName!);
 	let newBranchName = prompt('Enter the new branch name')?.trim();
 
-	const loadingIcon = select('.js-loading-spinner', branchElement)!;
+	const loadingIcon = select('.js-loading-spinner', branchElement)!.cloneNode(true);
+	loadingIcon.hidden = false;
 	while (newBranchName) {
-		loadingIcon.hidden = false;
-		cloneButton.hidden = true;
-
-		const result = await createBranch(newBranchName, await currentBranch); // eslint-disable-line no-await-in-loop
-
-		loadingIcon.hidden = true;
-		cloneButton.hidden = false;
+		cloneButton.replaceWith(loadingIcon);
+		// eslint-disable-next-line no-await-in-loop
+		const result = await createBranch(newBranchName, await currentBranch);
+		loadingIcon.replaceWith(cloneButton);
 
 		if (result === true) {
 			break;
