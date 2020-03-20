@@ -45,7 +45,7 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number): 
 });
 
 async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): Promise<void> {
- 	const blameLink = event.delegateTarget;
+	const blameLink = event.delegateTarget;
 	if (blameLink.href) {
 		if (event.altKey) {
 			event.preventDefault();
@@ -53,7 +53,7 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 			return; // Unmodified click on regular link: let it proceed
 		}
 	}
-	const blameLink = event.delegateTarget;
+
 	const blameHunk = blameLink.closest('.blame-hunk')!;
 	const lineNumber = select('.js-line-number', blameHunk)!.textContent!;
 	const prNumber = looseParseInt(select('.issue-link', blameHunk)!.textContent!);
@@ -101,12 +101,12 @@ function init(): void|false {
 		const currentParentElement = pullRequest.closest('.blame-hunk')!;
 		const versionsParent = select('.blob-reblame', currentParentElement)!;
 
-		if (select.exists('a', versionsParent!)) {
-			const versionsElement = select('a', versionsParent!)!;
+		if (select.exists('a', versionsParent)) {
+			const versionsElement = select('a', versionsParent)!;
 			versionsElement.setAttribute('aria-label', 'View blame prior to this change. Press Alt to view the `deep-blame`');
 			versionsElement.classList.add('rgh-deep-blame');
 		} else {
-			versionsParent!.append(
+			versionsParent.append(
 				<a
 					aria-label="View `deep-blame` prior to this change"
 					className="reblame-link link-hover-blue no-underline tooltipped tooltipped-e d-inline-block pr-1 rgh-deep-blame"
