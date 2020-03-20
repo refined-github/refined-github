@@ -102,7 +102,7 @@ function init(): void|false {
 
 	for (const pullRequest of pullRequests) {
 		const currentParentElement = pullRequest.closest('.blame-hunk')!;
-		const versionsParent = select('.blob-reblame', currentParentElement);
+		const versionsParent = select('.blob-reblame', currentParentElement)!;
 
 		if (select.exists('a', versionsParent!)) {
 			const versionsElement = select('a', versionsParent!)!;
