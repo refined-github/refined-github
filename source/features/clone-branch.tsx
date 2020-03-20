@@ -22,14 +22,22 @@ const getBranchBaseSha = async (branchName: string): Promise<string> => {
 };
 
 async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
-	const currentTarget = event.delegateTarget;
-	const branchElement = currentTarget.closest<HTMLElement>('[data-branch-name]');
+	const cloneButton = event.delegateTarget;
+	const branchElement = currentTarget.closest<HTMLElement>('[data-branch-name]')!;
 
-	const currentBranch = getBranchBaseSha(branchElement!.dataset.branchName!);
+	const currentBranch = getBranchBaseSha(branchElement.dataset.branchName!);
 	let newBranchName = prompt('Enter the new branch name')?.trim();
 
+	const loadingIcon = select('.js-loading-spinner', branchElement)!;
 	while (newBranchName) {
-		const result = await createBranch(newBranchName, await currentBranch, currentTarget); // eslint-disable-line no-await-in-loop
+		loadingIcon.hidden = false;
+		cloneButton.hidden = true;
+
+		const result = await createBranch(newBranchName, await currentBranch); // eslint-disable-line no-await-in-loop
+	
+		loadingIcon.hidden = true;
+		cloneButton.hidden = false;
+
 		if (result === true) {
 			break;
 		}
@@ -46,11 +54,7 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 	insertTextTextarea(searchField, newBranchName);
 }
 
-async function createBranch(newBranchName: string, baseSha: string, currentTarget: HTMLElement): Promise<true | string> {
-	const spinner = select('.js-loading-spinner', currentTarget.closest<HTMLElement>('[data-branch-name]')!)!;
-	spinner.hidden = false;
-	currentTarget.hidden = true;
-	
+async function createBranch(newBranchName: string, baseSha: string): Promise<true | string> {
 	const response = await api.v3(`repos/${getRepoURL()}/git/refs`, {
 		method: 'POST',
 		body: {
@@ -59,9 +63,6 @@ async function createBranch(newBranchName: string, baseSha: string, currentTarge
 		},
 		ignoreHTTPStatus: true
 	});
-
-	spinner.hidden = true;
-	currentTarget.hidden = false;
 
 	return response.ok || response.message;
 }
