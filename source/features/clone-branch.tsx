@@ -1,8 +1,8 @@
-import delegate, {DelegateEvent} from 'delegate-it';
-import gitBranch from 'octicon/git-branch.svg';
-import insertTextTextarea from 'insert-text-textarea';
 import React from 'dom-chef';
 import select from 'select-dom';
+import gitBranch from 'octicon/git-branch.svg';
+import insertTextTextarea from 'insert-text-textarea';
+import delegate, {DelegateEvent} from 'delegate-it';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {getRepoURL, getRepoGQL} from '../libs/utils';
