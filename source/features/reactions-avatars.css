@@ -2,6 +2,10 @@
 	padding-right: 0.7em !important;
 	padding-left: 0.7em !important;
 }
+button.reaction-summary-item { /* `button` excludes the "Add reaction" icon */
+	border-bottom: 1px solid #e1e4e8;
+	margin-bottom: -1px;
+}
 .reaction-summary-item.user-has-reacted {
 	--background: #f2f8fa;
 }
@@ -16,7 +20,6 @@
 	background: #efefef; /* Placeholder before the images load */
 	box-shadow: 0 0 0 2px var(--background, #fff);
 	font-size: 10px; /* Base sizer */
-	transition: margin-left 0.2s;
 }
 .reaction-summary-item a:first-of-type {
 	margin-left: 0.5em;
@@ -33,17 +36,4 @@
 	max-width: 100%;
 	border-radius: inherit;
 	background-color: var(--background);
-}
-
-/* Overlap reaction avatars when there are 5+ types of reactions */
-.rgh-reactions-near-limit .reaction-summary-item:not(:hover) a:not(:first-of-type) {
-	margin-left: -12px;
-}
-/* Avoid wrapping */
-.has-reactions,
-.rgh-reactions-near-limit {
-	display: flex;
-}
-.rgh-reactions-near-limit {
-	background: #fff;
 }
