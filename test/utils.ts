@@ -13,7 +13,8 @@ import {
 	compareNames,
 	pluralize,
 	getScopedSelector,
-	looseParseInt
+	looseParseInt,
+	getLatestVersionTag
 } from '../source/libs/utils';
 
 test('getDiscussionNumber', t => {
@@ -245,4 +246,28 @@ test('looseParseInt', t => {
 	t.is(looseParseInt('1,234'), 1234);
 	t.is(looseParseInt('Bugs 1,234'), 1234);
 	t.is(looseParseInt('5000+ issues'), 5000);
+});
+
+test('getLatestVersionTag', t => {
+	t.is(getLatestVersionTag([
+		'0.0.0',
+		'v1.1',
+		'r2.0',
+		'3.0'
+	]), '3.0', 'Tags should be sorted by version');
+
+	t.is(getLatestVersionTag([
+		'v2.1-0',
+		'v2.0',
+		'r1.5.5',
+		'r1.0',
+		'v1.0-1'
+	]), 'v2.0', 'Prereleases should be ignored');
+
+	t.is(getLatestVersionTag([
+		'lol v0.0.0',
+		'2.0',
+		'2020-10-10',
+		'v1.0-1'
+	]), 'lol v0.0.0', 'Non-version tags should short-circuit the sorting and return the first tag');
 });
