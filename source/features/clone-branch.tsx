@@ -34,7 +34,7 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 		cloneButton.hidden = true;
 
 		const result = await createBranch(newBranchName, await currentBranch); // eslint-disable-line no-await-in-loop
-	
+
 		loadingIcon.hidden = true;
 		cloneButton.hidden = false;
 
