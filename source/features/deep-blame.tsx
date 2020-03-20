@@ -68,9 +68,9 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 
 	const prBlameCommit = await getPullRequestBlameCommit(prCommit, Number(prNumber));
 	if (prBlameCommit) {
-		const href = new URL(location.href.replace(getReference()!, prBlameCommit));
-		href.hash = 'L' + lineNumber;
-		location.href = String(href);
+		blameLink.pathname = location.pathname.replace(getReference()!, prBlameCommit);
+		blameLink.hash = 'L' + lineNumber;
+		blameLink.click();
 		return;
 	}
 
