@@ -67,24 +67,23 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	blurAccessibly(blameLink);
 
 	const prBlameCommit = await getPullRequestBlameCommit(prCommit, Number(prNumber));
-	if (!prBlameCommit) {
-		// Restore the regular version link if there was one
-		if (blameLink.href) {
-			blameLink.setAttribute('aria-label', 'View blame prior to this change.');
-			blameLink.classList.remove('rgh-deep-blame');
-			blameLink.firstElementChild!.replaceWith(versionIcon());
-		} else {
-			blameLink.firstElementChild!.remove();
-		}
-
-		alert('Unable to find linked Pull Request.');
-
+	if (prBlameCommit) {
+		const href = new URL(location.href.replace(getReference()!, prBlameCommit));
+		href.hash = 'L' + lineNumber;
+		location.href = String(href);
 		return;
 	}
 
-	const href = new URL(location.href.replace(getReference()!, prBlameCommit));
-	href.hash = 'L' + lineNumber;
-	location.href = String(href);
+	// Restore the regular version link if there was one
+	if (blameLink.href) {
+		blameLink.setAttribute('aria-label', 'View blame prior to this change.');
+		blameLink.classList.remove('rgh-deep-blame');
+		githubSpinner.replaceWith(versionIcon());
+	} else {
+		githubSpinner.remove();
+	}
+
+	alert('Unable to find linked Pull Request.');
 }
 
 function init(): void|false {
