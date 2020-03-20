@@ -50,22 +50,20 @@ async function createBranch(newBranchName: string, baseSha: string, currentTarge
 	const spinner = select('.js-loading-spinner', currentTarget.closest<HTMLElement>('[data-branch-name]')!)!;
 	spinner.hidden = false;
 	currentTarget.hidden = true;
-	return api.v3(`repos/${getRepoURL()}/git/refs`, {
+	
+	const response = await api.v3(`repos/${getRepoURL()}/git/refs`, {
 		method: 'POST',
 		body: {
 			sha: baseSha,
 			ref: 'refs/heads/' + newBranchName
 		},
 		ignoreHTTPStatus: true
-	}).then(response => {
-		spinner.hidden = true;
-		currentTarget.hidden = false;
-		if (response.ok) {
-			return true;
-		}
-
-		return response.message;
 	});
+
+	spinner.hidden = true;
+	currentTarget.hidden = false;
+
+	return response.ok || response.message;
 }
 
 function init(): void | false {
