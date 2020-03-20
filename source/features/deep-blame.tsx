@@ -58,9 +58,6 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	const lineNumber = select('.js-line-number', blameHunk)!.textContent!;
 	const prNumber = looseParseInt(select('.issue-link', blameHunk)!.textContent!);
 	const prCommit = select<HTMLAnchorElement>('a.message', blameHunk)!.href.split('/').pop()!;
-	if (blameLink.href && event.altKey) {
-		event.preventDefault();
-	}
 
 	const githubSpinner = (
 		<img
