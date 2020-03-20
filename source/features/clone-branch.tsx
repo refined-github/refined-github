@@ -21,6 +21,19 @@ const getBranchBaseSha = async (branchName: string): Promise<string> => {
 	return repository.ref.target.oid;
 };
 
+async function createBranch(newBranchName: string, baseSha: string): Promise<true | string> {
+	const response = await api.v3(`repos/${getRepoURL()}/git/refs`, {
+		method: 'POST',
+		body: {
+			sha: baseSha,
+			ref: 'refs/heads/' + newBranchName
+		},
+		ignoreHTTPStatus: true
+	});
+
+	return response.ok || response.message;
+}
+
 async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	const cloneButton = event.delegateTarget;
 	const branchElement = cloneButton.closest<HTMLElement>('[data-branch-name]')!;
@@ -50,19 +63,6 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 	const searchField = select<HTMLInputElement>('.js-branch-search-field')!;
 	searchField.select();
 	insertTextTextarea(searchField, newBranchName);
-}
-
-async function createBranch(newBranchName: string, baseSha: string): Promise<true | string> {
-	const response = await api.v3(`repos/${getRepoURL()}/git/refs`, {
-		method: 'POST',
-		body: {
-			sha: baseSha,
-			ref: 'refs/heads/' + newBranchName
-		},
-		ignoreHTTPStatus: true
-	});
-
-	return response.ok || response.message;
 }
 
 function init(): void | false {
