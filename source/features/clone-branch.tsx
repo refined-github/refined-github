@@ -23,7 +23,7 @@ const getBranchBaseSha = async (branchName: string): Promise<string> => {
 
 async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	const cloneButton = event.delegateTarget;
-	const branchElement = currentTarget.closest<HTMLElement>('[data-branch-name]')!;
+	const branchElement = cloneButton.closest<HTMLElement>('[data-branch-name]')!;
 
 	const currentBranch = getBranchBaseSha(branchElement.dataset.branchName!);
 	let newBranchName = prompt('Enter the new branch name')?.trim();
