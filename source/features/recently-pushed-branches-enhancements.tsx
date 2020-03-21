@@ -6,7 +6,7 @@ import {getRepoURL} from '../libs/utils';
 import {isRepoRoot} from '../libs/page-detect';
 
 const fragmentURL = `/${getRepoURL()}/show_partial?partial=tree%2Frecently_touched_branches_list`;
-const selector = `[data-url='${fragmentURL}'], [src='${fragmentURL}']`;
+const selector = `[data-url='${fragmentURL}' i], [src='${fragmentURL}' i]`;
 
 // Ajaxed pages will load a new fragment on every ajaxed load;
 // but we only really need the one generated on the first load
