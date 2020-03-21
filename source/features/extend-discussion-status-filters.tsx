@@ -12,31 +12,32 @@ function addMergeLink(): void {
 	// The links in `.table-list-header-toggle` are either:
 	//   1 Open | 1 Closed
 	//   1 Total            // Apparently appears with is:merged/is:unmerged
-	const lastLink = select<HTMLAnchorElement>('.table-list-header-toggle > :last-child')!;
-	const searchQuery = new SearchQuery(lastLink);
+	for (const lastLink of select.all<HTMLAnchorElement>('.table-list-header-toggle.states a:last-child')) {
+		const lastLinkQuery = new SearchQuery(lastLink);
 
-	if (searchQuery.includes('is:merged')) {
-		// It's a "Total" link for "is:merged"
-		lastLink.lastChild!.textContent = lastLink.lastChild!.textContent!.replace('Total', 'Merged');
-		return;
+		if (lastLinkQuery.includes('is:merged')) {
+			// It's a "Total" link for "is:merged"
+			lastLink.lastChild!.textContent = lastLink.lastChild!.textContent!.replace('Total', 'Merged');
+			return;
+		}
+
+		if (lastLinkQuery.includes('is:unmerged')) {
+			// It's a "Total" link for "is:unmerged"
+			lastLink.lastChild!.textContent = lastLink.lastChild!.textContent!.replace('Total', 'Unmerged');
+			return;
+		}
+
+		// In this case, `lastLink` is expected to be a "Closed" link
+		const mergeLink = lastLink.cloneNode(true);
+		mergeLink.textContent = 'Merged';
+		mergeLink.classList.toggle('selected', new SearchQuery(location).includes('is:merged'));
+		new SearchQuery(mergeLink).replace('is:closed', 'is:merged');
+		lastLink.after(' ', mergeLink);
 	}
-
-	if (searchQuery.includes('is:unmerged')) {
-		// It's a "Total" link for "is:unmerged"
-		lastLink.lastChild!.textContent = lastLink.lastChild!.textContent!.replace('Total', 'Unmerged');
-		return;
-	}
-
-	// In this case, `lastLink` is expected to be a "Closed" link
-	const mergeLink = lastLink.cloneNode(true);
-	mergeLink.textContent = 'Merged';
-	mergeLink.classList.toggle('selected', new SearchQuery(location).includes('is:merged'));
-	searchQuery.replace('is:closed', 'is:merged');
-	lastLink.after(' ', mergeLink);
 }
 
 function togglableFilters(): void {
-	for (const link of select.all<HTMLAnchorElement>('.table-list-header-toggle a')) {
+	for (const link of select.all<HTMLAnchorElement>('.table-list-header-toggle.states a')) {
 		select('.octicon', link)?.remove();
 		if (link.classList.contains('selected')) {
 			link.prepend(checkIcon());
