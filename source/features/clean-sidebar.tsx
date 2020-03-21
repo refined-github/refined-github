@@ -91,6 +91,10 @@ function clean(): void {
 		select('.sidebar-labels div.discussion-sidebar-heading')!.remove();
 	}
 
+	// Linked issues/PRs
+	select('[aria-label="Link issues"] p')!.remove(); // "Successfully merging a pull request may close this issue."
+	cleanSection('[aria-label="Link issues"]', true);
+
 	// Projects
 	cleanSection('[aria-label="Select projects"]', false);
 
