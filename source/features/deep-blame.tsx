@@ -98,15 +98,14 @@ function init(): void|false {
 	}
 
 	for (const pullRequest of pullRequests) {
-		const currentParentElement = pullRequest.closest('.blame-hunk')!;
-		const versionsParent = select('.blob-reblame', currentParentElement)!;
+		const hunk = pullRequest.closest('.blame-hunk')!;
 
-		if (select.exists('a', versionsParent)) {
-			const versionsElement = select('a', versionsParent)!;
-			versionsElement.setAttribute('aria-label', 'View blame prior to this change. Hold Alt to extract commits from this PR first');
-			versionsElement.classList.add('rgh-deep-blame');
+		const reblameLink = select('.reblame-link', hunk)!;
+		if (reblameLink) {
+			reblameLink.setAttribute('aria-label', 'View blame prior to this change. Hold Alt to extract commits from this PR first');
+			reblameLink.classList.add('rgh-deep-blame');
 		} else {
-			versionsParent.append(
+			select('.blob-reblame', hunk)!.append(
 				<a
 					aria-label="View blame prior to this change (extracts commits from this PR first)"
 					className="reblame-link link-hover-blue no-underline tooltipped tooltipped-e d-inline-block pr-1 rgh-deep-blame"
