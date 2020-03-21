@@ -34,20 +34,22 @@ Expected DOM:
 			--- these are "children of child"
 			---
 
-@param container Selector of the element that contains `details` or `.discussion-sidebar-heading`
-@param areItemsChildrenOfContainer False means they're not direct children, but instead "children of a child"
+@param containerSelector Element that contains `details` or `.discussion-sidebar-heading`
 */
-function cleanSection(container: string, areItemsChildrenOfContainer: boolean): boolean {
-	const section = select(container)!.closest('.discussion-sidebar-item')!;
-	const header = select(':scope > details, :scope > .discussion-sidebar-heading', section)!;
+function cleanSection(containerSelector: string): boolean {
+	const container = select(containerSelector)!;
+	const header = select(':scope > details, :scope > .discussion-sidebar-heading', container)!;
 
-	const isEmpty = areItemsChildrenOfContainer ?
-		header.nextSibling!.textContent!.trim().startsWith('No') :
-		header.nextElementSibling!.children.length === 0;
+	const isEmpty = header
+		.nextElementSibling // If nextElementSibling is missing, this section is definitely empty
+		?.firstChild?.nodeValue // Get exclusively the textNode value, not `textContent` (which could match a label called "no")
+		?.trim().startsWith('No')
+		?? true; // Missing `nextElementSibling`
 	if (!isEmpty) {
 		return false;
 	}
 
+	const section = container.closest('.discussion-sidebar-item')!;
 	if (canEditSidebar) {
 		getNodesAfter(header).deleteContents();
 		section.classList.add('rgh-clean-sidebar');
@@ -82,24 +84,25 @@ function clean(): void {
 
 	// Reviewers
 	if (isPR()) {
-		cleanSection('[aria-label="Select reviewers"]', false);
+		cleanSection('[aria-label="Select reviewers"]');
 	}
 
 	// Labels
-	if (!cleanSection('.sidebar-labels', false) && !canEditSidebar) {
+	if (!cleanSection('.sidebar-labels') && !canEditSidebar) {
 		// Hide header in any case except `canEditSidebar`
 		select('.sidebar-labels div.discussion-sidebar-heading')!.remove();
 	}
 
 	// Linked issues/PRs
 	select('[aria-label="Link issues"] p')!.remove(); // "Successfully merging a pull request may close this issue."
-	cleanSection('[aria-label="Link issues"]', true);
+	cleanSection('[aria-label="Link issues"]');
 
 	// Projects
-	cleanSection('[aria-label="Select projects"]', false);
+	cleanSection('[aria-label="Select projects"]');
 
 	// Milestones
-	cleanSection('[aria-label="Select milestones"]', true);
+	debugger;
+	cleanSection('[aria-label="Select milestones"]');
 }
 
 function init(): void {
