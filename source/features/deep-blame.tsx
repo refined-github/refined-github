@@ -55,7 +55,6 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	}
 
 	const blameHunk = blameLink.closest('.blame-hunk')!;
-	const lineNumber = select('.js-line-number', blameHunk)!.textContent!;
 	const prNumber = looseParseInt(select('.issue-link', blameHunk)!.textContent!);
 	const prCommit = select<HTMLAnchorElement>('a.message', blameHunk)!.href.split('/').pop()!;
 
@@ -73,6 +72,7 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 
 	const prBlameCommit = await getPullRequestBlameCommit(prCommit, Number(prNumber));
 	if (prBlameCommit) {
+	 	const lineNumber = select('.js-line-number', blameHunk)!.textContent!;
 		blameLink.pathname = location.pathname.replace(getReference()!, prBlameCommit);
 		blameLink.hash = 'L' + lineNumber;
 		blameLink.click();
