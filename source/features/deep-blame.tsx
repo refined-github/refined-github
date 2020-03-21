@@ -88,7 +88,7 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 		githubSpinner.remove();
 	}
 
-	alert('Unable to find linked Pull Request.');
+	alert('The PR linked in the title didn’t create this commit');
 }
 
 function init(): void|false {
@@ -103,12 +103,12 @@ function init(): void|false {
 
 		if (select.exists('a', versionsParent)) {
 			const versionsElement = select('a', versionsParent)!;
-			versionsElement.setAttribute('aria-label', 'View blame prior to this change. Press Alt to view the `deep-blame`');
+			versionsElement.setAttribute('aria-label', 'View blame prior to this change. Hold Alt to extract commits from this PR first');
 			versionsElement.classList.add('rgh-deep-blame');
 		} else {
 			versionsParent.append(
 				<a
-					aria-label="View `deep-blame` prior to this change"
+					aria-label="View blame prior to this change (extracts commits from this PR first)"
 					className="reblame-link link-hover-blue no-underline tooltipped tooltipped-e d-inline-block pr-1 rgh-deep-blame"
 				>
 					{versionIcon()}
@@ -122,7 +122,7 @@ function init(): void|false {
 
 features.add({
 	id: __featureName__,
-	description: 'Add Deep Blame to commits',
+	description: 'When exploring blames, `alt`-clicking the "Reblame" buttons will extract the associated PR’s commits first, instead of treating the commit a single change.',
 	screenshot: 'https://user-images.githubusercontent.com/16872793/77025598-e9022000-6967-11ea-92dd-6f49875a225e.png',
 	include: [
 		features.isBlame
