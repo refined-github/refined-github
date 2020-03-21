@@ -7,22 +7,55 @@ import {isPR} from '../libs/page-detect';
 
 let canEditSidebar = false;
 
-// Selector points to element containing list of elements or "No labels" text
-function cleanSection(selector: string): boolean {
-	const list = select(selector)!;
-	if (list.children.length === 0) {
-		const section = list.closest('.discussion-sidebar-item')!;
-		if (canEditSidebar) {
-			list.remove();
-			section.classList.add('rgh-clean-sidebar');
-		} else {
-			section.remove();
-		}
+function getNodesAfter(node: Node): Range {
+	const range = new Range();
+	range.selectNodeContents(node.parentElement!);
+	range.setStartAfter(node);
+	return range;
+}
 
-		return true;
+/**
+Smartly removes "No content" or the whole section, depending on `canEditSidebar`.
+
+Expected DOM:
+
+.discussion-sidebar-item
+	form (may be missing)
+		details or div.discussion-sidebar-heading
+		---
+		--- these are direct children
+		---
+
+.discussion-sidebar-item
+	form (may be missing)
+		details or div.discussion-sidebar-heading
+		(random wrapper element)
+			---
+			--- these are "children of child"
+			---
+
+@param container Selector of the element that contains `details` or `.discussion-sidebar-heading`
+@param areItemsChildrenOfContainer False means they're not direct children, but instead "children of a child"
+*/
+function cleanSection(container: string, areItemsChildrenOfContainer: boolean): boolean {
+	const section = select(container)!.closest('.discussion-sidebar-item')!;
+	const header = select(':scope > details, :scope > .discussion-sidebar-heading', section)!;
+
+	const isEmpty = areItemsChildrenOfContainer ?
+		header.nextSibling!.textContent!.trim().startsWith('No') :
+		header.nextElementSibling!.children.length === 0;
+	if (!isEmpty) {
+		return false;
 	}
 
-	return false;
+	if (canEditSidebar) {
+		getNodesAfter(header).deleteContents();
+		section.classList.add('rgh-clean-sidebar');
+	} else {
+		section.remove();
+	}
+
+	return true;
 }
 
 function clean(): void {
@@ -49,28 +82,20 @@ function clean(): void {
 
 	// Reviewers
 	if (isPR()) {
-		cleanSection('[aria-label="Select reviewers"] > .css-truncate');
+		cleanSection('[aria-label="Select reviewers"]', false);
 	}
 
 	// Labels
-	if (!cleanSection('.js-issue-labels') && !canEditSidebar) {
+	if (!cleanSection('.sidebar-labels', false) && !canEditSidebar) {
+		// Hide header in any case except `canEditSidebar`
 		select('.sidebar-labels div.discussion-sidebar-heading')!.remove();
 	}
 
 	// Projects
-	cleanSection('.sidebar-projects, .sidebar-progress-bar');
+	cleanSection('[aria-label="Select projects"]', false);
 
 	// Milestones
-	const milestones = select('.sidebar-milestone, .sidebar-progress-bar')!;
-	const milestonesInfo = milestones.lastChild!.lastChild!;
-	if (milestonesInfo.textContent!.trim() === 'No milestone') {
-		if (canEditSidebar) {
-			milestonesInfo.remove();
-			milestones.classList.add('rgh-clean-sidebar');
-		} else {
-			milestones.remove();
-		}
-	}
+	cleanSection('[aria-label="Select milestones"]', true);
 }
 
 function init(): void {
