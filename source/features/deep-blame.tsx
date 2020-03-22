@@ -91,7 +91,7 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	alert('The PR linked in the title didn’t create this commit');
 }
 
-function init(): void|false {
+function init(): void | false {
 	const pullRequests = select.all('[data-hovercard-type="pull_request"]');
 	if (pullRequests.length === 0) {
 		return false;
