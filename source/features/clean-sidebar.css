@@ -3,6 +3,14 @@
 	margin-bottom: -5px;
 }
 
+/* Align sidebar to the top */
+.discussion-sidebar-item:first-child {
+	padding-top: 0;
+}
+.sidebar-labels .sidebar-labels-style:first-child {
+	margin-top: 0;
+}
+
 /* Move message under the `Unsubscribe` button above the button */
 .thread-subscription-status {
 	display: flex;

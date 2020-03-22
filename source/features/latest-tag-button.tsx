@@ -4,18 +4,12 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import tagIcon from 'octicon/tag.svg';
 import elementReady from 'element-ready';
-import compareVersions from 'tiny-version-compare';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
 import {isRepoRoot} from '../libs/page-detect';
 import getDefaultBranch from '../libs/get-default-branch';
-import {getRepoURL, getCurrentBranch, replaceBranch, getRepoGQL} from '../libs/utils';
-
-interface Tag {
-	name: string;
-	commit: string;
-}
+import {getRepoURL, getCurrentBranch, replaceBranch, getRepoGQL, getLatestVersionTag} from '../libs/utils';
 
 interface RepoPublishState {
 	latestTag: string | false;
@@ -56,22 +50,16 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 		};
 	}
 
-	const tags: Tag[] = repository.refs.nodes.map((node: AnyObject) => ({
-		name: node.name,
-		commit: node.tag.commit?.oid ?? node.tag.oid
-	}));
-
-	// Default to the first tag in the (reverse chronologically-sorted) list
-	let [latestTag] = tags;
-
-	// If all tags are plain versions, sort them as versions
-	if (tags.every(tag => /^[vr]?\d/.test(tag.name))) {
-		latestTag = tags.sort((tag1, tag2) => compareVersions(tag1.name, tag2.name)).pop()!;
+	const tags = new Map<string, string>();
+	for (const node of repository.refs.nodes) {
+		tags.set(node.name, node.tag.commit?.oid ?? node.tag.oid);
 	}
 
+	const latestTag = getLatestVersionTag([...tags.keys()]);
+
 	return {
-		latestTag: latestTag.name,
-		isUpToDate: latestTag.commit === repository.defaultBranchRef.target.oid
+		latestTag,
+		isUpToDate: tags.get(latestTag) === repository.defaultBranchRef.target.oid
 	};
 }, {
 	maxAge: 1 / 24, // One hour

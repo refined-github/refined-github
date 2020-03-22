@@ -74,7 +74,9 @@ async function initializeAllOptions(): Promise<void> {
 	// Remove old domains
 	browser.permissions.onRemoved!.addListener(({origins}) => {
 		if (origins) {
-			const optionKeysToRemove = origins.map(origin => getStorageName(new URL(origin).host));
+			const optionKeysToRemove = origins
+				.map(origin => getStorageName(new URL(origin).host))
+				.filter(key => key !== 'options');
 			browser.storage.sync.remove(optionKeysToRemove);
 		}
 	});

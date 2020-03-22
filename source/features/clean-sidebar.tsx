@@ -7,22 +7,50 @@ import {isPR} from '../libs/page-detect';
 
 let canEditSidebar = false;
 
-// Selector points to element containing list of elements or "No labels" text
-function cleanSection(selector: string): boolean {
-	const list = select(selector)!;
-	if (list.children.length === 0) {
-		const section = list.closest('.discussion-sidebar-item')!;
-		if (canEditSidebar) {
-			list.remove();
-			section.classList.add('rgh-clean-sidebar');
-		} else {
-			section.remove();
-		}
+function getNodesAfter(node: Node): Range {
+	const range = new Range();
+	range.selectNodeContents(node.parentElement!);
+	range.setStartAfter(node);
+	return range;
+}
 
-		return true;
+/**
+Smartly removes "No content" or the whole section, depending on `canEditSidebar`.
+
+Expected DOM:
+
+```pug
+.discussion-sidebar-item
+	form (may be missing)
+		details or div.discussion-sidebar-heading
+		.css-truncate (may be missing)
+			"No issues"
+```
+
+@param containerSelector Element that contains `details` or `.discussion-sidebar-heading`
+*/
+function cleanSection(containerSelector: string): boolean {
+	const container = select(containerSelector)!;
+	const header = select(':scope > details, :scope > .discussion-sidebar-heading', container)!;
+
+	const isEmpty = header
+		.nextElementSibling // If nextElementSibling is missing, this section is definitely empty
+		?.firstChild?.nodeValue // Get exclusively the textNode value, not `textContent` (which could match a label called "no")
+		?.trim().startsWith('No') ??
+		true; // Missing `nextElementSibling`
+	if (!isEmpty) {
+		return false;
 	}
 
-	return false;
+	const section = container.closest('.discussion-sidebar-item')!;
+	if (canEditSidebar) {
+		getNodesAfter(header).deleteContents();
+		section.classList.add('rgh-clean-sidebar');
+	} else {
+		section.remove();
+	}
+
+	return true;
 }
 
 function clean(): void {
@@ -49,28 +77,24 @@ function clean(): void {
 
 	// Reviewers
 	if (isPR()) {
-		cleanSection('[aria-label="Select reviewers"] > .css-truncate');
+		cleanSection('[aria-label="Select reviewers"]');
 	}
 
 	// Labels
-	if (!cleanSection('.js-issue-labels') && !canEditSidebar) {
+	if (!cleanSection('.sidebar-labels') && !canEditSidebar) {
+		// Hide header in any case except `canEditSidebar`
 		select('.sidebar-labels div.discussion-sidebar-heading')!.remove();
 	}
 
+	// Linked issues/PRs
+	select('[aria-label="Link issues"] p')!.remove(); // "Successfully merging a pull request may close this issue."
+	cleanSection('[aria-label="Link issues"]');
+
 	// Projects
-	cleanSection('.sidebar-projects, .sidebar-progress-bar');
+	cleanSection('[aria-label="Select projects"]');
 
 	// Milestones
-	const milestones = select('.sidebar-milestone, .sidebar-progress-bar')!;
-	const milestonesInfo = milestones.lastChild!.lastChild!;
-	if (milestonesInfo.textContent!.trim() === 'No milestone') {
-		if (canEditSidebar) {
-			milestonesInfo.remove();
-			milestones.classList.add('rgh-clean-sidebar');
-		} else {
-			milestones.remove();
-		}
-	}
+	cleanSection('[aria-label="Select milestones"]');
 }
 
 function init(): void {
