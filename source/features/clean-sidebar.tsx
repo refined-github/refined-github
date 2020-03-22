@@ -43,8 +43,8 @@ function cleanSection(containerSelector: string): boolean {
 	const isEmpty = header
 		.nextElementSibling // If nextElementSibling is missing, this section is definitely empty
 		?.firstChild?.nodeValue // Get exclusively the textNode value, not `textContent` (which could match a label called "no")
-		?.trim().startsWith('No')
-		?? true; // Missing `nextElementSibling`
+		?.trim().startsWith('No') ??
+		true; // Missing `nextElementSibling`
 	if (!isEmpty) {
 		return false;
 	}
@@ -101,7 +101,6 @@ function clean(): void {
 	cleanSection('[aria-label="Select projects"]');
 
 	// Milestones
-	debugger;
 	cleanSection('[aria-label="Select milestones"]');
 }
 
