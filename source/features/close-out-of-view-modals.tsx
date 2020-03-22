@@ -14,7 +14,7 @@ function init(): void {
 	delegate('.details-overlay:not([open]) > summary', 'click', ({delegateTarget: summary}) => {
 		// The timeout gives the element time to "open"
 		setTimeout(() => {
-			const modalBox = summary.parentElement!.querySelector('.dropdown-menu')!;
+			const modalBox = summary.parentElement!.querySelector('.dropdown-menu, .select-menu-modal')!;
 			if (modalBox.getBoundingClientRect().width === 0) {
 				logError(__featureName__, 'Modal element was not correctly detected for', summary);
 				return;

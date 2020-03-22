@@ -2,6 +2,7 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import stripIndent from 'strip-indent';
 import {isRepo, isPR, isIssue} from './page-detect';
+import compareVersions from 'tiny-version-compare';
 
 export function logError(featureName: typeof __featureName__, error: Error | string, ...extras: unknown[]): void {
 	const message = typeof error === 'string' ? error : error.message;
@@ -176,4 +177,29 @@ export function getScopedSelector(selector: string): string {
 
 export function looseParseInt(text: string): number {
 	return Number(text.replace(/\D+/g, ''));
+}
+
+const validVersion = /^[vr]?\d+(?:\.\d+)+/;
+const isPrerelease = /^[vr]?\d+(?:\.\d+)+(-\d)/;
+export function getLatestVersionTag(tags: string[]): string {
+	// Some tags aren't valid versions; comparison is meaningless.
+	// Just use the latest tag returned by the API (reverse chronologically-sorted list)
+	if (!tags.every(tag => validVersion.test(tag))) {
+		return tags[0];
+	}
+
+	// Exclude pre-releases
+	let releases = tags.filter(tag => !isPrerelease.test(tag));
+	if (releases.length === 0) { // They were all pre-releases; undo.
+		releases = tags;
+	}
+
+	let latestVersion = releases[0];
+	for (const release of releases) {
+		if (compareVersions(latestVersion, release) < 0) {
+			latestVersion = release;
+		}
+	}
+
+	return latestVersion;
 }

@@ -1,31 +1,36 @@
 import './fit-textareas.css';
 import select from 'select-dom';
-import delegate, {DelegateEvent} from 'delegate-it';
 import fitTextarea from 'fit-textarea';
+import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
 
-function enable(textarea: HTMLTextAreaElement): void {
-	// `fit-textarea` adds only once listener
-	fitTextarea.watch(textarea);
+function inputListener(event: Event): void {
+	fitTextarea(event.target as HTMLTextAreaElement);
+}
+
+function watchTextarea(textarea: HTMLTextAreaElement): void {
+	textarea.addEventListener('input', inputListener); // The user triggers `input` event
+	textarea.addEventListener('change', inputListener); // File uploads trigger `change` events
+	fitTextarea(textarea);
 
 	// Disable constrained native feature
 	textarea.classList.replace('js-size-to-fit', 'rgh-fit-textareas');
 }
 
 function focusListener({delegateTarget: textarea}: DelegateEvent<Event, HTMLTextAreaElement>): void {
-	enable(textarea);
+	watchTextarea(textarea);
 }
 
 function fitPrCommitMessageBox(): void {
-	enable(select<HTMLTextAreaElement>('[name="commit_message"]')!);
+	watchTextarea(select<HTMLTextAreaElement>('[name="commit_message"]')!);
 }
 
 function init(): void {
 	// Exclude PR review box because it's in a `position:fixed` container; The scroll HAS to appear within the fixed element.
 	delegate('textarea:not(#pull_request_review_body)', 'focusin', focusListener);
 
-	select.all('textarea').forEach(enable);
+	select.all('textarea').forEach(watchTextarea);
 }
 
 features.add({

@@ -65,11 +65,6 @@ function init(): void {
 
 		list.classList.add('rgh-reactions');
 
-		// Overlap reaction avatars when near the avatarLimit
-		if (flatParticipants.length > avatarLimit * 0.9) {
-			list.classList.add('rgh-reactions-near-limit');
-		}
-
 		onUpdatableContentUpdate(list.closest<HTMLElement>('.js-updatable-content')!, init);
 	}
 }

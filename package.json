@@ -21,7 +21,7 @@
 		"@primer/octicons": "^9.4.0",
 		"blur-accessibly": "^0.9.1",
 		"copy-text-to-clipboard": "^2.1.1",
-		"debounce-fn": "^3.0.1",
+		"debounce-fn": "^4.0.0",
 		"delay": "^4.3.0",
 		"delegate-it": "^1.1.0",
 		"dom-chef": "^3.6.3",
