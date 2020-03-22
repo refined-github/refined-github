@@ -54,7 +54,7 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 			break;
 		}
 
-		newBranchName = prompt(result + '\n Enter the new branch name', newBranchName)?.trim();
+		newBranchName = prompt(result.replace('refs/heads/' + newBranchName, 'This') + '\nEnter the new branch name', newBranchName)?.trim();
 	}
 
 	if (!newBranchName) {
