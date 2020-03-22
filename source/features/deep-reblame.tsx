@@ -116,7 +116,7 @@ function init(): void | false {
 features.add({
 	id: __featureName__,
 	description: 'When exploring blames, `Alt`-clicking the “Reblame” buttons will extract the associated PR’s commits first, instead of treating the commit a single change.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/77025598-e9022000-6967-11ea-92dd-6f49875a225e.png',
+	screenshot: 'https://user-images.githubusercontent.com/16872793/77248541-8e3f2180-6c10-11ea-91d4-221ccc0ecebb.png',
 	include: [
 		features.isBlame
 	],
