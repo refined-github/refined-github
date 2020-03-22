@@ -122,7 +122,7 @@ import './features/update-pr-from-base-branch';
 import './features/hide-disabled-milestone-sorter';
 import './features/tag-changelog-link';
 import './features/link-to-file-in-file-history';
-import './features/deep-blame';
+import './features/deep-reblame';
 import './features/clean-sidebar';
 import './features/sticky-discussion-sidebar';
 import './features/release-download-count';
