@@ -19,11 +19,13 @@ Smartly removes "No content" or the whole section, depending on `canEditSidebar`
 
 Expected DOM:
 
+```pug
 .discussion-sidebar-item
 	form (may be missing)
 		details or div.discussion-sidebar-heading
 		.css-truncate (may be missing)
 			"No issues"
+```
 
 @param containerSelector Element that contains `details` or `.discussion-sidebar-heading`
 */
