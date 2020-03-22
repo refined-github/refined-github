@@ -8,14 +8,16 @@ export function logError(featureName: typeof __featureName__, error: Error | str
 	const message = typeof error === 'string' ? error : error.message;
 	// Don't change this to `throw Error` because Firefox doesn't show extensions' errors in the console.
 	// Use `return` after calling this function.
-	console.error(`❌ Refined GitHub: feature \`${featureName}\`\n\n`, error, ...extras, stripIndent(`
+	console.error(
+		`❌ Refined GitHub → ${featureName} →`,
+		error,
+		...extras,
+		stripIndent(`
+			Search issue: https://github.com/sindresorhus/refined-github/issues?q=is%3Aissue+${encodeURIComponent(message)}
 
-		Search for open issues:
-		https://github.com/sindresorhus/refined-github/issues?q=is%3Aissue+${encodeURIComponent(message)}
-
-		or open a new one:
-		https://github.com/sindresorhus/refined-github/issues/new?labels=bug&template=bug_report.md&title=${encodeURIComponent(`\`${featureName}\`: ${message}`)}
-	`));
+			Open an issue: https://github.com/sindresorhus/refined-github/issues/new?labels=bug&template=bug_report.md&title=${encodeURIComponent(`\`${featureName}\`: ${message}`)}
+		`)
+	);
 }
 
 export const getUsername = onetime(() => select('meta[name="user-login"]')!.getAttribute('content')!);

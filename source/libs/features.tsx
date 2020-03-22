@@ -131,7 +131,7 @@ const run = async ({id, include, exclude, init, deinit}: FeatureDetails): Promis
 		if (error.message.includes('token')) {
 			console.log(`ℹ️ Refined GitHub: \`${id}\`:`, error.message);
 		} else {
-			logError(id as typeof __featureName__, error);
+			logError(id, error);
 		}
 	}
 };
