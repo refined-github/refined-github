@@ -43,7 +43,7 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 	let newBranchName = prompt('Enter the new branch name')?.trim();
 
 	const spinner = loadingIcon();
-	spinner.classList.add('mr-2');
+	spinner.classList.add('ml-2');
 	while (newBranchName) {
 		cloneButton.replaceWith(spinner);
 		// eslint-disable-next-line no-await-in-loop
