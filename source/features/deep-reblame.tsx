@@ -1,4 +1,4 @@
-import './deep-blame.css';
+import './deep-reblame.css';
 import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
