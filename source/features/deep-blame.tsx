@@ -58,8 +58,9 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	const blameHunk = blameLink.closest('.blame-hunk')!;
 	const prNumber = looseParseInt(select('.issue-link', blameHunk)!.textContent!);
 	const prCommit = select<HTMLAnchorElement>('a.message', blameHunk)!.href.split('/').pop()!;
-
-	blameLink.firstElementChild!.replaceWith(loadingIcon());
+	const spinner = loadingIcon();
+	spinner.classList.add('mr-2');
+	blameLink.firstElementChild!.replaceWith(spinner);
 	// Hide tooltip after click, it’s shown on :focus
 	blurAccessibly(blameLink);
 
@@ -76,9 +77,9 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	if (blameLink.href) {
 		blameLink.setAttribute('aria-label', 'View blame prior to this change.');
 		blameLink.classList.remove('rgh-deep-blame');
-		githubSpinner.replaceWith(versionIcon());
+		spinner.replaceWith(versionIcon());
 	} else {
-		githubSpinner.remove();
+		spinner.remove();
 	}
 
 	alert('The PR linked in the title didn’t create this commit');
