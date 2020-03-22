@@ -50,8 +50,9 @@ async function init(): Promise<void | false> {
 
 	// Copy Issues tab but update its appearance
 	const bugsTab = issuesTab.cloneNode(true);
+	const bugsCounter = select('.Counter', bugsTab)!;
 	select('.octicon', bugsTab)!.replaceWith(bugIcon());
-	select('.Counter', bugsTab)!.textContent = '0';
+	bugsCounter.textContent = '0';
 	select('[itemprop="name"]', bugsTab)!.textContent = 'Bugs';
 
 	// Update Bugs’ link
@@ -65,7 +66,12 @@ async function init(): Promise<void | false> {
 	issuesTab.after(bugsTab);
 
 	// Update bugs count
-	select('.Counter', bugsTab)!.textContent = numberFormatter.format(await countPromise);
+	try {
+		bugsCounter.textContent = numberFormatter.format(await countPromise);
+	} catch (error) {
+		bugsCounter.remove();
+		throw error;
+	}
 }
 
 features.add({
