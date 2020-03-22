@@ -156,17 +156,6 @@ export async function poll<T>(callback: () => T, frequency: number): Promise<T> 
 	});
 }
 
-// TODO: Merge this with `logError`
-export function reportBug(featureName: string, bugName: string): void {
-	alert(`Refined GitHub: ${bugName}. Can you report this issue? You’ll find more information in the console.`);
-	const issuesUrl = new URL('https://github.com/sindresorhus/refined-github/issues');
-	const newIssueUrl = new URL('https://github.com/sindresorhus/refined-github/new?labels=bug&template=bug_report.md');
-	issuesUrl.searchParams.set('q', `is:issue ${featureName}`);
-	newIssueUrl.searchParams.set('title', `\`${featureName}\` ${bugName}`);
-	console.log('Find existing issues:\n' + String(issuesUrl));
-	console.log('Open new issue:\n' + String(newIssueUrl));
-}
-
 /**
  * Prepend `:scope >` to a single or group of css selectors.
  * @param {string} selector A css selector.
