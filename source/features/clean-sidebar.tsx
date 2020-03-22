@@ -22,17 +22,8 @@ Expected DOM:
 .discussion-sidebar-item
 	form (may be missing)
 		details or div.discussion-sidebar-heading
-		---
-		--- these are direct children
-		---
-
-.discussion-sidebar-item
-	form (may be missing)
-		details or div.discussion-sidebar-heading
-		(random wrapper element)
-			---
-			--- these are "children of child"
-			---
+		.css-truncate (may be missing)
+			"No issues"
 
 @param containerSelector Element that contains `details` or `.discussion-sidebar-heading`
 */
