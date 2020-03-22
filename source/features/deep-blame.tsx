@@ -1,14 +1,14 @@
 import './deep-blame.css';
-import blurAccessibly from 'blur-accessibly';
-import delegate, {DelegateEvent} from 'delegate-it';
 import mem from 'mem';
 import React from 'dom-chef';
-import versionIcon from 'octicon/versions.svg';
 import select from 'select-dom';
+import blurAccessibly from 'blur-accessibly';
+import versionIcon from 'octicon/versions.svg';
+import delegate, {DelegateEvent} from 'delegate-it';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {getRepoGQL, getReference, looseParseInt} from '../libs/utils';
 import loadingIcon from '../libs/icon-loading';
+import {getRepoGQL, getReference, looseParseInt} from '../libs/utils';
 
 const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number): Promise<string | false> => {
 	const {repository} = await api.v4(`
