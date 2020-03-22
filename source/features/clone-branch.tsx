@@ -5,6 +5,7 @@ import insertTextTextarea from 'insert-text-textarea';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as api from '../libs/api';
 import features from '../libs/features';
+import loadingIcon from '../libs/icon-loading';
 import {getRepoURL, getRepoGQL} from '../libs/utils';
 
 const getBranchBaseSha = async (branchName: string): Promise<string> => {
@@ -41,13 +42,13 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 	const currentBranch = getBranchBaseSha(branchElement.dataset.branchName!);
 	let newBranchName = prompt('Enter the new branch name')?.trim();
 
-	const loadingIcon = select('.js-loading-spinner', branchElement)!.cloneNode(true);
-	loadingIcon.hidden = false;
+	const spinner = loadingIcon();
+	spinner.classList.add('mr-2');
 	while (newBranchName) {
-		cloneButton.replaceWith(loadingIcon);
+		cloneButton.replaceWith(spinner);
 		// eslint-disable-next-line no-await-in-loop
 		const result = await createBranch(newBranchName, await currentBranch);
-		loadingIcon.replaceWith(cloneButton);
+		spinner.replaceWith(cloneButton);
 
 		if (result === true) {
 			break;
