@@ -8,6 +8,7 @@ import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {getRepoGQL, getReference, looseParseInt} from '../libs/utils';
+import loadingIcon from '../libs/icon-loading';
 
 const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number): Promise<string | false> => {
 	const {repository} = await api.v4(`
@@ -58,15 +59,7 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	const prNumber = looseParseInt(select('.issue-link', blameHunk)!.textContent!);
 	const prCommit = select<HTMLAnchorElement>('a.message', blameHunk)!.href.split('/').pop()!;
 
-	const githubSpinner = (
-		<img
-			src="https://github.githubassets.com/images/spinners/octocat-spinner-128.gif"
-			className="mr-2"
-			width="18"
-		/>
-	);
-
-	blameLink.firstElementChild!.replaceWith(githubSpinner);
+	blameLink.firstElementChild!.replaceWith(loadingIcon());
 	// Hide tooltip after click, it’s shown on :focus
 	blurAccessibly(blameLink);
 
