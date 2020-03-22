@@ -66,7 +66,7 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 
 	const prBlameCommit = await getPullRequestBlameCommit(prCommit, Number(prNumber));
 	if (prBlameCommit) {
-	 	const lineNumber = select('.js-line-number', blameHunk)!.textContent!;
+		const lineNumber = select('.js-line-number', blameHunk)!.textContent!;
 		blameLink.pathname = location.pathname.replace(getReference()!, prBlameCommit);
 		blameLink.hash = 'L' + lineNumber;
 		blameLink.click();
