@@ -96,7 +96,7 @@ function init(): void | false {
 
 		const reblameLink = select('.reblame-link', hunk)!;
 		if (reblameLink) {
-			reblameLink.setAttribute('aria-label', 'View blame prior to this change. Hold Alt to extract commits from this PR first');
+			reblameLink.setAttribute('aria-label', 'View blame prior to this change. Hold `Alt` to extract commits from this PR first');
 			reblameLink.classList.add('rgh-deep-blame');
 		} else {
 			select('.blob-reblame', hunk)!.append(
@@ -115,7 +115,7 @@ function init(): void | false {
 
 features.add({
 	id: __featureName__,
-	description: 'When exploring blames, `alt`-clicking the "Reblame" buttons will extract the associated PR’s commits first, instead of treating the commit a single change.',
+	description: 'When exploring blames, `Alt`-clicking the “Reblame” buttons will extract the associated PR’s commits first, instead of treating the commit a single change.',
 	screenshot: 'https://user-images.githubusercontent.com/16872793/77025598-e9022000-6967-11ea-92dd-6f49875a225e.png',
 	include: [
 		features.isBlame
