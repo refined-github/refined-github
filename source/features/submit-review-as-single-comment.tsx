@@ -94,7 +94,7 @@ async function handleSubmitSingle(event: DelegateEvent): Promise<void> {
 		commentForm.hidden = false;
 
 		// Place comment in console to allow recovery
-		alert('There was an error sending the comment. More info in the console.')
+		alert('There was an error sending the comment. More info in the console.');
 		console.log('You were trying to sending this comment:');
 		console.log(commentText);
 		logError(__featureName__, error);
