@@ -150,7 +150,6 @@ import './features/embed-gist-via-iframe';
 import './features/expand-all-collapsed-code';
 import './features/separate-draft-pr-button';
 import './features/link-to-prior-blame-line';
-import './features/deep-reblame';
 import './features/dim-bots';
 import './features/conflict-marker';
 import './features/html-preview-link';
@@ -169,6 +168,7 @@ import './features/file-finder-buffer';
 import './features/pr-commit-lines-changed';
 import './features/show-open-prs-of-forks';
 import './features/clone-branch';
+import './features/deep-reblame';
 
 // Add global for easier debugging
 (window as any).select = select;
