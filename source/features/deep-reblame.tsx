@@ -111,7 +111,7 @@ function init(): void | false {
 		}
 	}
 
-	delegate('.rgh-deep-blame', 'click', redirectToBlameCommit);
+	delegate('.rgh-deep-reblame', 'click', redirectToBlameCommit);
 }
 
 features.add({
