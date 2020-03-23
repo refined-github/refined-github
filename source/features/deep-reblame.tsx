@@ -61,8 +61,8 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	const spinner = loadingIcon();
 	spinner.classList.add('mr-2');
 	blameElement.firstElementChild!.replaceWith(spinner);
-	// Hide tooltip after click, it’s shown on :focus
-	blurAccessibly(blameElement);
+
+	blurAccessibly(blameElement); // Hide tooltip after click, it’s shown on :focus
 
 	const prBlameCommit = await getPullRequestBlameCommit(prCommit, Number(prNumber));
 	if (prBlameCommit) {
