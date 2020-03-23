@@ -1,4 +1,4 @@
-a:not([href]).rgh-deep-blame .octicon-versions {
+a:not([href="#deep-reblame"]).rgh-deep-blame .octicon-versions {
 	color: #e40de48c;
 }
 
