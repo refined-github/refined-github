@@ -63,6 +63,22 @@ async function onAjaxedLoad(callback: () => void): Promise<void> {
 	});
 }
 
+const methods = {
+	onDocumentStart: (callback: VoidCallback): void => callback(),
+	async onDomReady(callback: VoidCallback): Promise<void> {
+		await onDomReady;
+		callback();
+	},
+	onAjaxedLoad,
+	onAjaxedLoadRaw,
+	onFileListUpdate(callback: VoidCallback): void {
+		onAjaxedLoad(() => onFileListUpdate(callback));
+	},
+	onNewComments(callback: VoidCallback): void {
+		onAjaxedLoad(() => onNewComments(callback));
+	}
+};
+
 // Must be called after all the features were added to onAjaxedLoad
 // to mark the current load as "done", so history.back() won't reapply the same DOM changes.
 // The two `await` ensure this behavior and order.
@@ -134,18 +150,6 @@ const run = async ({id, include, exclude, init, deinit}: FeatureRunner): Promise
 
 const shortcutMap = new Map<string, Shortcut>();
 const getShortcuts = (): Shortcut[] => [...shortcutMap.values()];
-
-const methods = {
-	onDocumentStart: (callback: VoidCallback): void => callback(),
-	async onDomReady(callback: VoidCallback): Promise<void> {
-		await onDomReady;
-		callback();
-	},
-	onAjaxedLoad,
-	onAjaxedLoadRaw,
-	onFileListUpdate,
-	onNewComments
-};
 
 /*
  * Register a new feature
