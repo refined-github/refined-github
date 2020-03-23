@@ -17,6 +17,7 @@ features.add({
 	id: __featureName__,
 	description: 'Preserves the "ignore whitespace" setting when navigating with Next/Previous in PR review mode.',
 	screenshot: false,
+}, {
 	include: [
 		features.isRepo
 	],

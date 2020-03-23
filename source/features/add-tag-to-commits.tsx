@@ -164,6 +164,7 @@ features.add({
 	id: __featureName__,
 	description: 'Display the corresponding tags next to commits',
 	screenshot: 'https://user-images.githubusercontent.com/14323370/66400400-64ba7280-e9af-11e9-8d6c-07b35afde91f.png',
+}, {
 	include: [
 		features.isRepoCommitList
 	],

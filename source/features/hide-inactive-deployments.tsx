@@ -16,6 +16,7 @@ features.add({
 	id: __featureName__,
 	description: 'Hides inactive deployments in PRs.',
 	screenshot: 'https://github.com/sindresorhus/refined-github/issues/1144',
+}, {
 	include: [
 		features.isPRConversation
 	],

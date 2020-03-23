@@ -16,6 +16,7 @@ features.add({
 	id: __featureName__,
 	description: 'Hides unnecessary comment field tooltips and toolbar items.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/53629083-a4fe8900-3c47-11e9-8211-bfe2d254ffcb.png',
+}, {
 	include: [
 		features.hasRichTextEditor
 	],
@@ -27,6 +28,7 @@ features.add({
 	id: __featureName__,
 	description: '',
 	screenshot: '',
+}, {
 	include: [
 		features.isRepo
 	],

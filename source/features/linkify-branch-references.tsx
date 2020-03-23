@@ -16,6 +16,7 @@ features.add({
 	id: __featureName__,
 	description: 'Linkifies branch references in "Quick PR" pages.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/30208043-fa1ceaec-94bb-11e7-9c32-feabcf7db296.png',
+}, {
 	include: [
 		features.isQuickPR
 	],

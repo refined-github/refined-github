@@ -13,6 +13,7 @@ features.add({
 	id: __featureName__,
 	description: 'Opens the Checks "details" link in a new tab.',
 	screenshot: false,
+}, {
 	include: [
 		features.isPR
 	],

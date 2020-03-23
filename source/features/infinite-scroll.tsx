@@ -59,6 +59,7 @@ features.add({
 	id: __featureName__,
 	description: 'Automagically expands the newsfeed when you scroll down.',
 	screenshot: false,
+}, {
 	include: [
 		features.isDashboard
 	],

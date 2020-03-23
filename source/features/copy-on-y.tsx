@@ -21,6 +21,7 @@ features.add({
 	id: __featureName__,
 	description: 'Enhances the `y` hotkey to also copy the permalink.',
 	screenshot: false,
+}, {
 	include: [
 		features.isSingleFile
 	],

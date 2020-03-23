@@ -27,6 +27,7 @@ features.add({
 	id: __featureName__,
 	description: 'Hides the `Checks` tab if it’s empty, unless you’re the owner.',
 	screenshot: false,
+}, {
 	include: [
 		features.isPR
 	],

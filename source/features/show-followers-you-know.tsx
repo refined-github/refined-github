@@ -52,6 +52,7 @@ features.add({
 	id: __featureName__,
 	description: 'Followers you know are shown on profile pages',
 	screenshot: false,
+}, {
 	include: [
 		features.isUserProfile
 	],

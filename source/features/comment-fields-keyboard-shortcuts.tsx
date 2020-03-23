@@ -82,5 +82,6 @@ features.add({
 		'↑': 'Edit your last comment',
 		esc: 'Unfocuses comment field'
 	},
+}, {
 	init
 });

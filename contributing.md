@@ -61,6 +61,7 @@ features.add({
 	shortcuts: { // This only adds the shortcut to the help screen, it doesn't enable it
 		'↑': 'Edit your last comment'
 	},
+}, {
 	include: [
 		features.isUserProfile,
 		features.isRepo

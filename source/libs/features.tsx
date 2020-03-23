@@ -3,8 +3,6 @@ import select from 'select-dom';
 import onDomReady from 'dom-loaded';
 import elementReady from 'element-ready';
 import optionsStorage, {RGHOptions} from '../options-storage';
-import onNewComments from './on-new-comments';
-import onFileListUpdate from './on-file-list-update';
 import * as pageDetect from './page-detect';
 import {logError} from './utils';
 
@@ -19,7 +17,7 @@ interface Shortcut {
 	description: string;
 }
 
-export interface FeatureDetails {
+interface FeatureMeta {
 	/**
 	If it's disabled, this should be the issue that explains why, as a reference
 	@example '#123'
@@ -28,12 +26,14 @@ export interface FeatureDetails {
 	id: typeof __featureName__;
 	description: string | false;
 	screenshot: string | false;
+	shortcuts?: FeatureShortcuts;
+}
+interface FeatureLoader {
 	include?: BooleanFunction[];
 	exclude?: BooleanFunction[];
 	init: () => false | void | Promise<false | void>;
 	deinit?: () => void;
 	load?: callerFunction | Promise<void>;
-	shortcuts?: FeatureShortcuts;
 }
 
 /*
@@ -116,7 +116,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	resolve(options);
 });
 
-const run = async ({id, include, exclude, init, deinit}: FeatureDetails): Promise<void> => {
+const run = async (id: typeof __featureName__, {include, exclude, init, deinit}: FeatureLoader): Promise<void> => {
 	// If every `include` is false and no `exclude` is true, don’t run the feature
 	if (include!.every(c => !c()) || exclude!.some(c => c())) {
 		return deinit!();
@@ -131,41 +131,30 @@ const run = async ({id, include, exclude, init, deinit}: FeatureDetails): Promis
 		if (error.message.includes('token')) {
 			console.log(`ℹ️ Refined GitHub: \`${id}\`:`, error.message);
 		} else {
-			logError(id as typeof __featureName__, error);
+			logError(id, error);
 		}
 	}
 };
 
 const shortcutMap = new Map<string, Shortcut>();
 const getShortcuts = (): Shortcut[] => [...shortcutMap.values()];
+const noop = () => {};
 
 /*
  * Register a new feature
  */
-const add = async (definition: FeatureDetails): Promise<void> => {
+const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void> => {
 	/* Input defaults and validation */
 	const {
 		id,
-		description,
-		screenshot,
-		include = [() => true], // Default: every page
-		exclude = [], // Default: nothing
-		load = (fn: VoidFunction) => fn(), // Run it right away
-		init,
-		deinit = () => {}, // Noop
-		shortcuts = {},
-		disabled = false
-	} = definition;
+		disabled = false,
+		shortcuts = {}
+	} = meta;
 
 	/* Feature filtering and running */
 	const options = await globalReady;
 	if (disabled || options[`feature:${id}`] === false) {
 		log('↩️', 'Skipping', id, disabled ? `because of ${disabled}` : '');
-		return;
-	}
-
-	// 404 pages should only run 404-only features
-	if (pageDetect.is404() && !include.includes(pageDetect.is404)) {
 		return;
 	}
 
@@ -175,21 +164,31 @@ const add = async (definition: FeatureDetails): Promise<void> => {
 		shortcutMap.set(hotkey, {hotkey, description});
 	}
 
-	// Initialize the feature using the specified loading mechanism
-	const details: FeatureDetails = {id, description, screenshot, include, exclude, init, deinit};
-	if (load === onNewComments) {
-		details.init = async () => {
-			const result = await init();
-			onNewComments(init);
-			return result;
-		};
+	for (const loader of loaders) {
+		// Input defaults and validation
+		const filledLoader: Required<FeatureLoader> = {
+				include: [() => true], // Default: every page
+			exclude: [], // Default: nothing
+			load: (fn: VoidFunction) => fn(), // Run it right away
+			deinit: noop,
+			...loader
+		}
 
-		onAjaxedPages(() => run(details));
-	} else if (load instanceof Promise) {
-		await load;
-		run(details);
-	} else {
-		load(() => run(details));
+		// 404 pages should only run 404-only features
+		if (pageDetect.is404() && !filledLoader.include.includes(pageDetect.is404)) {
+			continue;
+		}
+
+		const loads = Array.isArray(filledLoader.load) ? filledLoader.load : [filledLoader.load];
+		for (const load of loads) {
+			// Initialize the feature using the specified loading mechanism
+			if (load instanceof Promise) {
+				await load;
+				run(id, filledLoader);
+			} else {
+				load(() => run(id, filledLoader));
+			}
+		}
 	}
 };
 
@@ -200,8 +199,6 @@ export default {
 
 	// Loading mechanisms
 	onDomReady,
-	onNewComments,
-	onFileListUpdate,
 	onAjaxedPages,
 	nowAndOnAjaxedPages,
 	onAjaxedPagesRaw,

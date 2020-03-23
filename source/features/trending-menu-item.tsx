@@ -17,11 +17,12 @@ features.add({
 	id: __featureName__,
 	description: 'Adds a `Trending` link to the global navbar and a keyboard shortcut: `g` ` t`',
 	screenshot: false,
-	exclude: [
-		features.isGist
-	],
 	shortcuts: {
 		'g t': 'Go to Trending'
 	},
+}, {
+	exclude: [
+		features.isGist
+	],
 	init
 });

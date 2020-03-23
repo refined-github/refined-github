@@ -12,6 +12,7 @@ features.add({
 	id: __featureName__,
 	description: 'Hides the placeholder text in repos without a description.',
 	screenshot: false,
+}, {
 	include: [
 		features.isRepoRoot
 	],

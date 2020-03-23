@@ -119,6 +119,7 @@ features.add({
 	id: __featureName__,
 	description: 'Adds a link to an automatic changelog for each tag/release.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/57081611-ad4a7180-6d27-11e9-9cb6-c54ec1ac18bb.png',
+}, {
 	include: [
 		features.isReleasesOrTags
 	],

@@ -23,5 +23,6 @@ features.add({
 	shortcuts: {
 		'shift o': 'Open selection in new tab'
 	},
+}, {
 	init
 });
