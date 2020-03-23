@@ -9,7 +9,7 @@ Suggestions and pull requests are highly encouraged! Have a look at the [open is
 - [JSX](https://reactjs.org/docs/introducing-jsx.html) is used to create DOM elements.
 - All the [latest DOM APIs](https://github.com/WebReflection/dom4#features) and JavaScript features are available because the extension only has to work in the latest Chrome and Firefox. 🎉
 - Each JavaScript feature lives in its own file under [`source/features`](https://github.com/sindresorhus/refined-github/tree/master/source/features) and it's imported in [`source/content.ts`](https://github.com/sindresorhus/refined-github/blob/master/source/content.ts).
-- Some GitHub pages are loaded via AJAX/PJAX, so some features use the special `onAjaxedPages` loader (see it as a custom "on DOM ready").
+- Some GitHub pages are loaded via AJAX/PJAX, so some features use the special `onAjaxedLoad` loader (see it as a custom "on DOM ready").
 - See what a _feature_ [looks like](https://github.com/sindresorhus/refined-github/blob/master/source/features/user-profile-follower-badge.tsx).
 - Follow [the styleguide](https://github.com/sindresorhus/refined-github/blob/master/readme.md#L100) that appears in the Readme's source to write readable descriptions.
 - Refined GitHub tries to integrate as best as possible, so [GitHub's own styleguide](https://primer.style/css) might come in useful.
@@ -70,7 +70,7 @@ features.add({
 		features.isOwnUserProfile
 	],
 	load: features.onDomReady, // Wait for DOM ready
-	// load: features.onAjaxedPages, // Or: Wait for DOM ready AND run on all AJAXed loads
+	// load: features.onAjaxedLoad, // Or: Wait for DOM ready AND run on all AJAXed loads
 	// load: features.onNewComments, // Or: Wait for DOM ready AND run on all AJAXed loads AND watch for new comments
 	deinit, // Rarely needed
 	init

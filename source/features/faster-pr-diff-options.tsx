@@ -114,12 +114,15 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/54178764-d1c96080-44d1-11e9-889c-734ffd2a602d.png',
 	shortcuts: {
 		'd w': 'Show/hide whitespaces in diffs'
-	},
+	}
 }, {
 	include: [
 		// Disabled because of #2291 // features.isPRFiles
 		features.isCommit
 	],
-	onDomReady: init,
-	onAjaxedLoad: init
+	load: [
+		'onDomReady',
+		'onAjaxedLoad'
+	],
+	init
 });

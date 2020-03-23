@@ -14,11 +14,14 @@ features.add({
 	screenshot: false,
 	shortcuts: {
 		c: 'Create a new release'
-	},
+	}
 }, {
 	include: [
 		features.isReleasesOrTags
 	],
-	onDomReady: init,
-	onAjaxedLoad: init
+	load: [
+		'onDomReady',
+		'onAjaxedLoad'
+	],
+	init
 });

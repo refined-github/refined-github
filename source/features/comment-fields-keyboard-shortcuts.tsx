@@ -81,7 +81,10 @@ features.add({
 	shortcuts: {
 		'↑': 'Edit your last comment',
 		esc: 'Unfocuses comment field'
-	},
+	}
 }, {
+	load: [
+		'onDocumentStart'
+	],
 	init
 });

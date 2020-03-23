@@ -51,7 +51,7 @@ async function init(): Promise<false | void> {
 features.add({
 	id: __featureName__,
 	description: 'Followers you know are shown on profile pages',
-	screenshot: false,
+	screenshot: false
 }, {
 	include: [
 		features.isUserProfile
@@ -59,6 +59,9 @@ features.add({
 	exclude: [
 		features.isOwnUserProfile
 	],
-	onDomReady: init,
-	onAjaxedLoad: init
+	load: [
+		'onDomReady',
+		'onAjaxedLoad'
+	],
+	init
 });

@@ -4,7 +4,6 @@ import clockIcon from 'octicon/clock.svg';
 import features from '../libs/features';
 import {getRepoURL} from '../libs/utils';
 import {appendBefore} from '../libs/dom-utils';
-import onNewComments from '../libs/on-new-comments';
 
 function addInlineLinks(comment: HTMLElement, timestamp: string): void {
 	const links = select.all<HTMLAnchorElement>(`
@@ -75,7 +74,7 @@ function init(): void {
 features.add({
 	id: __featureName__,
 	description: 'Adds links to browse the repository and linked files at the time of each comment.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/56450896-68076680-635b-11e9-8b24-ebd11cc4e655.png',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/56450896-68076680-635b-11e9-8b24-ebd11cc4e655.png'
 }, {
 	include: [
 		features.hasComments

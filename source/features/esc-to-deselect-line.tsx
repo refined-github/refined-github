@@ -27,7 +27,10 @@ function init(): void {
 features.add({
 	id: __featureName__,
 	description: 'Adds a keyboard shortcut to deselect the current line: `esc`.',
-	screenshot: false,
+	screenshot: false
 }, {
+	load: [
+		'onDocumentStart'
+	],
 	init
 });

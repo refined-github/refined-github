@@ -12,7 +12,7 @@ function observe(): void {
 			childList: true
 		});
 	}
-};
+}
 
 function connect(): void {
 	observe();
@@ -24,7 +24,7 @@ function disconnect(): void {
 	target = new EventTarget();
 }
 
-export default async function onFileListUpdate (callback: VoidFunction): Promise<void> {
+export default async function onFileListUpdate(callback: VoidFunction): Promise<void> {
 	connect();
 	document.addEventListener('pjax:end', disconnect);
 	target.addEventListener('rgh:file-list-update', callback);

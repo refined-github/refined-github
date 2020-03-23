@@ -82,7 +82,7 @@ async function initDeleteHint(): Promise<void | false> {
 features.add({
 	id: __featureName__,
 	description: 'In your forked repos, shows number of your open PRs to the original repo.',
-	screenshot: 'https://user-images.githubusercontent.com/1922624/76398271-e0648500-637c-11ea-8210-53dda1be9d51.png',
+	screenshot: 'https://user-images.githubusercontent.com/1922624/76398271-e0648500-637c-11ea-8210-53dda1be9d51.png'
 }, {
 	include: [
 		features.isRepo

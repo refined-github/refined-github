@@ -19,10 +19,13 @@ features.add({
 	screenshot: false,
 	shortcuts: {
 		'g t': 'Go to Trending'
-	},
+	}
 }, {
 	exclude: [
 		features.isGist
+	],
+	load: [
+		'onDocumentStart'
 	],
 	init
 });

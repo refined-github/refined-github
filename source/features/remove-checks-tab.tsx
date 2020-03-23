@@ -26,11 +26,14 @@ function init(): false | void {
 features.add({
 	id: __featureName__,
 	description: 'Hides the `Checks` tab if it’s empty, unless you’re the owner.',
-	screenshot: false,
+	screenshot: false
 }, {
 	include: [
 		features.isPR
 	],
-	onDomReady: init,
-	onAjaxedLoad: init
+	load: [
+		'onDomReady',
+		'onAjaxedLoad'
+	],
+	init
 });

@@ -145,7 +145,7 @@ export const _isNotifications = [
 ];
 
 export const isOrganizationProfile = (): boolean => select.exists('meta[name="hovercard-subject-tag"][content^="organization"]');
-export const _isOrganizationProfile = domBased; // Safe for `nowAndOnAjaxedPages` because this element is in the <head>
+export const _isOrganizationProfile = domBased; // Safe for `nowAndonAjaxedLoad` because this element is in the <head>
 
 export const isOrganizationDiscussion = (): boolean => /^orgs\/[^/]+\/teams\/[^/]+($|\/discussions)/.test(getCleanPathname());
 export const _isOrganizationDiscussion = [

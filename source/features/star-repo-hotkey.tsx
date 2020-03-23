@@ -14,11 +14,14 @@ features.add({
 	screenshot: false,
 	shortcuts: {
 		'g s': 'Star and unstar repository'
-	},
+	}
 }, {
 	include: [
 		features.isRepo
 	],
-	onDomReady: init,
-	onAjaxedLoad: init
+	load: [
+		'onDomReady',
+		'onAjaxedLoad'
+	],
+	init
 });

@@ -30,13 +30,19 @@ async function cleanBar(): Promise<void> {
 features.add({
 	id: __featureName__,
 	description: 'Changes the default sort order of discussions to `Recently updated`.',
-	screenshot: false,
+	screenshot: false
 }, {
-	onDomReady: init,
-	onAjaxedLoad: init
+	load: [
+		'onDomReady',
+		'onAjaxedLoad'
+	],
+	init
 }, {
 	include: [
 		features.isGlobalDiscussionList
+	],
+	load: [
+		'onDocumentStart'
 	],
 	init: cleanBar
 });

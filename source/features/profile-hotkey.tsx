@@ -18,8 +18,10 @@ features.add({
 	screenshot: false,
 	shortcuts: {
 		'g m': 'Go to Profile'
-	},
+	}
 }, {
-	load: features.onDomReady,
+	load: [
+		'onDomReady'
+	],
 	init
 });

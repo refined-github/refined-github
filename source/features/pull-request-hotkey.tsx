@@ -27,11 +27,14 @@ features.add({
 		'g 2': 'Go to Commits',
 		'g 3': 'Go to Checks',
 		'g 4': 'Go to Files changed'
-	},
+	}
 }, {
 	include: [
 		features.isPR
 	],
-	onDomReady: init,
-	onAjaxedLoad: init
+	load: [
+		'onDomReady',
+		'onAjaxedLoad'
+	],
+	init
 });

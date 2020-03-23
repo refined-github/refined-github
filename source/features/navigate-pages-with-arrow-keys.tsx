@@ -20,8 +20,11 @@ features.add({
 	shortcuts: {
 		'→': 'Go to the next page',
 		'←': 'Go to the previous page'
-	},
+	}
 }, {
-	onDomReady: init,
-	onAjaxedLoad: init
+	load: [
+		'onDomReady',
+		'onAjaxedLoad'
+	],
+	init
 });

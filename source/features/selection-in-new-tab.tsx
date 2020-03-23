@@ -22,7 +22,10 @@ features.add({
 	screenshot: false,
 	shortcuts: {
 		'shift o': 'Open selection in new tab'
-	},
+	}
 }, {
+	load: [
+		'onDocumentStart'
+	],
 	init
 });

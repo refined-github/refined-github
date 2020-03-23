@@ -23,46 +23,50 @@ interface FeatureMeta {
 	*/
 	disabled?: string;
 	id: typeof __featureName__;
-	description: string | false;
+	description: string;
 	screenshot: string | false;
 	shortcuts?: FeatureShortcuts;
 }
 
-interface FeatureLoader {
+type LoadingMethod = keyof typeof methods;
+type CallbackFunction = (callback: VoidCallback) => void;
+interface FeatureLoader extends Omit<FeatureRunner, 'id'> {
+	load: Array<LoadingMethod | CallbackFunction>;
+}
+
+interface FeatureRunner {
 	id: typeof __featureName__;
 	include?: BooleanFunction[];
 	exclude?: BooleanFunction[];
 	init: () => false | void | Promise<false | void>;
 	deinit?: () => void;
-	load: Array<keyof typeof methods>;
 }
-
-type FeatureRunner = Omit<FeatureLoader, 'load'>;
 
 /*
  * When navigating back and forth in history, GitHub will preserve the DOM changes;
  * This means that the old features will still be on the page and don't need to re-run.
- * For this reason `onAjaxedPages` will only call its callback when a *new* page is loaded.
+ * For this reason `onAjaxedLoad` will only call its callback when a *new* page is loaded.
  *
- * Alternatively, use `onAjaxedPagesRaw` if your callback needs to be called at every page
+ * Alternatively, use `onAjaxedLoadRaw` if your callback needs to be called at every page
  * change (e.g. to "unmount" a feature / listener) regardless of *newness* of the page.
  */
-function onAjaxedPagesRaw(callback: () => void): void {
+function onAjaxedLoadRaw(callback: () => void): void {
 	document.addEventListener('pjax:end', callback);
 }
 
-function onAjaxedPages(callback: () => void): void {
-	onAjaxedPagesRaw(() => {
+async function onAjaxedLoad(callback: () => void): Promise<void> {
+	await onDomReady;
+	onAjaxedLoadRaw(() => {
 		if (!select.exists('has-rgh')) {
 			callback();
 		}
 	});
 }
 
-// Must be called after all the features were added to onAjaxedPages
+// Must be called after all the features were added to onAjaxedLoad
 // to mark the current load as "done", so history.back() won't reapply the same DOM changes.
 // The two `await` ensure this behavior and order.
-onAjaxedPages(async () => {
+onAjaxedLoad(async () => {
 	await globalReady; // Match `add()`
 	await Promise.resolve(); // Kicks it to the next tick, after the other features have `run()`
 
@@ -137,10 +141,11 @@ const methods = {
 		await onDomReady;
 		callback();
 	},
-	onAjaxedLoad: onAjaxedPages,
+	onAjaxedLoad,
+	onAjaxedLoadRaw,
 	onFileListUpdate,
 	onNewComments
-}
+};
 
 /*
  * Register a new feature
@@ -172,6 +177,7 @@ const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void
 			include = [() => true], // Default: every page
 			exclude = [], // Default: nothing
 			init,
+			deinit,
 			load
 		} = loader;
 
@@ -182,8 +188,9 @@ const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void
 
 		// Initialize the feature using the specified loading mechanism
 		for (const method of load) {
-			methods[method](() => {
-				run({id, include, exclude, init});
+			const addListener = typeof method === 'string' ? methods[method] : method;
+			addListener(() => {
+				run({id, include, exclude, init, deinit});
 			});
 		}
 	}

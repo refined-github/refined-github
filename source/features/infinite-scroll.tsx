@@ -58,11 +58,13 @@ function init(): void {
 features.add({
 	id: __featureName__,
 	description: 'Automagically expands the newsfeed when you scroll down.',
-	screenshot: false,
+	screenshot: false
 }, {
 	include: [
 		features.isDashboard
 	],
-	load: features.onDomReady,
+	load: [
+		'onDomReady'
+	],
 	init
 });
