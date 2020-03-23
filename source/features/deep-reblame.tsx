@@ -47,7 +47,7 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number): 
 
 async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): Promise<void> {
 	const blameLink = event.delegateTarget;
-	if (blameLink.href) {
+	if (blameLink.href !== '#deep-reblame') {
 		if (event.altKey) {
 			event.preventDefault();
 		} else {
@@ -73,13 +73,13 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 		return;
 	}
 
-	// Restore the regular version link if there was one
-	if (blameLink.href) {
+	if (blameLink.href === '#deep-reblame') {
+		spinner.remove();
+	} else {
+		// Restore the regular version link if there was one
 		blameLink.setAttribute('aria-label', 'View blame prior to this change.');
 		blameLink.classList.remove('rgh-deep-blame');
 		spinner.replaceWith(versionIcon());
-	} else {
-		spinner.remove();
 	}
 
 	alert('The PR linked in the title didn’t create this commit');
@@ -101,6 +101,7 @@ function init(): void | false {
 		} else {
 			select('.blob-reblame', hunk)!.append(
 				<a
+					href="#deep-reblame"
 					aria-label="View blame prior to this change (extracts commits from this PR first)"
 					className="reblame-link link-hover-blue no-underline tooltipped tooltipped-e d-inline-block pr-1 rgh-deep-blame"
 				>
