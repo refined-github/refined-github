@@ -148,6 +148,7 @@ Thanks for contributing! 🦋🙌
 - [](# "repo-wide-file-finder") Enables the the File Finder keyboard shortcut (<kbd>t</kbd>) on Issues and Pull Request pages as well.
 - [](# "file-finder-buffer") [Lets you start typing your search immediately after invoking the File Finder (<kbd>t</kbd>), instead of having you wait for it to load first.](https://user-images.githubusercontent.com/1402241/75542106-1c811700-5a5a-11ea-8aa5-bea0472c59e2.gif)
 - [](# "preserve-file-finder-term") Preserves the search terms when navigating back and forth between the File Finder and the files.
+- [](# "clone-branch") [Clone a branch from the branches list.](https://user-images.githubusercontent.com/16872793/76802029-2a020500-67ad-11ea-95dc-bee1b1352976.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 

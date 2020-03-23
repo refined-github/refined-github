@@ -307,7 +307,8 @@ export const _isRepoRoot = [
 	'https://github.com/sindresorhus/refined-github/tree/03fa6b8b4d6e68dea9dc9bee1d197ef5d992fbd6/',
 	'https://github.com/sindresorhus/refined-github/tree/57bf4',
 	'https://github.com/sindresorhus/refined-github?files=1',
-	'https://github.com/sindresorhus/refined-github/tree/master?files=1'
+	'https://github.com/sindresorhus/refined-github/tree/master?files=1',
+	'https://github.com/sindresorhus/branches'
 ];
 
 export const isRepoSearch = (): boolean => location.pathname.slice(1).split('/')[2] === 'search';
@@ -364,6 +365,11 @@ export const _isTrending = [
 	'https://github.com/trending',
 	'https://github.com/trending/developers',
 	'https://github.com/trending/unknown'
+];
+
+export const isBranches = (): boolean => getRepoPath()?.startsWith('branches') ?? false;
+export const _isBranches = [
+	'https://github.com/sindresorhus/refined-github/branches'
 ];
 
 export const isUserProfile = (): boolean => select.exists('.user-profile-nav');
