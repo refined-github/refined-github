@@ -45,9 +45,9 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number): 
 	return false;
 });
 
-async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): Promise<void> {
-	const blameLink = event.delegateTarget;
-	if (blameLink.href) {
+async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchorElement | HTMLButtonElement>): Promise<void> {
+	const blameElement = event.delegateTarget;
+	if (blameElement instanceof HTMLAnchorElement) {
 		if (event.altKey) {
 			event.preventDefault();
 		} else {
@@ -55,14 +55,14 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 		}
 	}
 
-	const blameHunk = blameLink.closest('.blame-hunk')!;
+	const blameHunk = blameElement.closest('.blame-hunk')!;
 	const prNumber = looseParseInt(select('.issue-link', blameHunk)!.textContent!);
 	const prCommit = select<HTMLAnchorElement>('a.message', blameHunk)!.href.split('/').pop()!;
 	const spinner = loadingIcon();
 	spinner.classList.add('mr-2');
-	blameLink.firstElementChild!.replaceWith(spinner);
+	blameElement.firstElementChild!.replaceWith(spinner);
 	// Hide tooltip after click, it’s shown on :focus
-	blurAccessibly(blameLink);
+	blurAccessibly(blameElement);
 
 	const prBlameCommit = await getPullRequestBlameCommit(prCommit, Number(prNumber));
 	if (prBlameCommit) {
@@ -73,10 +73,10 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 		return;
 	}
 
-	if (blameLink.href) {
+	if (blameElement instanceof HTMLAnchorElement) {
 		// Restore the regular version link if there was one
-		blameLink.setAttribute('aria-label', 'View blame prior to this change.');
-		blameLink.classList.remove('rgh-deep-blame');
+		blameElement.setAttribute('aria-label', 'View blame prior to this change.');
+		blameElement.classList.remove('rgh-deep-blame');
 		spinner.replaceWith(versionIcon());
 	} else {
 		spinner.remove();
