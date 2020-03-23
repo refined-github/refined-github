@@ -1,7 +1,7 @@
-a:not([href='#deep-reblame']).rgh-deep-blame .octicon-versions {
+button.rgh-deep-reblame .octicon-versions {
 	color: #e40de48c;
 }
 
-a.rgh-deep-blame .octicon-versions:hover {
+a.rgh-deep-reblame .octicon-versions:hover, button.rgh-deep-reblame .octicon-versions:hover {
 	color: #8000808c;
 }

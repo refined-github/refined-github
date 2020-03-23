@@ -47,7 +47,7 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number): 
 
 async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): Promise<void> {
 	const blameLink = event.delegateTarget;
-	if (blameLink.href !== '#deep-reblame') {
+	if (blameLink.href) {
 		if (event.altKey) {
 			event.preventDefault();
 		} else {
@@ -67,19 +67,19 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	const prBlameCommit = await getPullRequestBlameCommit(prCommit, Number(prNumber));
 	if (prBlameCommit) {
 		const lineNumber = select('.js-line-number', blameHunk)!.textContent!;
-		blameLink.pathname = location.pathname.replace(getReference()!, prBlameCommit);
-		blameLink.hash = 'L' + lineNumber;
-		blameLink.click();
+		const href = new URL(location.href.replace(getReference()!, prBlameCommit));
+		href.hash = 'L' + lineNumber;
+		location.href = String(href);
 		return;
 	}
 
-	if (blameLink.href === '#deep-reblame') {
-		spinner.remove();
-	} else {
+	if (blameLink.href) {
 		// Restore the regular version link if there was one
 		blameLink.setAttribute('aria-label', 'View blame prior to this change.');
 		blameLink.classList.remove('rgh-deep-blame');
 		spinner.replaceWith(versionIcon());
+	} else {
+		spinner.remove();
 	}
 
 	alert('The PR linked in the title didn’t create this commit');
@@ -97,16 +97,16 @@ function init(): void | false {
 		const reblameLink = select('.reblame-link', hunk)!;
 		if (reblameLink) {
 			reblameLink.setAttribute('aria-label', 'View blame prior to this change. Hold `Alt` to extract commits from this PR first');
-			reblameLink.classList.add('rgh-deep-blame');
+			reblameLink.classList.add('rgh-deep-reblame');
 		} else {
 			select('.blob-reblame', hunk)!.append(
-				<a
-					href="#deep-reblame"
+				<button
+					type="button"
 					aria-label="View blame prior to this change (extracts commits from this PR first)"
-					className="reblame-link link-hover-blue no-underline tooltipped tooltipped-e d-inline-block pr-1 rgh-deep-blame"
+					className="reblame-link btn-link no-underline tooltipped tooltipped-e d-inline-block pr-1 rgh-deep-reblame"
 				>
 					{versionIcon()}
-				</a>
+				</button>
 			);
 		}
 	}
