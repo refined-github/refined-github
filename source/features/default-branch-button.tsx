@@ -50,6 +50,9 @@ features.add({
 		features.isRepoTree,
 		features.isSingleFile
 	],
-	load: features.nowAndOnAjaxedPages,
+	load: [
+		'onDocumentStart',
+		'onAjaxedLoad'
+	],
 	init
 });

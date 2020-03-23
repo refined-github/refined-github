@@ -20,6 +20,6 @@ features.add({
 	include: [
 		features.isQuickPR
 	],
-	load: features.onAjaxedPages,
-	init
+	onDomReady: init,
+	onAjaxedLoad: init
 });

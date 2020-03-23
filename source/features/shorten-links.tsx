@@ -18,6 +18,6 @@ features.add({
 		// Due to GitHub’s bug: #2828
 		features.isGlobalSearchResults
 	],
-	load: features.onAjaxedPages,
-	init
+	onDomReady: init,
+	onAjaxedLoad: init
 });

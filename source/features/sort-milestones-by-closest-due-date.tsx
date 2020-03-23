@@ -21,6 +21,6 @@ features.add({
 	include: [
 		features.isRepo
 	],
-	load: features.onAjaxedPages,
-	init
+	onDomReady: init,
+	onAjaxedLoad: init
 });

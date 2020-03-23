@@ -28,6 +28,6 @@ features.add({
 	include: [
 		features.isCommit
 	],
-	load: features.onAjaxedPages,
-	init
+	onDomReady: init,
+	onAjaxedLoad: init
 });

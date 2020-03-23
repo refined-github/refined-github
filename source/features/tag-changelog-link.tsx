@@ -123,6 +123,6 @@ features.add({
 	include: [
 		features.isReleasesOrTags
 	],
-	load: features.onAjaxedPages,
-	init
+	onDomReady: init,
+	onAjaxedLoad: init
 });

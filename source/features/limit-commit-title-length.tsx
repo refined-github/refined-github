@@ -34,6 +34,6 @@ features.add({
 		features.isPRConversation,
 		features.isEditingFile
 	],
-	load: features.onAjaxedPages,
-	init
+	onDomReady: init,
+	onAjaxedLoad: init
 });

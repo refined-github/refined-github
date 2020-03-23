@@ -48,6 +48,9 @@ features.add({
 	include: [
 		features.isPRCommit
 	],
-	load: features.nowAndOnAjaxedPages,
+	load: [
+		'onDocumentStart',
+		'onAjaxedLoad'
+	],
 	init
 });

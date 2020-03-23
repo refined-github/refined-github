@@ -21,6 +21,6 @@ features.add({
 	include: [
 		features.isPRConversation
 	],
-	load: features.onAjaxedPages,
-	init
+	onDomReady: init,
+	onAjaxedLoad: init
 });

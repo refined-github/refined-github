@@ -82,6 +82,6 @@ features.add({
 	include: [
 		features.isRepo
 	],
-	load: features.nowAndOnAjaxedPages,
-	init
+	onDocumentStart: init,
+	onAjaxedLoad: init
 });

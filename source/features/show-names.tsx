@@ -72,18 +72,18 @@ features.add({
 	include: [
 		features.isDashboard
 	],
-	load: features.onDomReady,
-	init: () => onNewsfeedLoad(init)
-});
-
-features.add({
-	id: __featureName__,
-	description: false,
-	screenshot: false,
+	load: [
+		'onNewsfeedLoad'
+	],
+	init
 }, {
 	include: [
 		features.hasComments
 	],
-	load: features.onNewComments,
+	load: [
+		'onDomReady',
+		'onAjaxedLoad',
+		'onNewComments'
+	],
 	init
 });

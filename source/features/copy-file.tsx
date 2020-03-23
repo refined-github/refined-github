@@ -59,6 +59,6 @@ features.add({
 		features.isSingleFile,
 		features.isGist
 	],
-	load: features.onAjaxedPages,
-	init
+	onDomReady: init,
+	onAjaxedLoad: init
 });

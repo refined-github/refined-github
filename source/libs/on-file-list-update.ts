@@ -1,22 +1,31 @@
-import select from 'select-dom';
-import domLoaded from 'dom-loaded';
+let target = new EventTarget(); // Using a replaceable target is an easy way to discard all listeners at once
+const observer = new MutationObserver(dispatch);
 
-// Copied from https://github.com/sindresorhus/hide-files-on-github
-export default async function (callback: VoidFunction): Promise<void> {
-	await domLoaded;
+function dispatch(): void {
+	target.dispatchEvent(new CustomEvent('rgh:file-list-update'));
+}
 
-	const observer = new MutationObserver(callback);
-	const update = (): void => {
-		callback();
+function observe(): void {
+	const ajaxFiles = document.querySelector('include-fragment.file-wrap');
+	if (ajaxFiles) {
+		observer.observe(ajaxFiles.parentNode!, {
+			childList: true
+		});
+	}
+};
 
-		const ajaxFiles = select('include-fragment.file-wrap');
-		if (ajaxFiles) {
-			observer.observe(ajaxFiles.parentNode!, {
-				childList: true
-			});
-		}
-	};
+function connect(): void {
+	observe();
+	target.addEventListener('rgh:file-list-update', observe);
+}
 
-	update();
-	document.addEventListener('pjax:end', update);
+function disconnect(): void {
+	observer.disconnect();
+	target = new EventTarget();
+}
+
+export default async function onFileListUpdate (callback: VoidFunction): Promise<void> {
+	connect();
+	document.addEventListener('pjax:end', disconnect);
+	target.addEventListener('rgh:file-list-update', callback);
 }

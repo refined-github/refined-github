@@ -45,12 +45,6 @@ features.add({
 	],
 	load: features.onAjaxedPages,
 	init: initGeneral
-});
-
-features.add({
-	id: __featureName__,
-	description: '',
-	screenshot: '',
 }, {
 	include: [
 		features.isDashboard

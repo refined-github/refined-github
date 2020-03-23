@@ -22,12 +22,6 @@ features.add({
 	],
 	load: features.onAjaxedPages,
 	init: hideTextareaTooltip
-});
-
-features.add({
-	id: __featureName__,
-	description: '',
-	screenshot: '',
 }, {
 	include: [
 		features.isRepo

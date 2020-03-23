@@ -41,6 +41,6 @@ features.add({
 	include: [
 		features.isRepoTree
 	],
-	load: features.onAjaxedPages,
-	init
+	onDomReady: init,
+	onAjaxedLoad: init
 });

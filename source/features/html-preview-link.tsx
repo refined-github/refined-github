@@ -32,6 +32,6 @@ features.add({
 	exclude: [
 		features.isEnterprise
 	],
-	load: features.onAjaxedPages,
-	init
+	onDomReady: init,
+	onAjaxedLoad: init
 });

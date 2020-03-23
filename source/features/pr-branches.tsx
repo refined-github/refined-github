@@ -149,6 +149,6 @@ features.add({
 	include: [
 		features.isRepoDiscussionList
 	],
-	load: features.onAjaxedPages,
-	init
+	onDomReady: init,
+	onAjaxedLoad: init
 });

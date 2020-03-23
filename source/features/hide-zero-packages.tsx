@@ -21,6 +21,9 @@ features.add({
 		features.isRepoRoot,
 		features.isUserProfile
 	],
-	load: features.nowAndOnAjaxedPages,
+	load: [
+		'onDocumentStart',
+		'onAjaxedLoad'
+	],
 	init
 });

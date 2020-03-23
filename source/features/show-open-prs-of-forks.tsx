@@ -90,14 +90,11 @@ features.add({
 	exclude: [
 		() => !isForkedRepo()
 	],
-	load: features.nowAndOnAjaxedPages,
+	load: [
+		'onDocumentStart',
+		'onAjaxedLoad'
+	],
 	init: initHeadHint
-});
-
-features.add({
-	id: __featureName__,
-	description: '',
-	screenshot: '',
 }, {
 	include: [
 		features.isRepoSettings
@@ -105,6 +102,9 @@ features.add({
 	exclude: [
 		() => !isForkedRepo()
 	],
-	load: features.nowAndOnAjaxedPages,
+	load: [
+		'onDocumentStart',
+		'onAjaxedLoad'
+	],
 	init: initDeleteHint
 });

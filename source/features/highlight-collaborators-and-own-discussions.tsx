@@ -40,12 +40,6 @@ features.add({
 	],
 	load: features.onAjaxedPages,
 	init: highlightCollaborators
-});
-
-features.add({
-	id: __featureName__,
-	description: '',
-	screenshot: false,
 }, {
 	include: [
 		features.isDiscussionList

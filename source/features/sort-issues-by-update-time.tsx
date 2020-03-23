@@ -32,8 +32,8 @@ features.add({
 	description: 'Changes the default sort order of discussions to `Recently updated`.',
 	screenshot: false,
 }, {
-	load: features.onAjaxedPages,
-	init
+	onDomReady: init,
+	onAjaxedLoad: init
 }, {
 	include: [
 		features.isGlobalDiscussionList

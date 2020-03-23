@@ -84,6 +84,6 @@ features.add({
 	include: [
 		features.hasCode
 	],
-	load: features.onAjaxedPages,
-	init
+	onDomReady: init,
+	onAjaxedLoad: init
 });

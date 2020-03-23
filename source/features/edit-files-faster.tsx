@@ -35,6 +35,7 @@ features.add({
 	include: [
 		features.isRepoTree
 	],
-	load: features.onFileListUpdate,
-	init
+	onDocumentStart: init,
+	onAjaxedLoad: init,
+	onFileListUpdate: init
 });

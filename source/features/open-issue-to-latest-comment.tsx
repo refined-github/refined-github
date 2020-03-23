@@ -15,6 +15,6 @@ features.add({
 	include: [
 		features.isDiscussionList
 	],
-	load: features.onAjaxedPages,
-	init
+	onDomReady: init,
+	onAjaxedLoad: init
 });

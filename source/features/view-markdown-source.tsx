@@ -112,6 +112,6 @@ features.add({
 	include: [
 		features.isSingleFile
 	],
-	load: features.onAjaxedPages,
-	init
+	onDomReady: init,
+	onAjaxedLoad: init
 });

@@ -81,8 +81,9 @@ features.add({
 		features.hasComments
 	],
 	load: [
-		features.onAjaxedPages,
-		onNewComments,
+		'onDomReady',
+		'onAjaxedLoad',
+		'onNewComments'
 	],
 	init
 });

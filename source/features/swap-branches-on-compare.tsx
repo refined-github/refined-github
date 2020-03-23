@@ -28,6 +28,6 @@ features.add({
 	include: [
 		features.isCompare
 	],
-	load: features.onAjaxedPages,
-	init
+	onDomReady: init,
+	onAjaxedLoad: init
 });

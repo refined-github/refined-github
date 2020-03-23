@@ -48,6 +48,6 @@ features.add({
 	include: [
 		features.isGlobalDiscussionList
 	],
-	load: features.onAjaxedPages,
-	init
+	onDomReady: init,
+	onAjaxedLoad: init
 });

@@ -19,6 +19,6 @@ features.add({
 	include: [
 		features.isConflict
 	],
-	load: features.onAjaxedPages,
-	init
+	onDomReady: init,
+	onAjaxedLoad: init
 });

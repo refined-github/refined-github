@@ -25,6 +25,6 @@ features.add({
 		features.isCommitList,
 		features.isDiscussionList
 	],
-	load: features.onAjaxedPages,
-	init
+	onDomReady: init,
+	onAjaxedLoad: init
 });

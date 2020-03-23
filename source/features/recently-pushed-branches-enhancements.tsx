@@ -60,12 +60,6 @@ features.add({
 	],
 	load: features.onDomReady,
 	init
-});
-
-features.add({
-	id: __featureName__,
-	description: false,
-	screenshot: false,
 }, {
 	include: [
 		features.isRepo

@@ -76,6 +76,6 @@ features.add({
 		features.isUserProfile,
 		features.isOrganizationProfile
 	],
-	load: features.onAjaxedPages,
-	init
+	onDomReady: init,
+	onAjaxedLoad: init
 });

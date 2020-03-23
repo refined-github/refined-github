@@ -96,6 +96,6 @@ features.add({
 	include: [
 		features.isBranches
 	],
-	load: features.onAjaxedPages,
-	init
+	onDomReady: init,
+	onAjaxedLoad: init
 });

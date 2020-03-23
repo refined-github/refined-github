@@ -29,6 +29,6 @@ features.add({
 	exclude: [
 		features.isOwnUserProfile
 	],
-	load: features.onAjaxedPages,
-	init
+	onDomReady: init,
+	onAjaxedLoad: init
 });

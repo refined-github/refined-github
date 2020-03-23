@@ -2,14 +2,13 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import onDomReady from 'dom-loaded';
 import elementReady from 'element-ready';
-import optionsStorage, {RGHOptions} from '../options-storage';
-import * as pageDetect from './page-detect';
 import {logError} from './utils';
+import onNewComments from './on-new-comments';
+import * as pageDetect from './page-detect';
+import onFileListUpdate from './on-file-list-update';
+import optionsStorage, {RGHOptions} from '../options-storage';
 
 type BooleanFunction = () => boolean;
-type VoidFunction = () => void;
-type callerFunction = (callback: VoidFunction) => void;
-
 type FeatureShortcuts = Record<string, string>;
 
 interface Shortcut {
@@ -28,13 +27,17 @@ interface FeatureMeta {
 	screenshot: string | false;
 	shortcuts?: FeatureShortcuts;
 }
+
 interface FeatureLoader {
+	id: typeof __featureName__;
 	include?: BooleanFunction[];
 	exclude?: BooleanFunction[];
 	init: () => false | void | Promise<false | void>;
 	deinit?: () => void;
-	load?: callerFunction | Promise<void>;
+	load: Array<keyof typeof methods>;
 }
+
+type FeatureRunner = Omit<FeatureLoader, 'load'>;
 
 /*
  * When navigating back and forth in history, GitHub will preserve the DOM changes;
@@ -46,20 +49,9 @@ interface FeatureLoader {
  */
 function onAjaxedPagesRaw(callback: () => void): void {
 	document.addEventListener('pjax:end', callback);
-	callback();
 }
 
 function onAjaxedPages(callback: () => void): void {
-	onAjaxedPagesRaw(async () => {
-		await onDomReady;
-		if (!select.exists('has-rgh')) {
-			callback();
-		}
-	});
-}
-
-// Like onAjaxedPages but doesn't wait for `dom-ready`
-function nowAndOnAjaxedPages(callback: () => void): void {
 	onAjaxedPagesRaw(() => {
 		if (!select.exists('has-rgh')) {
 			callback();
@@ -116,7 +108,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	resolve(options);
 });
 
-const run = async (id: typeof __featureName__, {include, exclude, init, deinit}: FeatureLoader): Promise<void> => {
+const run = async ({id, include, exclude, init, deinit}: FeatureRunner): Promise<void> => {
 	// If every `include` is false and no `exclude` is true, don’t run the feature
 	if (include!.every(c => !c()) || exclude!.some(c => c())) {
 		return deinit!();
@@ -138,7 +130,17 @@ const run = async (id: typeof __featureName__, {include, exclude, init, deinit}:
 
 const shortcutMap = new Map<string, Shortcut>();
 const getShortcuts = (): Shortcut[] => [...shortcutMap.values()];
-const noop = () => {};
+
+const methods = {
+	onDocumentStart: (callback: VoidCallback): void => callback(),
+	async onDomReady(callback: VoidCallback): Promise<void> {
+		await onDomReady;
+		callback();
+	},
+	onAjaxedLoad: onAjaxedPages,
+	onFileListUpdate,
+	onNewComments
+}
 
 /*
  * Register a new feature
@@ -166,28 +168,23 @@ const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void
 
 	for (const loader of loaders) {
 		// Input defaults and validation
-		const filledLoader: Required<FeatureLoader> = {
-				include: [() => true], // Default: every page
-			exclude: [], // Default: nothing
-			load: (fn: VoidFunction) => fn(), // Run it right away
-			deinit: noop,
-			...loader
-		}
+		const {
+			include = [() => true], // Default: every page
+			exclude = [], // Default: nothing
+			init,
+			load
+		} = loader;
 
 		// 404 pages should only run 404-only features
-		if (pageDetect.is404() && !filledLoader.include.includes(pageDetect.is404)) {
+		if (pageDetect.is404() && !include.includes(pageDetect.is404)) {
 			continue;
 		}
 
-		const loads = Array.isArray(filledLoader.load) ? filledLoader.load : [filledLoader.load];
-		for (const load of loads) {
-			// Initialize the feature using the specified loading mechanism
-			if (load instanceof Promise) {
-				await load;
-				run(id, filledLoader);
-			} else {
-				load(() => run(id, filledLoader));
-			}
+		// Initialize the feature using the specified loading mechanism
+		for (const method of load) {
+			methods[method](() => {
+				run({id, include, exclude, init});
+			});
 		}
 	}
 };
@@ -196,12 +193,6 @@ export default {
 	// Module methods
 	add,
 	getShortcuts,
-
-	// Loading mechanisms
-	onDomReady,
-	onAjaxedPages,
-	nowAndOnAjaxedPages,
-	onAjaxedPagesRaw,
 
 	// Loading filters
 	...pageDetect

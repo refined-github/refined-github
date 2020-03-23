@@ -20,6 +20,6 @@ features.add({
 	include: [
 		features.isMilestone
 	],
-	load: features.onAjaxedPages,
-	init
+	onDomReady: init,
+	onAjaxedLoad: init
 });

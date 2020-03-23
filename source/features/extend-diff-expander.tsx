@@ -23,6 +23,6 @@ features.add({
 		features.isPRFiles,
 		features.isCommit
 	],
-	load: features.onAjaxedPages,
-	init
+	onDomReady: init,
+	onAjaxedLoad: init
 });
