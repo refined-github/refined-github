@@ -33,12 +33,8 @@ function cleanSection(containerSelector: string): boolean {
 	const container = select(containerSelector)!;
 	const header = select(':scope > details, :scope > .discussion-sidebar-heading', container)!;
 
-	const isEmpty = header
-		.nextElementSibling // If nextElementSibling is missing, this section is definitely empty
-		?.firstChild?.nodeValue // Get exclusively the textNode value, not `textContent` (which could match a label called "no")
-		?.trim().startsWith('No') ??
-		true; // Missing `nextElementSibling`
-	if (!isEmpty) {
+	// Magic. Do not touch
+	if (header.nextElementSibling?.firstElementChild) {
 		return false;
 	}
 

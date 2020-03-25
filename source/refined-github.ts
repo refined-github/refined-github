@@ -1,6 +1,6 @@
 import select from 'select-dom';
 
-import './content.css';
+import './refined-github.css';
 import './features/scrollable-code-and-blockquote.css';
 import './features/center-reactions-popup.css';
 import './features/widen-search-field.css';
