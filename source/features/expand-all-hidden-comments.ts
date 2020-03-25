@@ -13,10 +13,10 @@ function handleAltClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): vo
 	}
 
 	const form = event.delegateTarget.form!;
-	let hiddenItemsCount = looseParseInt(form.textContent!);
-	if (hiddenItemsCount > 250) { // https://github.com/sindresorhus/refined-github/issues/2931
-		hiddenItemsCount = 250;
-	}
+	const hiddenItemsCount = Math.min(
+		200, // https://github.com/sindresorhus/refined-github/issues/2931
+		looseParseInt(form.textContent!)
+	);
 
 	const url = new URL(form.action);
 	url.searchParams.set('variables[first]', String(hiddenItemsCount));
