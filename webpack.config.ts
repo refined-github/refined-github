@@ -50,7 +50,7 @@ const config: Configuration = {
 		builtAt: true
 	},
 	entry: {
-		content: './source/content',
+		'refined-github': './source/refined-github',
 		background: './source/background',
 		options: './source/options',
 		'resolve-conflicts': './source/resolve-conflicts'

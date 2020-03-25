@@ -12,7 +12,7 @@ import {isForkedRepo} from '../libs/page-detect';
 import {getRepoURL, getUsername, getForkedRepo} from '../libs/utils';
 
 const getForkSourceRepo = (): string => getForkedRepo() ?? getRepoURL();
-const getCacheKey = (): string => `forked-to:${getUsername()}@${getForkSourceRepo()}`;
+const getCacheKey = (): string => `forked-to:${getUsername()}@${getForkSourceRepo().toLowerCase()}`;
 
 const updateCache = cache.function(async (): Promise<string[] | undefined> => {
 	const document = await fetchDom(`/${getForkSourceRepo()}/fork?fragment=1`);

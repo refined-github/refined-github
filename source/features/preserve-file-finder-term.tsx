@@ -14,7 +14,7 @@ function unloadHandler(): void {
 
 // Set the input field value & trigger event
 async function setValueInField(): Promise<void> {
-	const preservedValue = history.state.rghFileFinderTerm;
+	const preservedValue = history.state?.rghFileFinderTerm;
 	const inputElement = select<HTMLInputElement>('#tree-finder-field');
 	if (inputElement && !inputElement.value && preservedValue) {
 		await elementReady('.js-tree-browser-results > li', {stopOnDomReady: false});	// For search to work
