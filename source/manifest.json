@@ -46,11 +46,11 @@
 				"https://gist.github.com/*"
 			],
 			"css": [
-				"content.css"
+				"refined-github.css"
 			],
 			"js": [
 				"browser-polyfill.min.js",
-				"content.js"
+				"refined-github.js"
 			]
 		}
 	],
