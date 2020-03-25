@@ -5,7 +5,7 @@ import insertText from 'insert-text-textarea';
 import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../libs/features';
 import {observeOneMutation} from '../libs/simplified-element-observer';
-import {reportBug} from '../libs/utils';
+import {logError} from '../libs/utils';
 import oneEvent from '../libs/one-event';
 
 const pendingSelector = '.timeline-comment-label.is-pending';
@@ -54,7 +54,8 @@ async function handleSubmitSingle(event: DelegateEvent): Promise<void> {
 	const commentContainer = event.delegateTarget.closest('.js-comment')!;
 	const commentText = select<HTMLTextAreaElement>('[name="pull_request_review_comment[body]"]', commentContainer)!.value;
 	if (!commentText) {
-		reportBug(__featureName__, 'comment not found');
+		alert('Error: Comment not found and not submitted. More info in the console.');
+		logError(__featureName__, 'Comment not found');
 		return;
 	}
 
@@ -93,10 +94,10 @@ async function handleSubmitSingle(event: DelegateEvent): Promise<void> {
 		commentForm.hidden = false;
 
 		// Place comment in console to allow recovery
+		alert('There was an error sending the comment. More info in the console.');
 		console.log('You were trying to sending this comment:');
 		console.log(commentText);
-		reportBug(__featureName__, 'there was an error sending the comment');
-		console.error(error);
+		logError(__featureName__, error);
 	}
 }
 
