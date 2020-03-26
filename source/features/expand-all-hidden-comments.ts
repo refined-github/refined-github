@@ -13,7 +13,11 @@ function handleAltClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): vo
 	}
 
 	const form = event.delegateTarget.form!;
-	const hiddenItemsCount = looseParseInt(form.textContent!);
+	const hiddenItemsCount = Math.min(
+		200, // https://github.com/sindresorhus/refined-github/issues/2931
+		looseParseInt(form.textContent!)
+	);
+
 	const url = new URL(form.action);
 	url.searchParams.set('variables[first]', String(hiddenItemsCount));
 	form.action = url.href;
@@ -25,7 +29,7 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'On long discussions where GitHub hides comments under a "Load more...", alt-clicking it will load *all* the comments at once instead of part of them.',
+	description: 'On long discussions where GitHub hides comments under a "Load more...", alt-clicking it will load up to 200 comments at once instead of 60.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/73838332-0c548e00-4846-11ea-935f-28d728b30ae9.png',
 	include: [
 		features.isIssue,
