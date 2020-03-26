@@ -36,7 +36,7 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number): 
 	`);
 
 	const associatedPR = repository.object.associatedPullRequests.nodes[0];
-	const mergeCommit = associatedPR.mergeCommit.oid;
+	const mergeCommit = associatedPR.mergeCommit?.oid;
 
 	if (associatedPR.number === prNumber && mergeCommit === commit) {
 		return associatedPR.commits.nodes[0].commit.oid;
