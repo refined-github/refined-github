@@ -64,7 +64,7 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 
 	blurAccessibly(blameElement); // Hide tooltip after click, it’s shown on :focus
 
-	const prBlameCommit = await getPullRequestBlameCommit(prCommit, Number(prNumber));
+	const prBlameCommit = await getPullRequestBlameCommit(prCommit, prNumber);
 	if (prBlameCommit) {
 		const lineNumber = select('.js-line-number', blameHunk)!.textContent!;
 		const href = new URL(location.href.replace(getReference()!, prBlameCommit));
