@@ -17,7 +17,7 @@ function createDropdown(): void {
 	// Markup copied from native GHE dropdown
 	appendBefore('.reponav', '[data-selected-links^="repo_settings"]',
 		<details className="reponav-dropdown details-overlay details-reset">
-			<summary className="btn-link reponav-item">
+			<summary className="btn-link reponav-item" aria-haspopup="menu">
 				{'More '}
 				<span className="dropdown-caret"/>
 			</summary>
