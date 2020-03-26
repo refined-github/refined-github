@@ -47,7 +47,8 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/71886648-2891dc00-316f-11ea-98d8-c5bf6c24d85c.png',
 	include: [
 		features.isRepoTree,
-		features.isSingleFile
+		features.isSingleFile,
+		features.isCommitList
 	],
 	load: features.nowAndOnAjaxedPages,
 	init
