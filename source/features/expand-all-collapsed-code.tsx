@@ -14,12 +14,12 @@ const expandingCodeObserver = new MutationObserver(([mutation]) => {
 	}
 });
 
-const disconnectOnEscape = (event: KeyboardEvent): void => {
+function disconnectOnEscape(event: KeyboardEvent): void {
 	if (event.key === 'Escape') {
 		document.body.removeEventListener('keyup', disconnectOnEscape);
-		return expandingCodeObserver.disconnect();
+		expandingCodeObserver.disconnect();
 	}
-};
+}
 
 function handleAltClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	if (!event.altKey) {
