@@ -37,13 +37,14 @@ export const _isCommitList = [
 	'https://github.com/sindresorhus/refined-github/pull/148/commits'
 ];
 
-export const isRepoCommitList = (): boolean => /^commits\//.test(getRepoPath()!);
+export const isRepoCommitList = (): boolean => /^commits\//.test(getRepoPath()!) || (/^commits/.test(getRepoPath()!) && location.search.startsWith('?author='));
 export const _isRepoCommitList = [
 	'https://github.com/sindresorhus/refined-github/commits/master?page=2',
 	'https://github.com/sindresorhus/refined-github/commits/test-branch',
 	'https://github.com/sindresorhus/refined-github/commits/0.13.0',
 	'https://github.com/sindresorhus/refined-github/commits/230c2',
-	'https://github.com/sindresorhus/refined-github/commits/230c2935fc5aea9a681174ddbeba6255ca040d63'
+	'https://github.com/sindresorhus/refined-github/commits/230c2935fc5aea9a681174ddbeba6255ca040d63',
+	'https://github.com/sindresorhus/refined-github/commits?author=fregante'
 ];
 
 export const isCompare = (): boolean => /^compare/.test(getRepoPath()!);
