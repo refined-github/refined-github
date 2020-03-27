@@ -12,7 +12,7 @@
 		"version": "dot-json distribution/manifest.json version $VER",
 		"release:cws": "webstore upload --source=distribution --auto-publish",
 		"release:amo": "web-ext-submit --source-dir distribution",
-		"release": "VER=20$(daily-version) run-s build version release:*"
+		"release": "VER=$(daily-version) run-s build version release:*"
 	},
 	"dependencies": {
 		"@primer/octicons": "^9.4.0",
