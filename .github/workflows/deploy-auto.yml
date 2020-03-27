@@ -2,9 +2,6 @@
 name: Auto-tagger
 
 on:
-  push:
-    tags:
-      - deploy
   schedule:
     - cron: '51 15 */4 * *' # Every 4 days at 15:15 https://crontab.guru/#51_15_*/4_*_*
 
@@ -17,7 +14,6 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: |
-          git push --delete origin deploy
           if [[ $(git tag -l --points-at HEAD) = "" ]]; then
             export VER=$(npx daily-version)
             git tag $VER -m $VER
