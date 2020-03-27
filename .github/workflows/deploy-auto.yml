@@ -3,7 +3,7 @@ name: Auto-tagger
 
 on:
   schedule:
-    - cron: '51 15 */4 * *' # Every 4 days at 15:15 https://crontab.guru/#51_15_*/4_*_*
+    - cron: '51 15 */4 * *' # Every 4 days at 15:51 https://crontab.guru/#51_15_*/4_*_*
 
 jobs:
   create-version:
