@@ -22,12 +22,21 @@ function initGeneral(): void {
 	}
 }
 
+export function parseBackticksOnNewsFeedItems(): void {
+	for (const title of select.all('.issues_labeled .text-gray-dark > a:not(.rgh-parse-backticks), .commits blockquote:not(.rgh-parse-backticks)')) {
+		parseBackticks(title);
+	}
+}
+
 // Highlight code in issue/PR titles on Dashboard page ("Recent activity" container)
 async function initDashboard(): Promise<void> {
 	await elementReady('.js-recent-activity-container', {stopOnDomReady: false});
 	for (const title of select.all('.js-recent-activity-container .text-bold')) {
 		parseBackticks(title);
 	}
+
+	await elementReady('.issues_labeled', {stopOnDomReady: false});
+	parseBackticksOnNewsFeedItems();
 }
 
 features.add({
