@@ -17,7 +17,7 @@ jobs:
     - uses: actions/checkout@v2
     - run: npm ci
     - run: npm run build
-    - name: Version and tag
+    - name: Update extension’s meta
       run: |
         export VER=$(echo "$GITHUB_REF" | sed -e 's/refs\/heads\///')
         echo https://github.com/$GITHUB_REPOSITORY/tree/$VER > distribution/SOURCE_URL
