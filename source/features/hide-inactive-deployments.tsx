@@ -6,7 +6,7 @@ function init(): void {
 	deployments.pop(); // Don't hide the last deployment, even if it is inactive
 
 	for (const deployment of deployments) {
-		if (select.exists('.is-inactive', deployment)) {
+		if (select.exists('[title="Deployment Status Label: Inactive"]', deployment)) {
 			deployment.closest<HTMLElement>('.TimelineItem')!.hidden = true;
 		}
 	}
