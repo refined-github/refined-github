@@ -2,11 +2,14 @@ import select from 'select-dom';
 import features from '../libs/features';
 
 function init(): void {
-	const deployments = select.all('.TimelineItem .deployment-meta');
+	const deployments = select.all(`
+		.TimelineItem [title^="Deployment Status Label:"],
+		.js-socket-channel[data-url$="/pull_requests/events/deployed"] .TimelineItem a.btn
+	`);
 	deployments.pop(); // Don't hide the last deployment, even if it is inactive
 
 	for (const deployment of deployments) {
-		if (select.exists('[title="Deployment Status Label: Inactive"]', deployment)) {
+		if (deployment.title === 'Deployment Status Label: Inactive') {
 			deployment.closest<HTMLElement>('.TimelineItem')!.hidden = true;
 		}
 	}
