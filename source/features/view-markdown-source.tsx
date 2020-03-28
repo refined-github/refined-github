@@ -2,7 +2,6 @@ import './view-markdown-source.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import blurAccessibly from 'blur-accessibly';
 import codeIcon from 'octicon/code.svg';
 import fileIcon from 'octicon/file.svg';
 import features from '../libs/features';
@@ -20,7 +19,7 @@ async function fetchSource(): Promise<Element> {
 // Hide tooltip after click, it’s shown on :focus
 function blurButton(button: HTMLElement): void {
 	if (button === document.activeElement) {
-		blurAccessibly(button);
+		button.blur();
 	}
 }
 

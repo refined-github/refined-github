@@ -19,7 +19,6 @@
 	},
 	"dependencies": {
 		"@primer/octicons": "^9.4.0",
-		"blur-accessibly": "^0.9.1",
 		"copy-text-to-clipboard": "^2.1.1",
 		"debounce-fn": "^4.0.0",
 		"delay": "^4.3.0",
