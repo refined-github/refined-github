@@ -3,18 +3,15 @@
 	--github-red: #cb2431;
 }
 
-input:not([type='checkbox']),
-textarea {
+:root [name="customCSS"],
+:root [name="personalToken"] {
 	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
 	font-size: 11px;
+	line-height: 1.5;
 }
 
 [name='personalToken'] {
 	width: 20em !important; /* https://github.com/sindresorhus/refined-github/issues/1374#issuecomment-397906701 */
-}
-
-.small {
-	font-size: 0.9em;
 }
 
 .js-features .feature:not([hidden]) {
