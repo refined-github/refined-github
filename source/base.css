@@ -1,0 +1,90 @@
+html {
+	min-width: 550px;
+	max-width: 700px;
+	margin: auto;
+	overflow-x: hidden;
+}
+
+:root {
+	--background-color: #fff;
+	--text-color: #202124;
+	--secondary-text-color: #5f6368;
+	--link-color: #3367d6;
+	--input-border-color: #0003;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--background-color: var(--in-content-box-background, #292a2d);
+		--text-color: #e8eaed;
+		--secondary-text-color: #9aa0a6;
+		--link-color: #8ab4f8;
+		--input-border-color: #0000004d;
+	}
+}
+:root {
+	background-color: var(--background-color);
+}
+
+body {
+	color: var(--text-color);
+}
+
+input[type='number'],
+input[type='password'],
+input[type='search'],
+input[type='text'],
+input[type='url'],
+input:not([type]),
+textarea {
+	color: inherit;
+	background-color: var(--background-color);
+}
+
+input:not([type='checkbox']),
+textarea {
+	display: block;
+	box-sizing: border-box;
+	width: 100%;
+	font-size: 11px;
+	line-height: 1.5;
+	resize: vertical;
+	-moz-tab-size: 4 !important;
+	tab-size: 4 !important;
+}
+
+input[type='checkbox'] {
+	vertical-align: -0.16em;
+}
+
+a {
+	color: var(--link-color);
+}
+
+:root hr {
+	margin-right: -17px;
+	margin-left: -17px;
+	border: none;
+	border-bottom: 1px solid #0000000f;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root hr {
+		border-color: #ffffff1a;
+	}
+}
+
+@-moz-document url-prefix('') {
+	body > :not(hr) {
+		margin-left: 6px;
+		margin-right: 6px;
+	}
+
+	:root hr {
+		margin-right: 0;
+	}
+
+	input[type='checkbox'] {
+		vertical-align: -41%;
+	}
+}

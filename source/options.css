@@ -1,63 +1,12 @@
-html {
-	min-width: 550px;
-	max-width: 700px;
-	margin: auto;
-	overflow-x: hidden;
-}
-
 :root {
-	--background-color: #fff;
-	--text-color: #202124;
-	--secondary-text-color: #5f6368;
-	--link-color: #3367d6;
-	--input-border-color: rgba(0, 0, 0, 0.2);
 	--github-green: #28a745;
 	--github-red: #cb2431;
 }
 
-@media (prefers-color-scheme: dark) {
-	:root {
-		--background-color: #292a2d;
-		--text-color: #e8eaed;
-		--secondary-text-color: #9aa0a6;
-		--link-color: #8ab4f8;
-		--input-border-color: rgba(255, 255, 255, 0.3);
-	}
-}
-
-body {
-	color: var(--text-color);
-	background-color: var(--background-color);
-}
-
-input,
-textarea,
-button {
-	background-color: var(--background-color);
-	color: var(--text-color);
-	border: 1px solid var(--input-border-color);
-}
-
-input:not([type='checkbox']):invalid {
-	color: var(--github-red) !important;
-	border: 1px solid;
-}
-
 input:not([type='checkbox']),
 textarea {
-	display: block;
-	box-sizing: border-box;
-	width: 100%;
 	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
 	font-size: 11px;
-	line-height: 1.5;
-	resize: vertical;
-	-moz-tab-size: 4 !important;
-	tab-size: 4 !important;
-}
-
-input[type='checkbox'] {
-	vertical-align: -0.16em;
 }
 
 [name='personalToken'] {
@@ -66,28 +15,6 @@ input[type='checkbox'] {
 
 .small {
 	font-size: 0.9em;
-}
-
-a {
-	color: var(--link-color);
-}
-
-:root hr {
-	margin-right: -17px;
-	margin-left: -17px;
-	border: none;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-@media (prefers-color-scheme: dark) {
-	:root hr {
-		border-color: rgs(255, 255, 255, 0.1);
-	}
-}
-
-/* Increase spacing between sections */
-h2 ~ h2 {
-	margin-top: 2em;
 }
 
 .js-features .feature:not([hidden]) {
@@ -152,33 +79,6 @@ h2 ~ h2 {
 }
 
 @-moz-document url-prefix('') {
-	@media (prefers-color-scheme: dark) {
-		:root {
-			--background-color: #201f24;
-		}
-	}
-
-	body > :not(hr) {
-		margin-left: 6px;
-		margin-right: 6px;
-	}
-
-	:root {
-		background: none !important;
-	}
-
-	:root h2 {
-		font-weight: normal;
-	}
-
-	:root hr {
-		margin-right: 0;
-	}
-
-	input[type='checkbox'] {
-		vertical-align: -41%;
-	}
-
 	.no-firefox {
 		display: none;
 	}
