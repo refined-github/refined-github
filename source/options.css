@@ -1,6 +1,9 @@
 :root {
-	--github-green: #28a745;
 	--github-red: #cb2431;
+}
+
+p {
+	margin-top: 0;
 }
 
 :root [name='customCSS'],
@@ -8,10 +11,6 @@
 	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
 	font-size: 11px;
 	line-height: 1.5;
-}
-
-p {
-	margin-top: 0;
 }
 
 [name='personalToken'] {
@@ -37,7 +36,7 @@ p {
 }
 
 .js-features .description {
-	color: var(--secondary-text-color);
+	opacity: 0.8;
 }
 
 .js-features a {
@@ -52,21 +51,15 @@ p {
 	flex-grow: 1;
 }
 
-.js-features .description {
-	opacity: 0.8;
-}
-
 .feature-new .feature-name::after {
 	display: inline-block; /* Avoids the strikethrough on disabled features */
 	content: 'New';
-	color: var(--github-red);
 	font-size: 1em;
 	border: 1px solid;
-	border-radius: 0.1em;
+	border-radius: 0.2em;
 	padding: 0 0.3em;
 	margin-left: 0.8em;
 	text-transform: uppercase;
-	border-radius: 0.2em;
 }
 
 .sr-only {
