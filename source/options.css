@@ -3,34 +3,37 @@
 	--github-red: #cb2431;
 }
 
-:root [name="customCSS"],
-:root [name="personalToken"] {
+:root [name='customCSS'],
+:root [name='personalToken'] {
 	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
 	font-size: 11px;
 	line-height: 1.5;
+}
+
+p {
+	margin-top: 0;
 }
 
 [name='personalToken'] {
 	width: 20em !important; /* https://github.com/sindresorhus/refined-github/issues/1374#issuecomment-397906701 */
 }
 
-.js-features .feature:not([hidden]) {
+.feature:not([hidden]) {
 	display: flex;
-	margin-top: 1em;
 }
 
 .js-features input[type='checkbox'] {
 	flex-shrink: 0;
-	margin-inline-end: 0.6em; /* Spacing for Chrome */
-	margin-top: 4px; /* Alignment for Chrome */
+}
+
+.js-features input[type='checkbox']:not(*:root) {
+	/* Selector for Chrome only http://browserhacks.com/#ch */
+	margin-inline-end: 0.6em;
+	margin-top: 2px;
 }
 
 .js-features :not(:checked) + .info .feature-name {
 	text-decoration: line-through;
-}
-
-.js-features :not(:checked) + .info .extended-options {
-	display: none;
 }
 
 .js-features .description {
@@ -41,17 +44,16 @@
 	font-size: 0.9em;
 }
 
+.js-features a:first-of-type {
+	margin-left: 0.6em;
+}
+
 .js-features .info {
 	flex-grow: 1;
 }
 
-.js-features .info p {
-	margin-top: 0.25em;
-	margin-bottom: 0.125em;
-}
-
-.feature-name + a {
-	margin-left: 0.6em;
+.js-features .description {
+	opacity: 0.8;
 }
 
 .feature-new .feature-name::after {
@@ -64,6 +66,7 @@
 	padding: 0 0.3em;
 	margin-left: 0.8em;
 	text-transform: uppercase;
+	border-radius: 0.2em;
 }
 
 .sr-only {
