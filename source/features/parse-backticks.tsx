@@ -16,15 +16,11 @@ function parseAll(): void {
 		'[id^=ref-pullrequest-]', // PR references in `isIssue`, `isPRConversation`
 		'.TimelineItem-body > del, .TimelineItem-body > ins', // Title edits in `isIssue`, `isPRConversation`
 		'.js-pinned-issue-list-item > span', // Pinned Issues
-		'blame-commit-message a' // `isBlame`
+		'blame-commit-message a', // `isBlame`
+		'.issues_labeled .text-gray-dark > a',
+		'.commits blockquote'
 	].map(selector => selector + ':not(.rgh-parse-backticks)'))) {
 		title.classList.add('rgh-parse-backticks');
-		parseBackticks(title);
-	}
-}
-
-export function parseBackticksOnNewsFeedItems(): void {
-	for (const title of select.all('.issues_labeled .text-gray-dark > a:not(.rgh-parse-backticks), .commits blockquote:not(.rgh-parse-backticks)')) {
 		parseBackticks(title);
 	}
 }
@@ -35,9 +31,6 @@ async function initDashboard(): Promise<void> {
 	for (const title of select.all('.js-recent-activity-container .text-bold')) {
 		parseBackticks(title);
 	}
-
-	await elementReady('.issues_labeled', {stopOnDomReady: false});
-	parseBackticksOnNewsFeedItems();
 }
 
 features.add({

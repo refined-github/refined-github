@@ -2,7 +2,6 @@ import select from 'select-dom';
 import debounce from 'debounce-fn';
 import features from '../libs/features';
 import observeElement from '../libs/simplified-element-observer';
-import {parseBackticksOnNewsFeedItems} from './parse-backticks';
 
 let button: HTMLButtonElement | undefined;
 
@@ -24,7 +23,6 @@ const inView = new IntersectionObserver(([{isIntersecting}]) => {
 	} else {
 		// The button may have been changed after it's gone out of view, so try finding it again
 		findButton();
-		parseBackticksOnNewsFeedItems();
 	}
 }, {
 	rootMargin: '500px' // https://github.com/sindresorhus/refined-github/pull/505#issuecomment-309273098
