@@ -17,9 +17,10 @@ function parseAll(): void {
 		'.TimelineItem-body > del, .TimelineItem-body > ins', // Title edits in `isIssue`, `isPRConversation`
 		'.js-pinned-issue-list-item > span', // Pinned Issues
 		'blame-commit-message a', // `isBlame`
-		'.issues_labeled .text-gray-dark > a',
-		'.commits blockquote'
-	].map(selector => selector + ':not(.rgh-parse-backticks)'))) {
+		'.issues_labeled .text-gray-dark > a', // Newsfeed issues
+		'.commits blockquote' // Newsfeed commits
+	].map(selector => selector + ':not(.rgh-backticks-already-parsed)'))) {
+		title.classList.add('rgh-backticks-already-parsed');
 		parseBackticks(title);
 	}
 }
