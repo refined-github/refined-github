@@ -4,7 +4,7 @@ import select from 'select-dom';
 import features from '../libs/features';
 import {parseBackticks} from '../libs/dom-formatters';
 
-function initGeneral(): void {
+function parseAll(): void {
 	for (const title of select.all([
 		'.commit-title', // `isCommit`
 		'.commit-desc', // `isCommit`, `isCommitList`, `isRepoTree`
@@ -55,7 +55,7 @@ features.add({
 		features.isBlame
 	],
 	load: features.onAjaxedPages,
-	init: initGeneral
+	init: parseAll
 });
 
 features.add({
