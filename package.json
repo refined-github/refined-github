@@ -6,16 +6,13 @@
 		"lint:css": "stylelint 'source/**/*.css'",
 		"lint-fix": "run-p --silent 'lint:* -- --fix'",
 		"test": "run-s test:js lint:* build",
-		"test:js": "TS_NODE_FILES=true ava --serial # Due to Travis",
+		"test:js": "TS_NODE_FILES=true ava",
 		"build": "webpack --mode=production",
 		"watch": "webpack --mode=development --watch",
-		"watch:firefox": "web-ext run --source-dir=distribution",
-		"prerelease:version": "dot-json distribution/manifest.json version $VER",
-		"prerelease:source-url": "echo https://github.com/sindresorhus/refined-github/archive/\"${TRAVIS_COMMIT:-$VER}\".zip > distribution/SOURCE_URL",
-		"release:amo": "cd distribution && web-ext-submit",
-		"release:cws": "cd distribution && webstore upload --auto-publish",
-		"release": "VER=$(daily-version) npm-run-all build prerelease:* create-git-tag release:*",
-		"create-git-tag": "git tag $VER -m $VER && git push origin $VER"
+		"version": "dot-json distribution/manifest.json version $VER",
+		"release:cws": "webstore upload --source=distribution --auto-publish",
+		"release:amo": "web-ext-submit --source-dir distribution",
+		"release": "VER=$(daily-version) run-s build version release:*"
 	},
 	"dependencies": {
 		"@primer/octicons": "^9.4.0",

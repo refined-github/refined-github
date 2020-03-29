@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: 11.x
+          node-version: 12.15 # https://github.com/sindresorhus/refined-github/issues/2900
       - run: npm ci
       - run: npx ava --serial
 
