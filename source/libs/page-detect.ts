@@ -37,7 +37,7 @@ export const _isCommitList = [
 	'https://github.com/sindresorhus/refined-github/pull/148/commits'
 ];
 
-export const isRepoCommitList = (): boolean => /^commits\//.test(getRepoPath()!) || (/^commits/.test(getRepoPath()!) && location.search.startsWith('?author='));
+export const isRepoCommitList = (): boolean => getRepoPath()?.startsWith('commit') ?? false
 export const _isRepoCommitList = [
 	'https://github.com/sindresorhus/refined-github/commits/master?page=2',
 	'https://github.com/sindresorhus/refined-github/commits/test-branch',
