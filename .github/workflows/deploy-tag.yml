@@ -19,7 +19,7 @@ jobs:
     - run: npm run build
     - name: Update extension’s meta
       run: |
-        export VER=$(echo "$GITHUB_REF" | sed -e 's/refs\/heads\///')
+        export VER=$(echo "$GITHUB_REF" | sed -e 's/refs\/tags\///')
         echo https://github.com/$GITHUB_REPOSITORY/tree/$VER > distribution/SOURCE_URL
         npm run version
     - uses: actions/upload-artifact@v1
