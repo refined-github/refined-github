@@ -38,8 +38,10 @@ function addListeners(): void {
 		childList: true
 	});
 
-	// When hidden comments are loaded by clicking "Load more..."
-	delegates.add(delegate('.js-ajax-pagination', 'page:loaded', run));
+	// When hidden comments are loaded by clicking "Load more…"
+	delegates.add(delegate('.js-ajax-pagination', 'submit', event => {
+		event.target?.addEventListener('page:loaded', run, {once: true});
+	}));
 
 	// Outdated comment are loaded later using an include-fragment element
 	delegates.add(delegate('details.outdated-comment > include-fragment', 'load', run, true));
