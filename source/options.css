@@ -1,5 +1,6 @@
 :root {
 	--github-red: #cb2431;
+	min-width: 550px;
 }
 
 p {
