@@ -17,7 +17,8 @@ function initGeneral(): void {
 		'.TimelineItem-body > del, .TimelineItem-body > ins', // Title edits in `isIssue`, `isPRConversation`
 		'.js-pinned-issue-list-item > span', // Pinned Issues
 		'blame-commit-message a' // `isBlame`
-	])) {
+	].map(selector => selector + ':not(.rgh-parse-backticks)'))) {
+		title.classList.add('rgh-parse-backticks');
 		parseBackticks(title);
 	}
 }
