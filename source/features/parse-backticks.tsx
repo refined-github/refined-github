@@ -20,7 +20,6 @@ function parseAll(): void {
 		'.issues_labeled .text-gray-dark > a',
 		'.commits blockquote'
 	].map(selector => selector + ':not(.rgh-parse-backticks)'))) {
-		title.classList.add('rgh-parse-backticks');
 		parseBackticks(title);
 	}
 }
