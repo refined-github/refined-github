@@ -65,18 +65,3 @@ p {
 .sr-only {
 	display: none;
 }
-
-/* Firefox only */
-.only-firefox {
-	display: none;
-}
-
-@-moz-document url-prefix('') {
-	.no-firefox {
-		display: none;
-	}
-
-	.only-firefox {
-		display: block;
-	}
-}
