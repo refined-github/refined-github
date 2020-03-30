@@ -26,8 +26,15 @@ function parseAll(): void {
 	}
 }
 
-const observer = new MutationObserver(() => {
+const observer = new MutationObserver(([{addedNodes}]) => {
 	parseAll();
+
+	// Observe the new ajaxed-in containers
+	for (const node of addedNodes) {
+		if (node instanceof HTMLDivElement) {
+			observer.observe(node, {childList: true});
+		}
+	}
 });
 
 // Highlight code in issue/PR titles on Dashboard page ("Recent activity" container)
