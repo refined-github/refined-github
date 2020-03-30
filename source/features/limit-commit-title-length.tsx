@@ -14,7 +14,7 @@ function validateInput({delegateTarget: inputField}: DelegateEvent<InputEvent, H
 }
 
 function triggerValidation(): void {
-	select(fieldSelector)?.dispatchEvent(new Event('input'));
+	select(fieldSelector)!.dispatchEvent(new Event('input'));
 }
 
 function init(): void {
