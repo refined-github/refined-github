@@ -10,6 +10,10 @@ function inputListener(event: Event): void {
 }
 
 function watchTextarea(textarea: HTMLTextAreaElement): void {
+	if (!textarea) {
+		return;
+	}
+
 	textarea.addEventListener('input', inputListener); // The user triggers `input` event
 	textarea.addEventListener('change', inputListener); // File uploads trigger `change` events
 	fitTextarea(textarea);
