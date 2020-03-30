@@ -310,7 +310,8 @@ export const _isRepoRoot = [
 	'https://github.com/sindresorhus/refined-github/tree/57bf4',
 	'https://github.com/sindresorhus/refined-github?files=1',
 	'https://github.com/sindresorhus/refined-github/tree/master?files=1',
-	'https://github.com/sindresorhus/branches'
+	'https://github.com/sindresorhus/branches',
+	'https://github.com/sindresorhus/refined-github/pulse'
 ];
 
 export const isRepoSearch = (): boolean => location.pathname.slice(1).split('/')[2] === 'search';
@@ -381,6 +382,11 @@ export const isSingleTagPage = (): boolean => /^(releases\/tag)/.test(getRepoPat
 export const _isSingleTagPage = [
 	'https://github.com/sindresorhus/refined-github/releases/tag/v1.0.0-beta.4',
 	'https://github.com/sindresorhus/refined-github/releases/tag/0.2.1'
+];
+
+export const isPulse = (): boolean => getRepoPath()?.startsWith('pulse') ?? false;
+export const _isPulse = [
+	'https://github.com/sindresorhus/refined-github/pulse'
 ];
 
 export const _hasComments = skip;

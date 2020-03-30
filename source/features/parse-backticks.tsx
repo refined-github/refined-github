@@ -17,6 +17,7 @@ function parseAll(): void {
 		'.TimelineItem-body > del, .TimelineItem-body > ins', // Title edits in `isIssue`, `isPRConversation`
 		'.js-pinned-issue-list-item > span', // Pinned Issues
 		'blame-commit-message a', // `isBlame`
+		'.pulse-section li', // `isPulse`
 		'.issues_labeled .text-gray-dark > a', // Newsfeed issues
 		'.commits blockquote' // Newsfeed commits
 	].map(selector => selector + ':not(.rgh-backticks-already-parsed)'))) {
@@ -58,7 +59,8 @@ features.add({
 		features.isPRConversation,
 		features.isRepoTree,
 		features.isSingleFile,
-		features.isBlame
+		features.isBlame,
+		features.isPulse
 	],
 	load: features.onAjaxedPages,
 	init: parseAll
