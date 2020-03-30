@@ -34,7 +34,8 @@ export const _isCommitList = [
 	'https://github.com/sindresorhus/refined-github/commits/0.13.0',
 	'https://github.com/sindresorhus/refined-github/commits/230c2',
 	'https://github.com/sindresorhus/refined-github/commits/230c2935fc5aea9a681174ddbeba6255ca040d63',
-	'https://github.com/sindresorhus/refined-github/pull/148/commits'
+	'https://github.com/sindresorhus/refined-github/pull/148/commits',
+	'https://github.com/sindresorhus/refined-github/commits?author=fregante'
 ];
 
 export const isRepoCommitList = (): boolean => getRepoPath()?.startsWith('commits') ?? false;
