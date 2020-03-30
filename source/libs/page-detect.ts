@@ -311,7 +311,7 @@ export const _isRepoRoot = [
 	'https://github.com/sindresorhus/refined-github?files=1',
 	'https://github.com/sindresorhus/refined-github/tree/master?files=1',
 	'https://github.com/sindresorhus/branches',
-	'https://github.com/sindresorhus/refined-github/pulse'
+	'https://github.com/sindresorhus/pulse'
 ];
 
 export const isRepoSearch = (): boolean => location.pathname.slice(1).split('/')[2] === 'search';
