@@ -48,7 +48,7 @@ features.add({
 	include: [
 		features.isRepoTree,
 		features.isSingleFile,
-		features.isCommitList
+		features.isRepoCommitList
 	],
 	load: features.nowAndOnAjaxedPages,
 	init

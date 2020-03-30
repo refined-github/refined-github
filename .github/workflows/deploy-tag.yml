@@ -1,0 +1,54 @@
+name: Deployment
+
+on:
+  push:
+    tags:
+      - "20.*"
+      - "21.*"
+      - "22.*"
+      - "23.*"
+      - "24.*"
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: npm ci
+    - run: npm run build
+    - name: Update extension’s meta
+      run: |
+        export VER=$(echo "$GITHUB_REF" | sed -e 's/refs\/tags\///')
+        echo https://github.com/$GITHUB_REPOSITORY/tree/$VER > distribution/SOURCE_URL
+        npm run version
+    - uses: actions/upload-artifact@v1
+      with:
+        name: built-extension
+        path: distribution
+
+  deploy-to-chrome:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/download-artifact@v1
+      with:
+        name: built-extension
+    - run: npx chrome-webstore-upload-cli@1 upload --auto-publish
+      env:
+        EXTENSION_ID: hlepfoohegkhhmjieoechaddaejaokhf
+        CLIENT_ID: ${{ secrets.CLIENT_ID }}
+        CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+        REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+
+  deploy-to-firefox:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/download-artifact@v1
+      with:
+        name: built-extension
+    - run: npx web-ext-submit@4
+      env:
+        WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
+        WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}

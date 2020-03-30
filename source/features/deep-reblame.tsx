@@ -2,7 +2,6 @@ import './deep-reblame.css';
 import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
-import blurAccessibly from 'blur-accessibly';
 import versionIcon from 'octicon/versions.svg';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as api from '../libs/api';
@@ -67,7 +66,7 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	spinner.classList.add('mr-2');
 	blameElement.firstElementChild!.replaceWith(spinner);
 
-	blurAccessibly(blameElement); // Hide tooltip after click, it’s shown on :focus
+	blameElement.blur(); // Hide tooltip after click, it’s shown on :focus
 
 	const prBlameCommit = await getPullRequestBlameCommit(prCommit, prNumber);
 	if (prBlameCommit) {

@@ -1,5 +1,4 @@
 import select from 'select-dom';
-import blurAccessibly from 'blur-accessibly';
 import delegate, {DelegateEvent, DelegateEventHandler} from 'delegate-it';
 import features from '../libs/features';
 
@@ -33,7 +32,7 @@ function handler(event: DelegateEvent<KeyboardEvent, HTMLTextAreaElement>): void
 		if (cancelButton) {
 			cancelButton.click();
 		} else {
-			blurAccessibly(field);
+			field.blur();
 		}
 
 		event.stopImmediatePropagation();
