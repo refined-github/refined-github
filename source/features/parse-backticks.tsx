@@ -37,7 +37,7 @@ const observer = new MutationObserver(([{addedNodes}]) => {
 	}
 });
 
-// Highlight code in issue/PR titles on Dashboard page ("Recent activity" container)
+// Highlight code in issue/PR titles on Dashboard page
 async function initDashboard(): Promise<void> {
 	await elementReady('.js-recent-activity-container', {stopOnDomReady: false});
 	for (const title of select.all('.js-recent-activity-container .text-bold')) {
