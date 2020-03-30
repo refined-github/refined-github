@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import delegate, {DelegateSubscription} from 'delegate-it';
+import delegate, {DelegateSubscription, DelegateEvent} from 'delegate-it';
 
 const discussionsWithListeners = new WeakSet();
 const handlers = new Set<VoidFunction>();
@@ -9,6 +9,13 @@ const observer = new MutationObserver(run);
 function run(): void {
 	// Run all callbacks without letting an error stop the loop and without silencing it
 	handlers.forEach(async callback => callback());
+}
+
+function paginationSubmitHandler(event: DelegateEvent): void {
+	// When the 'page:loaded' event is triggered, the .js-ajax-pagination form won't have
+	// a parent, so the event doesn't bubble up. We delegate the 'submit' event instead
+	// and listen once for the 'page:loaded' event directly.
+	event.target?.addEventListener('page:loaded', run, {once: true});
 }
 
 function removeListeners(): void {
@@ -39,9 +46,7 @@ function addListeners(): void {
 	});
 
 	// When hidden comments are loaded by clicking "Load more…"
-	delegates.add(delegate('.js-ajax-pagination', 'submit', event => {
-		event.target?.addEventListener('page:loaded', run, {once: true});
-	}));
+	delegates.add(delegate('.js-ajax-pagination', 'submit', paginationSubmitHandler));
 
 	// Outdated comment are loaded later using an include-fragment element
 	delegates.add(delegate('details.outdated-comment > include-fragment', 'load', run, true));
