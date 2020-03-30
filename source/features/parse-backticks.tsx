@@ -3,7 +3,6 @@ import './parse-backticks.css';
 import select from 'select-dom';
 import features from '../libs/features';
 import {parseBackticks} from '../libs/dom-formatters';
-import {observeOneMutation} from '../libs/simplified-element-observer';
 
 function parseAll(): void {
 	for (const title of select.all([
