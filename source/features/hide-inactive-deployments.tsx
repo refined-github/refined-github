@@ -8,7 +8,7 @@ function init(): void {
 
 	for (const deployment of deployments) {
 		if (select.exists('[title="Deployment Status Label: Inactive"]', deployment)) {
-			deployment.hidden = true;
+			deployment.remove();
 		}
 	}
 }
