@@ -18,7 +18,8 @@ function parseAll(): void {
 		'.js-pinned-issue-list-item > span', // Pinned Issues
 		'.pulse-section li', // `isPulse`
 		'.issues_labeled .text-gray-dark > a', // Newsfeed issues
-		'.commits blockquote' // Newsfeed commits
+		'.commits blockquote', // Newsfeed commits
+		'.release-header' // `isReleasesOrTags` Headers
 	].map(selector => selector + ':not(.rgh-backticks-already-parsed)'))) {
 		title.classList.add('rgh-backticks-already-parsed');
 		parseBackticks(title);
