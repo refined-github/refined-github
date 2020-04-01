@@ -52,17 +52,8 @@ features.add({
 	description: 'Renders text in `backticks` in issue titles and commit titles/descriptions.',
 	screenshot: 'https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png',
 	include: [
-		features.isBlame,
-		features.isCommit,
-		features.isCommitList,
-		features.isCompare,
-		features.isDiscussionList,
-		features.isIssue,
-		features.isPRConversation,
-		features.isPulse,
-		features.isReleasesOrTags,
-		features.isRepoTree,
-		features.isSingleFile
+		features.isGlobalDiscussionList,
+		features.isRepo
 	],
 	load: features.onAjaxedPages,
 	init: parseAll
