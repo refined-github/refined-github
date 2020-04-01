@@ -8,7 +8,7 @@ function parseAll(): void {
 	for (const title of select.all([
 		'.commit-title', // `isCommit`
 		'.commit-desc', // `isCommit`, `isCommitList`, `isRepoTree`
-		'.commit-message', // Pushed commits in `isPRConversation` and `isCompare`
+		'.commit-message', // Pushed commits in `isPRConversation`, `isCompare`, `isReleasesOrTags`
 		'.message', // `isCommitList`, `isRepoTree`, `isBlame`
 		'.Box--condensed .link-gray[href*="/commit/"]', // `isSingleFile`
 		'[aria-label="Issues"][role="group"] .js-navigation-open', // `isDiscussionList`
@@ -59,6 +59,7 @@ features.add({
 		features.isIssue,
 		features.isPRConversation,
 		features.isPulse,
+		features.isReleasesOrTags,
 		features.isRepoTree,
 		features.isSingleFile
 	],
