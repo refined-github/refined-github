@@ -11,11 +11,10 @@ function run(): void {
 	handlers.forEach(async callback => callback());
 }
 
-function paginationSubmitHandler(event: DelegateEvent): void {
-	// When the 'page:loaded' event is triggered, the .js-ajax-pagination form won't have
-	// a parent, so the event doesn't bubble up. We delegate the 'submit' event instead
-	// and listen once for the 'page:loaded' event directly.
-	event.target?.addEventListener('page:loaded', run, {once: true});
+// The form is detached just before the `page:loaded` event is triggered so the event won’t bubble up and `delegate` won’t catch it.
+// This intermediate handler is required to catch the `page:loaded` event on the detached element.
+function paginationSubmitHandler({delegateTarget: form}: DelegateEvent): void {
+	form.addEventListener('page:loaded', run, {once: true});
 }
 
 function removeListeners(): void {
