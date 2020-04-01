@@ -8,7 +8,7 @@ function parseAll(): void {
 	for (const title of select.all([
 		'.commit-title', // `isCommit`
 		'.commit-desc', // `isCommit`, `isCommitList`, `isRepoTree`
-		'.commit-message', // Pushed commits in `isPRConversation`
+		'.commit-message', // Pushed commits in `isPRConversation` and `isCompare`
 		'.message', // `isCommitList`, `isRepoTree`
 		'.Box--condensed .link-gray[href*="/commit/"]', // `isSingleFile`
 		'[aria-label="Issues"][role="group"] .js-navigation-open', // `isDiscussionList`
@@ -52,15 +52,16 @@ features.add({
 	description: 'Renders text in `backticks` in issue titles and commit titles/descriptions.',
 	screenshot: 'https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png',
 	include: [
+		features.isBlame,
 		features.isCommit,
 		features.isCommitList,
+		features.isCompare,
 		features.isDiscussionList,
 		features.isIssue,
 		features.isPRConversation,
+		features.isPulse,
 		features.isRepoTree,
-		features.isSingleFile,
-		features.isBlame,
-		features.isPulse
+		features.isSingleFile
 	],
 	load: features.onAjaxedPages,
 	init: parseAll
