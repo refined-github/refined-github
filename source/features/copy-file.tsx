@@ -42,7 +42,7 @@ function removeButton(): void {
 function init(): void {
 	delegate('.rgh-copy-file', 'click', handleClick);
 
-	if (select.exists('.blob.instapaper_body')) {
+	if (select.exists('.blob > .markdown-body')) {
 		delegate('.rgh-md-source', 'rgh:view-markdown-source', renderButton);
 		delegate('.rgh-md-source', 'rgh:view-markdown-rendered', removeButton);
 	} else {
