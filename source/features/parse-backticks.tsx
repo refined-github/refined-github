@@ -9,14 +9,13 @@ function parseAll(): void {
 		'.commit-title', // `isCommit`
 		'.commit-desc', // `isCommit`, `isCommitList`, `isRepoTree`
 		'.commit-message', // Pushed commits in `isPRConversation` and `isCompare`
-		'.message', // `isCommitList`, `isRepoTree`
+		'.message', // `isCommitList`, `isRepoTree`, `isBlame`
 		'.Box--condensed .link-gray[href*="/commit/"]', // `isSingleFile`
 		'[aria-label="Issues"][role="group"] .js-navigation-open', // `isDiscussionList`
 		'[id^=ref-issue-]', // Issue references in `isIssue`, `isPRConversation`
 		'[id^=ref-pullrequest-]', // PR references in `isIssue`, `isPRConversation`
 		'.TimelineItem-body > del, .TimelineItem-body > ins', // Title edits in `isIssue`, `isPRConversation`
 		'.js-pinned-issue-list-item > span', // Pinned Issues
-		'blame-commit-message a', // `isBlame`
 		'.pulse-section li', // `isPulse`
 		'.issues_labeled .text-gray-dark > a', // Newsfeed issues
 		'.commits blockquote' // Newsfeed commits
