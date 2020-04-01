@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: fregante/setup-git-token@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.TAGGER_TOKEN }}
       - run: |
           if [[ $(git tag -l --points-at HEAD) = "" ]]; then
             export VER=$(npx daily-version)
