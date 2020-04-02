@@ -37,7 +37,13 @@ for (const [key, detect] of Object.entries(pageDetect)) {
 	for (const url of validURLs) {
 		test(`${key} ${++i}`, t => {
 			location.href = url;
-			t.true(detect(), `\n${url}\nisn’t matched by ${key}() but it’s in its tests array.`);
+			t.true(detect(), stripIndent(`
+				Is this URL \`${key}\`?
+					${url.replace('https://github.com', '')}
+
+				• Yes? The \`${key}\` test is wrong and should be fixed.
+				• No? Remove it to the \`_${key}\` array.
+			`));
 		});
 	}
 
