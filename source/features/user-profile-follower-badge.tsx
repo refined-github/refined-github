@@ -16,7 +16,7 @@ const doesUserFollow = cache.function(async (userA: string, userB: string): Prom
 }, {
 	maxAge: 3,
 	staleWhileRevalidate: 20,
-	cacheKey: ([userA, userB]) => 'user-follows:${userA}:${userB}'
+	cacheKey: ([userA, userB]) => `user-follows:${userA}:${userB}`
 });
 
 async function init(): Promise<void> {
