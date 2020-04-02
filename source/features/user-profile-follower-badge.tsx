@@ -6,7 +6,7 @@ import * as api from '../libs/api';
 import features from '../libs/features';
 import {getUsername, getCleanPathname} from '../libs/utils';
 
-const userIsAFollower = cache.function(async (): Promise<boolean> => {
+const doesUserFollow = cache.function(async (userA: string, userB: string): Promise<boolean> => {
 	const {httpStatus} = await api.v3(
 		`users/${userA}/following/${userB}`,
 		{ignoreHTTPStatus: true}
