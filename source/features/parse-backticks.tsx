@@ -19,7 +19,10 @@ function parseAll(): void {
 		'.pulse-section li', // `isPulse`
 		'.issues_labeled .text-gray-dark > a', // Newsfeed issues
 		'.commits blockquote', // Newsfeed commits
-		'.release-header' // `isReleasesOrTags` Headers
+		'.release-header', // `isReleasesOrTags` Headers
+		'.Box-row.js-navigation-item a.link-gray-dark', // `isGlobalDiscussionList`
+		'[data-channel^="check_suites"] a', // `isActions`
+		'.repository-content .pr-toolbar h2' // `isActions` run
 	].map(selector => selector + ':not(.rgh-backticks-already-parsed)'))) {
 		title.classList.add('rgh-backticks-already-parsed');
 		parseBackticks(title);
