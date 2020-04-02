@@ -222,7 +222,7 @@ export const _isQuickPR = [
 	'https://github.com/sindresorhus/refined-github/compare/test-branch?quick_pull=1'
 ];
 
-export const isReleasesOrTags = (): boolean /^tags$|^releases($|\/tag)/.test(getRepoPath()!);
+export const isReleasesOrTags = (): boolean => /^tags$|^releases($|\/tag)/.test(getRepoPath()!);
 export const _isReleasesOrTags = [
 	'https://github.com/sindresorhus/refined-github/releases',
 	'https://github.com/sindresorhus/refined-github/tags',
@@ -281,7 +281,6 @@ export const isRepoIssueList = (): boolean => {
 	const parts = (getRepoPath() ?? '').split('/');
 	return parts[0] === 'issues' && parts[1] !== 'new' && !/\d/.test(parts[1]); // `issues/fregante` is a list but `issues/1` isn't
 };
-
 export const _isRepoIssueList = [
 	'http://github.com/sindresorhus/ava/issues',
 	'https://github.com/sindresorhus/refined-github/issues',
