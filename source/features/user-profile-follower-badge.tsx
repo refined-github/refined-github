@@ -16,7 +16,7 @@ const userIsAFollower = cache.function(async (): Promise<boolean> => {
 }, {
 	maxAge: 3,
 	staleWhileRevalidate: 20,
-	cacheKey: () => __featureName__ + ':' + getCleanPathname()
+	cacheKey: ([userA, userB]) => 'user-follows:${userA}:${userB}'
 });
 
 async function init(): Promise<void> {
