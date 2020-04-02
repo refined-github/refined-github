@@ -126,12 +126,12 @@ export const _isMilestoneList = [
 	'https://github.com/sindresorhus/refined-github/milestones'
 ];
 
-export const isNewIssue = (): boolean => /^issues\/new/.test(getRepoPath()!);
+export const isNewIssue = (): boolean => getRepoPath() === 'issues/new';
 export const _isNewIssue = [
 	'https://github.com/sindresorhus/refined-github/issues/new'
 ];
 
-export const isNewRelease = (): boolean => /^releases\/new/.test(getRepoPath()!);
+export const isNewRelease = (): boolean => getRepoPath() === 'releases/new';
 export const _isNewRelease = [
 	'https://github.com/sindresorhus/refined-github/releases/new'
 ];
@@ -243,42 +243,41 @@ export const isRepo = (): boolean => /^[^/]+\/[^/]+/.test(getCleanPathname()) &&
 	!isGist() &&
 	!isRepoSearch();
 export const _isRepo = [
+	// Some of these are here simply as "gotchas" to other detections
 	'https://github.com/sindresorhus/refined-github/blame/master/package.json',
 	'https://github.com/sindresorhus/refined-github/issues/146',
 	'https://github.com/sindresorhus/notifications/',
-	'https://github.com/sindresorhus/refined-github/pull/148'
+	'https://github.com/sindresorhus/refined-github/pull/148',
+	'https://github.com/sindresorhus/refined-github/milestones/new', // Gotcha for isRepoTaxonomyDiscussionList
+	'https://github.com/sindresorhus/refined-github/issues/new/choose', // Gotcha for isRepoIssueList
+	'https://github.com/sindresorhus/refined-github/issues/templates/edit' // Gotcha for isRepoIssueList
 ];
 export const _isRepoSkipNegatives = true;
+
+export const isRepoTaxonomyDiscussionList = (): boolean => /^labels\/.+|^milestones\/\d+/.test(getRepoPath()!);
+export const _isRepoTaxonomyDiscussionList = [
+	'https://github.com/sindresorhus/refined-github/labels/Priority%3A%20critical',
+	'https://github.com/sindresorhus/refined-github/milestones/1'
+];
 
 export const isRepoDiscussionList = (): boolean =>
 	isRepoPRList() ||
 	isRepoIssueList() ||
-	/^(labels|milestones)\/.+/.test(getRepoPath()!);
-export const _isRepoDiscussionList = [
-	'http://github.com/sindresorhus/ava/issues',
-	'https://github.com/sindresorhus/refined-github/pulls',
-	'https://github.com/sindresorhus/refined-github/pulls/',
-	'https://github.com/sindresorhus/refined-github/pulls/fregante',
-	'https://github.com/sindresorhus/refined-github/issues/fregante',
-	'https://github.com/sindresorhus/refined-github/labels/Priority%3A%20critical',
-	'https://github.com/sindresorhus/refined-github/milestones/1.0',
-	'https://github.com/sindresorhus/refined-github/issues?q=is%3Aclosed+sort%3Aupdated-desc',
-	'https://github.com/sindresorhus/refined-github/pulls?q=is%3Aopen+is%3Apr',
-	'https://github.com/sindresorhus/refined-github/pulls?q=is%3Apr+is%3Aclosed',
-	'https://github.com/sindresorhus/refined-github/issues'
-];
+	isRepoTaxonomyDiscussionList();
+export const _isRepoDiscussionList = skip;
 
 export const isRepoPRList = (): boolean => (getRepoPath() ?? '').startsWith('pulls');
 export const _isRepoPRList = [
 	'https://github.com/sindresorhus/refined-github/pulls',
 	'https://github.com/sindresorhus/refined-github/pulls/',
-	'https://github.com/sindresorhus/refined-github/pulls/fregante',
 	'https://github.com/sindresorhus/refined-github/pulls?q=is%3Aopen+is%3Apr',
 	'https://github.com/sindresorhus/refined-github/pulls?q=is%3Apr+is%3Aclosed'
 ];
 
 // `issues/fregante` is a list but `issues/1`, `issues/new`, `issues/new/choose`, `issues/templates/edit` aren’t
-export const isRepoIssueList = (): boolean => String(getRepoPath()).startsWith('issues') && !/^issues\/(new|templates)($|\/)/.test(getRepoPath()!);
+export const isRepoIssueList = (): boolean =>
+	String(getRepoPath()).startsWith('issues') &&
+	!/^issues\/(\d+|new|templates)($|\/)/.test(getRepoPath()!);
 export const _isRepoIssueList = [
 	'http://github.com/sindresorhus/ava/issues',
 	'https://github.com/sindresorhus/refined-github/issues',
