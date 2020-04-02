@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/prefer-starts-ends-with, @typescript-eslint/prefer-string-starts-ends-with */
 /* The tested var might not be a string */
 
 import select from 'select-dom';
@@ -14,7 +13,7 @@ export const _is404 = domBased; // They're specified in page-detect.ts
 export const is500 = (): boolean => document.title === 'Server Error · GitHub' || document.title === 'Unicorn! · GitHub';
 export const _is500 = domBased; // They're specified in page-detect.ts
 
-export const isBlame = (): boolean => /^blame\//.test(getRepoPath()!);
+export const isBlame = (): boolean => String(getRepoPath()).startsWith('blame/');
 export const _isBlame = [
 	'https://github.com/sindresorhus/refined-github/blame/master/package.json'
 ];
@@ -37,7 +36,7 @@ export const _isCommitList = [
 	'https://github.com/sindresorhus/refined-github/pull/148/commits'
 ];
 
-export const isRepoCommitList = (): boolean => /^commits\//.test(getRepoPath()!);
+export const isRepoCommitList = (): boolean => String(getRepoPath).startsWith('commits/');
 export const _isRepoCommitList = [
 	'https://github.com/sindresorhus/refined-github/commits/master?page=2',
 	'https://github.com/sindresorhus/refined-github/commits/test-branch',
@@ -46,7 +45,7 @@ export const _isRepoCommitList = [
 	'https://github.com/sindresorhus/refined-github/commits/230c2935fc5aea9a681174ddbeba6255ca040d63'
 ];
 
-export const isCompare = (): boolean => /^compare/.test(getRepoPath()!);
+export const isCompare = (): boolean => String(getRepoPath()).startsWith('compare');
 export const _isCompare = [
 	'https://github.com/sindresorhus/refined-github/compare',
 	'https://github.com/sindresorhus/refined-github/compare/',
@@ -230,7 +229,7 @@ export const _isReleasesOrTags = [
 	'https://github.com/sindresorhus/refined-github/releases/tag/0.2.1'
 ];
 
-export const isEditingFile = (): boolean => /^edit/.test(getRepoPath()!);
+export const isEditingFile = (): boolean => String(getRepoPath()).startsWith('edit');
 export const _isEditingFile = [
 	'https://github.com/sindresorhus/refined-github/edit/master/readme.md',
 	'https://github.com/sindresorhus/refined-github/edit/ghe-injection/source/background.ts'
@@ -305,6 +304,8 @@ export const _isRepoRoot = [
 	'https://github.com/sindresorhus/branches'
 ];
 
+// This can't use `getRepoPath` to avoid infinite recursion.
+// `getRepoPath` depends on `isRepo` and `isRepo` depends on `isRepoSearch`
 export const isRepoSearch = (): boolean => location.pathname.slice(1).split('/')[2] === 'search';
 export const _isRepoSearch = [
 	'https://github.com/sindresorhus/refined-github/search?q=diff',
@@ -312,13 +313,13 @@ export const _isRepoSearch = [
 	'https://github.com/sindresorhus/refined-github/search'
 ];
 
-export const isRepoSettings = (): boolean => /^settings/.test(getRepoPath()!);
+export const isRepoSettings = (): boolean => String(getRepoPath()).startsWith('settings');
 export const _isRepoSettings = [
 	'https://github.com/sindresorhus/refined-github/settings',
 	'https://github.com/sindresorhus/refined-github/settings/branches'
 ];
 
-export const isRepoTree = (): boolean => isRepoRoot() || /^tree\//.test(getRepoPath()!);
+export const isRepoTree = (): boolean => isRepoRoot() || String(getRepoPath()).startsWith('tree/');
 export const _isRepoTree = [
 	'https://github.com/sindresorhus/refined-github/tree/master/distribution',
 	'https://github.com/sindresorhus/refined-github/tree/0.13.0/distribution',
@@ -334,14 +335,14 @@ export const _isSingleCommit = [
 	'https://github.com/sindresorhus/refined-github/commit/5b614'
 ];
 
-export const isSingleFile = (): boolean => /^blob\//.test(getRepoPath()!);
+export const isSingleFile = (): boolean => String(getRepoPath()).startsWith('blob/');
 export const _isSingleFile = [
 	'https://github.com/sindresorhus/refined-github/blob/master/.gitattributes',
 	'https://github.com/sindresorhus/refined-github/blob/fix-narrow-diff/distribution/content.css',
 	'https://github.com/sindresorhus/refined-github/blob/master/edit.txt'
 ];
 
-export const isFileFinder = (): boolean => /^find\//.test(getRepoPath()!);
+export const isFileFinder = (): boolean => String(getRepoPath()).startsWith('find/');
 export const _isFileFinder = [
 	'https://github.com/sindresorhus/refined-github/find/master'
 ];
