@@ -265,7 +265,7 @@ export const isRepoDiscussionList = (): boolean =>
 	isRepoTaxonomyDiscussionList();
 export const _isRepoDiscussionList = skip;
 
-export const isRepoPRList = (): boolean => (getRepoPath() ?? '').startsWith('pulls');
+export const isRepoPRList = (): boolean => String(getRepoPath()).startsWith('pulls');
 export const _isRepoPRList = [
 	'https://github.com/sindresorhus/refined-github/pulls',
 	'https://github.com/sindresorhus/refined-github/pulls/',
