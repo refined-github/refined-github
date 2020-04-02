@@ -10,7 +10,7 @@ const domBased = 'skip'; // To be used only to skip tests that are DOM-based rat
 export const is404 = (): boolean => document.title === 'Page not found · GitHub';
 export const _is404 = domBased; // They're specified in page-detect.ts
 
-export const is500 = (): boolean => document.title === 'Server Error · GitHub' || document.title === 'Unicorn! · GitHub';
+export const is500 = (): boolean => document.title === 'Server Error · GitHub' || document.title === 'Unicorn! · GitHub' || document.title === '504 Gateway Time-out';
 export const _is500 = domBased; // They're specified in page-detect.ts
 
 export const isBlame = (): boolean => String(getRepoPath()).startsWith('blame/');
