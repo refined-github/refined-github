@@ -8,7 +8,7 @@ import {getUsername, getCleanPathname} from '../libs/utils';
 
 const userIsAFollower = cache.function(async (): Promise<boolean> => {
 	const {httpStatus} = await api.v3(
-		`users/${getCleanPathname()}/following/${getUsername()}`,
+		`users/${userA}/following/${userB}`,
 		{ignoreHTTPStatus: true}
 	);
 
