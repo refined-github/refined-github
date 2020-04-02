@@ -222,7 +222,7 @@ export const _isQuickPR = [
 	'https://github.com/sindresorhus/refined-github/compare/test-branch?quick_pull=1'
 ];
 
-export const isReleasesOrTags = (): boolean /^tags$|^releases($|\/tag)/.test(getRepoPath());
+export const isReleasesOrTags = (): boolean /^tags$|^releases($|\/tag)/.test(getRepoPath()!);
 export const _isReleasesOrTags = [
 	'https://github.com/sindresorhus/refined-github/releases',
 	'https://github.com/sindresorhus/refined-github/tags',
