@@ -20,7 +20,7 @@ const userIsAFollower = cache.function(async (): Promise<boolean> => {
 });
 
 async function init(): Promise<void> {
-	if (await userIsAFollower()) {
+	if (await doesUserFollow(getCleanPathname(), getUsername())) {
 		select('.vcard-names-container:not(.is-placeholder)')!.after(
 			<div className="rgh-follower-badge">Follows you</div>
 		);
