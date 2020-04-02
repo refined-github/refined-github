@@ -277,14 +277,14 @@ export const _isRepoPRList = [
 	'https://github.com/sindresorhus/refined-github/pulls?q=is%3Apr+is%3Aclosed'
 ];
 
-export const isRepoIssueList = (): boolean => {
-	const parts = (getRepoPath() ?? '').split('/');
-	return parts[0] === 'issues' && parts[1] !== 'new' && !/\d/.test(parts[1]); // `issues/fregante` is a list but `issues/1` isn't
-};
+// `issues/fregante` is a list but `issues/1`, `issues/new`, `issues/new/choose`, `issues/templates/edit` aren’t
+export const isRepoIssueList = (): boolean => String(getRepoPath()).startsWith('issues') && !/^issues\/(new|templates)($|\/)/.test(getRepoPath()!);
 export const _isRepoIssueList = [
 	'http://github.com/sindresorhus/ava/issues',
 	'https://github.com/sindresorhus/refined-github/issues',
 	'https://github.com/sindresorhus/refined-github/issues/fregante',
+	'https://github.com/sindresorhus/refined-github/issues/newton',
+	'https://github.com/sindresorhus/refined-github/issues/wptemplates',
 	'https://github.com/sindresorhus/refined-github/issues?q=is%3Aclosed+sort%3Aupdated-desc'
 ];
 
