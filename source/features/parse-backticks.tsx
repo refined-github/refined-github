@@ -22,7 +22,8 @@ function parseAll(): void {
 		'.release-header', // `isReleasesOrTags` Headers
 		'.Box-row.js-navigation-item a.link-gray-dark', // `isGlobalDiscussionList`
 		'[data-channel^="check_suites"] a', // `isActions`
-		'.repository-content .pr-toolbar h2' // `isActions` run
+		'.repository-content .pr-toolbar h2', // `isActions` run
+		'#wiki-wrapper h1' // `isWiki`
 	].map(selector => selector + ':not(.rgh-backticks-already-parsed)'))) {
 		title.classList.add('rgh-backticks-already-parsed');
 		parseBackticks(title);
