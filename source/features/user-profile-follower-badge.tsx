@@ -6,7 +6,7 @@ import * as api from '../libs/api';
 import features from '../libs/features';
 import {getUsername, getCleanPathname} from '../libs/utils';
 
-const userIsFollowing = cache.function(async (): Promise<boolean> => {
+const userIsAFollower = cache.function(async (): Promise<boolean> => {
 	const {httpStatus} = await api.v3(
 		`users/${getCleanPathname()}/following/${getUsername()}`,
 		{ignoreHTTPStatus: true}
@@ -20,7 +20,7 @@ const userIsFollowing = cache.function(async (): Promise<boolean> => {
 });
 
 async function init(): Promise<void> {
-	if (await userIsFollowing()) {
+	if (await userIsAFollower()) {
 		select('.vcard-names-container:not(.is-placeholder)')!.after(
 			<div className="rgh-follower-badge">Follows you</div>
 		);
