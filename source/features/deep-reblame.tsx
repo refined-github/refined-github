@@ -79,8 +79,8 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 
 	const [, currentFilename] = getCleanPathname().split(getReference()! + '/');
 
-	const prBlameCommit = await getPullRequestBlameCommit(prCommit, prNumber, currentFilename);
-	if (prBlameCommit) {
+	try {
+		const prBlameCommit = await getPullRequestBlameCommit(prCommit, prNumber, currentFilename);
 		const lineNumber = select('.js-line-number', blameHunk)!.textContent!;
 		const href = new URL(location.href.replace(getReference()!, prBlameCommit));
 		href.hash = 'L' + lineNumber;
