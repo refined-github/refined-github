@@ -1,21 +1,19 @@
 import './user-profile-follower-badge.css';
 import React from 'dom-chef';
-import select from 'select-dom';
 import cache from 'webext-storage-cache';
+import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {getUsername, getCleanPathname} from '../libs/utils';
 
 const doesUserFollow = cache.function(async (userA: string, userB: string): Promise<boolean> => {
-	const {httpStatus} = await api.v3(
-		`users/${userA}/following/${userB}`,
-		{ignoreHTTPStatus: true}
-	);
+	const {httpStatus} = await api.v3(`users/${userA}/following/${userB}`, {
+		ignoreHTTPStatus: true
+	});
 
 	return httpStatus === 204;
 }, {
 	maxAge: 3,
-	staleWhileRevalidate: 20,
 	cacheKey: ([userA, userB]) => `user-follows:${userA}:${userB}`
 });
 
