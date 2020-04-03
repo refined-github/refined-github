@@ -7,11 +7,16 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import loadingIcon from '../libs/icon-loading';
-import {getRepoGQL, getReference, looseParseInt} from '../libs/utils';
+import {getRepoGQL, getReference, looseParseInt, getCleanPathname} from '../libs/utils';
 
-const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number): Promise<string | false> => {
+const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number, currentFilename: string): Promise<string | false> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
+			file: object(expression: "${commit}:${currentFilename}") {
+				... on Blob {
+					id
+				}
+			}
 			object(expression: "${commit}") {
 				... on Commit {
 					associatedPullRequests(last: 1) {
@@ -36,7 +41,7 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number): 
 
 	const associatedPR = repository.object.associatedPullRequests.nodes[0];
 
-	if (!associatedPR) {
+	if (!associatedPR || !repository.file) {
 		return false;
 	}
 
@@ -68,7 +73,10 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 
 	blameElement.blur(); // Hide tooltip after click, it’s shown on :focus
 
-	const prBlameCommit = await getPullRequestBlameCommit(prCommit, prNumber);
+	const splitPath = getCleanPathname().split('/');
+	const currentFilename = splitPath.slice(Math.max(splitPath.length - 3, 1)).join('/');
+
+	const prBlameCommit = await getPullRequestBlameCommit(prCommit, prNumber, currentFilename);
 	if (prBlameCommit) {
 		const lineNumber = select('.js-line-number', blameHunk)!.textContent!;
 		const href = new URL(location.href.replace(getReference()!, prBlameCommit));
