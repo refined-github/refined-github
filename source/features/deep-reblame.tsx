@@ -7,11 +7,16 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import loadingIcon from '../libs/icon-loading';
-import {getRepoGQL, getReference, looseParseInt} from '../libs/utils';
+import {getRepoGQL, getReference, looseParseInt, getCleanPathname} from '../libs/utils';
 
-const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number): Promise<string | false> => {
+const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number, currentFilename: string): Promise<string> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
+			file: object(expression: "${commit}:${currentFilename}") {
+				... on Blob {
+					id
+				}
+			}
 			object(expression: "${commit}") {
 				... on Commit {
 					associatedPullRequests(last: 1) {
@@ -36,28 +41,24 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number): 
 
 	const associatedPR = repository.object.associatedPullRequests.nodes[0];
 
-	if (!associatedPR) {
-		return false;
+	if (!associatedPR || associatedPR.number !== prNumber || associatedPR.mergeCommit.oid !== commit) {
+		throw new Error('The PR linked in the title didn’t create this commit');
 	}
 
-	const mergeCommit = associatedPR.mergeCommit.oid;
-
-	if (associatedPR.number === prNumber && mergeCommit === commit) {
-		return associatedPR.commits.nodes[0].commit.oid;
+	if (!repository.file) {
+		throw new Error('The file was renamed and Refined GitHub can’t find it');
 	}
 
-	return false;
+	return associatedPR.commits.nodes[0].commit.oid;
 });
 
 async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchorElement | HTMLButtonElement>): Promise<void> {
 	const blameElement = event.delegateTarget;
-	if (blameElement instanceof HTMLAnchorElement) {
-		if (event.altKey) {
-			event.preventDefault();
-		} else {
-			return; // Unmodified click on regular link: let it proceed
-		}
+	if (blameElement instanceof HTMLAnchorElement && !event.altKey) {
+		return; // Unmodified click on regular link: let it proceed
 	}
+
+	event.preventDefault();
 
 	const blameHunk = blameElement.closest('.blame-hunk')!;
 	const prNumber = looseParseInt(select('.issue-link', blameHunk)!.textContent!);
@@ -68,25 +69,26 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 
 	blameElement.blur(); // Hide tooltip after click, it’s shown on :focus
 
-	const prBlameCommit = await getPullRequestBlameCommit(prCommit, prNumber);
-	if (prBlameCommit) {
+	const [, currentFilename] = getCleanPathname().split(getReference()! + '/');
+
+	try {
+		const prBlameCommit = await getPullRequestBlameCommit(prCommit, prNumber, currentFilename);
 		const lineNumber = select('.js-line-number', blameHunk)!.textContent!;
 		const href = new URL(location.href.replace(getReference()!, prBlameCommit));
 		href.hash = 'L' + lineNumber;
 		location.href = String(href);
-		return;
-	}
-
-	if (blameElement instanceof HTMLAnchorElement) {
+	} catch (error) {
+		if (blameElement instanceof HTMLAnchorElement) {
 		// Restore the regular version link if there was one
-		blameElement.setAttribute('aria-label', 'View blame prior to this change.');
-		blameElement.classList.remove('rgh-deep-blame');
-		spinner.replaceWith(versionIcon());
-	} else {
-		spinner.remove();
-	}
+			blameElement.setAttribute('aria-label', 'View blame prior to this change.');
+			blameElement.classList.remove('rgh-deep-blame');
+			spinner.replaceWith(versionIcon());
+		} else {
+			spinner.remove();
+		}
 
-	alert('The PR linked in the title didn’t create this commit');
+		alert(error.message);
+	}
 }
 
 function init(): void | false {
