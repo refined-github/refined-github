@@ -71,7 +71,8 @@ features.add({
 	id: __featureName__,
 	description: 'Adds comment indicators when comments are hidden in PR review.',
 	screenshot:
-		'https://user-images.githubusercontent.com/1402241/63112671-011d5580-bfbb-11e9-9e19-53e11641990e.gif',
+		'https://user-images.githubusercontent.com/1402241/63112671-011d5580-bfbb-11e9-9e19-53e11641990e.gif'
+}, {
 	include: [
 		features.isPRFiles,
 		features.isPRCommit

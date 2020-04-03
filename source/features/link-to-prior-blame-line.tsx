@@ -11,7 +11,8 @@ function init(): void {
 features.add({
 	id: __featureName__,
 	description: 'Preserves the current line on “View blame prior to this change” links.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/60064482-26b47e00-9733-11e9-803c-c113ea612fbe.png',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/60064482-26b47e00-9733-11e9-803c-c113ea612fbe.png'
+}, {
 	include: [
 		features.isBlame
 	],

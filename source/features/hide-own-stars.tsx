@@ -26,9 +26,11 @@ async function init(): Promise<void> {
 features.add({
 	id: __featureName__,
 	description: 'Hides "starred" events for your own repos on the newsfeed.',
-	screenshot: false,
+	screenshot: false
+}, {
 	include: [
 		features.isDashboard
 	],
+	load: features.onDocumentStart,
 	init
 });

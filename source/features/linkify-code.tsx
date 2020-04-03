@@ -34,7 +34,8 @@ function init(): false | void {
 features.add({
 	id: __featureName__,
 	description: 'Linkifies URLs and issue references in code.',
-	screenshot: 'https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png',
+	screenshot: 'https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png'
+}, {
 	include: [
 		features.hasCode
 	],

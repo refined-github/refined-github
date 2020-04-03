@@ -89,7 +89,8 @@ function init(): false | void {
 features.add({
 	id: __featureName__,
 	description: 'Simplifies the PR review form: Approve or reject reviews faster with one-click review-type buttons.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png'
+}, {
 	include: [
 		features.isPR
 	],

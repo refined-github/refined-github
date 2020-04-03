@@ -3,7 +3,7 @@ type AsyncVoidFunction = () => Promise<void>;
 type Unpromise<MaybePromise> = MaybePromise extends Promise<infer Type> ? Type : MaybePromise;
 type AsyncReturnType<T extends (...args: any) => any> = Unpromise<ReturnType<T>>;
 
-interface FeatureInfo {
+interface FeatureInfo { // TODO: merge with FeatureMeta
 	name: string;
 	description: string;
 	screenshot?: string;
@@ -19,7 +19,6 @@ declare const __featuresInfo__: FeatureInfo[];
 declare const __featureName__: 'use the __featureName__ variable';
 
 interface Window {
-	collectFeatures: Map<string, FeatureDetails>;
 	content: GlobalFetch;
 }
 

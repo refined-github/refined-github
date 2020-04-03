@@ -21,7 +21,8 @@ function init(): void {
 features.add({
 	id: __featureName__,
 	description: 'Automatically deletes the branch right after merging a PR, if possible.',
-	screenshot: false,
+	screenshot: false
+}, {
 	include: [
 		features.isPRConversation
 	],

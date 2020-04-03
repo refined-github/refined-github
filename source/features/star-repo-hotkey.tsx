@@ -12,12 +12,13 @@ features.add({
 	id: __featureName__,
 	description: 'Adds a keyboard shortcut to star/unstar the current repo: `g` `s`.',
 	screenshot: false,
+	shortcuts: {
+		'g s': 'Star and unstar repository'
+	}
+}, {
 	include: [
 		features.isRepo
 	],
 	load: features.onAjaxedPages,
-	shortcuts: {
-		'g s': 'Star and unstar repository'
-	},
 	init
 });

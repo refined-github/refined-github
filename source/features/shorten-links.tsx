@@ -12,11 +12,12 @@ function init(): void {
 features.add({
 	id: __featureName__,
 	description: 'Shortens URLs and repo URLs to readable references like "_user/repo/.file@`d71718d`".',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/27252232-8fdf8ed0-538b-11e7-8f19-12d317c9cd32.png',
-	load: features.onAjaxedPages,
+	screenshot: 'https://user-images.githubusercontent.com/1402241/27252232-8fdf8ed0-538b-11e7-8f19-12d317c9cd32.png'
+}, {
 	exclude: [
 		// Due to GitHub’s bug: #2828
 		features.isGlobalSearchResults
 	],
+	load: features.onAjaxedPages,
 	init
 });

@@ -74,7 +74,8 @@ async function init(): Promise<void> {
 features.add({
 	id: __featureName__,
 	description: 'Adds the age of the repository to the stats/numbers bar',
-	screenshot: 'https://user-images.githubusercontent.com/3848317/69256318-95e6af00-0bb9-11ea-84c8-c6996d39da80.png',
+	screenshot: 'https://user-images.githubusercontent.com/3848317/69256318-95e6af00-0bb9-11ea-84c8-c6996d39da80.png'
+}, {
 	include: [
 		features.isRepoRoot
 	],

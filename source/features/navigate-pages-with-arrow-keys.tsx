@@ -17,10 +17,11 @@ features.add({
 	id: __featureName__,
 	description: 'Adds shortcuts to navigate through pages with pagination: `←` and `→`.',
 	screenshot: false,
-	load: features.onAjaxedPages,
 	shortcuts: {
 		'→': 'Go to the next page',
 		'←': 'Go to the previous page'
-	},
+	}
+}, {
+	load: features.onAjaxedPages,
 	init
 });

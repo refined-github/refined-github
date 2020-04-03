@@ -2,16 +2,15 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import onDomReady from 'dom-loaded';
 import elementReady from 'element-ready';
-import optionsStorage, {RGHOptions} from '../options-storage';
-import onNewComments from './on-new-comments';
-import onFileListUpdate from './on-file-list-update';
-import * as pageDetect from './page-detect';
 import {logError} from './utils';
+import onNewComments from './on-new-comments';
+import * as pageDetect from './page-detect';
+import onFileListUpdate from './on-file-list-update';
+import optionsStorage, {RGHOptions} from '../options-storage';
 
 type BooleanFunction = () => boolean;
 type VoidFunction = () => void;
 type callerFunction = (callback: VoidFunction) => void;
-
 type FeatureShortcuts = Record<string, string>;
 
 interface Shortcut {
@@ -19,21 +18,28 @@ interface Shortcut {
 	description: string;
 }
 
-export interface FeatureDetails {
+interface FeatureMeta {
 	/**
 	If it's disabled, this should be the issue that explains why, as a reference
 	@example '#123'
 	*/
 	disabled?: string;
 	id: typeof __featureName__;
-	description: string | false;
+	description: string;
 	screenshot: string | false;
+	shortcuts?: FeatureShortcuts;
+}
+
+interface FeatureLoader extends Omit<FeatureRunner, 'id'> {
+	load: callerFunction | Promise<void>;
+}
+
+interface FeatureRunner {
+	id: typeof __featureName__;
 	include?: BooleanFunction[];
 	exclude?: BooleanFunction[];
 	init: () => false | void | Promise<false | void>;
 	deinit?: () => void;
-	load?: callerFunction | Promise<void>;
-	shortcuts?: FeatureShortcuts;
 }
 
 /*
@@ -116,10 +122,10 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	resolve(options);
 });
 
-const run = async ({id, include, exclude, init, deinit}: FeatureDetails): Promise<void> => {
+const run = async ({id, include, exclude, init, deinit}: FeatureRunner): Promise<void> => {
 	// If every `include` is false and no `exclude` is true, don’t run the feature
 	if (include!.every(c => !c()) || exclude!.some(c => c())) {
-		return deinit!();
+		return deinit?.();
 	}
 
 	try {
@@ -131,7 +137,7 @@ const run = async ({id, include, exclude, init, deinit}: FeatureDetails): Promis
 		if (error.message.includes('token')) {
 			console.log(`ℹ️ Refined GitHub: \`${id}\`:`, error.message);
 		} else {
-			logError(id as typeof __featureName__, error);
+			logError(id, error);
 		}
 	}
 };
@@ -142,30 +148,18 @@ const getShortcuts = (): Shortcut[] => [...shortcutMap.values()];
 /*
  * Register a new feature
  */
-const add = async (definition: FeatureDetails): Promise<void> => {
+const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void> => {
 	/* Input defaults and validation */
 	const {
 		id,
-		description,
-		screenshot,
-		include = [() => true], // Default: every page
-		exclude = [], // Default: nothing
-		load = (fn: VoidFunction) => fn(), // Run it right away
-		init,
-		deinit = () => {}, // Noop
-		shortcuts = {},
-		disabled = false
-	} = definition;
+		disabled = false,
+		shortcuts = {}
+	} = meta;
 
 	/* Feature filtering and running */
 	const options = await globalReady;
 	if (disabled || options[`feature:${id}`] === false) {
 		log('↩️', 'Skipping', id, disabled ? `because of ${disabled}` : '');
-		return;
-	}
-
-	// 404 pages should only run 404-only features
-	if (pageDetect.is404() && !include.includes(pageDetect.is404)) {
 		return;
 	}
 
@@ -175,21 +169,35 @@ const add = async (definition: FeatureDetails): Promise<void> => {
 		shortcutMap.set(hotkey, {hotkey, description});
 	}
 
-	// Initialize the feature using the specified loading mechanism
-	const details: FeatureDetails = {id, description, screenshot, include, exclude, init, deinit};
-	if (load === onNewComments) {
-		details.init = async () => {
-			const result = await init();
-			onNewComments(init);
-			return result;
-		};
+	for (const loader of loaders) {
+		// Input defaults and validation
+		const {
+			include = [() => true], // Default: every page
+			exclude = [], // Default: nothing
+			init,
+			deinit,
+			load
+		} = loader;
 
-		onAjaxedPages(() => run(details));
-	} else if (load instanceof Promise) {
-		await load;
-		run(details);
-	} else {
-		load(() => run(details));
+		// 404 pages should only run 404-only features
+		if (pageDetect.is404() && !include.includes(pageDetect.is404)) {
+			continue;
+		}
+
+		const details = {id, include, exclude, init, deinit};
+		if (load === onNewComments) {
+			details.init = async () => {
+				const result = await init();
+				onNewComments(init);
+				return result;
+			};
+
+			onAjaxedPages(() => run(details));
+		} else if (load instanceof Promise) {
+			load.then(() => run(details));
+		} else {
+			load(() => run(details));
+		}
 	}
 };
 
@@ -199,6 +207,7 @@ export default {
 	getShortcuts,
 
 	// Loading mechanisms
+	onDocumentStart: (cb: VoidFunction) => cb(),
 	onDomReady,
 	onNewComments,
 	onFileListUpdate,

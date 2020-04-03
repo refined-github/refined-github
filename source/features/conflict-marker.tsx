@@ -67,7 +67,8 @@ features.add({
 	id: __featureName__,
 	description: 'Shows which PRs have conflicts in PR lists',
 	screenshot:
-		'https://user-images.githubusercontent.com/9092510/62777551-2affe500-baae-11e9-8ba4-67f078347913.png',
+		'https://user-images.githubusercontent.com/9092510/62777551-2affe500-baae-11e9-8ba4-67f078347913.png'
+}, {
 	include: [
 		features.isDiscussionList
 	],

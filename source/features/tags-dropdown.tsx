@@ -55,7 +55,8 @@ function updateLinksToTag(): void {
 features.add({
 	id: __featureName__,
 	description: 'Adds a tags dropdown/search on tag/release pages.',
-	screenshot: 'https://user-images.githubusercontent.com/22439276/56373231-27ee9980-621e-11e9-9b21-601919d3dddf.png',
+	screenshot: 'https://user-images.githubusercontent.com/22439276/56373231-27ee9980-621e-11e9-9b21-601919d3dddf.png'
+}, {
 	include: [
 		features.isReleasesOrTags
 	],
