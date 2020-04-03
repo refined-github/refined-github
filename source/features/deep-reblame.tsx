@@ -9,7 +9,7 @@ import features from '../libs/features';
 import loadingIcon from '../libs/icon-loading';
 import {getRepoGQL, getReference, looseParseInt, getCleanPathname} from '../libs/utils';
 
-const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number, currentFilename: string): Promise<string | Error> => {
+const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number, currentFilename: string): Promise<string> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			file: object(expression: "${commit}:${currentFilename}") {
@@ -76,7 +76,7 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	try {
 		const prBlameCommit = await getPullRequestBlameCommit(prCommit, prNumber, currentFilename);
 		const lineNumber = select('.js-line-number', blameHunk)!.textContent!;
-		const href = new URL(location.href.replace(getReference()!, prBlameCommit as string));
+		const href = new URL(location.href.replace(getReference()!, prBlameCommit));
 		href.hash = 'L' + lineNumber;
 		location.href = String(href);
 	} catch (error) {
@@ -89,7 +89,7 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 			spinner.remove();
 		}
 
-		alert(error);
+		alert(error.message);
 	}
 }
 
