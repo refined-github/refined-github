@@ -14,10 +14,19 @@ const expandingCodeObserver = new MutationObserver(([mutation]) => {
 	}
 });
 
+function disconnectOnEscape(event: KeyboardEvent): void {
+	if (event.key === 'Escape') {
+		document.body.removeEventListener('keyup', disconnectOnEscape);
+		expandingCodeObserver.disconnect();
+	}
+}
+
 function handleAltClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	if (!event.altKey) {
 		return;
 	}
+
+	document.body.addEventListener('keyup', disconnectOnEscape);
 
 	expandingCodeObserver.observe(
 		event.delegateTarget.closest('.diff-table > tbody')!,

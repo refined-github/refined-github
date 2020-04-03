@@ -11,10 +11,10 @@ const observer = new IntersectionObserver(([{intersectionRatio, target}]) => {
 
 function init(): void {
 	// The `open` attribute is added after this handler is run, so the selector is inverted
-	delegate('.details-overlay:not([open]) > summary', 'click', ({delegateTarget: summary}) => {
+	delegate('.details-overlay:not([open]) > summary[aria-haspopup="menu"]', 'click', ({delegateTarget: summary}) => {
 		// The timeout gives the element time to "open"
 		setTimeout(() => {
-			const modalBox = summary.parentElement!.querySelector('.dropdown-menu, .select-menu-modal, .SelectMenu-modal')!;
+			const modalBox = summary.parentElement!.querySelector('details-menu')!;
 			if (modalBox.getBoundingClientRect().width === 0) {
 				logError(__featureName__, 'Modal element was not correctly detected for', summary);
 				return;

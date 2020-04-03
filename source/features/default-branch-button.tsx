@@ -48,7 +48,8 @@ features.add({
 }, {
 	include: [
 		features.isRepoTree,
-		features.isSingleFile
+		features.isSingleFile,
+		features.isRepoCommitList
 	],
 	load: [
 		'onDocumentStart',

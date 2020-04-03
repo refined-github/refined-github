@@ -50,6 +50,7 @@ async function updateUI(forks: string[]): Promise<void> {
 			<details className="details-reset details-overlay select-menu float-left">
 				<summary
 					className="select-menu-button float-left btn btn-sm btn-with-count rgh-forked-button"
+					aria-haspopup="menu"
 					title="Open any of your forks"/>
 				<details-menu
 					style={{zIndex: 99}}
