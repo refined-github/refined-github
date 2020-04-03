@@ -3,6 +3,7 @@
 /// <reference path="../source/globals.d.ts" />
 
 import test from 'ava';
+import stripIndent from 'strip-indent';
 import './fixtures/globals';
 import * as pageDetect from '../source/libs/page-detect';
 
@@ -36,7 +37,13 @@ for (const [key, detect] of Object.entries(pageDetect)) {
 	for (const url of validURLs) {
 		test(`${key} ${++i}`, t => {
 			location.href = url;
-			t.true(detect(), `\n${url}\nisn’t matched by ${key}() but it’s in its tests array.`);
+			t.true(detect(), stripIndent(`
+				Is this URL \`${key}\`?
+					${url.replace('https://github.com', '')}
+
+				• Yes? The \`${key}\` test is wrong and should be fixed.
+				• No? Remove it to the \`_${key}\` array.
+			`));
 		});
 	}
 
@@ -49,7 +56,13 @@ for (const [key, detect] of Object.entries(pageDetect)) {
 		if (!validURLs.includes(url)) {
 			test(`${key} ${++i}`, t => {
 				location.href = url;
-				t.false(detect(), `\n${url}\nis matched by ${key.replace(/^is/, '')}, but it isn’t specified in its tests array. Add it or fix the test.`);
+				t.false(detect(), stripIndent(`
+					Is this URL \`${key}\`?
+						${url.replace('https://github.com', '')}
+
+					• Yes? Add it to the \`_${key}\` array.
+					• No? The \`${key}\` test is wrong and should be fixed.
+				`));
 			});
 		}
 	}
