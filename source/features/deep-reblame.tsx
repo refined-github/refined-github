@@ -73,7 +73,7 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 
 	blameElement.blur(); // Hide tooltip after click, it’s shown on :focus
 
-	const splitPath = getCleanPathname().split('/');
+	const currentFilename = getCleanPathname().split('/').slice(-3).join('/');
 	const currentFilename = splitPath.slice(Math.max(splitPath.length - 3, 1)).join('/');
 
 	const prBlameCommit = await getPullRequestBlameCommit(prCommit, prNumber, currentFilename);
