@@ -49,13 +49,7 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number, c
 		throw new Error('The file was renamed and Refined GitHub can’t find it');
 	}
 
-	const mergeCommit = associatedPR.mergeCommit.oid;
-
-	if (associatedPR.number === prNumber && mergeCommit === commit) {
-		return associatedPR.commits.nodes[0].commit.oid;
-	}
-
-	throw new Error('The PR linked in the title didn’t create this commit');
+	return associatedPR.commits.nodes[0].commit.oid;
 });
 
 async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchorElement | HTMLButtonElement>): Promise<void> {
