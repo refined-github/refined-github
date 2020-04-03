@@ -2,6 +2,7 @@ import elementReady from 'element-ready';
 import './parse-backticks.css';
 import select from 'select-dom';
 import features from '../libs/features';
+import onNewsfeedLoad from '../libs/on-newsfeed-load';
 import {parseBackticks} from '../libs/dom-formatters';
 
 function parseAll(): void {
@@ -30,25 +31,12 @@ function parseAll(): void {
 	}
 }
 
-const observer = new MutationObserver(([{addedNodes}]) => {
-	parseAll();
-
-	// Observe the new ajaxed-in containers
-	for (const node of addedNodes) {
-		if (node instanceof HTMLDivElement) {
-			observer.observe(node, {childList: true});
-		}
-	}
-});
-
-// Highlight code in issue/PR titles on Dashboard page
+// Highlight code in issue/PR titles on Dashboard page ("Recent activity" container)
 async function initDashboard(): Promise<void> {
 	await elementReady('.js-recent-activity-container', {stopOnDomReady: false});
 	for (const title of select.all('.js-recent-activity-container .text-bold')) {
 		parseBackticks(title);
 	}
-
-	observer.observe((await elementReady('#dashboard .news'))!, {childList: true});
 }
 
 features.add({
@@ -68,4 +56,10 @@ features.add({
 	],
 	load: features.onDocumentStart,
 	init: initDashboard
+}, {
+	include: [
+		features.isDashboard
+	],
+	load: features.onDocumentStart,
+	init: () => onNewsfeedLoad(parseAll)
 });
