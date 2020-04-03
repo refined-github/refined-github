@@ -9,6 +9,10 @@ async function init(): Promise<void> {
 
 async function bypass(check: HTMLElement): Promise<void> {
 	const details = select<HTMLAnchorElement>('.status-actions', check.parentElement!)!;
+	if (details.origin !== location.origin) {
+		return;
+	}
+
 	const directLink = await fetchDom(details.href, 'a.text-small .octicon-link-external');
 	details.href = (directLink!.parentElement as HTMLAnchorElement).href;
 }
