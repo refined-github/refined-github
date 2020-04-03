@@ -19,9 +19,6 @@ features.add({
 	include: [
 		features.isSingleFile
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad'
-	],
+	load: features.onAjaxedPages,
 	init
 });

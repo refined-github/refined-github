@@ -33,9 +33,6 @@ features.add({
 	include: [
 		features.isRepo
 	],
-	load: [
-		'onDocumentStart',
-		'onAjaxedLoad'
-	],
+	load: features.nowAndOnAjaxedPages,
 	init
 });

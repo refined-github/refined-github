@@ -63,8 +63,6 @@ features.add({
 	include: [
 		features.isDashboard
 	],
-	load: [
-		'onDomReady'
-	],
+	load: features.onDomReady,
 	init
 });

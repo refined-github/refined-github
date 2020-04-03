@@ -68,9 +68,6 @@ features.add({
 	include: [
 		features.isRepoCommitList
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad'
-	],
+	load: features.onAjaxedPages,
 	init
 });

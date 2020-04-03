@@ -60,9 +60,6 @@ features.add({
 		features.isIssue,
 		features.isCompare
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad'
-	],
+	load: features.onAjaxedPages,
 	init
 });

@@ -46,9 +46,6 @@ features.add({
 		features.isCompare,
 		features.isPRConversation
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad'
-	],
+	load: features.onAjaxedPages,
 	init
 });

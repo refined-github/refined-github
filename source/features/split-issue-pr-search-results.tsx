@@ -69,9 +69,6 @@ features.add({
 		features.isRepoSearch,
 		features.isGlobalSearchResults
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad'
-	],
+	load: features.onAjaxedPages,
 	init
 });

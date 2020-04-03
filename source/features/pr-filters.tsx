@@ -125,9 +125,6 @@ features.add({
 	include: [
 		features.isPRList
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad'
-	],
+	load: features.onAjaxedPages,
 	init
 });

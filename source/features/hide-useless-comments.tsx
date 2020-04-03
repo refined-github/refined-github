@@ -65,9 +65,6 @@ features.add({
 	include: [
 		features.isIssue
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad'
-	],
+	load: features.onAjaxedPages,
 	init
 });

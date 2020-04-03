@@ -39,9 +39,6 @@ features.add({
 	include: [
 		features.hasCode
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad'
-	],
+	load: features.onAjaxedPages,
 	init
 });

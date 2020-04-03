@@ -30,8 +30,6 @@ features.add({
 	description: 'Automatically closes dropdown menus when they’re no longer visible.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/37022353-531c676e-2155-11e8-96cc-80d934bb22e0.gif'
 }, {
-	load: [
-		'onDocumentStart'
-	],
+	load: features.onDocumentStart,
 	init
 });

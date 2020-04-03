@@ -10,8 +10,6 @@ features.add({
 	description: 'Use a monospace font for all textareas.',
 	screenshot: false
 }, {
-	load: [
-		'onDocumentStart'
-	],
+	load: features.onDocumentStart,
 	init
 });

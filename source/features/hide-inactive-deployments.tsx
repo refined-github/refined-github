@@ -21,10 +21,6 @@ features.add({
 	include: [
 		features.isPRConversation
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad',
-		'onNewComments'
-	],
+	load: features.onNewComments,
 	init
 });

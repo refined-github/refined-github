@@ -38,19 +38,13 @@ features.add({
 	include: [
 		features.isRepoDiscussionList
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad'
-	],
+	load: features.onAjaxedPages,
 	init: highlightCollaborators
 }, {
 	include: [
 		features.isDiscussionList
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad'
-	],
+	load: features.onAjaxedPages,
 	init: highlightSelf
 });
 

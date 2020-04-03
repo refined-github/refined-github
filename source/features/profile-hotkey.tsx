@@ -20,8 +20,6 @@ features.add({
 		'g m': 'Go to Profile'
 	}
 }, {
-	load: [
-		'onDomReady'
-	],
+	load: features.onDomReady,
 	init
 });

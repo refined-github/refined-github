@@ -72,18 +72,12 @@ features.add({
 	include: [
 		features.isDashboard
 	],
-	load: [
-		onNewsfeedLoad
-	],
-	init
+	load: features.onDomReady,
+	init: () => onNewsfeedLoad(init)
 }, {
 	include: [
 		features.hasComments
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad',
-		'onNewComments'
-	],
+	load: features.onNewComments,
 	init
 });

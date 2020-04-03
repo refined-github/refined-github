@@ -36,9 +36,6 @@ features.add({
 	include: [
 		features.hasRichTextEditor
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad'
-	],
+	load: features.onAjaxedPages,
 	init
 });

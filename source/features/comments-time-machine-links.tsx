@@ -79,10 +79,6 @@ features.add({
 	include: [
 		features.hasComments
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad',
-		'onNewComments'
-	],
+	load: features.onNewComments,
 	init
 });

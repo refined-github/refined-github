@@ -141,9 +141,6 @@ features.add({
 		features.isEditingFile,
 		features.isSingleFile
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad'
-	],
+	load: features.onAjaxedPages,
 	init
 });

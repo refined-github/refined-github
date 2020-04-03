@@ -48,9 +48,6 @@ features.add({
 	exclude: [
 		features.isOrganizationProfile
 	],
-	load: [
-		'onDocumentStart',
-		'onAjaxedLoad'
-	],
+	load: features.nowAndOnAjaxedPages,
 	init
 });

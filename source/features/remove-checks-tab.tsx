@@ -31,9 +31,6 @@ features.add({
 	include: [
 		features.isPR
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad'
-	],
+	load: features.onAjaxedPages,
 	init
 });

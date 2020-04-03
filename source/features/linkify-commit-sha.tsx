@@ -18,9 +18,6 @@ features.add({
 	include: [
 		features.isPRCommit
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad'
-	],
+	load: features.onAjaxedPages,
 	init
 });

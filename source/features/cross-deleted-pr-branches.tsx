@@ -44,9 +44,6 @@ features.add({
 	include: [
 		features.isPRConversation
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad'
-	],
+	load: features.onAjaxedPages,
 	init
 });

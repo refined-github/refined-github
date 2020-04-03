@@ -16,9 +16,6 @@ features.add({
 	include: [
 		features.isRepoRoot
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad'
-	],
+	load: features.onAjaxedPages,
 	init
 });

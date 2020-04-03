@@ -35,9 +35,7 @@ features.add({
 		features.isIssue,
 		features.isPRConversation
 	],
-	load: [
-		'onAjaxedLoadRaw'
-	],
+	load: features.onAjaxedPagesRaw,
 	init,
 	deinit
 });

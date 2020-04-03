@@ -23,9 +23,6 @@ features.add({
 		features.isPR,
 		features.isIssue
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad'
-	],
+	load: features.onAjaxedPages,
 	init
 });

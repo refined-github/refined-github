@@ -64,9 +64,6 @@ features.add({
 		features.isCommit,
 		features.isCompare
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad'
-	],
+	load: features.onAjaxedPages,
 	init
 });

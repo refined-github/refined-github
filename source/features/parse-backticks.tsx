@@ -43,17 +43,12 @@ features.add({
 		features.isRepoTree,
 		features.isSingleFile
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad'
-	],
+	load: features.onAjaxedPages,
 	init: initGeneral
 }, {
 	include: [
 		features.isDashboard
 	],
-	load: [
-		'onDocumentStart'
-	],
+	load: features.onDocumentStart,
 	init: initDashboard
 });

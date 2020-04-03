@@ -3,13 +3,14 @@ import select from 'select-dom';
 import onDomReady from 'dom-loaded';
 import elementReady from 'element-ready';
 import {logError} from './utils';
-import onPrFileLoad from './on-pr-file-load';
 import onNewComments from './on-new-comments';
 import * as pageDetect from './page-detect';
 import onFileListUpdate from './on-file-list-update';
 import optionsStorage, {RGHOptions} from '../options-storage';
 
 type BooleanFunction = () => boolean;
+type VoidFunction = () => void;
+type callerFunction = (callback: VoidFunction) => void;
 type FeatureShortcuts = Record<string, string>;
 
 interface Shortcut {
@@ -29,10 +30,8 @@ interface FeatureMeta {
 	shortcuts?: FeatureShortcuts;
 }
 
-type LoadingMethod = keyof typeof methods;
-type CallbackFunction = (callback: VoidCallback) => void;
 interface FeatureLoader extends Omit<FeatureRunner, 'id'> {
-	load: Array<LoadingMethod | CallbackFunction>;
+	load: callerFunction | Promise<void>;
 }
 
 interface FeatureRunner {
@@ -46,47 +45,38 @@ interface FeatureRunner {
 /*
  * When navigating back and forth in history, GitHub will preserve the DOM changes;
  * This means that the old features will still be on the page and don't need to re-run.
- * For this reason `onAjaxedLoad` will only call its callback when a *new* page is loaded.
+ * For this reason `onAjaxedPages` will only call its callback when a *new* page is loaded.
  *
- * Alternatively, use `onAjaxedLoadRaw` if your callback needs to be called at every page
+ * Alternatively, use `onAjaxedPagesRaw` if your callback needs to be called at every page
  * change (e.g. to "unmount" a feature / listener) regardless of *newness* of the page.
  */
-function onAjaxedLoadRaw(callback: () => void): void {
+function onAjaxedPagesRaw(callback: () => void): void {
 	document.addEventListener('pjax:end', callback);
+	callback();
 }
 
-async function onAjaxedLoad(callback: () => void): Promise<void> {
-	await onDomReady;
-	onAjaxedLoadRaw(() => {
+function onAjaxedPages(callback: () => void): void {
+	onAjaxedPagesRaw(async () => {
+		await onDomReady;
 		if (!select.exists('has-rgh')) {
 			callback();
 		}
 	});
 }
 
-const methods = {
-	onDocumentStart: (callback: VoidCallback): void => callback(),
-	async onDomReady(callback: VoidCallback): Promise<void> {
-		await onDomReady;
-		callback();
-	},
-	onAjaxedLoad,
-	onAjaxedLoadRaw,
-	onFileListUpdate(callback: VoidCallback): void {
-		onAjaxedLoad(() => onFileListUpdate(callback));
-	},
-	onNewComments(callback: VoidCallback): void {
-		onAjaxedLoad(() => onNewComments(callback));
-	},
-	onPrFileLoad(callback: VoidCallback): void {
-		onAjaxedLoad(() => onPrFileLoad(callback));
-	}
-};
+// Like onAjaxedPages but doesn't wait for `dom-ready`
+function nowAndOnAjaxedPages(callback: () => void): void {
+	onAjaxedPagesRaw(() => {
+		if (!select.exists('has-rgh')) {
+			callback();
+		}
+	});
+}
 
-// Must be called after all the features were added to onAjaxedLoad
+// Must be called after all the features were added to onAjaxedPages
 // to mark the current load as "done", so history.back() won't reapply the same DOM changes.
 // The two `await` ensure this behavior and order.
-onAjaxedLoad(async () => {
+onAjaxedPages(async () => {
 	await globalReady; // Match `add()`
 	await Promise.resolve(); // Kicks it to the next tick, after the other features have `run()`
 
@@ -181,7 +171,7 @@ const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void
 
 	for (const loader of loaders) {
 		// Input defaults and validation
-		const {
+		let {
 			include = [() => true], // Default: every page
 			exclude = [], // Default: nothing
 			init,
@@ -194,13 +184,13 @@ const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void
 			continue;
 		}
 
-		// Initialize the feature using the specified loading mechanism
-		for (const method of load) {
-			const addListener = typeof method === 'string' ? methods[method] : method;
-			addListener(() => {
-				run({id, include, exclude, init, deinit});
-			});
+		if (load instanceof Promise) {
+			load = load.then.bind(load);
 		}
+
+		load(() => {
+			run({ id, include, exclude, init, deinit });
+		});
 	}
 };
 
@@ -208,6 +198,15 @@ export default {
 	// Module methods
 	add,
 	getShortcuts,
+
+	// Loading mechanisms
+	onDocumentStart: (cb: VoidFunction) => cb(),
+	onDomReady,
+	onNewComments,
+	onFileListUpdate,
+	onAjaxedPages,
+	nowAndOnAjaxedPages,
+	onAjaxedPagesRaw,
 
 	// Loading filters
 	...pageDetect

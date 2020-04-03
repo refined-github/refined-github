@@ -42,10 +42,7 @@ features.add({
 	include: [
 		features.isFileFinder
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad'
-	],
+	load: features.onAjaxedPages,
 	init,
 	deinit
 });

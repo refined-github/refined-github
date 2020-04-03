@@ -56,9 +56,6 @@ features.add({
 	include: [
 		features.isCompare
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad'
-	],
+	load: features.onAjaxedPages,
 	init
 });

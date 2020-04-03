@@ -94,9 +94,6 @@ features.add({
 	include: [
 		features.isReleasesOrTags
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad'
-	],
+	load: features.onAjaxedPages,
 	init
 });

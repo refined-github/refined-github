@@ -18,8 +18,6 @@ features.add({
 	description: 'Always focuses confirm buttons in custom modal boxes, like "Mark all as read".',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/31700158-1499bdd8-b38d-11e7-9aba-77a0a4b6bf3c.png'
 }, {
-	load: [
-		'onDocumentStart'
-	],
+	load: features.onDocumentStart,
 	init
 });

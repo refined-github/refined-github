@@ -29,8 +29,6 @@ features.add({
 	include: [
 		features.isDashboard
 	],
-	load: [
-		'onDocumentStart'
-	],
+	load: features.onDocumentStart,
 	init
 });

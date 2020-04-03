@@ -22,9 +22,6 @@ features.add({
 		'←': 'Go to the previous page'
 	}
 }, {
-	load: [
-		'onDomReady',
-		'onAjaxedLoad'
-	],
+	load: features.onAjaxedPages,
 	init
 });

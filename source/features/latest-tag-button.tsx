@@ -133,9 +133,6 @@ features.add({
 		features.isRepoTree,
 		features.isSingleFile
 	],
-	load: [
-		'onDocumentStart',
-		'onAjaxedLoad'
-	],
+	load: features.nowAndOnAjaxedPages,
 	init
 });

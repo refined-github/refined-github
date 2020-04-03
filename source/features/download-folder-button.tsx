@@ -27,9 +27,6 @@ features.add({
 	exclude: [
 		features.isRepoRoot // Already has an native download ZIP button
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad'
-	],
+	load: features.onAjaxedPages,
 	init
 });

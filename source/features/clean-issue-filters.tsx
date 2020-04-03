@@ -60,9 +60,6 @@ features.add({
 	include: [
 		features.isRepoDiscussionList
 	],
-	load: [
-		'onDocumentStart',
-		'onAjaxedLoad'
-	],
+	load: features.nowAndOnAjaxedPages,
 	init
 });

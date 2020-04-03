@@ -168,9 +168,6 @@ features.add({
 	include: [
 		features.isRepoCommitList
 	],
-	load: [
-		'onDocumentStart',
-		'onAjaxedLoad'
-	],
+	load: features.nowAndOnAjaxedPages,
 	init
 });

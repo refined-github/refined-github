@@ -9,7 +9,7 @@ Suggestions and pull requests are highly encouraged! Have a look at the [open is
 - [JSX](https://reactjs.org/docs/introducing-jsx.html) is used to create DOM elements.
 - All the [latest DOM APIs](https://github.com/WebReflection/dom4#features) and JavaScript features are available because the extension only has to work in the latest Chrome and Firefox. 🎉
 - Each JavaScript feature lives in its own file under [`source/features`](https://github.com/sindresorhus/refined-github/tree/master/source/features) and it's imported in [`source/refined-github.ts`](https://github.com/sindresorhus/refined-github/blob/master/source/refined-github.ts).
-- Some GitHub pages are loaded via AJAX/PJAX, so some features use the special `onAjaxedLoad` loader (see it as a custom "on DOM ready").
+- Some GitHub pages are loaded via AJAX/PJAX, so some features use the special `onAjaxedPages` loader (see it as a custom "on DOM ready").
 - See what a _feature_ [looks like](https://github.com/sindresorhus/refined-github/blob/master/source/features/user-profile-follower-badge.tsx).
 - Follow [the styleguide](https://github.com/sindresorhus/refined-github/blob/master/readme.md#L100) that appears in the Readme's source to write readable descriptions.
 - Refined GitHub tries to integrate as best as possible, so [GitHub's own styleguide](https://primer.style/css) might come in useful.
@@ -29,10 +29,7 @@ features.add({
 	id: __featureName__,
 	description: 'Simplify the GitHub interface and adds useful features'
 }, {
-	load: [
-		'onDocumentStart',
-		'onAjaxedLoad'
-	],
+	load: features.nowAndOnAjaxedPages,
 	init
 });
 ```
@@ -77,7 +74,7 @@ features.add({
 	load: [
 		'onDocumentStart', // As soon as possible
 		'onDomReady', // Once the DOM is ready
-		'onAjaxedLoad', // Every successive AJAX load
+		'onAjaxedPages', // Every successive AJAX load
 		'onFileListUpdate', // To be used on the repo’s Code tab only
 		'onPrFileLoad', // To be used on PRs’ Files tab
 		'onNewComments' // To be used on pages with comments

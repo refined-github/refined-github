@@ -90,10 +90,7 @@ features.add({
 	exclude: [
 		() => !isForkedRepo()
 	],
-	load: [
-		'onDocumentStart',
-		'onAjaxedLoad'
-	],
+	load: features.nowAndOnAjaxedPages,
 	init: initHeadHint
 }, {
 	include: [
@@ -102,9 +99,6 @@ features.add({
 	exclude: [
 		() => !isForkedRepo()
 	],
-	load: [
-		'onDocumentStart',
-		'onAjaxedLoad'
-	],
+	load: features.nowAndOnAjaxedPages,
 	init: initDeleteHint
 });

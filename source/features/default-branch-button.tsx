@@ -51,9 +51,6 @@ features.add({
 		features.isSingleFile,
 		features.isRepoCommitList
 	],
-	load: [
-		'onDocumentStart',
-		'onAjaxedLoad'
-	],
+	load: features.nowAndOnAjaxedPages,
 	init
 });

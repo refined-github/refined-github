@@ -53,9 +53,6 @@ features.add({
 	include: [
 		features.isCommitList
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad'
-	],
+	load: features.onAjaxedPages,
 	init
 });

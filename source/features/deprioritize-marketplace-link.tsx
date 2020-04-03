@@ -27,8 +27,6 @@ features.add({
 	exclude: [
 		features.isGist
 	],
-	load: [
-		'onDocumentStart'
-	],
+	load: features.onDocumentStart,
 	init
 });

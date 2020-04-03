@@ -24,8 +24,6 @@ features.add({
 		'shift o': 'Open selection in new tab'
 	}
 }, {
-	load: [
-		'onDocumentStart'
-	],
+	load: features.onDocumentStart,
 	init
 });

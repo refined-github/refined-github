@@ -25,9 +25,7 @@ features.add({
 	include: [
 		features.isSingleFile
 	],
-	load: [
-		'onAjaxedLoadRaw'
-	],
+	load: features.onAjaxedPagesRaw,
 	init,
 	deinit
 });

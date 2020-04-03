@@ -54,8 +54,6 @@ features.add({
 	include: [
 		features.isRepo
 	],
-	load: [
-		'onDocumentStart'
-	],
+	load: features.onDocumentStart,
 	init
 });

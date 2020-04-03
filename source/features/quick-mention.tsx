@@ -56,10 +56,6 @@ features.add({
 		features.isIssue,
 		features.isPRConversation
 	],
-	load: [
-		'onDomReady',
-		'onAjaxedLoad',
-		'onNewComments'
-	],
+	load: features.onNewComments,
 	init
 });
