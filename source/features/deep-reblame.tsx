@@ -41,7 +41,7 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number, c
 
 	const associatedPR = repository.object.associatedPullRequests.nodes[0];
 
-	if (associatedPR?.number !== prNumber || associatedPR.mergeCommit.oid !== commit) {
+	if (!associatedPR || associatedPR.number !== prNumber || associatedPR.mergeCommit.oid !== commit) {
 		throw new Error('The PR linked in the title didn’t create this commit');
 	}
 
