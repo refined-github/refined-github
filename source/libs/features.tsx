@@ -3,6 +3,7 @@ import select from 'select-dom';
 import onDomReady from 'dom-loaded';
 import elementReady from 'element-ready';
 import {logError} from './utils';
+import onPrFileLoad from './on-pr-file-load';
 import onNewComments from './on-new-comments';
 import * as pageDetect from './page-detect';
 import onFileListUpdate from './on-file-list-update';
@@ -76,6 +77,9 @@ const methods = {
 	},
 	onNewComments(callback: VoidCallback): void {
 		onAjaxedLoad(() => onNewComments(callback));
+	},
+	onPrFileLoad(callback: VoidCallback): void {
+		onAjaxedLoad(() => onPrFileLoad(callback));
 	}
 };
 

@@ -2,8 +2,6 @@ import './show-whitespace.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
-import onPrFileLoad from '../libs/on-pr-file-load';
-import onNewComments from '../libs/on-new-comments';
 import getTextNodes from '../libs/get-text-nodes';
 
 // `splitText` is used before and after each whitespace group so a new whitespace-only text node is created. This new node is then wrapped in a <span>
@@ -63,17 +61,11 @@ const viewportObserver = new IntersectionObserver(changes => {
 	}
 });
 
-async function run(): Promise<void> {
+async function init(): Promise<void> {
 	for (const line of select.all('.blob-code-inner:not(.rgh-observing-whitespace)')) {
 		line.classList.add('rgh-observing-whitespace');
 		viewportObserver.observe(line);
 	}
-}
-
-function init(): void {
-	run();
-	onNewComments(run);
-	onPrFileLoad(run);
 }
 
 features.add({
@@ -86,7 +78,9 @@ features.add({
 	],
 	load: [
 		'onDomReady',
-		'onAjaxedLoad'
+		'onAjaxedLoad',
+		'onNewComments',
+		'onPrFileLoad'
 	],
 	init
 });
