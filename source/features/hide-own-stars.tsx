@@ -4,7 +4,6 @@ import {getUsername} from '../libs/utils';
 import onNewsfeedLoad from '../libs/on-newsfeed-load';
 
 async function init(): Promise<void> {
-	// Remove events from dashboard
 	for (const item of select.all('#dashboard .news .watch_started, #dashboard .news .fork')) {
 		if (select.exists(`a[href^="/${getUsername()}"]`, item)) {
 			item.style.display = 'none';
