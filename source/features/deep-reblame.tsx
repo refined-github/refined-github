@@ -9,7 +9,7 @@ import features from '../libs/features';
 import loadingIcon from '../libs/icon-loading';
 import {getRepoGQL, getReference, looseParseInt, getCleanPathname} from '../libs/utils';
 
-const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number, currentFilename: string): Promise<string | false> => {
+const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number, currentFilename: string): Promise<string | Error> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			file: object(expression: "${commit}:${currentFilename}") {
@@ -44,7 +44,7 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number, c
 	if (!associatedPR) {
 		throw new Error('The PR linked in the title didn’t create this commit');
 	}
-	
+
 	if (!repository.file) {
 		throw new Error('The file was renamed and Refined GitHub can’t find it');
 	}
@@ -55,7 +55,7 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number, c
 		return associatedPR.commits.nodes[0].commit.oid;
 	}
 
-	return false;
+	throw new Error('The PR linked in the title didn’t create this commit');
 });
 
 async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchorElement | HTMLButtonElement>): Promise<void> {
@@ -82,22 +82,21 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	try {
 		const prBlameCommit = await getPullRequestBlameCommit(prCommit, prNumber, currentFilename);
 		const lineNumber = select('.js-line-number', blameHunk)!.textContent!;
-		const href = new URL(location.href.replace(getReference()!, prBlameCommit));
+		const href = new URL(location.href.replace(getReference()!, prBlameCommit as string));
 		href.hash = 'L' + lineNumber;
 		location.href = String(href);
-		return;
-	}
-
-	if (blameElement instanceof HTMLAnchorElement) {
+	} catch (error) {
+		if (blameElement instanceof HTMLAnchorElement) {
 		// Restore the regular version link if there was one
-		blameElement.setAttribute('aria-label', 'View blame prior to this change.');
-		blameElement.classList.remove('rgh-deep-blame');
-		spinner.replaceWith(versionIcon());
-	} else {
-		spinner.remove();
-	}
+			blameElement.setAttribute('aria-label', 'View blame prior to this change.');
+			blameElement.classList.remove('rgh-deep-blame');
+			spinner.replaceWith(versionIcon());
+		} else {
+			spinner.remove();
+		}
 
-	alert('The PR linked in the title didn’t create this commit');
+		alert(error);
+	}
 }
 
 function init(): void | false {
