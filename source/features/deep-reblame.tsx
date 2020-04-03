@@ -41,8 +41,12 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number, c
 
 	const associatedPR = repository.object.associatedPullRequests.nodes[0];
 
-	if (!associatedPR || !repository.file) {
-		return false;
+	if (!associatedPR) {
+		throw new Error('The PR linked in the title didn’t create this commit');
+	}
+	
+	if (!repository.file) {
+		throw new Error('The file was renamed and Refined GitHub can’t find it');
 	}
 
 	const mergeCommit = associatedPR.mergeCommit.oid;
