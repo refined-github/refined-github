@@ -22,9 +22,11 @@ async function init(): Promise<void> {
 features.add({
 	id: __featureName__,
 	description: 'Moves the "Marketplace" link from the black header bar to the profile dropdown.',
-	screenshot: false,
+	screenshot: false
+}, {
 	exclude: [
 		features.isGist
 	],
+	load: features.onDocumentStart,
 	init
 });

@@ -2,9 +2,9 @@ import './show-whitespace.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import getTextNodes from '../libs/get-text-nodes';
 import onPrFileLoad from '../libs/on-pr-file-load';
 import onNewComments from '../libs/on-new-comments';
-import getTextNodes from '../libs/get-text-nodes';
 
 // `splitText` is used before and after each whitespace group so a new whitespace-only text node is created. This new node is then wrapped in a <span>
 function showWhiteSpacesOn(line: Element): void {
@@ -79,7 +79,8 @@ function init(): void {
 features.add({
 	id: __featureName__,
 	description: 'Shows whitespace characters.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/61187598-f9118380-a6a5-11e9-985a-990a7f798805.png',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/61187598-f9118380-a6a5-11e9-985a-990a7f798805.png'
+}, {
 	include: [
 		features.hasCode
 	],

@@ -14,7 +14,8 @@ async function init(): Promise<void> {
 features.add({
 	id: __featureName__,
 	description: 'Fix merge conflicts in a click',
-	screenshot: false,
+	screenshot: false
+}, {
 	include: [
 		features.isConflict
 	],

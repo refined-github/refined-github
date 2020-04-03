@@ -54,21 +54,18 @@ async function initDashboard(): Promise<void> {
 features.add({
 	id: __featureName__,
 	description: 'Renders text in `backticks` in issue titles and commit titles/descriptions.',
-	screenshot: 'https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png',
+	screenshot: 'https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png'
+}, {
 	include: [
 		features.isDiscussionList,
 		features.isRepo
 	],
 	load: features.onAjaxedPages,
+}, {
 	init: parseAll
-});
-
-features.add({
-	id: __featureName__,
-	description: '',
-	screenshot: '',
 	include: [
 		features.isDashboard
 	],
+	load: features.onDocumentStart,
 	init: initDashboard
 });

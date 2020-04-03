@@ -16,9 +16,10 @@ features.add({
 	id: __featureName__,
 	description: 'Adds a keyboard shortcut to visit your own profile: `g` `m`.',
 	screenshot: false,
-	load: features.onDomReady,
 	shortcuts: {
 		'g m': 'Go to Profile'
-	},
+	}
+}, {
+	load: features.onDomReady,
 	init
 });

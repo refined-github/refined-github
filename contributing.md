@@ -27,7 +27,9 @@ function init () {
 
 features.add({
 	id: __featureName__,
-	description: 'Simplify the GitHub interface and adds useful features',
+	description: 'Simplify the GitHub interface and adds useful features'
+}, {
+	load: features.nowAndOnAjaxedPages,
 	init
 });
 ```
@@ -61,6 +63,7 @@ features.add({
 	shortcuts: { // This only adds the shortcut to the help screen, it doesn't enable it
 		'↑': 'Edit your last comment'
 	},
+}, {
 	include: [
 		features.isUserProfile,
 		features.isRepo
@@ -71,6 +74,7 @@ features.add({
 	load: features.onDomReady, // Wait for DOM ready
 	// load: features.onAjaxedPages, // Or: Wait for DOM ready AND run on all AJAXed loads
 	// load: features.onNewComments, // Or: Wait for DOM ready AND run on all AJAXed loads AND watch for new comments
+	],
 	deinit, // Rarely needed
 	init
 });

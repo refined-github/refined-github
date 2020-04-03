@@ -23,7 +23,8 @@ function init(): void {
 features.add({
 	id: __featureName__,
 	description: 'Adds link to swap branches in the branch compare view.',
-	screenshot: 'https://user-images.githubusercontent.com/857700/42854438-821096f2-8a01-11e8-8752-76f7563b5e18.png',
+	screenshot: 'https://user-images.githubusercontent.com/857700/42854438-821096f2-8a01-11e8-8752-76f7563b5e18.png'
+}, {
 	include: [
 		features.isCompare
 	],

@@ -37,7 +37,8 @@ function deinit(): void {
 features.add({
 	id: __featureName__,
 	description: 'Preserves the search terms when navigating back and forth between the File Finder and the files.',
-	screenshot: false,
+	screenshot: false
+}, {
 	include: [
 		features.isFileFinder
 	],

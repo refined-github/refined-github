@@ -16,7 +16,8 @@ function init(): void {
 features.add({
 	id: __featureName__,
 	description: 'Changes the default sort order of milestones `Closest due date`.',
-	screenshot: false,
+	screenshot: false
+}, {
 	include: [
 		features.isRepo
 	],

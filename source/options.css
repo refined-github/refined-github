@@ -1,189 +1,69 @@
-html {
-	min-width: 550px;
-	max-width: 700px;
-	margin: auto;
-	overflow-x: hidden;
-}
-
 :root {
-	--background-color: #fff;
-	--text-color: #202124;
-	--secondary-text-color: #5f6368;
-	--link-color: #3367d6;
-	--input-border-color: rgba(0, 0, 0, 0.2);
-	--github-green: #28a745;
 	--github-red: #cb2431;
+	min-width: 550px;
 }
 
-@media (prefers-color-scheme: dark) {
-	:root {
-		--background-color: #292a2d;
-		--text-color: #e8eaed;
-		--secondary-text-color: #9aa0a6;
-		--link-color: #8ab4f8;
-		--input-border-color: rgba(255, 255, 255, 0.3);
-	}
+p {
+	margin-top: 0;
 }
 
-body {
-	color: var(--text-color);
-	background-color: var(--background-color);
-}
-
-input,
-textarea,
-button {
-	background-color: var(--background-color);
-	color: var(--text-color);
-	border: 1px solid var(--input-border-color);
-}
-
-input:not([type='checkbox']):invalid {
-	color: var(--github-red) !important;
-	border: 1px solid;
-}
-
-input:not([type='checkbox']),
-textarea {
-	display: block;
-	box-sizing: border-box;
-	width: 100%;
+:root [name='customCSS'],
+:root [name='personalToken'] {
 	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
 	font-size: 11px;
 	line-height: 1.5;
-	resize: vertical;
-	-moz-tab-size: 4 !important;
-	tab-size: 4 !important;
-}
-
-input[type='checkbox'] {
-	vertical-align: -0.16em;
 }
 
 [name='personalToken'] {
 	width: 20em !important; /* https://github.com/sindresorhus/refined-github/issues/1374#issuecomment-397906701 */
 }
 
-.small {
-	font-size: 0.9em;
-}
-
-a {
-	color: var(--link-color);
-}
-
-:root hr {
-	margin-right: -17px;
-	margin-left: -17px;
-	border: none;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-@media (prefers-color-scheme: dark) {
-	:root hr {
-		border-color: rgs(255, 255, 255, 0.1);
-	}
-}
-
-/* Increase spacing between sections */
-h2 ~ h2 {
-	margin-top: 2em;
-}
-
-.js-features .feature:not([hidden]) {
+.feature:not([hidden]) {
 	display: flex;
-	margin-top: 1em;
 }
 
 .js-features input[type='checkbox'] {
 	flex-shrink: 0;
-	margin-inline-end: 0.6em; /* Spacing for Chrome */
-	margin-top: 4px; /* Alignment for Chrome */
+}
+
+.js-features input[type='checkbox']:not(*:root) {
+	/* Selector for Chrome only http://browserhacks.com/#ch */
+	margin-inline-end: 0.6em;
+	margin-top: 2px;
 }
 
 .js-features :not(:checked) + .info .feature-name {
 	text-decoration: line-through;
 }
 
-.js-features :not(:checked) + .info .extended-options {
-	display: none;
-}
-
 .js-features .description {
-	color: var(--secondary-text-color);
+	opacity: 0.8;
 }
 
 .js-features a {
 	font-size: 0.9em;
 }
 
+.js-features a:first-of-type {
+	margin-left: 0.6em;
+}
+
 .js-features .info {
 	flex-grow: 1;
-}
-
-.js-features .info p {
-	margin-top: 0.25em;
-	margin-bottom: 0.125em;
-}
-
-.feature-name + a {
-	margin-left: 0.6em;
 }
 
 .feature-new .feature-name::after {
 	display: inline-block; /* Avoids the strikethrough on disabled features */
 	content: 'New';
-	color: var(--github-red);
 	font-size: 1em;
 	border: 1px solid;
-	border-radius: 0.1em;
+	border-radius: 0.2em;
 	padding: 0 0.3em;
 	margin-left: 0.8em;
 	text-transform: uppercase;
+	color: var(--github-red);
 }
 
 .sr-only {
 	display: none;
-}
-
-/* Firefox only */
-.only-firefox {
-	display: none;
-}
-
-@-moz-document url-prefix('') {
-	@media (prefers-color-scheme: dark) {
-		:root {
-			--background-color: #201f24;
-		}
-	}
-
-	body > :not(hr) {
-		margin-left: 6px;
-		margin-right: 6px;
-	}
-
-	:root {
-		background: none !important;
-	}
-
-	:root h2 {
-		font-weight: normal;
-	}
-
-	:root hr {
-		margin-right: 0;
-	}
-
-	input[type='checkbox'] {
-		vertical-align: -41%;
-	}
-
-	.no-firefox {
-		display: none;
-	}
-
-	.only-firefox {
-		display: block;
-	}
 }

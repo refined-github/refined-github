@@ -40,7 +40,8 @@ function init(): void {
 features.add({
 	id: __featureName__,
 	description: 'Warns you when unchecking `Allow edits from maintainers`, as it’s maintainer-hostile.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif'
+}, {
 	include: [
 		features.isCompare,
 		features.isPRConversation

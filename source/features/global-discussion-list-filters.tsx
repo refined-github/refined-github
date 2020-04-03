@@ -43,7 +43,8 @@ function init(): void {
 features.add({
 	id: __featureName__,
 	description: 'Adds filters for discussions _in your repos_ and _commented on by you_ in the global discussion search.',
-	screenshot: 'https://user-images.githubusercontent.com/8295888/36827126-8bfc79c4-1d37-11e8-8754-992968b082be.png',
+	screenshot: 'https://user-images.githubusercontent.com/8295888/36827126-8bfc79c4-1d37-11e8-8754-992968b082be.png'
+}, {
 	include: [
 		features.isGlobalDiscussionList
 	],

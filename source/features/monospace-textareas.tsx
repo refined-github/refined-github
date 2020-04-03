@@ -8,6 +8,8 @@ function init(): void {
 features.add({
 	id: __featureName__,
 	description: 'Use a monospace font for all textareas.',
-	screenshot: false,
+	screenshot: false
+}, {
+	load: features.onDocumentStart,
 	init
 });

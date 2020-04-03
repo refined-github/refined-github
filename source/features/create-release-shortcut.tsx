@@ -12,12 +12,13 @@ features.add({
 	id: __featureName__,
 	description: 'Adds a keyboard shortcut to create a new release while on the Releases page: `c`.',
 	screenshot: false,
+	shortcuts: {
+		c: 'Create a new release'
+	}
+}, {
 	include: [
 		features.isReleasesOrTags
 	],
 	load: features.onAjaxedPages,
-	shortcuts: {
-		c: 'Create a new release'
-	},
 	init
 });

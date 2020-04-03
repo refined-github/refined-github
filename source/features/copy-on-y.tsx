@@ -20,7 +20,8 @@ function deinit(): void {
 features.add({
 	id: __featureName__,
 	description: 'Enhances the `y` hotkey to also copy the permalink.',
-	screenshot: false,
+	screenshot: false
+}, {
 	include: [
 		features.isSingleFile
 	],

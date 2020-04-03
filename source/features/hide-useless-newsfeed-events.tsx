@@ -8,12 +8,14 @@ function init(): void {
 features.add({
 	id: __featureName__,
 	description: 'Hides inutile newsfeed events (commits, forks, new followers).',
-	screenshot: false,
+	screenshot: false
+}, {
 	include: [
 		features.isDashboard
 	],
 	exclude: [
 		features.isGist
 	],
+	load: features.onDocumentStart,
 	init
 });

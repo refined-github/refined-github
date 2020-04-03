@@ -17,11 +17,13 @@ features.add({
 	id: __featureName__,
 	description: 'Adds a `Trending` link to the global navbar and a keyboard shortcut: `g` ` t`',
 	screenshot: false,
+	shortcuts: {
+		'g t': 'Go to Trending'
+	}
+}, {
 	exclude: [
 		features.isGist
 	],
-	shortcuts: {
-		'g t': 'Go to Trending'
-	},
+	load: features.onDocumentStart,
 	init
 });
