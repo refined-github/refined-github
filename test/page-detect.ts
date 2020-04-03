@@ -42,7 +42,7 @@ for (const [key, detect] of Object.entries(pageDetect)) {
 					${url.replace('https://github.com', '')}
 
 				• Yes? The \`${key}\` test is wrong and should be fixed.
-				• No? Remove it to the \`_${key}\` array.
+				• No? Remove it from the \`_${key}\` array.
 			`));
 		});
 	}
