@@ -39,6 +39,7 @@
 		"tiny-version-compare": "^1.0.0",
 		"twas": "^2.1.1",
 		"webext-additional-permissions": "^0.1.0",
+		"webext-base-css": "^1.0.0",
 		"webext-detect-page": "^2.0.1",
 		"webext-domain-permission-toggle": "^1.0.0",
 		"webext-dynamic-content-scripts": "^6.0.3",
