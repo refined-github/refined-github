@@ -125,7 +125,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 const run = async ({id, include, exclude, init, deinit}: FeatureRunner): Promise<void> => {
 	// If every `include` is false and no `exclude` is true, don’t run the feature
 	if (include!.every(c => !c()) || exclude!.some(c => c())) {
-		return deinit && deinit();
+		return deinit?.();
 	}
 
 	try {
@@ -189,7 +189,7 @@ const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void
 		}
 
 		load(() => {
-			run({ id, include, exclude, init, deinit });
+			run({id, include, exclude, init, deinit});
 		});
 	}
 };
