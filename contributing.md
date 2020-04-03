@@ -27,7 +27,12 @@ function init () {
 
 features.add({
 	id: __featureName__,
-	description: 'Simplify the GitHub interface and adds useful features',
+	description: 'Simplify the GitHub interface and adds useful features'
+}, {
+	load: [
+		'onDocumentStart',
+		'onAjaxedLoad'
+	],
 	init
 });
 ```
@@ -69,9 +74,14 @@ features.add({
 	exclude: [
 		features.isOwnUserProfile
 	],
-	load: features.onDomReady, // Wait for DOM ready
-	// load: features.onAjaxedLoad, // Or: Wait for DOM ready AND run on all AJAXed loads
-	// load: features.onNewComments, // Or: Wait for DOM ready AND run on all AJAXed loads AND watch for new comments
+	load: [
+		'onDocumentStart', // As soon as possible
+		'onDomReady', // Once the DOM is ready
+		'onAjaxedLoad', // Every successive AJAX load
+		'onFileListUpdate', // To be used on the repo’s Code tab only
+		'onPrFileLoad', // To be used on PRs’ Files tab
+		'onNewComments' // To be used on pages with comments
+	],
 	deinit, // Rarely needed
 	init
 });
