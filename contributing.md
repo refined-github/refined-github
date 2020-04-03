@@ -71,13 +71,9 @@ features.add({
 	exclude: [
 		features.isOwnUserProfile
 	],
-	load: [
-		'onDocumentStart', // As soon as possible
-		'onDomReady', // Once the DOM is ready
-		'onAjaxedPages', // Every successive AJAX load
-		'onFileListUpdate', // To be used on the repo’s Code tab only
-		'onPrFileLoad', // To be used on PRs’ Files tab
-		'onNewComments' // To be used on pages with comments
+	load: features.onDomReady, // Wait for DOM ready
+	// load: features.onAjaxedPages, // Or: Wait for DOM ready AND run on all AJAXed loads
+	// load: features.onNewComments, // Or: Wait for DOM ready AND run on all AJAXed loads AND watch for new comments
 	],
 	deinit, // Rarely needed
 	init

@@ -171,7 +171,7 @@ const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void
 
 	for (const loader of loaders) {
 		// Input defaults and validation
-		let {
+		const {
 			include = [() => true], // Default: every page
 			exclude = [], // Default: nothing
 			init,
@@ -184,13 +184,20 @@ const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void
 			continue;
 		}
 
-		if (load instanceof Promise) {
-			load = load.then.bind(load);
-		}
+		const details = {id, include, exclude, init, deinit};
+		if (load === onNewComments) {
+			details.init = async () => {
+				const result = await init();
+				onNewComments(init);
+				return result;
+			};
 
-		load(() => {
-			run({id, include, exclude, init, deinit});
-		});
+			onAjaxedPages(() => run(details));
+		} else if (load instanceof Promise) {
+			load.then(() => run(details));
+		} else {
+			load(() => run(details));
+		}
 	}
 };
 

@@ -168,6 +168,6 @@ features.add({
 	include: [
 		features.isRepoCommitList
 	],
-	load: features.nowAndOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });
