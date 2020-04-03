@@ -54,13 +54,11 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number, c
 
 async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchorElement | HTMLButtonElement>): Promise<void> {
 	const blameElement = event.delegateTarget;
-	if (blameElement instanceof HTMLAnchorElement) {
-		if (event.altKey) {
-			event.preventDefault();
-		} else {
-			return; // Unmodified click on regular link: let it proceed
-		}
+	if (blameElement instanceof HTMLAnchorElement && !event.altKey) {
+		return; // Unmodified click on regular link: let it proceed
 	}
+
+	event.preventDefault();
 
 	const blameHunk = blameElement.closest('.blame-hunk')!;
 	const prNumber = looseParseInt(select('.issue-link', blameHunk)!.textContent!);
