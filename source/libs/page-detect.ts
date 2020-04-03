@@ -254,7 +254,7 @@ export const _isRepo = [
 ];
 export const _isRepoSkipNegatives = true;
 
-export const isRepoTaxonomyDiscussionList = (): boolean => /^labels\/.+|^milestones\/\d+/.test(getRepoPath()!);
+export const isRepoTaxonomyDiscussionList = (): boolean => /^labels\/.+|^milestones\/\d+(?!\/edit)/.test(getRepoPath()!);
 export const _isRepoTaxonomyDiscussionList = [
 	'https://github.com/sindresorhus/refined-github/labels/Priority%3A%20critical',
 	'https://github.com/sindresorhus/refined-github/milestones/1'
