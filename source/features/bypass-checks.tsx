@@ -5,7 +5,7 @@ import fetchDom from '../libs/fetch-dom';
 async function init(): Promise<void> {
 	// This selector excludes URLs that are already external
 	const thirdPartyApps = select.all<HTMLAnchorElement>('a:not([href="/apps/github-actions"]) ~ div .status-actions[href^="/"]');
-	console.log(thirdPartyApps);
+
 	// If anything errors, RGH will display the error next to the feature name
 	await Promise.all(thirdPartyApps.map(bypass));
 }
