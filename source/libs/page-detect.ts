@@ -33,18 +33,16 @@ export const _isCommitList = [
 	'https://github.com/sindresorhus/refined-github/commits/0.13.0',
 	'https://github.com/sindresorhus/refined-github/commits/230c2',
 	'https://github.com/sindresorhus/refined-github/commits/230c2935fc5aea9a681174ddbeba6255ca040d63',
-	'https://github.com/sindresorhus/refined-github/pull/148/commits',
-	'https://github.com/sindresorhus/refined-github/commits?author=fregante'
+	'https://github.com/sindresorhus/refined-github/pull/148/commits'
 ];
 
-export const isRepoCommitList = (): boolean => String(getRepoPath()).startsWith('commits');
+export const isRepoCommitList = (): boolean => String(getRepoPath()).startsWith('commits/');
 export const _isRepoCommitList = [
 	'https://github.com/sindresorhus/refined-github/commits/master?page=2',
 	'https://github.com/sindresorhus/refined-github/commits/test-branch',
 	'https://github.com/sindresorhus/refined-github/commits/0.13.0',
 	'https://github.com/sindresorhus/refined-github/commits/230c2',
-	'https://github.com/sindresorhus/refined-github/commits/230c2935fc5aea9a681174ddbeba6255ca040d63',
-	'https://github.com/sindresorhus/refined-github/commits?author=fregante'
+	'https://github.com/sindresorhus/refined-github/commits/230c2935fc5aea9a681174ddbeba6255ca040d63'
 ];
 
 export const isCompare = (): boolean => String(getRepoPath()).startsWith('compare');
@@ -304,8 +302,7 @@ export const _isRepoRoot = [
 	'https://github.com/sindresorhus/refined-github/tree/57bf4',
 	'https://github.com/sindresorhus/refined-github?files=1',
 	'https://github.com/sindresorhus/refined-github/tree/master?files=1',
-	'https://github.com/sindresorhus/branches',
-	'https://github.com/sindresorhus/pulse'
+	'https://github.com/sindresorhus/branches'
 ];
 
 // This can't use `getRepoPath` to avoid infinite recursion.
@@ -378,11 +375,6 @@ export const isSingleTagPage = (): boolean => /^(releases\/tag)/.test(getRepoPat
 export const _isSingleTagPage = [
 	'https://github.com/sindresorhus/refined-github/releases/tag/v1.0.0-beta.4',
 	'https://github.com/sindresorhus/refined-github/releases/tag/0.2.1'
-];
-
-export const isPulse = (): boolean => getRepoPath()?.startsWith('pulse') ?? false;
-export const _isPulse = [
-	'https://github.com/sindresorhus/refined-github/pulse'
 ];
 
 export const _hasComments = skip;
