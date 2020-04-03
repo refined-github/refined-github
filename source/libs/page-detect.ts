@@ -37,7 +37,7 @@ export const _isCommitList = [
 	'https://github.com/sindresorhus/refined-github/commits?author=fregante'
 ];
 
-export const isRepoCommitList = (): boolean => String(getRepoPath()).startsWith('commits/');
+export const isRepoCommitList = (): boolean => String(getRepoPath()).startsWith('commits');
 export const _isRepoCommitList = [
 	'https://github.com/sindresorhus/refined-github/commits/master?page=2',
 	'https://github.com/sindresorhus/refined-github/commits/test-branch',
