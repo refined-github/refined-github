@@ -61,8 +61,8 @@ features.add({
 		features.isRepo
 	],
 	load: features.onAjaxedPages,
-}, {
 	init: parseAll
+}, {
 	include: [
 		features.isDashboard
 	],
