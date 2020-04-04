@@ -59,17 +59,16 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	}
 
 	event.preventDefault();
+	blameElement.blur(); // Hide tooltip after click, it’s shown on :focus
 
 	const blameHunk = blameElement.closest('.blame-hunk')!;
 	const prNumber = looseParseInt(select('.issue-link', blameHunk)!.textContent!);
-	const prCommit = select<HTMLAnchorElement>('a.message', blameHunk)!.href.split('/').pop()!;
+	const prCommit = select<HTMLAnchorElement>('a.message', blameHunk)!.pathname.split('/').pop()!;
+	const [, currentFilename] = getCleanPathname().split(getReference()! + '/');
+
 	const spinner = loadingIcon();
 	spinner.classList.add('mr-2');
 	blameElement.firstElementChild!.replaceWith(spinner);
-
-	blameElement.blur(); // Hide tooltip after click, it’s shown on :focus
-
-	const [, currentFilename] = getCleanPathname().split(getReference()! + '/');
 
 	try {
 		const prBlameCommit = await getPullRequestBlameCommit(prCommit, prNumber, currentFilename);
@@ -78,15 +77,7 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 		href.hash = 'L' + lineNumber;
 		location.href = String(href);
 	} catch (error) {
-		if (blameElement instanceof HTMLAnchorElement) {
-		// Restore the regular version link if there was one
-			blameElement.setAttribute('aria-label', 'View blame prior to this change.');
-			blameElement.classList.remove('rgh-deep-blame');
-			spinner.replaceWith(versionIcon());
-		} else {
-			spinner.remove();
-		}
-
+		spinner.replaceWith(versionIcon());
 		alert(error.message);
 	}
 }
@@ -97,6 +88,7 @@ function init(): void | false {
 		return false;
 	}
 
+	delegate('.rgh-deep-reblame', 'click', redirectToBlameCommit);
 	for (const pullRequest of pullRequests) {
 		const hunk = pullRequest.closest('.blame-hunk')!;
 
@@ -116,8 +108,6 @@ function init(): void | false {
 			);
 		}
 	}
-
-	delegate('.rgh-deep-reblame', 'click', redirectToBlameCommit);
 }
 
 features.add({
