@@ -27,7 +27,8 @@ function init () {
 
 features.add({
 	id: __featureName__,
-	description: 'Simplify the GitHub interface and adds useful features'
+	description: 'Simplify the GitHub interface and adds useful features',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/58238638-3cbcd080-7d7a-11e9-80f6-be6c0520cfed.jpg',
 }, {
 	load: features.nowAndOnAjaxedPages,
 	init
@@ -43,17 +44,17 @@ import select from 'select-dom';
 import delegate, {DelegateSubscription} from 'delegate-it';
 import features from '../libs/features';
 
-let delegate;
+let subscription: DelegateSubscription | undefined;
 function log() {
 	console.log('✨', <div className="rgh-jsx-element"/>);
 }
 function init(): void {
 	// Events must be set via delegate, unless shortlived
-	delegate = delegate('.btn', 'click', log);
+	subscription = delegate('.btn', 'click', log);
 }
 function deinit(): void {
-	delegate?.destroy();
-	delegate = undefined;
+	subscription?.destroy();
+	subscription = undefined;
 }
 
 features.add({
@@ -74,7 +75,6 @@ features.add({
 	load: features.onDomReady, // Wait for DOM ready
 	// load: features.onAjaxedPages, // Or: Wait for DOM ready AND run on all AJAXed loads
 	// load: features.onNewComments, // Or: Wait for DOM ready AND run on all AJAXed loads AND watch for new comments
-	],
 	deinit, // Rarely needed
 	init
 });
