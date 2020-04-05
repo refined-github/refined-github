@@ -2,6 +2,6 @@ button.rgh-deep-reblame .octicon-versions {
 	color: #e40de48c;
 }
 
-.rgh-deep-reblame:hover {
-	color: #8000808c;
+[aria-label*='PR first'].rgh-deep-reblame:hover {
+	color: #8000808c !important;
 }
