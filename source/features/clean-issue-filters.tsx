@@ -17,7 +17,7 @@ const hasProjects = cache.function(async (): Promise<boolean> => {
 		allowErrors: true
 	});
 
-	return ((repository.projects.totalCount as number) + (organization?.projects?.totalCount as number ?? 0)) > 0;
+	return Boolean(repository.projects.totalCount) && Boolean(organization?.projects?.totalCount);
 }, {
 	maxAge: 3,
 	staleWhileRevalidate: 20,
