@@ -31,7 +31,7 @@ function removeParent(element?: Element): void {
 }
 
 async function hideMilestones(): Promise<void> {
-	const hasNoMilestones = select('[data-selected-links^="repo_milestones"] .Counter')!.textContent!.trim() === '0';
+	const hasMilestones = parseInt(select('[data-selected-links^="repo_milestones"] .Counter')?.textContent, 10) > 0;
 
 	if (hasNoMilestones) {
 		elementReady('[data-hotkey="m"]').then(removeParent);
