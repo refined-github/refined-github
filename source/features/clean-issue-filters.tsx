@@ -39,12 +39,8 @@ async function hideMilestones(): Promise<void> {
 }
 
 async function hideProjects(): Promise<void> {
-	const projectsTab = select([
-		'[data-hotkey="g b"]', // In organizations and repos
-		'.user-profile-nav [href$="?tab=projects"]' // In user profiles
-	].join());
-
-	if (!projectsTab || select('.Counter', projectsTab)!.textContent!.trim() === '0' || !await hasProjects()) {
+	const hasActiveProjects = parseInt(select('[data-hotkey="g b"] .Counter')?.textContent, 10) > 0;
+	if (!hasActiveProjects && !await hasAnyProjects()) {
 		elementReady('[data-hotkey="p"]').then(removeParent);
 	}
 }
