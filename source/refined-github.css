@@ -43,11 +43,6 @@
 	margin-left: 0;
 }
 
-/* Hide `New pull request button` near file list */
-.file-navigation .new-pull-request-btn {
-	display: none;
-}
-
 @keyframes fade-in {
 	from {
 		opacity: 0;
