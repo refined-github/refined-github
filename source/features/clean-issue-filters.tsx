@@ -5,7 +5,7 @@ import features from '../libs/features';
 import * as api from '../libs/api';
 import {getOwnerAndRepo, getRepoURL, getRepoGQL} from '../libs/utils';
 
-const hasProjects = cache.function(async (): Promise<boolean> => {
+const hasAnyProjects = cache.function(async (): Promise<boolean> => {
 	const {repository, organization} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			projects { totalCount }
@@ -33,7 +33,7 @@ function removeParent(element?: Element): void {
 async function hideMilestones(): Promise<void> {
 	const hasMilestones = parseInt(select('[data-selected-links^="repo_milestones"] .Counter')?.textContent, 10) > 0;
 
-	if (hasNoMilestones) {
+	if (hasMilestones) {
 		elementReady('[data-hotkey="m"]').then(removeParent);
 	}
 }
