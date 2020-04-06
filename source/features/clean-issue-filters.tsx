@@ -1,19 +1,14 @@
+import select from 'select-dom';
 import cache from 'webext-storage-cache';
 import elementReady from 'element-ready';
 import features from '../libs/features';
 import * as api from '../libs/api';
 import {getOwnerAndRepo, getRepoURL, getRepoGQL} from '../libs/utils';
 
-interface Counts {
-	projects: number;
-	milestones: number;
-}
-
-const getCounts = cache.function(async (): Promise<Counts> => {
+const hasProjects = cache.function(async (): Promise<boolean> => {
 	const {repository, organization} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			projects { totalCount }
-			milestones { totalCount }
 		}
 		organization(login: "${getOwnerAndRepo().ownerName!}") {
 			projects { totalCount }
@@ -22,16 +17,11 @@ const getCounts = cache.function(async (): Promise<Counts> => {
 		allowErrors: true
 	});
 
-	return {
-		projects:
-			(repository.projects.totalCount as number) +
-			(organization?.projects?.totalCount as number ?? 0),
-		milestones: repository.milestones.totalCount
-	};
+	return ((repository.projects.totalCount as number) + (organization?.projects?.totalCount as number ?? 0)) > 0;
 }, {
 	maxAge: 3,
 	staleWhileRevalidate: 20,
-	cacheKey: () => __featureName__ + ':' + getRepoURL()
+	cacheKey: () => `has-projects:${getRepoURL()}`
 });
 
 function removeParent(element?: Element): void {
@@ -40,16 +30,28 @@ function removeParent(element?: Element): void {
 	}
 }
 
-async function init(): Promise<void> {
-	const {projects, milestones} = await getCounts();
+async function hideMilestones(): Promise<void> {
+	const hasNoMilestones = select('[data-selected-links^="repo_milestones"] .Counter')!.textContent!.trim() === '0';
 
-	if (projects === 0) {
-		elementReady('[data-hotkey="p"]').then(removeParent);
-	}
-
-	if (milestones === 0) {
+	if (hasNoMilestones) {
 		elementReady('[data-hotkey="m"]').then(removeParent);
 	}
+}
+
+async function hideProjects(): Promise<void> {
+	const projectsTab = select([
+		'[data-hotkey="g b"]', // In organizations and repos
+		'.user-profile-nav [href$="?tab=projects"]' // In user profiles
+	].join());
+
+	if (!projectsTab || select('.Counter', projectsTab)!.textContent!.trim() === '0' || !await hasProjects()) {
+		elementReady('[data-hotkey="p"]').then(removeParent);
+	}
+}
+
+function init(): void {
+	hideMilestones();
+	hideProjects();
 }
 
 features.add({
