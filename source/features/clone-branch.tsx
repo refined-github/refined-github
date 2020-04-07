@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import gitBranch from 'octicon/git-branch.svg';
-import insertTextTextarea from 'insert-text-textarea';
 import delegate from 'delegate-it';
+import * as textFieldEdit from 'text-field-edit';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import loadingIcon from '../libs/icon-loading';
@@ -61,9 +61,10 @@ async function cloneBranch(event: delegate.Event<MouseEvent, HTMLButtonElement>)
 		return;
 	}
 
-	const searchField = select<HTMLInputElement>('.js-branch-search-field')!;
-	searchField.select();
-	insertTextTextarea(searchField, newBranchName);
+	textFieldEdit.set(
+		select<HTMLInputElement>('.js-branch-search-field')!,
+		newBranchName
+	);
 }
 
 function init(): void | false {

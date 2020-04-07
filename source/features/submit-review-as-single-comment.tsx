@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
-import insertText from 'insert-text-textarea';
 import delegate from 'delegate-it';
+import * as textFieldEdit from 'text-field-edit';
 import features from '../libs/features';
 import {observeOneMutation} from '../libs/simplified-element-observer';
 import {logError} from '../libs/utils';
@@ -68,7 +68,7 @@ async function handleSubmitSingle(event: delegate.Event): Promise<void> {
 	const commentForm = comment.closest<HTMLElement>('.inline-comment-form-container')!;
 
 	// Copy comment to new comment box
-	insertText(comment.form!.elements['comment[body]'] as HTMLTextAreaElement, commentText);
+	textFieldEdit.insert(comment.form!.elements['comment[body]'] as HTMLTextAreaElement, commentText);
 
 	// Safely try comment deletion
 	try {

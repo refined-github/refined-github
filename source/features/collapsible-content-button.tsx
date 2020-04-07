@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import insertText from 'insert-text-textarea';
 import delegate from 'delegate-it';
 import foldDownIcon from 'octicon/fold-down.svg';
+import * as textFieldEdit from 'text-field-edit';
 import features from '../libs/features';
 
 // Wraps string in at least 2 \n on each side,
@@ -51,8 +51,7 @@ function addContentToDetails(event: delegate.Event<MouseEvent, HTMLButtonElement
 		</details>
 	`.replace(/(\n|\b)\t+/g, '$1').trim();
 
-	// Inject new tags; it'll be undoable
-	insertText(field, smartBlockWrap(newContent, field));
+	textFieldEdit.insert(field, smartBlockWrap(newContent, field));
 
 	// Restore selection.
 	// `selectionStart` will be right after the newly-inserted text

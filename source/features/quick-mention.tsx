@@ -1,9 +1,9 @@
 import './quick-mention.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import insertText from 'insert-text-textarea';
 import delegate from 'delegate-it';
 import replyIcon from 'octicon/reply.svg';
+import * as textFieldEdit from 'text-field-edit';
 import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 
@@ -20,7 +20,7 @@ function mentionUser({delegateTarget: button}: delegate.Event): void {
 	const spacer = /\s|^$/.test(precedingCharacter) ? '' : ' ';
 
 	// The space after closes the autocomplete box and places the cursor where the user would start typing
-	insertText(newComment, `${spacer}${userMention} `);
+	textFieldEdit.insert(newComment, `${spacer}${userMention} `);
 }
 
 function init(): void | false {

@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import insertTextTextarea from 'insert-text-textarea';
 import delegate from 'delegate-it';
+import * as textFieldEdit from 'text-field-edit';
 import features from '../libs/features';
 import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
 import {logError} from '../libs/utils';
@@ -87,9 +87,7 @@ async function updateCommitTitle(event: Event): Promise<void> {
 
 	// Only if the user hasn't already interacted with it in this session
 	if (field && event.type !== 'session:resume') {
-		// Replace default title and fire the correct events
-		field.select();
-		insertTextTextarea(field, createCommitTitle());
+		textFieldEdit.set(field, createCommitTitle());
 	}
 
 	updateUI();
