@@ -24,22 +24,20 @@ const hasAnyProjects = cache.function(async (): Promise<boolean> => {
 	cacheKey: () => `has-projects:${getRepoURL()}`
 });
 
-function removeParent(element?: Element): void {
-	if (element) { // If may be missing when the feature is entirely disabled
-		element.parentElement!.remove();
-	}
+function hasLocalCounter(selector: string): boolean {
+	return Number(select(`${selector} .Counter`)?.textContent!.trim()) > 0;
 }
 
 async function hideMilestones(): Promise<void> {
-	const hasMilestones = parseInt(select('[data-selected-links^="repo_milestones"] .Counter')?.textContent, 10) > 0;
+	const hasMilestones = hasLocalCounter('[data-selected-links^="repo_milestones"]');
 
 	if (hasMilestones) {
-		elementReady('[data-hotkey="m"]').then(removeParent);
+		(await elementReady('[data-hotkey="m"]'))?.parentElement!.remove();
 	}
 }
 
 async function hideProjects(): Promise<void> {
-	const hasActiveProjects = parseInt(select('[data-hotkey="g b"] .Counter')?.textContent, 10) > 0;
+	const hasActiveProjects = hasLocalCounter('[data-hotkey="g b"]');
 	if (!hasActiveProjects && !await hasAnyProjects()) {
 		(await elementReady('[data-hotkey="p"]'))?.parentElement!.remove();
 	}
