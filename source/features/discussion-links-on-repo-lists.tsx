@@ -1,17 +1,15 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
-import elementReady from 'element-ready';
 import issueIcon from 'octicon/issue-opened.svg';
 import pullRequestIcon from 'octicon/git-pull-request.svg';
 
 async function init(): Promise<false | void> {
-	const repositoryTab = await elementReady('[data-filterable-for="your-repos-filter"]');
-	if (!repositoryTab) {
+	if (!select.exists('[data-filterable-for="your-repos-filter"]')) {
 		return;
 	}
 
-	for (const repository of select.all('[itemprop="owns"]', repositoryTab)) {
+	for (const repository of select.all('[itemprop="owns"]')) {
 		// Remove the help wanted issues
 		select('[href*="issues?q=label%3A%22help+wanted%"]', repository)?.remove();
 
@@ -45,6 +43,6 @@ features.add({
 	exclude: [
 		features.isOrganizationProfile
 	],
-	load: features.nowAndOnAjaxedPages,
+	load: features.onAjaxedPages,
 	init
 });
