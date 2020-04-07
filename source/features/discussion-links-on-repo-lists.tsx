@@ -51,5 +51,5 @@ features.add({
 		features.isUserProfileRepoTab
 	],
 	load: features.onAjaxedPages,
-	init: () => observeElement('#user-repositories-list', init)
+	init: () => observeElement('#user-repositories-list', init) ?? false
 });
