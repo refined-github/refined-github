@@ -3,13 +3,13 @@ import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
 import commentIcon from 'octicon/comment.svg';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 import anchorScroll from '../libs/anchor-scroll';
 import onPrFileLoad from '../libs/on-pr-file-load';
 
 // When an indicator is clicked, this will show comments on the current file
-const handleIndicatorClick = ({delegateTarget}: DelegateEvent): void => {
+const handleIndicatorClick = ({delegateTarget}: delegate.Event): void => {
 	const commentedLine = delegateTarget.closest('tr')!.previousElementSibling!;
 	const resetScroll = anchorScroll(commentedLine);
 	delegateTarget
@@ -64,7 +64,7 @@ function observeFiles(): void {
 function init(): void {
 	observeFiles();
 	onPrFileLoad(observeFiles);
-	delegate('.rgh-comments-indicator', 'click', handleIndicatorClick);
+	delegate(document, '.rgh-comments-indicator', 'click', handleIndicatorClick);
 }
 
 features.add({

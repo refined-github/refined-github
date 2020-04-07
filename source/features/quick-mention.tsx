@@ -1,13 +1,13 @@
 import './quick-mention.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate, {DelegateEvent} from 'delegate-it';
 import insertText from 'insert-text-textarea';
+import delegate from 'delegate-it';
 import replyIcon from 'octicon/reply.svg';
 import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 
-function mentionUser({delegateTarget: button}: DelegateEvent): void {
+function mentionUser({delegateTarget: button}: delegate.Event): void {
 	const userMention = button.parentElement!.querySelector('img')!.alt;
 	const newComment = select<HTMLTextAreaElement>('#new_comment_field')!;
 	newComment.focus();
@@ -44,7 +44,7 @@ function init(): void | false {
 		);
 	}
 
-	delegate('button.rgh-quick-mention', 'click', mentionUser);
+	delegate(document, 'button.rgh-quick-mention', 'click', mentionUser);
 }
 
 features.add({

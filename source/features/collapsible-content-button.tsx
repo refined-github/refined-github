@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate, {DelegateEvent} from 'delegate-it';
 import insertText from 'insert-text-textarea';
+import delegate from 'delegate-it';
 import foldDownIcon from 'octicon/fold-down.svg';
 import features from '../libs/features';
 
@@ -27,7 +27,7 @@ function smartBlockWrap(content: string, field: HTMLTextAreaElement): string {
 }
 
 function init(): void {
-	delegate('.rgh-collapsible-content-btn', 'click', addContentToDetails);
+	delegate(document, '.rgh-collapsible-content-btn', 'click', addContentToDetails);
 	for (const anchor of select.all('md-ref')) {
 		anchor.after(
 			<button type="button" className="toolbar-item tooltipped tooltipped-n rgh-collapsible-content-btn" aria-label="Add collapsible content">
@@ -37,7 +37,7 @@ function init(): void {
 	}
 }
 
-function addContentToDetails(event: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
+function addContentToDetails(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const field = event.delegateTarget.form!.querySelector('textarea')!;
 	const selection = field.value.slice(field.selectionStart, field.selectionEnd);
 

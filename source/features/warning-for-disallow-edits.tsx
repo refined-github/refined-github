@@ -2,7 +2,7 @@ import './warning-for-disallow-edits.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import oneTime from 'onetime';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 
 const getWarning = oneTime(() => (
@@ -23,7 +23,7 @@ function update(checkbox: HTMLInputElement): void {
 	}
 }
 
-function toggleHandler(event: DelegateEvent<UIEvent, HTMLInputElement>): void {
+function toggleHandler(event: delegate.Event<UIEvent, HTMLInputElement>): void {
 	update(event.delegateTarget);
 }
 
@@ -34,7 +34,7 @@ function init(): void {
 	}
 
 	update(checkbox); // The sidebar checkbox may already be un-checked
-	delegate('[name="collab_privs"]', 'change', toggleHandler);
+	delegate(document, '[name="collab_privs"]', 'change', toggleHandler);
 }
 
 features.add({

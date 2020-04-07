@@ -1,12 +1,12 @@
 import insertText from 'insert-text-textarea';
-import {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 import {listenToCommentFields} from './comment-fields-keyboard-shortcuts';
 
 const formattingCharacters = ['`', '\'', '"', '[', '(', '{', '*', '_', '~'];
 const matchingCharacters = ['`', '\'', '"', ']', ')', '}', '*', '_', '~'];
 
-function handler(event: DelegateEvent<KeyboardEvent, HTMLTextAreaElement>): void {
+function handler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): void {
 	const field = event.delegateTarget;
 
 	if (!formattingCharacters.includes(event.key)) {

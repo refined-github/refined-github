@@ -3,7 +3,7 @@ import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
 import versionIcon from 'octicon/versions.svg';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import loadingIcon from '../libs/icon-loading';
@@ -52,7 +52,7 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number, c
 	return associatedPR.commits.nodes[0].commit.oid;
 });
 
-async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchorElement | HTMLButtonElement>): Promise<void> {
+async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAnchorElement | HTMLButtonElement>): Promise<void> {
 	const blameElement = event.delegateTarget;
 	if (blameElement instanceof HTMLAnchorElement && !event.altKey) {
 		return; // Unmodified click on regular link: let it proceed
@@ -88,7 +88,7 @@ function init(): void | false {
 		return false;
 	}
 
-	delegate('.rgh-deep-reblame', 'click', redirectToBlameCommit);
+	delegate(document, '.rgh-deep-reblame', 'click', redirectToBlameCommit);
 	for (const pullRequest of pullRequests) {
 		const hunk = pullRequest.closest('.blame-hunk')!;
 

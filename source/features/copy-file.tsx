@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import copyToClipboard from 'copy-text-to-clipboard';
 import features from '../libs/features';
 
-function handleClick({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
+function handleClick({delegateTarget: button}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const file = button.closest('.Box, .js-gist-file-update-container');
 	const content = select.all('.blob-code-inner', file!)
 		.map(({innerText: line}) => line === '\n' ? '' : line) // Must be `.innerText`
@@ -40,11 +40,11 @@ function removeButton(): void {
 }
 
 function init(): void {
-	delegate('.rgh-copy-file', 'click', handleClick);
+	delegate(document, '.rgh-copy-file', 'click', handleClick);
 
 	if (select.exists('.blob > .markdown-body')) {
-		delegate('.rgh-md-source', 'rgh:view-markdown-source', renderButton);
-		delegate('.rgh-md-source', 'rgh:view-markdown-rendered', removeButton);
+		delegate(document, '.rgh-md-source', 'rgh:view-markdown-source', renderButton);
+		delegate(document, '.rgh-md-source', 'rgh:view-markdown-rendered', removeButton);
 	} else {
 		renderButton();
 	}

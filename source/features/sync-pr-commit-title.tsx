@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate, {DelegateSubscription} from 'delegate-it';
 import insertTextTextarea from 'insert-text-textarea';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
 import {logError} from '../libs/utils';
@@ -100,13 +100,13 @@ function disableSubmission(): void {
 	getUI().remove(); // Hide note
 }
 
-let listeners: DelegateSubscription[];
+let listeners: delegate.Subscription[];
 function init(): void {
 	listeners = [
 		onPrMergePanelOpen(updateCommitTitle),
-		delegate('#merge_title_field', 'input', updateUI),
-		delegate('form.js-merge-pull-request', 'submit', updatePRTitle),
-		delegate('.rgh-sync-pr-commit-title', 'click', disableSubmission)
+		delegate(document, '#merge_title_field', 'input', updateUI),
+		delegate(document, 'form.js-merge-pull-request', 'submit', updatePRTitle),
+		delegate(document, '.rgh-sync-pr-commit-title', 'click', disableSubmission)
 	];
 }
 

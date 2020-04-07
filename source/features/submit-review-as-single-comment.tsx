@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 import insertText from 'insert-text-textarea';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 import {observeOneMutation} from '../libs/simplified-element-observer';
 import {logError} from '../libs/utils';
@@ -24,7 +24,7 @@ function updateUI(): void {
 	}
 }
 
-async function handleReviewSubmission(event: DelegateEvent): Promise<void> {
+async function handleReviewSubmission(event: delegate.Event): Promise<void> {
 	const container = event.delegateTarget.closest('.line-comments')!;
 	await observeOneMutation(container);
 	if (select.exists(pendingSelector, container)) {
@@ -50,7 +50,7 @@ async function getNewCommentField(commentContainer: Element, lineBeingCommentedO
 	return (await listener).target as HTMLTextAreaElement;
 }
 
-async function handleSubmitSingle(event: DelegateEvent): Promise<void> {
+async function handleSubmitSingle(event: delegate.Event): Promise<void> {
 	const commentContainer = event.delegateTarget.closest('.js-comment')!;
 	const commentText = select<HTMLTextAreaElement>('[name="pull_request_review_comment[body]"]', commentContainer)!.value;
 	if (!commentText) {
@@ -102,8 +102,8 @@ async function handleSubmitSingle(event: DelegateEvent): Promise<void> {
 }
 
 function init(): void {
-	delegate('#files [action$="/review_comment/create"]', 'submit', handleReviewSubmission);
-	delegate('.rgh-submit-single', 'click', handleSubmitSingle);
+	delegate(document, '#files [action$="/review_comment/create"]', 'submit', handleReviewSubmission);
+	delegate(document, '.rgh-submit-single', 'click', handleSubmitSingle);
 	updateUI();
 }
 

@@ -2,7 +2,7 @@ import './minimize-upload-bar.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import cloudUploadIcon from 'octicon/cloud-upload.svg';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 
 function addButton(): void {
@@ -16,7 +16,7 @@ function addButton(): void {
 	}
 }
 
-function triggerUpload(event: DelegateEvent<Event, HTMLButtonElement>): void {
+function triggerUpload(event: delegate.Event<Event, HTMLButtonElement>): void {
 	event.delegateTarget
 		.form!
 		.querySelector<HTMLInputElement>('[type="file"]')!
@@ -25,7 +25,7 @@ function triggerUpload(event: DelegateEvent<Event, HTMLButtonElement>): void {
 
 function init(): void {
 	addButton();
-	delegate('.rgh-upload-btn', 'click', triggerUpload);
+	delegate(document, '.rgh-upload-btn', 'click', triggerUpload);
 }
 
 features.add({
