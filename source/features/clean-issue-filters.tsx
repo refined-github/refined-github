@@ -41,7 +41,7 @@ async function hideMilestones(): Promise<void> {
 async function hideProjects(): Promise<void> {
 	const hasActiveProjects = parseInt(select('[data-hotkey="g b"] .Counter')?.textContent, 10) > 0;
 	if (!hasActiveProjects && !await hasAnyProjects()) {
-		elementReady('[data-hotkey="p"]').then(removeParent);
+		(await elementReady('[data-hotkey="p"]'))?.parentElement!.remove();
 	}
 }
 
