@@ -25,21 +25,21 @@ const hasAnyProjects = cache.function(async (): Promise<boolean> => {
 });
 
 function hasLocalCounter(selector: string): boolean {
-	return Number(select(`${selector} .Counter`)?.textContent!.trim()) > 0;
+	return Number(select(`${selector} .Counter`)?.textContent?.trim()) > 0;
 }
 
 async function hideMilestones(): Promise<void> {
 	const hasMilestones = hasLocalCounter('[data-selected-links^="repo_milestones"]');
 
 	if (hasMilestones) {
-		(await elementReady('[data-hotkey="m"]'))?.parentElement!.remove();
+		(await elementReady('[data-hotkey="m"]'))?.parentElement?.remove();
 	}
 }
 
 async function hideProjects(): Promise<void> {
 	const hasActiveProjects = hasLocalCounter('[data-hotkey="g b"]');
 	if (!hasActiveProjects && !await hasAnyProjects()) {
-		(await elementReady('[data-hotkey="p"]'))?.parentElement!.remove();
+		(await elementReady('[data-hotkey="p"]'))?.parentElement?.remove();
 	}
 }
 
