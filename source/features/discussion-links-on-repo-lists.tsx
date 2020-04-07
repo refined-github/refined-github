@@ -7,12 +7,14 @@ import observeElement from '../libs/simplified-element-observer';
 
 function init(): void {
 	const repositories = select.all<HTMLAnchorElement>([
-			'[itemprop="name codeRepository"]', // `isUserProfileRepoTab`
-			'[data-hydro-click*=\'"model_name":"Repository"\']' // `isGlobalSearchResults`
+		'[itemprop="name codeRepository"]:not(.rgh-discussion-links)', // `isUserProfileRepoTab`
+		'[data-hydro-click*=\'"model_name":"Repository"\']' // `isGlobalSearchResults`
 	]);
+
 	for (const repositoryLink of repositories) {
-		const repository = repositoryLink.closest('li');
-		repository.classList.add('rgh-discussion-links');
+		repositoryLink.classList.add('rgh-discussion-links');
+
+		const repository = repositoryLink.closest('li')!;
 		// Remove the help wanted issues
 		select('[href*="issues?q=label%3A%22help+wanted%"]', repository)?.remove();
 
