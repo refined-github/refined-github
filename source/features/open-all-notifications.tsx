@@ -10,10 +10,10 @@ const confirmationRequiredCount = 10;
 const unreadNotificationsClass = '.unread .js-notification-target';
 
 function openNotifications({delegateTarget}: delegate.Event): void {
-	const container = delegateTarget.closest('.boxed-group, .notification-center');
+	const container = delegateTarget.closest('.boxed-group, .notification-center')!;
 
 	// Ask for confirmation
-	const unreadNotifications = select.all<HTMLAnchorElement>(unreadNotificationsClass, container!);
+	const unreadNotifications = select.all<HTMLAnchorElement>(unreadNotificationsClass, container);
 	if (
 		unreadNotifications.length >= confirmationRequiredCount &&
 		!confirm(`This will open ${unreadNotifications.length} new tabs. Continue?`)
@@ -26,7 +26,7 @@ function openNotifications({delegateTarget}: delegate.Event): void {
 	});
 
 	// Mark all as read
-	for (const notification of select.all('.unread', container!)) {
+	for (const notification of select.all('.unread', container)) {
 		notification.classList.replace('unread', 'read');
 	}
 
@@ -36,7 +36,7 @@ function openNotifications({delegateTarget}: delegate.Event): void {
 		.open-repo-notifications,
 		.mark-all-as-read,
 		[href='#mark_as_read_confirm_box']
-	`, container!)) {
+	`, container)) {
 		button.remove();
 	}
 }

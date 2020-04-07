@@ -72,7 +72,6 @@ async function handleSubmitSingle(event: delegate.Event): Promise<void> {
 
 	// Safely try comment deletion
 	try {
-		console.log(commentForm);
 		commentForm.hidden = true;
 
 		// Delete comment without asking confirmation

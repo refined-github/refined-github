@@ -5,8 +5,8 @@ import copyToClipboard from 'copy-text-to-clipboard';
 import features from '../libs/features';
 
 function handleClick({delegateTarget: button}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
-	const file = button.closest('.Box, .js-gist-file-update-container');
-	const content = select.all('.blob-code-inner', file!)
+	const file = button.closest('.Box, .js-gist-file-update-container')!;
+	const content = select.all('.blob-code-inner', file)
 		.map(({innerText: line}) => line === '\n' ? '' : line) // Must be `.innerText`
 		.join('\n');
 	copyToClipboard(content);
