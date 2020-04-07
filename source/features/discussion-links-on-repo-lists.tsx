@@ -6,7 +6,12 @@ import pullRequestIcon from 'octicon/git-pull-request.svg';
 import observeElement from '../libs/simplified-element-observer';
 
 function init(): void {
-	for (const repository of select.all('[itemprop="owns"]:not(.rgh-discussion-links), .repo-list-item')) {
+	const repositories = select.all<HTMLAnchorElement>([
+			'[itemprop="name codeRepository"]', // `isUserProfileRepoTab`
+			'[data-hydro-click*=\'"model_name":"Repository"\']' // `isGlobalSearchResults`
+	]);
+	for (const repositoryLink of repositories) {
+		const repository = repositoryLink.closest('li');
 		repository.classList.add('rgh-discussion-links');
 		// Remove the help wanted issues
 		select('[href*="issues?q=label%3A%22help+wanted%"]', repository)?.remove();
