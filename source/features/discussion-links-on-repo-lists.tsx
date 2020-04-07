@@ -2,10 +2,13 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 import issueIcon from 'octicon/issue-opened.svg';
+import {isUserProfileRepoTab} from '../libs/page-detect';
 import pullRequestIcon from 'octicon/git-pull-request.svg';
+import observeElement from '../libs/simplified-element-observer';
 
-function init(): void {
-	for (const repository of select.all('[itemprop="owns"], .repo-list-item')) {
+function addIcons(): void {
+	for (const repository of select.all('[itemprop="owns"]:not(.rgh-discussion-links), .repo-list-item')) {
+		repository.classList.add('rgh-discussion-links');
 		// Remove the help wanted issues
 		select('[href*="issues?q=label%3A%22help+wanted%"]', repository)?.remove();
 
@@ -25,6 +28,13 @@ function init(): void {
 				{pullRequestIcon()}
 			</a>
 		);
+	}
+}
+
+function init(): void {
+	addIcons();
+	if (isUserProfileRepoTab()) {
+		observeElement('#user-repositories-list', addIcons);
 	}
 }
 
