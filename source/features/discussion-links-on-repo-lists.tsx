@@ -4,12 +4,12 @@ import features from '../libs/features';
 import issueIcon from 'octicon/issue-opened.svg';
 import pullRequestIcon from 'octicon/git-pull-request.svg';
 
-async function init(): Promise<false | void> {
-	for (const repository of select.all('[itemprop="owns"]')) {
+function init(): void {
+	for (const repository of select.all('[itemprop="owns"], .repo-list-item')) {
 		// Remove the help wanted issues
 		select('[href*="issues?q=label%3A%22help+wanted%"]', repository)?.remove();
 
-		const repositoryUrl = select<HTMLAnchorElement>('[itemprop="name codeRepository"]')!.href;
+		const repositoryUrl = select<HTMLAnchorElement>('[itemprop="name codeRepository"], [data-hydro-click*="search_result.click"][href]', repository)!.href;
 		// Need to use previousSibling since the updated text is not in an element
 		select('relative-time', repository)!.previousSibling!.before(
 			<a
@@ -34,7 +34,8 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/16872793/78670305-8ab3c780-78ab-11ea-9c17-4d07f124192e.png'
 }, {
 	include: [
-		features.isUserProfileRepoTab
+		features.isUserProfileRepoTab,
+		features.isGlobalSearchResults
 	],
 	load: features.onAjaxedPages,
 	init
