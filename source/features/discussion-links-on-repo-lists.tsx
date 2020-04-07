@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import features from '../libs/features';
 import issueIcon from 'octicon/issue-opened.svg';
 import pullRequestIcon from 'octicon/git-pull-request.svg';
+import features from '../libs/features';
 import observeElement from '../libs/simplified-element-observer';
 
 function init(): void {
