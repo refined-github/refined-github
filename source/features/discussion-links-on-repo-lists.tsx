@@ -40,8 +40,8 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Adds a link to the issues and pull on the user profile repository tab.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/78670305-8ab3c780-78ab-11ea-9c17-4d07f124192e.png'
+	description: 'Adds a link to the issues and pulls on the user profile repository tab and global search.',
+	screenshot: 'https://user-images.githubusercontent.com/16872793/78712349-82c54900-78e6-11ea-8328-3c2d39a78862.png'
 }, {
 	include: [
 		features.isUserProfileRepoTab,
