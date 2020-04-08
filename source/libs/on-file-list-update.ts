@@ -9,7 +9,7 @@ export default async function (callback: VoidFunction): Promise<void> {
 	const update = (): void => {
 		callback();
 
-		const ajaxFiles = select('include-fragment.file-wrap');
+		const ajaxFiles = select('#files ~ include-fragment[src*="/file-list/"]');
 		if (ajaxFiles) {
 			observer.observe(ajaxFiles.parentNode!, {
 				childList: true
