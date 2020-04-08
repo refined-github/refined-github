@@ -283,7 +283,6 @@ Thanks for contributing! 🦋🙌
 - [](# "user-local-time") [Shows the user local time in their hovercard (based on their last commit).](https://user-images.githubusercontent.com/1402241/69863648-ef449180-12cf-11ea-8f36-7c92fc487f31.gif)
 - [](# "hide-zero-packages") [Hides the `Packages` tab on user profiles if it’s empty.](https://user-images.githubusercontent.com/35382021/62426530-688ef780-b6d5-11e9-93f2-515110aed1eb.jpg)
 
-
 <!-- Refer to style guide above. Keep this message between sections. -->
 
 ### Newsfeed
@@ -358,38 +357,32 @@ GitHub implemented 22 features that used to be part of Refined GitHub 🎉
 
 </details>
 
+
 ## Customization
 
-Most features [can be disabled](https://github.com/sindresorhus/refined-github/pull/877) if they are JavaScript-based *(Experimental)* and you can override the CSS with your own in [the extension options.](https://github.com/sindresorhus/refined-github/pull/1193)
+Most features [can be disabled](https://github.com/sindresorhus/refined-github/pull/877) if they are JavaScript-based *(Experimental)* and you can override our CSS with your own in [the extension options.](https://github.com/sindresorhus/refined-github/pull/1193)
 
-We're happy to receive suggestions and contributions, but be aware this is a highly opinionated project. There's a very high bar for adding options. Users will always disagree with something. That being said, we're open to discussing things. If something doesn't make the cut, you can [build your customized Refined GitHub locally](https://github.com/sindresorhus/refined-github/blob/master/contributing.md#workflow), rather than installing it from the Chrome Store.
+We're happy to receive suggestions and contributions, but be aware this is a highly opinionated project. There's [a high bar for adding features.](https://github.com/sindresorhus/refined-github/issues/2960) Users will always disagree with something. That being said, we're open to discussing things.
 
 
 ## Contribute
 
-See the [contribution guide](contributing.md) and join the [contributors](https://github.com/sindresorhus/refined-github/graphs/contributors)!
+Read the [contribution guide](contributing.md) and join the [contributors](https://github.com/sindresorhus/refined-github/graphs/contributors)!
 
 
 ## Related
 
 - [Awesome browser extensions for GitHub](https://github.com/stefanbuck/awesome-browser-extensions-for-github) - Awesome list
-- [Octo Linker](https://github.com/octo-linker/chrome-extension/) - Navigate across files and packages
+- [OctoLinker](https://github.com/OctoLinker/OctoLinker) - Navigate across files and packages
 - [Notifier for GitHub](https://github.com/sindresorhus/notifier-for-github-chrome) - Shows your notification unread count
 - [Mottie's Userscripts](https://github.com/Mottie/GitHub-userscripts) - Countless features to improve GitHub granularly
 - [Contributors on GitHub](https://github.com/hzoo/contributors-on-github) - Shows stats about contributors
 - [Hide Files on GitHub](https://github.com/sindresorhus/hide-files-on-github) - Hides dotfiles from the file browser
 - [GitHub Issue Link Status](https://github.com/fregante/github-issue-link-status) - Colorize issue and PR links to see their status (open, closed, merged)
-- [Twitter for GitHub](https://github.com/bevacqua/twitter-for-github) - Shows a user's Twitter handle on their profile page
 - [OctoEdit](https://github.com/DrewML/OctoEdit) - Markdown syntax highlighting in comments
 - [Notifications Preview for GitHub](https://github.com/tanmayrajani/notifications-preview-github) - See your notifications on hover on all pages
-- [GitHub Custom Tab Size](https://github.com/lukechilds/github-custom-tab-size) - Set custom tab size for code views *(Refined GitHub hard-codes it to 4)*
 - [Show All GitHub Issues](https://github.com/sindresorhus/show-all-github-issues) - Shows both Issues and Pull Requests in the Issues tab
 - [Refined Twitter](https://github.com/sindresorhus/refined-twitter) - Improves Twitter
 - [Friendly GitHub](https://github.com/Hermanya/friendly-github) - Make GitHub more social
 - [Sourcegraph](https://github.com/sourcegraph/sourcegraph/tree/master/browser) - Code search and navigation tool
 - [PR Monitor](https://github.com/fwouts/prmonitor) - Notifies you about incoming and outgoing PRs
-
-Want more? Here are some ideas you could develop!
-
-- [Format JS code blocks with Prettier](https://github.com/sindresorhus/module-requests/issues/99)
-- [Customize the font of code blocks](https://github.com/sindresorhus/module-requests/issues/97)
