@@ -1,9 +1,9 @@
 import select from 'select-dom';
-import delegate, {DelegateEvent, DelegateEventHandler} from 'delegate-it';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 
-export function listenToCommentFields(callback: DelegateEventHandler<KeyboardEvent, HTMLTextAreaElement>): void {
-	delegate<HTMLTextAreaElement, KeyboardEvent>('.js-comment-field, #commit-description-textarea', 'keydown', event => {
+export function listenToCommentFields(callback: delegate.EventHandler<KeyboardEvent, HTMLTextAreaElement>): void {
+	delegate<HTMLTextAreaElement, KeyboardEvent>(document, '.js-comment-field, #commit-description-textarea', 'keydown', event => {
 		const field = event.delegateTarget;
 
 		// Don't do anything if the autocomplete helper is shown or if non-Roman input is being used
@@ -18,7 +18,7 @@ export function listenToCommentFields(callback: DelegateEventHandler<KeyboardEve
 	});
 }
 
-function handler(event: DelegateEvent<KeyboardEvent, HTMLTextAreaElement>): void {
+function handler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): void {
 	const field = event.delegateTarget;
 
 	if (event.key === 'Escape') {

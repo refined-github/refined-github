@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 import infoIcon from 'octicon/info.svg';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 import * as prCiStatus from '../libs/pr-ci-status';
 import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
@@ -59,7 +59,7 @@ function disableForm(disabled = true): void {
 	}
 }
 
-async function handleMergeConfirmation(event: DelegateEvent<Event, HTMLButtonElement>): Promise<void> {
+async function handleMergeConfirmation(event: delegate.Event<Event, HTMLButtonElement>): Promise<void> {
 	const checkbox = getCheckbox();
 	if (checkbox?.checked) {
 		event.preventDefault();
@@ -91,10 +91,10 @@ function init(): false | void {
 	onPrMergePanelOpen(showCheckboxIfNecessary);
 
 	// One of the merge buttons has been clicked
-	delegate('.js-merge-commit-button', 'click', handleMergeConfirmation);
+	delegate(document, '.js-merge-commit-button', 'click', handleMergeConfirmation);
 
 	// Cancel wait when the user presses the Cancel button
-	delegate('.commit-form-actions button:not(.js-merge-commit-button)', 'click', () => {
+	delegate(document, '.commit-form-actions button:not(.js-merge-commit-button)', 'click', () => {
 		disableForm(false);
 	});
 

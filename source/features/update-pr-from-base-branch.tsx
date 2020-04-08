@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import alertIcon from 'octicon/alert.svg';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 import * as api from '../libs/api';
 import observeElement from '../libs/simplified-element-observer';
@@ -26,7 +26,7 @@ export async function mergeBranches(): Promise<AnyObject> {
 	});
 }
 
-async function handler(event: DelegateEvent): Promise<void> {
+async function handler(event: delegate.Event): Promise<void> {
 	const button = event.target as HTMLButtonElement;
 	button.disabled = true;
 	button.textContent = 'Updating branch…';
@@ -99,7 +99,7 @@ function init(): void | false {
 	}
 
 	observer = observeElement('.discussion-timeline-actions', addButton)!;
-	delegate('.rgh-update-pr-from-master', 'click', handler);
+	delegate(document, '.rgh-update-pr-from-master', 'click', handler);
 }
 
 features.add({

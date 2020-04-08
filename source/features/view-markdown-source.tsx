@@ -77,8 +77,8 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	delegate('.rgh-md-source:not(.selected)', 'click', showSource);
-	delegate('.rgh-md-rendered:not(.selected)', 'click', showRendered);
+	delegate(document, '.rgh-md-source:not(.selected)', 'click', showSource);
+	delegate(document, '.rgh-md-rendered:not(.selected)', 'click', showRendered);
 
 	select('.repository-content .Box-header .d-flex')!.prepend(
 		<div className="BtnGroup">

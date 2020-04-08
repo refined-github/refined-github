@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import onDomReady from 'dom-loaded';
 import elementReady from 'element-ready';
-import delegate, {DelegateSubscription, DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import xIcon from 'octicon/x.svg';
 import infoIcon from 'octicon/info.svg';
 import checkIcon from 'octicon/check.svg';
@@ -35,7 +35,7 @@ interface Notification {
 	url: string;
 }
 
-const listeners: DelegateSubscription[] = [];
+const listeners: delegate.Subscription[] = [];
 const stateIcons = {
 	issue: {
 		open: issueOpenedIcon,
@@ -95,7 +95,7 @@ async function markRead(urls: string|string[]): Promise<void> {
 	await setNotifications(updated);
 }
 
-async function markUnread({delegateTarget}: DelegateEvent): Promise<void> {
+async function markUnread({delegateTarget}: delegate.Event): Promise<void> {
 	const participants: Participant[] = select.all('.participant-avatar').slice(0, 3).map(element => ({
 		username: element.getAttribute('aria-label')!,
 		avatar: element.querySelector('img')!.src
@@ -313,7 +313,7 @@ async function updateUnreadIndicator(): Promise<void> {
 	}
 }
 
-async function markNotificationRead({delegateTarget}: DelegateEvent): Promise<void> {
+async function markNotificationRead({delegateTarget}: delegate.Event): Promise<void> {
 	const {href} = delegateTarget
 		.closest('li.js-notification')!
 		.querySelector<HTMLAnchorElement>('a.js-notification-target')!;
@@ -321,7 +321,7 @@ async function markNotificationRead({delegateTarget}: DelegateEvent): Promise<vo
 	await updateUnreadIndicator();
 }
 
-async function markAllNotificationsRead(event: DelegateEvent): Promise<void> {
+async function markAllNotificationsRead(event: delegate.Event): Promise<void> {
 	event.preventDefault();
 	const repoGroup = event.delegateTarget.closest('.boxed-group')!;
 	const urls = select.all<HTMLAnchorElement>('a.js-notification-target', repoGroup).map(a => a.href);
@@ -329,7 +329,7 @@ async function markAllNotificationsRead(event: DelegateEvent): Promise<void> {
 	await updateUnreadIndicator();
 }
 
-async function markVisibleNotificationsRead({delegateTarget}: DelegateEvent): Promise<void> {
+async function markVisibleNotificationsRead({delegateTarget}: delegate.Event): Promise<void> {
 	const group = delegateTarget.closest('.boxed-group')!;
 	const repo = select('.notifications-repo-link', group)!.textContent;
 	const notifications = await getNotifications();
@@ -366,7 +366,7 @@ function addCustomAllReadButton(): void {
 		</details>
 	);
 
-	delegate('#clear-local-notification', 'click', async () => {
+	delegate(document, '#clear-local-notification', 'click', async () => {
 		await setNotifications([]);
 		location.reload();
 	});
@@ -413,10 +413,10 @@ async function init(): Promise<void> {
 		}
 
 		listeners.push(
-			delegate('.btn-link.delete-note', 'click', markNotificationRead),
-			delegate('.js-mark-all-read', 'click', markAllNotificationsRead),
-			delegate('.js-delete-notification button', 'click', updateUnreadIndicator),
-			delegate('.js-mark-visible-as-read', 'submit', markVisibleNotificationsRead)
+			delegate(document, '.btn-link.delete-note', 'click', markNotificationRead),
+			delegate(document, '.js-mark-all-read', 'click', markAllNotificationsRead),
+			delegate(document, '.js-delete-notification button', 'click', updateUnreadIndicator),
+			delegate(document, '.js-mark-visible-as-read', 'submit', markVisibleNotificationsRead)
 		);
 	} else if (pageDetect.isPR() || pageDetect.isIssue()) {
 		await markRead(location.href);
@@ -424,7 +424,7 @@ async function init(): Promise<void> {
 		if (pageDetect.isPRConversation() || pageDetect.isIssue()) {
 			addMarkUnreadButton();
 			onUpdatableContentUpdate(select('#partial-discussion-sidebar')!, addMarkUnreadButton);
-			delegate('.rgh-btn-mark-unread', 'click', markUnread);
+			delegate(document, '.rgh-btn-mark-unread', 'click', markUnread);
 		}
 	} else if (pageDetect.isDiscussionList()) {
 		for (const discussion of await getNotifications()) {

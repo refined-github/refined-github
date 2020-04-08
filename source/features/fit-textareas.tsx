@@ -1,7 +1,7 @@
 import './fit-textareas.css';
 import select from 'select-dom';
 import fitTextarea from 'fit-textarea';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
 
@@ -18,7 +18,7 @@ function watchTextarea(textarea: HTMLTextAreaElement): void {
 	textarea.classList.replace('js-size-to-fit', 'rgh-fit-textareas');
 }
 
-function focusListener({delegateTarget: textarea}: DelegateEvent<Event, HTMLTextAreaElement>): void {
+function focusListener({delegateTarget: textarea}: delegate.Event<Event, HTMLTextAreaElement>): void {
 	watchTextarea(textarea);
 }
 
@@ -28,7 +28,7 @@ function fitPrCommitMessageBox(): void {
 
 function init(): void {
 	// Exclude PR review box because it's in a `position:fixed` container; The scroll HAS to appear within the fixed element.
-	delegate('textarea:not(#pull_request_review_body)', 'focusin', focusListener);
+	delegate(document, 'textarea:not(#pull_request_review_body)', 'focusin', focusListener);
 
 	select.all('textarea').forEach(watchTextarea);
 }
