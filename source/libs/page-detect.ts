@@ -67,7 +67,8 @@ export const _isDashboard = [
 	'https://github.com/orgs/edit/dashboard',
 	'https://github.big-corp.com/',
 	'https://not-github.com/',
-	'https://my-little-hub.com/'
+	'https://my-little-hub.com/',
+	'https://github.com/?tab=repositories' // Gotcha for `isUserProfileRepoTab`
 ];
 
 export const isEnterprise = (): boolean => location.hostname !== 'github.com' && location.hostname !== 'gist.github.com';
@@ -375,7 +376,8 @@ export const _isUserProfile = domBased;
 
 export const isUserProfileRepoTab = (): boolean => location.search.startsWith('?tab=repositories');
 export const _isUserProfileRepoTab = [
-	'https://github.com/sindresorhus?tab=repositories&type=source'
+	'https://github.com/sindresorhus?tab=repositories&type=source',
+	'https://github.com/sindresorhus?type=source&tab=repositories'
 ];
 
 export const isSingleTagPage = (): boolean => /^(releases\/tag)/.test(getRepoPath()!);
