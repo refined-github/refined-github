@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 
 function generateSubmenu(hideButton: Element): void {
@@ -53,11 +53,11 @@ function toggleSubMenu(hideButton: Element, show: boolean): void {
 	select('form.js-comment-minimize', dropdown)!.classList.toggle('d-none', !show);
 }
 
-function resetDropdowns(event: DelegateEvent): void {
+function resetDropdowns(event: delegate.Event): void {
 	toggleSubMenu(event.delegateTarget, false);
 }
 
-function showSubmenu(event: DelegateEvent): void {
+function showSubmenu(event: delegate.Event): void {
 	generateSubmenu(event.delegateTarget);
 	toggleSubMenu(event.delegateTarget, true);
 
@@ -67,8 +67,8 @@ function showSubmenu(event: DelegateEvent): void {
 
 function init(): void {
 	// `useCapture` required to be fired before GitHub's handlers
-	delegate('.js-comment-hide-button', 'click', showSubmenu, true);
-	delegate('.rgh-hide-comments-faster-details', 'toggle', resetDropdowns, true);
+	delegate(document, '.js-comment-hide-button', 'click', showSubmenu, true);
+	delegate(document, '.rgh-hide-comments-faster-details', 'toggle', resetDropdowns, true);
 }
 
 features.add({

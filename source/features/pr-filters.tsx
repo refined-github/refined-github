@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import cache from 'webext-storage-cache';
 import checkIcon from 'octicon/check.svg';
 import features from '../libs/features';
@@ -43,7 +43,7 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 }
 
 const hasDraftFilter = new WeakSet();
-function addDraftFilter({delegateTarget: reviewsFilter}: DelegateEvent): void {
+function addDraftFilter({delegateTarget: reviewsFilter}: delegate.Event): void {
 	if (hasDraftFilter.has(reviewsFilter)) {
 		return;
 	}
@@ -113,7 +113,7 @@ async function addChecksFilter(): Promise<void> {
 }
 
 function init(): void {
-	delegate(reviewsFilterSelector, 'toggle', addDraftFilter, true);
+	delegate(document, reviewsFilterSelector, 'toggle', addDraftFilter, true);
 	addChecksFilter();
 }
 

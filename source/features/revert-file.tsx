@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
@@ -73,7 +73,7 @@ async function commitFileContent(menuItem: Element, content: string): Promise<vo
 }
 
 const filesReverted = new WeakSet<HTMLButtonElement>();
-async function handleRevertFileClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
+async function handleRevertFileClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
 	const menuItem = event.delegateTarget;
 
 	// Only allow one click
@@ -112,7 +112,7 @@ async function handleRevertFileClick(event: DelegateEvent<MouseEvent, HTMLButton
 	}
 }
 
-function handleMenuOpening(event: DelegateEvent): void {
+function handleMenuOpening(event: delegate.Event): void {
 	const dropdown = event.delegateTarget.nextElementSibling!;
 
 	const editFile = select<HTMLAnchorElement>('[aria-label^="Change this"]', dropdown);
@@ -133,8 +133,8 @@ function handleMenuOpening(event: DelegateEvent): void {
 }
 
 function init(): void {
-	delegate('.js-file-header-dropdown > summary', 'click', handleMenuOpening);
-	delegate('.rgh-revert-file', 'click', handleRevertFileClick, true);
+	delegate(document, '.js-file-header-dropdown > summary', 'click', handleMenuOpening);
+	delegate(document, '.rgh-revert-file', 'click', handleRevertFileClick, true);
 }
 
 features.add({

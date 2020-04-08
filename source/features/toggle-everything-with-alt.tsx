@@ -1,19 +1,19 @@
 import select from 'select-dom';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 import anchorScroll from '../libs/anchor-scroll';
 
-type EventHandler = (event: DelegateEvent<MouseEvent, HTMLElement>) => void;
+type EventHandler = (event: delegate.Event<MouseEvent, HTMLElement>) => void;
 
 function init(): void {
 	// Collapsed comments in PR conversations and files
-	delegate('.minimized-comment details summary', 'click', clickAll(minimizedCommentsSelector));
+	delegate(document, '.minimized-comment details summary', 'click', clickAll(minimizedCommentsSelector));
 
 	// "Load diff" buttons in PR files
-	delegate('.js-file .js-diff-load', 'click', clickAll(allDiffsSelector));
+	delegate(document, '.js-file .js-diff-load', 'click', clickAll(allDiffsSelector));
 
 	// Review comments in PR
-	delegate('.js-file .js-resolvable-thread-toggler', 'click', clickAll(resolvedCommentsSelector));
+	delegate(document, '.js-file .js-resolvable-thread-toggler', 'click', clickAll(resolvedCommentsSelector));
 }
 
 function clickAll(selectorGetter: ((clickedItem: HTMLElement) => string)): EventHandler {

@@ -1,12 +1,12 @@
-import insertText from 'insert-text-textarea';
-import {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
+import * as textFieldEdit from 'text-field-edit';
 import features from '../libs/features';
 import {listenToCommentFields} from './comment-fields-keyboard-shortcuts';
 
 const formattingCharacters = ['`', '\'', '"', '[', '(', '{', '*', '_', '~'];
 const matchingCharacters = ['`', '\'', '"', ']', ')', '}', '*', '_', '~'];
 
-function handler(event: DelegateEvent<KeyboardEvent, HTMLTextAreaElement>): void {
+function handler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): void {
 	const field = event.delegateTarget;
 
 	if (!formattingCharacters.includes(event.key)) {
@@ -23,12 +23,8 @@ function handler(event: DelegateEvent<KeyboardEvent, HTMLTextAreaElement>): void
 	event.preventDefault();
 
 	const formattingChar = event.key;
-	const selectedText = field.value.slice(start, end);
 	const matchingEndChar = matchingCharacters[formattingCharacters.indexOf(formattingChar)];
-	insertText(field, formattingChar + selectedText + matchingEndChar);
-
-	// Keep the selection as it is, to be able to chain shortcuts
-	field.setSelectionRange(start + 1, end + 1);
+	textFieldEdit.wrapSelection(field, formattingChar, matchingEndChar);
 }
 
 function init(): void {

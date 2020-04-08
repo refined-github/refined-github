@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 
 const expanderSelector = '.js-expand.directional-expander';
@@ -21,7 +21,7 @@ function disconnectOnEscape(event: KeyboardEvent): void {
 	}
 }
 
-function handleAltClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
+function handleAltClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	if (!event.altKey) {
 		return;
 	}
@@ -35,7 +35,7 @@ function handleAltClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): vo
 }
 
 function init(): void {
-	delegate(expanderSelector, 'click', handleAltClick);
+	delegate(document, expanderSelector, 'click', handleAltClick);
 }
 
 features.add({

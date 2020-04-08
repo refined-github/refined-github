@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import gitBranch from 'octicon/git-branch.svg';
-import insertTextTextarea from 'insert-text-textarea';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
+import * as textFieldEdit from 'text-field-edit';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import loadingIcon from '../libs/icon-loading';
@@ -35,7 +35,7 @@ async function createBranch(newBranchName: string, baseSha: string): Promise<tru
 	return response.ok || response.message;
 }
 
-async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
+async function cloneBranch(event: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
 	const cloneButton = event.delegateTarget;
 	const branchElement = cloneButton.closest<HTMLElement>('[data-branch-name]')!;
 
@@ -61,9 +61,10 @@ async function cloneBranch(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 		return;
 	}
 
-	const searchField = select<HTMLInputElement>('.js-branch-search-field')!;
-	searchField.select();
-	insertTextTextarea(searchField, newBranchName);
+	textFieldEdit.set(
+		select<HTMLInputElement>('.js-branch-search-field')!,
+		newBranchName
+	);
 }
 
 function init(): void | false {
@@ -85,7 +86,7 @@ function init(): void | false {
 		);
 	}
 
-	delegate('.rgh-clone-branch', 'click', cloneBranch);
+	delegate(document, '.rgh-clone-branch', 'click', cloneBranch);
 }
 
 features.add({
