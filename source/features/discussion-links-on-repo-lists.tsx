@@ -18,18 +18,17 @@ function init(): void {
 		// Remove the help wanted issues
 		select('[href*="issues?q=label%3A%22help+wanted%"]', repository)?.remove();
 
-		const repositoryUrl = select<HTMLAnchorElement>('[itemprop="name codeRepository"], [data-hydro-click*="search_result.click"][href]', repository)!.href;
 		// Need to use previousSibling since the updated text is not in an element
 		select('relative-time', repository)!.previousSibling!.before(
 			<a
 				className="muted-link mr-3"
-				href={repositoryUrl + '/issues?q=is%3Aissue+is%3Aopen'}
+				href={repositoryLink.href + '/issues?q=is%3Aissue+is%3Aopen'}
 			>
 				{issueIcon()}
 			</a>,
 			<a
 				className="muted-link mr-3"
-				href={repositoryUrl + '/pulls?q=is%3Aissue+is%3Aopen'}
+				href={repositoryLink.href + '/pulls?q=is%3Aissue+is%3Aopen'}
 			>
 				{pullRequestIcon()}
 			</a>
