@@ -15,11 +15,12 @@ function init(): void {
 		repositoryLink.classList.add('rgh-discussion-links');
 
 		const repository = repositoryLink.closest('li')!;
-		// Remove the help wanted issues
-		select('[href*="issues?q=label%3A%22help+wanted%"]', repository)?.remove();
 
-		// Need to use previousSibling since the updated text is not in an element
-		select('relative-time', repository)!.previousSibling!.before(
+		// Remove the "X issues need help" link
+		select('[href*="issues?q=label%3A%22help+wanted"]', repository)?.remove();
+
+		// Place before the "Updated on" element
+		select('relative-time', repository)!.parentElement!.before(
 			<a
 				className="muted-link mr-3"
 				href={repositoryLink.href + '/issues?q=is%3Aissue+is%3Aopen'}
@@ -28,7 +29,7 @@ function init(): void {
 			</a>,
 			<a
 				className="muted-link mr-3"
-				href={repositoryLink.href + '/pulls?q=is%3Aissue+is%3Aopen'}
+				href={repositoryLink.href + '/pulls?q=is%3Apr+is%3Aopen'}
 			>
 				{pullRequestIcon()}
 			</a>
@@ -52,5 +53,5 @@ features.add({
 		features.isUserProfileRepoTab
 	],
 	load: features.onAjaxedPages,
-	init: () => Boolean(observeElement('#user-repositories-list', init))
+	init: () => observeElement('#user-repositories-list', init) ? undefined : false
 });
