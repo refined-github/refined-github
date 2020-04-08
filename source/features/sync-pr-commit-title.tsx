@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate, {DelegateSubscription} from 'delegate-it';
-import insertTextTextarea from 'insert-text-textarea';
+import delegate from 'delegate-it';
+import * as textFieldEdit from 'text-field-edit';
 import features from '../libs/features';
 import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
 import {logError} from '../libs/utils';
@@ -87,9 +87,7 @@ async function updateCommitTitle(event: Event): Promise<void> {
 
 	// Only if the user hasn't already interacted with it in this session
 	if (field && event.type !== 'session:resume') {
-		// Replace default title and fire the correct events
-		field.select();
-		insertTextTextarea(field, createCommitTitle());
+		textFieldEdit.set(field, createCommitTitle());
 	}
 
 	updateUI();
@@ -100,13 +98,13 @@ function disableSubmission(): void {
 	getUI().remove(); // Hide note
 }
 
-let listeners: DelegateSubscription[];
+let listeners: delegate.Subscription[];
 function init(): void {
 	listeners = [
 		onPrMergePanelOpen(updateCommitTitle),
-		delegate('#merge_title_field', 'input', updateUI),
-		delegate('form.js-merge-pull-request', 'submit', updatePRTitle),
-		delegate('.rgh-sync-pr-commit-title', 'click', disableSubmission)
+		delegate(document, '#merge_title_field', 'input', updateUI),
+		delegate(document, 'form.js-merge-pull-request', 'submit', updatePRTitle),
+		delegate(document, '.rgh-sync-pr-commit-title', 'click', disableSubmission)
 	];
 }
 

@@ -1,9 +1,9 @@
 import delay from 'delay';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import loadImage from 'image-promise';
 import features from '../libs/features';
 
-async function handleErroredImage({delegateTarget}: DelegateEvent<ErrorEvent, HTMLImageElement>): Promise<void> {
+async function handleErroredImage({delegateTarget}: delegate.Event<ErrorEvent, HTMLImageElement>): Promise<void> {
 	await delay(5000);
 	try {
 		// A clone image retries downloading
@@ -14,7 +14,7 @@ async function handleErroredImage({delegateTarget}: DelegateEvent<ErrorEvent, HT
 }
 
 function init(): void {
-	delegate('img[src^="https://camo.githubusercontent.com/"]', 'error', handleErroredImage, true);
+	delegate(document, 'img[src^="https://camo.githubusercontent.com/"]', 'error', handleErroredImage, true);
 }
 
 features.add({

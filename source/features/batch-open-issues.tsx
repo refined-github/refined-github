@@ -36,7 +36,7 @@ function init(): void | false {
 		return false;
 	}
 
-	delegate('.rgh-batch-open-issues', 'click', openIssues);
+	delegate(document, '.rgh-batch-open-issues', 'click', openIssues);
 
 	// Add button to open all visible discussions
 	select('.table-list-header-toggle:not(.states)')?.prepend(

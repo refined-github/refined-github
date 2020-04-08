@@ -1,9 +1,9 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 
-function handleMenuOpening(event: DelegateEvent): void {
+function handleMenuOpening(event: delegate.Event): void {
 	const dropdown = event.delegateTarget.nextElementSibling!;
 
 	// Only if it's not already there
@@ -23,7 +23,7 @@ function handleMenuOpening(event: DelegateEvent): void {
 }
 
 function init(): void {
-	delegate('.js-file-header-dropdown > summary', 'click', handleMenuOpening);
+	delegate(document, '.js-file-header-dropdown > summary', 'click', handleMenuOpening);
 }
 
 features.add({

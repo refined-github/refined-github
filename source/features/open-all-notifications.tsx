@@ -2,18 +2,18 @@ import './open-all-notifications.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import linkExternalIcon from 'octicon/link-external.svg';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 import {groupButtons} from '../libs/group-buttons';
 
 const confirmationRequiredCount = 10;
 const unreadNotificationsClass = '.unread .js-notification-target';
 
-function openNotifications({delegateTarget}: DelegateEvent): void {
-	const container = delegateTarget.closest('.boxed-group, .notification-center');
+function openNotifications({delegateTarget}: delegate.Event): void {
+	const container = delegateTarget.closest('.boxed-group, .notification-center')!;
 
 	// Ask for confirmation
-	const unreadNotifications = select.all<HTMLAnchorElement>(unreadNotificationsClass, container!);
+	const unreadNotifications = select.all<HTMLAnchorElement>(unreadNotificationsClass, container);
 	if (
 		unreadNotifications.length >= confirmationRequiredCount &&
 		!confirm(`This will open ${unreadNotifications.length} new tabs. Continue?`)
@@ -26,7 +26,7 @@ function openNotifications({delegateTarget}: DelegateEvent): void {
 	});
 
 	// Mark all as read
-	for (const notification of select.all('.unread', container!)) {
+	for (const notification of select.all('.unread', container)) {
 		notification.classList.replace('unread', 'read');
 	}
 
@@ -36,7 +36,7 @@ function openNotifications({delegateTarget}: DelegateEvent): void {
 		.open-repo-notifications,
 		.mark-all-as-read,
 		[href='#mark_as_read_confirm_box']
-	`, container!)) {
+	`, container)) {
 		button.remove();
 	}
 }
@@ -90,7 +90,7 @@ function update(): void {
 
 function init(): void {
 	document.addEventListener('refined-github:mark-unread:notifications-added', update);
-	delegate('.rgh-open-notifications-button', 'click', openNotifications);
+	delegate(document, '.rgh-open-notifications-button', 'click', openNotifications);
 	update();
 }
 

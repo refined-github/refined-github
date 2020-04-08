@@ -41,10 +41,10 @@ Here's an example using all of the possible `feature.add` options:
 ```ts
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate, {DelegateSubscription} from 'delegate-it';
+import delegate from 'delegate-it';
 import features from '../libs/features';
 
-let subscription: DelegateSubscription | undefined;
+let subscription: delegate.DelegateSubscription | undefined;
 function log() {
 	console.log('✨', <div className="rgh-jsx-element"/>);
 }
