@@ -1,17 +1,16 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import onDomReady from 'dom-loaded';
+import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';
 import {logError} from './utils';
-import onNewComments from './on-new-comments';
 import * as pageDetect from './page-detect';
-import onFileListUpdate from './on-file-list-update';
 import optionsStorage, {RGHOptions} from '../options-storage';
 
 type BooleanFunction = () => boolean;
 type VoidFunction = () => void;
-type callerFunction = (callback: VoidFunction) => void;
+type callerFunction = (callback: VoidFunction) => void; // TODO: rename
 type FeatureShortcuts = Record<string, string>;
+type FeatureInit = () => false | void | Promise<false | void>;
 
 interface Shortcut {
 	hotkey: string;
@@ -24,22 +23,24 @@ interface FeatureMeta {
 	@example '#123'
 	*/
 	disabled?: string;
-	id: typeof __featureName__;
+	id: FeatureName;
 	description: string;
 	screenshot: string | false;
 	shortcuts?: FeatureShortcuts;
 }
 
-interface FeatureLoader extends Omit<FeatureRunner, 'id'> {
-	load: callerFunction | Promise<void>;
+interface FeatureLoader extends Partial<InternalRunConfig> {
+	waitForDomReady?: boolean;
+	repeatOnAjax?: boolean;
+	init: FeatureInit; // Required for end user
 }
 
-interface FeatureRunner {
-	id: typeof __featureName__;
-	include?: BooleanFunction[];
-	exclude?: BooleanFunction[];
-	init: () => false | void | Promise<false | void>;
+interface InternalRunConfig {
+	include: BooleanFunction[];
+	exclude: BooleanFunction[];
+	init: FeatureInit;
 	deinit?: () => void;
+	listeners: callerFunction[];
 }
 
 /*
@@ -50,28 +51,6 @@ interface FeatureRunner {
  * Alternatively, use `onAjaxedPagesRaw` if your callback needs to be called at every page
  * change (e.g. to "unmount" a feature / listener) regardless of *newness* of the page.
  */
-function onAjaxedPagesRaw(callback: () => void): void {
-	document.addEventListener('pjax:end', callback);
-	callback();
-}
-
-function onAjaxedPages(callback: () => void): void {
-	onAjaxedPagesRaw(async () => {
-		await onDomReady;
-		if (!select.exists('has-rgh')) {
-			callback();
-		}
-	});
-}
-
-// Like onAjaxedPages but doesn't wait for `dom-ready`
-function nowAndOnAjaxedPages(callback: () => void): void {
-	onAjaxedPagesRaw(() => {
-		if (!select.exists('has-rgh')) {
-			callback();
-		}
-	});
-}
 
 // Must be called after all the features were added to onAjaxedPages
 // to mark the current load as "done", so history.back() won't reapply the same DOM changes.
@@ -122,23 +101,27 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	resolve(options);
 });
 
-const run = async ({id, include, exclude, init, deinit}: FeatureRunner): Promise<void> => {
+const run = async (id: FeatureName, {include, exclude, init, deinit, listeners}: InternalRunConfig): Promise<void> => {
 	// If every `include` is false and no `exclude` is true, don’t run the feature
 	if (include!.every(c => !c()) || exclude!.some(c => c())) {
+		// TODO: maybe move deinit() to the `ajax:start|once` listener. Review the whole mechanism
 		return deinit?.();
 	}
 
-	try {
-		// Features can return `false` when they decide not to run on the current page
-		if (await init() !== false) {
-			log('✅', id);
-		}
-	} catch (error) {
-		if (error.message.includes('token')) {
-			console.log(`ℹ️ Refined GitHub: \`${id}\`:`, error.message);
-		} else {
+	const _run = async (): Promise<void> => {
+		try {
+			// Features can return `false` when they decide not to run on the current page
+			if (await init() !== false) {
+				log('✅', id);
+			}
+		} catch (error) {
 			logError(id, error);
 		}
+	}
+
+	await _run();
+	for (const listener of listeners) {
+		listener(_run);
 	}
 };
 
@@ -165,6 +148,7 @@ const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void
 
 	// Register feature shortcuts
 	for (const hotkey of Object.keys(shortcuts)) {
+		// TODO: use Object.entries, change format of shortcutMap
 		const description = shortcuts[hotkey];
 		shortcutMap.set(hotkey, {hotkey, description});
 	}
@@ -176,7 +160,9 @@ const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void
 			exclude = [], // Default: nothing
 			init,
 			deinit,
-			load
+			repeatOnAjax = true,
+			waitForDomReady = true,
+			listeners = []
 		} = loader;
 
 		// 404 pages should only run 404-only features
@@ -184,19 +170,19 @@ const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void
 			continue;
 		}
 
-		const details = {id, include, exclude, init, deinit};
-		if (load === onNewComments) {
-			details.init = async () => {
-				const result = await init();
-				onNewComments(init);
-				return result;
-			};
-
-			onAjaxedPages(() => run(details));
-		} else if (load instanceof Promise) {
-			load.then(() => run(details));
+		const details = {include, exclude, init, deinit, listeners};
+		if (waitForDomReady) {
+			domLoaded.then(() => run(id, details));
 		} else {
-			load(() => run(details));
+			run(id, details);
+		}
+
+		if (repeatOnAjax) {
+			document.addEventListener('pjax:end', () => {
+				if (!select.exists('has-rgh')) {
+					run(id, details);
+				}
+			});
 		}
 	}
 };
@@ -205,15 +191,6 @@ export default {
 	// Module methods
 	add,
 	getShortcuts,
-
-	// Loading mechanisms
-	onDocumentStart: (cb: VoidFunction) => cb(),
-	onDomReady,
-	onNewComments,
-	onFileListUpdate,
-	onAjaxedPages,
-	nowAndOnAjaxedPages,
-	onAjaxedPagesRaw,
 
 	// Loading filters
 	...pageDetect
