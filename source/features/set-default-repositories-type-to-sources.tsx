@@ -21,6 +21,5 @@ features.add({
 	description: 'Hides forks and archived repos from profiles (but they can still be shown.)',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/45133648-fe21be80-b1c8-11e8-9052-e38cb443efa9.png'
 }, {
-	load: features.onAjaxedPages,
 	init
 });

@@ -4,6 +4,7 @@ import clockIcon from 'octicon/clock.svg';
 import features from '../libs/features';
 import {getRepoURL} from '../libs/utils';
 import {appendBefore} from '../libs/dom-utils';
+import onNewComments from '../libs/on-new-comments';
 
 function addInlineLinks(comment: HTMLElement, timestamp: string): void {
 	const links = select.all<HTMLAnchorElement>(`
@@ -79,6 +80,8 @@ features.add({
 	include: [
 		features.hasComments
 	],
-	load: features.onNewComments,
+	additionalListeners: [
+		onNewComments
+	],
 	init
 });

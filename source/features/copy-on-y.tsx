@@ -25,7 +25,8 @@ features.add({
 	include: [
 		features.isSingleFile
 	],
-	load: features.onAjaxedPagesRaw,
-	init,
-	deinit
+	waitForDomReady: false,
+	repeatOnAjaxEvenOnBackButton: true,
+	deinit,
+	init
 });

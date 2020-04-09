@@ -5,6 +5,7 @@ import * as api from '../libs/api';
 import features from '../libs/features';
 import {getUsername, compareNames} from '../libs/utils';
 import onNewsfeedLoad from '../libs/on-newsfeed-load';
+import onNewComments from '../libs/on-new-comments';
 
 async function init(): Promise<false | void> {
 	const usernameElements = select.all([
@@ -72,12 +73,14 @@ features.add({
 	include: [
 		features.isDashboard
 	],
-	load: features.onDomReady,
+	repeatOnAjax: false,
 	init: () => onNewsfeedLoad(init)
 }, {
 	include: [
 		features.hasComments
 	],
-	load: features.onNewComments,
+	additionalListeners: [
+		onNewComments
+	],
 	init
 });

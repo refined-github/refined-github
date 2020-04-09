@@ -108,6 +108,5 @@ features.add({
 		features.isIssue,
 		features.isPRConversation
 	],
-	load: features.onAjaxedPages,
 	init
 });

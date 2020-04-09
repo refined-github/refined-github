@@ -48,18 +48,19 @@ features.add({
 		features.isDiscussionList,
 		features.isRepo
 	],
-	load: features.onAjaxedPages,
 	init: parseAll
 }, {
 	include: [
 		features.isDashboard
 	],
-	load: features.onDocumentStart,
+	waitForDomReady: false,
+	repeatOnAjax: false,
 	init: initDashboard
 }, {
 	include: [
 		features.isDashboard
 	],
-	load: features.onDocumentStart,
+	waitForDomReady: false,
+	repeatOnAjax: false,
 	init: () => onNewsfeedLoad(parseAll)
 });

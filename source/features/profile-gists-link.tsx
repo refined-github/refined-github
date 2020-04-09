@@ -48,6 +48,6 @@ features.add({
 	exclude: [
 		features.isOrganizationProfile
 	],
-	load: features.nowAndOnAjaxedPages,
+	waitForDomReady: false,
 	init
 });

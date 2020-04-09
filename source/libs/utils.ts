@@ -8,7 +8,7 @@ export function logError(featureName: FeatureName, error: Error | string, ...ext
 	const message = typeof error === 'string' ? error : error.message;
 
 	if (message.includes('token')) {
-		console.log(`ℹ️ Refined GitHub → ${featureName} → `, message);
+		console.log(`ℹ️ Refined GitHub → ${featureName} →`, message);
 		return;
 	}
 

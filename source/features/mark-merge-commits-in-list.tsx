@@ -53,6 +53,5 @@ features.add({
 	include: [
 		features.isCommitList
 	],
-	load: features.onAjaxedPages,
 	init
 });

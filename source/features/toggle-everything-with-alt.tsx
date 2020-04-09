@@ -64,6 +64,5 @@ features.add({
 		features.isCommit,
 		features.isCompare
 	],
-	load: features.onAjaxedPages,
 	init
 });

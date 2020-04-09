@@ -32,6 +32,7 @@ interface FeatureMeta {
 interface FeatureLoader extends Partial<InternalRunConfig> {
 	waitForDomReady?: boolean;
 	repeatOnAjax?: boolean;
+	repeatOnAjaxEvenOnBackButton?: boolean;
 	init: FeatureInit; // Required for end user
 }
 
@@ -40,27 +41,8 @@ interface InternalRunConfig {
 	exclude: BooleanFunction[];
 	init: FeatureInit;
 	deinit?: () => void;
-	listeners: callerFunction[];
+	additionalListeners: callerFunction[];
 }
-
-/*
- * When navigating back and forth in history, GitHub will preserve the DOM changes;
- * This means that the old features will still be on the page and don't need to re-run.
- * For this reason `onAjaxedPages` will only call its callback when a *new* page is loaded.
- *
- * Alternatively, use `onAjaxedPagesRaw` if your callback needs to be called at every page
- * change (e.g. to "unmount" a feature / listener) regardless of *newness* of the page.
- */
-
-// Must be called after all the features were added to onAjaxedPages
-// to mark the current load as "done", so history.back() won't reapply the same DOM changes.
-// The two `await` ensure this behavior and order.
-onAjaxedPages(async () => {
-	await globalReady; // Match `add()`
-	await Promise.resolve(); // Kicks it to the next tick, after the other features have `run()`
-
-	select('#js-repo-pjax-container, #js-pjax-container')?.append(<has-rgh/>);
-});
 
 let log: typeof console.log;
 
@@ -101,9 +83,9 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	resolve(options);
 });
 
-const run = async (id: FeatureName, {include, exclude, init, deinit, listeners}: InternalRunConfig): Promise<void> => {
+const run = async (id: FeatureName, {include, exclude, init, deinit, additionalListeners}: InternalRunConfig): Promise<void> => {
 	// If every `include` is false and no `exclude` is true, don’t run the feature
-	if (include!.every(c => !c()) || exclude!.some(c => c())) {
+	if (include.every(c => !c()) || exclude.some(c => c())) {
 		// TODO: maybe move deinit() to the `ajax:start|once` listener. Review the whole mechanism
 		return deinit?.();
 	}
@@ -117,10 +99,10 @@ const run = async (id: FeatureName, {include, exclude, init, deinit, listeners}:
 		} catch (error) {
 			logError(id, error);
 		}
-	}
+	};
 
 	await _run();
-	for (const listener of listeners) {
+	for (const listener of additionalListeners) {
 		listener(_run);
 	}
 };
@@ -162,7 +144,10 @@ const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void
 			deinit,
 			repeatOnAjax = true,
 			waitForDomReady = true,
-			listeners = []
+
+			/** When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway. */
+			repeatOnAjaxEvenOnBackButton = false,
+			additionalListeners = []
 		} = loader;
 
 		// 404 pages should only run 404-only features
@@ -170,7 +155,7 @@ const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void
 			continue;
 		}
 
-		const details = {include, exclude, init, deinit, listeners};
+		const details = {include, exclude, init, deinit, additionalListeners};
 		if (waitForDomReady) {
 			domLoaded.then(() => run(id, details));
 		} else {
@@ -179,7 +164,7 @@ const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void
 
 		if (repeatOnAjax) {
 			document.addEventListener('pjax:end', () => {
-				if (!select.exists('has-rgh')) {
+				if (repeatOnAjaxEvenOnBackButton || !select.exists('has-rgh')) {
 					run(id, details);
 				}
 			});
@@ -187,8 +172,29 @@ const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void
 	}
 };
 
+/*
+When navigating back and forth in history, GitHub will preserve the DOM changes;
+This means that the old features will still be on the page and don't need to re-run.
+
+`rememberCurrentView` marks each as "processed"
+*/
+async function rememberCurrentView(): Promise<void> {
+	const view = await elementReady('#js-repo-pjax-container, #js-pjax-container');
+	view?.append(<has-rgh/>);
+}
+
+domLoaded.then(rememberCurrentView);
+
+document.addEventListener('pjax:end', async () => {
+	console.log('YO!');
+	// Kicks it to the next tick, after the other features have `run()`
+	await Promise.resolve();
+	console.log('YO2!');
+
+	rememberCurrentView();
+});
+
 export default {
-	// Module methods
 	add,
 	getShortcuts,
 

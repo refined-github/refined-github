@@ -1,9 +1,8 @@
 import './mark-unread.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import onDomReady from 'dom-loaded';
-import elementReady from 'element-ready';
 import delegate from 'delegate-it';
+import elementReady from 'element-ready';
 import xIcon from 'octicon/x.svg';
 import infoIcon from 'octicon/info.svg';
 import checkIcon from 'octicon/check.svg';
@@ -390,7 +389,7 @@ function updateLocalParticipatingCount(notifications: Notification[]): void {
 	}
 }
 
-function destroy(): void {
+function deinit(): void {
 	for (const listener of listeners) {
 		listener.destroy();
 	}
@@ -399,9 +398,6 @@ function destroy(): void {
 }
 
 async function init(): Promise<void> {
-	destroy();
-	await onDomReady;
-
 	if (pageDetect.isNotifications()) {
 		const notifications = await getNotifications();
 		if (notifications.length > 0) {
@@ -444,6 +440,7 @@ features.add({
 	description: 'Adds button to mark issues and PRs as unread. They will reappear in Notifications.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/27847663-963b7d7c-6171-11e7-9470-6e86d8463771.png'
 }, {
-	load: features.onAjaxedPagesRaw,
+	repeatOnAjaxEvenOnBackButton: true,
+	deinit,
 	init
 });

@@ -1,7 +1,6 @@
 import './sticky-discussion-sidebar.css';
 import select from 'select-dom';
 import debounce from 'debounce-fn';
-import onDomReady from 'dom-loaded';
 import features from '../libs/features';
 import onUpdatableContentUpdate from '../libs/on-updatable-content-update';
 
@@ -13,17 +12,10 @@ function updateStickiness(): void {
 	sidebar.classList.toggle('rgh-sticky-sidebar', sidebarHeight < window.innerHeight);
 }
 
-const handler = debounce(updateStickiness, {wait: 100});
-
-async function init(): Promise<void> {
-	await onDomReady;
-	updateStickiness();
-	window.addEventListener('resize', handler);
-	onUpdatableContentUpdate(select(sideBarSelector)!, updateStickiness);
-}
+const onResize = debounce(updateStickiness, {wait: 100});
 
 function deinit(): void {
-	window.removeEventListener('resize', handler);
+	window.removeEventListener('resize', onResize);
 }
 
 features.add({
@@ -35,7 +27,10 @@ features.add({
 		features.isIssue,
 		features.isPRConversation
 	],
-	load: features.onAjaxedPagesRaw,
-	init,
+	additionalListeners: [
+		() => window.addEventListener('resize', onResize),
+		() => onUpdatableContentUpdate(select(sideBarSelector)!, updateStickiness)
+	],
+	init: updateStickiness,
 	deinit
 });

@@ -29,6 +29,7 @@ features.add({
 	include: [
 		features.isDashboard
 	],
-	load: features.onDocumentStart,
+	waitForDomReady: false,
+	repeatOnAjax: false,
 	init
 });

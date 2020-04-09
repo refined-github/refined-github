@@ -32,6 +32,5 @@ features.add({
 	include: [
 		features.isUserProfile
 	],
-	load: features.onAjaxedPages,
 	init
 });
