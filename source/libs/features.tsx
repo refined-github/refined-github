@@ -3,6 +3,8 @@ import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';
 import {logError} from './utils';
+import onNewComments from './on-new-comments';
+import onNewsfeedLoad from './on-newsfeed-load';
 import * as pageDetect from './page-detect';
 import optionsStorage, {RGHOptions} from '../options-storage';
 
@@ -110,9 +112,29 @@ const run = async (id: FeatureName, {include, exclude, init, deinit, additionalL
 const shortcutMap = new Map<string, Shortcut>();
 const getShortcuts = (): Shortcut[] => [...shortcutMap.values()];
 
-/*
- * Register a new feature
- */
+const defaultPairs = new Map([
+	[pageDetect.hasComments, onNewComments],
+	[pageDetect.isDashboard, onNewsfeedLoad]
+]);
+
+function enforceDefaults(
+	featureName: FeatureName,
+	include: InternalRunConfig['include'],
+	additionalListeners: InternalRunConfig['additionalListeners']
+): void {
+	for (const [detection, listener] of defaultPairs) {
+		if (include.includes(detection)) {
+			if (additionalListeners.includes(listener)) {
+				console.error(`❌ ${featureName} → If you use \`${detection.name}\` you don’t need to specify \`${listener.name}\``);
+				throw new Error('⬆️');
+			}
+
+			additionalListeners.push(listener);
+		}
+	}
+}
+
+/** Register a new feature */
 const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void> => {
 	/* Input defaults and validation */
 	const {
@@ -154,6 +176,8 @@ const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void
 		if (pageDetect.is404() && !include.includes(pageDetect.is404)) {
 			continue;
 		}
+
+		enforceDefaults(id, include, additionalListeners);
 
 		const details = {include, exclude, init, deinit, additionalListeners};
 		if (waitForDomReady) {

@@ -2,7 +2,6 @@ import './preview-hidden-comments.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
-import onNewComments from '../libs/on-new-comments';
 
 const allowedReasons = ['resolved', 'outdated', 'off-topic'];
 
@@ -41,9 +40,6 @@ features.add({
 }, {
 	include: [
 		features.hasComments
-	],
-	additionalListeners: [
-		onNewComments
 	],
 	init
 });

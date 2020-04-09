@@ -1,7 +1,12 @@
 import select from 'select-dom';
-import elementReady from 'element-ready';
+import {isDashboard} from './page-detect';
 
 export default async function onNewsfeedLoad(callback: VoidFunction): Promise<void> {
+	// `onNewsfeedLoad` is used as a listener on global features like `parse-backticks`
+	if (!isDashboard()) {
+		return;
+	}
+
 	const observer = new MutationObserver((([{addedNodes}]) => {
 		callback();
 
@@ -14,5 +19,5 @@ export default async function onNewsfeedLoad(callback: VoidFunction): Promise<vo
 	}));
 
 	// Start from the main container
-	observer.observe((await elementReady('.news'))!, {childList: true});
+	observer.observe(select('.news')!, {childList: true});
 }

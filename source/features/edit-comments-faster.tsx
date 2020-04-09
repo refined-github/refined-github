@@ -1,7 +1,6 @@
 import select from 'select-dom';
 import pencilIcon from 'octicon/pencil.svg';
 import features from '../libs/features';
-import onNewComments from '../libs/on-new-comments';
 
 function init(): void {
 	const menuItems = select.all('details .js-comment-edit-button:not(.rgh-edit-comment)');
@@ -37,9 +36,6 @@ features.add({
 }, {
 	include: [
 		features.hasComments
-	],
-	additionalListeners: [
-		onNewComments
 	],
 	init
 });

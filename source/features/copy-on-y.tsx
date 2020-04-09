@@ -27,6 +27,6 @@ features.add({
 	],
 	waitForDomReady: false,
 	repeatOnAjaxEvenOnBackButton: true,
-	deinit,
-	init
+	init,
+	deinit
 });

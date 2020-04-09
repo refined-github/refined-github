@@ -4,7 +4,6 @@ import select from 'select-dom';
 import features from '../libs/features';
 import {getUsername, flatZip, isFirefox} from '../libs/utils';
 import onUpdatableContentUpdate from '../libs/on-updatable-content-update';
-import onNewComments from '../libs/on-new-comments';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
@@ -77,9 +76,6 @@ features.add({
 }, {
 	include: [
 		features.hasComments
-	],
-	additionalListeners: [
-		onNewComments
 	],
 	init
 });
