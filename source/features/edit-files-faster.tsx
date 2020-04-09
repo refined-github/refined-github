@@ -36,5 +36,8 @@ features.add({
 	include: [
 		features.isRepoTree
 	],
+	additionalListeners: [
+		onFileListUpdate
+	],
 	init
 });
