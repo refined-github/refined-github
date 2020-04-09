@@ -13,6 +13,8 @@ jobs:
       - uses: fregante/setup-git-token@v1
         with:
           token: ${{ secrets.TAGGER_TOKEN }}
+          name: Cron
+          email: fregante@users.noreply.github.com
       - run: |
           if [[ $(git tag -l --points-at HEAD) = "" ]]; then
             export VER=$(npx daily-version)
