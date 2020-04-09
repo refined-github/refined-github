@@ -7,7 +7,7 @@ function init(): void {
 		'#user-links [href$="tab=repositories"]', // "Repositories" tab on user profile
 		'.orgnav .pagehead-tabs-item:first-child', // "Repositories" tab on organization profile
 		'[data-hovercard-type="organization"]' // Organization name on repo header + organization list on user profile
-	].join());
+	]);
 
 	for (const link of links) {
 		const search = new URLSearchParams(link.search);
