@@ -389,7 +389,43 @@ function updateLocalParticipatingCount(notifications: Notification[]): void {
 	}
 }
 
-function deinit(): void {
+async function initDiscussionListPage(): Promise<void> {
+	for (const discussion of await getNotifications()) {
+		const {pathname} = new URL(discussion.url);
+		const listItem = select(`.read [href='${pathname}']`);
+		if (listItem) {
+			listItem.closest('.read')!.classList.replace('read', 'unread');
+		}
+	}
+}
+
+function initDiscussionPage(): void {
+	markRead(location.href);
+
+	addMarkUnreadButton();
+	onUpdatableContentUpdate(select('#partial-discussion-sidebar')!, addMarkUnreadButton);
+	delegate(document, '.rgh-btn-mark-unread', 'click', markUnread);
+}
+
+async function initNotificationsPage(): Promise<void> {
+	const notifications = await getNotifications();
+	if (notifications.length > 0) {
+		await renderNotifications(notifications);
+		addCustomAllReadButton();
+		updateLocalNotificationsCount(notifications);
+		updateLocalParticipatingCount(notifications);
+		document.dispatchEvent(new CustomEvent('refined-github:mark-unread:notifications-added'));
+	}
+
+	listeners.push(
+		delegate(document, '.btn-link.delete-note', 'click', markNotificationRead),
+		delegate(document, '.js-mark-all-read', 'click', markAllNotificationsRead),
+		delegate(document, '.js-delete-notification button', 'click', updateUnreadIndicator),
+		delegate(document, '.js-mark-visible-as-read', 'submit', markVisibleNotificationsRead)
+	);
+}
+
+function deinitNotificationsPage(): void {
 	for (const listener of listeners) {
 		listener.destroy();
 	}
@@ -397,50 +433,28 @@ function deinit(): void {
 	listeners.length = 0;
 }
 
-async function init(): Promise<void> {
-	if (pageDetect.isNotifications()) {
-		const notifications = await getNotifications();
-		if (notifications.length > 0) {
-			await renderNotifications(notifications);
-			addCustomAllReadButton();
-			updateLocalNotificationsCount(notifications);
-			updateLocalParticipatingCount(notifications);
-			document.dispatchEvent(new CustomEvent('refined-github:mark-unread:notifications-added'));
-		}
-
-		listeners.push(
-			delegate(document, '.btn-link.delete-note', 'click', markNotificationRead),
-			delegate(document, '.js-mark-all-read', 'click', markAllNotificationsRead),
-			delegate(document, '.js-delete-notification button', 'click', updateUnreadIndicator),
-			delegate(document, '.js-mark-visible-as-read', 'submit', markVisibleNotificationsRead)
-		);
-	} else if (pageDetect.isPR() || pageDetect.isIssue()) {
-		await markRead(location.href);
-
-		if (pageDetect.isPRConversation() || pageDetect.isIssue()) {
-			addMarkUnreadButton();
-			onUpdatableContentUpdate(select('#partial-discussion-sidebar')!, addMarkUnreadButton);
-			delegate(document, '.rgh-btn-mark-unread', 'click', markUnread);
-		}
-	} else if (pageDetect.isDiscussionList()) {
-		for (const discussion of await getNotifications()) {
-			const {pathname} = new URL(discussion.url);
-			const listItem = select(`.read [href='${pathname}']`);
-			if (listItem) {
-				listItem.closest('.read')!.classList.replace('read', 'unread');
-			}
-		}
-	}
-
-	updateUnreadIndicator();
-}
-
 features.add({
 	id: __featureName__,
 	description: 'Adds button to mark issues and PRs as unread. They will reappear in Notifications.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/27847663-963b7d7c-6171-11e7-9470-6e86d8463771.png'
 }, {
-	repeatOnAjaxEvenOnBackButton: true,
-	deinit,
-	init
+	repeatOnAjax: false,
+	init: updateUnreadIndicator
+}, {
+	include: [
+		pageDetect.isNotifications
+	],
+	init: initNotificationsPage,
+	deinit: deinitNotificationsPage
+}, {
+	include: [
+		pageDetect.isPRConversation,
+		pageDetect.isIssue
+	],
+	init: initDiscussionPage
+}, {
+	include: [
+		pageDetect.isDiscussionList
+	],
+	init: initDiscussionListPage
 });
