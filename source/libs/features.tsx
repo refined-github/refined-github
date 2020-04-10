@@ -200,22 +200,18 @@ const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void
 When navigating back and forth in history, GitHub will preserve the DOM changes;
 This means that the old features will still be on the page and don't need to re-run.
 
-`rememberCurrentView` marks each as "processed"
+This marks each as "processed"
 */
-async function rememberCurrentView(): Promise<void> {
-	const view = await elementReady('#js-repo-pjax-container, #js-pjax-container');
-	view?.append(<has-rgh/>);
-}
-
-domLoaded.then(rememberCurrentView);
-
-document.addEventListener('pjax:end', async () => {
-	console.log('YO!');
-	// Kicks it to the next tick, after the other features have `run()`
-	await Promise.resolve();
-	console.log('YO2!');
-
-	rememberCurrentView();
+add({
+	id: __featureName__,
+	description: '',
+	screenshot: false
+}, {
+	init: async () => {
+		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
+		await Promise.resolve();
+		select('#js-repo-pjax-container, #js-pjax-container')?.append(<has-rgh/>);
+	}
 });
 
 export default {

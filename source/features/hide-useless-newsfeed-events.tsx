@@ -13,9 +13,6 @@ features.add({
 	include: [
 		features.isDashboard
 	],
-	exclude: [
-		features.isGist
-	],
 	waitForDomReady: false,
 	repeatOnAjax: false,
 	init

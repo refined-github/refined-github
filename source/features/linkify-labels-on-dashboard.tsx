@@ -1,15 +1,10 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import elementReady from 'element-ready';
 import features from '../libs/features';
 import {wrap} from '../libs/dom-utils';
 
 async function init(): Promise<void> {
-	const container = await elementReady('.js-recent-activity-container', {
-		stopOnDomReady: false
-	});
-
-	for (const activity of select.all('li', container)) {
+	for (const activity of select.all('.js-recent-activity-container li')) {
 		const isPR = select.exists('.octicon-git-pull-request', activity);
 		const repository = select<HTMLAnchorElement>('a[data-hovercard-type="repository"]', activity)!;
 		for (const label of select.all('.IssueLabel', activity)) {
@@ -29,7 +24,6 @@ features.add({
 	include: [
 		features.isDashboard
 	],
-	waitForDomReady: false,
 	repeatOnAjax: false,
 	init
 });
