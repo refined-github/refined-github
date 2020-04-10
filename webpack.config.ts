@@ -66,7 +66,7 @@ const config: Configuration = {
 				use: [
 					{
 						loader: 'ts-loader',
-						query: {
+						options: {
 							compilerOptions: {
 								// Enables ModuleConcatenation. It must be in here to avoid conflict with ts-node
 								module: 'es2015'
@@ -119,10 +119,7 @@ const config: Configuration = {
 			})
 		}),
 		new MiniCssExtractPlugin({
-			filename: '[name].css'
-		}),
-		new SizePlugin({
-			writeFile: false
+			filename: '[name].css',
 		}),
 		new CopyWebpackPlugin([
 			{
@@ -138,7 +135,10 @@ const config: Configuration = {
 			{
 				from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js'
 			}
-		])
+		]),
+		new SizePlugin({
+			writeFile: false
+		}),
 	],
 	resolve: {
 		alias: {
