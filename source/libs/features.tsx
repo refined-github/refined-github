@@ -88,8 +88,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 const run = async (id: FeatureName, {include, exclude, init, deinit, additionalListeners}: InternalRunConfig): Promise<void> => {
 	// If every `include` is false and no `exclude` is true, don’t run the feature
 	if (include.every(c => !c()) || exclude.some(c => c())) {
-		// TODO: maybe move deinit() to the `ajax:start|once` listener. Review the whole mechanism
-		return deinit?.();
+		return;
 	}
 
 	const _run = async (): Promise<void> => {
@@ -100,6 +99,12 @@ const run = async (id: FeatureName, {include, exclude, init, deinit, additionalL
 			}
 		} catch (error) {
 			logError(id, error);
+		}
+
+		if (deinit) {
+			document.addEventListener('pjax:start', deinit, {
+				once: true
+			});
 		}
 	};
 
