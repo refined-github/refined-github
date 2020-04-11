@@ -13,8 +13,8 @@ import issueClosedIcon from 'octicon/issue-closed.svg';
 import pullRequestIcon from 'octicon/git-pull-request.svg';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
+import onReplacedElement from '../libs/on-replaced-element';
 import {getUsername, getRepoURL, logError} from '../libs/utils';
-import onUpdatableContentUpdate from '../libs/on-updatable-content-update';
 
 type NotificationType = 'pull-request' | 'issue';
 type NotificationState = 'open' | 'merged' | 'closed' | 'draft';
@@ -423,7 +423,7 @@ async function init(): Promise<void> {
 
 		if (pageDetect.isPRConversation() || pageDetect.isIssue()) {
 			addMarkUnreadButton();
-			onUpdatableContentUpdate(select('#partial-discussion-sidebar')!, addMarkUnreadButton);
+			onReplacedElement('#partial-discussion-sidebar', addMarkUnreadButton);
 			delegate(document, '.rgh-btn-mark-unread', 'click', markUnread);
 		}
 	} else if (pageDetect.isDiscussionList()) {

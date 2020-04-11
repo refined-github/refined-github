@@ -3,7 +3,7 @@ import select from 'select-dom';
 import debounce from 'debounce-fn';
 import onDomReady from 'dom-loaded';
 import features from '../libs/features';
-import onUpdatableContentUpdate from '../libs/on-updatable-content-update';
+import onReplacedElement from '../libs/on-replaced-element';
 
 const sideBarSelector = '#partial-discussion-sidebar, .discussion-sidebar';
 
@@ -19,7 +19,7 @@ async function init(): Promise<void> {
 	await onDomReady;
 	updateStickiness();
 	window.addEventListener('resize', handler);
-	onUpdatableContentUpdate(select(sideBarSelector)!, updateStickiness);
+	onReplacedElement(sideBarSelector, updateStickiness);
 }
 
 function deinit(): void {

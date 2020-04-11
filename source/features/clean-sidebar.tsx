@@ -2,8 +2,8 @@ import './clean-sidebar.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
-import onUpdatableContentUpdate from '../libs/on-updatable-content-update';
 import {isPR} from '../libs/page-detect';
+import onReplacedElement from '../libs/on-replaced-element';
 
 let canEditSidebar = false;
 
@@ -96,7 +96,7 @@ function clean(): void {
 function init(): void {
 	canEditSidebar = select.exists('.sidebar-labels .octicon-gear');
 	clean();
-	onUpdatableContentUpdate(select('#partial-discussion-sidebar')!, clean);
+	onReplacedElement('#partial-discussion-sidebar', clean);
 }
 
 features.add({
