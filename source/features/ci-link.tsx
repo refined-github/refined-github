@@ -5,10 +5,10 @@ import fetchDom from '../libs/fetch-dom';
 import {getRepoURL} from '../libs/utils';
 import {appendBefore} from '../libs/dom-utils';
 
-// Look for the CI icon in the latest 3 days of commits #2884
+// Look for the CI icon in the latest 2 days of commits #2990
 export const getIcon = oneTime(fetchDom.bind(null,
 	`/${getRepoURL()}/commits`,
-	'.commit-group:nth-of-type(-n+3) .commit-build-statuses'
+	'.commit-group:nth-of-type(-n+2) .commit-build-statuses'
 ));
 
 async function init(): Promise<false | void> {
