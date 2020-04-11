@@ -99,7 +99,7 @@
 		"globals": [
 			"browser",
 			"__featuresOptionDefaults__",
-			"__featuresInfo__",
+			"__featuresMeta__",
 			"__featureName__"
 		],
 		"rules": {

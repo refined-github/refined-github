@@ -1,6 +1,7 @@
 /// <reference types="./source/globals" />
 
 import path from 'path';
+import stripIndent from 'strip-indent';
 import {readdirSync, readFileSync} from 'fs';
 import webpack, {Configuration} from 'webpack';
 import SizePlugin from 'size-plugin';
@@ -9,37 +10,35 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
-function parseFeatureDetails(name: string): FeatureInfo {
-	const content = readFileSync(`source/features/${name}.tsx`, {encoding: 'utf-8'});
+function parseFeatureDetails(id: FeatureName): FeatureMeta {
+	const content = readFileSync(`source/features/${id}.tsx`, {encoding: 'utf-8'});
 	const fields = ['disabled', 'description', 'screenshot'] as const;
 
-	const feature: Partial<FeatureInfo> = {name};
+	const feature: Partial<FeatureMeta> = {id};
 	for (const field of fields) {
 		const value = new RegExp(`\n\t${field}: '([^\\n]+)'`).exec(content)?.[1];
 		if (value) {
 			const validValue = value.trim().replace(/\\'/g, '’'); // Catch trailing spaces and incorrect apostrophes
 			if (value !== validValue) {
-				throw new Error(`
-Invalid characters found in \`${name}\`. Apply this patch:
+				throw new Error(stripIndent(`
+					❌ Invalid characters found in \`${id}\`. Apply this patch:
 
-- ${field}: '${value}'
-+ ${field}: '${validValue}'
-`);
+					- ${field}: '${value}'
+					+ ${field}: '${validValue}'
+				`));
 			}
 
 			feature[field] = value.replace(/\\\\/g, '\\');
-		} else if (field === 'description') {
-			throw new Error(`Description wasn’t found in the \`${name}\` feature`);
 		}
 	}
 
-	return feature as FeatureInfo;
+	return feature as FeatureMeta;
 }
 
-function getFeatures(): string[] {
+function getFeatures(): FeatureName[] {
 	return readdirSync(path.join(__dirname, 'source/features'))
 		.filter(filename => filename.endsWith('.tsx'))
-		.map(filename => filename.replace('.tsx', ''));
+		.map(filename => filename.replace('.tsx', '') as FeatureName);
 }
 
 const config: Configuration = {
@@ -109,7 +108,7 @@ const config: Configuration = {
 				// @ts-ignore
 			}, true),
 
-			__featuresInfo__: webpack.DefinePlugin.runtimeValue(() => {
+			__featuresMeta__: webpack.DefinePlugin.runtimeValue(() => {
 				return JSON.stringify(getFeatures().map(parseFeatureDetails));
 				// @ts-ignore
 			}, true),

@@ -11,24 +11,11 @@ import optionsStorage, {RGHOptions} from '../options-storage';
 type BooleanFunction = () => boolean;
 type VoidFunction = () => void;
 type callerFunction = (callback: VoidFunction) => void; // TODO: rename
-type FeatureShortcuts = Record<string, string>;
 type FeatureInit = () => false | void | Promise<false | void>;
 
 interface Shortcut {
 	hotkey: string;
 	description: string;
-}
-
-interface FeatureMeta {
-	/**
-	If it's disabled, this should be the issue that explains why, as a reference
-	@example '#123'
-	*/
-	disabled?: string;
-	id: FeatureName;
-	description: string;
-	screenshot: string | false;
-	shortcuts?: FeatureShortcuts;
 }
 
 interface FeatureLoader extends Partial<InternalRunConfig> {

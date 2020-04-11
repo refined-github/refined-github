@@ -4,11 +4,18 @@ type Unpromise<MaybePromise> = MaybePromise extends Promise<infer Type> ? Type :
 type AsyncReturnType<T extends (...args: any) => any> = Unpromise<ReturnType<T>>;
 
 type FeatureName = 'use the __featureName__ variable';
-interface FeatureInfo { // TODO: merge with FeatureMeta
-	name: string;
-	description: string;
-	screenshot?: string;
+
+type FeatureShortcuts = Record<string, string>;
+interface FeatureMeta {
+	/**
+	If it's disabled, this should be the issue that explains why, as a reference
+	@example '#123'
+	*/
 	disabled?: string;
+	id: FeatureName;
+	description: string;
+	screenshot: string | false;
+	shortcuts?: FeatureShortcuts;
 }
 
 interface FeatureConfig {
@@ -16,7 +23,7 @@ interface FeatureConfig {
 }
 
 declare const __featuresOptionDefaults__: FeatureConfig;
-declare const __featuresInfo__: FeatureInfo[];
+declare const __featuresMeta__: FeatureMeta[];
 declare const __featureName__: FeatureName;
 
 interface Window {

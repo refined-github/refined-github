@@ -27,19 +27,19 @@ function parseDescription(description: string): DocumentFragment {
 	return <>{[...descriptionElement.childNodes]}</>;
 }
 
-function buildFeatureCheckbox({name, description, screenshot, disabled}: FeatureInfo): HTMLElement {
+function buildFeatureCheckbox({id, description, screenshot, disabled}: FeatureMeta): HTMLElement {
 	// `undefined` disconnects it from the options
-	const key = disabled ? undefined : `feature:${name}`;
+	const key = disabled ? undefined : `feature:${id}`;
 
 	return (
-		<div className={`feature feature--${disabled ? 'disabled' : 'enabled'}`} data-text={`${name} ${description}`.toLowerCase()}>
-			<input type="checkbox" name={key} id={name} disabled={Boolean(disabled)}/>
+		<div className={`feature feature--${disabled ? 'disabled' : 'enabled'}`} data-text={`${id} ${description}`.toLowerCase()}>
+			<input type="checkbox" name={key} id={id} disabled={Boolean(disabled)}/>
 			<div className="info">
-				<label for={name}>
-					<span className="feature-name">{name}</span>
+				<label for={id}>
+					<span className="feature-name">{id}</span>
 					{' '}
 					{disabled && <small>{parseDescription(`(Disabled because of ${disabled}) `)}</small>}
-					<a href={`https://github.com/sindresorhus/refined-github/blob/master/source/features/${name}.tsx`}>
+					<a href={`https://github.com/sindresorhus/refined-github/blob/master/source/features/${id}.tsx`}>
 						source
 					</a>
 					{screenshot && <>, <a href={screenshot}>screenshot</a></>}
@@ -53,7 +53,7 @@ function buildFeatureCheckbox({name, description, screenshot, disabled}: Feature
 async function init(): Promise<void> {
 	// Generate list
 	const container = select('.js-features')!;
-	container.append(...__featuresInfo__.map(buildFeatureCheckbox));
+	container.append(...__featuresMeta__.map(buildFeatureCheckbox));
 
 	// Update list from saved options
 	const form = select('form')!;
