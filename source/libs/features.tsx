@@ -94,7 +94,8 @@ const run = async (id: FeatureName, {include, exclude, init, deinit, additionalL
 	const _run = async (): Promise<void> => {
 		try {
 			// Features can return `false` when they decide not to run on the current page
-			if (await init() !== false) {
+			// Also the condition avoids logging the fake feature added for `has-rgh`
+			if (await init() !== false && id !== __featureName__) {
 				log('✅', id);
 			}
 		} catch (error) {
