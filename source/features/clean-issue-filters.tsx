@@ -24,21 +24,35 @@ const hasAnyProjects = cache.function(async (): Promise<boolean> => {
 	cacheKey: () => `has-projects:${getRepoURL()}`
 });
 
-function hasLocalCounter(selector: string): boolean {
-	return Number(select(`${selector} .Counter`)?.textContent?.trim()) > 0;
+function getCount(element: HTMLElement): number {
+	return Number(element.textContent!.trim());
 }
 
 async function hideMilestones(): Promise<void> {
-	const hasMilestones = hasLocalCounter('[data-selected-links^="repo_milestones"]');
-
-	if (!hasMilestones) {
+	const milestones = select('[data-selected-links^="repo_milestones"] .Counter')!;
+	if (getCount(milestones) === 0) {
 		(await elementReady('[data-hotkey="m"]'))!.parentElement!.remove();
 	}
 }
 
+async function hasProjects(): Promise<boolean> {
+	const activeProjectsCounter = select(`[data-hotkey="g b"] .Counter`);
+	if (activeProjectsCounter && getCount(activeProjectsCounter) > 0) {
+		return true;
+	}
+
+	const isOrganization = select.exists('[rel=author][data-hovercard-type="organization"]');
+	if (!activeProjectsCounter && !isOrganization) {
+		// No tab = Projects disabled in repo
+		// No organization = no Projects in organization
+		return false;
+	}
+
+	return hasAnyProjects();
+}
+
 async function hideProjects(): Promise<void> {
-	const hasActiveProjects = hasLocalCounter('[data-hotkey="g b"]');
-	if (!hasActiveProjects && !await hasAnyProjects()) {
+	if (!await hasProjects()) {
 		(await elementReady('[data-hotkey="p"]'))!.parentElement!.remove();
 	}
 }
