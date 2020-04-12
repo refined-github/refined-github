@@ -31,7 +31,7 @@ function hasLocalCounter(selector: string): boolean {
 async function hideMilestones(): Promise<void> {
 	const hasMilestones = hasLocalCounter('[data-selected-links^="repo_milestones"]');
 
-	if (hasMilestones) {
+	if (!hasMilestones) {
 		(await elementReady('[data-hotkey="m"]'))!.parentElement!.remove();
 	}
 }
