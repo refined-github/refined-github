@@ -104,7 +104,7 @@ features.add({
 		features.isPRConversation
 	],
 	additionalListeners: [
-		() => onReplacedElement('#partial-discussion-sidebar', clean);
+		() => onReplacedElement('#partial-discussion-sidebar', clean)
 	],
 	init: clean
 });
