@@ -20,7 +20,7 @@ function init(): void {
 		select('[href*="issues?q=label%3A%22help+wanted"]', repository)?.remove();
 
 		// Place before the "Updated on" element
-		select('relative-time', repository)!.parentElement!.before(
+		select('relative-time', repository)!.previousSibling!.before(
 			<a
 				className="muted-link mr-3"
 				href={repositoryLink.href + '/issues?q=is%3Aissue+is%3Aopen'}
