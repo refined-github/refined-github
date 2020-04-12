@@ -39,7 +39,7 @@ async function hideMilestones(): Promise<void> {
 async function hideProjects(): Promise<void> {
 	const hasActiveProjects = hasLocalCounter('[data-hotkey="g b"]');
 	if (!hasActiveProjects && !await hasAnyProjects()) {
-		(await elementReady('[data-hotkey="p"]'))?.parentElement?.remove();
+		(await elementReady('[data-hotkey="p"]'))!.parentElement!.remove();
 	}
 }
 
