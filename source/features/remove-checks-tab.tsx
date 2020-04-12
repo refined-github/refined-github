@@ -11,7 +11,7 @@ function init(): false | void {
 	if (select.exists([
 		'.js-repo-nav [data-selected-links^="repo_settings"]', // In repos
 		'.pagehead-tabs-item[href$="/settings/profile"]' // In organizations
-	].join())) {
+	])) {
 		return false;
 	}
 

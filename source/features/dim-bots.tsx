@@ -10,7 +10,7 @@ function init(): void {
 
 		/* Issues/PRs */
 		'.opened-by [href*="author%3Aapp%2F"]'
-	].join());
+	]);
 	for (const bot of bots) {
 		bot.closest('.commit, .Box-row')!.classList.add('rgh-dim-bot');
 	}
