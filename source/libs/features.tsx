@@ -32,10 +32,10 @@ interface FeatureMeta {
 }
 
 interface FeatureLoader extends Partial<InternalRunConfig> {
-	/** Whether to wait for DOM ready before runnin `init`. `false` makes `init` run right as soon as `body` is found. @default true*/
+	/** Whether to wait for DOM ready before runnin `init`. `false` makes `init` run right as soon as `body` is found. @default true */
 	waitForDomReady?: false;
 
-	/** Whether to re-run `init` on pages loaded via AJAX. @default true*/
+	/** Whether to re-run `init` on pages loaded via AJAX. @default true */
 	repeatOnAjax?: false;
 
 	/** When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway. */
