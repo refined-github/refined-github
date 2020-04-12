@@ -374,7 +374,8 @@ export const _isBranches = [
 export const isUserProfile = (): boolean => select.exists('.user-profile-nav');
 export const _isUserProfile = domBased;
 
-export const isUserProfileRepoTab = (): boolean => isUserProfile() &&
+export const isUserProfileRepoTab = (): boolean =>
+	isUserProfile() &&
 	new URLSearchParams(location.search).get('tab') === 'repositories';
 export const _isUserProfileRepoTab = [
 	'https://github.com/sindresorhus?tab=repositories&type=source',
