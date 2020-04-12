@@ -42,7 +42,7 @@ async function init(): Promise<false | void> {
 	const projectsTab = select([
 		'[data-hotkey="g b"]', // In organizations and repos
 		'.user-profile-nav [href$="?tab=projects"]' // In user profiles
-	].join());
+	]);
 
 	if (!projectsTab) {
 		// Projects aren't enabled here
@@ -56,7 +56,7 @@ async function init(): Promise<false | void> {
 	if (select.exists([
 		'.js-repo-nav [data-selected-links^="repo_settings"]', // In repos
 		'.pagehead-tabs-item[href$="/settings/profile"]' // In organizations
-	].join())) {
+	])) {
 		return;
 	}
 

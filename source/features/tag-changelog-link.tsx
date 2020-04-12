@@ -46,7 +46,7 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const tagsSelectors = [
+	const tagsSelector = [
 		// https://github.com/facebook/react/releases (release in releases list)
 		'.release',
 
@@ -55,11 +55,11 @@ async function init(): Promise<void | false> {
 
 		// https://github.com/facebook/react/tags (tags list)
 		'.Box-row .commit'
-	].join();
+	];
 
 	// Look for tags in the current page and the next page
 	const pages = [document, await getNextPage()];
-	const allTags = select.all(tagsSelectors, pages).map(parseTags);
+	const allTags = select.all(tagsSelector, pages).map(parseTags);
 
 	for (const [index, container] of allTags.entries()) {
 		const previousTag = getPreviousTag(index, allTags);
