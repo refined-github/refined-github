@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
+import {Promisable} from 'type-fest';
 import elementReady from 'element-ready';
 import {logError} from './utils';
 import onNewComments from './on-new-comments';
@@ -9,9 +10,8 @@ import * as pageDetect from './page-detect';
 import optionsStorage, {RGHOptions} from '../options-storage';
 
 type BooleanFunction = () => boolean;
-type VoidFunction = () => void;
-type callerFunction = (callback: VoidFunction) => void; // TODO: rename
-type FeatureInit = () => false | void | Promise<false | void>;
+type CallerFunction = (callback: VoidFunction) => void;
+type FeatureInit = () => Promisable<false | void>;
 
 interface Shortcut {
 	hotkey: string;
@@ -29,8 +29,8 @@ interface InternalRunConfig {
 	include: BooleanFunction[];
 	exclude: BooleanFunction[];
 	init: FeatureInit;
-	deinit?: () => void;
-	additionalListeners: callerFunction[];
+	deinit?: VoidFunction;
+	additionalListeners: CallerFunction[];
 }
 
 let log: typeof console.log;

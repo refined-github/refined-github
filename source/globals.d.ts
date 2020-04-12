@@ -1,7 +1,5 @@
 type AnyObject = Record<string, any>;
 type AsyncVoidFunction = () => Promise<void>;
-type Unpromise<MaybePromise> = MaybePromise extends Promise<infer Type> ? Type : MaybePromise;
-type AsyncReturnType<T extends (...args: any) => any> = Unpromise<ReturnType<T>>;
 
 type FeatureName = 'use the __featureName__ variable';
 
