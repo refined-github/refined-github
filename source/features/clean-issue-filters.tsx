@@ -1,19 +1,14 @@
+import select from 'select-dom';
 import cache from 'webext-storage-cache';
 import elementReady from 'element-ready';
 import features from '../libs/features';
 import * as api from '../libs/api';
 import {getOwnerAndRepo, getRepoURL, getRepoGQL} from '../libs/utils';
 
-interface Counts {
-	projects: number;
-	milestones: number;
-}
-
-const getCounts = cache.function(async (): Promise<Counts> => {
+const hasAnyProjects = cache.function(async (): Promise<boolean> => {
 	const {repository, organization} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			projects { totalCount }
-			milestones { totalCount }
 		}
 		organization(login: "${getOwnerAndRepo().ownerName!}") {
 			projects { totalCount }
@@ -22,34 +17,49 @@ const getCounts = cache.function(async (): Promise<Counts> => {
 		allowErrors: true
 	});
 
-	return {
-		projects:
-			(repository.projects.totalCount as number) +
-			(organization?.projects?.totalCount as number ?? 0),
-		milestones: repository.milestones.totalCount
-	};
+	return Boolean(repository.projects.totalCount) && Boolean(organization?.projects?.totalCount);
 }, {
 	maxAge: 3,
 	staleWhileRevalidate: 20,
-	cacheKey: () => __featureName__ + ':' + getRepoURL()
+	cacheKey: () => `has-projects:${getRepoURL()}`
 });
 
-function removeParent(element?: Element): void {
-	if (element) { // If may be missing when the feature is entirely disabled
-		element.parentElement!.remove();
+function getCount(element: HTMLElement): number {
+	return Number(element.textContent!.trim());
+}
+
+async function hideMilestones(): Promise<void> {
+	const milestones = select('[data-selected-links^="repo_milestones"] .Counter')!;
+	if (getCount(milestones) === 0) {
+		(await elementReady('[data-hotkey="m"]'))!.parentElement!.remove();
 	}
 }
 
-async function init(): Promise<void> {
-	const {projects, milestones} = await getCounts();
-
-	if (projects === 0) {
-		elementReady('[data-hotkey="p"]').then(removeParent);
+async function hasProjects(): Promise<boolean> {
+	const activeProjectsCounter = select('[data-hotkey="g b"] .Counter');
+	if (activeProjectsCounter && getCount(activeProjectsCounter) > 0) {
+		return true;
 	}
 
-	if (milestones === 0) {
-		elementReady('[data-hotkey="m"]').then(removeParent);
+	const isOrganization = select.exists('[rel=author][data-hovercard-type="organization"]');
+	if (!activeProjectsCounter && !isOrganization) {
+		// No tab = Projects disabled in repo
+		// No organization = no Projects in organization
+		return false;
 	}
+
+	return hasAnyProjects();
+}
+
+async function hideProjects(): Promise<void> {
+	if (!await hasProjects()) {
+		(await elementReady('[data-hotkey="p"]'))!.parentElement!.remove();
+	}
+}
+
+function init(): void {
+	hideMilestones();
+	hideProjects();
 }
 
 features.add({
