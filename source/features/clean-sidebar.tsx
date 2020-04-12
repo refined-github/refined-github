@@ -3,8 +3,8 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import oneTime from 'onetime';
 import features from '../libs/features';
-import onUpdatableContentUpdate from '../libs/on-updatable-content-update';
 import {isPR} from '../libs/page-detect';
+import onReplacedElement from '../libs/on-replaced-element';
 
 const canEditSidebar = oneTime((): boolean => select.exists('.sidebar-labels .octicon-gear'));
 
@@ -104,7 +104,7 @@ features.add({
 		features.isPRConversation
 	],
 	additionalListeners: [
-		() => onUpdatableContentUpdate(select('#partial-discussion-sidebar')!, clean)
+		() => onReplacedElement('#partial-discussion-sidebar', clean);
 	],
 	init: clean
 });
