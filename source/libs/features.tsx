@@ -135,12 +135,13 @@ function enforceDefaults(
 	additionalListeners: InternalRunConfig['additionalListeners']
 ): void {
 	for (const [detection, listener] of defaultPairs) {
-		if (include.includes(detection)) {
-			if (additionalListeners.includes(listener)) {
-				console.error(`❌ ${featureName} → If you use \`${detection.name}\` you don’t need to specify \`${listener.name}\``);
-				throw new Error('⬆️');
-			}
+		if (!include.includes(detection)) {
+			continue;
+		}
 
+		if (additionalListeners.includes(listener)) {
+			console.error(`❌ ${featureName} → If you use \`${detection.name}\` you don’t need to specify \`${listener.name}\``);
+		} else {
 			additionalListeners.push(listener);
 		}
 	}
