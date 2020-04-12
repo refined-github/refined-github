@@ -14,6 +14,7 @@ import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
 import {getUsername, getRepoURL, logError} from '../libs/utils';
 import onUpdatableContentUpdate from '../libs/on-updatable-content-update';
+import delay from 'delay';
 
 type NotificationType = 'pull-request' | 'issue';
 type NotificationState = 'open' | 'merged' | 'closed' | 'draft';
@@ -286,15 +287,10 @@ function isParticipatingPage(): boolean {
 }
 
 async function updateUnreadIndicator(): Promise<void> {
-	const icon = select<HTMLAnchorElement>('a.notification-indicator'); // "a" required in responsive views
-	if (!icon) {
-		return;
-	}
+	await delay(200); // Lets `markRead` run first. It can't be added to this function
 
-	const statusMark = icon.querySelector('.mail-status');
-	if (!statusMark) {
-		return;
-	}
+	const icon = select<HTMLAnchorElement>('a.notification-indicator')!; // "a" required in responsive views
+	const statusMark = icon.querySelector('.mail-status')!;
 
 	const hasRealNotifications = icon.matches('[data-ga-click$=":unread"]');
 	const rghUnreadCount = (await getNotifications()).length;
@@ -392,10 +388,7 @@ function updateLocalParticipatingCount(notifications: Notification[]): void {
 async function initDiscussionListPage(): Promise<void> {
 	for (const discussion of await getNotifications()) {
 		const {pathname} = new URL(discussion.url);
-		const listItem = select(`.read [href='${pathname}']`);
-		if (listItem) {
-			listItem.closest('.read')!.classList.replace('read', 'unread');
-		}
+		select(`[href='${pathname}']`)!.closest('.Box-row')!.classList.add('Box-row--unread');
 	}
 }
 
@@ -438,9 +431,6 @@ features.add({
 	description: 'Adds button to mark issues and PRs as unread. They will reappear in Notifications.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/27847663-963b7d7c-6171-11e7-9470-6e86d8463771.png'
 }, {
-	repeatOnAjax: false,
-	init: updateUnreadIndicator
-}, {
 	include: [
 		pageDetect.isNotifications
 	],
@@ -457,4 +447,7 @@ features.add({
 		pageDetect.isDiscussionList
 	],
 	init: initDiscussionListPage
+}, {
+	repeatOnAjax: false,
+	init: updateUnreadIndicator
 });
