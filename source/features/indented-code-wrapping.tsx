@@ -8,7 +8,7 @@ function run(): void {
 	const tables = select.all([
 		'.file table.diff-table:not(.rgh-softwrapped-code)', // Split and unified diffs
 		'.file table.d-table:not(.rgh-softwrapped-code)' // "Suggested changes" in PRs
-	].join());
+	]);
 
 	for (const table of tables) {
 		table.classList.add('rgh-softwrapped-code');

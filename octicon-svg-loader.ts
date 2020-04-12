@@ -8,6 +8,6 @@ export default function (this: webpack.loader.LoaderContext, source: string): st
 		`<svg class="octicon octicon-${iconName}"`
 	);
 	return `
-	import React from 'dom-chef';
-	export default () => ${svgWithClass}`;
+	import doma from 'doma';
+	export default () => doma.one('${svgWithClass.replace('\'', '\\\'')}')`;
 }
