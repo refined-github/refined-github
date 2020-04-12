@@ -32,10 +32,16 @@ interface FeatureMeta {
 }
 
 interface FeatureLoader extends Partial<InternalRunConfig> {
-	waitForDomReady?: boolean;
-	repeatOnAjax?: boolean;
-	repeatOnAjaxEvenOnBackButton?: boolean;
-	init: FeatureInit; // Required for end user
+	/** Whether to wait for DOM ready before runnin `init`. `false` makes `init` run right as soon as `body` is found. @default true*/
+	waitForDomReady?: false;
+
+	/** Whether to re-run `init` on pages loaded via AJAX. @default true*/
+	repeatOnAjax?: false;
+
+	/** When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway. */
+	repeatOnAjaxEvenOnBackButton?: true;
+
+	init: FeatureInit; // Repeated here because this interface is Partial<>
 }
 
 interface InternalRunConfig {
@@ -85,13 +91,13 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	resolve(options);
 });
 
-const run = async (id: FeatureName, {include, exclude, init, deinit, additionalListeners}: InternalRunConfig): Promise<void> => {
+const setupPageLoad = async (id: FeatureName, {include, exclude, init, deinit, additionalListeners}: InternalRunConfig): Promise<void> => {
 	// If every `include` is false and no `exclude` is true, don’t run the feature
 	if (include.every(c => !c()) || exclude.some(c => c())) {
 		return;
 	}
 
-	const _run = async (): Promise<void> => {
+	const runFeature = async (): Promise<void> => {
 		try {
 			// Features can return `false` when they decide not to run on the current page
 			// Also the condition avoids logging the fake feature added for `has-rgh`
@@ -109,9 +115,9 @@ const run = async (id: FeatureName, {include, exclude, init, deinit, additionalL
 		}
 	};
 
-	await _run();
+	await runFeature();
 	for (const listener of additionalListeners) {
-		listener(_run);
+		listener(runFeature);
 	}
 };
 
@@ -141,13 +147,13 @@ function enforceDefaults(
 }
 
 /** Register a new feature */
-const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void> => {
+const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void> => {
 	/* Input defaults and validation */
 	const {
-		id,
+		id = __featureName__,
 		disabled = false,
 		shortcuts = {}
-	} = meta;
+	} = meta ?? {};
 
 	/* Feature filtering and running */
 	const options = await globalReady;
@@ -172,8 +178,6 @@ const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void
 			deinit,
 			repeatOnAjax = true,
 			waitForDomReady = true,
-
-			/** When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway. */
 			repeatOnAjaxEvenOnBackButton = false,
 			additionalListeners = []
 		} = loader;
@@ -187,15 +191,15 @@ const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void
 
 		const details = {include, exclude, init, deinit, additionalListeners};
 		if (waitForDomReady) {
-			domLoaded.then(() => run(id, details));
+			domLoaded.then(() => setupPageLoad(id, details));
 		} else {
-			run(id, details);
+			setupPageLoad(id, details);
 		}
 
 		if (repeatOnAjax) {
 			document.addEventListener('pjax:end', () => {
 				if (repeatOnAjaxEvenOnBackButton || !select.exists('has-rgh')) {
-					run(id, details);
+					setupPageLoad(id, details);
 				}
 			});
 		}
@@ -208,11 +212,7 @@ This means that the old features will still be on the page and don't need to re-
 
 This marks each as "processed"
 */
-add({
-	id: __featureName__,
-	description: '',
-	screenshot: false
-}, {
+add(undefined, {
 	init: async () => {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
 		await Promise.resolve();
