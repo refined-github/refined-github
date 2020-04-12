@@ -32,7 +32,7 @@ async function hideMilestones(): Promise<void> {
 	const hasMilestones = hasLocalCounter('[data-selected-links^="repo_milestones"]');
 
 	if (hasMilestones) {
-		(await elementReady('[data-hotkey="m"]'))?.parentElement?.remove();
+		(await elementReady('[data-hotkey="m"]'))!.parentElement!.remove();
 	}
 }
 
