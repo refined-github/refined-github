@@ -60,9 +60,10 @@ import './features/linkify-branch-references';
 import './features/batch-open-issues';
 import './features/hide-useless-comments';
 import './features/navigate-pages-with-arrow-keys';
+import './features/discussion-links-on-repo-lists';
 import './features/global-discussion-list-filters';
 import './features/filter-comments-by-you';
-import './features/sort-issues-by-update-time'; // Must be after global-discussion-list-filters and filter-comments-by-you
+import './features/sort-issues-by-update-time'; // Must be after global-discussion-list-filters and filter-comments-by-you and discussion-links-on-repo-lists
 import './features/pinned-issues-update-time';
 import './features/latest-tag-button';
 import './features/default-branch-button';
