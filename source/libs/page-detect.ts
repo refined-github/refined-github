@@ -375,8 +375,7 @@ export const isUserProfile = (): boolean => select.exists('.user-profile-nav');
 export const _isUserProfile = domBased;
 
 export const isUserProfileRepoTab = (): boolean => isUserProfile() &&
-	new URLSearchParams(location.search).get('tab') === 'repositories' &&
-	location.pathname !== '/'; // Gotcha for 'https://github.com/?tab=repositories'
+	new URLSearchParams(location.search).get('tab') === 'repositories';
 export const _isUserProfileRepoTab = [
 	'https://github.com/sindresorhus?tab=repositories&type=source',
 	'https://github.com/sindresorhus?type=source&tab=repositories'
