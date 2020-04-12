@@ -36,7 +36,7 @@ async function hideMilestones(): Promise<void> {
 }
 
 async function hasProjects(): Promise<boolean> {
-	const activeProjectsCounter = select(`[data-hotkey="g b"] .Counter`);
+	const activeProjectsCounter = select('[data-hotkey="g b"] .Counter');
 	if (activeProjectsCounter && getCount(activeProjectsCounter) > 0) {
 		return true;
 	}
