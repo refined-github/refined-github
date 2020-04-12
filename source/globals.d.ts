@@ -24,6 +24,10 @@ interface Window {
 
 declare module 'size-plugin';
 
+declare module 'deep-weak-map' {
+	export default WeakMap;
+}
+
 // Custom UI events specific to RGH
 interface GlobalEventHandlersEventMap {
 	'details:toggled': CustomEvent;
