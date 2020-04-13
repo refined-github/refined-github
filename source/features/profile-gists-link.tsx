@@ -45,9 +45,6 @@ features.add({
 	include: [
 		features.isUserProfile
 	],
-	exclude: [
-		features.isOrganizationProfile
-	],
 	load: features.nowAndOnAjaxedPages,
 	init
 });
