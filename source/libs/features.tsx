@@ -116,6 +116,7 @@ const setupPageLoad = async (id: FeatureName, {include, exclude, init, deinit, a
 	};
 
 	await runFeature();
+	await domLoaded; // Listeners likely need to work on the whole page
 	for (const listener of additionalListeners) {
 		listener(runFeature);
 	}
