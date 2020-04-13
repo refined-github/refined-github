@@ -70,7 +70,7 @@ async function cloneBranch(event: delegate.Event<MouseEvent, HTMLButtonElement>)
 function init(): void | false {
 	const deleteIcons = select.all('branch-filter-item-controller .octicon-trashcan');
 	// If the user does not have rights to delete a branch, they can’t create one either
-	if (deletionForms.length === 0) {
+	if (deleteIcons.length === 0) {
 		return false;
 	}
 
