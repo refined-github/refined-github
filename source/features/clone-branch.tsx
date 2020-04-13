@@ -68,7 +68,10 @@ async function cloneBranch(event: delegate.Event<MouseEvent, HTMLButtonElement>)
 }
 
 function init(): void | false {
-	const deletionForms = select.all('form[data-action$="#destroy"]');
+	const deletionForms = select.all([
+		'form[data-action$="#destroy"]',
+		'[aria-label="You can’t delete this branch because it has an open pull request"]' // There is no form when there is an open pull request
+	]);
 	// If the user does not have rights to delete a branch, they can’t create one either
 	if (deletionForms.length === 0) {
 		return false;
