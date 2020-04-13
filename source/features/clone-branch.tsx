@@ -37,7 +37,7 @@ async function createBranch(newBranchName: string, baseSha: string): Promise<tru
 
 async function cloneBranch(event: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
 	const cloneButton = event.delegateTarget;
-	const branchName = select('.branch-name', cloneButton.offsetParent!)!.textContent!;
+	const branchName = cloneButton.closest('[branch]')!.getAttribute('branch')!;
 
 	const currentBranch = getBranchBaseSha(branchName);
 	let newBranchName = prompt('Enter the new branch name')?.trim();
@@ -62,20 +62,20 @@ async function cloneBranch(event: delegate.Event<MouseEvent, HTMLButtonElement>)
 	}
 
 	textFieldEdit.set(
-		select<HTMLInputElement>('[aria-label="Search branches…"]')!,
+		select<HTMLInputElement>('[name="query"]')!,
 		newBranchName
 	);
 }
 
 function init(): void | false {
-	const deleteIcons = select.all('.Details-content--shown .octicon.octicon-trashcan');
-	// If the user does not have rights to delete a branch
-	if (deleteIcons.length === 0) {
+	const deletionForms = select.all('form[data-action$="#destroy"]');
+	// If the user does not have rights to delete a branch, they can’t create one either
+	if (deletionForms.length === 0) {
 		return false;
 	}
 
-	for (const branch of deleteIcons) {
-		branch.parentElement!.before(
+	for (const deletionForm of deletionForms) {
+		deletionForm.before(
 			<button
 				type="button"
 				aria-label="Clone this branch"
