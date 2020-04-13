@@ -68,17 +68,15 @@ async function cloneBranch(event: delegate.Event<MouseEvent, HTMLButtonElement>)
 }
 
 function init(): void | false {
-	const deletionForms = select.all([
-		'form[data-action$="#destroy"]',
-		'[aria-label="You can’t delete this branch because it has an open pull request"]' // There is no form when there is an open pull request
-	]);
+	const deleteIcons = select.all('branch-filter-item-controller .octicon-trashcan');
 	// If the user does not have rights to delete a branch, they can’t create one either
 	if (deletionForms.length === 0) {
 		return false;
 	}
 
-	for (const deletionForm of deletionForms) {
-		deletionForm.before(
+	for (const deleteIcon of deleteIcons) {
+		// Branches with open PRs use `span`; the others use `form`
+		deleteIcon.closest('form, span')!.before(
 			<button
 				type="button"
 				aria-label="Clone this branch"
