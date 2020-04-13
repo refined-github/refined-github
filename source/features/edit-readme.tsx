@@ -20,11 +20,11 @@ async function init(): Promise<void | false> {
 	}
 
 	// The button already exists on repos you can push to.
-	const buttonExists = select<HTMLAnchorElement>('a[aria-label="Edit this file"]');
-	if (buttonExists) {
-		// See https://github.com/sindresorhus/refined-github/issues/2997: Fixes GitHub’s own "Edit readme" link on tag pages
+	const existingButton = select<HTMLAnchorElement>('a[aria-label="Edit this file"]');
+	if (existingButton) {
 		if (isPermalink) {
-			buttonExists.href = pathnameParts.join('/');
+			// GitHub has a broken link in this case #2997
+			existingButton.href = pathnameParts.join('/');
 		}
 
 		return false;
