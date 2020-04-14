@@ -51,6 +51,6 @@ features.add({
 		features.isSingleFile,
 		features.isRepoCommitList
 	],
-	load: features.nowAndOnAjaxedPages,
+	waitForDomReady: false,
 	init
 });

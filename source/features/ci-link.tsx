@@ -34,6 +34,6 @@ features.add({
 	include: [
 		features.isRepo
 	],
-	load: features.nowAndOnAjaxedPages,
+	waitForDomReady: false,
 	init
 });

@@ -48,6 +48,6 @@ features.add({
 	include: [
 		features.isPRCommit
 	],
-	load: features.nowAndOnAjaxedPages,
+	waitForDomReady: false,
 	init
 });

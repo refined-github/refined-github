@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import features from '../libs/features';
+import onNewComments from '../libs/on-new-comments';
 
 function init(): void {
 	// Selects all the deployments first so that we can leave the last one on the page
@@ -21,6 +22,8 @@ features.add({
 	include: [
 		features.isPRConversation
 	],
-	load: features.onNewComments,
+	additionalListeners: [
+		onNewComments
+	],
 	init
 });

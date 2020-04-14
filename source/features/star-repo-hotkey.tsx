@@ -19,6 +19,5 @@ features.add({
 	include: [
 		features.isRepo
 	],
-	load: features.onAjaxedPages,
 	init
 });

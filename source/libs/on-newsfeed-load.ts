@@ -1,5 +1,4 @@
 import select from 'select-dom';
-import elementReady from 'element-ready';
 
 export default async function onNewsfeedLoad(callback: VoidFunction): Promise<void> {
 	const observer = new MutationObserver((([{addedNodes}]) => {
@@ -14,5 +13,5 @@ export default async function onNewsfeedLoad(callback: VoidFunction): Promise<vo
 	}));
 
 	// Start from the main container
-	observer.observe((await elementReady('.news'))!, {childList: true});
+	observer.observe(select('.news')!, {childList: true});
 }

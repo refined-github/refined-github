@@ -24,6 +24,7 @@ features.add({
 	exclude: [
 		features.isGist
 	],
-	load: features.onDocumentStart,
+	waitForDomReady: false,
+	repeatOnAjax: false,
 	init
 });
