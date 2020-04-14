@@ -1,12 +1,6 @@
 import select from 'select-dom';
-import {isDashboard} from './page-detect';
 
 export default async function onNewsfeedLoad(callback: VoidFunction): Promise<void> {
-	// `onNewsfeedLoad` is used as a listener on global features like `parse-backticks`
-	if (!isDashboard()) {
-		return;
-	}
-
 	const observer = new MutationObserver((([{addedNodes}]) => {
 		callback();
 
