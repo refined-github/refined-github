@@ -18,6 +18,7 @@ features.add({
 	include: [
 		features.isDashboard
 	],
+	onlyAdditionalListeners: true,
 	repeatOnAjax: false,
 	init
 });

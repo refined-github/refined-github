@@ -43,5 +43,6 @@ features.add({
 	include: [
 		features.isDashboard,
 	],
+	onlyAdditionalListeners: true,
 	init
 });

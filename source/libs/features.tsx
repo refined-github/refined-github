@@ -50,6 +50,9 @@ interface InternalRunConfig {
 	init: FeatureInit;
 	deinit?: () => void;
 	additionalListeners: callerFunction[];
+
+	/** When true, don’t run the `init` on page load but only add the `additionalListeners` */
+	onlyAdditionalListeners?: true;
 }
 
 let log: typeof console.log;
@@ -91,7 +94,9 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	resolve(options);
 });
 
-const setupPageLoad = async (id: FeatureName, {include, exclude, init, deinit, additionalListeners}: InternalRunConfig): Promise<void> => {
+const setupPageLoad = async (id: FeatureName, config: InternalRunConfig): Promise<void> => {
+	const {include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners} = config;
+
 	// If every `include` is false and no `exclude` is true, don’t run the feature
 	if (include.every(c => !c()) || exclude.some(c => c())) {
 		return;
@@ -115,7 +120,10 @@ const setupPageLoad = async (id: FeatureName, {include, exclude, init, deinit, a
 		}
 	};
 
-	await runFeature();
+	if (!onlyAdditionalListeners) {
+		await runFeature();
+	}
+
 	await domLoaded; // Listeners likely need to work on the whole page
 	for (const listener of additionalListeners) {
 		listener(runFeature);
@@ -181,6 +189,7 @@ const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<voi
 			repeatOnAjax = true,
 			waitForDomReady = true,
 			repeatOnAjaxEvenOnBackButton = false,
+			onlyAdditionalListeners = false,
 			additionalListeners = []
 		} = loader;
 
@@ -191,7 +200,7 @@ const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<voi
 
 		enforceDefaults(id, include, additionalListeners);
 
-		const details = {include, exclude, init, deinit, additionalListeners};
+		const details = {include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners};
 		if (waitForDomReady) {
 			domLoaded.then(() => setupPageLoad(id, details));
 		} else {
