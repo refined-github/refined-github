@@ -16,6 +16,5 @@ features.add({
 	include: [
 		features.isBlame
 	],
-	load: features.onAjaxedPages,
 	init
 });

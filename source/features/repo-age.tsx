@@ -79,6 +79,6 @@ features.add({
 	include: [
 		features.isRepoRoot
 	],
-	load: features.nowAndOnAjaxedPages,
+	waitForDomReady: false,
 	init
 });

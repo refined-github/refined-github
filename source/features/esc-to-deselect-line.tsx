@@ -29,6 +29,7 @@ features.add({
 	description: 'Adds a keyboard shortcut to deselect the current line: `esc`.',
 	screenshot: false
 }, {
-	load: features.onDocumentStart,
+	waitForDomReady: false,
+	repeatOnAjax: false,
 	init
 });

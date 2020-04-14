@@ -5,6 +5,7 @@ import pencilIcon from 'octicon/pencil.svg';
 import features from '../libs/features';
 import {wrap} from '../libs/dom-utils';
 import getDefaultBranch from '../libs/get-default-branch';
+import onFileListUpdate from '../libs/on-file-list-update';
 
 async function init(): Promise<void> {
 	const defaultBranch = await getDefaultBranch();
@@ -35,6 +36,8 @@ features.add({
 	include: [
 		features.isRepoTree
 	],
-	load: features.onFileListUpdate,
+	additionalListeners: [
+		onFileListUpdate
+	],
 	init
 });

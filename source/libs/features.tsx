@@ -1,17 +1,18 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import onDomReady from 'dom-loaded';
+import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';
 import {logError} from './utils';
 import onNewComments from './on-new-comments';
+import onNewsfeedLoad from './on-newsfeed-load';
 import * as pageDetect from './page-detect';
-import onFileListUpdate from './on-file-list-update';
 import optionsStorage, {RGHOptions} from '../options-storage';
 
 type BooleanFunction = () => boolean;
 type VoidFunction = () => void;
-type callerFunction = (callback: VoidFunction) => void;
+type callerFunction = (callback: VoidFunction) => void; // TODO: rename
 type FeatureShortcuts = Record<string, string>;
+type FeatureInit = () => false | void | Promise<false | void>;
 
 interface Shortcut {
 	hotkey: string;
@@ -24,64 +25,37 @@ interface FeatureMeta {
 	@example '#123'
 	*/
 	disabled?: string;
-	id: typeof __featureName__;
+	id: FeatureName;
 	description: string;
 	screenshot: string | false;
 	shortcuts?: FeatureShortcuts;
 }
 
-interface FeatureLoader extends Omit<FeatureRunner, 'id'> {
-	load: callerFunction | Promise<void>;
+interface FeatureLoader extends Partial<InternalRunConfig> {
+	/** Whether to wait for DOM ready before runnin `init`. `false` makes `init` run right as soon as `body` is found. @default true */
+	waitForDomReady?: false;
+
+	/** Whether to re-run `init` on pages loaded via AJAX. @default true */
+	repeatOnAjax?: false;
+
+	/** When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway.  @default false */
+	repeatOnAjaxEvenOnBackButton?: true;
+
+	/** When true, don’t run the `init` on page load but only add the `additionalListeners`. @default false */
+	onlyAdditionalListeners?: true;
+
+	init: FeatureInit; // Repeated here because this interface is Partial<>
 }
 
-interface FeatureRunner {
-	id: typeof __featureName__;
-	include?: BooleanFunction[];
-	exclude?: BooleanFunction[];
-	init: () => false | void | Promise<false | void>;
+interface InternalRunConfig {
+	include: BooleanFunction[];
+	exclude: BooleanFunction[];
+	init: FeatureInit;
 	deinit?: () => void;
+	additionalListeners: callerFunction[];
+
+	onlyAdditionalListeners: boolean;
 }
-
-/*
- * When navigating back and forth in history, GitHub will preserve the DOM changes;
- * This means that the old features will still be on the page and don't need to re-run.
- * For this reason `onAjaxedPages` will only call its callback when a *new* page is loaded.
- *
- * Alternatively, use `onAjaxedPagesRaw` if your callback needs to be called at every page
- * change (e.g. to "unmount" a feature / listener) regardless of *newness* of the page.
- */
-function onAjaxedPagesRaw(callback: () => void): void {
-	document.addEventListener('pjax:end', callback);
-	callback();
-}
-
-function onAjaxedPages(callback: () => void): void {
-	onAjaxedPagesRaw(async () => {
-		await onDomReady;
-		if (!select.exists('has-rgh')) {
-			callback();
-		}
-	});
-}
-
-// Like onAjaxedPages but doesn't wait for `dom-ready`
-function nowAndOnAjaxedPages(callback: () => void): void {
-	onAjaxedPagesRaw(() => {
-		if (!select.exists('has-rgh')) {
-			callback();
-		}
-	});
-}
-
-// Must be called after all the features were added to onAjaxedPages
-// to mark the current load as "done", so history.back() won't reapply the same DOM changes.
-// The two `await` ensure this behavior and order.
-onAjaxedPages(async () => {
-	await globalReady; // Match `add()`
-	await Promise.resolve(); // Kicks it to the next tick, after the other features have `run()`
-
-	select('#js-repo-pjax-container, #js-pjax-container')?.append(<has-rgh/>);
-});
 
 let log: typeof console.log;
 
@@ -122,39 +96,76 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	resolve(options);
 });
 
-const run = async ({id, include, exclude, init, deinit}: FeatureRunner): Promise<void> => {
+const setupPageLoad = async (id: FeatureName, config: InternalRunConfig): Promise<void> => {
+	const {include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners} = config;
+
 	// If every `include` is false and no `exclude` is true, don’t run the feature
-	if (include!.every(c => !c()) || exclude!.some(c => c())) {
-		return deinit?.();
+	if (include.every(c => !c()) || exclude.some(c => c())) {
+		return;
 	}
 
-	try {
-		// Features can return `false` when they decide not to run on the current page
-		if (await init() !== false) {
-			log('✅', id);
-		}
-	} catch (error) {
-		if (error.message.includes('token')) {
-			console.log(`ℹ️ Refined GitHub: \`${id}\`:`, error.message);
-		} else {
+	const runFeature = async (): Promise<void> => {
+		try {
+			// Features can return `false` when they decide not to run on the current page
+			// Also the condition avoids logging the fake feature added for `has-rgh`
+			if (await init() !== false && id !== __featureName__) {
+				log('✅', id);
+			}
+		} catch (error) {
 			logError(id, error);
 		}
+
+		if (deinit) {
+			document.addEventListener('pjax:start', deinit, {
+				once: true
+			});
+		}
+	};
+
+	if (!onlyAdditionalListeners) {
+		await runFeature();
+	}
+
+	await domLoaded; // Listeners likely need to work on the whole page
+	for (const listener of additionalListeners) {
+		listener(runFeature);
 	}
 };
 
 const shortcutMap = new Map<string, Shortcut>();
 const getShortcuts = (): Shortcut[] => [...shortcutMap.values()];
 
-/*
- * Register a new feature
- */
-const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void> => {
+const defaultPairs = new Map([
+	[pageDetect.hasComments, onNewComments],
+	[pageDetect.isDashboard, onNewsfeedLoad]
+]);
+
+function enforceDefaults(
+	featureName: FeatureName,
+	include: InternalRunConfig['include'],
+	additionalListeners: InternalRunConfig['additionalListeners']
+): void {
+	for (const [detection, listener] of defaultPairs) {
+		if (!include.includes(detection)) {
+			continue;
+		}
+
+		if (additionalListeners.includes(listener)) {
+			console.error(`❌ ${featureName} → If you use \`${detection.name}\` you don’t need to specify \`${listener.name}\``);
+		} else {
+			additionalListeners.push(listener);
+		}
+	}
+}
+
+/** Register a new feature */
+const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void> => {
 	/* Input defaults and validation */
 	const {
-		id,
+		id = __featureName__,
 		disabled = false,
 		shortcuts = {}
-	} = meta;
+	} = meta ?? {};
 
 	/* Feature filtering and running */
 	const options = await globalReady;
@@ -165,6 +176,7 @@ const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void
 
 	// Register feature shortcuts
 	for (const hotkey of Object.keys(shortcuts)) {
+		// TODO: use Object.entries, change format of shortcutMap
 		const description = shortcuts[hotkey];
 		shortcutMap.set(hotkey, {hotkey, description});
 	}
@@ -176,7 +188,11 @@ const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void
 			exclude = [], // Default: nothing
 			init,
 			deinit,
-			load
+			repeatOnAjax = true,
+			waitForDomReady = true,
+			repeatOnAjaxEvenOnBackButton = false,
+			onlyAdditionalListeners = false,
+			additionalListeners = []
 		} = loader;
 
 		// 404 pages should only run 404-only features
@@ -184,36 +200,42 @@ const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void
 			continue;
 		}
 
-		const details = {id, include, exclude, init, deinit};
-		if (load === onNewComments) {
-			details.init = async () => {
-				const result = await init();
-				onNewComments(init);
-				return result;
-			};
+		enforceDefaults(id, include, additionalListeners);
 
-			onAjaxedPages(() => run(details));
-		} else if (load instanceof Promise) {
-			load.then(() => run(details));
+		const details = {include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners};
+		if (waitForDomReady) {
+			domLoaded.then(() => setupPageLoad(id, details));
 		} else {
-			load(() => run(details));
+			setupPageLoad(id, details);
+		}
+
+		if (repeatOnAjax) {
+			document.addEventListener('pjax:end', () => {
+				if (repeatOnAjaxEvenOnBackButton || !select.exists('has-rgh')) {
+					setupPageLoad(id, details);
+				}
+			});
 		}
 	}
 };
 
+/*
+When navigating back and forth in history, GitHub will preserve the DOM changes;
+This means that the old features will still be on the page and don't need to re-run.
+
+This marks each as "processed"
+*/
+add(undefined, {
+	init: async () => {
+		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
+		await Promise.resolve();
+		select('#js-repo-pjax-container, #js-pjax-container')?.append(<has-rgh/>);
+	}
+});
+
 export default {
-	// Module methods
 	add,
 	getShortcuts,
-
-	// Loading mechanisms
-	onDocumentStart: (cb: VoidFunction) => cb(),
-	onDomReady,
-	onNewComments,
-	onFileListUpdate,
-	onAjaxedPages,
-	nowAndOnAjaxedPages,
-	onAjaxedPagesRaw,
 
 	// Loading filters
 	...pageDetect

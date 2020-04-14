@@ -1,9 +1,9 @@
 import './mark-unread.css';
+import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
-import onDomReady from 'dom-loaded';
-import elementReady from 'element-ready';
 import delegate from 'delegate-it';
+import elementReady from 'element-ready';
 import xIcon from 'octicon/x.svg';
 import infoIcon from 'octicon/info.svg';
 import checkIcon from 'octicon/check.svg';
@@ -287,15 +287,10 @@ function isParticipatingPage(): boolean {
 }
 
 async function updateUnreadIndicator(): Promise<void> {
-	const icon = select<HTMLAnchorElement>('a.notification-indicator'); // "a" required in responsive views
-	if (!icon) {
-		return;
-	}
+	await delay(200); // Lets `markRead` run first. It can't be added to this function
 
-	const statusMark = icon.querySelector('.mail-status');
-	if (!statusMark) {
-		return;
-	}
+	const icon = select<HTMLAnchorElement>('a.notification-indicator')!; // "a" required in responsive views
+	const statusMark = icon.querySelector('.mail-status')!;
 
 	const hasRealNotifications = icon.matches('[data-ga-click$=":unread"]');
 	const rghUnreadCount = (await getNotifications()).length;
@@ -390,7 +385,40 @@ function updateLocalParticipatingCount(notifications: Notification[]): void {
 	}
 }
 
-function destroy(): void {
+async function initDiscussionListPage(): Promise<void> {
+	for (const discussion of await getNotifications()) {
+		const {pathname} = new URL(discussion.url);
+		select(`[href='${pathname}']`)!.closest('.Box-row')!.classList.add('Box-row--unread');
+	}
+}
+
+function initDiscussionPage(): void {
+	markRead(location.href);
+
+	addMarkUnreadButton();
+	onReplacedElement('#partial-discussion-sidebar', addMarkUnreadButton);
+	delegate(document, '.rgh-btn-mark-unread', 'click', markUnread);
+}
+
+async function initNotificationsPage(): Promise<void> {
+	const notifications = await getNotifications();
+	if (notifications.length > 0) {
+		await renderNotifications(notifications);
+		addCustomAllReadButton();
+		updateLocalNotificationsCount(notifications);
+		updateLocalParticipatingCount(notifications);
+		document.dispatchEvent(new CustomEvent('refined-github:mark-unread:notifications-added'));
+	}
+
+	listeners.push(
+		delegate(document, '.btn-link.delete-note', 'click', markNotificationRead),
+		delegate(document, '.js-mark-all-read', 'click', markAllNotificationsRead),
+		delegate(document, '.js-delete-notification button', 'click', updateUnreadIndicator),
+		delegate(document, '.js-mark-visible-as-read', 'submit', markVisibleNotificationsRead)
+	);
+}
+
+function deinitNotificationsPage(): void {
 	for (const listener of listeners) {
 		listener.destroy();
 	}
@@ -398,52 +426,28 @@ function destroy(): void {
 	listeners.length = 0;
 }
 
-async function init(): Promise<void> {
-	destroy();
-	await onDomReady;
-
-	if (pageDetect.isNotifications()) {
-		const notifications = await getNotifications();
-		if (notifications.length > 0) {
-			await renderNotifications(notifications);
-			addCustomAllReadButton();
-			updateLocalNotificationsCount(notifications);
-			updateLocalParticipatingCount(notifications);
-			document.dispatchEvent(new CustomEvent('refined-github:mark-unread:notifications-added'));
-		}
-
-		listeners.push(
-			delegate(document, '.btn-link.delete-note', 'click', markNotificationRead),
-			delegate(document, '.js-mark-all-read', 'click', markAllNotificationsRead),
-			delegate(document, '.js-delete-notification button', 'click', updateUnreadIndicator),
-			delegate(document, '.js-mark-visible-as-read', 'submit', markVisibleNotificationsRead)
-		);
-	} else if (pageDetect.isPR() || pageDetect.isIssue()) {
-		await markRead(location.href);
-
-		if (pageDetect.isPRConversation() || pageDetect.isIssue()) {
-			addMarkUnreadButton();
-			onReplacedElement('#partial-discussion-sidebar', addMarkUnreadButton);
-			delegate(document, '.rgh-btn-mark-unread', 'click', markUnread);
-		}
-	} else if (pageDetect.isDiscussionList()) {
-		for (const discussion of await getNotifications()) {
-			const {pathname} = new URL(discussion.url);
-			const listItem = select(`.read [href='${pathname}']`);
-			if (listItem) {
-				listItem.closest('.read')!.classList.replace('read', 'unread');
-			}
-		}
-	}
-
-	updateUnreadIndicator();
-}
-
 features.add({
 	id: __featureName__,
 	description: 'Adds button to mark issues and PRs as unread. They will reappear in Notifications.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/27847663-963b7d7c-6171-11e7-9470-6e86d8463771.png'
 }, {
-	load: features.onAjaxedPagesRaw,
-	init
+	include: [
+		pageDetect.isNotifications
+	],
+	init: initNotificationsPage,
+	deinit: deinitNotificationsPage
+}, {
+	include: [
+		pageDetect.isPRConversation,
+		pageDetect.isIssue
+	],
+	init: initDiscussionPage
+}, {
+	include: [
+		pageDetect.isDiscussionList
+	],
+	init: initDiscussionListPage
+}, {
+	repeatOnAjax: false,
+	init: updateUnreadIndicator
 });

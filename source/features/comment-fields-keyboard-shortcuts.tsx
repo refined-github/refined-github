@@ -82,6 +82,7 @@ features.add({
 		esc: 'Unfocuses comment field'
 	}
 }, {
-	load: features.onDocumentStart,
+	waitForDomReady: false,
+	repeatOnAjax: false,
 	init
 });

@@ -63,17 +63,11 @@ const viewportObserver = new IntersectionObserver(changes => {
 	}
 });
 
-async function run(): Promise<void> {
+async function init(): Promise<void> {
 	for (const line of select.all('.blob-code-inner:not(.rgh-observing-whitespace)')) {
 		line.classList.add('rgh-observing-whitespace');
 		viewportObserver.observe(line);
 	}
-}
-
-function init(): void {
-	run();
-	onNewComments(run);
-	onPrFileLoad(run);
 }
 
 features.add({
@@ -84,6 +78,9 @@ features.add({
 	include: [
 		features.hasCode
 	],
-	load: features.onAjaxedPages,
+	additionalListeners: [
+		onNewComments,
+		onPrFileLoad
+	],
 	init
 });

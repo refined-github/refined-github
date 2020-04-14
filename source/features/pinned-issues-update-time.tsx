@@ -56,6 +56,5 @@ features.add({
 	include: [
 		features.isRepoIssueList
 	],
-	load: features.onAjaxedPages,
 	init
 });

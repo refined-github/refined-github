@@ -10,6 +10,7 @@ features.add({
 	description: 'Aligns labels in lists to the left.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/28006237-070b8214-6581-11e7-94bc-2b01a007d00b.png'
 }, {
-	load: features.onDocumentStart,
+	waitForDomReady: false,
+	repeatOnAjax: false,
 	init
 });

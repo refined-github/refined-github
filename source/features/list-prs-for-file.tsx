@@ -141,6 +141,5 @@ features.add({
 		features.isEditingFile,
 		features.isSingleFile
 	],
-	load: features.onAjaxedPages,
 	init
 });

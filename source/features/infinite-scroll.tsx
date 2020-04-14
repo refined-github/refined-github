@@ -1,7 +1,6 @@
 import select from 'select-dom';
 import debounce from 'debounce-fn';
 import features from '../libs/features';
-import observeElement from '../libs/simplified-element-observer';
 
 let button: HTMLButtonElement | undefined;
 
@@ -51,7 +50,7 @@ function init(): void {
 		// the fake click will submit the form without ajax.
 		form.addEventListener('submit', event => event.preventDefault());
 
-		observeElement('#dashboard .news', findButton);
+		findButton();
 	}
 }
 
@@ -63,6 +62,7 @@ features.add({
 	include: [
 		features.isDashboard
 	],
-	load: features.onDomReady,
+	onlyAdditionalListeners: true,
+	repeatOnAjax: false,
 	init
 });

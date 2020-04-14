@@ -20,6 +20,6 @@ features.add({
 		'g m': 'Go to Profile'
 	}
 }, {
-	load: features.onDomReady,
+	repeatOnAjax: false,
 	init
 });
