@@ -46,13 +46,11 @@ features.add({
 		features.isUserProfileRepoTab,
 		features.isGlobalSearchResults
 	],
-	load: features.onAjaxedPages,
 	init
 }, {
 	include: [
 		features.isUserProfileRepoTab
 	],
-	load: features.onAjaxedPages,
 	init: () => {
 		observeElement('#user-repositories-list', init);
 		return false;
