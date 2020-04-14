@@ -30,7 +30,7 @@ features.add({
 	description: 'Simplify the GitHub interface and adds useful features',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/58238638-3cbcd080-7d7a-11e9-80f6-be6c0520cfed.jpg',
 }, {
-	load: features.nowAndOnAjaxedPages,
+	waitForDomReady: false,
 	init
 });
 ```
@@ -44,17 +44,12 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import features from '../libs/features';
 
-let subscription: delegate.DelegateSubscription | undefined;
-function log() {
-	console.log('✨', <div className="rgh-jsx-element"/>);
+function append(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
+	event.delegateTarget.after('✨', <div className="rgh-jsx-element">Button clicked!</div>);
 }
 function init(): void {
 	// Events must be set via delegate, unless shortlived
-	subscription = delegate('.btn', 'click', log);
-}
-function deinit(): void {
-	subscription?.destroy();
-	subscription = undefined;
+	delegate('.btn', 'click', append);
 }
 
 features.add({
@@ -65,6 +60,14 @@ features.add({
 		'↑': 'Edit your last comment'
 	},
 }, {
+	/** Whether to wait for DOM ready before runnin `init`. `false` makes `init` run right as soon as `body` is found. @default true */
+	waitForDomReady: false,
+
+	/** Whether to re-run `init` on pages loaded via AJAX. @default true */
+	repeatOnAjax: false,
+
+	/** Rarely needed: When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway. @default false */
+	repeatOnAjaxEvenOnBackButton: true,
 	include: [
 		features.isUserProfile,
 		features.isRepo
@@ -72,11 +75,12 @@ features.add({
 	exclude: [
 		features.isOwnUserProfile
 	],
-	load: features.onDomReady, // Wait for DOM ready
-	// load: features.onAjaxedPages, // Or: Wait for DOM ready AND run on all AJAXed loads
-	// load: features.onNewComments, // Or: Wait for DOM ready AND run on all AJAXed loads AND watch for new comments
-	deinit, // Rarely needed
 	init
+}, {
+	include: [
+		features.isGist
+	],
+	init: () => console.log('Additional listener for gist pages!')
 });
 ```
 

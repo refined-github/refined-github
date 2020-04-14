@@ -4,7 +4,9 @@ import features from '../libs/features';
 import onPrFileLoad from '../libs/on-pr-file-load';
 import onNewComments from '../libs/on-new-comments';
 
-function run(): void {
+function init(): void {
+	document.body.classList.add('rgh-code-wrapping-enabled');
+
 	const tables = select.all([
 		'.file table.diff-table:not(.rgh-softwrapped-code)', // Split and unified diffs
 		'.file table.d-table:not(.rgh-softwrapped-code)' // "Suggested changes" in PRs
@@ -56,14 +58,6 @@ function run(): void {
 	}
 }
 
-function init(): void {
-	run();
-	onNewComments(run);
-	onPrFileLoad(run);
-
-	document.body.classList.add('rgh-code-wrapping-enabled');
-}
-
 features.add({
 	disabled: '#2421',
 	id: __featureName__,
@@ -76,6 +70,9 @@ features.add({
 		features.isPRConversation,
 		features.isCompare
 	],
-	load: features.onAjaxedPages,
+	additionalListeners: [
+		onNewComments,
+		onPrFileLoad
+	],
 	init
 });

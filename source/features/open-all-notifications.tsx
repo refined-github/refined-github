@@ -102,6 +102,5 @@ features.add({
 	include: [
 		features.isNotifications
 	],
-	load: features.onAjaxedPages,
 	init
 });

@@ -38,13 +38,11 @@ features.add({
 	include: [
 		features.isRepoDiscussionList
 	],
-	load: features.onAjaxedPages,
 	init: highlightCollaborators
 }, {
 	include: [
 		features.isDiscussionList
 	],
-	load: features.onAjaxedPages,
 	init: highlightSelf
 });
 

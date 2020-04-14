@@ -62,6 +62,5 @@ features.add({
 		// https://github.com/sindresorhus/refined-github/issues/2022
 		() => isFirefox
 	],
-	load: features.onAjaxedPages,
 	init
 });

@@ -60,6 +60,5 @@ features.add({
 	include: [
 		features.isReleasesOrTags
 	],
-	load: features.onAjaxedPages,
 	init
 });

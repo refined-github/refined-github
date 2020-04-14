@@ -28,6 +28,5 @@ features.add({
 	include: [
 		features.isCommit
 	],
-	load: features.onAjaxedPages,
 	init
 });

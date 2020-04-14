@@ -66,6 +66,6 @@ features.add({
 	include: [
 		features.isDiscussionList
 	],
-	load: features.nowAndOnAjaxedPages,
+	waitForDomReady: false,
 	init
 });

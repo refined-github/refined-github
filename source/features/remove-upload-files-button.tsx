@@ -19,6 +19,6 @@ features.add({
 	include: [
 		features.isRepoTree
 	],
-	load: features.onDomReady,
+	repeatOnAjax: false,
 	init
 });

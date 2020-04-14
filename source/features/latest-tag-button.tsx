@@ -133,6 +133,6 @@ features.add({
 		features.isRepoTree,
 		features.isSingleFile
 	],
-	load: features.nowAndOnAjaxedPages,
+	waitForDomReady: false,
 	init
 });

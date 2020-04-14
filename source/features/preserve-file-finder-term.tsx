@@ -42,7 +42,6 @@ features.add({
 	include: [
 		features.isFileFinder
 	],
-	load: features.onAjaxedPages,
 	init,
 	deinit
 });

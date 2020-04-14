@@ -41,6 +41,5 @@ features.add({
 	include: [
 		features.hasComments
 	],
-	load: features.onNewComments,
 	init
 });
