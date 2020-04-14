@@ -75,7 +75,7 @@ function init(): void | false {
 	}
 
 	for (const deleteIcon of deleteIcons) {
-		// Branches with open PRs use `span`; the others use `form`
+		// Branches with open PRs use `span`, the others use `form`
 		deleteIcon.closest('form, span')!.before(
 			<button
 				type="button"
