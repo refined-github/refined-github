@@ -41,7 +41,7 @@ features.add({
 	init
 }, {
 	include: [
-		features.isDashboard,
+		features.isDashboard
 	],
 	onlyAdditionalListeners: true,
 	init

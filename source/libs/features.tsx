@@ -38,8 +38,11 @@ interface FeatureLoader extends Partial<InternalRunConfig> {
 	/** Whether to re-run `init` on pages loaded via AJAX. @default true */
 	repeatOnAjax?: false;
 
-	/** When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway. */
+	/** When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway.  @default false */
 	repeatOnAjaxEvenOnBackButton?: true;
+
+	/** When true, don’t run the `init` on page load but only add the `additionalListeners`. @default false */
+	onlyAdditionalListeners?: true;
 
 	init: FeatureInit; // Repeated here because this interface is Partial<>
 }
@@ -51,8 +54,7 @@ interface InternalRunConfig {
 	deinit?: () => void;
 	additionalListeners: callerFunction[];
 
-	/** When true, don’t run the `init` on page load but only add the `additionalListeners` */
-	onlyAdditionalListeners?: true;
+	onlyAdditionalListeners: boolean;
 }
 
 let log: typeof console.log;
