@@ -5,7 +5,7 @@ import features from '../libs/features';
 import getDefaultBranch from '../libs/get-default-branch';
 
 async function init(): Promise<void | false> {
-	const readmeHeader = select('#readme .Box-header h3');
+	const readmeHeader = select('#readme .Box-header h2');
 	if (!readmeHeader) {
 		return false;
 	}

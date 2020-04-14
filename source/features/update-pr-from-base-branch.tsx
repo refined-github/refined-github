@@ -69,6 +69,10 @@ async function addButton(): Promise<void> {
 
 	const {base, head} = getBranches();
 
+	if (head === 'unknown repository') {
+		return;
+	}
+
 	// Draft PRs already have this info on the page
 	const [outOfDateContainer] = select.all('.completeness-indicator-problem + .status-heading')
 		.filter(title => (title.textContent!).includes('out-of-date'));
