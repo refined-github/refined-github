@@ -1,4 +1,4 @@
-import './limit-commit-title-length.css';
+import './suggest-commit-title-limit.css';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import features from '../libs/features';
@@ -10,7 +10,7 @@ const fieldSelector = [
 ].join();
 
 function validateInput({delegateTarget: inputField}: delegate.Event<InputEvent, HTMLInputElement>): void {
-	inputField.setCustomValidity(inputField.value.length > 72 ? `The title should be maximum 72 characters, but is ${inputField.value.length}` : '');
+	inputField.classList.toggle('rgh-title-over-limit', inputField.value.length > 72);
 }
 
 function triggerValidation(): void {
@@ -27,7 +27,7 @@ function init(): void {
 
 features.add({
 	id: __featureName__,
-	description: 'Limits the commit title fields to 72 characters.',
+	description: 'Suggest limiting commit titles to 72 characters.',
 	screenshot: 'https://user-images.githubusercontent.com/37769974/60379478-106b3280-9a51-11e9-88b9-0e3607f214cd.gif'
 }, {
 	include: [

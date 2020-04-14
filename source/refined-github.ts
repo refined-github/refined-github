@@ -128,7 +128,7 @@ import './features/sticky-discussion-sidebar';
 import './features/release-download-count';
 import './features/open-issue-to-latest-comment';
 import './features/toggle-everything-with-alt';
-import './features/limit-commit-title-length';
+import './features/suggest-commit-title-limit';
 import './features/highest-rated-comment';
 import './features/clean-issue-filters';
 import './features/minimize-upload-bar';
