@@ -9,20 +9,13 @@ const fieldSelector = [
 	'#merge_title_field' // PR merge message field
 ].join();
 
-function validateInput({delegateTarget: inputField}: delegate.Event<InputEvent, HTMLInputElement>): void {
+function validateInput(): void {
+	const inputField = select<HTMLInputElement>(fieldSelector)!;
 	inputField.classList.toggle('rgh-title-over-limit', inputField.value.length > 72);
-}
-
-function triggerValidation(): void {
-	select(fieldSelector)!.dispatchEvent(new Event('input'));
 }
 
 function init(): void {
 	delegate(document, fieldSelector, 'input', validateInput);
-
-	// For PR merges, GitHub restores any saved commit messages on page load
-	// Triggering input event for these fields immediately validates the form
-	onPrMergePanelOpen(triggerValidation);
 }
 
 features.add({
@@ -31,9 +24,19 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/37769974/60379478-106b3280-9a51-11e9-88b9-0e3607f214cd.gif'
 }, {
 	include: [
-		features.isPRConversation,
-		features.isEditingFile
+		features.isEditingFile,
+		features.isPRConversation
 	],
-	load: features.onAjaxedPages,
 	init
+}, {
+	include: [
+		features.isPRConversation
+	],
+	additionalListeners: [
+		// For PR merges, GitHub restores any saved commit messages on page load
+		// Triggering input event for these fields immediately validates the form
+		onPrMergePanelOpen
+	],
+	onlyAdditionalListeners: true,
+	init: validateInput
 });

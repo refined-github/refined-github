@@ -20,12 +20,12 @@ features.add({
 	include: [
 		features.hasRichTextEditor
 	],
-	load: features.onAjaxedPages,
 	init: hideTextareaTooltip
 }, {
 	include: [
 		features.isRepo
 	],
-	load: features.onDocumentStart,
+	waitForDomReady: false,
+	repeatOnAjax: false,
 	init: hideButtons
 });

@@ -48,6 +48,5 @@ features.add({
 		features.isPRFiles,
 		features.isSingleCommit
 	],
-	load: features.onAjaxedPages,
 	init
 });

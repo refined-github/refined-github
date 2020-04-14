@@ -10,6 +10,7 @@ features.add({
 	description: 'Hides diff signs (+-) since diffs are color coded already.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/54807718-149cec80-4cb9-11e9-869c-e265863211e3.png'
 }, {
-	load: features.onDocumentStart,
+	waitForDomReady: false,
+	repeatOnAjax: false,
 	init
 });

@@ -120,6 +120,5 @@ features.add({
 		// Disabled because of #2291 // features.isPRFiles
 		features.isCommit
 	],
-	load: features.onAjaxedPages,
 	init
 });

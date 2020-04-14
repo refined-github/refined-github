@@ -1,11 +1,12 @@
 import './clean-sidebar.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import oneTime from 'onetime';
 import features from '../libs/features';
 import {isPR} from '../libs/page-detect';
 import onReplacedElement from '../libs/on-replaced-element';
 
-let canEditSidebar = false;
+const canEditSidebar = oneTime((): boolean => select.exists('.sidebar-labels .octicon-gear'));
 
 function getNodesAfter(node: Node): Range {
 	const range = new Range();
@@ -39,7 +40,7 @@ function cleanSection(containerSelector: string): boolean {
 	}
 
 	const section = container.closest('.discussion-sidebar-item')!;
-	if (canEditSidebar) {
+	if (canEditSidebar()) {
 		getNodesAfter(header).deleteContents();
 		section.classList.add('rgh-clean-sidebar');
 	} else {
@@ -77,7 +78,7 @@ function clean(): void {
 	}
 
 	// Labels
-	if (!cleanSection('.sidebar-labels') && !canEditSidebar) {
+	if (!cleanSection('.sidebar-labels') && !canEditSidebar()) {
 		// Hide header in any case except `canEditSidebar`
 		select('.sidebar-labels div.discussion-sidebar-heading')!.remove();
 	}
@@ -93,12 +94,6 @@ function clean(): void {
 	cleanSection('[aria-label="Select milestones"]');
 }
 
-function init(): void {
-	canEditSidebar = select.exists('.sidebar-labels .octicon-gear');
-	clean();
-	onReplacedElement('#partial-discussion-sidebar', clean);
-}
-
 features.add({
 	id: __featureName__,
 	description: 'Hides empty sections (or just their "empty" label) in the discussion sidebar.',
@@ -108,6 +103,8 @@ features.add({
 		features.isIssue,
 		features.isPRConversation
 	],
-	load: features.onAjaxedPages,
-	init
+	additionalListeners: [
+		() => onReplacedElement('#partial-discussion-sidebar', clean)
+	],
+	init: clean
 });

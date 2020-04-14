@@ -6,6 +6,7 @@ import replyIcon from 'octicon/reply.svg';
 import * as textFieldEdit from 'text-field-edit';
 import features from '../libs/features';
 import {getUsername} from '../libs/utils';
+import onNewComments from '../libs/on-new-comments';
 
 function mentionUser({delegateTarget: button}: delegate.Event): void {
 	const userMention = button.parentElement!.querySelector('img')!.alt;
@@ -56,6 +57,8 @@ features.add({
 		features.isIssue,
 		features.isPRConversation
 	],
-	load: features.onNewComments,
+	additionalListeners: [
+		onNewComments
+	],
 	init
 });

@@ -13,6 +13,7 @@ features.add({
 	include: [
 		features.isRepo
 	],
-	load: features.onDocumentStart,
+	waitForDomReady: false,
+	repeatOnAjax: false,
 	init
 });

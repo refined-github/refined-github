@@ -4,8 +4,14 @@ import stripIndent from 'strip-indent';
 import {isRepo, isPR, isIssue} from './page-detect';
 import compareVersions from 'tiny-version-compare';
 
-export function logError(featureName: typeof __featureName__, error: Error | string, ...extras: unknown[]): void {
+export function logError(featureName: FeatureName, error: Error | string, ...extras: unknown[]): void {
 	const message = typeof error === 'string' ? error : error.message;
+
+	if (message.includes('token')) {
+		console.log(`ℹ️ Refined GitHub → ${featureName} →`, message);
+		return;
+	}
+
 	// Don't change this to `throw Error` because Firefox doesn't show extensions' errors in the console.
 	// Use `return` after calling this function.
 	console.error(

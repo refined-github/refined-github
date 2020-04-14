@@ -45,6 +45,6 @@ features.add({
 	include: [
 		features.isUserProfile
 	],
-	load: features.nowAndOnAjaxedPages,
+	waitForDomReady: false,
 	init
 });

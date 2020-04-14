@@ -17,6 +17,5 @@ features.add({
 	include: [
 		features.isPR
 	],
-	load: features.onAjaxedPages,
 	init
 });

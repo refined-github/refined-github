@@ -1,22 +1,11 @@
 import select from 'select-dom';
-import domLoaded from 'dom-loaded';
 
-// Copied from https://github.com/sindresorhus/hide-files-on-github
-export default async function (callback: VoidFunction): Promise<void> {
-	await domLoaded;
-
-	const observer = new MutationObserver(callback);
-	const update = (): void => {
-		callback();
-
-		const ajaxFiles = select('#files ~ include-fragment[src*="/file-list/"]');
-		if (ajaxFiles) {
-			observer.observe(ajaxFiles.parentNode!, {
-				childList: true
-			});
-		}
-	};
-
-	update();
-	document.addEventListener('pjax:end', update);
+export default function (callback: VoidFunction): void {
+	// Selector copied from https://github.com/sindresorhus/hide-files-on-github
+	const ajaxFiles = select('#files ~ include-fragment[src*="/file-list/"]');
+	if (ajaxFiles) {
+		new MutationObserver(callback).observe(ajaxFiles.parentNode!, {
+			childList: true
+		});
+	}
 }
