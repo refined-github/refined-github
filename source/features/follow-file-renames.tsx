@@ -1,9 +1,9 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import * as api from '../libs/api';
 import {getCleanPathname} from '../libs/utils';
+import {isRepoCommitList} from '../libs/page-detect';
 
 interface File {
 	previous_filename: string;
@@ -67,7 +67,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/54799957-7306a280-4c9a-11e9-86de-b9764ed93397.png'
 }, {
 	include: [
-		pageDetect.isRepoCommitList
+		isRepoCommitList
 	],
 	init
 });

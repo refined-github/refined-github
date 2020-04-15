@@ -1,8 +1,8 @@
 import select from 'select-dom';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import observeElement from '../libs/simplified-element-observer';
 import * as domFormatters from '../libs/dom-formatters';
+import {isPR, isIssue} from '../libs/page-detect';
 
 function init(): void {
 	const ajaxedTitleArea = select('#partial-discussion-header')!.parentElement!;
@@ -21,8 +21,8 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/22439276/58927232-71ae2780-876b-11e9-941e-bb56a7389123.png'
 }, {
 	include: [
-		pageDetect.isPR,
-		pageDetect.isIssue
+		isPR,
+		isIssue
 	],
 	init
 });

@@ -2,9 +2,8 @@ import './recently-pushed-branches-enhancements.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import {isRepo, isRepoRoot} from '../libs/page-detect';
 import {getRepoURL} from '../libs/utils';
-import {isRepoRoot} from '../libs/page-detect';
 
 const fragmentURL = `/${getRepoURL()}/show_partial?partial=tree%2Frecently_touched_branches_list`;
 const selector = `[data-url='${fragmentURL}' i], [src='${fragmentURL}' i]`;
@@ -57,13 +56,13 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/56466173-da517700-643f-11e9-8eb5-9b20017fa613.gif'
 }, {
 	include: [
-		pageDetect.isRepo
+		isRepo
 	],
 	repeatOnAjax: false,
 	init
 }, {
 	include: [
-		pageDetect.isRepo
+		isRepo
 	],
 	init: removeDuplicateList
 });

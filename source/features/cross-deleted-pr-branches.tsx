@@ -2,8 +2,8 @@ import './cross-deleted-pr-branches.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import {wrap} from '../libs/dom-utils';
+import {isPRConversation} from '../libs/page-detect';
 
 function init(): void {
 	const lastBranchAction = select.last('.TimelineItem-body .user-select-contain > span:not(.base-ref)');
@@ -43,7 +43,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/16872793/75619638-9bef1300-5b4c-11ea-850e-3a8f95c86d83.png'
 }, {
 	include: [
-		pageDetect.isPRConversation
+		isPRConversation
 	],
 	init
 });

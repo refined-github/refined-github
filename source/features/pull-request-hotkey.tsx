@@ -1,6 +1,6 @@
 import select from 'select-dom';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import {isPR} from '../libs/page-detect';
 
 function init(): void {
 	const tabs = select.all('.tabnav-pr .tabnav-tab');
@@ -31,7 +31,7 @@ features.add({
 	}
 }, {
 	include: [
-		pageDetect.isPR
+		isPR
 	],
 	init
 });

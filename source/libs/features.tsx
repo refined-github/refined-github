@@ -5,7 +5,7 @@ import elementReady from 'element-ready';
 import {logError} from './utils';
 import onNewComments from './on-new-comments';
 import onNewsfeedLoad from './on-newsfeed-load';
-import * as pageDetect from './page-detect';
+import {is500, hasComments, isDashboard, is404} from './page-detect';
 import optionsStorage, {RGHOptions} from '../options-storage';
 
 type BooleanFunction = () => boolean;
@@ -64,7 +64,7 @@ let log: typeof console.log;
 const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	await elementReady('body');
 
-	if (pageDetect.is500()) {
+	if (is500()) {
 		return;
 	}
 
@@ -136,8 +136,8 @@ const shortcutMap = new Map<string, Shortcut>();
 const getShortcuts = (): Shortcut[] => [...shortcutMap.values()];
 
 const defaultPairs = new Map([
-	[pageDetect.hasComments, onNewComments],
-	[pageDetect.isDashboard, onNewsfeedLoad]
+	[hasComments, onNewComments],
+	[isDashboard, onNewsfeedLoad]
 ]);
 
 function enforceDefaults(
@@ -196,7 +196,7 @@ const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<voi
 		} = loader;
 
 		// 404 pages should only run 404-only features
-		if (pageDetect.is404() && !include.includes(pageDetect.is404)) {
+		if (is404() && !include.includes(is404)) {
 			continue;
 		}
 

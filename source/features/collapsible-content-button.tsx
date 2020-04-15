@@ -4,7 +4,7 @@ import delegate from 'delegate-it';
 import foldDownIcon from 'octicon/fold-down.svg';
 import * as textFieldEdit from 'text-field-edit';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import {hasRichTextEditor} from '../libs/page-detect';
 
 // Wraps string in at least 2 \n on each side,
 // as long as the field doesn't already have them.
@@ -68,7 +68,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/53678019-0c721280-3cf4-11e9-9c24-4d11a697f67c.png'
 }, {
 	include: [
-		pageDetect.hasRichTextEditor
+		hasRichTextEditor
 	],
 	init
 });

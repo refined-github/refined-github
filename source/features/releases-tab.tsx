@@ -4,11 +4,10 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import tagIcon from 'octicon/tag.svg';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import {isRepo, isRepoRoot, isReleasesOrTags} from '../libs/page-detect';
 import * as api from '../libs/api';
 import {appendBefore} from '../libs/dom-utils';
 import {getRepoURL, getRepoGQL, looseParseInt} from '../libs/utils';
-import {isRepoRoot, isReleasesOrTags} from '../libs/page-detect';
 
 const repoUrl = getRepoURL();
 const cacheKey = `releases-count:${repoUrl}`;
@@ -83,7 +82,7 @@ features.add({
 	}
 }, {
 	include: [
-		pageDetect.isRepo
+		isRepo
 	],
 	waitForDomReady: false,
 	init

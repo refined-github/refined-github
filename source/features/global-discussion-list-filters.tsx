@@ -2,9 +2,9 @@ import './global-discussion-list-filters.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import {getUsername} from '../libs/utils';
 import SearchQuery from '../libs/search-query';
+import {isGlobalDiscussionList} from '../libs/page-detect';
 
 function init(): void {
 	const defaultQuery = 'is:open archived:false';
@@ -47,7 +47,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/8295888/36827126-8bfc79c4-1d37-11e8-8754-992968b082be.png'
 }, {
 	include: [
-		pageDetect.isGlobalDiscussionList
+		isGlobalDiscussionList
 	],
 	init
 });

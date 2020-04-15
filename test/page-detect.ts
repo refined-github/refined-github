@@ -7,6 +7,8 @@ import stripIndent from 'strip-indent';
 import './fixtures/globals';
 import * as pageDetect from '../source/libs/page-detect';
 
+const {is500, is404} = pageDetect;
+
 const allUrls = new Set<string>();
 for (const imported of Object.values(pageDetect)) {
 	if (Array.isArray(imported)) {
@@ -70,34 +72,34 @@ for (const [key, detect] of Object.entries(pageDetect)) {
 
 test('is404', t => {
 	document.title = 'Page not found · GitHub';
-	t.true(pageDetect.is404());
+	t.true(is404());
 
 	document.title = 'examples/404: Page not found examples';
-	t.false(pageDetect.is404());
+	t.false(is404());
 
 	document.title = 'Dashboard';
-	t.false(pageDetect.is404());
+	t.false(is404());
 
 	document.title = 'Page not found · Issue #266 · sintaxi/surge · GitHub';
-	t.false(pageDetect.is404());
+	t.false(is404());
 });
 
 test('is500', t => {
 	document.title = 'Server Error · GitHub';
-	t.true(pageDetect.is500());
+	t.true(is500());
 
 	document.title = 'Unicorn! · GitHub';
-	t.true(pageDetect.is500());
+	t.true(is500());
 
 	document.title = 'examples/500: Server Error examples';
-	t.false(pageDetect.is500());
+	t.false(is500());
 
 	document.title = 'sindresorhus/unicorn: You can’t tell what doesn’t exist';
-	t.false(pageDetect.is500());
+	t.false(is500());
 
 	document.title = 'Dashboard';
-	t.false(pageDetect.is500());
+	t.false(is500());
 
 	document.title = 'Server Error · Issue #266 · sintaxi/surge · GitHub';
-	t.false(pageDetect.is500());
+	t.false(is500());
 });

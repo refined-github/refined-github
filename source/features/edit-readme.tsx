@@ -2,8 +2,8 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import pencilIcon from 'octicon/pencil.svg';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import getDefaultBranch from '../libs/get-default-branch';
+import {isRepoTree} from '../libs/page-detect';
 
 async function init(): Promise<void | false> {
 	const readmeHeader = select('#readme .Box-header h2');
@@ -48,7 +48,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/62073307-a8378880-b26a-11e9-9e31-be6525d989d2.png'
 }, {
 	include: [
-		pageDetect.isRepoTree
+		isRepoTree
 	],
 	init
 });

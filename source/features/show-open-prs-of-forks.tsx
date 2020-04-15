@@ -4,8 +4,7 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
-import {isForkedRepo, isRepoWithAccess} from '../libs/page-detect';
+import {isRepo, isRepoSettings, isForkedRepo, isRepoWithAccess} from '../libs/page-detect';
 import {getForkedRepo, getUsername, pluralize} from '../libs/utils';
 
 function getLinkCopy(count: number): string {
@@ -86,7 +85,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1922624/76398271-e0648500-637c-11ea-8210-53dda1be9d51.png'
 }, {
 	include: [
-		pageDetect.isRepo
+		isRepo
 	],
 	exclude: [
 		() => !isForkedRepo()
@@ -95,7 +94,7 @@ features.add({
 	init: initHeadHint
 }, {
 	include: [
-		pageDetect.isRepoSettings
+		isRepoSettings
 	],
 	exclude: [
 		() => !isForkedRepo()

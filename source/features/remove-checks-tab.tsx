@@ -4,7 +4,7 @@
 
 import select from 'select-dom';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import {isPR} from '../libs/page-detect';
 
 function init(): false | void {
 	// If there's a settings tab, the current user can enable checks,
@@ -30,7 +30,7 @@ features.add({
 	screenshot: false
 }, {
 	include: [
-		pageDetect.isPR
+		isPR
 	],
 	init
 });

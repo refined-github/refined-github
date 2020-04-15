@@ -6,9 +6,8 @@ import tagIcon from 'octicon/tag.svg';
 import elementReady from 'element-ready';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import fetchDom from '../libs/fetch-dom';
-import {isRepoRoot} from '../libs/page-detect';
+import {isRepoRoot, isRepoTree, isSingleFile} from '../libs/page-detect';
 import getDefaultBranch from '../libs/get-default-branch';
 import {getRepoURL, getCurrentBranch, replaceBranch, getRepoGQL, getLatestVersionTag} from '../libs/utils';
 
@@ -131,8 +130,8 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/74594998-71df2080-5077-11ea-927c-b484ca656e88.png'
 }, {
 	include: [
-		pageDetect.isRepoTree,
-		pageDetect.isSingleFile
+		isRepoTree,
+		isSingleFile
 	],
 	waitForDomReady: false,
 	init

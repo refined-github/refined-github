@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import debounce from 'debounce-fn';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import {isDashboard} from '../libs/page-detect';
 
 let button: HTMLButtonElement | undefined;
 
@@ -61,7 +61,7 @@ features.add({
 	screenshot: false
 }, {
 	include: [
-		pageDetect.isDashboard
+		isDashboard
 	],
 	onlyAdditionalListeners: true,
 	repeatOnAjax: false,

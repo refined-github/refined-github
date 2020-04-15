@@ -3,8 +3,7 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import elementReady from 'element-ready';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
-import {isUserProfile, isOwnOrganizationProfile, isOrganizationProfile} from '../libs/page-detect';
+import {isRepo, isUserProfile, isOwnOrganizationProfile, isOrganizationProfile} from '../libs/page-detect';
 
 const addNewProjectLink = onetime(() => {
 	if (isUserProfile()) {
@@ -73,9 +72,9 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/34909214-18b6fb2e-f8cf-11e7-8556-bed748596d3b.png'
 }, {
 	include: [
-		pageDetect.isRepo,
-		pageDetect.isUserProfile,
-		pageDetect.isOrganizationProfile
+		isRepo,
+		isUserProfile,
+		isOrganizationProfile
 	],
 	init
 });

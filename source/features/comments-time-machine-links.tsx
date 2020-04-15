@@ -2,9 +2,9 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import clockIcon from 'octicon/clock.svg';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import {getRepoURL} from '../libs/utils';
 import {appendBefore} from '../libs/dom-utils';
+import {hasComments} from '../libs/page-detect';
 
 function addInlineLinks(comment: HTMLElement, timestamp: string): void {
 	const links = select.all<HTMLAnchorElement>(`
@@ -78,7 +78,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/56450896-68076680-635b-11e9-8b24-ebd11cc4e655.png'
 }, {
 	include: [
-		pageDetect.hasComments
+		hasComments
 	],
 	init
 });

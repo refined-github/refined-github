@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import {isPRFiles, isPRCommit} from '../libs/page-detect';
 
 function handleMenuOpening(event: delegate.Event): void {
 	const dropdown = event.delegateTarget.nextElementSibling!;
@@ -46,8 +46,8 @@ features.add({
 	screenshot: false
 }, {
 	include: [
-		pageDetect.isPRFiles,
-		pageDetect.isPRCommit
+		isPRFiles,
+		isPRCommit
 	],
 	init
 });

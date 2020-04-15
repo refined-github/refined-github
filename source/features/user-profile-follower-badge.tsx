@@ -4,7 +4,7 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import {isUserProfile, isOwnUserProfile} from '../libs/page-detect';
 import {getUsername, getCleanPathname} from '../libs/utils';
 
 const doesUserFollow = cache.function(async (userA: string, userB: string): Promise<boolean> => {
@@ -32,10 +32,10 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/3723666/45190460-03ecc380-b20c-11e8-832b-839959ee2c99.gif'
 }, {
 	include: [
-		pageDetect.isUserProfile
+		isUserProfile
 	],
 	exclude: [
-		pageDetect.isOwnUserProfile
+		isOwnUserProfile
 	],
 	init
 });

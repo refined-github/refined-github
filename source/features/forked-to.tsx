@@ -7,9 +7,8 @@ import checkIcon from 'octicon/check.svg';
 import elementReady from 'element-ready';
 import linkExternalIcon from 'octicon/link-external.svg';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import fetchDom from '../libs/fetch-dom';
-import {isForkedRepo} from '../libs/page-detect';
+import {isForkedRepo, isRepo} from '../libs/page-detect';
 import {getRepoURL, getUsername, getForkedRepo} from '../libs/utils';
 
 const getForkSourceRepo = (): string => getForkedRepo() ?? getRepoURL();
@@ -102,7 +101,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/55841/64077281-17bbf000-cccf-11e9-9123-092063f65357.png'
 }, {
 	include: [
-		pageDetect.isRepo
+		isRepo
 	],
 	waitForDomReady: false,
 	init

@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import {isSingleCommit, isPRFiles, isPRCommit} from '../libs/page-detect';
 
 const expanderSelector = '.js-expand.directional-expander';
 
@@ -45,9 +45,9 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/44227187/64923605-d0138900-d7e3-11e9-9dc2-461aba81c1cb.gif'
 }, {
 	include: [
-		pageDetect.isPRCommit,
-		pageDetect.isPRFiles,
-		pageDetect.isSingleCommit
+		isPRCommit,
+		isPRFiles,
+		isSingleCommit
 	],
 	init
 });

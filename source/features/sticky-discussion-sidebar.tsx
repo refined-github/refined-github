@@ -2,7 +2,7 @@ import './sticky-discussion-sidebar.css';
 import select from 'select-dom';
 import debounce from 'debounce-fn';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import {isIssue, isPRConversation} from '../libs/page-detect';
 import onReplacedElement from '../libs/on-replaced-element';
 
 const sideBarSelector = '#partial-discussion-sidebar, .discussion-sidebar';
@@ -25,8 +25,8 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/10238474/62276723-5a2eaa80-b44d-11e9-810b-ff598d1c5c6a.gif'
 }, {
 	include: [
-		pageDetect.isIssue,
-		pageDetect.isPRConversation
+		isIssue,
+		isPRConversation
 	],
 	additionalListeners: [
 		() => window.addEventListener('resize', onResize),

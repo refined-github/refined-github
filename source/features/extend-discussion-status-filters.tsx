@@ -2,11 +2,11 @@ import select from 'select-dom';
 import checkIcon from 'octicon/check.svg';
 import elementReady from 'element-ready';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import SearchQuery from '../libs/search-query';
+import {isPRList, isDiscussionList} from '../libs/page-detect';
 
 function addMergeLink(): void {
-	if (!pageDetect.isPRList()) {
+	if (!isPRList()) {
 		return;
 	}
 
@@ -65,7 +65,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/73605061-2125ed00-45cc-11ea-8cbd-41a53ae00cd3.gif'
 }, {
 	include: [
-		pageDetect.isDiscussionList
+		isDiscussionList
 	],
 	waitForDomReady: false,
 	init

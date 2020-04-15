@@ -20,7 +20,7 @@ The simplest usage of `feature.add` is the following. This will be run instantly
 
 ```js
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+
 
 function init () {
 	console.log('✨');
@@ -32,7 +32,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/58238638-3cbcd080-7d7a-11e9-80f6-be6c0520cfed.jpg',
 }, {
 	include: [
-		pageDetect.isPR
+		isPR
 	],
 	waitForDomReady: false,
 	init
@@ -47,7 +47,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+
 
 function append(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	event.delegateTarget.after('✨', <div className="rgh-jsx-element">Button clicked!</div>);
@@ -74,16 +74,16 @@ features.add({
 	/** Rarely needed: When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway. @default false */
 	repeatOnAjaxEvenOnBackButton: true,
 	include: [
-		pageDetect.isUserProfile,
-		pageDetect.isRepo
+		isUserProfile,
+		isRepo
 	],
 	exclude: [
-		pageDetect.isOwnUserProfile
+		isOwnUserProfile
 	],
 	init
 }, {
 	include: [
-		pageDetect.isGist
+		isGist
 	],
 	init: () => console.log('Additional listener for gist pages!')
 });
