@@ -5,13 +5,8 @@ import features from '../libs/features';
 import getDefaultBranch from '../libs/get-default-branch';
 
 async function init(): Promise<void | false> {
-	const readmeHeader = select('#readme .Box-header h3');
+	const readmeHeader = select('#readme .Box-header h2');
 	if (!readmeHeader) {
-		return false;
-	}
-
-	// The button already exists on repos you can push to.
-	if (select.exists('a[aria-label="Edit this file"]')) {
 		return false;
 	}
 
@@ -22,6 +17,17 @@ async function init(): Promise<void | false> {
 	pathnameParts[3] = 'edit'; // Replaces /blob/
 	if (isPermalink) {
 		pathnameParts[4] = await getDefaultBranch(); // Replaces /${tag|commit}/
+	}
+
+	// The button already exists on repos you can push to.
+	const existingButton = select<HTMLAnchorElement>('a[aria-label="Edit this file"]');
+	if (existingButton) {
+		if (isPermalink) {
+			// GitHub has a broken link in this case #2997
+			existingButton.href = pathnameParts.join('/');
+		}
+
+		return false;
 	}
 
 	readmeHeader.after(
@@ -37,7 +43,7 @@ async function init(): Promise<void | false> {
 
 features.add({
 	id: __featureName__,
-	description: 'Adds an Edit button on previewed Readmes in folders, even if you have to make a fork.',
+	description: 'Ensures that the “Edit readme” button always appears (even when you have to make a fork) and works (GitHub’s link does’t work on git tags).',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/62073307-a8378880-b26a-11e9-9e31-be6525d989d2.png'
 }, {
 	include: [

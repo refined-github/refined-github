@@ -3,10 +3,9 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as textFieldEdit from 'text-field-edit';
 import features from '../libs/features';
-import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
 import {logError} from '../libs/utils';
+import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
 
-const commitTitleLimit = 72;
 const prTitleFieldSelector = '.js-issue-update [name="issue[title]"]';
 const prTitleSubmitSelector = '.js-issue-update [type="submit"]';
 
@@ -20,14 +19,7 @@ function getPRNumber(): string {
 
 function createCommitTitle(): string {
 	const prTitle = select('.js-issue-title')!.textContent!.trim();
-	const prInfo = ` (${getPRNumber()})`;
-	const targetTitleLength = commitTitleLimit - prInfo.length;
-
-	if (prTitle.length > targetTitleLength) {
-		return prTitle.slice(0, targetTitleLength - 1).trim() + '…' + prInfo;
-	}
-
-	return prTitle + prInfo;
+	return `${prTitle} (${getPRNumber()})`;
 }
 
 function needsSubmission(): boolean {
@@ -42,14 +34,7 @@ function needsSubmission(): boolean {
 		return false;
 	}
 
-	// If the commit title was clipped, be more lenient when comparing it to the PR title.
-	// If the user doesn't change the clipped commit title, the PR doesn't need to change.
-	const commitTitle = createCommitTitle();
-	if (commitTitle.includes('…')) {
-		return !inputField.value.startsWith(commitTitle.replace(/….+/, ''));
-	}
-
-	return commitTitle !== inputField.value;
+	return createCommitTitle() !== inputField.value;
 }
 
 function getUI(): HTMLElement {
@@ -95,7 +80,7 @@ async function updateCommitTitle(event: Event): Promise<void> {
 
 function disableSubmission(): void {
 	deinit();
-	getUI().remove(); // Hide note
+	getUI().remove();
 }
 
 let listeners: delegate.Subscription[];

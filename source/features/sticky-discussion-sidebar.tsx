@@ -2,7 +2,7 @@ import './sticky-discussion-sidebar.css';
 import select from 'select-dom';
 import debounce from 'debounce-fn';
 import features from '../libs/features';
-import onUpdatableContentUpdate from '../libs/on-updatable-content-update';
+import onReplacedElement from '../libs/on-replaced-element';
 
 const sideBarSelector = '#partial-discussion-sidebar, .discussion-sidebar';
 
@@ -29,7 +29,7 @@ features.add({
 	],
 	additionalListeners: [
 		() => window.addEventListener('resize', onResize),
-		() => onUpdatableContentUpdate(select(sideBarSelector)!, updateStickiness)
+		() => onReplacedElement(sideBarSelector, updateStickiness)
 	],
 	init: updateStickiness,
 	deinit

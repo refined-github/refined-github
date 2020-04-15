@@ -60,8 +60,6 @@
 		"@types/react": "^16.9.32",
 		"@types/terser-webpack-plugin": "^2.2.0",
 		"ava": "^3.6.0",
-		"buble": "^0.20.0",
-		"buble-loader": "^0.5.1",
 		"chrome-webstore-upload-cli": "^1.2.0",
 		"copy-webpack-plugin": "^5.1.1",
 		"css-loader": "^3.5.1",

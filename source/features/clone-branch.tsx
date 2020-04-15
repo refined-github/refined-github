@@ -37,9 +37,9 @@ async function createBranch(newBranchName: string, baseSha: string): Promise<tru
 
 async function cloneBranch(event: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
 	const cloneButton = event.delegateTarget;
-	const branchElement = cloneButton.closest<HTMLElement>('[data-branch-name]')!;
+	const branchName = cloneButton.closest('[branch]')!.getAttribute('branch')!;
 
-	const currentBranch = getBranchBaseSha(branchElement.dataset.branchName!);
+	const currentBranch = getBranchBaseSha(branchName);
 	let newBranchName = prompt('Enter the new branch name')?.trim();
 
 	const spinner = loadingIcon();
@@ -62,20 +62,21 @@ async function cloneBranch(event: delegate.Event<MouseEvent, HTMLButtonElement>)
 	}
 
 	textFieldEdit.set(
-		select<HTMLInputElement>('.js-branch-search-field')!,
+		select<HTMLInputElement>('[name="query"]')!,
 		newBranchName
 	);
 }
 
 function init(): void | false {
-	const deleteIcons = select.all('[aria-label="Delete this branch"]');
-	// Is the user does not have rights to create a branch
+	const deleteIcons = select.all('branch-filter-item-controller .octicon-trashcan');
+	// If the user does not have rights to delete a branch, they can’t create one either
 	if (deleteIcons.length === 0) {
 		return false;
 	}
 
-	for (const branch of deleteIcons) {
-		branch.closest('.js-branch-destroy')!.before(
+	for (const deleteIcon of deleteIcons) {
+		// Branches with open PRs use `span`, the others use `form`
+		deleteIcon.closest('form, span')!.before(
 			<button
 				type="button"
 				aria-label="Clone this branch"

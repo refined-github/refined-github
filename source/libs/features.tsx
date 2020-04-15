@@ -18,19 +18,42 @@ interface Shortcut {
 	description: string;
 }
 
+interface FeatureMeta {
+	/**
+	If it's disabled, this should be the issue that explains why, as a reference
+	@example '#123'
+	*/
+	disabled?: string;
+	id: FeatureName;
+	description: string;
+	screenshot: string | false;
+	shortcuts?: FeatureShortcuts;
+}
+
 interface FeatureLoader extends Partial<InternalRunConfig> {
-	waitForDomReady?: boolean;
-	repeatOnAjax?: boolean;
-	repeatOnAjaxEvenOnBackButton?: boolean;
-	init: FeatureInit; // Required for end user
+	/** Whether to wait for DOM ready before runnin `init`. `false` makes `init` run right as soon as `body` is found. @default true */
+	waitForDomReady?: false;
+
+	/** Whether to re-run `init` on pages loaded via AJAX. @default true */
+	repeatOnAjax?: false;
+
+	/** When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway.  @default false */
+	repeatOnAjaxEvenOnBackButton?: true;
+
+	/** When true, don’t run the `init` on page load but only add the `additionalListeners`. @default false */
+	onlyAdditionalListeners?: true;
+
+	init: FeatureInit; // Repeated here because this interface is Partial<>
 }
 
 interface InternalRunConfig {
 	include: BooleanFunction[];
 	exclude: BooleanFunction[];
 	init: FeatureInit;
-	deinit?: VoidFunction;
+	deinit?: () => void;
 	additionalListeners: CallerFunction[];
+
+	onlyAdditionalListeners: boolean;
 }
 
 let log: typeof console.log;
@@ -72,15 +95,18 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	resolve(options);
 });
 
-const run = async (id: FeatureName, {include, exclude, init, deinit, additionalListeners}: InternalRunConfig): Promise<void> => {
+const setupPageLoad = async (id: FeatureName, config: InternalRunConfig): Promise<void> => {
+	const {include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners} = config;
+
 	// If every `include` is false and no `exclude` is true, don’t run the feature
 	if (include.every(c => !c()) || exclude.some(c => c())) {
 		return;
 	}
 
-	const _run = async (): Promise<void> => {
+	const runFeature = async (): Promise<void> => {
 		try {
 			// Features can return `false` when they decide not to run on the current page
+			// Also the condition avoids logging the fake feature added for `has-rgh`
 			if (await init() !== false && id !== __featureName__) {
 				log('✅', id);
 			}
@@ -95,9 +121,13 @@ const run = async (id: FeatureName, {include, exclude, init, deinit, additionalL
 		}
 	};
 
-	await _run();
+	if (!onlyAdditionalListeners) {
+		await runFeature();
+	}
+
+	await domLoaded; // Listeners likely need to work on the whole page
 	for (const listener of additionalListeners) {
-		listener(_run);
+		listener(runFeature);
 	}
 };
 
@@ -115,25 +145,26 @@ function enforceDefaults(
 	additionalListeners: InternalRunConfig['additionalListeners']
 ): void {
 	for (const [detection, listener] of defaultPairs) {
-		if (include.includes(detection)) {
-			if (additionalListeners.includes(listener)) {
-				console.error(`❌ ${featureName} → If you use \`${detection.name}\` you don’t need to specify \`${listener.name}\``);
-				throw new Error('⬆️');
-			}
+		if (!include.includes(detection)) {
+			continue;
+		}
 
+		if (additionalListeners.includes(listener)) {
+			console.error(`❌ ${featureName} → If you use \`${detection.name}\` you don’t need to specify \`${listener.name}\``);
+		} else {
 			additionalListeners.push(listener);
 		}
 	}
 }
 
 /** Register a new feature */
-const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void> => {
+const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void> => {
 	/* Input defaults and validation */
 	const {
-		id,
+		id = __featureName__,
 		disabled = false,
 		shortcuts = {}
-	} = meta;
+	} = meta ?? {};
 
 	/* Feature filtering and running */
 	const options = await globalReady;
@@ -158,9 +189,8 @@ const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void
 			deinit,
 			repeatOnAjax = true,
 			waitForDomReady = true,
-
-			/** When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway. */
 			repeatOnAjaxEvenOnBackButton = false,
+			onlyAdditionalListeners = false,
 			additionalListeners = []
 		} = loader;
 
@@ -171,17 +201,17 @@ const add = async (meta: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void
 
 		enforceDefaults(id, include, additionalListeners);
 
-		const details = {include, exclude, init, deinit, additionalListeners};
+		const details = {include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners};
 		if (waitForDomReady) {
-			domLoaded.then(() => run(id, details));
+			domLoaded.then(() => setupPageLoad(id, details));
 		} else {
-			run(id, details);
+			setupPageLoad(id, details);
 		}
 
 		if (repeatOnAjax) {
 			document.addEventListener('pjax:end', () => {
 				if (repeatOnAjaxEvenOnBackButton || !select.exists('has-rgh')) {
-					run(id, details);
+					setupPageLoad(id, details);
 				}
 			});
 		}
@@ -194,11 +224,7 @@ This means that the old features will still be on the page and don't need to re-
 
 This marks each as "processed"
 */
-add({
-	id: __featureName__,
-	description: '',
-	screenshot: false
-}, {
+add(undefined, {
 	init: async () => {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
 		await Promise.resolve();

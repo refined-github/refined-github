@@ -10,7 +10,7 @@ function createDiffStyleToggle(): DocumentFragment {
 	const isUnified = select.exists([
 		'[value="unified"][checked]', // Form in PR
 		'.table-of-contents .selected[href$=unified]' // Link in single commit
-	].join());
+	]);
 
 	function makeLink(type: string, icon: Element, selected: boolean): HTMLElement {
 		parameters.set('diff', type);

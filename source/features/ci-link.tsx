@@ -1,23 +1,24 @@
 import './ci-link.css';
+import oneTime from 'onetime';
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
 import {getRepoURL} from '../libs/utils';
 import {appendBefore} from '../libs/dom-utils';
 
-let callCount = 0;
-export function getIcon(): Promise<HTMLElement | undefined> {
-	callCount += 1;
-	return fetchDom(`/${getRepoURL()}/commits`, '.commit-build-statuses');
-}
+// Look for the CI icon in the latest 2 days of commits #2990
+export const getIcon = oneTime(fetchDom.bind(null,
+	`/${getRepoURL()}/commits`,
+	'.commit-group:nth-of-type(-n+2) .commit-build-statuses'
+));
 
 async function init(): Promise<false | void> {
-	const icon = await getIcon();
+	const icon = await getIcon() as HTMLElement | undefined;
 	if (!icon) {
 		return false;
 	}
 
 	icon.classList.add('rgh-ci-link');
-	if (callCount > 1) {
+	if (oneTime.callCount(getIcon) > 1) {
 		icon.style.animation = 'none';
 	}
 
