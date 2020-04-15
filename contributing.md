@@ -49,7 +49,7 @@ function append(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 }
 function init(): void {
 	// Events must be set via delegate, unless shortlived
-	delegate('.btn', 'click', append);
+	delegate(document, '.btn', 'click', append);
 }
 
 features.add({
