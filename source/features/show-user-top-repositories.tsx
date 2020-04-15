@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getCleanPathname} from '../libs/utils';
 
 function buildUrl(queryField: string): URL {
@@ -30,7 +31,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93de-159ad4c6f283.png'
 }, {
 	include: [
-		features.isUserProfile
+		pageDetect.isUserProfile
 	],
 	init
 });

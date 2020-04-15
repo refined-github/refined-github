@@ -4,6 +4,7 @@ import select from 'select-dom';
 import oneTime from 'onetime';
 import delegate from 'delegate-it';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 const getWarning = oneTime(() => (
 	<div className="flash flash-error mt-3 rgh-warning-for-disallow-edits">
@@ -43,8 +44,8 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif'
 }, {
 	include: [
-		features.isCompare,
-		features.isPRConversation
+		pageDetect.isCompare,
+		pageDetect.isPRConversation
 	],
 	init
 });

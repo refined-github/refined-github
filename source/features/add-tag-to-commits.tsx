@@ -3,6 +3,7 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import tagIcon from 'octicon/tag.svg';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import * as api from '../libs/api';
 import {getOwnerAndRepo, getRepoURL, getRepoGQL} from '../libs/utils';
 
@@ -166,7 +167,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/14323370/66400400-64ba7280-e9af-11e9-8d6c-07b35afde91f.png'
 }, {
 	include: [
-		features.isRepoCommitList
+		pageDetect.isRepoCommitList
 	],
 	init
 });

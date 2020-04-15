@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getUsername} from '../libs/utils';
 
 async function init(): Promise<void> {
@@ -16,7 +17,7 @@ features.add({
 	screenshot: false
 }, {
 	include: [
-		features.isDashboard
+		pageDetect.isDashboard
 	],
 	onlyAdditionalListeners: true,
 	repeatOnAjax: false,

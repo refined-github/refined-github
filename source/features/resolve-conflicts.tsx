@@ -2,6 +2,7 @@ import './resolve-conflicts.css';
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 async function init(): Promise<void> {
 	await elementReady('.CodeMirror', {
@@ -17,7 +18,7 @@ features.add({
 	screenshot: false
 }, {
 	include: [
-		features.isConflict
+		pageDetect.isConflict
 	],
 	init
 });

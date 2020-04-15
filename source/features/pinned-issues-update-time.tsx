@@ -4,6 +4,7 @@ import select from 'select-dom';
 import clockIcon from 'octicon/clock.svg';
 import * as api from '../libs/api';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getRepoGQL, getRepoURL, looseParseInt} from '../libs/utils';
 
 interface IssueInfo {
@@ -54,7 +55,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/75525936-bb524700-5a4b-11ea-9225-466bda58b7de.png'
 }, {
 	include: [
-		features.isRepoIssueList
+		pageDetect.isRepoIssueList
 	],
 	init
 });

@@ -1,6 +1,7 @@
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function unloadHandler(): void {
 	const inputElement = select<HTMLInputElement>('#tree-finder-field');
@@ -40,7 +41,7 @@ features.add({
 	screenshot: false
 }, {
 	include: [
-		features.isFileFinder
+		pageDetect.isFileFinder
 	],
 	init,
 	deinit

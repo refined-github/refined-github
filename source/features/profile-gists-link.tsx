@@ -5,6 +5,7 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as api from '../libs/api';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getCleanPathname} from '../libs/utils';
 import {isEnterprise} from '../libs/page-detect';
 
@@ -43,7 +44,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/11544418/34268306-1c974fd2-e678-11e7-9e82-861dfe7add22.png'
 }, {
 	include: [
-		features.isUserProfile
+		pageDetect.isUserProfile
 	],
 	waitForDomReady: false,
 	init

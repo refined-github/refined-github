@@ -3,6 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import arrowDownIcon from 'octicon/arrow-down.svg';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {looseParseInt} from '../libs/utils';
 
 // `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)
@@ -128,7 +129,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/58757449-5b238880-853f-11e9-9526-e86c41a32f00.png'
 }, {
 	include: [
-		features.isIssue
+		pageDetect.isIssue
 	],
 	init
 });

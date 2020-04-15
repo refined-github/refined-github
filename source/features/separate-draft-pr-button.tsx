@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function init(): void | false {
 	const previewForm = select('.new-pr-form');
@@ -54,7 +55,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/202916/67269317-cd791300-f4b6-11e9-89d1-392de7ef71e1.png'
 }, {
 	include: [
-		features.isCompare
+		pageDetect.isCompare
 	],
 	init
 });

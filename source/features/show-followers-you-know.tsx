@@ -2,6 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import {getCleanPathname} from '../libs/utils';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import fetchDom from '../libs/fetch-dom';
 
 const fetchStargazers = async (): Promise<HTMLImageElement[]> => {
@@ -54,10 +55,10 @@ features.add({
 	screenshot: false
 }, {
 	include: [
-		features.isUserProfile
+		pageDetect.isUserProfile
 	],
 	exclude: [
-		features.isOwnUserProfile
+		pageDetect.isOwnUserProfile
 	],
 	init
 });
