@@ -6,7 +6,7 @@ import compareVersions from 'tiny-version-compare';
 
 export function logError(featureName: FeatureName, error: Error | string, ...extras: unknown[]): void {
 	if (error instanceof TypeError && error.message === 'Object(...)(...) is null') {
-		error.message = 'The element wasn’t found, the selector needs to be updated.'
+		error.message = 'The element wasn’t found, the selector needs to be updated.';
 	}
 
 	const message = typeof error === 'string' ? error : error.message;
