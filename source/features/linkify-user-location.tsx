@@ -36,6 +36,5 @@ features.add({
 	description: 'Linkifies the user location in their hovercard and profile page.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/69076885-00d3a100-0a67-11ea-952a-690acec0826f.png'
 }, {
-	load: features.onAjaxedPages,
 	init
 });

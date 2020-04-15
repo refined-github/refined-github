@@ -27,6 +27,5 @@ features.add({
 		features.isPR,
 		features.isIssue
 	],
-	load: features.onAjaxedPages,
 	init
 });

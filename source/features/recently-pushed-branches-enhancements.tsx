@@ -58,12 +58,11 @@ features.add({
 	include: [
 		features.isRepo
 	],
-	load: features.onDomReady,
+	repeatOnAjax: false,
 	init
 }, {
 	include: [
 		features.isRepo
 	],
-	load: features.onAjaxedPages,
 	init: removeDuplicateList
 });

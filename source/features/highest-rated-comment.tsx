@@ -130,6 +130,5 @@ features.add({
 	include: [
 		features.isIssue
 	],
-	load: features.onAjaxedPages,
 	init
 });

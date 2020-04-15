@@ -1,5 +1,5 @@
-import select from 'select-dom';
 import React from 'dom-chef';
+import select from 'select-dom';
 import clockIcon from 'octicon/clock.svg';
 import features from '../libs/features';
 import {getRepoURL} from '../libs/utils';
@@ -79,6 +79,5 @@ features.add({
 	include: [
 		features.hasComments
 	],
-	load: features.onNewComments,
 	init
 });

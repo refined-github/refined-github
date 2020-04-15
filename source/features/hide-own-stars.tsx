@@ -1,7 +1,6 @@
 import select from 'select-dom';
 import features from '../libs/features';
 import {getUsername} from '../libs/utils';
-import onNewsfeedLoad from '../libs/on-newsfeed-load';
 
 async function init(): Promise<void> {
 	for (const item of select.all('#dashboard .news .watch_started, #dashboard .news .fork')) {
@@ -19,6 +18,7 @@ features.add({
 	include: [
 		features.isDashboard
 	],
-	load: features.onDocumentStart,
-	init: () => onNewsfeedLoad(init)
+	onlyAdditionalListeners: true,
+	repeatOnAjax: false,
+	init
 });

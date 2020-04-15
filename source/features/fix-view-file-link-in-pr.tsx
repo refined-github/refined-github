@@ -42,12 +42,11 @@ function init(): void {
 features.add({
 	id: __featureName__,
 	description: 'Points the "View file" in PRs to the branch instead of the commit, so the Edit/Delete buttons will be enabled on the "View file" page, if needed.',
-	screenshot: ''
+	screenshot: false
 }, {
 	include: [
 		features.isPRFiles,
 		features.isPRCommit
 	],
-	load: features.onAjaxedPages,
 	init
 });

@@ -30,6 +30,6 @@ features.add({
 	include: [
 		features.isSingleGist
 	],
-	load: features.onDomReady,
+	repeatOnAjax: false,
 	init
 });

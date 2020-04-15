@@ -21,6 +21,6 @@ features.add({
 		features.isRepoRoot,
 		features.isUserProfile
 	],
-	load: features.nowAndOnAjaxedPages,
+	waitForDomReady: false,
 	init
 });
