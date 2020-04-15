@@ -28,8 +28,6 @@ Invalid characters found in \`${name}\`. Apply this patch:
 			}
 
 			feature[field] = value.replace(/\\\\/g, '\\');
-		} else if (field === 'description') {
-			throw new Error(`Description wasn’t found in the \`${name}\` feature`);
 		}
 	}
 
