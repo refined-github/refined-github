@@ -171,6 +171,7 @@ import './features/show-open-prs-of-forks';
 import './features/clone-branch';
 import './features/deep-reblame';
 import './features/clear-pr-merge-commit-message';
+import './features/batch-mark-files-as-viewed';
 
 // Add global for easier debugging
 (window as any).select = select;
