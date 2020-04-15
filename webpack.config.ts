@@ -114,7 +114,7 @@ const config: Configuration = {
 
 			__filebasename: webpack.DefinePlugin.runtimeValue(({module}) => {
 				// @ts-ignore
-				return JSON.stringify(path.basename(module.resource, '.tsx'));
+				return JSON.stringify(path.basename(module.resource).replace(/\.tsx?$/, ''));
 			})
 		}),
 		new MiniCssExtractPlugin({
