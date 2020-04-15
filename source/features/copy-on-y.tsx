@@ -18,7 +18,7 @@ function deinit(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Enhances the `y` hotkey to also copy the permalink.',
 	screenshot: false
 }, {

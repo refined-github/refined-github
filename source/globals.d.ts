@@ -1,7 +1,7 @@
 type AnyObject = Record<string, any>;
 type AsyncVoidFunction = () => Promise<void>;
 
-type FeatureName = 'use the __featureName__ variable';
+type FeatureID = 'use the __filebasename variable';
 
 type FeatureShortcuts = Record<string, string>;
 interface FeatureMeta {
@@ -10,19 +10,19 @@ interface FeatureMeta {
 	@example '#123'
 	*/
 	disabled?: string;
-	id: FeatureName;
+	id: FeatureID;
 	description: string;
 	screenshot: string | false;
 	shortcuts?: FeatureShortcuts;
 }
 
 interface FeatureConfig {
-	[featureName: string]: string | boolean;
+	[id: string]: string | boolean;
 }
 
 declare const __featuresOptionDefaults__: FeatureConfig;
 declare const __featuresMeta__: FeatureMeta[];
-declare const __featureName__: FeatureName;
+declare const __filebasename: FeatureID;
 
 interface Window {
 	content: GlobalFetch;

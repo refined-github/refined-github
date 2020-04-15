@@ -11,7 +11,7 @@ async function init(): Promise<void> {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Hides "starred" events for your own repos on the newsfeed.',
 	screenshot: false
 }, {

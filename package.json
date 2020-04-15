@@ -98,7 +98,7 @@
 			"browser",
 			"__featuresOptionDefaults__",
 			"__featuresMeta__",
-			"__featureName__"
+			"__filebasename"
 		],
 		"rules": {
 			"@typescript-eslint/promise-function-async": "off",

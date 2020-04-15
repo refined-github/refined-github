@@ -16,7 +16,7 @@ function init(): void {
 		setTimeout(() => {
 			const modalBox = summary.parentElement!.querySelector('details-menu')!;
 			if (modalBox.getBoundingClientRect().width === 0) {
-				logError(__featureName__, 'Modal element was not correctly detected for', summary);
+				logError(__filebasename, 'Modal element was not correctly detected for', summary);
 				return;
 			}
 
@@ -26,7 +26,7 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Automatically closes dropdown menus when they’re no longer visible.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/37022353-531c676e-2155-11e8-96cc-80d934bb22e0.gif'
 }, {

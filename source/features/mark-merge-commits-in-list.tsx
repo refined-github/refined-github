@@ -46,7 +46,7 @@ async function init(): Promise<void | false> {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Marks merge commits in commit lists.',
 	screenshot: 'https://user-images.githubusercontent.com/16872793/75561016-457eb900-5a14-11ea-95e1-a89e81ee7390.png'
 }, {

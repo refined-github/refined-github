@@ -74,7 +74,7 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds shortcuts to comment fields: `↑` to edit your previous comment; `esc` to blur field or cancel comment.',
 	screenshot: false,
 	shortcuts: {

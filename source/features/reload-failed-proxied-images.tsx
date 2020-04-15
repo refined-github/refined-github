@@ -18,7 +18,7 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Retries downloading images that failed downloading due to GitHub limited proxying.',
 	screenshot: 'https://user-images.githubusercontent.com/14858959/64068746-21991100-cc45-11e9-844e-827f5ac9b51e.png'
 }, {

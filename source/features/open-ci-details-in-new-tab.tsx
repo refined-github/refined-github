@@ -10,7 +10,7 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Opens the Checks "details" link in a new tab.',
 	screenshot: false
 }, {

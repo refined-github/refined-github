@@ -10,7 +10,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
-function parseFeatureDetails(id: FeatureName): FeatureMeta {
+function parseFeatureDetails(id: FeatureID): FeatureMeta {
 	const content = readFileSync(`source/features/${id}.tsx`, {encoding: 'utf-8'});
 	const fields = ['disabled', 'description', 'screenshot'] as const;
 
@@ -35,10 +35,10 @@ function parseFeatureDetails(id: FeatureName): FeatureMeta {
 	return feature as FeatureMeta;
 }
 
-function getFeatures(): FeatureName[] {
+function getFeatures(): FeatureID[] {
 	return readdirSync(path.join(__dirname, 'source/features'))
 		.filter(filename => filename.endsWith('.tsx'))
-		.map(filename => filename.replace('.tsx', '') as FeatureName);
+		.map(filename => filename.replace('.tsx', '') as FeatureID);
 }
 
 const config: Configuration = {
@@ -112,7 +112,7 @@ const config: Configuration = {
 				// @ts-ignore
 			}, true),
 
-			__featureName__: webpack.DefinePlugin.runtimeValue(({module}) => {
+			__filebasename: webpack.DefinePlugin.runtimeValue(({module}) => {
 				// @ts-ignore
 				return JSON.stringify(path.basename(module.resource, '.tsx'));
 			})

@@ -25,7 +25,7 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds a keyboard shortcut to deselect the current line: `esc`.',
 	screenshot: false
 }, {

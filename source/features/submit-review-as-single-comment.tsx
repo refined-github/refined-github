@@ -55,7 +55,7 @@ async function handleSubmitSingle(event: delegate.Event): Promise<void> {
 	const commentText = select<HTMLTextAreaElement>('[name="pull_request_review_comment[body]"]', commentContainer)!.value;
 	if (!commentText) {
 		alert('Error: Comment not found and not submitted. More info in the console.');
-		logError(__featureName__, 'Comment not found');
+		logError(__filebasename, 'Comment not found');
 		return;
 	}
 
@@ -96,7 +96,7 @@ async function handleSubmitSingle(event: delegate.Event): Promise<void> {
 		alert('There was an error sending the comment. More info in the console.');
 		console.log('You were trying to sending this comment:');
 		console.log(commentText);
-		logError(__featureName__, error);
+		logError(__filebasename, error);
 	}
 }
 
@@ -107,7 +107,7 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds a button to submit a single PR comment if you mistakenly started a new review.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/60331761-f6394200-99c7-11e9-81c2-c671cba9602a.gif'
 }, {

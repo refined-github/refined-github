@@ -123,7 +123,7 @@ function getCount(reactions: Element[]): number {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Highlights the most useful comment in issues.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/58757449-5b238880-853f-11e9-9526-e86c41a32f00.png'
 }, {

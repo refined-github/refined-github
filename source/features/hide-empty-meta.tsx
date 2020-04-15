@@ -9,7 +9,7 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Hides the placeholder text in repos without a description.',
 	screenshot: false
 }, {
