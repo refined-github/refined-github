@@ -28,7 +28,7 @@ function init(): void {
 features.add({
 	id: __featureName__,
 	description: 'Adds a link to access runs of a GitHub Action workflow from the workflow configuration file.',
-	screenshot: 'https://user-images.githubusercontent.com/44045911/67634792-48995980-f8fb-11e9-8b6a-7b57d5b12a2f.png'
+	screenshot: 'https://user-images.githubusercontent.com/8360597/79469826-f3641800-8000-11ea-9f1c-47868c11ce85.png'
 }, {
 	include: [
 		isWorkflowFile
