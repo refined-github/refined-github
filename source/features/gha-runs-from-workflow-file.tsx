@@ -17,7 +17,8 @@ function init(): void {
 	const rawButton = select<HTMLAnchorElement>('#raw-url')!;
 	const link = location.pathname.split('/', 7);
 	
-	const actionURL = `https://github.com/${link[1]}/${link[2]}/actions?query=workflow%3A"${actionName}"`;
+	const actionURL = new URL(`${location.origin}/${getRepoURL()}/actions`);
+	actionURL.searchParams.set('query', `workflow:"${actionName}"`)
 
 	rawButton
 		.parentElement! // `BtnGroup`
