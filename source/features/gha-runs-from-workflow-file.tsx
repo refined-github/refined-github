@@ -14,15 +14,19 @@ function init(): void {
 		.replace('"', '')
 		.replace("'", '')
 		.trim();
-	
 	const rawButton = select<HTMLAnchorElement>('#raw-url')!;
 	const link = location.pathname.split('/', 7);
+	
+	const actionURL = `https://github.com/${link[1]}/${link[2]}/actions?query=workflow%3A${encodeURIComponent(actionName)}`;
+	
+	console.log(actionURL);
+	
 	rawButton
 		.parentElement! // `BtnGroup`
 		.prepend(
 			<a
 				className="btn btn-sm BtnGroup-item"
-				href={`https://github.com/${link[1]}/${link[2]}/actions?query=workflow%3A${actionName}`}
+				href={actionURL}
 			>
 				See runs
 			</a>
