@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import {wrap} from '../libs/dom-utils';
 import features from '../libs/features';
-import {isPRCommit} from '../libs/page-detect';
+import * as pageDetect from '../libs/page-detect';
 
 function init(): void {
 	const element = select('.sha.user-select-contain');
@@ -17,7 +17,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/101152/42968387-606b23f2-8ba3-11e8-8a4b-667bddc8d33c.png'
 }, {
 	include: [
-		isPRCommit
+		pageDetect.isPRCommit
 	],
 	init
 });

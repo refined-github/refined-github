@@ -1,6 +1,6 @@
 import select from 'select-dom';
 import features from '../libs/features';
-import {isRepoTree} from '../libs/page-detect';
+import * as pageDetect from '../libs/page-detect';
 import {getRepoURL} from '../libs/utils';
 
 function init(): false | void {
@@ -18,7 +18,7 @@ features.add({
 	screenshot: false
 }, {
 	include: [
-		isRepoTree
+		pageDetect.isRepoTree
 	],
 	repeatOnAjax: false,
 	init

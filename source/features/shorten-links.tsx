@@ -1,8 +1,8 @@
 import select from 'select-dom';
 import {applyToLink} from 'shorten-repo-url';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {linkifiedURLClass} from '../libs/dom-formatters';
-import {isGlobalSearchResults} from '../libs/page-detect';
 
 function init(): void {
 	for (const a of select.all<HTMLAnchorElement>(`a[href]:not(.${linkifiedURLClass})`)) {
@@ -17,7 +17,7 @@ features.add({
 }, {
 	exclude: [
 		// Due to GitHub’s bug: #2828
-		isGlobalSearchResults
+		pageDetect.isGlobalSearchResults
 	],
 	init
 });

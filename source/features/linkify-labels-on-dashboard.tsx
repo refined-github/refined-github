@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {wrap} from '../libs/dom-utils';
-import {isDashboard} from '../libs/page-detect';
 
 async function init(): Promise<void> {
 	for (const label of select.all('.js-recent-activity-container :not(a) > .IssueLabel')) {
@@ -22,7 +22,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/69045444-6ef97300-0a29-11ea-99a3-9a622c395709.png'
 }, {
 	include: [
-		isDashboard
+		pageDetect.isDashboard
 	],
 	onlyAdditionalListeners: true,
 	repeatOnAjax: false,

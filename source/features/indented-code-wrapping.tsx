@@ -1,9 +1,9 @@
 import './indented-code-wrapping.css';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import onPrFileLoad from '../libs/on-pr-file-load';
 import onNewComments from '../libs/on-new-comments';
-import {isPRFiles, isCommit, isCompare, isPRConversation} from '../libs/page-detect';
 
 function init(): void {
 	document.body.classList.add('rgh-code-wrapping-enabled');
@@ -66,10 +66,10 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/37769974/60379474-0ba67e80-9a51-11e9-97f9-077d282e5bdb.png'
 }, {
 	include: [
-		isPRFiles,
-		isCommit,
-		isPRConversation,
-		isCompare
+		pageDetect.isPRFiles,
+		pageDetect.isCommit,
+		pageDetect.isPRConversation,
+		pageDetect.isCompare
 	],
 	additionalListeners: [
 		onNewComments,

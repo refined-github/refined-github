@@ -3,7 +3,7 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import domLoaded from 'dom-loaded';
 import features from '../libs/features';
-import {isGist} from '../libs/page-detect';
+import * as pageDetect from '../libs/page-detect';
 
 async function init(): Promise<void> {
 	const marketPlaceLink = (await elementReady('.Header-link[href="/marketplace"]'));
@@ -26,7 +26,7 @@ features.add({
 	screenshot: false
 }, {
 	exclude: [
-		isGist
+		pageDetect.isGist
 	],
 	waitForDomReady: false,
 	repeatOnAjax: false,

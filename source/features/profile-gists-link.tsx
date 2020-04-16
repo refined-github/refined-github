@@ -5,8 +5,9 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {isUserProfile, isEnterprise} from '../libs/page-detect';
+import * as pageDetect from '../libs/page-detect';
 import {getCleanPathname} from '../libs/utils';
+import {isEnterprise} from '../libs/page-detect';
 
 const getGistCount = cache.function(async (username: string): Promise<number> => {
 	const {user} = await api.v4(`
@@ -43,7 +44,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/11544418/34268306-1c974fd2-e678-11e7-9e82-861dfe7add22.png'
 }, {
 	include: [
-		isUserProfile
+		pageDetect.isUserProfile
 	],
 	waitForDomReady: false,
 	init

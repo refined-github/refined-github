@@ -2,7 +2,8 @@ import React from 'dom-chef';
 import elementReady from 'element-ready';
 import chevronLeftIcon from 'octicon/chevron-left.svg';
 import features from '../libs/features';
-import {isRepoRoot, isRepoCommitList, isSingleFile, isRepoTree} from '../libs/page-detect';
+import * as pageDetect from '../libs/page-detect';
+import {isRepoRoot} from '../libs/page-detect';
 import {groupButtons} from '../libs/group-buttons';
 import getDefaultBranch from '../libs/get-default-branch';
 import {getRepoURL, getCurrentBranch, replaceBranch} from '../libs/utils';
@@ -47,9 +48,9 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/71886648-2891dc00-316f-11ea-98d8-c5bf6c24d85c.png'
 }, {
 	include: [
-		isRepoTree,
-		isSingleFile,
-		isRepoCommitList
+		pageDetect.isRepoTree,
+		pageDetect.isSingleFile,
+		pageDetect.isRepoCommitList
 	],
 	waitForDomReady: false,
 	init

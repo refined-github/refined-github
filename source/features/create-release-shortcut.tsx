@@ -1,6 +1,6 @@
 import select from 'select-dom';
 import features from '../libs/features';
-import {isReleasesOrTags} from '../libs/page-detect';
+import * as pageDetect from '../libs/page-detect';
 
 function init(): void {
 	const createReleaseButton = select('a[href$="/releases/new"]:not([data-hotkey])');
@@ -18,7 +18,7 @@ features.add({
 	}
 }, {
 	include: [
-		isReleasesOrTags
+		pageDetect.isReleasesOrTags
 	],
 	init
 });

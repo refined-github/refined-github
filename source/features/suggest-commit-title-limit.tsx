@@ -2,7 +2,7 @@ import './suggest-commit-title-limit.css';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import features from '../libs/features';
-import {isEditingFile, isPRConversation} from '../libs/page-detect';
+import * as pageDetect from '../libs/page-detect';
 import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
 
 const fieldSelector = [
@@ -25,13 +25,13 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/37769974/60379478-106b3280-9a51-11e9-88b9-0e3607f214cd.gif'
 }, {
 	include: [
-		isEditingFile,
-		isPRConversation
+		pageDetect.isEditingFile,
+		pageDetect.isPRConversation
 	],
 	init
 }, {
 	include: [
-		isPRConversation
+		pageDetect.isPRConversation
 	],
 	additionalListeners: [
 		// For PR merges, GitHub restores any saved commit messages on page load

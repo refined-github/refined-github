@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import fetchDom from '../libs/fetch-dom';
-import {isPRConversation} from '../libs/page-detect';
 
 async function init(): Promise<void> {
 	// This selector excludes URLs that are already external
@@ -25,7 +25,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/2103975/49071220-c6596e80-f22d-11e8-8a1e-bdcd62aa6ece.png'
 }, {
 	include: [
-		isPRConversation
+		pageDetect.isPRConversation
 	],
 	init
 });

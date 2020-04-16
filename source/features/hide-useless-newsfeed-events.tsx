@@ -1,6 +1,6 @@
 import './hide-useless-newsfeed-events.css';
 import features from '../libs/features';
-import {isDashboard} from '../libs/page-detect';
+import * as pageDetect from '../libs/page-detect';
 
 function init(): void {
 	document.body.classList.add('rgh-no-useless-events');
@@ -12,7 +12,7 @@ features.add({
 	screenshot: false
 }, {
 	include: [
-		isDashboard
+		pageDetect.isDashboard
 	],
 	waitForDomReady: false,
 	repeatOnAjax: false,

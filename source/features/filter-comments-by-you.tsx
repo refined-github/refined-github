@@ -1,8 +1,8 @@
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getUsername} from '../libs/utils';
 import SearchQuery from '../libs/search-query';
-import {isRepoDiscussionList} from '../libs/page-detect';
 
 function init(): void {
 	// Use an existing dropdown item to preserve its DOM structure (supports old GHE versions)
@@ -26,7 +26,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/170270/27501170-f394a304-586b-11e7-92d8-d92d6922356b.png'
 }, {
 	include: [
-		isRepoDiscussionList
+		pageDetect.isRepoDiscussionList
 	],
 	init
 });

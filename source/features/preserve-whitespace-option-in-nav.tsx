@@ -1,6 +1,6 @@
 import select from 'select-dom';
 import features from '../libs/features';
-import {isRepo} from '../libs/page-detect';
+import * as pageDetect from '../libs/page-detect';
 
 function init(): false | void {
 	if (new URLSearchParams(location.search).get('w') !== '1') {
@@ -20,7 +20,7 @@ features.add({
 	screenshot: false
 }, {
 	include: [
-		isRepo
+		pageDetect.isRepo
 	],
 	init
 });

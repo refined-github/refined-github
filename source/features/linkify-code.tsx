@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {linkifiedURLClass, linkifyURLs, linkifyIssues} from '../libs/dom-formatters';
-import {hasCode} from '../libs/page-detect';
 
 function init(): false | void {
 	const wrappers = select.all(`
@@ -38,7 +38,7 @@ features.add({
 	screenshot: 'https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png'
 }, {
 	include: [
-		hasCode
+		pageDetect.hasCode
 	],
 	init
 });

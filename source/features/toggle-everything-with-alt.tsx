@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import features from '../libs/features';
-import {isPRConversation, isPRFiles, isCommit, isCompare} from '../libs/page-detect';
+import * as pageDetect from '../libs/page-detect';
 import anchorScroll from '../libs/anchor-scroll';
 
 type EventHandler = (event: delegate.Event<MouseEvent, HTMLElement>) => void;
@@ -60,10 +60,10 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/37769974/62208543-dcb75b80-b3b4-11e9-984f-ddb479ea149d.gif'
 }, {
 	include: [
-		isPRConversation,
-		isPRFiles,
-		isCommit,
-		isCompare
+		pageDetect.isPRConversation,
+		pageDetect.isPRFiles,
+		pageDetect.isCommit,
+		pageDetect.isCompare
 	],
 	init
 });

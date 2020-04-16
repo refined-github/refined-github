@@ -12,9 +12,9 @@ import issueOpenedIcon from 'octicon/issue-opened.svg';
 import issueClosedIcon from 'octicon/issue-closed.svg';
 import pullRequestIcon from 'octicon/git-pull-request.svg';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import onReplacedElement from '../libs/on-replaced-element';
 import {getUsername, getRepoURL, logError} from '../libs/utils';
-import {isPR, isPRConversation, isIssue, isNotifications, isDiscussionList} from '../libs/page-detect';
 
 type NotificationType = 'pull-request' | 'issue';
 type NotificationState = 'open' | 'merged' | 'closed' | 'draft';
@@ -126,7 +126,7 @@ async function markUnread({delegateTarget}: delegate.Event): Promise<void> {
 		isParticipating: select.exists(`.participant-avatar[href="/${getUsername()}"]`),
 		repository: getRepoURL(),
 		title: select('.js-issue-title')!.textContent!.trim(),
-		type: isPR() ? 'pull-request' : 'issue',
+		type: pageDetect.isPR() ? 'pull-request' : 'issue',
 		date: lastCommentTime.getAttribute('datetime')!,
 		url: stripHash(location.href)
 	});
@@ -432,19 +432,19 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/27847663-963b7d7c-6171-11e7-9470-6e86d8463771.png'
 }, {
 	include: [
-		isNotifications
+		pageDetect.isNotifications
 	],
 	init: initNotificationsPage,
 	deinit: deinitNotificationsPage
 }, {
 	include: [
-		isPRConversation,
-		isIssue
+		pageDetect.isPRConversation,
+		pageDetect.isIssue
 	],
 	init: initDiscussionPage
 }, {
 	include: [
-		isDiscussionList
+		pageDetect.isDiscussionList
 	],
 	init: initDiscussionListPage
 }, {

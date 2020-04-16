@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getUsername} from '../libs/utils';
-import {isDashboard} from '../libs/page-detect';
 
 async function init(): Promise<void> {
 	for (const item of select.all('#dashboard .news .watch_started, #dashboard .news .fork')) {
@@ -17,7 +17,7 @@ features.add({
 	screenshot: false
 }, {
 	include: [
-		isDashboard
+		pageDetect.isDashboard
 	],
 	onlyAdditionalListeners: true,
 	repeatOnAjax: false,

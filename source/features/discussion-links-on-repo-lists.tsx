@@ -3,8 +3,8 @@ import select from 'select-dom';
 import issueIcon from 'octicon/issue-opened.svg';
 import pullRequestIcon from 'octicon/git-pull-request.svg';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import observeElement from '../libs/simplified-element-observer';
-import {isUserProfileRepoTab, isGlobalSearchResults} from '../libs/page-detect';
 
 function init(): void {
 	const repositories = select.all<HTMLAnchorElement>([
@@ -44,13 +44,13 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/16872793/78712349-82c54900-78e6-11ea-8328-3c2d39a78862.png'
 }, {
 	include: [
-		isUserProfileRepoTab,
-		isGlobalSearchResults
+		pageDetect.isUserProfileRepoTab,
+		pageDetect.isGlobalSearchResults
 	],
 	init
 }, {
 	include: [
-		isUserProfileRepoTab
+		pageDetect.isUserProfileRepoTab
 	],
 	init: () => {
 		observeElement('#user-repositories-list', init);

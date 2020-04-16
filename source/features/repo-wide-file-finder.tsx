@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
-import {isRepoDiscussionList, isPR, isIssue} from '../libs/page-detect';
+import * as pageDetect from '../libs/page-detect';
 import {getRepoURL} from '../libs/utils';
 import getDefaultBranch from '../libs/get-default-branch';
 
@@ -24,9 +24,9 @@ features.add({
 	screenshot: false
 }, {
 	include: [
-		isRepoDiscussionList,
-		isPR,
-		isIssue
+		pageDetect.isRepoDiscussionList,
+		pageDetect.isPR,
+		pageDetect.isIssue
 	],
 	init
 });

@@ -1,9 +1,9 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
-import {isSingleFile, isEnterprise} from '../libs/page-detect';
+import * as pageDetect from '../libs/page-detect';
 
-const isSingleHTMLFile = (): boolean => isSingleFile() && (location.pathname.endsWith('.html') || location.pathname.endsWith('.htm'));
+const isSingleHTMLFile = (): boolean => pageDetect.isSingleFile() && (location.pathname.endsWith('.html') || location.pathname.endsWith('.htm'));
 
 function init(): void {
 	const rawButton = select<HTMLAnchorElement>('#raw-url')!;
@@ -31,7 +31,7 @@ features.add({
 		isSingleHTMLFile
 	],
 	exclude: [
-		isEnterprise
+		pageDetect.isEnterprise
 	],
 	init
 });

@@ -1,6 +1,6 @@
 import select from 'select-dom';
 import features from '../libs/features';
-import {isRepo} from '../libs/page-detect';
+import * as pageDetect from '../libs/page-detect';
 
 function init(): void {
 	// There are two buttons: unstar and star
@@ -18,7 +18,7 @@ features.add({
 	}
 }, {
 	include: [
-		isRepo
+		pageDetect.isRepo
 	],
 	init
 });

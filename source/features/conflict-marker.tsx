@@ -4,7 +4,7 @@ import select from 'select-dom';
 import alertIcon from 'octicon/alert.svg';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {isDiscussionList} from '../libs/page-detect';
+import * as pageDetect from '../libs/page-detect';
 
 interface PRConfig {
 	number: string;
@@ -71,7 +71,7 @@ features.add({
 		'https://user-images.githubusercontent.com/9092510/62777551-2affe500-baae-11e9-8ba4-67f078347913.png'
 }, {
 	include: [
-		isDiscussionList
+		pageDetect.isDiscussionList
 	],
 	init
 });
