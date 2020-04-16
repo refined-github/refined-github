@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
-import {getRepoURL, getRepoPath} from './utils';
+import {getRepoURL, getRepoPath} from '../libs/utils';
 
 const isWorkflowFile = (): boolean => /\/\.github\/workflows\/.+\.ya?ml$/.test(getRepoPath()!);
 
