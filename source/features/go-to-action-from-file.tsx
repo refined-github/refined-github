@@ -6,10 +6,9 @@ import {getRepoURL, getRepoPath} from '../libs/utils';
 const isWorkflowFile = (): boolean => /\/\.github\/workflows\/.+\.ya?ml$/.test(getRepoPath()!);
 
 function init(): void {
-	const actionName =
-	select.all('.blob-code-inner')
-		.find(line => line.textContent!.startsWith('name'))
-		.textContent
+	const actionName = select.all('.blob-code-inner')
+		.find(line => line.textContent!.startsWith('name'))!
+		.textContent!
 		.replace(/^name:\s+/, '')
 		.replace(/["']/g, '')
 		.trim();
@@ -17,13 +16,10 @@ function init(): void {
 	const actionURL = new URL(`${location.origin}/${getRepoURL()}/actions`);
 	actionURL.searchParams.set('query', `workflow:"${actionName}"`);
 
-	select<HTMLAnchorElement>('#raw-url')!
+	select('#raw-url')!
 		.parentElement! // `BtnGroup`
 		.prepend(
-			<a
-				className="btn btn-sm BtnGroup-item"
-				href={actionURL}
-			>
+			<a className="btn btn-sm BtnGroup-item" href={String(actionURL)}>
 				See runs
 			</a>
 		);
