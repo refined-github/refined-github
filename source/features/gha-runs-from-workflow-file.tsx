@@ -1,4 +1,4 @@
-//import React from 'dom-chef';
+import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
@@ -11,8 +11,22 @@ function init(): void {
 		.find(line => line.textContent.startsWith('name'))
 		.textContent
 		.replace(/^name:\s+/, '')
+		.replace('"', '')
+		.replace("'", '')
 		.trim();
-	console.log(actionName)
+	
+	const rawButton = select<HTMLAnchorElement>('#raw-url')!;
+	const link = location.pathname.split('/', 7);
+	rawButton
+		.parentElement! // `BtnGroup`
+		.prepend(
+			<a
+				className="btn btn-sm BtnGroup-item"
+				href={`https://github.com/${link[1]}/${link[2]}/actions?query=workflow%3A${actionName}`}
+			>
+				See runs
+			</a>
+		);
 }
 
 features.add({
