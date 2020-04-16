@@ -19,7 +19,7 @@ function init(): void {
 	const actionURL = new URL(`${location.origin}/${getRepoURL()}/actions`);
 	actionURL.searchParams.set('query', `workflow:"${actionName}"`)
 
-	rawButton
+	select('#raw-url')!
 		.parentElement! // `BtnGroup`
 		.prepend(
 			<a
