@@ -17,8 +17,8 @@ function init(): void {
 	const rawButton = select<HTMLAnchorElement>('#raw-url')!;
 	const link = location.pathname.split('/', 7);
 	
-	const actionURL = `https://github.com/${link[1]}/${link[2]}/actions?query=workflow%3A${encodeURIComponent(actionName)}`;
-	
+	const actionURL = `https://github.com/${link[1]}/${link[2]}/actions?query=workflow%3A"${actionName}"`;
+
 	rawButton
 		.parentElement! // `BtnGroup`
 		.prepend(
