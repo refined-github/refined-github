@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
-import getRepoPath from './utils';
+import getRepoURL from './utils';
 
 const isWorkflowFile = (): boolean => /\/\.github\/workflows\/.+\.ya?ml$/.test(getRepoPath()!);
 
@@ -35,7 +35,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/44045911/67634792-48995980-f8fb-11e9-8b6a-7b57d5b12a2f.png'
 }, {
 	include: [
-	  isWorkflowFile
+    isWorkflowFile
 	],
 	init
 });
