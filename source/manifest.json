@@ -22,8 +22,7 @@
 		"default_icon": "icon.png"
 	},
 	"optional_permissions": [
-		"http://*/*",
-		"https://*/*"
+		"*://*/*"
 	],
 	"icons": {
 		"128": "icon.png"
