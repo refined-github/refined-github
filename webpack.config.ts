@@ -158,7 +158,16 @@ const config: Configuration = {
 				parallel: true,
 				terserOptions: {
 					mangle: false,
-					compress: false,
+					compress: {
+						defaults: false,
+						dead_code: true,
+						unused: true,
+						arguments: true,
+						join_vars: false,
+						booleans: false,
+						expression: false,
+						sequences: false
+					},
 					output: {
 						beautify: true,
 						indent_level: 2
@@ -168,5 +177,8 @@ const config: Configuration = {
 		]
 	}
 };
+
+// Webpack types don't have this
+(config.module as any).strictThisContextOnImports = false;
 
 export default config;
