@@ -8,7 +8,7 @@ function init(): void {
   
   const actionName = 
 	select.all('.blob-code-inner')
-		.find(line => line.textContent.startsWith('name'))
+		.find(line => line.textContent!.startsWith('name'))
 		.textContent
 		.replace(/^name:\s+/, '')
 		.replace(/["']/g, '')
