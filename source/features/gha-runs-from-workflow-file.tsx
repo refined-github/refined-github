@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
 
-const isWorkflowFile = (): boolean => ( ((location.pathname.endsWith('.yaml')) || (location.pathname.endsWith('.yml'))) && location.pathname.split('/', 7)[5] == ".github"  && location.pathname.split('/', 7)[6] == "workflows");
+const isWorkflowFile = (): boolean => /\/\.github\/workflows\/.+\.ya?ml$/.test(getRepoPath()!);
 
 function init(): void {
   
