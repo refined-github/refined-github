@@ -11,8 +11,7 @@ function init(): void {
 		.find(line => line.textContent.startsWith('name'))
 		.textContent
 		.replace(/^name:\s+/, '')
-		.replace('"', '')
-		.replace("'", '')
+		.replace(/["']/g, '')
 		.trim();
 	const rawButton = select<HTMLAnchorElement>('#raw-url')!;
 	const link = location.pathname.split('/', 7);
