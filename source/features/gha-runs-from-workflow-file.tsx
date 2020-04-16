@@ -1,16 +1,17 @@
 //import React from 'dom-chef';
-//import select from 'select-dom';
+import select from 'select-dom';
 import features from '../libs/features';
 
 const isWorkflowFile = (): boolean => (location.pathname.endsWith('.yaml') && location.pathname.split('/', 7)[5] == ".github"  && location.pathname.split('/', 7)[6] == "workflows");
 
 function init(): void {
+  
   const actionName = 
-  	document.body('.blob-code-inner')
-  		.find(line => line.textContent.startsWith('name'))
-  		.textContent
-  		.replace(/^name:\s+/, '')
-  		.trim();
+	select.all('.blob-code-inner')
+		.find(line => line.textContent.startsWith('name'))
+		.textContent
+		.replace(/^name:\s+/, '')
+		.trim();
 	console.log(actionName)
 }
 
