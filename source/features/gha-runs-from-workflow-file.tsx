@@ -19,8 +19,6 @@ function init(): void {
 	
 	const actionURL = `https://github.com/${link[1]}/${link[2]}/actions?query=workflow%3A${encodeURIComponent(actionName)}`;
 	
-	console.log(actionURL);
-	
 	rawButton
 		.parentElement! // `BtnGroup`
 		.prepend(
