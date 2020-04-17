@@ -3,6 +3,10 @@
 	position: relative; /* OctoLinker compat: attach the purple balls to the scroll */
 	max-height: 30.5em;
 	overflow-y: auto;
+	
+	/* Avoids unnecessary scrollbars in some cases #3012 */
+	padding-top: 0.1em;
+	padding-bottom: 0.1em;
 }
 
 /* A tiny scroll bar appears when the last paragraph of a quote contains an Emoji */
