@@ -4,6 +4,7 @@ import select from 'select-dom';
 import cloudUploadIcon from 'octicon/cloud-upload.svg';
 import delegate from 'delegate-it';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function addButton(): void {
 	for (const toolbarButton of select.all('md-ref')) {
@@ -34,7 +35,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/55841/59802383-3d994180-92e9-11e9-835d-60de67611c30.png'
 }, {
 	include: [
-		features.hasRichTextEditor
+		pageDetect.hasRichTextEditor
 	],
 	init
 });

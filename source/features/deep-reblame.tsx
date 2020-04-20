@@ -6,6 +6,7 @@ import versionIcon from 'octicon/versions.svg';
 import delegate from 'delegate-it';
 import * as api from '../libs/api';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import loadingIcon from '../libs/icon-loading';
 import {getRepoGQL, getReference, looseParseInt, getCleanPathname} from '../libs/utils';
 
@@ -116,7 +117,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/16872793/77248541-8e3f2180-6c10-11ea-91d4-221ccc0ecebb.png'
 }, {
 	include: [
-		features.isBlame
+		pageDetect.isBlame
 	],
 	init
 });

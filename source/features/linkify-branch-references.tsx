@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getRepoURL} from '../libs/utils';
 import {wrap} from '../libs/dom-utils';
 
@@ -18,7 +19,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/30208043-fa1ceaec-94bb-11e7-9c32-feabcf7db296.png'
 }, {
 	include: [
-		features.isQuickPR
+		pageDetect.isQuickPR
 	],
 	init
 });

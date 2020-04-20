@@ -3,6 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import octofaceIcon from 'octicon/octoface.svg';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getRepoURL} from '../libs/utils';
 
 function init(): false | void {
@@ -58,7 +59,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/22439276/56373231-27ee9980-621e-11e9-9b21-601919d3dddf.png'
 }, {
 	include: [
-		features.isReleasesOrTags
+		pageDetect.isReleasesOrTags
 	],
 	init
 });

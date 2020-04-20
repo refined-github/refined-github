@@ -1,6 +1,7 @@
 import select from 'select-dom';
 import pencilIcon from 'octicon/pencil.svg';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function init(): void {
 	const menuItems = select.all('details .js-comment-edit-button:not(.rgh-edit-comment)');
@@ -35,7 +36,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/54864831-92372a00-4d97-11e9-8c29-efba2dde1baa.png'
 }, {
 	include: [
-		features.hasComments
+		pageDetect.hasComments
 	],
 	init
 });

@@ -3,6 +3,7 @@ import select from 'select-dom';
 import alertIcon from 'octicon/alert.svg';
 import delegate from 'delegate-it';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import * as api from '../libs/api';
 import observeElement from '../libs/simplified-element-observer';
 import {getRepoURL, getDiscussionNumber} from '../libs/utils';
@@ -112,7 +113,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/57941992-f2170080-7902-11e9-8f8a-594aad983559.png'
 }, {
 	include: [
-		features.isPRConversation
+		pageDetect.isPRConversation
 	],
 	init
 });

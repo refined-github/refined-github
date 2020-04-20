@@ -4,6 +4,7 @@ import select from 'select-dom';
 import eyeClosedIcon from 'octicon/eye-closed.svg';
 import {getUsername} from '../libs/utils';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import * as api from '../libs/api';
 
 const getPublicOrganizationsNames = cache.function(async (username: string): Promise<string[]> => {
@@ -37,7 +38,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/6775216/44633467-d5dcc900-a959-11e8-9116-e6b0ffef66af.png'
 }, {
 	include: [
-		features.isOwnUserProfile
+		pageDetect.isOwnUserProfile
 	],
 	init
 });

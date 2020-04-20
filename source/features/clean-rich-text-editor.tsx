@@ -1,6 +1,7 @@
 import './clean-rich-text-editor.css';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function hideButtons(): void {
 	document.body.classList.add('rgh-clean-rich-text-editor');
@@ -18,12 +19,12 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/53629083-a4fe8900-3c47-11e9-8211-bfe2d254ffcb.png'
 }, {
 	include: [
-		features.hasRichTextEditor
+		pageDetect.hasRichTextEditor
 	],
 	init: hideTextareaTooltip
 }, {
 	include: [
-		features.isRepo
+		pageDetect.isRepo
 	],
 	waitForDomReady: false,
 	repeatOnAjax: false,

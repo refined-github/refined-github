@@ -3,6 +3,7 @@ import select from 'select-dom';
 import bugIcon from '@primer/octicons/build/svg/bug.svg';
 import elementReady from 'element-ready';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import * as api from '../libs/api';
 import SearchQuery from '../libs/search-query';
 import {getRepoURL} from '../libs/utils';
@@ -80,7 +81,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/73720910-a688d900-4755-11ea-9c8d-70e5ddb3bfe5.png'
 }, {
 	include: [
-		features.isRepo
+		pageDetect.isRepo
 	],
 	waitForDomReady: false,
 	init

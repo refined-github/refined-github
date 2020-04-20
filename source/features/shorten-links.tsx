@@ -1,6 +1,7 @@
 import select from 'select-dom';
 import {applyToLink} from 'shorten-repo-url';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {linkifiedURLClass} from '../libs/dom-formatters';
 
 function init(): void {
@@ -16,7 +17,7 @@ features.add({
 }, {
 	exclude: [
 		// Due to GitHub’s bug: #2828
-		features.isGlobalSearchResults
+		pageDetect.isGlobalSearchResults
 	],
 	init
 });

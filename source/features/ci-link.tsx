@@ -1,6 +1,7 @@
 import './ci-link.css';
 import oneTime from 'onetime';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import fetchDom from '../libs/fetch-dom';
 import {getRepoURL} from '../libs/utils';
 import {appendBefore} from '../libs/dom-utils';
@@ -32,7 +33,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/32562120-d65166e4-c4e8-11e7-90fb-cbaf36e2709f.png'
 }, {
 	include: [
-		features.isRepo
+		pageDetect.isRepo
 	],
 	waitForDomReady: false,
 	init

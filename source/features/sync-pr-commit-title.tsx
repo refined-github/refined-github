@@ -3,6 +3,7 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as textFieldEdit from 'text-field-edit';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {logError} from '../libs/utils';
 import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
 
@@ -107,7 +108,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/51669708-9a712400-1ff7-11e9-913a-ac1ea1050975.png'
 }, {
 	include: [
-		features.isPRConversation
+		pageDetect.isPRConversation
 	],
 	init
 });

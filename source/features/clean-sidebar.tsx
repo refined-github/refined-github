@@ -3,6 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import oneTime from 'onetime';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {isPR} from '../libs/page-detect';
 import onReplacedElement from '../libs/on-replaced-element';
 
@@ -100,8 +101,8 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/57199809-20691780-6fb6-11e9-9672-1ad3f9e1b827.png'
 }, {
 	include: [
-		features.isIssue,
-		features.isPRConversation
+		pageDetect.isIssue,
+		pageDetect.isPRConversation
 	],
 	additionalListeners: [
 		() => onReplacedElement('#partial-discussion-sidebar', clean)

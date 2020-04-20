@@ -4,6 +4,7 @@ import delegate from 'delegate-it';
 import cache from 'webext-storage-cache';
 import checkIcon from 'octicon/check.svg';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import * as api from '../libs/api';
 import {getRepoGQL, getRepoURL} from '../libs/utils';
 
@@ -123,7 +124,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/202916/74453250-6d9de200-4e82-11ea-8fd4-7c0de57e001a.png'
 }, {
 	include: [
-		features.isPRList
+		pageDetect.isPRList
 	],
 	init
 });

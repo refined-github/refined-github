@@ -5,6 +5,7 @@ import select from 'select-dom';
 import repoIcon from 'octicon/repo.svg';
 import elementReady from 'element-ready';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import fetchDom from '../libs/fetch-dom';
 import {getRepoURL, looseParseInt} from '../libs/utils';
 
@@ -77,7 +78,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/3848317/69256318-95e6af00-0bb9-11ea-84c8-c6996d39da80.png'
 }, {
 	include: [
-		features.isRepoRoot
+		pageDetect.isRepoRoot
 	],
 	waitForDomReady: false,
 	init

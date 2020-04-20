@@ -3,6 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function init(): void {
 	let uselessCount = 0;
@@ -63,7 +64,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/45543717-d45f3c00-b847-11e8-84a5-8c439d0ad1a5.png'
 }, {
 	include: [
-		features.isIssue
+		pageDetect.isIssue
 	],
 	init
 });

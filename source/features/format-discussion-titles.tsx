@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import observeElement from '../libs/simplified-element-observer';
 import * as domFormatters from '../libs/dom-formatters';
 
@@ -20,8 +21,8 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/22439276/58927232-71ae2780-876b-11e9-941e-bb56a7389123.png'
 }, {
 	include: [
-		features.isPR,
-		features.isIssue
+		pageDetect.isPR,
+		pageDetect.isIssue
 	],
 	init
 });

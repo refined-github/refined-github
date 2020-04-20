@@ -2,6 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function init(): false | void {
 	const form = select('[action$="/reviews"]')!;
@@ -92,7 +93,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png'
 }, {
 	include: [
-		features.isPR
+		pageDetect.isPR
 	],
 	init
 });

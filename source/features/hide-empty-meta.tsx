@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function init(): void {
 	// Hide if it’s not editable by the current user
@@ -14,7 +15,7 @@ features.add({
 	screenshot: false
 }, {
 	include: [
-		features.isRepoRoot
+		pageDetect.isRepoRoot
 	],
 	init
 });

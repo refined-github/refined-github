@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import getDefaultBranch from '../libs/get-default-branch';
 
 async function init(): Promise<false | void> {
@@ -23,7 +24,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png'
 }, {
 	include: [
-		features.isCompare
+		pageDetect.isCompare
 	],
 	init
 });
