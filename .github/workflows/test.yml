@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: 12.15 # https://github.com/sindresorhus/refined-github/issues/2900
       - run: npm ci
-      - run: npx ava --serial
+      - run: npm run ava -- --serial
 
   Lint:
     runs-on: ubuntu-latest
