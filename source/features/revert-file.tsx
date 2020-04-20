@@ -54,7 +54,7 @@ async function deleteFile(menuItem: Element): Promise<void> {
 }
 
 async function commitFileContent(menuItem: Element, content: string): Promise<void> {
-	let {pathname} = (menuItem.previousElementSibling as HTMLAnchorElement);
+	let {pathname} = menuItem.previousElementSibling as HTMLAnchorElement;
 	// Check if file was deleted by PR
 	if (menuItem.closest('[data-file-deleted="true"]')) {
 		menuItem.textContent = 'Undeleting…';

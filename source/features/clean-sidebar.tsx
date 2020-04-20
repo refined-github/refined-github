@@ -65,7 +65,7 @@ function clean(): void {
 	} else {
 		const assignYourself = select('.js-issue-assign-self');
 		if (assignYourself) {
-			(assignYourself.previousSibling as ChildNode).remove(); // Drop "No one — "
+			assignYourself.previousSibling!.remove(); // Drop "No one — "
 			select('[aria-label="Select assignees"] summary')!.append(
 				<span style={{fontWeight: 'normal'}}> – {assignYourself}</span>
 			);

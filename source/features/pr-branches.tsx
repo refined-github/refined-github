@@ -33,14 +33,14 @@ function normalizeBranchInfo(data: BranchInfo): {
 } {
 	const {ownerName, repoName} = getOwnerAndRepo();
 
-	const base: Partial<RepositoryReference> = {};
+	const base = {} as RepositoryReference; // eslint-disable-line @typescript-eslint/consistent-type-assertions
 	base.branchExists = Boolean(data.baseRef);
 	base.label = data.baseRefName;
 	if (base.branchExists) {
 		base.url = `/${ownerName!}/${repoName!}/tree/${data.baseRefName}`;
 	}
 
-	const head: Partial<RepositoryReference> = {};
+	const head = {} as RepositoryReference; // eslint-disable-line @typescript-eslint/consistent-type-assertions
 	head.branchExists = Boolean(data.headRef);
 	head.owner = data.headOwner.login;
 	if (data.headOwner.login === ownerName) {
@@ -55,10 +55,7 @@ function normalizeBranchInfo(data: BranchInfo): {
 		head.url = data.headRepository.url;
 	}
 
-	return {
-		base: base as RepositoryReference,
-		head: head as RepositoryReference
-	};
+	return {base, head};
 }
 
 function buildQuery(issueIds: string[]): string {

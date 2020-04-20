@@ -32,7 +32,7 @@ const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 };
 
 function getCommitHash(commit: HTMLElement): string {
-	return (commit.dataset.channel as string).split(':')[3];
+	return commit.dataset.channel!.split(':')[3];
 }
 
 async function init(): Promise<void | false> {

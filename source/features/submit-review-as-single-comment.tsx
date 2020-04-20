@@ -47,7 +47,7 @@ async function getNewCommentField(commentContainer: Element, lineBeingCommentedO
 		(isRightSide ? select.last : select)('.js-add-line-comment', lineBeingCommentedOn)!.click();
 	}
 
-	// Hide comment box
+	// TODO: this is wrong. `target` is a button. Maybe instead of listening to `focusin` it should just use select or elementReady
 	return (await listener).target as HTMLTextAreaElement;
 }
 
@@ -69,7 +69,8 @@ async function handleSubmitSingle(event: delegate.Event): Promise<void> {
 	const commentForm = comment.closest<HTMLElement>('.inline-comment-form-container')!;
 
 	// Copy comment to new comment box
-	textFieldEdit.insert(comment.form!.elements['comment[body]'] as HTMLTextAreaElement, commentText);
+	const newComment = select<HTMLTextAreaElement>('[name="comment[body]"]', commentForm)!;
+	textFieldEdit.insert(newComment, commentText);
 
 	// Safely try comment deletion
 	try {

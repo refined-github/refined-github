@@ -73,6 +73,7 @@ declare module '*.svg' {
 	export default (): SVGElement => SVGElement;
 }
 
+// Make `element.cloneNode()` preserve its type instead of returning Node
 interface Node extends EventTarget {
 	cloneNode(deep?: boolean): this;
 }

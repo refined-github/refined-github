@@ -48,7 +48,7 @@ function mergeTags(oldTags: CommitTags, newTags: CommitTags): CommitTags {
 }
 
 function isTagTarget(target: CommonTarget): target is TagTarget {
-	return typeof (target as TagTarget).tagger !== 'undefined';
+	return 'tagger' in target;
 }
 
 async function getTags(lastCommit: string, after?: string): Promise<CommitTags> {
@@ -90,7 +90,7 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 		}
 		`);
 	const {nodes}: {nodes: TagNode[]} = repository.refs;
-	let tags: CommitTags = nodes.reduce((tags: CommitTags, node: TagNode) => {
+	let tags = nodes.reduce((tags: CommitTags, node: TagNode) => {
 		const commit = node.target.commitResourcePath.split('/')[4];
 		const {name} = node;
 		if (!tags[commit]) {
@@ -100,7 +100,7 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 		tags[commit].push(name);
 
 		return tags;
-	}, {} as CommitTags);
+	}, {});
 
 	// If there are no tags in the repository
 	if (nodes.length === 0) {
