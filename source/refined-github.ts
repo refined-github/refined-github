@@ -63,6 +63,7 @@ import './features/discussion-links-on-repo-lists';
 import './features/global-discussion-list-filters';
 import './features/filter-comments-by-you';
 import './features/sort-issues-by-update-time'; // Must be after global-discussion-list-filters and filter-comments-by-you and discussion-links-on-repo-lists
+import './features/display-all-issues-by-update-time'; // Must be after global-discussion-list-filters and filter-comments-by-you and discussion-links-on-repo-lists
 import './features/pinned-issues-update-time';
 import './features/latest-tag-button';
 import './features/default-branch-button';
