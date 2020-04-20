@@ -14,7 +14,6 @@ import './features/hide-readme-header.css';
 import './features/hide-obvious-tooltips.css';
 import './features/clean-discussions.css';
 import './features/sticky-discussion-list-toolbar.css';
-import './features/deemphasize-unrelated-commit-references.css';
 import './features/always-show-branch-delete-buttons.css';
 import './features/easier-pr-sha-copy.css';
 import './features/repo-stats-spacing.css';
