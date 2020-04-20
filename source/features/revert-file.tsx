@@ -54,7 +54,7 @@ async function deleteFile(menuItem: Element): Promise<void> {
 }
 
 async function commitFileContent(menuItem: Element, content: string): Promise<void> {
-	let {pathname} = (menuItem.previousElementSibling as HTMLAnchorElement);
+	let {pathname} = menuItem.previousElementSibling as HTMLAnchorElement;
 	// Check if file was deleted by PR
 	if (menuItem.closest('[data-file-deleted="true"]')) {
 		menuItem.textContent = 'Undeleting…';
@@ -139,7 +139,7 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds button to revert all the changes to a file in a PR.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/62826118-73b7bb00-bbe0-11e9-9449-2dd64c469bb9.gif'
 }, {

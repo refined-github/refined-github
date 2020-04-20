@@ -29,7 +29,7 @@ function init(): false | void {
 	linkBestComment(bestComment);
 }
 
-function getBestComment(): Element | null {
+function getBestComment(): HTMLElement | null {
 	let highest;
 	for (const comment of getCommentsWithReactions()) {
 		const positiveReactions = getCount(getPositiveReactions(comment));
@@ -69,9 +69,9 @@ function highlightBestComment(bestComment: Element): void {
 	);
 }
 
-function linkBestComment(bestComment: Element): void {
+function linkBestComment(bestComment: HTMLElement): void {
 	// Find position of comment in thread
-	const position = select.all(commentSelector).indexOf(bestComment as HTMLElement);
+	const position = select.all(commentSelector).indexOf(bestComment);
 	// Only link to it if it doesn't already appear at the top of the conversation
 	if (position >= 3) {
 		const text = select('.comment-body', bestComment)!.textContent!.slice(0, 100);
@@ -106,25 +106,25 @@ function linkBestComment(bestComment: Element): void {
 	}
 }
 
-function getCommentsWithReactions(): Set<Element> {
-	const comments = getPositiveReactions().map(reaction => reaction.closest(commentSelector)!);
+function getCommentsWithReactions(): Set<HTMLElement> {
+	const comments = getPositiveReactions().map(reaction => reaction.closest<HTMLElement>(commentSelector)!);
 	return new Set(comments);
 }
 
-function getNegativeReactions(reactionBox?: Element): Element[] {
+function getNegativeReactions(reactionBox?: HTMLElement): HTMLElement[] {
 	return select.all(negativeReactionsSelector, reactionBox ?? document);
 }
 
-function getPositiveReactions(reactionBox?: Element): Element[] {
+function getPositiveReactions(reactionBox?: HTMLElement): HTMLElement[] {
 	return select.all(positiveReactionsSelector, reactionBox ?? document);
 }
 
-function getCount(reactions: Element[]): number {
+function getCount(reactions: HTMLElement[]): number {
 	return reactions.reduce((count, reaction) => count + looseParseInt(reaction.textContent!), 0);
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Highlights the most useful comment in issues.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/58757449-5b238880-853f-11e9-9526-e86c41a32f00.png'
 }, {

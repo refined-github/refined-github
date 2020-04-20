@@ -16,7 +16,7 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Hides inactive deployments in PRs.',
 	screenshot: 'https://github.com/sindresorhus/refined-github/issues/1144'
 }, {

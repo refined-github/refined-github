@@ -66,7 +66,7 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 	maxAge: 1 / 24, // One hour
 	staleWhileRevalidate: 2,
 	shouldRevalidate: value => typeof value === 'string',
-	cacheKey: () => __featureName__ + ':' + getRepoURL()
+	cacheKey: () => __filebasename + ':' + getRepoURL()
 });
 
 const getAheadByCount = cache.function(async (latestTag: string): Promise<string> => {
@@ -126,7 +126,7 @@ async function init(): Promise<false | void> {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds link to the latest version tag on directory listings and files.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/74594998-71df2080-5077-11ea-927c-b484ca656e88.png'
 }, {

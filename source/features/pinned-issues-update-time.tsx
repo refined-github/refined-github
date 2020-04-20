@@ -25,7 +25,7 @@ const getLastUpdated = cache.function(async (issueNumbers: number[]): Promise<Re
 	return repository;
 }, {
 	maxAge: 1,
-	cacheKey: () => __featureName__ + ':' + getRepoURL()
+	cacheKey: () => __filebasename + ':' + getRepoURL()
 });
 
 function getPinnedIssueNumber(pinnedIssue: HTMLElement): number {
@@ -50,7 +50,7 @@ async function init(): Promise<void | false> {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds the updated time to pinned issues.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/75525936-bb524700-5a4b-11ea-9225-466bda58b7de.png'
 }, {

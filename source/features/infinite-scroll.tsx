@@ -56,7 +56,7 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Automagically expands the newsfeed when you scroll down.',
 	screenshot: false
 }, {

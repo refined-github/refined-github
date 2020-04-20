@@ -32,7 +32,7 @@ function highlightSelf(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Highlights discussions opened by you or the current repo’s collaborators.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/65013882-03225d80-d947-11e9-8eb8-5507bc1fc14b.png'
 }, {

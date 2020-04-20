@@ -50,7 +50,7 @@ function init(): void | false {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds a button to @mention a user in discussions.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/70406615-f445d580-1a73-11ea-9ab1-bf6bd9aa70a3.gif'
 }, {

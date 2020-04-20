@@ -15,7 +15,7 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Changes the default sort order of milestones `Closest due date`.',
 	screenshot: false
 }, {

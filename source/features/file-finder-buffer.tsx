@@ -48,7 +48,7 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Lets you start typing your search immediately after invoking the File Finder (`t`), instead of having you wait for it to load first.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/75542106-1c811700-5a5a-11ea-8aa5-bea0472c59e2.gif'
 }, {

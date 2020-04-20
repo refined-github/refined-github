@@ -25,7 +25,7 @@ function init(): false | void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Hides the `Checks` tab if it’s empty, unless you’re the owner.',
 	screenshot: false
 }, {

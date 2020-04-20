@@ -7,7 +7,7 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Hides inutile newsfeed events (commits, forks, new followers).',
 	screenshot: false
 }, {

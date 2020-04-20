@@ -20,7 +20,7 @@ const countBugs = cache.function(async (): Promise<number> => {
 }, {
 	maxAge: 1 / 24 / 2, // Stale after half an hour
 	staleWhileRevalidate: 4,
-	cacheKey: (): string => __featureName__ + ':' + getRepoURL()
+	cacheKey: (): string => __filebasename + ':' + getRepoURL()
 });
 
 async function init(): Promise<void | false> {
@@ -76,7 +76,7 @@ async function init(): Promise<void | false> {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds a "Bugs" tab to repos, if there are any open issues with the "bug" label.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/73720910-a688d900-4755-11ea-9c8d-70e5ddb3bfe5.png'
 }, {

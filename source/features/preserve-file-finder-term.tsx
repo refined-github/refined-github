@@ -36,7 +36,7 @@ function deinit(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Preserves the search terms when navigating back and forth between the File Finder and the files.',
 	screenshot: false
 }, {

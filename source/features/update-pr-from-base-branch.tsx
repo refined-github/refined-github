@@ -108,7 +108,7 @@ function init(): void | false {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds button to update a PR from the base branch to ensure it builds correctly before merging the PR itself.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/57941992-f2170080-7902-11e9-8f8a-594aad983559.png'
 }, {

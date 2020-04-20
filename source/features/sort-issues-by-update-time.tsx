@@ -29,7 +29,7 @@ async function cleanBar(): Promise<void> {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Changes the default sort order of discussions to `Recently updated`.',
 	screenshot: false
 }, {

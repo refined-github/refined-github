@@ -4,24 +4,28 @@ import stripIndent from 'strip-indent';
 import {isRepo, isPR, isIssue} from './page-detect';
 import compareVersions from 'tiny-version-compare';
 
-export function logError(featureName: FeatureName, error: Error | string, ...extras: unknown[]): void {
+export function logError(id: FeatureID, error: Error | string, ...extras: unknown[]): void {
+	if (error instanceof TypeError && error.message === 'Object(...)(...) is null') {
+		error.message = 'The element wasn’t found, the selector needs to be updated.';
+	}
+
 	const message = typeof error === 'string' ? error : error.message;
 
 	if (message.includes('token')) {
-		console.log(`ℹ️ Refined GitHub → ${featureName} →`, message);
+		console.log(`ℹ️ Refined GitHub → ${id} →`, message);
 		return;
 	}
 
 	// Don't change this to `throw Error` because Firefox doesn't show extensions' errors in the console.
 	// Use `return` after calling this function.
 	console.error(
-		`❌ Refined GitHub → ${featureName} →`,
+		`❌ Refined GitHub → ${id} →`,
 		error,
 		...extras,
 		stripIndent(`
 			Search issue: https://github.com/sindresorhus/refined-github/issues?q=is%3Aissue+${encodeURIComponent(message)}
 
-			Open an issue: https://github.com/sindresorhus/refined-github/issues/new?labels=bug&template=bug_report.md&title=${encodeURIComponent(`\`${featureName}\`: ${message}`)}
+			Open an issue: https://github.com/sindresorhus/refined-github/issues/new?labels=bug&template=bug_report.md&title=${encodeURIComponent(`\`${id}\`: ${message}`)}
 		`)
 	);
 }

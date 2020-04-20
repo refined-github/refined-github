@@ -13,7 +13,7 @@ async function init(): Promise<void> {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Fix merge conflicts in a click',
 	screenshot: false
 }, {

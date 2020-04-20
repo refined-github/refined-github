@@ -50,7 +50,7 @@ async function init(): Promise<false | void> {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Followers you know are shown on profile pages',
 	screenshot: false
 }, {

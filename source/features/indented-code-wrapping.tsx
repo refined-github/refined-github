@@ -61,7 +61,7 @@ function init(): void {
 
 features.add({
 	disabled: '#2421',
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Indents wrapped code correctly.',
 	screenshot: 'https://user-images.githubusercontent.com/37769974/60379474-0ba67e80-9a51-11e9-97f9-077d282e5bdb.png'
 }, {

@@ -13,7 +13,7 @@ const getPublicOrganizationsNames = cache.function(async (username: string): Pro
 	const response = await api.v3(`users/${username}/orgs`);
 	return response.map((organization: AnyObject) => organization.login);
 }, {
-	cacheKey: ([username]) => __featureName__ + ':' + username,
+	cacheKey: ([username]) => __filebasename + ':' + username,
 	maxAge: 10
 });
 
@@ -33,7 +33,7 @@ async function init(): Promise<false | void> {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Marks private organizations on your own profile.',
 	screenshot: 'https://user-images.githubusercontent.com/6775216/44633467-d5dcc900-a959-11e8-9116-e6b0ffef66af.png'
 }, {

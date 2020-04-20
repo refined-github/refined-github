@@ -15,7 +15,7 @@ async function init(): Promise<false | void> {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds a `Trending` link to the global navbar and a keyboard shortcut: `g` ` t`',
 	screenshot: false,
 	shortcuts: {

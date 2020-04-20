@@ -6,7 +6,7 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Use a monospace font for all textareas.',
 	screenshot: false
 }, {

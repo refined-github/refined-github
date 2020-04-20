@@ -113,7 +113,7 @@ async function markUnread({delegateTarget}: delegate.Event): Promise<void> {
 	} else if (stateLabel.title.includes('Draft')) {
 		state = 'draft';
 	} else {
-		logError(__featureName__, 'A new issue state was introduced?');
+		logError(__filebasename, 'A new issue state was introduced?');
 		return;
 	}
 
@@ -427,7 +427,7 @@ function deinitNotificationsPage(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds button to mark issues and PRs as unread. They will reappear in Notifications.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/27847663-963b7d7c-6171-11e7-9470-6e86d8463771.png'
 }, {

@@ -83,7 +83,7 @@ const hasChecks = cache.function(async (): Promise<boolean> => {
 	return repository.head.history.nodes.some((commit: AnyObject) => commit.status);
 }, {
 	maxAge: 3,
-	cacheKey: () => __featureName__ + ':' + getRepoURL()
+	cacheKey: () => __filebasename + ':' + getRepoURL()
 });
 
 async function addChecksFilter(): Promise<void> {
@@ -119,7 +119,7 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds Checks and Draft PR dropdown filters in PR lists.',
 	screenshot: 'https://user-images.githubusercontent.com/202916/74453250-6d9de200-4e82-11ea-8fd4-7c0de57e001a.png'
 }, {

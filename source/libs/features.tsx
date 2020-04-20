@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
+import {Promisable} from 'type-fest';
 import elementReady from 'element-ready';
 import {logError} from './utils';
 import onNewComments from './on-new-comments';
@@ -9,10 +10,8 @@ import * as pageDetect from './page-detect';
 import optionsStorage, {RGHOptions} from '../options-storage';
 
 type BooleanFunction = () => boolean;
-type VoidFunction = () => void;
-type callerFunction = (callback: VoidFunction) => void; // TODO: rename
-type FeatureShortcuts = Record<string, string>;
-type FeatureInit = () => false | void | Promise<false | void>;
+type CallerFunction = (callback: VoidFunction) => void;
+type FeatureInit = () => Promisable<false | void>;
 
 interface Shortcut {
 	hotkey: string;
@@ -25,7 +24,7 @@ interface FeatureMeta {
 	@example '#123'
 	*/
 	disabled?: string;
-	id: FeatureName;
+	id: FeatureID;
 	description: string;
 	screenshot: string | false;
 	shortcuts?: FeatureShortcuts;
@@ -52,7 +51,7 @@ interface InternalRunConfig {
 	exclude: BooleanFunction[];
 	init: FeatureInit;
 	deinit?: () => void;
-	additionalListeners: callerFunction[];
+	additionalListeners: CallerFunction[];
 
 	onlyAdditionalListeners: boolean;
 }
@@ -96,7 +95,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	resolve(options);
 });
 
-const setupPageLoad = async (id: FeatureName, config: InternalRunConfig): Promise<void> => {
+const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<void> => {
 	const {include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners} = config;
 
 	// If every `include` is false and no `exclude` is true, don’t run the feature
@@ -108,7 +107,7 @@ const setupPageLoad = async (id: FeatureName, config: InternalRunConfig): Promis
 		try {
 			// Features can return `false` when they decide not to run on the current page
 			// Also the condition avoids logging the fake feature added for `has-rgh`
-			if (await init() !== false && id !== __featureName__) {
+			if (await init() !== false && id !== __filebasename) {
 				log('✅', id);
 			}
 		} catch (error) {
@@ -141,7 +140,7 @@ const defaultPairs = new Map([
 ]);
 
 function enforceDefaults(
-	featureName: FeatureName,
+	id: FeatureID,
 	include: InternalRunConfig['include'],
 	additionalListeners: InternalRunConfig['additionalListeners']
 ): void {
@@ -151,7 +150,7 @@ function enforceDefaults(
 		}
 
 		if (additionalListeners.includes(listener)) {
-			console.error(`❌ ${featureName} → If you use \`${detection.name}\` you don’t need to specify \`${listener.name}\``);
+			console.error(`❌ ${id} → If you use \`${detection.name}\` you don’t need to specify \`${listener.name}\``);
 		} else {
 			additionalListeners.push(listener);
 		}
@@ -162,7 +161,7 @@ function enforceDefaults(
 const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void> => {
 	/* Input defaults and validation */
 	const {
-		id = __featureName__,
+		id = __filebasename,
 		disabled = false,
 		shortcuts = {}
 	} = meta ?? {};

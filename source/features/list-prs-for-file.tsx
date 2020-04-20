@@ -130,11 +130,11 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 }, {
 	maxAge: 1,
 	staleWhileRevalidate: 9,
-	cacheKey: () => __featureName__ + ':' + getRepoURL()
+	cacheKey: () => __filebasename + ':' + getRepoURL()
 });
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Shows PRs that touch the current file.',
 	screenshot: 'https://user-images.githubusercontent.com/55841/60622834-879e1f00-9de1-11e9-9a9e-bae5ec0b3728.png'
 }, {
