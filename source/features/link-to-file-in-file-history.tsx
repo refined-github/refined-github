@@ -2,6 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import fileIcon from 'octicon/file.svg';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {groupSiblings} from '../libs/group-buttons';
 
 function init(): void | false {
@@ -36,7 +37,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/22439276/57195061-b88ddf00-6f6b-11e9-8ad9-13225d09266d.png'
 }, {
 	include: [
-		features.isRepoCommitList
+		pageDetect.isRepoCommitList
 	],
 	init
 });

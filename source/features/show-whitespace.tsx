@@ -2,6 +2,7 @@ import './show-whitespace.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import getTextNodes from '../libs/get-text-nodes';
 import onPrFileLoad from '../libs/on-pr-file-load';
 import onNewComments from '../libs/on-new-comments';
@@ -76,7 +77,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/61187598-f9118380-a6a5-11e9-985a-990a7f798805.png'
 }, {
 	include: [
-		features.hasCode
+		pageDetect.hasCode
 	],
 	additionalListeners: [
 		onNewComments,

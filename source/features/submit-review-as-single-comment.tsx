@@ -4,6 +4,7 @@ import onetime from 'onetime';
 import delegate from 'delegate-it';
 import * as textFieldEdit from 'text-field-edit';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {observeOneMutation} from '../libs/simplified-element-observer';
 import {logError} from '../libs/utils';
 import oneEvent from '../libs/one-event';
@@ -112,7 +113,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/60331761-f6394200-99c7-11e9-81c2-c671cba9602a.gif'
 }, {
 	include: [
-		features.isPRFiles
+		pageDetect.isPRFiles
 	],
 	init
 });

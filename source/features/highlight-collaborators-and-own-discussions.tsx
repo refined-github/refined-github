@@ -1,6 +1,7 @@
 import './highlight-collaborators-and-own-discussions.css';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getRepoURL, getUsername} from '../libs/utils';
 import fetchDom from '../libs/fetch-dom';
 
@@ -36,12 +37,12 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/65013882-03225d80-d947-11e9-8eb8-5507bc1fc14b.png'
 }, {
 	include: [
-		features.isRepoDiscussionList
+		pageDetect.isRepoDiscussionList
 	],
 	init: highlightCollaborators
 }, {
 	include: [
-		features.isDiscussionList
+		pageDetect.isDiscussionList
 	],
 	init: highlightSelf
 });

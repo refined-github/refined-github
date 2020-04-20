@@ -3,6 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getUsername, compareNames} from '../libs/utils';
 
 async function init(): Promise<false | void> {
@@ -69,13 +70,13 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/62075835-5f82ce00-b270-11e9-91eb-4680b70cb3cb.png'
 }, {
 	include: [
-		features.isDashboard
+		pageDetect.isDashboard
 	],
 	repeatOnAjax: false,
 	init
 }, {
 	include: [
-		features.hasComments
+		pageDetect.hasComments
 	],
 	init
 });

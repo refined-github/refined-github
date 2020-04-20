@@ -4,6 +4,7 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import chevronDownIcon from 'octicon/chevron-down.svg';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import observeElement from '../libs/simplified-element-observer';
 
 function addButton(): void {
@@ -39,7 +40,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/35480123-68b9af1a-043a-11e8-8934-3ead3cff8328.gif'
 }, {
 	include: [
-		features.isRepoTree
+		pageDetect.isRepoTree
 	],
 	init
 });

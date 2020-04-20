@@ -4,6 +4,7 @@ import cache from 'webext-storage-cache';
 import pullRequestIcon from 'octicon/git-pull-request.svg';
 import * as api from '../libs/api';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getRepoURL, getRepoGQL} from '../libs/utils';
 import {isEditingFile} from '../libs/page-detect';
 import getDefaultBranch from '../libs/get-default-branch';
@@ -138,8 +139,8 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/55841/60622834-879e1f00-9de1-11e9-9a9e-bae5ec0b3728.png'
 }, {
 	include: [
-		features.isEditingFile,
-		features.isSingleFile
+		pageDetect.isEditingFile,
+		pageDetect.isSingleFile
 	],
 	init
 });

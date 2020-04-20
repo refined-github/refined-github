@@ -4,6 +4,7 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import tagIcon from 'octicon/tag.svg';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import * as api from '../libs/api';
 import {appendBefore} from '../libs/dom-utils';
 import {getRepoURL, getRepoGQL, looseParseInt} from '../libs/utils';
@@ -82,7 +83,7 @@ features.add({
 	}
 }, {
 	include: [
-		features.isRepo
+		pageDetect.isRepo
 	],
 	waitForDomReady: false,
 	init

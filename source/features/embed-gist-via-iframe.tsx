@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function init(): void {
 	const embedViaScript = select<HTMLButtonElement>('.file-navigation-option [value^="<script"]')!;
@@ -28,7 +29,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/44045911/63633382-6a1b6200-c67a-11e9-9038-aedd62e4f6a8.png'
 }, {
 	include: [
-		features.isSingleGist
+		pageDetect.isSingleGist
 	],
 	repeatOnAjax: false,
 	init

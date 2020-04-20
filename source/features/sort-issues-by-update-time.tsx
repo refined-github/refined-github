@@ -1,6 +1,7 @@
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import SearchQuery from '../libs/search-query';
 
 function init(): void {
@@ -35,7 +36,7 @@ features.add({
 	init
 }, {
 	include: [
-		features.isGlobalDiscussionList
+		pageDetect.isGlobalDiscussionList
 	],
 	waitForDomReady: false,
 	repeatOnAjax: false,

@@ -4,6 +4,7 @@ import diffIcon from 'octicon/diff.svg';
 import bookIcon from 'octicon/book.svg';
 import checkIcon from 'octicon/check.svg';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function createDiffStyleToggle(): DocumentFragment {
 	const parameters = new URLSearchParams(location.search);
@@ -56,7 +57,7 @@ function createWhitespaceButton(): HTMLElement {
 }
 
 function wrap(...elements: Node[]): DocumentFragment {
-	if (features.isSingleCommit()) {
+	if (pageDetect.isSingleCommit()) {
 		return (
 			<div className="float-right">
 				{elements.map(element => <div className="ml-3 BtnGroup">{element}</div>)}
@@ -117,8 +118,8 @@ features.add({
 	}
 }, {
 	include: [
-		// Disabled because of #2291 // features.isPRFiles
-		features.isCommit
+		// Disabled because of #2291 // pageDetect.isPRFiles
+		pageDetect.isCommit
 	],
 	init
 });

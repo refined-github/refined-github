@@ -2,6 +2,7 @@ import './recently-pushed-branches-enhancements.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getRepoURL} from '../libs/utils';
 import {isRepoRoot} from '../libs/page-detect';
 
@@ -56,13 +57,13 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/56466173-da517700-643f-11e9-8eb5-9b20017fa613.gif'
 }, {
 	include: [
-		features.isRepo
+		pageDetect.isRepo
 	],
 	repeatOnAjax: false,
 	init
 }, {
 	include: [
-		features.isRepo
+		pageDetect.isRepo
 	],
 	init: removeDuplicateList
 });

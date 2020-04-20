@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function init(): void {
 	const CIDetailsLinks = select.all('a.status-actions');
@@ -15,7 +16,7 @@ features.add({
 	screenshot: false
 }, {
 	include: [
-		features.isPR
+		pageDetect.isPR
 	],
 	init
 });

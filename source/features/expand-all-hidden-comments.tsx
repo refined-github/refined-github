@@ -1,5 +1,6 @@
 import delegate from 'delegate-it';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {looseParseInt} from '../libs/utils';
 
 /*
@@ -33,8 +34,8 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/73838332-0c548e00-4846-11ea-935f-28d728b30ae9.png'
 }, {
 	include: [
-		features.isIssue,
-		features.isPRConversation
+		pageDetect.isIssue,
+		pageDetect.isPRConversation
 	],
 	init
 });

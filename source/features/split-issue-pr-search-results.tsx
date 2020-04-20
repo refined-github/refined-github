@@ -2,6 +2,7 @@ import './split-issue-pr-search-results.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import SearchQuery from '../libs/search-query';
 
 function cleanLinks(): void {
@@ -66,8 +67,8 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/52181103-35a09f80-2829-11e9-9c6f-57f2e08fc5b2.png'
 }, {
 	include: [
-		features.isRepoSearch,
-		features.isGlobalSearchResults
+		pageDetect.isRepoSearch,
+		pageDetect.isGlobalSearchResults
 	],
 	init
 });

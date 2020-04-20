@@ -65,7 +65,7 @@ const config: Configuration = {
 				use: [
 					{
 						loader: 'ts-loader',
-						query: {
+						options: {
 							compilerOptions: {
 								// Enables ModuleConcatenation. It must be in here to avoid conflict with ts-node
 								module: 'es2015'
@@ -120,9 +120,6 @@ const config: Configuration = {
 		new MiniCssExtractPlugin({
 			filename: '[name].css'
 		}),
-		new SizePlugin({
-			writeFile: false
-		}),
 		new CopyWebpackPlugin([
 			{
 				from: '*',
@@ -137,7 +134,10 @@ const config: Configuration = {
 			{
 				from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js'
 			}
-		])
+		]),
+		new SizePlugin({
+			writeFile: false
+		})
 	],
 	resolve: {
 		alias: {
@@ -159,7 +159,16 @@ const config: Configuration = {
 				parallel: true,
 				terserOptions: {
 					mangle: false,
-					compress: false,
+					compress: {
+						defaults: false,
+						dead_code: true,
+						unused: true,
+						arguments: true,
+						join_vars: false,
+						booleans: false,
+						expression: false,
+						sequences: false
+					},
 					output: {
 						beautify: true,
 						indent_level: 2
@@ -169,5 +178,8 @@ const config: Configuration = {
 		]
 	}
 };
+
+// Webpack types don't have this
+(config.module as any).strictThisContextOnImports = false;
 
 export default config;

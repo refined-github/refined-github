@@ -1,5 +1,6 @@
 import elementReady from 'element-ready';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 async function init(): Promise<void> {
 	const packagesCounter = await elementReady([
@@ -18,8 +19,8 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/35382021/62426530-688ef780-b6d5-11e9-93f2-515110aed1eb.jpg'
 }, {
 	include: [
-		features.isRepoRoot,
-		features.isUserProfile
+		pageDetect.isRepoRoot,
+		pageDetect.isUserProfile
 	],
 	waitForDomReady: false,
 	init

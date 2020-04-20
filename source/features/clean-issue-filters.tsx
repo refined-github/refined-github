@@ -2,6 +2,7 @@ import select from 'select-dom';
 import cache from 'webext-storage-cache';
 import elementReady from 'element-ready';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import * as api from '../libs/api';
 import {getOwnerAndRepo, getRepoURL, getRepoGQL} from '../libs/utils';
 
@@ -68,7 +69,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/37769974/59083449-0ef88f80-8915-11e9-8296-68af1ddcf191.png'
 }, {
 	include: [
-		features.isRepoDiscussionList
+		pageDetect.isRepoDiscussionList
 	],
 	waitForDomReady: false,
 	init

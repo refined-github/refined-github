@@ -2,6 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import {wrap} from '../libs/dom-utils';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getRepoPath, getRepoURL} from '../libs/utils';
 
 function init(): void {
@@ -26,7 +27,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/857700/42854438-821096f2-8a01-11e8-8752-76f7563b5e18.png'
 }, {
 	include: [
-		features.isCompare
+		pageDetect.isCompare
 	],
 	init
 });

@@ -325,10 +325,11 @@ export const _isRepoSettings = [
 
 export const isRepoTree = (): boolean => isRepoRoot() || String(getRepoPath()).startsWith('tree/');
 export const _isRepoTree = [
+	..._isRepoRoot,
 	'https://github.com/sindresorhus/refined-github/tree/master/distribution',
 	'https://github.com/sindresorhus/refined-github/tree/0.13.0/distribution',
 	'https://github.com/sindresorhus/refined-github/tree/57bf435ee12d14b482df0bbd88013a2814c7512e/distribution'
-].concat(_isRepoRoot);
+];
 
 export const isRepoWithAccess = (): boolean => isRepo() && select.exists('.reponav-item[href$="/settings"]');
 export const _isRepoWithAccess = domBased;

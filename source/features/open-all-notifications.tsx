@@ -4,6 +4,7 @@ import select from 'select-dom';
 import linkExternalIcon from 'octicon/link-external.svg';
 import delegate from 'delegate-it';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {groupButtons} from '../libs/group-buttons';
 
 const confirmationRequiredCount = 10;
@@ -100,7 +101,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/31700005-1b3be428-b38c-11e7-90a6-8f572968993b.png'
 }, {
 	include: [
-		features.isNotifications
+		pageDetect.isNotifications
 	],
 	init
 });

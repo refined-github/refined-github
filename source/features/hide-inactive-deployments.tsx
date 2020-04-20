@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import onNewComments from '../libs/on-new-comments';
 
 function init(): void {
@@ -20,7 +21,7 @@ features.add({
 	screenshot: 'https://github.com/sindresorhus/refined-github/issues/1144'
 }, {
 	include: [
-		features.isPRConversation
+		pageDetect.isPRConversation
 	],
 	additionalListeners: [
 		onNewComments

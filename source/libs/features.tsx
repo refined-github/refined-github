@@ -234,8 +234,5 @@ add(undefined, {
 
 export default {
 	add,
-	getShortcuts,
-
-	// Loading filters
-	...pageDetect
+	getShortcuts
 };

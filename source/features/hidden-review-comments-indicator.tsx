@@ -5,6 +5,7 @@ import select from 'select-dom';
 import commentIcon from 'octicon/comment.svg';
 import delegate from 'delegate-it';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import anchorScroll from '../libs/anchor-scroll';
 import onPrFileLoad from '../libs/on-pr-file-load';
 
@@ -74,8 +75,8 @@ features.add({
 		'https://user-images.githubusercontent.com/1402241/63112671-011d5580-bfbb-11e9-9e19-53e11641990e.gif'
 }, {
 	include: [
-		features.isPRFiles,
-		features.isPRCommit
+		pageDetect.isPRFiles,
+		pageDetect.isPRCommit
 	],
 	init
 });

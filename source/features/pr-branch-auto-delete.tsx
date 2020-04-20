@@ -1,6 +1,7 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import observeElement from '../libs/simplified-element-observer';
 
 function init(): void {
@@ -24,7 +25,7 @@ features.add({
 	screenshot: false
 }, {
 	include: [
-		features.isPRConversation
+		pageDetect.isPRConversation
 	],
 	init
 });
