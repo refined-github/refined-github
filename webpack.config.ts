@@ -1,6 +1,7 @@
 /// <reference types="./source/globals" />
 
 import path from 'path';
+import stripIndent from 'strip-indent';
 import {readdirSync, readFileSync} from 'fs';
 import webpack, {Configuration} from 'webpack';
 import SizePlugin from 'size-plugin';
@@ -19,12 +20,12 @@ function parseFeatureDetails(name: string): FeatureInfo {
 		if (value) {
 			const validValue = value.trim().replace(/\\'/g, '’'); // Catch trailing spaces and incorrect apostrophes
 			if (value !== validValue) {
-				throw new Error(`
-Invalid characters found in \`${name}\`. Apply this patch:
+				throw new Error(stripIndent(`
+					❌ Invalid characters found in \`${name}\`. Apply this patch:
 
-- ${field}: '${value}'
-+ ${field}: '${validValue}'
-`);
+					- ${field}: '${value}'
+					+ ${field}: '${validValue}'
+				`));
 			}
 
 			feature[field] = value.replace(/\\\\/g, '\\');
@@ -113,7 +114,7 @@ const config: Configuration = {
 
 			__featureName__: webpack.DefinePlugin.runtimeValue(({module}) => {
 				// @ts-ignore
-				return JSON.stringify(path.basename(module.resource, '.tsx'));
+				return JSON.stringify(path.basename(module.resource).replace(/\.tsx?$/, ''));
 			})
 		}),
 		new MiniCssExtractPlugin({
