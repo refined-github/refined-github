@@ -1,7 +1,5 @@
 /// <reference types="codemirror" />
 
-interface CodeMirrorInstance extends CodeMirror.Editor, CodeMirror.Doc {}
-
 declare namespace CodeMirror {
 	interface LineHandle {
 		widgets: unknown[];
@@ -9,7 +7,7 @@ declare namespace CodeMirror {
 	}
 }
 
-const editor = document.querySelector<Element & {CodeMirror: CodeMirrorInstance}>('.CodeMirror')!.CodeMirror;
+const editor = document.querySelector<Element & {CodeMirror: CodeMirror.Editor}>('.CodeMirror')!.CodeMirror;
 
 // Event fired when each file is loaded
 editor.on('swapDoc', () => setTimeout(addWidget, 1));
