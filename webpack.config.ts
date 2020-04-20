@@ -117,7 +117,7 @@ const config: Configuration = {
 			})
 		}),
 		new MiniCssExtractPlugin({
-			filename: '[name].css',
+			filename: '[name].css'
 		}),
 		new CopyWebpackPlugin([
 			{
@@ -136,7 +136,7 @@ const config: Configuration = {
 		]),
 		new SizePlugin({
 			writeFile: false
-		}),
+		})
 	],
 	resolve: {
 		alias: {
