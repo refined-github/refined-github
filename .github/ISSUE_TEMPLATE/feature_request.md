@@ -5,8 +5,11 @@ labels: enhancement, under discussion
 
 ---
 
-<!-- Thanks for contributing! 🏓 -->
+<!--
 
+1. Make sure your requested feature makes sense for Refined GitHub:
+   https://github.com/sindresorhus/refined-github/issues/2960
 
-Example URL:
-<!-- Please specify a URL where the feature should appear -->
+2. Include a full URL where the feature should appear.
+
+-->
