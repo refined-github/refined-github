@@ -1,12 +1,13 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import cache from 'webext-storage-cache';
+import mergeIcon from 'octicon/git-merge.svg';
+import pullRequestIcon from 'octicon/git-pull-request.svg';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {isForkedRepo} from '../libs/page-detect';
 import * as pageDetect from '../libs/page-detect';
 import {getRepoURL, getRepoGQL} from '../libs/utils';
-import pullRequestIcon from 'octicon/git-pull-request.svg';
 import observeElement from '../libs/simplified-element-observer';
 
 const getOpenPullRequests = cache.function(async (): Promise<AnyObject> => {
@@ -70,7 +71,7 @@ async function init(): Promise<void | false> {
 						#{prInfo.number}
 					</a>
 					<a className={`State State--${stateClass[prInfo.state]} State--small ml-1 no-underline`} title={`Status: ${upperCaseFirst(prInfo.state)}`} href={path}>
-						{pullRequestIcon()} {upperCaseFirst(prInfo.state)}
+						{prInfo.state === 'MERGED' ? mergeIcon() : pullRequestIcon()}{' '}{upperCaseFirst(prInfo.state)}
 					</a>
 				</div>);
 		}
