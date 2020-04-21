@@ -24,7 +24,9 @@ function init(): void {
 		'.Box-row.js-navigation-item a.link-gray-dark', // `isGlobalDiscussionList`
 		'[data-channel^="check_suites"] a', // `isActions`
 		'.repository-content .pr-toolbar h2', // `isActions` run
-		'#wiki-wrapper h1' // `isWiki`
+		'#wiki-wrapper h1', // `isWiki`
+		'a[data-hydro-click*="issue_cross_references.click"]', // Linked pull requests
+		'a[data-hydro-click*="search_result.click"]' // `isGlobalSearchResults`, `isRepoSearch`
 	].map(selector => selector + ':not(.rgh-backticks-already-parsed)'))) {
 		title.classList.add('rgh-backticks-already-parsed');
 		parseBackticks(title);
@@ -37,7 +39,9 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png'
 }, {
 	include: [
-		pageDetect.isRepo
+		pageDetect.isRepo,
+		pageDetect.isGlobalSearchResults,
+		pageDetect.isRepoSearch
 	],
 	init
 }, {
