@@ -36,11 +36,11 @@ const getOpenPullRequests = cache.function(async (): Promise<Record<string, Pull
 	`);
 
 	const pullRequests = {};
-	for (const {associatedPullRequests} of repository.refs.nodes) {
+	for (const {name, associatedPullRequests} of repository.refs.nodes) {
 		if (associatedPullRequests.nodes.length > 0) {
 			const [prInfo] = associatedPullRequests.nodes;
 			prInfo.state = prInfo.isDraft ? 'Draft' : upperCaseFirst(prInfo.state);
-			pullRequests[branches.name] = prInfo;
+			pullRequests[name] = prInfo;
 		}
 	}
 
@@ -57,9 +57,10 @@ function upperCaseFirst(input: string): string {
 }
 
 const stateClass = {
-	MERGED: 'purple',
-	CLOSED: 'red',
-	OPEN: 'green'
+	Open: '--green',
+	Closed: '--red',
+	Merged: '--purple',
+	Draft: ''
 };
 
 async function init(): Promise<void | false> {
@@ -85,11 +86,11 @@ async function init(): Promise<void | false> {
 						#{prInfo.number}
 					</a>
 					<a
-						className={`State State--${stateClass[prInfo.state].toLowerCase()} State--small ml-1 no-underline`}
-						title={`Status: ${upperCaseFirst(prInfo.state)}`}
+						className={`State State${stateClass[prInfo.state]} State--small ml-1 no-underline`}
+						title={`Status: ${prInfo.state}`}
 						href={prInfo.url}
 					>
-						{prInfo.state === 'MERGED' ? mergeIcon() : pullRequestIcon()} {prInfo.state}
+						{prInfo.state === 'Merged' ? mergeIcon() : pullRequestIcon()} {prInfo.state}
 					</a>
 				</div>);
 		}
