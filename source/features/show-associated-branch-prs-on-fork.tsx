@@ -71,7 +71,7 @@ async function init(): Promise<void | false> {
 	for (const branch of select.all('[branch]')) {
 		const prInfo = openPullRequests[branch.getAttribute('branch')!];
 		if (prInfo) {
-			select('.test-compare-link', branch.parentElement!)!.replaceWith(
+			select('.test-compare-link', branch)!.replaceWith(
 				<div className="d-inline-block text-right ml-3">
 					<a
 						data-issue-and-pr-hovercards-enabled
