@@ -102,6 +102,5 @@ features.add({
 	],
 	init: () => {
 		observeElement('[data-target="branch-filter-controller.results"]', init);
-		return false;
 	}
 });
