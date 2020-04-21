@@ -16,7 +16,7 @@ interface PullRequest {
 	url: string;
 }
 
-const getOpenPullRequests = cache.function(async (): Promise<Record<string, PullRequest>> => {
+const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Record<string, PullRequest>> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			refs(refPrefix: "refs/heads/", last: 100) {
@@ -69,10 +69,10 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const openPullRequests = await getOpenPullRequests();
+	const associatedPullRequests = await getPullRequestsAssociatedWithBranch();
 
 	for (const branch of select.all('[branch]')) {
-		const prInfo = openPullRequests[branch.getAttribute('branch')!];
+		const prInfo = associatedPullRequests[branch.getAttribute('branch')!];
 		if (prInfo) {
 			select('.test-compare-link', branch)!.replaceWith(
 				<div className="d-inline-block text-right ml-3">
