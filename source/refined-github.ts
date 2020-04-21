@@ -172,6 +172,8 @@ import './features/clone-branch';
 import './features/deep-reblame';
 import './features/clear-pr-merge-commit-message';
 import './features/go-to-action-from-file';
+import './features/show-associated-branch-prs';
+import './features/show-associated-branch-prs-on-fork';
 import './features/action-used-by-link';
 import './features/batch-mark-files-as-viewed';
 import './features/unwrap-useless-dropdowns';
