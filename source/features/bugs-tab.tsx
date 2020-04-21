@@ -49,15 +49,23 @@ async function init(): Promise<void | false> {
 		elementReady('.js-pinned-issues-reorder-container').then(pinnedIssues => pinnedIssues?.remove());
 	}
 
-	// Copy Issues tab but update its appearance
+	// Copy Issues tab
 	const bugsTab = issuesTab.cloneNode(true);
-	const bugsCounter = select('.Counter', bugsTab)!;
+
+	// Update its appearance
 	select('.octicon', bugsTab)!.replaceWith(bugIcon());
-	bugsCounter.textContent = '0';
 	select('[itemprop="name"]', bugsTab)!.textContent = 'Bugs';
 
-	// Update Bugs’ link
+	// Set temporary counter
+	const bugsCounter = select('.Counter', bugsTab)!;
+	bugsCounter.textContent = '0';
+
+	// Disable unwanted behavior #3001
 	const bugsLink = select('a', bugsTab)!;
+	bugsLink.removeAttribute('data-hotkey');
+	bugsLink.removeAttribute('data-selected-links');
+
+	// Update Bugs’ link
 	new SearchQuery(bugsLink).add('label:bug');
 
 	// Change the Selected tab if necessary
