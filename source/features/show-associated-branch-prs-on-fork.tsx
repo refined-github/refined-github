@@ -71,7 +71,6 @@ async function init(): Promise<void | false> {
 	for (const branch of select.all('[branch]')) {
 		const prInfo = openPullRequests[branch.getAttribute('branch')!];
 		if (prInfo) {
-			const path = prInfo.url.replace(location.origin, '');
 			select('.test-compare-link', branch.parentElement!)!.replaceWith(
 				<div className="d-inline-block text-right ml-3">
 					<a
@@ -79,14 +78,14 @@ async function init(): Promise<void | false> {
 						href={prInfo.url}
 						className="muted-link"
 						data-hovercard-type="pull_request"
-						data-hovercard-url={path + '/hovercard'}
+						data-hovercard-url={prInfo.url + '/hovercard'}
 					>
 						#{prInfo.number}
 					</a>
 					<a
 						className={`State State${prInfo.isDraft ? '' : `--${stateClass[prInfo.state]}`} State--small ml-1 no-underline`}
 						title={`Status: ${upperCaseFirst(prInfo.state)}`}
-						href={path}
+						href={prInfo.url}
 					>
 						{prInfo.state === 'MERGED' ? mergeIcon() : pullRequestIcon()} {prInfo.isDraft ? 'Draft' : upperCaseFirst(prInfo.state)}
 					</a>
