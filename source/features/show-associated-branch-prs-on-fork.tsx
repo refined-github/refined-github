@@ -36,9 +36,11 @@ const getOpenPullRequests = cache.function(async (): Promise<Record<string, Pull
 	`);
 
 	const pullRequests = {};
-	for (const branches of repository.refs.nodes) {
-		if (branches.associatedPullRequests.nodes.length > 0) {
-			pullRequests[branches.name] = branches.associatedPullRequests.nodes[0];
+	for (const {associatedPullRequests} of repository.refs.nodes) {
+		if (associatedPullRequests.nodes.length > 0) {
+			const [prInfo] = associatedPullRequests.nodes;
+			prInfo.state = prInfo.isDraft ? 'Draft' : upperCaseFirst(prInfo.state);
+			pullRequests[branches.name] = prInfo;
 		}
 	}
 
@@ -83,11 +85,11 @@ async function init(): Promise<void | false> {
 						#{prInfo.number}
 					</a>
 					<a
-						className={`State State${prInfo.isDraft ? '' : `--${stateClass[prInfo.state]}`} State--small ml-1 no-underline`}
+						className={`State State--${stateClass[prInfo.state].toLowerCase()} State--small ml-1 no-underline`}
 						title={`Status: ${upperCaseFirst(prInfo.state)}`}
 						href={prInfo.url}
 					>
-						{prInfo.state === 'MERGED' ? mergeIcon() : pullRequestIcon()} {prInfo.isDraft ? 'Draft' : upperCaseFirst(prInfo.state)}
+						{prInfo.state === 'MERGED' ? mergeIcon() : pullRequestIcon()} {prInfo.state}
 					</a>
 				</div>);
 		}
