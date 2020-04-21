@@ -56,7 +56,7 @@ function upperCaseFirst(input: string): string {
 	return input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
 }
 
-const stateClass = {
+const stateClass: Record<string, string> = {
 	Open: '--green',
 	Closed: '--red',
 	Merged: '--purple',
