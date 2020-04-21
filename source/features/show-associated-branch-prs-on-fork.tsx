@@ -10,7 +10,13 @@ import * as pageDetect from '../libs/page-detect';
 import {getRepoURL, getRepoGQL} from '../libs/utils';
 import observeElement from '../libs/simplified-element-observer';
 
-const getOpenPullRequests = cache.function(async (): Promise<AnyObject> => {
+interface PullRequest {
+	number: number;
+	state: string;
+	url: string;
+}
+
+const getOpenPullRequests = cache.function(async (): Promise<Record<string, PullRequest>> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			refs(refPrefix: "refs/heads/", last: 100) {
