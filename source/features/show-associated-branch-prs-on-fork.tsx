@@ -68,9 +68,8 @@ async function init(): Promise<void | false> {
 
 	for (const branch of select.all('[branch]')) {
 		const prInfo = openPullRequests[branch.getAttribute('branch')!];
-		if (prInfo && !branch.classList.contains('rgh-show-associated-branch-prs-on-fork')) {
-			branch.classList.add('rgh-show-associated-branch-prs-on-fork');
-			const path = prInfo.url.replace(location.origin, '') as string;
+		if (prInfo) {
+			const path = prInfo.url.replace(location.origin, '');
 			select('.test-compare-link', branch.parentElement!)!.replaceWith(
 				<div className="d-inline-block text-right ml-3">
 					<a
@@ -82,8 +81,12 @@ async function init(): Promise<void | false> {
 					>
 						#{prInfo.number}
 					</a>
-					<a className={`State State--${stateClass[prInfo.state]} State--small ml-1 no-underline`} title={`Status: ${upperCaseFirst(prInfo.state)}`} href={path}>
-						{prInfo.state === 'MERGED' ? mergeIcon() : pullRequestIcon()}{' '}{upperCaseFirst(prInfo.state)}
+					<a
+						className={`State State--${stateClass[prInfo.state]} State--small ml-1 no-underline`}
+						title={`Status: ${upperCaseFirst(prInfo.state)}`}
+						href={path}
+					>
+						{prInfo.state === 'MERGED' ? mergeIcon() : pullRequestIcon()} {upperCaseFirst(prInfo.state)}
 					</a>
 				</div>);
 		}
@@ -101,9 +104,7 @@ features.add({
 	exclude: [
 		() => !pageDetect.isForkedRepo()
 	],
-	waitForDomReady: false,
 	init: () => {
 		observeElement('[data-target="branch-filter-controller.results"]', init);
-		return false;
 	}
 });
