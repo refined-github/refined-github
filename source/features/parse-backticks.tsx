@@ -25,7 +25,7 @@ function init(): void {
 		'[data-channel^="check_suites"] a', // `isActions`
 		'.repository-content .pr-toolbar h2', // `isActions` run
 		'#wiki-wrapper h1', // `isWiki`
-		'a[data-hydro-click*="issue_cross_references.click"]', // Linked pull requests
+		'a[data-hydro-click*="issue_cross_references.click"]', // `isIssue` Linked pull requests
 		'a[data-hydro-click*="search_result.click"]' // `isGlobalSearchResults`, `isRepoSearch`
 	].map(selector => selector + ':not(.rgh-backticks-already-parsed)'))) {
 		title.classList.add('rgh-backticks-already-parsed');
