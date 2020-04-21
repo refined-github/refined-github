@@ -37,7 +37,7 @@ const getOpenPullRequests = cache.function(async (): Promise<AnyObject> => {
 
 	return pullRequests;
 }, {
-	maxAge: 1 / 24 / 2, // Stale after half an hour
+	maxAge: 1 / 2,
 	staleWhileRevalidate: 4,
 	cacheKey: () => 'associatedBranchPullRequests:' + getRepoURL()
 });
