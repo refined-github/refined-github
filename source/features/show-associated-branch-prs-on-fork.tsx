@@ -40,7 +40,7 @@ const getOpenPullRequests = cache.function(async (): Promise<Record<string, Pull
 		if (associatedPullRequests.nodes.length > 0) {
 			const [prInfo] = associatedPullRequests.nodes;
 			prInfo.state = prInfo.isDraft ? 'Draft' : upperCaseFirst(prInfo.state);
-			pullRequests[name] = prInfo;
+			(pullRequests as AnyObject)[name] = prInfo;
 		}
 	}
 
