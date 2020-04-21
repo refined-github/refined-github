@@ -73,7 +73,13 @@ async function init(): Promise<void | false> {
 			const path = prInfo.url.replace(location.origin, '') as string;
 			select('.test-compare-link', branch.parentElement!)!.replaceWith(
 				<div className="d-inline-block text-right ml-3">
-					<a data-issue-and-pr-hovercards-enabled href={path} className="muted-link" data-hovercard-type="pull_request" data-hovercard-url={path + '/hovercard'}>
+					<a
+						data-issue-and-pr-hovercards-enabled
+						href={prInfo.url}
+						className="muted-link"
+						data-hovercard-type="pull_request"
+						data-hovercard-url={path + '/hovercard'}
+					>
 						#{prInfo.number}
 					</a>
 					<a className={`State State--${stateClass[prInfo.state]} State--small ml-1 no-underline`} title={`Status: ${upperCaseFirst(prInfo.state)}`} href={path}>
