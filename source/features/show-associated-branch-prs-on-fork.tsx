@@ -12,6 +12,7 @@ import {getRepoURL, getRepoGQL, getOwnerAndRepo, getUsername} from '../libs/util
 interface PullRequest {
 	number: number;
 	state: string;
+	isDraft: boolean;
 	url: string;
 }
 
@@ -25,6 +26,7 @@ const getOpenPullRequests = cache.function(async (): Promise<Record<string, Pull
 						nodes {
 							number
 							state
+							isDraft
 							url
 						}
 					}
@@ -82,11 +84,11 @@ async function init(): Promise<void | false> {
 						#{prInfo.number}
 					</a>
 					<a
-						className={`State State--${stateClass[prInfo.state]} State--small ml-1 no-underline`}
+						className={`State State${prInfo.isDraft ? '' : `--${stateClass[prInfo.state]}`} State--small ml-1 no-underline`}
 						title={`Status: ${upperCaseFirst(prInfo.state)}`}
 						href={path}
 					>
-						{prInfo.state === 'MERGED' ? mergeIcon() : pullRequestIcon()} {upperCaseFirst(prInfo.state)}
+						{prInfo.state === 'MERGED' ? mergeIcon() : pullRequestIcon()} {prInfo.isDraft ? 'Draft' : upperCaseFirst(prInfo.state)}
 					</a>
 				</div>);
 		}
