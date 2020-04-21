@@ -5,8 +5,9 @@ import * as api from '../libs/api';
 import features from '../libs/features';
 import {isForkedRepo} from '../libs/page-detect';
 import * as pageDetect from '../libs/page-detect';
-import pullRequestIcon from 'octicon/git-pull-request.svg';
 import {getRepoURL, getRepoGQL} from '../libs/utils';
+import pullRequestIcon from 'octicon/git-pull-request.svg';
+import observeElement from '../libs/simplified-element-observer';
 
 const getOpenPullRequests = cache.function(async (): Promise<AnyObject> => {
 	const {repository} = await api.v4(`
@@ -25,6 +26,7 @@ const getOpenPullRequests = cache.function(async (): Promise<AnyObject> => {
 			}
 		}
 	`);
+
 	const pullRequests = {};
 	for (const branches of repository.refs.nodes) {
 		if (branches.associatedPullRequests.nodes.length > 0) {
@@ -34,12 +36,14 @@ const getOpenPullRequests = cache.function(async (): Promise<AnyObject> => {
 
 	return pullRequests;
 }, {
-	maxAge: 1,
+	maxAge: 1 / 24 / 2, // Stale after half an hour
+	staleWhileRevalidate: 4,
 	cacheKey: () => 'associatedBranchPullRequests:' + getRepoURL()
 });
 
-function capitalizeFirstLetter(string: string): string {
-	return string[0].toUpperCase() + string.slice(1).toLowerCase();
+// https://github.com/idimetrix/text-case/blob/master/packages/upper-case-first/src/index.ts
+function upperCaseFirst(input: string): string {
+	return input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
 }
 
 const stateClass = {
@@ -53,20 +57,20 @@ async function init(): Promise<void | false> {
 		return;
 	}
 
-	const branches = select.all('[branch]');
-
 	const openPullRequests = await getOpenPullRequests();
-	for (const branch of branches) {
+
+	for (const branch of select.all('[branch]')) {
 		const prInfo = openPullRequests[branch.getAttribute('branch')!];
-		if (prInfo) {
+		if (prInfo && !branch.classList.contains('rgh-show-associated-branch-prs-on-fork')) {
+			branch.classList.add('rgh-show-associated-branch-prs-on-fork');
 			const path = prInfo.url.replace(location.origin, '') as string;
 			select('.test-compare-link', branch.parentElement!)!.replaceWith(
 				<div className="d-inline-block text-right ml-3">
-					<a href={path} className="muted-link" data-issue-and-pr-hovercards-enabled="" data-hovercard-type="pull_request" data-hovercard-url={path + '/hovercard'}>
+					<a data-issue-and-pr-hovercards-enabled href={path} className="muted-link" data-hovercard-type="pull_request" data-hovercard-url={path + '/hovercard'}>
 						#{prInfo.number}
 					</a>
-					<a className={`State State--${stateClass[prInfo.state]} State--small ml-1 no-underline`} title={'Status: ' + capitalizeFirstLetter(prInfo.state)} href={path}>
-						{pullRequestIcon()} {capitalizeFirstLetter(prInfo.state)}
+					<a className={`State State--${stateClass[prInfo.state]} State--small ml-1 no-underline`} title={`Status: ${upperCaseFirst(prInfo.state)}`} href={path}>
+						{pullRequestIcon()} {upperCaseFirst(prInfo.state)}
 					</a>
 				</div>);
 		}
@@ -75,11 +79,15 @@ async function init(): Promise<void | false> {
 
 features.add({
 	id: __filebasename,
-	description: 'Shows the associated pull requests on branches for forked repository\'s',
+	description: 'Shows the associated pull requests on branches for forked repository’s',
 	screenshot: 'https://user-images.githubusercontent.com/16872793/79803218-908bbd00-832f-11ea-89cd-fdd2aaea4a87.png'
 }, {
 	include: [
 		pageDetect.isBranches
 	],
-	init
+	waitForDomReady: false,
+	init: () => {
+		observeElement('[data-target="branch-filter-controller.results"]', init);
+		return false;
+	}
 });
