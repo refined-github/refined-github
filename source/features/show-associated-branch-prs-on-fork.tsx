@@ -5,10 +5,9 @@ import mergeIcon from 'octicon/git-merge.svg';
 import pullRequestIcon from 'octicon/git-pull-request.svg';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {isForkedRepo} from '../libs/page-detect';
 import * as pageDetect from '../libs/page-detect';
-import {getRepoURL, getRepoGQL} from '../libs/utils';
 import observeElement from '../libs/simplified-element-observer';
+import {getRepoURL, getRepoGQL, getOwnerAndRepo, getUsername} from '../libs/utils';
 
 interface PullRequest {
 	number: number;
@@ -60,8 +59,9 @@ const stateClass = {
 };
 
 async function init(): Promise<void | false> {
-	if (!isForkedRepo()) {
-		return;
+	const {ownerName} = getOwnerAndRepo();
+	if (ownerName !== getUsername()) {
+		return false;
 	}
 
 	const openPullRequests = await getOpenPullRequests();
@@ -97,6 +97,9 @@ features.add({
 }, {
 	include: [
 		pageDetect.isBranches
+	],
+	exclude: [
+		() => !pageDetect.isForkedRepo()
 	],
 	waitForDomReady: false,
 	init: () => {
