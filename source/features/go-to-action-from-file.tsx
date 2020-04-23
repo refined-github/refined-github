@@ -20,7 +20,7 @@ function init(): void {
 		.parentElement! // `BtnGroup`
 		.prepend(
 			<a className="btn btn-sm BtnGroup-item" href={String(actionURL)}>
-				See runs
+				Past runs
 			</a>
 		);
 }
