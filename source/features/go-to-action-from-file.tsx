@@ -28,8 +28,8 @@ function init(): void {
 
 features.add({
 	id: __filebasename,
-	description: 'Adds a link to access runs of a GitHub Action workflow from the workflow configuration file.',
-	screenshot: 'https://user-images.githubusercontent.com/8360597/79469826-f3641800-8000-11ea-9f1c-47868c11ce85.png'
+	description: 'Adds a link to access the past runs of a GitHub Action workflow when seeing the workflow configuration file.',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/80146153-ab6d6400-85b1-11ea-9f38-e87950692a62.png'
 }, {
 	include: [
 		isWorkflowFile
