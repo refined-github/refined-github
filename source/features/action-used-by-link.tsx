@@ -3,8 +3,6 @@ import select from 'select-dom';
 import features from '../libs/features';
 import searchIcon from 'octicon/search.svg';
 
-export const isActionPage = (): boolean => location.pathname.split('/', 3).join('/') === '/marketplace/actions';
-
 function init(): void {
 	const actionRepo = select('.d-block.mb-2')!
 		.getAttribute('href')!
@@ -20,12 +18,13 @@ function init(): void {
 	const styledSearchIcon = searchIcon();
 	styledSearchIcon.setAttribute('width', '14');
 	styledSearchIcon.classList.add('text-gray-dark', 'mr-2');
-	
+
 	select('.d-block.mb-2[href^="/contact"]')!.after(
 		<a href={String(actionURL)} className="d-block mb-2">
 			{styledSearchIcon} Usage examples
 		</a>
 	);
+}
 
 features.add({
 	id: __filebasename,
@@ -33,7 +32,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/8360597/80221147-2cc20680-8645-11ea-8493-befb47ddebd4.png'
 }, {
 	include: [
-		isActionPage
+		pageDetect.isActionPage
 	],
 	init
 });
