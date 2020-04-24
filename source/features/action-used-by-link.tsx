@@ -27,7 +27,7 @@ function init(): void {
 
 features.add({
 	id: __filebasename,
-	description: 'Adds a direct link to search worklows using an action when browsing an action page on the Marketplace.',
+	description: 'Lets you see how others are using the current Action in the Marketplace.',
 	screenshot: 'https://user-images.githubusercontent.com/8360597/80221147-2cc20680-8645-11ea-8493-befb47ddebd4.png'
 }, {
 	include: [
