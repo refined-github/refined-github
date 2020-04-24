@@ -8,8 +8,6 @@ function init(): void {
 	const actionRepo = (select('.octicon-issue-opened.text-gray-dark')!.parentElement as HTMLAnchorElement)
 		.pathname.slice(1)
 		.replace('/issues', '');
-		.pathname.slice(1)
-		.replace('/issues', '');
 
 	const actionURL = new URL('search', location.origin);
 	actionURL.searchParams.set('q', `${actionRepo} path:.github/workflows/ language:YAML`);
