@@ -6,8 +6,8 @@ import searchIcon from 'octicon/search.svg';
 
 function init(): void {
 	const actionRepo = (select('.py-3.border-bottom.border-gray-light .octicon.octicon-issue-opened.text-gray-dark.mr-2')!.parentElement as HTMLAnchorElement)
-	  .pathname.slice(1)
-	  .replace('/issues', '');
+		.pathname.slice(1)
+		.replace('/issues', '');
 
 	const actionURL = new URL('search', location.origin);
 	actionURL.searchParams.set('q', `${actionRepo} path:.github/workflows/ language:YAML`);
