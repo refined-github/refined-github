@@ -10,7 +10,7 @@ function init(): void {
 		.replace(location.origin, '')
 		.replace('/', '');
 
-	const actionURL = new URL('https://github.com/search');
+	const actionURL = new URL('search', location.origin);
 	actionURL.searchParams.set('q', `${actionRepo} path:.github/workflows/ language:YAML`);
 	actionURL.searchParams.set('o', 'desc');
 	actionURL.searchParams.set('s', 'indexed');
