@@ -4,7 +4,7 @@ import features from '../libs/features';
 
 export const isActionPage = (): boolean => location.pathname.split('/', 3).join('/') === '/marketplace/actions';
 
-async function init(): Promise<void> {
+function init(): void {
 	const actionRepo = select('.d-block.mb-2')!
 		.getAttribute('href')!
 		.replace(location.origin, '')
