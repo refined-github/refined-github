@@ -5,10 +5,9 @@ import * as pageDetect from '../libs/page-detect';
 import searchIcon from 'octicon/search.svg';
 
 function init(): void {
-	const actionRepo = select('.d-block.mb-2')!
-		.getAttribute('href')!
-		.replace(location.origin, '')
-		.replace('/', '');
+	const actionRepo = (select('.py-3.border-bottom.border-gray-light .octicon.octicon-issue-opened.text-gray-dark.mr-2')!!.parentElement as HTMLAnchorElement)
+	  .pathname.slice(1)
+	  .replace('/issues', '');
 
 	const actionURL = new URL('search', location.origin);
 	actionURL.searchParams.set('q', `${actionRepo} path:.github/workflows/ language:YAML`);
@@ -22,7 +21,7 @@ function init(): void {
 
 	select('.d-block.mb-2[href^="/contact"]')!.after(
 		<a href={String(actionURL)} className="d-block mb-2">
-			{styledSearchIcon} Usage examples
+			{styledSearchIcon}Usage examples
 		</a>
 	);
 }
