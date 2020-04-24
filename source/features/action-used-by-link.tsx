@@ -28,7 +28,7 @@ async function init(): Promise<void> {
 features.add({
 	id: __filebasename,
 	description: 'Adds a direct link to search worklows using an action when browsing an action page on the Marketplace.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/80146153-ab6d6400-85b1-11ea-9f38-e87950692a62.png'
+	screenshot: 'https://user-images.githubusercontent.com/8360597/80221147-2cc20680-8645-11ea-8493-befb47ddebd4.png'
 }, {
 	include: [
 		isActionPage
