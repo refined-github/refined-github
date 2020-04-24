@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import searchIcon from 'octicon/search.svg';
 
 export const isActionPage = (): boolean => location.pathname.split('/', 3).join('/') === '/marketplace/actions';
 
@@ -22,7 +23,7 @@ function init(): void {
 	
 	select('.d-block.mb-2[href^="/contact"]')!.after(
 		<a href={String(actionURL)} className="d-block mb-2">
-			{styledSearchIcon}Used by (find workflows)
+			{styledSearchIcon} Usage examples
 		</a>
 	);
 
