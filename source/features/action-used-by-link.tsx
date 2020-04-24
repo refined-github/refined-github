@@ -11,9 +11,9 @@ function init(): void {
 
 	const actionURL = new URL('search', location.origin);
 	actionURL.searchParams.set('q', `${actionRepo} path:.github/workflows/ language:YAML`);
-	actionURL.searchParams.set('o', 'desc');
-	actionURL.searchParams.set('s', 'indexed');
 	actionURL.searchParams.set('type', 'Code');
+	actionURL.searchParams.set('s', 'indexed');
+	actionURL.searchParams.set('o', 'desc');
 
 	const styledSearchIcon = searchIcon();
 	styledSearchIcon.setAttribute('width', '14');
