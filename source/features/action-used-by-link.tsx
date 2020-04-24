@@ -5,7 +5,9 @@ import * as pageDetect from '../libs/page-detect';
 import searchIcon from 'octicon/search.svg';
 
 function init(): void {
-	const actionRepo = (select('.py-3.border-bottom.border-gray-light .octicon.octicon-issue-opened.text-gray-dark.mr-2')!.parentElement as HTMLAnchorElement)
+	const actionRepo = (select('.octicon-issue-opened.text-gray-dark')!.parentElement as HTMLAnchorElement)
+		.pathname.slice(1)
+		.replace('/issues', '');
 		.pathname.slice(1)
 		.replace('/issues', '');
 
