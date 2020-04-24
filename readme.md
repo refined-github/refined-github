@@ -297,6 +297,12 @@ Thanks for contributing! 🦋🙌
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
+### Marketplace
+
+- [](# "action-used-by-link") [Lets you see how others are using the current Action in the Marketplace.](https://user-images.githubusercontent.com/8360597/80250140-86d9c080-8673-11ea-9d28-f62faf9fd3d4.png)
+
+<!-- Refer to style guide above. Keep this message between sections. -->
+
 ### Global
 
 - [](# "useful-not-found-page") 🔥 [Adds possible related pages and alternatives on 404 pages.](https://user-images.githubusercontent.com/1402241/46402857-7bdada80-c733-11e8-91a1-856573078ff5.png)
