@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 
-export default function loadingIcon(): HTMLElement {
+export default function LoadingIcon(): JSX.Element {
 	return (
 		<img
 			className="rgh-loading-icon"

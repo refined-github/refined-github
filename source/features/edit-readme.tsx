@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import pencilIcon from 'octicon/pencil.svg';
+import PencilIcon from 'octicon/pencil.svg';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
 import getDefaultBranch from '../libs/get-default-branch';
@@ -37,7 +37,7 @@ async function init(): Promise<void | false> {
 			className="Box-btn-octicon btn-octicon float-right"
 			aria-label="Edit this file"
 		>
-			{pencilIcon()}
+			<PencilIcon/>
 		</a>
 	);
 }

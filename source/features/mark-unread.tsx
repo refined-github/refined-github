@@ -4,13 +4,13 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import elementReady from 'element-ready';
-import xIcon from 'octicon/x.svg';
-import infoIcon from 'octicon/info.svg';
-import checkIcon from 'octicon/check.svg';
-import mergeIcon from 'octicon/git-merge.svg';
-import issueOpenedIcon from 'octicon/issue-opened.svg';
-import issueClosedIcon from 'octicon/issue-closed.svg';
-import pullRequestIcon from 'octicon/git-pull-request.svg';
+import XIcon from 'octicon/x.svg';
+import InfoIcon from 'octicon/info.svg';
+import CheckIcon from 'octicon/check.svg';
+import MergeIcon from 'octicon/git-merge.svg';
+import IssueOpenedIcon from 'octicon/issue-opened.svg';
+import IssueClosedIcon from 'octicon/issue-closed.svg';
+import PullRequestIcon from 'octicon/git-pull-request.svg';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
 import onReplacedElement from '../libs/on-replaced-element';
@@ -38,16 +38,16 @@ interface Notification {
 const listeners: delegate.Subscription[] = [];
 const stateIcons = {
 	issue: {
-		open: issueOpenedIcon,
-		closed: issueClosedIcon,
-		merged: issueClosedIcon, // Required just for TypeScript
-		draft: issueOpenedIcon // Required just for TypeScript
+		open: IssueOpenedIcon,
+		closed: IssueClosedIcon,
+		merged: IssueClosedIcon, // Required just for TypeScript
+		draft: IssueOpenedIcon // Required just for TypeScript
 	},
 	'pull-request': {
-		open: pullRequestIcon,
-		closed: pullRequestIcon,
-		merged: mergeIcon,
-		draft: pullRequestIcon
+		open: PullRequestIcon,
+		closed: PullRequestIcon,
+		merged: MergeIcon,
+		draft: PullRequestIcon
 	}
 };
 
@@ -183,11 +183,11 @@ function getNotification(notification: Notification): Element {
 			<ul className="notification-actions">
 				<li className="delete">
 					<button className="btn-link delete-note" type="button">
-						{checkIcon()}
+						<CheckIcon/>
 					</button>
 				</li>
 				<li className="mute tooltipped tooltipped-w" aria-label={`${type === 'issue' ? 'Issue' : 'PR'} manually marked as unread`}>
-					{infoIcon()}
+					<InfoIcon/>
 				</li>
 				<li className="age">
 					<relative-time datetime={date}/>
@@ -212,7 +212,7 @@ function getNotificationGroup({repository}: Notification): Element {
 		<div className="boxed-group flush">
 			<form className="boxed-group-action">
 				<button className="mark-all-as-read css-truncate js-mark-all-read" type="button">
-					{checkIcon()}
+					<CheckIcon/>
 				</button>
 			</form>
 
@@ -348,7 +348,7 @@ function addCustomAllReadButton(): void {
 			<details-dialog className="Box Box--overlay d-flex flex-column anim-fade-in fast " aria-label="Are you sure?" role="dialog" tabindex="-1">
 				<div className="Box-header">
 					<button className="Box-btn-octicon btn-octicon float-right" type="button" aria-label="Close dialog" data-close-dialog="">
-						{xIcon()}
+						<XIcon/>
 					</button>
 					<h3 className="Box-title">Are you sure?</h3>
 				</div>

@@ -57,6 +57,8 @@ declare namespace JSX {
 		'relative-time': BaseIntrinsicElement & {datetime: string};
 		'details-dialog': BaseIntrinsicElement & {tabindex: string};
 	}
+
+	interface IntrinsicAttributes extends BaseIntrinsicElement {}
 }
 
 // Drop after https://github.com/Microsoft/TypeScript/issues/30928
@@ -70,11 +72,10 @@ interface HTMLFormControlsCollection {
 }
 
 declare module '*.svg' {
-	export default (): SVGElement => SVGElement;
+	export default (): JSX.Element => JSX.Element;
 }
 
 // Make `element.cloneNode()` preserve its type instead of returning Node
 interface Node extends EventTarget {
 	cloneNode(deep?: boolean): this;
 }
-
