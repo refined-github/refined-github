@@ -120,25 +120,32 @@ npx web-ext run --source-dir=distribution
 
 Recommended arguments:
 
-```
-# Chromium:
-npx web-ext run --source-dir=distribution \
+<table width="100%">
+	<tr>
+		<th>Chrome</th>
+		<th>Firefox</th>
+	</tr>
+	<tr>
+		<td width="50%" valign="top">
+			<pre>npx web-ext run --source-dir=distribution \
 	--target=chromium \
 	--chromium-profile=refined-github \
 	--keep-profile-changes \
-	--start-url=github.com
-
-# Firefox:
-npx web-ext run --source-dir=distribution \
+	--start-url=github.com</pre>
+		</td>
+		<td width="50%" valign="top">
+			<pre>npx web-ext run --source-dir=distribution \
 	--target=firefox \
 	--firefox-profile=refined-github \
 	--keep-profile-changes \
-	--start-url=github.com
-```
+	--start-url=github.com</pre>
+		</td>
+	</tr>
+</table>
 
 ### Load manually
 
-<table>
+<table width="100%">
 	<tr>
 		<th>Chrome</th>
 		<th>Firefox</th>
