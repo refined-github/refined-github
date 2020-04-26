@@ -110,7 +110,33 @@ Then load or reload it into the browser to see the changes (this does not happen
 
 ## Loading into the browser
 
-Once built, load it in the browser of your choice:
+Once built, load it in the browser of your choice.
+
+### Load with [`web-ext`](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/web-ext_command_reference#web-ext_run)
+
+```
+npx web-ext run --source-dir=distribution
+```
+
+Recommended arguments:
+
+```
+# Chromium:
+npx web-ext run --source-dir=distribution \
+	--target=chromium \
+	--chromium-profile=refined-github \
+	--keep-profile-changes \
+	--start-url=github.com
+
+# Firefox:
+npx web-ext run --source-dir=distribution \
+	--target=firefox \
+	--firefox-profile=refined-github \
+	--keep-profile-changes \
+	--start-url=github.com
+```
+
+### Load manually
 
 <table>
 	<tr>
@@ -132,14 +158,6 @@ Once built, load it in the browser of your choice:
 				<li>Click on the <strong>Load Temporary Add-on</strong> button;
 				<li>Select the file <code>refined-github/distribution/manifest.json</code>.
 			</ol>
-			<p>Or you can use <a href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/web-ext_command_reference#web-ext_run"><code>web-ext run</code></a> to have Firefox automatically load and reload it:</p>
-			<pre>npx web-ext run --source-dir=distribution</pre>
-			<p>Recommended arguments:</p>
-			<ul>
-				<li><code>--firefox-profile=refined-github</code></li>
-				<li><code>--keep-profile-changes</code></li>
-				<li><code>--start-url=github.com</code></li>
-			</ul>
 		</td>
 	</tr>
 </table>
