@@ -135,7 +135,11 @@ Once built, load it in the browser of your choice:
 			<p>Or you can use <a href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/web-ext_command_reference#web-ext_run"><code>web-ext run</code></a> to have Firefox automatically load and reload it:</p>
 			<pre>npx web-ext run --source-dir=distribution</pre>
 			<p>Recommended arguments:</p>
-			<pre>npx web-ext run --source-dir=distribution --firefox-profile=refined-github --keep-profile-changes --start-url=github.com</pre>
+			<ul>
+				<li><code>--firefox-profile=refined-github</code></li>
+				<li><code>--keep-profile-changes</code></li>
+				<li><code>--start-url=github.com</code></li>
+			</ul>
 		</td>
 	</tr>
 </table>
