@@ -1,7 +1,13 @@
+import delegate from 'delegate-it';
 import elementReady from 'element-ready';
-import select from 'select-dom';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
+
+function onNotificationActionClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
+	const shouldRedirectToInbox = !event.altKey;
+	const actionForm = event.delegateTarget.closest('form')!;
+	actionForm.toggleAttribute('data-redirect-to-inbox-on-submit', shouldRedirectToInbox);
+}
 
 async function init(): Promise<void> {
 	const notificationsBar = await elementReady('.notifications-v2.notification-shelf', {
@@ -9,19 +15,15 @@ async function init(): Promise<void> {
 		timeout: 2000
 	});
 
-	if (!notificationsBar) {
-		return;
+	if (notificationsBar) {
+		delegate(notificationsBar, '.js-notification-action button', 'click', onNotificationActionClick);
 	}
-
-	select.all('.js-notification-action form', notificationsBar).forEach(
-		actionForm => actionForm.removeAttribute('data-redirect-to-inbox-on-submit')
-	);
 }
 
 features.add({
 	id: __filebasename,
-	description: 'Stops redirecting to notification inbox from notification bar actions.',
-	screenshot: 'https://user-images.githubusercontent.com/202916/80313046-ffae5900-87e8-11ea-87f3-ce2cf92e8db9.png'
+	description: 'Stops redirecting to notification inbox from notification bar actions while holding `Alt`.',
+	screenshot: 'https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png'
 }, {
 	include: [
 		pageDetect.isRepo
