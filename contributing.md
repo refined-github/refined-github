@@ -120,7 +120,7 @@ npx web-ext run --source-dir=distribution
 
 Recommended arguments:
 
-<table width="100%">
+<table>
 	<tr>
 		<th>Chrome</th>
 		<th>Firefox</th>
@@ -145,7 +145,7 @@ Recommended arguments:
 
 ### Load manually
 
-<table width="100%">
+<table>
 	<tr>
 		<th>Chrome</th>
 		<th>Firefox</th>
