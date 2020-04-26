@@ -408,7 +408,7 @@ export const hasCode = (): boolean => // Static code, not the editor
 	isCompare() ||
 	isBlame();
 
-export const isActionPage = (): boolean => /\/marketplace\/actions\/.*/.test(location.pathname);
+export const isActionPage = (): boolean => location.pathname.startsWith('/marketplace/actions/');
 export const _isActionPage = [
 	'https://github.com/marketplace/actions/urlchecker-action',
 	'https://github.com/marketplace/actions/github-action-for-assignee-to-reviewer',
