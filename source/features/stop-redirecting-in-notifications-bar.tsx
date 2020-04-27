@@ -6,7 +6,7 @@ function onNotificationActionClick(event: delegate.Event<MouseEvent, HTMLButtonE
 	const shouldRedirectToInbox = !event.altKey;
 	const actionForm = event.delegateTarget.closest('form')!;
 
-	// re-adds attribute for non-alt click after alt-clicks
+	// Re-adds attribute for non-alt click after alt-clicks
 	actionForm.toggleAttribute('data-redirect-to-inbox-on-submit', shouldRedirectToInbox);
 }
 
