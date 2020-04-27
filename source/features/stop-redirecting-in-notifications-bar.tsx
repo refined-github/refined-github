@@ -9,7 +9,7 @@ function onNotificationActionClick(event: delegate.Event<MouseEvent, HTMLButtonE
 }
 
 async function init(): Promise<void> {
-	const actionButtonSelector = '.notifications-v2.notification-shelf .js-notification-action button';
+	const actionButtonSelector = '.notification-shelf .js-notification-action button';
 	delegate(document, actionButtonSelector, 'click', onNotificationActionClick);
 }
 
