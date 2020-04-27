@@ -1,5 +1,4 @@
 import delegate from 'delegate-it';
-import elementReady from 'element-ready';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
 
@@ -10,14 +9,8 @@ function onNotificationActionClick(event: delegate.Event<MouseEvent, HTMLButtonE
 }
 
 async function init(): Promise<void> {
-	const notificationsBar = await elementReady('.notifications-v2.notification-shelf', {
-		stopOnDomReady: false,
-		timeout: 2000
-	});
-
-	if (notificationsBar) {
-		delegate(notificationsBar, '.js-notification-action button', 'click', onNotificationActionClick);
-	}
+	const actionButtonSelector = '.notifications-v2.notification-shelf .js-notification-action button';
+	delegate(document, actionButtonSelector, 'click', onNotificationActionClick);
 }
 
 features.add({
