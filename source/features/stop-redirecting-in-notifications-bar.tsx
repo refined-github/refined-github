@@ -5,6 +5,8 @@ import * as pageDetect from '../libs/page-detect';
 function onNotificationActionClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const shouldRedirectToInbox = !event.altKey;
 	const actionForm = event.delegateTarget.closest('form')!;
+
+	// re-adds attribute for non-alt click after alt-clicks
 	actionForm.toggleAttribute('data-redirect-to-inbox-on-submit', shouldRedirectToInbox);
 }
 
