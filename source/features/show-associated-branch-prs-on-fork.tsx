@@ -63,19 +63,16 @@ const stateClass: Record<string, string> = {
 	Draft: ''
 };
 
-function styledIcon(state: string): SVGElement {
-	const styledIcon = state === 'Merged' ? mergeIcon() : pullRequestIcon();
-	styledIcon.setAttribute('width', '10');
-	styledIcon.setAttribute('height', '14');
-	return styledIcon;
-}
-
 async function init(): Promise<void> {
 	const associatedPullRequests = await getPullRequestsAssociatedWithBranch();
 
 	for (const branch of select.all('[branch]')) {
 		const prInfo = associatedPullRequests[branch.getAttribute('branch')!];
 		if (prInfo) {
+			const styledIcon = prInfo.state === 'Merged' ? mergeIcon() : pullRequestIcon();
+			styledIcon.setAttribute('width', '10');
+			styledIcon.setAttribute('height', '14');
+
 			select('.test-compare-link', branch)!.replaceWith(
 				<div className="d-inline-block text-right ml-3">
 					<a
@@ -92,7 +89,7 @@ async function init(): Promise<void> {
 						title={`Status: ${prInfo.state}`}
 						href={prInfo.url}
 					>
-						{styledIcon(prInfo.state)} {prInfo.state}
+						{styledIcon} {prInfo.state}
 					</a>
 				</div>);
 		}
