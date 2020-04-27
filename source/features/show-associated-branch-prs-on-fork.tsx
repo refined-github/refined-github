@@ -6,8 +6,8 @@ import pullRequestIcon from 'octicon/git-pull-request.svg';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
+import {getRepoURL, getRepoGQL} from '../libs/utils';
 import observeElement from '../libs/simplified-element-observer';
-import {getRepoURL, getRepoGQL, getOwnerAndRepo, getUsername} from '../libs/utils';
 
 interface PullRequest {
 	number: number;
@@ -39,7 +39,7 @@ const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Rec
 	for (const {name, associatedPullRequests} of repository.refs.nodes) {
 		if (associatedPullRequests.nodes.length > 0) {
 			const [prInfo] = associatedPullRequests.nodes;
-			prInfo.state = prInfo.isDraft ? 'Draft' : upperCaseFirst(prInfo.state);
+			prInfo.state = prInfo.isDraft && prInfo.state === 'OPEN' ? 'Draft' : upperCaseFirst(prInfo.state);
 			(pullRequests as AnyObject)[name] = prInfo;
 		}
 	}
@@ -63,12 +63,14 @@ const stateClass: Record<string, string> = {
 	Draft: ''
 };
 
-async function init(): Promise<void | false> {
-	const {ownerName} = getOwnerAndRepo();
-	if (ownerName !== getUsername()) {
-		return false;
-	}
+function styledIcon(state: string): SVGElement {
+	const styledIcon = state === 'Merged' ? mergeIcon() : pullRequestIcon();
+	styledIcon.setAttribute('width', '10');
+	styledIcon.setAttribute('height', '14');
+	return styledIcon;
+}
 
+async function init(): Promise<void> {
 	const associatedPullRequests = await getPullRequestsAssociatedWithBranch();
 
 	for (const branch of select.all('[branch]')) {
@@ -90,7 +92,7 @@ async function init(): Promise<void | false> {
 						title={`Status: ${prInfo.state}`}
 						href={prInfo.url}
 					>
-						{prInfo.state === 'Merged' ? mergeIcon() : pullRequestIcon()} {prInfo.state}
+						{styledIcon(prInfo.state)} {prInfo.state}
 					</a>
 				</div>);
 		}
