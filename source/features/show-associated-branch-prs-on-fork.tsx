@@ -28,6 +28,11 @@ const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Rec
 							state
 							isDraft
 							url
+							timelineItems(last: 1, itemTypes: [HEAD_REF_DELETED_EVENT, HEAD_REF_RESTORED_EVENT]) {
+								nodes {
+									__typename
+								}
+							}
 						}
 					}
 				}
@@ -37,8 +42,10 @@ const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Rec
 
 	const pullRequests = {};
 	for (const {name, associatedPullRequests} of repository.refs.nodes) {
-		if (associatedPullRequests.nodes.length > 0) {
-			const [prInfo] = associatedPullRequests.nodes;
+		const [prInfo] = associatedPullRequests.nodes;
+		// Check if the ref was deleted, since the result includes pr's that are not in fact related to this branch but rather to the branch name.
+		const headRefWasDeleted = prInfo?.timelineItems?.nodes[0]?.__typename === 'HeadRefDeletedEvent';
+		if (prInfo && !headRefWasDeleted) {
 			prInfo.state = prInfo.isDraft && prInfo.state === 'OPEN' ? 'Draft' : upperCaseFirst(prInfo.state);
 			(pullRequests as AnyObject)[name] = prInfo;
 		}
