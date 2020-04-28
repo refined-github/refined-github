@@ -2,10 +2,10 @@ import './more-dropdown.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';
-import diffIcon from 'octicon/diff.svg';
-import branchIcon from 'octicon/git-branch.svg';
-import historyIcon from 'octicon/history.svg';
-import packageIcon from 'octicon/package.svg';
+import DiffIcon from 'octicon/diff.svg';
+import BranchIcon from 'octicon/git-branch.svg';
+import HistoryIcon from 'octicon/history.svg';
+import PackageIcon from 'octicon/package.svg';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
 import {getRepoURL, getReference} from '../libs/utils';
@@ -45,21 +45,21 @@ async function init(): Promise<void> {
 
 	menu.append(
 		<a href={compareUrl} className="rgh-reponav-more dropdown-item">
-			{diffIcon()} Compare
+			<DiffIcon/> Compare
 		</a>,
 
 		isEnterprise() ? '' : (
 			<a href={`/${repoUrl}/network/dependencies`} className="rgh-reponav-more dropdown-item">
-				{packageIcon()} Dependencies
+				<PackageIcon/> Dependencies
 			</a>
 		),
 
 		<a href={commitsUrl} className="rgh-reponav-more dropdown-item">
-			{historyIcon()} Commits
+			<HistoryIcon/> Commits
 		</a>,
 
 		<a href={`/${repoUrl}/branches`} className="rgh-reponav-more dropdown-item">
-			{branchIcon()} Branches
+			<BranchIcon/> Branches
 		</a>
 	);
 

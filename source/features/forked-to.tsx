@@ -2,10 +2,10 @@ import './forked-to.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import forkIcon from 'octicon/repo-forked.svg';
-import checkIcon from 'octicon/check.svg';
+import ForkIcon from 'octicon/repo-forked.svg';
+import CheckIcon from 'octicon/check.svg';
 import elementReady from 'element-ready';
-import linkExternalIcon from 'octicon/link-external.svg';
+import LinkExternalIcon from 'octicon/link-external.svg';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
 import fetchDom from '../libs/fetch-dom';
@@ -43,7 +43,7 @@ async function updateUI(forks: string[]): Promise<void> {
 				className="btn btn-sm float-left rgh-forked-button"
 				title={`Open your fork at ${forks[0]}`}
 			>
-				{linkExternalIcon()}
+				<LinkExternalIcon/>
 			</a>
 		);
 	} else {
@@ -67,7 +67,7 @@ async function updateUI(forks: string[]): Promise<void> {
 							title={`Open your fork at ${fork}`}
 						>
 							<span className="select-menu-item-icon rgh-forked-to-icon">
-								{fork === getRepoURL() ? checkIcon() : forkIcon()}
+								{fork === getRepoURL() ? <CheckIcon/> : <ForkIcon/>}
 							</span>
 							{fork}
 						</a>

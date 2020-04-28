@@ -2,12 +2,12 @@ import './deep-reblame.css';
 import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
-import versionIcon from 'octicon/versions.svg';
+import VersionIcon from 'octicon/versions.svg';
 import delegate from 'delegate-it';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
-import loadingIcon from '../libs/icon-loading';
+import LoadingIcon from '../libs/icon-loading';
 import {getRepoGQL, getReference, looseParseInt, getCleanPathname} from '../libs/utils';
 
 const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number, currentFilename: string): Promise<string> => {
@@ -67,8 +67,7 @@ async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAncho
 	const prCommit = select<HTMLAnchorElement>('a.message', blameHunk)!.pathname.split('/').pop()!;
 	const [, currentFilename] = getCleanPathname().split(getReference()! + '/');
 
-	const spinner = loadingIcon();
-	spinner.classList.add('mr-2');
+	const spinner = <LoadingIcon className="mr-2"/>;
 	blameElement.firstElementChild!.replaceWith(spinner);
 
 	try {
@@ -78,7 +77,7 @@ async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAncho
 		href.hash = 'L' + lineNumber;
 		location.href = String(href);
 	} catch (error) {
-		spinner.replaceWith(versionIcon());
+		spinner.replaceWith(<VersionIcon/>);
 		alert(error.message);
 	}
 }
@@ -104,7 +103,7 @@ function init(): void | false {
 					aria-label="View blame prior to this change (extracts commits from this PR first)"
 					className="reblame-link btn-link no-underline tooltipped tooltipped-e d-inline-block pr-1 rgh-deep-reblame"
 				>
-					{versionIcon()}
+					<VersionIcon/>
 				</button>
 			);
 		}

@@ -1,5 +1,6 @@
+import React from 'dom-chef';
 import select from 'select-dom';
-import checkIcon from 'octicon/check.svg';
+import CheckIcon from 'octicon/check.svg';
 import elementReady from 'element-ready';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
@@ -41,7 +42,7 @@ function togglableFilters(): void {
 	for (const link of select.all<HTMLAnchorElement>('.table-list-header-toggle.states a')) {
 		select('.octicon', link)?.remove();
 		if (link.classList.contains('selected')) {
-			link.prepend(checkIcon());
+			link.prepend(<CheckIcon/>);
 			new SearchQuery(link).remove(
 				'is:open',
 				'is:closed',

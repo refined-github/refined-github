@@ -2,7 +2,7 @@ import twas from 'twas';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import repoIcon from 'octicon/repo.svg';
+import RepoIcon from 'octicon/repo.svg';
 import elementReady from 'element-ready';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
@@ -59,7 +59,7 @@ async function init(): Promise<void> {
 
 	const element = (
 		<li className="text-gray" title={`First commit dated ${dateFormatter.format(date)}`}>
-			{repoIcon()} <span className="num text-emphasized">{value}</span> {unit} old
+			<RepoIcon/> <span className="num text-emphasized">{value}</span> {unit} old
 		</li>
 	);
 

@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import elementReady from 'element-ready';
-import chevronLeftIcon from 'octicon/chevron-left.svg';
+import ChevronLeftIcon from 'octicon/chevron-left.svg';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
 import {isRepoRoot} from '../libs/page-detect';
@@ -31,7 +31,7 @@ async function init(): Promise<false | void> {
 			href={url}
 			aria-label="See this view on the default branch"
 		>
-			{chevronLeftIcon()}
+			<ChevronLeftIcon/>
 		</a>
 	);
 

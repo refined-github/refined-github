@@ -2,7 +2,7 @@ import cache from 'webext-storage-cache';
 import React from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';
-import tagIcon from 'octicon/tag.svg';
+import TagIcon from 'octicon/tag.svg';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
 import * as api from '../libs/api';
@@ -53,7 +53,7 @@ async function init(): Promise<false | void> {
 
 	const releasesTab = (
 		<a href={`/${repoUrl}/releases`} className="reponav-item" data-hotkey="g r">
-			{tagIcon()}
+			<TagIcon/>
 			<span> Releases </span>
 			{count === undefined ? '' : <span className="Counter">{count}</span>}
 		</a>

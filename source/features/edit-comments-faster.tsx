@@ -1,5 +1,6 @@
+import React from 'dom-chef';
 import select from 'select-dom';
-import pencilIcon from 'octicon/pencil.svg';
+import PencilIcon from 'octicon/pencil.svg';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
 
@@ -10,7 +11,7 @@ function init(): void {
 		item.classList.add('rgh-edit-comment');
 
 		const button = item.cloneNode();
-		button.append(pencilIcon());
+		button.append(<PencilIcon/>);
 		button.classList.replace('dropdown-item', 'timeline-comment-action');
 		item.closest('details')!.before(button);
 

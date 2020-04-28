@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import diffIcon from 'octicon/diff.svg';
-import bookIcon from 'octicon/book.svg';
-import checkIcon from 'octicon/check.svg';
+import DiffIcon from 'octicon/diff.svg';
+import BookIcon from 'octicon/book.svg';
+import CheckIcon from 'octicon/check.svg';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
 
@@ -28,8 +28,8 @@ function createDiffStyleToggle(): DocumentFragment {
 
 	return (
 		<>
-			{makeLink('unified', diffIcon(), isUnified)}
-			{makeLink('split', bookIcon(), !isUnified)}
+			{makeLink('unified', <DiffIcon/>, isUnified)}
+			{makeLink('split', <BookIcon/>, !isUnified)}
 		</>
 	);
 }
@@ -51,7 +51,7 @@ function createWhitespaceButton(): HTMLElement {
 			className={`btn btn-sm btn-outline tooltipped tooltipped-s ${isHidingWhitespace ? 'bg-gray-light text-gray-light' : ''}`}
 			aria-label={`${isHidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}
 		>
-			{isHidingWhitespace && checkIcon()} No Whitespace
+			{isHidingWhitespace && <CheckIcon/>} No Whitespace
 		</a>
 	);
 }
