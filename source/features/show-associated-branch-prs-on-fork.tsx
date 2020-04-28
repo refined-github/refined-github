@@ -19,6 +19,7 @@ interface PullRequest {
 const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Record<string, PullRequest>> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
+			databaseId
 			refs(refPrefix: "refs/heads/", last: 100) {
 				nodes {
 					name
@@ -33,6 +34,9 @@ const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Rec
 									__typename
 								}
 							}
+							baseRepository {
+								databaseId
+							}
 						}
 					}
 				}
@@ -44,8 +48,10 @@ const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Rec
 	for (const {name, associatedPullRequests} of repository.refs.nodes) {
 		const [prInfo] = associatedPullRequests.nodes;
 		// Check if the ref was deleted, since the result includes pr's that are not in fact related to this branch but rather to the branch name.
-		const headRefWasDeleted = prInfo?.timelineItems?.nodes[0]?.__typename === 'HeadRefDeletedEvent';
-		if (prInfo && !headRefWasDeleted) {
+		const headRefWasDeleted = prInfo?.timelineItems.nodes[0]?.__typename === 'HeadRefDeletedEvent';
+		// Local PR's github will put the association
+		const localPR = repository.databaseId === prInfo?.baseRepository.databaseId;
+		if (prInfo && !headRefWasDeleted && !localPR) {
 			prInfo.state = prInfo.isDraft && prInfo.state === 'OPEN' ? 'Draft' : upperCaseFirst(prInfo.state);
 			(pullRequests as AnyObject)[name] = prInfo;
 		}
