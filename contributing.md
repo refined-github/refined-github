@@ -135,7 +135,7 @@ Recommended arguments:
 		</td>
 		<td width="50%" valign="top">
 			<pre>npx web-ext run --source-dir=distribution \
-	--target=firefox \
+	--target=firefox-desktop \
 	--firefox-profile=refined-github \
 	--keep-profile-changes \
 	--start-url=github.com</pre>
