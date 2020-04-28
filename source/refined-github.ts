@@ -171,6 +171,7 @@ import './features/clone-branch';
 import './features/deep-reblame';
 import './features/clear-pr-merge-commit-message';
 import './features/go-to-action-from-file';
+import './features/action-used-by-link';
 
 // Add global for easier debugging
 (window as any).select = select;
