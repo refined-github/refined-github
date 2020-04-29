@@ -132,6 +132,7 @@ Recommended arguments:
 	--chromium-profile=refined-github \
 	--keep-profile-changes \
 	--start-url=github.com</pre>
+			<p>Chrome automatically creates the <code>refined-github</code> profile if it doesn't exist.</p>
 		</td>
 		<td width="50%" valign="top">
 			<pre>npx web-ext run --source-dir=distribution \
@@ -139,6 +140,7 @@ Recommended arguments:
 	--firefox-profile=refined-github \
 	--keep-profile-changes \
 	--start-url=github.com</pre>
+			<p>You will have to <a href="https://support.mozilla.org/en-US/kb/profile-manager-create-remove-switch-firefox-profiles">create a new profile</a> called <code>refined-github</code> first.</p>You will have to create a new profile called `refined-github` first: https://support.mozilla.org/en-US/kb/profile-manager-create-remove-switch-firefox-profilesYou will have to create a new profile called `refined-github` first: https://support.mozilla.org/en-US/kb/profile-manager-create-remove-switch-firefox-profiles
 		</td>
 	</tr>
 </table>
