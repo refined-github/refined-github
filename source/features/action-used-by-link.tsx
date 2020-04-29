@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import searchIcon from 'octicon/search.svg';
+import SearchIcon from 'octicon/search.svg';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
 
@@ -16,13 +16,9 @@ function init(): void {
 	actionURL.searchParams.set('s', 'indexed');
 	actionURL.searchParams.set('o', 'desc');
 
-	const styledSearchIcon = searchIcon();
-	styledSearchIcon.setAttribute('width', '14');
-	styledSearchIcon.classList.add('text-gray-dark', 'mr-2');
-
 	select('.d-block.mb-2[href^="/contact"]')!.after(
 		<a href={String(actionURL)} className="d-block mb-2">
-			{styledSearchIcon}Usage examples
+			<SearchIcon width={14} className="text-gray-dark mr-2"/>Usage examples
 		</a>
 	);
 }

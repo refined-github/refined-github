@@ -58,7 +58,9 @@ declare namespace JSX {
 		'details-dialog': BaseIntrinsicElement & {tabindex: string};
 	}
 
-	interface IntrinsicAttributes extends BaseIntrinsicElement {}
+	interface IntrinsicAttributes extends BaseIntrinsicElement {
+		width?: number;
+	}
 }
 
 // Drop after https://github.com/Microsoft/TypeScript/issues/30928
