@@ -3,6 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import oneTime from 'onetime';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {isPR} from '../libs/page-detect';
 import onReplacedElement from '../libs/on-replaced-element';
 
@@ -64,7 +65,7 @@ function clean(): void {
 	} else {
 		const assignYourself = select('.js-issue-assign-self');
 		if (assignYourself) {
-			(assignYourself.previousSibling as ChildNode).remove(); // Drop "No one — "
+			assignYourself.previousSibling!.remove(); // Drop "No one — "
 			select('[aria-label="Select assignees"] summary')!.append(
 				<span style={{fontWeight: 'normal'}}> – {assignYourself}</span>
 			);
@@ -95,13 +96,13 @@ function clean(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Hides empty sections (or just their "empty" label) in the discussion sidebar.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/57199809-20691780-6fb6-11e9-9672-1ad3f9e1b827.png'
 }, {
 	include: [
-		features.isIssue,
-		features.isPRConversation
+		pageDetect.isIssue,
+		pageDetect.isPRConversation
 	],
 	additionalListeners: [
 		() => onReplacedElement('#partial-discussion-sidebar', clean)

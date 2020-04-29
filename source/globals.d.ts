@@ -1,23 +1,28 @@
 type AnyObject = Record<string, any>;
 type AsyncVoidFunction = () => Promise<void>;
-type Unpromise<MaybePromise> = MaybePromise extends Promise<infer Type> ? Type : MaybePromise;
-type AsyncReturnType<T extends (...args: any) => any> = Unpromise<ReturnType<T>>;
 
-type FeatureName = 'use the __featureName__ variable';
-interface FeatureInfo { // TODO: merge with FeatureMeta
-	name: string;
-	description: string;
-	screenshot?: string;
+type FeatureID = 'use the __filebasename variable';
+
+type FeatureShortcuts = Record<string, string>;
+interface FeatureMeta {
+	/**
+	If it's disabled, this should be the issue that explains why, as a reference
+	@example '#123'
+	*/
 	disabled?: string;
+	id: FeatureID;
+	description: string;
+	screenshot: string | false;
+	shortcuts?: FeatureShortcuts;
 }
 
 interface FeatureConfig {
-	[featureName: string]: string | boolean;
+	[id: string]: string | boolean;
 }
 
 declare const __featuresOptionDefaults__: FeatureConfig;
-declare const __featuresInfo__: FeatureInfo[];
-declare const __featureName__: FeatureName;
+declare const __featuresMeta__: FeatureMeta[];
+declare const __filebasename: FeatureID;
 
 interface Window {
 	content: GlobalFetch;
@@ -52,6 +57,8 @@ declare namespace JSX {
 		'relative-time': BaseIntrinsicElement & {datetime: string};
 		'details-dialog': BaseIntrinsicElement & {tabindex: string};
 	}
+
+	interface IntrinsicAttributes extends BaseIntrinsicElement {}
 }
 
 // Drop after https://github.com/Microsoft/TypeScript/issues/30928
@@ -65,10 +72,10 @@ interface HTMLFormControlsCollection {
 }
 
 declare module '*.svg' {
-	export default (): SVGElement => SVGElement;
+	export default (): JSX.Element => JSX.Element;
 }
 
+// Make `element.cloneNode()` preserve its type instead of returning Node
 interface Node extends EventTarget {
 	cloneNode(deep?: boolean): this;
 }
-

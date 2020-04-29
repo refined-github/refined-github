@@ -3,6 +3,7 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import elementReady from 'element-ready';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {isUserProfile, isOwnOrganizationProfile, isOrganizationProfile} from '../libs/page-detect';
 
 const addNewProjectLink = onetime(() => {
@@ -67,14 +68,14 @@ async function init(): Promise<false | void> {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Hides the `Projects` tab from repositories and profiles when it’s empty. New projects can still be created via the `Create new…` menu.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/34909214-18b6fb2e-f8cf-11e7-8556-bed748596d3b.png'
 }, {
 	include: [
-		features.isRepo,
-		features.isUserProfile,
-		features.isOrganizationProfile
+		pageDetect.isRepo,
+		pageDetect.isUserProfile,
+		pageDetect.isOrganizationProfile
 	],
 	init
 });

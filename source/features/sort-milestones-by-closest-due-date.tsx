@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function init(): void {
 	for (const a of select.all<HTMLAnchorElement>('a[href$="/milestones"], a[href*="/milestones?"]')) {
@@ -14,12 +15,12 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Changes the default sort order of milestones `Closest due date`.',
 	screenshot: false
 }, {
 	include: [
-		features.isRepo
+		pageDetect.isRepo
 	],
 	init
 });

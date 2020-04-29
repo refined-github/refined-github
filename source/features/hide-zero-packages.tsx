@@ -1,5 +1,6 @@
 import elementReady from 'element-ready';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 async function init(): Promise<void> {
 	const packagesCounter = await elementReady([
@@ -13,13 +14,13 @@ async function init(): Promise<void> {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Hides the `Packages` tab if it’s empty (in repositories and user profiles).',
 	screenshot: 'https://user-images.githubusercontent.com/35382021/62426530-688ef780-b6d5-11e9-93f2-515110aed1eb.jpg'
 }, {
 	include: [
-		features.isRepoRoot,
-		features.isUserProfile
+		pageDetect.isRepoRoot,
+		pageDetect.isUserProfile
 	],
 	waitForDomReady: false,
 	init

@@ -1,9 +1,10 @@
 import './open-all-notifications.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import linkExternalIcon from 'octicon/link-external.svg';
+import LinkExternalIcon from 'octicon/link-external.svg';
 import delegate from 'delegate-it';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {groupButtons} from '../libs/group-buttons';
 
 const confirmationRequiredCount = 10;
@@ -56,7 +57,7 @@ function addOpenReposButton(): void {
 
 		select('.mark-all-as-read', repoNotifications)!.before(
 			<button type="button" className="open-repo-notifications tooltipped tooltipped-w rgh-open-notifications-button" aria-label={`Open all unread \`${repo}\` notifications in tabs`}>
-				{linkExternalIcon()}
+				<LinkExternalIcon/>
 			</button>
 		);
 	}
@@ -95,12 +96,12 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Open all your notifications at once.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/31700005-1b3be428-b38c-11e7-90a6-8f572968993b.png'
 }, {
 	include: [
-		features.isNotifications
+		pageDetect.isNotifications
 	],
 	init
 });

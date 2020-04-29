@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function init(): void {
 	const createReleaseButton = select('a[href$="/releases/new"]:not([data-hotkey])');
@@ -9,7 +10,7 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds a keyboard shortcut to create a new release while on the Releases page: `c`.',
 	screenshot: false,
 	shortcuts: {
@@ -17,7 +18,7 @@ features.add({
 	}
 }, {
 	include: [
-		features.isReleasesOrTags
+		pageDetect.isReleasesOrTags
 	],
 	init
 });

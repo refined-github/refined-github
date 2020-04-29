@@ -4,6 +4,7 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as api from '../libs/api';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getRepoGQL, pluralize} from '../libs/utils';
 
 const getCommitChanges = cache.function(async (commit: string): Promise<[number, number]> => {
@@ -41,12 +42,12 @@ async function init(): Promise<void> {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds diff stats on PR commits.',
 	screenshot: 'https://user-images.githubusercontent.com/16872793/76107253-48deeb00-5fa6-11ea-9931-721cde553bdf.png'
 }, {
 	include: [
-		features.isPRCommit
+		pageDetect.isPRCommit
 	],
 	waitForDomReady: false,
 	init

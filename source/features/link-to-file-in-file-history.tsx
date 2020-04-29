@@ -1,7 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import fileIcon from 'octicon/file.svg';
+import FileIcon from 'octicon/file.svg';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {groupSiblings} from '../libs/group-buttons';
 
 function init(): void | false {
@@ -22,7 +23,7 @@ function init(): void | false {
 				className="btn btn-outline tooltipped tooltipped-sw"
 				aria-label="See object at this point in the history"
 			>
-				{fileIcon()}
+				<FileIcon/>
 			</a>
 		);
 
@@ -31,12 +32,12 @@ function init(): void | false {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds links to the file itself in a file’s commit list.',
 	screenshot: 'https://user-images.githubusercontent.com/22439276/57195061-b88ddf00-6f6b-11e9-8ad9-13225d09266d.png'
 }, {
 	include: [
-		features.isRepoCommitList
+		pageDetect.isRepoCommitList
 	],
 	init
 });

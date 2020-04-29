@@ -2,6 +2,7 @@ import './reactions-avatars.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getUsername, flatZip, isFirefox} from '../libs/utils';
 import onReplacedElement from '../libs/on-replaced-element';
 
@@ -72,12 +73,12 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds reaction avatars showing *who* reacted to a comment',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/34438653-f66535a4-ecda-11e7-9406-2e1258050cfa.png'
 }, {
 	include: [
-		features.hasComments
+		pageDetect.hasComments
 	],
 	init
 });

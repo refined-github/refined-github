@@ -1,9 +1,10 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import cache from 'webext-storage-cache';
-import pullRequestIcon from 'octicon/git-pull-request.svg';
+import PullRequestIcon from 'octicon/git-pull-request.svg';
 import * as api from '../libs/api';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getRepoURL, getRepoGQL} from '../libs/utils';
 import {isEditingFile} from '../libs/page-detect';
 import getDefaultBranch from '../libs/get-default-branch';
@@ -17,7 +18,7 @@ function getDropdown(prs: number[]): HTMLElement {
 	return (
 		<details className="ml-2 dropdown details-reset details-overlay d-inline-block">
 			<summary aria-haspopup="true" className="btn btn-sm">
-				{pullRequestIcon()} {prs.length} <div className="dropdown-caret"/>
+				<PullRequestIcon/> {prs.length} <div className="dropdown-caret"/>
 			</summary>
 
 			<ul className="dropdown-menu dropdown-menu-se">
@@ -42,7 +43,7 @@ function getSingleButton(prNumber: number, _?: number, prs?: number[]): HTMLElem
 			href={getPRUrl(prNumber)}
 			className={'btn btn-sm btn-outline' + (prs ? ' BtnGroup-item' : '')}
 		>
-			{pullRequestIcon()} #{prNumber}
+			<PullRequestIcon/> #{prNumber}
 		</a>
 	);
 }
@@ -129,17 +130,17 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 }, {
 	maxAge: 1,
 	staleWhileRevalidate: 9,
-	cacheKey: () => __featureName__ + ':' + getRepoURL()
+	cacheKey: () => __filebasename + ':' + getRepoURL()
 });
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Shows PRs that touch the current file.',
 	screenshot: 'https://user-images.githubusercontent.com/55841/60622834-879e1f00-9de1-11e9-9a9e-bae5ec0b3728.png'
 }, {
 	include: [
-		features.isEditingFile,
-		features.isSingleFile
+		pageDetect.isEditingFile,
+		pageDetect.isSingleFile
 	],
 	init
 });

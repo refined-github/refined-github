@@ -2,9 +2,10 @@ import './hidden-review-comments-indicator.css';
 import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
-import commentIcon from 'octicon/comment.svg';
+import CommentIcon from 'octicon/comment.svg';
 import delegate from 'delegate-it';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import anchorScroll from '../libs/anchor-scroll';
 import onPrFileLoad from '../libs/on-pr-file-load';
 
@@ -28,7 +29,7 @@ const addIndicator = mem((commentThread: HTMLElement): void => {
 		<tr>
 			<td className="rgh-comments-indicator blob-num" colSpan={2}>
 				<button type="button" className="btn-link">
-					{commentIcon()}
+					<CommentIcon/>
 					<span>{commentCount}</span>
 				</button>
 			</td>
@@ -68,14 +69,14 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds comment indicators when comments are hidden in PR review.',
 	screenshot:
 		'https://user-images.githubusercontent.com/1402241/63112671-011d5580-bfbb-11e9-9e19-53e11641990e.gif'
 }, {
 	include: [
-		features.isPRFiles,
-		features.isPRCommit
+		pageDetect.isPRFiles,
+		pageDetect.isPRCommit
 	],
 	init
 });

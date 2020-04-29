@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getCleanPathname} from '../libs/utils';
 import getDefaultBranch from '../libs/get-default-branch';
 
@@ -107,12 +108,12 @@ function init(): false | void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds possible related pages and alternatives on 404 pages.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/46402857-7bdada80-c733-11e8-91a1-856573078ff5.png'
 }, {
 	include: [
-		features.is404
+		pageDetect.is404
 	],
 	repeatOnAjax: false,
 	init

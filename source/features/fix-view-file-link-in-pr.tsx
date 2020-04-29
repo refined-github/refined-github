@@ -1,6 +1,7 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function handleMenuOpening(event: delegate.Event): void {
 	const dropdown = event.delegateTarget.nextElementSibling!;
@@ -40,13 +41,13 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Points the "View file" in PRs to the branch instead of the commit, so the Edit/Delete buttons will be enabled on the "View file" page, if needed.',
 	screenshot: false
 }, {
 	include: [
-		features.isPRFiles,
-		features.isPRCommit
+		pageDetect.isPRFiles,
+		pageDetect.isPRCommit
 	],
 	init
 });

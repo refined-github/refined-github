@@ -1,6 +1,7 @@
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import SearchQuery from '../libs/search-query';
 
 function init(): void {
@@ -28,14 +29,14 @@ async function cleanBar(): Promise<void> {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Changes the default sort order of discussions to `Recently updated`.',
 	screenshot: false
 }, {
 	init
 }, {
 	include: [
-		features.isGlobalDiscussionList
+		pageDetect.isGlobalDiscussionList
 	],
 	waitForDomReady: false,
 	repeatOnAjax: false,

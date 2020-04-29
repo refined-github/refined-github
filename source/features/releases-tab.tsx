@@ -2,8 +2,9 @@ import cache from 'webext-storage-cache';
 import React from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';
-import tagIcon from 'octicon/tag.svg';
+import TagIcon from 'octicon/tag.svg';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import * as api from '../libs/api';
 import {appendBefore} from '../libs/dom-utils';
 import {getRepoURL, getRepoGQL, looseParseInt} from '../libs/utils';
@@ -52,7 +53,7 @@ async function init(): Promise<false | void> {
 
 	const releasesTab = (
 		<a href={`/${repoUrl}/releases`} className="reponav-item" data-hotkey="g r">
-			{tagIcon()}
+			<TagIcon/>
 			<span> Releases </span>
 			{count === undefined ? '' : <span className="Counter">{count}</span>}
 		</a>
@@ -74,7 +75,7 @@ async function init(): Promise<false | void> {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds a `Releases` tab and a keyboard shortcut: `g` `r`.',
 	screenshot: 'https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png',
 	shortcuts: {
@@ -82,7 +83,7 @@ features.add({
 	}
 }, {
 	include: [
-		features.isRepo
+		pageDetect.isRepo
 	],
 	waitForDomReady: false,
 	init

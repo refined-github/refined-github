@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getRepoURL} from '../libs/utils';
 
 function init(): false | void {
@@ -12,12 +13,12 @@ function init(): false | void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Remove the "Upload files" button',
 	screenshot: false
 }, {
 	include: [
-		features.isRepoTree
+		pageDetect.isRepoTree
 	],
 	repeatOnAjax: false,
 	init

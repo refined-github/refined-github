@@ -1,6 +1,7 @@
 import './parse-backticks.css';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {parseBackticks} from '../libs/dom-formatters';
 
 function init(): void {
@@ -31,17 +32,17 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Renders text in `backticks` in issue titles and commit titles/descriptions.',
 	screenshot: 'https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png'
 }, {
 	include: [
-		features.isRepo
+		pageDetect.isRepo
 	],
 	init
 }, {
 	include: [
-		features.isDashboard
+		pageDetect.isDashboard
 	],
 	onlyAdditionalListeners: true,
 	init

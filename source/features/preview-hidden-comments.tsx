@@ -2,6 +2,7 @@ import './preview-hidden-comments.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 const allowedReasons = ['resolved', 'outdated', 'off-topic'];
 
@@ -34,12 +35,12 @@ const init = (): void => {
 };
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Preview hidden comments inline.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/52545036-6e271700-2def-11e9-8c0c-b5e0fa6f37dd.png'
 }, {
 	include: [
-		features.hasComments
+		pageDetect.hasComments
 	],
 	init
 });

@@ -2,6 +2,7 @@ import './extend-diff-expander.css';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function expandDiff(event: delegate.Event): void {
 	// Skip if the user clicked directly on the icon
@@ -15,13 +16,13 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Widens the `Expand diff` button to be clickable across the screen.',
 	screenshot: 'https://user-images.githubusercontent.com/6978877/34470024-eee4f43e-ef20-11e7-9036-65094bd58960.PNG'
 }, {
 	include: [
-		features.isPRFiles,
-		features.isCommit
+		pageDetect.isPRFiles,
+		pageDetect.isCommit
 	],
 	init
 });

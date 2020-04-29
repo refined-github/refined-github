@@ -2,6 +2,7 @@ import './recently-pushed-branches-enhancements.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getRepoURL} from '../libs/utils';
 import {isRepoRoot} from '../libs/page-detect';
 
@@ -51,18 +52,18 @@ async function init(): Promise<false | void> {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Moves the "Recently-pushed branches" widget to the header to avoid content jumps. Also adds it to more pages in the repo.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/56466173-da517700-643f-11e9-8eb5-9b20017fa613.gif'
 }, {
 	include: [
-		features.isRepo
+		pageDetect.isRepo
 	],
 	repeatOnAjax: false,
 	init
 }, {
 	include: [
-		features.isRepo
+		pageDetect.isRepo
 	],
 	init: removeDuplicateList
 });

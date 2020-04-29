@@ -1,7 +1,8 @@
 import React from 'dom-chef';
 import elementReady from 'element-ready';
-import chevronLeftIcon from 'octicon/chevron-left.svg';
+import ChevronLeftIcon from 'octicon/chevron-left.svg';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {isRepoRoot} from '../libs/page-detect';
 import {groupButtons} from '../libs/group-buttons';
 import getDefaultBranch from '../libs/get-default-branch';
@@ -30,7 +31,7 @@ async function init(): Promise<false | void> {
 			href={url}
 			aria-label="See this view on the default branch"
 		>
-			{chevronLeftIcon()}
+			<ChevronLeftIcon/>
 		</a>
 	);
 
@@ -42,14 +43,14 @@ async function init(): Promise<false | void> {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds link the default branch on directory listings and files.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/71886648-2891dc00-316f-11ea-98d8-c5bf6c24d85c.png'
 }, {
 	include: [
-		features.isRepoTree,
-		features.isSingleFile,
-		features.isRepoCommitList
+		pageDetect.isRepoTree,
+		pageDetect.isSingleFile,
+		pageDetect.isRepoCommitList
 	],
 	waitForDomReady: false,
 	init

@@ -1,8 +1,9 @@
 import './edit-files-faster.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import pencilIcon from 'octicon/pencil.svg';
+import PencilIcon from 'octicon/pencil.svg';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {wrap} from '../libs/dom-utils';
 import getDefaultBranch from '../libs/get-default-branch';
 import onFileListUpdate from '../libs/on-file-list-update';
@@ -24,17 +25,17 @@ async function init(): Promise<void> {
 		}
 
 		wrap(fileIcon, <a href={pathnameParts.join('/')} className="rgh-edit-files-faster"/>);
-		fileIcon.after(pencilIcon());
+		fileIcon.after(<PencilIcon/>);
 	}
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds a button to edit files from the repo file list.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/56370462-d51cde00-622d-11e9-8cd3-8a173bd3dc08.png'
 }, {
 	include: [
-		features.isRepoTree
+		pageDetect.isRepoTree
 	],
 	additionalListeners: [
 		onFileListUpdate

@@ -1,9 +1,10 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import diffIcon from 'octicon/diff.svg';
-import bookIcon from 'octicon/book.svg';
-import checkIcon from 'octicon/check.svg';
+import DiffIcon from 'octicon/diff.svg';
+import BookIcon from 'octicon/book.svg';
+import CheckIcon from 'octicon/check.svg';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function createDiffStyleToggle(): DocumentFragment {
 	const parameters = new URLSearchParams(location.search);
@@ -27,8 +28,8 @@ function createDiffStyleToggle(): DocumentFragment {
 
 	return (
 		<>
-			{makeLink('unified', diffIcon(), isUnified)}
-			{makeLink('split', bookIcon(), !isUnified)}
+			{makeLink('unified', <DiffIcon/>, isUnified)}
+			{makeLink('split', <BookIcon/>, !isUnified)}
 		</>
 	);
 }
@@ -50,13 +51,13 @@ function createWhitespaceButton(): HTMLElement {
 			className={`btn btn-sm btn-outline tooltipped tooltipped-s ${isHidingWhitespace ? 'bg-gray-light text-gray-light' : ''}`}
 			aria-label={`${isHidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}
 		>
-			{isHidingWhitespace && checkIcon()} No Whitespace
+			{isHidingWhitespace && <CheckIcon/>} No Whitespace
 		</a>
 	);
 }
 
 function wrap(...elements: Node[]): DocumentFragment {
-	if (features.isSingleCommit()) {
+	if (pageDetect.isSingleCommit()) {
 		return (
 			<div className="float-right">
 				{elements.map(element => <div className="ml-3 BtnGroup">{element}</div>)}
@@ -109,7 +110,7 @@ function init(): false | void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds one-click buttons to change diff style and to ignore the whitespace and a keyboard shortcut to ignore the whitespace: `d` `w`.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/54178764-d1c96080-44d1-11e9-889c-734ffd2a602d.png',
 	shortcuts: {
@@ -117,8 +118,8 @@ features.add({
 	}
 }, {
 	include: [
-		// Disabled because of #2291 // features.isPRFiles
-		features.isCommit
+		// Disabled because of #2291 // pageDetect.isPRFiles
+		pageDetect.isCommit
 	],
 	init
 });

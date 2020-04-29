@@ -2,6 +2,7 @@ import './suggest-commit-title-limit.css';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
 
 const fieldSelector = [
@@ -19,18 +20,18 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Suggest limiting commit titles to 72 characters.',
 	screenshot: 'https://user-images.githubusercontent.com/37769974/60379478-106b3280-9a51-11e9-88b9-0e3607f214cd.gif'
 }, {
 	include: [
-		features.isEditingFile,
-		features.isPRConversation
+		pageDetect.isEditingFile,
+		pageDetect.isPRConversation
 	],
 	init
 }, {
 	include: [
-		features.isPRConversation
+		pageDetect.isPRConversation
 	],
 	additionalListeners: [
 		// For PR merges, GitHub restores any saved commit messages on page load

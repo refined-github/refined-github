@@ -1,6 +1,7 @@
 import select from 'select-dom';
 import debounce from 'debounce-fn';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 let button: HTMLButtonElement | undefined;
 
@@ -55,12 +56,12 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Automagically expands the newsfeed when you scroll down.',
 	screenshot: false
 }, {
 	include: [
-		features.isDashboard
+		pageDetect.isDashboard
 	],
 	onlyAdditionalListeners: true,
 	repeatOnAjax: false,

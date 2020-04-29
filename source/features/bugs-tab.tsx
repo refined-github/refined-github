@@ -1,8 +1,10 @@
+import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import bugIcon from '@primer/octicons/build/svg/bug.svg';
+import BugIcon from '@primer/octicons/build/svg/bug.svg';
 import elementReady from 'element-ready';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import * as api from '../libs/api';
 import SearchQuery from '../libs/search-query';
 import {getRepoURL} from '../libs/utils';
@@ -19,7 +21,7 @@ const countBugs = cache.function(async (): Promise<number> => {
 }, {
 	maxAge: 1 / 24 / 2, // Stale after half an hour
 	staleWhileRevalidate: 4,
-	cacheKey: (): string => __featureName__ + ':' + getRepoURL()
+	cacheKey: (): string => __filebasename + ':' + getRepoURL()
 });
 
 async function init(): Promise<void | false> {
@@ -48,15 +50,23 @@ async function init(): Promise<void | false> {
 		elementReady('.js-pinned-issues-reorder-container').then(pinnedIssues => pinnedIssues?.remove());
 	}
 
-	// Copy Issues tab but update its appearance
+	// Copy Issues tab
 	const bugsTab = issuesTab.cloneNode(true);
-	const bugsCounter = select('.Counter', bugsTab)!;
-	select('.octicon', bugsTab)!.replaceWith(bugIcon());
-	bugsCounter.textContent = '0';
+
+	// Update its appearance
+	select('.octicon', bugsTab)!.replaceWith(<BugIcon/>);
 	select('[itemprop="name"]', bugsTab)!.textContent = 'Bugs';
 
-	// Update Bugs’ link
+	// Set temporary counter
+	const bugsCounter = select('.Counter', bugsTab)!;
+	bugsCounter.textContent = '0';
+
+	// Disable unwanted behavior #3001
 	const bugsLink = select('a', bugsTab)!;
+	bugsLink.removeAttribute('data-hotkey');
+	bugsLink.removeAttribute('data-selected-links');
+
+	// Update Bugs’ link
 	new SearchQuery(bugsLink).add('label:bug');
 
 	// Change the Selected tab if necessary
@@ -75,12 +85,12 @@ async function init(): Promise<void | false> {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds a "Bugs" tab to repos, if there are any open issues with the "bug" label.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/73720910-a688d900-4755-11ea-9c8d-70e5ddb3bfe5.png'
 }, {
 	include: [
-		features.isRepo
+		pageDetect.isRepo
 	],
 	waitForDomReady: false,
 	init

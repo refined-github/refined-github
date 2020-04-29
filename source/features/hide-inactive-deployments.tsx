@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import onNewComments from '../libs/on-new-comments';
 
 function init(): void {
@@ -15,12 +16,12 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Hides inactive deployments in PRs.',
 	screenshot: 'https://github.com/sindresorhus/refined-github/issues/1144'
 }, {
 	include: [
-		features.isPRConversation
+		pageDetect.isPRConversation
 	],
 	additionalListeners: [
 		onNewComments

@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {linkifiedURLClass, linkifyURLs, linkifyIssues} from '../libs/dom-formatters';
 
 function init(): false | void {
@@ -32,12 +33,12 @@ function init(): false | void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Linkifies URLs and issue references in code.',
 	screenshot: 'https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png'
 }, {
 	include: [
-		features.hasCode
+		pageDetect.hasCode
 	],
 	init
 });

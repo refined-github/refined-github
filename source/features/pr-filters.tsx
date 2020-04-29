@@ -2,8 +2,9 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import cache from 'webext-storage-cache';
-import checkIcon from 'octicon/check.svg';
+import CheckIcon from 'octicon/check.svg';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import * as api from '../libs/api';
 import {getRepoGQL, getRepoURL} from '../libs/utils';
 
@@ -26,9 +27,6 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 		q: query + (isSelected ? '' : ` ${filterQuery}`)
 	});
 
-	const icon = checkIcon();
-	icon.classList.add('SelectMenu-icon', 'SelectMenu-icon--check');
-
 	dropdown.append(
 		<a
 			href={`?${String(search)}`}
@@ -36,7 +34,7 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 			aria-checked={isSelected ? 'true' : 'false'}
 			role="menuitemradio"
 		>
-			{icon}
+			<CheckIcon className="SelectMenu-icon SelectMenu-icon--check"/>
 			<span>{title}</span>
 		</a>
 	);
@@ -82,7 +80,7 @@ const hasChecks = cache.function(async (): Promise<boolean> => {
 	return repository.head.history.nodes.some((commit: AnyObject) => commit.status);
 }, {
 	maxAge: 3,
-	cacheKey: () => __featureName__ + ':' + getRepoURL()
+	cacheKey: () => __filebasename + ':' + getRepoURL()
 });
 
 async function addChecksFilter(): Promise<void> {
@@ -118,12 +116,12 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds Checks and Draft PR dropdown filters in PR lists.',
 	screenshot: 'https://user-images.githubusercontent.com/202916/74453250-6d9de200-4e82-11ea-8fd4-7c0de57e001a.png'
 }, {
 	include: [
-		features.isPRList
+		pageDetect.isPRList
 	],
 	init
 });

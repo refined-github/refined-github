@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {wrap} from '../libs/dom-utils';
 
 async function init(): Promise<void> {
@@ -16,12 +17,12 @@ async function init(): Promise<void> {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Makes labels clickable in the dashboard’s "Recent activity" box.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/69045444-6ef97300-0a29-11ea-99a3-9a622c395709.png'
 }, {
 	include: [
-		features.isDashboard
+		pageDetect.isDashboard
 	],
 	onlyAdditionalListeners: true,
 	repeatOnAjax: false,

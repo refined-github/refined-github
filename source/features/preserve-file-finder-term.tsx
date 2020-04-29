@@ -1,6 +1,7 @@
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function unloadHandler(): void {
 	const inputElement = select<HTMLInputElement>('#tree-finder-field');
@@ -35,12 +36,12 @@ function deinit(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Preserves the search terms when navigating back and forth between the File Finder and the files.',
 	screenshot: false
 }, {
 	include: [
-		features.isFileFinder
+		pageDetect.isFileFinder
 	],
 	init,
 	deinit

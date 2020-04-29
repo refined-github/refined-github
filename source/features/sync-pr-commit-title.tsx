@@ -3,6 +3,7 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as textFieldEdit from 'text-field-edit';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {logError} from '../libs/utils';
 import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
 
@@ -30,7 +31,7 @@ function needsSubmission(): boolean {
 
 	// Ensure that the required fields are on the page
 	if (!select.exists(prTitleFieldSelector) || !select.exists(prTitleSubmitSelector)) {
-		logError(__featureName__, 'Can’t update the PR title');
+		logError(__filebasename, 'Can’t update the PR title');
 		return false;
 	}
 
@@ -102,12 +103,12 @@ function deinit(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Uses the PR’s title as the default squash commit title and updates the PR’s title to the match the commit title, if changed.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/51669708-9a712400-1ff7-11e9-913a-ac1ea1050975.png'
 }, {
 	include: [
-		features.isPRConversation
+		pageDetect.isPRConversation
 	],
 	init
 });

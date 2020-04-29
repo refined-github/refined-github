@@ -3,7 +3,7 @@
 import cache from 'webext-storage-cache';
 import React from 'dom-chef';
 import select from 'select-dom';
-import clockIcon from 'octicon/clock.svg';
+import ClockIcon from 'octicon/clock.svg';
 import features from '../libs/features';
 import * as api from '../libs/api';
 import observeElement from '../libs/simplified-element-observer';
@@ -69,7 +69,7 @@ const getLastCommitDate = cache.function(async (login: string): Promise<string |
 }, {
 	maxAge: 10,
 	staleWhileRevalidate: 20,
-	cacheKey: ([login]) => __featureName__ + ':' + login
+	cacheKey: ([login]) => __filebasename + ':' + login
 });
 
 function parseOffset(date: string): number {
@@ -99,7 +99,7 @@ function init(): void {
 		const placeholder = <span>Guessing local time…</span>;
 		const container = (
 			<div className="rgh-local-user-time mt-2 text-gray text-small">
-				{clockIcon()} {placeholder}
+				<ClockIcon/> {placeholder}
 			</div>
 		);
 
@@ -132,7 +132,7 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Shows the user local time in their hovercard (based on their last commit).',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/69863648-ef449180-12cf-11ea-8f36-7c92fc487f31.gif'
 }, {

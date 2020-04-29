@@ -1,8 +1,10 @@
 import './mark-merge-commits-in-list.css';
+import React from 'dom-chef';
 import select from 'select-dom';
-import pullRequestIcon from 'octicon/git-pull-request.svg';
+import PullRequestIcon from 'octicon/git-pull-request.svg';
 import * as api from '../libs/api';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getRepoGQL} from '../libs/utils';
 
 const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
@@ -31,7 +33,7 @@ const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 };
 
 function getCommitHash(commit: HTMLElement): string {
-	return (commit.dataset.channel as string).split(':')[3];
+	return commit.dataset.channel!.split(':')[3];
 }
 
 async function init(): Promise<void | false> {
@@ -40,18 +42,18 @@ async function init(): Promise<void | false> {
 	for (const commit of pageCommits) {
 		if (mergeCommits.includes(getCommitHash(commit))) {
 			commit.classList.add('rgh-merge-commit');
-			select('.commit-title', commit)!.prepend(pullRequestIcon());
+			select('.commit-title', commit)!.prepend(<PullRequestIcon/>);
 		}
 	}
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Marks merge commits in commit lists.',
 	screenshot: 'https://user-images.githubusercontent.com/16872793/75561016-457eb900-5a14-11ea-95e1-a89e81ee7390.png'
 }, {
 	include: [
-		features.isCommitList
+		pageDetect.isCommitList
 	],
 	init
 });

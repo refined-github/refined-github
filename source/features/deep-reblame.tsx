@@ -2,11 +2,12 @@ import './deep-reblame.css';
 import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
-import versionIcon from 'octicon/versions.svg';
+import VersionIcon from 'octicon/versions.svg';
 import delegate from 'delegate-it';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import loadingIcon from '../libs/icon-loading';
+import * as pageDetect from '../libs/page-detect';
+import LoadingIcon from '../libs/icon-loading';
 import {getRepoGQL, getReference, looseParseInt, getCleanPathname} from '../libs/utils';
 
 const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number, currentFilename: string): Promise<string> => {
@@ -66,8 +67,7 @@ async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAncho
 	const prCommit = select<HTMLAnchorElement>('a.message', blameHunk)!.pathname.split('/').pop()!;
 	const [, currentFilename] = getCleanPathname().split(getReference()! + '/');
 
-	const spinner = loadingIcon();
-	spinner.classList.add('mr-2');
+	const spinner = <LoadingIcon className="mr-2"/>;
 	blameElement.firstElementChild!.replaceWith(spinner);
 
 	try {
@@ -77,7 +77,7 @@ async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAncho
 		href.hash = 'L' + lineNumber;
 		location.href = String(href);
 	} catch (error) {
-		spinner.replaceWith(versionIcon());
+		spinner.replaceWith(<VersionIcon/>);
 		alert(error.message);
 	}
 }
@@ -103,7 +103,7 @@ function init(): void | false {
 					aria-label="View blame prior to this change (extracts commits from this PR first)"
 					className="reblame-link btn-link no-underline tooltipped tooltipped-e d-inline-block pr-1 rgh-deep-reblame"
 				>
-					{versionIcon()}
+					<VersionIcon/>
 				</button>
 			);
 		}
@@ -111,12 +111,12 @@ function init(): void | false {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'When exploring blames, `Alt`-clicking the “Reblame” buttons will extract the associated PR’s commits first, instead of treating the commit a single change.',
 	screenshot: 'https://user-images.githubusercontent.com/16872793/77248541-8e3f2180-6c10-11ea-91d4-221ccc0ecebb.png'
 }, {
 	include: [
-		features.isBlame
+		pageDetect.isBlame
 	],
 	init
 });

@@ -5,8 +5,10 @@ import delegate from 'delegate-it';
 import * as textFieldEdit from 'text-field-edit';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import loadingIcon from '../libs/icon-loading';
+import * as pageDetect from '../libs/page-detect';
+import LoadingIcon from '../libs/icon-loading';
 import {getRepoURL, getRepoGQL} from '../libs/utils';
+import observeElement from '../libs/simplified-element-observer';
 
 const getBranchBaseSha = async (branchName: string): Promise<string> => {
 	const {repository} = await api.v4(`
@@ -42,8 +44,8 @@ async function cloneBranch(event: delegate.Event<MouseEvent, HTMLButtonElement>)
 	const currentBranch = getBranchBaseSha(branchName);
 	let newBranchName = prompt('Enter the new branch name')?.trim();
 
-	const spinner = loadingIcon();
-	spinner.classList.add('ml-2');
+	const spinner = <LoadingIcon className="ml-2"/>;
+
 	while (newBranchName) {
 		cloneButton.replaceWith(spinner);
 		// eslint-disable-next-line no-await-in-loop
@@ -91,12 +93,14 @@ function init(): void | false {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Clone a branch from the branches list.',
 	screenshot: 'https://user-images.githubusercontent.com/16872793/76802029-2a020500-67ad-11ea-95dc-bee1b1352976.png'
 }, {
 	include: [
-		features.isBranches
+		pageDetect.isBranches
 	],
-	init
+	init: () => {
+		observeElement('[data-target="branch-filter-controller.results"]', init);
+	}
 });

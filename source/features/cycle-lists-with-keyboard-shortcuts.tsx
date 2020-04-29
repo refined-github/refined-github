@@ -1,6 +1,7 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function init(): void {
 	let selectableItems: HTMLElement[] = [];
@@ -51,14 +52,14 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Allows the `↑` and `↓` keys to cycle "popover lists" (labels, milestones, etc).',
 	screenshot: 'https://user-images.githubusercontent.com/37769974/59158786-6fd2c400-8add-11e9-9db1-db80186fa6ea.gif'
 }, {
 	include: [
-		features.isPRConversation,
-		features.isIssue,
-		features.isCompare
+		pageDetect.isPRConversation,
+		pageDetect.isIssue,
+		pageDetect.isCompare
 	],
 	init
 });

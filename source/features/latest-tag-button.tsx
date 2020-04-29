@@ -2,10 +2,11 @@ import './latest-tag-button.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import tagIcon from 'octicon/tag.svg';
+import TagIcon from 'octicon/tag.svg';
 import elementReady from 'element-ready';
 import * as api from '../libs/api';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import fetchDom from '../libs/fetch-dom';
 import {isRepoRoot} from '../libs/page-detect';
 import getDefaultBranch from '../libs/get-default-branch';
@@ -65,7 +66,7 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 	maxAge: 1 / 24, // One hour
 	staleWhileRevalidate: 2,
 	shouldRevalidate: value => typeof value === 'string',
-	cacheKey: () => __featureName__ + ':' + getRepoURL()
+	cacheKey: () => __filebasename + ':' + getRepoURL()
 });
 
 const getAheadByCount = cache.function(async (latestTag: string): Promise<string> => {
@@ -99,7 +100,7 @@ async function init(): Promise<false | void> {
 
 	const link = (
 		<a className="btn btn-sm btn-outline tooltipped tooltipped-ne ml-2" href={href}>
-			{tagIcon()}
+			<TagIcon/>
 		</a>
 	);
 
@@ -125,13 +126,13 @@ async function init(): Promise<false | void> {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds link to the latest version tag on directory listings and files.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/74594998-71df2080-5077-11ea-927c-b484ca656e88.png'
 }, {
 	include: [
-		features.isRepoTree,
-		features.isSingleFile
+		pageDetect.isRepoTree,
+		pageDetect.isSingleFile
 	],
 	waitForDomReady: false,
 	init

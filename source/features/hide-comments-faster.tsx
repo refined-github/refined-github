@@ -2,6 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function generateSubmenu(hideButton: Element): void {
 	if (hideButton.closest('.rgh-hide-comments-faster-details')) {
@@ -72,12 +73,12 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Simplifies the UI to hide comments.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/43039221-1ddc91f6-8d29-11e8-9ed4-93459191a510.gif'
 }, {
 	include: [
-		features.hasComments
+		pageDetect.hasComments
 	],
 	init
 });

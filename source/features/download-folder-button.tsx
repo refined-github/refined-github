@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function init(): void {
 	const buttonGroup = select('.file-navigation .BtnGroup.float-right');
@@ -17,15 +18,15 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds a button to a download button entire folders, via https://download-directory.github.io',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/35044451-fd3e2326-fbc2-11e7-82e1-61ec7bee612b.png'
 }, {
 	include: [
-		features.isRepoTree
+		pageDetect.isRepoTree
 	],
 	exclude: [
-		features.isRepoRoot // Already has an native download ZIP button
+		pageDetect.isRepoRoot // Already has an native download ZIP button
 	],
 	init
 });

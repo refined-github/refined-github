@@ -1,6 +1,7 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import anchorScroll from '../libs/anchor-scroll';
 
 type EventHandler = (event: delegate.Event<MouseEvent, HTMLElement>) => void;
@@ -54,15 +55,15 @@ function resolvedCommentsSelector(clickedItem: HTMLElement): string {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds a shortcut to toggle all similar items (minimized comments, deferred diffs, etc) at once: `alt` `click` on each button or checkbox.',
 	screenshot: 'https://user-images.githubusercontent.com/37769974/62208543-dcb75b80-b3b4-11e9-984f-ddb479ea149d.gif'
 }, {
 	include: [
-		features.isPRConversation,
-		features.isPRFiles,
-		features.isCommit,
-		features.isCompare
+		pageDetect.isPRConversation,
+		pageDetect.isPRFiles,
+		pageDetect.isCommit,
+		pageDetect.isCompare
 	],
 	init
 });

@@ -1,7 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import pencilIcon from 'octicon/pencil.svg';
+import PencilIcon from 'octicon/pencil.svg';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import getDefaultBranch from '../libs/get-default-branch';
 
 async function init(): Promise<void | false> {
@@ -36,18 +37,18 @@ async function init(): Promise<void | false> {
 			className="Box-btn-octicon btn-octicon float-right"
 			aria-label="Edit this file"
 		>
-			{pencilIcon()}
+			<PencilIcon/>
 		</a>
 	);
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Ensures that the “Edit readme” button always appears (even when you have to make a fork) and works (GitHub’s link does’t work on git tags).',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/62073307-a8378880-b26a-11e9-9e31-be6525d989d2.png'
 }, {
 	include: [
-		features.isRepoTree
+		pageDetect.isRepoTree
 	],
 	init
 });

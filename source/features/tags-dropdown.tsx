@@ -1,8 +1,9 @@
 import './tags-dropdown.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import octofaceIcon from 'octicon/octoface.svg';
+import OctofaceIcon from 'octicon/octoface.svg';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getRepoURL} from '../libs/utils';
 
 function init(): false | void {
@@ -24,7 +25,7 @@ function init(): false | void {
 					style={{zIndex: 99}}
 				>
 					<include-fragment className="select-menu-loading-overlay anim-pulse" onLoad={changeTabToTags}>
-						{octofaceIcon()}
+						<OctofaceIcon/>
 					</include-fragment>
 				</details-menu>
 			</details>
@@ -53,12 +54,12 @@ function updateLinksToTag(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds a tags dropdown/search on tag/release pages.',
 	screenshot: 'https://user-images.githubusercontent.com/22439276/56373231-27ee9980-621e-11e9-9b21-601919d3dddf.png'
 }, {
 	include: [
-		features.isReleasesOrTags
+		pageDetect.isReleasesOrTags
 	],
 	init
 });

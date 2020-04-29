@@ -1,6 +1,7 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 const expanderSelector = '.js-expand.directional-expander';
 
@@ -39,14 +40,14 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Expands the entire file when you alt-click on any "Expand code" button in diffs.',
 	screenshot: 'https://user-images.githubusercontent.com/44227187/64923605-d0138900-d7e3-11e9-9dc2-461aba81c1cb.gif'
 }, {
 	include: [
-		features.isPRCommit,
-		features.isPRFiles,
-		features.isSingleCommit
+		pageDetect.isPRCommit,
+		pageDetect.isPRFiles,
+		pageDetect.isSingleCommit
 	],
 	init
 });

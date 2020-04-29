@@ -1,8 +1,9 @@
 import './highest-rated-comment.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import arrowDownIcon from 'octicon/arrow-down.svg';
+import ArrowDownIcon from 'octicon/arrow-down.svg';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {looseParseInt} from '../libs/utils';
 
 // `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)
@@ -28,7 +29,7 @@ function init(): false | void {
 	linkBestComment(bestComment);
 }
 
-function getBestComment(): Element | null {
+function getBestComment(): HTMLElement | null {
 	let highest;
 	for (const comment of getCommentsWithReactions()) {
 		const positiveReactions = getCount(getPositiveReactions(comment));
@@ -68,9 +69,9 @@ function highlightBestComment(bestComment: Element): void {
 	);
 }
 
-function linkBestComment(bestComment: Element): void {
+function linkBestComment(bestComment: HTMLElement): void {
 	// Find position of comment in thread
-	const position = select.all(commentSelector).indexOf(bestComment as HTMLElement);
+	const position = select.all(commentSelector).indexOf(bestComment);
 	// Only link to it if it doesn't already appear at the top of the conversation
 	if (position >= 3) {
 		const text = select('.comment-body', bestComment)!.textContent!.slice(0, 100);
@@ -93,7 +94,7 @@ function linkBestComment(bestComment: Element): void {
 
 				<a href={hash} className="no-underline rounded-1 rgh-highest-rated-comment bg-gray px-2 d-flex flex-items-center">
 					<span className="btn btn-sm mr-2">
-						{arrowDownIcon()}
+						<ArrowDownIcon/>
 					</span>
 
 					<span className="text-gray timeline-comment-header-text">
@@ -105,30 +106,30 @@ function linkBestComment(bestComment: Element): void {
 	}
 }
 
-function getCommentsWithReactions(): Set<Element> {
-	const comments = getPositiveReactions().map(reaction => reaction.closest(commentSelector)!);
+function getCommentsWithReactions(): Set<HTMLElement> {
+	const comments = getPositiveReactions().map(reaction => reaction.closest<HTMLElement>(commentSelector)!);
 	return new Set(comments);
 }
 
-function getNegativeReactions(reactionBox?: Element): Element[] {
+function getNegativeReactions(reactionBox?: HTMLElement): HTMLElement[] {
 	return select.all(negativeReactionsSelector, reactionBox ?? document);
 }
 
-function getPositiveReactions(reactionBox?: Element): Element[] {
+function getPositiveReactions(reactionBox?: HTMLElement): HTMLElement[] {
 	return select.all(positiveReactionsSelector, reactionBox ?? document);
 }
 
-function getCount(reactions: Element[]): number {
+function getCount(reactions: HTMLElement[]): number {
 	return reactions.reduce((count, reaction) => count + looseParseInt(reaction.textContent!), 0);
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Highlights the most useful comment in issues.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/58757449-5b238880-853f-11e9-9526-e86c41a32f00.png'
 }, {
 	include: [
-		features.isIssue
+		pageDetect.isIssue
 	],
 	init
 });

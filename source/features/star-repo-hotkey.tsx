@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function init(): void {
 	// There are two buttons: unstar and star
@@ -9,7 +10,7 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds a keyboard shortcut to star/unstar the current repo: `g` `s`.',
 	screenshot: false,
 	shortcuts: {
@@ -17,7 +18,7 @@ features.add({
 	}
 }, {
 	include: [
-		features.isRepo
+		pageDetect.isRepo
 	],
 	init
 });
