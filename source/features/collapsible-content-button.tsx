@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import foldDownIcon from 'octicon/fold-down.svg';
+import FoldDownIcon from 'octicon/fold-down.svg';
 import * as textFieldEdit from 'text-field-edit';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
@@ -32,7 +32,7 @@ function init(): void {
 	for (const anchor of select.all('md-ref')) {
 		anchor.after(
 			<button type="button" className="toolbar-item tooltipped tooltipped-n rgh-collapsible-content-btn" aria-label="Add collapsible content">
-				{foldDownIcon()}
+				<FoldDownIcon/>
 			</button>
 		);
 	}

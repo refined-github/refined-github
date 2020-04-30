@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import cache from 'webext-storage-cache';
-import checkIcon from 'octicon/check.svg';
+import CheckIcon from 'octicon/check.svg';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
 import * as api from '../libs/api';
@@ -27,9 +27,6 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 		q: query + (isSelected ? '' : ` ${filterQuery}`)
 	});
 
-	const icon = checkIcon();
-	icon.classList.add('SelectMenu-icon', 'SelectMenu-icon--check');
-
 	dropdown.append(
 		<a
 			href={`?${String(search)}`}
@@ -37,7 +34,7 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 			aria-checked={isSelected ? 'true' : 'false'}
 			role="menuitemradio"
 		>
-			{icon}
+			<CheckIcon className="SelectMenu-icon SelectMenu-icon--check"/>
 			<span>{title}</span>
 		</a>
 	);

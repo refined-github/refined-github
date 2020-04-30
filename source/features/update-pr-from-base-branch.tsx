@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import alertIcon from 'octicon/alert.svg';
+import AlertIcon from 'octicon/alert.svg';
 import delegate from 'delegate-it';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
@@ -40,11 +40,11 @@ async function handler(event: delegate.Event): Promise<void> {
 	} else if (response.message?.toLowerCase().startsWith('merge conflict')) {
 		// Only shown on Draft PRs
 		button.replaceWith(
-			<a href={location.pathname + '/conflicts'} className="btn float-right">{alertIcon()} Resolve conflicts</a>
+			<a href={location.pathname + '/conflicts'} className="btn float-right"><AlertIcon/> Resolve conflicts</a>
 		);
 	} else {
 		button.textContent = response.message ?? 'Error';
-		button.prepend(alertIcon(), ' ');
+		button.prepend(<AlertIcon/>, ' ');
 		throw new api.RefinedGitHubAPIError('update-pr-from-base-branch: ' + JSON.stringify(response));
 	}
 }

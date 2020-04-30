@@ -408,6 +408,13 @@ export const hasCode = (): boolean => // Static code, not the editor
 	isCompare() ||
 	isBlame();
 
+export const isActionPage = (): boolean => location.pathname.startsWith('/marketplace/actions/');
+export const _isActionPage = [
+	'https://github.com/marketplace/actions/urlchecker-action',
+	'https://github.com/marketplace/actions/github-action-for-assignee-to-reviewer',
+	'https://github.com/marketplace/actions/hugo-actions'
+];
+
 export const _hasNotificationBar = skip;
 export const hasNotificationBar = (): boolean =>
 	location.search.startsWith('?notification_referrer_id=') ||

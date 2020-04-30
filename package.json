@@ -20,7 +20,7 @@
 		"debounce-fn": "^4.0.0",
 		"delay": "^4.3.0",
 		"delegate-it": "^2.0.0",
-		"dom-chef": "^4.0.0",
+		"dom-chef": "^4.1.0-0",
 		"dom-loaded": "^2.0.0",
 		"doma": "^3.0.0",
 		"element-ready": "^4.1.1",

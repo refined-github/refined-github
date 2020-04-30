@@ -2,7 +2,7 @@ import './latest-tag-button.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import tagIcon from 'octicon/tag.svg';
+import TagIcon from 'octicon/tag.svg';
 import elementReady from 'element-ready';
 import * as api from '../libs/api';
 import features from '../libs/features';
@@ -100,7 +100,7 @@ async function init(): Promise<false | void> {
 
 	const link = (
 		<a className="btn btn-sm btn-outline tooltipped tooltipped-ne ml-2" href={href}>
-			{tagIcon()}
+			<TagIcon/>
 		</a>
 	);
 

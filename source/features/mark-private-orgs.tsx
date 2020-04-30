@@ -1,7 +1,8 @@
 import './mark-private-orgs.css';
+import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import eyeClosedIcon from 'octicon/eye-closed.svg';
+import EyeClosedIcon from 'octicon/eye-closed.svg';
 import {getUsername} from '../libs/utils';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
@@ -27,7 +28,7 @@ async function init(): Promise<false | void> {
 	for (const org of orgs) {
 		if (!publicOrganizationsNames.includes(org.pathname.replace(/^\/(organizations\/)?/, ''))) {
 			org.classList.add('rgh-private-org');
-			org.append(eyeClosedIcon());
+			org.append(<EyeClosedIcon/>);
 		}
 	}
 }

@@ -1,7 +1,7 @@
 import './edit-files-faster.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import pencilIcon from 'octicon/pencil.svg';
+import PencilIcon from 'octicon/pencil.svg';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
 import {wrap} from '../libs/dom-utils';
@@ -25,7 +25,7 @@ async function init(): Promise<void> {
 		}
 
 		wrap(fileIcon, <a href={pathnameParts.join('/')} className="rgh-edit-files-faster"/>);
-		fileIcon.after(pencilIcon());
+		fileIcon.after(<PencilIcon/>);
 	}
 }
 

@@ -164,6 +164,7 @@ Thanks for contributing! 🦋🙌
 - [](# "content") [Reduces tabs’ size to 4 spaces instead of 8.](https://cloud.githubusercontent.com/assets/170270/14170088/d3be931e-f755-11e5-8edf-c5f864336382.png)
 - [](# "esc-to-deselect-line") [Adds a keyboard shortcut to deselect the current line: <kbd>esc</kbd>.](https://github.com/sindresorhus/refined-github/issues/1590)
 - [](# "html-preview-link") [Adds a link to preview HTML files.](https://user-images.githubusercontent.com/44045911/67634792-48995980-f8fb-11e9-8b6a-7b57d5b12a2f.png)
+- [](# "action-used-by-link") [Lets you see how others are using the current Action in the Marketplace.](https://user-images.githubusercontent.com/8360597/80250140-86d9c080-8673-11ea-9d28-f62faf9fd3d4.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -237,6 +238,7 @@ Thanks for contributing! 🦋🙌
 - [](# "conflict-marker") [Shows which PRs have conflicts in PR lists.](https://user-images.githubusercontent.com/9092510/62777551-2affe500-baae-11e9-8ba4-67f078347913.png)
 - [](# "pr-commit-lines-changed") [Adds diff stats on PR commits.](https://user-images.githubusercontent.com/16872793/76107253-48deeb00-5fa6-11ea-9931-721cde553bdf.png)
 - [](# "cross-deleted-pr-branches") [Adds a line-through to the deleted branches.](https://user-images.githubusercontent.com/16872793/75619638-9bef1300-5b4c-11ea-850e-3a8f95c86d83.png)
+- [](# "batch-mark-files-as-viewed") [Mark/unmark multiple files as “Viewed” in the PR Files tab. Click on the first checkbox you want to mark/unmark and then `shift`-click another one; all the files between the two checkboxes will be marked/unmarked as “Viewed”.](https://user-images.githubusercontent.com/1402241/79343285-854f2080-7f2e-11ea-8d4c-a9dc163be9be.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 

@@ -2,7 +2,7 @@ import './wait-for-build.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
-import infoIcon from 'octicon/info.svg';
+import InfoIcon from 'octicon/info.svg';
 import delegate from 'delegate-it';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
@@ -17,7 +17,7 @@ const generateCheckbox = onetime(() => (
 		<input checked type="checkbox" name="rgh-pr-check-waiter"/>
 		{' Wait for successful checks '}
 		<a className="discussion-item-help tooltipped tooltipped-n" target="_blank" rel="noopener noreferrer" href="https://github.com/sindresorhus/refined-github/pull/975" aria-label="This only works if you keep this tab open while waiting.">
-			{infoIcon()}
+			<InfoIcon/>
 		</a>
 	</label>
 ));
