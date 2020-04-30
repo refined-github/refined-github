@@ -129,10 +129,10 @@ Recommended arguments:
 		<td width="50%" valign="top">
 			<pre>npx web-ext run --source-dir=distribution \
 	--target=chromium \
-	--chromium-profile=refined-github \
+	--chromium-profile=/path/to/refined-github-profile \
 	--keep-profile-changes \
 	--start-url=github.com</pre>
-			<p>Chrome automatically creates the <code>refined-github</code> profile if it doesn't exist.</p>
+			<p>Chrome automatically creates the profile directory if it doesn't exist.</p>
 		</td>
 		<td width="50%" valign="top">
 			<pre>npx web-ext run --source-dir=distribution \
