@@ -407,3 +407,8 @@ export const hasCode = (): boolean => // Static code, not the editor
 	isGist() ||
 	isCompare() ||
 	isBlame();
+
+export const _hasNotificationBar = skip;
+export const hasNotificationBar = (): boolean =>
+	location.search.startsWith('?notification_referrer_id=') ||
+	JSON.parse(sessionStorage.notification_shelf ?? '{}').pathname === location.pathname;

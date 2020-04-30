@@ -21,7 +21,9 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png'
 }, {
 	include: [
-		pageDetect.isRepo
+		pageDetect.hasNotificationBar
 	],
+	waitForDomReady: false,
+	repeatOnAjax: false,
 	init
 });
