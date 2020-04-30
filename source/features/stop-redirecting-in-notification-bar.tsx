@@ -1,6 +1,9 @@
 import delegate from 'delegate-it';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+
+const hasNotificationBar = (): boolean =>
+	location.search.startsWith('?notification_referrer_id=') ||
+	JSON.parse(sessionStorage.notification_shelf ?? '{}').pathname === location.pathname;
 
 function onNotificationActionClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const shouldRedirectToInbox = !event.altKey;
@@ -21,7 +24,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png'
 }, {
 	include: [
-		pageDetect.hasNotificationBar
+		hasNotificationBar
 	],
 	waitForDomReady: false,
 	repeatOnAjax: false,
