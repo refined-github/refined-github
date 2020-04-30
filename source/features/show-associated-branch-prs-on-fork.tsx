@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import cache from 'webext-storage-cache';
-import mergeIcon from 'octicon/git-merge.svg';
-import pullRequestIcon from 'octicon/git-pull-request.svg';
+import MergeIcon from 'octicon/git-merge.svg';
+import PullRequestIcon from 'octicon/git-pull-request.svg';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
@@ -82,9 +82,7 @@ async function init(): Promise<void> {
 	for (const branch of select.all('[branch]')) {
 		const prInfo = associatedPullRequests[branch.getAttribute('branch')!];
 		if (prInfo) {
-			const styledIcon = prInfo.state === 'Merged' ? mergeIcon() : pullRequestIcon();
-			styledIcon.setAttribute('width', '10');
-			styledIcon.setAttribute('height', '14');
+			const StateIcon = prInfo.state === 'Merged' ? MergeIcon : PullRequestIcon;
 
 			select('.test-compare-link', branch)!.replaceWith(
 				<div className="d-inline-block text-right ml-3">
@@ -102,7 +100,7 @@ async function init(): Promise<void> {
 						title={`Status: ${prInfo.state}`}
 						href={prInfo.url}
 					>
-						{styledIcon} {prInfo.state}
+						<StateIcon width={10} height={14}/> {prInfo.state}
 					</a>
 				</div>);
 		}
