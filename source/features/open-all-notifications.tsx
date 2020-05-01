@@ -41,10 +41,12 @@ function openNotifications({delegateTarget}: delegate.Event): void {
 function addOpenAllButton(): void {
 	if (!select.exists('.rgh-open-notifications-button')) {
 		// Create an open button and add it to the DOM
-		const html = <div className="no-wrap d-flex flex-auto flex-justify-end table-list-header-toggle">
-			<button type="button" className="btn-link px-2 rgh-open-notifications-button"><LinkExternalIcon/> Open all unread</button>
-		</div>
-		
+		const html = (
+			<div className="no-wrap d-flex flex-auto flex-justify-end table-list-header-toggle">
+				<button type="button" className="btn-link px-2 rgh-open-notifications-button"><LinkExternalIcon/> Open all unread</button>
+			</div>
+		);
+
 		select('.notifications-list .Box-header')!.append(html);
 	}
 }
