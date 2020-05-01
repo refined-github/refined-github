@@ -1,9 +1,9 @@
-/* Hide main button when user has selected some notifications */
-.js-notifications-mark-selected-actions:not([hidden]) ~ .rgh-open-notifications-button {
-	display: none;
-}
-
 /* Align right */
 .js-notifications-mark-selected-actions ~ .rgh-open-notifications-button {
 	margin-left: auto;
+}
+
+/* Hide main button when user has selected some notifications */
+.js-notifications-mark-selected-actions:not([hidden]) ~ .rgh-open-notifications-button {
+	display: none;
 }
