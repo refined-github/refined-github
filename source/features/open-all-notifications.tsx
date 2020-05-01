@@ -42,8 +42,8 @@ function addOpenAllButton(): void {
 	if (!select.exists('.rgh-open-notifications-button')) {
 		// Create an open button and add it to the DOM
 		const button = <button className="btn mr-3 ml-0 rgh-open-notifications-button" type="button"><LinkExternalIcon/> Open unread</button>;
-		const SearchElement = select('.js-notification-search-form')!
-		SearchElement.parentElement!.before(button)
+		const SearchElement = select('.js-notification-search-form')!;
+		SearchElement.parentElement!.before(button);
 	}
 }
 
