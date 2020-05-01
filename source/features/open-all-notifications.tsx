@@ -3,6 +3,7 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
+import LinkExternalIcon from 'octicon/link-external.svg';
 
 const confirmationRequiredCount = 10;
 const unreadNotificationsClass = '.notification-unread .js-navigation-open';
@@ -40,8 +41,9 @@ function openNotifications({delegateTarget}: delegate.Event): void {
 function addOpenAllButton(): void {
 	if (!select.exists('.rgh-open-notifications-button')) {
 		// Create an open button and add it to the DOM
-		const button = <button className="btn btn-sm ml-2 rgh-open-notifications-button" type="button">Open all unread in tabs</button>;
-		select('.notifications-list .Box-header')!.append(button);
+		const button = <button className="btn mr-3 ml-0 rgh-open-notifications-button" type="button"><LinkExternalIcon/> Open unread</button>;
+		const SearchElement = select('.js-notification-search-form')!
+		SearchElement.parentElement!.before(button)
 	}
 }
 
