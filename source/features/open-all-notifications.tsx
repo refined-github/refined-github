@@ -5,16 +5,18 @@ import LinkExternalIcon from 'octicon/link-external.svg';
 import delegate from 'delegate-it';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
-import {groupButtons} from '../libs/group-buttons';
 
 const confirmationRequiredCount = 10;
-const unreadNotificationsClass = '.notification-unread .notification-list-item-link';
+
+function getUnreadNotifications(container: ParentNode = document): HTMLAnchorElement[] {
+	return select.all<HTMLAnchorElement>('.notification-unread', container);
+}
 
 function openNotifications({delegateTarget}: delegate.Event): void {
-	const container = delegateTarget.closest('.js-notifications-group, .js-check-all-container')!;
+	const container = delegateTarget.closest('.js-notifications-group') ?? document;
 
 	// Ask for confirmation
-	const unreadNotifications = select.all<HTMLAnchorElement>(unreadNotificationsClass, container);
+	const unreadNotifications = getUnreadNotifications(container);
 	if (
 		unreadNotifications.length >= confirmationRequiredCount &&
 		!confirm(`This will open ${unreadNotifications.length} new tabs. Continue?`)
@@ -23,11 +25,11 @@ function openNotifications({delegateTarget}: delegate.Event): void {
 	}
 
 	browser.runtime.sendMessage({
-		openUrls: unreadNotifications.map(element => element.href)
+		openUrls: unreadNotifications.map(element => element.querySelector('a')!.href)
 	});
 
 	// Mark all as read
-	for (const notification of select.all('.notification-unread', container)) {
+	for (const notification of unreadNotifications) {
 		notification.classList.replace('notification-unread', 'notification-read');
 	}
 
@@ -38,24 +40,16 @@ function openNotifications({delegateTarget}: delegate.Event): void {
 }
 
 function addOpenReposButton(): void {
-	for (const markRepoAsDoneButton of select.all('.js-grouped-notifications-mark-all-read-button')) {
-		console.log(markRepoAsDoneButton);
-
-		const repoNotifications = markRepoAsDoneButton.closest('.js-notifications-group')!;
-		console.log(repoNotifications);
-
-		const unreadCount = select.all('.notification-unread', repoNotifications).length;
-		console.log(unreadCount);
-		if (unreadCount === 0) {
+	for (const repository of select.all('.js-notifications-group')) {
+		if (getUnreadNotifications(repository).length === 0) {
 			continue;
 		}
 
-		const openRepoUnreadButton = (
+		select('.js-grouped-notifications-mark-all-read-button', repository)!.before(
 			<button type="button" className="btn btn-sm mr-2 tooltipped tooltipped-w rgh-open-notifications-button" aria-label="Open all unread notifications from this repo">
-				<LinkExternalIcon width="16"/> Open unread
+				<LinkExternalIcon width={16}/> Open unread
 			</button>
 		);
-		markRepoAsDoneButton.before(openRepoUnreadButton);
 	}
 }
 
@@ -68,13 +62,10 @@ function addOpenAllButton(): void {
 }
 
 function update(): void {
-	const unreadCount = select.all(unreadNotificationsClass).length;
-	if (unreadCount === 0) {
-		return;
+	if (getUnreadNotifications().length > 0) {
+		addOpenAllButton();
+		addOpenReposButton();
 	}
-
-	addOpenAllButton();
-	addOpenReposButton();
 }
 
 function init(): void {
