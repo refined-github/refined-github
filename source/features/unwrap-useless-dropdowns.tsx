@@ -16,13 +16,14 @@ async function init(): Promise<void | false> {
 
 	const dropdown = forms[0].closest('details')!;
 	const currentView = select('summary i', dropdown)!.nextSibling!.textContent!.trim();
-	const desiredForm = forms[Number(currentView === 'Repository')]; // `false` -> 0 -> "Repository"; `true` -> 1 -> "Date"
+	const desiredForm = currentView === 'Date' ? forms[0] : forms[1];
 
 	// Replace dropdown while keeping its sizing/positioning classes
 	dropdown.replaceWith(desiredForm);
 	desiredForm.classList.add(...dropdown.classList);
 	desiredForm.classList.remove('dropdown', 'details-reset', 'details-overlay');
 
+	// Fix button’s style
 	const switchButton = select('[type="submit"]', desiredForm)!;
 	switchButton.className = 'btn';
 	switchButton.textContent = `Group by ${switchButton.textContent!.toLowerCase()}`;
