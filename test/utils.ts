@@ -28,10 +28,6 @@ test('getDiscussionNumber', t => {
 			undefined
 		],
 		[
-			'https://github.com/sindresorhus/notifications/notifications',
-			undefined
-		],
-		[
 			'https://github.com/sindresorhus/refined-github',
 			undefined
 		],
@@ -98,10 +94,6 @@ test('getRepoPath', t => {
 		],
 		[
 			'https://github.com/settings/developers',
-			undefined
-		],
-		[
-			'https://github.com/sindresorhus/notifications/notifications',
 			undefined
 		],
 		[
