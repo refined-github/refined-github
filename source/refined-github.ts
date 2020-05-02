@@ -174,6 +174,7 @@ import './features/go-to-action-from-file';
 import './features/action-used-by-link';
 import './features/batch-mark-files-as-viewed';
 import './features/linkify-notification-repository-header';
+import './features/stop-redirecting-in-notification-bar';
 
 // Add global for easier debugging
 (window as any).select = select;
