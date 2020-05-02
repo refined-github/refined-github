@@ -67,3 +67,27 @@ p {
 .sr-only {
 	display: none;
 }
+
+#debugging {
+	position: relative;
+	padding: 1em 0;
+	margin-bottom: 1em;
+}
+#debugging p:last-child {
+	margin-bottom: 0;
+}
+#debugging::before,
+#debugging::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	border-top: dashed var(--github-red);
+	transform: skewX(45deg);
+}
+
+#debugging::after {
+	bottom: 0;
+	top: auto;
+}

@@ -131,6 +131,12 @@ async function init(): Promise<void> {
 			select<HTMLAnchorElement>('#personal-token-link')!.host = dropdown.value;
 		});
 	}
+
+	// Move debugging tools higher when side-loaded
+	const extension = await browser.management.getSelf();
+	if (extension.installType === 'development') {
+		select('#debugging-position')!.replaceWith(select('#debugging')!);
+	}
 }
 
 init();
