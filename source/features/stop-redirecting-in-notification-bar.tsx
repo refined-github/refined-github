@@ -5,17 +5,13 @@ const hasNotificationBar = (): boolean =>
 	location.search.startsWith('?notification_referrer_id=') ||
 	JSON.parse(sessionStorage.notification_shelf ?? '{}').pathname === location.pathname;
 
-function onNotificationActionClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
-	const shouldRedirectToInbox = !event.altKey;
-	const actionForm = event.delegateTarget.closest('form')!;
-
-	// Re-adds attribute for non-alt click after alt-clicks
-	actionForm.toggleAttribute('data-redirect-to-inbox-on-submit', shouldRedirectToInbox);
+function onNotificationActionClick({delegateTarget}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
+	// Also restores the attribute on successive non-alt clicks
+	delegateTarget.form!.toggleAttribute('data-redirect-to-inbox-on-submit', !event.altKey);
 }
 
 async function init(): Promise<void> {
-	const actionButtonSelector = '.notification-shelf .js-notification-action button';
-	delegate(document, actionButtonSelector, 'click', onNotificationActionClick);
+	delegate(document, '.notification-shelf .js-notification-action button', 'click', onNotificationActionClick);
 }
 
 features.add({
