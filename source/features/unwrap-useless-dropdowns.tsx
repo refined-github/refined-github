@@ -1,7 +1,7 @@
 import select from 'select-dom';
+import elementReady from 'element-ready';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
-import elementReady from 'element-ready';
 
 async function init(): Promise<void | false> {
 	await elementReady('.js-check-all-container > :nth-child(2)'); // Wait for filters to be ready
@@ -30,7 +30,6 @@ async function init(): Promise<void | false> {
 }
 
 features.add({
-	disabled: '2',
 	id: __filebasename,
 	description: 'Makes some dropdowns 1-click instead of unnecessarily 2-click.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/80859624-9bfdb300-8c62-11ea-837f-7b7a28e6fdfc.png'
