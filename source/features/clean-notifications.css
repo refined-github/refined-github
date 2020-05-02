@@ -1,0 +1,16 @@
+.rgh-clean-notifications [id^='notification'] {
+	flex-direction: row !important;
+	align-items: center;
+}
+
+.rgh-clean-notifications [id^='notification'] > .d-flex > .f6 {
+	font-size: 0 !important;
+}
+
+.rgh-clean-notifications [id^='notification'] > .d-flex > .f6 > span {
+	font-size: 12px;
+	font-variant-numeric: tabular-nums;
+	display: block;
+	margin-right: 8px;
+	word-break: keep-all;
+}
