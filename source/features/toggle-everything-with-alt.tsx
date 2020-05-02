@@ -1,3 +1,4 @@
+import mem from 'mem';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import features from '../libs/features';
@@ -17,7 +18,7 @@ function init(): void {
 	delegate(document, '.js-file .js-resolvable-thread-toggler', 'click', clickAll(resolvedCommentsSelector));
 }
 
-function clickAll(selectorGetter: ((clickedItem: HTMLElement) => string)): EventHandler {
+const clickAll = mem((selectorGetter: ((clickedItem: HTMLElement) => string)): EventHandler => {
 	return event => {
 		if (event.altKey && event.isTrusted) {
 			const clickedItem = event.delegateTarget;
@@ -28,7 +29,7 @@ function clickAll(selectorGetter: ((clickedItem: HTMLElement) => string)): Event
 			resetScroll();
 		}
 	};
-}
+});
 
 function clickAllExcept(elementsToClick: string, except: HTMLElement): void {
 	for (const item of select.all(elementsToClick)) {
