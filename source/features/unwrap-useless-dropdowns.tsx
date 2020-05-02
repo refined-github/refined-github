@@ -3,7 +3,14 @@ import elementReady from 'element-ready';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
 
-async function init(): Promise<void | false> {
+// Replace dropdown while keeping its sizing/positioning classes
+function replaceDropdownInPlace(dropdown: Element, form: Element): void {
+	dropdown.replaceWith(form);
+	form.classList.add(...dropdown.classList);
+	form.classList.remove('dropdown', 'details-reset', 'details-overlay');
+}
+
+async function unwrapNotifications(): Promise<void | false> {
 	await elementReady('.js-check-all-container > :nth-child(2)'); // Wait for filters to be ready
 	const forms = select.all('[action="/notifications/beta/update_view_preference"]');
 	if (forms.length === 0) {
@@ -18,15 +25,36 @@ async function init(): Promise<void | false> {
 	const currentView = select('summary i', dropdown)!.nextSibling!.textContent!.trim();
 	const desiredForm = currentView === 'Date' ? forms[0] : forms[1];
 
-	// Replace dropdown while keeping its sizing/positioning classes
-	dropdown.replaceWith(desiredForm);
-	desiredForm.classList.add(...dropdown.classList);
-	desiredForm.classList.remove('dropdown', 'details-reset', 'details-overlay');
+	// Replace dropdown
+	replaceDropdownInPlace(dropdown, desiredForm);
 
 	// Fix button’s style
-	const switchButton = select('[type="submit"]', desiredForm)!;
-	switchButton.className = 'btn';
-	switchButton.textContent = `Group by ${switchButton.textContent!.toLowerCase()}`;
+	const button = select('[type="submit"]', desiredForm)!;
+	button.className = 'btn';
+	button.textContent = `Group by ${button.textContent!.toLowerCase()}`;
+}
+
+async function unwrapActionJobRun(): Promise<void | false> {
+	const desiredForm = await elementReady('.js-check-suite-rerequest-form');
+	if (!desiredForm) {
+		return false;
+	}
+
+	const availableOptions = desiredForm
+		.closest('.dropdown-menu')!
+		.querySelectorAll('li > *'); // GitHub left an empty `li` in there 😒
+	if (availableOptions.length > 1) {
+		throw new Error('GitHub added items to the dropdown. This feature is obsolete.');
+	}
+
+	// Fix button’s style
+	const button = select('button', desiredForm)!;
+	button.className = 'btn btn-sm';
+	button.prepend(select('.octicon-sync')!);
+
+	// Replace dropdown
+	const dropdown = desiredForm.closest('details')!;
+	replaceDropdownInPlace(dropdown, desiredForm);
 }
 
 features.add({
@@ -38,5 +66,11 @@ features.add({
 		pageDetect.isNotifications
 	],
 	waitForDomReady: false,
-	init
+	init: unwrapNotifications
+}, {
+	include: [
+		pageDetect.isActionJobRun
+	],
+	waitForDomReady: false,
+	init: unwrapActionJobRun
 });
