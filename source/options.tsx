@@ -133,8 +133,7 @@ async function init(): Promise<void> {
 	}
 
 	// Move debugging tools higher when side-loaded
-	const extension = await browser.management.getSelf();
-	if (extension.installType === 'development') {
+	if (process.env.NODE_ENV === 'development') {
 		select('#debugging-position')!.replaceWith(select('#debugging')!);
 	}
 }
