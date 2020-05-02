@@ -7,7 +7,12 @@ import {wrap} from '../libs/dom-utils';
 
 function init(): void {
 	for (const header of select.all('.js-notifications-group h6')) {
-		wrap(header, <a className={header.className + ' text-inherit'} href={'/' + header.textContent!.trim()}/>);
+		wrap(
+			header,
+			<a
+				className={header.className + ' text-inherit'}
+				href={'/' + header.textContent!.trim()}
+			/>);
 	}
 }
 
