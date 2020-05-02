@@ -1,15 +1,9 @@
-.notifications-list .boxed-group-action {
-	margin: 5px 6px;
+/* Align right */
+.js-notifications-mark-selected-actions ~ .rgh-open-notifications-button {
+	margin-left: auto;
 }
 
-.notifications-list .boxed-group-action button {
-	padding: 3px 10px;
-	border: none;
-	margin-left: 2px;
-	color: #586069;
-	background: none;
-}
-
-.mark-all-as-read-confirmed .open-repo-notifications {
-	visibility: hidden;
+/* Hide main button when user has selected some notifications */
+.js-notifications-mark-selected-actions:not([hidden]) ~ .rgh-open-notifications-button {
+	display: none;
 }

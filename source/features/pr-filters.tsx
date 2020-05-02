@@ -67,7 +67,7 @@ const hasChecks = cache.function(async (): Promise<boolean> => {
 				... on Commit {
 					history(first: 10) {
 						nodes {
-							status {
+							statusCheckRollup {
 								state
 							}
 						}
@@ -77,7 +77,7 @@ const hasChecks = cache.function(async (): Promise<boolean> => {
 		}
 	`);
 
-	return repository.head.history.nodes.some((commit: AnyObject) => commit.status);
+	return repository.head.history.nodes.some((commit: AnyObject) => commit.statusCheckRollup);
 }, {
 	maxAge: 3,
 	cacheKey: () => __filebasename + ':' + getRepoURL()
