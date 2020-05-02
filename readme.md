@@ -327,6 +327,7 @@ Thanks for contributing! 🦋🙌
 - [](# "fix-view-file-link-in-pr") [Points the "View file" in PRs to the branch instead of the commit, so the Edit/Delete buttons will be enabled on the "View file" page, if needed.](https://user-images.githubusercontent.com/1402241/69044026-c5b17d80-0a26-11ea-86ae-c95f89d3669a.png)
 - [](# "linkify-labels-on-dashboard") [Makes labels clickable in the dashboard’s "Recent activity" box.](https://user-images.githubusercontent.com/1402241/69045444-6ef97300-0a29-11ea-99a3-9a622c395709.png)
 - [](# "reload-failed-proxied-images") [Retries downloading images that failed downloading due to GitHub limited proxying.](https://user-images.githubusercontent.com/14858959/64068746-21991100-cc45-11e9-844e-827f5ac9b51e.png)
+- [](# "linkify-notification-repository-header") [Linkifies the header of each notification group (when grouped by repository).](#TODO)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
