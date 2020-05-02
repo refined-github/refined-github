@@ -16,7 +16,6 @@ async function init(): Promise<void | false> {
 
 	const dropdown = forms[0].closest('details')!;
 	const currentView = select('summary i', dropdown)!.nextSibling!.textContent!.trim();
-	console.log(currentView);
 	const desiredForm = forms[Number(currentView === 'Repository')]; // `false` -> 0 -> "Repository"; `true` -> 1 -> "Date"
 
 	// Replace dropdown while keeping its sizing/positioning classes
