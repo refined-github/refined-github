@@ -77,7 +77,7 @@ function init(): void {
 features.add({
 	id: __filebasename,
 	description: 'Adds button to open all your unread notifications at once.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/80848822-e7897000-8c14-11ea-87cc-6140ce48d1a8.gif'
+	screenshot: 'https://user-images.githubusercontent.com/1402241/80861295-fbad8b80-8c6d-11ea-87a4-8025fbc3a3f4.png'
 }, {
 	include: [
 		pageDetect.isNotifications
