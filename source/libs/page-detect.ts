@@ -138,12 +138,9 @@ export const _isNewRelease = [
 	'https://github.com/sindresorhus/refined-github/releases/new'
 ];
 
-export const isNotifications = (): boolean => /^((?:[^/]+\/){2})?notifications/.test(getCleanPathname());
+export const isNotifications = (): boolean => getCleanPathname() === 'notifications';
 export const _isNotifications = [
-	'https://github.com/notifications',
-	'https://github.com/notifications/participating',
-	'https://github.com/sindresorhus/notifications/notifications',
-	'https://github.com/notifications?all=1'
+	'https://github.com/notifications'
 ];
 
 export const isOrganizationProfile = (): boolean => select.exists('meta[name="hovercard-subject-tag"][content^="organization"]');
@@ -240,7 +237,6 @@ export const _isEditingFile = [
 
 export const isRepo = (): boolean => /^[^/]+\/[^/]+/.test(getCleanPathname()) &&
 	!reservedNames.includes(getOwnerAndRepo().ownerName!) &&
-	!isNotifications() &&
 	!isDashboard() &&
 	!isGist() &&
 	!isRepoSearch();
