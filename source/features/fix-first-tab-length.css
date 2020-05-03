@@ -1,0 +1,13 @@
+/* Fixed a GitHub bug: In diffs, the first tab on each line appears 2 characters shorter than it should be. #3055 */
+
+/* Remove diff signs the layout flow */
+.blob-code-marker::before {
+	position: absolute;
+	transform: translate(-100%, 2px);
+}
+
+/* Restore the space that collapsed as a consequence of the previous rule */
+.code-review.blob-code {
+	padding-left: 26px; /* GitHub sets it to 18px */
+	text-indent: 0; /* GitHub sets it to -7px */
+}
