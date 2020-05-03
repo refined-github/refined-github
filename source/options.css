@@ -67,3 +67,23 @@ p {
 .sr-only {
 	display: none;
 }
+
+#debugging {
+	--background:
+		repeating-linear-gradient(
+			45deg,
+			var(--github-red),
+			var(--github-red) 7px,
+			transparent 7px,
+			transparent 14px
+		) no-repeat;
+	position: relative;
+	padding: 1em 0;
+	margin-bottom: 1em;
+	background:
+		var(--background) top / 100% 3px,
+		var(--background) bottom / 100% 3px;
+}
+#debugging p:last-child {
+	margin-bottom: 0;
+}

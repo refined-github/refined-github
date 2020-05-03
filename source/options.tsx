@@ -5,8 +5,8 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import fitTextarea from 'fit-textarea';
 import {applyToLink} from 'shorten-repo-url';
-import * as indentTextarea from 'indent-textarea';
 import {getAllOptions} from './options-storage';
+import * as indentTextarea from 'indent-textarea';
 import * as domFormatters from './libs/dom-formatters';
 
 function parseDescription(description: string): DocumentFragment {
@@ -130,6 +130,11 @@ async function init(): Promise<void> {
 
 			select<HTMLAnchorElement>('#personal-token-link')!.host = dropdown.value;
 		});
+	}
+
+	// Move debugging tools higher when side-loaded
+	if (process.env.NODE_ENV === 'development') {
+		select('#debugging-position')!.replaceWith(select('#debugging')!);
 	}
 }
 
