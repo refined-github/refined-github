@@ -1,0 +1,19 @@
+/* Place discussion number before the title */
+.rgh-clean-notifications [id^='notification'] {
+	flex-direction: row !important;
+}
+
+/* Hide duplicate repository URL */
+.rgh-clean-notifications [id^='notification'] > .d-flex > .f6 {
+	font-size: 0 !important;
+}
+
+/* Size and position the discussion number */
+.rgh-clean-notifications [id^='notification'] > .d-flex > .f6 > span {
+	display: block;
+	font-size: 12px;
+	font-variant-numeric: tabular-nums;
+	margin-top: 2px; /* Align baseline with discussion title */
+	margin-right: 8px;
+	word-break: keep-all;
+}
