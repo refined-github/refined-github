@@ -58,10 +58,10 @@ async function hideProjects(): Promise<void> {
 	}
 }
 
-async function init(): Promise<void> {
+async function init(): Promise<void | false> {
 	if (!await elementReady('#js-issues-toolbar')) {
 		// Repo has no issues, so no toolbar is shown
-		return;
+		return false;
 	}
 
 	hideMilestones();
