@@ -59,6 +59,11 @@ async function hideProjects(): Promise<void> {
 }
 
 function init(): void {
+	if (!select.exists('#js-issues-toolbar')) {
+		// Repo has no issues, so no toolbar is shown
+		return;
+	}
+
 	hideMilestones();
 	hideProjects();
 }
