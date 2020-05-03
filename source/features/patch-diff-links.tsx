@@ -2,6 +2,7 @@ import './patch-diff-links.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {isPRCommit} from '../libs/page-detect';
 
 function init(): void {
@@ -21,12 +22,12 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds links to `.patch` and `.diff` files in commits.',
-	screenshot: 'https://cloud.githubusercontent.com/assets/737065/13605562/22faa79e-e516-11e5-80db-2da6aa7965ac.png',
+	screenshot: 'https://cloud.githubusercontent.com/assets/737065/13605562/22faa79e-e516-11e5-80db-2da6aa7965ac.png'
+}, {
 	include: [
-		features.isCommit
+		pageDetect.isCommit
 	],
-	load: features.onAjaxedPages,
 	init
 });

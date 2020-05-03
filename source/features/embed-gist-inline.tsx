@@ -2,6 +2,7 @@ import React from 'dom-chef';
 import domify from 'doma';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {isFirefox} from '../libs/utils';
 
 const isGist = (link: HTMLAnchorElement): boolean =>
@@ -33,8 +34,9 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 						max-height: 16em;
 						overflow-y: auto;
 					}
-				`}</style>,
-				<link rel="stylesheet" href={gistData.stylesheet} />,
+				`}
+				</style>,
+				<link rel="stylesheet" href={gistData.stylesheet}/>,
 				files
 			);
 		}
@@ -50,16 +52,16 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Embeds linked gists. Not supported by Firefox.',
-	screenshot: 'https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.PNG',
+	screenshot: 'https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.PNG'
+}, {
 	include: [
-		features.hasComments
+		pageDetect.hasComments
 	],
 	exclude: [
 		// https://github.com/sindresorhus/refined-github/issues/2022
 		() => isFirefox
 	],
-	load: features.onAjaxedPages,
 	init
 });

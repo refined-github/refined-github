@@ -2,78 +2,48 @@ import './forked-to.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import pFilter from 'p-filter';
-import onetime from 'onetime';
+import ForkIcon from 'octicon/repo-forked.svg';
+import CheckIcon from 'octicon/check.svg';
 import elementReady from 'element-ready';
-import forkIcon from 'octicon/repo-forked.svg';
-import linkExternalIcon from 'octicon/link-external.svg';
+import LinkExternalIcon from 'octicon/link-external.svg';
 import features from '../libs/features';
-import {isRepoWithAccess} from '../libs/page-detect';
-import {getRepoURL, getUsername} from '../libs/utils';
+import * as pageDetect from '../libs/page-detect';
+import fetchDom from '../libs/fetch-dom';
+import {isForkedRepo} from '../libs/page-detect';
+import {getRepoURL, getUsername, getForkedRepo} from '../libs/utils';
 
-const getCacheKey = onetime((): string => `forked-to:${getUsername()}@${findForkedRepo() ?? getRepoURL()}`);
+const getForkSourceRepo = (): string => getForkedRepo() ?? getRepoURL();
+const getCacheKey = (): string => `forked-to:${getUsername()}@${getForkSourceRepo().toLowerCase()}`;
 
-async function save(forks: string[]): Promise<void> {
-	if (forks.length === 0) {
-		return cache.delete(getCacheKey());
-	}
-
-	return cache.set(getCacheKey(), forks, 10);
-}
-
-function saveAllForks(): void {
+const updateCache = cache.function(async (): Promise<string[] | undefined> => {
+	const document = await fetchDom(`/${getForkSourceRepo()}/fork?fragment=1`);
 	const forks = select
-		.all('details-dialog[src*="/fork"] .octicon-repo-forked')
-		.map(({nextSibling}) => nextSibling!.textContent!.trim());
+		.all('.octicon-repo-forked', document)
+		.map(({nextSibling}) => nextSibling!.textContent!.trim().toLowerCase());
 
-	save(forks);
-}
+	return forks.length > 0 ? forks : undefined;
+}, {
+	cacheKey: getCacheKey,
+	maxAge: 1 / 24,
+	staleWhileRevalidate: 5
+});
 
-function findForkedRepo(): string | undefined {
-	const forkSourceElement = select<HTMLAnchorElement>('.fork-flag a');
-	if (forkSourceElement) {
-		return forkSourceElement.pathname.slice(1);
-	}
-
-	return undefined;
-}
-
-async function validateFork(repo: string): Promise<boolean> {
-	const response = await fetch(location.origin + '/' + repo, {method: 'HEAD'});
-	return response.ok;
-}
-
-async function updateForks(forks: string[]): Promise<void> {
-	// Don't validate current page: it exists; it won't be shown in the list; it will be added later anyway
-	const validForks = await pFilter(forks.filter(fork => fork !== getRepoURL()), validateFork);
-
-	// Add current repo to cache if it's a fork
-	if (isRepoWithAccess() && findForkedRepo()) {
-		save([...validForks, getRepoURL()].sort(undefined));
-	} else {
-		save(validForks);
-	}
-}
-
-async function init(): Promise<void> {
-	select('details-dialog[src*="/fork"] include-fragment')!
-		.addEventListener('load', saveAllForks);
-
-	const forks = await cache.get<string[]>(getCacheKey());
-
-	if (!forks) {
+async function updateUI(forks: string[]): Promise<void> {
+	// Don't add button if you're visiting the only fork available
+	if (forks.length === 1 && forks[0] === getRepoURL()) {
 		return;
 	}
 
 	document.body.classList.add('rgh-forked-to');
-
 	const forkCounter = (await elementReady('.social-count[href$="/network/members"]'))!;
 	if (forks.length === 1) {
 		forkCounter.before(
-			<a href={`/${forks[0]}`}
+			<a
+				href={`/${forks[0]}`}
 				className="btn btn-sm float-left rgh-forked-button"
-				title={`Open your fork to ${forks[0]}`}>
-				{linkExternalIcon()}
+				title={`Open your fork at ${forks[0]}`}
+			>
+				<LinkExternalIcon/>
 			</a>
 		);
 	} else {
@@ -81,38 +51,59 @@ async function init(): Promise<void> {
 			<details className="details-reset details-overlay select-menu float-left">
 				<summary
 					className="select-menu-button float-left btn btn-sm btn-with-count rgh-forked-button"
+					aria-haspopup="menu"
 					title="Open any of your forks"/>
 				<details-menu
 					style={{zIndex: 99}}
-					className="select-menu-modal position-absolute right-0 mt-5">
+					className="select-menu-modal position-absolute right-0 mt-5"
+				>
 					<div className="select-menu-header">
 						<span className="select-menu-title">Your forks</span>
 					</div>
-					{...forks.map(fork =>
+					{forks.map(fork => (
 						<a
 							href={`/${fork}`}
-							className="select-menu-item"
-							title={`Open your fork to ${fork}`}>
-							<span className="select-menu-item-icon">{forkIcon()}</span>
+							className={`select-menu-item ${fork === getRepoURL() ? 'selected' : ''}`}
+							title={`Open your fork at ${fork}`}
+						>
+							<span className="select-menu-item-icon rgh-forked-to-icon">
+								{fork === getRepoURL() ? <CheckIcon/> : <ForkIcon/>}
+							</span>
 							{fork}
 						</a>
-					)}
+					))}
 				</details-menu>
 			</details>
 		);
 	}
+}
 
-	// Validate cache after showing links once, to make it faster
-	await updateForks(forks);
+async function init(): Promise<void | false> {
+	const forks = await cache.get<string[]>(getCacheKey());
+	if (forks) {
+		await updateUI(forks);
+	}
+
+	// This feature only applies to users that have multiple organizations, because that makes a fork picker modal appear when clicking on "Fork"
+	const hasOrganizations = await elementReady('details-dialog[src*="/fork"] include-fragment');
+
+	// Only fetch/update forks when we see a fork (on the current page or in the cache).
+	// This avoids having to `updateCache` for every single repo you visit.
+	if (forks || (hasOrganizations && isForkedRepo())) {
+		await updateCache();
+	} else {
+		return false;
+	}
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds a shortcut to your forks next to the `Fork` button on the current repo.',
-	screenshot: 'https://user-images.githubusercontent.com/55841/64077281-17bbf000-cccf-11e9-9123-092063f65357.png',
+	screenshot: 'https://user-images.githubusercontent.com/55841/64077281-17bbf000-cccf-11e9-9123-092063f65357.png'
+}, {
 	include: [
-		features.isRepo
+		pageDetect.isRepo
 	],
-	load: features.nowAndOnAjaxedPages,
+	waitForDomReady: false,
 	init
 });

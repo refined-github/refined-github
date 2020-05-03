@@ -1,7 +1,8 @@
-import select from 'select-dom';
 import React from 'dom-chef';
-import clockIcon from 'octicon/clock.svg';
+import select from 'select-dom';
+import ClockIcon from 'octicon/clock.svg';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getRepoURL} from '../libs/utils';
 import {appendBefore} from '../libs/dom-utils';
 
@@ -14,7 +15,7 @@ function addInlineLinks(comment: HTMLElement, timestamp: string): void {
 	for (const link of links) {
 		const linkParts = link.pathname.split('/');
 		// Skip permalinks
-		if (/^[0-9a-f]{40}$/.test(linkParts[4])) {
+		if (/^[\da-f]{40}$/.test(linkParts[4])) {
 			continue;
 		}
 
@@ -24,8 +25,9 @@ function addInlineLinks(comment: HTMLElement, timestamp: string): void {
 			<a
 				href={linkParts.join('/') + link.hash}
 				className="muted-link tooltipped tooltipped-n"
-				aria-label="Visit as permalink">
-				{clockIcon()}
+				aria-label="Visit as permalink"
+			>
+				<ClockIcon/>
 			</a>
 		);
 	}
@@ -41,12 +43,13 @@ function addDropdownLink(comment: HTMLElement, timestamp: string): void {
 
 	appendBefore(dropdown, '.dropdown-divider',
 		<>
-			<div className="dropdown-divider" />
+			<div className="dropdown-divider"/>
 			<a
 				href={`/${getRepoURL()}/tree/HEAD@{${timestamp}}`}
 				className="dropdown-item btn-link"
 				role="menuitem"
-				title="Browse repository like it appeared on this day">
+				title="Browse repository like it appeared on this day"
+			>
 				View repo at this time
 			</a>
 		</>
@@ -57,7 +60,7 @@ function init(): void {
 	// PR reviews' main content has nested `.timeline-comment`, but the deepest one doesn't have `relative-time`. These are filtered out with `:not([id^="pullrequestreview"])`
 	const comments = select.all(`
 		:not(.js-new-comment-form):not([id^="pullrequestreview"]) > .timeline-comment:not(.rgh-time-machine-links),
-		.review-comment:not(.rgh-time-machine-links) > .previewable-edit:not(.is-pending)
+		.review-comment > .previewable-edit:not(.is-pending):not(.rgh-time-machine-links)
 	`);
 
 	for (const comment of comments) {
@@ -70,12 +73,12 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds links to browse the repository and linked files at the time of each comment.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/56450896-68076680-635b-11e9-8b24-ebd11cc4e655.png',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/56450896-68076680-635b-11e9-8b24-ebd11cc4e655.png'
+}, {
 	include: [
-		features.hasComments
+		pageDetect.hasComments
 	],
-	load: features.onNewComments,
 	init
 });

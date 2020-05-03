@@ -2,6 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function init(): false | void {
 	const form = select('[action$="/reviews"]')!;
@@ -40,11 +41,13 @@ function init(): false | void {
 
 		container.append(
 			<button
+				type="submit"
 				name="pull_request_review[event]"
 				value={radio.value}
 				className={classes.join(' ')}
 				aria-label={tooltip ?? undefined}
-				disabled={radio.disabled}>
+				disabled={radio.disabled}
+			>
 				{radio.nextSibling}
 			</button>
 		);
@@ -69,12 +72,11 @@ function init(): false | void {
 
 	// This will prevent submission when clicking "Comment" and "Request changes" without entering a comment and no other review comments are pending
 	delegate<HTMLButtonElement>(form, 'button', 'click', ({delegateTarget: {value}}) => {
-		const submissionRequiresComment = !select.exists('.is-review-pending') && (value === 'reject' || value === 'comment');
+		const submissionRequiresComment = !select.exists('.review-comment-contents > .is-pending') && (value === 'reject' || value === 'comment');
 		select('#pull_request_review_body', form)!.toggleAttribute('required', submissionRequiresComment);
 	});
 
 	// Freeze form to avoid duplicate submissions
-	// TODO: maybe `data-disable-with` can do this like it does for the generic "Comment" button
 	form.addEventListener('submit', () => {
 		// Delay disabling the fields to let them be submitted first
 		setTimeout(() => {
@@ -86,12 +88,12 @@ function init(): false | void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Simplifies the PR review form: Approve or reject reviews faster with one-click review-type buttons.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png'
+}, {
 	include: [
-		features.isPR
+		pageDetect.isPR
 	],
-	load: features.onAjaxedPages,
 	init
 });

@@ -1,5 +1,7 @@
+import 'webext-base-css/webext-base.css';
 import './options.css';
 import React from 'dom-chef';
+import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import fitTextarea from 'fit-textarea';
 import {applyToLink} from 'shorten-repo-url';
@@ -21,26 +23,26 @@ function parseDescription(description: string): DocumentFragment {
 		applyToLink(a);
 	}
 
-	return descriptionElement;
+	// eslint-disable-next-line react/jsx-no-useless-fragment
+	return <>{[...descriptionElement.childNodes]}</>;
 }
 
-function buildFeatureCheckbox({name, description, screenshot, disabled}: FeatureInfo): HTMLElement {
+function buildFeatureCheckbox({id, description, screenshot, disabled}: FeatureMeta): HTMLElement {
 	// `undefined` disconnects it from the options
-	const key = disabled ? undefined : `feature:${name}`;
+	const key = disabled ? undefined : `feature:${id}`;
 
 	return (
-		<div className={`feature feature--${disabled ? 'disabled' : 'enabled'}`} data-text={`${name} ${description}`.toLowerCase()}>
-			<input type="checkbox" name={key} id={name} disabled={Boolean(disabled)} />
+		<div className={`feature feature--${disabled ? 'disabled' : 'enabled'}`} data-text={`${id} ${description}`.toLowerCase()}>
+			<input type="checkbox" name={key} id={id} disabled={Boolean(disabled)}/>
 			<div className="info">
-				<label for={name}>
-					<span className="feature-name">{name}</span>
+				<label for={id}>
+					<span className="feature-name">{id}</span>
 					{' '}
 					{disabled && <small>{parseDescription(`(Disabled because of ${disabled}) `)}</small>}
-					<a href={`https://github.com/sindresorhus/refined-github/blob/master/source/features/${name}.tsx`}>
+					<a href={`https://github.com/sindresorhus/refined-github/blob/master/source/features/${id}.tsx`}>
 						source
 					</a>
 					{screenshot && <>, <a href={screenshot}>screenshot</a></>}
-					<br/>
 					<p className="description">{parseDescription(description)}</p>
 				</label>
 			</div>
@@ -105,6 +107,23 @@ function init(): void {
 	optionsStorage.syncForm('form');
 	moveDisabledFeaturesToTop();
 
+	// Highlight new features
+	const {featuresAlreadySeen} = await browser.storage.local.get({featuresAlreadySeen: {}});
+	const isFirstVisit = Object.keys(featuresAlreadySeen).length === 0;
+	const tenDaysAgo = Date.now() - (10 * 24 * 60 * 60 * 1000);
+
+	for (const feature of select.all('.feature [type=checkbox]')) {
+		if (!(feature.id in featuresAlreadySeen)) {
+			featuresAlreadySeen[feature.id] = isFirstVisit ? tenDaysAgo : Date.now();
+		}
+
+		if (featuresAlreadySeen[feature.id] > tenDaysAgo) {
+			feature.parentElement!.classList.add('feature-new');
+		}
+	}
+
+	browser.storage.local.set({featuresAlreadySeen});
+
 	// Improve textareas editing
 	fitTextarea.watch('textarea');
 	indentTextarea.watch('textarea');
@@ -114,6 +133,24 @@ function init(): void {
 
 	// Add support for GHE domain selector
 	addDomainSelector();
+
+	// Add cache clearer
+	const button = select<HTMLButtonElement>('#clear-cache')!;
+	button.addEventListener('click', async () => {
+		await cache.clear();
+		const initialText = button.textContent;
+		button.textContent = 'Cache cleared!';
+		button.disabled = true;
+		setTimeout(() => {
+			button.textContent = initialText;
+			button.disabled = false;
+		}, 2000);
+	});
+
+	// Move debugging tools higher when side-loaded
+	if (process.env.NODE_ENV === 'development') {
+		select('#debugging-position')!.replaceWith(select('#debugging')!);
+	}
 }
 
 init();

@@ -2,11 +2,12 @@ import './recently-pushed-branches-enhancements.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getRepoURL} from '../libs/utils';
 import {isRepoRoot} from '../libs/page-detect';
 
 const fragmentURL = `/${getRepoURL()}/show_partial?partial=tree%2Frecently_touched_branches_list`;
-const selector = `[data-url='${fragmentURL}'], [src='${fragmentURL}']`;
+const selector = `[data-url='${fragmentURL}' i], [src='${fragmentURL}' i]`;
 
 // Ajaxed pages will load a new fragment on every ajaxed load;
 // but we only really need the one generated on the first load
@@ -51,23 +52,18 @@ async function init(): Promise<false | void> {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Moves the "Recently-pushed branches" widget to the header to avoid content jumps. Also adds it to more pages in the repo.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/56466173-da517700-643f-11e9-8eb5-9b20017fa613.gif',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/56466173-da517700-643f-11e9-8eb5-9b20017fa613.gif'
+}, {
 	include: [
-		features.isRepo
+		pageDetect.isRepo
 	],
-	load: features.onDomReady,
+	repeatOnAjax: false,
 	init
-});
-
-features.add({
-	id: __featureName__,
-	description: false,
-	screenshot: false,
+}, {
 	include: [
-		features.isRepo
+		pageDetect.isRepo
 	],
-	load: features.onAjaxedPages,
 	init: removeDuplicateList
 });

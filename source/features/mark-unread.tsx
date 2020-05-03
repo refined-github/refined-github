@@ -1,20 +1,20 @@
 import './mark-unread.css';
+import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
-import onDomReady from 'dom-loaded';
+import delegate from 'delegate-it';
 import elementReady from 'element-ready';
-import delegate, {DelegateSubscription, DelegateEvent} from 'delegate-it';
-import xIcon from 'octicon/x.svg';
-import infoIcon from 'octicon/info.svg';
-import checkIcon from 'octicon/check.svg';
-import mergeIcon from 'octicon/git-merge.svg';
-import issueOpenedIcon from 'octicon/issue-opened.svg';
-import issueClosedIcon from 'octicon/issue-closed.svg';
-import pullRequestIcon from 'octicon/git-pull-request.svg';
+import XIcon from 'octicon/x.svg';
+import InfoIcon from 'octicon/info.svg';
+import CheckIcon from 'octicon/check.svg';
+import MergeIcon from 'octicon/git-merge.svg';
+import IssueOpenedIcon from 'octicon/issue-opened.svg';
+import IssueClosedIcon from 'octicon/issue-closed.svg';
+import PullRequestIcon from 'octicon/git-pull-request.svg';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
-import {getUsername, getRepoURL} from '../libs/utils';
-import onUpdatableContentUpdate from '../libs/on-updatable-content-update';
+import onReplacedElement from '../libs/on-replaced-element';
+import {getUsername, getRepoURL, logError} from '../libs/utils';
 
 type NotificationType = 'pull-request' | 'issue';
 type NotificationState = 'open' | 'merged' | 'closed' | 'draft';
@@ -29,26 +29,25 @@ interface Notification {
 	state: NotificationState;
 	isParticipating: boolean;
 	repository: string;
-	dateTitle: string;
 	title: string;
 	type: NotificationType;
 	date: string;
 	url: string;
 }
 
-const listeners: DelegateSubscription[] = [];
+const listeners: delegate.Subscription[] = [];
 const stateIcons = {
 	issue: {
-		open: issueOpenedIcon,
-		closed: issueClosedIcon,
-		merged: issueClosedIcon, // Required just for TypeScript
-		draft: issueOpenedIcon // Required just for TypeScript
+		open: IssueOpenedIcon,
+		closed: IssueClosedIcon,
+		merged: IssueClosedIcon, // Required just for TypeScript
+		draft: IssueOpenedIcon // Required just for TypeScript
 	},
 	'pull-request': {
-		open: pullRequestIcon,
-		closed: pullRequestIcon,
-		merged: mergeIcon,
-		draft: pullRequestIcon
+		open: PullRequestIcon,
+		closed: PullRequestIcon,
+		merged: MergeIcon,
+		draft: PullRequestIcon
 	}
 };
 
@@ -71,7 +70,7 @@ function stripHash(url: string): string {
 function addMarkUnreadButton(): void {
 	if (!select.exists('.rgh-btn-mark-unread')) {
 		select('.thread-subscription-status')!.after(
-			<button className="btn btn-sm btn-block mt-2 rgh-btn-mark-unread">
+			<button className="btn btn-sm btn-block mt-2 rgh-btn-mark-unread" type="button">
 				Mark as unread
 			</button>
 		);
@@ -96,7 +95,7 @@ async function markRead(urls: string|string[]): Promise<void> {
 	await setNotifications(updated);
 }
 
-async function markUnread({delegateTarget}: DelegateEvent): Promise<void> {
+async function markUnread({delegateTarget}: delegate.Event): Promise<void> {
 	const participants: Participant[] = select.all('.participant-avatar').slice(0, 3).map(element => ({
 		username: element.getAttribute('aria-label')!,
 		avatar: element.querySelector('img')!.src
@@ -114,7 +113,8 @@ async function markUnread({delegateTarget}: DelegateEvent): Promise<void> {
 	} else if (stateLabel.title.includes('Draft')) {
 		state = 'draft';
 	} else {
-		throw new Error('Refined GitHub: A new issue state was introduced?');
+		logError(__filebasename, 'A new issue state was introduced?');
+		return;
 	}
 
 	const lastCommentTime = select.last<HTMLTimeElement>('.timeline-comment-header relative-time')!;
@@ -125,7 +125,6 @@ async function markUnread({delegateTarget}: DelegateEvent): Promise<void> {
 		state,
 		isParticipating: select.exists(`.participant-avatar[href="/${getUsername()}"]`),
 		repository: getRepoURL(),
-		dateTitle: lastCommentTime.title,
 		title: select('.js-issue-title')!.textContent!.trim(),
 		type: pageDetect.isPR() ? 'pull-request' : 'issue',
 		date: lastCommentTime.getAttribute('datetime')!,
@@ -142,7 +141,6 @@ async function markUnread({delegateTarget}: DelegateEvent): Promise<void> {
 function getNotification(notification: Notification): Element {
 	const {
 		participants,
-		dateTitle,
 		title,
 		state,
 		type,
@@ -162,11 +160,11 @@ function getNotification(notification: Notification): Element {
 		.join(' and ')
 		.replace(/ and (.+) and/, ', $1, and'); // 3 people only: A, B, and C
 
-	const avatars = participants.map(participant =>
+	const avatars = participants.map(participant => (
 		<a href={`/${participant.username}`} className="avatar">
 			<img alt={`@${participant.username}`} height="20" src={participant.avatar} width="20"/>
 		</a>
-	);
+	));
 
 	return (
 		<li className={`list-group-item js-notification js-navigation-item unread ${type}-notification rgh-unread`}>
@@ -174,22 +172,25 @@ function getNotification(notification: Notification): Element {
 				<span className={`type-icon type-icon-state-${state}`}>
 					{stateIcons[type][state]()}
 				</span>
-				<a className="css-truncate-target js-notification-target js-navigation-open list-group-item-link" href={url}
-					data-hovercard-url={`${url}/hovercard?show_subscription_status=true`}>
+				<a
+					className="css-truncate-target js-notification-target js-navigation-open list-group-item-link"
+					href={url}
+					data-hovercard-url={`${url}/hovercard?show_subscription_status=true`}
+				>
 					{title}
 				</a>
 			</span>
 			<ul className="notification-actions">
 				<li className="delete">
-					<button className="btn-link delete-note">
-						{checkIcon()}
+					<button className="btn-link delete-note" type="button">
+						<CheckIcon/>
 					</button>
 				</li>
 				<li className="mute tooltipped tooltipped-w" aria-label={`${type === 'issue' ? 'Issue' : 'PR'} manually marked as unread`}>
-					{infoIcon()}
+					<InfoIcon/>
 				</li>
 				<li className="age">
-					<relative-time datetime={date} title={dateTitle}/>
+					<relative-time datetime={date}/>
 				</li>
 				<div className="AvatarStack AvatarStack--three-plus AvatarStack--right clearfix d-inline-block" style={{marginTop: 1}}>
 					<div className="AvatarStack-body tooltipped tooltipped-sw tooltipped-align-right-1" aria-label={usernames}>
@@ -210,8 +211,8 @@ function getNotificationGroup({repository}: Notification): Element {
 	return (
 		<div className="boxed-group flush">
 			<form className="boxed-group-action">
-				<button className="mark-all-as-read css-truncate js-mark-all-read">
-					{checkIcon()}
+				<button className="mark-all-as-read css-truncate js-mark-all-read" type="button">
+					<CheckIcon/>
 				</button>
 			</form>
 
@@ -237,7 +238,7 @@ async function renderNotifications(unreadNotifications: Notification[]): Promise
 	let pageList = (await elementReady('#notification-center .notifications-list'))!;
 
 	if (!pageList) {
-		pageList = <div className="notifications-list"></div>;
+		pageList = <div className="notifications-list"/>;
 		select('.blankslate')!.replaceWith(pageList);
 	}
 
@@ -277,7 +278,7 @@ function isSingleRepoPage(): boolean {
 }
 
 function isCurrentSingleRepoPage({repository}: Notification): boolean {
-	const singleRepo = /^[/](.+[/].+)[/]notifications/.exec(location.pathname)?.[1];
+	const singleRepo = /^\/(.+\/.+)\/notifications/.exec(location.pathname)?.[1];
 	return singleRepo === repository;
 }
 
@@ -286,15 +287,10 @@ function isParticipatingPage(): boolean {
 }
 
 async function updateUnreadIndicator(): Promise<void> {
-	const icon = select<HTMLAnchorElement>('a.notification-indicator'); // "a" required in responsive views
-	if (!icon) {
-		return;
-	}
+	await delay(200); // Lets `markRead` run first. It can't be added to this function
 
-	const statusMark = icon.querySelector('.mail-status');
-	if (!statusMark) {
-		return;
-	}
+	const icon = select<HTMLAnchorElement>('a.notification-indicator')!; // "a" required in responsive views
+	const statusMark = icon.querySelector('.mail-status')!;
 
 	const hasRealNotifications = icon.matches('[data-ga-click$=":unread"]');
 	const rghUnreadCount = (await getNotifications()).length;
@@ -312,7 +308,7 @@ async function updateUnreadIndicator(): Promise<void> {
 	}
 }
 
-async function markNotificationRead({delegateTarget}: DelegateEvent): Promise<void> {
+async function markNotificationRead({delegateTarget}: delegate.Event): Promise<void> {
 	const {href} = delegateTarget
 		.closest('li.js-notification')!
 		.querySelector<HTMLAnchorElement>('a.js-notification-target')!;
@@ -320,7 +316,7 @@ async function markNotificationRead({delegateTarget}: DelegateEvent): Promise<vo
 	await updateUnreadIndicator();
 }
 
-async function markAllNotificationsRead(event: DelegateEvent): Promise<void> {
+async function markAllNotificationsRead(event: delegate.Event): Promise<void> {
 	event.preventDefault();
 	const repoGroup = event.delegateTarget.closest('.boxed-group')!;
 	const urls = select.all<HTMLAnchorElement>('a.js-notification-target', repoGroup).map(a => a.href);
@@ -328,7 +324,7 @@ async function markAllNotificationsRead(event: DelegateEvent): Promise<void> {
 	await updateUnreadIndicator();
 }
 
-async function markVisibleNotificationsRead({delegateTarget}: DelegateEvent): Promise<void> {
+async function markVisibleNotificationsRead({delegateTarget}: delegate.Event): Promise<void> {
 	const group = delegateTarget.closest('.boxed-group')!;
 	const repo = select('.notifications-repo-link', group)!.textContent;
 	const notifications = await getNotifications();
@@ -352,7 +348,7 @@ function addCustomAllReadButton(): void {
 			<details-dialog className="Box Box--overlay d-flex flex-column anim-fade-in fast " aria-label="Are you sure?" role="dialog" tabindex="-1">
 				<div className="Box-header">
 					<button className="Box-btn-octicon btn-octicon float-right" type="button" aria-label="Close dialog" data-close-dialog="">
-						{xIcon()}
+						<XIcon/>
 					</button>
 					<h3 className="Box-title">Are you sure?</h3>
 				</div>
@@ -365,7 +361,7 @@ function addCustomAllReadButton(): void {
 		</details>
 	);
 
-	delegate('#clear-local-notification', 'click', async () => {
+	delegate(document, '#clear-local-notification', 'click', async () => {
 		await setNotifications([]);
 		location.reload();
 	});
@@ -389,7 +385,40 @@ function updateLocalParticipatingCount(notifications: Notification[]): void {
 	}
 }
 
-function destroy(): void {
+async function initDiscussionListPage(): Promise<void> {
+	for (const discussion of await getNotifications()) {
+		const {pathname} = new URL(discussion.url);
+		select(`[href='${pathname}']`)!.closest('.Box-row')!.classList.add('Box-row--unread');
+	}
+}
+
+function initDiscussionPage(): void {
+	markRead(location.href);
+
+	addMarkUnreadButton();
+	onReplacedElement('#partial-discussion-sidebar', addMarkUnreadButton);
+	delegate(document, '.rgh-btn-mark-unread', 'click', markUnread);
+}
+
+async function initNotificationsPage(): Promise<void> {
+	const notifications = await getNotifications();
+	if (notifications.length > 0) {
+		await renderNotifications(notifications);
+		addCustomAllReadButton();
+		updateLocalNotificationsCount(notifications);
+		updateLocalParticipatingCount(notifications);
+		document.dispatchEvent(new CustomEvent('refined-github:mark-unread:notifications-added'));
+	}
+
+	listeners.push(
+		delegate(document, '.btn-link.delete-note', 'click', markNotificationRead),
+		delegate(document, '.js-mark-all-read', 'click', markAllNotificationsRead),
+		delegate(document, '.js-delete-notification button', 'click', updateUnreadIndicator),
+		delegate(document, '.js-mark-visible-as-read', 'submit', markVisibleNotificationsRead)
+	);
+}
+
+function deinitNotificationsPage(): void {
 	for (const listener of listeners) {
 		listener.destroy();
 	}
@@ -397,51 +426,29 @@ function destroy(): void {
 	listeners.length = 0;
 }
 
-async function init(): Promise<void> {
-	destroy();
-	await onDomReady;
-
-	if (pageDetect.isNotifications()) {
-		const notifications = await getNotifications();
-		if (notifications.length > 0) {
-			await renderNotifications(notifications);
-			addCustomAllReadButton();
-			updateLocalNotificationsCount(notifications);
-			updateLocalParticipatingCount(notifications);
-			document.dispatchEvent(new CustomEvent('refined-github:mark-unread:notifications-added'));
-		}
-
-		listeners.push(
-			delegate('.btn-link.delete-note', 'click', markNotificationRead),
-			delegate('.js-mark-all-read', 'click', markAllNotificationsRead),
-			delegate('.js-delete-notification button', 'click', updateUnreadIndicator),
-			delegate('.js-mark-visible-as-read', 'submit', markVisibleNotificationsRead)
-		);
-	} else if (pageDetect.isPR() || pageDetect.isIssue()) {
-		await markRead(location.href);
-
-		if (pageDetect.isPRConversation() || pageDetect.isIssue()) {
-			addMarkUnreadButton();
-			onUpdatableContentUpdate(select('#partial-discussion-sidebar')!, addMarkUnreadButton);
-			delegate('.rgh-btn-mark-unread', 'click', markUnread);
-		}
-	} else if (pageDetect.isDiscussionList()) {
-		for (const discussion of await getNotifications()) {
-			const {pathname} = new URL(discussion.url);
-			const listItem = select(`.read [href='${pathname}']`);
-			if (listItem) {
-				listItem.closest('.read')!.classList.replace('read', 'unread');
-			}
-		}
-	}
-
-	updateUnreadIndicator();
-}
-
 features.add({
-	id: __featureName__,
+	disabled: '#2801',
+	id: __filebasename,
 	description: 'Adds button to mark issues and PRs as unread. They will reappear in Notifications.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/27847663-963b7d7c-6171-11e7-9470-6e86d8463771.png',
-	load: features.onAjaxedPagesRaw,
-	init
+	screenshot: 'https://user-images.githubusercontent.com/1402241/27847663-963b7d7c-6171-11e7-9470-6e86d8463771.png'
+}, {
+	include: [
+		pageDetect.isNotifications
+	],
+	init: initNotificationsPage,
+	deinit: deinitNotificationsPage
+}, {
+	include: [
+		pageDetect.isPRConversation,
+		pageDetect.isIssue
+	],
+	init: initDiscussionPage
+}, {
+	include: [
+		pageDetect.isDiscussionList
+	],
+	init: initDiscussionListPage
+}, {
+	repeatOnAjax: false,
+	init: updateUnreadIndicator
 });

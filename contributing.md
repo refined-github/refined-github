@@ -8,7 +8,7 @@ Suggestions and pull requests are highly encouraged! Have a look at the [open is
 - The extension can be loaded into Chrome or Firefox manually ([See notes below](#loading-into-the-browser))
 - [JSX](https://reactjs.org/docs/introducing-jsx.html) is used to create DOM elements.
 - All the [latest DOM APIs](https://github.com/WebReflection/dom4#features) and JavaScript features are available because the extension only has to work in the latest Chrome and Firefox. 🎉
-- Each JavaScript feature lives in its own file under [`source/features`](https://github.com/sindresorhus/refined-github/tree/master/source/features) and it's imported in [`source/content.ts`](https://github.com/sindresorhus/refined-github/blob/master/source/content.ts).
+- Each JavaScript feature lives in its own file under [`source/features`](https://github.com/sindresorhus/refined-github/tree/master/source/features) and it's imported in [`source/refined-github.ts`](https://github.com/sindresorhus/refined-github/blob/master/source/refined-github.ts).
 - Some GitHub pages are loaded via AJAX/PJAX, so some features use the special `onAjaxedPages` loader (see it as a custom "on DOM ready").
 - See what a _feature_ [looks like](https://github.com/sindresorhus/refined-github/blob/master/source/features/user-profile-follower-badge.tsx).
 - Follow [the styleguide](https://github.com/sindresorhus/refined-github/blob/master/readme.md#L100) that appears in the Readme's source to write readable descriptions.
@@ -20,14 +20,21 @@ The simplest usage of `feature.add` is the following. This will be run instantly
 
 ```js
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function init () {
 	console.log('✨');
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Simplify the GitHub interface and adds useful features',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/58238638-3cbcd080-7d7a-11e9-80f6-be6c0520cfed.jpg',
+}, {
+	include: [
+		pageDetect.isPR
+	],
+	waitForDomReady: false,
 	init
 });
 ```
@@ -38,41 +45,47 @@ Here's an example using all of the possible `feature.add` options:
 ```ts
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate, {DelegateSubscription} from 'delegate-it';
+import delegate from 'delegate-it';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
-let delegate;
-function log() {
-	console.log('✨', <div className="rgh-jsx-element"/>);
+function append(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
+	event.delegateTarget.after('✨', <div className="rgh-jsx-element">Button clicked!</div>);
 }
 function init(): void {
 	// Events must be set via delegate, unless shortlived
-	delegate = delegate('.btn', 'click', log);
-}
-function deinit(): void {
-	delegate?.destroy();
-	delegate = undefined;
+	delegate(document, '.btn', 'click', append);
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Simplify the GitHub interface and adds useful features',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/58238638-3cbcd080-7d7a-11e9-80f6-be6c0520cfed.jpg',
 	shortcuts: { // This only adds the shortcut to the help screen, it doesn't enable it
 		'↑': 'Edit your last comment'
 	},
+}, {
+	/** Whether to wait for DOM ready before runnin `init`. `false` makes `init` run right as soon as `body` is found. @default true */
+	waitForDomReady: false,
+
+	/** Whether to re-run `init` on pages loaded via AJAX. @default true */
+	repeatOnAjax: false,
+
+	/** Rarely needed: When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway. @default false */
+	repeatOnAjaxEvenOnBackButton: true,
 	include: [
-		features.isUserProfile,
-		features.isRepo
+		pageDetect.isUserProfile,
+		pageDetect.isRepo
 	],
 	exclude: [
-		features.isOwnUserProfile
+		pageDetect.isOwnUserProfile
 	],
-	load: features.onDomReady, // Wait for DOM ready
-	// load: features.onAjaxedPages, // Or: Wait for DOM ready AND run on all AJAXed loads
-	// load: features.onNewComments, // Or: Wait for DOM ready AND run on all AJAXed loads AND watch for new comments
-	deinit, // Rarely needed
 	init
+}, {
+	include: [
+		pageDetect.isGist
+	],
+	init: () => console.log('Additional listener for gist pages!')
 });
 ```
 

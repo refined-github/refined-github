@@ -2,7 +2,9 @@ import './global-discussion-list-filters.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getUsername} from '../libs/utils';
+import SearchQuery from '../libs/search-query';
 
 function init(): void {
 	const defaultQuery = 'is:open archived:false';
@@ -23,9 +25,7 @@ function init(): void {
 		url.searchParams.set('q', `${typeQuery} ${defaultQuery} ${query}`);
 		const link = <a href={String(url)} title={title} className="subnav-item">{label}</a>;
 
-		const isCurrentPage = new RegExp(`(^|\\s)${query}(\\s|$)`).test(
-			new URLSearchParams(location.search).get('q')!
-		);
+		const isCurrentPage = new SearchQuery(location).includes(query);
 
 		// Highlight it, if that's the current page
 		if (isCurrentPage && !select.exists('.subnav-links .selected')) {
@@ -33,9 +33,7 @@ function init(): void {
 
 			// Other links will keep the current query, that's not what we want
 			for (const otherLink of select.all<HTMLAnchorElement>('.subnav-links a')) {
-				const search = new URLSearchParams(otherLink.search);
-				search.set('q', search.get('q')!.split(' ').filter(s => s !== query).join(' '));
-				otherLink.search = String(search);
+				new SearchQuery(otherLink).remove(query);
 			}
 		}
 
@@ -44,12 +42,12 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds filters for discussions _in your repos_ and _commented on by you_ in the global discussion search.',
-	screenshot: 'https://user-images.githubusercontent.com/8295888/36827126-8bfc79c4-1d37-11e8-8754-992968b082be.png',
+	screenshot: 'https://user-images.githubusercontent.com/8295888/36827126-8bfc79c4-1d37-11e8-8754-992968b082be.png'
+}, {
 	include: [
-		features.isGlobalDiscussionList
+		pageDetect.isGlobalDiscussionList
 	],
-	load: features.onAjaxedPages,
 	init
 });

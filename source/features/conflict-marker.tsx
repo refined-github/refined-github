@@ -1,9 +1,10 @@
 import './conflict-marker.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import alertIcon from 'octicon/alert.svg';
+import AlertIcon from 'octicon/alert.svg';
 import * as api from '../libs/api';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 interface PRConfig {
 	number: string;
@@ -56,7 +57,7 @@ async function init(): Promise<false | void> {
 					aria-label="This PR has conflicts that must be resolved"
 					href={`${pr.link.pathname}#partial-pull-merging`}
 				>
-					{alertIcon()}
+					<AlertIcon/>
 				</a>
 			);
 		}
@@ -64,13 +65,13 @@ async function init(): Promise<false | void> {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Shows which PRs have conflicts in PR lists',
 	screenshot:
-		'https://user-images.githubusercontent.com/9092510/62777551-2affe500-baae-11e9-8ba4-67f078347913.png',
+		'https://user-images.githubusercontent.com/9092510/62777551-2affe500-baae-11e9-8ba4-67f078347913.png'
+}, {
 	include: [
-		features.isDiscussionList
+		pageDetect.isDiscussionList
 	],
-	load: features.onAjaxedPages,
 	init
 });

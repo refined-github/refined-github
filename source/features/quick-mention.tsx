@@ -1,13 +1,15 @@
 import './quick-mention.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate, {DelegateEvent} from 'delegate-it';
-import insertText from 'insert-text-textarea';
-import replyIcon from 'octicon/reply.svg';
+import delegate from 'delegate-it';
+import ReplyIcon from 'octicon/reply.svg';
+import * as textFieldEdit from 'text-field-edit';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getUsername} from '../libs/utils';
+import onNewComments from '../libs/on-new-comments';
 
-function mentionUser({delegateTarget: button}: DelegateEvent): void {
+function mentionUser({delegateTarget: button}: delegate.Event): void {
 	const userMention = button.parentElement!.querySelector('img')!.alt;
 	const newComment = select<HTMLTextAreaElement>('#new_comment_field')!;
 	newComment.focus();
@@ -20,7 +22,7 @@ function mentionUser({delegateTarget: button}: DelegateEvent): void {
 	const spacer = /\s|^$/.test(precedingCharacter) ? '' : ' ';
 
 	// The space after closes the autocomplete box and places the cursor where the user would start typing
-	insertText(newComment, `${spacer}${userMention} `);
+	textFieldEdit.insert(newComment, `${spacer}${userMention} `);
 }
 
 function init(): void | false {
@@ -29,7 +31,8 @@ function init(): void | false {
 	}
 
 	// `:first-child` avoids app badges #2630
-	for (const avatar of select.all(`.TimelineItem-avatar > :first-child:not([href="/${getUsername()}"]):not(.rgh-quick-mention)`)) {
+	// The hovercard attribute avoids `highest-rated-comment`
+	for (const avatar of select.all(`.TimelineItem-avatar > [data-hovercard-type="user"]:first-child:not([href="/${getUsername()}"]):not(.rgh-quick-mention)`)) {
 		const userMention = select('img', avatar)!.alt;
 		avatar.classList.add('rgh-quick-mention');
 		avatar.after(
@@ -38,22 +41,25 @@ function init(): void | false {
 				className="rgh-quick-mention tooltipped tooltipped-e btn-link"
 				aria-label={`Mention ${userMention} in a new comment`}
 			>
-				{replyIcon()}
+				<ReplyIcon/>
 			</button>
 		);
 	}
 
-	delegate('button.rgh-quick-mention', 'click', mentionUser);
+	delegate(document, 'button.rgh-quick-mention', 'click', mentionUser);
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds a button to @mention a user in discussions.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/70406615-f445d580-1a73-11ea-9ab1-bf6bd9aa70a3.gif',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/70406615-f445d580-1a73-11ea-9ab1-bf6bd9aa70a3.gif'
+}, {
 	include: [
-		features.isIssue,
-		features.isPRConversation
+		pageDetect.isIssue,
+		pageDetect.isPRConversation
 	],
-	load: features.onNewComments,
+	additionalListeners: [
+		onNewComments
+	],
 	init
 });

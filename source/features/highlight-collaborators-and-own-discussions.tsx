@@ -1,6 +1,7 @@
 import './highlight-collaborators-and-own-discussions.css';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getRepoURL, getUsername} from '../libs/utils';
 import fetchDom from '../libs/fetch-dom';
 
@@ -11,8 +12,8 @@ async function highlightCollaborators(): Promise<false | void> {
 	}
 
 	const dom = await fetchDom(getRepoURL() + '/issues/show_menu_content?partial=issues/filters/authors_content');
-	const collaborators = select.all('.select-menu-item-text', dom).map(collaborator => {
-		return collaborator.firstChild!.textContent!.trim();
+	const collaborators = select.all<HTMLImageElement>('.SelectMenu-item [alt]', dom).map(collaborator => {
+		return collaborator.alt.slice(1)!;
 	});
 
 	for (const author of authors) {
@@ -31,24 +32,18 @@ function highlightSelf(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Highlights discussions opened by you or the current repo’s collaborators.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/65013882-03225d80-d947-11e9-8eb8-5507bc1fc14b.png',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/65013882-03225d80-d947-11e9-8eb8-5507bc1fc14b.png'
+}, {
 	include: [
-		features.isRepoDiscussionList
+		pageDetect.isRepoDiscussionList
 	],
-	load: features.onAjaxedPages,
 	init: highlightCollaborators
-});
-
-features.add({
-	id: __featureName__,
-	description: '',
-	screenshot: false,
+}, {
 	include: [
-		features.isDiscussionList
+		pageDetect.isDiscussionList
 	],
-	load: features.onAjaxedPages,
 	init: highlightSelf
 });
 

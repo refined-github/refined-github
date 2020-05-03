@@ -1,33 +1,38 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-// TODO: Drop some definitions when their related bugs are resolved
-
 type AnyObject = Record<string, any>;
 type AsyncVoidFunction = () => Promise<void>;
-type Unpromise<MaybePromise> = MaybePromise extends Promise<infer Type> ? Type : MaybePromise;
-type AsyncReturnType<T extends (...args: any) => any> = Unpromise<ReturnType<T>>;
 
-interface FeatureInfo {
-	name: string;
-	description: string;
-	screenshot?: string;
+type FeatureID = 'use the __filebasename variable';
+
+type FeatureShortcuts = Record<string, string>;
+interface FeatureMeta {
+	/**
+	If it's disabled, this should be the issue that explains why, as a reference
+	@example '#123'
+	*/
 	disabled?: string;
+	id: FeatureID;
+	description: string;
+	screenshot: string | false;
+	shortcuts?: FeatureShortcuts;
 }
 
 interface FeatureConfig {
-	[featureName: string]: string | boolean;
+	[id: string]: string | boolean;
 }
 
 declare const __featuresOptionDefaults__: FeatureConfig;
-declare const __featuresInfo__: FeatureInfo[];
-declare const __featureName__: 'use the __featureName__ variable';
+declare const __featuresMeta__: FeatureMeta[];
+declare const __filebasename: FeatureID;
 
 interface Window {
-	collectFeatures: Map<string, FeatureDetails>;
 	content: GlobalFetch;
 }
 
 declare module 'size-plugin';
+
+declare module 'deep-weak-map' {
+	export default WeakMap;
+}
 
 // Custom UI events specific to RGH
 interface GlobalEventHandlersEventMap {
@@ -36,6 +41,7 @@ interface GlobalEventHandlersEventMap {
 	'rgh:view-markdown-rendered': CustomEvent;
 	'filterable:change': CustomEvent;
 	'page:loaded': CustomEvent;
+	'pjax:start': CustomEvent;
 }
 
 declare namespace JSX {
@@ -43,13 +49,17 @@ declare namespace JSX {
 	type BaseIntrinsicElement = IntrinsicElements['div'];
 	type LabelIntrinsicElement = IntrinsicElements['label'];
 	interface IntrinsicElements {
-		'has-rgh': {};
+		'has-rgh': BaseIntrinsicElement;
 		'label': LabelIntrinsicElement & {for?: string};
 		'include-fragment': BaseIntrinsicElement & {src?: string};
 		'details-menu': BaseIntrinsicElement & {src?: string; preload?: boolean};
 		'time-ago': BaseIntrinsicElement & {datetime: string; format?: string};
-		'relative-time': BaseIntrinsicElement & {datetime: string; title: string};
+		'relative-time': BaseIntrinsicElement & {datetime: string};
 		'details-dialog': BaseIntrinsicElement & {tabindex: string};
+	}
+
+	interface IntrinsicAttributes extends BaseIntrinsicElement {
+		width?: number;
 	}
 }
 
@@ -64,9 +74,10 @@ interface HTMLFormControlsCollection {
 }
 
 declare module '*.svg' {
-	export default (): SVGElement => SVGElement;
+	export default (): JSX.Element => JSX.Element;
 }
 
+// Make `element.cloneNode()` preserve its type instead of returning Node
 interface Node extends EventTarget {
 	cloneNode(deep?: boolean): this;
 }

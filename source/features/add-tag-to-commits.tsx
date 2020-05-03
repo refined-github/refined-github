@@ -1,8 +1,9 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import tagIcon from 'octicon/tag.svg';
+import TagIcon from 'octicon/tag.svg';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import * as api from '../libs/api';
 import {getOwnerAndRepo, getRepoURL, getRepoGQL} from '../libs/utils';
 
@@ -47,7 +48,7 @@ function mergeTags(oldTags: CommitTags, newTags: CommitTags): CommitTags {
 }
 
 function isTagTarget(target: CommonTarget): target is TagTarget {
-	return typeof (target as TagTarget).tagger !== 'undefined';
+	return 'tagger' in target;
 }
 
 async function getTags(lastCommit: string, after?: string): Promise<CommitTags> {
@@ -89,7 +90,7 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 		}
 		`);
 	const {nodes}: {nodes: TagNode[]} = repository.refs;
-	let tags: CommitTags = nodes.reduce((tags: CommitTags, node: TagNode) => {
+	let tags = nodes.reduce((tags: CommitTags, node: TagNode) => {
 		const commit = node.target.commitResourcePath.split('/')[4];
 		const {name} = node;
 		if (!tags[commit]) {
@@ -99,7 +100,12 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 		tags[commit].push(name);
 
 		return tags;
-	}, {} as CommitTags);
+	}, {});
+
+	// If there are no tags in the repository
+	if (nodes.length === 0) {
+		return tags;
+	}
 
 	const lastTag = nodes[nodes.length - 1].target;
 	const lastTagIsYounger = new Date(repository.object.committedDate) < new Date(isTagTarget(lastTag) ? lastTag.tagger.date : lastTag.committedDate);
@@ -133,13 +139,14 @@ async function init(): Promise<void | false> {
 		} else if (targetTags.length > 0) {
 			select('.commit-meta', commit)!.append(
 				<div className="ml-2">
-					{tagIcon()}
+					<TagIcon/>
 					<span className="ml-1">{targetTags.map((tags, i) => (
 						<>
 							<a href={`/${getRepoURL()}/releases/tag/${tags}`}>{tags}</a>
 							{(i + 1) === targetTags.length ? '' : ', '}
 						</>
-					))}</span>
+					))}
+					</span>
 				</div>
 			);
 		}
@@ -155,12 +162,12 @@ async function init(): Promise<void | false> {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Display the corresponding tags next to commits',
-	screenshot: 'https://user-images.githubusercontent.com/14323370/66400400-64ba7280-e9af-11e9-8d6c-07b35afde91f.png',
+	screenshot: 'https://user-images.githubusercontent.com/14323370/66400400-64ba7280-e9af-11e9-8d6c-07b35afde91f.png'
+}, {
 	include: [
-		features.isRepoCommitList
+		pageDetect.isRepoCommitList
 	],
-	load: features.onAjaxedPages,
 	init
 });

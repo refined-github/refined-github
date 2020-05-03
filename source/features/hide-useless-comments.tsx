@@ -1,8 +1,9 @@
 import './hide-useless-comments.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function init(): void {
 	let uselessCount = 0;
@@ -41,14 +42,14 @@ function init(): void {
 		select('.discussion-timeline-actions')!.prepend(
 			<p className="rgh-useless-comments-note">
 				{`${uselessCount} unhelpful comment${uselessCount > 1 ? 's were' : ' was'} automatically hidden. `}
-				<button className="btn-link text-emphasized rgh-unhide-useless-comments">Show</button>
+				<button className="btn-link text-emphasized rgh-unhide-useless-comments" type="button">Show</button>
 			</p>
 		);
-		delegate('.rgh-unhide-useless-comments', 'click', unhide);
+		delegate(document, '.rgh-unhide-useless-comments', 'click', unhide);
 	}
 }
 
-function unhide(event: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
+function unhide(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	for (const comment of select.all('.rgh-hidden-comment')) {
 		comment.hidden = false;
 	}
@@ -58,12 +59,12 @@ function unhide(event: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Hides reaction comments ("+1", "👍", …).',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/45543717-d45f3c00-b847-11e8-84a5-8c439d0ad1a5.png',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/45543717-d45f3c00-b847-11e8-84a5-8c439d0ad1a5.png'
+}, {
 	include: [
-		features.isIssue
+		pageDetect.isIssue
 	],
-	load: features.onAjaxedPages,
 	init
 });

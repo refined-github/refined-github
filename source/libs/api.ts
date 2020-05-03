@@ -6,7 +6,7 @@ next to the name of the feature that caused them.
 Usage:
 
 import * as api from '../libs/api';
-const user  = await api.v3(`users/${username}`);
+const user = await api.v3(`users/${username}`);
 const data = await api.v4('{user(login: "user") {name}}');
 
 Returns:
@@ -25,7 +25,7 @@ so the call will not throw an error but it will return as usual.
  */
 
 import mem from 'mem';
-import {JsonObject} from 'type-fest';
+import {JsonObject, AsyncReturnType} from 'type-fest';
 import optionsStorage from '../options-storage';
 
 type JsonError = {
@@ -44,7 +44,7 @@ interface RestResponse extends AnyObject {
 	ok: boolean;
 }
 
-export const escapeKey = (value: string): string => '_' + value.replace(/[ ./-]/g, '_');
+export const escapeKey = (value: string | number): string => '_' + String(value).replace(/[ ./-]/g, '_');
 
 export class RefinedGitHubAPIError extends Error {
 	constructor(...messages: string[]) {
@@ -171,10 +171,7 @@ export const v4 = mem(async (
 	} = apiResponse;
 
 	if (errors.length > 0 && !options.allowErrors) {
-		throw Object.assign(
-			new RefinedGitHubAPIError('GraphQL:', ...errors.map(error => error.message)),
-			apiResponse
-		);
+		throw new RefinedGitHubAPIError('GraphQL:', ...errors.map(error => error.message));
 	}
 
 	if (response.ok) {

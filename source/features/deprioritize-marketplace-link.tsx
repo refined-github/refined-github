@@ -3,6 +3,7 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import domLoaded from 'dom-loaded';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 async function init(): Promise<void> {
 	const marketPlaceLink = (await elementReady('.Header-link[href="/marketplace"]'));
@@ -14,17 +15,20 @@ async function init(): Promise<void> {
 	await domLoaded;
 
 	select.last('.header-nav-current-user ~ .dropdown-divider')!.before(
-		<div className="dropdown-divider"></div>,
+		<div className="dropdown-divider"/>,
 		<a className="dropdown-item" href="/marketplace">Marketplace</a>
 	);
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Moves the "Marketplace" link from the black header bar to the profile dropdown.',
-	screenshot: false,
+	screenshot: false
+}, {
 	exclude: [
-		features.isGist
+		pageDetect.isGist
 	],
+	waitForDomReady: false,
+	repeatOnAjax: false,
 	init
 });

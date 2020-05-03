@@ -23,6 +23,11 @@ https://github.com/sindresorhus/refined-github/releases/tag/19.9.16
 	align-items: flex-start;
 }
 
+/* Clear .subnav-search input field when using display: flex */
+form.subnav-search > div.card-filter-autocomplete-dropdown {
+	margin-top: 40px !important;
+}
+
 /* Global search, labels: enable field expansion */
 .page-content > .subnav:first-child {
 	display: flex;

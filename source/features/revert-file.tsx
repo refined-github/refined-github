@@ -1,9 +1,10 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import * as api from '../libs/api';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import fetchDom from '../libs/fetch-dom';
 import postForm from '../libs/post-form';
 import {getDiscussionNumber, getRepoGQL, getRepoURL, getCurrentBranch} from '../libs/utils';
@@ -53,7 +54,7 @@ async function deleteFile(menuItem: Element): Promise<void> {
 }
 
 async function commitFileContent(menuItem: Element, content: string): Promise<void> {
-	let {pathname} = (menuItem.previousElementSibling as HTMLAnchorElement);
+	let {pathname} = menuItem.previousElementSibling as HTMLAnchorElement;
 	// Check if file was deleted by PR
 	if (menuItem.closest('[data-file-deleted="true"]')) {
 		menuItem.textContent = 'Undeleting…';
@@ -73,7 +74,7 @@ async function commitFileContent(menuItem: Element, content: string): Promise<vo
 }
 
 const filesReverted = new WeakSet<HTMLButtonElement>();
-async function handleRevertFileClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
+async function handleRevertFileClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
 	const menuItem = event.delegateTarget;
 
 	// Only allow one click
@@ -93,7 +94,6 @@ async function handleRevertFileClick(event: DelegateEvent<MouseEvent, HTMLButton
 		if (!file) {
 			// The file was created by this PR. Revert === Delete.
 			// If there was a way to tell if a file was created by the PR, we could skip `getFile`
-			// TODO: find this info on the page ("was this file created by this PR?")
 			await deleteFile(menuItem);
 			return;
 		}
@@ -113,7 +113,7 @@ async function handleRevertFileClick(event: DelegateEvent<MouseEvent, HTMLButton
 	}
 }
 
-function handleMenuOpening(event: DelegateEvent): void {
+function handleMenuOpening(event: delegate.Event): void {
 	const dropdown = event.delegateTarget.nextElementSibling!;
 
 	const editFile = select<HTMLAnchorElement>('[aria-label^="Change this"]', dropdown);
@@ -134,18 +134,18 @@ function handleMenuOpening(event: DelegateEvent): void {
 }
 
 function init(): void {
-	delegate('.js-file-header-dropdown > summary', 'click', handleMenuOpening);
-	delegate('.rgh-revert-file', 'click', handleRevertFileClick, true);
+	delegate(document, '.js-file-header-dropdown > summary', 'click', handleMenuOpening);
+	delegate(document, '.rgh-revert-file', 'click', handleRevertFileClick, true);
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds button to revert all the changes to a file in a PR.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/62826118-73b7bb00-bbe0-11e9-9449-2dd64c469bb9.gif',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/62826118-73b7bb00-bbe0-11e9-9449-2dd64c469bb9.gif'
+}, {
 	include: [
-		features.isPRFiles,
-		features.isPRCommit
+		pageDetect.isPRFiles,
+		pageDetect.isPRCommit
 	],
-	load: features.onAjaxedPages,
 	init
 });

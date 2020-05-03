@@ -11,8 +11,11 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Removes the file hover effect in the repo file browser. Some lists like notifications, file lists, and issue lists, are highlighted as you move the mouse over them. This highlight is useful when navigating via the keyboard (j/k), but annoying when just moving the mouse around.',
-	screenshot: false,
+	screenshot: false
+}, {
+	waitForDomReady: false,
+	repeatOnAjax: false,
 	init
 });

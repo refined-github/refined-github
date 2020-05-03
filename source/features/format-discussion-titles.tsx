@@ -1,11 +1,12 @@
 import select from 'select-dom';
 import features from '../libs/features';
-import observeEl from '../libs/simplified-element-observer';
+import * as pageDetect from '../libs/page-detect';
+import observeElement from '../libs/simplified-element-observer';
 import * as domFormatters from '../libs/dom-formatters';
 
 function init(): void {
 	const ajaxedTitleArea = select('#partial-discussion-header')!.parentElement!;
-	observeEl(ajaxedTitleArea, () => {
+	observeElement(ajaxedTitleArea, () => {
 		for (const title of select.all('.js-issue-title:not(.rgh-formatted-title)')) {
 			title.classList.add('rgh-formatted-title');
 			domFormatters.linkifyIssues(title);
@@ -15,13 +16,13 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Make issue/PR references in issue/PR titles clickable and parse `code in backticks` that appear as Markdown',
-	screenshot: 'https://user-images.githubusercontent.com/22439276/58927232-71ae2780-876b-11e9-941e-bb56a7389123.png',
+	screenshot: 'https://user-images.githubusercontent.com/22439276/58927232-71ae2780-876b-11e9-941e-bb56a7389123.png'
+}, {
 	include: [
-		features.isPR,
-		features.isIssue
+		pageDetect.isPR,
+		pageDetect.isIssue
 	],
-	load: features.onAjaxedPages,
 	init
 });

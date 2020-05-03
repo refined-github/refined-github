@@ -14,7 +14,7 @@ function addLocation(baseElement: HTMLElement): void {
 		const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(locationName)}`;
 
 		location.before(' '); // Keeps the link’s underline from extending out to the icon
-		wrap(location, <a href={googleMapsLink} />);
+		wrap(location, <a href={googleMapsLink}/>);
 	}
 }
 
@@ -32,9 +32,9 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Linkifies the user location in their hovercard and profile page.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/69076885-00d3a100-0a67-11ea-952a-690acec0826f.png',
-	load: features.onAjaxedPages,
+	screenshot: 'https://user-images.githubusercontent.com/1402241/69076885-00d3a100-0a67-11ea-952a-690acec0826f.png'
+}, {
 	init
 });

@@ -1,11 +1,12 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import * as api from '../libs/api';
 import {getCleanPathname} from '../libs/utils';
 
 interface File {
-	previous_filename: string; // eslint-disable-line @typescript-eslint/camelcase
+	previous_filename: string;
 	filename: string;
 	status: string;
 }
@@ -17,7 +18,7 @@ async function findRename(
 ): Promise<File[]> {
 	// API v4 doesn't support it: https://github.community/t5/GitHub-API-Development-and/What-is-the-corresponding-object-in-GraphQL-API-v4-for-patch/m-p/14502?collapse_discussion=true&filter=location&location=board:api&q=files%20changed%20commit&search_type=thread
 	const {files} = await api.v3(`repos/${user}/${repo}/commits/${lastCommitOnPage}`);
-	return files as File[];
+	return files;
 }
 
 function init(): false | void {
@@ -47,7 +48,8 @@ function init(): false | void {
 						<a
 							href={url}
 							aria-label={`Renamed ${isNewer ? 'to' : 'from'} ${file[toKey]}`}
-							className="btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay">
+							className="btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay"
+						>
 							{button.textContent}
 						</a>
 					);
@@ -60,12 +62,12 @@ function init(): false | void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Enhances files’ commit lists navigation to follow file renames.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/54799957-7306a280-4c9a-11e9-86de-b9764ed93397.png',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/54799957-7306a280-4c9a-11e9-86de-b9764ed93397.png'
+}, {
 	include: [
-		features.isRepoCommitList
+		pageDetect.isRepoCommitList
 	],
-	load: features.onAjaxedPages,
 	init
 });

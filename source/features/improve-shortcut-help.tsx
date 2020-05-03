@@ -45,16 +45,24 @@ const observer = new MutationObserver(([{target}]) => {
 });
 
 function init(): void {
-	document.addEventListener('keypress', ({key}) => {
-		if (key === '?') {
-			observer.observe(select('body > details > details-dialog')!, {childList: true});
+	document.addEventListener('keypress', ({key, target}) => {
+		if (key !== '?' || target instanceof HTMLTextAreaElement || target instanceof HTMLInputElement) {
+			return;
+		}
+
+		const modal = select('body > details > details-dialog');
+		if (modal) {
+			observer.observe(modal, {childList: true});
 		}
 	});
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Show Refined GitHub’s keyboard shortcuts in the help modal (`?` hotkey)',
-	screenshot: 'https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png',
+	screenshot: 'https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png'
+}, {
+	waitForDomReady: false,
+	repeatOnAjax: false,
 	init
 });

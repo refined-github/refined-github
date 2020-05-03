@@ -1,7 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import pullRequestIcon from 'octicon/git-pull-request.svg';
+import PullRequestIcon from 'octicon/git-pull-request.svg';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import * as api from '../libs/api';
 import getDefaultBranch from '../libs/get-default-branch';
 import {getOwnerAndRepo, getRepoGQL} from '../libs/utils';
@@ -32,14 +33,14 @@ function normalizeBranchInfo(data: BranchInfo): {
 } {
 	const {ownerName, repoName} = getOwnerAndRepo();
 
-	const base: Partial<RepositoryReference> = {};
+	const base = {} as RepositoryReference; // eslint-disable-line @typescript-eslint/consistent-type-assertions
 	base.branchExists = Boolean(data.baseRef);
 	base.label = data.baseRefName;
 	if (base.branchExists) {
 		base.url = `/${ownerName!}/${repoName!}/tree/${data.baseRefName}`;
 	}
 
-	const head: Partial<RepositoryReference> = {};
+	const head = {} as RepositoryReference; // eslint-disable-line @typescript-eslint/consistent-type-assertions
 	head.branchExists = Boolean(data.headRef);
 	head.owner = data.headOwner.login;
 	if (data.headOwner.login === ownerName) {
@@ -54,10 +55,7 @@ function normalizeBranchInfo(data: BranchInfo): {
 		head.url = data.headRepository.url;
 	}
 
-	return {
-		base: base as RepositoryReference,
-		head: head as RepositoryReference
-	};
+	return {base, head};
 }
 
 function buildQuery(issueIds: string[]): string {
@@ -81,7 +79,8 @@ function createLink(reference: RepositoryReference): HTMLSpanElement {
 	return (
 		<span
 			className="commit-ref css-truncate user-select-contain mb-n1"
-			style={(reference.branchExists ? {} : {textDecoration: 'line-through'})}>
+			style={(reference.branchExists ? {} : {textDecoration: 'line-through'})}
+		>
 			{
 				reference.url ?
 					<a title={(reference.branchExists ? reference.label : 'Deleted')} href={reference.url}>
@@ -107,6 +106,10 @@ async function init(): Promise<false | void> {
 	]);
 
 	for (const prLink of prLinks) {
+		if (!data.repository[prLink.id].headOwner) { // 👻 @ghost user
+			return;
+		}
+
 		let branches;
 		let {base, head} = normalizeBranchInfo(data.repository[prLink.id]);
 
@@ -130,19 +133,19 @@ async function init(): Promise<false | void> {
 
 		prLink.parentElement!.querySelector('.text-small.text-gray')!.append(
 			<span className="issue-meta-section d-inline-block">
-				{pullRequestIcon()} {branches}
+				<PullRequestIcon/> {branches}
 			</span>
 		);
 	}
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Shows head and base branches in PR lists if they’re significant: The base branch is added when it’s not the repo’s default branch; The head branch is added when it’s from the same repo or the PR is by the current user.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/51428391-ae9ed500-1c35-11e9-8e54-6b6a424fede4.png',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/51428391-ae9ed500-1c35-11e9-8e54-6b6a424fede4.png'
+}, {
 	include: [
-		features.isDiscussionList
+		pageDetect.isRepoDiscussionList
 	],
-	load: features.onAjaxedPages,
 	init
 });

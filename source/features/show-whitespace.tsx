@@ -2,100 +2,86 @@ import './show-whitespace.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
+import getTextNodes from '../libs/get-text-nodes';
 import onPrFileLoad from '../libs/on-pr-file-load';
 import onNewComments from '../libs/on-new-comments';
-import getTextNodes from '../libs/get-text-nodes';
 
+// `splitText` is used before and after each whitespace group so a new whitespace-only text node is created. This new node is then wrapped in a <span>
 function showWhiteSpacesOn(line: Element): void {
-	const textNodes = getTextNodes(line);
+	const shouldAvoidSurroundingSpaces = Boolean(line.closest('.blob-wrapper-embedded')); // #2285
+	const textNodesOnThisLine = getTextNodes(line);
+	for (const [nodeIndex, textNode] of textNodesOnThisLine.entries()) {
+		// `textContent` reads must be cached #2737
+		let text = textNode.textContent!;
 
-	for (const textNode of textNodes) {
-		const textContent = textNode.textContent!;
-		if (textContent.length === 0 || !(textContent.includes(' ') || textContent.includes('\t'))) {
-			continue;
-		}
+		const startingCharacter = shouldAvoidSurroundingSpaces && nodeIndex === 0 ? 1 : 0;
+		const skipLastCharacter = shouldAvoidSurroundingSpaces && nodeIndex === textNodesOnThisLine.length - 1;
+		const endingCharacter = text.length - 1 - Number(skipLastCharacter);
 
-		const fragment = document.createDocumentFragment();
+		// Loop goes in reverse otherwise `splitText`'s `index` parameter needs to keep track of the previous split
+		for (let i = endingCharacter; i >= startingCharacter; i--) {
+			const thisCharacter = text[i];
 
-		let lastEncounteredCharType;
-		let charType: 'space' | 'tab' | 'other';
-		let node;
-
-		for (const char of textContent) {
-			if (char === ' ') {
-				charType = 'space';
-			} else if (char === '\t') {
-				charType = 'tab';
-			} else {
-				charType = 'other';
+			// Exclude irrelevant characters
+			if (thisCharacter !== ' ' && thisCharacter !== '\t') {
+				continue;
 			}
 
-			if (node && lastEncounteredCharType === charType) {
-				node.textContent += char;
-
-				if (charType === 'space') {
-					node.dataset.rghSpaces += '·';
-				} else if (charType === 'tab') {
-					node.dataset.rghTabs += '→';
-				}
-			} else {
-				if (node) {
-					fragment.append(node);
-				}
-
-				if (charType === 'space') {
-					node = <span className="rgh-ws-char rgh-space-char" data-rgh-spaces="·">{char}</span>;
-				} else if (charType === 'tab') {
-					node = <span className="rgh-ws-char rgh-tab-char" data-rgh-tabs="→">{char}</span>;
-				} else {
-					node = <>{char}</>;
-				}
+			if (i < text.length - 1) {
+				textNode.splitText(i + 1);
 			}
 
-			lastEncounteredCharType = charType;
-		}
-
-		if (node) {
-			fragment.append(node);
-		}
-
-		textNode.replaceWith(fragment);
-	}
-}
-
-async function run(): Promise<void> {
-	const tables = select.all([
-		'table.js-file-line-container:not(.rgh-showing-whitespace)', // Single blob file, and gist
-		'.file table.diff-table:not(.rgh-showing-whitespace)', // Split and unified diffs
-		'.file table.d-table:not(.rgh-showing-whitespace)' // "Suggested changes" in PRs
-	].join());
-
-	for (const table of tables) {
-		table.classList.add('rgh-showing-whitespace');
-
-		for (const [i, line] of select.all('.blob-code-inner', table).entries()) {
-			showWhiteSpacesOn(line);
-
-			if (i % 100 === 0) {
-				await new Promise(resolve => setTimeout(resolve)); // eslint-disable-line no-await-in-loop
+			// Find the same character so they can be wrapped together, but stop at `startingCharacter`
+			while (text[i - 1] === thisCharacter && !(i === startingCharacter)) {
+				i--;
 			}
+
+			textNode.splitText(i);
+
+			// Update cached variable here because it just changed
+			text = textNode.textContent!;
+
+			const whitespace = textNode.nextSibling!.textContent!
+				.replace(/ /g, '·')
+				.replace(/\t/g, '→');
+
+			textNode.after(
+				<span data-rgh-whitespace={whitespace}>
+					{textNode.nextSibling}
+				</span>
+			);
 		}
 	}
 }
 
-function init(): void {
-	run();
-	onNewComments(run);
-	onPrFileLoad(run);
+const viewportObserver = new IntersectionObserver(changes => {
+	for (const change of changes) {
+		if (change.isIntersecting) {
+			showWhiteSpacesOn(change.target);
+			viewportObserver.unobserve(change.target);
+		}
+	}
+});
+
+async function init(): Promise<void> {
+	for (const line of select.all('.blob-code-inner:not(.rgh-observing-whitespace)')) {
+		line.classList.add('rgh-observing-whitespace');
+		viewportObserver.observe(line);
+	}
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Shows whitespace characters.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/61187598-f9118380-a6a5-11e9-985a-990a7f798805.png',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/61187598-f9118380-a6a5-11e9-985a-990a7f798805.png'
+}, {
 	include: [
-		features.hasCode
+		pageDetect.hasCode
 	],
-	load: features.onAjaxedPages,
+	additionalListeners: [
+		onNewComments,
+		onPrFileLoad
+	],
 	init
 });

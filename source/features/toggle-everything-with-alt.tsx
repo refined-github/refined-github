@@ -1,22 +1,24 @@
+import mem from 'mem';
 import select from 'select-dom';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import anchorScroll from '../libs/anchor-scroll';
 
-type EventHandler = (event: DelegateEvent<MouseEvent, HTMLElement>) => void;
+type EventHandler = (event: delegate.Event<MouseEvent, HTMLElement>) => void;
 
 function init(): void {
 	// Collapsed comments in PR conversations and files
-	delegate('.minimized-comment details summary', 'click', clickAll(minimizedCommentsSelector));
+	delegate(document, '.minimized-comment details summary', 'click', clickAll(minimizedCommentsSelector));
 
 	// "Load diff" buttons in PR files
-	delegate('.js-file .js-diff-load', 'click', clickAll(allDiffsSelector));
+	delegate(document, '.js-file .js-diff-load', 'click', clickAll(allDiffsSelector));
 
 	// Review comments in PR
-	delegate('.js-file .js-resolvable-thread-toggler', 'click', clickAll(resolvedCommentsSelector));
+	delegate(document, '.js-file .js-resolvable-thread-toggler', 'click', clickAll(resolvedCommentsSelector));
 }
 
-function clickAll(selectorGetter: ((clickedItem: HTMLElement) => string)): EventHandler {
+const clickAll = mem((selectorGetter: ((clickedItem: HTMLElement) => string)): EventHandler => {
 	return event => {
 		if (event.altKey && event.isTrusted) {
 			const clickedItem = event.delegateTarget;
@@ -27,7 +29,7 @@ function clickAll(selectorGetter: ((clickedItem: HTMLElement) => string)): Event
 			resetScroll();
 		}
 	};
-}
+});
 
 function clickAllExcept(elementsToClick: string, except: HTMLElement): void {
 	for (const item of select.all(elementsToClick)) {
@@ -54,15 +56,15 @@ function resolvedCommentsSelector(clickedItem: HTMLElement): string {
 }
 
 features.add({
-	id: __featureName__,
-	load: features.onAjaxedPages,
+	id: __filebasename,
 	description: 'Adds a shortcut to toggle all similar items (minimized comments, deferred diffs, etc) at once: `alt` `click` on each button or checkbox.',
-	screenshot: 'https://user-images.githubusercontent.com/37769974/62208543-dcb75b80-b3b4-11e9-984f-ddb479ea149d.gif',
-	init,
+	screenshot: 'https://user-images.githubusercontent.com/37769974/62208543-dcb75b80-b3b4-11e9-984f-ddb479ea149d.gif'
+}, {
 	include: [
-		features.isPRConversation,
-		features.isPRFiles,
-		features.isCommit,
-		features.isCompare
-	]
+		pageDetect.isPRConversation,
+		pageDetect.isPRFiles,
+		pageDetect.isCommit,
+		pageDetect.isCompare
+	],
+	init
 });

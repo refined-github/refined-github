@@ -1,6 +1,7 @@
 import select from 'select-dom';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 const expanderSelector = '.js-expand.directional-expander';
 
@@ -14,10 +15,19 @@ const expandingCodeObserver = new MutationObserver(([mutation]) => {
 	}
 });
 
-function handleAltClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
+function disconnectOnEscape(event: KeyboardEvent): void {
+	if (event.key === 'Escape') {
+		document.body.removeEventListener('keyup', disconnectOnEscape);
+		expandingCodeObserver.disconnect();
+	}
+}
+
+function handleAltClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	if (!event.altKey) {
 		return;
 	}
+
+	document.body.addEventListener('keyup', disconnectOnEscape);
 
 	expandingCodeObserver.observe(
 		event.delegateTarget.closest('.diff-table > tbody')!,
@@ -26,18 +36,18 @@ function handleAltClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): vo
 }
 
 function init(): void {
-	delegate(expanderSelector, 'click', handleAltClick);
+	delegate(document, expanderSelector, 'click', handleAltClick);
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Expands the entire file when you alt-click on any "Expand code" button in diffs.',
-	screenshot: 'https://user-images.githubusercontent.com/44227187/64923605-d0138900-d7e3-11e9-9dc2-461aba81c1cb.gif',
+	screenshot: 'https://user-images.githubusercontent.com/44227187/64923605-d0138900-d7e3-11e9-9dc2-461aba81c1cb.gif'
+}, {
 	include: [
-		features.isPRCommit,
-		features.isPRFiles,
-		features.isSingleCommit
+		pageDetect.isPRCommit,
+		pageDetect.isPRFiles,
+		pageDetect.isSingleCommit
 	],
-	load: features.onAjaxedPages,
 	init
 });

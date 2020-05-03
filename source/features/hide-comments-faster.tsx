@@ -1,7 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function generateSubmenu(hideButton: Element): void {
 	if (hideButton.closest('.rgh-hide-comments-faster-details')) {
@@ -19,10 +20,12 @@ function generateSubmenu(hideButton: Element): void {
 	for (const reason of select.all<HTMLInputElement>('[name="classifier"] :not([value=""])', comment)) {
 		hideCommentForm.append(
 			<button
+				type="submit"
 				name="classifier"
 				value={reason.value}
 				className="dropdown-item btn-link"
-				role="menuitem">
+				role="menuitem"
+			>
 				{reason.textContent}
 			</button>
 		);
@@ -51,11 +54,11 @@ function toggleSubMenu(hideButton: Element, show: boolean): void {
 	select('form.js-comment-minimize', dropdown)!.classList.toggle('d-none', !show);
 }
 
-function resetDropdowns(event: DelegateEvent): void {
+function resetDropdowns(event: delegate.Event): void {
 	toggleSubMenu(event.delegateTarget, false);
 }
 
-function showSubmenu(event: DelegateEvent): void {
+function showSubmenu(event: delegate.Event): void {
 	generateSubmenu(event.delegateTarget);
 	toggleSubMenu(event.delegateTarget, true);
 
@@ -65,17 +68,17 @@ function showSubmenu(event: DelegateEvent): void {
 
 function init(): void {
 	// `useCapture` required to be fired before GitHub's handlers
-	delegate('.js-comment-hide-button', 'click', showSubmenu, true);
-	delegate('.rgh-hide-comments-faster-details', 'toggle', resetDropdowns, true);
+	delegate(document, '.js-comment-hide-button', 'click', showSubmenu, true);
+	delegate(document, '.rgh-hide-comments-faster-details', 'toggle', resetDropdowns, true);
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Simplifies the UI to hide comments.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/43039221-1ddc91f6-8d29-11e8-9ed4-93459191a510.gif',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/43039221-1ddc91f6-8d29-11e8-9ed4-93459191a510.gif'
+}, {
 	include: [
-		features.hasComments
+		pageDetect.hasComments
 	],
-	load: features.onAjaxedPages,
 	init
 });

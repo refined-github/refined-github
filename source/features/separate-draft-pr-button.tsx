@@ -1,8 +1,9 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
-function init(): void {
+function init(): void | false {
 	const previewForm = select('.new-pr-form');
 
 	// PRs can't be created from some comparison pages:
@@ -12,7 +13,12 @@ function init(): void {
 	}
 
 	const buttonBar = select('.timeline-comment > :last-child', previewForm)!;
-	const createPrButtonGroup = select('.BtnGroup', buttonBar)!;
+	const createPrButtonGroup = select('.BtnGroup', buttonBar);
+	if (!createPrButtonGroup) {
+		// Free accounts can't open Draft PRs in private repos, so this element is missing
+		return false;
+	}
+
 	const createPrDropdownItems = select.all('.select-menu-item', createPrButtonGroup);
 
 	for (const dropdownItem of createPrDropdownItems) {
@@ -44,12 +50,12 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Lets you create draft pull requests in one click.',
-	screenshot: 'https://user-images.githubusercontent.com/202916/67269317-cd791300-f4b6-11e9-89d1-392de7ef71e1.png',
+	screenshot: 'https://user-images.githubusercontent.com/202916/67269317-cd791300-f4b6-11e9-89d1-392de7ef71e1.png'
+}, {
 	include: [
-		features.isCompare
+		pageDetect.isCompare
 	],
-	load: features.onAjaxedPages,
 	init
 });

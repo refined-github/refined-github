@@ -1,6 +1,34 @@
 import select from 'select-dom';
 import onetime from 'onetime';
+import stripIndent from 'strip-indent';
 import {isRepo, isPR, isIssue} from './page-detect';
+import compareVersions from 'tiny-version-compare';
+
+export function logError(id: FeatureID, error: Error | string, ...extras: unknown[]): void {
+	if (error instanceof TypeError && error.message === 'Object(...)(...) is null') {
+		error.message = 'The element wasn’t found, the selector needs to be updated.';
+	}
+
+	const message = typeof error === 'string' ? error : error.message;
+
+	if (message.includes('token')) {
+		console.log(`ℹ️ Refined GitHub → ${id} →`, message);
+		return;
+	}
+
+	// Don't change this to `throw Error` because Firefox doesn't show extensions' errors in the console.
+	// Use `return` after calling this function.
+	console.error(
+		`❌ Refined GitHub → ${id} →`,
+		error,
+		...extras,
+		stripIndent(`
+			Search issue: https://github.com/sindresorhus/refined-github/issues?q=is%3Aissue+${encodeURIComponent(message)}
+
+			Open an issue: https://github.com/sindresorhus/refined-github/issues/new?labels=bug&template=bug_report.md&title=${encodeURIComponent(`\`${id}\`: ${message}`)}
+		`)
+	);
+}
 
 export const getUsername = onetime(() => select('meta[name="user-login"]')!.getAttribute('content')!);
 
@@ -12,8 +40,20 @@ export const getDiscussionNumber = (): string | undefined => {
 	return undefined;
 };
 
+export const pluralize = (count: number, single: string, plural: string, zero?: string): string => {
+	if (count === 0 && zero) {
+		return zero.replace('$$', '0');
+	}
+
+	if (count === 1) {
+		return single.replace('$$', '1');
+	}
+
+	return plural.replace('$$', String(count));
+};
+
 // Drops leading and trailing slash to avoid /\/?/ everywhere
-export const getCleanPathname = (): string => location.pathname.replace(/^[/]|[/]$/g, '');
+export const getCleanPathname = (): string => location.pathname.replace(/^\/|\/$/g, '');
 
 // Parses a repo's subpage, e.g.
 // '/user/repo/issues/' -> 'issues'
@@ -37,7 +77,7 @@ export const replaceBranch = (currentBranch: string, newBranch: string): string 
 };
 
 export const getCurrentBranch = (): string => {
-	return select<HTMLLinkElement>('link[rel="alternate"]')!
+	return select.last<HTMLLinkElement>('link[rel="alternate"]')!
 		.href
 		.split('/')
 		.slice(6)
@@ -47,7 +87,7 @@ export const getCurrentBranch = (): string => {
 
 export const isFirefox = navigator.userAgent.includes('Firefox/');
 
-export const getRepoURL = (): string => location.pathname.slice(1).split('/', 2).join('/');
+export const getRepoURL = (): string => location.pathname.slice(1).split('/', 2).join('/').toLowerCase();
 export const getRepoGQL = (): string => {
 	const {ownerName, repoName} = getOwnerAndRepo();
 	return `owner: "${ownerName!}", name: "${repoName!}"`;
@@ -60,6 +100,10 @@ export const getOwnerAndRepo = (): {
 	const [, ownerName, repoName] = location.pathname.split('/', 3);
 	return {ownerName, repoName};
 };
+
+export function getForkedRepo(): string | undefined {
+	return select<HTMLAnchorElement>('.fork-flag a')?.pathname.slice(1);
+}
 
 export const getReference = (): string | undefined => {
 	const pathnameParts = location.pathname.split('/');
@@ -95,7 +139,7 @@ export const flatZip = <T>(table: T[][], limit = Infinity): T[] => {
 	const zipped = [];
 	for (let col = 0; col < maxColumns; col++) {
 		for (const row of table) {
-			if (row[col]) {
+			if (row.length > col) {
 				zipped.push(row[col]);
 				if (zipped.length === limit) {
 					return zipped;
@@ -106,14 +150,6 @@ export const flatZip = <T>(table: T[][], limit = Infinity): T[] => {
 
 	return zipped;
 };
-
-export function getOP(): string {
-	if (isPR()) {
-		return /^(?:.+) by (\S+) · Pull Request #(?:\d+)/.exec(document.title)?.[1]!;
-	}
-
-	return select('.timeline-comment-header-text .author')!.textContent!;
-}
 
 export function compareNames(username: string, realname: string): boolean {
 	return username.replace(/-/g, '').toLowerCase() === realname.normalize('NFD').replace(/[\u0300-\u036F\W.]/g, '').toLowerCase();
@@ -132,12 +168,39 @@ export async function poll<T>(callback: () => T, frequency: number): Promise<T> 
 	});
 }
 
-export function reportBug(featureName: string, bugName: string): void {
-	alert(`Refined GitHub: ${bugName}. Can you report this issue? You’ll find more information in the console.`);
-	const issuesUrl = new URL('https://github.com/sindresorhus/refined-github/issues');
-	const newIssueUrl = new URL('https://github.com/sindresorhus/refined-github/new?labels=bug&template=bug_report.md');
-	issuesUrl.searchParams.set('q', `is:issue ${featureName}`);
-	newIssueUrl.searchParams.set('title', `\`${featureName}\` ${bugName}`);
-	console.log('Find existing issues:\n' + String(issuesUrl));
-	console.log('Open new issue:\n' + String(newIssueUrl));
+/**
+ * Prepend `:scope >` to a single or group of css selectors.
+ * @param {string} selector A css selector.
+ */
+export function getScopedSelector(selector: string): string {
+	return selector.split(',').map(sub => `:scope > ${sub.trim()}`).join(',');
+}
+
+export function looseParseInt(text: string): number {
+	return Number(text.replace(/\D+/g, ''));
+}
+
+const validVersion = /^[vr]?\d+(?:\.\d+)+/;
+const isPrerelease = /^[vr]?\d+(?:\.\d+)+(-\d)/;
+export function getLatestVersionTag(tags: string[]): string {
+	// Some tags aren't valid versions; comparison is meaningless.
+	// Just use the latest tag returned by the API (reverse chronologically-sorted list)
+	if (!tags.every(tag => validVersion.test(tag))) {
+		return tags[0];
+	}
+
+	// Exclude pre-releases
+	let releases = tags.filter(tag => !isPrerelease.test(tag));
+	if (releases.length === 0) { // They were all pre-releases; undo.
+		releases = tags;
+	}
+
+	let latestVersion = releases[0];
+	for (const release of releases) {
+		if (compareVersions(latestVersion, release) < 0) {
+			latestVersion = release;
+		}
+	}
+
+	return latestVersion;
 }

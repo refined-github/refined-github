@@ -1,6 +1,6 @@
 import select from 'select-dom';
 
-import './content.css';
+import './refined-github.css';
 import './features/scrollable-code-and-blockquote.css';
 import './features/center-reactions-popup.css';
 import './features/widen-search-field.css';
@@ -9,17 +9,16 @@ import './features/safer-destructive-actions.css';
 import './features/clean-mergeability-box.css';
 import './features/clean-footer.css';
 import './features/pr-approvals-count.css';
-import './features/align-issue-labels.css';
 import './features/hide-tips.css';
 import './features/hide-readme-header.css';
 import './features/hide-obvious-tooltips.css';
 import './features/clean-discussions.css';
 import './features/sticky-discussion-list-toolbar.css';
-import './features/deemphasize-unrelated-commit-references.css';
 import './features/always-show-branch-delete-buttons.css';
 import './features/easier-pr-sha-copy.css';
 import './features/repo-stats-spacing.css';
 import './features/emphasize-draft-pr-label.css';
+import './features/clean-notifications.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
@@ -27,6 +26,7 @@ import './features/emphasize-draft-pr-label.css';
 import './features/useful-not-found-page';
 import './features/trending-menu-item';
 import './features/hide-useless-newsfeed-events';
+import './features/align-issue-labels';
 import './features/more-dropdown';
 import './features/releases-tab';
 import './features/remove-projects-tab';
@@ -44,7 +44,6 @@ import './features/mark-unread';
 import './features/open-all-notifications';
 import './features/copy-on-y';
 import './features/profile-hotkey';
-import './features/sticky-discussion-sidebar';
 import './features/close-out-of-view-modals';
 import './features/improve-shortcut-help';
 import './features/deprioritize-marketplace-link';
@@ -61,9 +60,11 @@ import './features/linkify-branch-references';
 import './features/batch-open-issues';
 import './features/hide-useless-comments';
 import './features/navigate-pages-with-arrow-keys';
+import './features/discussion-links-on-repo-lists';
 import './features/global-discussion-list-filters';
 import './features/filter-comments-by-you';
-import './features/sort-issues-by-update-time'; // Must be after global-discussion-list-filters and filter-comments-by-you
+import './features/sort-issues-by-update-time'; // Must be after global-discussion-list-filters and filter-comments-by-you and discussion-links-on-repo-lists
+import './features/pinned-issues-update-time';
 import './features/latest-tag-button';
 import './features/default-branch-button';
 import './features/faster-pr-diff-options';
@@ -86,6 +87,7 @@ import './features/recently-pushed-branches-enhancements';
 import './features/create-release-shortcut';
 import './features/patch-diff-links';
 import './features/parse-backticks';
+import './features/mark-merge-commits-in-list';
 import './features/swap-branches-on-compare';
 import './features/reactions-avatars';
 import './features/show-names';
@@ -122,10 +124,11 @@ import './features/hide-disabled-milestone-sorter';
 import './features/tag-changelog-link';
 import './features/link-to-file-in-file-history';
 import './features/clean-sidebar';
+import './features/sticky-discussion-sidebar';
 import './features/release-download-count';
 import './features/open-issue-to-latest-comment';
 import './features/toggle-everything-with-alt';
-import './features/limit-commit-title-length';
+import './features/suggest-commit-title-limit';
 import './features/highest-rated-comment';
 import './features/clean-issue-filters';
 import './features/minimize-upload-bar';
@@ -156,7 +159,24 @@ import './features/linkify-user-location';
 import './features/repo-age';
 import './features/user-local-time';
 import './features/quick-mention';
+import './features/extend-discussion-status-filters';
+import './features/expand-all-hidden-comments';
+import './features/bugs-tab';
+import './features/cross-deleted-pr-branches';
+import './features/repo-wide-file-finder';
+import './features/preserve-file-finder-term';
+import './features/file-finder-buffer';
+import './features/pr-commit-lines-changed';
+import './features/show-open-prs-of-forks';
+import './features/clone-branch';
+import './features/deep-reblame';
+import './features/clear-pr-merge-commit-message';
+import './features/go-to-action-from-file';
+import './features/action-used-by-link';
+import './features/batch-mark-files-as-viewed';
+import './features/unwrap-useless-dropdowns';
+import './features/linkify-notification-repository-header';
+import './features/stop-redirecting-in-notification-bar';
 
 // Add global for easier debugging
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 (window as any).select = select;

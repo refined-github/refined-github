@@ -2,8 +2,9 @@ import './reactions-avatars.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {getUsername, flatZip, isFirefox} from '../libs/utils';
-import onUpdatableContentUpdate from '../libs/on-updatable-content-update';
+import onReplacedElement from '../libs/on-replaced-element';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
@@ -58,29 +59,26 @@ function init(): void {
 			container.append(
 				// Without this, Firefox will follow the link instead of submitting the reaction button
 				<a href={isFirefox ? undefined : `/${username}`}>
-					<img src={imageUrl} />
+					<img src={imageUrl}/>
 				</a>
 			);
 		}
 
 		list.classList.add('rgh-reactions');
 
-		// Overlap reaction avatars when near the avatarLimit
-		if (flatParticipants.length > avatarLimit * 0.9) {
-			list.classList.add('rgh-reactions-near-limit');
-		}
-
-		onUpdatableContentUpdate(list.closest<HTMLElement>('.js-updatable-content')!, init);
+		const trackableElement = list.closest<HTMLElement>('.js-updatable-content')!;
+		const trackingSelector = `[data-url="${trackableElement.dataset.url!}"]`;
+		onReplacedElement(trackingSelector, init);
 	}
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds reaction avatars showing *who* reacted to a comment',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/34438653-f66535a4-ecda-11e7-9406-2e1258050cfa.png',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/34438653-f66535a4-ecda-11e7-9406-2e1258050cfa.png'
+}, {
 	include: [
-		features.hasComments
+		pageDetect.hasComments
 	],
-	load: features.onNewComments,
 	init
 });

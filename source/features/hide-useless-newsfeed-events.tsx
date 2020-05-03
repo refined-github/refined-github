@@ -1,19 +1,20 @@
 import './hide-useless-newsfeed-events.css';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function init(): void {
 	document.body.classList.add('rgh-no-useless-events');
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Hides inutile newsfeed events (commits, forks, new followers).',
-	screenshot: false,
+	screenshot: false
+}, {
 	include: [
-		features.isDashboard
+		pageDetect.isDashboard
 	],
-	exclude: [
-		features.isGist
-	],
+	waitForDomReady: false,
+	repeatOnAjax: false,
 	init
 });

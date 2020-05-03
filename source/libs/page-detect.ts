@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/prefer-starts-ends-with, @typescript-eslint/prefer-string-starts-ends-with */
 /* The tested var might not be a string */
 
 import select from 'select-dom';
@@ -11,10 +10,10 @@ const domBased = 'skip'; // To be used only to skip tests that are DOM-based rat
 export const is404 = (): boolean => document.title === 'Page not found · GitHub';
 export const _is404 = domBased; // They're specified in page-detect.ts
 
-export const is500 = (): boolean => document.title === 'Server Error · GitHub' || document.title === 'Unicorn! · GitHub';
+export const is500 = (): boolean => document.title === 'Server Error · GitHub' || document.title === 'Unicorn! · GitHub' || document.title === '504 Gateway Time-out';
 export const _is500 = domBased; // They're specified in page-detect.ts
 
-export const isBlame = (): boolean => /^blame\//.test(getRepoPath()!);
+export const isBlame = (): boolean => String(getRepoPath()).startsWith('blame/');
 export const _isBlame = [
 	'https://github.com/sindresorhus/refined-github/blame/master/package.json'
 ];
@@ -28,25 +27,20 @@ export const _isCommit = [
 ];
 
 export const isCommitList = (): boolean => isRepoCommitList() || isPRCommitList();
-export const _isCommitList = [
-	'https://github.com/sindresorhus/refined-github/commits/master?page=2',
-	'https://github.com/sindresorhus/refined-github/commits/test-branch',
-	'https://github.com/sindresorhus/refined-github/commits/0.13.0',
-	'https://github.com/sindresorhus/refined-github/commits/230c2',
-	'https://github.com/sindresorhus/refined-github/commits/230c2935fc5aea9a681174ddbeba6255ca040d63',
-	'https://github.com/sindresorhus/refined-github/pull/148/commits'
-];
+export const _isCommitList = skip;
 
-export const isRepoCommitList = (): boolean => /^commits\//.test(getRepoPath()!);
+export const isRepoCommitList = (): boolean => String(getRepoPath()).startsWith('commits');
 export const _isRepoCommitList = [
 	'https://github.com/sindresorhus/refined-github/commits/master?page=2',
 	'https://github.com/sindresorhus/refined-github/commits/test-branch',
 	'https://github.com/sindresorhus/refined-github/commits/0.13.0',
 	'https://github.com/sindresorhus/refined-github/commits/230c2',
-	'https://github.com/sindresorhus/refined-github/commits/230c2935fc5aea9a681174ddbeba6255ca040d63'
+	'https://github.com/sindresorhus/refined-github/commits/230c2935fc5aea9a681174ddbeba6255ca040d63',
+	'https://github.com/sindresorhus/refined-github/commits?author=fregante',
+	'https://github.com/sindresorhus/runs/commits/'
 ];
 
-export const isCompare = (): boolean => /^compare/.test(getRepoPath()!);
+export const isCompare = (): boolean => String(getRepoPath()).startsWith('compare');
 export const _isCompare = [
 	'https://github.com/sindresorhus/refined-github/compare',
 	'https://github.com/sindresorhus/refined-github/compare/',
@@ -56,7 +50,7 @@ export const _isCompare = [
 	'https://github.com/sindresorhus/refined-github/compare/test-branch?quick_pull=1'
 ];
 
-export const isDashboard = (): boolean => !isGist() && /^$|^(orgs[/][^/]+[/])?dashboard([/]|$)/.test(getCleanPathname());
+export const isDashboard = (): boolean => !isGist() && /^$|^(orgs\/[^/]+\/)?dashboard(\/|$)/.test(getCleanPathname());
 export const _isDashboard = [
 	'https://github.com/',
 	'https://github.com',
@@ -66,7 +60,8 @@ export const _isDashboard = [
 	'https://github.com/orgs/edit/dashboard',
 	'https://github.big-corp.com/',
 	'https://not-github.com/',
-	'https://my-little-hub.com/'
+	'https://my-little-hub.com/',
+	'https://github.com/?tab=repositories' // Gotcha for `isUserProfileRepoTab`
 ];
 
 export const isEnterprise = (): boolean => location.hostname !== 'github.com' && location.hostname !== 'gist.github.com';
@@ -103,7 +98,7 @@ export const _isGlobalSearchResults = [
 	'https://github.com/search?q=refined-github&ref=opensearch'
 ];
 
-export const isIssue = (): boolean => /^issues\/\d+/.test(getRepoPath()!);
+export const isIssue = (): boolean => /^issues\/\d+/.test(getRepoPath()!) && document.title !== 'GitHub · Where software is built'; // The title check excludes deleted issues
 export const _isIssue = [
 	'https://github.com/sindresorhus/refined-github/issues/146'
 ];
@@ -126,26 +121,23 @@ export const _isMilestoneList = [
 	'https://github.com/sindresorhus/refined-github/milestones'
 ];
 
-export const isNewIssue = (): boolean => /^issues\/new/.test(getRepoPath()!);
+export const isNewIssue = (): boolean => getRepoPath() === 'issues/new';
 export const _isNewIssue = [
 	'https://github.com/sindresorhus/refined-github/issues/new'
 ];
 
-export const isNewRelease = (): boolean => /^releases\/new/.test(getRepoPath()!);
+export const isNewRelease = (): boolean => getRepoPath() === 'releases/new';
 export const _isNewRelease = [
 	'https://github.com/sindresorhus/refined-github/releases/new'
 ];
 
-export const isNotifications = (): boolean => /^([^/]+[/][^/]+\/)?notifications/.test(getCleanPathname());
+export const isNotifications = (): boolean => getCleanPathname() === 'notifications';
 export const _isNotifications = [
-	'https://github.com/notifications',
-	'https://github.com/notifications/participating',
-	'https://github.com/sindresorhus/notifications/notifications',
-	'https://github.com/notifications?all=1'
+	'https://github.com/notifications'
 ];
 
-export const isOrganizationProfile = (): boolean => select.exists('.orghead');
-export const _isOrganizationProfile = domBased;
+export const isOrganizationProfile = (): boolean => select.exists('meta[name="hovercard-subject-tag"][content^="organization"]');
+export const _isOrganizationProfile = domBased; // Safe for `nowAndonAjaxedPages` because this element is in the <head>
 
 export const isOrganizationDiscussion = (): boolean => /^orgs\/[^/]+\/teams\/[^/]+($|\/discussions)/.test(getCleanPathname());
 export const _isOrganizationDiscussion = [
@@ -194,7 +186,7 @@ export const _isPRList = [
 	'https://github.com/sindresorhus/refined-github/pulls?q=is%3Apr+is%3Aclosed'
 ];
 
-export const isPRCommit = (): boolean => /^pull\/\d+\/commits\/[0-9a-f]{5,40}/.test(getRepoPath()!);
+export const isPRCommit = (): boolean => /^pull\/\d+\/commits\/[\da-f]{5,40}/.test(getRepoPath()!);
 export const _isPRCommit = [
 	'https://github.com/sindresorhus/refined-github/pull/148/commits/0019603b83bd97c2f7ef240969f49e6126c5ec85',
 	'https://github.com/sindresorhus/refined-github/pull/148/commits/00196'
@@ -222,11 +214,7 @@ export const _isQuickPR = [
 	'https://github.com/sindresorhus/refined-github/compare/test-branch?quick_pull=1'
 ];
 
-export const isReleasesOrTags = (): boolean => {
-	const parts = (getRepoPath() ?? '').split('/');
-	return /^(releases|tags)$/.test(parts[0]) && parts[1] !== 'new';
-};
-
+export const isReleasesOrTags = (): boolean => /^tags$|^releases($|\/tag)/.test(getRepoPath()!);
 export const _isReleasesOrTags = [
 	'https://github.com/sindresorhus/refined-github/releases',
 	'https://github.com/sindresorhus/refined-github/tags',
@@ -234,7 +222,7 @@ export const _isReleasesOrTags = [
 	'https://github.com/sindresorhus/refined-github/releases/tag/0.2.1'
 ];
 
-export const isEditingFile = (): boolean => /^edit/.test(getRepoPath()!);
+export const isEditingFile = (): boolean => String(getRepoPath()).startsWith('edit');
 export const _isEditingFile = [
 	'https://github.com/sindresorhus/refined-github/edit/master/readme.md',
 	'https://github.com/sindresorhus/refined-github/edit/ghe-injection/source/background.ts'
@@ -242,57 +230,56 @@ export const _isEditingFile = [
 
 export const isRepo = (): boolean => /^[^/]+\/[^/]+/.test(getCleanPathname()) &&
 	!reservedNames.includes(getOwnerAndRepo().ownerName!) &&
-	!isNotifications() &&
 	!isDashboard() &&
 	!isGist() &&
 	!isRepoSearch();
 export const _isRepo = [
+	// Some of these are here simply as "gotchas" to other detections
 	'https://github.com/sindresorhus/refined-github/blame/master/package.json',
 	'https://github.com/sindresorhus/refined-github/issues/146',
 	'https://github.com/sindresorhus/notifications/',
-	'https://github.com/sindresorhus/refined-github/pull/148'
+	'https://github.com/sindresorhus/refined-github/pull/148',
+	'https://github.com/sindresorhus/refined-github/milestones/new', // Gotcha for isRepoTaxonomyDiscussionList
+	'https://github.com/sindresorhus/refined-github/milestones/1/edit', // Gotcha for isRepoTaxonomyDiscussionList
+	'https://github.com/sindresorhus/refined-github/issues/new/choose', // Gotcha for isRepoIssueList
+	'https://github.com/sindresorhus/refined-github/issues/templates/edit' // Gotcha for isRepoIssueList
 ];
 export const _isRepoSkipNegatives = true;
+
+export const isRepoTaxonomyDiscussionList = (): boolean => /^labels\/.+|^milestones\/\d+(?!\/edit)/.test(getRepoPath()!);
+export const _isRepoTaxonomyDiscussionList = [
+	'https://github.com/sindresorhus/refined-github/labels/Priority%3A%20critical',
+	'https://github.com/sindresorhus/refined-github/milestones/1'
+];
 
 export const isRepoDiscussionList = (): boolean =>
 	isRepoPRList() ||
 	isRepoIssueList() ||
-	/^labels\/.+/.test(getRepoPath()!);
-export const _isRepoDiscussionList = [
-	'http://github.com/sindresorhus/ava/issues',
-	'https://github.com/sindresorhus/refined-github/pulls',
-	'https://github.com/sindresorhus/refined-github/pulls/',
-	'https://github.com/sindresorhus/refined-github/pulls/fregante',
-	'https://github.com/sindresorhus/refined-github/issues/fregante',
-	'https://github.com/sindresorhus/refined-github/labels/Priority%3A%20critical',
-	'https://github.com/sindresorhus/refined-github/issues?q=is%3Aclosed+sort%3Aupdated-desc',
-	'https://github.com/sindresorhus/refined-github/pulls?q=is%3Aopen+is%3Apr',
-	'https://github.com/sindresorhus/refined-github/pulls?q=is%3Apr+is%3Aclosed',
-	'https://github.com/sindresorhus/refined-github/issues'
-];
+	isRepoTaxonomyDiscussionList();
+export const _isRepoDiscussionList = skip;
 
-export const isRepoPRList = (): boolean => (getRepoPath() ?? '').startsWith('pulls');
+export const isRepoPRList = (): boolean => String(getRepoPath()).startsWith('pulls');
 export const _isRepoPRList = [
 	'https://github.com/sindresorhus/refined-github/pulls',
 	'https://github.com/sindresorhus/refined-github/pulls/',
-	'https://github.com/sindresorhus/refined-github/pulls/fregante',
 	'https://github.com/sindresorhus/refined-github/pulls?q=is%3Aopen+is%3Apr',
 	'https://github.com/sindresorhus/refined-github/pulls?q=is%3Apr+is%3Aclosed'
 ];
 
-export const isRepoIssueList = (): boolean => {
-	const parts = (getRepoPath() ?? '').split('/');
-	return parts[0] === 'issues' && parts[1] !== 'new' && !/\d/.test(parts[1]); // `issues/fregante` is a list but `issues/1` isn't
-};
-
+// `issues/fregante` is a list but `issues/1`, `issues/new`, `issues/new/choose`, `issues/templates/edit` aren’t
+export const isRepoIssueList = (): boolean =>
+	String(getRepoPath()).startsWith('issues') &&
+	!/^issues\/(\d+|new|templates)($|\/)/.test(getRepoPath()!);
 export const _isRepoIssueList = [
 	'http://github.com/sindresorhus/ava/issues',
 	'https://github.com/sindresorhus/refined-github/issues',
 	'https://github.com/sindresorhus/refined-github/issues/fregante',
+	'https://github.com/sindresorhus/refined-github/issues/newton',
+	'https://github.com/sindresorhus/refined-github/issues/wptemplates',
 	'https://github.com/sindresorhus/refined-github/issues?q=is%3Aclosed+sort%3Aupdated-desc'
 ];
 
-export const isRepoRoot = (): boolean => /^(tree[/][^/]+)?$/.test(getRepoPath()!);
+export const isRepoRoot = (): boolean => /^(tree\/[^/]+)?$/.test(getRepoPath()!);
 export const _isRepoRoot = [
 	// Some tests are here only as "gotchas" for other tests that may misidentify their pages
 	'https://github.com/sindresorhus/edit',
@@ -306,9 +293,12 @@ export const _isRepoRoot = [
 	'https://github.com/sindresorhus/refined-github/tree/03fa6b8b4d6e68dea9dc9bee1d197ef5d992fbd6/',
 	'https://github.com/sindresorhus/refined-github/tree/57bf4',
 	'https://github.com/sindresorhus/refined-github?files=1',
-	'https://github.com/sindresorhus/refined-github/tree/master?files=1'
+	'https://github.com/sindresorhus/refined-github/tree/master?files=1',
+	'https://github.com/sindresorhus/branches'
 ];
 
+// This can't use `getRepoPath` to avoid infinite recursion.
+// `getRepoPath` depends on `isRepo` and `isRepo` depends on `isRepoSearch`
 export const isRepoSearch = (): boolean => location.pathname.slice(1).split('/')[2] === 'search';
 export const _isRepoSearch = [
 	'https://github.com/sindresorhus/refined-github/search?q=diff',
@@ -316,35 +306,45 @@ export const _isRepoSearch = [
 	'https://github.com/sindresorhus/refined-github/search'
 ];
 
-export const isRepoSettings = (): boolean => /^settings/.test(getRepoPath()!);
+export const isRepoSettings = (): boolean => String(getRepoPath()).startsWith('settings');
 export const _isRepoSettings = [
 	'https://github.com/sindresorhus/refined-github/settings',
 	'https://github.com/sindresorhus/refined-github/settings/branches'
 ];
 
-export const isRepoTree = (): boolean => isRepoRoot() || /^tree\//.test(getRepoPath()!);
+export const isRepoTree = (): boolean => isRepoRoot() || String(getRepoPath()).startsWith('tree/');
 export const _isRepoTree = [
+	..._isRepoRoot,
 	'https://github.com/sindresorhus/refined-github/tree/master/distribution',
 	'https://github.com/sindresorhus/refined-github/tree/0.13.0/distribution',
 	'https://github.com/sindresorhus/refined-github/tree/57bf435ee12d14b482df0bbd88013a2814c7512e/distribution'
-].concat(_isRepoRoot);
+];
 
 export const isRepoWithAccess = (): boolean => isRepo() && select.exists('.reponav-item[href$="/settings"]');
 export const _isRepoWithAccess = domBased;
 
-export const isSingleCommit = (): boolean => /^commit\/[0-9a-f]{5,40}/.test(getRepoPath()!);
+export const isSingleCommit = (): boolean => /^commit\/[\da-f]{5,40}/.test(getRepoPath()!);
 export const _isSingleCommit = [
 	'https://github.com/sindresorhus/refined-github/commit/5b614b9035f2035b839f48b4db7bd5c3298d526f',
 	'https://github.com/sindresorhus/refined-github/commit/5b614'
 ];
 
-export const isSingleFile = (): boolean => /^blob\//.test(getRepoPath()!);
+export const isSingleFile = (): boolean => String(getRepoPath()).startsWith('blob/');
 export const _isSingleFile = [
 	'https://github.com/sindresorhus/refined-github/blob/master/.gitattributes',
 	'https://github.com/sindresorhus/refined-github/blob/fix-narrow-diff/distribution/content.css',
 	'https://github.com/sindresorhus/refined-github/blob/master/edit.txt'
 ];
-export const isSingleGist = (): boolean => isGist() && /^\/(gist\/)?[^/]+\/[0-9a-f]{32}$/.test(location.pathname);
+
+export const isFileFinder = (): boolean => String(getRepoPath()).startsWith('find/');
+export const _isFileFinder = [
+	'https://github.com/sindresorhus/refined-github/find/master'
+];
+
+export const isForkedRepo = (): boolean => select.exists('meta[name="octolytics-dimension-repository_is_fork"][content="true"]');
+export const _isForkedRepo = domBased;
+
+export const isSingleGist = (): boolean => isGist() && /^\/(gist\/)?[^/]+\/[\da-f]{32}$/.test(location.pathname);
 export const _isSingleGist = [
 	'https://gist.github.com/sindresorhus/0ea3c2845718a0a0f0beb579ff14f064'
 ];
@@ -356,8 +356,18 @@ export const _isTrending = [
 	'https://github.com/trending/unknown'
 ];
 
+export const isBranches = (): boolean => getRepoPath()?.startsWith('branches') ?? false;
+export const _isBranches = [
+	'https://github.com/sindresorhus/refined-github/branches'
+];
+
 export const isUserProfile = (): boolean => select.exists('.user-profile-nav');
 export const _isUserProfile = domBased;
+
+export const isUserProfileRepoTab = (): boolean =>
+	isUserProfile() &&
+	new URLSearchParams(location.search).get('tab') === 'repositories';
+export const _isUserProfileRepoTab = domBased;
 
 export const isSingleTagPage = (): boolean => /^(releases\/tag)/.test(getRepoPath()!);
 export const _isSingleTagPage = [
@@ -386,3 +396,16 @@ export const hasCode = (): boolean => // Static code, not the editor
 	isGist() ||
 	isCompare() ||
 	isBlame();
+
+export const isActionPage = (): boolean => location.pathname.startsWith('/marketplace/actions/');
+export const _isActionPage = [
+	'https://github.com/marketplace/actions/urlchecker-action',
+	'https://github.com/marketplace/actions/github-action-for-assignee-to-reviewer',
+	'https://github.com/marketplace/actions/hugo-actions'
+];
+
+export const isActionJobRun = (): boolean => String(getRepoPath()).startsWith('runs/');
+export const _isActionJobRun = [
+	'https://github.com/sindresorhus/refined-github/runs/639481849'
+];
+

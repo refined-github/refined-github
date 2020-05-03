@@ -2,6 +2,7 @@ import './resolve-conflicts.css';
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 async function init(): Promise<void> {
 	await elementReady('.CodeMirror', {
@@ -12,12 +13,12 @@ async function init(): Promise<void> {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Fix merge conflicts in a click',
-	screenshot: false,
+	screenshot: false
+}, {
 	include: [
-		features.isConflict
+		pageDetect.isConflict
 	],
-	load: features.onAjaxedPages,
 	init
 });

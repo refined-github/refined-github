@@ -14,13 +14,13 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds shortcuts to navigate through pages with pagination: `←` and `→`.',
 	screenshot: false,
-	load: features.onAjaxedPages,
 	shortcuts: {
 		'→': 'Go to the next page',
 		'←': 'Go to the previous page'
-	},
+	}
+}, {
 	init
 });

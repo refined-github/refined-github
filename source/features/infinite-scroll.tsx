@@ -1,13 +1,13 @@
 import select from 'select-dom';
 import debounce from 'debounce-fn';
 import features from '../libs/features';
-import observeEl from '../libs/simplified-element-observer';
+import * as pageDetect from '../libs/page-detect';
 
 let button: HTMLButtonElement | undefined;
 
 const loadMore = debounce(() => {
 	button!.click();
-	button!.textContent = 'Loading...';
+	button!.textContent = 'Loading…';
 
 	// If GH hasn't loaded the JS, the click will not load anything.
 	// We can detect if it worked by looking at the button's state,
@@ -51,17 +51,19 @@ function init(): void {
 		// the fake click will submit the form without ajax.
 		form.addEventListener('submit', event => event.preventDefault());
 
-		observeEl('#dashboard .news', findButton);
+		findButton();
 	}
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Automagically expands the newsfeed when you scroll down.',
-	screenshot: false,
+	screenshot: false
+}, {
 	include: [
-		features.isDashboard
+		pageDetect.isDashboard
 	],
-	load: features.onDomReady,
+	onlyAdditionalListeners: true,
+	repeatOnAjax: false,
 	init
 });

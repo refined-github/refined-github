@@ -1,10 +1,11 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import alertIcon from 'octicon/alert.svg';
-import delegate, {DelegateEvent} from 'delegate-it';
+import AlertIcon from 'octicon/alert.svg';
+import delegate from 'delegate-it';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import * as api from '../libs/api';
-import observeEl from '../libs/simplified-element-observer';
+import observeElement from '../libs/simplified-element-observer';
 import {getRepoURL, getDiscussionNumber} from '../libs/utils';
 
 let observer: MutationObserver;
@@ -26,7 +27,7 @@ export async function mergeBranches(): Promise<AnyObject> {
 	});
 }
 
-async function handler(event: DelegateEvent): Promise<void> {
+async function handler(event: delegate.Event): Promise<void> {
 	const button = event.target as HTMLButtonElement;
 	button.disabled = true;
 	button.textContent = 'Updating branch…';
@@ -39,11 +40,11 @@ async function handler(event: DelegateEvent): Promise<void> {
 	} else if (response.message?.toLowerCase().startsWith('merge conflict')) {
 		// Only shown on Draft PRs
 		button.replaceWith(
-			<a href={location.pathname + '/conflicts'} className="btn float-right">{alertIcon()} Resolve conflicts</a>
+			<a href={location.pathname + '/conflicts'} className="btn float-right"><AlertIcon/> Resolve conflicts</a>
 		);
 	} else {
 		button.textContent = response.message ?? 'Error';
-		button.prepend(alertIcon(), ' ');
+		button.prepend(<AlertIcon/>, ' ');
 		throw new api.RefinedGitHubAPIError('update-pr-from-base-branch: ' + JSON.stringify(response));
 	}
 }
@@ -68,6 +69,10 @@ async function addButton(): Promise<void> {
 	}
 
 	const {base, head} = getBranches();
+
+	if (head === 'unknown repository') {
+		return;
+	}
 
 	// Draft PRs already have this info on the page
 	const [outOfDateContainer] = select.all('.completeness-indicator-problem + .status-heading')
@@ -98,17 +103,17 @@ function init(): void | false {
 		return false;
 	}
 
-	observer = observeEl('.discussion-timeline-actions', addButton)!;
-	delegate('.rgh-update-pr-from-master', 'click', handler);
+	observer = observeElement('.discussion-timeline-actions', addButton)!;
+	delegate(document, '.rgh-update-pr-from-master', 'click', handler);
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds button to update a PR from the base branch to ensure it builds correctly before merging the PR itself.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/57941992-f2170080-7902-11e9-8f8a-594aad983559.png',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/57941992-f2170080-7902-11e9-8f8a-594aad983559.png'
+}, {
 	include: [
-		features.isPRConversation
+		pageDetect.isPRConversation
 	],
-	load: features.onAjaxedPages,
 	init
 });

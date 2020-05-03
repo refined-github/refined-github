@@ -1,13 +1,14 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import features from '../libs/features';
-import observeEl from '../libs/simplified-element-observer';
+import * as pageDetect from '../libs/page-detect';
+import observeElement from '../libs/simplified-element-observer';
 
 function init(): void {
-	const subscription = delegate('.js-merge-commit-button', 'click', () => {
+	const subscription = delegate(document, '.js-merge-commit-button', 'click', () => {
 		subscription.destroy();
 
-		observeEl('.discussion-timeline-actions', (_, observer) => {
+		observeElement('.discussion-timeline-actions', (_, observer) => {
 			const deleteButton = select('[action$="/cleanup"] [type="submit"]');
 			if (deleteButton) {
 				deleteButton.dataset.disableWith = 'Auto-deleting…';
@@ -19,12 +20,12 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Automatically deletes the branch right after merging a PR, if possible.',
-	screenshot: false,
+	screenshot: false
+}, {
 	include: [
-		features.isPRConversation
+		pageDetect.isPRConversation
 	],
-	load: features.onAjaxedPages,
 	init
 });

@@ -1,14 +1,17 @@
 import './indented-code-wrapping.css';
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import onPrFileLoad from '../libs/on-pr-file-load';
 import onNewComments from '../libs/on-new-comments';
 
-function run(): void {
+function init(): void {
+	document.body.classList.add('rgh-code-wrapping-enabled');
+
 	const tables = select.all([
 		'.file table.diff-table:not(.rgh-softwrapped-code)', // Split and unified diffs
 		'.file table.d-table:not(.rgh-softwrapped-code)' // "Suggested changes" in PRs
-	].join());
+	]);
 
 	for (const table of tables) {
 		table.classList.add('rgh-softwrapped-code');
@@ -56,25 +59,21 @@ function run(): void {
 	}
 }
 
-function init(): void {
-	run();
-	onNewComments(run);
-	onPrFileLoad(run);
-
-	document.body.classList.add('rgh-code-wrapping-enabled');
-}
-
 features.add({
 	disabled: '#2421',
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Indents wrapped code correctly.',
-	screenshot: 'https://user-images.githubusercontent.com/37769974/60379474-0ba67e80-9a51-11e9-97f9-077d282e5bdb.png',
+	screenshot: 'https://user-images.githubusercontent.com/37769974/60379474-0ba67e80-9a51-11e9-97f9-077d282e5bdb.png'
+}, {
 	include: [
-		features.isPRFiles,
-		features.isCommit,
-		features.isPRConversation,
-		features.isCompare
+		pageDetect.isPRFiles,
+		pageDetect.isCommit,
+		pageDetect.isPRConversation,
+		pageDetect.isCompare
 	],
-	load: features.onAjaxedPages,
+	additionalListeners: [
+		onNewComments,
+		onPrFileLoad
+	],
 	init
 });

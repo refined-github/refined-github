@@ -1,28 +1,54 @@
 import './clean-sidebar.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import oneTime from 'onetime';
 import features from '../libs/features';
-import onUpdatableContentUpdate from '../libs/on-updatable-content-update';
+import * as pageDetect from '../libs/page-detect';
 import {isPR} from '../libs/page-detect';
+import onReplacedElement from '../libs/on-replaced-element';
 
-let canEditSidebar = false;
+const canEditSidebar = oneTime((): boolean => select.exists('.sidebar-labels .octicon-gear'));
 
-// Selector points to element containing list of elements or "No labels" text
-function cleanSection(selector: string): boolean {
-	const list = select(selector)!;
-	if (list.children.length === 0) {
-		const section = list.closest('.discussion-sidebar-item')!;
-		if (canEditSidebar) {
-			list.remove();
-			section.classList.add('rgh-clean-sidebar');
-		} else {
-			section.remove();
-		}
+function getNodesAfter(node: Node): Range {
+	const range = new Range();
+	range.selectNodeContents(node.parentElement!);
+	range.setStartAfter(node);
+	return range;
+}
 
-		return true;
+/**
+Smartly removes "No content" or the whole section, depending on `canEditSidebar`.
+
+Expected DOM:
+
+```pug
+.discussion-sidebar-item
+	form (may be missing)
+		details or div.discussion-sidebar-heading
+		.css-truncate (may be missing)
+			"No issues"
+```
+
+@param containerSelector Element that contains `details` or `.discussion-sidebar-heading`
+*/
+function cleanSection(containerSelector: string): boolean {
+	const container = select(containerSelector)!;
+	const header = select(':scope > details, :scope > .discussion-sidebar-heading', container)!;
+
+	// Magic. Do not touch
+	if (header.nextElementSibling?.firstElementChild) {
+		return false;
 	}
 
-	return false;
+	const section = container.closest('.discussion-sidebar-item')!;
+	if (canEditSidebar()) {
+		getNodesAfter(header).deleteContents();
+		section.classList.add('rgh-clean-sidebar');
+	} else {
+		section.remove();
+	}
+
+	return true;
 }
 
 function clean(): void {
@@ -39,7 +65,7 @@ function clean(): void {
 	} else {
 		const assignYourself = select('.js-issue-assign-self');
 		if (assignYourself) {
-			(assignYourself.previousSibling as ChildNode).remove(); // Drop "No one — "
+			assignYourself.previousSibling!.remove(); // Drop "No one — "
 			select('[aria-label="Select assignees"] summary')!.append(
 				<span style={{fontWeight: 'normal'}}> – {assignYourself}</span>
 			);
@@ -49,44 +75,37 @@ function clean(): void {
 
 	// Reviewers
 	if (isPR()) {
-		cleanSection('[aria-label="Select reviewers"] > .css-truncate');
+		cleanSection('[aria-label="Select reviewers"]');
 	}
 
 	// Labels
-	if (!cleanSection('.js-issue-labels') && !canEditSidebar) {
+	if (!cleanSection('.sidebar-labels') && !canEditSidebar()) {
+		// Hide header in any case except `canEditSidebar`
 		select('.sidebar-labels div.discussion-sidebar-heading')!.remove();
 	}
 
+	// Linked issues/PRs
+	select('[aria-label="Link issues"] p')!.remove(); // "Successfully merging a pull request may close this issue."
+	cleanSection('[aria-label="Link issues"]');
+
 	// Projects
-	cleanSection('.sidebar-projects, .sidebar-progress-bar');
+	cleanSection('[aria-label="Select projects"]');
 
 	// Milestones
-	const milestones = select('.sidebar-milestone, .sidebar-progress-bar')!;
-	const milestonesInfo = milestones.lastChild!.lastChild!;
-	if (milestonesInfo.textContent!.trim() === 'No milestone') {
-		if (canEditSidebar) {
-			milestonesInfo.remove();
-			milestones.classList.add('rgh-clean-sidebar');
-		} else {
-			milestones.remove();
-		}
-	}
-}
-
-function init(): void {
-	canEditSidebar = select.exists('.sidebar-labels .octicon-gear');
-	clean();
-	onUpdatableContentUpdate(select('#partial-discussion-sidebar')!, clean);
+	cleanSection('[aria-label="Select milestones"]');
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Hides empty sections (or just their "empty" label) in the discussion sidebar.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/57199809-20691780-6fb6-11e9-9672-1ad3f9e1b827.png',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/57199809-20691780-6fb6-11e9-9672-1ad3f9e1b827.png'
+}, {
 	include: [
-		features.isIssue,
-		features.isPRConversation
+		pageDetect.isIssue,
+		pageDetect.isPRConversation
 	],
-	load: features.onAjaxedPages,
-	init
+	additionalListeners: [
+		() => onReplacedElement('#partial-discussion-sidebar', clean)
+	],
+	init: clean
 });

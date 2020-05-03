@@ -6,7 +6,11 @@ import {
 	getRepoPath,
 	getReference,
 	parseTag,
-	compareNames
+	compareNames,
+	pluralize,
+	getScopedSelector,
+	looseParseInt,
+	getLatestVersionTag
 } from '../source/libs/utils';
 
 test('getDiscussionNumber', t => {
@@ -21,10 +25,6 @@ test('getDiscussionNumber', t => {
 		],
 		[
 			'https://github.com/settings/developers',
-			undefined
-		],
-		[
-			'https://github.com/sindresorhus/notifications/notifications',
 			undefined
 		],
 		[
@@ -94,10 +94,6 @@ test('getRepoPath', t => {
 		],
 		[
 			'https://github.com/settings/developers',
-			undefined
-		],
-		[
-			'https://github.com/sindresorhus/notifications/notifications',
 			undefined
 		],
 		[
@@ -195,6 +191,14 @@ test('parseTag', t => {
 	t.deepEqual(parseTag('@hi/you@1.2.3'), {namespace: '@hi/you', version: '1.2.3'});
 });
 
+test('pluralize', t => {
+	t.is(pluralize(0, 'A number', '$$ numbers'), '0 numbers');
+	t.is(pluralize(0, 'A number', '$$ numbers', 'No numbers'), 'No numbers');
+	t.is(pluralize(1, 'A number', '$$ numbers', 'No numbers'), 'A number');
+	t.is(pluralize(2, 'A number', '$$ numbers', 'No numbers'), '2 numbers');
+	t.is(pluralize(2, 'A number', 'Many numbers', 'No numbers'), 'Many numbers');
+});
+
 test('compareNames', t => {
 	t.true(compareNames('johndoe', 'John Doe'));
 	t.true(compareNames('john-doe', 'John Doe'));
@@ -203,4 +207,55 @@ test('compareNames', t => {
 	t.true(compareNames('nicolo', 'Nicolò'));
 	t.false(compareNames('dotconnor', 'Connor Love'));
 	t.false(compareNames('fregante ', 'Federico Brigante'));
+});
+
+test('getScopedSelector', t => {
+	const pairs = new Map<string, string>([
+		[
+			'[href$="settings"]',
+			':scope > [href$="settings"]'
+		],
+		[
+			'.reponav-dropdown,[href$="settings"]',
+			':scope > .reponav-dropdown,:scope > [href$="settings"]'
+		],
+		[
+			'.reponav-dropdown, [href$="settings"]',
+			':scope > .reponav-dropdown,:scope > [href$="settings"]'
+		]
+	]);
+
+	for (const [selector, result] of pairs) {
+		t.is(result, getScopedSelector(selector));
+	}
+});
+
+test('looseParseInt', t => {
+	t.is(looseParseInt('1,234'), 1234);
+	t.is(looseParseInt('Bugs 1,234'), 1234);
+	t.is(looseParseInt('5000+ issues'), 5000);
+});
+
+test('getLatestVersionTag', t => {
+	t.is(getLatestVersionTag([
+		'0.0.0',
+		'v1.1',
+		'r2.0',
+		'3.0'
+	]), '3.0', 'Tags should be sorted by version');
+
+	t.is(getLatestVersionTag([
+		'v2.1-0',
+		'v2.0',
+		'r1.5.5',
+		'r1.0',
+		'v1.0-1'
+	]), 'v2.0', 'Prereleases should be ignored');
+
+	t.is(getLatestVersionTag([
+		'lol v0.0.0',
+		'2.0',
+		'2020-10-10',
+		'v1.0-1'
+	]), 'lol v0.0.0', 'Non-version tags should short-circuit the sorting and return the first tag');
 });

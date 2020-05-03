@@ -1,9 +1,6 @@
 .file-navigation {
 	display: flex;
-}
-
-.file-navigation .branch-select-menu {
-	margin-right: 0 !important;
+	align-items: flex-start;
 }
 
 .file-navigation .BtnGroup.float-right {

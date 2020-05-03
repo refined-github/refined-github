@@ -1,7 +1,8 @@
 import React from 'dom-chef';
 import elementReady from 'element-ready';
-import chevronLeftIcon from 'octicon/chevron-left.svg';
+import ChevronLeftIcon from 'octicon/chevron-left.svg';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {isRepoRoot} from '../libs/page-detect';
 import {groupButtons} from '../libs/group-buttons';
 import getDefaultBranch from '../libs/get-default-branch';
@@ -28,8 +29,9 @@ async function init(): Promise<false | void> {
 		<a
 			className="btn btn-sm tooltipped tooltipped-ne"
 			href={url}
-			aria-label="See this view on the default branch">
-			{chevronLeftIcon()}
+			aria-label="See this view on the default branch"
+		>
+			<ChevronLeftIcon/>
 		</a>
 	);
 
@@ -37,16 +39,19 @@ async function init(): Promise<false | void> {
 
 	const group = groupButtons([defaultLink, branchSelector]);
 	group.classList.add('m-0');
+	group.parentElement!.classList.add('flex-shrink-0');
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds link the default branch on directory listings and files.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/71886648-2891dc00-316f-11ea-98d8-c5bf6c24d85c.png',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/71886648-2891dc00-316f-11ea-98d8-c5bf6c24d85c.png'
+}, {
 	include: [
-		features.isRepoTree,
-		features.isSingleFile
+		pageDetect.isRepoTree,
+		pageDetect.isSingleFile,
+		pageDetect.isRepoCommitList
 	],
-	load: features.nowAndOnAjaxedPages,
+	waitForDomReady: false,
 	init
 });

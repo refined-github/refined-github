@@ -4,6 +4,7 @@
 
 import select from 'select-dom';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function init(): false | void {
 	// If there's a settings tab, the current user can enable checks,
@@ -11,7 +12,7 @@ function init(): false | void {
 	if (select.exists([
 		'.js-repo-nav [data-selected-links^="repo_settings"]', // In repos
 		'.pagehead-tabs-item[href$="/settings/profile"]' // In organizations
-	].join())) {
+	])) {
 		return false;
 	}
 
@@ -24,12 +25,12 @@ function init(): false | void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Hides the `Checks` tab if it’s empty, unless you’re the owner.',
-	screenshot: false,
+	screenshot: false
+}, {
 	include: [
-		features.isPR
+		pageDetect.isPR
 	],
-	load: features.onAjaxedPages,
 	init
 });

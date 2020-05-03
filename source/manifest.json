@@ -22,8 +22,7 @@
 		"default_icon": "icon.png"
 	},
 	"optional_permissions": [
-		"http://*/*",
-		"https://*/*"
+		"*://*/*"
 	],
 	"icons": {
 		"128": "icon.png"
@@ -36,8 +35,7 @@
 		"scripts": [
 			"browser-polyfill.min.js",
 			"background.js"
-		],
-		"persistent": false
+		]
 	},
 	"content_scripts": [
 		{
@@ -47,11 +45,11 @@
 				"https://gist.github.com/*"
 			],
 			"css": [
-				"content.css"
+				"refined-github.css"
 			],
 			"js": [
 				"browser-polyfill.min.js",
-				"content.js"
+				"refined-github.js"
 			]
 		}
 	],

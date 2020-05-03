@@ -1,43 +1,43 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import fileIcon from 'octicon/file.svg';
+import FileIcon from 'octicon/file.svg';
 import features from '../libs/features';
-import {getRepoPath} from '../libs/utils';
+import * as pageDetect from '../libs/page-detect';
 import {groupSiblings} from '../libs/group-buttons';
 
 function init(): void | false {
-	// /user/repo/commits/master/readme.md -> 'readme.md'
-	// /user/repo/commits/master/          -> ''
-	const path = getRepoPath()!.replace(/^commits\/[^/]+\/?/, '');
-	if (!path) {
+	const breadcrumb = select('.breadcrumb');
+	if (!breadcrumb) {
+		// Probably looking at the base /commits/<branch> page, not a subfolder or file.
 		return false;
 	}
+
+	// Extract the file path from the breadcrumb. Aware of branch names that contain slashes
+	const path = breadcrumb.textContent!.trim().replace(/^History for [^/]+/, '');
 
 	for (const rootLink of select.all<HTMLAnchorElement>('[aria-label="Browse the repository at this point in the history"]')) {
 		// `rootLink.pathname` points to /tree/ but GitHub automatically redirects to /blob/ when the path is of a file
 		rootLink.before(
 			<a
-				href={rootLink.pathname + '/' + path}
+				href={rootLink.pathname + path}
 				className="btn btn-outline tooltipped tooltipped-sw"
 				aria-label="See object at this point in the history"
 			>
-				{fileIcon()}
+				<FileIcon/>
 			</a>
 		);
-
-		rootLink.closest<HTMLElement>('.commit-links-cell')!.style.width = 'auto';
 
 		groupSiblings(rootLink);
 	}
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds links to the file itself in a file’s commit list.',
-	screenshot: 'https://user-images.githubusercontent.com/22439276/57195061-b88ddf00-6f6b-11e9-8ad9-13225d09266d.png',
+	screenshot: 'https://user-images.githubusercontent.com/22439276/57195061-b88ddf00-6f6b-11e9-8ad9-13225d09266d.png'
+}, {
 	include: [
-		features.isRepoCommitList
+		pageDetect.isRepoCommitList
 	],
-	load: features.onAjaxedPages,
 	init
 });

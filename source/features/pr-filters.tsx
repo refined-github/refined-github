@@ -1,12 +1,14 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate, {DelegateEvent} from 'delegate-it';
-import checkIcon from 'octicon/check.svg';
+import delegate from 'delegate-it';
+import cache from 'webext-storage-cache';
+import CheckIcon from 'octicon/check.svg';
 import features from '../libs/features';
-import {getIcon as fetchCIStatus} from './ci-link';
+import * as pageDetect from '../libs/page-detect';
+import * as api from '../libs/api';
+import {getRepoGQL, getRepoURL} from '../libs/utils';
 
-// The Reviews dropdown doesn't have a specific class, so we expect this sequence (span contains Projects and Milestones)
-const reviewsFilterSelector = '#label-select-menu + span + details';
+const reviewsFilterSelector = '#reviews-select-menu';
 
 function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: string, filterValue: string): void {
 	const filterQuery = `${filterCategory}:${filterValue}`;
@@ -28,25 +30,25 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 	dropdown.append(
 		<a
 			href={`?${String(search)}`}
-			className={`select-menu-item ${isSelected ? 'selected' : ''}`}
+			className="SelectMenu-item"
 			aria-checked={isSelected ? 'true' : 'false'}
 			role="menuitemradio"
 		>
-			<span className="select-menu-item-icon">{checkIcon()}</span>
-			<div className="select-menu-item-text">{title}</div>
+			<CheckIcon className="SelectMenu-icon SelectMenu-icon--check"/>
+			<span>{title}</span>
 		</a>
 	);
 }
 
 const hasDraftFilter = new WeakSet();
-function addDraftFilter({delegateTarget: reviewsFilter}: DelegateEvent): void {
+function addDraftFilter({delegateTarget: reviewsFilter}: delegate.Event): void {
 	if (hasDraftFilter.has(reviewsFilter)) {
 		return;
 	}
 
 	hasDraftFilter.add(reviewsFilter);
 
-	const dropdown = select('.select-menu-list', reviewsFilter)!;
+	const dropdown = select('.SelectMenu-list', reviewsFilter)!;
 
 	dropdown.append(
 		<div className="SelectMenu-divider">
@@ -58,45 +60,68 @@ function addDraftFilter({delegateTarget: reviewsFilter}: DelegateEvent): void {
 	addDropdownItem(dropdown, 'Not ready for review (Draft PR)', 'draft', 'true');
 }
 
-async function addStatusFilter(): Promise<void> {
+const hasChecks = cache.function(async (): Promise<boolean> => {
+	const {repository} = await api.v4(`
+		repository(${getRepoGQL()}) {
+			head: object(expression: "HEAD") {
+				... on Commit {
+					history(first: 10) {
+						nodes {
+							statusCheckRollup {
+								state
+							}
+						}
+					}
+				}
+			}
+		}
+	`);
+
+	return repository.head.history.nodes.some((commit: AnyObject) => commit.statusCheckRollup);
+}, {
+	maxAge: 3,
+	cacheKey: () => __filebasename + ':' + getRepoURL()
+});
+
+async function addChecksFilter(): Promise<void> {
 	const reviewsFilter = select(reviewsFilterSelector);
 	if (!reviewsFilter) {
 		return;
 	}
 
-	// TODO: replace this with an API call
-	const hasCI = await fetchCIStatus();
-	if (!hasCI) {
+	if (!await hasChecks()) {
 		return;
 	}
 
 	// Copy existing element and adapt its content
-	const statusFilter = reviewsFilter.cloneNode(true);
-	const dropdown = select('.select-menu-list', statusFilter)!;
+	const checksFilter = reviewsFilter.cloneNode(true);
+	checksFilter.id = '';
 
-	select('summary', statusFilter)!.textContent = 'Status\u00A0';
-	select('.select-menu-title', statusFilter)!.textContent = 'Filter by build status';
+	select('summary', checksFilter)!.firstChild!.textContent = 'Checks\u00A0'; // Only replace text node, keep caret
+	select('.SelectMenu-title', checksFilter)!.textContent = 'Filter by checks status';
+
+	const dropdown = select('.SelectMenu-list', checksFilter)!;
 	dropdown.textContent = ''; // Drop previous filters
 
 	for (const status of ['Success', 'Failure', 'Pending']) {
 		addDropdownItem(dropdown, status, 'status', status.toLowerCase());
 	}
 
-	reviewsFilter.after(statusFilter);
+	reviewsFilter.after(checksFilter);
 }
 
 function init(): void {
-	delegate(reviewsFilterSelector, 'toggle', addDraftFilter, true);
-	addStatusFilter();
+	delegate(document, reviewsFilterSelector, 'toggle', addDraftFilter, true);
+	addChecksFilter();
 }
 
 features.add({
-	id: __featureName__,
-	description: 'Adds `Build status` and draft PR dropdown filters in PR lists.',
-	screenshot: 'https://user-images.githubusercontent.com/22439276/56372372-7733ca80-621c-11e9-8b60-a0b95aa4cd4f.png',
+	id: __filebasename,
+	description: 'Adds Checks and Draft PR dropdown filters in PR lists.',
+	screenshot: 'https://user-images.githubusercontent.com/202916/74453250-6d9de200-4e82-11ea-8fd4-7c0de57e001a.png'
+}, {
 	include: [
-		features.isPRList
+		pageDetect.isPRList
 	],
-	load: features.onAjaxedPages,
 	init
 });

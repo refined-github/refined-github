@@ -3,6 +3,7 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import elementReady from 'element-ready';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 import {isUserProfile, isOwnOrganizationProfile, isOrganizationProfile} from '../libs/page-detect';
 
 const addNewProjectLink = onetime(() => {
@@ -42,7 +43,7 @@ async function init(): Promise<false | void> {
 	const projectsTab = select([
 		'[data-hotkey="g b"]', // In organizations and repos
 		'.user-profile-nav [href$="?tab=projects"]' // In user profiles
-	].join());
+	]);
 
 	if (!projectsTab) {
 		// Projects aren't enabled here
@@ -56,7 +57,7 @@ async function init(): Promise<false | void> {
 	if (select.exists([
 		'.js-repo-nav [data-selected-links^="repo_settings"]', // In repos
 		'.pagehead-tabs-item[href$="/settings/profile"]' // In organizations
-	].join())) {
+	])) {
 		return;
 	}
 
@@ -67,14 +68,14 @@ async function init(): Promise<false | void> {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Hides the `Projects` tab from repositories and profiles when it’s empty. New projects can still be created via the `Create new…` menu.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/34909214-18b6fb2e-f8cf-11e7-8556-bed748596d3b.png',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/34909214-18b6fb2e-f8cf-11e7-8556-bed748596d3b.png'
+}, {
 	include: [
-		features.isRepo,
-		features.isUserProfile,
-		features.isOrganizationProfile
+		pageDetect.isRepo,
+		pageDetect.isUserProfile,
+		pageDetect.isOrganizationProfile
 	],
-	load: features.onAjaxedPages,
 	init
 });

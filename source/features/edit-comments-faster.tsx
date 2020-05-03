@@ -1,6 +1,8 @@
+import React from 'dom-chef';
 import select from 'select-dom';
-import pencilIcon from 'octicon/pencil.svg';
+import PencilIcon from 'octicon/pencil.svg';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
 function init(): void {
 	const menuItems = select.all('details .js-comment-edit-button:not(.rgh-edit-comment)');
@@ -9,7 +11,7 @@ function init(): void {
 		item.classList.add('rgh-edit-comment');
 
 		const button = item.cloneNode();
-		button.append(pencilIcon());
+		button.append(<PencilIcon/>);
 		button.classList.replace('dropdown-item', 'timeline-comment-action');
 		item.closest('details')!.before(button);
 
@@ -30,12 +32,12 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Moves the `Edit comment` button out of the `...` dropdown.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/54864831-92372a00-4d97-11e9-8c29-efba2dde1baa.png',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/54864831-92372a00-4d97-11e9-8c29-efba2dde1baa.png'
+}, {
 	include: [
-		features.hasComments
+		pageDetect.hasComments
 	],
-	load: features.onNewComments,
 	init
 });

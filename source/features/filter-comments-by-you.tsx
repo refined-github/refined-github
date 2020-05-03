@@ -1,29 +1,32 @@
-import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
-import {getUsername, getRepoURL} from '../libs/utils';
-
-const repoUrl = getRepoURL();
+import * as pageDetect from '../libs/page-detect';
+import {getUsername} from '../libs/utils';
+import SearchQuery from '../libs/search-query';
 
 function init(): void {
-	select('.subnav-search-context .SelectMenu-list a:last-child')!
-		.before(
-			<a
-				href={`/${repoUrl}/issues?q=is%3Aopen+commenter:${getUsername()}`}
-				className="SelectMenu-item"
-				role="menuitem">
-					Everything commented by you
-			</a>
-		);
+	// Use an existing dropdown item to preserve its DOM structure (supports old GHE versions)
+	const sourceItem = select<HTMLAnchorElement>([
+		'#filters-select-menu a:nth-last-child(2)', // GHE
+		'.subnav-search-context li:nth-last-child(2)'
+	])!;
+
+	const menuItem = sourceItem.cloneNode(true);
+	const link = select('a', menuItem) ?? menuItem;
+	link.textContent = 'Everything commented by you';
+	link.removeAttribute('target');
+	new SearchQuery(link).set(`is:open commenter:${getUsername()}`);
+
+	sourceItem.after(menuItem);
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Adds a `Everything commented by you` filter in the search box dropdown.',
-	screenshot: 'https://user-images.githubusercontent.com/170270/27501170-f394a304-586b-11e7-92d8-d92d6922356b.png',
+	screenshot: 'https://user-images.githubusercontent.com/170270/27501170-f394a304-586b-11e7-92d8-d92d6922356b.png'
+}, {
 	include: [
-		features.isRepoDiscussionList
+		pageDetect.isRepoDiscussionList
 	],
-	load: features.onAjaxedPages,
 	init
 });

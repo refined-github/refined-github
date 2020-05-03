@@ -7,7 +7,7 @@ function init(): void {
 		'#user-links [href$="tab=repositories"]', // "Repositories" tab on user profile
 		'.orgnav .pagehead-tabs-item:first-child', // "Repositories" tab on organization profile
 		'[data-hovercard-type="organization"]' // Organization name on repo header + organization list on user profile
-	].join());
+	]);
 
 	for (const link of links) {
 		const search = new URLSearchParams(link.search);
@@ -17,9 +17,9 @@ function init(): void {
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Hides forks and archived repos from profiles (but they can still be shown.)',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/45133648-fe21be80-b1c8-11e8-9052-e38cb443efa9.png',
-	load: features.onAjaxedPages,
+	screenshot: 'https://user-images.githubusercontent.com/1402241/45133648-fe21be80-b1c8-11e8-9052-e38cb443efa9.png'
+}, {
 	init
 });

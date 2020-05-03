@@ -1,8 +1,9 @@
 import select from 'select-dom';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import features from '../libs/features';
+import * as pageDetect from '../libs/page-detect';
 
-function handleMenuOpening(event: DelegateEvent): void {
+function handleMenuOpening(event: delegate.Event): void {
 	const dropdown = event.delegateTarget.nextElementSibling!;
 
 	// Only if it's not already there
@@ -36,17 +37,17 @@ function handleMenuOpening(event: DelegateEvent): void {
 }
 
 function init(): void {
-	delegate('.js-file-header-dropdown > summary', 'click', handleMenuOpening);
+	delegate(document, '.js-file-header-dropdown > summary', 'click', handleMenuOpening);
 }
 
 features.add({
-	id: __featureName__,
+	id: __filebasename,
 	description: 'Points the "View file" in PRs to the branch instead of the commit, so the Edit/Delete buttons will be enabled on the "View file" page, if needed.',
-	screenshot: '',
+	screenshot: false
+}, {
 	include: [
-		features.isPRFiles,
-		features.isPRCommit
+		pageDetect.isPRFiles,
+		pageDetect.isPRCommit
 	],
-	load: features.onAjaxedPages,
 	init
 });
