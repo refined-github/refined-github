@@ -1,4 +1,5 @@
 import React from 'dom-chef';
+import elementReady from 'element-ready';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import cache from 'webext-storage-cache';
@@ -84,7 +85,7 @@ const hasChecks = cache.function(async (): Promise<boolean> => {
 });
 
 async function addChecksFilter(): Promise<void> {
-	const reviewsFilter = select(reviewsFilterSelector);
+	const reviewsFilter = await elementReady(reviewsFilterSelector);
 	if (!reviewsFilter) {
 		return;
 	}
@@ -123,5 +124,6 @@ features.add({
 	include: [
 		pageDetect.isPRList
 	],
+	waitForDomReady: false,
 	init
 });
