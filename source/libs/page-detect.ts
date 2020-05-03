@@ -27,15 +27,7 @@ export const _isCommit = [
 ];
 
 export const isCommitList = (): boolean => isRepoCommitList() || isPRCommitList();
-export const _isCommitList = [
-	'https://github.com/sindresorhus/refined-github/commits/master?page=2',
-	'https://github.com/sindresorhus/refined-github/commits/test-branch',
-	'https://github.com/sindresorhus/refined-github/commits/0.13.0',
-	'https://github.com/sindresorhus/refined-github/commits/230c2',
-	'https://github.com/sindresorhus/refined-github/commits/230c2935fc5aea9a681174ddbeba6255ca040d63',
-	'https://github.com/sindresorhus/refined-github/pull/148/commits',
-	'https://github.com/sindresorhus/refined-github/commits?author=fregante'
-];
+export const _isCommitList = skip;
 
 export const isRepoCommitList = (): boolean => String(getRepoPath()).startsWith('commits');
 export const _isRepoCommitList = [
@@ -44,7 +36,8 @@ export const _isRepoCommitList = [
 	'https://github.com/sindresorhus/refined-github/commits/0.13.0',
 	'https://github.com/sindresorhus/refined-github/commits/230c2',
 	'https://github.com/sindresorhus/refined-github/commits/230c2935fc5aea9a681174ddbeba6255ca040d63',
-	'https://github.com/sindresorhus/refined-github/commits?author=fregante'
+	'https://github.com/sindresorhus/refined-github/commits?author=fregante',
+	'https://github.com/sindresorhus/runs/commits/'
 ];
 
 export const isCompare = (): boolean => String(getRepoPath()).startsWith('compare');
@@ -410,3 +403,9 @@ export const _isActionPage = [
 	'https://github.com/marketplace/actions/github-action-for-assignee-to-reviewer',
 	'https://github.com/marketplace/actions/hugo-actions'
 ];
+
+export const isActionJobRun = (): boolean => String(getRepoPath()).startsWith('runs/');
+export const _isActionJobRun = [
+	'https://github.com/sindresorhus/refined-github/runs/639481849'
+];
+
