@@ -18,6 +18,10 @@ p {
 	width: 20em !important; /* https://github.com/sindresorhus/refined-github/issues/1374#issuecomment-397906701 */
 }
 
+[name='personalToken']:invalid {
+	border-color: var(--github-red) !important;
+}
+
 .feature:not([hidden]) {
 	display: flex;
 }
