@@ -25,4 +25,4 @@ const migrations = [
 	OptionsSync.migrations.removeUnused
 ];
 
-export default new OptionsSyncMulti({defaults, migrations});
+export default new OptionsSyncMulti<RGHOptions>({defaults, migrations});

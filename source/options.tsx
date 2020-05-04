@@ -70,7 +70,7 @@ async function addDomainSelector(): Promise<void> {
 	}
 
 	select('form')!.before(
-		<p>Domain selector:
+		<p>Domain selector:{' '}
 			<select onChange={domainPickerHandler}>
 				{[...optionsByOrigin.keys()].map(domain => <option value={domain}>{domain}</option>)}
 			</select>

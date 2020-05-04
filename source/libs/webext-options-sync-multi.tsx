@@ -36,12 +36,12 @@ export default class OptionsSyncMulti<TOptions extends Options> extends OptionsS
 		}
 	}
 
-	async getAllOrigins(): Promise<Map<string, OptionsSync>> {
+	async getAllOrigins(): Promise<Map<string, OptionsSync<TOptions>>> {
 		if (isWeb) {
 			throw new Error('This function only work on extension pages');
 		}
 
-		const optionsByDomain = new Map<string, OptionsSync>();
+		const optionsByDomain = new Map<string, OptionsSync<TOptions>>();
 
 		optionsByDomain.set('default', this);
 
@@ -54,7 +54,7 @@ export default class OptionsSyncMulti<TOptions extends Options> extends OptionsS
 		return optionsByDomain;
 	}
 
-	private _getOriginInstance(origin: string): OptionsSync {
+	private _getOriginInstance(origin: string): OptionsSync<TOptions> {
 		return new OptionsSync({
 			...this._options,
 			storageName: getKey(this._options.storageName!, origin) // Important: this should always use the inputted `storageName`, not `this.storageName`, which could already point to a different origin
