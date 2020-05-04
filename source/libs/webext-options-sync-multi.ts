@@ -1,27 +1,10 @@
+import {patternToRegex} from 'webext-patterns';
 import {isBackgroundPage} from 'webext-detect-page';
-import {getAdditionalPermissions, getManifestPermissionsSync} from 'webext-additional-permissions';
 import OptionsSync, {Options, Setup} from 'webext-options-sync';
+import {getAdditionalPermissions, getManifestPermissionsSync} from 'webext-additional-permissions';
 
-const defaultOrigins = urlGlobsToRegex(getManifestPermissionsSync().origins);
+const defaultOrigins = patternToRegex(...getManifestPermissionsSync().origins);
 const isWeb = location.protocol.startsWith('http');
-
-// Copied from https://github.com/fregante/content-scripts-register-polyfill/blob/2202738946b6da5eddcab672340e97f09313b13b/index.ts#L1
-function urlGlobToRawRegex(matchPattern: string): string {
-	/* eslint-disable unicorn/better-regex */
-	return '^' + matchPattern
-		.replace(/[.]/g, '\\.') // Escape dots
-		.replace(/[?]/, '.') // Single-character wildcards
-		.replace(/^[*]:/, 'https?') // Protocol
-		.replace(/^(https[?]?:[/][/])[*]/, '$1[^/:]+') // Subdomain wildcard
-		.replace(/[/][*]/, '/?.+') // Whole path wildcards (so it can match the whole origin)
-		.replace(/[*]/g, '.+') // Path wildcards
-		.replace(/[/]/g, '\\/'); // Escape slashes
-	/* eslint-enable unicorn/better-regex */
-}
-
-function urlGlobsToRegex(matchPatterns: string[]): RegExp {
-	return new RegExp(matchPatterns.map(urlGlobToRawRegex).join('$') + '$');
-}
 
 function parseHost(origin: string): string {
 	return origin.includes('//') ? new URL(origin).host : origin;
