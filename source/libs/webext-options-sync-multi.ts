@@ -8,7 +8,7 @@ function parseHost(origin: string): string {
 	return origin.includes('//') ? new URL(origin).host : origin;
 }
 
-function limitToBackgroundPage(): void {
+function forbidExecutionOnWebPages(): void {
 	if (isWeb) {
 		throw new Error('This function only works on extension pages');
 	}
@@ -47,7 +47,7 @@ export default class OptionsSyncMulti<TOptions extends Options> extends OptionsS
 	}
 
 	async getAllOrigins(): Promise<Map<string, OptionsSync<TOptions>>> {
-		limitToBackgroundPage();
+		forbidExecutionOnWebPages();
 
 		const optionsByDomain = new Map<string, OptionsSync<TOptions>>();
 
@@ -63,7 +63,7 @@ export default class OptionsSyncMulti<TOptions extends Options> extends OptionsS
 	}
 
 	async syncForm(form: string | HTMLFormElement): Promise<void> {
-		limitToBackgroundPage();
+		forbidExecutionOnWebPages();
 
 		super.syncForm(form);
 
@@ -108,7 +108,7 @@ export default class OptionsSyncMulti<TOptions extends Options> extends OptionsS
 	}
 
 	private async _initializeAdditionalOrigins(): Promise<void> {
-		limitToBackgroundPage();
+		forbidExecutionOnWebPages();
 
 		// Run migrations for every domain
 		const {origins} = await getAdditionalPermissions();
