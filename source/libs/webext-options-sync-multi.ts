@@ -1,8 +1,27 @@
 import {isBackgroundPage} from 'webext-detect-page';
-import {getAdditionalPermissions} from 'webext-additional-permissions';
+import {getAdditionalPermissions, getManifestPermissionsSync} from 'webext-additional-permissions';
 import OptionsSync, {Options, Setup} from 'webext-options-sync';
 
+const defaultOrigins = urlGlobsToRegex(getManifestPermissionsSync().origins);
 const isWeb = location.protocol.startsWith('http');
+
+// Copied from https://github.com/fregante/content-scripts-register-polyfill/blob/2202738946b6da5eddcab672340e97f09313b13b/index.ts#L1
+function urlGlobToRawRegex(matchPattern: string): string {
+	/* eslint-disable unicorn/better-regex */
+	return '^' + matchPattern
+		.replace(/[.]/g, '\\.') // Escape dots
+		.replace(/[?]/, '.') // Single-character wildcards
+		.replace(/^[*]:/, 'https?') // Protocol
+		.replace(/^(https[?]?:[/][/])[*]/, '$1[^/:]+') // Subdomain wildcard
+		.replace(/[/][*]/, '/?.+') // Whole path wildcards (so it can match the whole origin)
+		.replace(/[*]/g, '.+') // Path wildcards
+		.replace(/[/]/g, '\\/'); // Escape slashes
+	/* eslint-enable unicorn/better-regex */
+}
+
+function urlGlobsToRegex(matchPatterns: string[]): RegExp {
+	return new RegExp(matchPatterns.map(urlGlobToRawRegex).join('$') + '$');
+}
 
 function parseHost(origin: string): string {
 	return origin.includes('//') ? new URL(origin).host : origin;
@@ -14,14 +33,11 @@ function forbidExecutionOnWebPages(): void {
 	}
 }
 
-function getKey(storageName: string, origin: string): string {
-	const host = parseHost(origin);
-	// TODO: make this an on option
-	if (/(^|\.)github\.com$/.test(host)) {
-		return storageName;
-	}
+/** Ensures that only the base storage name (i.e. without domain) is used in functions that require it */
+type BaseStorageName = string;
 
-	return `${storageName}-${host}`;
+function getStorageNameForOrigin(storageName: BaseStorageName, origin: string): string {
+	return storageName + '-' + parseHost(origin);
 }
 
 // TypeScript-only exports
@@ -29,18 +45,27 @@ function getKey(storageName: string, origin: string): string {
 export * from 'webext-options-sync';
 
 export default class OptionsSyncMulti<TOptions extends Options> extends OptionsSync<TOptions> {
-	private readonly _baseOptions: Setup<TOptions>;
+	private readonly _baseOptions: Readonly<Setup<TOptions> & {storageName: BaseStorageName}>;
 
 	// Instance is initialized automatically for the current domain, unless it's called in an extension page
 	constructor(options: Setup<TOptions>) {
-		// Pick the default origin when running this in an extension page
-		const host = isWeb ? location.origin : 'https://github.com';
-		options.storageName = options.storageName ?? 'options';
-		super({
+		// Apply defaults
+		const baseOptions = {
 			...options,
-			storageName: getKey(options.storageName, host)
-		});
-		this._baseOptions = options;
+			storageName: options.storageName ?? 'options'
+		} as const;
+
+		// Extension pages should always use the default options as base
+		if (!isWeb || defaultOrigins.test(location.origin)) {
+			super(baseOptions);
+		} else {
+			super({
+				...baseOptions,
+				storageName: getStorageNameForOrigin(baseOptions.storageName, origin)
+			});
+		}
+
+		this._baseOptions = baseOptions;
 
 		if (isBackgroundPage()) {
 			this._initializeAdditionalOrigins();
@@ -104,12 +129,14 @@ export default class OptionsSyncMulti<TOptions extends Options> extends OptionsS
 	private _getOriginInstance(origin: string): OptionsSync<TOptions> {
 		return new OptionsSync({
 			...this._baseOptions,
-			storageName: getKey(this._baseOptions.storageName!, origin) // Important: this should always use the inputted `storageName`, not `this.storageName`, which could already point to a different origin
+			storageName: getStorageNameForOrigin(this._baseOptions.storageName, origin)
 		});
 	}
 
 	private async _initializeAdditionalOrigins(): Promise<void> {
-		forbidExecutionOnWebPages();
+		if (!isBackgroundPage()) {
+			throw new Error('Initialization should only be called on background pages.');
+		}
 
 		// Run migrations for every domain
 		const {origins} = await getAdditionalPermissions();
@@ -130,7 +157,7 @@ export default class OptionsSyncMulti<TOptions extends Options> extends OptionsS
 		browser.permissions.onRemoved!.addListener(({origins}) => {
 			if (origins) {
 				const storageKeysToRemove = origins
-					.map(origin => getKey(this.storageName, parseHost(origin)))
+					.map(origin => getStorageNameForOrigin(this._baseOptions.storageName, origin))
 					.filter(key => key !== this.storageName);
 				browser.storage.sync.remove(storageKeysToRemove);
 			}

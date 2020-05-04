@@ -38,7 +38,7 @@
 		"text-field-edit": "^3.0.0-0",
 		"tiny-version-compare": "^2.0.0",
 		"twas": "^2.1.1",
-		"webext-additional-permissions": "^0.1.0",
+		"webext-additional-permissions": "^1.0.0",
 		"webext-base-css": "^1.1.0",
 		"webext-detect-page": "^2.0.4",
 		"webext-domain-permission-toggle": "^1.0.0",
