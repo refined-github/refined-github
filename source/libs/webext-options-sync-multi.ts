@@ -16,6 +16,7 @@ function forbidExecutionOnWebPages(): void {
 
 function getKey(storageName: string, origin: string): string {
 	const host = parseHost(origin);
+	// TODO: make this an on option
 	if (/(^|\.)github\.com$/.test(host)) {
 		return storageName;
 	}
@@ -128,7 +129,9 @@ export default class OptionsSyncMulti<TOptions extends Options> extends OptionsS
 		// Remove old domains
 		browser.permissions.onRemoved!.addListener(({origins}) => {
 			if (origins) {
-				const storageKeysToRemove = origins.map(origin => getKey(this.storageName, origin));
+				const storageKeysToRemove = origins
+					.map(origin => getKey(this.storageName, parseHost(origin)))
+					.filter(key => key !== this.storageName);
 				browser.storage.sync.remove(storageKeysToRemove);
 			}
 		});
