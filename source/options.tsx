@@ -50,15 +50,6 @@ function buildFeatureCheckbox({id, description, screenshot, disabled}: FeatureMe
 	);
 }
 
-function moveDisabledFeaturesToTop(): void {
-	const container = select('.js-features')!;
-
-	// .reverse() needed to preserve alphabetical order while prepending
-	for (const unchecked of select.all('.feature--enabled [type=checkbox]:not(:checked)').reverse()) {
-		container.prepend(unchecked.closest('.feature')!);
-	}
-}
-
 async function domainPickerHandler({currentTarget: dropdown}: React.ChangeEvent<HTMLSelectElement>): Promise<void> {
 	const optionsByOrigin = await optionsStorage.getAllOrigins();
 	for (const [domain, options] of optionsByOrigin) {
@@ -84,17 +75,23 @@ async function addDomainSelector(): Promise<void> {
 				{[...optionsByOrigin.keys()].map(domain => <option value={domain}>{domain}</option>)}
 			</select>
 		</p>,
-		<hr />
+		<hr/>
 	);
 }
 
 function init(): void {
 	// Generate list
-	select('.js-features')!.append(...__featuresInfo__.map(buildFeatureCheckbox));
+	const container = select('.js-features')!;
+	container.append(...__featuresMeta__.map(buildFeatureCheckbox));
 
 	// Update list from saved options
 	optionsStorage.syncForm('form');
-	moveDisabledFeaturesToTop();
+
+	// Move disabled features first
+	for (const unchecked of select.all('.feature--enabled [type=checkbox]:not(:checked)', container).reverse()) {
+		// .reverse() needed to preserve alphabetical order while prepending
+		container.prepend(unchecked.closest('.feature')!);
+	}
 
 	// Highlight new features
 	const {featuresAlreadySeen} = await browser.storage.local.get({featuresAlreadySeen: {}});
