@@ -1,5 +1,4 @@
-import OptionsSync, {Migration} from 'webext-options-sync';
-import OptionsSyncMulti from './libs/webext-options-sync-multi';
+import OptionsSyncMulti, {Migration} from './libs/webext-options-sync-multi';
 
 export type RGHOptions = typeof defaults;
 
@@ -22,7 +21,7 @@ const migrations = [
 	featureWasRenamed('branch-buttons', 'latest-tag-button'), // Merged on January 10th
 
 	// Removed features will be automatically removed from the options as well
-	OptionsSync.migrations.removeUnused
+	OptionsSyncMulti.migrations.removeUnused
 ];
 
 export default new OptionsSyncMulti<RGHOptions>({defaults, migrations});

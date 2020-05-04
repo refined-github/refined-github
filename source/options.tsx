@@ -50,35 +50,6 @@ function buildFeatureCheckbox({id, description, screenshot, disabled}: FeatureMe
 	);
 }
 
-async function domainPickerHandler({currentTarget: dropdown}: React.ChangeEvent<HTMLSelectElement>): Promise<void> {
-	const optionsByOrigin = await optionsStorage.getAllOrigins();
-	for (const [domain, options] of optionsByOrigin) {
-		if (dropdown.value === domain) {
-			options.syncForm(dropdown.form!);
-		} else {
-			options.stopSyncForm();
-		}
-	}
-
-	select<HTMLAnchorElement>('#personal-token-link')!.host = dropdown.value;
-}
-
-async function addDomainSelector(): Promise<void> {
-	const optionsByOrigin = await optionsStorage.getAllOrigins();
-	if (optionsByOrigin.size === 1) {
-		return;
-	}
-
-	select('form')!.before(
-		<p>Domain selector:{' '}
-			<select onChange={domainPickerHandler}>
-				{[...optionsByOrigin.keys()].map(domain => <option value={domain}>{domain}</option>)}
-			</select>
-		</p>,
-		<hr/>
-	);
-}
-
 async function init(): Promise<void> {
 	// Generate list
 	const container = select('.js-features')!;
@@ -86,6 +57,11 @@ async function init(): Promise<void> {
 
 	// Update list from saved options
 	optionsStorage.syncForm('form');
+
+	// Update domain-dependent page content when the domain is changed
+	select('.js-options-sync-selector')?.addEventListener('change', ({currentTarget: dropdown}) => {
+		select<HTMLAnchorElement>('#personal-token-link')!.host = (dropdown as HTMLSelectElement).value;
+	});
 
 	// Move disabled features first
 	for (const unchecked of select.all('.feature--enabled [type=checkbox]:not(:checked)', container).reverse()) {
@@ -138,9 +114,6 @@ async function init(): Promise<void> {
 			button.disabled = false;
 		}, 2000);
 	});
-
-	// Add support for GHE domain selector
-	addDomainSelector();
 
 	// Move debugging tools higher when side-loaded
 	if (process.env.NODE_ENV === 'development') {
