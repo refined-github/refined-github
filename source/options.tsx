@@ -50,17 +50,6 @@ function buildFeatureCheckbox({id, description, screenshot, disabled}: FeatureMe
 	);
 }
 
-function featuresFilterHandler(event: Event): void {
-	const keywords = (event.currentTarget as HTMLInputElement).value.toLowerCase()
-		.replace(/\W/g, ' ')
-		.split(/\s+/)
-		.filter(Boolean); // Ignore empty strings
-
-	for (const feature of select.all('.feature')) {
-		feature.hidden = !keywords.every(word => feature.dataset.text!.includes(word));
-	}
-}
-
 function moveDisabledFeaturesToTop(): void {
 	const container = select('.js-features')!;
 
@@ -128,8 +117,17 @@ function init(): void {
 	fitTextarea.watch('textarea');
 	indentTextarea.watch('textarea');
 
-	// Enable feature filter
-	select('#filter-features')!.addEventListener('input', featuresFilterHandler);
+	// Filter feature options
+	const filterField = select<HTMLInputElement>('#filter-features')!;
+	filterField.addEventListener('input', () => {
+		const keywords = filterField.value.toLowerCase()
+			.replace(/\W/g, ' ')
+			.split(/\s+/)
+			.filter(Boolean); // Ignore empty strings
+		for (const feature of select.all('.feature')) {
+			feature.hidden = !keywords.every(word => feature.dataset.text!.includes(word));
+		}
+	});
 
 	// Add support for GHE domain selector
 	addDomainSelector();
