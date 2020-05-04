@@ -79,7 +79,7 @@ async function addDomainSelector(): Promise<void> {
 	);
 }
 
-function init(): void {
+async function init(): Promise<void> {
 	// Generate list
 	const container = select('.js-features')!;
 	container.append(...__featuresMeta__.map(buildFeatureCheckbox));
@@ -126,9 +126,6 @@ function init(): void {
 		}
 	});
 
-	// Add support for GHE domain selector
-	addDomainSelector();
-
 	// Add cache clearer
 	const button = select<HTMLButtonElement>('#clear-cache')!;
 	button.addEventListener('click', async () => {
@@ -141,6 +138,9 @@ function init(): void {
 			button.disabled = false;
 		}, 2000);
 	});
+
+	// Add support for GHE domain selector
+	addDomainSelector();
 
 	// Move debugging tools higher when side-loaded
 	if (process.env.NODE_ENV === 'development') {
