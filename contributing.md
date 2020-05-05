@@ -20,7 +20,7 @@ The simplest usage of `feature.add` is the following. This will be run instantly
 
 ```js
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import * as pageDetect from 'github-page-detection';
 
 function init () {
 	console.log('✨');
@@ -47,7 +47,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import * as pageDetect from 'github-page-detection';
 
 function append(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	event.delegateTarget.after('✨', <div className="rgh-jsx-element">Button clicked!</div>);

@@ -3,7 +3,7 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import TagIcon from 'octicon/tag.svg';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import * as pageDetect from 'github-page-detection';
 import * as api from '../libs/api';
 import {getOwnerAndRepo, getRepoURL, getRepoGQL} from '../libs/utils';
 

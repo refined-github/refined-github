@@ -4,7 +4,7 @@ import delegate from 'delegate-it';
 import FoldDownIcon from 'octicon/fold-down.svg';
 import * as textFieldEdit from 'text-field-edit';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import * as pageDetect from 'github-page-detection';
 
 // Wraps string in at least 2 \n on each side,
 // as long as the field doesn't already have them.

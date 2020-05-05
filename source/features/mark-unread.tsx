@@ -12,7 +12,7 @@ import IssueOpenedIcon from 'octicon/issue-opened.svg';
 import IssueClosedIcon from 'octicon/issue-closed.svg';
 import PullRequestIcon from 'octicon/git-pull-request.svg';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import * as pageDetect from 'github-page-detection';
 import onReplacedElement from '../libs/on-replaced-element';
 import {getUsername, getRepoURL, logError} from '../libs/utils';
 

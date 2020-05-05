@@ -2,7 +2,7 @@ import select from 'select-dom';
 import cache from 'webext-storage-cache';
 import elementReady from 'element-ready';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import * as pageDetect from 'github-page-detection';
 import * as api from '../libs/api';
 import {getOwnerAndRepo, getRepoURL, getRepoGQL} from '../libs/utils';
 

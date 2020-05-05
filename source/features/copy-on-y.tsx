@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import copyToClipboard from 'copy-text-to-clipboard';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import * as pageDetect from 'github-page-detection';
 
 const handler = ({key, target}: KeyboardEvent): void => {
 	if (key === 'y' && (target as Element).nodeName !== 'INPUT') {

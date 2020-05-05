@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import PencilIcon from 'octicon/pencil.svg';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import * as pageDetect from 'github-page-detection';
 import {wrap} from '../libs/dom-utils';
 import getDefaultBranch from '../libs/get-default-branch';
 import onFileListUpdate from '../libs/on-file-list-update';

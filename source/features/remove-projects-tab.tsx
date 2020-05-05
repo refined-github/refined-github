@@ -3,8 +3,8 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import elementReady from 'element-ready';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
-import {isUserProfile, isOwnOrganizationProfile, isOrganizationProfile} from '../libs/page-detect';
+import * as pageDetect from 'github-page-detection';
+import {isUserProfile, isOwnOrganizationProfile, isOrganizationProfile} from 'github-page-detection';
 
 const addNewProjectLink = onetime(() => {
 	if (isUserProfile()) {

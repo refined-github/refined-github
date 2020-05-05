@@ -4,7 +4,7 @@ import delegate from 'delegate-it';
 import cache from 'webext-storage-cache';
 import CheckIcon from 'octicon/check.svg';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import * as pageDetect from 'github-page-detection';
 import * as api from '../libs/api';
 import {getRepoGQL, getRepoURL} from '../libs/utils';
 

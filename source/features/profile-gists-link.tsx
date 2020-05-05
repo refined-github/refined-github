@@ -5,9 +5,9 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import * as pageDetect from 'github-page-detection';
 import {getCleanPathname} from '../libs/utils';
-import {isEnterprise} from '../libs/page-detect';
+import {isEnterprise} from 'github-page-detection';
 
 const getGistCount = cache.function(async (username: string): Promise<number> => {
 	const {user} = await api.v4(`

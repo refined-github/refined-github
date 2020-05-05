@@ -1,6 +1,6 @@
 import select from 'select-dom';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import * as pageDetect from 'github-page-detection';
 
 function init(): void {
 	const embedViaScript = select<HTMLButtonElement>('.file-navigation-option [value^="<script"]')!;

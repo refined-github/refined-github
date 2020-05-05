@@ -7,9 +7,9 @@ import BranchIcon from 'octicon/git-branch.svg';
 import HistoryIcon from 'octicon/history.svg';
 import PackageIcon from 'octicon/package.svg';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import * as pageDetect from 'github-page-detection';
 import {getRepoURL, getReference} from '../libs/utils';
-import {isEnterprise} from '../libs/page-detect';
+import {isEnterprise} from 'github-page-detection';
 import {appendBefore} from '../libs/dom-utils';
 
 const repoUrl = getRepoURL();

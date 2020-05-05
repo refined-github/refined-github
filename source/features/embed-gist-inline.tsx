@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import domify from 'doma';
 import select from 'select-dom';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import * as pageDetect from 'github-page-detection';
 import {isFirefox} from '../libs/utils';
 
 const isGist = (link: HTMLAnchorElement): boolean =>

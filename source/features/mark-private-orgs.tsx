@@ -5,7 +5,7 @@ import select from 'select-dom';
 import EyeClosedIcon from 'octicon/eye-closed.svg';
 import {getUsername} from '../libs/utils';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import * as pageDetect from 'github-page-detection';
 import * as api from '../libs/api';
 
 const getPublicOrganizationsNames = cache.function(async (username: string): Promise<string[]> => {

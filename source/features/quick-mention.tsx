@@ -5,7 +5,7 @@ import delegate from 'delegate-it';
 import ReplyIcon from 'octicon/reply.svg';
 import * as textFieldEdit from 'text-field-edit';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import * as pageDetect from 'github-page-detection';
 import {getUsername} from '../libs/utils';
 import onNewComments from '../libs/on-new-comments';
 

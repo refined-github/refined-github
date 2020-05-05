@@ -4,7 +4,7 @@ import select from 'select-dom';
 import CloudUploadIcon from 'octicon/cloud-upload.svg';
 import delegate from 'delegate-it';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import * as pageDetect from 'github-page-detection';
 
 function addButton(): void {
 	for (const toolbarButton of select.all('md-ref')) {

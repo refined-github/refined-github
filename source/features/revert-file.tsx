@@ -4,7 +4,7 @@ import onetime from 'onetime';
 import delegate from 'delegate-it';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import * as pageDetect from 'github-page-detection';
 import fetchDom from '../libs/fetch-dom';
 import postForm from '../libs/post-form';
 import {getDiscussionNumber, getRepoGQL, getRepoURL, getCurrentBranch} from '../libs/utils';

@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import ClockIcon from 'octicon/clock.svg';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import * as pageDetect from 'github-page-detection';
 import {getRepoURL} from '../libs/utils';
 import {appendBefore} from '../libs/dom-utils';
 

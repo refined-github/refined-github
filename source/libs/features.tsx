@@ -6,7 +6,7 @@ import elementReady from 'element-ready';
 import {logError} from './utils';
 import onNewComments from './on-new-comments';
 import onNewsfeedLoad from './on-newsfeed-load';
-import * as pageDetect from './page-detect';
+import * as pageDetect  from 'github-page-detection';
 import optionsStorage, {RGHOptions} from '../options-storage';
 
 type BooleanFunction = () => boolean;

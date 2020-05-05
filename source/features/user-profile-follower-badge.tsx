@@ -4,7 +4,7 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import * as pageDetect from 'github-page-detection';
 import {getUsername, getCleanPathname} from '../libs/utils';
 
 const doesUserFollow = cache.function(async (userA: string, userB: string): Promise<boolean> => {

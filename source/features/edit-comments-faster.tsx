@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import PencilIcon from 'octicon/pencil.svg';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import * as pageDetect from 'github-page-detection';
 
 function init(): void {
 	const menuItems = select.all('details .js-comment-edit-button:not(.rgh-edit-comment)');

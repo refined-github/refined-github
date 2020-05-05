@@ -2,7 +2,7 @@ import './reactions-avatars.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import * as pageDetect from 'github-page-detection';
 import {getUsername, flatZip, isFirefox} from '../libs/utils';
 import onReplacedElement from '../libs/on-replaced-element';
 

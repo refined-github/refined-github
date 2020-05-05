@@ -2,7 +2,7 @@ import './sticky-discussion-sidebar.css';
 import select from 'select-dom';
 import debounce from 'debounce-fn';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import * as pageDetect from 'github-page-detection';
 import onReplacedElement from '../libs/on-replaced-element';
 
 const sideBarSelector = '#partial-discussion-sidebar, .discussion-sidebar';

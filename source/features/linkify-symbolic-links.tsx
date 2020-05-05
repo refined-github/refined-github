@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import {wrap} from '../libs/dom-utils';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import * as pageDetect from 'github-page-detection';
 
 function init(): void | false {
 	const mode = select('.file-mode');
