@@ -1,8 +1,8 @@
 import twas from 'twas';
+import cache from 'webext-storage-cache';
 import React from 'dom-chef';
 import select from 'select-dom';
 import RepoIcon from 'octicon/repo.svg';
-import cache from 'webext-storage-cache';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-page-detection';
 import features from '../libs/features';

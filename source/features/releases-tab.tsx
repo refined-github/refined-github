@@ -1,5 +1,5 @@
-import cache from 'webext-storage-cache';
 import React from 'dom-chef';
+import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import TagIcon from 'octicon/tag.svg';

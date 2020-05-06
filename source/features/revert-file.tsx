@@ -1,6 +1,6 @@
 import React from 'dom-chef';
-import onetime from 'onetime';
 import select from 'select-dom';
+import onetime from 'onetime';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-page-detection';
 import * as api from '../libs/api';

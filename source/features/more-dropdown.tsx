@@ -1,12 +1,14 @@
 import './more-dropdown.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import DiffIcon from 'octicon/diff.svg';
 import elementReady from 'element-ready';
+import * as pageDetect from 'github-page-detection';
+
+import DiffIcon from 'octicon/diff.svg';
+import BranchIcon from 'octicon/git-branch.svg';
 import HistoryIcon from 'octicon/history.svg';
 import PackageIcon from 'octicon/package.svg';
-import BranchIcon from 'octicon/git-branch.svg';
-import * as pageDetect from 'github-page-detection';
+
 import features from '../libs/features';
 import {appendBefore} from '../libs/dom-utils';
 import {getRepoURL, getReference} from '../libs/utils';

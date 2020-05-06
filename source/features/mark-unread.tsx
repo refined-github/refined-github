@@ -2,16 +2,18 @@ import './mark-unread.css';
 import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
-import XIcon from 'octicon/x.svg';
 import delegate from 'delegate-it';
-import InfoIcon from 'octicon/info.svg';
 import elementReady from 'element-ready';
+import * as pageDetect from 'github-page-detection';
+
+import XIcon from 'octicon/x.svg';
+import InfoIcon from 'octicon/info.svg';
 import CheckIcon from 'octicon/check.svg';
 import MergeIcon from 'octicon/git-merge.svg';
-import * as pageDetect from 'github-page-detection';
 import IssueOpenedIcon from 'octicon/issue-opened.svg';
 import IssueClosedIcon from 'octicon/issue-closed.svg';
 import PullRequestIcon from 'octicon/git-pull-request.svg';
+
 import features from '../libs/features';
 import onReplacedElement from '../libs/on-replaced-element';
 import {getUsername, getRepoURL, logError} from '../libs/utils';

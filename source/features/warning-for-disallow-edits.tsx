@@ -1,7 +1,7 @@
 import './warning-for-disallow-edits.css';
 import React from 'dom-chef';
-import oneTime from 'onetime';
 import select from 'select-dom';
+import oneTime from 'onetime';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-page-detection';
 import features from '../libs/features';

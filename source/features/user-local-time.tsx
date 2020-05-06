@@ -1,8 +1,8 @@
 /* eslint-disable no-await-in-loop */
 
 import React from 'dom-chef';
-import select from 'select-dom';
 import cache from 'webext-storage-cache';
+import select from 'select-dom';
 import ClockIcon from 'octicon/clock.svg';
 import * as api from '../libs/api';
 import features from '../libs/features';

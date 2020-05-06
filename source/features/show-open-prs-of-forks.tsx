@@ -1,7 +1,7 @@
 import React from 'dom-chef';
+import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
-import cache from 'webext-storage-cache';
 import * as pageDetect from 'github-page-detection';
 import * as api from '../libs/api';
 import features from '../libs/features';

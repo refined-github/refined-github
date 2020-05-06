@@ -1,9 +1,9 @@
+import 'webext-base-css/webext-base.css';
 import './options.css';
 import React from 'dom-chef';
+import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import fitTextarea from 'fit-textarea';
-import cache from 'webext-storage-cache';
-import 'webext-base-css/webext-base.css';
 import {applyToLink} from 'shorten-repo-url';
 import {getAllOptions} from './options-storage';
 import * as indentTextarea from 'indent-textarea';

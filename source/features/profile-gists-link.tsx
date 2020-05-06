@@ -1,7 +1,7 @@
 import './profile-gists-link.css';
 import React from 'dom-chef';
-import select from 'select-dom';
 import cache from 'webext-storage-cache';
+import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-page-detection';
 import * as api from '../libs/api';

@@ -1,8 +1,8 @@
 import './latest-tag-button.css';
 import React from 'dom-chef';
+import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import TagIcon from 'octicon/tag.svg';
-import cache from 'webext-storage-cache';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-page-detection';
 import * as api from '../libs/api';

@@ -1,8 +1,8 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-page-detection';
 import features from '../libs/features';
-import * as domFormatters from '../libs/dom-formatters';
 import observeElement from '../libs/simplified-element-observer';
+import * as domFormatters from '../libs/dom-formatters';
 
 function init(): void {
 	const ajaxedTitleArea = select('#partial-discussion-header')!.parentElement!;
