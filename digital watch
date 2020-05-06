@@ -1,0 +1,94 @@
+<!-- ©rudra pratap created this project-->
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Page Title</title>
+    </head>
+    <body>
+    
+      <div id="out"> <div id="titan">TITAN</div>
+              <center><div id="one">S</div></center>
+                  
+              <center><div id="two">M</div></center>
+              
+             <center><div id="three">H</div></center>    
+             <center><div id="dot">.</div></center><div id="gol"></div>
+                 
+             <div id="cont">
+             <center><div id="line"></div></center>
+             
+             <center><div id="line2"></div>
+             <div id="foot">all rights reserved <br>©rudra pratap softwares</div> </center><div id="foot2">all rights reserved <br>©rudra pratap softwares</div> 
+            <div id="digi">
+            <p id="i"></p>:
+              <p id="h"></p>:
+              <p id="g"></p></div>
+              <center><div id="line3"></div></center>
+              <div id="fita"></div>
+              <div id="sui"></div>
+             <center><div id="line4"></div></center>
+             <center><div id="line5"></div></center>
+             <center><div id="line6"></div></center></div></div>
+             
+            
+             
+              
+              
+              
+              
+    </body>
+    <script>
+    
+    var i=0;
+    var date=new Date();
+   
+   var sec=date.getSeconds();
+   var min=date.getMinutes();
+   var hrs=date.getHours();
+   
+   
+        if(hrs>12)
+        hrs=hrs-12;
+        //hrs=hrs+(min/12);
+        //alert(hrs);
+        
+        var b=document.getElementById("one");
+c=document.getElementById("two");
+d=document.getElementById("three");
+       i=sec*6;
+       j=min*6;
+       k=(hrs*30)+(min/2);
+       
+   //  alert(k);
+       d.style.transform="rotate"+"("+(k)+"deg)"; c.style.transform="rotate"+"("+j+"deg)";
+      b.style.transform="rotate"+"("+i+"deg)";
+     var n=setInterval(fun,1000);
+      
+      function fun() { 
+      i+=6;
+      
+      var dat=new Date();
+    var se=dat.getSeconds();
+    var mi=dat.getMinutes();
+   var hr=dat.getHours();
+    document.getElementById("g").innerHTML=se;
+   document.getElementById("h").innerHTML=mi;
+   
+  if(hr>12)hr-=12; document.getElementById("i").innerHTML=(hr);
+    
+     b.style.transform="rotate"+"("+i+"deg)";
+
+{
+   j+=0.1; c.style.transform="rotate"+"("+j+"deg)";
+} 
+
+k+=(0.1/12);
+//alert(k);
+      d.style.transform="rotate"+"("+(k)+"deg)";
+}
+   
+    </script>
+</html>
