@@ -2,8 +2,9 @@ import './reactions-avatars.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import features from '../libs/features';
+import {flatZip} from 'flat-zip';
 import * as pageDetect from '../libs/page-detect';
-import {getUsername, flatZip, isFirefox} from '../libs/utils';
+import {getUsername, isFirefox} from '../libs/utils';
 import onReplacedElement from '../libs/on-replaced-element';
 
 const arbitraryAvatarLimit = 36;
