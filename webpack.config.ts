@@ -1,8 +1,8 @@
 /// <reference types="./source/globals" />
 
 import path from 'path';
-import stripIndent from 'strip-indent';
 import {readdirSync, readFileSync} from 'fs';
+import stripIndent from 'strip-indent';
 import webpack, {Configuration} from 'webpack';
 import SizePlugin from 'size-plugin';
 import TerserPlugin from 'terser-webpack-plugin';

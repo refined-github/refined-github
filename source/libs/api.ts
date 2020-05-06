@@ -25,8 +25,8 @@ so the call will not throw an error but it will return as usual.
  */
 
 import mem from 'mem';
-import optionsStorage from '../options-storage';
 import {JsonObject, AsyncReturnType} from 'type-fest';
+import optionsStorage from '../options-storage';
 
 type JsonError = {
 	message: string;

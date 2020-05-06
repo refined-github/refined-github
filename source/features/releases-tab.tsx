@@ -1,20 +1,19 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import elementReady from 'element-ready';
 import TagIcon from 'octicon/tag.svg';
-import features from '../libs/features';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import features from '../libs/features';
 import * as api from '../libs/api';
 import {appendBefore} from '../libs/dom-utils';
 import {getRepoURL, getRepoGQL, looseParseInt} from '../libs/utils';
-import {isRepoRoot, isReleasesOrTags} from 'github-url-detection';
 
 const repoUrl = getRepoURL();
 const cacheKey = `releases-count:${repoUrl}`;
 
 function parseCountFromDom(): number | false {
-	if (isRepoRoot()) {
+	if (pageDetect.isRepoRoot()) {
 		const releasesCountElement = select('.numbers-summary a[href$="/releases"] .num');
 		return Number(releasesCountElement ? looseParseInt(releasesCountElement.textContent!) : 0);
 	}
@@ -63,7 +62,7 @@ async function init(): Promise<false | void> {
 	appendBefore('.reponav', '.reponav-dropdown, [data-selected-links^="repo_settings"]', releasesTab);
 
 	// Update "selected" tab mark
-	if (isReleasesOrTags()) {
+	if (pageDetect.isReleasesOrTags()) {
 		const selected = select('.reponav-item.selected');
 		if (selected) {
 			selected.classList.remove('js-selected-navigation-item', 'selected');

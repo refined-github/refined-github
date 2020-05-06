@@ -1,6 +1,6 @@
 import select from 'select-dom';
-import features from '../libs/features';
 import * as pageDetect from 'github-url-detection';
+import features from '../libs/features';
 
 function init(): false | void {
 	if (new URLSearchParams(location.search).get('w') !== '1') {
