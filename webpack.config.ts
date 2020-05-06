@@ -48,12 +48,15 @@ const config: Configuration = {
 		errors: true,
 		builtAt: true
 	},
-	entry: {
-		'refined-github': './source/refined-github',
-		background: './source/background',
-		options: './source/options',
-		'resolve-conflicts': './source/resolve-conflicts'
-	},
+	entry: [
+		'refined-github',
+		'background',
+		'options',
+		'resolve-conflicts'
+	].reduce((entries, entry) => {
+		entries[entry] = `./source/${entry}`;
+		return entries;
+	}, {} as Record<string, string>),
 	output: {
 		path: path.join(__dirname, 'distribution'),
 		filename: '[name].js'
@@ -150,10 +153,8 @@ const config: Configuration = {
 		]
 	},
 	optimization: {
-		// Without this, function names will be garbled and enableFeature won't work
-		concatenateModules: true,
-
-		// Automatically enabled on production; keeps it somewhat readable for AMO reviewers
+		// Automatically enabled on production;
+		// Keeps it somewhat readable for AMO reviewers
 		minimizer: [
 			new TerserPlugin({
 				parallel: true,
@@ -178,8 +179,5 @@ const config: Configuration = {
 		]
 	}
 };
-
-// Webpack types don't have this
-(config.module as any).strictThisContextOnImports = false;
 
 export default config;
