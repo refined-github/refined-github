@@ -140,7 +140,7 @@ Recommended arguments:
 	--firefox-profile=refined-github \
 	--keep-profile-changes \
 	--start-url=github.com</pre>
-			<p>You will have to <a href="https://support.mozilla.org/en-US/kb/profile-manager-create-remove-switch-firefox-profiles">create a new profile</a> called <code>refined-github</code> first.</p>
+			<p>You will have to <a href="https://support.mozilla.org/en-US/kb/profile-manager-create-remove-switch-firefox-profiles#w_creating-a-profile">create a new profile</a> called <code>refined-github</code> first.</p>
 		</td>
 	</tr>
 </table>
