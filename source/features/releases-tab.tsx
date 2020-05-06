@@ -41,7 +41,7 @@ const getReleaseCount = cache.function(async () => parseCountFromDom() ?? fetchF
 
 async function init(): Promise<false | void> {
 	// Always prefer the information in the DOM
-	if (isRepoRoot()) {
+	if (pageDetect.isRepoRoot()) {
 		await cache.delete(cacheKey);
 	}
 
