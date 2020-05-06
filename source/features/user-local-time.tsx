@@ -1,13 +1,13 @@
 /* eslint-disable no-await-in-loop */
 
-import React from 'dom-chef';
 import cache from 'webext-storage-cache';
+import React from 'dom-chef';
 import select from 'select-dom';
 import ClockIcon from 'octicon/clock.svg';
-import * as api from '../libs/api';
 import features from '../libs/features';
-import {getUsername} from '../libs/utils';
+import * as api from '../libs/api';
 import observeElement from '../libs/simplified-element-observer';
+import {getUsername} from '../libs/utils';
 
 interface Commit {
 	url: string;

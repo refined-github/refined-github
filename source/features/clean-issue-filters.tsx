@@ -2,8 +2,8 @@ import select from 'select-dom';
 import cache from 'webext-storage-cache';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import * as api from '../libs/api';
 import features from '../libs/features';
+import * as api from '../libs/api';
 import {getOwnerAndRepo, getRepoURL, getRepoGQL} from '../libs/utils';
 
 const hasAnyProjects = cache.function(async (): Promise<boolean> => {
