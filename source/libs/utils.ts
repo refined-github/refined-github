@@ -119,18 +119,6 @@ export const parseTag = (tag: string): {version: string; namespace: string} => {
 	return {namespace, version};
 };
 
-export const groupBy = (iterable: Iterable<string>, grouper: (item: string) => string): Record<string, string[]> => {
-	const map: Record<string, string[]> = {};
-
-	for (const item of iterable) {
-		const key = grouper(item);
-		map[key] = map[key] ?? [];
-		map[key].push(item);
-	}
-
-	return map;
-};
-
 export function compareNames(username: string, realname: string): boolean {
 	return username.replace(/-/g, '').toLowerCase() === realname.normalize('NFD').replace(/[\u0300-\u036F\W.]/g, '').toLowerCase();
 }
