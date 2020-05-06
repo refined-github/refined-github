@@ -4,10 +4,10 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import TagIcon from 'octicon/tag.svg';
 import * as pageDetect from 'github-url-detection';
-import {getRepoURL, getRepoGQL, looseParseInt} from '../libs/utils';
 import features from '../libs/features';
 import * as api from '../libs/api';
 import {appendBefore} from '../libs/dom-utils';
+import {getRepoURL, getRepoGQL, looseParseInt} from '../libs/utils';
 
 const repoUrl = getRepoURL();
 const cacheKey = `releases-count:${repoUrl}`;
