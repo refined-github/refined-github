@@ -1,7 +1,7 @@
 import './show-whitespace.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import * as pageDetect from 'github-page-detection';
+import * as pageDetect from 'github-url-detection';
 import features from '../libs/features';
 import getTextNodes from '../libs/get-text-nodes';
 import onPrFileLoad from '../libs/on-pr-file-load';

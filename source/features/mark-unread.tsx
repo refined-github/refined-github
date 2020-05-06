@@ -4,7 +4,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import elementReady from 'element-ready';
-import * as pageDetect from 'github-page-detection';
+import * as pageDetect from 'github-url-detection';
 
 import XIcon from 'octicon/x.svg';
 import InfoIcon from 'octicon/info.svg';

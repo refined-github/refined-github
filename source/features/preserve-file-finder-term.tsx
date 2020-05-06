@@ -1,6 +1,6 @@
 import select from 'select-dom';
 import elementReady from 'element-ready';
-import * as pageDetect from 'github-page-detection';
+import * as pageDetect from 'github-url-detection';
 import features from '../libs/features';
 
 function unloadHandler(): void {

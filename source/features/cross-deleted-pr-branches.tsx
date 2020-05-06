@@ -1,7 +1,7 @@
 import './cross-deleted-pr-branches.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import * as pageDetect from 'github-page-detection';
+import * as pageDetect from 'github-url-detection';
 import {wrap} from '../libs/dom-utils';
 import features from '../libs/features';
 

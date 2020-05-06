@@ -3,7 +3,7 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import gitBranch from 'octicon/git-branch.svg';
 import * as textFieldEdit from 'text-field-edit';
-import * as pageDetect from 'github-page-detection';
+import * as pageDetect from 'github-url-detection';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import LoadingIcon from '../libs/icon-loading';

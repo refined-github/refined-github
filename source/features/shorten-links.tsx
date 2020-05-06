@@ -1,6 +1,6 @@
 import select from 'select-dom';
 import {applyToLink} from 'shorten-repo-url';
-import * as pageDetect from 'github-page-detection';
+import * as pageDetect from 'github-url-detection';
 import features from '../libs/features';
 import {linkifiedURLClass} from '../libs/dom-formatters';
 

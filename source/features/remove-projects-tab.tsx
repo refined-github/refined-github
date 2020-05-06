@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 import elementReady from 'element-ready';
-import * as pageDetect from 'github-page-detection';
+import * as pageDetect from 'github-url-detection';
 import features from '../libs/features';
 
 const addNewProjectLink = onetime(() => {

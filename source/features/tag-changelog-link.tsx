@@ -3,9 +3,9 @@ import select from 'select-dom';
 import DiffIcon from 'octicon/diff.svg';
 import tinyVersionCompare from 'tiny-version-compare';
 import features from '../libs/features';
-import * as pageDetect from 'github-page-detection';
+import * as pageDetect from 'github-url-detection';
 import fetchDom from '../libs/fetch-dom';
-import {isSingleTagPage} from 'github-page-detection';
+import {isSingleTagPage} from 'github-url-detection';
 import {getRepoPath, getRepoURL, parseTag} from '../libs/utils';
 
 type TagDetails = {

@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import PencilIcon from 'octicon/pencil.svg';
-import * as pageDetect from 'github-page-detection';
+import * as pageDetect from 'github-url-detection';
 import features from '../libs/features';
 import getDefaultBranch from '../libs/get-default-branch';
 

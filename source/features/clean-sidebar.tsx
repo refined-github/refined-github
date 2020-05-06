@@ -2,7 +2,7 @@ import './clean-sidebar.css';
 import React from 'dom-chef';
 import oneTime from 'onetime';
 import select from 'select-dom';
-import * as pageDetect from 'github-page-detection';
+import * as pageDetect from 'github-url-detection';
 import features from '../libs/features';
 import onReplacedElement from '../libs/on-replaced-element';
 

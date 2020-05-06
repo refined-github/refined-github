@@ -1,7 +1,7 @@
 import './mark-merge-commits-in-list.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import * as pageDetect from 'github-page-detection';
+import * as pageDetect from 'github-url-detection';
 import PullRequestIcon from 'octicon/git-pull-request.svg';
 import * as api from '../libs/api';
 import features from '../libs/features';

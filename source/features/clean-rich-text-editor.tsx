@@ -1,6 +1,6 @@
 import './clean-rich-text-editor.css';
 import select from 'select-dom';
-import * as pageDetect from 'github-page-detection';
+import * as pageDetect from 'github-url-detection';
 import features from '../libs/features';
 
 function hideButtons(): void {

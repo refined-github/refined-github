@@ -2,7 +2,7 @@ import './more-dropdown.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';
-import * as pageDetect from 'github-page-detection';
+import * as pageDetect from 'github-url-detection';
 
 import DiffIcon from 'octicon/diff.svg';
 import BranchIcon from 'octicon/git-branch.svg';

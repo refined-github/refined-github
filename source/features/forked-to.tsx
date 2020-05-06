@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
-import * as pageDetect from 'github-page-detection';
+import * as pageDetect from 'github-url-detection';
 
 import ForkIcon from 'octicon/repo-forked.svg';
 import CheckIcon from 'octicon/check.svg';

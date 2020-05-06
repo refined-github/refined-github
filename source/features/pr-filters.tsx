@@ -3,7 +3,7 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import cache from 'webext-storage-cache';
 import CheckIcon from 'octicon/check.svg';
-import * as pageDetect from 'github-page-detection';
+import * as pageDetect from 'github-url-detection';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {getRepoGQL, getRepoURL} from '../libs/utils';

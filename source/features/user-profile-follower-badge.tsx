@@ -2,7 +2,7 @@ import './user-profile-follower-badge.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import * as pageDetect from 'github-page-detection';
+import * as pageDetect from 'github-url-detection';
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {getUsername, getCleanPathname} from '../libs/utils';

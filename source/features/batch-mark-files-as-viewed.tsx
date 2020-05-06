@@ -1,6 +1,6 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import * as pageDetect from 'github-page-detection';
+import * as pageDetect from 'github-url-detection';
 import features from '../libs/features';
 
 let previousFile: HTMLElement | undefined;

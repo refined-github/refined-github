@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import * as pageDetect from 'github-page-detection';
+import * as pageDetect from 'github-url-detection';
 import copyToClipboard from 'copy-text-to-clipboard';
 import features from '../libs/features';
 

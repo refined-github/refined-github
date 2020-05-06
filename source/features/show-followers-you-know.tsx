@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import * as pageDetect from 'github-page-detection';
+import * as pageDetect from 'github-url-detection';
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
 import {getCleanPathname} from '../libs/utils';
