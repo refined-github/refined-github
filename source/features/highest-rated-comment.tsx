@@ -58,7 +58,7 @@ function getBestComment(): HTMLElement | null {
 }
 
 function highlightBestComment(bestComment: Element): void {
-	select('.unminimized-comment', bestComment)!.classList.add('rgh-highest-rated-comment');
+	select('.unminimized-comment', bestComment)!.classList.add('timeline-chosen-answer');
 	select('.unminimized-comment .timeline-comment-header-text', bestComment)!.before(
 		<span
 			className="timeline-comment-label tooltipped tooltipped-n"
@@ -92,7 +92,7 @@ function linkBestComment(bestComment: HTMLElement): void {
 			<div className="timeline-comment-wrapper pl-0 my-0">
 				{avatar}
 
-				<a href={hash} className="no-underline rounded-1 rgh-highest-rated-comment bg-gray px-2 d-flex flex-items-center">
+				<a href={hash} className="no-underline rounded-1 timeline-chosen-answer timeline-comment bg-gray px-2 d-flex flex-items-center">
 					<span className="btn btn-sm mr-2">
 						<ArrowDownIcon/>
 					</span>
