@@ -1,10 +1,9 @@
 import './clean-sidebar.css';
 import React from 'dom-chef';
-import select from 'select-dom';
 import oneTime from 'onetime';
-import features from '../libs/features';
+import select from 'select-dom';
 import * as pageDetect from 'github-page-detection';
-import {isPR} from 'github-page-detection';
+import features from '../libs/features';
 import onReplacedElement from '../libs/on-replaced-element';
 
 const canEditSidebar = oneTime((): boolean => select.exists('.sidebar-labels .octicon-gear'));
@@ -74,7 +73,7 @@ function clean(): void {
 	}
 
 	// Reviewers
-	if (isPR()) {
+	if (pageDetect.isPR()) {
 		cleanSection('[aria-label="Select reviewers"]');
 	}
 

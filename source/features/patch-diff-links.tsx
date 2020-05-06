@@ -1,14 +1,13 @@
 import './patch-diff-links.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import features from '../libs/features';
 import * as pageDetect from 'github-page-detection';
-import {isPRCommit} from 'github-page-detection';
+import features from '../libs/features';
 
 function init(): void {
 	let commitUrl = location.pathname.replace(/\/$/, '');
 
-	if (isPRCommit()) {
+	if (pageDetect.isPRCommit()) {
 		commitUrl = commitUrl.replace(/\/pull\/\d+\/commits/, '/commit');
 	}
 

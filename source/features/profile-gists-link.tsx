@@ -1,13 +1,12 @@
 import './profile-gists-link.css';
 import React from 'dom-chef';
-import cache from 'webext-storage-cache';
 import select from 'select-dom';
+import cache from 'webext-storage-cache';
 import elementReady from 'element-ready';
+import * as pageDetect from 'github-page-detection';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import * as pageDetect from 'github-page-detection';
 import {getCleanPathname} from '../libs/utils';
-import {isEnterprise} from 'github-page-detection';
 
 const getGistCount = cache.function(async (username: string): Promise<number> => {
 	const {user} = await api.v4(`
@@ -26,7 +25,7 @@ async function init(): Promise<false | void> {
 	await elementReady('.UnderlineNav-body + *');
 
 	const username = getCleanPathname();
-	const href = isEnterprise() ? `/gist/${username}` : `https://gist.github.com/${username}`;
+	const href = pageDetect.isEnterprise() ? `/gist/${username}` : `https://gist.github.com/${username}`;
 	const link = <a href={href} className="UnderlineNav-item" role="tab" aria-selected="false">Gists </a>;
 
 	select('.UnderlineNav-body')!.append(link);

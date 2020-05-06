@@ -1,6 +1,6 @@
 import select from 'select-dom';
-import features from '../libs/features';
 import * as pageDetect from 'github-page-detection';
+import features from '../libs/features';
 
 function init(): void {
 	for (const link of select.all<HTMLAnchorElement>('.reblame-link')) {

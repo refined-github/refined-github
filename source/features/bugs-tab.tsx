@@ -1,13 +1,13 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import BugIcon from '@primer/octicons/build/svg/bug.svg';
 import elementReady from 'element-ready';
-import features from '../libs/features';
 import * as pageDetect from 'github-page-detection';
+import BugIcon from '@primer/octicons/build/svg/bug.svg';
 import * as api from '../libs/api';
-import SearchQuery from '../libs/search-query';
+import features from '../libs/features';
 import {getRepoURL} from '../libs/utils';
+import SearchQuery from '../libs/search-query';
 
 const numberFormatter = new Intl.NumberFormat();
 const countBugs = cache.function(async (): Promise<number> => {

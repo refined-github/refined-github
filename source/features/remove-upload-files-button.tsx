@@ -1,6 +1,6 @@
 import select from 'select-dom';
-import features from '../libs/features';
 import * as pageDetect from 'github-page-detection';
+import features from '../libs/features';
 import {getRepoURL} from '../libs/utils';
 
 function init(): false | void {

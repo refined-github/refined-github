@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import elementReady from 'element-ready';
-import features from '../libs/features';
 import * as pageDetect from 'github-page-detection';
+import features from '../libs/features';
 
 // Replace dropdown while keeping its sizing/positioning classes
 function replaceDropdownInPlace(dropdown: Element, form: Element): void {

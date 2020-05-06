@@ -1,12 +1,12 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import AlertIcon from 'octicon/alert.svg';
 import delegate from 'delegate-it';
-import features from '../libs/features';
+import AlertIcon from 'octicon/alert.svg';
 import * as pageDetect from 'github-page-detection';
 import * as api from '../libs/api';
-import observeElement from '../libs/simplified-element-observer';
+import features from '../libs/features';
 import {getRepoURL, getDiscussionNumber} from '../libs/utils';
+import observeElement from '../libs/simplified-element-observer';
 
 let observer: MutationObserver;
 

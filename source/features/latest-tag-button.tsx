@@ -1,14 +1,13 @@
 import './latest-tag-button.css';
 import React from 'dom-chef';
-import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import TagIcon from 'octicon/tag.svg';
+import cache from 'webext-storage-cache';
 import elementReady from 'element-ready';
+import * as pageDetect from 'github-page-detection';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import * as pageDetect from 'github-page-detection';
 import fetchDom from '../libs/fetch-dom';
-import {isRepoRoot} from 'github-page-detection';
 import getDefaultBranch from '../libs/get-default-branch';
 import {getRepoURL, getCurrentBranch, replaceBranch, getRepoGQL, getLatestVersionTag} from '../libs/utils';
 
@@ -92,7 +91,7 @@ async function init(): Promise<false | void> {
 
 	const currentBranch = getCurrentBranch();
 	let href: string;
-	if (isRepoRoot()) {
+	if (pageDetect.isRepoRoot()) {
 		href = `/${getRepoURL()}/tree/${latestTag}`;
 	} else {
 		href = replaceBranch(currentBranch, latestTag);

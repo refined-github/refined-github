@@ -1,10 +1,10 @@
 import './user-profile-follower-badge.css';
 import React from 'dom-chef';
-import cache from 'webext-storage-cache';
 import select from 'select-dom';
+import cache from 'webext-storage-cache';
+import * as pageDetect from 'github-page-detection';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import * as pageDetect from 'github-page-detection';
 import {getUsername, getCleanPathname} from '../libs/utils';
 
 const doesUserFollow = cache.function(async (userA: string, userB: string): Promise<boolean> => {

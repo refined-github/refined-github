@@ -1,9 +1,9 @@
 import './highlight-collaborators-and-own-discussions.css';
 import select from 'select-dom';
-import features from '../libs/features';
 import * as pageDetect from 'github-page-detection';
-import {getRepoURL, getUsername} from '../libs/utils';
+import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
+import {getRepoURL, getUsername} from '../libs/utils';
 
 async function highlightCollaborators(): Promise<false | void> {
 	const authors = select.all('.js-issue-row [data-hovercard-type="user"]');

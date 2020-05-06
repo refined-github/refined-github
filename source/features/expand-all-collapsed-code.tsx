@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import features from '../libs/features';
 import * as pageDetect from 'github-page-detection';
+import features from '../libs/features';
 
 const expanderSelector = '.js-expand.directional-expander';
 

@@ -1,10 +1,10 @@
 import './warning-for-disallow-edits.css';
 import React from 'dom-chef';
-import select from 'select-dom';
 import oneTime from 'onetime';
+import select from 'select-dom';
 import delegate from 'delegate-it';
-import features from '../libs/features';
 import * as pageDetect from 'github-page-detection';
+import features from '../libs/features';
 
 const getWarning = oneTime(() => (
 	<div className="flash flash-error mt-3 rgh-warning-for-disallow-edits">

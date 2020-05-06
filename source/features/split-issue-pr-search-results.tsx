@@ -1,8 +1,8 @@
 import './split-issue-pr-search-results.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import features from '../libs/features';
 import * as pageDetect from 'github-page-detection';
+import features from '../libs/features';
 import SearchQuery from '../libs/search-query';
 
 function cleanLinks(): void {

@@ -1,6 +1,6 @@
 import './hide-watch-and-fork-count.css';
-import features from '../libs/features';
 import * as pageDetect from 'github-page-detection';
+import features from '../libs/features';
 
 function init(): void {
 	document.body.classList.add('rgh-hide-watch-and-fork-count');

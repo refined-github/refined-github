@@ -1,9 +1,9 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import elementReady from 'element-ready';
 import domLoaded from 'dom-loaded';
-import features from '../libs/features';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-page-detection';
+import features from '../libs/features';
 
 async function init(): Promise<void> {
 	const marketPlaceLink = (await elementReady('.Header-link[href="/marketplace"]'));

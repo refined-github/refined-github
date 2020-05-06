@@ -1,10 +1,10 @@
 import './minimize-upload-bar.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import CloudUploadIcon from 'octicon/cloud-upload.svg';
 import delegate from 'delegate-it';
-import features from '../libs/features';
 import * as pageDetect from 'github-page-detection';
+import CloudUploadIcon from 'octicon/cloud-upload.svg';
+import features from '../libs/features';
 
 function addButton(): void {
 	for (const toolbarButton of select.all('md-ref')) {

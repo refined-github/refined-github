@@ -1,10 +1,9 @@
 import './recently-pushed-branches-enhancements.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import features from '../libs/features';
 import * as pageDetect from 'github-page-detection';
+import features from '../libs/features';
 import {getRepoURL} from '../libs/utils';
-import {isRepoRoot} from 'github-page-detection';
 
 const fragmentURL = `/${getRepoURL()}/show_partial?partial=tree%2Frecently_touched_branches_list`;
 const selector = `[data-url='${fragmentURL}' i], [src='${fragmentURL}' i]`;
@@ -20,7 +19,7 @@ function removeDuplicateList(): void {
 }
 
 async function getWidget(): Promise<HTMLElement | false> {
-	if (isRepoRoot()) {
+	if (pageDetect.isRepoRoot()) {
 		return select(selector)!;
 	}
 

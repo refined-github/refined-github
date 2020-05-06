@@ -1,13 +1,13 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import onetime from 'onetime';
+import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as textFieldEdit from 'text-field-edit';
-import features from '../libs/features';
 import * as pageDetect from 'github-page-detection';
-import {observeOneMutation} from '../libs/simplified-element-observer';
+import features from '../libs/features';
 import {logError} from '../libs/utils';
 import oneEvent from '../libs/one-event';
+import {observeOneMutation} from '../libs/simplified-element-observer';
 
 const pendingSelector = '.timeline-comment-label.is-pending';
 

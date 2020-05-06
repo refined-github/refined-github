@@ -1,7 +1,7 @@
 import './ci-link.css';
 import oneTime from 'onetime';
-import features from '../libs/features';
 import * as pageDetect from 'github-page-detection';
+import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
 import {getRepoURL} from '../libs/utils';
 import {appendBefore} from '../libs/dom-utils';

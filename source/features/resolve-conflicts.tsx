@@ -1,8 +1,8 @@
 import './resolve-conflicts.css';
 import React from 'dom-chef';
 import elementReady from 'element-ready';
-import features from '../libs/features';
 import * as pageDetect from 'github-page-detection';
+import features from '../libs/features';
 
 async function init(): Promise<void> {
 	await elementReady('.CodeMirror', {

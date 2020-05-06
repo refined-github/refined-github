@@ -1,8 +1,8 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import onetime from 'onetime';
-import features from '../libs/features';
+import select from 'select-dom';
 import * as pageDetect from 'github-page-detection';
+import features from '../libs/features';
 
 const getBufferField = onetime((): HTMLInputElement => (
 	<input

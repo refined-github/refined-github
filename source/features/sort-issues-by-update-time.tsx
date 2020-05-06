@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import elementReady from 'element-ready';
-import features from '../libs/features';
 import * as pageDetect from 'github-page-detection';
+import features from '../libs/features';
 import SearchQuery from '../libs/search-query';
 
 function init(): void {

@@ -1,8 +1,8 @@
-import select from 'select-dom';
 import onetime from 'onetime';
+import select from 'select-dom';
 import stripIndent from 'strip-indent';
-import {isRepo, isPR, isIssue}  from 'github-page-detection';
 import compareVersions from 'tiny-version-compare';
+import {isRepo, isPR, isIssue}  from 'github-page-detection';
 
 export function logError(id: FeatureID, error: Error | string, ...extras: unknown[]): void {
 	if (error instanceof TypeError && error.message === 'Object(...)(...) is null') {

@@ -1,11 +1,11 @@
 import twas from 'twas';
 import React from 'dom-chef';
-import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import RepoIcon from 'octicon/repo.svg';
+import cache from 'webext-storage-cache';
 import elementReady from 'element-ready';
-import features from '../libs/features';
 import * as pageDetect from 'github-page-detection';
+import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
 import {getRepoURL, looseParseInt} from '../libs/utils';
 

@@ -1,16 +1,15 @@
 import './more-dropdown.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import elementReady from 'element-ready';
 import DiffIcon from 'octicon/diff.svg';
-import BranchIcon from 'octicon/git-branch.svg';
+import elementReady from 'element-ready';
 import HistoryIcon from 'octicon/history.svg';
 import PackageIcon from 'octicon/package.svg';
-import features from '../libs/features';
+import BranchIcon from 'octicon/git-branch.svg';
 import * as pageDetect from 'github-page-detection';
-import {getRepoURL, getReference} from '../libs/utils';
-import {isEnterprise} from 'github-page-detection';
+import features from '../libs/features';
 import {appendBefore} from '../libs/dom-utils';
+import {getRepoURL, getReference} from '../libs/utils';
 
 const repoUrl = getRepoURL();
 
@@ -48,7 +47,7 @@ async function init(): Promise<void> {
 			<DiffIcon/> Compare
 		</a>,
 
-		isEnterprise() ? '' : (
+		pageDetect.isEnterprise() ? '' : (
 			<a href={`/${repoUrl}/network/dependencies`} className="rgh-reponav-more dropdown-item">
 				<PackageIcon/> Dependencies
 			</a>

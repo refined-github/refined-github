@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import FileIcon from 'octicon/file.svg';
-import features from '../libs/features';
 import * as pageDetect from 'github-page-detection';
+import features from '../libs/features';
 import {groupSiblings} from '../libs/group-buttons';
 
 function init(): void | false {

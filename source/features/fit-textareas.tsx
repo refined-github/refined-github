@@ -1,9 +1,9 @@
 import './fit-textareas.css';
 import select from 'select-dom';
-import fitTextarea from 'fit-textarea';
 import delegate from 'delegate-it';
-import features from '../libs/features';
+import fitTextarea from 'fit-textarea';
 import * as pageDetect from 'github-page-detection';
+import features from '../libs/features';
 import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
 
 function inputListener(event: Event): void {

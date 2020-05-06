@@ -1,10 +1,10 @@
 import React from 'dom-chef';
-import cache from 'webext-storage-cache';
 import select from 'select-dom';
+import cache from 'webext-storage-cache';
 import elementReady from 'element-ready';
+import * as pageDetect from 'github-page-detection';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import * as pageDetect from 'github-page-detection';
 import {getRepoGQL, pluralize} from '../libs/utils';
 
 const getCommitChanges = cache.function(async (commit: string): Promise<[number, number]> => {

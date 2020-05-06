@@ -1,19 +1,18 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import onetime from 'onetime';
+import select from 'select-dom';
 import elementReady from 'element-ready';
-import features from '../libs/features';
 import * as pageDetect from 'github-page-detection';
-import {isUserProfile, isOwnOrganizationProfile, isOrganizationProfile} from 'github-page-detection';
+import features from '../libs/features';
 
 const addNewProjectLink = onetime(() => {
-	if (isUserProfile()) {
+	if (pageDetect.isUserProfile()) {
 		// The link already exists on our profile,
 		// and we can't create projects on others' profiles
 		return;
 	}
 
-	if (isOrganizationProfile() && !isOwnOrganizationProfile()) {
+	if (pageDetect.isOrganizationProfile() && !pageDetect.isOwnOrganizationProfile()) {
 		// We can only add projects to our organizations
 		return;
 	}
