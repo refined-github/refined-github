@@ -3,6 +3,7 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import cache from 'webext-storage-cache';
 import CheckIcon from 'octicon/check.svg';
+import elementReady from 'element-ready';
 import features from '../libs/features';
 import * as pageDetect from '../libs/page-detect';
 import * as api from '../libs/api';
@@ -84,7 +85,7 @@ const hasChecks = cache.function(async (): Promise<boolean> => {
 });
 
 async function addChecksFilter(): Promise<void> {
-	const reviewsFilter = select(reviewsFilterSelector);
+	const reviewsFilter = await elementReady(reviewsFilterSelector);
 	if (!reviewsFilter) {
 		return;
 	}
@@ -123,5 +124,6 @@ features.add({
 	include: [
 		pageDetect.isPRList
 	],
+	waitForDomReady: false,
 	init
 });
