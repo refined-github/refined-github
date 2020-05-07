@@ -6,7 +6,7 @@ import select from 'select-dom';
 import fitTextarea from 'fit-textarea';
 import {applyToLink} from 'shorten-repo-url';
 import * as indentTextarea from 'indent-textarea';
-import {manager} from './options-storage';
+import {multiOptions} from './options-storage';
 import * as domFormatters from './libs/dom-formatters';
 
 function parseDescription(description: string): DocumentFragment {
@@ -56,7 +56,7 @@ async function init(): Promise<void> {
 	container.append(...__featuresMeta__.map(buildFeatureCheckbox));
 
 	// Update list from saved options
-	await manager.syncForm('form');
+	await multiOptions.syncForm('form');
 
 	// Update domain-dependent page content when the domain is changed
 	select('.js-options-sync-selector')?.addEventListener('change', ({currentTarget: dropdown}) => {

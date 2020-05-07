@@ -1,4 +1,4 @@
-import OptionsSyncMulti, {Migration} from './libs/webext-options-sync-multi';
+import OptionsSyncMulti, {Migration} from 'webext-options-sync-multi';
 
 export type RGHOptions = typeof defaults;
 
@@ -24,5 +24,5 @@ const migrations = [
 	OptionsSyncMulti.migrations.removeUnused
 ];
 
-export const manager = new OptionsSyncMulti<RGHOptions>({defaults, migrations});
-export default manager.getOptionsForOrigin();
+export const multiOptions = new OptionsSyncMulti({defaults, migrations});
+export default multiOptions.getOptionsForOrigin();
