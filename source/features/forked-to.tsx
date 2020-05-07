@@ -2,14 +2,15 @@ import './forked-to.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
+import elementReady from 'element-ready';
+import * as pageDetect from 'github-url-detection';
+
 import ForkIcon from 'octicon/repo-forked.svg';
 import CheckIcon from 'octicon/check.svg';
-import elementReady from 'element-ready';
 import LinkExternalIcon from 'octicon/link-external.svg';
+
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import fetchDom from '../libs/fetch-dom';
-import {isForkedRepo} from '../libs/page-detect';
 import {getRepoURL, getUsername, getForkedRepo} from '../libs/utils';
 
 const getForkSourceRepo = (): string => getForkedRepo() ?? getRepoURL();
@@ -89,7 +90,7 @@ async function init(): Promise<void | false> {
 
 	// Only fetch/update forks when we see a fork (on the current page or in the cache).
 	// This avoids having to `updateCache` for every single repo you visit.
-	if (forks || (hasOrganizations && isForkedRepo())) {
+	if (forks || (hasOrganizations && pageDetect.isForkedRepo())) {
 		await updateCache();
 	} else {
 		return false;

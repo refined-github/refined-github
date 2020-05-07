@@ -1,6 +1,6 @@
 import select from 'select-dom';
+import * as pageDetect from 'github-url-detection';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
 
 function init(): void {

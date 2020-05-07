@@ -2,10 +2,9 @@ import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
+import * as pageDetect from 'github-url-detection';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
-import {isForkedRepo, isRepoWithAccess} from '../libs/page-detect';
 import {getForkedRepo, getUsername, pluralize} from '../libs/utils';
 
 function getLinkCopy(count: number): string {
@@ -43,7 +42,7 @@ const countPRs = cache.function(async (forkedRepo: string): Promise<[number, num
 
 async function getPRs(): Promise<[number, string] | []> {
 	await elementReady('.repohead + *'); // Wait for the tab bar to be loaded
-	if (!isRepoWithAccess()) {
+	if (!pageDetect.isRepoWithAccess()) {
 		return [];
 	}
 
@@ -89,7 +88,7 @@ features.add({
 		pageDetect.isRepo
 	],
 	exclude: [
-		() => !isForkedRepo()
+		() => !pageDetect.isForkedRepo()
 	],
 	waitForDomReady: false,
 	init: initHeadHint
@@ -98,7 +97,7 @@ features.add({
 		pageDetect.isRepoSettings
 	],
 	exclude: [
-		() => !isForkedRepo()
+		() => !pageDetect.isForkedRepo()
 	],
 	waitForDomReady: false,
 	init: initDeleteHint

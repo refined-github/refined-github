@@ -19,8 +19,8 @@ Suggestions and pull requests are highly encouraged! Have a look at the [open is
 The simplest usage of `feature.add` is the following. This will be run instantly on all page-loads (but not on ajax loads):
 
 ```js
+import * as pageDetect from 'github-url-detection';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 
 function init () {
 	console.log('✨');
@@ -46,8 +46,8 @@ Here's an example using all of the possible `feature.add` options:
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import * as pageDetect from 'github-url-detection';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 
 function append(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	event.delegateTarget.after('✨', <div className="rgh-jsx-element">Button clicked!</div>);

@@ -4,8 +4,8 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import CodeIcon from 'octicon/code.svg';
 import FileIcon from 'octicon/file.svg';
+import * as pageDetect from 'github-url-detection';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import fetchDom from '../libs/fetch-dom';
 
 const buttonBodyMap = new WeakMap<Element, Element | Promise<Element>>();

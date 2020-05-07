@@ -5,8 +5,8 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import fitTextarea from 'fit-textarea';
 import {applyToLink} from 'shorten-repo-url';
-import {getAllOptions} from './options-storage';
 import * as indentTextarea from 'indent-textarea';
+import {getAllOptions} from './options-storage';
 import * as domFormatters from './libs/dom-formatters';
 
 function parseDescription(description: string): DocumentFragment {

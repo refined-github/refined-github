@@ -1,8 +1,8 @@
 import mem from 'mem';
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import * as pageDetect from 'github-url-detection';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import anchorScroll from '../libs/anchor-scroll';
 
 type EventHandler = (event: delegate.Event<MouseEvent, HTMLElement>) => void;
