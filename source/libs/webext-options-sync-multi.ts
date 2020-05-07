@@ -1,44 +1,28 @@
 import 'webext-permissions-events-polyfill';
 import mem from 'mem';
 import {patternToRegex} from 'webext-patterns';
-import {isBackgroundPage} from 'webext-detect-page';
 import OptionsSync, {Options, Setup} from 'webext-options-sync';
+import {isBackgroundPage, isContentScript} from 'webext-detect-page';
 import {getAdditionalPermissions, getManifestPermissionsSync} from 'webext-additional-permissions';
 
-const defaultOrigins = patternToRegex(...getManifestPermissionsSync().origins);
-const isWeb = location.protocol.startsWith('http');
+// Export OptionsSync so that OptionsSyncMulti users can use it in `options-storage` without depending on it directly
+// eslint-disable-next-line import/export
+export * from 'webext-options-sync';
+export {OptionsSync};
 
+/** Ensures that only the base storage name (i.e. without domain) is used in functions that require it */
+type BaseStorageName = string;
+
+const defaultOrigins = patternToRegex(...getManifestPermissionsSync().origins);
+
+// TODO: this shouldn't memoize calls across instances
 function memoizeMethod(target: any, propertyKey: string, descriptor: PropertyDescriptor): void {
 	descriptor.value = mem(target[propertyKey]);
-}
-
-function forbidMethodOnWeb(target: any, propertyKey: string, descriptor: PropertyDescriptor): void {
-	const method = target[propertyKey];
-	descriptor.value = function (...arguments_: unknown[]) {
-		if (isWeb) {
-			throw new Error('This function only works on extension pages');
-		}
-
-		return method.apply(this, arguments_);
-	};
 }
 
 function parseHost(origin: string): string {
 	return origin.includes('//') ? new URL(origin).host : origin;
 }
-
-/** Ensures that only the base storage name (i.e. without domain) is used in functions that require it */
-type BaseStorageName = string;
-
-function getStorageNameForOrigin(storageName: BaseStorageName, origin: string): string {
-	return storageName + '-' + parseHost(origin);
-}
-
-// TypeScript-only exports
-// eslint-disable-next-line import/export
-export * from 'webext-options-sync';
-
-export {OptionsSync};
 
 export default class OptionsSyncMulti<TOptions extends Options> {
 	static readonly migrations = OptionsSync.migrations;
@@ -66,10 +50,14 @@ export default class OptionsSyncMulti<TOptions extends Options> {
 		browser.permissions.onRemoved!.addListener(({origins}) => {
 			const storageKeysToRemove = (origins ?? [])
 				.filter(key => !defaultOrigins.test(key))
-				.map(origin => getStorageNameForOrigin(this.#defaultOptions.storageName, origin));
+				.map(this.getStorageNameForOrigin);
 
 			browser.storage.sync.remove(storageKeysToRemove);
 		});
+	}
+
+	getStorageNameForOrigin(origin: string): string {
+		return this.#defaultOptions.storageName + '-' + parseHost(origin);
 	}
 
 	@memoizeMethod
@@ -81,42 +69,51 @@ export default class OptionsSyncMulti<TOptions extends Options> {
 
 		return new OptionsSync({
 			...this.#defaultOptions,
-			storageName: getStorageNameForOrigin(this.#defaultOptions.storageName, origin)
+			storageName: this.getStorageNameForOrigin(origin)
 		});
 	}
 
 	@memoizeMethod
-	@forbidMethodOnWeb
 	async getAllOrigins(): Promise<Map<string, OptionsSync<TOptions>>> {
-		const optionsByDomain = new Map<string, OptionsSync<TOptions>>();
+		if (isContentScript()) {
+			throw new Error('This function only works on extension pages');
+		}
 
-		optionsByDomain.set('default', this.getOptionsForOrigin());
+		const instances = new Map<string, OptionsSync<TOptions>>();
+		instances.set('default', this.getOptionsForOrigin());
 
 		const {origins} = await getAdditionalPermissions();
 		for (const origin of origins) {
-			const host = parseHost(origin);
-			optionsByDomain.set(host, this.getOptionsForOrigin(origin));
+			instances.set(
+				parseHost(origin),
+				this.getOptionsForOrigin(origin)
+			);
 		}
 
-		return optionsByDomain;
+		return instances;
 	}
 
-	@forbidMethodOnWeb
 	async syncForm(form: string | HTMLFormElement): Promise<void> {
+		if (isContentScript()) {
+			throw new Error('This function only works on extension pages');
+		}
+
 		if (typeof form === 'string') {
 			form = document.querySelector<HTMLFormElement>(form)!;
 		}
 
-		const optionsByOrigin = await this.getAllOrigins();
-		await optionsByOrigin.get('default')!.syncForm(form);
+		// Start synching the default options
+		await this.getOptionsForOrigin().syncForm(form);
 
+		// Look for other origins
+		const optionsByOrigin = await this.getAllOrigins();
 		if (optionsByOrigin.size === 1) {
 			return;
 		}
 
 		// Create domain picker
 		const dropdown = document.createElement('select');
-		dropdown.addEventListener('change', this._domainPickerHandler.bind(this));
+		dropdown.addEventListener('change', this._domainChangeHandler.bind(this));
 		for (const domain of optionsByOrigin.keys()) {
 			const option = document.createElement('option');
 			option.value = domain;
@@ -130,7 +127,7 @@ export default class OptionsSyncMulti<TOptions extends Options> {
 		form.prepend(wrapper, document.createElement('hr'));
 	}
 
-	private async _domainPickerHandler(event: Event): Promise<void> {
+	private async _domainChangeHandler(event: Event): Promise<void> {
 		const dropdown = event.currentTarget as HTMLSelectElement;
 
 		for (const [domain, options] of await this.getAllOrigins()) {
