@@ -19,7 +19,6 @@ interface PullRequest {
 const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Record<string, PullRequest>> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
-			databaseId
 			refs(refPrefix: "refs/heads/", last: 100) {
 				nodes {
 					name
@@ -34,9 +33,6 @@ const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Rec
 									__typename
 								}
 							}
-							baseRepository {
-								databaseId
-							}
 						}
 					}
 				}
@@ -44,16 +40,14 @@ const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Rec
 		}
 	`);
 
-	const pullRequests = {};
+	const pullRequests: Record<string, PullRequest> = {};
 	for (const {name, associatedPullRequests} of repository.refs.nodes) {
 		const [prInfo] = associatedPullRequests.nodes;
 		// Check if the ref was deleted, since the result includes pr's that are not in fact related to this branch but rather to the branch name.
 		const headRefWasDeleted = prInfo?.timelineItems.nodes[0]?.__typename === 'HeadRefDeletedEvent';
-		// Local PR's github will put the association
-		const localPR = repository.databaseId === prInfo?.baseRepository.databaseId;
-		if (prInfo && !headRefWasDeleted && !localPR) {
+		if (prInfo && !headRefWasDeleted) {
 			prInfo.state = prInfo.isDraft && prInfo.state === 'OPEN' ? 'Draft' : upperCaseFirst(prInfo.state);
-			(pullRequests as AnyObject)[name] = prInfo;
+			pullRequests[name] = prInfo;
 		}
 	}
 
@@ -79,12 +73,13 @@ const stateClass: Record<string, string> = {
 async function init(): Promise<void> {
 	const associatedPullRequests = await getPullRequestsAssociatedWithBranch();
 
-	for (const branch of select.all('[branch]')) {
-		const prInfo = associatedPullRequests[branch.getAttribute('branch')!];
+	for (const branchCompareLink of select.all('.test-compare-link')) {
+		const branchName = branchCompareLink.closest('[branch]')!.getAttribute('branch')!;
+		const prInfo = associatedPullRequests[branchName];
 		if (prInfo) {
 			const StateIcon = prInfo.state === 'Merged' ? MergeIcon : PullRequestIcon;
 
-			select('.test-compare-link', branch)!.replaceWith(
+			branchCompareLink.replaceWith(
 				<div className="d-inline-block text-right ml-3">
 					<a
 						data-issue-and-pr-hovercards-enabled
