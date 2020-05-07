@@ -45,6 +45,7 @@
 		"webext-dynamic-content-scripts": "^6.0.4",
 		"webext-options-sync": "^1.2.4-0",
 		"webext-patterns": "^0.9.0",
+		"webext-permissions-events-polyfill": "^1.0.1",
 		"webext-storage-cache": "^3.0.0",
 		"webextension-polyfill": "^0.6.0",
 		"zip-text-nodes": "^1.0.0"

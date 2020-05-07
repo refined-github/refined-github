@@ -6,7 +6,7 @@ import select from 'select-dom';
 import fitTextarea from 'fit-textarea';
 import {applyToLink} from 'shorten-repo-url';
 import * as indentTextarea from 'indent-textarea';
-import optionsStorage from './options-storage';
+import {manager} from './options-storage';
 import * as domFormatters from './libs/dom-formatters';
 
 function parseDescription(description: string): DocumentFragment {
@@ -56,12 +56,16 @@ async function init(): Promise<void> {
 	container.append(...__featuresMeta__.map(buildFeatureCheckbox));
 
 	// Update list from saved options
-	optionsStorage.syncForm('form');
+	await manager.syncForm('form');
 
 	// Update domain-dependent page content when the domain is changed
 	select('.js-options-sync-selector')?.addEventListener('change', ({currentTarget: dropdown}) => {
 		select<HTMLAnchorElement>('#personal-token-link')!.host = (dropdown as HTMLSelectElement).value;
 	});
+
+	// Refresh page when permissions are changed (because the dropdown selector isn't updated)
+	browser.permissions.onRemoved!.addListener(() => location.reload());
+	browser.permissions.onAdded!.addListener(() => location.reload());
 
 	// Move disabled features first
 	for (const unchecked of select.all('.feature--enabled [type=checkbox]:not(:checked)', container).reverse()) {
