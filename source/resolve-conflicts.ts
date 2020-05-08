@@ -3,7 +3,7 @@
 declare namespace CodeMirror {
 	interface LineHandle {
 		widgets: unknown[];
-		lineNo(): number;
+		lineNo: () => number;
 	}
 }
 

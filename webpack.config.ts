@@ -100,10 +100,10 @@ const config: Configuration = {
 		new webpack.DefinePlugin({
 			// Passing `true` as the second argument makes these values dynamic — so every file change will update their value.
 			__featuresOptionDefaults__: webpack.DefinePlugin.runtimeValue(() => {
-				return JSON.stringify(getFeatures().reduce((defaults, feature) => {
+				return JSON.stringify(getFeatures().reduce<AnyObject>((defaults, feature) => {
 					defaults[`feature:${feature}`] = true;
 					return defaults;
-				}, {} as AnyObject));
+				}, {}));
 				// TODO: unignore after https://github.com/DefinitelyTyped/DefinitelyTyped/pull/42036
 				// @ts-ignore
 			}, true),

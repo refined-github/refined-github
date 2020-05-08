@@ -76,8 +76,8 @@ const getLastCommitDate = cache.function(async (login: string): Promise<string |
 function parseOffset(date: string): number {
 	const [, hourString, minuteString] = (/([-+]\d\d)(\d\d)$/).exec(date) ?? [];
 
-	const hours = parseInt(hourString, 10);
-	const minutes = parseInt(minuteString, 10);
+	const hours = Number.parseInt(hourString, 10);
+	const minutes = Number.parseInt(minuteString, 10);
 	return (hours * 60) + (hours < 0 ? -minutes : minutes);
 }
 
@@ -113,7 +113,7 @@ function init(): void {
 			const diff = hovercard.offsetHeight - hovercardHeight;
 			if (diff > 0) {
 				const parent = hovercard.parentElement!;
-				const top = parseInt(parent.style.top, 10);
+				const top = Number.parseInt(parent.style.top, 10);
 				parent.style.top = `${top - diff}px`;
 			}
 		}

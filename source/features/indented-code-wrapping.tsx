@@ -16,7 +16,7 @@ function init(): void {
 
 	for (const table of tables) {
 		table.classList.add('rgh-softwrapped-code');
-		const tabSize = parseInt(table.style.getPropertyValue('--tab-size') || document.documentElement.style.getPropertyValue('tab-size'), 10);
+		const tabSize = Number.parseInt(table.style.getPropertyValue('--tab-size') || document.documentElement.style.getPropertyValue('tab-size'), 10);
 
 		for (const line of select.all('.blob-code-inner:not(.blob-code-hunk)', table)) {
 			if (line.textContent!.length < 20) {
