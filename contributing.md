@@ -103,10 +103,10 @@ npm install
 When working on the extension or checking out branches, use this to have it constantly build your changes:
 
 ```sh
-npm run watch # Listen for file changes and automatically rebuild
+npm run watch # Listen to file changes and automatically rebuild
 ```
 
-Then load or reload it into the browser to see the changes (this does not happen automatically).
+Then load or reload it into the browser to see the changes.
 
 ## Loading into the browser
 
