@@ -3,9 +3,9 @@ import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import EyeClosedIcon from 'octicon/eye-closed.svg';
+import * as pageDetect from 'github-url-detection';
 import {getUsername} from '../libs/utils';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import * as api from '../libs/api';
 
 const getPublicOrganizationsNames = cache.function(async (username: string): Promise<string[]> => {

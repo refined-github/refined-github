@@ -1,9 +1,8 @@
 import React from 'dom-chef';
 import elementReady from 'element-ready';
+import * as pageDetect from 'github-url-detection';
 import ChevronLeftIcon from 'octicon/chevron-left.svg';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
-import {isRepoRoot} from '../libs/page-detect';
 import {groupButtons} from '../libs/group-buttons';
 import getDefaultBranch from '../libs/get-default-branch';
 import {getRepoURL, getCurrentBranch, replaceBranch} from '../libs/utils';
@@ -18,7 +17,7 @@ async function init(): Promise<false | void> {
 	}
 
 	let url;
-	if (isRepoRoot()) {
+	if (pageDetect.isRepoRoot()) {
 		url = `/${getRepoURL()}`;
 	} else {
 		url = replaceBranch(currentBranch, defaultBranch);

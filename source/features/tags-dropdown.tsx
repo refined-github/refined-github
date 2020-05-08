@@ -2,8 +2,8 @@ import './tags-dropdown.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import OctofaceIcon from 'octicon/octoface.svg';
+import * as pageDetect from 'github-url-detection';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import {getRepoURL} from '../libs/utils';
 
 function init(): false | void {

@@ -1,8 +1,8 @@
 import './preview-hidden-comments.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import * as pageDetect from 'github-url-detection';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 
 const allowedReasons = ['resolved', 'outdated', 'off-topic'];
 

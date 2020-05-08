@@ -2,8 +2,8 @@ import './highest-rated-comment.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import ArrowDownIcon from 'octicon/arrow-down.svg';
+import * as pageDetect from 'github-url-detection';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import {looseParseInt} from '../libs/utils';
 
 // `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)

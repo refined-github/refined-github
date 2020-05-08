@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import * as pageDetect from 'github-url-detection';
 import {getCleanPathname} from '../libs/utils';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import fetchDom from '../libs/fetch-dom';
 
 const fetchStargazers = async (): Promise<HTMLImageElement[]> => {

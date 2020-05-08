@@ -1,7 +1,7 @@
 import './highlight-collaborators-and-own-discussions.css';
 import select from 'select-dom';
+import * as pageDetect from 'github-url-detection';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import {getRepoURL, getUsername} from '../libs/utils';
 import fetchDom from '../libs/fetch-dom';
 

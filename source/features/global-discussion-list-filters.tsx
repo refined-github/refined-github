@@ -1,8 +1,8 @@
 import './global-discussion-list-filters.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import * as pageDetect from 'github-url-detection';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import {getUsername} from '../libs/utils';
 import SearchQuery from '../libs/search-query';
 

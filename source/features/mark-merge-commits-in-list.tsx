@@ -1,10 +1,10 @@
 import './mark-merge-commits-in-list.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import * as pageDetect from 'github-url-detection';
 import PullRequestIcon from 'octicon/git-pull-request.svg';
 import * as api from '../libs/api';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import {getRepoGQL} from '../libs/utils';
 
 const filterMergeCommits = async (commits: string[]): Promise<string[]> => {

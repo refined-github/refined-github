@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import debounce from 'debounce-fn';
+import * as pageDetect from 'github-url-detection';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 
 let button: HTMLButtonElement | undefined;
 

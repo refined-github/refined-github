@@ -3,8 +3,8 @@ import select from 'select-dom';
 import DiffIcon from 'octicon/diff.svg';
 import BookIcon from 'octicon/book.svg';
 import CheckIcon from 'octicon/check.svg';
+import * as pageDetect from 'github-url-detection';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 
 function createDiffStyleToggle(): DocumentFragment {
 	const parameters = new URLSearchParams(location.search);
