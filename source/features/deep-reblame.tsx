@@ -2,9 +2,10 @@ import './deep-reblame.css';
 import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
-import VersionIcon from 'octicon/versions.svg';
 import delegate from 'delegate-it';
+import VersionIcon from 'octicon/versions.svg';
 import * as pageDetect from 'github-url-detection';
+
 import * as api from '../libs/api';
 import features from '../libs/features';
 import LoadingIcon from '../libs/icon-loading';

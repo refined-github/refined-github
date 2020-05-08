@@ -3,6 +3,7 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import copyToClipboard from 'copy-text-to-clipboard';
+
 import features from '../libs/features';
 
 function handleClick({delegateTarget: button}: delegate.Event<MouseEvent, HTMLButtonElement>): void {

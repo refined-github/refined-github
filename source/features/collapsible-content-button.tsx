@@ -2,8 +2,9 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import FoldDownIcon from 'octicon/fold-down.svg';
-import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
+import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
 
 // Wraps string in at least 2 \n on each side,

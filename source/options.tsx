@@ -6,6 +6,7 @@ import select from 'select-dom';
 import fitTextarea from 'fit-textarea';
 import {applyToLink} from 'shorten-repo-url';
 import * as indentTextarea from 'indent-textarea';
+
 import {getAllOptions} from './options-storage';
 import * as domFormatters from './libs/dom-formatters';
 

@@ -13,7 +13,7 @@ const sessionResumeHandler = mem((callback: EventListener) => async (event: Even
 	callback(event);
 });
 
-export default function (callback: EventListener): delegate.Subscription {
+export default function onPrMergePanelOpen(callback: EventListener): delegate.Subscription {
 	document.addEventListener(
 		'session:resume',
 		sessionResumeHandler(callback)

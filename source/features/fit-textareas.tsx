@@ -1,8 +1,9 @@
 import './fit-textareas.css';
 import select from 'select-dom';
-import fitTextarea from 'fit-textarea';
 import delegate from 'delegate-it';
+import fitTextarea from 'fit-textarea';
 import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
 import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
 

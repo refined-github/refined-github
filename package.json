@@ -69,7 +69,7 @@
 		"eslint": "^6.8.0",
 		"eslint-config-xo-react": "^0.23.0",
 		"eslint-plugin-react": "^7.19.0",
-		"eslint-plugin-react-hooks": "^3.0.0",
+		"eslint-plugin-react-hooks": "^4.0.0",
 		"esm": "^3.2.25",
 		"fork-ts-checker-webpack-plugin": "^4.1.3",
 		"jsdom": "^16.2.2",
@@ -77,8 +77,8 @@
 		"npm-run-all": "^4.1.5",
 		"size-plugin": "^2.0.1",
 		"string-replace-loader": "^2.2.0",
-		"stylelint": "^13.3.0",
-		"stylelint-config-xo": "^0.16.1",
+		"stylelint": "^13.3.3",
+		"stylelint-config-xo": "^0.17.0",
 		"terser-webpack-plugin": "^2.3.5",
 		"ts-loader": "^7.0.1",
 		"ts-node": "^8.9.0",
@@ -88,7 +88,7 @@
 		"web-ext-submit": "^4.1.0",
 		"webpack": "^4.42.1",
 		"webpack-cli": "^3.3.11",
-		"xo": "^0.28.3"
+		"xo": "^0.30.0"
 	},
 	"xo": {
 		"extends": "xo-react",
@@ -104,6 +104,8 @@
 		"rules": {
 			"@typescript-eslint/promise-function-async": "off",
 			"@typescript-eslint/no-empty-function": "off",
+			"@typescript-eslint/no-floating-promises": "off",
+			"@typescript-eslint/prefer-readonly-parameter-types": "off",
 			"no-alert": "off",
 			"react/function-component-definition": [
 				"error",
@@ -114,6 +116,24 @@
 			"react/jsx-first-prop-new-line": "error",
 			"react/jsx-key": "off",
 			"react/no-unknown-property": "off",
+			"import/order": [
+				"error",
+				{
+					"groups": [
+						[
+							"builtin",
+							"external"
+						]
+					],
+					"newlines-between": "always-and-inside-groups"
+				}
+			],
+			"import/first": "error",
+			"import/newline-after-import": "error",
+			"import/no-anonymous-default-export": "error",
+			"import/no-commonjs": "error",
+			"import/no-named-default": "error",
+			"import/prefer-default-export": "error",
 			"import/extensions": [
 				"error",
 				"never",
@@ -122,8 +142,8 @@
 				}
 			],
 			"import/no-unassigned-import": "off",
-			"unicorn/prevent-abbreviations": "error",
-			"unicorn/string-content": "off"
+			"unicorn/no-fn-reference-in-iterator": "off",
+			"unicorn/prefer-set-has": "off"
 		},
 		"settings": {
 			"react": {

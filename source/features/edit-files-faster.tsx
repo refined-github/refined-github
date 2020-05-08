@@ -3,8 +3,9 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import PencilIcon from 'octicon/pencil.svg';
 import * as pageDetect from 'github-url-detection';
-import features from '../libs/features';
+
 import {wrap} from '../libs/dom-utils';
+import features from '../libs/features';
 import getDefaultBranch from '../libs/get-default-branch';
 import onFileListUpdate from '../libs/on-file-list-update';
 

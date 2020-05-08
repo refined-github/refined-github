@@ -2,9 +2,10 @@ import './hidden-review-comments-indicator.css';
 import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
-import CommentIcon from 'octicon/comment.svg';
 import delegate from 'delegate-it';
+import CommentIcon from 'octicon/comment.svg';
 import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
 import anchorScroll from '../libs/anchor-scroll';
 import onPrFileLoad from '../libs/on-pr-file-load';

@@ -5,8 +5,9 @@ import cache from 'webext-storage-cache';
 import CheckIcon from 'octicon/check.svg';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import features from '../libs/features';
+
 import * as api from '../libs/api';
+import features from '../libs/features';
 import {getRepoGQL, getRepoURL} from '../libs/utils';
 
 const reviewsFilterSelector = '#reviews-select-menu';

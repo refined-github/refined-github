@@ -3,6 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import AlertIcon from 'octicon/alert.svg';
 import * as pageDetect from 'github-url-detection';
+
 import * as api from '../libs/api';
 import features from '../libs/features';
 

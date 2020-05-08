@@ -3,6 +3,7 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+
 import * as api from '../libs/api';
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';

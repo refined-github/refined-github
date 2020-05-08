@@ -74,10 +74,13 @@ interface HTMLFormControlsCollection {
 }
 
 declare module '*.svg' {
-	export default (): JSX.Element => JSX.Element;
+	const Icon = (): JSX.Element => JSX.Element;
+	export default Icon;
 }
 
 // Make `element.cloneNode()` preserve its type instead of returning Node
 interface Node extends EventTarget {
+	// Not equivalent
+	// eslint-disable-next-line @typescript-eslint/method-signature-style
 	cloneNode(deep?: boolean): this;
 }

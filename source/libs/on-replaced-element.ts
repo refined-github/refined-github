@@ -1,4 +1,5 @@
 import select from 'select-dom';
+
 import onElementRemoval from './on-element-removal';
 
 /**

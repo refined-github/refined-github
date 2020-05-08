@@ -1,9 +1,10 @@
-import cache from 'webext-storage-cache';
 import React from 'dom-chef';
+import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import elementReady from 'element-ready';
 import TagIcon from 'octicon/tag.svg';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
 import * as api from '../libs/api';
 import {appendBefore} from '../libs/dom-utils';

@@ -3,6 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import ArrowDownIcon from 'octicon/arrow-down.svg';
 import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
 import {looseParseInt} from '../libs/utils';
 

@@ -1,6 +1,7 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
 import observeElement from '../libs/simplified-element-observer';
 

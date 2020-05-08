@@ -2,6 +2,7 @@ import './sticky-discussion-sidebar.css';
 import select from 'select-dom';
 import debounce from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
 import onReplacedElement from '../libs/on-replaced-element';
 

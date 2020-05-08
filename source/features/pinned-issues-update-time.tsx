@@ -3,6 +3,7 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import ClockIcon from 'octicon/clock.svg';
 import * as pageDetect from 'github-url-detection';
+
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {getRepoGQL, getRepoURL, looseParseInt} from '../libs/utils';

@@ -4,9 +4,10 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import EyeClosedIcon from 'octicon/eye-closed.svg';
 import * as pageDetect from 'github-url-detection';
-import {getUsername} from '../libs/utils';
-import features from '../libs/features';
+
 import * as api from '../libs/api';
+import features from '../libs/features';
+import {getUsername} from '../libs/utils';
 
 const getPublicOrganizationsNames = cache.function(async (username: string): Promise<string[]> => {
 	// API v4 seems to *require* `org:read` permission AND it includes private organizations as well, which defeats the purpose. There's no way to filter them.

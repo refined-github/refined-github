@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
 
 function init(): void {
