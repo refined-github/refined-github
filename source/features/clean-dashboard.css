@@ -40,6 +40,7 @@
 .dashboard .flex-items-baseline.py-3 {
 	align-items: flex-start !important;
 }
+
 .dashboard .body .mr-3 + div {
 	margin-top: -5px;
 	margin-bottom: -5px;
@@ -76,6 +77,7 @@
 	/* Hide toggle */
 	display: none;
 }
+
 .Details:not(.Details--on) .Details-content--hidden.dashboard-rollup-items {
 	/* Always show content. */
 	/* Selector must be stronger to override the native one. Yes, even with !important, for some reason. Firefox */

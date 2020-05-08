@@ -36,7 +36,7 @@ function buildFeatureCheckbox({id, description, screenshot, disabled}: FeatureMe
 		<div className={`feature feature--${disabled ? 'disabled' : 'enabled'}`} data-text={`${id} ${description}`.toLowerCase()}>
 			<input type="checkbox" name={key} id={id} disabled={Boolean(disabled)}/>
 			<div className="info">
-				<label for={id}>
+				<label htmlFor={id}>
 					<span className="feature-name">{id}</span>
 					{' '}
 					{disabled && <small>{parseDescription(`(Disabled because of ${disabled}) `)}</small>}

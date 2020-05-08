@@ -2,10 +2,12 @@
 	width: 100%;
 	margin-top: 8px;
 }
+
 .rgh-unread .mute {
 	padding-right: 7px;
 	padding-left: 3px;
 }
+
 .rgh-unread .notification-actions .age {
 	width: 150px; /* Align with GH's notifications */
 }
