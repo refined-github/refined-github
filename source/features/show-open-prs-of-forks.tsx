@@ -72,7 +72,7 @@ async function initHeadHint(): Promise<void | false> {
 
 async function initDeleteHint(): Promise<void | false> {
 	const [count, url] = await getPRs();
-	if (!count) {
+	if (!count || !location.pathname.endsWith('settings')) {
 		return false;
 	}
 
