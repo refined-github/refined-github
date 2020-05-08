@@ -114,7 +114,7 @@
 			"react/jsx-first-prop-new-line": "error",
 			"react/jsx-key": "off",
 			"react/no-unknown-property": "off",
-			"import/order": "error",
+			"import/order":  "error",
 			"import/first": "error",
 			"import/newline-after-import": "error",
 			"import/no-anonymous-default-export": "error",

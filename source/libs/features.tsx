@@ -232,7 +232,9 @@ add(undefined, {
 	}
 });
 
-export default {
+const features = {
 	add,
 	getShortcuts
 };
+
+export default features;
