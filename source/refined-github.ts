@@ -18,6 +18,7 @@ import './features/always-show-branch-delete-buttons.css';
 import './features/easier-pr-sha-copy.css';
 import './features/repo-stats-spacing.css';
 import './features/emphasize-draft-pr-label.css';
+import './features/clean-notifications.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
@@ -171,6 +172,11 @@ import './features/clone-branch';
 import './features/deep-reblame';
 import './features/clear-pr-merge-commit-message';
 import './features/go-to-action-from-file';
+import './features/action-used-by-link';
+import './features/batch-mark-files-as-viewed';
+import './features/unwrap-useless-dropdowns';
+import './features/linkify-notification-repository-header';
+import './features/stop-redirecting-in-notification-bar';
 
 // Add global for easier debugging
 (window as any).select = select;

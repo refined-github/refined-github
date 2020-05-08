@@ -2,10 +2,11 @@ import './hidden-review-comments-indicator.css';
 import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
-import commentIcon from 'octicon/comment.svg';
 import delegate from 'delegate-it';
+import CommentIcon from 'octicon/comment.svg';
+import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import anchorScroll from '../libs/anchor-scroll';
 import onPrFileLoad from '../libs/on-pr-file-load';
 
@@ -29,7 +30,7 @@ const addIndicator = mem((commentThread: HTMLElement): void => {
 		<tr>
 			<td className="rgh-comments-indicator blob-num" colSpan={2}>
 				<button type="button" className="btn-link">
-					{commentIcon()}
+					<CommentIcon/>
 					<span>{commentCount}</span>
 				</button>
 			</td>

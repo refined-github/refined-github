@@ -1,11 +1,13 @@
 import './mark-private-orgs.css';
+import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import eyeClosedIcon from 'octicon/eye-closed.svg';
-import {getUsername} from '../libs/utils';
-import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import EyeClosedIcon from 'octicon/eye-closed.svg';
+import * as pageDetect from 'github-url-detection';
+
 import * as api from '../libs/api';
+import features from '../libs/features';
+import {getUsername} from '../libs/utils';
 
 const getPublicOrganizationsNames = cache.function(async (username: string): Promise<string[]> => {
 	// API v4 seems to *require* `org:read` permission AND it includes private organizations as well, which defeats the purpose. There's no way to filter them.
@@ -27,7 +29,7 @@ async function init(): Promise<false | void> {
 	for (const org of orgs) {
 		if (!publicOrganizationsNames.includes(org.pathname.replace(/^\/(organizations\/)?/, ''))) {
 			org.classList.add('rgh-private-org');
-			org.append(eyeClosedIcon());
+			org.append(<EyeClosedIcon/>);
 		}
 	}
 }

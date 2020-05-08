@@ -1,12 +1,13 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import gitBranch from 'octicon/git-branch.svg';
 import delegate from 'delegate-it';
+import gitBranch from 'octicon/git-branch.svg';
 import * as textFieldEdit from 'text-field-edit';
+import * as pageDetect from 'github-url-detection';
+
 import * as api from '../libs/api';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
-import loadingIcon from '../libs/icon-loading';
+import LoadingIcon from '../libs/icon-loading';
 import {getRepoURL, getRepoGQL} from '../libs/utils';
 import observeElement from '../libs/simplified-element-observer';
 
@@ -44,8 +45,8 @@ async function cloneBranch(event: delegate.Event<MouseEvent, HTMLButtonElement>)
 	const currentBranch = getBranchBaseSha(branchName);
 	let newBranchName = prompt('Enter the new branch name')?.trim();
 
-	const spinner = loadingIcon();
-	spinner.classList.add('ml-2');
+	const spinner = <LoadingIcon className="ml-2"/>;
+
 	while (newBranchName) {
 		cloneButton.replaceWith(spinner);
 		// eslint-disable-next-line no-await-in-loop

@@ -1,10 +1,11 @@
 import './edit-files-faster.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import pencilIcon from 'octicon/pencil.svg';
-import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import PencilIcon from 'octicon/pencil.svg';
+import * as pageDetect from 'github-url-detection';
+
 import {wrap} from '../libs/dom-utils';
+import features from '../libs/features';
 import getDefaultBranch from '../libs/get-default-branch';
 import onFileListUpdate from '../libs/on-file-list-update';
 
@@ -25,7 +26,7 @@ async function init(): Promise<void> {
 		}
 
 		wrap(fileIcon, <a href={pathnameParts.join('/')} className="rgh-edit-files-faster"/>);
-		fileIcon.after(pencilIcon());
+		fileIcon.after(<PencilIcon/>);
 	}
 }
 

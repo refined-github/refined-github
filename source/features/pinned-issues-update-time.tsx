@@ -1,10 +1,11 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import clockIcon from 'octicon/clock.svg';
+import ClockIcon from 'octicon/clock.svg';
+import * as pageDetect from 'github-url-detection';
+
 import * as api from '../libs/api';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import {getRepoGQL, getRepoURL, looseParseInt} from '../libs/utils';
 
 interface IssueInfo {
@@ -43,7 +44,7 @@ async function init(): Promise<void | false> {
 		const issueNumber = getPinnedIssueNumber(pinnedIssue);
 		const {updatedAt} = lastUpdated[api.escapeKey(issueNumber)];
 		pinnedIssue.lastElementChild!.append(
-			<span className="ml-3 text-gray">{clockIcon()}</span>,
+			<span className="ml-3 text-gray"><ClockIcon/></span>,
 			<span className="text-gray text-small"> Updated <relative-time datetime={updatedAt}/></span>
 		);
 	}

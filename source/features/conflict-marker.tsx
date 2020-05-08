@@ -1,10 +1,11 @@
 import './conflict-marker.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import alertIcon from 'octicon/alert.svg';
+import AlertIcon from 'octicon/alert.svg';
+import * as pageDetect from 'github-url-detection';
+
 import * as api from '../libs/api';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 
 interface PRConfig {
 	number: string;
@@ -57,7 +58,7 @@ async function init(): Promise<false | void> {
 					aria-label="This PR has conflicts that must be resolved"
 					href={`${pr.link.pathname}#partial-pull-merging`}
 				>
-					{alertIcon()}
+					<AlertIcon/>
 				</a>
 			);
 		}

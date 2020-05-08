@@ -2,9 +2,10 @@ import './toggle-files-button.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import chevronDownIcon from 'octicon/chevron-down.svg';
+import * as pageDetect from 'github-url-detection';
+import ChevronDownIcon from 'octicon/chevron-down.svg';
+
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import observeElement from '../libs/simplified-element-observer';
 
 function addButton(): void {
@@ -21,7 +22,7 @@ function addButton(): void {
 			aria-label="Toggle files section"
 			aria-expanded="true"
 		>
-			{chevronDownIcon()}
+			<ChevronDownIcon/>
 		</button>
 	);
 }

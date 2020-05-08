@@ -1,13 +1,13 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import cache from 'webext-storage-cache';
-import pullRequestIcon from 'octicon/git-pull-request.svg';
+import select from 'select-dom';
+import * as pageDetect from 'github-url-detection';
+import PullRequestIcon from 'octicon/git-pull-request.svg';
+
 import * as api from '../libs/api';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
-import {getRepoURL, getRepoGQL} from '../libs/utils';
-import {isEditingFile} from '../libs/page-detect';
 import getDefaultBranch from '../libs/get-default-branch';
+import {getRepoURL, getRepoGQL} from '../libs/utils';
 
 function getPRUrl(prNumber: number): string {
 	return `/${getRepoURL()}/pull/${prNumber}/files`;
@@ -18,7 +18,7 @@ function getDropdown(prs: number[]): HTMLElement {
 	return (
 		<details className="ml-2 dropdown details-reset details-overlay d-inline-block">
 			<summary aria-haspopup="true" className="btn btn-sm">
-				{pullRequestIcon()} {prs.length} <div className="dropdown-caret"/>
+				<PullRequestIcon/> {prs.length} <div className="dropdown-caret"/>
 			</summary>
 
 			<ul className="dropdown-menu dropdown-menu-se">
@@ -43,7 +43,7 @@ function getSingleButton(prNumber: number, _?: number, prs?: number[]): HTMLElem
 			href={getPRUrl(prNumber)}
 			className={'btn btn-sm btn-outline' + (prs ? ' BtnGroup-item' : '')}
 		>
-			{pullRequestIcon()} #{prNumber}
+			<PullRequestIcon/> #{prNumber}
 		</a>
 	);
 }
@@ -58,7 +58,7 @@ async function init(): Promise<void> {
 
 	const [prNumber] = prs; // First one or only one
 
-	if (isEditingFile()) {
+	if (pageDetect.isEditingFile()) {
 		select('.file')!.after(
 			<div className="form-warning p-3 mb-3 mx-lg-3">
 				{

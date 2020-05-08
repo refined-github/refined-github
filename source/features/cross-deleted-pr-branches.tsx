@@ -1,9 +1,10 @@
 import './cross-deleted-pr-branches.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import * as pageDetect from 'github-url-detection';
+
 import {wrap} from '../libs/dom-utils';
+import features from '../libs/features';
 
 function init(): void {
 	const lastBranchAction = select.last('.TimelineItem-body .user-select-contain > span:not(.base-ref)');

@@ -1,10 +1,12 @@
+import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import bugIcon from '@primer/octicons/build/svg/bug.svg';
 import elementReady from 'element-ready';
-import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import * as pageDetect from 'github-url-detection';
+import BugIcon from '@primer/octicons/build/svg/bug.svg';
+
 import * as api from '../libs/api';
+import features from '../libs/features';
 import SearchQuery from '../libs/search-query';
 import {getRepoURL} from '../libs/utils';
 
@@ -53,7 +55,7 @@ async function init(): Promise<void | false> {
 	const bugsTab = issuesTab.cloneNode(true);
 
 	// Update its appearance
-	select('.octicon', bugsTab)!.replaceWith(bugIcon());
+	select('.octicon', bugsTab)!.replaceWith(<BugIcon/>);
 	select('[itemprop="name"]', bugsTab)!.textContent = 'Bugs';
 
 	// Set temporary counter

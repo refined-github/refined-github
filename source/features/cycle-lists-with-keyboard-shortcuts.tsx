@@ -1,7 +1,8 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 
 function init(): void {
 	let selectableItems: HTMLElement[] = [];

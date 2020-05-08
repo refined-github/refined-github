@@ -2,10 +2,11 @@ import './quick-mention.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import replyIcon from 'octicon/reply.svg';
+import ReplyIcon from 'octicon/reply.svg';
+import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
+
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import {getUsername} from '../libs/utils';
 import onNewComments from '../libs/on-new-comments';
 
@@ -41,7 +42,7 @@ function init(): void | false {
 				className="rgh-quick-mention tooltipped tooltipped-e btn-link"
 				aria-label={`Mention ${userMention} in a new comment`}
 			>
-				{replyIcon()}
+				<ReplyIcon/>
 			</button>
 		);
 	}

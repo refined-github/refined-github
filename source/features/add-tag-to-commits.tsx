@@ -1,9 +1,10 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import tagIcon from 'octicon/tag.svg';
+import TagIcon from 'octicon/tag.svg';
+import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import * as api from '../libs/api';
 import {getOwnerAndRepo, getRepoURL, getRepoGQL} from '../libs/utils';
 
@@ -139,7 +140,7 @@ async function init(): Promise<void | false> {
 		} else if (targetTags.length > 0) {
 			select('.commit-meta', commit)!.append(
 				<div className="ml-2">
-					{tagIcon()}
+					<TagIcon/>
 					<span className="ml-1">{targetTags.map((tags, i) => (
 						<>
 							<a href={`/${getRepoURL()}/releases/tag/${tags}`}>{tags}</a>

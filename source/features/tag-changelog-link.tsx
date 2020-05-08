@@ -1,11 +1,11 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import diffIcon from 'octicon/diff.svg';
+import DiffIcon from 'octicon/diff.svg';
+import * as pageDetect from 'github-url-detection';
 import tinyVersionCompare from 'tiny-version-compare';
+
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import fetchDom from '../libs/fetch-dom';
-import {isSingleTagPage} from '../libs/page-detect';
 import {getRepoPath, getRepoURL, parseTag} from '../libs/utils';
 
 type TagDetails = {
@@ -22,7 +22,7 @@ async function getNextPage(): Promise<DocumentFragment> {
 		return fetchDom(nextPageLink.href);
 	}
 
-	if (isSingleTagPage()) {
+	if (pageDetect.isSingleTagPage()) {
 		const [, tag = ''] = getRepoPath()!.split('releases/tag/', 2); // Already URL-encoded
 		return fetchDom(`/${getRepoURL()}/tags?after=${tag}`);
 	}
@@ -76,7 +76,7 @@ async function init(): Promise<void | false> {
 							aria-label={'See changes since ' + decodeURIComponent(previousTag)}
 							href={`/${getRepoURL()}/compare/${previousTag}...${allTags[index].tag}`}
 						>
-							{diffIcon()} Changelog
+							<DiffIcon/> Changelog
 						</a>
 					</li>
 				);

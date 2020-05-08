@@ -1,9 +1,10 @@
 import './tags-dropdown.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import octofaceIcon from 'octicon/octoface.svg';
+import OctofaceIcon from 'octicon/octoface.svg';
+import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import {getRepoURL} from '../libs/utils';
 
 function init(): false | void {
@@ -25,7 +26,7 @@ function init(): false | void {
 					style={{zIndex: 99}}
 				>
 					<include-fragment className="select-menu-loading-overlay anim-pulse" onLoad={changeTabToTags}>
-						{octofaceIcon()}
+						<OctofaceIcon/>
 					</include-fragment>
 				</details-menu>
 			</details>

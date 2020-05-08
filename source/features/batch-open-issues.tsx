@@ -1,8 +1,10 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import elementReady from 'element-ready';
+import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 
 const confirmationRequiredCount = 10;
 
@@ -32,8 +34,8 @@ function openIssues(): void {
 	});
 }
 
-function init(): void | false {
-	if (select.all('.js-issue-row').length < 2) {
+async function init(): Promise<void | false> {
+	if (!await elementReady('.js-issue-row + .js-issue-row')) {
 		return false;
 	}
 
@@ -72,5 +74,6 @@ features.add({
 	include: [
 		pageDetect.isDiscussionList
 	],
+	waitForDomReady: false,
 	init
 });

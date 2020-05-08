@@ -3,11 +3,12 @@ import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import {Promisable} from 'type-fest';
 import elementReady from 'element-ready';
+import * as pageDetect from 'github-url-detection';
+
+import optionsStorage, {RGHOptions} from '../options-storage';
 import {logError} from './utils';
 import onNewComments from './on-new-comments';
 import onNewsfeedLoad from './on-newsfeed-load';
-import * as pageDetect from './page-detect';
-import optionsStorage, {RGHOptions} from '../options-storage';
 
 type BooleanFunction = () => boolean;
 type CallerFunction = (callback: VoidFunction) => void;
@@ -232,7 +233,9 @@ add(undefined, {
 	}
 });
 
-export default {
+const features = {
 	add,
 	getShortcuts
 };
+
+export default features;

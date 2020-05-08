@@ -57,6 +57,10 @@ declare namespace JSX {
 		'relative-time': BaseIntrinsicElement & {datetime: string};
 		'details-dialog': BaseIntrinsicElement & {tabindex: string};
 	}
+
+	interface IntrinsicAttributes extends BaseIntrinsicElement {
+		width?: number;
+	}
 }
 
 // Drop after https://github.com/Microsoft/TypeScript/issues/30928
@@ -70,11 +74,13 @@ interface HTMLFormControlsCollection {
 }
 
 declare module '*.svg' {
-	export default (): SVGElement => SVGElement;
+	const Icon = (): JSX.Element => JSX.Element;
+	export default Icon;
 }
 
 // Make `element.cloneNode()` preserve its type instead of returning Node
 interface Node extends EventTarget {
+	// Not equivalent
+	// eslint-disable-next-line @typescript-eslint/method-signature-style
 	cloneNode(deep?: boolean): this;
 }
-

@@ -30,7 +30,7 @@
 		</label>
 	</p>
 
-	<hr>
+	<hr id="debugging-position">
 
 	<div>
 		<p>
@@ -49,21 +49,23 @@
 		<div class="js-features"></div>
 	</div>
 
-	<hr>
+	<div id="debugging">
+		<p>
+			<strong>Debugging</strong>
+		</p>
+		<p>
+			<label>
+				<input type="checkbox" name="logging">
+				Show the features enabled on each page in the console
+			</label>
+		</p>
 
-	<h2>Debugging</h2>
-	<p>
-		<label>
-			<input type="checkbox" name="logging">
-			Show the features enabled on each page in the console
-		</label>
-	</p>
-
-	<p>
-		<label>
-			<button id="clear-cache">Clear cache</button>
-		</label>
-	</p>
+		<p>
+			<label>
+				<button id="clear-cache">Clear cache</button>
+			</label>
+		</p>
+	</div>
 
 </form>
 <script src="browser-polyfill.min.js"></script>

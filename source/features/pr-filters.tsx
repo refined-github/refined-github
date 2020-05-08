@@ -2,10 +2,12 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import cache from 'webext-storage-cache';
-import checkIcon from 'octicon/check.svg';
-import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
+import CheckIcon from 'octicon/check.svg';
+import elementReady from 'element-ready';
+import * as pageDetect from 'github-url-detection';
+
 import * as api from '../libs/api';
+import features from '../libs/features';
 import {getRepoGQL, getRepoURL} from '../libs/utils';
 
 const reviewsFilterSelector = '#reviews-select-menu';
@@ -27,9 +29,6 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 		q: query + (isSelected ? '' : ` ${filterQuery}`)
 	});
 
-	const icon = checkIcon();
-	icon.classList.add('SelectMenu-icon', 'SelectMenu-icon--check');
-
 	dropdown.append(
 		<a
 			href={`?${String(search)}`}
@@ -37,7 +36,7 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 			aria-checked={isSelected ? 'true' : 'false'}
 			role="menuitemradio"
 		>
-			{icon}
+			<CheckIcon className="SelectMenu-icon SelectMenu-icon--check"/>
 			<span>{title}</span>
 		</a>
 	);
@@ -70,7 +69,7 @@ const hasChecks = cache.function(async (): Promise<boolean> => {
 				... on Commit {
 					history(first: 10) {
 						nodes {
-							status {
+							statusCheckRollup {
 								state
 							}
 						}
@@ -80,14 +79,14 @@ const hasChecks = cache.function(async (): Promise<boolean> => {
 		}
 	`);
 
-	return repository.head.history.nodes.some((commit: AnyObject) => commit.status);
+	return repository.head.history.nodes.some((commit: AnyObject) => commit.statusCheckRollup);
 }, {
 	maxAge: 3,
 	cacheKey: () => __filebasename + ':' + getRepoURL()
 });
 
 async function addChecksFilter(): Promise<void> {
-	const reviewsFilter = select(reviewsFilterSelector);
+	const reviewsFilter = await elementReady(reviewsFilterSelector);
 	if (!reviewsFilter) {
 		return;
 	}
@@ -126,5 +125,6 @@ features.add({
 	include: [
 		pageDetect.isPRList
 	],
+	waitForDomReady: false,
 	init
 });

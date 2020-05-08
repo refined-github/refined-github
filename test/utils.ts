@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import './fixtures/globals';
 import {
 	getDiscussionNumber,
@@ -25,10 +26,6 @@ test('getDiscussionNumber', t => {
 		],
 		[
 			'https://github.com/settings/developers',
-			undefined
-		],
-		[
-			'https://github.com/sindresorhus/notifications/notifications',
 			undefined
 		],
 		[
@@ -98,10 +95,6 @@ test('getRepoPath', t => {
 		],
 		[
 			'https://github.com/settings/developers',
-			undefined
-		],
-		[
-			'https://github.com/sindresorhus/notifications/notifications',
 			undefined
 		],
 		[

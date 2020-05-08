@@ -1,9 +1,10 @@
 import './highest-rated-comment.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import arrowDownIcon from 'octicon/arrow-down.svg';
+import ArrowDownIcon from 'octicon/arrow-down.svg';
+import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import {looseParseInt} from '../libs/utils';
 
 // `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)
@@ -94,7 +95,7 @@ function linkBestComment(bestComment: HTMLElement): void {
 
 				<a href={hash} className="no-underline rounded-1 rgh-highest-rated-comment bg-gray px-2 d-flex flex-items-center">
 					<span className="btn btn-sm mr-2">
-						{arrowDownIcon()}
+						<ArrowDownIcon/>
 					</span>
 
 					<span className="text-gray timeline-comment-header-text">

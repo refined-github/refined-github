@@ -51,7 +51,7 @@ function addListeners(): void {
 	delegates.add(delegate(document, 'details.outdated-comment > include-fragment', 'load', run, true));
 }
 
-export default function (callback: VoidFunction): void {
+export default function onNewComments(callback: VoidFunction): void {
 	addListeners();
 	handlers.add(callback);
 }
