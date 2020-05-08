@@ -2,10 +2,11 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import cache from 'webext-storage-cache';
 import MergeIcon from 'octicon/git-merge.svg';
+import * as pageDetect from 'github-url-detection';
 import PullRequestIcon from 'octicon/git-pull-request.svg';
+
 import * as api from '../libs/api';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import {getRepoURL, getRepoGQL} from '../libs/utils';
 import observeElement from '../libs/simplified-element-observer';
 
