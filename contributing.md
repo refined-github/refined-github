@@ -138,9 +138,8 @@ To keep browser settings (like GitHub login cookies and Refined GitHub's API tok
 	</tr>
 	<tr>
 		<td width="50%" valign="top">
-			<p><a href="https://support.google.com/chrome/answer/2364824">Create a new profile</a> and <a href="https://chromium.googlesource.com/chromium/src/+/master/docs/user_data_dir.md#current-location">locate its directory</a> first.</p>
 			<pre>npx web-ext run --target=chromium \
-	--chromium-profile=<b>&lt;profile directory&gt;</b> \
+	--chromium-profile=web-ext-chrome-profile \
 	--keep-profile-changes</pre>
 		</td>
 		<td width="50%" valign="top">
