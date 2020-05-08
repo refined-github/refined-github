@@ -143,8 +143,7 @@
 			],
 			"import/no-unassigned-import": "off",
 			"unicorn/no-fn-reference-in-iterator": "off",
-			"unicorn/prefer-set-has": "off",
-			"unicorn/prevent-abbreviations": "error"
+			"unicorn/prefer-set-has": "off"
 		},
 		"settings": {
 			"react": {
