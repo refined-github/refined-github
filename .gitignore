@@ -1,4 +1,5 @@
 node_modules
 yarn.lock
 distribution
-web-ext-chrome-profile
+test/web-ext-profile
+!test/web-ext-profile/.gitkeep

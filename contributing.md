@@ -112,67 +112,12 @@ Then load or reload it into the browser to see the changes (this does not happen
 
 Once built, load it in the browser of your choice.
 
-### Load with [`web-ext`](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/web-ext_command_reference#web-ext_run)
+```sh
+npm run start # Open extension in Chrome
+```
 
-<table>
-	<tr>
-		<th>Chrome</th>
-		<th>Firefox</th>
-	</tr>
-	<tr>
-		<td width="50%" valign="top">
-			<pre>npx web-ext run --target=chromium</pre>
-		</td>
-		<td width="50%" valign="top">
-			<pre>npx web-ext run --target=firefox-desktop</pre>
-		</td>
-	</tr>
-</table>
+```sh
+npm run start:firefox # Open extension in Firefox
+```
 
-To keep browser settings (like GitHub login cookies and Refined GitHub's API token), call `web-ext` with a custom profile:
-
-<table>
-	<tr>
-		<th>Chrome</th>
-		<th>Firefox</th>
-	</tr>
-	<tr>
-		<td width="50%" valign="top">
-			<pre>npx web-ext run --target=chromium \
-	--chromium-profile=web-ext-chrome-profile \
-	--keep-profile-changes</pre>
-		</td>
-		<td width="50%" valign="top">
-			<p><a href="https://support.mozilla.org/en-US/kb/profile-manager-create-remove-switch-firefox-profiles#w_creating-a-profile">Create a new profile</a> called <code>refined-github</code> first.</p>
-			<pre>npx web-ext run --target=firefox-desktop \
-	--firefox-profile=refined-github \
-	--keep-profile-changes</pre>
-		</td>
-	</tr>
-</table>
-
-### Load manually
-
-<table>
-	<tr>
-		<th>Chrome</th>
-		<th>Firefox</th>
-	</tr>
-	<tr>
-		<td width="50%" valign="top">
-			<ol>
-				<li>Open <code>chrome://extensions</code>;
-				<li>Check the <strong>Developer mode</strong> checkbox;
-				<li>Click on the <strong>Load unpacked extension</strong> button;
-				<li>Select the folder <code>refined-github/distribution</code>.
-			</ol>
-		</td>
-		<td width="50%" valign="top">
-			<ol>
-				<li>Open <code>about:debugging#addons</code>;
-				<li>Click on the <strong>Load Temporary Add-on</strong> button;
-				<li>Select the file <code>refined-github/distribution/manifest.json</code>.
-			</ol>
-		</td>
-	</tr>
-</table>
+Or you can [load it manually in Chrome](https://www.smashingmagazine.com/2017/04/browser-extension-edge-chrome-firefox-opera-brave-vivaldi/#google-chrome-opera-vivaldi) or [Firefox](https://www.smashingmagazine.com/2017/04/browser-extension-edge-chrome-firefox-opera-brave-vivaldi/#mozilla-firefox).
