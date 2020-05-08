@@ -129,7 +129,7 @@ Once built, load it in the browser of your choice.
 	</tr>
 </table>
 
-Recommended arguments:
+To keep browser settings (like GitHub login cookies and Refined GitHub's API token), call `web-ext` with a custom profile:
 
 <table>
 	<tr>
@@ -138,20 +138,16 @@ Recommended arguments:
 	</tr>
 	<tr>
 		<td width="50%" valign="top">
-			<pre>npx web-ext run --source-dir=distribution \
-	--target=chromium \
-	--chromium-profile=/path/to/refined-github-profile \
-	--keep-profile-changes \
-	--start-url=github.com</pre>
-			<p>Chrome automatically creates the profile directory if it doesn't exist.</p>
+			<p><a href="https://support.google.com/chrome/answer/2364824">Create a new profile</a> and <a href="https://chromium.googlesource.com/chromium/src/+/master/docs/user_data_dir.md#current-location">locate its directory</a> first.</p>
+			<pre>npx web-ext run --target=chromium \
+	--chromium-profile=<b>&lt;profile directory&gt;</b> \
+	--keep-profile-changes</pre>
 		</td>
 		<td width="50%" valign="top">
-			<pre>npx web-ext run --source-dir=distribution \
-	--target=firefox-desktop \
+			<p><a href="https://support.mozilla.org/en-US/kb/profile-manager-create-remove-switch-firefox-profiles#w_creating-a-profile">Create a new profile</a> called <code>refined-github</code> first.</p>
+			<pre>npx web-ext run --target=firefox-desktop \
 	--firefox-profile=refined-github \
-	--keep-profile-changes \
-	--start-url=github.com</pre>
-			<p>You will have to <a href="https://support.mozilla.org/en-US/kb/profile-manager-create-remove-switch-firefox-profiles#w_creating-a-profile">create a new profile</a> called <code>refined-github</code> first.</p>
+	--keep-profile-changes</pre>
 		</td>
 	</tr>
 </table>
