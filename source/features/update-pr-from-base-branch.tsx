@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import AlertIcon from 'octicon/alert.svg';
 import delegate from 'delegate-it';
+import AlertIcon from 'octicon/alert.svg';
 import * as pageDetect from 'github-url-detection';
-import features from '../libs/features';
 import * as api from '../libs/api';
+import features from '../libs/features';
 import observeElement from '../libs/simplified-element-observer';
 import {getRepoURL, getDiscussionNumber} from '../libs/utils';
 

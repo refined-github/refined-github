@@ -1,6 +1,6 @@
 import twas from 'twas';
-import React from 'dom-chef';
 import cache from 'webext-storage-cache';
+import React from 'dom-chef';
 import select from 'select-dom';
 import RepoIcon from 'octicon/repo.svg';
 import elementReady from 'element-ready';

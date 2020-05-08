@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import gitBranch from 'octicon/git-branch.svg';
 import delegate from 'delegate-it';
+import gitBranch from 'octicon/git-branch.svg';
 import * as textFieldEdit from 'text-field-edit';
 import * as pageDetect from 'github-url-detection';
 import * as api from '../libs/api';
