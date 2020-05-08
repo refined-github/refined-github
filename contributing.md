@@ -114,9 +114,20 @@ Once built, load it in the browser of your choice.
 
 ### Load with [`web-ext`](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/web-ext_command_reference#web-ext_run)
 
-```
-npx web-ext run --source-dir=distribution
-```
+<table>
+	<tr>
+		<th>Chrome</th>
+		<th>Firefox</th>
+	</tr>
+	<tr>
+		<td width="50%" valign="top">
+			<pre>npx web-ext run --target=chromium</pre>
+		</td>
+		<td width="50%" valign="top">
+			<pre>npx web-ext run --target=firefox-desktop</pre>
+		</td>
+	</tr>
+</table>
 
 Recommended arguments:
 

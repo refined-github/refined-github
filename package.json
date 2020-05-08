@@ -154,5 +154,13 @@
 			"rule-empty-line-before": null,
 			"at-rule-empty-line-before": null
 		}
+	},
+	"webExt": {
+		"sourceDir": "distribution",
+		"run": {
+			"startUrl": [
+				"github.com"
+			]
+		}
 	}
 }
