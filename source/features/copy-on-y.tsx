@@ -1,6 +1,7 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import copyToClipboard from 'copy-text-to-clipboard';
+
 import features from '../libs/features';
 
 const handler = ({key, target}: KeyboardEvent): void => {

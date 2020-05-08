@@ -2,6 +2,7 @@ import './show-names.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {getUsername, compareNames} from '../libs/utils';

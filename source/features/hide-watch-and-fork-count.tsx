@@ -1,5 +1,6 @@
 import './hide-watch-and-fork-count.css';
 import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
 
 function init(): void {

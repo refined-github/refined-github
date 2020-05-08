@@ -3,6 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import CloudDownloadIcon from 'octicon/cloud-download.svg';
+
 import * as api from '../libs/api';
 import features from '../libs/features';
 import {getRepoGQL} from '../libs/utils';

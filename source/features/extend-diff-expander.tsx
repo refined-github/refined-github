@@ -2,6 +2,7 @@ import './extend-diff-expander.css';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
 
 function expandDiff(event: delegate.Event): void {

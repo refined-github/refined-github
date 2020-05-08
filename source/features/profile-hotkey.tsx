@@ -1,4 +1,5 @@
 import select from 'select-dom';
+
 import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 

@@ -5,6 +5,7 @@ import onetime from 'onetime';
 import delegate from 'delegate-it';
 import InfoIcon from 'octicon/info.svg';
 import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
 import * as prCiStatus from '../libs/pr-ci-status';
 import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';

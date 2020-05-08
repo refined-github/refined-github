@@ -1,6 +1,7 @@
 import './indented-code-wrapping.css';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
 import onPrFileLoad from '../libs/on-pr-file-load';
 import onNewComments from '../libs/on-new-comments';

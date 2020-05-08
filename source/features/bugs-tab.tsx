@@ -4,6 +4,7 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import BugIcon from '@primer/octicons/build/svg/bug.svg';
+
 import * as api from '../libs/api';
 import features from '../libs/features';
 import SearchQuery from '../libs/search-query';

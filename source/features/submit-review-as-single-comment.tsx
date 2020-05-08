@@ -4,6 +4,7 @@ import onetime from 'onetime';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
+
 import features from '../libs/features';
 import oneEvent from '../libs/one-event';
 import {logError} from '../libs/utils';

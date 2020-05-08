@@ -4,6 +4,7 @@ import domLoaded from 'dom-loaded';
 import {Promisable} from 'type-fest';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+
 import optionsStorage, {RGHOptions} from '../options-storage';
 import {logError} from './utils';
 import onNewComments from './on-new-comments';

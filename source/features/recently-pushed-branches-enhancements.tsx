@@ -2,6 +2,7 @@ import './recently-pushed-branches-enhancements.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
 import {getRepoURL} from '../libs/utils';
 

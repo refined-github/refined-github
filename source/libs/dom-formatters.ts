@@ -1,6 +1,7 @@
 import zipTextNodes from 'zip-text-nodes';
 import linkifyURLsCore from 'linkify-urls';
 import linkifyIssuesCore from 'linkify-issues';
+
 import getTextNodes from './get-text-nodes';
 import {getOwnerAndRepo} from './utils';
 import parseBackticksCore from './parse-backticks';

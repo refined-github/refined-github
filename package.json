@@ -114,7 +114,18 @@
 			"react/jsx-first-prop-new-line": "error",
 			"react/jsx-key": "off",
 			"react/no-unknown-property": "off",
-			"import/order":  "error",
+			"import/order": [
+				"error",
+				{
+					"groups": [
+						[
+							"builtin",
+							"external"
+						]
+					],
+					"newlines-between": "always-and-inside-groups"
+				}
+			],
 			"import/first": "error",
 			"import/newline-after-import": "error",
 			"import/no-anonymous-default-export": "error",

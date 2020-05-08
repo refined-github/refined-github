@@ -3,6 +3,7 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import CheckIcon from 'octicon/check.svg';
 import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
 import SearchQuery from '../libs/search-query';
 

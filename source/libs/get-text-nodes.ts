@@ -1,4 +1,4 @@
-export default (element: Node): Text[] => {
+export default function getTextNodes(element: Node): Text[] {
 	const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
 	const nodes: Text[] = [];
 	let node;
@@ -11,4 +11,4 @@ export default (element: Node): Text[] => {
 	} while (node);
 
 	return nodes;
-};
+}

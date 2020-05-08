@@ -1,4 +1,5 @@
 import delegate from 'delegate-it';
+
 import features from '../libs/features';
 
 const hasNotificationBar = (): boolean =>

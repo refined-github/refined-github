@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
+
 import features from '../libs/features';
 
 // eslint-disable-next-line import/prefer-default-export

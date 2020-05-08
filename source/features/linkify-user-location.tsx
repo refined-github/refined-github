@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+
 import features from '../libs/features';
 import {wrap, isEditable} from '../libs/dom-utils';
 

@@ -4,6 +4,7 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import CloudUploadIcon from 'octicon/cloud-upload.svg';
+
 import features from '../libs/features';
 
 function addButton(): void {
