@@ -150,6 +150,9 @@ const config: Configuration = {
 		]
 	},
 	optimization: {
+		splitChunks: {
+			chunks: 'all'
+		},
 		// Without this, function names will be garbled and enableFeature won't work
 		concatenateModules: true,
 
