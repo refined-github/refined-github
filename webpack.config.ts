@@ -9,7 +9,6 @@ import SizePlugin from 'size-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
 function parseFeatureDetails(id: FeatureID): FeatureMeta {
 	const content = readFileSync(`source/features/${id}.tsx`, {encoding: 'utf-8'});
@@ -66,20 +65,17 @@ const config: Configuration = {
 		rules: [
 			{
 				test: /\.tsx?$/,
-				use: [
-					{
-						loader: 'ts-loader',
-						options: {
-							compilerOptions: {
-								// Enables ModuleConcatenation. It must be in here to avoid conflict with ts-node
-								module: 'es2015'
-							},
+				loader: {
+					loader: 'ts-loader',
+					options: {
+						compilerOptions: {
+							// Enables ModuleConcatenation. It must be in here to avoid conflict with ts-node
+							module: 'es2015'
+						},
 
-							// Make compilation faster with `fork-ts-checker-webpack-plugin`
-							transpileOnly: true
-						}
+						transpileOnly: true
 					}
-				],
+				},
 				exclude: /node_modules/
 			},
 			{
@@ -99,7 +95,6 @@ const config: Configuration = {
 		]
 	},
 	plugins: [
-		new ForkTsCheckerWebpackPlugin(),
 		new webpack.DefinePlugin({
 			// Passing `true` as the second argument makes these values dynamic — so every file change will update their value.
 			__featuresOptionDefaults__: webpack.DefinePlugin.runtimeValue(() => {
