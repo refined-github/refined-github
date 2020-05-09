@@ -60,6 +60,7 @@ declare namespace JSX {
 
 	interface IntrinsicAttributes extends BaseIntrinsicElement {
 		width?: number;
+		height?: number;
 	}
 }
 
