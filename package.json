@@ -42,7 +42,7 @@
 		"webext-base-css": "^1.1.0",
 		"webext-domain-permission-toggle": "^1.0.1",
 		"webext-dynamic-content-scripts": "^6.0.4",
-		"webext-options-sync-multi": "0.0.0",
+		"webext-options-sync-per-domain": "^1.0.0",
 		"webext-storage-cache": "^3.0.0",
 		"webextension-polyfill": "^0.6.0",
 		"zip-text-nodes": "^1.0.0"

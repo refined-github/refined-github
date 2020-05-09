@@ -1,4 +1,4 @@
-import OptionsSyncMulti, {Migration} from 'webext-options-sync-multi';
+import OptionsSyncPerDomain, {Migration} from 'webext-options-sync-per-domain';
 
 export type RGHOptions = typeof defaults;
 
@@ -21,8 +21,8 @@ const migrations = [
 	featureWasRenamed('branch-buttons', 'latest-tag-button'), // Merged on January 10th
 
 	// Removed features will be automatically removed from the options as well
-	OptionsSyncMulti.migrations.removeUnused
+	OptionsSyncPerDomain.migrations.removeUnused
 ];
 
-export const multiOptions = new OptionsSyncMulti({defaults, migrations});
-export default multiOptions.getOptionsForOrigin();
+export const perDomainOptions = new OptionsSyncPerDomain({defaults, migrations});
+export default perDomainOptions.getOptionsForOrigin();
