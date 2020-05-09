@@ -1,6 +1,6 @@
 import select from 'select-dom';
 
-export default function (callback: VoidFunction): void {
+export default function onFileListUpdate(callback: VoidFunction): void {
 	// Selector copied from https://github.com/sindresorhus/hide-files-on-github
 	const ajaxFiles = select('#files ~ include-fragment[src*="/file-list/"]');
 	if (ajaxFiles) {

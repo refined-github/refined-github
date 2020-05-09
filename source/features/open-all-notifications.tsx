@@ -1,9 +1,10 @@
 import './open-all-notifications.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import LinkExternalIcon from 'octicon/link-external.svg';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+import LinkExternalIcon from 'octicon/link-external.svg';
+
 import features from '../libs/features';
 
 const confirmationRequiredCount = 10;

@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import cache from 'webext-storage-cache';
+
 import * as api from './api';
 import {getRepoURL, getRepoGQL} from './utils';
 

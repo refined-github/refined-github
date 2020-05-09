@@ -1,4 +1,5 @@
 import select from 'select-dom';
+
 import {getScopedSelector} from './utils';
 
 /**

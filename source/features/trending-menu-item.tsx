@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
 
 async function init(): Promise<false | void> {

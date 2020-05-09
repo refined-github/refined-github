@@ -1,4 +1,5 @@
 import select from 'select-dom';
+
 import observeElement from './simplified-element-observer';
 
 type CommitStatus = false | typeof SUCCESS | typeof FAILURE | typeof PENDING | typeof COMMIT_CHANGED;

@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import './fixtures/globals';
 import SearchQuery from '../source/libs/search-query';
 

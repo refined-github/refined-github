@@ -5,6 +5,7 @@ import delegate from 'delegate-it';
 import CodeIcon from 'octicon/code.svg';
 import FileIcon from 'octicon/file.svg';
 import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
 

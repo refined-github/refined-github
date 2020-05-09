@@ -1,8 +1,9 @@
 /// <reference types="./source/globals" />
 
 import path from 'path';
-import stripIndent from 'strip-indent';
 import {readdirSync, readFileSync} from 'fs';
+
+import stripIndent from 'strip-indent';
 import webpack, {Configuration} from 'webpack';
 import SizePlugin from 'size-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
@@ -99,10 +100,10 @@ const config: Configuration = {
 		new webpack.DefinePlugin({
 			// Passing `true` as the second argument makes these values dynamic — so every file change will update their value.
 			__featuresOptionDefaults__: webpack.DefinePlugin.runtimeValue(() => {
-				return JSON.stringify(getFeatures().reduce((defaults, feature) => {
+				return JSON.stringify(getFeatures().reduce<AnyObject>((defaults, feature) => {
 					defaults[`feature:${feature}`] = true;
 					return defaults;
-				}, {} as AnyObject));
+				}, {}));
 				// TODO: unignore after https://github.com/DefinitelyTyped/DefinitelyTyped/pull/42036
 				// @ts-ignore
 			}, true),

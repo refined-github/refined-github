@@ -2,9 +2,10 @@ import './reactions-avatars.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
-import {getUsername, flatZip, isFirefox} from '../libs/utils';
 import onReplacedElement from '../libs/on-replaced-element';
+import {getUsername, flatZip, isFirefox} from '../libs/utils';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars

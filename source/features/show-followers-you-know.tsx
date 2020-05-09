@@ -1,9 +1,10 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import {getCleanPathname} from '../libs/utils';
+
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
+import {getCleanPathname} from '../libs/utils';
 
 const fetchStargazers = async (): Promise<HTMLImageElement[]> => {
 	const url = `/${getCleanPathname()}/followers/you_know`;

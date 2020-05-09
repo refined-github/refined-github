@@ -3,6 +3,7 @@ import select from 'select-dom';
 import DiffIcon from 'octicon/diff.svg';
 import * as pageDetect from 'github-url-detection';
 import tinyVersionCompare from 'tiny-version-compare';
+
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
 import {getRepoPath, getRepoURL, parseTag} from '../libs/utils';

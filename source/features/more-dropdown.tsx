@@ -10,8 +10,8 @@ import HistoryIcon from 'octicon/history.svg';
 import PackageIcon from 'octicon/package.svg';
 
 import features from '../libs/features';
-import {getRepoURL, getReference} from '../libs/utils';
 import {appendBefore} from '../libs/dom-utils';
+import {getRepoURL, getReference} from '../libs/utils';
 
 const repoUrl = getRepoURL();
 

@@ -6,7 +6,8 @@ import select from 'select-dom';
 import fitTextarea from 'fit-textarea';
 import {applyToLink} from 'shorten-repo-url';
 import * as indentTextarea from 'indent-textarea';
-import {multiOptions} from './options-storage';
+
+import {perDomainOptions} from './options-storage';
 import * as domFormatters from './libs/dom-formatters';
 
 function parseDescription(description: string): DocumentFragment {
@@ -35,7 +36,7 @@ function buildFeatureCheckbox({id, description, screenshot, disabled}: FeatureMe
 		<div className={`feature feature--${disabled ? 'disabled' : 'enabled'}`} data-text={`${id} ${description}`.toLowerCase()}>
 			<input type="checkbox" name={key} id={id} disabled={Boolean(disabled)}/>
 			<div className="info">
-				<label for={id}>
+				<label htmlFor={id}>
 					<span className="feature-name">{id}</span>
 					{' '}
 					{disabled && <small>{parseDescription(`(Disabled because of ${disabled}) `)}</small>}
@@ -56,7 +57,7 @@ async function init(): Promise<void> {
 	container.append(...__featuresMeta__.map(buildFeatureCheckbox));
 
 	// Update list from saved options
-	await multiOptions.syncForm('form');
+	await perDomainOptions.syncForm('form');
 
 	// Update domain-dependent page content when the domain is changed
 	select('.js-options-sync-selector')?.addEventListener('change', ({currentTarget: dropdown}) => {

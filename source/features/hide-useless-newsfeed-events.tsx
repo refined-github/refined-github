@@ -1,5 +1,6 @@
 import './hide-useless-newsfeed-events.css';
 import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
 
 function init(): void {

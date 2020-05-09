@@ -2,8 +2,9 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import PullRequestIcon from 'octicon/git-pull-request.svg';
-import features from '../libs/features';
+
 import * as api from '../libs/api';
+import features from '../libs/features';
 import getDefaultBranch from '../libs/get-default-branch';
 import {getOwnerAndRepo, getRepoGQL} from '../libs/utils';
 
