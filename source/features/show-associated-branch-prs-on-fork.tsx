@@ -106,7 +106,7 @@ async function init(): Promise<void> {
 features.add({
 	id: __filebasename,
 	description: 'Shows the associated pull requests on branches for forked repository’s',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/81311484-7520f180-9053-11ea-95b1-d491f85c79f7.png'
+	screenshot: 'https://user-images.githubusercontent.com/16872793/81504659-7e5ec800-92b8-11ea-9ee6-924110e8cca1.png'
 }, {
 	include: [
 		pageDetect.isBranches
