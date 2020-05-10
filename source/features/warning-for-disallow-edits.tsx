@@ -17,11 +17,9 @@ function update(checkbox: HTMLInputElement): void {
 	if (checkbox.checked) {
 		getWarning().remove();
 	} else {
-		// Select every time because the sidebar content may be replaced
-		select(`
-				.new-pr-form .timeline-comment,
-				#partial-discussion-sidebar .js-collab-form + .js-dropdown-details
-			`)!.after(getWarning());
+		checkbox
+			.closest('.timeline-comment, .discussion-sidebar-item > .d-inline-flex')!
+			.after(getWarning());
 	}
 }
 
