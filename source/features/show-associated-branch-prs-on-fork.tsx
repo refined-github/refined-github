@@ -89,7 +89,7 @@ async function init(): Promise<void> {
 						data-hovercard-type="pull_request"
 						data-hovercard-url={prInfo.url + '/hovercard'}
 					>
-						#{prInfo.number}
+						#{prInfo.number}{' '}
 					</a>
 					<a
 						className={`State State${stateClass[prInfo.state]} State--small ml-1 no-underline`}
