@@ -31,13 +31,13 @@ function init(): void {
 }
 
 features.add({
-	id: __filebasename,
-	description: 'Prevents Github from converting PR links into commit links',
-	screenshot: false
+    id: __filebasename,
+    description: 'Prevents Github from converting PR links into commit links',
+    screenshot: false
 }, {
-	include: [
+    include: [
         pageDetect.isIssue,
-		pageDetect.isPRConversation
-	],
-	init
+        pageDetect.isPRConversation
+    ],
+    init
 });
