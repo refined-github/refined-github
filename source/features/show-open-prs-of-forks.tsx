@@ -73,7 +73,7 @@ async function initHeadHint(): Promise<void | false> {
 
 async function initDeleteHint(): Promise<void | false> {
 	const [count, url] = await getPRs();
-	if (!count || !location.pathname.endsWith('settings')) {
+	if (!count) {
 		return false;
 	}
 
@@ -102,7 +102,8 @@ features.add({
 		pageDetect.isRepoSettings
 	],
 	exclude: [
-		() => !pageDetect.isForkedRepo()
+		() => !pageDetect.isForkedRepo(),
+		() => !location.pathname.endsWith('settings')
 	],
 	waitForDomReady: false,
 	init: initDeleteHint
