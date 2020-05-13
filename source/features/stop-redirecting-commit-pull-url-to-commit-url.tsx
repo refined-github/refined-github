@@ -23,8 +23,7 @@ features.add({
 	screenshot: false
 }, {
 	include: [
-		pageDetect.isIssue,
-		pageDetect.isPRConversation
+		pageDetect.hasComments
 	],
 	init
 });
