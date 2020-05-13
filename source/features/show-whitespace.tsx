@@ -1,12 +1,11 @@
 import './show-whitespace.css';
 import React from 'dom-chef';
-import select from 'select-dom';
+import oneTime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../libs/features';
 import getTextNodes from '../libs/get-text-nodes';
-import onPrFileLoad from '../libs/on-pr-file-load';
-import onNewComments from '../libs/on-new-comments';
+import {lazilyObserveSelector} from '../libs/once-visible-observer';
 
 // `splitText` is used before and after each whitespace group so a new whitespace-only text node is created. This new node is then wrapped in a <span>
 function showWhiteSpacesOn(line: Element): void {
@@ -56,33 +55,17 @@ function showWhiteSpacesOn(line: Element): void {
 	}
 }
 
-const viewportObserver = new IntersectionObserver(changes => {
-	for (const change of changes) {
-		if (change.isIntersecting) {
-			showWhiteSpacesOn(change.target);
-			viewportObserver.unobserve(change.target);
-		}
-	}
+const init = oneTime((): void => {
+	lazilyObserveSelector('.blob-code-inner', showWhiteSpacesOn);
 });
-
-async function init(): Promise<void> {
-	for (const line of select.all('.blob-code-inner:not(.rgh-observing-whitespace)')) {
-		line.classList.add('rgh-observing-whitespace');
-		viewportObserver.observe(line);
-	}
-}
 
 features.add({
 	id: __filebasename,
-	description: 'Shows whitespace characters.',
+	description: 'Makes whitespace characters visible.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/61187598-f9118380-a6a5-11e9-985a-990a7f798805.png'
 }, {
 	include: [
 		pageDetect.hasCode
-	],
-	additionalListeners: [
-		onNewComments,
-		onPrFileLoad
 	],
 	init
 });
