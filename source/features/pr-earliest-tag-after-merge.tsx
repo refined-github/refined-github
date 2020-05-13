@@ -25,16 +25,16 @@ async function addEarliestTag(discussionHeader: Element) {
 	const mergeCommit = select('div.TimelineItem-body > a[href*="commit"] > code.link-gray-dark')!.textContent!;
 	const [tagUrl, tagName] = await getEarliestTag(mergeCommit) ?? [];
 
-	if (!href) {
+	if (!tagUrl) {
 		return;
 	}
 
 	discussionHeader.append(
-		<span className="tooltipped tooltipped-s" aria-label={`${textContent} was the earliest tag after this PR was merged`}>
+		<span className="tooltipped tooltipped-s" aria-label={`${tagName!} was the earliest tag after this PR was merged`}>
 			• <TagIcon width={14} className="mx-1 text-gray-light"/>
 			<span className="commit-ref css-truncate user-select-contain expandable ">
-				<a href={href}>
-					{textContent}
+				<a href={tagUrl}>
+					{tagName}
 				</a>
 			</span>
 		</span>
