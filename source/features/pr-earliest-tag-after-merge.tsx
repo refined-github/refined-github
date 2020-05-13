@@ -10,7 +10,7 @@ import fetchDom from '../libs/fetch-dom';
 import features from '../libs/features';
 import {getRepoURL} from '../libs/utils';
 
-const getEarliestTag = cache.function(async (mergeCommit: string): Promise<string[] | undefined> => {
+const getEarliestTag = cache.function(async (mergeCommit: string): Promise<[string, string] | undefined> => {
 	const firstAssociatedTag = await fetchDom<HTMLAnchorElement>(`/${getRepoURL()}/branch_commits/${mergeCommit}`, 'ul.branches-tag-list li:last-child a');
 	if (!firstAssociatedTag) {
 		return;
@@ -18,12 +18,12 @@ const getEarliestTag = cache.function(async (mergeCommit: string): Promise<strin
 
 	return [firstAssociatedTag.href, firstAssociatedTag.textContent!];
 }, {
-	cacheKey: ([mergeCommit]) => `earliest-tag:${getRepoURL()}/${mergeCommit}`
+	cacheKey: ([mergeCommit]) => `earliest-tag:${getRepoURL()}:${mergeCommit}`
 });
 
 async function addEarliestTag(discussionHeader: Element) {
 	const mergeCommit = select('div.TimelineItem-body > a[href*="commit"] > code.link-gray-dark')!.textContent!;
-	const [href, textContent] = await getEarliestTag(mergeCommit) ?? [];
+	const [tagUrl, tagName] = await getEarliestTag(mergeCommit) ?? [];
 
 	if (!href) {
 		return;
@@ -31,7 +31,7 @@ async function addEarliestTag(discussionHeader: Element) {
 
 	discussionHeader.append(
 		<span className="tooltipped tooltipped-s" aria-label={`${textContent} was the earliest tag after this PR was merged`}>
-			• <TagIcon width={14} className="d-inline-block mx-1 text-gray-light"/>
+			• <TagIcon width={14} className="mx-1 text-gray-light"/>
 			<span className="commit-ref css-truncate user-select-contain expandable ">
 				<a href={href}>
 					{textContent}
