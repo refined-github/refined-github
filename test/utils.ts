@@ -263,6 +263,8 @@ test('getLatestVersionTag', t => {
 });
 
 test('preventPrCommitLinkBreak', t => {
+	t.is(preventPrCommitLinkBreak(''), '');
+	t.is(preventPrCommitLinkBreak('1111222233334444'), '1111222233334444');
 	t.is(preventPrCommitLinkBreak('https://github.com/sindresorhus/refined-github/pull/3/commits/cb44a4eb8cd5c66def3dc26dca0f386645fa29bb'), '[https://github.com/sindresorhus/refined-github/pull/3/commits/cb44a4eb8cd5c66def3dc26dca0f386645fa29bb ](https://github.com/sindresorhus/refined-github/pull/3/commits/cb44a4eb8cd5c66def3dc26dca0f386645fa29bb)');
 	t.is(preventPrCommitLinkBreak('https://www.google.com/'), 'https://www.google.com/');
 	t.is(preventPrCommitLinkBreak('https://github.com/sindresorhus/refined-github/commit/cb44a4eb8cd5c66def3dc26dca0f386645fa29bb'), 'https://github.com/sindresorhus/refined-github/commit/cb44a4eb8cd5c66def3dc26dca0f386645fa29bb');
