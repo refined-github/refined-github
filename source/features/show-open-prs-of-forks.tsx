@@ -99,11 +99,10 @@ features.add({
 	init: initHeadHint
 }, {
 	include: [
-		pageDetect.isRepoSettings
+		pageDetect.isRepoMainSettings
 	],
 	exclude: [
-		() => !pageDetect.isForkedRepo(),
-		() => !location.pathname.endsWith('settings')
+		() => !pageDetect.isForkedRepo()
 	],
 	waitForDomReady: false,
 	init: initDeleteHint
