@@ -208,5 +208,5 @@ export function getLatestVersionTag(tags: string[]): string {
 const escapeRegex = (string: string) => string.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&');
 const prCommitRegex = new RegExp(`\\b${escapeRegex(location.origin)}[/][^/]+[/][^/]+[/]pull[/]\\d+[/]commits[/][0-9a-f]{7,40}\\b(?! \\]|\\))`, 'gi');
 export function preventPrCommitLinkBreak(comment: string) {
-  return comment.replace(prCommitRegex, '[$& ]($&)')
+	return comment.replace(prCommitRegex, '[$& ]($&)');
 }

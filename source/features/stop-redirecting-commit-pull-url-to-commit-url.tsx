@@ -2,7 +2,7 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../libs/features';
-import { preventPrCommitLinkBreak } from '../libs/utils';
+import {preventPrCommitLinkBreak} from '../libs/utils';
 
 function init(): void {
 	delegate(document, 'form#new_issue, form.js-new-comment-form', 'submit', updateTextArea);
