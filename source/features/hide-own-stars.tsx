@@ -1,15 +1,23 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
+import oneTime from 'onetime';
+
 import features from '../libs/features';
 import {getUsername} from '../libs/utils';
+import {lazilyObserveSelector, ElementCallback} from '../libs/once-visible-observer';
 
-async function init(): Promise<void> {
-	for (const item of select.all('#dashboard .news .watch_started, #dashboard .news .fork')) {
-		if (select.exists(`a[href^="/${getUsername()}"]`, item)) {
-			item.style.display = 'none';
-		}
+function hide(element: HTMLElement): void {
+	if (select.exists(`a[href^="/${getUsername()}"]`, element)) {
+		element.style.display = 'none';
 	}
+}
+
+function init(): void {
+	lazilyObserveSelector(`
+		#dashboard .news .watch_started,
+		#dashboard .news .fork
+	`, hide as ElementCallback);
 }
 
 features.add({
@@ -20,7 +28,6 @@ features.add({
 	include: [
 		pageDetect.isDashboard
 	],
-	onlyAdditionalListeners: true,
 	repeatOnAjax: false,
-	init
+	init: oneTime(init)
 });
