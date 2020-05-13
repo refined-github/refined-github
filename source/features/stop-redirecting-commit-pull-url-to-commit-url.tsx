@@ -8,7 +8,7 @@ function init(): void {
 }
 
 function updateTextArea(event: delegate.Event): void {
-	const field = event.delegateTarget.querySelector('textarea');
+	const field = event.delegateTarget.querySelector('textarea')!;
 	field.value = preventPrCommitLinkBreak(field.value);
 }
 
