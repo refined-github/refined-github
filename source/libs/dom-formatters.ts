@@ -50,7 +50,7 @@ export function linkifyURLs(element: Element): void {
 	}
 
 	const linkified = linkifyURLsCore(element.textContent!, {
-		type: 'dom' as const,
+		type: 'dom',
 		attributes: {
 			rel: 'noreferrer noopener',
 			class: linkifiedURLClass // Necessary to avoid also shortening the links

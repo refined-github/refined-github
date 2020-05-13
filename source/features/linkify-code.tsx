@@ -1,9 +1,8 @@
 import oneTime from 'onetime';
-import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../libs/features';
-import OnceVisibleObserver from '../libs/once-visible-observer';
+import {lazilyObserveSelector} from '../libs/once-visible-observer';
 import {linkifyURLs, linkifyIssues} from '../libs/dom-formatters';
 
 function anySelector(selector: string) {
@@ -20,29 +19,26 @@ const containerSelector = `
 	)
 `;
 
-const issuesObserver = new OnceVisibleObserver(linkifyIssues);
-const urlObserver = new OnceVisibleObserver(linkifyURLs);
-
 const init = oneTime((): void => {
 	// Linkify issue refs in comments
-	observe(anySelector(`${containerSelector} span.pl-c`), {
-		add: issuesObserver.observe.bind(issuesObserver),
-		remove: issuesObserver.unobserve.bind(issuesObserver)
-	});
+	lazilyObserveSelector(
+		anySelector(`${containerSelector} span.pl-c`),
+		linkifyIssues
+	);
 
 	// Linkify full URLs
 	// `.blob-code-inner` in diffs
 	// `pre` in GitHub comments
-	observe(anySelector(`
-		${containerSelector}
-		:any(
-			pre,
-			.blob-code-inner
-		)
-	`), {
-		add: urlObserver.observe.bind(urlObserver),
-		remove: urlObserver.unobserve.bind(urlObserver)
-	});
+	lazilyObserveSelector(
+		anySelector(`
+			${containerSelector}
+			:any(
+				pre,
+				.blob-code-inner
+			)
+		`),
+		linkifyURLs
+	);
 });
 
 features.add({
