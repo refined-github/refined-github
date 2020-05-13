@@ -19,7 +19,7 @@ const containerSelector = `
 	)
 `;
 
-const init = oneTime((): void => {
+function init(): void {
 	// Linkify issue refs in comments
 	lazilyObserveSelector(
 		anySelector(`${containerSelector} span.pl-c`),
@@ -39,7 +39,7 @@ const init = oneTime((): void => {
 		`),
 		linkifyURLs
 	);
-});
+}
 
 features.add({
 	id: __filebasename,
@@ -49,5 +49,5 @@ features.add({
 	include: [
 		pageDetect.hasCode
 	],
-	init
+	init: oneTime(init)
 });
