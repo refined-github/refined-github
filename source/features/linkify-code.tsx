@@ -3,6 +3,7 @@ import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../libs/features';
+import {OnceVisibleObserver} from '../libs/utils';
 import {linkifyURLs, linkifyIssues} from '../libs/dom-formatters';
 
 function anySelector(selector: string) {
@@ -19,10 +20,14 @@ const containerSelector = `
 	)
 `;
 
+const issuesObserver = new OnceVisibleObserver(linkifyIssues);
+const urlObserver = new OnceVisibleObserver(linkifyURLs);
+
 const init = oneTime((): false | void => {
 	// Linkify issue refs in comments
 	observe(anySelector(`${containerSelector} span.pl-c`), {
-		add: linkifyIssues
+		add: issuesObserver.observe.bind(issuesObserver),
+		remove: issuesObserver.unobserve.bind(issuesObserver)
 	});
 
 	// Linkify full URLs
@@ -35,7 +40,8 @@ const init = oneTime((): false | void => {
 			.blob-code-inner
 		)
 	`), {
-		add: linkifyURLs
+		add: urlObserver.observe.bind(urlObserver),
+		remove: urlObserver.unobserve.bind(urlObserver)
 	});
 });
 
