@@ -4,8 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../libs/features';
 
 function init(): void {
-	delegate(document, 'form#new_issue', 'submit', updateTextArea);
-	delegate(document, 'form.js-new-comment-form', 'submit', updateTextArea);
+	delegate(document, 'form#new_issue, form.js-new-comment-form', 'submit', updateTextArea);
 }
 
 function updateTextArea(event: delegate.Event): void {
