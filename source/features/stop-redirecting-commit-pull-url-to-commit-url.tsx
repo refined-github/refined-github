@@ -1,33 +1,21 @@
-import select from 'select-dom';
+import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../libs/features';
 
 function init(): void {
-	for (const form of select.all(['form#new_issue', 'form.js-new-comment-form'])) {
-		form.addEventListener('submit', () => {
-			for (const textarea of select.all('textarea', form)) {
-				if (textarea.value) {
-					textarea.value = textarea.value.replace(/\bhttps?:\/\/github.com\/.*\/pull\/.*\b/gi, (match): string => {
-						try {
-							if (match) {
-								const parts = match.split('/') || [];
-								if (parts?.length > 0) {
-									const sha = parts[parts.length - 1].slice(0, 7);
-									return `[${sha}](${match})`;
-								}
-							}
-						} catch (error) {
-							console.log(error);
-							return match;
-						}
+	delegate(document, 'form#new_issue', 'submit', updateTextArea);
+	delegate(document, 'form.js-new-comment-form', 'submit', updateTextArea);
+}
 
-						return match;
-					});
-				}
-			}
-		});
-	}
+function updateTextArea(event: delegate.Event): void {
+	const field = event.delegateTarget.querySelector('textarea');
+
+	field!.value = field!.value.replace(/\bhttps?:\/\/github.com\/.*\/pull\/.*\b/gi, (match): string => {
+		const parts = match.split('/')
+		const sha = parts[parts.length - 1].slice(0, 7);
+		return `[${sha}](${match})`;
+	});
 }
 
 features.add({
