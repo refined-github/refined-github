@@ -23,7 +23,7 @@ const containerSelector = `
 const issuesObserver = new OnceVisibleObserver(linkifyIssues);
 const urlObserver = new OnceVisibleObserver(linkifyURLs);
 
-const init = oneTime((): false | void => {
+const init = oneTime((): void => {
 	// Linkify issue refs in comments
 	observe(anySelector(`${containerSelector} span.pl-c`), {
 		add: issuesObserver.observe.bind(issuesObserver),
