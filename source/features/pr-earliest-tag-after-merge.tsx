@@ -32,11 +32,9 @@ async function addEarliestTag(discussionHeader: Element) {
 	discussionHeader.append(
 		<span className="tooltipped tooltipped-s" aria-label={`${tagName!} was the earliest tag after this PR was merged`}>
 			• <TagIcon width={14} className="mx-1 text-gray-light"/>
-			<span className="commit-ref css-truncate user-select-contain expandable ">
-				<a href={tagUrl}>
-					{tagName}
-				</a>
-			</span>
+			<a href={tagUrl} className="commit-ref">
+				{tagName}
+			</a>
 		</span>
 	);
 }
