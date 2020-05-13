@@ -9,12 +9,7 @@ function init(): void {
 
 function updateTextArea(event: delegate.Event): void {
 	const field = event.delegateTarget.querySelector('textarea');
-
-	field!.value = field!.value.replace(/\bhttps?:\/\/github.com\/.*\/pull\/.*\b/gi, (match): string => {
-		const parts = match.split('/');
-		const sha = parts[parts.length - 1].slice(0, 7);
-		return `[${sha}](${match})`;
-	});
+	field.value = preventPrCommitLinkBreak(field.value);
 }
 
 features.add({
