@@ -15,7 +15,7 @@ function updateTextArea(event: delegate.Event): void {
 
 features.add({
 	id: __filebasename,
-	description: 'Prevents Github from converting PR links into commit links',
+	description: 'Prevents Github from displaying PR commit links as non-PR commit links by modifying them before submission. This fixes the comment before submission, it can’t work on existing links. This is a GitHub bug.',
 	screenshot: false
 }, {
 	include: [
