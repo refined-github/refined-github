@@ -3,7 +3,7 @@ import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../libs/features';
-import {OnceVisibleObserver} from '../libs/utils';
+import OnceVisibleObserver from '../libs/once-visible-observer';
 import {linkifyURLs, linkifyIssues} from '../libs/dom-formatters';
 
 function anySelector(selector: string) {

@@ -204,17 +204,3 @@ export function getLatestVersionTag(tags: string[]): string {
 
 	return latestVersion;
 }
-
-/** Like `IntersectionObserver`, but call callback ONCE when the observed element becomes visible */
-export class OnceVisibleObserver extends IntersectionObserver {
-	constructor(callback: (element: Element) => void) {
-		super(changes => {
-			for (const change of changes) {
-				if (change.isIntersecting) {
-					callback(change.target);
-					this.unobserve(change.target);
-				}
-			}
-		});
-	}
-}
