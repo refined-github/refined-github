@@ -30,9 +30,10 @@ const countPRs = cache.function(async (forkedRepo: string): Promise<[number, num
 		}
 	`);
 
+	// Only show PRs originated from the current repo
 	const prs = search.nodes.filter((pr: AnyObject) => pr.headRepository.nameWithOwner.toLowerCase() === getRepoURL());
 
-	// If only one is found, pass the pr number so we can link to the PR directly
+	// If only one is found, pass the PR number so we can link to the PR directly
 	if (prs.length === 1) {
 		return [1, prs[0].number];
 	}
