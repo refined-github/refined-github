@@ -55,9 +55,9 @@ function showWhiteSpacesOn(line: Element): void {
 	}
 }
 
-const init = oneTime((): void => {
+function init(): void {
 	lazilyObserveSelector('.blob-code-inner', showWhiteSpacesOn);
-});
+}
 
 features.add({
 	id: __filebasename,
@@ -67,5 +67,5 @@ features.add({
 	include: [
 		pageDetect.hasCode
 	],
-	init
+	init: oneTime(init)
 });
