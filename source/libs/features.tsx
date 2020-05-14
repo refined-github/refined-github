@@ -204,7 +204,7 @@ const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<voi
 
 		const details = {include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners};
 		if (waitForDomReady) {
-			domLoaded.then(() => setupPageLoad(id, details));
+			domLoaded.then(async () => setupPageLoad(id, details));
 		} else {
 			setupPageLoad(id, details);
 		}

@@ -39,6 +39,7 @@
 .review-thread-reply .avatar {
 	display: none;
 }
+
 .review-thread-reply .review-thread-reply-button {
 	margin-left: 0;
 }
@@ -89,6 +90,7 @@
 .dashboard-sidebar a[href='/new'] {
 	display: none;
 }
+
 .dashboard-sidebar .Box-title {
 	padding-top: 4px !important;
 	padding-bottom: 4px !important;

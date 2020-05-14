@@ -6,6 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../libs/features';
 import onReplacedElement from '../libs/on-replaced-element';
+import onElementRemoval from '../libs/on-element-removal';
 
 const canEditSidebar = oneTime((): boolean => select.exists('.sidebar-labels .octicon-gear'));
 
@@ -35,7 +36,8 @@ function cleanSection(containerSelector: string): boolean {
 	const container = select(containerSelector)!;
 	const header = select(':scope > details, :scope > .discussion-sidebar-heading', container)!;
 
-	// Magic. Do not touch
+	// Magic. Do not touch.
+	// Section is empty if: no sibling element OR empty sibling element
 	if (header.nextElementSibling?.firstElementChild) {
 		return false;
 	}
@@ -51,7 +53,7 @@ function cleanSection(containerSelector: string): boolean {
 	return true;
 }
 
-function clean(): void {
+async function clean(): Promise<void> {
 	if (select.exists('.rgh-clean-sidebar')) {
 		return;
 	}
@@ -75,7 +77,19 @@ function clean(): void {
 
 	// Reviewers
 	if (pageDetect.isPR()) {
-		cleanSection('[aria-label="Select reviewers"]');
+		const possibleReviewers = select('[src$="/suggested-reviewers"]');
+		if (possibleReviewers) {
+			await onElementRemoval(possibleReviewers);
+		}
+
+		const content = select('[aria-label="Select reviewers"] > .css-truncate')!;
+		if (!content.firstElementChild) {
+			if (select.exists('.js-convert-to-draft')) {
+				content.remove(); // Drop "No reviews"
+			} else {
+				cleanSection('[aria-label="Select reviewers"]');
+			}
+		}
 	}
 
 	// Labels
