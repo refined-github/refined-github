@@ -17,12 +17,12 @@ const getFirstTag = cache.function(async (commit: string): Promise<string | unde
 	cacheKey: ([commit]) => `first-tag:${getRepoURL()}:${commit}`
 });
 
-async function init(): Promise<void | false> {
+async function init(): Promise<void> {
 	const mergeCommit = select(`.TimelineItem.js-details-container.Details a[href^="/${getRepoURL()}/commit/" i] > code.link-gray-dark`)!.textContent!;
 	const tagName = await getFirstTag(mergeCommit);
 
 	if (!tagName) {
-		return false;
+		return;
 	}
 
 	// Select the PR header and sticky header
