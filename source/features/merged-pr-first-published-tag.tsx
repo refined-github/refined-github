@@ -11,11 +11,7 @@ import observeElement from '../libs/simplified-element-observer';
 
 const getFirstTag = cache.function(async (commit: string): Promise<[string, string] | undefined> => {
 	const firstTag = await fetchDom<HTMLAnchorElement>(`/${getRepoURL()}/branch_commits/${commit}`, 'ul.branches-tag-list li:last-child a');
-	if (!firstTag) {
-		return;
-	}
-
-	return [firstTag.href, firstTag.textContent!];
+	return firstAssociatedTag?.textContent;
 }, {
 	cacheKey: ([commit]) => `first-tag:${getRepoURL()}:${commit}`
 });
