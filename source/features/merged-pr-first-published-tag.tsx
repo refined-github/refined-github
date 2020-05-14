@@ -17,40 +17,30 @@ const getFirstTag = cache.function(async (commit: string): Promise<string | unde
 	cacheKey: ([commit]) => `first-tag:${getRepoURL()}:${commit}`
 });
 
-async function addTag(discussionHeader: HTMLElement): Promise<void | false> {
+async function init(): Promise<void | false> {
 	const mergeCommit = select(`.TimelineItem.js-details-container.Details a[href^="/${getRepoURL()}/commit/" i] > code.link-gray-dark`)!.textContent!;
 	const tagName = await getFirstTag(mergeCommit);
 
 	if (!tagName) {
-		return;
-	}
-
-	discussionHeader.parentElement!.append(
-		<> • <TagIcon className="mx-1 text-gray-light v-align-middle"/>
-			<a
-				href={`${location.origin}/${getRepoURL()}/releases/tag/${tagName}`}
-				className="commit-ref"
-				title={`${tagName} was the first tag to include this PR`}
-			>
-				{tagName}
-			</a>
-		</>
-	);
-}
-
-function init(): void | false {
-	if (!select.exists('[title="Status: Merged"]')) {
 		return false;
 	}
 
-	const ajaxedTitleArea = select('#partial-discussion-header')!.parentElement!;
-	observeElement(ajaxedTitleArea, () => {
-		// Select the PR header and sticky header
-		for (const discussionHeader of select.all('#partial-discussion-header relative-time:not(.rgh-first-tag)')) {
-			discussionHeader.classList.add('rgh-first-tag');
-			addTag(discussionHeader);
-		}
-	});
+	// Select the PR header and sticky header
+	for (const discussionHeader of select.all('#partial-discussion-header relative-time:not(.rgh-first-tag)')) {
+		discussionHeader.classList.add('rgh-first-tag');
+
+		discussionHeader.parentElement!.append(
+			<> • <TagIcon className="mx-1 text-gray-light v-align-middle"/>
+				<a
+					href={`${location.origin}/${getRepoURL()}/releases/tag/${tagName}`}
+					className="commit-ref"
+					title={`${tagName} was the first tag to include this PR`}
+				>
+					{tagName}
+				</a>
+			</>
+		);
+	}
 }
 
 features.add({
@@ -61,5 +51,10 @@ features.add({
 	include: [
 		pageDetect.isPRConversation
 	],
-	init
+	exclude: [
+		() => !select.exists('[title="Status: Merged"]')
+	],
+	init: () => {
+		observeElement(select('#partial-discussion-header')!.parentElement!, init);
+	}
 });
