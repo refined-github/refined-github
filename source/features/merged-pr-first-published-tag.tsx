@@ -18,7 +18,7 @@ const getFirstTag = cache.function(async (commit: string): Promise<string | unde
 });
 
 async function addTag(discussionHeader: HTMLElement): Promise<void | false> {
-	const mergeCommit = select(`.TimelineItem.js-details-container.Details a[href^="/${getRepoURL()}/commit/"] > code.link-gray-dark`)!.textContent!;
+	const mergeCommit = select(`.TimelineItem.js-details-container.Details a[href^="/${getRepoURL()}/commit/" i] > code.link-gray-dark`)!.textContent!;
 	const tagName = await getFirstTag(mergeCommit);
 
 	if (!tagName) {
