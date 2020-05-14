@@ -52,7 +52,7 @@ features.add({
 		pageDetect.isPRConversation
 	],
 	exclude: [
-		() => !select.exists('[title="Status: Merged"]')
+		() => !select.exists('#partial-discussion-header [title="Status: Merged"]')
 	],
 	init: () => {
 		observeElement(select('#partial-discussion-header')!.parentElement!, init);
