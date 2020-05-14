@@ -9,28 +9,31 @@ import fetchDom from '../libs/fetch-dom';
 import {getRepoURL} from '../libs/utils';
 import observeElement from '../libs/simplified-element-observer';
 
-const getFirstTag = cache.function(async (commit: string): Promise<[string, string] | undefined> => {
+const getFirstTag = cache.function(async (commit: string): Promise<string | undefined> => {
 	const firstTag = await fetchDom<HTMLAnchorElement>(`/${getRepoURL()}/branch_commits/${commit}`, 'ul.branches-tag-list li:last-child a');
-	return firstAssociatedTag?.textContent;
+
+	return firstTag?.textContent as string;
 }, {
 	cacheKey: ([commit]) => `first-tag:${getRepoURL()}:${commit}`
 });
 
 async function addTag(discussionHeader: HTMLElement): Promise<void | false> {
 	const mergeCommit = select(`.TimelineItem.js-details-container.Details a[href^="/${getRepoURL()}/commit/"] > code.link-gray-dark`)!.textContent!;
-	const [tagUrl, tagName] = await getFirstTag(mergeCommit) ?? [];
+	const tagName = await getFirstTag(mergeCommit);
 
-	if (!tagUrl) {
+	if (!tagName) {
 		return;
 	}
+
+	const tagURL = new URL(`${getRepoURL()}/releases/tag/${tagName}`, location.origin);
 
 	discussionHeader.parentElement!.append(
 		<span>
 			• <TagIcon className="mx-1 text-gray-light v-align-middle"/>
 			<a
-				href={tagUrl}
+				href={String(tagURL)}
 				className="commit-ref"
-				title={`${tagName!} was the first tag to include this PR`}
+				title={`${tagName} was the first tag to include this PR`}
 			>
 				{tagName}
 			</a>
