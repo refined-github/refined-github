@@ -177,7 +177,7 @@ import './features/batch-mark-files-as-viewed';
 import './features/unwrap-useless-dropdowns';
 import './features/linkify-notification-repository-header';
 import './features/stop-redirecting-in-notification-bar';
-import './features/pr-earliest-tag-after-merge';
+import './features/merged-pr-first-published-tag';
 
 // Add global for easier debugging
 (window as any).select = select;

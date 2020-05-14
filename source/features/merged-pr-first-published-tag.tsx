@@ -9,20 +9,20 @@ import fetchDom from '../libs/fetch-dom';
 import {getRepoURL} from '../libs/utils';
 import observeElement from '../libs/simplified-element-observer';
 
-const getEarliestTag = cache.function(async (commit: string): Promise<[string, string] | undefined> => {
-	const firstAssociatedTag = await fetchDom<HTMLAnchorElement>(`/${getRepoURL()}/branch_commits/${commit}`, 'ul.branches-tag-list li:last-child a');
-	if (!firstAssociatedTag) {
+const getFirstTag = cache.function(async (commit: string): Promise<[string, string] | undefined> => {
+	const firstTag = await fetchDom<HTMLAnchorElement>(`/${getRepoURL()}/branch_commits/${commit}`, 'ul.branches-tag-list li:last-child a');
+	if (!firstTag) {
 		return;
 	}
 
-	return [firstAssociatedTag.href, firstAssociatedTag.textContent!];
+	return [firstTag.href, firstTag.textContent!];
 }, {
-	cacheKey: ([commit]) => `earliest-tag:${getRepoURL()}:${commit}`
+	cacheKey: ([commit]) => `first-tag:${getRepoURL()}:${commit}`
 });
 
-async function applyTagToHeaders(discussionHeader: HTMLElement): Promise<void | false> {
+async function addTag(discussionHeader: HTMLElement): Promise<void | false> {
 	const mergeCommit = select('div.TimelineItem-body > a[href*="commit"] > code.link-gray-dark')!.textContent!;
-	const [tagUrl, tagName] = await getEarliestTag(mergeCommit) ?? [];
+	const [tagUrl, tagName] = await getFirstTag(mergeCommit) ?? [];
 
 	if (!tagUrl) {
 		return;
@@ -53,7 +53,7 @@ function init(): void | false {
 		// Select the PR header and sticky header
 		for (const discussionHeader of select.all('#partial-discussion-header relative-time:not(.rgh-earliest-tag)')) {
 			discussionHeader.classList.add('rgh-earliest-tag');
-			applyTagToHeaders(discussionHeader);
+			addTag(discussionHeader);
 		}
 	});
 }
