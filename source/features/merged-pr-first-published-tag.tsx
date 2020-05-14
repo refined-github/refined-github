@@ -30,7 +30,7 @@ async function addTag(discussionHeader: HTMLElement): Promise<void | false> {
 
 	discussionHeader.parentElement!.append(
 		<span>
-			• <TagIcon width={14} className="mx-1 text-gray-light" style={{paddingTop: '1px'}}/>
+			• <TagIcon className="mx-1 text-gray-light v-align-middle"/>
 			<a
 				href={tagUrl}
 				className="commit-ref"
