@@ -25,12 +25,10 @@ async function addTag(discussionHeader: HTMLElement): Promise<void | false> {
 		return;
 	}
 
-	const tagURL = new URL(`${getRepoURL()}/releases/tag/${tagName}`, location.origin);
-
 	discussionHeader.parentElement!.append(
 		<> • <TagIcon className="mx-1 text-gray-light v-align-middle"/>
 			<a
-				href={String(tagURL)}
+				href={`${location.origin}/${getRepoURL()}/releases/tag/${tagName}`}
 				className="commit-ref"
 				title={`${tagName} was the first tag to include this PR`}
 			>
