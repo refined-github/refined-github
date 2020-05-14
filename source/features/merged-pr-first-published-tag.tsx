@@ -28,8 +28,7 @@ async function addTag(discussionHeader: HTMLElement): Promise<void | false> {
 	const tagURL = new URL(`${getRepoURL()}/releases/tag/${tagName}`, location.origin);
 
 	discussionHeader.parentElement!.append(
-		<>
-			• <TagIcon className="mx-1 text-gray-light v-align-middle"/>
+		<> • <TagIcon className="mx-1 text-gray-light v-align-middle"/>
 			<a
 				href={String(tagURL)}
 				className="commit-ref"
