@@ -30,11 +30,11 @@ async function applyTagToHeaders(discussionHeader: HTMLElement): Promise<void | 
 
 	discussionHeader.parentElement!.append(
 		<span>
-			• <TagIcon width={14} className="mx-1 text-gray-light"/>
+			• <TagIcon width={14} className="mx-1 text-gray-light" style={{paddingTop: '1px'}}/>
 			<a
 				href={tagUrl}
 				className="commit-ref"
-				title={`${tagName!} was the earliest tag after this PR was merged`}
+				title={`${tagName!} was the first tag to include this PR`}
 			>
 				{tagName}
 			</a>
@@ -60,7 +60,7 @@ function init(): void | false {
 
 features.add({
 	id: __filebasename,
-	description: 'Shows the earliest published tag on a merged PR.',
+	description: 'Shows the first tag a merged PR was published on.',
 	screenshot: 'https://user-images.githubusercontent.com/16872793/81943321-38ac4300-95c9-11ea-8543-0f4858174e1e.png'
 }, {
 	include: [
