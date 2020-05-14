@@ -51,8 +51,8 @@ function init(): void | false {
 	const ajaxedTitleArea = select('#partial-discussion-header')!.parentElement!;
 	observeElement(ajaxedTitleArea, () => {
 		// Select the PR header and sticky header
-		for (const discussionHeader of select.all('#partial-discussion-header relative-time:not(.rgh-earliest-tag)')) {
-			discussionHeader.classList.add('rgh-earliest-tag');
+		for (const discussionHeader of select.all('#partial-discussion-header relative-time:not(.rgh-first-tag)')) {
+			discussionHeader.classList.add('rgh-first-tag');
 			addTag(discussionHeader);
 		}
 	});
