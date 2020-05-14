@@ -39,8 +39,7 @@ async function addTag(discussionHeader: HTMLElement): Promise<void | false> {
 }
 
 function init(): void | false {
-	// The state will be purple on a merged PR
-	if (!select.exists('.State.State--purple')) {
+	if (!select.exists('[title="Status: Merged"]')) {
 		return false;
 	}
 
