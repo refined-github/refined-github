@@ -1,27 +1,26 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import oneTime from 'onetime';
 import TagIcon from 'octicon/tag.svg';
-import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import fetchDom from '../libs/fetch-dom';
 import features from '../libs/features';
 import {getRepoURL} from '../libs/utils';
+import observeElement from '../libs/simplified-element-observer';
 
-const getEarliestTag = cache.function(async (mergeCommit: string): Promise<[string, string] | undefined> => {
-	const firstAssociatedTag = await fetchDom<HTMLAnchorElement>(`/${getRepoURL()}/branch_commits/${mergeCommit}`, 'ul.branches-tag-list li:last-child a');
+const getEarliestTag = cache.function(async (commit: string): Promise<[string, string] | undefined> => {
+	const firstAssociatedTag = await fetchDom<HTMLAnchorElement>(`/${getRepoURL()}/branch_commits/${commit}`, 'ul.branches-tag-list li:last-child a');
 	if (!firstAssociatedTag) {
 		return;
 	}
 
 	return [firstAssociatedTag.href, firstAssociatedTag.textContent!];
 }, {
-	cacheKey: ([mergeCommit]) => `earliest-tag:${getRepoURL()}:${mergeCommit}`
+	cacheKey: ([commit]) => `earliest-tag:${getRepoURL()}:${commit}`
 });
 
-async function addEarliestTag(discussionHeader: Element) {
+async function applyTagToHeaders(discussionHeader: Element): Promise<void | false> {
 	const mergeCommit = select('div.TimelineItem-body > a[href*="commit"] > code.link-gray-dark')!.textContent!;
 	const [tagUrl, tagName] = await getEarliestTag(mergeCommit) ?? [];
 
@@ -29,8 +28,8 @@ async function addEarliestTag(discussionHeader: Element) {
 		return;
 	}
 
-	discussionHeader.append(
-		<span className="tooltipped tooltipped-s" aria-label={`${tagName!} was the earliest tag after this PR was merged`}>
+	discussionHeader.parentElement!.append(
+		<span title={`${tagName!} was the earliest tag after this PR was merged`}>
 			• <TagIcon width={14} className="mx-1 text-gray-light"/>
 			<a href={tagUrl} className="commit-ref">
 				{tagName}
@@ -44,8 +43,12 @@ function init(): void | false {
 		return false;
 	}
 
-	observe('#partial-discussion-header .TableObject-item--primary, #partial-discussion-header > div.js-sticky div.css-truncate-target', {
-		add: addEarliestTag
+	const ajaxedTitleArea = select('#partial-discussion-header')!.parentElement!;
+	observeElement(ajaxedTitleArea, () => {
+		for (const discussionHeader of select.all('#partial-discussion-header relative-time:not(.rgh-earliest-tag)')) {
+			discussionHeader.classList.add('rgh-earliest-tag');
+			applyTagToHeaders(discussionHeader);
+		}
 	});
 }
 
@@ -57,5 +60,5 @@ features.add({
 	include: [
 		pageDetect.isPRConversation
 	],
-	init: oneTime(init)
+	init
 });
