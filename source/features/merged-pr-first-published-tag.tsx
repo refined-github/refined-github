@@ -28,7 +28,7 @@ async function addTag(discussionHeader: HTMLElement): Promise<void | false> {
 	const tagURL = new URL(`${getRepoURL()}/releases/tag/${tagName}`, location.origin);
 
 	discussionHeader.parentElement!.append(
-		<span>
+		< >
 			• <TagIcon className="mx-1 text-gray-light v-align-middle"/>
 			<a
 				href={String(tagURL)}
@@ -37,7 +37,7 @@ async function addTag(discussionHeader: HTMLElement): Promise<void | false> {
 			>
 				{tagName}
 			</a>
-		</span>
+		</>
 	);
 }
 
