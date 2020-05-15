@@ -11,7 +11,7 @@ import {prCommitRegex, preventPrCommitLinkBreak} from '../libs/utils';
 function handleButtonClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const field = event.delegateTarget.form!.querySelector('textarea')!;
 	textFieldEdit.set(field, preventPrCommitLinkBreak(field.value));
-	field.parentElement!.remove();
+	event.delegateTarget.parentElement!.remove();
 }
 
 function handleInput(event: delegate.Event<InputEvent, HTMLTextAreaElement>): void {
