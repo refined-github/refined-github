@@ -11,7 +11,7 @@ function init(): void {
 	delegate(document, 'form#new_issue textarea, form.js-new-comment-form textarea', 'input', handleTextAreaChange);
 }
 
-function handleTextAreaChange(event: delegate.Event): void {
+function handleTextAreaChange(event: delegate.Event<InputEvent, HTMLTextAreaElement>): void {
 	const field = (event.delegateTarget as HTMLInputElement);
 	const fieldValue = field.value;
 
