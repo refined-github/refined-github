@@ -3,13 +3,14 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import AlertIcon from 'octicon/alert.svg';
 import * as pageDetect from 'github-url-detection';
+import * as textFieldEdit from 'text-field-edit';
 
 import features from '../libs/features';
 import {prCommitRegex, preventPrCommitLinkBreak} from '../libs/utils';
 
 function handleButtonClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const field = event.delegateTarget.form!.querySelector('textarea')!;
-	field.value = preventPrCommitLinkBreak(field.value);
+	textFieldEdit.set(field, preventPrCommitLinkBreak(field.value));
 	field.parentElement!.remove();
 }
 
