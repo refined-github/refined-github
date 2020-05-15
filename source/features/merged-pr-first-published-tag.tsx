@@ -39,7 +39,6 @@ async function init(): Promise<void> {
 			>
 				{tagName}
 			</a>
-
 		);
 	}
 }
