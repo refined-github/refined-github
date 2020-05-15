@@ -9,6 +9,10 @@ import {prCommitRegex, preventPrCommitLinkBreak} from '../libs/utils';
 
 function init(): void {
 	delegate(document, 'form#new_issue textarea, form.js-new-comment-form textarea', 'input', handleTextAreaChange);
+	delegate(document, '.rgh-fix-pr-commit-links', 'click', (event: delegate.Event<MouseEvent, HTMLButtonElement>) => {
+		const field = event.delegateTarget.form!.querySelector('textarea')!;
+		field.value = preventPrCommitLinkBreak(field.value);
+	});
 }
 
 function handleTextAreaChange(event: delegate.Event<InputEvent, HTMLTextAreaElement>): void {
@@ -21,10 +25,6 @@ function handleTextAreaChange(event: delegate.Event<InputEvent, HTMLTextAreaElem
 				<button type="button" className="btn btn-sm primary flash-action rgh-fix-pr-commit-links">Fix link</button>
 			</div>
 		);
-
-		delegate(document, '.rgh-fix-pr-commit-links', 'click', () => {
-			field.value = preventPrCommitLinkBreak(field.value);
-		});
 	}
 }
 
