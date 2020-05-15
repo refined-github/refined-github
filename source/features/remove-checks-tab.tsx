@@ -3,7 +3,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../libs/features';
 
-function init(): false | void {
+function init(): void {
 	// Only remove the tab if it's not the current page and if it has 0 checks
 	const checksCounter = select('.tabnav-tab[href$="/checks"]:not(.selected) .Counter');
 
