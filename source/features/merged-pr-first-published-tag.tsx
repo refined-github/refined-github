@@ -10,7 +10,10 @@ import {getRepoURL} from '../libs/utils';
 import observeElement from '../libs/simplified-element-observer';
 
 const getFirstTag = cache.function(async (commit: string): Promise<string | undefined> => {
-	const firstTag = await fetchDom<HTMLAnchorElement>(`/${getRepoURL()}/branch_commits/${commit}`, 'ul.branches-tag-list li:last-child a');
+	const firstTag = await fetchDom<HTMLAnchorElement>(
+		`/${getRepoURL()}/branch_commits/${commit}`,
+		'ul.branches-tag-list li:last-child a'
+	);
 
 	return firstTag?.textContent ?? undefined;
 }, {
