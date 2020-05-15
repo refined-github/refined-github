@@ -16,8 +16,7 @@ function handleTextAreaChange(event: delegate.Event<InputEvent, HTMLTextAreaElem
 	const fieldValue = field.value;
 
 	if (containsPrCommitLink(fieldValue) && !select.exists('#fix-pr-commit-links')) {
-		const closestForm = field.closest('form')!;
-		select('.form-actions', closestForm)?.prepend(
+		select('.form-actions', field.form!)!.prepend(
 			<div className="flash flash-warn mb-2">
 				<AlertIcon/> Your PR Commit link may be <a href="https://github.com/sindresorhus/refined-github/issues/2327">misinterpreted by GitHub.</a>
 				<button type="button" className="btn btn-sm primary flash-action" id="fix-pr-commit-links">Fix link</button>
