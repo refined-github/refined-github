@@ -5,25 +5,24 @@ import AlertIcon from 'octicon/alert.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../libs/features';
-import {containsPrCommitLink, preventPrCommitLinkBreak} from '../libs/utils';
+import {prCommitRegex, preventPrCommitLinkBreak} from '../libs/utils';
 
 function init(): void {
 	delegate(document, 'form#new_issue textarea, form.js-new-comment-form textarea', 'input', handleTextAreaChange);
 }
 
 function handleTextAreaChange(event: delegate.Event<InputEvent, HTMLTextAreaElement>): void {
-	const field = (event.delegateTarget as HTMLInputElement);
-	const fieldValue = field.value;
+	const field = event.delegateTarget;
 
-	if (containsPrCommitLink(fieldValue) && !select.exists('#fix-pr-commit-links')) {
+	if (prCommitRegex.test(field.value) && !select.exists('.rgh-fix-pr-commit-links')) {
 		select('.form-actions', field.form!)!.prepend(
 			<div className="flash flash-warn mb-2">
 				<AlertIcon/>Your PR Commit link may be <a target="_blank" rel="noopener noreferrer" href="https://github.com/sindresorhus/refined-github/issues/2327">misinterpreted by GitHub.</a>
-				<button type="button" className="btn btn-sm primary flash-action" id="fix-pr-commit-links">Fix link</button>
+				<button type="button" className="btn btn-sm primary flash-action rgh-fix-pr-commit-links">Fix link</button>
 			</div>
 		);
 
-		delegate(document, '#fix-pr-commit-links', 'click', () => {
+		delegate(document, '.rgh-fix-pr-commit-links', 'click', () => {
 			field.value = preventPrCommitLinkBreak(field.value);
 		});
 	}
