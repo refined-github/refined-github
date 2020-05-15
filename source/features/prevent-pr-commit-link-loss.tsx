@@ -16,25 +16,24 @@ function handleButtonClick(event: delegate.Event<MouseEvent, HTMLButtonElement>)
 
 function handleInput(event: delegate.Event<InputEvent, HTMLTextAreaElement>): void {
 	const field = event.delegateTarget;
-
 	const formWarningExists = select.exists('.rgh-fix-pr-commit-links', field.form!);
 
-	if(!prCommitRegex.test(field.value) && formWarningExists) {
-		select('.rgh-fix-pr-commit-links-container', field.form!)!.remove();
-	}
-
 	if (prCommitRegex.test(field.value) && !formWarningExists) {
-		select('.form-actions', field.form!)!.prepend(
+		return select('.form-actions', field.form!)!.prepend(
 			<div className="flash flash-warn mb-2 rgh-fix-pr-commit-links-container">
 				<AlertIcon/>Your PR Commit link may be <a target="_blank" rel="noopener noreferrer" href="https://github.com/sindresorhus/refined-github/issues/2327">misinterpreted by GitHub.</a>
 				<button type="button" className="btn btn-sm primary flash-action rgh-fix-pr-commit-links">Fix link</button>
 			</div>
 		);
 	}
+
+	if(!prCommitRegex.test(field.value) && formWarningExists) {
+		return select('.rgh-fix-pr-commit-links-container', field.form!)!.remove();
+	}
 }
 
 function init(): void {
-	delegate(document, 'form#new_issue textarea, form.js-new-comment-form textarea', 'input', handleInput);
+	delegate(document, 'form#new_issue textarea, form.js-new-comment-form textarea, textarea.comment-form-textarea', 'input', handleInput);
 	delegate(document, '.rgh-fix-pr-commit-links', 'click', handleButtonClick);
 }
 
