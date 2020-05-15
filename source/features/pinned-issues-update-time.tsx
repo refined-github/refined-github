@@ -42,7 +42,12 @@ async function init(): Promise<void | false> {
 	const lastUpdated: Record<string, IssueInfo> = await getLastUpdated(pinnedIssues.map(getPinnedIssueNumber));
 	for (const pinnedIssue of pinnedIssues) {
 		const issueNumber = getPinnedIssueNumber(pinnedIssue);
-		const {updatedAt} = lastUpdated[api.escapeKey(issueNumber)];
+		const {updatedAt} = lastUpdated[api.escapeKey(issueNumber)] || {};
+		// There was a pinned issue that was changed
+		if (!updatedAt) {
+			return cache.delete(__filebasename + ':' + getRepoURL());
+		}
+
 		pinnedIssue.lastElementChild!.append(
 			<span className="ml-3 text-gray"><ClockIcon/></span>,
 			<span className="text-gray text-small"> Updated <relative-time datetime={updatedAt}/></span>
