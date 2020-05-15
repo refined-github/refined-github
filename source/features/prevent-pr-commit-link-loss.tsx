@@ -1,8 +1,8 @@
-import * as pageDetect from 'github-url-detection';
-import AlertIcon from 'octicon/alert.svg';
-import delegate from 'delegate-it';
 import React from 'dom-chef';
 import select from 'select-dom';
+import delegate from 'delegate-it';
+import AlertIcon from 'octicon/alert.svg';
+import * as pageDetect from 'github-url-detection';
 
 import features from '../libs/features';
 import {containsPrCommitLink, preventPrCommitLinkBreak} from '../libs/utils';
@@ -24,7 +24,7 @@ function handleTextAreaChange(event: delegate.Event): void {
 			</div>
 		);
 
-		delegate(document, '#fix-pr-commit-links', 'click', async () => {
+		delegate(document, '#fix-pr-commit-links', 'click', () => {
 			field.value = preventPrCommitLinkBreak(field.value);
 		});
 	}
