@@ -27,7 +27,7 @@ function handleInput(event: delegate.Event<InputEvent, HTMLTextAreaElement>): vo
 		);
 	}
 
-	if(!prCommitRegex.test(field.value) && formWarningExists) {
+	if (!prCommitRegex.test(field.value) && formWarningExists) {
 		return select('.rgh-fix-pr-commit-links-container', field.form!)!.remove();
 	}
 }
