@@ -17,25 +17,17 @@ function handleButtonClick(event: delegate.Event<MouseEvent, HTMLButtonElement>)
 function getUI(field: HTMLTextAreaElement): HTMLElement {
 	return select('.rgh-fix-pr-commit-links-container', field.form!) ?? (
 		<div className="flash flash-warn mb-2 rgh-fix-pr-commit-links-container">
-			<AlertIcon/>Your PR Commit link may be <a target="_blank" rel="noopener noreferrer" href="https://github.com/sindresorhus/refined-github/issues/2327">misinterpreted by GitHub.</a>
+			<AlertIcon/> Your PR Commit link may be <a target="_blank" rel="noopener noreferrer" href="https://github.com/sindresorhus/refined-github/issues/2327">misinterpreted by GitHub.</a>
 			<button type="button" className="btn btn-sm primary flash-action rgh-fix-pr-commit-links">Fix link</button>
 		</div>
 	);
 }
 
-function shouldShowWarning(field: HTMLTextAreaElement): boolean {
-	return !select.exists('.rgh-fix-pr-commit-links-container', field.form!) && prCommitRegex.test(field.value);
-}
-
-function getCommitFormActions(field: HTMLTextAreaElement): HTMLElement | undefined {
-	return select('.form-actions', field.form!) ?? undefined;
-}
-
 function updateUI(event: delegate.Event<InputEvent, HTMLTextAreaElement>): void {
 	const field = event.delegateTarget;
 
-	if (shouldShowWarning(field)) {
-		getCommitFormActions(field)!.prepend(getUI(field));
+	if (prCommitRegex.test(field.value)) {
+		select('.form-actions', field.form!).prepend(getUI(field));
 	} else {
 		getUI(field).remove();
 	}
