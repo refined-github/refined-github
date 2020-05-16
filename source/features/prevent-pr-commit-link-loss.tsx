@@ -6,11 +6,11 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '../libs/features';
-import {prCommitRegex, preventPrCommitLinkBreak} from '../libs/utils';
+import {prCommitRegex} from '../libs/utils';
 
 function handleButtonClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const field = event.delegateTarget.form!.querySelector('textarea')!;
-	textFieldEdit.set(field, preventPrCommitLinkBreak(field.value));
+	textFieldEdit.replace(field, prCommitRegex, url => `[${url} ](${url})`);
 	event.delegateTarget.parentElement!.remove();
 }
 
@@ -27,7 +27,7 @@ function updateUI(event: delegate.Event<InputEvent, HTMLTextAreaElement>): void 
 	const field = event.delegateTarget;
 
 	if (prCommitRegex.test(field.value)) {
-		select('.form-actions', field.form!).prepend(getUI(field));
+		select('.form-actions', field.form!)!.prepend(getUI(field));
 	} else {
 		getUI(field).remove();
 	}
