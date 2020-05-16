@@ -40,8 +40,8 @@ function init(): void {
 
 features.add({
 	id: __filebasename,
-	description: 'Prevents Github from displaying PR commit links as non-PR commit links by modifying them before submission. This fixes the comment before submission, it can’t work on existing links. This is a GitHub bug.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/81925075-4a4d1500-95e0-11ea-90b7-1155fb2dfe20.png'
+	description: 'Suggests fixing your PR Commit links before commenting. GitHub has a bug that causes these link to appear as plain commit links, without association to the PR.',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/82131169-93fd5180-97d2-11ea-9695-97051c55091f.gif'
 }, {
 	include: [
 		pageDetect.hasComments
