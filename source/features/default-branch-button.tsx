@@ -24,7 +24,11 @@ async function init(): Promise<false | void> {
 		url = replaceBranch(currentBranch, defaultBranch);
 	}
 
-	const branchSelector = (await elementReady('#branch-select-menu'))!;
+	const branchSelector = (await elementReady('#branch-select-menu'));
+	if (!branchSelector) { // File history page
+		return;
+	}
+
 	const defaultLink = (
 		<a
 			className="btn btn-sm tooltipped tooltipped-ne"
