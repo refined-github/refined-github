@@ -4,13 +4,8 @@ import * as pageDetect from 'github-url-detection';
 import features from '../libs/features';
 import {getRepoURL} from '../libs/utils';
 
-function init(): false | void {
-	const uploadFilesButton = select(`.file-navigation a[href^="/${getRepoURL()}/upload"]`);
-	if (!uploadFilesButton) {
-		return false;
-	}
-
-	uploadFilesButton.remove();
+function init(): void {
+	select(`.file-navigation a[href^="/${getRepoURL()}/upload"]`)?.remove();
 }
 
 features.add({
