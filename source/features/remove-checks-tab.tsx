@@ -8,7 +8,7 @@ function init(): void {
 	const checksCounter = select('.tabnav-tab[href$="/checks"]:not(.selected) .Counter');
 
 	if (checksCounter?.textContent!.trim() === '0') {
-		checksCounter.parentElement!.remove();
+		checksCounter?.parentElement!.remove();
 	}
 }
 
