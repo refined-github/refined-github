@@ -104,6 +104,7 @@
 		"rules": {
 			"@typescript-eslint/no-empty-function": "off",
 			"@typescript-eslint/no-floating-promises": "off",
+			"@typescript-eslint/no-non-null-asserted-optional-chain": "off",
 			"@typescript-eslint/prefer-readonly-parameter-types": "off",
 			"no-alert": "off",
 			"react/function-component-definition": [
