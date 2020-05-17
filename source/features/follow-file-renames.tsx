@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {getCleanPathname} from '../libs/utils';
+import {parseRoute} from '../libs/utils';
 
 interface File {
 	previous_filename: string;
@@ -29,8 +29,7 @@ function init(): false | void {
 		return false;
 	}
 
-	const [user, repo,, reference, ...path] = getCleanPathname().split('/');
-	const currentFilename = path.join('/');
+	const [, user, repository, , reference, currentFilename] = parseRoute(location.pathname);
 
 	disabledPagination.forEach(async button => {
 		const isNewer = button.textContent === 'Newer';
@@ -39,12 +38,12 @@ function init(): false | void {
 		const toKey = isNewer ? 'filename' : 'previous_filename';
 		const sha = (isNewer ? select : select.last)('.commit .sha')!;
 
-		const files = await findRename(user, repo, sha.textContent!.trim());
+		const files = await findRename(user, repository, sha.textContent!.trim());
 
 		for (const file of files) {
 			if (file[fromKey] === currentFilename) {
 				if (file.status === 'renamed') {
-					const url = `/${user}/${repo}/commits/${reference}/${file[toKey]}`;
+					const url = `/${user}/${repository}/commits/${reference}/${file[toKey]}`;
 					button.replaceWith(
 						<a
 							href={url}
