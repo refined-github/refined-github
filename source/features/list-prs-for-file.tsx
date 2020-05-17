@@ -48,46 +48,6 @@ function getSingleButton(prNumber: number, _?: number, prs?: number[]): HTMLElem
 	);
 }
 
-async function init(): Promise<void> {
-	// `clipboard-copy` on blob page, `#blob-edit-path` on edit page
-	const path = select('clipboard-copy, #blob-edit-path')!.getAttribute('value')!;
-	const {[path]: prs} = await getPrsByFile();
-	if (!prs) {
-		return;
-	}
-
-	const [prNumber] = prs; // First one or only one
-
-	if (pageDetect.isEditingFile()) {
-		select('.file')!.after(
-			<div className="form-warning p-3 mb-3 mx-lg-3">
-				{
-					prs.length === 1 ?
-						<>Careful, PR <a href={getPRUrl(prNumber)}>#{prNumber}</a> is already touching this file</> :
-						<>
-							Careful, {prs.length} open PRs are already touching this file
-							<span className="ml-2 BtnGroup" style={{verticalAlign: '-0.6em'}}>
-								{prs.map(getSingleButton)}
-							</span>
-						</>
-				}
-			</div>
-		);
-
-		return;
-	}
-
-	if (prs.length > 1) {
-		select('.breadcrumb')!.before(getDropdown(prs));
-		return;
-	}
-
-	const link = getSingleButton(prNumber);
-	link.classList.add('ml-2', 'tooltipped', 'tooltipped-ne');
-	link.setAttribute('aria-label', `This file is touched by PR #${prNumber}`);
-	select('.breadcrumb')!.before(link);
-}
-
 /**
 @returns prsByFile {"filename1": [10, 3], "filename2": [2]}
 */
@@ -132,6 +92,46 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 	staleWhileRevalidate: 9,
 	cacheKey: () => __filebasename + ':' + getRepoURL()
 });
+
+async function init(): Promise<void> {
+	// `clipboard-copy` on blob page, `#blob-edit-path` on edit page
+	const path = select('clipboard-copy, #blob-edit-path')!.getAttribute('value')!;
+	const {[path]: prs} = await getPrsByFile();
+	if (!prs) {
+		return;
+	}
+
+	const [prNumber] = prs; // First one or only one
+
+	if (pageDetect.isEditingFile()) {
+		select('.file')!.after(
+			<div className="form-warning p-3 mb-3 mx-lg-3">
+				{
+					prs.length === 1 ?
+						<>Careful, PR <a href={getPRUrl(prNumber)}>#{prNumber}</a> is already touching this file</> :
+						<>
+							Careful, {prs.length} open PRs are already touching this file
+							<span className="ml-2 BtnGroup" style={{verticalAlign: '-0.6em'}}>
+								{prs.map(getSingleButton)}
+							</span>
+						</>
+				}
+			</div>
+		);
+
+		return;
+	}
+
+	if (prs.length > 1) {
+		select('.breadcrumb')!.before(getDropdown(prs));
+		return;
+	}
+
+	const link = getSingleButton(prNumber);
+	link.classList.add('ml-2', 'tooltipped', 'tooltipped-ne');
+	link.setAttribute('aria-label', `This file is touched by PR #${prNumber}`);
+	select('.breadcrumb')!.before(link);
+}
 
 features.add({
 	id: __filebasename,
