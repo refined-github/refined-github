@@ -33,7 +33,7 @@ const addNewProjectLink = onetime(() => {
 	);
 });
 
-async function init(): Promise<false | void> {
+async function init(): Promise<void> {
 	await elementReady(`
 		.orghead + *,
 		.repohead + *,
@@ -52,12 +52,9 @@ async function init(): Promise<false | void> {
 
 	addNewProjectLink();
 
-	// If there's a settings tab, the current user can disable the projects,
-	// so the tab should not be hidden
-	if (select.exists([
-		'.js-repo-nav [data-selected-links^="repo_settings"]', // In repos
-		'.pagehead-tabs-item[href$="/settings/profile"]' // In organizations
-	])) {
+	const isOrgRepoWithAccess = select.exists('.pagehead-tabs-item[href$="/settings/profile"]');
+	// If there's a settings tab, the current user can disable the projects, so the tab should not be hidden
+	if (pageDetect.isRepoWithAccess() || isOrgRepoWithAccess) {
 		return;
 	}
 
