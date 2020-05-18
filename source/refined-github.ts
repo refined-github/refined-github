@@ -177,6 +177,7 @@ import './features/batch-mark-files-as-viewed';
 import './features/unwrap-useless-dropdowns';
 import './features/linkify-notification-repository-header';
 import './features/stop-redirecting-in-notification-bar';
+import './features/prevent-pr-commit-link-loss';
 
 // Add global for easier debugging
 (window as any).select = select;
