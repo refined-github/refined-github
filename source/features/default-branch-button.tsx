@@ -10,7 +10,7 @@ import {getRepoURL, getCurrentBranch, replaceBranch, parseRoute} from '../libs/u
 
 async function init(): Promise<false | void> {
 	// The branch selector will be on `isRepoCommitList()` **unless** you're in a folder/file
-	if (pageDetect.isRepoCommitList() && parseRoute(location.pathname)[5]) {
+	if (pageDetect.isRepoCommitList() && parseRoute(location.pathname)[6]) {
 		return false;
 	}
 
