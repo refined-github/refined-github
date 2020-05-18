@@ -8,7 +8,7 @@ import {looseParseInt} from '../libs/utils';
 
 function getProjectsTab() {
 	return elementReady([
-		'[data-hotkey="g b"]', // In organizations and repos
+		'[data-hotkey="g b"]:not(.selected)', // In organizations and repos
 		'.user-profile-nav [href$="?tab=projects"]' // In user profiles
 	].join());
 }
@@ -41,8 +41,8 @@ async function removeProjectsTab(): Promise<void | false> {
 	}
 
 	const counter = select('.Counter', projectsTab);
-	// Dont run if the tab is selected, it does not exists or the counter is 0
-	if (projectsTab.matches('.selected') || !counter || looseParseInt(counter.textContent!) !== 0) {
+	// Dont run if it does not exists or the counter is 0
+	if (!counter || looseParseInt(counter.textContent!) !== 0) {
 		return false;
 	}
 
