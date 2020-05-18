@@ -1,9 +1,11 @@
 import './highest-rated-comment.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import CheckIcon from 'octicon/check.svg';
 import ArrowDownIcon from 'octicon/arrow-down.svg';
+import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import {looseParseInt} from '../libs/utils';
 
 // `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)
@@ -18,16 +20,6 @@ const positiveReactionsSelector = `
 const negativeReactionsSelector = `
 	${commentSelector} [aria-label*="reacted with thumbs down"]
 `;
-
-function init(): false | void {
-	const bestComment = getBestComment();
-	if (!bestComment) {
-		return false;
-	}
-
-	highlightBestComment(bestComment);
-	linkBestComment(bestComment);
-}
 
 function getBestComment(): HTMLElement | null {
 	let highest;
@@ -58,13 +50,18 @@ function getBestComment(): HTMLElement | null {
 }
 
 function highlightBestComment(bestComment: Element): void {
-	select('.unminimized-comment', bestComment)!.classList.add('rgh-highest-rated-comment');
+	const avatar = select('.TimelineItem-avatar', bestComment)!;
+	avatar.classList.add('flex-column', 'flex-items-center', 'd-md-flex');
+	avatar.append(
+		<CheckIcon width={24} height={32} className="mt-4 text-green"/>
+	);
+	select('.unminimized-comment', bestComment)!.classList.add('timeline-chosen-answer');
 	select('.unminimized-comment .timeline-comment-header-text', bestComment)!.before(
 		<span
-			className="timeline-comment-label tooltipped tooltipped-n"
+			className="d-flex flex-items-center text-green mr-1 tooltipped tooltipped-n"
 			aria-label="This comment has the most positive reactions on this issue."
 		>
-			Highest-rated comment
+			<CheckIcon/>
 		</span>
 	);
 }
@@ -92,7 +89,7 @@ function linkBestComment(bestComment: HTMLElement): void {
 			<div className="timeline-comment-wrapper pl-0 my-0">
 				{avatar}
 
-				<a href={hash} className="no-underline rounded-1 rgh-highest-rated-comment bg-gray px-2 d-flex flex-items-center">
+				<a href={hash} className="no-underline rounded-1 timeline-chosen-answer timeline-comment bg-gray px-2 d-flex flex-items-center">
 					<span className="btn btn-sm mr-2">
 						<ArrowDownIcon/>
 					</span>
@@ -121,6 +118,16 @@ function getPositiveReactions(reactionBox?: HTMLElement): HTMLElement[] {
 
 function getCount(reactions: HTMLElement[]): number {
 	return reactions.reduce((count, reaction) => count + looseParseInt(reaction.textContent!), 0);
+}
+
+function init(): false | void {
+	const bestComment = getBestComment();
+	if (!bestComment) {
+		return false;
+	}
+
+	highlightBestComment(bestComment);
+	linkBestComment(bestComment);
 }
 
 features.add({

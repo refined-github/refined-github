@@ -2,13 +2,15 @@ import './user-profile-follower-badge.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
+import * as pageDetect from 'github-url-detection';
+
 import * as api from '../libs/api';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import {getUsername, getCleanPathname} from '../libs/utils';
 
 const doesUserFollow = cache.function(async (userA: string, userB: string): Promise<boolean> => {
 	const {httpStatus} = await api.v3(`users/${userA}/following/${userB}`, {
+		json: false,
 		ignoreHTTPStatus: true
 	});
 

@@ -2,11 +2,13 @@
 	padding-right: 0.7em !important;
 	padding-left: 0.7em !important;
 }
+
 button.reaction-summary-item { /* `button` excludes the "Add reaction" icon */
 	border-top: 1px solid #e1e4e8; /* Required when the second line is longer than the first line */
 	border-bottom: 1px solid #e1e4e8; /* Required when the first line is longer than the second line */
 	margin-bottom: -1px; /* Makes up for `order-bottom` */
 }
+
 .comment-reactions .js-pick-reaction {
 	margin-top: -1px; /* Makes up for `.reaction-summary-item {border-top}` */
 }
@@ -14,6 +16,7 @@ button.reaction-summary-item { /* `button` excludes the "Add reaction" icon */
 .reaction-summary-item.user-has-reacted {
 	--background: #f2f8fa;
 }
+
 .reaction-summary-item a {
 	display: inline-block;
 	width: 2em;
@@ -26,12 +29,15 @@ button.reaction-summary-item { /* `button` excludes the "Add reaction" icon */
 	box-shadow: 0 0 0 2px var(--background, #fff);
 	font-size: 10px; /* Base sizer */
 }
+
 .reaction-summary-item a:first-of-type {
 	margin-left: 0.5em;
 }
+
 .review-comment .reaction-summary-item a {
 	font-size: 9px;
 }
+
 .discussion-post .reaction-summary-item a {
 	margin-top: -1px;
 }

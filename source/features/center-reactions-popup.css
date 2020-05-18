@@ -12,6 +12,7 @@
 	left: 50% !important;
 	transform: translate(-50%) !important;
 }
+
 .add-reaction-popover {
 	animation-name: rgh-scale-in-centered !important;
 }
@@ -39,6 +40,7 @@ The selector considers
 td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover {
 	left: -15px !important;
 }
+
 td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::before,
 td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::after {
 	left: 140px !important;

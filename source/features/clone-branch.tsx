@@ -1,11 +1,12 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import gitBranch from 'octicon/git-branch.svg';
 import delegate from 'delegate-it';
+import gitBranch from 'octicon/git-branch.svg';
 import * as textFieldEdit from 'text-field-edit';
+import * as pageDetect from 'github-url-detection';
+
 import * as api from '../libs/api';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import LoadingIcon from '../libs/icon-loading';
 import {getRepoURL, getRepoGQL} from '../libs/utils';
 import observeElement from '../libs/simplified-element-observer';

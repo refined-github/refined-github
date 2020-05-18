@@ -4,6 +4,8 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import elementReady from 'element-ready';
+import * as pageDetect from 'github-url-detection';
+
 import XIcon from 'octicon/x.svg';
 import InfoIcon from 'octicon/info.svg';
 import CheckIcon from 'octicon/check.svg';
@@ -11,8 +13,8 @@ import MergeIcon from 'octicon/git-merge.svg';
 import IssueOpenedIcon from 'octicon/issue-opened.svg';
 import IssueClosedIcon from 'octicon/issue-closed.svg';
 import PullRequestIcon from 'octicon/git-pull-request.svg';
+
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import onReplacedElement from '../libs/on-replaced-element';
 import {getUsername, getRepoURL, logError} from '../libs/utils';
 

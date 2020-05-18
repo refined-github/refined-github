@@ -1,20 +1,20 @@
-import cache from 'webext-storage-cache';
 import React from 'dom-chef';
+import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import elementReady from 'element-ready';
 import TagIcon from 'octicon/tag.svg';
+import elementReady from 'element-ready';
+import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import * as api from '../libs/api';
 import {appendBefore} from '../libs/dom-utils';
 import {getRepoURL, getRepoGQL, looseParseInt} from '../libs/utils';
-import {isRepoRoot, isReleasesOrTags} from '../libs/page-detect';
 
 const repoUrl = getRepoURL();
 const cacheKey = `releases-count:${repoUrl}`;
 
 function parseCountFromDom(): number | false {
-	if (isRepoRoot()) {
+	if (pageDetect.isRepoRoot()) {
 		const releasesCountElement = select('.numbers-summary a[href$="/releases"] .num');
 		return Number(releasesCountElement ? looseParseInt(releasesCountElement.textContent!) : 0);
 	}
@@ -42,7 +42,7 @@ const getReleaseCount = cache.function(async () => parseCountFromDom() ?? fetchF
 
 async function init(): Promise<false | void> {
 	// Always prefer the information in the DOM
-	if (isRepoRoot()) {
+	if (pageDetect.isRepoRoot()) {
 		await cache.delete(cacheKey);
 	}
 
@@ -63,7 +63,7 @@ async function init(): Promise<false | void> {
 	appendBefore('.reponav', '.reponav-dropdown, [data-selected-links^="repo_settings"]', releasesTab);
 
 	// Update "selected" tab mark
-	if (isReleasesOrTags()) {
+	if (pageDetect.isReleasesOrTags()) {
 		const selected = select('.reponav-item.selected');
 		if (selected) {
 			selected.classList.remove('js-selected-navigation-item', 'selected');

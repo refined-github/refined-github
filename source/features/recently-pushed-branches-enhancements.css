@@ -4,6 +4,7 @@
 	margin-left: auto;
 	margin-right: 6px;
 }
+
 .rgh-recently-pushed-branches [data-url$='recently_touched_branches_list'] .mb-3 {
 	margin-bottom: 0 !important;
 	max-height: 42px; /* Only cover the actions when there are multiple branches + :hover */
@@ -18,9 +19,11 @@
 .rgh-recently-pushed-branches.enterprise [data-url$='recently_touched_branches_list'] .mb-3 {
 	top: -1px;
 }
+
 .rgh-recently-pushed-branches [data-url$='recently_touched_branches_list'] p {
 	display: none;
 }
+
 .rgh-recently-pushed-branches .Header .RecentBranches {
 	display: flex;
 	width: max-content;
@@ -32,41 +35,51 @@
 	border-radius: 5px;
 	background-color: #24292e;
 }
+
 .rgh-recently-pushed-branches .Header .RecentBranches .octicon-git-branch {
 	vertical-align: middle;
 	margin-right: 2px;
 }
+
 .rgh-recently-pushed-branches .Header .RecentBranches .btn {
 	width: 32px;
 	text-indent: -999999px; /* Hide text */
 }
+
 .rgh-recently-pushed-branches .Header .RecentBranches:not(:hover) .btn {
 	background: #5d5d5d;
 }
+
 .rgh-recently-pushed-branches .Header .RecentBranches .btn + div {
 	margin-right: 8px;
 	float: right;
 	font-size: 11px;
 }
+
 .rgh-recently-pushed-branches .Header .RecentBranches .btn .octicon {
 	margin-top: 2px;
 	float: right;
 }
+
 .rgh-recently-pushed-branches .RecentBranches-item + .RecentBranches-item {
 	border-top: none;
 	border-bottom: 1px solid;
 }
+
 .rgh-recently-pushed-branches .Header .RecentBranches-item {
 	color: inherit;
 	padding: 4px !important;
 }
+
 .rgh-recently-pushed-branches .RecentBranches:not(:hover) .RecentBranches-item:not(:last-child) {
 	/* Hide older branches */
 	display: none;
 }
+
 .rgh-recently-pushed-branches .Header .RecentBranches:not(:hover) .RecentBranches-item:last-child {
 	border-bottom-width: 2px;
 }
+
 .rgh-recently-pushed-branches .Header .RecentBranches-item-link {
 	max-width: 250px !important;
 	font-size: 14px;

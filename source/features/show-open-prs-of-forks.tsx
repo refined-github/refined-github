@@ -2,39 +2,43 @@ import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
+import * as pageDetect from 'github-url-detection';
+
 import * as api from '../libs/api';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
-import {isForkedRepo, isRepoWithAccess} from '../libs/page-detect';
-import {getForkedRepo, getUsername, pluralize} from '../libs/utils';
+import {getForkedRepo, getUsername, pluralize, getRepoURL} from '../libs/utils';
 
 function getLinkCopy(count: number): string {
 	return pluralize(count, 'one open pull request', '$$ open pull requests');
 }
 
 const countPRs = cache.function(async (forkedRepo: string): Promise<[number, number?]> => {
-	// Grab the PR count and the first PR's URL
-	// This allows to link to the PR directly if only one is found
 	const {search} = await api.v4(`
 		search(
-			first: 1,
+			first: 100,
 			type: ISSUE,
 			query: "repo:${forkedRepo} is:pr is:open author:${getUsername()}"
 		) {
-			issueCount
 			nodes {
 				... on PullRequest {
 					number
+					headRepository {
+						nameWithOwner
+					}
 				}
 			}
 		}
 	`);
 
-	if (search.issueCount === 1) {
-		return [1, search.nodes[0].number];
+	// Only show PRs originated from the current repo
+	const prs = search.nodes.filter((pr: AnyObject) => pr.headRepository.nameWithOwner.toLowerCase() === getRepoURL());
+
+	// If only one is found, pass the PR number so we can link to the PR directly
+	if (prs.length === 1) {
+		return [1, prs[0].number];
 	}
 
-	return [search.issueCount];
+	return [prs.length];
 }, {
 	maxAge: 1 / 2, // Stale after 12 hours
 	staleWhileRevalidate: 2,
@@ -43,7 +47,7 @@ const countPRs = cache.function(async (forkedRepo: string): Promise<[number, num
 
 async function getPRs(): Promise<[number, string] | []> {
 	await elementReady('.repohead + *'); // Wait for the tab bar to be loaded
-	if (!isRepoWithAccess()) {
+	if (!pageDetect.isRepoWithAccess()) {
 		return [];
 	}
 
@@ -89,16 +93,16 @@ features.add({
 		pageDetect.isRepo
 	],
 	exclude: [
-		() => !isForkedRepo()
+		() => !pageDetect.isForkedRepo()
 	],
 	waitForDomReady: false,
 	init: initHeadHint
 }, {
 	include: [
-		pageDetect.isRepoSettings
+		pageDetect.isRepoMainSettings
 	],
 	exclude: [
-		() => !isForkedRepo()
+		() => !pageDetect.isForkedRepo()
 	],
 	waitForDomReady: false,
 	init: initDeleteHint

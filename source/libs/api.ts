@@ -26,6 +26,7 @@ so the call will not throw an error but it will return as usual.
 
 import mem from 'mem';
 import {JsonObject, AsyncReturnType} from 'type-fest';
+
 import optionsStorage from '../options-storage';
 
 type JsonError = {
@@ -103,13 +104,11 @@ export const v3 = mem(async (
 			'User-Agent': 'Refined GitHub',
 			Accept: 'application/vnd.github.v3+json',
 			...headers,
-			...(personalToken ? {Authorization: `token ${personalToken}`} : {})
+			...personalToken && {Authorization: `token ${personalToken}`}
 		}
 	});
 	const textContent = await response.text();
-
-	// The response might just be a 200 or 404, it's the REST equivalent of `boolean`
-	const apiResponse: JsonObject = (json && textContent.length > 0) ? JSON.parse(textContent) : {textContent};
+	const apiResponse = json ? JSON.parse(textContent) : {textContent};
 
 	if (response.ok || ignoreHTTPStatus) {
 		return Object.assign(apiResponse, {

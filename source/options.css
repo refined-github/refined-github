@@ -88,6 +88,7 @@ p {
 		var(--background) top / 100% 3px,
 		var(--background) bottom / 100% 3px;
 }
+
 #debugging p:last-child {
 	margin-bottom: 0;
 }

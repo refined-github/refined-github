@@ -1,6 +1,7 @@
 import select from 'select-dom';
+import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import observeElement from '../libs/simplified-element-observer';
 
 function hide(): void {
@@ -10,7 +11,12 @@ function hide(): void {
 }
 
 function init(): void {
-	observeElement('.js-milestone-issues-container', hide);
+	const issuesContainer = select('.js-milestone-issues-container');
+
+	// Issues container doesn't exist for milestones without (open) issues
+	if (issuesContainer) {
+		observeElement(issuesContainer, hide);
+	}
 }
 
 features.add({

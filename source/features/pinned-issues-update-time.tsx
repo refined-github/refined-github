@@ -2,9 +2,10 @@ import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import ClockIcon from 'octicon/clock.svg';
+import * as pageDetect from 'github-url-detection';
+
 import * as api from '../libs/api';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import {getRepoGQL, getRepoURL, looseParseInt} from '../libs/utils';
 
 interface IssueInfo {
@@ -25,7 +26,7 @@ const getLastUpdated = cache.function(async (issueNumbers: number[]): Promise<Re
 	return repository;
 }, {
 	maxAge: 1,
-	cacheKey: () => __filebasename + ':' + getRepoURL()
+	cacheKey: ([issues]) => __filebasename + ':' + getRepoURL() + ':' + String(issues)
 });
 
 function getPinnedIssueNumber(pinnedIssue: HTMLElement): number {

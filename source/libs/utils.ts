@@ -1,8 +1,8 @@
 import select from 'select-dom';
 import onetime from 'onetime';
 import stripIndent from 'strip-indent';
-import {isRepo, isPR, isIssue} from './page-detect';
 import compareVersions from 'tiny-version-compare';
+import {isRepo, isPR, isIssue} from 'github-url-detection';
 
 export function logError(id: FeatureID, error: Error | string, ...extras: unknown[]): void {
 	if (error instanceof TypeError && error.message === 'Object(...)(...) is null') {
@@ -76,6 +76,7 @@ export const replaceBranch = (currentBranch: string, newBranch: string): string 
 	return `/${getRepoURL()}/${pageType}/${newBranchRepoPath}`;
 };
 
+/* Should work on `isRepoTree` `isBlame` `isSingleFile` `isCommitList` `isCompare` `isPRCommit` */
 export const getCurrentBranch = (): string => {
 	return select.last<HTMLLinkElement>('link[rel="alternate"]')!
 		.href
@@ -171,4 +172,30 @@ export function getLatestVersionTag(tags: string[]): string {
 	}
 
 	return latestVersion;
+}
+
+export function parseRoute(pathname: string): string[] {
+	const [user, repository, route, ...next] = pathname.replace(/^\/|\/$/g, '').split('/');
+	const parts = next.join('/');
+	const currentBranch = getCurrentBranch();
+	if (parts !== currentBranch && !parts.startsWith(currentBranch + '/')) {
+		throw new Error('The branch of the current page must match the branch in the `pathname` parameter');
+	}
+
+	const filePath = parts.replace(currentBranch + '/', '');
+	return [
+		'',
+		user,
+		repository,
+		route,
+		currentBranch,
+		filePath
+	];
+}
+
+const escapeRegex = (string: string) => string.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&');
+export const prCommitRegex = new RegExp(`\\b${escapeRegex(location.origin)}[/][^/]+[/][^/]+[/]pull[/]\\d+[/]commits[/][0-9a-f]{7,40}\\b(?! \\]|\\))`, 'gi');
+
+export function preventPrCommitLinkBreak(comment: string) {
+	return comment.replace(prCommitRegex, '[$& ]($&)');
 }

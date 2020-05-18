@@ -1,10 +1,11 @@
 import './open-all-notifications.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import LinkExternalIcon from 'octicon/link-external.svg';
 import delegate from 'delegate-it';
+import * as pageDetect from 'github-url-detection';
+import LinkExternalIcon from 'octicon/link-external.svg';
+
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 
 const confirmationRequiredCount = 10;
 
@@ -54,7 +55,11 @@ function addOpenReposButton(): void {
 }
 
 function addOpenAllButton(): void {
-	select('.js-check-all-container .Box-header')!.append(
+	// Selector works on:
+	// https://github.com/notifications (Grouped by date)
+	// https://github.com/notifications (Grouped by repo)
+	// https://github.com/notifications?query=reason%3Acomment (which is an unsaved filter)
+	select('.js-check-all-container .js-bulk-action-toasts ~ div .Box-header')!.append(
 		<button className="btn btn-sm rgh-open-notifications-button" type="button">
 			<LinkExternalIcon className="mr-1"/>Open all unread
 		</button>

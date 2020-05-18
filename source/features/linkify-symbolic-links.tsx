@@ -1,12 +1,12 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import * as pageDetect from 'github-url-detection';
+
 import {wrap} from '../libs/dom-utils';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 
 function init(): void | false {
-	const mode = select('.file-mode');
-	if (mode && mode.textContent === 'symbolic link') {
+	if (select('.file-mode')?.textContent === 'symbolic link') {
 		const line = select('.js-file-line')!;
 		wrap(line.firstChild!, <a href={line.textContent!}/>);
 	}

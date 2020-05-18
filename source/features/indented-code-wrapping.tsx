@@ -1,7 +1,8 @@
 import './indented-code-wrapping.css';
 import select from 'select-dom';
+import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import onPrFileLoad from '../libs/on-pr-file-load';
 import onNewComments from '../libs/on-new-comments';
 
@@ -15,7 +16,7 @@ function init(): void {
 
 	for (const table of tables) {
 		table.classList.add('rgh-softwrapped-code');
-		const tabSize = parseInt(table.style.getPropertyValue('--tab-size') || document.documentElement.style.getPropertyValue('tab-size'), 10);
+		const tabSize = Number.parseInt(table.style.getPropertyValue('--tab-size') || document.documentElement.style.getPropertyValue('tab-size'), 10);
 
 		for (const line of select.all('.blob-code-inner:not(.blob-code-hunk)', table)) {
 			if (line.textContent!.length < 20) {

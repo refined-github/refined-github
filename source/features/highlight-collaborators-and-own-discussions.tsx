@@ -1,9 +1,10 @@
 import './highlight-collaborators-and-own-discussions.css';
 import select from 'select-dom';
+import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
-import {getRepoURL, getUsername} from '../libs/utils';
 import fetchDom from '../libs/fetch-dom';
+import {getRepoURL, getUsername} from '../libs/utils';
 
 async function highlightCollaborators(): Promise<false | void> {
 	const authors = select.all('.js-issue-row [data-hovercard-type="user"]');
@@ -13,7 +14,7 @@ async function highlightCollaborators(): Promise<false | void> {
 
 	const dom = await fetchDom(getRepoURL() + '/issues/show_menu_content?partial=issues/filters/authors_content');
 	const collaborators = select.all<HTMLImageElement>('.SelectMenu-item [alt]', dom).map(collaborator => {
-		return collaborator.alt.slice(1)!;
+		return collaborator.alt.slice(1);
 	});
 
 	for (const author of authors) {

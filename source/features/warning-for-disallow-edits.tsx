@@ -3,8 +3,9 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import oneTime from 'onetime';
 import delegate from 'delegate-it';
+import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 
 const getWarning = oneTime(() => (
 	<div className="flash flash-error mt-3 rgh-warning-for-disallow-edits">
@@ -16,11 +17,9 @@ function update(checkbox: HTMLInputElement): void {
 	if (checkbox.checked) {
 		getWarning().remove();
 	} else {
-		// Select every time because the sidebar content may be replaced
-		select(`
-				.new-pr-form .timeline-comment,
-				#partial-discussion-sidebar .js-collab-form + .js-dropdown-details
-			`)!.after(getWarning());
+		checkbox
+			.closest('.timeline-comment, .discussion-sidebar-item > .d-inline-flex')!
+			.after(getWarning());
 	}
 }
 

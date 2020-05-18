@@ -1,5 +1,6 @@
 import delegate from 'delegate-it';
 import * as textFieldEdit from 'text-field-edit';
+
 import features from '../libs/features';
 import {listenToCommentFields} from './comment-fields-keyboard-shortcuts';
 

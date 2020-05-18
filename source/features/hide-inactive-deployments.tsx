@@ -1,6 +1,7 @@
 import select from 'select-dom';
+import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import onNewComments from '../libs/on-new-comments';
 
 function init(): void {

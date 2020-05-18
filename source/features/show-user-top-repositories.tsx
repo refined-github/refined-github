@@ -1,7 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import {getCleanPathname} from '../libs/utils';
 
 function buildUrl(queryField: string): URL {
@@ -13,13 +14,9 @@ function buildUrl(queryField: string): URL {
 	return url;
 }
 
-function init(): false | void {
-	const showcaseTitle = select('.js-pinned-items-reorder-container .text-normal');
-	if (!showcaseTitle) {
-		return false;
-	}
-
-	showcaseTitle.firstChild!.after(
+function init(): void {
+	// Showcase title
+	select('.js-pinned-items-reorder-container .text-normal')?.firstChild!.after(
 		' / ',
 		<a href={String(buildUrl('stars'))}>Top repositories</a>
 	);

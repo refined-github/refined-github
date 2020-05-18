@@ -1,9 +1,10 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import CheckIcon from 'octicon/check.svg';
 import elementReady from 'element-ready';
+import CheckIcon from 'octicon/check.svg';
+import * as pageDetect from 'github-url-detection';
+
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 import SearchQuery from '../libs/search-query';
 
 function addMergeLink(): void {

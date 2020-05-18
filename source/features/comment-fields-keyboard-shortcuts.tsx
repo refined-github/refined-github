@@ -1,7 +1,9 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
+
 import features from '../libs/features';
 
+// eslint-disable-next-line import/prefer-default-export
 export function listenToCommentFields(callback: delegate.EventHandler<KeyboardEvent, HTMLTextAreaElement>): void {
 	delegate<HTMLTextAreaElement, KeyboardEvent>(document, '.js-comment-field, #commit-description-textarea', 'keydown', event => {
 		const field = event.delegateTarget;

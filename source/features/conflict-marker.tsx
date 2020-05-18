@@ -2,9 +2,10 @@ import './conflict-marker.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import AlertIcon from 'octicon/alert.svg';
+import * as pageDetect from 'github-url-detection';
+
 import * as api from '../libs/api';
 import features from '../libs/features';
-import * as pageDetect from '../libs/page-detect';
 
 interface PRConfig {
 	number: string;
@@ -53,7 +54,7 @@ async function init(): Promise<false | void> {
 		if (data[pr.key].pullRequest.mergeable === 'CONFLICTING') {
 			pr.link.after(
 				<a
-					className="rgh-conflict-marker tooltipped tooltipped-n m-0 text-gray mr-1"
+					className="rgh-conflict-marker tooltipped tooltipped-e m-0 text-gray mr-1"
 					aria-label="This PR has conflicts that must be resolved"
 					href={`${pr.link.pathname}#partial-pull-merging`}
 				>

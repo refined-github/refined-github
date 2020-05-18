@@ -1,6 +1,7 @@
 import delay from 'delay';
 import delegate from 'delegate-it';
 import loadImage from 'image-promise';
+
 import features from '../libs/features';
 
 async function handleErroredImage({delegateTarget}: delegate.Event<ErrorEvent, HTMLImageElement>): Promise<void> {
