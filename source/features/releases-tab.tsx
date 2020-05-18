@@ -60,7 +60,7 @@ async function init(): Promise<false | void> {
 	);
 
 	await elementReady('.pagehead + *'); // Wait for the tab bar to be loaded
-	appendBefore('.reponav', '.reponav-dropdown, [data-selected-links^="repo_settings"]', releasesTab);
+	appendBefore('.reponav > ul', '.reponav-dropdown, [data-selected-links^="repo_settings"]', releasesTab);
 
 	// Update "selected" tab mark
 	if (pageDetect.isReleasesOrTags()) {

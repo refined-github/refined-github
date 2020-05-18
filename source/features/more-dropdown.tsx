@@ -17,7 +17,7 @@ const repoUrl = getRepoURL();
 
 function createDropdown(): void {
 	// Markup copied from native GHE dropdown
-	appendBefore('.reponav', '[data-selected-links^="repo_settings"]',
+	appendBefore('.reponav > ul', '[data-selected-links^="repo_settings"]',
 		<details className="reponav-dropdown details-overlay details-reset">
 			<summary className="btn-link reponav-item" aria-haspopup="menu">
 				{'More '}
