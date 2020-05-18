@@ -16,8 +16,7 @@ async function addNewProjectLink(): Promise<void |false> {
 	if (!await getProjectsTab()) {
 		return false;
 	}
-	// We can't detect whether we can create projects on a repo,
-	// so we're just gonna show a potentially-404 link. 🤷
+	// We can't detect whether we can create projects on a repo, so we're just gonna show a potentially-404 link. 🤷
 
 	// URLs patterns:
 	// https://github.com/orgs/USER/projects/new
@@ -67,10 +66,6 @@ features.add({
 	include: [
 		pageDetect.isRepo,
 		pageDetect.isOrganizationProfile
-	],
-	exclude: [
-		() => !pageDetect.canUserEditRepo(),
-		() => !pageDetect.canUserEditOrganization()
 	],
 	repeatOnAjax: false,
 	init: addNewProjectLink
