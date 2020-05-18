@@ -44,8 +44,8 @@ async function removeProjectsTab(): Promise<void> {
 		return;
 	}
 
-	// Only remove the tab if it's not the current page and if it has 0 projects
-	if (!projectsTab.matches('.selected') && select('.Counter', projectsTab)!.textContent!.trim() === '0') {
+	// Only remove the tab if it's not the current page and if it has 0 projects or on `isOrganizationProfile` it will be blank
+	if (!projectsTab.matches('.selected') && ['0', ''].includes(select('.Counter', projectsTab)!.textContent!.trim().charAt(0))) {
 		projectsTab.remove();
 	}
 }
@@ -57,19 +57,19 @@ features.add({
 }, {
 	include: [
 		pageDetect.isRepo,
-		pageDetect.isUserProfile
+		pageDetect.isUserProfile,
+		pageDetect.isOrganizationProfile
 	],
 	exclude: [
-		canUserEditRepo // If there's a settings tab, the current user can disable the projects, so the tab should not be hidden
+		// If there's a settings tab, the current user can disable the projects, so the tab should not be hidden
+		canUserEditRepo,
+		canUserEditOrganization
 	],
 	init: removeProjectsTab
 }, {
 	include: [
 		pageDetect.isRepo,
 		pageDetect.isOrganizationProfile
-	],
-	exclude: [
-		canUserEditOrganization
 	],
 	init: onetime(addNewProjectLink)
 });
