@@ -15,7 +15,7 @@ const getFirstTag = cache.function(async (commit: string): Promise<string | unde
 		'ul.branches-tag-list li:last-child a'
 	);
 
-	return firstTag?.textContent ?? undefined;
+	return firstTag?.textContent!;
 }, {
 	cacheKey: ([commit]) => `first-tag:${getRepoURL()}:${commit}`
 });
