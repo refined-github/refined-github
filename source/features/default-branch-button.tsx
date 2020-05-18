@@ -30,7 +30,6 @@ async function init(): Promise<false | void> {
 	}
 
 	const branchSelector = (await elementReady('#branch-select-menu'))!;
-
 	const defaultLink = (
 		<a
 			className="btn btn-sm tooltipped tooltipped-ne"
