@@ -4,7 +4,6 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../libs/features';
-import {looseParseInt} from '../libs/utils';
 
 function getProjectsTab() {
 	return elementReady([
@@ -40,9 +39,8 @@ async function removeProjectsTab(): Promise<void | false> {
 		return false;
 	}
 
-	const counter = select('.Counter', projectsTab);
 	// Dont run if it does not exists or the counter is 0
-	if (!counter || looseParseInt(counter.textContent!) !== 0) {
+	if (Number(select('.Counter', projectsTab)?.textContent!) !== 0) {
 		return false;
 	}
 
