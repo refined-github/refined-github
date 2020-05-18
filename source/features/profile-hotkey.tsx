@@ -3,13 +3,11 @@ import select from 'select-dom';
 import features from '../libs/features';
 import {getUsername} from '../libs/utils';
 
-function init(): false | void {
+function init(): void {
 	const menuItem = select(`a[href="/${getUsername()}"]`);
 
 	if (menuItem) {
 		menuItem.dataset.hotkey = 'g m';
-	} else {
-		return false;
 	}
 }
 
