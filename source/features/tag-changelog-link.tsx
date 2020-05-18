@@ -42,6 +42,33 @@ function parseTags(element: HTMLElement): TagDetails {
 	};
 }
 
+const getPreviousTag = (current: number, allTags: TagDetails[]): string | undefined => {
+	let unmatchedNamespaceTag: string | undefined;
+
+	for (let next = current + 1; next < allTags.length; next++) {
+		// Find a version on a different commit, if there are multiple tags on the same one
+		if (allTags[next].commit === allTags[current].commit) {
+			continue;
+		}
+
+		// Find an earlier version
+		if (tinyVersionCompare(allTags[current].version, allTags[next].version) < 1) {
+			continue;
+		}
+
+		if (allTags[current].namespace === allTags[next].namespace) {
+			return allTags[next].tag;
+		}
+
+		// If no matching namespace is found, just use the next one
+		if (!unmatchedNamespaceTag) {
+			unmatchedNamespaceTag = allTags[next].tag;
+		}
+	}
+
+	return unmatchedNamespaceTag;
+};
+
 async function init(): Promise<void | false> {
 	if (select.exists('.blankslate')) {
 		return false;
@@ -88,33 +115,6 @@ async function init(): Promise<void | false> {
 		}
 	}
 }
-
-const getPreviousTag = (current: number, allTags: TagDetails[]): string | undefined => {
-	let unmatchedNamespaceTag: string | undefined;
-
-	for (let next = current + 1; next < allTags.length; next++) {
-		// Find a version on a different commit, if there are multiple tags on the same one
-		if (allTags[next].commit === allTags[current].commit) {
-			continue;
-		}
-
-		// Find an earlier version
-		if (tinyVersionCompare(allTags[current].version, allTags[next].version) < 1) {
-			continue;
-		}
-
-		if (allTags[current].namespace === allTags[next].namespace) {
-			return allTags[next].tag;
-		}
-
-		// If no matching namespace is found, just use the next one
-		if (!unmatchedNamespaceTag) {
-			unmatchedNamespaceTag = allTags[next].tag;
-		}
-	}
-
-	return unmatchedNamespaceTag;
-};
 
 features.add({
 	id: __filebasename,

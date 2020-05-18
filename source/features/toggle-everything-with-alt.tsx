@@ -8,17 +8,6 @@ import anchorScroll from '../libs/anchor-scroll';
 
 type EventHandler = (event: delegate.Event<MouseEvent, HTMLElement>) => void;
 
-function init(): void {
-	// Collapsed comments in PR conversations and files
-	delegate(document, '.minimized-comment details summary', 'click', clickAll(minimizedCommentsSelector));
-
-	// "Load diff" buttons in PR files
-	delegate(document, '.js-file .js-diff-load', 'click', clickAll(allDiffsSelector));
-
-	// Review comments in PR
-	delegate(document, '.js-file .js-resolvable-thread-toggler', 'click', clickAll(resolvedCommentsSelector));
-}
-
 const clickAll = mem((selectorGetter: ((clickedItem: HTMLElement) => string)): EventHandler => {
 	return event => {
 		if (event.altKey && event.isTrusted) {
@@ -54,6 +43,17 @@ function minimizedCommentsSelector(clickedItem: HTMLElement): string {
 
 function resolvedCommentsSelector(clickedItem: HTMLElement): string {
 	return `.js-resolvable-thread-toggler[aria-expanded="${clickedItem.getAttribute('aria-expanded')!}"]:not(.d-none)`;
+}
+
+function init(): void {
+	// Collapsed comments in PR conversations and files
+	delegate(document, '.minimized-comment details summary', 'click', clickAll(minimizedCommentsSelector));
+
+	// "Load diff" buttons in PR files
+	delegate(document, '.js-file .js-diff-load', 'click', clickAll(allDiffsSelector));
+
+	// Review comments in PR
+	delegate(document, '.js-file .js-resolvable-thread-toggler', 'click', clickAll(resolvedCommentsSelector));
 }
 
 features.add({

@@ -9,7 +9,7 @@ import {getUsername, compareNames} from '../libs/utils';
 
 async function init(): Promise<false | void> {
 	const usernameElements = select.all([
-		'.js-discussion a.author:not(.rgh-fullname):not([href*="/apps/"]):not([href*="/marketplace/"]):not([data-hovercard-type="organization"])', // `a` selector needed to skip commits by non-GitHub users.
+		'.js-discussion a.author:not(.rgh-fullname):not([href*="/marketplace/"]):not([data-hovercard-type="organization"])', // `a` selector needed to skip commits by non-GitHub users.
 		'#dashboard a.text-bold[data-hovercard-type="user"]:not(.rgh-fullname)' // On dashboard `.text-bold` is required to not fetch avatars.
 	]);
 
@@ -25,7 +25,7 @@ async function init(): Promise<false | void> {
 		// Drop 'commented' label to shorten the copy
 		const commentedNode = element.parentNode!.nextSibling;
 		if (commentedNode?.textContent!.includes('commented')) {
-			commentedNode!.remove();
+			commentedNode.remove();
 		}
 	}
 

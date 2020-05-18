@@ -6,7 +6,7 @@ import ChevronLeftIcon from 'octicon/chevron-left.svg';
 import features from '../libs/features';
 import {groupButtons} from '../libs/group-buttons';
 import getDefaultBranch from '../libs/get-default-branch';
-import {getRepoURL, getCurrentBranch, replaceBranch} from '../libs/utils';
+import {getRepoURL, getCurrentBranch, replaceBranch, parseRoute} from '../libs/utils';
 
 async function init(): Promise<false | void> {
 	const defaultBranch = await getDefaultBranch();
@@ -51,6 +51,10 @@ features.add({
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile,
 		pageDetect.isRepoCommitList
+	],
+	exclude: [
+		// The branch selector will be on `isRepoCommitList()` **unless** you're in a folder/file
+		() => pageDetect.isRepoCommitList() && Boolean(parseRoute(location.pathname)[6])
 	],
 	waitForDomReady: false,
 	init

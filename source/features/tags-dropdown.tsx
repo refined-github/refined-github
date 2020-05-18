@@ -7,6 +7,21 @@ import * as pageDetect from 'github-url-detection';
 import features from '../libs/features';
 import {getRepoURL} from '../libs/utils';
 
+// We're reusing the Branch/Tag selector from the repo's Code tab, so we need to update a few things
+function changeTabToTags(): void {
+	// Select "Tags" tab
+	select('.rgh-tags-dropdown .SelectMenu-tab:last-child')!.click();
+}
+
+function updateLinksToTag(): void {
+	// Change links, which point to the content of each tag, to open the tag page instead
+	for (const anchorElement of select.all<HTMLAnchorElement>('.rgh-tags-dropdown .SelectMenu-list:last-child [href*="/tree/"]')) {
+		const pathnameParts = anchorElement.pathname.split('/');
+		pathnameParts[3] = 'releases/tag'; // Replace `tree`
+		anchorElement.pathname = pathnameParts.join('/');
+	}
+}
+
 function init(): false | void {
 	if (select.exists('.blankslate')) {
 		return false;
@@ -37,21 +52,6 @@ function init(): false | void {
 	// Wait until the network request is finished and HTML body is updated
 	// "remote-input-success" event is bubbled
 	select('.rgh-tags-dropdown')!.addEventListener('remote-input-success', updateLinksToTag);
-}
-
-// We're reusing the Branch/Tag selector from the repo's Code tab, so we need to update a few things
-function changeTabToTags(): void {
-	// Select "Tags" tab
-	select('.rgh-tags-dropdown .SelectMenu-tab:last-child')!.click();
-}
-
-function updateLinksToTag(): void {
-	// Change links, which point to the content of each tag, to open the tag page instead
-	for (const anchorElement of select.all<HTMLAnchorElement>('.rgh-tags-dropdown .SelectMenu-list:last-child [href*="/tree/"]')) {
-		const pathnameParts = anchorElement.pathname.split('/');
-		pathnameParts[3] = 'releases/tag'; // Replace `tree`
-		anchorElement.pathname = pathnameParts.join('/');
-	}
 }
 
 features.add({
