@@ -6,18 +6,21 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../libs/features';
 
-const addNewProjectLink = onetime(() => {
-	if (pageDetect.isUserProfile()) {
-		// The link already exists on our profile,
-		// and we can't create projects on others' profiles
+export const canUserEditOrganization = (): boolean => pageDetect.isOrganizationProfile() && select.exists('.pagehead-tabs-item[href$="/settings/profile"]');
+
+export const canUserEditRepo = (): boolean => pageDetect.isRepo() && select.exists('.reponav-item[href$="/settings"]');
+
+function getProjectsTab() {
+	return elementReady([
+		'[data-hotkey="g b"]', // In organizations and repos
+		'.user-profile-nav [href$="?tab=projects"]' // In user profiles
+	].join());
+}
+
+async function addNewProjectLink() {
+	if (!await getProjectsTab()) {
 		return;
 	}
-
-	if (pageDetect.isOrganizationProfile() && !pageDetect.isOwnOrganizationProfile()) {
-		// We can only add projects to our organizations
-		return;
-	}
-
 	// We can't detect whether we can create projects on a repo,
 	// so we're just gonna show a potentially-404 link. 🤷
 
@@ -31,30 +34,13 @@ const addNewProjectLink = onetime(() => {
 			New project
 		</a>
 	);
-});
+}
 
-async function init(): Promise<void> {
-	await elementReady(`
-		.orghead + *,
-		.repohead + *,
-		.user-profile-nav + *
-	`); // Wait for the tab bar to be loaded
-
-	const projectsTab = select([
-		'[data-hotkey="g b"]', // In organizations and repos
-		'.user-profile-nav [href$="?tab=projects"]' // In user profiles
-	]);
+async function removeProjectsTab(): Promise<void> {
+	const projectsTab = await getProjectsTab();
 
 	if (!projectsTab) {
 		// Projects aren't enabled here
-		return;
-	}
-
-	addNewProjectLink();
-
-	const isOrgRepoWithAccess = select.exists('.pagehead-tabs-item[href$="/settings/profile"]');
-	// If there's a settings tab, the current user can disable the projects, so the tab should not be hidden
-	if (pageDetect.isRepoWithAccess() || isOrgRepoWithAccess) {
 		return;
 	}
 
@@ -71,8 +57,19 @@ features.add({
 }, {
 	include: [
 		pageDetect.isRepo,
-		pageDetect.isUserProfile,
+		pageDetect.isUserProfile
+	],
+	exclude: [
+		canUserEditRepo // If there's a settings tab, the current user can disable the projects, so the tab should not be hidden
+	],
+	init: removeProjectsTab
+}, {
+	include: [
+		pageDetect.isRepo,
 		pageDetect.isOrganizationProfile
 	],
-	init
+	exclude: [
+		canUserEditOrganization
+	],
+	init: onetime(addNewProjectLink)
 });
