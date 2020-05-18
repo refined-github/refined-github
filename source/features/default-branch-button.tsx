@@ -6,9 +6,14 @@ import ChevronLeftIcon from 'octicon/chevron-left.svg';
 import features from '../libs/features';
 import {groupButtons} from '../libs/group-buttons';
 import getDefaultBranch from '../libs/get-default-branch';
-import {getRepoURL, getCurrentBranch, replaceBranch} from '../libs/utils';
+import {getRepoURL, getCurrentBranch, replaceBranch, parseRoute} from '../libs/utils';
 
 async function init(): Promise<false | void> {
+	// The branch selector will be on `isRepoCommitList()` **unless** you're in a folder/file
+	if (pageDetect.isRepoCommitList() && parseRoute(location.pathname)[5]) {
+		return false;
+	}
+
 	const defaultBranch = await getDefaultBranch();
 	const currentBranch = getCurrentBranch();
 
@@ -24,10 +29,7 @@ async function init(): Promise<false | void> {
 		url = replaceBranch(currentBranch, defaultBranch);
 	}
 
-	const branchSelector = (await elementReady('#branch-select-menu'));
-	if (!branchSelector) { // File history page
-		return;
-	}
+	const branchSelector = (await elementReady('#branch-select-menu'))!;
 
 	const defaultLink = (
 		<a
