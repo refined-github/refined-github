@@ -58,6 +58,7 @@ features.add({
 		pageDetect.isOrganizationProfile
 	],
 	exclude: [
+		// Repo/Organization owners should see the tab. If they don't need it, they should disable Projects altogether
 		pageDetect.canUserEditRepo,
 		pageDetect.canUserEditOrganization
 	],
