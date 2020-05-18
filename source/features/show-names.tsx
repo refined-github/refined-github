@@ -24,8 +24,8 @@ async function init(): Promise<false | void> {
 
 		// Drop 'commented' label to shorten the copy
 		const commentedNode = element.parentNode!.nextSibling;
-		if (commentedNode && commentedNode.textContent!.includes('commented')) {
-			commentedNode.remove();
+		if (commentedNode?.textContent!.includes('commented')) {
+			commentedNode!.remove();
 		}
 	}
 
@@ -44,7 +44,7 @@ async function init(): Promise<false | void> {
 		const userKey = api.escapeKey(username);
 
 		// For the currently logged in user, `names[userKey]` would not be present.
-		if (names[userKey] && names[userKey].name) {
+		if (names[userKey]?.name) {
 			// If it's a regular comment author, add it outside <strong>
 			// otherwise it's something like "User added some commits"
 			if (compareNames(username, names[userKey].name)) {

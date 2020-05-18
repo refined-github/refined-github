@@ -28,7 +28,7 @@
 		"element-ready": "^4.1.1",
 		"fit-textarea": "^2.0.0",
 		"github-reserved-names": "^1.1.8",
-		"github-url-detection": "^1.0.0",
+		"github-url-detection": "^1.1.2",
 		"image-promise": "^7.0.0",
 		"indent-textarea": "^2.0.1",
 		"linkify-issues": "2.0.0-nolookbehind",
@@ -104,6 +104,7 @@
 		"rules": {
 			"@typescript-eslint/no-empty-function": "off",
 			"@typescript-eslint/no-floating-promises": "off",
+			"@typescript-eslint/no-non-null-asserted-optional-chain": "off",
 			"@typescript-eslint/prefer-readonly-parameter-types": "off",
 			"no-alert": "off",
 			"react/function-component-definition": [
