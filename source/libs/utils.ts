@@ -76,6 +76,7 @@ export const replaceBranch = (currentBranch: string, newBranch: string): string 
 	return `/${getRepoURL()}/${pageType}/${newBranchRepoPath}`;
 };
 
+/* Should work on `isRepoTree` `isBlame` `isSingleFile` `isCommitList` `isCompare` `isPRCommit` */
 export const getCurrentBranch = (): string => {
 	return select.last<HTMLLinkElement>('link[rel="alternate"]')!
 		.href
@@ -203,6 +204,25 @@ export function getLatestVersionTag(tags: string[]): string {
 	}
 
 	return latestVersion;
+}
+
+export function parseRoute(pathname: string): string {
+	const [user, repository, route, ...next] = pathname.replace(/^\/|\/$/g, '').split('/');
+	const parts = next.join('/');
+	const currentBranch = getCurrentBranch();
+	if (parts !== currentBranch && !parts.startsWith(currentBranch + '/')) {
+		throw new Error('The branch of the current page must match the branch in the `pathname` parameter');
+	}
+
+	const filePath = parts.replace(currentBranch + '/', '');
+	return [
+		'',
+		user,
+		repository,
+		route,
+		currentBranch,
+		filePath
+	];
 }
 
 const escapeRegex = (string: string) => string.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&');
