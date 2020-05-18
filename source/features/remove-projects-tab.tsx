@@ -6,10 +6,6 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../libs/features';
 
-export const canUserEditOrganization = (): boolean => pageDetect.isOrganizationProfile() && select.exists('.pagehead-tabs-item[href$="/settings/profile"]');
-
-export const canUserEditRepo = (): boolean => pageDetect.isRepo() && select.exists('.reponav-item[href$="/settings"]');
-
 function getProjectsTab() {
 	return elementReady([
 		'[data-hotkey="g b"]', // In organizations and repos
@@ -61,8 +57,8 @@ features.add({
 		pageDetect.isOrganizationProfile
 	],
 	exclude: [
-		canUserEditRepo,
-		canUserEditOrganization
+		pageDetect.canUserEditRepo,
+		pageDetect.canUserEditOrganization
 	],
 	init: removeProjectsTab
 }, {
