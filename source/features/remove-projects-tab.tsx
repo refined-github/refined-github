@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import onetime from 'onetime';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../libs/features';
+import {looseParseInt} from '../libs/utils';
 
 function getProjectsTab() {
 	return elementReady([
@@ -13,9 +13,9 @@ function getProjectsTab() {
 	].join());
 }
 
-async function addNewProjectLink() {
+async function addNewProjectLink(): Promise<void |false> {
 	if (!await getProjectsTab()) {
-		return;
+		return false;
 	}
 	// We can't detect whether we can create projects on a repo,
 	// so we're just gonna show a potentially-404 link. 🤷
@@ -32,18 +32,21 @@ async function addNewProjectLink() {
 	);
 }
 
-async function removeProjectsTab(): Promise<void> {
+async function removeProjectsTab(): Promise<void | false> {
 	const projectsTab = await getProjectsTab();
 
 	if (!projectsTab) {
 		// Projects aren't enabled here
-		return;
+		return false;
 	}
 
-	// Only remove the tab if it's not the current page and if it has 0 projects or on `isOrganizationProfile` it will be blank
-	if (!projectsTab.matches('.selected') && ['0', ''].includes(select('.Counter', projectsTab)!.textContent!.trim().charAt(0))) {
-		projectsTab.remove();
+	const counter = select('.Counter', projectsTab);
+	// Dont run if the tab is selected, it does not exists or the counter is 0
+	if (projectsTab.matches('.selected') || !counter || looseParseInt(counter.textContent!) !== 0) {
+		return false;
 	}
+
+	projectsTab.remove();
 }
 
 features.add({
@@ -65,6 +68,10 @@ features.add({
 	include: [
 		pageDetect.isRepo,
 		pageDetect.isOrganizationProfile
+	],
+	exclude: [
+		() => !pageDetect.canUserEditRepo(),
+		() => !pageDetect.canUserEditOrganization()
 	],
 	repeatOnAjax: false,
 	init: addNewProjectLink
