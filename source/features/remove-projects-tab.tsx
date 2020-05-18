@@ -61,7 +61,6 @@ features.add({
 		pageDetect.isOrganizationProfile
 	],
 	exclude: [
-		// If there's a settings tab, the current user can disable the projects, so the tab should not be hidden
 		canUserEditRepo,
 		canUserEditOrganization
 	],
