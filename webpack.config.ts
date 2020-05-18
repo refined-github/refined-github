@@ -123,8 +123,7 @@ const config: Configuration = {
 		}),
 		new CopyWebpackPlugin([
 			{
-				from: '*',
-				context: 'source',
+				from: 'source',
 				ignore: [
 					'*.js',
 					'*.ts',
