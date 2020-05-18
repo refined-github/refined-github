@@ -70,5 +70,6 @@ features.add({
 		pageDetect.isRepo,
 		pageDetect.isOrganizationProfile
 	],
-	init: onetime(addNewProjectLink)
+	repeatOnAjax: false,
+	init: addNewProjectLink
 });
