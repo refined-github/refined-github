@@ -1,10 +1,10 @@
 import './reactions-avatars.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../libs/features';
-import {flatZip} from 'flat-zip';
 import onReplacedElement from '../libs/on-replaced-element';
 import {getUsername, isFirefox} from '../libs/utils';
 
