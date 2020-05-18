@@ -25,7 +25,7 @@ async function init(): Promise<false | void> {
 		// Drop 'commented' label to shorten the copy
 		const commentedNode = element.parentNode!.nextSibling;
 		if (commentedNode?.textContent!.includes('commented')) {
-			commentedNode!.remove();
+			commentedNode.remove();
 		}
 	}
 
