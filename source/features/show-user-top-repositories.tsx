@@ -34,5 +34,8 @@ features.add({
 	include: [
 		pageDetect.isUserProfile
 	],
+	exclude: [
+		() => Boolean(new URLSearchParams(location.search).get('tab'))
+	],
 	init
 });
