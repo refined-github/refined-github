@@ -40,7 +40,7 @@ async function removeProjectsTab(): Promise<void | false> {
 	}
 
 	// Dont run if the counter is 0. (When it does not exists it will converted to a 0)
-	if (Number(select('.Counter', projectsTab)?.textContent!) !== 0) {
+	if (Number(select('.Counter', projectsTab)?.textContent) !== 0) {
 		return false;
 	}
 
