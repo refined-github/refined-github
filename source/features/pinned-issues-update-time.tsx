@@ -26,7 +26,7 @@ const getLastUpdated = cache.function(async (issueNumbers: number[]): Promise<Re
 	return repository;
 }, {
 	maxAge: 1,
-	cacheKey: () => __filebasename + ':' + getRepoURL()
+	cacheKey: ([issues]) => __filebasename + ':' + getRepoURL() + ':' + String(issues)
 });
 
 function getPinnedIssueNumber(pinnedIssue: HTMLElement): number {
