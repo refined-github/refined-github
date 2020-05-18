@@ -5,17 +5,14 @@ import * as pageDetect from 'github-url-detection';
 import features from '../libs/features';
 
 function init(): void {
-	const buttonGroup = select('.file-navigation .BtnGroup.float-right');
-	if (buttonGroup) {
-		buttonGroup.prepend(
-			<a
-				className="btn btn-sm BtnGroup-item"
-				href={`https://download-directory.github.io/?url=${location.href}`}
-			>
-				Download
-			</a>
-		);
-	}
+	select('.file-navigation .BtnGroup.float-right')?.prepend(
+		<a
+			className="btn btn-sm BtnGroup-item"
+			href={`https://download-directory.github.io/?url=${location.href}`}
+		>
+			Download
+		</a>
+	);
 }
 
 features.add({
