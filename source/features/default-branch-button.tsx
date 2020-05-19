@@ -17,8 +17,9 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
+	const pathParts = parseRoute(location.pathname);
 	// The branch selector will be on `isRepoCommitList()` **unless** you're in a folder/file
-	if (pageDetect.isRepoCommitList() && Boolean(parseRoute(location.pathname)[6])) {
+	if (pageDetect.isRepoCommitList() && Boolean(pathParts[6])) {
 		return false;
 	}
 
@@ -26,7 +27,8 @@ async function init(): Promise<false | void> {
 	if (pageDetect.isRepoRoot()) {
 		url = `/${getRepoURL()}`;
 	} else {
-		url = parseRoute(location.pathname, defaultBranch).join('/') + location.search;
+		pathParts[5] = defaultBranch;
+		url = pathParts.join('/') + location.search;
 	}
 
 	const branchSelector = (await elementReady('#branch-select-menu'))!;

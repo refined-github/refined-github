@@ -156,7 +156,7 @@ export function getLatestVersionTag(tags: string[]): string {
 	return latestVersion;
 }
 
-export function parseRoute(pathname: string, branch?: string | null): string[] {
+export function parseRoute(pathname: string): string[] {
 	const [user, repository, route, ...next] = pathname.replace(/^\/|\/$/g, '').split('/');
 	const parts = next.join('/');
 	const currentBranch = getCurrentBranch();
@@ -170,7 +170,7 @@ export function parseRoute(pathname: string, branch?: string | null): string[] {
 		user,
 		repository,
 		route,
-		branch ?? currentBranch,
+		currentBranch,
 		filePath
 	];
 }
