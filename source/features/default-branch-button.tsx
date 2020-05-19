@@ -17,6 +17,11 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
+	// The branch selector will be on `isRepoCommitList()` **unless** you're in a folder/file
+	if (pageDetect.isRepoCommitList() && Boolean(parseRoute(location.pathname)[6])) {
+		return false;
+	}
+
 	let url;
 	if (pageDetect.isRepoRoot()) {
 		url = `/${getRepoURL()}`;
@@ -51,10 +56,6 @@ features.add({
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile,
 		pageDetect.isRepoCommitList
-	],
-	exclude: [
-		// The branch selector will be on `isRepoCommitList()` **unless** you're in a folder/file
-		() => pageDetect.isRepoCommitList() && Boolean(parseRoute(location.pathname)[6])
 	],
 	waitForDomReady: false,
 	init
