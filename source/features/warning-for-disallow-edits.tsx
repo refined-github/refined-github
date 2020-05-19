@@ -27,10 +27,10 @@ function toggleHandler(event: delegate.Event<UIEvent, HTMLInputElement>): void {
 	update(event.delegateTarget);
 }
 
-function init(): void {
+function init(): void | false {
 	const checkbox = select<HTMLInputElement>('[name="collab_privs"]');
 	if (!checkbox) {
-		return;
+		return false;
 	}
 
 	update(checkbox); // The sidebar checkbox may already be un-checked
