@@ -27,6 +27,7 @@
 		"doma": "^3.0.1",
 		"element-ready": "^4.1.1",
 		"fit-textarea": "^2.0.0",
+		"flat-zip": "^1.0.1",
 		"github-reserved-names": "^1.1.8",
 		"github-url-detection": "^1.1.3",
 		"image-promise": "^7.0.0",
