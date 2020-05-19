@@ -9,9 +9,9 @@ import BranchIcon from 'octicon/git-branch.svg';
 import HistoryIcon from 'octicon/history.svg';
 import PackageIcon from 'octicon/package.svg';
 
-import features from '../libs/features';
-import {appendBefore} from '../libs/dom-utils';
-import {getRepoURL, getCurrentBranch} from '../libs/utils';
+import features from '.';
+import {appendBefore} from '../helpers/dom-utils';
+import {getRepoURL, getCurrentBranch} from '../github-helpers';
 
 const repoUrl = getRepoURL();
 

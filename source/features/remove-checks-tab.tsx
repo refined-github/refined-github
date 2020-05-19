@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
+import features from '.';
 
 function init(): void {
 	// Only remove the tab if it's not the current page and if it has 0 checks

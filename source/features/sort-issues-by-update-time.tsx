@@ -2,8 +2,8 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import SearchQuery from '../libs/search-query';
+import features from '.';
+import SearchQuery from '../github-helpers/search-query';
 
 async function cleanBar(): Promise<void> {
 	(await elementReady<HTMLInputElement>('.header-search-input'))!.value = '';

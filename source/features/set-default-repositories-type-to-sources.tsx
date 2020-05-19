@@ -1,6 +1,6 @@
 import select from 'select-dom';
 
-import features from '../libs/features';
+import features from '.';
 
 function init(): void {
 	const links = select.all<HTMLAnchorElement>([

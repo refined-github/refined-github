@@ -1,8 +1,8 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import {getUsername} from '../libs/utils';
+import features from '.';
+import {getUsername} from '../github-helpers';
 
 async function init(): Promise<void> {
 	for (const item of select.all('#dashboard .news .watch_started, #dashboard .news .fork')) {

@@ -2,8 +2,8 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import observeElement from '../libs/simplified-element-observer';
+import features from '.';
+import observeElement from '../helpers/simplified-element-observer';
 
 function init(): void {
 	const subscription = delegate(document, '.js-merge-commit-button', 'click', () => {

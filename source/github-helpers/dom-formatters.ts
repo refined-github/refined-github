@@ -2,8 +2,8 @@ import zipTextNodes from 'zip-text-nodes';
 import linkifyURLsCore from 'linkify-urls';
 import linkifyIssuesCore from 'linkify-issues';
 
-import getTextNodes from './get-text-nodes';
-import {getOwnerAndRepo} from './utils';
+import getTextNodes from '../helpers/get-text-nodes';
+import {getOwnerAndRepo} from '.';
 import parseBackticksCore from './parse-backticks';
 
 // Shared class necessary to avoid also shortening the links

@@ -2,8 +2,8 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import {getRepoURL, getRepoPath} from '../libs/utils';
+import features from '.';
+import {getRepoURL, getRepoPath} from '../github-helpers';
 
 const isWorkflowFile = (): boolean => pageDetect.isSingleFile() && /\/\.github\/workflows\/.+\.ya?ml$/.test(getRepoPath()!);
 

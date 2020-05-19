@@ -2,8 +2,8 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import {getCleanPathname} from '../libs/utils';
+import features from '.';
+import {getCleanPathname} from '../github-helpers';
 
 function buildUrl(queryField: string): URL {
 	const url = new URL('/search', location.href);

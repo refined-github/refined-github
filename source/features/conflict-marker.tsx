@@ -4,8 +4,8 @@ import select from 'select-dom';
 import AlertIcon from 'octicon/alert.svg';
 import * as pageDetect from 'github-url-detection';
 
-import * as api from '../libs/api';
-import features from '../libs/features';
+import features from '.';
+import * as api from '../github-helpers/api';
 
 interface PRConfig {
 	number: string;

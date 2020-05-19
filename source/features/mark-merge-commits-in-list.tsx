@@ -4,9 +4,9 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import PullRequestIcon from 'octicon/git-pull-request.svg';
 
-import * as api from '../libs/api';
-import features from '../libs/features';
-import {getRepoGQL} from '../libs/utils';
+import features from '.';
+import * as api from '../github-helpers/api';
+import {getRepoGQL} from '../github-helpers';
 
 const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 	const {repository} = await api.v4(`

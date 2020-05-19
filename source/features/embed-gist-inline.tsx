@@ -3,8 +3,8 @@ import domify from 'doma';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import {isFirefox} from '../libs/utils';
+import features from '.';
+import {isFirefox} from '../github-helpers';
 
 const isGist = (link: HTMLAnchorElement): boolean =>
 	!link.pathname.includes('.') && // Exclude links to embed files

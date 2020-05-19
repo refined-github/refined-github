@@ -2,10 +2,10 @@ import './ci-link.css';
 import oneTime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import fetchDom from '../libs/fetch-dom';
-import {getRepoURL} from '../libs/utils';
-import {appendBefore} from '../libs/dom-utils';
+import features from '.';
+import fetchDom from '../helpers/fetch-dom';
+import {getRepoURL} from '../github-helpers';
+import {appendBefore} from '../helpers/dom-utils';
 
 // Look for the CI icon in the latest 2 days of commits #2990
 const getIcon = oneTime(fetchDom.bind(null,

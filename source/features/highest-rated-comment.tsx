@@ -5,8 +5,8 @@ import CheckIcon from 'octicon/check.svg';
 import ArrowDownIcon from 'octicon/arrow-down.svg';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import {looseParseInt} from '../libs/utils';
+import features from '.';
+import {looseParseInt} from '../github-helpers';
 
 // `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)
 const commentSelector = '.js-timeline-item';

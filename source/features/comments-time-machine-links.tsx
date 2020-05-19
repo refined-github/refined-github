@@ -3,9 +3,9 @@ import select from 'select-dom';
 import ClockIcon from 'octicon/clock.svg';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import {getRepoURL} from '../libs/utils';
-import {appendBefore} from '../libs/dom-utils';
+import features from '.';
+import {getRepoURL} from '../github-helpers';
+import {appendBefore} from '../helpers/dom-utils';
 
 function addInlineLinks(comment: HTMLElement, timestamp: string): void {
 	const links = select.all<HTMLAnchorElement>(`

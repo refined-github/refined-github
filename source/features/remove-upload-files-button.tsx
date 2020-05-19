@@ -1,8 +1,8 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import {getRepoURL} from '../libs/utils';
+import features from '.';
+import {getRepoURL} from '../github-helpers';
 
 function init(): void {
 	select(`.file-navigation a[href^="/${getRepoURL()}/upload"]`)?.remove();
