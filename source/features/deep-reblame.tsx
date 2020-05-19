@@ -8,8 +8,9 @@ import * as pageDetect from 'github-url-detection';
 
 import * as api from '../libs/api';
 import features from '../libs/features';
+import parseRoute from '../github-helpers/parse-route';
 import LoadingIcon from '../libs/icon-loading';
-import {getRepoGQL, looseParseInt, parseRoute} from '../libs/utils';
+import {getRepoGQL, looseParseInt} from '../libs/utils';
 
 const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number, currentFilename: string): Promise<string> => {
 	const {repository} = await api.v4(`
@@ -66,8 +67,8 @@ async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAncho
 	const blameHunk = blameElement.closest('.blame-hunk')!;
 	const prNumber = looseParseInt(select('.issue-link', blameHunk)!.textContent!);
 	const prCommit = select<HTMLAnchorElement>('a.message', blameHunk)!.pathname.split('/').pop()!;
-	const pathnameParts = parseRoute(location.pathname);
-	const {filePath: currentFilename} = pathnameParts;
+	const path = parseRoute(location.pathname);
+	const {filePath: currentFilename} = path;
 
 	const spinner = <LoadingIcon className="mr-2"/>;
 	blameElement.firstElementChild!.replaceWith(spinner);
@@ -75,8 +76,8 @@ async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAncho
 	try {
 		const prBlameCommit = await getPullRequestBlameCommit(prCommit, prNumber, currentFilename);
 		const lineNumber = select('.js-line-number', blameHunk)!.textContent!;
-		pathnameParts.branch = prBlameCommit;
-		const href = new URL(pathnameParts.toString(), location.origin);
+		path.branch = prBlameCommit;
+		const href = new URL(path.toString(), location.origin);
 		href.hash = 'L' + lineNumber;
 		location.href = String(href);
 	} catch (error) {

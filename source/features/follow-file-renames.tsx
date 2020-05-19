@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 
 import * as api from '../libs/api';
 import features from '../libs/features';
-import {parseRoute} from '../libs/utils';
+import parseRoute from '../github-helpers/parse-route';
 
 interface File {
 	previous_filename: string;

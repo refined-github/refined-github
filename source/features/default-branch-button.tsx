@@ -4,9 +4,10 @@ import * as pageDetect from 'github-url-detection';
 import ChevronLeftIcon from 'octicon/chevron-left.svg';
 
 import features from '../libs/features';
+import parseRoute from '../github-helpers/parse-route';
 import {groupButtons} from '../libs/group-buttons';
 import getDefaultBranch from '../libs/get-default-branch';
-import {getRepoURL, getCurrentBranch, parseRoute} from '../libs/utils';
+import {getRepoURL, getCurrentBranch} from '../libs/utils';
 
 async function init(): Promise<false | void> {
 	const defaultBranch = await getDefaultBranch();
@@ -17,9 +18,9 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	const pathnameParts = parseRoute(location.pathname);
+	const path = parseRoute(location.pathname);
 	// The branch selector will be on `isRepoCommitList()` **unless** you're in a folder/file
-	if (pageDetect.isRepoCommitList() && pathnameParts.filePath.length > 0) {
+	if (pageDetect.isRepoCommitList() && path.filePath.length > 0) {
 		return false;
 	}
 
@@ -27,8 +28,8 @@ async function init(): Promise<false | void> {
 	if (pageDetect.isRepoRoot()) {
 		url = `/${getRepoURL()}`;
 	} else {
-		pathnameParts.branch = defaultBranch;
-		url = pathnameParts.toString();
+		path.branch = defaultBranch;
+		url = path.toString();
 	}
 
 	const branchSelector = (await elementReady('#branch-select-menu'))!;
