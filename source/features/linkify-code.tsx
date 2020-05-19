@@ -1,8 +1,8 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import {linkifiedURLClass, linkifyURLs, linkifyIssues} from '../libs/dom-formatters';
+import features from '.';
+import {linkifiedURLClass, linkifyURLs, linkifyIssues} from '../github-helpers/dom-formatters';
 
 function init(): false | void {
 	const wrappers = select.all(`

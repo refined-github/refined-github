@@ -4,9 +4,9 @@ import select from 'select-dom';
 import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
+import features from '.';
 import onReplacedElement from '../libs/on-replaced-element';
-import {getUsername, isFirefox} from '../libs/utils';
+import {getUsername, isFirefox} from '../github-helpers/utils';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars

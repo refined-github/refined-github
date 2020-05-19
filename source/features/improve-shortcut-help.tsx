@@ -2,7 +2,7 @@ import './improve-shortcut-help.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 
-import features from '../libs/features';
+import features from '.';
 
 function splitKeys(keys: string): DocumentFragment[] {
 	return keys.split(' ').map(key => <> <kbd>{key}</kbd></>);

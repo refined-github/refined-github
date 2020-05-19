@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
 
-import features from '../libs/features';
+import features from '.';
 
 // eslint-disable-next-line import/prefer-default-export
 export function listenToCommentFields(callback: delegate.EventHandler<KeyboardEvent, HTMLTextAreaElement>): void {

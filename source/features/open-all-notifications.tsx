@@ -5,7 +5,7 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import LinkExternalIcon from 'octicon/link-external.svg';
 
-import features from '../libs/features';
+import features from '.';
 
 const confirmationRequiredCount = 10;
 

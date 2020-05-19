@@ -1,6 +1,6 @@
 import select from 'select-dom';
 
-import features from '../libs/features';
+import features from '.';
 import {isEditable} from '../libs/dom-utils';
 
 function init(): void {

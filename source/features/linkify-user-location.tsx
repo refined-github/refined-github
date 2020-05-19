@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 
-import features from '../libs/features';
+import features from '.';
 import {wrap, isEditable} from '../libs/dom-utils';
 
 function addLocation(baseElement: HTMLElement): void {

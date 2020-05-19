@@ -2,9 +2,9 @@ import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
+import features from '.';
 import {wrap} from '../libs/dom-utils';
-import features from '../libs/features';
-import {getRepoURL} from '../libs/utils';
+import {getRepoURL} from '../github-helpers/utils';
 
 async function init(): Promise<void> {
 	const element = await elementReady('.branch-name');

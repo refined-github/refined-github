@@ -4,7 +4,7 @@ import select from 'select-dom';
 import oneTime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
+import features from '.';
 import onReplacedElement from '../libs/on-replaced-element';
 import onElementRemoval from '../libs/on-element-removal';
 

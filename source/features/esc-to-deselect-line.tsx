@@ -1,4 +1,4 @@
-import features from '../libs/features';
+import features from '.';
 import {isEditable} from '../libs/dom-utils';
 
 function isLineSelected(): boolean {

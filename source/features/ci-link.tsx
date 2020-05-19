@@ -2,9 +2,9 @@ import './ci-link.css';
 import oneTime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
+import features from '.';
 import fetchDom from '../libs/fetch-dom';
-import {getRepoURL} from '../libs/utils';
+import {getRepoURL} from '../github-helpers/utils';
 import {appendBefore} from '../libs/dom-utils';
 
 // Look for the CI icon in the latest 2 days of commits #2990

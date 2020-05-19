@@ -4,8 +4,8 @@ import elementReady from 'element-ready';
 import CheckIcon from 'octicon/check.svg';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import SearchQuery from '../libs/search-query';
+import features from '.';
+import SearchQuery from '../github-helpers/search-query';
 
 function addMergeLink(): void {
 	if (!pageDetect.isPRList()) {

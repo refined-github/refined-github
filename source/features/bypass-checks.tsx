@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
+import features from '.';
 import fetchDom from '../libs/fetch-dom';
 
 async function init(): Promise<void> {

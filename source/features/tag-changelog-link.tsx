@@ -4,9 +4,9 @@ import DiffIcon from 'octicon/diff.svg';
 import * as pageDetect from 'github-url-detection';
 import tinyVersionCompare from 'tiny-version-compare';
 
-import features from '../libs/features';
+import features from '.';
 import fetchDom from '../libs/fetch-dom';
-import {getRepoPath, getRepoURL, parseTag} from '../libs/utils';
+import {getRepoPath, getRepoURL, parseTag} from '../github-helpers/utils';
 
 type TagDetails = {
 	element: HTMLElement;
