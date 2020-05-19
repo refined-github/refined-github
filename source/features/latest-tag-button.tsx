@@ -6,10 +6,10 @@ import TagIcon from 'octicon/tag.svg';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import parseRoute from '../github-helpers/parse-route';
 import features from '.';
 import * as api from '../github-helpers/api';
 import fetchDom from '../helpers/fetch-dom';
+import parseRoute from '../github-helpers/parse-route';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getRepoURL, getCurrentBranch, getRepoGQL, getLatestVersionTag} from '../github-helpers';
 
