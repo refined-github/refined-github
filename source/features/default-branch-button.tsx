@@ -19,7 +19,7 @@ async function init(): Promise<false | void> {
 
 	const pathParts = parseRoute(location.pathname);
 	// The branch selector will be on `isRepoCommitList()` **unless** you're in a folder/file
-	if (pageDetect.isRepoCommitList() && Boolean(pathParts[6])) {
+	if (pageDetect.isRepoCommitList() && !pathParts[6]) {
 		return false;
 	}
 
