@@ -3,7 +3,7 @@ import select from 'select-dom';
 import SearchIcon from 'octicon/search.svg';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
+import features from '.';
 
 function init(): void {
 	const actionRepo = select('aside .octicon-repo')!

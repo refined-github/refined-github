@@ -1,5 +1,5 @@
-import features from '../libs/features';
-import {isEditable} from '../libs/dom-utils';
+import features from '.';
+import {isEditable} from '../helpers/dom-utils';
 
 function isLineSelected(): boolean {
 	// Example hashes:

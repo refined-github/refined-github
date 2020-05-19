@@ -5,10 +5,10 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
-import features from '../libs/features';
-import oneEvent from '../libs/one-event';
-import {logError} from '../libs/utils';
-import {observeOneMutation} from '../libs/simplified-element-observer';
+import features from '.';
+import oneEvent from '../helpers/one-event';
+
+import {observeOneMutation} from '../helpers/simplified-element-observer';
 
 const pendingSelector = '.timeline-comment-label.is-pending';
 
@@ -57,7 +57,7 @@ async function handleSubmitSingle(event: delegate.Event): Promise<void> {
 	const commentText = select<HTMLTextAreaElement>('[name="pull_request_review_comment[body]"]', commentContainer)!.value;
 	if (!commentText) {
 		alert('Error: Comment not found and not submitted. More info in the console.');
-		logError(__filebasename, 'Comment not found');
+		features.error(__filebasename, 'Comment not found');
 		return;
 	}
 
@@ -99,7 +99,7 @@ async function handleSubmitSingle(event: delegate.Event): Promise<void> {
 		alert('There was an error sending the comment. More info in the console.');
 		console.log('You were trying to sending this comment:');
 		console.log(commentText);
-		logError(__filebasename, error);
+		features.error(__filebasename, error);
 	}
 }
 

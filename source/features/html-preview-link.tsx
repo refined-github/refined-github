@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
+import features from '.';
 
 const isSingleHTMLFile = (): boolean => pageDetect.isSingleFile() && (location.pathname.endsWith('.html') || location.pathname.endsWith('.htm'));
 

@@ -1,4 +1,4 @@
-import {getUsername} from './utils';
+import {getUsername} from '.';
 
 type Source = HTMLAnchorElement | URL | URLSearchParams | Location;
 

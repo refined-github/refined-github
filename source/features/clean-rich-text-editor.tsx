@@ -2,7 +2,7 @@ import './clean-rich-text-editor.css';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
+import features from '.';
 
 function hideButtons(): void {
 	document.body.classList.add('rgh-clean-rich-text-editor');

@@ -4,11 +4,11 @@ import onetime from 'onetime';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import * as api from '../libs/api';
-import features from '../libs/features';
-import fetchDom from '../libs/fetch-dom';
-import postForm from '../libs/post-form';
-import {getDiscussionNumber, getRepoGQL, getRepoURL, getCurrentBranch} from '../libs/utils';
+import features from '.';
+import * as api from '../github-helpers/api';
+import fetchDom from '../helpers/fetch-dom';
+import postForm from '../helpers/post-form';
+import {getDiscussionNumber, getRepoGQL, getRepoURL, getCurrentBranch} from '../github-helpers';
 
 function showError(menuItem: HTMLButtonElement, error: string): void {
 	menuItem.disabled = true;

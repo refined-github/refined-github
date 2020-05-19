@@ -4,8 +4,8 @@ import select from 'select-dom';
 import OctofaceIcon from 'octicon/octoface.svg';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import {getRepoURL} from '../libs/utils';
+import features from '.';
+import {getRepoURL} from '../github-helpers';
 
 // We're reusing the Branch/Tag selector from the repo's Code tab, so we need to update a few things
 function changeTabToTags(): void {

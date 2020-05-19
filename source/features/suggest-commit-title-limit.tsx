@@ -3,8 +3,8 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
+import features from '.';
+import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
 const fieldSelector = [
 	'#commit-summary-input', // Commit title on edit file page

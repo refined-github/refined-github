@@ -6,9 +6,9 @@ import RepoIcon from 'octicon/repo.svg';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import fetchDom from '../libs/fetch-dom';
-import {getRepoURL, looseParseInt} from '../libs/utils';
+import features from '.';
+import fetchDom from '../helpers/fetch-dom';
+import {getRepoURL, looseParseInt} from '../github-helpers';
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
 	year: 'numeric',
