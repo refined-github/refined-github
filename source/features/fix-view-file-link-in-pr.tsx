@@ -3,7 +3,6 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../libs/features';
-import {getCurrentBranch} from '../libs/utils';
 
 function handleMenuOpening(event: delegate.Event): void {
 	const dropdown = event.delegateTarget.nextElementSibling!;
@@ -24,13 +23,19 @@ function handleMenuOpening(event: delegate.Event): void {
 		return;
 	}
 
+	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
+
+	// If the file was deleted
+	if (viewFile.closest('[data-file-deleted="true"]')) {
+		return;
+	}
+
 	// This solution accounts for:
 	// - Branches with slashes in it
 	// - PRs opened from the default branch
-	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
-	const pathParts = viewFile.pathname.split('/'); // Example pathname: $owner/$repository/blob/$sha/$path_to_file.tsx
-	pathParts[4] = getCurrentBranch();
-	viewFile.pathname = pathParts.join('/');
+	const headRepo = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname;
+	const filepath = viewFile.pathname.split('/').slice(5).join('/'); // Example pathname: $owner/$repository/blob/$sha/$path_to_file.tsx
+	viewFile.pathname = headRepo + '/' + filepath;
 
 	viewFile.classList.add('rgh-actionable-link'); // Mark this as processed
 }
