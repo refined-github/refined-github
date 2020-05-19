@@ -164,7 +164,7 @@ export function parseRoute(pathname: string, branch?: string | null): string[] {
 		throw new Error('The branch of the current page must match the branch in the `pathname` parameter');
 	}
 
-	const filePath = parts.replace(currentBranch + '/', '');
+	const filePath = parts.replace(currentBranch, '').replace(/^\//, '');
 	return [
 		'',
 		user,
