@@ -1,25 +1,23 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import onetime from 'onetime';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import {observeOneMutation} from '../helpers/simplified-element-observer';
 
-const addNewProjectLink = onetime(() => {
-	if (pageDetect.isUserProfile()) {
-		// The link already exists on our profile,
-		// and we can't create projects on others' profiles
-		return;
+function getProjectsTab() {
+	return elementReady([
+		'[data-hotkey="g b"]', // In organizations and repos
+		'.user-profile-nav [href$="?tab=projects"]' // In user profiles
+	].join());
+}
+
+// We can't detect whether the user can create projects on a repo, so this link is potentially a 404
+async function addNewProjectLink(): Promise<void |false> {
+	if (!await getProjectsTab()) {
+		return false;
 	}
-
-	if (pageDetect.isOrganizationProfile() && !pageDetect.isOwnOrganizationProfile()) {
-		// We can only add projects to our organizations
-		return;
-	}
-
-	// We can't detect whether we can create projects on a repo,
-	// so we're just gonna show a potentially-404 link. 🤷
 
 	// URLs patterns:
 	// https://github.com/orgs/USER/projects/new
@@ -31,40 +29,35 @@ const addNewProjectLink = onetime(() => {
 			New project
 		</a>
 	);
-});
+}
 
-async function init(): Promise<false | void> {
-	await elementReady(`
-		.orghead + *,
-		.repohead + *,
-		.user-profile-nav + *
-	`); // Wait for the tab bar to be loaded
-
-	const projectsTab = select([
-		'[data-hotkey="g b"]', // In organizations and repos
-		'.user-profile-nav [href$="?tab=projects"]' // In user profiles
-	]);
-
-	if (!projectsTab) {
-		// Projects aren't enabled here
-		return;
+async function getTabCount(tab: Element): Promise<number> {
+	const counter = select('.Counter', tab);
+	if (!counter) {
+		// GitHub might have already dropped the counter, which means it's 0
+		return 0;
 	}
 
-	addNewProjectLink();
-
-	// If there's a settings tab, the current user can disable the projects,
-	// so the tab should not be hidden
-	if (select.exists([
-		'.js-repo-nav [data-selected-links^="repo_settings"]', // In repos
-		'.pagehead-tabs-item[href$="/settings/profile"]' // In organizations
-	])) {
-		return;
+	if (!counter.firstChild) {
+		// It's still loading
+		await observeOneMutation(tab);
 	}
 
-	// Only remove the tab if it's not the current page and if it has 0 projects
-	if (!projectsTab.matches('.selected') && select('.Counter', projectsTab)!.textContent!.trim() === '0') {
-		projectsTab.remove();
+	return Number(counter.textContent);
+}
+
+async function removeProjectsTab(): Promise<void | false> {
+	const projectsTab = await getProjectsTab();
+
+	if (
+		!projectsTab || // Projects disabled 🎉
+		projectsTab.matches('.selected') || // User is on Projects tab 👀
+		await getTabCount(projectsTab) > 0 // There are open projects
+	) {
+		return false;
 	}
+
+	projectsTab.remove();
 }
 
 features.add({
@@ -77,5 +70,19 @@ features.add({
 		pageDetect.isUserProfile,
 		pageDetect.isOrganizationProfile
 	],
-	init
+	exclude: [
+		// Repo/Organization owners should see the tab. If they don't need it, they should disable Projects altogether
+		pageDetect.canUserEditRepo,
+		pageDetect.canUserEditOrganization
+	],
+	waitForDomReady: false,
+	init: removeProjectsTab
+}, {
+	include: [
+		pageDetect.isRepo,
+		pageDetect.isOrganizationProfile
+	],
+	repeatOnAjax: false,
+	waitForDomReady: false,
+	init: addNewProjectLink
 });
