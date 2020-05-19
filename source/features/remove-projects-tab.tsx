@@ -4,6 +4,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../libs/features';
+import {observeOneMutation} from '../libs/simplified-element-observer';
 
 function getProjectsTab() {
 	return elementReady([
@@ -30,13 +31,28 @@ async function addNewProjectLink(): Promise<void |false> {
 	);
 }
 
+async function getTabCount(tab: Element): Promise<number> {
+	const counter = select('.Counter', tab);
+	if (!counter) {
+		// GitHub might have already dropped the counter, which means it's 0
+		return 0;
+	}
+
+	if (!counter.firstChild) {
+		// It's still loading
+		await observeOneMutation(tab);
+	}
+
+	return Number(counter.textContent);
+}
+
 async function removeProjectsTab(): Promise<void | false> {
 	const projectsTab = await getProjectsTab();
 
 	if (
 		!projectsTab || // Projects disabled 🎉
 		projectsTab.matches('.selected') || // User is on Projects tab 👀
-		Number(select('.Counter', projectsTab)?.textContent) > 0 // There are open projects
+		await getTabCount(projectsTab) > 0 // There are open projects
 	) {
 		return false;
 	}
