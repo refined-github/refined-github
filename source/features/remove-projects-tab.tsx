@@ -60,6 +60,7 @@ features.add({
 		pageDetect.canUserEditRepo,
 		pageDetect.canUserEditOrganization
 	],
+	waitForDomReady: false,
 	init: removeProjectsTab
 }, {
 	include: [
@@ -67,5 +68,6 @@ features.add({
 		pageDetect.isOrganizationProfile
 	],
 	repeatOnAjax: false,
+	waitForDomReady: false,
 	init: addNewProjectLink
 });
