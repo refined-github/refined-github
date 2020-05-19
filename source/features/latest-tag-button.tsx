@@ -10,7 +10,7 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import fetchDom from '../helpers/fetch-dom';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getRepoURL, getCurrentBranch, replaceBranch, getRepoGQL, getLatestVersionTag} from '../github-helpers/utils';
+import {getRepoURL, getCurrentBranch, replaceBranch, getRepoGQL, getLatestVersionTag} from '../github-helpers';
 
 interface RepoPublishState {
 	latestTag: string | false;

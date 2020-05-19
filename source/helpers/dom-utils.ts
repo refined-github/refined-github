@@ -1,6 +1,6 @@
 import select from 'select-dom';
 
-import {getScopedSelector} from '../github-helpers/utils';
+import {getScopedSelector} from '../github-helpers';
 
 /**
  * Append to an element, but before a element that might not exist.

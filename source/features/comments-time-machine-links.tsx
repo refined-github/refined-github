@@ -4,7 +4,7 @@ import ClockIcon from 'octicon/clock.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getRepoURL} from '../github-helpers/utils';
+import {getRepoURL} from '../github-helpers';
 import {appendBefore} from '../helpers/dom-utils';
 
 function addInlineLinks(comment: HTMLElement, timestamp: string): void {

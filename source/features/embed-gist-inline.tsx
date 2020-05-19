@@ -4,7 +4,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {isFirefox} from '../github-helpers/utils';
+import {isFirefox} from '../github-helpers';
 
 const isGist = (link: HTMLAnchorElement): boolean =>
 	!link.pathname.includes('.') && // Exclude links to embed files

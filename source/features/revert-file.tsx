@@ -8,7 +8,7 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import fetchDom from '../helpers/fetch-dom';
 import postForm from '../helpers/post-form';
-import {getDiscussionNumber, getRepoGQL, getRepoURL, getCurrentBranch} from '../github-helpers/utils';
+import {getDiscussionNumber, getRepoGQL, getRepoURL, getCurrentBranch} from '../github-helpers';
 
 function showError(menuItem: HTMLButtonElement, error: string): void {
 	menuItem.disabled = true;

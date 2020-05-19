@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getUsername, compareNames} from '../github-helpers/utils';
+import {getUsername, compareNames} from '../github-helpers';
 
 async function init(): Promise<false | void> {
 	const usernameElements = select.all([

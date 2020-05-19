@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getOwnerAndRepo, getRepoURL, getRepoGQL} from '../github-helpers/utils';
+import {getOwnerAndRepo, getRepoURL, getRepoGQL} from '../github-helpers';
 
 const hasAnyProjects = cache.function(async (): Promise<boolean> => {
 	const {repository, organization} = await api.v4(`

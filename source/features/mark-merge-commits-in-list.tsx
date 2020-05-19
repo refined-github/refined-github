@@ -6,7 +6,7 @@ import PullRequestIcon from 'octicon/git-pull-request.svg';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepoGQL} from '../github-helpers/utils';
+import {getRepoGQL} from '../github-helpers';
 
 const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 	const {repository} = await api.v4(`

@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
-import {getRepoPath, getRepoURL} from '../github-helpers/utils';
+import {getRepoPath, getRepoURL} from '../github-helpers';
 
 function init(): void {
 	const references = getRepoPath()!

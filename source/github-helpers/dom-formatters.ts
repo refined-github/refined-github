@@ -3,7 +3,7 @@ import linkifyURLsCore from 'linkify-urls';
 import linkifyIssuesCore from 'linkify-issues';
 
 import getTextNodes from '../helpers/get-text-nodes';
-import {getOwnerAndRepo} from './utils';
+import {getOwnerAndRepo} from '.';
 import parseBackticksCore from './parse-backticks';
 
 // Shared class necessary to avoid also shortening the links

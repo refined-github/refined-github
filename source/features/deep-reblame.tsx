@@ -9,7 +9,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import LoadingIcon from '../github-helpers/icon-loading';
-import {getRepoGQL, looseParseInt, parseRoute} from '../github-helpers/utils';
+import {getRepoGQL, looseParseInt, parseRoute} from '../github-helpers';
 
 const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number, currentFilename: string): Promise<string> => {
 	const {repository} = await api.v4(`

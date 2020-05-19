@@ -11,7 +11,7 @@ import PackageIcon from 'octicon/package.svg';
 
 import features from '.';
 import {appendBefore} from '../helpers/dom-utils';
-import {getRepoURL, getCurrentBranch} from '../github-helpers/utils';
+import {getRepoURL, getCurrentBranch} from '../github-helpers';
 
 const repoUrl = getRepoURL();
 

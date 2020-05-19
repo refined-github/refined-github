@@ -3,8 +3,8 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
 import {wrap} from '../helpers/dom-utils';
+import features from '.';
 
 function init(): void {
 	const lastBranchAction = select.last('.TimelineItem-body .user-select-contain > span:not(.base-ref)');

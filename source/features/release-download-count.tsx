@@ -6,7 +6,7 @@ import CloudDownloadIcon from 'octicon/cloud-download.svg';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepoGQL} from '../github-helpers/utils';
+import {getRepoGQL} from '../github-helpers';
 
 interface Asset {
 	name: string;

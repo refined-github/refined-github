@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepoGQL, getRepoURL, looseParseInt} from '../github-helpers/utils';
+import {getRepoGQL, getRepoURL, looseParseInt} from '../github-helpers';
 
 interface IssueInfo {
 	updatedAt: string;

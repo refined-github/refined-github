@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import pluralize from '../helpers/pluralize';
-import {getForkedRepo, getUsername, getRepoURL} from '../github-helpers/utils';
+import {getForkedRepo, getUsername, getRepoURL} from '../github-helpers';
 
 function getLinkCopy(count: number): string {
 	return pluralize(count, 'one open pull request', '$$ open pull requests');

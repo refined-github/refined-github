@@ -6,7 +6,7 @@ import ChevronLeftIcon from 'octicon/chevron-left.svg';
 import features from '.';
 import {groupButtons} from '../github-helpers/group-buttons';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getRepoURL, getCurrentBranch, replaceBranch, parseRoute} from '../github-helpers/utils';
+import {getRepoURL, getCurrentBranch, replaceBranch, parseRoute} from '../github-helpers';
 
 async function init(): Promise<false | void> {
 	const defaultBranch = await getDefaultBranch();

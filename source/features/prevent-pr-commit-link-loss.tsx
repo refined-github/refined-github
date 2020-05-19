@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
-import {prCommitRegex} from '../github-helpers/utils';
+import {prCommitRegex} from '../github-helpers';
 
 function handleButtonClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const field = event.delegateTarget.form!.querySelector('textarea')!;

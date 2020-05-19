@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
-import {parseRoute} from '../github-helpers/utils';
+import {parseRoute} from '../github-helpers';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import onFileListUpdate from '../github-events/on-file-list-update';
 

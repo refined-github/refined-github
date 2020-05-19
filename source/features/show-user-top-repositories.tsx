@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getCleanPathname} from '../github-helpers/utils';
+import {getCleanPathname} from '../github-helpers';
 
 function buildUrl(queryField: string): URL {
 	const url = new URL('/search', location.href);

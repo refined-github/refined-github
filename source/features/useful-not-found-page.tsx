@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getCleanPathname} from '../github-helpers/utils';
+import {getCleanPathname} from '../github-helpers';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 
 async function is404(url: string): Promise<boolean> {

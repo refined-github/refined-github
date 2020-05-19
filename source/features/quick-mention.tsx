@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
-import {getUsername} from '../github-helpers/utils';
+import {getUsername} from '../github-helpers';
 import onNewComments from '../github-events/on-new-comments';
 
 function mentionUser({delegateTarget: button}: delegate.Event): void {

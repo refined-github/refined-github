@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import LoadingIcon from '../github-helpers/icon-loading';
-import {getRepoURL, getRepoGQL} from '../github-helpers/utils';
+import {getRepoURL, getRepoGQL} from '../github-helpers';
 import observeElement from '../helpers/simplified-element-observer';
 
 const getBranchBaseSha = async (branchName: string): Promise<string> => {

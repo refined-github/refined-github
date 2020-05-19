@@ -6,7 +6,7 @@ import PullRequestIcon from 'octicon/git-pull-request.svg';
 import features from '.';
 import * as api from '../github-helpers/api';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getOwnerAndRepo, getRepoGQL} from '../github-helpers/utils';
+import {getOwnerAndRepo, getRepoGQL} from '../github-helpers';
 
 type RepositoryReference = {
 	owner: string;

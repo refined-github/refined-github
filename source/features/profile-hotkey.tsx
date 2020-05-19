@@ -1,7 +1,7 @@
 import select from 'select-dom';
 
 import features from '.';
-import {getUsername} from '../github-helpers/utils';
+import {getUsername} from '../github-helpers';
 
 function init(): false | void {
 	const menuItem = select(`a[href="/${getUsername()}"]`);

@@ -8,7 +8,7 @@ import BugIcon from '@primer/octicons/build/svg/bug.svg';
 import features from '.';
 import * as api from '../github-helpers/api';
 import SearchQuery from '../github-helpers/search-query';
-import {getRepoURL} from '../github-helpers/utils';
+import {getRepoURL} from '../github-helpers';
 
 const numberFormatter = new Intl.NumberFormat();
 const countBugs = cache.function(async (): Promise<number> => {

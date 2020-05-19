@@ -6,7 +6,7 @@ import tinyVersionCompare from 'tiny-version-compare';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
-import {getRepoPath, getRepoURL, parseTag} from '../github-helpers/utils';
+import {getRepoPath, getRepoURL, parseTag} from '../github-helpers';
 
 type TagDetails = {
 	element: HTMLElement;

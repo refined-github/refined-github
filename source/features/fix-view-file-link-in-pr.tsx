@@ -3,7 +3,7 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getCurrentBranch} from '../github-helpers/utils';
+import {getCurrentBranch} from '../github-helpers';
 
 function handleMenuOpening(event: delegate.Event): void {
 	const dropdown = event.delegateTarget.nextElementSibling!;

@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getOwnerAndRepo, getRepoURL, getRepoGQL} from '../github-helpers/utils';
+import {getOwnerAndRepo, getRepoURL, getRepoGQL} from '../github-helpers';
 
 interface CommitTags {
 	[name: string]: string[];

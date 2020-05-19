@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import onReplacedElement from '../helpers/on-replaced-element';
-import {getUsername, isFirefox} from '../github-helpers/utils';
+import {getUsername, isFirefox} from '../github-helpers';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars

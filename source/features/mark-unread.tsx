@@ -16,7 +16,7 @@ import PullRequestIcon from 'octicon/git-pull-request.svg';
 
 import features from '.';
 import onReplacedElement from '../helpers/on-replaced-element';
-import {getUsername, getRepoURL} from '../github-helpers/utils';
+import {getUsername, getRepoURL} from '../github-helpers';
 
 type NotificationType = 'pull-request' | 'issue';
 type NotificationState = 'open' | 'merged' | 'closed' | 'draft';

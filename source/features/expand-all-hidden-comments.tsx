@@ -2,7 +2,7 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {looseParseInt} from '../github-helpers/utils';
+import {looseParseInt} from '../github-helpers';
 
 /*
 The ajaxed form that loads the new comments points to a URL like:

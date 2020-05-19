@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
-import {getCleanPathname} from '../github-helpers/utils';
+import {getCleanPathname} from '../github-helpers';
 
 const fetchStargazers = async (): Promise<HTMLImageElement[]> => {
 	const url = `/${getCleanPathname()}/followers/you_know`;

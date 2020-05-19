@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepoGQL, getRepoURL} from '../github-helpers/utils';
+import {getRepoGQL, getRepoURL} from '../github-helpers';
 
 const reviewsFilterSelector = '#reviews-select-menu';
 

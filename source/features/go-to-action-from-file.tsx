@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getRepoURL, getRepoPath} from '../github-helpers/utils';
+import {getRepoURL, getRepoPath} from '../github-helpers';
 
 const isWorkflowFile = (): boolean => pageDetect.isSingleFile() && /\/\.github\/workflows\/.+\.ya?ml$/.test(getRepoPath()!);
 

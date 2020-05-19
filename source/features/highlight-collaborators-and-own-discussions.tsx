@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
-import {getRepoURL, getUsername} from '../github-helpers/utils';
+import {getRepoURL, getUsername} from '../github-helpers';
 
 async function highlightCollaborators(): Promise<false | void> {
 	const authors = select.all('.js-issue-row [data-hovercard-type="user"]');

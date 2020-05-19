@@ -11,7 +11,7 @@ import LinkExternalIcon from 'octicon/link-external.svg';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
-import {getRepoURL, getUsername, getForkedRepo} from '../github-helpers/utils';
+import {getRepoURL, getUsername, getForkedRepo} from '../github-helpers';
 
 const getForkSourceRepo = (): string => getForkedRepo() ?? getRepoURL();
 const getCacheKey = (): string => `forked-to:${getUsername()}@${getForkSourceRepo().toLowerCase()}`;

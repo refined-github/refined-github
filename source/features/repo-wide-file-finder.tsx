@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getRepoURL} from '../github-helpers/utils';
+import {getRepoURL} from '../github-helpers';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 
 async function init(): Promise<void> {

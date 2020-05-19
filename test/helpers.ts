@@ -11,7 +11,7 @@ import {
 	looseParseInt,
 	getLatestVersionTag,
 	preventPrCommitLinkBreak
-} from '../source/github-helpers/utils';
+} from '../source/github-helpers';
 
 test('getDiscussionNumber', t => {
 	const pairs = new Map<string, string | undefined>([
