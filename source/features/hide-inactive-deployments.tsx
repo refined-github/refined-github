@@ -1,8 +1,8 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import onNewComments from '../libs/on-new-comments';
+import features from '.';
+import onNewComments from '../github-events/on-new-comments';
 
 function init(): void {
 	// Selects all the deployments first so that we can leave the last one on the page

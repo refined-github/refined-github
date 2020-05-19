@@ -1,18 +1,17 @@
 import test from 'ava';
 
 import './fixtures/globals';
+import pluralize from '../source/helpers/pluralize';
 import {
 	getDiscussionNumber,
 	getOwnerAndRepo,
-	getRepoPath,
 	parseTag,
 	compareNames,
-	pluralize,
 	getScopedSelector,
 	looseParseInt,
 	getLatestVersionTag,
 	preventPrCommitLinkBreak
-} from '../source/libs/utils';
+} from '../source/github-helpers';
 
 test('getDiscussionNumber', t => {
 	const pairs = new Map<string, string | undefined>([
@@ -80,52 +79,6 @@ test('getDiscussionNumber', t => {
 	for (const [url, result] of pairs) {
 		location.href = url;
 		t.is(result, getDiscussionNumber());
-	}
-});
-
-test('getRepoPath', t => {
-	const pairs = new Map<string, string | undefined>([
-		[
-			'https://github.com',
-			undefined
-		],
-		[
-			'https://gist.github.com/',
-			undefined
-		],
-		[
-			'https://github.com/settings/developers',
-			undefined
-		],
-		[
-			'https://github.com/sindresorhus/refined-github',
-			''
-		],
-		[
-			'https://github.com/sindresorhus/refined-github/',
-			''
-		],
-		[
-			'https://github.com/sindresorhus/refined-github/blame/master/package.json',
-			'blame/master/package.json'
-		],
-		[
-			'https://github.com/sindresorhus/refined-github/commit/57bf4',
-			'commit/57bf4'
-		],
-		[
-			'https://github.com/sindresorhus/refined-github/compare/test-branch?quick_pull=0',
-			'compare/test-branch'
-		],
-		[
-			'https://github.com/sindresorhus/refined-github/tree/master/distribution',
-			'tree/master/distribution'
-		]
-	]);
-
-	for (const [url, result] of pairs) {
-		location.href = url;
-		t.is(result, getRepoPath());
 	}
 });
 

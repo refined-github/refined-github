@@ -4,11 +4,11 @@ import select from 'select-dom';
 import PencilIcon from 'octicon/pencil.svg';
 import * as pageDetect from 'github-url-detection';
 
-import {wrap} from '../libs/dom-utils';
-import features from '../libs/features';
-import {parseRoute} from '../libs/utils';
-import getDefaultBranch from '../libs/get-default-branch';
-import onFileListUpdate from '../libs/on-file-list-update';
+import {wrap} from '../helpers/dom-utils';
+import features from '.';
+import {parseRoute} from '../github-helpers';
+import getDefaultBranch from '../github-helpers/get-default-branch';
+import onFileListUpdate from '../github-events/on-file-list-update';
 
 async function init(): Promise<void> {
 	const defaultBranch = await getDefaultBranch();

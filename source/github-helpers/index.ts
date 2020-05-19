@@ -1,67 +1,16 @@
 import select from 'select-dom';
-import onetime from 'onetime';
-import stripIndent from 'strip-indent';
+import oneTime from 'onetime';
 import compareVersions from 'tiny-version-compare';
-import {isRepo, isPR, isIssue} from 'github-url-detection';
+import {isPR, isIssue, utils} from 'github-url-detection';
 
-export function logError(id: FeatureID, error: Error | string, ...extras: unknown[]): void {
-	if (error instanceof TypeError && error.message === 'Object(...)(...) is null') {
-		error.message = 'The element wasn’t found, the selector needs to be updated.';
-	}
-
-	const message = typeof error === 'string' ? error : error.message;
-
-	if (message.includes('token')) {
-		console.log(`ℹ️ Refined GitHub → ${id} →`, message);
-		return;
-	}
-
-	// Don't change this to `throw Error` because Firefox doesn't show extensions' errors in the console.
-	// Use `return` after calling this function.
-	console.error(
-		`❌ Refined GitHub → ${id} →`,
-		error,
-		...extras,
-		stripIndent(`
-			Search issue: https://github.com/sindresorhus/refined-github/issues?q=is%3Aissue+${encodeURIComponent(message)}
-
-			Open an issue: https://github.com/sindresorhus/refined-github/issues/new?labels=bug&template=bug_report.md&title=${encodeURIComponent(`\`${id}\`: ${message}`)}
-		`)
-	);
-}
-
-export const getUsername = onetime(() => select('meta[name="user-login"]')!.getAttribute('content')!);
+// This never changes, so it can be cached here
+export const getUsername = oneTime(utils.getUsername);
+export const getRepoPath = utils.getRepoPath;
+export const getCleanPathname = utils.getCleanPathname;
 
 export const getDiscussionNumber = (): string | undefined => {
 	if (isPR() || isIssue()) {
 		return getCleanPathname().split('/')[3];
-	}
-
-	return undefined;
-};
-
-export const pluralize = (count: number, single: string, plural: string, zero?: string): string => {
-	if (count === 0 && zero) {
-		return zero.replace('$$', '0');
-	}
-
-	if (count === 1) {
-		return single.replace('$$', '1');
-	}
-
-	return plural.replace('$$', String(count));
-};
-
-// Drops leading and trailing slash to avoid /\/?/ everywhere
-export const getCleanPathname = (): string => location.pathname.replace(/^\/|\/$/g, '');
-
-// Parses a repo's subpage, e.g.
-// '/user/repo/issues/' -> 'issues'
-// '/user/repo/' -> ''
-// returns undefined if the path is not a repo
-export const getRepoPath = (): string | undefined => {
-	if (isRepo()) {
-		return getCleanPathname().split('/').slice(2).join('/');
 	}
 
 	return undefined;
@@ -95,8 +44,8 @@ export const getRepoGQL = (): string => {
 };
 
 export const getOwnerAndRepo = (): {
-	ownerName: string | undefined;
-	repoName: string | undefined;
+	ownerName?: string;
+	repoName?: string;
 } => {
 	const [, ownerName, repoName] = location.pathname.split('/', 3);
 	return {ownerName, repoName};
@@ -113,19 +62,6 @@ export const parseTag = (tag: string): {version: string; namespace: string} => {
 
 export function compareNames(username: string, realname: string): boolean {
 	return username.replace(/-/g, '').toLowerCase() === realname.normalize('NFD').replace(/[\u0300-\u036F\W.]/g, '').toLowerCase();
-}
-
-export async function poll<T>(callback: () => T, frequency: number): Promise<T> {
-	return new Promise(resolve => {
-		(function loop() {
-			const result = callback();
-			if (result !== null && typeof result !== undefined) {
-				resolve(result);
-			} else {
-				setTimeout(loop, frequency);
-			}
-		})();
-	});
 }
 
 /**

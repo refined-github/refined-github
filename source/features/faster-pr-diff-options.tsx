@@ -5,7 +5,7 @@ import BookIcon from 'octicon/book.svg';
 import CheckIcon from 'octicon/check.svg';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
+import features from '.';
 
 function createDiffStyleToggle(): DocumentFragment {
 	const parameters = new URLSearchParams(location.search);

@@ -5,7 +5,7 @@ next to the name of the feature that caused them.
 
 Usage:
 
-import * as api from '../libs/api';
+import * as api from '../github-helpers/api';
 const user = await api.v3(`users/${username}`);
 const data = await api.v4('{user(login: "user") {name}}');
 

@@ -3,9 +3,9 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import * as api from '../libs/api';
-import features from '../libs/features';
-import {getUsername, compareNames} from '../libs/utils';
+import features from '.';
+import * as api from '../github-helpers/api';
+import {getUsername, compareNames} from '../github-helpers';
 
 async function init(): Promise<false | void> {
 	const usernameElements = select.all([

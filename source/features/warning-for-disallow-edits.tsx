@@ -5,7 +5,7 @@ import oneTime from 'onetime';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
+import features from '.';
 
 const getWarning = oneTime(() => (
 	<div className="flash flash-error mt-3 rgh-warning-for-disallow-edits">

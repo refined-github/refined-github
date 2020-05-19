@@ -3,9 +3,9 @@ import select from 'select-dom';
 import PencilIcon from 'octicon/pencil.svg';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import {parseRoute} from '../libs/utils';
-import getDefaultBranch from '../libs/get-default-branch';
+import features from '.';
+import {parseRoute} from '../github-helpers';
+import getDefaultBranch from '../github-helpers/get-default-branch';
 
 async function init(): Promise<void | false> {
 	const readmeHeader = select('#readme .Box-header h2');

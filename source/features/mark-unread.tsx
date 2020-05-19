@@ -14,9 +14,9 @@ import IssueOpenedIcon from 'octicon/issue-opened.svg';
 import IssueClosedIcon from 'octicon/issue-closed.svg';
 import PullRequestIcon from 'octicon/git-pull-request.svg';
 
-import features from '../libs/features';
-import onReplacedElement from '../libs/on-replaced-element';
-import {getUsername, getRepoURL, logError} from '../libs/utils';
+import features from '.';
+import onReplacedElement from '../helpers/on-replaced-element';
+import {getUsername, getRepoURL} from '../github-helpers';
 
 type NotificationType = 'pull-request' | 'issue';
 type NotificationState = 'open' | 'merged' | 'closed' | 'draft';
@@ -115,7 +115,7 @@ async function markUnread({delegateTarget}: delegate.Event): Promise<void> {
 	} else if (stateLabel.title.includes('Draft')) {
 		state = 'draft';
 	} else {
-		logError(__filebasename, 'A new issue state was introduced?');
+		features.error(__filebasename, 'A new issue state was introduced?');
 		return;
 	}
 
