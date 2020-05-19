@@ -2,8 +2,8 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import {wrap} from '../libs/dom-utils';
-import features from '../libs/features';
+import {wrap} from '../helpers/dom-utils';
+import features from '.';
 
 async function init(): Promise<void> {
 	for (const label of select.all('.js-recent-activity-container :not(a) > .IssueLabel')) {

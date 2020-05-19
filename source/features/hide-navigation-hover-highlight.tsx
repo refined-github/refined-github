@@ -1,5 +1,5 @@
 import './hide-navigation-hover-highlight.css';
-import features from '../libs/features';
+import features from '.';
 
 const className = 'rgh-no-navigation-highlight';
 

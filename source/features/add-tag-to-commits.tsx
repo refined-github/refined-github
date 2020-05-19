@@ -4,9 +4,9 @@ import select from 'select-dom';
 import TagIcon from 'octicon/tag.svg';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import * as api from '../libs/api';
-import {getOwnerAndRepo, getRepoURL, getRepoGQL} from '../libs/utils';
+import features from '.';
+import * as api from '../github-helpers/api';
+import {getOwnerAndRepo, getRepoURL, getRepoGQL} from '../github-helpers';
 
 interface CommitTags {
 	[name: string]: string[];

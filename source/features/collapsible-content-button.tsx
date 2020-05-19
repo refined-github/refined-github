@@ -5,7 +5,7 @@ import FoldDownIcon from 'octicon/fold-down.svg';
 import * as textFieldEdit from 'text-field-edit';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
+import features from '.';
 
 // Wraps string in at least 2 \n on each side,
 // as long as the field doesn't already have them.

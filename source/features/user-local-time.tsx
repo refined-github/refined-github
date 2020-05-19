@@ -5,10 +5,10 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import ClockIcon from 'octicon/clock.svg';
 
-import * as api from '../libs/api';
-import features from '../libs/features';
-import {getUsername} from '../libs/utils';
-import observeElement from '../libs/simplified-element-observer';
+import features from '.';
+import * as api from '../github-helpers/api';
+import {getUsername} from '../github-helpers';
+import observeElement from '../helpers/simplified-element-observer';
 
 interface Commit {
 	url: string;

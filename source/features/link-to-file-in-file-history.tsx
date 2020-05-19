@@ -3,8 +3,8 @@ import select from 'select-dom';
 import FileIcon from 'octicon/file.svg';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import {groupSiblings} from '../libs/group-buttons';
+import features from '.';
+import {groupSiblings} from '../github-helpers/group-buttons';
 
 function init(): void | false {
 	const breadcrumb = select('.breadcrumb');

@@ -2,8 +2,8 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import {getCurrentBranch} from '../libs/utils';
+import features from '.';
+import {getCurrentBranch} from '../github-helpers';
 
 function handleMenuOpening(event: delegate.Event): void {
 	const dropdown = event.delegateTarget.nextElementSibling!;

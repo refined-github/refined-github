@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
+import features from '.';
 
 function init(): void {
 	const tabs = select.all('.tabnav-pr .tabnav-tab');

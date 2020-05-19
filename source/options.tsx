@@ -8,7 +8,7 @@ import {applyToLink} from 'shorten-repo-url';
 import * as indentTextarea from 'indent-textarea';
 
 import {perDomainOptions} from './options-storage';
-import * as domFormatters from './libs/dom-formatters';
+import * as domFormatters from './github-helpers/dom-formatters';
 
 function parseDescription(description: string): DocumentFragment {
 	const descriptionElement = <span>{description}</span>;

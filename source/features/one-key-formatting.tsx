@@ -1,7 +1,7 @@
 import delegate from 'delegate-it';
 import * as textFieldEdit from 'text-field-edit';
 
-import features from '../libs/features';
+import features from '.';
 import {listenToCommentFields} from './comment-fields-keyboard-shortcuts';
 
 const formattingCharacters = ['`', '\'', '"', '[', '(', '{', '*', '_', '~'];

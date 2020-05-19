@@ -3,11 +3,11 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import ChevronLeftIcon from 'octicon/chevron-left.svg';
 
-import features from '../libs/features';
 import parseRoute from '../github-helpers/parse-route';
 import {groupButtons} from '../libs/group-buttons';
 import getDefaultBranch from '../libs/get-default-branch';
 import {getRepoURL, getCurrentBranch} from '../libs/utils';
+import features from '.';
 
 async function init(): Promise<false | void> {
 	const defaultBranch = await getDefaultBranch();

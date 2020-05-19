@@ -2,9 +2,9 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import * as api from '../libs/api';
-import features from '../libs/features';
-import parseRoute from '../github-helpers/parse-route';
+import features from '.';
+import * as api from '../github-helpers/api';
+import {parseRoute} from '../github-helpers';
 
 interface File {
 	previous_filename: string;

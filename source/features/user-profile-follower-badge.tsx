@@ -4,9 +4,9 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import * as api from '../libs/api';
-import features from '../libs/features';
-import {getUsername, getCleanPathname} from '../libs/utils';
+import features from '.';
+import * as api from '../github-helpers/api';
+import {getUsername, getCleanPathname} from '../github-helpers';
 
 const doesUserFollow = cache.function(async (userA: string, userB: string): Promise<boolean> => {
 	const {httpStatus} = await api.v3(`users/${userA}/following/${userB}`, {

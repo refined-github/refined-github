@@ -7,10 +7,10 @@ import VersionIcon from 'octicon/versions.svg';
 import * as pageDetect from 'github-url-detection';
 
 import * as api from '../libs/api';
-import features from '../libs/features';
 import parseRoute from '../github-helpers/parse-route';
 import LoadingIcon from '../libs/icon-loading';
 import {getRepoGQL, looseParseInt} from '../libs/utils';
+import features from '.';
 
 const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number, currentFilename: string): Promise<string> => {
 	const {repository} = await api.v4(`

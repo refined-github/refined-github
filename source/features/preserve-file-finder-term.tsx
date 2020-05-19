@@ -2,7 +2,7 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
+import features from '.';
 
 function unloadHandler(): void {
 	const inputElement = select<HTMLInputElement>('#tree-finder-field');

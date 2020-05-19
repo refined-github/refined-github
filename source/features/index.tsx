@@ -1,14 +1,14 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
+import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import optionsStorage, {RGHOptions} from '../options-storage';
-import {logError} from './utils';
-import onNewComments from './on-new-comments';
-import onNewsfeedLoad from './on-newsfeed-load';
+import onNewComments from '../github-events/on-new-comments';
+import onNewsfeedLoad from '../github-events/on-newsfeed-load';
 
 type BooleanFunction = () => boolean;
 type CallerFunction = (callback: VoidFunction) => void;
@@ -58,6 +58,32 @@ interface InternalRunConfig {
 }
 
 let log: typeof console.log;
+
+function error(id: FeatureID, error: Error | string, ...extras: unknown[]): void {
+	if (error instanceof TypeError && error.message === 'Object(...)(...) is null') {
+		error.message = 'The element wasn’t found, the selector needs to be updated.';
+	}
+
+	const message = typeof error === 'string' ? error : error.message;
+
+	if (message.includes('token')) {
+		console.log(`ℹ️ Refined GitHub → ${id} →`, message);
+		return;
+	}
+
+	// Don't change this to `throw Error` because Firefox doesn't show extensions' errors in the console.
+	// Use `return` after calling this function.
+	console.error(
+		`❌ Refined GitHub → ${id} →`,
+		error,
+		...extras,
+		stripIndent(`
+			Search issue: https://github.com/sindresorhus/refined-github/issues?q=is%3Aissue+${encodeURIComponent(message)}
+
+			Open an issue: https://github.com/sindresorhus/refined-github/issues/new?labels=bug&template=bug_report.md&title=${encodeURIComponent(`\`${id}\`: ${message}`)}
+		`)
+	);
+}
 
 // Rule assumes we don't want to leave it pending:
 // eslint-disable-next-line no-async-promise-executor
@@ -112,7 +138,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 				log('✅', id);
 			}
 		} catch (error) {
-			logError(id, error);
+			error(id, error);
 		}
 
 		if (deinit) {
@@ -235,6 +261,7 @@ add(undefined, {
 
 const features = {
 	add,
+	error,
 	getShortcuts
 };
 

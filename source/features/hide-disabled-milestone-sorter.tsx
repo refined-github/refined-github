@@ -1,8 +1,8 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import observeElement from '../libs/simplified-element-observer';
+import features from '.';
+import observeElement from '../helpers/simplified-element-observer';
 
 function hide(): void {
 	for (const icon of select.all('[aria-label="You do not have permission to edit this milestone."]')) {

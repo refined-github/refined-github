@@ -4,7 +4,7 @@ import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
+import features from '.';
 
 async function init(): Promise<void> {
 	const marketPlaceLink = (await elementReady('.Header-link[href="/marketplace"]'));

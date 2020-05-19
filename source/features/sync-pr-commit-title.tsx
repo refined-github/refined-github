@@ -4,9 +4,8 @@ import delegate from 'delegate-it';
 import * as textFieldEdit from 'text-field-edit';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import {logError} from '../libs/utils';
-import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
+import features from '.';
+import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
 const prTitleFieldSelector = '.js-issue-update [name="issue[title]"]';
 const prTitleSubmitSelector = '.js-issue-update [type="submit"]';
@@ -32,7 +31,7 @@ function needsSubmission(): boolean {
 
 	// Ensure that the required fields are on the page
 	if (!select.exists(prTitleFieldSelector) || !select.exists(prTitleSubmitSelector)) {
-		logError(__filebasename, 'Can’t update the PR title');
+		features.error(__filebasename, 'Can’t update the PR title');
 		return false;
 	}
 
