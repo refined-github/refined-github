@@ -106,15 +106,6 @@ export function getForkedRepo(): string | undefined {
 	return select<HTMLAnchorElement>('.fork-flag a')?.pathname.slice(1);
 }
 
-export const getReference = (): string | undefined => {
-	const pathnameParts = location.pathname.split('/');
-	if (['commits', 'blob', 'tree', 'blame'].includes(pathnameParts[3])) {
-		return pathnameParts[4];
-	}
-
-	return undefined;
-};
-
 export const parseTag = (tag: string): {version: string; namespace: string} => {
 	const [, namespace = '', version = ''] = /(?:(.*)@)?([^@]+)/.exec(tag) ?? [];
 	return {namespace, version};

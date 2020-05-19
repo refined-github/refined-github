@@ -3,6 +3,7 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../libs/features';
+import {getCurrentBranch} from '../libs/utils';
 
 function handleMenuOpening(event: delegate.Event): void {
 	const dropdown = event.delegateTarget.nextElementSibling!;
@@ -26,13 +27,10 @@ function handleMenuOpening(event: delegate.Event): void {
 	// This solution accounts for:
 	// - Branches with slashes in it
 	// - PRs opened from the default branch
-	const headReferenceLink = select<HTMLAnchorElement>('.head-ref a')!;
-	const [, owner, repository] = headReferenceLink.pathname.split('/', 3); // Example pathname: '/kidonng/refined-github/tree/fix-console-error'
-	const branch = headReferenceLink.title.replace(/^[^:]+:/, ''); // Example title: 'tejanium/refined-github:bra/nch' or just 'local-branch`
-
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
-	const filepath = viewFile.pathname.split('/').slice(5).join('/'); // Example pathname: $owner/$repository/blob/$sha/$path_to_file.tsx
-	viewFile.pathname = '/' + [owner, repository, 'blob', branch, filepath].join('/');
+	const pathParts = viewFile.pathname.split('/'); // Example pathname: $owner/$repository/blob/$sha/$path_to_file.tsx
+	pathParts[4] = getCurrentBranch();
+	viewFile.pathname = pathParts.join('/');
 
 	viewFile.classList.add('rgh-actionable-link'); // Mark this as processed
 }
