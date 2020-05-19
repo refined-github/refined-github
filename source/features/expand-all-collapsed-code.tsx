@@ -12,6 +12,7 @@ const expandingCodeObserver = new MutationObserver(([mutation]) => {
 	if (expandButton) {
 		expandButton.click();
 	} else {
+		document.body.removeEventListener('keyup', disconnectOnEscape);
 		expandingCodeObserver.disconnect();
 	}
 });

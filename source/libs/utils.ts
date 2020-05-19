@@ -76,6 +76,7 @@ export const replaceBranch = (currentBranch: string, newBranch: string): string 
 	return `/${getRepoURL()}/${pageType}/${newBranchRepoPath}`;
 };
 
+/* Should work on `isRepoTree` `isBlame` `isSingleFile` `isCommitList` `isCompare` `isPRCommit` */
 export const getCurrentBranch = (): string => {
 	return select.last<HTMLLinkElement>('link[rel="alternate"]')!
 		.href
@@ -105,50 +106,9 @@ export function getForkedRepo(): string | undefined {
 	return select<HTMLAnchorElement>('.fork-flag a')?.pathname.slice(1);
 }
 
-export const getReference = (): string | undefined => {
-	const pathnameParts = location.pathname.split('/');
-	if (['commits', 'blob', 'tree', 'blame'].includes(pathnameParts[3])) {
-		return pathnameParts[4];
-	}
-
-	return undefined;
-};
-
 export const parseTag = (tag: string): {version: string; namespace: string} => {
 	const [, namespace = '', version = ''] = /(?:(.*)@)?([^@]+)/.exec(tag) ?? [];
 	return {namespace, version};
-};
-
-export const groupBy = (iterable: Iterable<string>, grouper: (item: string) => string): Record<string, string[]> => {
-	const map: Record<string, string[]> = {};
-
-	for (const item of iterable) {
-		const key = grouper(item);
-		map[key] = map[key] ?? [];
-		map[key].push(item);
-	}
-
-	return map;
-};
-
-// Concats arrays but does so like a zipper instead of appending them
-// [[0, 1, 2], [0, 1]] => [0, 0, 1, 1, 2]
-// Like lodash.zip
-export const flatZip = <T>(table: T[][], limit = Infinity): T[] => {
-	const maxColumns = Math.max(...table.map(row => row.length));
-	const zipped = [];
-	for (let col = 0; col < maxColumns; col++) {
-		for (const row of table) {
-			if (row.length > col) {
-				zipped.push(row[col]);
-				if (zipped.length === limit) {
-					return zipped;
-				}
-			}
-		}
-	}
-
-	return zipped;
 };
 
 export function compareNames(username: string, realname: string): boolean {
@@ -203,6 +163,25 @@ export function getLatestVersionTag(tags: string[]): string {
 	}
 
 	return latestVersion;
+}
+
+export function parseRoute(pathname: string): string[] {
+	const [user, repository, route, ...next] = pathname.replace(/^\/|\/$/g, '').split('/');
+	const parts = next.join('/');
+	const currentBranch = getCurrentBranch();
+	if (parts !== currentBranch && !parts.startsWith(currentBranch + '/')) {
+		throw new Error('The branch of the current page must match the branch in the `pathname` parameter');
+	}
+
+	const filePath = parts.replace(currentBranch + '/', '');
+	return [
+		'',
+		user,
+		repository,
+		route,
+		currentBranch,
+		filePath
+	];
 }
 
 const escapeRegex = (string: string) => string.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&');

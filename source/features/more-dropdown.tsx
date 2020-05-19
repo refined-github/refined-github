@@ -11,7 +11,7 @@ import PackageIcon from 'octicon/package.svg';
 
 import features from '../libs/features';
 import {appendBefore} from '../libs/dom-utils';
-import {getRepoURL, getReference} from '../libs/utils';
+import {getRepoURL, getCurrentBranch} from '../libs/utils';
 
 const repoUrl = getRepoURL();
 
@@ -34,13 +34,9 @@ async function init(): Promise<void> {
 		createDropdown();
 	}
 
-	let compareUrl = `/${repoUrl}/compare`;
-	let commitsUrl = `/${repoUrl}/commits`;
-	const reference = getReference();
-	if (reference) {
-		compareUrl += `/${reference}`;
-		commitsUrl += `/${reference}`;
-	}
+	const reference = getCurrentBranch();
+	const compareUrl = `/${repoUrl}/compare/${reference}`;
+	const commitsUrl = `/${repoUrl}/commits/${reference}`;
 
 	const menu = select('.reponav-dropdown .dropdown-menu')!;
 

@@ -21,16 +21,6 @@ const negativeReactionsSelector = `
 	${commentSelector} [aria-label*="reacted with thumbs down"]
 `;
 
-function init(): false | void {
-	const bestComment = getBestComment();
-	if (!bestComment) {
-		return false;
-	}
-
-	highlightBestComment(bestComment);
-	linkBestComment(bestComment);
-}
-
 function getBestComment(): HTMLElement | null {
 	let highest;
 	for (const comment of getCommentsWithReactions()) {
@@ -128,6 +118,16 @@ function getPositiveReactions(reactionBox?: HTMLElement): HTMLElement[] {
 
 function getCount(reactions: HTMLElement[]): number {
 	return reactions.reduce((count, reaction) => count + looseParseInt(reaction.textContent!), 0);
+}
+
+function init(): false | void {
+	const bestComment = getBestComment();
+	if (!bestComment) {
+		return false;
+	}
+
+	highlightBestComment(bestComment);
+	linkBestComment(bestComment);
 }
 
 features.add({
