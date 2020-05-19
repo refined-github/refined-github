@@ -34,7 +34,7 @@ function handleMenuOpening(event: delegate.Event): void {
 	// - Branches with slashes in it
 	// - PRs opened from the default branch
 	const headRepo = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname;
-	const filepath = viewFile.pathname.split('/').slice(5).join('/'); // Example pathname: $owner/$repository/blob/$sha/$path_to_file.tsx
+	const filepath = dropdown.closest('[data-path]').dataset.path;
 	viewFile.pathname = headRepo + '/' + filepath;
 
 	viewFile.classList.add('rgh-actionable-link'); // Mark this as processed
