@@ -28,7 +28,7 @@ async function init(): Promise<false | void> {
 		url = `/${getRepoURL()}`;
 	} else {
 		pathParts[5] = defaultBranch;
-		url = pathParts.join('/')
+		url = pathParts.join('/');
 	}
 
 	const branchSelector = (await elementReady('#branch-select-menu'))!;
