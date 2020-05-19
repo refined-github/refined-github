@@ -33,7 +33,7 @@ function handleMenuOpening(event: delegate.Event): void {
 	// This solution accounts for:
 	// - Branches with slashes in it
 	// - PRs opened from the default branch
-	const headRepo = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname;
+	const headBranchUrl = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname;
 	const filepath = dropdown.closest('[data-path]').dataset.path;
 	viewFile.pathname = headRepo + '/' + filepath;
 
