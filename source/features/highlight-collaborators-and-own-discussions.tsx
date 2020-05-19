@@ -14,7 +14,7 @@ async function highlightCollaborators(): Promise<false | void> {
 
 	const dom = await fetchDom(getRepoURL() + '/issues/show_menu_content?partial=issues/filters/authors_content');
 	const collaborators = select.all<HTMLImageElement>('.SelectMenu-item [alt]', dom).map(collaborator => {
-		return collaborator.alt.slice(1)!;
+		return collaborator.alt.slice(1);
 	});
 
 	for (const author of authors) {
