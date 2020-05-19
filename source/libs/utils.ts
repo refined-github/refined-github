@@ -67,15 +67,6 @@ export const getRepoPath = (): string | undefined => {
 	return undefined;
 };
 
-export const replaceBranch = (currentBranch: string, newBranch: string): string => {
-	// `pageType` will be either `blob' or 'tree'
-	const [pageType, ...branchAndPathParts] = getRepoPath()!.split('/');
-
-	const newBranchRepoPath = branchAndPathParts.join('/').replace(currentBranch, newBranch);
-
-	return `/${getRepoURL()}/${pageType}/${newBranchRepoPath}`;
-};
-
 /* Should work on `isRepoTree` `isBlame` `isSingleFile` `isCommitList` `isCompare` `isPRCommit` */
 export const getCurrentBranch = (): string => {
 	return select.last<HTMLLinkElement>('link[rel="alternate"]')!
