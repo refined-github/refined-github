@@ -59,7 +59,7 @@ features.add({
 		pageDetect.isReleasesOrTags
 	],
 	exclude: [
-		() => select.exists('.blankslate') // The repo has no tags
+		pageDetect.isEmptyRepo
 	],
 	init
 });
