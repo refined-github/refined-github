@@ -6,7 +6,7 @@ import ChevronLeftIcon from 'octicon/chevron-left.svg';
 import features from '../libs/features';
 import {groupButtons} from '../libs/group-buttons';
 import getDefaultBranch from '../libs/get-default-branch';
-import {getRepoURL, getCurrentBranch, replaceBranch, parseRoute} from '../libs/utils';
+import {getRepoURL, getCurrentBranch, parseRoute} from '../libs/utils';
 
 async function init(): Promise<false | void> {
 	const defaultBranch = await getDefaultBranch();
@@ -21,7 +21,7 @@ async function init(): Promise<false | void> {
 	if (pageDetect.isRepoRoot()) {
 		url = `/${getRepoURL()}`;
 	} else {
-		url = replaceBranch(currentBranch, defaultBranch);
+		url = parseRoute(location.pathname, defaultBranch).join('/') + location.search;
 	}
 
 	const branchSelector = (await elementReady('#branch-select-menu'))!;
