@@ -4,23 +4,19 @@ import select from 'select-dom';
 import PencilIcon from 'octicon/pencil.svg';
 import * as pageDetect from 'github-url-detection';
 
-import {wrap} from '../libs/dom-utils';
-import features from '../libs/features';
-import getDefaultBranch from '../libs/get-default-branch';
-import onFileListUpdate from '../libs/on-file-list-update';
+import {wrap} from '../helpers/dom-utils';
+import features from '.';
+import {parseRoute} from '../github-helpers';
+import getDefaultBranch from '../github-helpers/get-default-branch';
+import onFileListUpdate from '../github-events/on-file-list-update';
 
 async function init(): Promise<void> {
 	const defaultBranch = await getDefaultBranch();
+	const isPermalink = /Tag|Tree/.test(select('.branch-select-menu i')!.textContent!);
 	for (const fileIcon of select.all('.files :not(a) > .octicon-file')) {
-		const pathnameParts = fileIcon
-			.closest('tr')!
-			.querySelector<HTMLAnchorElement>('.js-navigation-open')!
-			.pathname
-			.split('/');
-
-		pathnameParts[3] = 'edit'; // Replaces `/blob/`
-
-		const isPermalink = /Tag|Tree/.test(select('.branch-select-menu i')!.textContent!);
+		const {pathname} = fileIcon.closest('tr')!.querySelector<HTMLAnchorElement>('.js-navigation-open')!;
+		const pathnameParts = parseRoute(pathname);
+		pathnameParts[3] = 'edit'; // Replaces /blob/
 		if (isPermalink) {
 			pathnameParts[4] = defaultBranch; // Replaces /${tag|commit}/
 		}

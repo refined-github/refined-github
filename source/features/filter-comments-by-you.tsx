@@ -1,9 +1,9 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import {getUsername} from '../libs/utils';
-import SearchQuery from '../libs/search-query';
+import features from '.';
+import SearchQuery from '../github-helpers/search-query';
+import {getUsername} from '../github-helpers';
 
 function init(): void {
 	// Use an existing dropdown item to preserve its DOM structure (supports old GHE versions)

@@ -3,9 +3,9 @@ import cache from 'webext-storage-cache';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import * as api from '../libs/api';
-import features from '../libs/features';
-import {getOwnerAndRepo, getRepoURL, getRepoGQL} from '../libs/utils';
+import features from '.';
+import * as api from '../github-helpers/api';
+import {getOwnerAndRepo, getRepoURL, getRepoGQL} from '../github-helpers';
 
 const hasAnyProjects = cache.function(async (): Promise<boolean> => {
 	const {repository, organization} = await api.v4(`

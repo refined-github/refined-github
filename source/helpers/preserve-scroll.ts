@@ -1,4 +1,4 @@
-export default function anchorScroll(
+export default function preserveScroll(
 	anchor: Element = document.elementFromPoint(innerWidth / 2, innerHeight / 2)!
 ): VoidFunction {
 	const originalPosition = anchor.getBoundingClientRect().top;

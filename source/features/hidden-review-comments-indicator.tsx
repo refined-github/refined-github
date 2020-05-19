@@ -6,14 +6,14 @@ import delegate from 'delegate-it';
 import CommentIcon from 'octicon/comment.svg';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import anchorScroll from '../libs/anchor-scroll';
-import onPrFileLoad from '../libs/on-pr-file-load';
+import features from '.';
+import onPrFileLoad from '../github-events/on-pr-file-load';
+import preserveScroll from '../helpers/preserve-scroll';
 
 // When an indicator is clicked, this will show comments on the current file
 const handleIndicatorClick = ({delegateTarget}: delegate.Event): void => {
 	const commentedLine = delegateTarget.closest('tr')!.previousElementSibling!;
-	const resetScroll = anchorScroll(commentedLine);
+	const resetScroll = preserveScroll(commentedLine);
 	delegateTarget
 		.closest('.file.js-file')!
 		.querySelector<HTMLInputElement>('.js-toggle-file-notes')!

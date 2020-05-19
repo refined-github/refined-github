@@ -6,9 +6,9 @@ import CheckIcon from 'octicon/check.svg';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import * as api from '../libs/api';
-import features from '../libs/features';
-import {getRepoGQL, getRepoURL} from '../libs/utils';
+import features from '.';
+import * as api from '../github-helpers/api';
+import {getRepoGQL, getRepoURL} from '../github-helpers';
 
 const reviewsFilterSelector = '#reviews-select-menu';
 

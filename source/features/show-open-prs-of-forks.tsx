@@ -4,9 +4,10 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import * as api from '../libs/api';
-import features from '../libs/features';
-import {getForkedRepo, getUsername, pluralize, getRepoURL} from '../libs/utils';
+import features from '.';
+import * as api from '../github-helpers/api';
+import pluralize from '../helpers/pluralize';
+import {getForkedRepo, getUsername, getRepoURL} from '../github-helpers';
 
 function getLinkCopy(count: number): string {
 	return pluralize(count, 'one open pull request', '$$ open pull requests');

@@ -2,8 +2,8 @@ import './parse-backticks.css';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import {parseBackticks} from '../libs/dom-formatters';
+import features from '.';
+import {parseBackticks} from '../github-helpers/dom-formatters';
 
 function init(): void {
 	for (const title of select.all([

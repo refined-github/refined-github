@@ -4,9 +4,9 @@ import select from 'select-dom';
 import oneTime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import onReplacedElement from '../libs/on-replaced-element';
-import onElementRemoval from '../libs/on-element-removal';
+import features from '.';
+import onReplacedElement from '../helpers/on-replaced-element';
+import onElementRemoval from '../helpers/on-element-removal';
 
 const canEditSidebar = oneTime((): boolean => select.exists('.sidebar-labels .octicon-gear'));
 

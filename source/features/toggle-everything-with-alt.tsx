@@ -3,8 +3,8 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import anchorScroll from '../libs/anchor-scroll';
+import features from '.';
+import preserveScroll from '../helpers/preserve-scroll';
 
 type EventHandler = (event: delegate.Event<MouseEvent, HTMLElement>) => void;
 
@@ -14,7 +14,7 @@ const clickAll = mem((selectorGetter: ((clickedItem: HTMLElement) => string)): E
 			const clickedItem = event.delegateTarget;
 
 			// `parentElement` is the anchor because `clickedItem` might be hidden/replaced after the click
-			const resetScroll = anchorScroll(clickedItem.parentElement!);
+			const resetScroll = preserveScroll(clickedItem.parentElement!);
 			clickAllExcept(selectorGetter(clickedItem), clickedItem);
 			resetScroll();
 		}

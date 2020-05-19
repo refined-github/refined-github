@@ -4,9 +4,10 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import * as api from '../libs/api';
-import features from '../libs/features';
-import {getRepoGQL, pluralize} from '../libs/utils';
+import features from '.';
+import * as api from '../github-helpers/api';
+import pluralize from '../helpers/pluralize';
+import {getRepoGQL} from '../github-helpers';
 
 const getCommitChanges = cache.function(async (commit: string): Promise<[number, number]> => {
 	const {repository} = await api.v4(`

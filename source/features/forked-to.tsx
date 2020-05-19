@@ -9,9 +9,9 @@ import ForkIcon from 'octicon/repo-forked.svg';
 import CheckIcon from 'octicon/check.svg';
 import LinkExternalIcon from 'octicon/link-external.svg';
 
-import features from '../libs/features';
-import fetchDom from '../libs/fetch-dom';
-import {getRepoURL, getUsername, getForkedRepo} from '../libs/utils';
+import features from '.';
+import fetchDom from '../helpers/fetch-dom';
+import {getRepoURL, getUsername, getForkedRepo} from '../github-helpers';
 
 const getForkSourceRepo = (): string => getForkedRepo() ?? getRepoURL();
 const getCacheKey = (): string => `forked-to:${getUsername()}@${getForkSourceRepo().toLowerCase()}`;
