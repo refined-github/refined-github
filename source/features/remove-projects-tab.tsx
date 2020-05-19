@@ -38,12 +38,11 @@ async function removeProjectsTab(): Promise<void | false> {
 		return false;
 	}
 
-	// Dont run if the counter is 0. (When it does not exists it will converted to a 0)
-	if (Number(select('.Counter', projectsTab)?.textContent) !== 0) {
-		return false;
+	const counter = select('.Counter', projectsTab);
+	// Sometimes on organizations there is no counter at all
+	if (!counter || Number(counter.textContent) === 0) {
+		projectsTab.remove();
 	}
-
-	projectsTab.remove();
 }
 
 features.add({
