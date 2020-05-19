@@ -12,11 +12,12 @@ function getProjectsTab() {
 	].join());
 }
 
+
+// We can't detect whether the user can create projects on a repo, so this link is potentially a 404
 async function addNewProjectLink(): Promise<void |false> {
 	if (!await getProjectsTab()) {
 		return false;
 	}
-	// We can't detect whether we can create projects on a repo, so we're just gonna show a potentially-404 link. 🤷
 
 	// URLs patterns:
 	// https://github.com/orgs/USER/projects/new
@@ -33,16 +34,15 @@ async function addNewProjectLink(): Promise<void |false> {
 async function removeProjectsTab(): Promise<void | false> {
 	const projectsTab = await getProjectsTab();
 
-	if (!projectsTab || projectsTab.matches('.selected')) {
-		// Projects aren't enabled here or your on the projects tab
+	if (
+		!projectsTab || // Projects disabled 🎉
+		projectsTab.matches('.selected') || // User is on Projects tab 👀
+		Number(select('.Counter', projectsTab)?.textContent) > 0 // There are open projects
+	) {
 		return false;
 	}
 
-	const counter = select('.Counter', projectsTab);
-	// Sometimes on organizations there is no counter at all
-	if (!counter || Number(counter.textContent) === 0) {
-		projectsTab.remove();
-	}
+	projectsTab.remove();
 }
 
 features.add({
