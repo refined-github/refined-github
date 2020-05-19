@@ -7,7 +7,7 @@ import features from '../libs/features';
 
 function getProjectsTab() {
 	return elementReady([
-		'[data-hotkey="g b"]:not(.selected)', // In organizations and repos
+		'[data-hotkey="g b"]', // In organizations and repos
 		'.user-profile-nav [href$="?tab=projects"]' // In user profiles
 	].join());
 }
@@ -33,8 +33,8 @@ async function addNewProjectLink(): Promise<void |false> {
 async function removeProjectsTab(): Promise<void | false> {
 	const projectsTab = await getProjectsTab();
 
-	if (!projectsTab) {
-		// Projects aren't enabled here
+	if (!projectsTab || projectsTab.matches('.selected')) {
+		// Projects aren't enabled here or your on the projects tab
 		return false;
 	}
 
