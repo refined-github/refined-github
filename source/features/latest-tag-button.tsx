@@ -96,7 +96,7 @@ async function init(): Promise<false | void> {
 		href = `/${getRepoURL()}/tree/${latestTag}`;
 	} else {
 		const pathParts = parseRoute(location.pathname);
-		pathParts[5] = latestTag;
+		pathParts[4] = latestTag;
 		href = pathParts.join('/');
 	}
 

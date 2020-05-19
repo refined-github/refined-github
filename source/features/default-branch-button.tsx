@@ -27,7 +27,7 @@ async function init(): Promise<false | void> {
 	if (pageDetect.isRepoRoot()) {
 		url = `/${getRepoURL()}`;
 	} else {
-		pathParts[5] = defaultBranch;
+		pathParts[4] = defaultBranch;
 		url = pathParts.join('/');
 	}
 
