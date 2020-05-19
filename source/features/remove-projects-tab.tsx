@@ -4,7 +4,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {observeOneMutation} from '../libs/simplified-element-observer';
+import {observeOneMutation} from '../helpers/simplified-element-observer';
 
 function getProjectsTab() {
 	return elementReady([
