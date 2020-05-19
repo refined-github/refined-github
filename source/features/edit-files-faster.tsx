@@ -4,8 +4,8 @@ import select from 'select-dom';
 import PencilIcon from 'octicon/pencil.svg';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
 import {wrap} from '../helpers/dom-utils';
+import features from '.';
 import {parseRoute} from '../github-helpers/utils';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import onFileListUpdate from '../github-events/on-file-list-update';

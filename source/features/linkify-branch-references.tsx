@@ -2,8 +2,8 @@ import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
 import {wrap} from '../helpers/dom-utils';
+import features from '.';
 import {getRepoURL} from '../github-helpers/utils';
 
 async function init(): Promise<void> {
