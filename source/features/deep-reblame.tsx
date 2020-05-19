@@ -67,7 +67,7 @@ async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAncho
 	const prNumber = looseParseInt(select('.issue-link', blameHunk)!.textContent!);
 	const prCommit = select<HTMLAnchorElement>('a.message', blameHunk)!.pathname.split('/').pop()!;
 	const pathnameParts = parseRoute(location.pathname);
-	const currentFilename = pathnameParts[5];
+	const currentFilename = pathnameParts.filePath;
 
 	const spinner = <LoadingIcon className="mr-2"/>;
 	blameElement.firstElementChild!.replaceWith(spinner);
@@ -75,8 +75,8 @@ async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAncho
 	try {
 		const prBlameCommit = await getPullRequestBlameCommit(prCommit, prNumber, currentFilename);
 		const lineNumber = select('.js-line-number', blameHunk)!.textContent!;
-		pathnameParts[4] = prBlameCommit;
-		const href = new URL(pathnameParts.join('/'), location.origin);
+		pathnameParts.branch = prBlameCommit;
+		const href = new URL(pathnameParts.toString(), location.origin);
 		href.hash = 'L' + lineNumber;
 		location.href = String(href);
 	} catch (error) {

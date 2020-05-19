@@ -16,12 +16,12 @@ async function init(): Promise<void> {
 	for (const fileIcon of select.all('.files :not(a) > .octicon-file')) {
 		const {pathname} = fileIcon.closest('tr')!.querySelector<HTMLAnchorElement>('.js-navigation-open')!;
 		const pathnameParts = parseRoute(pathname);
-		pathnameParts[3] = 'edit'; // Replaces /blob/
+		pathnameParts.route = 'edit'; // Replaces /blob/
 		if (isPermalink) {
-			pathnameParts[4] = defaultBranch; // Replaces /${tag|commit}/
+			pathnameParts.branch = defaultBranch; // Replaces /${tag|commit}/
 		}
 
-		wrap(fileIcon, <a href={pathnameParts.join('/')} className="rgh-edit-files-faster"/>);
+		wrap(fileIcon, <a href={pathnameParts.toString()} className="rgh-edit-files-faster"/>);
 		fileIcon.after(<PencilIcon/>);
 	}
 }

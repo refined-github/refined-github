@@ -95,9 +95,9 @@ async function init(): Promise<false | void> {
 	if (pageDetect.isRepoRoot()) {
 		href = `/${getRepoURL()}/tree/${latestTag}`;
 	} else {
-		const pathParts = parseRoute(location.pathname);
-		pathParts[4] = latestTag;
-		href = pathParts.join('/');
+		const pathnameParts = parseRoute(location.pathname);
+		pathnameParts.branch = latestTag;
+		href = pathnameParts.toString();
 	}
 
 	const link = (

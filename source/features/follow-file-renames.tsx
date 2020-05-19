@@ -29,7 +29,7 @@ function init(): false | void {
 		return false;
 	}
 
-	const [, user, repository, , reference, currentFilename] = parseRoute(location.pathname);
+	const {user, repository, branch: reference, filePath: currentFilename} = parseRoute(location.pathname);
 
 	disabledPagination.forEach(async button => {
 		const isNewer = button.textContent === 'Newer';

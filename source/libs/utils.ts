@@ -156,23 +156,33 @@ export function getLatestVersionTag(tags: string[]): string {
 	return latestVersion;
 }
 
-export function parseRoute(pathname: string): string[] {
+interface Pathname {
+	user: string;
+	repository: string;
+	route: string;
+	branch: string;
+	filePath: string;
+	toString: () => string;
+}
+export function parseRoute(pathname: string): Pathname {
 	const [user, repository, route, ...next] = pathname.replace(/^\/|\/$/g, '').split('/');
 	const parts = next.join('/');
-	const currentBranch = getCurrentBranch();
-	if (parts !== currentBranch && !parts.startsWith(currentBranch + '/')) {
+	const branch = getCurrentBranch();
+	if (parts !== branch && !parts.startsWith(branch + '/')) {
 		throw new Error('The branch of the current page must match the branch in the `pathname` parameter');
 	}
 
-	const filePath = parts.replace(currentBranch, '').replace(/^\//, '');
-	return [
-		'',
+	const filePath = parts.replace(branch, '').replace(/^\//, '');
+	return {
 		user,
 		repository,
 		route,
-		currentBranch,
-		filePath
-	];
+		branch,
+		filePath,
+		toString() {
+			return `/${this.user}/${this.repository}/${this.route}/${this.branch}/${this.filePath}`.replace(/\/$/, '');
+		}
+	};
 }
 
 const escapeRegex = (string: string) => string.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&');
