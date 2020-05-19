@@ -23,25 +23,19 @@ function handleMenuOpening(event: delegate.Event): void {
 		return;
 	}
 
-	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
-
-	// If the file was deleted
-	if (viewFile.closest('[data-file-deleted="true"]')) {
-		return;
-	}
-
 	// This solution accounts for:
 	// - Branches with slashes in it
 	// - PRs opened from the default branch
 	const headBranchUrl = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname;
-	const filepath = dropdown.closest('[data-path]').dataset.path;
-	viewFile.pathname = headRepo + '/' + filepath;
+	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
+	const filepath = dropdown.closest<HTMLDivElement>('[data-path]')!.dataset.path;
+	viewFile.pathname = headBranchUrl + '/' + String(filepath);
 
 	viewFile.classList.add('rgh-actionable-link'); // Mark this as processed
 }
 
 function init(): void {
-	delegate(document, '.js-file-header-dropdown > summary', 'click', handleMenuOpening);
+	delegate(document, '.file-header:not([data-file-deleted="true"]) .js-file-header-dropdown > summary', 'click', handleMenuOpening);
 }
 
 features.add({
