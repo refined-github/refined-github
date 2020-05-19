@@ -7,7 +7,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import fetchDom from '../libs/fetch-dom';
+import fetchDom from '../helpers/fetch-dom';
 import {getRepoURL, looseParseInt} from '../github-helpers/utils';
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', {

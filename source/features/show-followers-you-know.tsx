@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import fetchDom from '../libs/fetch-dom';
+import fetchDom from '../helpers/fetch-dom';
 import {getCleanPathname} from '../github-helpers/utils';
 
 const fetchStargazers = async (): Promise<HTMLImageElement[]> => {

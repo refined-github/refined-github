@@ -6,9 +6,9 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
-import oneEvent from '../libs/one-event';
+import oneEvent from '../helpers/one-event';
 
-import {observeOneMutation} from '../libs/simplified-element-observer';
+import {observeOneMutation} from '../helpers/simplified-element-observer';
 
 const pendingSelector = '.timeline-comment-label.is-pending';
 

@@ -6,8 +6,8 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import fetchDom from '../libs/fetch-dom';
-import postForm from '../libs/post-form';
+import fetchDom from '../helpers/fetch-dom';
+import postForm from '../helpers/post-form';
 import {getDiscussionNumber, getRepoGQL, getRepoURL, getCurrentBranch} from '../github-helpers/utils';
 
 function showError(menuItem: HTMLButtonElement, error: string): void {

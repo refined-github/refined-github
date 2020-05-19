@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import pluralize from '../libs/pluralize';
+import pluralize from '../helpers/pluralize';
 import {getForkedRepo, getUsername, getRepoURL} from '../github-helpers/utils';
 
 function getLinkCopy(count: number): string {

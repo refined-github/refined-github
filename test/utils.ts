@@ -1,7 +1,7 @@
 import test from 'ava';
 
 import './fixtures/globals';
-import pluralize from '../source/libs/pluralize';
+import pluralize from '../source/helpers/pluralize';
 import {
 	getDiscussionNumber,
 	getOwnerAndRepo,

@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import {getRepoURL} from '../github-helpers/utils';
-import {appendBefore} from '../libs/dom-utils';
+import {appendBefore} from '../helpers/dom-utils';
 
 function addInlineLinks(comment: HTMLElement, timestamp: string): void {
 	const links = select.all<HTMLAnchorElement>(`

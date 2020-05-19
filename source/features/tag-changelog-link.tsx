@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import tinyVersionCompare from 'tiny-version-compare';
 
 import features from '.';
-import fetchDom from '../libs/fetch-dom';
+import fetchDom from '../helpers/fetch-dom';
 import {getRepoPath, getRepoURL, parseTag} from '../github-helpers/utils';
 
 type TagDetails = {

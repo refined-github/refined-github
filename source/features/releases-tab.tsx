@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {appendBefore} from '../libs/dom-utils';
+import {appendBefore} from '../helpers/dom-utils';
 import {getRepoURL, getRepoGQL, looseParseInt} from '../github-helpers/utils';
 
 const repoUrl = getRepoURL();

@@ -3,7 +3,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {wrap} from '../libs/dom-utils';
+import {wrap} from '../helpers/dom-utils';
 import {getRepoURL} from '../github-helpers/utils';
 
 async function init(): Promise<void> {

@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {wrap} from '../libs/dom-utils';
+import {wrap} from '../helpers/dom-utils';
 
 async function init(): Promise<void> {
 	for (const label of select.all('.js-recent-activity-container :not(a) > .IssueLabel')) {

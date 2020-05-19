@@ -1,7 +1,7 @@
 import select from 'select-dom';
 
 import features from '.';
-import {isEditable} from '../libs/dom-utils';
+import {isEditable} from '../helpers/dom-utils';
 
 function init(): void {
 	document.addEventListener('keypress', (event: KeyboardEvent) => {

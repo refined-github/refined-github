@@ -4,7 +4,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import getTextNodes from '../libs/get-text-nodes';
+import getTextNodes from '../helpers/get-text-nodes';
 import onPrFileLoad from '../github-events/on-pr-file-load';
 import onNewComments from '../github-events/on-new-comments';
 

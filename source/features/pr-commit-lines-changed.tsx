@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import pluralize from '../libs/pluralize';
+import pluralize from '../helpers/pluralize';
 import {getRepoGQL} from '../github-helpers/utils';
 
 const getCommitChanges = cache.function(async (commit: string): Promise<[number, number]> => {

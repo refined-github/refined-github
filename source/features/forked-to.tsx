@@ -10,7 +10,7 @@ import CheckIcon from 'octicon/check.svg';
 import LinkExternalIcon from 'octicon/link-external.svg';
 
 import features from '.';
-import fetchDom from '../libs/fetch-dom';
+import fetchDom from '../helpers/fetch-dom';
 import {getRepoURL, getUsername, getForkedRepo} from '../github-helpers/utils';
 
 const getForkSourceRepo = (): string => getForkedRepo() ?? getRepoURL();

@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import onPrFileLoad from '../github-events/on-pr-file-load';
-import preserveScroll from '../libs/preserve-scroll';
+import preserveScroll from '../helpers/preserve-scroll';
 
 // When an indicator is clicked, this will show comments on the current file
 const handleIndicatorClick = ({delegateTarget}: delegate.Event): void => {

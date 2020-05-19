@@ -4,7 +4,7 @@ import debounce from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import onReplacedElement from '../libs/on-replaced-element';
+import onReplacedElement from '../helpers/on-replaced-element';
 
 const sideBarSelector = '#partial-discussion-sidebar, .discussion-sidebar';
 

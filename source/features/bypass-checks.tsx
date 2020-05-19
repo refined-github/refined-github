@@ -2,7 +2,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import fetchDom from '../libs/fetch-dom';
+import fetchDom from '../helpers/fetch-dom';
 
 async function init(): Promise<void> {
 	// This selector excludes URLs that are already external

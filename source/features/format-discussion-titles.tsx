@@ -2,7 +2,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import observeElement from '../libs/simplified-element-observer';
+import observeElement from '../helpers/simplified-element-observer';
 import * as domFormatters from '../github-helpers/dom-formatters';
 
 function init(): void {

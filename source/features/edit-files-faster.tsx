@@ -5,7 +5,7 @@ import PencilIcon from 'octicon/pencil.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {wrap} from '../libs/dom-utils';
+import {wrap} from '../helpers/dom-utils';
 import {parseRoute} from '../github-helpers/utils';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import onFileListUpdate from '../github-events/on-file-list-update';

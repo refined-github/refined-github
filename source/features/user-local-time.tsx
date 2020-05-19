@@ -8,7 +8,7 @@ import ClockIcon from 'octicon/clock.svg';
 import features from '.';
 import * as api from '../github-helpers/api';
 import {getUsername} from '../github-helpers/utils';
-import observeElement from '../libs/simplified-element-observer';
+import observeElement from '../helpers/simplified-element-observer';
 
 interface Commit {
 	url: string;

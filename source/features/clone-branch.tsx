@@ -9,7 +9,7 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import LoadingIcon from '../github-helpers/icon-loading';
 import {getRepoURL, getRepoGQL} from '../github-helpers/utils';
-import observeElement from '../libs/simplified-element-observer';
+import observeElement from '../helpers/simplified-element-observer';
 
 const getBranchBaseSha = async (branchName: string): Promise<string> => {
 	const {repository} = await api.v4(`

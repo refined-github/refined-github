@@ -7,7 +7,7 @@ import FileIcon from 'octicon/file.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import fetchDom from '../libs/fetch-dom';
+import fetchDom from '../helpers/fetch-dom';
 
 const buttonBodyMap = new WeakMap<Element, Element | Promise<Element>>();
 

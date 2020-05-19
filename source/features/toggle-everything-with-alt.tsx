@@ -4,7 +4,7 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import preserveScroll from '../libs/preserve-scroll';
+import preserveScroll from '../helpers/preserve-scroll';
 
 type EventHandler = (event: delegate.Event<MouseEvent, HTMLElement>) => void;
 
