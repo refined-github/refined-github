@@ -10,7 +10,7 @@ import * as api from '../libs/api';
 import features from '../libs/features';
 import fetchDom from '../libs/fetch-dom';
 import getDefaultBranch from '../libs/get-default-branch';
-import {getRepoURL, getCurrentBranch, replaceBranch, getRepoGQL, getLatestVersionTag} from '../libs/utils';
+import {getRepoURL, getCurrentBranch, getRepoGQL, getLatestVersionTag, parseRoute} from '../libs/utils';
 
 interface RepoPublishState {
 	latestTag: string | false;
@@ -95,7 +95,7 @@ async function init(): Promise<false | void> {
 	if (pageDetect.isRepoRoot()) {
 		href = `/${getRepoURL()}/tree/${latestTag}`;
 	} else {
-		href = replaceBranch(currentBranch, latestTag);
+		href = parseRoute(location.pathname, latestTag).join('/');
 	}
 
 	const link = (
