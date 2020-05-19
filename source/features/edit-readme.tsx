@@ -4,7 +4,7 @@ import PencilIcon from 'octicon/pencil.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {parseRoute} from '../github-helpers';
+import parseRoute from '../github-helpers/parse-route';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 
 async function init(): Promise<void | false> {

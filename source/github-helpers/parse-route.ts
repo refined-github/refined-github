@@ -1,4 +1,4 @@
-import {getCurrentBranch} from '../libs/utils';
+import {getCurrentBranch} from '.';
 
 interface Pathname {
 	user: string;

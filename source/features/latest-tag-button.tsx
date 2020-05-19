@@ -6,16 +6,12 @@ import TagIcon from 'octicon/tag.svg';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import * as api from '../libs/api';
-import fetchDom from '../libs/fetch-dom';
 import parseRoute from '../github-helpers/parse-route';
-import getDefaultBranch from '../libs/get-default-branch';
-import {getRepoURL, getCurrentBranch, getRepoGQL, getLatestVersionTag} from '../libs/utils';
 import features from '.';
 import * as api from '../github-helpers/api';
 import fetchDom from '../helpers/fetch-dom';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getRepoURL, getCurrentBranch, replaceBranch, getRepoGQL, getLatestVersionTag} from '../github-helpers';
+import {getRepoURL, getCurrentBranch, getRepoGQL, getLatestVersionTag} from '../github-helpers';
 
 interface RepoPublishState {
 	latestTag: string | false;
