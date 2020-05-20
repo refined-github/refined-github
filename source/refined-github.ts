@@ -178,7 +178,7 @@ import './features/unwrap-useless-dropdowns';
 import './features/linkify-notification-repository-header';
 import './features/stop-redirecting-in-notification-bar';
 import './features/prevent-pr-commit-link-loss';
-import './features/merged-pr-first-published-tag';
+import './features/first-published-tag-for-merged-pr';
 
 // Add global for easier debugging
 (window as any).select = select;
