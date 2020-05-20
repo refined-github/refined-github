@@ -31,8 +31,8 @@ async function addNewProjectLink(): Promise<void |false> {
 	);
 }
 
-async function getTabCount(tab: Element): Promise<number> {
-	const counter = select('.Counter', tab);
+export default async function getTabCount(tab: Element, selectors: string): Promise<number> {
+	const counter = select(selectors, tab);
 	if (!counter) {
 		// GitHub might have already dropped the counter, which means it's 0
 		return 0;
@@ -52,7 +52,7 @@ async function removeProjectsTab(): Promise<void | false> {
 	if (
 		!projectsTab || // Projects disabled 🎉
 		projectsTab.matches('.selected') || // User is on Projects tab 👀
-		await getTabCount(projectsTab) > 0 // There are open projects
+		await getTabCount(projectsTab, '.Counter') > 0 // There are open projects
 	) {
 		return false;
 	}

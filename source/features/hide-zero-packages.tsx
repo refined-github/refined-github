@@ -2,16 +2,20 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import getTabCount from './remove-projects-tab';
 
-async function init(): Promise<void> {
+async function init(): Promise<void | false> {
 	const packagesCounter = await elementReady([
-		'.numbers-summary [href$="/packages"] .num', // `isRepoRoot`
-		'.UnderlineNav-item[href$="?tab=packages"] .Counter' // `isUserProfile`
-	].join(','));
+		'.numbers-summary [href$="/packages"]', // `isRepoRoot`
+		'.UnderlineNav-item[href$="?tab=packages"]', // `isUserProfile`
+		'.orgnav > .pagehead-tabs-item[href$="/packages"]:not(.selected)' // `isOrganizationProfile`
+	].join());
 
-	if (packagesCounter?.textContent?.trim() === '0') {
-		packagesCounter.closest('li, .UnderlineNav-item')!.remove();
+	if (!packagesCounter || await getTabCount(packagesCounter, '.Counter, .num') > 0) {
+		return false;
 	}
+
+	(packagesCounter.closest('li, .UnderlineNav-item') ?? packagesCounter).remove();
 }
 
 features.add({
@@ -21,7 +25,8 @@ features.add({
 }, {
 	include: [
 		pageDetect.isRepoRoot,
-		pageDetect.isUserProfile
+		pageDetect.isUserProfile,
+		pageDetect.isOrganizationProfile
 	],
 	waitForDomReady: false,
 	init
