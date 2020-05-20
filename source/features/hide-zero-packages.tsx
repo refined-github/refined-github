@@ -11,7 +11,7 @@ async function init(): Promise<void | false> {
 		'.orgnav > .pagehead-tabs-item[href$="/packages"]:not(.selected)' // `isOrganizationProfile`
 	].join());
 
-	if (!packagesCounter || await getTabCount(packagesCounter, '.Counter, .num') > 0) {
+	if (!packagesCounter || await getTabCount(packagesCounter) > 0) {
 		return false;
 	}
 
