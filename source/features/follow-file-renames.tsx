@@ -69,5 +69,9 @@ features.add({
 	include: [
 		pageDetect.isRepoCommitList
 	],
+	exclude: [
+		// Probably looking at the base /commits/<branch> page, not a subfolder or file.
+		() => !select('.breadcrumb')
+	],
 	init
 });
