@@ -1,14 +1,14 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import cache from 'webext-storage-cache';
+import select from 'select-dom';
 import MergeIcon from 'octicon/git-merge.svg';
 import * as pageDetect from 'github-url-detection';
 import PullRequestIcon from 'octicon/git-pull-request.svg';
 
-import * as api from '../libs/api';
-import features from '../libs/features';
-import {getRepoURL, getRepoGQL} from '../libs/utils';
-import observeElement from '../libs/simplified-element-observer';
+import features from '.';
+import * as api from '../github-helpers/api';
+import observeElement from '../helpers/simplified-element-observer';
+import {getRepoGQL, getRepoURL} from '../github-helpers';
 
 interface PullRequest {
 	number: number;
