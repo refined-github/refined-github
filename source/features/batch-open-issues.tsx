@@ -4,7 +4,7 @@ import delegate from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
+import features from '.';
 
 const confirmationRequiredCount = 10;
 

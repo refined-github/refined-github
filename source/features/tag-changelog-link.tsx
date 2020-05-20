@@ -4,9 +4,9 @@ import DiffIcon from 'octicon/diff.svg';
 import * as pageDetect from 'github-url-detection';
 import tinyVersionCompare from 'tiny-version-compare';
 
-import features from '../libs/features';
-import fetchDom from '../libs/fetch-dom';
-import {getRepoPath, getRepoURL, parseTag} from '../libs/utils';
+import features from '.';
+import fetchDom from '../helpers/fetch-dom';
+import {getRepoPath, getRepoURL, parseTag} from '../github-helpers';
 
 type TagDetails = {
 	element: HTMLElement;
@@ -42,11 +42,34 @@ function parseTags(element: HTMLElement): TagDetails {
 	};
 }
 
-async function init(): Promise<void | false> {
-	if (select.exists('.blankslate')) {
-		return false;
+const getPreviousTag = (current: number, allTags: TagDetails[]): string | undefined => {
+	let unmatchedNamespaceTag: string | undefined;
+
+	for (let next = current + 1; next < allTags.length; next++) {
+		// Find a version on a different commit, if there are multiple tags on the same one
+		if (allTags[next].commit === allTags[current].commit) {
+			continue;
+		}
+
+		// Find an earlier version
+		if (tinyVersionCompare(allTags[current].version, allTags[next].version) < 1) {
+			continue;
+		}
+
+		if (allTags[current].namespace === allTags[next].namespace) {
+			return allTags[next].tag;
+		}
+
+		// If no matching namespace is found, just use the next one
+		if (!unmatchedNamespaceTag) {
+			unmatchedNamespaceTag = allTags[next].tag;
+		}
 	}
 
+	return unmatchedNamespaceTag;
+};
+
+async function init(): Promise<void> {
 	const tagsSelector = [
 		// https://github.com/facebook/react/releases (release in releases list)
 		'.release',
@@ -89,33 +112,6 @@ async function init(): Promise<void | false> {
 	}
 }
 
-const getPreviousTag = (current: number, allTags: TagDetails[]): string | undefined => {
-	let unmatchedNamespaceTag: string | undefined;
-
-	for (let next = current + 1; next < allTags.length; next++) {
-		// Find a version on a different commit, if there are multiple tags on the same one
-		if (allTags[next].commit === allTags[current].commit) {
-			continue;
-		}
-
-		// Find an earlier version
-		if (tinyVersionCompare(allTags[current].version, allTags[next].version) < 1) {
-			continue;
-		}
-
-		if (allTags[current].namespace === allTags[next].namespace) {
-			return allTags[next].tag;
-		}
-
-		// If no matching namespace is found, just use the next one
-		if (!unmatchedNamespaceTag) {
-			unmatchedNamespaceTag = allTags[next].tag;
-		}
-	}
-
-	return unmatchedNamespaceTag;
-};
-
 features.add({
 	id: __filebasename,
 	description: 'Adds a link to an automatic changelog for each tag/release.',
@@ -123,6 +119,9 @@ features.add({
 }, {
 	include: [
 		pageDetect.isReleasesOrTags
+	],
+	exclude: [
+		pageDetect.isEmptyRepo
 	],
 	init
 });

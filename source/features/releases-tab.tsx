@@ -5,10 +5,10 @@ import TagIcon from 'octicon/tag.svg';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import * as api from '../libs/api';
-import {appendBefore} from '../libs/dom-utils';
-import {getRepoURL, getRepoGQL, looseParseInt} from '../libs/utils';
+import features from '.';
+import * as api from '../github-helpers/api';
+import {appendBefore} from '../helpers/dom-utils';
+import {getRepoURL, getRepoGQL, looseParseInt} from '../github-helpers';
 
 const repoUrl = getRepoURL();
 const cacheKey = `releases-count:${repoUrl}`;

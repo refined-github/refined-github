@@ -2,9 +2,9 @@ import './indented-code-wrapping.css';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import onPrFileLoad from '../libs/on-pr-file-load';
-import onNewComments from '../libs/on-new-comments';
+import features from '.';
+import onPrFileLoad from '../github-events/on-pr-file-load';
+import onNewComments from '../github-events/on-new-comments';
 
 function init(): void {
 	document.body.classList.add('rgh-code-wrapping-enabled');

@@ -1,21 +1,12 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import observeElement from '../libs/simplified-element-observer';
-
-function hide(): void {
-	for (const icon of select.all('[aria-label="You do not have permission to edit this milestone."]')) {
-		icon.parentElement!.remove();
-	}
-}
+import features from '.';
+import observeElement from '../helpers/simplified-element-observer';
 
 function init(): void {
-	const issuesContainer = select('.js-milestone-issues-container');
-
-	// Issues container doesn't exist for milestones without (open) issues
-	if (issuesContainer) {
-		observeElement(issuesContainer, hide);
+	for (const icon of select.all('[aria-label="You do not have permission to edit this milestone."]')) {
+		icon.parentElement!.remove();
 	}
 }
 
@@ -27,5 +18,11 @@ features.add({
 	include: [
 		pageDetect.isMilestone
 	],
-	init
+	exclude: [
+		// Issues container doesn't exist for milestones without (open) issues
+		() => !select.exists('.js-milestone-issues-container')
+	],
+	init: () => {
+		observeElement('.js-milestone-issues-container', init);
+	}
 });

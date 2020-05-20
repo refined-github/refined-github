@@ -3,8 +3,8 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import {getRepoURL} from '../libs/utils';
+import features from '.';
+import {getRepoURL} from '../github-helpers';
 
 const fragmentURL = `/${getRepoURL()}/show_partial?partial=tree%2Frecently_touched_branches_list`;
 const selector = `[data-url='${fragmentURL}' i], [src='${fragmentURL}' i]`;

@@ -1,12 +1,12 @@
 import select from 'select-dom';
 
-import features from '../libs/features';
+import features from '.';
 
 function init(): void {
 	const links = select.all<HTMLAnchorElement>([
 		'.user-profile-nav [href$="tab=repositories"]', // "Your repositories" in header dropdown
 		'#user-links [href$="tab=repositories"]', // "Repositories" tab on user profile
-		'.orgnav .pagehead-tabs-item:first-child', // "Repositories" tab on organization profile
+		'.orgnav > .pagehead-tabs-item:first-child', // "Repositories" tab on organization profile
 		'[data-hovercard-type="organization"]' // Organization name on repo header + organization list on user profile
 	]);
 

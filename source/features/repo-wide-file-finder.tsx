@@ -2,21 +2,19 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import {getRepoURL} from '../libs/utils';
-import getDefaultBranch from '../libs/get-default-branch';
+import features from '.';
+import {getRepoURL} from '../github-helpers';
+import getDefaultBranch from '../github-helpers/get-default-branch';
 
 async function init(): Promise<void> {
-	if (!select.exists('[data-hotkey="t"]')) {
-		document.body.append(
-			<a
-				hidden
-				data-hotkey="t"
-				data-pjax="true"
-				href={`/${getRepoURL()}/find/${await getDefaultBranch()}`}
-			/>
-		);
-	}
+	document.body.append(
+		<a
+			hidden
+			data-hotkey="t"
+			data-pjax="true"
+			href={`/${getRepoURL()}/find/${await getDefaultBranch()}`}
+		/>
+	);
 }
 
 features.add({
@@ -28,6 +26,9 @@ features.add({
 		pageDetect.isRepoDiscussionList,
 		pageDetect.isPR,
 		pageDetect.isIssue
+	],
+	exclude: [
+		() => select.exists('[data-hotkey="t"]')
 	],
 	init
 });

@@ -6,9 +6,9 @@ import delegate from 'delegate-it';
 import InfoIcon from 'octicon/info.svg';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import * as prCiStatus from '../libs/pr-ci-status';
-import onPrMergePanelOpen from '../libs/on-pr-merge-panel-open';
+import features from '.';
+import * as prCiStatus from '../github-helpers/pr-ci-status';
+import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
 let waiting: symbol | undefined;
 
@@ -22,10 +22,6 @@ const generateCheckbox = onetime(() => (
 		</a>
 	</label>
 ));
-
-function canMerge(): boolean {
-	return select.exists('[data-details-container=".js-merge-pr"]:not(:disabled)');
-}
 
 function getCheckbox(): HTMLInputElement | null {
 	return select<HTMLInputElement>('[name="rgh-pr-check-waiter"]');
@@ -82,11 +78,7 @@ async function handleMergeConfirmation(event: delegate.Event<Event, HTMLButtonEl
 	}
 }
 
-function init(): false | void {
-	if (!canMerge()) {
-		return false;
-	}
-
+function init(): void {
 	// Watch for new commits and their statuses
 	prCiStatus.addEventListener(showCheckboxIfNecessary);
 
@@ -116,6 +108,10 @@ features.add({
 }, {
 	include: [
 		pageDetect.isPRConversation
+	],
+	exclude: [
+		// The user cannot merge
+		() => !select.exists('[data-details-container=".js-merge-pr"]:not(:disabled)')
 	],
 	init
 });

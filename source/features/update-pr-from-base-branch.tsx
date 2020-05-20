@@ -4,10 +4,10 @@ import delegate from 'delegate-it';
 import AlertIcon from 'octicon/alert.svg';
 import * as pageDetect from 'github-url-detection';
 
-import * as api from '../libs/api';
-import features from '../libs/features';
-import observeElement from '../libs/simplified-element-observer';
-import {getRepoURL, getDiscussionNumber} from '../libs/utils';
+import features from '.';
+import * as api from '../github-helpers/api';
+import observeElement from '../helpers/simplified-element-observer';
+import {getRepoURL, getDiscussionNumber} from '../github-helpers';
 
 let observer: MutationObserver;
 

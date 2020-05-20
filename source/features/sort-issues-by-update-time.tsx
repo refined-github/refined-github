@@ -2,8 +2,12 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import SearchQuery from '../libs/search-query';
+import features from '.';
+import SearchQuery from '../github-helpers/search-query';
+
+async function cleanBar(): Promise<void> {
+	(await elementReady<HTMLInputElement>('.header-search-input'))!.value = '';
+}
 
 function init(): void {
 	// Get issues links that don't already have a specific sorting applied
@@ -23,10 +27,6 @@ function init(): void {
 	for (const link of select.all<HTMLAnchorElement>('[href*="/issues"][href*="is%3Apr"]')) {
 		link.pathname = link.pathname.replace(/issues\/?$/, 'pulls');
 	}
-}
-
-async function cleanBar(): Promise<void> {
-	(await elementReady<HTMLInputElement>('.header-search-input'))!.value = '';
 }
 
 features.add({

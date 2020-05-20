@@ -6,8 +6,8 @@ import CodeIcon from 'octicon/code.svg';
 import FileIcon from 'octicon/file.svg';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import fetchDom from '../libs/fetch-dom';
+import features from '.';
+import fetchDom from '../helpers/fetch-dom';
 
 const buttonBodyMap = new WeakMap<Element, Element | Promise<Element>>();
 
@@ -74,11 +74,7 @@ async function showRendered(): Promise<void> {
 	dispatchEvent(sourceButton, 'rgh:view-markdown-rendered');
 }
 
-async function init(): Promise<false | void> {
-	if (!select.exists('.blob .markdown-body')) {
-		return false;
-	}
-
+async function init(): Promise<void> {
 	delegate(document, '.rgh-md-source:not(.selected)', 'click', showSource);
 	delegate(document, '.rgh-md-rendered:not(.selected)', 'click', showRendered);
 
@@ -112,6 +108,9 @@ features.add({
 }, {
 	include: [
 		pageDetect.isSingleFile
+	],
+	exclude: [
+		() => !select.exists('.blob .markdown-body')
 	],
 	init
 });

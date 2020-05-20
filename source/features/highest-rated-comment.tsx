@@ -5,8 +5,8 @@ import CheckIcon from 'octicon/check.svg';
 import ArrowDownIcon from 'octicon/arrow-down.svg';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import {looseParseInt} from '../libs/utils';
+import features from '.';
+import {looseParseInt} from '../github-helpers';
 
 // `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)
 const commentSelector = '.js-timeline-item';
@@ -20,16 +20,6 @@ const positiveReactionsSelector = `
 const negativeReactionsSelector = `
 	${commentSelector} [aria-label*="reacted with thumbs down"]
 `;
-
-function init(): false | void {
-	const bestComment = getBestComment();
-	if (!bestComment) {
-		return false;
-	}
-
-	highlightBestComment(bestComment);
-	linkBestComment(bestComment);
-}
 
 function getBestComment(): HTMLElement | null {
 	let highest;
@@ -128,6 +118,16 @@ function getPositiveReactions(reactionBox?: HTMLElement): HTMLElement[] {
 
 function getCount(reactions: HTMLElement[]): number {
 	return reactions.reduce((count, reaction) => count + looseParseInt(reaction.textContent!), 0);
+}
+
+function init(): false | void {
+	const bestComment = getBestComment();
+	if (!bestComment) {
+		return false;
+	}
+
+	highlightBestComment(bestComment);
+	linkBestComment(bestComment);
 }
 
 features.add({

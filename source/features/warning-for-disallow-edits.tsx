@@ -5,7 +5,7 @@ import oneTime from 'onetime';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
+import features from '.';
 
 const getWarning = oneTime(() => (
 	<div className="flash flash-error mt-3 rgh-warning-for-disallow-edits">
@@ -27,10 +27,10 @@ function toggleHandler(event: delegate.Event<UIEvent, HTMLInputElement>): void {
 	update(event.delegateTarget);
 }
 
-function init(): void {
+function init(): void | false {
 	const checkbox = select<HTMLInputElement>('[name="collab_privs"]');
 	if (!checkbox) {
-		return;
+		return false;
 	}
 
 	update(checkbox); // The sidebar checkbox may already be un-checked

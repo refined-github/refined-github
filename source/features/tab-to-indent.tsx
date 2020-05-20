@@ -1,6 +1,6 @@
 import {eventHandler} from 'indent-textarea';
 
-import features from '../libs/features';
+import features from '.';
 import {listenToCommentFields} from './comment-fields-keyboard-shortcuts';
 
 function init(): void {

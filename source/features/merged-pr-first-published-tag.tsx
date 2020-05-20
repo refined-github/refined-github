@@ -4,10 +4,10 @@ import select from 'select-dom';
 import TagIcon from 'octicon/tag.svg';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import fetchDom from '../libs/fetch-dom';
-import {getRepoURL} from '../libs/utils';
-import observeElement from '../libs/simplified-element-observer';
+import features from '.';
+import fetchDom from '../helpers/fetch-dom';
+import {getRepoURL} from '../github-helpers';
+import observeElement from '../helpers/simplified-element-observer';
 
 const getFirstTag = cache.function(async (commit: string): Promise<string | undefined> => {
 	const firstTag = await fetchDom<HTMLAnchorElement>(

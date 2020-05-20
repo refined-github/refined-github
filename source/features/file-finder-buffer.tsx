@@ -3,7 +3,7 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
+import features from '.';
 
 const getBufferField = onetime((): HTMLInputElement => (
 	<input

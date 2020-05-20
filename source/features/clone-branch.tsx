@@ -5,11 +5,11 @@ import gitBranch from 'octicon/git-branch.svg';
 import * as textFieldEdit from 'text-field-edit';
 import * as pageDetect from 'github-url-detection';
 
-import * as api from '../libs/api';
-import features from '../libs/features';
-import LoadingIcon from '../libs/icon-loading';
-import {getRepoURL, getRepoGQL} from '../libs/utils';
-import observeElement from '../libs/simplified-element-observer';
+import features from '.';
+import * as api from '../github-helpers/api';
+import LoadingIcon from '../github-helpers/icon-loading';
+import {getRepoURL, getRepoGQL} from '../github-helpers';
+import observeElement from '../helpers/simplified-element-observer';
 
 const getBranchBaseSha = async (branchName: string): Promise<string> => {
 	const {repository} = await api.v4(`

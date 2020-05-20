@@ -1,5 +1,5 @@
 import './remove-diff-signs.css';
-import features from '../libs/features';
+import features from '.';
 
 function init(): void {
 	document.body.classList.add('rgh-remove-diff-signs');

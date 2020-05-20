@@ -6,9 +6,9 @@ import ReplyIcon from 'octicon/reply.svg';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
-import features from '../libs/features';
-import {getUsername} from '../libs/utils';
-import onNewComments from '../libs/on-new-comments';
+import features from '.';
+import {getUsername} from '../github-helpers';
+import onNewComments from '../github-events/on-new-comments';
 
 function mentionUser({delegateTarget: button}: delegate.Event): void {
 	const userMention = button.parentElement!.querySelector('img')!.alt;
@@ -26,11 +26,7 @@ function mentionUser({delegateTarget: button}: delegate.Event): void {
 	textFieldEdit.insert(newComment, `${spacer}${userMention} `);
 }
 
-function init(): void | false {
-	if (select.exists('.conversation-limited')) {
-		return false; // Discussion is locked
-	}
-
+function init(): void {
 	// `:first-child` avoids app badges #2630
 	// The hovercard attribute avoids `highest-rated-comment`
 	for (const avatar of select.all(`.TimelineItem-avatar > [data-hovercard-type="user"]:first-child:not([href="/${getUsername()}"]):not(.rgh-quick-mention)`)) {
@@ -58,6 +54,9 @@ features.add({
 	include: [
 		pageDetect.isIssue,
 		pageDetect.isPRConversation
+	],
+	exclude: [
+		() => select.exists('.conversation-limited') // Discussion is locked
 	],
 	additionalListeners: [
 		onNewComments

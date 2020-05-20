@@ -3,21 +3,10 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../libs/features';
-import anchorScroll from '../libs/anchor-scroll';
+import features from '.';
+import preserveScroll from '../helpers/preserve-scroll';
 
 type EventHandler = (event: delegate.Event<MouseEvent, HTMLElement>) => void;
-
-function init(): void {
-	// Collapsed comments in PR conversations and files
-	delegate(document, '.minimized-comment details summary', 'click', clickAll(minimizedCommentsSelector));
-
-	// "Load diff" buttons in PR files
-	delegate(document, '.js-file .js-diff-load', 'click', clickAll(allDiffsSelector));
-
-	// Review comments in PR
-	delegate(document, '.js-file .js-resolvable-thread-toggler', 'click', clickAll(resolvedCommentsSelector));
-}
 
 const clickAll = mem((selectorGetter: ((clickedItem: HTMLElement) => string)): EventHandler => {
 	return event => {
@@ -25,7 +14,7 @@ const clickAll = mem((selectorGetter: ((clickedItem: HTMLElement) => string)): E
 			const clickedItem = event.delegateTarget;
 
 			// `parentElement` is the anchor because `clickedItem` might be hidden/replaced after the click
-			const resetScroll = anchorScroll(clickedItem.parentElement!);
+			const resetScroll = preserveScroll(clickedItem.parentElement!);
 			clickAllExcept(selectorGetter(clickedItem), clickedItem);
 			resetScroll();
 		}
@@ -54,6 +43,17 @@ function minimizedCommentsSelector(clickedItem: HTMLElement): string {
 
 function resolvedCommentsSelector(clickedItem: HTMLElement): string {
 	return `.js-resolvable-thread-toggler[aria-expanded="${clickedItem.getAttribute('aria-expanded')!}"]:not(.d-none)`;
+}
+
+function init(): void {
+	// Collapsed comments in PR conversations and files
+	delegate(document, '.minimized-comment details summary', 'click', clickAll(minimizedCommentsSelector));
+
+	// "Load diff" buttons in PR files
+	delegate(document, '.js-file .js-diff-load', 'click', clickAll(allDiffsSelector));
+
+	// Review comments in PR
+	delegate(document, '.js-file .js-resolvable-thread-toggler', 'click', clickAll(resolvedCommentsSelector));
 }
 
 features.add({
