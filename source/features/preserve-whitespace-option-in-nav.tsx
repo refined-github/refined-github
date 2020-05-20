@@ -3,11 +3,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function init(): false | void {
-	if (new URLSearchParams(location.search).get('w') !== '1') {
-		return false;
-	}
-
+function init(): void {
 	for (const a of select.all<HTMLAnchorElement>('[data-hotkey="p"], [data-hotkey="n"]')) {
 		const linkUrl = new URLSearchParams(a.search);
 		linkUrl.set('w', '1');
@@ -22,6 +18,9 @@ features.add({
 }, {
 	include: [
 		pageDetect.isRepo
+	],
+	exclude: [
+		() => new URLSearchParams(location.search).get('w') !== '1'
 	],
 	init
 });

@@ -69,11 +69,7 @@ const getPreviousTag = (current: number, allTags: TagDetails[]): string | undefi
 	return unmatchedNamespaceTag;
 };
 
-async function init(): Promise<void | false> {
-	if (select.exists('.blankslate')) {
-		return false;
-	}
-
+async function init(): Promise<void> {
 	const tagsSelector = [
 		// https://github.com/facebook/react/releases (release in releases list)
 		'.release',
@@ -123,6 +119,9 @@ features.add({
 }, {
 	include: [
 		pageDetect.isReleasesOrTags
+	],
+	exclude: [
+		pageDetect.isEmptyRepo
 	],
 	init
 });
