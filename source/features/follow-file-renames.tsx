@@ -71,7 +71,7 @@ features.add({
 	],
 	exclude: [
 		// Probably looking at the base /commits/<branch> page, not a subfolder or file.
-		() => !select('.breadcrumb')
+		() => !select.exists('.breadcrumb')
 	],
 	init
 });
