@@ -101,25 +101,6 @@ export function getLatestVersionTag(tags: string[]): string {
 	return latestVersion;
 }
 
-export function parseRoute(pathname: string): string[] {
-	const [user, repository, route, ...next] = pathname.replace(/^\/|\/$/g, '').split('/');
-	const parts = next.join('/');
-	const currentBranch = getCurrentBranch();
-	if (parts !== currentBranch && !parts.startsWith(currentBranch + '/')) {
-		throw new Error('The branch of the current page must match the branch in the `pathname` parameter');
-	}
-
-	const filePath = parts.replace(currentBranch + '/', '');
-	return [
-		'',
-		user,
-		repository,
-		route,
-		currentBranch,
-		filePath
-	];
-}
-
 const escapeRegex = (string: string) => string.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&');
 export const prCommitRegex = new RegExp(`\\b${escapeRegex(location.origin)}[/][^/]+[/][^/]+[/]pull[/]\\d+[/]commits[/][0-9a-f]{7,40}\\b(?! \\]|\\))`, 'gi');
 
