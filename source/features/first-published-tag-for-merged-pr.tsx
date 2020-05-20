@@ -48,7 +48,7 @@ async function init(): Promise<void> {
 
 features.add({
 	id: __filebasename,
-	description: 'Shows the first tag a merged PR was published on.',
+	description: 'Shows the first Git tag a merged PR was included in.',
 	screenshot: 'https://user-images.githubusercontent.com/16872793/81943321-38ac4300-95c9-11ea-8543-0f4858174e1e.png'
 }, {
 	include: [
