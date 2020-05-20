@@ -32,7 +32,7 @@ async function addNewProjectLink(): Promise<void |false> {
 }
 
 export default async function getTabCount(tab: Element, selectors: string): Promise<number> {
-	const counter = select(selectors, tab);
+	const counter = select('.Counter, .num', tab);
 	if (!counter) {
 		// GitHub might have already dropped the counter, which means it's 0
 		return 0;
