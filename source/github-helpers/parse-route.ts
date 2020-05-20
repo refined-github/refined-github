@@ -12,7 +12,10 @@ export default function parseRoute(pathname: string): Pathname {
 	const [user, repository, route, ...next] = pathname.replace(/^\/|\/$/g, '').split('/');
 	const parts = next.join('/');
 	const branch = getCurrentBranch();
-	if (parts !== branch && !parts.startsWith(branch + '/')) {
+	if (parts.length > 0 && // Dont throw if the branch name is empty #3117
+		parts !== branch && // Dont allow /user/repo/blob/develop on the page /user/repo/blob/dev
+		!parts.startsWith(branch + '/')
+	) {
 		throw new Error('The branch of the current page must match the branch in the `pathname` parameter');
 	}
 
