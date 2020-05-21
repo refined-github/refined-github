@@ -7,7 +7,7 @@ import {listenToCommentFields} from './comment-fields-keyboard-shortcuts';
 const formattingCharacters = ['`', '\'', '"', '[', '(', '{', '*', '_', '~'];
 const matchingCharacters = ['`', '\'', '"', ']', ')', '}', '*', '_', '~'];
 
-function handler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): void {
+function init(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): void {
 	const field = event.delegateTarget;
 
 	if (!formattingCharacters.includes(event.key)) {
@@ -28,10 +28,6 @@ function handler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): voi
 	textFieldEdit.wrapSelection(field, formattingChar, matchingEndChar);
 }
 
-function init(): void {
-	listenToCommentFields(handler);
-}
-
 features.add({
 	id: __filebasename,
 	description: 'Wraps selected text when pressing one of Markdown symbols instead of replacing it: (`[` `’` `"` `(` etc).',
@@ -39,5 +35,7 @@ features.add({
 }, {
 	waitForDomReady: false,
 	repeatOnAjax: false,
-	init
+	init: () => {
+		listenToCommentFields(init);
+	}
 });
