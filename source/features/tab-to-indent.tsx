@@ -1,7 +1,7 @@
 import {eventHandler} from 'indent-textarea';
 
 import features from '.';
-import {listenToCommentFields} from './comment-fields-keyboard-shortcuts';
+import listenToCommentFields from '../github-events/on-comment-field-edit';
 
 function init(): void {
 	listenToCommentFields(eventHandler);

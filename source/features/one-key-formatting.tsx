@@ -2,7 +2,7 @@ import delegate from 'delegate-it';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
-import {listenToCommentFields} from './comment-fields-keyboard-shortcuts';
+import listenToCommentFields from '../github-events/on-comment-field-edit';
 
 const formattingCharacters = ['`', '\'', '"', '[', '(', '{', '*', '_', '~'];
 const matchingCharacters = ['`', '\'', '"', ']', ')', '}', '*', '_', '~'];
