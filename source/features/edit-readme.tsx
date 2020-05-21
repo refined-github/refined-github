@@ -4,7 +4,7 @@ import PencilIcon from 'octicon/pencil.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {parseRoute} from '../github-helpers';
+import parseRoute from '../github-helpers/parse-route';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 
 async function init(): Promise<void | false> {
@@ -16,10 +16,10 @@ async function init(): Promise<void | false> {
 	const isPermalink = /Tag|Tree/.test(select('.branch-select-menu i')!.textContent!);
 	const filename = readmeHeader.textContent!.trim();
 	const {pathname} = select<HTMLAnchorElement>(`.files [title="${filename}"]`)!;
-	const pathnameParts = parseRoute(pathname);
-	pathnameParts[3] = 'edit'; // Replaces /blob/
+	const path = parseRoute(pathname);
+	path.route = 'edit'; // Replaces /blob/
 	if (isPermalink) {
-		pathnameParts[4] = await getDefaultBranch(); // Replaces /${tag|commit}/
+		path.branch = await getDefaultBranch(); // Replaces /${tag|commit}/
 	}
 
 	// The button already exists on repos you can push to.
@@ -27,7 +27,7 @@ async function init(): Promise<void | false> {
 	if (existingButton) {
 		if (isPermalink) {
 			// GitHub has a broken link in this case #2997
-			existingButton.href = pathnameParts.join('/');
+			existingButton.href = path.toString();
 		}
 
 		return false;
@@ -35,7 +35,7 @@ async function init(): Promise<void | false> {
 
 	readmeHeader.after(
 		<a
-			href={pathnameParts.join('/')}
+			href={path.toString()}
 			className="Box-btn-octicon btn-octicon float-right"
 			aria-label="Edit this file"
 		>
