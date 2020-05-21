@@ -54,8 +54,14 @@ function init(): void {
 	for (const list of select.all('.has-reactions .comment-reactions-options:not(.rgh-reactions)')) {
 		const avatarLimit = arbitraryAvatarLimit - (list.children.length * approximateHeaderLength);
 
-		const participantByReaction = [...list.children as HTMLCollectionOf<HTMLElement>].map(getParticipants);
+		const participantByReaction = select
+			.all(':scope > :not([data-tooltip-url])', list)
+			.map(getParticipants);
 		const flatParticipants = flatZip(participantByReaction, avatarLimit);
+
+		if (flatParticipants.length === 0) {
+			continue;
+		}
 
 		for (const {container, username, imageUrl} of flatParticipants) {
 			container.append(
