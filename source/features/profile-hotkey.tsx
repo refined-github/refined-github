@@ -5,7 +5,6 @@ import {getUsername} from '../github-helpers';
 
 function init(): false | void {
 	const menuItem = select(`a[href="/${getUsername()}"]`);
-
 	if (!menuItem) {
 		return false;
 	}
