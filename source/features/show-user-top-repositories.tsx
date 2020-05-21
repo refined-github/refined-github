@@ -28,7 +28,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93de-159ad4c6f283.png'
 }, {
 	include: [
-		pageDetect.isUserProfile
+		pageDetect.isUserProfileMainTab
 	],
 	init
 });
