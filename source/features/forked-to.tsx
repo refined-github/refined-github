@@ -2,10 +2,11 @@ import './forked-to.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import ForkIcon from 'octicon/repo-forked.svg';
-import CheckIcon from 'octicon/check.svg';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+
+import ForkIcon from 'octicon/repo-forked.svg';
+import CheckIcon from 'octicon/check.svg';
 import LinkExternalIcon from 'octicon/link-external.svg';
 
 import features from '.';
