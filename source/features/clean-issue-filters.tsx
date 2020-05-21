@@ -1,5 +1,5 @@
-import select from 'select-dom';
 import cache from 'webext-storage-cache';
+import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
