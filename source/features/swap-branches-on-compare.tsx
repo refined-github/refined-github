@@ -2,8 +2,8 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import {wrap} from '../helpers/dom-utils';
 import features from '.';
+import {wrap} from '../helpers/dom-utils';
 import {getRepoPath, getRepoURL} from '../github-helpers';
 
 function init(): void {
