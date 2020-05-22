@@ -9,7 +9,7 @@ function isLineSelected(): boolean {
 	return /^#L|^#diff-[\da-f]+R\d+/.test(location.hash);
 }
 
-function listener(event: KeyboardEvent): void {
+function init(event: KeyboardEvent): void {
 	if (
 		event.key === 'Escape' && // Catch `Esc` key
 		isLineSelected() &&
@@ -20,10 +20,6 @@ function listener(event: KeyboardEvent): void {
 	}
 }
 
-function init(): void {
-	document.body.addEventListener('keyup', listener);
-}
-
 features.add({
 	id: __filebasename,
 	description: 'Adds a keyboard shortcut to deselect the current line: `esc`.',
@@ -31,5 +27,7 @@ features.add({
 }, {
 	waitForDomReady: false,
 	repeatOnAjax: false,
-	init
+	init: () => {
+		document.body.addEventListener('keyup', init);
+	}
 });
