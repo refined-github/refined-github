@@ -48,7 +48,7 @@ async function init(): Promise<false | void> {
 	document.body.classList.add('rgh-recently-pushed-branches');
 
 	// Move or add list next to the notifications bell
-	select('.Header-item--full,.HeaderMenu nav')!.after(widget);
+	select.last('.Header-item--full,.HeaderMenu nav')!.after(widget);
 }
 
 features.add({
