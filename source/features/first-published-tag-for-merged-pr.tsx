@@ -38,7 +38,7 @@ async function init(): Promise<void> {
 			<a
 				href={`/${getRepoURL()}/releases/tag/${tagName}`}
 				className="commit-ref"
-				title={`${tagName} was the first tag to include this PR`}
+				title={`${tagName} was the first Git tag to include this PR`}
 			>
 				{tagName}
 			</a>
