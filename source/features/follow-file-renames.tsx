@@ -67,11 +67,8 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/54799957-7306a280-4c9a-11e9-86de-b9764ed93397.png'
 }, {
 	include: [
-		pageDetect.isRepoCommitList
-	],
-	exclude: [
-		// Probably looking at the base /commits/<branch> page, not a subfolder or file.
-		() => !select.exists('.breadcrumb')
+		// Only run on history pages
+		() => pageDetect.isRepoCommitList() && parseRoute(location.pathname).filePath.length > 0
 	],
 	init
 });
