@@ -17,9 +17,7 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
 });
 
 const getFirstCommitDate = cache.function(async (): Promise<string | undefined> => {
-	const commitInfo = await elementReady<HTMLAnchorElement | HTMLScriptElement>('a.commit-tease-sha, include-fragment.commit-tease', {
-		stopOnDomReady: false
-	});
+	const commitInfo = await elementReady<HTMLAnchorElement | HTMLScriptElement>('a.commit-tease-sha, include-fragment.commit-tease');
 	const commitUrl = commitInfo instanceof HTMLAnchorElement ? commitInfo.href : commitInfo!.src;
 	const commitSha = commitUrl.split('/').pop()!;
 
