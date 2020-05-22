@@ -5,7 +5,7 @@ export default function onCommentFieldKeydown(callback: delegate.EventHandler<Ke
 	delegate<HTMLTextAreaElement, KeyboardEvent>(document, '.js-comment-field, #commit-description-textarea', 'keydown', event => {
 		const field = event.delegateTarget;
 
-		// Don't do anything if the autocomplete helper is shown or if non-Roman input is being used
+		// Don't do anything if the autocomplete helper is shown or if non-latin input is being used
 		if (select.exists('.suggester', field.form!) || event.isComposing) {
 			return;
 		}
