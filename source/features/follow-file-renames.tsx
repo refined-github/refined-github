@@ -24,12 +24,14 @@ async function findRename(
 
 function init(): false | void {
 	const disabledPagination = select.all('.paginate-container [disabled], .paginate-container .disabled');
+	const parts = parseRoute(location.pathname);
 
-	if (disabledPagination.length === 0) {
+	if (
+		disabledPagination.length === 0 ||
+		parts.filePath.length === 0 // Not a history page
+	) {
 		return false;
 	}
-
-	const parts = parseRoute(location.pathname);
 
 	disabledPagination.forEach(async button => {
 		const isNewer = button.textContent === 'Newer';
@@ -71,8 +73,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/54799957-7306a280-4c9a-11e9-86de-b9764ed93397.png'
 }, {
 	include: [
-		// Only run on history pages
-		() => pageDetect.isRepoCommitList() && parseRoute(location.pathname).filePath.length > 0
+		pageDetect.isRepoCommitList
 	],
 	init
 });
