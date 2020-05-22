@@ -2,9 +2,9 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 
 import features from '.';
-import listenToCommentFields from '../github-events/on-comment-field-edit';
+import onCommentFieldKeydown from '../github-events/on-comment-field-keydown';
 
-function init(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): void {
+function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): void {
 	const field = event.delegateTarget;
 
 	if (event.key === 'Escape') {
@@ -55,6 +55,10 @@ function init(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): void {
 	}
 }
 
+function init(): void {
+	onCommentFieldKeydown(eventHandler);
+}
+
 features.add({
 	id: __filebasename,
 	description: 'Adds shortcuts to comment fields: `↑` to edit your previous comment; `esc` to blur field or cancel comment.',
@@ -66,7 +70,5 @@ features.add({
 }, {
 	waitForDomReady: false,
 	repeatOnAjax: false,
-	init: () => {
-		listenToCommentFields(init);
-	}
+	init
 });

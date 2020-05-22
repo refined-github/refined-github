@@ -1,10 +1,10 @@
 import {eventHandler} from 'indent-textarea';
 
 import features from '.';
-import listenToCommentFields from '../github-events/on-comment-field-edit';
+import onCommentFieldKeydown from '../github-events/on-comment-field-keydown';
 
 function init(): void {
-	listenToCommentFields(eventHandler);
+	onCommentFieldKeydown(eventHandler);
 }
 
 features.add({

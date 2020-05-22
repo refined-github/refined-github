@@ -2,12 +2,12 @@ import delegate from 'delegate-it';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
-import listenToCommentFields from '../github-events/on-comment-field-edit';
+import onCommentFieldKeydown from '../github-events/on-comment-field-keydown';
 
 const formattingCharacters = ['`', '\'', '"', '[', '(', '{', '*', '_', '~'];
 const matchingCharacters = ['`', '\'', '"', ']', ')', '}', '*', '_', '~'];
 
-function init(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): void {
+function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): void {
 	const field = event.delegateTarget;
 
 	if (!formattingCharacters.includes(event.key)) {
@@ -28,6 +28,10 @@ function init(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): void {
 	textFieldEdit.wrapSelection(field, formattingChar, matchingEndChar);
 }
 
+function init(): void {
+	onCommentFieldKeydown(eventHandler);
+}
+
 features.add({
 	id: __filebasename,
 	description: 'Wraps selected text when pressing one of Markdown symbols instead of replacing it: (`[` `’` `"` `(` etc).',
@@ -35,7 +39,5 @@ features.add({
 }, {
 	waitForDomReady: false,
 	repeatOnAjax: false,
-	init: () => {
-		listenToCommentFields(init);
-	}
+	init
 });
