@@ -31,7 +31,8 @@ const getBaseReference = onetime(async (): Promise<string> => {
 	return repository.pullRequest.baseRefOid;
 });
 
-async function getFile(filePath: string): Promise<{isTruncated: boolean; text: string} | null> {
+async function getFile(menuItem: Element): Promise<{isTruncated: boolean; text: string} | null> {
+	const filePath = menuItem.closest<HTMLElement>('[data-path]')!.dataset.path!;
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			file: object(expression: "${await getBaseReference()}:${filePath}") {
@@ -53,11 +54,12 @@ async function deleteFile(menuItem: Element): Promise<void> {
 	await postForm(form!);
 }
 
-async function commitFileContent(menuItem: Element, content: string, filePath: string): Promise<void> {
+async function commitFileContent(menuItem: Element, content: string): Promise<void> {
 	let {pathname} = menuItem.previousElementSibling as HTMLAnchorElement;
 	// Check if file was deleted by PR
 	if (menuItem.closest('[data-file-deleted="true"]')) {
 		menuItem.textContent = 'Undeleting…';
+		const filePath = pathname.split('/')[5]; // The URL was something like /$user/$repo/blob/$startingCommit/$path
 		pathname = `/${getRepoURL()}/new/${getCurrentBranch()}?filename=` + filePath;
 	} else {
 		menuItem.textContent = 'Committing…';
@@ -88,8 +90,7 @@ async function handleRevertFileClick(event: delegate.Event<MouseEvent, HTMLButto
 	event.stopPropagation();
 
 	try {
-		const filePath = menuItem.closest<HTMLDivElement>('[data-path]')!.dataset.path!;
-		const file = await getFile(filePath);
+		const file = await getFile(menuItem);
 
 		if (!file) {
 			// The file was created by this PR. Revert === Delete.
@@ -103,7 +104,7 @@ async function handleRevertFileClick(event: delegate.Event<MouseEvent, HTMLButto
 			return;
 		}
 
-		await commitFileContent(menuItem, file.text, filePath);
+		await commitFileContent(menuItem, file.text);
 
 		// Hide file from view
 		menuItem.closest('.file')!.remove();
