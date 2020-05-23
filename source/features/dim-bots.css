@@ -32,12 +32,17 @@ Transitions are used to delay the "hover" status so it's not too annoying when m
 
 /* PRs’ whole box, reduce height */
 .rgh-dim-bot.Box-row {
-	overflow: hidden;
 	max-height: 10em; /* This value is only needed to transition the height since `max-height: none` can't be transitioned */
 	transition: max-height 0.1s 0.3s;
 }
 
+.rgh-dim-bot.open.Details--on {
+	/* If the element has text that exceeds the wrapper, add a scroller */
+	overflow: scroll;
+}
+
 .rgh-dim-bot.Box-row:not(.navigation-focus) {
+	overflow: hidden;
 	max-height: 2.7em;
 	transition-delay: 0s;
 }
