@@ -2,10 +2,12 @@ import './reactions-avatars.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import {flatZip} from 'flat-zip';
+import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import onReplacedElement from '../helpers/on-replaced-element';
+import {observeOneMutation} from '../helpers/simplified-element-observer';
 import {getUsername, isFirefox} from '../github-helpers';
 
 const arbitraryAvatarLimit = 36;
@@ -50,33 +52,60 @@ function getParticipants(container: HTMLElement): Participant[] {
 	return participants;
 }
 
-function init(): void {
-	for (const list of select.all('.has-reactions .comment-reactions-options:not(.rgh-reactions)')) {
-		const avatarLimit = arbitraryAvatarLimit - (list.children.length * approximateHeaderLength);
+function loadUsernames(commentReactions: Element): void {
+	commentReactions.firstElementChild!.dispatchEvent(new MouseEvent('mouseenter'));
+}
 
-		const participantByReaction = select
-			.all(':scope > :not([data-tooltip-url])', list)
-			.map(getParticipants);
-		const flatParticipants = flatZip(participantByReaction, avatarLimit);
+async function showAvatarsOn(commentReactions: Element): Promise<void> {
+	// The event listener might not have been attached yet, so we can try twice
+	await domLoaded;
+	loadUsernames(commentReactions);
+	setTimeout(loadUsernames, 1000, commentReactions);
 
-		if (flatParticipants.length === 0) {
-			continue;
+	await observeOneMutation(commentReactions.firstElementChild!, {
+		attributes: true,
+		attributeFilter: [
+			'aria-label'
+		]
+	});
+
+	const avatarLimit = arbitraryAvatarLimit - (commentReactions.children.length * approximateHeaderLength);
+
+	const participantByReaction = select
+		.all(':scope > button', commentReactions)
+		.map(getParticipants);
+	const flatParticipants = flatZip(participantByReaction, avatarLimit);
+
+	for (const {container, username, imageUrl} of flatParticipants) {
+		container.append(
+			// Without this, Firefox will follow the link instead of submitting the reaction button
+			<a href={isFirefox ? undefined : `/${username}`}>
+				<img src={imageUrl}/>
+			</a>
+		);
+	}
+
+	const trackableElement = commentReactions.closest<HTMLElement>('[data-body-version]')!;
+	const trackingSelector = `[data-body-version="${trackableElement.dataset.bodyVersion!}"]`;
+	onReplacedElement(trackingSelector, init);
+}
+
+const viewportObserver = new IntersectionObserver(changes => {
+	for (const change of changes) {
+		if (change.isIntersecting) {
+			showAvatarsOn(change.target);
+			viewportObserver.unobserve(change.target);
 		}
+	}
+}, {
+	// Start loading a little before they become visible
+	rootMargin: '500px'
+});
 
-		for (const {container, username, imageUrl} of flatParticipants) {
-			container.append(
-				// Without this, Firefox will follow the link instead of submitting the reaction button
-				<a href={isFirefox ? undefined : `/${username}`}>
-					<img src={imageUrl}/>
-				</a>
-			);
-		}
-
-		list.classList.add('rgh-reactions');
-
-		const trackableElement = list.closest<HTMLElement>('.js-updatable-content')!;
-		const trackingSelector = `[data-url="${trackableElement.dataset.url!}"]`;
-		onReplacedElement(trackingSelector, init);
+async function init(): Promise<void> {
+	for (const commentReactions of select.all('.has-reactions .comment-reactions-options:not(.rgh-reactions)')) {
+		commentReactions.classList.add('rgh-reactions');
+		viewportObserver.observe(commentReactions);
 	}
 }
 
