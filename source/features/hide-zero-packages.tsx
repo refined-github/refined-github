@@ -5,17 +5,17 @@ import features from '.';
 import getTabCount from './remove-projects-tab';
 
 async function init(): Promise<void | false> {
-	const packagesCounter = await elementReady([
+	const packagesTab = await elementReady([
 		'.numbers-summary [href$="/packages"]', // `isRepoRoot`
 		'.UnderlineNav-item[href$="?tab=packages"]:not(.selected)', // `isUserProfile`
 		'.orgnav .pagehead-tabs-item[href$="/packages"]:not(.selected)' // `isOrganizationProfile`
 	].join());
 
-	if (!packagesCounter || await getTabCount(packagesCounter) > 0) {
+	if (!packagesTab || await getTabCount(packagesTab) > 0) {
 		return false;
 	}
 
-	(packagesCounter.closest('li, .UnderlineNav-item') ?? packagesCounter).remove();
+	packagesTab.closest('li, .UnderlineNav-item')!.remove();
 }
 
 features.add({
