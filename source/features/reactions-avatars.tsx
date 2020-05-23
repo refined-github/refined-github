@@ -88,6 +88,9 @@ const viewportObserver = new IntersectionObserver(changes => {
 			viewportObserver.unobserve(change.target);
 		}
 	}
+}, {
+	// Start loading a little before they become visible
+	rootMargin: '500px'
 });
 
 async function init(): Promise<void> {
