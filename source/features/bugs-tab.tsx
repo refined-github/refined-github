@@ -1,9 +1,9 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
+import BugIcon from 'octicon/bug.svg';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import BugIcon from '@primer/octicons/build/svg/bug.svg';
 
 import features from '.';
 import * as api from '../github-helpers/api';

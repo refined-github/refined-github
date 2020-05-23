@@ -22,7 +22,7 @@ const getGistCount = cache.function(async (username: string): Promise<number> =>
 	cacheKey: ([username]) => 'gist-count:' + username
 });
 
-async function init(): Promise<false | void> {
+async function init(): Promise<void> {
 	await elementReady('.UnderlineNav-body + *');
 
 	const username = getCleanPathname();

@@ -2,25 +2,9 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 
 import features from '.';
+import onCommentFieldKeydown from '../github-events/on-comment-field-keydown';
 
-// eslint-disable-next-line import/prefer-default-export
-export function listenToCommentFields(callback: delegate.EventHandler<KeyboardEvent, HTMLTextAreaElement>): void {
-	delegate<HTMLTextAreaElement, KeyboardEvent>(document, '.js-comment-field, #commit-description-textarea', 'keydown', event => {
-		const field = event.delegateTarget;
-
-		// Don't do anything if the autocomplete helper is shown or if non-Roman input is being used
-		if (select.exists('.suggester', field.form!) || event.isComposing) {
-			return;
-		}
-
-		callback(event);
-	}, {
-		// Adds support for `esc` key; GitHub seems to use `stopPropagation` on it
-		capture: true
-	});
-}
-
-function handler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): void {
+function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): void {
 	const field = event.delegateTarget;
 
 	if (event.key === 'Escape') {
@@ -72,7 +56,7 @@ function handler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): voi
 }
 
 function init(): void {
-	listenToCommentFields(handler);
+	onCommentFieldKeydown(eventHandler);
 }
 
 features.add({
