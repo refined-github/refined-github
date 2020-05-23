@@ -2,12 +2,13 @@ import './reactions-avatars.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import {flatZip} from 'flat-zip';
+import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import onReplacedElement from '../helpers/on-replaced-element';
-import {getUsername, isFirefox} from '../github-helpers';
 import {observeOneMutation} from '../helpers/simplified-element-observer';
+import {getUsername, isFirefox} from '../github-helpers';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
@@ -51,8 +52,16 @@ function getParticipants(container: HTMLElement): Participant[] {
 	return participants;
 }
 
-async function showAvatarsOn(commentReactions: Element): Promise<void> {
+function loadUsernames(commentReactions: Element): void {
 	commentReactions.firstElementChild!.dispatchEvent(new MouseEvent('mouseenter'));
+}
+
+async function showAvatarsOn(commentReactions: Element): Promise<void> {
+	// The event listener might not have been attached yet, so we can try twice
+	await domLoaded;
+	loadUsernames(commentReactions);
+	setTimeout(loadUsernames, 1000, commentReactions);
+
 	await observeOneMutation(commentReactions.firstElementChild!, {
 		attributes: true,
 		attributeFilter: [
