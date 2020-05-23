@@ -24,14 +24,12 @@ async function findRename(
 
 function init(): false | void {
 	const disabledPagination = select.all('.paginate-container [disabled], .paginate-container .disabled');
-	const parts = parseRoute(location.pathname);
 
-	if (
-		disabledPagination.length === 0 ||
-		parts.filePath.length === 0 // Not a history page
-	) {
+	if (disabledPagination.length === 0) {
 		return false;
 	}
+
+	const {user, repository, branch: reference, filePath: currentFilename} = parseRoute(location.pathname);
 
 	disabledPagination.forEach(async button => {
 		const isNewer = button.textContent === 'Newer';
@@ -40,16 +38,12 @@ function init(): false | void {
 		const toKey = isNewer ? 'filename' : 'previous_filename';
 		const sha = (isNewer ? select : select.last)('.commit .sha')!;
 
-		const files = await findRename(parts.user, parts.repository, sha.textContent!.trim());
+		const files = await findRename(user, repository, sha.textContent!.trim());
 
 		for (const file of files) {
-			if (file[fromKey] === parts.filePath) {
+			if (file[fromKey] === currentFilename) {
 				if (file.status === 'renamed') {
-					const url = {
-						...parts,
-						route: 'commits',
-						filePath: file[toKey]
-					}.toString();
+					const url = `/${user}/${repository}/commits/${reference}/${file[toKey]}`;
 					button.replaceWith(
 						<a
 							href={url}
