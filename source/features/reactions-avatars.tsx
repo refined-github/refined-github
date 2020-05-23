@@ -7,6 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import onReplacedElement from '../helpers/on-replaced-element';
 import {getUsername, isFirefox} from '../github-helpers';
+import {observeOneMutation} from '../helpers/simplified-element-observer';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
@@ -50,33 +51,49 @@ function getParticipants(container: HTMLElement): Participant[] {
 	return participants;
 }
 
-function init(): void {
-	for (const list of select.all('.has-reactions .comment-reactions-options:not(.rgh-reactions)')) {
-		const avatarLimit = arbitraryAvatarLimit - (list.children.length * approximateHeaderLength);
+async function showAvatarsOn(commentReactions: Element): Promise<void> {
+	commentReactions.firstElementChild!.dispatchEvent(new MouseEvent('mouseenter'));
+	await observeOneMutation(commentReactions.firstElementChild!, {
+		attributes: true,
+		attributeFilter: [
+			'aria-label'
+		]
+	});
 
-		const participantByReaction = select
-			.all(':scope > :not([data-tooltip-url])', list)
-			.map(getParticipants);
-		const flatParticipants = flatZip(participantByReaction, avatarLimit);
+	const avatarLimit = arbitraryAvatarLimit - (commentReactions.children.length * approximateHeaderLength);
 
-		if (flatParticipants.length === 0) {
-			continue;
+	const participantByReaction = select
+		.all(':scope > button', commentReactions)
+		.map(getParticipants);
+	const flatParticipants = flatZip(participantByReaction, avatarLimit);
+
+	for (const {container, username, imageUrl} of flatParticipants) {
+		container.append(
+			// Without this, Firefox will follow the link instead of submitting the reaction button
+			<a href={isFirefox ? undefined : `/${username}`}>
+				<img src={imageUrl}/>
+			</a>
+		);
+	}
+
+	const trackableElement = commentReactions.closest<HTMLElement>('.js-updatable-content')!;
+	const trackingSelector = `[data-url="${trackableElement.dataset.url!}"]`;
+	onReplacedElement(trackingSelector, init);
+}
+
+const viewportObserver = new IntersectionObserver(changes => {
+	for (const change of changes) {
+		if (change.isIntersecting) {
+			showAvatarsOn(change.target);
+			viewportObserver.unobserve(change.target);
 		}
+	}
+});
 
-		for (const {container, username, imageUrl} of flatParticipants) {
-			container.append(
-				// Without this, Firefox will follow the link instead of submitting the reaction button
-				<a href={isFirefox ? undefined : `/${username}`}>
-					<img src={imageUrl}/>
-				</a>
-			);
-		}
-
-		list.classList.add('rgh-reactions');
-
-		const trackableElement = list.closest<HTMLElement>('.js-updatable-content')!;
-		const trackingSelector = `[data-url="${trackableElement.dataset.url!}"]`;
-		onReplacedElement(trackingSelector, init);
+async function init(): Promise<void> {
+	for (const commentReactions of select.all('.has-reactions .comment-reactions-options:not(.rgh-reactions)')) {
+		commentReactions.classList.add('rgh-reactions');
+		viewportObserver.observe(commentReactions);
 	}
 }
 
