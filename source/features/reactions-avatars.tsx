@@ -76,8 +76,8 @@ async function showAvatarsOn(commentReactions: Element): Promise<void> {
 		);
 	}
 
-	const trackableElement = commentReactions.closest<HTMLElement>('.js-updatable-content')!;
-	const trackingSelector = `[data-url="${trackableElement.dataset.url!}"]`;
+	const trackableElement = commentReactions.closest<HTMLElement>('[data-body-version]')!;
+	const trackingSelector = `[data-body-version="${trackableElement.dataset.bodyVersion!}"]`;
 	onReplacedElement(trackingSelector, init);
 }
 
