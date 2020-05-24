@@ -5,6 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import parseRoute from '../github-helpers/parse-route';
+import {getRepoURL} from '../github-helpers';
 
 interface File {
 	previous_filename: string;
@@ -12,13 +13,9 @@ interface File {
 	status: string;
 }
 
-async function findRename(
-	user: string,
-	repo: string,
-	lastCommitOnPage: string
-): Promise<File[]> {
+async function findRename(lastCommitOnPage: string): Promise<File[]> {
 	// API v4 doesn't support it: https://github.community/t5/GitHub-API-Development-and/What-is-the-corresponding-object-in-GraphQL-API-v4-for-patch/m-p/14502?collapse_discussion=true&filter=location&location=board:api&q=files%20changed%20commit&search_type=thread
-	const {files} = await api.v3(`repos/${user}/${repo}/commits/${lastCommitOnPage}`);
+	const {files} = await api.v3(`repos/${getRepoURL()}/commits/${lastCommitOnPage}`);
 	return files;
 }
 
@@ -40,7 +37,7 @@ function init(): false | void {
 		const toKey = isNewer ? 'filename' : 'previous_filename';
 		const sha = (isNewer ? select : select.last)('.commit .sha')!;
 
-		const files = await findRename(parts.user, parts.repository, sha.textContent!.trim());
+		const files = await findRename(sha.textContent!.trim());
 
 		for (const file of files) {
 			if (file[fromKey] === parts.filePath) {
