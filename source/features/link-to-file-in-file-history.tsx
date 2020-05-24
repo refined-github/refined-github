@@ -9,8 +9,7 @@ import {groupSiblings} from '../github-helpers/group-buttons';
 
 function init(): void | false {
 	const {filePath} = parseRoute(location.pathname);
-	// Only run on history pages
-	if (filePath.length === 0) {
+	if (!filePath) {
 		return false;
 	}
 
