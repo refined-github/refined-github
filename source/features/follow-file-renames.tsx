@@ -25,7 +25,7 @@ function init(): false | void {
 
 	if (
 		disabledPagination.length === 0 ||
-		parts.filePath.length === 0 // Not a history page
+		!parts.filePath
 	) {
 		return false;
 	}
