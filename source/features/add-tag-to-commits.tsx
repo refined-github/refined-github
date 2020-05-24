@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepoURL, getRepoGQL} from '../github-helpers';
+import {getOwnerAndRepo, getRepoURL, getRepoGQL} from '../github-helpers';
 
 interface CommitTags {
 	[name: string]: string[];
@@ -31,6 +31,9 @@ interface TagNode {
 	name: string;
 	target: CommonTarget;
 }
+
+const {ownerName, repoName} = getOwnerAndRepo();
+const cacheKey = `tags:${ownerName!}/${repoName!}`;
 
 function mergeTags(oldTags: CommitTags, newTags: CommitTags): CommitTags {
 	const result: CommitTags = {...oldTags};
@@ -156,7 +159,6 @@ async function init(): Promise<void | false> {
 		}
 	}
 
-	const cacheKey = `tags:${getRepoURL()}`;
 	await cache.set(cacheKey, cached, 1);
 }
 
