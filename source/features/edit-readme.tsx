@@ -16,10 +16,10 @@ async function init(): Promise<void | false> {
 	const isPermalink = /Tag|Tree/.test(select('.branch-select-menu i')!.textContent!);
 	const filename = readmeHeader.textContent!.trim();
 	const {pathname} = select<HTMLAnchorElement>(`.files [title="${filename}"]`)!;
-	const path = parseRoute(pathname);
-	path.route = 'edit'; // Replaces /blob/
+	const pathnameParts = parseRoute(pathname);
+	pathnameParts.route = 'edit'; // Replaces /blob/
 	if (isPermalink) {
-		path.branch = await getDefaultBranch(); // Replaces /${tag|commit}/
+		pathnameParts.branch = await getDefaultBranch(); // Replaces /${tag|commit}/
 	}
 
 	// The button already exists on repos you can push to.
@@ -27,7 +27,7 @@ async function init(): Promise<void | false> {
 	if (existingButton) {
 		if (isPermalink) {
 			// GitHub has a broken link in this case #2997
-			existingButton.href = path.toString();
+			existingButton.href = pathnameParts.toString();
 		}
 
 		return false;
@@ -35,7 +35,7 @@ async function init(): Promise<void | false> {
 
 	readmeHeader.after(
 		<a
-			href={path.toString()}
+			href={pathnameParts.toString()}
 			className="Box-btn-octicon btn-octicon float-right"
 			aria-label="Edit this file"
 		>
