@@ -118,6 +118,8 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 }
 
 async function init(): Promise<void | false> {
+	const cacheKey = `tags:${getRepoURL()}`;
+
 	const commitsOnPage = select.all('li.commit');
 	const lastCommitOnPage = (commitsOnPage[commitsOnPage.length - 1].dataset.channel as string).split(':')[3];
 	let cached = await cache.get<{[commit: string]: string[]}>(cacheKey) ?? {};
@@ -156,7 +158,6 @@ async function init(): Promise<void | false> {
 		}
 	}
 
-	const cacheKey = `tags:${getRepoURL()}`;
 	await cache.set(cacheKey, cached, 1);
 }
 
