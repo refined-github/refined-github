@@ -21,7 +21,7 @@ async function findRename(lastCommitOnPage: string): Promise<File[]> {
 
 function init(): false | void {
 	const disabledPagination = select.all('.paginate-container [disabled], .paginate-container .disabled');
-	const parts = parseRoute(location.pathname);
+	const pathnameParts = parseRoute(location.pathname);
 
 	if (
 		disabledPagination.length === 0 ||
