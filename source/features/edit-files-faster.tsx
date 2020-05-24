@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
-import {parseRoute} from '../github-helpers';
+import parseRoute from '../github-helpers/parse-route';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import onFileListUpdate from '../github-events/on-file-list-update';
 
@@ -15,13 +15,13 @@ async function init(): Promise<void> {
 	const isPermalink = /Tag|Tree/.test(select('.branch-select-menu i')!.textContent!);
 	for (const fileIcon of select.all('.files :not(a) > .octicon-file')) {
 		const {pathname} = fileIcon.closest('tr')!.querySelector<HTMLAnchorElement>('.js-navigation-open')!;
-		const pathnameParts = parseRoute(pathname);
-		pathnameParts[3] = 'edit'; // Replaces /blob/
+		const path = parseRoute(pathname);
+		path.route = 'edit'; // Replaces /blob/
 		if (isPermalink) {
-			pathnameParts[4] = defaultBranch; // Replaces /${tag|commit}/
+			path.branch = defaultBranch; // Replaces /${tag|commit}/
 		}
 
-		wrap(fileIcon, <a href={pathnameParts.join('/')} className="rgh-edit-files-faster"/>);
+		wrap(fileIcon, <a href={path.toString()} className="rgh-edit-files-faster"/>);
 		fileIcon.after(<PencilIcon/>);
 	}
 }

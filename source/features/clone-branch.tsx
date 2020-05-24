@@ -1,15 +1,15 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import gitBranch from 'octicon/git-branch.svg';
-import * as textFieldEdit from 'text-field-edit';
+import GitBranchIcon from 'octicon/git-branch.svg';
 import * as pageDetect from 'github-url-detection';
+import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
 import * as api from '../github-helpers/api';
 import LoadingIcon from '../github-helpers/icon-loading';
-import {getRepoURL, getRepoGQL} from '../github-helpers';
 import observeElement from '../helpers/simplified-element-observer';
+import {getRepoURL, getRepoGQL} from '../github-helpers';
 
 const getBranchBaseSha = async (branchName: string): Promise<string> => {
 	const {repository} = await api.v4(`
@@ -85,7 +85,7 @@ function init(): void | false {
 				aria-label="Clone this branch"
 				className="link-gray btn-link tooltipped tooltipped-nw ml-3 rgh-clone-branch"
 			>
-				{gitBranch()}
+				<GitBranchIcon/>
 			</button>
 		);
 	}

@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
 
-function init(): void | false {
+function init(): void {
 	if (select('.file-mode')?.textContent === 'symbolic link') {
 		const line = select('.js-file-line')!;
 		wrap(line.firstChild!, <a href={line.textContent!}/>);

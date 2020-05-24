@@ -2,8 +2,8 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import FoldDownIcon from 'octicon/fold-down.svg';
-import * as textFieldEdit from 'text-field-edit';
 import * as pageDetect from 'github-url-detection';
+import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
 
@@ -28,17 +28,6 @@ function smartBlockWrap(content: string, field: HTMLTextAreaElement): string {
 	return newlinesToPrepend + content + newlinesToAppend;
 }
 
-function init(): void {
-	delegate(document, '.rgh-collapsible-content-btn', 'click', addContentToDetails);
-	for (const anchor of select.all('md-ref')) {
-		anchor.after(
-			<button type="button" className="toolbar-item tooltipped tooltipped-n rgh-collapsible-content-btn" aria-label="Add collapsible content">
-				<FoldDownIcon/>
-			</button>
-		);
-	}
-}
-
 function addContentToDetails(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const field = event.delegateTarget.form!.querySelector('textarea')!;
 	const selection = field.value.slice(field.selectionStart, field.selectionEnd);
@@ -61,6 +50,17 @@ function addContentToDetails(event: delegate.Event<MouseEvent, HTMLButtonElement
 		field.value.lastIndexOf('</summary>', field.selectionStart) + '</summary>'.length + 2,
 		field.value.lastIndexOf('</details>', field.selectionStart) - 2
 	);
+}
+
+function init(): void {
+	delegate(document, '.rgh-collapsible-content-btn', 'click', addContentToDetails);
+	for (const anchor of select.all('md-ref')) {
+		anchor.after(
+			<button type="button" className="toolbar-item tooltipped tooltipped-n rgh-collapsible-content-btn" aria-label="Add collapsible content">
+				<FoldDownIcon/>
+			</button>
+		);
+	}
 }
 
 features.add({

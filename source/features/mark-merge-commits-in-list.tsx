@@ -37,7 +37,7 @@ function getCommitHash(commit: HTMLElement): string {
 	return commit.dataset.channel!.split(':')[3];
 }
 
-async function init(): Promise<void | false> {
+async function init(): Promise<void> {
 	const pageCommits = select.all('li.commit');
 	const mergeCommits = await filterMergeCommits(pageCommits.map(getCommitHash));
 	for (const commit of pageCommits) {

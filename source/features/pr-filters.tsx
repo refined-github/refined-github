@@ -1,7 +1,7 @@
 import React from 'dom-chef';
+import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import cache from 'webext-storage-cache';
 import CheckIcon from 'octicon/check.svg';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';

@@ -6,12 +6,14 @@ import {wrap} from '../helpers/dom-utils';
 import features from '.';
 import {getRepoURL} from '../github-helpers';
 
-async function init(): Promise<void> {
+async function init(): Promise<void | false> {
 	const element = await elementReady('.branch-name');
-	if (element) {
-		const branchUrl = `/${getRepoURL()}/tree/${element.textContent!}`;
-		wrap(element.closest('.branch-name')!, <a href={branchUrl}/>);
+	if (!element) {
+		return false;
 	}
+
+	const branchUrl = `/${getRepoURL()}/tree/${element.textContent!}`;
+	wrap(element.closest('.branch-name')!, <a href={branchUrl}/>);
 }
 
 features.add({
