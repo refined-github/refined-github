@@ -59,7 +59,7 @@ interface InternalRunConfig {
 
 let log: typeof console.log;
 
-function error(id: FeatureID, error: Error | string, ...extras: unknown[]): void {
+function logError(id: FeatureID, error: Error | string, ...extras: unknown[]): void {
 	if (error instanceof TypeError && error.message === 'Object(...)(...) is null') {
 		error.message = 'The element wasn’t found, the selector needs to be updated.';
 	}
@@ -138,7 +138,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 				log('✅', id);
 			}
 		} catch (error) {
-			error(id, error);
+			logError(id, error);
 		}
 
 		if (deinit) {
@@ -261,7 +261,7 @@ add(undefined, {
 
 const features = {
 	add,
-	error,
+	error: logError,
 	getShortcuts
 };
 

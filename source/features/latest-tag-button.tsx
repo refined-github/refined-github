@@ -9,8 +9,9 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import fetchDom from '../helpers/fetch-dom';
+import parseRoute from '../github-helpers/parse-route';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getRepoURL, getCurrentBranch, replaceBranch, getRepoGQL, getLatestVersionTag} from '../github-helpers';
+import {getRepoURL, getCurrentBranch, getRepoGQL, getLatestVersionTag} from '../github-helpers';
 
 interface RepoPublishState {
 	latestTag: string | false;
@@ -95,7 +96,10 @@ async function init(): Promise<false | void> {
 	if (pageDetect.isRepoRoot()) {
 		href = `/${getRepoURL()}/tree/${latestTag}`;
 	} else {
-		href = replaceBranch(currentBranch, latestTag);
+		href = {
+			...parseRoute(location.pathname),
+			branch: latestTag
+		}.toString();
 	}
 
 	const link = (

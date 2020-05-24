@@ -2,12 +2,12 @@ import delegate from 'delegate-it';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
-import {listenToCommentFields} from './comment-fields-keyboard-shortcuts';
+import onCommentFieldKeydown from '../github-events/on-comment-field-keydown';
 
 const formattingCharacters = ['`', '\'', '"', '[', '(', '{', '*', '_', '~'];
 const matchingCharacters = ['`', '\'', '"', ']', ')', '}', '*', '_', '~'];
 
-function handler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): void {
+function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): void {
 	const field = event.delegateTarget;
 
 	if (!formattingCharacters.includes(event.key)) {
@@ -29,7 +29,7 @@ function handler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): voi
 }
 
 function init(): void {
-	listenToCommentFields(handler);
+	onCommentFieldKeydown(eventHandler);
 }
 
 features.add({

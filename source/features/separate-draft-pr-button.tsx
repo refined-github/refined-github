@@ -10,7 +10,7 @@ function init(): void | false {
 	// PRs can't be created from some comparison pages:
 	// Either base is a tag, not a branch; or there already exists a PR.
 	if (!previewForm) {
-		return;
+		return false;
 	}
 
 	const buttonBar = select('.timeline-comment > :last-child', previewForm)!;

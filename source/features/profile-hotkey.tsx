@@ -5,12 +5,11 @@ import {getUsername} from '../github-helpers';
 
 function init(): false | void {
 	const menuItem = select(`a[href="/${getUsername()}"]`);
-
-	if (menuItem) {
-		menuItem.dataset.hotkey = 'g m';
-	} else {
+	if (!menuItem) {
 		return false;
 	}
+
+	menuItem.dataset.hotkey = 'g m';
 }
 
 features.add({

@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {parseRoute} from '../github-helpers';
+import parseRoute from '../github-helpers/parse-route';
 
 interface File {
 	previous_filename: string;
@@ -29,7 +29,7 @@ function init(): false | void {
 		return false;
 	}
 
-	const [, user, repository, , reference, currentFilename] = parseRoute(location.pathname);
+	const {user, repository, branch: reference, filePath: currentFilename} = parseRoute(location.pathname);
 
 	disabledPagination.forEach(async button => {
 		const isNewer = button.textContent === 'Newer';
