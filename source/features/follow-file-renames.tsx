@@ -23,10 +23,7 @@ function init(): false | void {
 	const disabledPagination = select.all('.paginate-container [disabled], .paginate-container .disabled');
 	const pathnameParts = parseRoute(location.pathname);
 
-	if (
-		disabledPagination.length === 0 ||
-		!parts.filePath
-	) {
+	if (disabledPagination.length === 0 || !pathnameParts.filePath) {
 		return false;
 	}
 
@@ -40,10 +37,10 @@ function init(): false | void {
 		const files = await findRename(sha.textContent!.trim());
 
 		for (const file of files) {
-			if (file[fromKey] === parts.filePath) {
+			if (file[fromKey] === pathnameParts.filePath) {
 				if (file.status === 'renamed') {
 					const url = {
-						...parts,
+						...pathnameParts,
 						route: 'commits',
 						filePath: file[toKey]
 					}.toString();
