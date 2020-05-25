@@ -38,7 +38,7 @@ function parseFeatureDetails(id: FeatureID): FeatureMeta {
 
 function getFeatures(): FeatureID[] {
 	return readdirSync(path.join(__dirname, 'source/features'))
-		.filter(filename => filename.endsWith('.tsx'))
+		.filter(filename => filename !== 'index.tsx' && filename.endsWith('.tsx'))
 		.map(filename => filename.replace('.tsx', '') as FeatureID);
 }
 
