@@ -4,23 +4,20 @@ import FileIcon from 'octicon/file.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import parseRoute from '../github-helpers/parse-route';
 import {groupSiblings} from '../github-helpers/group-buttons';
 
 function init(): void | false {
-	const breadcrumb = select('.breadcrumb');
-	if (!breadcrumb) {
-		// Probably looking at the base /commits/<branch> page, not a subfolder or file.
+	const {filePath} = parseRoute(location.pathname);
+	if (!filePath) {
 		return false;
 	}
-
-	// Extract the file path from the breadcrumb. Aware of branch names that contain slashes
-	const path = breadcrumb.textContent!.trim().replace(/^History for [^/]+/, '');
 
 	for (const rootLink of select.all<HTMLAnchorElement>('[aria-label="Browse the repository at this point in the history"]')) {
 		// `rootLink.pathname` points to /tree/ but GitHub automatically redirects to /blob/ when the path is of a file
 		rootLink.before(
 			<a
-				href={rootLink.pathname + path}
+				href={rootLink.pathname + '/' + filePath}
 				className="btn btn-outline tooltipped tooltipped-sw"
 				aria-label="See object at this point in the history"
 			>
