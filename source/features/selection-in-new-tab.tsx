@@ -12,7 +12,7 @@ function init(): void {
 			});
 
 			// Get the list element that contains the unread class and mark it as read.
-			selected.closest('li')!.classList.replace('unread', 'read');
+			selected.closest('.unread')?.classList.replace('unread', 'read');
 		}
 	});
 }
