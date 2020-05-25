@@ -1,3 +1,5 @@
+import * as pageDetect from 'github-url-detection';
+
 import features from '.';
 import {isEditable} from '../helpers/dom-utils';
 
@@ -29,6 +31,9 @@ features.add({
 	description: 'Adds a keyboard shortcut to deselect the current line: `esc`.',
 	screenshot: false
 }, {
+	include: [
+		pageDetect.hasCode
+	],
 	waitForDomReady: false,
 	repeatOnAjax: false,
 	init

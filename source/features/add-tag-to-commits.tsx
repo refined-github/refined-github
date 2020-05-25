@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getOwnerAndRepo, getRepoURL, getRepoGQL} from '../github-helpers';
+import {getRepoURL, getRepoGQL} from '../github-helpers';
 
 interface CommitTags {
 	[name: string]: string[];
@@ -31,9 +31,6 @@ interface TagNode {
 	name: string;
 	target: CommonTarget;
 }
-
-const {ownerName, repoName} = getOwnerAndRepo();
-const cacheKey = `tags:${ownerName!}/${repoName!}`;
 
 function mergeTags(oldTags: CommitTags, newTags: CommitTags): CommitTags {
 	const result: CommitTags = {...oldTags};
@@ -121,6 +118,8 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 }
 
 async function init(): Promise<void | false> {
+	const cacheKey = `tags:${getRepoURL()}`;
+
 	const commitsOnPage = select.all('li.commit');
 	const lastCommitOnPage = (commitsOnPage[commitsOnPage.length - 1].dataset.channel as string).split(':')[3];
 	let cached = await cache.get<{[commit: string]: string[]}>(cacheKey) ?? {};

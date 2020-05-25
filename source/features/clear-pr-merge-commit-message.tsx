@@ -7,7 +7,7 @@ import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 function init(): void {
 	const messageField = select<HTMLTextAreaElement>('#merge_message_field')!;
 
-	const coAuthorsMatches = messageField.value.matchAll(/Co-Authored-By: [^\n]+/g);
+	const coAuthorsMatches = messageField.value.matchAll(/co-authored-by: [^\n]+/gi);
 	const coAuthors = [...new Set([...coAuthorsMatches].flat())]; // Deduplicate Co-Authors
 
 	messageField.value = coAuthors.join('\n');

@@ -9,14 +9,13 @@ const isSingleHTMLFile = (): boolean => pageDetect.isSingleFile() && (location.p
 function init(): void {
 	const rawButton = select<HTMLAnchorElement>('#raw-url')!;
 	const link = rawButton.pathname.split('/');
-	// Remove /raw/
-	link.splice(3, 1);
+	link.splice(3, 1); // Remove /raw/
 	rawButton
 		.parentElement! // `BtnGroup`
 		.prepend(
 			<a
 				className="btn btn-sm BtnGroup-item"
-				href={`https://cdn.statically.io/gh${link.join('/')}`}
+				href={`https://ghcdn.rawgit.org${link.join('/')}`}
 			>
 				Preview
 			</a>

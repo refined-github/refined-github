@@ -71,7 +71,7 @@ async function init(): Promise<void | false> {
 	new SearchQuery(bugsLink).add('label:bug');
 
 	// Change the Selected tab if necessary
-	bugsLink.classList.toggle('selected', isBugsPage);
+	bugsLink.classList.toggle('selected', isBugsPage && !pageDetect.isPRList());
 	select('.selected', issuesTab)?.classList.toggle('selected', !isBugsPage);
 
 	issuesTab.after(bugsTab);
