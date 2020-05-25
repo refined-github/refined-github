@@ -179,6 +179,7 @@ import './features/linkify-notification-repository-header';
 import './features/stop-redirecting-in-notification-bar';
 import './features/prevent-pr-commit-link-loss';
 import './features/first-published-tag-for-merged-pr';
+import './features/show-associated-branch-prs-on-fork';
 
 // Add global for easier debugging
 (window as any).select = select;
