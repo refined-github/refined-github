@@ -61,8 +61,8 @@ async function showTimemachineBar(): Promise<void | false> {
 
 	if (pageDetect.is404()) {
 		const pathnameParts = url.pathname.split('/');
-		pathnameParts[4] = 'HEAD@' + date;
-		url.pathname = pathnameParts.join();
+		pathnameParts[4] = `HEAD@{${date}}`;
+		url.pathname = pathnameParts.join('/');
 	} else {
 		// This feature only makes sense if the URL points to a non-permalink
 		const branchSelector = await elementReady('.branch-select-menu i');
@@ -74,7 +74,7 @@ async function showTimemachineBar(): Promise<void | false> {
 		const path = parseRoute(location.pathname);
 		url.pathname = {
 			...path,
-			branch: path.branch + '@' + date
+			branch: `${path.branch}@{${date}}`
 		}.toString();
 	}
 
