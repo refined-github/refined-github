@@ -11,7 +11,7 @@ interface Pathname {
 
 const timeStampRegex = /.*@{(\d{4}([.\-/ ])\d{2}\2\d{2}T\d\d:\d\d:\d\dZ)}/;
 function isTimeStamp(part1: string): boolean {
-	return Boolean(timeStampRegex.exec(decodeURIComponent(part1)));
+	return timeStampRegex.test(decodeURIComponent(part1));
 }
 
 export default function parseRoute(pathname: string): Pathname {
