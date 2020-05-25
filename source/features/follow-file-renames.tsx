@@ -21,9 +21,9 @@ async function findRename(lastCommitOnPage: string): Promise<File[]> {
 
 function init(): false | void {
 	const disabledPagination = select.all('.paginate-container [disabled], .paginate-container .disabled');
-	const pathnameParts = parseRoute(location.pathname);
+	const path = parseRoute(location.pathname);
 
-	if (disabledPagination.length === 0 || !pathnameParts.filePath) {
+	if (disabledPagination.length === 0 || !path.filePath) {
 		return false;
 	}
 
@@ -37,10 +37,10 @@ function init(): false | void {
 		const files = await findRename(sha.textContent!.trim());
 
 		for (const file of files) {
-			if (file[fromKey] === pathnameParts.filePath) {
+			if (file[fromKey] === path.filePath) {
 				if (file.status === 'renamed') {
 					const url = {
-						...pathnameParts,
+						...path,
 						route: 'commits',
 						filePath: file[toKey]
 					}.toString();
