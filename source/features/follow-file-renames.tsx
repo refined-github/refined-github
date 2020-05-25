@@ -42,7 +42,7 @@ function init(): false | void {
 					const url = path.assign({
 						route: 'commits',
 						filePath: file[toKey]
-					});
+					}).toString();
 					button.replaceWith(
 						<a
 							href={url}

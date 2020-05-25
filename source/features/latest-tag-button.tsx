@@ -98,7 +98,7 @@ async function init(): Promise<false | void> {
 	} else {
 		href = new ObjectPath(location.pathname, {
 			branch: latestTag
-		});
+		}).toString();
 	}
 
 	const link = (
