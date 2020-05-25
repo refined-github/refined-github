@@ -4,7 +4,7 @@ import PencilIcon from 'octicon/pencil.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import parseRoute from '../github-helpers/parse-route';
+import ObjectPath from '../github-helpers/object-path';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 
 async function init(): Promise<void | false> {
@@ -16,7 +16,7 @@ async function init(): Promise<void | false> {
 	const isPermalink = /Tag|Tree/.test(select('.branch-select-menu i')!.textContent!);
 	const filename = readmeHeader.textContent!.trim();
 	const {pathname} = select<HTMLAnchorElement>(`.files [title="${filename}"]`)!;
-	const path = parseRoute(pathname);
+	const path = new ObjectPath(pathname);
 	path.route = 'edit'; // Replaces /blob/
 	if (isPermalink) {
 		path.branch = await getDefaultBranch(); // Replaces /${tag|commit}/

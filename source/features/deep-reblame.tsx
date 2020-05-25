@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import parseRoute from '../github-helpers/parse-route';
+import ObjectPath from '../github-helpers/object-path';
 import LoadingIcon from '../github-helpers/icon-loading';
 import {getRepoGQL, looseParseInt} from '../github-helpers';
 
@@ -67,7 +67,7 @@ async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAncho
 	const blameHunk = blameElement.closest('.blame-hunk')!;
 	const prNumber = looseParseInt(select('.issue-link', blameHunk)!.textContent!);
 	const prCommit = select<HTMLAnchorElement>('a.message', blameHunk)!.pathname.split('/').pop()!;
-	const path = parseRoute(location.pathname);
+	const path = new ObjectPath(location.pathname);
 
 	const spinner = <LoadingIcon className="mr-2"/>;
 	blameElement.firstElementChild!.replaceWith(spinner);

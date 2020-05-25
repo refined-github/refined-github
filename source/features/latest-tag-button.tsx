@@ -9,7 +9,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import fetchDom from '../helpers/fetch-dom';
-import parseRoute from '../github-helpers/parse-route';
+import ObjectPath from '../github-helpers/object-path';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getRepoURL, getCurrentBranch, getRepoGQL, getLatestVersionTag} from '../github-helpers';
 
@@ -96,10 +96,9 @@ async function init(): Promise<false | void> {
 	if (pageDetect.isRepoRoot()) {
 		href = `/${getRepoURL()}/tree/${latestTag}`;
 	} else {
-		href = {
-			...parseRoute(location.pathname),
+		href = new ObjectPath(location.pathname, {
 			branch: latestTag
-		}.toString();
+		});
 	}
 
 	const link = (

@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
-import parseRoute from '../github-helpers/parse-route';
+import ObjectPath from '../github-helpers/object-path';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import onFileListUpdate from '../github-events/on-file-list-update';
 
@@ -15,7 +15,7 @@ async function init(): Promise<void> {
 	const isPermalink = /Tag|Tree/.test(select('.branch-select-menu i')!.textContent!);
 	for (const fileIcon of select.all('.files :not(a) > .octicon-file')) {
 		const {pathname} = fileIcon.closest('tr')!.querySelector<HTMLAnchorElement>('.js-navigation-open')!;
-		const path = parseRoute(pathname);
+		const path = new ObjectPath(pathname);
 		path.route = 'edit'; // Replaces /blob/
 		if (isPermalink) {
 			path.branch = defaultBranch; // Replaces /${tag|commit}/

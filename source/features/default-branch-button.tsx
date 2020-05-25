@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import ChevronLeftIcon from 'octicon/chevron-left.svg';
 
 import features from '.';
-import parseRoute from '../github-helpers/parse-route';
+import ObjectPath from '../github-helpers/object-path';
 import {groupButtons} from '../github-helpers/group-buttons';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getCurrentBranch, getRepoURL} from '../github-helpers';
@@ -18,7 +18,7 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	const path = parseRoute(location.pathname);
+	const path = new ObjectPath(location.pathname);
 	// The branch selector will be on `isRepoCommitList()` **unless** you're in a folder/file
 	if (pageDetect.isRepoCommitList() && path.filePath.length > 0) {
 		return false;

@@ -4,11 +4,11 @@ import FileIcon from 'octicon/file.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import parseRoute from '../github-helpers/parse-route';
+import ObjectPath from '../github-helpers/object-path';
 import {groupSiblings} from '../github-helpers/group-buttons';
 
 function init(): void | false {
-	const {filePath} = parseRoute(location.pathname);
+	const {filePath} = new ObjectPath(location.pathname);
 	if (!filePath) {
 		return false;
 	}

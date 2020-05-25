@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import parseRoute from '../github-helpers/parse-route';
+import ObjectPath from '../github-helpers/object-path';
 import {getRepoURL} from '../github-helpers';
 
 interface File {
@@ -21,7 +21,7 @@ async function findRename(lastCommitOnPage: string): Promise<File[]> {
 
 function init(): false | void {
 	const disabledPagination = select.all('.paginate-container [disabled], .paginate-container .disabled');
-	const path = parseRoute(location.pathname);
+	const path = new ObjectPath(location.pathname);
 
 	if (disabledPagination.length === 0 || !path.filePath) {
 		return false;
@@ -39,11 +39,10 @@ function init(): false | void {
 		for (const file of files) {
 			if (file[fromKey] === path.filePath) {
 				if (file.status === 'renamed') {
-					const url = {
-						...path,
+					const url = path.assign({
 						route: 'commits',
 						filePath: file[toKey]
-					}.toString();
+					});
 					button.replaceWith(
 						<a
 							href={url}
