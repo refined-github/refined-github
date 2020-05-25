@@ -1,11 +1,14 @@
 import React from 'dom-chef';
+import XIcon from 'octicon/x.svg';
 import select from 'select-dom';
-import ClockIcon from 'octicon/clock.svg';
 import * as pageDetect from 'github-url-detection';
+
+import elementReady from 'element-ready';
 
 import features from '.';
 import {getRepoURL} from '../github-helpers';
 import {appendBefore} from '../helpers/dom-utils';
+import parseRoute from '../github-helpers/parse-route';
 
 function addInlineLinks(comment: HTMLElement, timestamp: string): void {
 	const links = select.all<HTMLAnchorElement>(`
@@ -20,17 +23,9 @@ function addInlineLinks(comment: HTMLElement, timestamp: string): void {
 			continue;
 		}
 
-		linkParts[4] = `HEAD@{${timestamp}}`; // Change git ref
-		link.after(
-			' ',
-			<a
-				href={linkParts.join('/') + link.hash}
-				className="muted-link tooltipped tooltipped-n"
-				aria-label="Visit as permalink"
-			>
-				<ClockIcon/>
-			</a>
-		);
+		const searchParameters = new URLSearchParams(link.search);
+		searchParameters.set('rgh-link-date', timestamp);
+		link.search = String(searchParameters);
 	}
 }
 
@@ -54,6 +49,39 @@ function addDropdownLink(comment: HTMLElement, timestamp: string): void {
 				View repo at this time
 			</a>
 		</>
+	);
+}
+
+async function showTimemachineBar(): Promise<void | false> {
+	const currentUrl = new URL(location.href);
+	const date = currentUrl.searchParams.get('rgh-link-date')!;
+
+	// Drop parameter from current page after using it
+	currentUrl.searchParams.delete('rgh-link-date');
+	history.replaceState(history.state, document.title, currentUrl.href);
+
+	const branchSelector = await elementReady('.branch-select-menu i');
+
+	let timemachineUrl;
+	if (pageDetect.is404()) {
+		timemachineUrl = `/${getRepoURL()}/tree/HEAD@{${date}}`;
+	} else {
+		const isPermalink = /Tag|Tree/.test(branchSelector!.textContent!);
+		if (isPermalink) {
+			return false;
+		}
+
+		const {branch} = parseRoute(location.pathname);
+		timemachineUrl = `/${getRepoURL()}/tree/${branch}@{${date}}`;
+	}
+
+	const closeButton = <button className="flash-close js-flash-close" type="button" aria-label="Dismiss this message"><XIcon/></button>;
+	select('#start-of-content')!.after(
+		<div className="flash flash-full flash-notice">
+			<div className="container-lg px-3">
+				{closeButton} You can also <a href={timemachineUrl}>view this object as it appeared at the time of the comment</a> (<relative-time datetime={date}/>)
+			</div>
+		</div>
 	);
 }
 
@@ -82,4 +110,15 @@ features.add({
 		pageDetect.hasComments
 	],
 	init
+}, {
+	include: [
+		pageDetect.is404,
+		pageDetect.isSingleFile,
+		pageDetect.isRepoTree
+	],
+	exclude: [
+		() => !new URLSearchParams(location.search).has('rgh-link-date')
+	],
+	waitForDomReady: false,
+	init: showTimemachineBar
 });
