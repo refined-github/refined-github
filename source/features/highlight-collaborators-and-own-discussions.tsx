@@ -17,7 +17,7 @@ const getCollaborators = cache.function(async (): Promise<string[]> => {
 }, {
 	maxAge: 5,
 	staleWhileRevalidate: 20,
-	cacheKey: () => `${getRepoURL()}:repo-collaborators`
+	cacheKey: () => 'repo-collaborators:' + getRepoURL()
 });
 
 async function highlightCollaborators(): Promise<false | void> {
@@ -58,4 +58,3 @@ features.add({
 	],
 	init: highlightSelf
 });
-
