@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
-import {getRepoURL} from '../github-helpers';
+import {getRepoURL, filePathFromSearch} from '../github-helpers';
 
 interface File {
 	previous_filename: string;
@@ -22,6 +22,7 @@ async function findRename(lastCommitOnPage: string): Promise<File[]> {
 function init(): false | void {
 	const disabledPagination = select.all('.paginate-container [disabled], .paginate-container .disabled');
 	const url = new GitHubURL(location.href);
+	url.filePath = url.filePath || filePathFromSearch();
 
 	if (disabledPagination.length === 0 || !url.filePath) {
 		return false;

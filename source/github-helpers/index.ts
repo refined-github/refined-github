@@ -98,3 +98,7 @@ export const prCommitRegex = new RegExp(`\\b${escapeRegex(location.origin)}[/][^
 export function preventPrCommitLinkBreak(comment: string) {
 	return comment.replace(prCommitRegex, '[$& ]($&)');
 }
+
+export function filePathFromSearch(): string {
+	return decodeURI(location.search).split(/&path\[]=/).splice(1).join('/');
+}
