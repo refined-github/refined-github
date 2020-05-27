@@ -4,10 +4,10 @@ import * as pageDetect from 'github-url-detection';
 import ChevronLeftIcon from 'octicon/chevron-left.svg';
 
 import features from '.';
-import ObjectPath from '../github-helpers/object-path';
+import GitHubURL from '../github-helpers/github-url';
 import {groupButtons} from '../github-helpers/group-buttons';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getCurrentBranch, getRepoURL} from '../github-helpers';
+import {getCurrentBranch} from '../github-helpers';
 
 async function init(): Promise<false | void> {
 	const defaultBranch = await getDefaultBranch();
@@ -18,25 +18,22 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	const path = new ObjectPath(location.pathname);
+	const url = new GitHubURL(location.href);
 	// The branch selector will be on `isRepoCommitList()` **unless** you're in a folder/file
-	if (pageDetect.isRepoCommitList() && path.filePath.length > 0) {
+	if (pageDetect.isRepoCommitList() && url.filePath.length > 0) {
 		return false;
 	}
 
-	let url;
+	url.branch = defaultBranch;
 	if (pageDetect.isRepoRoot()) {
-		url = `/${getRepoURL()}`;
-	} else {
-		path.branch = defaultBranch;
-		url = path.toString();
+		url.route = ''; // The default branch of the root directory is just /user/repo/
 	}
 
 	const branchSelector = (await elementReady('#branch-select-menu'))!;
 	const defaultLink = (
 		<a
 			className="btn btn-sm tooltipped tooltipped-ne"
-			href={url}
+			href={String(url)}
 			aria-label="See this view on the default branch"
 		>
 			<ChevronLeftIcon/>

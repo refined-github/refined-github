@@ -4,7 +4,7 @@ import PencilIcon from 'octicon/pencil.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import ObjectPath from '../github-helpers/object-path';
+import GitHubURL from '../github-helpers/github-url';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 
 async function init(): Promise<void | false> {
@@ -15,27 +15,27 @@ async function init(): Promise<void | false> {
 
 	const isPermalink = /Tag|Tree/.test(select('.branch-select-menu i')!.textContent!);
 	const filename = readmeHeader.textContent!.trim();
-	const {pathname} = select<HTMLAnchorElement>(`.files [title="${filename}"]`)!;
-	const path = new ObjectPath(pathname);
-	path.route = 'edit'; // Replaces /blob/
-	if (isPermalink) {
-		path.branch = await getDefaultBranch(); // Replaces /${tag|commit}/
-	}
+	const fileLink = select<HTMLAnchorElement>(`.files [title="${filename}"]`)!;
+
+	const url = new GitHubURL(fileLink.href, {
+		route: 'edit',
+		branch: isPermalink ? await getDefaultBranch() : undefined // Permalinks can't be edited
+	});
 
 	// The button already exists on repos you can push to.
 	const existingButton = select<HTMLAnchorElement>('a[aria-label="Edit this file"]');
 	if (existingButton) {
 		if (isPermalink) {
 			// GitHub has a broken link in this case #2997
-			existingButton.href = path.toString();
+			existingButton.href = String(url);
 		}
 
-		return false;
+		return;
 	}
 
 	readmeHeader.after(
 		<a
-			href={path.toString()}
+			href={String(url)}
 			className="Box-btn-octicon btn-octicon float-right"
 			aria-label="Edit this file"
 		>

@@ -28,14 +28,16 @@ function disambiguateReference(ambiguousReference: string[]): {branch: string; f
 	};
 }
 
-export default class ObjectPath {
+export default class GitHubURL {
 	user: string;
 	repository: string;
 	route: string;
 	branch: string;
 	filePath: string;
-	constructor(pathname: string, replacements: Partial<ObjectPath> = {}) {
-		const [user, repository, route, ...ambiguousReference] = pathname.replace(/^\/|\/$/g, '').split('/');
+	private url: URL;
+	constructor(href: string, replacements: Partial<GitHubURL> = {}) {
+		this.url = new URL(href);
+		const [user, repository, route, ...ambiguousReference] = this.url.pathname.replace(/^\/|\/$/g, '').split('/');
 		const {branch, filePath} = disambiguateReference(ambiguousReference);
 
 		// Move these to Object.assign(this, {...}, replacements) after https://github.com/microsoft/TypeScript/issues/26792
@@ -47,12 +49,13 @@ export default class ObjectPath {
 		Object.assign(this, replacements);
 	}
 
-	assign(replacements: Partial<ObjectPath>): this {
+	assign(replacements: Partial<GitHubURL>): this {
 		Object.assign(this, replacements);
 		return this;
 	}
 
 	toString() {
-		return `/${this.user}/${this.repository}/${this.route}/${this.branch}/${this.filePath}`.replace(/\/$/, '');
+		this.url.pathname = `/${this.user}/${this.repository}/${this.route}/${this.branch}/${this.filePath}`.replace(/\/$/, '');
+		return this.url.href;
 	}
 }
