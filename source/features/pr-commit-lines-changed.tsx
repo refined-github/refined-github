@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -27,10 +26,11 @@ const getCommitChanges = cache.function(async (commit: string): Promise<[number,
 });
 
 async function init(): Promise<void> {
-	const commitSha = (await elementReady('.sha.user-select-contain'))!.textContent!;
+	const commitSha = location.pathname.split('/').pop()!;
 	const [additions, deletions] = await getCommitChanges(commitSha);
 	const tooltip = pluralize(additions + deletions, '1 line changed', '$$ lines changed');
-	select('.diffstat')!.replaceWith(
+	const diffstat = await elementReady('.diffstat');
+	diffstat!.replaceWith(
 		<span className="ml-2 diffstat tooltipped tooltipped-s" aria-label={tooltip}>
 			<span className="text-green">+{additions}</span>{' '}
 			<span className="text-red">−{deletions}</span>{' '}

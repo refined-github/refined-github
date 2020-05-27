@@ -21,6 +21,10 @@ features.add({
 	include: [
 		pageDetect.isPRConversation
 	],
+	exclude: [
+		// Don't clear 1-commit PRs #3140
+		() => select.all('.TimelineItem.js-commit').length === 1
+	],
 	additionalListeners: [
 		onPrMergePanelOpen
 	],
