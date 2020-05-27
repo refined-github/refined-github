@@ -18,9 +18,12 @@ async function init(): Promise<void | false> {
 	const fileLink = select<HTMLAnchorElement>(`.files [title="${filename}"]`)!;
 
 	const url = new GitHubURL(fileLink.href).assign({
-		route: 'edit',
-		branch: isPermalink ? await getDefaultBranch() : undefined // Permalinks can't be edited
+		route: 'edit'
 	});
+
+	if (isPermalink) {
+		url.branch = await getDefaultBranch(); // Permalinks can't be edited
+	}
 
 	// The button already exists on repos you can push to.
 	const existingButton = select<HTMLAnchorElement>('a[aria-label="Edit this file"]');

@@ -8,4 +8,7 @@ const {window} = new JSDOM('…');
 (global as any).HTMLAnchorElement = window.HTMLAnchorElement;
 (global as any).Location = window.Location;
 
+// Use JSDOM’s implementation because Node’s uses `pathname`’s accessors while the browser doesn’t
+(global as any).URL = window.URL;
+
 document.head.insertAdjacentHTML('beforeend', '<link href="https://github.com/avajs/ava/commits/master.atom" rel="alternate" title="Recent Commits to ava:master" type="application/atom+xml">');

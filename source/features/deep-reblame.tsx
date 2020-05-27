@@ -73,9 +73,9 @@ async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAncho
 	blameElement.firstElementChild!.replaceWith(spinner);
 
 	try {
-		const lineNumber = select('.js-line-number', blameHunk)!.textContent!;
 		blameUrl.branch = await getPullRequestBlameCommit(prCommit, prNumber, blameUrl.filePath);
-		location.href = String(blameUrl) + '#L' + lineNumber;
+		blameUrl.hash = 'L' + select('.js-line-number', blameHunk)!.textContent!;
+		location.href = String(blameUrl);
 	} catch (error) {
 		spinner.replaceWith(<VersionIcon/>);
 		alert(error.message);

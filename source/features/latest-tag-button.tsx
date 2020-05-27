@@ -92,7 +92,9 @@ async function init(): Promise<false | void> {
 	}
 
 	const currentBranch = getCurrentBranch();
-	const url = new GitHubURL(location.href).assign({
+	const url = new GitHubURL(location.href);
+	url.assign({
+		route: url.route ?? 'tree', // If route is missing, it's a repo root
 		branch: latestTag
 	});
 

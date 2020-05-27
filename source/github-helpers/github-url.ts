@@ -50,12 +50,22 @@ export default class GitHubURL extends URL {
 	}
 
 	get pathname() {
-		return `/${this.user}/${this.repository}/${this.route}/${this.branch}/${this.filePath}`.replace(/\/$/, '');
+		return `/${this.user}/${this.repository}/${this.route}/${this.branch}/${this.filePath}`.replace(/\/+$/, '');
 	}
 
 	set pathname(pathname) {
 		const [user, repository, route, ...ambiguousReference] = pathname.replace(/^\/|\/$/g, '').split('/');
 		const {branch, filePath} = disambiguateReference(ambiguousReference);
 		this.assign({user, repository, route, branch, filePath});
+	}
+
+	get href() {
+		// Update the actual underlying URL
+		super.pathname = this.pathname;
+		return super.href;
+	}
+
+	toString() {
+		return this.href;
 	}
 }

@@ -24,9 +24,12 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	url.branch = defaultBranch;
 	if (pageDetect.isRepoRoot()) {
-		url.route = ''; // The default branch of the root directory is just /user/repo/
+		// The default branch of the root directory is just /user/repo/
+		url.route = '';
+		url.branch = '';
+	} else {
+		url.branch = defaultBranch;
 	}
 
 	const branchSelector = (await elementReady('#branch-select-menu'))!;

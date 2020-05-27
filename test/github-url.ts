@@ -12,6 +12,7 @@ test('branch', t => {
 	t.is(url.filePath, '');
 	t.is(url.pathname, '/microsoft/TypeScript/tree/master');
 	t.is(url.href, 'https://github.com/microsoft/TypeScript/tree/master');
+	t.is(String(url), 'https://github.com/microsoft/TypeScript/tree/master');
 });
 
 test('object', t => {
@@ -23,6 +24,7 @@ test('object', t => {
 	t.is(url.filePath, 'src');
 	t.is(url.pathname, '/microsoft/TypeScript/tree/master/src');
 	t.is(url.href, 'https://github.com/microsoft/TypeScript/tree/master/src');
+	t.is(String(url), 'https://github.com/microsoft/TypeScript/tree/master/src');
 });
 
 test('nested object', t => {
@@ -34,6 +36,7 @@ test('nested object', t => {
 	t.is(url.filePath, 'src/index.js');
 	t.is(url.pathname, '/microsoft/TypeScript/tree/master/src/index.js');
 	t.is(url.href, 'https://github.com/microsoft/TypeScript/tree/master/src/index.js');
+	t.is(String(url), 'https://github.com/microsoft/TypeScript/tree/master/src/index.js');
 });
 
 test('change branch', t => {
@@ -47,6 +50,7 @@ test('change branch', t => {
 	t.is(url.filePath, 'src/index.js');
 	t.is(url.pathname, '/microsoft/TypeScript/tree/dev/src/index.js');
 	t.is(url.href, 'https://github.com/microsoft/TypeScript/tree/dev/src/index.js');
+	t.is(String(url), 'https://github.com/microsoft/TypeScript/tree/dev/src/index.js');
 });
 
 test('change filePath', t => {
@@ -60,4 +64,5 @@ test('change filePath', t => {
 	t.is(url.filePath, 'package.json');
 	t.is(url.pathname, '/microsoft/TypeScript/tree/master/package.json');
 	t.is(url.href, 'https://github.com/microsoft/TypeScript/tree/master/package.json');
+	t.is(String(url), 'https://github.com/microsoft/TypeScript/tree/master/package.json');
 });
