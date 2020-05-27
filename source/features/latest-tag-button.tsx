@@ -92,7 +92,7 @@ async function init(): Promise<false | void> {
 	}
 
 	const currentBranch = getCurrentBranch();
-	const url = new GitHubURL(location.href, {
+	const url = new GitHubURL(location.href).assign({
 		branch: latestTag
 	});
 

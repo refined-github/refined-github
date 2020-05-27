@@ -17,7 +17,7 @@ async function init(): Promise<void | false> {
 	const filename = readmeHeader.textContent!.trim();
 	const fileLink = select<HTMLAnchorElement>(`.files [title="${filename}"]`)!;
 
-	const url = new GitHubURL(fileLink.href, {
+	const url = new GitHubURL(fileLink.href).assign({
 		route: 'edit',
 		branch: isPermalink ? await getDefaultBranch() : undefined // Permalinks can't be edited
 	});

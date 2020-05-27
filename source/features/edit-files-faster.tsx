@@ -14,10 +14,10 @@ async function init(): Promise<void> {
 	const isPermalink = /Tag|Tree/.test(select('.branch-select-menu i')!.textContent!);
 	for (const fileIcon of select.all('.files :not(a) > .octicon-file')) {
 		const fileLink = fileIcon.closest('tr')!.querySelector<HTMLAnchorElement>('.js-navigation-open')!;
-		const url = new GitHubURL(fileLink.href, {
+		const url = new GitHubURL(fileLink.href).assign({
 			// eslint-disable-next-line no-await-in-loop
 			branch: isPermalink ? await getDefaultBranch() : undefined, // Permalinks can't be edited
-			route: 'edit',
+			route: 'edit'
 		});
 
 		wrap(fileIcon, <a href={String(url)} className="rgh-edit-files-faster"/>);
