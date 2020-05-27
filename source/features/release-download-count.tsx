@@ -2,7 +2,7 @@ import './release-download-count.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import CloudDownloadIcon from 'octicon/cloud-download.svg';
+import DownloadIcon from 'octicon/download.svg';
 
 import features from '.';
 import * as api from '../github-helpers/api';
@@ -79,7 +79,7 @@ async function init(): Promise<void | false> {
 						.querySelector('small')!
 						.before(
 							<small className={classes} title="Downloads">
-								{prettyNumber(downloadCount)} <CloudDownloadIcon/>
+								{prettyNumber(downloadCount)} <DownloadIcon/>
 							</small>
 						);
 				}

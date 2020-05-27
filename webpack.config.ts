@@ -141,7 +141,7 @@ const config: Configuration = {
 	],
 	resolve: {
 		alias: {
-			octicon: '@primer/octicons/build/svg'
+			octicon: '@primer/octicons-v2/build/svg'
 		},
 		extensions: [
 			'.tsx',

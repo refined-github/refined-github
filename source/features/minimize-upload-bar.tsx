@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import CloudUploadIcon from 'octicon/cloud-upload.svg';
+import UploadIcon from 'octicon/upload.svg';
 
 import features from '.';
 
@@ -11,7 +11,7 @@ function addButton(): void {
 	for (const toolbarButton of select.all('md-ref')) {
 		toolbarButton.after(
 			<button type="button" className="toolbar-item tooltipped tooltipped-n rgh-upload-btn" aria-label="Attach files">
-				<CloudUploadIcon/>
+				<UploadIcon/>
 			</button>
 		);
 		toolbarButton.closest('form')!.classList.add('rgh-minimize-upload-bar');
