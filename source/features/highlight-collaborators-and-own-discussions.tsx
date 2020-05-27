@@ -1,4 +1,5 @@
 import './highlight-collaborators-and-own-discussions.css';
+import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
@@ -6,16 +7,24 @@ import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import {getRepoURL, getUsername} from '../github-helpers';
 
+const getCollaborators = cache.function(async (): Promise<string[]> => {
+	const dom = await fetchDom(getRepoURL() + '/issues/show_menu_content?partial=issues/filters/authors_content');
+	return select
+		.all<HTMLImageElement>('.SelectMenu-item [alt]', dom)
+		.map(avatar => avatar.alt.slice(1));
+}, {
+	maxAge: 5,
+	staleWhileRevalidate: 20,
+	cacheKey: () => 'repo-collaborators:' + getRepoURL()
+});
+
 async function highlightCollaborators(): Promise<false | void> {
 	const authors = select.all('.js-issue-row [data-hovercard-type="user"]');
 	if (authors.length === 0) {
 		return false;
 	}
 
-	const dom = await fetchDom(getRepoURL() + '/issues/show_menu_content?partial=issues/filters/authors_content');
-	const collaborators = select.all<HTMLImageElement>('.SelectMenu-item [alt]', dom).map(collaborator => {
-		return collaborator.alt.slice(1);
-	});
+	const collaborators = await getCollaborators();
 
 	for (const author of authors) {
 		if (collaborators.includes(author.textContent!.trim())) {
@@ -47,4 +56,3 @@ features.add({
 	],
 	init: highlightSelf
 });
-
