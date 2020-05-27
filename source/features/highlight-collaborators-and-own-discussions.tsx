@@ -9,11 +9,9 @@ import {getRepoURL, getUsername} from '../github-helpers';
 
 const getCollaborators = cache.function(async (): Promise<string[]> => {
 	const dom = await fetchDom(getRepoURL() + '/issues/show_menu_content?partial=issues/filters/authors_content');
-	const collaborators = select.all<HTMLImageElement>('.SelectMenu-item [alt]', dom).map(collaborator => {
-		return collaborator.alt.slice(1);
-	});
-
-	return collaborators;
+	return select
+		.all<HTMLImageElement>('.SelectMenu-item [alt]', dom)
+		.map(avatar => avatar.alt.slice(1));
 }, {
 	maxAge: 5,
 	staleWhileRevalidate: 20,
