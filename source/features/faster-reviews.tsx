@@ -14,7 +14,7 @@ async function addSidebarReviewButton(): Promise<void> {
 
 	select('[aria-label="Select reviewers"] .discussion-sidebar-heading')!.append(
 		<span style={{fontWeight: 'normal'}} className="js-reviews-container">
-			– <a href={reviewFormUrl.href} className="btn-link muted-link" data-hotkey="g r">review</a>
+			– <a href={reviewFormUrl.href} className="btn-link muted-link" data-hotkey="v">review</a>
 		</span>
 	);
 }
@@ -35,15 +35,15 @@ async function initReviewButtonEnhancements(): Promise<void> {
 	delegate(document, '.js-reviews-container > details', 'toggle', focusReviewTextarea, true);
 
 	const reviewDropdownButton = await elementReady('.js-reviews-toggle');
-	reviewDropdownButton!.setAttribute('data-hotkey', 'g r');
+	reviewDropdownButton!.setAttribute('data-hotkey', 'v');
 }
 
 features.add({
 	id: __filebasename,
-	description: 'Adds a review button to the PR sidebar, autofocuses the review textarea and adds a keyboard shortcut to open the review popup: `g` `r`.',
+	description: 'Adds a review button to the PR sidebar, autofocuses the review textarea and adds a keyboard shortcut to open the review popup: `v`.',
 	screenshot: 'TODO',
 	shortcuts: {
-		'g r': 'Open review popup in PRs'
+		'v': 'Open PR review popup'
 	}
 }, {
 	include: [
