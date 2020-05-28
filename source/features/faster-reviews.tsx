@@ -1,4 +1,3 @@
-import './faster-reviews.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
@@ -6,31 +5,18 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import fetchDom from '../helpers/fetch-dom';
 import onReplacedElement from '../helpers/on-replaced-element';
 
 async function addSidebarReviewButton(): Promise<void> {
-	const reviewDetailsDropdown = (
-		<details className="rgh-faster-reviews details-reset details-overlay js-dropdown-details d-inline text-gray-dark">
-			<summary className="btn-link muted-link" data-hotkey="g r">review</summary>
-		</details>
-	);
+	const reviewFormUrl = new URL(location.href);
+	reviewFormUrl.pathname += '/files';
+	reviewFormUrl.hash = 'submit-review'
 
 	select('[aria-label="Select reviewers"] .discussion-sidebar-heading')!.append(
 		<span style={{fontWeight: 'normal'}} className="js-reviews-container">
-			– {reviewDetailsDropdown}
+			– <a href={reviewFormUrl.href} className="btn-link muted-link" data-hotkey="g r">review</a>
 		</span>
 	);
-
-	const prFilesUrl = new URL(location.href);
-	prFilesUrl.pathname += '/files';
-
-	const reviewMenu = await fetchDom<HTMLDivElement>(
-		prFilesUrl.href,
-		'#submit-review'
-	);
-
-	reviewDetailsDropdown.append(reviewMenu!);
 }
 
 async function initSidebar(): Promise<void> {
@@ -45,11 +31,11 @@ function focusReviewTextarea({delegateTarget}: delegate.Event<Event, HTMLDetails
 	}
 }
 
-async function init(): Promise<void> {
+async function initReviewButtonEnhancements(): Promise<void> {
 	delegate(document, '.js-reviews-container > details', 'toggle', focusReviewTextarea, true);
 
 	const reviewDropdownButton = await elementReady('.js-reviews-toggle');
-	reviewDropdownButton?.setAttribute('data-hotkey', 'g r');
+	reviewDropdownButton!.setAttribute('data-hotkey', 'g r');
 }
 
 features.add({
@@ -69,7 +55,7 @@ features.add({
 	init: initSidebar
 }, {
 	include: [
-		pageDetect.isPR
+		pageDetect.isPRFiles
 	],
-	init
+	init: initReviewButtonEnhancements
 });
