@@ -3,6 +3,7 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import GitHubURL from '../github-helpers/github-url';
 
 function handleMenuOpening(event: delegate.Event): void {
 	const dropdown = event.delegateTarget.nextElementSibling!;
@@ -26,11 +27,19 @@ function handleMenuOpening(event: delegate.Event): void {
 	// This solution accounts for:
 	// - Branches with slashes in it
 	// - PRs opened from the default branch
-	const headBranchUrl = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname;
+	const [repository, branch] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.title.split(':');
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
-	const filepath = dropdown.closest<HTMLDivElement>('[data-path]')!.dataset.path;
-	viewFile.pathname = headBranchUrl + '/' + String(filepath);
+	const url = new GitHubURL(viewFile.href);
+	url.assign({
+		repository,
+		branch
+	});
 
+	viewFile.href = String(url);
+
+	viewFile.classList.add('rgh-actionable-link'); // Mark this as processed
+}
+	viewFile.href = String(url);
 	viewFile.classList.add('rgh-actionable-link'); // Mark this as processed
 }
 
