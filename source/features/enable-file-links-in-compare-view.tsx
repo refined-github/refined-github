@@ -28,11 +28,11 @@ function isPRMenuOpening(event: delegate.Event): void {
 	// This solution accounts for:
 	// - Branches with slashes in it
 	// - PRs opened from the default branch
-	const [repository, branch] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.title.split(':');
+	const [user, branch] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.title.split(':');
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
 	const url = new GitHubURL(viewFile.href);
 	url.assign({
-		repository,
+		user,
 		branch
 	});
 
@@ -57,7 +57,7 @@ function isCompareMenuOpening(event: delegate.Event): void {
 	viewFile.href = String(url);
 	viewFile.classList.add('rgh-actionable-link'); // Mark this as processed
 
-	// If the allow maintainers to edit is not available your either comparing a Permalink and the file can't be edited or your comparing a fork you can edit the file on
+	// If the allow maintainers to edit is not available your either comparing a Permalink and the file can't be edited or your comparing a fork you can't edit the file on
 	if (!select.exists('[name="collab_privs"]')) {
 		return;
 	}
