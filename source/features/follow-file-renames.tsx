@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import parseRoute from '../github-helpers/parse-route';
+import GitHubURL from '../github-helpers/github-url';
 import {getRepoURL} from '../github-helpers';
 
 interface File {
@@ -21,9 +21,9 @@ async function findRename(lastCommitOnPage: string): Promise<File[]> {
 
 function init(): false | void {
 	const disabledPagination = select.all('.paginate-container [disabled], .paginate-container .disabled');
-	const path = parseRoute(location.pathname);
+	const url = new GitHubURL(location.href);
 
-	if (disabledPagination.length === 0 || !path.filePath) {
+	if (disabledPagination.length === 0 || !url.filePath) {
 		return false;
 	}
 
@@ -37,16 +37,15 @@ function init(): false | void {
 		const files = await findRename(sha.textContent!.trim());
 
 		for (const file of files) {
-			if (file[fromKey] === path.filePath) {
+			if (file[fromKey] === url.filePath) {
 				if (file.status === 'renamed') {
-					const url = {
-						...path,
+					url.assign({
 						route: 'commits',
 						filePath: file[toKey]
-					}.toString();
+					});
 					button.replaceWith(
 						<a
-							href={url}
+							href={String(url)}
 							aria-label={`Renamed ${isNewer ? 'to' : 'from'} ${file[toKey]}`}
 							className="btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay"
 						>

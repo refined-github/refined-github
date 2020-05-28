@@ -4,11 +4,11 @@ import FileIcon from 'octicon/file.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import parseRoute from '../github-helpers/parse-route';
+import GitHubURL from '../github-helpers/github-url';
 import {groupSiblings} from '../github-helpers/group-buttons';
 
 function init(): void | false {
-	const {filePath} = parseRoute(location.pathname);
+	const {filePath} = new GitHubURL(location.href);
 	if (!filePath) {
 		return false;
 	}
