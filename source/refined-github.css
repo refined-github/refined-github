@@ -118,6 +118,6 @@ pr-branches
 }
 
 /* Reset `vertical-align` for .octicons to work with above increased line-height */
-.js-issue-row .text-small.text-gray .octicon {
-	vertical-align: middle !important;
+.issue-meta-section .octicon {
+	vertical-align: middle;
 }
