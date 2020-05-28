@@ -30,9 +30,11 @@ function isPRMenuOpening(event: delegate.Event): void {
 	// - PRs opened from the default branch
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
 	const url = new GitHubURL(viewFile.href);
-	const [headRepo, branch] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.title.split(':');
-	[url.user, url.repository] = headRepo.split('/');
+	const [user, repository, ...branchParts] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.title.replace(':', '/').split('/');
+	const branch = branchParts.join('/');
 	url.assign({
+		user,
+		repository,
 		branch
 	});
 
