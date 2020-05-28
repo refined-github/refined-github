@@ -28,11 +28,11 @@ function isPRMenuOpening(event: delegate.Event): void {
 	// This solution accounts for:
 	// - Branches with slashes in it
 	// - PRs opened from the default branch
-	const [user, branch] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.title.split(':');
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
 	const url = new GitHubURL(viewFile.href);
+	const [headRepo, branch] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.title.split(':');
+	[url.user, url.repository] = headRepo.split('/');
 	url.assign({
-		user,
 		branch
 	});
 
