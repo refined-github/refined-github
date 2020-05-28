@@ -41,7 +41,7 @@ async function initReviewButtonEnhancements(): Promise<void> {
 features.add({
 	id: __filebasename,
 	description: 'Adds a review button to the PR sidebar, autofocuses the review textarea and adds a keyboard shortcut to open the review popup: `v`.',
-	screenshot: 'TODO',
+	screenshot: 'https://user-images.githubusercontent.com/202916/83146442-93c85480-a0f6-11ea-8422-d042dd734e02.png',
 	shortcuts: {
 		'v': 'Open PR review popup'
 	}
