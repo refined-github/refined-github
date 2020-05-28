@@ -10,9 +10,11 @@ import fetchDom from '../helpers/fetch-dom';
 import onReplacedElement from '../helpers/on-replaced-element';
 
 async function addSidebarReviewButton(): Promise<void> {
-	const reviewDetailsDropdown = <details className="rgh-faster-reviews details-reset details-overlay js-dropdown-details d-inline text-gray-dark">
-		<summary className="btn-link muted-link" data-hotkey="g r">review</summary>
-	</details>;
+	const reviewDetailsDropdown = (
+		<details className="rgh-faster-reviews details-reset details-overlay js-dropdown-details d-inline text-gray-dark">
+			<summary className="btn-link muted-link" data-hotkey="g r">review</summary>
+		</details>
+	);
 
 	select('[aria-label="Select reviewers"] .discussion-sidebar-heading')!.append(
 		<span style={{fontWeight: 'normal'}} className="js-reviews-container">
@@ -21,7 +23,7 @@ async function addSidebarReviewButton(): Promise<void> {
 	);
 
 	const prFilesUrl = new URL(location.href);
-	prFilesUrl.pathname += '/files'
+	prFilesUrl.pathname += '/files';
 
 	const reviewMenu = await fetchDom<HTMLDivElement>(
 		prFilesUrl.href,
