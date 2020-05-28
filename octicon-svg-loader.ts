@@ -9,5 +9,5 @@ export default function svgLoader(this: webpack.loader.LoaderContext, source: st
 	);
 	return `
 	import doma from 'doma';
-	export default () => doma.one('${svgWithClass.replace('\'', '\\\'')}')`;
+	export default () => doma.one(\`${svgWithClass.replace('\'', '\\\'')}\`)`;
 }
