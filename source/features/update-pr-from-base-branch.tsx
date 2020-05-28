@@ -29,6 +29,10 @@ async function mergeBranches(): Promise<AnyObject> {
 }
 
 async function handler({delegateTarget}: delegate.Event): Promise<void> {
+	if (!confirm(delegateTarget.getAttribute('aria-label')! + '?')) {
+		return;
+	}
+
 	const buttonWrapper = delegateTarget.parentElement!;
 	buttonWrapper.textContent = 'Updating branch…';
 	observer.disconnect();
