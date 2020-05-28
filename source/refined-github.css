@@ -116,3 +116,8 @@ pr-branches
 .js-issue-row .text-small.text-gray {
 	line-height: 1.8;
 }
+
+/* Reset `vertical-align` for .octicons to work with above increased line-height */
+.js-issue-row .text-small.text-gray .octicon {
+	vertical-align: middle;
+}
