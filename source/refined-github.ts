@@ -113,7 +113,7 @@ import './features/collapsible-content-button';
 import './features/hide-watch-and-fork-count';
 import './features/resolve-conflicts';
 import './features/follow-file-renames';
-import './features/fix-view-file-link-in-pr'; // Must be before raw-file-link
+import './features/enable-file-links-in-compare-view'; // Must be before raw-file-link
 import './features/raw-file-link';
 import './features/tags-dropdown';
 import './features/pr-filters';
