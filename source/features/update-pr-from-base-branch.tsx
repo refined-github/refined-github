@@ -28,34 +28,34 @@ async function mergeBranches(): Promise<AnyObject> {
 	});
 }
 
-async function handler(event: delegate.Event): Promise<void> {
-	const button = event.target as HTMLButtonElement;
-	button.disabled = true;
-	button.textContent = 'Updating branch…';
-	button.classList.remove('tooltipped');
+async function handler({delegateTarget}: delegate.Event): Promise<void> {
+	const buttonWrapper = delegateTarget.parentElement!;
+	buttonWrapper.textContent = 'Updating branch…';
 	observer.disconnect();
 
 	const response = await mergeBranches();
 	if (response.ok) {
-		button.remove();
+		buttonWrapper.remove();
 	} else if (response.message?.toLowerCase().startsWith('merge conflict')) {
 		// Only shown on Draft PRs
-		button.replaceWith(
+		buttonWrapper.replaceWith(
 			<a href={location.pathname + '/conflicts'} className="btn float-right"><AlertIcon/> Resolve conflicts</a>
 		);
 	} else {
-		button.textContent = response.message ?? 'Error';
-		button.prepend(<AlertIcon/>, ' ');
+		buttonWrapper.textContent = response.message ?? 'Error';
+		buttonWrapper.prepend(<AlertIcon/>, ' ');
 		throw new api.RefinedGitHubAPIError('update-pr-from-base-branch: ' + JSON.stringify(response));
 	}
 }
 
 function createButton(base: string, head: string): HTMLElement {
-	return (
-		<button type="button" className="btn float-right rgh-update-pr-from-master tooltipped tooltipped-n" aria-label={`Merge the ${base} branch into ${head}`}>
-			Update branch
+	const button = (
+		<button type="button" className="btn-link rgh-update-pr-from-master tooltipped tooltipped-n" aria-label={`Merge the ${base} branch into ${head}`}>
+			update the base branch
 		</button>
 	);
+
+	return <span> You can {button}.</span>;
 }
 
 async function addButton(): Promise<void> {
@@ -77,9 +77,11 @@ async function addButton(): Promise<void> {
 
 	// Draft PRs already have this info on the page
 	const [outOfDateContainer] = select.all('.completeness-indicator-problem + .status-heading')
-		.filter(title => (title.textContent!).includes('out-of-date'));
+		.filter(title => title.textContent!.includes('out-of-date'));
 	if (outOfDateContainer) {
-		outOfDateContainer.append(createButton(base, head));
+		const meta = outOfDateContainer.nextElementSibling!;
+		meta.classList.add('rgh-has-update-pr-from-master-button');
+		meta.append(createButton(base, head));
 		return;
 	}
 
@@ -88,8 +90,9 @@ async function addButton(): Promise<void> {
 		return;
 	}
 
-	for (const heading of select.all('.mergeability-details > :not(.js-details-container) .status-heading')) {
-		heading.append(createButton(base, head));
+	for (const meta of select.all('.mergeability-details > :not(.js-details-container) .status-meta')) {
+		meta.classList.add('rgh-has-update-pr-from-master-button');
+		meta.append(createButton(base, head));
 	}
 }
 
