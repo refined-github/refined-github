@@ -52,10 +52,12 @@ features.add({
 	additionalListeners: [
 		() => onReplacedElement('#partial-discussion-sidebar', addSidebarReviewButton)
 	],
+	waitForDomReady: false,
 	init: initSidebar
 }, {
 	include: [
 		pageDetect.isPRFiles
 	],
+	waitForDomReady: false,
 	init: initReviewButtonEnhancements
 });
