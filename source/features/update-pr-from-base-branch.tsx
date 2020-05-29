@@ -33,37 +33,38 @@ async function handler({delegateTarget}: delegate.Event): Promise<void> {
 		return;
 	}
 
-	const buttonWrapper = delegateTarget.parentElement!;
-	buttonWrapper.textContent = 'Updating branch…';
+	const statusMeta = delegateTarget.parentElement!;
+	statusMeta.textContent = 'Updating branch…';
 	observer.disconnect();
 
 	const response = await mergeBranches();
 	if (response.ok) {
-		buttonWrapper.remove();
+		statusMeta.remove();
 	} else if (response.message?.toLowerCase().startsWith('merge conflict')) {
 		// Only shown on Draft PRs
-		buttonWrapper.replaceWith(
+		statusMeta.textContent = '';
+		statusMeta.append(
 			<a href={location.pathname + '/conflicts'} className="btn float-right"><AlertIcon/> Resolve conflicts</a>
 		);
 	} else {
-		buttonWrapper.textContent = response.message ?? 'Error';
-		buttonWrapper.prepend(<AlertIcon/>, ' ');
+		statusMeta.textContent = response.message ?? 'Error';
+		statusMeta.prepend(<AlertIcon/>, ' ');
 		throw new api.RefinedGitHubAPIError('update-pr-from-base-branch: ' + JSON.stringify(response));
 	}
 }
 
 function createButton(base: string, head: string): HTMLElement {
 	const button = (
-		<button type="button" className="btn-link rgh-update-pr-from-master tooltipped tooltipped-n" aria-label={`Merge the ${base} branch into ${head}`}>
+		<button type="button" className="btn-link tooltipped tooltipped-n" aria-label={`Merge the ${base} branch into ${head}`}>
 			update the base branch
 		</button>
 	);
 
-	return <span> You can {button}.</span>;
+	return <span className="status-meta rgh-update-pr-from-base-branch">You can {button}.</span>;
 }
 
 async function addButton(): Promise<void> {
-	if (select.exists('.rgh-update-pr-from-master, .branch-action-btn:not([action$="ready_for_review"]) > .btn')) {
+	if (select.exists('.rgh-update-pr-from-base-branch, .branch-action-btn:not([action$="ready_for_review"]) > .btn')) {
 		return;
 	}
 
@@ -84,8 +85,7 @@ async function addButton(): Promise<void> {
 		.filter(title => title.textContent!.includes('out-of-date'));
 	if (outOfDateContainer) {
 		const meta = outOfDateContainer.nextElementSibling!;
-		meta.classList.add('rgh-has-update-pr-from-master-button');
-		meta.append(createButton(base, head));
+		meta.after(' ', createButton(base, head));
 		return;
 	}
 
@@ -95,8 +95,7 @@ async function addButton(): Promise<void> {
 	}
 
 	for (const meta of select.all('.mergeability-details > :not(.js-details-container) .status-meta')) {
-		meta.classList.add('rgh-has-update-pr-from-master-button');
-		meta.append(createButton(base, head));
+		meta.after(' ', createButton(base, head));
 	}
 }
 
@@ -112,7 +111,7 @@ function init(): void | false {
 	}
 
 	observer = observeElement('.discussion-timeline-actions', addButton)!;
-	delegate(document, '.rgh-update-pr-from-master', 'click', handler);
+	delegate(document, '.rgh-update-pr-from-base-branch button', 'click', handler);
 }
 
 features.add({
