@@ -13,7 +13,7 @@ async function addSidebarReviewButton(): Promise<void> {
 	reviewFormUrl.hash = 'submit-review';
 
 	select('[aria-label="Select reviewers"] .discussion-sidebar-heading')!.append(
-		<span style={{fontWeight: 'normal'}} className="js-reviews-container">
+		<span style={{fontWeight: 'normal'}}>
 			– <a href={reviewFormUrl.href} className="btn-link muted-link" data-hotkey="v">review</a>
 		</span>
 	);
