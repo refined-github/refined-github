@@ -84,7 +84,7 @@ async function clean(): Promise<void> {
 
 		const content = select('[aria-label="Select reviewers"] > .css-truncate')!;
 		if (!content.firstElementChild) {
-			content.remove();
+			content.remove(); // Drop "No reviews"
 		}
 	}
 
