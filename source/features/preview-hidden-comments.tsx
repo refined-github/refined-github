@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-const allowedReasons = ['resolved', 'outdated', 'off-topic'];
+const allowedReasons = new Set(['resolved', 'outdated', 'off-topic']);
 
 const capitalize = (text: string): string => text.charAt(0).toUpperCase() + text.slice(1);
 
@@ -24,7 +24,7 @@ const init = (): void => {
 		`, details)!;
 
 		const reason = /was marked as ([^.]+)/.exec(header.textContent!)?.[1] ?? '';
-		if (!allowedReasons.includes(reason)) {
+		if (!allowedReasons.has(reason)) {
 			continue;
 		}
 

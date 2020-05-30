@@ -119,7 +119,7 @@ features.add({
 		pageDetect.isPRConversation
 	],
 	additionalListeners: [
-		() => onReplacedElement('#partial-discussion-sidebar', clean)
+		() => void onReplacedElement('#partial-discussion-sidebar', clean)
 	],
 	init: clean
 });
