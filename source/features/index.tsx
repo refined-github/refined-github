@@ -117,7 +117,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	}
 
 	// Create logging function
-	log = options.logging ? console.log : () => { };
+	log = options.logging ? console.log : () => {/* No logging */};
 
 	resolve(options);
 });

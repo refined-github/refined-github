@@ -1,20 +1,48 @@
 {
 	"private": true,
 	"scripts": {
-		"lint": "run-p --silent lint:*",
-		"lint:js": "xo",
-		"lint:css": "stylelint 'source/**/*.css'",
-		"lint-fix": "run-p --silent 'lint:* -- --fix'",
-		"test": "run-s ava lint:* build",
 		"ava": "TS_NODE_FILES=true ava",
-		"build": "webpack --mode=production",
-		"watch": "webpack --mode=development --watch",
-		"version": "dot-json distribution/manifest.json version $VER",
-		"release:cws": "webstore upload --source=distribution --auto-publish",
-		"release:amo": "web-ext-submit --source-dir distribution",
+		"build": "run-p build:* --continue-on-error",
+		"build:typescript": "tsc --noEmit",
+		"build:webpack": "webpack --mode=production",
+		"fix": "run-p 'lint:* -- --fix'",
+		"lint": "run-p lint:* --continue-on-error",
+		"lint:css": "stylelint 'source/**/*.css'",
+		"lint:js": "xo",
 		"release": "VER=$(daily-version) run-s build version release:*",
+		"release:amo": "web-ext-submit --source-dir distribution",
+		"release:cws": "webstore upload --source=distribution --auto-publish",
 		"start": "web-ext run --target=chromium",
-		"start:firefox": "web-ext run"
+		"start:firefox": "web-ext run",
+		"test": "run-p ava lint:* build:*",
+		"version": "dot-json distribution/manifest.json version $VER",
+		"watch": "run-p watch:* --continue-on-error",
+		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
+		"watch:webpack": "webpack --mode=development --watch"
+	},
+	"stylelint": {
+		"extends": "stylelint-config-xo",
+		"rules": {
+			"selector-type-no-unknown": null,
+			"declaration-no-important": null,
+			"property-no-vendor-prefix": null,
+			"selector-class-pattern": null,
+			"selector-id-pattern": null,
+			"at-rule-empty-line-before": null
+		}
+	},
+	"ava": {
+		"extensions": [
+			"ts"
+		],
+		"files": [
+			"test/*.ts"
+		],
+		"require": [
+			"esm",
+			"ts-node/register"
+		],
+		"timeout": "30s"
 	},
 	"dependencies": {
 		"@primer/octicons": "^9.6.0",
@@ -72,7 +100,6 @@
 		"eslint-plugin-react": "^7.20.0",
 		"eslint-plugin-react-hooks": "^4.0.2",
 		"esm": "^3.2.25",
-		"fork-ts-checker-webpack-plugin": "^4.1.4",
 		"jsdom": "^16.2.2",
 		"mini-css-extract-plugin": "^0.9.0",
 		"npm-run-all": "^4.1.5",
@@ -90,90 +117,6 @@
 		"webpack": "^4.43.0",
 		"webpack-cli": "^3.3.11",
 		"xo": "^0.30.0"
-	},
-	"xo": {
-		"extends": "xo-react",
-		"envs": [
-			"browser"
-		],
-		"globals": [
-			"browser",
-			"__featuresOptionDefaults__",
-			"__featuresMeta__",
-			"__filebasename"
-		],
-		"rules": {
-			"@typescript-eslint/no-empty-function": "off",
-			"@typescript-eslint/no-floating-promises": "off",
-			"@typescript-eslint/no-non-null-asserted-optional-chain": "off",
-			"@typescript-eslint/prefer-readonly-parameter-types": "off",
-			"no-alert": "off",
-			"react/function-component-definition": [
-				"error",
-				{
-					"namedComponents": "function-declaration"
-				}
-			],
-			"react/jsx-first-prop-new-line": "error",
-			"react/jsx-key": "off",
-			"import/order": [
-				"error",
-				{
-					"groups": [
-						[
-							"builtin",
-							"external"
-						]
-					],
-					"newlines-between": "always-and-inside-groups"
-				}
-			],
-			"import/first": "error",
-			"import/newline-after-import": "error",
-			"import/no-anonymous-default-export": "error",
-			"import/no-commonjs": "error",
-			"import/no-named-default": "error",
-			"import/prefer-default-export": "error",
-			"import/extensions": [
-				"error",
-				"never",
-				{
-					"svg": "always"
-				}
-			],
-			"import/no-unassigned-import": "off",
-			"unicorn/no-fn-reference-in-iterator": "off",
-			"unicorn/prefer-set-has": "off"
-		},
-		"settings": {
-			"react": {
-				"version": "16.3"
-			}
-		}
-	},
-	"ava": {
-		"files": [
-			"test/*.ts"
-		],
-		"extensions": [
-			"ts"
-		],
-		"require": [
-			"esm",
-			"ts-node/register"
-		],
-		"timeout": "30s"
-	},
-	"stylelint": {
-		"extends": "stylelint-config-xo",
-		"rules": {
-			"selector-type-no-unknown": null,
-			"declaration-no-important": null,
-			"property-no-vendor-prefix": null,
-			"selector-class-pattern": null,
-			"selector-id-pattern": null,
-			"at-rule-empty-line-before": null
-		}
 	},
 	"webExt": {
 		"sourceDir": "distribution",
