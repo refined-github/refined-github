@@ -41,6 +41,7 @@
 		"import/no-anonymous-default-export": "error",
 		"import/no-commonjs": "error",
 		"import/no-named-default": "error",
+		"import/no-unassigned-import": "off",
 		"import/prefer-default-export": "error",
 		"import/extensions": [
 			"error",
@@ -49,9 +50,7 @@
 				"svg": "always"
 			}
 		],
-		"import/no-unassigned-import": "off",
-		"unicorn/no-fn-reference-in-iterator": "off",
-		"unicorn/prefer-set-has": "off"
+		"unicorn/no-fn-reference-in-iterator": "off"
 	},
 	"settings": {
 		"react": {
