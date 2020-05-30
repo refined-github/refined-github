@@ -6,22 +6,24 @@ import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
-import parseRoute from '../github-helpers/parse-route';
+import GitHubURL from '../github-helpers/github-url';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import onFileListUpdate from '../github-events/on-file-list-update';
 
 async function init(): Promise<void> {
-	const defaultBranch = await getDefaultBranch();
 	const isPermalink = /Tag|Tree/.test(select('.branch-select-menu i')!.textContent!);
 	for (const fileIcon of select.all('.files :not(a) > .octicon-file')) {
-		const {pathname} = fileIcon.closest('tr')!.querySelector<HTMLAnchorElement>('.js-navigation-open')!;
-		const path = parseRoute(pathname);
-		path.route = 'edit'; // Replaces /blob/
+		const fileLink = fileIcon.closest('tr')!.querySelector<HTMLAnchorElement>('.js-navigation-open')!;
+		const url = new GitHubURL(fileLink.href).assign({
+			route: 'edit'
+		});
+
 		if (isPermalink) {
-			path.branch = defaultBranch; // Replaces /${tag|commit}/
+			// eslint-disable-next-line no-await-in-loop
+			url.branch = await getDefaultBranch(); // Permalinks can't be edited
 		}
 
-		wrap(fileIcon, <a href={path.toString()} className="rgh-edit-files-faster"/>);
+		wrap(fileIcon, <a href={String(url)} className="rgh-edit-files-faster"/>);
 		fileIcon.after(<PencilIcon/>);
 	}
 }

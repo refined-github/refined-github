@@ -5,7 +5,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import parseRoute from '../github-helpers/parse-route';
+import GitHubURL from '../github-helpers/github-url';
 import {getRepoURL} from '../github-helpers';
 import {appendBefore} from '../helpers/dom-utils';
 
@@ -52,7 +52,7 @@ function addDropdownLink(comment: HTMLElement, timestamp: string): void {
 }
 
 async function showTimemachineBar(): Promise<void | false> {
-	const url = new URL(location.href);
+	const url = new URL(location.href); // This can't be replaced with `GitHubURL` because `getCurrentBranch` throws on 404s
 	const date = url.searchParams.get('rgh-link-date')!;
 
 	// Drop parameter from current page after using it
@@ -71,11 +71,9 @@ async function showTimemachineBar(): Promise<void | false> {
 			return false;
 		}
 
-		const path = parseRoute(location.pathname);
-		url.pathname = {
-			...path,
-			branch: `${path.branch}@{${date}}`
-		}.toString();
+		const parsedUrl = new GitHubURL(location.href);
+		parsedUrl.branch = `${parsedUrl.branch}@{${date}}`;
+		url.pathname = parsedUrl.pathname;
 	}
 
 	const closeButton = <button className="flash-close js-flash-close" type="button" aria-label="Dismiss this message"><XIcon/></button>;
