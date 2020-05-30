@@ -29,7 +29,8 @@ async function mergeBranches(): Promise<AnyObject> {
 }
 
 async function handler({delegateTarget}: delegate.Event): Promise<void> {
-	if (!confirm(delegateTarget.getAttribute('aria-label')! + '?')) {
+	const {base, head} = getBranches();
+	if (!confirm(`Merge the ${base} branch into ${head}?`)) {
 		return;
 	}
 
@@ -53,13 +54,8 @@ async function handler({delegateTarget}: delegate.Event): Promise<void> {
 	}
 }
 
-function createButton(base: string, head: string): HTMLElement {
-	const button = (
-		<button type="button" className="btn-link tooltipped tooltipped-n" aria-label={`Merge the ${base} branch into ${head}`}>
-			update the base branch
-		</button>
-	);
-
+function createButton(): HTMLElement {
+	const button = <button type="button" className="btn-link">update the base branch</button>;
 	return <span className="status-meta rgh-update-pr-from-base-branch">You can {button}.</span>;
 }
 
@@ -85,7 +81,7 @@ async function addButton(): Promise<void> {
 		.filter(title => title.textContent!.includes('out-of-date'));
 	if (outOfDateContainer) {
 		const meta = outOfDateContainer.nextElementSibling!;
-		meta.after(' ', createButton(base, head));
+		meta.after(' ', createButton());
 		return;
 	}
 
@@ -95,7 +91,7 @@ async function addButton(): Promise<void> {
 	}
 
 	for (const meta of select.all('.mergeability-details > :not(.js-details-container) .status-meta')) {
-		meta.after(' ', createButton(base, head));
+		meta.after(' ', createButton());
 	}
 }
 
