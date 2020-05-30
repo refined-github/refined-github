@@ -34,7 +34,6 @@
 	"background": {
 		"scripts": [
 			"browser-polyfill.min.js",
-			"vendors~background~options~refined-github.js",
 			"background.js"
 		]
 	},
@@ -50,8 +49,6 @@
 			],
 			"js": [
 				"browser-polyfill.min.js",
-				"vendors~background~options~refined-github.js",
-				"vendors~options~refined-github.js",
 				"refined-github.js"
 			]
 		}

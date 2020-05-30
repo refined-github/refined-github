@@ -148,9 +148,6 @@ const config: Configuration = {
 		]
 	},
 	optimization: {
-		splitChunks: {
-			chunks: 'all'
-		},
 		// Automatically enabled on production;
 		// Keeps it somewhat readable for AMO reviewers
 		minimizer: [
