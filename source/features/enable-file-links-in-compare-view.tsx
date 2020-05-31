@@ -60,7 +60,7 @@ function isCompareMenuOpening(event: delegate.Event): void {
 	editFile.textContent = 'Edit file';
 	editFile.removeAttribute('data-ga-click');
 	editFile.href = url.assign({route: 'edit'}).toString();
-	select('edit button', dropdown)!.replaceWith(editFile);
+	viewFile.nextElementSibling!.replaceWith(editFile);
 
 	// Fix the delete link
 	const deleteFile = viewFile.cloneNode(true);
