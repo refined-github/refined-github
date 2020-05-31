@@ -39,7 +39,7 @@ function handleIsCompareMenuOpening(event: delegate.Event): void {
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
 	const url = new GitHubURL(viewFile.href);
 	url.assign({
-		branch: location.pathname.replace(/.+:/, '')
+		branch: location.pathname.replace(/.+:|.+\.{3}/, '')
 	});
 	viewFile.href = String(url);
 	viewFile.classList.add('rgh-actionable-link'); // Mark this as processed
@@ -57,10 +57,9 @@ function handleIsCompareMenuOpening(event: delegate.Event): void {
 	viewFile.nextElementSibling!.replaceWith(editFile);
 
 	// Fix the delete link
-	const deleteFile = viewFile.cloneNode(true);
+	const deleteFile = editFile.cloneNode(true);
 	deleteFile.textContent = 'Delete file';
 	deleteFile.classList.add('menu-item-danger');
-	deleteFile.removeAttribute('data-ga-click');
 	deleteFile.href = url.assign({route: 'delete'}).toString();
 	viewFile.nextElementSibling!.nextElementSibling!.replaceWith(deleteFile);
 }
