@@ -6,6 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import GitHubURL from '../github-helpers/github-url';
+import {getCurrentBranch} from '../github-helpers';
 
 function handlePRMenuOpening(event: delegate.Event): void {
 	event.delegateTarget.classList.add('rgh-actionable-link'); // Mark this as processed
@@ -15,9 +16,16 @@ function handlePRMenuOpening(event: delegate.Event): void {
 	// - PRs opened from the default branch
 	const dropdown = event.delegateTarget.nextElementSibling!;
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
-	const headBranchUrl = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname;
-	const filepath = dropdown.closest<HTMLDivElement>('[data-path]')!.dataset.path;
-	viewFile.pathname = headBranchUrl + '/' + String(filepath);
+	// You can only get the user and repository, since PR's open from the default branch will not have the branch in the pathname.
+	const [user, repository] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/');
+	const url = new GitHubURL(viewFile.href);
+	url.assign({
+		user,
+		repository,
+		branch: getCurrentBranch()
+	});
+
+	viewFile.href = String(url);
 }
 
 function handleCompareMenuOpening(event: delegate.Event): void {
