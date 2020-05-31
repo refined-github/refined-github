@@ -72,7 +72,7 @@ features.add({
 	exclude: [
 		// Only enabled if its possible to create a pull request.
 		() => !select.exists('#new_pull_request'),
-		// Exclude repositories you don't have access to
+		// Exclude repositories you don't have access to.
 		() => !select.exists([
 			'[name="collab_privs"]', // Allow edits by maintainers
 			'.js-issue-sidebar-form' // Sidebar with reviewers/assignees
