@@ -7,11 +7,7 @@ import GitHubURL from '../github-helpers/github-url';
 
 function handleIsPRMenuOpening(event: delegate.Event): void {
 	const dropdown = event.delegateTarget.nextElementSibling!;
-
-	// Only if it's not already there
-	if (select.exists('.rgh-actionable-link', dropdown)) {
-		return;
-	}
+	event.delegateTarget.classList.add('rgh-actionable-link'); // Mark this as processed
 
 	// Only enabled on Open/Draft PRs. Editing files doesn't make sense after a PR is closed/merged.
 	if (!select.exists('.gh-header-meta [title$="Open"], .gh-header-meta [title$="Draft"]')) {
@@ -35,6 +31,7 @@ function handleIsPRMenuOpening(event: delegate.Event): void {
 
 function handleIsCompareMenuOpening(event: delegate.Event): void {
 	const dropdown = event.delegateTarget.nextElementSibling!;
+	event.delegateTarget.classList.add('rgh-actionable-link'); // Mark this as processed
 
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
 	const url = new GitHubURL(viewFile.href);
@@ -42,7 +39,6 @@ function handleIsCompareMenuOpening(event: delegate.Event): void {
 		branch: location.pathname.replace(/.+:|.+\.{3}/, '')
 	});
 	viewFile.href = String(url);
-	viewFile.classList.add('rgh-actionable-link'); // Mark this as processed
 
 	// Dont replace the edit and delete buttons if its not possible
 	if (!select.exists([
