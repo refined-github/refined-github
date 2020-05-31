@@ -34,7 +34,7 @@ function isPRMenuOpening(event: delegate.Event): void {
 	url.assign({
 		user,
 		repository,
-		branch: getCurrentBranch()
+		branch: getCurrentBranch() // Ensures that the branch name is attached even when it links to the default branch
 	});
 
 	viewFile.href = String(url);
