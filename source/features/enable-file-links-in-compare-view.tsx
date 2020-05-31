@@ -25,7 +25,7 @@ function handleCompareMenuOpening(event: delegate.Event): void {
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
 	const url = new GitHubURL(viewFile.href);
 	url.assign({
-		branch: location.pathname.replace(/.+:|.+\.{3}/, '')
+		branch: select('[title^="compare"]')!.title.split(' ').pop()
 	});
 	viewFile.href = String(url);
 
