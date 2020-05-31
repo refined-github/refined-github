@@ -54,7 +54,7 @@ function isCompareMenuOpening(event: delegate.Event): void {
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
 	const url = new GitHubURL(viewFile.href);
 	url.assign({
-		branch: location.pathname.replace(/.*:/, '')
+		branch: location.pathname.replace(/.+:/, '')
 	});
 	viewFile.href = String(url);
 	viewFile.classList.add('rgh-actionable-link'); // Mark this as processed
