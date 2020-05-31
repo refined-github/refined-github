@@ -9,17 +9,6 @@ function handlePRMenuOpening(event: delegate.Event): void {
 	const dropdown = event.delegateTarget.nextElementSibling!;
 	event.delegateTarget.classList.add('rgh-actionable-link'); // Mark this as processed
 
-	// Only enabled on Open/Draft PRs. Editing files doesn't make sense after a PR is closed/merged.
-	if (!select.exists('.gh-header-meta [title$="Open"], .gh-header-meta [title$="Draft"]')) {
-		return;
-	}
-
-	// If you're viewing changes from partial commits, ensure you're on the latest one.
-	const isPartialCommits = select.exists('.js-commits-filtered');
-	if (isPartialCommits && !select.exists('[aria-label="You are viewing the latest commit"]')) {
-		return;
-	}
-
 	// This solution accounts for:
 	// - Branches with slashes in it
 	// - PRs opened from the default branch
@@ -39,14 +28,6 @@ function handleCompareMenuOpening(event: delegate.Event): void {
 		branch: location.pathname.replace(/.+:|.+\.{3}/, '')
 	});
 	viewFile.href = String(url);
-
-	// Dont replace the edit and delete buttons if its not possible
-	if (!select.exists([
-		'[name="collab_privs"]', // Excludes repo's that you dont have rights to edit and Permalink's (the whole create pull request will not exist on a Permalink)
-		'.js-issue-sidebar-form' // Dont exclude same repo compare pages you have rights to by detecting if the review's/labels exists
-	])) {
-		return;
-	}
 
 	// Fix the edit link
 	const editFile = viewFile.cloneNode(true);
@@ -75,8 +56,28 @@ features.add({
 }, {
 	include: [
 		pageDetect.isPRFiles,
-		pageDetect.isPRCommit,
+		pageDetect.isPRCommit
+	],
+	exclude: [
+		// Only enabled on Open/Draft PRs. Editing files doesn't make sense after a PR is closed/merged.
+		() => !select.exists('.gh-header-meta [title$="Open"], .gh-header-meta [title$="Draft"]'),
+		// If you're viewing changes from partial commits, ensure you're on the latest one.
+		() => select.exists('.js-commits-filtered') && !select.exists('[aria-label="You are viewing the latest commit"]')
+	],
+	init
+}, {
+	include: [
 		pageDetect.isCompare
+	],
+	exclude: [
+		// Only enabled if its possible to create a pull request.
+		() => !select.exists('#new_pull_request'),
+		// Exclude repositories you don't have access to
+		() => !select.exists([
+			'[name="collab_privs"]', // Allow edits by maintainers
+			'.js-issue-sidebar-form' // Sidebar with reviewers/assignees
+		])
+
 	],
 	init
 });
