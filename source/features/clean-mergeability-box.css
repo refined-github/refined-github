@@ -5,8 +5,8 @@
 
 /* Hide extra copy on PR mergeability summary */
 .mergeability-details .js-details-container .h4,
-.mergeability-details .js-details-container .status-meta .btn-link,
-.mergeability-details > :not(.js-details-container) .completeness-indicator-success ~ .status-meta { /* Hides merge information unless it's negative */
+.mergeability-details .js-details-container .status-meta:not(.rgh-update-pr-from-base-branch) .btn-link,
+.mergeability-details > :not(.js-details-container) .completeness-indicator-success ~ .status-meta:not(.rgh-update-pr-from-base-branch) { /* Hides merge information unless it's negative */
 	display: none;
 }
 
