@@ -53,14 +53,14 @@ function handleIsCompareMenuOpening(event: delegate.Event): void {
 	editFile.textContent = 'Edit file';
 	editFile.removeAttribute('data-ga-click');
 	editFile.href = url.assign({route: 'edit'}).toString();
-	viewFile.nextElementSibling!.replaceWith(editFile);
+	select('[aria-label$="to make changes."]', dropdown)!.replaceWith(editFile);
 
 	// Fix the delete link
 	const deleteFile = editFile.cloneNode(true);
 	deleteFile.textContent = 'Delete file';
 	deleteFile.classList.add('menu-item-danger');
 	deleteFile.href = url.assign({route: 'delete'}).toString();
-	viewFile.nextElementSibling!.nextElementSibling!.replaceWith(deleteFile);
+	select('[aria-label$="delete this file."]', dropdown)!.replaceWith(deleteFile);
 }
 
 function init(): void {
