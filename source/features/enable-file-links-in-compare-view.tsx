@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import GitHubURL from '../github-helpers/github-url';
 
-function handleIsPRMenuOpening(event: delegate.Event): void {
+function handlePRMenuOpening(event: delegate.Event): void {
 	const dropdown = event.delegateTarget.nextElementSibling!;
 	event.delegateTarget.classList.add('rgh-actionable-link'); // Mark this as processed
 
@@ -29,7 +29,7 @@ function handleIsPRMenuOpening(event: delegate.Event): void {
 	viewFile.pathname = headBranchUrl + '/' + String(filepath);
 }
 
-function handleIsCompareMenuOpening(event: delegate.Event): void {
+function handleCompareMenuOpening(event: delegate.Event): void {
 	const dropdown = event.delegateTarget.nextElementSibling!;
 	event.delegateTarget.classList.add('rgh-actionable-link'); // Mark this as processed
 
@@ -64,7 +64,7 @@ function handleIsCompareMenuOpening(event: delegate.Event): void {
 }
 
 function init(): void {
-	const handleMenuOpening = pageDetect.isCompare() ? handleIsCompareMenuOpening : handleIsPRMenuOpening;
+	const handleMenuOpening = pageDetect.isCompare() ? handleCompareMenuOpening : handlePRMenuOpening;
 	delegate(document, '.file-header:not([data-file-deleted="true"]) .js-file-header-dropdown > summary:not(.rgh-actionable-link)', 'click', handleMenuOpening);
 }
 
