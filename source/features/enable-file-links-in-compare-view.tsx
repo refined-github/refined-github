@@ -59,7 +59,7 @@ function isCompareMenuOpening(event: delegate.Event): void {
 	viewFile.classList.add('rgh-actionable-link'); // Mark this as processed
 
 	// If the allow maintainers to edit is not available your either comparing a Permalink and the file can't be edited or your comparing a fork you can't edit the file on
-	if (!select.exists('[name="collab_privs"]')) {
+	if (!select.exists('[name="collab_privs"], .js-issue-sidebar-form')) {
 		return;
 	}
 
