@@ -65,22 +65,10 @@ function isCompareMenuOpening(event: delegate.Event): void {
 	}
 
 	// Fix the edit link
-	url.assign({
-		route: 'edit'
-	});
-	viewFile.nextElementSibling!.replaceWith(
-		<a
-			data-skip-pjax
-			href={String(url)}
-			role="menuitem"
-			className="pl-5 dropdown-item btn-link"
-			rel="nofollow"
-			aria-label="Change this file using the online editor"
-			data-ga-click="Edit file, click, location:files_changed_dropdown"
-		>
-			Edit file
-		</a>
-	);
+	const editFile = viewFile.cloneNode(true);
+	editFile.textContent = 'Edit file';
+	editFile.removeAttribute('data-ga-click');
+	editFile.href = url.assign({route: 'edit'}).toString();
 
 	// Fix the delete link
 	url.assign({
