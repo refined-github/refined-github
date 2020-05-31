@@ -70,9 +70,8 @@ features.add({
 		pageDetect.isCompare
 	],
 	exclude: [
-		// If you cant create a PR you are probably looking at a permalink.
-		() => !select.exists('#new_pull_request'),
-		// Exclude repositories you don't have access to.
+		// The following selectors will only exist if you can create a PR. If you cant create a PR you are probably looking at a permalink.
+		// It will also exclude repositories you don't have access to.
 		() => !select.exists([
 			'[name="collab_privs"]', // Allow edits by maintainers
 			'.js-issue-sidebar-form' // Sidebar with reviewers/assignees
