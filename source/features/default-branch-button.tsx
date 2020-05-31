@@ -19,11 +19,6 @@ async function init(): Promise<false | void> {
 	}
 
 	const url = new GitHubURL(location.href);
-	// The branch selector will be on `isRepoCommitList()` **unless** you're in a folder/file
-	if (pageDetect.isRepoCommitList() && url.filePath.length > 0) {
-		return false;
-	}
-
 	if (pageDetect.isRepoRoot()) {
 		// The default branch of the root directory is just /user/repo/
 		url.route = '';
@@ -32,7 +27,12 @@ async function init(): Promise<false | void> {
 		url.branch = defaultBranch;
 	}
 
-	const branchSelector = (await elementReady('#branch-select-menu'))!;
+	const branchSelector = await elementReady('#branch-select-menu');
+	// The branch selector is missing from History pages of files and folders (it only appears on the root)
+	if (!branchSelector) {
+		return false;
+	}
+
 	const defaultLink = (
 		<a
 			className="btn btn-sm tooltipped tooltipped-ne"
