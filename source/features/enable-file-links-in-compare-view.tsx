@@ -46,7 +46,7 @@ function handleIsCompareMenuOpening(event: delegate.Event): void {
 
 	// Dont replace the edit and delete buttons if its not possible
 	if (!select.exists([
-		'[name="collab_privs"]', // Excludes repo's that you dont have rights to edit and Permalink's (the whole creat pull request will not exist)
+		'[name="collab_privs"]', // Excludes repo's that you dont have rights to edit and Permalink's (the whole create pull request will not exist on a Permalink)
 		'.js-issue-sidebar-form' // Dont exclude same repo compare pages you have rights to by detecting if the review's/labels exists
 	])) {
 		return;
