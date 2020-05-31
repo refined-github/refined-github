@@ -27,19 +27,11 @@ function isPRMenuOpening(event: delegate.Event): void {
 
 	// This solution accounts for:
 	// - Branches with slashes in it
-	// - PRs opened from the default branch see #3152
+	// - PRs opened from the default branch
+	const headBranchUrl = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname;
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
-	const [user, repository] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/');
-	const url = new GitHubURL(viewFile.href);
-	url.assign({
-		user,
-		repository,
-		branch: getCurrentBranch() // Ensures that the branch name is attached even when it links to the default branch
-	});
-
-	viewFile.href = String(url);
-
-	viewFile.classList.add('rgh-actionable-link'); // Mark this as processed
+	const filepath = dropdown.closest<HTMLDivElement>('[data-path]')!.dataset.path;
+	viewFile.pathname = headBranchUrl + '/' + String(filepath);
 }
 
 function isCompareMenuOpening(event: delegate.Event): void {
