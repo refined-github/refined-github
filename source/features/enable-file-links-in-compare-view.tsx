@@ -69,24 +69,15 @@ function isCompareMenuOpening(event: delegate.Event): void {
 	editFile.textContent = 'Edit file';
 	editFile.removeAttribute('data-ga-click');
 	editFile.href = url.assign({route: 'edit'}).toString();
+	viewFile.nextElementSibling!.replaceWith(editFile);
 
 	// Fix the delete link
-	url.assign({
-		route: 'delete'
-	});
-	viewFile.nextElementSibling!.nextElementSibling!.replaceWith(
-		<a
-			data-skip-pjax
-			href={String(url)}
-			role="menuitem"
-			className="pl-5 dropdown-item menu-item-danger btn-link"
-			rel="nofollow"
-			aria-label="Delete this file"
-			data-ga-click="Delete file, click, location:files_changed_dropdown"
-		>
-			Delete file
-		</a>
-	);
+	const deleteFile = viewFile.cloneNode(true);
+	deleteFile.textContent = 'Delete file';
+	deleteFile.classList.add('menu-item-danger');
+	deleteFile.removeAttribute('data-ga-click');
+	deleteFile.href = url.assign({route: 'delete'}).toString();
+	viewFile.nextElementSibling!.nextElementSibling!.replaceWith(deleteFile);
 }
 
 function init(): void {
