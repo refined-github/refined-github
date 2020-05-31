@@ -26,7 +26,7 @@ function isPRMenuOpening(event: delegate.Event): void {
 
 	// This solution accounts for:
 	// - Branches with slashes in it
-	// - PRs opened from the default branch (you cannot take the pathname from the headBranchUrl since on the default branch it will not have a branch name)
+	// - PRs opened from the default branch. Dont get the pathname from the headBranchURl see #3152
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
 	const headBranchUrl = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.title.replace(':', '/');
 	const {filePath} = new GitHubURL(viewFile.href);
