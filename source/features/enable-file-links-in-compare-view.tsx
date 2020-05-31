@@ -4,9 +4,8 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import GitHubURL from '../github-helpers/github-url';
-import {getCurrentBranch} from '../github-helpers';
 
-function isPRMenuOpening(event: delegate.Event): void {
+function handleIsPRMenuOpening(event: delegate.Event): void {
 	const dropdown = event.delegateTarget.nextElementSibling!;
 
 	// Only if it's not already there
@@ -34,13 +33,8 @@ function isPRMenuOpening(event: delegate.Event): void {
 	viewFile.pathname = headBranchUrl + '/' + String(filepath);
 }
 
-function isCompareMenuOpening(event: delegate.Event): void {
+function handleIsCompareMenuOpening(event: delegate.Event): void {
 	const dropdown = event.delegateTarget.nextElementSibling!;
-
-	// Only if it's not already there
-	if (select.exists('.rgh-actionable-link', dropdown)) {
-		return;
-	}
 
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
 	const url = new GitHubURL(viewFile.href);
@@ -72,8 +66,8 @@ function isCompareMenuOpening(event: delegate.Event): void {
 }
 
 function init(): void {
-	const handleMenuOpening = pageDetect.isCompare() ? isCompareMenuOpening : isPRMenuOpening;
-	delegate(document, '.file-header:not([data-file-deleted="true"]) .js-file-header-dropdown > summary', 'click', handleMenuOpening);
+	const handleMenuOpening = pageDetect.isCompare() ? handleIsCompareMenuOpening : handleIsPRMenuOpening;
+	delegate(document, '.file-header:not([data-file-deleted="true"]) .js-file-header-dropdown > summary:not(.rgh-actionable-link)', 'click', handleMenuOpening);
 }
 
 features.add({
