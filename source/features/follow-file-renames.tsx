@@ -22,7 +22,7 @@ async function findRename(lastCommitOnPage: string): Promise<File[]> {
 function init(): false | void {
 	const disabledPagination = select.all('.paginate-container [disabled], .paginate-container .disabled');
 	const url = new GitHubURL(location.href);
-	url.search = '';
+	url.search = ''; // Drop the search, otherwise the rename link will not work
 	if (disabledPagination.length === 0 || !url.filePath) {
 		return false;
 	}
