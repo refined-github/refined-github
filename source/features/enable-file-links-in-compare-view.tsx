@@ -70,7 +70,7 @@ features.add({
 		pageDetect.isCompare
 	],
 	exclude: [
-		// Only enabled if its possible to create a pull request.
+		// If you cant create a PR you are probably looking at a permalink.
 		() => !select.exists('#new_pull_request'),
 		// Exclude repositories you don't have access to.
 		() => !select.exists([
