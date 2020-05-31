@@ -1,8 +1,9 @@
 import {getCurrentBranch} from '.';
 
-function disambiguateReference(ambiguousReference: string[]): {branch: string; filePath: string} {
+function disambiguateReference(ambiguousReference: string[], search: string): {branch: string; filePath: string} {
 	const branch = ambiguousReference[0];
-	const filePath = ambiguousReference.slice(1).join('/');
+	const filePathFromSearch = decodeURI(search).split(/&path\[]=/).splice(1).join('/');
+	const filePath = ambiguousReference.slice(1).join('/') || filePathFromSearch;
 
 	const currentBranch = getCurrentBranch();
 	const currentBranchSections = currentBranch.split('/');
@@ -24,7 +25,7 @@ function disambiguateReference(ambiguousReference: string[]): {branch: string; f
 
 	return {
 		branch: currentBranch,
-		filePath: ambiguousReference.slice(currentBranchSections.length).join('/')
+		filePath: ambiguousReference.slice(currentBranchSections.length).join('/') || filePathFromSearch
 	};
 }
 
@@ -55,7 +56,7 @@ export default class GitHubURL extends URL {
 
 	set pathname(pathname) {
 		const [user, repository, route, ...ambiguousReference] = pathname.replace(/^\/|\/$/g, '').split('/');
-		const {branch, filePath} = disambiguateReference(ambiguousReference);
+		const {branch, filePath} = disambiguateReference(ambiguousReference, this.search);
 		this.assign({user, repository, route, branch, filePath});
 	}
 

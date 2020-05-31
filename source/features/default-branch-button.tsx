@@ -7,7 +7,7 @@ import features from '.';
 import GitHubURL from '../github-helpers/github-url';
 import {groupButtons} from '../github-helpers/group-buttons';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getCurrentBranch, filePathFromSearch} from '../github-helpers';
+import {getCurrentBranch} from '../github-helpers';
 
 async function init(): Promise<false | void> {
 	const defaultBranch = await getDefaultBranch();
@@ -19,7 +19,6 @@ async function init(): Promise<false | void> {
 	}
 
 	const url = new GitHubURL(location.href);
-	url.filePath = url.filePath || filePathFromSearch();
 	// The branch selector will be on `isRepoCommitList()` **unless** you're in a folder/file
 	if (pageDetect.isRepoCommitList() && url.filePath.length > 0) {
 		return false;

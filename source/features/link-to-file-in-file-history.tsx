@@ -6,10 +6,9 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import GitHubURL from '../github-helpers/github-url';
 import {groupSiblings} from '../github-helpers/group-buttons';
-import {filePathFromSearch} from '../github-helpers';
 
 function init(): void | false {
-	const filePath = new GitHubURL(location.href).filePath || filePathFromSearch();
+	const {filePath} = new GitHubURL(location.href);
 	if (!filePath) {
 		return false;
 	}
