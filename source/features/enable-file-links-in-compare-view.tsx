@@ -70,12 +70,8 @@ features.add({
 		pageDetect.isCompare
 	],
 	exclude: [
-		// The following selectors will only exist if you can create a PR. If you can't create a PR you are probably looking at a permalink.
-		// It will also exclude repositories you don't have access to.
-		() => !select.exists([
-			'[name="collab_privs"]', // Allow edits by maintainers
-			'.js-issue-sidebar-form' // Sidebar with reviewers/assignees
-		])
+		// Only enable if you can create a PR or view an existing PR, if you cant you are probably looking at a permalink.
+		() => !select.exists('.existing-pull-button, [data-ga-click*="text:Create pull request"]')
 
 	],
 	init
