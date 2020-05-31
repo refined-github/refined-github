@@ -1,4 +1,3 @@
-import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
@@ -27,18 +26,11 @@ function isPRMenuOpening(event: delegate.Event): void {
 
 	// This solution accounts for:
 	// - Branches with slashes in it
-	// - PRs opened from the default branch
+	// - PRs opened from the default branch (you cannot take the pathname from the headBranchUrl since on the default branch it will not have a branch name)
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
-	const url = new GitHubURL(viewFile.href);
-	const [user, repository, ...branchParts] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.title.replace(':', '/').split('/');
-	const branch = branchParts.join('/');
-	url.assign({
-		user,
-		repository,
-		branch
-	});
-
-	viewFile.href = String(url);
+	const headBranchUrl = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.title.replace(':', '/');
+	const {filePath} = new GitHubURL(viewFile.href);
+	viewFile.pathname = headBranchUrl + '/' + filePath;
 
 	viewFile.classList.add('rgh-actionable-link'); // Mark this as processed
 }
