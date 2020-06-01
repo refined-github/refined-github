@@ -9,7 +9,6 @@ import SizePlugin from 'size-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
 function parseFeatureDetails(id: FeatureID): FeatureMeta {
 	const content = readFileSync(`source/features/${id}.tsx`, {encoding: 'utf-8'});
@@ -49,12 +48,15 @@ const config: Configuration = {
 		errors: true,
 		builtAt: true
 	},
-	entry: {
-		'refined-github': './source/refined-github',
-		background: './source/background',
-		options: './source/options',
-		'resolve-conflicts': './source/resolve-conflicts'
-	},
+	entry: [
+		'refined-github',
+		'background',
+		'options',
+		'resolve-conflicts'
+	].reduce<Record<string, string>>((entries, entry) => {
+		entries[entry] = `./source/${entry}`;
+		return entries;
+	}, {}),
 	output: {
 		path: path.join(__dirname, 'distribution'),
 		filename: '[name].js'
@@ -63,20 +65,17 @@ const config: Configuration = {
 		rules: [
 			{
 				test: /\.tsx?$/,
-				use: [
-					{
-						loader: 'ts-loader',
-						options: {
-							compilerOptions: {
-								// Enables ModuleConcatenation. It must be in here to avoid conflict with ts-node
-								module: 'es2015'
-							},
+				loader: {
+					loader: 'ts-loader',
+					options: {
+						compilerOptions: {
+							// Enables ModuleConcatenation. It must be in here to avoid conflict with ts-node
+							module: 'es2015'
+						},
 
-							// Make compilation faster with `fork-ts-checker-webpack-plugin`
-							transpileOnly: true
-						}
+						transpileOnly: true
 					}
-				],
+				},
 				exclude: /node_modules/
 			},
 			{
@@ -96,7 +95,6 @@ const config: Configuration = {
 		]
 	},
 	plugins: [
-		new ForkTsCheckerWebpackPlugin(),
 		new webpack.DefinePlugin({
 			// Passing `true` as the second argument makes these values dynamic — so every file change will update their value.
 			__featuresOptionDefaults__: webpack.DefinePlugin.runtimeValue(() => {
@@ -150,10 +148,8 @@ const config: Configuration = {
 		]
 	},
 	optimization: {
-		// Without this, function names will be garbled and enableFeature won't work
-		concatenateModules: true,
-
-		// Automatically enabled on production; keeps it somewhat readable for AMO reviewers
+		// Automatically enabled on production;
+		// Keeps it somewhat readable for AMO reviewers
 		minimizer: [
 			new TerserPlugin({
 				parallel: true,
@@ -178,8 +174,5 @@ const config: Configuration = {
 		]
 	}
 };
-
-// Webpack types don't have this
-(config.module as any).strictThisContextOnImports = false;
 
 export default config;

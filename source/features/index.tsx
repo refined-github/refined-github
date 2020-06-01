@@ -117,7 +117,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	}
 
 	// Create logging function
-	log = options.logging ? console.log : () => { };
+	log = options.logging ? console.log : () => {/* No logging */};
 
 	resolve(options);
 });
@@ -201,9 +201,8 @@ const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<voi
 	}
 
 	// Register feature shortcuts
-	for (const hotkey of Object.keys(shortcuts)) {
-		// TODO: use Object.entries, change format of shortcutMap
-		const description = shortcuts[hotkey];
+	for (const [hotkey, description] of Object.entries(shortcuts)) {
+		// TODO: change format of shortcutMap
 		shortcutMap.set(hotkey, {hotkey, description});
 	}
 

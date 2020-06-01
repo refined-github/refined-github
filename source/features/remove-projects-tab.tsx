@@ -14,7 +14,7 @@ function getProjectsTab() {
 }
 
 // We can't detect whether the user can create projects on a repo, so this link is potentially a 404
-async function addNewProjectLink(): Promise<void |false> {
+async function addNewProjectLink(): Promise<void | false> {
 	if (!await getProjectsTab()) {
 		return false;
 	}

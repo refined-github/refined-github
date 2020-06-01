@@ -79,21 +79,21 @@ function addMarkUnreadButton(): void {
 	}
 }
 
-async function markRead(urls: string|string[]): Promise<void> {
+async function markRead(urls: string | string[]): Promise<void> {
 	if (!Array.isArray(urls)) {
 		urls = [urls];
 	}
 
-	const cleanUrls = urls.map(stripHash);
+	const cleanUrls = new Set(urls.map(stripHash));
 
 	for (const a of select.all<HTMLAnchorElement>('a.js-notification-target')) {
-		if (cleanUrls.includes(a.getAttribute('href')!)) {
+		if (cleanUrls.has(a.getAttribute('href')!)) {
 			a.closest('li.js-notification')!.classList.replace('unread', 'read');
 		}
 	}
 
 	const notifications = await getNotifications();
-	const updated = notifications.filter(({url}) => !cleanUrls.includes(url));
+	const updated = notifications.filter(({url}) => !cleanUrls.has(url));
 	await setNotifications(updated);
 }
 

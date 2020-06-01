@@ -31,7 +31,7 @@ features.add({
 	],
 	additionalListeners: [
 		() => window.addEventListener('resize', onResize),
-		() => onReplacedElement(sideBarSelector, updateStickiness)
+		() => void onReplacedElement(sideBarSelector, updateStickiness)
 	],
 	init: updateStickiness,
 	deinit

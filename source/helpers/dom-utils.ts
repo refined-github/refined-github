@@ -4,9 +4,9 @@ import {getScopedSelector} from '../github-helpers';
 
 /**
  * Append to an element, but before a element that might not exist.
- * @param  {Element|string} parent  Element (or its selector) to which append the `child`
- * @param  {string}         before  Selector of the element that `child` should be inserted before
- * @param  {Element}        child   Element to append
+ * @param  parent  Element (or its selector) to which append the `child`
+ * @param  before  Selector of the element that `child` should be inserted before
+ * @param  child   Element to append
  * @example
  *
  * <parent>
@@ -24,7 +24,7 @@ import {getScopedSelector} from '../github-helpers';
  *   <nope/>
  * </parent>
  */
-export const appendBefore = (parent: string|Element, before: string, child: Element): void => {
+export const appendBefore = (parent: string | Element, before: string, child: Element): void => {
 	if (typeof parent === 'string') {
 		parent = select(parent)!;
 	}
