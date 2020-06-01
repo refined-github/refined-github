@@ -22,20 +22,21 @@ function handlePRMenuOpening(event: delegate.Event): void {
 
 function handleCompareMenuOpening(event: delegate.Event): void {
 	event.delegateTarget.classList.add('rgh-actionable-link'); // Mark this as processed
-	const branch = select('[title^="compare"]')!.textContent!;
 
 	const dropdown = event.delegateTarget.nextElementSibling!;
+
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
+	const url = new GitHubURL(viewFile.href);
+	const branch = select('[title^="compare"]')!.textContent!;
 	viewFile.before(
 		<div className="dropdown-header pl-5">
-			<span className="position-absolute ml-n4 p-1">
+			<span className="position-absolute ml-n4 mt-1">
 				<GitBranchIcon/>
 			</span>
-			{branch}
+			{url.user}:{branch}
 		</div>
 	);
 
-	const url = new GitHubURL(viewFile.href);
 	viewFile.href = url.assign({branch}).toString();
 
 	// Fix the edit link
