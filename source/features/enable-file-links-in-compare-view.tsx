@@ -26,7 +26,10 @@ function handleCompareMenuOpening(event: delegate.Event): void {
 	const dropdown = event.delegateTarget.nextElementSibling!;
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
 	viewFile.before(
-		<div className="dropdown-header">Branch: {branch}</div>
+		<div className="dropdown-header pl-5 d-block">
+			<span class="position-absolute ml-n3"><!-- octicon-branch --></span>
+			{branch}
+		</div>
 	);
 
 	const url = new GitHubURL(viewFile.href);
