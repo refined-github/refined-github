@@ -29,10 +29,9 @@ export default class GitHubURL extends URL {
 		const currentBranchSections = currentBranch.split('/');
 		if (
 			ambiguousReference.length === 1 || // Ref has no slashes
-		currentBranchSections.length === 1 || // Current branch has no slashes
-		/\^|~|@{/.test(branch) // Ref is an extended revision #3137 https://git-scm.com/docs/git-rev-parse#_specifying_revisions
+			currentBranchSections.length === 1 // Current branch has no slashes
 		) {
-		// Then the reference is not ambiguous
+			// Then the reference is not ambiguous
 			return {branch, filePath};
 		}
 
