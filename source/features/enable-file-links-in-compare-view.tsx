@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import GitBranchIcon from 'octicon/git-branch.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -27,7 +28,9 @@ function handleCompareMenuOpening(event: delegate.Event): void {
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
 	viewFile.before(
 		<div className="dropdown-header pl-5 d-block">
-			<span class="position-absolute ml-n3"><!-- octicon-branch --></span>
+			<span className="position-absolute ml-n4 p-1">
+				<GitBranchIcon/>
+			</span>
 			{branch}
 		</div>
 	);
