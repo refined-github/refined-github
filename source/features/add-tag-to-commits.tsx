@@ -121,11 +121,11 @@ async function init(): Promise<void | false> {
 	const cacheKey = `tags:${getRepoURL()}`;
 
 	const commitsOnPage = select.all('li.commit');
-	const lastCommitOnPage = (commitsOnPage[commitsOnPage.length - 1].dataset.channel as string).split(':')[3];
+	const lastCommitOnPage = commitsOnPage[commitsOnPage.length - 1].dataset.channel!.split(':')[3];
 	let cached = await cache.get<{[commit: string]: string[]}>(cacheKey) ?? {};
 	const commitsWithNoTags = [];
 	for (const commit of commitsOnPage) {
-		const targetCommit = (commit.dataset.channel as string).split(':')[3];
+		const targetCommit = commit.dataset.channel!.split(':')[3];
 		let targetTags = cached[targetCommit];
 		if (!targetTags) {
 			// No tags for this commit found in the cache, check in github
