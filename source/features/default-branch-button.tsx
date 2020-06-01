@@ -10,6 +10,12 @@ import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getCurrentBranch} from '../github-helpers';
 
 async function init(): Promise<false | void> {
+	const branchSelector = await elementReady('#branch-select-menu');
+	// The branch selector is missing from History pages of files and folders (it only appears on the root)
+	if (!branchSelector) {
+		return false;
+	}
+
 	const defaultBranch = await getDefaultBranch();
 	const currentBranch = getCurrentBranch();
 
@@ -25,12 +31,6 @@ async function init(): Promise<false | void> {
 		url.branch = '';
 	} else {
 		url.branch = defaultBranch;
-	}
-
-	const branchSelector = await elementReady('#branch-select-menu');
-	// The branch selector is missing from History pages of files and folders (it only appears on the root)
-	if (!branchSelector) {
-		return false;
 	}
 
 	const defaultLink = (
