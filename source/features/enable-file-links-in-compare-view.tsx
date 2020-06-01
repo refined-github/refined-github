@@ -1,3 +1,4 @@
+import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
@@ -20,14 +21,16 @@ function handlePRMenuOpening(event: delegate.Event): void {
 
 function handleCompareMenuOpening(event: delegate.Event): void {
 	event.delegateTarget.classList.add('rgh-actionable-link'); // Mark this as processed
+	const branch = select('[title^="compare"]')!.textContent!;
 
 	const dropdown = event.delegateTarget.nextElementSibling!;
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
+	viewFile.before(
+		<div className="dropdown-header">Branch: {branch}</div>
+	);
+
 	const url = new GitHubURL(viewFile.href);
-	url.assign({
-		branch: select('[title^="compare"]')!.textContent!
-	});
-	viewFile.href = String(url);
+	viewFile.href = url.assign({branch}).toString();
 
 	// Fix the edit link
 	const editFile = viewFile.cloneNode(true);
