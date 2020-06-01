@@ -75,7 +75,7 @@ test('get filePath from search', t => {
 	t.is(url.branch, 'f23b687b3b89aa95a76193722cdfeff740646670');
 	t.is(url.filePath, 'source/features/release-download-count.tsx');
 	t.is(url.pathname, '/yakov116/refined-github/commits/f23b687b3b89aa95a76193722cdfeff740646670/source/features/release-download-count.tsx');
-	t.is(url.href, 'https://github.com/yakov116/refined-github/commits/f23b687b3b89aa95a76193722cdfeff740646670/source/features/release-download-count.tsx');
+	t.is(url.href, 'https://github.com/yakov116/refined-github/commits/f23b687b3b89aa95a76193722cdfeff740646670/source/features/release-download-count.tsx?after=f23b687b3b89aa95a76193722cdfeff740646670+34');
 	t.is(url.search, '?after=f23b687b3b89aa95a76193722cdfeff740646670+34');
 	t.is(String(url), 'https://github.com/yakov116/refined-github/commits/f23b687b3b89aa95a76193722cdfeff740646670/source/features/release-download-count.tsx?after=f23b687b3b89aa95a76193722cdfeff740646670+34');
 });
