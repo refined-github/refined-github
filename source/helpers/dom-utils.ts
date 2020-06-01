@@ -4,6 +4,9 @@ import {getScopedSelector} from '../github-helpers';
 
 /**
  * Append to an element, but before a element that might not exist.
+ * @param  parent  Element (or its selector) to which append the `child`
+ * @param  before  Selector of the element that `child` should be inserted before
+ * @param  child   Element to append
  * @example
  *
  * <parent>
