@@ -26,20 +26,19 @@ const hasAnyProjects = cache.function(async (): Promise<boolean> => {
 	cacheKey: () => `has-projects:${getRepoURL()}`
 });
 
-function getCount(element: Element): number {
+function getCount(element: HTMLElement): number {
 	return Number(element.textContent!.trim());
 }
 
 async function hideMilestones(): Promise<void> {
-	const milestones = await elementReady('[data-selected-links^="repo_milestones"] .Counter');
-	if (getCount(milestones!) === 0) {
-		const milestonesDropdown = await elementReady('[data-hotkey="m"]');
-		milestonesDropdown!.parentElement!.remove();
+	const milestones = select('[data-selected-links^="repo_milestones"] .Counter')!;
+	if (getCount(milestones) === 0) {
+		select('[data-hotkey="m"]')!.parentElement!.remove();
 	}
 }
 
 async function hasProjects(): Promise<boolean> {
-	const activeProjectsCounter = await elementReady('[data-hotkey="g b"] .Counter');
+	const activeProjectsCounter = select('[data-hotkey="g b"] .Counter');
 	if (activeProjectsCounter && getCount(activeProjectsCounter) > 0) {
 		return true;
 	}
