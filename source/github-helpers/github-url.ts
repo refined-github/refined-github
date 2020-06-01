@@ -21,7 +21,7 @@ export default class GitHubURL extends URL {
 		const filePathFromSearch = this.searchParams.getAll('path[]').join('/');
 		if (filePathFromSearch) {
 			// Clear the search from the url, so it does not get passed to the new url.
-			this.search = '';
+			this.searchParams.delete('path[]');
 			return {branch, filePath: filePathFromSearch};
 		}
 
