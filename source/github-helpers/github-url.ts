@@ -16,7 +16,7 @@ export default class GitHubURL extends URL {
 		this.pathname = super.pathname;
 	}
 
-	disambiguateReference(ambiguousReference: string[]): {branch: string; filePath: string} {
+	private disambiguateReference(ambiguousReference: string[]): {branch: string; filePath: string} {
 		const branch = ambiguousReference[0];
 		const filePathFromSearch = this.searchParams.getAll('path[]').join('/');
 		if (filePathFromSearch) {
