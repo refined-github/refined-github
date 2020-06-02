@@ -8,24 +8,17 @@ import features from '.';
 import GitHubURL from '../github-helpers/github-url';
 import {getCurrentBranch} from '../github-helpers';
 
+/** Rebuilds the "View file" link because it points to the base repo and to the commit, instead of the head repo and its branch */
 function handlePRMenuOpening(event: delegate.Event): void {
 	event.delegateTarget.classList.add('rgh-actionable-link'); // Mark this as processed
 
-	// This solution accounts for:
-	// - Branches with slashes in it
-	// - PRs opened from the default branch
 	const dropdown = event.delegateTarget.nextElementSibling!;
-	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
-	// You can only get the user and repository, since PR's open from the default branch will not have the branch in the pathname.
-	const [user, repository] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/');
-	const url = new GitHubURL(viewFile.href);
-	url.assign({
-		user,
-		repository,
-		branch: getCurrentBranch()
-	});
 
-	viewFile.href = String(url);
+	const [user, repository] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/', 3);
+	const filePath = dropdown.closest('[data-path]')!.getAttribute('data-path')!;
+
+	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
+	viewFile.path = [, user, repository, 'blob', getCurrentBranch(), filePath].join('/'); // Do not replace with `GitHubURL`  #3152 #3111 #2595
 }
 
 function handleCompareMenuOpening(event: delegate.Event): void {
