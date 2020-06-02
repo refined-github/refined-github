@@ -14,11 +14,6 @@ type BooleanFunction = () => boolean;
 type CallerFunction = (callback: VoidFunction) => void;
 type FeatureInit = () => Promisable<false | void>;
 
-interface Shortcut {
-	hotkey: string;
-	description: string;
-}
-
 interface FeatureMeta {
 	/**
 	If it's disabled, this should be the issue that explains why, as a reference
@@ -158,8 +153,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 	}
 };
 
-const shortcutMap = new Map<string, Shortcut>();
-const getShortcuts = (): Shortcut[] => [...shortcutMap.values()];
+const shortcutMap = new Map<string, string>();
 
 const defaultPairs = new Map([
 	[pageDetect.hasComments, onNewComments],
@@ -202,8 +196,7 @@ const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<voi
 
 	// Register feature shortcuts
 	for (const [hotkey, description] of Object.entries(shortcuts)) {
-		// TODO: change format of shortcutMap
-		shortcutMap.set(hotkey, {hotkey, description});
+		shortcutMap.set(hotkey, description);
 	}
 
 	for (const loader of loaders) {
@@ -261,7 +254,7 @@ add(undefined, {
 const features = {
 	add,
 	error: logError,
-	getShortcuts
+	shortcutMap
 };
 
 export default features;
