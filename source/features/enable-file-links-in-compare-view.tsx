@@ -28,10 +28,10 @@ function handleCompareMenuOpening(event: delegate.Event): void {
 	const branch = select('[title^="compare"]')!.textContent!;
 	viewFile.before(
 		<div className="dropdown-header pl-5">
-			<span className="position-absolute ml-n4 mt-1">
-				<GitBranchIcon/>
+			<span className="ml-n3">
+				<GitBranchIcon height={13} width={13}/>
 			</span>
-			{branch}
+			{' '}{branch}
 		</div>
 	);
 
