@@ -79,7 +79,7 @@ function addMarkUnreadButton(): void {
 	}
 }
 
-async function markRead(urls: string|string[]): Promise<void> {
+async function markRead(urls: string | string[]): Promise<void> {
 	if (!Array.isArray(urls)) {
 		urls = [urls];
 	}

@@ -17,7 +17,7 @@ function parseBranchFromDom(): string | undefined {
 	}
 
 	// We can find the name in the infobar, available in folder views
-	const branchInfo = select('.branch-infobar')?.textContent?.trim();
+	const branchInfo = select('.branch-infobar')?.textContent!.trim();
 	return branchInfoRegex.exec(branchInfo!)?.[1];
 }
 

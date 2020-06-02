@@ -16,14 +16,17 @@ export const getDiscussionNumber = (): string | undefined => {
 	return undefined;
 };
 
-/* Should work on `isRepoTree` `isBlame` `isSingleFile` `isCommitList` `isCompare` `isPRCommit` */
+/**
+Tested on isRepoTree, isBlame, isSingleFile, isEditFile, isCommit, isCommitList, isCompare, isPR
+Example tag content: https://github.com/sindresorhus/refined-github/commits/branch-or-commit-even-with-slashes.atom
+*/
 export const getCurrentBranch = (): string => {
-	return select.last<HTMLLinkElement>('link[rel="alternate"]')!
+	return select<HTMLLinkElement>('[type="application/atom+xml"]')!
 		.href
 		.split('/')
-		.slice(6)
+		.slice(6) // Drops the initial https://host/user/repo/route/ part
 		.join('/')
-		.replace(/\.atom.*/, '');
+		.replace(/\.atom$/, '');
 };
 
 export const isFirefox = navigator.userAgent.includes('Firefox/');

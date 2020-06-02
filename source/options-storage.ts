@@ -18,7 +18,7 @@ const defaults = Object.assign({
 }, __featuresOptionDefaults__); // This variable is replaced at build time
 
 const migrations = [
-	featureWasRenamed('branch-buttons', 'latest-tag-button'), // Merged on January 10th
+	featureWasRenamed('fix-view-file-link-in-pr', 'enable-file-links-in-compare-view'), // Merged on ???
 
 	// Removed features will be automatically removed from the options as well
 	OptionsSyncPerDomain.migrations.removeUnused
