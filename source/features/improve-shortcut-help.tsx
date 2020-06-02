@@ -16,7 +16,7 @@ function improveShortcutHelp(dialog: Element): void {
 			</div>
 
 			<ul>
-				{[...features.shortcutMap].map(([hotkey, description]) => (
+				{[...features.shortcuts].map(([hotkey, description]) => (
 					<li className="Box-row d-flex flex-row">
 						<div className="flex-auto">{description}</div>
 						<div className="ml-2 no-wrap">
