@@ -14,11 +14,11 @@ function handlePRMenuOpening(event: delegate.Event): void {
 
 	const dropdown = event.delegateTarget.nextElementSibling!;
 
-	const [user, repository] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/', 3);
+	const [, user, repository] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/', 3);
 	const filePath = dropdown.closest('[data-path]')!.getAttribute('data-path')!;
 
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
-	viewFile.path = [, user, repository, 'blob', getCurrentBranch(), filePath].join('/'); // Do not replace with `GitHubURL`  #3152 #3111 #2595
+	viewFile.pathname = [user, repository, 'blob', getCurrentBranch(), filePath].join('/'); // Do not replace with `GitHubURL`  #3152 #3111 #2595
 }
 
 function handleCompareMenuOpening(event: delegate.Event): void {
