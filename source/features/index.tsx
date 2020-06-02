@@ -153,7 +153,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 	}
 };
 
-const shortcuts = new Map<string, string>();
+const shortcutMap = new Map<string, string>();
 
 const defaultPairs = new Map([
 	[pageDetect.hasComments, onNewComments],
@@ -196,7 +196,7 @@ const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<voi
 
 	// Register feature shortcuts
 	for (const [hotkey, description] of Object.entries(shortcuts)) {
-		shortcuts.set(hotkey, description);
+		shortcutMap.set(hotkey, description);
 	}
 
 	for (const loader of loaders) {
@@ -254,7 +254,7 @@ add(undefined, {
 const features = {
 	add,
 	error: logError,
-	shortcuts
+	shortcutMap
 };
 
 export default features;
