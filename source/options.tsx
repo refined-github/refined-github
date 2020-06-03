@@ -99,7 +99,7 @@ async function highlightNewFeatures(): Promise<void> {
 	void browser.storage.local.set({featuresAlreadySeen});
 }
 
-async function init(): Promise<void> {
+async function generateDom(): Promise<void> {
 	// Generate list
 	select('.js-features')!.append(...__featuresMeta__.map(buildFeatureCheckbox));
 
@@ -110,6 +110,13 @@ async function init(): Promise<void> {
 	moveDisabledFeaturesToTop();
 	void highlightNewFeatures();
 
+	// Move debugging tools higher when side-loaded
+	if (process.env.NODE_ENV === 'development') {
+		select('#debugging-position')!.replaceWith(select('#debugging')!);
+	}
+}
+
+function addEventListeners(): void {
 	// Update domain-dependent page content when the domain is changed
 	select('.js-options-sync-selector')?.addEventListener('change', ({currentTarget: dropdown}) => {
 		select<HTMLAnchorElement>('#personal-token-link')!.host = (dropdown as HTMLSelectElement).value;
@@ -128,11 +135,11 @@ async function init(): Promise<void> {
 
 	// Add cache clearer
 	select('#clear-cache')!.addEventListener('click', clearCacheHandler);
+}
 
-	// Move debugging tools higher when side-loaded
-	if (process.env.NODE_ENV === 'development') {
-		select('#debugging-position')!.replaceWith(select('#debugging')!);
-	}
+async function init(): Promise<void> {
+	await generateDom();
+	addEventListeners();
 }
 
 void init();
