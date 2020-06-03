@@ -35,7 +35,7 @@ const getFirstCommitDate = cache.function(async (): Promise<string[] | undefined
 
 	const commit = await fetchDom(
 		`${getRepoURL()}/commits?after=${commitSha}+${commitsCount - 2}`,
-		'.commit-group .commit'
+		'.commit'
 	);
 	const timeStamp = select('relative-time', commit)!.attributes.datetime.value;
 	const {href} = select<HTMLAnchorElement>('a.message', commit)!;
