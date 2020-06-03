@@ -18,7 +18,8 @@ export const getDiscussionNumber = (): string | undefined => {
 
 /**
 Tested on isRepoTree, isBlame, isSingleFile, isEditFile, isCommit, isCommitList, isCompare, isPR
-Example tag content: https://github.com/sindresorhus/refined-github/commits/branch-or-commit-even-with-slashes.atom
+Example tag content on public repositories: https://github.com/sindresorhus/refined-github/commits/branch/or/commit/even-with-slashes.atom
+Example tag content on private repositories https://github.com/private/private/commits/master.atom?token=AEAXKWNRHXA2XJ2ZWCMGUUN44LM62
 */
 export const getCurrentBranch = (): string => {
 	return select<HTMLLinkElement>('[type="application/atom+xml"]')!
@@ -26,7 +27,7 @@ export const getCurrentBranch = (): string => {
 		.split('/')
 		.slice(6) // Drops the initial https://host/user/repo/route/ part
 		.join('/')
-		.replace(/\.atom$/, '');
+		.replace(/\.atom[^.]*$/, '');
 };
 
 export const isFirefox = navigator.userAgent.includes('Firefox/');
