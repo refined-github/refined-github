@@ -121,6 +121,7 @@ function getCount(reactions: HTMLElement[]): number {
 	for (const reaction of reactions) {
 		count += looseParseInt(reaction.textContent!);
 	}
+
 	return count;
 }
 
