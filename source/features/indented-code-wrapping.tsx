@@ -60,7 +60,7 @@ function init(): void {
 	}
 }
 
-features.add({
+void features.add({
 	disabled: '#2421',
 	id: __filebasename,
 	description: 'Indents wrapped code correctly.',

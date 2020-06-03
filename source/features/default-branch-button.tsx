@@ -50,7 +50,7 @@ async function init(): Promise<false | void> {
 	group.parentElement!.classList.add('flex-shrink-0');
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Adds link the default branch on directory listings and files.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/71886648-2891dc00-316f-11ea-98d8-c5bf6c24d85c.png'

@@ -10,10 +10,6 @@ module.exports = {
 		'__filebasename'
 	],
 	rules: {
-		'@typescript-eslint/no-empty-function': 'off',
-		'@typescript-eslint/no-floating-promises': 'off',
-		'@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
-		'@typescript-eslint/prefer-readonly-parameter-types': 'off',
 		'no-alert': 'off',
 		'no-void': 'off',
 		'react/function-component-definition': [
@@ -22,7 +18,6 @@ module.exports = {
 				namedComponents: 'function-declaration'
 			}
 		],
-		'react/jsx-first-prop-new-line': 'error',
 		'react/jsx-key': 'off',
 		'import/order': [
 			'error',
@@ -38,23 +33,20 @@ module.exports = {
 		],
 		'import/first': 'error',
 		'import/newline-after-import': 'error',
-		'import/no-anonymous-default-export': 'error',
 		'import/no-commonjs': 'error',
-		'import/no-named-default': 'error',
 		'import/no-unassigned-import': 'off',
 		'import/prefer-default-export': 'error',
-		'import/extensions': [
-			'error',
-			'never',
-			{
-				svg: 'always'
-			}
-		],
-		'unicorn/no-fn-reference-in-iterator': 'off'
+
+		// Temporarily disabled
+		// TODO: Need to decide what to do with this rule. Either keep it disabled here or remove it from XO.
+		'@typescript-eslint/no-invalid-void-type': 'off', // Reason: https://github.com/sindresorhus/refined-github/pull/3168#discussion_r434479434
+		'unicorn/no-fn-reference-in-iterator': 'off',
+		'unicorn/no-reduce': 'off' // TODO: Remove `reduce` usage.
 	},
+	// We don't use React, so it can't be automatically detected by the linter
 	settings: {
 		react: {
-			version: '16.3'
+			version: '16.13'
 		}
 	}
 };

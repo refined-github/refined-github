@@ -8,7 +8,7 @@ function init(): void {
 	select(`.file-navigation a[href^="/${getRepoURL()}/upload"]`)?.remove();
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Remove the "Upload files" button',
 	screenshot: false

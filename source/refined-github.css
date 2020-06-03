@@ -8,7 +8,7 @@
 
 /* Fade out the file icons */
 .file-wrap .files .octicon {
-	opacity: 0.6;
+	opacity: 60%;
 }
 
 /* Make tab indented code more readable on GitHub and Gist */
@@ -51,7 +51,7 @@
 
 @keyframes fade-in {
 	from {
-		opacity: 0;
+		opacity: 0%;
 	}
 }
 

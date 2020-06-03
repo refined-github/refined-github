@@ -93,7 +93,7 @@ function init(): void | false {
 	delegate(document, '.rgh-clone-branch', 'click', cloneBranch);
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Clone a branch from the branches list.',
 	screenshot: 'https://user-images.githubusercontent.com/16872793/76802029-2a020500-67ad-11ea-95dc-bee1b1352976.png'

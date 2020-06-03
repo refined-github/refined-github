@@ -87,13 +87,13 @@ async function showAvatarsOn(commentReactions: Element): Promise<void> {
 
 	const trackableElement = commentReactions.closest<HTMLElement>('[data-body-version]')!;
 	const trackingSelector = `[data-body-version="${trackableElement.dataset.bodyVersion!}"]`;
-	onReplacedElement(trackingSelector, init);
+	await onReplacedElement(trackingSelector, init);
 }
 
 const viewportObserver = new IntersectionObserver(changes => {
 	for (const change of changes) {
 		if (change.isIntersecting) {
-			showAvatarsOn(change.target);
+			void showAvatarsOn(change.target);
 			viewportObserver.unobserve(change.target);
 		}
 	}
@@ -109,7 +109,7 @@ async function init(): Promise<void> {
 	}
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Adds reaction avatars showing *who* reacted to a comment',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/34438653-f66535a4-ecda-11e7-9406-2e1258050cfa.png'

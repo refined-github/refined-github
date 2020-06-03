@@ -35,7 +35,7 @@ function init(): void {
 	});
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Adds a button to toggle the repo file list.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/35480123-68b9af1a-043a-11e8-8934-3ead3cff8328.gif'

@@ -18,7 +18,7 @@ async function init(): Promise<void | false> {
 	packagesTab.closest('li, .UnderlineNav-item')!.remove();
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Hides the `Packages` tab if it’s empty (in repositories and user profiles).',
 	screenshot: 'https://user-images.githubusercontent.com/35382021/62426530-688ef780-b6d5-11e9-93f2-515110aed1eb.jpg'

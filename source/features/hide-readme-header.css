@@ -21,11 +21,11 @@
 	padding: 12px;
 	right: 0;
 	top: 0;
-	opacity: 0.2;
+	opacity: 20%;
 	transition: opacity 0.25s;
 }
 
 .repository-content #readme:not(.blob) .Box-header .btn-octicon:hover,
 .repository-content #readme:not(.blob) .Box-header .btn-octicon:focus {
-	opacity: 1;
+	opacity: 100%;
 }

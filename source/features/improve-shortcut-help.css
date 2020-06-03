@@ -8,7 +8,7 @@
 }
 
 .rgh-inactive-shortcut-group:not(:hover) {
-	opacity: 0.6;
+	opacity: 60%;
 }
 
 .rgh-shortcut-circle {

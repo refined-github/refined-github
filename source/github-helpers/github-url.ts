@@ -1,15 +1,15 @@
 import {getCurrentBranch} from '.';
 
 export default class GitHubURL extends URL {
-	// @ts-ignore https://github.com/microsoft/TypeScript/issues/26792
+	// @ts-expect-error https://github.com/microsoft/TypeScript/issues/26792
 	user: string;
-	// @ts-ignore
+	// @ts-expect-error
 	repository: string;
-	// @ts-ignore
+	// @ts-expect-error
 	route: string;
-	// @ts-ignore
+	// @ts-expect-error
 	branch: string;
-	// @ts-ignore
+	// @ts-expect-error
 	filePath: string;
 
 	assign = Object.assign.bind(null, this);

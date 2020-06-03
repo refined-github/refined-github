@@ -26,7 +26,7 @@ function init(): void {
 	document.body.addEventListener('keyup', listener);
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Adds a keyboard shortcut to deselect the current line: `esc`.',
 	screenshot: false

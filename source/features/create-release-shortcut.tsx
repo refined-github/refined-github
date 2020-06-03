@@ -10,7 +10,7 @@ function init(): void {
 	}
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Adds a keyboard shortcut to create a new release while on the Releases page: `c`.',
 	screenshot: false,

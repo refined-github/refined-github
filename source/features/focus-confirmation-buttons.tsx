@@ -14,7 +14,7 @@ function init(): void {
 	}, true); // The `toggle` event doesn't bubble, so it needs to be captured
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Always focuses confirm buttons in custom modal boxes, like "Mark all as read".',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/31700158-1499bdd8-b38d-11e7-9aba-77a0a4b6bf3c.png'

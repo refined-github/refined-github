@@ -65,11 +65,13 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	hideMilestones();
-	hideProjects();
+	await Promise.all([
+		hideMilestones(),
+		hideProjects()
+	]);
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Hides `Projects` and `Milestones` filters in discussion lists if they are empty.',
 	screenshot: 'https://user-images.githubusercontent.com/37769974/59083449-0ef88f80-8915-11e9-8296-68af1ddcf191.png'

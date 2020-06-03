@@ -19,7 +19,7 @@ function deinit(): void {
 	window.removeEventListener('keyup', handler);
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Enhances the `y` hotkey to also copy the permalink.',
 	screenshot: false

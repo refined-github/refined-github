@@ -34,7 +34,7 @@ async function init(): Promise<false | void> {
 	}
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Marks private organizations on your own profile.',
 	screenshot: 'https://user-images.githubusercontent.com/6775216/44633467-d5dcc900-a959-11e8-9116-e6b0ffef66af.png'
