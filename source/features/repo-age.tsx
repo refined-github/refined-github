@@ -38,8 +38,8 @@ const getFirstCommit = cache.function(async (): Promise<[string, string] | undef
 		'.commit'
 	);
 	const timeStamp = select('relative-time', commit)!.attributes.datetime.value;
-	const {href} = select<HTMLAnchorElement>('a.message', commit)!;
-	return [timeStamp, href];
+	const {pathname} = select<HTMLAnchorElement>('a.message', commit)!;
+	return [timeStamp, pathname];
 }, {
 	cacheKey: () => __filebasename + ':' + getRepoURL(),
 	shouldRevalidate: value => typeof value === 'string'
