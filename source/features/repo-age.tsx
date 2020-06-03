@@ -37,15 +37,16 @@ const getFirstCommitDate = cache.function(async (): Promise<string[] | undefined
 		`${getRepoURL()}/commits?after=${commitSha}+${commitsCount - 2}`,
 		'.commit-group .commit'
 	);
-	const timeStamp = select('.commit-meta relative-time', commit)!.attributes.datetime.value;
-	const href = select<HTMLAnchorElement>('a.message', commit)!.href;
+	const timeStamp = select('relative-time', commit)!.attributes.datetime.value;
+	const {href} = select<HTMLAnchorElement>('a.message', commit)!;
 	return [timeStamp, href];
 }, {
-	cacheKey: () => __filebasename + ':' + getRepoURL()
+	cacheKey: () => __filebasename + ':' + getRepoURL(),
+	isExpired: value => typeof value === 'string'
 });
 
 async function init(): Promise<void> {
-	const [firstCommitDate, firstCommitHref] = await getFirstCommitDate() ?? [];
+	const [firstCommitDate, firstCommitHref] = await getFirstCommit() ?? [];
 
 	if (!firstCommitDate) {
 		return;
