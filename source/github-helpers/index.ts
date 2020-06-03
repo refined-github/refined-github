@@ -17,7 +17,7 @@ export const getDiscussionNumber = (): string | undefined => {
 };
 
 /**
-Tested on isRepoTree, isBlame, isSingleFile, isEditFile, isCommit, isCommitList, isCompare, isPR
+Tested on isRepoTree, isBlame, isSingleFile, isEditFile, isSingleCommit, isCommitList, isCompare. Subtly incompatible with isPR
 Example tag content on public repositories: https://github.com/sindresorhus/refined-github/commits/branch-or-commit/even/with/slashes.atom
 Example tag content on private repositories https://github.com/private/private/commits/master.atom?token=AEAXKWNRHXA2XJ2ZWCMGUUN44LM62
 */
