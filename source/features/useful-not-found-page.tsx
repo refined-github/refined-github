@@ -99,16 +99,16 @@ function init(): false | void {
 
 	// Check parts from right to left; skip the last part
 	for (let i = bar.children.length - 2; i >= 0; i--) {
-		checkAnchor(bar.children[i] as HTMLAnchorElement);
+		void checkAnchor(bar.children[i] as HTMLAnchorElement);
 	}
 
 	if (parts[2] === 'tree') {
-		addCommitHistoryLink(bar);
-		addDefaultBranchLink(bar);
+		void addCommitHistoryLink(bar);
+		void addDefaultBranchLink(bar);
 	}
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Adds possible related pages and alternatives on 404 pages.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/46402857-7bdada80-c733-11e8-91a1-856573078ff5.png'

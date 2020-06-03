@@ -25,8 +25,8 @@ async function setValueInField(): Promise<void> {
 	}
 }
 
-function init(): void {
-	setValueInField();
+async function init(): Promise<void> {
+	await setValueInField();
 	window.addEventListener('beforeunload', unloadHandler);
 	window.addEventListener('pjax:start', unloadHandler);
 }
@@ -36,7 +36,7 @@ function deinit(): void {
 	window.removeEventListener('pjax:start', unloadHandler);
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Preserves the search terms when navigating back and forth between the File Finder and the files.',
 	screenshot: false

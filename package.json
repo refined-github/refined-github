@@ -114,7 +114,7 @@
 		"web-ext-submit": "^4.2.0",
 		"webpack": "^4.43.0",
 		"webpack-cli": "^3.3.11",
-		"xo": "^0.31.0"
+		"xo": "^0.32.0"
 	},
 	"webExt": {
 		"sourceDir": "distribution",

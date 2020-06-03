@@ -7,7 +7,7 @@ function init(): void {
 	document.addEventListener('keypress', (event: KeyboardEvent) => {
 		const selected = select<HTMLAnchorElement>('.navigation-focus .js-navigation-open[href]');
 		if (selected && event.key === 'O' && !isEditable(event.target)) {
-			browser.runtime.sendMessage({
+			void browser.runtime.sendMessage({
 				openUrls: [selected.href]
 			});
 
@@ -17,7 +17,7 @@ function init(): void {
 	});
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Adds a keyboard shortcut to open selection in new tab when navigating via `j` and `k`: `Shift` `o`.',
 	screenshot: false,

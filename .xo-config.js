@@ -36,25 +36,16 @@ module.exports = {
 		'import/no-commonjs': 'error',
 		'import/no-unassigned-import': 'off',
 		'import/prefer-default-export': 'error',
-		'import/extensions': [
-			'error',
-			'never',
-			{
-				svg: 'always'
-			}
-		],
 
 		// Temporarily disabled
+		// TODO: Need to decide what to do with this rule. Either keep it disabled here or remove it from XO.
 		'@typescript-eslint/no-invalid-void-type': 'off', // Reason: https://github.com/sindresorhus/refined-github/pull/3168#discussion_r434479434
-		'@typescript-eslint/no-extra-non-null-assertion': 'off', // Reason: https://github.com/sindresorhus/refined-github/pull/3168#discussion_r434478709
-		'@typescript-eslint/no-unnecessary-condition': 'off', // Reason: https://github.com/sindresorhus/refined-github/pull/3168#discussion_r434479136
-		'@typescript-eslint/no-floating-promises': 'off',
 		'unicorn/no-fn-reference-in-iterator': 'off',
 		'unicorn/no-reduce': 'off' // TODO: Remove `reduce` usage.
 	},
 	settings: {
 		react: {
-			version: '16.3'
+			version: '16.13'
 		}
 	}
 };

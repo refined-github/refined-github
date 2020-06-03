@@ -11,7 +11,7 @@ function init(): void {
 	}
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Opens the Checks "details" link in a new tab.',
 	screenshot: false

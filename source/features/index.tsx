@@ -222,15 +222,18 @@ const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<voi
 
 		const details = {include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners};
 		if (waitForDomReady) {
-			domLoaded.then(async () => setupPageLoad(id, details));
+			(async () => {
+				await domLoaded;
+				await setupPageLoad(id, details);
+			})();
 		} else {
-			setupPageLoad(id, details);
+			void setupPageLoad(id, details);
 		}
 
 		if (repeatOnAjax) {
 			document.addEventListener('pjax:end', () => {
 				if (repeatOnAjaxEvenOnBackButton || !select.exists('has-rgh')) {
-					setupPageLoad(id, details);
+					void setupPageLoad(id, details);
 				}
 			});
 		}
@@ -243,7 +246,7 @@ This means that the old features will still be on the page and don't need to re-
 
 This marks each as "processed"
 */
-add(undefined, {
+void add(undefined, {
 	init: async () => {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
 		await Promise.resolve();

@@ -10,7 +10,7 @@ function init(): void {
 	}
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Adds a keyboard shortcut to star/unstar the current repo: `g` `s`.',
 	screenshot: false,

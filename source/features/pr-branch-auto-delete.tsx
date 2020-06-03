@@ -20,7 +20,7 @@ function init(): void {
 	});
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Automatically deletes the branch right after merging a PR, if possible.',
 	screenshot: false

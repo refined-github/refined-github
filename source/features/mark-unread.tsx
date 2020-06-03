@@ -330,14 +330,14 @@ async function markVisibleNotificationsRead({delegateTarget}: delegate.Event): P
 	const group = delegateTarget.closest('.boxed-group')!;
 	const repo = select('.notifications-repo-link', group)!.textContent;
 	const notifications = await getNotifications();
-	setNotifications(notifications.filter(({repository}) => repository !== repo));
+	await setNotifications(notifications.filter(({repository}) => repository !== repo));
 }
 
 function addCustomAllReadButton(): void {
 	const nativeMarkUnreadForm = select('details [action="/notifications/mark"]');
 	if (nativeMarkUnreadForm) {
 		nativeMarkUnreadForm.addEventListener('submit', () => {
-			setNotifications([]);
+			void setNotifications([]);
 		});
 		return;
 	}
@@ -395,10 +395,10 @@ async function initDiscussionListPage(): Promise<void> {
 }
 
 function initDiscussionPage(): void {
-	markRead(location.href);
+	void markRead(location.href);
 
 	addMarkUnreadButton();
-	onReplacedElement('#partial-discussion-sidebar', addMarkUnreadButton);
+	void onReplacedElement('#partial-discussion-sidebar', addMarkUnreadButton);
 	delegate(document, '.rgh-btn-mark-unread', 'click', markUnread);
 }
 
@@ -428,7 +428,7 @@ function deinitNotificationsPage(): void {
 	listeners.length = 0;
 }
 
-features.add({
+void features.add({
 	disabled: '#2801',
 	id: __filebasename,
 	description: 'Adds button to mark issues and PRs as unread. They will reappear in Notifications.',

@@ -13,7 +13,7 @@ function init(): void {
 	messageField.value = coAuthors.join('\n');
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Clears the PR merge commit message of clutter, leaving only deduplicated co-authors.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/79257078-62b6fc00-7e89-11ea-8798-c06f33baa94b.png'

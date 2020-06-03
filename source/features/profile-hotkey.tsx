@@ -12,7 +12,7 @@ function init(): false | void {
 	menuItem.dataset.hotkey = 'g m';
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Adds a keyboard shortcut to visit your own profile: `g` `m`.',
 	screenshot: false,

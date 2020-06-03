@@ -57,7 +57,7 @@ function init(): void {
 	delegate(document, '.file-header:not([data-file-deleted="true"]) .js-file-header-dropdown > summary:not(.rgh-actionable-link)', 'click', handleMenuOpening);
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Points the "View file" on compare view pages to the branch instead of the commit, so the Edit/Delete buttons will be enabled on the "View file" page, if needed.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/69044026-c5b17d80-0a26-11ea-86ae-c95f89d3669a.png'

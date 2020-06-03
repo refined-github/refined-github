@@ -17,7 +17,7 @@ async function init(): Promise<void> {
 	);
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Enables the the File Finder keyboard shortcut (`t`) on Issues and Pull Request pages as well.',
 	screenshot: false

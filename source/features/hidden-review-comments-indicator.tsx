@@ -69,7 +69,7 @@ function init(): void {
 	delegate(document, '.rgh-comments-indicator', 'click', handleIndicatorClick);
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Adds comment indicators when comments are hidden in PR review.',
 	screenshot:
