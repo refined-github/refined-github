@@ -27,7 +27,7 @@ export const getCurrentBranch = (): string => {
 		.split('/')
 		.slice(6) // Drops the initial https://host/user/repo/route/ part
 		.join('/')
-		.replace(/\.atom[^.]*$/, '');
+		.replace(/\.atom(\?token=.+)?$/, '');
 };
 
 export const isFirefox = navigator.userAgent.includes('Firefox/');
