@@ -22,12 +22,12 @@ Example tag content on public repositories: https://github.com/sindresorhus/refi
 Example tag content on private repositories https://github.com/private/private/commits/master.atom?token=AEAXKWNRHXA2XJ2ZWCMGUUN44LM62
 */
 export const getCurrentBranch = (): string => {
-	return select<HTMLLinkElement>('[type="application/atom+xml"]')!
-		.href
+	return new URL(select<HTMLLinkElement>('[type="application/atom+xml"]')!.href)
+		.pathname
 		.split('/')
-		.slice(6) // Drops the initial https://host/user/repo/route/ part
+		.slice(4) // Drops the initial /user/repo/route/ part
 		.join('/')
-		.replace(/\.atom(\?token=.+)?$/, '');
+		.replace(/\.atom$/, '');
 };
 
 export const isFirefox = navigator.userAgent.includes('Firefox/');
