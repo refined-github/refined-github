@@ -87,22 +87,21 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 			}
 		}
 		`);
-	const {nodes}: {nodes: TagNode[]} = repository.refs;
-	let tags = nodes.reduce((tags: CommitTags, node: TagNode) => {
+	const nodes: TagNode[] = repository.refs.nodes;
+
+	// If there are no tags in the repository
+	if (nodes.length === 0) {
+		return {};
+	}
+
+	let tags: CommitTags = {};
+	for (const node of nodes) {
 		const commit = node.target.commitResourcePath.split('/')[4];
-		const {name} = node;
 		if (!tags[commit]) {
 			tags[commit] = [];
 		}
 
-		tags[commit].push(name);
-
-		return tags;
-	}, {});
-
-	// If there are no tags in the repository
-	if (nodes.length === 0) {
-		return tags;
+		tags[commit].push(node.name);
 	}
 
 	const lastTag = nodes[nodes.length - 1].target;
