@@ -11,14 +11,12 @@ export default class GitHubURL extends URL {
 	branch: string;
 	// @ts-ignore
 	filePath: string;
+
+	assign = Object.assign.bind(this, this);
+
 	constructor(url: string) {
 		super(url);
 		this.pathname = super.pathname;
-	}
-
-	assign(replacements: Partial<GitHubURL>): this {
-		Object.assign(this, replacements);
-		return this;
 	}
 
 	toString() {
