@@ -40,7 +40,7 @@ test('nested object', t => {
 });
 
 test('change branch', t => {
-	const url = new GitHubURL('https://github.com/microsoft/TypeScript/tree/master/src/index.js').assign({
+	const url = new GitHubURL('https://github.com/microsoft/TypeScript/tree/master/src/index.js').assign(this, {
 		branch: 'dev'
 	});
 	t.is(url.user, 'microsoft');

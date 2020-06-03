@@ -11,14 +11,12 @@ export default class GitHubURL extends URL {
 	branch: string;
 	// @ts-ignore
 	filePath: string;
+
+	assign = Object.assign.bind(this);
+
 	constructor(url: string) {
 		super(url);
 		this.pathname = super.pathname;
-	}
-
-	assign(replacements: Partial<GitHubURL>): this {
-		Object.assign(this, replacements);
-		return this;
 	}
 
 	toString() {
@@ -65,7 +63,7 @@ export default class GitHubURL extends URL {
 	set pathname(pathname) {
 		const [user, repository, route, ...ambiguousReference] = pathname.replace(/^\/|\/$/g, '').split('/');
 		const {branch, filePath} = this.disambiguateReference(ambiguousReference);
-		this.assign({user, repository, route, branch, filePath});
+		this.assign(this, {user, repository, route, branch, filePath});
 	}
 
 	get href() {
