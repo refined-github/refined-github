@@ -89,6 +89,6 @@
 @keyframes rgh-slide-in-right {
 	from {
 		transform: translateX(-30px);
-		opacity: 0;
+		opacity: 0%;
 	}
 }

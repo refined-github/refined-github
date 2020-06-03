@@ -11,7 +11,7 @@
 	position: absolute;
 	left: 0;
 	top: 0;
-	opacity: 0.25;
+	opacity: 25%;
 }
 
 [data-rgh-whitespace^='→']::before {

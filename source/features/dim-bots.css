@@ -17,7 +17,7 @@ Transitions are used to delay the "hover" status so it's not too annoying when m
 }
 
 .rgh-dim-bot.commit:not(.navigation-focus):not(.Details--on) .commit-title {
-	opacity: 0.3;
+	opacity: 30%;
 	transition-delay: 0s;
 }
 
@@ -25,7 +25,7 @@ Transitions are used to delay the "hover" status so it's not too annoying when m
 .rgh-dim-bot.commit:not(.navigation-focus):not(.Details--on) summary, /* `Verified` badge */
 .rgh-dim-bot.commit:not(.navigation-focus):not(.Details--on) .commit-links-group, /* Hash and Copy hash buttons */
 .rgh-dim-bot.commit:not(.navigation-focus):not(.Details--on) .commit-links-group + .btn { /* Browse repository button */
-	opacity: 0;
+	opacity: 0%;
 	visibility: hidden;
 	margin-bottom: -2em;
 	transition-delay: 0s;
@@ -49,6 +49,6 @@ Transitions are used to delay the "hover" status so it's not too annoying when m
 }
 
 .rgh-dim-bot.Box-row:not(.navigation-focus) > .d-table {
-	opacity: 0.2; /* This can't applied to .Box-row because that includes the top border. */
+	opacity: 20%; /* This can't applied to .Box-row because that includes the top border. */
 	transition-delay: 0s;
 }

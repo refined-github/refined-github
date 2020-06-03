@@ -92,7 +92,7 @@
 
 /* Fade out last line */
 .dashboard .flex-items-baseline .f6.mt-2 {
-	opacity: 0.5;
+	opacity: 50%;
 }
 
 /* Remove the "New repository" button in the dashboard sidebar */

@@ -10,10 +10,6 @@ module.exports = {
 		'__filebasename'
 	],
 	rules: {
-		'@typescript-eslint/no-empty-function': 'off',
-		'@typescript-eslint/no-floating-promises': 'off',
-		'@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
-		'@typescript-eslint/prefer-readonly-parameter-types': 'off',
 		'no-alert': 'off',
 		'no-void': 'off',
 		'react/function-component-definition': [
@@ -22,7 +18,6 @@ module.exports = {
 				namedComponents: 'function-declaration'
 			}
 		],
-		'react/jsx-first-prop-new-line': 'error',
 		'react/jsx-key': 'off',
 		'import/order': [
 			'error',
@@ -38,9 +33,7 @@ module.exports = {
 		],
 		'import/first': 'error',
 		'import/newline-after-import': 'error',
-		'import/no-anonymous-default-export': 'error',
 		'import/no-commonjs': 'error',
-		'import/no-named-default': 'error',
 		'import/no-unassigned-import': 'off',
 		'import/prefer-default-export': 'error',
 		'import/extensions': [
@@ -50,7 +43,14 @@ module.exports = {
 				svg: 'always'
 			}
 		],
-		'unicorn/no-fn-reference-in-iterator': 'off'
+
+		// Temporarily disabled
+		'@typescript-eslint/no-invalid-void-type': 'off',
+		'@typescript-eslint/no-extra-non-null-assertion': 'off',
+		'@typescript-eslint/no-unnecessary-condition': 'off',
+		'@typescript-eslint/no-floating-promises': 'off',
+		'unicorn/no-fn-reference-in-iterator': 'off',
+		'unicorn/no-reduce': 'off' // TODO: Remove `reduce` usage.
 	},
 	settings: {
 		react: {

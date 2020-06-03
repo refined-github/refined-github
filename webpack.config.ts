@@ -103,16 +103,16 @@ const config: Configuration = {
 					return defaults;
 				}, {}));
 				// TODO: unignore after https://github.com/DefinitelyTyped/DefinitelyTyped/pull/42036
-				// @ts-ignore
+				// @ts-expect-error
 			}, true),
 
 			__featuresMeta__: webpack.DefinePlugin.runtimeValue(() => {
 				return JSON.stringify(getFeatures().map(parseFeatureDetails));
-				// @ts-ignore
+				// @ts-expect-error
 			}, true),
 
 			__filebasename: webpack.DefinePlugin.runtimeValue(({module}) => {
-				// @ts-ignore
+				// @ts-expect-error
 				return JSON.stringify(path.basename(module.resource).replace(/\.tsx?$/, ''));
 			})
 		}),
