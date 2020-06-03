@@ -21,6 +21,10 @@ export default class GitHubURL extends URL {
 		return this;
 	}
 
+	toString() {
+		return this.href;
+	}
+
 	private disambiguateReference(ambiguousReference: string[]): {branch: string; filePath: string} {
 		const branch = ambiguousReference[0];
 		const filePathFromSearch = this.searchParams.getAll('path[]').join('/');
@@ -69,9 +73,5 @@ export default class GitHubURL extends URL {
 		// Update the actual underlying URL
 		super.pathname = this.pathname;
 		return super.href;
-	}
-
-	toString() {
-		return this.href;
 	}
 }
