@@ -12,7 +12,7 @@ export default class GitHubURL extends URL {
 	// @ts-ignore
 	filePath: string;
 
-	assign = Object.assign.bind(this, this);
+	assign = Object.assign.bind(null, this);
 
 	constructor(url: string) {
 		super(url);
