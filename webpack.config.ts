@@ -53,7 +53,7 @@ const config: Configuration = {
 		'background',
 		'options',
 		'resolve-conflicts'
-	].map(file => [file, `./source/${file}`])),
+	].map(name => [name, `./source/${name}`])),
 	output: {
 		path: path.join(__dirname, 'distribution'),
 		filename: '[name].js'
@@ -95,7 +95,7 @@ const config: Configuration = {
 		new webpack.DefinePlugin({
 			// Passing `true` as the second argument makes these values dynamic — so every file change will update their value.
 			__featuresOptionDefaults__: webpack.DefinePlugin.runtimeValue(() => {
-				return JSON.stringify(getFeatures().map(name => [`feature:${name}`, true]));
+				return JSON.stringify(Object.fromEntries(getFeatures().map(id => [`feature:${id}`, true])));
 				// TODO: unignore after https://github.com/DefinitelyTyped/DefinitelyTyped/pull/42036
 				// @ts-expect-error
 			}, true),
