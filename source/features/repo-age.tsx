@@ -16,7 +16,7 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
 	day: 'numeric'
 });
 
-const getFirstCommitDate = cache.function(async (): Promise<string | undefined> => {
+const getFirstCommitDate = cache.function(async (): Promise<string[] | undefined> => {
 	const commitInfo = await elementReady<HTMLAnchorElement | HTMLScriptElement>('a.commit-tease-sha, include-fragment.commit-tease');
 	const commitUrl = commitInfo instanceof HTMLAnchorElement ? commitInfo.href : commitInfo!.src;
 	const commitSha = commitUrl.split('/').pop()!;
@@ -30,21 +30,22 @@ const getFirstCommitDate = cache.function(async (): Promise<string | undefined> 
 	}
 
 	if (commitsCount === 1) {
-		return select('.commit-tease-sha + span relative-time')!.attributes.datetime.value;
+		return [select('.commit-tease-sha + span relative-time')!.attributes.datetime.value, commitUrl];
 	}
 
-	const relativeTime = await fetchDom(
+	const commit = await fetchDom(
 		`${getRepoURL()}/commits?after=${commitSha}+${commitsCount - 2}`,
-		'.commit-meta relative-time'
+		'.commit-group .commit'
 	);
-
-	return relativeTime!.attributes.datetime.value;
+	const timeStamp = select('.commit-meta relative-time', commit)!.attributes.datetime.value;
+	const href = select<HTMLAnchorElement>('a.message', commit)!.href;
+	return [timeStamp, href];
 }, {
 	cacheKey: () => __filebasename + ':' + getRepoURL()
 });
 
 async function init(): Promise<void> {
-	const firstCommitDate = await getFirstCommitDate();
+	const [firstCommitDate, firstCommitHref] = await getFirstCommitDate() ?? [];
 
 	if (!firstCommitDate) {
 		return;
@@ -60,7 +61,9 @@ async function init(): Promise<void> {
 
 	const element = (
 		<li className="text-gray" title={`First commit dated ${dateFormatter.format(date)}`}>
-			<RepoIcon/> <span className="num text-emphasized">{value}</span> {unit} old
+			<a href={firstCommitHref}>
+				<RepoIcon/> <span className="num text-emphasized">{value}</span> {unit} old
+			</a>
 		</li>
 	);
 
