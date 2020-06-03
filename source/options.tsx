@@ -89,7 +89,7 @@ async function init(): Promise<void> {
 		}
 	}
 
-	await browser.storage.local.set({featuresAlreadySeen});
+	void browser.storage.local.set({featuresAlreadySeen});
 
 	// Improve textareas editing
 	fitTextarea.watch('textarea');
