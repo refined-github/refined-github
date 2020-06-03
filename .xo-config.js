@@ -45,9 +45,9 @@ module.exports = {
 		],
 
 		// Temporarily disabled
-		'@typescript-eslint/no-invalid-void-type': 'off',
-		'@typescript-eslint/no-extra-non-null-assertion': 'off',
-		'@typescript-eslint/no-unnecessary-condition': 'off',
+		'@typescript-eslint/no-invalid-void-type': 'off', // Reason: https://github.com/sindresorhus/refined-github/pull/3168#discussion_r434479434
+		'@typescript-eslint/no-extra-non-null-assertion': 'off', // Reason: https://github.com/sindresorhus/refined-github/pull/3168#discussion_r434478709
+		'@typescript-eslint/no-unnecessary-condition': 'off', // Reason: https://github.com/sindresorhus/refined-github/pull/3168#discussion_r434479136
 		'@typescript-eslint/no-floating-promises': 'off',
 		'unicorn/no-fn-reference-in-iterator': 'off',
 		'unicorn/no-reduce': 'off' // TODO: Remove `reduce` usage.
