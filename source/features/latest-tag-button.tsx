@@ -99,7 +99,7 @@ async function init(): Promise<false | void> {
 	});
 
 	const link = (
-		<a className="btn btn-sm btn-outline tooltipped tooltipped-ne ml-2" href={String(url)}>
+		<a className="btn btn-sm btn-outline ml-2" href={String(url)}>
 			<TagIcon/>
 		</a>
 	);
@@ -109,6 +109,7 @@ async function init(): Promise<false | void> {
 		link.append(' ', <span className="css-truncate-target">{latestTag}</span>);
 	}
 
+	link.classList.add('tooltipped', 'tooltipped-ne');
 	if (currentBranch === latestTag || isUpToDate) {
 		link.setAttribute('aria-label', 'You’re on the latest release');
 		link.classList.add('disabled');
