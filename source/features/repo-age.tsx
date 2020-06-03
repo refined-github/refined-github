@@ -16,7 +16,7 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
 	day: 'numeric'
 });
 
-const getFirstCommit = cache.function(async (): Promise<string[] | undefined> => {
+const getFirstCommit = cache.function(async (): Promise<[string, string] | undefined> => {
 	const commitInfo = await elementReady<HTMLAnchorElement | HTMLScriptElement>('a.commit-tease-sha, include-fragment.commit-tease');
 	const commitUrl = commitInfo instanceof HTMLAnchorElement ? commitInfo.href : commitInfo!.src;
 	const commitSha = commitUrl.split('/').pop()!;
@@ -42,7 +42,7 @@ const getFirstCommit = cache.function(async (): Promise<string[] | undefined> =>
 	return [timeStamp, href];
 }, {
 	cacheKey: () => __filebasename + ':' + getRepoURL(),
-	isExpired: value => typeof value === 'string'
+	shouldRevalidate: value => typeof value === 'string'
 });
 
 async function init(): Promise<void> {
