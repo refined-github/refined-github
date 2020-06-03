@@ -43,6 +43,7 @@ module.exports = {
 		'unicorn/no-fn-reference-in-iterator': 'off',
 		'unicorn/no-reduce': 'off' // TODO: Remove `reduce` usage.
 	},
+	// We don't use React, so it can't be automatically detected by the linter
 	settings: {
 		react: {
 			version: '16.13'
