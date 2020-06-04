@@ -7,10 +7,10 @@ import features from '.';
 import GitHubURL from '../github-helpers/github-url';
 
 function handleMenuOpening(event: delegate.Event): void {
-	event.delegateTarget.classList.add('rgh-raw-file-link'); // Mark this as processed
-	const dropdown = event.delegateTarget.nextElementSibling!;
+	const {delegateTarget} = event;
+	delegateTarget.classList.add('rgh-raw-file-link'); // Mark this as processed
 
-	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
+	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', delegateTarget)!;
 	const {href} = new GitHubURL(viewFile.href).assign({route: 'raw'});
 
 	viewFile.after(
@@ -21,7 +21,8 @@ function handleMenuOpening(event: delegate.Event): void {
 }
 
 function init(): void {
-	delegate(document, '.js-file-header-dropdown > summary:not(.rgh-raw-file-link)', 'click', handleMenuOpening);
+	// `useCapture` required to be fired before GitHub's handlers
+	delegate(document, '.file-header .js-file-header-dropdown:not(.rgh-raw-file-link)', 'toggle', handleMenuOpening, true);
 }
 
 void features.add({
