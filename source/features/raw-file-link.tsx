@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import GitHubURL from '../github-helpers/github-url';
 
-function handleMenuOpening(event: delegate.Event): void {
+function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	const {delegateTarget} = event;
 	delegateTarget.classList.add('rgh-raw-file-link'); // Mark this as processed
 
