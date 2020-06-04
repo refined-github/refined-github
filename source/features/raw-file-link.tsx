@@ -7,10 +7,9 @@ import features from '.';
 import GitHubURL from '../github-helpers/github-url';
 
 function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
-	const {delegateTarget} = event;
-	delegateTarget.classList.add('rgh-raw-file-link'); // Mark this as processed
+	dropdown.classList.add('rgh-raw-file-link'); // Mark this as processed
 
-	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', delegateTarget)!;
+	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
 	const {href} = new GitHubURL(viewFile.href).assign({route: 'raw'});
 
 	viewFile.after(
