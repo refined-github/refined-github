@@ -52,23 +52,7 @@ function getParticipants(container: HTMLElement): Participant[] {
 	return participants;
 }
 
-function loadUsernames(commentReactions: Element): void {
-	commentReactions.firstElementChild!.dispatchEvent(new MouseEvent('mouseenter'));
-}
-
 async function showAvatarsOn(commentReactions: Element): Promise<void> {
-	// The event listener might not have been attached yet, so we can try twice
-	await domLoaded;
-	loadUsernames(commentReactions);
-	setTimeout(loadUsernames, 1000, commentReactions);
-
-	await observeOneMutation(commentReactions.firstElementChild!, {
-		attributes: true,
-		attributeFilter: [
-			'aria-label'
-		]
-	});
-
 	const avatarLimit = arbitraryAvatarLimit - (commentReactions.children.length * approximateHeaderLength);
 
 	const participantByReaction = select
