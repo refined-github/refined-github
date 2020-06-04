@@ -42,7 +42,7 @@ const getFirstCommit = cache.function(async (): Promise<[string, string] | undef
 	return [timeStamp, pathname];
 }, {
 	cacheKey: () => __filebasename + ':' + getRepoURL(),
-	shouldRevalidate: value => typeof value === 'string'
+	shouldRevalidate: value => typeof value === 'string' // Rmove after June 2020
 });
 
 async function init(): Promise<void> {
