@@ -2,12 +2,10 @@ import './reactions-avatars.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import {flatZip} from 'flat-zip';
-import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import onReplacedElement from '../helpers/on-replaced-element';
-import {observeOneMutation} from '../helpers/simplified-element-observer';
 import {getUsername, isFirefox} from '../github-helpers';
 
 const arbitraryAvatarLimit = 36;
