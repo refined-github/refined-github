@@ -4,24 +4,28 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import GitHubURL from '../github-helpers/github-url';
 
 function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	dropdown.classList.add('rgh-raw-file-link'); // Mark this as processed
 
+	// Only if it's not already there
+	if (select.exists('.rgh-raw-file-link', dropdown)) {
+		return;
+	}
+
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
-	const {href} = new GitHubURL(viewFile.href).assign({route: 'raw'});
+	const url = viewFile.pathname.split('/');
+	url[3] = 'raw'; // Replaces 'blob'
 
 	viewFile.after(
-		<a href={href} className="pl-5 dropdown-item btn-link" role="menuitem">
+		<a href={url.join('/')} className="pl-5 dropdown-item btn-link rgh-raw-file-link" role="menuitem">
 			View raw
 		</a>
 	);
 }
 
 function init(): void {
-	// `useCapture` required to be fired before GitHub's handlers
-	delegate(document, '.file-header .js-file-header-dropdown:not(.rgh-raw-file-link)', 'toggle', handleMenuOpening, true);
+	delegate(document, '.js-file-header-dropdown > summary', 'click', handleMenuOpening);
 }
 
 void features.add({
@@ -31,8 +35,7 @@ void features.add({
 }, {
 	include: [
 		pageDetect.isCommit,
-		pageDetect.isPRFiles,
-		pageDetect.isCompare
+		pageDetect.isPRFiles
 	],
 	init
 });
