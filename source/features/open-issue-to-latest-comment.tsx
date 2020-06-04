@@ -1,11 +1,21 @@
+import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
+import {wrap} from '../helpers/dom-utils';
 import features from '.';
 
 function init(): void {
 	for (const link of select.all<HTMLAnchorElement>('.js-issue-row a[aria-label*="comment"], .js-pinned-issue-list-item a[aria-label*="comment"]')) {
 		link.hash = '#partial-timeline';
+	}
+}
+
+function initDashboard(): void {
+	for (const icon of select.all('.js-recent-activity-container :not(a) > .octicon-comment')) {
+		const url = new URL(select<HTMLAnchorElement>('a', icon.closest('li')!)!.href);
+		url.hash = '#partial-timeline';
+		wrap(icon, <a className="muted-link" href={String(url)}/>);
 	}
 }
 
@@ -18,4 +28,11 @@ void features.add({
 		pageDetect.isDiscussionList
 	],
 	init
+}, {
+	include: [
+		pageDetect.isDashboard
+	],
+	onlyAdditionalListeners: true,
+	repeatOnAjax: false,
+	init: initDashboard
 });
