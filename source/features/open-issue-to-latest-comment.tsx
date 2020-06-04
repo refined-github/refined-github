@@ -13,7 +13,7 @@ function init(): void {
 
 function initDashboard(): void {
 	for (const icon of select.all('.js-recent-activity-container :not(a) > .octicon-comment')) {
-		const url = new URL(select<HTMLAnchorElement>('a', icon.closest('li')!)!.href);
+		const url = new URL(icon.closest('li')!.querySelector('a')!.href);
 		url.hash = '#partial-timeline';
 		wrap(icon, <a className="muted-link" href={String(url)}/>);
 	}
