@@ -11,12 +11,10 @@ function handleMenuOpening(event: delegate.Event): void {
 	const dropdown = event.delegateTarget.nextElementSibling!;
 
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
-	const href = new GitHubURL(viewFile.href).assign(
-		{route: 'raw'}
-	).toString();
+	const {href} = new GitHubURL(viewFile.href).assign({route: 'raw'});
 
 	viewFile.after(
-		<a href={href} className="pl-5 dropdown-item btn-link rgh-raw-file-link" role="menuitem">
+		<a href={href} className="pl-5 dropdown-item btn-link" role="menuitem">
 			View raw
 		</a>
 	);
