@@ -6,13 +6,13 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function unhide({delegateTarget}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
+function unhide(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	for (const comment of select.all('.rgh-hidden-comment')) {
 		comment.hidden = false;
 	}
 
 	select('.rgh-hidden-comment')!.scrollIntoView();
-	delegateTarget.parentElement!.remove();
+	event.delegateTarget.parentElement!.remove();
 }
 
 function init(): void {
@@ -59,7 +59,7 @@ function init(): void {
 	}
 }
 
-void features.add({
+void void features.add({
 	id: __filebasename,
 	description: 'Hides reaction comments ("+1", "👍", …).',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/45543717-d45f3c00-b847-11e8-84a5-8c439d0ad1a5.png'
