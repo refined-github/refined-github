@@ -52,7 +52,7 @@ function handleCompareMenuOpening({delegateTarget: dropdown}: delegate.Event): v
 function init(): void {
 	const handleMenuOpening = pageDetect.isCompare() ? handleCompareMenuOpening : handlePRMenuOpening;
 	// `useCapture` required to be fired before GitHub's handlers
-	delegate(document, '.file-header .js-file-header-dropdown:not(.rgh-actionable-link)', 'toggle', handleMenuOpening, true);
+	delegate(document, '.file-header:not([data-file-deleted="true"]) .js-file-header-dropdown:not(.rgh-actionable-link)', 'toggle', handleMenuOpening, true);
 }
 
 void features.add({
