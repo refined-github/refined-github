@@ -16,7 +16,7 @@ function buildUrl(queryField: string): URL {
 
 function init(): void {
 	// Showcase title
-	select('.js-pinned-items-reorder-container .text-normal')?.firstChild!.after(
+	select('.js-pinned-items-reorder-container .text-normal')!.firstChild!.after(
 		' / ',
 		<a href={String(buildUrl('stars'))}>Top repositories</a>
 	);
