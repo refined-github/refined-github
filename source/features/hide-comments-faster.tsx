@@ -55,8 +55,8 @@ function toggleSubMenu(hideButton: Element, show: boolean): void {
 	select('form.js-comment-minimize', dropdown)!.classList.toggle('d-none', !show);
 }
 
-function resetDropdowns({delegateTarget}: delegate.Event): void {
-	toggleSubMenu(delegateTarget, false);
+function resetDropdowns(event: delegate.Event): void {
+	toggleSubMenu(event.delegateTarget, false);
 }
 
 function showSubmenu(event: delegate.Event): void {
