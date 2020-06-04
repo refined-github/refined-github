@@ -26,8 +26,8 @@ function updateUI(): void {
 	}
 }
 
-async function handleReviewSubmission(event: delegate.Event): Promise<void> {
-	const container = event.delegateTarget.closest('.line-comments')!;
+async function handleReviewSubmission({delegateTarget}: delegate.Event): Promise<void> {
+	const container = delegateTarget.closest('.line-comments')!;
 	await observeOneMutation(container);
 	if (select.exists(pendingSelector, container)) {
 		updateUI();
@@ -52,8 +52,8 @@ async function getNewCommentField(commentContainer: Element, lineBeingCommentedO
 	return (await listener).target as HTMLTextAreaElement;
 }
 
-async function handleSubmitSingle(event: delegate.Event): Promise<void> {
-	const commentContainer = event.delegateTarget.closest('.js-comment')!;
+async function handleSubmitSingle({delegateTarget}: delegate.Event): Promise<void> {
+	const commentContainer = delegateTarget.closest('.js-comment')!;
 	const commentText = select<HTMLTextAreaElement>('[name="pull_request_review_comment[body]"]', commentContainer)!.value;
 	if (!commentText) {
 		alert('Error: Comment not found and not submitted. More info in the console.');

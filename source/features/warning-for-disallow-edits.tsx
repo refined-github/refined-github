@@ -23,8 +23,8 @@ function update(checkbox: HTMLInputElement): void {
 	}
 }
 
-function toggleHandler(event: delegate.Event<UIEvent, HTMLInputElement>): void {
-	update(event.delegateTarget);
+function toggleHandler({delegateTarget}: delegate.Event<UIEvent, HTMLInputElement>): void {
+	update(delegateTarget);
 }
 
 function init(): void | false {

@@ -6,13 +6,13 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function unhide(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
+function unhide({delegateTarget}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	for (const comment of select.all('.rgh-hidden-comment')) {
 		comment.hidden = false;
 	}
 
 	select('.rgh-hidden-comment')!.scrollIntoView();
-	event.delegateTarget.parentElement!.remove();
+	delegateTarget.parentElement!.remove();
 }
 
 function init(): void {

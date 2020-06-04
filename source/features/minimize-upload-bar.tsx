@@ -18,8 +18,8 @@ function addButton(): void {
 	}
 }
 
-function triggerUpload(event: delegate.Event<Event, HTMLButtonElement>): void {
-	event.delegateTarget
+function triggerUpload({delegateTarget}: delegate.Event<Event, HTMLButtonElement>): void {
+	delegateTarget
 		.form!
 		.querySelector<HTMLInputElement>('[type="file"]')!
 		.click(); // Open UI
