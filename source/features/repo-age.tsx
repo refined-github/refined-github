@@ -39,14 +39,14 @@ const getFirstCommit = cache.function(async (): Promise<[string, string] | undef
 	);
 	const timeStamp = select('relative-time', commit)!.attributes.datetime.value;
 	const {pathname} = select<HTMLAnchorElement>('a.message', commit)!;
-	return [timeStamp, pathname];
+	return [new Date(timeStamp).getTime(), pathname];
 }, {
 	cacheKey: () => __filebasename + ':' + getRepoURL(),
 	shouldRevalidate: value => typeof value === 'string' // TODO: Remove after June 2020
 });
 
 async function init(): Promise<void> {
-	const [firstCommitDate, firstCommitHref] = await getFirstCommit() ?? [];
+	const [firstCommitDate, firstCommitUrl] = await getFirstCommit() ?? [];
 
 	if (!firstCommitDate) {
 		return;
