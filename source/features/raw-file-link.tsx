@@ -5,8 +5,8 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function handleMenuOpening(event: delegate.Event): void {
-	const dropdown = event.delegateTarget.nextElementSibling!;
+function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
+	dropdown.classList.add('rgh-raw-file-link'); // Mark this as processed
 
 	// Only if it's not already there
 	if (select.exists('.rgh-raw-file-link', dropdown)) {
