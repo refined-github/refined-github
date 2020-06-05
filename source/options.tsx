@@ -28,6 +28,14 @@ function parseDescription(description: string): DocumentFragment {
 	return <>{[...descriptionElement.childNodes]}</>;
 }
 
+function moveDisabledFeaturesToTop(): void {
+	const container = select('.js-features')!;
+	for (const unchecked of select.all('.feature--enabled [type=checkbox]:not(:checked)', container).reverse()) {
+		// .reverse() needed to preserve alphabetical order while prepending
+		container.prepend(unchecked.closest('.feature')!);
+	}
+}
+
 function buildFeatureCheckbox({id, description, screenshot, disabled}: FeatureMeta): HTMLElement {
 	// `undefined` disconnects it from the options
 	const key = disabled ? undefined : `feature:${id}`;
@@ -51,30 +59,29 @@ function buildFeatureCheckbox({id, description, screenshot, disabled}: FeatureMe
 	);
 }
 
-async function init(): Promise<void> {
-	// Generate list
-	const container = select('.js-features')!;
-	container.append(...__featuresMeta__.map(buildFeatureCheckbox));
+async function clearCacheHandler(event: Event): Promise<void> {
+	await cache.clear();
+	const button = event.target as HTMLButtonElement;
+	const initialText = button.textContent;
+	button.textContent = 'Cache cleared!';
+	button.disabled = true;
+	setTimeout(() => {
+		button.textContent = initialText;
+		button.disabled = false;
+	}, 2000);
+}
 
-	// Update list from saved options
-	await perDomainOptions.syncForm('form');
-
-	// Update domain-dependent page content when the domain is changed
-	select('.js-options-sync-selector')?.addEventListener('change', ({currentTarget: dropdown}) => {
-		select<HTMLAnchorElement>('#personal-token-link')!.host = (dropdown as HTMLSelectElement).value;
-	});
-
-	// Refresh page when permissions are changed (because the dropdown selector isn't updated)
-	browser.permissions.onRemoved!.addListener(() => location.reload());
-	browser.permissions.onAdded!.addListener(() => location.reload());
-
-	// Move disabled features first
-	for (const unchecked of select.all('.feature--enabled [type=checkbox]:not(:checked)', container).reverse()) {
-		// .reverse() needed to preserve alphabetical order while prepending
-		container.prepend(unchecked.closest('.feature')!);
+function featuresFilterHandler(event: Event): void {
+	const keywords = (event.currentTarget as HTMLInputElement).value.toLowerCase()
+		.replace(/\W/g, ' ')
+		.split(/\s+/)
+		.filter(Boolean); // Ignore empty strings
+	for (const feature of select.all('.feature')) {
+		feature.hidden = !keywords.every(word => feature.dataset.text!.includes(word));
 	}
+}
 
-	// Highlight new features
+async function highlightNewFeatures(): Promise<void> {
 	const {featuresAlreadySeen} = await browser.storage.local.get({featuresAlreadySeen: {}});
 	const isFirstVisit = Object.keys(featuresAlreadySeen).length === 0;
 	const tenDaysAgo = Date.now() - (10 * 24 * 60 * 60 * 1000);
@@ -90,40 +97,49 @@ async function init(): Promise<void> {
 	}
 
 	void browser.storage.local.set({featuresAlreadySeen});
+}
 
-	// Improve textareas editing
-	fitTextarea.watch('textarea');
-	indentTextarea.watch('textarea');
+async function generateDom(): Promise<void> {
+	// Generate list
+	select('.js-features')!.append(...__featuresMeta__.map(buildFeatureCheckbox));
 
-	// Filter feature options
-	const filterField = select<HTMLInputElement>('#filter-features')!;
-	filterField.addEventListener('input', () => {
-		const keywords = filterField.value.toLowerCase()
-			.replace(/\W/g, ' ')
-			.split(/\s+/)
-			.filter(Boolean); // Ignore empty strings
-		for (const feature of select.all('.feature')) {
-			feature.hidden = !keywords.every(word => feature.dataset.text!.includes(word));
-		}
-	});
+	// Update list from saved options
+	await perDomainOptions.syncForm('form');
 
-	// Add cache clearer
-	const button = select<HTMLButtonElement>('#clear-cache')!;
-	button.addEventListener('click', async () => {
-		await cache.clear();
-		const initialText = button.textContent;
-		button.textContent = 'Cache cleared!';
-		button.disabled = true;
-		setTimeout(() => {
-			button.textContent = initialText;
-			button.disabled = false;
-		}, 2000);
-	});
+	// Decorate list
+	moveDisabledFeaturesToTop();
+	void highlightNewFeatures();
 
 	// Move debugging tools higher when side-loaded
 	if (process.env.NODE_ENV === 'development') {
 		select('#debugging-position')!.replaceWith(select('#debugging')!);
 	}
+}
+
+function addEventListeners(): void {
+	// Update domain-dependent page content when the domain is changed
+	select('.js-options-sync-selector')?.addEventListener('change', ({currentTarget: dropdown}) => {
+		select<HTMLAnchorElement>('#personal-token-link')!.host = (dropdown as HTMLSelectElement).value;
+	});
+
+	// Refresh page when permissions are changed (because the dropdown selector needs to be regenerated)
+	browser.permissions.onRemoved!.addListener(() => location.reload());
+	browser.permissions.onAdded!.addListener(() => location.reload());
+
+	// Improve textareas editing
+	fitTextarea.watch('textarea');
+	indentTextarea.watch('textarea');
+
+	// Filter feature list
+	select('#filter-features')!.addEventListener('input', featuresFilterHandler);
+
+	// Add cache clearer
+	select('#clear-cache')!.addEventListener('click', clearCacheHandler);
+}
+
+async function init(): Promise<void> {
+	await generateDom();
+	addEventListeners();
 }
 
 void init();

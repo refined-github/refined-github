@@ -7,10 +7,14 @@ import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 function init(): void {
 	const messageField = select<HTMLTextAreaElement>('#merge_message_field')!;
 
-	const coAuthorsMatches = messageField.value.matchAll(/co-authored-by: [^\n]+/gi);
-	const coAuthors = [...new Set([...coAuthorsMatches].flat())]; // Deduplicate Co-Authors
+	const deduplicatedAuthors = new Set();
 
-	messageField.value = coAuthors.join('\n');
+	// This method ensures that "Co-authored-by" capitalization doesn't affect deduplication
+	for (const [, author] of messageField.value.matchAll(/co-authored-by: ([^\n]+)/gi)) {
+		deduplicatedAuthors.add('Co-authored-by: ' + author);
+	}
+
+	messageField.value = [...deduplicatedAuthors].join('\n');
 }
 
 void features.add({

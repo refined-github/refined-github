@@ -117,7 +117,12 @@ function getPositiveReactions(reactionBox?: HTMLElement): HTMLElement[] {
 }
 
 function getCount(reactions: HTMLElement[]): number {
-	return reactions.reduce((count, reaction) => count + looseParseInt(reaction.textContent!), 0);
+	let count = 0;
+	for (const reaction of reactions) {
+		count += looseParseInt(reaction.textContent!);
+	}
+
+	return count;
 }
 
 function init(): false | void {

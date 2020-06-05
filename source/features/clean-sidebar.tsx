@@ -84,11 +84,7 @@ async function clean(): Promise<void> {
 
 		const content = select('[aria-label="Select reviewers"] > .css-truncate')!;
 		if (!content.firstElementChild) {
-			if (select.exists('.js-convert-to-draft')) {
-				content.remove(); // Drop "No reviews"
-			} else {
-				cleanSection('[aria-label="Select reviewers"]');
-			}
+			content.remove(); // Drop "No reviews"
 		}
 	}
 

@@ -40,8 +40,7 @@ module.exports = {
 		// Temporarily disabled
 		// TODO: Need to decide what to do with this rule. Either keep it disabled here or remove it from XO.
 		'@typescript-eslint/no-invalid-void-type': 'off', // Reason: https://github.com/sindresorhus/refined-github/pull/3168#discussion_r434479434
-		'unicorn/no-fn-reference-in-iterator': 'off',
-		'unicorn/no-reduce': 'off' // TODO: Remove `reduce` usage.
+		'unicorn/no-fn-reference-in-iterator': 'off'
 	},
 	// We don't use React, so it can't be automatically detected by the linter
 	settings: {
