@@ -70,9 +70,12 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 });
 
 const getAheadByCount = cache.function(async (latestTag: string): Promise<string | undefined> => {
-	const tagPage = await fetchDom(`/${getRepoURL()}/releases/tag/${latestTag}`, '.release-header relative-time + a[href*="/compare/"]');
+	const aheadCount = await fetchDom(
+		`/${getRepoURL()}/releases/tag/${latestTag}`,
+		'.release-header relative-time + a[href*="/compare/"]'
+	);
 	// This text is "4 commits to master since this tag"
-	return tagPage?.textContent!.replace(/\D/g, '');
+	return aheadCount?.textContent!.replace(/\D/g, '');
 }, {
 	maxAge: 1 / 24, // One hour
 	staleWhileRevalidate: 2,
