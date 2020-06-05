@@ -48,10 +48,10 @@ function buildFeatureCheckbox({id, description, screenshot, disabled}: FeatureMe
 					<span className="feature-name">{id}</span>
 					{' '}
 					{disabled && <small>{parseDescription(`(Disabled because of ${disabled}) `)}</small>}
-					<a href={`https://github.com/sindresorhus/refined-github/blob/master/source/features/${id}.tsx`}>
+					<a href={`https://github.com/sindresorhus/refined-github/blob/master/source/features/${id}.tsx`} target="_blank" rel="noopener noreferrer">
 						source
 					</a>
-					{screenshot && <>, <a href={screenshot}>screenshot</a></>}
+					{screenshot && <>, <a href={screenshot} target="_blank" rel="noopener noreferrer">screenshot</a></>}
 					<p className="description">{parseDescription(description)}</p>
 				</label>
 			</div>
