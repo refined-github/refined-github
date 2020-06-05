@@ -16,7 +16,7 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
 	day: 'numeric'
 });
 
-const getFirstCommit = cache.function(async (): Promise<[string, number, string] | undefined> => {
+const getFirstCommit = cache.function(async (): Promise<[string, string] | undefined> => {
 	const commitInfo = await elementReady<HTMLAnchorElement | HTMLScriptElement>('a.commit-tease-sha, include-fragment.commit-tease');
 	const commitUrl = commitInfo instanceof HTMLAnchorElement ? commitInfo.href : commitInfo!.src;
 	const commitSha = commitUrl.split('/').pop()!;
@@ -30,38 +30,39 @@ const getFirstCommit = cache.function(async (): Promise<[string, number, string]
 	}
 
 	if (commitsCount === 1) {
-		const timeStamp = new Date(select('.commit-tease-sha + span relative-time')!.attributes.datetime.value);
-		return [dateFormatter.format(timeStamp), timeStamp.getTime(), commitUrl];
+		return [select('.commit-tease-sha + span relative-time')!.attributes.datetime.value, commitUrl];
 	}
 
 	const commit = await fetchDom(
 		`${getRepoURL()}/commits?after=${commitSha}+${commitsCount - 2}`,
 		'.commit'
 	);
-	const timeStamp = new Date(select('relative-time', commit)!.attributes.datetime.value);
+	const timeStamp = select('relative-time', commit)!.attributes.datetime.value;
 	const {pathname} = select<HTMLAnchorElement>('a.message', commit)!;
-	return [dateFormatter.format(timeStamp), timeStamp.getTime(), pathname];
+	return [new Date(timeStamp).getTime(), pathname];
 }, {
 	cacheKey: () => __filebasename + ':' + getRepoURL(),
 	shouldRevalidate: value => typeof value === 'string' // TODO: Remove after June 2020
 });
 
 async function init(): Promise<void> {
-	const [firstCommitDate, firstCommitTime, firstCommitUrl] = await getFirstCommit() ?? [];
+	const [firstCommitDate, firstCommitUrl] = await getFirstCommit() ?? [];
 
 	if (!firstCommitDate) {
 		return;
 	}
 
+	const date = new Date(firstCommitDate);
+
 	// `twas` could also return `an hour ago` or `just now`
-	const [value, unit] = twas(firstCommitTime!)
+	const [value, unit] = twas(date.getTime())
 		.replace('just now', '1 second')
 		.replace(/^an?/, '1')
 		.split(' ');
 
 	const element = (
-		<li className="text-gray" title={`First commit dated ${firstCommitDate}`}>
-			<a href={firstCommitUrl}>
+		<li className="text-gray" title={`First commit dated ${dateFormatter.format(date)}`}>
+			<a href={firstCommitHref}>
 				<RepoIcon/> <span className="num text-emphasized">{value}</span> {unit} old
 			</a>
 		</li>
