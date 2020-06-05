@@ -112,9 +112,8 @@ async function init(): Promise<false | void> {
 	}
 
 	if (currentBranch === latestTag || isUpToDate) {
-		link.classList.add('tooltipped', 'tooltipped-ne');
 		link.setAttribute('aria-label', 'You’re on the latest release');
-		link.classList.add('disabled');
+		link.classList.add('disabled', 'tooltipped', 'tooltipped-ne');
 		return;
 	}
 
