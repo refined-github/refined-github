@@ -20,7 +20,7 @@ function parseCountFromDom(): number | false {
 			return looseParseInt(releasesCountElement.textContent!);
 		}
 
-		// In GitHub's repository redesign, look for the "+ XXX releases" link in the sidebar
+		// In "Repository refresh" layout, look for the "+ XXX releases" link in the sidebar
 		const moreReleasesCountElement = select('.BorderGrid .text-small[href$="/releases"]');
 		if (moreReleasesCountElement) {
 			return looseParseInt(moreReleasesCountElement.textContent!) + 1;
