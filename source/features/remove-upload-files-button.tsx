@@ -5,10 +5,10 @@ import features from '.';
 import {getRepoURL} from '../github-helpers';
 
 function init(): void {
-	const uploadButton = select(`.file-navigation a[href^="/${getRepoURL()}/upload"]`)!;
+	const uploadButton = select(`.file-navigation a[href^="/${getRepoURL()}/upload"]`);
 
 	// In "Repository refresh" layout, it's part of an "Add file" dropdown, don't delete it there
-	if (!uploadButton.classList.contains('dropdown-item')) {
+	if (uploadButton && !uploadButton.classList.contains('dropdown-item')) {
 		uploadButton.remove();
 	}
 }
@@ -21,6 +21,5 @@ void features.add({
 	include: [
 		pageDetect.isRepoTree
 	],
-	repeatOnAjax: false,
 	init
 });
