@@ -15,7 +15,9 @@ function handleClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): void
 }
 
 async function init(): Promise<void> {
-	// If the history length is `1` on init, the notification has been opened in a new tab
+	// If the history length is `1` on init, that means there are no
+	// older history states (this means the notification has been opened
+	// in a new browser tab)
 	sessionStorage.rghIsNewTab = history.length === 1;
 	delegate(document, '.notification-shelf .js-notification-action button', 'click', handleClick);
 }
