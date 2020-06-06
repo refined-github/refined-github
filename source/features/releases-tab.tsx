@@ -16,7 +16,15 @@ const cacheKey = `releases-count:${repoUrl}`;
 function parseCountFromDom(): number | false {
 	if (pageDetect.isRepoRoot()) {
 		const releasesCountElement = select('.numbers-summary a[href$="/releases"] .num');
-		return Number(releasesCountElement ? looseParseInt(releasesCountElement.textContent!) : 0);
+		if (releasesCountElement) {
+			return looseParseInt(releasesCountElement.textContent!);
+		}
+
+		// In GitHub's repository redesign, look for the "+ XXX releases" link in the sidebar
+		const moreReleasesCountElement = select('.BorderGrid .text-small[href$="/releases"]');
+		if (moreReleasesCountElement) {
+			return looseParseInt(moreReleasesCountElement.textContent!) + 1;
+		}
 	}
 
 	return false;
