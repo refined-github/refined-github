@@ -60,7 +60,7 @@ async function init(): Promise<false | void> {
 	}
 
 	const releasesTab = (
-		<a href={`/${repoUrl}/releases`} className="reponav-item" data-hotkey="g r">
+		<a href={`/${repoUrl}/releases`} className="reponav-item" data-hotkey="g r" data-tab-item="releases-tab">
 			<TagIcon/>
 			<span data-content="Releases"> Releases </span>
 			{count === undefined ? '' : <span className="Counter">{count}</span>}
@@ -103,6 +103,15 @@ async function init(): Promise<false | void> {
 		releasesTab.dataset.selectedLinks = 'repo_releases'; // Required for ajaxLoad
 		releasesTab.setAttribute('aria-current', 'page');
 	}
+
+	const repoNavOverflowMenu = select('.js-responsive-underlinenav-overflow ul', repoNavigationBar);
+	repoNavOverflowMenu?.append(
+		<li data-menu-item="releases-tab">
+			<a role="menuitem" className="js-selected-navigation-item dropdown-item" data-selected-links={`/${repoUrl}/releases`} href={`/${repoUrl}/releases`}>
+				Releases
+			</a>
+		</li>
+	);
 }
 
 void features.add({
