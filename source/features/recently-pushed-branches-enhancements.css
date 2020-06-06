@@ -25,7 +25,7 @@
 	display: none;
 }
 
-.rgh-recently-pushed-branches .Header .RecentBranches /* Pre "Repository refresh" layout */,
+.rgh-recently-pushed-branches .Header .RecentBranches, /* Pre "Repository refresh" layout */
 .rgh-recently-pushed-branches [data-url$='recently_touched_branches_list'] .Box {
 	display: flex;
 	width: max-content;
@@ -39,7 +39,7 @@
 	background-color: #24292e;
 }
 
-.rgh-recently-pushed-branches .Header .RecentBranches .octicon-git-branch /* Pre "Repository refresh" layout */,
+.rgh-recently-pushed-branches .Header .RecentBranches .octicon-git-branch, /* Pre "Repository refresh" layout */
 .rgh-recently-pushed-branches [data-url$='recently_touched_branches_list'] .Box .octicon-git-branch {
 	vertical-align: middle;
 	margin-right: 2px;
@@ -69,30 +69,30 @@
 	float: right;
 }
 
-.rgh-recently-pushed-branches .RecentBranches-item + .RecentBranches-item /* Pre "Repository refresh" layout */,
+.rgh-recently-pushed-branches .RecentBranches-item + .RecentBranches-item, /* Pre "Repository refresh" layout */
 .rgh-recently-pushed-branches [data-url$='recently_touched_branches_list'] .Box-row + .Box-row {
 	border-top: none;
 	border-bottom: 1px solid;
 }
 
-.rgh-recently-pushed-branches .Header .RecentBranches-item /* Pre "Repository refresh" layout */,
+.rgh-recently-pushed-branches .Header .RecentBranches-item, /* Pre "Repository refresh" layout */
 .rgh-recently-pushed-branches [data-url$='recently_touched_branches_list'] .Box-row {
 	color: inherit;
 	padding: 4px !important;
 }
 
-.rgh-recently-pushed-branches .RecentBranches:not(:hover) .RecentBranches-item:not(:last-child) /* Pre "Repository refresh" layout */,
+.rgh-recently-pushed-branches .RecentBranches:not(:hover) .RecentBranches-item:not(:last-child), /* Pre "Repository refresh" layout */
 .rgh-recently-pushed-branches [data-url$='recently_touched_branches_list'] .Box:not(:hover) .Box-row:not(:last-child) {
 	/* Hide older branches */
 	display: none !important;
 }
 
-.rgh-recently-pushed-branches .Header .RecentBranches:not(:hover) .RecentBranches-item:last-child /* Pre "Repository refresh" layout */,
+.rgh-recently-pushed-branches .Header .RecentBranches:not(:hover) .RecentBranches-item:last-child, /* Pre "Repository refresh" layout */
 .rgh-recently-pushed-branches [data-url$='recently_touched_branches_list'] .Box:not(:hover) .Box-row:last-child {
 	border-bottom-width: 2px;
 }
 
-.rgh-recently-pushed-branches .Header .RecentBranches-item-link /* Pre "Repository refresh" layout */,
+.rgh-recently-pushed-branches .Header .RecentBranches-item-link, /* Pre "Repository refresh" layout */
 .rgh-recently-pushed-branches [data-url$='recently_touched_branches_list'] .link-gray-dark {
 	max-width: 250px !important;
 	font-size: 14px;
