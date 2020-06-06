@@ -7,11 +7,16 @@ const hasNotificationBar = (): boolean =>
 	JSON.parse(sessionStorage.notification_shelf ?? '{}').pathname === location.pathname;
 
 function handleClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
-	// Also restores the attribute on successive non-alt clicks
-	event.delegateTarget.form!.toggleAttribute('data-redirect-to-inbox-on-submit', !event.altKey);
+	// Disable the redirect to the Notifications inbox if either:
+	// 1. The alt key was held down during click
+	// 2. The notification has been opened in a new tab
+	const redirectDisabled = event.alt || sessionStorage.rghIsNewTab === "true";
+	event.delegateTarget.form!.toggleAttribute('data-redirect-to-inbox-on-submit', !redirectDisabled);
 }
 
 async function init(): Promise<void> {
+	// If the history length is `1` on init, the notification has been opened in a new tab
+	sessionStorage.rghIsNewTab = history.length === 1;
 	delegate(document, '.notification-shelf .js-notification-action button', 'click', handleClick);
 }
 
