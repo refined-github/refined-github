@@ -62,28 +62,46 @@ async function init(): Promise<false | void> {
 	const releasesTab = (
 		<a href={`/${repoUrl}/releases`} className="reponav-item" data-hotkey="g r">
 			<TagIcon/>
-			<span> Releases </span>
+			<span data-content="Releases"> Releases </span>
 			{count === undefined ? '' : <span className="Counter">{count}</span>}
 		</a>
 	);
 
 	await elementReady('.pagehead + *'); // Wait for the tab bar to be loaded
+
+	const repoNavigationBar = select('.js-repo-nav')!;
+
+	if (repoNavigationBar.classList.contains('UnderlineNav')) {
+		// Adapt releases tab to GitHub's repository redesign
+		releasesTab.classList.remove('reponav-item');
+		releasesTab.classList.add(
+			'js-selected-navigation-item',
+			'UnderlineNav-item',
+			'hx_underlinenav-item',
+			'no-wrap',
+			'js-responsive-underlinenav-item'
+		);
+		select('svg', releasesTab)!.classList.add('UnderlineNav-octicon');
+	}
+
 	appendBefore(
-		// GHE doesn't have `reponav > ul`
-		select('.reponav > ul') ?? select('.reponav')!,
+		// GHE doesn't have `.js-repo-nav > ul`
+		select(':scope > ul', repoNavigationBar) ?? repoNavigationBar,
 		'.reponav-dropdown, [data-selected-links^="repo_settings"]',
 		releasesTab
 	);
 
 	// Update "selected" tab mark
 	if (pageDetect.isReleasesOrTags()) {
-		const selected = select('.reponav-item.selected');
+		const selected = select('.reponav-item.selected, .UnderlineNav-item.selected');
 		if (selected) {
 			selected.classList.remove('js-selected-navigation-item', 'selected');
+			selected.removeAttribute('aria-current');
 		}
 
 		releasesTab.classList.add('js-selected-navigation-item', 'selected');
 		releasesTab.dataset.selectedLinks = 'repo_releases'; // Required for ajaxLoad
+		releasesTab.setAttribute('aria-current', 'page');
 	}
 }
 
