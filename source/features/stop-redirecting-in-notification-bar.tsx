@@ -10,7 +10,7 @@ function handleClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): void
 	// Disable the redirect to the Notifications inbox if either:
 	// 1. The alt key was held down during click
 	// 2. The notification has been opened in a new tab
-	const redirectDisabled = event.alt || sessionStorage.rghIsNewTab === "true";
+	const redirectDisabled = event.altKey || sessionStorage.rghIsNewTab === 'true';
 	event.delegateTarget.form!.toggleAttribute('data-redirect-to-inbox-on-submit', !redirectDisabled);
 }
 
