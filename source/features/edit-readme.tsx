@@ -13,9 +13,10 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const isPermalink = /Tag|Tree/.test(select('.branch-select-menu i')!.textContent!);
+	const isPermalink = /Tag|Tree/.test(select('.branch-select-menu i, #branch-select-menu i')!.textContent!);
 	const filename = readmeHeader.textContent!.trim();
-	const fileLink = select<HTMLAnchorElement>(`.files [title="${filename}"]`)!;
+	const filesList = select('.files, #files ~ .Details')!;
+	const fileLink = select<HTMLAnchorElement>(`[title="${filename}"]`, filesList)!;
 
 	const url = new GitHubURL(fileLink.href).assign({
 		route: 'edit'
