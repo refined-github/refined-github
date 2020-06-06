@@ -11,9 +11,9 @@ import getDefaultBranch from '../github-helpers/get-default-branch';
 import onFileListUpdate from '../github-events/on-file-list-update';
 
 async function init(): Promise<void> {
-	const isPermalink = /Tag|Tree/.test(select('.branch-select-menu i')!.textContent!);
-	for (const fileIcon of select.all('.files :not(a) > .octicon-file')) {
-		const fileLink = fileIcon.closest('tr')!.querySelector<HTMLAnchorElement>('.js-navigation-open')!;
+	const isPermalink = /Tag|Tree/.test(select('[data-hotkey="w"] i')!.textContent!);
+	for (const fileIcon of select.all('.js-navigation-container .octicon-file')) {
+		const fileLink = fileIcon.closest('.js-navigation-item')!.querySelector<HTMLAnchorElement>('.js-navigation-open')!;
 		const url = new GitHubURL(fileLink.href).assign({
 			route: 'edit'
 		});
