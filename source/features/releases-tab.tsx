@@ -61,59 +61,70 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
+	await elementReady('.pagehead + *'); // Wait for the tab bar to be loaded
+
+	const repoNavigationBar = select('.UnderlineNav');
+	if (repoNavigationBar) {
+		// "Repository refresh" layout
+
+		const releasesTab = (
+			<a href={`/${repoUrl}/releases`} className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item" data-hotkey="g r" data-selected-links="repo_releases" data-tab-item="releases-tab">
+				<TagIcon className="UnderlineNav-octicon"/>
+				<span data-content="Releases">Releases</span>
+				{count === undefined ? '' : <span className="Counter">{count}</span>}
+			</a>
+		);
+
+		select(':scope > ul', repoNavigationBar)!.append(releasesTab);
+
+		// Update "selected" tab mark
+		if (pageDetect.isReleasesOrTags()) {
+			const selected = select('.UnderlineNav-item.selected');
+			if (selected) {
+				selected.classList.remove('selected');
+				selected.removeAttribute('aria-current');
+			}
+
+			releasesTab.classList.add('selected');
+			releasesTab.setAttribute('aria-current', 'page');
+		}
+
+		select('.js-responsive-underlinenav-overflow ul', repoNavigationBar)!.append(
+			<li data-menu-item="releases-tab">
+				<a role="menuitem" className="js-selected-navigation-item dropdown-item" data-selected-links={`/${repoUrl}/releases`} href={`/${repoUrl}/releases`}>
+					Releases
+				</a>
+			</li>
+		);
+
+		return;
+	}
+
 	const releasesTab = (
-		<a href={`/${repoUrl}/releases`} className="reponav-item" data-hotkey="g r" data-tab-item="releases-tab">
+		<a href={`/${repoUrl}/releases`} className="reponav-item" data-hotkey="g r">
 			<TagIcon/>
-			<span data-content="Releases"> Releases </span>
+			<span> Releases </span>
 			{count === undefined ? '' : <span className="Counter">{count}</span>}
 		</a>
 	);
 
-	await elementReady('.pagehead + *'); // Wait for the tab bar to be loaded
-
-	const repoNavigationBar = select('.js-repo-nav')!;
-
-	if (repoNavigationBar.classList.contains('UnderlineNav')) {
-		// Adapt releases tab to GitHub's repository redesign
-		releasesTab.classList.remove('reponav-item');
-		releasesTab.classList.add(
-			'js-selected-navigation-item',
-			'UnderlineNav-item',
-			'hx_underlinenav-item',
-			'no-wrap',
-			'js-responsive-underlinenav-item'
-		);
-		select('svg', releasesTab)!.classList.add('UnderlineNav-octicon');
-	}
-
 	appendBefore(
-		// GHE doesn't have `.js-repo-nav > ul`
-		select(':scope > ul', repoNavigationBar) ?? repoNavigationBar,
+		// GHE doesn't have `.reponav > ul`
+		select('.reponav > ul') ?? select('.reponav')!,
 		'.reponav-dropdown, [data-selected-links^="repo_settings"]',
 		releasesTab
 	);
 
 	// Update "selected" tab mark
 	if (pageDetect.isReleasesOrTags()) {
-		const selected = select('.reponav-item.selected, .UnderlineNav-item.selected');
+		const selected = select('.reponav-item.selected');
 		if (selected) {
 			selected.classList.remove('js-selected-navigation-item', 'selected');
-			selected.removeAttribute('aria-current');
 		}
 
 		releasesTab.classList.add('js-selected-navigation-item', 'selected');
 		releasesTab.dataset.selectedLinks = 'repo_releases'; // Required for ajaxLoad
-		releasesTab.setAttribute('aria-current', 'page');
 	}
-
-	const repoNavOverflowMenu = select('.js-responsive-underlinenav-overflow ul', repoNavigationBar);
-	repoNavOverflowMenu?.append(
-		<li data-menu-item="releases-tab">
-			<a role="menuitem" className="js-selected-navigation-item dropdown-item" data-selected-links={`/${repoUrl}/releases`} href={`/${repoUrl}/releases`}>
-				Releases
-			</a>
-		</li>
-	);
 }
 
 void features.add({
