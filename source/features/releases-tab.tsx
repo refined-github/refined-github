@@ -25,6 +25,8 @@ function parseCountFromDom(): number | false {
 		if (moreReleasesCountElement) {
 			return looseParseInt(moreReleasesCountElement.textContent!) + 1;
 		}
+
+		return 0;
 	}
 
 	return false;
