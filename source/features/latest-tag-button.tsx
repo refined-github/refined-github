@@ -99,7 +99,7 @@ const getAheadCountApi = async (timeStamp: string): Promise<number> => {
 		}
 	`);
 
-	return repository.ref.target.history.totalCount;
+	return repository.defaultBranchRef.target.history.totalCount;
 };
 
 async function init(): Promise<false | void> {
