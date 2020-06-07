@@ -16,7 +16,7 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
 	day: 'numeric'
 });
 
-const getFirstCommitDate = cache.function(async (): Promise<string | undefined> => {
+const getFirstCommit = cache.function(async (): Promise<[string, string] | undefined> => {
 	const commitInfo = await elementReady<HTMLAnchorElement | HTMLScriptElement>('a.commit-tease-sha, include-fragment.commit-tease');
 	const commitUrl = commitInfo instanceof HTMLAnchorElement ? commitInfo.href : commitInfo!.src;
 	const commitSha = commitUrl.split('/').pop()!;
@@ -30,21 +30,23 @@ const getFirstCommitDate = cache.function(async (): Promise<string | undefined> 
 	}
 
 	if (commitsCount === 1) {
-		return select('.commit-tease-sha + span relative-time')!.attributes.datetime.value;
+		return [select('.commit-tease-sha + span relative-time')!.attributes.datetime.value, commitUrl];
 	}
 
-	const relativeTime = await fetchDom(
+	const commit = await fetchDom(
 		`${getRepoURL()}/commits?after=${commitSha}+${commitsCount - 2}`,
-		'.commit-meta relative-time'
+		'.commit'
 	);
-
-	return relativeTime!.attributes.datetime.value;
+	const timeStamp = select('relative-time', commit)!.attributes.datetime.value;
+	const {pathname} = select<HTMLAnchorElement>('a.message', commit)!;
+	return [timeStamp, pathname];
 }, {
-	cacheKey: () => __filebasename + ':' + getRepoURL()
+	cacheKey: () => __filebasename + ':' + getRepoURL(),
+	shouldRevalidate: value => typeof value === 'string' // TODO: Remove after June 2020
 });
 
 async function init(): Promise<void> {
-	const firstCommitDate = await getFirstCommitDate();
+	const [firstCommitDate, firstCommitHref] = await getFirstCommit() ?? [];
 
 	if (!firstCommitDate) {
 		return;
@@ -60,7 +62,9 @@ async function init(): Promise<void> {
 
 	const element = (
 		<li className="text-gray" title={`First commit dated ${dateFormatter.format(date)}`}>
-			<RepoIcon/> <span className="num text-emphasized">{value}</span> {unit} old
+			<a href={firstCommitHref}>
+				<RepoIcon/> <span className="num text-emphasized">{value}</span> {unit} old
+			</a>
 		</li>
 	);
 

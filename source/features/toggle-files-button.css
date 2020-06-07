@@ -12,7 +12,8 @@
 	transform: rotate(0.5turn);
 }
 
-.rgh-files-hidden .files {
+.rgh-files-hidden .files, /* Pre "Repository refresh" layout */
+.rgh-files-hidden #files ~ .Details {
 	display: none;
 }
 
