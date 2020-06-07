@@ -2,13 +2,11 @@ import './latest-tag-button.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import TagIcon from 'octicon/tag.svg';
-
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import fetchDom from '../helpers/fetch-dom';
-
 import features from '.';
+import fetchDom from '../helpers/fetch-dom';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
 import getDefaultBranch from '../github-helpers/get-default-branch';
@@ -68,7 +66,7 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 	const releaseDate = tagDate.get(latestTag) ?? (await fetchDom(
 		`/${getRepoURL()}/releases/tag/${latestTag}`,
 		'.release-header relative-time'
-	) as HTMLElement).attributes.datetime.value;
+	) as HTMLTimeElement).attributes.datetime.value;
 
 	return {
 		latestTag,
