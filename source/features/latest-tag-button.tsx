@@ -69,7 +69,7 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 	cacheKey: () => __filebasename + ':' + getRepoURL()
 });
 
-const getAheadByCount = cache.function(async (latestTag: string, defaultBranch: string): Promise<number> => {
+const getAheadByCount = cache.function(async (latestTag: string): Promise<number> => {
 	const tagPage = await fetchDom(`/${getRepoURL()}/releases/tag/${latestTag}`);
 	const aheadCountOrTimeStamp = select.last('.release-header relative-time + a[href*="/compare/"], .release-header relative-time', tagPage)!;
 
@@ -77,17 +77,17 @@ const getAheadByCount = cache.function(async (latestTag: string, defaultBranch: 
 		// This text is "4 commits to master since this tag"
 		Number(aheadCountOrTimeStamp.textContent!.replace(/\D/g, '')) :
 		// Github sometimes does not have the ahead count in the dom
-		getAheadCountApi(aheadCountOrTimeStamp.attributes.datetime.value, defaultBranch);
+		getAheadCountApi(aheadCountOrTimeStamp.attributes.datetime.value);
 }, {
 	maxAge: 1 / 24, // One hour
 	staleWhileRevalidate: 2,
 	cacheKey: ([latestTag]) => `tag-ahead-by:${getRepoURL()}/${latestTag}`
 });
 
-const getAheadCountApi = async (timeStamp: string, defaultBranch: string): Promise<number> => {
+const getAheadCountApi = async (timeStamp: string): Promise<number> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
-			ref(qualifiedName: "${defaultBranch}") {
+			defaultBranchRef {
 				target {
 					... on Commit {
 						history(first: 1, since: "${timeStamp}") {
@@ -139,7 +139,7 @@ async function init(): Promise<false | void> {
 
 	const defaultBranch = await getDefaultBranch();
 	if (currentBranch === defaultBranch) {
-		const aheadBy = await getAheadByCount(latestTag, defaultBranch);
+		const aheadBy = await getAheadByCount(latestTag);
 
 		link.setAttribute('aria-label', `${defaultBranch} is ${aheadBy} commits ahead of the latest release`);
 		link.append(' ', <sup>+{aheadBy}</sup>);
