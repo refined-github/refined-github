@@ -1,13 +1,14 @@
 import './latest-tag-button.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
+import select from 'select-dom';
 import TagIcon from 'octicon/tag.svg';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import fetchDom from '../helpers/fetch-dom';
 import * as api from '../github-helpers/api';
+import fetchDom from '../helpers/fetch-dom';
 import GitHubURL from '../github-helpers/github-url';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getRepoURL, getCurrentBranch, getRepoGQL, getLatestVersionTag} from '../github-helpers';
@@ -15,7 +16,6 @@ import {getRepoURL, getCurrentBranch, getRepoGQL, getLatestVersionTag} from '../
 interface RepoPublishState {
 	latestTag: string | false;
 	isUpToDate: boolean;
-	releaseDate?: string;
 }
 
 const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> => {
@@ -32,9 +32,6 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 						... on Tag {
 							commit: target {
 								oid
-							}
-							tagger{
-								date
 							}
 						}
 					}
@@ -56,22 +53,15 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 	}
 
 	const tags = new Map<string, string>();
-	const tagDate = new Map<string, string>();
 	for (const node of repository.refs.nodes) {
 		tags.set(node.name, node.tag.commit?.oid ?? node.tag.oid);
-		tagDate.set(node.name, node.tag.tagger?.date);
 	}
 
 	const latestTag = getLatestVersionTag([...tags.keys()]);
-	const releaseDate = tagDate.get(latestTag) ?? (await fetchDom(
-		`/${getRepoURL()}/releases/tag/${latestTag}`,
-		'.release-header relative-time'
-	) as HTMLTimeElement).attributes.datetime.value;
 
 	return {
 		latestTag,
-		isUpToDate: tags.get(latestTag) === repository.defaultBranchRef.target.oid,
-		releaseDate
+		isUpToDate: tags.get(latestTag) === repository.defaultBranchRef.target.oid
 	};
 }, {
 	maxAge: 1 / 24, // One hour
@@ -79,13 +69,28 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 	cacheKey: () => __filebasename + ':' + getRepoURL()
 });
 
-const getAheadByCount = cache.function(async (defaultBranch: string, releaseDate: string): Promise<number> => {
+const getAheadByCount = cache.function(async (latestTag: string, defaultBranch: string): Promise<number> => {
+	const tagPage = await fetchDom(`/${getRepoURL()}/releases/tag/${latestTag}`);
+	const aheadCountOrTimeStamp = select.last('.release-header relative-time + a[href*="/compare/"], .release-header relative-time', tagPage)!;
+
+	return aheadCountOrTimeStamp instanceof HTMLAnchorElement ?
+		// This text is "4 commits to master since this tag"
+		Number(aheadCountOrTimeStamp.textContent!.replace(/\D/g, '')) :
+		// Github sometimes does not have the ahead count in the dom
+		getAheadCountApi(aheadCountOrTimeStamp.attributes.datetime.value, defaultBranch);
+}, {
+	maxAge: 1 / 24, // One hour
+	staleWhileRevalidate: 2,
+	cacheKey: ([latestTag]) => `tag-ahead-by:${getRepoURL()}/${latestTag}`
+});
+
+const getAheadCountApi = async (timeStamp: string, defaultBranch: string): Promise<number> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			ref(qualifiedName: "${defaultBranch}") {
 				target {
 					... on Commit {
-						history(first: 1, since: "${releaseDate}") {
+						history(first: 1, since: "${timeStamp}") {
 							totalCount
 						}
 					}
@@ -95,14 +100,10 @@ const getAheadByCount = cache.function(async (defaultBranch: string, releaseDate
 	`);
 
 	return repository.ref.target.history.totalCount;
-}, {
-	maxAge: 1 / 24, // One hour
-	staleWhileRevalidate: 2,
-	cacheKey: ([releaseDate]) => `tag-ahead-by:${getRepoURL()}/${releaseDate}`
-});
+};
 
 async function init(): Promise<false | void> {
-	const {latestTag, isUpToDate, releaseDate} = await getRepoPublishState();
+	const {latestTag, isUpToDate} = await getRepoPublishState();
 	if (!latestTag) {
 		return false;
 	}
@@ -138,7 +139,7 @@ async function init(): Promise<false | void> {
 
 	const defaultBranch = await getDefaultBranch();
 	if (currentBranch === defaultBranch) {
-		const aheadBy = await getAheadByCount(defaultBranch, releaseDate!);
+		const aheadBy = await getAheadByCount(latestTag, defaultBranch);
 
 		link.setAttribute('aria-label', `${defaultBranch} is ${aheadBy} commits ahead of the latest release`);
 		link.append(' ', <sup>+{aheadBy}</sup>);
