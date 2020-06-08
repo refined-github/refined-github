@@ -74,7 +74,8 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 }, {
 	maxAge: 1 / 24, // One hour
 	staleWhileRevalidate: 2,
-	cacheKey: () => `tag-ahead-by:${getRepoURL()}`
+	shouldRevalidate: value => 'isUpToDate' in value, // TODO Remove after June 2020
+	cacheKey: () => __filebasename + ':' + getRepoURL()
 });
 
 async function init(): Promise<false | void> {
@@ -115,14 +116,18 @@ async function init(): Promise<false | void> {
 	const defaultBranch = await getDefaultBranch();
 	if (currentBranch === defaultBranch) {
 		const compareLink = (
-			<a className="btn btn-sm btn-outline tooltipped tooltipped-ne" href={`/${getRepoURL()}/compare/${latestTag}...${defaultBranch}`}>
+			<a
+				className="btn btn-sm btn-outline tooltipped tooltipped-ne"
+				href={`/${getRepoURL()}/compare/${latestTag}...${defaultBranch}`}
+				aria-label={`Compare ${latestTag}...${defaultBranch}`}
+			>
 				<DiffIcon/>
 			</a>
 		);
+
 		const aheadCount = aheadBy ? aheadBy : '20+';
 		link.append(' ', <sup>{`+${aheadCount}`}</sup>);
 		link.setAttribute('aria-label', `${defaultBranch} is ${aheadCount} commits ahead of the latest release`);
-		compareLink.setAttribute('aria-label', `Compare ${latestTag}...${defaultBranch}`);
 		groupButtons([link, compareLink]);
 	} else {
 		link.setAttribute('aria-label', 'Visit the latest release');
