@@ -74,8 +74,7 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 }, {
 	maxAge: 1 / 24, // One hour
 	staleWhileRevalidate: 2,
-	shouldRevalidate: value => 'isUpToDate' in value, // TODO Remove after June 2020
-	cacheKey: () => __filebasename + ':' + getRepoURL()
+	cacheKey: () => `tag-ahead-by:${getRepoURL()}`
 });
 
 async function init(): Promise<false | void> {
