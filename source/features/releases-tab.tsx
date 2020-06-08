@@ -63,7 +63,7 @@ async function init(): Promise<false | void> {
 
 	await elementReady('.pagehead + *'); // Wait for the tab bar to be loaded
 
-	const repoNavigationBar = select('.UnderlineNav');
+	const repoNavigationBar = select('.js-repo-nav.UnderlineNav');
 	if (repoNavigationBar) {
 		// "Repository refresh" layout
 
