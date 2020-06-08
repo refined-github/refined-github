@@ -15,7 +15,7 @@ import {getRepoURL, getCurrentBranch, getRepoGQL, getLatestVersionTag} from '../
 
 interface RepoPublishState {
 	latestTag: string | false;
-	aheadBy?: number;
+	aheadBy?: number | undefined;
 }
 
 const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> => {
@@ -39,7 +39,6 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 			}
 			defaultBranchRef {
 				target {
-					oid
 					... on Commit {
 						history(first: 20) {
 							nodes {
@@ -55,7 +54,7 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 	if (repository.refs.nodes.length === 0) {
 		return {
 			latestTag: false,
-			isUpToDate: false
+			aheadBy: undefined
 		};
 	}
 
@@ -64,26 +63,23 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 		tags.set(node.name, node.tag.commit?.oid ?? node.tag.oid);
 	}
 
-	const repoCommits = new Map<string, string>();
-	for (const [index, {oid}] of repository.defaultBranchRef.target.history.nodes.entries()) {
-		repoCommits.set(oid, index);
-	}
-
 	const latestTag = getLatestVersionTag([...tags.keys()]);
 	const latestTagOid = tags.get(latestTag)!;
+	const aheadBy = repository.defaultBranchRef.target.history.nodes.findIndex((node: AnyObject) => node.oid === latestTagOid);
 
 	return {
 		latestTag,
-		aheadBy: aheadBy < 1 : undefined : aheadBy
+		aheadBy: aheadBy < 1 ? undefined : aheadBy
 	};
 }, {
 	maxAge: 1 / 24, // One hour
 	staleWhileRevalidate: 2,
+	shouldRevalidate: value => typeof value === 'string', // TODO Remove after June 2020
 	cacheKey: () => __filebasename + ':' + getRepoURL()
 });
 
 async function init(): Promise<false | void> {
-	const {latestTag, isUpToDate, aheadBy} = await getRepoPublishState();
+	const {latestTag, aheadBy} = await getRepoPublishState();
 	if (!latestTag) {
 		return false;
 	}
@@ -111,21 +107,22 @@ async function init(): Promise<false | void> {
 		link.append(' ', <span className="css-truncate-target">{latestTag}</span>);
 	}
 
-	if (currentBranch === latestTag || isUpToDate) {
+	if (currentBranch === latestTag || aheadBy === 0) {
 		link.setAttribute('aria-label', 'You’re on the latest release');
 		link.classList.add('disabled', 'tooltipped', 'tooltipped-ne');
 		return;
 	}
 
 	const defaultBranch = await getDefaultBranch();
-	const compareLink = (
-		<a className="btn btn-sm btn-outline tooltipped tooltipped-ne" href={`/${getRepoURL()}/compare/${latestTag}...${defaultBranch}`}>
-			<DiffIcon/>
-		</a>
-	);
 	if (currentBranch === defaultBranch) {
-		link.append(' ', <sup>{aheadBy! === '20+' ? aheadBy : `+${aheadBy!}`}</sup>);
-		link.setAttribute('aria-label', `${defaultBranch} is ${aheadBy!} commits ahead of the latest release`);
+		const compareLink = (
+			<a className="btn btn-sm btn-outline tooltipped tooltipped-ne" href={`/${getRepoURL()}/compare/${latestTag}...${defaultBranch}`}>
+				<DiffIcon/>
+			</a>
+		);
+		const aheadCount = aheadBy ? aheadBy : '20+';
+		link.append(' ', <sup>{`+${aheadCount}`}</sup>);
+		link.setAttribute('aria-label', `${defaultBranch} is ${aheadCount} commits ahead of the latest release`);
 		compareLink.setAttribute('aria-label', `Compare ${latestTag}...${defaultBranch}`);
 		groupButtons([link, compareLink]);
 	} else {
