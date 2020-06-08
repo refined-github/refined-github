@@ -8,6 +8,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
+import pluralize from '../helpers/pluralize';
 import GitHubURL from '../github-helpers/github-url';
 import {groupButtons} from '../github-helpers/group-buttons';
 import getDefaultBranch from '../github-helpers/get-default-branch';
@@ -124,9 +125,8 @@ async function init(): Promise<false | void> {
 			</a>
 		);
 
-		const aheadCount = aheadBy ? aheadBy : '20+';
-		link.append(' ', <sup>{`+${aheadCount}`}</sup>);
-		link.setAttribute('aria-label', `${defaultBranch} is ${aheadCount} commits ahead of the latest release`);
+		link.append(<sup>{` +${aheadBy ? aheadBy : ''}`}</sup>);
+		link.setAttribute('aria-label', `${defaultBranch} is ${aheadBy ? pluralize(aheadBy, '1 commit', '$$ commits') : '20+ commits'} ahead of the latest release`);
 		groupButtons([link, compareLink]);
 	} else {
 		link.setAttribute('aria-label', 'Visit the latest release');
