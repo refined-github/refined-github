@@ -121,18 +121,20 @@ async function init(): Promise<false | void> {
 
 	const defaultBranch = await getDefaultBranch();
 	const compareLink = (
-		<a className="btn btn-sm btn-outline pl-1 tooltipped tooltipped-ne" href={`/${getRepoURL()}/compare/${latestTag}...${defaultBranch}`}>
+		<a className="btn btn-sm btn-outline tooltipped tooltipped-ne" href={`/${getRepoURL()}/compare/${latestTag}...${defaultBranch}`}>
 			<DiffIcon/>
 		</a>
 	);
 	if (currentBranch === defaultBranch) {
-		compareLink.append(' ', aheadBy! === '20+' ? aheadBy : `+${aheadBy!}`);
-		compareLink.setAttribute('aria-label', `${defaultBranch} is ${aheadBy!} commits ahead of the latest release`);
+		link.append(' ', <sup>{aheadBy! === '20+' ? aheadBy : `+${aheadBy!}`}</sup>);
+		link.setAttribute('aria-label', `${defaultBranch} is ${aheadBy!} commits ahead of the latest release`);
+		compareLink.setAttribute('aria-label', `Compare ${latestTag}...${defaultBranch}`);
 		groupButtons([link, compareLink]);
 	} else {
 		link.setAttribute('aria-label', 'Visit the latest release');
-		link.classList.add('tooltipped', 'tooltipped-ne');
 	}
+
+	link.classList.add('tooltipped', 'tooltipped-ne');
 }
 
 void features.add({
