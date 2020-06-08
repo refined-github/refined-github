@@ -1,7 +1,6 @@
 import './latest-tag-button.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import select from 'select-dom';
 import TagIcon from 'octicon/tag.svg';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -70,10 +69,13 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 	cacheKey: () => __filebasename + ':' + getRepoURL()
 });
 
-const getAheadByCount = cache.function(async (latestTag: string): Promise<string> => {
-	const tagPage = await fetchDom(`/${getRepoURL()}/releases/tag/${latestTag}`);
+const getAheadByCount = cache.function(async (latestTag: string): Promise<string | undefined> => {
+	const aheadCount = await fetchDom(
+		`/${getRepoURL()}/releases/tag/${latestTag}`,
+		'.release-header relative-time + a[href*="/compare/"]'
+	);
 	// This text is "4 commits to master since this tag"
-	return select('.release-header relative-time + a[href*="/compare/"]', tagPage)!.textContent!.replace(/\D/g, '');
+	return aheadCount?.textContent!.replace(/\D/g, '');
 }, {
 	maxAge: 1 / 24, // One hour
 	staleWhileRevalidate: 2,
@@ -109,21 +111,26 @@ async function init(): Promise<false | void> {
 		link.append(' ', <span className="css-truncate-target">{latestTag}</span>);
 	}
 
-	link.classList.add('tooltipped', 'tooltipped-ne');
 	if (currentBranch === latestTag || isUpToDate) {
 		link.setAttribute('aria-label', 'You’re on the latest release');
-		link.classList.add('disabled');
+		link.classList.add('disabled', 'tooltipped', 'tooltipped-ne');
 		return;
 	}
 
 	const defaultBranch = await getDefaultBranch();
 	if (currentBranch === defaultBranch) {
 		const aheadBy = await getAheadByCount(latestTag);
+		if (!aheadBy) {
+			return;
+		}
+
 		link.setAttribute('aria-label', `${defaultBranch} is ${aheadBy} commits ahead of the latest release`);
 		link.append(' ', <sup>+{aheadBy}</sup>);
 	} else {
 		link.setAttribute('aria-label', 'Visit the latest release');
 	}
+
+	link.classList.add('tooltipped', 'tooltipped-ne');
 }
 
 void features.add({

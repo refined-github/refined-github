@@ -16,7 +16,17 @@ const cacheKey = `releases-count:${repoUrl}`;
 function parseCountFromDom(): number | false {
 	if (pageDetect.isRepoRoot()) {
 		const releasesCountElement = select('.numbers-summary a[href$="/releases"] .num');
-		return Number(releasesCountElement ? looseParseInt(releasesCountElement.textContent!) : 0);
+		if (releasesCountElement) {
+			return looseParseInt(releasesCountElement.textContent!);
+		}
+
+		// In "Repository refresh" layout, look for the "+ XXX releases" link in the sidebar
+		const moreReleasesCountElement = select('.BorderGrid .text-small[href$="/releases"]');
+		if (moreReleasesCountElement) {
+			return looseParseInt(moreReleasesCountElement.textContent!) + 1;
+		}
+
+		return 0;
 	}
 
 	return false;
@@ -51,6 +61,45 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
+	await elementReady('.pagehead + *'); // Wait for the tab bar to be loaded
+
+	const repoNavigationBar = select('.UnderlineNav');
+	if (repoNavigationBar) {
+		// "Repository refresh" layout
+
+		const releasesTab = (
+			<a href={`/${repoUrl}/releases`} className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item" data-hotkey="g r" data-selected-links="repo_releases" data-tab-item="releases-tab">
+				<TagIcon className="UnderlineNav-octicon"/>
+				<span data-content="Releases">Releases</span>
+				{count === undefined ? '' : <span className="Counter">{count}</span>}
+			</a>
+		);
+
+		select(':scope > ul', repoNavigationBar)!.append(releasesTab);
+
+		// Update "selected" tab mark
+		if (pageDetect.isReleasesOrTags()) {
+			const selected = select('.UnderlineNav-item.selected');
+			if (selected) {
+				selected.classList.remove('selected');
+				selected.removeAttribute('aria-current');
+			}
+
+			releasesTab.classList.add('selected');
+			releasesTab.setAttribute('aria-current', 'page');
+		}
+
+		select('.js-responsive-underlinenav-overflow ul', repoNavigationBar)!.append(
+			<li data-menu-item="releases-tab">
+				<a role="menuitem" className="js-selected-navigation-item dropdown-item" data-selected-links={`/${repoUrl}/releases`} href={`/${repoUrl}/releases`}>
+					Releases
+				</a>
+			</li>
+		);
+
+		return;
+	}
+
 	const releasesTab = (
 		<a href={`/${repoUrl}/releases`} className="reponav-item" data-hotkey="g r">
 			<TagIcon/>
@@ -59,9 +108,8 @@ async function init(): Promise<false | void> {
 		</a>
 	);
 
-	await elementReady('.pagehead + *'); // Wait for the tab bar to be loaded
 	appendBefore(
-		// GHE doesn't have `reponav > ul`
+		// GHE doesn't have `.reponav > ul`
 		select('.reponav > ul') ?? select('.reponav')!,
 		'.reponav-dropdown, [data-selected-links^="repo_settings"]',
 		releasesTab
