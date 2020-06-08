@@ -3,6 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+
 import FoldIcon from 'octicon/fold.svg';
 import UnfoldIcon from 'octicon/unfold.svg';
 
