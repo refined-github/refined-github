@@ -7,14 +7,41 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import fetchDom from '../helpers/fetch-dom';
-import {getRepoURL, looseParseInt} from '../github-helpers';
+import * as api from '../github-helpers/api';
+import {getRepoURL, looseParseInt, getRepoGQL} from '../github-helpers';
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
 	year: 'numeric',
 	month: 'long',
 	day: 'numeric'
 });
+
+const getRepoAge = async (commitSha: string, commitCount: number): Promise<[string, string]> => {
+	const {repository} = await api.v4(`
+		repository(${getRepoGQL()}) {
+			defaultBranchRef {
+				target {
+					... on Commit {
+						history(first: 5, after: "${commitSha} ${commitCount}") {
+							nodes {
+								committedDate
+								resourcePath
+							}
+						}
+					}
+				}
+			}
+		}
+	`);
+
+	const {committedDate, resourcePath} = repository.defaultBranchRef.target.history.nodes
+		.reverse()
+		.find(({committedDate}: {committedDate: string}) => {
+			return new Date(committedDate) > new Date('1970-01-01T00:00:01');
+		});
+
+	return [committedDate, resourcePath];
+};
 
 const getFirstCommit = cache.function(async (): Promise<[string, string] | undefined> => {
 	const commitInfo = await elementReady<HTMLAnchorElement | HTMLScriptElement>('a.commit-tease-sha, include-fragment.commit-tease');
@@ -33,12 +60,7 @@ const getFirstCommit = cache.function(async (): Promise<[string, string] | undef
 		return [select('.commit-tease-sha + span relative-time')!.attributes.datetime.value, commitUrl];
 	}
 
-	const commit = await fetchDom(
-		`${getRepoURL()}/commits?after=${commitSha}+${commitsCount - 2}`,
-		'.commit'
-	);
-	const timeStamp = select('relative-time', commit)!.attributes.datetime.value;
-	const {pathname} = select<HTMLAnchorElement>('a.message', commit)!;
+	const [timeStamp, pathname] = await getRepoAge(commitSha, commitsCount - Math.min(6, commitsCount));
 	return [timeStamp, pathname];
 }, {
 	cacheKey: () => __filebasename + ':' + getRepoURL(),
