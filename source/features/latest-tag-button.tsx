@@ -2,19 +2,21 @@ import './latest-tag-button.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import TagIcon from 'octicon/tag.svg';
+import DiffIcon from 'octicon/diff.svg';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import fetchDom from '../helpers/fetch-dom';
 import GitHubURL from '../github-helpers/github-url';
+import {groupButtons} from '../github-helpers/group-buttons';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getRepoURL, getCurrentBranch, getRepoGQL, getLatestVersionTag} from '../github-helpers';
 
 interface RepoPublishState {
 	latestTag: string | false;
 	isUpToDate: boolean;
+	aheadBy?: string;
 }
 
 const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> => {
@@ -39,6 +41,13 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 			defaultBranchRef {
 				target {
 					oid
+					... on Commit {
+						history(first: 20) {
+							nodes {
+								oid
+							}
+						}
+					}
 				}
 			}
 		}
@@ -56,34 +65,27 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 		tags.set(node.name, node.tag.commit?.oid ?? node.tag.oid);
 	}
 
+	const repoCommits = new Map<string, string>();
+	for (const [index, {oid}] of repository.defaultBranchRef.target.history.nodes.entries()) {
+		repoCommits.set(oid, index);
+	}
+
 	const latestTag = getLatestVersionTag([...tags.keys()]);
+	const latestTagOid = tags.get(latestTag)!;
 
 	return {
 		latestTag,
-		isUpToDate: tags.get(latestTag) === repository.defaultBranchRef.target.oid
+		isUpToDate: tags.get(latestTag) === repository.defaultBranchRef.target.oid,
+		aheadBy: repoCommits.get(latestTagOid)! ?? '20+'
 	};
 }, {
-	maxAge: 1 / 24, // One hour
+	maxAge: 0, // One hour
 	staleWhileRevalidate: 2,
-	shouldRevalidate: value => typeof value === 'string',
 	cacheKey: () => __filebasename + ':' + getRepoURL()
 });
 
-const getAheadByCount = cache.function(async (latestTag: string): Promise<string | undefined> => {
-	const aheadCount = await fetchDom(
-		`/${getRepoURL()}/releases/tag/${latestTag}`,
-		'.release-header relative-time + a[href*="/compare/"]'
-	);
-	// This text is "4 commits to master since this tag"
-	return aheadCount?.textContent!.replace(/\D/g, '');
-}, {
-	maxAge: 1 / 24, // One hour
-	staleWhileRevalidate: 2,
-	cacheKey: ([latestTag]) => `tag-ahead-by:${getRepoURL()}/${latestTag}`
-});
-
 async function init(): Promise<false | void> {
-	const {latestTag, isUpToDate} = await getRepoPublishState();
+	const {latestTag, isUpToDate, aheadBy} = await getRepoPublishState();
 	if (!latestTag) {
 		return false;
 	}
@@ -118,19 +120,19 @@ async function init(): Promise<false | void> {
 	}
 
 	const defaultBranch = await getDefaultBranch();
+	const compareLink = (
+		<a className="btn btn-sm btn-outline pl-1 tooltipped tooltipped-ne" href={`/${getRepoURL()}/compare/${latestTag}...${defaultBranch}`}>
+			<DiffIcon/>
+		</a>
+	);
 	if (currentBranch === defaultBranch) {
-		const aheadBy = await getAheadByCount(latestTag);
-		if (!aheadBy) {
-			return;
-		}
-
-		link.setAttribute('aria-label', `${defaultBranch} is ${aheadBy} commits ahead of the latest release`);
-		link.append(' ', <sup>+{aheadBy}</sup>);
+		compareLink.append(' ', aheadBy! === '20+' ? aheadBy : `+${aheadBy!}`);
+		compareLink.setAttribute('aria-label', `${defaultBranch} is ${aheadBy!} commits ahead of the latest release`);
+		groupButtons([link, compareLink]);
 	} else {
 		link.setAttribute('aria-label', 'Visit the latest release');
+		link.classList.add('tooltipped', 'tooltipped-ne');
 	}
-
-	link.classList.add('tooltipped', 'tooltipped-ne');
 }
 
 void features.add({
