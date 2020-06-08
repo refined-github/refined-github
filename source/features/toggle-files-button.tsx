@@ -3,7 +3,9 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import ChevronDownIcon from 'octicon/chevron-down.svg';
+
+import FoldIcon from 'octicon/fold.svg';
+import UnfoldIcon from 'octicon/unfold.svg';
 
 import features from '.';
 import observeElement from '../helpers/simplified-element-observer';
@@ -22,7 +24,8 @@ function addButton(): void {
 			aria-label="Toggle files section"
 			aria-expanded="true"
 		>
-			<ChevronDownIcon/>
+			<FoldIcon/>
+			<UnfoldIcon/>
 		</button>
 	);
 }

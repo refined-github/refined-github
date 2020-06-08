@@ -8,8 +8,9 @@
 	border-radius: 3px;
 }
 
-.repository-content:not(.rgh-files-hidden) .commit-tease .octicon-chevron-down {
-	transform: rotate(0.5turn);
+.repository-content:not(.rgh-files-hidden) .commit-tease .octicon-unfold,
+.repository-content.rgh-files-hidden .commit-tease .octicon-fold {
+	display: none;
 }
 
 .rgh-files-hidden .files, /* Pre "Repository refresh" layout */
