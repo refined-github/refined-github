@@ -37,7 +37,7 @@ const getRepoAge = async (commitSha: string, commitCount: number): Promise<[stri
 	const {committedDate, resourcePath} = repository.defaultBranchRef.target.history.nodes
 		.reverse()
 		// Filter out any invalid commit dates #3185
-		.find((commit: AnyObject) => new Date(commit.committedDate) > 0);
+		.find((commit: AnyObject) => new Date(commit.committedDate).getTime() > 0);
 
 	return [committedDate, resourcePath];
 };
