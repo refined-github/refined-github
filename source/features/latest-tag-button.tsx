@@ -69,7 +69,7 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 
 	return {
 		latestTag,
-		aheadBy: aheadBy < 1 ? undefined : aheadBy
+		aheadBy: aheadBy < 0 ? undefined : aheadBy
 	};
 }, {
 	maxAge: 1 / 24, // One hour
