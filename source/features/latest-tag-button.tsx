@@ -79,7 +79,7 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 		aheadBy: repoCommits.get(latestTagOid)! ?? '20+'
 	};
 }, {
-	maxAge: 0, // One hour
+	maxAge: 1 / 24, // One hour
 	staleWhileRevalidate: 2,
 	cacheKey: () => __filebasename + ':' + getRepoURL()
 });
