@@ -15,8 +15,7 @@ import {getRepoURL, getCurrentBranch, getRepoGQL, getLatestVersionTag} from '../
 
 interface RepoPublishState {
 	latestTag: string | false;
-	isUpToDate: boolean;
-	aheadBy?: string;
+	aheadBy?: number;
 }
 
 const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> => {
@@ -75,8 +74,7 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 
 	return {
 		latestTag,
-		isUpToDate: tags.get(latestTag) === repository.defaultBranchRef.target.oid,
-		aheadBy: repoCommits.get(latestTagOid)! ?? '20+'
+		aheadBy: aheadBy < 1 : undefined : aheadBy
 	};
 }, {
 	maxAge: 1 / 24, // One hour
