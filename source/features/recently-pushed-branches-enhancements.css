@@ -70,19 +70,19 @@
 }
 
 /* Hide CTA text */
-.rgh-recently-pushed-branches .btn-link[href$='?expand=1'] {
+.rgh-recently-pushed-branches [data-url$='recently_touched_branches_list'] .btn-link[href$='?expand=1'] {
 	font-size: 0;
 	line-height: 0;
 	border: solid 1px;
 	border-radius: 0.2rem;
 }
 
-.rgh-recently-pushed-branches .btn-link[href$='?expand=1']:not(:hover) {
+.rgh-recently-pushed-branches [data-url$='recently_touched_branches_list'] .btn-link[href$='?expand=1']:not(:hover) {
 	opacity: 80%;
 }
 
 /* Make CTA icon bigger */
-.rgh-recently-pushed-branches .octicon-chevron-right {
+.rgh-recently-pushed-branches [data-url$='recently_touched_branches_list'] .octicon-chevron-right {
 	height: 1.8rem !important;
 	width: 2rem !important;
 }
