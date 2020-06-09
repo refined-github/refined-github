@@ -38,7 +38,7 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Adds `Everything commented by you` and `Everything you subscribed to` filters in the search box dropdown.',
-	screenshot: 'https://user-images.githubusercontent.com/170270/27501170-f394a304-586b-11e7-92d8-d92d6922356b.png'
+	screenshot: 'https://user-images.githubusercontent.com/202916/84156153-72a62300-aa69-11ea-8592-3094292fde3c.png'
 }, {
 	include: [
 		pageDetect.isRepoDiscussionList
