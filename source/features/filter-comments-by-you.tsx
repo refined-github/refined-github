@@ -12,18 +12,32 @@ function init(): void {
 		'.subnav-search-context li:nth-last-child(2)'
 	])!;
 
-	const menuItem = sourceItem.cloneNode(true);
-	const link = select('a', menuItem) ?? menuItem;
-	link.textContent = 'Everything commented by you';
-	link.removeAttribute('target');
-	new SearchQuery(link).set(`is:open commenter:${getUsername()}`);
+	// Add "Everything commented by you" filter
+	const commentsMenuItem = sourceItem.cloneNode(true);
+	const commentsLink = select('a', commentsMenuItem) ?? commentsMenuItem;
+	commentsLink.textContent = 'Everything commented by you';
+	commentsLink.removeAttribute('target');
+	new SearchQuery(commentsLink).set(`is:open commenter:${getUsername()}`);
 
-	sourceItem.after(menuItem);
+	sourceItem.after(commentsMenuItem);
+
+	// Add "Everything you subscribed to" link
+	const subscriptionsMenuItem = commentsMenuItem.cloneNode(true);
+	const subscriptionsLink = select('a', subscriptionsMenuItem) ?? subscriptionsMenuItem;
+	subscriptionsLink.textContent = 'Everything you subscribed to';
+	subscriptionsLink.removeAttribute('target');
+
+	const subscriptionsUrl = new URL('https://github.com/notifications/subscriptions');
+	const repositoryId = select<HTMLInputElement>('[name="repository_id"]')!.value;
+	subscriptionsUrl.searchParams.set('repository', btoa(`010:Repository${repositoryId}`));
+	subscriptionsLink.href = subscriptionsUrl.href;
+
+	commentsMenuItem.after(subscriptionsMenuItem);
 }
 
 void features.add({
 	id: __filebasename,
-	description: 'Adds a `Everything commented by you` filter in the search box dropdown.',
+	description: 'Adds `Everything commented by you` and `Everything you subscribed to` filters in the search box dropdown.',
 	screenshot: 'https://user-images.githubusercontent.com/170270/27501170-f394a304-586b-11e7-92d8-d92d6922356b.png'
 }, {
 	include: [
