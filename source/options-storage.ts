@@ -19,6 +19,7 @@ const defaults = Object.assign({
 
 const migrations = [
 	featureWasRenamed('fix-view-file-link-in-pr', 'enable-file-links-in-compare-view'), // Merged on June 3rd
+	featureWasRenamed('filter-comments-by-you', 'discussion-filters'), // Merged on June 9th
 
 	// Removed features will be automatically removed from the options as well
 	OptionsSyncPerDomain.migrations.removeUnused
