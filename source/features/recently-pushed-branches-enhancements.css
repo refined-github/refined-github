@@ -69,6 +69,20 @@
 	float: right;
 }
 
+
+/* Hide CTA text */
+.rgh-recently-pushed-branches .btn-link[href$="?expand=1"] {
+	font-size: 0;
+}
+
+/* Make CTA icon bigger */
+.rgh-recently-pushed-branches .octicon-chevron-right {
+	height: 1.3rem !important;
+	width: 2rem !important;
+	border: solid 1px;
+	border-radius: 0.2rem;
+}
+
 .rgh-recently-pushed-branches .RecentBranches-item + .RecentBranches-item, /* Pre "Repository refresh" layout */
 .rgh-recently-pushed-branches [data-url$='recently_touched_branches_list'] .Box-row + .Box-row {
 	border-top: none;
