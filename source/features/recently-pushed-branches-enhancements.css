@@ -73,6 +73,7 @@
 .rgh-recently-pushed-branches [data-url$='recently_touched_branches_list'] .Box-row + .Box-row {
 	border-top: none;
 	border-bottom: 1px solid;
+	border-color: inherit !important; /* Overrides .border-black-fade */
 }
 
 .rgh-recently-pushed-branches .Header .RecentBranches-item, /* Pre "Repository refresh" layout */
