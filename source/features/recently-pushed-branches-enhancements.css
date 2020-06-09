@@ -9,7 +9,7 @@
 	margin-bottom: 0 !important;
 	max-height: 42px; /* Only cover the actions when there are multiple branches + :hover */
 	position: absolute;
-	top: -19px;
+	top: -17px;
 	right: 10px;
 	z-index: 32; /* Set z-index higher than ul.pagehead-actions */
 	white-space: nowrap;
