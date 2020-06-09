@@ -115,19 +115,21 @@ async function init(): Promise<false | void> {
 
 	const defaultBranch = await getDefaultBranch();
 	if (currentBranch === defaultBranch) {
-		const compareLink = (
-			<a
-				className="btn btn-sm btn-outline tooltipped tooltipped-ne"
-				href={`/${getRepoURL()}/compare/${latestTag}...${defaultBranch}`}
-				aria-label={`Compare ${latestTag}...${defaultBranch}`}
-			>
-				<DiffIcon/>
-			</a>
-		);
-
 		link.append(<sup>{` +${aheadBy ? aheadBy : ''}`}</sup>);
 		link.setAttribute('aria-label', aheadBy ? `${defaultBranch} is ${pluralize(aheadBy, '1 commit', '$$ commits')} ahead of the latest release` : `The HEAD of ${defaultBranch} isn’t tagged`);
-		groupButtons([link, compareLink]);
+
+		if (pageDetect.isRepoRoot()) {
+			const compareLink = (
+				<a
+					className="btn btn-sm btn-outline tooltipped tooltipped-ne"
+					href={`/${getRepoURL()}/compare/${latestTag}...${defaultBranch}`}
+					aria-label={`Compare ${latestTag}...${defaultBranch}`}
+				>
+					<DiffIcon/>
+				</a>
+			);
+			groupButtons([link, compareLink]);
+		}
 	} else {
 		link.setAttribute('aria-label', 'Visit the latest release');
 	}
