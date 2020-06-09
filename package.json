@@ -1,10 +1,7 @@
 {
 	"private": true,
-	"engines": {
-		"node": ">12"
-	},
 	"scripts": {
-		"ava": "rm -rf .built/test && npx rollup test/*.ts --plugin typescript,commonjs --dir .built/test --chunkFileNames _.mjs --entryFileNames [name].mjs && ava",
+		"ava": "rm -rf .built/test && npx rollup test/*.ts --plugin typescript --dir .built/test --chunkFileNames _.mjs --entryFileNames [name].mjs && ava",
 		"build": "run-p build:* --continue-on-error",
 		"build:typescript": "tsc --noEmit",
 		"build:webpack": "webpack --mode=production",

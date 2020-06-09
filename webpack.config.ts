@@ -62,15 +62,12 @@ const config: Configuration = {
 		rules: [
 			{
 				test: /\.tsx?$/,
-				loader: {
-					loader: 'ts-loader',
-					options: {
-						compilerOptions: {
-							// Enables ModuleConcatenation. It must be in here to avoid conflict with ts-node
-							module: 'es2015'
-						},
-
-						transpileOnly: true
+				loader: 'ts-loader',
+				options: {
+					transpileOnly: true,
+					compilerOptions: {
+						// Enables ModuleConcatenation. It must be in here to avoid conflict with ts-node when it runs this file
+						module: 'es2015'
 					}
 				},
 				exclude: /node_modules/
