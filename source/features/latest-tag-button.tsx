@@ -126,7 +126,7 @@ async function init(): Promise<false | void> {
 		);
 
 		link.append(<sup>{` +${aheadBy ? aheadBy : ''}`}</sup>);
-		link.setAttribute('aria-label', `${defaultBranch} is ${aheadBy ? pluralize(aheadBy, '1 commit', '$$ commits') : '20+ commits'} ahead of the latest release`);
+		link.setAttribute('aria-label', aheadBy ? `${defaultBranch} is ${pluralize(aheadBy, '1 commit', '$$ commits')} ahead of the latest release` : `The HEAD of ${defaultBranch} isn’t tagged`);
 		groupButtons([link, compareLink]);
 	} else {
 		link.setAttribute('aria-label', 'Visit the latest release');
