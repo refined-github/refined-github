@@ -113,20 +113,24 @@ const config: Configuration = {
 		new MiniCssExtractPlugin({
 			filename: '[name].css'
 		}),
-		new CopyWebpackPlugin([
-			{
-				from: 'source',
-				ignore: [
-					'*.js',
-					'*.ts',
-					'*.tsx',
-					'*.css'
-				]
-			},
-			{
-				from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js'
-			}
-		]),
+		new CopyWebpackPlugin({
+			patterns: [
+				{
+					from: 'source',
+					globOptions: {
+						ignore: [
+							'**/*.js',
+							'**/*.ts',
+							'**/*.tsx',
+							'**/*.css'
+						]
+					}
+				},
+				{
+					from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js'
+				}
+			]
+		}),
 		new SizePlugin({
 			writeFile: false
 		})
