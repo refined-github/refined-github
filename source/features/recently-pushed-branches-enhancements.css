@@ -47,7 +47,6 @@
 
 /* Pre "Repository refresh" layout */
 .rgh-recently-pushed-branches .Header .RecentBranches .btn {
-	width: 32px;
 	text-indent: -999999px; /* Hide text */
 }
 
