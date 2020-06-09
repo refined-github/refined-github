@@ -5,8 +5,7 @@ import detection from 'github-url-detection';
 
 // This never changes, so it can be cached here
 export const getUsername = oneTime(detection.utils.getUsername);
-export const getRepoPath = detection.utils.getRepoPath;
-export const getCleanPathname = detection.utils.getCleanPathname;
+export const {getRepoPath, getCleanPathname} = detection.utils;
 
 export const getDiscussionNumber = (): string | undefined => {
 	if (detection.isPR() || detection.isIssue()) {

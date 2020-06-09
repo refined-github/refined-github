@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"scripts": {
-		"ava": "rm -rf .built/test && npx rollup test/*.ts --plugin typescript --dir .built/test --chunkFileNames _.mjs --entryFileNames [name].mjs && ava",
+		"ava": "rollup test/*.ts --plugin typescript --dir .built/test --chunkFileNames _.mjs --entryFileNames [name].mjs && ava",
 		"build": "run-p build:* --continue-on-error",
 		"build:typescript": "tsc --noEmit",
 		"build:webpack": "webpack --mode=production",
@@ -71,7 +71,6 @@
 	},
 	"devDependencies": {
 		"@ava/typescript": "^1.1.1",
-		"@rollup/plugin-commonjs": "^13.0.0",
 		"@rollup/plugin-typescript": "^4.1.2",
 		"@sindresorhus/tsconfig": "^0.7.0",
 		"@types/chrome": "0.0.114",
