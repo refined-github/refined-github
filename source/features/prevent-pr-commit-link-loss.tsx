@@ -8,10 +8,10 @@ import * as textFieldEdit from 'text-field-edit';
 import features from '.';
 import {prCommitRegex} from '../github-helpers';
 
-function handleButtonClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
-	const field = event.delegateTarget.form!.querySelector('textarea')!;
+function handleButtonClick({delegateTarget: fixButton}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
+	const field = fixButton.form!.querySelector('textarea')!;
 	textFieldEdit.replace(field, prCommitRegex, url => `[${url} ](${url})`);
-	event.delegateTarget.parentElement!.remove();
+	fixButton.parentElement!.remove();
 }
 
 function getUI(field: HTMLTextAreaElement): HTMLElement {
@@ -23,9 +23,7 @@ function getUI(field: HTMLTextAreaElement): HTMLElement {
 	);
 }
 
-function updateUI(event: delegate.Event<InputEvent, HTMLTextAreaElement>): void {
-	const field = event.delegateTarget;
-
+function updateUI({delegateTarget: field}: delegate.Event<InputEvent, HTMLTextAreaElement>): void {
 	if (prCommitRegex.test(field.value)) {
 		select('.form-actions', field.form!)!.prepend(getUI(field));
 	} else {

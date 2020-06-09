@@ -6,14 +6,14 @@ import * as pageDetect from 'github-url-detection';
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
 
-function init(): void {
+function init(): void | false {
 	const lastBranchAction = select.last('.TimelineItem-body .user-select-contain > span:not(.base-ref)');
 	if (!lastBranchAction) {
-		return;
+		return false;
 	}
 
 	if (!lastBranchAction.closest('.TimelineItem-body')!.textContent!.includes(' deleted ')) {
-		return;
+		return false;
 	}
 
 	const deletedBranchName = lastBranchAction.textContent!.trim();

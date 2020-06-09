@@ -113,9 +113,7 @@ async function handleRevertFileClick(event: delegate.Event<MouseEvent, HTMLButto
 	}
 }
 
-function handleMenuOpening(event: delegate.Event): void {
-	const dropdown = event.delegateTarget.nextElementSibling!;
-
+function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	const editFile = select<HTMLAnchorElement>('[aria-label^="Change this"]', dropdown);
 	if (!editFile || select.exists('.rgh-revert-file', dropdown)) {
 		return;
@@ -134,7 +132,8 @@ function handleMenuOpening(event: delegate.Event): void {
 }
 
 function init(): void {
-	delegate(document, '.js-file-header-dropdown > summary', 'click', handleMenuOpening);
+	// `useCapture` required to be fired before GitHub's handlers
+	delegate(document, '.file-header .js-file-header-dropdown', 'toggle', handleMenuOpening, true);
 	delegate(document, '.rgh-revert-file', 'click', handleRevertFileClick, true);
 }
 

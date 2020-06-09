@@ -21,7 +21,7 @@ void features.add({
 		pageDetect.isPR
 	],
 	exclude: [
-		pageDetect.isRepoWithAccess
+		pageDetect.canUserEditRepo
 	],
 	init
 });
