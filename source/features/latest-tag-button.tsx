@@ -54,7 +54,7 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 
 	if (repository.refs.nodes.length === 0) {
 		return {
-			latestTag: false,
+			latestTag: false
 		};
 	}
 
@@ -67,10 +67,11 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 	const latestTagOid = tags.get(latestTag)!;
 	const aheadBy = repository.defaultBranchRef.target.history.nodes.findIndex((node: AnyObject) => node.oid === latestTagOid);
 
-	return {
-		latestTag,
-		aheadBy: aheadBy < 0 ? undefined : aheadBy
-	};
+	if (aheadBy < 0) {
+		return {latestTag};
+	}
+
+	return {latestTag, aheadBy};
 }, {
 	maxAge: 1 / 24, // One hour
 	staleWhileRevalidate: 2,
