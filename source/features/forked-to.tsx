@@ -40,10 +40,10 @@ function createLink(baseRepo: string): string {
 			branch: 'HEAD'
 		});
 
-		return url.pathname;
+		return url.href;
 	}
 
-	return baseRepo;
+	return String(new URL(baseRepo, location.origin));
 }
 
 async function updateUI(forks: string[]): Promise<void> {
@@ -102,7 +102,7 @@ function openFileOnSourceRepo(): void {
 
 function redirectToSource(event: delegate.Event<MouseEvent, HTMLAnchorElement>): void {
 	event.preventDefault();
-	location.pathname = createLink(event.delegateTarget.pathname);
+	location.href = createLink(event.delegateTarget.pathname);
 }
 
 async function init(): Promise<void | false> {
