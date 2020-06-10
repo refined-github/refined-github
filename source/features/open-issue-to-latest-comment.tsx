@@ -2,7 +2,6 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import {wrap} from '../helpers/dom-utils';
 import features from '.';
 
 function init(): void {
@@ -14,7 +13,12 @@ function init(): void {
 function initDashboard(): void {
 	for (const icon of select.all('.js-recent-activity-container :not(a) > div > .octicon-comment')) {
 		const url = icon.closest('li')!.querySelector('a')!.pathname + '#partial-timeline';
-		wrapAll(icon.parentElement!.childNodes, <a className="muted-link rgh-latest-comment" href={url}/>);
+		const link = <a className="muted-link rgh-latest-comment" href={url}/>;
+		const {parentElement} = icon;
+		// Fix extra space added by github
+		parentElement!.classList.remove('col-1');
+		parentElement!.append(link);
+		link.append(icon, icon.nextSibling!);
 	}
 }
 
