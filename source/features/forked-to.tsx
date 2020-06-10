@@ -2,7 +2,6 @@ import './forked-to.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -96,15 +95,6 @@ async function updateUI(forks: string[]): Promise<void> {
 	}
 }
 
-function openFileOnSourceRepo(): void {
-	delegate(document, '.fork-flag .text a[data-hovercard-url]', 'click', redirectToSource);
-}
-
-function redirectToSource(event: delegate.Event<MouseEvent, HTMLAnchorElement>): void {
-	event.preventDefault();
-	location.pathname = createLink(event.delegateTarget.pathname.slice(1));
-}
-
 async function init(): Promise<void | false> {
 	const forks = await cache.get<string[]>(getCacheKey());
 	if (forks) {
@@ -133,12 +123,4 @@ void features.add({
 	],
 	waitForDomReady: false,
 	init
-}, {
-	include: [
-		pageDetect.isRepo
-	],
-	exclude: [
-		() => !pageDetect.isForkedRepo()
-	],
-	init: openFileOnSourceRepo
 });
