@@ -15,7 +15,7 @@ async function addSidebarReviewButton(): Promise<void> {
 	const sidebarReviewsSection = await elementReady('[aria-label="Select reviewers"] .discussion-sidebar-heading');
 	sidebarReviewsSection!.append(
 		<span style={{fontWeight: 'normal'}}>
-			– <a href={reviewFormUrl.href} className="btn-link muted-link" data-hotkey="v">review</a>
+			– <a href={reviewFormUrl.href} className="btn-link muted-link" data-hotkey="v">review now</a>
 		</span>
 	);
 }
