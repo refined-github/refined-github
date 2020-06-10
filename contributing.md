@@ -90,6 +90,13 @@ features.add({
 });
 ```
 
+## Requirements
+
+[Node](https://nodejs.org/en/download/) version 12 or up is required. You can check your current version with:
+
+```sh
+node -v
+```
 
 ## Workflow
 
