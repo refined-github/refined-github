@@ -37,8 +37,7 @@ function createLink(baseRepo: string): string {
 		const url = new GitHubURL(location.href).assign({
 			user,
 			repository,
-			branch: 'HEAD',
-			route: 'tree'
+			branch: 'HEAD'
 		});
 
 		return url.pathname;
@@ -58,7 +57,7 @@ async function updateUI(forks: string[]): Promise<void> {
 	if (forks.length === 1) {
 		forkCounter.before(
 			<a
-				href={`/${createLink(forks[0])}`}
+				href={createLink(forks[0])}
 				className="btn btn-sm float-left rgh-forked-button"
 				title={`Open your fork at ${forks[0]}`}
 			>
@@ -81,7 +80,7 @@ async function updateUI(forks: string[]): Promise<void> {
 					</div>
 					{forks.map(fork => (
 						<a
-							href={`/${createLink(fork)}`}
+							href={createLink(fork)}
 							className={`select-menu-item ${fork === getRepoURL() ? 'selected' : ''}`}
 							title={`Open your fork at ${fork}`}
 						>
@@ -98,10 +97,12 @@ async function updateUI(forks: string[]): Promise<void> {
 }
 
 function openFileOnSourceRepo(): void {
-	delegate(document, '.fork-flag .text a[data-hovercard-url]', 'click', (event: delegate.Event<MouseEvent, HTMLAnchorElement>) => {
-		event.preventDefault();
-		location.pathname = createLink(event.delegateTarget.pathname);
-	});
+	delegate(document, '.fork-flag .text a[data-hovercard-url]', 'click', redirectToSource);
+}
+
+function redirectToSource(event: delegate.Event<MouseEvent, HTMLAnchorElement>): void {
+	event.preventDefault();
+	location.pathname = createLink(event.delegateTarget.pathname);
 }
 
 async function init(): Promise<void | false> {
