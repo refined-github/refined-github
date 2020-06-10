@@ -13,11 +13,9 @@ function init(): void {
 function initDashboard(): void {
 	for (const icon of select.all('.js-recent-activity-container :not(a) > div > .octicon-comment')) {
 		const url = icon.closest('li')!.querySelector('a')!.pathname + '#partial-timeline';
-		const link = <a className="muted-link rgh-latest-comment" href={url}/>;
-		const {parentElement} = icon;
-		// Fix extra space added by github
-		parentElement!.classList.remove('col-1');
-		parentElement!.append(link);
+		const link = <a className="muted-link" href={url}/>;
+		icon.parentElement!.classList.remove('col-1'); // Also fix extra space added by GitHub #3174
+		icon.parentElement!.append(link);
 		link.append(icon, icon.nextSibling!);
 	}
 }
