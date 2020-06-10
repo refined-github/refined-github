@@ -33,17 +33,17 @@ const updateCache = cache.function(async (): Promise<string[] | undefined> => {
 
 function createLink(baseRepo: string): string {
 	if (pageDetect.isSingleFile() || (pageDetect.isRepoTree() && !pageDetect.isRepoRoot())) {
-		const [user, repository] = baseRepo.replace(/^\//g, '').split('/');
+		const [, user, repository] = baseRepo.split('/');
 		const url = new GitHubURL(location.href).assign({
 			user,
 			repository,
 			branch: 'HEAD'
 		});
 
-		return url.href;
+		return url.pathname;
 	}
 
-	return String(new URL(baseRepo, location.origin));
+	return baseRepo;
 }
 
 async function updateUI(forks: string[]): Promise<void> {
@@ -57,7 +57,7 @@ async function updateUI(forks: string[]): Promise<void> {
 	if (forks.length === 1) {
 		forkCounter.before(
 			<a
-				href={createLink(forks[0])}
+				href={createLink(`/${forks[0]}`)}
 				className="btn btn-sm float-left rgh-forked-button"
 				title={`Open your fork at ${forks[0]}`}
 			>
@@ -80,7 +80,7 @@ async function updateUI(forks: string[]): Promise<void> {
 					</div>
 					{forks.map(fork => (
 						<a
-							href={createLink(fork)}
+							href={createLink(`/${forks}`)}
 							className={`select-menu-item ${fork === getRepoURL() ? 'selected' : ''}`}
 							title={`Open your fork at ${fork}`}
 						>
@@ -102,7 +102,7 @@ function openFileOnSourceRepo(): void {
 
 function redirectToSource(event: delegate.Event<MouseEvent, HTMLAnchorElement>): void {
 	event.preventDefault();
-	location.href = createLink(event.delegateTarget.pathname);
+	location.pathname = createLink(event.delegateTarget.pathname);
 }
 
 async function init(): Promise<void | false> {
