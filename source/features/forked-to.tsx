@@ -2,6 +2,7 @@ import './forked-to.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
+import delegate from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -11,6 +12,7 @@ import LinkExternalIcon from 'octicon/link-external.svg';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
+import GitHubURL from '../github-helpers/github-url';
 import {getRepoURL, getUsername, getForkedRepo} from '../github-helpers';
 
 const getForkSourceRepo = (): string => getForkedRepo() ?? getRepoURL();
@@ -29,6 +31,22 @@ const updateCache = cache.function(async (): Promise<string[] | undefined> => {
 	staleWhileRevalidate: 5
 });
 
+function createLink(baseRepo: string): string {
+	if (pageDetect.isSingleFile() || (pageDetect.isRepoTree() && !pageDetect.isRepoRoot())) {
+		const [user, repository] = baseRepo.replace(/^\//g, '').split('/');
+		const url = new GitHubURL(location.href).assign({
+			user,
+			repository,
+			branch: 'HEAD',
+			route: 'tree'
+		});
+
+		return url.pathname;
+	}
+
+	return baseRepo;
+}
+
 async function updateUI(forks: string[]): Promise<void> {
 	// Don't add button if you're visiting the only fork available
 	if (forks.length === 1 && forks[0] === getRepoURL()) {
@@ -40,7 +58,7 @@ async function updateUI(forks: string[]): Promise<void> {
 	if (forks.length === 1) {
 		forkCounter.before(
 			<a
-				href={`/${forks[0]}`}
+				href={`/${createLink(forks[0])}`}
 				className="btn btn-sm float-left rgh-forked-button"
 				title={`Open your fork at ${forks[0]}`}
 			>
@@ -63,7 +81,7 @@ async function updateUI(forks: string[]): Promise<void> {
 					</div>
 					{forks.map(fork => (
 						<a
-							href={`/${fork}`}
+							href={`/${createLink(fork)}`}
 							className={`select-menu-item ${fork === getRepoURL() ? 'selected' : ''}`}
 							title={`Open your fork at ${fork}`}
 						>
@@ -77,6 +95,13 @@ async function updateUI(forks: string[]): Promise<void> {
 			</details>
 		);
 	}
+}
+
+function openFileOnSourceRepo(): void {
+	delegate(document, '.fork-flag .text a[data-hovercard-url]', 'click', (event: delegate.Event<MouseEvent, HTMLAnchorElement>) => {
+		event.preventDefault();
+		location.pathname = createLink(event.delegateTarget.pathname);
+	});
 }
 
 async function init(): Promise<void | false> {
@@ -107,4 +132,12 @@ void features.add({
 	],
 	waitForDomReady: false,
 	init
+}, {
+	include: [
+		pageDetect.isRepo
+	],
+	exclude: [
+		() => !pageDetect.isForkedRepo()
+	],
+	init: openFileOnSourceRepo
 });
