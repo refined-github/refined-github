@@ -59,7 +59,7 @@ const getFirstCommit = cache.function(async (): Promise<[string, string] | undef
 		return [select('.commit-tease-sha + span relative-time')!.attributes.datetime.value, commitUrl];
 	}
 
-	return getRepoAge(commitSha, commitsCount - Math.min(6, commitsCount));
+	return getRepoAge(commitSha, commitsCount);
 }, {
 	cacheKey: () => __filebasename + ':' + getRepoURL(),
 	shouldRevalidate: value => typeof value === 'string' // TODO: Remove after June 2020
