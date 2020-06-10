@@ -7,7 +7,7 @@
 	position: absolute;
 	top: 0;
 	right: 0;
-	background-color: transparent;
+	background-color: transparent !important;
 	padding: 0 !important;
 	border: none;
 }

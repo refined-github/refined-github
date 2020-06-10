@@ -3,6 +3,7 @@ import './options.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
+import delegate from 'delegate-it';
 import fitTextarea from 'fit-textarea';
 import {applyToLink} from 'shorten-repo-url';
 import * as indentTextarea from 'indent-textarea';
@@ -135,6 +136,12 @@ function addEventListeners(): void {
 
 	// Add cache clearer
 	select('#clear-cache')!.addEventListener('click', clearCacheHandler);
+
+	// Ensure all links open in a new tab #3181
+	delegate(document, '[href^="http"]', 'click', (event: delegate.Event<MouseEvent, HTMLAnchorElement>) => {
+		event.preventDefault();
+		window.open(event.delegateTarget.href);
+	});
 }
 
 async function init(): Promise<void> {

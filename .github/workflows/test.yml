@@ -1,7 +1,13 @@
 name: Test
+
 on:
-  - pull_request
-  - push
+  pull_request:
+    branches: 
+      - '*'
+  push:
+    branches: 
+      - master
+
 jobs:
 
   Security:

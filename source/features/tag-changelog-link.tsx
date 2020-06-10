@@ -121,7 +121,7 @@ void features.add({
 		pageDetect.isReleasesOrTags
 	],
 	exclude: [
-		pageDetect.isEmptyRepo
+		pageDetect.isEmptyRepoRoot
 	],
 	init
 });
