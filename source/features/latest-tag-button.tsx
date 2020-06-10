@@ -16,7 +16,7 @@ import {getRepoURL, getCurrentBranch, getRepoGQL, getLatestVersionTag} from '../
 
 interface RepoPublishState {
 	latestTag: string | false;
-	aheadBy?: number | undefined;
+	aheadBy?: number;
 }
 
 const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> => {
@@ -55,7 +55,6 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 	if (repository.refs.nodes.length === 0) {
 		return {
 			latestTag: false,
-			aheadBy: undefined
 		};
 	}
 
