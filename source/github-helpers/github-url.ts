@@ -22,6 +22,10 @@ export default class GitHubURL {
 
 	assign(replacements: Partial<GitHubURL>) {
 		Object.assign(this, replacements);
+
+		// Update the actual underlying URL
+		this.url.pathname = this.pathname;
+
 		return this;
 	}
 
