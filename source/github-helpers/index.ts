@@ -1,14 +1,14 @@
 import select from 'select-dom';
 import oneTime from 'onetime';
 import compareVersions from 'tiny-version-compare';
-import detection from 'github-url-detection';
+import pageDetect from 'github-url-detection';
 
 // This never changes, so it can be cached here
-export const getUsername = oneTime(detection.utils.getUsername);
-export const {getRepoPath, getCleanPathname} = detection.utils;
+export const getUsername = oneTime(pageDetect.utils.getUsername);
+export const {getRepoPath, getCleanPathname} = pageDetect.utils;
 
 export const getDiscussionNumber = (): string | undefined => {
-	if (detection.isPR() || detection.isIssue()) {
+	if (pageDetect.isPR() || pageDetect.isIssue()) {
 		return getCleanPathname().split('/')[3];
 	}
 
