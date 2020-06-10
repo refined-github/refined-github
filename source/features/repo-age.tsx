@@ -16,13 +16,13 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
 	day: 'numeric'
 });
 
-const getRepoAge = async (commitSha: string, commitCount: number): Promise<[string, string]> => {
+const getRepoAge = async (commitSha: string, commitsCount: number): Promise<[string, string]> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			defaultBranchRef {
 				target {
 					... on Commit {
-						history(first: 5, after: "${commitSha} ${commitCount}") {
+						history(first: 5, after: "${commitSha} ${commitsCount - Math.min(6, commitsCount)}") {
 							nodes {
 								committedDate
 								resourcePath
