@@ -102,7 +102,7 @@ function openFileOnSourceRepo(): void {
 
 function redirectToSource(event: delegate.Event<MouseEvent, HTMLAnchorElement>): void {
 	event.preventDefault();
-	location.pathname = createLink(event.delegateTarget.pathname);
+	location.pathname = createLink(event.delegateTarget.pathname.slice(1));
 }
 
 async function init(): Promise<void | false> {
