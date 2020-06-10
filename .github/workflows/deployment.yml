@@ -1,3 +1,4 @@
+# Copied from https://github.com/notlmn/browser-extension-template/blob/master/.github/workflows/deployment.yml
 name: Deployment
 
 on:
