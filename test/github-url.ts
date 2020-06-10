@@ -11,7 +11,7 @@ test('branch', t => {
 	t.is(url.branch, 'master');
 	t.is(url.filePath, '');
 	t.is(url.pathname, '/microsoft/TypeScript/tree/master');
-	t.is(url.href, 'https://github.com/microsoft/TypeScript/tree/master');
+	t.is(url.url.href, 'https://github.com/microsoft/TypeScript/tree/master');
 	t.is(String(url), 'https://github.com/microsoft/TypeScript/tree/master');
 });
 
@@ -23,7 +23,7 @@ test('object', t => {
 	t.is(url.branch, 'master');
 	t.is(url.filePath, 'src');
 	t.is(url.pathname, '/microsoft/TypeScript/tree/master/src');
-	t.is(url.href, 'https://github.com/microsoft/TypeScript/tree/master/src');
+	t.is(url.url.href, 'https://github.com/microsoft/TypeScript/tree/master/src');
 	t.is(String(url), 'https://github.com/microsoft/TypeScript/tree/master/src');
 });
 
@@ -35,7 +35,7 @@ test('nested object', t => {
 	t.is(url.branch, 'master');
 	t.is(url.filePath, 'src/index.js');
 	t.is(url.pathname, '/microsoft/TypeScript/tree/master/src/index.js');
-	t.is(url.href, 'https://github.com/microsoft/TypeScript/tree/master/src/index.js');
+	t.is(url.url.href, 'https://github.com/microsoft/TypeScript/tree/master/src/index.js');
 	t.is(String(url), 'https://github.com/microsoft/TypeScript/tree/master/src/index.js');
 });
 
@@ -49,7 +49,7 @@ test('change branch', t => {
 	t.is(url.branch, 'dev');
 	t.is(url.filePath, 'src/index.js');
 	t.is(url.pathname, '/microsoft/TypeScript/tree/dev/src/index.js');
-	t.is(url.href, 'https://github.com/microsoft/TypeScript/tree/dev/src/index.js');
+	t.is(url.url.href, 'https://github.com/microsoft/TypeScript/tree/dev/src/index.js');
 	t.is(String(url), 'https://github.com/microsoft/TypeScript/tree/dev/src/index.js');
 });
 
@@ -63,7 +63,7 @@ test('change filePath', t => {
 	t.is(url.branch, 'master');
 	t.is(url.filePath, 'package.json');
 	t.is(url.pathname, '/microsoft/TypeScript/tree/master/package.json');
-	t.is(url.href, 'https://github.com/microsoft/TypeScript/tree/master/package.json');
+	t.is(url.url.href, 'https://github.com/microsoft/TypeScript/tree/master/package.json');
 	t.is(String(url), 'https://github.com/microsoft/TypeScript/tree/master/package.json');
 });
 
@@ -75,7 +75,7 @@ test('get filePath from search', t => {
 	t.is(url.branch, 'f23b687b3b89aa95a76193722cdfeff740646670');
 	t.is(url.filePath, 'source/features/release-download-count.tsx');
 	t.is(url.pathname, '/yakov116/refined-github/commits/f23b687b3b89aa95a76193722cdfeff740646670/source/features/release-download-count.tsx');
-	t.is(url.href, 'https://github.com/yakov116/refined-github/commits/f23b687b3b89aa95a76193722cdfeff740646670/source/features/release-download-count.tsx?after=f23b687b3b89aa95a76193722cdfeff740646670+34');
-	t.is(url.search, '?after=f23b687b3b89aa95a76193722cdfeff740646670+34');
+	t.is(url.url.href, 'https://github.com/yakov116/refined-github/commits/f23b687b3b89aa95a76193722cdfeff740646670/source/features/release-download-count.tsx?after=f23b687b3b89aa95a76193722cdfeff740646670+34');
+	t.is(url.url.search, '?after=f23b687b3b89aa95a76193722cdfeff740646670+34');
 	t.is(String(url), 'https://github.com/yakov116/refined-github/commits/f23b687b3b89aa95a76193722cdfeff740646670/source/features/release-download-count.tsx?after=f23b687b3b89aa95a76193722cdfeff740646670+34');
 });
