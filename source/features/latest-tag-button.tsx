@@ -7,14 +7,14 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import fetchDom from '../helpers/fetch-dom';
+import pluralize from '../helpers/pluralize';
 import GitHubURL from '../github-helpers/github-url';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getRepoURL, getCurrentBranch, getRepoGQL, getLatestVersionTag} from '../github-helpers';
 
 interface RepoPublishState {
 	latestTag: string | false;
-	isUpToDate: boolean;
+	aheadBy?: number;
 }
 
 const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> => {
@@ -38,7 +38,13 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 			}
 			defaultBranchRef {
 				target {
-					oid
+					... on Commit {
+						history(first: 20) {
+							nodes {
+								oid
+							}
+						}
+					}
 				}
 			}
 		}
@@ -46,8 +52,7 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 
 	if (repository.refs.nodes.length === 0) {
 		return {
-			latestTag: false,
-			isUpToDate: false
+			latestTag: false
 		};
 	}
 
@@ -57,33 +62,22 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 	}
 
 	const latestTag = getLatestVersionTag([...tags.keys()]);
+	const latestTagOid = tags.get(latestTag)!;
+	const aheadBy = repository.defaultBranchRef.target.history.nodes.findIndex((node: AnyObject) => node.oid === latestTagOid);
 
-	return {
-		latestTag,
-		isUpToDate: tags.get(latestTag) === repository.defaultBranchRef.target.oid
-	};
+	if (aheadBy < 0) {
+		return {latestTag};
+	}
+
+	return {latestTag, aheadBy};
 }, {
 	maxAge: 1 / 24, // One hour
 	staleWhileRevalidate: 2,
-	shouldRevalidate: value => typeof value === 'string',
-	cacheKey: () => __filebasename + ':' + getRepoURL()
-});
-
-const getAheadByCount = cache.function(async (latestTag: string): Promise<string | undefined> => {
-	const aheadCount = await fetchDom(
-		`/${getRepoURL()}/releases/tag/${latestTag}`,
-		'.release-header relative-time + a[href*="/compare/"]'
-	);
-	// This text is "4 commits to master since this tag"
-	return aheadCount?.textContent!.replace(/\D/g, '');
-}, {
-	maxAge: 1 / 24, // One hour
-	staleWhileRevalidate: 2,
-	cacheKey: ([latestTag]) => `tag-ahead-by:${getRepoURL()}/${latestTag}`
+	cacheKey: () => `tag-ahead-by:${getRepoURL()}`
 });
 
 async function init(): Promise<false | void> {
-	const {latestTag, isUpToDate} = await getRepoPublishState();
+	const {latestTag, aheadBy} = await getRepoPublishState();
 	if (!latestTag) {
 		return false;
 	}
@@ -111,7 +105,7 @@ async function init(): Promise<false | void> {
 		link.append(' ', <span className="css-truncate-target">{latestTag}</span>);
 	}
 
-	if (currentBranch === latestTag || isUpToDate) {
+	if (currentBranch === latestTag || aheadBy === 0) {
 		link.setAttribute('aria-label', 'You’re on the latest release');
 		link.classList.add('disabled', 'tooltipped', 'tooltipped-ne');
 		return;
@@ -119,13 +113,8 @@ async function init(): Promise<false | void> {
 
 	const defaultBranch = await getDefaultBranch();
 	if (currentBranch === defaultBranch) {
-		const aheadBy = await getAheadByCount(latestTag);
-		if (!aheadBy) {
-			return;
-		}
-
-		link.setAttribute('aria-label', `${defaultBranch} is ${aheadBy} commits ahead of the latest release`);
-		link.append(' ', <sup>+{aheadBy}</sup>);
+		link.append(<sup> +{aheadBy}</sup>);
+		link.setAttribute('aria-label', aheadBy ? `${defaultBranch} is ${pluralize(aheadBy, '1 commit', '$$ commits')} ahead of the latest release` : `The HEAD of ${defaultBranch} isn’t tagged`);
 	} else {
 		link.setAttribute('aria-label', 'Visit the latest release');
 	}

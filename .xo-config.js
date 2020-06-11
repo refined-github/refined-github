@@ -12,6 +12,10 @@ module.exports = {
 	rules: {
 		'no-alert': 'off',
 		'no-void': 'off',
+
+		// Test files are pre-compiled and bundled by rollup
+		'ava/no-ignored-test-files': 'off',
+
 		'react/function-component-definition': [
 			'error',
 			{
