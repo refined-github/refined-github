@@ -13,7 +13,7 @@ import {getRepoURL, getRepoGQL, looseParseInt} from '../github-helpers';
 const repoUrl = getRepoURL();
 const cacheKey = `releases-count:${repoUrl}`;
 
-function parseCountFromDom(): number  {
+function parseCountFromDom(): number {
 	const releasesCountElement = select('.numbers-summary a[href$="/releases"] .num');
 	if (releasesCountElement) {
 		return looseParseInt(releasesCountElement.textContent!);
