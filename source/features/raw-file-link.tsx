@@ -10,10 +10,10 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	dropdown.classList.add('rgh-raw-file-link'); // Mark this as processed
 
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
-	const url = new GitHubURL(viewFile.href).assign({route: 'raw'});
+	const {href} = new GitHubURL(viewFile.href).assign({route: 'raw'});
 
 	viewFile.after(
-		<a href={String(url)} className="pl-5 dropdown-item btn-link" role="menuitem">
+		<a href={href} className="pl-5 dropdown-item btn-link" role="menuitem">
 			View raw
 		</a>
 	);

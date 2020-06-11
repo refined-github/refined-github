@@ -74,7 +74,7 @@ async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAncho
 
 	try {
 		blameUrl.branch = await getPullRequestBlameCommit(prCommit, prNumber, blameUrl.filePath);
-		blameUrl.url.hash = 'L' + select('.js-line-number', blameHunk)!.textContent!;
+		blameUrl.hash = 'L' + select('.js-line-number', blameHunk)!.textContent!;
 		location.href = String(blameUrl);
 	} catch (error) {
 		spinner.replaceWith(<VersionIcon/>);
