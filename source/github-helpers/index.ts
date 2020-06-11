@@ -1,15 +1,14 @@
 import select from 'select-dom';
 import oneTime from 'onetime';
 import compareVersions from 'tiny-version-compare';
-import {isPR, isIssue, utils} from 'github-url-detection';
+import * as pageDetect from 'github-url-detection/esm/index.js'; // eslint-disable-line import/extensions -- Required for Node tests compatibility
 
 // This never changes, so it can be cached here
-export const getUsername = oneTime(utils.getUsername);
-export const getRepoPath = utils.getRepoPath;
-export const getCleanPathname = utils.getCleanPathname;
+export const getUsername = oneTime(pageDetect.utils.getUsername);
+export const {getRepoPath, getCleanPathname} = pageDetect.utils;
 
 export const getDiscussionNumber = (): string | undefined => {
-	if (isPR() || isIssue()) {
+	if (pageDetect.isPR() || pageDetect.isIssue()) {
 		return getCleanPathname().split('/')[3];
 	}
 
