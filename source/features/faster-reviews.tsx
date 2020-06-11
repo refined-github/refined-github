@@ -34,7 +34,9 @@ async function initReviewButtonEnhancements(): Promise<void> {
 	delegate(document, '.js-reviews-container > details', 'toggle', focusReviewTextarea, true);
 
 	const reviewDropdownButton = await elementReady<HTMLElement>('.js-reviews-toggle');
-	reviewDropdownButton!.dataset.hotkey = 'v';
+	if (reviewDropdownButton) {
+		reviewDropdownButton.dataset.hotkey = 'v';
+	}
 }
 
 void features.add({
