@@ -93,50 +93,6 @@ export default class GitHubURL {
 		this.internalUrl.hash = hash;
 	}
 
-	get host(): string {
-		return this.internalUrl.host;
-	}
-
-	set host(host) {
-		this.internalUrl.host = host;
-	}
-
-	get hostname(): string {
-		return this.internalUrl.hostname;
-	}
-
-	set hostname(hostname) {
-		this.internalUrl.hostname = hostname;
-	}
-
-	get origin(): string {
-		return this.internalUrl.origin;
-	}
-
-	get password(): string {
-		return this.internalUrl.password;
-	}
-
-	set password(password) {
-		this.internalUrl.password = password;
-	}
-
-	get port(): string {
-		return this.internalUrl.port;
-	}
-
-	set port(port) {
-		this.internalUrl.port = port;
-	}
-
-	get protocol(): string {
-		return this.internalUrl.protocol;
-	}
-
-	set protocol(protocol) {
-		this.internalUrl.protocol = protocol;
-	}
-
 	get search(): string {
 		return this.internalUrl.search;
 	}
@@ -147,13 +103,5 @@ export default class GitHubURL {
 
 	get searchParams(): URLSearchParams {
 		return this.internalUrl.searchParams;
-	}
-
-	get username(): string {
-		return this.internalUrl.username;
-	}
-
-	set username(username) {
-		this.internalUrl.username = username;
 	}
 }
