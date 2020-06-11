@@ -1,7 +1,8 @@
 import select from 'select-dom';
 import oneTime from 'onetime';
 import compareVersions from 'tiny-version-compare';
-import pageDetect from 'github-url-detection';
+
+import pageDetect = require('github-url-detection'); // `require` needed to keep compatibility with Node + AVA + Rollup
 
 // This never changes, so it can be cached here
 export const getUsername = oneTime(pageDetect.utils.getUsername);

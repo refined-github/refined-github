@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"scripts": {
-		"ava": "rollup test/*.ts --plugin typescript --dir .built/test --chunkFileNames _.mjs --entryFileNames [name].mjs && ava",
+		"ava": "rollup test/*.ts --plugin 'typescript={ module: \"CommonJS\" }' --plugin 'commonjs={extensions:[\".ts\",\".js\"]}' --dir .built/test --chunkFileNames _.mjs --entryFileNames [name].mjs && ava",
 		"build": "run-p build:* --continue-on-error",
 		"build:typescript": "tsc --noEmit",
 		"build:webpack": "webpack --mode=production",
