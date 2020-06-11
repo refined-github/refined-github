@@ -22,7 +22,8 @@ Example tag content on public repositories: https://github.com/sindresorhus/refi
 Example tag content on private repositories https://github.com/private/private/commits/master.atom?token=AEAXKWNRHXA2XJ2ZWCMGUUN44LM62
 */
 export const getCurrentBranch = (): string => {
-	return new URL(select<HTMLLinkElement>('[type="application/atom+xml"]')!.href)
+	// .last needed for #2799
+	return new URL(select.last<HTMLLinkElement>('[type="application/atom+xml"]')!.href)
 		.pathname
 		.split('/')
 		.slice(4) // Drops the initial /user/repo/route/ part
