@@ -34,7 +34,7 @@ function createLink(baseRepo: string): string {
 	if (pageDetect.isRepoRoot() || !(pageDetect.isSingleFile() || pageDetect.isRepoTree())) {
 		return '/' + baseRepo;
 	}
-	
+
 	const [user, repository] = baseRepo.split('/');
 	const url = new GitHubURL(location.href).assign({
 		user,
