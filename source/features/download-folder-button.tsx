@@ -1,18 +1,33 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import DownloadIcon from 'octicon/download.svg';
 
 import features from '.';
 
 function init(): void {
-	select('.file-navigation .BtnGroup.float-right')?.prepend(
-		<a
-			className="btn btn-sm BtnGroup-item"
-			href={`https://download-directory.github.io/?url=${location.href}`}
-		>
-			Download
-		</a>
-	);
+	const folderButtonGroup = select('.file-navigation .BtnGroup.float-right');
+	if (folderButtonGroup) {
+		folderButtonGroup.prepend(
+			<a
+				className="btn btn-sm BtnGroup-item"
+				href={`https://download-directory.github.io/?url=${location.href}`}
+			>
+				Download
+			</a>
+		);
+	} else {
+		// "Repository refresh" layout
+		select('.file-navigation > .d-flex')!.append(
+			<a
+				className="btn ml-2"
+				href={`https://download-directory.github.io/?url=${location.href}`}
+			>
+				<DownloadIcon className="mr-1"/>
+				Download
+			</a>
+		);
+	}
 }
 
 void features.add({
