@@ -2,6 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import AlertIcon from 'octicon/alert.svg';
+import debounceFn from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
@@ -23,13 +24,16 @@ function getUI(field: HTMLTextAreaElement): HTMLElement {
 	);
 }
 
-function updateUI({delegateTarget: field}: delegate.Event<InputEvent, HTMLTextAreaElement>): void {
+
+const updateUI = debounceFn(({delegateTarget: field}: delegate.Event<InputEvent, HTMLTextAreaElement>): void => {
 	if (field.value.search(prCommitRegex) >= 0) { // Do not use regex.test() #3223
 		select('.form-actions', field.form!)!.prepend(getUI(field));
 	} else {
 		getUI(field).remove();
 	}
-}
+}, {
+	wait: 300
+});
 
 function init(): void {
 	delegate(document, 'form#new_issue textarea, form.js-new-comment-form textarea, textarea.comment-form-textarea', 'input', updateUI);
