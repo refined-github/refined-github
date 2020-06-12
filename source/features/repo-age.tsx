@@ -92,7 +92,7 @@ async function init(): Promise<void> {
 					<RepoIcon className="mr-2"/> {value} {unit} old
 				</a>
 			</div>
-		)
+		);
 
 		return;
 	}
