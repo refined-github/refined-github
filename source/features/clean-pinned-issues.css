@@ -3,44 +3,28 @@
 	display: none !important;
 }
 
-.js-pinned-issues-reorder-list {
-	flex-direction: column;
-	width: 100% !important;
+:root .js-pinned-issues-reorder-list {
+	display: table !important;
+	width: 100%;
 	margin: 0;
 	margin-bottom: 20px;
-	padding: 0 !important;
+	border-radius: 3px;
+	box-shadow: 0 0 0 1px #d1d5da; /* Rounded table border https://stackoverflow.com/a/2586780/288906 */
+	border-style: hidden;
+	border-collapse: collapse;
 }
 
 :root .pinned-issue-item {
-	width: 100%;
-	padding: 3px !important;
-	margin-bottom: -1px !important;
-	flex-flow: row !important;
-	flex-wrap: wrap;
+	display: table-row !important;
+	border-color: #e1e4e8 !important;
 }
 
-.pinned-issue-item:not(:last-child) {
-	border-bottom-left-radius: none !important;
-	border-bottom-right-radius: none !important;
-}
-
-.pinned-issue-item:not(:first-child) {
-	border-top-left-radius: none !important;
-	border-top-right-radius: none !important;
-}
-
-.pinned-issue-item > :last-child {
-	min-width: 12em;
-	font-size: 12px !important; /* Needed to match the alignment */
+.pinned-issue-item > * {
+	display: table-cell !important;
 }
 
 :root .pinned-issue-item > * {
-	padding: 2px 12px;
-}
-
-:root .pinned-item-desc {
-	flex: initial;
-	margin-left: auto;
+	padding: 6px 12px;
 }
 
 .pinned-issue-item > :first-child {
@@ -49,7 +33,6 @@
 
 .pinned-issue-handle {
 	order: -1;
-	margin-left: -20px;
 	margin-top: -2px;
 }
 

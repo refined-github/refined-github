@@ -1,7 +1,6 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import ClockIcon from 'octicon/clock.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -43,10 +42,10 @@ async function init(): Promise<void | false> {
 	for (const pinnedIssue of pinnedIssues) {
 		const issueNumber = getPinnedIssueNumber(pinnedIssue);
 		const {updatedAt} = lastUpdated[api.escapeKey(issueNumber)];
-		pinnedIssue.lastElementChild!.before(
-			<span className="text-small mt-1">
-				<span className="ml-3 text-gray"><ClockIcon/></span>
-				<span className="text-gray"> Updated <relative-time datetime={updatedAt}/></span>
+		select('.pinned-item-desc', pinnedIssue)!.append(
+			' • ',
+			<span className="text-gray d-inline-block">
+				updated <relative-time datetime={updatedAt}/>
 			</span>
 		);
 	}
