@@ -1,0 +1,59 @@
+/* Changes the layout of pinned issues from side-by-side to a standard list. */
+.js-pinned-issues-reorder-container .f4 {
+	display: none !important;
+}
+
+.js-pinned-issues-reorder-list {
+	flex-direction: column;
+	width: 100% !important;
+	margin: 0;
+	margin-bottom: 20px;
+	padding: 0 !important;
+}
+
+:root .pinned-issue-item {
+	width: 100%;
+	padding: 3px !important;
+	margin-bottom: -1px !important;
+	flex-flow: row !important;
+	flex-wrap: wrap;
+}
+
+.pinned-issue-item:not(:last-child) {
+	border-bottom-left-radius: none !important;
+	border-bottom-right-radius: none !important;
+}
+
+.pinned-issue-item:not(:first-child) {
+	border-top-left-radius: none !important;
+	border-top-right-radius: none !important;
+}
+
+.pinned-issue-item > :last-child {
+	min-width: 12em;
+	font-size: 12px !important; /* Needed to match the alignment */
+}
+
+:root .pinned-issue-item > * {
+	padding: 2px 12px;
+}
+
+:root .pinned-item-desc {
+	flex: initial;
+	margin-left: auto;
+}
+
+.pinned-issue-item > :first-child {
+	display: flex !important;
+}
+
+.pinned-issue-handle {
+	order: -1;
+	margin-left: -20px;
+	margin-top: -2px;
+}
+
+[action$='unpin'] svg {
+	margin-left: -10px;
+	margin-right: 10px !important;
+}

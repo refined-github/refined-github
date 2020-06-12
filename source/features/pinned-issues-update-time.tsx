@@ -43,9 +43,11 @@ async function init(): Promise<void | false> {
 	for (const pinnedIssue of pinnedIssues) {
 		const issueNumber = getPinnedIssueNumber(pinnedIssue);
 		const {updatedAt} = lastUpdated[api.escapeKey(issueNumber)];
-		pinnedIssue.lastElementChild!.append(
-			<span className="ml-3 text-gray"><ClockIcon/></span>,
-			<span className="text-gray text-small"> Updated <relative-time datetime={updatedAt}/></span>
+		pinnedIssue.lastElementChild!.before(
+			<span className="text-small mt-1">
+				<span className="ml-3 text-gray"><ClockIcon/></span>
+				<span className="text-gray"> Updated <relative-time datetime={updatedAt}/></span>
+			</span>
 		);
 	}
 }
