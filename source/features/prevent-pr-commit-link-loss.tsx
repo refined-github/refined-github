@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import AlertIcon from 'octicon/alert.svg';
+import {AlertIcon} from '@primer/octicons-react';
 import debounceFn from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';

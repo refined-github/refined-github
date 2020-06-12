@@ -2,7 +2,7 @@ import './minimize-upload-bar.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import UploadIcon from 'octicon/upload.svg';
+import {UploadIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';

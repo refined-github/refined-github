@@ -1,8 +1,10 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import DiffIcon from 'octicon/diff.svg';
-import BookIcon from 'octicon/book.svg';
-import CheckIcon from 'octicon/check.svg';
+import {
+	DiffIcon,
+	BookIcon,
+	CheckIcon
+} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';

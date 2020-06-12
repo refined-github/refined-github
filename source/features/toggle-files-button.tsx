@@ -4,8 +4,10 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import FoldIcon from 'octicon/fold.svg';
-import UnfoldIcon from 'octicon/unfold.svg';
+import {
+	FoldIcon,
+	UnfoldIcon
+} from '@primer/octicons-react';
 
 import features from '.';
 import observeElement from '../helpers/simplified-element-observer';

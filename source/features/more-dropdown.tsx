@@ -4,10 +4,12 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import DiffIcon from 'octicon/diff.svg';
-import BranchIcon from 'octicon/git-branch.svg';
-import HistoryIcon from 'octicon/history.svg';
-import PackageIcon from 'octicon/package.svg';
+import {
+	DiffIcon,
+	GitBranchIcon,
+	HistoryIcon,
+	PackageIcon
+} from '@primer/octicons-react';
 
 import features from '.';
 import {appendBefore} from '../helpers/dom-utils';
@@ -103,7 +105,7 @@ async function init(): Promise<void> {
 		</a>,
 
 		<a href={`/${repoUrl}/branches`} className="rgh-reponav-more dropdown-item">
-			<BranchIcon/> Branches
+			<GitBranchIcon/> Branches
 		</a>
 	);
 

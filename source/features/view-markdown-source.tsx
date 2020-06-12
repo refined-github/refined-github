@@ -2,8 +2,10 @@ import './view-markdown-source.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import CodeIcon from 'octicon/code.svg';
-import FileIcon from 'octicon/file.svg';
+import {
+	CodeIcon,
+	FileIcon
+} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';

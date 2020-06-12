@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import XIcon from 'octicon/x.svg';
+import {XIcon} from '@primer/octicons-react';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';

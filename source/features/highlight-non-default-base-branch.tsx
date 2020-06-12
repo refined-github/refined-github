@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import PullRequestIcon from 'octicon/git-pull-request.svg';
+import {GitPullRequestIcon} from '@primer/octicons-react';
 
 import features from '.';
 import * as api from '../github-helpers/api';
@@ -49,7 +49,7 @@ async function init(): Promise<false | void> {
 
 		prLink.parentElement!.querySelector('.text-small.text-gray')!.append(
 			<span className="issue-meta-section d-inline-block">
-				<PullRequestIcon/>
+				<GitPullRequestIcon/>
 				{' To '}
 				<span
 					className="commit-ref css-truncate user-select-contain mb-n1"

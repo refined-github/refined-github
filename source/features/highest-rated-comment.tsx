@@ -1,8 +1,10 @@
 import './highest-rated-comment.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import CheckIcon from 'octicon/check.svg';
-import ArrowDownIcon from 'octicon/arrow-down.svg';
+import {
+	CheckIcon,
+	ArrowDownIcon
+} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
