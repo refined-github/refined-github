@@ -58,6 +58,7 @@ async function init(): Promise<void | false> {
 	const bugsLink = select('a', bugsTab)!;
 	bugsLink.removeAttribute('data-hotkey');
 	bugsLink.removeAttribute('data-selected-links');
+	select('a', issuesTab)!.removeAttribute('data-selected-links');
 
 	// Update its appearance
 	const bugsTabTitle = select('[data-content]', bugsTab);
