@@ -40,7 +40,7 @@
 		margin-top: -2px;
 	}
 
-	[action$="unpin"] svg {
+	[action$='unpin'] svg {
 		margin-left: -10px;
 		margin-right: 10px !important;
 	}
