@@ -25,7 +25,6 @@ function init(): void {
 	const subscriptionsMenuItem = commentsMenuItem.cloneNode(true);
 	const subscriptionsLink = select('a', subscriptionsMenuItem) ?? subscriptionsMenuItem;
 	subscriptionsLink.textContent = 'Everything you subscribed to';
-	subscriptionsLink.removeAttribute('target');
 
 	const subscriptionsUrl = new URL('https://github.com/notifications/subscriptions');
 	const repositoryId = select<HTMLInputElement>('[name="repository_id"]')!.value;
