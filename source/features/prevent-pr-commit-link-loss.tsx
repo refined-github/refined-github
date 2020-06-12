@@ -11,7 +11,7 @@ import {prCommitRegex} from '../github-helpers';
 
 function handleButtonClick({delegateTarget: fixButton}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const field = fixButton.form!.querySelector('textarea')!;
-	textFieldEdit.replace(field, prCommitRegex, url => `[${url} ](${url})`);
+	textFieldEdit.replace(field, prCommitRegex, (url, pr, commit) => `[\`${commit}\` (#${pr})](${url})`);
 	fixButton.parentElement!.remove();
 }
 
