@@ -62,15 +62,12 @@ const config: Configuration = {
 		rules: [
 			{
 				test: /\.tsx?$/,
-				loader: {
-					loader: 'ts-loader',
-					options: {
-						compilerOptions: {
-							// Enables ModuleConcatenation. It must be in here to avoid conflict with ts-node
-							module: 'es2015'
-						},
-
-						transpileOnly: true
+				loader: 'ts-loader',
+				options: {
+					transpileOnly: true,
+					compilerOptions: {
+						// Enables ModuleConcatenation. It must be in here to avoid conflict with ts-node when it runs this file
+						module: 'es2015'
 					}
 				},
 				exclude: /node_modules/
@@ -113,20 +110,24 @@ const config: Configuration = {
 		new MiniCssExtractPlugin({
 			filename: '[name].css'
 		}),
-		new CopyWebpackPlugin([
-			{
-				from: 'source',
-				ignore: [
-					'*.js',
-					'*.ts',
-					'*.tsx',
-					'*.css'
-				]
-			},
-			{
-				from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js'
-			}
-		]),
+		new CopyWebpackPlugin({
+			patterns: [
+				{
+					from: 'source',
+					globOptions: {
+						ignore: [
+							'**/*.js',
+							'**/*.ts',
+							'**/*.tsx',
+							'**/*.css'
+						]
+					}
+				},
+				{
+					from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js'
+				}
+			]
+		}),
 		new SizePlugin({
 			writeFile: false
 		})

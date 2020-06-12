@@ -31,12 +31,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: npm ci
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 14
     - run: npm test
     - name: Update extension’s meta
       env:
         VER: ${{ needs.Version.outputs.version }}
       run: |
-        echo https://github.com/$GITHUB_REPOSITORY/tree/$VER > distribution/SOURCE_URL
+        echo https://github.com/$GITHUB_REPOSITORY/tree/$VER > distribution/SOURCE_URL.txt
         npm run version
     - uses: actions/upload-artifact@v2
       with:

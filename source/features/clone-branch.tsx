@@ -38,8 +38,7 @@ async function createBranch(newBranchName: string, baseSha: string): Promise<tru
 	return response.ok || response.message;
 }
 
-async function cloneBranch(event: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
-	const cloneButton = event.delegateTarget;
+async function cloneBranch({delegateTarget: cloneButton}: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
 	const branchName = cloneButton.closest('[branch]')!.getAttribute('branch')!;
 
 	const currentBranch = getBranchBaseSha(branchName);

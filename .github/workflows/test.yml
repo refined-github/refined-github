@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: 12.15 # https://github.com/sindresorhus/refined-github/issues/2900
+          node-version: 14
       - run: npm ci
       - run: npm run ava -- --serial
 

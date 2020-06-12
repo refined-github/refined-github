@@ -19,7 +19,7 @@ void features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/54978791-45906080-4fdc-11e9-8fe1-45374f8ff636.png'
 }, {
 	include: [
-		pageDetect.isConflict
+		pageDetect.isPRConflicts
 	],
 	init
 });

@@ -7,15 +7,19 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import onReplacedElement from '../helpers/on-replaced-element';
 
-async function addSidebarReviewButton(): Promise<void> {
+async function addSidebarReviewButton(): Promise<void | false> {
 	const reviewFormUrl = new URL(location.href);
 	reviewFormUrl.pathname += '/files';
 	reviewFormUrl.hash = 'submit-review';
 
 	const sidebarReviewsSection = await elementReady('[aria-label="Select reviewers"] .discussion-sidebar-heading');
+	if (select.exists('[data-hotkey="v"]', sidebarReviewsSection)) {
+		return false;
+	}
+
 	sidebarReviewsSection!.append(
 		<span style={{fontWeight: 'normal'}}>
-			– <a href={reviewFormUrl.href} className="btn-link muted-link" data-hotkey="v">review</a>
+			– <a href={reviewFormUrl.href} className="btn-link muted-link" data-hotkey="v">review now</a>
 		</span>
 	);
 }
@@ -30,7 +34,9 @@ async function initReviewButtonEnhancements(): Promise<void> {
 	delegate(document, '.js-reviews-container > details', 'toggle', focusReviewTextarea, true);
 
 	const reviewDropdownButton = await elementReady<HTMLElement>('.js-reviews-toggle');
-	reviewDropdownButton!.dataset.hotkey = 'v';
+	if (reviewDropdownButton) {
+		reviewDropdownButton.dataset.hotkey = 'v';
+	}
 }
 
 void features.add({

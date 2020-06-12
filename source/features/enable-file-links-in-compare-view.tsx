@@ -9,10 +9,8 @@ import GitHubURL from '../github-helpers/github-url';
 import {getCurrentBranch} from '../github-helpers';
 
 /** Rebuilds the "View file" link because it points to the base repo and to the commit, instead of the head repo and its branch */
-function handlePRMenuOpening(event: delegate.Event): void {
-	event.delegateTarget.classList.add('rgh-actionable-link'); // Mark this as processed
-
-	const dropdown = event.delegateTarget.nextElementSibling!;
+function handlePRMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
+	dropdown.classList.add('rgh-actionable-link'); // Mark this as processed
 
 	const [, user, repository] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/', 3);
 	const filePath = dropdown.closest('[data-path]')!.getAttribute('data-path')!;
@@ -21,9 +19,8 @@ function handlePRMenuOpening(event: delegate.Event): void {
 	viewFile.pathname = [user, repository, 'blob', getCurrentBranch(), filePath].join('/'); // Do not replace with `GitHubURL`  #3152 #3111 #2595
 }
 
-function handleCompareMenuOpening(event: delegate.Event): void {
-	event.delegateTarget.classList.add('rgh-actionable-link'); // Mark this as processed
-	const dropdown = event.delegateTarget.nextElementSibling!;
+function handleCompareMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
+	dropdown.classList.add('rgh-actionable-link'); // Mark this as processed
 
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
 	const branch = select('[title^="compare"]')!.textContent!;
@@ -54,7 +51,8 @@ function handleCompareMenuOpening(event: delegate.Event): void {
 
 function init(): void {
 	const handleMenuOpening = pageDetect.isCompare() ? handleCompareMenuOpening : handlePRMenuOpening;
-	delegate(document, '.file-header:not([data-file-deleted="true"]) .js-file-header-dropdown > summary:not(.rgh-actionable-link)', 'click', handleMenuOpening);
+	// `useCapture` required to be fired before GitHub's handlers
+	delegate(document, '.file-header:not([data-file-deleted="true"]) .js-file-header-dropdown:not(.rgh-actionable-link)', 'toggle', handleMenuOpening, true);
 }
 
 void features.add({

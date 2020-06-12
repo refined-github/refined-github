@@ -7,14 +7,40 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import fetchDom from '../helpers/fetch-dom';
-import {getRepoURL, looseParseInt} from '../github-helpers';
+import * as api from '../github-helpers/api';
+import {getRepoURL, looseParseInt, getRepoGQL} from '../github-helpers';
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
 	year: 'numeric',
 	month: 'long',
 	day: 'numeric'
 });
+
+const getRepoAge = async (commitSha: string, commitsCount: number): Promise<[string, string]> => {
+	const {repository} = await api.v4(`
+		repository(${getRepoGQL()}) {
+			defaultBranchRef {
+				target {
+					... on Commit {
+						history(first: 5, after: "${commitSha} ${commitsCount - Math.min(6, commitsCount)}") {
+							nodes {
+								committedDate
+								resourcePath
+							}
+						}
+					}
+				}
+			}
+		}
+	`);
+
+	const {committedDate, resourcePath} = repository.defaultBranchRef.target.history.nodes
+		.reverse()
+		// Filter out any invalid commit dates #3185
+		.find((commit: AnyObject) => new Date(commit.committedDate).getFullYear() > 1970);
+
+	return [committedDate, resourcePath];
+};
 
 const getFirstCommit = cache.function(async (): Promise<[string, string] | undefined> => {
 	const commitInfo = await elementReady<HTMLAnchorElement | HTMLScriptElement>('a.commit-tease-sha, include-fragment.commit-tease');
@@ -33,13 +59,7 @@ const getFirstCommit = cache.function(async (): Promise<[string, string] | undef
 		return [select('.commit-tease-sha + span relative-time')!.attributes.datetime.value, commitUrl];
 	}
 
-	const commit = await fetchDom(
-		`${getRepoURL()}/commits?after=${commitSha}+${commitsCount - 2}`,
-		'.commit'
-	);
-	const timeStamp = select('relative-time', commit)!.attributes.datetime.value;
-	const {pathname} = select<HTMLAnchorElement>('a.message', commit)!;
-	return [timeStamp, pathname];
+	return getRepoAge(commitSha, commitsCount);
 }, {
 	cacheKey: () => __filebasename + ':' + getRepoURL(),
 	shouldRevalidate: value => typeof value === 'string' // TODO: Remove after June 2020
