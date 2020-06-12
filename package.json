@@ -36,8 +36,7 @@
 		]
 	},
 	"dependencies": {
-		"@primer/octicons": "^9.6.0",
-		"@primer/octicons-v2": "0.0.0-60ee16f",
+		"@primer/octicons-react": "^10.0.0",
 		"copy-text-to-clipboard": "^2.2.0",
 		"debounce-fn": "^4.0.0",
 		"delay": "^4.4.0",

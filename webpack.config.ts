@@ -78,13 +78,6 @@ const config: Configuration = {
 					MiniCssExtractPlugin.loader,
 					'css-loader'
 				]
-			},
-			{
-				test: /\.svg$/i,
-				use: [
-					// Converts SVG files into a `export default () => actualDomElement`
-					path.resolve(__dirname, 'octicon-svg-loader.ts')
-				]
 			}
 		]
 	},
@@ -131,7 +124,7 @@ const config: Configuration = {
 	],
 	resolve: {
 		alias: {
-			octicon: '@primer/octicons-v2/build/svg'
+			react: 'dom-chef'
 		},
 		extensions: [
 			'.tsx',

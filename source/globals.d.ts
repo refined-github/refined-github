@@ -76,9 +76,10 @@ interface HTMLFormControlsCollection {
 	[key: string]: HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement;
 }
 
-declare module '*.svg' {
-	const Icon = (): JSX.Element => JSX.Element;
-	export default Icon;
+declare module 'react' {
+	const FC = (): JSX.Element => JSX.Element;
+	const React = {FC};
+	export default React;
 }
 
 // Make `element.cloneNode()` preserve its type instead of returning Node
