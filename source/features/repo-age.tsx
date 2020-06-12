@@ -82,6 +82,7 @@ async function init(): Promise<void> {
 		.replace(/^an?/, '1')
 		.split(' ');
 
+	// TODO: simplify selector after https://github.com/sindresorhus/element-ready/issues/29
 	const secondSidebarSection = await elementReady('.repository-content .BorderGrid-row + .BorderGrid-row');
 	if (secondSidebarSection) {
 		const sidebarAboutSection = secondSidebarSection.previousElementSibling!;
