@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import GitBranchIcon from 'octicon/git-branch.svg';
+import {GitBranchIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';

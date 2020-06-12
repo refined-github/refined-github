@@ -2,9 +2,11 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
-import IssueIcon from 'octicon/issue-opened.svg';
+import {
+	IssueOpenedIcon,
+	GitPullRequestIcon
+} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
-import PullRequestIcon from 'octicon/git-pull-request.svg';
 
 import features from '.';
 
@@ -27,13 +29,13 @@ function init(): void {
 					className="muted-link mr-3"
 					href={repositoryLink.href + '/issues?q=is%3Aissue+is%3Aopen'}
 				>
-					<IssueIcon/>
+					<IssueOpenedIcon/>
 				</a>,
 				<a
 					className="muted-link mr-3"
 					href={repositoryLink.href + '/pulls?q=is%3Apr+is%3Aopen'}
 				>
-					<PullRequestIcon/>
+					<GitPullRequestIcon/>
 				</a>
 			);
 		}

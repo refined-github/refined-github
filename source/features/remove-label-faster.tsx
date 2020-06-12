@@ -1,6 +1,6 @@
 import './remove-label-faster.css';
 import React from 'dom-chef';
-import XIcon from 'octicon/x.svg';
+import {XIcon} from '@primer/octicons-react';
 import select from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';

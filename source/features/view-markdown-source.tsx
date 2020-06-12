@@ -5,9 +5,11 @@ import onetime from 'onetime';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import FileIcon from 'octicon/file.svg';
-import CodeIcon from 'octicon/code.svg';
-import KebabHorizontalIcon from 'octicon/kebab-horizontal.svg';
+import {
+	CodeIcon,
+	FileIcon,
+	KebabHorizontalIcon
+} from '@primer/octicons-react';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';

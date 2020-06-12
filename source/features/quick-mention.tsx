@@ -2,7 +2,7 @@ import './quick-mention.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import ReplyIcon from 'octicon/reply.svg';
+import {ReplyIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 

@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import PullRequestIcon from 'octicon/git-pull-request.svg';
+import {GitPullRequestIcon} from '@primer/octicons-react';
 
 import features from '.';
 import * as api from '../github-helpers/api';
@@ -18,7 +18,7 @@ function getDropdown(prs: number[]): HTMLElement {
 	return (
 		<details className="ml-2 dropdown details-reset details-overlay d-inline-block flex-self-center">
 			<summary aria-haspopup="true" className="btn btn-sm">
-				<PullRequestIcon/> {prs.length} <div className="dropdown-caret"/>
+				<GitPullRequestIcon/> {prs.length} <div className="dropdown-caret"/>
 			</summary>
 
 			<ul className="dropdown-menu dropdown-menu-se">
@@ -43,7 +43,7 @@ function getSingleButton(prNumber: number, _?: number, prs?: number[]): HTMLElem
 			href={getPRUrl(prNumber)}
 			className={'btn btn-sm btn-outline flex-self-center' + (prs ? ' BtnGroup-item' : '')}
 		>
-			<PullRequestIcon/> #{prNumber}
+			<GitPullRequestIcon/> #{prNumber}
 		</a>
 	);
 }

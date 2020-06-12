@@ -3,7 +3,7 @@ import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import LinkExternalIcon from 'octicon/link-external.svg';
+import {LinkExternalIcon} from '@primer/octicons-react';
 
 import features from '.';
 import {getRepositoryInfo} from '../github-helpers';
