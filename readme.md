@@ -210,7 +210,7 @@ Thanks for contributing! 🦋🙌
 - [](# "align-issue-labels") [Aligns labels in lists to the left.](https://user-images.githubusercontent.com/1402241/28006237-070b8214-6581-11e7-94bc-2b01a007d00b.png)
 - [](# "sort-issues-by-update-time") 🔥 Changes the default sort order of discussions to `Recently updated`.
 - [](# "widen-search-field") [Widens the discussion search box.](https://user-images.githubusercontent.com/1402241/55069759-bceaf080-50bf-11e9-84d0-7707de2eb9e9.png)
-- [](# "filter-comments-by-you") [Adds a `Everything commented by you` filter in the search box dropdown.](https://user-images.githubusercontent.com/170270/27501170-f394a304-586b-11e7-92d8-d92d6922356b.png)
+- [](# "discussion-filters") [Adds `Everything commented by you` and `Everything you subscribed to` filters in the search box dropdown.](https://user-images.githubusercontent.com/202916/84156153-72a62300-aa69-11ea-8592-3094292fde3c.png)
 - [](# "global-discussion-list-filters") [Adds filters for discussions _in your repos_ and _commented on by you_ in the global discussion search.](https://user-images.githubusercontent.com/8295888/36827126-8bfc79c4-1d37-11e8-8754-992968b082be.png)
 - [](# "clean-sidebar") 🔥 [Hides empty sections (or just their "empty" label) in the discussion sidebar.](https://user-images.githubusercontent.com/1402241/57199809-20691780-6fb6-11e9-9672-1ad3f9e1b827.png)
 - [](# "clean-issue-filters") [Hides `Projects` and `Milestones` filters in discussion lists if they are empty.](https://user-images.githubusercontent.com/37769974/59083449-0ef88f80-8915-11e9-8296-68af1ddcf191.png)
