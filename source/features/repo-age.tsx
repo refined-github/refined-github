@@ -43,13 +43,13 @@ const getRepoAge = async (commitSha: string, commitsCount: number): Promise<[str
 };
 
 const getFirstCommit = cache.function(async (): Promise<[string, string] | undefined> => {
-	const commitInfo = await elementReady<HTMLAnchorElement | HTMLScriptElement>('.commit-tease a[href*="/commit/"]');
+	const commitInfo = await elementReady<HTMLAnchorElement | HTMLScriptElement>('.commit-tease a[href*="/commit/"], include-fragment.commit-tease');
 	const commitUrl = commitInfo instanceof HTMLAnchorElement ? commitInfo.href : commitInfo!.src;
 	const commitSha = commitUrl.split('/').pop()!;
 
 	// In "Repository refresh" layout, the number of commits may not be rendered yet
-	const commitsCountLink = select('li.commits .num') ?? await elementReady('.commit-tease + * a[href*="/commits/"] strong');
-	const commitsCount = looseParseInt(commitsCountLink!.textContent!);
+	const commitsCountElement = select('li.commits .num') ?? await elementReady('.commit-tease + * a[href*="/commits/"] strong');
+	const commitsCount = looseParseInt(commitsCountElement!.textContent!);
 
 	// Returning undefined will make sure that it is not cached. It will check again for commits on the next load.
 	// Reference: https://github.com/fregante/webext-storage-cache/#getter
@@ -97,6 +97,7 @@ async function init(): Promise<void> {
 		return;
 	}
 
+	// Pre "Repository refresh" layout
 	const element = (
 		<li className="text-gray" title={`First commit dated ${dateFormatter.format(date)}`}>
 			<a href={firstCommitHref}>
@@ -105,7 +106,6 @@ async function init(): Promise<void> {
 		</li>
 	);
 
-	// Pre "Repository refresh" layout
 	const license = select('.numbers-summary .octicon-law');
 	if (license) {
 		license.closest('li')!.before(element);
