@@ -24,7 +24,7 @@ function getUI(field: HTMLTextAreaElement): HTMLElement {
 }
 
 function updateUI({delegateTarget: field}: delegate.Event<InputEvent, HTMLTextAreaElement>): void {
-	if (prCommitRegex.test(field.value)) {
+	if (field.value.search(prCommitRegex) >= 0) { // Do not use regex.test() #3223
 		select('.form-actions', field.form!)!.prepend(getUI(field));
 	} else {
 		getUI(field).remove();
