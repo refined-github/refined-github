@@ -3,40 +3,40 @@
 	display: none !important;
 }
 
-:root .js-pinned-issues-reorder-list {
-	display: table !important;
-	width: 100%;
-	margin: 0;
-	margin-bottom: 20px;
-	border-radius: 3px;
-	box-shadow: 0 0 0 1px #d1d5da; /* Rounded table border https://stackoverflow.com/a/2586780/288906 */
-	border-style: hidden;
-	border-collapse: collapse;
-}
+@media (min-width: 700px) {
+	:root .js-pinned-issues-reorder-list {
+		display: table !important;
+		width: 100%;
+		margin: 0;
+		margin-bottom: 20px;
+		border-radius: 3px;
+		box-shadow: 0 0 0 1px #d1d5da; /* Rounded table border https://stackoverflow.com/a/2586780/288906 */
+		border-style: hidden;
+		border-collapse: collapse;
+	}
+	:root .pinned-issue-item {
+		display: table-row !important;
+		border-color: #e1e4e8 !important;
+	}
+	.pinned-issue-item > * {
+		display: table-cell !important;
+	}
 
-:root .pinned-issue-item {
-	display: table-row !important;
-	border-color: #e1e4e8 !important;
-}
+	:root .pinned-issue-item > * {
+		padding: 6px 12px;
+	}
 
-.pinned-issue-item > * {
-	display: table-cell !important;
-}
+	.pinned-issue-item > :first-child {
+		display: flex !important;
+	}
 
-:root .pinned-issue-item > * {
-	padding: 6px 12px;
-}
+	.pinned-issue-handle {
+		order: -1;
+		margin-top: -2px;
+	}
 
-.pinned-issue-item > :first-child {
-	display: flex !important;
-}
-
-.pinned-issue-handle {
-	order: -1;
-	margin-top: -2px;
-}
-
-[action$='unpin'] svg {
-	margin-left: -10px;
-	margin-right: 10px !important;
+	[action$="unpin"] svg {
+		margin-left: -10px;
+		margin-right: 10px !important;
+	}
 }
