@@ -47,7 +47,7 @@ export const getOwnerAndRepo = (): {
 };
 
 export function getForkedRepo(): string | undefined {
-	return select<HTMLAnchorElement>('.fork-flag a')?.pathname.slice(1);
+	return select<HTMLAnchorElement>('.fork-flag a')?.pathname.slice(1).split('/', 2).join('/');
 }
 
 export const parseTag = (tag: string): {version: string; namespace: string} => {

@@ -11,7 +11,7 @@ import LinkExternalIcon from 'octicon/link-external.svg';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
-import GitHubURL from '../github-helpers/github-url';
+import createHEADLink from './fork-source-link-same-view';
 import {getRepoURL, getUsername, getForkedRepo} from '../github-helpers';
 
 const getForkSourceRepo = (): string => getForkedRepo() ?? getRepoURL();
@@ -30,21 +30,6 @@ const updateCache = cache.function(async (): Promise<string[] | undefined> => {
 	staleWhileRevalidate: 5
 });
 
-function createLink(baseRepo: string): string {
-	if (pageDetect.isRepoRoot() || !(pageDetect.isSingleFile() || pageDetect.isRepoTree())) {
-		return '/' + baseRepo;
-	}
-
-	const [user, repository] = baseRepo.split('/');
-	const url = new GitHubURL(location.href).assign({
-		user,
-		repository,
-		branch: 'HEAD'
-	});
-
-	return url.pathname;
-}
-
 async function updateUI(forks: string[]): Promise<void> {
 	// Don't add button if you're visiting the only fork available
 	if (forks.length === 1 && forks[0] === getRepoURL()) {
@@ -56,7 +41,7 @@ async function updateUI(forks: string[]): Promise<void> {
 	if (forks.length === 1) {
 		forkCounter.before(
 			<a
-				href={createLink(forks[0])}
+				href={createHEADLink(forks[0])}
 				className="btn btn-sm float-left rgh-forked-button"
 				title={`Open your fork at ${forks[0]}`}
 			>
@@ -79,7 +64,7 @@ async function updateUI(forks: string[]): Promise<void> {
 					</div>
 					{forks.map(fork => (
 						<a
-							href={createLink(fork)}
+							href={createHEADLink(fork)}
 							className={`select-menu-item ${fork === getRepoURL() ? 'selected' : ''}`}
 							title={`Open your fork at ${fork}`}
 						>
