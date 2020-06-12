@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import urlRegex from 'url-regex';
 import delegate from 'delegate-it';
 import AlertIcon from 'octicon/alert.svg';
 import debounceFn from 'debounce-fn';
@@ -7,11 +8,11 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
-import {prCommitRegex} from '../github-helpers';
+import {prCommitRegex, preventPrCommitLinkBreak} from '../github-helpers';
 
 function handleButtonClick({delegateTarget: fixButton}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const field = fixButton.form!.querySelector('textarea')!;
-	textFieldEdit.replace(field, prCommitRegex, (url, pr, commit) => `[\`${commit}\` (#${pr})](${url})`);
+	textFieldEdit.replace(field, urlRegex(), preventPrCommitLinkBreak);
 	fixButton.parentElement!.remove();
 }
 
@@ -24,9 +25,9 @@ function getUI(field: HTMLTextAreaElement): HTMLElement {
 	);
 }
 
-
 const updateUI = debounceFn(({delegateTarget: field}: delegate.Event<InputEvent, HTMLTextAreaElement>): void => {
-	if (field.value.search(prCommitRegex) >= 0) { // Do not use regex.test() #3223
+	prCommitRegex.lastIndex = 0; // https://stackoverflow.com/a/11477448/288906
+	if (prCommitRegex.test(field.value)) {
 		select('.form-actions', field.form!)!.prepend(getUI(field));
 	} else {
 		getUI(field).remove();
