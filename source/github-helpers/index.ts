@@ -96,10 +96,18 @@ export function getLatestVersionTag(tags: string[]): string {
 	return latestVersion;
 }
 
-export const prCommitUrlRegex = /(!?\()https:\/\/[^/]+\/[^/]+\/[^/]+\/pull\/(\d+)\/commits\/([\da-f]{7})(!?\))/gi;
+export const prCommitRegex = /\/[^/]+\/[^/]+\/pull\/(\d+)\/commits\/([\da-f]{7})/i;
 
 // To be used as replacer callback in string.replace()
-export function preventPrCommitLinkLoss(url: string, pr: string, commit: string): string {
-	console.log(...arguments);
+export function preventPrCommitLinkBreak(url: string, offset: number, wholestring: string): string {
+	const {pathname} = new URL(url);
+	prCommitRegex.lastIndex = 0;
+
+	// Exclude unrelated and pre-linked URLs
+	const [, pr, commit] = prCommitRegex.exec(pathname) ?? [];
+	if (!commit || '(["\''.split('').includes(wholestring[offset - 1])) {
+		return url;
+	}
+
 	return `[\`${commit}\` (#${pr})](${url})`;
 }

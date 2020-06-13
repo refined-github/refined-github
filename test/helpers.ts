@@ -1,4 +1,5 @@
 import test from 'ava';
+import urlRegex from 'url-regex';
 
 import './fixtures/globals';
 import pluralize from '../source/helpers/pluralize';
@@ -10,8 +11,7 @@ import {
 	getScopedSelector,
 	looseParseInt,
 	getLatestVersionTag,
-	preventPrCommitLinkLoss,
-	prCommitUrlRegex
+	preventPrCommitLinkBreak
 } from '../source/github-helpers';
 
 test('getDiscussionNumber', t => {
@@ -176,10 +176,10 @@ test('getLatestVersionTag', t => {
 });
 
 function replace(string: string): string {
-	return string.replace(prCommitUrlRegex, preventPrCommitLinkLoss);
+	return string.replace(urlRegex(), preventPrCommitLinkBreak);
 }
 
-test('preventPrCommitLinkLoss', t => {
+test('preventPrCommitLinkBreak', t => {
 	t.is(replace('https://www.google.com/'), 'https://www.google.com/');
 	t.is(
 		replace('https://github.com/sindresorhus/refined-github/commit/cb44a4eb8cd5c66def3dc26dca0f386645fa29bb'),
