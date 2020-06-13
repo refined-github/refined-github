@@ -11,7 +11,7 @@ import {
 	looseParseInt,
 	getLatestVersionTag,
 	preventPrCommitLinkLoss,
-	prCommitRegex
+	prCommitUrlRegex
 } from '../source/github-helpers';
 
 test('getDiscussionNumber', t => {
@@ -176,7 +176,7 @@ test('getLatestVersionTag', t => {
 });
 
 function replace(string: string): string {
-	return string.replace(prCommitRegex, preventPrCommitLinkLoss);
+	return string.replace(prCommitUrlRegex, preventPrCommitLinkLoss);
 }
 
 test('preventPrCommitLinkLoss', t => {
