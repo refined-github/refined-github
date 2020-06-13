@@ -25,11 +25,11 @@ function getUI(field: HTMLTextAreaElement): HTMLElement {
 }
 
 const updateUI = debounceFn(({delegateTarget: field}: delegate.Event<InputEvent, HTMLTextAreaElement>): void => {
-	prCommitUrlRegex.lastIndex = 0; // https://stackoverflow.com/a/11477448/288906
-	if (prCommitUrlRegex.test(field.value)) {
-		select('.form-actions', field.form!)!.prepend(getUI(field));
-	} else {
+	// The replacement logic is not just in the regex, so it alone can't be used to detect the need for the replacement
+	if (field.value === field.value.replace(prCommitUrlRegex, preventPrCommitLinkLoss)) {
 		getUI(field).remove();
+	} else {
+		select('.form-actions', field.form!)!.prepend(getUI(field));
 	}
 }, {
 	wait: 300

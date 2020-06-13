@@ -97,10 +97,14 @@ export function getLatestVersionTag(tags: string[]): string {
 }
 
 const escapeRegex = (string: string) => string.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&');
-const prCommitPathnameRegex = /[/][^/]+[/][^/]+[/]pull[/](\d+)[/]commits[/]([\da-f]{7})[\da-f]{33}(#[\w-]+)?\b(?! *\))/; // eslint-disable-line unicorn/better-regex
+const prCommitPathnameRegex = /[/][^/]+[/][^/]+[/]pull[/](\d+)[/]commits[/]([\da-f]{7})[\da-f]{33}(?:#[\w-]+)?\b/; // eslint-disable-line unicorn/better-regex
 export const prCommitUrlRegex = new RegExp('\\b' + escapeRegex(location.origin) + prCommitPathnameRegex.source, 'gi');
 
 // To be used as replacer callback in string.replace()
-export function preventPrCommitLinkLoss(url: string, pr: string, commit: string): string {
+export function preventPrCommitLinkLoss(url: string, pr: string, commit: string, index: number, fullText: string): string {
+	if (fullText[index + url.length] === ')') {
+		return url;
+	}
+
 	return `[\`${commit}\` (#${pr})](${url})`;
 }
