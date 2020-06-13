@@ -96,18 +96,9 @@ export function getLatestVersionTag(tags: string[]): string {
 	return latestVersion;
 }
 
-export const prCommitRegex = /\/[^/]+\/[^/]+\/pull\/(\d+)\/commits\/([\da-f]{7})/i;
+const escapeRegex = (string: string) => string.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&');
+export const prCommitRegex = new RegExp(`\\b${escapeRegex(location.origin)}[/][^/]+[/][^/]+[/]pull[/](\\d+)[/]commits[/]([0-9a-f]{7})[0-9a-f]{33}\\b(?! *\\))`, 'gi');
 
-// To be used as replacer callback in string.replace()
-export function preventPrCommitLinkBreak(url: string, offset: number, wholestring: string): string {
-	const {pathname} = new URL(url);
-	prCommitRegex.lastIndex = 0;
-
-	// Exclude unrelated and pre-linked URLs
-	const [, pr, commit] = prCommitRegex.exec(pathname) ?? [];
-	if (!commit || '(["\''.split('').includes(wholestring[offset - 1])) {
-		return url;
-	}
-
-	return `[\`${commit}\` (#${pr})](${url})`;
+export function preventPrCommitLinkBreak(comment: string) {
+	return comment.replace(prCommitRegex, '[`$2` (#$1)]($&)');
 }
