@@ -1,13 +1,33 @@
-
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
+import {getRepoURL} from '../github-helpers';
+
+const checkIfFileExists = async (url: GitHubURL) => {
+	const {repository} = await api.v4(`
+		repository(owner: "${url.user}", name: "${url.repository}") {
+			file: object(expression: "${url.branch}:${url.filePath}") {
+				... on Blob {
+					id
+				}
+			}
+		}
+	`);
+
+	if (!repository.file) {
+		const source = select<HTMLAnchorElement>(`[href$="${url.pathname}" i]`)!;
+		source.pathname = '/' + source.textContent!.trim();
+	}
+};
 
 // eslint-disable-next-line import/prefer-default-export
 export function createHEADLink(baseRepo: string): string {
-	if (pageDetect.isRepoRoot() || !(pageDetect.isSingleFile() || pageDetect.isRepoTree())) {
+	if (pageDetect.isRepoRoot() || !(pageDetect.isSingleFile() || pageDetect.isRepoTree() || // There will be no change to the link
+		baseRepo.toLowerCase() === getRepoURL()) // Your there already
+	) {
 		return '/' + baseRepo;
 	}
 
@@ -17,6 +37,11 @@ export function createHEADLink(baseRepo: string): string {
 		repository,
 		branch: 'HEAD'
 	});
+
+	if (pageDetect.isSingleFile()) {
+		// If the file does not exists update the link, but dont await it.
+		void checkIfFileExists(url);
+	}
 
 	return url.pathname;
 }
