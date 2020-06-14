@@ -5,6 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import {getCleanPathname} from '../github-helpers';
 import getDefaultBranch from '../github-helpers/get-default-branch';
+import elementReady from 'element-ready';
 
 async function is404(url: string): Promise<boolean> {
 	const {status} = await fetch(url, {method: 'head'});
@@ -108,6 +109,19 @@ function init(): false | void {
 	}
 }
 
+async function initPRCommit(): Promise<void | false> {
+	const blankSlateParagraph = await elementReady('.blankslate p');
+	if (!blankSlateParagraph) {
+		// The PR commit exists
+		return false;
+	}
+
+	const commitUrl = location.pathname.replace(/\/$/, '').replace(/\/pull\/\d+\/commits/, '/commit');
+	blankSlateParagraph.after(
+		<p>You can also try to <a href={commitUrl}>view the detached standalone commit</a>.</p>
+	);
+}
+
 void features.add({
 	id: __filebasename,
 	description: 'Adds possible related pages and alternatives on 404 pages.',
@@ -118,4 +132,11 @@ void features.add({
 	],
 	repeatOnAjax: false,
 	init
+}, {
+	include: [
+		pageDetect.isPRCommit
+	],
+	waitForDomReady: false,
+	repeatOnAjax: false,
+	init: initPRCommit
 });
