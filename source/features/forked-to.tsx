@@ -11,7 +11,7 @@ import LinkExternalIcon from 'octicon/link-external.svg';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
-import createHEADLink from './fork-source-link-same-view';
+import {createHEADLink} from './fork-source-link-same-view';
 import {getRepoURL, getUsername, getForkedRepo} from '../github-helpers';
 
 const getForkSourceRepo = (): string => getForkedRepo() ?? getRepoURL();

@@ -5,7 +5,8 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import GitHubURL from '../github-helpers/github-url';
 
-export default function createHEADLink(baseRepo: string): string {
+// eslint-disable-next-line import/prefer-default-export
+export function createHEADLink(baseRepo: string): string {
 	if (pageDetect.isRepoRoot() || !(pageDetect.isSingleFile() || pageDetect.isRepoTree())) {
 		return '/' + baseRepo;
 	}
