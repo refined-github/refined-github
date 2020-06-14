@@ -1,11 +1,11 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import {getCleanPathname} from '../github-helpers';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import elementReady from 'element-ready';
 
 async function is404(url: string): Promise<boolean> {
 	const {status} = await fetch(url, {method: 'head'});
