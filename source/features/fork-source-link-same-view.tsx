@@ -4,9 +4,8 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
-import {getRepoURL} from '../github-helpers';
 
-const checkIfFileExists = async (url: GitHubURL) => {
+const checkIfFileExists = async (url: GitHubURL): Promise<boolean> => {
 	const {repository} = await api.v4(`
 		repository(owner: "${url.user}", name: "${url.repository}") {
 			file: object(expression: "${url.branch}:${url.filePath}") {
@@ -17,17 +16,12 @@ const checkIfFileExists = async (url: GitHubURL) => {
 		}
 	`);
 
-	if (!repository.file) {
-		const source = select<HTMLAnchorElement>(`[href$="${url.pathname}" i]`)!;
-		source.pathname = '/' + source.textContent!.trim();
-	}
+	return Boolean(repository.file);
 };
 
 // eslint-disable-next-line import/prefer-default-export
 export function createHEADLink(baseRepo: string): string {
-	if (pageDetect.isRepoRoot() || !(pageDetect.isSingleFile() || pageDetect.isRepoTree() || // There will be no change to the link
-		baseRepo.toLowerCase() === getRepoURL()) // Your there already
-	) {
+	if (pageDetect.isRepoRoot() || !(pageDetect.isSingleFile() || pageDetect.isRepoTree())) {
 		return '/' + baseRepo;
 	}
 
@@ -38,17 +32,20 @@ export function createHEADLink(baseRepo: string): string {
 		branch: 'HEAD'
 	});
 
-	if (pageDetect.isSingleFile()) {
-		// If the file does not exists update the link, but dont await it.
-		void checkIfFileExists(url);
-	}
-
 	return url.pathname;
 }
 
-function init(): void {
+async function init(): Promise<void | false> {
 	const forkSource = select<HTMLAnchorElement>('.fork-flag .text a')!;
-	forkSource.pathname = createHEADLink(forkSource.textContent!);
+	const sameViewUrl = createHEADLink(forkSource.textContent!);
+	if (sameViewUrl === forkSource.pathname) {
+		return false;
+	}
+
+	const url = new URL(sameViewUrl, location.origin);
+	if (await checkIfFileExists(new GitHubURL(url.href))) {
+		forkSource.pathname = sameViewUrl;
+	}
 }
 
 void features.add({
