@@ -40,7 +40,7 @@
 
 .rgh-recently-pushed-branches .Header .RecentBranches .octicon-git-branch, /* Pre "Repository refresh" layout */
 .rgh-recently-pushed-branches [data-url$='recently_touched_branches_list'] .Box .octicon-git-branch {
-	vertical-align: middle;
+	vertical-align: middle !important;
 	margin-right: 2px;
 }
 
