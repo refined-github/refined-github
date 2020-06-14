@@ -110,14 +110,10 @@ function init(): false | void {
 }
 
 async function initPRCommit(): Promise<void | false> {
-	const blankSlateParagraph = await elementReady('.blankslate p');
-	if (!blankSlateParagraph) {
-		// The PR commit exists
-		return false;
-	}
-
 	const commitUrl = location.pathname.replace(/\/$/, '').replace(/\/pull\/\d+\/commits/, '/commit');
-	blankSlateParagraph.after(
+
+	const blankSlateParagraph = await elementReady('.blankslate p');
+	blankSlateParagraph!.after(
 		<p>You can also try to <a href={commitUrl}>view the detached standalone commit</a>.</p>
 	);
 }
@@ -134,7 +130,7 @@ void features.add({
 	init
 }, {
 	include: [
-		pageDetect.isPRCommit
+		() => document.title.startsWith('Commit range not found · Pull Request')
 	],
 	waitForDomReady: false,
 	repeatOnAjax: false,
