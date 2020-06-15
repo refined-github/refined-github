@@ -41,7 +41,7 @@ async function updateUI(forks: string[]): Promise<void> {
 	if (forks.length === 1) {
 		forkCounter.before(
 			<a
-				href={createHEADLink(forks[0])}
+				href={createHEADLink(forks[0]).pathname}
 				className="btn btn-sm float-left rgh-forked-button"
 				title={`Open your fork at ${forks[0]}`}
 			>
@@ -64,7 +64,7 @@ async function updateUI(forks: string[]): Promise<void> {
 					</div>
 					{forks.map(fork => (
 						<a
-							href={createHEADLink(fork)}
+							href={createHEADLink(fork).pathname}
 							className={`select-menu-item ${fork === getRepoURL() ? 'selected' : ''}`}
 							title={`Open your fork at ${fork}`}
 						>

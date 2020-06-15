@@ -9,9 +9,7 @@ const checkIfFileExists = async (url: GitHubURL): Promise<boolean> => {
 	const {repository} = await api.v4(`
 		repository(owner: "${url.user}", name: "${url.repository}") {
 			file: object(expression: "${url.branch}:${url.filePath}") {
-				... on Blob {
-					id
-				}
+				id
 			}
 		}
 	`);
@@ -20,10 +18,10 @@ const checkIfFileExists = async (url: GitHubURL): Promise<boolean> => {
 };
 
 // eslint-disable-next-line import/prefer-default-export
-export function createHEADLink(baseRepo: string): string {
+export function createHEADLink(baseRepo: string): URL | GitHubURL {
 	const url = new GitHubURL(location.href);
 	if (!url.filePath) {
-		return '/' + baseRepo;
+		return new URL(baseRepo, location.origin);
 	}
 
 	const [user, repository] = baseRepo.split('/');
@@ -33,19 +31,18 @@ export function createHEADLink(baseRepo: string): string {
 		branch: 'HEAD'
 	});
 
-	return url.pathname;
+	return url;
 }
 
 async function init(): Promise<void | false> {
 	const forkSource = select<HTMLAnchorElement>('.fork-flag .text a')!;
 	const sameViewUrl = createHEADLink(forkSource.textContent!);
-	if (sameViewUrl === forkSource.pathname) {
+	if (sameViewUrl.pathname === forkSource.pathname) {
 		return false;
 	}
 
-	const url = new URL(sameViewUrl, location.origin);
-	if (await checkIfFileExists(new GitHubURL(url.href))) {
-		forkSource.pathname = sameViewUrl;
+	if (await checkIfFileExists(sameViewUrl as GitHubURL)) {
+		forkSource.pathname = sameViewUrl.pathname;
 	}
 }
 
