@@ -12,8 +12,7 @@ function init(): void {
 		commitUrl = commitUrl.replace(/\/pull\/\d+\/commits/, '/commit');
 	}
 
-	// Do nothing on not found PR commits (404 pages)
-	select('.commit-meta > :last-child')?.append(
+	select('.commit-meta > :last-child')!.append(
 		<span className="sha-block patch-diff-links">
 			<a href={`${commitUrl}.patch`} className="sha">patch</a>
 			{ ' ' /* Workaround for: JSX eats whitespace between elements */ }
@@ -29,6 +28,9 @@ void features.add({
 }, {
 	include: [
 		pageDetect.isCommit
+	],
+	exclude: [
+		() => document.title.startsWith('Commit range not found · Pull Request')
 	],
 	init
 });
