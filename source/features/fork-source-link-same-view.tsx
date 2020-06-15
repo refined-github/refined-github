@@ -21,18 +21,19 @@ const checkIfFileExists = async (url: GitHubURL): Promise<boolean> => {
 
 // eslint-disable-next-line import/prefer-default-export
 export function createHEADLink(baseRepo: string): string {
-	if (pageDetect.isRepoRoot() || !(pageDetect.isSingleFile() || pageDetect.isRepoTree())) {
+	const url = new GitHubURL(location.href);
+	if (!url.filePath) {
 		return '/' + baseRepo;
 	}
-
+	
 	const [user, repository] = baseRepo.split('/');
-	const url = new GitHubURL(location.href).assign({
+	url.assign({
 		user,
 		repository,
 		branch: 'HEAD'
 	});
 
-	return url.pathname;
+	return url;
 }
 
 async function init(): Promise<void | false> {
@@ -42,15 +43,14 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const url = new URL(sameViewUrl, location.origin);
-	if (await checkIfFileExists(new GitHubURL(url.href))) {
-		forkSource.pathname = sameViewUrl;
+	if (await checkIfFileExists(sameViewUrl)) {
+		forkSource.pathname = sameViewUrl.pathname;
 	}
 }
 
 void features.add({
 	id: __filebasename,
-	description: 'Redirects the source repository link of a fork to the same view in the source.',
+	description: 'Points the “Forked from user/repository” link to current folder or file in the upstream repository.',
 	screenshot: false
 }, {
 	include: [
