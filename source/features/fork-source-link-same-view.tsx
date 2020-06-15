@@ -25,7 +25,7 @@ export function createHEADLink(baseRepo: string): string {
 	if (!url.filePath) {
 		return '/' + baseRepo;
 	}
-	
+
 	const [user, repository] = baseRepo.split('/');
 	url.assign({
 		user,
@@ -33,7 +33,7 @@ export function createHEADLink(baseRepo: string): string {
 		branch: 'HEAD'
 	});
 
-	return url;
+	return url.pathname;
 }
 
 async function init(): Promise<void | false> {
@@ -43,8 +43,9 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	if (await checkIfFileExists(sameViewUrl)) {
-		forkSource.pathname = sameViewUrl.pathname;
+	const url = new URL(sameViewUrl, location.origin);
+	if (await checkIfFileExists(new GitHubURL(url.href))) {
+		forkSource.pathname = sameViewUrl;
 	}
 }
 
