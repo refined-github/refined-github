@@ -110,7 +110,7 @@ function init(): false | void {
 }
 
 async function initPRCommit(): Promise<void | false> {
-	const commitUrl = location.pathname.replace(/\/$/, '').replace(/\/pull\/\d+\/commits/, '/commit');
+	const commitUrl = location.pathname.replace(/pull\/\d+\/commits/, 'commit');
 
 	const blankSlateParagraph = await elementReady('.blankslate p');
 	blankSlateParagraph!.after(
