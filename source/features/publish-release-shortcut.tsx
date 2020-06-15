@@ -4,10 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function init(): void {
-	const publishReleaseButton = select('.js-publish-release');
-	if (publishReleaseButton) {
-		publishReleaseButton.dataset.hotkey = 'Control+Enter,Meta+Enter';
-	}
+	select('textarea')?.classList.add('js-quick-submit');
 }
 
 void features.add({
