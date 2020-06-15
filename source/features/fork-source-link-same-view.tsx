@@ -49,7 +49,7 @@ async function init(): Promise<void | false> {
 void features.add({
 	id: __filebasename,
 	description: 'Points the “Forked from user/repository” link to current folder or file in the upstream repository.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/84710579-80a8e780-af32-11ea-85f6-b6b627354455.png'
+	screenshot: 'https://user-images.githubusercontent.com/16872793/84710808-f0b76d80-af32-11ea-8f8c-6ca4bce354fb.png'
 }, {
 	include: [
 		pageDetect.isRepo
