@@ -137,7 +137,7 @@ Thanks for contributing! 🦋🙌
 - [](# "repo-age") [Adds the age of the repository to the statistics bar.](https://user-images.githubusercontent.com/3848317/69494069-7d2b1180-0eb7-11ea-9aa1-d4194e566340.png)
 - [](# "show-open-prs-of-forks") [In your forked repos, shows number of your open PRs to the original repo.](https://user-images.githubusercontent.com/1922624/76398271-e0648500-637c-11ea-8210-53dda1be9d51.png)
 - [](# "go-to-action-from-file") [Adds a link to access the past runs of a GitHub Action workflow when seeing the workflow configuration file.](https://user-images.githubusercontent.com/1402241/80146153-ab6d6400-85b1-11ea-9f38-e87950692a62.png)
-- [](# "publish-release-shortcut") Adds a keyboard shortcut to publish a new release while on the new Release page: <kbd>control</kbd> <kbd>enter</kbd>.
+- [](# "publish-release-shortcut") Enables the <kbd>control</kbd> <kbd>enter</kbd> keyboard shortcut to submit a release while on the Release page..
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
