@@ -27,11 +27,8 @@ async function init(): Promise<void> {
 		branch: 'HEAD'
 	});
 
-	const forkSource = select<HTMLAnchorElement>('.fork-flag .text a')!;
-	if (sameViewUrl.pathname === forkSource.pathname) {
-		return false;
-	}
 	if (await checkIfFileExists(sameViewUrl)) {
+		const forkSource = select<HTMLAnchorElement>('.fork-flag .text a')!;
 		forkSource.pathname = sameViewUrl.pathname;
 	}
 }
