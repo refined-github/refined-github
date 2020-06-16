@@ -24,7 +24,7 @@ async function init(): Promise<void> {
 	const sameViewUrl = new GitHubURL(location.href).assign({
 		user: currentRepository.owner,
 		repository: currentRepository.name,
-		branch: 'HEAD'
+		branch: await getDefaultBranch(currentRepository)
 	});
 
 	if (await checkIfFileExists(sameViewUrl)) {
