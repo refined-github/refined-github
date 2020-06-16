@@ -2,22 +2,10 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
+import doesFileExist from '../github-helpers/does-file-exist';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getRepositoryInfo} from '../github-helpers';
-
-const checkIfFileExists = async (url: GitHubURL): Promise<boolean> => {
-	const {repository} = await api.v4(`
-		repository(owner: "${url.user}", name: "${url.repository}") {
-			file: object(expression: "${url.branch}:${url.filePath}") {
-				id
-			}
-		}
-	`);
-
-	return Boolean(repository.file);
-};
 
 async function init(): Promise<void> {
 	const currentRepository = getRepositoryInfo();
@@ -27,7 +15,7 @@ async function init(): Promise<void> {
 		branch: await getDefaultBranch(currentRepository)
 	});
 
-	if (await checkIfFileExists(sameViewUrl)) {
+	if (await doesFileExist(sameViewUrl)) {
 		const forkSource = select<HTMLAnchorElement>('.fork-flag .text a')!;
 		forkSource.pathname = sameViewUrl.pathname;
 	}
