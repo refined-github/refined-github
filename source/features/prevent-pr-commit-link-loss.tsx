@@ -2,15 +2,16 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import AlertIcon from 'octicon/alert.svg';
+import debounceFn from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
-import {prCommitRegex} from '../github-helpers';
+import {prCommitUrlRegex, preventPrCommitLinkLoss} from '../github-helpers';
 
 function handleButtonClick({delegateTarget: fixButton}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const field = fixButton.form!.querySelector('textarea')!;
-	textFieldEdit.replace(field, prCommitRegex, url => `[${url} ](${url})`);
+	textFieldEdit.replace(field, prCommitUrlRegex, preventPrCommitLinkLoss);
 	fixButton.parentElement!.remove();
 }
 
@@ -23,13 +24,16 @@ function getUI(field: HTMLTextAreaElement): HTMLElement {
 	);
 }
 
-function updateUI({delegateTarget: field}: delegate.Event<InputEvent, HTMLTextAreaElement>): void {
-	if (prCommitRegex.test(field.value)) {
-		select('.form-actions', field.form!)!.prepend(getUI(field));
-	} else {
+const updateUI = debounceFn(({delegateTarget: field}: delegate.Event<InputEvent, HTMLTextAreaElement>): void => {
+	// The replacement logic is not just in the regex, so it alone can't be used to detect the need for the replacement
+	if (field.value === field.value.replace(prCommitUrlRegex, preventPrCommitLinkLoss)) {
 		getUI(field).remove();
+	} else {
+		select('.form-actions', field.form!)!.prepend(getUI(field));
 	}
-}
+}, {
+	wait: 300
+});
 
 function init(): void {
 	delegate(document, 'form#new_issue textarea, form.js-new-comment-form textarea, textarea.comment-form-textarea', 'input', updateUI);

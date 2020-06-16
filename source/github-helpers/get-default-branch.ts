@@ -1,8 +1,9 @@
-import select from 'select-dom';
 import cache from 'webext-storage-cache';
+import select from 'select-dom';
+import {isForkedRepo} from 'github-url-detection/esm';
 
 import * as api from './api';
-import {getRepoURL, getRepoGQL} from '.';
+import {RepositoryInfo, getCurrentRepository, getRepoURL} from '.';
 
 // This regex should match all of these combinations:
 // "This branch is even with master."
@@ -11,30 +12,29 @@ import {getRepoURL, getRepoGQL} from '.';
 // "This branch is 1 commit ahead, 27 commits behind master."
 const branchInfoRegex = /([^ ]+)\.$/;
 
-function parseBranchFromDom(): string | undefined {
-	if (select.exists('.repohead h1 .octicon-repo-forked')) {
-		return; // It's a fork, no "default branch" info available #1132
+export default cache.function(async (repository: Partial<RepositoryInfo> = getCurrentRepository()): Promise<string> => {
+	if (JSON.stringify(repository) === JSON.stringify(getCurrentRepository())) {
+		if (!isForkedRepo()) {
+			// We can find the name in the infobar, available in folder views
+			const branchInfo = select('.branch-infobar')?.textContent!.trim();
+			const defaultBranch = branchInfoRegex.exec(branchInfo!)?.[1];
+			if (defaultBranch) {
+				return defaultBranch;
+			}
+		}
 	}
 
-	// We can find the name in the infobar, available in folder views
-	const branchInfo = select('.branch-infobar')?.textContent!.trim();
-	return branchInfoRegex.exec(branchInfo!)?.[1];
-}
-
-async function fetchFromApi(): Promise<string> {
-	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+	const response = await api.v4(`
+		repository(owner: "${repository.owner!}", name: "${repository.name!}") {
 			defaultBranchRef {
 				name
 			}
 		}
 	`);
 
-	return repository.defaultBranchRef.name;
-}
-
-export default cache.function(async () => parseBranchFromDom() ?? fetchFromApi(), {
+	return response.repository.defaultBranchRef.name;
+}, {
 	maxAge: 10,
 	staleWhileRevalidate: 20,
-	cacheKey: () => 'default-branch:' + getRepoURL()
+	cacheKey: ([repository]) => repository ? `default-branch:${repository.owner!}/${repository.name!}` : `default-branch:${getRepoURL()}`
 });

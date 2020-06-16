@@ -35,13 +35,18 @@ async function init(): Promise<false | void> {
 
 	const defaultLink = (
 		<a
-			className="btn btn-sm tooltipped tooltipped-ne"
+			className="btn tooltipped tooltipped-ne"
 			href={String(url)}
 			aria-label="See this view on the default branch"
 		>
 			<ChevronLeftIcon/>
 		</a>
 	);
+
+	if (branchSelector.classList.contains('btn-sm')) {
+		// Pre "Repository refresh" layout
+		defaultLink.classList.add('btn-sm');
+	}
 
 	branchSelector.before(defaultLink);
 

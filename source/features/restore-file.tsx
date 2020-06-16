@@ -65,25 +65,24 @@ async function commitFileContent(menuItem: Element, content: string, filePath: s
 
 	// This is either an `edit` or `create` form
 	const form = (await fetchDom<HTMLFormElement>(pathname, '.js-blob-form'))!;
-	form.elements.value.value = content; // Revert content (`value` is the name of the file content field)
+	form.elements.value.value = content; // Restore content (`value` is the name of the file content field)
 	form.elements.message.value = (form.elements.message as HTMLInputElement).placeholder
-		.replace(/^Update/, 'Revert')
-		.replace(/^Create/, 'Restore');
+		.replace(/^Create|^Update/, 'Restore');
 	await postForm(form);
 }
 
-const filesReverted = new WeakSet<HTMLButtonElement>();
-async function handleRevertFileClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
+const filesRestored = new WeakSet<HTMLButtonElement>();
+async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
 	const menuItem = event.delegateTarget;
 
 	// Only allow one click
-	if (filesReverted.has(menuItem)) {
+	if (filesRestored.has(menuItem)) {
 		return;
 	}
 
-	filesReverted.add(menuItem);
+	filesRestored.add(menuItem);
 
-	menuItem.textContent = 'Reverting…';
+	menuItem.textContent = 'Restoring…';
 	event.preventDefault();
 	event.stopPropagation();
 
@@ -92,14 +91,14 @@ async function handleRevertFileClick(event: delegate.Event<MouseEvent, HTMLButto
 		const file = await getFile(filePath);
 
 		if (!file) {
-			// The file was created by this PR. Revert === Delete.
+			// The file was created by this PR. Restore === Delete.
 			// If there was a way to tell if a file was created by the PR, we could skip `getFile`
 			await deleteFile(menuItem);
 			return;
 		}
 
 		if (file.isTruncated) {
-			showError(menuItem, 'Revert failed: File too big');
+			showError(menuItem, 'Restore failed: File too big');
 			return;
 		}
 
@@ -108,25 +107,25 @@ async function handleRevertFileClick(event: delegate.Event<MouseEvent, HTMLButto
 		// Hide file from view
 		menuItem.closest('.file')!.remove();
 	} catch (error) {
-		showError(menuItem, 'Revert failed. See console for details');
+		showError(menuItem, 'Restore failed. See console for details');
 		throw error;
 	}
 }
 
 function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	const editFile = select<HTMLAnchorElement>('[aria-label^="Change this"]', dropdown);
-	if (!editFile || select.exists('.rgh-revert-file', dropdown)) {
+	if (!editFile || select.exists('.rgh-restore-file', dropdown)) {
 		return;
 	}
 
 	editFile.after(
 		<button
-			className="pl-5 dropdown-item btn-link rgh-revert-file"
+			className="pl-5 dropdown-item btn-link rgh-restore-file"
 			style={{whiteSpace: 'pre-wrap'}}
 			role="menuitem"
 			type="button"
 		>
-			Revert changes
+			Restore changes
 		</button>
 	);
 }
@@ -134,7 +133,7 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 function init(): void {
 	// `useCapture` required to be fired before GitHub's handlers
 	delegate(document, '.file-header .js-file-header-dropdown', 'toggle', handleMenuOpening, true);
-	delegate(document, '.rgh-revert-file', 'click', handleRevertFileClick, true);
+	delegate(document, '.rgh-restore-file', 'click', handleRestoreFileClick, true);
 }
 
 void features.add({
