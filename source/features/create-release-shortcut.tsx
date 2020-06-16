@@ -29,7 +29,7 @@ void features.add({
 	init
 }, {
 	include: [
-		pageDetect.isReleasesOrTags, // Needed, If the release failed GitHub does not stay on the releases/new page
+		pageDetect.isReleasesOrTags, // If the release failed to publish, GitHub changes the url to /releases
 		pageDetect.isNewRelease,
 		pageDetect.isEditingRelease
 	],
