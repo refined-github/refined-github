@@ -34,17 +34,18 @@ export const isFirefox = navigator.userAgent.includes('Firefox/');
 
 export const getRepoURL = (): string => location.pathname.slice(1).split('/', 2).join('/').toLowerCase();
 export const getRepoGQL = (): string => {
-	const {ownerName, repoName} = getOwnerAndRepo();
-	return `owner: "${ownerName!}", name: "${repoName!}"`;
+	const {owner, name} = getCurrentRepository();
+	return `owner: "${owner!}", name: "${name!}"`;
 };
 
-export const getOwnerAndRepo = (): {
-	ownerName?: string;
-	repoName?: string;
-} => {
-	const [, ownerName, repoName] = location.pathname.split('/', 3);
-	return {ownerName, repoName};
-};
+export interface RepositoryInfo {
+	owner: string;
+	name: string;
+}
+export const getCurrentRepository = oneTime((): Partial<RepositoryInfo> => {
+	const [, owner, name] = location.pathname.split('/', 3);
+	return {owner, name};
+});
 
 export function getForkedRepo(): string | undefined {
 	return select<HTMLAnchorElement>('.fork-flag a')?.pathname.slice(1);
