@@ -1,4 +1,5 @@
 import select from 'select-dom';
+import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -17,7 +18,12 @@ function triggerShortcut(shortcut: string) {
 	select<HTMLButtonElement>(shortcutClass[shortcut], selectedComment)?.click();
 }
 
+function focusComment({delegateTarget: comment}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
+	history.replaceState({}, document.title, select<HTMLAnchorElement>('a.js-timestamp', comment)!.hash);
+}
+
 function init(): void {
+	delegate(document, '.timeline-comment.unminimized-comment', 'click', focusComment);
 	document.addEventListener('keypress', event => {
 		if (!shortcutKeys.has(event.key) || event.target instanceof HTMLTextAreaElement || event.target instanceof HTMLInputElement) {
 			return;
@@ -30,11 +36,15 @@ function init(): void {
 			// `j` goes to the next comment `k` goes back a comment
 			const direction = event.key === 'j' ? 1 : -1;
 			// Find current
-			const currentIndex = items.indexOf(select<HTMLAnchorElement>(':target')!);
-			const verifiedCurrentIndex = currentIndex + direction < 0 ? 0 : currentIndex + direction; // :target might not be navigable, therefore `-1`
+			const currentComment = location.hash.startsWith('#issue') ? select<HTMLAnchorElement>(location.hash)! : select<HTMLAnchorElement>(':target')!;
+			const currentIndex = items.indexOf(currentComment);
+			// Nothing selected or were on the first comment
+			if (currentIndex + direction < 0 || currentIndex === -1) {
+				return;
+			}
 
 			// Find chosen
-			const chosen = items[Math.min(verifiedCurrentIndex, items.length - 1)]; // Clamp it so it cant go past the last one
+			const chosen = items[Math.min(currentIndex + direction, items.length - 1)]; // Clamp it so it cant go past the last one
 
 			// Focus comment and dont put into history
 			location.replace(select<HTMLAnchorElement>('a.js-timestamp', chosen)!.hash);
@@ -50,7 +60,7 @@ function init(): void {
 			return;
 		}
 
-		if (location.hash.startsWith('issue')) {
+		if (location.hash.startsWith('#issue')) {
 			triggerShortcut(event.key);
 		}
 	});
@@ -59,7 +69,14 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: '',
-	screenshot: false
+	screenshot: false,
+	shortcuts: {
+		e: 'Edit the focused comment',
+		d: 'Delete the focused comment',
+		h: 'Hide the focused comment',
+		'+': 'Add a 👍 reaction',
+		'-': 'Add a 👎 reaction'
+	}
 }, {
 	include: [
 		pageDetect.hasComments
