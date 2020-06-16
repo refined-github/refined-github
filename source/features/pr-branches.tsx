@@ -6,7 +6,7 @@ import PullRequestIcon from 'octicon/git-pull-request.svg';
 import features from '.';
 import * as api from '../github-helpers/api';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getCurrentRepository, getRepoGQL} from '../github-helpers';
+import {getRepositoryInfo, getRepoGQL} from '../github-helpers';
 
 type RepositoryReference = {
 	owner: string;
@@ -32,7 +32,7 @@ function normalizeBranchInfo(data: BranchInfo): {
 	base?: RepositoryReference;
 	head?: RepositoryReference;
 } {
-	const currentRepository = getCurrentRepository();
+	const currentRepository = getRepositoryInfo();
 
 	const base = {} as RepositoryReference; // eslint-disable-line @typescript-eslint/consistent-type-assertions
 	base.branchExists = Boolean(data.baseRef);
@@ -99,7 +99,7 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	const currentRepository = getCurrentRepository();
+	const currentRepository = getRepositoryInfo();
 	const query = buildQuery(prLinks.map(pr => pr.id));
 	const [data, defaultBranch] = await Promise.all([
 		api.v4(query),
