@@ -44,7 +44,7 @@ async function updateUI(forks: string[]): Promise<void> {
 	}
 
 	const url = new GitHubURL(location.href);
-	if (url.branch) {
+	if (!pageDetect.isRepoRoot() && (pageDetect.isSingleFile() || pageDetect.isRepoTree())) {
 		url.assign({branch: 'HEAD'});
 	}
 
