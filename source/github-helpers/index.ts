@@ -48,7 +48,7 @@ export const getCurrentRepository = oneTime((): Partial<RepositoryInfo> => {
 });
 
 export function getForkedRepo(): string | undefined {
-	return select<HTMLAnchorElement>('.fork-flag a')?.pathname.slice(1);
+	return select<HTMLMetaElement>('[name="octolytics-dimension-repository_parent_nwo"]')?.content;
 }
 
 export const parseTag = (tag: string): {version: string; namespace: string} => {
