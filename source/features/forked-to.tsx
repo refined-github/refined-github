@@ -11,8 +11,8 @@ import LinkExternalIcon from 'octicon/link-external.svg';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
-import {createHEADLink} from './fork-source-link-same-view';
-import {getRepoURL, getUsername, getForkedRepo} from '../github-helpers';
+import GitHubURL from '../github-helpers/github-url';
+import {getRepoURL, getUsername, getForkedRepo, RepositoryInfo, getRepositoryInfo} from '../github-helpers';
 
 const getForkSourceRepo = (): string => getForkedRepo() ?? getRepoURL();
 const getCacheKey = (): string => `forked-to:${getUsername()}@${getForkSourceRepo().toLowerCase()}`;
@@ -30,10 +30,22 @@ const updateCache = cache.function(async (): Promise<string[] | undefined> => {
 	staleWhileRevalidate: 5
 });
 
+function mapRepositoryInfoToGitHubURL(repository: Partial<RepositoryInfo>): Partial<GitHubURL> {
+	return {
+		user: repository.owner,
+		repository: repository.name
+	};
+}
+
 async function updateUI(forks: string[]): Promise<void> {
 	// Don't add button if you're visiting the only fork available
 	if (forks.length === 1 && forks[0] === getRepoURL()) {
 		return;
+	}
+
+	const url = new GitHubURL(location.href);
+	if (url.branch) {
+		url.assign({branch: 'HEAD'});
 	}
 
 	document.body.classList.add('rgh-forked-to');
@@ -41,7 +53,7 @@ async function updateUI(forks: string[]): Promise<void> {
 	if (forks.length === 1) {
 		forkCounter.before(
 			<a
-				href={createHEADLink(forks[0]).pathname}
+				href={url.assign(mapRepositoryInfoToGitHubURL(getRepositoryInfo(forks[0]))).href}
 				className="btn btn-sm float-left rgh-forked-button"
 				title={`Open your fork at ${forks[0]}`}
 			>
@@ -64,7 +76,7 @@ async function updateUI(forks: string[]): Promise<void> {
 					</div>
 					{forks.map(fork => (
 						<a
-							href={createHEADLink(fork).pathname}
+							href={url.assign(mapRepositoryInfoToGitHubURL(getRepositoryInfo(fork))).href}
 							className={`select-menu-item ${fork === getRepoURL() ? 'selected' : ''}`}
 							title={`Open your fork at ${fork}`}
 						>
