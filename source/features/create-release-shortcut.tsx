@@ -29,8 +29,9 @@ void features.add({
 	init
 }, {
 	include: [
-		pageDetect.isReleasesOrTags,
-		pageDetect.isNewRelease
+		pageDetect.isReleasesOrTags, // Needed, If the release failed GitHub does not stay on the releases/new page
+		pageDetect.isNewRelease,
+		pageDetect.isEditingRelease
 	],
 	init: addQuickSubmit
 });
