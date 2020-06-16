@@ -16,7 +16,7 @@ function getPRUrl(prNumber: number): string {
 function getDropdown(prs: number[]): HTMLElement {
 	// Markup copied from https://primer.style/css/components/dropdown
 	return (
-		<details className="ml-2 dropdown details-reset details-overlay d-inline-block">
+		<details className="ml-2 dropdown details-reset details-overlay d-inline-block flex-self-center">
 			<summary aria-haspopup="true" className="btn btn-sm">
 				<PullRequestIcon/> {prs.length} <div className="dropdown-caret"/>
 			</summary>
@@ -41,7 +41,7 @@ function getSingleButton(prNumber: number, _?: number, prs?: number[]): HTMLElem
 	return (
 		<a
 			href={getPRUrl(prNumber)}
-			className={'btn btn-sm btn-outline' + (prs ? ' BtnGroup-item' : '')}
+			className={'btn btn-sm btn-outline flex-self-center' + (prs ? ' BtnGroup-item' : '')}
 		>
 			<PullRequestIcon/> #{prNumber}
 		</a>

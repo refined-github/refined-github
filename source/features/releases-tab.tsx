@@ -13,23 +13,19 @@ import {getRepoURL, getRepoGQL, looseParseInt} from '../github-helpers';
 const repoUrl = getRepoURL();
 const cacheKey = `releases-count:${repoUrl}`;
 
-function parseCountFromDom(): number | false {
-	if (pageDetect.isRepoRoot()) {
-		const releasesCountElement = select('.numbers-summary a[href$="/releases"] .num');
-		if (releasesCountElement) {
-			return looseParseInt(releasesCountElement.textContent!);
-		}
-
-		// In "Repository refresh" layout, look for the "+ XXX releases" link in the sidebar
-		const moreReleasesCountElement = select('.BorderGrid .text-small[href$="/releases"]');
-		if (moreReleasesCountElement) {
-			return looseParseInt(moreReleasesCountElement.textContent!) + 1;
-		}
-
-		return 0;
+function parseCountFromDom(): number {
+	const releasesCountElement = select('.numbers-summary a[href$="/releases"] .num');
+	if (releasesCountElement) {
+		return looseParseInt(releasesCountElement.textContent!);
 	}
 
-	return false;
+	// In "Repository refresh" layout, look for the "+ XXX releases" link in the sidebar
+	const moreReleasesCountElement = select('.BorderGrid .text-small[href$="/releases"]');
+	if (moreReleasesCountElement) {
+		return looseParseInt(moreReleasesCountElement.textContent!) + 1;
+	}
+
+	return 0;
 }
 
 async function fetchFromApi(): Promise<number> {
@@ -44,7 +40,7 @@ async function fetchFromApi(): Promise<number> {
 	return repository.refs.totalCount;
 }
 
-const getReleaseCount = cache.function(async () => parseCountFromDom() ?? fetchFromApi(), {
+const getReleaseCount = cache.function(async () => pageDetect.isRepoRoot() ? parseCountFromDom() : fetchFromApi(), {
 	maxAge: 1,
 	staleWhileRevalidate: 4,
 	cacheKey: () => cacheKey

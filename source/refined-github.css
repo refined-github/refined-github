@@ -121,3 +121,8 @@ pr-branches
 .js-issue-row .text-small.text-gray .octicon {
 	vertical-align: middle;
 }
+
+/* Hide duplicate "You can also open this in GitHub Desktop" in PRs’ mergeability box */
+.js-remove-unless-platform {
+	display: none;
+}
