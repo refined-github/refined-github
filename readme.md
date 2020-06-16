@@ -80,7 +80,7 @@ The Chrome version also works in Opera (using [this](https://addons.opera.com/en
 			Linkifies issue/PR references and URLs in code
 		</th>
 		<th width="50%">
-			<a title="revert-file"></a> Adds button to revert all the changes to a file in a PR.
+			<a title="restore-file"></a> Adds button to revert all the changes to a file in a PR.
 		</th>
 	</tr>
 	<tr><!-- Prevent zebra stripes --></tr>
