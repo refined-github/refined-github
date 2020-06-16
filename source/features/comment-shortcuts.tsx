@@ -19,6 +19,10 @@ function triggerShortcut(shortcut: string) {
 }
 
 function focusComment({delegateTarget: comment}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
+	if (select.exists(':target')) {
+		console.log('I dont work correctly');
+	}
+
 	history.replaceState({}, document.title, select<HTMLAnchorElement>('a.js-timestamp', comment)!.hash);
 }
 
