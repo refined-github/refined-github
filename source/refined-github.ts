@@ -19,6 +19,7 @@ import './features/easier-pr-sha-copy.css';
 import './features/repo-stats-spacing.css';
 import './features/emphasize-draft-pr-label.css';
 import './features/clean-notifications.css';
+import './features/clean-pinned-issues.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
@@ -62,8 +63,8 @@ import './features/hide-useless-comments';
 import './features/navigate-pages-with-arrow-keys';
 import './features/discussion-links-on-repo-lists';
 import './features/global-discussion-list-filters';
-import './features/filter-comments-by-you';
-import './features/sort-issues-by-update-time'; // Must be after global-discussion-list-filters and filter-comments-by-you and discussion-links-on-repo-lists
+import './features/discussion-filters';
+import './features/sort-issues-by-update-time'; // Must be after global-discussion-list-filters and discussion-filters and discussion-links-on-repo-lists
 import './features/pinned-issues-update-time';
 import './features/latest-tag-button';
 import './features/default-branch-button';
@@ -142,7 +143,7 @@ import './features/pr-branch-auto-delete';
 import './features/linkify-symbolic-links'; // Must be before show-whitespace
 import './features/show-whitespace';
 import './features/hide-zero-packages';
-import './features/revert-file';
+import './features/restore-file';
 import './features/hidden-review-comments-indicator';
 import './features/reload-failed-proxied-images';
 import './features/clean-rich-text-editor';

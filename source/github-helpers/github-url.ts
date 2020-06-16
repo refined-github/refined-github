@@ -1,6 +1,6 @@
 import {getCurrentBranch} from '.';
 
-export default class GitHubURL extends URL {
+export default class GitHubURL {
 	// @ts-expect-error https://github.com/microsoft/TypeScript/issues/26792
 	user: string;
 	// @ts-expect-error
@@ -12,15 +12,25 @@ export default class GitHubURL extends URL {
 	// @ts-expect-error
 	filePath: string;
 
-	assign = Object.assign.bind(null, this);
+	private internalUrl: URL;
 
 	constructor(url: string) {
-		super(url);
-		this.pathname = super.pathname;
+		// Use Facade pattern instead of inheritance #3193
+		this.internalUrl = new URL(url);
+		this.pathname = this.internalUrl.pathname;
 	}
 
 	toString() {
 		return this.href;
+	}
+
+	toJSON() {
+		return this.href;
+	}
+
+	assign(...replacements: Array<Partial<GitHubURL>>): this {
+		Object.assign(this, ...replacements);
+		return this;
 	}
 
 	private disambiguateReference(ambiguousReference: string[]): {branch: string; filePath: string} {
@@ -68,7 +78,33 @@ export default class GitHubURL extends URL {
 
 	get href() {
 		// Update the actual underlying URL
-		super.pathname = this.pathname;
-		return super.href;
+		this.internalUrl.pathname = this.pathname;
+		return this.internalUrl.href;
+	}
+
+	set href(href) {
+		this.internalUrl.href = href;
+	}
+
+	// Proxy all other getters/setters to internalUrl
+
+	get hash(): string {
+		return this.internalUrl.hash;
+	}
+
+	set hash(hash) {
+		this.internalUrl.hash = hash;
+	}
+
+	get search(): string {
+		return this.internalUrl.search;
+	}
+
+	set search(search) {
+		this.internalUrl.search = search;
+	}
+
+	get searchParams(): URLSearchParams {
+		return this.internalUrl.searchParams;
 	}
 }

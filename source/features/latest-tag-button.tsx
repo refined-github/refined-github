@@ -97,7 +97,7 @@ async function init(): Promise<false | void> {
 	});
 
 	const link = (
-		<a className="btn btn-sm btn-outline ml-2" href={String(url)}>
+		<a className="btn btn-sm btn-outline ml-2 flex-self-center" href={String(url)}>
 			<TagIcon/>
 		</a>
 	);
@@ -116,7 +116,12 @@ async function init(): Promise<false | void> {
 	const defaultBranch = await getDefaultBranch();
 	if (currentBranch === defaultBranch) {
 		link.append(<sup> +{aheadBy}</sup>);
-		link.setAttribute('aria-label', aheadBy ? `${defaultBranch} is ${pluralize(aheadBy, '1 commit', '$$ commits')} ahead of the latest release` : `The HEAD of ${defaultBranch} isn’t tagged`);
+		link.setAttribute(
+			'aria-label',
+			aheadBy ?
+				`${defaultBranch} is ${pluralize(aheadBy, '1 commit', '$$ commits')} ahead of the latest release` :
+				`The HEAD of ${defaultBranch} isn’t tagged`
+		);
 
 		if (pageDetect.isRepoRoot()) {
 			const compareLink = (

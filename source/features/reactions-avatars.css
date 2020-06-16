@@ -43,7 +43,7 @@ button.reaction-summary-item { /* `button` excludes the "Add reaction" icon */
 }
 
 /* This image will start at height:0 and will expand once loaded, covering the gray placeholder */
-.reaction-summary-item img {
+.reaction-summary-item a img { /* `a` required for #3237 */
 	max-width: 100%;
 	border-radius: inherit;
 	background-color: var(--background);
