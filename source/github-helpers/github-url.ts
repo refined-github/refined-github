@@ -29,7 +29,7 @@ export default class GitHubURL {
 	}
 
 	assign(...replacements: Array<Partial<GitHubURL>>): this {
-		Object.assign(this, replacements);
+		Object.assign(this, ...replacements);
 		return this;
 	}
 
