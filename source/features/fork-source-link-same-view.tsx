@@ -52,10 +52,12 @@ void features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/84795784-3722d000-aff8-11ea-9b34-97c01acf4fd4.png'
 }, {
 	include: [
-		pageDetect.isRepo
+		pageDetect.isSingleFile,
+		pageDetect.isRepoTree
 	],
 	exclude: [
-		() => !pageDetect.isForkedRepo()
+		() => !pageDetect.isForkedRepo(),
+		() => !pageDetect.isRepoRoot()
 	],
 	init
 });
