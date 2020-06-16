@@ -89,12 +89,6 @@ test('getOwnerAndRepo', t => {
 		owner: 'sindresorhus',
 		name: 'refined-github'
 	});
-
-	location.href = 'https://github.com/DrewML/GifHub/blob/master/.gitignore';
-	t.deepEqual(getCurrentRepository(), {
-		owner: 'DrewML',
-		name: 'GifHub'
-	});
 });
 
 test('parseTag', t => {
