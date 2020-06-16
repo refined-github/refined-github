@@ -34,7 +34,7 @@ export const isFirefox = navigator.userAgent.includes('Firefox/');
 
 export const getRepoURL = (): string => location.pathname.slice(1).split('/', 2).join('/').toLowerCase();
 export const getRepoGQL = (): string => {
-	const {owner, name} = getCurrentRepository();
+	const {owner, name} = getRepositoryInfo();
 	return `owner: "${owner!}", name: "${name!}"`;
 };
 
@@ -42,10 +42,10 @@ export interface RepositoryInfo {
 	owner: string;
 	name: string;
 }
-export const getCurrentRepository = oneTime((): Partial<RepositoryInfo> => {
-	const [, owner, name] = location.pathname.split('/', 3);
+export const getRepositoryInfo = (repoUrl: string = location.pathname.slice(1)): Partial<RepositoryInfo> => {
+	const [owner, name] = repoUrl.split('/', 2);
 	return {owner, name};
-});
+};
 
 export function getForkedRepo(): string | undefined {
 	return select<HTMLMetaElement>('[name="octolytics-dimension-repository_parent_nwo"]')?.content;

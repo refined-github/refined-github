@@ -3,7 +3,7 @@ import select from 'select-dom';
 import {isForkedRepo} from 'github-url-detection/esm';
 
 import * as api from './api';
-import {RepositoryInfo, getCurrentRepository, getRepoURL} from '.';
+import {RepositoryInfo, getRepositoryInfo, getRepoURL} from '.';
 
 // This regex should match all of these combinations:
 // "This branch is even with master."
@@ -12,8 +12,8 @@ import {RepositoryInfo, getCurrentRepository, getRepoURL} from '.';
 // "This branch is 1 commit ahead, 27 commits behind master."
 const branchInfoRegex = /([^ ]+)\.$/;
 
-export default cache.function(async (repository: Partial<RepositoryInfo> = getCurrentRepository()): Promise<string> => {
-	if (JSON.stringify(repository) === JSON.stringify(getCurrentRepository())) {
+export default cache.function(async (repository: Partial<RepositoryInfo> = getRepositoryInfo()): Promise<string> => {
+	if (JSON.stringify(repository) === JSON.stringify(getRepositoryInfo())) {
 		if (!isForkedRepo()) {
 			// We can find the name in the infobar, available in folder views
 			const branchInfo = select('.branch-infobar')?.textContent!.trim();

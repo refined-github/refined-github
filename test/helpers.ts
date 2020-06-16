@@ -4,7 +4,7 @@ import './fixtures/globals';
 import pluralize from '../source/helpers/pluralize';
 import {
 	getDiscussionNumber,
-	getCurrentRepository,
+	getRepositoryInfo,
 	parseTag,
 	compareNames,
 	getScopedSelector,
@@ -85,7 +85,7 @@ test('getDiscussionNumber', t => {
 
 test('getOwnerAndRepo', t => {
 	location.href = 'https://github.com/sindresorhus/refined-github/pull/148';
-	t.deepEqual(getCurrentRepository(), {
+	t.deepEqual(getRepositoryInfo(), {
 		owner: 'sindresorhus',
 		name: 'refined-github'
 	});

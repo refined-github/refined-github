@@ -5,14 +5,14 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getCurrentRepository, getRepoURL, getRepoGQL} from '../github-helpers';
+import {getRepositoryInfo, getRepoURL, getRepoGQL} from '../github-helpers';
 
 const hasAnyProjects = cache.function(async (): Promise<boolean> => {
 	const {repository, organization} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			projects { totalCount }
 		}
-		organization(login: "${getCurrentRepository().owner!}") {
+		organization(login: "${getRepositoryInfo().owner!}") {
 			projects { totalCount }
 		}
 	`, {
