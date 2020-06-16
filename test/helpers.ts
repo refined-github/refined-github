@@ -4,7 +4,7 @@ import './fixtures/globals';
 import pluralize from '../source/helpers/pluralize';
 import {
 	getDiscussionNumber,
-	getOwnerAndRepo,
+	getCurrentRepository,
 	parseTag,
 	compareNames,
 	getScopedSelector,
@@ -85,15 +85,9 @@ test('getDiscussionNumber', t => {
 
 test('getOwnerAndRepo', t => {
 	location.href = 'https://github.com/sindresorhus/refined-github/pull/148';
-	t.deepEqual(getOwnerAndRepo(), {
-		ownerName: 'sindresorhus',
-		repoName: 'refined-github'
-	});
-
-	location.href = 'https://github.com/DrewML/GifHub/blob/master/.gitignore';
-	t.deepEqual(getOwnerAndRepo(), {
-		ownerName: 'DrewML',
-		repoName: 'GifHub'
+	t.deepEqual(getCurrentRepository(), {
+		owner: 'sindresorhus',
+		name: 'refined-github'
 	});
 });
 

@@ -6,7 +6,7 @@ import PullRequestIcon from 'octicon/git-pull-request.svg';
 import features from '.';
 import * as api from '../github-helpers/api';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getOwnerAndRepo, getRepoGQL} from '../github-helpers';
+import {getCurrentRepository, getRepoGQL} from '../github-helpers';
 
 type RepositoryReference = {
 	owner: string;
@@ -32,19 +32,19 @@ function normalizeBranchInfo(data: BranchInfo): {
 	base?: RepositoryReference;
 	head?: RepositoryReference;
 } {
-	const {ownerName, repoName} = getOwnerAndRepo();
+	const currentRepository = getCurrentRepository();
 
 	const base = {} as RepositoryReference; // eslint-disable-line @typescript-eslint/consistent-type-assertions
 	base.branchExists = Boolean(data.baseRef);
 	base.label = data.baseRefName;
 	if (base.branchExists) {
-		base.url = `/${ownerName!}/${repoName!}/tree/${data.baseRefName}`;
+		base.url = `/${currentRepository.owner!}/${currentRepository.name!}/tree/${data.baseRefName}`;
 	}
 
 	const head = {} as RepositoryReference; // eslint-disable-line @typescript-eslint/consistent-type-assertions
 	head.branchExists = Boolean(data.headRef);
 	head.owner = data.headOwner.login;
-	if (data.headOwner.login === ownerName) {
+	if (data.headOwner.login === currentRepository.owner) {
 		head.label = data.headRefName;
 	} else {
 		head.label = `${data.headOwner.login}:${data.headRefName}`;
@@ -99,7 +99,7 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	const {ownerName} = getOwnerAndRepo();
+	const currentRepository = getCurrentRepository();
 	const query = buildQuery(prLinks.map(pr => pr.id));
 	const [data, defaultBranch] = await Promise.all([
 		api.v4(query),
@@ -118,7 +118,7 @@ async function init(): Promise<false | void> {
 			base = undefined;
 		}
 
-		if (head!.owner !== ownerName) {
+		if (head!.owner !== currentRepository.owner) {
 			head = undefined;
 		}
 

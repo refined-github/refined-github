@@ -12,8 +12,6 @@ export default class GitHubURL {
 	// @ts-expect-error
 	filePath: string;
 
-	assign = Object.assign.bind(null, this);
-
 	private internalUrl: URL;
 
 	constructor(url: string) {
@@ -28,6 +26,11 @@ export default class GitHubURL {
 
 	toJSON() {
 		return this.href;
+	}
+
+	assign(...replacements: Array<Partial<GitHubURL>>): this {
+		Object.assign(this, ...replacements);
+		return this;
 	}
 
 	private disambiguateReference(ambiguousReference: string[]): {branch: string; filePath: string} {
