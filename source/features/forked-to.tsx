@@ -46,6 +46,8 @@ async function updateUI(forks: string[]): Promise<void> {
 	const url = new GitHubURL(location.href);
 	if (!pageDetect.isRepoRoot() && (pageDetect.isSingleFile() || pageDetect.isRepoTree())) {
 		url.assign({branch: 'HEAD'});
+	} else {
+		url.assign({route: '', branch: '', filePath: ''});
 	}
 
 	document.body.classList.add('rgh-forked-to');
@@ -53,7 +55,7 @@ async function updateUI(forks: string[]): Promise<void> {
 	if (forks.length === 1) {
 		forkCounter.before(
 			<a
-				href={url.assign(mapRepositoryInfoToGitHubURL(getRepositoryInfo(forks[0]))).href}
+				href={url.assign(mapRepositoryInfoToGitHubURL(getRepositoryInfo(forks[0]))).pathname}
 				className="btn btn-sm float-left rgh-forked-button"
 				title={`Open your fork at ${forks[0]}`}
 			>
@@ -76,7 +78,7 @@ async function updateUI(forks: string[]): Promise<void> {
 					</div>
 					{forks.map(fork => (
 						<a
-							href={url.assign(mapRepositoryInfoToGitHubURL(getRepositoryInfo(fork))).href}
+							href={url.assign(mapRepositoryInfoToGitHubURL(getRepositoryInfo(fork))).pathname}
 							className={`select-menu-item ${fork === getRepoURL() ? 'selected' : ''}`}
 							title={`Open your fork at ${fork}`}
 						>
