@@ -13,7 +13,7 @@ import {RepositoryInfo, getCurrentRepository, getRepoURL} from '.';
 const branchInfoRegex = /([^ ]+)\.$/;
 
 export default cache.function(async (repository: Partial<RepositoryInfo> = getCurrentRepository()): Promise<string> => {
-	if (repository === getCurrentRepository()) {
+	if (JSON.stringify(repository) === JSON.stringify(getCurrentRepository())) {
 		if (!isForkedRepo()) {
 			// We can find the name in the infobar, available in folder views
 			const branchInfo = select('.branch-infobar')?.textContent!.trim();
