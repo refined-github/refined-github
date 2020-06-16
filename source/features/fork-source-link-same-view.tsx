@@ -4,6 +4,8 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
+import getDefaultBranch from '../github-helpers/get-default-branch';
+import {getRepositoryInfo} from '../github-helpers';
 
 const checkIfFileExists = async (url: GitHubURL): Promise<boolean> => {
 	const {repository} = await api.v4(`
@@ -17,31 +19,19 @@ const checkIfFileExists = async (url: GitHubURL): Promise<boolean> => {
 	return Boolean(repository.file);
 };
 
-// eslint-disable-next-line import/prefer-default-export
-export function createHEADLink(baseRepo: string): URL | GitHubURL {
-	const url = new GitHubURL(location.href);
-	if (!url.filePath) {
-		return new URL(baseRepo, location.origin);
-	}
-
-	const [user, repository] = baseRepo.split('/');
-	url.assign({
-		user,
-		repository,
+async function init(): Promise<void> {
+	const currentRepository = getRepositoryInfo();
+	const sameViewUrl = new GitHubURL(location.href).assign({
+		user: currentRepository.owner,
+		repository: currentRepository.name,
 		branch: 'HEAD'
 	});
 
-	return url;
-}
-
-async function init(): Promise<void | false> {
 	const forkSource = select<HTMLAnchorElement>('.fork-flag .text a')!;
-	const sameViewUrl = createHEADLink(forkSource.textContent!);
 	if (sameViewUrl.pathname === forkSource.pathname) {
 		return false;
 	}
-
-	if (await checkIfFileExists(sameViewUrl as GitHubURL)) {
+	if (await checkIfFileExists(sameViewUrl)) {
 		forkSource.pathname = sameViewUrl.pathname;
 	}
 }
