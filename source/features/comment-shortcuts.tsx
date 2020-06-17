@@ -27,7 +27,7 @@ function focusComment({delegateTarget: comment}: delegate.Event<MouseEvent, HTML
 }
 
 function init(): void {
-	delegate(document, '.timeline-comment.unminimized-comment', 'click', focusComment);
+	delegate(document, '.timeline-comment.unminimized-comment, .review-comment', 'click', focusComment);
 	document.addEventListener('keypress', event => {
 		if (!shortcutKeys.has(event.key) || event.target instanceof HTMLTextAreaElement || event.target instanceof HTMLInputElement) {
 			return;
@@ -64,7 +64,7 @@ function init(): void {
 			return;
 		}
 
-		if (location.hash.startsWith('#issue')) {
+		if (/^#issue|^#discussion_/.test(location.hash)) {
 			triggerShortcut(event.key);
 		}
 	});
