@@ -50,9 +50,7 @@ async function init(): Promise<false | void> {
 
 	branchSelector.parentElement!.before(defaultLink);
 
-	const group = groupButtons([defaultLink, branchSelector.parentElement!]);
-	group.classList.add('m-0');
-	group.parentElement!.classList.add('flex-shrink-0');
+	groupButtons([defaultLink, branchSelector.parentElement!]);
 }
 
 void features.add({
