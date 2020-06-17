@@ -1,4 +1,5 @@
 import React from 'dom-chef';
+import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import ChevronLeftIcon from 'octicon/chevron-left.svg';
@@ -43,7 +44,7 @@ async function init(): Promise<false | void> {
 		</a>
 	);
 
-	if (branchSelector.classList.contains('btn-sm')) {
+	if (select.exists('[data-hotkey="w"].btn-sm', branchSelector)) {
 		// Pre "Repository refresh" layout
 		defaultLink.classList.add('btn-sm');
 	}
