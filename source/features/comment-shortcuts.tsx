@@ -13,6 +13,14 @@ const shortcutClass: Record<string, string> = {
 	'-': '[data-reaction-label="-1"]'
 };
 
+function commentHash(comment: HTMLElement): string {
+	// What do I call this var??
+	const reviewComment = comment.closest('.js-comment[id^="pullrequestreview-"]');
+	const {hash} = reviewComment ? reviewComment.querySelector<HTMLAnchorElement>('a.js-timestamp')! : comment.querySelector<HTMLAnchorElement>('a.js-timestamp')!;
+
+	return reviewComment ? hash + '-body-html' : hash;
+}
+
 function triggerShortcut(shortcut: string) {
 	const selectedComment = select(location.hash)!;
 	select<HTMLButtonElement>(shortcutClass[shortcut], selectedComment)?.click();
@@ -23,7 +31,7 @@ function focusComment({delegateTarget: comment}: delegate.Event<MouseEvent, HTML
 		console.log('I dont work correctly');
 	}
 
-	history.replaceState({}, document.title, select<HTMLAnchorElement>('a.js-timestamp', comment)!.hash);
+	history.replaceState({}, document.title, commentHash(comment));
 }
 
 function init(): void {
@@ -36,11 +44,11 @@ function init(): void {
 		event.preventDefault();
 
 		if (['j', 'k'].includes(event.key)) {
-			const items = select.all<HTMLAnchorElement>('.timeline-comment-group[id^="issue"]:not([href])');
+			const items = select.all<HTMLAnchorElement>('.timeline-comment-group[id^="issue"]:not([href]), .timeline-comment-group[id^="pullrequestreview-"]:not([href])');
 			// `j` goes to the next comment `k` goes back a comment
 			const direction = event.key === 'j' ? 1 : -1;
 			// Find current
-			const currentComment = location.hash.startsWith('#issue') ? select<HTMLAnchorElement>(location.hash)! : select<HTMLAnchorElement>(':target')!;
+			const currentComment = /^#issue|^#pullrequestreview-/.test(location.hash) ? select<HTMLAnchorElement>(location.hash)! : select<HTMLAnchorElement>(':target')!;
 			const currentIndex = items.indexOf(currentComment);
 			// Nothing selected or were on the first comment
 			if (currentIndex + direction < 0 || currentIndex === -1) {
@@ -51,7 +59,7 @@ function init(): void {
 			const chosen = items[Math.min(currentIndex + direction, items.length - 1)]; // Clamp it so it cant go past the last one
 
 			// Focus comment and dont put into history
-			location.replace(select<HTMLAnchorElement>('a.js-timestamp', chosen)!.hash);
+			location.replace(commentHash(chosen));
 			chosen.scrollIntoView({
 				block: 'start'
 			});
@@ -64,7 +72,7 @@ function init(): void {
 			return;
 		}
 
-		if (/^#issue|^#discussion_/.test(location.hash)) {
+		if (/^#issue|^#pullrequestreview-|^#discussion_/.test(location.hash)) {
 			triggerShortcut(event.key);
 		}
 	});
