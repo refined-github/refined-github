@@ -10,7 +10,7 @@ import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getCurrentBranch} from '../github-helpers';
 
 async function init(): Promise<false | void> {
-	const branchSelector = await elementReady('[data-hotkey="w"]');
+	const branchSelector = await elementReady<HTMLElement>('[data-hotkey="w"]');
 	// The branch selector is missing from History pages of files and folders (it only appears on the root)
 	if (!branchSelector) {
 		return false;
@@ -49,8 +49,8 @@ async function init(): Promise<false | void> {
 	}
 
 	branchSelector.parentElement!.before(defaultLink);
-
 	groupButtons([defaultLink, branchSelector.parentElement!]);
+	branchSelector.style.float = 'none';
 }
 
 void features.add({
