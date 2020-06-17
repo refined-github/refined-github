@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import ChevronLeftIcon from 'octicon/chevron-left.svg';
@@ -11,7 +10,7 @@ import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getCurrentBranch} from '../github-helpers';
 
 async function init(): Promise<false | void> {
-	const branchSelector = await elementReady('#branch-select-menu');
+	const branchSelector = await elementReady('[data-hotkey="w"]');
 	// The branch selector is missing from History pages of files and folders (it only appears on the root)
 	if (!branchSelector) {
 		return false;
@@ -44,14 +43,14 @@ async function init(): Promise<false | void> {
 		</a>
 	);
 
-	if (select.exists('[data-hotkey="w"].btn-sm', branchSelector)) {
+	if (branchSelector.classList.contains('btn-sm')) {
 		// Pre "Repository refresh" layout
 		defaultLink.classList.add('btn-sm');
 	}
 
-	branchSelector.before(defaultLink);
+	branchSelector.parentElement!.before(defaultLink);
 
-	const group = groupButtons([defaultLink, branchSelector]);
+	const group = groupButtons([defaultLink, branchSelector.parentElement!]);
 	group.classList.add('m-0');
 	group.parentElement!.classList.add('flex-shrink-0');
 }
