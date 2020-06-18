@@ -1,0 +1,47 @@
+/* Changes the layout of pinned issues from side-by-side to a standard list. */
+.js-pinned-issues-reorder-container .f4 {
+	display: none !important; /* Hide title */
+}
+
+@media (min-width: 700px) {
+	:root .js-pinned-issues-reorder-list {
+		display: table !important;
+		width: 100%;
+		margin: 0;
+		margin-bottom: 20px;
+
+		/* Rounded table border https://stackoverflow.com/a/2586780/288906 */
+		box-shadow: 0 0 0 1px #d1d5da;
+		border-collapse: collapse;
+		border-radius: 3px;
+		border-style: hidden;
+	}
+
+	:root .pinned-issue-item {
+		display: table-row !important;
+		border-color: #e1e4e8 !important;
+	}
+
+	.pinned-issue-item > * {
+		display: table-cell !important;
+	}
+
+	:root .pinned-issue-item > * {
+		padding: 6px 12px;
+	}
+
+	/* Move `x` before the title and align both icons */
+	.pinned-issue-item > :first-child {
+		display: flex !important;
+	}
+
+	.pinned-issue-handle {
+		order: -1;
+		margin-top: -2px;
+	}
+
+	[action$='unpin'] svg {
+		margin-left: -10px;
+		margin-right: 10px !important;
+	}
+}

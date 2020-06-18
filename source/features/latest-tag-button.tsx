@@ -2,6 +2,7 @@ import './latest-tag-button.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import TagIcon from 'octicon/tag.svg';
+import DiffIcon from 'octicon/diff.svg';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -9,6 +10,7 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import pluralize from '../helpers/pluralize';
 import GitHubURL from '../github-helpers/github-url';
+import {groupButtons} from '../github-helpers/group-buttons';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getRepoURL, getCurrentBranch, getRepoGQL, getLatestVersionTag} from '../github-helpers';
 
@@ -95,7 +97,7 @@ async function init(): Promise<false | void> {
 	});
 
 	const link = (
-		<a className="btn btn-sm btn-outline ml-2" href={String(url)}>
+		<a className="btn btn-sm btn-outline ml-2 flex-self-center" href={String(url)}>
 			<TagIcon/>
 		</a>
 	);
@@ -114,7 +116,25 @@ async function init(): Promise<false | void> {
 	const defaultBranch = await getDefaultBranch();
 	if (currentBranch === defaultBranch) {
 		link.append(<sup> +{aheadBy}</sup>);
-		link.setAttribute('aria-label', aheadBy ? `${defaultBranch} is ${pluralize(aheadBy, '1 commit', '$$ commits')} ahead of the latest release` : `The HEAD of ${defaultBranch} isn’t tagged`);
+		link.setAttribute(
+			'aria-label',
+			aheadBy ?
+				`${defaultBranch} is ${pluralize(aheadBy, '1 commit', '$$ commits')} ahead of the latest release` :
+				`The HEAD of ${defaultBranch} isn’t tagged`
+		);
+
+		if (pageDetect.isRepoRoot()) {
+			const compareLink = (
+				<a
+					className="btn btn-sm btn-outline tooltipped tooltipped-ne"
+					href={`/${getRepoURL()}/compare/${latestTag}...${defaultBranch}`}
+					aria-label={`Compare ${latestTag}...${defaultBranch}`}
+				>
+					<DiffIcon/>
+				</a>
+			);
+			groupButtons([link, compareLink]);
+		}
 	} else {
 		link.setAttribute('aria-label', 'Visit the latest release');
 	}
