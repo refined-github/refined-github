@@ -36,8 +36,7 @@ The Chrome version also works in Opera (using [this](https://addons.opera.com/en
 <table>
 	<tr>
 		<th width="50%">
-			Adds button to mark issues and PRs as unread<br>
-			<em>(They will reappear in Notifications)</em>
+			<a title="show-whitespace"></a> Show whitespace characters.
 		</th>
 		<th width="50%">
 			Adds one-click merge conflict fixers
@@ -46,7 +45,7 @@ The Chrome version also works in Opera (using [this](https://addons.opera.com/en
 	<tr><!-- Prevent zebra stripes --></tr>
 	<tr>
 		<td>
-			<img width="245" src="https://user-images.githubusercontent.com/1402241/27847663-963b7d7c-6171-11e7-9470-6e86d8463771.png">
+			<img width="245" src="https://user-images.githubusercontent.com/1402241/61187598-f9118380-a6a5-11e9-985a-990a7f798805.png">
 		</td>
 		<td>
 			<img width="618" src="https://user-images.githubusercontent.com/1402241/54978791-45906080-4fdc-11e9-8fe1-45374f8ff636.png">
@@ -162,7 +161,6 @@ Thanks for contributing! 🦋🙌
 - [](# "copy-file") [Adds a button to copy a file’s content.](https://cloud.githubusercontent.com/assets/170270/14453865/8abeaefe-00c1-11e6-8718-9406cee1dc0d.png)
 - [](# "linkify-symbolic-links") [Linkifies symbolic links files.](https://user-images.githubusercontent.com/1402241/62036664-6d0e6880-b21c-11e9-9270-4ae30cc10de2.png)
 - [](# "list-prs-for-file") [Shows PRs that touch the current file.](https://user-images.githubusercontent.com/55841/60622834-879e1f00-9de1-11e9-9a9e-bae5ec0b3728.png)
-- [](# "show-whitespace") 🔥 [Shows whitespace characters.](https://user-images.githubusercontent.com/1402241/61187598-f9118380-a6a5-11e9-985a-990a7f798805.png)
 - [](# "content") [Reduces tabs’ size to 4 spaces instead of 8.](https://cloud.githubusercontent.com/assets/170270/14170088/d3be931e-f755-11e5-8edf-c5f864336382.png)
 - [](# "esc-to-deselect-line") [Adds a keyboard shortcut to deselect the current line: <kbd>esc</kbd>.](https://github.com/sindresorhus/refined-github/issues/1590)
 - [](# "html-preview-link") [Adds a link to preview HTML files.](https://user-images.githubusercontent.com/44045911/67634792-48995980-f8fb-11e9-8b6a-7b57d5b12a2f.png)
