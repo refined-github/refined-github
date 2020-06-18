@@ -4,14 +4,13 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-const shortcutKeys = new Set(['e', 'd', 'h', 'j', 'k', '+', '-', 'n']);
-const shortcutClass: Record<string, string> = {
-	e: '.rgh-edit-comment, [aria-label="Edit comment"]',
-	d: '[aria-label="Delete comment"]',
-	h: '[aria-label="Hide comment"]',
-	'+': '[data-reaction-label="+1"]',
-	'-': '[data-reaction-label="-1"]'
-};
+const shortcutClass = new Map<string, string>([
+	['e', '.rgh-edit-comment, [aria-label="Edit comment"]'],
+	['d', '[aria-label="Delete comment"]'],
+	['h', '[aria-label="Hide comment"]'],
+	['j', ''],
+	['k', '']
+]);
 
 function commentHash(comment: HTMLElement): string {
 	// What do I call this var??
@@ -21,61 +20,43 @@ function commentHash(comment: HTMLElement): string {
 	return reviewComment ? hash + '-body-html' : hash;
 }
 
-function triggerShortcut(shortcut: string) {
-	const selectedComment = select(location.hash)!;
-	select<HTMLButtonElement>(shortcutClass[shortcut], selectedComment)?.click();
-}
-
-function focusComment({delegateTarget: comment}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
-	if (select.exists(':target')) {
-		console.log('I dont work correctly');
+function runShortcuts(event: delegate.Event<KeyboardEvent>): void {
+	if (!shortcutClass.has(event.key) || event.target instanceof HTMLTextAreaElement || event.target instanceof HTMLInputElement) {
+		return;
 	}
 
-	history.replaceState({}, document.title, commentHash(comment));
+	event.preventDefault();
+
+	if (['j', 'k'].includes(event.key)) {
+		const items = select.all<HTMLAnchorElement>([
+			'.timeline-comment-group[id^="issue"]:not([href])', // Regular comments
+			'.timeline-comment-group[id^="pullrequestreview-"]:not([href])', // Base review comments (Approved/ChangesRequested)
+			'.review-comment.js-minimizable-comment-group' // Review comments
+		]);
+		// `j` goes to the next comment `k` goes back a comment
+		const direction = event.key === 'j' ? 1 : -1;
+		// Find current
+		const currentComment = select<HTMLAnchorElement>(':target')!;
+		const currentIndex = items.indexOf(currentComment);
+		// Nothing selected or were on the first comment
+		if (currentIndex + direction < 0 || currentIndex === -1) {
+			return;
+		}
+
+		// Find chosen
+		const chosen = items[Math.min(currentIndex + direction, items.length - 1)]; // Clamp it so it cant go past the last one
+
+		// Focus comment and dont put into history
+		location.replace(commentHash(chosen));
+		chosen.scrollIntoView();
+		return;
+	}
+
+	select(':target')?.querySelector<HTMLButtonElement>(shortcutClass.get(event.key)!)?.click();
 }
 
 function init(): void {
-	delegate(document, '.timeline-comment.unminimized-comment, .review-comment', 'click', focusComment);
-	document.addEventListener('keypress', event => {
-		if (!shortcutKeys.has(event.key) || event.target instanceof HTMLTextAreaElement || event.target instanceof HTMLInputElement) {
-			return;
-		}
-
-		event.preventDefault();
-
-		if (['j', 'k'].includes(event.key)) {
-			const items = select.all<HTMLAnchorElement>('.timeline-comment-group[id^="issue"]:not([href]), .timeline-comment-group[id^="pullrequestreview-"]:not([href])');
-			// `j` goes to the next comment `k` goes back a comment
-			const direction = event.key === 'j' ? 1 : -1;
-			// Find current
-			const currentComment = /^#issue|^#pullrequestreview-/.test(location.hash) ? select<HTMLAnchorElement>(location.hash)! : select<HTMLAnchorElement>(':target')!;
-			const currentIndex = items.indexOf(currentComment);
-			// Nothing selected or were on the first comment
-			if (currentIndex + direction < 0 || currentIndex === -1) {
-				return;
-			}
-
-			// Find chosen
-			const chosen = items[Math.min(currentIndex + direction, items.length - 1)]; // Clamp it so it cant go past the last one
-
-			// Focus comment and dont put into history
-			location.replace(commentHash(chosen));
-			chosen.scrollIntoView({
-				block: 'start'
-			});
-
-			return;
-		}
-
-		if (event.key === 'n') {
-			select<HTMLTextAreaElement>('#new_comment_field')?.focus();
-			return;
-		}
-
-		if (/^#issue|^#pullrequestreview-|^#discussion_/.test(location.hash)) {
-			triggerShortcut(event.key);
-		}
-	});
+	delegate(document, '*', 'keypress', runShortcuts);
 }
 
 void features.add({
@@ -87,9 +68,7 @@ void features.add({
 		k: 'Move down a comment',
 		e: 'Edit the focused comment',
 		d: 'Delete the focused comment',
-		h: 'Hide the focused comment',
-		'+': 'Add a 👍 reaction',
-		'-': 'Add a 👎 reaction'
+		h: 'Hide the focused comment'
 	}
 }, {
 	include: [
