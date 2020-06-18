@@ -44,6 +44,16 @@ function runShortcuts(event: KeyboardEvent): void {
 	const actionClass = shortcutClass.get(event.key);
 	if (actionClass) {
 		event.preventDefault();
+		if (location.hash.startsWith('#discussion_')) {
+			const popup = select<HTMLDetailsElement>(location.hash.replace(/^#/, '#details-'))!;
+			popup.open = true;
+			setTimeout(() => {
+				popup.querySelector<HTMLButtonElement>(actionClass)?.click();
+			}, 30);
+			popup.open = false;
+			return;
+		}
+
 		select(':target')?.querySelector<HTMLButtonElement>(actionClass)?.click();
 	}
 }
