@@ -74,7 +74,6 @@ function update(): void {
 }
 
 function init(): void {
-	document.addEventListener('refined-github:mark-unread:notifications-added', update);
 	delegate(document, '.rgh-open-notifications-button', 'click', openNotifications);
 	update();
 }
