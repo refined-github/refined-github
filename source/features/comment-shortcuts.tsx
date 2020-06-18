@@ -6,17 +6,8 @@ import {isEditable} from '../helpers/dom-utils';
 
 const shortcutClass = new Map<string, string>([
 	['e', '.rgh-edit-comment, [aria-label="Edit comment"]'],
-	['d', '[aria-label="Delete comment"]'],
-	['h', '[aria-label="Hide comment"]']
+	['d', '[aria-label="Delete comment"]']
 ]);
-
-function commentHash(comment: HTMLElement): string {
-	// What do I call this var??
-	const reviewComment = comment.closest('.js-comment[id^="pullrequestreview-"]');
-	const {hash} = reviewComment ? reviewComment.querySelector<HTMLAnchorElement>('a.js-timestamp')! : comment.querySelector<HTMLAnchorElement>('a.js-timestamp')!;
-
-	return reviewComment ? hash + '-body-html' : hash;
-}
 
 function runShortcuts(event: KeyboardEvent): void {
 	if (isEditable(event.target)) {
@@ -45,7 +36,7 @@ function runShortcuts(event: KeyboardEvent): void {
 		const chosen = items[Math.min(currentIndex + direction, items.length - 1)]; // Clamp it so it cant go past the last one
 
 		// Focus comment and dont put into history
-		location.replace(commentHash(chosen));
+		location.replace('#' + chosen.id);
 		chosen.scrollIntoView();
 		return;
 	}
@@ -69,8 +60,7 @@ void features.add({
 		j: 'Move up a comment',
 		k: 'Move down a comment',
 		e: 'Edit the focused comment',
-		d: 'Delete the focused comment',
-		h: 'Hide the focused comment'
+		d: 'Delete the focused comment'
 	}
 }, {
 	include: [
