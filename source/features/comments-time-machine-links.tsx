@@ -71,6 +71,11 @@ async function showTimemachineBar(): Promise<void | false> {
 			return false;
 		}
 
+		const lastCommitDate = await elementReady('.repository-content .Box.Box--condensed relative-time');
+		if (date > lastCommitDate?.attributes.datetime.value!) {
+			return false;
+		}
+
 		const parsedUrl = new GitHubURL(location.href);
 		parsedUrl.branch = `${parsedUrl.branch}@{${date}}`;
 		url.pathname = parsedUrl.pathname;
