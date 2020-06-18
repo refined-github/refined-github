@@ -30,7 +30,7 @@ function runShortcuts(event: KeyboardEvent): void {
 			'.timeline-comment-group[id^="issue"]:not([href])', // Regular comments
 			'.timeline-comment-group[id^="pullrequestreview-"]:not([href])', // Base review comments (Approved/ChangesRequested)
 			'.review-comment.js-minimizable-comment-group' // Review comments
-		]);
+		]).filter(element => !element.querySelector('.minimized-comment:not(.d-none)'));
 		// `j` goes to the next comment `k` goes back a comment
 		const direction = event.key === 'j' ? 1 : -1;
 		// Find current
