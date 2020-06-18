@@ -53,23 +53,7 @@ function runShortcuts(event: KeyboardEvent): void {
 	const actionClass = shortcutClass.get(event.key);
 	if (actionClass) {
 		event.preventDefault();
-		const target = select(':target');
-		if (!target || location.hash === '#partial-timeline') {
-			return;
-		}
-
-		const popup = (target.querySelector(location.hash.replace(/^#/, '#details-')) ?? target.querySelector('[aria-label="Show options"]')!.closest('details')) as HTMLDetailsElement;
-		popup.open = true;
-		// Dont show the jump
-		popup.style.opacity = '0';
-		// Wait for it to open
-		setTimeout(() => {
-			select(actionClass, popup)?.click();
-		}, 30);
-		popup.style.opacity = 'inherit';
-		if (event.key !== 'h' || !select.exists(actionClass, popup)) {
-			popup.open = false;
-		}
+		select(':target')?.querySelector<HTMLButtonElement>(actionClass)?.click();
 	}
 }
 
