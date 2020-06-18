@@ -12,7 +12,7 @@ import LinkExternalIcon from 'octicon/link-external.svg';
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import GitHubURL from '../github-helpers/github-url';
-import {getRepoURL, getUsername, getForkedRepo, RepositoryInfo, getRepositoryInfo} from '../github-helpers';
+import {getRepoURL, getUsername, getForkedRepo} from '../github-helpers';
 
 const getForkSourceRepo = (): string => getForkedRepo() ?? getRepoURL();
 const getCacheKey = (): string => `forked-to:${getUsername()}@${getForkSourceRepo().toLowerCase()}`;
@@ -30,11 +30,19 @@ const updateCache = cache.function(async (): Promise<string[] | undefined> => {
 	staleWhileRevalidate: 5
 });
 
-function mapRepositoryInfoToGitHubURL(repository: Partial<RepositoryInfo>): Partial<GitHubURL> {
-	return {
-		user: repository.owner,
-		repository: repository.name
-	};
+function createLink(baseRepo: string): string {
+	if (pageDetect.isRepoRoot() || !(pageDetect.isSingleFile() || pageDetect.isRepoTree())) {
+		return '/' + baseRepo;
+	}
+
+	const [user, repository] = baseRepo.split('/');
+	const url = new GitHubURL(location.href).assign({
+		user,
+		repository,
+		branch: 'HEAD'
+	});
+
+	return url.pathname;
 }
 
 async function updateUI(forks: string[]): Promise<void> {
@@ -43,19 +51,12 @@ async function updateUI(forks: string[]): Promise<void> {
 		return;
 	}
 
-	const url = new GitHubURL(location.href);
-	if (!pageDetect.isRepoRoot() && (pageDetect.isSingleFile() || pageDetect.isRepoTree())) {
-		url.assign({branch: 'HEAD'});
-	} else {
-		url.assign({route: '', branch: '', filePath: ''});
-	}
-
 	document.body.classList.add('rgh-forked-to');
 	const forkCounter = (await elementReady('.social-count[href$="/network/members"]'))!;
 	if (forks.length === 1) {
 		forkCounter.before(
 			<a
-				href={url.assign(mapRepositoryInfoToGitHubURL(getRepositoryInfo(forks[0]))).pathname}
+				href={createLink(forks[0])}
 				className="btn btn-sm float-left rgh-forked-button"
 				title={`Open your fork at ${forks[0]}`}
 			>
@@ -78,7 +79,7 @@ async function updateUI(forks: string[]): Promise<void> {
 					</div>
 					{forks.map(fork => (
 						<a
-							href={url.assign(mapRepositoryInfoToGitHubURL(getRepositoryInfo(fork))).pathname}
+							href={createLink(fork)}
 							className={`select-menu-item ${fork === getRepoURL() ? 'selected' : ''}`}
 							title={`Open your fork at ${fork}`}
 						>
