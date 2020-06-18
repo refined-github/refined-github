@@ -16,8 +16,7 @@ async function init(): Promise<void> {
 	});
 
 	if (await doesFileExist(sameViewUrl)) {
-		const forkSource = select<HTMLAnchorElement>('.fork-flag .text a')!;
-		forkSource.pathname = sameViewUrl.pathname;
+		select<HTMLAnchorElement>('.fork-flag .text a')!.pathname = sameViewUrl.pathname;
 	}
 }
 
