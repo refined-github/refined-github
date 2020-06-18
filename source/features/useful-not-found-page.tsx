@@ -130,10 +130,7 @@ void features.add({
 	init
 }, {
 	include: [
-		pageDetect.isPRCommit
-	],
-	exclude: [
-		() => !document.title.startsWith('Commit range not found · Pull Request')
+		pageDetect.isPRCommit404
 	],
 	waitForDomReady: false,
 	repeatOnAjax: false,

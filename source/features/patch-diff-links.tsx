@@ -30,7 +30,7 @@ void features.add({
 		pageDetect.isCommit
 	],
 	exclude: [
-		() => document.title.startsWith('Commit range not found · Pull Request')
+		pageDetect.isPRCommit404
 	],
 	init
 });
