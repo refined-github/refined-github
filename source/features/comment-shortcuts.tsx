@@ -1,15 +1,13 @@
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import {isEditable} from '../helpers/dom-utils';
 
 const shortcutClass = new Map<string, string>([
 	['e', '.rgh-edit-comment, [aria-label="Edit comment"]'],
 	['d', '[aria-label="Delete comment"]'],
-	['h', '[aria-label="Hide comment"]'],
-	['j', ''],
-	['k', '']
+	['h', '[aria-label="Hide comment"]']
 ]);
 
 function commentHash(comment: HTMLElement): string {
@@ -20,14 +18,14 @@ function commentHash(comment: HTMLElement): string {
 	return reviewComment ? hash + '-body-html' : hash;
 }
 
-function runShortcuts(event: delegate.Event<KeyboardEvent>): void {
-	if (!shortcutClass.has(event.key) || event.target instanceof HTMLTextAreaElement || event.target instanceof HTMLInputElement) {
+function runShortcuts(event: KeyboardEvent): void {
+	if (isEditable(event.target)) {
 		return;
 	}
 
-	event.preventDefault();
-
 	if (['j', 'k'].includes(event.key)) {
+		event.preventDefault();
+
 		const items = select.all<HTMLAnchorElement>([
 			'.timeline-comment-group[id^="issue"]:not([href])', // Regular comments
 			'.timeline-comment-group[id^="pullrequestreview-"]:not([href])', // Base review comments (Approved/ChangesRequested)
@@ -52,11 +50,15 @@ function runShortcuts(event: delegate.Event<KeyboardEvent>): void {
 		return;
 	}
 
-	select(':target')?.querySelector<HTMLButtonElement>(shortcutClass.get(event.key)!)?.click();
+	const actionClass = shortcutClass.get(event.key);
+	if (actionClass) {
+		event.preventDefault();
+		select(':target')?.querySelector<HTMLButtonElement>(actionClass)?.click();
+	}
 }
 
 function init(): void {
-	delegate(document, '*', 'keypress', runShortcuts);
+	document.addEventListener('keypress', runShortcuts);
 }
 
 void features.add({
