@@ -1,3 +1,4 @@
-.rg-repo-contained-header .UnderlineNav-item:focus, .rg-repo-contained-header .UnderlineNav-item:hover {
-  border-bottom-color: var(--repo-nav-border-bottom-color-hover, rgba(46, 164, 79, 0.50)) !important;
+.rg-repo-contained-header .UnderlineNav-item:focus,
+.rg-repo-contained-header .UnderlineNav-item:hover {
+	border-bottom-color: var(--repo-nav-border-bottom-color-hover, #2ea44f80) !important;
 }
