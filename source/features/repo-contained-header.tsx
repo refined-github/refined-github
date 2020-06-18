@@ -24,7 +24,7 @@ function init(): void {
 void features.add({
   id: __filebasename,
   description: 'Places the repo header in a container (requires "repository refresh" to be enabled)',
-  screenshot: false
+  screenshot: 'https://user-images.githubusercontent.com/2395597/85006314-88fc5f00-b18c-11ea-868b-a074d7bfd10c.png'
 }, {
   include: [
     pageDetect.isRepo
