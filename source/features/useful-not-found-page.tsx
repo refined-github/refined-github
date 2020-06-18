@@ -109,8 +109,11 @@ function init(): false | void {
 	}
 }
 
-async function initPRCommit(): Promise<void> {
-	const commitUrl = location.pathname.replace(/pull\/\d+\/commits/, 'commit');
+async function initPRCommit(): Promise<void | false> {
+	const commitUrl = location.href.replace(/pull\/\d+\/commits/, 'commit');
+	if (await is404(commitUrl)) {
+		return false;
+	}
 
 	const blankSlateParagraph = await elementReady('.blankslate p');
 	blankSlateParagraph!.after(
