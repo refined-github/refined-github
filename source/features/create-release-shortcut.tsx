@@ -4,7 +4,6 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function addQuickSubmit(): void {
-	// Adding a class of `js-quick-submit` enables the control/meta + enter to submit the release
 	select('textarea[aria-label="Describe this release"]')?.classList.add('js-quick-submit');
 }
 
