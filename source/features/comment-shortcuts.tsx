@@ -28,9 +28,9 @@ function runShortcuts(event: KeyboardEvent): void {
 
 		const items = select.all<HTMLAnchorElement>([
 			'.timeline-comment-group[id^="issue"]:not([href])', // Regular comments
-			'.timeline-comment-group[id^="pullrequestreview-"]:not([href])', // Base review comments (Approved/ChangesRequested)
+			'.timeline-comment-group[id^="pullrequestreview-"]:not([href])', // Base review comments (Approved/Changes Requested)
 			'.review-comment.js-minimizable-comment-group' // Review comments
-		]);
+		]).filter(element => !element.firstElementChild?.matches('.minimized-comment'));
 		// `j` goes to the next comment `k` goes back a comment
 		const direction = event.key === 'j' ? 1 : -1;
 		// Find current
