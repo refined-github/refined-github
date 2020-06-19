@@ -9,7 +9,8 @@ async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
 		detailsLink.href,
 		'[data-hydro-click*="check_suite.external_click"]'
 	);
-	detailsLink.href = directLink!.href;
+
+	detailsLink.href = directLink?.href ?? detailsLink.href;
 }
 
 async function init(): Promise<void> {
