@@ -1,8 +1,6 @@
 /*
 READ BEFORE EDITING. Some selectors match the same items ("focused" selector vs non-focused); make sure to update them in tandem.
 Commits that have a long commit message will not be dimmed after the user uncollapses the `<details>` element.
-
-Transitions are used to delay the "focused" status so it's not too annoying when moving the mouse over a list of dimmed items.
 */
 
 .rgh-dim-bot .commit-title,
@@ -13,7 +11,9 @@ Transitions are used to delay the "focused" status so it's not too annoying when
 .rgh-dim-bot .Box-row--drag-hide, /* PR row */
 .rgh-dim-bot .labels, /* PR labels */
 .rgh-dim-bot .labels + .text-small /* PR meta */ {
-	transition: 0.1s 0.3s;
+	/* Delay the "focused" status so it's not too annoying when moving the mouse over a list of dimmed items. */
+	transition: 0.1s;
+	transition-delay: 0.3s;
 	transition-property: opacity, margin-bottom;
 }
 
