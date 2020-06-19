@@ -58,7 +58,7 @@ function observeShortcutModal({key, target}: KeyboardEvent): void {
 }
 
 function init(): void {
-	document.addEventListener('keypress', observeShortcutModal, {once: true});
+	document.addEventListener('keypress', observeShortcutModal);
 }
 
 void features.add({
