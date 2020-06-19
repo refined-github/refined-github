@@ -39,7 +39,10 @@ function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>)
 
 		if (lastOwnComment) {
 			select<HTMLButtonElement>('.js-comment-edit-button', lastOwnComment)!.click();
-			field.closest('form')!.querySelector<HTMLButtonElement>('.js-hide-inline-comment-form')?.click();
+			field
+				.closest('form')!
+				.querySelector<HTMLButtonElement>('.js-hide-inline-comment-form')
+				?.click();
 
 			// Move caret to end of field
 			requestAnimationFrame(() => {

@@ -110,6 +110,7 @@ export function preventPrCommitLinkLoss(url: string, pr: string, commit: string,
 	return `[\`${commit}\` (#${pr})](${url})`;
 }
 
+// https://github.com/idimetrix/text-case/blob/master/packages/upper-case-first/src/index.ts
 export function upperCaseFirst(input: string): string {
 	return input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
 }
