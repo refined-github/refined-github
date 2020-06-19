@@ -97,7 +97,7 @@ function createLink(reference: RepositoryReference): HTMLSpanElement {
 async function init(): Promise<false | void> {
 	const prLinks = select.all('.js-issue-row .js-navigation-open[data-hovercard-type="pull_request"]')
 		// Exclude bots
-		.filter(link => !link.parentElement?.querySelector(botSelectors.join(',')));
+		.filter(link => !link.parentElement?.querySelector(botSelectors.join()));
 	if (prLinks.length === 0) {
 		return false;
 	}
