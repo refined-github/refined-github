@@ -17,10 +17,11 @@ const init = (): void => {
 			continue;
 		}
 
-		const header = select(`
-			summary .timeline-comment-header-text,
-			summary .discussion-item-copy
-		`, details)!;
+		const header = select([
+			'summary .timeline-comment-header-text', // Issue and commit comments
+			'summary .discussion-item-copy',
+			'div.d-inline-block' // Review Comments
+		], details)!;
 
 		const reason = /was marked as ([^.]+)/.exec(header.textContent!)?.[1] ?? '';
 		if (!allowedReasons.has(reason)) {
