@@ -65,7 +65,7 @@ export function compareNames(username: string, realname: string): boolean {
  * @param {string} selector A css selector.
  */
 export function getScopedSelector(selector: string): string {
-	return selector.split(',').map(sub => `:scope > ${sub.trim()}`).join(',');
+	return selector.split(',').map(sub => `:scope > ${sub.trim()}`).join();
 }
 
 export function looseParseInt(text: string): number {
