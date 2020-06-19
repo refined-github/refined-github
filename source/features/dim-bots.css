@@ -10,7 +10,7 @@ Transitions are used to delay the "focused" status so it's not too annoying when
 .rgh-dim-bot .signed-commit-badge, /* `Verified` badge */
 .rgh-dim-bot .commit-links-group, /* Hash and Copy hash buttons */
 .rgh-dim-bot .commit-links-group + .btn, /* Browse repository button */
-.rgh-dim-bot.Box-row > .d-flex, /* PR titles */
+.rgh-dim-bot .Box-row--drag-hide, /* PR row */
 .rgh-dim-bot .labels, /* PR labels */
 .rgh-dim-bot .labels + .text-small /* PR meta */ {
 	transition: 0.1s 0.3s;
@@ -22,8 +22,8 @@ ALL the following rules define the non-focused state
 */
 
 .rgh-dim-bot:not(.navigation-focus):not(.Details--on) .commit-title, /* Commit titles, dim */
-.rgh-dim-bot.Box-row:not(.navigation-focus) > .d-flex { /* PR titles, dim */
-	opacity: 20%; /* This can't applied to .Box-row because that includes the top border. */
+.rgh-dim-bot:not(.navigation-focus) .Box-row--drag-hide { /* PR row, dim */
+	opacity: 20%;
 	transition-delay: 0s;
 }
 
@@ -36,8 +36,8 @@ ALL the following rules define the non-focused state
 	transition-delay: 0s;
 }
 
-.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .labels, /* PR labels */
-.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .labels + .text-small /* PR meta */ {
+.rgh-dim-bot:not(.navigation-focus) .labels, /* PR labels */
+.rgh-dim-bot:not(.navigation-focus) .labels + .text-small /* PR meta */ {
 	opacity: 0%;
 	margin-bottom: -2em;
 	transition-delay: 0s;
