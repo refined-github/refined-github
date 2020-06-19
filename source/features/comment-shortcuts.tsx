@@ -64,8 +64,8 @@ void features.add({
 	description: '',
 	screenshot: false,
 	shortcuts: {
-		j: 'Move up a comment',
-		k: 'Move down a comment',
+		j: 'Move down a comment',
+		k: 'Move up a comment',
 		e: 'Edit the focused comment',
 		d: 'Delete the focused comment'
 	}
