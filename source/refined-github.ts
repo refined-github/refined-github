@@ -32,7 +32,6 @@ import './features/more-dropdown';
 import './features/releases-tab';
 import './features/remove-projects-tab';
 import './features/remove-checks-tab';
-import './features/focus-confirmation-buttons';
 import './features/comment-fields-keyboard-shortcuts';
 import './features/one-key-formatting';
 import './features/tab-to-indent';
