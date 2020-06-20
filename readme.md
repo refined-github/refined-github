@@ -319,7 +319,6 @@ Thanks for contributing! 🦋🙌
 
 ### Fixes for GitHub shortcomings
 
-- [](# "focus-confirmation-buttons") [Always focuses confirm buttons in custom modal boxes, like "Mark all as read".](https://user-images.githubusercontent.com/1402241/31700158-1499bdd8-b38d-11e7-9aba-77a0a4b6bf3c.png)
 - [](# "hide-disabled-milestone-sorter") [Hides the milestone sorter UI if you don’t have permission to use it.](https://user-images.githubusercontent.com/7753001/56913933-738a2880-6ae5-11e9-9d13-1973cbbf5df0.png)
 - [](# "linkify-branch-references") [Linkifies branch references in "Quick PR" pages.](https://user-images.githubusercontent.com/1402241/30208043-fa1ceaec-94bb-11e7-9c32-feabcf7db296.png)
 - [](# "hide-issue-list-autocomplete") [Removes the autocomplete on search fields.](https://user-images.githubusercontent.com/1402241/42991841-1f057e4e-8c07-11e8-909c-b051db7a2a03.png)
