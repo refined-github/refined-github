@@ -29,5 +29,8 @@ void features.add({
 	include: [
 		pageDetect.isCommit
 	],
+	exclude: [
+		pageDetect.isPRCommit404
+	],
 	init
 });
