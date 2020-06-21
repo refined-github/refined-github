@@ -65,13 +65,14 @@ async function showTimemachineBar(): Promise<void | false> {
 		url.pathname = pathnameParts.join('/');
 	} else {
 		// This feature only makes sense if the URL points to a non-permalink
-		const branchSelector = await elementReady('.branch-select-menu i');
+		const branchSelector = await elementReady('[data-hotkey="w"] i');
 		const isPermalink = /Tag|Tree/.test(branchSelector!.textContent!);
 		if (isPermalink) {
 			return false;
 		}
 
-		const lastCommitDate = await elementReady('.repository-content .Box.Box--condensed relative-time');
+		// "Repository refresh" layout uses the itemprop="dateModified"
+		const lastCommitDate = await elementReady('.repository-content .Box.Box--condensed relative-time, [itemprop="dateModified"] relative-time');
 		if (date > lastCommitDate?.attributes.datetime.value!) {
 			return false;
 		}
