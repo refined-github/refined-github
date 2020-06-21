@@ -24,7 +24,7 @@ function init(): void {
 
 void features.add({
 	id: __filebasename,
-	description: 'Jump to first unviewed pr file.',
+	description: 'Jumps to first unviewed file in a pull request when clicking on the progress bar.',
 	screenshot: 'https://user-images.githubusercontent.com/16872793/85226580-3bf3d500-b3a6-11ea-8494-3d9b6280d033.gif'
 }, {
 	include: [
