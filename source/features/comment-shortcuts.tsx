@@ -5,12 +5,13 @@ import features from '.';
 import {isEditable} from '../helpers/dom-utils';
 
 const shortcutClass = new Map<string, string>([
-	['e', '.rgh-edit-comment, [aria-label="Edit comment"]'],
+	['e', '.unminimized-comment [aria-label="Edit comment"]:not([hidden])'],
 	['d', '[aria-label="Delete comment"]']
 ]);
 
 function runShortcuts(event: KeyboardEvent): void {
-	if (isEditable(event.target)) {
+	const focusedComment = select<HTMLAnchorElement>(':target')!;
+	if (isEditable(event.target) || !focusedComment) {
 		return;
 	}
 
@@ -18,22 +19,22 @@ function runShortcuts(event: KeyboardEvent): void {
 		event.preventDefault();
 
 		const items = select.all<HTMLAnchorElement>('.js-minimizable-comment-group')
-			.filter(element => !element.querySelector('.minimized-comment:not(.d-none)'));
+			.filter(comment => !comment.querySelector('.minimized-comment:not(.d-none)'));
 		// `j` goes to the next comment `k` goes back a comment
 		const direction = event.key === 'j' ? 1 : -1;
-		// Find current
-		const currentComment = select<HTMLAnchorElement>(':target')!;
-		const currentIndex = items.indexOf(currentComment);
-		// Nothing selected or were on the first comment
+
+		const currentIndex = items.indexOf(focusedComment);
+		// Nothing selected or we are on the first comment
 		if (currentIndex + direction < 0 || currentIndex === -1) {
 			return;
 		}
 
-		// Find chosen
-		const chosen = items[Math.min(currentIndex + direction, items.length - 1)]; // Clamp it so it cant go past the last one
+		// Find chosen and clamp it so it cant go past the last one
+		const chosen = items[Math.min(currentIndex + direction, items.length - 1)];
 
 		// Focus comment and dont put into history
 		location.replace('#' + chosen.id);
+		// Avoid the extra jump
 		chosen.scrollIntoView();
 		return;
 	}
@@ -41,17 +42,7 @@ function runShortcuts(event: KeyboardEvent): void {
 	const actionClass = shortcutClass.get(event.key);
 	if (actionClass) {
 		event.preventDefault();
-		if (location.hash.startsWith('#discussion_')) {
-			const popup = select<HTMLDetailsElement>(location.hash.replace(/^#/, '#details-'))!;
-			popup.open = true;
-			setTimeout(() => {
-				popup.querySelector<HTMLButtonElement>(actionClass)?.click();
-			}, 30);
-			popup.open = false;
-			return;
-		}
-
-		select(':target')?.querySelector<HTMLButtonElement>(actionClass)?.click();
+		select<HTMLButtonElement>(actionClass, focusedComment)?.click();
 	}
 }
 
