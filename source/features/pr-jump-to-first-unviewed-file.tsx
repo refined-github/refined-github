@@ -12,7 +12,7 @@ function jumpToFirstUnviewed(): void {
 		return;
 	}
 
-	const fileID = 	firstNotView.closest<HTMLDivElement>('[data-anchor]')!.dataset.anchor!;
+	const fileID = 	firstNotView.closest('[id]')!.id!;
 	// Scroll to file without pushing to history
 	location.replace('#' + fileID);
 }
