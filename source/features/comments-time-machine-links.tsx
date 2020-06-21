@@ -71,8 +71,10 @@ async function showTimemachineBar(): Promise<void | false> {
 			return false;
 		}
 
-		// "Repository refresh" layout uses the itemprop="dateModified"
-		const lastCommitDate = await elementReady('.repository-content .Box.Box--condensed relative-time, [itemprop="dateModified"] relative-time');
+		const lastCommitDate = await elementReady([
+			'.repository-content .Box.Box--condensed relative-time',
+			'[itemprop="dateModified"] relative-time' // "Repository refresh" beta
+		].join());
 		if (date > lastCommitDate?.attributes.datetime.value!) {
 			return false;
 		}
