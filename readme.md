@@ -182,6 +182,7 @@ Thanks for contributing! 🦋🙌
 - [](# "minimize-upload-bar") [Reduces the upload bar to a small button.](https://user-images.githubusercontent.com/55841/59802383-3d994180-92e9-11e9-835d-60de67611c30.png)
 - [](# "clean-rich-text-editor") [Hides unnecessary comment field tooltips and toolbar items](https://user-images.githubusercontent.com/1402241/53629083-a4fe8900-3c47-11e9-8211-bfe2d254ffcb.png) (each one has a keyboard shortcut.)
 - [](# "monospace-textareas") Use a monospace font for all textareas.
+- [](# "comment-shortcuts") Adds shortcuts to comments: <kbd>j</kbd> to move down a comment; <kbd>k<kbd> to move up a comment.; <kbd>e</kbd> to edit a comment; <kbd>d</kbd> to delete a comment.
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 

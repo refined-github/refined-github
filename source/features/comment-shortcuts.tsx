@@ -52,7 +52,7 @@ function init(): void {
 
 void features.add({
 	id: __filebasename,
-	description: '',
+	description: 'Adds shortcuts to comments: `j` to move down a comment; `k` to move up a comment.; `e` to edit a comment; `d` to delete a comment',
 	screenshot: false,
 	shortcuts: {
 		j: 'Move down a comment',
