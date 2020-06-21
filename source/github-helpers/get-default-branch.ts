@@ -14,7 +14,7 @@ const branchInfoRegex = /([^ ]+)\.$/;
 
 export default cache.function(async (repository: Partial<RepositoryInfo> = getRepositoryInfo()): Promise<string> => {
 	if (JSON.stringify(repository) === JSON.stringify(getRepositoryInfo())) {
-		if (pageDetect.isRepoRoot() && !String(getRepoPath()).startsWith('tree/')) {
+		if (getRepoPath() === '') {
 			return getCurrentBranch();
 		}
 
