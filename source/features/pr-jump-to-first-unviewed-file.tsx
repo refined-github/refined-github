@@ -8,7 +8,7 @@ function jumpToFirstUnviewed(): void {
 	const firstNotView = select('.js-reviewed-checkbox:not([checked])')!;
 	if (!firstNotView) {
 		// Scroll to page end
-		window.scrollTo(0, document.body.scrollHeight);
+		window.scrollTo(window.scrollX, document.body.scrollHeight);
 		return;
 	}
 
