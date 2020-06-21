@@ -20,22 +20,21 @@ function runShortcuts(event: KeyboardEvent): void {
 
 		const items = select.all('.js-minimizable-comment-group')
 			.filter(comment => !comment.querySelector('.minimized-comment:not(.d-none)'));
-		// `j` goes to the next comment `k` goes back a comment
+		// `j` goes to the next comment, `k` goes back a comment
 		const direction = event.key === 'j' ? 1 : -1;
 
 		const currentIndex = items.indexOf(focusedComment);
 		// Nothing selected or we are on the first comment
-		if (currentIndex + direction < 0 || currentIndex === -1) {
+		if (currentIndex === -1 || currentIndex + direction < 0) {
 			return;
 		}
 
-		// Find chosen and clamp it so it cant go past the last one
-		const chosen = items[Math.min(currentIndex + direction, items.length - 1)];
+		const chosenCommentIndex = Math.min(currentIndex + direction, items.length - 1);
 
-		// Focus comment and dont put into history
-		location.replace('#' + chosen.id);
+		// Focus comment without pushing to history
+		location.replace('#' + items[chosenCommentIndex].id);
 		// Avoid the extra jump
-		chosen.scrollIntoView();
+		items[chosenCommentIndex].scrollIntoView();
 		return;
 	}
 
