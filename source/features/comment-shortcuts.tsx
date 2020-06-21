@@ -10,7 +10,7 @@ const shortcutClass = new Map<string, string>([
 ]);
 
 function runShortcuts(event: KeyboardEvent): void {
-	const focusedComment = select<HTMLAnchorElement>(':target')!;
+	const focusedComment = select(':target');
 	if (isEditable(event.target) || !focusedComment) {
 		return;
 	}
@@ -18,7 +18,7 @@ function runShortcuts(event: KeyboardEvent): void {
 	if (['j', 'k'].includes(event.key)) {
 		event.preventDefault();
 
-		const items = select.all<HTMLAnchorElement>('.js-minimizable-comment-group')
+		const items = select.all('.js-minimizable-comment-group')
 			.filter(comment => !comment.querySelector('.minimized-comment:not(.d-none)'));
 		// `j` goes to the next comment `k` goes back a comment
 		const direction = event.key === 'j' ? 1 : -1;
@@ -42,7 +42,7 @@ function runShortcuts(event: KeyboardEvent): void {
 	const actionClass = shortcutClass.get(event.key);
 	if (actionClass) {
 		event.preventDefault();
-		select<HTMLButtonElement>(actionClass, focusedComment)?.click();
+		select(actionClass, focusedComment)?.click();
 	}
 }
 
