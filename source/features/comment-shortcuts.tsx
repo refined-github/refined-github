@@ -29,6 +29,7 @@ function runShortcuts(event: KeyboardEvent): void {
 			return;
 		}
 
+		// Find chosen and clamp it so it cant go past the last one
 		const chosenCommentIndex = Math.min(currentIndex + direction, items.length - 1);
 
 		// Focus comment without pushing to history
