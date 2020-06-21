@@ -18,8 +18,8 @@ function jumpToFirstUnviewed(): void {
 }
 
 function init(): void {
-	delegate(document, 'progress-bar', 'click', jumpToFirstUnviewed);
-	select('progress-bar')!.style.cursor = 'pointer';
+	delegate(document, '.diffbar-item progress-bar', 'click', jumpToFirstUnviewed);
+	select('.diffbar-item progress-bar')!.style.cursor = 'pointer';
 }
 
 void features.add({
