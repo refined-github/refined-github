@@ -7,12 +7,13 @@ import features from '.';
 function jumpToFirstUnviewed(): void {
 	const firstNotView = select('.js-reviewed-checkbox:not([checked])')!;
 	if (!firstNotView) {
+		// Scroll to page end
 		window.scrollTo(0, document.body.scrollHeight);
 		return;
 	}
 
 	const fileID = 	firstNotView.closest<HTMLDivElement>('[data-anchor]')!.dataset.anchor!;
-	// Focus file and dont put into history
+	// Scroll to file without pushing to history
 	location.replace('#' + fileID);
 }
 
