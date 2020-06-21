@@ -10,10 +10,11 @@ const shortcutClass = new Map<string, string>([
 ]);
 
 function runShortcuts(event: KeyboardEvent): void {
-	const focusedComment = select(':target');
-	if (isEditable(event.target) || !focusedComment) {
+	if (isEditable(event.target)) {
 		return;
 	}
+	
+	const focusedComment = select(':target');
 
 	if (['j', 'k'].includes(event.key)) {
 		event.preventDefault();
@@ -24,17 +25,15 @@ function runShortcuts(event: KeyboardEvent): void {
 		const direction = event.key === 'j' ? 1 : -1;
 
 		const currentIndex = items.indexOf(focusedComment);
-		// Nothing selected or we are on the first comment
-		if (currentIndex === -1 || currentIndex + direction < 0) {
-			return;
-		}
 
-		// Find chosen and clamp it so it cant go past the last one
-		const chosenCommentIndex = Math.min(currentIndex + direction, items.length - 1);
+		// Start at 0 if nothing is; clamp index
+		const chosenCommentIndex = Math.min(
+			Math.max(0, currentIndex + direction),
+			items.length - 1
+		);
 
 		// Focus comment without pushing to history
 		location.replace('#' + items[chosenCommentIndex].id);
-		// Avoid the extra jump
 		items[chosenCommentIndex].scrollIntoView();
 		return;
 	}
