@@ -13,8 +13,8 @@ function runShortcuts(event: KeyboardEvent): void {
 	if (isEditable(event.target)) {
 		return;
 	}
-	
-	const focusedComment = select(':target');
+
+	const focusedComment = select(':target')!;
 
 	if (['j', 'k'].includes(event.key)) {
 		event.preventDefault();
