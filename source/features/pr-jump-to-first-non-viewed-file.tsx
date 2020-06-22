@@ -7,7 +7,7 @@ import features from '.';
 function jumpToFirstNonViewed(): void {
 	const firstNonViewedFile = select('.js-reviewed-checkbox:not([checked])')!;
 	if (!firstNonViewedFile) {
-		// Scroll to page end
+		// The file hasn't loaded yet, so we should scroll to the end of the page to make GitHub load it
 		window.scrollTo(window.scrollX, document.body.scrollHeight);
 		return;
 	}
