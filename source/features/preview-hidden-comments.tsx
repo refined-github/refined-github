@@ -19,7 +19,6 @@ const init = (): void => {
 
 		const header = select([
 			'summary .timeline-comment-header-text', // Issue and commit comments
-			'summary .discussion-item-copy',
 			'.discussion-item-icon  + div' // Review Comments
 		], details)!;
 
