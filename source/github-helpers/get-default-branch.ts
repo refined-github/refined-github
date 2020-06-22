@@ -1,9 +1,9 @@
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import {isForkedRepo} from 'github-url-detection/esm';
+import * as pageDetect from 'github-url-detection';
 
 import * as api from './api';
-import {RepositoryInfo, getRepositoryInfo, getRepoURL} from '.';
+import {RepositoryInfo, getRepositoryInfo, getRepoURL, getCurrentBranch} from '.';
 
 // This regex should match all of these combinations:
 // "This branch is even with master."
@@ -14,7 +14,11 @@ const branchInfoRegex = /([^ ]+)\.$/;
 
 export default cache.function(async (repository: Partial<RepositoryInfo> = getRepositoryInfo()): Promise<string> => {
 	if (JSON.stringify(repository) === JSON.stringify(getRepositoryInfo())) {
-		if (!isForkedRepo()) {
+		if (pageDetect.isRepoHome()) {
+			return getCurrentBranch();
+		}
+
+		if (!pageDetect.isForkedRepo()) {
 			// We can find the name in the infobar, available in folder views
 			const branchInfo = select('.branch-infobar')?.textContent!.trim();
 			const defaultBranch = branchInfoRegex.exec(branchInfo!)?.[1];
