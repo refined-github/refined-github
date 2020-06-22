@@ -20,7 +20,7 @@ const init = (): void => {
 		const header = select([
 			'summary .timeline-comment-header-text', // Issue and commit comments
 			'summary .discussion-item-copy',
-			'div.d-inline-block' // Review Comments
+			'.discussion-item-icon  + div' // Review Comments
 		], details)!;
 
 		const reason = /was marked as ([^.]+)/.exec(header.textContent!)?.[1] ?? '';
