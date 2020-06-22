@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import * as api from './api';
-import {RepositoryInfo, getRepositoryInfo, getRepoURL, getCurrentBranch, getRepoPath} from '.';
+import {RepositoryInfo, getRepositoryInfo, getRepoURL, getCurrentBranch} from '.';
 
 // This regex should match all of these combinations:
 // "This branch is even with master."
@@ -14,7 +14,7 @@ const branchInfoRegex = /([^ ]+)\.$/;
 
 export default cache.function(async (repository: Partial<RepositoryInfo> = getRepositoryInfo()): Promise<string> => {
 	if (JSON.stringify(repository) === JSON.stringify(getRepositoryInfo())) {
-		if (getRepoPath() === '') {
+		if (pageDetect.isRepoHome()) {
 			return getCurrentBranch();
 		}
 
