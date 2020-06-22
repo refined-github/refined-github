@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function jumpToFirstUnviewed(): void {
-	const firstNotView = select('.js-reviewed-checkbox:not([checked])')!;
+	const firstNonViewedFile = select('.js-reviewed-checkbox:not([checked])')!;
 	if (!firstNotView) {
 		// Scroll to page end
 		window.scrollTo(window.scrollX, document.body.scrollHeight);
