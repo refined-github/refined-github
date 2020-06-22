@@ -54,8 +54,8 @@ void features.add({
 	description: 'Adds shortcuts to comments: `j` focuses the comment below; `k` focuses comment above; `e` edits the focused comment; `d` deletes the focused comment.',
 	screenshot: false,
 	shortcuts: {
-		j: 'Move down a comment',
-		k: 'Move up a comment',
+		j: 'Focus the comment below',
+		k: 'Focus the comment above',
 		e: 'Edit the focused comment',
 		d: 'Delete the focused comment'
 	}
