@@ -13,7 +13,6 @@ function jumpToFirstNonViewed(): void {
 		// The file hasn't loaded yet, so make GitHub load it by scrolling to the bottom
 		window.scrollTo(window.scrollX, document.body.scrollHeight);
 	}
-
 }
 
 function init(): void {
