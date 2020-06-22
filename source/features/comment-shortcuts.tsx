@@ -51,7 +51,7 @@ function init(): void {
 
 void features.add({
 	id: __filebasename,
-	description: 'Adds shortcuts to comments: `j` to move down a comment; `k` to move up a comment.; `e` to edit a comment; `d` to delete a comment',
+	description: 'Adds shortcuts to comments: `j` focuses the comment below; `k` focuses comment above; `e` edits the focused comment; `d` deletes the focused comment.',
 	screenshot: false,
 	shortcuts: {
 		j: 'Move down a comment',
