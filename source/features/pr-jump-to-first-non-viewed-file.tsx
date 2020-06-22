@@ -5,16 +5,15 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function jumpToFirstNonViewed(): void {
-	const firstNonViewedFile = select('.js-reviewed-checkbox:not([checked])')!;
-	if (!firstNonViewedFile) {
-		// The file hasn't loaded yet, so we should scroll to the end of the page to make GitHub load it
+	const firstNonViewedFile = select('.file:not([data-file-user-viewed])')!;
+	if (firstNonViewedFile) {
+		// Scroll to file without pushing to history
+		location.replace('#' + firstNonViewedFile.id);
+	} else {
+		// The file hasn't loaded yet, so make GitHub load it by scrolling to the bottom
 		window.scrollTo(window.scrollX, document.body.scrollHeight);
-		return;
 	}
 
-	const fileID = 	firstNonViewedFile.closest('[id]')!.id;
-	// Scroll to file without pushing to history
-	location.replace('#' + fileID);
 }
 
 function init(): void {
