@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import onCommentFieldKeydown from '../github-events/on-comment-field-keydown';
@@ -65,6 +66,9 @@ void features.add({
 		esc: 'Unfocuses comment field'
 	}
 }, {
+	include: [
+		pageDetect.hasRichTextEditor
+	],
 	waitForDomReady: false,
 	repeatOnAjax: false,
 	init
