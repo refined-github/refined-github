@@ -34,7 +34,7 @@ https://github.com/sindresorhus/refined-github/releases/tag/19.9.16
 
 /* Hide `Filters` text in repo lists: center dropdown triangle */
 .subnav-search-context .dropdown-caret {
-	transform: scale(1.2) translateX(-0.4em);
+	transform: scale(1.2) translateX(-6px) translateY(1px);
 }
 
 /* Hide icons in `Labels`/`Milestones` buttons */
