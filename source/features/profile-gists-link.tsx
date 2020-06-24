@@ -4,7 +4,7 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import CodeIcon from '@primer/octicons/build/svg/code.svg';
+import CodeSquareIcon from '@primer/octicons-v2/build/svg/code-square.svg';
 
 import features from '.';
 import * as api from '../github-helpers/api';
@@ -30,7 +30,7 @@ async function init(): Promise<void> {
 	const href = pageDetect.isEnterprise() ? `/gist/${username}` : `https://gist.github.com/${username}`;
 	const link = (
 		<a href={href} className="UnderlineNav-item" role="tab" aria-selected="false">
-			<CodeIcon className="UnderlineNav-octicon hide-sm"/> Gists
+			<CodeSquareIcon className="UnderlineNav-octicon hide-sm"/> Gists
 		</a>
 	);
 
