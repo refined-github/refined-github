@@ -39,11 +39,7 @@ async function init(): Promise<void> {
 	const count = await getGistCount(username)
 
 	if (count > 0) {
-		link.append(
-			<span className="Counter">
-				{await getGistCount(username)}
-			</span>
-		);
+		link.append(<span className="Counter">{count}</span>);
 	}
 }
 
