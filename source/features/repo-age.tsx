@@ -43,11 +43,13 @@ const getRepoAge = async (commitSha: string, commitsCount: number): Promise<[str
 };
 
 const getFirstCommit = cache.function(async (): Promise<[string, string] | undefined> => {
-	const commitInfo = await elementReady<HTMLAnchorElement | HTMLScriptElement>('a.commit-tease-sha, include-fragment.commit-tease');
+	const commitInfo = await elementReady<HTMLAnchorElement | HTMLScriptElement>('.commit-tease a[href*="/commit/"], include-fragment.commit-tease');
 	const commitUrl = commitInfo instanceof HTMLAnchorElement ? commitInfo.href : commitInfo!.src;
 	const commitSha = commitUrl.split('/').pop()!;
 
-	const commitsCount = looseParseInt(select('li.commits .num')!.textContent!);
+	// In "Repository refresh" layout, the number of commits may not be rendered yet
+	const commitsCountElement = select('li.commits .num') ?? await elementReady('.commit-tease + * a[href*="/commits/"] strong');
+	const commitsCount = looseParseInt(commitsCountElement!.textContent!);
 
 	// Returning undefined will make sure that it is not cached. It will check again for commits on the next load.
 	// Reference: https://github.com/fregante/webext-storage-cache/#getter
@@ -80,6 +82,23 @@ async function init(): Promise<void> {
 		.replace(/^an?/, '1')
 		.split(' ');
 
+	// TODO: simplify selector after https://github.com/sindresorhus/element-ready/issues/29
+	const secondSidebarSection = await elementReady('.repository-content .BorderGrid-row + .BorderGrid-row');
+	if (secondSidebarSection) {
+		const sidebarAboutSection = secondSidebarSection.previousElementSibling!;
+		select('.BorderGrid-cell', sidebarAboutSection)!.append(
+			<h3 className="sr-only">Repository age</h3>,
+			<div className="mt-3">
+				<a href={firstCommitHref} className="muted-link" title={`First commit dated ${dateFormatter.format(date)}`}>
+					<RepoIcon className="mr-2"/> {value} {unit} old
+				</a>
+			</div>
+		);
+
+		return;
+	}
+
+	// Pre "Repository refresh" layout
 	const element = (
 		<li className="text-gray" title={`First commit dated ${dateFormatter.format(date)}`}>
 			<a href={firstCommitHref}>
@@ -88,7 +107,6 @@ async function init(): Promise<void> {
 		</li>
 	);
 
-	await elementReady('.overall-summary + *');
 	const license = select('.numbers-summary .octicon-law');
 	if (license) {
 		license.closest('li')!.before(element);

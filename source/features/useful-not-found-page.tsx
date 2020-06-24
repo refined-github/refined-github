@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -108,6 +109,18 @@ function init(): false | void {
 	}
 }
 
+async function initPRCommit(): Promise<void | false> {
+	const commitUrl = location.href.replace(/pull\/\d+\/commits/, 'commit');
+	if (await is404(commitUrl)) {
+		return false;
+	}
+
+	const blankSlateParagraph = await elementReady('.blankslate p');
+	blankSlateParagraph!.after(
+		<p>You can also try to <a href={commitUrl}>view the detached standalone commit</a>.</p>
+	);
+}
+
 void features.add({
 	id: __filebasename,
 	description: 'Adds possible related pages and alternatives on 404 pages.',
@@ -118,4 +131,11 @@ void features.add({
 	],
 	repeatOnAjax: false,
 	init
+}, {
+	include: [
+		pageDetect.isPRCommit404
+	],
+	waitForDomReady: false,
+	repeatOnAjax: false,
+	init: initPRCommit
 });

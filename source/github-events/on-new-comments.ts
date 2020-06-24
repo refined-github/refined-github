@@ -27,6 +27,10 @@ function removeListeners(): void {
 	observer.disconnect();
 }
 
+function getFragmentLoadHandler(callback: EventListener): delegate.EventHandler {
+	return (event: delegate.Event) => event.delegateTarget.addEventListener('load', callback);
+}
+
 function addListeners(): void {
 	const discussion = select('.js-discussion');
 	if (!discussion || discussionsWithListeners.has(discussion)) {
@@ -47,8 +51,8 @@ function addListeners(): void {
 	// When hidden comments are loaded by clicking "Load more…"
 	delegates.add(delegate(document, '.js-ajax-pagination', 'submit', paginationSubmitHandler));
 
-	// Outdated comment are loaded later using an include-fragment element
-	delegates.add(delegate(document, 'details.outdated-comment > include-fragment', 'load', run, true));
+	// Collapsed comments are loaded later using an include-fragment element
+	delegates.add(delegate(document, 'details.js-comment-container include-fragment', 'loadstart', getFragmentLoadHandler(run), true));
 }
 
 export default function onNewComments(callback: VoidFunction): void {

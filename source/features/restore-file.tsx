@@ -125,7 +125,7 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 			role="menuitem"
 			type="button"
 		>
-			Restore changes
+			Restore file
 		</button>
 	);
 }

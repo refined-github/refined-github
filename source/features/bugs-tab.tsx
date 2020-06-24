@@ -39,7 +39,7 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const issuesTab = (await elementReady('.reponav [data-hotkey="g i"]'))?.parentElement;
+	const issuesTab = (await elementReady('.pagehead [data-hotkey="g i"]'))?.parentElement;
 	if (!issuesTab) {
 		// Repo is archived
 		return false;
@@ -54,25 +54,39 @@ async function init(): Promise<void | false> {
 	// Copy Issues tab
 	const bugsTab = issuesTab.cloneNode(true);
 
+	// Disable unwanted behavior #3001
+	const bugsLink = select('a', bugsTab)!;
+	bugsLink.removeAttribute('data-hotkey');
+	bugsLink.removeAttribute('data-selected-links');
+	select('a', issuesTab)!.removeAttribute('data-selected-links');
+
 	// Update its appearance
-	select('.octicon', bugsTab)!.replaceWith(<BugIcon/>);
-	select('[itemprop="name"]', bugsTab)!.textContent = 'Bugs';
+	const bugsTabTitle = select('[data-content]', bugsTab);
+	if (bugsTabTitle) {
+		bugsTabTitle.dataset.content = 'Bugs';
+		bugsTabTitle.textContent = 'Bugs';
+		select('.octicon', bugsTab)!.replaceWith(<BugIcon className="UnderlineNav-octicon"/>);
+
+		// Un-select one of the tabs if necessary
+		const selectedTabLink = !isBugsPage || pageDetect.isPRList() ? bugsLink : select('.selected', issuesTab);
+		selectedTabLink?.classList.remove('selected');
+		selectedTabLink?.removeAttribute('aria-current');
+	} else {
+		// Pre "Repository refresh" layout
+		select('[itemprop="name"]', bugsTab)!.textContent = 'Bugs';
+		select('.octicon', bugsTab)!.replaceWith(<BugIcon/>);
+
+		// Change the Selected tab if necessary
+		bugsLink.classList.toggle('selected', isBugsPage && !pageDetect.isPRList());
+		select('.selected', issuesTab)?.classList.toggle('selected', !isBugsPage);
+	}
 
 	// Set temporary counter
 	const bugsCounter = select('.Counter', bugsTab)!;
 	bugsCounter.textContent = '0';
 
-	// Disable unwanted behavior #3001
-	const bugsLink = select('a', bugsTab)!;
-	bugsLink.removeAttribute('data-hotkey');
-	bugsLink.removeAttribute('data-selected-links');
-
 	// Update Bugs’ link
 	new SearchQuery(bugsLink).add('label:bug');
-
-	// Change the Selected tab if necessary
-	bugsLink.classList.toggle('selected', isBugsPage && !pageDetect.isPRList());
-	select('.selected', issuesTab)?.classList.toggle('selected', !isBugsPage);
 
 	issuesTab.after(bugsTab);
 
