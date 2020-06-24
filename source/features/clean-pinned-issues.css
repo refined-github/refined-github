@@ -13,7 +13,7 @@
 		/* Rounded table border https://stackoverflow.com/a/2586780/288906 */
 		box-shadow: 0 0 0 1px #d1d5da;
 		border-collapse: collapse;
-		border-radius: 3px;
+		border-radius: 6px;
 		border-style: hidden;
 	}
 
