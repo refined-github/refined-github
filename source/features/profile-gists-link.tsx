@@ -4,6 +4,7 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import CodeIcon from '@primer/octicons/build/svg/code.svg';
 
 import features from '.';
 import * as api from '../github-helpers/api';
@@ -27,12 +28,16 @@ async function init(): Promise<void> {
 
 	const username = getCleanPathname();
 	const href = pageDetect.isEnterprise() ? `/gist/${username}` : `https://gist.github.com/${username}`;
-	const link = <a href={href} className="UnderlineNav-item" role="tab" aria-selected="false">Gists </a>;
+	const link = (
+		<a href={href} className="UnderlineNav-item" role="tab" aria-selected="false">
+			<CodeIcon className="UnderlineNav-octicon hide-sm"/> Gists
+		</a>
+	);
 
 	select('.UnderlineNav-body')!.append(link);
 
 	link.append(
-		<span className="Counter hide-lg hide-md hide-sm">
+		<span className="Counter">
 			{await getGistCount(username)}
 		</span>
 	);
