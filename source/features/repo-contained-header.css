@@ -6,7 +6,7 @@
 .pagehead > div {
 	max-width: 1280px;
 	margin-right: auto;
-  margin-left: auto;
+	margin-left: auto;
 }
 
 .pagehead.border-0 {
@@ -21,6 +21,5 @@
 	max-width: 1280px;
 	margin-right: auto;
 	margin-left: auto;
-	
 	box-shadow: unset !important;
 }
