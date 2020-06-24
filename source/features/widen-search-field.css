@@ -13,26 +13,6 @@ https://github.com/sindresorhus/refined-github/milestones
 https://github.com/sindresorhus/refined-github/releases/tag/19.9.16
 */
 
-/* Expand issue search field width */
-.repository-content [role='search'], /* Repo issue/PR lists */
-.subnav-links + .float-right, /* Global search pages */
-.subnav-search,
-.subnav-search-input {
-	flex-grow: 1;
-	display: flex;
-	align-items: flex-start;
-}
-
-/* Clear .subnav-search input field when using display: flex */
-form.subnav-search > div.card-filter-autocomplete-dropdown {
-	margin-top: 40px !important;
-}
-
-/* Global search, labels: enable field expansion */
-.page-content > .subnav:first-child {
-	display: flex;
-}
-
 /* Space out buttons */
 .subnav > .float-right, /* On Releases page */
 .subnav > .btn-primary { /* On `Issues` and `Pull Requests` pages */
@@ -44,11 +24,6 @@ form.subnav-search > div.card-filter-autocomplete-dropdown {
 	float: left;
 }
 
-/* Reset width of search field in global lists */
-.page-content .subnav-search-input-wide {
-	width: auto;
-}
-
 /* Hide `Filters` text in repo lists */
 .subnav-search-context summary {
 	display: flex;
@@ -58,10 +33,8 @@ form.subnav-search > div.card-filter-autocomplete-dropdown {
 }
 
 /* Hide `Filters` text in repo lists: center dropdown triangle */
-.subnav-search-context summary::after {
-	float: right;
-	margin-top: 0.6em;
-	transform: scale(1.2);
+.subnav-search-context .dropdown-caret {
+	transform: scale(1.2) translateX(-0.4em);
 }
 
 /* Hide icons in `Labels`/`Milestones` buttons */
