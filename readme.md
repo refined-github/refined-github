@@ -137,6 +137,7 @@ Thanks for contributing! 🦋🙌
 - [](# "show-open-prs-of-forks") [In your forked repos, shows number of your open PRs to the original repo.](https://user-images.githubusercontent.com/1922624/76398271-e0648500-637c-11ea-8210-53dda1be9d51.png)
 - [](# "go-to-action-from-file") [Adds a link to access the past runs of a GitHub Action workflow when seeing the workflow configuration file.](https://user-images.githubusercontent.com/1402241/80146153-ab6d6400-85b1-11ea-9f38-e87950692a62.png)
 - [](# "fork-source-link-same-view") [Points the “Forked from user/repository” link to current folder or file in the upstream repository.](https://user-images.githubusercontent.com/1402241/84795784-3722d000-aff8-11ea-9b34-97c01acf4fd4.png)
+- [](# "show-commit-details") [Shows latest commit description on page load.](https://user-images.githubusercontent.com/1408859/85650947-ae013e00-b674-11ea-87a6-5b214130e9c5.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
