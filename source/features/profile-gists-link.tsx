@@ -28,7 +28,7 @@ async function init(): Promise<void> {
 
 	const username = getCleanPathname();
 	const href = pageDetect.isEnterprise() ? `/gist/${username}` : `https://gist.github.com/${username}`;
-	const nav = select('.UnderlineNav-body')!
+	const nav = select('.UnderlineNav-body')!;
 	// Pre "Repository refresh" layout, nav items don't have icons
 	const link = (
 		<a href={href} className="UnderlineNav-item" role="tab" aria-selected="false">
