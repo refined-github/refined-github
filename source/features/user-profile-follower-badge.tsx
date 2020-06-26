@@ -26,6 +26,7 @@ async function init(): Promise<void> {
 		if (newProfileElement) {
 			newProfileElement.after(<span className="text-gray"> · Follows you</span>);
 		} else {
+			// Pre "Repository refresh" layout
 			select('.vcard-names-container:not(.is-placeholder)')!.after(
 				<div className="rgh-follower-badge">Follows you</div>
 			);
