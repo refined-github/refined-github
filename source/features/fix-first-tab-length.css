@@ -1,0 +1,18 @@
+/* Remove diff signs from the layout flow */
+.file .blob-code-inner::before,
+.file .blob-code-marker-cell::before {
+	position: absolute;
+	transform: translateX(-100%);
+}
+
+/* Restore the space that collapsed as a consequence of the previous rule */
+.file :not(.js-suggested-changes-blob) tr:not(.js-expandable-line) .blob-code,
+.file .js-suggested-changes-blob .blob-code-inner {
+	padding-left: 25px !important; /* GitHub sets it to 18px */
+	text-indent: 0 !important; /* GitHub sets it to -7px */
+}
+
+/* Adjust add comment button position, because of extra padding above */
+.file .add-line-comment {
+	margin-left: -37px !important; /* GitHub sets this at -28px */
+}
