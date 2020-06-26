@@ -13,9 +13,9 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const isPermalink = /Tag|Tree/.test(select('.branch-select-menu i')!.textContent!);
+	const isPermalink = /Tag|Tree/.test(select('[data-hotkey="w"] i')!.textContent!);
 	const filename = readmeHeader.textContent!.trim();
-	const fileLink = select<HTMLAnchorElement>(`.files [title="${filename}"]`)!;
+	const fileLink = select<HTMLAnchorElement>(`.js-navigation-open[title="${filename}"]`)!;
 
 	const url = new GitHubURL(fileLink.href).assign({
 		route: 'edit'
@@ -47,7 +47,7 @@ async function init(): Promise<void | false> {
 	);
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Ensures that the “Edit readme” button always appears (even when you have to make a fork) and works (GitHub’s link does’t work on git tags).',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/62073307-a8378880-b26a-11e9-9e31-be6525d989d2.png'

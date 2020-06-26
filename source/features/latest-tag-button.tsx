@@ -1,21 +1,22 @@
 import './latest-tag-button.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import select from 'select-dom';
 import TagIcon from 'octicon/tag.svg';
+import DiffIcon from 'octicon/diff.svg';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import fetchDom from '../helpers/fetch-dom';
+import pluralize from '../helpers/pluralize';
 import GitHubURL from '../github-helpers/github-url';
+import {groupButtons} from '../github-helpers/group-buttons';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getRepoURL, getCurrentBranch, getRepoGQL, getLatestVersionTag} from '../github-helpers';
 
 interface RepoPublishState {
 	latestTag: string | false;
-	isUpToDate: boolean;
+	aheadBy?: number;
 }
 
 const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> => {
@@ -39,7 +40,13 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 			}
 			defaultBranchRef {
 				target {
-					oid
+					... on Commit {
+						history(first: 20) {
+							nodes {
+								oid
+							}
+						}
+					}
 				}
 			}
 		}
@@ -47,8 +54,7 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 
 	if (repository.refs.nodes.length === 0) {
 		return {
-			latestTag: false,
-			isUpToDate: false
+			latestTag: false
 		};
 	}
 
@@ -58,30 +64,22 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 	}
 
 	const latestTag = getLatestVersionTag([...tags.keys()]);
+	const latestTagOid = tags.get(latestTag)!;
+	const aheadBy = repository.defaultBranchRef.target.history.nodes.findIndex((node: AnyObject) => node.oid === latestTagOid);
 
-	return {
-		latestTag,
-		isUpToDate: tags.get(latestTag) === repository.defaultBranchRef.target.oid
-	};
+	if (aheadBy < 0) {
+		return {latestTag};
+	}
+
+	return {latestTag, aheadBy};
 }, {
 	maxAge: 1 / 24, // One hour
 	staleWhileRevalidate: 2,
-	shouldRevalidate: value => typeof value === 'string',
-	cacheKey: () => __filebasename + ':' + getRepoURL()
-});
-
-const getAheadByCount = cache.function(async (latestTag: string): Promise<string> => {
-	const tagPage = await fetchDom(`/${getRepoURL()}/releases/tag/${latestTag}`);
-	// This text is "4 commits to master since this tag"
-	return select('.release-header relative-time + a[href*="/compare/"]', tagPage)!.textContent!.replace(/\D/g, '');
-}, {
-	maxAge: 1 / 24, // One hour
-	staleWhileRevalidate: 2,
-	cacheKey: ([latestTag]) => `tag-ahead-by:${getRepoURL()}/${latestTag}`
+	cacheKey: () => `tag-ahead-by:${getRepoURL()}`
 });
 
 async function init(): Promise<false | void> {
-	const {latestTag, isUpToDate} = await getRepoPublishState();
+	const {latestTag, aheadBy} = await getRepoPublishState();
 	if (!latestTag) {
 		return false;
 	}
@@ -94,12 +92,12 @@ async function init(): Promise<false | void> {
 	const currentBranch = getCurrentBranch();
 	const url = new GitHubURL(location.href);
 	url.assign({
-		route: url.route ?? 'tree', // If route is missing, it's a repo root
+		route: url.route || 'tree', // If route is missing, it's a repo root
 		branch: latestTag
 	});
 
 	const link = (
-		<a className="btn btn-sm btn-outline tooltipped tooltipped-ne ml-2" href={String(url)}>
+		<a className="btn btn-sm btn-outline ml-2 flex-self-center" href={String(url)}>
 			<TagIcon/>
 		</a>
 	);
@@ -109,23 +107,42 @@ async function init(): Promise<false | void> {
 		link.append(' ', <span className="css-truncate-target">{latestTag}</span>);
 	}
 
-	if (currentBranch === latestTag || isUpToDate) {
+	if (currentBranch === latestTag || aheadBy === 0) {
 		link.setAttribute('aria-label', 'You’re on the latest release');
-		link.classList.add('disabled');
+		link.classList.add('disabled', 'tooltipped', 'tooltipped-ne');
 		return;
 	}
 
 	const defaultBranch = await getDefaultBranch();
 	if (currentBranch === defaultBranch) {
-		const aheadBy = await getAheadByCount(latestTag);
-		link.setAttribute('aria-label', `${defaultBranch} is ${aheadBy} commits ahead of the latest release`);
-		link.append(' ', <sup>+{aheadBy}</sup>);
+		link.append(<sup> +{aheadBy}</sup>);
+		link.setAttribute(
+			'aria-label',
+			aheadBy ?
+				`${defaultBranch} is ${pluralize(aheadBy, '1 commit', '$$ commits')} ahead of the latest release` :
+				`The HEAD of ${defaultBranch} isn’t tagged`
+		);
+
+		if (pageDetect.isRepoRoot()) {
+			const compareLink = (
+				<a
+					className="btn btn-sm btn-outline tooltipped tooltipped-ne"
+					href={`/${getRepoURL()}/compare/${latestTag}...${defaultBranch}`}
+					aria-label={`Compare ${latestTag}...${defaultBranch}`}
+				>
+					<DiffIcon/>
+				</a>
+			);
+			groupButtons([link, compareLink]);
+		}
 	} else {
 		link.setAttribute('aria-label', 'Visit the latest release');
 	}
+
+	link.classList.add('tooltipped', 'tooltipped-ne');
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Adds link to the latest version tag on directory listings and files.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/74594998-71df2080-5077-11ea-927c-b484ca656e88.png'

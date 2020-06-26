@@ -25,7 +25,7 @@ function openNotifications({delegateTarget}: delegate.Event): void {
 		return;
 	}
 
-	browser.runtime.sendMessage({
+	void browser.runtime.sendMessage({
 		openUrls: unreadNotifications.map(element => element.querySelector('a')!.href)
 	});
 
@@ -74,12 +74,11 @@ function update(): void {
 }
 
 function init(): void {
-	document.addEventListener('refined-github:mark-unread:notifications-added', update);
 	delegate(document, '.rgh-open-notifications-button', 'click', openNotifications);
 	update();
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Adds button to open all your unread notifications at once.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/80861295-fbad8b80-8c6d-11ea-87a4-8025fbc3a3f4.png'

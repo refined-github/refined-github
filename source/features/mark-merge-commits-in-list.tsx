@@ -25,7 +25,7 @@ const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 
 	const mergeCommits = [];
 	for (const [key, commit] of Object.entries<AnyObject>(repository)) {
-		if (commit.parents.totalCount === 2) {
+		if (commit.parents.totalCount >= 2) {
 			mergeCommits.push(key.slice(1));
 		}
 	}
@@ -48,7 +48,7 @@ async function init(): Promise<void> {
 	}
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Marks merge commits in commit lists.',
 	screenshot: 'https://user-images.githubusercontent.com/16872793/75561016-457eb900-5a14-11ea-95e1-a89e81ee7390.png'

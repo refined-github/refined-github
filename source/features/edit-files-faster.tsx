@@ -11,9 +11,9 @@ import getDefaultBranch from '../github-helpers/get-default-branch';
 import onFileListUpdate from '../github-events/on-file-list-update';
 
 async function init(): Promise<void> {
-	const isPermalink = /Tag|Tree/.test(select('.branch-select-menu i')!.textContent!);
-	for (const fileIcon of select.all('.files :not(a) > .octicon-file')) {
-		const fileLink = fileIcon.closest('tr')!.querySelector<HTMLAnchorElement>('.js-navigation-open')!;
+	const isPermalink = /Tag|Tree/.test(select('[data-hotkey="w"] i')!.textContent!);
+	for (const fileIcon of select.all('.js-navigation-container .octicon-file')) {
+		const fileLink = fileIcon.closest('.js-navigation-item')!.querySelector<HTMLAnchorElement>('.js-navigation-open')!;
 		const url = new GitHubURL(fileLink.href).assign({
 			route: 'edit'
 		});
@@ -28,7 +28,7 @@ async function init(): Promise<void> {
 	}
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Adds a button to edit files from the repo file list.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/56370462-d51cde00-622d-11e9-8cd3-8a173bd3dc08.png'

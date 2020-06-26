@@ -20,7 +20,7 @@
 @keyframes rgh-scale-in-centered {
 	0% {
 		transform: translate(-50%) scale(0.5);
-		opacity: 0;
+		opacity: 0%;
 	}
 
 	100% {
@@ -53,6 +53,6 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 
 /* Keep colored button when reaction popup is open */
 .dropdown-details[open] .timeline-comment-action {
-	opacity: 1;
+	opacity: 100%;
 	color: #4078c0;
 }

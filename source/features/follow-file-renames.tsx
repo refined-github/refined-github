@@ -22,7 +22,8 @@ async function findRename(lastCommitOnPage: string): Promise<File[]> {
 function init(): false | void {
 	const disabledPagination = select.all('.paginate-container [disabled], .paginate-container .disabled');
 	const url = new GitHubURL(location.href);
-
+	// Clear the search from the url, so it does not get passed to the rename link.
+	url.search = '';
 	if (disabledPagination.length === 0 || !url.filePath) {
 		return false;
 	}
@@ -60,7 +61,7 @@ function init(): false | void {
 	});
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Enhances files’ commit lists navigation to follow file renames.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/54799957-7306a280-4c9a-11e9-86de-b9764ed93397.png'

@@ -66,3 +66,16 @@ test('change filePath', t => {
 	t.is(url.href, 'https://github.com/microsoft/TypeScript/tree/master/package.json');
 	t.is(String(url), 'https://github.com/microsoft/TypeScript/tree/master/package.json');
 });
+
+test('get filePath from search', t => {
+	const url = new GitHubURL('https://github.com/yakov116/refined-github/commits/f23b687b3b89aa95a76193722cdfeff740646670?after=f23b687b3b89aa95a76193722cdfeff740646670+34&path%5B%5D=source&path%5B%5D=features&path%5B%5D=release-download-count.tsx');
+	t.is(url.user, 'yakov116');
+	t.is(url.repository, 'refined-github');
+	t.is(url.route, 'commits');
+	t.is(url.branch, 'f23b687b3b89aa95a76193722cdfeff740646670');
+	t.is(url.filePath, 'source/features/release-download-count.tsx');
+	t.is(url.pathname, '/yakov116/refined-github/commits/f23b687b3b89aa95a76193722cdfeff740646670/source/features/release-download-count.tsx');
+	t.is(url.href, 'https://github.com/yakov116/refined-github/commits/f23b687b3b89aa95a76193722cdfeff740646670/source/features/release-download-count.tsx?after=f23b687b3b89aa95a76193722cdfeff740646670+34');
+	t.is(url.search, '?after=f23b687b3b89aa95a76193722cdfeff740646670+34');
+	t.is(String(url), 'https://github.com/yakov116/refined-github/commits/f23b687b3b89aa95a76193722cdfeff740646670/source/features/release-download-count.tsx?after=f23b687b3b89aa95a76193722cdfeff740646670+34');
+});

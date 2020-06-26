@@ -65,9 +65,17 @@ async function showTimemachineBar(): Promise<void | false> {
 		url.pathname = pathnameParts.join('/');
 	} else {
 		// This feature only makes sense if the URL points to a non-permalink
-		const branchSelector = await elementReady('.branch-select-menu i');
+		const branchSelector = await elementReady('[data-hotkey="w"] i');
 		const isPermalink = /Tag|Tree/.test(branchSelector!.textContent!);
 		if (isPermalink) {
+			return false;
+		}
+
+		const lastCommitDate = await elementReady([
+			'.repository-content .Box.Box--condensed relative-time',
+			'[itemprop="dateModified"] relative-time' // "Repository refresh" layout
+		].join());
+		if (date > lastCommitDate?.attributes.datetime.value!) {
 			return false;
 		}
 
@@ -102,7 +110,7 @@ function init(): void {
 	}
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Adds links to browse the repository and linked files at the time of each comment.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/56450896-68076680-635b-11e9-8b24-ebd11cc4e655.png'

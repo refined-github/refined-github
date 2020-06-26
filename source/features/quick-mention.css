@@ -14,5 +14,5 @@ button.rgh-quick-mention:not(:hover):not(:focus) {
 
 /* Show button when the avatar or the button itself are hovered/focused */
 :not(:hover):not(:focus) + button.rgh-quick-mention:not(:hover):not(:focus) {
-	opacity: 0.1;
+	opacity: 10%;
 }

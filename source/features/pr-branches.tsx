@@ -5,8 +5,9 @@ import PullRequestIcon from 'octicon/git-pull-request.svg';
 
 import features from '.';
 import * as api from '../github-helpers/api';
+import {botSelectors} from './dim-bots';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getOwnerAndRepo, getRepoGQL} from '../github-helpers';
+import {getRepositoryInfo, getRepoGQL} from '../github-helpers';
 
 type RepositoryReference = {
 	owner: string;
@@ -32,19 +33,19 @@ function normalizeBranchInfo(data: BranchInfo): {
 	base?: RepositoryReference;
 	head?: RepositoryReference;
 } {
-	const {ownerName, repoName} = getOwnerAndRepo();
+	const currentRepository = getRepositoryInfo();
 
 	const base = {} as RepositoryReference; // eslint-disable-line @typescript-eslint/consistent-type-assertions
 	base.branchExists = Boolean(data.baseRef);
 	base.label = data.baseRefName;
 	if (base.branchExists) {
-		base.url = `/${ownerName!}/${repoName!}/tree/${data.baseRefName}`;
+		base.url = `/${currentRepository.owner!}/${currentRepository.name!}/tree/${data.baseRefName}`;
 	}
 
 	const head = {} as RepositoryReference; // eslint-disable-line @typescript-eslint/consistent-type-assertions
 	head.branchExists = Boolean(data.headRef);
 	head.owner = data.headOwner.login;
-	if (data.headOwner.login === ownerName) {
+	if (data.headOwner.login === currentRepository.owner) {
 		head.label = data.headRefName;
 	} else {
 		head.label = `${data.headOwner.login}:${data.headRefName}`;
@@ -94,12 +95,14 @@ function createLink(reference: RepositoryReference): HTMLSpanElement {
 }
 
 async function init(): Promise<false | void> {
-	const prLinks = select.all('.js-issue-row .js-navigation-open[data-hovercard-type="pull_request"]');
+	const prLinks = select.all('.js-issue-row .js-navigation-open[data-hovercard-type="pull_request"]')
+		// Exclude bots
+		.filter(link => !link.parentElement?.querySelector(botSelectors.join()));
 	if (prLinks.length === 0) {
 		return false;
 	}
 
-	const {ownerName} = getOwnerAndRepo();
+	const currentRepository = getRepositoryInfo();
 	const query = buildQuery(prLinks.map(pr => pr.id));
 	const [data, defaultBranch] = await Promise.all([
 		api.v4(query),
@@ -118,7 +121,7 @@ async function init(): Promise<false | void> {
 			base = undefined;
 		}
 
-		if (head!.owner !== ownerName) {
+		if (head!.owner !== currentRepository.owner) {
 			head = undefined;
 		}
 
@@ -140,7 +143,7 @@ async function init(): Promise<false | void> {
 	}
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Shows head and base branches in PR lists if they’re significant: The base branch is added when it’s not the repo’s default branch; The head branch is added when it’s from the same repo or the PR is by the current user.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/51428391-ae9ed500-1c35-11e9-8e54-6b6a424fede4.png'

@@ -43,17 +43,17 @@ async function init(): Promise<false | void> {
 	}
 
 	container.append(
-		<div className="border-top py-3 clearfix">
-			<h2 className="mb-1 h4">Followers you know</h2>
+		<div className="border-top pt-3 mt-3 clearfix hide-sm hide-md">
+			<h2 className="mb-2 h4">Followers you know</h2>
 			{stargazers.map(renderAvatar)}
 		</div>
 	);
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Followers you know are shown on profile pages',
-	screenshot: false
+	screenshot: 'https://user-images.githubusercontent.com/2906365/42009293-b1503f62-7a57-11e8-88f5-9c2fb3651a14.png'
 }, {
 	include: [
 		pageDetect.isUserProfile

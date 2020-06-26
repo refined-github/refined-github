@@ -5,10 +5,11 @@ import features from '.';
 import {getRepoURL} from '../github-helpers';
 
 function init(): void {
-	select(`.file-navigation a[href^="/${getRepoURL()}/upload"]`)?.remove();
+	// In "Repository refresh" layout, it's part of an "Add file" dropdown, don't delete it there
+	select(`.file-navigation a[href^="/${getRepoURL()}/upload"]:not(.dropdown-item)`)?.remove();
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Remove the "Upload files" button',
 	screenshot: false
@@ -16,6 +17,5 @@ features.add({
 	include: [
 		pageDetect.isRepoTree
 	],
-	repeatOnAjax: false,
 	init
 });

@@ -1,7 +1,6 @@
 [data-rgh-whitespace] {
 	position: relative;
 	line-height: 1em;
-	text-indent: 0; /* Reset any indentation added by `indented-code-wrapping` feature */
 }
 
 [data-rgh-whitespace]::before {
@@ -11,7 +10,7 @@
 	position: absolute;
 	left: 0;
 	top: 0;
-	opacity: 0.25;
+	opacity: 25%;
 }
 
 [data-rgh-whitespace^='→']::before {

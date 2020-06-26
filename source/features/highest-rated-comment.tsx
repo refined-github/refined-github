@@ -117,7 +117,12 @@ function getPositiveReactions(reactionBox?: HTMLElement): HTMLElement[] {
 }
 
 function getCount(reactions: HTMLElement[]): number {
-	return reactions.reduce((count, reaction) => count + looseParseInt(reaction.textContent!), 0);
+	let count = 0;
+	for (const reaction of reactions) {
+		count += looseParseInt(reaction.textContent!);
+	}
+
+	return count;
 }
 
 function init(): false | void {
@@ -130,7 +135,7 @@ function init(): false | void {
 	linkBestComment(bestComment);
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Highlights the most useful comment in issues.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/58757449-5b238880-853f-11e9-9526-e86c41a32f00.png'

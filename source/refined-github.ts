@@ -19,6 +19,8 @@ import './features/easier-pr-sha-copy.css';
 import './features/repo-stats-spacing.css';
 import './features/emphasize-draft-pr-label.css';
 import './features/clean-notifications.css';
+import './features/clean-pinned-issues.css';
+import './features/fix-first-tab-length.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
@@ -31,7 +33,6 @@ import './features/more-dropdown';
 import './features/releases-tab';
 import './features/remove-projects-tab';
 import './features/remove-checks-tab';
-import './features/focus-confirmation-buttons';
 import './features/comment-fields-keyboard-shortcuts';
 import './features/one-key-formatting';
 import './features/tab-to-indent';
@@ -40,7 +41,6 @@ import './features/monospace-textareas';
 import './features/selection-in-new-tab';
 import './features/hide-comments-faster';
 import './features/edit-comments-faster';
-import './features/mark-unread';
 import './features/open-all-notifications';
 import './features/copy-on-y';
 import './features/profile-hotkey';
@@ -62,8 +62,8 @@ import './features/hide-useless-comments';
 import './features/navigate-pages-with-arrow-keys';
 import './features/discussion-links-on-repo-lists';
 import './features/global-discussion-list-filters';
-import './features/filter-comments-by-you';
-import './features/sort-issues-by-update-time'; // Must be after global-discussion-list-filters and filter-comments-by-you and discussion-links-on-repo-lists
+import './features/discussion-filters';
+import './features/sort-issues-by-update-time'; // Must be after global-discussion-list-filters and discussion-filters and discussion-links-on-repo-lists
 import './features/pinned-issues-update-time';
 import './features/latest-tag-button';
 import './features/default-branch-button';
@@ -113,12 +113,11 @@ import './features/collapsible-content-button';
 import './features/hide-watch-and-fork-count';
 import './features/resolve-conflicts';
 import './features/follow-file-renames';
-import './features/fix-view-file-link-in-pr'; // Must be before raw-file-link
+import './features/enable-file-links-in-compare-view'; // Must be before raw-file-link
 import './features/raw-file-link';
 import './features/tags-dropdown';
 import './features/pr-filters';
 import './features/edit-files-faster';
-import './features/indented-code-wrapping';
 import './features/update-pr-from-base-branch';
 import './features/hide-disabled-milestone-sorter';
 import './features/tag-changelog-link';
@@ -142,7 +141,7 @@ import './features/pr-branch-auto-delete';
 import './features/linkify-symbolic-links'; // Must be before show-whitespace
 import './features/show-whitespace';
 import './features/hide-zero-packages';
-import './features/revert-file';
+import './features/restore-file';
 import './features/hidden-review-comments-indicator';
 import './features/reload-failed-proxied-images';
 import './features/clean-rich-text-editor';
@@ -180,7 +179,9 @@ import './features/stop-redirecting-in-notification-bar';
 import './features/prevent-pr-commit-link-loss';
 import './features/first-published-tag-for-merged-pr';
 import './features/show-associated-branch-prs-on-fork';
-// import './features/fix-first-tab-length.css';
+import './features/faster-reviews';
+import './features/fork-source-link-same-view';
+import './features/pr-jump-to-first-non-viewed-file';
 
 // Add global for easier debugging
 (window as any).select = select;

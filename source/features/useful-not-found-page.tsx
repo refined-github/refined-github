@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -99,16 +100,28 @@ function init(): false | void {
 
 	// Check parts from right to left; skip the last part
 	for (let i = bar.children.length - 2; i >= 0; i--) {
-		checkAnchor(bar.children[i] as HTMLAnchorElement);
+		void checkAnchor(bar.children[i] as HTMLAnchorElement);
 	}
 
 	if (parts[2] === 'tree') {
-		addCommitHistoryLink(bar);
-		addDefaultBranchLink(bar);
+		void addCommitHistoryLink(bar);
+		void addDefaultBranchLink(bar);
 	}
 }
 
-features.add({
+async function initPRCommit(): Promise<void | false> {
+	const commitUrl = location.href.replace(/pull\/\d+\/commits/, 'commit');
+	if (await is404(commitUrl)) {
+		return false;
+	}
+
+	const blankSlateParagraph = await elementReady('.blankslate p');
+	blankSlateParagraph!.after(
+		<p>You can also try to <a href={commitUrl}>view the detached standalone commit</a>.</p>
+	);
+}
+
+void features.add({
 	id: __filebasename,
 	description: 'Adds possible related pages and alternatives on 404 pages.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/46402857-7bdada80-c733-11e8-91a1-856573078ff5.png'
@@ -118,4 +131,11 @@ features.add({
 	],
 	repeatOnAjax: false,
 	init
+}, {
+	include: [
+		pageDetect.isPRCommit404
+	],
+	waitForDomReady: false,
+	repeatOnAjax: false,
+	init: initPRCommit
 });

@@ -1,49 +1,54 @@
 import select from 'select-dom';
 import oneTime from 'onetime';
 import compareVersions from 'tiny-version-compare';
-import {isPR, isIssue, utils} from 'github-url-detection';
+import * as pageDetect from 'github-url-detection/esm/index.js'; // eslint-disable-line import/extensions -- Required for Node tests compatibility
 
 // This never changes, so it can be cached here
-export const getUsername = oneTime(utils.getUsername);
-export const getRepoPath = utils.getRepoPath;
-export const getCleanPathname = utils.getCleanPathname;
+export const getUsername = oneTime(pageDetect.utils.getUsername);
+export const {getRepoPath, getCleanPathname} = pageDetect.utils;
 
 export const getDiscussionNumber = (): string | undefined => {
-	if (isPR() || isIssue()) {
+	if (pageDetect.isPR() || pageDetect.isIssue()) {
 		return getCleanPathname().split('/')[3];
 	}
 
 	return undefined;
 };
 
-/* Should work on `isRepoTree` `isBlame` `isSingleFile` `isCommitList` `isCompare` `isPRCommit` */
+/**
+Tested on isRepoTree, isBlame, isSingleFile, isEditFile, isSingleCommit, isCommitList, isCompare. Subtly incompatible with isPR
+Example tag content on public repositories: https://github.com/sindresorhus/refined-github/commits/branch-or-commit/even/with/slashes.atom
+Example tag content on private repositories https://github.com/private/private/commits/master.atom?token=AEAXKWNRHXA2XJ2ZWCMGUUN44LM62
+*/
 export const getCurrentBranch = (): string => {
-	return select.last<HTMLLinkElement>('link[rel="alternate"]')!
-		.href
+	// .last needed for #2799
+	return new URL(select.last<HTMLLinkElement>('[type="application/atom+xml"]')!.href)
+		.pathname
 		.split('/')
-		.slice(6)
+		.slice(4) // Drops the initial /user/repo/route/ part
 		.join('/')
-		.replace(/\.atom.*/, '');
+		.replace(/\.atom$/, '');
 };
 
 export const isFirefox = navigator.userAgent.includes('Firefox/');
 
 export const getRepoURL = (): string => location.pathname.slice(1).split('/', 2).join('/').toLowerCase();
 export const getRepoGQL = (): string => {
-	const {ownerName, repoName} = getOwnerAndRepo();
-	return `owner: "${ownerName!}", name: "${repoName!}"`;
+	const {owner, name} = getRepositoryInfo();
+	return `owner: "${owner!}", name: "${name!}"`;
 };
 
-export const getOwnerAndRepo = (): {
-	ownerName?: string;
-	repoName?: string;
-} => {
-	const [, ownerName, repoName] = location.pathname.split('/', 3);
-	return {ownerName, repoName};
+export interface RepositoryInfo {
+	owner: string;
+	name: string;
+}
+export const getRepositoryInfo = (repoUrl: string = location.pathname.slice(1)): Partial<RepositoryInfo> => {
+	const [owner, name] = repoUrl.split('/', 2);
+	return {owner, name};
 };
 
 export function getForkedRepo(): string | undefined {
-	return select<HTMLAnchorElement>('.fork-flag a')?.pathname.slice(1);
+	return select<HTMLMetaElement>('[name="octolytics-dimension-repository_parent_nwo"]')?.content;
 }
 
 export const parseTag = (tag: string): {version: string; namespace: string} => {
@@ -60,7 +65,7 @@ export function compareNames(username: string, realname: string): boolean {
  * @param {string} selector A css selector.
  */
 export function getScopedSelector(selector: string): string {
-	return selector.split(',').map(sub => `:scope > ${sub.trim()}`).join(',');
+	return selector.split(',').map(sub => `:scope > ${sub.trim()}`).join();
 }
 
 export function looseParseInt(text: string): number {
@@ -93,8 +98,19 @@ export function getLatestVersionTag(tags: string[]): string {
 }
 
 const escapeRegex = (string: string) => string.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&');
-export const prCommitRegex = new RegExp(`\\b${escapeRegex(location.origin)}[/][^/]+[/][^/]+[/]pull[/]\\d+[/]commits[/][0-9a-f]{7,40}\\b(?! \\]|\\))`, 'gi');
+const prCommitPathnameRegex = /[/][^/]+[/][^/]+[/]pull[/](\d+)[/]commits[/]([\da-f]{7})[\da-f]{33}(?:#[\w-]+)?\b/; // eslint-disable-line unicorn/better-regex
+export const prCommitUrlRegex = new RegExp('\\b' + escapeRegex(location.origin) + prCommitPathnameRegex.source, 'gi');
 
-export function preventPrCommitLinkBreak(comment: string) {
-	return comment.replace(prCommitRegex, '[$& ]($&)');
+// To be used as replacer callback in string.replace()
+export function preventPrCommitLinkLoss(url: string, pr: string, commit: string, index: number, fullText: string): string {
+	if (fullText[index + url.length] === ')') {
+		return url;
+	}
+
+	return `[\`${commit}\` (#${pr})](${url})`;
+}
+
+// https://github.com/idimetrix/text-case/blob/master/packages/upper-case-first/src/index.ts
+export function upperCaseFirst(input: string): string {
+	return input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
 }

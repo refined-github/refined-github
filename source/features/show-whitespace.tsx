@@ -72,7 +72,7 @@ async function init(): Promise<void> {
 	}
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Shows whitespace characters.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/61187598-f9118380-a6a5-11e9-985a-990a7f798805.png'

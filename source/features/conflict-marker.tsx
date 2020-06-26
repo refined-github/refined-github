@@ -65,7 +65,7 @@ async function init(): Promise<false | void> {
 	}
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Shows which PRs have conflicts in PR lists',
 	screenshot:

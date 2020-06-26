@@ -1,5 +1,5 @@
 .rgh-merge-commit:not(.navigation-focus) > div > * {
-	opacity: 0.4;
+	opacity: 40%;
 }
 
 .rgh-merge-commit .octicon-git-pull-request {

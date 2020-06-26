@@ -39,7 +39,7 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const issuesTab = (await elementReady('.reponav [data-hotkey="g i"]'))?.parentElement;
+	const issuesTab = (await elementReady('.pagehead [data-hotkey="g i"]'))?.parentElement;
 	if (!issuesTab) {
 		// Repo is archived
 		return false;
@@ -48,31 +48,45 @@ async function init(): Promise<void | false> {
 	if (isBugsPage) {
 		// Hide pinned issues on the tab page, they might not belong there
 		// Don't await; if there are no pinned issues, this would delay the bug count update
-		elementReady('.js-pinned-issues-reorder-container').then(pinnedIssues => pinnedIssues?.remove());
+		void elementReady('.js-pinned-issues-reorder-container').then(pinnedIssues => pinnedIssues?.remove());
 	}
 
 	// Copy Issues tab
 	const bugsTab = issuesTab.cloneNode(true);
 
+	// Disable unwanted behavior #3001
+	const bugsLink = select('a', bugsTab)!;
+	bugsLink.removeAttribute('data-hotkey');
+	bugsLink.removeAttribute('data-selected-links');
+	select('a', issuesTab)!.removeAttribute('data-selected-links');
+
 	// Update its appearance
-	select('.octicon', bugsTab)!.replaceWith(<BugIcon/>);
-	select('[itemprop="name"]', bugsTab)!.textContent = 'Bugs';
+	const bugsTabTitle = select('[data-content]', bugsTab);
+	if (bugsTabTitle) {
+		bugsTabTitle.dataset.content = 'Bugs';
+		bugsTabTitle.textContent = 'Bugs';
+		select('.octicon', bugsTab)!.replaceWith(<BugIcon className="UnderlineNav-octicon"/>);
+
+		// Un-select one of the tabs if necessary
+		const selectedTabLink = !isBugsPage || pageDetect.isPRList() ? bugsLink : select('.selected', issuesTab);
+		selectedTabLink?.classList.remove('selected');
+		selectedTabLink?.removeAttribute('aria-current');
+	} else {
+		// Pre "Repository refresh" layout
+		select('[itemprop="name"]', bugsTab)!.textContent = 'Bugs';
+		select('.octicon', bugsTab)!.replaceWith(<BugIcon/>);
+
+		// Change the Selected tab if necessary
+		bugsLink.classList.toggle('selected', isBugsPage && !pageDetect.isPRList());
+		select('.selected', issuesTab)?.classList.toggle('selected', !isBugsPage);
+	}
 
 	// Set temporary counter
 	const bugsCounter = select('.Counter', bugsTab)!;
 	bugsCounter.textContent = '0';
 
-	// Disable unwanted behavior #3001
-	const bugsLink = select('a', bugsTab)!;
-	bugsLink.removeAttribute('data-hotkey');
-	bugsLink.removeAttribute('data-selected-links');
-
 	// Update Bugs’ link
 	new SearchQuery(bugsLink).add('label:bug');
-
-	// Change the Selected tab if necessary
-	bugsLink.classList.toggle('selected', isBugsPage && !pageDetect.isPRList());
-	select('.selected', issuesTab)?.classList.toggle('selected', !isBugsPage);
 
 	issuesTab.after(bugsTab);
 
@@ -85,7 +99,7 @@ async function init(): Promise<void | false> {
 	}
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Adds a "Bugs" tab to repos, if there are any open issues with the "bug" label.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/73720910-a688d900-4755-11ea-9c8d-70e5ddb3bfe5.png'

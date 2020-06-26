@@ -5,7 +5,7 @@ import './options-storage';
 browser.runtime.onMessage.addListener((message, {tab}) => {
 	if (Array.isArray(message?.openUrls)) {
 		for (const [i, url] of (message.openUrls as string[]).entries()) {
-			browser.tabs.create({
+			void browser.tabs.create({
 				url,
 				index: tab!.index + i + 1,
 				active: false
@@ -16,7 +16,7 @@ browser.runtime.onMessage.addListener((message, {tab}) => {
 
 // Give the browserAction a reason to exist other than "Enable RGH on this domain"
 browser.browserAction.onClicked.addListener(() => {
-	browser.tabs.create({
+	void browser.tabs.create({
 		url: 'https://github.com'
 	});
 });
@@ -29,7 +29,7 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 			return;
 		}
 
-		browser.tabs.create({
+		await browser.tabs.create({
 			url: 'https://github.com/sindresorhus/refined-github/issues/1137',
 			active: false
 		});

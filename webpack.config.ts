@@ -9,7 +9,6 @@ import SizePlugin from 'size-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
 function parseFeatureDetails(id: FeatureID): FeatureMeta {
 	const content = readFileSync(`source/features/${id}.tsx`, {encoding: 'utf-8'});
@@ -49,12 +48,12 @@ const config: Configuration = {
 		errors: true,
 		builtAt: true
 	},
-	entry: {
-		'refined-github': './source/refined-github',
-		background: './source/background',
-		options: './source/options',
-		'resolve-conflicts': './source/resolve-conflicts'
-	},
+	entry: Object.fromEntries([
+		'refined-github',
+		'background',
+		'options',
+		'resolve-conflicts'
+	].map(name => [name, `./source/${name}`])),
 	output: {
 		path: path.join(__dirname, 'distribution'),
 		filename: '[name].js'
@@ -63,20 +62,14 @@ const config: Configuration = {
 		rules: [
 			{
 				test: /\.tsx?$/,
-				use: [
-					{
-						loader: 'ts-loader',
-						options: {
-							compilerOptions: {
-								// Enables ModuleConcatenation. It must be in here to avoid conflict with ts-node
-								module: 'es2015'
-							},
-
-							// Make compilation faster with `fork-ts-checker-webpack-plugin`
-							transpileOnly: true
-						}
+				loader: 'ts-loader',
+				options: {
+					transpileOnly: true,
+					compilerOptions: {
+						// Enables ModuleConcatenation. It must be in here to avoid conflict with ts-node when it runs this file
+						module: 'es2015'
 					}
-				],
+				},
 				exclude: /node_modules/
 			},
 			{
@@ -96,45 +89,45 @@ const config: Configuration = {
 		]
 	},
 	plugins: [
-		new ForkTsCheckerWebpackPlugin(),
 		new webpack.DefinePlugin({
 			// Passing `true` as the second argument makes these values dynamic — so every file change will update their value.
 			__featuresOptionDefaults__: webpack.DefinePlugin.runtimeValue(() => {
-				return JSON.stringify(getFeatures().reduce<AnyObject>((defaults, feature) => {
-					defaults[`feature:${feature}`] = true;
-					return defaults;
-				}, {}));
+				return JSON.stringify(Object.fromEntries(getFeatures().map(id => [`feature:${id}`, true])));
 				// TODO: unignore after https://github.com/DefinitelyTyped/DefinitelyTyped/pull/42036
-				// @ts-ignore
+				// @ts-expect-error
 			}, true),
 
 			__featuresMeta__: webpack.DefinePlugin.runtimeValue(() => {
 				return JSON.stringify(getFeatures().map(parseFeatureDetails));
-				// @ts-ignore
+				// @ts-expect-error
 			}, true),
 
 			__filebasename: webpack.DefinePlugin.runtimeValue(({module}) => {
-				// @ts-ignore
+				// @ts-expect-error
 				return JSON.stringify(path.basename(module.resource).replace(/\.tsx?$/, ''));
 			})
 		}),
 		new MiniCssExtractPlugin({
 			filename: '[name].css'
 		}),
-		new CopyWebpackPlugin([
-			{
-				from: 'source',
-				ignore: [
-					'*.js',
-					'*.ts',
-					'*.tsx',
-					'*.css'
-				]
-			},
-			{
-				from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js'
-			}
-		]),
+		new CopyWebpackPlugin({
+			patterns: [
+				{
+					from: 'source',
+					globOptions: {
+						ignore: [
+							'**/*.js',
+							'**/*.ts',
+							'**/*.tsx',
+							'**/*.css'
+						]
+					}
+				},
+				{
+					from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js'
+				}
+			]
+		}),
 		new SizePlugin({
 			writeFile: false
 		})
@@ -150,10 +143,8 @@ const config: Configuration = {
 		]
 	},
 	optimization: {
-		// Without this, function names will be garbled and enableFeature won't work
-		concatenateModules: true,
-
-		// Automatically enabled on production; keeps it somewhat readable for AMO reviewers
+		// Automatically enabled on production;
+		// Keeps it somewhat readable for AMO reviewers
 		minimizer: [
 			new TerserPlugin({
 				parallel: true,
@@ -178,8 +169,5 @@ const config: Configuration = {
 		]
 	}
 };
-
-// Webpack types don't have this
-(config.module as any).strictThisContextOnImports = false;
 
 export default config;

@@ -8,7 +8,7 @@
 
 /* Fade out the file icons */
 .file-wrap .files .octicon {
-	opacity: 0.6;
+	opacity: 60%;
 }
 
 /* Make tab indented code more readable on GitHub and Gist */
@@ -51,7 +51,7 @@
 
 @keyframes fade-in {
 	from {
-		opacity: 0;
+		opacity: 0%;
 	}
 }
 
@@ -115,4 +115,14 @@ pr-branches
 */
 .js-issue-row .text-small.text-gray {
 	line-height: 1.8;
+}
+
+/* Reset `vertical-align` for .octicons to work with above increased line-height */
+.js-issue-row .text-small.text-gray .octicon {
+	vertical-align: middle;
+}
+
+/* Hide duplicate "You can also open this in GitHub Desktop" in PRs’ mergeability box */
+.js-remove-unless-platform {
+	display: none;
 }

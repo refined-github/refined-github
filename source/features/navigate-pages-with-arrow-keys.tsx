@@ -14,7 +14,7 @@ function init(): void {
 	}
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Adds shortcuts to navigate through pages with pagination: `←` and `→`.',
 	screenshot: false,

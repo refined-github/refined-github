@@ -14,7 +14,7 @@ function getProjectsTab() {
 }
 
 // We can't detect whether the user can create projects on a repo, so this link is potentially a 404
-async function addNewProjectLink(): Promise<void |false> {
+async function addNewProjectLink(): Promise<void | false> {
 	if (!await getProjectsTab()) {
 		return false;
 	}
@@ -60,7 +60,7 @@ async function removeProjectsTab(): Promise<void | false> {
 	projectsTab.remove();
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Hides the `Projects` tab from repositories and profiles when it’s empty. New projects can still be created via the `Create new…` menu.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/34909214-18b6fb2e-f8cf-11e7-8556-bed748596d3b.png'

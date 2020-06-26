@@ -84,11 +84,7 @@ async function clean(): Promise<void> {
 
 		const content = select('[aria-label="Select reviewers"] > .css-truncate')!;
 		if (!content.firstElementChild) {
-			if (select.exists('.js-convert-to-draft')) {
-				content.remove(); // Drop "No reviews"
-			} else {
-				cleanSection('[aria-label="Select reviewers"]');
-			}
+			content.remove(); // Drop "No reviews"
 		}
 	}
 
@@ -109,7 +105,7 @@ async function clean(): Promise<void> {
 	cleanSection('[aria-label="Select milestones"]');
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Hides empty sections (or just their "empty" label) in the discussion sidebar.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/57199809-20691780-6fb6-11e9-9672-1ad3f9e1b827.png'
@@ -119,7 +115,7 @@ features.add({
 		pageDetect.isPRConversation
 	],
 	additionalListeners: [
-		() => onReplacedElement('#partial-discussion-sidebar', clean)
+		() => void onReplacedElement('#partial-discussion-sidebar', clean)
 	],
 	init: clean
 });

@@ -16,9 +16,7 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number, c
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			file: object(expression: "${commit}:${currentFilename}") {
-				... on Blob {
-					id
-				}
+				id
 			}
 			object(expression: "${commit}") {
 				... on Commit {
@@ -110,7 +108,7 @@ function init(): void | false {
 	}
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'When exploring blames, `Alt`-clicking the “Reblame” buttons will extract the associated PR’s commits first, instead of treating the commit a single change.',
 	screenshot: 'https://user-images.githubusercontent.com/16872793/77248541-8e3f2180-6c10-11ea-91d4-221ccc0ecebb.png'

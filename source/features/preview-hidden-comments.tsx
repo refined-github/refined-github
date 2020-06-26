@@ -4,10 +4,9 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import {upperCaseFirst} from '../github-helpers';
 
-const allowedReasons = ['resolved', 'outdated', 'off-topic'];
-
-const capitalize = (text: string): string => text.charAt(0).toUpperCase() + text.slice(1);
+const allowedReasons = new Set(['resolved', 'outdated', 'off-topic']);
 
 const init = (): void => {
 	for (const details of select.all('.minimized-comment:not(.d-none) > details:not(.rgh-preview-hidden-comments)')) {
@@ -18,24 +17,24 @@ const init = (): void => {
 			continue;
 		}
 
-		const header = select(`
-			summary .timeline-comment-header-text,
-			summary .discussion-item-copy
-		`, details)!;
+		const header = select([
+			'summary .timeline-comment-header-text', // Issue and commit comments
+			'.discussion-item-icon  + div' // Review Comments
+		], details)!;
 
 		const reason = /was marked as ([^.]+)/.exec(header.textContent!)?.[1] ?? '';
-		if (!allowedReasons.includes(reason)) {
+		if (!allowedReasons.has(reason)) {
 			continue;
 		}
 
 		header.append(
 			<span className="Details-content--open">{header.firstChild}</span>,
-			<span className="Details-content--closed">{`${capitalize(reason)} — ${commentText}`}</span>
+			<span className="Details-content--closed">{`${upperCaseFirst(reason)} — ${commentText}`}</span>
 		);
 	}
 };
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Preview hidden comments inline.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/52545036-6e271700-2def-11e9-8c0c-b5e0fa6f37dd.png'

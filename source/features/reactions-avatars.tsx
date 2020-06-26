@@ -2,12 +2,10 @@ import './reactions-avatars.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import {flatZip} from 'flat-zip';
-import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import onReplacedElement from '../helpers/on-replaced-element';
-import {observeOneMutation} from '../helpers/simplified-element-observer';
 import {getUsername, isFirefox} from '../github-helpers';
 
 const arbitraryAvatarLimit = 36;
@@ -52,23 +50,7 @@ function getParticipants(container: HTMLElement): Participant[] {
 	return participants;
 }
 
-function loadUsernames(commentReactions: Element): void {
-	commentReactions.firstElementChild!.dispatchEvent(new MouseEvent('mouseenter'));
-}
-
 async function showAvatarsOn(commentReactions: Element): Promise<void> {
-	// The event listener might not have been attached yet, so we can try twice
-	await domLoaded;
-	loadUsernames(commentReactions);
-	setTimeout(loadUsernames, 1000, commentReactions);
-
-	await observeOneMutation(commentReactions.firstElementChild!, {
-		attributes: true,
-		attributeFilter: [
-			'aria-label'
-		]
-	});
-
 	const avatarLimit = arbitraryAvatarLimit - (commentReactions.children.length * approximateHeaderLength);
 
 	const participantByReaction = select
@@ -87,13 +69,13 @@ async function showAvatarsOn(commentReactions: Element): Promise<void> {
 
 	const trackableElement = commentReactions.closest<HTMLElement>('[data-body-version]')!;
 	const trackingSelector = `[data-body-version="${trackableElement.dataset.bodyVersion!}"]`;
-	onReplacedElement(trackingSelector, init);
+	await onReplacedElement(trackingSelector, init);
 }
 
 const viewportObserver = new IntersectionObserver(changes => {
 	for (const change of changes) {
 		if (change.isIntersecting) {
-			showAvatarsOn(change.target);
+			void showAvatarsOn(change.target);
 			viewportObserver.unobserve(change.target);
 		}
 	}
@@ -109,7 +91,7 @@ async function init(): Promise<void> {
 	}
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Adds reaction avatars showing *who* reacted to a comment',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/34438653-f66535a4-ecda-11e7-9406-2e1258050cfa.png'

@@ -8,7 +8,7 @@ import PullRequestIcon from 'octicon/git-pull-request.svg';
 import features from '.';
 import * as api from '../github-helpers/api';
 import observeElement from '../helpers/simplified-element-observer';
-import {getRepoGQL, getRepoURL} from '../github-helpers';
+import {getRepoGQL, getRepoURL, upperCaseFirst} from '../github-helpers';
 
 interface PullRequest {
 	number: number;
@@ -59,11 +59,6 @@ const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Rec
 	cacheKey: () => 'associatedBranchPullRequests:' + getRepoURL()
 });
 
-// https://github.com/idimetrix/text-case/blob/master/packages/upper-case-first/src/index.ts
-function upperCaseFirst(input: string): string {
-	return input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
-}
-
 const stateClass: Record<string, string> = {
 	Open: '--green',
 	Closed: '--red',
@@ -103,7 +98,7 @@ async function init(): Promise<void> {
 	}
 }
 
-features.add({
+void features.add({
 	id: __filebasename,
 	description: 'Shows the associated pull requests on branches for forked repository’s.',
 	screenshot: 'https://user-images.githubusercontent.com/16872793/81504659-7e5ec800-92b8-11ea-9ee6-924110e8cca1.png'

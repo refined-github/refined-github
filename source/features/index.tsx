@@ -14,11 +14,6 @@ type BooleanFunction = () => boolean;
 type CallerFunction = (callback: VoidFunction) => void;
 type FeatureInit = () => Promisable<false | void>;
 
-interface Shortcut {
-	hotkey: string;
-	description: string;
-}
-
 interface FeatureMeta {
 	/**
 	If it's disabled, this should be the issue that explains why, as a reference
@@ -117,7 +112,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	}
 
 	// Create logging function
-	log = options.logging ? console.log : () => { };
+	log = options.logging ? console.log : () => {/* No logging */};
 
 	resolve(options);
 });
@@ -158,8 +153,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 	}
 };
 
-const shortcutMap = new Map<string, Shortcut>();
-const getShortcuts = (): Shortcut[] => [...shortcutMap.values()];
+const shortcutMap = new Map<string, string>();
 
 const defaultPairs = new Map([
 	[pageDetect.hasComments, onNewComments],
@@ -201,10 +195,8 @@ const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<voi
 	}
 
 	// Register feature shortcuts
-	for (const hotkey of Object.keys(shortcuts)) {
-		// TODO: use Object.entries, change format of shortcutMap
-		const description = shortcuts[hotkey];
-		shortcutMap.set(hotkey, {hotkey, description});
+	for (const [hotkey, description] of Object.entries(shortcuts)) {
+		shortcutMap.set(hotkey, description);
 	}
 
 	for (const loader of loaders) {
@@ -230,15 +222,18 @@ const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<voi
 
 		const details = {include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners};
 		if (waitForDomReady) {
-			domLoaded.then(async () => setupPageLoad(id, details));
+			(async () => {
+				await domLoaded;
+				await setupPageLoad(id, details);
+			})();
 		} else {
-			setupPageLoad(id, details);
+			void setupPageLoad(id, details);
 		}
 
 		if (repeatOnAjax) {
 			document.addEventListener('pjax:end', () => {
 				if (repeatOnAjaxEvenOnBackButton || !select.exists('has-rgh')) {
-					setupPageLoad(id, details);
+					void setupPageLoad(id, details);
 				}
 			});
 		}
@@ -251,7 +246,7 @@ This means that the old features will still be on the page and don't need to re-
 
 This marks each as "processed"
 */
-add(undefined, {
+void add(undefined, {
 	init: async () => {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
 		await Promise.resolve();
@@ -262,7 +257,7 @@ add(undefined, {
 const features = {
 	add,
 	error: logError,
-	getShortcuts
+	shortcutMap
 };
 
 export default features;
