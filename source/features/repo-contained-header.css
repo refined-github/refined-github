@@ -1,6 +1,6 @@
 .pagehead .UnderlineNav-item:focus,
 .pagehead .UnderlineNav-item:hover {
-	border-bottom-color: var(--repo-nav-border-bottom-color-hover, #2ea44f80) !important;
+	border-bottom-color: var(--repo-nav-border-bottom-color-hover, #6a737d) !important;
 }
 
 .pagehead > div {
