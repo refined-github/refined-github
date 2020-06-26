@@ -28,13 +28,15 @@ async function init(): Promise<void> {
 
 	const username = getCleanPathname();
 	const href = pageDetect.isEnterprise() ? `/gist/${username}` : `https://gist.github.com/${username}`;
+	const nav = select('.UnderlineNav-body')!
+	// Pre "Repository refresh" layout, nav items don't have icons
 	const link = (
 		<a href={href} className="UnderlineNav-item" role="tab" aria-selected="false">
-			<CodeSquareIcon className="UnderlineNav-octicon hide-sm"/> Gists
+			{!nav.closest('.user-profile-nav') && <CodeSquareIcon className="UnderlineNav-octicon hide-sm"/>} Gists
 		</a>
 	);
 
-	select('.UnderlineNav-body')!.append(link);
+	nav.append(link);
 
 	const count = await getGistCount(username);
 
