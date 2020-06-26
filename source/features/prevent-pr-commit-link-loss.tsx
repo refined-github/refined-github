@@ -9,6 +9,10 @@ import * as textFieldEdit from 'text-field-edit';
 import features from '.';
 import {prCommitUrlRegex, preventPrCommitLinkLoss} from '../github-helpers';
 
+function toggleAllowEditsVisibility({visible}: {visible: boolean}) {
+	select<HTMLInputElement>('[name="collab_privs"]')?.closest('.float-left')?.classList.toggle('d-none', !visible);
+}
+
 function handleButtonClick({delegateTarget: fixButton}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const field = fixButton.form!.querySelector('textarea')!;
 	textFieldEdit.replace(field, prCommitUrlRegex, preventPrCommitLinkLoss);
@@ -27,8 +31,10 @@ function getUI(field: HTMLTextAreaElement): HTMLElement {
 const updateUI = debounceFn(({delegateTarget: field}: delegate.Event<InputEvent, HTMLTextAreaElement>): void => {
 	// The replacement logic is not just in the regex, so it alone can't be used to detect the need for the replacement
 	if (field.value === field.value.replace(prCommitUrlRegex, preventPrCommitLinkLoss)) {
+		toggleAllowEditsVisibility({visible: true});
 		getUI(field).remove();
 	} else {
+		toggleAllowEditsVisibility({visible: false});
 		select('.form-actions', field.form!)!.prepend(getUI(field));
 	}
 }, {
