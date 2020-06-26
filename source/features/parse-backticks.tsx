@@ -25,9 +25,9 @@ function init(): void {
 		'.Box-row.js-navigation-item a.link-gray-dark', // `isGlobalDiscussionList`
 		'[data-channel^="check_suites"] a', // `isActions`
 		'.repository-content .pr-toolbar h2', // `isActions` run
-		'.Details[data-issue-and-pr-hovercards-enabled] .Details-content--hidden a:first-child', // "Repository refresh" layout commit title
-		'.Details[data-issue-and-pr-hovercards-enabled] .Details-content--hidden pre', // "Repository refresh" layout commit description
-		'.js-issue-title', // "Repository refresh" layout issue title
+		'.Details[data-issue-and-pr-hovercards-enabled] .Details-content--hidden a:first-child', // `isRepoRoot`
+		'.Details[data-issue-and-pr-hovercards-enabled] .Details-content--hidden pre', // `isRepoRoot`
+		'.js-issue-title', // `isIssue`
 		'#wiki-wrapper h1' // `isWiki`
 	].map(selector => selector + ':not(.rgh-backticks-already-parsed)'))) {
 		title.classList.add('rgh-backticks-already-parsed');
