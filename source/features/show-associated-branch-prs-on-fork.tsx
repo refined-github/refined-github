@@ -8,7 +8,7 @@ import PullRequestIcon from 'octicon/git-pull-request.svg';
 import features from '.';
 import * as api from '../github-helpers/api';
 import observeElement from '../helpers/simplified-element-observer';
-import {getRepoGQL, getRepoURL} from '../github-helpers';
+import {getRepoGQL, getRepoURL, upperCaseFirst} from '../github-helpers';
 
 interface PullRequest {
 	number: number;
@@ -58,11 +58,6 @@ const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Rec
 	staleWhileRevalidate: 4,
 	cacheKey: () => 'associatedBranchPullRequests:' + getRepoURL()
 });
-
-// https://github.com/idimetrix/text-case/blob/master/packages/upper-case-first/src/index.ts
-function upperCaseFirst(input: string): string {
-	return input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
-}
 
 const stateClass: Record<string, string> = {
 	Open: '--green',

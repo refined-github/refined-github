@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import * as pageDetect from 'github-url-detection';
 import DownloadIcon from 'octicon/download.svg';
+import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
