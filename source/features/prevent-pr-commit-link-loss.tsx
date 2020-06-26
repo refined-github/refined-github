@@ -46,7 +46,19 @@ void features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/82131169-93fd5180-97d2-11ea-9695-97051c55091f.gif'
 }, {
 	include: [
-		pageDetect.hasComments
+		pageDetect.hasRichTextEditor
 	],
 	init
+}, {
+	include: [
+		pageDetect.isNewIssue,
+		pageDetect.isCompare
+	],
+	exclude: [
+		() => select.exists('.form-actions')
+	],
+	init: () => {
+		// New issues and Pull Requests are missing the form-actions selector, this avoids having a separate logic just for them.
+		select('#new_issue tab-container, #new_pull_request tab-container')?.after(<div className="form-actions"/>);
+	}
 });
