@@ -15,7 +15,7 @@ function init(): void {
 		.prepend(
 			<a
 				className="btn btn-sm BtnGroup-item"
-				href={`https://ghcdn.rawgit.org${link.join('/')}`}
+				href={`https://htmlpreview.github.io/?https://github.com/${link.join('/')}`}
 			>
 				Preview
 			</a>
