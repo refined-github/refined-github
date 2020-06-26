@@ -1,54 +1,44 @@
 /*
-READ BEFORE EDITING. Some selectors match the same items ("hovered" selector vs non-hovered); make sure to update them in tandem.
+READ BEFORE EDITING. Some selectors match the same items ("focused" selector vs non-focused); make sure to update them in tandem.
 Commits that have a long commit message will not be dimmed after the user uncollapses the `<details>` element.
-
-In PR lists we can hide the meta just by acting on `max-height` + `overflow: hidden`
-In Commit lists however this is not possible because they are tables, so we need to hack around `margin-bottom`
-
-Transitions are used to delay the "hover" status so it's not too annoying when moving the mouse over a list of dimmed items.
 */
-.rgh-dim-bot.commit .commit-title,
-.rgh-dim-bot.commit .commit-meta,
-.rgh-dim-bot.commit summary,
-.rgh-dim-bot.commit .commit-links-group,
-.rgh-dim-bot.commit .commit-links-group + .btn {
-	transition: 0.1s 0.3s;
+
+.rgh-dim-bot .commit-title,
+.rgh-dim-bot .commit-meta,
+.rgh-dim-bot .signed-commit-badge, /* `Verified` badge */
+.rgh-dim-bot .commit-links-group, /* Hash and Copy hash buttons */
+.rgh-dim-bot .commit-links-group + .btn, /* Browse repository button */
+.rgh-dim-bot .Box-row--drag-hide, /* PR row */
+.rgh-dim-bot .labels, /* PR labels */
+.rgh-dim-bot .labels + .text-small /* PR meta */ {
+	/* Delay the "focused" status so it's not too annoying when moving the mouse over a list of dimmed items. */
+	transition: 0.1s;
+	transition-delay: 0.3s;
 	transition-property: opacity, margin-bottom;
 }
 
-.rgh-dim-bot.commit:not(.navigation-focus):not(.Details--on) .commit-title {
-	opacity: 30%;
+/*
+ALL the following rules define the non-focused state
+*/
+
+.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .commit-title, /* Commit titles, dim */
+.rgh-dim-bot:not(.navigation-focus) .Box-row--drag-hide { /* PR row, dim */
+	opacity: 20%;
 	transition-delay: 0s;
 }
 
-.rgh-dim-bot.commit:not(.navigation-focus):not(.Details--on) .commit-meta,
-.rgh-dim-bot.commit:not(.navigation-focus):not(.Details--on) summary, /* `Verified` badge */
-.rgh-dim-bot.commit:not(.navigation-focus):not(.Details--on) .commit-links-group, /* Hash and Copy hash buttons */
-.rgh-dim-bot.commit:not(.navigation-focus):not(.Details--on) .commit-links-group + .btn { /* Browse repository button */
+.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .commit-meta,
+.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .signed-commit-badge, /* `Verified` badge */
+.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .commit-links-group, /* Hash and Copy hash buttons */
+.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .commit-links-group + .btn /* Browse repository button */ {
 	opacity: 0%;
-	visibility: hidden;
+	margin-bottom: -1.6em;
+	transition-delay: 0s;
+}
+
+.rgh-dim-bot:not(.navigation-focus) .labels, /* PR labels */
+.rgh-dim-bot:not(.navigation-focus) .labels + .text-small /* PR meta */ {
+	opacity: 0%;
 	margin-bottom: -2em;
-	transition-delay: 0s;
-}
-
-/* PRs’ whole box, reduce height */
-.rgh-dim-bot.Box-row:not(.Details--on) {
-	max-height: 10em; /* This value is only needed to transition the height since `max-height: none` can't be transitioned */
-	transition: max-height 0.1s 0.3s;
-}
-
-.rgh-dim-bot.Box-row:not(.navigation-focus):not(.Details--on) {
-	overflow: hidden;
-	max-height: 2.7em;
-	transition-delay: 0s;
-}
-
-/* PRs’ titles, dim */
-.rgh-dim-bot.Box-row > .d-table {
-	transition: opacity 0.1s 0.3s;
-}
-
-.rgh-dim-bot.Box-row:not(.navigation-focus) > .d-table {
-	opacity: 20%; /* This can't applied to .Box-row because that includes the top border. */
 	transition-delay: 0s;
 }

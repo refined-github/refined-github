@@ -4,16 +4,18 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function init(): void {
-	const bots = select.all([
-		/* Commits */
-		'.commit-author[href$="%5Bbot%5D"]:first-child',
-		'.commit-author[href$="renovate-bot"]:first-child',
+// eslint-disable-next-line import/prefer-default-export
+export const botSelectors = [
+	/* Commits */
+	'.commit-author[href$="%5Bbot%5D"]:first-child',
+	'.commit-author[href$="renovate-bot"]:first-child',
 
-		/* Issues/PRs */
-		'.opened-by [href*="author%3Aapp%2F"]'
-	]);
-	for (const bot of bots) {
+	/* Issues/PRs */
+	'.opened-by [href*="author%3Aapp%2F"]'
+];
+
+function init(): void {
+	for (const bot of select.all(botSelectors)) {
 		bot.closest('.commit, .Box-row')!.classList.add('rgh-dim-bot');
 	}
 }

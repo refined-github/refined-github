@@ -5,6 +5,7 @@ import PullRequestIcon from 'octicon/git-pull-request.svg';
 
 import features from '.';
 import * as api from '../github-helpers/api';
+import {botSelectors} from './dim-bots';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getRepositoryInfo, getRepoGQL} from '../github-helpers';
 
@@ -94,7 +95,9 @@ function createLink(reference: RepositoryReference): HTMLSpanElement {
 }
 
 async function init(): Promise<false | void> {
-	const prLinks = select.all('.js-issue-row .js-navigation-open[data-hovercard-type="pull_request"]');
+	const prLinks = select.all('.js-issue-row .js-navigation-open[data-hovercard-type="pull_request"]')
+		// Exclude bots
+		.filter(link => !link.parentElement?.querySelector(botSelectors.join()));
 	if (prLinks.length === 0) {
 		return false;
 	}

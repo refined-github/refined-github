@@ -65,7 +65,7 @@ export function compareNames(username: string, realname: string): boolean {
  * @param {string} selector A css selector.
  */
 export function getScopedSelector(selector: string): string {
-	return selector.split(',').map(sub => `:scope > ${sub.trim()}`).join(',');
+	return selector.split(',').map(sub => `:scope > ${sub.trim()}`).join();
 }
 
 export function looseParseInt(text: string): number {
@@ -108,4 +108,9 @@ export function preventPrCommitLinkLoss(url: string, pr: string, commit: string,
 	}
 
 	return `[\`${commit}\` (#${pr})](${url})`;
+}
+
+// https://github.com/idimetrix/text-case/blob/master/packages/upper-case-first/src/index.ts
+export function upperCaseFirst(input: string): string {
+	return input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
 }

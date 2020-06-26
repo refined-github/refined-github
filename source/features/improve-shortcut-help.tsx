@@ -3,6 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 
 import features from '.';
+import {isEditable} from '../helpers/dom-utils';
 
 function splitKeys(keys: string): DocumentFragment[] {
 	return keys.split(' ').map(key => <> <kbd>{key}</kbd></>);
@@ -45,17 +46,19 @@ const observer = new MutationObserver(([{target}]) => {
 	}
 });
 
-function init(): void {
-	document.addEventListener('keypress', ({key, target}) => {
-		if (key !== '?' || target instanceof HTMLTextAreaElement || target instanceof HTMLInputElement) {
-			return;
-		}
+function observeShortcutModal({key, target}: KeyboardEvent): void {
+	if (key !== '?' || isEditable(target)) {
+		return;
+	}
 
-		const modal = select('body > details > details-dialog');
-		if (modal) {
-			observer.observe(modal, {childList: true});
-		}
-	});
+	const modal = select('body > details > details-dialog');
+	if (modal) {
+		observer.observe(modal, {childList: true});
+	}
+}
+
+function init(): void {
+	document.addEventListener('keypress', observeShortcutModal);
 }
 
 void features.add({

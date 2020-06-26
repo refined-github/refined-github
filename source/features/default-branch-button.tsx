@@ -63,6 +63,9 @@ void features.add({
 		pageDetect.isSingleFile,
 		pageDetect.isRepoCommitList
 	],
+	exclude: [
+		pageDetect.isRepoHome
+	],
 	waitForDomReady: false,
 	init
 });
