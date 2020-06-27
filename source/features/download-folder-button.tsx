@@ -6,7 +6,7 @@ import DownloadIcon from 'octicon/download.svg';
 import features from '.';
 
 function init(): void {
-	const downloadUrl = new URL('https://download-directory.github.io/')
+	const downloadUrl = new URL('https://download-directory.github.io/');
 	downloadUrl.searchParams.set('url', location.href);
 
 	const folderButtonGroup = select('.file-navigation .BtnGroup.float-right');
