@@ -77,24 +77,23 @@ async function extendUserNav(): Promise<void> {
 
 	if (!isOldDesign) {
 		if (repositories > 0) {
-			// Use `*=` to ensure compatibility with `set-default-repositories-type-to-sources`
+			// Use `*=` to be compatible with `set-default-repositories-type-to-sources`
 			select('[aria-label="User profile"] [href*="tab=repositories"]')!.append(
 				<span className="Counter">{repositories}</span>
 			);
 		}
 
-		const projectsElement = select('[aria-label="User profile"] [href$="tab=projects"]')!;
+		const projectElement = select('[aria-label="User profile"] [href$="tab=projects"]')!;
 		if (projects > 0) {
-			projectsElement.append(<span className="Counter">{projects}</span>);
+			projectElement.append(<span className="Counter">{projects}</span>);
 		} else {
-			projectsElement.remove();
+			projectElement.remove();
 		}
 
-		const packagesElement = select('[aria-label="User profile"] [href$="tab=packages"]');
 		if (packages > 0) {
-			packagesElement!.append(<span className="Counter">{packages}</span>);
-		} else {
-			packagesElement?.remove();
+			select('[aria-label="User profile"] [href$="tab=packages"]')!.append(
+				<span className="Counter">{packages}</span>
+			);
 		}
 	}
 
@@ -120,7 +119,7 @@ async function extendOrganizationNav(): Promise<void> {
 
 void features.add({
 	id: __filebasename,
-	description: 'Extend profile navigation with counts, gists and hide empty items.',
+	description: 'Extend profile navigation with counts, gist and hide empty items.',
 	screenshot: 'https://user-images.githubusercontent.com/44045911/85816958-3bd94800-b79f-11ea-8b1d-094211224ccb.png'
 }, {
 	include: [
