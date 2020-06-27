@@ -29,19 +29,22 @@ async function init(): Promise<void> {
 	const username = getCleanPathname();
 	const href = pageDetect.isEnterprise() ? `/gist/${username}` : `https://gist.github.com/${username}`;
 	const nav = select('.UnderlineNav-body')!;
-	// Pre "Repository refresh" layout, nav items don't have icons
+	// Pre "Repository refresh" layout
+	const isOldDesign = Boolean(nav.closest('.user-profile-nav'));
 	const link = (
 		<a href={href} className="UnderlineNav-item" role="tab" aria-selected="false">
-			{!nav.closest('.user-profile-nav') && <CodeSquareIcon className="UnderlineNav-octicon hide-sm"/>} Gists
+			{!isOldDesign && <CodeSquareIcon className="UnderlineNav-octicon hide-sm"/>} Gists
 		</a>
 	);
 
 	nav.append(link);
 
-	const count = await getGistCount(username);
+	if (isOldDesign) {
+		const count = await getGistCount(username);
 
-	if (count > 0) {
-		link.append(<span className="Counter">{count}</span>);
+		if (count > 0) {
+			link.append(<span className="Counter">{count}</span>);
+		}
 	}
 }
 
