@@ -34,7 +34,6 @@ function runShortcuts(event: KeyboardEvent): void {
 
 		// Focus comment without pushing to history
 		location.replace('#' + items[chosenCommentIndex].id);
-		items[chosenCommentIndex].scrollIntoView();
 		return;
 	}
 
