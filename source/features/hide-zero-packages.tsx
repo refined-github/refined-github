@@ -7,8 +7,8 @@ import getTabCount from './remove-projects-tab';
 async function init(): Promise<void | false> {
 	const packagesTab = await elementReady([
 		'.numbers-summary [href$="/packages"]', // `isRepoRoot`
-		'.user-profile-nav .UnderlineNav-item[href$="?tab=packages"]:not(.selected)', // `isUserProfile`
-		'.orgnav .pagehead-tabs-item[href$="/packages"]:not(.selected)' // `isOrganizationProfile` Pre "Repository refresh" layout
+		'.user-profile-nav .UnderlineNav-item[href$="?tab=packages"]:not(.selected)', // `isUserProfile` Pre "Repository refresh" layout
+		'.orgnav .pagehead-tabs-item[href$="/packages"]:not(.selected)' // `isOrganizationProfile`
 	].join());
 
 	if (!packagesTab || await getTabCount(packagesTab) > 0) {
