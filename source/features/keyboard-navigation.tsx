@@ -19,7 +19,7 @@ function runShortcuts(event: KeyboardEvent): void {
 	if (['j', 'k'].includes(event.key)) {
 		event.preventDefault();
 
-		const items = select.all('.js-minimizable-comment-group')
+		const items = select.all('.js-targetable-element')
 			.filter(comment => !comment.querySelector('.minimized-comment:not(.d-none)'));
 		// `j` goes to the next comment, `k` goes back a comment
 		const direction = event.key === 'j' ? 1 : -1;
