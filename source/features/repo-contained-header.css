@@ -1,25 +1,9 @@
-.pagehead .UnderlineNav-item:focus,
-.pagehead .UnderlineNav-item:hover {
-	border-bottom-color: var(--repo-nav-border-bottom-color-hover, #6a737d) !important;
+.pagehead {
+	box-shadow: inset 0 -1px 0 #e1e4e8;
 }
 
-.pagehead > div {
+.pagehead > div,
+.pagehead > nav {
 	max-width: 1280px;
-	margin-right: auto;
-	margin-left: auto;
-}
-
-.pagehead.border-0 {
-	border-bottom: 1px solid #e1e4e8 !important;
-}
-
-.pagehead.mb-5 {
-	margin-bottom: 24px !important;
-}
-
-.repohead nav {
-	max-width: 1280px;
-	margin-right: auto;
-	margin-left: auto;
-	box-shadow: unset !important;
+	margin: auto;
 }
