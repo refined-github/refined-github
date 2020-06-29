@@ -1,0 +1,4 @@
+/* Converts user avatars from circles to squares */
+.rgh-hug-circles avatar-user {
+	border-radius: 13% !important;
+}
