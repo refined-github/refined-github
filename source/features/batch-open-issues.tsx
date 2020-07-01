@@ -16,7 +16,7 @@ function getUrlFromItem(checkbox: Element): string {
 }
 
 function openIssues(): void {
-	const modifier = pageDetect.isGlobalDiscussionList() ? '' : ' + div ';
+	const modifier = pageDetect.isGlobalConversationList() ? '' : ' + div ';
 	const issues = select.all([
 		`#js-issues-toolbar.triage-mode ${modifier} [name="issues[]"]:checked`, // Get checked checkboxes
 		`#js-issues-toolbar:not(.triage-mode) ${modifier} .js-issue-row` // Or all items
@@ -72,7 +72,7 @@ void features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/38084752-4820b0d8-3378-11e8-868c-a1582b16f915.gif'
 }, {
 	include: [
-		pageDetect.isDiscussionList
+		pageDetect.isConversationList
 	],
 	waitForDomReady: false,
 	init

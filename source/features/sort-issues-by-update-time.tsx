@@ -37,7 +37,7 @@ void features.add({
 	init
 }, {
 	include: [
-		pageDetect.isGlobalDiscussionList
+		pageDetect.isGlobalConversationList
 	],
 	waitForDomReady: false,
 	repeatOnAjax: false,

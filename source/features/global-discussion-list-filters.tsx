@@ -48,7 +48,7 @@ void features.add({
 	screenshot: 'https://user-images.githubusercontent.com/8295888/36827126-8bfc79c4-1d37-11e8-8754-992968b082be.png'
 }, {
 	include: [
-		pageDetect.isGlobalDiscussionList
+		pageDetect.isGlobalConversationList
 	],
 	init
 });

@@ -47,12 +47,12 @@ void features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/65013882-03225d80-d947-11e9-8eb8-5507bc1fc14b.png'
 }, {
 	include: [
-		pageDetect.isRepoDiscussionList
+		pageDetect.isRepoConversationList
 	],
 	init: highlightCollaborators
 }, {
 	include: [
-		pageDetect.isDiscussionList
+		pageDetect.isConversationList
 	],
 	init: highlightSelf
 });
