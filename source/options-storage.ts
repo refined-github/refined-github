@@ -21,6 +21,13 @@ const migrations = [
 	featureWasRenamed('fix-view-file-link-in-pr', 'enable-file-links-in-compare-view'), // Merged on June 3rd
 	featureWasRenamed('revert-file', 'restore-file'), // Merged on June 16th
 
+	// Merged on July 2nd
+	featureWasRenamed('sticky-discussion-list-toolbar', 'sticky-conversation-list-toolbar'),
+	featureWasRenamed('highlight-collaborators-and-own-discussions', 'highlight-collaborators-and-own-conversations'),
+	featureWasRenamed('discussion-filters', 'conversation-filters'),
+	featureWasRenamed('global-discussion-list-filters', 'global-conversation-list-filters'),
+	featureWasRenamed('extend-discussion-status-filters', 'extend-conversation-status-filters'),
+
 	// Removed features will be automatically removed from the options as well
 	OptionsSyncPerDomain.migrations.removeUnused
 ];
