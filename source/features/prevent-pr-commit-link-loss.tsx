@@ -35,6 +35,17 @@ const updateUI = debounceFn(({delegateTarget: field}: delegate.Event<InputEvent,
 	wait: 300
 });
 
+function ensureFormActionsExists(): void {
+	// New issues and Pull Requests are missing the form-actions selector, this avoids having a separate logic just for them.
+	const allowMaintainers = select('#new_pull_request .float-left');
+	if (allowMaintainers) {
+		allowMaintainers.before(<div className="form-actions"/>);
+		return;
+	}
+
+	select('#new_issue tab-container, #new_pull_request tab-container')?.after(<div className="form-actions"/>);
+}
+
 function init(): void {
 	delegate(document, 'form#new_issue textarea, form.js-new-comment-form textarea, textarea.comment-form-textarea', 'input', updateUI);
 	delegate(document, '.rgh-fix-pr-commit-links', 'click', handleButtonClick);
@@ -55,10 +66,7 @@ void features.add({
 		pageDetect.isCompare
 	],
 	exclude: [
-		() => select.exists('.form-actions')
+		() => select.exists('#new_issue .form-actions, #new_pull_request .form-actions')
 	],
-	init: () => {
-		// New issues and Pull Requests are missing the form-actions selector, this avoids having a separate logic just for them.
-		select('#new_issue tab-container, #new_pull_request tab-container')?.after(<div className="form-actions"/>);
-	}
+	init: ensureFormActionsExists
 });
