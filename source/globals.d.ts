@@ -85,3 +85,10 @@ interface Node extends EventTarget {
 	// eslint-disable-next-line @typescript-eslint/method-signature-style
 	cloneNode(deep?: boolean): this;
 }
+
+declare module 'inert-entry-webpack-plugin' {
+	class InertEntryPlugin {
+	  apply(): void;
+	}
+	export default InertEntryPlugin;
+}

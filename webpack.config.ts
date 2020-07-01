@@ -7,8 +7,7 @@ import stripIndent from 'strip-indent';
 import webpack, {Configuration} from 'webpack';
 import SizePlugin from 'size-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import InertEntryPlugin from 'inert-entry-webpack-plugin';
 
 function parseFeatureDetails(id: FeatureID): FeatureMeta {
 	const content = readFileSync(`source/features/${id}.tsx`, {encoding: 'utf-8'});
@@ -48,18 +47,38 @@ const config: Configuration = {
 		errors: true,
 		builtAt: true
 	},
-	entry: Object.fromEntries([
-		'refined-github',
-		'background',
-		'options',
-		'resolve-conflicts'
-	].map(name => [name, `./source/${name}`])),
+	context: path.resolve(__dirname, './source'),
+	entry: './manifest.json',
 	output: {
+		publicPath: '/',
 		path: path.join(__dirname, 'distribution'),
-		filename: '[name].js'
+		filename: 'manifest.json'
 	},
 	module: {
 		rules: [
+			{
+				type: 'javascript/auto', // Prevent json-loader
+				test: /manifest\.json$/,
+				use: [
+					'extract-loader',
+					{
+						loader: 'webextension-manifest-loader',
+						options: {
+							targetVendor: 'chrome'
+						}
+					}
+				]
+			},
+			{
+				resourceQuery: /entry/,
+				exclude: /\.html/,
+				loader: 'spawn-loader?name=[name].js'
+			},
+			{
+				test: /\.html$/,
+				resourceQuery: /entry/,
+				use: ['file-loader?name=[name].html', 'extract-loader', 'html-loader']
+			},
 			{
 				test: /\.tsx?$/,
 				loader: 'ts-loader',
@@ -72,12 +91,22 @@ const config: Configuration = {
 				},
 				exclude: /node_modules/
 			},
+
 			{
 				test: /\.css$/,
-				use: [
-					MiniCssExtractPlugin.loader,
-					'css-loader'
+				oneOf: [
+					{
+						issuer: /\.tsx?$/,
+						use: ['style-loader', 'css-loader']
+					},
+					{
+						use: ['file-loader?name=[name].[ext]', 'extract-loader', 'css-loader']
+					}
 				]
+			},
+			{
+				test: /\.png$/,
+				use: ['file-loader?name=[name].[ext]', 'img-loader']
 			},
 			{
 				test: /\.svg$/i,
@@ -89,6 +118,7 @@ const config: Configuration = {
 		]
 	},
 	plugins: [
+		new InertEntryPlugin(),
 		new webpack.DefinePlugin({
 			// Passing `true` as the second argument makes these values dynamic — so every file change will update their value.
 			__featuresOptionDefaults__: webpack.DefinePlugin.runtimeValue(() => {
@@ -107,27 +137,6 @@ const config: Configuration = {
 				return JSON.stringify(path.basename(module.resource).replace(/\.tsx?$/, ''));
 			})
 		}),
-		new MiniCssExtractPlugin({
-			filename: '[name].css'
-		}),
-		new CopyWebpackPlugin({
-			patterns: [
-				{
-					from: 'source',
-					globOptions: {
-						ignore: [
-							'**/*.js',
-							'**/*.ts',
-							'**/*.tsx',
-							'**/*.css'
-						]
-					}
-				},
-				{
-					from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js'
-				}
-			]
-		}),
 		new SizePlugin({
 			writeFile: false
 		})
@@ -136,11 +145,7 @@ const config: Configuration = {
 		alias: {
 			octicon: '@primer/octicons-v2/build/svg'
 		},
-		extensions: [
-			'.tsx',
-			'.ts',
-			'.js'
-		]
+		extensions: ['.tsx', '.ts', '.js']
 	},
 	optimization: {
 		// Automatically enabled on production;

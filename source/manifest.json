@@ -19,41 +19,41 @@
 		"https://api.github.com/*"
 	],
 	"browser_action": {
-		"default_icon": "icon.png"
+		"default_icon": "./icon.png"
 	},
 	"optional_permissions": [
 		"*://*/*"
 	],
 	"icons": {
-		"128": "icon.png"
+		"128": "./icon.png"
 	},
 	"options_ui": {
 		"chrome_style": true,
-		"page": "options.html"
+		"page": "./options.html?entry"
 	},
 	"background": {
 		"scripts": [
-			"browser-polyfill.min.js",
-			"background.js"
+			"~file-loader?name=[name].[ext]!webextension-polyfill/dist/browser-polyfill.min.js",
+			"./background.ts?entry"
 		]
 	},
 	"content_scripts": [
 		{
-			"run_at": "document_start",
+			"run_at": "document_end",
 			"matches": [
 				"https://github.com/*",
 				"https://gist.github.com/*"
 			],
 			"css": [
-				"refined-github.css"
+				"./refined-github.css"
 			],
 			"js": [
-				"browser-polyfill.min.js",
-				"refined-github.js"
+				"~file-loader?name=[name].[ext]!webextension-polyfill/dist/browser-polyfill.min.js",
+				"./refined-github.ts?entry"
 			]
 		}
 	],
 	"web_accessible_resources": [
-		"resolve-conflicts.js"
+		"./resolve-conflicts.ts?entry"
 	]
 }
