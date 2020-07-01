@@ -35,8 +35,7 @@ const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 
 // eslint-disable-next-line import/prefer-default-export
 export function getCommitHash(commit: HTMLElement): string {
-	// Pre "Repository refresh" layout
-	return 	commit.dataset.channel!.split(':')[3] ??
+	return 	commit.dataset.channel!.split(':')[3] ?? // Pre "Repository refresh" layout
 	commit.querySelector<HTMLAnchorElement>('a[href]')!.href.split('/').pop()!;
 }
 
