@@ -42,7 +42,7 @@ void features.add({
 		pageDetect.isRepoTree
 	],
 	exclude: [
-		() => select.exists('get-repo-controller') // Already has an native download ZIP button
+		pageDetect.isRepoRoot // Already has an native download ZIP button
 	],
 	init
 });
