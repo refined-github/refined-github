@@ -110,6 +110,9 @@ void features.add({
 		() => !pageDetect.isForkedRepo()
 	],
 	init: () => {
-		observeElement('[data-target="branch-filter-controller.results"]', init);
+		observeElement([
+			'[data-target="branch-filter-controller.results"]', // Pre "Repository refresh" layout
+			'[data-target="branch-filter.result"]'
+		].join(), init);
 	}
 });
