@@ -6,7 +6,6 @@ import * as pageDetect from 'github-url-detection';
 import CodeSquareIcon from '@primer/octicons-v2/build/svg/code-square.svg';
 
 import features from '.';
-import * as api from '../github-helpers/api';
 import {getCleanPathname} from '../github-helpers';
 
 async function init(): Promise<void> {
