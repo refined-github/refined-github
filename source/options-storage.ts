@@ -30,6 +30,9 @@ const migrations = [
 	featureWasRenamed('discussion-links-on-repo-lists', 'conversation-links-on-repo-lists'),
 	featureWasRenamed('format-discussion-titles', 'format-conversation-titles'),
 	featureWasRenamed('sticky-discussion-sidebar', 'sticky-conversation-sidebar'),
+	featureWasRenamed('batch-open-issues', 'batch-open-conversations'),
+	featureWasRenamed('sort-issues-by-update-time', 'sort-conversations-by-update-time'),
+	featureWasRenamed('clean-issue-filters', 'clean-conversation-filters'),
 
 	// Removed features will be automatically removed from the options as well
 	OptionsSyncPerDomain.migrations.removeUnused

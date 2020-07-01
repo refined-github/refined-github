@@ -56,13 +56,13 @@ import './features/shorten-links';
 import './features/linkify-code';
 import './features/download-folder-button';
 import './features/linkify-branch-references';
-import './features/batch-open-issues';
+import './features/batch-open-conversations';
 import './features/hide-useless-comments';
 import './features/navigate-pages-with-arrow-keys';
 import './features/conversation-links-on-repo-lists';
 import './features/global-conversation-list-filters';
 import './features/conversation-filters';
-import './features/sort-issues-by-update-time'; // Must be after global-conversation-list-filters and conversation-filters and conversation-links-on-repo-lists
+import './features/sort-conversations-by-update-time'; // Must be after global-conversation-list-filters and conversation-filters and conversation-links-on-repo-lists
 import './features/pinned-issues-update-time';
 import './features/latest-tag-button';
 import './features/default-branch-button';
@@ -128,7 +128,7 @@ import './features/open-issue-to-latest-comment';
 import './features/toggle-everything-with-alt';
 import './features/suggest-commit-title-limit';
 import './features/highest-rated-comment';
-import './features/clean-issue-filters';
+import './features/clean-conversation-filters';
 import './features/minimize-upload-bar';
 import './features/cycle-lists-with-keyboard-shortcuts';
 import './features/add-tag-to-commits';
