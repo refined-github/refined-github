@@ -1,6 +1,5 @@
 import './profile-gists-link.css';
 import React from 'dom-chef';
-import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -10,47 +9,21 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import {getCleanPathname} from '../github-helpers';
 
-const getGistCount = cache.function(async (username: string): Promise<number> => {
-	const {user} = await api.v4(`
-		user(login: "${username}") {
-			gists(first: 0) {
-				totalCount
-			}
-		}
-	`);
-	return user.gists.totalCount;
-}, {
-	cacheKey: ([username]) => 'gist-count:' + username
-});
-
 async function init(): Promise<void> {
 	await elementReady('.UnderlineNav-body + *');
 
 	const username = getCleanPathname();
 	const href = pageDetect.isEnterprise() ? `/gist/${username}` : `https://gist.github.com/${username}`;
-	const nav = select('.UnderlineNav-body')!;
-	// Pre "Repository refresh" layout
-	const isOldDesign = Boolean(nav.closest('.user-profile-nav'));
-	const link = (
+	select('.UnderlineNav-body')!.append(
 		<a href={href} className="UnderlineNav-item" role="tab" aria-selected="false">
-			{!isOldDesign && <CodeSquareIcon className="UnderlineNav-octicon hide-sm"/>} Gists
+			<CodeSquareIcon className="UnderlineNav-octicon hide-sm"/> Gists
 		</a>
 	);
-
-	nav.append(link);
-
-	if (isOldDesign) {
-		const count = await getGistCount(username);
-
-		if (count > 0) {
-			link.append(<span className="Counter">{count}</span>);
-		}
-	}
 }
 
 void features.add({
 	id: __filebasename,
-	description: 'Adds a link to the user’s public gists.',
+	description: 'Adds a link to the user’s public gists on their profile.',
 	screenshot: 'https://user-images.githubusercontent.com/11544418/34268306-1c974fd2-e678-11e7-9e82-861dfe7add22.png'
 }, {
 	include: [
