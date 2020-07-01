@@ -80,7 +80,7 @@ async function init(): Promise<void> {
 
 	(select('.repository-content > .Box:nth-of-type(3) .Box-header .d-flex') ??
 	// Pre "Repository refresh" layout
-	select('.repository-content .Box-header .d-flex'))!.prepend(
+	select('.repository-content .Box-header .d-flex')!).prepend(
 		<div className="BtnGroup">
 			<button className="btn btn-sm BtnGroup-item tooltipped tooltipped tooltipped-nw rgh-md-source" type="button" aria-label="Display the source blob">
 				<CodeIcon/>
