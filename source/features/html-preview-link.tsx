@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-const isSingleHTMLFile = (): boolean => pageDetect.isSingleFile() && /[.]html?$/.test(location.pathname);
+const isSingleHTMLFile = (): boolean => pageDetect.isSingleFile() && /\.html?$/.test(location.pathname);
 
 function init(): void {
 	const rawButton = select<HTMLAnchorElement>('#raw-url')!;
