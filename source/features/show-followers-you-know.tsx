@@ -43,8 +43,8 @@ async function init(): Promise<false | void> {
 	}
 
 	container.append(
-		<div className="border-top py-3 clearfix">
-			<h2 className="mb-1 h4">Followers you know</h2>
+		<div className="border-top pt-3 mt-3 clearfix hide-sm hide-md">
+			<h2 className="mb-2 h4">Followers you know</h2>
 			{stargazers.map(renderAvatar)}
 		</div>
 	);
