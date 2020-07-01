@@ -180,6 +180,7 @@ import './features/first-published-tag-for-merged-pr';
 import './features/show-associated-branch-prs-on-fork';
 import './features/faster-reviews';
 import './features/fork-source-link-same-view';
+import './features/pr-jump-to-first-non-viewed-file';
 
 // Add global for easier debugging
 (window as any).select = select;

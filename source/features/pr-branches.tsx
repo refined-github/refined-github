@@ -5,9 +5,9 @@ import PullRequestIcon from 'octicon/git-pull-request.svg';
 
 import features from '.';
 import * as api from '../github-helpers/api';
+import {botSelectors} from './dim-bots';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getRepositoryInfo, getRepoGQL} from '../github-helpers';
-import {botSelectors} from './dim-bots';
 
 type RepositoryReference = {
 	owner: string;

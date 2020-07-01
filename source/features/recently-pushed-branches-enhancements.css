@@ -36,7 +36,6 @@
 	background: none;
 	border-color: currentColor !important;
 	border-top: 1px solid !important;
-	border-radius: 5px;
 	background-color: #24292e;
 }
 
@@ -74,7 +73,7 @@
 	font-size: 0;
 	line-height: 0;
 	border: solid 1px;
-	border-radius: 0.2rem;
+	border-radius: 6px;
 }
 
 .rgh-recently-pushed-branches [data-url$='recently_touched_branches_list'] .btn-link[href$='?expand=1']:not(:hover) {
