@@ -40,8 +40,9 @@
 		margin-top: -2px;
 	}
 
-	[action$='unpin'] svg {
+	.pinned-issue-item form button {
+		float: unset !important;
 		margin-left: -10px;
-		margin-right: 10px !important;
+		margin-right: 2px !important;
 	}
 }
