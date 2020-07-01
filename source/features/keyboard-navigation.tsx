@@ -4,11 +4,6 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import {isEditable} from '../helpers/dom-utils';
 
-const shortcutClass = new Map<string, string>([
-	['e', '.unminimized-comment [aria-label="Edit comment"]:not([hidden])'],
-	['d', '[aria-label="Delete comment"]']
-]);
-
 function runShortcuts(event: KeyboardEvent): void {
 	if (isEditable(event.target)) {
 		return;
@@ -34,13 +29,6 @@ function runShortcuts(event: KeyboardEvent): void {
 
 		// Focus comment without pushing to history
 		location.replace('#' + items[chosenCommentIndex].id);
-		return;
-	}
-
-	const actionClass = shortcutClass.get(event.key);
-	if (actionClass) {
-		event.preventDefault();
-		select(actionClass, focusedComment)?.click();
 	}
 }
 
@@ -50,13 +38,11 @@ function init(): void {
 
 void features.add({
 	id: __filebasename,
-	description: 'Adds shortcuts to comments: `j` focuses the comment below; `k` focuses the comment above; `e` edits the focused comment; `d` deletes the focused comment.',
+	description: 'Adds shortcuts to conversations and PR file lists: `j` focuses the comment/file below; `k` focuses the comment/file above.',
 	screenshot: false,
 	shortcuts: {
-		j: 'Focus the comment below',
-		k: 'Focus the comment above',
-		e: 'Edit the focused comment',
-		d: 'Delete the focused comment'
+		j: 'Focus the comment/file below',
+		k: 'Focus the comment/file above'
 	}
 }, {
 	include: [

@@ -180,7 +180,7 @@ Thanks for contributing! 🦋🙌
 - [](# "minimize-upload-bar") [Reduces the upload bar to a small button.](https://user-images.githubusercontent.com/55841/59802383-3d994180-92e9-11e9-835d-60de67611c30.png)
 - [](# "clean-rich-text-editor") [Hides unnecessary comment field tooltips and toolbar items](https://user-images.githubusercontent.com/1402241/53629083-a4fe8900-3c47-11e9-8211-bfe2d254ffcb.png) (each one has a keyboard shortcut.)
 - [](# "monospace-textareas") Use a monospace font for all textareas.
-- [](# "keyboard-navigation") Adds shortcuts to comments: <kbd>j</kbd> focuses the comment below; <kbd>k</kbd> focuses the comment above; <kbd>e</kbd> edits the focused comment; <kbd>d</kbd> deletes the focused comment.
+- [](# "keyboard-navigation") Adds shortcuts to conversations and PR file lists: <kbd>j</kbd> focuses the comment/file below; <kbd>k</kbd> focuses the comment/file above.
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
