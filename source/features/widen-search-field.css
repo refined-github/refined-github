@@ -1,7 +1,5 @@
 /*
 This feature has to work on:
-https://github.com/issues
-https://github.com/pulls
 https://github.com/sindresorhus/refined-github/issues
 https://github.com/sindresorhus/refined-github/pulls
 
@@ -13,9 +11,8 @@ https://github.com/sindresorhus/refined-github/milestones
 https://github.com/sindresorhus/refined-github/releases/tag/19.9.16
 */
 
-/* Space out buttons */
-.subnav > .float-right, /* On Releases page */
-.subnav > .btn-primary { /* On `Issues` and `Pull Requests` pages */
+/* Space out buttons on Releases page */
+.subnav > .float-right {
 	margin-left: 20px;
 }
 
