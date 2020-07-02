@@ -6,12 +6,15 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function init(): void {
+	const downloadUrl = new URL('https://download-directory.github.io/');
+	downloadUrl.searchParams.set('url', location.href);
+
 	const folderButtonGroup = select('.file-navigation .BtnGroup.float-right');
 	if (folderButtonGroup) {
 		folderButtonGroup.prepend(
 			<a
 				className="btn btn-sm BtnGroup-item"
-				href={`https://download-directory.github.io/?url=${location.href}`}
+				href={downloadUrl.href}
 			>
 				Download
 			</a>
@@ -21,7 +24,7 @@ function init(): void {
 		select('.file-navigation > .d-flex')!.append(
 			<a
 				className="btn ml-2"
-				href={`https://download-directory.github.io/?url=${location.href}`}
+				href={downloadUrl.href}
 			>
 				<DownloadIcon className="mr-1"/>
 				Download
