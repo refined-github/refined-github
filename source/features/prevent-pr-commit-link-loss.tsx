@@ -60,6 +60,7 @@ void features.add({
 	init: () => {
 		// New issues and Pull Requests are missing the form-actions selector, this avoids having a separate logic just for them.
 		const formTabContainer = select('#new_issue tab-container, #new_pull_request tab-container');
+		// The "Allow edits" checkbox is `float: left;`, so we need a `clear: left;` before our warning.
 		formTabContainer?.classList.add('clearfix');
 		formTabContainer?.after(<div className="form-actions pb-0 pt-2"/>);
 	}
