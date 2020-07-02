@@ -31,13 +31,13 @@ function init(): void {
 
 void features.add({
 	id: __filebasename,
-	description: 'Changes the default sort order of discussions to `Recently updated`.',
+	description: 'Changes the default sort order of conversations to `Recently updated`.',
 	screenshot: false
 }, {
 	init
 }, {
 	include: [
-		pageDetect.isGlobalDiscussionList
+		pageDetect.isGlobalConversationList
 	],
 	waitForDomReady: false,
 	repeatOnAjax: false,

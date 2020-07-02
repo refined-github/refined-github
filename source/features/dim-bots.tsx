@@ -27,7 +27,7 @@ void features.add({
 }, {
 	include: [
 		pageDetect.isCommitList,
-		pageDetect.isDiscussionList
+		pageDetect.isConversationList
 	],
 	init
 });
