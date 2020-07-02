@@ -59,6 +59,8 @@ void features.add({
 	],
 	init: () => {
 		// New issues and Pull Requests are missing the form-actions selector, this avoids having a separate logic just for them.
-		select('#new_issue tab-container, #new_pull_request tab-container')?.after(<div className="form-actions"/>);
+		const formTabContainer = select('#new_issue tab-container, #new_pull_request tab-container');
+		formTabContainer?.classList.add('clearfix');
+		formTabContainer?.after(<div className="form-actions pb-0 pt-2"/>);
 	}
 });
