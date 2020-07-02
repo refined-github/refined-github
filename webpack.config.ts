@@ -1,10 +1,10 @@
 /// <reference types="./source/globals" />
 
 import path from 'path';
-import {readdirSync, readFileSync} from 'fs';
+import { readdirSync, readFileSync } from 'fs';
 
 import stripIndent from 'strip-indent';
-import webpack, {Configuration} from 'webpack';
+import webpack, { Configuration } from 'webpack';
 import SizePlugin from 'size-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import InertEntryPlugin from 'inert-entry-webpack-plugin';
@@ -91,13 +91,40 @@ const config: Configuration = {
 				},
 				exclude: /node_modules/
 			},
-
 			{
 				test: /\.css$/,
 				oneOf: [
 					{
 						issuer: /\.tsx?$/,
-						use: ['style-loader', 'css-loader']
+						use: [
+							{
+								loader: 'style-loader',
+								options: {
+									insert: function insertAtTop(element: HTMLStyleElement) {
+										document.onreadystatechange = function () {
+											if (document.readyState === 'interactive') {
+												var parent = document.querySelector('head')!;
+												// @ts-ignore
+												var lastInsertedElement = window._lastElementInsertedByStyleLoader;
+												if (!lastInsertedElement) {
+													parent.insertBefore(element, parent.firstChild);
+												} else if (lastInsertedElement.nextSibling) {
+													parent.insertBefore(
+														element,
+														lastInsertedElement.nextSibling
+													);
+												} else {
+													parent.appendChild(element);
+												}
+												// @ts-ignore
+												window._lastElementInsertedByStyleLoader = element;
+											}
+										}
+									}
+								}
+							},
+							'css-loader'
+						]
 					},
 					{
 						use: ['file-loader?name=[name].[ext]', 'extract-loader', 'css-loader']
