@@ -45,10 +45,10 @@ The Chrome version also works in Opera (using [this](https://addons.opera.com/en
 	<tr><!-- Prevent zebra stripes --></tr>
 	<tr>
 		<td>
-			<img width="245" src="https://user-images.githubusercontent.com/1402241/61187598-f9118380-a6a5-11e9-985a-990a7f798805.png">
+			<img src="https://user-images.githubusercontent.com/1402241/61187598-f9118380-a6a5-11e9-985a-990a7f798805.png">
 		</td>
 		<td>
-			<img width="618" src="https://user-images.githubusercontent.com/1402241/54978791-45906080-4fdc-11e9-8fe1-45374f8ff636.png">
+			<img src="https://user-images.githubusercontent.com/1402241/54978791-45906080-4fdc-11e9-8fe1-45374f8ff636.png">
 		</td>
 	</tr>
 </table>
