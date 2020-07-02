@@ -55,7 +55,7 @@ void features.add({
 		pageDetect.isCompare
 	],
 	exclude: [
-		() => select.exists('.form-actions')
+		() => select.exists('#new_issue .form-actions, #new_pull_request .form-actions')
 	],
 	init: () => {
 		// New issues and Pull Requests are missing the form-actions selector, this avoids having a separate logic just for them.
