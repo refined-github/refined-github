@@ -12,7 +12,10 @@ import observeElement from '../helpers/simplified-element-observer';
 
 function addButton(): void {
 	// `div` excludes `include-fragment`, which means the list is still loading. #2160
-	const filesHeader = select('div.commit-tease');
+	const filesHeader = select([
+		'div.commit-tease',
+		'.Box-header--blue .Details > :last-child > ul' // "Repository refresh" layout
+	]);
 	if (!filesHeader || select.exists('.rgh-toggle-files')) {
 		return;
 	}

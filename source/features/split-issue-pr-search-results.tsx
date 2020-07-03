@@ -12,9 +12,9 @@ function cleanLinks(): void {
 	}
 }
 
-type GitHubDiscussionType = 'pr' | 'issue';
+type GitHubConversationType = 'pr' | 'issue';
 
-function createUrl(type: GitHubDiscussionType, pathname = location.pathname): string {
+function createUrl(type: GitHubConversationType, pathname = location.pathname): string {
 	const url = new URL(pathname, location.origin);
 	url.searchParams.set('q', pageSearchQuery.get() + ` is:${type}`);
 	url.searchParams.set('type', 'Issues');
