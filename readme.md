@@ -337,7 +337,7 @@ Thanks for contributing! 🦋🙌
 
 ### Previously part of Refined GitHub
 
-GitHub implemented 25 features that used to be part of Refined GitHub 🎉
+GitHub implemented dozens of features that used to be part of Refined GitHub 🎉
 
 <details><summary>See list</summary>
 
