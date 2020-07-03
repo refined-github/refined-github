@@ -27,6 +27,7 @@ function init(): void {
 		'.Details[data-issue-and-pr-hovercards-enabled] .Details-content--hidden a:first-child', // `isRepoRoot` ("Repository refresh" layout)
 		'.Details[data-issue-and-pr-hovercards-enabled] .Details-content--hidden pre', // `isRepoRoot` ("Repository refresh" layout)
 		'.existing-pull-contents .list-group-item-link', // `isCompare` existing PR ("Repository refresh" layout)
+		'[aria-label="Link issues"] a', // `isIssue`, `isPRConversation`
 		'.js-wiki-sidebar-toggle-display a', // `isWiki`
 		'.gh-header-title' // `isWiki`
 	].map(selector => selector + ':not(.rgh-backticks-already-parsed)'))) {
