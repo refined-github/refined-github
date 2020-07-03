@@ -62,39 +62,34 @@ async function extendUserNav(): Promise<void> {
 
 	const username = getCleanPathname();
 	const href = pageDetect.isEnterprise() ? `/gist/${username}` : `https://gist.github.com/${username}`;
-	const nav = select('.UnderlineNav-body')!;
-	// Pre "Repository refresh" layout
-	const isOldDesign = Boolean(nav.closest('.user-profile-nav'));
 	const link = (
 		<a href={href} className="UnderlineNav-item" role="tab" aria-selected="false">
-			{!isOldDesign && <CodeSquareIcon className="UnderlineNav-octicon hide-sm"/>} Gists
+			<CodeSquareIcon className="UnderlineNav-octicon hide-sm"/> Gists
 		</a>
 	);
 
-	nav.append(link);
+	select('.UnderlineNav-body')!.append(link);
 
 	const {repositories, projects, packages, gists} = await getUserCounts(username);
 
-	if (!isOldDesign) {
-		if (repositories > 0) {
-			// Use `*=` to be compatible with `set-default-repositories-type-to-sources`
-			select('[aria-label="User profile"] [href*="tab=repositories"]')!.append(
-				<span className="Counter">{repositories}</span>
-			);
-		}
+	if (repositories > 0) {
+		// Use `*=` to be compatible with `set-default-repositories-type-to-sources`
+		select('[aria-label="User profile"] [href*="tab=repositories"]')!.append(
+			<span className="Counter">{repositories}</span>
+		);
+	}
 
-		const projectElement = select('[aria-label="User profile"] [href$="tab=projects"]')!;
-		if (projects > 0) {
-			projectElement.append(<span className="Counter">{projects}</span>);
-		} else {
-			projectElement.remove();
-		}
+	const projectElement = select('[aria-label="User profile"] [href$="tab=projects"]')!;
+	if (projects > 0) {
+		projectElement.append(<span className="Counter">{projects}</span>);
+	} else {
+		projectElement.remove();
+	}
 
-		if (packages > 0) {
-			select('[aria-label="User profile"] [href$="tab=packages"]')!.append(
-				<span className="Counter">{packages}</span>
-			);
-		}
+	if (packages > 0) {
+		select('[aria-label="User profile"] [href$="tab=packages"]')!.append(
+			<span className="Counter">{packages}</span>
+		);
 	}
 
 	if (gists > 0) {
