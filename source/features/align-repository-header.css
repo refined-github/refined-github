@@ -1,0 +1,9 @@
+/* Align repo header to the content, just on the left side*/
+.repohead > * {
+    padding-left: calc(50% - 1280px / 2) !important;
+}
+
+/* Restore the original padding on those 2 elements */
+.repohead > * > :first-child {
+    margin-left: 32px;
+}
