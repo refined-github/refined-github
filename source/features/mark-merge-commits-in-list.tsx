@@ -25,7 +25,7 @@ const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 
 	const mergeCommits = [];
 	for (const [key, commit] of Object.entries<AnyObject>(repository)) {
-		if (commit.parents.totalCount === 2) {
+		if (commit.parents.totalCount >= 2) {
 			mergeCommits.push(key.slice(1));
 		}
 	}
@@ -33,8 +33,10 @@ const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 	return mergeCommits;
 };
 
-function getCommitHash(commit: HTMLElement): string {
-	return commit.dataset.channel!.split(':')[3];
+// eslint-disable-next-line import/prefer-default-export
+export function getCommitHash(commit: HTMLElement): string {
+	return 	commit.dataset.channel!.split(':')[3] ?? // Pre "Repository refresh" layout
+	commit.querySelector<HTMLAnchorElement>('a[href]')!.href.split('/').pop()!;
 }
 
 async function init(): Promise<void> {

@@ -5,9 +5,9 @@ import PullRequestIcon from 'octicon/git-pull-request.svg';
 
 import features from '.';
 import * as api from '../github-helpers/api';
+import {botSelectors} from './dim-bots';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getRepositoryInfo, getRepoGQL} from '../github-helpers';
-import {botSelectors} from './dim-bots';
 
 type RepositoryReference = {
 	owner: string;
@@ -149,7 +149,7 @@ void features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/51428391-ae9ed500-1c35-11e9-8e54-6b6a424fede4.png'
 }, {
 	include: [
-		pageDetect.isRepoDiscussionList
+		pageDetect.isRepoConversationList
 	],
 	init
 });

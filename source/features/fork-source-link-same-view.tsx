@@ -31,7 +31,7 @@ void features.add({
 	],
 	exclude: [
 		() => !pageDetect.isForkedRepo(),
-		() => pageDetect.isRepoRoot()
+		pageDetect.isRepoRoot
 	],
 	init
 });

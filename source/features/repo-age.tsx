@@ -43,12 +43,20 @@ const getRepoAge = async (commitSha: string, commitsCount: number): Promise<[str
 };
 
 const getFirstCommit = cache.function(async (): Promise<[string, string] | undefined> => {
-	const commitInfo = await elementReady<HTMLAnchorElement | HTMLScriptElement>('.commit-tease a[href*="/commit/"], include-fragment.commit-tease');
+	const commitInfo = await elementReady<HTMLAnchorElement | HTMLScriptElement>([
+		// "Repository refresh" layout
+		'.Box-header--blue .hx_avatar_stack_commit + div a[href*="/commit/"]',
+		'include-fragment[aria-label="Loading latest commit"]',
+
+		// Pre "Repository refresh" layout
+		'a.commit-tease-sha',
+		'include-fragment.commit-tease'
+	].join());
 	const commitUrl = commitInfo instanceof HTMLAnchorElement ? commitInfo.href : commitInfo!.src;
 	const commitSha = commitUrl.split('/').pop()!;
 
 	// In "Repository refresh" layout, the number of commits may not be rendered yet
-	const commitsCountElement = select('li.commits .num') ?? await elementReady('.commit-tease + * a[href*="/commits/"] strong');
+	const commitsCountElement = select('li.commits .num') ?? (await elementReady('.Box-header--blue [aria-label^="Commits on "]'))!.parentElement;
 	const commitsCount = looseParseInt(commitsCountElement!.textContent!);
 
 	// Returning undefined will make sure that it is not cached. It will check again for commits on the next load.

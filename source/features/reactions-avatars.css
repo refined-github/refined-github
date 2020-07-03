@@ -21,7 +21,6 @@ button.reaction-summary-item { /* `button` excludes the "Add reaction" icon */
 	display: inline-block;
 	width: 2em;
 	height: 2em;
-	border-radius: 3px;
 	margin-top: -0.3em;
 	margin-left: -0.5em;
 	vertical-align: middle;
@@ -45,6 +44,5 @@ button.reaction-summary-item { /* `button` excludes the "Add reaction" icon */
 /* This image will start at height:0 and will expand once loaded, covering the gray placeholder */
 .reaction-summary-item a img { /* `a` required for #3237 */
 	max-width: 100%;
-	border-radius: inherit;
 	background-color: var(--background);
 }

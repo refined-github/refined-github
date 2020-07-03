@@ -48,7 +48,7 @@
 		"fit-textarea": "^2.0.0",
 		"flat-zip": "^1.0.1",
 		"github-reserved-names": "^1.1.8",
-		"github-url-detection": "^1.2.3",
+		"github-url-detection": "^2.0.0",
 		"image-promise": "^7.0.1",
 		"indent-textarea": "^2.0.1",
 		"linkify-issues": "2.0.0-nolookbehind",

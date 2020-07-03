@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import onCommentFieldKeydown from '../github-events/on-comment-field-keydown';
@@ -39,13 +40,10 @@ function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>)
 
 		if (lastOwnComment) {
 			select<HTMLButtonElement>('.js-comment-edit-button', lastOwnComment)!.click();
-			const closeCurrentField = field
+			field
 				.closest('form')!
-				.querySelector<HTMLButtonElement>('.js-hide-inline-comment-form');
-
-			if (closeCurrentField) {
-				closeCurrentField.click();
-			}
+				.querySelector<HTMLButtonElement>('.js-hide-inline-comment-form')
+				?.click();
 
 			// Move caret to end of field
 			requestAnimationFrame(() => {
@@ -68,6 +66,9 @@ void features.add({
 		esc: 'Unfocuses comment field'
 	}
 }, {
+	include: [
+		pageDetect.hasRichTextEditor
+	],
 	waitForDomReady: false,
 	repeatOnAjax: false,
 	init

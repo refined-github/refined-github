@@ -108,8 +108,8 @@
 	transform-origin: 90% top;
 }
 
-/* Improve spacing in discussion lists meta, made feel crowded by:
-highlight-collaborators-and-own-discussions
+/* Improve spacing in conversation lists meta, made feel crowded by:
+highlight-collaborators-and-own-conversations
 parse-backticks
 pr-branches
 */

@@ -70,7 +70,10 @@ async function cloneBranch({delegateTarget: cloneButton}: delegate.Event<MouseEv
 }
 
 function init(): void | false {
-	const deleteIcons = select.all('branch-filter-item-controller .octicon-trashcan');
+	const deleteIcons = select.all([
+		'branch-filter-item-controller .octicon-trashcan', // Pre "Repository refresh" layout
+		'branch-filter-item .octicon-trashcan'
+	]);
 	// If the user does not have rights to delete a branch, they can’t create one either
 	if (deleteIcons.length === 0) {
 		return false;
@@ -101,6 +104,9 @@ void features.add({
 		pageDetect.isBranches
 	],
 	init: () => {
-		observeElement('[data-target="branch-filter-controller.results"]', init);
+		observeElement([
+			'[data-target="branch-filter-controller.results"]', // Pre "Repository refresh" layout
+			'[data-target="branch-filter.result"]'
+		].join(), init);
 	}
 });
