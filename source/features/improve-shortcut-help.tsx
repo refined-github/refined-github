@@ -1,4 +1,3 @@
-import './improve-shortcut-help.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 

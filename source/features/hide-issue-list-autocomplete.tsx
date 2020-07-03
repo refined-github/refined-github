@@ -13,7 +13,7 @@ void features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/42991841-1f057e4e-8c07-11e8-909c-b051db7a2a03.png'
 }, {
 	include: [
-		pageDetect.isDiscussionList
+		pageDetect.isConversationList
 	],
 	init
 });

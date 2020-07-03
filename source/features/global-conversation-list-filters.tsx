@@ -1,4 +1,4 @@
-import './global-discussion-list-filters.css';
+import './global-conversation-list-filters.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
@@ -44,11 +44,11 @@ function init(): void {
 
 void features.add({
 	id: __filebasename,
-	description: 'Adds filters for discussions _in your repos_ and _commented on by you_ in the global discussion search.',
+	description: 'Adds filters for conversations _in your repos_ and _commented on by you_ in the global conversation search.',
 	screenshot: 'https://user-images.githubusercontent.com/8295888/36827126-8bfc79c4-1d37-11e8-8754-992968b082be.png'
 }, {
 	include: [
-		pageDetect.isGlobalDiscussionList
+		pageDetect.isGlobalConversationList
 	],
 	init
 });
