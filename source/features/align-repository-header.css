@@ -7,11 +7,13 @@
 .repohead > * > * {
 	margin-left: 16px;
 }
+
 @media (min-width: 768px) {
 	.repohead > * > * {
 		margin-left: 24px;
 	}
 }
+
 @media (min-width: 1012px) {
 	.repohead > * > * {
 		margin-left: 32px;
