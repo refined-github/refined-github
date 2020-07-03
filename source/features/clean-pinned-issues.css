@@ -13,7 +13,7 @@
 		/* Rounded table border https://stackoverflow.com/a/2586780/288906 */
 		box-shadow: 0 0 0 1px #d1d5da;
 		border-collapse: collapse;
-		border-radius: 3px;
+		border-radius: 6px;
 		border-style: hidden;
 	}
 
@@ -40,8 +40,9 @@
 		margin-top: -2px;
 	}
 
-	[action$='unpin'] svg {
+	.pinned-issue-item form button {
+		float: unset !important;
 		margin-left: -10px;
-		margin-right: 10px !important;
+		margin-right: 2px !important;
 	}
 }

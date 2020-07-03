@@ -29,7 +29,7 @@ export function get(): CommitStatus {
 			return FAILURE;
 		}
 
-		if (lastCommit.querySelector('.octicon-primitive-dot')) {
+		if (lastCommit.querySelector('.octicon-dot-fill')) {
 			return PENDING;
 		}
 	}

@@ -19,10 +19,10 @@ function parseCountFromDom(): number {
 		return looseParseInt(releasesCountElement.textContent!);
 	}
 
-	// In "Repository refresh" layout, look for the "+ XXX releases" link in the sidebar
-	const moreReleasesCountElement = select('.BorderGrid .text-small[href$="/releases"]');
+	// In "Repository refresh" layout, look for the releases link in the sidebar
+	const moreReleasesCountElement = select('[href$="/releases"] .text-bold');
 	if (moreReleasesCountElement) {
-		return looseParseInt(moreReleasesCountElement.textContent!) + 1;
+		return looseParseInt(moreReleasesCountElement.textContent!);
 	}
 
 	return 0;

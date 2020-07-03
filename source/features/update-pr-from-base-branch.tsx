@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import observeElement from '../helpers/simplified-element-observer';
-import {getRepoURL, getDiscussionNumber} from '../github-helpers';
+import {getRepoURL, getConversationNumber} from '../github-helpers';
 
 let observer: MutationObserver;
 
@@ -19,7 +19,7 @@ function getBranches(): {base: string; head: string} {
 }
 
 async function mergeBranches(): Promise<AnyObject> {
-	return api.v3(`repos/${getRepoURL()}/pulls/${getDiscussionNumber()!}/update-branch`, {
+	return api.v3(`repos/${getRepoURL()}/pulls/${getConversationNumber()!}/update-branch`, {
 		method: 'PUT',
 		headers: {
 			Accept: 'application/vnd.github.lydian-preview+json'

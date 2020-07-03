@@ -61,8 +61,8 @@ async function showAvatarsOn(commentReactions: Element): Promise<void> {
 	for (const {container, username, imageUrl} of flatParticipants) {
 		container.append(
 			// Without this, Firefox will follow the link instead of submitting the reaction button
-			<a href={isFirefox ? undefined : `/${username}`}>
-				<img src={imageUrl}/>
+			<a href={isFirefox ? undefined : `/${username}`} className="rounded-1 avatar-user">
+				<img src={imageUrl} style={{borderRadius: 'inherit'}}/>
 			</a>
 		);
 	}
