@@ -13,7 +13,7 @@ function init(): void {
 		'.message', // `isCommitList`, `isRepoTree`, `isBlame`
 		'.repository-content .js-details-container .link-gray[href*="/commit/"]', // `isSingleFile`
 		'.repository-content .js-details-container pre', // `isSingleFile`
-		'[aria-label="Issues"][role="group"] .js-navigation-open', // `isDiscussionList`
+		'[aria-label="Issues"][role="group"] .js-navigation-open', // `isConversationList`
 		'[id^=ref-issue-]', // Issue references in `isIssue`, `isPRConversation`
 		'[id^=ref-pullrequest-]', // PR references in `isIssue`, `isPRConversation`
 		'.TimelineItem-body > del, .TimelineItem-body > ins', // Title edits in `isIssue`, `isPRConversation`
