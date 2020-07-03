@@ -4,10 +4,6 @@
 	padding: 10px 13px;
 }
 
-.rgh-files-hidden .commit-tease {
-	border-radius: 3px;
-}
-
 .repository-content:not(.rgh-files-hidden) .rgh-toggle-files .octicon-unfold,
 .repository-content.rgh-files-hidden .rgh-toggle-files .octicon-fold {
 	display: none;
