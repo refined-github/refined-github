@@ -78,7 +78,7 @@ async function init(): Promise<void> {
 	delegate(document, '.rgh-md-source:not(.selected)', 'click', showSource);
 	delegate(document, '.rgh-md-rendered:not(.selected)', 'click', showRendered);
 
-	(select('.repository-content > .Box:nth-of-type(3) .Box-header .d-flex') ??
+	(select('.repository-content .Box-header.flex-md-items-center .d-flex') ??
 	// Pre "Repository refresh" layout
 	select('.repository-content .Box-header .d-flex')!).prepend(
 		<div className="BtnGroup">
