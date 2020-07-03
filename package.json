@@ -26,7 +26,8 @@
 			"selector-type-no-unknown": null,
 			"declaration-no-important": null,
 			"selector-class-pattern": null,
-			"selector-id-pattern": null
+			"selector-id-pattern": null,
+			"selector-max-universal": null
 		}
 	},
 	"ava": {
