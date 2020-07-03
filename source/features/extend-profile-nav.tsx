@@ -20,7 +20,7 @@ interface UserCounts {
 const getUserCounts = cache.function(async (username: string): Promise<UserCounts> => {
 	const {user} = await api.v4(`
 		user(login: "${username}") {
-			repositories {
+			repositories(isFork: false) {
 				totalCount
 			}
 			projects {
