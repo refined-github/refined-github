@@ -149,7 +149,7 @@ void features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/51428391-ae9ed500-1c35-11e9-8e54-6b6a424fede4.png'
 }, {
 	include: [
-		pageDetect.isRepoDiscussionList
+		pageDetect.isRepoConversationList
 	],
 	init
 });

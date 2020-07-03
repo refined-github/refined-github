@@ -12,7 +12,7 @@ function init(): void {
 		'.commit-message', // Pushed commits in `isPRConversation`, `isCompare`, `isReleasesOrTags`
 		'.message', // `isCommitList`, `isRepoTree`, `isBlame`
 		'.Box--condensed .link-gray[href*="/commit/"]', // `isSingleFile`
-		'[aria-label="Issues"][role="group"] .js-navigation-open', // `isDiscussionList`
+		'[aria-label="Issues"][role="group"] .js-navigation-open', // `isConversationList`
 		'[id^=ref-issue-]', // Issue references in `isIssue`, `isPRConversation`
 		'[id^=ref-pullrequest-]', // PR references in `isIssue`, `isPRConversation`
 		'.TimelineItem-body > del, .TimelineItem-body > ins', // Title edits in `isIssue`, `isPRConversation`
@@ -22,7 +22,7 @@ function init(): void {
 		'.js-recent-activity-container .text-bold', // `isDashboard`"Recent activity" titles
 		'.commits blockquote', // Newsfeed commits
 		'.release-header', // `isReleasesOrTags` Headers
-		'.Box-row.js-navigation-item a.link-gray-dark', // `isGlobalDiscussionList`
+		'.Box-row.js-navigation-item a.link-gray-dark', // `isGlobalConversationList`
 		'[data-channel^="check_suites"] a', // `isActions`
 		'.repository-content .pr-toolbar h2', // `isActions` run
 		'#wiki-wrapper h1' // `isWiki`

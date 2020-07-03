@@ -3,7 +3,7 @@ import test from 'ava';
 import './fixtures/globals';
 import pluralize from '../source/helpers/pluralize';
 import {
-	getDiscussionNumber,
+	getConversationNumber,
 	getRepositoryInfo,
 	parseTag,
 	compareNames,
@@ -14,7 +14,7 @@ import {
 	prCommitUrlRegex
 } from '../source/github-helpers';
 
-test('getDiscussionNumber', t => {
+test('getConversationNumber', t => {
 	const pairs = new Map<string, string | undefined>([
 		[
 			'https://github.com',
@@ -79,7 +79,7 @@ test('getDiscussionNumber', t => {
 	]);
 	for (const [url, result] of pairs) {
 		location.href = url;
-		t.is(result, getDiscussionNumber());
+		t.is(result, getConversationNumber());
 	}
 });
 
