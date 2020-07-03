@@ -11,24 +11,24 @@ function init(): void {
 		'.commit-desc', // `isCommit`, `isCommitList`, `isRepoTree`
 		'.commit-message', // Pushed commits in `isPRConversation`, `isCompare`, `isReleasesOrTags`
 		'.message', // `isCommitList`, `isRepoTree`, `isBlame`
-		'.Box--condensed .link-gray[href*="/commit/"]', // `isSingleFile`
+		'.repository-content .js-details-container .link-gray[href*="/commit/"]', // `isSingleFile`
+		'.repository-content .js-details-container pre', // `isSingleFile`
 		'[aria-label="Issues"][role="group"] .js-navigation-open', // `isDiscussionList`
 		'[id^=ref-issue-]', // Issue references in `isIssue`, `isPRConversation`
 		'[id^=ref-pullrequest-]', // PR references in `isIssue`, `isPRConversation`
 		'.TimelineItem-body > del, .TimelineItem-body > ins', // Title edits in `isIssue`, `isPRConversation`
-		'.js-pinned-issue-list-item > span', // Pinned Issues
+		'.js-pinned-issue-list-item > .d-block', // Pinned Issues
 		'.pulse-section li', // `isPulse`
-		'.issues_labeled .text-gray-dark > a', // `isDashboard` "help wanted" event titles
 		'.js-recent-activity-container .text-bold', // `isDashboard`"Recent activity" titles
 		'.commits blockquote', // Newsfeed commits
 		'.release-header', // `isReleasesOrTags` Headers
-		'.Box-row.js-navigation-item a.link-gray-dark', // `isGlobalDiscussionList`
-		'[data-channel^="check_suites"] a', // `isActions`
+		'[id^="check_suite"] a.link-gray-dark', // `isActions`
 		'.repository-content .pr-toolbar h2', // `isActions` run
 		'.Details[data-issue-and-pr-hovercards-enabled] .Details-content--hidden a:first-child', // `isRepoRoot` ("Repository refresh" layout)
 		'.Details[data-issue-and-pr-hovercards-enabled] .Details-content--hidden pre', // `isRepoRoot` ("Repository refresh" layout)
 		'.existing-pull-contents .list-group-item-link', // `isCompare` existing PR ("Repository refresh" layout)
-		'#wiki-wrapper h1' // `isWiki`
+		'.js-wiki-sidebar-toggle-display a', // `isWiki`
+		'.gh-header-title' // `isWiki`
 	].map(selector => selector + ':not(.rgh-backticks-already-parsed)'))) {
 		title.classList.add('rgh-backticks-already-parsed');
 		parseBackticks(title);
