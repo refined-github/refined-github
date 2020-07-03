@@ -33,7 +33,11 @@ Expected DOM:
 @param containerSelector Element that contains `details` or `.discussion-sidebar-heading`
 */
 function cleanSection(containerSelector: string): boolean {
-	const container = select(containerSelector)!;
+	const container = select(containerSelector);
+	if (!container) {
+		return false;
+	}
+
 	const header = select(':scope > details, :scope > .discussion-sidebar-heading', container)!;
 
 	// Magic. Do not touch.
