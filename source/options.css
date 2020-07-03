@@ -1,4 +1,4 @@
-@media not screen and (width:400px) {
+@media not screen and (width: 400px) {
 	/* Excludes Edge */
 	:root {
 		min-width: 550px;
