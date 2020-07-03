@@ -20,7 +20,7 @@ function parseCountFromDom(): number {
 	}
 
 	// In "Repository refresh" layout, look for the releases link in the sidebar
-	const moreReleasesCountElement = select('[href$="/releases"] .text-bold');
+	const moreReleasesCountElement = select('[href$="/tags"] strong');
 	if (moreReleasesCountElement) {
 		return looseParseInt(moreReleasesCountElement.textContent!);
 	}
