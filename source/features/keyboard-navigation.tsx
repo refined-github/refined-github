@@ -27,8 +27,10 @@ function runShortcuts(event: KeyboardEvent): void {
 			items.length - 1
 		);
 
-		// Focus comment without pushing to history
-		location.replace('#' + items[chosenCommentIndex].id);
+		if (currentIndex !== chosenCommentIndex) {
+			// Focus comment without pushing to history
+			location.replace('#' + items[chosenCommentIndex].id);
+		}
 	}
 }
 
