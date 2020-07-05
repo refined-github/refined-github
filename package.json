@@ -51,7 +51,7 @@
 		"github-url-detection": "^2.0.0",
 		"image-promise": "^7.0.1",
 		"indent-textarea": "^2.0.1",
-		"linkify-issues": "2.0.0-nolookbehind",
+		"linkify-issues": "^2.0.0",
 		"linkify-urls": "3.1.0-nolookbehind",
 		"mem": "6.0.1",
 		"onetime": "^5.1.0",
