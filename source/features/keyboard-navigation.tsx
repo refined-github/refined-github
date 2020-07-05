@@ -50,6 +50,5 @@ void features.add({
 	include: [
 		pageDetect.hasComments
 	],
-	repeatOnAjax: false,
 	init
 });
