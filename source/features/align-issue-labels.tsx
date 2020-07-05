@@ -1,4 +1,6 @@
 import './align-issue-labels.css';
+import * as pageDetect from 'github-url-detection';
+
 import features from '.';
 
 function init(): void {
@@ -12,5 +14,8 @@ void features.add({
 }, {
 	waitForDomReady: false,
 	repeatOnAjax: false,
+	include: [
+		pageDetect.isConversationList
+	],
 	init
 });
