@@ -28,6 +28,7 @@ function init(): void {
 		'.Details[data-issue-and-pr-hovercards-enabled] .Details-content--hidden pre', // `isRepoRoot` ("Repository refresh" layout)
 		'.existing-pull-contents .list-group-item-link', // `isCompare` existing PR ("Repository refresh" layout)
 		'[aria-label="Link issues"] a', // `isIssue`, `isPRConversation`
+		'.notifications-list-item p.text-normal', // `isNotifications`
 		'.js-wiki-sidebar-toggle-display a', // `isWiki`
 		'.gh-header-title' // `isWiki`
 	].map(selector => selector + ':not(.rgh-backticks-already-parsed)'))) {
