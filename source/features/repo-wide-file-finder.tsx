@@ -23,7 +23,7 @@ void features.add({
 	screenshot: false
 }, {
 	include: [
-		pageDetect.isRepoDiscussionList,
+		pageDetect.isRepoConversationList,
 		pageDetect.isPR,
 		pageDetect.isIssue
 	],

@@ -16,7 +16,7 @@ function getUrlFromItem(checkbox: Element): string {
 }
 
 function openIssues(): void {
-	const modifier = pageDetect.isGlobalDiscussionList() ? '' : ' + div ';
+	const modifier = pageDetect.isGlobalConversationList() ? '' : ' + div ';
 	const issues = select.all([
 		`#js-issues-toolbar.triage-mode ${modifier} [name="issues[]"]:checked`, // Get checked checkboxes
 		`#js-issues-toolbar:not(.triage-mode) ${modifier} .js-issue-row` // Or all items
@@ -41,7 +41,7 @@ async function init(): Promise<void | false> {
 
 	delegate(document, '.rgh-batch-open-issues', 'click', openIssues);
 
-	// Add button to open all visible discussions
+	// Add button to open all visible conversations
 	select('.table-list-header-toggle:not(.states)')?.prepend(
 		<button
 			type="button"
@@ -51,7 +51,7 @@ async function init(): Promise<void | false> {
 		</button>
 	);
 
-	// Add button to open selected discussions
+	// Add button to open selected conversations
 	const triageFiltersBar = select('.table-list-triage > .text-gray');
 	if (triageFiltersBar) {
 		triageFiltersBar.classList.add('table-list-header-toggle'); // Handles link :hover style
@@ -68,11 +68,11 @@ async function init(): Promise<void | false> {
 
 void features.add({
 	id: __filebasename,
-	description: 'Adds a button to open multiple discussions at once in your repos.',
+	description: 'Adds a button to open multiple conversations at once in your repos.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/38084752-4820b0d8-3378-11e8-868c-a1582b16f915.gif'
 }, {
 	include: [
-		pageDetect.isDiscussionList
+		pageDetect.isConversationList
 	],
 	waitForDomReady: false,
 	init

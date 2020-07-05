@@ -6,6 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
+import {getCommitHash} from './mark-merge-commits-in-list';
 import {getRepoURL, getRepoGQL} from '../github-helpers';
 
 interface CommitTags {
@@ -120,11 +121,11 @@ async function init(): Promise<void | false> {
 	const cacheKey = `tags:${getRepoURL()}`;
 
 	const commitsOnPage = select.all('li.commit');
-	const lastCommitOnPage = commitsOnPage[commitsOnPage.length - 1].dataset.channel!.split(':')[3];
+	const lastCommitOnPage = getCommitHash(commitsOnPage[commitsOnPage.length - 1]);
 	let cached = await cache.get<{[commit: string]: string[]}>(cacheKey) ?? {};
 	const commitsWithNoTags = [];
 	for (const commit of commitsOnPage) {
-		const targetCommit = commit.dataset.channel!.split(':')[3];
+		const targetCommit = getCommitHash(commit);
 		let targetTags = cached[targetCommit];
 		if (!targetTags) {
 			// No tags for this commit found in the cache, check in github

@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection/esm/index.js'; // eslint-disab
 export const getUsername = oneTime(pageDetect.utils.getUsername);
 export const {getRepoPath, getCleanPathname} = pageDetect.utils;
 
-export const getDiscussionNumber = (): string | undefined => {
+export const getConversationNumber = (): string | undefined => {
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
 		return getCleanPathname().split('/')[3];
 	}

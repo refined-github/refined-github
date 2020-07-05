@@ -10,3 +10,8 @@
 	min-width: 150px;
 	max-width: 300px;
 }
+
+/* Space out buttons on Releases page */
+.subnav > .float-right {
+	margin-left: 20px;
+}
