@@ -2,3 +2,10 @@
 [data-pull-is-open='false'] ~ #discussion_bucket .rgh-warning-for-disallow-edits {
 	display: none;
 }
+
+/* prevent-pr-commit-link-loss alignment #3296 */
+#new_pull_request tab-container::after {
+	display: block;
+	clear: both;
+	content: ""
+}
