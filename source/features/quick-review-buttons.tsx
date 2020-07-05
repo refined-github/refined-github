@@ -74,7 +74,8 @@ function init(): false | void {
 
 	// This will prevent submission when clicking "Comment" and "Request changes" without entering a comment and no other review comments are pending
 	delegate<HTMLButtonElement>(form, 'button', 'click', ({delegateTarget: {value}}) => {
-		const submissionRequiresComment = looseParseInt(select('.js-reviews-toggle .js-pending-review-comment-count')!.textContent!) === 0 && (value === 'reject' || value === 'comment');
+		const pendingComments = looseParseInt(select('.js-reviews-toggle .js-pending-review-comment-count')!.textContent!);
+		const submissionRequiresComment = pendingComments === 0 && (value === 'reject' || value === 'comment');
 		select('#pull_request_review_body', form)!.toggleAttribute('required', submissionRequiresComment);
 	});
 
