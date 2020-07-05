@@ -7,5 +7,5 @@
 #new_pull_request tab-container::after {
 	display: block;
 	clear: both;
-	content: ""
+	content: '';
 }
