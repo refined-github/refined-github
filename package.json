@@ -71,7 +71,7 @@
 	},
 	"devDependencies": {
 		"@ava/typescript": "^1.1.1",
-		"@rollup/plugin-typescript": "^4.1.2",
+		"@rollup/plugin-typescript": "^5.0.1",
 		"@sindresorhus/tsconfig": "^0.7.0",
 		"@types/chrome": "0.0.117",
 		"@types/codemirror": "0.0.96",
@@ -81,7 +81,7 @@
 		"@types/mini-css-extract-plugin": "^0.9.1",
 		"@types/react": "^16.9.41",
 		"@types/terser-webpack-plugin": "^3.0.0",
-		"ava": "^3.9.0",
+		"ava": "^3.10.0",
 		"chrome-webstore-upload-cli": "^1.2.0",
 		"copy-webpack-plugin": "^6.0.3",
 		"css-loader": "^3.6.0",
