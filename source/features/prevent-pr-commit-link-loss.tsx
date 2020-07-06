@@ -28,6 +28,10 @@ const updateUI = debounceFn(({delegateTarget: field}: delegate.Event<InputEvent,
 	// The replacement logic is not just in the regex, so it alone can't be used to detect the need for the replacement
 	if (field.value === field.value.replace(prCommitUrlRegex, preventPrCommitLinkLoss)) {
 		getUI(field).remove();
+	} else if (pageDetect.isNewIssue() || pageDetect.isCompare()) {
+		select('file-attachment', field.form!)!.append(
+			<div className="m-2">{getUI(field)}</div>
+		);
 	} else {
 		select('.form-actions', field.form!)!.prepend(getUI(field));
 	}
@@ -46,7 +50,7 @@ void features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/82131169-93fd5180-97d2-11ea-9695-97051c55091f.gif'
 }, {
 	include: [
-		pageDetect.hasComments
+		pageDetect.hasRichTextEditor
 	],
 	init
 });
