@@ -18,11 +18,11 @@ interface UserCounts {
 }
 
 const getUserCounts = cache.function(async (username: string): Promise<UserCounts> => {
-	const {user} = await api.v4(`
+	const {search, user} = await api.v4(`
+		search(type: REPOSITORY query: "user:${username} archived:false") {
+			repositoryCount
+		}
 		user(login: "${username}") {
-			repositories(isFork: false) {
-				totalCount
-			}
 			projects {
 				totalCount
 			}
@@ -35,7 +35,7 @@ const getUserCounts = cache.function(async (username: string): Promise<UserCount
 		}
 	`);
 	return {
-		repositories: user.repositories.totalCount,
+		repositories: search.repositoryCount,
 		projects: user.projects.totalCount,
 		packages: user.packages.totalCount,
 		gists: user.gists.totalCount
