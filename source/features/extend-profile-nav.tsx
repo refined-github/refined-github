@@ -3,8 +3,8 @@ import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
-import * as pageDetect from 'github-url-detection';
 import CodeSquareIcon from 'octicon/code-square.svg';
+import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
