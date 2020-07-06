@@ -41,7 +41,7 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Adds shortcuts to conversations and PR file lists: `j` focuses the comment/file below; `k` focuses the comment/file above.',
-	screenshot: false,
+	screenshot: 'https://user-images.githubusercontent.com/1402241/86573176-48665900-bf74-11ea-8996-a5c46cb7bdfd.gif',
 	shortcuts: {
 		j: 'Focus the comment/file below',
 		k: 'Focus the comment/file above'
