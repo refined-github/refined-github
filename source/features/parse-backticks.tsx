@@ -24,9 +24,9 @@ function init(): void {
 		'.release-header', // `isReleasesOrTags` Headers
 		'[id^="check_suite"] a.link-gray-dark', // `isActions`
 		'.repository-content .pr-toolbar h2', // `isActions` run
-		'.Details[data-issue-and-pr-hovercards-enabled] .Details-content--hidden a:first-child', // `isRepoRoot` ("Repository refresh" layout)
-		'.Details[data-issue-and-pr-hovercards-enabled] .Details-content--hidden pre', // `isRepoRoot` ("Repository refresh" layout)
-		'.existing-pull-contents .list-group-item-link', // `isCompare` existing PR ("Repository refresh" layout)
+		'.Details[data-issue-and-pr-hovercards-enabled] .Details-content--hidden a:first-child', // `isRepoRoot`
+		'.Details[data-issue-and-pr-hovercards-enabled] .Details-content--hidden pre', // `isRepoRoot`
+		'.existing-pull-contents .list-group-item-link', // `isCompare` with existing PR
 		'[aria-label="Link issues"] a', // "Linked issues" in `isIssue`, `isPRConversation`
 		'.notifications-list-item p.text-normal', // `isNotifications`
 		'.js-wiki-sidebar-toggle-display a', // `isWiki`
