@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import CodeSquareIcon from '@primer/octicons-v2/build/svg/code-square.svg';
+import CodeSquareIcon from 'octicons/code-square.svg';
 
 import features from '.';
 import {getCleanPathname} from '../github-helpers';
