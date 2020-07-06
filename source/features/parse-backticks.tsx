@@ -27,7 +27,7 @@ function init(): void {
 		'.Details[data-issue-and-pr-hovercards-enabled] .Details-content--hidden a:first-child', // `isRepoRoot` ("Repository refresh" layout)
 		'.Details[data-issue-and-pr-hovercards-enabled] .Details-content--hidden pre', // `isRepoRoot` ("Repository refresh" layout)
 		'.existing-pull-contents .list-group-item-link', // `isCompare` existing PR ("Repository refresh" layout)
-		'[aria-label="Link issues"] a', // `isIssue`, `isPRConversation`
+		'[aria-label="Link issues"] a', // "Linked issues" in `isIssue`, `isPRConversation`
 		'.notifications-list-item p.text-normal', // `isNotifications`
 		'.js-wiki-sidebar-toggle-display a', // `isWiki`
 		'.gh-header-title' // `isWiki`
