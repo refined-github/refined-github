@@ -4,7 +4,7 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import CodeSquareIcon from '@primer/octicons-v2/build/svg/code-square.svg';
+import CodeSquareIcon from 'octicon/code-square.svg';
 
 import features from '.';
 import * as api from '../github-helpers/api';
