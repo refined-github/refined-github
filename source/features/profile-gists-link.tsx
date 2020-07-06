@@ -2,8 +2,8 @@ import './profile-gists-link.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';
+import CodeSquareIcon from 'octicon/code-square.svg';
 import * as pageDetect from 'github-url-detection';
-import CodeSquareIcon from 'octicons/code-square.svg';
 
 import features from '.';
 import {getCleanPathname} from '../github-helpers';
