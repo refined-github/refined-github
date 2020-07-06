@@ -19,6 +19,7 @@ import './features/repo-stats-spacing.css';
 import './features/emphasize-draft-pr-label.css';
 import './features/clean-notifications.css';
 import './features/clean-pinned-issues.css';
+import './features/align-repository-header.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
@@ -179,6 +180,7 @@ import './features/show-associated-branch-prs-on-fork';
 import './features/faster-reviews';
 import './features/fork-source-link-same-view';
 import './features/pr-jump-to-first-non-viewed-file';
+import './features/keyboard-navigation';
 
 // Add global for easier debugging
 (window as any).select = select;
