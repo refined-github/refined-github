@@ -16,9 +16,7 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number, c
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			file: object(expression: "${commit}:${currentFilename}") {
-				... on Blob {
-					id
-				}
+				id
 			}
 			object(expression: "${commit}") {
 				... on Commit {

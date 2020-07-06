@@ -108,8 +108,8 @@
 	transform-origin: 90% top;
 }
 
-/* Improve spacing in discussion lists meta, made feel crowded by:
-highlight-collaborators-and-own-discussions
+/* Improve spacing in conversation lists meta, made feel crowded by:
+highlight-collaborators-and-own-conversations
 parse-backticks
 pr-branches
 */
@@ -125,4 +125,9 @@ pr-branches
 /* Hide duplicate "You can also open this in GitHub Desktop" in PRs’ mergeability box */
 .js-remove-unless-platform {
 	display: none;
+}
+
+/* Place Releases/Tags selector on the same line as `Draft new release` on releases page (GitHub bug) */
+.subnav .d-flex.flex-md-row.flex-justify-between.flex-md-items-center {
+	float: left;
 }
