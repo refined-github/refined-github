@@ -18,9 +18,6 @@ const defaults = Object.assign({
 }, __featuresOptionDefaults__); // This variable is replaced at build time
 
 const migrations = [
-	featureWasRenamed('fix-view-file-link-in-pr', 'enable-file-links-in-compare-view'), // Merged on June 3rd
-	featureWasRenamed('revert-file', 'restore-file'), // Merged on June 16th
-
 	// Merged on July 2nd
 	featureWasRenamed('sticky-discussion-list-toolbar', 'sticky-conversation-list-toolbar'),
 	featureWasRenamed('highlight-collaborators-and-own-discussions', 'highlight-collaborators-and-own-conversations'),
