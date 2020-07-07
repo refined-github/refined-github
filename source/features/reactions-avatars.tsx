@@ -62,7 +62,7 @@ async function showAvatarsOn(commentReactions: Element): Promise<void> {
 		container.append(
 			// Without this, Firefox will follow the link instead of submitting the reaction button
 			<a href={isFirefox ? undefined : `/${username}`} className="rounded-1 avatar-user">
-				<img src={imageUrl} style={{borderRadius: 'inherit'}}/>
+				<img src={imageUrl} className="avatar-user rounded-1"/>
 			</a>
 		);
 	}

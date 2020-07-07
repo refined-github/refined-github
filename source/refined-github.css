@@ -123,7 +123,7 @@ pr-branches
 }
 
 /* Hide duplicate "You can also open this in GitHub Desktop" in PRs’ mergeability box */
-.js-remove-unless-platform {
+#partial-pull-merging .js-remove-unless-platform {
 	display: none;
 }
 
