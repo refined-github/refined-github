@@ -29,7 +29,7 @@ void features.add({
 		pageDetect.isPRFiles
 	],
 	exclude: [
-		() => document.title.startsWith('Commit range not found · Pull Request')
+		pageDetect.isPRFile404
 	],
 	init
 });
