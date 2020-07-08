@@ -12,7 +12,7 @@ function parse(selectors: string[]): void {
 	}
 }
 
-function repoInit(): void {
+function initRepo(): void {
 	parse([
 		'.commit-title', // `isCommit`
 		'.commit-desc', // `isCommit`, `isCommitList`, `isRepoTree`
@@ -39,14 +39,14 @@ function repoInit(): void {
 	]);
 }
 
-function dashboardInit(): void {
+function initDashboard(): void {
 	parse([
 		'.js-recent-activity-container .text-bold', // `isDashboard`"Recent activity" titles
 		'.commits blockquote' // Newsfeed commits
 	]);
 }
 
-function notificationsInit(): void {
+function initNotifications(): void {
 	parse([
 		'.notifications-list-item p.text-normal' // `isNotifications`
 	]);
@@ -60,16 +60,16 @@ void features.add({
 	include: [
 		pageDetect.isRepo
 	],
-	init: repoInit
+	init: initRepo
 }, {
 	include: [
 		pageDetect.isDashboard
 	],
 	onlyAdditionalListeners: true,
-	init: dashboardInit
+	init: initDashboard
 }, {
 	include: [
 		pageDetect.isNotifications
 	],
-	init: notificationsInit
+	init: initNotifications
 });
