@@ -17,8 +17,8 @@ interface UserCounts {
 	gists: number;
 }
 
-const getUserCounts = cache.function(async (username: string): Promise<UserCounts> => {
-	const {search, user} = await api.v4(`
+const getProfileCounts = cache.function(async (username: string): Promise<UserCounts> => {
+	const {search, user, organization} = await api.v4(`
 		search(type: REPOSITORY query: "user:${username} archived:false") {
 			repositoryCount
 		}
@@ -33,28 +33,22 @@ const getUserCounts = cache.function(async (username: string): Promise<UserCount
 				totalCount
 			}
 		}
-	`);
-	return {
-		repositories: search.repositoryCount,
-		projects: user.projects.totalCount,
-		packages: user.packages.totalCount,
-		gists: user.gists.totalCount
-	};
-}, {
-	cacheKey: ([username]) => 'user-counts:' + username
-});
-
-const getOrganizationPackageCount = cache.function(async (organizationName: string): Promise<number> => {
-	const {organization} = await api.v4(`
-	  organization(login: "${organizationName}") {
+		organization(login: "${username}") {
 			packages {
 				totalCount
 			}
 		}
-	`);
-	return organization.packages.totalCount;
+	`, {
+		allowErrors: true
+	});
+	return {
+		repositories: search?.repositoryCount,
+		projects: user?.projects.totalCount,
+		packages: user?.packages.totalCount ?? organization.packages.totalCount,
+		gists: user?.gists.totalCount
+	};
 }, {
-	cacheKey: ([organizationName]) => 'organization-package-count:' + organizationName
+	cacheKey: ([username]) => 'profile-counts:' + username
 });
 
 async function extendUserNav(): Promise<void> {
@@ -62,15 +56,15 @@ async function extendUserNav(): Promise<void> {
 
 	const username = getCleanPathname();
 	const href = pageDetect.isEnterprise() ? `/gist/${username}` : `https://gist.github.com/${username}`;
-	const link = (
+	const gistsLink = (
 		<a href={href} className="UnderlineNav-item" role="tab" aria-selected="false">
 			<CodeSquareIcon className="UnderlineNav-octicon hide-sm"/> Gists
 		</a>
 	);
 
-	select('.UnderlineNav-body')!.append(link);
+	select('.UnderlineNav-body')!.append(gistsLink);
 
-	const {repositories, projects, packages, gists} = await getUserCounts(username);
+	const {repositories, projects, packages, gists} = await getProfileCounts(username);
 
 	if (repositories > 0) {
 		// Use `*=` to be compatible with `set-default-repositories-type-to-sources`
@@ -93,7 +87,7 @@ async function extendUserNav(): Promise<void> {
 	}
 
 	if (gists > 0) {
-		link.append(<span className="Counter">{gists}</span>);
+		gistsLink.append(<span className="Counter">{gists}</span>);
 	}
 }
 
@@ -102,10 +96,10 @@ async function extendOrganizationNav(): Promise<void> {
 
 	if (packageElement) {
 		const username = getCleanPathname();
-		const packageCount = await getOrganizationPackageCount(username);
+		const {packages} = await getProfileCounts(username);
 
-		if (packageCount > 0) {
-			packageElement.append(<span className="Counter">{packageCount}</span>);
+		if (packages > 0) {
+			packageElement.append(<span className="Counter">{packages}</span>);
 		} else {
 			packageElement.remove();
 		}
@@ -114,7 +108,7 @@ async function extendOrganizationNav(): Promise<void> {
 
 void features.add({
 	id: __filebasename,
-	description: 'Extend profile navigation with counts, gist and hide empty items.',
+	description: 'Adds counters and a link to Gist to user profiles, or hides empty sections.',
 	screenshot: 'https://user-images.githubusercontent.com/44045911/85816958-3bd94800-b79f-11ea-8b1d-094211224ccb.png'
 }, {
 	include: [

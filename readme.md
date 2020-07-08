@@ -281,7 +281,7 @@ Thanks for contributing! 🦋🙌
 
 - [](# "show-followers-you-know") [Shows the followers you have in common.](https://user-images.githubusercontent.com/2906365/42009293-b1503f62-7a57-11e8-88f5-9c2fb3651a14.png)
 - [](# "user-profile-follower-badge") [Tells you whether the user follows you.](https://user-images.githubusercontent.com/3723666/45190460-03ecc380-b20c-11e8-832b-839959ee2c99.gif)
-- [](# "extend-profile-nav") [Extend profile navigation with counts, gist and hide empty items.](https://user-images.githubusercontent.com/44045911/85816958-3bd94800-b79f-11ea-8b1d-094211224ccb.png)
+- [](# "extend-profile-nav") [Adds counters and a link to Gist to user profiles, or hides empty sections.](https://user-images.githubusercontent.com/44045911/85816958-3bd94800-b79f-11ea-8b1d-094211224ccb.png)
 - [](# "mark-private-orgs") [Marks private organizations on your own profile.](https://user-images.githubusercontent.com/6775216/44633467-d5dcc900-a959-11e8-9116-e6b0ffef66af.png)
 - [](# "profile-hotkey") Adds a keyboard shortcut to visit your own profile: <kbd>g</kbd> <kbd>m</kbd>.
 - [](# "show-user-top-repositories") [Adds a link to the user’s most starred repositories.](https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93de-159ad4c6f283.png)
