@@ -20,17 +20,16 @@ function init(): void {
 		return;
 	}
 
+	table.classList.add('rgh-vertical-front-matter-table');
 	// Table > tbody
 	const tbody = table.lastElementChild!;
 	// Table > tbody > tr
 	const tbodyTr = tbody.firstElementChild!;
 	for (let i = 0; i < count; i++) {
 		// Table > thead > tr > th
-		const th = theadTr.firstElementChild!;
-		th.classList.add('rgh-front-matter-name');
 		tbody.append(
 			<tr>
-				{th}
+				{theadTr.firstElementChild!}
 				{tbodyTr.firstElementChild!}
 			</tr>
 		);
