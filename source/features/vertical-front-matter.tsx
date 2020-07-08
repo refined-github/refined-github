@@ -11,25 +11,39 @@ function init(): void {
 		return;
 	}
 
-	const thead = select('thead tr', table)!;
-	const tbody = select('tbody', table)!;
-	const count = thead.childElementCount;
+	// table > thead
+	const thead = table.firstElementChild!;
+	// table > thead > tr
+	const theadTr = thead.firstElementChild!;
+	const count = theadTr.childElementCount;
+	if (count <= 4) {
+    return;
+	}
+
+	// table > tbody
+	const tbody = table.lastElementChild!;
+	// table > tbody > tr
+	const tbodyTr = tbody.firstElementChild!;
 	for (let i = 0; i < count; i++) {
-		const th = select('th', thead)!;
+		const th = theadTr.firstElementChild!;
 		th.classList.add('rgh-front-matter-name');
 		tbody.append(
 			<tr>
 				{th}
-				{select('td', tbody)!}
+				{tbodyTr.firstElementChild!}
 			</tr>
 		);
 	}
+
+	// Cleanup
+	thead.remove();
+	tbodyTr.remove();
 }
 
 void features.add({
 	id: __filebasename,
 	description: 'Show Markdown front matter as vertical table.',
-	screenshot: 'https://user-images.githubusercontent.com/44045911/86934729-a068af80-c16e-11ea-9d73-7b2efee652d1.png'
+	screenshot: 'https://user-images.githubusercontent.com/44045911/86938650-3bfc1f00-c173-11ea-963d-2a877b931461.png'
 }, {
 	include: [
 		pageDetect.isSingleFile
