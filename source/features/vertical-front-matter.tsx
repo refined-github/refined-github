@@ -14,8 +14,8 @@ function init(): void {
 	// Table > thead
 	const thead = table.firstElementChild!;
 	// Table > thead > tr
-	const theadTr = thead.firstElementChild!;
-	const count = theadTr.childElementCount;
+	const theadRow = thead.firstElementChild!;
+	const count = theadRow.childElementCount;
 	if (count <= 4) {
 		return;
 	}
@@ -23,12 +23,12 @@ function init(): void {
 	// Table > tbody
 	const tbody = table.lastElementChild!;
 	// Table > tbody > tr
-	const tbodyTr = tbody.firstElementChild!;
+	const tbodyRow = tbody.firstElementChild!;
 	for (let i = 0; i < count; i++) {
 		tbody.append(
 			<tr>
-				{theadTr.firstElementChild!}
-				{tbodyTr.firstElementChild!}
+				{theadRow.firstElementChild!}
+				{tbodyRow.firstElementChild!}
 			</tr>
 		);
 	}
@@ -36,7 +36,7 @@ function init(): void {
 	// Cleanup
 	table.classList.add('rgh-vertical-front-matter-table');
 	thead.remove();
-	tbodyTr.remove();
+	tbodyRow.remove();
 }
 
 void features.add({
