@@ -11,24 +11,23 @@ function init(): void {
 		return;
 	}
 
-	// Table > thead
 	const thead = table.firstElementChild!;
-	// Table > thead > tr
-	const theadRow = thead.firstElementChild!;
-	const count = theadRow.childElementCount;
-	if (count <= 4) {
+	// Table > thead > tr > th
+	const theadCells = [...thead.firstElementChild!.children];
+	if (theadCells.length <= 4) {
 		return;
 	}
 
-	// Table > tbody
 	const tbody = table.lastElementChild!;
 	// Table > tbody > tr
 	const tbodyRow = tbody.firstElementChild!;
-	for (let i = 0; i < count; i++) {
+	// Table > tbody > tr > td
+	const tbodyCells = [...tbodyRow.children];
+	for (let i = 0; i < theadCells.length; i++) {
 		tbody.append(
 			<tr>
-				{theadRow.firstElementChild!}
-				{tbodyRow.firstElementChild!}
+				{theadCells[i]}
+				{tbodyCells[i]}
 			</tr>
 		);
 	}
