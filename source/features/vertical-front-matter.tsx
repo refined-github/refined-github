@@ -20,7 +20,6 @@ function init(): void {
 		return;
 	}
 
-	table.classList.add('rgh-vertical-front-matter-table');
 	// Table > tbody
 	const tbody = table.lastElementChild!;
 	// Table > tbody > tr
@@ -35,6 +34,7 @@ function init(): void {
 	}
 
 	// Cleanup
+	table.classList.add('rgh-vertical-front-matter-table');
 	thead.remove();
 	tbodyTr.remove();
 }
