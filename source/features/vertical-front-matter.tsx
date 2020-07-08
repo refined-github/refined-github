@@ -11,9 +11,10 @@ function init(): void {
 		return;
 	}
 
-	const thead = select('thead', table)!;
+	const thead = select('thead tr', table)!;
 	const tbody = select('tbody', table)!;
-	while (select.exists('th', thead)) {
+	const count = thead.childElementCount;
+	for (let i = 0; i < count; i++) {
 		const th = select('th', thead)!;
 		th.classList.add('rgh-front-matter-name');
 		tbody.append(
