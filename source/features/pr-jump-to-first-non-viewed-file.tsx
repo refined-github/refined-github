@@ -28,5 +28,8 @@ void features.add({
 	include: [
 		pageDetect.isPRFiles
 	],
+	exclude: [
+		pageDetect.isPRFile404
+	],
 	init
 });

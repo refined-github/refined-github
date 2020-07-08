@@ -3,7 +3,6 @@ import select from 'select-dom';
 import './refined-github.css';
 import './features/scrollable-code-and-blockquote.css';
 import './features/center-reactions-popup.css';
-import './features/widen-search-field.css';
 import './features/clean-dashboard.css';
 import './features/safer-destructive-actions.css';
 import './features/clean-mergeability-box.css';
@@ -20,6 +19,7 @@ import './features/repo-stats-spacing.css';
 import './features/emphasize-draft-pr-label.css';
 import './features/clean-notifications.css';
 import './features/clean-pinned-issues.css';
+import './features/align-repository-header.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
@@ -139,7 +139,6 @@ import './features/list-prs-for-file';
 import './features/pr-branch-auto-delete';
 import './features/linkify-symbolic-links'; // Must be before show-whitespace
 import './features/show-whitespace';
-import './features/hide-zero-packages';
 import './features/restore-file';
 import './features/hidden-review-comments-indicator';
 import './features/reload-failed-proxied-images';
@@ -181,6 +180,7 @@ import './features/show-associated-branch-prs-on-fork';
 import './features/faster-reviews';
 import './features/fork-source-link-same-view';
 import './features/pr-jump-to-first-non-viewed-file';
+import './features/keyboard-navigation';
 
 // Add global for easier debugging
 (window as any).select = select;

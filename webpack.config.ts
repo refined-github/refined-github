@@ -93,13 +93,10 @@ const config: Configuration = {
 			// Passing `true` as the second argument makes these values dynamic — so every file change will update their value.
 			__featuresOptionDefaults__: webpack.DefinePlugin.runtimeValue(() => {
 				return JSON.stringify(Object.fromEntries(getFeatures().map(id => [`feature:${id}`, true])));
-				// TODO: unignore after https://github.com/DefinitelyTyped/DefinitelyTyped/pull/42036
-				// @ts-expect-error
 			}, true),
 
 			__featuresMeta__: webpack.DefinePlugin.runtimeValue(() => {
 				return JSON.stringify(getFeatures().map(parseFeatureDetails));
-				// @ts-expect-error
 			}, true),
 
 			__filebasename: webpack.DefinePlugin.runtimeValue(({module}) => {
