@@ -40,7 +40,7 @@ function repoInit(): void {
 
 function dashboardInit(): void {
 	parse([
- 		'.js-recent-activity-container .text-bold', // `isDashboard`"Recent activity" titles
+		'.js-recent-activity-container .text-bold', // `isDashboard`"Recent activity" titles
 		'.commits blockquote' // Newsfeed commits
 	]);
 }
