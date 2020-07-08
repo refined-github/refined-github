@@ -23,7 +23,7 @@ const getUserCounts = cache.function(async (username: string): Promise<UserCount
 			repositoryCount
 		}
 		user(login: "${username}") {
-			projects {
+			projects(states: OPEN) {
 				totalCount
 			}
 			packages {
