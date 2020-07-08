@@ -3,9 +3,10 @@ import * as pageDetect from 'github-url-detection';
 import copyToClipboard from 'copy-text-to-clipboard';
 
 import features from '.';
+import {isEditable} from '../helpers/dom-utils';
 
 const handler = ({key, target}: KeyboardEvent): void => {
-	if (key === 'y' && (target as Element).nodeName !== 'INPUT') {
+	if (key === 'y' && !isEditable(target)) {
 		const permalink = select<HTMLAnchorElement>('.js-permalink-shortcut')!.href;
 		copyToClipboard(permalink + location.hash);
 	}

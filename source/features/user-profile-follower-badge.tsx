@@ -22,9 +22,15 @@ const doesUserFollow = cache.function(async (userA: string, userB: string): Prom
 
 async function init(): Promise<void> {
 	if (await doesUserFollow(getCleanPathname(), getUsername())) {
-		select('.vcard-names-container:not(.is-placeholder)')!.after(
-			<div className="rgh-follower-badge">Follows you</div>
-		);
+		const newProfileElement = select('.js-profile-editable-area a:last-child');
+		if (newProfileElement) {
+			newProfileElement.after(<span className="text-gray"> · Follows you</span>);
+		} else {
+			// Pre "Repository refresh" layout
+			select('.vcard-names-container:not(.is-placeholder)')!.after(
+				<div className="rgh-follower-badge">Follows you</div>
+			);
+		}
 	}
 }
 

@@ -11,12 +11,8 @@ function isLineSelected(): boolean {
 	return /^#L|^#diff-[\da-f]+R\d+/.test(location.hash);
 }
 
-function listener(event: KeyboardEvent): void {
-	if (
-		event.key === 'Escape' && // Catch `Esc` key
-		isLineSelected() &&
-		!isEditable(event.target) // If a field isn’t focused
-	) {
+function listener({key, target}: KeyboardEvent): void {
+	if (key === 'Escape' && isLineSelected() && !isEditable(target)) {
 		location.hash = '#no-line'; // Update UI, without `scroll-to-top` behavior
 		history.replaceState({}, document.title, location.pathname); // Drop remaining # from url
 	}

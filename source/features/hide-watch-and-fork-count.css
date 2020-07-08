@@ -2,7 +2,7 @@
 /* This isn't possible for the Forks count because of an incompatible DOM structure and #2368 */
 .rgh-hide-watch-and-fork-count:not(.rgh-forked-to) .btn-with-count[title^='Fork your own'],
 .rgh-hide-watch-and-fork-count details:not([open]) .btn-with-count[data-ga-click^='Repository, click Watch'] {
-	border-radius: 0.25em; /* Matches GitHub's default */
+	border-radius: 6px; /* Matches GitHub's default */
 }
 
 .rgh-hide-watch-and-fork-count .social-count[href$='/network/members'],

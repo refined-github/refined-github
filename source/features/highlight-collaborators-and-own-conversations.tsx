@@ -1,4 +1,4 @@
-import './highlight-collaborators-and-own-discussions.css';
+import './highlight-collaborators-and-own-conversations.css';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
@@ -43,16 +43,16 @@ function highlightSelf(): void {
 
 void features.add({
 	id: __filebasename,
-	description: 'Highlights discussions opened by you or the current repo’s collaborators.',
+	description: 'Highlights conversations opened by you or the current repo’s collaborators.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/65013882-03225d80-d947-11e9-8eb8-5507bc1fc14b.png'
 }, {
 	include: [
-		pageDetect.isRepoDiscussionList
+		pageDetect.isRepoConversationList
 	],
 	init: highlightCollaborators
 }, {
 	include: [
-		pageDetect.isDiscussionList
+		pageDetect.isConversationList
 	],
 	init: highlightSelf
 });

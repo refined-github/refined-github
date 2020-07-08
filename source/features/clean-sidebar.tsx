@@ -33,7 +33,11 @@ Expected DOM:
 @param containerSelector Element that contains `details` or `.discussion-sidebar-heading`
 */
 function cleanSection(containerSelector: string): boolean {
-	const container = select(containerSelector)!;
+	const container = select(containerSelector);
+	if (!container) {
+		return false;
+	}
+
 	const header = select(':scope > details, :scope > .discussion-sidebar-heading', container)!;
 
 	// Magic. Do not touch.
@@ -107,7 +111,7 @@ async function clean(): Promise<void> {
 
 void features.add({
 	id: __filebasename,
-	description: 'Hides empty sections (or just their "empty" label) in the discussion sidebar.',
+	description: 'Hides empty sections (or just their "empty" label) in the conversation sidebar.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/57199809-20691780-6fb6-11e9-9672-1ad3f9e1b827.png'
 }, {
 	include: [
