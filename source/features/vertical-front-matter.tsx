@@ -20,9 +20,9 @@ function init(): void {
 	table.replaceWith(
 		<table className="rgh-vertical-front-matter-table" data-table-type="yaml-metadata">
 			<tbody>
-				{[...new Array(theadCells.length)].map(index => (
+				{theadCells.map((cell, index) => (
 					<tr>
-						{theadCells[index]}
+						{cell}
 						{tbodyCells[index]}
 					</tr>
 				))}
