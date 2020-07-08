@@ -26,7 +26,6 @@ function init(): void {
 	// Table > tbody > tr
 	const tbodyTr = tbody.firstElementChild!;
 	for (let i = 0; i < count; i++) {
-		// Table > thead > tr > th
 		tbody.append(
 			<tr>
 				{theadTr.firstElementChild!}
