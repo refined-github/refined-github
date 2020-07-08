@@ -19,12 +19,10 @@ function init(): void {
 	}
 
 	const tbody = table.lastElementChild!;
-	// Table > tbody > tr
-	const tbodyRow = tbody.firstElementChild!;
 	// Table > tbody > tr > td
-	const tbodyCells = [...tbodyRow.children];
+	const tbodyCells = [...tbody.firstElementChild!.children];
 	for (let i = 0; i < theadCells.length; i++) {
-		tbody.append(
+		tbody.prepend(
 			<tr>
 				{theadCells[i]}
 				{tbodyCells[i]}
@@ -35,7 +33,6 @@ function init(): void {
 	// Cleanup
 	table.classList.add('rgh-vertical-front-matter-table');
 	thead.remove();
-	tbodyRow.remove();
 }
 
 void features.add({
