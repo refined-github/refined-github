@@ -36,7 +36,8 @@ function renderButton(): void {
 				Copy
 			</button>
 		);
-		if (pageDetect.isGist() && button.href.endsWith('.svg')) { // SVG files have a render blob button
+		const hasRenderButtons = button.parentElement!.querySelector('.rendered');
+		if (pageDetect.isGist() && hasRenderButtons) {
 			button.before(copyButton);
 		} else {
 			button
