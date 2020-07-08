@@ -40,14 +40,14 @@ function repoInit(): void {
 
 function dashboardInit(): void {
 	parse([
-    '.js-recent-activity-container .text-bold', // `isDashboard`"Recent activity" titles
-		'.commits blockquote', // Newsfeed commits
+ 		'.js-recent-activity-container .text-bold', // `isDashboard`"Recent activity" titles
+		'.commits blockquote' // Newsfeed commits
 	]);
 }
 
 function notificationsInit(): void {
 	parse([
-		'.notifications-list-item p.text-normal', // `isNotifications`
+		'.notifications-list-item p.text-normal' // `isNotifications`
 	]);
 }
 
