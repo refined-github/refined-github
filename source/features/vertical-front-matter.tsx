@@ -11,28 +11,24 @@ function init(): void {
 		return;
 	}
 
-	const thead = table.firstElementChild!;
-	// Table > thead > tr > th
-	const theadCells = [...thead.firstElementChild!.children];
+	const theadCells = select.all('[data-table-type="yaml-metadata"] > thead th', table);
 	if (theadCells.length <= 4) {
 		return;
 	}
 
-	const tbody = table.lastElementChild!;
-	// Table > tbody > tr > td
-	const tbodyCells = [...tbody.firstElementChild!.children];
-	for (let i = 0; i < theadCells.length; i++) {
-		tbody.prepend(
-			<tr>
-				{theadCells[i]}
-				{tbodyCells[i]}
-			</tr>
-		);
-	}
-
-	// Cleanup
-	table.classList.add('rgh-vertical-front-matter-table');
-	thead.remove();
+	const tbodyCells = select.all('[data-table-type="yaml-metadata"] > tbody > tr > td', table);
+	table.replaceWith(
+		<table className="rgh-vertical-front-matter-table" data-table-type="yaml-metadata">
+			<tbody>
+				{[...new Array(theadCells.length)].map(index => (
+					<tr>
+						{theadCells[index]}
+						{tbodyCells[index]}
+					</tr>
+				))}
+			</tbody>
+		</table>
+	);
 }
 
 void features.add({
