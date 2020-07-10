@@ -181,6 +181,7 @@ import './features/faster-reviews';
 import './features/fork-source-link-same-view';
 import './features/pr-jump-to-first-non-viewed-file';
 import './features/keyboard-navigation';
+import './features/sync-pr-first-commit';
 
 // Add global for easier debugging
 (window as any).select = select;
