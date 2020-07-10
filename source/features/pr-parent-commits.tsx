@@ -60,8 +60,7 @@ void features.add({
 		pageDetect.isPRCommit
 	],
 	exclude: [
-		// Forced pushed commit 404 ages
-		() => document.title.startsWith('Commit range not found · Pull Request')
+		pageDetect.isPRCommit404
 	],
 	waitForDomReady: false,
 	init
