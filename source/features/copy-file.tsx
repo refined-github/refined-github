@@ -36,16 +36,12 @@ function renderButton(): void {
 				Copy
 			</button>
 		);
-		const hasRenderButtons = button.parentElement!.querySelector('.rendered');
-		if (pageDetect.isGist() && hasRenderButtons) {
-			button.before(copyButton);
+		const group = button.closest('.BtnGroup');
+		if (group) {
+			group.prepend(copyButton);
 		} else {
-			button
-				.parentElement! // `BtnGroup`
-				.prepend(copyButton);
+			groupButtons([button, copyButton]);
 		}
-
-		groupSiblings(button);
 	}
 }
 
