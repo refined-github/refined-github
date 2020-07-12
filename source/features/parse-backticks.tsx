@@ -34,6 +34,7 @@ function initRepo(): void {
 		'.Details[data-issue-and-pr-hovercards-enabled] .d-none a.link-gray-dark', // `isRepoRoot`
 		'.existing-pull-contents .list-group-item-link', // `isCompare` with existing PR
 		'[aria-label="Link issues"] a', // "Linked issues" in `isIssue`, `isPRConversation`
+		'.BorderGrid--spacious .f4.mt-3', // `isRepoHome` repository description
 		'.js-wiki-sidebar-toggle-display a', // `isWiki`
 		'.gh-header-title' // `isWiki`
 	]);
@@ -49,6 +50,12 @@ function initDashboard(): void {
 function initNotifications(): void {
 	parse([
 		'.notifications-list-item p.text-normal' // `isNotifications`
+	]);
+}
+
+function initGlobalConversationList(): void {
+	parse([
+		'.link-gray-dark.js-navigation-open' // `isGlobalConversationList`
 	]);
 }
 
@@ -72,4 +79,9 @@ void features.add({
 		pageDetect.isNotifications
 	],
 	init: initNotifications
+}, {
+	include: [
+		pageDetect.isGlobalConversationList
+	],
+	init: initGlobalConversationList
 });
