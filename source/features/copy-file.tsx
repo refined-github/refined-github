@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import copyToClipboard from 'copy-text-to-clipboard';
 
 import features from '.';
-import {groupSiblings} from '../github-helpers/group-buttons';
+import {groupButtons} from '../github-helpers/group-buttons';
 
 function handleClick({delegateTarget: button}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const file = button.closest('.Box, .js-gist-file-update-container')!;
