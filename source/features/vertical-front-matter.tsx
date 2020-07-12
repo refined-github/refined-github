@@ -5,18 +5,18 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function init(): void {
+function init(): void | false {
 	const table = select('[data-table-type="yaml-metadata"]');
 	if (!table) {
 		return;
 	}
 
-	const theadCells = select.all('[data-table-type="yaml-metadata"] > thead th', table);
+	const theadCells = select.all(':scope > thead th', table);
 	if (theadCells.length <= 4) {
-		return;
+		return false;
 	}
 
-	const tbodyCells = select.all('[data-table-type="yaml-metadata"] > tbody > tr > td', table);
+	const tbodyCells = select.all(':scope > tbody > tr > td', table);
 	table.replaceWith(
 		<table className="rgh-vertical-front-matter-table" data-table-type="yaml-metadata">
 			<tbody>
@@ -34,7 +34,7 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Show Markdown front matter as vertical table.',
-	screenshot: 'https://user-images.githubusercontent.com/44045911/86938650-3bfc1f00-c173-11ea-963d-2a877b931461.png'
+	screenshot: 'https://user-images.githubusercontent.com/44045911/87251695-26069b00-c4a0-11ea-9077-53ce366490ed.png'
 }, {
 	include: [
 		pageDetect.isSingleFile
