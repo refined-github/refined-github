@@ -27,8 +27,8 @@ async function init(): Promise<void | false> {
 
 void features.add({
 	id: __filebasename,
-	description: 'Sync a new pr message when there is more then one commit.',
-	screenshot: ''
+	description: 'Use the first commit for a new PR’s title and description.',
+	screenshot: 'https://user-images.githubusercontent.com/16872793/87246205-ccf42400-c419-11ea-86d5-0e6570d99e6e.gif'
 }, {
 	include: [
 		pageDetect.isCompare
