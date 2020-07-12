@@ -76,6 +76,8 @@ function linkBestComment(bestComment: HTMLElement): void {
 
 		// Copy avatar but link it to the comment
 		const avatar = select('.TimelineItem-avatar', bestComment)!.cloneNode(true);
+		// Remove the check icon from the preview #3338
+		select('.octicon-check.text-green', avatar)!.remove();
 		const link = select<HTMLAnchorElement>('[data-hovercard-type="user"]', avatar)!;
 		link.removeAttribute('data-hovercard-type');
 		link.removeAttribute('data-hovercard-url');
