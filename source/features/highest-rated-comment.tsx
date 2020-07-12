@@ -76,12 +76,13 @@ function linkBestComment(bestComment: HTMLElement): void {
 
 		// Copy avatar but link it to the comment
 		const avatar = select('.TimelineItem-avatar', bestComment)!.cloneNode(true);
-		// Remove the check icon from the preview #3338
-		select('.octicon-check.text-green', avatar)!.remove();
 		const link = select<HTMLAnchorElement>('[data-hovercard-type="user"]', avatar)!;
 		link.removeAttribute('data-hovercard-type');
 		link.removeAttribute('data-hovercard-url');
 		link.href = hash;
+
+		// Remove the check icon from the preview #3338
+		select('.octicon-check.text-green', avatar)!.remove();
 
 		// We don't copy the exact timeline item structure, so we need to align the avatar with the other avatars in the timeline.
 		// TODO: update DOM to match other comments, instead of applying this CSS
