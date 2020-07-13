@@ -22,7 +22,7 @@ void features.add({
 		pageDetect.isPR,
 		pageDetect.isIssue
 	],
-	init: () => {
+	init() {
 		observeElement(select('#partial-discussion-header')!.parentElement!, init);
 	}
 });

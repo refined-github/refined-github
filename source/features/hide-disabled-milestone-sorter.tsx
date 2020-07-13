@@ -22,7 +22,7 @@ void features.add({
 		// Issues container doesn't exist for milestones without (open) issues
 		() => !select.exists('.js-milestone-issues-container')
 	],
-	init: () => {
+	init() {
 		observeElement('.js-milestone-issues-container', init);
 	}
 });
