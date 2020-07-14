@@ -11,6 +11,10 @@
 	width: 16px;
 }
 
-:root .rgh-has-more-dropdown {
-	overflow: visible !important;
+.js-responsive-underlinenav-overflow {
+	visibility: visible !important;
+}
+
+.js-responsive-underlinenav-overflow [hidden] + .dropdown-divider {
+	display: none;
 }
