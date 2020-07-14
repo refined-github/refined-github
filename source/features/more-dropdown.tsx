@@ -64,7 +64,7 @@ function createDropdown(): Element {
 				<details-menu className="dropdown-menu dropdown-menu-sw" role="menu">
 					<ul>
 						{createDropdownItem('Compare', compareUrl, false)}
-						{pageDetect.isEnterprise() && createDropdownItem('Dependencies', dependenciesUrl, false)}
+						{pageDetect.isEnterprise() || createDropdownItem('Dependencies', dependenciesUrl, false)}
 						{createDropdownItem('Commits', commitsUrl, false)}
 						{createDropdownItem('Branches', `/${repoUrl}/branches`, false)}
 					</ul>
@@ -92,16 +92,13 @@ async function init(): Promise<void> {
 		const compareUrl = `/${repoUrl}/compare/${reference}`;
 		const commitsUrl = `/${repoUrl}/commits/${reference}`;
 		const dependenciesUrl = `/${repoUrl}/network/dependencies`;
-		const menu = select('.js-responsive-underlinenav-overflow ul')!;
-
-		menu.append(
+		select('.js-responsive-underlinenav-overflow ul')!.append(
 			<div data-menu-item="rgh-more-dropdown"/>,
 			createDropdownItem('Compare', compareUrl, true),
 			pageDetect.isEnterprise() ? '' : createDropdownItem('Dependencies', dependenciesUrl, true),
 			createDropdownItem('Commits', commitsUrl, true),
 			createDropdownItem('Branches', `/${repoUrl}/branches`, true)
 		);
-
 		return;
 	}
 
