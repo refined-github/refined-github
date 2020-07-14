@@ -65,7 +65,7 @@ const api4 = ['github.com', 'gist.github.com'].includes(location.hostname) ?
 interface GHRestApiOptions {
 	ignoreHTTPStatus?: boolean;
 	method?: 'GET' | 'POST' | 'PUT';
-	body?: undefined | JsonObject;
+	body?: JsonObject;
 	headers?: HeadersInit;
 	json?: boolean;
 }
