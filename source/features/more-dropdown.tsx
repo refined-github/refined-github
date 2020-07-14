@@ -15,8 +15,7 @@ import {getRepoURL, getCurrentBranch} from '../github-helpers';
 
 const repoUrl = getRepoURL();
 
-// Pre "Repository refresh" layout
-function createLegacyDropdown(): void {
+function createDropdown(): void {
 	// Markup copied from native GHE dropdown
 	appendBefore(
 		// GHE doesn't have `reponav > ul`
@@ -33,50 +32,44 @@ function createLegacyDropdown(): void {
 }
 
 /* eslint-disable-next-line import/prefer-default-export */
-export function createDropdownItem(label: string, url: string, overflow: boolean): Element {
-	const id = `rgh-${label.toLowerCase()}-item`;
-	const item = overflow ?
-		<li data-menu-item={id}/> :
-		<li/>;
-	item.append(
-		<a role="menuitem" className="dropdown-item" href={url}>
-			{label}
-		</a>
+export function createDropdownItem(label: string, url: string, attributes?: Record<string, string>): Element {
+	return (
+		<li {...attributes}>
+			<a role="menuitem" className="dropdown-item" href={url}>
+				{label}
+			</a>
+		</li>
 	);
-	return item;
 }
 
 async function init(): Promise<void> {
 	await elementReady('.pagehead + *'); // Wait for the tab bar to be loaded
 
+	const reference = getCurrentBranch();
+	const compareUrl = `/${repoUrl}/compare/${reference}`;
+	const commitsUrl = `/${repoUrl}/commits/${reference}`;
+	const dependenciesUrl = `/${repoUrl}/network/dependencies`;
+
 	const nav = select('.js-responsive-underlinenav .UnderlineNav-body');
 	if (nav) {
 		// "Repository refresh" layout
 		nav.parentElement!.classList.add('rgh-has-more-dropdown');
-		const reference = getCurrentBranch();
-		const compareUrl = `/${repoUrl}/compare/${reference}`;
-		const commitsUrl = `/${repoUrl}/commits/${reference}`;
-		const dependenciesUrl = `/${repoUrl}/network/dependencies`;
 		select('.js-responsive-underlinenav-overflow ul')!.append(
 			<li className="dropdown-divider" role="separator"/>,
-			createDropdownItem('Compare', compareUrl, false),
-			pageDetect.isEnterprise() ? '' : createDropdownItem('Dependencies', dependenciesUrl, false),
-			createDropdownItem('Commits', commitsUrl, false),
-			createDropdownItem('Branches', `/${repoUrl}/branches`, false)
+			createDropdownItem('Compare', compareUrl),
+			pageDetect.isEnterprise() ? '' : createDropdownItem('Dependencies', dependenciesUrl),
+			createDropdownItem('Commits', commitsUrl),
+			createDropdownItem('Branches', `/${repoUrl}/branches`)
 		);
 		return;
 	}
 
+	// Pre "Repository refresh" layout
 	if (!select.exists('.reponav-dropdown')) {
-		createLegacyDropdown();
+		createDropdown();
 	}
 
-	const reference = getCurrentBranch();
-	const compareUrl = `/${repoUrl}/compare/${reference}`;
-	const commitsUrl = `/${repoUrl}/commits/${reference}`;
-
 	const menu = select('.reponav-dropdown .dropdown-menu')!;
-
 	menu.append(
 		<a href={compareUrl} className="rgh-reponav-more dropdown-item">
 			<DiffIcon/> Compare
