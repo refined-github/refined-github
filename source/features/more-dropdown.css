@@ -10,3 +10,7 @@
 .rgh-reponav-more svg {
 	width: 16px;
 }
+
+:root .rgh-has-more-dropdown {
+	overflow: visible !important;
+}
