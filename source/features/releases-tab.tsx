@@ -8,6 +8,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import {appendBefore} from '../helpers/dom-utils';
+import {createDropdownItem} from './more-dropdown';
 import {getRepoURL, getRepoGQL, looseParseInt} from '../github-helpers';
 
 const repoUrl = getRepoURL();
@@ -64,14 +65,18 @@ async function init(): Promise<false | void> {
 		// "Repository refresh" layout
 
 		const releasesTab = (
-			<a href={`/${repoUrl}/releases`} className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item" data-hotkey="g r" data-selected-links="repo_releases" data-tab-item="releases-tab">
+			<a href={`/${repoUrl}/releases`} className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item" data-hotkey="g r" data-selected-links="repo_releases" data-tab-item="rgh-releases-item">
 				<TagIcon className="UnderlineNav-octicon"/>
 				<span data-content="Releases">Releases</span>
 				{count === undefined ? '' : <span className="Counter">{count}</span>}
 			</a>
 		);
 
-		select(':scope > ul', repoNavigationBar)!.append(releasesTab);
+		appendBefore(
+			select(':scope > ul', repoNavigationBar)!,
+			'[data-tab-item="rgh-more-dropdown"]',
+			releasesTab
+		);
 
 		// Update "selected" tab mark
 		if (pageDetect.isReleasesOrTags()) {
@@ -85,12 +90,8 @@ async function init(): Promise<false | void> {
 			releasesTab.setAttribute('aria-current', 'page');
 		}
 
-		select('.js-responsive-underlinenav-overflow ul', repoNavigationBar)!.append(
-			<li data-menu-item="releases-tab">
-				<a role="menuitem" className="js-selected-navigation-item dropdown-item" data-selected-links={`/${repoUrl}/releases`} href={`/${repoUrl}/releases`}>
-					Releases
-				</a>
-			</li>
+		select('[data-menu-item="insights-tab"]', repoNavigationBar)!.after(
+			createDropdownItem('Releases', `/${repoUrl}/releases`, true)
 		);
 
 		return;
