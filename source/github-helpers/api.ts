@@ -55,10 +55,10 @@ export class RefinedGitHubAPIError extends Error {
 
 const settings = optionsStorage.getAll();
 
-const api3 = location.hostname === 'github.com' ?
+const api3 = ['github.com', 'gist.github.com'].includes(location.hostname) ?
 	'https://api.github.com/' :
 	`${location.origin}/api/v3/`;
-const api4 = location.hostname === 'github.com' ?
+const api4 = ['github.com', 'gist.github.com'].includes(location.hostname) ?
 	'https://api.github.com/graphql' :
 	`${location.origin}/api/graphql`;
 
