@@ -2,13 +2,13 @@ import test from 'ava';
 
 import './fixtures/globals';
 import pluralize from '../source/helpers/pluralize';
+import looseParseInt from '../source/helpers/loose-parse-int';
 import {
 	getConversationNumber,
 	getRepositoryInfo,
 	parseTag,
 	compareNames,
 	getScopedSelector,
-	looseParseInt,
 	getLatestVersionTag,
 	preventPrCommitLinkLoss,
 	prCommitUrlRegex
