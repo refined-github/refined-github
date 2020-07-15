@@ -2,6 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 
 import features from '.';
+import observeElement from '../helpers/simplified-element-observer';
 import {wrap, isEditable} from '../helpers/dom-utils';
 
 function addLocation(baseElement: HTMLElement): void {
@@ -19,17 +20,12 @@ function addLocation(baseElement: HTMLElement): void {
 	}
 }
 
-const hovercardObserver = new MutationObserver(([mutation]) => {
-	addLocation(mutation.target as HTMLElement);
-});
-
 function init(): void {
 	addLocation(document.body);
 
-	const hovercardContainer = select('.js-hovercard-content > .Popover-message');
-	if (hovercardContainer) {
-		hovercardObserver.observe(hovercardContainer, {childList: true});
-	}
+	observeElement('.js-hovercard-content > .Popover-message', ([mutation]) => {
+		addLocation(mutation?.target as HTMLElement);
+	});
 }
 
 void features.add({
