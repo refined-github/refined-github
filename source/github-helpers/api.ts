@@ -25,6 +25,7 @@ so the call will not throw an error but it will return as usual.
  */
 
 import mem from 'mem';
+import * as pageDetect from 'github-url-detection';
 import {JsonObject, AsyncReturnType} from 'type-fest';
 
 import optionsStorage from '../options-storage';
@@ -55,12 +56,13 @@ export class RefinedGitHubAPIError extends Error {
 
 const settings = optionsStorage.getAll();
 
-const api3 = ['github.com', 'gist.github.com'].includes(location.hostname) ?
-	'https://api.github.com/' :
-	`${location.origin}/api/v3/`;
-const api4 = ['github.com', 'gist.github.com'].includes(location.hostname) ?
-	'https://api.github.com/graphql' :
-	`${location.origin}/api/graphql`;
+const api3 = pageDetect.isEnterprise() ?
+	`${location.origin}/api/v3/` :
+	'https://api.github.com/';
+
+const api4 = pageDetect.isEnterprise() ?
+	`${location.origin}/api/graphql` :
+	'https://api.github.com/graphql';
 
 interface GHRestApiOptions {
 	ignoreHTTPStatus?: boolean;
