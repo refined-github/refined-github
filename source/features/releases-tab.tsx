@@ -72,9 +72,7 @@ async function init(): Promise<false | void> {
 			</a>
 		);
 
-		appendBefore(
-			select(':scope > ul', repoNavigationBar)!,
-			'[data-tab-item="rgh-more-dropdown"]',
+		select(':scope > ul', repoNavigationBar)!.append(
 			<li className="d-flex">
 				{releasesTab}
 			</li>
