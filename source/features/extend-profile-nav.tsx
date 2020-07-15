@@ -11,22 +11,15 @@ import * as api from '../github-helpers/api';
 import {getCleanPathname} from '../github-helpers';
 
 interface UserCounts {
-	repositories: number;
 	projects: number;
 	packages: number;
 	gists: number;
 }
 
 const getProfileCounts = cache.function(async (username: string): Promise<UserCounts> => {
-	const {search, user, organization} = await api.v4(`
-		search(type: REPOSITORY query: "user:${username} archived:false") {
-			repositoryCount
-		}
+	const {user, organization} = await api.v4(`
 		user(login: "${username}") {
 			projects(states: OPEN) {
-				totalCount
-			}
-			packages {
 				totalCount
 			}
 			gists {
@@ -42,9 +35,8 @@ const getProfileCounts = cache.function(async (username: string): Promise<UserCo
 		allowErrors: true
 	});
 	return {
-		repositories: search?.repositoryCount,
 		projects: user?.projects.totalCount,
-		packages: user?.packages.totalCount ?? organization.packages.totalCount,
+		packages: organization.packages.totalCount ?? 0,
 		gists: user?.gists.totalCount
 	};
 }, {
@@ -64,26 +56,13 @@ async function extendUserNav(): Promise<void> {
 
 	select('.UnderlineNav-body')!.append(gistsLink);
 
-	const {repositories, projects, packages, gists} = await getProfileCounts(username);
-
-	if (repositories > 0) {
-		// Use `*=` to be compatible with `set-default-repositories-type-to-sources`
-		select('[aria-label="User profile"] [href*="tab=repositories"]')!.append(
-			<span className="Counter">{repositories}</span>
-		);
-	}
+	const {projects, gists} = await getProfileCounts(username);
 
 	const projectElement = select('[aria-label="User profile"] [href$="tab=projects"]')!;
 	if (projects > 0) {
 		projectElement.append(<span className="Counter">{projects}</span>);
 	} else {
 		projectElement.remove();
-	}
-
-	if (packages > 0) {
-		select('[aria-label="User profile"] [href$="tab=packages"]')!.append(
-			<span className="Counter">{packages}</span>
-		);
 	}
 
 	if (gists > 0) {
