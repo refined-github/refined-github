@@ -68,7 +68,7 @@ async function init(): Promise<false | void> {
 			<a href={`/${repoUrl}/releases`} className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item" data-hotkey="g r" data-selected-links="repo_releases" data-tab-item="rgh-releases-item">
 				<TagIcon className="UnderlineNav-octicon"/>
 				<span data-content="Releases">Releases</span>
-				{count ?? <span className="Counter">{count}</span>}
+				{count && <span className="Counter">{count}</span>}
 			</a>
 		);
 
@@ -105,7 +105,7 @@ async function init(): Promise<false | void> {
 		<a href={`/${repoUrl}/releases`} className="reponav-item" data-hotkey="g r">
 			<TagIcon/>
 			<span> Releases </span>
-			{count === undefined ? '' : <span className="Counter">{count}</span>}
+			{count && <span className="Counter">{count}</span>}
 		</a>
 	);
 
