@@ -4,6 +4,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import {parseBackticks} from '../github-helpers/dom-formatters';
+import observeElement from '../helpers/simplified-element-observer';
 
 function parse(selectors: string[]): void {
 	for (const element of select.all(selectors.map(selector => selector + ':not(.rgh-backticks-already-parsed)'))) {
@@ -59,6 +60,31 @@ function initGlobalConversationList(): void {
 	]);
 }
 
+function initUserProfileMainTab(): void {
+	parse([
+		'.profile-timeline-card .text-gray-dark' // `isUserProfileMainTab` issue and PR title
+	]);
+}
+
+function initHovercard(): void {
+	const hovercard = select('.js-hovercard-content > .Popover-message')!;
+
+	observeElement(hovercard, () => {
+		// Check if it's the hovercard type we expect
+		if (
+			!select.exists('[data-hydro-view*="commit-hovercard-hover"]', hovercard) &&
+			!select.exists('[data-hydro-view*="issue-hovercard-hover"]', hovercard) &&
+			!select.exists('[data-hydro-view*="pull-request-hovercard-hover"]', hovercard)
+		) {
+			return;
+		}
+
+		parse([
+			'.js-hovercard-content > .Popover-message .link-gray-dark' // Hovercard
+		]);
+	});
+}
+
 void features.add({
 	id: __filebasename,
 	description: 'Renders text in `backticks` in issue titles, commit titles and more places.',
@@ -84,4 +110,17 @@ void features.add({
 		pageDetect.isGlobalConversationList
 	],
 	init: initGlobalConversationList
+}, {
+	include: [
+		pageDetect.isUserProfileMainTab
+	],
+	init: initUserProfileMainTab
+}, {
+	include: [
+		pageDetect.isRepo,
+		pageDetect.isDashboard,
+		pageDetect.isGlobalConversationList,
+		pageDetect.isUserProfileMainTab
+	],
+	init: initHovercard
 });
