@@ -60,9 +60,10 @@ function initGlobalConversationList(): void {
 	]);
 }
 
-function initUserProfileMainTab(): void {
+function initUserProfile(): void {
 	parse([
-		'.profile-timeline-card .text-gray-dark' // `isUserProfileMainTab` issue and PR title
+		'.profile-timeline-card .text-gray-dark', // `isUserProfileMainTab` issue and PR title
+		'[itemprop="description"]' // `isUserProfileRepoTab` repository description
 	]);
 }
 
@@ -103,9 +104,9 @@ void features.add({
 	init: initGlobalConversationList
 }, {
 	include: [
-		pageDetect.isUserProfileMainTab
+		pageDetect.isUserProfile
 	],
-	init: initUserProfileMainTab
+	init: initUserProfile
 }, {
 	include: [
 		pageDetect.isRepo,
