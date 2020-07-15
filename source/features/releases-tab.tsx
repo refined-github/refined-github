@@ -63,9 +63,14 @@ async function init(): Promise<false | void> {
 	const repoNavigationBar = select('.js-repo-nav.UnderlineNav');
 	if (repoNavigationBar) {
 		// "Repository refresh" layout
-
 		const releasesTab = (
-			<a href={`/${repoUrl}/releases`} className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item" data-hotkey="g r" data-selected-links="repo_releases" data-tab-item="rgh-releases-item">
+			<a
+				href={`/${repoUrl}/releases`}
+				className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item"
+				data-hotkey="g r"
+				data-selected-links="repo_releases"
+				data-tab-item="rgh-releases-item"
+			>
 				<TagIcon className="UnderlineNav-octicon"/>
 				<span data-content="Releases">Releases</span>
 				{count && <span className="Counter">{count}</span>}
