@@ -70,15 +70,6 @@ function initHovercard(): void {
 	const hovercard = select('.js-hovercard-content > .Popover-message')!;
 
 	observeElement(hovercard, () => {
-		// Check if it's the hovercard type we expect
-		if (
-			!select.exists('[data-hydro-view*="commit-hovercard-hover"]', hovercard) &&
-			!select.exists('[data-hydro-view*="issue-hovercard-hover"]', hovercard) &&
-			!select.exists('[data-hydro-view*="pull-request-hovercard-hover"]', hovercard)
-		) {
-			return;
-		}
-
 		parse([
 			'.js-hovercard-content > .Popover-message .link-gray-dark' // Hovercard
 		]);
@@ -122,5 +113,6 @@ void features.add({
 		pageDetect.isGlobalConversationList,
 		pageDetect.isUserProfileMainTab
 	],
-	init: initHovercard
+	init: initHovercard,
+	repeatOnAjax: false
 });
