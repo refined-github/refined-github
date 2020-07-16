@@ -133,7 +133,7 @@ pr-branches
 }
 
 /* Align fork popup's header (GitHub bug) */
-[aria-label^="Fork"] .Box-title {
+[aria-label^='Fork'] .Box-title {
 	min-height: 0;
 	margin: -5px 0;
 }
