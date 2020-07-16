@@ -6,24 +6,20 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function init(): void | false {
-	const table = select('[data-table-type="yaml-metadata"]');
-	if (!table) {
-		return;
-	}
-
-	const theadCells = select.all(':scope > thead th', table);
-	if (theadCells.length <= 4) {
+	const table = select('[data-table-type="yaml-metadata"]')!;
+	const headers = select.all(':scope > thead th', table);
+	if (headers.length <= 4) {
 		return false;
 	}
 
-	const tbodyCells = select.all(':scope > tbody > tr > td', table);
+	const values = select.all(':scope > tbody > tr > td', table);
 	table.replaceWith(
 		<table className="rgh-vertical-front-matter-table" data-table-type="yaml-metadata">
 			<tbody>
-				{theadCells.map((cell, index) => (
+				{headers.map((cell, index) => (
 					<tr>
 						{cell}
-						{tbodyCells[index]}
+						{values[index]}
 					</tr>
 				))}
 			</tbody>
