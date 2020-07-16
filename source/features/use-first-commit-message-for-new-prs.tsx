@@ -12,7 +12,7 @@ async function init(): Promise<void | false> {
 		'[href="#commits_bucket"] .Counter' // Same repository
 	].join());
 
-	if (!commitCount || looseParseInt(commitCount.textContent!) < 2 || select.exists('.existing-pull')) {
+	if (!commitCount || looseParseInt(commitCount.textContent!) < 2 || !select.exists('#new_pull_request')) {
 		return false;
 	}
 
