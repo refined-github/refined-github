@@ -57,7 +57,7 @@ void features.add({
 	exclude: [
 		() => !select.exists('#partial-discussion-header [title="Status: Merged"]')
 	],
-	init: () => {
+	init() {
 		observeElement(select('#partial-discussion-header')!.parentElement!, init);
 	}
 });

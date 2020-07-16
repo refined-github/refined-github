@@ -4,8 +4,8 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getCleanPathname} from '../github-helpers';
 import getDefaultBranch from '../github-helpers/get-default-branch';
+import {getCleanPathname} from '../github-helpers';
 
 async function is404(url: string): Promise<boolean> {
 	const {status} = await fetch(url, {method: 'head'});

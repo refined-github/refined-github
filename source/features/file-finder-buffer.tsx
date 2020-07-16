@@ -14,8 +14,8 @@ const getBufferField = onetime((): HTMLInputElement => (
 ));
 
 function pjaxStartHandler(event: CustomEvent): void {
-	const destinationURL = event.detail?.url || '';
-	if (destinationURL.split('/')[5] !== 'find') {
+	const destinationURL = event.detail?.url;
+	if (!destinationURL || !pageDetect.isFileFinder(new URL(destinationURL))) {
 		return;
 	}
 

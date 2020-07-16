@@ -7,7 +7,6 @@ import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
 import oneEvent from '../helpers/one-event';
-
 import {observeOneMutation} from '../helpers/simplified-element-observer';
 
 const pendingSelector = '.timeline-comment-label.is-pending';
