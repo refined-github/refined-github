@@ -131,3 +131,11 @@ pr-branches
 .subnav .d-flex.flex-md-row.flex-justify-between.flex-md-items-center {
 	float: left;
 }
+
+/* Align fork popup's title style with other popup (GitHub bug) */
+details-dialog h1.Box-title {
+	position: static;
+	font-size: 14px;
+	font-weight: 600;
+	min-height: unset;
+}
