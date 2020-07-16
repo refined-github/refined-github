@@ -134,6 +134,7 @@ pr-branches
 
 /* Align fork popup's header (GitHub bug) */
 [aria-label^='Fork'] .Box-title {
+	position: static; /* The title wrongly overlaps the Close button, making it impossible to click */
 	min-height: 0;
 	margin: -5px 0;
 }
