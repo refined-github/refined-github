@@ -7,9 +7,10 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
+import looseParseInt from '../helpers/loose-parse-int';
 import {appendBefore} from '../helpers/dom-utils';
 import {createDropdownItem} from './more-dropdown';
-import {getRepoURL, getRepoGQL, looseParseInt} from '../github-helpers';
+import {getRepoURL, getRepoGQL} from '../github-helpers';
 
 const repoUrl = getRepoURL();
 const cacheKey = `releases-count:${repoUrl}`;

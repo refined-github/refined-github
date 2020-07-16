@@ -84,7 +84,7 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	const breadcrumb = await elementReady('.breadcrumb');
+	const breadcrumb = await elementReady('#branch-select-menu');
 	if (!breadcrumb) {
 		return;
 	}
@@ -102,7 +102,7 @@ async function init(): Promise<false | void> {
 		</a>
 	);
 
-	breadcrumb.before(link);
+	breadcrumb.after(link);
 	if (currentBranch !== latestTag) {
 		link.append(' ', <span className="css-truncate-target">{latestTag}</span>);
 	}

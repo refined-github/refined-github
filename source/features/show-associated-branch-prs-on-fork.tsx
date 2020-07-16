@@ -109,7 +109,7 @@ void features.add({
 	exclude: [
 		() => !pageDetect.isForkedRepo()
 	],
-	init: () => {
+	init() {
 		observeElement([
 			'[data-target="branch-filter-controller.results"]', // Pre "Repository refresh" layout
 			'[data-target="branch-filter.result"]'

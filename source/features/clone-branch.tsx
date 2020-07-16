@@ -103,7 +103,7 @@ void features.add({
 	include: [
 		pageDetect.isBranches
 	],
-	init: () => {
+	init() {
 		observeElement([
 			'[data-target="branch-filter-controller.results"]', // Pre "Repository refresh" layout
 			'[data-target="branch-filter.result"]'
