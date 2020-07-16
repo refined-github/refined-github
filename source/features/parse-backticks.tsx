@@ -3,8 +3,8 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {parseBackticks} from '../github-helpers/dom-formatters';
 import observeElement from '../helpers/simplified-element-observer';
+import {parseBackticks} from '../github-helpers/dom-formatters';
 
 function parse(selectors: string[]): void {
 	for (const element of select.all(selectors.map(selector => selector + ':not(.rgh-backticks-already-parsed)'))) {
@@ -50,13 +50,13 @@ function initDashboard(): void {
 
 function initNotifications(): void {
 	parse([
-		'.notifications-list-item p.text-normal' // `isNotifications`
+		'.notifications-list-item p.text-normal'
 	]);
 }
 
 function initGlobalConversationList(): void {
 	parse([
-		'.link-gray-dark.js-navigation-open' // `isGlobalConversationList`
+		'.link-gray-dark.js-navigation-open'
 	]);
 }
 
@@ -72,7 +72,7 @@ function initHovercard(): void {
 
 	observeElement(hovercard, () => {
 		parse([
-			'.js-hovercard-content > .Popover-message .link-gray-dark' // Hovercard
+			'.js-hovercard-content > .Popover-message .link-gray-dark'
 		]);
 	});
 }
@@ -108,12 +108,6 @@ void features.add({
 	],
 	init: initUserProfile
 }, {
-	include: [
-		pageDetect.isRepo,
-		pageDetect.isDashboard,
-		pageDetect.isGlobalConversationList,
-		pageDetect.isUserProfileMainTab
-	],
 	init: initHovercard,
 	repeatOnAjax: false
 });
