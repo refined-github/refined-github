@@ -19,6 +19,7 @@ import './features/repo-stats-spacing.css';
 import './features/emphasize-draft-pr-label.css';
 import './features/clean-notifications.css';
 import './features/clean-pinned-issues.css';
+import './features/fix-first-tab-length.css';
 import './features/align-repository-header.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.

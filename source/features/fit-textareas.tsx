@@ -48,7 +48,7 @@ void features.add({
 	include: [
 		pageDetect.isPRConversation
 	],
-	init: () => {
+	init() {
 		onPrMergePanelOpen(fitPrCommitMessageBox);
 	}
 });

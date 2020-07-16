@@ -4,7 +4,7 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {looseParseInt} from '../github-helpers';
+import looseParseInt from '../helpers/loose-parse-int';
 
 function init(): false | void {
 	const form = select('[action$="/reviews"]')!;

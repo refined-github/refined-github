@@ -13,7 +13,6 @@ void features.add({
 	screenshot: 'https://user-images.githubusercontent.com/37769974/85866472-11aa7900-b7e5-11ea-80aa-d84e3aee2551.png'
 }, {
 	waitForDomReady: false,
-	repeatOnAjax: false,
 	include: [
 		pageDetect.isConversationList
 	],

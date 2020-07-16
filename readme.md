@@ -309,7 +309,7 @@ Thanks for contributing! 🦋🙌
 - [](# "selection-in-new-tab") [Adds a keyboard shortcut to open selection in new tab when navigating via <kbd>j</kbd> and <kbd>k</kbd>: <kbd>shift</kbd> <kbd>o</kbd>.](https://github.com/sindresorhus/refined-github/issues/1110)
 - [](# "close-out-of-view-modals") [Automatically closes dropdown menus when they’re no longer visible.](https://user-images.githubusercontent.com/1402241/37022353-531c676e-2155-11e8-96cc-80d934bb22e0.gif)
 - [](# "deprioritize-marketplace-link") Moves the "Marketplace" link from the black header bar to the profile dropdown.
-- [](# "parse-backticks") [Renders text in <code>\`backticks\`</code> in issue titles and commit titles.](https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png)
+- [](# "parse-backticks") [Renders text in <code>\`backticks\`</code> in issue titles, commit titles and more places.](https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png)
 - [](# "trending-menu-item") Adds a `Trending` link to the global navbar and a keyboard shortcut: <kbd>g</kbd> <kbd>t</kbd>.
 - [](# "navigate-pages-with-arrow-keys") Adds shortcuts to navigate through pages with pagination: <kbd>←</kbd> and <kbd>→</kbd>.
 - [](# "open-all-notifications") [Adds button to open all your unread notifications at once.](https://user-images.githubusercontent.com/1402241/80861295-fbad8b80-8c6d-11ea-87a4-8025fbc3a3f4.png)
@@ -320,6 +320,7 @@ Thanks for contributing! 🦋🙌
 
 ### Fixes for GitHub shortcomings
 
+- [](# "fix-first-tab-length") [The first tab space in file diff appears 2 spaces shorter than it should be.](https://user-images.githubusercontent.com/37769974/87217980-741a8200-c36c-11ea-81e1-fc0782c4624d.png)
 - [](# "hide-disabled-milestone-sorter") [Hides the milestone sorter UI if you don’t have permission to use it.](https://user-images.githubusercontent.com/7753001/56913933-738a2880-6ae5-11e9-9d13-1973cbbf5df0.png)
 - [](# "linkify-branch-references") [Linkifies branch references in "Quick PR" pages.](https://user-images.githubusercontent.com/1402241/30208043-fa1ceaec-94bb-11e7-9c32-feabcf7db296.png)
 - [](# "hide-issue-list-autocomplete") [Removes the autocomplete on search fields.](https://user-images.githubusercontent.com/1402241/42991841-1f057e4e-8c07-11e8-909c-b051db7a2a03.png)

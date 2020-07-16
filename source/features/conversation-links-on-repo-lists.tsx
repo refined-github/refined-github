@@ -53,7 +53,7 @@ void features.add({
 	include: [
 		pageDetect.isUserProfileRepoTab
 	],
-	init: () => {
+	init() {
 		observeElement('#user-repositories-list', init);
 		return false;
 	}

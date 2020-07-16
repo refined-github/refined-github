@@ -6,14 +6,11 @@ import observeElement from '../helpers/simplified-element-observer';
 import * as domFormatters from '../github-helpers/dom-formatters';
 
 function init(): void {
-	const ajaxedTitleArea = select('#partial-discussion-header')!.parentElement!;
-	observeElement(ajaxedTitleArea, () => {
-		for (const title of select.all('.js-issue-title:not(.rgh-formatted-title)')) {
-			title.classList.add('rgh-formatted-title');
-			domFormatters.linkifyIssues(title);
-			domFormatters.parseBackticks(title);
-		}
-	});
+	for (const title of select.all('.js-issue-title:not(.rgh-formatted-title)')) {
+		title.classList.add('rgh-formatted-title');
+		domFormatters.linkifyIssues(title);
+		domFormatters.parseBackticks(title);
+	}
 }
 
 void features.add({
@@ -25,5 +22,7 @@ void features.add({
 		pageDetect.isPR,
 		pageDetect.isIssue
 	],
-	init
+	init() {
+		observeElement(select('#partial-discussion-header')!.parentElement!, init);
+	}
 });

@@ -6,7 +6,7 @@ import ArrowDownIcon from 'octicon/arrow-down.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {looseParseInt} from '../github-helpers';
+import looseParseInt from '../helpers/loose-parse-int';
 
 // `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)
 const commentSelector = '.js-timeline-item';
@@ -80,6 +80,9 @@ function linkBestComment(bestComment: HTMLElement): void {
 		link.removeAttribute('data-hovercard-type');
 		link.removeAttribute('data-hovercard-url');
 		link.href = hash;
+
+		// Remove the check icon from the preview #3338
+		select('.octicon-check.text-green', avatar)!.remove();
 
 		// We don't copy the exact timeline item structure, so we need to align the avatar with the other avatars in the timeline.
 		// TODO: update DOM to match other comments, instead of applying this CSS

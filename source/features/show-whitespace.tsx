@@ -43,12 +43,8 @@ function showWhiteSpacesOn(line: Element): void {
 			// Update cached variable here because it just changed
 			text = textNode.textContent!;
 
-			const whitespace = textNode.nextSibling!.textContent!
-				.replace(/ /g, '·')
-				.replace(/\t/g, '→');
-
 			textNode.after(
-				<span data-rgh-whitespace={whitespace}>
+				<span data-rgh-whitespace={thisCharacter === '\t' ? 'tab' : 'space'}>
 					{textNode.nextSibling}
 				</span>
 			);

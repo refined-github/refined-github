@@ -68,10 +68,6 @@ export function getScopedSelector(selector: string): string {
 	return selector.split(',').map(sub => `:scope > ${sub.trim()}`).join();
 }
 
-export function looseParseInt(text: string): number {
-	return Number(text.replace(/\D+/g, ''));
-}
-
 const validVersion = /^[vr]?\d+(?:\.\d+)+/;
 const isPrerelease = /^[vr]?\d+(?:\.\d+)+(-\d)/;
 export function getLatestVersionTag(tags: string[]): string {

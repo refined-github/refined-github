@@ -8,7 +8,8 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepoURL, looseParseInt, getRepoGQL} from '../github-helpers';
+import looseParseInt from '../helpers/loose-parse-int';
+import {getRepoURL, getRepoGQL} from '../github-helpers';
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
 	year: 'numeric',
