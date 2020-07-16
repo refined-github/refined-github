@@ -7,7 +7,10 @@ import features from '.';
 import looseParseInt from '../helpers/loose-parse-int';
 
 async function init(): Promise<void | false> {
-	const commitCount = await elementReady<HTMLElement>('.overall-summary > ul > li:nth-child(1) .text-emphasized');
+	const commitCount = await elementReady<HTMLElement>([
+		'.overall-summary > ul > li:nth-child(1) .text-emphasized', // Cross fork
+		'[href="#commits_bucket"] .Counter' // Same repository
+	].join());
 
 	if (!commitCount || looseParseInt(commitCount.textContent!) < 2 || select.exists('.existing-pull')) {
 		return false;
