@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
-import {looseParseInt} from '../github-helpers';
+import looseParseInt from '../helpers/loose-parse-int';
 
 async function init(): Promise<void | false> {
 	const commitCount = await elementReady<HTMLElement>('.overall-summary > ul > li:nth-child(1) .text-emphasized');
