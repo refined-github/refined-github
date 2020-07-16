@@ -97,7 +97,7 @@ async function init(): Promise<false | void> {
 	});
 
 	const link = (
-		<a className="btn btn-sm btn-outline ml-2 flex-self-center" href={String(url)}>
+		<a className="btn btn-outline ml-2 flex-self-center" href={String(url)}>
 			<TagIcon/>
 		</a>
 	);
@@ -126,7 +126,7 @@ async function init(): Promise<false | void> {
 		if (pageDetect.isRepoRoot()) {
 			const compareLink = (
 				<a
-					className="btn btn-sm btn-outline tooltipped tooltipped-ne"
+					className="btn btn-outline tooltipped tooltipped-ne"
 					href={`/${getRepoURL()}/compare/${latestTag}...${defaultBranch}`}
 					aria-label={`Compare ${latestTag}...${defaultBranch}`}
 				>
