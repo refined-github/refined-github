@@ -132,10 +132,8 @@ pr-branches
 	float: left;
 }
 
-/* Align fork popup's title style with other popup (GitHub bug) */
-details-dialog h1.Box-title {
-	position: static;
-	font-size: 14px;
-	font-weight: 600;
-	min-height: unset;
+/* Align fork popup's header (GitHub bug) */
+[aria-label^="Fork"] .Box-title {
+	min-height: 0;
+	margin: -5px 0;
 }
