@@ -25,7 +25,7 @@ async function init(): Promise<false | void> {
 	}
 
 	// Append to title (aware of forks and private repos)
-	appendBefore('.pagehead h1', '.fork-flag', icon);
+	appendBefore('.pagehead h1, .hide-full-screen h1', '.fork-flag', icon);
 }
 
 void features.add({
