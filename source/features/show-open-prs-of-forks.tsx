@@ -67,7 +67,7 @@ async function initHeadHint(): Promise<void | false> {
 		return false;
 	}
 
-	select('.fork-flag .text')!.append(
+	select('.fork-flag .text, .hide-full-screen span.text-small')!.append(
 		<> with <a href={url}>{getLinkCopy(count)}</a></>
 	);
 }
