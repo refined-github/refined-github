@@ -39,7 +39,7 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const issuesTab = (await elementReady('.pagehead [data-hotkey="g i"]'))?.parentElement;
+	const issuesTab = (await elementReady('.js-repo-nav [data-hotkey="g i"]'))?.parentElement;
 	if (!issuesTab) {
 		// Repo is archived
 		return false;
