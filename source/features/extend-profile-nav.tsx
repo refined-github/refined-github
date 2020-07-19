@@ -36,14 +36,14 @@ const getProfileCounts = cache.function(async (username: string): Promise<UserCo
 	});
 	return {
 		projects: user?.projects.totalCount,
-		packages: organization.packages.totalCount ?? 0,
+		packages: organization?.packages.totalCount,
 		gists: user?.gists.totalCount
 	};
 }, {
 	cacheKey: ([username]) => 'profile-counts:' + username
 });
 
-async function extendUserNav(): Promise<void> {
+async function initUser(): Promise<void> {
 	await elementReady('.UnderlineNav-body + *');
 
 	const username = getCleanPathname();
@@ -70,7 +70,7 @@ async function extendUserNav(): Promise<void> {
 	}
 }
 
-async function extendOrganizationNav(): Promise<void> {
+async function initOrganization(): Promise<void> {
 	const packageElement = select('[aria-label="Organization"] .d-flex:nth-child(2) .UnderlineNav-item');
 
 	if (packageElement) {
@@ -94,11 +94,11 @@ void features.add({
 		pageDetect.isUserProfile
 	],
 	waitForDomReady: false,
-	init: extendUserNav
+	init: initUser
 }, {
 	include: [
 		pageDetect.isOrganizationProfile
 	],
 	waitForDomReady: false,
-	init: extendOrganizationNav
+	init: initOrganization
 });
