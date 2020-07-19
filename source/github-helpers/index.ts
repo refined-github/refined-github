@@ -2,6 +2,7 @@ import select from 'select-dom';
 import oneTime from 'onetime';
 import compareVersions from 'tiny-version-compare';
 import * as pageDetect from 'github-url-detection/esm/index.js'; // eslint-disable-line import/extensions -- Required for Node tests compatibility
+import elementReady from 'element-ready';
 
 // This never changes, so it can be cached here
 export const getUsername = oneTime(pageDetect.utils.getUsername);
@@ -109,4 +110,21 @@ export function preventPrCommitLinkLoss(url: string, pr: string, commit: string,
 // https://github.com/idimetrix/text-case/blob/master/packages/upper-case-first/src/index.ts
 export function upperCaseFirst(input: string): string {
 	return input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
+}
+
+/** Is tag or commit, with elementReady */
+export async function isPermalink(): Promise<boolean> {
+	if (/^[\da-f]{40}$/.test(getCurrentBranch())) {
+		// It's a commit
+		return true;
+	}
+
+	await elementReady('[data-hotkey="w"]');
+	return (
+		// Pre "Latest commit design updates"
+		/Tag|Tree/.test(select('[data-hotkey="w"] i')?.textContent!) || // Text appears in the branch selector
+
+		// "Latest commit design updates"
+		select.exists('[data-hotkey="w"] .octicon-tag') // Tags have an icon
+	);
 }

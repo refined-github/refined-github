@@ -1,18 +1,7 @@
 .rgh-ci-link {
-	position: relative;
-	top: -0.3em;
 	animation: fade-in 0.2s;
 }
 
-.rgh-ci-link .octicon {
-	margin-top: 0 !important;
-}
-
-:root .repohead h1 .commit-build-statuses .octicon {
-	position: static;
-	color: inherit;
-}
-
-:root .repohead h1 .Label {
-	margin-right: 8px;
+.rgh-ci-link summary .octicon {
+	vertical-align: 0;
 }

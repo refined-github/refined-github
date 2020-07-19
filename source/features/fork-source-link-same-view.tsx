@@ -16,7 +16,7 @@ async function init(): Promise<void> {
 	});
 
 	if (await doesFileExist(sameViewUrl)) {
-		select<HTMLAnchorElement>('.fork-flag .text a')!.pathname = sameViewUrl.pathname;
+		select<HTMLAnchorElement>(`[data-hovercard-type="repository"][href="/${getForkedRepo()!}"]`)!.pathname = sameViewUrl.pathname;
 	}
 }
 

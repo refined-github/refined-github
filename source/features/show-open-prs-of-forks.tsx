@@ -67,7 +67,7 @@ async function initHeadHint(): Promise<void | false> {
 		return false;
 	}
 
-	select('.fork-flag .text')!.append(
+	select<HTMLAnchorElement>(`[data-hovercard-type="repository"][href="/${getForkedRepo()!}"]`)!.after(
 		<> with <a href={url}>{getLinkCopy(count)}</a></>
 	);
 }

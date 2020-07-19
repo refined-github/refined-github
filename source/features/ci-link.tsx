@@ -1,11 +1,11 @@
 import './ci-link.css';
+import select from 'select-dom';
 import oneTime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import {getRepoURL} from '../github-helpers';
-import {appendBefore} from '../helpers/dom-utils';
 
 // Look for the CI icon in the latest 2 days of commits #2990
 const getIcon = oneTime(fetchDom.bind(null,
@@ -25,7 +25,7 @@ async function init(): Promise<false | void> {
 	}
 
 	// Append to title (aware of forks and private repos)
-	appendBefore('.pagehead h1', '.fork-flag', icon);
+	select('[itemprop="name"]')!.after(icon);
 }
 
 void features.add({
