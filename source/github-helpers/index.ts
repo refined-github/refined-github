@@ -114,7 +114,6 @@ export function upperCaseFirst(input: string): string {
 
 /** Is tag or commit, with elementReady */
 export async function isPermalink(): Promise<boolean> {
-	debugger
 	if (/^[\da-f]{40}$/.test(getCurrentBranch())) {
 		// It's a commit
 		return true;
