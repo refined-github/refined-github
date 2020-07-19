@@ -16,3 +16,7 @@
 :root .repohead h1 .Label {
 	margin-right: 8px;
 }
+
+.rgh-ci-link summary .octicon {
+	vertical-align: 0;
+}
