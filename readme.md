@@ -164,6 +164,7 @@ Thanks for contributing! 🦋🙌
 - [](# "esc-to-deselect-line") [Adds a keyboard shortcut to deselect the current line: <kbd>esc</kbd>.](https://github.com/sindresorhus/refined-github/issues/1590)
 - [](# "html-preview-link") [Adds a link to preview HTML files.](https://user-images.githubusercontent.com/44045911/67634792-48995980-f8fb-11e9-8b6a-7b57d5b12a2f.png)
 - [](# "action-used-by-link") [Lets you see how others are using the current Action in the Marketplace.](https://user-images.githubusercontent.com/8360597/80250140-86d9c080-8673-11ea-9d28-f62faf9fd3d4.png)
+- [](# "vertical-front-matter") [Show Markdown front matter as vertical table.](https://user-images.githubusercontent.com/44045911/87251695-26069b00-c4a0-11ea-9077-53ce366490ed.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 

@@ -182,6 +182,7 @@ import './features/faster-reviews';
 import './features/fork-source-link-same-view';
 import './features/pr-jump-to-first-non-viewed-file';
 import './features/keyboard-navigation';
+import './features/vertical-front-matter';
 
 // Add global for easier debugging
 (window as any).select = select;

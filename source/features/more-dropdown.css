@@ -12,7 +12,7 @@
 }
 
 /* Always show the overflow menu button */
-.js-responsive-underlinenav-overflow {
+.rgh-has-more-dropdown .js-responsive-underlinenav-overflow {
 	visibility: visible !important;
 }
 
