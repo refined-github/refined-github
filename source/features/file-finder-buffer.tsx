@@ -22,7 +22,7 @@ function pjaxStartHandler(event: CustomEvent): void {
 	const bufferField = getBufferField();
 	bufferField.value = '';
 
-	const repoName = select('.pagehead h1 strong')!;
+	const repoName = select('.pagehead h1 strong, [itemprop="name"]')!;
 	repoName.classList.remove('mr-2');
 	repoName.after(
 		<span className="path-divider flex-self-stretch">/</span>,

@@ -59,7 +59,7 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	await elementReady('.pagehead + *'); // Wait for the tab bar to be loaded
+	await elementReady('.pagehead + *, .UnderlineNav-body + *'); // Wait for the tab bar to be loaded
 
 	const repoNavigationBar = select('.js-repo-nav.UnderlineNav');
 	if (repoNavigationBar) {
