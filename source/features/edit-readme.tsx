@@ -5,6 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import GitHubURL from '../github-helpers/github-url';
+import {isPermalink} from '../github-helpers';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 
 async function init(): Promise<void | false> {
@@ -13,7 +14,7 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const isPermalink = /Tag|Tree/.test(select('[data-hotkey="w"] i')!.textContent!);
+	const isPermalink_ = await isPermalink();
 	const filename = readmeHeader.textContent!.trim();
 	const fileLink = select<HTMLAnchorElement>(`.js-navigation-open[title="${filename}"]`)!;
 
@@ -21,14 +22,14 @@ async function init(): Promise<void | false> {
 		route: 'edit'
 	});
 
-	if (isPermalink) {
+	if (isPermalink_) {
 		url.branch = await getDefaultBranch(); // Permalinks can't be edited
 	}
 
 	// The button already exists on repos you can push to.
 	const existingButton = select<HTMLAnchorElement>('a[aria-label="Edit this file"]');
 	if (existingButton) {
-		if (isPermalink) {
+		if (isPermalink_) {
 			// GitHub has a broken link in this case #2997
 			existingButton.href = String(url);
 		}
