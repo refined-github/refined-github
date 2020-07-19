@@ -8,6 +8,10 @@
 	margin-top: 0 !important;
 }
 
+.rgh-ci-link summary .octicon {
+	vertical-align: 0;
+}
+
 :root .repohead h1 .commit-build-statuses .octicon {
 	position: static;
 	color: inherit;
@@ -15,8 +19,4 @@
 
 :root .repohead h1 .Label {
 	margin-right: 8px;
-}
-
-.rgh-ci-link summary .octicon {
-	vertical-align: 0;
 }
