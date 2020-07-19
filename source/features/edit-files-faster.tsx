@@ -12,7 +12,7 @@ import getDefaultBranch from '../github-helpers/get-default-branch';
 import onFileListUpdate from '../github-events/on-file-list-update';
 
 async function init(): Promise<void> {
-	const isPermalink_ = isPermalink();
+	const isPermalink_ = await isPermalink();
 	for (const fileIcon of select.all('.js-navigation-container .octicon-file')) {
 		const fileLink = fileIcon.closest('.js-navigation-item')!.querySelector<HTMLAnchorElement>('.js-navigation-open')!;
 		const url = new GitHubURL(fileLink.href).assign({

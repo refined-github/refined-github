@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import GitHubURL from '../github-helpers/github-url';
-import {getRepoURL, isPermalinkAsync} from '../github-helpers';
+import {getRepoURL, isPermalink} from '../github-helpers';
 import {appendBefore} from '../helpers/dom-utils';
 
 function addInlineLinks(comment: HTMLElement, timestamp: string): void {
@@ -65,7 +65,7 @@ async function showTimemachineBar(): Promise<void | false> {
 		url.pathname = pathnameParts.join('/');
 	} else {
 		// This feature only makes sense if the URL points to a non-permalink
-		if (await isPermalinkAsync()) {
+		if (await isPermalink()) {
 			return false;
 		}
 

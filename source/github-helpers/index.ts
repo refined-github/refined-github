@@ -112,20 +112,20 @@ export function upperCaseFirst(input: string): string {
 	return input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
 }
 
-/** Is tag or commit */
-export function isPermalink(): boolean {
+/** Is tag or commit, with elementReady */
+export async function isPermalink(): Promise<boolean> {
+	debugger
+	if (/^[\da-f]{40}$/.test(getCurrentBranch())) {
+		// It's a commit
+		return true;
+	}
+
+	await elementReady('[data-hotkey="w"]');
 	return (
 		// Pre "Latest commit design updates"
 		/Tag|Tree/.test(select('[data-hotkey="w"] i')?.textContent!) || // Text appears in the branch selector
 
 		// "Latest commit design updates"
-		select.exists('[data-hotkey="w"] .octicon-tag') || // Tags have an icon
-		!select.exists('[data-menu-item="code-tab"] [href*="/tree/"]') // Commits don't change the "Code" tab address
+		select.exists('[data-hotkey="w"] .octicon-tag') // Tags have an icon
 	);
-}
-
-/** Is tag or commit, with elementReady */
-export async function isPermalinkAsync(): Promise<boolean> {
-	await elementReady('[data-hotkey="w"]');
-	return isPermalink();
 }

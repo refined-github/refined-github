@@ -14,7 +14,7 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const isPermalink_ = isPermalink();
+	const isPermalink_ = await isPermalink();
 	const filename = readmeHeader.textContent!.trim();
 	const fileLink = select<HTMLAnchorElement>(`.js-navigation-open[title="${filename}"]`)!;
 
