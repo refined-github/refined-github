@@ -20,7 +20,8 @@ const getGistCount = cache.function(async (username: string): Promise<number> =>
 	`);
 	return user.gists.totalCount;
 }, {
-	cacheKey: ([username]) => 'gist-count:' + username
+	cacheKey: ([username]) => 'gist-count:' + username,
+	maxAge: 3
 });
 
 async function init(): Promise<void> {
