@@ -15,27 +15,27 @@ function parse(selectors: string[]): void {
 
 function initRepo(): void {
 	parse([
+		'.BorderGrid--spacious .f4.mt-3', // `isRepoHome` repository description
+		'.Details[data-issue-and-pr-hovercards-enabled] .Details-content--hidden a.link-gray-dark', // `isRepoRoot`
+		'.Details[data-issue-and-pr-hovercards-enabled] .Details-content--hidden pre', // `isRepoRoot`
+		'.Details[data-issue-and-pr-hovercards-enabled] .d-none a.link-gray-dark', // `isRepoRoot`
 		'.commit-title', // `isCommit`
 		'.commit-desc', // `isCommit`, `isCommitList`, `isRepoTree`
 		'.commit-message', // Pushed commits in `isPRConversation`, `isCompare`, `isReleasesOrTags`
 		'.message', // `isCommitList`, `isRepoTree`, `isBlame`
-		'.repository-content .js-details-container .link-gray[href*="/commit/"]', // `isSingleFile`
-		'.repository-content .js-details-container pre', // `isSingleFile`
 		'[aria-label="Issues"][role="group"] .js-navigation-open', // `isConversationList`
+		'.TimelineItem-body > del, .TimelineItem-body > ins', // Title edits in `isIssue`, `isPRConversation`
 		'[id^=ref-issue-]', // Issue references in `isIssue`, `isPRConversation`
 		'[id^=ref-pullrequest-]', // PR references in `isIssue`, `isPRConversation`
-		'.TimelineItem-body > del, .TimelineItem-body > ins', // Title edits in `isIssue`, `isPRConversation`
+		'[aria-label="Link issues"] a', // "Linked issues" in `isIssue`, `isPRConversation`
+		'.repository-content .js-details-container .link-gray[href*="/commit/"]', // `isSingleFile`
+		'.repository-content .js-details-container pre', // `isSingleFile`
 		'.js-pinned-issue-list-item > .d-block', // Pinned Issues
-		'.pulse-section li', // `isPulse`
 		'.release-header', // `isReleasesOrTags` Headers
+		'.existing-pull-contents .list-group-item-link', // `isCompare` with existing PR
+		'li a.h4.link-gray-dark', // `isPulse`
 		'[id^="check_suite"] a.link-gray-dark', // `isActions`
 		'.repository-content .pr-toolbar h2', // `isActions` run
-		'.Details[data-issue-and-pr-hovercards-enabled] .Details-content--hidden a.link-gray-dark', // `isRepoRoot`
-		'.Details[data-issue-and-pr-hovercards-enabled] .Details-content--hidden pre', // `isRepoRoot`
-		'.Details[data-issue-and-pr-hovercards-enabled] .d-none a.link-gray-dark', // `isRepoRoot`
-		'.existing-pull-contents .list-group-item-link', // `isCompare` with existing PR
-		'[aria-label="Link issues"] a', // "Linked issues" in `isIssue`, `isPRConversation`
-		'.BorderGrid--spacious .f4.mt-3', // `isRepoHome` repository description
 		'.js-wiki-sidebar-toggle-display a', // `isWiki`
 		'.gh-header-title' // `isWiki`
 	]);
@@ -44,6 +44,7 @@ function initRepo(): void {
 function initDashboard(): void {
 	parse([
 		'.js-recent-activity-container .text-bold', // `isDashboard`"Recent activity" titles
+		'.issues_labeled .text-gray-dark > a', // `isDashboard` "help wanted" event titles
 		'.commits blockquote' // Newsfeed commits
 	]);
 }
