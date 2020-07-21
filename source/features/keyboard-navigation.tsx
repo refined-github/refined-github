@@ -20,6 +20,14 @@ function isCommentGroupMinimized(comment: HTMLElement): boolean {
 	return false;
 }
 
+function pullRequestReviewHasComment(review: HTMLElement): boolean {
+	if (review.id.endsWith('-body-html')) {
+		return false;
+	}
+
+	return select.exists(`#${review.id}-body-html`, review);
+}
+
 function runShortcuts(event: KeyboardEvent): void {
 	if (isEditable(event.target)) {
 		return;
@@ -30,8 +38,12 @@ function runShortcuts(event: KeyboardEvent): void {
 	if (['j', 'k'].includes(event.key)) {
 		event.preventDefault();
 
-		const items = select.all('.js-targetable-element:not([id^="pullrequestreview"]')
+		const items = select.all('.js-targetable-element')
 			.filter(element => {
+				if (element.id.startsWith('pullrequestreview-')) {
+					return pullRequestReviewHasComment(element);
+				}
+
 				if (element.classList.contains('js-minimizable-comment-group')) {
 					return !isCommentGroupMinimized(element);
 				}
