@@ -4,6 +4,22 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import {isEditable} from '../helpers/dom-utils';
 
+function isCommentGroupMinimized(comment: HTMLElement): boolean {
+	if (select.exists('.minimized-comment:not(.d-none)', comment)) {
+		return true;
+	}
+
+	if (comment.closest('.js-resolvable-thread-contents.d-none')) {
+		return true;
+	}
+
+	if (comment.closest('.js-resolvable-timeline-thread-container:not([open])')) {
+		return true;
+	}
+
+	return false;
+}
+
 function runShortcuts(event: KeyboardEvent): void {
 	if (isEditable(event.target)) {
 		return;
@@ -15,7 +31,14 @@ function runShortcuts(event: KeyboardEvent): void {
 		event.preventDefault();
 
 		const items = select.all('.js-targetable-element:not([id^="pullrequestreview"]')
-			.filter(comment => !comment.querySelector('.minimized-comment:not(.d-none)'));
+			.filter(element => {
+				if (element.classList.contains('js-minimizable-comment-group')) {
+					return !isCommentGroupMinimized(element);
+				}
+
+				return true;
+			});
+
 		// `j` goes to the next comment, `k` goes back a comment
 		const direction = event.key === 'j' ? 1 : -1;
 
