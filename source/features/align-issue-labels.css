@@ -1,5 +1,5 @@
 /* Move labels in the Issue/PR list below the title */
-.rgh-align-issue-labels .js-issue-row .lh-condensed {
+.rgh-align-issue-labels .js-issue-row .min-width-0 {
 	display: flex;
 	flex-wrap: wrap;
 }
