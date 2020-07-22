@@ -67,7 +67,10 @@ const getFirstCommit = cache.function(async (): Promise<[string, string] | undef
 	}
 
 	if (commitsCount === 1) {
-		return [select('.commit-tease-sha + span relative-time')!.attributes.datetime.value, commitUrl];
+		return [select([
+			'.commit-tease-sha + span relative-time', // Pre "Repository refresh" layout
+			'.js-details-container a relative-time'
+		])!.attributes.datetime.value, commitUrl];
 	}
 
 	return getRepoAge(commitSha, commitsCount);
