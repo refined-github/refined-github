@@ -9,7 +9,7 @@ import {observeOneMutation} from '../helpers/simplified-element-observer';
 function getProjectsTab() {
 	return elementReady([
 		'[data-hotkey="g b"]', // In organizations and repos
-		'.user-profile-nav [href$="?tab=projects"]' // In user profiles
+		'[aria-label="User profile"] [href$="?tab=projects"]' // In user profiles
 	].join());
 }
 
