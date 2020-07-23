@@ -4,29 +4,12 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import {isEditable} from '../helpers/dom-utils';
 
-function isCommentGroupMinimized(comment: HTMLElement): boolean {
-	if (select.exists('.minimized-comment:not(.d-none)', comment)) {
-		return true;
-	}
-
-	if (comment.closest('.js-resolvable-thread-contents.d-none')) {
-		return true;
-	}
-
-	if (comment.closest('.js-resolvable-timeline-thread-container:not([open])')) {
-		return true;
-	}
-
-	return false;
-}
-
-function pullRequestReviewHasComment(review: HTMLElement): boolean {
-	if (review.id.endsWith('-body-html')) {
-		return false;
-	}
-
-	return select.exists(`#${review.id}-body-html`, review);
-}
+const isCommentGroupMinimized = (comment: HTMLElement): boolean =>
+	select.exists('.minimized-comment:not(.d-none)', comment) ||
+	Boolean(comment.closest(`
+		.js-resolvable-thread-contents.d-none,
+		.js-resolvable-timeline-thread-container:not([open])
+	`));
 
 function runShortcuts(event: KeyboardEvent): void {
 	if (isEditable(event.target)) {
@@ -38,18 +21,17 @@ function runShortcuts(event: KeyboardEvent): void {
 	if (['j', 'k'].includes(event.key)) {
 		event.preventDefault();
 
-		const items = select.all('.js-targetable-element')
-			.filter(element => {
-				if (element.id.startsWith('pullrequestreview-')) {
-					return pullRequestReviewHasComment(element);
-				}
-
-				if (element.classList.contains('js-minimizable-comment-group')) {
-					return !isCommentGroupMinimized(element);
-				}
-
-				return true;
-			});
+		const items = select
+			.all([
+				// Files in diffs
+				'.js-targetable-element[id^="diff-"]',
+				// Comments (to be `.filter()`ed)
+				'.js-minimizable-comment-group'
+			])
+			.filter(element =>
+				!element.classList.contains('js-minimizable-comment-group') ||
+				!isCommentGroupMinimized(element)
+			);
 
 		// `j` goes to the next comment, `k` goes back a comment
 		const direction = event.key === 'j' ? 1 : -1;
