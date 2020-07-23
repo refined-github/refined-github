@@ -38,7 +38,6 @@ async function init(): Promise<void> {
 	select('.UnderlineNav-body')!.append(link);
 
 	const count = await getGistCount(username);
-
 	if (count > 0) {
 		link.append(<span className="Counter">{count}</span>);
 	}
