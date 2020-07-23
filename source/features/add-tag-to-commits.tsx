@@ -120,7 +120,10 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 async function init(): Promise<void | false> {
 	const cacheKey = `tags:${getRepoURL()}`;
 
-	const commitsOnPage = select.all('li.commit');
+	const commitsOnPage = select.all([
+		'li.commit', // Pre "Repository refresh" layout
+		'.js-commits-list-item'
+	]);
 	const lastCommitOnPage = getCommitHash(commitsOnPage[commitsOnPage.length - 1]);
 	let cached = await cache.get<{[commit: string]: string[]}>(cacheKey) ?? {};
 	const commitsWithNoTags = [];
@@ -137,7 +140,10 @@ async function init(): Promise<void | false> {
 			// There was no tags for this commit, save that info to the cache
 			commitsWithNoTags.push(targetCommit);
 		} else if (targetTags.length > 0) {
-			select('.commit-meta', commit)!.append(
+			select([
+				'.commit-meta', // Pre "Repository refresh" layout
+				'p + div.d-flex'
+			], commit)!.append(
 				<div className="ml-2">
 					<TagIcon/>
 					<span className="ml-1">{targetTags.map((tags, i) => (
