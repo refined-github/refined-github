@@ -27,8 +27,8 @@ function initRepo(): void {
 		'[id^=ref-issue-]', // Issue references in `isIssue`, `isPRConversation`
 		'[id^=ref-pullrequest-]', // PR references in `isIssue`, `isPRConversation`
 		'[aria-label="Link issues"] a', // "Linked issues" in `isIssue`, `isPRConversation`
-		'.repository-content .js-details-container .link-gray[href*="/commit/"]', // `isSingleFile`
-		'.repository-content .js-details-container pre', // `isSingleFile`
+		'.Box-header.Details .link-gray', // `isSingleFile`
+		'.Box-header.Details pre', // `isSingleFile`
 		'.js-pinned-issue-list-item > .d-block', // Pinned Issues
 		'.release-header', // `isReleasesOrTags` Headers
 		'.existing-pull-contents .list-group-item-link', // `isCompare` with existing PR
