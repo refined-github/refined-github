@@ -16,8 +16,7 @@ function parse(selectors: string[]): void {
 function initRepo(): void {
 	parse([
 		'.BorderGrid--spacious .f4.mt-3', // `isRepoHome` repository description
-		'.Details[data-issue-and-pr-hovercards-enabled] .Details-content--hidden a.link-gray-dark', // `isRepoRoot`
-		'.Details[data-issue-and-pr-hovercards-enabled] .Details-content--hidden pre', // `isRepoRoot`
+		'.js-commits-list-item .mb-1', // `isCommitList` commit message
 		'.Details[data-issue-and-pr-hovercards-enabled] .d-none a.link-gray-dark', // `isRepoRoot`
 		'.commit-title', // `isCommit`
 		'.commit-desc', // `isCommit`, `isCommitList`, `isRepoTree`
