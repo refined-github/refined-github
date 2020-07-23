@@ -183,6 +183,7 @@ import './features/fork-source-link-same-view';
 import './features/pr-jump-to-first-non-viewed-file';
 import './features/keyboard-navigation';
 import './features/vertical-front-matter';
+import './features/use-first-commit-message-for-new-prs';
 
 // Add global for easier debugging
 (window as any).select = select;
