@@ -142,7 +142,7 @@ async function init(): Promise<void | false> {
 		} else if (targetTags.length > 0) {
 			select([
 				'.commit-meta', // Pre "Repository refresh" layout
-				'p + div.d-flex'
+				'.flex-auto .d-flex.mt-1'
 			], commit)!.append(
 				<div className="ml-2">
 					<TagIcon/>
