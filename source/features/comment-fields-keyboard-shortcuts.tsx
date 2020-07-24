@@ -40,6 +40,7 @@ async function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaEle
 			});
 
 		if (lastOwnComment) {
+			// Make edit comment button appear
 			select('details[id]', lastOwnComment)!.dispatchEvent(new MouseEvent('mouseover'));
 			(await elementReady('.js-comment-edit-button', {target: lastOwnComment, stopOnDomReady: false}) as HTMLButtonElement).click();
 			field
