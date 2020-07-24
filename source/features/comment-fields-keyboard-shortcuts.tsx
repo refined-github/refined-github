@@ -1,3 +1,4 @@
+import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
@@ -39,7 +40,11 @@ function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>)
 			});
 
 		if (lastOwnComment) {
-			select<HTMLButtonElement>('.js-comment-edit-button', lastOwnComment)!.click();
+			// Make the comment editable (the native edit button might not be available yet)
+			const editButton = <button hidden type="button" className="js-comment-edit-button"/>;
+			lastOwnComment.append(editButton);
+			editButton.click();
+			editButton.remove();
 			field
 				.closest('form')!
 				.querySelector<HTMLButtonElement>('.js-hide-inline-comment-form')
