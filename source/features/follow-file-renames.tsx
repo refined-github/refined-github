@@ -33,7 +33,10 @@ function init(): false | void {
 
 		const fromKey = isNewer ? 'previous_filename' : 'filename';
 		const toKey = isNewer ? 'filename' : 'previous_filename';
-		const sha = (isNewer ? select : select.last)('.commit .sha')!;
+		const sha = (isNewer ? select : select.last)([
+			'.commit .sha', // Pre "Repository refresh" layout
+			'[aria-label="Copy the full SHA"] + a'
+		])!;
 
 		const files = await findRename(sha.textContent!.trim());
 
