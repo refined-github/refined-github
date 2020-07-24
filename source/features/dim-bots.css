@@ -3,11 +3,15 @@ READ BEFORE EDITING. Some selectors match the same items ("focused" selector vs 
 Commits that have a long commit message will not be dimmed after the user uncollapses the `<details>` element.
 */
 
-.rgh-dim-bot .commit-title,
-.rgh-dim-bot .commit-meta,
+.rgh-dim-bot .commit-title, /* Pre "Repository refresh" layout */
+.rgh-dim-bot .commit-meta, /* Pre "Repository refresh" layout */
+.rgh-dim-bot .mb-1,
+.rgh-dim-bot .mb-1 + .d-flex,
 .rgh-dim-bot .signed-commit-badge, /* `Verified` badge */
-.rgh-dim-bot .commit-links-group, /* Hash and Copy hash buttons */
-.rgh-dim-bot .commit-links-group + .btn, /* Browse repository button */
+.rgh-dim-bot .commit-links-group, /* Hash and Copy hash buttons, pre "Repository refresh" layout */
+.rgh-dim-bot .commit-links-group + .btn, /* Browse repository button, pre "Repository refresh" layout */
+.rgh-dim-bot .BtnGroup, /* Hash and Copy hash buttons */
+.rgh-dim-bot .BtnGroup + .btn, /* Browse repository button */
 .rgh-dim-bot .Box-row--drag-hide, /* PR row */
 .rgh-dim-bot .labels, /* PR labels */
 .rgh-dim-bot .labels + .text-small /* PR meta */ {
@@ -21,16 +25,20 @@ Commits that have a long commit message will not be dimmed after the user uncoll
 ALL the following rules define the non-focused state
 */
 
-.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .commit-title, /* Commit titles, dim */
+.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .commit-title, /* Commit titles, dim, pre "Repository refresh" layout */
+.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .mb-1, /* Commit titles, dim */
 .rgh-dim-bot:not(.navigation-focus) .Box-row--drag-hide { /* PR row, dim */
 	opacity: 20%;
 	transition-delay: 0s;
 }
 
-.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .commit-meta,
+.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .commit-meta, /* Pre "Repository refresh" layout */
+.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .mb-1 + .d-flex,
 .rgh-dim-bot:not(.navigation-focus):not(.Details--on) .signed-commit-badge, /* `Verified` badge */
-.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .commit-links-group, /* Hash and Copy hash buttons */
-.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .commit-links-group + .btn /* Browse repository button */ {
+.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .commit-links-group, /* Hash and Copy hash buttons, pre "Repository refresh" layout */
+.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .commit-links-group + .btn, /* Browse repository button, pre "Repository refresh" layout */
+.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .BtnGroup, /* Hash and Copy hash buttons */
+.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .BtnGroup + .btn /* Browse repository button */ {
 	opacity: 0%;
 	margin-bottom: -1.6em;
 	transition-delay: 0s;
