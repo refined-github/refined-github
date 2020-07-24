@@ -16,7 +16,7 @@ function parse(selectors: string[]): void {
 function init(): void {
 	parse([
 		'.BorderGrid--spacious .f4.mt-3', // `isRepoHome` repository description
-		'.js-commits-list-item .mb-1', // `isCommitList` commit message
+		'.js-commits-list-item .mb-1, .js-commits-list-item pre', // `isCommitList` commit message and description
 		'.Details[data-issue-and-pr-hovercards-enabled] .d-none a.link-gray-dark', // `isRepoRoot` commit message
 		'.commit-title, .commit-desc', // `isCommit` commit message and description
 		'.commit-message', // `isPRConversation`, `isCompare`, `isReleasesOrTags` pushed commits
