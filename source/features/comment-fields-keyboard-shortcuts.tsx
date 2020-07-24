@@ -4,8 +4,9 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import onCommentFieldKeydown from '../github-events/on-comment-field-keydown';
+import elementReady from 'element-ready';
 
-function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): void {
+async function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): Promise<void> {
 	const field = event.delegateTarget;
 
 	if (event.key === 'Escape') {
@@ -39,7 +40,8 @@ function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>)
 			});
 
 		if (lastOwnComment) {
-			select<HTMLButtonElement>('.js-comment-edit-button', lastOwnComment)!.click();
+			select('details[id]', lastOwnComment)!.dispatchEvent(new MouseEvent('mouseover'));
+			(await elementReady('.js-comment-edit-button', {target: lastOwnComment, stopOnDomReady: false}) as HTMLButtonElement).click();
 			field
 				.closest('form')!
 				.querySelector<HTMLButtonElement>('.js-hide-inline-comment-form')
