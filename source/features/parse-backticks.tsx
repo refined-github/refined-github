@@ -1,5 +1,4 @@
 import './parse-backticks.css';
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -7,9 +6,12 @@ import {observe} from 'selector-observer';
 import {parseBackticks} from '../github-helpers/dom-formatters';
 
 function parse(selectors: string[]): void {
-	for (const element of select.all(selectors.map(selector => selector + ':not(.rgh-backticks-already-parsed)'))) {
-		element.classList.add('rgh-backticks-already-parsed');
-		parseBackticks(element);
+	for (const selector of selectors) {
+		observe(selector, {
+			add(el) {
+				parseBackticks(el);
+			}
+		})
 	}
 }
 
@@ -68,11 +70,9 @@ function initUserProfile(): void {
 }
 
 function initHovercard(): void {
-	observe('.js-hovercard-content > .Popover-message .link-gray-dark', {
-		add(el) {
-			parseBackticks(el)
-		}
-	})
+	parse([
+		'.js-hovercard-content > .Popover-message .link-gray-dark'
+	]);
 }
 
 void features.add({
@@ -83,28 +83,32 @@ void features.add({
 	include: [
 		pageDetect.isRepo
 	],
-	init: initRepo
+	init: initRepo,
+	repeatOnAjax: false
 }, {
 	include: [
 		pageDetect.isDashboard
 	],
-	onlyAdditionalListeners: true,
-	init: initDashboard
+	init: initDashboard,
+	repeatOnAjax: false
 }, {
 	include: [
 		pageDetect.isNotifications
 	],
-	init: initNotifications
+	init: initNotifications,
+	repeatOnAjax: false
 }, {
 	include: [
 		pageDetect.isGlobalConversationList
 	],
-	init: initGlobalConversationList
+	init: initGlobalConversationList,
+	repeatOnAjax: false
 }, {
 	include: [
 		pageDetect.isUserProfile
 	],
-	init: initUserProfile
+	init: initUserProfile,
+	repeatOnAjax: false
 }, {
 	init: initHovercard,
 	repeatOnAjax: false
