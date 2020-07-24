@@ -1,10 +1,10 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import onCommentFieldKeydown from '../github-events/on-comment-field-keydown';
-import elementReady from 'element-ready';
 
 async function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): Promise<void> {
 	const field = event.delegateTarget;
