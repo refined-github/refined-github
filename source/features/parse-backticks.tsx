@@ -1,17 +1,17 @@
 import './parse-backticks.css';
 import * as pageDetect from 'github-url-detection';
+import {observe} from 'selector-observer';
 
 import features from '.';
-import {observe} from 'selector-observer';
 import {parseBackticks} from '../github-helpers/dom-formatters';
 
 function parse(selectors: string[]): void {
 	for (const selector of selectors) {
 		observe(selector, {
-			add(el) {
-				parseBackticks(el);
+			add(element) {
+				parseBackticks(element);
 			}
-		})
+		});
 	}
 }
 
