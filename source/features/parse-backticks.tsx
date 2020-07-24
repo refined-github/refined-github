@@ -17,31 +17,27 @@ function init(): void {
 	parse([
 		'.BorderGrid--spacious .f4.mt-3', // `isRepoHome` repository description
 		'.js-commits-list-item .mb-1', // `isCommitList` commit message
-		'.Details[data-issue-and-pr-hovercards-enabled] .d-none a.link-gray-dark', // `isRepoRoot`
-		'.commit-title', // `isCommit`
-		'.commit-desc', // `isCommit`, `isCommitList`, `isRepoTree`
-		'.commit-message', // Pushed commits in `isPRConversation`, `isCompare`, `isReleasesOrTags`
-		'.message', // `isCommitList`, `isRepoTree`, `isBlame`
-		'[aria-label="Issues"][role="group"] .js-navigation-open', // `isConversationList`
-		'.TimelineItem-body > del, .TimelineItem-body > ins', // Title edits in `isIssue`, `isPRConversation`
-		'[id^=ref-issue-]', // Issue references in `isIssue`, `isPRConversation`
-		'[id^=ref-pullrequest-]', // PR references in `isIssue`, `isPRConversation`
-		'[aria-label="Link issues"] a', // "Linked issues" in `isIssue`, `isPRConversation`
-		'.Box-header.Details .link-gray', // `isSingleFile`
-		'.Box-header.Details pre', // `isSingleFile`
+		'.Details[data-issue-and-pr-hovercards-enabled] .d-none a.link-gray-dark', // `isRepoRoot` commit message
+		'.commit-title, .commit-desc', // `isCommit` commit message and description
+		'.commit-message', // `isPRConversation`, `isCompare`, `isReleasesOrTags` pushed commits
+		'.blame-commit-message', // `isBlame` commit message
+		'a[id^="issue_"]', // `isConversationList` issue and PR title
+		'.TimelineItem-body > del, .TimelineItem-body > ins', // `isIssue`, `isPRConversation` title edits
+		'[id^=ref-issue-], [id^=ref-pullrequest-]', // `isIssue`, `isPRConversation` issue and PR references
+		'[aria-label="Link issues"] a', // `isIssue`, `isPRConversation` linked issue and PR
+		'.Box-header.Details .link-gray, .Box-header.Details pre', // `isSingleFile` commit message and description
 		'.js-pinned-issue-list-item > .d-block', // Pinned Issues
 		'.release-header', // `isReleasesOrTags` Headers
 		'.existing-pull-contents .list-group-item-link', // `isCompare` with existing PR
-		'li a.h4.link-gray-dark', // `isPulse`
+		'#pull-requests a.link-gray-dark', // `isPulse` issue and PR title
 		'[id^="check_suite"] a.link-gray-dark', // `isActions`
-		'.repository-content .pr-toolbar h2', // `isActions` run
-		'.js-wiki-sidebar-toggle-display a', // `isWiki`
-		'.gh-header-title', // `isWiki`
-		'.js-recent-activity-container .text-bold', // `isDashboard`"Recent activity" titles
+		'.checks-summary-conclusion + .flex-auto .f3', // `isActions` run
+		'.js-wiki-sidebar-toggle-display a', // `isWiki` sidebar pages title
+		'.wiki-wrapper .gh-header-title', // `isWiki` page title
+		'.js-recent-activity-container .text-bold', // `isDashboard` "Recent activity" titles
 		'.issues_labeled .text-gray-dark > a', // `isDashboard` "help wanted" event titles
-		'.commits blockquote', // Newsfeed commits
-		'.notifications-list-item p.text-normal', // `isNotifications`
-		'.link-gray-dark.js-navigation-open', // `isGlobalConversationList`
+		'.commits blockquote', // `isDashboard` newsfeed commits
+		'.notifications-list-item p.text-normal', // `isNotifications` issue and PR title
 		'.profile-timeline-card .text-gray-dark', // `isUserProfileMainTab` issue and PR title
 		'[itemprop="description"]', // `isUserProfileRepoTab` repository description
 		'.js-hovercard-content > .Popover-message .link-gray-dark' // Hovercard
