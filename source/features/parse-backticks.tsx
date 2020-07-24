@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import observeElement from '../helpers/simplified-element-observer';
+import {observe} from 'selector-observer';
 import {parseBackticks} from '../github-helpers/dom-formatters';
 
 function parse(selectors: string[]): void {
@@ -68,13 +68,11 @@ function initUserProfile(): void {
 }
 
 function initHovercard(): void {
-	const hovercard = select('.js-hovercard-content > .Popover-message')!;
-
-	observeElement(hovercard, () => {
-		parse([
-			'.js-hovercard-content > .Popover-message .link-gray-dark'
-		]);
-	});
+	observe('.js-hovercard-content > .Popover-message .link-gray-dark', {
+		add(el) {
+			parseBackticks(el)
+		}
+	})
 }
 
 void features.add({
