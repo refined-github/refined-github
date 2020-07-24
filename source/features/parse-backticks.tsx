@@ -1,5 +1,4 @@
 import './parse-backticks.css';
-import * as pageDetect from 'github-url-detection';
 import {observe} from 'selector-observer';
 
 import features from '.';
@@ -14,7 +13,7 @@ function parse(selectors: string[]): void {
 	});
 }
 
-function initRepo(): void {
+function init(): void {
 	parse([
 		'.BorderGrid--spacious .f4.mt-3', // `isRepoHome` repository description
 		'.js-commits-list-item .mb-1', // `isCommitList` commit message
@@ -37,40 +36,15 @@ function initRepo(): void {
 		'[id^="check_suite"] a.link-gray-dark', // `isActions`
 		'.repository-content .pr-toolbar h2', // `isActions` run
 		'.js-wiki-sidebar-toggle-display a', // `isWiki`
-		'.gh-header-title' // `isWiki`
-	]);
-}
-
-function initDashboard(): void {
-	parse([
+		'.gh-header-title', // `isWiki`
 		'.js-recent-activity-container .text-bold', // `isDashboard`"Recent activity" titles
 		'.issues_labeled .text-gray-dark > a', // `isDashboard` "help wanted" event titles
-		'.commits blockquote' // Newsfeed commits
-	]);
-}
-
-function initNotifications(): void {
-	parse([
-		'.notifications-list-item p.text-normal'
-	]);
-}
-
-function initGlobalConversationList(): void {
-	parse([
-		'.link-gray-dark.js-navigation-open'
-	]);
-}
-
-function initUserProfile(): void {
-	parse([
+		'.commits blockquote', // Newsfeed commits
+		'.notifications-list-item p.text-normal', // `isNotifications`
+		'.link-gray-dark.js-navigation-open', // `isGlobalConversationList`
 		'.profile-timeline-card .text-gray-dark', // `isUserProfileMainTab` issue and PR title
-		'[itemprop="description"]' // `isUserProfileRepoTab` repository description
-	]);
-}
-
-function initHovercard(): void {
-	parse([
-		'.js-hovercard-content > .Popover-message .link-gray-dark'
+		'[itemprop="description"]', // `isUserProfileRepoTab` repository description
+		'.js-hovercard-content > .Popover-message .link-gray-dark' // Hovercard
 	]);
 }
 
@@ -79,36 +53,6 @@ void features.add({
 	description: 'Renders text in `backticks` in issue titles, commit titles and more places.',
 	screenshot: 'https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png'
 }, {
-	include: [
-		pageDetect.isRepo
-	],
-	init: initRepo,
-	repeatOnAjax: false
-}, {
-	include: [
-		pageDetect.isDashboard
-	],
-	init: initDashboard,
-	repeatOnAjax: false
-}, {
-	include: [
-		pageDetect.isNotifications
-	],
-	init: initNotifications,
-	repeatOnAjax: false
-}, {
-	include: [
-		pageDetect.isGlobalConversationList
-	],
-	init: initGlobalConversationList,
-	repeatOnAjax: false
-}, {
-	include: [
-		pageDetect.isUserProfile
-	],
-	init: initUserProfile,
-	repeatOnAjax: false
-}, {
-	init: initHovercard,
+	init,
 	repeatOnAjax: false
 });
