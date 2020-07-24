@@ -6,13 +6,12 @@ import features from '.';
 import {parseBackticks} from '../github-helpers/dom-formatters';
 
 function parse(selectors: string[]): void {
-	for (const selector of selectors) {
-		observe(selector, {
-			add(element) {
-				parseBackticks(element);
-			}
-		});
-	}
+	observe(selectors.map(selector => selector + ':not(.rgh-backticks-already-parsed)').join(), {
+		add(element) {
+			element.classList.add('rgh-backticks-already-parsed');
+			parseBackticks(element);
+		}
+	});
 }
 
 function initRepo(): void {
