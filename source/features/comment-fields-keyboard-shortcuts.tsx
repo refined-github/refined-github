@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import onCommentFieldKeydown from '../github-events/on-comment-field-keydown';
 
-async function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): Promise<void> {
+function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): void {
 	const field = event.delegateTarget;
 
 	if (event.key === 'Escape') {
