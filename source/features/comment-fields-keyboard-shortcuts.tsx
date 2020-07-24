@@ -1,6 +1,6 @@
+import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -40,9 +40,11 @@ async function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaEle
 			});
 
 		if (lastOwnComment) {
-			// Make edit comment button appear
-			select('details[id]', lastOwnComment)!.dispatchEvent(new MouseEvent('mouseover'));
-			(await elementReady('.js-comment-edit-button', {target: lastOwnComment, stopOnDomReady: false}) as HTMLButtonElement).click();
+			// Make the comment editable (the native edit button might not be available yet)
+			const editButton = <button className="js-comment-edit-button" hidden/>;
+			lastOwnComment.append(editButton);
+			editButton.click();
+			editButton.remove();
 			field
 				.closest('form')!
 				.querySelector<HTMLButtonElement>('.js-hide-inline-comment-form')
