@@ -41,7 +41,7 @@ async function init(): Promise<false | void> {
 
 	for (const prLink of prLinks) {
 		const pr: BranchInfo = data.repository[prLink.id];
-		if (pr.baseRefName === defaultBranch ) {
+		if (pr.baseRefName === defaultBranch) {
 			continue;
 		}
 
