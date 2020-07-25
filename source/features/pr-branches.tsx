@@ -8,6 +8,11 @@ import * as api from '../github-helpers/api';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getRepositoryInfo, getRepoGQL} from '../github-helpers';
 
+type BranchInfo = {
+	baseRef: string;
+	baseRefName: string;
+};
+
 function buildQuery(issueIds: string[]): string {
 	return `
 		repository(${getRepoGQL()}) {
@@ -35,12 +40,12 @@ async function init(): Promise<false | void> {
 	]);
 
 	for (const prLink of prLinks) {
-		if (data.baseRefName === defaultBranch || !data.repository[prLink.id].headOwner) { // 👻 @ghost user
+		const pr: BranchInfo = data.repository[prLink.id];
+		if (pr.baseRefName === defaultBranch || !pr.headOwner) { // 👻 @ghost user
 			continue;
 		}
 
-		const name = data.baseRefName;
-		const branch = data.baseRef && `/${currentRepository.owner!}/${currentRepository.name!}/tree/${data.baseRefName}`;
+		const branch = pr.baseRef && `/${currentRepository.owner!}/${currentRepository.name!}/tree/${pr.baseRefName}`;
 
 		prLink.parentElement!.querySelector('.text-small.text-gray')!.append(
 			<span className="issue-meta-section d-inline-block">
@@ -50,9 +55,9 @@ async function init(): Promise<false | void> {
 					className="commit-ref css-truncate user-select-contain mb-n1"
 					style={(branch ? {} : {textDecoration: 'line-through'})}
 				>
-					<a title={branch ? name : 'Deleted'} href={branch}>
-						{name}
-					</a> 
+					<a title={branch ? pr.baseRefName : 'Deleted'} href={branch}>
+						{pr.baseRefName}
+					</a>
 				</span>
 			</span>
 		);
