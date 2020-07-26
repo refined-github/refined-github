@@ -100,8 +100,8 @@ async function showTimemachineBar(): Promise<void | false> {
 		}
 
 		const parsedUrl = new GitHubURL(location.href);
-		// Don't await it, since the link will usually work without the update
-		void updateURLtoDatedSha(parsedUrl, date);
+		// Due to GitHub’s bug of supporting branches with slashes: #2901
+		void updateURLtoDatedSha(parsedUrl, date); // Don't await it, since the link will usually work without the update
 
 		parsedUrl.branch = `${parsedUrl.branch}@{${date}}`;
 		url.pathname = parsedUrl.pathname;
