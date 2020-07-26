@@ -10,7 +10,7 @@ import GitHubURL from '../github-helpers/github-url';
 import {appendBefore} from '../helpers/dom-utils';
 import {getRepoURL, isPermalink, getRepoGQL} from '../github-helpers';
 
-const getDatedSha = async (url: GitHubURL, date: string): Promise<string> => {
+const updateURLtoDatedSha = async (url: GitHubURL, date: string) => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			ref(qualifiedName: "${url.branch}") {
@@ -27,7 +27,8 @@ const getDatedSha = async (url: GitHubURL, date: string): Promise<string> => {
 		}
 	`);
 
-	return repository.ref.target.history.nodes[0].oid;
+	const [{oid}] = repository.ref.target.history.nodes;
+	select<HTMLAnchorElement>('.rgh-link-date')!.pathname = url.assign({branch: oid}).pathname;
 };
 
 function addInlineLinks(comment: HTMLElement, timestamp: string): void {
@@ -99,7 +100,10 @@ async function showTimemachineBar(): Promise<void | false> {
 		}
 
 		const parsedUrl = new GitHubURL(location.href);
-		parsedUrl.branch = await getDatedSha(parsedUrl, date);
+		// Don't await it, since the link will usually work without the update
+		void updateURLtoDatedSha(parsedUrl, date);
+
+		parsedUrl.branch = `${parsedUrl.branch}@{${date}}`;
 		url.pathname = parsedUrl.pathname;
 	}
 
@@ -107,7 +111,7 @@ async function showTimemachineBar(): Promise<void | false> {
 	select('#start-of-content')!.after(
 		<div className="flash flash-full flash-notice">
 			<div className="container-lg px-3">
-				{closeButton} You can also <a href={String(url)}>view this object as it appeared at the time of the comment</a> (<relative-time datetime={date}/>)
+				{closeButton} You can also <a className="rgh-link-date" href={String(url)}>view this object as it appeared at the time of the comment</a> (<relative-time datetime={date}/>)
 			</div>
 		</div>
 	);
