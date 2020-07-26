@@ -5,9 +5,30 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
-import {getRepoURL, isPermalink} from '../github-helpers';
 import {appendBefore} from '../helpers/dom-utils';
+import {getRepoURL, isPermalink, getRepoGQL} from '../github-helpers';
+
+const getDatedSha = async (url: GitHubURL, date: string): Promise<string> => {
+	const {repository} = await api.v4(`
+		repository(${getRepoGQL()}) {
+			ref(qualifiedName: "${url.branch}") {
+				target {
+					... on Commit {
+						history(first: 1, until: "${date}") {
+							nodes{
+								oid
+							}
+						}
+					}
+				}
+			}
+		}
+	`);
+
+	return repository.ref.target.history.nodes[0].oid;
+};
 
 function addInlineLinks(comment: HTMLElement, timestamp: string): void {
 	const links = select.all<HTMLAnchorElement>(`
@@ -78,7 +99,7 @@ async function showTimemachineBar(): Promise<void | false> {
 		}
 
 		const parsedUrl = new GitHubURL(location.href);
-		parsedUrl.branch = `${parsedUrl.branch}@{${date}}`;
+		parsedUrl.branch = await getDatedSha(parsedUrl, date);
 		url.pathname = parsedUrl.pathname;
 	}
 
