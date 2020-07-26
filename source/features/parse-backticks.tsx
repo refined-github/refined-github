@@ -39,7 +39,7 @@ function init(): void {
 		'.commits blockquote', // `isDashboard` newsfeed commits
 		'.notifications-list-item p.text-normal', // `isNotifications` issue and PR title
 		'.profile-timeline-card .text-gray-dark', // `isUserProfileMainTab` issue and PR title
-		'[itemprop="description"]', // `isUserProfileRepoTab` repository description
+		'#user-repositories-list [itemprop="description"]', // `isUserProfileRepoTab` repository description
 		'.js-hovercard-content > .Popover-message .link-gray-dark' // Hovercard
 	]);
 }
