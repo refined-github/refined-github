@@ -4,17 +4,8 @@ import {observe} from 'selector-observer';
 import features from '.';
 import {parseBackticks} from '../github-helpers/dom-formatters';
 
-function parse(selectors: string[]): void {
-	observe(selectors.map(selector => selector + ':not(.rgh-backticks-already-parsed)').join(), {
-		add(element) {
-			element.classList.add('rgh-backticks-already-parsed');
-			parseBackticks(element);
-		}
-	});
-}
-
 function init(): void {
-	parse([
+	const selectors = [
 		'.BorderGrid--spacious .f4.mt-3', // `isRepoHome` repository description
 		'.js-commits-list-item .mb-1, .js-commits-list-item pre', // `isCommitList` commit message and description
 		'.Details[data-issue-and-pr-hovercards-enabled] .d-none a.link-gray-dark', // `isRepoRoot` commit message
@@ -41,7 +32,14 @@ function init(): void {
 		'.profile-timeline-card .text-gray-dark', // `isUserProfileMainTab` issue and PR title
 		'#user-repositories-list [itemprop="description"]', // `isUserProfileRepoTab` repository description
 		'.js-hovercard-content > .Popover-message .link-gray-dark' // Hovercard
-	]);
+	].map(selector => selector + ':not(.rgh-backticks-already-parsed)').join();
+
+	observe(selectors, {
+		add(element) {
+			element.classList.add('rgh-backticks-already-parsed');
+			parseBackticks(element);
+		}
+	});
 }
 
 void features.add({
