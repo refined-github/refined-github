@@ -133,7 +133,7 @@ async function init(): Promise<false | void> {
 					<DiffIcon/>
 				</a>
 			);
-			groupButtons([link, compareLink]).classList.add('flex-self-center');
+			groupButtons([link, compareLink]).classList.add('flex-self-center', 'd-flex');
 		}
 	} else {
 		link.setAttribute('aria-label', 'Visit the latest release');
