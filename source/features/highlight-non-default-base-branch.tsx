@@ -66,8 +66,8 @@ async function init(): Promise<false | void> {
 
 void features.add({
 	id: __filebasename,
-	description: 'Shows the base in PR lists if they’re not the default branch.',
-	screenshot: '#TODO'
+	description: 'Shows the base branch in PR lists if it’s not the default branch.',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/88480306-39f4d700-cf4d-11ea-9e40-2b36d92d41aa.png'
 }, {
 	include: [
 		pageDetect.isRepoConversationList
