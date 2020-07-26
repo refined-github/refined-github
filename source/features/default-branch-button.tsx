@@ -49,8 +49,8 @@ async function init(): Promise<false | void> {
 	}
 
 	branchSelector.parentElement!.before(defaultLink);
-	groupButtons([defaultLink, branchSelector.parentElement!]);
-	branchSelector.style.float = 'none';
+	groupButtons([defaultLink, branchSelector.parentElement!]).classList.add('d-flex');
+	branchSelector.style.float = 'none'; // Pre "Repository refresh" layout
 }
 
 void features.add({
