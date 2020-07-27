@@ -57,6 +57,7 @@
 		"mem": "6.0.1",
 		"onetime": "^5.1.0",
 		"select-dom": "^6.0.2",
+		"selector-observer": "^2.1.6",
 		"shorten-repo-url": "^2.0.0",
 		"strip-indent": "^3.0.0",
 		"text-field-edit": "^3.1.0",
