@@ -13,16 +13,15 @@ function init(): void {
 	searchButton.firstChild!.replaceWith(<SearchIcon/>);
 
 	const addButtonWrapper = searchButton.nextElementSibling!;
-	const addButton = select('summary > span:first-child', addButtonWrapper)!;
-	addButton.classList.replace('d-md-flex', 'd-md-block');
-	addButton.classList.remove('ml-2');
-	const addText = addButton.firstChild!;
-	addText.nextSibling!.remove();
-	addText.replaceWith(<PlusIcon/>);
-
-	select('summary.btn', addButtonWrapper.nextElementSibling!)?.childNodes[2].remove();
+	const addButton = select('.dropdown-caret', addButtonWrapper)!.parentElement!;
+	addButton.classList.add('d-md-block');
+	addButton.classList.remove('d-md-flex', 'ml-2');
+	addButton.textContent = '';
+	addButton.append(<PlusIcon/>);
 
 	groupButtons([searchButton, addButtonWrapper]);
+
+	select('get-repo .octicon-download')?.nextSibling!.remove();
 }
 
 void features.add({
