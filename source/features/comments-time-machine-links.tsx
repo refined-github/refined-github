@@ -17,7 +17,7 @@ const updateURLtoDatedSha = async (url: GitHubURL, date: string) => {
 				target {
 					... on Commit {
 						history(first: 1, until: "${date}") {
-							nodes{
+							nodes {
 								oid
 							}
 						}
