@@ -14,11 +14,7 @@ function init(): void {
 		const button = item.cloneNode();
 		button.append(<PencilIcon/>);
 		button.classList.replace('dropdown-item', 'timeline-comment-action');
-
-		(
-			item.closest('.review-comment')?.querySelector('.js-comment .timeline-comment-actions')!.lastElementChild ??
-			item
-		).closest('details')!.before(button);
+		item.closest('.js-minimizable-comment-group')!.querySelector('.js-comment-header-reaction-button')!.after(button);
 	}
 }
 
