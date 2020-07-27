@@ -28,7 +28,7 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Replace some button texts with icons.',
-	screenshot: ''
+	screenshot: 'https://user-images.githubusercontent.com/44045911/88551471-7a3f7c80-d055-11ea-82f1-c558b7871824.png'
 }, {
 	include: [
 		pageDetect.isRepoTree
