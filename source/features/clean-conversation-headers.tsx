@@ -43,7 +43,7 @@ function initPR(): void {
 
 void features.add({
 	id: __filebasename,
-	description: '',
+	description: 'Remove duplicate information in conversation headers.',
 	screenshot: ''
 }, {
 	include: [
