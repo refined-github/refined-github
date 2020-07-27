@@ -10,6 +10,6 @@
 }
 
 .rgh-forked-to.rgh-hide-watch-and-fork-count .rgh-forked-button {
-	border-bottom-right-radius: 0.25em; /* Matches GitHub's default */
-	border-top-right-radius: 0.25em; /* Matches GitHub's default */
+	border-bottom-right-radius: 6px; /* Matches GitHub's default */
+	border-top-right-radius: 6px; /* Matches GitHub's default */
 }
