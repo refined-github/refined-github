@@ -14,8 +14,12 @@ function init(): void | false {
 		const button = item.cloneNode();
 		button.append(<PencilIcon/>);
 		button.classList.replace('dropdown-item', 'timeline-comment-action');
+
 		// Prevent duplicate icon in review comments
-		if (item.closest('details-menu[src]')) return false;
+		if (item.closest('details-menu[src]')) {
+			return false;
+		}
+
 		(
 			item.closest('.review-comment')?.querySelector('.js-comment .timeline-comment-actions')!.lastElementChild ??
 			item
