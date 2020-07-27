@@ -29,7 +29,7 @@ function initPR(): void {
 			}
 
 			if (!isSameAuthor) {
-				element.firstElementChild!.before('by ');
+				element.prepend('by ');
 			}
 
 			if (isDefaultBranch) {
