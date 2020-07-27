@@ -8,18 +8,21 @@ import features from '.';
 import {groupButtons} from '../github-helpers/group-buttons';
 
 function init(): void {
-	const searchButton = select('.file-navigation a.btn.d-md-block')!;
+	const searchButton = select('.btn[data-hotkey="t"]')!;
 	searchButton.classList.remove('mr-2');
-	searchButton.childNodes[0].replaceWith(<SearchIcon/>);
+	searchButton.firstChild!.replaceWith(<SearchIcon/>);
 
-	const addButton = select('.file-navigation .d-md-flex.flex-items-center')!;
+	const addButtonWrapper = searchButton.nextElementSibling!;
+	const addButton = select('summary > span:first-child', addButtonWrapper)!
 	addButton.classList.replace('d-md-flex', 'd-md-block');
 	addButton.classList.remove('ml-2');
-	addButton.childNodes[0].replaceWith(<PlusIcon/>);
+	const addText = addButton.firstChild!;
+	addText.nextSibling!.remove();
+	addText.replaceWith(<PlusIcon/>);
 
-	groupButtons([searchButton, addButton]);
+	select('summary.btn', addButtonWrapper.nextElementSibling!)?.childNodes[2].remove();
 
-	select('.file-navigation .btn.btn-primary')?.childNodes[2].remove();
+	groupButtons([searchButton, addButtonWrapper]);
 }
 
 void features.add({
