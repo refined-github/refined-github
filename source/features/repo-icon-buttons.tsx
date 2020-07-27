@@ -9,6 +9,7 @@ import {groupButtons} from '../github-helpers/group-buttons';
 
 function init(): void {
 	const searchButton = select('.file-navigation a.btn.d-md-block')!;
+	searchButton.classList.remove('mr-2');
 	searchButton.childNodes[0].replaceWith(<SearchIcon/>);
 
 	const addButton = select('.file-navigation .d-md-flex.flex-items-center')!;
