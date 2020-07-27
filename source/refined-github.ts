@@ -184,7 +184,7 @@ import './features/pr-jump-to-first-non-viewed-file';
 import './features/keyboard-navigation';
 import './features/vertical-front-matter';
 import './features/use-first-commit-message-for-new-prs';
-import './features/repo-icon-button';
+import './features/repo-icon-buttons';
 
 // Add global for easier debugging
 (window as any).select = select;
