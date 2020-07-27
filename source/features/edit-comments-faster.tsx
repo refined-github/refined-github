@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function init(): void {
+function init(): void | false {
 	const menuItems = select.all('details .js-comment-edit-button:not(.rgh-edit-comment)');
 
 	for (const item of menuItems) {
@@ -14,7 +14,12 @@ function init(): void {
 		const button = item.cloneNode();
 		button.append(<PencilIcon/>);
 		button.classList.replace('dropdown-item', 'timeline-comment-action');
-		item.closest('details')!.before(button);
+		// Prevent duplicate icon in review comments
+		if (item.closest('details-menu[src]')) return false;
+		(
+			item.closest('.review-comment')?.querySelector('.js-comment .timeline-comment-actions')!.lastElementChild ??
+			item
+		).closest('details')!.before(button);
 	}
 }
 
