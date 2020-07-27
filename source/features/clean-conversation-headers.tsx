@@ -16,18 +16,24 @@ function initIssue(): void {
 
 function initPR(): void {
 	const header = select('.gh-header-meta .TableObject-item--primary')!;
-	const isMerged = (header.previousElementSibling!.firstElementChild! as HTMLElement).title === 'Status: Merged';
-	const isSameAuthor = select('.js-discussion > .TimelineItem:first-child .author')!.textContent === header.firstElementChild!.textContent;
-	const baseBranch = header.childNodes[isMerged ? 3 : 5];
-	const isDefaultBranch = (baseBranch.firstChild! as HTMLAnchorElement).pathname.split('/').length === 3;
-	const childNodes = [...header.childNodes].slice(isMerged ? 5 : 9);
-	header.replaceWith(
-		<div className="TableObject-item TableObject-item--primary">
-			{!isSameAuthor && <>by {header.firstElementChild} </>}
-			{!isDefaultBranch && <>into {baseBranch}</>}
-			{...childNodes}
-		</div>
-	);
+	const isMerged = select.exists('#partial-discussion-header [title="Status: Merged"]');
+	const isSameAuthor = select('.js-discussion > .TimelineItem:first-child .author')?.textContent === select('.author', header)!.textContent;
+	const baseBranch = select('.commit-ref:not(.head-ref)', header)!;
+	const isDefaultBranch = (baseBranch.firstElementChild as HTMLAnchorElement).pathname.split('/').length === 3;
+
+	for (const node of [...header.childNodes].slice(isSameAuthor ? 0 : 2, isMerged ? 3 : 5)) {
+		node.remove();
+	}
+
+	if (!isSameAuthor) {
+		header.firstElementChild!.before('by ');
+	}
+
+	if (isDefaultBranch) {
+		baseBranch.remove();
+	} else {
+		baseBranch.before('into ');
+	}
 }
 
 void features.add({
