@@ -13,7 +13,7 @@ function init(): void {
 	searchButton.firstChild!.replaceWith(<SearchIcon/>);
 
 	const addButtonWrapper = searchButton.nextElementSibling!;
-	const addButton = select('summary > span:first-child', addButtonWrapper)!
+	const addButton = select('summary > span:first-child', addButtonWrapper)!;
 	addButton.classList.replace('d-md-flex', 'd-md-block');
 	addButton.classList.remove('ml-2');
 	const addText = addButton.firstChild!;
