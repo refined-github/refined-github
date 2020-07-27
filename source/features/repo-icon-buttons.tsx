@@ -19,7 +19,7 @@ function init(): void {
 
 	groupButtons([searchButton, addButton]);
 
-	select('.file-navigation .btn.btn-primary')!.childNodes[2].remove();
+	select('.file-navigation .btn.btn-primary')?.childNodes[2].remove();
 }
 
 void features.add({
