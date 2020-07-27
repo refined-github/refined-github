@@ -9,10 +9,14 @@ import {groupButtons} from '../github-helpers/group-buttons';
 
 function init(): void {
 	const searchButton = select('.btn[data-hotkey="t"]')!;
+	searchButton.classList.add('tooltipped', 'tooltipped-ne');
 	searchButton.classList.remove('mr-2');
+	searchButton.setAttribute('aria-label', 'Go to file');
 	searchButton.firstChild!.replaceWith(<SearchIcon/>);
 
 	const addButtonWrapper = searchButton.nextElementSibling!;
+	addButtonWrapper.classList.add('tooltipped', 'tooltipped-ne');
+	addButtonWrapper.setAttribute('aria-label', 'Add file');
 	const addButton = select('.dropdown-caret', addButtonWrapper)!.parentElement!;
 	addButton.classList.add('d-md-block');
 	addButton.classList.remove('d-md-flex', 'ml-2');
@@ -21,7 +25,12 @@ function init(): void {
 
 	groupButtons([searchButton, addButtonWrapper]);
 
-	select('get-repo .octicon-download')?.nextSibling!.remove();
+	const downloadButton = select('get-repo details');
+	if (downloadButton) {
+		downloadButton.classList.add('tooltipped', 'tooltipped-ne');
+		downloadButton.setAttribute('aria-label', 'Download');
+		select('.octicon-download', downloadButton)!.nextSibling!.remove();
+	}
 }
 
 void features.add({
