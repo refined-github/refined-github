@@ -15,6 +15,7 @@ function init(): void {
 		'a[id^="issue_"]', // `isConversationList` issue and PR title
 		'.TimelineItem-body > del, .TimelineItem-body > ins', // `isIssue`, `isPRConversation` title edits
 		'[id^=ref-issue-], [id^=ref-pullrequest-]', // `isIssue`, `isPRConversation` issue and PR references
+		'.js-issue-title', // `isIssue`, `isPR` titles
 		'[aria-label="Link issues"] a', // `isIssue`, `isPRConversation` linked issue and PR
 		'.Box-header.Details .link-gray, .Box-header.Details pre', // `isSingleFile` commit message and description
 		'.js-pinned-issue-list-item > .d-block', // Pinned Issues

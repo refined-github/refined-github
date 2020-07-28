@@ -9,7 +9,6 @@ function init(): void {
 	for (const title of select.all('.js-issue-title:not(.rgh-formatted-title)')) {
 		title.classList.add('rgh-formatted-title');
 		domFormatters.linkifyIssues(title);
-		domFormatters.parseBackticks(title);
 	}
 }
 
