@@ -54,7 +54,7 @@ export class RefinedGitHubAPIError extends Error {
 	}
 }
 
-const settings = optionsStorage.getAll();
+export const settings = optionsStorage.getAll();
 
 const api3 = pageDetect.isEnterprise() ?
 	`${location.origin}/api/v3/` :

@@ -64,6 +64,12 @@ async function addButton(): Promise<void> {
 		return;
 	}
 
+	const {personalToken} = await api.settings;
+	if (!personalToken) {
+		console.log('ℹ️ Refined GitHub → update-pr-from-base-branch → Personal token required for this feature');
+		return;
+	}
+
 	const stillLoading = select('#partial-pull-merging poll-include-fragment');
 	if (stillLoading) {
 		stillLoading.addEventListener('load', addButton);
