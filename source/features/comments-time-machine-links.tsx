@@ -10,7 +10,7 @@ import GitHubURL from '../github-helpers/github-url';
 import {appendBefore} from '../helpers/dom-utils';
 import {getRepoURL, isPermalink, getRepoGQL} from '../github-helpers';
 
-const updateURLtoDatedSha = async (url: GitHubURL, date: string) => {
+async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			ref(qualifiedName: "${url.branch}") {
@@ -29,7 +29,7 @@ const updateURLtoDatedSha = async (url: GitHubURL, date: string) => {
 
 	const [{oid}] = repository.ref.target.history.nodes;
 	select<HTMLAnchorElement>('.rgh-link-date')!.pathname = url.assign({branch: oid}).pathname;
-};
+}
 
 function addInlineLinks(comment: HTMLElement, timestamp: string): void {
 	const links = select.all<HTMLAnchorElement>(`
