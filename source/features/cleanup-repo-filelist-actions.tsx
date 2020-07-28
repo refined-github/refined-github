@@ -28,7 +28,7 @@ function init(): void {
 	const downloadButton = select('get-repo details');
 	if (downloadButton) {
 		downloadButton.classList.add('tooltipped', 'tooltipped-ne');
-		downloadButton.setAttribute('aria-label', 'Download');
+		downloadButton.setAttribute('aria-label', 'Clone or download');
 		select('.octicon-download', downloadButton)!.nextSibling!.remove();
 	}
 }
