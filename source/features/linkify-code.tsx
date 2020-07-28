@@ -1,36 +1,34 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import {observe} from 'selector-observer';
 
 import features from '.';
 import {linkifiedURLClass, linkifyURLs, linkifyIssues} from '../github-helpers/dom-formatters';
 
-function init(): false | void {
-	const wrappers = select.all(`
+function init(): void {
+	observe(`
 		.js-blob-wrapper:not(.${linkifiedURLClass}),
 		.blob-wrapper:not(.${linkifiedURLClass}),
-		.comment-body:not(.${linkifiedURLClass})
-	`);
+		.comment-body:not(.${linkifiedURLClass}),
+		.blob-expanded:not(.${linkifiedURLClass})
+	`, {
+		add(wrappers) {
+			// Linkify full URLs
+			// `.blob-code-inner` in diffs
+			// `pre` in GitHub comments
+			for (const element of select.all('.blob-code-inner, pre', wrappers)) {
+				linkifyURLs(element);
+			}
 
-	if (wrappers.length === 0) {
-		return false;
-	}
+			// Linkify issue refs in comments
+			for (const element of select.all('span.pl-c', wrappers)) {
+				linkifyIssues(element);
+			}
 
-	// Linkify full URLs
-	// `.blob-code-inner` in diffs
-	// `pre` in GitHub comments
-	for (const element of select.all('.blob-code-inner, pre', wrappers)) {
-		linkifyURLs(element);
-	}
-
-	// Linkify issue refs in comments
-	for (const element of select.all('span.pl-c', wrappers)) {
-		linkifyIssues(element);
-	}
-
-	// Mark code block as touched
-	for (const element of wrappers) {
-		element.classList.add(linkifiedURLClass);
-	}
+			// Mark code block as touched
+			wrappers.classList.add(linkifiedURLClass);
+		}
+	});
 }
 
 void features.add({
@@ -41,5 +39,6 @@ void features.add({
 	include: [
 		pageDetect.hasCode
 	],
-	init
+	init,
+	repeatOnAjax: false
 });
