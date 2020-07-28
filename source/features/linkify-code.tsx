@@ -6,12 +6,15 @@ import features from '.';
 import {linkifiedURLClass, linkifyURLs, linkifyIssues} from '../github-helpers/dom-formatters';
 
 function init(): void {
-	observe(`
-		.js-blob-wrapper:not(.${linkifiedURLClass}),
-		.blob-wrapper:not(.${linkifiedURLClass}),
-		.comment-body:not(.${linkifiedURLClass}),
-		.blob-expanded:not(.${linkifiedURLClass})
-	`, {
+	const selectors = [
+		'.js-blob-wrapper',
+		'.blob-wrapper',
+		'.comment-body',
+		'.blob-expanded',
+		'.gh-header-title'
+	].map(selector => selector + `:not(.${linkifiedURLClass})`).join();
+
+	observe(selectors, {
 		add(wrappers) {
 			// Linkify full URLs
 			// `.blob-code-inner` in diffs
@@ -21,7 +24,7 @@ function init(): void {
 			}
 
 			// Linkify issue refs in comments
-			for (const element of select.all('span.pl-c', wrappers)) {
+			for (const element of select.all('span.pl-c, .js-issue-title', wrappers)) {
 				linkifyIssues(element);
 			}
 
