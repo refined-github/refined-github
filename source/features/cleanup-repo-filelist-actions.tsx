@@ -15,11 +15,10 @@ function init(): void {
 	searchButton.firstChild!.replaceWith(<SearchIcon/>);
 
 	const addButtonWrapper = searchButton.nextElementSibling!;
-	addButtonWrapper.classList.add('tooltipped', 'tooltipped-ne');
-	addButtonWrapper.setAttribute('aria-label', 'Add file');
 	const addButton = select('.dropdown-caret', addButtonWrapper)!.parentElement!;
-	addButton.classList.add('d-md-block');
+	addButton.classList.add('d-md-block', 'tooltipped', 'tooltipped-ne');
 	addButton.classList.remove('d-md-flex', 'ml-2');
+	addButton.setAttribute('aria-label', 'Add file');
 	addButton.textContent = '';
 	addButton.append(<PlusIcon/>);
 
@@ -39,7 +38,8 @@ void features.add({
 	screenshot: 'https://user-images.githubusercontent.com/44045911/88551471-7a3f7c80-d055-11ea-82f1-c558b7871824.png'
 }, {
 	include: [
-		pageDetect.isRepoTree
+		pageDetect.isRepoTree,
+		pageDetect.isSingleFile
 	],
 	init
 });
