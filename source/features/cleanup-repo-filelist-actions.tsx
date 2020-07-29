@@ -10,19 +10,21 @@ import {groupButtons} from '../github-helpers/group-buttons';
 function init(): void {
 	const searchButton = select('.btn[data-hotkey="t"]')!;
 	searchButton.classList.add('tooltipped', 'tooltipped-ne');
-	searchButton.classList.remove('mr-2');
 	searchButton.setAttribute('aria-label', 'Go to file');
 	searchButton.firstChild!.replaceWith(<SearchIcon/>);
 
 	const addButtonWrapper = searchButton.nextElementSibling!;
-	const addButton = select('.dropdown-caret', addButtonWrapper)!.parentElement!;
-	addButton.classList.add('d-md-block', 'tooltipped', 'tooltipped-ne');
-	addButton.classList.remove('d-md-flex', 'ml-2');
-	addButton.setAttribute('aria-label', 'Add file');
-	addButton.textContent = '';
-	addButton.append(<PlusIcon/>);
+	const addButton = select('.dropdown-caret', addButtonWrapper)?.parentElement!;
+	if (addButton) {
+		addButton.classList.add('d-md-block', 'tooltipped', 'tooltipped-ne');
+		addButton.classList.remove('d-md-flex', 'ml-2');
+		addButton.setAttribute('aria-label', 'Add file');
+		addButton.textContent = '';
+		addButton.append(<PlusIcon/>);
 
-	groupButtons([searchButton, addButtonWrapper]);
+		searchButton.classList.remove('mr-2');
+		groupButtons([searchButton, addButtonWrapper]);
+	}
 
 	const downloadButton = select('get-repo details');
 	if (downloadButton) {
