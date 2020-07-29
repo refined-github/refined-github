@@ -5,12 +5,9 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function init(): void {
-	observe('details-dialog .Box-header .mr-3 img', {
+	observe<HTMLImageElement>('details-dialog .Box-header .mr-3 img:not([alt*="[bot]"])', {
 		add(element) {
-			const userName = (element as HTMLImageElement).alt.slice(1);
-			if (userName.includes('[bot]')) {
-				return;
-			}
+			const userName = element.alt.slice(1);
 
 			element.nextElementSibling!.replaceWith(
 				<a
