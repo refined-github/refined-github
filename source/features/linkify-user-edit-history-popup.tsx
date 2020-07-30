@@ -21,12 +21,12 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Linkifies the username in the edit history popup.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/88803491-85d89380-d17a-11ea-9aad-53635ad7b699.png'
+	screenshot: 'https://user-images.githubusercontent.com/1402241/88917988-9ebb7480-d260-11ea-8690-0a3440f1ebbc.png'
 }, {
 	init,
 	include: [
 		pageDetect.isIssue,
 		pageDetect.isPRConversation
 	],
-	once: true
+	repeatOnAjax: false
 });
