@@ -28,5 +28,5 @@ void features.add({
 		pageDetect.isIssue,
 		pageDetect.isPRConversation
 	],
-	repeatOnAjax: false
+	once: true
 });
