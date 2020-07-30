@@ -6,10 +6,14 @@ import features from '.';
 import {wrap} from '../helpers/dom-utils';
 
 function init(): void {
-	observe('details-dialog .Box-header .mr-3 img:not([alt*="[bot]"])', {
+	observe('details-dialog .Box-header .mr-3 > img:not([alt*="[bot]"])', {
 		add(avatar) {
 			const userName = (avatar as HTMLImageElement).alt.slice(1);
+			// Linkify name first
 			wrap(avatar.nextElementSibling!, <a className="link-gray-dark" href={`/${userName}`}/>);
+
+			// Then linkify avatar
+			wrap(avatar, <a href={`/${userName}`}/>);
 		}
 	});
 }
