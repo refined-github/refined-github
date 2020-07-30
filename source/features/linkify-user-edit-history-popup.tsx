@@ -3,20 +3,13 @@ import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import {wrap} from '../helpers/dom-utils';
 
 function init(): void {
 	observe('details-dialog .Box-header .mr-3 img:not([alt*="[bot]"])', {
-		add(element) {
-			const userName = (element as HTMLImageElement).alt.slice(1);
-
-			element.nextElementSibling!.replaceWith(
-				<a
-					className="link-gray-dark css-truncate-target v-align-middle text-bold text-small"
-					href={`/${userName}`}
-				>
-					{userName}
-				</a>
-			);
+		add(avatar) {
+			const userName = (avatar as HTMLImageElement).alt.slice(1);
+			wrap(avatar.nextElementSibling!, <a className="link-gray-dark" href={`/${userName}`}/>);
 		}
 	});
 }
