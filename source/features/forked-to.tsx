@@ -12,7 +12,9 @@ import LinkExternalIcon from 'octicon/link-external.svg';
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import GitHubURL from '../github-helpers/github-url';
-import {getRepoURL, getUsername, getForkedRepo} from '../github-helpers';
+import doesFileExist from '../github-helpers/does-file-exist';
+import getDefaultBranch from '../github-helpers/get-default-branch';
+import {getRepoURL, getUsername, getForkedRepo, getRepositoryInfo} from '../github-helpers';
 
 const getForkSourceRepo = (): string => getForkedRepo() ?? getRepoURL();
 const getCacheKey = (): string => `forked-to:${getUsername()}@${getForkSourceRepo().toLowerCase()}`;
@@ -30,8 +32,15 @@ const updateCache = cache.function(async (): Promise<string[] | undefined> => {
 	staleWhileRevalidate: 5
 });
 
+async function updateForkLinkToDefaultBranch(url: GitHubURL): Promise<void> {
+	if (await doesFileExist(url)) {
+		const defaultBranch = await getDefaultBranch(getRepositoryInfo(url.pathname.slice(1)));
+		select<HTMLAnchorElement>(`[href*="${url.pathname}"]`)!.pathname = url.assign({branch: defaultBranch}).pathname;
+	}
+}
+
 function createLink(baseRepo: string): string {
-	if (pageDetect.isRepoRoot() || !(pageDetect.isSingleFile() || pageDetect.isRepoTree())) {
+	if (pageDetect.isRepoRoot() || !(pageDetect.isSingleFile() || pageDetect.isRepoTree() || pageDetect.isEditingFile())) {
 		return '/' + baseRepo;
 	}
 
@@ -39,9 +48,11 @@ function createLink(baseRepo: string): string {
 	const url = new GitHubURL(location.href).assign({
 		user,
 		repository,
-		branch: 'HEAD'
+		branch: 'HEAD',
+		route: 'blob' // Replace the `edit`
 	});
 
+	void updateForkLinkToDefaultBranch(url);
 	return url.pathname;
 }
 
