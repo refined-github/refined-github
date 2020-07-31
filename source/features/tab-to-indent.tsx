@@ -15,7 +15,7 @@ void features.add({
 }, {
 	include: [
 		pageDetect.hasCode,
-		pageDetect.hasRichTextEditor
+		pageDetect.isNewIssue
 	],
 	waitForDomReady: false,
 	repeatOnAjax: false,
