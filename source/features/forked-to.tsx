@@ -35,7 +35,11 @@ const updateCache = cache.function(async (): Promise<string[] | undefined> => {
 async function updateForkLinkToDefaultBranch(url: GitHubURL): Promise<void> {
 	if (await doesFileExist(url)) {
 		const defaultBranch = await getDefaultBranch(getRepositoryInfo(url.pathname.slice(1)));
-		select<HTMLAnchorElement>(`[href*="${url.pathname}"]`)!.pathname = url.assign({branch: defaultBranch}).pathname;
+
+		select<HTMLAnchorElement>(`.pagehead-actions [href*="${url.pathname}"]`)!.pathname = url.assign({
+			route: 'edit',
+			branch: defaultBranch
+		}).pathname;
 	}
 }
 
@@ -48,11 +52,14 @@ function createLink(baseRepo: string): string {
 	const url = new GitHubURL(location.href).assign({
 		user,
 		repository,
-		branch: 'HEAD',
-		route: 'blob' // Replace the `edit`
+		branch: 'HEAD'
 	});
 
-	void updateForkLinkToDefaultBranch(url);
+	if (pageDetect.isEditingFile()) {
+		url.route = 'blob'; // Replace the 'edit'
+		void updateForkLinkToDefaultBranch(url); // Don't await it, since the link will work without the update
+	}
+
 	return url.pathname;
 }
 
