@@ -36,10 +36,10 @@ async function updateForkLinkToDefaultBranch(url: GitHubURL): Promise<void> {
 	if (await doesFileExist(url)) {
 		const defaultBranch = await getDefaultBranch(getRepositoryInfo(url.pathname.slice(1)));
 
-		select<HTMLAnchorElement>(`.pagehead-actions [href*="${url.pathname}"]`)!.pathname = url.assign({
-			route: 'edit',
+		url.assign({
 			branch: defaultBranch
-		}).pathname;
+		});
+		select<HTMLAnchorElement>(`.pagehead-actions [href*="${url.pathname}"]`)!.pathname = url.pathname;
 	}
 }
 
