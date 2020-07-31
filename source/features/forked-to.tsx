@@ -56,7 +56,6 @@ function createLink(baseRepo: string): string {
 	});
 
 	if (pageDetect.isEditingFile()) {
-		url.route = 'blob'; // Replace the 'edit'
 		void updateForkLinkToDefaultBranch(url); // Don't await it, since the link will work without the update
 	}
 
