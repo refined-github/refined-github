@@ -14,7 +14,7 @@ void features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/33802977-beb8497c-ddbf-11e7-899c-698d89298de4.gif'
 }, {
 	include: [
-		pageDetect.hasCode
+		pageDetect.hasRichTextEditor
 	],
 	waitForDomReady: false,
 	repeatOnAjax: false,
