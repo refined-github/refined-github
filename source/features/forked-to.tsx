@@ -84,9 +84,7 @@ function forkDropdown(fork: string): HTMLAnchorElement {
 		</a>
 	) as unknown as HTMLAnchorElement;
 
-	if (fork === getRepoURL()) {
-		link.href = location.href;
-	} else {
+	if (fork !== getRepoURL()) {
 		setURL(link, fork);
 	}
 
