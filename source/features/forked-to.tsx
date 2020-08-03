@@ -14,7 +14,7 @@ import fetchDom from '../helpers/fetch-dom';
 import GitHubURL from '../github-helpers/github-url';
 import doesFileExist from '../github-helpers/does-file-exist';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getRepoURL, getUsername, getForkedRepo, getRepositoryInfo} from '../github-helpers';
+import {getRepoURL, getUsername, getForkedRepo, getRepositoryInfo, getCurrentBranch} from '../github-helpers';
 
 const getForkSourceRepo = (): string => getForkedRepo() ?? getRepoURL();
 const getCacheKey = (): string => `forked-to:${getUsername()}@${getForkSourceRepo().toLowerCase()}`;
@@ -32,20 +32,32 @@ const updateCache = cache.function(async (): Promise<string[] | undefined> => {
 	staleWhileRevalidate: 5
 });
 
-async function updateForkLinkToDefaultBranch(url: GitHubURL): Promise<void> {
-	if (await doesFileExist(url)) {
-		const defaultBranch = await getDefaultBranch(getRepositoryInfo(url.pathname.slice(1)));
+async function updateForkBranch(url: GitHubURL, fork: HTMLAnchorElement): Promise<void> {
+	const currentBranch = getCurrentBranch();
+	const existsOnDefaultBranch = doesFileExist(url);
+	const existsOnCurrentBranch = doesFileExist(url.assign({branch: currentBranch}));
 
+	if (await existsOnCurrentBranch) {
+		fork.pathname = url.pathname;
+		return;
+	}
+
+	if (await existsOnDefaultBranch) {
+		const defaultBranch = await getDefaultBranch(getRepositoryInfo(url.pathname.slice(1)));
 		url.assign({
 			branch: defaultBranch
 		});
-		select<HTMLAnchorElement>(`.pagehead-actions [href*="${url.pathname}"]`)!.pathname = url.pathname;
+		fork.pathname = url.pathname;
+		return;
 	}
+
+	fork.pathname = `/${url.user}/${url.repository}`;
 }
 
-function createLink(baseRepo: string): string {
+function setURL(fork: HTMLAnchorElement, baseRepo: string): void {
 	if (pageDetect.isRepoRoot() || !(pageDetect.isSingleFile() || pageDetect.isRepoTree() || pageDetect.isEditingFile())) {
-		return '/' + baseRepo;
+		fork.href = '/' + baseRepo;
+		return;
 	}
 
 	const [user, repository] = baseRepo.split('/');
@@ -55,11 +67,26 @@ function createLink(baseRepo: string): string {
 		branch: 'HEAD'
 	});
 
-	if (pageDetect.isEditingFile()) {
-		void updateForkLinkToDefaultBranch(url); // Don't await it, since the link will work without the update
-	}
+	fork.href = url.href;
 
-	return url.pathname;
+	void updateForkBranch(url, fork); // Don't await it, since the link will usually work without the update
+}
+
+function forkDropdown(fork: string): HTMLAnchorElement {
+	const link = (
+		<a
+			className={`select-menu-item ${fork === getRepoURL() ? 'selected' : ''}`}
+			title={`Open your fork at ${fork}`}
+		>
+			<span className="select-menu-item-icon rgh-forked-to-icon">
+				{fork === getRepoURL() ? <CheckIcon/> : <ForkIcon/>}
+			</span>
+			{fork}
+		</a>
+	) as unknown as HTMLAnchorElement;
+	setURL(link, fork);
+
+	return link;
 }
 
 async function updateUI(forks: string[]): Promise<void> {
@@ -71,15 +98,16 @@ async function updateUI(forks: string[]): Promise<void> {
 	document.body.classList.add('rgh-forked-to');
 	const forkCounter = (await elementReady('.social-count[href$="/network/members"]'))!;
 	if (forks.length === 1) {
-		forkCounter.before(
+		const link = (
 			<a
-				href={createLink(forks[0])}
 				className="btn btn-sm float-left rgh-forked-button"
 				title={`Open your fork at ${forks[0]}`}
 			>
 				<LinkExternalIcon/>
 			</a>
-		);
+		) as unknown as HTMLAnchorElement;
+		forkCounter.before(link);
+		setURL(link, forks[0]);
 	} else {
 		forkCounter.before(
 			<details className="details-reset details-overlay select-menu float-left">
@@ -94,18 +122,7 @@ async function updateUI(forks: string[]): Promise<void> {
 					<div className="select-menu-header">
 						<span className="select-menu-title">Your forks</span>
 					</div>
-					{forks.map(fork => (
-						<a
-							href={createLink(fork)}
-							className={`select-menu-item ${fork === getRepoURL() ? 'selected' : ''}`}
-							title={`Open your fork at ${fork}`}
-						>
-							<span className="select-menu-item-icon rgh-forked-to-icon">
-								{fork === getRepoURL() ? <CheckIcon/> : <ForkIcon/>}
-							</span>
-							{fork}
-						</a>
-					))}
+					{forks.map(forkDropdown)}
 				</details-menu>
 			</details>
 		);
