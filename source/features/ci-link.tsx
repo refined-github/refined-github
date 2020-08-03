@@ -27,7 +27,11 @@ async function init(): Promise<false | void> {
 	}
 
 	// Append to title (aware of forks and private repos)
-	select('[itemprop="name"]')!.after(icon);
+	const privateLabel = select('[itemprop="name"] + .Label');
+	if (privateLabel) {
+		icon.classList.add('ml-2');
+	}
+	(privateLabel ?? select('[itemprop="name"]'))!.after(icon);
 }
 
 void features.add({
