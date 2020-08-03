@@ -68,7 +68,7 @@ async function addDefaultBranchLink(bar: Element): Promise<void> {
 
 	bar.after(
 		<p className="container mt-4 text-center">
-			See also the file on the <a href={url}>default branch</a>
+			See also the object on the <a href={url}>default branch</a>
 		</p>
 	);
 }
@@ -82,8 +82,8 @@ function init(): false | void {
 	const bar = <h2 className="container mt-4 text-center"/>;
 
 	for (const [i, part] of parts.entries()) {
-		if (i === 2 && part === 'tree') {
-			// `/tree/` is not a real part of the URL
+		if (i === 2 && ['tree', 'blob', 'edit'].includes(part)) {
+			// Exclude parts that don't exist as standalones
 			continue;
 		}
 
@@ -103,8 +103,14 @@ function init(): false | void {
 		void checkAnchor(bar.children[i] as HTMLAnchorElement);
 	}
 
-	if (parts[2] === 'tree') {
+	if (parts[2] === 'tree' || parts[2] === 'blob') {
+		// Object might be 410 Gone
 		void addCommitHistoryLink(bar);
+	}
+
+	if (parts[2] === 'edit') {
+		// File might not be available on the current branch
+		// GitHub already redirects /tree/ and /blob/ natively
 		void addDefaultBranchLink(bar);
 	}
 }
