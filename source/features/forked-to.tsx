@@ -55,11 +55,6 @@ async function updateForkBranch(url: GitHubURL, link: HTMLAnchorElement): Promis
 }
 
 function setURL(link: HTMLAnchorElement, baseRepo: string): void {
-	if (baseRepo === getRepoURL()) {
-		link.href = location.href;
-		return;
-	}
-
 	if (pageDetect.isRepoRoot() || !(pageDetect.isSingleFile() || pageDetect.isRepoTree() || pageDetect.isEditingFile())) {
 		link.href = '/' + baseRepo;
 		return;
@@ -73,7 +68,6 @@ function setURL(link: HTMLAnchorElement, baseRepo: string): void {
 	});
 
 	link.href = url.href;
-
 	void updateForkBranch(url, link); // Don't await it, since the link will usually work without the update
 }
 
@@ -89,7 +83,12 @@ function forkDropdown(fork: string): HTMLAnchorElement {
 			{fork}
 		</a>
 	) as unknown as HTMLAnchorElement;
-	setURL(link, fork);
+
+	if (fork === getRepoURL()) {
+		link.href = location.href;
+	} else {
+		setURL(link, fork);
+	}
 
 	return link;
 }
