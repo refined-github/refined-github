@@ -32,13 +32,13 @@ const updateCache = cache.function(async (): Promise<string[] | undefined> => {
 	staleWhileRevalidate: 5
 });
 
-async function updateForkBranch(url: GitHubURL, fork: HTMLAnchorElement): Promise<void> {
+async function updateForkBranch(url: GitHubURL, link: HTMLAnchorElement): Promise<void> {
 	const currentBranch = getCurrentBranch();
 	const existsOnDefaultBranch = doesFileExist(url);
 	const existsOnCurrentBranch = doesFileExist(url.assign({branch: currentBranch}));
 
 	if (await existsOnCurrentBranch) {
-		fork.pathname = url.pathname;
+		link.pathname = url.pathname;
 		return;
 	}
 
@@ -47,16 +47,21 @@ async function updateForkBranch(url: GitHubURL, fork: HTMLAnchorElement): Promis
 		url.assign({
 			branch: defaultBranch
 		});
-		fork.pathname = url.pathname;
+		link.pathname = url.pathname;
 		return;
 	}
 
-	fork.pathname = `/${url.user}/${url.repository}`;
+	link.pathname = `/${url.user}/${url.repository}`;
 }
 
-function setURL(fork: HTMLAnchorElement, baseRepo: string): void {
+function setURL(link: HTMLAnchorElement, baseRepo: string): void {
+	if (baseRepo === getRepoURL()) {
+		link.href = location.href;
+		return;
+	}
+
 	if (pageDetect.isRepoRoot() || !(pageDetect.isSingleFile() || pageDetect.isRepoTree() || pageDetect.isEditingFile())) {
-		fork.href = '/' + baseRepo;
+		link.href = '/' + baseRepo;
 		return;
 	}
 
@@ -67,9 +72,9 @@ function setURL(fork: HTMLAnchorElement, baseRepo: string): void {
 		branch: 'HEAD'
 	});
 
-	fork.href = url.href;
+	link.href = url.href;
 
-	void updateForkBranch(url, fork); // Don't await it, since the link will usually work without the update
+	void updateForkBranch(url, link); // Don't await it, since the link will usually work without the update
 }
 
 function forkDropdown(fork: string): HTMLAnchorElement {
