@@ -5,3 +5,7 @@
 .rgh-ci-link summary .octicon {
 	vertical-align: 0;
 }
+
+.Label + .rgh-ci-link {
+	margin-left: 8px;
+}
