@@ -27,7 +27,7 @@ async function init(): Promise<false | void> {
 	}
 
 	// Append to title (aware of forks and private repos)
-	select('[itemprop="name"]')!.after(icon);
+	select('[itemprop="name"]')!.parentElement!.append(icon);
 }
 
 void features.add({
