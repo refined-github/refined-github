@@ -31,16 +31,16 @@ const updateCache = cache.function(async (): Promise<string[] | undefined> => {
 });
 
 function createLink(baseRepo: string): string {
-	if (pageDetect.isRepoRoot() || !(pageDetect.isSingleFile() || pageDetect.isRepoTree() || pageDetect.isEditingFile())) {
-		return '/' + baseRepo;
+	if (pageDetect.isSingleFile() || pageDetect.isRepoTree() || pageDetect.isEditingFile()) {
+		const [user, repository] = baseRepo.split('/', 2);
+		const url = new GitHubURL(location.href).assign({
+			user,
+			repository
+		});
+		return url.pathname;
 	}
 
-	const [user, repository] = baseRepo.split('/', 2);
-	const url = new GitHubURL(location.href).assign({
-		user,
-		repository
-	});
-	return url.pathname;
+	return '/' + baseRepo;
 }
 
 async function updateUI(forks: string[]): Promise<void> {
