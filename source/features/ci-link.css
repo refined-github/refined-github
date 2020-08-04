@@ -6,6 +6,7 @@
 	vertical-align: 0;
 }
 
+/* Adds space between `ci-link` and "Private" label, if present */
 .Label + .rgh-ci-link {
 	margin-left: 8px;
 }
