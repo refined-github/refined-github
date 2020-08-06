@@ -2,8 +2,8 @@ import React from 'dom-chef';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
 import {wrap} from '../helpers/dom-utils';
+import features from '.';
 
 function init(): void {
 	observe('details-dialog .Box-header .mr-3 > img:not([alt*="[bot]"])', {
