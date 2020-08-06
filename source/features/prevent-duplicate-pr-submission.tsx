@@ -3,12 +3,14 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function preventSubmit({delegateTarget: pullButton}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
-	// Delay disabling the buttons to let it be submitted first
-	setTimeout(() => {
-		pullButton.disabled = true;
-		((pullButton.nextElementSibling ?? pullButton.previousElementSibling) as HTMLButtonElement)!.disabled = true;
-	});
+let previousSubmission = Date.now() - 1000;
+
+function preventSubmit(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
+	if (Date.now() - previousSubmission < 1000) {
+		event.preventDefault();
+	}
+
+	previousSubmission = Date.now();
 }
 
 function init(): void {
