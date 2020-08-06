@@ -14,7 +14,7 @@ function preventSubmit(event: delegate.Event<MouseEvent, HTMLButtonElement>): vo
 }
 
 function init(): void {
-	delegate(document, '#new_pull_request button[type="submit"][aria-label$="for review"]', 'click', preventSubmit);
+	delegate(document, '#new_pull_request', 'submit', preventSubmit);
 }
 
 void features.add({
