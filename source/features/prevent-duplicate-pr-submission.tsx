@@ -19,7 +19,7 @@ function init(): void {
 
 void features.add({
 	id: __filebasename,
-	description: 'Disables the create pull request button after submission to prevent creating duplicate pull requests.',
+	description: 'Prevents a pull request from mistakenly submitted twice when create pull request is double clicked.',
 	screenshot: 'https://user-images.githubusercontent.com/16872793/89417135-47a01e80-d6fc-11ea-98fb-724db6647592.gif'
 }, {
 	include: [
