@@ -7,8 +7,9 @@ import {wrap} from '../helpers/dom-utils';
 
 function init(): void {
 	observe('details-dialog .Box-header .mr-3 > img:not([alt*="[bot]"])', {
+		constructor: HTMLImageElement,
 		add(avatar) {
-			const userName = (avatar as HTMLImageElement).alt.slice(1);
+			const userName = avatar.alt.slice(1);
 			// Linkify name first
 			wrap(avatar.nextElementSibling!, <a className="link-gray-dark" href={`/${userName}`}/>);
 
