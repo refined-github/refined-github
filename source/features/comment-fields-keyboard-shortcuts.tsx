@@ -11,10 +11,10 @@ function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>)
 
 	if (event.key === 'Escape') {
 		// Cancel buttons have different classes for inline comments and editable comments
-		const cancelButton = select<HTMLButtonElement>(`
-				.js-hide-inline-comment-form,
-				.js-comment-cancel-button
-			`, field.form!);
+		const cancelButton = select<HTMLButtonElement>([
+			'.js-hide-inline-comment-form',
+			'.js-comment-cancel-button'
+		], field.form!);
 
 		// Cancel if there is a button, else blur the field
 		if (cancelButton) {

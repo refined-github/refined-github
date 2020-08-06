@@ -11,10 +11,10 @@ async function cleanBar(): Promise<void> {
 
 function init(): void {
 	// Get issues links that don't already have a specific sorting applied
-	for (const link of select.all<HTMLAnchorElement>(`
-		[href*="/issues"]:not([href*="sort%3A"]):not(.issues-reset-query),
-		[href*="/pulls" ]:not([href*="sort%3A"]):not(.issues-reset-query)
-	`)) {
+	for (const link of select.all<HTMLAnchorElement>([
+		'[href*="/issues"]:not([href*="sort%3A"]):not(.issues-reset-query)',
+		'[href*="/pulls" ]:not([href*="sort%3A"]):not(.issues-reset-query)'
+	])) {
 		// Pick only links to lists, not single issues
 		// + skip pagination links
 		// + skip pr/issue filter dropdowns (some are lazyloaded)

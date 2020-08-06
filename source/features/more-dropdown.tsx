@@ -91,10 +91,10 @@ async function init(): Promise<void> {
 	);
 
 	// Selector only affects desktop navigation
-	for (const tab of select.all<HTMLAnchorElement>(`
-		.hx_reponav [data-selected-links~="pulse"],
-		.hx_reponav [data-selected-links~="security"]
-	`)) {
+	for (const tab of select.all<HTMLAnchorElement>([
+		'.hx_reponav [data-selected-links~="pulse"]',
+		'.hx_reponav [data-selected-links~="security"]'
+	])) {
 		tab.remove();
 		menu.append(
 			<a href={tab.href} className="rgh-reponav-more dropdown-item">

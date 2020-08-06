@@ -42,12 +42,12 @@ function showCheckboxIfNecessary(): void {
 }
 
 function disableForm(disabled = true): void {
-	for (const field of select.all<HTMLInputElement>(`
-		[name="commit_message"],
-		[name="commit_title"],
-		[name="rgh-pr-check-waiter"],
-		.js-merge-commit-button
-		`)) {
+	for (const field of select.all<HTMLInputElement>([
+		'[name="commit_message"]',
+		'[name="commit_title"]',
+		'[name="rgh-pr-check-waiter"]',
+		'.js-merge-commit-button'
+	])) {
 		field.disabled = disabled;
 	}
 
