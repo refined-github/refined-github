@@ -3,7 +3,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-let previousSubmission = Date.now() - 1000;
+let previousSubmission = 0;
 
 function preventSubmit(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	if (Date.now() - previousSubmission < 1000) {
