@@ -20,16 +20,6 @@ const defaults = Object.assign({
 const migrations = [
 	// Merged on July 2nd
 	featureWasRenamed('sticky-discussion-list-toolbar', 'sticky-conversation-list-toolbar'),
-	featureWasRenamed('highlight-collaborators-and-own-discussions', 'highlight-collaborators-and-own-conversations'),
-	featureWasRenamed('discussion-filters', 'conversation-filters'),
-	featureWasRenamed('global-discussion-list-filters', 'global-conversation-list-filters'),
-	featureWasRenamed('extend-discussion-status-filters', 'extend-conversation-status-filters'),
-	featureWasRenamed('discussion-links-on-repo-lists', 'conversation-links-on-repo-lists'),
-	featureWasRenamed('format-discussion-titles', 'format-conversation-titles'),
-	featureWasRenamed('sticky-discussion-sidebar', 'sticky-conversation-sidebar'),
-	featureWasRenamed('batch-open-issues', 'batch-open-conversations'),
-	featureWasRenamed('sort-issues-by-update-time', 'sort-conversations-by-update-time'),
-	featureWasRenamed('clean-issue-filters', 'clean-conversation-filters'),
 
 	// Removed features will be automatically removed from the options as well
 	OptionsSyncPerDomain.migrations.removeUnused
