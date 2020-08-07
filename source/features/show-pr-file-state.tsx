@@ -1,4 +1,5 @@
 import select from 'select-dom';
+import oneTime from 'onetime';
 import {observe} from 'selector-observer';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -46,7 +47,9 @@ void features.add({
 		pageDetect.isPRFiles
 
 	],
-	init,
-	waitForDomReady: false,
-	repeatOnAjax: false
+	exclude: [
+		pageDetect.isPRFile404
+	],
+	init: oneTime(init),
+	waitForDomReady: false
 });
