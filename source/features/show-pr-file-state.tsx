@@ -7,14 +7,14 @@ import features from '.';
 import {observeOneMutation} from '../helpers/simplified-element-observer';
 
 function loadJumpList(jumpList: Element): void {
-	jumpList.dispatchEvent(new MouseEvent('mouseover'));
+	jumpList.parentElement!.dispatchEvent(new MouseEvent('mouseover'));
 }
 
 async function init(): Promise<false | void> {
-	const jumpList = await elementReady('details.toc-select')!;
+	const jumpList = await elementReady('details.toc-select details-menu')!;
 	loadJumpList(jumpList!);
 	setTimeout(loadJumpList, 1000, jumpList!);
-	await observeOneMutation(jumpList!.querySelector('details-menu')!);
+	await observeOneMutation(jumpList!);
 
 	observe('.file-info [href]', {
 		constructor: HTMLAnchorElement,
