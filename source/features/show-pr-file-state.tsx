@@ -21,6 +21,11 @@ async function init(): Promise<void> {
 	observe('.file-info [href]', {
 		constructor: HTMLAnchorElement,
 		add(element) {
+			if (element.classList.contains('rgh-show-file')) {
+				return;
+			}
+
+			element.classList.add('rgh-show-file');
 			const icon = select(`[href="${element.hash}"] svg`, jumpList)!.cloneNode(true);
 			const iconTitle = icon.getAttribute('title')!;
 			if (iconTitle === 'added') {
