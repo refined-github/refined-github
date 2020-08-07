@@ -13,8 +13,8 @@ function loadJumpList(jumpList: Element): void {
 
 async function init(): Promise<void> {
 	const jumpList = await elementReady('details.toc-select details-menu')!;
-	// The event listener might not have been attached yet, so we can try twice
 	loadJumpList(jumpList!);
+	// The event listener might not have been attached yet, so we can try twice
 	setTimeout(loadJumpList, 1000, jumpList!);
 	await observeOneMutation(jumpList!);
 
@@ -40,12 +40,11 @@ async function init(): Promise<void> {
 
 void features.add({
 	id: __filebasename,
-	description: '',
-	screenshot: ''
+	description: 'Show if a file was added or deleted on the pr file bar',
+	screenshot: 'https://user-images.githubusercontent.com/16872793/89691560-3828fd00-d8d7-11ea-9107-ba7f9f4ec316.png'
 }, {
 	include: [
 		pageDetect.isPRFiles
-
 	],
 	exclude: [
 		pageDetect.isPRFile404
