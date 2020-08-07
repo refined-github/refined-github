@@ -10,8 +10,9 @@ function loadJumpList(jumpList: Element): void {
 	jumpList.parentElement!.dispatchEvent(new MouseEvent('mouseover'));
 }
 
-async function init(): Promise<false | void> {
+async function init(): Promise<void> {
 	const jumpList = await elementReady('details.toc-select details-menu')!;
+	// The event listener might not have been attached yet, so we can try twice
 	loadJumpList(jumpList!);
 	setTimeout(loadJumpList, 1000, jumpList!);
 	await observeOneMutation(jumpList!);
