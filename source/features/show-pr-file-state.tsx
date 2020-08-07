@@ -46,5 +46,6 @@ void features.add({
 
 	],
 	init,
-	waitForDomReady: false
+	waitForDomReady: false,
+	repeatOnAjax: false
 });
