@@ -20,7 +20,7 @@ async function init(): Promise<void> {
 				className="no-underline link-gray-dark readme-text"
 			>README</a>
 		);
-		(select('.readme-text') as NonNullable<ReturnType<typeof select>>).append(
+		select('.readme-text')!.append(
 			titleNodes[6]
 		);
 	}
