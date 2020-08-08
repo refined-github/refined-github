@@ -186,7 +186,7 @@ import './features/vertical-front-matter';
 import './features/use-first-commit-message-for-new-prs';
 import './features/linkify-user-edit-history-popup';
 import './features/cleanup-repo-filelist-actions';
-import './features/better-profile-readme-text';
+import './features/linkify-full-profile-readme-title';
 
 // Add global for easier debugging
 (window as any).select = select;
