@@ -29,7 +29,7 @@ void features.add({
 		pageDetect.isSingleFile
 	],
 	waitForDomReady: false,
-	repeatOnAjaxEvenOnBackButton: true,
+	repeatOnBackButton: true,
 	init,
 	deinit
 });

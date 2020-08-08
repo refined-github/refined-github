@@ -69,7 +69,7 @@ features.add({
 	waitForDomReady: false,
 
 	/** Rarely needed: When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway. @default false */
-	repeatOnAjaxEvenOnBackButton: true,
+	repeatOnBackButton: true,
 	include: [
 		pageDetect.isUserProfile,
 		pageDetect.isRepo

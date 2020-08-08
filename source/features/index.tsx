@@ -31,7 +31,7 @@ interface FeatureLoader extends Partial<InternalRunConfig> {
 	waitForDomReady?: false;
 
 	/** When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway.  @default false */
-	repeatOnAjaxEvenOnBackButton?: true;
+	repeatOnBackButton?: true;
 
 	/** When true, don’t run the `init` on page load but only add the `additionalListeners`. @default false */
 	onlyAdditionalListeners?: true;
@@ -204,7 +204,7 @@ const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<voi
 			init,
 			deinit,
 			waitForDomReady = true,
-			repeatOnAjaxEvenOnBackButton = false,
+			repeatOnBackButton = false,
 			onlyAdditionalListeners = false,
 			additionalListeners = []
 		} = loader;
@@ -227,7 +227,7 @@ const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<voi
 		}
 
 		document.addEventListener('pjax:end', () => {
-			if (repeatOnAjaxEvenOnBackButton || !select.exists('has-rgh')) {
+			if (repeatOnBackButton || !select.exists('has-rgh')) {
 				void setupPageLoad(id, details);
 			}
 		});
