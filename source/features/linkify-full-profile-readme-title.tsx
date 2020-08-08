@@ -13,9 +13,7 @@ function init(): void {
 		const {innerText: repository} = titleNodes[3] as HTMLAnchorElement;
 
 		titleNodes[5].replaceWith(<a href={`/${owner}/${repository}#readme`} className="no-underline link-gray-dark readme-text">README</a>);
-		select('.readme-text')!.append(
-			titleNodes[6]
-		);
+		select('.readme-text')!.append(titleNodes[6]);
 	}
 }
 
