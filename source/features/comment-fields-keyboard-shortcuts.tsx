@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import onetime from 'onetime';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -75,6 +76,5 @@ void features.add({
 		pageDetect.hasRichTextEditor
 	],
 	waitForDomReady: false,
-	repeatOnAjax: false,
-	init
+	init: onetime(init)
 });

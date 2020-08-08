@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import onetime from 'onetime';
 import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -30,6 +31,5 @@ void features.add({
 		pageDetect.isGist
 	],
 	waitForDomReady: false,
-	repeatOnAjax: false,
-	init
+	init: onetime(init)
 });

@@ -1,4 +1,5 @@
 import select from 'select-dom';
+import onetime from 'onetime';
 
 import features from '.';
 import {isEditable} from '../helpers/dom-utils';
@@ -28,6 +29,5 @@ void features.add({
 	}
 }, {
 	waitForDomReady: false,
-	repeatOnAjax: false,
-	init
+	init: onetime(init)
 });

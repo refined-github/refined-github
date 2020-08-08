@@ -1,4 +1,5 @@
 import select from 'select-dom';
+import onetime from 'onetime';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -40,6 +41,5 @@ void features.add({
 		pageDetect.isGlobalConversationList
 	],
 	waitForDomReady: false,
-	repeatOnAjax: false,
-	init: cleanBar
+	init: onetime(cleanBar)
 });

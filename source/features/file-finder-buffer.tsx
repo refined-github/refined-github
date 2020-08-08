@@ -57,6 +57,5 @@ void features.add({
 		pageDetect.isRepo
 	],
 	waitForDomReady: false,
-	repeatOnAjax: false,
-	init
+	init: onetime(init)
 });

@@ -1,4 +1,5 @@
 import React from 'dom-chef';
+import onetime from 'onetime';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -27,6 +28,5 @@ void features.add({
 		pageDetect.isGist
 	],
 	waitForDomReady: false,
-	repeatOnAjax: false,
-	init
+	init: onetime(init)
 });

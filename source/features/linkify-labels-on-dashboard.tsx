@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils';
@@ -26,6 +27,5 @@ void features.add({
 		pageDetect.isDashboard
 	],
 	onlyAdditionalListeners: true,
-	repeatOnAjax: false,
-	init
+	init: onetime(init)
 });

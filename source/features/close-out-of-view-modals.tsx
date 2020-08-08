@@ -1,3 +1,4 @@
+import onetime from 'onetime';
 import delegate from 'delegate-it';
 
 import features from '.';
@@ -31,6 +32,5 @@ void features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/37022353-531c676e-2155-11e8-96cc-80d934bb22e0.gif'
 }, {
 	waitForDomReady: false,
-	repeatOnAjax: false,
-	init
+	init: onetime(init)
 });

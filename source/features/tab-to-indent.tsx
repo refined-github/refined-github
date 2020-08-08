@@ -1,3 +1,4 @@
+import onetime from 'onetime';
 import {eventHandler} from 'indent-textarea';
 import * as pageDetect from 'github-url-detection';
 
@@ -17,6 +18,5 @@ void features.add({
 		pageDetect.hasRichTextEditor
 	],
 	waitForDomReady: false,
-	repeatOnAjax: false,
-	init
+	init: onetime(init)
 });

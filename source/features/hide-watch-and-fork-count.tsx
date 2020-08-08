@@ -1,4 +1,5 @@
 import './hide-watch-and-fork-count.css';
+import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -16,6 +17,5 @@ void features.add({
 		pageDetect.isRepo
 	],
 	waitForDomReady: false,
-	repeatOnAjax: false,
-	init
+	init: onetime(init)
 });

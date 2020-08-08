@@ -1,3 +1,4 @@
+import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -31,6 +32,5 @@ void features.add({
 		pageDetect.hasCode
 	],
 	waitForDomReady: false,
-	repeatOnAjax: false,
-	init
+	init: onetime(init)
 });

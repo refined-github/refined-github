@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import onetime from 'onetime';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -135,13 +136,11 @@ void features.add({
 	include: [
 		pageDetect.is404
 	],
-	repeatOnAjax: false,
-	init
+	init: onetime(init)
 }, {
 	include: [
 		pageDetect.isPRCommit404
 	],
 	waitForDomReady: false,
-	repeatOnAjax: false,
-	init: initPRCommit
+	init: onetime(initPRCommit)
 });

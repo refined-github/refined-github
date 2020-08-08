@@ -1,4 +1,5 @@
 import select from 'select-dom';
+import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -32,6 +33,5 @@ void features.add({
 	include: [
 		pageDetect.isSingleGist
 	],
-	repeatOnAjax: false,
-	init
+	init: onetime(init)
 });

@@ -1,3 +1,4 @@
+import onetime from 'onetime';
 import delegate from 'delegate-it';
 
 import features from '.';
@@ -28,6 +29,5 @@ void features.add({
 		hasNotificationBar
 	],
 	waitForDomReady: false,
-	repeatOnAjax: false,
-	init
+	init: onetime(init)
 });

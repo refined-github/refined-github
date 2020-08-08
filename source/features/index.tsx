@@ -30,9 +30,6 @@ interface FeatureLoader extends Partial<InternalRunConfig> {
 	/** Whether to wait for DOM ready before runnin `init`. `false` makes `init` run right as soon as `body` is found. @default true */
 	waitForDomReady?: false;
 
-	/** Whether to re-run `init` on pages loaded via AJAX. @default true */
-	repeatOnAjax?: false;
-
 	/** When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway.  @default false */
 	repeatOnAjaxEvenOnBackButton?: true;
 
@@ -206,7 +203,6 @@ const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<voi
 			exclude = [], // Default: nothing
 			init,
 			deinit,
-			repeatOnAjax = true,
 			waitForDomReady = true,
 			repeatOnAjaxEvenOnBackButton = false,
 			onlyAdditionalListeners = false,
@@ -230,13 +226,11 @@ const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<voi
 			void setupPageLoad(id, details);
 		}
 
-		if (repeatOnAjax) {
-			document.addEventListener('pjax:end', () => {
-				if (repeatOnAjaxEvenOnBackButton || !select.exists('has-rgh')) {
-					void setupPageLoad(id, details);
-				}
-			});
-		}
+		document.addEventListener('pjax:end', () => {
+			if (repeatOnAjaxEvenOnBackButton || !select.exists('has-rgh')) {
+				void setupPageLoad(id, details);
+			}
+		});
 	}
 };
 
