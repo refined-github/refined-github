@@ -338,6 +338,7 @@ Thanks for contributing! 🦋🙌
 - [](# "prevent-pr-commit-link-loss") [Suggests fixing your PR Commit links before commenting. GitHub has a bug that causes these link to appear as plain commit links, without association to the PR.](https://user-images.githubusercontent.com/1402241/82131169-93fd5180-97d2-11ea-9695-97051c55091f.gif)
 - [](# "align-repository-header") [Aligns the repository header to the repository content on wide screens.](https://user-images.githubusercontent.com/1402241/86574587-587f3800-bf76-11ea-9961-5c25cdb6e357.gif)
 - [](# "linkify-user-edit-history-popup") [Linkifies the username in the edit history popup.](https://user-images.githubusercontent.com/1402241/88917988-9ebb7480-d260-11ea-8690-0a3440f1ebbc.png)
+- [](# "better-profile-readme-text") [Linkify the readme text on profile pages and respect the original capitalisation.](https://user-images.githubusercontent.com/29491356/89711998-094b7d80-d9e2-11ea-8ae8-2957960d2308.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
