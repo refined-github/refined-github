@@ -1,5 +1,6 @@
 import './monospace-textareas.css';
 import onetime from 'onetime';
+
 import features from '.';
 
 function init(): void {
