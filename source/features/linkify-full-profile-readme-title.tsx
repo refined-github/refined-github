@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-async function init(): Promise<void> {
+function init(): void {
 	const title = select(".user-profile-nav + div .octicon-smiley + a");
 	if (title) {
 		const {childNodes: titleNodes} = title;
