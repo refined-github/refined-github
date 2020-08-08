@@ -1,10 +1,20 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import cache from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
 
 import * as api from '../github-helpers/api';
 
 import features from '.';
+
+const getReadmePath = cache.function(
+	async (owner: string, repository: string): Promise<string> => {
+		const {name: readme} = await api.v3(
+			`repos/${owner}/${repository}/readme`
+		);
+		return readme;
+	}
+);
 
 async function init(): Promise<void> {
 	const title = select(
@@ -16,13 +26,14 @@ async function init(): Promise<void> {
 		const owner = location.pathname.slice(1);
 		const {innerText: repository} = titleNodes[3] as HTMLAnchorElement;
 
-		const {name: readme}: { name: string } = await api.v3(
-			`repos/${owner}/${repository}/readme`
-		);
+		const readme = await getReadmePath(owner, repository);
 
 		titleNodes[5].replaceWith(
 			<a
-				href={`/${owner}/${repository}/blob/master/${readme.slice(0, -3)}.md`}
+				href={`/${owner}/${repository}/blob/master/${readme.slice(
+					0,
+					-3
+				)}.md`}
 				className="no-underline link-gray-dark readme-text"
 			>
 				readme
