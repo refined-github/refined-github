@@ -18,14 +18,10 @@ async function init(): Promise<void> {
 	setTimeout(loadJumpList, 1000, jumpList!);
 	await observeOneMutation(jumpList!);
 
-	observe('.file-info [href]', {
+	observe('.file-info [href]:not(.rgh-pr-file-state)', {
 		constructor: HTMLAnchorElement,
 		add(element) {
-			if (element.classList.contains('rgh-show-file')) {
-				return;
-			}
-
-			element.classList.add('rgh-show-file');
+			element.classList.add('rgh-pr-file-state');
 			const icon = select(`[href="${element.hash}"] svg`, jumpList)!.cloneNode(true);
 			const iconTitle = icon.getAttribute('title')!;
 			if (iconTitle === 'added') {
