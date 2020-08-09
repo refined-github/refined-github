@@ -1,11 +1,11 @@
 import React from 'dom-chef';
-import delay from 'delay';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
+import GitHubURL from '../github-helpers/github-url';
 import LoadingIcon from '../github-helpers/icon-loading';
 import {getRepoURL, getRepoGQL} from '../github-helpers';
 
@@ -40,11 +40,7 @@ async function convertToDraft({delegateTarget: draftButton}: delegate.Event<Mous
 		return;
 	}
 
-	draftButton.textContent = 'Success';
-	// Allow the user to see that it was successful
-	await delay(500);
-
-	location.href = response.html_url;
+	location.href = new GitHubURL(response.html_url).assign({branch: 'edit'}).href;
 }
 
 function init(): void | false {
@@ -69,7 +65,7 @@ void features.add({
 	screenshot: 'https://user-images.githubusercontent.com/16872793/89732990-767e0380-da20-11ea-8ac5-b617701eeb29.png'
 }, {
 	include: [
-		pageDetect.isReleasesOrTags
+		pageDetect.isSingleTagPage
 	],
 	init
 });
