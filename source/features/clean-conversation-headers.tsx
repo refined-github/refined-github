@@ -33,7 +33,7 @@ function initPR(): void {
 			}
 
 			if (isDefaultBranch) {
-				baseBranch.remove();
+				baseBranch.hidden = true;
 			} else {
 				baseBranch.before('into ');
 			}
