@@ -139,12 +139,14 @@ pr-branches
 	margin: -5px 0;
 }
 
+/* Align author name on PR sticky header (GitHub bug) */
 .sticky-content .author.css-truncate-target {
 	vertical-align: -4px;
 }
 
+/* Reposition committer's avatar on PR commit (GitHub bug) */
 .pull-request-tab-content .commit .AvatarStack {
 	display: inline-block;
-  margin-bottom: -4px;
-  margin-right: -4px;
+	margin-bottom: -4px;
+	margin-right: -4px;
 }
