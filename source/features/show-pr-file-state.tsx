@@ -7,16 +7,17 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import {observeOneMutation} from '../helpers/simplified-element-observer';
 
-function loadJumpList(jumpList: Element): void {
-	jumpList.parentElement!.dispatchEvent(new MouseEvent('mouseover'));
+async function loadDeferred(jumpList: Element): Promise<void> {
+	const loadJumpList = (jumpList: Element) => jumpList.parentElement!.dispatchEvent(new MouseEvent('mouseover'));
+	loadJumpList(jumpList);
+	// The event listener might not have been attached yet, so we can try twice
+	setTimeout(loadJumpList, 1000, jumpList);
+	await observeOneMutation(jumpList);
 }
 
 async function init(): Promise<void> {
 	const jumpList = await elementReady('.toc-select details-menu');
-	loadJumpList(jumpList!);
-	// The event listener might not have been attached yet, so we can try twice
-	setTimeout(loadJumpList, 1000, jumpList!);
-	await observeOneMutation(jumpList!);
+	await loadDeferred(jumpList!);
 
 	observe('.file-info [href]:not(.rgh-pr-file-state)', {
 		constructor: HTMLAnchorElement,
