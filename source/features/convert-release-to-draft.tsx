@@ -9,7 +9,7 @@ import * as api from '../github-helpers/api';
 import LoadingIcon from '../github-helpers/icon-loading';
 import {getRepoURL, getRepoGQL} from '../github-helpers';
 
-const getReleaseID = async (): Promise<string[]> => {
+const getReleaseID = async (): Promise<string> => {
 	const tagName = location.pathname.split('/').pop()!;
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
@@ -20,14 +20,14 @@ const getReleaseID = async (): Promise<string[]> => {
 	`);
 
 	// => atob(repository.release.id) => "07:Release27300592"
-	return atob(repository.release.id).split('Release').slice(1);
+	return atob(repository.release.id).split('Release').replace(/.*Release/,'');
 };
 
 async function convertToDraft({delegateTarget: draftButton}: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void | false> {
 	draftButton.textContent = 'Converting...';
 	draftButton.append(<LoadingIcon className="ml-2" width={16}/>);
 
-	const [releaseID] = await getReleaseID();
+	const releaseID = await getReleaseID();
 	const response = await api.v3(`repos/${getRepoURL()}/releases/${releaseID}`, {
 		method: 'PATCH',
 		body: {
