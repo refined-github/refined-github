@@ -20,7 +20,7 @@ const getReleaseID = async (): Promise<string> => {
 	`);
 
 	// => atob(repository.release.id) => "07:Release27300592"
-	return atob(repository.release.id).split('Release').replace(/.*Release/,'');
+	return atob(repository.release.id).replace(/.*Release/,'');
 };
 
 async function convertToDraft({delegateTarget: draftButton}: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void | false> {
