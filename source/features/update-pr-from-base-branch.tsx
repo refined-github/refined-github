@@ -95,7 +95,9 @@ async function addButton(): Promise<void> {
 	}
 }
 
-function init(): void | false {
+async function init(): Promise<void | false> {
+	await api.expectToken();
+
 	// Button exists when the current user can merge the PR.
 	// Button is disabled when:
 	// - There are conflicts (there's already a native "Resolve conflicts" button)

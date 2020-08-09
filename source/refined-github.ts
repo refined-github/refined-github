@@ -184,6 +184,8 @@ import './features/pr-jump-to-first-non-viewed-file';
 import './features/keyboard-navigation';
 import './features/vertical-front-matter';
 import './features/use-first-commit-message-for-new-prs';
+import './features/linkify-user-edit-history-popup';
+import './features/cleanup-repo-filelist-actions';
 import './features/clean-conversation-headers';
 
 // Add global for easier debugging
