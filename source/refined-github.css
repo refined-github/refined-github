@@ -138,3 +138,13 @@ pr-branches
 	min-height: 0;
 	margin: -5px 0;
 }
+
+.sticky-content .author.css-truncate-target {
+	vertical-align: -4px;
+}
+
+.pull-request-tab-content .commit .AvatarStack {
+	display: inline-block;
+  margin-bottom: -4px;
+  margin-right: -4px;
+}
