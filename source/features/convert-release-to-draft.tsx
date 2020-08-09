@@ -19,6 +19,7 @@ const getReleaseID = async (): Promise<string[]> => {
 		}
 	`);
 
+	// => atob(repository.release.id) => "07:Release27300592"
 	return atob(repository.release.id).split('Release').slice(1);
 };
 
