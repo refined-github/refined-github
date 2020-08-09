@@ -23,7 +23,7 @@ const getReleaseID = async (): Promise<string> => {
 	return atob(repository.release.id).replace(/.*Release/,'');
 };
 
-async function convertToDraft({delegateTarget: draftButton}: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void | false> {
+async function convertToDraft({delegateTarget: draftButton}: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
 	draftButton.textContent = 'Converting...';
 	draftButton.append(<LoadingIcon className="ml-2" width={16}/>);
 
