@@ -1,15 +1,16 @@
 import onetime from 'onetime';
+import {observe} from 'selector-observer';
 import {applyToLink} from 'shorten-repo-url';
 import * as pageDetect from 'github-url-detection';
-import {observe} from 'selector-observer';
 
 import features from '.';
 import {linkifiedURLClass} from '../github-helpers/dom-formatters';
 
 function init(): void {
 	observe(`a[href]:not(.${linkifiedURLClass})`, {
-		add(element) {
-			applyToLink(element as HTMLAnchorElement, location.href);
+		constructor: HTMLAnchorElement,
+		add(link) {
+			applyToLink(link, location.href);
 		}
 	});
 }
