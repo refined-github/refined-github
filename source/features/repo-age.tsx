@@ -16,27 +16,6 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
 	day: 'numeric'
 });
 
-const getCommitCount = async (): Promise<AnyObject> => {
-	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
-			defaultBranchRef {
-				target {
-					... on Commit {
-						oid
-						committedDate
-						resourcePath
-						history {
-							totalCount
-						}
-					}
-				}
-			}
-		}
-	`);
-
-	return repository.defaultBranchRef.target;
-};
-
 const getRepoAge = async (commitSha: string, commitsCount: number): Promise<[string, string]> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
@@ -64,7 +43,24 @@ const getRepoAge = async (commitSha: string, commitsCount: number): Promise<[str
 };
 
 const getFirstCommit = cache.function(async (): Promise<[string, string]> => {
-	const {oid: commitSha, history, committedDate, resourcePath} = await getCommitCount();
+	const {repository} = await api.v4(`
+		repository(${getRepoGQL()}) {
+			defaultBranchRef {
+				target {
+					... on Commit {
+						oid
+						committedDate
+						resourcePath
+						history {
+							totalCount
+						}
+					}
+				}
+			}
+		}
+	`);
+
+	const {oid: commitSha, history, committedDate, resourcePath} = repository.defaultBranchRef.target;
 	const commitsCount = history.totalCount;
 	if (commitsCount === 1) {
 		return [committedDate, resourcePath];
