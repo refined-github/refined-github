@@ -46,7 +46,7 @@ void features.add({
 	screenshot: 'https://user-images.githubusercontent.com/16872793/89732990-767e0380-da20-11ea-8ac5-b617701eeb29.png'
 }, {
 	include: [
-		pageDetect.isSingleTagPage
+		pageDetect.isSingleTag
 	],
 	init
 });
