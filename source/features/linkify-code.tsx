@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import onetime from 'onetime';
-import * as pageDetect from 'github-url-detection';
 import {observe} from 'selector-observer';
+import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import {linkifiedURLClass, linkifyURLs, linkifyIssues} from '../github-helpers/dom-formatters';
