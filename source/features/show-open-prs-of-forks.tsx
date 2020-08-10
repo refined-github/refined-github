@@ -43,11 +43,11 @@ const countPRs = cache.function(async (forkedRepo: string): Promise<[number, num
 }, {
 	maxAge: 1 / 2, // Stale after 12 hours
 	staleWhileRevalidate: 2,
-	cacheKey: ([forkedRepo]): string => 'prs-on-forked-repo:' + forkedRepo
+	cacheKey: ([forkedRepo]): string => 'prs-on-forked-repo:' + forkedRepo + ':' + getRepoURL()
 });
 
 async function getPRs(): Promise<[number, string] | []> {
-	await elementReady('.repohead + *'); // Wait for the tab bar to be loaded
+	await elementReady('.pagehead + *, .UnderlineNav-body + *'); // Wait for the tab bar to be loaded
 	if (!pageDetect.canUserEditRepo()) {
 		return [];
 	}
