@@ -10,8 +10,7 @@ function init(): void {
 		'.js-blob-wrapper',
 		'.blob-wrapper',
 		'.comment-body',
-		'.blob-expanded',
-		'.gh-header-title'
+		'.blob-expanded'
 	].map(selector => selector + `:not(.${linkifiedURLClass})`).join();
 
 	observe(selectors, {
@@ -24,7 +23,7 @@ function init(): void {
 			}
 
 			// Linkify issue refs in comments
-			for (const element of select.all('span.pl-c, .js-issue-title', wrappers)) {
+			for (const element of select.all('span.pl-c', wrappers)) {
 				linkifyIssues(element);
 			}
 
