@@ -11,7 +11,7 @@ function init(): void {
 		add(element) {
 			applyToLink(element as HTMLAnchorElement, location.href);
 		}
-	})
+	});
 }
 
 void features.add({
