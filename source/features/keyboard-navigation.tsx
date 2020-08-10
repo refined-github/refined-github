@@ -6,10 +6,10 @@ import {isEditable} from '../helpers/dom-utils';
 
 const isCommentGroupMinimized = (comment: HTMLElement): boolean =>
 	select.exists('.minimized-comment:not(.d-none)', comment) ||
-	Boolean(comment.closest(`
-		.js-resolvable-thread-contents.d-none,
-		.js-resolvable-timeline-thread-container:not([open])
-	`));
+	Boolean(comment.closest([
+		'.js-resolvable-thread-contents.d-none', // Regular comments
+		'.js-resolvable-timeline-thread-container:not([open])' // Review comments
+	].join()));
 
 function runShortcuts(event: KeyboardEvent): void {
 	if (isEditable(event.target)) {
@@ -23,10 +23,8 @@ function runShortcuts(event: KeyboardEvent): void {
 
 		const items = select
 			.all([
-				// Files in diffs
-				'.js-targetable-element[id^="diff-"]',
-				// Comments (to be `.filter()`ed)
-				'.js-minimizable-comment-group'
+				'.js-targetable-element[id^="diff-"]', // Files in diffs
+				'.js-minimizable-comment-group'// Comments (to be `.filter()`ed)
 			])
 			.filter(element =>
 				element.classList.contains('js-minimizable-comment-group') ?
