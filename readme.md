@@ -338,6 +338,7 @@ Thanks for contributing! 🦋🙌
 - [](# "prevent-pr-commit-link-loss") [Suggests fixing your PR Commit links before commenting. GitHub has a bug that causes these link to appear as plain commit links, without association to the PR.](https://user-images.githubusercontent.com/1402241/82131169-93fd5180-97d2-11ea-9695-97051c55091f.gif)
 - [](# "align-repository-header") [Aligns the repository header to the repository content on wide screens.](https://user-images.githubusercontent.com/1402241/86574587-587f3800-bf76-11ea-9961-5c25cdb6e357.gif)
 - [](# "linkify-user-edit-history-popup") [Linkifies the username in the edit history popup.](https://user-images.githubusercontent.com/1402241/88917988-9ebb7480-d260-11ea-8690-0a3440f1ebbc.png)
+- [](# "prevent-duplicate-pr-submission") [Avoids creating duplicate PRs when mistakenly clicking "Create pull request" more than once.](https://user-images.githubusercontent.com/16872793/89589967-e029c200-d814-11ea-962b-3ff1f6236781.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
