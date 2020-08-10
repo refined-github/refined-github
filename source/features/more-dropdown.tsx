@@ -43,7 +43,11 @@ export function createDropdownItem(label: string, url: string, attributes?: Reco
 }
 
 async function init(): Promise<void> {
-	await elementReady('.pagehead + *'); // Wait for the tab bar to be loaded
+	// Wait for the tab bar to be loaded
+	await elementReady([
+		'.pagehead + *', // Pre "Repository refresh" layout
+		'.UnderlineNav-body + *'
+	].join());
 
 	const reference = getCurrentBranch();
 	const compareUrl = `/${repoUrl}/compare/${reference}`;
