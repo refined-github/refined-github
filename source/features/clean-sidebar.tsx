@@ -1,14 +1,14 @@
 import './clean-sidebar.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import oneTime from 'onetime';
+import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import onElementRemoval from '../helpers/on-element-removal';
 import onReplacedElement from '../helpers/on-replaced-element';
 
-const canEditSidebar = oneTime((): boolean => select.exists('.sidebar-labels .octicon-gear'));
+const canEditSidebar = onetime((): boolean => select.exists('.sidebar-labels .octicon-gear'));
 
 function getNodesAfter(node: Node): Range {
 	const range = new Range();
