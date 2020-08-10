@@ -1,11 +1,11 @@
 import select from 'select-dom';
-import oneTime from 'onetime';
+import onetime from 'onetime';
 import compareVersions from 'tiny-version-compare';
 import * as pageDetect from 'github-url-detection/esm/index.js'; // eslint-disable-line import/extensions -- Required for Node tests compatibility
 import elementReady from 'element-ready';
 
 // This never changes, so it can be cached here
-export const getUsername = oneTime(pageDetect.utils.getUsername);
+export const getUsername = onetime(pageDetect.utils.getUsername);
 export const {getRepoPath, getCleanPathname} = pageDetect.utils;
 
 export const getConversationNumber = (): string | undefined => {

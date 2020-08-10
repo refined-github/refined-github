@@ -1,13 +1,13 @@
 import './warning-for-disallow-edits.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import oneTime from 'onetime';
+import onetime from 'onetime';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-const getWarning = oneTime(() => (
+const getWarning = onetime(() => (
 	<div className="flash flash-error mt-3 rgh-warning-for-disallow-edits">
 		<strong>Note:</strong> Maintainers may require changes. It’s easier and faster to allow them to make direct changes before merging.
 	</div>
