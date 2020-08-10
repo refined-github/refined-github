@@ -6,32 +6,20 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import LoadingIcon from '../github-helpers/icon-loading';
-import {getRepoURL, getRepoGQL} from '../github-helpers';
-
-async function getReleaseID(): Promise<string> {
-	const tagName = location.pathname.split('/').pop()!;
-	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
-			release(tagName: "${tagName}") {
-				id
-			}
-		}
-	`);
-
-	// => atob(repository.release.id) => "07:Release27300592"
-	return atob(repository.release.id).replace(/.*Release/, '');
-}
+import {getRepoURL} from '../github-helpers';
 
 async function convertToDraft({delegateTarget: draftButton}: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
 	draftButton.textContent = 'Converting...';
 	draftButton.append(<LoadingIcon className="ml-2" width={16}/>);
 
-	const releaseID = await getReleaseID();
+	const tagName = location.pathname.split('/').pop()!;
+	const {id: releaseID}: Record<string, number> = await api.v3(`repos/${getRepoURL()}/releases/tags/${tagName}`);
 	const response = await api.v3(`repos/${getRepoURL()}/releases/${releaseID}`, {
 		method: 'PATCH',
 		body: {
 			draft: true
-		}
+		},
+		ignoreHTTPStatus: true
 	});
 
 	if (!response.ok) {
