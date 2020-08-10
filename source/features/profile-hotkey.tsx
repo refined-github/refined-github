@@ -1,4 +1,5 @@
 import select from 'select-dom';
+import onetime from 'onetime';
 
 import features from '.';
 import {getUsername} from '../github-helpers';
@@ -20,6 +21,5 @@ void features.add({
 		'g m': 'Go to Profile'
 	}
 }, {
-	repeatOnAjax: false,
-	init
+	init: onetime(init)
 });

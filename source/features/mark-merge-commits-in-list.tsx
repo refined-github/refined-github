@@ -48,7 +48,10 @@ async function init(): Promise<void> {
 	for (const commit of pageCommits) {
 		if (mergeCommits.includes(getCommitHash(commit))) {
 			commit.classList.add('rgh-merge-commit');
-			select('.commit-title', commit)!.prepend(<PullRequestIcon/>);
+			select([
+				'.commit-title', // Pre "Repository refresh" layout
+				'div > p'
+			], commit)!.prepend(<PullRequestIcon/>);
 		}
 	}
 }

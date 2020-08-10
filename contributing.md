@@ -68,11 +68,8 @@ features.add({
 	/** Whether to wait for DOM ready before runnin `init`. `false` makes `init` run right as soon as `body` is found. @default true */
 	waitForDomReady: false,
 
-	/** Whether to re-run `init` on pages loaded via AJAX. @default true */
-	repeatOnAjax: false,
-
 	/** Rarely needed: When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway. @default false */
-	repeatOnAjaxEvenOnBackButton: true,
+	repeatOnBackButton: true,
 	include: [
 		pageDetect.isUserProfile,
 		pageDetect.isRepo

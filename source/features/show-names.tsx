@@ -1,6 +1,7 @@
 import './show-names.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -73,8 +74,7 @@ void features.add({
 	include: [
 		pageDetect.isDashboard
 	],
-	repeatOnAjax: false,
-	init
+	init: onetime(init)
 }, {
 	include: [
 		pageDetect.hasComments

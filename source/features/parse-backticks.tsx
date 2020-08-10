@@ -1,4 +1,5 @@
 import './parse-backticks.css';
+import onetime from 'onetime';
 import {observe} from 'selector-observer';
 
 import features from '.';
@@ -47,6 +48,5 @@ void features.add({
 	description: 'Renders text in `backticks` in issue titles, commit titles and more places.',
 	screenshot: 'https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png'
 }, {
-	init,
-	repeatOnAjax: false
+	init: onetime(init)
 });
