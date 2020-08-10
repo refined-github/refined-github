@@ -27,7 +27,8 @@ void features.add({
 }, {
 	include: [
 		pageDetect.isSingleFile,
-		pageDetect.isRepoTree
+		pageDetect.isRepoTree,
+		pageDetect.isEditingFile
 	],
 	exclude: [
 		() => !pageDetect.isForkedRepo(),
