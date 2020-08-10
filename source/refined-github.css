@@ -150,3 +150,10 @@ pr-branches
 	margin-bottom: -4px;
 	margin-right: -4px;
 }
+
+/* Add missing border radius to files (GitHub bug) */
+.js-blob-wrapper,
+.file:not(.open) .file-header.file-header--expandable {
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
