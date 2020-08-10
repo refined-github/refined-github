@@ -1,28 +1,28 @@
-/* Place Releases/Tags selector on the same line as `Draft new release` on releases page (https://github.com/sindresorhus/refined-github/commit/a34981cb3f0a1cf833f6e8f9f9591427d8f96473) */
+/* Place Releases/Tags selector on the same line as `Draft new release` on releases page #2325 */
 .subnav .d-flex.flex-md-row.flex-justify-between.flex-md-items-center {
 	float: left;
 }
 
-/* Align fork popup's header (https://github.com/sindresorhus/refined-github/pull/3352) */
+/* Align fork popup's header #3352 */
 [aria-label^='Fork'] .Box-title {
 	position: static; /* The title wrongly overlaps the Close button, making it impossible to click */
 	min-height: 0;
 	margin: -5px 0;
 }
 
-/* Align author name on PR sticky header (https://github.com/sindresorhus/refined-github/pull/3444) */
+/* Align author name on PR sticky header #3444 */
 .sticky-content .author.css-truncate-target {
 	vertical-align: -4px;
 }
 
-/* Reposition committer's avatar on PR commit (https://github.com/sindresorhus/refined-github/pull/3444) */
+/* Reposition committer's avatar on PR commit #3444 */
 .pull-request-tab-content .commit .AvatarStack {
 	display: inline-block;
 	margin-bottom: -4px;
 	margin-right: -4px;
 }
 
-/* Add missing border radius to files (https://github.com/sindresorhus/refined-github/pull/3444) */
+/* Add missing border radius to files #3444 */
 .js-blob-wrapper,
 .file:not(.open) .file-header.file-header--expandable {
 	border-bottom-left-radius: 5px;
