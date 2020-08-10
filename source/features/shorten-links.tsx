@@ -1,14 +1,17 @@
-import select from 'select-dom';
+import onetime from 'onetime';
 import {applyToLink} from 'shorten-repo-url';
 import * as pageDetect from 'github-url-detection';
+import {observe} from 'selector-observer';
 
 import features from '.';
 import {linkifiedURLClass} from '../github-helpers/dom-formatters';
 
 function init(): void {
-	for (const a of select.all<HTMLAnchorElement>(`a[href]:not(.${linkifiedURLClass})`)) {
-		applyToLink(a, location.href);
-	}
+	observe(`a[href]:not(.${linkifiedURLClass})`, {
+		add(element) {
+			applyToLink(element as HTMLAnchorElement, location.href);
+		}
+	})
 }
 
 void features.add({
@@ -20,5 +23,5 @@ void features.add({
 		// Due to GitHub’s bug: #2828
 		pageDetect.isGlobalSearchResults
 	],
-	init
+	init: onetime(init)
 });
