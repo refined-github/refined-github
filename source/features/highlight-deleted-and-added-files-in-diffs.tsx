@@ -16,14 +16,25 @@ async function loadDeferred(jumpList: Element): Promise<void> {
 }
 
 async function init(): Promise<void> {
-	const jumpList = await elementReady('.toc-select details-menu');
-	await loadDeferred(jumpList!);
+	const fileList = await elementReady([
+		'.toc-select details-menu', // `isPr`
+		'.toc-diff-stats + .content' // `isRepoCommit`
+	].join());
+	if (pageDetect.isPR()) {
+		await loadDeferred(fileList!);
+	}
 
 	observe('.file-info [href]:not(.rgh-pr-file-state)', {
 		constructor: HTMLAnchorElement,
 		add(element) {
 			element.classList.add('rgh-pr-file-state');
-			const icon = select(`[href="${element.hash}"] svg`, jumpList)!.cloneNode(true);
+			let icon = select([
+				`[href="${element.hash}"] svg`, // `isPr`
+				`svg + [href="${element.hash}"]` // `isRepoCommit`
+			], fileList)!;
+			// `isRepoCommit` needs previousElementSibling
+			icon = (icon.previousElementSibling as HTMLElement ?? icon).cloneNode(true);
+
 			const iconTitle = icon.getAttribute('title')!;
 			if (iconTitle === 'added') {
 				icon.classList.add('text-green');
@@ -46,10 +57,12 @@ void features.add({
 	screenshot: 'https://user-images.githubusercontent.com/16872793/89691560-3828fd00-d8d7-11ea-9107-ba7f9f4ec316.png'
 }, {
 	include: [
-		pageDetect.isPRFiles
+		pageDetect.isPRFiles,
+		pageDetect.isCommit
 	],
 	exclude: [
-		pageDetect.isPRFile404
+		pageDetect.isPRFile404,
+		pageDetect.isPRCommit404
 	],
 	init: oneTime(init),
 	waitForDomReady: false
