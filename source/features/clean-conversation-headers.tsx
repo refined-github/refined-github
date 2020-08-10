@@ -1,4 +1,5 @@
 import select from 'select-dom';
+import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
@@ -11,7 +12,7 @@ function initIssue(): void {
 			childNodes[4].textContent = childNodes[4].textContent!.replace('·', '');
 
 			// Removes: [octocat opened this issue on 1 Jan] · 1 comments
-			for (const node of Array.from(childNodes).slice(0, 4)) {
+			for (const node of [...childNodes].slice(0, 4)) {
 				node.remove();
 			}
 		}
@@ -29,11 +30,10 @@ function initPR(): void {
 			// Removes: [octocat wants to merge 1 commit into] github:master from octocat:feature
 			// Removes: [octocat merged 1 commit into] master from feature
 			// Removes: octocat [merged 1 commit into] github:master from lovelycat:feature
-			for (const node of Array.from(element.childNodes).slice(isSameAuthor ? 0 : 2, isMerged ? 3 : 5)) {
+			for (const node of [...element.childNodes].slice(isSameAuthor ? 0 : 2, isMerged ? 3 : 5)) {
 				node.remove();
 			}
 
-			// Add "by" if the PR is not merged by the author themselves
 			if (!isSameAuthor) {
 				element.prepend('by ');
 			}
@@ -57,12 +57,10 @@ void features.add({
 	include: [
 		pageDetect.isIssue
 	],
-	init: initIssue,
-	repeatOnAjax: false
+	init: onetime(initIssue)
 }, {
 	include: [
 		pageDetect.isPR
 	],
-	init: initPR,
-	repeatOnAjax: false
+	init: onetime(initPR)
 });
