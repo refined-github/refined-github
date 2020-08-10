@@ -8,7 +8,6 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import looseParseInt from '../helpers/loose-parse-int';
 import {getRepoURL, getRepoGQL} from '../github-helpers';
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
@@ -16,6 +15,30 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
 	month: 'long',
 	day: 'numeric'
 });
+
+const getCommitCount = async (): Promise<[string, number, string, string]> => {
+	const {repository} = await api.v4(`
+		repository(${getRepoGQL()}) {
+			defaultBranchRef {
+				target {
+					oid
+					... on Commit {
+						committedDate
+						resourcePath
+						history {
+							totalCount
+						}
+					}
+				}
+			}
+		}
+	`);
+
+	const {oid, committedDate, resourcePath} = repository.defaultBranchRef.target;
+	const {totalCount} = repository.defaultBranchRef.target.history;
+
+	return [oid, totalCount, committedDate, resourcePath];
+};
 
 const getRepoAge = async (commitSha: string, commitsCount: number): Promise<[string, string]> => {
 	const {repository} = await api.v4(`
@@ -43,34 +66,10 @@ const getRepoAge = async (commitSha: string, commitsCount: number): Promise<[str
 	return [committedDate, resourcePath];
 };
 
-const getFirstCommit = cache.function(async (): Promise<[string, string] | undefined> => {
-	const commitInfo = await elementReady<HTMLAnchorElement | HTMLScriptElement>([
-		// "Repository refresh" layout
-		'.Box-header--blue .hx_avatar_stack_commit + div a[href*="/commit/"]',
-		'include-fragment[aria-label="Loading latest commit"]',
-
-		// Pre "Repository refresh" layout
-		'a.commit-tease-sha',
-		'include-fragment.commit-tease'
-	].join());
-	const commitUrl = commitInfo instanceof HTMLAnchorElement ? commitInfo.href : commitInfo!.src;
-	const commitSha = commitUrl.split('/').pop()!;
-
-	// In "Repository refresh" layout, the number of commits may not be rendered yet
-	const commitsCountElement = select('li.commits .num') ?? (await elementReady('.Box-header--blue [aria-label^="Commits on "]'))!.parentElement;
-	const commitsCount = looseParseInt(commitsCountElement!.textContent!);
-
-	// Returning undefined will make sure that it is not cached. It will check again for commits on the next load.
-	// Reference: https://github.com/fregante/webext-storage-cache/#getter
-	if (commitsCount === 0) {
-		return;
-	}
-
+const getFirstCommit = cache.function(async (): Promise<[string, string]> => {
+	const [commitSha, commitsCount, committedDate, resourcePath] = await getCommitCount();
 	if (commitsCount === 1) {
-		return [select([
-			'.commit-tease-sha + span relative-time', // Pre "Repository refresh" layout
-			'.js-details-container a relative-time'
-		])!.attributes.datetime.value, commitUrl];
+		return [committedDate, resourcePath];
 	}
 
 	return getRepoAge(commitSha, commitsCount);
@@ -79,7 +78,7 @@ const getFirstCommit = cache.function(async (): Promise<[string, string] | undef
 });
 
 async function init(): Promise<void> {
-	const [firstCommitDate, firstCommitHref] = await getFirstCommit() ?? [];
+	const [firstCommitDate, firstCommitHref] = await getFirstCommit();
 
 	if (!firstCommitDate) {
 		return;
