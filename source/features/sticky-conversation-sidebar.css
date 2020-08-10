@@ -4,7 +4,7 @@
 
 .rgh-sticky-sidebar {
 	position: sticky;
-	top: 76px !important; /* Sticky header's height plus sidebar item's margin */
+	top: 76px !important; /* Sticky header's height + sidebar item's margin */
 	z-index: 1; /* Needed so the backdrop of notification modal is over the other elements in the conversation */
 }
 
