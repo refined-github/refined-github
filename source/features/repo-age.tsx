@@ -76,12 +76,7 @@ const getFirstCommit = cache.function(async (): Promise<[string, string]> => {
 });
 
 async function init(): Promise<void> {
-	const [firstCommitDate, firstCommitHref] = await getFirstCommit();
-
-	if (!firstCommitDate) {
-		return;
-	}
-
+	const [firstCommitDate, firstCommitHref] = await getFirstCommit()!;
 	const date = new Date(firstCommitDate);
 
 	// `twas` could also return `an hour ago` or `just now`
