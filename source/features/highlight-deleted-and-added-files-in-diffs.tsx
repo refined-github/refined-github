@@ -17,8 +17,8 @@ async function loadDeferred(jumpList: Element): Promise<void> {
 
 async function init(): Promise<void> {
 	const fileList = await elementReady([
-		'.toc-select details-menu', // `isPr`
-		'.toc-diff-stats + .content' // `isRepoCommit`
+		'.toc-select details-menu', // `isPR`
+		'.toc-diff-stats + .content' // `isSingleCommit`
 	].join());
 	if (pageDetect.isPR()) {
 		await loadDeferred(fileList!);
@@ -28,13 +28,10 @@ async function init(): Promise<void> {
 		constructor: HTMLAnchorElement,
 		add(element) {
 			element.classList.add('rgh-pr-file-state');
-			let icon = select([
-				`[href="${element.hash}"] svg`, // `isPr`
-				`svg + [href="${element.hash}"]` // `isRepoCommit`
-			], fileList)!;
-			// `isRepoCommit` needs previousElementSibling
-			icon = (icon.previousElementSibling as HTMLElement ?? icon).cloneNode(true);
-
+			const icon = (
+				select(`[href="${element.hash}"] svg`, fileList) ?? // `isPR`
+				select(`svg + [href="${element.hash}"]`, fileList)?.previousElementSibling! // `isSingleCommit`
+			).cloneNode(true);
 			const iconTitle = icon.getAttribute('title')!;
 			if (iconTitle === 'added') {
 				icon.classList.add('text-green');
