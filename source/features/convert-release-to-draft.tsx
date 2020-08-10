@@ -5,11 +5,10 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import GitHubURL from '../github-helpers/github-url';
 import LoadingIcon from '../github-helpers/icon-loading';
 import {getRepoURL, getRepoGQL} from '../github-helpers';
 
-const getReleaseID = async (): Promise<string> => {
+async function getReleaseID(): Promise<string> {
 	const tagName = location.pathname.split('/').pop()!;
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
@@ -21,7 +20,7 @@ const getReleaseID = async (): Promise<string> => {
 
 	// => atob(repository.release.id) => "07:Release27300592"
 	return atob(repository.release.id).replace(/.*Release/, '');
-};
+}
 
 async function convertToDraft({delegateTarget: draftButton}: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
 	draftButton.textContent = 'Converting...';
@@ -40,7 +39,7 @@ async function convertToDraft({delegateTarget: draftButton}: delegate.Event<Mous
 		return;
 	}
 
-	location.href = new GitHubURL(response.html_url).assign({branch: 'edit'}).href;
+	location.href = response.html_url.replace('/tag/', '/edit/');
 }
 
 function init(): void | false {
@@ -49,13 +48,7 @@ function init(): void | false {
 		return false;
 	}
 
-	editButton.after(
-		<a
-			className="btn BtnGroup-item text-orange rgh-convert-draft"
-		>
-			Convert to draft
-		</a>);
-
+	editButton.after(<a className="btn BtnGroup-item text-orange rgh-convert-draft">Convert to draft</a>);
 	delegate(document, '.rgh-convert-draft', 'click', convertToDraft);
 }
 
