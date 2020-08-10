@@ -1,4 +1,5 @@
 import select from 'select-dom';
+import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 import {observe} from 'selector-observer';
 
@@ -41,6 +42,5 @@ void features.add({
 	include: [
 		pageDetect.hasCode
 	],
-	init,
-	repeatOnAjax: false
+	init: onetime(init)
 });
