@@ -21,8 +21,8 @@ const getCommitCount = async (): Promise<[string, number, string, string]> => {
 		repository(${getRepoGQL()}) {
 			defaultBranchRef {
 				target {
-					oid
 					... on Commit {
+						oid
 						committedDate
 						resourcePath
 						history {
