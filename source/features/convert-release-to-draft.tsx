@@ -9,25 +9,25 @@ import LoadingIcon from '../github-helpers/icon-loading';
 import {getRepoURL} from '../github-helpers';
 
 async function convertToDraft({delegateTarget: draftButton}: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
-	draftButton.textContent = 'Converting...';
-	draftButton.append(<LoadingIcon className="ml-2" width={16}/>);
+	try {
+		await api.expectToken();
+		draftButton.textContent = 'Converting...';
+		draftButton.append(<LoadingIcon className="ml-2" width={16}/>);
 
-	const tagName = location.pathname.split('/').pop()!;
-	const {id: releaseID}: Record<string, number> = await api.v3(`repos/${getRepoURL()}/releases/tags/${tagName}`);
-	const response = await api.v3(`repos/${getRepoURL()}/releases/${releaseID}`, {
-		method: 'PATCH',
-		body: {
-			draft: true
-		},
-		ignoreHTTPStatus: true
-	});
+		const tagName = location.pathname.split('/').pop()!;
+		const {id: releaseID}: Record<string, number> = await api.v3(`repos/${getRepoURL()}/releases/tags/${tagName}`);
+		const response = await api.v3(`repos/${getRepoURL()}/releases/${releaseID}`, {
+			method: 'PATCH',
+			body: {
+				draft: true
+			}
+		});
 
-	if (!response.ok) {
+		location.pathname = [getRepoURL(), 'releases', 'edit', response.tag_name].join('/');
+	} catch (error) {
+		console.error(error);
 		draftButton.textContent = 'Convert Failed! See console for details';
-		return;
 	}
-
-	location.href = response.html_url.replace('/tag/', '/edit/');
 }
 
 function init(): void | false {
