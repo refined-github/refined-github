@@ -10,13 +10,12 @@ import {getRepoURL} from '../github-helpers';
 
 async function convertToDraft({delegateTarget: draftButton}: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
 	try {
-		await api.expectToken();
 		draftButton.textContent = 'Converting…';
 		draftButton.append(<LoadingIcon className="ml-2" width={16}/>);
 
 		const tagName = location.pathname.split('/').pop()!;
-		const {id: releaseID}: Record<string, number> = await api.v3(`repos/${getRepoURL()}/releases/tags/${tagName}`);
-		const response = await api.v3(`repos/${getRepoURL()}/releases/${releaseID}`, {
+		const {id: releaseID} = await api.v3(`repos/${getRepoURL()}/releases/tags/${tagName}`);
+		const response = await api.v3(`repos/${getRepoURL()}/releases/${releaseID as string}`, {
 			method: 'PATCH',
 			body: {
 				draft: true
@@ -26,11 +25,13 @@ async function convertToDraft({delegateTarget: draftButton}: delegate.Event<Mous
 		location.pathname = [getRepoURL(), 'releases', 'edit', response.tag_name].join('/');
 	} catch (error) {
 		draftButton.textContent = 'Error. Open console or retry';
-		throw error;
+		features.error(__filebasename, error);
 	}
 }
 
-function init(): void | false {
+async function init(): Promise<void | false> {
+	await api.expectToken();
+
 	const editButton = select('.BtnGroup a[href*="releases/edit"]')!;
 	if (!editButton || select.exists('.label-draft')) {
 		return false;
