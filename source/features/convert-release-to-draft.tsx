@@ -25,8 +25,8 @@ async function convertToDraft({delegateTarget: draftButton}: delegate.Event<Mous
 
 		location.pathname = [getRepoURL(), 'releases', 'edit', response.tag_name].join('/');
 	} catch (error) {
-		console.error(error);
 		draftButton.textContent = 'Convert Failed! See console for details';
+		throw error;
 	}
 }
 
