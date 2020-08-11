@@ -51,7 +51,7 @@ async function init(): Promise<void> {
 void features.add({
 	id: __filebasename,
 	description: 'Shows whether files in PRs are being added or removed.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/89843316-40d33a80-db46-11ea-8f04-6d93d128be0b.png'
+	screenshot: 'https://user-images.githubusercontent.com/16872793/89845522-b93cfa00-db4c-11ea-8e09-ee73fca20a9c.png'
 }, {
 	include: [
 		pageDetect.isPRFiles,
