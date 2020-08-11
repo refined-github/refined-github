@@ -37,7 +37,7 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	editButton.after(<a className="btn BtnGroup-item text-orange rgh-convert-draft">Convert to draft</a>);
+	editButton.after(<a className="btn BtnGroup-item rgh-convert-draft">Convert to draft</a>);
 	delegate(document, '.rgh-convert-draft', 'click', convertToDraft);
 }
 
