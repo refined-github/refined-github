@@ -11,7 +11,7 @@ import {getRepoURL} from '../github-helpers';
 async function convertToDraft({delegateTarget: draftButton}: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
 	try {
 		await api.expectToken();
-		draftButton.textContent = 'Converting...';
+		draftButton.textContent = 'Converting…';
 		draftButton.append(<LoadingIcon className="ml-2" width={16}/>);
 
 		const tagName = location.pathname.split('/').pop()!;
@@ -25,7 +25,7 @@ async function convertToDraft({delegateTarget: draftButton}: delegate.Event<Mous
 
 		location.pathname = [getRepoURL(), 'releases', 'edit', response.tag_name].join('/');
 	} catch (error) {
-		draftButton.textContent = 'Convert Failed! See console for details';
+		draftButton.textContent = 'Error. Open console or retry';
 		throw error;
 	}
 }
@@ -42,7 +42,7 @@ function init(): void | false {
 
 void features.add({
 	id: __filebasename,
-	description: 'Adds a button next to a single release to cover it to a draft.',
+	description: 'Adds a button to convert a release to draft.',
 	screenshot: 'https://user-images.githubusercontent.com/16872793/89732990-767e0380-da20-11ea-8ac5-b617701eeb29.png'
 }, {
 	include: [
