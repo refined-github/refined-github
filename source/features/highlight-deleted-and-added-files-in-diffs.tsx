@@ -33,16 +33,12 @@ async function init(): Promise<void> {
 				select(`svg + [href="${element.hash}"]`, fileList)?.previousElementSibling! // `isSingleCommit`
 			).cloneNode(true);
 			const iconTitle = icon.getAttribute('title')!;
-			if (iconTitle === 'added') {
-				icon.classList.add('text-green');
-			} else if (iconTitle === 'removed') {
-				icon.classList.add('text-red');
-			} else {
+			if (!['added', 'removed'].includes(iconTitle)) {
 				return;
 			}
 
-			icon.classList.remove('select-menu-item-icon');
-			icon.classList.add('v-align-middle', 'mx-1');
+			element.parentElement!.classList.add('toc-select');
+			icon.classList.add('v-align-middle', 'mx-1', 'float-none');
 			element.before(icon);
 		}
 	});
