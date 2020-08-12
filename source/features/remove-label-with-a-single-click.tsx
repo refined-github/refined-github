@@ -1,14 +1,14 @@
 import './remove-label-with-a-single-click.css';
 import React from 'dom-chef';
-import select from 'select-dom';
-import delegate from 'delegate-it';
 import XIcon from 'octicon/x.svg';
-import * as pageDetect from 'github-url-detection';
+import select from 'select-dom';
 import oneTime from 'onetime';
+import delegate from 'delegate-it';
+import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import onReplacedElement from '../helpers/on-replaced-element';
 import * as api from '../github-helpers/api';
+import onReplacedElement from '../helpers/on-replaced-element';
 import {getRepoURL, getConversationNumber} from '../github-helpers';
 
 const canEditLabels = oneTime((): boolean => select.exists('.sidebar-labels .octicon-gear'));
@@ -29,11 +29,6 @@ async function removeButtonClickHandler(event: delegate.Event<MouseEvent, HTMLSp
 	event.preventDefault();
 
 	const removeButton = event.delegateTarget;
-
-	// Prevent multiple clicks
-	if (removeButton.dataset.disabled) {
-		return;
-	}
 
 	removeButton.dataset.disabled = 'true';
 	await api.v3(`repos/${getRepoURL()}/issues/${getConversationNumber()!}/labels/${removeButton.dataset.name!}`, {
@@ -61,17 +56,13 @@ function makeRemoveButton(labelName: string, color: string, backgroundColor: str
 }
 
 function init(): void {
-	if (!canEditLabels()) {
-		return;
-	}
-
 	for (const label of select.all('.labels > a')) {
 		// Override !important rule
 		label.style.setProperty('display', 'inline-flex', 'important');
 		label.append(makeRemoveButton(label.dataset.name!, label.style.color, label.style.backgroundColor));
 	}
 
-	delegate(document, '.rgh-remove-label-with-a-single-click', 'click', removeButtonClickHandler);
+	delegate(document, '.rgh-remove-label-with-a-single-click:not([disabled])', 'click', removeButtonClickHandler);
 }
 
 void features.add({
@@ -82,6 +73,9 @@ void features.add({
 	include: [
 		pageDetect.isIssue,
 		pageDetect.isPR
+	],
+	exclude: [
+		canEditLabels
 	],
 	additionalListeners: [
 		() => void onReplacedElement('#partial-discussion-sidebar', init)
