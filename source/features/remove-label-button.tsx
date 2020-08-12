@@ -25,12 +25,12 @@ function updateSidebar() {
 	}));
 }
 
-async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, HTMLSpanElement>): Promise<void> {
+async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
 	event.preventDefault();
 
 	const removeLabelButton = event.delegateTarget;
 
-	removeLabelButton.dataset.disabled = 'true';
+	removeLabelButton.disabled = true;
 	await api.v3(`repos/${getRepoURL()}/issues/${getConversationNumber()!}/labels/${removeLabelButton.dataset.name!}`, {
 		method: 'DELETE'
 	});
@@ -40,17 +40,18 @@ async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, H
 
 function makeRemoveLabelButton(labelName: string, color: string, backgroundColor: string) {
 	const removeLabelButton = (
-		<span
+		<button
+			type="button"
 			aria-label="Remove this label"
-			className="tooltipped tooltipped-nw rgh-remove-label-button"
+			className="btn-link tooltipped tooltipped-nw rgh-remove-label-button"
 			data-name={labelName}
 		>
 			<XIcon/>
-		</span>
+		</button>
 	);
 
-	removeLabelButton.style.setProperty('--rgh-remove-label-bg', color);
-	removeLabelButton.style.setProperty('--rgh-remove-label-color', backgroundColor);
+	removeLabelButton.style.setProperty('--rgh-remove-label-button-bg-color', backgroundColor);
+	removeLabelButton.style.setProperty('--rgh-remove-label-button-color', color);
 
 	return removeLabelButton;
 }

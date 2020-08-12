@@ -1,8 +1,9 @@
 .rgh-remove-label-button {
-	display: flex;
+	display: flex !important;
 	color: inherit;
 	margin-left: 2px;
 	margin-right: -7px;
+	color: var(--rgh-remove-label-button-color) !important;
 }
 
 .rgh-remove-label-button svg {
@@ -18,6 +19,6 @@
 
 .rgh-remove-label-button:focus svg,
 .rgh-remove-label-button:hover svg {
-	background-color: var(--rgh-remove-label-bg);
-	color: var(--rgh-remove-label-color);
+	background-color: var(--rgh-remove-label-button-color);
+	color: var(--rgh-remove-label-button-bg-color);
 }
