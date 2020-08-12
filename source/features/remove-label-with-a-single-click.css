@@ -1,0 +1,23 @@
+.rgh-remove-label-with-a-single-click {
+	display: flex;
+	color: inherit;
+	margin-left: 2px;
+	margin-right: -7px;
+}
+
+.rgh-remove-label-with-a-single-click svg {
+	margin-top: 0.125rem;
+	margin-bottom: 0.125rem;
+	margin-right: 0.125rem;
+	border-radius: 50%;
+	padding-top: 0.125rem;
+	padding-bottom: 0.125rem;
+	fill: currentColor;
+	width: 14px !important;
+	height: 14px !important;
+}
+
+.rgh-remove-label-with-a-single-click svg:hover {
+	background-color: var(--rgh-remove-label-bg);
+	color: var(--rgh-remove-label-color);
+}
