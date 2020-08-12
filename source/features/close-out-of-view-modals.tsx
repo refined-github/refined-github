@@ -11,7 +11,15 @@ const observer = new IntersectionObserver(([{intersectionRatio, target}]) => {
 
 function init(): void {
 	document.addEventListener('menu:activated', ((event: CustomEvent) => {
-		observer.observe((event.target as HTMLElement).querySelector('details-menu')!);
+		const target = (event.target as HTMLElement);
+		const modalBox = target.querySelector('details-menu')!;
+		// it prevents the feature silently breaking the interface: #2701
+		if (modalBox.getBoundingClientRect().width === 0) {	
+			features.error(__filebasename, 'Modal element was not correctly detected for', target);	
+			return;	
+		}
+
+		observer.observe(modalBox);
 	}) as EventListener);
 }
 
