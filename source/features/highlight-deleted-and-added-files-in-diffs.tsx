@@ -38,7 +38,7 @@ async function init(): Promise<void> {
 			}
 
 			element.parentElement!.classList.add('toc-select');
-			icon.classList.add('v-align-middle', 'mx-1', 'float-none');
+			icon.classList.add('mx-1', 'float-none');
 			element.before(icon);
 		}
 	});
