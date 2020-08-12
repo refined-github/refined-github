@@ -1,4 +1,4 @@
-import './remove-label-with-a-single-click.css';
+import './remove-label-button.css';
 import React from 'dom-chef';
 import XIcon from 'octicon/x.svg';
 import select from 'select-dom';
@@ -42,7 +42,7 @@ function makeRemoveButton(labelName: string, color: string, backgroundColor: str
 	const closeButton = (
 		<span
 			aria-label="Remove this label"
-			className="tooltipped tooltipped-nw rgh-remove-label-with-a-single-click"
+			className="tooltipped tooltipped-nw rgh-remove-label-button"
 			data-name={labelName}
 		>
 			<XIcon/>
@@ -62,7 +62,7 @@ function init(): void {
 		label.append(makeRemoveButton(label.dataset.name!, label.style.color, label.style.backgroundColor));
 	}
 
-	delegate(document, '.rgh-remove-label-with-a-single-click:not([disabled])', 'click', removeButtonClickHandler);
+	delegate(document, '.rgh-remove-label-button:not([disabled])', 'click', removeButtonClickHandler);
 }
 
 void features.add({
