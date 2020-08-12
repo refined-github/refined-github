@@ -13,10 +13,10 @@ function init(): void {
 	document.addEventListener('menu:activated', ((event: CustomEvent) => {
 		const target = (event.target as HTMLElement);
 		const modalBox = target.querySelector('details-menu')!;
-		// it prevents the feature silently breaking the interface: #2701
-		if (modalBox.getBoundingClientRect().width === 0) {	
-			features.error(__filebasename, 'Modal element was not correctly detected for', target);	
-			return;	
+		// It prevents the feature silently breaking the interface: #2701
+		if (modalBox.getBoundingClientRect().width === 0) {
+			features.error(__filebasename, 'Modal element was not correctly detected for', target);
+			return;
 		}
 
 		observer.observe(modalBox);
