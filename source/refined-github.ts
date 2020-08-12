@@ -1,6 +1,7 @@
 import select from 'select-dom';
 
 import './refined-github.css';
+import './features/github-bugs.css';
 import './features/scrollable-code-and-blockquote.css';
 import './features/center-reactions-popup.css';
 import './features/clean-dashboard.css';
