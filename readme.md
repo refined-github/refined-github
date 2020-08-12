@@ -137,7 +137,7 @@ Thanks for contributing! 🦋🙌
 - [](# "go-to-action-from-file") [Adds a link to access the past runs of a GitHub Action workflow when seeing the workflow configuration file.](https://user-images.githubusercontent.com/1402241/80146153-ab6d6400-85b1-11ea-9f38-e87950692a62.png)
 - [](# "fork-source-link-same-view") [Points the “Forked from user/repository” link to current folder or file in the upstream repository.](https://user-images.githubusercontent.com/1402241/84795784-3722d000-aff8-11ea-9b34-97c01acf4fd4.png)
 - [](# "cleanup-repo-filelist-actions") [Replaces the labels of some simple buttons on repository filelists with icons, making them take less space.](https://user-images.githubusercontent.com/44045911/88551471-7a3f7c80-d055-11ea-82f1-c558b7871824.png)
-- [](# "convert-release-to-draft") [Adds a button next to a single release to cover it to a draft.](https://user-images.githubusercontent.com/16872793/89732990-767e0380-da20-11ea-8ac5-b617701eeb29.png)
+- [](# "convert-release-to-draft") [Adds a button to convert a release to draft.](https://user-images.githubusercontent.com/16872793/89732990-767e0380-da20-11ea-8ac5-b617701eeb29.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
