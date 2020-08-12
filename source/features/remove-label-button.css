@@ -12,12 +12,12 @@
 	border-radius: 50%;
 	padding-top: 0.125rem;
 	padding-bottom: 0.125rem;
-	fill: currentColor;
 	width: 14px !important;
 	height: 14px !important;
 }
 
-.rgh-remove-label-button svg:hover {
+.rgh-remove-label-button:focus svg,
+.rgh-remove-label-button:hover svg {
 	background-color: var(--rgh-remove-label-bg);
 	color: var(--rgh-remove-label-color);
 }

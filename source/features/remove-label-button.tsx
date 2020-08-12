@@ -55,7 +55,9 @@ function makeRemoveButton(labelName: string, color: string, backgroundColor: str
 	return closeButton;
 }
 
-function init(): void {
+async function init(): Promise<void> {
+	await api.expectToken();
+
 	for (const label of select.all('.labels > a')) {
 		// Override !important rule
 		label.style.setProperty('display', 'inline-flex', 'important');
