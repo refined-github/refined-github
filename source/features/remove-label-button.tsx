@@ -15,8 +15,6 @@ const canNotEditLabels = oneTime((): boolean => !select.exists('.sidebar-labels 
 
 function updateSidebar() {
 	select('#partial-discussion-sidebar')!.dispatchEvent(new CustomEvent('socket:message', {
-		bubbles: false,
-		cancelable: false,
 		detail: {
 			name: '',
 			data: {},
