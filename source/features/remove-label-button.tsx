@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import onReplacedElement from '../helpers/on-replaced-element';
+import {observe} from 'selector-observer';
 import {getRepoURL, getConversationNumber} from '../github-helpers';
 
 const canNotEditLabels = oneTime((): boolean => !select.exists('.sidebar-labels .octicon-gear'));
@@ -59,11 +59,14 @@ function makeRemoveLabelButton(labelName: string, color: string, backgroundColor
 async function init(): Promise<void> {
 	await api.expectToken();
 
-	for (const label of select.all('.labels > a')) {
-		// Override !important rule
-		label.style.setProperty('display', 'inline-flex', 'important');
-		label.append(makeRemoveLabelButton(label.dataset.name!, label.style.color, label.style.backgroundColor));
-	}
+	observe('.labels > a', {
+		constructor: HTMLElement,
+		add(label) {
+			// Override !important rule
+			label.style.setProperty('display', 'inline-flex', 'important');
+			label.append(makeRemoveLabelButton(label.dataset.name!, label.style.color, label.style.backgroundColor));
+		}
+	})
 
 	delegate(document, '.rgh-remove-label-button:not([disabled])', 'click', removeLabelButtonClickHandler);
 }
@@ -80,8 +83,5 @@ void features.add({
 	exclude: [
 		canNotEditLabels
 	],
-	additionalListeners: [
-		() => void onReplacedElement('#partial-discussion-sidebar', init)
-	],
-	init
+	init: oneTime(init)
 });
