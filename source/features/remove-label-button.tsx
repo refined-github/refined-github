@@ -25,21 +25,21 @@ function updateSidebar() {
 	}));
 }
 
-async function removeButtonClickHandler(event: delegate.Event<MouseEvent, HTMLSpanElement>): Promise<void> {
+async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, HTMLSpanElement>): Promise<void> {
 	event.preventDefault();
 
-	const removeButton = event.delegateTarget;
+	const removeLabelButton = event.delegateTarget;
 
-	removeButton.dataset.disabled = 'true';
-	await api.v3(`repos/${getRepoURL()}/issues/${getConversationNumber()!}/labels/${removeButton.dataset.name!}`, {
+	removeLabelButton.dataset.disabled = 'true';
+	await api.v3(`repos/${getRepoURL()}/issues/${getConversationNumber()!}/labels/${removeLabelButton.dataset.name!}`, {
 		method: 'DELETE'
 	});
 
 	updateSidebar();
 }
 
-function makeRemoveButton(labelName: string, color: string, backgroundColor: string) {
-	const closeButton = (
+function makeRemoveLabelButton(labelName: string, color: string, backgroundColor: string) {
+	const removeLabelButton = (
 		<span
 			aria-label="Remove this label"
 			className="tooltipped tooltipped-nw rgh-remove-label-button"
@@ -49,10 +49,10 @@ function makeRemoveButton(labelName: string, color: string, backgroundColor: str
 		</span>
 	);
 
-	closeButton.style.setProperty('--rgh-remove-label-bg', color);
-	closeButton.style.setProperty('--rgh-remove-label-color', backgroundColor);
+	removeLabelButton.style.setProperty('--rgh-remove-label-bg', color);
+	removeLabelButton.style.setProperty('--rgh-remove-label-color', backgroundColor);
 
-	return closeButton;
+	return removeLabelButton;
 }
 
 async function init(): Promise<void> {
@@ -61,10 +61,10 @@ async function init(): Promise<void> {
 	for (const label of select.all('.labels > a')) {
 		// Override !important rule
 		label.style.setProperty('display', 'inline-flex', 'important');
-		label.append(makeRemoveButton(label.dataset.name!, label.style.color, label.style.backgroundColor));
+		label.append(makeRemoveLabelButton(label.dataset.name!, label.style.color, label.style.backgroundColor));
 	}
 
-	delegate(document, '.rgh-remove-label-button:not([disabled])', 'click', removeButtonClickHandler);
+	delegate(document, '.rgh-remove-label-button:not([disabled])', 'click', removeLabelButtonClickHandler);
 }
 
 void features.add({
