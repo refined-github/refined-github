@@ -6,12 +6,10 @@
 }
 
 .rgh-remove-label-button svg {
-	margin-top: 2px;
-	margin-bottom: 2px;
-	margin-right: 2px;
+	margin: 2px;
+	margin-left: 0;
 	border-radius: 50%;
-	padding-top: 2px;
-	padding-bottom: 2px;
+	padding: 2px 0;
 	width: 14px !important;
 	height: 14px !important;
 }
