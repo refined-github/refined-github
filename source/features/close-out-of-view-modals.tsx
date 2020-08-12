@@ -1,29 +1,18 @@
 import onetime from 'onetime';
-import delegate from 'delegate-it';
 
 import features from '.';
 
 const observer = new IntersectionObserver(([{intersectionRatio, target}]) => {
 	if (intersectionRatio === 0) {
 		observer.unobserve(target);
-		target.closest('details')!.open = false;
+		target.removeAttribute('open');
 	}
 });
 
 function init(): void {
-	// The `open` attribute is added after this handler is run, so the selector is inverted
-	delegate(document, '.details-overlay:not([open]) > summary[aria-haspopup="menu"]', 'click', ({delegateTarget: summary}) => {
-		// The timeout gives the element time to "open"
-		setTimeout(() => {
-			const modalBox = summary.parentElement!.querySelector('details-menu')!;
-			if (modalBox.getBoundingClientRect().width === 0) {
-				features.error(__filebasename, 'Modal element was not correctly detected for', summary);
-				return;
-			}
-
-			observer.observe(modalBox);
-		}, 100);
-	});
+	document.addEventListener('menu:activated', ((event: CustomEvent) => {
+		observer.observe((event.target as HTMLElement));
+	}) as EventListener);
 }
 
 void features.add({
