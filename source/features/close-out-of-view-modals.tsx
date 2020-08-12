@@ -5,13 +5,13 @@ import features from '.';
 const observer = new IntersectionObserver(([{intersectionRatio, target}]) => {
 	if (intersectionRatio === 0) {
 		observer.unobserve(target);
-		target.removeAttribute('open');
+		target.closest('details')!.removeAttribute('open');
 	}
 });
 
 function init(): void {
 	document.addEventListener('menu:activated', ((event: CustomEvent) => {
-		observer.observe((event.target as HTMLElement));
+		observer.observe((event.target as HTMLElement).querySelector('details-menu')!);
 	}) as EventListener);
 }
 
