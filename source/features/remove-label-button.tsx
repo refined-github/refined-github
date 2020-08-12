@@ -11,7 +11,7 @@ import * as api from '../github-helpers/api';
 import onReplacedElement from '../helpers/on-replaced-element';
 import {getRepoURL, getConversationNumber} from '../github-helpers';
 
-const canEditLabels = oneTime((): boolean => select.exists('.sidebar-labels .octicon-gear'));
+const canNotEditLabels = oneTime((): boolean => !select.exists('.sidebar-labels .octicon-gear'));
 
 function updateSidebar() {
 	select('#partial-discussion-sidebar')!.dispatchEvent(new CustomEvent('socket:message', {
@@ -77,7 +77,7 @@ void features.add({
 		pageDetect.isPR
 	],
 	exclude: [
-		canEditLabels
+		canNotEditLabels
 	],
 	additionalListeners: [
 		() => void onReplacedElement('#partial-discussion-sidebar', init)
