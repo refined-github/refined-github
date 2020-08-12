@@ -76,7 +76,7 @@ function init(): void {
 
 void features.add({
 	id: __filebasename,
-	description: '',
+	description: 'Adds one-click buttons to remove labels in conversations.',
 	screenshot: false
 }, {
 	include: [
