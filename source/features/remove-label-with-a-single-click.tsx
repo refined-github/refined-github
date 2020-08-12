@@ -77,7 +77,7 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Adds one-click buttons to remove labels in conversations.',
-	screenshot: false
+	screenshot: 'https://user-images.githubusercontent.com/36174850/89980178-0bc80480-dc7a-11ea-8ded-9e25f5f13d1a.gif'
 }, {
 	include: [
 		pageDetect.isIssue,
