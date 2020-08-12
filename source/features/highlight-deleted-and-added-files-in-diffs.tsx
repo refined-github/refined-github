@@ -42,7 +42,7 @@ async function init(): Promise<void> {
 			}
 
 			icon.classList.remove('select-menu-item-icon');
-			icon.classList.add('d-inline-block', 'mx-1');
+			icon.classList.add('v-align-middle', 'mx-1');
 			element.before(icon);
 		}
 	});
@@ -50,7 +50,7 @@ async function init(): Promise<void> {
 
 void features.add({
 	id: __filebasename,
-	description: 'Shows whether files in PRs are being added or removed.',
+	description: 'Indicates with an icon whether files in commits and pull requests being added or removed.',
 	screenshot: 'https://user-images.githubusercontent.com/16872793/89845522-b93cfa00-db4c-11ea-8e09-ee73fca20a9c.png'
 }, {
 	include: [
