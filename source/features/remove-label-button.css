@@ -1,6 +1,5 @@
 .rgh-remove-label-button {
 	display: flex !important;
-	color: inherit;
 	margin-left: 2px;
 	margin-right: -7px;
 	color: var(--rgh-remove-label-button-color) !important;

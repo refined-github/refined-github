@@ -5,10 +5,11 @@ import select from 'select-dom';
 import oneTime from 'onetime';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+import {observe} from 'selector-observer';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {observe} from 'selector-observer';
+
 import {getRepoURL, getConversationNumber} from '../github-helpers';
 
 const canNotEditLabels = oneTime((): boolean => !select.exists('.sidebar-labels .octicon-gear'));
@@ -64,7 +65,7 @@ async function init(): Promise<void> {
 			label.style.setProperty('display', 'inline-flex', 'important');
 			label.append(makeRemoveLabelButton(label.dataset.name!, label.style.color, label.style.backgroundColor));
 		}
-	})
+	});
 
 	delegate(document, '.rgh-remove-label-button:not([disabled])', 'click', removeLabelButtonClickHandler);
 }
