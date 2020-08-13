@@ -21,7 +21,7 @@ async function convertToDraft({delegateTarget: draftButton}: delegate.Event<Mous
 			}
 		});
 
-		draftButton.previousElementSibling!.click(); // Visit "Edit release" page
+		select('.BtnGroup a[href*="releases/edit"]')!.click(); // Visit "Edit release" page
 	} catch (error) {
 		draftButton.textContent = 'Error. Check console or retry';
 		features.error(__filebasename, error);
