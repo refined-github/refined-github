@@ -189,6 +189,7 @@ import './features/linkify-user-edit-history-popup';
 import './features/cleanup-repo-filelist-actions';
 import './features/prevent-duplicate-pr-submission';
 import './features/remove-label-faster';
+import './features/clean-conversation-headers';
 
 // Add global for easier debugging
 (window as any).select = select;
