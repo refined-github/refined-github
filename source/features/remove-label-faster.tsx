@@ -1,4 +1,4 @@
-import './remove-label-button.css';
+import './remove-label-faster.css';
 import React from 'dom-chef';
 import XIcon from 'octicon/x.svg';
 import select from 'select-dom';
@@ -43,14 +43,14 @@ function makeRemoveLabelButton(labelName: string, backgroundColor: string) {
 		<button
 			type="button"
 			aria-label="Remove this label"
-			className="btn-link tooltipped tooltipped-nw rgh-remove-label-button"
+			className="btn-link tooltipped tooltipped-nw rgh-remove-label-faster"
 			data-name={labelName}
 		>
 			<XIcon/>
 		</button>
 	);
 
-	removeLabelButton.style.setProperty('--rgh-remove-label-button-color', backgroundColor);
+	removeLabelButton.style.setProperty('--rgh-remove-label-faster-color', backgroundColor);
 
 	return removeLabelButton;
 }
@@ -58,15 +58,15 @@ function makeRemoveLabelButton(labelName: string, backgroundColor: string) {
 async function init(): Promise<void> {
 	await api.expectToken();
 
-	observe('.labels > a:not(.rgh-remove-label-button-already-added)', {
+	observe('.labels > a:not(.rgh-remove-label-faster-already-added)', {
 		constructor: HTMLElement,
 		add(label) {
-			label.classList.add('rgh-remove-label-button-already-added');
+			label.classList.add('rgh-remove-label-faster-already-added');
 			label.append(makeRemoveLabelButton(label.dataset.name!, label.style.backgroundColor));
 		}
 	});
 
-	delegate(document, '.rgh-remove-label-button:not([disabled])', 'click', removeLabelButtonClickHandler);
+	delegate(document, '.rgh-remove-label-faster:not([disabled])', 'click', removeLabelButtonClickHandler);
 }
 
 void features.add({

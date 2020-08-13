@@ -1,11 +1,11 @@
-.rgh-remove-label-button {
+.rgh-remove-label-faster {
 	display: flex !important;
 	margin-left: 2px;
 	margin-right: -7px;
 	color: inherit !important;
 }
 
-.rgh-remove-label-button svg {
+.rgh-remove-label-faster svg {
 	margin: 2px;
 	margin-left: 0;
 	border-radius: 50%;
@@ -14,12 +14,12 @@
 	height: 14px;
 }
 
-.rgh-remove-label-button:focus svg,
-.rgh-remove-label-button:hover svg {
+.rgh-remove-label-faster:focus svg,
+.rgh-remove-label-faster:hover svg {
 	background-color: currentColor;
-	fill: var(--rgh-remove-label-button-color);
+	fill: var(--rgh-remove-label-faster-color);
 }
 
-:root:root .rgh-remove-label-button-already-added {
+:root:root .rgh-remove-label-faster-already-added {
 	display: inline-flex !important;
 }
