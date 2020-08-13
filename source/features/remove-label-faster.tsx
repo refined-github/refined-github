@@ -26,6 +26,7 @@ async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, H
 
 	removeLabelButton.closest('a')!.remove();
 
+	// Force update of label selector if necessary
 	const addLabelMenu = select('.sidebar-labels details-menu')!;
 	const addLabelMenuContent = addLabelMenu.querySelector('.hx_rsm-content');
 
