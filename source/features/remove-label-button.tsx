@@ -37,6 +37,7 @@ async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, H
 	updateSidebar();
 }
 
+// TODO: set variable via JSX and inline function in `init` after https://github.com/vadimdemedes/dom-chef/issues/66
 function makeRemoveLabelButton(labelName: string, backgroundColor: string) {
 	const removeLabelButton = (
 		<button
