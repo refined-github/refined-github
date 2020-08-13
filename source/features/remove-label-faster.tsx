@@ -14,16 +14,6 @@ import {getRepoURL, getConversationNumber} from '../github-helpers';
 
 const canNotEditLabels = oneTime((): boolean => !select.exists('.sidebar-labels .octicon-gear'));
 
-function updateSidebar() {
-	select('#partial-discussion-sidebar')!.dispatchEvent(new CustomEvent('socket:message', {
-		detail: {
-			name: '',
-			data: {},
-			cached: false
-		}
-	}));
-}
-
 async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
 	event.preventDefault();
 
@@ -34,7 +24,7 @@ async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, H
 		method: 'DELETE'
 	});
 
-	updateSidebar();
+	removeLabelButton.closest('a')!.remove();
 }
 
 // TODO: set variable via JSX and inline function in `init` after https://github.com/vadimdemedes/dom-chef/issues/66
