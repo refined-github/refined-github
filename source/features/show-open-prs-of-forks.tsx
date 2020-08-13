@@ -47,7 +47,11 @@ const countPRs = cache.function(async (forkedRepo: string): Promise<[number, num
 });
 
 async function getPRs(): Promise<[number, string] | []> {
-	await elementReady('.pagehead + *, .UnderlineNav-body + *'); // Wait for the tab bar to be loaded
+	// Wait for the tab bar to be loaded
+	await elementReady([
+		'.pagehead + *', // Pre "Repository refresh" layout
+		'.UnderlineNav-body + *'
+	].join());
 	if (!pageDetect.canUserEditRepo()) {
 		return [];
 	}
