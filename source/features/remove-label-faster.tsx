@@ -25,6 +25,14 @@ async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, H
 	});
 
 	removeLabelButton.closest('a')!.remove();
+
+	const addLabelMenu = select('.sidebar-labels details-menu')!;
+	const addLabelMenuContent = addLabelMenu.querySelector('.hx_rsm-content');
+
+	if (addLabelMenuContent?.querySelector('include-fragment') === null) {
+		addLabelMenuContent.innerHTML = '';
+		addLabelMenuContent.append(<include-fragment src={addLabelMenu.getAttribute('src')!}/>);
+	}
 }
 
 // TODO: set variable via JSX and inline function in `init` after https://github.com/vadimdemedes/dom-chef/issues/66
