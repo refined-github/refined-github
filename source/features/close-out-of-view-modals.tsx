@@ -5,7 +5,7 @@ import features from '.';
 const observer = new IntersectionObserver(([{intersectionRatio, target}]) => {
 	if (intersectionRatio === 0) {
 		observer.unobserve(target);
-		target.closest('details')!.removeAttribute('open');
+		target.closest('details')!.open = false;
 	}
 });
 
