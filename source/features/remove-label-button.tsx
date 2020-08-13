@@ -61,8 +61,6 @@ async function init(): Promise<void> {
 	observe('.labels > a:not(.rgh-remove-label-button-already-added)', {
 		constructor: HTMLElement,
 		add(label) {
-			// Override !important rule
-			label.style.setProperty('display', 'inline-flex', 'important');
 			label.classList.add('rgh-remove-label-button-already-added');
 			label.append(makeRemoveLabelButton(label.dataset.name!, label.style.backgroundColor));
 		}

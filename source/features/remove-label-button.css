@@ -10,12 +10,16 @@
 	margin-left: 0;
 	border-radius: 50%;
 	padding: 2px 0;
-	width: 14px !important;
-	height: 14px !important;
+	width: 14px;
+	height: 14px;
 }
 
 .rgh-remove-label-button:focus svg,
 .rgh-remove-label-button:hover svg {
 	background-color: currentColor;
 	fill: var(--rgh-remove-label-button-color);
+}
+
+:root:root .rgh-remove-label-button-already-added {
+	display: inline-flex !important;
 }
