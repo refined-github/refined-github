@@ -7,12 +7,12 @@ import features from '.';
 
 function initIssue(): void {
 	observe('.gh-header-meta .flex-auto', {
-		add({childNodes}) {
+		add({childNodes: bylineNodes}) {
 			// Removes: octocat opened this issue on 1 Jan [·] 1 comments
-			childNodes[4].textContent = childNodes[4].textContent!.replace('·', '');
+			bylineNodes[4].textContent = bylineNodes[4].textContent!.replace('·', '');
 
 			// Removes: [octocat opened this issue on 1 Jan] · 1 comments
-			for (const node of [...childNodes].slice(0, 4)) {
+			for (const node of [...bylineNodes].slice(0, 4)) {
 				node.remove();
 			}
 		}
@@ -21,21 +21,21 @@ function initIssue(): void {
 
 function initPR(): void {
 	observe('.gh-header-meta .flex-auto', {
-		add(element) {
+		add(byline) {
 			const isMerged = select.exists('#partial-discussion-header [title="Status: Merged"]');
-			const isSameAuthor = select('.js-discussion > .TimelineItem:first-child .author')?.textContent === select('.author', element)!.textContent;
-			const baseBranch = select('.commit-ref:not(.head-ref)', element)!;
+			const isSameAuthor = select('.js-discussion > .TimelineItem:first-child .author')?.textContent === select('.author', byline)!.textContent;
+			const baseBranch = select('.commit-ref:not(.head-ref)', byline)!;
 			const isDefaultBranch = (baseBranch.firstElementChild as HTMLAnchorElement).pathname.split('/').length === 3;
 
 			// Removes: [octocat wants to merge 1 commit into] github:master from octocat:feature
 			// Removes: [octocat merged 1 commit into] master from feature
 			// Removes: octocat [merged 1 commit into] github:master from lovelycat:feature
-			for (const node of [...element.childNodes].slice(isSameAuthor ? 0 : 2, isMerged ? 3 : 5)) {
+			for (const node of [...byline.childNodes].slice(isSameAuthor ? 0 : 2, isMerged ? 3 : 5)) {
 				node.remove();
 			}
 
 			if (!isSameAuthor) {
-				element.prepend('by ');
+				byline.prepend('by ');
 			}
 
 			if (isDefaultBranch) {
@@ -57,10 +57,12 @@ void features.add({
 	include: [
 		pageDetect.isIssue
 	],
+	waitForDomReady: false,
 	init: onetime(initIssue)
 }, {
 	include: [
 		pageDetect.isPR
 	],
+	waitForDomReady: false,
 	init: onetime(initPR)
 });
