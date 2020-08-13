@@ -37,7 +37,7 @@ async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, H
 	updateSidebar();
 }
 
-function makeRemoveLabelButton(labelName: string, color: string, backgroundColor: string) {
+function makeRemoveLabelButton(labelName: string, backgroundColor: string) {
 	const removeLabelButton = (
 		<button
 			type="button"
@@ -49,8 +49,7 @@ function makeRemoveLabelButton(labelName: string, color: string, backgroundColor
 		</button>
 	);
 
-	removeLabelButton.style.setProperty('--rgh-remove-label-button-bg-color', backgroundColor);
-	removeLabelButton.style.setProperty('--rgh-remove-label-button-color', color);
+	removeLabelButton.style.setProperty('--rgh-remove-label-button-color', backgroundColor);
 
 	return removeLabelButton;
 }
@@ -58,12 +57,13 @@ function makeRemoveLabelButton(labelName: string, color: string, backgroundColor
 async function init(): Promise<void> {
 	await api.expectToken();
 
-	observe('.labels > a', {
+	observe('.labels > a:not(.rgh-remove-label-button-already-added)', {
 		constructor: HTMLElement,
 		add(label) {
 			// Override !important rule
 			label.style.setProperty('display', 'inline-flex', 'important');
-			label.append(makeRemoveLabelButton(label.dataset.name!, label.style.color, label.style.backgroundColor));
+			label.classList.add('rgh-remove-label-button-already-added');
+			label.append(makeRemoveLabelButton(label.dataset.name!, label.style.backgroundColor));
 		}
 	});
 
