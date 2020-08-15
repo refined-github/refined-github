@@ -190,6 +190,7 @@ import './features/cleanup-repo-filelist-actions';
 import './features/prevent-duplicate-pr-submission';
 import './features/remove-label-faster';
 import './features/clean-conversation-headers';
+import './features/stop-pajax-loading-with-esc';
 
 // Add global for easier debugging
 (window as any).select = select;
