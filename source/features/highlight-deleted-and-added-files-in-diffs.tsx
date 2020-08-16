@@ -1,3 +1,4 @@
+import React from 'dom-chef';
 import select from 'select-dom';
 import oneTime from 'onetime';
 import {observe} from 'selector-observer';
@@ -42,8 +43,11 @@ async function init(): Promise<void> {
 			}
 
 			icon.classList.remove('select-menu-item-icon');
-			icon.classList.add('v-align-middle', 'mx-1');
-			element.before(icon);
+			element.parentElement!.append(
+				<span className="tooltipped tooltipped-s" aria-label={'File ' + iconTitle}>
+					{icon}
+				</span>
+			);
 		}
 	});
 }
