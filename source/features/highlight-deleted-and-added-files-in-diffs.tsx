@@ -33,12 +33,16 @@ async function init(): Promise<void> {
 				select(`svg + [href="${element.hash}"]`, fileList)?.previousElementSibling! // `isSingleCommit`
 			).cloneNode(true);
 			const iconTitle = icon.getAttribute('title')!;
-			if (!['added', 'removed'].includes(iconTitle)) {
+			if (iconTitle === 'added') {
+				icon.classList.add('text-green');
+			} else if (iconTitle === 'removed') {
+				icon.classList.add('text-red');
+			} else {
 				return;
 			}
 
-			element.parentElement!.classList.add('toc-select');
-			icon.classList.add('v-align-middle', 'mx-1', 'float-none');
+			icon.classList.remove('select-menu-item-icon');
+			icon.classList.add('v-align-middle', 'mx-1');
 			element.before(icon);
 		}
 	});
