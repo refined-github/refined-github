@@ -6,7 +6,7 @@ import select from 'select-dom';
 import cache from 'webext-storage-cache';
 
 import features from '.';
-import { getRepoURL, getUsername } from '../github-helpers'
+import {getRepoURL, getUsername} from '../github-helpers';
 import * as api from '../github-helpers/api';
 
 void features.add({
@@ -152,7 +152,7 @@ async function getConversationList() {
 
 function noListQuery(): boolean {
 	return !(
-		// allowed also from global conversation list
+		// Allowed also from global conversation list
 		pageDetect.isConversationList(new URL(document.referrer)) ||
 		(new URL(location.href)).searchParams.has('q')
 	);
@@ -161,7 +161,7 @@ function noListQuery(): boolean {
 function getListQuery() {
 	const referrerUrl = new URL(document.referrer);
 
-	// coming from another issue with query in URL
+	// Coming from another issue with query in URL
 	if (!pageDetect.isConversationList(referrerUrl)) {
 		return parseConversationListURL(new URL(location.href));
 	}
@@ -171,17 +171,17 @@ function getListQuery() {
 	// that adds a default query in URL based on query input
 	// Make sure we have some query as a fallback
 	// Added fallbacks are current GitHub defaults
-	const query = referrerUrl.searchParams.get('q')
+	const query = referrerUrl.searchParams.get('q');
 
 	if (pageDetect.isGlobalConversationList(referrerUrl)) {
-		// is global pull requests list
-		if ('pulls' === referrerUrl.pathname.split('/', 2)[1]) {
-			referrerUrl.searchParams.set('q', query ?? `is:open is:pr author:${getUsername()} archived:false`)
+		// Is global pull requests list
+		if (referrerUrl.pathname.split('/', 2)[1] === 'pulls') {
+			referrerUrl.searchParams.set('q', query ?? `is:open is:pr author:${getUsername()} archived:false`);
 		}
 
-		// is global issues list
-		if ('issues' === referrerUrl.pathname.split('/', 2)[1]) {
-			referrerUrl.searchParams.set('q', query ?? `is:open is:issue author:${getUsername()} archived:false`)
+		// Is global issues list
+		if (referrerUrl.pathname.split('/', 2)[1] === 'issues') {
+			referrerUrl.searchParams.set('q', query ?? `is:open is:issue author:${getUsername()} archived:false`);
 		}
 	}
 
