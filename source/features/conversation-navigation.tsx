@@ -249,7 +249,7 @@ void features.add({
 }, {
 	include: [
 		pageDetect.isPR,
-		pageDetect.isIssue,
+		pageDetect.isIssue
 	],
 	exclude: [
 		noListQuery
