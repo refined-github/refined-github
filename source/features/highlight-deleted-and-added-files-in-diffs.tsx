@@ -55,7 +55,7 @@ async function init(): Promise<void> {
 void features.add({
 	id: __filebasename,
 	description: 'Indicates with an icon whether files in commits and pull requests being added or removed.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/89845522-b93cfa00-db4c-11ea-8e09-ee73fca20a9c.png'
+	screenshot: 'https://user-images.githubusercontent.com/1402241/90332474-23262b00-dfb5-11ea-9a03-8fd676ea0fdd.png'
 }, {
 	include: [
 		pageDetect.isPRFiles,
