@@ -10,7 +10,7 @@ import {getRepoURL} from '../github-helpers';
 
 async function convertToDraft({delegateTarget: draftButton}: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
 	try {
-		draftButton.append(<LoadingIcon className="ml-2" width={16}/>);
+		draftButton.append(<LoadingIcon className="ml-2 v-align-text-bottom" width={16}/>);
 
 		const tagName = location.pathname.split('/').pop()!;
 		const release = await api.v3(`repos/${getRepoURL()}/releases/tags/${tagName}`);
