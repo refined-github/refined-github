@@ -74,7 +74,7 @@ const api4 = pageDetect.isEnterprise() ?
 
 interface GHRestApiOptions {
 	ignoreHTTPStatus?: boolean;
-	method?: 'GET' | 'POST' | 'PUT' | 'PATCH';
+	method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 	body?: JsonObject;
 	headers?: HeadersInit;
 	json?: boolean;
