@@ -27,24 +27,24 @@ async function init(): Promise<void> {
 
 	observe('.file-info [href]:not(.rgh-pr-file-state)', {
 		constructor: HTMLAnchorElement,
-		add(element) {
-			element.classList.add('rgh-pr-file-state');
+		add(filename) {
+			filename.classList.add('rgh-pr-file-state');
 			const sourceIcon = pageDetect.isPR() ?
-				select(`[href="${element.hash}"] svg`, fileList)! :
-				select(`svg + [href="${element.hash}"]`, fileList)?.previousElementSibling!;
+				select(`[href="${filename.hash}"] svg`, fileList)! :
+				select(`svg + [href="${filename.hash}"]`, fileList)?.previousElementSibling!;
 			const icon = sourceIcon.cloneNode(true);
-			const iconTitle = icon.getAttribute('title')!;
-			if (iconTitle === 'added') {
+			const action = icon.getAttribute('title')!;
+			if (action === 'added') {
 				icon.classList.add('text-green');
-			} else if (iconTitle === 'removed') {
+			} else if (action === 'removed') {
 				icon.classList.add('text-red');
 			} else {
 				return;
 			}
 
 			icon.classList.remove('select-menu-item-icon');
-			element.parentElement!.append(
-				<span className="tooltipped tooltipped-s" aria-label={'File ' + iconTitle}>
+			filename.parentElement!.append(
+				<span className="tooltipped tooltipped-s" aria-label={'File ' + action}>
 					{icon}
 				</span>
 			);
