@@ -29,10 +29,10 @@ async function init(): Promise<void> {
 		constructor: HTMLAnchorElement,
 		add(element) {
 			element.classList.add('rgh-pr-file-state');
-			const icon = (
-				select(`[href="${element.hash}"] svg`, fileList) ?? // `isPR`
-				select(`svg + [href="${element.hash}"]`, fileList)?.previousElementSibling! // `isSingleCommit`
-			).cloneNode(true);
+			const sourceIcon = pageDetect.isPR() ?
+				select(`[href="${element.hash}"] svg`, fileList)! :
+				select(`svg + [href="${element.hash}"]`, fileList)?.previousElementSibling!;
+			const icon = sourceIcon.cloneNode(true);
 			const iconTitle = icon.getAttribute('title')!;
 			if (iconTitle === 'added') {
 				icon.classList.add('text-green');
