@@ -12,31 +12,24 @@ function fixProfileNavAndTimeline() {
 	}
 }
 
-function getPjaxContainerId(): string | boolean {
-	const pjaxContainer = select('#js-repo-pjax-container, #js-pjax-container, #gist-pjax-container');
-
-	if (pjaxContainer) {
-		return `#${pjaxContainer.id}`;
-	}
-
-	features.error(__filebasename, 'Pjax container id not found.');
-	return false;
-}
-
 function init() {
 	const progressLoader = select('.progress-pjax-loader')!;
 
 	window.addEventListener('keydown', event => {
 		if (event.key === 'Escape' && progressLoader.classList.contains(progressLoaderLoadingClass)) {
-			const pjaxContainerId = getPjaxContainerId();
+			if (history.state && '_id' in history.state) {
+				const pjaxContainer = select('#js-repo-pjax-container, #js-pjax-container, #gist-pjax-container');
 
-			if (pjaxContainerId && history.state && '_id' in history.state) {
-				history.replaceState({
-					url: location.href,
-					title: '',
-					container: pjaxContainerId,
-					...history.state
-				}, '', location.href);
+				if (pjaxContainer) {
+					history.replaceState({
+						url: location.href,
+						title: '',
+						container: `#${pjaxContainer.id}`,
+						...history.state
+					}, '', location.href);
+				} else {
+					features.error(__filebasename, 'Pjax container not found.');
+				}
 			}
 
 			history.back();
@@ -45,16 +38,14 @@ function init() {
 	});
 
 	window.addEventListener('pjax:error', event => {
-		if (typeof event.cancelable !== 'boolean' || event.cancelable) {
+		if (event.cancelable) {
 			event.preventDefault();
 		}
 	});
 
-	window.addEventListener('pjax:end', () => {
-		if (pageDetect.isUserProfile()) {
-			fixProfileNavAndTimeline();
-		}
-	});
+	if (pageDetect.isUserProfile()) {
+		window.addEventListener('pjax:end', fixProfileNavAndTimeline);
+	}
 }
 
 void features.add({
