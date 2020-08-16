@@ -53,5 +53,14 @@ void features.add({
 	description: '',
 	screenshot: false
 }, {
+	exclude: [
+		pageDetect.isDashboard,
+		pageDetect.isNotifications,
+		pageDetect.isReleasesOrTags,
+		pageDetect.isTrending,
+		pageDetect.isSingleTagPage,
+		pageDetect.is404,
+		pageDetect.is500
+	],
 	init: onetime(init)
 });
