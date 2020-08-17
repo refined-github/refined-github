@@ -97,13 +97,13 @@ async function getConversationList() {
 		};
 	}
 
-	// `currentConversation` is from previous page, we need to fetch previous page items
-	listQuery.page = conversation!.cursor === after ?
-		listQuery.page - 1 :
+	if(conversation!.cursor === after) {
+		// `currentConversation` is from previous page, we need to fetch previous page items
+		listQuery.page -= 1
+	} else if (conversation!.cursor === before) {
 		// `currentConversation` is from next page, we need to fetch next page items
-		(conversation!.cursor === before ?
-			listQuery.page + 1 :
-			listQuery.page);
+		listQuery.page += 1;
+	}
 
 	return {
 		list: await fetchConversationList(listQuery),
