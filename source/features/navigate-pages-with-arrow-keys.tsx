@@ -2,13 +2,31 @@ import select from 'select-dom';
 
 import features from '.';
 
+const nextPageButtonSelectors = [
+	/*  Issue/PR list, Search */
+	'a.next_page',
+	/* Commits */
+	'.paginate-container > .BtnGroup .btn:last-child',
+	/* Releases */
+	'.paginate-container > .pagination > *:last-child'
+];
+
+const previousPageButtonSelectors = [
+	/*  Issue/PR list, Search */
+	'a.previous_page',
+	/* Commits */
+	'.paginate-container > .BtnGroup .btn:first-child',
+	/* Releases */
+	'.paginate-container > .pagination > *:first-child'
+];
+
 function init(): void {
-	const createNextPageButton = select('a.next_page');
+	const createNextPageButton = select(nextPageButtonSelectors.join(' , '));
 	if (createNextPageButton) {
 		createNextPageButton.dataset.hotkey = 'ArrowRight';
 	}
 
-	const createPreviousPageButton = select('a.previous_page');
+	const createPreviousPageButton = select(previousPageButtonSelectors.join(' , '));
 	if (createPreviousPageButton) {
 		createPreviousPageButton.dataset.hotkey = 'ArrowLeft';
 	}
