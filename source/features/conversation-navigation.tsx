@@ -8,6 +8,7 @@ import cache from 'webext-storage-cache';
 import features from '.';
 import {getRepoURL} from '../github-helpers';
 import * as api from '../github-helpers/api';
+import SearchQuery from '../github-helpers/search-query';
 
 async function init() {
 	const previousButton = getButton('Navigate to previous Conversation', ChevronLeftIcon);
@@ -118,40 +119,17 @@ const noListQuery = (): boolean => !(
 
 function getListQuery() {
 	const referrerUrl = new URL(document.referrer);
-
-	// Coming from another issue with query in URL
-	if (!pageDetect.isConversationList(referrerUrl)) {
-		return parseConversationListURL(new URL(location.href));
-	}
-
-	// Default conversation lists, even global, don't have query in URL
-	// But it seems there is some refined-github feature that adds a default query in URL based on query input
-	// Make sure we have some query as a fallback based on current GitHub defaults
-	const query = referrerUrl.searchParams.get('q');
-
-	if (pageDetect.isGlobalConversationList(referrerUrl)) {
-		// Is global pull requests list
-		if (referrerUrl.pathname.split('/', 2)[1] === 'pulls') {
-			referrerUrl.searchParams.set('q', query ?? 'is:open is:pr author:@me archived:false');
-		}
-
-		// Is global issues list
-		if (referrerUrl.pathname.split('/', 2)[1] === 'issues') {
-			referrerUrl.searchParams.set('q', query ?? 'is:open is:issue author:@me archived:false');
-		}
-	}
+	const url = pageDetect.isConversationList(referrerUrl) ? referrerUrl : new URL(location.href);
+	const searchQuery = new SearchQuery(url);
 
 	if (pageDetect.isRepoConversationList(referrerUrl)) {
-		if (pageDetect.isRepoIssueList(referrerUrl)) {
-			referrerUrl.searchParams.set('q', `${query ?? 'is:issue is:open'} repo:${getRepoURL()}`);
-		}
-
-		if (pageDetect.isRepoPRList(referrerUrl)) {
-			referrerUrl.searchParams.set('q', `${query ?? 'is:pr is:open'} repo:${getRepoURL()}`);
-		}
+		searchQuery.add(`repo:${getRepoURL()}`);
 	}
 
-	return parseConversationListURL(referrerUrl);
+	return {
+		page: Number.parseInt(url.searchParams.get('page') ?? '1', 10),
+		query: searchQuery.get()
+	};
 }
 
 /**
@@ -182,13 +160,6 @@ search(
 function getConversationNumber(): number {
 	const conversationHashtag = select('.gh-header-number')?.textContent ?? '#';
 	return Number.parseInt(conversationHashtag.replace('#', ''), 10);
-}
-
-function parseConversationListURL(url: URL) {
-	return {
-		query: url.searchParams.get('q') ?? '',
-		page: Number.parseInt(url.searchParams.get('page') ?? '1', 10)
-	};
 }
 
 /**
