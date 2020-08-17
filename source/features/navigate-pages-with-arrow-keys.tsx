@@ -15,8 +15,15 @@ const previousPageButtonSelectors = [
 ];
 
 function init(): void {
-	select(nextPageButtonSelectors)?.dataset.hotkey = 'ArrowRight';
-	select(previousPageButtonSelectors)?.dataset.hotkey = 'ArrowLeft';
+	const createNextPageButton = select(nextPageButtonSelectors);
+	if (createNextPageButton) {
+		createNextPageButton.dataset.hotkey = 'ArrowRight';
+	}
+
+	const createPreviousPageButton = select(previousPageButtonSelectors);
+	if (createPreviousPageButton) {
+		createPreviousPageButton.dataset.hotkey = 'ArrowLeft';
+	}
 }
 
 void features.add({
