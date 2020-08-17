@@ -3,30 +3,24 @@ import select from 'select-dom';
 import features from '.';
 
 const nextPageButtonSelectors = [
-	/*  Issue/PR list, Search */
-	'a.next_page',
-	/* Commits */
-	'.paginate-container > .BtnGroup .btn:last-child',
-	/* Releases */
-	'.paginate-container > .pagination > *:last-child'
+	'a.next_page', // Issue/PR list, Search
+	'.paginate-container > .BtnGroup .btn:last-child', // Commits
+	'.paginate-container > .pagination > *:last-child' // Releases
 ];
 
 const previousPageButtonSelectors = [
-	/*  Issue/PR list, Search */
-	'a.previous_page',
-	/* Commits */
-	'.paginate-container > .BtnGroup .btn:first-child',
-	/* Releases */
-	'.paginate-container > .pagination > *:first-child'
+	'a.previous_page', // Issue/PR list, Search
+	'.paginate-container > .BtnGroup .btn:first-child', // Commits
+	'.paginate-container > .pagination > *:first-child' // Releases
 ];
 
 function init(): void {
-	const createNextPageButton = select(nextPageButtonSelectors.join(' , '));
+	const createNextPageButton = select(nextPageButtonSelectors.join());
 	if (createNextPageButton) {
 		createNextPageButton.dataset.hotkey = 'ArrowRight';
 	}
 
-	const createPreviousPageButton = select(previousPageButtonSelectors.join(' , '));
+	const createPreviousPageButton = select(previousPageButtonSelectors.join());
 	if (createPreviousPageButton) {
 		createPreviousPageButton.dataset.hotkey = 'ArrowLeft';
 	}
