@@ -6,31 +6,12 @@ import select from 'select-dom';
 import cache from 'webext-storage-cache';
 
 import features from '.';
-import {getRepoURL, getUsername} from '../github-helpers';
+import {getRepoURL} from '../github-helpers';
 import * as api from '../github-helpers/api';
 
 async function init() {
-	const previousButton: HTMLAnchorElement = (
-		<a
-			aria-disabled="true"
-			className="btn btn-lg BtnGroup-item ml-0"
-			data-hotkey="p"
-			aria-label="Navigate to next Conversation"
-		>
-			<ChevronLeftIcon/>
-		</a>
-	) as any;
-
-	const nextButton: HTMLAnchorElement = (
-		<a
-			aria-disabled="true"
-			className="btn btn-lg BtnGroup-item ml-0"
-			data-hotkey="n"
-			aria-label="Navigate to previous Conversation"
-		>
-			<ChevronRightIcon/>
-		</a>
-	) as any;
+	const previousButton = getButton('Navigate to previous Conversation', ChevronLeftIcon);
+	const nextButton = getButton('Navigate to next Conversation', ChevronRightIcon);
 
 	select('.gh-header-meta')?.append(
 		<div className="BtnGroup ml-2">
@@ -41,25 +22,40 @@ async function init() {
 
 	const {list, listQuery} = await getConversationList();
 	const conversation = list.find(item => item.number === getConversationNumber());
-	const previousConversation = list.find(item => item.cursor === getPreviousCursor(conversation!.cursor));
-	const nextConversation = list.find(item => item.cursor === getNextCursor(conversation!.cursor));
 
-	if (previousConversation) {
-		const url = new URL(previousConversation.url);
+	setButtonHref(
+		previousButton,
+		listQuery,
+		list.find(item => item.cursor === alterCursor(conversation!.cursor, -1))
+	);
+
+	setButtonHref(
+		nextButton,
+		listQuery,
+		list.find(item => item.cursor === alterCursor(conversation!.cursor, +1))
+	);
+}
+
+function setButtonHref(button: HTMLAnchorElement, listQuery: ReturnType<typeof getListQuery>, conversation?: Conversation) {
+	if (conversation) {
+		const url = new URL(conversation.url);
 		url.searchParams.set('q', listQuery.query);
 		url.searchParams.set('page', listQuery.page.toString(10));
-		previousButton.setAttribute('aria-disabled', 'false');
-		previousButton.href = url.href;
-	}
-
-	if (nextConversation) {
-		const url = new URL(nextConversation.url);
-		url.searchParams.set('q', listQuery.query);
-		url.searchParams.set('page', listQuery.page.toString(10));
-		nextButton.setAttribute('aria-disabled', 'false');
-		nextButton.href = url.href;
+		button.setAttribute('aria-disabled', 'false');
+		button.href = url.href;
 	}
 }
+
+const getButton = (ariaLabel: string, Icon: () => JSX.Element): HTMLAnchorElement => (
+	<a
+		aria-disabled="true"
+		className="btn btn-lg BtnGroup-item"
+		data-hotkey="n"
+		aria-label={ariaLabel}
+	>
+		<Icon/>
+	</a>
+) as any;
 
 // Current default number of items in a conversation list
 const ITEMS_PER_PAGE = 25;
@@ -71,25 +67,13 @@ type Conversation = {
 };
 
 const fetchConversationList = cache.function(
-	async ({query, page}: ReturnType<typeof getListQuery>): Promise<Conversation[]> => {
-		const {after} = getPageCursors(page);
+	async (listQuery: ReturnType<typeof getListQuery>): Promise<Conversation[]> => {
+		const searchQuery = getConversationSearchQuery(listQuery);
 
-		/**
-		 * When fetching a page of conversations we want to also fetch last item from previous page, and first item from next page.
-		 * This is needed for cases when we are on a conversation that is last in current query page, and we need to know if items exist on next page.
-		 * To take into consideration also, than when we are on first item on first page, we don't have a previous item, and we don't want to fetch using a negative cursor.
-		 * Read more on {@link getCursor} function
-		 */
-
-		const previousAfter = page === 1 ? after : getPreviousCursor(after);
-		const fetchItemsCount = page === 1 ? ITEMS_PER_PAGE + 1 : ITEMS_PER_PAGE + 2;
-		const searchQuery = getConversationSearchQuery(fetchItemsCount, previousAfter, query);
-		const {search} = await api.v4(searchQuery);
-
-		return search.edges.map((edge: any) => ({
+		return api.v4(searchQuery).then(({search}) => search.edges.map((edge: any) => ({
 			...edge.node,
 			cursor: edge.cursor
-		}));
+		})));
 	},
 	{
 		cacheKey: ([listQuery]) => `${__filebasename}:${JSON.stringify(listQuery)}`,
@@ -101,46 +85,36 @@ async function getConversationList() {
 	const listQuery = getListQuery();
 	const list = await fetchConversationList(listQuery);
 	const currentNumber = getConversationNumber();
-	const currentConversation = list.find(item => item.number === currentNumber);
-	const {after, before} = getPageCursors(listQuery.page);
+	const conversation = list.find(item => item.number === currentNumber);
+	const after = getCursor((listQuery.page - 1) * ITEMS_PER_PAGE);
+	const before = getCursor((listQuery.page * ITEMS_PER_PAGE) + 1);
+
+	if (conversation!.cursor !== after && conversation!.cursor !== before) {
+		return {
+			list,
+			listQuery
+		};
+	}
 
 	// `currentConversation` is from previous page, we need to fetch previous page items
-	if (currentConversation?.cursor === after) {
-		const newListQuery = {
-			...listQuery,
-			page: listQuery.page - 1
-		};
-		return {
-			list: await fetchConversationList(newListQuery),
-			listQuery: newListQuery
-		};
-	}
-
-	// `currentConversation` is from next page, we need to fetch next page items
-	if (currentConversation?.cursor === before) {
-		const newListQuery = {
-			...listQuery,
-			page: listQuery.page + 1
-		};
-		return {
-			list: await fetchConversationList(newListQuery),
-			listQuery: newListQuery
-		};
-	}
+	listQuery.page = conversation!.cursor === after ?
+		listQuery.page - 1 :
+		// `currentConversation` is from next page, we need to fetch next page items
+		(conversation!.cursor === before ?
+			listQuery.page + 1 :
+			listQuery.page);
 
 	return {
-		list,
+		list: await fetchConversationList(listQuery),
 		listQuery
 	};
 }
 
-function noListQuery(): boolean {
-	return !(
-		// Allowed also from global conversation list
-		pageDetect.isConversationList(new URL(document.referrer)) ||
-		(new URL(location.href)).searchParams.has('q')
-	);
-}
+const noListQuery = (): boolean => !(
+	// Allowed also from global conversation list
+	pageDetect.isConversationList(new URL(document.referrer)) ||
+	(new URL(location.href)).searchParams.has('q')
+);
 
 function getListQuery() {
 	const referrerUrl = new URL(document.referrer);
@@ -158,12 +132,12 @@ function getListQuery() {
 	if (pageDetect.isGlobalConversationList(referrerUrl)) {
 		// Is global pull requests list
 		if (referrerUrl.pathname.split('/', 2)[1] === 'pulls') {
-			referrerUrl.searchParams.set('q', query ?? `is:open is:pr author:${getUsername()} archived:false`);
+			referrerUrl.searchParams.set('q', query ?? 'is:open is:pr author:@me archived:false');
 		}
 
 		// Is global issues list
 		if (referrerUrl.pathname.split('/', 2)[1] === 'issues') {
-			referrerUrl.searchParams.set('q', query ?? `is:open is:issue author:${getUsername()} archived:false`);
+			referrerUrl.searchParams.set('q', query ?? 'is:open is:issue author:@me archived:false');
 		}
 	}
 
@@ -180,12 +154,18 @@ function getListQuery() {
 	return parseConversationListURL(referrerUrl);
 }
 
-function getConversationSearchQuery(first: number, after: string, query: string): string {
+/**
+ * When fetching a page of conversations we want to also fetch last item from previous page, and first item from next page.
+ * This is needed for cases when we are on a conversation that is last in current query page, and we need to know if items exist on next page.
+ * To take into consideration also, than when we are on first item on first page, we don't have a previous item, and we don't want to fetch using a negative cursor.
+ * Read more on {@link getCursor} function
+ */
+function getConversationSearchQuery({page, query}: ReturnType<typeof getListQuery>): string {
 	return `
 search(
 	type: ISSUE,
-	first: ${first},
-	after: "${after}",
+	first: ${page === 1 ? ITEMS_PER_PAGE + 1 : ITEMS_PER_PAGE + 2},
+	after: "${getCursor(page === 1 ? 0 : ((page - 1) * ITEMS_PER_PAGE) - 1)}",
 	query: "${query}"
 ) {
 	edges {
@@ -223,23 +203,9 @@ function getCursor(offset: number): string {
 	return btoa(`cursor:${offset}`);
 }
 
-function getOffset(cursor: string): number {
-	return Number.parseInt(atob(cursor).replace('cursor:', ''), 10);
-}
-
-function getPreviousCursor(cursor: string) {
-	return getCursor(getOffset(cursor) - 1);
-}
-
-function getNextCursor(cursor: string) {
-	return getCursor(getOffset(cursor) + 1);
-}
-
-function getPageCursors(page: number) {
-	return {
-		after: getCursor((page - 1) * ITEMS_PER_PAGE),
-		before: getCursor((page * ITEMS_PER_PAGE) + 1)
-	};
+function alterCursor(cursor: string, diff: number): string {
+	const index = Number.parseInt(atob(cursor).replace('cursor:', ''), 10);
+	return getCursor(index + diff);
 }
 
 void features.add({
