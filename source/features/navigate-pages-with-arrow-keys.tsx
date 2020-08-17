@@ -5,25 +5,18 @@ import features from '.';
 const nextPageButtonSelectors = [
 	'a.next_page', // Issue/PR list, Search
 	'.paginate-container > .BtnGroup .btn:last-child', // Commits
-	'.paginate-container > .pagination > *:last-child' // Releases
+	'.paginate-container > .pagination > :last-child' // Releases
 ];
 
 const previousPageButtonSelectors = [
 	'a.previous_page', // Issue/PR list, Search
 	'.paginate-container > .BtnGroup .btn:first-child', // Commits
-	'.paginate-container > .pagination > *:first-child' // Releases
+	'.paginate-container > .pagination > :first-child' // Releases
 ];
 
 function init(): void {
-	const createNextPageButton = select(nextPageButtonSelectors.join());
-	if (createNextPageButton) {
-		createNextPageButton.dataset.hotkey = 'ArrowRight';
-	}
-
-	const createPreviousPageButton = select(previousPageButtonSelectors.join());
-	if (createPreviousPageButton) {
-		createPreviousPageButton.dataset.hotkey = 'ArrowLeft';
-	}
+	select(nextPageButtonSelectors)?.dataset.hotkey = 'ArrowRight';
+	select(previousPageButtonSelectors)?.dataset.hotkey = 'ArrowLeft';
 }
 
 void features.add({
