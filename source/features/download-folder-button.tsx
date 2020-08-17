@@ -21,7 +21,7 @@ function init(): void {
 		);
 	} else {
 		// "Repository refresh" layout
-		select('.file-navigation > .d-flex')!.append(
+		select('.file-navigation > .d-flex:last-child')!.append(
 			<a
 				className="btn ml-2"
 				href={downloadUrl.href}
