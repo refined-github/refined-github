@@ -67,10 +67,6 @@ async function init(): Promise<void> {
 	delegate(document, '.rgh-remove-label-faster:not([disabled])', 'click', removeLabelButtonClickHandler);
 }
 
-function deinit() {
-	observer.abort();
-}
-
 void features.add({
 	id: __filebasename,
 	description: 'Adds one-click buttons to remove labels in conversations.',
@@ -84,5 +80,5 @@ void features.add({
 		canNotEditLabels
 	],
 	init,
-	deinit
+	deinit: () => observer.abort()
 });
