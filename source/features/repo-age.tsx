@@ -137,6 +137,9 @@ void features.add({
 	include: [
 		pageDetect.isRepoRoot
 	],
+	exclude: [
+		pageDetect.isEmptyRepoRoot
+	],
 	waitForDomReady: false,
 	init
 });
