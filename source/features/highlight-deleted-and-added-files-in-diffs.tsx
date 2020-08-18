@@ -10,12 +10,10 @@ import {observeOneMutation} from '../helpers/simplified-element-observer';
 let observer: Observer;
 
 async function loadDeferred(jumpList: Element): Promise<void> {
+	// This event will trigger the loading, but if run too early, GitHub might not have attached the listener yet, so we try multiple times.
 	const loadJumpList = (jumpList: Element) => jumpList.parentElement!.dispatchEvent(new MouseEvent('mouseover'));
-	// Between ajax pages the load will be instant
 	loadJumpList(jumpList);
-	// The shortest time to load is 700 ms
 	setTimeout(loadJumpList, 700, jumpList);
-	// The event listener might not have been attached yet, so we can try twice
 	setTimeout(loadJumpList, 1200, jumpList);
 	await observeOneMutation(jumpList);
 }
