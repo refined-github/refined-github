@@ -11,11 +11,11 @@ let observer: Observer;
 
 async function loadDeferred(jumpList: Element): Promise<void> {
 	// This event will trigger the loading, but if run too early, GitHub might not have attached the listener yet, so we try multiple times.
-	const loadJumpList = (jumpList: Element) => jumpList.parentElement!.dispatchEvent(new MouseEvent('mouseover'));
-	loadJumpList(jumpList);
-	setTimeout(loadJumpList, 700, jumpList);
-	setTimeout(loadJumpList, 1200, jumpList);
+	const retrier = setInterval(() => {
+		jumpList.parentElement!.dispatchEvent(new MouseEvent('mouseover'));
+	}, 100);
 	await observeOneMutation(jumpList);
+	clearInterval(retrier);
 }
 
 async function init(): Promise<void> {
