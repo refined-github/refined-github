@@ -2,7 +2,6 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import ChevronLeftIcon from 'octicon/chevron-left.svg';
 import ChevronRightIcon from 'octicon/chevron-right.svg';
-import onetime from 'onetime';
 import select from 'select-dom';
 import cache from 'webext-storage-cache';
 
@@ -159,10 +158,10 @@ search(
 	`;
 }
 
-const getConversationNumber = onetime(() => {
+function getConversationNumber() {
 	const conversationHashtag = select('.gh-header-number')?.textContent ?? '#';
 	return Number.parseInt(conversationHashtag.replace('#', ''), 10);
-});
+}
 
 void features.add({
 	id: __filebasename,
