@@ -13,7 +13,7 @@ async function loadDeferred(jumpList: Element): Promise<void> {
 	const loadJumpList = (jumpList: Element) => jumpList.parentElement!.dispatchEvent(new MouseEvent('mouseover'));
 	// Between ajax pages the load will be instant
 	loadJumpList(jumpList);
-	// The shortest time to load in 700 ms
+	// The shortest time to load is 700 ms
 	setTimeout(loadJumpList, 700, jumpList);
 	// The event listener might not have been attached yet, so we can try twice
 	setTimeout(loadJumpList, 1200, jumpList);
