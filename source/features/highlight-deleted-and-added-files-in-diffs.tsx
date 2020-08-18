@@ -10,9 +10,9 @@ import {observeOneMutation} from '../helpers/simplified-element-observer';
 
 async function loadDeferred(jumpList: Element): Promise<void> {
 	const loadJumpList = (jumpList: Element) => jumpList.parentElement!.dispatchEvent(new MouseEvent('mouseover'));
-	loadJumpList(jumpList);
+	setTimeout(loadJumpList, 700, jumpList);
 	// The event listener might not have been attached yet, so we can try twice
-	setTimeout(loadJumpList, 1000, jumpList);
+	setTimeout(loadJumpList, 1200, jumpList);
 	await observeOneMutation(jumpList);
 }
 
