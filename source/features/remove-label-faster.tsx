@@ -84,6 +84,6 @@ void features.add({
 	exclude: [
 		canNotEditLabels
 	],
-	init: oneTime(init),
+	init,
 	deinit
 });
