@@ -1,9 +1,9 @@
-import onetime from 'onetime';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
+let progressLoader: HTMLElement;
 const progressLoaderLoadingClass = 'is-loading';
 
 function fixProfileNavAndTimeline() {
@@ -12,36 +12,42 @@ function fixProfileNavAndTimeline() {
 	}
 }
 
+function keydownHandler(event: KeyboardEvent) {
+	if (event.key !== 'Escape' || !progressLoader.classList.contains(progressLoaderLoadingClass)) {
+		return;
+	}
+
+	if (history.state && '_id' in history.state) {
+		const pjaxContainer = select('#js-repo-pjax-container, #js-pjax-container, #gist-pjax-container');
+
+		if (pjaxContainer) {
+			history.replaceState({
+				url: location.href,
+				title: '',
+				container: `#${pjaxContainer.id}`,
+				...history.state
+			}, '', location.href);
+		} else {
+			features.error(__filebasename, 'Pjax container not found.');
+		}
+	}
+
+	history.back();
+	progressLoader.classList.remove(progressLoaderLoadingClass);
+}
+
+function pjaxErrorHandler(event: CustomEvent) {
+	if (event.cancelable) {
+		event.preventDefault();
+	}
+}
+
 function init() {
-	const progressLoader = select('.progress-pjax-loader')!;
+	progressLoader = select('.progress-pjax-loader')!;
 
-	window.addEventListener('keydown', event => {
-		if (event.key === 'Escape' && progressLoader.classList.contains(progressLoaderLoadingClass)) {
-			if (history.state && '_id' in history.state) {
-				const pjaxContainer = select('#js-repo-pjax-container, #js-pjax-container, #gist-pjax-container');
+	window.addEventListener('keydown', keydownHandler);
 
-				if (pjaxContainer) {
-					history.replaceState({
-						url: location.href,
-						title: '',
-						container: `#${pjaxContainer.id}`,
-						...history.state
-					}, '', location.href);
-				} else {
-					features.error(__filebasename, 'Pjax container not found.');
-				}
-			}
-
-			history.back();
-			progressLoader.classList.remove(progressLoaderLoadingClass);
-		}
-	});
-
-	window.addEventListener('pjax:error', event => {
-		if (event.cancelable) {
-			event.preventDefault();
-		}
-	});
+	window.addEventListener('pjax:error', pjaxErrorHandler);
 
 	if (pageDetect.isUserProfile()) {
 		window.addEventListener('pjax:end', fixProfileNavAndTimeline);
@@ -62,5 +68,5 @@ void features.add({
 		pageDetect.is404,
 		pageDetect.is500
 	],
-	init: onetime(init)
+	init
 });

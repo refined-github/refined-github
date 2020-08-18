@@ -36,6 +36,7 @@ declare module 'deep-weak-map' {
 
 // Custom UI events specific to RGH
 interface GlobalEventHandlersEventMap {
+	'pjax:error': CustomEvent;
 	'menu:activated': CustomEvent;
 	'details:toggled': CustomEvent;
 	'rgh:view-markdown-source': CustomEvent;
