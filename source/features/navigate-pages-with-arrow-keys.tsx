@@ -4,13 +4,13 @@ import features from '.';
 
 const nextPageButtonSelectors = [
 	'a.next_page', // Issue/PR list, Search
-	'.paginate-container > .BtnGroup .btn:last-child', // Commits
+	'.paginate-container > .BtnGroup > :last-child', // Commits
 	'.paginate-container > .pagination > :last-child' // Releases
 ];
 
 const previousPageButtonSelectors = [
 	'a.previous_page', // Issue/PR list, Search
-	'.paginate-container > .BtnGroup .btn:first-child', // Commits
+	'.paginate-container > .BtnGroup > :first-child', // Commits
 	'.paginate-container > .pagination > :first-child' // Releases
 ];
 
