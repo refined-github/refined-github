@@ -1,15 +1,19 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import oneTime from 'onetime';
-import {observe} from 'selector-observer';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import {observe, Observer} from 'selector-observer';
 
 import features from '.';
 import {observeOneMutation} from '../helpers/simplified-element-observer';
 
+let observer: Observer;
+
 async function loadDeferred(jumpList: Element): Promise<void> {
 	const loadJumpList = (jumpList: Element) => jumpList.parentElement!.dispatchEvent(new MouseEvent('mouseover'));
+	// Between ajax pages the load will be instant
+	loadJumpList(jumpList);
+	// The shortest time to load in 700 ms
 	setTimeout(loadJumpList, 700, jumpList);
 	// The event listener might not have been attached yet, so we can try twice
 	setTimeout(loadJumpList, 1200, jumpList);
@@ -25,7 +29,7 @@ async function init(): Promise<void> {
 		await loadDeferred(fileList!);
 	}
 
-	observe('.file-info [href]:not(.rgh-pr-file-state)', {
+	observer = observe('.file-info [href]:not(.rgh-pr-file-state)', {
 		constructor: HTMLAnchorElement,
 		add(filename) {
 			filename.classList.add('rgh-pr-file-state');
@@ -65,6 +69,7 @@ void features.add({
 		pageDetect.isPRFile404,
 		pageDetect.isPRCommit404
 	],
-	init: oneTime(init),
+	init,
+	deinit: () => observer.abort(),
 	waitForDomReady: false
 });
