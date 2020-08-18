@@ -10,13 +10,6 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import {getRepoURL, getRepoGQL} from '../github-helpers';
 
-interface LatestCommitInfo {
-	hash: string;
-	date: string;
-	path: string;
-	commitCount: number;
-}
-
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
 	year: 'numeric',
 	month: 'long',
@@ -49,17 +42,16 @@ const getRepoAge = async (commitSha: string, commitsCount: number): Promise<[com
 	return [committedDate, resourcePath];
 };
 
-// eslint-disable-next-line import/prefer-default-export
-export const getLatestCommitInfo = cache.function(async (): Promise<LatestCommitInfo> => {
+const getFirstCommit = cache.function(async (): Promise<[committedDate: string, resourcePath: string]> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			defaultBranchRef {
 				target {
 					... on Commit {
-						hash: oid
-						date: committedDate
-						path: resourcePath
-						commitCount: history {
+						oid
+						committedDate
+						resourcePath
+						history {
 							totalCount
 						}
 					}
@@ -68,20 +60,13 @@ export const getLatestCommitInfo = cache.function(async (): Promise<LatestCommit
 		}
 	`);
 
-	const {target} = repository.defaultBranchRef;
-	target.commitCount = target.commitCount.totalCount;
-	return target;
-}, {
-	cacheKey: () => 'latest-commit-info:' + getRepoURL()
-});
-
-const getFirstCommit = cache.function(async (): Promise<[committedDate: string, resourcePath: string]> => {
-	const {hash: commitSha, commitCount, date: committedDate, path: resourcePath} = await getLatestCommitInfo();
-	if (commitCount === 1) {
+	const {oid: commitSha, history, committedDate, resourcePath} = repository.defaultBranchRef.target;
+	const commitsCount = history.totalCount;
+	if (commitsCount === 1) {
 		return [committedDate, resourcePath];
 	}
 
-	return getRepoAge(commitSha, commitCount);
+	return getRepoAge(commitSha, commitsCount);
 }, {
 	cacheKey: () => __filebasename + ':' + getRepoURL()
 });
