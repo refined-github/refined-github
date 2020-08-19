@@ -58,7 +58,7 @@ function setButtonHref(button: HTMLAnchorElement, query: string, page: number, c
 	if (conversation) {
 		const url = new URL(conversation.url);
 		url.searchParams.set('q', query);
-		url.searchParams.set('page', Number(page));
+		url.searchParams.set('page', String(page));
 		button.removeAttribute('aria-disabled');
 		button.href = url.href;
 	}
@@ -141,13 +141,12 @@ const noListQuery = (): boolean => !(
 function getConversationListQuery(): SearchQuery {
 	const referrerUrl = new URL(document.referrer);
 	const url = pageDetect.isConversationList(referrerUrl) ? referrerUrl : location;
-	const listQuery = new SearchQuery(url);
 
 	if (pageDetect.isRepoConversationList(url)) {
-		listQuery.add(`repo:${getRepoURL()}`);
+		return new SearchQuery(url).add(`repo:${getRepoURL()}`);
 	}
 
-	return listQuery;
+	return new SearchQuery(url);
 }
 
 void features.add({
