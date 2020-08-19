@@ -24,36 +24,6 @@ function getButton(direction: string): HTMLAnchorElement {
 	) as unknown as HTMLAnchorElement;
 }
 
-async function init() {
-	const previousButton = getButton('previous');
-	const nextButton = getButton('next');
-
-	select('.gh-header-meta')!.append(
-		<div className="BtnGroup ml-2">
-			{previousButton}
-			{nextButton}
-		</div>
-	);
-
-	const conversationNumber = getConversationNumber();
-	const {list, query, page} = await getConversationList(conversationNumber);
-	const conversation = list.find(item => item.number === conversationNumber);
-
-	setButtonHref(
-		previousButton,
-		query,
-		page,
-		list.find(item => item.cursor === conversation!.cursor - 1)
-	);
-
-	setButtonHref(
-		nextButton,
-		query,
-		page,
-		list.find(item => item.cursor === conversation!.cursor + 1)
-	);
-}
-
 function setButtonHref(button: HTMLAnchorElement, query: string, page: number, conversation?: Conversation) {
 	if (conversation) {
 		const url = new URL(conversation.url);
@@ -71,10 +41,10 @@ type Conversation = {
 };
 
 const fetchConversationList = cache.function(async (query: string, page: number): Promise<Conversation[]> => {
-	// When fetching a page of conversations we want to also fetch last item from previous page, and first item from next page.
-	// This is needed for cases when conversation is first/last in list, and we need to know if items exist on previous/next page.
-	// To take into consideration also, that when we are on first item on first page, we don't have a previous item, and we don't want to fetch using a negative cursor.
-	const {search} = await api.v4(`
+		// When fetching a page of conversations we want to also fetch last item from previous page, and first item from next page.
+		// This is needed for cases when conversation is first/last in list, and we need to know if items exist on previous/next page.
+		// To take into consideration also, that when we are on first item on first page, we don't have a previous item, and we don't want to fetch using a negative cursor.
+		const {search} = await api.v4(`
 		search(
 			type: ISSUE,
 			first: ${page === 1 ? ITEMS_PER_PAGE + 1 : ITEMS_PER_PAGE + 2},
@@ -91,18 +61,18 @@ const fetchConversationList = cache.function(async (query: string, page: number)
 		}
 	`);
 
-	return search.edges.map((edge: any) => ({
-		...edge.node,
-		// GitHub GraphQL cursor is an offset number starting at 1, with prefix `cursor:` and converted to base64.
-		// e.g. offset 42 is `cursor:42` and converted to base64 is `Y3Vyc29yOjQy`
-		// Always query considering items offsets starting at 1, otherwise unexpected results may happen.
-		cursor: looseParseInt(atob(edge.cursor))
-	}));
-},
-{
-	cacheKey: ([query, page]) => `${__filebasename}:${query}/${page}`,
-	maxAge: 1 / 24
-});
+		return search.edges.map((edge: any) => ({
+			...edge.node,
+			// GitHub GraphQL cursor is an offset number starting at 1, with prefix `cursor:` and converted to base64.
+			// e.g. offset 42 is `cursor:42` and converted to base64 is `Y3Vyc29yOjQy`
+			// Always query considering items offsets starting at 1, otherwise unexpected results may happen.
+			cursor: looseParseInt(atob(edge.cursor))
+		}));
+	},
+	{
+		cacheKey: ([query, page]) => `${__filebasename}:${query}/${page}`,
+		maxAge: 1 / 24
+	});
 
 // Current default number of items in a conversation list
 const ITEMS_PER_PAGE = 25;
@@ -147,6 +117,36 @@ function getConversationListQuery(): SearchQuery {
 	}
 
 	return new SearchQuery(url);
+}
+
+async function init() {
+	const previousButton = getButton('previous');
+	const nextButton = getButton('next');
+
+	select('.gh-header-meta')!.append(
+		<div className="BtnGroup ml-2">
+			{previousButton}
+			{nextButton}
+		</div>
+	);
+
+	const conversationNumber = getConversationNumber();
+	const {list, query, page} = await getConversationList(conversationNumber);
+	const conversation = list.find(item => item.number === conversationNumber);
+
+	setButtonHref(
+		previousButton,
+		query,
+		page,
+		list.find(item => item.cursor === conversation!.cursor - 1)
+	);
+
+	setButtonHref(
+		nextButton,
+		query,
+		page,
+		list.find(item => item.cursor === conversation!.cursor + 1)
+	);
 }
 
 void features.add({
