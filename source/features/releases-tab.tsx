@@ -103,7 +103,7 @@ async function init(): Promise<false | void> {
 		select('[data-menu-item="insights-tab"]', repoNavigationBar)!.after(
 			createDropdownItem('Releases', `/${repoUrl}/releases`, {
 				'data-menu-item': 'rgh-releases-item'
-			}, TagIcon)
+			}, TagIcon, count)
 		);
 
 		return;
