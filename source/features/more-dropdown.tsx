@@ -4,32 +4,10 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import DiffIcon from 'octicon/diff.svg';
-import BranchIcon from 'octicon/git-branch.svg';
-import HistoryIcon from 'octicon/history.svg';
-import PackageIcon from 'octicon/package.svg';
-
 import features from '.';
-import {appendBefore} from '../helpers/dom-utils';
 import {getRepoURL, getCurrentBranch} from '../github-helpers';
 
 const repoUrl = getRepoURL();
-
-function createDropdown(): void {
-	// Markup copied from native GHE dropdown
-	appendBefore(
-		// GHE doesn't have `reponav > ul`
-		select('.reponav > ul') ?? select('.reponav')!,
-		'[data-selected-links^="repo_settings"]',
-		<details className="reponav-dropdown details-overlay details-reset">
-			<summary className="btn-link reponav-item" aria-haspopup="menu">
-				{'More '}
-				<span className="dropdown-caret"/>
-			</summary>
-			<details-menu className="dropdown-menu dropdown-menu-se"/>
-		</details>
-	);
-}
 
 /* eslint-disable-next-line import/prefer-default-export */
 export function createDropdownItem(label: string, url: string, attributes?: Record<string, string>): Element {
@@ -45,7 +23,6 @@ export function createDropdownItem(label: string, url: string, attributes?: Reco
 async function init(): Promise<void> {
 	// Wait for the tab bar to be loaded
 	await elementReady([
-		'.pagehead + *', // Pre "Repository refresh" layout
 		'.UnderlineNav-body + *'
 	].join());
 
@@ -55,49 +32,25 @@ async function init(): Promise<void> {
 	const dependenciesUrl = `/${repoUrl}/network/dependencies`;
 
 	const nav = select('.js-responsive-underlinenav .UnderlineNav-body');
-	if (nav) {
-		// "Repository refresh" layout
-		nav.parentElement!.classList.add('rgh-has-more-dropdown');
-		select('.js-responsive-underlinenav-overflow ul')!.append(
-			<li className="dropdown-divider" role="separator"/>,
-			createDropdownItem('Compare', compareUrl),
-			pageDetect.isEnterprise() ? '' : createDropdownItem('Dependencies', dependenciesUrl),
-			createDropdownItem('Commits', commitsUrl),
-			createDropdownItem('Branches', `/${repoUrl}/branches`)
-		);
+
+	if (!nav) {
 		return;
 	}
 
-	// Pre "Repository refresh" layout
-	if (!select.exists('.reponav-dropdown')) {
-		createDropdown();
-	}
+	const menu = select('.js-responsive-underlinenav-overflow ul')!;
 
-	const menu = select('.reponav-dropdown .dropdown-menu')!;
+	nav.parentElement!.classList.add('rgh-has-more-dropdown');
 	menu.append(
-		<a href={compareUrl} className="rgh-reponav-more dropdown-item">
-			<DiffIcon/> Compare
-		</a>,
-
-		pageDetect.isEnterprise() ? '' : (
-			<a href={`/${repoUrl}/network/dependencies`} className="rgh-reponav-more dropdown-item">
-				<PackageIcon/> Dependencies
-			</a>
-		),
-
-		<a href={commitsUrl} className="rgh-reponav-more dropdown-item">
-			<HistoryIcon/> Commits
-		</a>,
-
-		<a href={`/${repoUrl}/branches`} className="rgh-reponav-more dropdown-item">
-			<BranchIcon/> Branches
-		</a>
+		<li className="dropdown-divider" role="separator"/>,
+		createDropdownItem('Compare', compareUrl),
+		pageDetect.isEnterprise() ? '' : createDropdownItem('Dependencies', dependenciesUrl),
+		createDropdownItem('Commits', commitsUrl),
+		createDropdownItem('Branches', `/${repoUrl}/branches`)
 	);
 
-	// Selector only affects desktop navigation
 	for (const tab of select.all<HTMLAnchorElement>(`
-		.hx_reponav [data-selected-links~="pulse"],
-		.hx_reponav [data-selected-links~="security"]
+		.js-responsive-underlinenav-item[data-tab-item="insights-tab"],
+		.js-responsive-underlinenav-item[data-tab-item="security-tab"]
 	`)) {
 		tab.remove();
 		menu.append(
