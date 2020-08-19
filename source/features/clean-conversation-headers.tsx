@@ -43,7 +43,7 @@ function initPR(): void {
 				baseBranch.hidden = true;
 			} else {
 				// Add back "into" if the PR base branch is not the default branch
-				baseBranch.before('into ');
+				baseBranch.before(' into ');
 			}
 		}
 	});
