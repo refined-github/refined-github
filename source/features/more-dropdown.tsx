@@ -4,17 +4,23 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
+import DiffIcon from 'octicon/diff.svg';
+import BranchIcon from 'octicon/git-branch.svg';
+import HistoryIcon from 'octicon/history.svg';
+import PackageIcon from 'octicon/package.svg';
+
 import features from '.';
 import {getRepoURL, getCurrentBranch} from '../github-helpers';
 
 const repoUrl = getRepoURL();
 
 /* eslint-disable-next-line import/prefer-default-export */
-export function createDropdownItem(label: string, url: string, attributes?: Record<string, string>): Element {
+export function createDropdownItem(label: string, url: string, attributes?: Record<string, string>, Icon?: () => JSX.Element): Element {
 	return (
 		<li {...attributes}>
 			<a role="menuitem" className="dropdown-item" href={url}>
-				{label}
+				{Icon && <Icon className="UnderlineNav-octicon d-none d-sm-inline"/>}
+				<span>{label}</span>
 			</a>
 		</li>
 	);
@@ -42,10 +48,10 @@ async function init(): Promise<void> {
 	nav.parentElement!.classList.add('rgh-has-more-dropdown');
 	menu.append(
 		<li className="dropdown-divider" role="separator"/>,
-		createDropdownItem('Compare', compareUrl),
-		pageDetect.isEnterprise() ? '' : createDropdownItem('Dependencies', dependenciesUrl),
-		createDropdownItem('Commits', commitsUrl),
-		createDropdownItem('Branches', `/${repoUrl}/branches`)
+		createDropdownItem('Compare', compareUrl, {}, DiffIcon),
+		pageDetect.isEnterprise() ? '' : createDropdownItem('Dependencies', dependenciesUrl, {}, PackageIcon),
+		createDropdownItem('Commits', commitsUrl, {}, HistoryIcon),
+		createDropdownItem('Branches', `/${repoUrl}/branches`, {}, BranchIcon)
 	);
 
 	for (const tab of select.all<HTMLAnchorElement>(`
