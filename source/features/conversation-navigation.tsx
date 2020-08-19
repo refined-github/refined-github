@@ -77,28 +77,27 @@ const fetchConversationList = cache.function(async (query: string, page: number)
 // Current default number of items in a conversation list
 const ITEMS_PER_PAGE = 25;
 
-async function getConversationList(conversationNumber: number) {
+async function getConversationMeta() {
+	const conversationNumber = getConversationNumber()!;
 	const listQuery = getConversationListQuery();
 	const query = listQuery.get();
 	let page = Number(listQuery.searchParams.get('page') ?? 1);
-
-	const list = await fetchConversationList(query, page);
+	let list = await fetchConversationList(query, page);
 	const conversation = list.find(item => item.number === conversationNumber)!;
 
 	if (conversation.cursor === (page - 1) * ITEMS_PER_PAGE) {
 		// `currentConversation` is from previous page, we need to fetch previous page items
-		page -= 1;
+		list = await fetchConversationList(query, --page);
 	} else if (conversation.cursor === (page * ITEMS_PER_PAGE) + 1) {
 		// `currentConversation` is from next page, we need to fetch next page items
-		page += 1;
-	} else {
-		return {query, page, list};
+		list = await fetchConversationList(query, ++page);
 	}
 
 	return {
 		query,
 		page,
-		list: await fetchConversationList(query, page)
+		previous: list.find(item => item.cursor === conversation.cursor - 1),
+		next: list.find(item => item.cursor === conversation.cursor + 1)
 	};
 }
 
@@ -130,23 +129,10 @@ async function init() {
 		</div>
 	);
 
-	const conversationNumber = getConversationNumber()!;
-	const {list, query, page} = await getConversationList(conversationNumber);
-	const conversation = list.find(item => item.number === conversationNumber);
+	const {query, page, previous, next} = await getConversationMeta();
 
-	setButtonHref(
-		previousButton,
-		query,
-		page,
-		list.find(item => item.cursor === conversation!.cursor - 1)
-	);
-
-	setButtonHref(
-		nextButton,
-		query,
-		page,
-		list.find(item => item.cursor === conversation!.cursor + 1)
-	);
+	setButtonHref(previousButton, query, page, previous);
+	setButtonHref(nextButton, query, page, next);
 }
 
 void features.add({
