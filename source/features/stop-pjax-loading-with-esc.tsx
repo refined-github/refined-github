@@ -62,30 +62,11 @@ void features.add({
 	screenshot: false
 }, {
 	include: [
-		pageDetect.isConversationList,
-		pageDetect.isPR,
-		pageDetect.isIssue,
-		pageDetect.isUserProfile,
-		pageDetect.isBlame,
-		pageDetect.isCommit,
-		pageDetect.isRepoCommitList,
-		pageDetect.isCompare,
-		pageDetect.isGlobalSearchResults,
-		pageDetect.isLabelList,
-		pageDetect.isMilestone,
-		pageDetect.isMilestoneList,
-		pageDetect.isNewIssue,
-		pageDetect.isPRConflicts,
-		pageDetect.isQuickPR,
-		pageDetect.isEditingFile,
+		pageDetect.isRepo,
 		pageDetect.isRepoSearch,
-		pageDetect.isRepoSettings,
-		pageDetect.isRepoTree,
-		pageDetect.isSingleCommit,
-		pageDetect.isFileFinder,
-		pageDetect.isSingleGist,
-		pageDetect.isBranches,
-		pageDetect.isActions
+		pageDetect.isGlobalSearchResults,
+		pageDetect.isUserProfile,
+		pageDetect.isSingleGist
 	],
 	init
 });
