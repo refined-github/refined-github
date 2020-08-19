@@ -21,7 +21,7 @@ function getButton(direction: string): HTMLAnchorElement {
 		>
 			{direction === 'next' ? <ChevronRightIcon/> : <ChevronLeftIcon/>}
 		</a>
-	) as unknown;
+	) as unknown as HTMLAnchorElement;
 }
 
 async function init() {
@@ -58,8 +58,8 @@ function setButtonHref(button: HTMLAnchorElement, query: string, page: number, c
 	if (conversation) {
 		const url = new URL(conversation.url);
 		url.searchParams.set('q', query);
-		url.searchParams.set('page', page);
-		button.setAttribute('aria-disabled', 'false');
+		url.searchParams.set('page', Number(page));
+		button.removeAttribute('aria-disabled');
 		button.href = url.href;
 	}
 }
@@ -109,16 +109,16 @@ const ITEMS_PER_PAGE = 25;
 
 async function getConversationList(conversationNumber: number) {
 	const listQuery = getConversationListQuery();
-	let page = Number(listQuery.searchParams.get('page') ?? 1);
 	const query = listQuery.get();
+	let page = Number(listQuery.searchParams.get('page') ?? 1);
 
 	const list = await fetchConversationList(query, page);
-	const conversation = list.find(item => item.number === conversationNumber);
+	const conversation = list.find(item => item.number === conversationNumber)!;
 
-	if (conversation!.cursor === (page - 1) * ITEMS_PER_PAGE) {
+	if (conversation.cursor === (page - 1) * ITEMS_PER_PAGE) {
 		// `currentConversation` is from previous page, we need to fetch previous page items
 		page -= 1;
-	} else if (conversation!.cursor === (page * ITEMS_PER_PAGE) + 1) {
+	} else if (conversation.cursor === (page * ITEMS_PER_PAGE) + 1) {
 		// `currentConversation` is from next page, we need to fetch next page items
 		page += 1;
 	} else {
@@ -141,10 +141,10 @@ const noListQuery = (): boolean => !(
 function getConversationListQuery(): SearchQuery {
 	const referrerUrl = new URL(document.referrer);
 	const url = pageDetect.isConversationList(referrerUrl) ? referrerUrl : new URL(location.href);
-	const searchQuery = new SearchQuery(url);
+	const listQuery = new SearchQuery(url);
 
 	if (pageDetect.isRepoConversationList(url)) {
-		searchQuery.add(`repo:${getRepoURL()}`);
+		listQuery.add(`repo:${getRepoURL()}`);
 	}
 
 	return listQuery;
