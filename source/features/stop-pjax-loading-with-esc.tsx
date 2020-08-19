@@ -58,7 +58,7 @@ function init() {
 
 void features.add({
 	id: __filebasename,
-	description: '',
+	description: 'Stops pjax loading by pressing the Esc button',
 	screenshot: false
 }, {
 	include: [
