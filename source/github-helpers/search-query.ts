@@ -82,10 +82,11 @@ export default class SearchQuery {
 		this.set(newQuery);
 	}
 
-	add(...queryParts: string[]): void {
+	add(...queryParts: string[]): SearchQuery {
 		const newQuery = this.getQueryParts();
 		newQuery.push(...queryParts);
 		this.set(newQuery.join(' '));
+		return this;
 	}
 
 	includes(...searchStrings: string[]): boolean {
