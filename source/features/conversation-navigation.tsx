@@ -136,7 +136,9 @@ async function init() {
 }
 
 void features.add({
-	id: __filebasename
+	id: __filebasename,
+	description: 'Adds navigation buttons in conversation page to previous and next conversation',
+	screenshot: false
 }, {
 	include: [
 		pageDetect.isPR,
