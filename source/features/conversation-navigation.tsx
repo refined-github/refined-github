@@ -130,7 +130,7 @@ async function init() {
 		</div>
 	);
 
-	const conversationNumber = getConversationNumber();
+	const conversationNumber = getConversationNumber()!;
 	const {list, query, page} = await getConversationList(conversationNumber);
 	const conversation = list.find(item => item.number === conversationNumber);
 

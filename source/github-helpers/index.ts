@@ -8,9 +8,9 @@ import elementReady from 'element-ready';
 export const getUsername = onetime(pageDetect.utils.getUsername);
 export const {getRepoPath, getCleanPathname} = pageDetect.utils;
 
-export const getConversationNumber = (): string | undefined => {
+export const getConversationNumber = (): number | undefined => {
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
-		return getCleanPathname().split('/')[3];
+		return Number(getCleanPathname().split('/')[3]);
 	}
 
 	return undefined;
