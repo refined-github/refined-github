@@ -66,7 +66,8 @@ void features.add({
 		pageDetect.isRepoSearch,
 		pageDetect.isGlobalSearchResults,
 		pageDetect.isUserProfile,
-		pageDetect.isSingleGist
+		pageDetect.isSingleGist,
+		pageDetect.isGlobalConversationList
 	],
 	init
 });
