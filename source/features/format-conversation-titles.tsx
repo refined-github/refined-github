@@ -2,8 +2,10 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import observeElement from '../helpers/simplified-element-observer';
 import * as domFormatters from '../github-helpers/dom-formatters';
+import observeElement, {observeOneMutation} from '../helpers/simplified-element-observer';
+
+let headerWrapper: HTMLElement;
 
 function init(): void {
 	for (const title of select.all('.js-issue-title:not(.rgh-formatted-title)')) {
@@ -11,6 +13,24 @@ function init(): void {
 		domFormatters.linkifyIssues(title);
 		domFormatters.parseBackticks(title);
 	}
+}
+
+async function submitHandler(event: Event) {
+	const form = event.target as HTMLFormElement;
+
+	if (!form.id?.startsWith('edit_header')) {
+		return;
+	}
+
+	const title = select('.js-issue-title')!;
+
+	await observeOneMutation(title, {
+		subtree: false,
+		childList: true
+	});
+
+	domFormatters.linkifyIssues(title);
+	domFormatters.parseBackticks(title);
 }
 
 void features.add({
@@ -23,6 +43,10 @@ void features.add({
 		pageDetect.isIssue
 	],
 	init() {
-		observeElement(select('#partial-discussion-header')!.parentElement!, init);
-	}
+		headerWrapper = select('#partial-discussion-header')!.parentElement!;
+
+		observeElement(headerWrapper, init);
+		headerWrapper.addEventListener('submit', submitHandler);
+	},
+	deinit: () => headerWrapper.removeEventListener('submit', submitHandler)
 });
