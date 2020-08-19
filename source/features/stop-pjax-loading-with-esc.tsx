@@ -21,6 +21,7 @@ function keydownHandler(event: KeyboardEvent) {
 		const pjaxContainer = select('#js-repo-pjax-container, #js-pjax-container, #gist-pjax-container');
 
 		if (pjaxContainer) {
+			// We need it for correct work of browser forward-button
 			history.replaceState({
 				url: location.href,
 				title: '',
@@ -38,6 +39,7 @@ function keydownHandler(event: KeyboardEvent) {
 
 function pjaxErrorHandler(event: CustomEvent) {
 	if (event.cancelable) {
+		// Avoid location.replace() when AbortController.abort() throw an error
 		event.preventDefault();
 	}
 }
@@ -59,14 +61,31 @@ void features.add({
 	description: '',
 	screenshot: false
 }, {
-	exclude: [
-		pageDetect.isDashboard,
-		pageDetect.isNotifications,
-		pageDetect.isReleasesOrTags,
-		pageDetect.isTrending,
-		pageDetect.isSingleTagPage,
-		pageDetect.is404,
-		pageDetect.is500
+	include: [
+		pageDetect.isConversationList,
+		pageDetect.isPR,
+		pageDetect.isIssue,
+		pageDetect.isUserProfile,
+		pageDetect.isBlame,
+		pageDetect.isCommit,
+		pageDetect.isRepoCommitList,
+		pageDetect.isCompare,
+		pageDetect.isGlobalSearchResults,
+		pageDetect.isLabelList,
+		pageDetect.isMilestone,
+		pageDetect.isMilestoneList,
+		pageDetect.isNewIssue,
+		pageDetect.isPRConflicts,
+		pageDetect.isQuickPR,
+		pageDetect.isEditingFile,
+		pageDetect.isRepoSearch,
+		pageDetect.isRepoSettings,
+		pageDetect.isRepoTree,
+		pageDetect.isSingleCommit,
+		pageDetect.isFileFinder,
+		pageDetect.isSingleGist,
+		pageDetect.isBranches,
+		pageDetect.isActions
 	],
 	init
 });
