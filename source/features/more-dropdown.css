@@ -15,8 +15,3 @@
 .rgh-has-more-dropdown .js-responsive-underlinenav-overflow {
 	visibility: visible !important;
 }
-
-/* Only show the divider if there are other items above it */
-.js-responsive-underlinenav-overflow [hidden] + .dropdown-divider {
-	display: none;
-}

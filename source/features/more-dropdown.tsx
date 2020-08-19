@@ -59,10 +59,13 @@ async function init(): Promise<void> {
 		.js-responsive-underlinenav-item[data-tab-item="security-tab"]
 	`)) {
 		tab.remove();
-		menu.append(
-			<a href={tab.href} className="rgh-reponav-more dropdown-item">
-				{[...tab.childNodes]}
-			</a>
+		menu.replaceChild(
+			<li data-menu-item={tab.dataset.tabItem}>
+				<a href={tab.href} className="rgh-reponav-more dropdown-item">
+					{[...tab.childNodes]}
+				</a>
+			</li>,
+			menu.querySelector(`[data-menu-item="${tab.dataset.tabItem!}"]`)!
 		);
 	}
 }
