@@ -17,7 +17,7 @@ function init(): void {
 
 void features.add({
 	id: __filebasename,
-	description: 'Stay on the local page while jumping to the definition of a function or method within the same file.',
+	description: 'Avoids re-loading the page when jumping to function definition in the current file.',
 	screenshot: 'https://user-images.githubusercontent.com/16872793/90635640-7091da80-e1f7-11ea-9d79-eb340f9d2c61.png'
 }, {
 	include: [
