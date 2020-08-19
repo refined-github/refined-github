@@ -192,6 +192,7 @@ import './features/remove-label-faster';
 import './features/clean-conversation-headers';
 import './features/highlight-deleted-and-added-files-in-diffs';
 import './features/convert-release-to-draft';
+import './features/follow-local-link';
 
 // Add global for easier debugging
 (window as any).select = select;

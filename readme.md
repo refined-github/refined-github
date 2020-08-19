@@ -157,6 +157,7 @@ Thanks for contributing! 🦋🙌
 - [](# "esc-to-deselect-line") [Adds a keyboard shortcut to deselect the current line: <kbd>esc</kbd>.](https://github.com/sindresorhus/refined-github/issues/1590)
 - [](# "html-preview-link") [Adds a link to preview HTML files.](https://user-images.githubusercontent.com/44045911/67634792-48995980-f8fb-11e9-8b6a-7b57d5b12a2f.png)
 - [](# "vertical-front-matter") [Show Markdown front matter as vertical table.](https://user-images.githubusercontent.com/44045911/87251695-26069b00-c4a0-11ea-9077-53ce366490ed.png)
+- [](# "follow-local-link") [Stay on the local page while jumping to the definition of a function or method within the same file.](https://user-images.githubusercontent.com/16872793/90635640-7091da80-e1f7-11ea-9d79-eb340f9d2c61.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
