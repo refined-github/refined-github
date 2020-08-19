@@ -1,25 +1,38 @@
 import React from 'dom-chef';
+import cache from 'webext-storage-cache';
+import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import ChevronLeftIcon from 'octicon/chevron-left.svg';
 import ChevronRightIcon from 'octicon/chevron-right.svg';
-import select from 'select-dom';
-import cache from 'webext-storage-cache';
 
 import features from '.';
-import {getRepoURL} from '../github-helpers';
 import * as api from '../github-helpers/api';
 import SearchQuery from '../github-helpers/search-query';
+import {getRepoURL} from '../github-helpers';
 import looseParseInt from '../helpers/loose-parse-int';
 
+function getButton(direction: string): HTMLAnchorElement {
+	return (
+		<a
+			aria-disabled="true"
+			className="btn btn-lg BtnGroup-item"
+			aria-label={`Navigate to ${direction} Conversation`}
+			data-hotkey={direction.charAt(0)}
+		>
+			{direction === 'next' ? <ChevronRightIcon/> : <ChevronLeftIcon/>}
+		</a>
+	) as unknown;
+}
+
 async function init() {
-	const previousButton = getButton('Navigate to previous Conversation', ChevronLeftIcon);
-	const nextButton = getButton('Navigate to next Conversation', ChevronRightIcon);
+	const previousButton = getButton('previous');
+	const nextButton = getButton('next');
 
 	select('.gh-header-meta')?.append(
 		<div className="BtnGroup ml-2">
 			{previousButton}
 			{nextButton}
-		</div>,
+		</div>
 	);
 
 	const conversationNumber = looseParseInt(select('.gh-header-number')?.textContent ?? '');
@@ -43,22 +56,11 @@ function setButtonHref(button: HTMLAnchorElement, listQuery: ReturnType<typeof g
 	if (conversation) {
 		const url = new URL(conversation.url);
 		url.searchParams.set('q', listQuery.query);
-		url.searchParams.set('page', listQuery.page.toString(10));
+		url.searchParams.set('page', listQuery.page);
 		button.setAttribute('aria-disabled', 'false');
 		button.href = url.href;
 	}
 }
-
-const getButton = (ariaLabel: string, Icon: () => JSX.Element): HTMLAnchorElement => (
-	<a
-		aria-disabled="true"
-		className="btn btn-lg BtnGroup-item"
-		data-hotkey="n"
-		aria-label={ariaLabel}
-	>
-		<Icon/>
-	</a>
-) as any;
 
 type Conversation = {
 	cursor: number;
@@ -70,13 +72,13 @@ const fetchConversationList = cache.function(
 	async (listQuery: ReturnType<typeof getListQuery>): Promise<Conversation[]> => {
 		const searchQuery = getConversationSearchQuery(listQuery);
 
-		return api.v4(searchQuery).then(({search}) => search.edges.map((edge: any) => ({
+		const {search} = await api.v4(searchQuery)
+		return search.edges.map((edge: any) => ({
 			...edge.node,
 			// GitHub GraphQL cursor is an offset number starting at 1, with prefix `cursor:` and converted to base64.
 			// e.g. offset 42 is `cursor:42` and converted to base64 is `Y3Vyc29yOjQy`
 			// Always query considering items offsets starting at 1, otherwise unexpected results may happen.
-			// Convert cursor into a number to make operations easier
-			cursor: Number.parseInt(atob(edge.cursor).replace('cursor:', ''), 10)
+			cursor: looseParseInt(atob(edge.cursor))
 		})));
 	},
 	{
@@ -119,7 +121,7 @@ async function getConversationList(conversationNumber: number) {
 const noListQuery = (): boolean => !(
 	// Allowed also from global conversation list
 	pageDetect.isConversationList(new URL(document.referrer)) ||
-	(new URL(location.href)).searchParams.has('q')
+	new URL(location.href).searchParams.has('q')
 );
 
 function getListQuery() {
@@ -132,7 +134,7 @@ function getListQuery() {
 	}
 
 	return {
-		page: Number.parseInt(url.searchParams.get('page') ?? '1', 10),
+		page: Number(url.searchParams.get('page') ?? 1),
 		query: searchQuery.get()
 	};
 }
@@ -142,27 +144,25 @@ function getListQuery() {
 // To take into consideration also, than when we are on first item on first page, we don't have a previous item, and we don't want to fetch using a negative cursor.
 function getConversationSearchQuery({page, query}: ReturnType<typeof getListQuery>): string {
 	return `
-search(
-	type: ISSUE,
-	first: ${page === 1 ? ITEMS_PER_PAGE + 1 : ITEMS_PER_PAGE + 2},
-	after: "${btoa(`cursor:${page === 1 ? 0 : ((page - 1) * ITEMS_PER_PAGE) - 1}`)}",
-	query: "${query}"
-) {
-	edges {
-		cursor
-		node {
-			... on Issue { number, url }
-			... on PullRequest { number, url }
+		search(
+			type: ISSUE,
+			first: ${page === 1 ? ITEMS_PER_PAGE + 1 : ITEMS_PER_PAGE + 2},
+			after: "${btoa(`cursor:${page === 1 ? 0 : ((page - 1) * ITEMS_PER_PAGE) - 1}`)}",
+			query: "${query}"
+		) {
+			edges {
+				cursor
+				node {
+					... on Issue { number, url }
+					... on PullRequest { number, url }
+				}
+			}
 		}
-	}
-}
 	`;
 }
 
 void features.add({
-	id: __filebasename,
-	description: 'Conversation navigation',
-	screenshot: 'https://picsum.photos/500/200'
+	id: __filebasename
 }, {
 	include: [
 		pageDetect.isPR,
