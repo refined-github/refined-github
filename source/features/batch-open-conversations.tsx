@@ -93,8 +93,8 @@ async function init(): Promise<void | false> {
 			</div>
 		);
 
-		const prElements = select.all('.js-issue-row');
-		const prs = prElements.map(getIssueConfig);
+		const prRows = select.all('.js-issue-row');
+		const prs = prRows.map(getIssueConfig);
 
 		for (const pr of prs) {
 			pr.prependAt.prepend(
