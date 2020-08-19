@@ -8,8 +8,8 @@ import ChevronRightIcon from 'octicon/chevron-right.svg';
 import features from '.';
 import * as api from '../github-helpers/api';
 import SearchQuery from '../github-helpers/search-query';
-import {getRepoURL} from '../github-helpers';
 import looseParseInt from '../helpers/loose-parse-int';
+import {getRepoURL, getConversationNumber} from '../github-helpers';
 
 function getButton(direction: string): HTMLAnchorElement {
 	return (
@@ -35,7 +35,7 @@ async function init() {
 		</div>
 	);
 
-	const conversationNumber = looseParseInt(select('.gh-header-number')?.textContent ?? '');
+	const conversationNumber = getConversationNumber();
 	const {list, query, page} = await getConversationList(conversationNumber);
 	const conversation = list.find(item => item.number === conversationNumber);
 
@@ -140,7 +140,7 @@ const noListQuery = (): boolean => !(
 
 function getConversationListQuery(): SearchQuery {
 	const referrerUrl = new URL(document.referrer);
-	const url = pageDetect.isConversationList(referrerUrl) ? referrerUrl : new URL(location.href);
+	const url = pageDetect.isConversationList(referrerUrl) ? referrerUrl : location;
 	const listQuery = new SearchQuery(url);
 
 	if (pageDetect.isRepoConversationList(url)) {
