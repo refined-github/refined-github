@@ -1,9 +1,7 @@
-.rgh-clean-conversation-headers-non-default-branch {
-	background-color: #0366d6 !important;
-	color: #fff !important;
+:root .rgh-clean-conversation-headers-non-default-branch {
+	background-color: #0366d6;
 }
 
 .rgh-clean-conversation-headers-non-default-branch > a {
-	color: inherit !important;
-	font-weight: bold;
+	color: #fff;
 }
