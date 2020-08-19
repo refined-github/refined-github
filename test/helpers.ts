@@ -15,7 +15,7 @@ import {
 } from '../source/github-helpers';
 
 test('getConversationNumber', t => {
-	const pairs = new Map<string, string | undefined>([
+	const pairs = new Map<string, number | undefined>([
 		[
 			'https://github.com',
 			undefined
@@ -54,23 +54,23 @@ test('getConversationNumber', t => {
 		],
 		[
 			'https://github.com/sindresorhus/refined-github/pull/148/commits/0019603b83bd97c2f7ef240969f49e6126c5ec85',
-			'148'
+			148
 		],
 		[
 			'https://github.com/sindresorhus/refined-github/pull/148/commits/00196',
-			'148'
+			148
 		],
 		[
 			'https://github.com/sindresorhus/refined-github/pull/148/commits',
-			'148'
+			148
 		],
 		[
 			'https://github.com/sindresorhus/refined-github/pull/148',
-			'148'
+			148
 		],
 		[
 			'https://github.com/sindresorhus/refined-github/issues/146',
-			'146'
+			146
 		],
 		[
 			'https://github.com/sindresorhus/refined-github/issues',
