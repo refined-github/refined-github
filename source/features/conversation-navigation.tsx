@@ -9,6 +9,7 @@ import features from '.';
 import {getRepoURL} from '../github-helpers';
 import * as api from '../github-helpers/api';
 import SearchQuery from '../github-helpers/search-query';
+import looseParseInt from '../helpers/loose-parse-int';
 
 async function init() {
 	const previousButton = getButton('Navigate to previous Conversation', ChevronLeftIcon);
@@ -21,8 +22,9 @@ async function init() {
 		</div>,
 	);
 
-	const {list, listQuery} = await getConversationList();
-	const conversation = list.find(item => item.number === getConversationNumber());
+	const conversationNumber = looseParseInt(select('.gh-header-number')?.textContent ?? '');
+	const {list, listQuery} = await getConversationList(conversationNumber);
+	const conversation = list.find(item => item.number === conversationNumber);
 
 	setButtonHref(
 		previousButton,
@@ -86,11 +88,10 @@ const fetchConversationList = cache.function(
 // Current default number of items in a conversation list
 const ITEMS_PER_PAGE = 25;
 
-async function getConversationList() {
+async function getConversationList(conversationNumber: number) {
 	const listQuery = getListQuery();
 	const list = await fetchConversationList(listQuery);
-	const currentNumber = getConversationNumber();
-	const conversation = list.find(item => item.number === currentNumber);
+	const conversation = list.find(item => item.number === conversationNumber);
 	const after = (listQuery.page - 1) * ITEMS_PER_PAGE;
 	const before = (listQuery.page * ITEMS_PER_PAGE) + 1;
 
@@ -156,11 +157,6 @@ search(
 	}
 }
 	`;
-}
-
-function getConversationNumber() {
-	const conversationHashtag = select('.gh-header-number')?.textContent ?? '#';
-	return Number.parseInt(conversationHashtag.replace('#', ''), 10);
 }
 
 void features.add({
