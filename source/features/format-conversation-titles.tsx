@@ -18,7 +18,7 @@ function init(): void {
 async function submitHandler(event: Event) {
 	const form = event.target as HTMLFormElement;
 
-	if (!form.id?.startsWith('edit_header')) {
+	if (!form.id.startsWith('edit_header')) {
 		return;
 	}
 
