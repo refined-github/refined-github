@@ -2,8 +2,8 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import * as domFormatters from '../github-helpers/dom-formatters';
 import observeElement from '../helpers/simplified-element-observer';
+import * as domFormatters from '../github-helpers/dom-formatters';
 
 function init(): void {
 	for (const title of select.all('.js-issue-title')) {
