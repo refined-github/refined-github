@@ -78,12 +78,13 @@ async function init(): Promise<void | false> {
 			</button>
 		);
 	} else {
-		select('#js-issues-toolbar')?.prepend(
+		const issuesToolbar = select('#js-issues-toolbar')!;
+		issuesToolbar.prepend(
 			<div className="mr-3 d-none d-md-block">
 				<input type="checkbox" data-check-all="" aria-label="Select all issues" autoComplete="off"/>
 			</div>
 		);
-		select('#js-issues-toolbar')?.append(
+		issuesToolbar.append(
 			<div className="table-list-triage flex-auto js-issues-toolbar-triage">
 				<span className="text-gray table-list-header-toggle">
 					<span data-check-all-count="">1</span> selected
