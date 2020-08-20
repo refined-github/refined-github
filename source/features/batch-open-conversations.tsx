@@ -95,9 +95,8 @@ async function init(): Promise<void | false> {
 		);
 
 		const prRows = select.all('.js-issue-row');
-		const prs = prRows.map(getIssueConfig);
-
-		for (const pr of prs) {
+		for (const prRow of prRows) {
+			const pr = getIssueConfig(prRow);
 			pr.prependAt.prepend(
 				<label className="flex-shrink-0 py-2 pl-3  d-none d-md-block">
 					<input
