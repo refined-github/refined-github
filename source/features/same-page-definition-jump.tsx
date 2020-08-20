@@ -18,7 +18,7 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Avoids re-loading the page when jumping to function definition in the current file.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/90635640-7091da80-e1f7-11ea-9d79-eb340f9d2c61.png'
+	screenshot: 'https://user-images.githubusercontent.com/1402241/90641702-70aace00-e229-11ea-946c-3a76697b9184.png'
 }, {
 	include: [
 		pageDetect.isSingleFile
