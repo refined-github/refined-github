@@ -88,7 +88,7 @@ async function init(): Promise<void | false> {
 			<div className="table-list-triage flex-auto js-issues-toolbar-triage">
 				<span className="text-gray table-list-header-toggle">
 					<span data-check-all-count="">1</span> selected
-					{' '} { /*   89:44  Ambiguous spacing after previous element span react/jsx-child-element-spacing */ }
+					{' '}
 					<button type="button" className="btn-link rgh-batch-open-issues pl-3">Open selected</button>
 				</span>
 			</div>
