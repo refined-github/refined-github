@@ -8,10 +8,10 @@ import * as api from '../github-helpers/api';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getRepositoryInfo, getRepoGQL} from '../github-helpers';
 
-type BranchInfo = {
+interface BranchInfo {
 	baseRef: string;
 	baseRefName: string;
-};
+}
 
 function buildQuery(issueIds: string[]): string {
 	return `

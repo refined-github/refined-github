@@ -13,9 +13,9 @@ interface CommitTags {
 	[name: string]: string[];
 }
 
-type BaseTarget = {
+interface BaseTarget {
 	commitResourcePath: string;
-};
+}
 
 type TagTarget = {
 	tagger: {
@@ -134,9 +134,6 @@ async function init(): Promise<void | false> {
 			// No tags for this commit found in the cache, check in github
 			cached = mergeTags(cached, await getTags(lastCommitOnPage)); // eslint-disable-line no-await-in-loop
 			targetTags = cached[targetCommit];
-		}
-
-		if (!targetTags) {
 			// There was no tags for this commit, save that info to the cache
 			commitsWithNoTags.push(targetCommit);
 		} else if (targetTags.length > 0) {

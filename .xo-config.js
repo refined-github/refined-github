@@ -44,7 +44,27 @@ module.exports = {
 		// Temporarily disabled
 		// TODO: Need to decide what to do with this rule. Either keep it disabled here or remove it from XO.
 		'@typescript-eslint/no-invalid-void-type': 'off', // Reason: https://github.com/sindresorhus/refined-github/pull/3168#discussion_r434479434
-		'unicorn/no-fn-reference-in-iterator': 'off'
+		'unicorn/no-fn-reference-in-iterator': 'off',
+		'@typescript-eslint/no-extra-non-null-assertion': 'error',
+		'@typescript-eslint/consistent-type-definitions':'error',
+		'@typescript-eslint/explicit-function-return-type': [
+			'error',
+			{
+				allowExpressions: true,
+				allowTypedFunctionExpressions: true,
+				allowHigherOrderFunctions: true,
+				allowConciseArrowFunctionExpressionsStartingWithVoid: false
+			}
+		],
+		'@typescript-eslint/explicit-module-boundary-types': [
+			'error',
+			{
+				allowTypedFunctionExpressions: true,
+				allowHigherOrderFunctions: true,
+				allowDirectConstAssertionInArrowFunctions: true,
+				shouldTrackReferences: true
+			}
+		]
 	},
 	// We don't use React, so it can't be automatically detected by the linter
 	settings: {
