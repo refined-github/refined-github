@@ -5,6 +5,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import looseParseInt from '../helpers/loose-parse-int';
 
 const confirmationRequiredCount = 10;
 
@@ -73,28 +74,24 @@ async function init(): Promise<void | false> {
 		issuesToolbar.append(
 			<div className="table-list-triage flex-auto js-issues-toolbar-triage">
 				<span className="text-gray table-list-header-toggle">
-					<span data-check-all-count="">1</span> selected
-					{' '}
+					<span data-check-all-count="">1</span>
+					{' selected '}
 					<button type="button" className="btn-link rgh-batch-open-issues pl-3">Open selected</button>
 				</span>
 			</div>
 		);
 
-		const regExpPrNumber = /^issue_(\d*)$/;
-
-		const prRows = select.all('.js-issue-row');
-		for (const prRow of prRows) {
-			const prNumber = regExpPrNumber.exec(prRow.id)?.[1] ?? '';
-			const prependAt = prRow.children[0]!;
-			prependAt.prepend(
+		for (const conversation of select.all('.js-issue-row')) {
+			const number = looseParseInt(conversation.id);
+			conversation.firstElementChild!.prepend(
 				<label className="flex-shrink-0 py-2 pl-3  d-none d-md-block">
 					<input
 						type="checkbox"
 						data-check-all-item=""
 						className="js-issues-list-check"
 						name="issues[]"
-						value={prNumber}
-						aria-labelledby={`issue_${prNumber}_link`}
+						value={number}
+						aria-labelledby={`issue_${number}_link`}
 						autoComplete="off"
 					/>
 				</label>
@@ -105,7 +102,7 @@ async function init(): Promise<void | false> {
 
 void features.add({
 	id: __filebasename,
-	description: 'Adds a button to open multiple conversations at once.',
+	description: 'Lets you open multiple conversations at once via checkboxes.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/38084752-4820b0d8-3378-11e8-868c-a1582b16f915.gif'
 }, {
 	include: [
