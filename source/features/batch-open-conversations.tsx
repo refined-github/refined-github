@@ -40,14 +40,13 @@ interface IssueConfig {
 }
 
 function getIssueConfig(prRow: Element): IssueConfig {
-	let match = prRow.id.match(/^issue_(\d*)$/);
+	const match = /^issue_(\d*)$/.exec(prRow.id);
 	const number: string = match?.[1] ?? '';
 	return {
 		number,
-		prependAt: prRow.children[0]!,
+		prependAt: prRow.children[0]!
 	};
 }
-
 
 async function init(): Promise<void | false> {
 	if (!await elementReady('.js-issue-row + .js-issue-row')) {
@@ -81,13 +80,14 @@ async function init(): Promise<void | false> {
 	} else {
 		select('#js-issues-toolbar')?.prepend(
 			<div className="mr-3 d-none d-md-block">
-  			<input type="checkbox" data-check-all="" aria-label="Select all issues" autoComplete="off"/>
-		  </div>
+				<input type="checkbox" data-check-all="" aria-label="Select all issues" autoComplete="off"/>
+			</div>
 		);
 		select('#js-issues-toolbar')?.append(
 			<div className="table-list-triage flex-auto js-issues-toolbar-triage">
 				<span className="text-gray table-list-header-toggle">
 					<span data-check-all-count="">1</span> selected
+					{' '} { /*   89:44  Ambiguous spacing after previous element span react/jsx-child-element-spacing */ }
 					<button type="button" className="btn-link rgh-batch-open-issues pl-3">Open selected</button>
 				</span>
 			</div>
@@ -98,7 +98,7 @@ async function init(): Promise<void | false> {
 
 		for (const pr of prs) {
 			pr.prependAt.prepend(
-				<label class="flex-shrink-0 py-2 pl-3  d-none d-md-block">
+				<label className="flex-shrink-0 py-2 pl-3  d-none d-md-block">
 					<input
 						type="checkbox"
 						data-check-all-item=""
@@ -106,7 +106,8 @@ async function init(): Promise<void | false> {
 						name="issues[]"
 						value={pr.number}
 						aria-labelledby={`issue_${pr.number}_link`}
-						autoComplete="off" />
+						autoComplete="off"
+					/>
 				</label>
 			);
 		}
