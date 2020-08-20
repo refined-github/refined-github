@@ -21,7 +21,7 @@ const negativeReactionsSelector = `
 	${commentSelector} [aria-label*="reacted with thumbs down"]
 `;
 
-function getBestComment(): HTMLElement | null {
+function getBestComment(): HTMLElement | undefined {
 	let highest;
 	for (const comment of getCommentsWithReactions()) {
 		const positiveReactions = getCount(getPositiveReactions(comment));
@@ -43,7 +43,7 @@ function getBestComment(): HTMLElement | null {
 	}
 
 	if (!highest) {
-		return null;
+		return undefined;
 	}
 
 	return highest.comment;
