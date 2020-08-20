@@ -41,9 +41,6 @@ module.exports = {
 		'import/no-unassigned-import': 'off',
 		'import/prefer-default-export': 'error',
 
-		// Temporarily disabled
-		// TODO: Need to decide what to do with this rule. Either keep it disabled here or remove it from XO.
-		'@typescript-eslint/no-invalid-void-type': 'off', // Reason: https://github.com/sindresorhus/refined-github/pull/3168#discussion_r434479434
 		'unicorn/no-fn-reference-in-iterator': 'off',
 		'@typescript-eslint/no-extra-non-null-assertion': 'error',
 		'@typescript-eslint/consistent-type-definitions':'error',
@@ -55,15 +52,6 @@ module.exports = {
 				allowTypedFunctionExpressions: true,
 				allowHigherOrderFunctions: true,
 				allowConciseArrowFunctionExpressionsStartingWithVoid: false
-			}
-		],
-		'@typescript-eslint/explicit-module-boundary-types': [
-			'error',
-			{
-				allowTypedFunctionExpressions: true,
-				allowHigherOrderFunctions: true,
-				allowDirectConstAssertionInArrowFunctions: true,
-				shouldTrackReferences: true
 			}
 		]
 	},
