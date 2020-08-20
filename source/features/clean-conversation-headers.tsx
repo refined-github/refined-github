@@ -20,8 +20,9 @@ function initIssue(): void {
 }
 
 function initPR(): void {
-	observe('.gh-header-meta .flex-auto', {
+	observe('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-header)', {
 		add(byline) {
+			byline.classList.add('rgh-clean-conversation-header');
 			const isMerged = select.exists('#partial-discussion-header [title="Status: Merged"]');
 			const isSameAuthor = select('.js-discussion > .TimelineItem:first-child .author')?.textContent === select('.author', byline)!.textContent;
 			const baseBranch = select('.commit-ref:not(.head-ref)', byline)!;
