@@ -34,20 +34,6 @@ function openIssues(): void {
 	});
 }
 
-interface IssueConfig {
-	number: string;
-	prependAt: Element;
-}
-
-function getIssueConfig(prRow: Element): IssueConfig {
-	const match = /^issue_(\d*)$/.exec(prRow.id);
-	const number: string = match?.[1] ?? '';
-	return {
-		number,
-		prependAt: prRow.children[0]!
-	};
-}
-
 async function init(): Promise<void | false> {
 	if (!await elementReady('.js-issue-row + .js-issue-row')) {
 		return false;
@@ -96,16 +82,18 @@ async function init(): Promise<void | false> {
 
 		const prRows = select.all('.js-issue-row');
 		for (const prRow of prRows) {
-			const pr = getIssueConfig(prRow);
-			pr.prependAt.prepend(
+			const match = /^issue_(\d*)$/.exec(prRow.id);
+			const prNumber: string = match?.[1] ?? '';
+			const prependAt = prRow.children[0]!;
+			prependAt.prepend(
 				<label className="flex-shrink-0 py-2 pl-3  d-none d-md-block">
 					<input
 						type="checkbox"
 						data-check-all-item=""
 						className="js-issues-list-check"
 						name="issues[]"
-						value={pr.number}
-						aria-labelledby={`issue_${pr.number}_link`}
+						value={prNumber}
+						aria-labelledby={`issue_${prNumber}_link`}
 						autoComplete="off"
 					/>
 				</label>
