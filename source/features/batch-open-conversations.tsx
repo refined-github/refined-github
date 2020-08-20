@@ -80,10 +80,11 @@ async function init(): Promise<void | false> {
 			</div>
 		);
 
+		const regExpPrNumber = /^issue_(\d*)$/;
+
 		const prRows = select.all('.js-issue-row');
 		for (const prRow of prRows) {
-			const match = /^issue_(\d*)$/.exec(prRow.id);
-			const prNumber: string = match?.[1] ?? '';
+			const prNumber = regExpPrNumber.exec(prRow.id)?.[1] ?? '';
 			const prependAt = prRow.children[0]!;
 			prependAt.prepend(
 				<label className="flex-shrink-0 py-2 pl-3  d-none d-md-block">
