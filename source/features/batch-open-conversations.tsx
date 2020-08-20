@@ -68,7 +68,7 @@ async function init(): Promise<void | false> {
 		const issuesToolbar = select('#js-issues-toolbar')!;
 		issuesToolbar.prepend(
 			<div className="mr-3 d-none d-md-block">
-				<input type="checkbox" data-check-all="" aria-label="Select all issues" autoComplete="off"/>
+				<input data-check-all type="checkbox" aria-label="Select all issues" autoComplete="off"/>
 			</div>
 		);
 		issuesToolbar.append(
@@ -86,8 +86,8 @@ async function init(): Promise<void | false> {
 			conversation.firstElementChild!.prepend(
 				<label className="flex-shrink-0 py-2 pl-3  d-none d-md-block">
 					<input
+						data-check-all-item
 						type="checkbox"
-						data-check-all-item=""
 						className="js-issues-list-check"
 						name="issues[]"
 						value={number}
