@@ -95,7 +95,7 @@ async function init(): Promise<void | false> {
 		bugsCounter.textContent = numberFormatter.format(await countPromise);
 	} catch (error) {
 		bugsCounter.remove();
-		throw error;
+		features.error(__filebasename, error);
 	}
 }
 

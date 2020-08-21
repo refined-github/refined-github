@@ -4,12 +4,11 @@ import XIcon from 'octicon/x.svg';
 import select from 'select-dom';
 import oneTime from 'onetime';
 import delegate from 'delegate-it';
-import {observe, Observer} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
+import {observe, Observer} from 'selector-observer';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-
 import {getRepoURL, getConversationNumber} from '../github-helpers';
 
 let observer: Observer;
@@ -68,10 +67,6 @@ async function init(): Promise<void> {
 	delegate(document, '.rgh-remove-label-faster:not([disabled])', 'click', removeLabelButtonClickHandler);
 }
 
-function deinit() {
-	observer.abort();
-}
-
 void features.add({
 	id: __filebasename,
 	description: 'Adds one-click buttons to remove labels in conversations.',
@@ -85,5 +80,5 @@ void features.add({
 		canNotEditLabels
 	],
 	init,
-	deinit
+	deinit: () => observer.abort()
 });

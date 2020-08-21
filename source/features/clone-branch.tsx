@@ -69,7 +69,8 @@ async function cloneBranch({delegateTarget: cloneButton}: delegate.Event<MouseEv
 	);
 }
 
-function init(): void | false {
+async function init(): Promise<void | false> {
+	await api.expectToken();
 	const deleteIcons = select.all([
 		'branch-filter-item-controller .octicon-trashcan', // Pre "Repository refresh" layout
 		'branch-filter-item .octicon-trashcan'
