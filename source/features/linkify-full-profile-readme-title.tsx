@@ -13,7 +13,7 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Linkify the readme text on profile pages.',
-	screenshot: 'https://user-images.githubusercontent.com/29491356/89711998-094b7d80-d9e2-11ea-8ae8-2957960d2308.png'
+	screenshot: 'https://user-images.githubusercontent.com/16872793/90910173-ebe4bf00-e3a4-11ea-8fc5-aea3d1a2e5e5.png'
 }, {
 	include: [
 		pageDetect.isUserProfileMainTab
