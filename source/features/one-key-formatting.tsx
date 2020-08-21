@@ -1,3 +1,4 @@
+import onetime from 'onetime';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
@@ -42,6 +43,5 @@ void features.add({
 		pageDetect.hasCode
 	],
 	waitForDomReady: false,
-	repeatOnAjax: false,
-	init
+	init: onetime(init)
 });

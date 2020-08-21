@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import onetime from 'onetime';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -82,7 +83,6 @@ void features.add({
 		pageDetect.isRepo,
 		pageDetect.isOrganizationProfile
 	],
-	repeatOnAjax: false,
 	waitForDomReady: false,
-	init: addNewProjectLink
+	init: onetime(addNewProjectLink)
 });
