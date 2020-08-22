@@ -16,7 +16,7 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
 	day: 'numeric'
 });
 
-const getRepoAge = async (commitSha: string, commitsCount: number): Promise<[string, string]> => {
+const getRepoAge = async (commitSha: string, commitsCount: number): Promise<[committedDate: string, resourcePath: string]> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			defaultBranchRef {
@@ -42,7 +42,7 @@ const getRepoAge = async (commitSha: string, commitsCount: number): Promise<[str
 	return [committedDate, resourcePath];
 };
 
-const getFirstCommit = cache.function(async (): Promise<[string, string]> => {
+const getFirstCommit = cache.function(async (): Promise<[committedDate: string, resourcePath: string]> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			defaultBranchRef {
@@ -121,6 +121,9 @@ void features.add({
 }, {
 	include: [
 		pageDetect.isRepoRoot
+	],
+	exclude: [
+		pageDetect.isEmptyRepoRoot
 	],
 	waitForDomReady: false,
 	init

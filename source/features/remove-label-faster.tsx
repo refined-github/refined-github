@@ -4,14 +4,14 @@ import XIcon from 'octicon/x.svg';
 import select from 'select-dom';
 import oneTime from 'onetime';
 import delegate from 'delegate-it';
-import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
+import {observe, Observer} from 'selector-observer';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-
 import {getRepoURL, getConversationNumber} from '../github-helpers';
 
+let observer: Observer;
 const canNotEditLabels = oneTime((): boolean => !select.exists('.sidebar-labels .octicon-gear'));
 
 async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
@@ -56,7 +56,7 @@ function makeRemoveLabelButton(labelName: string, backgroundColor: string) {
 async function init(): Promise<void> {
 	await api.expectToken();
 
-	observe('.labels > a:not(.rgh-remove-label-faster-already-added)', {
+	observer = observe('.labels > a:not(.rgh-remove-label-faster-already-added)', {
 		constructor: HTMLElement,
 		add(label) {
 			label.classList.add('rgh-remove-label-faster-already-added');
@@ -79,5 +79,6 @@ void features.add({
 	exclude: [
 		canNotEditLabels
 	],
-	init: oneTime(init)
+	init,
+	deinit: () => observer.abort()
 });
