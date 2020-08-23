@@ -20,7 +20,6 @@ module.exports = {
 
 		'@typescript-eslint/no-extra-non-null-assertion': 'error',
 		'@typescript-eslint/consistent-type-definitions':'error',
-		'@typescript-eslint/require-await': 'error',
 		'@typescript-eslint/explicit-function-return-type': [
 			'error',
 			{
