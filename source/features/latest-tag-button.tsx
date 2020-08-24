@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import TagIcon from 'octicon/tag.svg';
 import DiffIcon from 'octicon/diff.svg';
-import elementReady from 'element-ready';
+import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -84,11 +84,6 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	const breadcrumb = await elementReady('#branch-select-menu');
-	if (!breadcrumb) {
-		return;
-	}
-
 	const currentBranch = getCurrentBranch();
 	const url = new GitHubURL(location.href);
 	url.assign({
@@ -102,7 +97,7 @@ async function init(): Promise<false | void> {
 		</a>
 	);
 
-	breadcrumb.after(link);
+	select('#branch-select-menu')!.parentElement!.after(link);
 	if (currentBranch !== latestTag) {
 		link.append(' ', <span className="css-truncate-target">{latestTag}</span>);
 	}
@@ -139,7 +134,7 @@ async function init(): Promise<false | void> {
 		link.setAttribute('aria-label', 'Visit the latest release');
 	}
 
-	link.classList.add('tooltipped', 'tooltipped-ne');
+	link.classList.add('tooltipped', 'tooltipped-ne', 'rgh-latest-tag-button');
 }
 
 void features.add({
