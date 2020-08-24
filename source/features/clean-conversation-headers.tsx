@@ -1,3 +1,4 @@
+import './clean-conversation-headers.css';
 import select from 'select-dom';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
@@ -45,6 +46,7 @@ function initPR(): void {
 			} else {
 				// Add back "into" if the PR base branch is not the default branch
 				baseBranch.before(' into ');
+				baseBranch.classList.add('rgh-clean-conversation-headers-non-default-branch');
 			}
 		}
 	});
