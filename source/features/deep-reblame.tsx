@@ -91,7 +91,7 @@ function init(): void | false {
 	for (const pullRequest of pullRequests) {
 		const hunk = pullRequest.closest('.blame-hunk')!;
 
-		const reblameLink = select('.reblame-link', hunk)!;
+		const reblameLink = select('.reblame-link', hunk);
 		if (reblameLink) {
 			reblameLink.setAttribute('aria-label', 'View blame prior to this change. Hold `Alt` to extract commits from this PR first');
 			reblameLink.classList.add('rgh-deep-reblame');

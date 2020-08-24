@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import {observeOneMutation} from '../helpers/simplified-element-observer';
 
-function getProjectsTab() {
+async function getProjectsTab(): Promise<HTMLElement | undefined> {
 	return elementReady([
 		'[data-hotkey="g b"]', // In organizations and repos
 		'[aria-label="User profile"] [href$="?tab=projects"]' // In user profiles

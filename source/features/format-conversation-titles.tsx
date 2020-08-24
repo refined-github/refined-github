@@ -6,10 +6,11 @@ import observeElement from '../helpers/simplified-element-observer';
 import * as domFormatters from '../github-helpers/dom-formatters';
 
 function init(): void {
-	for (const title of select.all('.js-issue-title:not(.rgh-formatted-title)')) {
-		title.classList.add('rgh-formatted-title');
-		domFormatters.linkifyIssues(title);
-		domFormatters.parseBackticks(title);
+	for (const title of select.all('.js-issue-title')) {
+		if (!select.exists('a, code', title)) {
+			domFormatters.linkifyIssues(title);
+			domFormatters.parseBackticks(title);
+		}
 	}
 }
 
@@ -23,6 +24,9 @@ void features.add({
 		pageDetect.isIssue
 	],
 	init() {
-		observeElement(select('#partial-discussion-header')!.parentElement!, init);
+		observeElement(select('#partial-discussion-header')!.parentElement!, init, {
+			subtree: true,
+			childList: true
+		});
 	}
 });

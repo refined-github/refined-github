@@ -13,9 +13,9 @@ interface CommitTags {
 	[name: string]: string[];
 }
 
-type BaseTarget = {
+interface BaseTarget {
 	commitResourcePath: string;
-};
+}
 
 type TagTarget = {
 	tagger: {
