@@ -26,8 +26,12 @@ const updateCache = cache.function(async (): Promise<string[] | undefined> => {
 	return forks.length > 0 ? forks : undefined;
 }, {
 	cacheKey: getCacheKey,
-	maxAge: 1 / 24,
-	staleWhileRevalidate: 5
+	maxAge: {
+		hours: 1
+	},
+	staleWhileRevalidate: {
+		days: 5
+	}
 });
 
 function createLink(baseRepo: string): string {

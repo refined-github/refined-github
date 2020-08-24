@@ -25,7 +25,9 @@ const getLastUpdated = cache.function(async (issueNumbers: number[]): Promise<Re
 
 	return repository;
 }, {
-	maxAge: 1,
+	maxAge: {
+		days: 1
+	},
 	cacheKey: ([issues]) => __filebasename + ':' + getRepoURL() + ':' + String(issues)
 });
 
