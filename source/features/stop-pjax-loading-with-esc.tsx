@@ -6,13 +6,13 @@ import features from '.';
 let progressLoader: HTMLElement;
 const progressLoaderLoadingClass = 'is-loading';
 
-function fixProfileNavAndTimeline() {
+function fixProfileNavAndTimeline(): void {
 	for (const stickyElement of select.all('.js-sticky:not(.is-stuck)')) {
 		stickyElement.removeAttribute('style');
 	}
 }
 
-function keydownHandler(event: KeyboardEvent) {
+function keydownHandler(event: KeyboardEvent): void {
 	if (event.key !== 'Escape' || !progressLoader.classList.contains(progressLoaderLoadingClass)) {
 		return;
 	}
@@ -37,14 +37,14 @@ function keydownHandler(event: KeyboardEvent) {
 	progressLoader.classList.remove(progressLoaderLoadingClass);
 }
 
-function pjaxErrorHandler(event: CustomEvent) {
+function pjaxErrorHandler(event: CustomEvent): void {
 	if (event.cancelable) {
 		// Avoid location.replace() when AbortController.abort() throw an error
 		event.preventDefault();
 	}
 }
 
-function init() {
+function init(): void {
 	progressLoader = select('.progress-pjax-loader')!;
 
 	window.addEventListener('keydown', keydownHandler);
