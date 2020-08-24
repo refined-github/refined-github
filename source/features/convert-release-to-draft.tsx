@@ -31,7 +31,7 @@ async function convertToDraft({delegateTarget: draftButton}: delegate.Event<Mous
 async function init(): Promise<void | false> {
 	await api.expectToken();
 
-	const editButton = select('.BtnGroup a[href*="releases/edit"]')!;
+	const editButton = select('.BtnGroup a[href*="releases/edit"]');
 	if (!editButton || select.exists('.label-draft')) {
 		return false;
 	}

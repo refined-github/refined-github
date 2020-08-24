@@ -15,7 +15,7 @@ function handleClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): void
 	event.delegateTarget.form!.toggleAttribute('data-redirect-to-inbox-on-submit', !redirectDisabled);
 }
 
-async function init(): Promise<void> {
+function init(): void {
 	sessionStorage.rghIsNewTab = history.length === 1;
 	delegate(document, '.notification-shelf .js-notification-action button', 'click', handleClick);
 }

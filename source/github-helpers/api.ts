@@ -30,9 +30,9 @@ import {JsonObject, AsyncReturnType} from 'type-fest';
 
 import optionsStorage from '../options-storage';
 
-type JsonError = {
+interface JsonError {
 	message: string;
-};
+}
 
 interface GraphQLResponse {
 	message?: string;
