@@ -55,7 +55,7 @@ const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Rec
 	return pullRequests;
 }, {
 	maxAge: {
-		hours: 12
+		hours: 1
 	},
 	staleWhileRevalidate: {
 		days: 4

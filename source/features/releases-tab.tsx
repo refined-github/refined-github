@@ -44,10 +44,10 @@ async function fetchFromApi(): Promise<number> {
 
 const getReleaseCount = cache.function(async () => pageDetect.isRepoRoot() ? parseCountFromDom() : fetchFromApi(), {
 	maxAge: {
-		days: 1
+		hours: 12
 	},
 	staleWhileRevalidate: {
-		days: 4
+		days: 3
 	},
 	cacheKey: () => cacheKey
 });
