@@ -22,7 +22,7 @@ const hasAnyProjects = cache.function(async (): Promise<boolean> => {
 	return Boolean(repository.projects.totalCount) && Boolean(organization?.projects?.totalCount);
 }, {
 	maxAge: {
-		days: 3
+		days: 1
 	},
 	staleWhileRevalidate: {
 		days: 20
