@@ -86,7 +86,7 @@
 		"ava": "^3.12.1",
 		"chrome-webstore-upload-cli": "^1.2.0",
 		"copy-webpack-plugin": "^6.0.3",
-		"css-loader": "^4.2.1",
+		"css-loader": "^4.2.2",
 		"daily-version": "^2.0.0",
 		"dot-json": "^1.2.0",
 		"eslint-config-xo-react": "^0.23.0",
