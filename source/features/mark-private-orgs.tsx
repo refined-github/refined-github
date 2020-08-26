@@ -15,8 +15,10 @@ const getPublicOrganizationsNames = cache.function(async (username: string): Pro
 	const response = await api.v3(`users/${username}/orgs`);
 	return response.map((organization: AnyObject) => organization.login);
 }, {
-	cacheKey: ([username]) => __filebasename + ':' + username,
-	maxAge: 10
+	maxAge: {
+		days: 10
+	},
+	cacheKey: ([username]) => __filebasename + ':' + username
 });
 
 async function init(): Promise<false | void> {

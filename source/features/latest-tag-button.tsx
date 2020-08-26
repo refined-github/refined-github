@@ -73,8 +73,12 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 
 	return {latestTag, aheadBy};
 }, {
-	maxAge: 1 / 24, // One hour
-	staleWhileRevalidate: 2,
+	maxAge: {
+		hours: 1
+	},
+	staleWhileRevalidate: {
+		days: 2
+	},
 	cacheKey: () => `tag-ahead-by:${getRepoURL()}`
 });
 

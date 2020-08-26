@@ -54,8 +54,12 @@ const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Rec
 
 	return pullRequests;
 }, {
-	maxAge: 1 / 2,
-	staleWhileRevalidate: 4,
+	maxAge: {
+		hours: 1
+	},
+	staleWhileRevalidate: {
+		days: 4
+	},
 	cacheKey: () => 'associatedBranchPullRequests:' + getRepoURL()
 });
 
