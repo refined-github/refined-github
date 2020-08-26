@@ -1,3 +1,7 @@
 .preview-selected .rgh-render-conversation-template {
 	display: none !important;
 }
+
+:root .rgh-render-conversation-template textarea {
+	min-height: 50px;
+}
