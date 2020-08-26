@@ -1,3 +1,4 @@
+<!-- Please follow the template -->
 Thanks for contributing! 🍄
 
 1. LINKED ISSUES:
