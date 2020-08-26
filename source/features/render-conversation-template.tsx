@@ -8,6 +8,7 @@ import delay from 'delay';
 import features from '.';
 import {observeOneMutation} from '../helpers/simplified-element-observer';
 import elementReady from 'element-ready';
+import doma from 'doma';
 
 async function init(): Promise<void | false> {
 	// New MutationObserver(console.log).observe(select('.new_issue')!, {
@@ -23,27 +24,15 @@ async function init(): Promise<void | false> {
 	// 	return false;
 	// }
 
-	const previewTab = await elementReady<HTMLElement>('.js-preview-tab[aria-selected]', {
-		stopOnDomReady: false,
-		timeout: 1000 // If it takes longer than a second for this to appear, we can't expect the preview to appear in a timely manner either
-	});
+	const body = new FormData();
+	body.append("authenticity_token", select<HTMLInputElement>('.js-data-preview-url-csrf')!.value)
+	body.append("text", template);
+	const url = select('[data-preview-url]')!.dataset.previewUrl!;
+	const response = await fetch(url, {body, method: 'post'});
 
-	const renderingContainer = select('.js-preview-body')!;
-	await delay(100);
-	previewTab!.click();
-	await observeOneMutation(renderingContainer);
-
-	select('.js-write-tab')!.click();
-	window.scrollTo(0, 0); // Ugh...
-
-	const rendering = renderingContainer.cloneNode(true);
-	rendering.classList.remove('js-preview-body');
-	rendering.classList.add('rgh-render-conversation-template');
-	rendering.removeAttribute('style');
 	select('markdown-toolbar')!.before(
-		// Classes copied from .js-preview-body’s parents
-		<div className="rgh-render-conversation-template mx-0 my-3 mx-md-2 mb-md-2">
-			{rendering}
+		<div className="rgh-render-conversation-template markdown-body m-3">
+			{doma(await response.text())}
 		</div>
 	);
 }
