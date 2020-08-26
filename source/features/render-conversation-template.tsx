@@ -19,31 +19,36 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	// Prepare data
 	const token = select<HTMLInputElement>('.js-data-preview-url-csrf')!.value;
+
+	// This will let us place the textarea’s values back into this string before submission
 	const templateWithPlaceholders = template
 		.replaceAll(/:[*_\s]+\n/g, `$&\n${placeholder}`);
+
+	// Makes comments visible, but only in the rendered template
 	const renderableTemplate = templateWithPlaceholders
 		.replaceAll('<!--', '')
 		.replaceAll('-->', '');
 
+	// Render using GitHub’s "Preview" feature
 	const body = new FormData();
 	body.set('text', renderableTemplate);
 	body.set('authenticity_token', token);
-
-	// Render
 	const url = select('[data-preview-url]')!.dataset.previewUrl!;
 	const response = await fetch(url, {body, method: 'post'});
 	const html = await response.text();
 
+	// Customize response and append to document
 	const customizedHTML = html.replaceAll(placeholder, '<textarea class="form-control input-contrast"></textarea>');
 	const renderedTemplate = (
+		// Tries to match the spacing from `originalField`
 		<div className="rgh-render-conversation-template markdown-body mx-0 pt-2 mb-2 mx-md-2 border-top">
 			{doma(customizedHTML)}
 		</div>
 	);
 	select('markdown-toolbar')!.before(renderedTemplate);
 
+	// Move the text immediately following the field to the field’s placeholder
 	for (const field of select.all('textarea', renderedTemplate)) {
 		field.placeholder = field.parentElement!.textContent!.trim();
 		while (field.nextSibling) {
@@ -51,6 +56,7 @@ async function init(): Promise<void | false> {
 		}
 	}
 
+	// Set original, template-less text back into the field
 	textFieldEdit.set(originalField, preservePRText);
 
 	// Focus first textarea
