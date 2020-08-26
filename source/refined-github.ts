@@ -194,6 +194,7 @@ import './features/highlight-deleted-and-added-files-in-diffs';
 import './features/convert-release-to-draft';
 import './features/linkify-full-profile-readme-title';
 import './features/same-page-definition-jump';
+import './features/render-conversation-template';
 
 // Add global for easier debugging
 (window as any).select = select;
