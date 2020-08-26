@@ -69,8 +69,10 @@ async function init(): Promise<void | false> {
 	originalField.form!.addEventListener('submit', () => {
 		const fields = select.all('textarea', renderedTemplate);
 		let counter = 0;
-		originalField.value = templateWithPlaceholders
+		const filledTemplate = templateWithPlaceholders
 			.replaceAll(placeholder, () => fields[counter++].value);
+
+		originalField.value = filledTemplate + '\n\n' + originalField.value;
 
 		// Once the text is visibly merged for submission, the rendered template is no longer necessary
 		renderedTemplate.remove();
