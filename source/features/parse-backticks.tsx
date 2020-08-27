@@ -47,7 +47,6 @@ function init(): void {
 	// `isRepoSearch`
 	observe('#issue_search_results .f4:not(.rgh-backticks-already-parsed)', {
 		add(element) {
-			// Prepare
 			const child = element.firstElementChild!;
 			const keywords = [...child.querySelectorAll('em')].map(element => element.textContent);
 			// Combine text content to enable backticks parsing
