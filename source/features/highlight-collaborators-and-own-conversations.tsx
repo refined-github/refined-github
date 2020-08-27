@@ -1,6 +1,7 @@
 import './highlight-collaborators-and-own-conversations.css';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
+import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
@@ -54,7 +55,7 @@ void features.add({
 		() => select.exists('.blankslate')
 	],
 	waitForDomReady: false,
-	init: highlightCollaborators
+	init: onetime(highlightCollaborators)
 }, {
 	include: [
 		pageDetect.isConversationList
