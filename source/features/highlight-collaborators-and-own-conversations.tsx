@@ -1,6 +1,7 @@
 import './highlight-collaborators-and-own-conversations.css';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
+import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -22,19 +23,15 @@ const getCollaborators = cache.function(async (): Promise<string[]> => {
 	cacheKey: () => 'repo-collaborators:' + getRepoURL()
 });
 
-async function highlightCollaborators(): Promise<false | void> {
-	const authors = select.all('.js-issue-row [data-hovercard-type="user"]');
-	if (authors.length === 0) {
-		return false;
-	}
-
+async function highlightCollaborators(): Promise<void> {
 	const collaborators = await getCollaborators();
-
-	for (const author of authors) {
-		if (collaborators.includes(author.textContent!.trim())) {
-			author.classList.add('rgh-collaborator');
+	observe('.js-issue-row [data-hovercard-type="user"]:not(.rgh-collaborator)', {
+		add(author) {
+			if (collaborators.includes(author.textContent!.trim())) {
+				author.classList.add('rgh-collaborator');
+			}
 		}
-	}
+	});
 }
 
 function highlightSelf(): void {
@@ -53,6 +50,10 @@ void features.add({
 	include: [
 		pageDetect.isRepoConversationList
 	],
+	exclude: [
+		() => select.exists('.blankslate')
+	],
+	waitForDomReady: false,
 	init: highlightCollaborators
 }, {
 	include: [
