@@ -44,6 +44,7 @@ function init(): void {
 		}
 	});
 
+	// `isRepoSearch`
 	observe('#issue_search_results .f4:not(.rgh-backticks-already-parsed)', {
 		add(element) {
 			// Prepare
