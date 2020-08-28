@@ -1,7 +1,7 @@
 import './parse-backticks.css';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
-import zipTextNodes from 'zip-text-nodes'
+import zipTextNodes from 'zip-text-nodes';
 
 import features from '.';
 import {parseBackticks} from '../github-helpers/dom-formatters';
