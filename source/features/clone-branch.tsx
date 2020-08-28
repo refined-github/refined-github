@@ -3,7 +3,6 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
 import {observe} from 'selector-observer';
-import elementReady from 'element-ready';
 import GitBranchIcon from 'octicon/git-branch.svg';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
@@ -77,10 +76,6 @@ async function init(): Promise<void | false> {
 		'branch-filter-item-controller .octicon-trashcan', // Pre "Repository refresh" layout
 		'branch-filter-item .octicon-trashcan'
 	].join();
-	// If the user does not have rights to delete a branch, they can’t create one either
-	if (!await elementReady(deleteIconClass)) {
-		return false;
-	}
 
 	observe(deleteIconClass, {
 		add(deleteIcon) {
