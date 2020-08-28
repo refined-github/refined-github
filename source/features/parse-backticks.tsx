@@ -45,7 +45,7 @@ function init(): void {
 	});
 
 	// `isRepoSearch`
-	observe('#issue_search_results .f4:not(.rgh-backticks-already-parsed)', {
+	observe('.codesearch-results .f4:not(.rgh-backticks-already-parsed)', {
 		add(element) {
 			element.classList.add('rgh-backticks-already-parsed');
 			zipTextNodes(element, parseBackticksCore(element.textContent!));
