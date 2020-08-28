@@ -9,7 +9,7 @@ import {linkifiedURLClass, linkifyURLs, linkifyIssues} from '../github-helpers/d
 function init(): void {
 	const selectors = [
 		'.js-blob-wrapper',
-		'.blob-wrapper',
+		':not(.js-suggested-changes-blob) > .blob-wrapper',
 		'.comment-body',
 		'.blob-expanded'
 	].map(selector => selector + `:not(.${linkifiedURLClass})`).join();
