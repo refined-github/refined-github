@@ -7,14 +7,15 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function init(): void {
-	observe('details details-menu:not([src]) .js-comment-edit-button:not(.rgh-edit-comment)', {
-		add(item) {
-			item.classList.add('rgh-edit-comment');
+	observe('.current-user .js-comment-header-reaction-button:not(.rgh-edit-comment)', {
+		add(reactions) {
+			reactions.classList.add('rgh-edit-comment');
 
-			const button = item.cloneNode();
-			button.append(<PencilIcon/>);
-			button.classList.replace('dropdown-item', 'timeline-comment-action');
-			item.closest('.js-minimizable-comment-group')!.querySelector('.js-comment-header-reaction-button')!.after(button);
+			reactions.after(
+				<button type="button" role="menuitem" className="timeline-comment-action btn-link js-comment-edit-button" aria-label="Edit comment">
+					<PencilIcon/>
+				</button>
+			);
 		}
 	});
 }
