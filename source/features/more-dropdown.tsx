@@ -14,10 +14,6 @@ import {appendBefore} from '../helpers/dom-utils';
 import {getRepoURL, getCurrentBranch} from '../github-helpers';
 
 const repoUrl = getRepoURL();
-const uselessTabs = new Set([
-	'security-tab',
-	'insights-tab'
-]);
 
 function createDropdown(): void {
 	// Markup copied from native GHE dropdown
@@ -36,7 +32,13 @@ function createDropdown(): void {
 }
 
 /* eslint-disable-next-line import/prefer-default-export */
-export function createDropdownItem(label: string, url: string, attributes?: Record<string, string>, Icon?: () => JSX.Element, count?: number): Element {
+export function createDropdownItem(
+	label: string,
+	url: string,
+	attributes?: Record<string, string>,
+	Icon?: () => JSX.Element,
+	count?: number
+): Element {
 	return (
 		<li {...attributes}>
 			<a role="menuitem" className="rgh-reponav-more dropdown-item" href={url}>
@@ -50,10 +52,12 @@ export function createDropdownItem(label: string, url: string, attributes?: Reco
 
 async function init(): Promise<void> {
 	// Wait for the tab bar to be loaded
-	await elementReady([
-		'.pagehead + *', // Pre "Repository refresh" layout
-		'.UnderlineNav-body + *'
-	].join());
+	await elementReady(
+		[
+			'.pagehead + *', // Pre "Repository refresh" layout
+			'.UnderlineNav-body + *'
+		].join()
+	);
 
 	const reference = getCurrentBranch();
 	const compareUrl = `/${repoUrl}/compare/${reference}`;
@@ -76,20 +80,18 @@ async function init(): Promise<void> {
 			createDropdownItem('Branches', branchesUrl, {}, BranchIcon)
 		);
 
-		for (const tab of select.all<HTMLAnchorElement>('.js-responsive-underlinenav-item')) {
-			const shouldBeRemoved = uselessTabs.has(tab.dataset.tabItem!);
+		for (const tab of select.all<HTMLAnchorElement>(`
+			.js-responsive-underlinenav-item[data-tab-item="security-tab"],
+			.js-responsive-underlinenav-item[data-tab-item="insights-tab"]
+		`)) {
+			tab.parentElement!.remove();
 
-			if (shouldBeRemoved) {
-				tab.parentElement!.remove();
-			}
-
-			menu.replaceChild(
-				<li data-menu-item={tab.dataset.tabItem} hidden={!shouldBeRemoved && tab.style.visibility !== 'hidden'}>
+			menu.querySelector(`[data-menu-item="${tab.dataset.tabItem!}"]`)!.replaceWith(
+				<li data-menu-item={tab.dataset.tabItem}>
 					<a href={tab.href} className="rgh-reponav-more dropdown-item">
-						{[...tab.cloneNode(true).childNodes]}
+						{[...tab.childNodes]}
 					</a>
-				</li>,
-				menu.querySelector(`[data-menu-item="${tab.dataset.tabItem!}"]`)!
+				</li>
 			);
 		}
 
@@ -107,7 +109,9 @@ async function init(): Promise<void> {
 			<DiffIcon/> Compare
 		</a>,
 
-		pageDetect.isEnterprise() ? '' : (
+		pageDetect.isEnterprise() ? (
+			''
+		) : (
 			<a href={dependenciesUrl} className="rgh-reponav-more dropdown-item">
 				<PackageIcon/> Dependencies
 			</a>
