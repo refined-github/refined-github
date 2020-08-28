@@ -5,6 +5,7 @@ import zipTextNodes from 'zip-text-nodes';
 
 import features from '.';
 import {parseBackticks} from '../github-helpers/dom-formatters';
+import parseBackticksCore from '../github-helpers/parse-backticks';
 
 function init(): void {
 	const selectors = [
@@ -46,15 +47,8 @@ function init(): void {
 	// `isRepoSearch`
 	observe('#issue_search_results .f4:not(.rgh-backticks-already-parsed)', {
 		add(element) {
-			const child = element.firstElementChild!;
-			const clone = element.cloneNode(true);
-			// Combine text content to enable backticks parsing
-			child.textContent = `${child.textContent!}`;
-
 			element.classList.add('rgh-backticks-already-parsed');
-			parseBackticks(element);
-
-			zipTextNodes(element, clone);
+			zipTextNodes(element, parseBackticksCore(element.textContent!););
 		}
 	});
 }
