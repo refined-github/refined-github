@@ -44,7 +44,7 @@ function init(): void {
 		}
 	});
 
-	// `isRepoSearch`
+	// `isRepoSearch` might highlight keywords inside backticks, breaking the regular dom-formatter #3509
 	observe('.codesearch-results .f4:not(.rgh-backticks-already-parsed)', {
 		add(element) {
 			element.classList.add('rgh-backticks-already-parsed');
