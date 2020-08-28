@@ -10,7 +10,7 @@ import features from '.';
 import {groupButtons} from '../github-helpers/group-buttons';
 
 function init(): void {
-  observe('.btn[data-hotkey="t"]', {
+	observe('.btn[data-hotkey="t"]', {
 		add(searchButton) {
 			searchButton.classList.add('tooltipped', 'tooltipped-ne');
 			searchButton.setAttribute('aria-label', 'Go to file');
