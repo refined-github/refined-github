@@ -1,11 +1,10 @@
 import './parse-backticks.css';
-import React from 'dom-chef';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
+import zipTextNodes from 'zip-text-nodes'
 
 import features from '.';
 import {parseBackticks} from '../github-helpers/dom-formatters';
-import getTextNodes from '../helpers/get-text-nodes';
 
 function init(): void {
 	const selectors = [
@@ -48,33 +47,14 @@ function init(): void {
 	observe('#issue_search_results .f4:not(.rgh-backticks-already-parsed)', {
 		add(element) {
 			const child = element.firstElementChild!;
-			const keywords = [...child.querySelectorAll('em')].map(element => element.textContent);
+			const clone = element.cloneNode(true);
 			// Combine text content to enable backticks parsing
 			child.textContent = `${child.textContent!}`;
 
-			// Parse backticks
 			element.classList.add('rgh-backticks-already-parsed');
 			parseBackticks(element);
 
-			// Rehighlight search keywords
-			for (const keyword of keywords) {
-				const splittingRegex = new RegExp(`(${keyword!})`);
-
-				for (const node of getTextNodes(child)) {
-					const fragment = new DocumentFragment();
-					for (const [index, text] of node.textContent!.split(splittingRegex).entries()) {
-						if (index % 2 && text.length >= 1) {
-							fragment.append(
-								<em>{text}</em>
-							);
-						} else if (text.length > 0) {
-							fragment.append(text);
-						}
-					}
-
-					node.replaceWith(fragment);
-				}
-			}
+			zipTextNodes(element, clone);
 		}
 	});
 }
