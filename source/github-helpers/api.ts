@@ -30,9 +30,9 @@ import {JsonObject, AsyncReturnType} from 'type-fest';
 
 import optionsStorage from '../options-storage';
 
-type JsonError = {
+interface JsonError {
 	message: string;
-};
+}
 
 interface GraphQLResponse {
 	message?: string;
@@ -55,6 +55,14 @@ export class RefinedGitHubAPIError extends Error {
 }
 
 const settings = optionsStorage.getAll();
+export async function expectToken(): Promise<string> {
+	const {personalToken} = await settings;
+	if (!personalToken) {
+		throw new Error('Personal token required for this feature');
+	}
+
+	return personalToken;
+}
 
 const api3 = pageDetect.isEnterprise() ?
 	`${location.origin}/api/v3/` :
@@ -66,7 +74,7 @@ const api4 = pageDetect.isEnterprise() ?
 
 interface GHRestApiOptions {
 	ignoreHTTPStatus?: boolean;
-	method?: 'GET' | 'POST' | 'PUT';
+	method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 	body?: JsonObject;
 	headers?: HeadersInit;
 	json?: boolean;
@@ -145,14 +153,10 @@ export const v4 = mem(async (
 	query: string,
 	options: GHGraphQLApiOptions = v4defaults
 ): Promise<AnyObject> => {
-	const {personalToken} = await settings;
+	const personalToken = await expectToken();
 
 	if (/^(query )?{/.test(query.trimStart())) {
 		throw new TypeError('`query` should only be what’s inside \'query {...}\', like \'user(login: "foo") { name }\', but is \n' + query);
-	}
-
-	if (!personalToken) {
-		throw new Error('Personal token required for this feature');
 	}
 
 	const response = await fetch(api4, {

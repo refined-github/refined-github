@@ -24,7 +24,7 @@ async function addSidebarReviewButton(): Promise<void | false> {
 	);
 }
 
-function focusReviewTextarea({delegateTarget}: delegate.Event<Event, HTMLDetailsElement>) {
+function focusReviewTextarea({delegateTarget}: delegate.Event<Event, HTMLDetailsElement>): void {
 	if (delegateTarget.open) {
 		select('textarea', delegateTarget)!.focus();
 	}

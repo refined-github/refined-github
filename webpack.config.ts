@@ -145,6 +145,7 @@ const config: Configuration = {
 		minimizer: [
 			new TerserPlugin({
 				parallel: true,
+				exclude: 'browser-polyfill.min.js', // #3451
 				terserOptions: {
 					mangle: false,
 					compress: {

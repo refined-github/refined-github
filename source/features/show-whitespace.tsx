@@ -61,7 +61,7 @@ const viewportObserver = new IntersectionObserver(changes => {
 	}
 });
 
-async function init(): Promise<void> {
+function init(): void {
 	for (const line of select.all('.blob-code-inner:not(.rgh-observing-whitespace)')) {
 		line.classList.add('rgh-observing-whitespace');
 		viewportObserver.observe(line);
@@ -70,7 +70,7 @@ async function init(): Promise<void> {
 
 void features.add({
 	id: __filebasename,
-	description: 'Shows whitespace characters.',
+	description: 'Makes whitespace characters visible.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/61187598-f9118380-a6a5-11e9-985a-990a7f798805.png'
 }, {
 	include: [

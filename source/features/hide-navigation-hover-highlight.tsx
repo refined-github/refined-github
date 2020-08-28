@@ -1,4 +1,6 @@
 import './hide-navigation-hover-highlight.css';
+import onetime from 'onetime';
+
 import features from '.';
 
 const className = 'rgh-no-navigation-highlight';
@@ -16,6 +18,5 @@ void features.add({
 	screenshot: false
 }, {
 	waitForDomReady: false,
-	repeatOnAjax: false,
-	init
+	init: onetime(init)
 });

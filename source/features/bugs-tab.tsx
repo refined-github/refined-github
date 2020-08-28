@@ -20,8 +20,12 @@ const countBugs = cache.function(async (): Promise<number> => {
 
 	return search.issueCount;
 }, {
-	maxAge: 1 / 24 / 2, // Stale after half an hour
-	staleWhileRevalidate: 4,
+	maxAge: {
+		minutes: 30
+	},
+	staleWhileRevalidate: {
+		days: 4
+	},
 	cacheKey: (): string => __filebasename + ':' + getRepoURL()
 });
 
@@ -95,7 +99,7 @@ async function init(): Promise<void | false> {
 		bugsCounter.textContent = numberFormatter.format(await countPromise);
 	} catch (error) {
 		bugsCounter.remove();
-		throw error;
+		features.error(__filebasename, error);
 	}
 }
 

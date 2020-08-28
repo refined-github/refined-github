@@ -126,15 +126,3 @@ pr-branches
 #partial-pull-merging .js-remove-unless-platform {
 	display: none;
 }
-
-/* Place Releases/Tags selector on the same line as `Draft new release` on releases page (GitHub bug) */
-.subnav .d-flex.flex-md-row.flex-justify-between.flex-md-items-center {
-	float: left;
-}
-
-/* Align fork popup's header (GitHub bug) */
-[aria-label^='Fork'] .Box-title {
-	position: static; /* The title wrongly overlaps the Close button, making it impossible to click */
-	min-height: 0;
-	margin: -5px 0;
-}

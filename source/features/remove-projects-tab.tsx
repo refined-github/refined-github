@@ -1,12 +1,13 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import onetime from 'onetime';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import {observeOneMutation} from '../helpers/simplified-element-observer';
 
-function getProjectsTab() {
+async function getProjectsTab(): Promise<HTMLElement | undefined> {
 	return elementReady([
 		'[data-hotkey="g b"]', // In organizations and repos
 		'[aria-label="User profile"] [href$="?tab=projects"]' // In user profiles
@@ -82,7 +83,6 @@ void features.add({
 		pageDetect.isRepo,
 		pageDetect.isOrganizationProfile
 	],
-	repeatOnAjax: false,
 	waitForDomReady: false,
-	init: addNewProjectLink
+	init: onetime(addNewProjectLink)
 });

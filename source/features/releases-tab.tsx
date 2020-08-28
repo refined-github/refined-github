@@ -43,8 +43,12 @@ async function fetchFromApi(): Promise<number> {
 }
 
 const getReleaseCount = cache.function(async () => pageDetect.isRepoRoot() ? parseCountFromDom() : fetchFromApi(), {
-	maxAge: 1,
-	staleWhileRevalidate: 4,
+	maxAge: {
+		hours: 1
+	},
+	staleWhileRevalidate: {
+		days: 3
+	},
 	cacheKey: () => cacheKey
 });
 
@@ -59,7 +63,11 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	await elementReady('.pagehead + *, .UnderlineNav-body + *'); // Wait for the tab bar to be loaded
+	// Wait for the tab bar to be loaded
+	await elementReady([
+		'.pagehead + *', // Pre "Repository refresh" layout
+		'.UnderlineNav-body + *'
+	].join());
 
 	const repoNavigationBar = select('.js-repo-nav.UnderlineNav');
 	if (repoNavigationBar) {

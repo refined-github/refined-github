@@ -5,9 +5,31 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
-import {getRepoURL, isPermalink} from '../github-helpers';
 import {appendBefore} from '../helpers/dom-utils';
+import {getRepoURL, isPermalink, getRepoGQL} from '../github-helpers';
+
+async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> {
+	const {repository} = await api.v4(`
+		repository(${getRepoGQL()}) {
+			ref(qualifiedName: "${url.branch}") {
+				target {
+					... on Commit {
+						history(first: 1, until: "${date}") {
+							nodes {
+								oid
+							}
+						}
+					}
+				}
+			}
+		}
+	`);
+
+	const [{oid}] = repository.ref.target.history.nodes;
+	select<HTMLAnchorElement>('.rgh-link-date')!.pathname = url.assign({branch: oid}).pathname;
+}
 
 function addInlineLinks(comment: HTMLElement, timestamp: string): void {
 	const links = select.all<HTMLAnchorElement>(`
@@ -78,6 +100,9 @@ async function showTimemachineBar(): Promise<void | false> {
 		}
 
 		const parsedUrl = new GitHubURL(location.href);
+		// Due to GitHub’s bug of supporting branches with slashes: #2901
+		void updateURLtoDatedSha(parsedUrl, date); // Don't await it, since the link will usually work without the update
+
 		parsedUrl.branch = `${parsedUrl.branch}@{${date}}`;
 		url.pathname = parsedUrl.pathname;
 	}
@@ -86,7 +111,7 @@ async function showTimemachineBar(): Promise<void | false> {
 	select('#start-of-content')!.after(
 		<div className="flash flash-full flash-notice">
 			<div className="container-lg px-3">
-				{closeButton} You can also <a href={String(url)}>view this object as it appeared at the time of the comment</a> (<relative-time datetime={date}/>)
+				{closeButton} You can also <a className="rgh-link-date" href={String(url)}>view this object as it appeared at the time of the comment</a> (<relative-time datetime={date}/>)
 			</div>
 		</div>
 	);

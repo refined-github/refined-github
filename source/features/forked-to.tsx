@@ -25,24 +25,26 @@ const updateCache = cache.function(async (): Promise<string[] | undefined> => {
 
 	return forks.length > 0 ? forks : undefined;
 }, {
-	cacheKey: getCacheKey,
-	maxAge: 1 / 24,
-	staleWhileRevalidate: 5
+	maxAge: {
+		hours: 1
+	},
+	staleWhileRevalidate: {
+		days: 5
+	},
+	cacheKey: getCacheKey
 });
 
 function createLink(baseRepo: string): string {
-	if (pageDetect.isRepoRoot() || !(pageDetect.isSingleFile() || pageDetect.isRepoTree())) {
-		return '/' + baseRepo;
+	if (pageDetect.isSingleFile() || pageDetect.isRepoTree() || pageDetect.isEditingFile()) {
+		const [user, repository] = baseRepo.split('/', 2);
+		const url = new GitHubURL(location.href).assign({
+			user,
+			repository
+		});
+		return url.pathname;
 	}
 
-	const [user, repository] = baseRepo.split('/');
-	const url = new GitHubURL(location.href).assign({
-		user,
-		repository,
-		branch: 'HEAD'
-	});
-
-	return url.pathname;
+	return '/' + baseRepo;
 }
 
 async function updateUI(forks: string[]): Promise<void> {

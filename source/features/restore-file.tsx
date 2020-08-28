@@ -8,7 +8,7 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import fetchDom from '../helpers/fetch-dom';
 import postForm from '../helpers/post-form';
-import {getConversationNumber, getRepoGQL, getRepoURL, getCurrentBranch} from '../github-helpers';
+import {getConversationNumber, getRepoGQL, getCurrentBranch} from '../github-helpers';
 
 function showError(menuItem: HTMLButtonElement, error: string): void {
 	menuItem.disabled = true;
@@ -58,7 +58,8 @@ async function commitFileContent(menuItem: Element, content: string, filePath: s
 	// Check if file was deleted by PR
 	if (menuItem.closest('[data-file-deleted="true"]')) {
 		menuItem.textContent = 'Undeleting…';
-		pathname = `/${getRepoURL()}/new/${getCurrentBranch()}?filename=` + filePath;
+		const [, user, repository] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/', 3);
+		pathname = `/${user}/${repository}/new/${getCurrentBranch()}?filename=${filePath}`;
 	} else {
 		menuItem.textContent = 'Committing…';
 	}
@@ -108,7 +109,7 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 		menuItem.closest('.file')!.remove();
 	} catch (error) {
 		showError(menuItem, 'Restore failed. See console for details');
-		throw error;
+		features.error(__filebasename, error);
 	}
 }
 
