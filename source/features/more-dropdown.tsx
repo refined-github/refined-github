@@ -52,12 +52,10 @@ export function createDropdownItem(
 
 async function init(): Promise<void> {
 	// Wait for the tab bar to be loaded
-	await elementReady(
-		[
-			'.pagehead + *', // Pre "Repository refresh" layout
-			'.UnderlineNav-body + *'
-		].join()
-	);
+	await elementReady([
+		'.pagehead + *', // Pre "Repository refresh" layout
+		'.UnderlineNav-body + *'
+	].join());
 
 	const reference = getCurrentBranch();
 	const compareUrl = `/${repoUrl}/compare/${reference}`;
@@ -84,9 +82,7 @@ async function init(): Promise<void> {
 			.js-responsive-underlinenav-item[data-tab-item="security-tab"],
 			.js-responsive-underlinenav-item[data-tab-item="insights-tab"]
 		`)) {
-			const menuItem = menu.querySelector(
-				`[data-menu-item="${tab.dataset.tabItem!}"] > a`
-			)!;
+			const menuItem = menu.querySelector(`[data-menu-item="${tab.dataset.tabItem!}"] > a`)!;
 			menuItem.parentElement!.removeAttribute('hidden');
 
 			menuItem.replaceWith(
@@ -110,9 +106,7 @@ async function init(): Promise<void> {
 			<DiffIcon/> Compare
 		</a>,
 
-		pageDetect.isEnterprise() ? (
-			''
-		) : (
+		pageDetect.isEnterprise() ? '' : (
 			<a href={dependenciesUrl} className="rgh-reponav-more dropdown-item">
 				<PackageIcon/> Dependencies
 			</a>
