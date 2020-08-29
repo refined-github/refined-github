@@ -20,6 +20,5 @@ void features.add({
 	include: [
 		pageDetect.isMilestone
 	],
-	waitForDomReady: false,
 	init: onetime(init)
 });
