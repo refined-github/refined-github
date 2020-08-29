@@ -103,6 +103,5 @@ void features.add({
 	include: [
 		pageDetect.isBranches
 	],
-	waitForDomReady: false,
 	init: onetime(init)
 });
