@@ -10,7 +10,7 @@ function init(): void {
 	const selectors = [
 		'.js-blob-wrapper',
 		'.blob-wrapper',
-		'.comment-body',
+		'.comment-body.d-block',
 		'.blob-expanded'
 	].map(selector => selector + `:not(.${linkifiedURLClass})`).join();
 
