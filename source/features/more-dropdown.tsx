@@ -84,14 +84,15 @@ async function init(): Promise<void> {
 			.js-responsive-underlinenav-item[data-tab-item="security-tab"],
 			.js-responsive-underlinenav-item[data-tab-item="insights-tab"]
 		`)) {
-			tab.parentElement!.remove();
+			const menuItem = menu.querySelector(
+				`[data-menu-item="${tab.dataset.tabItem!}"] > a`
+			)!;
+			menuItem.parentElement!.removeAttribute("hidden");
 
-			menu.querySelector(`[data-menu-item="${tab.dataset.tabItem!}"]`)!.replaceWith(
-				<li data-menu-item={tab.dataset.tabItem}>
-					<a href={tab.href} className="rgh-reponav-more dropdown-item">
-						{[...tab.childNodes]}
-					</a>
-				</li>
+			menuItem.replaceWith(
+				<a role="menuitem" className="rgh-reponav-more dropdown-item" href={tab.href} >
+					{[...tab.childNodes]}
+				</a>
 			);
 		}
 
