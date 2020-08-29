@@ -87,10 +87,10 @@ async function init(): Promise<void> {
 			const menuItem = menu.querySelector(
 				`[data-menu-item="${tab.dataset.tabItem!}"] > a`
 			)!;
-			menuItem.parentElement!.removeAttribute("hidden");
+			menuItem.parentElement!.removeAttribute('hidden');
 
 			menuItem.replaceWith(
-				<a role="menuitem" className="rgh-reponav-more dropdown-item" href={tab.href} >
+				<a role="menuitem" className="rgh-reponav-more dropdown-item" href={tab.href}>
 					{[...tab.childNodes]}
 				</a>
 			);
