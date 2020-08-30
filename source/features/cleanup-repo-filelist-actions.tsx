@@ -49,6 +49,5 @@ void features.add({
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile
 	],
-	waitForDomReady: false,
 	init: onetime(init)
 });
