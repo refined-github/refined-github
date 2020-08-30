@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
+import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -12,13 +13,15 @@ function init(): void {
 }
 
 function initDashboard(): void {
-	for (const icon of select.all('.js-recent-activity-container :not(a) > div > .octicon-comment')) {
-		const url = icon.closest('li')!.querySelector('a')!.pathname + '#partial-timeline';
-		const link = <a className="muted-link" href={url}/>;
-		icon.parentElement!.classList.remove('col-1'); // Also fix extra space added by GitHub #3174
-		icon.parentElement!.append(link);
-		link.append(icon, icon.nextSibling!);
-	}
+	observe('.js-recent-activity-container :not(a) > div > .octicon-comment', {
+		add(icon) {
+			const url = icon.closest('li')!.querySelector('a')!.pathname + '#partial-timeline';
+			const link = <a className="muted-link" href={url}/>;
+			icon.parentElement!.classList.remove('col-1'); // Also fix extra space added by GitHub #3174
+			icon.parentElement!.append(link);
+			link.append(icon, icon.nextSibling!);
+		}
+	});
 }
 
 void features.add({
@@ -34,6 +37,5 @@ void features.add({
 	include: [
 		pageDetect.isDashboard
 	],
-	onlyAdditionalListeners: true,
 	init: onetime(initDashboard)
 });
