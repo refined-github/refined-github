@@ -28,6 +28,5 @@ void features.add({
 	include: [
 		pageDetect.hasComments
 	],
-	waitForDomReady: false,
 	init: onetime(init)
 });
