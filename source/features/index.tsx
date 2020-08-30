@@ -153,8 +153,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 const shortcutMap = new Map<string, string>();
 
 const defaultPairs = new Map([
-	[pageDetect.hasComments, onNewComments],
-	[pageDetect.isDashboard, onNewsfeedLoad]
+	[pageDetect.hasComments, onNewComments]
 ]);
 
 function enforceDefaults(
