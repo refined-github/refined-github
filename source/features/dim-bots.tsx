@@ -13,7 +13,7 @@ export const botSelectors = [
 
 	/* Issues/PRs */
 	'.opened-by [href*="author%3Aapp%2F"]',
-	'.labels [href$="bot"]'
+	'.labels [href$="/bot"]'
 ];
 
 function init(): void {
