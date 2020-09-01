@@ -5,6 +5,7 @@ import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import {wrapAll} from '../helpers/dom-utils';
 
 function init(): void {
 	for (const link of select.all<HTMLAnchorElement>('.js-issue-row a[aria-label*="comment"], .js-pinned-issue-list-item a[aria-label*="comment"]')) {
@@ -18,7 +19,7 @@ function initDashboard(): void {
 			const url = icon.closest('li')!.querySelector('a')!.pathname + '#partial-timeline';
 			const link = <a className="muted-link" href={url}/>;
 			icon.parentElement!.classList.remove('col-1'); // Also fix extra space added by GitHub #3174
-			wrapAll(link [icon, icon.nextSibling!]);
+			wrapAll([icon, icon.nextSibling!], link);
 		}
 	});
 }
