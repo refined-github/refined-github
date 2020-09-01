@@ -18,8 +18,7 @@ function initDashboard(): void {
 			const url = icon.closest('li')!.querySelector('a')!.pathname + '#partial-timeline';
 			const link = <a className="muted-link" href={url}/>;
 			icon.parentElement!.classList.remove('col-1'); // Also fix extra space added by GitHub #3174
-			icon.parentElement!.append(link);
-			link.append(icon, icon.nextSibling!);
+			wrapAll(link [icon, icon.nextSibling!]);
 		}
 	});
 }
