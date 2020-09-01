@@ -1,10 +1,10 @@
 import select from 'select-dom';
 import onetime from 'onetime';
 import debounce from 'debounce-fn';
+import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import onNewsfeedLoad from '../github-events/on-newsfeed-load';
 
 let button: HTMLButtonElement | undefined;
 
@@ -23,29 +23,10 @@ const loadMore = debounce(() => {
 const inView = new IntersectionObserver(([{isIntersecting}]) => {
 	if (isIntersecting) {
 		loadMore();
-	} else {
-		// The button may have been changed after it's gone out of view, so try finding it again
-		findButton();
 	}
 }, {
 	rootMargin: '500px' // https://github.com/sindresorhus/refined-github/pull/505#issuecomment-309273098
 });
-
-const findButton = (): void => {
-	// If the old button is still there, leave
-	if (button && document.contains(button)) {
-		return;
-	}
-
-	// Forget the old button
-	inView.disconnect();
-
-	// Watch the new button, or stop everything
-	button = select<HTMLButtonElement>('.ajax-pagination-btn')!;
-	if (button) {
-		inView.observe(button);
-	}
-};
 
 function init(): void {
 	const form = select('.ajax-pagination-form');
@@ -54,7 +35,11 @@ function init(): void {
 		// the fake click will submit the form without ajax.
 		form.addEventListener('submit', event => event.preventDefault());
 
-		findButton();
+		observe('.ajax-pagination-btn', {
+			add(button) {
+				inView.observe(button);
+			}
+		});
 	}
 }
 
@@ -65,9 +50,6 @@ void features.add({
 }, {
 	include: [
 		pageDetect.isDashboard
-	],
-	additionalListeners: [
-		onNewsfeedLoad
 	],
 	init: onetime(init)
 });
