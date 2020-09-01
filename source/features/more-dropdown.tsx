@@ -84,10 +84,29 @@ async function init(): Promise<void> {
 		`)) {
 			const menuItem = menu.querySelector(`[data-menu-item="${tab.dataset.tabItem!}"] > a`)!;
 			menuItem.parentElement!.removeAttribute('hidden');
-
+			tab.parentElement!.remove();
+			
 			menuItem.replaceWith(
 				<a role="menuitem" className="rgh-reponav-more dropdown-item" href={tab.href}>
 					{[...tab.childNodes]}
+				</a>
+			);
+		}
+		
+		await new Promise(resolve => {
+			window.addEventListener('load', () => {
+				setTimeout(resolve, 10);
+			});
+		});
+		
+		for (const tab of select.all<HTMLAnchorElement>(
+			'.js-responsive-underlinenav-item[style="visibility: hidden;"]'
+		)) {
+			menu.querySelector(
+				`[data-menu-item="${tab.dataset.tabItem!}"] > a`
+			)!.replaceWith(
+				<a role="menuitem" className="rgh-reponav-more dropdown-item" href={tab.href}>
+					{[...tab.cloneNode(true).childNodes]}
 				</a>
 			);
 		}
