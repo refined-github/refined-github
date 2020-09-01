@@ -17,7 +17,6 @@ function initDashboard(): void {
 	observe('.js-recent-activity-container :not(a) > div > .octicon-comment', {
 		add(icon) {
 			const url = icon.closest('li')!.querySelector('a')!.pathname + '#partial-timeline'
-
 			icon.parentElement!.classList.remove('col-1'); // Also fix extra space added by GitHub #3174
 			wrapAll([icon, icon.nextSibling!], <a className="muted-link" href={url}/>);
 		}
