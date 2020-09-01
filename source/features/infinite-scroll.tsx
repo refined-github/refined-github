@@ -4,6 +4,7 @@ import debounce from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import onNewsfeedLoad from '../github-events/on-newsfeed-load';
 
 let button: HTMLButtonElement | undefined;
 
@@ -65,6 +66,8 @@ void features.add({
 	include: [
 		pageDetect.isDashboard
 	],
-	onlyAdditionalListeners: true,
+	additionalListeners: [
+		onNewsfeedLoad
+	],
 	init: onetime(init)
 });
