@@ -133,7 +133,7 @@ function init(): void {
 			}
 		}
 
-		const date = await getLastCommitDate(login);
+		const date = await datePromise;
 		if (!date) {
 			placeholder.textContent = 'Timezone Unknown';
 			container.title = 'Timezone couldn’t be determined from their last commits';
