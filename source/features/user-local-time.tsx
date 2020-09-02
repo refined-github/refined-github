@@ -2,6 +2,7 @@
 
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
+import delay from 'delay';
 import select from 'select-dom';
 import onetime from 'onetime';
 import ClockIcon from 'octicon/clock.svg';
@@ -102,6 +103,14 @@ function init(): void {
 			return;
 		}
 
+		const timeout = delay(300);
+		// This will delay adding the icon for 300ms, enough to check if the date is store as "not found"
+		const race = await Promise.race([timeout, getLastCommitDate(login)]);
+		if (race === false) {
+			// `date` was cached as "not found", so don't add the icon at all
+			return;
+		}
+
 		const placeholder = <span>Guessing local time…</span>;
 		const container = (
 			<div className="rgh-local-user-time mt-2 text-gray text-small">
@@ -125,7 +134,7 @@ function init(): void {
 
 		const date = await getLastCommitDate(login);
 		if (!date) {
-			placeholder.textContent = 'Not found';
+			placeholder.textContent = 'Timezone Unknown';
 			container.title = 'Timezone couldn’t be determined from their last commits';
 			return;
 		}
