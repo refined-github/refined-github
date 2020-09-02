@@ -105,7 +105,8 @@ function init(): void {
 
 		const timeout = delay(300);
 		// This will delay adding the icon for 300ms, enough to check if the date is store as "not found"
-		const race = await Promise.race([timeout, getLastCommitDate(login)]);
+		const datePromise = getLastCommitDate(login);
+		const race = await Promise.race([timeout, datePromise]);
 		if (race === false) {
 			// `date` was cached as "not found", so don't add the icon at all
 			return;
