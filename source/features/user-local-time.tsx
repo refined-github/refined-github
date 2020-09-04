@@ -103,12 +103,10 @@ function init(): void {
 			return;
 		}
 
-		const timeout = delay(300);
-		// This will delay adding the icon for 300ms, enough to check if the date is store as "not found"
 		const datePromise = getLastCommitDate(login);
-		const race = await Promise.race([timeout, datePromise]);
+		const race = await Promise.race([delay(300), datePromise]);
 		if (race === false) {
-			// `date` was cached as "not found", so don't add the icon at all
+			// The timezone was undeterminable and this resolved "immediately" (or was cached), so don't add the icon at all
 			return;
 		}
 
@@ -135,7 +133,7 @@ function init(): void {
 
 		const date = await datePromise;
 		if (!date) {
-			placeholder.textContent = 'Timezone Unknown';
+			placeholder.textContent = 'Timezone unknown';
 			container.title = 'Timezone couldn’t be determined from their last commits';
 			return;
 		}
