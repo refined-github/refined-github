@@ -12,7 +12,8 @@ export const botSelectors = [
 	'.commit-author[href$="scala-steward"]:first-child',
 
 	/* Issues/PRs */
-	'.opened-by [href*="author%3Aapp%2F"]'
+	'.opened-by [href*="author%3Aapp%2F"]',
+	'.labels [href$="/bot"]'
 ];
 
 function init(): void {
