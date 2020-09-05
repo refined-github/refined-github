@@ -1,9 +1,11 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
+import cache from 'webext-storage-cache';
 import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';
 import elementReady from 'element-ready';
+import looseVersionCompare from 'tiny-version-compare';
 import * as pageDetect from 'github-url-detection';
 
 import onNewComments from '../github-events/on-new-comments';
@@ -104,6 +106,11 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	// Options defaults
 	const options = await optionsStorage.getAll();
 
+	// Fetch hotfixes asynchronously
+	const hotfix = await cache.get('hotfix');
+	await fetchHotfixesAsynchronously();
+	Object.assign(options, hotfix);
+
 	if (options.customCSS.trim().length > 0) {
 		document.head.append(<style>{options.customCSS}</style>);
 	}
@@ -149,6 +156,29 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 		listener(runFeature);
 	}
 };
+
+// Fetch hotfix releases asynchronously
+// every 6 hours ( 4 times a day )
+// this is achieved by GETting a JSON file
+// from the hotfix branch and comparing
+// with the current version of extension
+const fetchHotfixesAsynchronously = cache.function(async () => {
+	const response = await fetch('https://raw.githubusercontent.com/sindresorhus/refined-github/hotfix/hotfix.json');
+	const hotfixes = await response.json();
+
+	if (!hotfixes) {
+		return {};
+	}
+
+	if (hotfixes.unaffected) {
+		const currentVersion = browser.runtime.getManifest().version;
+		if (looseVersionCompare(hotfixes.unaffected, currentVersion) >= 0) {
+			return {};
+		}
+	}
+
+	return hotfixes;
+}, {maxAge: {hours: 6}});
 
 const shortcutMap = new Map<string, string>();
 

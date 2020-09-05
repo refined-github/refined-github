@@ -1,4 +1,5 @@
 import 'webext-dynamic-content-scripts';
+import cache from 'webext-storage-cache';
 import addDomainPermissionToggle from 'webext-domain-permission-toggle';
 import './options-storage';
 
@@ -33,6 +34,11 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 			url: 'https://github.com/sindresorhus/refined-github/issues/1137',
 			active: false
 		});
+	}
+
+	// Clear hotfix cache after update
+	if (reason === 'update') {
+		await cache.delete('hotfix');
 	}
 });
 
