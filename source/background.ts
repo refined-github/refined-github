@@ -36,10 +36,8 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 		});
 	}
 
-	// Clear hotfix cache after update
-	if (reason === 'update') {
-		await cache.delete('hotfix');
-	}
+	// Hope that the feature was fixed in this version
+	await cache.delete('hotfix');
 });
 
 // GitHub Enterprise support

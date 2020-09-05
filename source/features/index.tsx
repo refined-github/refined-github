@@ -1,7 +1,7 @@
 import React from 'dom-chef';
+import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
-import cache from 'webext-storage-cache';
 import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';
 import elementReady from 'element-ready';
@@ -108,7 +108,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 
 	// Fetch hotfixes asynchronously
 	const hotfix = await cache.get('hotfix');
-	await fetchHotfixesAsynchronously();
+	checkForHotfixes();
 	Object.assign(options, hotfix);
 
 	if (options.customCSS.trim().length > 0) {
@@ -162,7 +162,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 // this is achieved by GETting a JSON file
 // from the hotfix branch and comparing
 // with the current version of extension
-const fetchHotfixesAsynchronously = cache.function(async () => {
+const checkForHotfixes = cache.function(async () => {
 	const response = await fetch('https://raw.githubusercontent.com/sindresorhus/refined-github/hotfix/hotfix.json');
 	const hotfixes = await response.json();
 
@@ -178,7 +178,10 @@ const fetchHotfixesAsynchronously = cache.function(async () => {
 	}
 
 	return hotfixes;
-}, {maxAge: {hours: 6}});
+}, {
+	maxAge: {hours: 6},
+	cacheKey: 'hotfix'
+});
 
 const shortcutMap = new Map<string, string>();
 
