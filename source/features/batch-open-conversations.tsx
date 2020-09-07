@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -65,6 +66,7 @@ async function init(): Promise<void | false> {
 			</button>
 		);
 	} else {
+		// GitHub doesn't have the checkboxes when the current user can't edit the repo, so let's add them
 		const issuesToolbar = select('#js-issues-toolbar')!;
 		issuesToolbar.prepend(
 			<div className="mr-3 d-none d-md-block">
@@ -81,6 +83,7 @@ async function init(): Promise<void | false> {
 			</div>
 		);
 
+		await domLoaded;
 		for (const conversation of select.all('.js-issue-row')) {
 			const number = looseParseInt(conversation.id);
 			conversation.firstElementChild!.prepend(
