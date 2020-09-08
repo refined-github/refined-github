@@ -164,13 +164,9 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 // with the current version of extension
 const checkForHotfixes = cache.function(async () => {
 	const response = await fetch('https://raw.githubusercontent.com/sindresorhus/refined-github/hotfix/hotfix.json');
-	const hotfixes = await response.json();
+	const hotfixes: AnyObject | false = await response.json();
 
-	if (!hotfixes) {
-		return {};
-	}
-
-	if (hotfixes.unaffected) {
+	if (hotfixes && hotfixes.unaffected) {
 		const currentVersion = browser.runtime.getManifest().version;
 		if (looseVersionCompare(hotfixes.unaffected, currentVersion) >= 0) {
 			return {};
