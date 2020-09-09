@@ -5,7 +5,7 @@ import domLoaded from 'dom-loaded';
 import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';
 import elementReady from 'element-ready';
-import looseVersionCompare from 'tiny-version-compare';
+import compareVersions from 'tiny-version-compare';
 import * as pageDetect from 'github-url-detection';
 
 import onNewComments from '../github-events/on-new-comments';
@@ -106,7 +106,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	// Options defaults
 	const options = await optionsStorage.getAll();
 
-	// Fetch hotfixes asynchronously
+	// If features are remotely marked as "seriously breaking" by the maintainers, disable them without having to wait for proper updates to propagate #3529
 	const hotfix = await cache.get('hotfix');
 	checkForHotfixes();
 	Object.assign(options, hotfix);
@@ -157,18 +157,13 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 	}
 };
 
-// Fetch hotfix releases asynchronously
-// every 6 hours ( 4 times a day )
-// this is achieved by GETting a JSON file
-// from the hotfix branch and comparing
-// with the current version of extension
 const checkForHotfixes = cache.function(async () => {
 	const response = await fetch('https://raw.githubusercontent.com/sindresorhus/refined-github/hotfix/hotfix.json');
 	const hotfixes: AnyObject | false = await response.json();
 
 	if (hotfixes && hotfixes.unaffected) {
 		const currentVersion = browser.runtime.getManifest().version;
-		if (looseVersionCompare(hotfixes.unaffected, currentVersion) >= 0) {
+		if (looseVersionCompare(hotfixes.unaffected, currentVersion) < 1) {
 			return {};
 		}
 	}
