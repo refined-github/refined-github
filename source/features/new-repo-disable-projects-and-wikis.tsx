@@ -25,7 +25,7 @@ async function disableWikiAndProjects(): Promise<void> {
 }
 
 function setStorage(): void {
-	if (select<HTMLInputElement>('[name="rgh-disable-project"]')!.checked) {
+	if (select<HTMLInputElement>('#rgh-disable-project')!.checked) {
 		sessionStorage.rghNewRepo = true;
 	}
 }
@@ -36,8 +36,11 @@ async function init(): Promise<void> {
 	select.last('.js-repo-init-setting-container')!.after(
 		<div className="form-checkbox checked mt-0 mb-3">
 			<label>
-				<input checked type="checkbox" name="rgh-disable-project"/>
-				Disable Projects and Wikis
+				<input
+					checked
+					type="checkbox"
+					id="rgh-disable-project"
+				/> Disable Projects and Wikis
 			</label>
 			<span className="note mb-2">
 				After creating the repository disable the projects and wiki
