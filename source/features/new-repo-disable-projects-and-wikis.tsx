@@ -15,7 +15,7 @@ async function disableWikiAndProjects(): Promise<void | false> {
 
 	sessionStorage.removeItem('rghNewRepo');
 
-	api.v3(`repos/${getRepoURL()}`, {
+	void api.v3(`repos/${getRepoURL()}`, {
 		method: 'PATCH',
 		body: {
 			has_projects: false,
@@ -34,9 +34,7 @@ function setStorage(): void | false {
 		return false;
 	}
 
-	const owner = select('#repository-owner')!.textContent!.trim();
-	const repository = select<HTMLInputElement>('.js-repo-name')!.value;
-	sessionStorage.rghNewRepo = owner + '/' + repository;
+	sessionStorage.rghNewRepo = true;
 }
 
 async function init(): Promise<void> {
@@ -46,9 +44,9 @@ async function init(): Promise<void> {
 		<div className="form-checkbox checked mt-0 mb-3">
 			<label>
 				<input checked type="checkbox" name="rgh-disable-project"/>
-				Remove Projects and Wiki`s
+				Remove Projects and Wikis
 			</label>
-			<span className="note">
+			<span className="note mb-2">
 				After creating the repository remove the projects and the wiki
 			</span>
 		</div>
@@ -59,7 +57,7 @@ async function init(): Promise<void> {
 
 void features.add({
 	id: __filebasename,
-	description: 'Automatically disables projects and wikis when creating a repository',
+	description: 'Automatically disables projects and wikis when creating a repository.',
 	screenshot: 'https://user-images.githubusercontent.com/16872793/92678588-58901100-f2f4-11ea-8b9f-d3101fbe00c2.png'
 }, {
 	include: [
@@ -68,7 +66,7 @@ void features.add({
 	init
 }, {
 	include: [
-		pageDetect.isRepoHome
+		() => Boolean(sessionStorage.rghNewRepo)
 	],
 	waitForDomReady: false,
 	init: disableWikiAndProjects
