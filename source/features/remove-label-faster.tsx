@@ -5,6 +5,7 @@ import select from 'select-dom';
 import oneTime from 'onetime';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+import onetime from 'onetime';
 import {observe} from 'selector-observer';
 
 import features from '.';
@@ -78,5 +79,5 @@ void features.add({
 	exclude: [
 		canNotEditLabels
 	],
-	init
+	init: onetime(init)
 });
