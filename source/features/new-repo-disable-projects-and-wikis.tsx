@@ -1,7 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -19,10 +18,10 @@ async function disableWikiAndProjects(): Promise<void> {
 		}
 	});
 
-	const wiki = await elementReady('[data-tab-item="wiki-tab"]');
-	wiki?.closest('.d-flex')!.remove();
-	const projects = await elementReady('[data-content="Projects"]');
-	projects?.closest('.d-flex')!.remove();
+	const wiki = document.evaluate("//*[@data-content='Wiki']/ancestor-or-self::*[@class='d-flex']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null ).singleNodeValue
+	wiki?.remove()
+	const projects = document.evaluate("//*[@data-content='Projects']/ancestor-or-self::*[@class='d-flex']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null ).singleNodeValue
+	projects?.remove();
 }
 
 function setStorage(): void {
