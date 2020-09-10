@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -17,10 +18,10 @@ async function disableWikiAndProjects(): Promise<void> {
 			has_wiki: false
 		}
 	});
-
-	const wiki = document.evaluate("//*[@data-content='Wiki']/ancestor-or-self::*[@class='d-flex']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null ).singleNodeValue
-	wiki?.remove()
-	const projects = document.evaluate("//*[@data-content='Projects']/ancestor-or-self::*[@class='d-flex']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null ).singleNodeValue
+	await domLoaded;
+	const wiki = document.evaluate('//*[@data-content=\'Wiki\']/ancestor-or-self::*[@class=\'d-flex\']', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+	wiki?.remove();
+	const projects = document.evaluate('//*[@data-content=\'Projects\']/ancestor-or-self::*[@class=\'d-flex\']', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 	projects?.remove();
 }
 
