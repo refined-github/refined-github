@@ -44,7 +44,7 @@ async function init(): Promise<void> {
 				/> Disable Projects and Wikis
 			</label>
 			<span className="note mb-2">
-				After creating the repository disable the projects and wiki
+				After creating the repository disable the projects and wiki.
 			</span>
 		</div>
 	);
