@@ -11,7 +11,7 @@ import {getRepoURL} from '../github-helpers';
 async function disableWikiAndProjects(): Promise<void> {
 	delete sessionStorage.rghNewRepo;
 
-	void api.v3(`repos/${getRepoURL()}`, {
+	await api.v3(`repos/${getRepoURL()}`, {
 		method: 'PATCH',
 		body: {
 			has_projects: false,
@@ -19,10 +19,8 @@ async function disableWikiAndProjects(): Promise<void> {
 		}
 	});
 	await domLoaded;
-	const wiki = document.evaluate('//*[@data-content=\'Wiki\']/ancestor-or-self::*[@class=\'d-flex\']', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-	wiki?.remove();
-	const projects = document.evaluate('//*[@data-content=\'Projects\']/ancestor-or-self::*[@class=\'d-flex\']', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-	projects?.remove();
+	select('[data-content="Wiki"]')?.closest('.d-flex')!.remove();
+	select('[data-content="Projects"]')?.closest('.d-flex')!.remove();
 }
 
 function setStorage(): void {
