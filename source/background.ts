@@ -1,3 +1,4 @@
+import 'webext-storage-cache'; // Needed to regularly clear the cache
 import 'webext-dynamic-content-scripts';
 import addDomainPermissionToggle from 'webext-domain-permission-toggle';
 import './options-storage';

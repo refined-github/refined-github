@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import PencilIcon from 'octicon/pencil.svg';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -9,7 +10,7 @@ import {isPermalink} from '../github-helpers';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 
 async function init(): Promise<void | false> {
-	const readmeHeader = select('#readme .Box-header h2');
+	const readmeHeader = await elementReady('#readme .Box-header h2');
 	if (!readmeHeader) {
 		return false;
 	}
@@ -56,5 +57,6 @@ void features.add({
 	include: [
 		pageDetect.isRepoTree
 	],
+	waitForDomReady: false,
 	init
 });
