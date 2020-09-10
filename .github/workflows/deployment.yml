@@ -2,15 +2,11 @@
 name: Deployment
 
 on:
+  workflow_dispatch:
+    # You can manually trigger a deployment on GitHub.com
+    # https://github.blog/changelog/2020-07-06-github-actions-manual-triggers-with-workflow_dispatch/
   schedule:
-    - cron: '42 13 * * */4'
-  push:
-    tags:
-      - "20.*"
-      - "21.*"
-      - "22.*"
-      - "23.*"
-      - "24.*"
+    - cron: '42 17 * * 4'
 
 jobs:
 

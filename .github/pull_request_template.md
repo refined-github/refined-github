@@ -1,5 +1,4 @@
-<!--
-
+<!-- Please follow the template -->
 Thanks for contributing! 🍄
 
 1. LINKED ISSUES:
@@ -10,5 +9,3 @@ Thanks for contributing! 🍄
 
 3. SCREENSHOT:
    Add a screenshot here if your PR makes visual changes
-
--->

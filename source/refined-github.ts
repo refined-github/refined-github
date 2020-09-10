@@ -1,6 +1,7 @@
 import select from 'select-dom';
 
 import './refined-github.css';
+import './features/github-bugs.css';
 import './features/scrollable-code-and-blockquote.css';
 import './features/center-reactions-popup.css';
 import './features/clean-dashboard.css';
@@ -186,6 +187,13 @@ import './features/vertical-front-matter';
 import './features/use-first-commit-message-for-new-prs';
 import './features/linkify-user-edit-history-popup';
 import './features/cleanup-repo-filelist-actions';
+import './features/prevent-duplicate-pr-submission';
+import './features/remove-label-faster';
+import './features/clean-conversation-headers';
+import './features/highlight-deleted-and-added-files-in-diffs';
+import './features/convert-release-to-draft';
+import './features/linkify-full-profile-readme-title';
+import './features/same-page-definition-jump';
 
 // Add global for easier debugging
 (window as any).select = select;

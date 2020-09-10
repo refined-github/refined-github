@@ -15,6 +15,7 @@
 		"storage",
 		"contextMenus",
 		"activeTab",
+		"alarms",
 		"https://github.com/*",
 		"https://api.github.com/*"
 	],

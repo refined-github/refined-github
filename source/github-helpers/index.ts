@@ -1,11 +1,11 @@
 import select from 'select-dom';
-import oneTime from 'onetime';
+import onetime from 'onetime';
 import compareVersions from 'tiny-version-compare';
 import * as pageDetect from 'github-url-detection/esm/index.js'; // eslint-disable-line import/extensions -- Required for Node tests compatibility
 import elementReady from 'element-ready';
 
 // This never changes, so it can be cached here
-export const getUsername = oneTime(pageDetect.utils.getUsername);
+export const getUsername = onetime(pageDetect.utils.getUsername);
 export const {getRepoPath, getCleanPathname} = pageDetect.utils;
 
 export const getConversationNumber = (): string | undefined => {
@@ -94,7 +94,7 @@ export function getLatestVersionTag(tags: string[]): string {
 	return latestVersion;
 }
 
-const escapeRegex = (string: string) => string.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&');
+const escapeRegex = (string: string): string => string.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&');
 const prCommitPathnameRegex = /[/][^/]+[/][^/]+[/]pull[/](\d+)[/]commits[/]([\da-f]{7})[\da-f]{33}(?:#[\w-]+)?\b/; // eslint-disable-line unicorn/better-regex
 export const prCommitUrlRegex = new RegExp('\\b' + escapeRegex(location.origin) + prCommitPathnameRegex.source, 'gi');
 

@@ -77,8 +77,8 @@ async function addButton(): Promise<void> {
 	}
 
 	// Draft PRs already have this info on the page
-	const [outOfDateContainer] = select.all('.completeness-indicator-problem + .status-heading')
-		.filter(title => title.textContent!.includes('out-of-date'));
+	const outOfDateContainer = select.all('.completeness-indicator-problem + .status-heading')
+		.find(title => title.textContent!.includes('out-of-date'));
 	if (outOfDateContainer) {
 		const meta = outOfDateContainer.nextElementSibling!;
 		meta.after(' ', createButton());
@@ -95,7 +95,9 @@ async function addButton(): Promise<void> {
 	}
 }
 
-function init(): void | false {
+async function init(): Promise<void | false> {
+	await api.expectToken();
+
 	// Button exists when the current user can merge the PR.
 	// Button is disabled when:
 	// - There are conflicts (there's already a native "Resolve conflicts" button)

@@ -1,4 +1,6 @@
 import './monospace-textareas.css';
+import onetime from 'onetime';
+
 import features from '.';
 
 function init(): void {
@@ -11,6 +13,5 @@ void features.add({
 	screenshot: false
 }, {
 	waitForDomReady: false,
-	repeatOnAjax: false,
-	init
+	init: onetime(init)
 });

@@ -8,13 +8,13 @@ import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import {getRepoPath, getRepoURL, parseTag} from '../github-helpers';
 
-type TagDetails = {
+interface TagDetails {
 	element: HTMLElement;
 	commit: string;
 	tag: string;
 	version: string;
 	namespace: string;
-};
+}
 
 async function getNextPage(): Promise<DocumentFragment> {
 	const nextPageLink = select<HTMLAnchorElement>('.pagination a:last-child');
@@ -72,7 +72,7 @@ const getPreviousTag = (current: number, allTags: TagDetails[]): string | undefi
 async function init(): Promise<void> {
 	const tagsSelector = [
 		// https://github.com/facebook/react/releases (release in releases list)
-		'.release',
+		'.release:not(.label-draft)',
 
 		// https://github.com/facebook/react/releases?after=v16.7.0 (tags in releases list)
 		'.release-main-section .commit',

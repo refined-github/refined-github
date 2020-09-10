@@ -13,8 +13,12 @@ const getCollaborators = cache.function(async (): Promise<string[]> => {
 		.all<HTMLImageElement>('.SelectMenu-item [alt]', dom)
 		.map(avatar => avatar.alt.slice(1));
 }, {
-	maxAge: 5,
-	staleWhileRevalidate: 20,
+	maxAge: {
+		days: 1
+	},
+	staleWhileRevalidate: {
+		days: 20
+	},
 	cacheKey: () => 'repo-collaborators:' + getRepoURL()
 });
 

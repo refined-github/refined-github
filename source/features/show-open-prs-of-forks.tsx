@@ -13,7 +13,7 @@ function getLinkCopy(count: number): string {
 	return pluralize(count, 'one open pull request', '$$ open pull requests');
 }
 
-const countPRs = cache.function(async (forkedRepo: string): Promise<[number, number?]> => {
+const countPRs = cache.function(async (forkedRepo: string): Promise<[prCount: number, singlePrNumber?: number]> => {
 	const {search} = await api.v4(`
 		search(
 			first: 100,
@@ -41,13 +41,21 @@ const countPRs = cache.function(async (forkedRepo: string): Promise<[number, num
 
 	return [prs.length];
 }, {
-	maxAge: 1 / 2, // Stale after 12 hours
-	staleWhileRevalidate: 2,
-	cacheKey: ([forkedRepo]): string => 'prs-on-forked-repo:' + forkedRepo
+	maxAge: {
+		hours: 1
+	},
+	staleWhileRevalidate: {
+		days: 2
+	},
+	cacheKey: ([forkedRepo]): string => 'prs-on-forked-repo:' + forkedRepo + ':' + getRepoURL()
 });
 
-async function getPRs(): Promise<[number, string] | []> {
-	await elementReady('.repohead + *'); // Wait for the tab bar to be loaded
+async function getPRs(): Promise<[prCount: number, url: string] | []> {
+	// Wait for the tab bar to be loaded
+	await elementReady([
+		'.pagehead + *', // Pre "Repository refresh" layout
+		'.UnderlineNav-body + *'
+	].join());
 	if (!pageDetect.canUserEditRepo()) {
 		return [];
 	}

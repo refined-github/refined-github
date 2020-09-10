@@ -13,9 +13,9 @@ interface CommitTags {
 	[name: string]: string[];
 }
 
-type BaseTarget = {
+interface BaseTarget {
 	commitResourcePath: string;
-};
+}
 
 type TagTarget = {
 	tagger: {
@@ -164,7 +164,7 @@ async function init(): Promise<void | false> {
 		}
 	}
 
-	await cache.set(cacheKey, cached, 1);
+	await cache.set(cacheKey, cached, {days: 1});
 }
 
 void features.add({

@@ -21,7 +21,7 @@ const negativeReactionsSelector = `
 	${commentSelector} [aria-label*="reacted with thumbs down"]
 `;
 
-function getBestComment(): HTMLElement | null {
+function getBestComment(): HTMLElement | undefined {
 	let highest;
 	for (const comment of getCommentsWithReactions()) {
 		const positiveReactions = getCount(getPositiveReactions(comment));
@@ -43,7 +43,7 @@ function getBestComment(): HTMLElement | null {
 	}
 
 	if (!highest) {
-		return null;
+		return undefined;
 	}
 
 	return highest.comment;
@@ -140,7 +140,7 @@ function init(): false | void {
 
 void features.add({
 	id: __filebasename,
-	description: 'Highlights the most useful comment in issues.',
+	description: 'Highlights the most useful comment in conversations.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/58757449-5b238880-853f-11e9-9526-e86c41a32f00.png'
 }, {
 	include: [

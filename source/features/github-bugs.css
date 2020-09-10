@@ -1,0 +1,25 @@
+/* Place Releases/Tags selector on the same line as `Draft new release` on releases page #2325 */
+.subnav .d-flex.flex-md-row.flex-justify-between.flex-md-items-center {
+	float: left;
+}
+
+/* Align fork popup's header #3352 */
+[aria-label^='Fork'] .Box-title {
+	position: static; /* The title wrongly overlaps the Close button, making it impossible to click */
+	min-height: 0;
+	margin: -5px 0;
+}
+
+/* Reposition committer's avatar on PR commits #3444 */
+.pull-request-tab-content .commit .AvatarStack {
+	display: inline-block;
+	margin-bottom: -4px;
+	margin-right: -4px;
+}
+
+/* Add missing border radius to collapsed PR files #3444 */
+.js-blob-wrapper,
+.file:not(.open) .file-header.file-header--expandable {
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}

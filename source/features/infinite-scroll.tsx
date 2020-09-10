@@ -1,4 +1,5 @@
 import select from 'select-dom';
+import onetime from 'onetime';
 import debounce from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
 
@@ -65,6 +66,5 @@ void features.add({
 		pageDetect.isDashboard
 	],
 	onlyAdditionalListeners: true,
-	repeatOnAjax: false,
-	init
+	init: onetime(init)
 });
