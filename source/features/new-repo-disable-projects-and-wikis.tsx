@@ -2,17 +2,12 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import elementReady from 'element-ready';
-import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
 import {getRepoURL} from '../github-helpers';
 
-async function disableWikiAndProjects(): Promise<void | false> {
-	if (sessionStorage.rghNewRepo !== getRepoURL()) {
-		return false;
-	}
-
+async function disableWikiAndProjects(): Promise<void> {
 	sessionStorage.removeItem('rghNewRepo');
 
 	void api.v3(`repos/${getRepoURL()}`, {
@@ -29,12 +24,8 @@ async function disableWikiAndProjects(): Promise<void | false> {
 	projects?.closest('.d-flex')!.remove();
 }
 
-function setStorage(): void | false {
-	if (!select<HTMLInputElement>('[name="rgh-disable-project"]')!.checked) {
-		return false;
-	}
-
-	sessionStorage.rghNewRepo = true;
+function setStorage(): void {
+	sessionStorage.rghNewRepo = select<HTMLInputElement>('[name="rgh-disable-project"]')!.checked;
 }
 
 async function init(): Promise<void> {
@@ -43,11 +34,10 @@ async function init(): Promise<void> {
 	select.last('.js-repo-init-setting-container')!.after(
 		<div className="form-checkbox checked mt-0 mb-3">
 			<label>
-				<input checked type="checkbox" name="rgh-disable-project"/>
-				Remove Projects and Wikis
+				<input checked type="checkbox" name="rgh-disable-project"/>Disable Projects and Wikis
 			</label>
 			<span className="note mb-2">
-				After creating the repository remove the projects and the wiki
+				After creating the repository disable the projects and wiki
 			</span>
 		</div>
 	);
@@ -66,7 +56,7 @@ void features.add({
 	init
 }, {
 	include: [
-		() => Boolean(sessionStorage.rghNewRepo)
+		() => Boolean(sessionStorage.rghNewRepo === 'true')
 	],
 	waitForDomReady: false,
 	init: disableWikiAndProjects
