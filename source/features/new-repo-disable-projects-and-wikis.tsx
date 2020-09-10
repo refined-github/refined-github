@@ -2,6 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import elementReady from 'element-ready';
+import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
@@ -57,7 +58,7 @@ void features.add({
 	screenshot: 'https://user-images.githubusercontent.com/16872793/92732383-61103800-f344-11ea-8fd7-d677151fd85f.png'
 }, {
 	include: [
-		() => location.pathname === '/new'
+		pageDetect.isNewRepo
 	],
 	init
 }, {
