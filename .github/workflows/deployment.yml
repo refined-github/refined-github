@@ -23,9 +23,8 @@ jobs:
         name: Create tag if necessary
         id: daily-version
       - uses: notlmn/release-with-changelog@v2
-        name: Create release with changelog
         with:
-          include-range: true
+          include-range: false
           token: ${{ secrets.GITHUB_TOKEN }}
 
   Build:
