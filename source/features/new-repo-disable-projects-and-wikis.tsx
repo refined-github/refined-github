@@ -48,7 +48,7 @@ async function init(): Promise<void> {
 void features.add({
 	id: __filebasename,
 	description: 'Automatically disables projects and wikis when creating a repository.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/92678588-58901100-f2f4-11ea-8b9f-d3101fbe00c2.png'
+	screenshot: 'https://user-images.githubusercontent.com/16872793/92732383-61103800-f344-11ea-8fd7-d677151fd85f.png'
 }, {
 	include: [
 		() => location.pathname === '/new'
