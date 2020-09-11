@@ -69,5 +69,5 @@ void features.add({
 	],
 	init,
 	deinit: () => observer.abort(),
-	waitForDomReady: false
+	awaitDomReady: false
 });

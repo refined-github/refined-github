@@ -116,6 +116,6 @@ void features.add({
 	include: [
 		pageDetect.isRepo
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init
 });

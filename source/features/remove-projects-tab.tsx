@@ -76,13 +76,13 @@ void features.add({
 		pageDetect.canUserEditRepo,
 		pageDetect.canUserEditOrganization
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: removeProjectsTab
 }, {
 	include: [
 		pageDetect.isRepo,
 		pageDetect.isOrganizationProfile
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: onetime(addNewProjectLink)
 });

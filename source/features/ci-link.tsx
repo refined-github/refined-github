@@ -41,6 +41,6 @@ void features.add({
 	exclude: [
 		() => select.exists('[aria-label="Cannot fork because repository is empty."]')
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init
 });
