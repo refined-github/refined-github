@@ -43,5 +43,8 @@ void features.add({
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile
 	],
+	exclude: [
+		() => select.exists('[aria-label="Cannot fork because repository is empty."]')
+	],
 	init
 });
