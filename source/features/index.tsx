@@ -105,9 +105,11 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 
 	// Options defaults
 	const options = await optionsStorage.getAll();
-
-	// If features are remotely marked as "seriously breaking" by the maintainers, disable them without having to wait for proper updates to propagate #3529
-	const hotfix = await cache.get('hotfix');
+	const hotfix = browser.runtime.getManifest().version === '0.0.0' || await cache.get('hotfix'); // Ignores the cache when loaded locally
+	// if features are marked as "seriously breaking" by maintainers
+	// disable them without having to wait for fixed version updates
+	// to propogate to browsers
+	// refer GitHub issue #3529 for more information
 	void checkForHotfixes();
 	Object.assign(options, hotfix);
 
@@ -161,9 +163,10 @@ const checkForHotfixes = cache.function(async () => {
 	const response = await fetch('https://raw.githubusercontent.com/sindresorhus/refined-github/hotfix/hotfix.json');
 	const hotfixes: AnyObject | false = await response.json();
 
+	// eslint-disable-next-line @typescript-eslint/prefer-optional-chain
 	if (hotfixes && hotfixes.unaffected) {
 		const currentVersion = browser.runtime.getManifest().version;
-		if (looseVersionCompare(hotfixes.unaffected, currentVersion) < 1) {
+		if (compareVersions(hotfixes.unaffected, currentVersion) < 1) {
 			return {};
 		}
 	}
@@ -171,7 +174,7 @@ const checkForHotfixes = cache.function(async () => {
 	return hotfixes;
 }, {
 	maxAge: {hours: 6},
-	cacheKey: 'hotfix'
+	cacheKey: () => 'hotfix'
 });
 
 const shortcutMap = new Map<string, string>();
