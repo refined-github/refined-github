@@ -123,7 +123,7 @@ void features.add({
 		pageDetect.isRepoRoot
 	],
 	exclude: [
-		() => select.exists('[aria-label="Cannot fork because repository is empty."]')
+		() => !select.exists('link[rel="canonical"]')
 	],
 	waitForDomReady: false,
 	init
