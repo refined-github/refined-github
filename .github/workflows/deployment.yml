@@ -17,9 +17,15 @@ jobs:
       created: ${{ steps.daily-version.outputs.created }}
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 20
       - uses: fregante/daily-version-action@v1
         name: Create tag if necessary
         id: daily-version
+      - uses: notlmn/release-with-changelog@v2
+        with:
+          include-range: false
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   Build:
     needs: Version

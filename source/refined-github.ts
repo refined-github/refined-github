@@ -190,6 +190,7 @@ import './features/cleanup-repo-filelist-actions';
 import './features/prevent-duplicate-pr-submission';
 import './features/remove-label-faster';
 import './features/clean-conversation-headers';
+import './features/stop-pjax-loading-with-esc';
 import './features/highlight-deleted-and-added-files-in-diffs';
 import './features/convert-release-to-draft';
 import './features/linkify-full-profile-readme-title';
