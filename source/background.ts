@@ -1,5 +1,5 @@
-import 'webext-storage-cache'; // Needed to regularly clear the cache
 import 'webext-dynamic-content-scripts';
+import cache from 'webext-storage-cache'; // Also needed to regularly clear the cache
 import addDomainPermissionToggle from 'webext-domain-permission-toggle';
 import './options-storage';
 
@@ -35,6 +35,9 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 			active: false
 		});
 	}
+
+	// Hope that the feature was fixed in this version
+	await cache.delete('hotfix');
 });
 
 // GitHub Enterprise support
