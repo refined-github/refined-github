@@ -158,8 +158,11 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 };
 
 const checkForHotfixes = cache.function(async () => {
-	const response = await fetch('https://raw.githubusercontent.com/sindresorhus/refined-github/hotfix/hotfix.json');
-	const hotfixes: AnyObject | false = await response.json();
+	const response = await fetch('https://api.github.com/repos/sindresorhus/refined-github/contents/hotfix.json?ref=hotfix');
+	let hotfixes: AnyObject | false = {};
+	await response.json().then(response_ => {
+		hotfixes = JSON.parse(Buffer.from(response_.content, response_.encoding).toString('binary'));
+	});
 
 	// eslint-disable-next-line @typescript-eslint/prefer-optional-chain
 	if (hotfixes && hotfixes.unaffected) {
