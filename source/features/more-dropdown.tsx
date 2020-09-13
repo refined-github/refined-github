@@ -45,7 +45,10 @@ export function createDropdownItem(label: string, url: string, attributes?: Reco
 function onlyShowInDropdown(id: string): void {
 	select(`[data-tab-item="${id}"]`)!.parentElement!.remove();
 	const menuItem = select(`[data-menu-item="${id}"]`)!;
+	menuItem.removeAttribute('data-menu-item');
 	menuItem.hidden = false;
+
+	// The item has to be moved somewhere else because the overflow nav is order-dependent
 	select('.js-responsive-underlinenav-overflow ul')!.append(menuItem);
 }
 
