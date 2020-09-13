@@ -8,6 +8,7 @@ import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
 import * as pageDetect from 'github-url-detection';
 
+import * as api from '../github-helpers/api';
 import onNewComments from '../github-events/on-new-comments';
 import onNewsfeedLoad from '../github-events/on-newsfeed-load';
 import optionsStorage, {RGHOptions} from '../options-storage';
@@ -158,11 +159,8 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 };
 
 const checkForHotfixes = cache.function(async () => {
-	const response = await fetch('https://api.github.com/repos/sindresorhus/refined-github/contents/hotfix.json?ref=hotfix');
-	let hotfixes: AnyObject | false = {};
-	await response.json().then(response_ => {
-		hotfixes = JSON.parse(Buffer.from(response_.content, response_.encoding).toString('binary'));
-	});
+	const response = await api.v3('repos/sindresorhus/refined-github/contents/hotfix.json?ref=hotfix');
+	const hotfixes: AnyObject | false = await JSON.parse(Buffer.from(response.content, response.encoding).toString('binary'));
 
 	// eslint-disable-next-line @typescript-eslint/prefer-optional-chain
 	if (hotfixes && hotfixes.unaffected) {
