@@ -42,6 +42,13 @@ export function createDropdownItem(label: string, url: string, attributes?: Reco
 	);
 }
 
+function onlyShowInDropdown(id: string): void {
+	select(`[data-tab-item="${id}"]`)!.parentElement!.remove();
+	const menuItem = select(`[data-menu-item="${id}"]`)!;
+	menuItem.hidden = false;
+	select('.js-responsive-underlinenav-overflow ul')!.append(menuItem);
+}
+
 async function init(): Promise<void> {
 	// Wait for the tab bar to be loaded
 	await elementReady([
@@ -65,6 +72,9 @@ async function init(): Promise<void> {
 			createDropdownItem('Commits', commitsUrl),
 			createDropdownItem('Branches', `/${repoUrl}/branches`)
 		);
+
+		onlyShowInDropdown('security-tab');
+		onlyShowInDropdown('insights-tab');
 		return;
 	}
 
