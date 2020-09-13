@@ -159,7 +159,8 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 };
 
 const checkForHotfixes = cache.function(async () => {
-	const response = await api.v3('repos/sindresorhus/refined-github/contents/hotfix.json?ref=hotfix');
+	// The explicit endpoint is necessary because it shouldn't change on GHE
+	const response = await api.v3('https://api.github.com/repos/sindresorhus/refined-github/contents/hotfix.json?ref=hotfix');
 	const hotfixes: AnyObject | false = JSON.parse(atob(response.content));
 
 	// eslint-disable-next-line @typescript-eslint/prefer-optional-chain -- https://github.com/typescript-eslint/typescript-eslint/issues/1893
