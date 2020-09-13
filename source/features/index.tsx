@@ -106,10 +106,8 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	// Options defaults
 	const options = await optionsStorage.getAll();
 	const hotfix = browser.runtime.getManifest().version === '0.0.0' || await cache.get('hotfix'); // Ignores the cache when loaded locally
-	// if features are marked as "seriously breaking" by maintainers
-	// disable them without having to wait for fixed version updates
-	// to propogate to browsers
-	// refer GitHub issue #3529 for more information
+
+	// If features are remotely marked as "seriously breaking" by the maintainers, disable them without having to wait for proper updates to propagate #3529
 	void checkForHotfixes();
 	Object.assign(options, hotfix);
 
