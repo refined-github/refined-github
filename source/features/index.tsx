@@ -160,7 +160,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 
 const checkForHotfixes = cache.function(async () => {
 	const response = await api.v3('repos/sindresorhus/refined-github/contents/hotfix.json?ref=hotfix');
-	const hotfixes: AnyObject | false = await JSON.parse(Buffer.from(response.content, response.encoding).toString('binary'));
+	const hotfixes: AnyObject | false = await JSON.parse(atob(response.content));
 
 	// eslint-disable-next-line @typescript-eslint/prefer-optional-chain -- https://github.com/typescript-eslint/typescript-eslint/issues/1893
 	if (hotfixes && hotfixes.unaffected) {
