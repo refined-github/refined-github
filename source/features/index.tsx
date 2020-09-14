@@ -31,7 +31,7 @@ interface FeatureMeta {
 
 interface FeatureLoader extends Partial<InternalRunConfig> {
 	/** Whether to wait for DOM ready before runnin `init`. `false` makes `init` run right as soon as `body` is found. @default true */
-	waitForDomReady?: false;
+	awaitDomReady?: false;
 
 	/** When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway.  @default false */
 	repeatOnBackButton?: true;
@@ -173,7 +173,9 @@ const checkForHotfixes = cache.function(async () => {
 
 	return hotfixes;
 }, {
-	maxAge: {hours: 6},
+	maxAge: {
+		hours: 6
+	},
 	cacheKey: () => 'hotfix'
 });
 
@@ -230,7 +232,7 @@ const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<voi
 			exclude = [], // Default: nothing
 			init,
 			deinit,
-			waitForDomReady = true,
+			awaitDomReady = true,
 			repeatOnBackButton = false,
 			onlyAdditionalListeners = false,
 			additionalListeners = []
@@ -244,7 +246,7 @@ const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<voi
 		enforceDefaults(id, include, additionalListeners);
 
 		const details = {include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners};
-		if (waitForDomReady) {
+		if (awaitDomReady) {
 			(async () => {
 				await domLoaded;
 				await setupPageLoad(id, details);

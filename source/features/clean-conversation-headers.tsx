@@ -60,12 +60,12 @@ void features.add({
 	include: [
 		pageDetect.isIssue
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: onetime(initIssue)
 }, {
 	include: [
 		pageDetect.isPR
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: onetime(initPR)
 });

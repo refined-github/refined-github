@@ -141,6 +141,6 @@ void features.add({
 	include: [
 		pageDetect.isPRCommit404
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: onetime(initPRCommit)
 });

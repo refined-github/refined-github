@@ -83,6 +83,6 @@ void features.add({
 	include: [
 		pageDetect.isRepoConversationList
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init
 });

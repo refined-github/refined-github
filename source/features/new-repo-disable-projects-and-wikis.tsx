@@ -65,6 +65,6 @@ void features.add({
 	include: [
 		() => Boolean(sessionStorage.rghNewRepo)
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: disableWikiAndProjects
 });

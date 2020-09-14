@@ -111,6 +111,6 @@ void features.add({
 	include: [
 		pageDetect.isConversationList
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init
 });
