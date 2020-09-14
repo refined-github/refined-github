@@ -65,7 +65,7 @@ async function init(): Promise<void | false> {
 				Open selected
 			</button>
 		);
-	} else if (!pageDetect.isEnterprise()) {
+	} else if (!pageDetect.isEnterprise() && pageDetect.isRepoConversationList()) { // Enterprise has the pre-"Repository refresh" layout
 		// GitHub doesn't have the checkboxes when the current user can't edit the repo, so let's add them
 		const issuesToolbar = select('#js-issues-toolbar')!;
 		issuesToolbar.prepend(
