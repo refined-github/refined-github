@@ -123,8 +123,7 @@ void features.add({
 		pageDetect.isRepoRoot
 	],
 	exclude: [
-		// Excludes empty repos, compatible with `awaitDomReady: false`
-		() => !select.exists('link[rel="canonical"]')
+		pageDetect.isEmptyRepoRoot
 	],
 	awaitDomReady: false,
 	init

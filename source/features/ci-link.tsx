@@ -39,7 +39,7 @@ void features.add({
 		pageDetect.isRepo
 	],
 	exclude: [
-		() => select.exists('[aria-label="Cannot fork because repository is empty."]')
+		pageDetect.isEmptyRepo
 	],
 	awaitDomReady: false,
 	init
