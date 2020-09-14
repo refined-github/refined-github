@@ -173,7 +173,9 @@ const checkForHotfixes = cache.function(async () => {
 
 	return hotfixes;
 }, {
-	maxAge: {hours: 6},
+	maxAge: {
+		hours: 6
+	},
 	cacheKey: () => 'hotfix'
 });
 
