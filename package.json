@@ -49,7 +49,7 @@
 		"fit-textarea": "^2.0.0",
 		"flat-zip": "^1.0.1",
 		"github-reserved-names": "^1.1.10",
-		"github-url-detection": "^2.1.0",
+		"github-url-detection": "^2.2.0",
 		"image-promise": "^7.0.1",
 		"indent-textarea": "^2.0.2",
 		"linkify-issues": "^2.0.0",

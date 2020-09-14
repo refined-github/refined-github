@@ -151,6 +151,6 @@ void features.add({
 	exclude: [
 		() => !new URLSearchParams(location.search).has('rgh-link-date')
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: showTimemachineBar
 });

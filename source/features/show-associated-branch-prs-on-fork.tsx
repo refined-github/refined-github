@@ -115,5 +115,6 @@ void features.add({
 	exclude: [
 		() => !pageDetect.isForkedRepo()
 	],
+	awaitDomReady: false,
 	init: onetime(init)
 });

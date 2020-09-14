@@ -1,8 +1,8 @@
 import select from 'select-dom';
 import onetime from 'onetime';
+import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
 import * as pageDetect from 'github-url-detection/esm/index.js'; // eslint-disable-line import/extensions -- Required for Node tests compatibility
-import elementReady from 'element-ready';
 
 // This never changes, so it can be cached here
 export const getUsername = onetime(pageDetect.utils.getUsername);

@@ -33,6 +33,6 @@ void features.add({
 		onPrMergePanelOpen
 	],
 	onlyAdditionalListeners: true,
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init
 });
