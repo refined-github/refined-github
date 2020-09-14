@@ -68,7 +68,6 @@ import './features/sort-conversations-by-update-time'; // Must be after global-c
 import './features/pinned-issues-update-time';
 import './features/latest-tag-button';
 import './features/default-branch-button';
-import './features/faster-pr-diff-options';
 import './features/ci-link';
 import './features/sort-milestones-by-closest-due-date';
 import './features/star-repo-hotkey';
