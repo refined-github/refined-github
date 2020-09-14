@@ -65,7 +65,7 @@ async function init(): Promise<void | false> {
 				Open selected
 			</button>
 		);
-	} else {
+	} else if (!pageDetect.isEnterprise()) {
 		// GitHub doesn't have the checkboxes when the current user can't edit the repo, so let's add them
 		const issuesToolbar = select('#js-issues-toolbar')!;
 		issuesToolbar.prepend(

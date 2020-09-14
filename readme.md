@@ -17,7 +17,6 @@ GitHub Enterprise is also supported. More info in the options.
 	<img src="https://sindresorhus.com/assets/thanks/alm-refined-github-logo.svg" align="right">
 </a>
 
-- [Latest changes](https://github.com/sindresorhus/refined-github/issues/1137) *(Updated regularly. Subscribe!)*
 - [Product Hunt submission](https://www.producthunt.com/posts/refined-github) *(2017-07-08)*
 - [What's new lately](https://blog.sindresorhus.com/whats-new-in-refined-github-836d05582df7) *(2017-06-23)*
 - [Original announcement](https://blog.sindresorhus.com/refined-github-21185789685d) *(2016-03-31)*
@@ -130,6 +129,7 @@ Thanks for contributing! 🦋🙌
 - [](# "clone-branch") [Clone a branch from the branches list.](https://user-images.githubusercontent.com/16872793/76802029-2a020500-67ad-11ea-95dc-bee1b1352976.png)
 - [](# "fork-source-link-same-view") [Points the “Forked from user/repository” link to current folder or file in the upstream repository.](https://user-images.githubusercontent.com/1402241/84795784-3722d000-aff8-11ea-9b34-97c01acf4fd4.png)
 - [](# "cleanup-repo-filelist-actions") [Replaces the labels of some simple buttons on repository filelists with icons, making them take less space.](https://user-images.githubusercontent.com/44045911/88551471-7a3f7c80-d055-11ea-82f1-c558b7871824.png)
+- [](# "new-repo-disable-projects-and-wikis") [Automatically disables projects and wikis when creating a repository.](https://user-images.githubusercontent.com/16872793/92803886-dc460e00-f385-11ea-8af6-d6b7a0d3bf91.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
