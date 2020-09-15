@@ -27,7 +27,10 @@ function init(): void {
 	cleanLinks();
 	pageSearchQuery = new SearchQuery(location);
 
-	const issueLink = select<HTMLAnchorElement>('nav.menu a[href*="&type=Issues"]')!;
+	const issueLink = select<HTMLAnchorElement>([
+		'nav.menu a[href*="&type=Issues"]', // Pre "Repository refresh" layout
+		'.menu-item[href*="&type=issues"]'
+	])!;
 	issueLink.textContent = 'Issues'; // Drops any possible counter
 	issueLink.href = createUrl('issue');
 	issueLink.append(
