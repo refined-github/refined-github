@@ -28,7 +28,7 @@ function init(): void {
 	pageSearchQuery = new SearchQuery(location);
 
 	const issueLink = select<HTMLAnchorElement>([
-		'nav.menu a[href*="&type=Issues"]', // Pre "Repository refresh" layout
+		'nav.menu a[href*="&type=Issues"]', // Todo remove when GHE selector is updated - (Maybe October 2020)
 		'.menu-item[href*="&type=issues"]'
 	])!;
 	issueLink.textContent = 'Issues'; // Drops any possible counter
