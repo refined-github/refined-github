@@ -8,7 +8,6 @@ import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
 import * as pageDetect from 'github-url-detection';
 
-import * as api from '../github-helpers/api';
 import onNewComments from '../github-events/on-new-comments';
 import onNewsfeedLoad from '../github-events/on-newsfeed-load';
 import optionsStorage, {RGHOptions} from '../options-storage';
