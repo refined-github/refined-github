@@ -8,8 +8,9 @@ import features from '.';
 const getBufferField = onetime((): HTMLInputElement => (
 	<input
 		type="text"
-		className="form-control tree-finder-input p-0 ml-1 border-0"
-		style={{marginTop: '-0.19em'}}
+		className="form-control tree-finder-input p-0 border-0"
+		style={{marginTop: '-0.35em', backgroundColor: 'transparent'}}
+		placeholder="Search file…"
 	/> as unknown as HTMLInputElement
 ));
 
@@ -25,11 +26,10 @@ function pjaxStartHandler(event: CustomEvent): void {
 	const repoName = select('.pagehead h1 strong, [itemprop="name"]')!;
 	repoName.classList.remove('mr-2');
 	repoName.after(
-		<span className="path-divider flex-self-stretch">/</span>,
+		<span className="mx-1 flex-self-stretch">/</span>,
 		<span className="flex-self-stretch mr-2">{bufferField}</span>
 	);
 	bufferField.focus();
-	select('.pagehead-actions')!.remove();
 }
 
 function pjaxCompleteHandler(): void {
