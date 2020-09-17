@@ -9,7 +9,7 @@ const getBufferField = onetime((): HTMLInputElement => (
 	<input
 		type="text"
 		className="form-control tree-finder-input p-0 border-0"
-		style={{marginTop: '-0.35em', backgroundColor: 'transparent'}}
+		style={{marginTop: '-0.19em', backgroundColor: 'transparent', verticalAlign: 'baseline'}}
 		placeholder="Search file…"
 	/> as unknown as HTMLInputElement
 ));
@@ -30,6 +30,9 @@ function pjaxStartHandler(event: CustomEvent): void {
 		<span className="flex-self-stretch mr-2">{bufferField}</span>
 	);
 	bufferField.focus();
+	for (const element of select.all('.pagehead-actions, .rgh-ci-link, .octotree-bookmark-btn')) {
+		element.remove();
+	}
 }
 
 function pjaxCompleteHandler(): void {
