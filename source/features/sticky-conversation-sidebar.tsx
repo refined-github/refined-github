@@ -13,8 +13,8 @@ const sideBarSelector = [
 
 function updateStickiness(): void {
 	const sidebar = select(sideBarSelector)!;
-	const stickyHeight = (pageDetect.isIssue() || pageDetect.isPRConversation()) ? 60 : 0;
-	const sidebarHeight = sidebar.offsetHeight + stickyHeight;
+	const margin = pageDetect.isIssue() || pageDetect.isPRConversation() ? 60 : 0; // 60 matches sticky header's height
+	const sidebarHeight = sidebar.offsetHeight + margin;
 	sidebar.classList.toggle('rgh-sticky-sidebar', sidebarHeight < window.innerHeight);
 }
 

@@ -4,9 +4,6 @@
 
 .rgh-sticky-sidebar {
 	position: sticky;
-}
-
-.BorderGrid.rgh-sticky-sidebar {
 	top: 0;
 }
 
