@@ -104,7 +104,7 @@ async function init(): Promise<false | void> {
 			releasesTab.setAttribute('aria-current', 'page');
 		}
 
-		select('[data-menu-item="insights-tab"]', repoNavigationBar)!.after(
+		select('.dropdown-divider', repoNavigationBar)!.before(
 			createDropdownItem('Releases', `/${repoUrl}/releases`, {
 				'data-menu-item': 'rgh-releases-item'
 			})
@@ -151,6 +151,6 @@ void features.add({
 	include: [
 		pageDetect.isRepo
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init
 });

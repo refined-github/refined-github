@@ -57,6 +57,6 @@ void features.add({
 	include: [
 		pageDetect.isRepoTree
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init
 });

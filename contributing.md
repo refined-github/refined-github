@@ -33,7 +33,7 @@ features.add({
 	include: [
 		pageDetect.isPR
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init
 });
 ```
@@ -66,7 +66,7 @@ features.add({
 	},
 }, {
 	/** Whether to wait for DOM ready before runnin `init`. `false` makes `init` run right as soon as `body` is found. @default true */
-	waitForDomReady: false,
+	awaitDomReady: false,
 
 	/** Rarely needed: When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway. @default false */
 	repeatOnBackButton: true,

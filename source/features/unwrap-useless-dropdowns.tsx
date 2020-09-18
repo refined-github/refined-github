@@ -66,12 +66,12 @@ void features.add({
 	include: [
 		pageDetect.isNotifications
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: unwrapNotifications
 }, {
 	include: [
 		pageDetect.isActionJobRun
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: unwrapActionJobRun
 });
