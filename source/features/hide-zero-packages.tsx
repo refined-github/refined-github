@@ -20,7 +20,7 @@ async function init(): Promise<void | false> {
 void features.add({
 	id: __filebasename,
 	description: 'Hides the `Packages` tab if it’s empty (in repositories and user profiles).',
-	screenshot: 'https://user-images.githubusercontent.com/44045911/93541991-80354800-f98a-11ea-8347-a571abbbd318.png'
+	screenshot: 'https://user-images.githubusercontent.com/44045911/93543684-d1473b00-f98e-11ea-9957-e4464400f81b.png'
 }, {
 	include: [
 		pageDetect.isRepoRoot,
