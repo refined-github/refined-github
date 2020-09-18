@@ -4,6 +4,14 @@
 
 .rgh-sticky-sidebar {
 	position: sticky;
+}
+
+.BorderGrid.rgh-sticky-sidebar {
+	top: 0;
+}
+
+#partial-discussion-sidebar.rgh-sticky-sidebar,
+.discussion-sidebar.rgh-sticky-sidebar {
 	top: 76px !important; /* Sticky header's height + sidebar item's margin */
 	z-index: 1; /* Needed so the backdrop of notification modal is over the other elements in the conversation */
 }
