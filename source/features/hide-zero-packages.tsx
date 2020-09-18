@@ -26,6 +26,6 @@ void features.add({
 		pageDetect.isRepoRoot,
 		pageDetect.isUserProfile
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init
 });
