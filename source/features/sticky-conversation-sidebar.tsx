@@ -6,19 +6,14 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import onReplacedElement from '../helpers/on-replaced-element';
 
-let sideBarSelector: string;
-let stickyHeight: number;
-
-if (pageDetect.isRepoRoot()) {
-	sideBarSelector = '.BorderGrid';
-	stickyHeight = 0;
-} else if (pageDetect.isIssue() || pageDetect.isPRConversation()) {
-	sideBarSelector = '#partial-discussion-sidebar, .discussion-sidebar';
-	stickyHeight = 60; // 60 matches sticky header's height
-}
+const sideBarSelector = [
+	'#partial-discussion-sidebar, .discussion-sidebar', // Conversations
+	'.repository-content .flex-column > :last-child [data-pjax]' // `isRepoRoot`
+].join();
 
 function updateStickiness(): void {
 	const sidebar = select(sideBarSelector)!;
+	const stickyHeight = (pageDetect.isIssue() || pageDetect.isPRConversation()) ? 60 : 0;
 	const sidebarHeight = sidebar.offsetHeight + stickyHeight;
 	sidebar.classList.toggle('rgh-sticky-sidebar', sidebarHeight < window.innerHeight);
 }
