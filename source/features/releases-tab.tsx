@@ -113,7 +113,7 @@ async function init(): Promise<false | void> {
 		// Hide redundant 'Releases' section from repo sidebar
 		if (pageDetect.isRepoRoot()) {
 			const sidebarReleases = await elementReady('.BorderGrid-cell a[href$="/releases"]');
-			sidebarReleases!.closest('.BorderGrid-row')!.hidden = true;
+			sidebarReleases!.closest('.BorderGrid-row')!.setAttribute('hidden', '');
 		}
 
 		return;
