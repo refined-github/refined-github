@@ -5,17 +5,10 @@ import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import getTabCount from './remove-projects-tab';
 import onElementRemoval from '../helpers/on-element-removal';
 import onReplacedElement from '../helpers/on-replaced-element';
 
 const canEditSidebar = onetime((): boolean => select.exists('.sidebar-labels .octicon-gear'));
-
-const sidebarSelector: string = [
-	'#partial-discussion-sidebar, .discussion-sidebar', // Conversations
-	'.repository-content .flex-column > :last-child [data-pjax]' // `isRepoRoot`
-].join();
-const closestSelector: string = ['.discussion-sidebar-item', '.BorderGrid-row'].join();
 
 function getNodesAfter(node: Node): Range {
 	const range = new Range();
@@ -49,11 +42,11 @@ function cleanSection(containerSelector: string): boolean {
 
 	// Magic. Do not touch.
 	// Section is empty if: no sibling element OR empty sibling element
-	if (header?.nextElementSibling?.firstElementChild) {
+	if (header.nextElementSibling?.firstElementChild) {
 		return false;
 	}
 
-	const section = container.closest(closestSelector)!;
+	const section = container.closest('.discussion-sidebar-item')!;
 	if (canEditSidebar()) {
 		getNodesAfter(header).deleteContents();
 		section.classList.add('rgh-clean-sidebar');
@@ -69,30 +62,12 @@ async function clean(): Promise<void> {
 		return;
 	}
 
-	select(sidebarSelector)!.classList.add('rgh-clean-sidebar');
+	select('#partial-discussion-sidebar')!.classList.add('rgh-clean-sidebar');
 
-	/* Repository root sections */
-	if (pageDetect.isRepoRoot()) {
-		// Releases section
-		const releaseSelector = '.BorderGrid-cell a[href$="/releases"]';
-		const releaseSection = select(releaseSelector);
-		if (!releaseSection || await getTabCount(releaseSection) === 0) {
-			cleanSection(releaseSelector);
-		}
-
-		// Packages section
-		const packageSelector = '.BorderGrid-cell a[href$="/packages"]';
-		const packageSection = select(packageSelector);
-		if (!packageSection || await getTabCount(packageSection) === 0) {
-			cleanSection(packageSelector);
-		}
-	}
-
-	/* Conversation Pages */
 	// Assignees
 	const assignees = select('.js-issue-assignees')!;
 	if (assignees.children.length === 0) {
-		assignees.closest(closestSelector)!.remove();
+		assignees.closest('.discussion-sidebar-item')!.remove();
 	} else {
 		const assignYourself = select('.js-issue-assign-self');
 		if (assignYourself) {
@@ -100,7 +75,7 @@ async function clean(): Promise<void> {
 			select('[aria-label="Select assignees"] summary')!.append(
 				<span style={{fontWeight: 'normal'}}> – {assignYourself}</span>
 			);
-			assignees.closest(closestSelector)!.classList.add('rgh-clean-sidebar');
+			assignees.closest('.discussion-sidebar-item')!.classList.add('rgh-clean-sidebar');
 		}
 	}
 
@@ -140,12 +115,11 @@ void features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/57199809-20691780-6fb6-11e9-9672-1ad3f9e1b827.png'
 }, {
 	include: [
-		pageDetect.isRepoRoot,
 		pageDetect.isIssue,
 		pageDetect.isPRConversation
 	],
 	additionalListeners: [
-		() => void onReplacedElement(sidebarSelector, clean)
+		() => void onReplacedElement('#partial-discussion-sidebar', clean)
 	],
 	init: clean
 });
