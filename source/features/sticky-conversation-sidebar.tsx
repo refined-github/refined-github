@@ -7,7 +7,7 @@ import features from '.';
 import onReplacedElement from '../helpers/on-replaced-element';
 
 const sideBarSelector = [
-	'#partial-discussion-sidebar, .discussion-sidebar', // Conversations
+	'#partial-discussion-sidebar', // Conversations
 	'.repository-content .flex-column > :last-child [data-pjax]' // `isRepoRoot`
 ].join();
 
