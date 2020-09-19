@@ -8,8 +8,8 @@ import features from '.';
 const getBufferField = onetime((): HTMLInputElement => (
 	<input
 		type="text"
-		className="form-control tree-finder-input p-0 border-0"
-		style={{marginTop: '-0.19em', backgroundColor: 'transparent', verticalAlign: 'baseline'}}
+		className="p-0 border-0"
+		style={{backgroundColor: 'transparent', outline: 0}}
 		placeholder="Search file…"
 	/> as unknown as HTMLInputElement
 ));
