@@ -20,6 +20,7 @@ const defaults = Object.assign({
 const migrations = [
 	// Merged on July 2nd
 	featureWasRenamed('sticky-discussion-list-toolbar', 'sticky-conversation-list-toolbar'),
+	featureWasRenamed('sticky-conversation-sidebar', 'sticky-sidebar'),
 
 	// Removed features will be automatically removed from the options as well
 	OptionsSyncPerDomain.migrations.removeUnused

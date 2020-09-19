@@ -1,4 +1,4 @@
-import './sticky-conversation-sidebar.css';
+import './sticky-sidebar.css';
 import select from 'select-dom';
 import debounce from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
@@ -26,7 +26,7 @@ function deinit(): void {
 
 void features.add({
 	id: __filebasename,
-	description: 'Makes the conversation sidebar sticky.',
+	description: 'Makes sidebars sticky.',
 	screenshot: 'https://user-images.githubusercontent.com/10238474/62276723-5a2eaa80-b44d-11e9-810b-ff598d1c5c6a.gif'
 }, {
 	include: [
