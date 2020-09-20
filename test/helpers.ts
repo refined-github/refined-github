@@ -11,7 +11,9 @@ import {
 	getScopedSelector,
 	getLatestVersionTag,
 	preventPrCommitLinkLoss,
-	prCommitUrlRegex
+	prCommitUrlRegex,
+	prCompareUrlRegex,
+	preventPrCompareLinkLoss
 } from '../source/github-helpers';
 
 test('getConversationNumber', t => {
@@ -172,6 +174,9 @@ test('getLatestVersionTag', t => {
 function replace(string: string): string {
 	return string.replace(prCommitUrlRegex, preventPrCommitLinkLoss);
 }
+function replaceCompareLink(string: string):string {
+	return string.replace(prCompareUrlRegex, preventPrCompareLinkLoss);
+}
 
 test('preventPrCommitLinkLoss', t => {
 	t.is(replace('https://www.google.com/'), 'https://www.google.com/');
@@ -209,25 +214,25 @@ test('preventPrCommitLinkLoss', t => {
 		'It should not apply it twice even with hashes'
 	);
 	t.is(
-		replace('https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0'),
+		replaceCompareLink('https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0'),
 		'https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0',
 		'It should not affect compare URLs without a diff hash'
 	);
 	t.is(
-		replace('https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191'),
+		replaceCompareLink('https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191'),
 		'[`v11.5.2...v11.6.0` #diff-6be2971b2b](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191)'
 	);
 	t.is(
-		replace('lorem ipsum dolor https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191 some random string'),
+		replaceCompareLink('lorem ipsum dolor https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191 some random string'),
 		'lorem ipsum dolor [`v11.5.2...v11.6.0` #diff-6be2971b2b](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191) some random string'
 	);
 	t.is(
-		replace(replace('lorem ipsum dolor https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191 some random string')),
+		replaceCompareLink(replaceCompareLink('lorem ipsum dolor https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191 some random string')),
 		'lorem ipsum dolor [`v11.5.2...v11.6.0` #diff-6be2971b2b](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191) some random string',
 		'It should not apply it twice'
 	);
 	t.is(
-		replace('I like [turtles](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191)'),
+		replaceCompareLink('I like [turtles](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191)'),
 		'I like [turtles](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191)',
 		'It should ignore Markdown links'
 	);
