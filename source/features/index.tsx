@@ -8,7 +8,6 @@ import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
 import * as pageDetect from 'github-url-detection';
 
-import * as api from '../github-helpers/api';
 import onNewComments from '../github-events/on-new-comments';
 import onNewsfeedLoad from '../github-events/on-newsfeed-load';
 import optionsStorage, {RGHOptions} from '../options-storage';
@@ -160,7 +159,8 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 
 const checkForHotfixes = cache.function(async () => {
 	// The explicit endpoint is necessary because it shouldn't change on GHE
-	const response = await api.v3('https://api.github.com/repos/sindresorhus/refined-github/contents/hotfix.json?ref=hotfix');
+	const request = await fetch('https://api.github.com/repos/sindresorhus/refined-github/contents/hotfix.json?ref=hotfix');
+	const response = await request.json();
 	const hotfixes: AnyObject | false = JSON.parse(atob(response.content));
 
 	// eslint-disable-next-line @typescript-eslint/prefer-optional-chain -- https://github.com/typescript-eslint/typescript-eslint/issues/1893

@@ -16,6 +16,11 @@
 	visibility: visible !important;
 }
 
+/* Keep the dropdown on the right on non-responsive pages #3548 */
+main > :first-child {
+	position: relative;
+}
+
 /* Only show the divider if there are other items above it */
 .js-responsive-underlinenav-overflow [hidden] + .dropdown-divider {
 	display: none;
