@@ -109,6 +109,7 @@ export function preventPrCommitLinkLoss(url: string, pr: string, commit: string,
 
 	return `[\`${commit}\` (#${pr})](${url})`;
 }
+
 //To be  used as replacer callback in string.replace() for compare links
 export function preventPrCompareLinkLoss(url: string, compareFile1: string, compareFile2: string, compare: string, index: number, fullText: string): string {
 	if (fullText[index + url.length] === ')') {
