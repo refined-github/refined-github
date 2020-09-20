@@ -52,7 +52,7 @@ export function getForkedRepo(): string | undefined {
 	return select<HTMLMetaElement>('[name="octolytics-dimension-repository_parent_nwo"]')?.content;
 }
 
-export const parseTag = (tag: string): { version: string; namespace: string } => {
+export const parseTag = (tag: string): {version: string; namespace: string} => {
 	const [, namespace = '', version = ''] = /(?:(.*)@)?([^@]+)/.exec(tag) ?? [];
 	return {namespace, version};
 };
