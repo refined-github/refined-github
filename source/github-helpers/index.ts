@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection/esm/index.js'; // eslint-disab
 
 // This never changes, so it can be cached here
 export const getUsername = onetime(pageDetect.utils.getUsername);
-export const {getRepoPath, getCleanPathname} = pageDetect.utils;
+export const { getRepoPath, getCleanPathname } = pageDetect.utils;
 
 export const getConversationNumber = (): string | undefined => {
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
@@ -35,7 +35,7 @@ export const isFirefox = navigator.userAgent.includes('Firefox/');
 
 export const getRepoURL = (): string => location.pathname.slice(1).split('/', 2).join('/').toLowerCase();
 export const getRepoGQL = (): string => {
-	const {owner, name} = getRepositoryInfo();
+	const { owner, name } = getRepositoryInfo();
 	return `owner: "${owner!}", name: "${name!}"`;
 };
 
@@ -45,16 +45,16 @@ export interface RepositoryInfo {
 }
 export const getRepositoryInfo = (repoUrl: string = location.pathname.slice(1)): Partial<RepositoryInfo> => {
 	const [owner, name] = repoUrl.split('/', 2);
-	return {owner, name};
+	return { owner, name };
 };
 
 export function getForkedRepo(): string | undefined {
 	return select<HTMLMetaElement>('[name="octolytics-dimension-repository_parent_nwo"]')?.content;
 }
 
-export const parseTag = (tag: string): {version: string; namespace: string} => {
+export const parseTag = (tag: string): { version: string; namespace: string } => {
 	const [, namespace = '', version = ''] = /(?:(.*)@)?([^@]+)/.exec(tag) ?? [];
-	return {namespace, version};
+	return { namespace, version };
 };
 
 export function compareNames(username: string, realname: string): boolean {
@@ -98,6 +98,9 @@ const escapeRegex = (string: string): string => string.replace(/[\\^$.*+?()[\]{}
 const prCommitPathnameRegex = /[/][^/]+[/][^/]+[/]pull[/](\d+)[/]commits[/]([\da-f]{7})[\da-f]{33}(?:#[\w-]+)?\b/; // eslint-disable-line unicorn/better-regex
 export const prCommitUrlRegex = new RegExp('\\b' + escapeRegex(location.origin) + prCommitPathnameRegex.source, 'gi');
 
+const prComparePathnameRegex = /[/][^/]+[/][^/]+[/]compare[/]([v\da-f.]{7})...(master|[v\da-f.]{7})#?diff-([\da-f]{7})[\da-f]{25}(?:[#\d\w-]+)?\b/; // eslint-disable-line unicorn/better-regex
+export const prCompareUrlRegex = new RegExp('\\b' + escapeRegex(location.origin) + prComparePathnameRegex.source, 'gi');
+
 // To be used as replacer callback in string.replace()
 export function preventPrCommitLinkLoss(url: string, pr: string, commit: string, index: number, fullText: string): string {
 	if (fullText[index + url.length] === ')') {
@@ -105,6 +108,14 @@ export function preventPrCommitLinkLoss(url: string, pr: string, commit: string,
 	}
 
 	return `[\`${commit}\` (#${pr})](${url})`;
+}
+//To be  used as replacer callback in string.replace() for compare links
+export function preventPrCompareLinkLoss(url: string, compareFile1: string, compareFile2: string, compare: string, index: number, fullText: string): string {
+	if (fullText[index + url.length] === ')') {
+		return url;
+	}
+
+	return `[\`${compare}\` (${compareFile1}-${compareFile2})](${url})`;
 }
 
 // https://github.com/idimetrix/text-case/blob/master/packages/upper-case-first/src/index.ts

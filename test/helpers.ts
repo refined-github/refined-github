@@ -92,12 +92,12 @@ test('getOwnerAndRepo', t => {
 });
 
 test('parseTag', t => {
-	t.deepEqual(parseTag(''), {namespace: '', version: ''});
-	t.deepEqual(parseTag('1.2.3'), {namespace: '', version: '1.2.3'});
-	t.deepEqual(parseTag('@1.2.3'), {namespace: '', version: '1.2.3'});
-	t.deepEqual(parseTag('hi@1.2.3'), {namespace: 'hi', version: '1.2.3'});
-	t.deepEqual(parseTag('hi/you@1.2.3'), {namespace: 'hi/you', version: '1.2.3'});
-	t.deepEqual(parseTag('@hi/you@1.2.3'), {namespace: '@hi/you', version: '1.2.3'});
+	t.deepEqual(parseTag(''), { namespace: '', version: '' });
+	t.deepEqual(parseTag('1.2.3'), { namespace: '', version: '1.2.3' });
+	t.deepEqual(parseTag('@1.2.3'), { namespace: '', version: '1.2.3' });
+	t.deepEqual(parseTag('hi@1.2.3'), { namespace: 'hi', version: '1.2.3' });
+	t.deepEqual(parseTag('hi/you@1.2.3'), { namespace: 'hi/you', version: '1.2.3' });
+	t.deepEqual(parseTag('@hi/you@1.2.3'), { namespace: '@hi/you', version: '1.2.3' });
 });
 
 test('pluralize', t => {
@@ -207,5 +207,29 @@ test('preventPrCommitLinkLoss', t => {
 		replace(replace('lorem ipsum dolor https://github.com/sindresorhus/refined-github/pull/3205/commits/1da152b3f8c51dd72d8ae6ad9cc96e0c2d8716f5#diff-932095cc3c0dff00495b4c392d78f0afR60 some random string')),
 		'lorem ipsum dolor [`1da152b` (#3205)](https://github.com/sindresorhus/refined-github/pull/3205/commits/1da152b3f8c51dd72d8ae6ad9cc96e0c2d8716f5#diff-932095cc3c0dff00495b4c392d78f0afR60) some random string',
 		'It should not apply it twice even with hashes'
+	);
+
+	t.is(
+		replace('https://github.com/sindresorhus/refined-github/commit/cb44a4eb8cd5c66def3dc26dca0f386645fa29bb'),
+		'https://github.com/sindresorhus/refined-github/commit/cb44a4eb8cd5c66def3dc26dca0f386645fa29bb',
+		'It should not affect non PR commit URLs'
+	);
+	t.is(
+		replace('https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191'),
+		'[`6be2971` (v11.5.2-v11.6.0)](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191)'
+	);
+	t.is(
+		replace('lorem ipsum dolor https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191 some random string'),
+		'lorem ipsum dolor [`6be2971` (v11.5.2-v11.6.0)](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191) some random string'
+	);
+	t.is(
+		replace(replace('lorem ipsum dolor https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191 some random string')),
+		'lorem ipsum dolor [`6be2971` (v11.5.2-v11.6.0)](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191) some random string',
+		'It should not apply it twice'
+	);
+	t.is(
+		replace('I like [turtles](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191)'),
+		'I like [turtles](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191)',
+		'It should ignore Markdown links'
 	);
 });
