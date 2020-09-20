@@ -210,9 +210,9 @@ test('preventPrCommitLinkLoss', t => {
 	);
 
 	t.is(
-		replace('https://github.com/sindresorhus/refined-github/commit/cb44a4eb8cd5c66def3dc26dca0f386645fa29bb'),
-		'https://github.com/sindresorhus/refined-github/commit/cb44a4eb8cd5c66def3dc26dca0f386645fa29bb',
-		'It should not affect non PR commit URLs'
+		replace('https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0'),
+		'https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0',
+		'It should not affect compare URLs without a diff hash'
 	);
 	t.is(
 		replace('https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191'),
