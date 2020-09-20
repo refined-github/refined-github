@@ -174,7 +174,8 @@ test('getLatestVersionTag', t => {
 function replace(string: string): string {
 	return string.replace(prCommitUrlRegex, preventPrCommitLinkLoss);
 }
-function replaceCompareLink(string: string):string {
+
+function replaceCompareLink(string: string): string {
 	return string.replace(prCompareUrlRegex, preventPrCompareLinkLoss);
 }
 
