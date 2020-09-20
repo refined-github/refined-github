@@ -221,15 +221,15 @@ test('preventPrCommitLinkLoss', t => {
 	);
 	t.is(
 		replaceCompareLink('https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191'),
-		'[`v11.5.2...v11.6.0` #diff-6be2971b2b](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191)'
+		'[`v11.5.2...v11.6.0`#diff-6be2971b2b](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191)'
 	);
 	t.is(
-		replaceCompareLink('lorem ipsum dolor https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191 some random string'),
-		'lorem ipsum dolor [`v11.5.2...v11.6.0` #diff-6be2971b2b](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191) some random string'
+		replaceCompareLink('lorem ipsum dolor https://github.com/sindresorhus/refined-github/compare/master...incremental-tag-changelog-link#diff-5b3cf6bcc7c5b1373313553dc6f93a5eR7-R9 some random string'),
+		'lorem ipsum dolor [`master...incremental-tag-changelog-link`#diff-5b3cf6bcc7](https://github.com/sindresorhus/refined-github/compare/master...incremental-tag-changelog-link#diff-5b3cf6bcc7c5b1373313553dc6f93a5eR7-R9) some random string'
 	);
 	t.is(
 		replaceCompareLink(replaceCompareLink('lorem ipsum dolor https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191 some random string')),
-		'lorem ipsum dolor [`v11.5.2...v11.6.0` #diff-6be2971b2b](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191) some random string',
+		'lorem ipsum dolor [`v11.5.2...v11.6.0`#diff-6be2971b2b](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191) some random string',
 		'It should not apply it twice'
 	);
 	t.is(

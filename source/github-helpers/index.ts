@@ -116,7 +116,7 @@ export function preventPrCompareLinkLoss(url: string, compare: string, diff: str
 		return url;
 	}
 
-	return `[\`${compare}\` ${diff}](${url})`;
+	return `[\`${compare}\`${diff}](${url})`;
 }
 
 // https://github.com/idimetrix/text-case/blob/master/packages/upper-case-first/src/index.ts
