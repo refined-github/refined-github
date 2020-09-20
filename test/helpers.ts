@@ -215,15 +215,15 @@ test('preventPrCommitLinkLoss', t => {
 	);
 	t.is(
 		replace('https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191'),
-		'[`6be2971` (v11.5.2...v11.6.0)](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191)'
+		'[`v11.5.2...v11.6.0` #diff-6be2971b2b](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191)'
 	);
 	t.is(
 		replace('lorem ipsum dolor https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191 some random string'),
-		'lorem ipsum dolor [`6be2971` (v11.5.2...v11.6.0)](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191) some random string'
+		'lorem ipsum dolor [`v11.5.2...v11.6.0` #diff-6be2971b2b](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191) some random string'
 	);
 	t.is(
 		replace(replace('lorem ipsum dolor https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191 some random string')),
-		'lorem ipsum dolor [`6be2971` (v11.5.2...v11.6.0)](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191) some random string',
+		'lorem ipsum dolor [`v11.5.2...v11.6.0` #diff-6be2971b2b](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191) some random string',
 		'It should not apply it twice'
 	);
 	t.is(
