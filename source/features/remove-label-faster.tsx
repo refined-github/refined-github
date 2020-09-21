@@ -34,24 +34,6 @@ async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, H
 	}
 }
 
-// TODO: set variable via JSX and inline function in `init` after https://github.com/vadimdemedes/dom-chef/issues/66
-function makeRemoveLabelButton(labelName: string, backgroundColor: string): JSX.Element {
-	const removeLabelButton = (
-		<button
-			type="button"
-			aria-label="Remove this label"
-			className="btn-link tooltipped tooltipped-nw rgh-remove-label-faster"
-			data-name={labelName}
-		>
-			<XIcon/>
-		</button>
-	);
-
-	removeLabelButton.style.setProperty('--rgh-remove-label-faster-color', backgroundColor);
-
-	return removeLabelButton;
-}
-
 async function init(): Promise<void> {
 	await api.expectToken();
 
@@ -59,7 +41,19 @@ async function init(): Promise<void> {
 		constructor: HTMLElement,
 		add(label) {
 			label.classList.add('rgh-remove-label-faster-already-added');
-			label.append(makeRemoveLabelButton(label.dataset.name!, label.style.backgroundColor));
+			label.append(
+				<button
+					type="button"
+					aria-label="Remove this label"
+					className="btn-link tooltipped tooltipped-nw rgh-remove-label-faster"
+					data-name={label.dataset.name}
+					style={/* eslint-disable-line @typescript-eslint/consistent-type-assertions */{
+						'--rgh-remove-label-faster-color': label.style.backgroundColor
+					} as React.CSSProperties}
+				>
+					<XIcon/>
+				</button>
+			);
 		}
 	});
 
@@ -72,8 +66,7 @@ void features.add({
 	screenshot: 'https://user-images.githubusercontent.com/36174850/89980178-0bc80480-dc7a-11ea-8ded-9e25f5f13d1a.gif'
 }, {
 	include: [
-		pageDetect.isIssue,
-		pageDetect.isPRConversation
+		pageDetect.isConversation
 	],
 	exclude: [
 		canNotEditLabels

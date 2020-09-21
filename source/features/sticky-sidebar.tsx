@@ -13,7 +13,7 @@ const sideBarSelector = [
 
 function updateStickiness(): void {
 	const sidebar = select(sideBarSelector)!;
-	const margin = pageDetect.isIssue() || pageDetect.isPRConversation() ? 60 : 0; // 60 matches sticky header's height
+	const margin = pageDetect.isConversation() ? 60 : 0; // 60 matches sticky header's height
 	const sidebarHeight = sidebar.offsetHeight + margin;
 	sidebar.classList.toggle('rgh-sticky-sidebar', sidebarHeight < window.innerHeight);
 }
@@ -31,8 +31,7 @@ void features.add({
 }, {
 	include: [
 		pageDetect.isRepoRoot,
-		pageDetect.isIssue,
-		pageDetect.isPRConversation
+		pageDetect.isConversation
 	],
 	additionalListeners: [
 		() => window.addEventListener('resize', onResize),
