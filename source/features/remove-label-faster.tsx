@@ -34,24 +34,6 @@ async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, H
 	}
 }
 
-// TODO: set variable via JSX and inline function in `init` after https://github.com/vadimdemedes/dom-chef/issues/66
-function makeRemoveLabelButton(labelName: string, backgroundColor: string): JSX.Element {
-	const removeLabelButton = (
-		<button
-			type="button"
-			aria-label="Remove this label"
-			className="btn-link tooltipped tooltipped-nw rgh-remove-label-faster"
-			data-name={labelName}
-		>
-			<XIcon/>
-		</button>
-	);
-
-	removeLabelButton.style.setProperty('--rgh-remove-label-faster-color', backgroundColor);
-
-	return removeLabelButton;
-}
-
 async function init(): Promise<void> {
 	await api.expectToken();
 
@@ -59,7 +41,19 @@ async function init(): Promise<void> {
 		constructor: HTMLElement,
 		add(label) {
 			label.classList.add('rgh-remove-label-faster-already-added');
-			label.append(makeRemoveLabelButton(label.dataset.name!, label.style.backgroundColor));
+			label.append(
+				<button
+					type="button"
+					aria-label="Remove this label"
+					className="btn-link tooltipped tooltipped-nw rgh-remove-label-faster"
+					data-name={label.dataset.name}
+					style={{
+						'--rgh-remove-label-faster-color': label.style.backgroundColor
+					} as unknown as React.CSSProperties}
+				>
+					<XIcon/>
+				</button>
+			);
 		}
 	});
 
