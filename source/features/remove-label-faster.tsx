@@ -47,9 +47,9 @@ async function init(): Promise<void> {
 					aria-label="Remove this label"
 					className="btn-link tooltipped tooltipped-nw rgh-remove-label-faster"
 					data-name={label.dataset.name}
-					style={{
+					style={/* eslint-disable-line @typescript-eslint/consistent-type-assertions */{
 						'--rgh-remove-label-faster-color': label.style.backgroundColor
-					} as unknown as React.CSSProperties}
+					} as React.CSSProperties}
 				>
 					<XIcon/>
 				</button>
