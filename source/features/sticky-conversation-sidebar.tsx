@@ -26,8 +26,7 @@ void features.add({
 	screenshot: 'https://user-images.githubusercontent.com/10238474/62276723-5a2eaa80-b44d-11e9-810b-ff598d1c5c6a.gif'
 }, {
 	include: [
-		pageDetect.isIssue,
-		pageDetect.isPRConversation
+		pageDetect.isConversation
 	],
 	additionalListeners: [
 		() => window.addEventListener('resize', onResize),
