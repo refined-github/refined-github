@@ -33,6 +33,8 @@ function keydownHandler(event: KeyboardEvent): void {
 		}
 	}
 
+	window.addEventListener('pjax:error', pjaxErrorHandler, {once: true});
+
 	history.back();
 	progressLoader.classList.remove(progressLoaderLoadingClass);
 }
@@ -48,8 +50,6 @@ function init(): void {
 	progressLoader = select('.progress-pjax-loader')!;
 
 	window.addEventListener('keydown', keydownHandler);
-
-	window.addEventListener('pjax:error', pjaxErrorHandler);
 
 	if (pageDetect.isUserProfile()) {
 		window.addEventListener('pjax:end', fixProfileNavAndTimeline);
