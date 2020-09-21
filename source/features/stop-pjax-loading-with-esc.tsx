@@ -4,6 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 let progressLoader: HTMLElement;
+let pjaxErrorShouldBePrevented = false;
 const progressLoaderLoadingClass = 'is-loading';
 
 function fixProfileNavAndTimeline(): void {
@@ -33,14 +34,17 @@ function keydownHandler(event: KeyboardEvent): void {
 		}
 	}
 
+	pjaxErrorShouldBePrevented = true;
+
 	history.back();
 	progressLoader.classList.remove(progressLoaderLoadingClass);
 }
 
 function pjaxErrorHandler(event: CustomEvent): void {
-	if (event.cancelable) {
+	if (pjaxErrorShouldBePrevented && event.cancelable) {
 		// Avoid location.replace() when AbortController.abort() throw an error
 		event.preventDefault();
+		pjaxErrorShouldBePrevented = false;
 	}
 }
 
