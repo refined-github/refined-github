@@ -26,7 +26,7 @@ jobs:
         with:
           include-range: false
           token: ${{ secrets.GITHUB_TOKEN }}
-          exclude: '^Meta|^Document|^Readme|^Lint|dependencies$'
+          exclude: '^Meta|^Document|^Readme|^Lint|^Update.+dependencies'
 
   Build:
     needs: Version
