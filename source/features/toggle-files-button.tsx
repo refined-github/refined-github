@@ -41,7 +41,7 @@ async function init(): Promise<void> {
 
 	delegate(document, '.rgh-toggle-files', 'click', async () => {
 		// Persist a closed list or remove from cache
-		await cache.set(cacheKey, repoContent.classList.toggle('rgh-files-hidden') || undefined);
+		await cache.set(cacheKey, (repoContent.classList.toggle('rgh-files-hidden') || undefined)!);
 	});
 
 	if (await cache.get<boolean>(cacheKey)) {
