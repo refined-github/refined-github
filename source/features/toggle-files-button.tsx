@@ -42,8 +42,9 @@ async function init(): Promise<void> {
 	delegate(document, '.rgh-toggle-files', 'click', async () => {
 		await cache.set(cacheKey, repoContent.classList.toggle('rgh-files-hidden'));
 	});
+
 	if (await cache.get<boolean>(cacheKey)) {
-		select('.rgh-toggle-files')!.click();
+		repoContent.classList.toggle('rgh-files-hidden');
 	}
 }
 
