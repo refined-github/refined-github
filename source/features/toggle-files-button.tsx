@@ -27,7 +27,6 @@ function addButton(): void {
 			type="button"
 			className="btn-octicon rgh-toggle-files"
 			aria-label="Toggle files section"
-			aria-expanded="true"
 		>
 			<FoldIcon/>
 			<UnfoldIcon/>
@@ -36,14 +35,12 @@ function addButton(): void {
 }
 
 async function init(): Promise<void> {
+	const cacheKey = 'files-list-toggled-off';
 	const repoContent = (await elementReady('.repository-content'))!;
 	observeElement(repoContent, addButton);
 
-	const cacheKey = 'files-list-toggled-off';
-	delegate(document, '.rgh-toggle-files', 'click', async ({delegateTarget}) => {
-		const toggleState = repoContent.classList.toggle('rgh-files-hidden');
-		delegateTarget.setAttribute('aria-expanded', String(!toggleState));
-		await cache.set(cacheKey, toggleState);
+	delegate(document, '.rgh-toggle-files', 'click', async () => {
+		await cache.set(cacheKey, repoContent.classList.toggle('rgh-files-hidden'));
 	});
 	if (await cache.get<boolean>(cacheKey)) {
 		select('.rgh-toggle-files')!.click();
