@@ -11,9 +11,9 @@ import {
 	getScopedSelector,
 	getLatestVersionTag,
 	preventPrCommitLinkLoss,
+	preventPrCompareLinkLoss,
 	prCommitUrlRegex,
-	prCompareUrlRegex,
-	preventPrCompareLinkLoss
+	prCompareUrlRegex
 } from '../source/github-helpers';
 
 test('getConversationNumber', t => {
