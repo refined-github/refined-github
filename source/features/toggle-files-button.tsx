@@ -40,16 +40,14 @@ async function init(): Promise<void> {
 	observeElement(repoContent, addButton);
 
 	const cacheKey = 'files-list-toggled-off';
-	if (await cache.get<boolean>(cacheKey)) {
-		repoContent.classList.toggle('rgh-files-hidden', true);
-		select('.rgh-toggle-files')!.setAttribute('aria-expanded', 'false');
-	}
-
 	delegate(document, '.rgh-toggle-files', 'click', async ({delegateTarget}) => {
 		const toggleState = repoContent.classList.toggle('rgh-files-hidden');
 		delegateTarget.setAttribute('aria-expanded', String(!toggleState));
 		await cache.set(cacheKey, toggleState);
 	});
+	if (await cache.get<boolean>(cacheKey)) {
+		select('.rgh-toggle-files')!.click();
+	}
 }
 
 void features.add({
