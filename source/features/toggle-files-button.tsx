@@ -35,12 +35,13 @@ function addButton(): void {
 }
 
 async function init(): Promise<void> {
-	const cacheKey = 'files-list-toggled-off';
+	const cacheKey = 'hide-file-list';
 	const repoContent = (await elementReady('.repository-content'))!;
 	observeElement(repoContent, addButton);
 
 	delegate(document, '.rgh-toggle-files', 'click', async () => {
-		await cache.set(cacheKey, repoContent.classList.toggle('rgh-files-hidden'));
+		// Persist a closed list or remove from cache
+		await cache.set(cacheKey, repoContent.classList.toggle('rgh-files-hidden') || undefined);
 	});
 
 	if (await cache.get<boolean>(cacheKey)) {
