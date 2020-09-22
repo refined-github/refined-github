@@ -58,5 +58,6 @@ void features.add({
 		pageDetect.isRepoTree
 	],
 	awaitDomReady: false,
+	repeatOnBackButton: true,
 	init
 });
