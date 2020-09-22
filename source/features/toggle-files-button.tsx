@@ -1,7 +1,9 @@
 import './toggle-files-button.css';
+import cache from 'webext-storage-cache';
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import FoldIcon from 'octicon/fold.svg';
@@ -33,11 +35,20 @@ function addButton(): void {
 	);
 }
 
-function init(): void {
-	const repoContent = select('.repository-content')!;
+async function init(): Promise<void> {
+	const repoContent = (await elementReady('.repository-content'))!;
 	observeElement(repoContent, addButton);
-	delegate(document, '.rgh-toggle-files', 'click', ({delegateTarget}) => {
-		delegateTarget.setAttribute('aria-expanded', String(!repoContent.classList.toggle('rgh-files-hidden')));
+
+	const cacheKey = 'files-list-toggled-off';
+	if (await cache.get<boolean>(cacheKey)) {
+		repoContent.classList.toggle('rgh-files-hidden', true);
+		select('.rgh-toggle-files')!.setAttribute('aria-expanded', 'false');
+	}
+
+	delegate(document, '.rgh-toggle-files', 'click', async ({delegateTarget}) => {
+		const toggleState = repoContent.classList.toggle('rgh-files-hidden');
+		delegateTarget.setAttribute('aria-expanded', String(!toggleState));
+		await cache.set(cacheKey, toggleState);
 	});
 }
 
