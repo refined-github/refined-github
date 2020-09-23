@@ -12,9 +12,9 @@ import UnfoldIcon from 'octicon/unfold.svg';
 import features from '.';
 import observeElement from '../helpers/simplified-element-observer';
 
-function addButton(): void {
-	console.log('will add');
+const cacheKey = 'files-hidden';
 
+function addButton(): void {
 	// `div` excludes `include-fragment`, which means the list is still loading. #2160
 	const filesHeader = select([
 		'div.commit-tease',
@@ -36,19 +36,21 @@ function addButton(): void {
 	);
 }
 
+async function toggleHandler(): Promise<void> {
+	const isHidden = select('.repository-content')!.classList.toggle('rgh-files-hidden');
+	if (isHidden) {
+		await cache.set(cacheKey, true);
+	} else {
+		await cache.delete(cacheKey);
+	}
+}
+
 async function init(): Promise<void> {
-	const cacheKey = 'hide-file-list';
 	const repoContent = (await elementReady('.repository-content'))!;
 	observeElement(repoContent, addButton);
+	delegate(document, '.rgh-toggle-files', 'click', toggleHandler);
 
-	delegate(document, '.rgh-toggle-files', 'click', async () => {
-		console.log('will toggle');
-		await cache.set(cacheKey, repoContent.classList.toggle('rgh-files-hidden'));
-	});
-
-	console.log('check closed');
 	if (await cache.get<boolean>(cacheKey)) {
-		console.log('was closed');
 		repoContent.classList.add('rgh-files-hidden');
 	}
 }
