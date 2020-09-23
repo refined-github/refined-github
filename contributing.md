@@ -15,7 +15,7 @@ Suggestions and pull requests are highly encouraged! Have a look at the [open is
 
 ## `features.add`
 
-The simplest usage of `feature.add` is the following. This will be run instantly on all page-loads (but not on ajax loads):
+The simplest usage of `feature.add` is the following. This will be run instantly on all page-loads:
 
 ```js
 import * as pageDetect from 'github-url-detection';
@@ -31,7 +31,7 @@ features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/58238638-3cbcd080-7d7a-11e9-80f6-be6c0520cfed.jpg',
 }, {
 	include: [
-		pageDetect.isPR
+		pageDetect.isPR // Find which one you need on https://fregante.github.io/github-url-detection/
 	],
 	awaitDomReady: false,
 	init
@@ -39,7 +39,6 @@ features.add({
 ```
 
 Here's an example using all of the possible `feature.add` options:
-
 
 ```ts
 import React from 'dom-chef';
