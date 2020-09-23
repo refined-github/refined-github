@@ -29,3 +29,8 @@
 .repository-content #readme:not(.blob) .Box-header .btn-octicon:focus {
 	opacity: 100%;
 }
+
+/* Restore spacing #3495 */
+.repository-content #readme:not(.blob) .Box-body {
+	padding-top: 32px;
+}

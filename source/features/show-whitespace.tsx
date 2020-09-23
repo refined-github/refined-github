@@ -61,7 +61,7 @@ const viewportObserver = new IntersectionObserver(changes => {
 	}
 });
 
-async function init(): Promise<void> {
+function init(): void {
 	for (const line of select.all('.blob-code-inner:not(.rgh-observing-whitespace)')) {
 		line.classList.add('rgh-observing-whitespace');
 		viewportObserver.observe(line);

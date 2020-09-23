@@ -1,6 +1,7 @@
 import './highlight-collaborators-and-own-conversations.css';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
+import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -13,20 +14,19 @@ const getCollaborators = cache.function(async (): Promise<string[]> => {
 		.all<HTMLImageElement>('.SelectMenu-item [alt]', dom)
 		.map(avatar => avatar.alt.slice(1));
 }, {
-	maxAge: 5,
-	staleWhileRevalidate: 20,
+	maxAge: {
+		days: 1
+	},
+	staleWhileRevalidate: {
+		days: 20
+	},
 	cacheKey: () => 'repo-collaborators:' + getRepoURL()
 });
 
-async function highlightCollaborators(): Promise<false | void> {
-	const authors = select.all('.js-issue-row [data-hovercard-type="user"]');
-	if (authors.length === 0) {
-		return false;
-	}
-
+async function highlightCollaborators(): Promise<void> {
 	const collaborators = await getCollaborators();
-
-	for (const author of authors) {
+	await domLoaded;
+	for (const author of select.all('.js-issue-row [data-hovercard-type="user"]')) {
 		if (collaborators.includes(author.textContent!.trim())) {
 			author.classList.add('rgh-collaborator');
 		}
@@ -49,6 +49,10 @@ void features.add({
 	include: [
 		pageDetect.isRepoConversationList
 	],
+	exclude: [
+		() => select.exists('.blankslate')
+	],
+	awaitDomReady: false,
 	init: highlightCollaborators
 }, {
 	include: [

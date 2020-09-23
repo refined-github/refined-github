@@ -16,6 +16,6 @@ void features.add({
 	include: [
 		pageDetect.isDashboard
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: onetime(init)
 });

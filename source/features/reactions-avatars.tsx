@@ -11,11 +11,11 @@ import {getUsername, isFirefox} from '../github-helpers';
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
 
-type Participant = {
+interface Participant {
 	container: HTMLElement;
 	username: string;
 	imageUrl: string;
-};
+}
 
 function getParticipants(container: HTMLElement): Participant[] {
 	const currentUser = getUsername();
@@ -84,7 +84,7 @@ const viewportObserver = new IntersectionObserver(changes => {
 	rootMargin: '500px'
 });
 
-async function init(): Promise<void> {
+function init(): void {
 	for (const commentReactions of select.all('.has-reactions .comment-reactions-options:not(.rgh-reactions)')) {
 		commentReactions.classList.add('rgh-reactions');
 		viewportObserver.observe(commentReactions);

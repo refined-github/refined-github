@@ -43,8 +43,12 @@ async function fetchFromApi(): Promise<number> {
 }
 
 const getReleaseCount = cache.function(async () => pageDetect.isRepoRoot() ? parseCountFromDom() : fetchFromApi(), {
-	maxAge: 1,
-	staleWhileRevalidate: 4,
+	maxAge: {
+		hours: 1
+	},
+	staleWhileRevalidate: {
+		days: 3
+	},
 	cacheKey: () => cacheKey
 });
 
@@ -100,11 +104,17 @@ async function init(): Promise<false | void> {
 			releasesTab.setAttribute('aria-current', 'page');
 		}
 
-		select('[data-menu-item="insights-tab"]', repoNavigationBar)!.after(
+		select('.dropdown-divider', repoNavigationBar)!.before(
 			createDropdownItem('Releases', `/${repoUrl}/releases`, {
 				'data-menu-item': 'rgh-releases-item'
 			})
 		);
+
+		// Hide redundant 'Releases' section from repo sidebar
+		if (pageDetect.isRepoRoot()) {
+			const sidebarReleases = await elementReady('.BorderGrid-cell a[href$="/releases"]');
+			sidebarReleases!.closest('.BorderGrid-row')!.setAttribute('hidden', '');
+		}
 
 		return;
 	}
@@ -147,6 +157,6 @@ void features.add({
 	include: [
 		pageDetect.isRepo
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init
 });

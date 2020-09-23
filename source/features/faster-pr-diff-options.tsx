@@ -66,7 +66,6 @@ function wrap(...elements: Node[]): DocumentFragment {
 		);
 	}
 
-	// eslint-disable-next-line react/jsx-no-useless-fragment
 	return <>{elements.map(element => <div className="diffbar-item">{element}</div>)}</>;
 }
 

@@ -36,6 +36,6 @@ void features.add({
 	include: [
 		pageDetect.isCompare
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init
 });

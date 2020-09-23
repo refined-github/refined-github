@@ -71,7 +71,7 @@ async function init(): Promise<void | false> {
 		for (const assetName of select.all('.octicon-package ~ span', release)) {
 			// Match the asset in the DOM to the asset in the API response
 			for (const [index, {name, downloadCount}] of sortedDownloads.entries()) {
-				if (name === assetName.textContent) {
+				if (name === assetName.textContent && downloadCount > 0) {
 					const classes = 'rgh-release-download-count mr-2 text-gray' + (index === 0 ? ' text-bold' : '');
 					// Place next to asset size
 					assetName

@@ -38,6 +38,9 @@ void features.add({
 	include: [
 		pageDetect.isRepo
 	],
-	waitForDomReady: false,
+	exclude: [
+		pageDetect.isEmptyRepo
+	],
+	awaitDomReady: false,
 	init
 });

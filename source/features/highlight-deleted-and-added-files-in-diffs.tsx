@@ -1,31 +1,39 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import oneTime from 'onetime';
-import {observe} from 'selector-observer';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import {observe, Observer} from 'selector-observer';
 
 import features from '.';
 import {observeOneMutation} from '../helpers/simplified-element-observer';
 
+let observer: Observer;
+
 async function loadDeferred(jumpList: Element): Promise<void> {
-	const loadJumpList = (jumpList: Element) => jumpList.parentElement!.dispatchEvent(new MouseEvent('mouseover'));
-	loadJumpList(jumpList);
-	// The event listener might not have been attached yet, so we can try twice
-	setTimeout(loadJumpList, 1000, jumpList);
+	// This event will trigger the loading, but if run too early, GitHub might not have attached the listener yet, so we try multiple times.
+	const retrier = setInterval(() => {
+		jumpList.parentElement!.dispatchEvent(new MouseEvent('mouseover'));
+	}, 100);
 	await observeOneMutation(jumpList);
+	clearInterval(retrier);
 }
 
-async function init(): Promise<void> {
+async function init(): Promise<void | false> {
 	const fileList = await elementReady([
 		'.toc-select details-menu', // `isPR`
-		'.toc-diff-stats + .content' // `isSingleCommit`
+		'.toc-diff-stats + .content' // `isSingleCommit` and `isCompare`
 	].join());
+
+	// The file list does not exist if the diff is too large
+	if (pageDetect.isCompare() && !fileList) {
+		return false;
+	}
+
 	if (pageDetect.isPR()) {
 		await loadDeferred(fileList!);
 	}
 
-	observe('.file-info [href]:not(.rgh-pr-file-state)', {
+	observer = observe('.file-info [href]:not(.rgh-pr-file-state)', {
 		constructor: HTMLAnchorElement,
 		add(filename) {
 			filename.classList.add('rgh-pr-file-state');
@@ -59,12 +67,14 @@ void features.add({
 }, {
 	include: [
 		pageDetect.isPRFiles,
-		pageDetect.isCommit
+		pageDetect.isCommit,
+		pageDetect.isCompare
 	],
 	exclude: [
 		pageDetect.isPRFile404,
 		pageDetect.isPRCommit404
 	],
-	init: oneTime(init),
-	waitForDomReady: false
+	init,
+	deinit: () => observer.abort(),
+	awaitDomReady: false
 });

@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import TagIcon from 'octicon/tag.svg';
 import DiffIcon from 'octicon/diff.svg';
-import elementReady from 'element-ready';
+import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -73,8 +73,12 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 
 	return {latestTag, aheadBy};
 }, {
-	maxAge: 1 / 24, // One hour
-	staleWhileRevalidate: 2,
+	maxAge: {
+		hours: 1
+	},
+	staleWhileRevalidate: {
+		days: 2
+	},
 	cacheKey: () => `tag-ahead-by:${getRepoURL()}`
 });
 
@@ -82,11 +86,6 @@ async function init(): Promise<false | void> {
 	const {latestTag, aheadBy} = await getRepoPublishState();
 	if (!latestTag) {
 		return false;
-	}
-
-	const breadcrumb = await elementReady('#branch-select-menu');
-	if (!breadcrumb) {
-		return;
 	}
 
 	const currentBranch = getCurrentBranch();
@@ -97,12 +96,12 @@ async function init(): Promise<false | void> {
 	});
 
 	const link = (
-		<a className="btn btn-sm btn-outline ml-2 flex-self-center" href={String(url)}>
+		<a className="btn btn-sm btn-outline ml-2 flex-self-center rgh-latest-tag-button" href={String(url)}>
 			<TagIcon/>
 		</a>
 	);
 
-	breadcrumb.after(link);
+	select('#branch-select-menu')!.parentElement!.after(link);
 	if (currentBranch !== latestTag) {
 		link.append(' ', <span className="css-truncate-target">{latestTag}</span>);
 	}
@@ -151,6 +150,6 @@ void features.add({
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init
 });

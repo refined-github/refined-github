@@ -8,7 +8,7 @@ import * as api from '../github-helpers/api';
 import pluralize from '../helpers/pluralize';
 import {getRepoGQL} from '../github-helpers';
 
-const getCommitChanges = cache.function(async (commit: string): Promise<[number, number]> => {
+const getCommitChanges = cache.function(async (commit: string): Promise<[additions: number, deletions: number]> => {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			object(expression: "${commit}") {
@@ -51,6 +51,6 @@ void features.add({
 	include: [
 		pageDetect.isPRCommit
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init
 });

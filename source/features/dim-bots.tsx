@@ -9,9 +9,11 @@ export const botSelectors = [
 	/* Commits */
 	'.commit-author[href$="%5Bbot%5D"]:first-child',
 	'.commit-author[href$="renovate-bot"]:first-child',
+	'.commit-author[href$="scala-steward"]:first-child',
 
 	/* Issues/PRs */
-	'.opened-by [href*="author%3Aapp%2F"]'
+	'.opened-by [href*="author%3Aapp%2F"]',
+	'.labels [href$="label%3Abot"]'
 ];
 
 function init(): void {

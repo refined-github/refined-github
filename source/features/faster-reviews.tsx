@@ -24,7 +24,7 @@ async function addSidebarReviewButton(): Promise<void | false> {
 	);
 }
 
-function focusReviewTextarea({delegateTarget}: delegate.Event<Event, HTMLDetailsElement>) {
+function focusReviewTextarea({delegateTarget}: delegate.Event<Event, HTMLDetailsElement>): void {
 	if (delegateTarget.open) {
 		select('textarea', delegateTarget)!.focus();
 	}
@@ -53,12 +53,12 @@ void features.add({
 	additionalListeners: [
 		() => void onReplacedElement('#partial-discussion-sidebar', addSidebarReviewButton)
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: addSidebarReviewButton
 }, {
 	include: [
 		pageDetect.isPRFiles
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: initReviewButtonEnhancements
 });

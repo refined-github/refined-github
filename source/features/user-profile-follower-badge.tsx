@@ -16,7 +16,6 @@ const doesUserFollow = cache.function(async (userA: string, userB: string): Prom
 
 	return httpStatus === 204;
 }, {
-	maxAge: 3,
 	cacheKey: ([userA, userB]) => `user-follows:${userA}:${userB}`
 });
 

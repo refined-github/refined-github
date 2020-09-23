@@ -18,8 +18,7 @@ const defaults = Object.assign({
 }, __featuresOptionDefaults__); // This variable is replaced at build time
 
 const migrations = [
-	// Merged on July 2nd
-	featureWasRenamed('sticky-discussion-list-toolbar', 'sticky-conversation-list-toolbar'),
+	featureWasRenamed('sticky-conversation-sidebar', 'sticky-sidebar'), // Merged in September
 
 	// Removed features will be automatically removed from the options as well
 	OptionsSyncPerDomain.migrations.removeUnused
