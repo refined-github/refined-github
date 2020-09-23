@@ -22,6 +22,7 @@ import './features/clean-notifications.css';
 import './features/clean-pinned-issues.css';
 import './features/fix-first-tab-length.css';
 import './features/align-repository-header.css';
+import './features/avatar-user-squared.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
@@ -197,6 +198,7 @@ import './features/convert-release-to-draft';
 import './features/linkify-full-profile-readme-title';
 import './features/same-page-definition-jump';
 import './features/new-repo-disable-projects-and-wikis';
+import './features/avatar-user-squared';
 
 // Add global for easier debugging
 (window as any).select = select;

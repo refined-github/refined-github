@@ -1,0 +1,17 @@
+.avatar-user {
+  border-radius: inherit !important;
+}
+
+img.avatar-user, img.d-block {
+  border-radius: 4px !important;
+}
+
+.user-status-circle-badge-container {
+  left: 1px;
+  margin-left: 0;
+  margin-bottom: 0;
+}
+
+.user-status-circle-badge {
+  border-radius: 4px;
+}
