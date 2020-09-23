@@ -24,7 +24,7 @@ function getButton(direction: string): HTMLAnchorElement {
 	) as unknown as HTMLAnchorElement;
 }
 
-function setButtonHref(button: HTMLAnchorElement, query: string, page: number, conversation?: Conversation) {
+function setButtonHref(button: HTMLAnchorElement, query: string, page: number, conversation?: Conversation): void {
 	if (conversation) {
 		const url = new URL(conversation.url);
 		url.searchParams.set('q', query);
@@ -34,11 +34,11 @@ function setButtonHref(button: HTMLAnchorElement, query: string, page: number, c
 	}
 }
 
-type Conversation = {
+interface Conversation {
 	cursor: number;
 	number: number;
 	url: string;
-};
+}
 
 const fetchConversationList = cache.function(async (query: string, page: number): Promise<Conversation[]> => {
 	// When fetching a page of conversations we want to also fetch last item from previous page, and first item from next page.
@@ -71,13 +71,15 @@ const fetchConversationList = cache.function(async (query: string, page: number)
 },
 {
 	cacheKey: ([query, page]) => `${__filebasename}:${query}/${page}`,
-	maxAge: 1 / 24
+	maxAge: {
+		hours: 1
+	}
 });
 
 // Current default number of items in a conversation list
 const ITEMS_PER_PAGE = 25;
 
-async function getConversationMeta() {
+async function getConversationMeta(): Promise<AnyObject> {
 	const conversationNumber = getConversationNumber()!;
 	const listQuery = getConversationListQuery();
 	const query = listQuery.get();
@@ -118,7 +120,7 @@ function getConversationListQuery(): SearchQuery {
 	return new SearchQuery(url);
 }
 
-async function init() {
+async function init(): Promise<void> {
 	const previousButton = getButton('previous');
 	const nextButton = getButton('next');
 
