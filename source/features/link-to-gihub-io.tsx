@@ -23,11 +23,10 @@ function repoListInit(): void {
 }
 
 async function repoInit(): Promise<void> {
-	const {owner, name} = getRepositoryInfo();
-	const repoTitle = await elementReady(`a[href="/${owner!}/${name!}"]`)!;
-	repoTitle!.parentElement!.after(
+	const repoTitle = await elementReady('[itemprop="name"]')!;
+	repoTitle!.after(
 		<a
-			href={`https://${name!}`}
+			href={`https://${getRepositoryInfo().name!}`}
 			target="_blank"
 			rel="noopener noreferrer"
 		>
