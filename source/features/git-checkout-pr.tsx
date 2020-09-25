@@ -51,8 +51,7 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 				</pre>
 			</div>
 			<p className="text-gray text-small">
-				<strong>Step 2: </strong>
-				Checkout the branch
+				<strong>Step 2: </strong>Checkout the branch
 			</p>
 			<div className="copyable-terminal">
 				<div className="copyable-terminal-button">
