@@ -35,18 +35,17 @@ function lineActions(): JSX.Element {
 					<li>
 						<clipboard-copy
 							role="menuitem"
-							className="dropdown-item"
+							className="dropdown-item zeroclipboard-link"
 							id="js-copy-lines"
-							style={{cursor: 'pointer'}}
+						>
 						>Copy line
 						</clipboard-copy>
 					</li>
 					<li>
 						<clipboard-copy
 							role="menuitem"
-							className="dropdown-item"
+							className="dropdown-item zeroclipboard-link"
 							id="js-copy-permalink"
-							style={{cursor: 'pointer'}}
 						>
 							Copy permalink
 						</clipboard-copy>
