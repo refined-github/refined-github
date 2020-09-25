@@ -1,6 +1,7 @@
 import './view-markdown-source.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import onetime from 'onetime';
 import delegate from 'delegate-it';
 import CodeIcon from 'octicon/code.svg';
 import FileIcon from 'octicon/file.svg';
@@ -12,7 +13,7 @@ import fetchDom from '../helpers/fetch-dom';
 import GitHubURL from '../github-helpers/github-url';
 import {getRepoURL} from '../github-helpers';
 
-function lineActions(): JSX.Element {
+const lineActions = onetime((): JSX.Element => {
 	const blame = new GitHubURL(location.href).assign({route: 'blame'}).toString();
 	return (
 		<details
@@ -38,7 +39,7 @@ function lineActions(): JSX.Element {
 							className="dropdown-item zeroclipboard-link"
 							id="js-copy-lines"
 						>
-						>Copy line
+							Copy line
 						</clipboard-copy>
 					</li>
 					<li>
@@ -56,7 +57,8 @@ function lineActions(): JSX.Element {
 							id="js-view-git-blame"
 							role="menuitem"
 							href={blame}
-						>View git blame
+						>
+							View git blame
 						</a>
 					</li>
 					<li>
@@ -64,15 +66,16 @@ function lineActions(): JSX.Element {
 							className="dropdown-item"
 							id="js-new-issue"
 							role="menuitem"
-							href={`https://github.com/${getRepoURL()}/issues/new`}
-						>Reference in new issue
+							href={`/${getRepoURL()}/issues/new`}
+						>
+							Reference in new issue
 						</a>
 					</li>
 				</ul>
 			</details-menu>
 		</details>
 	);
-}
+});
 
 const buttonBodyMap = new WeakMap<Element, Element | Promise<Element>>();
 
