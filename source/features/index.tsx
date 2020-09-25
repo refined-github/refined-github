@@ -9,7 +9,6 @@ import compareVersions from 'tiny-version-compare';
 import * as pageDetect from 'github-url-detection';
 
 import onNewComments from '../github-events/on-new-comments';
-import onNewsfeedLoad from '../github-events/on-newsfeed-load';
 import optionsStorage, {RGHOptions} from '../options-storage';
 
 type BooleanFunction = () => boolean;
@@ -182,8 +181,7 @@ const checkForHotfixes = cache.function(async () => {
 const shortcutMap = new Map<string, string>();
 
 const defaultPairs = new Map([
-	[pageDetect.hasComments, onNewComments],
-	[pageDetect.isDashboard, onNewsfeedLoad]
+	[pageDetect.hasComments, onNewComments]
 ]);
 
 function enforceDefaults(
