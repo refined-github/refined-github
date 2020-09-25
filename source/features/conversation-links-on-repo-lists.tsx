@@ -11,7 +11,7 @@ import features from '.';
 function init(): void {
 	observe([
 		'[itemprop="name codeRepository"]:not(.rgh-discussion-links)', // `isUserProfileRepoTab`
-		'[data-hydro-click*=\'"model_name":"Repository"\']' // `isGlobalSearchResults`
+		'[data-hydro-click*=\'"model_name":"Repository"\']:not(.rgh-discussion-links)' // `isGlobalSearchResults`
 	].join(), {
 		constructor: HTMLAnchorElement,
 		add(repositoryLink) {
