@@ -118,7 +118,7 @@ async function showSource(): Promise<void> {
 	sourceButton.classList.add('selected');
 	renderedButton.classList.remove('selected');
 	blurButton(sourceButton);
-	select('.blob-wrapper')!.before(lineActions());
+	(await source).before(lineActions());
 
 	dispatchEvent(sourceButton, 'rgh:view-markdown-source');
 }
@@ -136,6 +136,7 @@ async function showRendered(): Promise<void> {
 	sourceButton.classList.remove('selected');
 	renderedButton.classList.add('selected');
 	blurButton(renderedButton);
+	lineActions().remove();
 
 	dispatchEvent(sourceButton, 'rgh:view-markdown-rendered');
 }
