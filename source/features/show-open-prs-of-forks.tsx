@@ -104,7 +104,7 @@ void features.add({
 	exclude: [
 		() => !pageDetect.isForkedRepo()
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: initHeadHint
 }, {
 	include: [
@@ -113,6 +113,6 @@ void features.add({
 	exclude: [
 		() => !pageDetect.isForkedRepo()
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: initDeleteHint
 });

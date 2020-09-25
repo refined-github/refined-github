@@ -28,7 +28,7 @@ void features.add({
 	include: [
 		pageDetect.isSingleFile
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	repeatOnBackButton: true,
 	init,
 	deinit

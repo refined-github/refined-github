@@ -53,12 +53,12 @@ void features.add({
 	additionalListeners: [
 		() => void onReplacedElement('#partial-discussion-sidebar', addSidebarReviewButton)
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: addSidebarReviewButton
 }, {
 	include: [
 		pageDetect.isPRFiles
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: initReviewButtonEnhancements
 });

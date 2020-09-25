@@ -66,6 +66,6 @@ void features.add({
 	exclude: [
 		pageDetect.isRepoHome
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init
 });

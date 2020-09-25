@@ -18,11 +18,17 @@ async function loadDeferred(jumpList: Element): Promise<void> {
 	clearInterval(retrier);
 }
 
-async function init(): Promise<void> {
+async function init(): Promise<void | false> {
 	const fileList = await elementReady([
 		'.toc-select details-menu', // `isPR`
-		'.toc-diff-stats + .content' // `isSingleCommit`
+		'.toc-diff-stats + .content' // `isSingleCommit` and `isCompare`
 	].join());
+
+	// The file list does not exist if the diff is too large
+	if (pageDetect.isCompare() && !fileList) {
+		return false;
+	}
+
 	if (pageDetect.isPR()) {
 		await loadDeferred(fileList!);
 	}
@@ -61,7 +67,8 @@ void features.add({
 }, {
 	include: [
 		pageDetect.isPRFiles,
-		pageDetect.isCommit
+		pageDetect.isCommit,
+		pageDetect.isCompare
 	],
 	exclude: [
 		pageDetect.isPRFile404,
@@ -69,5 +76,5 @@ void features.add({
 	],
 	init,
 	deinit: () => observer.abort(),
-	waitForDomReady: false
+	awaitDomReady: false
 });

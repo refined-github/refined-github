@@ -127,6 +127,6 @@ void features.add({
 	include: [
 		pageDetect.isPRList
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init
 });

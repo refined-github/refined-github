@@ -31,6 +31,6 @@ void features.add({
 	include: [
 		pageDetect.hasCode
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: onetime(init)
 });

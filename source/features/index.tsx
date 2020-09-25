@@ -1,9 +1,11 @@
 import React from 'dom-chef';
+import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';
 import elementReady from 'element-ready';
+import compareVersions from 'tiny-version-compare';
 import * as pageDetect from 'github-url-detection';
 
 import onNewComments from '../github-events/on-new-comments';
@@ -27,7 +29,7 @@ interface FeatureMeta {
 
 interface FeatureLoader extends Partial<InternalRunConfig> {
 	/** Whether to wait for DOM ready before runnin `init`. `false` makes `init` run right as soon as `body` is found. @default true */
-	waitForDomReady?: false;
+	awaitDomReady?: false;
 
 	/** When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway.  @default false */
 	repeatOnBackButton?: true;
@@ -102,6 +104,11 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 
 	// Options defaults
 	const options = await optionsStorage.getAll();
+	const hotfix = browser.runtime.getManifest().version === '0.0.0' || await cache.get('hotfix'); // Ignores the cache when loaded locally
+
+	// If features are remotely marked as "seriously breaking" by the maintainers, disable them without having to wait for proper updates to propagate #3529
+	void checkForHotfixes();
+	Object.assign(options, hotfix);
 
 	if (options.customCSS.trim().length > 0) {
 		document.head.append(<style>{options.customCSS}</style>);
@@ -148,6 +155,28 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 		listener(runFeature);
 	}
 };
+
+const checkForHotfixes = cache.function(async () => {
+	// The explicit endpoint is necessary because it shouldn't change on GHE
+	const request = await fetch('https://api.github.com/repos/sindresorhus/refined-github/contents/hotfix.json?ref=hotfix');
+	const response = await request.json();
+	const hotfixes: AnyObject | false = JSON.parse(atob(response.content));
+
+	// eslint-disable-next-line @typescript-eslint/prefer-optional-chain -- https://github.com/typescript-eslint/typescript-eslint/issues/1893
+	if (hotfixes && hotfixes.unaffected) {
+		const currentVersion = browser.runtime.getManifest().version;
+		if (compareVersions(hotfixes.unaffected, currentVersion) < 1) {
+			return {};
+		}
+	}
+
+	return hotfixes;
+}, {
+	maxAge: {
+		hours: 6
+	},
+	cacheKey: () => 'hotfix'
+});
 
 const shortcutMap = new Map<string, string>();
 
@@ -201,7 +230,7 @@ const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<voi
 			exclude = [], // Default: nothing
 			init,
 			deinit,
-			waitForDomReady = true,
+			awaitDomReady = true,
 			repeatOnBackButton = false,
 			onlyAdditionalListeners = false,
 			additionalListeners = []
@@ -215,7 +244,7 @@ const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<voi
 		enforceDefaults(id, include, additionalListeners);
 
 		const details = {include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners};
-		if (waitForDomReady) {
+		if (awaitDomReady) {
 			(async () => {
 				await domLoaded;
 				await setupPageLoad(id, details);

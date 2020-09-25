@@ -12,6 +12,6 @@ void features.add({
 	description: 'Use a monospace font for all textareas.',
 	screenshot: false
 }, {
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: onetime(init)
 });

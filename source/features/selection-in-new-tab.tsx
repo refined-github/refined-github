@@ -28,6 +28,6 @@ void features.add({
 		'shift o': 'Open selection in new tab'
 	}
 }, {
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: onetime(init)
 });
