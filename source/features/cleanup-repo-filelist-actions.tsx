@@ -14,7 +14,7 @@ function init(): void {
 	searchButton.firstChild!.replaceWith(<SearchIcon/>);
 
 	const addButtonWrapper = searchButton.nextElementSibling!;
-	const addButton = select('.dropdown-caret', addButtonWrapper)?.parentElement;
+	const addButton = select('.btn', addButtonWrapper);
 	if (addButton) {
 		addButton.classList.add('d-md-block', 'tooltipped', 'tooltipped-ne');
 		addButton.classList.remove('d-md-flex', 'ml-2');
@@ -42,6 +42,9 @@ void features.add({
 	include: [
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile
+	],
+	exclude: [
+		pageDetect.isEmptyRepo
 	],
 	init
 });

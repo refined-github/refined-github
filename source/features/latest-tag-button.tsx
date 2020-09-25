@@ -96,7 +96,7 @@ async function init(): Promise<false | void> {
 	});
 
 	const link = (
-		<a className="btn btn-sm btn-outline ml-2 flex-self-center" href={String(url)}>
+		<a className="btn btn-sm btn-outline ml-2 flex-self-center rgh-latest-tag-button" href={String(url)}>
 			<TagIcon/>
 		</a>
 	);
@@ -138,7 +138,7 @@ async function init(): Promise<false | void> {
 		link.setAttribute('aria-label', 'Visit the latest release');
 	}
 
-	link.classList.add('tooltipped', 'tooltipped-ne', 'rgh-latest-tag-button');
+	link.classList.add('tooltipped', 'tooltipped-ne');
 }
 
 void features.add({
@@ -150,6 +150,6 @@ void features.add({
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init
 });

@@ -56,6 +56,6 @@ void features.add({
 	include: [
 		pageDetect.isUserProfile
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init
 });

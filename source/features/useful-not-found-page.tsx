@@ -8,6 +8,10 @@ import features from '.';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getCleanPathname} from '../github-helpers';
 
+function getType(): string {
+	return location.pathname.split('/').pop()!.includes('.') ? 'file' : 'object';
+}
+
 async function is404(url: string): Promise<boolean> {
 	const {status} = await fetch(url, {method: 'head'});
 	return status === 404;
@@ -43,7 +47,7 @@ async function addCommitHistoryLink(bar: Element): Promise<void> {
 
 	bar.after(
 		<p className="container mt-4 text-center">
-			See also the file’s <a href={url}>commit history</a>
+			See also the {getType()}’s <a href={url}>commit history</a>.
 		</p>
 	);
 }
@@ -69,7 +73,7 @@ async function addDefaultBranchLink(bar: Element): Promise<void> {
 
 	bar.after(
 		<p className="container mt-4 text-center">
-			See also the object on the <a href={url}>default branch</a>
+			The {getType()} exists on the <a href={url}>default branch</a>.
 		</p>
 	);
 }
@@ -104,12 +108,12 @@ function init(): false | void {
 		void checkAnchor(bar.children[i] as HTMLAnchorElement);
 	}
 
-	if (parts[2] === 'tree' || parts[2] === 'blob') {
+	if (['tree', 'blob'].includes(parts[2])) {
 		// Object might be 410 Gone
 		void addCommitHistoryLink(bar);
 	}
 
-	if (parts[2] === 'edit') {
+	if (['tree', 'blob', 'edit'].includes(parts[2])) {
 		// File might not be available on the current branch
 		// GitHub already redirects /tree/ and /blob/ natively
 		void addDefaultBranchLink(bar);
@@ -141,6 +145,6 @@ void features.add({
 	include: [
 		pageDetect.isPRCommit404
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: onetime(initPRCommit)
 });

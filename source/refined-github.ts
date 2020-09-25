@@ -124,7 +124,7 @@ import './features/hide-disabled-milestone-sorter';
 import './features/tag-changelog-link';
 import './features/link-to-file-in-file-history';
 import './features/clean-sidebar';
-import './features/sticky-conversation-sidebar';
+import './features/sticky-sidebar';
 import './features/release-download-count';
 import './features/open-issue-to-latest-comment';
 import './features/toggle-everything-with-alt';
@@ -141,6 +141,7 @@ import './features/list-prs-for-file';
 import './features/pr-branch-auto-delete';
 import './features/linkify-symbolic-links'; // Must be before show-whitespace
 import './features/show-whitespace';
+import './features/hide-zero-packages';
 import './features/restore-file';
 import './features/hidden-review-comments-indicator';
 import './features/reload-failed-proxied-images';
@@ -190,10 +191,12 @@ import './features/cleanup-repo-filelist-actions';
 import './features/prevent-duplicate-pr-submission';
 import './features/remove-label-faster';
 import './features/clean-conversation-headers';
+import './features/stop-pjax-loading-with-esc';
 import './features/highlight-deleted-and-added-files-in-diffs';
 import './features/convert-release-to-draft';
 import './features/linkify-full-profile-readme-title';
 import './features/same-page-definition-jump';
+import './features/new-repo-disable-projects-and-wikis';
 
 // Add global for easier debugging
 (window as any).select = select;

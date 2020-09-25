@@ -1,13 +1,15 @@
-import select from 'select-dom';
+import onetime from 'onetime';
+import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import observeElement from '../helpers/simplified-element-observer';
 
 function init(): void {
-	for (const icon of select.all('[aria-label="You do not have permission to edit this milestone."]')) {
-		icon.parentElement!.remove();
-	}
+	observe('[aria-label="You do not have permission to edit this milestone."]', {
+		add(icon) {
+			icon.parentElement!.remove();
+		}
+	});
 }
 
 void features.add({
@@ -18,11 +20,5 @@ void features.add({
 	include: [
 		pageDetect.isMilestone
 	],
-	exclude: [
-		// Issues container doesn't exist for milestones without (open) issues
-		() => !select.exists('.js-milestone-issues-container')
-	],
-	init() {
-		observeElement('.js-milestone-issues-container', init);
-	}
+	init: onetime(init)
 });
