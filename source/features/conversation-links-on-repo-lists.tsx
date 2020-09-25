@@ -50,6 +50,5 @@ void features.add({
 		pageDetect.isGlobalSearchResults,
 		pageDetect.isUserProfileRepoTab
 	],
-	waitForDomReady: false,
 	init: onetime(init)
 });
