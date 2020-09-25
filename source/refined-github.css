@@ -129,5 +129,5 @@ pr-branches
 
 /* Increase scrollable area in GitHub Actions #3591 */
 .WorkflowRunLogsScroll {
- 	height: auto !important;
+	height: auto !important;
 }
