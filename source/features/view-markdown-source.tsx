@@ -12,7 +12,7 @@ import fetchDom from '../helpers/fetch-dom';
 import GitHubURL from '../github-helpers/github-url';
 import {getRepoURL} from '../github-helpers';
 
-const lineActions = () => {
+function lineActions(): JSX.Element {
 	const blame = new GitHubURL(location.href).assign({route: 'blame'}).toString();
 	return (
 		<details
@@ -73,7 +73,7 @@ const lineActions = () => {
 			</details-menu>
 		</details>
 	);
-};
+}
 
 const buttonBodyMap = new WeakMap<Element, Element | Promise<Element>>();
 
