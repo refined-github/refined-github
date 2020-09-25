@@ -126,3 +126,8 @@ pr-branches
 #partial-pull-merging .js-remove-unless-platform {
 	display: none;
 }
+
+/* Increase scrollable area in GitHub Actions #3591 */
+.WorkflowRunLogsScroll {
+ 	height: auto !important;
+}
