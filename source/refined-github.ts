@@ -197,6 +197,7 @@ import './features/convert-release-to-draft';
 import './features/linkify-full-profile-readme-title';
 import './features/same-page-definition-jump';
 import './features/new-repo-disable-projects-and-wikis';
+import './features/table-input';
 
 // Add global for easier debugging
 (window as any).select = select;

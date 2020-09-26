@@ -1,0 +1,27 @@
+.rgh-add-table-popup {
+	width: 108px;
+	height: 108px;
+	padding: 4px;
+	z-index: 99;
+	display: grid;
+	grid-template: repeat(5, 1fr) / repeat(5, 1fr);
+	place-content: center;
+}
+
+.rgh-add-table-popup__square {
+	appearance: none;
+	background: none;
+	border: none;
+	padding: 2px;
+}
+
+.rgh-add-table-popup__square > div {
+	width: 16px;
+	height: 16px;
+	border: 2px solid #d1d5da;
+	border-radius: 2px;
+}
+
+.rgh-add-table-popup:hover > .rgh-add-table-popup__square--selected > div {
+	border-color: #79b8ff;
+}
