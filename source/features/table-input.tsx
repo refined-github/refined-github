@@ -8,8 +8,8 @@ import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
 
-function generateGfmTable([w, h]: [number, number]): string {
-	return  '<table>\n' + ('<tr>\n' + '\t<td>\n'.repeat(x)).repeat(y);
+function generateHTMLTable(w: number, h: number): string {
+	return  '<table>\n' + ('<tr>\n' + '\t<td>\n'.repeat(w)).repeat(h);
 }
 
 function addTable(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
@@ -17,15 +17,15 @@ function addTable(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const endsWithNl = field.value.length && !field.value.endsWith('\n');
 	const cursorPos = field.value.length + (endsWithNl ? 4 : 3);
 
-	textFieldEdit.insert(field, (endsWithNl ? '\n' : '') + generateGfmTable(getSquarePos(event.delegateTarget)));
+	textFieldEdit.insert(field, (endsWithNl ? '\n' : '') + generateHTMLTable(parseInt(event.delegateTarget.dataset.x!, 10), parseInt(event.delegateTarget.dataset.y!, 10)));
 
 	field.focus();
 	field.setSelectionRange(cursorPos, cursorPos);
 }
 
-function highlightSquares({delegateTarget: hover}: delegate.Event): void {
-	for (const cell of hover.parentElement!.children) {
-		cell.classList.toggle('selected', cell.dataset.x <= hover.dataset.x && cell.dataset.y <= hover.dataset.y)
+function highlightSquares({delegateTarget: hover}: delegate.Event<MouseEvent, HTMLElement>): void {
+	for (const cell of Array.from(hover.parentElement!.children) as HTMLElement[]) {
+		cell.classList.toggle('selected', cell.dataset.x! <= hover.dataset.x! && cell.dataset.y! <= hover.dataset.y!)
 	}
 }
 
