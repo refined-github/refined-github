@@ -3,9 +3,8 @@
 	height: 108px;
 	padding: 4px;
 	z-index: 99;
-	display: grid;
-	grid-template: repeat(5, 1fr) / repeat(5, 1fr);
-	place-content: center;
+	display: flex;
+	flex-wrap: wrap;
 }
 
 .rgh-add-table-popup__square {
