@@ -52,11 +52,12 @@ function init(): void {
 					<TableIcon/>
 				</summary>
 				<details-menu className="select-menu-modal position-absolute left-0 hx_rsm-modal rgh-add-table-popup" role="menu">
-					{Array.from({length: 5}).map((_, y) => Array.from({length: 5}).map((_, x) => (
+					{Array.from({length: 5 * 5}).map((_, i) => (
 						<button
 							type="button"
 							className="rgh-table-input-cell"
-							data-position={`${x + 1},${y + 1}`}
+							data-x={i % 5 + 1}
+							data-y={Math.floor(i / 5) + 1}
 						>
 							<div/>
 						</button>
