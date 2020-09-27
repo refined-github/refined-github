@@ -45,16 +45,17 @@ function init(): void {
 					<TableIcon/>
 				</summary>
 				<details-menu className="select-menu-modal position-absolute left-0 hx_rsm-modal rgh-add-table-popup" role="menu">
-					{Array.from({length: 5 * 5}).map((_, i) => (
+					{Array.from({length: 25}).map((_, i) => (
 						<button
 							type="button"
+							role="menuitem"
 							className="rgh-table-input-cell"
 							data-x={i % 5 + 1}
 							data-y={Math.floor(i / 5) + 1}
 						>
 							<div/>
 						</button>
-					)))}
+					))}
 				</details-menu>
 			</details>
 		);
