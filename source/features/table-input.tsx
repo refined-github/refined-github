@@ -66,7 +66,7 @@ function init(): void {
 
 void features.add({
 	id: __filebasename,
-	description: 'Adds a popup in the toolbar of the enriched text editor to insert a GFM table.',
+	description: 'Adds a special input in the toolbar of the enriched text editor to quickly insert a simplified HTML table.',
 	screenshot: 'TODO'
 }, {
 	include: [
