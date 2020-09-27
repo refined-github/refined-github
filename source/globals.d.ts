@@ -57,7 +57,7 @@ declare namespace JSX {
 		'details-menu': BaseIntrinsicElement & {src?: string; preload?: boolean};
 		'time-ago': BaseIntrinsicElement & {datetime: string; format?: string};
 		'relative-time': BaseIntrinsicElement & {datetime: string};
-		'clipboard-copy': BaseIntrinsicElement & {role?: string};
+		'clipboard-copy': IntrinsicElements['button'];
 		'details-dialog': BaseIntrinsicElement & {tabindex: string};
 	}
 
