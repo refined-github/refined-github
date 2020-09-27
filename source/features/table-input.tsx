@@ -26,12 +26,10 @@ function addTable(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	field.setSelectionRange(cursorPos, cursorPos);
 }
 
-function highlightSquares(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
-	const [x, y] = getSquarePos(event.delegateTarget);
-	[...event.delegateTarget.parentElement!.children].forEach(child => {
-		const [cx, cy] = getSquarePos(child as HTMLElement);
-		child.classList.toggle('rgh-add-table-popup__square--selected', cx <= x && cy <= y);
-	});
+function highlightSquares({delegateTarget: hover}: delegate.Event): void {
+	for (const cell of hover.parentElement!.children) {
+		cell.classList.toggle('selected', cell.dataset.x <= hover.dataset.x && cell.dataset.y <= hover.dataset.y)
+	}
 }
 
 function getSquarePos(button: HTMLElement): [number, number] {
