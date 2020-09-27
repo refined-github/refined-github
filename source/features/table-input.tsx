@@ -16,13 +16,13 @@ function generateHtmlTable([w, h]: TableDimensions): string {
 
 function addTable(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const field = event.delegateTarget.form!.querySelector('textarea')!;
-	const endsWithNl = field.value.length && !field.value.endsWith('\n');
-	const cursorPos = field.value.length + (endsWithNl ? 4 : 3);
+	const cursorPosition = field.selectionStart;
 
 	textFieldEdit.insert(field, smartBlockWrap(generateHtmlTable(['x', 'y'].map(dim => event.delegateTarget.dataset[dim]!).map(Number) as TableDimensions), field));
 
 	field.focus();
-	field.setSelectionRange(cursorPos, cursorPos);
+	const firstRowPosition = field.value.indexOf('<td>', cursorPosition) + '<td>'.length;
+	field.setSelectionRange(firstRowPosition, firstRowPosition);
 }
 
 function highlightSquares({delegateTarget: hover}: delegate.Event<MouseEvent, HTMLElement>): void {
