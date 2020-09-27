@@ -55,7 +55,7 @@ const lineActions = onetime(() => (
 						className="dropdown-item js-update-url-with-hash"
 						id="js-view-git-blame"
 						role="menuitem"
-						href={new GitHubURL(location.href).assign({route: 'blame'}).toString()}
+						href={new GitHubURL(location.href).assign({route: 'blame'}).href}
 					>
 						View git blame
 					</a>
