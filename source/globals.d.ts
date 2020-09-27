@@ -58,6 +58,7 @@ declare namespace JSX {
 		'time-ago': BaseIntrinsicElement & {datetime: string; format?: string};
 		'relative-time': BaseIntrinsicElement & {datetime: string};
 		'details-dialog': BaseIntrinsicElement & {tabindex: string};
+		'clipboard-copy': IntrinsicElements['button'];
 	}
 
 	interface IntrinsicAttributes extends BaseIntrinsicElement {
