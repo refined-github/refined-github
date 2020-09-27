@@ -9,8 +9,9 @@ import * as textFieldEdit from 'text-field-edit';
 import features from '.';
 import smartBlockWrap from '../helpers/smart-block-wrap';
 
-function generateHTMLTable(w: number, h: number): string {
-	return '<table>\n' + ('<tr>\n' + '\t<td>\n'.repeat(w)).repeat(h);
+type TableDimensions = [number, number];
+function generateHtmlTable([w, h]: TableDimensions): string {
+	return '<table>\n' + ('<tr>\n' + '\t<td>\n'.repeat(w)).repeat(h) + '</table>\n';
 }
 
 function addTable(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
