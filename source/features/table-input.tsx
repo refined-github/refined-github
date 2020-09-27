@@ -9,7 +9,7 @@ import * as textFieldEdit from 'text-field-edit';
 import features from '.';
 
 function generateGfmTable([w, h]: [number, number]): string {
-	return `${'|     '.repeat(w)}|\n${'|-----'.repeat(w)}|\n${`${'|     '.repeat(w)}|\n`.repeat(h)}`.slice(0, -1);
+	return  '<table>\n' + ('<tr>\n' + '\t<td>\n'.repeat(x)).repeat(y);
 }
 
 function addTable(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
