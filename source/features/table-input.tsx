@@ -30,8 +30,8 @@ function highlightSquares({delegateTarget: hover}: delegate.Event<MouseEvent, HT
 }
 
 function init(): void {
-	delegate(document, '.rgh-add-table-popup__square', 'click', addTable);
-	delegate(document, '.rgh-add-table-popup__square', 'mouseover', highlightSquares);
+	delegate(document, '.rgh-table-input-cell', 'click', addTable);
+	delegate(document, '.rgh-table-input-cell', 'mouseover', highlightSquares);
 
 	for (const anchor of select.all('md-task-list')) {
 		anchor.after(
