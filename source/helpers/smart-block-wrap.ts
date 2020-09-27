@@ -1,6 +1,6 @@
-// Wraps string in at least 2 \n on each side,
+// Wraps string in at least two newlines on each side,
 // as long as the field doesn't already have them.
-// Code adopted/adapted from GitHub.
+// Code adapted from GitHub.
 export default function smartBlockWrap(content: string, field: HTMLTextAreaElement): string {
 	const before = field.value.slice(0, field.selectionStart);
 	const after = field.value.slice(field.selectionEnd);

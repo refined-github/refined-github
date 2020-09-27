@@ -9,16 +9,16 @@ import * as textFieldEdit from 'text-field-edit';
 import features from '.';
 import smartBlockWrap from '../helpers/smart-block-wrap';
 
-type TableDimensions = [number, number];
-function generateHtmlTable([w, h]: TableDimensions): string {
-	return '<table>\n' + ('<tr>\n' + '\t<td>\n'.repeat(w)).repeat(h) + '</table>\n';
+type TableDimensions = [width: number, height: number];
+function generateHtmlTable([width, height]: TableDimensions): string {
+	return '<table>\n' + ('<tr>\n' + '\t<td>\n'.repeat(width)).repeat(height) + '</table>\n';
 }
 
 function addTable(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const field = event.delegateTarget.form!.querySelector('textarea')!;
 	const cursorPosition = field.selectionStart;
 
-	textFieldEdit.insert(field, smartBlockWrap(generateHtmlTable(['x', 'y'].map(dim => event.delegateTarget.dataset[dim]!).map(Number) as TableDimensions), field));
+	textFieldEdit.insert(field, smartBlockWrap(generateHtmlTable(['x', 'y'].map(dimension => event.delegateTarget.dataset[dimension]!).map(Number) as TableDimensions), field));
 
 	field.focus();
 	const firstRowPosition = field.value.indexOf('<td>', cursorPosition) + '<td>'.length;
@@ -47,7 +47,7 @@ function init(): void {
 					<TableIcon/>
 				</summary>
 				<details-menu className="select-menu-modal position-absolute left-0 hx_rsm-modal rgh-add-table-popup" role="menu">
-					{Array.from({length: 25}).map((_, i) => (
+					{Array.from({length: 25}).map((_, index) => (
 						<button
 							type="button"
 							role="menuitem"
@@ -66,7 +66,7 @@ function init(): void {
 
 void features.add({
 	id: __filebasename,
-	description: 'Adds a special input in the toolbar of the enriched text editor to quickly insert a simplified HTML table.',
+	description: 'Adds a button in the text editor to quickly insert a simplified HTML table.',
 	screenshot: 'TODO'
 }, {
 	include: [
