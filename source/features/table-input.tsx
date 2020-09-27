@@ -8,8 +8,7 @@ import * as textFieldEdit from 'text-field-edit';
 import features from '.';
 import smartBlockWrap from '../helpers/smart-block-wrap';
 
-type TableDimensions = [width: number, height: number];
-function generateHtmlTable([width, height]: TableDimensions): string {
+function generateHtmlTable(width: number, height: number): string {
 	return '<table>\n' + ('<tr>\n' + '\t<td>\n'.repeat(width)).repeat(height) + '</table>\n';
 }
 
@@ -17,7 +16,7 @@ function addTable(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const field = event.delegateTarget.form!.querySelector('textarea')!;
 	const cursorPosition = field.selectionStart;
 
-	textFieldEdit.insert(field, smartBlockWrap(generateHtmlTable(['x', 'y'].map(dimension => event.delegateTarget.dataset[dimension]!).map(Number) as TableDimensions), field));
+	textFieldEdit.insert(field, smartBlockWrap(generateHtmlTable(Number.parseInt(event.delegateTarget.dataset.x!, 10), Number.parseInt(event.delegateTarget.dataset.y!, 10)), field));
 
 	field.focus();
 	const firstRowPosition = field.value.indexOf('<td>', cursorPosition) + '<td>'.length;
