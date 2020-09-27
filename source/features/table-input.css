@@ -1,4 +1,4 @@
-.rgh-add-table-popup {
+.rgh-table-input {
 	width: auto;
 	padding: 3px;
 	z-index: 99;
@@ -23,7 +23,7 @@
 	border-radius: 2px;
 }
 
-.rgh-add-table-popup:hover > .selected > div {
+.rgh-table-input:hover > .selected > div {
 	border-color: #79b8ff;
 	background-color: #dbedff;
 }

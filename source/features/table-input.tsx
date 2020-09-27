@@ -46,7 +46,7 @@ function init(): void {
 				>
 					<TableIcon/>
 				</summary>
-				<details-menu className="select-menu-modal position-absolute left-0 hx_rsm-modal rgh-add-table-popup" role="menu">
+				<details-menu className="select-menu-modal position-absolute left-0 hx_rsm-modal rgh-table-input" role="menu">
 					{Array.from({length: 25}).map((_, index) => (
 						<button
 							type="button"
