@@ -7,6 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
+import smartBlockWrap from '../helpers/smart-block-wrap';
 
 function generateHTMLTable(w: number, h: number): string {
 	return '<table>\n' + ('<tr>\n' + '\t<td>\n'.repeat(w)).repeat(h);
@@ -17,7 +18,7 @@ function addTable(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const endsWithNl = field.value.length && !field.value.endsWith('\n');
 	const cursorPos = field.value.length + (endsWithNl ? 4 : 3);
 
-	textFieldEdit.insert(field, (endsWithNl ? '\n' : '') + generateHTMLTable(Number.parseInt(event.delegateTarget.dataset.x!, 10), Number.parseInt(event.delegateTarget.dataset.y!, 10)));
+	textFieldEdit.insert(field, smartBlockWrap(generateHtmlTable(['x', 'y'].map(dim => event.delegateTarget.dataset[dim]!).map(Number) as TableDimensions), field));
 
 	field.focus();
 	field.setSelectionRange(cursorPos, cursorPos);
