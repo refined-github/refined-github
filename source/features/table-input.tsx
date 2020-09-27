@@ -52,8 +52,8 @@ function init(): void {
 							type="button"
 							role="menuitem"
 							className="rgh-table-input-cell"
-							data-x={(i % 5) + 1}
-							data-y={Math.floor(i / 5) + 1}
+							data-x={(index % 5) + 1}
+							data-y={Math.floor(index / 5) + 1}
 						>
 							<div/>
 						</button>
