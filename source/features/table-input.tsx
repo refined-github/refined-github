@@ -45,7 +45,9 @@ function init(): void {
 			<details className="details-reset details-overlay flex-auto toolbar-item select-menu select-menu-modal-right hx_rsm">
 				<summary
 					className="text-center menu-target py-2 p-md-1 hx_rsm-trigger ml-1"
-					role="button" aria-label="Add a table" aria-haspopup="menu"
+					role="button"
+					aria-label="Add a table"
+					aria-haspopup="menu"
 				>
 					<TableIcon/>
 				</summary>
@@ -53,7 +55,7 @@ function init(): void {
 					{Array.from({length: 5}).map((_, y) => Array.from({length: 5}).map((_, x) => (
 						<button
 							type="button"
-							className="rgh-add-table-popup__square"
+							className="rgh-table-input-cell"
 							data-position={`${x + 1},${y + 1}`}
 						>
 							<div/>
