@@ -13,9 +13,6 @@ function generateGfmTable([w, h]: [number, number]): string {
 }
 
 function addTable(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
-	event.preventDefault();
-	(event.delegateTarget.parentElement!.parentElement as HTMLDetailsElement)!.open = false;
-
 	const field = event.delegateTarget.form!.querySelector('textarea')!;
 	const endsWithNl = field.value.length && !field.value.endsWith('\n');
 	const cursorPos = field.value.length + (endsWithNl ? 4 : 3);
@@ -30,10 +27,6 @@ function highlightSquares({delegateTarget: hover}: delegate.Event): void {
 	for (const cell of hover.parentElement!.children) {
 		cell.classList.toggle('selected', cell.dataset.x <= hover.dataset.x && cell.dataset.y <= hover.dataset.y)
 	}
-}
-
-function getSquarePos(button: HTMLElement): [number, number] {
-	return button.dataset.position!.split(',', 2).map(Number) as [number, number];
 }
 
 function init(): void {
