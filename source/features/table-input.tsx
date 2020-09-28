@@ -8,19 +8,21 @@ import * as textFieldEdit from 'text-field-edit';
 import features from '.';
 import smartBlockWrap from '../helpers/smart-block-wrap';
 
-function generateHtmlTable(width: number, height: number): string {
-	return '<table>\n' + ('<tr>\n' + '\t<td>\n'.repeat(width)).repeat(height) + '</table>\n';
-}
-
-function addTable(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
-	const field = event.delegateTarget.form!.querySelector('textarea')!;
+function addTable({delegateTarget: square}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
+	const field = square.form!.querySelector('textarea')!;
 	const cursorPosition = field.selectionStart;
 
-	textFieldEdit.insert(field, smartBlockWrap(generateHtmlTable(Number.parseInt(event.delegateTarget.dataset.x!, 10), Number.parseInt(event.delegateTarget.dataset.y!, 10)), field));
-
 	field.focus();
-	const firstRowPosition = field.value.indexOf('<td>', cursorPosition) + '<td>'.length;
-	field.setSelectionRange(firstRowPosition, firstRowPosition);
+	const table =
+		'<table>\n' +
+			('<tr>\n' +
+				'\t<td>\n'.repeat(Number(square.dataset.x))
+			).repeat(Number(square.dataset.y)) +
+		'</table>';
+	textFieldEdit.insert(field, smartBlockWrap(table, field));
+
+	// Move caret to first cell
+	field.selectionEnd = field.value.indexOf('<td>', cursorPosition) + '<td>'.length;
 }
 
 function highlightSquares({delegateTarget: hover}: delegate.Event<MouseEvent, HTMLElement>): void {
