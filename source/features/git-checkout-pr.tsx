@@ -12,7 +12,7 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	const [, user, repository] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/', 3);
 
 	const tabContainer = select('tab-container', dropdown)!;
-	tabContainer.style.width = '370px';
+	tabContainer.style.width = 'fit-content';
 	select('.UnderlineNav-body', tabContainer)!.append(
 		<button
 			name="type"
@@ -20,14 +20,13 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 			role="tab"
 			aria-selected="false"
 			className="UnderlineNav-item flex-1 btn-link"
-			tabIndex={1}
 		>
 			Git Checkout
 		</button>
 	);
 
 	tabContainer.append(
-		<div hidden role="tabpanel" className="p-3" tabIndex={1}>
+		<div hidden role="tabpanel" className="p-3">
 			<p className="text-gray text-small">
 				Run in your project repository
 			</p>
@@ -36,7 +35,7 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 					<clipboard-copy
 						className="btn btn-sm zeroclipboard-button"
 						role="button"
-						for="checkout-remote-help-step-1"
+						for="rgh-checkout-pr"
 						aria-label="Copy to clipboard"
 						data-copy-feedback="Copied!"
 					>
@@ -44,32 +43,13 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 					</clipboard-copy>
 				</div>
 				<pre
-					id="checkout-remote-help-step-1"
+					id="rgh-checkout-pr"
 					className="copyable-terminal-content"
 				>
-					<span className="user-select-contain">git remote add {user} https://github.com/{user}/{repository}.git</span>
-				</pre>
-			</div>
-			<p className="text-gray text-small">
-				<strong>Step 2: </strong>Checkout the branch
-			</p>
-			<div className="copyable-terminal">
-				<div className="copyable-terminal-button">
-					<clipboard-copy
-						className="btn btn-sm zeroclipboard-button"
-						role="button"
-						for="checkout-remote-help-step-2"
-						aria-label="Copy to clipboard"
-						data-copy-feedback="Copied!"
-					>
-						<ClippyIcon/>
-					</clipboard-copy>
-				</div>
-				<pre
-					id="checkout-remote-help-step-2"
-					className="copyable-terminal-content"
-				>
-					<span className="user-select-contain">git checkout {user}/{getCurrentBranch()}</span>
+					<span className="user-select-contain">
+						git remote add {user} {location.origin}/{user}/{repository}.git <br />
+						git checkout {user}/{getCurrentBranch()}
+					</span>
 				</pre>
 			</div>
 		</div>
@@ -88,6 +68,10 @@ void features.add({
 }, {
 	include: [
 		pageDetect.isPR
+	],
+	exclude: [
+		// TODO: write comment
+		() => select('.user-select-contain.head-ref a')!.childElementCount === 1
 	],
 	init
 });
