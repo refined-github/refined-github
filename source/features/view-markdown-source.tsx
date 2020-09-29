@@ -1,13 +1,79 @@
 import './view-markdown-source.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import onetime from 'onetime';
 import delegate from 'delegate-it';
-import CodeIcon from 'octicon/code.svg';
-import FileIcon from 'octicon/file.svg';
 import * as pageDetect from 'github-url-detection';
+
+import FileIcon from 'octicon/file.svg';
+import CodeIcon from 'octicon/code.svg';
+import KebabHorizontalIcon from 'octicon/kebab-horizontal.svg';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
+import GitHubURL from '../github-helpers/github-url';
+import {getRepoURL} from '../github-helpers';
+
+const lineActions = onetime(() => (
+	<details
+		className="details-reset details-overlay BlobToolbar position-absolute js-file-line-actions dropdown d-none"
+		aria-hidden="true"
+	>
+		<summary
+			className="btn-octicon ml-0 px-2 p-0 bg-white border border-gray-dark rounded-1"
+			aria-label="Inline file action toolbar"
+			aria-haspopup="menu"
+			role="button"
+		>
+			<KebabHorizontalIcon/>
+		</summary>
+		<details-menu role="menu">
+			<ul
+				className="BlobToolbar-dropdown dropdown-menu dropdown-menu-se mt-2"
+				style={{width: '185px'}}
+			>
+				<li>
+					<clipboard-copy
+						role="menuitem"
+						className="dropdown-item zeroclipboard-link"
+						id="js-copy-lines"
+					>
+						Copy line
+					</clipboard-copy>
+				</li>
+				<li>
+					<clipboard-copy
+						role="menuitem"
+						className="dropdown-item zeroclipboard-link"
+						id="js-copy-permalink"
+					>
+						Copy permalink
+					</clipboard-copy>
+				</li>
+				<li>
+					<a
+						className="dropdown-item js-update-url-with-hash"
+						id="js-view-git-blame"
+						role="menuitem"
+						href={new GitHubURL(location.href).assign({route: 'blame'}).href}
+					>
+						View git blame
+					</a>
+				</li>
+				<li>
+					<a
+						className="dropdown-item"
+						id="js-new-issue"
+						role="menuitem"
+						href={`/${getRepoURL()}/issues/new`}
+					>
+						Reference in new issue
+					</a>
+				</li>
+			</ul>
+		</details-menu>
+	</details>
+));
 
 const buttonBodyMap = new WeakMap<Element, Element | Promise<Element>>();
 
@@ -53,6 +119,7 @@ async function showSource(): Promise<void> {
 	sourceButton.classList.add('selected');
 	renderedButton.classList.remove('selected');
 	blurButton(sourceButton);
+	(await source).before(lineActions());
 
 	dispatchEvent(sourceButton, 'rgh:view-markdown-source');
 }
@@ -70,6 +137,7 @@ async function showRendered(): Promise<void> {
 	sourceButton.classList.remove('selected');
 	renderedButton.classList.add('selected');
 	blurButton(renderedButton);
+	lineActions().remove();
 
 	dispatchEvent(sourceButton, 'rgh:view-markdown-rendered');
 }
