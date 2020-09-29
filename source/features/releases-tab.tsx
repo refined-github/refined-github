@@ -69,7 +69,7 @@ async function init(): Promise<false | void> {
 		'.UnderlineNav-body + *'
 	].join());
 
-	const repoNavigationBar = select('.js-repo-nav.UnderlineNav');
+	const repoNavigationBar = select('.js-responsive-underlinenav');
 	if (repoNavigationBar) {
 		// "Repository refresh" layout
 		const releasesTab = (
@@ -91,6 +91,9 @@ async function init(): Promise<false | void> {
 				{releasesTab}
 			</li>
 		);
+
+		// This re-triggers the overflow listener forcing it to also hide this tab if necessary #3347
+		repoNavigationBar.replaceWith(repoNavigationBar);
 
 		// Update "selected" tab mark
 		if (pageDetect.isReleasesOrTags()) {
