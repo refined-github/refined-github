@@ -42,11 +42,11 @@ function addContentToDetails(event: delegate.Event<MouseEvent, HTMLButtonElement
 		</details>
 	`.replace(/(\n|\b)\t+/g, '$1').trim();
 
+	field.focus();
 	textFieldEdit.insert(field, smartBlockWrap(newContent, field));
 
 	// Restore selection.
 	// `selectionStart` will be right after the newly-inserted text
-	field.focus();
 	field.setSelectionRange(
 		field.value.lastIndexOf('</summary>', field.selectionStart) + '</summary>'.length + 2,
 		field.value.lastIndexOf('</details>', field.selectionStart) - 2
