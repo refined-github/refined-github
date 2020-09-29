@@ -10,7 +10,7 @@ import {getCurrentBranch} from '../github-helpers';
 function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	dropdown.classList.add('rgh-git-checkout'); // Mark this as processed
 	const [, user, repository] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/', 3);
-
+	const isLocalPr = select('.user-select-contain.head-ref a')!.childElementCount === 1;
 	const tabContainer = select('tab-container', dropdown)!;
 	tabContainer.style.width = 'fit-content';
 	select('.UnderlineNav-body', tabContainer)!.append(
@@ -47,7 +47,8 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 					className="copyable-terminal-content"
 				>
 					<span className="user-select-contain">
-						git remote add {user} {location.origin}/{user}/{repository}.git <br />
+						{isLocalPr ? '' : `git remote add ${user} ${location.origin}/${user}/${repository}.git
+`}
 						git checkout {user}/{getCurrentBranch()}
 					</span>
 				</pre>
@@ -70,8 +71,7 @@ void features.add({
 		pageDetect.isPR
 	],
 	exclude: [
-		// TODO: write comment
-		() => select('.user-select-contain.head-ref a')!.childElementCount === 1
+		() => select.exists('#partial-discussion-header [title="Status: Merged"]')
 	],
 	init
 });
