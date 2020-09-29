@@ -6,8 +6,9 @@ import LinkExternalIcon from 'octicon/link-external.svg';
 
 import features from '.';
 import {getRepositoryInfo} from '../github-helpers';
+import observeElement from '../helpers/simplified-element-observer';
 
-function repoListInit(): void {
+function initRepoList(): void {
 	for (const repo of select.all<HTMLAnchorElement>('a[href$=".github.io"][itemprop="name codeRepository"]')) {
 		repo.after(
 			' ',
@@ -22,7 +23,7 @@ function repoListInit(): void {
 	}
 }
 
-async function repoInit(): Promise<void> {
+async function initRepo(): Promise<void> {
 	const repoTitle = await elementReady('[itemprop="name"]')!;
 	repoTitle!.after(
 		<a
@@ -41,15 +42,17 @@ void features.add({
 	screenshot: 'https://user-images.githubusercontent.com/31387795/94045261-dbcd5e80-fdec-11ea-83fa-30bb673cc26e.jpg'
 }, {
 	include: [
-		pageDetect.isUserProfileRepoTab
-	],
-	init: repoListInit
-}, {
-	include: [
 		pageDetect.isRepo
 	],
 	exclude: [
 		() => !getRepositoryInfo()!.name!.endsWith('.github.io')
 	],
-	init: repoInit
+	init: initRepo
+}, {
+	include: [
+		pageDetect.isUserProfileRepoTab
+	],
+	init() {
+		observeElement('#user-repositories-list', initRepoList);
+	}
 });
