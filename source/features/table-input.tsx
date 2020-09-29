@@ -33,7 +33,7 @@ function highlightSquares({delegateTarget: hover}: delegate.Event<MouseEvent, HT
 
 function init(): void {
 	delegate(document, '.rgh-table-input-cell', 'click', addTable);
-	delegate(document, '.rgh-table-input-cell', 'mouseover', highlightSquares);
+	delegate(document, '.rgh-table-input-cell', 'mouseenter', highlightSquares, {capture: true});
 
 	for (const anchor of select.all('md-task-list')) {
 		anchor.after(
