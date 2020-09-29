@@ -36,12 +36,12 @@ declare module 'deep-weak-map' {
 
 // Custom UI events specific to RGH
 interface GlobalEventHandlersEventMap {
-	'pjax:error': CustomEvent;
-	'menu:activated': CustomEvent;
 	'details:toggled': CustomEvent;
-	'rgh:view-markdown-source': CustomEvent;
-	'rgh:view-markdown-rendered': CustomEvent;
 	'filterable:change': CustomEvent;
+	'menu:activated': CustomEvent;
+	'rgh:view-markdown-rendered': CustomEvent;
+	'rgh:view-markdown-source': CustomEvent;
+	'pjax:error': CustomEvent;
 	'page:loaded': CustomEvent;
 	'pjax:start': CustomEvent;
 }
@@ -51,14 +51,14 @@ declare namespace JSX {
 	type BaseIntrinsicElement = IntrinsicElements['div'];
 	type LabelIntrinsicElement = IntrinsicElements['label'];
 	interface IntrinsicElements {
-		'has-rgh': BaseIntrinsicElement;
-		'label': LabelIntrinsicElement & {for?: string};
-		'include-fragment': BaseIntrinsicElement & {src?: string};
-		'details-menu': BaseIntrinsicElement & {src?: string; preload?: boolean};
-		'time-ago': BaseIntrinsicElement & {datetime: string; format?: string};
-		'relative-time': BaseIntrinsicElement & {datetime: string};
-		'details-dialog': BaseIntrinsicElement & {tabindex: string};
 		'clipboard-copy': IntrinsicElements['button'];
+		'details-dialog': BaseIntrinsicElement & {tabindex: string};
+		'details-menu': BaseIntrinsicElement & {src?: string; preload?: boolean};
+		'has-rgh': BaseIntrinsicElement;
+		'include-fragment': BaseIntrinsicElement & {src?: string};
+		'label': LabelIntrinsicElement & {for?: string};
+		'relative-time': BaseIntrinsicElement & {datetime: string};
+		'time-ago': BaseIntrinsicElement & {datetime: string; format?: string};
 	}
 
 	interface IntrinsicAttributes extends BaseIntrinsicElement {
