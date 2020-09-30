@@ -1,4 +1,4 @@
-import './show-github-action-next-time.css';
+import './next-scheduled-github-action.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
