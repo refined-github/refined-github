@@ -22,13 +22,13 @@ const getActionsSchedules = cache.function(async (): Promise<{[index: string]: s
 			}
 		}
 	`);
-
 	if (!actions) {
 		return false;
 	}
 
 	const schedules: {[index: string]: string} = {};
-	for (const actionYaml of actions.map((action: {[index: string]: {[index: string]: string}}) => action.object.text)) {
+	for (const action of actions) {
+		const actionYaml = action.object.text;
 		const name = /^name:\s+['"]?(.+)['"]?/m.exec(actionYaml);
 		const cron = /^\s*-\scron:\s+['"](.+)['"]/m.exec(actionYaml);
 
