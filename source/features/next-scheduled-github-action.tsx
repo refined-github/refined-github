@@ -11,8 +11,8 @@ import * as api from '../github-helpers/api';
 import {getRepoURL, getRepoGQL} from '../github-helpers';
 
 const getActionsSchedules = cache.function(async (): Promise<{[index: string]: string} | false> => {
-	const {repository: {object: {entries: actions}}} = await api.v4(
-		`repository(${getRepoGQL()}) {
+	const {repository: {object: {entries: actions}}} = await api.v4(`
+		repository(${getRepoGQL()}) {
 			object(expression: "HEAD:.github/workflows") {
 				... on Tree {
 					entries {
@@ -55,7 +55,7 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	for (const actionListItem of select.all('li:not(:first-child) > a', actionsSidebar)) {
+	for (const actionListItem of select.all('[href*="?query"]', await elementReady('.hx_actions-sidebar'))) {
 		const actionName = actionListItem.textContent!.trim();
 		if (!(actionName in actionsSchedules)) {
 			continue;
@@ -64,7 +64,7 @@ async function init(): Promise<false | void> {
 		const nextTime = parseCron.nextDate(actionsSchedules[actionName]);
 		if (nextTime) {
 			actionListItem.append(
-				<span className="rgh-github-action-next-time">
+				<em>
 					(next <relative-time datetime={nextTime.toString()}/>)
 				</span>
 			);
