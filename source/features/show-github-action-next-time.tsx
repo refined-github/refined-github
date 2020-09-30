@@ -40,14 +40,11 @@ function parseYamls(yamls: string[]): {[index: string]: string} {
 
 async function init(): Promise<void> {
 	const actionsSidebar = (await elementReady('.hx_actions-sidebar'))!;
-
 	if (actionsSidebar) {
 		const currentDate = new Date();
 		const workflows = await getWorkflows();
-
 		if (workflows) {
 			const actionsSchedules = parseYamls(workflows.map(workflow => workflow.object.text));
-
 			for (const actionListItem of select.all('li > a', actionsSidebar).slice(1)) {
 				const actionName = actionListItem.textContent!.trim();
 				if (actionName in actionsSchedules) {
@@ -63,7 +60,7 @@ async function init(): Promise<void> {
 
 void features.add({
 	id: __filebasename,
-	description: '',
+	description: 'Shows the next scheduled time of relevant GitHub Actions in the workflows sidebar.',
 	screenshot: 'TODO'
 }, {
 	include: [
