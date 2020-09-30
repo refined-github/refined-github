@@ -8,12 +8,12 @@ import {parseCron} from '@cheap-glitch/mi-cron';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepoURL, getRepoGQL, getCurrentBranch} from '../github-helpers';
+import {getRepoURL, getRepoGQL} from '../github-helpers';
 
-const getActionsSchedules = cache.function(async (): Promise<{[index: string]: string} | boolean> => {
+const getActionsSchedules = cache.function(async (): Promise<{[index: string]: string} | false> => {
 	const {repository: {object: {entries: actions}}} = await api.v4(
 		`repository(${getRepoGQL()}) {
-			object(expression: "${getCurrentBranch()}:.github/workflows") {
+			object(expression: "HEAD:.github/workflows") {
 				... on Tree {
 					entries {
 						object { ... on Blob { text } }
