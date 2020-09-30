@@ -38,8 +38,7 @@ export default cache.function(async (repository: Partial<RepositoryInfo> = getRe
 
 	return response.repository.defaultBranchRef.name;
 }, {
-	maxAge: {
-		hours: 1
+	maxAge: {hours: 1
 	},
 	staleWhileRevalidate: {
 		days: 20

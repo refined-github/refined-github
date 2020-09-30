@@ -70,9 +70,7 @@ const getLastCommitDate = cache.function(async (login: string): Promise<string |
 
 	return false;
 }, {
-	maxAge: {
-		days: 10
-	},
+	maxAge: {days: 10},
 	staleWhileRevalidate: {
 		days: 20
 	},

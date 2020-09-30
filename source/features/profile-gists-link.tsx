@@ -20,9 +20,7 @@ const getGistCount = cache.function(async (username: string): Promise<number> =>
 	`);
 	return user.gists.totalCount;
 }, {
-	maxAge: {
-		days: 1
-	},
+	maxAge: {days: 1},
 	staleWhileRevalidate: {
 		days: 3
 	},

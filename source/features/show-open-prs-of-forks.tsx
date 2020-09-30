@@ -41,9 +41,7 @@ const countPRs = cache.function(async (forkedRepo: string): Promise<[prCount: nu
 
 	return [prs.length];
 }, {
-	maxAge: {
-		hours: 1
-	},
+	maxAge: {hours: 1},
 	staleWhileRevalidate: {
 		days: 2
 	},
