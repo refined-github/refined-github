@@ -10,7 +10,7 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import {getRepoURL, getRepoGQL, getCurrentBranch} from '../github-helpers';
 
-const getActionsSchedules = cache.function(async (): Promise<{[index: string]: string} | undefined> => {
+const getActionsSchedules = cache.function(async (): Promise<{[index: string]: string} | boolean> => {
 	const {repository: {object: {entries: actions}}} = await api.v4(
 		`repository(${getRepoGQL()}) {
 			object(expression: "${getCurrentBranch()}:.github/workflows") {
@@ -24,7 +24,7 @@ const getActionsSchedules = cache.function(async (): Promise<{[index: string]: s
 	`);
 
 	if (!actions) {
-		return undefined;
+		return false;
 	}
 
 	const schedules: {[index: string]: string} = {};
@@ -46,26 +46,29 @@ const getActionsSchedules = cache.function(async (): Promise<{[index: string]: s
 });
 
 async function init(): Promise<void> {
-	const actionsSidebar = (await elementReady('.hx_actions-sidebar'))!;
+	const actionsSidebar = await elementReady('.hx_actions-sidebar');
 	if (!actionsSidebar) {
 		return;
 	}
 
 	const actionsSchedules = await getActionsSchedules();
 	if (!actionsSchedules) {
-		return;
+		return false;
 	}
 
-	const currentDate = new Date();
 	for (const actionListItem of select.all('li:not(:first-child) > a', actionsSidebar)) {
 		const actionName = actionListItem.textContent!.trim();
 		if (!(actionName in actionsSchedules)) {
 			continue;
 		}
 
-		const nextTime = parseCron.nextDate(actionsSchedules[actionName], currentDate);
+		const nextTime = parseCron.nextDate(actionsSchedules[actionName]);
 		if (nextTime) {
-			actionListItem.append(<span className="rgh-github-action-next-time">(next <relative-time datetime={nextTime.toString()}/>)</span>);
+			actionListItem.append(
+				<span className="rgh-github-action-next-time">
+					(next <relative-time datetime={nextTime.toString()}/>)
+				</span>
+			);
 		}
 	}
 }
