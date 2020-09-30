@@ -1,4 +1,3 @@
-import './next-scheduled-github-action.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
@@ -63,11 +62,7 @@ async function init(): Promise<false | void> {
 
 		const nextTime = parseCron.nextDate(actionsSchedules[actionName]);
 		if (nextTime) {
-			actionListItem.append(
-				<em>
-					(next <relative-time datetime={nextTime.toString()}/>)
-				</span>
-			);
+			actionListItem.append(<em>(next <relative-time datetime={nextTime.toString()}/>)</em>);
 		}
 	}
 }
