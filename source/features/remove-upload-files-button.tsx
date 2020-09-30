@@ -11,7 +11,7 @@ function init(): void {
 
 void features.add({
 	id: __filebasename,
-	description: 'Remove the "Upload files" button.',
+	description: 'Remove the "Upload files" button',
 	screenshot: false
 }, {
 	include: [
