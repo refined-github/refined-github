@@ -9,7 +9,7 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import {getRepoURL, getRepoGQL} from '../github-helpers';
 
-const getActionsSchedules = cache.function(async (): Promise<{[index: string]: string} | false> => {
+const getActionsSchedules = cache.function(async (): Promise<Record<string, string> | false> => {
 	const {repository: {object: {entries: actions}}} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			object(expression: "HEAD:.github/workflows") {
@@ -25,7 +25,7 @@ const getActionsSchedules = cache.function(async (): Promise<{[index: string]: s
 		return false;
 	}
 
-	const schedules: {[index: string]: string} = {};
+	const schedules: Record<string, string> = {};
 	for (const action of actions) {
 		const actionYaml = action.object.text;
 		const name = /^name:\s+['"]?(.+)['"]?/m.exec(actionYaml);
