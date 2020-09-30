@@ -39,16 +39,15 @@ const getActionsSchedules = cache.function(async (): Promise<{[index: string]: s
 
 	return schedules;
 }, {
-	maxAge: {
-		days: 1
-	},
+	maxAge: {days: 1},
+	staleWhileRevalidate: {days: 10},
 	cacheKey: () => __filebasename + ':' + getRepoURL()
 });
 
-async function init(): Promise<void> {
+async function init(): Promise<false | void> {
 	const actionsSidebar = await elementReady('.hx_actions-sidebar');
 	if (!actionsSidebar) {
-		return;
+		return false;
 	}
 
 	const actionsSchedules = await getActionsSchedules();
