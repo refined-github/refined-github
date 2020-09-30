@@ -53,7 +53,6 @@ import './features/copy-file';
 import './features/hide-own-stars';
 import './features/infinite-scroll';
 import './features/hide-empty-meta';
-import './features/remove-upload-files-button';
 import './features/shorten-links';
 import './features/linkify-code';
 import './features/download-folder-button';
