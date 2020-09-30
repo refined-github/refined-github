@@ -10,8 +10,8 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import {getRepoURL, getRepoGQL, getCurrentBranch} from '../github-helpers';
 
-const getWorkflows = cache.function(async (): Promise<Array<{[index: string]: {[index: string]: string}}>> => {
-	const {repository: {object: {entries: workflows}}} = await api.v4(
+const getActionsSchedules = cache.function(async (): Promise<{[index: string]: string} | undefined> => {
+	const {repository: {object: {entries: actions}}} = await api.v4(
 		`repository(${getRepoGQL()}) {
 			object(expression: "${getCurrentBranch()}:.github/workflows") {
 				... on Tree {
@@ -23,7 +23,21 @@ const getWorkflows = cache.function(async (): Promise<Array<{[index: string]: {[
 		}
 	`);
 
-	return workflows;
+	if (!actions) {
+		return undefined;
+	}
+
+	const schedules: {[index: string]: string} = {};
+	for (const actionYaml of actions.map((action: {[index: string]: {[index: string]: string}}) => action.object.text)) {
+		const name = /^name:\s+['"]?(.+)['"]?/m.exec(actionYaml);
+		const cron = /^\s*-\scron:\s+['"](.+)['"]/m.exec(actionYaml);
+
+		if (name && cron) {
+			schedules[name[1]] = cron[1];
+		}
+	}
+
+	return schedules;
 }, {
 	maxAge: {
 		days: 1
@@ -31,29 +45,27 @@ const getWorkflows = cache.function(async (): Promise<Array<{[index: string]: {[
 	cacheKey: () => __filebasename + ':' + getRepoURL()
 });
 
-function parseYamls(yamls: string[]): {[index: string]: string} {
-	return Object.fromEntries(yamls
-		.map(yaml => [(/^name:\s+(\S+)$/m.exec(yaml) ?? [])[1], (/^\s*-\scron:\s+['"](.+)['"]/m.exec(yaml) ?? [])[1]])
-		.filter(([name, cron]) => name !== undefined && cron !== undefined)
-	);
-}
-
 async function init(): Promise<void> {
 	const actionsSidebar = (await elementReady('.hx_actions-sidebar'))!;
-	if (actionsSidebar) {
-		const currentDate = new Date();
-		const workflows = await getWorkflows();
-		if (workflows) {
-			const actionsSchedules = parseYamls(workflows.map(workflow => workflow.object.text));
-			for (const actionListItem of select.all('li > a', actionsSidebar).slice(1)) {
-				const actionName = actionListItem.textContent!.trim();
-				if (actionName in actionsSchedules) {
-					const nextTime = parseCron.nextDate(actionsSchedules[actionName], currentDate);
-					if (nextTime) {
-						actionListItem.append(<span className="rgh-github-action-next-time">(next <relative-time datetime={nextTime.toString()}/>)</span>);
-					}
-				}
-			}
+	if (!actionsSidebar) {
+		return;
+	}
+
+	const actionsSchedules = await getActionsSchedules();
+	if (!actionsSchedules) {
+		return;
+	}
+
+	const currentDate = new Date();
+	for (const actionListItem of select.all('li:not(:first-child) > a', actionsSidebar)) {
+		const actionName = actionListItem.textContent!.trim();
+		if (!(actionName in actionsSchedules)) {
+			continue;
+		}
+
+		const nextTime = parseCron.nextDate(actionsSchedules[actionName], currentDate);
+		if (nextTime) {
+			actionListItem.append(<span className="rgh-github-action-next-time">(next <relative-time datetime={nextTime.toString()}/>)</span>);
 		}
 	}
 }
