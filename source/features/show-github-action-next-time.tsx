@@ -61,7 +61,7 @@ async function init(): Promise<void> {
 void features.add({
 	id: __filebasename,
 	description: 'Shows the next scheduled time of relevant GitHub Actions in the workflows sidebar.',
-	screenshot: 'TODO'
+	screenshot: 'https://user-images.githubusercontent.com/46634000/94690232-2476a180-0330-11eb-99d7-e174bb762cea.png'
 }, {
 	include: [
 		pageDetect.isRepo
