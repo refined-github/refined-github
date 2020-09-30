@@ -44,11 +44,6 @@ const getActionsSchedules = cache.function(async (): Promise<Record<string, stri
 });
 
 async function init(): Promise<false | void> {
-	const actionsSidebar = await elementReady('.hx_actions-sidebar');
-	if (!actionsSidebar) {
-		return false;
-	}
-
 	const actionsSchedules = await getActionsSchedules();
 	if (!actionsSchedules) {
 		return false;
