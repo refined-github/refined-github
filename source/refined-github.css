@@ -22,8 +22,11 @@
 	padding: 0 !important;
 }
 
-/* Modify only the left and right padding #3606 */
-#js-issues-toolbar .table-list-header-toggle summary {
+#js-issues-toolbar .table-list-filters .table-list-header-toggle summary {
+	padding: 0 8px !important;
+}
+
+#js-issues-toolbar .table-list-triage .table-list-header-toggle summary {
 	padding: inherit 8px !important;
 }
 
