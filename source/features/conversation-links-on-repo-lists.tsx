@@ -47,8 +47,7 @@ void features.add({
 }, {
 	include: [
 		pageDetect.isUserProfileRepoTab,
-		pageDetect.isGlobalSearchResults,
-		pageDetect.isUserProfileRepoTab
+		pageDetect.isGlobalSearchResults
 	],
 	init: onetime(init)
 });

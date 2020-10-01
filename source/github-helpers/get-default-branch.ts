@@ -38,11 +38,7 @@ export default cache.function(async (repository: Partial<RepositoryInfo> = getRe
 
 	return response.repository.defaultBranchRef.name;
 }, {
-	maxAge: {
-		hours: 1
-	},
-	staleWhileRevalidate: {
-		days: 20
-	},
+	maxAge: {hours: 1},
+	staleWhileRevalidate: {days: 20},
 	cacheKey: ([repository]) => repository ? `default-branch:${repository.owner!}/${repository.name!}` : `default-branch:${getRepoURL()}`
 });
