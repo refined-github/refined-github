@@ -10,7 +10,7 @@ import * as api from '../github-helpers/api';
 import {getRepoURL, getRepoGQL} from '../github-helpers';
 
 const getScheduledWorkflows = cache.function(async (): Promise<Record<string, string> | false> => {
-	const {repository: {object: {entries: workflow}}} = await api.v4(`
+	const {repository: {object: {entries: workflows}}} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			object(expression: "HEAD:.github/workflows") {
 				... on Tree {
@@ -25,15 +25,15 @@ const getScheduledWorkflows = cache.function(async (): Promise<Record<string, st
 			}
 		}
 	`);
-	if (!actions) {
+	if (!workflows) {
 		return false;
 	}
 
 	const schedules: Record<string, string> = {};
-	for (const action of actions) {
-		const actionYaml = action.object.text;
-		const name = /^name:\s+['"]?(.+)['"]?/m.exec(actionYaml);
-		const cron = /^\s*-\scron:\s+['"](.+)['"]/m.exec(actionYaml);
+	for (const workflow of workflows) {
+		const workflowYaml = workflow.object.text;
+		const name = /^name:\s+['"]?(.+)['"]?/m.exec(workflowYaml);
+		const cron = /^\s*-\scron:\s+['"](.+)['"]/m.exec(workflowYaml);
 
 		if (name && cron) {
 			schedules[name[1]] = cron[1];
@@ -48,20 +48,20 @@ const getScheduledWorkflows = cache.function(async (): Promise<Record<string, st
 });
 
 async function init(): Promise<false | void> {
-	const actionsSchedules = await getActionsSchedules();
-	if (!actionsSchedules) {
+	const workflows = await getScheduledWorkflows();
+	if (!workflows) {
 		return false;
 	}
 
-	for (const actionListItem of select.all('[href*="?query"]', await elementReady('.hx_actions-sidebar'))) {
-		const actionName = actionListItem.textContent!.trim();
-		if (!(actionName in actionsSchedules)) {
+	for (const workflowListItem of select.all('[href*="?query"]', await elementReady('.hx_actions-sidebar'))) {
+		const workflowName = workflowListItem.textContent!.trim();
+		if (!(workflowName in workflows)) {
 			continue;
 		}
 
-		const nextTime = parseCron.nextDate(actionsSchedules[actionName]);
+		const nextTime = parseCron.nextDate(workflows[workflowName]);
 		if (nextTime) {
-			actionListItem.append(<em>(next <relative-time datetime={nextTime.toString()}/>)</em>);
+			workflowListItem.append(<em>(next <relative-time datetime={nextTime.toString()}/>)</em>);
 		}
 	}
 }
