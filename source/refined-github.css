@@ -22,8 +22,9 @@
 	padding: 0 !important;
 }
 
+/* Modify only the left and right padding (#3606) */
 #js-issues-toolbar .table-list-header-toggle summary {
-	padding: 0 8px !important;
+	padding: inherit 8px !important;
 }
 
 #js-issues-toolbar .table-list-header-toggle > :last-child > summary {
