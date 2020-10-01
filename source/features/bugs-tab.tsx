@@ -21,9 +21,7 @@ const countBugs = cache.function(async (): Promise<number> => {
 	return search.issueCount;
 }, {
 	maxAge: {minutes: 30},
-	staleWhileRevalidate: {
-		days: 4
-	},
+	staleWhileRevalidate: {days: 4},
 	cacheKey: (): string => __filebasename + ':' + getRepoURL()
 });
 

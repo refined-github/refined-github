@@ -89,9 +89,7 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 	return files;
 }, {
 	maxAge: {hours: 2},
-	staleWhileRevalidate: {
-		days: 9
-	},
+	staleWhileRevalidate: {days: 9},
 	cacheKey: () => __filebasename + ':' + getRepoURL()
 });
 
