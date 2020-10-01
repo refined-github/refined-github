@@ -72,7 +72,10 @@ void features.add({
 	screenshot: 'https://user-images.githubusercontent.com/46634000/94690232-2476a180-0330-11eb-99d7-e174bb762cea.png'
 }, {
 	include: [
-		pageDetect.isRepo
+		pageDetect.isRepositoryActions
+	],
+	exclude: [
+		pageDetect.isNewAction
 	],
 	awaitDomReady: false,
 	init
