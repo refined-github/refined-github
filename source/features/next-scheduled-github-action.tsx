@@ -1,9 +1,9 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
+import {parseCron} from '@cheap-glitch/mi-cron';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import {parseCron} from '@cheap-glitch/mi-cron';
 
 import features from '.';
 import * as api from '../github-helpers/api';
@@ -15,7 +15,11 @@ const getActionsSchedules = cache.function(async (): Promise<Record<string, stri
 			object(expression: "HEAD:.github/workflows") {
 				... on Tree {
 					entries {
-						object { ... on Blob { text } }
+						object {
+							... on Blob {
+								text
+							}
+						}
 					}
 				}
 			}
