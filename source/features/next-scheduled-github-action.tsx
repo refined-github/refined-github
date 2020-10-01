@@ -9,8 +9,8 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import {getRepoURL, getRepoGQL} from '../github-helpers';
 
-const getActionsSchedules = cache.function(async (): Promise<Record<string, string> | false> => {
-	const {repository: {object: {entries: actions}}} = await api.v4(`
+const getScheduledWorkflows = cache.function(async (): Promise<Record<string, string> | false> => {
+	const {repository: {object: {entries: workflow}}} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			object(expression: "HEAD:.github/workflows") {
 				... on Tree {
