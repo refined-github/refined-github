@@ -132,7 +132,7 @@ import './features/highest-rated-comment';
 import './features/clean-conversation-filters';
 import './features/minimize-upload-bar';
 import './features/cycle-lists-with-keyboard-shortcuts';
-import './features/add-tag-to-commits';
+import './features/tags-on-commits-list';
 import './features/forked-to';
 import './features/submit-review-as-single-comment';
 import './features/edit-readme';

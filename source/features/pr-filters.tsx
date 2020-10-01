@@ -81,9 +81,7 @@ const hasChecks = cache.function(async (): Promise<boolean> => {
 
 	return repository.head.history.nodes.some((commit: AnyObject) => commit.statusCheckRollup);
 }, {
-	maxAge: {
-		days: 3
-	},
+	maxAge: {days: 3},
 	cacheKey: () => __filebasename + ':' + getRepoURL()
 });
 
