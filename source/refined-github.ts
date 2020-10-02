@@ -196,6 +196,7 @@ import './features/convert-release-to-draft';
 import './features/linkify-full-profile-readme-title';
 import './features/same-page-definition-jump';
 import './features/new-repo-disable-projects-and-wikis';
+import './features/table-input';
 import './features/link-to-gihub-io';
 
 // Add global for easier debugging
