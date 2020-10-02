@@ -74,9 +74,6 @@ void features.add({
 	include: [
 		pageDetect.isRepositoryActions
 	],
-	exclude: [
-		pageDetect.isNewAction
-	],
 	awaitDomReady: false,
 	init
 });
