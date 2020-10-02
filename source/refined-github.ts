@@ -198,6 +198,7 @@ import './features/same-page-definition-jump';
 import './features/new-repo-disable-projects-and-wikis';
 import './features/table-input';
 import './features/link-to-gihub-io';
+import './features/next-scheduled-github-action';
 
 // Add global for easier debugging
 (window as any).select = select;
