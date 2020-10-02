@@ -1,4 +1,3 @@
-import mem from 'mem';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
@@ -6,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 
-const bypass = mem(async (detailsLink: HTMLAnchorElement): Promise<void> => {
+async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
 	const directLink = await fetchDom<HTMLAnchorElement>(
 		detailsLink.href,
 		'[data-hydro-click*="check_suite.external_click"]'
@@ -15,7 +14,7 @@ const bypass = mem(async (detailsLink: HTMLAnchorElement): Promise<void> => {
 	if (directLink) {
 		detailsLink.href = directLink.href;
 	}
-});
+}
 
 async function init(): Promise<void> {
 	// This selector excludes URLs that are already external
@@ -26,9 +25,9 @@ async function init(): Promise<void> {
 
 	observe(thirdPartyApps, {
 		constructor: HTMLAnchorElement,
-		async add(thirdPartyApp) {
+		add(thirdPartyApp) {
 			thirdPartyApp.classList.add('rgh-bypass-link');
-			await bypass(thirdPartyApp);
+			void bypass(thirdPartyApp);
 		}
 	});
 }
