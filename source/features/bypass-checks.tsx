@@ -16,7 +16,7 @@ async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
 	}
 }
 
-async function init(): Promise<void> {
+function init(): void {
 	// This selector excludes URLs that are already external
 	const thirdPartyApps = [
 		`a:not([href="/apps/github-actions"]) ~ div .status-actions[href^="${location.origin}"]:not(.rgh-bypass-link)`, // Hovercard status checks
