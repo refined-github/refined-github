@@ -17,3 +17,8 @@
 .rgh-files-hidden .file-wrap {
 	border: none;
 }
+
+/* Hide "Readme" link made unnecessary by this feature #3580 */
+h3.sr-only + .mt-3 .muted-link[href='#readme'] {
+	display: none;
+}

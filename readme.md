@@ -124,13 +124,15 @@ Thanks for contributing! 🦋🙌
 - [](# "swap-branches-on-compare") [Adds link to swap branches in the branch compare view.](https://user-images.githubusercontent.com/857700/42854438-821096f2-8a01-11e8-8752-76f7563b5e18.png)
 - [](# "hide-zero-packages") [Hides the `Packages` tab in repositories if it’s empty.](https://user-images.githubusercontent.com/44045911/93543684-d1473b00-f98e-11ea-9957-e4464400f81b.png)
 - [](# "forked-to") [Adds a shortcut to your forks next to the `Fork` button on the current repo.](https://user-images.githubusercontent.com/55841/64077281-17bbf000-cccf-11e9-9123-092063f65357.png)
-- [](# "repo-age") [Adds the age of the repository to the statistics bar.](https://user-images.githubusercontent.com/3848317/69494069-7d2b1180-0eb7-11ea-9aa1-d4194e566340.png)
+- [](# "repo-age") [Displays the age of the repository in the sidebar.](https://user-images.githubusercontent.com/3848317/69494069-7d2b1180-0eb7-11ea-9aa1-d4194e566340.png)
 - [](# "show-open-prs-of-forks") [In your forked repos, shows number of your open PRs to the original repo.](https://user-images.githubusercontent.com/1922624/76398271-e0648500-637c-11ea-8210-53dda1be9d51.png)
 - [](# "go-to-action-from-file") [Adds a link to access the past runs of a GitHub Action workflow when seeing the workflow configuration file.](https://user-images.githubusercontent.com/1402241/80146153-ab6d6400-85b1-11ea-9f38-e87950692a62.png)
 - [](# "clone-branch") [Clone a branch from the branches list.](https://user-images.githubusercontent.com/16872793/76802029-2a020500-67ad-11ea-95dc-bee1b1352976.png)
 - [](# "fork-source-link-same-view") [Points the “Forked from user/repository” link to current folder or file in the upstream repository.](https://user-images.githubusercontent.com/1402241/84795784-3722d000-aff8-11ea-9b34-97c01acf4fd4.png)
 - [](# "cleanup-repo-filelist-actions") [Replaces the labels of some simple buttons on repository filelists with icons, making them take less space.](https://user-images.githubusercontent.com/44045911/88551471-7a3f7c80-d055-11ea-82f1-c558b7871824.png)
 - [](# "new-repo-disable-projects-and-wikis") [Automatically disables projects and wikis when creating a repository.](https://user-images.githubusercontent.com/16872793/92803886-dc460e00-f385-11ea-8af6-d6b7a0d3bf91.png)
+- [](# "sticky-sidebar") [Makes conversation sidebars and repository sidebars sticky, if they fit the viewport.](https://user-images.githubusercontent.com/10238474/62276723-5a2eaa80-b44d-11e9-810b-ff598d1c5c6a.gif)
+- [](# "link-to-github-io") [Add a link to visit the user’s github.io website from its repo.](https://user-images.githubusercontent.com/31387795/94045261-dbcd5e80-fdec-11ea-83fa-30bb673cc26e.jpg)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -198,7 +200,6 @@ Thanks for contributing! 🦋🙌
 
 - [](# "batch-open-conversations") 🔥 [Lets you open multiple conversations at once via checkboxes.](https://user-images.githubusercontent.com/1402241/38084752-4820b0d8-3378-11e8-868c-a1582b16f915.gif)
 - [](# "split-issue-pr-search-results") [Separates issues from PRs in the global search.](https://user-images.githubusercontent.com/1402241/52181103-35a09f80-2829-11e9-9c6f-57f2e08fc5b2.png)
-- [](# "sticky-conversation-sidebar") [Makes the conversation sidebar sticky.](https://user-images.githubusercontent.com/10238474/62276723-5a2eaa80-b44d-11e9-810b-ff598d1c5c6a.gif)
 - [](# "sticky-conversation-list-toolbar") [Makes the conversation list’s filters toolbar sticky.](https://user-images.githubusercontent.com/380914/39878141-7632e61a-542c-11e8-9c66-74fcd3a134aa.gif)
 - [](# "highlight-collaborators-and-own-conversations") [Highlights conversations opened by you or the current repo’s collaborators.](https://user-images.githubusercontent.com/1402241/65013882-03225d80-d947-11e9-8eb8-5507bc1fc14b.png)
 - [](# "align-issue-labels") [Aligns labels in lists to the left.](https://user-images.githubusercontent.com/1402241/28006237-070b8214-6581-11e7-94bc-2b01a007d00b.png)
@@ -247,7 +248,7 @@ Thanks for contributing! 🦋🙌
 - [](# "quick-review-buttons") [Simplifies the PR review form: Approve or reject reviews faster with one-click review-type buttons.](https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png)
 - [](# "warn-pr-from-master") [Warns you when creating a pull request from the default branch, as it’s an anti-pattern.](https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png)
 - [](# "warning-for-disallow-edits") [Warns you when unchecking `Allow edits from maintainers`, as it’s maintainer-hostile.](https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif)
-- [](# "pull-request-hotkey") Adds keyboard shortcuts to cycle through PR tabs: <kbd>g</kbd> <kbd>←</kbd> and <kbd>g</kbd> <kbd>→</kbd>, or <kbd>g</kbd> <kbd>1</kbd>, <kbd>g</kbd> <kbd>2</kbd>, <kbd>g</kbd> <kbd>3</kbd> and <kbd>g</kbd> <kbd>4</kbd>.
+- [](# "pull-request-hotkey") [Adds keyboard shortcuts to cycle through PR tabs: <kbd>g</kbd> <kbd>←</kbd> and <kbd>g</kbd> <kbd>→</kbd>, or <kbd>g</kbd> <kbd>1</kbd>, <kbd>g</kbd> <kbd>2</kbd>, <kbd>g</kbd> <kbd>3</kbd> and <kbd>g</kbd> <kbd>4</kbd>](https://user-images.githubusercontent.com/16872793/94634958-7e7b5680-029f-11eb-82ea-1f96cd11e4cd.png).
 - [](# "pr-branch-auto-delete") Automatically deletes the branch right after merging a PR, if possible.
 - [](# "separate-draft-pr-button") [Lets you create draft pull requests in one click.](https://user-images.githubusercontent.com/202916/67269317-cd791300-f4b6-11e9-89d1-392de7ef71e1.png)
 - [](# "clear-pr-merge-commit-message") [Clears the PR merge commit message of clutter, leaving only deduplicated co-authors.](https://user-images.githubusercontent.com/1402241/79257078-62b6fc00-7e89-11ea-8798-c06f33baa94b.png)
@@ -268,7 +269,7 @@ Thanks for contributing! 🦋🙌
 - [](# "remove-diff-signs") [Hides diff signs](https://user-images.githubusercontent.com/1402241/54807718-149cec80-4cb9-11e9-869c-e265863211e3.png) (since diffs are color coded already.)
 - [](# "suggest-commit-title-limit") [Suggest limiting commit titles to 72 characters.](https://user-images.githubusercontent.com/37769974/60379478-106b3280-9a51-11e9-88b9-0e3607f214cd.gif)
 - [](# "expand-all-collapsed-code") [Expands the entire file when you <kbd>alt</kbd> <kbd>click</kbd> on any "Expand code" button in diffs.](https://user-images.githubusercontent.com/44227187/64923605-d0138900-d7e3-11e9-9dc2-461aba81c1cb.gif)
-- [](# "add-tag-to-commits") [Displays the corresponding tags next to commits.](https://user-images.githubusercontent.com/14323370/66400400-64ba7280-e9af-11e9-8d6c-07b35afde91f.png)
+- [](# "tags-on-commits-list") [Displays the corresponding tags next to commits.](https://user-images.githubusercontent.com/14323370/66400400-64ba7280-e9af-11e9-8d6c-07b35afde91f.png)
 - [](# "mark-merge-commits-in-list") [Marks merge commits in commit lists.](https://user-images.githubusercontent.com/16872793/75561016-457eb900-5a14-11ea-95e1-a89e81ee7390.png)
 - [](# "deep-reblame") [When exploring blames, `Alt`-clicking the “Reblame” buttons will extract the associated PR’s commits first, instead of treating the commit a single change.](https://user-images.githubusercontent.com/16872793/77248541-8e3f2180-6c10-11ea-91d4-221ccc0ecebb.png)
 - [](# "highlight-deleted-and-added-files-in-diffs") [Indicates with an icon whether files in commits and pull requests being added or removed.](https://user-images.githubusercontent.com/1402241/90332474-23262b00-dfb5-11ea-9a03-8fd676ea0fdd.png)
@@ -295,7 +296,7 @@ Thanks for contributing! 🦋🙌
 - [](# "mark-private-orgs") [Marks private organizations on your own profile.](https://user-images.githubusercontent.com/6775216/44633467-d5dcc900-a959-11e8-9116-e6b0ffef66af.png)
 - [](# "profile-hotkey") Adds a keyboard shortcut to visit your own profile: <kbd>g</kbd> <kbd>m</kbd>.
 - [](# "show-user-top-repositories") [Adds a link to the user’s most starred repositories.](https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93de-159ad4c6f283.png)
-- [](# "set-default-repositories-type-to-sources") [Hides forks and archived repos from profiles (but they can still be shown.)](https://user-images.githubusercontent.com/1402241/45133648-fe21be80-b1c8-11e8-9052-e38cb443efa9.png)
+- [](# "set-default-repositories-type-to-sources") [Hides forks and archived repos from profiles (but they can still be shown).](https://user-images.githubusercontent.com/1402241/45133648-fe21be80-b1c8-11e8-9052-e38cb443efa9.png)
 - [](# "linkify-user-location") [Linkifies the user location in their hovercard and profile page.](https://user-images.githubusercontent.com/1402241/69076885-00d3a100-0a67-11ea-952a-690acec0826f.png)
 - [](# "user-local-time") [Shows the user local time in their hovercard (based on their last commit).](https://user-images.githubusercontent.com/1402241/69863648-ef449180-12cf-11ea-8f36-7c92fc487f31.gif)
 - [](# "hide-zero-packages") [Hides the `Packages` tab on user profiles if it’s empty.](https://user-images.githubusercontent.com/35382021/62426530-688ef780-b6d5-11e9-93f2-515110aed1eb.jpg)

@@ -115,8 +115,7 @@ void features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/57199809-20691780-6fb6-11e9-9672-1ad3f9e1b827.png'
 }, {
 	include: [
-		pageDetect.isIssue,
-		pageDetect.isPRConversation
+		pageDetect.isConversation
 	],
 	additionalListeners: [
 		() => void onReplacedElement('#partial-discussion-sidebar', clean)

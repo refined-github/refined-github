@@ -1,44 +1,42 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import {
-	IssueOpenedIcon,
-	GitPullRequestIcon
-} from '@primer/octicons-react';
+import onetime from 'onetime';
+import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
+import {IssueOpenedIcon, GitPullRequestIcon} from '@primer/octicons-react';
 
 import features from '.';
-import observeElement from '../helpers/simplified-element-observer';
 
 function init(): void {
-	const repositories = select.all<HTMLAnchorElement>([
+	observe([
 		'[itemprop="name codeRepository"]:not(.rgh-discussion-links)', // `isUserProfileRepoTab`
-		'[data-hydro-click*=\'"model_name":"Repository"\']' // `isGlobalSearchResults`
-	]);
+		'[data-hydro-click*=\'"model_name":"Repository"\']:not(.rgh-discussion-links)' // `isGlobalSearchResults`
+	].join(), {
+		constructor: HTMLAnchorElement,
+		add(repositoryLink) {
+			repositoryLink.classList.add('rgh-discussion-links');
+			const repository = repositoryLink.closest('li')!;
 
-	for (const repositoryLink of repositories) {
-		repositoryLink.classList.add('rgh-discussion-links');
+			// Remove the "X issues need help" link
+			select('[href*="issues?q=label%3A%22help+wanted"]', repository)?.remove();
 
-		const repository = repositoryLink.closest('li')!;
-
-		// Remove the "X issues need help" link
-		select('[href*="issues?q=label%3A%22help+wanted"]', repository)?.remove();
-
-		// Place before the "Updated on" element
-		select('relative-time', repository)!.previousSibling!.before(
-			<a
-				className="muted-link mr-3"
-				href={repositoryLink.href + '/issues?q=is%3Aissue+is%3Aopen'}
-			>
-				<IssueOpenedIcon/>
-			</a>,
-			<a
-				className="muted-link mr-3"
-				href={repositoryLink.href + '/pulls?q=is%3Apr+is%3Aopen'}
-			>
-				<GitPullRequestIcon/>
-			</a>
-		);
-	}
+			// Place before the "Updated on" element
+			select('relative-time', repository)!.previousSibling!.before(
+				<a
+					className="muted-link mr-3"
+					href={repositoryLink.href + '/issues?q=is%3Aissue+is%3Aopen'}
+				>
+					<IssueOpenedIcon/>
+				</a>,
+				<a
+					className="muted-link mr-3"
+					href={repositoryLink.href + '/pulls?q=is%3Apr+is%3Aopen'}
+				>
+					<GitPullRequestIcon/>
+				</a>
+			);
+		}
+	});
 }
 
 void features.add({
@@ -50,13 +48,5 @@ void features.add({
 		pageDetect.isUserProfileRepoTab,
 		pageDetect.isGlobalSearchResults
 	],
-	init
-}, {
-	include: [
-		pageDetect.isUserProfileRepoTab
-	],
-	init() {
-		observeElement('#user-repositories-list', init);
-		return false;
-	}
+	init: onetime(init)
 });

@@ -33,6 +33,8 @@ function keydownHandler(event: KeyboardEvent): void {
 		}
 	}
 
+	window.addEventListener('pjax:error', pjaxErrorHandler, {once: true});
+
 	history.back();
 	progressLoader.classList.remove(progressLoaderLoadingClass);
 }
@@ -49,8 +51,6 @@ function init(): void {
 
 	window.addEventListener('keydown', keydownHandler);
 
-	window.addEventListener('pjax:error', pjaxErrorHandler);
-
 	if (pageDetect.isUserProfile()) {
 		window.addEventListener('pjax:end', fixProfileNavAndTimeline);
 	}
@@ -58,7 +58,7 @@ function init(): void {
 
 void features.add({
 	id: __filebasename,
-	description: 'After you click on an ajaxed link, this lets you stop loading a page by pressing the esc key, like the browser does for regular page loads',
+	description: 'After you click on an ajaxed link, this lets you stop loading a page by pressing the esc key, like the browser does for regular page loads.',
 	screenshot: 'https://user-images.githubusercontent.com/36174850/90323385-3c08ef00-df69-11ea-8c0e-c85241888a7b.gif'
 }, {
 	include: [

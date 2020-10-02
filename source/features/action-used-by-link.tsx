@@ -30,7 +30,7 @@ void features.add({
 	screenshot: 'https://user-images.githubusercontent.com/8360597/80250140-86d9c080-8673-11ea-9d28-f62faf9fd3d4.png'
 }, {
 	include: [
-		pageDetect.isActionPage
+		pageDetect.isMarketplaceAction
 	],
 	init
 });

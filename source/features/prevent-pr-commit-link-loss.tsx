@@ -7,11 +7,12 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
-import {prCommitUrlRegex, preventPrCommitLinkLoss} from '../github-helpers';
+import {prCommitUrlRegex, preventPrCommitLinkLoss, prCompareUrlRegex, preventPrCompareLinkLoss} from '../github-helpers';
 
 function handleButtonClick({delegateTarget: fixButton}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const field = fixButton.form!.querySelector('textarea')!;
 	textFieldEdit.replace(field, prCommitUrlRegex, preventPrCommitLinkLoss);
+	textFieldEdit.replace(field, prCompareUrlRegex, preventPrCompareLinkLoss);
 	fixButton.parentElement!.remove();
 }
 
@@ -26,7 +27,7 @@ function getUI(field: HTMLTextAreaElement): HTMLElement {
 
 const updateUI = debounceFn(({delegateTarget: field}: delegate.Event<InputEvent, HTMLTextAreaElement>): void => {
 	// The replacement logic is not just in the regex, so it alone can't be used to detect the need for the replacement
-	if (field.value === field.value.replace(prCommitUrlRegex, preventPrCommitLinkLoss)) {
+	if (field.value === field.value.replace(prCommitUrlRegex, preventPrCommitLinkLoss) && field.value === field.value.replace(prCompareUrlRegex, preventPrCompareLinkLoss)) {
 		getUI(field).remove();
 	} else if (pageDetect.isNewIssue() || pageDetect.isCompare()) {
 		select('file-attachment', field.form!)!.append(

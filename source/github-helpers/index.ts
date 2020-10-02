@@ -2,7 +2,7 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
-import * as pageDetect from 'github-url-detection/esm/index.js'; // eslint-disable-line import/extensions -- Required for Node tests compatibility
+import * as pageDetect from 'github-url-detection';
 
 // This never changes, so it can be cached here
 export const getUsername = onetime(pageDetect.utils.getUsername);
@@ -98,6 +98,9 @@ const escapeRegex = (string: string): string => string.replace(/[\\^$.*+?()[\]{}
 const prCommitPathnameRegex = /[/][^/]+[/][^/]+[/]pull[/](\d+)[/]commits[/]([\da-f]{7})[\da-f]{33}(?:#[\w-]+)?\b/; // eslint-disable-line unicorn/better-regex
 export const prCommitUrlRegex = new RegExp('\\b' + escapeRegex(location.origin) + prCommitPathnameRegex.source, 'gi');
 
+const prComparePathnameRegex = /[/][^/]+[/][^/]+[/]compare[/](.+)(#diff-[\da-fR-]+)/; // eslint-disable-line unicorn/better-regex
+export const prCompareUrlRegex = new RegExp('\\b' + escapeRegex(location.origin) + prComparePathnameRegex.source, 'gi');
+
 // To be used as replacer callback in string.replace()
 export function preventPrCommitLinkLoss(url: string, pr: string, commit: string, index: number, fullText: string): string {
 	if (fullText[index + url.length] === ')') {
@@ -105,6 +108,15 @@ export function preventPrCommitLinkLoss(url: string, pr: string, commit: string,
 	}
 
 	return `[\`${commit}\` (#${pr})](${url})`;
+}
+
+// To be  used as replacer callback in string.replace() for compare links
+export function preventPrCompareLinkLoss(url: string, compare: string, hash: string, index: number, fullText: string): string {
+	if (fullText[index + url.length] === ')') {
+		return url;
+	}
+
+	return `[\`${compare}\`${hash.slice(0, 16)}](${url})`;
 }
 
 // https://github.com/idimetrix/text-case/blob/master/packages/upper-case-first/src/index.ts

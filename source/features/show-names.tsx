@@ -6,6 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
+import onNewsfeedLoad from '../github-events/on-newsfeed-load';
 import {getUsername, compareNames} from '../github-helpers';
 
 async function init(): Promise<false | void> {
@@ -73,6 +74,9 @@ void features.add({
 }, {
 	include: [
 		pageDetect.isDashboard
+	],
+	additionalListeners: [
+		onNewsfeedLoad
 	],
 	init: onetime(init)
 }, {

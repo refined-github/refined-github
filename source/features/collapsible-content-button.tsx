@@ -42,6 +42,7 @@ function addContentToDetails(event: delegate.Event<MouseEvent, HTMLButtonElement
 		</details>
 	`.replace(/(\n|\b)\t+/g, '$1').trim();
 
+	field.focus();
 	textFieldEdit.insert(field, smartBlockWrap(newContent, field));
 
 	// Restore selection.

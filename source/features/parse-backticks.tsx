@@ -24,7 +24,7 @@ function init(): void {
 		'.release-header', // `isReleasesOrTags` Headers
 		'.existing-pull-contents .list-group-item-link', // `isCompare` with existing PR
 		'#pull-requests a.link-gray-dark', // `isPulse` issue and PR title
-		'[id^="check_suite"] a.link-gray-dark', // `isActions`
+		'[id^="check_suite"] a.link-gray-dark', // `isRepositoryActions`
 		'.checks-summary-conclusion + .flex-auto .f3', // `isActions` run
 		'.js-wiki-sidebar-toggle-display a', // `isWiki` sidebar pages title
 		'.wiki-wrapper .gh-header-title', // `isWiki` page title

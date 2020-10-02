@@ -22,7 +22,7 @@ async function getNextPage(): Promise<DocumentFragment> {
 		return fetchDom(nextPageLink.href);
 	}
 
-	if (pageDetect.isSingleTagPage()) {
+	if (pageDetect.isSingleTag()) {
 		const [, tag = ''] = getRepoPath()!.split('releases/tag/', 2); // Already URL-encoded
 		return fetchDom(`/${getRepoURL()}/tags?after=${tag}`);
 	}
