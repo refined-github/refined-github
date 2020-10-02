@@ -1,10 +1,12 @@
-import select from 'select-dom';
+import mem from 'mem';
+import onetime from 'onetime';
+import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 
-async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
+const bypass = mem(async (detailsLink: HTMLAnchorElement): Promise<void> => {
 	const directLink = await fetchDom<HTMLAnchorElement>(
 		detailsLink.href,
 		'[data-hydro-click*="check_suite.external_click"]'
@@ -13,14 +15,22 @@ async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
 	if (directLink) {
 		detailsLink.href = directLink.href;
 	}
-}
+});
 
 async function init(): Promise<void> {
 	// This selector excludes URLs that are already external
-	const thirdPartyApps = select.all<HTMLAnchorElement>('a:not([href="/apps/github-actions"]) ~ div .status-actions[href^="/"]');
+	const thirdPartyApps = [
+		`a:not([href="/apps/github-actions"]) ~ div .status-actions[href^="${location.origin}"]:not(.rgh-bypass-link)`, // Hovercard status checks
+		'a:not([href="/apps/github-actions"]) ~ div .status-actions[href^="/"]:not(.rgh-bypass-link)'
+	].join();
 
-	// If anything errors, RGH will display the error next to the feature name
-	await Promise.all(thirdPartyApps.map(bypass));
+	observe(thirdPartyApps, {
+		constructor: HTMLAnchorElement,
+		async add(thirdPartyApp) {
+			thirdPartyApp.classList.add('rgh-bypass-link');
+			await bypass(thirdPartyApp);
+		}
+	});
 }
 
 void features.add({
@@ -31,5 +41,5 @@ void features.add({
 	include: [
 		pageDetect.isPRConversation
 	],
-	init
+	init: onetime(init)
 });
