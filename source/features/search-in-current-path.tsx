@@ -1,27 +1,18 @@
 import select from 'select-dom';
-import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getCleanPathname} from '../github-helpers';
+import GitHubURL from '../github-helpers/github-url';
 
 let search = '';
 
 function getSearch(): string {
-	const path = getCleanPathname().split('/');
+	const {route, filePath} = new GitHubURL(location.href);
 
-	if (pageDetect.isRepoTree() && !pageDetect.isRepoRoot()) {
-		return `path:${path.slice(4).join('/')} `;
-	}
-
-	if (pageDetect.isSingleFile() && path.length !== 5) {
-		return `path:${path.slice(4, -1).join('/')} `;
-	}
-
-	return '';
+	return `path:${route === 'tree' ? filePath : filePath.slice(0, filePath.lastIndexOf('/'))}`;
 }
 
-function setSearch(): void {
+function init(): void {
 	const searchInput = select<HTMLInputElement>('[data-hotkey="s,/"]')!;
 
 	if (searchInput.value === search) {
@@ -30,19 +21,20 @@ function setSearch(): void {
 	}
 }
 
-function init(): void {
-	setSearch();
-	document.addEventListener('pjax:end', setSearch);
-}
-
 void features.add({
 	id: __filebasename,
 	description: 'Adds current path to the search box.',
 	screenshot: 'https://user-images.githubusercontent.com/44045911/94982458-1cf00c00-056d-11eb-852a-4326042354b2.gif'
 }, {
+	repeatOnBackButton: true,
 	include: [
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile
 	],
-	init: onetime(init)
+	exclude: [
+		pageDetect.isRepoRoot,
+		// Root level files
+		() => pageDetect.isSingleFile() && location.pathname.split('/').length === 6
+	],
+	init
 });
