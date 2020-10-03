@@ -11,12 +11,14 @@ function init(): void {
 
 	if (searchInput.value === search) {
 		const {route, filePath} = new GitHubURL(location.href);
-		
+
 		if (route === 'tree') {
-			searchInput.value = `path:${filePath} `;
+			search = `path:${filePath} `;
 		} else if (filePath.includes('/')) { // Exclude files at the root
-			searchInput.value = `path:${filePath.slice(0, filePath.lastIndexOf('/'))} `;
+			search = `path:${filePath.slice(0, filePath.lastIndexOf('/'))} `;
 		}
+
+		searchInput.value = search;
 	}
 }
 
