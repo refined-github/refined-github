@@ -11,8 +11,12 @@ function init(): void {
 
 	if (searchInput.value === search) {
 		const {route, filePath} = new GitHubURL(location.href);
-
-		searchInput.value = `path:${route === 'tree' ? filePath : filePath.slice(0, filePath.lastIndexOf('/'))} `;
+		
+		if (route === 'tree') {
+			searchInput.value = `path:${filePath} `;
+		} else if (filePath.includes('/')) { // Exclude files at the root
+			searchInput.value = `path:${filePath.slice(0, filePath.lastIndexOf('/'))} `;
+		}
 	}
 }
 
@@ -24,8 +28,7 @@ void features.add({
 	repeatOnBackButton: true,
 	include: [
 		pageDetect.isRepoTree,
-		// Root level files
-		() => pageDetect.isSingleFile() && location.pathname.split('/').length !== 6
+		pageDetect.isSingleFile
 	],
 	exclude: [
 		pageDetect.isRepoRoot
