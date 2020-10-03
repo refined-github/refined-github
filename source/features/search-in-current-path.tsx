@@ -30,7 +30,7 @@ void features.add({
 	include: [
 		pageDetect.isRepoTree,
 		// Root level files
-		() => pageDetect.isSingleFile && location.pathname.split('/').length !== 6
+		() => pageDetect.isSingleFile() && location.pathname.split('/').length !== 6
 	],
 	exclude: [
 		pageDetect.isRepoRoot
