@@ -6,18 +6,13 @@ import GitHubURL from '../github-helpers/github-url';
 
 let search = '';
 
-function getSearch(): string {
-	const {route, filePath} = new GitHubURL(location.href);
-
-	return `path:${route === 'tree' ? filePath : filePath.slice(0, filePath.lastIndexOf('/'))} `;
-}
-
 function init(): void {
 	const searchInput = select<HTMLInputElement>('[data-hotkey="s,/"]')!;
 
 	if (searchInput.value === search) {
-		search = getSearch();
-		searchInput.value = search;
+		const {route, filePath} = new GitHubURL(location.href);
+
+		searchInput.value = `path:${route === 'tree' ? filePath : filePath.slice(0, filePath.lastIndexOf('/'))} `;
 	}
 }
 
