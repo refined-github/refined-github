@@ -9,7 +9,7 @@ let search = '';
 function getSearch(): string {
 	const {route, filePath} = new GitHubURL(location.href);
 
-	return `path:${route === 'tree' ? filePath : filePath.slice(0, filePath.lastIndexOf('/'))}`;
+	return `path:${route === 'tree' ? filePath : filePath.slice(0, filePath.lastIndexOf('/'))} `;
 }
 
 function init(): void {
