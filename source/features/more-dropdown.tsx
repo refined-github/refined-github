@@ -75,9 +75,6 @@ async function init(): Promise<void> {
 			createDropdownItem('Commits', commitsUrl),
 			createDropdownItem('Branches', `/${repoUrl}/branches`)
 		);
-
-		onlyShowInDropdown('security-tab');
-		onlyShowInDropdown('insights-tab');
 		return;
 	}
 
@@ -106,24 +103,11 @@ async function init(): Promise<void> {
 			<BranchIcon/> Branches
 		</a>
 	);
-
-	// Selector only affects desktop navigation
-	for (const tab of select.all<HTMLAnchorElement>(`
-		.hx_reponav [data-selected-links~="pulse"],
-		.hx_reponav [data-selected-links~="security"]
-	`)) {
-		tab.remove();
-		menu.append(
-			<a href={tab.href} className="rgh-reponav-more dropdown-item">
-				{[...tab.childNodes]}
-			</a>
-		);
-	}
 }
 
 void features.add({
 	id: __filebasename,
-	description: 'Adds links to `Commits`, `Branches`, `Dependencies`, and `Compare` in a new `More` dropdown.',
+	description: 'Adds links to `Compare`, `Dependencies`, `Commits`, and `Branches` in a new `More` dropdown.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/55089736-d94f5300-50e8-11e9-9095-329ac74c1e9f.png'
 }, {
 	include: [
