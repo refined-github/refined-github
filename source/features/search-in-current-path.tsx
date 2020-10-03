@@ -29,12 +29,11 @@ void features.add({
 	repeatOnBackButton: true,
 	include: [
 		pageDetect.isRepoTree,
-		pageDetect.isSingleFile
+		// Root level files
+		() => pageDetect.isSingleFile && location.pathname.split('/').length !== 6
 	],
 	exclude: [
-		pageDetect.isRepoRoot,
-		// Root level files
-		() => pageDetect.isSingleFile() && location.pathname.split('/').length === 6
+		pageDetect.isRepoRoot
 	],
 	init
 });
