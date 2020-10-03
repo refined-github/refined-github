@@ -4,7 +4,7 @@
 		"ava": "rollup test/*.ts --plugin typescript --dir .built/test --chunkFileNames _.mjs --entryFileNames [name].mjs && ava",
 		"build": "run-p build:* --continue-on-error",
 		"build:typescript": "tsc --noEmit",
-		"build:webpack": "webpack --mode=production",
+		"build:webpack": "cd source && parcel build refined-github.ts background.ts options.html resolve-conflicts.ts icon.png manifest.json",
 		"fix": "run-p 'lint:* -- --fix'",
 		"lint": "run-p lint:* --continue-on-error",
 		"lint:css": "stylelint 'source/**/*.css'",
@@ -37,6 +37,7 @@
 	},
 	"dependencies": {
 		"@cheap-glitch/mi-cron": "^1.0.1",
+		"@parcel/transformer-svg-react": "^2.0.0-nightly.1739",
 		"@primer/octicons": "^9.6.0",
 		"@primer/octicons-v2": "0.0.0-60ee16f",
 		"copy-text-to-clipboard": "^2.2.0",
@@ -57,6 +58,7 @@
 		"linkify-urls": "^3.1.0",
 		"mem": "6.1.0",
 		"onetime": "^5.1.2",
+		"parcel": "^2.0.0-nightly.414",
 		"select-dom": "^6.0.2",
 		"selector-observer": "^2.1.6",
 		"shorten-repo-url": "^2.0.1",
@@ -121,6 +123,19 @@
 			"startUrl": [
 				"github.com"
 			]
+		}
+	},
+	"alias": {
+		"octicon": "@primer/octicons-v2/build/svg",
+		"react": "dom-chef"
+	},
+	"browserslist": [
+		"last 1 Chrome versions",
+		"last 1 Firefox versions"
+	],
+	"targets": {
+		"default": {
+			"publicUrl": "./"
 		}
 	}
 }

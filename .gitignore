@@ -6,3 +6,7 @@ test/web-ext-profile
 .cache
 .parcel-cache
 .built
+
+dist
+.cache
+.parcel-cache

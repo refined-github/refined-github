@@ -1,3 +1,4 @@
+import 'webextension-polyfill';
 import 'webext-dynamic-content-scripts';
 import cache from 'webext-storage-cache'; // Also needed to regularly clear the cache
 import addDomainPermissionToggle from 'webext-domain-permission-toggle';
@@ -5,7 +6,7 @@ import './options-storage';
 
 browser.runtime.onMessage.addListener((message, {tab}) => {
 	if (Array.isArray(message?.openUrls)) {
-		for (const [i, url] of (message.openUrls as string[]).entries()) {
+		for (const [i, url] of (message.openUrls).entries()) {
 			void browser.tabs.create({
 				url,
 				index: tab!.index + i + 1,
