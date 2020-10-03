@@ -37,11 +37,13 @@ function init(): void {
 
 	for (const anchor of select.all('md-task-list')) {
 		anchor.after(
-			<details className="details-reset details-overlay flex-auto toolbar-item select-menu select-menu-modal-right hx_rsm">
+			<details
+				className="toolbar-item tooltipped tooltipped-n mx-1 details-reset details-overlay flex-auto select-menu select-menu-modal-right hx_rsm"
+				aria-label="Add a table"
+			>
 				<summary
-					className="text-center menu-target py-2 p-md-1 hx_rsm-trigger ml-1"
+					className="text-center menu-target py-2 p-md-1 hx_rsm-trigger"
 					role="button"
-					aria-label="Add a table"
 					aria-haspopup="menu"
 				>
 					<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" className="octicon">
