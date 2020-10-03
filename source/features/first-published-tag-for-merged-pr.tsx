@@ -1,7 +1,6 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import TagIcon from 'octicon/tag.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -34,7 +33,6 @@ async function init(): Promise<void> {
 
 		discussionHeader.parentElement!.append(
 			' • ',
-			<TagIcon className="mx-1 text-gray-light v-align-middle"/>,
 			<a
 				href={`/${getRepoURL()}/releases/tag/${tagName}`}
 				className="commit-ref"

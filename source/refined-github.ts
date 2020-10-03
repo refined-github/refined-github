@@ -25,6 +25,10 @@ import './features/align-repository-header.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
+import './features/unwrap-useless-dropdowns';
+import './features/first-published-tag-for-merged-pr';
+import './features/show-associated-branch-prs-on-fork';
+import './features/faster-reviews';
 import './features/fork-source-link-same-view';
 import './features/pr-jump-to-first-non-viewed-file';
 import './features/keyboard-navigation';
