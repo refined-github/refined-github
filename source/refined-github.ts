@@ -25,7 +25,22 @@ import './features/align-repository-header.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
+import './features/cross-deleted-pr-branches';
+import './features/repo-wide-file-finder';
+import './features/preserve-file-finder-term';
+import './features/file-finder-buffer';
+import './features/pr-commit-lines-changed';
+import './features/show-open-prs-of-forks';
+import './features/clone-branch';
+import './features/deep-reblame';
+import './features/clear-pr-merge-commit-message';
+import './features/go-to-action-from-file';
+import './features/action-used-by-link';
+import './features/batch-mark-files-as-viewed';
 import './features/unwrap-useless-dropdowns';
+import './features/linkify-notification-repository-header';
+import './features/stop-redirecting-in-notification-bar';
+import './features/prevent-pr-commit-link-loss';
 import './features/first-published-tag-for-merged-pr';
 import './features/show-associated-branch-prs-on-fork';
 import './features/faster-reviews';
