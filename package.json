@@ -4,7 +4,7 @@
 		"ava": "rollup test/*.ts --plugin typescript --dir .built/test --chunkFileNames _.mjs --entryFileNames [name].mjs && ava",
 		"build": "run-p build:* --continue-on-error",
 		"build:typescript": "tsc --noEmit",
-		"build:webpack": "cd source && parcel build refined-github.ts background.ts options.html resolve-conflicts.ts icon.png manifest.json",
+		"build:webpack": "webpack --mode=production",
 		"fix": "run-p 'lint:* -- --fix'",
 		"lint": "run-p lint:* --continue-on-error",
 		"lint:css": "stylelint 'source/**/*.css'",
@@ -37,7 +37,9 @@
 	},
 	"dependencies": {
 		"@cheap-glitch/mi-cron": "^1.0.1",
+		"@parcel/transformer-js": "^2.0.0-alpha.3",
 		"@parcel/transformer-svg-react": "^2.0.0-nightly.1739",
+		"@parcel/transformer-svgo": "^2.0.0-nightly.1739",
 		"@primer/octicons": "^9.6.0",
 		"@primer/octicons-v2": "0.0.0-60ee16f",
 		"copy-text-to-clipboard": "^2.2.0",
@@ -133,9 +135,9 @@
 		"last 1 Chrome versions",
 		"last 1 Firefox versions"
 	],
-	"targets": {
-		"default": {
-			"publicUrl": "./"
-		}
-	}
+  "targets": {
+    "default": {
+      "publicUrl": "./"
+    }
+  }
 }
