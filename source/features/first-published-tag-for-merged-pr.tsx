@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import TagIcon from '@primer/octicons-v2/build/svg/tag.svg';
+import TagIcon from 'octicon/tag.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
