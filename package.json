@@ -37,9 +37,10 @@
 	},
 	"dependencies": {
 		"@cheap-glitch/mi-cron": "^1.0.1",
-		"@parcel/transformer-js": "^2.0.0-alpha.3",
-		"@parcel/transformer-svg-react": "^2.0.0-nightly.1739",
-		"@parcel/transformer-svgo": "^2.0.0-nightly.1739",
+		"@parcel/transformer-svg-react": "^2.0.0-nightly.2039",
+		"parcel": "^2.0.0-nightly.415",
+		"react": "^16.13.1",
+		"react-dom": "^16.13.1",
 		"@primer/octicons": "^9.6.0",
 		"@primer/octicons-v2": "0.0.0-60ee16f",
 		"copy-text-to-clipboard": "^2.2.0",
@@ -60,7 +61,6 @@
 		"linkify-urls": "^3.1.0",
 		"mem": "6.1.0",
 		"onetime": "^5.1.2",
-		"parcel": "^2.0.0-nightly.414",
 		"select-dom": "^6.0.2",
 		"selector-observer": "^2.1.6",
 		"shorten-repo-url": "^2.0.1",
@@ -135,9 +135,9 @@
 		"last 1 Chrome versions",
 		"last 1 Firefox versions"
 	],
-  "targets": {
-    "default": {
-      "publicUrl": "./"
-    }
-  }
+	"targets": {
+		"default": {
+			"publicUrl": "./"
+		}
+	}
 }
