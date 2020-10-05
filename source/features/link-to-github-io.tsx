@@ -31,6 +31,7 @@ async function initRepo(): Promise<void> {
 	const repoTitle = await elementReady('[itemprop="name"]')!;
 	repoTitle!.after(
 		<a
+			className="mr-2"
 			href={`https://${getRepositoryInfo().name!}`}
 			target="_blank"
 			rel="noopener noreferrer"
@@ -54,7 +55,8 @@ void features.add({
 	init: initRepo
 }, {
 	include: [
-		pageDetect.isUserProfileRepoTab
+		pageDetect.isUserProfileRepoTab,
+		pageDetect.isOrganizationProfile
 	],
 	init: onetime(initRepoList)
 });
