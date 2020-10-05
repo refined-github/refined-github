@@ -1,14 +1,13 @@
 {
 	"extends": "@sindresorhus/tsconfig",
 	"compilerOptions": {
-		"target": "es2019", // TODO: Set this to `es2020` when https://github.com/acornjs/acorn/pull/891 is shipped in Webpack.
+		"target": "es2020",
 		"declaration": false,
 		"esModuleInterop": true
 	},
 	"include": [
 		"source",
 		"test",
-		"octicon-svg-loader.ts",
-		"webpack.config.ts"
+		"octicon-svg-loader.ts"
 	]
 }
