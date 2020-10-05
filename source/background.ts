@@ -6,7 +6,7 @@ import './options-storage';
 
 browser.runtime.onMessage.addListener((message, {tab}) => {
 	if (Array.isArray(message?.openUrls)) {
-		for (const [i, url] of (message.openUrls).entries()) {
+		for (const [i, url] of (message.openUrls as string[]).entries()) {
 			void browser.tabs.create({
 				url,
 				index: tab!.index + i + 1,

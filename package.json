@@ -20,6 +20,10 @@
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
 		"watch:webpack": "webpack --mode=development --watch"
 	},
+	"browserslist": [
+		"last 1 Chrome versions",
+		"last 1 Firefox versions"
+	],
 	"stylelint": {
 		"extends": "stylelint-config-xo",
 		"rules": {
@@ -38,9 +42,6 @@
 	"dependencies": {
 		"@cheap-glitch/mi-cron": "^1.0.1",
 		"@parcel/transformer-svg-react": "^2.0.0-nightly.2039",
-		"parcel": "^2.0.0-nightly.415",
-		"react": "^16.13.1",
-		"react-dom": "^16.13.1",
 		"@primer/octicons": "^9.6.0",
 		"@primer/octicons-v2": "0.0.0-60ee16f",
 		"copy-text-to-clipboard": "^2.2.0",
@@ -61,6 +62,7 @@
 		"linkify-urls": "^3.1.0",
 		"mem": "6.1.0",
 		"onetime": "^5.1.2",
+		"parcel": "^2.0.0-nightly.415",
 		"select-dom": "^6.0.2",
 		"selector-observer": "^2.1.6",
 		"shorten-repo-url": "^2.0.1",
@@ -116,6 +118,15 @@
 		"webpack-cli": "^3.3.12",
 		"xo": "^0.33.0"
 	},
+	"alias": {
+		"octicon": "@primer/octicons-v2/build/svg",
+		"react": "dom-chef"
+	},
+	"targets": {
+		"default": {
+			"publicUrl": "./"
+		}
+	},
 	"webExt": {
 		"sourceDir": "distribution",
 		"run": {
@@ -125,19 +136,6 @@
 			"startUrl": [
 				"github.com"
 			]
-		}
-	},
-	"alias": {
-		"octicon": "@primer/octicons-v2/build/svg",
-		"react": "dom-chef"
-	},
-	"browserslist": [
-		"last 1 Chrome versions",
-		"last 1 Firefox versions"
-	],
-	"targets": {
-		"default": {
-			"publicUrl": "./"
 		}
 	}
 }
