@@ -55,7 +55,8 @@ async function init(): Promise<void | false> {
 void features.add({
 	id: __filebasename,
 	description: 'Adds the updated time to pinned issues.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/75525936-bb524700-5a4b-11ea-9225-466bda58b7de.png'
+	screenshot: 'https://user-images.githubusercontent.com/1402241/75525936-bb524700-5a4b-11ea-9225-466bda58b7de.png',
+	testOn: ''
 }, {
 	include: [
 		pageDetect.isRepoIssueList

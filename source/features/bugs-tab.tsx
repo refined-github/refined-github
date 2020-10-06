@@ -102,7 +102,8 @@ async function init(): Promise<void | false> {
 void features.add({
 	id: __filebasename,
 	description: 'Adds a "Bugs" tab to repos, if there are any open issues with the "bug" label.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/73720910-a688d900-4755-11ea-9c8d-70e5ddb3bfe5.png'
+	screenshot: 'https://user-images.githubusercontent.com/1402241/73720910-a688d900-4755-11ea-9c8d-70e5ddb3bfe5.png',
+	testOn: ''
 }, {
 	include: [
 		pageDetect.isRepo

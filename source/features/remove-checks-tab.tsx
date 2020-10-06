@@ -15,7 +15,8 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Hides the `Checks` tab if it’s empty, unless you’re the owner.',
-	screenshot: false
+	screenshot: false,
+	testOn: ''
 }, {
 	include: [
 		pageDetect.isPR

@@ -15,7 +15,8 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Linkifies symbolic links files.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/62036664-6d0e6880-b21c-11e9-9270-4ae30cc10de2.png'
+	screenshot: 'https://user-images.githubusercontent.com/1402241/62036664-6d0e6880-b21c-11e9-9270-4ae30cc10de2.png',
+	testOn: ''
 }, {
 	include: [
 		pageDetect.isSingleFile

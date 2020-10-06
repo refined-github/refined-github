@@ -23,7 +23,8 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Jumps to first non-viewed file in a pull request when clicking on the progress bar.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/85226580-3bf3d500-b3a6-11ea-8494-3d9b6280d033.gif'
+	screenshot: 'https://user-images.githubusercontent.com/16872793/85226580-3bf3d500-b3a6-11ea-8494-3d9b6280d033.gif',
+	testOn: ''
 }, {
 	include: [
 		pageDetect.isPRFiles

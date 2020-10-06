@@ -141,7 +141,8 @@ function init(): false | void {
 void features.add({
 	id: __filebasename,
 	description: 'Highlights the most useful comment in conversations.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/58757449-5b238880-853f-11e9-9526-e86c41a32f00.png'
+	screenshot: 'https://user-images.githubusercontent.com/1402241/58757449-5b238880-853f-11e9-9526-e86c41a32f00.png',
+	testOn: ''
 }, {
 	include: [
 		pageDetect.isIssue

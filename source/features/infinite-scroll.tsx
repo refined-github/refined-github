@@ -38,7 +38,8 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Automagically expands the newsfeed when you scroll down.',
-	screenshot: false
+	screenshot: false,
+	testOn: ''
 }, {
 	include: [
 		pageDetect.isDashboard

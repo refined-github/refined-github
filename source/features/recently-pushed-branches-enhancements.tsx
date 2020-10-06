@@ -55,7 +55,8 @@ async function init(): Promise<false | void> {
 void features.add({
 	id: __filebasename,
 	description: 'Moves the "Recently-pushed branches" widget to the header to avoid content jumps. Also adds it to more pages in the repo.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/56466173-da517700-643f-11e9-8eb5-9b20017fa613.gif'
+	screenshot: 'https://user-images.githubusercontent.com/1402241/56466173-da517700-643f-11e9-8eb5-9b20017fa613.gif',
+	testOn: ''
 }, {
 	include: [
 		pageDetect.isRepo

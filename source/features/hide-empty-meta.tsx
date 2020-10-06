@@ -13,7 +13,8 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Hides the placeholder text in repos without a description.',
-	screenshot: false
+	screenshot: false,
+	testOn: ''
 }, {
 	include: [
 		pageDetect.isRepoRoot

@@ -17,6 +17,7 @@ void features.add({
 	id: __filebasename,
 	description: 'Adds a keyboard shortcut to visit your own profile: `g` `m`.',
 	screenshot: false,
+	testOn: '',
 	shortcuts: {
 		'g m': 'Go to Profile'
 	}

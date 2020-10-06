@@ -15,7 +15,8 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Adds link to non-PR commit when visiting a PR commit.',
-	screenshot: 'https://user-images.githubusercontent.com/101152/42968387-606b23f2-8ba3-11e8-8a4b-667bddc8d33c.png'
+	screenshot: 'https://user-images.githubusercontent.com/101152/42968387-606b23f2-8ba3-11e8-8a4b-667bddc8d33c.png',
+	testOn: ''
 }, {
 	include: [
 		pageDetect.isPRCommit

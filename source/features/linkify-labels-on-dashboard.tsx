@@ -24,7 +24,8 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Makes labels clickable in the dashboard’s "Recent activity" box.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/69045444-6ef97300-0a29-11ea-99a3-9a622c395709.png'
+	screenshot: 'https://user-images.githubusercontent.com/1402241/69045444-6ef97300-0a29-11ea-99a3-9a622c395709.png',
+	testOn: ''
 }, {
 	include: [
 		pageDetect.isDashboard

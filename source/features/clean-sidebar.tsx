@@ -112,7 +112,8 @@ async function clean(): Promise<void> {
 void features.add({
 	id: __filebasename,
 	description: 'Hides empty sections (or just their "empty" label) in the conversation sidebar.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/57199809-20691780-6fb6-11e9-9672-1ad3f9e1b827.png'
+	screenshot: 'https://user-images.githubusercontent.com/1402241/57199809-20691780-6fb6-11e9-9672-1ad3f9e1b827.png',
+	testOn: ''
 }, {
 	include: [
 		pageDetect.isConversation

@@ -11,7 +11,8 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Hides inutile newsfeed events (commits, forks, new followers).',
-	screenshot: false
+	screenshot: false,
+	testOn: ''
 }, {
 	include: [
 		pageDetect.isDashboard

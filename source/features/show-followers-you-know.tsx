@@ -54,7 +54,8 @@ void features.add({
 	id: __filebasename,
 	disabled: '#3345',
 	description: 'Followers you know are shown on profile pages.',
-	screenshot: 'https://user-images.githubusercontent.com/2906365/42009293-b1503f62-7a57-11e8-88f5-9c2fb3651a14.png'
+	screenshot: 'https://user-images.githubusercontent.com/2906365/42009293-b1503f62-7a57-11e8-88f5-9c2fb3651a14.png',
+	testOn: ''
 }, {
 	include: [
 		pageDetect.isUserProfile

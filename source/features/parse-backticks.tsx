@@ -56,7 +56,8 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Renders text in `backticks` in issue titles, commit titles and more places.',
-	screenshot: 'https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png'
+	screenshot: 'https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png',
+	testOn: ''
 }, {
 	init: onetime(init)
 });

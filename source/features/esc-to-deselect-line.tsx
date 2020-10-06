@@ -26,7 +26,8 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Adds a keyboard shortcut to deselect the current line: `esc`.',
-	screenshot: false
+	screenshot: false,
+	testOn: ''
 }, {
 	include: [
 		pageDetect.hasCode

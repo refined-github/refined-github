@@ -23,7 +23,8 @@ function deinit(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Enhances the `y` hotkey to also copy the permalink.',
-	screenshot: false
+	screenshot: false,
+	testOn: ''
 }, {
 	include: [
 		pageDetect.isSingleFile

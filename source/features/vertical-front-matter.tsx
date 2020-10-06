@@ -33,7 +33,8 @@ function init(): void | false {
 void features.add({
 	id: __filebasename,
 	description: 'Show Markdown front matter as vertical table.',
-	screenshot: 'https://user-images.githubusercontent.com/44045911/87251695-26069b00-c4a0-11ea-9077-53ce366490ed.png'
+	screenshot: 'https://user-images.githubusercontent.com/44045911/87251695-26069b00-c4a0-11ea-9077-53ce366490ed.png',
+	testOn: ''
 }, {
 	include: [
 		hasFrontMatter

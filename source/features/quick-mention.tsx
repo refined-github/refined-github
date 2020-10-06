@@ -49,7 +49,8 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Adds a button to @mention a user in conversations.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/70406615-f445d580-1a73-11ea-9ab1-bf6bd9aa70a3.gif'
+	screenshot: 'https://user-images.githubusercontent.com/1402241/70406615-f445d580-1a73-11ea-9ab1-bf6bd9aa70a3.gif',
+	testOn: ''
 }, {
 	include: [
 		pageDetect.isConversation

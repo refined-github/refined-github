@@ -53,7 +53,8 @@ function init(): void | false {
 void features.add({
 	id: __filebasename,
 	description: 'Lets you create draft pull requests in one click.',
-	screenshot: 'https://user-images.githubusercontent.com/202916/67269317-cd791300-f4b6-11e9-89d1-392de7ef71e1.png'
+	screenshot: 'https://user-images.githubusercontent.com/202916/67269317-cd791300-f4b6-11e9-89d1-392de7ef71e1.png',
+	testOn: ''
 }, {
 	include: [
 		pageDetect.isCompare

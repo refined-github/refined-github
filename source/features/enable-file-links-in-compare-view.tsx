@@ -58,7 +58,8 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Points the "View file" on compare view pages to the branch instead of the commit, so the Edit/Delete buttons will be enabled on the "View file" page, if needed.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/69044026-c5b17d80-0a26-11ea-86ae-c95f89d3669a.png'
+	screenshot: 'https://user-images.githubusercontent.com/1402241/69044026-c5b17d80-0a26-11ea-86ae-c95f89d3669a.png',
+	testOn: ''
 }, {
 	include: [
 		pageDetect.isPRFiles,

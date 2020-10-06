@@ -20,7 +20,8 @@ async function init(): Promise<void> {
 void features.add({
 	id: __filebasename,
 	description: 'Enables the File Finder keyboard shortcut (`t`) on Issues and Pull Request pages as well.',
-	screenshot: false
+	screenshot: false,
+	testOn: ''
 }, {
 	include: [
 		pageDetect.isRepoConversationList,

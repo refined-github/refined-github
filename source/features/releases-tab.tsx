@@ -149,6 +149,7 @@ void features.add({
 	id: __filebasename,
 	description: 'Adds a `Releases` tab and a keyboard shortcut: `g` `r`.',
 	screenshot: 'https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png',
+	testOn: '',
 	shortcuts: {
 		'g r': 'Go to Releases'
 	}

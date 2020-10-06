@@ -140,7 +140,8 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Adds button to revert all the changes to a file in a PR.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/62826118-73b7bb00-bbe0-11e9-9449-2dd64c469bb9.gif'
+	screenshot: 'https://user-images.githubusercontent.com/1402241/62826118-73b7bb00-bbe0-11e9-9449-2dd64c469bb9.gif',
+	testOn: ''
 }, {
 	include: [
 		pageDetect.isPRFiles,

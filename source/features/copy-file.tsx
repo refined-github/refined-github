@@ -63,7 +63,8 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Adds a button to copy a file’s content.',
-	screenshot: 'https://cloud.githubusercontent.com/assets/170270/14453865/8abeaefe-00c1-11e6-8718-9406cee1dc0d.png'
+	screenshot: 'https://cloud.githubusercontent.com/assets/170270/14453865/8abeaefe-00c1-11e6-8718-9406cee1dc0d.png',
+	testOn: ''
 }, {
 	include: [
 		pageDetect.isSingleFile,

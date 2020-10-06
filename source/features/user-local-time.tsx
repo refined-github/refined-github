@@ -144,7 +144,8 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Shows the user local time in their hovercard (based on their last commit).',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/69863648-ef449180-12cf-11ea-8f36-7c92fc487f31.gif'
+	screenshot: 'https://user-images.githubusercontent.com/1402241/69863648-ef449180-12cf-11ea-8f36-7c92fc487f31.gif',
+	testOn: ''
 }, {
 	init: onetime(init)
 });

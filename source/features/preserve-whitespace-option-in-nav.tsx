@@ -14,7 +14,8 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Preserves the "ignore whitespace" setting when navigating with Next/Previous in PR review mode.',
-	screenshot: false
+	screenshot: false,
+	testOn: ''
 }, {
 	include: [
 		pageDetect.isRepo

@@ -59,7 +59,8 @@ async function init(): Promise<void> {
 void features.add({
 	id: __filebasename,
 	description: 'Marks merge commits in commit lists.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/75561016-457eb900-5a14-11ea-95e1-a89e81ee7390.png'
+	screenshot: 'https://user-images.githubusercontent.com/16872793/75561016-457eb900-5a14-11ea-95e1-a89e81ee7390.png',
+	testOn: ''
 }, {
 	include: [
 		pageDetect.isCommitList

@@ -114,7 +114,8 @@ async function init(): Promise<void | false> {
 void features.add({
 	id: __filebasename,
 	description: 'Adds a shortcut to your forks next to the `Fork` button on the current repo.',
-	screenshot: 'https://user-images.githubusercontent.com/55841/64077281-17bbf000-cccf-11e9-9123-092063f65357.png'
+	screenshot: 'https://user-images.githubusercontent.com/55841/64077281-17bbf000-cccf-11e9-9123-092063f65357.png',
+	testOn: ''
 }, {
 	include: [
 		pageDetect.isRepo

@@ -55,7 +55,8 @@ async function init(): Promise<void> {
 void features.add({
 	id: __filebasename,
 	description: 'Automatically disables projects and wikis when creating a repository.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/92803886-dc460e00-f385-11ea-8af6-d6b7a0d3bf91.png'
+	screenshot: 'https://user-images.githubusercontent.com/16872793/92803886-dc460e00-f385-11ea-8af6-d6b7a0d3bf91.png',
+	testOn: ''
 }, {
 	include: [
 		pageDetect.isNewRepo

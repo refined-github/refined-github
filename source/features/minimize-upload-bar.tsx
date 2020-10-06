@@ -33,7 +33,8 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Reduces the upload bar to a small button.',
-	screenshot: 'https://user-images.githubusercontent.com/55841/59802383-3d994180-92e9-11e9-835d-60de67611c30.png'
+	screenshot: 'https://user-images.githubusercontent.com/55841/59802383-3d994180-92e9-11e9-835d-60de67611c30.png',
+	testOn: ''
 }, {
 	include: [
 		pageDetect.hasRichTextEditor

@@ -37,7 +37,8 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Wraps selected text when pressing one of Markdown symbols instead of replacing it: (`[` `’` `"` `(` etc).',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/65020298-1f2dfb00-d957-11e9-9a2a-1c0ceab8d9e0.gif'
+	screenshot: 'https://user-images.githubusercontent.com/1402241/65020298-1f2dfb00-d957-11e9-9a2a-1c0ceab8d9e0.gif',
+	testOn: ''
 }, {
 	include: [
 		pageDetect.hasCode

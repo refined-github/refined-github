@@ -71,7 +71,8 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Makes whitespace characters visible.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/61187598-f9118380-a6a5-11e9-985a-990a7f798805.png'
+	screenshot: 'https://user-images.githubusercontent.com/1402241/61187598-f9118380-a6a5-11e9-985a-990a7f798805.png',
+	testOn: ''
 }, {
 	include: [
 		pageDetect.hasCode

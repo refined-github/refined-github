@@ -33,7 +33,8 @@ async function init(): Promise<false | void> {
 void features.add({
 	id: __filebasename,
 	description: 'Add build status and link to CI after the repo’s title.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/32562120-d65166e4-c4e8-11e7-90fb-cbaf36e2709f.png'
+	screenshot: 'https://user-images.githubusercontent.com/1402241/32562120-d65166e4-c4e8-11e7-90fb-cbaf36e2709f.png',
+	testOn: ''
 }, {
 	include: [
 		pageDetect.isRepo
