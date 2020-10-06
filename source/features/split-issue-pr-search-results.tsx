@@ -68,8 +68,7 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Separates issues from PRs in the global search.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/52181103-35a09f80-2829-11e9-9c6f-57f2e08fc5b2.png',
-	testOn: ''
+	screenshot: 'https://user-images.githubusercontent.com/1402241/52181103-35a09f80-2829-11e9-9c6f-57f2e08fc5b2.png'
 }, {
 	include: [
 		pageDetect.isRepoSearch,

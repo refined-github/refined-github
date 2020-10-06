@@ -51,8 +51,7 @@ function deinit(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Mark/unmark multiple files as “Viewed” in the PR Files tab. Click on the first checkbox you want to mark/unmark and then `shift`-click another one; all the files between the two checkboxes will be marked/unmarked as “Viewed”.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/79343285-854f2080-7f2e-11ea-8d4c-a9dc163be9be.gif',
-	testOn: ''
+	screenshot: 'https://user-images.githubusercontent.com/1402241/79343285-854f2080-7f2e-11ea-8d4c-a9dc163be9be.gif'
 }, {
 	awaitDomReady: false,
 	include: [

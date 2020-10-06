@@ -23,8 +23,7 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Stops redirecting to notification inbox from notification bar actions while holding `Alt`.',
-	screenshot: 'https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png',
-	testOn: ''
+	screenshot: 'https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png'
 }, {
 	include: [
 		hasNotificationBar

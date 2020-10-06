@@ -24,7 +24,6 @@ void features.add({
 	id: __filebasename,
 	description: 'Adds a keyboard shortcut to open selection in new tab when navigating via `j` and `k`: `Shift` `o`.',
 	screenshot: false,
-	testOn: '',
 	shortcuts: {
 		'shift o': 'Open selection in new tab'
 	}

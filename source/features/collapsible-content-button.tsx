@@ -47,8 +47,7 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Adds a button to insert collapsible content (via `<details>`).',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/53678019-0c721280-3cf4-11e9-9c24-4d11a697f67c.png',
-	testOn: ''
+	screenshot: 'https://user-images.githubusercontent.com/1402241/53678019-0c721280-3cf4-11e9-9c24-4d11a697f67c.png'
 }, {
 	include: [
 		pageDetect.hasRichTextEditor

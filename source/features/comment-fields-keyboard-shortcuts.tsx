@@ -67,7 +67,6 @@ void features.add({
 	id: __filebasename,
 	description: 'Adds shortcuts to comment fields: `↑` to edit your previous comment; `esc` to blur field or cancel comment.',
 	screenshot: false,
-	testOn: '',
 	shortcuts: {
 		'↑': 'Edit your last comment',
 		esc: 'Unfocuses comment field'

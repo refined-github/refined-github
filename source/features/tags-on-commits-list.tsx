@@ -170,8 +170,7 @@ async function init(): Promise<void | false> {
 void features.add({
 	id: __filebasename,
 	description: 'Display the corresponding tags next to commits.',
-	screenshot: 'https://user-images.githubusercontent.com/14323370/66400400-64ba7280-e9af-11e9-8d6c-07b35afde91f.png',
-	testOn: ''
+	screenshot: 'https://user-images.githubusercontent.com/14323370/66400400-64ba7280-e9af-11e9-8d6c-07b35afde91f.png'
 }, {
 	include: [
 		pageDetect.isRepoCommitList

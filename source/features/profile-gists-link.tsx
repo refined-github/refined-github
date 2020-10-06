@@ -47,8 +47,7 @@ async function init(): Promise<void> {
 void features.add({
 	id: __filebasename,
 	description: 'Adds a link to the user’s public gists on their profile.',
-	screenshot: 'https://user-images.githubusercontent.com/44045911/87950518-f7a94100-cad9-11ea-8393-609fad70635c.png',
-	testOn: ''
+	screenshot: 'https://user-images.githubusercontent.com/44045911/87950518-f7a94100-cad9-11ea-8393-609fad70635c.png'
 }, {
 	include: [
 		pageDetect.isUserProfile

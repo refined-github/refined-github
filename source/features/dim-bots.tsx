@@ -25,8 +25,7 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Dims commits and PRs by bots to reduce noise.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/65263190-44c52b00-db36-11e9-9b33-d275d3c8479d.gif',
-	testOn: ''
+	screenshot: 'https://user-images.githubusercontent.com/1402241/65263190-44c52b00-db36-11e9-9b33-d275d3c8479d.gif'
 }, {
 	include: [
 		pageDetect.isCommitList,

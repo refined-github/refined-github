@@ -120,8 +120,7 @@ async function init(): Promise<void> {
 void features.add({
 	id: __filebasename,
 	description: 'Adds Checks and Draft PR dropdown filters in PR lists.',
-	screenshot: 'https://user-images.githubusercontent.com/202916/74453250-6d9de200-4e82-11ea-8fd4-7c0de57e001a.png',
-	testOn: ''
+	screenshot: 'https://user-images.githubusercontent.com/202916/74453250-6d9de200-4e82-11ea-8fd4-7c0de57e001a.png'
 }, {
 	include: [
 		pageDetect.isPRList

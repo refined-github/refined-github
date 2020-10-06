@@ -20,7 +20,6 @@ void features.add({
 	id: __filebasename,
 	description: 'Adds a `Trending` link to the global navbar and a keyboard shortcut: `g` ` t`.',
 	screenshot: false,
-	testOn: '',
 	shortcuts: {
 		'g t': 'Go to Trending'
 	}

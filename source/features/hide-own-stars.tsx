@@ -20,8 +20,7 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Hides "starred" events for your own repos on the newsfeed.',
-	screenshot: false,
-	testOn: ''
+	screenshot: false
 }, {
 	include: [
 		pageDetect.isDashboard

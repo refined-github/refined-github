@@ -30,7 +30,6 @@ void features.add({
 	id: __filebasename,
 	description: 'Adds keyboard shortcuts to cycle through PR tabs: `g` `←` and `g` `→`, or `g` `1`, `g` `2`, `g` `3` and `g` `4`.',
 	screenshot: 'https://user-images.githubusercontent.com/16872793/94634958-7e7b5680-029f-11eb-82ea-1f96cd11e4cd.png',
-	testOn: '',
 	shortcuts: {
 		'g 1': 'Go to Conversation',
 		'g 2': 'Go to Commits',

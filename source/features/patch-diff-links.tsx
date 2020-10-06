@@ -24,8 +24,7 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Adds links to `.patch` and `.diff` files in commits.',
-	screenshot: 'https://cloud.githubusercontent.com/assets/737065/13605562/22faa79e-e516-11e5-80db-2da6aa7965ac.png',
-	testOn: ''
+	screenshot: 'https://cloud.githubusercontent.com/assets/737065/13605562/22faa79e-e516-11e5-80db-2da6aa7965ac.png'
 }, {
 	include: [
 		pageDetect.isCommit

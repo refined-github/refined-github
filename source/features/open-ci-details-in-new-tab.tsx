@@ -14,8 +14,7 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Opens the Checks "details" link in a new tab.',
-	screenshot: false,
-	testOn: ''
+	screenshot: false
 }, {
 	include: [
 		pageDetect.isPR

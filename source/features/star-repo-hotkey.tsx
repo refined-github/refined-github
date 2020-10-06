@@ -14,7 +14,6 @@ void features.add({
 	id: __filebasename,
 	description: 'Adds a keyboard shortcut to star/unstar the current repo: `g` `s`.',
 	screenshot: false,
-	testOn: '',
 	shortcuts: {
 		'g s': 'Star and unstar repository'
 	}

@@ -67,8 +67,7 @@ function init(): false | void {
 void features.add({
 	id: __filebasename,
 	description: 'Enhances files’ commit lists navigation to follow file renames.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/54799957-7306a280-4c9a-11e9-86de-b9764ed93397.png',
-	testOn: ''
+	screenshot: 'https://user-images.githubusercontent.com/1402241/54799957-7306a280-4c9a-11e9-86de-b9764ed93397.png'
 }, {
 	include: [
 		pageDetect.isRepoCommitList

@@ -21,8 +21,7 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Moves the `Edit comment` button out of the `...` dropdown.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/54864831-92372a00-4d97-11e9-8c29-efba2dde1baa.png',
-	testOn: ''
+	screenshot: 'https://user-images.githubusercontent.com/1402241/54864831-92372a00-4d97-11e9-8c29-efba2dde1baa.png'
 }, {
 	include: [
 		pageDetect.hasComments

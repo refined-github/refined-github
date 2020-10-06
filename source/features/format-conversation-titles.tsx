@@ -17,8 +17,7 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Make issue/PR references in issue/PR titles clickable and parse `code in backticks` that appear as Markdown',
-	screenshot: 'https://user-images.githubusercontent.com/22439276/58927232-71ae2780-876b-11e9-941e-bb56a7389123.png',
-	testOn: ''
+	screenshot: 'https://user-images.githubusercontent.com/22439276/58927232-71ae2780-876b-11e9-941e-bb56a7389123.png'
 }, {
 	include: [
 		pageDetect.isPR,

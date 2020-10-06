@@ -37,8 +37,7 @@ const init = (): void => {
 void features.add({
 	id: __filebasename,
 	description: 'Preview hidden comments inline.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/52545036-6e271700-2def-11e9-8c0c-b5e0fa6f37dd.png',
-	testOn: ''
+	screenshot: 'https://user-images.githubusercontent.com/1402241/52545036-6e271700-2def-11e9-8c0c-b5e0fa6f37dd.png'
 }, {
 	include: [
 		pageDetect.hasComments

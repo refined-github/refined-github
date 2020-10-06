@@ -55,8 +55,7 @@ function initPR(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Remove duplicate information in conversation headers.',
-	screenshot: 'https://user-images.githubusercontent.com/44045911/89736767-686ec800-da9e-11ea-81c3-252e9813140b.png',
-	testOn: ''
+	screenshot: 'https://user-images.githubusercontent.com/44045911/89736767-686ec800-da9e-11ea-81c3-252e9813140b.png'
 }, {
 	include: [
 		pageDetect.isIssue

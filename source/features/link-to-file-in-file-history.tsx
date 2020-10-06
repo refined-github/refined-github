@@ -32,8 +32,7 @@ function init(): void | false {
 void features.add({
 	id: __filebasename,
 	description: 'Adds links to the file itself in a file’s commit list.',
-	screenshot: 'https://user-images.githubusercontent.com/22439276/57195061-b88ddf00-6f6b-11e9-8ad9-13225d09266d.png',
-	testOn: ''
+	screenshot: 'https://user-images.githubusercontent.com/22439276/57195061-b88ddf00-6f6b-11e9-8ad9-13225d09266d.png'
 }, {
 	include: [
 		pageDetect.isRepoCommitList

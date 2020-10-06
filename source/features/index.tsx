@@ -24,7 +24,6 @@ interface FeatureMeta {
 	id: FeatureID;
 	description: string;
 	screenshot: string | false;
-	testOn: string | false;
 	shortcuts?: FeatureShortcuts;
 }
 

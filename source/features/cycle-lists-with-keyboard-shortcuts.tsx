@@ -55,8 +55,7 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Allows the `↑` and `↓` keys to cycle "popover lists" (labels, milestones, etc).',
-	screenshot: 'https://user-images.githubusercontent.com/37769974/59158786-6fd2c400-8add-11e9-9db1-db80186fa6ea.gif',
-	testOn: ''
+	screenshot: 'https://user-images.githubusercontent.com/37769974/59158786-6fd2c400-8add-11e9-9db1-db80186fa6ea.gif'
 }, {
 	include: [
 		pageDetect.isPRConversation,

@@ -72,8 +72,8 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Adds comment indicators when comments are hidden in PR review.',
-	screenshot:	'https://user-images.githubusercontent.com/1402241/63112671-011d5580-bfbb-11e9-9e19-53e11641990e.gif',
-	testOn: ''
+	screenshot:
+		'https://user-images.githubusercontent.com/1402241/63112671-011d5580-bfbb-11e9-9e19-53e11641990e.gif'
 }, {
 	include: [
 		pageDetect.isPRFiles,

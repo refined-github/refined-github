@@ -23,8 +23,7 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Automatically deletes the branch right after merging a PR, if possible.',
-	screenshot: false,
-	testOn: ''
+	screenshot: false
 }, {
 	include: [
 		pageDetect.isPRConversation
