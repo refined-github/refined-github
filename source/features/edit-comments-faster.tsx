@@ -1,21 +1,29 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import onetime from 'onetime';
+import {observe} from 'selector-observer';
 import PencilIcon from 'octicon/pencil.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
 function init(): void {
-	const menuItems = select.all('details .js-comment-edit-button:not(.rgh-edit-comment)');
+	// Find editable comments first, then traverse to the correct position
+	observe('.js-comment .js-comment-update:not(.rgh-edit-comment)', {
+		add(comment) {
+			comment.classList.add('rgh-edit-comment');
 
-	for (const item of menuItems) {
-		item.classList.add('rgh-edit-comment');
-
-		const button = item.cloneNode();
-		button.append(<PencilIcon/>);
-		button.classList.replace('dropdown-item', 'timeline-comment-action');
-		item.closest('details')!.before(button);
-	}
+			comment.closest('.js-comment')!.querySelector('.js-comment-header-reaction-button')!.after(
+				<button
+					type="button"
+					role="menuitem"
+					className="timeline-comment-action btn-link js-comment-edit-button"
+					aria-label="Edit comment"
+				>
+					<PencilIcon/>
+				</button>
+			);
+		}
+	});
 }
 
 void features.add({
@@ -26,5 +34,5 @@ void features.add({
 	include: [
 		pageDetect.hasComments
 	],
-	init
+	init: onetime(init)
 });
