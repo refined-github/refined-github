@@ -9,13 +9,13 @@ import features from '.';
 
 function init(): void {
 	const labelClass = [
-		'.js-recent-activity-container :not(a) > .IssueLabel:not(.rgh-linkfied-label)', // Recent activity
-		'.js-all-activity-header + div :not(a) > .IssueLabel:not(.rgh-linkfied-label)' // Newsfeed
+		'.js-recent-activity-container :not(a) > .IssueLabel', // Recent activity
+		'.js-all-activity-header + div :not(a) > .IssueLabel' // Newsfeed
 	].join();
 	observe(labelClass, {
 		add(label) {
-			label.classList.add('rgh-linkfied-label');
-			const activity = label.closest('li')! ?? label.parentElement; // Newsfeed
+			// A rgh class is not needed since we already check for `not(a)` https://github.com/sindresorhus/refined-github/pull/3625#discussion_r501309853
+			const activity = label.closest('li') ?? label.parentElement!; // Newsfeed
 			const isPR = select.exists('.octicon-git-pull-request', activity);
 			const repository = select<HTMLAnchorElement>('a[data-hovercard-type="repository"]', activity)!;
 			const url = new URL(`${repository.href}/${isPR ? 'pulls' : 'issues'}`);
