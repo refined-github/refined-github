@@ -26,7 +26,7 @@ import './features/align-repository-header.css';
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
 
-import './features/review-assignee-shortcut';
+import './features/assign-reviewer-shortcut';
 import './features/useful-not-found-page';
 import './features/trending-menu-item';
 import './features/hide-useless-newsfeed-events';

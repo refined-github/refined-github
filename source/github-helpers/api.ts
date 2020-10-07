@@ -149,15 +149,8 @@ export const v3paginated = async function * (
 	}
 };
 
-export const v4 = mem(async (
-	query: string,
-	options: GHGraphQLApiOptions = v4defaults
-): Promise<AnyObject> => {
+const graphqlCall = async (body: AnyObject, options: GHGraphQLApiOptions = v4defaults): Promise<AnyObject> => {
 	const personalToken = await expectToken();
-
-	if (/^(query )?{/.test(query.trimStart())) {
-		throw new TypeError('`query` should only be what’s inside \'query {...}\', like \'user(login: "foo") { name }\', but is \n' + query);
-	}
 
 	const response = await fetch(api4, {
 		headers: {
@@ -165,7 +158,7 @@ export const v4 = mem(async (
 			Authorization: `bearer ${personalToken}`
 		},
 		method: 'POST',
-		body: JSON.stringify({query: `{${query}}`})
+		body: JSON.stringify(body)
 	});
 
 	const apiResponse: GraphQLResponse = await response.json();
@@ -184,43 +177,28 @@ export const v4 = mem(async (
 	}
 
 	throw await getError(apiResponse as JsonObject);
+};
+
+export const v4 = mem(async (
+	query: string,
+	options: GHGraphQLApiOptions = v4defaults
+): Promise<AnyObject> => {
+	if (/^(query )?{/.test(query.trimStart())) {
+		throw new TypeError('`query` should only be what’s inside \'query {...}\', like \'user(login: "foo") { name }\', but is \n' + query);
+	}
+
+	return graphqlCall({query: `{${query}}`}, options);
 }, {
 	cacheKey: JSON.stringify
 });
 
 export const v4mutation = async (mutation: string, options: GHGraphQLApiOptions = v4defaults): Promise<AnyObject> => {
-	const personalToken = await expectToken();
-
 	if (/^(mutation )?{/.test(mutation.trimStart())) {
-		throw new TypeError('`mutation` should only be what’s inside \'mutation {...}\', like \'user(login: "foo") { name }\', but is \n' + mutation);
+		throw new TypeError('`mutation` should only be what’s inside \'mutation {...}\', like \'addReaction(input:{subjectId:"foo",content:HOORAY}) { ... }\', but is \n' + mutation);
 	}
 
-	const response = await fetch(api4, {
-		headers: {
-			'User-Agent': 'Refined GitHub',
-			Authorization: `bearer ${personalToken}`
-		},
-		method: 'POST',
-		body: JSON.stringify({query: `mutation {${mutation}}`})
-	});
-
-	const apiResponse: GraphQLResponse = await response.json();
-
-	const {
-		data = {},
-		errors = []
-	} = apiResponse;
-
-	if (errors.length > 0 && !options.allowErrors) {
-		throw new RefinedGitHubAPIError('GraphQL:', ...errors.map(error => error.message));
-	}
-
-	if (response.ok) {
-		return data;
-	}
-
-	throw await getError(apiResponse as JsonObject);
-}
+	return graphqlCall({query: `mutation {${mutation}}`}, options);
+};
 
 export async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError> {
 	const {personalToken} = await settings;
