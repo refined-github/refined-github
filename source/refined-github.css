@@ -23,7 +23,8 @@
 }
 
 #js-issues-toolbar .table-list-header-toggle summary {
-	padding: 0 8px !important;
+	padding-left: 8px !important;
+	padding-right: 8px !important;
 }
 
 #js-issues-toolbar .table-list-header-toggle > :last-child > summary {

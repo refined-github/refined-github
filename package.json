@@ -36,6 +36,7 @@
 		]
 	},
 	"dependencies": {
+		"@cheap-glitch/mi-cron": "^1.0.1",
 		"@primer/octicons": "^9.6.0",
 		"@primer/octicons-v2": "0.0.0-60ee16f",
 		"copy-text-to-clipboard": "^2.2.0",

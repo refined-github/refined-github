@@ -1,0 +1,23 @@
+:root .rgh-table-input {
+	width: 108px;
+	padding: 3px;
+	z-index: 99;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+:root .rgh-table-input-cell {
+	padding: 1px;
+}
+
+.rgh-table-input-cell div {
+	width: 18px;
+	height: 18px;
+	border: 2px solid #d1d5da;
+	border-radius: 2px;
+}
+
+.rgh-table-input:hover .selected div {
+	border-color: #79b8ff;
+	background-color: #dbedff;
+}
