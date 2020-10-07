@@ -40,6 +40,6 @@ void features.add({
 	include: [
 		pageDetect.isGlobalConversationList
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: onetime(cleanBar)
 });

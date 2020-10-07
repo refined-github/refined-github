@@ -51,6 +51,6 @@ void features.add({
 	include: [
 		pageDetect.isPRCommit
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init
 });

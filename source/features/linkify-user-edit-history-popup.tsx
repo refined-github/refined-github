@@ -26,8 +26,7 @@ void features.add({
 	screenshot: 'https://user-images.githubusercontent.com/1402241/88917988-9ebb7480-d260-11ea-8690-0a3440f1ebbc.png'
 }, {
 	include: [
-		pageDetect.isIssue,
-		pageDetect.isPRConversation
+		pageDetect.isConversation
 	],
 	init: onetime(init)
 });

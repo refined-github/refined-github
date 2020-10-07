@@ -6,7 +6,7 @@ on:
     # You can manually trigger a deployment on GitHub.com
     # https://github.blog/changelog/2020-07-06-github-actions-manual-triggers-with-workflow_dispatch/
   schedule:
-    - cron: '42 13 * * */4'
+    - cron: '42 17 * * 4'
 
 jobs:
 
@@ -17,9 +17,16 @@ jobs:
       created: ${{ steps.daily-version.outputs.created }}
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 20
       - uses: fregante/daily-version-action@v1
         name: Create tag if necessary
         id: daily-version
+      - uses: notlmn/release-with-changelog@v2
+        with:
+          include-range: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+          exclude: '^Meta|^Document|^Readme|^Lint|^Update.+dependencies'
 
   Build:
     needs: Version

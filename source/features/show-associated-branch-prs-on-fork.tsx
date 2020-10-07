@@ -1,13 +1,13 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import select from 'select-dom';
+import onetime from 'onetime';
+import {observe} from 'selector-observer';
 import MergeIcon from 'octicon/git-merge.svg';
 import * as pageDetect from 'github-url-detection';
 import PullRequestIcon from 'octicon/git-pull-request.svg';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import observeElement from '../helpers/simplified-element-observer';
 import {getRepoGQL, getRepoURL, upperCaseFirst} from '../github-helpers';
 
 interface PullRequest {
@@ -54,12 +54,8 @@ const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Rec
 
 	return pullRequests;
 }, {
-	maxAge: {
-		hours: 1
-	},
-	staleWhileRevalidate: {
-		days: 4
-	},
+	maxAge: {hours: 1},
+	staleWhileRevalidate: {days: 4},
 	cacheKey: () => 'associatedBranchPullRequests:' + getRepoURL()
 });
 
@@ -73,33 +69,35 @@ const stateClass: Record<string, string> = {
 async function init(): Promise<void> {
 	const associatedPullRequests = await getPullRequestsAssociatedWithBranch();
 
-	for (const branchCompareLink of select.all('.test-compare-link')) {
-		const branchName = branchCompareLink.closest('[branch]')!.getAttribute('branch')!;
-		const prInfo = associatedPullRequests[branchName];
-		if (prInfo) {
-			const StateIcon = prInfo.state === 'Merged' ? MergeIcon : PullRequestIcon;
+	observe('.test-compare-link', {
+		add(branchCompareLink) {
+			const branchName = branchCompareLink.closest('[branch]')!.getAttribute('branch')!;
+			const prInfo = associatedPullRequests[branchName];
+			if (prInfo) {
+				const StateIcon = prInfo.state === 'Merged' ? MergeIcon : PullRequestIcon;
 
-			branchCompareLink.replaceWith(
-				<div className="d-inline-block text-right ml-3">
-					<a
-						data-issue-and-pr-hovercards-enabled
-						href={prInfo.url}
-						className="muted-link"
-						data-hovercard-type="pull_request"
-						data-hovercard-url={prInfo.url + '/hovercard'}
-					>
-						#{prInfo.number}{' '}
-					</a>
-					<a
-						className={`State State${stateClass[prInfo.state]} State--small ml-1 no-underline`}
-						title={`Status: ${prInfo.state}`}
-						href={prInfo.url}
-					>
-						<StateIcon width={10} height={14}/> {prInfo.state}
-					</a>
-				</div>);
+				branchCompareLink.replaceWith(
+					<div className="d-inline-block text-right ml-3">
+						<a
+							data-issue-and-pr-hovercards-enabled
+							href={prInfo.url}
+							className="muted-link"
+							data-hovercard-type="pull_request"
+							data-hovercard-url={prInfo.url + '/hovercard'}
+						>
+							#{prInfo.number}{' '}
+						</a>
+						<a
+							className={`State State${stateClass[prInfo.state]} State--small ml-1 no-underline`}
+							title={`Status: ${prInfo.state}`}
+							href={prInfo.url}
+						>
+							<StateIcon width={10} height={14}/> {prInfo.state}
+						</a>
+					</div>);
+			}
 		}
-	}
+	});
 }
 
 void features.add({
@@ -113,10 +111,6 @@ void features.add({
 	exclude: [
 		() => !pageDetect.isForkedRepo()
 	],
-	init() {
-		observeElement([
-			'[data-target="branch-filter-controller.results"]', // Pre "Repository refresh" layout
-			'[data-target="branch-filter.result"]'
-		].join(), init);
-	}
+	awaitDomReady: false,
+	init: onetime(init)
 });

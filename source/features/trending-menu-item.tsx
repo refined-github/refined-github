@@ -18,7 +18,7 @@ async function init(): Promise<false | void> {
 
 void features.add({
 	id: __filebasename,
-	description: 'Adds a `Trending` link to the global navbar and a keyboard shortcut: `g` ` t`',
+	description: 'Adds a `Trending` link to the global navbar and a keyboard shortcut: `g` ` t`.',
 	screenshot: false,
 	shortcuts: {
 		'g t': 'Go to Trending'
@@ -27,6 +27,6 @@ void features.add({
 	exclude: [
 		pageDetect.isGist
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: onetime(init)
 });

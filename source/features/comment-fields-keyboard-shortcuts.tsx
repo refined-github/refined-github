@@ -75,6 +75,6 @@ void features.add({
 	include: [
 		pageDetect.hasRichTextEditor
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: onetime(init)
 });

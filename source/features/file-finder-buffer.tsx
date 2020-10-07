@@ -8,8 +8,9 @@ import features from '.';
 const getBufferField = onetime((): HTMLInputElement => (
 	<input
 		type="text"
-		className="form-control tree-finder-input p-0 ml-1 border-0"
-		style={{marginTop: '-0.19em'}}
+		className="p-0 border-0"
+		style={{backgroundColor: 'transparent', outline: 0}}
+		placeholder="Search file…"
 	/> as unknown as HTMLInputElement
 ));
 
@@ -25,11 +26,13 @@ function pjaxStartHandler(event: CustomEvent): void {
 	const repoName = select('.pagehead h1 strong, [itemprop="name"]')!;
 	repoName.classList.remove('mr-2');
 	repoName.after(
-		<span className="path-divider flex-self-stretch">/</span>,
+		<span className="mx-1 flex-self-stretch">/</span>,
 		<span className="flex-self-stretch mr-2">{bufferField}</span>
 	);
 	bufferField.focus();
-	select('.pagehead-actions')!.remove();
+	for (const element of select.all('.pagehead-actions, .rgh-ci-link, .octotree-bookmark-btn')) {
+		element.remove();
+	}
 }
 
 function pjaxCompleteHandler(): void {
@@ -56,6 +59,6 @@ void features.add({
 	include: [
 		pageDetect.isRepo
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: onetime(init)
 });

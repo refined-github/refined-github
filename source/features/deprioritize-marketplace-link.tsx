@@ -30,6 +30,6 @@ void features.add({
 	exclude: [
 		pageDetect.isGist
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: onetime(init)
 });

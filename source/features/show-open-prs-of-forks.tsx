@@ -41,12 +41,8 @@ const countPRs = cache.function(async (forkedRepo: string): Promise<[prCount: nu
 
 	return [prs.length];
 }, {
-	maxAge: {
-		hours: 1
-	},
-	staleWhileRevalidate: {
-		days: 2
-	},
+	maxAge: {hours: 1},
+	staleWhileRevalidate: {days: 2},
 	cacheKey: ([forkedRepo]): string => 'prs-on-forked-repo:' + forkedRepo + ':' + getRepoURL()
 });
 
@@ -104,7 +100,7 @@ void features.add({
 	exclude: [
 		() => !pageDetect.isForkedRepo()
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: initHeadHint
 }, {
 	include: [
@@ -113,6 +109,6 @@ void features.add({
 	exclude: [
 		() => !pageDetect.isForkedRepo()
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: initDeleteHint
 });

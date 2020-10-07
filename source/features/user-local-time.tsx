@@ -2,6 +2,7 @@
 
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
+import delay from 'delay';
 import select from 'select-dom';
 import onetime from 'onetime';
 import ClockIcon from 'octicon/clock.svg';
@@ -16,10 +17,9 @@ interface Commit {
 	sha: string;
 }
 
-const timeFormatter = new Intl.DateTimeFormat('en-GB', {
+const timeFormatter = new Intl.DateTimeFormat(undefined, {
 	hour: 'numeric',
-	minute: 'numeric',
-	hour12: false
+	minute: 'numeric'
 });
 
 async function loadCommitPatch(commitUrl: string): Promise<string> {
@@ -69,12 +69,8 @@ const getLastCommitDate = cache.function(async (login: string): Promise<string |
 
 	return false;
 }, {
-	maxAge: {
-		days: 10
-	},
-	staleWhileRevalidate: {
-		days: 20
-	},
+	maxAge: {days: 10},
+	staleWhileRevalidate: {days: 20},
 	cacheKey: ([login]) => __filebasename + ':' + login
 });
 
@@ -102,6 +98,13 @@ function init(): void {
 			return;
 		}
 
+		const datePromise = getLastCommitDate(login);
+		const race = await Promise.race([delay(300), datePromise]);
+		if (race === false) {
+			// The timezone was undeterminable and this resolved "immediately" (or was cached), so don't add the icon at all
+			return;
+		}
+
 		const placeholder = <span>Guessing local time…</span>;
 		const container = (
 			<div className="rgh-local-user-time mt-2 text-gray text-small">
@@ -123,9 +126,9 @@ function init(): void {
 			}
 		}
 
-		const date = await getLastCommitDate(login);
+		const date = await datePromise;
 		if (!date) {
-			placeholder.textContent = 'Not found';
+			placeholder.textContent = 'Timezone unknown';
 			container.title = 'Timezone couldn’t be determined from their last commits';
 			return;
 		}

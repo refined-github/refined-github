@@ -28,6 +28,6 @@ void features.add({
 	include: [
 		hasNotificationBar
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: onetime(init)
 });
