@@ -54,6 +54,10 @@ async function init(): Promise<false | void> {
 	}
 
 	for (const workflowListItem of select.all('[href*="?query"]', await elementReady('.hx_actions-sidebar'))) {
+		if (select('svg', workflowListItem)?.classList.contains('octicon-stop')) {
+			continue;
+		}
+
 		const workflowName = workflowListItem.textContent!.trim();
 		if (!(workflowName in workflows)) {
 			continue;
