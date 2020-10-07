@@ -8,13 +8,13 @@ import {wrap} from '../helpers/dom-utils';
 import features from '.';
 
 function init(): void {
+	// A `:not(.rgh)` selector is not needed since we already check for `not(a)` #3625
 	const labelClass = [
 		'.js-recent-activity-container :not(a) > .IssueLabel', // Recent activity
 		'.js-all-activity-header + div :not(a) > .IssueLabel' // Newsfeed
 	].join();
 	observe(labelClass, {
 		add(label) {
-			// A rgh class is not needed since we already check for `not(a)` https://github.com/sindresorhus/refined-github/pull/3625#discussion_r501309853
 			const activity = label.closest('li, div:not([class])')!; // `div` is for the Newsfeed
 			const isPR = select.exists('.octicon-git-pull-request', activity);
 			const repository = select<HTMLAnchorElement>('a[data-hovercard-type="repository"]', activity)!;
@@ -28,7 +28,7 @@ function init(): void {
 
 void features.add({
 	id: __filebasename,
-	description: 'Makes labels clickable in the dashboard’s "Recent activity" box and newsfeed.',
+	description: 'Makes labels clickable on the dashboard.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/69045444-6ef97300-0a29-11ea-99a3-9a622c395709.png'
 }, {
 	include: [
