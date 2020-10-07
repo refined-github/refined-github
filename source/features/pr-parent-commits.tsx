@@ -62,6 +62,6 @@ void features.add({
 	exclude: [
 		pageDetect.isPRCommit404
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init
 });
