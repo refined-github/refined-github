@@ -54,7 +54,7 @@ async function init(): Promise<false | void> {
 	}
 
 	for (const workflowListItem of select.all('[href*="?query"]', await elementReady('.hx_actions-sidebar'))) {
-		if (select.exists('.octicon-stop')) {
+		if (select.exists('.octicon-stop', workflowListItem)) {
 			continue;
 		}
 
