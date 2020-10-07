@@ -9,11 +9,12 @@ import features from '.';
 
 function init(): void {
 	const labelClass = [
-		'.js-recent-activity-container :not(a) > .IssueLabel', // Recent activity
-		'.js-all-activity-header + div :not(a) > .IssueLabel' // Newsfeed
+		'.js-recent-activity-container :not(a) > .IssueLabel:not(.rgh-linkfied-label)', // Recent activity
+		'.js-all-activity-header + div :not(a) > .IssueLabel:not(.rgh-linkfied-label)' // Newsfeed
 	].join();
 	observe(labelClass, {
 		add(label) {
+			label.classList.add('rgh-linkfied-label');
 			const activity = label.closest('li')! ?? label.parentElement; // Newsfeed
 			const isPR = select.exists('.octicon-git-pull-request', activity);
 			const repository = select<HTMLAnchorElement>('a[data-hovercard-type="repository"]', activity)!;
