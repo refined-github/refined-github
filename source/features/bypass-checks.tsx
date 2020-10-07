@@ -1,19 +1,20 @@
+import mem from 'mem';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import fetchDom from '../helpers/fetch-dom';
+import * as api from '../github-helpers/api';
+import {getRepositoryInfo} from '../github-helpers';
+
+const getDirectLink = mem(async (runNumber: number): Promise<string> => {
+	const directLink = await api.v3(`https://api.github.com/repos/${getRepositoryInfo()!.owner!}/${getRepositoryInfo()!.name!}/check-runs/${runNumber}`);
+	return directLink.details_url;
+});
 
 async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
-	const directLink = await fetchDom<HTMLAnchorElement>(
-		detailsLink.href,
-		'[data-hydro-click*="check_suite.external_click"]'
-	);
-
-	if (directLink) {
-		detailsLink.href = directLink.href;
-	}
+	const runNumber = detailsLink.href.split(/\/|=/).pop();
+	detailsLink.href = await getDirectLink(Number(runNumber));
 }
 
 function init(): void {
