@@ -32,7 +32,7 @@ async function init(): Promise<void> {
 	const commitSha = location.pathname.split('/').pop()!;
 	const parents = await getCommitParents(commitSha);
 	const shaBlock = await elementReady('.sha-block');
-	shaBlock!.before(
+	shaBlock!.parentElement!.prepend(
 		<span className="sha-block ml-0">
 			{pluralize(parents.length, '1 Parent ', '$$ Parents ')}
 			{parents.map((parent, index) => (
