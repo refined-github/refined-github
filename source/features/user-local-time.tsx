@@ -17,10 +17,9 @@ interface Commit {
 	sha: string;
 }
 
-const timeFormatter = new Intl.DateTimeFormat('en-GB', {
+const timeFormatter = new Intl.DateTimeFormat(undefined, {
 	hour: 'numeric',
-	minute: 'numeric',
-	hour12: false
+	minute: 'numeric'
 });
 
 async function loadCommitPatch(commitUrl: string): Promise<string> {
