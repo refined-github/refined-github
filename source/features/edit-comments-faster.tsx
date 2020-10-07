@@ -7,11 +7,11 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function init(): void {
-	observe('.js-comment-update:not(.rgh-edit-comment)', {
+	observe('.js-comment .js-comment-update:not(.rgh-edit-comment)', {
 		add(comment) {
 			comment.classList.add('rgh-edit-comment');
 
-			comment.closest('.js-comment')?.querySelector('.js-comment-header-reaction-button')?.after(
+			comment.closest('.js-comment')!.querySelector('.js-comment-header-reaction-button')!.after(
 				<button type="button" role="menuitem" className="timeline-comment-action btn-link js-comment-edit-button" aria-label="Edit comment">
 					<PencilIcon/>
 				</button>
