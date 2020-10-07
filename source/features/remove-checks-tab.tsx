@@ -14,7 +14,7 @@ function init(): void {
 
 void features.add({
 	id: __filebasename,
-	description: 'Hides the `Checks` tab if it’s empty, unless you’re the owner.',
+	description: 'Hides the PR `Checks` tab if it’s empty, unless you’re the owner.',
 	screenshot: false
 }, {
 	include: [
