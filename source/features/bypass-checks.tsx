@@ -5,10 +5,10 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepositoryInfo} from '../github-helpers';
+import {getRepoURL} from '../github-helpers';
 
 const getDirectLink = mem(async (runNumber: number): Promise<string> => {
-	const directLink = await api.v3(`https://api.github.com/repos/${getRepositoryInfo()!.owner!}/${getRepositoryInfo()!.name!}/check-runs/${runNumber}`);
+	const directLink = await api.v3(`https://api.github.com/repos/${getRepoURL()}/check-runs/${runNumber}`);
 	return directLink.details_url;
 });
 
