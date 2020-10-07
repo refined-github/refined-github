@@ -2,9 +2,9 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import select from 'select-dom';
 import elementReady from 'element-ready';
+
 import features from '.';
 import onReplacedElement from '../helpers/on-replaced-element';
-
 import './assign-reviewer-shortcut.css';
 import {getConversationNumber, getRepoGQL} from '../github-helpers';
 import * as api from '../github-helpers/api';
@@ -69,11 +69,12 @@ async function getPrInfo(): Promise<PrInfo> {
 
 async function addSidebarAutoAssignButton(): Promise<void | false> {
 	const sidebarReviewsSection = await elementReady('[aria-label="Select reviewers"]');
-	if (select.exists(".rgh-auto-assign-link", sidebarReviewsSection)) {
+	if (select.exists('.rgh-auto-assign-link', sidebarReviewsSection)) {
 		return false;
 	}
-        // Only add the button if you have the ability to request reviews.
-	if (!select.exists("#reviewers-select-menu", sidebarReviewsSection)) {
+
+	// Only add the button if you have the ability to request reviews.
+	if (!select.exists('#reviewers-select-menu', sidebarReviewsSection)) {
 		return false;
 	}
 
@@ -107,13 +108,15 @@ class AssigneeDiff {
 }
 
 async function handleAssigning(): Promise<void> {
-  const diff = await diffAssignees();
-  if (diff.isEmpty()) {
-    return;
-  }
-  const toAdd = JSON.stringify([...diff.toAdd]);
-  const toRemove = JSON.stringify([...diff.toRemove]);
-  await api.v4mutation(`
+	const diff = await diffAssignees();
+
+	if (diff.isEmpty()) {
+		return;
+	}
+
+	const toAdd = JSON.stringify([...diff.toAdd]);
+	const toRemove = JSON.stringify([...diff.toRemove]);
+	await api.v4mutation(`
                        addAssigneesToAssignable(input: {assignableId: "${diff.pullRequestId}", assigneeIds: ${toAdd}}) {
                          clientMutationId
                        }
