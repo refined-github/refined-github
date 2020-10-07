@@ -15,7 +15,7 @@ function init(): void {
 	observe(labelClass, {
 		add(label) {
 			// A rgh class is not needed since we already check for `not(a)` https://github.com/sindresorhus/refined-github/pull/3625#discussion_r501309853
-			const activity = label.closest('li, div:not([class])')!;
+			const activity = label.closest('li, div:not([class])')!; // `div` is for the Newsfeed
 			const isPR = select.exists('.octicon-git-pull-request', activity);
 			const repository = select<HTMLAnchorElement>('a[data-hovercard-type="repository"]', activity)!;
 			const url = new URL(`${repository.href}/${isPR ? 'pulls' : 'issues'}`);
