@@ -72,6 +72,11 @@ async function addSidebarAutoAssignButton(): Promise<void | false> {
 	if (select.exists(".rgh-auto-assign-link", sidebarReviewsSection)) {
 		return false;
 	}
+        // Only add the button if you have the ability to request reviews.
+	if (!select.exists("#reviewers-select-menu", sidebarReviewsSection)) {
+		return false;
+	}
+
 	sidebarReviewsSection!.insertAdjacentElement('afterend', <p><a aria-label="Auto assign reviewers to this pull request" className="rgh-auto-assign-link btn-link tooltipped tooltipped-nw" onClick={handleAssigning}>Auto-Assign</a></p>);
 }
 
@@ -121,7 +126,7 @@ async function handleAssigning(): Promise<void> {
 void features.add({
 	id: __filebasename,
 	description: 'Add a button to assign requested reviewers to a pull request.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/58238638-3cbcd080-7d7a-11e9-80f6-be6c0520cfed.jpg'
+	screenshot: 'https://user-images.githubusercontent.com/8669100/95346634-b0814f80-0881-11eb-931c-9947cfa38d2f.png'
 }, {
 	include: [
 		pageDetect.isPRConversation
