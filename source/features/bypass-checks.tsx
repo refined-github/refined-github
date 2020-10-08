@@ -14,7 +14,7 @@ const getDirectLink = mem(async (runNumber: number): Promise<string> => {
 
 async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
 	const runId = new URLSearchParams(detailsLink).get('check_run_id') ?? detailsLink.pathname.split('/').pop();
-	detailsLink.href = await getDirectLink(Number(runNumber));
+	detailsLink.href = await getDirectLink(Number(runId));
 }
 
 function init(): void {
