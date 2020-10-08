@@ -8,7 +8,7 @@ import * as api from '../github-helpers/api';
 import {getRepoURL} from '../github-helpers';
 
 const getDirectLink = mem(async (runNumber: number): Promise<string> => {
-	const directLink = await api.v3(`https://api.github.com/repos/${getRepoURL()}/check-runs/${runNumber}`);
+	const directLink = await api.v3(`repos/${getRepoURL()}/check-runs/${runNumber}`);
 	return directLink.details_url;
 });
 
