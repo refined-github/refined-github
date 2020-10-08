@@ -1,4 +1,3 @@
-import mem from 'mem';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
@@ -7,14 +6,10 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import {getRepoURL} from '../github-helpers';
 
-const getDirectLink = mem(async (runId: number): Promise<string> => {
-	const directLink = await api.v3(`repos/${getRepoURL()}/check-runs/${runId}`);
-	return directLink.details_url;
-});
-
 async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
-	const runId = new URLSearchParams(detailsLink.href).get('check_run_id') ?? detailsLink.pathname.split('/').pop();
-	detailsLink.href = await getDirectLink(Number(runId));
+	const runId = new URLSearchParams(detailsLink.search).get('check_run_id') ?? detailsLink.pathname.split('/').pop();
+	const directLink = await api.v3(`repos/${getRepoURL()}/check-runs/${Number(runId)}`);
+	detailsLink.href = directLink.details_url;
 }
 
 function init(): void {
