@@ -3,17 +3,13 @@ import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import fetchDom from '../helpers/fetch-dom';
+import * as api from '../github-helpers/api';
+import {getRepoURL} from '../github-helpers';
 
 async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
-	const directLink = await fetchDom<HTMLAnchorElement>(
-		detailsLink.href,
-		'[data-hydro-click*="check_suite.external_click"]'
-	);
-
-	if (directLink) {
-		detailsLink.href = directLink.href;
-	}
+	const runId = new URLSearchParams(detailsLink.search).get('check_run_id') ?? detailsLink.pathname.split('/').pop()!;
+	const directLink = await api.v3(`repos/${getRepoURL()}/check-runs/${runId}`);
+	detailsLink.href = directLink.details_url;
 }
 
 function init(): void {
