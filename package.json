@@ -91,6 +91,7 @@
 		"css-loader": "^4.2.2",
 		"daily-version": "^2.0.0",
 		"dot-json": "^1.2.0",
+		"esbuild-loader": "^2.4.0",
 		"eslint-config-xo-react": "^0.23.0",
 		"eslint-plugin-react": "^7.20.6",
 		"eslint-plugin-react-hooks": "^4.1.0",

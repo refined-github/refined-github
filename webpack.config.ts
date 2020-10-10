@@ -6,7 +6,8 @@ import {readdirSync, readFileSync} from 'fs';
 import stripIndent from 'strip-indent';
 import webpack, {Configuration} from 'webpack';
 import SizePlugin from 'size-plugin';
-import TerserPlugin from 'terser-webpack-plugin';
+// @ts-expect-error
+import {ESBuildPlugin, ESBuildMinifyPlugin} from 'esbuild-loader';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
@@ -62,13 +63,10 @@ const config: Configuration = {
 		rules: [
 			{
 				test: /\.tsx?$/,
-				loader: 'ts-loader',
+				loader: 'esbuild-loader',
 				options: {
-					transpileOnly: true,
-					compilerOptions: {
-						// Enables ModuleConcatenation. It must be in here to avoid conflict with ts-node when it runs this file
-						module: 'es2015'
-					}
+					loader: 'tsx',
+					target: 'es2019'
 				},
 				exclude: /node_modules/
 			},
@@ -89,6 +87,7 @@ const config: Configuration = {
 		]
 	},
 	plugins: [
+		new ESBuildPlugin(),
 		new webpack.DefinePlugin({
 			// Passing `true` as the second argument makes these values dynamic — so every file change will update their value.
 			__featuresOptionDefaults__: webpack.DefinePlugin.runtimeValue(() => {
@@ -137,34 +136,6 @@ const config: Configuration = {
 			'.tsx',
 			'.ts',
 			'.js'
-		]
-	},
-	optimization: {
-		// Automatically enabled on production;
-		// Keeps it somewhat readable for AMO reviewers
-		minimizer: [
-			// @ts-expect-error
-			new TerserPlugin({
-				parallel: true,
-				exclude: 'browser-polyfill.min.js', // #3451
-				terserOptions: {
-					mangle: false,
-					compress: {
-						defaults: false,
-						dead_code: true,
-						unused: true,
-						arguments: true,
-						join_vars: false,
-						booleans: false,
-						expression: false,
-						sequences: false
-					},
-					output: {
-						beautify: true,
-						indent_level: 2
-					}
-				}
-			})
 		]
 	}
 };
