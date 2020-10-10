@@ -36,6 +36,8 @@ function init(): void {
 
 void features.add({
 	id: __filebasename,
+	description: 'Moves the "Convert PR to Draft" button to the mergeability box and adds visual feedback to its confirm button.',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/95644892-885f3f80-0a7f-11eb-8428-8e0fb0c8dfa5.gif'
 }, {
 	include: [
 		pageDetect.isPRConversation
