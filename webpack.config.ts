@@ -99,8 +99,8 @@ const config: Configuration = {
 				return JSON.stringify(getFeatures().map(parseFeatureDetails));
 			}, true),
 
+			// @ts-expect-error due to https://github.com/webpack/webpack/issues/10757
 			__filebasename: webpack.DefinePlugin.runtimeValue(({module}) => {
-				// @ts-expect-error
 				return JSON.stringify(path.basename(module.resource).replace(/\.tsx?$/, ''));
 			})
 		}),
@@ -143,6 +143,7 @@ const config: Configuration = {
 		// Automatically enabled on production;
 		// Keeps it somewhat readable for AMO reviewers
 		minimizer: [
+			// @ts-expect-error
 			new TerserPlugin({
 				parallel: true,
 				exclude: 'browser-polyfill.min.js', // #3451
