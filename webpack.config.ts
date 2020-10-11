@@ -3,12 +3,13 @@
 import path from 'path';
 import {readdirSync, readFileSync} from 'fs';
 
-import stripIndent from 'strip-indent';
-import webpack, {Configuration} from 'webpack';
 import SizePlugin from 'size-plugin';
+import stripIndent from 'strip-indent';
 // @ts-expect-error
 import {ESBuildPlugin} from 'esbuild-loader';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import webpack, {Configuration} from 'webpack';
 
 function parseFeatureDetails(id: FeatureID): FeatureMeta {
 	const content = readFileSync(`source/features/${id}.tsx`, {encoding: 'utf-8'});
@@ -45,8 +46,7 @@ const config: Configuration = {
 	devtool: 'source-map',
 	stats: {
 		all: false,
-		errors: true,
-		builtAt: true
+		errors: true
 	},
 	entry: Object.fromEntries([
 		'refined-github',
@@ -85,6 +85,11 @@ const config: Configuration = {
 	},
 	plugins: [
 		new ESBuildPlugin(),
+		new CopyWebpackPlugin({
+			patterns: [{
+				from: require.resolve('webextension-polyfill')
+			}]
+		}),
 		new webpack.DefinePlugin({
 			// Passing `true` as the second argument makes these values dynamic — so every file change will update their value.
 			__featuresOptionDefaults__: webpack.DefinePlugin.runtimeValue(
@@ -103,7 +108,7 @@ const config: Configuration = {
 			)
 		}),
 		new MiniCssExtractPlugin(),
-		new SizePlugin()
+		new SizePlugin({writeFile: false})
 	],
 	resolve: {
 		alias: {

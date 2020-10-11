@@ -1,4 +1,3 @@
-import 'webextension-polyfill';
 import 'webext-dynamic-content-scripts';
 import cache from 'webext-storage-cache'; // Also needed to regularly clear the cache
 import addDomainPermissionToggle from 'webext-domain-permission-toggle';
