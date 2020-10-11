@@ -103,7 +103,7 @@ const config: Configuration = {
 			),
 
 			__filebasename: webpack.DefinePlugin.runtimeValue(
-				// @ts-expect-error due to https://github.com/webpack/webpack/issues/10757
+				// @ts-expect-error
 				info => JSON.stringify(path.parse(info.module.resource).name)
 			)
 		}),
