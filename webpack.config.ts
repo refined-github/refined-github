@@ -7,7 +7,7 @@ import stripIndent from 'strip-indent';
 import webpack, {Configuration} from 'webpack';
 import SizePlugin from 'size-plugin';
 // @ts-expect-error
-import {ESBuildPlugin, ESBuildMinifyPlugin} from 'esbuild-loader';
+import {ESBuildPlugin} from 'esbuild-loader';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
@@ -56,8 +56,7 @@ const config: Configuration = {
 		'resolve-conflicts'
 	].map(name => [name, `./source/${name}`])),
 	output: {
-		path: path.join(__dirname, 'distribution'),
-		filename: '[name].js'
+		path: path.resolve('distribution')
 	},
 	module: {
 		rules: [
@@ -67,8 +66,7 @@ const config: Configuration = {
 				options: {
 					loader: 'tsx',
 					target: 'es2019'
-				},
-				exclude: /node_modules/
+				}
 			},
 			{
 				test: /\.css$/,
@@ -90,18 +88,20 @@ const config: Configuration = {
 		new ESBuildPlugin(),
 		new webpack.DefinePlugin({
 			// Passing `true` as the second argument makes these values dynamic — so every file change will update their value.
-			__featuresOptionDefaults__: webpack.DefinePlugin.runtimeValue(() => {
-				return JSON.stringify(Object.fromEntries(getFeatures().map(id => [`feature:${id}`, true])));
-			}, true),
+			__featuresOptionDefaults__: webpack.DefinePlugin.runtimeValue(
+				() => JSON.stringify(Object.fromEntries(getFeatures().map(id => [`feature:${id}`, true]))),
+				true
+			),
 
-			__featuresMeta__: webpack.DefinePlugin.runtimeValue(() => {
-				return JSON.stringify(getFeatures().map(parseFeatureDetails));
-			}, true),
+			__featuresMeta__: webpack.DefinePlugin.runtimeValue(
+				() => JSON.stringify(getFeatures().map(parseFeatureDetails)),
+				true
+			),
 
-			// @ts-expect-error due to https://github.com/webpack/webpack/issues/10757
-			__filebasename: webpack.DefinePlugin.runtimeValue(({module}) => {
-				return JSON.stringify(path.basename(module.resource).replace(/\.tsx?$/, ''));
-			})
+			__filebasename: webpack.DefinePlugin.runtimeValue(
+				// @ts-expect-error due to https://github.com/webpack/webpack/issues/10757
+				info => JSON.stringify(path.parse(info.module.resource).name)
+			)
 		}),
 		new MiniCssExtractPlugin({
 			filename: '[name].css'
