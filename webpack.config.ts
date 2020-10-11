@@ -8,7 +8,6 @@ import webpack, {Configuration} from 'webpack';
 import SizePlugin from 'size-plugin';
 // @ts-expect-error
 import {ESBuildPlugin} from 'esbuild-loader';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 function parseFeatureDetails(id: FeatureID): FeatureMeta {
@@ -56,7 +55,7 @@ const config: Configuration = {
 		'resolve-conflicts'
 	].map(name => [name, `./source/${name}`])),
 	output: {
-		path: path.resolve('distribution')
+		path: path.resolve('distribution/build')
 	},
 	module: {
 		rules: [
@@ -103,30 +102,8 @@ const config: Configuration = {
 				info => JSON.stringify(path.parse(info.module.resource).name)
 			)
 		}),
-		new MiniCssExtractPlugin({
-			filename: '[name].css'
-		}),
-		new CopyWebpackPlugin({
-			patterns: [
-				{
-					from: 'source',
-					globOptions: {
-						ignore: [
-							'**/*.js',
-							'**/*.ts',
-							'**/*.tsx',
-							'**/*.css'
-						]
-					}
-				},
-				{
-					from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js'
-				}
-			]
-		}),
-		new SizePlugin({
-			writeFile: false
-		})
+		new MiniCssExtractPlugin(),
+		new SizePlugin()
 	],
 	resolve: {
 		alias: {
