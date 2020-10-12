@@ -96,7 +96,6 @@ import './features/previous-next-commit-buttons';
 import './features/preserve-whitespace-option-in-nav';
 import './features/extend-diff-expander';
 import './features/profile-gists-link';
-import './features/show-followers-you-know';
 import './features/show-user-top-repositories';
 import './features/set-default-repositories-type-to-sources';
 import './features/user-profile-follower-badge';
