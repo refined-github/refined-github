@@ -7,7 +7,7 @@ import * as api from '../github-helpers/api';
 import {getRepoURL} from '../github-helpers';
 
 async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
-	const runId = /runs\/\d*$/.exec(detailsLink.pathname) ?
+	const runId = /runs\/\d*$/.exec(detailsLink.pathname) ? // Exclude any URL that does not end with runs. They already link to its own direct page.
 		detailsLink.pathname.split('/').pop() : new URLSearchParams(detailsLink.search).get('check_run_id');
 	if (!runId) {
 		return;
