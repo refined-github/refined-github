@@ -44,8 +44,9 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 addDomainPermissionToggle();
 
 // `background` fetch required to avoid avoid CORB introduced in Chrome 73 https://chromestatus.com/feature/5629709824032768
-browser.runtime.onMessage.addListener(({action, payload}): Promise<Response> | void => {
+browser.runtime.onMessage.addListener(async ({action, payload}): Promise<void | Response> => {
 	if (action === 'fetch') {
-		return Promise.resolve(fetch(payload).then(async response => response.json()));
+		const response = await fetch(payload);
+		return response.json();
 	}
 });
