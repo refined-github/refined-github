@@ -7,7 +7,13 @@ import * as api from '../github-helpers/api';
 import {getRepoURL} from '../github-helpers';
 
 async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
-	const runId = new URLSearchParams(detailsLink.search).get('check_run_id') ?? detailsLink.pathname.split('/').pop()!;
+	const [actionType, splitRunid] = detailsLink.pathname.split('/').splice(-2);
+	const runId = new URLSearchParams(detailsLink.search).get('check_run_id') ?? splitRunid;
+
+	if (!Number.parseInt(runId, 10) || actionType !== 'run') {
+		return;
+	}
+
 	const directLink = await api.v3(`repos/${getRepoURL()}/check-runs/${runId}`);
 	detailsLink.href = directLink.details_url;
 }
