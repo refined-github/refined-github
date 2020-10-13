@@ -7,8 +7,8 @@ import * as api from '../github-helpers/api';
 import {getRepoURL} from '../github-helpers';
 
 async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
-	const runId = /runs\/\d*$/.exec(detailsLink.pathname) ? // Exclude any URL that does not end with runs. They already link to its own direct page.
-		detailsLink.pathname.split('/').pop() : new URLSearchParams(detailsLink.search).get('check_run_id');
+	const runId = pageDetect.isActionJobRun(detailsLink) ? 	detailsLink.pathname.split('/').pop() :// https://github.com/xojs/xo/runs/1104625522
+		new URLSearchParams(detailsLink.search).get('check_run_id'); // https://github.com/sindresorhus/refined-github/pull/3629/checks?check_run_id=1223857819
 	if (!runId) {
 		return;
 	}
