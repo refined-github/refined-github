@@ -17,7 +17,7 @@ function init(): void {
 		addButtonWrapper.classList.add('tooltipped', 'tooltipped-ne');
 		addButtonWrapper.setAttribute('aria-label', 'Add file');
 
-		const addIcon = select('.btn span', addButtonWrapper)!
+		const addIcon = select('.btn span', addButtonWrapper)!;
 		addIcon.classList.remove('d-md-flex');
 		addIcon.classList.add('d-md-block');
 		addIcon.textContent = '';
