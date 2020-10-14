@@ -6,17 +6,22 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepoURL} from '../github-helpers';
+import {getRepositoryInfo} from '../github-helpers';
+import octokit from '../github-helpers/octokit';
 
 async function disableWikiAndProjects(): Promise<void> {
 	delete sessionStorage.rghNewRepo;
 
-	await api.v3(`repos/${getRepoURL()}`, {
-		method: 'PATCH',
-		body: {
-			has_projects: false,
-			has_wiki: false
-		}
+	const {owner, name: repo} = getRepositoryInfo();
+	if (!owner || !repo) {
+		return;
+	}
+
+	await octokit.repos.update({
+		owner,
+		repo,
+		has_projects: false,
+		has_wiki: false
 	});
 	await domLoaded;
 	select('[data-content="Wiki"]')?.closest('.d-flex')!.remove();
