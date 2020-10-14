@@ -18,10 +18,8 @@ function init(): void {
 		addButtonWrapper.setAttribute('aria-label', 'Add file');
 
 		const addIcon = select('.btn span', addButtonWrapper)!;
-		addIcon.classList.remove('d-md-flex');
-		addIcon.classList.add('d-md-block');
-		addIcon.textContent = '';
-		addIcon.append(<PlusIcon/>);
+		addIcon.classList.replace('d-md-flex', 'd-md-block');
+		addIcon.firstChild!.replaceWith(<PlusIcon/>);
 	}
 
 	const downloadButton = select('get-repo details');
