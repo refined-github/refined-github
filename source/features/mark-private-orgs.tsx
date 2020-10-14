@@ -6,14 +6,14 @@ import EyeClosedIcon from 'octicon/eye-closed.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import * as api from '../github-helpers/api';
 import {getUsername} from '../github-helpers';
+import octokit from '../github-helpers/octokit';
 
 const getPublicOrganizationsNames = cache.function(async (username: string): Promise<string[]> => {
 	// API v4 seems to *require* `org:read` permission AND it includes private organizations as well, which defeats the purpose. There's no way to filter them.
 	// GitHub's API explorer inexplicably only includes public organizations.
-	const response = await api.v3(`users/${username}/orgs`);
-	return response.map((organization: AnyObject) => organization.login);
+	const {data} = await octokit.orgs.listForUser({username});
+	return data.map(org => org.login);
 }, {
 	maxAge: {days: 10},
 	cacheKey: ([username]) => __filebasename + ':' + username
