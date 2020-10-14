@@ -7,9 +7,11 @@ import * as api from '../github-helpers/api';
 import {getRepoURL} from '../github-helpers';
 
 async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
-	const runId = pageDetect.isActionJobRun(detailsLink) ? 	detailsLink.pathname.split('/').pop() :// https://github.com/xojs/xo/runs/1104625522
+	const runId = pageDetect.isActionJobRun(detailsLink) ?
+		detailsLink.pathname.split('/').pop() : // https://github.com/xojs/xo/runs/1104625522
 		new URLSearchParams(detailsLink.search).get('check_run_id'); // https://github.com/sindresorhus/refined-github/pull/3629/checks?check_run_id=1223857819
 	if (!runId) {
+		// Sometimes the URL doesn't point to Checks at all
 		return;
 	}
 
