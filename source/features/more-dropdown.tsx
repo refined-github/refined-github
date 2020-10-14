@@ -58,10 +58,10 @@ async function init(): Promise<void> {
 	].join());
 
 	const reference = getCurrentBranch();
-	const compareUrl = getRepoURL(`compare/${reference}`);
-	const commitsUrl = getRepoURL(`commits/${reference}`);
-	const dependenciesUrl = getRepoURL('network/dependencies');
+	const compareUrl = getRepoURL('compare', reference);
+	const commitsUrl = getRepoURL('commits', reference);
 	const branchesUrl = getRepoURL('branches');
+	const dependenciesUrl = getRepoURL('network/dependencies');
 
 	const nav = select('.js-responsive-underlinenav .UnderlineNav-body');
 	if (nav) {

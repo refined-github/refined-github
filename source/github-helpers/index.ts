@@ -33,18 +33,18 @@ export const getCurrentBranch = (): string => {
 
 export const isFirefox = navigator.userAgent.includes('Firefox/');
 
-/** Only provide a `path` argument when generating user-facing URLs */
-export const getRepoURL = (path?: string): string => {
+/** Only provide arguments when generating user-facing URLs */
+export const getRepoURL = (...pathParts: Array<string | number>): string => {
 	const repoUrl = location.pathname.slice(1).split('/', 2).join('/');
-	if (path) {
-		if (path.startsWith('/')) { // TODO: move to TypeScript after 4.1
-			throw new TypeError('`path` shouldn’t start with a slash');
-		}
-
-		return `${location.origin}/${repoUrl}/${path}`;
+	if (pathParts.length === 0) {
+		return repoUrl.toLowerCase();
 	}
 
-	return repoUrl.toLowerCase();
+	if (String(pathParts[0]).startsWith('/')) { // TODO: move to TypeScript after 4.1
+		throw new TypeError('The argument strings shouldn’t start with a slash');
+	}
+
+	return [location.origin, repoUrl, ...pathParts].join('/');
 };
 
 export const getRepoGQL = (): string => {

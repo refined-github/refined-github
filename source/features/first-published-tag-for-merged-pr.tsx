@@ -36,7 +36,7 @@ async function init(): Promise<void> {
 			' • ',
 			<TagIcon className="mx-1 text-gray-light v-align-middle"/>,
 			<a
-				href={getRepoURL(`releases/tag/${tagName}`)}
+				href={getRepoURL('releases/tag', tagName)}
 				className="commit-ref"
 				title={`${tagName} was the first Git tag to include this PR`}
 			>

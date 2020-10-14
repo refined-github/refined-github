@@ -10,7 +10,7 @@ import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getRepoURL, getRepoGQL} from '../github-helpers';
 
 function getPRUrl(prNumber: number): string {
-	return getRepoURL(`pull/${prNumber}/files`);
+	return getRepoURL('pull', prNumber, 'files');
 }
 
 function getDropdown(prs: number[]): HTMLElement {
