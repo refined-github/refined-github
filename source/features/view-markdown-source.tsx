@@ -65,7 +65,7 @@ const lineActions = onetime(() => (
 						className="dropdown-item"
 						id="js-new-issue"
 						role="menuitem"
-						href={`/${getRepoURL()}/issues/new`}
+						href={`/${getRepoURL(true)}/issues/new`}
 					>
 						Reference in new issue
 					</a>

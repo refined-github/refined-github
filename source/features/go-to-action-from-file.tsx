@@ -15,7 +15,7 @@ function init(): void {
 		.replace(/["']/g, '')
 		.trim();
 
-	const actionURL = new URL(`${location.origin}/${getRepoURL()}/actions`);
+	const actionURL = new URL(`/${getRepoURL(true)}/actions`);
 	actionURL.searchParams.set('query', `workflow:"${actionName}"`);
 
 	select('#raw-url')!

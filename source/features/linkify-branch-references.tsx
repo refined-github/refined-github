@@ -12,7 +12,7 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const branchUrl = `/${getRepoURL()}/tree/${element.textContent!}`;
+	const branchUrl = `/${getRepoURL(true)}/tree/${element.textContent!}`;
 	wrap(element.closest('.branch-name')!, <a href={branchUrl}/>);
 }
 

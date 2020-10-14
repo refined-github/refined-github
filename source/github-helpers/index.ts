@@ -33,7 +33,11 @@ export const getCurrentBranch = (): string => {
 
 export const isFirefox = navigator.userAgent.includes('Firefox/');
 
-export const getRepoURL = (): string => location.pathname.slice(1).split('/', 2).join('/').toLowerCase();
+export const getRepoURL = (original = false): string => {
+	const url = location.pathname.slice(1).split('/', 2).join('/');
+	return original ? url : url.toLowerCase();
+};
+
 export const getRepoGQL = (): string => {
 	const {owner, name} = getRepositoryInfo();
 	return `owner: "${owner!}", name: "${name!}"`;

@@ -148,7 +148,7 @@ async function init(): Promise<void | false> {
 					<TagIcon/>
 					<span className="ml-1">{targetTags.map((tags, i) => (
 						<>
-							<a href={`/${getRepoURL()}/releases/tag/${tags}`}>{tags}</a>
+							<a href={`/${getRepoURL(true)}/releases/tag/${tags}`}>{tags}</a>
 							{(i + 1) === targetTags.length ? '' : ', '}
 						</>
 					))}

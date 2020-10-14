@@ -122,7 +122,7 @@ async function init(): Promise<false | void> {
 			const compareLink = (
 				<a
 					className="btn btn-sm btn-outline tooltipped tooltipped-ne"
-					href={`/${getRepoURL()}/compare/${latestTag}...${defaultBranch}`}
+					href={`/${getRepoURL(true)}/compare/${latestTag}...${defaultBranch}`}
 					aria-label={`Compare ${latestTag}...${defaultBranch}`}
 				>
 					<DiffIcon/>
