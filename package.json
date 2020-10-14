@@ -37,6 +37,7 @@
 	},
 	"dependencies": {
 		"@cheap-glitch/mi-cron": "^1.0.1",
+		"@octokit/rest": "^18.0.6",
 		"@primer/octicons": "^9.6.0",
 		"@primer/octicons-v2": "0.0.0-60ee16f",
 		"@types/webpack": "^4.41.22",
@@ -74,6 +75,7 @@
 	},
 	"devDependencies": {
 		"@ava/typescript": "^1.1.1",
+		"@octokit/types": "^5.5.0",
 		"@rollup/plugin-typescript": "^6.0.0",
 		"@sindresorhus/tsconfig": "^0.7.0",
 		"@types/chrome": "0.0.124",
