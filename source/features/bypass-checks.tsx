@@ -3,8 +3,8 @@ import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import * as api from '../github-helpers/api';
-import {getRepoURL} from '../github-helpers';
+import octokit from '../github-helpers/octokit';
+import {getRepositoryInfo} from '../github-helpers';
 
 async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
 	const runId = pageDetect.isActionJobRun(detailsLink) ?
@@ -15,8 +15,14 @@ async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
 		return;
 	}
 
-	const directLink = await api.v3(`repos/${getRepoURL()}/check-runs/${runId}`);
-	detailsLink.href = directLink.details_url;
+	const {owner, name: repo} = getRepositoryInfo();
+	const check_run_id = Number.parseInt(runId, 10);
+	if (!owner || !repo || !check_run_id) {
+		return;
+	}
+
+	const {data} = await octokit.checks.get({owner, repo, check_run_id});
+	detailsLink.href = data.details_url;
 }
 
 function init(): void {
