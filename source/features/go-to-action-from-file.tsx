@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getRepoURL, getRepoPath} from '../github-helpers';
+import {buildRepoURL, getRepoPath} from '../github-helpers';
 
 const isWorkflowFile = (): boolean => pageDetect.isSingleFile() && /\/\.github\/workflows\/.+\.ya?ml$/.test(getRepoPath()!);
 
@@ -15,7 +15,7 @@ function init(): void {
 		.replace(/["']/g, '')
 		.trim();
 
-	const actionURL = new URL(getRepoURL('actions'));
+	const actionURL = new URL(buildRepoURL('actions'));
 	actionURL.searchParams.set('query', `workflow:"${actionName}"`);
 
 	select('#raw-url')!

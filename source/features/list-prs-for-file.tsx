@@ -7,10 +7,10 @@ import PullRequestIcon from 'octicon/git-pull-request.svg';
 import features from '.';
 import * as api from '../github-helpers/api';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getRepoURL, getRepoGQL} from '../github-helpers';
+import {buildRepoURL, getRepoURL, getRepoGQL} from '../github-helpers';
 
 function getPRUrl(prNumber: number): string {
-	return getRepoURL('pull', prNumber, 'files');
+	return buildRepoURL('pull', prNumber, 'files');
 }
 
 function getDropdown(prs: number[]): HTMLElement {

@@ -11,7 +11,7 @@ import PackageIcon from 'octicon/package.svg';
 
 import features from '.';
 import {appendBefore} from '../helpers/dom-utils';
-import {getRepoURL, getCurrentBranch} from '../github-helpers';
+import {buildRepoURL, getCurrentBranch} from '../github-helpers';
 
 function createDropdown(): void {
 	// Markup copied from native GHE dropdown
@@ -58,10 +58,10 @@ async function init(): Promise<void> {
 	].join());
 
 	const reference = getCurrentBranch();
-	const compareUrl = getRepoURL('compare', reference);
-	const commitsUrl = getRepoURL('commits', reference);
-	const branchesUrl = getRepoURL('branches');
-	const dependenciesUrl = getRepoURL('network/dependencies');
+	const compareUrl = buildRepoURL('compare', reference);
+	const commitsUrl = buildRepoURL('commits', reference);
+	const branchesUrl = buildRepoURL('branches');
+	const dependenciesUrl = buildRepoURL('network/dependencies');
 
 	const nav = select('.js-responsive-underlinenav .UnderlineNav-body');
 	if (nav) {

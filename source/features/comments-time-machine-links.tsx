@@ -8,7 +8,7 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
 import {appendBefore} from '../helpers/dom-utils';
-import {getRepoURL, isPermalink, getRepoGQL} from '../github-helpers';
+import {buildRepoURL, isPermalink, getRepoGQL} from '../github-helpers';
 
 async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> {
 	const {repository} = await api.v4(`
@@ -62,7 +62,7 @@ function addDropdownLink(comment: HTMLElement, timestamp: string): void {
 		<>
 			<div className="dropdown-divider"/>
 			<a
-				href={getRepoURL(`tree/HEAD@{${timestamp}}`)}
+				href={buildRepoURL(`tree/HEAD@{${timestamp}}`)}
 				className="dropdown-item btn-link"
 				role="menuitem"
 				title="Browse repository like it appeared on this day"

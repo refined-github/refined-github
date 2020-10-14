@@ -12,7 +12,7 @@ import KebabHorizontalIcon from 'octicon/kebab-horizontal.svg';
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import GitHubURL from '../github-helpers/github-url';
-import {getRepoURL} from '../github-helpers';
+import {buildRepoURL} from '../github-helpers';
 
 const lineActions = onetime(() => (
 	<details
@@ -65,7 +65,7 @@ const lineActions = onetime(() => (
 						className="dropdown-item"
 						id="js-new-issue"
 						role="menuitem"
-						href={getRepoURL('issues/new')}
+						href={buildRepoURL('issues/new')}
 					>
 						Reference in new issue
 					</a>
