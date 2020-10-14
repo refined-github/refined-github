@@ -62,7 +62,7 @@ function addDropdownLink(comment: HTMLElement, timestamp: string): void {
 		<>
 			<div className="dropdown-divider"/>
 			<a
-				href={`/${getRepoURL(true)}/tree/HEAD@{${timestamp}}`}
+				href={getRepoURL(`tree/HEAD@{${timestamp}}`)}
 				className="dropdown-item btn-link"
 				role="menuitem"
 				title="Browse repository like it appeared on this day"

@@ -12,7 +12,7 @@ async function init(): Promise<void> {
 			hidden
 			data-hotkey="t"
 			data-pjax="true"
-			href={`/${getRepoURL(true)}/find/${await getDefaultBranch()}`}
+			href={getRepoURL(`find/${await getDefaultBranch()}`)}
 		/>
 	);
 }

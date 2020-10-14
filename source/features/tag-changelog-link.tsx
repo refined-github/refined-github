@@ -97,7 +97,7 @@ async function init(): Promise<void> {
 						<a
 							className="muted-link tooltipped tooltipped-n"
 							aria-label={'See changes since ' + decodeURIComponent(previousTag)}
-							href={`/${getRepoURL(true)}/compare/${previousTag}...${allTags[index].tag}`}
+							href={getRepoURL(`compare/${previousTag}...${allTags[index].tag}`)}
 						>
 							<DiffIcon/> Changelog
 						</a>

@@ -19,7 +19,7 @@ function init(): void {
 
 	const icon = select('.octicon-arrow-left')!;
 	icon.parentElement!.attributes['aria-label'].value += '.\nClick to swap.';
-	wrap(icon, <a href={`/${getRepoURL(true)}/compare/${references.join('...')}`}/>);
+	wrap(icon, <a href={getRepoURL('compare/' + references.join('...'))}/>);
 }
 
 void features.add({

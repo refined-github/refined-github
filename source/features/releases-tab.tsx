@@ -12,8 +12,7 @@ import {appendBefore} from '../helpers/dom-utils';
 import {createDropdownItem} from './more-dropdown';
 import {getRepoURL, getRepoGQL} from '../github-helpers';
 
-const repoUrl = getRepoURL();
-const cacheKey = `releases-count:${repoUrl}`;
+const cacheKey = `releases-count:${getRepoURL()}`;
 
 function parseCountFromDom(): number {
 	const releasesCountElement = select('.numbers-summary a[href$="/releases"] .num');
@@ -70,7 +69,7 @@ async function init(): Promise<false | void> {
 		// "Repository refresh" layout
 		const releasesTab = (
 			<a
-				href={`/${repoUrl}/releases`}
+				href={getRepoURL('releases')}
 				className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item"
 				data-hotkey="g r"
 				data-selected-links="repo_releases"
@@ -104,7 +103,7 @@ async function init(): Promise<false | void> {
 		}
 
 		select('.dropdown-divider', repoNavigationBar)!.before(
-			createDropdownItem('Releases', `/${repoUrl}/releases`, {
+			createDropdownItem('Releases', getRepoURL('releases'), {
 				'data-menu-item': 'rgh-releases-item'
 			})
 		);
@@ -119,7 +118,7 @@ async function init(): Promise<false | void> {
 	}
 
 	const releasesTab = (
-		<a href={`/${repoUrl}/releases`} className="reponav-item" data-hotkey="g r">
+		<a href={getRepoURL('releases')} className="reponav-item" data-hotkey="g r">
 			<TagIcon/>
 			<span> Releases </span>
 			{count && <span className="Counter">{count}</span>}

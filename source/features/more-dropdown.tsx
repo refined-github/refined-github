@@ -13,8 +13,6 @@ import features from '.';
 import {appendBefore} from '../helpers/dom-utils';
 import {getRepoURL, getCurrentBranch} from '../github-helpers';
 
-const repoUrl = getRepoURL();
-
 function createDropdown(): void {
 	// Markup copied from native GHE dropdown
 	appendBefore(
@@ -60,9 +58,10 @@ async function init(): Promise<void> {
 	].join());
 
 	const reference = getCurrentBranch();
-	const compareUrl = `/${repoUrl}/compare/${reference}`;
-	const commitsUrl = `/${repoUrl}/commits/${reference}`;
-	const dependenciesUrl = `/${repoUrl}/network/dependencies`;
+	const compareUrl = getRepoURL(`compare/${reference}`);
+	const commitsUrl = getRepoURL(`commits/${reference}`);
+	const dependenciesUrl = getRepoURL('network/dependencies');
+	const branchesUrl = getRepoURL('branches');
 
 	const nav = select('.js-responsive-underlinenav .UnderlineNav-body');
 	if (nav) {
@@ -73,7 +72,7 @@ async function init(): Promise<void> {
 			createDropdownItem('Compare', compareUrl),
 			pageDetect.isEnterprise() ? '' : createDropdownItem('Dependencies', dependenciesUrl),
 			createDropdownItem('Commits', commitsUrl),
-			createDropdownItem('Branches', `/${repoUrl}/branches`)
+			createDropdownItem('Branches', branchesUrl)
 		);
 
 		onlyShowInDropdown('security-tab');
@@ -93,7 +92,7 @@ async function init(): Promise<void> {
 		</a>,
 
 		pageDetect.isEnterprise() ? '' : (
-			<a href={`/${repoUrl}/network/dependencies`} className="rgh-reponav-more dropdown-item">
+			<a href={dependenciesUrl} className="rgh-reponav-more dropdown-item">
 				<PackageIcon/> Dependencies
 			</a>
 		),
@@ -102,7 +101,7 @@ async function init(): Promise<void> {
 			<HistoryIcon/> Commits
 		</a>,
 
-		<a href={`/${repoUrl}/branches`} className="rgh-reponav-more dropdown-item">
+		<a href={branchesUrl} className="rgh-reponav-more dropdown-item">
 			<BranchIcon/> Branches
 		</a>
 	);
