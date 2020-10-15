@@ -24,8 +24,8 @@ Example tag content on private repositories https://github.com/private/private/c
 export const getCurrentBranch = (): string | undefined => {
 	// .last needed for #2799
 	const feedLink = select.last<HTMLLinkElement>('[type="application/atom+xml"]');
-	// The atom URL is not available on `isIssue` #3641
-	if (!atom) {
+	// The feedLink is not available on `isIssue` #3641
+	if (!feedLink) {
 		return;
 	}
 
