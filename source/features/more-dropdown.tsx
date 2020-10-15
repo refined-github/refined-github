@@ -60,7 +60,7 @@ async function init(): Promise<void> {
 		'.UnderlineNav-body + *'
 	].join());
 
-	const reference = getCurrentBranch() ?? getDefaultBranch();
+	const reference = getCurrentBranch() ?? await getDefaultBranch();
 	const compareUrl = `/${repoUrl}/compare/${reference}`;
 	const commitsUrl = `/${repoUrl}/commits/${reference}`;
 	const dependenciesUrl = `/${repoUrl}/network/dependencies`;
