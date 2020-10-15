@@ -11,6 +11,7 @@ import PackageIcon from 'octicon/package.svg';
 
 import features from '.';
 import {appendBefore} from '../helpers/dom-utils';
+import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getRepoURL, getCurrentBranch} from '../github-helpers';
 
 const repoUrl = getRepoURL();
@@ -59,7 +60,7 @@ async function init(): Promise<void> {
 		'.UnderlineNav-body + *'
 	].join());
 
-	const reference = getCurrentBranch();
+	const reference = getCurrentBranch() ?? getDefaultBranch();
 	const compareUrl = `/${repoUrl}/compare/${reference}`;
 	const commitsUrl = `/${repoUrl}/commits/${reference}`;
 	const dependenciesUrl = `/${repoUrl}/network/dependencies`;

@@ -84,7 +84,7 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	const currentBranch = getCurrentBranch();
+	const currentBranch = getCurrentBranch()!;
 	const url = new GitHubURL(location.href);
 	url.assign({
 		route: url.route || 'tree', // If route is missing, it's a repo root

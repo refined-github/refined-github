@@ -43,7 +43,7 @@ export default class GitHubURL {
 
 		const filePath = ambiguousReference.slice(1).join('/');
 
-		const currentBranch = getCurrentBranch();
+		const currentBranch = getCurrentBranch()!;
 		const currentBranchSections = currentBranch.split('/');
 		if (
 			ambiguousReference.length === 1 || // Ref has no slashes
