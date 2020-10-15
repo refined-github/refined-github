@@ -11,7 +11,7 @@
 		margin-bottom: 20px;
 
 		/* Rounded table border https://stackoverflow.com/a/2586780/288906 */
-		box-shadow: 0 0 0 1px var(--github-border-color);
+		box-shadow: 0 0 0 2px var(--github-border-color);
 		border-collapse: collapse;
 		border-radius: 6px;
 		border-style: hidden;
