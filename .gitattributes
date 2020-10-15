@@ -1,4 +1,4 @@
 * text=auto eol=lf
 *.ai binary
 readme.md merge=union
-source/content.css merge=union
+source/refined-github.css merge=union
