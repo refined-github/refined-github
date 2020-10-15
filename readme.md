@@ -134,6 +134,7 @@ Thanks for contributing! 🦋🙌
 - [](# "sticky-sidebar") [Makes conversation sidebars and repository sidebars sticky, if they fit the viewport.](https://user-images.githubusercontent.com/10238474/62276723-5a2eaa80-b44d-11e9-810b-ff598d1c5c6a.gif)
 - [](# "link-to-github-io") [Add a link to visit the user’s github.io website from its repo.](https://user-images.githubusercontent.com/31387795/94045261-dbcd5e80-fdec-11ea-83fa-30bb673cc26e.jpg)
 - [](# "next-scheduled-github-action") [Shows the next scheduled time of relevant GitHub Actions in the workflows sidebar.](https://user-images.githubusercontent.com/46634000/94690232-2476a180-0330-11eb-99d7-e174bb762cea.png)
+- [](# "search-in-current-path") [Adds current path to the search box.](https://user-images.githubusercontent.com/44045911/94982458-1cf00c00-056d-11eb-852a-4326042354b2.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 

@@ -199,6 +199,7 @@ import './features/new-repo-disable-projects-and-wikis';
 import './features/table-input';
 import './features/link-to-github-io';
 import './features/next-scheduled-github-action';
+import './features/search-in-current-path';
 
 // Add global for easier debugging
 (window as any).select = select;
