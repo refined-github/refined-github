@@ -71,7 +71,7 @@ async function init(): Promise<false | void> {
 		const releasesTab = (
 			<a
 				href={`/${repoUrl}/releases`}
-				className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item"
+				className="js-selected-navigation-item UnderlineNav-item no-wrap"
 				data-hotkey="g r"
 				data-selected-links="repo_releases"
 				data-tab-item="rgh-releases-item"
@@ -103,11 +103,16 @@ async function init(): Promise<false | void> {
 			releasesTab.setAttribute('aria-current', 'page');
 		}
 
-		select('.dropdown-divider', repoNavigationBar)!.before(
-			createDropdownItem('Releases', `/${repoUrl}/releases`, {
-				'data-menu-item': 'rgh-releases-item'
-			})
-		);
+		const moreDropdown = select('.dropdown-divider', repoNavigationBar);
+
+		if (moreDropdown) {
+			releasesTab.classList.add('hx_underlinenav-item', 'js-responsive-underlinenav-item');
+			moreDropdown.before(
+				createDropdownItem('Releases', `/${repoUrl}/releases`, {
+					'data-menu-item': 'rgh-releases-item'
+				})
+			);
+		}
 
 		// Hide redundant 'Releases' section from repo sidebar
 		if (pageDetect.isRepoRoot()) {
