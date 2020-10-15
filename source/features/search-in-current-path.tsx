@@ -25,9 +25,8 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Adds current path to the search box.',
-	screenshot: 'https://user-images.githubusercontent.com/44045911/94982458-1cf00c00-056d-11eb-852a-4326042354b2.gif'
+	screenshot: 'https://user-images.githubusercontent.com/44045911/96068679-29f6ee80-0ecf-11eb-8c6b-af2e401dc5bf.gif'
 }, {
-	repeatOnBackButton: true,
 	include: [
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile
@@ -35,5 +34,6 @@ void features.add({
 	exclude: [
 		pageDetect.isRepoRoot
 	],
+	repeatOnBackButton: true,
 	init
 });
