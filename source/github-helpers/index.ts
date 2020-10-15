@@ -26,7 +26,7 @@ export const getCurrentBranch = (): string | undefined => {
 	const atom = select.last<HTMLLinkElement>('[type="application/atom+xml"]');
 	// The atom URL is not available on `isIssue` #3641
 	if (!atom) {
-		return undefined;
+		return;
 	}
 
 	return new URL(atom.href)
