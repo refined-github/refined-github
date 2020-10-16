@@ -20,10 +20,7 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 
 	try {
 		// Get the gist via background.js due to CORB policies introduced in Chrome 73
-		const gistData = await browser.runtime.sendMessage({
-			action: 'fetch',
-			payload: `${link.href}.json`
-		});
+		const gistData = await browser.runtime.sendMessage({request: `${link.href}.json`});
 
 		const files = domify.one(gistData.div)!;
 		const fileCount = files.children.length;
