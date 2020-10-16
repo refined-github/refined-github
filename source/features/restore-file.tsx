@@ -112,8 +112,8 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	}
 
 	if (editFile.closest('.file-header')!.querySelector('[aria-label="File added"]')) {
-		// There's already a "Delete file" action.
-		// Depends on `highlight-deleted-and-added-files-in-diffs`
+		// The file is new. "Restoring" it means deleting it, which is already possible.
+		// Depends on `highlight-deleted-and-added-files-in-diffs`.
 		return;
 	}
 
