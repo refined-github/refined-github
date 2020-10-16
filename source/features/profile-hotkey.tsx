@@ -5,7 +5,7 @@ import features from '.';
 import {getUsername} from '../github-helpers';
 
 function init(): false | void {
-	const menuItem = select(`a[href="/${getUsername()}"]`);
+	const menuItem = select.last(`[aria-label="View profile and more"] ~ details-menu a[href$="/${getUsername()}"]`);
 	if (!menuItem) {
 		return false;
 	}
