@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import PlusIcon from 'octicon/plus.svg';
@@ -9,29 +8,30 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function init(): void {
-	observe('.btn[data-hotkey="t"]:not(.rgh-clean-actions)', {
+	observe('.d-flex > [data-hotkey="t"]:not(.rgh-clean-actions)', {
 		add(searchButton) {
 			searchButton.classList.add('tooltipped', 'tooltipped-ne', 'rgh-clean-actions');
 			searchButton.setAttribute('aria-label', 'Go to file');
+
 			searchButton.firstChild!.replaceWith(<SearchIcon/>);
 
-			const addButtonWrapper = searchButton.nextElementSibling!;
-			if (addButtonWrapper.nodeName === 'DETAILS') {
-				addButtonWrapper.classList.add('tooltipped', 'tooltipped-ne');
-				addButtonWrapper.setAttribute('aria-label', 'Add file');
+			const addButtonText = searchButton.nextElementSibling?.querySelector('.d-md-flex');
+			if (addButtonText) {
+				addButtonText.parentElement!.classList.add('tooltipped', 'tooltipped-ne');
+				addButtonText.parentElement!.setAttribute('aria-label', 'Add file');
 
-				const addIcon = select('.btn span', addButtonWrapper)!;
-				addIcon.classList.replace('d-md-flex', 'd-md-block');
-				addIcon.firstChild!.replaceWith(<PlusIcon/>);
+				addButtonText.classList.replace('d-md-flex', 'd-md-block');
+				addButtonText.firstChild!.replaceWith(<PlusIcon/>);
 			}
 		}
 	});
 
-	observe('get-repo .octicon-download:not(.rgh-clean-actions)', {
-		add(icon) {
-			icon.parentElement!.classList.add('tooltipped', 'tooltipped-ne', 'rgh-clean-actions');
-			icon.parentElement!.setAttribute('aria-label', 'Clone or download');
-			icon.nextSibling!.remove();
+	observe('get-repo summary:not(.rgh-clean-actions)', {
+		add(button) {
+			button.classList.add('tooltipped', 'tooltipped-ne', 'rgh-clean-actions');
+			button.setAttribute('aria-label', 'Clone, open or download');
+
+			button.firstElementChild!.nextSibling!.remove();
 		}
 	});
 }
