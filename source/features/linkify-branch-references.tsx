@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
-import {getRepoURL} from '../github-helpers';
+import {buildRepoURL} from '../github-helpers';
 
 async function init(): Promise<void | false> {
 	const element = await elementReady('.branch-name');
@@ -12,7 +12,7 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const branchUrl = `/${getRepoURL()}/tree/${element.textContent!}`;
+	const branchUrl = buildRepoURL('tree', element.textContent!);
 	wrap(element.closest('.branch-name')!, <a href={branchUrl}/>);
 }
 

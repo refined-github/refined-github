@@ -6,7 +6,7 @@ import tinyVersionCompare from 'tiny-version-compare';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
-import {getRepoPath, getRepoURL, parseTag} from '../github-helpers';
+import {getRepoPath, buildRepoURL, getRepoURL, parseTag} from '../github-helpers';
 
 interface TagDetails {
 	element: HTMLElement;
@@ -97,7 +97,7 @@ async function init(): Promise<void> {
 						<a
 							className="muted-link tooltipped tooltipped-n"
 							aria-label={'See changes since ' + decodeURIComponent(previousTag)}
-							href={`/${getRepoURL()}/compare/${previousTag}...${allTags[index].tag}`}
+							href={buildRepoURL(`compare/${previousTag}...${allTags[index].tag}`)}
 						>
 							<DiffIcon/> Changelog
 						</a>
