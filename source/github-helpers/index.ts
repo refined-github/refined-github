@@ -29,7 +29,7 @@ export const getCurrentBranch = (): string | undefined => {
 		return;
 	}
 
-	return new URL(atom.href)
+	return new URL(feedLink.href)
 		.pathname
 		.split('/')
 		.slice(4) // Drops the initial /user/repo/route/ part
