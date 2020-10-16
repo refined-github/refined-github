@@ -46,7 +46,7 @@ export default class GitHubURL {
 		const currentBranch = getCurrentBranch();
 		const currentBranchSections = currentBranch?.split('/');
 		if (
-			!currentBranch || // Current page does not have a branch; GitHubURL probably shouldn’t be used here
+			!currentBranchSections || // Current page does not have a branch; GitHubURL probably shouldn’t be used here
 			ambiguousReference.length === 1 || // Ref has no slashes
 			currentBranchSections.length === 1 // Current branch has no slashes
 		) {
