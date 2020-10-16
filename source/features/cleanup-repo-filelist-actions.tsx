@@ -7,7 +7,6 @@ import SearchIcon from 'octicon/search.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {groupButtons} from '../github-helpers/group-buttons';
 
 function init(): void {
 	observe('.btn[data-hotkey="t"]:not(.rgh-clean-actions)', {
@@ -17,19 +16,14 @@ function init(): void {
 			searchButton.firstChild!.replaceWith(<SearchIcon/>);
 
 			const addButtonWrapper = searchButton.nextElementSibling!;
-			const addButton = select('.btn', addButtonWrapper);
-			if (addButton) {
-				addButton.classList.add('d-md-block', 'tooltipped', 'tooltipped-ne');
-				addButton.classList.remove('d-md-flex', 'ml-2');
-				addButton.setAttribute('aria-label', 'Add file');
-				addButton.textContent = '';
-				addButton.append(<PlusIcon/>);
+			if (addButtonWrapper.nodeName === 'DETAILS') {
+				addButtonWrapper.classList.add('tooltipped', 'tooltipped-ne');
+				addButtonWrapper.setAttribute('aria-label', 'Add file');
 
-				searchButton.classList.remove('mr-2');
-				groupButtons([searchButton, addButtonWrapper]);
+				const addIcon = select('.btn span', addButtonWrapper)!;
+				addIcon.classList.replace('d-md-flex', 'd-md-block');
+				addIcon.firstChild!.replaceWith(<PlusIcon/>);
 			}
-		}
-	});
 
 	observe('get-repo .octicon-download:not(.rgh-clean-actions)', {
 		add(icon) {

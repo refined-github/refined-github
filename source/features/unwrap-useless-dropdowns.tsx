@@ -35,7 +35,7 @@ async function unwrapNotifications(): Promise<void | false> {
 	button.textContent = `Group by ${button.textContent!.toLowerCase()}`;
 }
 
-async function unwrapActionJobRun(): Promise<void | false> {
+async function unwrapActionRun(): Promise<void | false> {
 	const desiredForm = await elementReady('.js-check-suite-rerequest-form');
 	if (!desiredForm) {
 		return false;
@@ -70,8 +70,8 @@ void features.add({
 	init: unwrapNotifications
 }, {
 	include: [
-		pageDetect.isActionJobRun
+		pageDetect.isActionRun
 	],
 	awaitDomReady: false,
-	init: unwrapActionJobRun
+	init: unwrapActionRun
 });

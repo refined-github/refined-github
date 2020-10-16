@@ -12,7 +12,7 @@ import pluralize from '../helpers/pluralize';
 import GitHubURL from '../github-helpers/github-url';
 import {groupButtons} from '../github-helpers/group-buttons';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getRepoURL, getCurrentBranch, getRepoGQL, getLatestVersionTag} from '../github-helpers';
+import {buildRepoURL, getCurrentBranch, getRepoURL, getRepoGQL, getLatestVersionTag} from '../github-helpers';
 
 interface RepoPublishState {
 	latestTag: string | false;
@@ -122,7 +122,7 @@ async function init(): Promise<false | void> {
 			const compareLink = (
 				<a
 					className="btn btn-sm btn-outline tooltipped tooltipped-ne"
-					href={`/${getRepoURL()}/compare/${latestTag}...${defaultBranch}`}
+					href={buildRepoURL(`compare/${latestTag}...${defaultBranch}`)}
 					aria-label={`Compare ${latestTag}...${defaultBranch}`}
 				>
 					<DiffIcon/>

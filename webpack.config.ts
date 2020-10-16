@@ -3,12 +3,13 @@
 import path from 'path';
 import {readdirSync, readFileSync} from 'fs';
 
-import stripIndent from 'strip-indent';
-import webpack, {Configuration} from 'webpack';
 import SizePlugin from 'size-plugin';
-import TerserPlugin from 'terser-webpack-plugin';
+import stripIndent from 'strip-indent';
+// @ts-expect-error
+import {ESBuildPlugin} from 'esbuild-loader';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import webpack, {Configuration} from 'webpack';
 
 function parseFeatureDetails(id: FeatureID): FeatureMeta {
 	const content = readFileSync(`source/features/${id}.tsx`, {encoding: 'utf-8'});
@@ -45,8 +46,7 @@ const config: Configuration = {
 	devtool: 'source-map',
 	stats: {
 		all: false,
-		errors: true,
-		builtAt: true
+		errors: true
 	},
 	entry: Object.fromEntries([
 		'refined-github',
@@ -55,22 +55,17 @@ const config: Configuration = {
 		'resolve-conflicts'
 	].map(name => [name, `./source/${name}`])),
 	output: {
-		path: path.join(__dirname, 'distribution'),
-		filename: '[name].js'
+		path: path.resolve('distribution/build')
 	},
 	module: {
 		rules: [
 			{
 				test: /\.tsx?$/,
-				loader: 'ts-loader',
+				loader: 'esbuild-loader',
 				options: {
-					transpileOnly: true,
-					compilerOptions: {
-						// Enables ModuleConcatenation. It must be in here to avoid conflict with ts-node when it runs this file
-						module: 'es2015'
-					}
-				},
-				exclude: /node_modules/
+					loader: 'tsx',
+					target: 'es2020'
+				}
 			},
 			{
 				test: /\.css$/,
@@ -89,45 +84,31 @@ const config: Configuration = {
 		]
 	},
 	plugins: [
+		new ESBuildPlugin(),
 		new webpack.DefinePlugin({
 			// Passing `true` as the second argument makes these values dynamic — so every file change will update their value.
-			__featuresOptionDefaults__: webpack.DefinePlugin.runtimeValue(() => {
-				return JSON.stringify(Object.fromEntries(getFeatures().map(id => [`feature:${id}`, true])));
-			}, true),
+			__featuresOptionDefaults__: webpack.DefinePlugin.runtimeValue(
+				() => JSON.stringify(Object.fromEntries(getFeatures().map(id => [`feature:${id}`, true]))),
+				true
+			),
 
-			__featuresMeta__: webpack.DefinePlugin.runtimeValue(() => {
-				return JSON.stringify(getFeatures().map(parseFeatureDetails));
-			}, true),
+			__featuresMeta__: webpack.DefinePlugin.runtimeValue(
+				() => JSON.stringify(getFeatures().map(parseFeatureDetails)),
+				true
+			),
 
-			__filebasename: webpack.DefinePlugin.runtimeValue(({module}) => {
+			__filebasename: webpack.DefinePlugin.runtimeValue(
 				// @ts-expect-error
-				return JSON.stringify(path.basename(module.resource).replace(/\.tsx?$/, ''));
-			})
+				info => JSON.stringify(path.parse(info.module.resource).name)
+			)
 		}),
-		new MiniCssExtractPlugin({
-			filename: '[name].css'
-		}),
+		new MiniCssExtractPlugin(),
 		new CopyWebpackPlugin({
-			patterns: [
-				{
-					from: 'source',
-					globOptions: {
-						ignore: [
-							'**/*.js',
-							'**/*.ts',
-							'**/*.tsx',
-							'**/*.css'
-						]
-					}
-				},
-				{
-					from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js'
-				}
-			]
+			patterns: [{
+				from: require.resolve('webextension-polyfill')
+			}]
 		}),
-		new SizePlugin({
-			writeFile: false
-		})
+		new SizePlugin({writeFile: false})
 	],
 	resolve: {
 		alias: {
@@ -137,33 +118,6 @@ const config: Configuration = {
 			'.tsx',
 			'.ts',
 			'.js'
-		]
-	},
-	optimization: {
-		// Automatically enabled on production;
-		// Keeps it somewhat readable for AMO reviewers
-		minimizer: [
-			new TerserPlugin({
-				parallel: true,
-				exclude: 'browser-polyfill.min.js', // #3451
-				terserOptions: {
-					mangle: false,
-					compress: {
-						defaults: false,
-						dead_code: true,
-						unused: true,
-						arguments: true,
-						join_vars: false,
-						booleans: false,
-						expression: false,
-						sequences: false
-					},
-					output: {
-						beautify: true,
-						indent_level: 2
-					}
-				}
-			})
 		]
 	}
 };
