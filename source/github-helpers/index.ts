@@ -34,6 +34,20 @@ export const getCurrentBranch = (): string => {
 export const isFirefox = navigator.userAgent.includes('Firefox/');
 
 export const getRepoURL = (): string => location.pathname.slice(1).split('/', 2).join('/').toLowerCase();
+
+// The type requires at least one parameter https://stackoverflow.com/a/49910890
+export const buildRepoURL = (...pathParts: Array<string | number> & {0: string}): string => {
+	for (const part of pathParts) {
+		// TODO: Can TypeScript take care of this? With https://devblogs.microsoft.com/typescript/announcing-typescript-4-1-beta/#template-literal-types
+		if (typeof part === 'string' && /^\/|\/$/.test(part)) {
+			throw new TypeError('The path parts shouldn’t start or end with a slash: ' + part);
+		}
+	}
+
+	const repoUrl = location.pathname.slice(1).split('/', 2).join('/');
+	return [location.origin, repoUrl, ...pathParts].join('/');
+};
+
 export const getRepoGQL = (): string => {
 	const {owner, name} = getRepositoryInfo();
 	return `owner: "${owner!}", name: "${name!}"`;
