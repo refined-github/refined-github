@@ -23,11 +23,11 @@ function init(): void {
 		// "Repository refresh" layout
 		select('.file-navigation > .d-flex:last-child')!.append(
 			<a
-				className="btn ml-2"
+				className="btn ml-2 tooltipped tooltipped-ne"
 				href={downloadUrl.href}
+				aria-label="Download folder"
 			>
 				<DownloadIcon className="mr-1"/>
-				Download
 			</a>
 		);
 	}
