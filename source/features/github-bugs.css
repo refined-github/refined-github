@@ -17,11 +17,6 @@
 	border-bottom-right-radius: 5px;
 }
 
-/* Align author name on PR sticky header #3660 */
-.sticky-content .author.css-truncate-target {
-	vertical-align: -4px;
-}
-
 /* Align dropdown button on file page #3660 */
 #blob-more-options-details {
 	margin-top: 5.6px;
