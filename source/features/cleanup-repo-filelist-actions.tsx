@@ -24,6 +24,8 @@ function init(): void {
 				addIcon.classList.replace('d-md-flex', 'd-md-block');
 				addIcon.firstChild!.replaceWith(<PlusIcon/>);
 			}
+		}
+	});
 
 	observe('get-repo .octicon-download:not(.rgh-clean-actions)', {
 		add(icon) {
