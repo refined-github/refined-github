@@ -84,8 +84,8 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 		const file = await getFile(filePath);
 
 		if (!file) {
-			// The file was created by this PR. Restore === Delete.
-			// This shouldn't happen unless `highlight-deleted-and-added-files-in-diffs` is broken
+			// The file was created by this PR.
+			// This code won’t be reached if `highlight-deleted-and-added-files-in-diffs` works.
 			showError(menuItem, 'Nothing to restore. Delete file instead');
 			return;
 		}
