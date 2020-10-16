@@ -8,6 +8,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function init(): void {
+	// Only select desktop version of the button
 	observe('.d-flex > [data-hotkey="t"]:not(.rgh-clean-actions)', {
 		add(searchButton) {
 			searchButton.classList.add('tooltipped', 'tooltipped-ne', 'rgh-clean-actions');
@@ -15,6 +16,7 @@ function init(): void {
 
 			searchButton.firstChild!.replaceWith(<SearchIcon/>);
 
+			// Exclude logged out, mobile or file pages
 			const addButtonText = searchButton.nextElementSibling?.querySelector('.d-md-flex');
 			if (addButtonText) {
 				addButtonText.parentElement!.classList.add('tooltipped', 'tooltipped-ne');
