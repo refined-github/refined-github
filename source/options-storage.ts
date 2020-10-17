@@ -20,6 +20,7 @@ const defaults = Object.assign({
 const migrations = [
 	featureWasRenamed('sticky-conversation-sidebar', 'sticky-sidebar'), // Merged in September
 	featureWasRenamed('add-tags-to-commits', 'tags-on-commits-list'), // Merged in October
+	featureWasRenamed('cleanup-repo-filelist-actions', 'clean-repo-filelist-actions'), // Merged in October
 
 	// Removed features will be automatically removed from the options as well
 	OptionsSyncPerDomain.migrations.removeUnused
