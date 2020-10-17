@@ -45,14 +45,6 @@ async function getFile(filePath: string): Promise<{isTruncated: boolean; text: s
 	return repository.file;
 }
 
-async function deleteFile(menuItem: Element): Promise<void> {
-	menuItem.textContent = 'Deleting…';
-
-	const deleteFileLink = select<HTMLAnchorElement>('a[aria-label^="Delete this"]', menuItem.parentElement!)!;
-	const form = await fetchDom<HTMLFormElement>(deleteFileLink.href, '#new_blob');
-	await postForm(form!);
-}
-
 async function commitFileContent(menuItem: Element, content: string, filePath: string): Promise<void> {
 	let {pathname} = menuItem.previousElementSibling as HTMLAnchorElement;
 	// Check if file was deleted by PR
@@ -92,9 +84,9 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 		const file = await getFile(filePath);
 
 		if (!file) {
-			// The file was created by this PR. Restore === Delete.
-			// If there was a way to tell if a file was created by the PR, we could skip `getFile`
-			await deleteFile(menuItem);
+			// The file was created by this PR.
+			// This code won’t be reached if `highlight-deleted-and-added-files-in-diffs` works.
+			showError(menuItem, 'Nothing to restore. Delete file instead');
 			return;
 		}
 
@@ -116,6 +108,12 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	const editFile = select<HTMLAnchorElement>('[aria-label^="Change this"]', dropdown);
 	if (!editFile || select.exists('.rgh-restore-file', dropdown)) {
+		return;
+	}
+
+	if (editFile.closest('.file-header')!.querySelector('[aria-label="File added"]')) {
+		// The file is new. "Restoring" it means deleting it, which is already possible.
+		// Depends on `highlight-deleted-and-added-files-in-diffs`.
 		return;
 	}
 
