@@ -51,7 +51,7 @@ async function commitFileContent(menuItem: Element, content: string, filePath: s
 	if (menuItem.closest('[data-file-deleted="true"]')) {
 		menuItem.textContent = 'Undeleting…';
 		const [, user, repository] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/', 3);
-		pathname = `/${user}/${repository}/new/${getCurrentBranch()}?filename=${filePath}`;
+		pathname = `/${user}/${repository}/new/${getCurrentBranch()!}?filename=${filePath}`;
 	} else {
 		menuItem.textContent = 'Committing…';
 	}

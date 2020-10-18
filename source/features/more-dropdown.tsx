@@ -11,6 +11,7 @@ import PackageIcon from 'octicon/package.svg';
 
 import features from '.';
 import {appendBefore} from '../helpers/dom-utils';
+import getDefaultBranch from '../github-helpers/get-default-branch';
 import {buildRepoURL, getCurrentBranch} from '../github-helpers';
 
 function createDropdown(): void {
@@ -57,7 +58,7 @@ async function init(): Promise<void> {
 		'.UnderlineNav-body + *'
 	].join());
 
-	const reference = getCurrentBranch();
+	const reference = getCurrentBranch() ?? await getDefaultBranch();
 	const compareUrl = buildRepoURL('compare', reference);
 	const commitsUrl = buildRepoURL('commits', reference);
 	const branchesUrl = buildRepoURL('branches');

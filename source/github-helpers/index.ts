@@ -21,9 +21,15 @@ Tested on isRepoTree, isBlame, isSingleFile, isEditFile, isSingleCommit, isCommi
 Example tag content on public repositories: https://github.com/sindresorhus/refined-github/commits/branch-or-commit/even/with/slashes.atom
 Example tag content on private repositories https://github.com/private/private/commits/master.atom?token=AEAXKWNRHXA2XJ2ZWCMGUUN44LM62
 */
-export const getCurrentBranch = (): string => {
+export const getCurrentBranch = (): string | undefined => {
 	// .last needed for #2799
-	return new URL(select.last<HTMLLinkElement>('[type="application/atom+xml"]')!.href)
+	const feedLink = select.last<HTMLLinkElement>('[type="application/atom+xml"]');
+	// The feedLink is not available on `isIssue` #3641
+	if (!feedLink) {
+		return;
+	}
+
+	return new URL(feedLink.href)
 		.pathname
 		.split('/')
 		.slice(4) // Drops the initial /user/repo/route/ part
@@ -140,7 +146,7 @@ export function upperCaseFirst(input: string): string {
 
 /** Is tag or commit, with elementReady */
 export async function isPermalink(): Promise<boolean> {
-	if (/^[\da-f]{40}$/.test(getCurrentBranch())) {
+	if (/^[\da-f]{40}$/.test(getCurrentBranch()!)) {
 		// It's a commit
 		return true;
 	}
