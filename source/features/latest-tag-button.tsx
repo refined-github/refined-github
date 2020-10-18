@@ -139,7 +139,7 @@ async function init(): Promise<false | void> {
 
 void features.add({
 	id: __filebasename,
-	description: 'Adds link to the latest version tag on directory listings and files.',
+	description: 'Adds a link to the latest version tag on directory listings and files.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/74594998-71df2080-5077-11ea-927c-b484ca656e88.png'
 }, {
 	include: [
