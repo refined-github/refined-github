@@ -15,7 +15,7 @@ const branchInfoRegex = /([^ ]+)\.$/;
 export default cache.function(async (repository: Partial<RepositoryInfo> = getRepositoryInfo()): Promise<string> => {
 	if (JSON.stringify(repository) === JSON.stringify(getRepositoryInfo())) {
 		if (pageDetect.isRepoHome()) {
-			return getCurrentBranch();
+			return getCurrentBranch()!;
 		}
 
 		if (!pageDetect.isForkedRepo()) {
