@@ -44,6 +44,9 @@ export default class GitHubURL {
 		const filePath = ambiguousReference.slice(1).join('/');
 
 		const currentBranch = getCurrentBranch();
+		if (!currentBranch) {
+			throw new Error('GitHubURL can only be used on pages with a branch/reference.')
+		}
 		const currentBranchSections = currentBranch?.split('/');
 		if (
 			!currentBranchSections || // Current page does not have a branch; GitHubURL probably shouldn’t be used here
