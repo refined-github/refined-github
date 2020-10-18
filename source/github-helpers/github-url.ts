@@ -35,6 +35,7 @@ export default class GitHubURL {
 
 	private disambiguateReference(ambiguousReference: string[]): {branch: string; filePath: string} {
 		const branch = ambiguousReference[0];
+		// History pages might use search parameters
 		const filePathFromSearch = this.searchParams.getAll('path[]').join('/');
 		if (filePathFromSearch) {
 			this.searchParams.delete('path[]');
@@ -45,11 +46,11 @@ export default class GitHubURL {
 
 		const currentBranch = getCurrentBranch();
 		if (!currentBranch) {
-			throw new Error('GitHubURL can only be used on pages with a branch/reference.')
+			throw new Error('GitHubURL can only be used on pages with a branch/reference.');
 		}
-		const currentBranchSections = currentBranch?.split('/');
+
+		const currentBranchSections = currentBranch.split('/');
 		if (
-			!currentBranchSections || // Current page does not have a branch; GitHubURL probably shouldn’t be used here
 			ambiguousReference.length === 1 || // Ref has no slashes
 			currentBranchSections.length === 1 // Current branch has no slashes
 		) {
