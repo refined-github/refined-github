@@ -122,7 +122,7 @@ async function init(): Promise<void> {
 
 void features.add({
 	id: __filebasename,
-	description: 'Adds links to `Commits`, `Branches`, `Dependencies`, and `Compare` in a new `More` dropdown.',
+	description: 'Adds useful links to the repository navigation dropdown and moves the "Security" and "Insights" tabs to it as well.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/55089736-d94f5300-50e8-11e9-9095-329ac74c1e9f.png'
 }, {
 	include: [
