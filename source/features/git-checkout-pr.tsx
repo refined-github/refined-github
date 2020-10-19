@@ -11,7 +11,7 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	dropdown.classList.add('rgh-git-checkout'); // Mark this as processed
 	const [, user, repository] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/', 3);
 	const isLocalPr = select('.user-select-contain.head-ref a')!.childElementCount === 1;
-	const tabContainer = select('tab-container', dropdown)!;
+	const tabContainer = select('[action="/users/checkout-preference"]', dropdown)!.closest<HTMLElement>('tab-container')!;
 	tabContainer.style.width = 'fit-content';
 	select('.UnderlineNav-body', tabContainer)!.append(
 		<button
