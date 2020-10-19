@@ -40,7 +40,7 @@ function getBestComment(): HTMLElement | undefined {
 	for (const reaction of select.all(positiveReactions)) {
 		const comment = reaction.closest<HTMLElement>(commentSelector)!;
 		const positiveReactions = getPositiveReactions(comment);
-		if (!highest || positiveReactions > highest.count) {
+		if (positiveReactions && (!highest || positiveReactions > highest.count)) {
 			highest = {comment, count: positiveReactions};
 		}
 	}
