@@ -1,4 +1,5 @@
 import './highest-rated-comment.css';
+import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
 import CheckIcon from 'octicon/check.svg';
@@ -21,26 +22,27 @@ const negativeReactionsSelector = `
 	${commentSelector} [aria-label*="reacted with thumbs down"]
 `;
 
-function getBestComment(): HTMLElement | undefined {
-	let highest;
-	const commentsWithReactions = new Set<HTMLElement>();
-	for (const reaction of select.all(positiveReactionsSelector)) {
-		commentsWithReactions.add(reaction.closest<HTMLElement>(commentSelector)!);
+const getPositiveReactions = mem((comment: HTMLElement): number | void => {
+	// It needs to be upvoted enough times to be considered a useful comment
+	const positiveReactions = sum(select.all(positiveReactionsSelector, comment));
+	if (positiveReactions < 10) {
+		return;
 	}
 
-	for (const comment of commentsWithReactions) {
-		// It needs to be upvoted enough times to be considered a useful comment
-		const positiveReactions = sum(select.all(positiveReactionsSelector, comment));
-		if (positiveReactions < 10) {
-			continue;
-		}
+	// Controversial comment, ignore
+	const negativeReactions = sum(select.all(negativeReactionsSelector, comment));
+	if (negativeReactions >= positiveReactions / 2) {
+		return;
+	}
 
-		// Controversial comment, ignore
-		const negativeReactions = sum(select.all(negativeReactionsSelector, comment));
-		if (negativeReactions >= positiveReactions / 2) {
-			continue;
-		}
+	return positiveReactions;
+});
 
+function getBestComment(): HTMLElement | undefined {
+	let highest;
+	for (const reaction of select.all(positiveReactionsSelector)) {
+		const comment = reaction.closest<HTMLElement>(commentSelector)!;
+		const positiveReactions = getPositiveReactions(comment);
 		if (!highest || positiveReactions > highest.count) {
 			highest = {comment, count: positiveReactions};
 		}
