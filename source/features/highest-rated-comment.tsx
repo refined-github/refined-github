@@ -23,16 +23,20 @@ const negativeReactionsSelector = `
 
 function getBestComment(): HTMLElement | undefined {
 	let highest;
-	for (const comment of getCommentsWithReactions()) {
-		const positiveReactions = getCount(getPositiveReactions(comment));
+	const commentsWithReactions = new Set<HTMLElement>();
+	for (const reaction of select.all(positiveReactionsSelector)) {
+		commentsWithReactions.add(reaction.closest<HTMLElement>(commentSelector)!);
+	}
 
-		// It needs to be upvoted enough times to be considered an useful comment
+	for (const comment of commentsWithReactions) {
+		// It needs to be upvoted enough times to be considered a useful comment
+		const positiveReactions = sum(select.all(positiveReactionsSelector, comment));
 		if (positiveReactions < 10) {
 			continue;
 		}
 
 		// Controversial comment, ignore
-		const negativeReactions = getCount(getNegativeReactions(comment));
+		const negativeReactions = sum(select.all(negativeReactionsSelector, comment));
 		if (negativeReactions >= positiveReactions / 2) {
 			continue;
 		}
@@ -42,19 +46,14 @@ function getBestComment(): HTMLElement | undefined {
 		}
 	}
 
-	if (!highest) {
-		return undefined;
-	}
-
-	return highest.comment;
+	return highest?.comment;
 }
 
 function highlightBestComment(bestComment: Element): void {
 	const avatar = select('.TimelineItem-avatar', bestComment)!;
 	avatar.classList.add('flex-column', 'flex-items-center', 'd-md-flex');
-	avatar.append(
-		<CheckIcon width={24} height={32} className="mt-4 text-green"/>
-	);
+	avatar.append(<CheckIcon width={24} height={32} className="mt-4 text-green"/>);
+
 	select('.unminimized-comment', bestComment)!.classList.add('timeline-chosen-answer');
 	select('.unminimized-comment .timeline-comment-header-text', bestComment)!.before(
 		<span
@@ -70,62 +69,33 @@ function linkBestComment(bestComment: HTMLElement): void {
 	// Find position of comment in thread
 	const position = select.all(commentSelector).indexOf(bestComment);
 	// Only link to it if it doesn't already appear at the top of the conversation
-	if (position >= 3) {
-		const text = select('.comment-body', bestComment)!.textContent!.slice(0, 100);
-		const {hash} = select<HTMLAnchorElement>('.js-timestamp', bestComment)!;
+	if (position < 3) {
+		return;
+	}
 
-		// Copy avatar but link it to the comment
-		const avatar = select('.TimelineItem-avatar', bestComment)!.cloneNode(true);
-		const link = select<HTMLAnchorElement>('[data-hovercard-type="user"]', avatar)!;
-		link.removeAttribute('data-hovercard-type');
-		link.removeAttribute('data-hovercard-url');
-		link.href = hash;
+	const text = select('.comment-body', bestComment)!.textContent!.slice(0, 100);
+	const {hash} = select<HTMLAnchorElement>('.js-timestamp', bestComment)!;
+	const avatar = select('img.avatar', bestComment)!.cloneNode();
 
-		// Remove the check icon from the preview #3338
-		select('.octicon-check.text-green', avatar)!.remove();
-
-		// We don't copy the exact timeline item structure, so we need to align the avatar with the other avatars in the timeline.
-		// TODO: update DOM to match other comments, instead of applying this CSS
-		avatar.style.left = '-55px';
-
-		bestComment.parentElement!.firstElementChild!.after((
-			<div className="timeline-comment-wrapper pl-0 my-0">
+	bestComment.parentElement!.firstElementChild!.after(
+		<div className="timeline-comment-wrapper pl-0 my-0">
+			<a href={hash} className="no-underline rounded-1 timeline-chosen-answer timeline-comment bg-gray px-2 d-flex flex-items-center">
 				{avatar}
+				<span className="btn btn-sm mr-2">
+					<ArrowDownIcon/>
+				</span>
 
-				<a href={hash} className="no-underline rounded-1 timeline-chosen-answer timeline-comment bg-gray px-2 d-flex flex-items-center">
-					<span className="btn btn-sm mr-2">
-						<ArrowDownIcon/>
-					</span>
-
-					<span className="text-gray timeline-comment-header-text">
-						Highest-rated comment: <em>{text}</em>
-					</span>
-				</a>
-			</div>
-		));
-	}
+				<span className="text-gray timeline-comment-header-text">
+					Highest-rated comment: <em>{text}</em>
+				</span>
+			</a>
+		</div>
+	);
 }
 
-function getCommentsWithReactions(): Set<HTMLElement> {
-	const comments = getPositiveReactions().map(reaction => reaction.closest<HTMLElement>(commentSelector)!);
-	return new Set(comments);
-}
-
-function getNegativeReactions(reactionBox?: HTMLElement): HTMLElement[] {
-	return select.all(negativeReactionsSelector, reactionBox ?? document);
-}
-
-function getPositiveReactions(reactionBox?: HTMLElement): HTMLElement[] {
-	return select.all(positiveReactionsSelector, reactionBox ?? document);
-}
-
-function getCount(reactions: HTMLElement[]): number {
-	let count = 0;
-	for (const reaction of reactions) {
-		count += looseParseInt(reaction.textContent!);
-	}
-
-	return count;
+function sum(reactions: HTMLElement[]): number {
+	// eslint-disable-next-line unicorn/no-reduce -- The alternative `for` loop is too lengthy for a simply sum
+	return reactions.reduce((sum, element) => sum + looseParseInt(element), 0);
 }
 
 function init(): false | void {
@@ -134,8 +104,8 @@ function init(): false | void {
 		return false;
 	}
 
-	highlightBestComment(bestComment);
 	linkBestComment(bestComment);
+	highlightBestComment(bestComment);
 }
 
 void features.add({
