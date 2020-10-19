@@ -12,35 +12,32 @@ import looseParseInt from '../helpers/loose-parse-int';
 // `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)
 const commentSelector = '.js-timeline-item';
 
-const positiveReactionsSelector = `
+const positiveReactions = `
 	${commentSelector} [aria-label*="reacted with thumbs up"],
 	${commentSelector} [aria-label*="reacted with hooray"],
 	${commentSelector} [aria-label*="reacted with heart"]
 `;
 
-const negativeReactionsSelector = `
+const negativeReactions = `
 	${commentSelector} [aria-label*="reacted with thumbs down"]
 `;
 
 const getPositiveReactions = mem((comment: HTMLElement): number | void => {
-	// It needs to be upvoted enough times to be considered a useful comment
-	const positiveReactions = sum(select.all(positiveReactionsSelector, comment));
-	if (positiveReactions < 10) {
-		return;
-	}
+	const count = selectSum(positiveReactions, comment);
+	if (
+		// It needs to be upvoted enough times
+		count >= 10 &&
 
-	// Controversial comment, ignore
-	const negativeReactions = sum(select.all(negativeReactionsSelector, comment));
-	if (negativeReactions >= positiveReactions / 2) {
-		return;
+		// It can't be a controversial comment
+		selectSum(negativeReactions, comment) < count / 2
+	) {
+		return count;
 	}
-
-	return positiveReactions;
 });
 
 function getBestComment(): HTMLElement | undefined {
 	let highest;
-	for (const reaction of select.all(positiveReactionsSelector)) {
+	for (const reaction of select.all(positiveReactions)) {
 		const comment = reaction.closest<HTMLElement>(commentSelector)!;
 		const positiveReactions = getPositiveReactions(comment);
 		if (!highest || positiveReactions > highest.count) {
@@ -95,9 +92,9 @@ function linkBestComment(bestComment: HTMLElement): void {
 	);
 }
 
-function sum(reactions: HTMLElement[]): number {
-	// eslint-disable-next-line unicorn/no-reduce -- The alternative `for` loop is too lengthy for a simply sum
-	return reactions.reduce((sum, element) => sum + looseParseInt(element), 0);
+function selectSum(selector: string, container: HTMLElement): number {
+	// eslint-disable-next-line unicorn/no-reduce -- The alternative `for` loop is too lengthy for a simple sum
+	return select.all(selector, container).reduce((sum, element) => sum + looseParseInt(element), 0);
 }
 
 function init(): false | void {
