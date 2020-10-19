@@ -12,24 +12,24 @@ import looseParseInt from '../helpers/loose-parse-int';
 // `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)
 const commentSelector = '.js-timeline-item';
 
-const positiveReactions = `
+const positiveReactionsSelector = `
 	${commentSelector} [aria-label*="reacted with thumbs up"],
 	${commentSelector} [aria-label*="reacted with hooray"],
 	${commentSelector} [aria-label*="reacted with heart"]
 `;
 
-const negativeReactions = `
+const negativeReactionsSelector = `
 	${commentSelector} [aria-label*="reacted with thumbs down"]
 `;
 
 const getPositiveReactions = mem((comment: HTMLElement): number | void => {
-	const count = selectSum(positiveReactions, comment);
+	const count = selectSum(positiveReactionsSelector, comment);
 	if (
 		// It needs to be upvoted enough times
 		count >= 10 &&
 
 		// It can't be a controversial comment
-		selectSum(negativeReactions, comment) < count / 2
+		selectSum(negativeReactionsSelector, comment) < count / 2
 	) {
 		return count;
 	}
@@ -37,7 +37,7 @@ const getPositiveReactions = mem((comment: HTMLElement): number | void => {
 
 function getBestComment(): HTMLElement | undefined {
 	let highest;
-	for (const reaction of select.all(positiveReactions)) {
+	for (const reaction of select.all(positiveReactionsSelector)) {
 		const comment = reaction.closest<HTMLElement>(commentSelector)!;
 		const positiveReactions = getPositiveReactions(comment);
 		if (positiveReactions && (!highest || positiveReactions > highest.count)) {
