@@ -17,13 +17,13 @@ const cacheKey = `releases-count:${getRepoURL()}`;
 function parseCountFromDom(): number {
 	const releasesCountElement = select('.numbers-summary a[href$="/releases"] .num');
 	if (releasesCountElement) {
-		return looseParseInt(releasesCountElement.textContent!);
+		return looseParseInt(releasesCountElement);
 	}
 
 	// In "Repository refresh" layout, look for the releases link in the sidebar
 	const moreReleasesCountElement = select('[href$="/tags"] strong');
 	if (moreReleasesCountElement) {
-		return looseParseInt(moreReleasesCountElement.textContent!);
+		return looseParseInt(moreReleasesCountElement);
 	}
 
 	return 0;
