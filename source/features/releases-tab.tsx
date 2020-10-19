@@ -103,7 +103,9 @@ async function init(): Promise<false | void> {
 			releasesTab.setAttribute('aria-current', 'page');
 		}
 
-		select('.dropdown-divider', repoNavigationBar)!.before(
+		appendBefore(
+			select('.js-responsive-underlinenav .dropdown-menu ul')!,
+			'.dropdown-divider', // Won't exist if `more-dropdown` is disabled
 			createDropdownItem('Releases', `/${repoUrl}/releases`, {
 				'data-menu-item': 'rgh-releases-item'
 			})
