@@ -46,8 +46,8 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 					className="copyable-terminal-content"
 				>
 					<span className="user-select-contain">
-						{isLocalPr ? '' : `git remote add ${user} ${location.origin}/${user}/${repository}.git\ngit fetch ${user}\n`}
-						git switch {user}/{getCurrentBranch()}
+						{isLocalPr || `git remote add ${user} ${location.origin}/${user}/${repository}.git\n`}
+						git switch {getCurrentBranch()}
 					</span>
 				</pre>
 			</div>
