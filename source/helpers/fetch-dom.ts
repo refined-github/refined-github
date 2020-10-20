@@ -7,7 +7,6 @@ async function fetchDom(url: string, selector?: string, backgroundRequest?: bool
 	const absoluteURL = new URL(url, location.origin).toString(); // Firefox `fetch`es from the content script, so relative URLs fail
 	const response = backgroundRequest ? await browser.runtime.sendMessage({request: absoluteURL}) : await fetch(absoluteURL);
 	const dom = domify(await response.text?.() ?? response);
-	console.log(dom);
 	if (selector) {
 		return dom.querySelector(selector) ?? undefined;
 	}
