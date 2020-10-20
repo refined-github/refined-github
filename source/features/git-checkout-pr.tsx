@@ -12,7 +12,6 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	const [, user, repository] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/', 3);
 	const isLocalPr = select('.user-select-contain.head-ref a')!.childElementCount === 1;
 	const tabContainer = select('[action="/users/checkout-preference"]', dropdown)!.closest<HTMLElement>('tab-container')!;
-	tabContainer.style.width = 'fit-content';
 	select('.UnderlineNav-body', tabContainer)!.append(
 		<button
 			name="type"
@@ -63,8 +62,8 @@ function init(): void {
 
 void features.add({
 	id: __filebasename,
-	description: 'Adds a tab with instruction to checkout a remote PR branch locally.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/94288432-64e7b100-ff25-11ea-8991-b8ef3d4a9ba3.png'
+	description: 'Adds copy-pastable git commands to checkout a PR.',
+	screenshot: 'https://user-images.githubusercontent.com/1402241/96627265-3962a700-12d6-11eb-97da-dddb8a071ed9.png'
 }, {
 	include: [
 		pageDetect.isPR
