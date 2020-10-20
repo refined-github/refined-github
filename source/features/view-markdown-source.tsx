@@ -18,7 +18,7 @@ const lineActions = onetime(async () => {
 	const blobToolbar = await fetchDom('https://github.com/sindresorhus/refined-github/blob/b1229bbaeb8cf071f0711bc2ed1b40dd96cd7a05/.editorconfig', '.BlobToolbar', true);
 	select<HTMLAnchorElement>('#js-view-git-blame', blobToolbar)!.href = new GitHubURL(location.href).assign({route: 'blame'}).href;
 	select<HTMLAnchorElement>('#js-new-issue', blobToolbar)!.href = buildRepoURL('issues/new');
-	return blobToolbar;
+	return blobToolbar!;
 });
 
 const buttonBodyMap = new WeakMap<Element, Element | Promise<Element>>();
@@ -65,9 +65,9 @@ async function showSource(): Promise<void> {
 	sourceButton.classList.add('selected');
 	renderedButton.classList.remove('selected');
 	blurButton(sourceButton);
-	(await source).before(await lineActions() as unknown as HTMLDetailsElement);
-
 	dispatchEvent(sourceButton, 'rgh:view-markdown-source');
+
+	(await source).before(await lineActions());
 }
 
 async function showRendered(): Promise<void> {
@@ -83,7 +83,7 @@ async function showRendered(): Promise<void> {
 	sourceButton.classList.remove('selected');
 	renderedButton.classList.add('selected');
 	blurButton(renderedButton);
-	(lineActions() as unknown as HTMLDetailsElement).remove();
+	(await lineActions()).remove();
 
 	dispatchEvent(sourceButton, 'rgh:view-markdown-rendered');
 }
