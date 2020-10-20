@@ -86,9 +86,9 @@ async function showRendered(): Promise<void> {
 	sourceButton.classList.remove('selected');
 	renderedButton.classList.add('selected');
 	blurButton(renderedButton);
-	(await lineActions()).remove();
-
 	dispatchEvent(sourceButton, 'rgh:view-markdown-rendered');
+
+	(await lineActions()).remove();
 }
 
 async function init(): Promise<void> {
