@@ -19,7 +19,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: fregante/setup-git-token@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: fregante/setup-git-user@v1
       - run: git push --delete origin $GITHUB_REF
