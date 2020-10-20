@@ -47,6 +47,6 @@ addDomainPermissionToggle();
 // Don’t turn this into an `async` function https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/onMessage#addListener_syntax
 browser.runtime.onMessage.addListener((message): Promise<string> | void => {
 	if (message?.request) {
-		return fetch(request).then(async response => response.text());
+		return fetch(message.request).then(async response => response.text());
 	}
 });

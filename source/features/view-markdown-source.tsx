@@ -1,5 +1,6 @@
 import './view-markdown-source.css';
 import React from 'dom-chef';
+import domify from 'doma';
 import select from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
@@ -17,10 +18,10 @@ const lineActions = onetime(async () => {
 	// Avoid having to create the entire 60 lines of JSX. The URL is hardcoded to a file we know the DOM exists.
 	const randomKnownFile = 'https://github.com/sindresorhus/refined-github/blob/b1229bbaeb8cf071f0711bc2ed1b40dd96cd7a05/.editorconfig';
 	const html = await browser.runtime.sendMessage({request: randomKnownFile});
-	const blobToolbar = domify(html).querySelector('.BlobToolbar');
+	const blobToolbar = domify(html).querySelector('.BlobToolbar')!;
 	select<HTMLAnchorElement>('#js-view-git-blame', blobToolbar)!.href = new GitHubURL(location.href).assign({route: 'blame'}).href;
 	select<HTMLAnchorElement>('#js-new-issue', blobToolbar)!.href = buildRepoURL('issues/new');
-	return blobToolbar!;
+	return blobToolbar;
 });
 
 const buttonBodyMap = new WeakMap<Element, Element | Promise<Element>>();
