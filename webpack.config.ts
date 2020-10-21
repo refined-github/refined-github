@@ -19,7 +19,7 @@ function parseFeatureDetails(id: FeatureID): FeatureMeta {
 	for (const field of fields) {
 		const value = new RegExp(`\n\t${field}: '([^\\n]+)'`).exec(content)?.[1];
 		if (value) {
-			const validValue = value.trim().replace(/\\'/g, '’'); // Catch trailing spaces and incorrect apostrophes
+			const validValue = value.trim().replace(/(?<!`)\\'/g, '’'); // Catch trailing spaces and incorrect apostrophes
 			if (value !== validValue) {
 				throw new Error(stripIndent(`
 					❌ Invalid characters found in \`${id}\`. Apply this patch:
@@ -29,7 +29,7 @@ function parseFeatureDetails(id: FeatureID): FeatureMeta {
 				`));
 			}
 
-			feature[field] = value.replace(/\\\\/g, '\\');
+			feature[field] = value.replace(/\\'/g, '\'').replace(/\\\\/g, '\\');
 		}
 	}
 
