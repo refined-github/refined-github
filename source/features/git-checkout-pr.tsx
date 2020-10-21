@@ -12,6 +12,7 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	const [, user, repository] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/', 3);
 	const isLocalPr = select('.user-select-contain.head-ref a')!.childElementCount === 1;
 	const tabContainer = select('[action="/users/checkout-preference"]', dropdown)!.closest<HTMLElement>('tab-container')!;
+	tabContainer.style.minWidth = '370px';
 	select('.UnderlineNav-body', tabContainer)!.append(
 		<button
 			name="type"
@@ -46,9 +47,8 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 					className="copyable-terminal-content"
 				>
 					<span className="user-select-contain">
-						{isLocalPr || `git remote add ${user} ${location.origin}/${user}/${repository}.git\n`}
-						{isLocalPr || `git fetch ${user} ${getCurrentBranch()!}\n`}
-						git switch {getCurrentBranch()}
+						{isLocalPr || `git remote add ${user} ${location.origin}/${user}/${repository}.git -f -t ${getCurrentBranch()!}\n`}
+						git switch --track {user}/{getCurrentBranch()}
 					</span>
 				</pre>
 			</div>
