@@ -63,8 +63,8 @@ async function removeProjectsTab(): Promise<void | false> {
 
 void features.add({
 	id: __filebasename,
-	description: 'Hides the `Projects` tab from repositories and profiles when it’s empty. New projects can still be created via the `Create new…` menu.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/34909214-18b6fb2e-f8cf-11e7-8556-bed748596d3b.png'
+	description: 'Hides the `Projects` tab from repositories and profiles when it’s empty.',
+	screenshot: false
 }, {
 	include: [
 		pageDetect.isRepo,

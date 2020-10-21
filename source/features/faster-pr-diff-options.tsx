@@ -111,7 +111,7 @@ function init(): false | void {
 
 void features.add({
 	id: __filebasename,
-	description: 'Adds one-click buttons to change diff style and to ignore the whitespace and a keyboard shortcut to ignore the whitespace: `d` `w`.',
+	description: 'Adds one-click buttons to change diff style and to ignore the whitespace and a keyboard shortcut to ignore the whitespace: `d` `w`.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/54178764-d1c96080-44d1-11e9-889c-734ffd2a602d.png',
 	shortcuts: {
 		'd w': 'Show/hide whitespaces in diffs'

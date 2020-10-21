@@ -23,7 +23,7 @@ function deinit(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Enhances the `y` hotkey to also copy the permalink.',
-	screenshot: false
+	screenshot: 'https://help.github.com/articles/getting-permanent-links-to-files/'
 }, {
 	include: [
 		pageDetect.isSingleFile

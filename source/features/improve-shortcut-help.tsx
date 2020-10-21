@@ -63,7 +63,7 @@ function init(): void {
 
 void features.add({
 	id: __filebasename,
-	description: 'Show Refined GitHub’s keyboard shortcuts in the help modal (`?` hotkey).',
+	description: 'Shows all of Refined GitHub’s new keyboard shortcuts in the help modal (`?` hotkey).',
 	screenshot: 'https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png'
 }, {
 	awaitDomReady: false,

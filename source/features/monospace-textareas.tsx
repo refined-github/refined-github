@@ -9,7 +9,7 @@ function init(): void {
 
 void features.add({
 	id: __filebasename,
-	description: 'Use a monospace font for all textareas.',
+	description: 'Uses a monospace font for all textareas.',
 	screenshot: false
 }, {
 	awaitDomReady: false,

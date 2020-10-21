@@ -61,7 +61,7 @@ function init(): void {
 
 void void features.add({
 	id: __filebasename,
-	description: 'Hides reaction comments ("+1", "👍", …).',
+	description: 'Hides reaction comments ("+1", "👍", …) (except the maintainers’) but they can still be shown.',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/45543717-d45f3c00-b847-11e8-84a5-8c439d0ad1a5.png'
 }, {
 	include: [

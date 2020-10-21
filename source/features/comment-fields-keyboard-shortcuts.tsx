@@ -65,8 +65,8 @@ function init(): void {
 
 void features.add({
 	id: __filebasename,
-	description: 'Adds shortcuts to comment fields: `↑` to edit your previous comment; `esc` to blur field or cancel comment.',
-	screenshot: false,
+	description: 'Adds a shortcut to edit your last comment: `↑`. (Only works in the following comment field, if it’s empty.)',
+	screenshot: 'https://github.com/sindresorhus/refined-github/pull/961',
 	shortcuts: {
 		'↑': 'Edit your last comment',
 		esc: 'Unfocuses comment field'

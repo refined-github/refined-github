@@ -16,7 +16,7 @@ function init(): void {
 
 void features.add({
 	id: __filebasename,
-	description: 'Make issue/PR references in issue/PR titles clickable and parse `code in backticks` that appear as Markdown',
+	description: 'Makes issue/PR references in issue/PR titles clickable and renders `text in backticks`.',
 	screenshot: 'https://user-images.githubusercontent.com/22439276/58927232-71ae2780-876b-11e9-941e-bb56a7389123.png'
 }, {
 	include: [

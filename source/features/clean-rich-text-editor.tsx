@@ -17,7 +17,7 @@ function hideTextareaTooltip(): void {
 
 void features.add({
 	id: __filebasename,
-	description: 'Hides unnecessary comment field tooltips and toolbar items.',
+	description: 'Hides unnecessary comment field tooltips and toolbar items (each one has a keyboard shortcut.)',
 	screenshot: 'https://user-images.githubusercontent.com/1402241/53629083-a4fe8900-3c47-11e9-8211-bfe2d254ffcb.png'
 }, {
 	include: [
