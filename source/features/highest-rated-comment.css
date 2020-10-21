@@ -8,3 +8,8 @@ a.timeline-chosen-answer .timeline-comment-header-text {
 	overflow: hidden;
 	max-width: none;
 }
+
+a.timeline-chosen-answer .avatar {
+	position: absolute;
+	left: -55px;
+}

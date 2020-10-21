@@ -17,13 +17,13 @@ const cacheKey = `releases-count:${getRepoURL()}`;
 function parseCountFromDom(): number {
 	const releasesCountElement = select('.numbers-summary a[href$="/releases"] .num');
 	if (releasesCountElement) {
-		return looseParseInt(releasesCountElement.textContent!);
+		return looseParseInt(releasesCountElement);
 	}
 
 	// In "Repository refresh" layout, look for the releases link in the sidebar
 	const moreReleasesCountElement = select('[href$="/tags"] strong');
 	if (moreReleasesCountElement) {
-		return looseParseInt(moreReleasesCountElement.textContent!);
+		return looseParseInt(moreReleasesCountElement);
 	}
 
 	return 0;
@@ -102,7 +102,9 @@ async function init(): Promise<false | void> {
 			releasesTab.setAttribute('aria-current', 'page');
 		}
 
-		select('.dropdown-divider', repoNavigationBar)!.before(
+		appendBefore(
+			select('.js-responsive-underlinenav .dropdown-menu ul')!,
+			'.dropdown-divider', // Won't exist if `more-dropdown` is disabled
 			createDropdownItem('Releases', buildRepoURL('releases'), {
 				'data-menu-item': 'rgh-releases-item'
 			})
