@@ -48,7 +48,7 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 				>
 					<span className="user-select-contain">
 						{isLocalPr || `git remote add ${user} ${location.origin}/${user}/${repository}.git -f -t ${getCurrentBranch()!}\n`}
-						git switch --track {user}/{getCurrentBranch()}
+						{isLocalPr ? `git switch ${getCurrentBranch()!}` : `git switch --track ${user}/${getCurrentBranch()!}`}
 					</span>
 				</pre>
 			</div>
@@ -64,7 +64,7 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Adds copy-pastable git commands to checkout a PR.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/96627265-3962a700-12d6-11eb-97da-dddb8a071ed9.png'
+	screenshot: 'https://user-images.githubusercontent.com/16872793/96723392-8305cd00-137c-11eb-851b-71042dc0c45d.png'
 }, {
 	include: [
 		pageDetect.isPR
