@@ -8,8 +8,30 @@ import fitTextarea from 'fit-textarea';
 import {applyToLink} from 'shorten-repo-url';
 import * as indentTextarea from 'indent-textarea';
 
+import getTextNodes from './helpers/get-text-nodes';
 import {perDomainOptions} from './options-storage';
 import * as domFormatters from './github-helpers/dom-formatters';
+
+export function parseSimpleInlineElement(element: Element, tag: string): void {
+	const splittingRegex = new RegExp(`<${tag}>(.+?)</${tag}>`, 'g');
+
+	for (const node of getTextNodes(element)) {
+		const fragment = new DocumentFragment();
+		for (const [index, text] of node.textContent!.split(splittingRegex).entries()) {
+			if (index % 2 && text.length >= 1) {
+				const createdElement = document.createElement(tag);
+				createdElement.textContent = text.trim();
+				fragment.append(createdElement);
+			} else if (text.length > 0) {
+				fragment.append(text);
+			}
+		}
+
+		if (fragment.children.length > 0) {
+			node.replaceWith(fragment);
+		}
+	}
+}
 
 function parseDescription(description: string): DocumentFragment {
 	const descriptionElement = <span>{description}</span>;
@@ -20,6 +42,8 @@ function parseDescription(description: string): DocumentFragment {
 	});
 	domFormatters.linkifyURLs(descriptionElement);
 	domFormatters.parseBackticks(descriptionElement);
+	parseSimpleInlineElement(descriptionElement, 'i');
+	parseSimpleInlineElement(descriptionElement, 'kbd');
 
 	for (const a of select.all('a', descriptionElement)) {
 		applyToLink(a);

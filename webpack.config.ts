@@ -22,14 +22,14 @@ function parseFeatureDetails(id: FeatureID): FeatureMeta {
 		feature.description = lineMatch[1].replace(/\[(.+?)]\((.+?)\)/g, (_match, title, url) => {
 			urls.push(url);
 			return title;
-		}).replace(/<kbd>(.+?)<\/kbd>/g, '`$1`');
+		});
 		feature.screenshot = urls.find(url => /\.(png|gif)$/i.test(url));
 	} else {
 		// Feature might be highlighted in the readme
 		const imageRegex = new RegExp(`<p><a title="${id}"></a> (.+?)\\n\\t+<p><img src="(.+?)">`);
 		const imageMatch = imageRegex.exec(readmeContent);
 		if (imageMatch) {
-			feature.description = `${imageMatch[1].replace(/<i>(.*?)<\/i>/g, '$1')}.`;
+			feature.description = `${imageMatch[1]}.`;
 			feature.screenshot = imageMatch[2];
 		} else {
 			throw new Error(`❌ Feature \`${id}\` needs a description in readme.md. Please refer to the style guide there.`);
