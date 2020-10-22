@@ -52,16 +52,6 @@ function parseFeatureDetails(id: FeatureID): FeatureMeta {
 		}
 	}
 
-	const validDescription = feature.description.trim().replace(/(?<!`)\\'/g, '’'); // Catch trailing spaces and incorrect apostrophes
-	if (feature.description !== validDescription) {
-		throw new Error(stripIndent(`
-			❌ Invalid characters found in description for \`${id}\`. Apply this patch:
-
-			- ${feature.description}'
-			+ ${validDescription}'
-		`));
-	}
-
 	const featureFileContent = readFileSync(`source/features/${id}.tsx`, {encoding: 'utf-8'});
 	const [, disabledReason] = /\n\tdisabled: '([^\n]+)'/.exec(featureFileContent) ?? [];
 	if (disabledReason) {
