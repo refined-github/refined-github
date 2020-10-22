@@ -68,6 +68,16 @@ export const getRepositoryInfo = (repoUrl: string = location.pathname.slice(1)):
 	return {owner, name};
 };
 
+export interface PRRepositoryInfo {
+	user: string;
+	repository: string;
+}
+
+export const getPRRepositoryInfo = (): PRRepositoryInfo => {
+	const [, user, repository] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/', 3);
+	return {user, repository};
+};
+
 export function getForkedRepo(): string | undefined {
 	return select<HTMLMetaElement>('[name="octolytics-dimension-repository_parent_nwo"]')?.content;
 }

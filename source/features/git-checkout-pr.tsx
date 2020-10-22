@@ -5,11 +5,10 @@ import ClippyIcon from 'octicon/clippy.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getCurrentBranch} from '../github-helpers';
+import {getCurrentBranch, getPRRepositoryInfo} from '../github-helpers';
 
 function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	dropdown.classList.add('rgh-git-checkout'); // Mark this as processed
-	const [, user, repository] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/', 3);
 	const isLocalPr = select('.user-select-contain.head-ref a')!.childElementCount === 1;
 	const tabContainer = select('[action="/users/checkout-preference"]', dropdown)!.closest<HTMLElement>('tab-container')!;
 	tabContainer.style.minWidth = '370px';
@@ -24,19 +23,17 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 			Git Checkout
 		</button>
 	);
+
+	const {user, repository} = getPRRepositoryInfo();
 	const checkoutOptions = isLocalPr ? ['local'] : ['HTTPS', 'SSH'];
 	tabContainer.append(
 		<div hidden role="tabpanel" className="p-3">
 			<p className="text-gray text-small">
 				Run in your project repository{isLocalPr || ', pick either one'}
 			</p>
-
 			{checkoutOptions.map(checkoutOption => (
 				<>
-					{isLocalPr ||
-						<p className="text-gray text-small">
-							{checkoutOption}
-						</p>}
+					{isLocalPr || <p className="text-gray text-small my-1">{checkoutOption}</p>}
 					<div className="copyable-terminal">
 						<div className="copyable-terminal-button">
 							<clipboard-copy

@@ -8,7 +8,7 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import fetchDom from '../helpers/fetch-dom';
 import postForm from '../helpers/post-form';
-import {getConversationNumber, getRepoGQL, getCurrentBranch} from '../github-helpers';
+import {getConversationNumber, getRepoGQL, getCurrentBranch, getPRRepositoryInfo} from '../github-helpers';
 
 function showError(menuItem: HTMLButtonElement, error: string): void {
 	menuItem.disabled = true;
@@ -50,7 +50,7 @@ async function commitFileContent(menuItem: Element, content: string, filePath: s
 	// Check if file was deleted by PR
 	if (menuItem.closest('[data-file-deleted="true"]')) {
 		menuItem.textContent = 'Undeleting…';
-		const [, user, repository] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/', 3);
+		const {user, repository} = getPRRepositoryInfo();
 		pathname = `/${user}/${repository}/new/${getCurrentBranch()!}?filename=${filePath}`;
 	} else {
 		menuItem.textContent = 'Committing…';
