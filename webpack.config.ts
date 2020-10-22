@@ -12,9 +12,7 @@ import webpack, {Configuration} from 'webpack';
 
 import concatRegex from './source/helpers/concat-regex';
 
-const readmeContent = readFileSync(path.join(__dirname, 'readme.md'), 'utf-8');
-
-function parseFeatureDetails(id: FeatureID): FeatureMeta {
+function parseFeatureDetails(readmeContent: string, id: FeatureID): FeatureMeta {
 	const lineRegex = concatRegex(/^- \[]\(# "/, id, /"\)(?: 🔥)? (.+)$/m);
 	const lineMatch = lineRegex.exec(readmeContent);
 	if (lineMatch) {
@@ -102,7 +100,10 @@ const config: Configuration = {
 			),
 
 			__featuresMeta__: webpack.DefinePlugin.runtimeValue(
-				() => JSON.stringify(getFeatures().map(parseFeatureDetails)),
+				() => {
+					const readmeContent = readFileSync(path.join(__dirname, 'readme.md'), 'utf-8');
+					return JSON.stringify(getFeatures().map(id => parseFeatureDetails(readmeContent, id)));
+				},
 				true
 			),
 
