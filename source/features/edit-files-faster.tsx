@@ -29,11 +29,7 @@ async function init(): Promise<void> {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a button to edit files from the repo file list.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/56370462-d51cde00-622d-11e9-8cd3-8a173bd3dc08.png'
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.isRepoTree
 	],

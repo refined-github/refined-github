@@ -90,11 +90,7 @@ function init(): false | void {
 	});
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Simplifies the PR review form: Approve or reject reviews faster with one-click review-type buttons.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png'
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.isPR
 	],

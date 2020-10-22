@@ -70,11 +70,7 @@ async function init(): Promise<false | void> {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Shows the next scheduled time of relevant GitHub Actions in the workflows sidebar.',
-	screenshot: 'https://user-images.githubusercontent.com/46634000/94690232-2476a180-0330-11eb-99d7-e174bb762cea.png'
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.isRepositoryActions
 	],

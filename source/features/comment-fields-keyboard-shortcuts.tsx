@@ -63,10 +63,7 @@ function init(): void {
 	onCommentFieldKeydown(eventHandler);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a shortcut to edit your last comment: `↑`. (Only works in the following comment field, if it’s empty.)',
-	screenshot: 'https://github.com/sindresorhus/refined-github/pull/961',
+void features.add(__filebasename, {
 	shortcuts: {
 		'↑': 'Edit your last comment',
 		esc: 'Unfocuses comment field'

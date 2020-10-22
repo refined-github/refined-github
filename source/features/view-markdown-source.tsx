@@ -122,11 +122,7 @@ async function init(): Promise<void> {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a button to view the source of Markdown files.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/54814836-7bc39c80-4ccb-11e9-8996-9ecf4f6036cb.png'
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.isSingleFile
 	],

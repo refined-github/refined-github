@@ -114,11 +114,7 @@ async function init(): Promise<void> {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Displays the age of the repository in the sidebar.',
-	screenshot: 'https://user-images.githubusercontent.com/3848317/69494069-7d2b1180-0eb7-11ea-9aa1-d4194e566340.png'
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.isRepoRoot
 	],

@@ -66,11 +66,7 @@ function init(): void {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a button in the text editor to quickly insert a simplified HTML table.',
-	screenshot: 'https://user-images.githubusercontent.com/46634000/94559114-09892c00-0261-11eb-8fb0-c5a85ea76b6f.gif'
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.hasRichTextEditor
 	],

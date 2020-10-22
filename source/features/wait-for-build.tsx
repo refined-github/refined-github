@@ -101,11 +101,7 @@ function init(): void {
 	});
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds the option to wait for checks when merging a PR.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/35192861-3f4a1bf6-fecc-11e7-8b9f-35ee019c6cdf.gif'
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.isPRConversation
 	],

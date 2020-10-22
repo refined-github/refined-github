@@ -167,11 +167,7 @@ async function init(): Promise<void | false> {
 	await cache.set(cacheKey, cached, {days: 1});
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Displays the corresponding tags next to commits.',
-	screenshot: 'https://user-images.githubusercontent.com/14323370/66400400-64ba7280-e9af-11e9-8d6c-07b35afde91f.png'
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.isRepoCommitList
 	],

@@ -112,11 +112,7 @@ async function init(): Promise<void | false> {
 	delegate(document, '.rgh-update-pr-from-base-branch button', 'click', handler);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds button to update a PR from the base branch to ensure it builds correctly before merging the PR itself. GitHub only adds it when the base branch is "protected".',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/57941992-f2170080-7902-11e9-8f8a-594aad983559.png'
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.isPRConversation
 	],

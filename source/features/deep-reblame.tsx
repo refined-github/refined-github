@@ -109,11 +109,7 @@ function init(): void | false {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'When exploring blames, `Alt`-clicking the “Reblame” buttons will extract the associated PR’s commits first, instead of treating the commit a single change.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/77248541-8e3f2180-6c10-11ea-91d4-221ccc0ecebb.png'
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.isBlame
 	],

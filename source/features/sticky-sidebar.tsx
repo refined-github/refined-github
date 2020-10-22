@@ -24,11 +24,7 @@ function deinit(): void {
 	window.removeEventListener('resize', onResize);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Makes conversation sidebars and repository sidebars sticky, if they fit the viewport.',
-	screenshot: 'https://user-images.githubusercontent.com/10238474/62276723-5a2eaa80-b44d-11e9-810b-ff598d1c5c6a.gif'
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.isRepoRoot,
 		pageDetect.isConversation

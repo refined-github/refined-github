@@ -20,10 +20,7 @@ function init(): void {
 	document.addEventListener('keypress', openInNewTab);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a keyboard shortcut to open selection in new tab when navigating via `j` and `k`: `shift` `o`.',
-	screenshot: 'https://github.com/sindresorhus/refined-github/issues/1110',
+void features.add(__filebasename, {
 	shortcuts: {
 		'shift o': 'Open selection in new tab'
 	}

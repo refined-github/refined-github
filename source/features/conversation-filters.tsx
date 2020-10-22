@@ -34,11 +34,7 @@ function init(): void {
 	commentsMenuItem.after(subscriptionsMenuItem);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds `Everything commented by you` and `Everything you subscribed to` filters in the search box dropdown.',
-	screenshot: 'https://user-images.githubusercontent.com/202916/84156153-72a62300-aa69-11ea-8592-3094292fde3c.png'
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.isRepoConversationList
 	],

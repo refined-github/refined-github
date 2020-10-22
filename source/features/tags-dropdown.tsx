@@ -50,11 +50,7 @@ function init(): void {
 	select('.rgh-tags-dropdown')!.addEventListener('remote-input-success', updateLinksToTag);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a tags dropdown/search on tag/release pages.',
-	screenshot: 'https://user-images.githubusercontent.com/22439276/56373231-27ee9980-621e-11e9-9b21-601919d3dddf.png'
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.isReleasesOrTags
 	],

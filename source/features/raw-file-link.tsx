@@ -24,11 +24,7 @@ function init(): void {
 	delegate(document, '.file-header .js-file-header-dropdown:not(.rgh-raw-file-link)', 'toggle', handleMenuOpening, true);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a link to view the raw version of files in PRs and commits.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/56484988-b99f2500-6504-11e9-9748-c944e1070cc8.png'
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.isCommit,
 		pageDetect.isPRFiles,

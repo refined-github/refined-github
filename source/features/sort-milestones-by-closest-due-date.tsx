@@ -15,11 +15,7 @@ function init(): void {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Changes the default sort order of milestones `Closest due date`.',
-	screenshot: false
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.isRepo
 	],

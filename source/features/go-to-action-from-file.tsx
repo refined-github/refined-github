@@ -27,11 +27,7 @@ function init(): void {
 		);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a link to access the past runs of a GitHub Action workflow when seeing the workflow configuration file.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/80146153-ab6d6400-85b1-11ea-9f38-e87950692a62.png'
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		isWorkflowFile
 	],

@@ -20,11 +20,7 @@ function deinit(): void {
 	window.removeEventListener('keyup', handler);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Enhances the `y` hotkey to also copy the permalink.',
-	screenshot: 'https://help.github.com/articles/getting-permanent-links-to-files/'
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.isSingleFile
 	],

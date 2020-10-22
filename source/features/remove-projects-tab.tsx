@@ -61,11 +61,7 @@ async function removeProjectsTab(): Promise<void | false> {
 	projectsTab.remove();
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Hides the `Projects` tab from repositories and profiles when it’s empty.',
-	screenshot: false
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.isRepo,
 		pageDetect.isUserProfile,

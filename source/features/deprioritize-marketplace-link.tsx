@@ -22,11 +22,7 @@ async function init(): Promise<void> {
 	);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Moves the "Marketplace" link from the black header bar to the profile dropdown.',
-	screenshot: false
-}, {
+void features.add(__filebasename, {}, {
 	exclude: [
 		pageDetect.isGist
 	],

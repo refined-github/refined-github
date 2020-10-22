@@ -15,11 +15,7 @@ function init(): void {
 	delegate(document, '.TagsearchPopover-item', 'click', followLocalLink);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Avoids re-loading the page when jumping to function definition in the current file.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/90833649-7a5e2f80-e316-11ea-827d-a4e3ac8ced69.png'
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.isSingleFile
 	],

@@ -26,11 +26,7 @@ function init(): void {
 	});
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Lets you edit any comment with one click instead of having to open a dropdown.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/54864831-92372a00-4d97-11e9-8c29-efba2dde1baa.png'
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.hasComments
 	],

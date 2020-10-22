@@ -40,11 +40,7 @@ async function init(): Promise<void | false> {
 	delegate(document, '.rgh-convert-draft', 'click', convertToDraft);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a button to convert a release to draft.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/90017455-8e03f900-dc79-11ea-95c5-377e0a82d4ea.png'
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.isSingleTag
 	],

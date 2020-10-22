@@ -69,11 +69,7 @@ function init(): void {
 	delegate(document, '.rgh-comments-indicator', 'click', handleIndicatorClick);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds comment indicators when comments are hidden in PR review.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/63112671-011d5580-bfbb-11e9-9e19-53e11641990e.gif'
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.isPRFiles,
 		pageDetect.isPRCommit

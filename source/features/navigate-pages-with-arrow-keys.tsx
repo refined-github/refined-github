@@ -28,10 +28,7 @@ function init(): void {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds shortcuts to navigate through pages with pagination: `←` and `→`.',
-	screenshot: false,
+void features.add(__filebasename, {
 	shortcuts: {
 		'→': 'Go to the next page',
 		'←': 'Go to the previous page'

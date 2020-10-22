@@ -12,11 +12,7 @@ function init(): void {
 	}, {once: true});
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Removes the file hover effect in the repo file browser.',
-	screenshot: false
-}, {
+void features.add(__filebasename, {}, {
 	awaitDomReady: false,
 	init: onetime(init)
 });

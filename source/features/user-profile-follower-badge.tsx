@@ -33,11 +33,7 @@ async function init(): Promise<void> {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'On profiles, it shows whether the user follows you.',
-	screenshot: 'https://user-images.githubusercontent.com/3723666/45190460-03ecc380-b20c-11e8-832b-839959ee2c99.gif'
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.isUserProfile
 	],

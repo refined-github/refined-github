@@ -14,11 +14,7 @@ function init(): void {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Linkifies the header of each notification group (when grouped by repository).',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/80849887-81531c00-8c19-11ea-8777-7294ce318630.png'
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.isNotifications
 	],

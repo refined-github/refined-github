@@ -56,11 +56,7 @@ function init(): void {
 	delegate(document, '.js-file .js-resolvable-thread-toggler', 'click', clickAll(resolvedCommentsSelector));
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a shortcut to toggle all similar items (minimized comments, deferred diffs, etc) at once: `alt` `click` on each button or checkbox.',
-	screenshot: 'https://user-images.githubusercontent.com/37769974/62208543-dcb75b80-b3b4-11e9-984f-ddb479ea149d.gif'
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.isPRConversation,
 		pageDetect.isPRFiles,
