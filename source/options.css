@@ -97,3 +97,23 @@ p {
 #debugging p:last-child {
 	margin-bottom: 0;
 }
+
+/* Safari only */
+/* TODO: move to `webext-base-css` once stabilized */
+_::-webkit-full-page-media,
+_:future,
+:root {
+	font-family: -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji';
+}
+
+/* Safari only */
+/* TODO: move to `webext-base-css` once stabilized */
+_::-webkit-full-page-media,
+_:future,
+:root [type='text'],
+:root textarea {
+	border: solid 1px gray;
+	padding: 0.4em;
+	font: inherit;
+	-webkit-appearance: none;
+}
