@@ -6,6 +6,7 @@ import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
+import concatRegex from '../helpers/concat-regex';
 
 const prTitleFieldSelector = '.js-issue-update [name="issue[title]"]';
 const prTitleSubmitSelector = '.js-issue-update [type="submit"]';
@@ -61,7 +62,7 @@ function updatePRTitle(): void {
 
 	// Remove PR number from commit title
 	const prTitle = getCommitTitleField()!.value
-		.replace(new RegExp(`\\s*\\(${getPRNumber()}\\)$`), '');
+		.replace(concatRegex(/\s*\(/, getPRNumber(), /\)$/), '');
 
 	// Fill and submit title-change form
 	select<HTMLInputElement>(prTitleFieldSelector)!.value = prTitle;

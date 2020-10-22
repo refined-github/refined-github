@@ -10,10 +10,12 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpack, {Configuration} from 'webpack';
 
+import concatRegex from './source/helpers/concat-regex';
+
 const readmeContent = readFileSync(path.join(__dirname, 'readme.md'), 'utf-8');
 
 function parseFeatureDetails(id: FeatureID): FeatureMeta {
-	const lineRegex = new RegExp(`^- \\[\\]\\(# "${id}"\\)(?: 🔥)? (.+)$`, 'm');
+	const lineRegex = concatRegex(/^- \[]\(# "/, id, /"\)(?: 🔥)? (.+)$/m);
 	const lineMatch = lineRegex.exec(readmeContent);
 	if (lineMatch) {
 		const urls: string[] = [];
@@ -29,7 +31,7 @@ function parseFeatureDetails(id: FeatureID): FeatureMeta {
 	}
 
 	// Feature might be highlighted in the readme
-	const imageRegex = new RegExp(`<p><a title="${id}"></a> (.+?)\\n\\t+<p><img src="(.+?)">`);
+	const imageRegex = concatRegex(/<p><a title="/, id, /"><\/a> (.+?)\n\t+<p><img src="(.+?)">/);
 	const imageMatch = imageRegex.exec(readmeContent);
 	if (imageMatch) {
 		return {
