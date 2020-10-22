@@ -7,12 +7,13 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import {getCurrentBranch, getPRRepositoryInfo} from '../github-helpers';
 
+const isLocalPr = (): boolean => select('.user-select-contain.head-ref a')!.childElementCount === 1;
+
 function checkoutOption(option: string): JSX.Element {
-	const isLocalPr = select('.user-select-contain.head-ref a')!.childElementCount === 1;
 	const {user, repository} = getPRRepositoryInfo();
 	return (
 		<>
-			{isLocalPr || <p className="text-gray text-small my-1">{checkoutOption}</p>}
+			{isLocalPr() || <p className="text-gray text-small my-1">{option}</p>}
 			<div className="copyable-terminal">
 				<div className="copyable-terminal-button">
 					<clipboard-copy
@@ -30,9 +31,9 @@ function checkoutOption(option: string): JSX.Element {
 					className="copyable-terminal-content"
 				>
 					<span className="user-select-contain">
-						{isLocalPr || `git remote add ${user} ${option === 'HTTPS' ? `${location.origin}/${user}` : `git@${location.hostname}:`}/${repository}.git\n`}
-						{isLocalPr || `git fetch ${user} ${getCurrentBranch()!}\n`}
-						git switch {isLocalPr || `--track ${user}/`}{getCurrentBranch()}
+						{isLocalPr() || `git remote add ${user} ${option === 'HTTPS' ? `${location.origin}/${user}` : `git@${location.hostname}:`}/${repository}.git\n`}
+						git fetch {user} {getCurrentBranch()!}{'\n'}
+						git switch {isLocalPr() || `--track ${user}/`}{getCurrentBranch()}
 					</span>
 				</pre>
 			</div>
@@ -42,7 +43,6 @@ function checkoutOption(option: string): JSX.Element {
 
 function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	dropdown.classList.add('rgh-git-checkout'); // Mark this as processed
-	const isLocalPr = select('.user-select-contain.head-ref a')!.childElementCount === 1;
 	const tabContainer = select('[action="/users/checkout-preference"]', dropdown)!.closest<HTMLElement>('tab-container')!;
 	tabContainer.style.minWidth = '370px';
 	select('.UnderlineNav-body', tabContainer)!.append(
@@ -57,11 +57,11 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 		</button>
 	);
 
-	const checkoutOptions = isLocalPr ? ['local'] : ['HTTPS', 'SSH'];
+	const checkoutOptions = isLocalPr() ? ['local'] : ['HTTPS', 'SSH'];
 	tabContainer.append(
 		<div hidden role="tabpanel" className="p-3">
 			<p className="text-gray text-small">
-				Run in your project repository{isLocalPr || ', pick either one'}
+				Run in your project repository{isLocalPr() || ', pick either one'}
 			</p>
 			{checkoutOptions.map(checkoutOption)}
 		</div>
