@@ -57,10 +57,10 @@
 		1FE2B22B2540F6EF00A5D543 /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
 		1FE2B22D2540F6EF00A5D543 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1FE2B22E2540F6EF00A5D543 /* Refined_GitHub_Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Refined_GitHub_Extension.entitlements; sourceTree = "<group>"; };
-		1FE2B2392540F6F000A5D543 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = ../../../distribution/icon.png; sourceTree = "<group>"; };
-		1FE2B23A2540F6F000A5D543 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../../distribution/manifest.json; sourceTree = "<group>"; };
-		1FE2B23B2540F6F000A5D543 /* options.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = options.html; path = ../../../distribution/options.html; sourceTree = "<group>"; };
-		1FE2B23C2540F6F000A5D543 /* build */ = {isa = PBXFileReference; lastKnownFileType = folder; name = build; path = ../../../distribution/build; sourceTree = "<group>"; };
+		1FE2B2392540F6F000A5D543 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = ../../distribution/icon.png; sourceTree = "<group>"; };
+		1FE2B23A2540F6F000A5D543 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../distribution/manifest.json; sourceTree = "<group>"; };
+		1FE2B23B2540F6F000A5D543 /* options.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = options.html; path = ../../distribution/options.html; sourceTree = "<group>"; };
+		1FE2B23C2540F6F000A5D543 /* build */ = {isa = PBXFileReference; lastKnownFileType = folder; name = build; path = ../../distribution/build; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
