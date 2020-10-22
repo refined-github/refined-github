@@ -32,9 +32,7 @@ function parseFeatureDetails(id: FeatureID): FeatureMeta {
 	const lineMatch = lineRegex.exec(readmeContent);
 	if (lineMatch) {
 		Object.assign(feature, stripLinks(lineMatch[1]));
-		feature.description = feature.description!
-			.replace(/<code>\\`(.+?)\\`<\/code>/, '`$1`') // Simplify weird Markdown escaping
-			.replace(/<kbd>(.+?)<\/kbd>/g, '`$1`'); // Replace keyboard shortcut tags
+		feature.description = feature.description!.replace(/<kbd>(.+?)<\/kbd>/g, '`$1`');
 	} else {
 		// Feature might be highlighted in the readme
 		const imageRegex = new RegExp(`<p><a title="${id}"></a> (.+?)\\n\\t+<p><img src="(.+?)">`);
