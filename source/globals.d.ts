@@ -5,11 +5,6 @@ type FeatureID = 'use the __filebasename variable';
 
 type FeatureShortcuts = Record<string, string>;
 interface FeatureMeta {
-	/**
-	If it's disabled, this should be the issue that explains why, as a reference
-	@example '#123'
-	*/
-	disabled?: string;
 	id: FeatureID;
 	description: string;
 	screenshot: string | false;

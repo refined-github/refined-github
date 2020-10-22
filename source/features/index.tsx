@@ -15,17 +15,6 @@ type BooleanFunction = () => boolean;
 type CallerFunction = (callback: VoidFunction) => void;
 type FeatureInit = () => Promisable<false | void>;
 
-interface FeatureMeta {
-	/**
-	If it's disabled, this should be the issue that explains why, as a reference
-	@example '#123'
-	*/
-	disabled?: string;
-	id: FeatureID;
-	description: string;
-	screenshot: string | false;
-}
-
 interface FeatureLoader extends Partial<InternalRunConfig> {
 	/** Whether to wait for DOM ready before running `init`. `false` makes `init` run right as soon as `body` is found. @default true */
 	awaitDomReady?: false;
@@ -202,19 +191,12 @@ function enforceDefaults(
 	}
 }
 
-type FeatureSettings = Pick<FeatureMeta, 'disabled'>;
-
 /** Register a new feature */
-const add = async (id: FeatureID, settings: FeatureSettings, ...loaders: FeatureLoader[]): Promise<void> => {
-	/* Input defaults and validation */
-	const {
-		disabled = false
-	} = settings;
-
+const add = async (id: FeatureID, _settings: any, ...loaders: FeatureLoader[]): Promise<void> => {
 	/* Feature filtering and running */
 	const options = await globalReady;
-	if (disabled || options[`feature:${id}`] === false) {
-		log('↩️', 'Skipping', id, disabled ? `because of ${disabled}` : '');
+	if (options[`feature:${id}`] === false) {
+		log('↩️', 'Skipping', id);
 		return;
 	}
 

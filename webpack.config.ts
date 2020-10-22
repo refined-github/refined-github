@@ -1,7 +1,7 @@
 /// <reference types="./source/globals" />
 
 import path from 'path';
-import {readdirSync, readFileSync} from 'fs';
+import {readFileSync} from 'fs';
 
 import SizePlugin from 'size-plugin';
 // @ts-expect-error
@@ -36,19 +36,14 @@ function parseFeatureDetails(id: FeatureID): FeatureMeta {
 		}
 	}
 
-	const featureFileContent = readFileSync(`source/features/${id}.tsx`, {encoding: 'utf-8'});
-	const [, disabledReason] = /\n\tdisabled: '([^\n]+)'/.exec(featureFileContent) ?? [];
-	if (disabledReason) {
-		feature.disabled = disabledReason;
-	}
-
 	return feature as FeatureMeta;
 }
 
 function getFeatures(): FeatureID[] {
-	return readdirSync(path.join(__dirname, 'source/features'))
-		.filter(filename => filename !== 'index.tsx' && filename.endsWith('.tsx'))
-		.map(filename => filename.replace('.tsx', '') as FeatureID);
+	return Array.from(
+		readFileSync('source/refined-github.ts', 'utf-8').matchAll(/^import '[.][/]features[/]([^.]+)';/gm),
+		match => match[1] as FeatureID
+	).sort();
 }
 
 const config: Configuration = {
