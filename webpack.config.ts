@@ -37,10 +37,10 @@ function parseFeatureDetails(id: FeatureID): FeatureMeta {
 			.replace(/<kbd>(.+?)<\/kbd>/g, '`$1`'); // Replace keyboard shortcut tags
 	} else {
 		// Feature might be highlighted in the readme
-		const imageRegex = new RegExp(`<img id="${id}" alt="(.+?)" src="(.+?)">`);
+		const imageRegex = new RegExp(`<p><a title="${id}"></a> (.+?)\\n\\t+<p><img src="(.+?)">`);
 		const imageMatch = imageRegex.exec(readmeContent);
 		if (imageMatch) {
-			feature.description = imageMatch[1];
+			feature.description = `${imageMatch[1]}.`;
 			feature.screenshot = imageMatch[2];
 		} else {
 			throw new Error(`❌ Feature \`${id}\` needs a description in readme.md. Please refer to the style guide there.`);

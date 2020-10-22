@@ -35,61 +35,25 @@ The Chrome version also works in Opera (using [this](https://addons.opera.com/en
 <table>
 	<tr>
 		<th width="50%">
-			Makes whitespace characters visible
-		</th>
+			<p><a title="show-whitespace"></a> Makes whitespace characters visible
+			<p><img src="https://user-images.githubusercontent.com/1402241/61187598-f9118380-a6a5-11e9-985a-990a7f798805.png">
 		<th width="50%">
-			Adds one-click merge conflict fixers
-		</th>
-	</tr>
-	<tr><!-- Prevent zebra stripes --></tr>
-	<tr>
-		<td>
-			<img id="show-whitespace" alt="Makes whitespace characters visible." src="https://user-images.githubusercontent.com/1402241/61187598-f9118380-a6a5-11e9-985a-990a7f798805.png">
-		</td>
-		<td>
-			<img id="resolve-conflicts" alt="Adds one-click merge conflict fixers." src="https://user-images.githubusercontent.com/1402241/54978791-45906080-4fdc-11e9-8fe1-45374f8ff636.png">
-		</td>
-	</tr>
-</table>
-
-<table>
+			<p><a title="resolve-conflicts"></a> Adds one-click merge conflict fixers
+			<p><img src="https://user-images.githubusercontent.com/1402241/54978791-45906080-4fdc-11e9-8fe1-45374f8ff636.png">
 	<tr>
 		<th width="50%">
-			Adds reaction avatars showing <i>who</i> reacted to a comment
-		</th>
+			<p><a title="reactions-avatars"></a> Adds reaction avatars showing <i>who</i> reacted to a comment
+			<p><img src="https://user-images.githubusercontent.com/1402241/34438653-f66535a4-ecda-11e7-9406-2e1258050cfa.png">
 		<th width="50%">
-			Adds the option to wait for checks when merging a PR
-		</th>
-	</tr>
-	<tr><!-- Prevent zebra stripes --></tr>
-	<tr>
-		<td>
-			<img id="reactions-avatars" alt="Adds reaction avatars showing *who* reacted to a comment." src="https://user-images.githubusercontent.com/1402241/34438653-f66535a4-ecda-11e7-9406-2e1258050cfa.png">
-		</td>
-		<td>
-			<img id="wait-for-build" alt="Adds the option to wait for checks when merging a PR." src="https://user-images.githubusercontent.com/1402241/35192861-3f4a1bf6-fecc-11e7-8b9f-35ee019c6cdf.gif">
-		</td>
-	</tr>
-</table>
-
-<table>
+			<p><a title="wait-for-build"></a> Adds the option to wait for checks when merging a PR
+			<p><img src="https://user-images.githubusercontent.com/1402241/35192861-3f4a1bf6-fecc-11e7-8b9f-35ee019c6cdf.gif">
 	<tr>
 		<th width="50%">
-			Linkifies issue/PR references and URLs in code
-		</th>
+			<p><a title="linkify-code"></a> Linkifies issue/PR references and URLs in code
+			<p><img src="https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png">
 		<th width="50%">
-			Adds button to revert all the changes to a file in a PR
-		</th>
-	</tr>
-	<tr><!-- Prevent zebra stripes --></tr>
-	<tr>
-		<td>
-			<img id="linkify-code" alt="Linkifies issue/PR references and URLs in code." src="https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png">
-		</td>
-		<td>
-			<img id="restore-file" alt="Adds button to revert all the changes to a file in a PR." src="https://user-images.githubusercontent.com/1402241/62826118-73b7bb00-bbe0-11e9-9449-2dd64c469bb9.gif">
-		</td>
-	</tr>
+			<p><a title="restore-file"></a> Adds button to revert all the changes to a file in a PR
+			<p><img src="https://user-images.githubusercontent.com/1402241/62826118-73b7bb00-bbe0-11e9-9449-2dd64c469bb9.gif">
 </table>
 
 <!--
