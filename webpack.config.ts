@@ -15,14 +15,14 @@ const readmeContent = readFileSync('readme.md', 'utf-8');
 
 function stripLinks(markdownText: string): Partial<FeatureMeta> {
 	const urls: string[] = [];
-	const description = markdownText.replace(/\[(.+?)\]\((.+?)\)/g, (_match, title, url) => {
+	const description = markdownText.replace(/\[(.+?)]\((.+?)\)/g, (_match, title, url) => {
 		urls.push(url);
 		return title;
 	});
 
 	return {
 		description,
-		screenshot: urls.find(url => url.startsWith('https://user-images.githubusercontent.com/')) || urls[0]
+		screenshot: urls.find(url => url.startsWith('https://user-images.githubusercontent.com/')) ?? urls[0]
 	};
 }
 
@@ -30,16 +30,16 @@ function parseFeatureDetails(id: FeatureID): FeatureMeta {
 	const feature: Partial<FeatureMeta> = {id};
 
 	const lineRegex = new RegExp(`^- \\[\\]\\(# "${id}"\\)(?: 🔥)? (.+)$`, 'm');
-	const lineMatch = readmeContent.match(lineRegex);
+	const lineMatch = lineRegex.exec(readmeContent);
 	if (lineMatch) {
 		Object.assign(feature, stripLinks(lineMatch[1]));
 		feature.description = feature.description!
-			.replace(/<code>\\`(.+?)\\`<\/code>/, '`$1`') // simplify weird Markdown escaping
-			.replace(/<kbd>(.+?)<\/kbd>/g, '`$1`'); // replace keyboard shortcut tags
+			.replace(/<code>\\`(.+?)\\`<\/code>/, '`$1`') // Simplify weird Markdown escaping
+			.replace(/<kbd>(.+?)<\/kbd>/g, '`$1`'); // Replace keyboard shortcut tags
 	} else {
-		// feature might be highlighted in the readme
+		// Feature might be highlighted in the readme
 		const imageRegex = new RegExp(`<img id="${id}" alt="(.+?)" src="(.+?)">`);
-		const imageMatch = readmeContent.match(imageRegex);
+		const imageMatch = imageRegex.exec(readmeContent);
 		if (imageMatch) {
 			feature.description = imageMatch[1];
 			feature.screenshot = imageMatch[2];
@@ -52,7 +52,7 @@ function parseFeatureDetails(id: FeatureID): FeatureMeta {
 		}
 	}
 
-	const validDescription = feature.description!.trim().replace(/(?<!`)\\'/g, '’'); // Catch trailing spaces and incorrect apostrophes
+	const validDescription = feature.description.trim().replace(/(?<!`)\\'/g, '’'); // Catch trailing spaces and incorrect apostrophes
 	if (feature.description !== validDescription) {
 		throw new Error(stripIndent(`
 			❌ Invalid characters found in description for \`${id}\`. Apply this patch:
@@ -63,7 +63,7 @@ function parseFeatureDetails(id: FeatureID): FeatureMeta {
 	}
 
 	const featureFileContent = readFileSync(`source/features/${id}.tsx`, {encoding: 'utf-8'});
-	const [, disabledReason] = featureFileContent.match(/\n\tdisabled: '([^\n]+)'/) || [];
+	const [, disabledReason] = /\n\tdisabled: '([^\n]+)'/.exec(featureFileContent) ?? [];
 	if (disabledReason) {
 		feature.disabled = disabledReason;
 	}

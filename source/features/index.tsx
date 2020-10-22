@@ -200,7 +200,7 @@ function enforceDefaults(
 	}
 }
 
-type FeatureSettings = Pick<FeatureMeta, 'disabled'|'shortcuts'>
+type FeatureSettings = Pick<FeatureMeta, 'disabled'|'shortcuts'>;
 
 /** Register a new feature */
 const add = async (id: FeatureID, settings: FeatureSettings, ...loaders: FeatureLoader[]): Promise<void> => {
@@ -208,7 +208,7 @@ const add = async (id: FeatureID, settings: FeatureSettings, ...loaders: Feature
 	const {
 		disabled = false,
 		shortcuts = {}
-	} = settings ?? {};
+	} = settings;
 
 	/* Feature filtering and running */
 	const options = await globalReady;

@@ -12,7 +12,7 @@ import {perDomainOptions} from './options-storage';
 import * as domFormatters from './github-helpers/dom-formatters';
 
 function parseDescription(description: string): DocumentFragment {
-	const descriptionElement = <span/>
+	const descriptionElement = <span/>;
 	descriptionElement.innerHTML = description.replaceAll('\\`', '`').replaceAll('<iframe>', '&lt;iframe&gt;');
 	domFormatters.linkifyIssues(descriptionElement, {
 		baseUrl: 'https://github.com',
