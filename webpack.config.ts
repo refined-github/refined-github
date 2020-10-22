@@ -12,27 +12,18 @@ import webpack, {Configuration} from 'webpack';
 
 const readmeContent = readFileSync('readme.md', 'utf-8');
 
-function stripLinks(markdownText: string): Partial<FeatureMeta> {
-	const urls: string[] = [];
-	const description = markdownText.replace(/\[(.+?)]\((.+?)\)/g, (_match, title, url) => {
-		urls.push(url);
-		return title;
-	});
-
-	return {
-		description,
-		screenshot: urls.find(url => url.startsWith('https://user-images.githubusercontent.com/')) ?? urls[0]
-	};
-}
-
 function parseFeatureDetails(id: FeatureID): FeatureMeta {
 	const feature: Partial<FeatureMeta> = {id};
 
 	const lineRegex = new RegExp(`^- \\[\\]\\(# "${id}"\\)(?: 🔥)? (.+)$`, 'm');
 	const lineMatch = lineRegex.exec(readmeContent);
 	if (lineMatch) {
-		Object.assign(feature, stripLinks(lineMatch[1]));
-		feature.description = feature.description!.replace(/<kbd>(.+?)<\/kbd>/g, '`$1`');
+		const urls: string[] = [];
+		feature.description = lineMatch[1].replace(/\[(.+?)]\((.+?)\)/g, (_match, title, url) => {
+			urls.push(url);
+			return title;
+		}).replace(/<kbd>(.+?)<\/kbd>/g, '`$1`');
+		feature.screenshot = urls.find(url => /\.(png|gif)$/i.test(url));
 	} else {
 		// Feature might be highlighted in the readme
 		const imageRegex = new RegExp(`<p><a title="${id}"></a> (.+?)\\n\\t+<p><img src="(.+?)">`);
