@@ -24,66 +24,46 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 			Git Checkout
 		</button>
 	);
-
+	const gitOptions = isLocalPr ? [' '] : ['HTTPS', 'SSH'];
 	tabContainer.append(
 		<div hidden role="tabpanel" className="p-3">
 			<p className="text-gray text-small">
 				Run in your project repository, pick either one.
 			</p>
 
-			<p className="text-gray text-small">
-				HTTPS
-			</p>
-			<div className="copyable-terminal">
-				<div className="copyable-terminal-button">
-					<clipboard-copy
-						className="btn btn-sm zeroclipboard-button"
-						role="button"
-						for="rgh-checkout-pr-https"
-						aria-label="Copy to clipboard"
-						data-copy-feedback="Copied!"
-					>
-						<ClippyIcon/>
-					</clipboard-copy>
-				</div>
-				<pre
-					id="rgh-checkout-pr-https"
-					className="copyable-terminal-content"
-				>
-					<span className="user-select-contain">
-						{isLocalPr || `git remote add ${user} ${location.origin}/${user}/${repository}.git\n`}
-						{isLocalPr || `git fetch ${user} ${getCurrentBranch()!}\n`}
-						git switch {isLocalPr || `--track ${user}/`}{getCurrentBranch()}
-					</span>
-				</pre>
-			</div>
-			<br />
-			<p className="text-gray text-small">
-				SSH
-			</p>
-			<div className="copyable-terminal">
-				<div className="copyable-terminal-button">
-					<clipboard-copy
-						className="btn btn-sm zeroclipboard-button"
-						role="button"
-						for="rgh-checkout-pr-ssh"
-						aria-label="Copy to clipboard"
-						data-copy-feedback="Copied!"
-					>
-						<ClippyIcon/>
-					</clipboard-copy>
-				</div>
-				<pre
-					id="rgh-checkout-pr-ssh"
-					className="copyable-terminal-content"
-				>
-					<span className="user-select-contain">
-						{isLocalPr || `git remote add ${user} git@${location.hostname}:${user}/${repository}.git\n`}
-						{isLocalPr || `git fetch ${user} ${getCurrentBranch()!}\n`}
-						git switch {isLocalPr || `--track ${user}/`}{getCurrentBranch()}
-					</span>
-				</pre>
-			</div>
+			{gitOptions.map(gitOption => (
+				<>
+					{isLocalPr ||
+						<p className="text-gray text-small">
+							{gitOption}
+						</p>}
+					<div className="copyable-terminal">
+						<div className="copyable-terminal-button">
+							<clipboard-copy
+								className="btn btn-sm zeroclipboard-button"
+								role="button"
+								for="rgh-checkout-pr-https"
+								aria-label="Copy to clipboard"
+								data-copy-feedback="Copied!"
+							>
+								<ClippyIcon/>
+							</clipboard-copy>
+						</div>
+						<pre
+							id="rgh-checkout-pr-https"
+							className="copyable-terminal-content"
+						>
+							<span className="user-select-contain">
+								{isLocalPr || gitOption === 'HTTPS' ?
+									`git remote add ${user} ${location.origin}/${user}/${repository}.git\n` :
+									`git remote add ${user} git@${location.hostname}:${user}/${repository}.git\n`}
+								{isLocalPr || `git fetch ${user} ${getCurrentBranch()!}\n`}
+								git switch {isLocalPr || `--track ${user}/`}{getCurrentBranch()}
+							</span>
+						</pre>
+					</div>
+				</>
+			))}
 		</div>
 	);
 }
