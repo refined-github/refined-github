@@ -182,7 +182,7 @@ Thanks for contributing! 🦋🙌
 
 ### Reading comments
 
-- [](# "embed-gist-inline") [Embeds linked gists.](https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.PNG) Not supported by Firefox.
+- [](# "embed-gist-inline") [Embeds linked gists.](https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.PNG)
 - [](# "comments-time-machine-links") Adds links to [browse the repository](https://user-images.githubusercontent.com/1402241/56450896-68076680-635b-11e9-8b24-ebd11cc4e655.png) and [linked files](https://user-images.githubusercontent.com/1402241/56450895-68076680-635b-11e9-86b4-b6c2f3745d51.png) at the time of each comment.
 - [](# "show-names") [Adds the real name of users by their usernames.](https://user-images.githubusercontent.com/1402241/62075835-5f82ce00-b270-11e9-91eb-4680b70cb3cb.png)
 - [](# "shorten-links") [Shortens URLs and repo URLs to readable references like "_user/repo/.file@`d71718d`".](https://user-images.githubusercontent.com/1402241/27252232-8fdf8ed0-538b-11e7-8f19-12d317c9cd32.png)
@@ -266,7 +266,7 @@ Thanks for contributing! 🦋🙌
 - [](# "follow-file-renames") 🔥 [Enhances files’ commit lists navigation to follow file renames.](https://user-images.githubusercontent.com/1402241/54799957-7306a280-4c9a-11e9-86de-b9764ed93397.png)
 - [](# "link-to-file-in-file-history") [Adds links to the file itself in a file’s commit list.](https://user-images.githubusercontent.com/22439276/57195061-b88ddf00-6f6b-11e9-8ad9-13225d09266d.png)
 - [](# "extend-diff-expander") [Widens the `Expand diff` button to be clickable across the screen.](https://user-images.githubusercontent.com/6978877/34470024-eee4f43e-ef20-11e7-9036-65094bd58960.PNG)
-- [](# "remove-diff-signs") [Hides diff signs](https://user-images.githubusercontent.com/1402241/54807718-149cec80-4cb9-11e9-869c-e265863211e3.png) (+-) since diffs are color coded already.
+- [](# "remove-diff-signs") [Hides diff signs since diffs are color coded already.](https://user-images.githubusercontent.com/1402241/54807718-149cec80-4cb9-11e9-869c-e265863211e3.png)
 - [](# "suggest-commit-title-limit") [Suggests limiting commit titles to 72 characters.](https://user-images.githubusercontent.com/37769974/60379478-106b3280-9a51-11e9-88b9-0e3607f214cd.gif)
 - [](# "expand-all-collapsed-code") [Expands the entire file when you <kbd>alt</kbd>-click on any "Expand code" button in diffs.](https://user-images.githubusercontent.com/44227187/64923605-d0138900-d7e3-11e9-9dc2-461aba81c1cb.gif)
 - [](# "tags-on-commits-list") [Displays the corresponding tags next to commits.](https://user-images.githubusercontent.com/14323370/66400400-64ba7280-e9af-11e9-8d6c-07b35afde91f.png)
