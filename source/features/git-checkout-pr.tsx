@@ -76,7 +76,7 @@ function init(): void {
 void features.add({
 	id: __filebasename,
 	description: 'Adds copy-pastable git commands to checkout a PR.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/96723392-8305cd00-137c-11eb-851b-71042dc0c45d.png'
+	screenshot: 'https://user-images.githubusercontent.com/16872793/96938908-8e024f80-1499-11eb-8976-0caf95175dd6.png'
 }, {
 	include: [
 		pageDetect.isPR
