@@ -67,7 +67,6 @@ The Chrome version also works in Opera (using [this](https://addons.opera.com/en
 - Keyboard shortcuts must follow:
 	- "Adds a keyboard shortcut to ...: <kbd>key1</kbd> <kbd>key2</kbd>"
 	- "Adds keyboard shortcuts to ...: <kbd>a</kbd> and <kbd>alt</kbd> <kbd>a</kbd>"
-- You should try to use the same description and screenshot in the feature’s file (inside `features.add`)
 - Use smart apostrophes: ’ instead of '
 - Keep it concise.
 

@@ -10,7 +10,7 @@ Suggestions and pull requests are highly encouraged! Have a look at the [open is
 - All the [latest DOM APIs](https://github.com/WebReflection/dom4#features) and JavaScript features are available because the extension only has to work in the latest Chrome and Firefox. 🎉
 - Each JavaScript feature lives in its own file under [`source/features`](https://github.com/sindresorhus/refined-github/tree/master/source/features) and it's imported in [`source/refined-github.ts`](https://github.com/sindresorhus/refined-github/blob/master/source/refined-github.ts).
 - See what a _feature_ [looks like](https://github.com/sindresorhus/refined-github/blob/master/source/features/user-profile-follower-badge.tsx).
-- Follow [the styleguide](https://github.com/sindresorhus/refined-github/blob/master/readme.md#L100) that appears in the Readme's source to write readable descriptions.
+- Follow [the styleguide](https://github.com/sindresorhus/refined-github/blob/master/readme.md#L62) that appears in the Readme's source to write readable descriptions.
 - Refined GitHub tries to integrate as best as possible, so [GitHub's own styleguide](https://primer.style/css) might come in useful.
 
 ## `features.add`
