@@ -41,7 +41,7 @@ function parseFeatureDetails(id: FeatureID): FeatureMeta {
 
 function getFeatures(): FeatureID[] {
 	return Array.from(
-		readFileSync('source/refined-github.ts', 'utf-8').matchAll(/^import '[.][/]features[/]([^.]+)';/gm),
+		readFileSync('source/refined-github.ts', 'utf-8').matchAll(/^import '\.\/features\/([^.]+)';/gm),
 		match => match[1] as FeatureID
 	).sort();
 }
