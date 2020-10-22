@@ -10,7 +10,7 @@ import onReplacedElement from '../helpers/on-replaced-element';
 async function addSidebarReviewButton(): Promise<void | false> {
 	const reviewFormUrl = new URL(location.href);
 	reviewFormUrl.pathname += '/files';
-	reviewFormUrl.hash = 'submit-review';
+	reviewFormUrl.hash = 'rgh-faster-reviews';
 
 	const sidebarReviewsSection = await elementReady('[aria-label="Select reviewers"] .discussion-sidebar-heading');
 	if (select.exists('[data-hotkey="v"]', sidebarReviewsSection)) {
@@ -36,6 +36,11 @@ async function initReviewButtonEnhancements(): Promise<void> {
 	const reviewDropdownButton = await elementReady<HTMLElement>('.js-reviews-toggle');
 	if (reviewDropdownButton) {
 		reviewDropdownButton.dataset.hotkey = 'v';
+	}
+
+	if (location.hash === '#rgh-faster-reviews') {
+		reviewDropdownButton?.click();
+		location.hash = '';
 	}
 }
 
