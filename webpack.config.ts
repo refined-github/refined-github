@@ -4,7 +4,6 @@ import path from 'path';
 import {readdirSync, readFileSync} from 'fs';
 
 import SizePlugin from 'size-plugin';
-import stripIndent from 'strip-indent';
 // @ts-expect-error
 import {ESBuildPlugin} from 'esbuild-loader';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
@@ -44,11 +43,7 @@ function parseFeatureDetails(id: FeatureID): FeatureMeta {
 			feature.description = imageMatch[1];
 			feature.screenshot = imageMatch[2];
 		} else {
-			throw new Error(stripIndent(`
-				❌ Feature \`${id}\` needs a description in readme.md (please refer to the style guide there):
-
-				- [](# "${id}") [feature description](screenshot url)
-			`));
+			throw new Error(`❌ Feature \`${id}\` needs a description in readme.md. Please refer to the style guide there.`);
 		}
 	}
 
