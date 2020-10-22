@@ -6,5 +6,3 @@ test/web-ext-profile
 .cache
 .parcel-cache
 .built
-xcuserdata
-project.xcworkspace
