@@ -11,11 +11,11 @@ function init(): void {
 }
 
 void features.add(__filebasename, {
-	include: [
-		pageDetect.isRepo
-	],
 	shortcuts: {
 		'g s': 'Star and unstar repository'
 	},
+	include: [
+		pageDetect.isRepo
+	],
 	init
 });

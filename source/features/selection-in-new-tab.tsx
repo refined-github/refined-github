@@ -21,9 +21,9 @@ function init(): void {
 }
 
 void features.add(__filebasename, {
-	awaitDomReady: false,
 	shortcuts: {
 		'shift o': 'Open selection in new tab'
 	},
+	awaitDomReady: false,
 	init: onetime(init)
 });

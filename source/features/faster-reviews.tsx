@@ -49,12 +49,12 @@ void features.add(__filebasename, {
 	awaitDomReady: false,
 	init: addSidebarReviewButton
 }, {
+	shortcuts: {
+		v: 'Open PR review popup'
+	},
 	include: [
 		pageDetect.isPRFiles
 	],
 	awaitDomReady: false,
-	shortcuts: {
-		v: 'Open PR review popup'
-	},
 	init: initReviewButtonEnhancements
 });

@@ -147,12 +147,12 @@ async function init(): Promise<false | void> {
 }
 
 void features.add(__filebasename, {
+	shortcuts: {
+		'g r': 'Go to Releases'
+	},
 	include: [
 		pageDetect.isRepo
 	],
 	awaitDomReady: false,
-	shortcuts: {
-		'g r': 'Go to Releases'
-	},
 	init
 });

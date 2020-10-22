@@ -17,12 +17,12 @@ async function init(): Promise<false | void> {
 }
 
 void features.add(__filebasename, {
+	shortcuts: {
+		'g t': 'Go to Trending'
+	},
 	exclude: [
 		pageDetect.isGist
 	],
 	awaitDomReady: false,
-	shortcuts: {
-		'g t': 'Go to Trending'
-	},
 	init: onetime(init)
 });

@@ -16,6 +16,9 @@ type CallerFunction = (callback: VoidFunction) => void;
 type FeatureInit = () => Promisable<false | void>;
 
 interface FeatureLoader extends Partial<InternalRunConfig> {
+	/** This only adds the shortcut to the help screen, it doesn't enable it. @default {} */
+	shortcuts?: FeatureShortcuts;
+
 	/** Whether to wait for DOM ready before running `init`. `false` makes `init` run right as soon as `body` is found. @default true */
 	awaitDomReady?: false;
 
@@ -24,9 +27,6 @@ interface FeatureLoader extends Partial<InternalRunConfig> {
 
 	/** When true, don’t run the `init` on page load but only add the `additionalListeners`. @default false */
 	onlyAdditionalListeners?: true;
-
-	/** This only adds the shortcut to the help screen, it doesn't enable it. @default {} */
-	shortcuts?: FeatureShortcuts;
 
 	init: FeatureInit; // Repeated here because this interface is Partial<>
 }
@@ -203,6 +203,7 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 	for (const loader of loaders) {
 		// Input defaults and validation
 		const {
+			shortcuts = {},
 			include = [() => true], // Default: every page
 			exclude = [], // Default: nothing
 			init,
@@ -210,8 +211,7 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 			awaitDomReady = true,
 			repeatOnBackButton = false,
 			onlyAdditionalListeners = false,
-			additionalListeners = [],
-			shortcuts = {}
+			additionalListeners = []
 		} = loader;
 
 		// Register feature shortcuts

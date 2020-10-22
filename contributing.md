@@ -53,6 +53,11 @@ function init(): void {
 }
 
 void features.add(__filebasename, {
+	/** This only adds the shortcut to the help screen, it doesn't enable it. */
+	shortcuts: {
+		'↑': 'Edit your last comment'
+	},
+
 	/** Whether to wait for DOM ready before running `init`. `false` makes `init` run right as soon as `body` is found. @default true */
 	awaitDomReady: false,
 
@@ -65,12 +70,6 @@ void features.add(__filebasename, {
 	exclude: [
 		pageDetect.isOwnUserProfile
 	],
-
-	/** This only adds the shortcut to the help screen, it doesn't enable it. */
-	shortcuts: {
-		'↑': 'Edit your last comment'
-	},
-
 	init
 }, {
 	include: [

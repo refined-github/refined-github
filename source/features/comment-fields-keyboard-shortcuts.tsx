@@ -64,13 +64,13 @@ function init(): void {
 }
 
 void features.add(__filebasename, {
-	include: [
-		pageDetect.hasRichTextEditor
-	],
-	awaitDomReady: false,
 	shortcuts: {
 		'↑': 'Edit your last comment',
 		esc: 'Unfocuses comment field'
 	},
+	include: [
+		pageDetect.hasRichTextEditor
+	],
+	awaitDomReady: false,
 	init: onetime(init)
 });

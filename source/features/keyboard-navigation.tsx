@@ -55,12 +55,12 @@ function init(): void {
 }
 
 void features.add(__filebasename, {
-	include: [
-		pageDetect.hasComments
-	],
 	shortcuts: {
 		j: 'Focus the comment/file below',
 		k: 'Focus the comment/file above'
 	},
+	include: [
+		pageDetect.hasComments
+	],
 	init
 });

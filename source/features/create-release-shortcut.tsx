@@ -15,13 +15,13 @@ function init(): void {
 }
 
 void features.add(__filebasename, {
-	include: [
-		pageDetect.isReleasesOrTags
-	],
 	shortcuts: {
 		c: 'Create a new release',
 		'control enter': 'Publish a release'
 	},
+	include: [
+		pageDetect.isReleasesOrTags
+	],
 	init
 }, {
 	include: [
