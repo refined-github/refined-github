@@ -200,14 +200,15 @@ function enforceDefaults(
 	}
 }
 
+type FeatureSettings = Pick<FeatureMeta, 'disabled'|'shortcuts'>
+
 /** Register a new feature */
-const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void> => {
+const add = async (id: FeatureID, settings: FeatureSettings, ...loaders: FeatureLoader[]): Promise<void> => {
 	/* Input defaults and validation */
 	const {
-		id = __filebasename,
 		disabled = false,
 		shortcuts = {}
-	} = meta ?? {};
+	} = settings ?? {};
 
 	/* Feature filtering and running */
 	const options = await globalReady;
@@ -265,7 +266,7 @@ This means that the old features will still be on the page and don't need to re-
 
 This marks each as "processed"
 */
-void add(undefined, {
+void add(__filebasename, {}, {
 	init: async () => {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
 		await Promise.resolve();

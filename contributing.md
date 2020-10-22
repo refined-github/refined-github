@@ -25,11 +25,7 @@ function init () {
 	console.log('✨');
 }
 
-features.add({
-	id: __filebasename,
-	description: 'Simplify the GitHub interface and adds useful features.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/58238638-3cbcd080-7d7a-11e9-80f6-be6c0520cfed.jpg',
-}, {
+features.add(__filebasename, {}, {
 	include: [
 		pageDetect.isPR // Find which one you need on https://fregante.github.io/github-url-detection/
 	],
@@ -56,10 +52,7 @@ function init(): void {
 	delegate(document, '.btn', 'click', append);
 }
 
-features.add({
-	id: __filebasename,
-	description: 'Simplify the GitHub interface and adds useful features.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/58238638-3cbcd080-7d7a-11e9-80f6-be6c0520cfed.jpg',
+features.add(__filebasename, {
 	shortcuts: { // This only adds the shortcut to the help screen, it doesn't enable it
 		'↑': 'Edit your last comment'
 	},
