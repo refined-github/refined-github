@@ -38,7 +38,7 @@ function parseFeatureDetails(id: FeatureID): FeatureMeta {
 		const imageRegex = new RegExp(`<p><a title="${id}"></a> (.+?)\\n\\t+<p><img src="(.+?)">`);
 		const imageMatch = imageRegex.exec(readmeContent);
 		if (imageMatch) {
-			feature.description = `${imageMatch[1]}.`;
+			feature.description = `${imageMatch[1].replace(/<i>(.*?)<\/i>/g, '$1')}.`;
 			feature.screenshot = imageMatch[2];
 		} else {
 			throw new Error(`❌ Feature \`${id}\` needs a description in readme.md. Please refer to the style guide there.`);
