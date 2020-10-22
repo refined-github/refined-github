@@ -35,11 +35,6 @@ function parseSimpleInlineElement(element: Element, tag: string): void {
 
 function parseDescription(description: string): DocumentFragment {
 	const descriptionElement = <span>{description}</span>;
-	domFormatters.linkifyIssues(descriptionElement, {
-		baseUrl: 'https://github.com',
-		user: 'sindresorhus',
-		repository: 'refined-github'
-	});
 	domFormatters.linkifyURLs(descriptionElement);
 	domFormatters.parseBackticks(descriptionElement);
 	parseSimpleInlineElement(descriptionElement, 'i');
