@@ -109,14 +109,13 @@ function init(): false | void {
 	}
 }
 
-void features.add(__filebasename, {
-	shortcuts: {
-		'd w': 'Show/hide whitespaces in diffs'
-	}
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		// Disabled because of #2291 // pageDetect.isPRFiles
 		pageDetect.isCommit
 	],
+	shortcuts: {
+		'd w': 'Show/hide whitespaces in diffs'
+	},
 	init
 });

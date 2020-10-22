@@ -26,16 +26,15 @@ function init(): void {
 	}
 }
 
-void features.add(__filebasename, {
+void features.add(__filebasename, {}, {
+	include: [
+		pageDetect.isPR
+	],
 	shortcuts: {
 		'g 1': 'Go to Conversation',
 		'g 2': 'Go to Commits',
 		'g 3': 'Go to Checks',
 		'g 4': 'Go to Files changed'
-	}
-}, {
-	include: [
-		pageDetect.isPR
-	],
+	},
 	init
 });

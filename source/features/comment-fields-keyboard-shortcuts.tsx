@@ -63,15 +63,14 @@ function init(): void {
 	onCommentFieldKeydown(eventHandler);
 }
 
-void features.add(__filebasename, {
-	shortcuts: {
-		'↑': 'Edit your last comment',
-		esc: 'Unfocuses comment field'
-	}
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.hasRichTextEditor
 	],
 	awaitDomReady: false,
+	shortcuts: {
+		'↑': 'Edit your last comment',
+		esc: 'Unfocuses comment field'
+	},
 	init: onetime(init)
 });

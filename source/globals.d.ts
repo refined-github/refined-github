@@ -13,7 +13,6 @@ interface FeatureMeta {
 	id: FeatureID;
 	description: string;
 	screenshot: string | false;
-	shortcuts?: FeatureShortcuts;
 }
 
 interface FeatureConfig {

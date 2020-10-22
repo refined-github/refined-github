@@ -28,11 +28,10 @@ function init(): void {
 	}
 }
 
-void features.add(__filebasename, {
+void features.add(__filebasename, {}, {
 	shortcuts: {
 		'→': 'Go to the next page',
 		'←': 'Go to the previous page'
-	}
-}, {
+	},
 	init
 });

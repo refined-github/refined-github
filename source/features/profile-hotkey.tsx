@@ -7,10 +7,9 @@ function init(): void {
 	select('a[data-ga-click$="text:your profile"]')!.dataset.hotkey = 'g m';
 }
 
-void features.add(__filebasename, {
+void features.add(__filebasename, {}, {
 	shortcuts: {
 		'g m': 'Go to Profile'
-	}
-}, {
+	},
 	init: onetime(init)
 });

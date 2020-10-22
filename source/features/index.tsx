@@ -24,11 +24,10 @@ interface FeatureMeta {
 	id: FeatureID;
 	description: string;
 	screenshot: string | false;
-	shortcuts?: FeatureShortcuts;
 }
 
 interface FeatureLoader extends Partial<InternalRunConfig> {
-	/** Whether to wait for DOM ready before runnin `init`. `false` makes `init` run right as soon as `body` is found. @default true */
+	/** Whether to wait for DOM ready before running `init`. `false` makes `init` run right as soon as `body` is found. @default true */
 	awaitDomReady?: false;
 
 	/** When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway.  @default false */
@@ -36,6 +35,9 @@ interface FeatureLoader extends Partial<InternalRunConfig> {
 
 	/** When true, don’t run the `init` on page load but only add the `additionalListeners`. @default false */
 	onlyAdditionalListeners?: true;
+
+	/** This only adds the shortcut to the help screen, it doesn't enable it. @default {} */
+	shortcuts?: FeatureShortcuts;
 
 	init: FeatureInit; // Repeated here because this interface is Partial<>
 }
@@ -200,14 +202,13 @@ function enforceDefaults(
 	}
 }
 
-type FeatureSettings = Pick<FeatureMeta, 'disabled'|'shortcuts'>;
+type FeatureSettings = Pick<FeatureMeta, 'disabled'>;
 
 /** Register a new feature */
 const add = async (id: FeatureID, settings: FeatureSettings, ...loaders: FeatureLoader[]): Promise<void> => {
 	/* Input defaults and validation */
 	const {
-		disabled = false,
-		shortcuts = {}
+		disabled = false
 	} = settings;
 
 	/* Feature filtering and running */
@@ -215,11 +216,6 @@ const add = async (id: FeatureID, settings: FeatureSettings, ...loaders: Feature
 	if (disabled || options[`feature:${id}`] === false) {
 		log('↩️', 'Skipping', id, disabled ? `because of ${disabled}` : '');
 		return;
-	}
-
-	// Register feature shortcuts
-	for (const [hotkey, description] of Object.entries(shortcuts)) {
-		shortcutMap.set(hotkey, description);
 	}
 
 	for (const loader of loaders) {
@@ -232,8 +228,14 @@ const add = async (id: FeatureID, settings: FeatureSettings, ...loaders: Feature
 			awaitDomReady = true,
 			repeatOnBackButton = false,
 			onlyAdditionalListeners = false,
-			additionalListeners = []
+			additionalListeners = [],
+			shortcuts = {}
 		} = loader;
+
+		// Register feature shortcuts
+		for (const [hotkey, description] of Object.entries(shortcuts)) {
+			shortcutMap.set(hotkey, description);
+		}
 
 		// 404 pages should only run 404-only features
 		if (pageDetect.is404() && !include.includes(pageDetect.is404)) {

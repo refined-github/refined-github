@@ -54,14 +54,13 @@ function init(): void {
 	document.addEventListener('keypress', runShortcuts);
 }
 
-void features.add(__filebasename, {
-	shortcuts: {
-		j: 'Focus the comment/file below',
-		k: 'Focus the comment/file above'
-	}
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.hasComments
 	],
+	shortcuts: {
+		j: 'Focus the comment/file below',
+		k: 'Focus the comment/file above'
+	},
 	init
 });

@@ -39,11 +39,7 @@ async function initReviewButtonEnhancements(): Promise<void> {
 	}
 }
 
-void features.add(__filebasename, {
-	shortcuts: {
-		v: 'Open PR review popup'
-	}
-}, {
+void features.add(__filebasename, {}, {
 	include: [
 		pageDetect.isPRConversation
 	],
@@ -57,5 +53,8 @@ void features.add(__filebasename, {
 		pageDetect.isPRFiles
 	],
 	awaitDomReady: false,
+	shortcuts: {
+		v: 'Open PR review popup'
+	},
 	init: initReviewButtonEnhancements
 });
