@@ -10,7 +10,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpack, {Configuration} from 'webpack';
 
-const readmeContent = readFileSync('readme.md', 'utf-8');
+const readmeContent = readFileSync(path.join(__dirname, 'readme.md'), 'utf-8');
 
 function parseFeatureDetails(id: FeatureID): FeatureMeta {
 	const feature: Partial<FeatureMeta> = {id};
@@ -41,7 +41,7 @@ function parseFeatureDetails(id: FeatureID): FeatureMeta {
 
 function getFeatures(): FeatureID[] {
 	return Array.from(
-		readFileSync('source/refined-github.ts', 'utf-8').matchAll(/^import '\.\/features\/([^.]+)';/gm),
+		readFileSync(path.join(__dirname, 'source/refined-github.ts'), 'utf-8').matchAll(/^import '\.\/features\/([^.]+)';/gm),
 		match => match[1] as FeatureID
 	).sort();
 }
