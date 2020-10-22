@@ -25,7 +25,7 @@ function init () {
 	console.log('✨');
 }
 
-features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPR // Find which one you need on https://fregante.github.io/github-url-detection/
 	],
@@ -52,11 +52,7 @@ function init(): void {
 	delegate(document, '.btn', 'click', append);
 }
 
-features.add(__filebasename, {
-	shortcuts: { // This only adds the shortcut to the help screen, it doesn't enable it
-		'↑': 'Edit your last comment'
-	},
-}, {
+void features.add(__filebasename, {
 	/** Whether to wait for DOM ready before runnin `init`. `false` makes `init` run right as soon as `body` is found. @default true */
 	awaitDomReady: false,
 
@@ -69,6 +65,12 @@ features.add(__filebasename, {
 	exclude: [
 		pageDetect.isOwnUserProfile
 	],
+
+	/** This only adds the shortcut to the help screen, it doesn't enable it. */
+	shortcuts: {
+		'↑': 'Edit your last comment'
+	},
+
 	init
 }, {
 	include: [
