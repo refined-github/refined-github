@@ -11,26 +11,61 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpack, {Configuration} from 'webpack';
 
+const readmeContent = readFileSync('readme.md', 'utf-8');
+
+function stripLinks(markdownText: string): Partial<FeatureMeta> {
+	const urls: string[] = [];
+	const description = markdownText.replace(/\[(.+?)\]\((.+?)\)/g, (_match, title, url) => {
+		urls.push(url);
+		return title;
+	});
+
+	return {
+		description,
+		screenshot: urls.find(url => url.startsWith('https://user-images.githubusercontent.com/')) || urls[0]
+	};
+}
+
 function parseFeatureDetails(id: FeatureID): FeatureMeta {
-	const content = readFileSync(`source/features/${id}.tsx`, {encoding: 'utf-8'});
-	const fields = ['disabled', 'description', 'screenshot'] as const;
-
 	const feature: Partial<FeatureMeta> = {id};
-	for (const field of fields) {
-		const value = new RegExp(`\n\t${field}: '([^\\n]+)'`).exec(content)?.[1];
-		if (value) {
-			const validValue = value.trim().replace(/(?<!`)\\'/g, '’'); // Catch trailing spaces and incorrect apostrophes
-			if (value !== validValue) {
-				throw new Error(stripIndent(`
-					❌ Invalid characters found in \`${id}\`. Apply this patch:
 
-					- ${field}: '${value}'
-					+ ${field}: '${validValue}'
-				`));
-			}
+	const lineRegex = new RegExp(`^- \\[\\]\\(# "${id}"\\)(?: 🔥)? (.+)$`, 'm');
+	const lineMatch = readmeContent.match(lineRegex);
+	if (lineMatch) {
+		Object.assign(feature, stripLinks(lineMatch[1]));
+		feature.description = feature.description!
+			.replace(/<code>\\`(.+?)\\`<\/code>/, '`$1`') // simplify weird Markdown escaping
+			.replace(/<kbd>(.+?)<\/kbd>/g, '`$1`'); // replace keyboard shortcut tags
+	} else {
+		// feature might be highlighted in the readme
+		const imageRegex = new RegExp(`<img id="${id}" alt="(.+?)" src="(.+?)">`);
+		const imageMatch = readmeContent.match(imageRegex);
+		if (imageMatch) {
+			feature.description = imageMatch[1];
+			feature.screenshot = imageMatch[2];
+		} else {
+			throw new Error(stripIndent(`
+				❌ Feature \`${id}\` needs a description in readme.md (please refer to the style guide there):
 
-			feature[field] = value.replace(/\\'/g, '\'').replace(/\\\\/g, '\\');
+				- [](# "${id}") [feature description](screenshot url)
+			`));
 		}
+	}
+
+	const validDescription = feature.description!.trim().replace(/(?<!`)\\'/g, '’'); // Catch trailing spaces and incorrect apostrophes
+	if (feature.description !== validDescription) {
+		throw new Error(stripIndent(`
+			❌ Invalid characters found in description for \`${id}\`. Apply this patch:
+
+			- ${feature.description}'
+			+ ${validDescription}'
+		`));
+	}
+
+	const featureFileContent = readFileSync(`source/features/${id}.tsx`, {encoding: 'utf-8'});
+	const [, disabledReason] = featureFileContent.match(/\n\tdisabled: '([^\n]+)'/) || [];
+	if (disabledReason) {
+		feature.disabled = disabledReason;
 	}
 
 	return feature as FeatureMeta;
