@@ -12,7 +12,7 @@ import getTextNodes from './helpers/get-text-nodes';
 import {perDomainOptions} from './options-storage';
 import * as domFormatters from './github-helpers/dom-formatters';
 
-export function parseSimpleInlineElement(element: Element, tag: string): void {
+function parseSimpleInlineElement(element: Element, tag: string): void {
 	const splittingRegex = new RegExp(`<${tag}>(.+?)</${tag}>`, 'g');
 
 	for (const node of getTextNodes(element)) {
