@@ -60,7 +60,7 @@ async function init(): Promise<void> {
 	delegate(document, '.rgh-remove-label-faster:not([disabled])', 'click', removeLabelButtonClickHandler);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isConversation
 	],

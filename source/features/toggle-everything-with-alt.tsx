@@ -56,7 +56,7 @@ function init(): void {
 	delegate(document, '.js-file .js-resolvable-thread-toggler', 'click', clickAll(resolvedCommentsSelector));
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRConversation,
 		pageDetect.isPRFiles,

@@ -7,7 +7,7 @@ function init(): void {
 	document.body.classList.add('rgh-align-issue-labels');
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	awaitDomReady: false,
 	include: [
 		pageDetect.isConversationList

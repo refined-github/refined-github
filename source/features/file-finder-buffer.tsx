@@ -51,7 +51,7 @@ function init(): void {
 	window.addEventListener('pjax:complete', pjaxCompleteHandler);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepo
 	],

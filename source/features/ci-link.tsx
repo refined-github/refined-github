@@ -30,7 +30,7 @@ async function init(): Promise<false | void> {
 	select('[itemprop="name"]')!.parentElement!.append(icon);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepo
 	],

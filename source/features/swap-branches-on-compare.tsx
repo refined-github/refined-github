@@ -22,7 +22,7 @@ function init(): void {
 	wrap(icon, <a href={buildRepoURL('compare/' + references.join('...'))}/>);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isCompare
 	],

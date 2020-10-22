@@ -95,7 +95,7 @@ async function init(): Promise<void | false> {
 	delegate(document, '.rgh-clone-branch', 'click', cloneBranch);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isBranches
 	],

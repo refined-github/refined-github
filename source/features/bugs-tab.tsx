@@ -100,7 +100,7 @@ async function init(): Promise<void | false> {
 	}
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepo
 	],

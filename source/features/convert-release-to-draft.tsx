@@ -40,7 +40,7 @@ async function init(): Promise<void | false> {
 	delegate(document, '.rgh-convert-draft', 'click', convertToDraft);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isSingleTag
 	],

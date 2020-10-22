@@ -27,7 +27,7 @@ async function init(): Promise<false | void> {
 	);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isCompare
 	],

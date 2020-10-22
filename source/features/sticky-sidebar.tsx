@@ -24,7 +24,7 @@ function deinit(): void {
 	window.removeEventListener('resize', onResize);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoRoot,
 		pageDetect.isConversation

@@ -20,7 +20,7 @@ function deinit(): void {
 	window.removeEventListener('keyup', handler);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isSingleFile
 	],

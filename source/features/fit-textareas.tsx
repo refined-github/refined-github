@@ -35,7 +35,7 @@ function init(): void {
 	select.all('textarea').forEach(watchTextarea);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.hasRichTextEditor
 	],

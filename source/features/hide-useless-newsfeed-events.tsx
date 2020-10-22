@@ -8,7 +8,7 @@ function init(): void {
 	document.body.classList.add('rgh-no-useless-events');
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isDashboard
 	],

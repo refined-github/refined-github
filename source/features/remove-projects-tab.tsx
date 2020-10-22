@@ -61,7 +61,7 @@ async function removeProjectsTab(): Promise<void | false> {
 	projectsTab.remove();
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepo,
 		pageDetect.isUserProfile,

@@ -45,7 +45,7 @@ function init(): void {
 	delegate(document, '.rgh-fix-pr-commit-links', 'click', handleButtonClick);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.hasRichTextEditor
 	],

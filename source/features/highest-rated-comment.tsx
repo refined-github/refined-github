@@ -107,7 +107,7 @@ function init(): false | void {
 	highlightBestComment(bestComment);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isIssue
 	],

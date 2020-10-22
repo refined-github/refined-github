@@ -135,7 +135,7 @@ function init(): void {
 	delegate(document, '.rgh-restore-file', 'click', handleRestoreFileClick, true);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRFiles,
 		pageDetect.isPRCommit

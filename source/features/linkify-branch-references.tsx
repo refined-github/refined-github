@@ -16,7 +16,7 @@ async function init(): Promise<void | false> {
 	wrap(element.closest('.branch-name')!, <a href={branchUrl}/>);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isQuickPR
 	],

@@ -23,7 +23,7 @@ function initDashboard(): void {
 	});
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isConversationList
 	],

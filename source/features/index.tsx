@@ -192,7 +192,7 @@ function enforceDefaults(
 }
 
 /** Register a new feature */
-const add = async (id: FeatureID, _settings: any, ...loaders: FeatureLoader[]): Promise<void> => {
+const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> => {
 	/* Feature filtering and running */
 	const options = await globalReady;
 	if (options[`feature:${id}`] === false) {
@@ -250,7 +250,7 @@ This means that the old features will still be on the page and don't need to re-
 
 This marks each as "processed"
 */
-void add(__filebasename, {}, {
+void add(__filebasename, {
 	init: async () => {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
 		await Promise.resolve();

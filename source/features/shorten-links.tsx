@@ -15,7 +15,7 @@ function init(): void {
 	});
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	exclude: [
 		// Due to GitHub’s bug: #2828
 		pageDetect.isGlobalSearchResults

@@ -52,7 +52,7 @@ function init(): void {
 	delegate(document, '.js-filterable-field', 'keydown', handleKeyDown);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRConversation,
 		pageDetect.isIssue,

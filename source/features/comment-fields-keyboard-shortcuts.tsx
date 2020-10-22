@@ -63,7 +63,7 @@ function init(): void {
 	onCommentFieldKeydown(eventHandler);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.hasRichTextEditor
 	],

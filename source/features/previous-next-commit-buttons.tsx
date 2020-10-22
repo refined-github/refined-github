@@ -15,7 +15,7 @@ function init(): false | void {
 	files.after(previousNext);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRFiles,
 		pageDetect.isPRCommit

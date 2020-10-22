@@ -78,7 +78,7 @@ function init(): void {
 	update();
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isNotifications
 	],

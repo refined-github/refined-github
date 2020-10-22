@@ -52,7 +52,7 @@ async function init(): Promise<false | void> {
 	select.last('.Header-item--full,.HeaderMenu nav')!.after(widget);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepo
 	],

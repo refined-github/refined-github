@@ -17,7 +17,7 @@ async function init(): Promise<void | false> {
 	packagesTab.closest('.BorderGrid-row, .UnderlineNav-item')!.remove();
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoRoot,
 		pageDetect.isUserProfile

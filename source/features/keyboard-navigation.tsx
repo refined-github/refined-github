@@ -54,7 +54,7 @@ function init(): void {
 	document.addEventListener('keypress', runShortcuts);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.hasComments
 	],

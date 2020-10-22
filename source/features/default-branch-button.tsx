@@ -53,7 +53,7 @@ async function init(): Promise<false | void> {
 	branchSelector.style.float = 'none'; // Pre "Repository refresh" layout
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile,

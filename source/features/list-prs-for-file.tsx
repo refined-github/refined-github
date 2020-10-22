@@ -133,7 +133,7 @@ async function init(): Promise<void> {
 	select('.breadcrumb')!.before(link);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isEditingFile,
 		pageDetect.isSingleFile

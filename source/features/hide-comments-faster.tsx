@@ -73,7 +73,7 @@ function init(): void {
 	delegate(document, '.rgh-hide-comments-faster-details', 'toggle', resetDropdowns, true);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.hasComments
 	],

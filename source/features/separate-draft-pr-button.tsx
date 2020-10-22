@@ -50,7 +50,7 @@ function init(): void | false {
 	createPrButtonGroup.remove();
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isCompare
 	],

@@ -8,7 +8,7 @@ function init(): void {
 	document.body.classList.add('rgh-hide-watch-and-fork-count');
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepo
 	],

@@ -51,7 +51,7 @@ function init(): void {
 		.forEach(embedGist);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.hasComments
 	],

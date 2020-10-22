@@ -112,7 +112,7 @@ async function init(): Promise<void | false> {
 	delegate(document, '.rgh-update-pr-from-base-branch button', 'click', handler);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRConversation
 	],

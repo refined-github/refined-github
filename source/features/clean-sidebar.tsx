@@ -109,7 +109,7 @@ async function clean(): Promise<void> {
 	cleanSection('[aria-label="Select milestones"]');
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isConversation
 	],

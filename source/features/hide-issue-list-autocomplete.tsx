@@ -7,7 +7,7 @@ function init(): void {
 	select('.subnav-search')!.setAttribute('autocomplete', 'off');
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isConversationList
 	],

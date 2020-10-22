@@ -12,7 +12,7 @@ function init(): void {
 	}, {once: true});
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	awaitDomReady: false,
 	init: onetime(init)
 });

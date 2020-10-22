@@ -20,7 +20,7 @@ function init(): void {
 	document.addEventListener('keypress', openInNewTab);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	awaitDomReady: false,
 	shortcuts: {
 		'shift o': 'Open selection in new tab'

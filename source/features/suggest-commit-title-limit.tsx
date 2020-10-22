@@ -20,7 +20,7 @@ function init(): void {
 	delegate(document, fieldSelector, 'input', validateInput);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isEditingFile,
 		pageDetect.isPRConversation

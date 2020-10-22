@@ -55,7 +55,7 @@ function init(): void {
 	delegate(document, '.file-header:not([data-file-deleted="true"]) .js-file-header-dropdown:not(.rgh-actionable-link)', 'toggle', handleMenuOpening, true);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRFiles,
 		pageDetect.isPRCommit

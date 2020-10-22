@@ -41,7 +41,7 @@ function init(): void {
 	delegate(document, expanderSelector, 'click', handleAltClick);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRCommit,
 		pageDetect.isPRFiles,

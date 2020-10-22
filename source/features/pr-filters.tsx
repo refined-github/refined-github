@@ -117,7 +117,7 @@ async function init(): Promise<void> {
 	await addChecksFilter();
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRList
 	],

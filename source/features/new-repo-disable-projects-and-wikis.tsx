@@ -52,7 +52,7 @@ async function init(): Promise<void> {
 	delegate(document, '#new_repository', 'submit', setStorage);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isNewRepo
 	],

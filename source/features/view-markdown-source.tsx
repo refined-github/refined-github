@@ -122,7 +122,7 @@ async function init(): Promise<void> {
 	}
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isSingleFile
 	],

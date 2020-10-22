@@ -34,7 +34,7 @@ function init(): void {
 	commentsMenuItem.after(subscriptionsMenuItem);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoConversationList
 	],

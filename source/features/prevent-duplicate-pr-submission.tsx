@@ -17,7 +17,7 @@ function init(): void {
 	delegate(document, '#new_pull_request', 'submit', preventSubmit);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isCompare
 	],

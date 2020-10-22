@@ -36,7 +36,7 @@ function deinit(): void {
 	window.removeEventListener('pjax:start', unloadHandler);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isFileFinder
 	],

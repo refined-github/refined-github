@@ -7,7 +7,7 @@ function init(): void {
 	document.body.classList.add('rgh-remove-diff-signs');
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.hasCode
 	],

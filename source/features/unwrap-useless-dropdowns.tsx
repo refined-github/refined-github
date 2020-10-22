@@ -58,7 +58,7 @@ async function unwrapActionRun(): Promise<void | false> {
 	replaceDropdownInPlace(dropdown, desiredForm);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isNotifications
 	],

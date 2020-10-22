@@ -132,7 +132,7 @@ async function initPRCommit(): Promise<void | false> {
 	);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.is404
 	],

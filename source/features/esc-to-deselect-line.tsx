@@ -23,7 +23,7 @@ function init(): void {
 	document.body.addEventListener('keyup', listener);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.hasCode
 	],

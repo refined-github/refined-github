@@ -23,7 +23,7 @@ function init(): void {
 	document.addEventListener('menu:activated', menuActivatedHandler);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	awaitDomReady: false,
 	init
 });

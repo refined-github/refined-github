@@ -37,7 +37,7 @@ function init(): void | false {
 	delegate(document, '[name="collab_privs"]', 'change', toggleHandler);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isCompare,
 		pageDetect.isPRConversation

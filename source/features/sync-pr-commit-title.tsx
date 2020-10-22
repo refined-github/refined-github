@@ -102,7 +102,7 @@ function deinit(): void {
 	listeners.length = 0;
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRConversation
 	],

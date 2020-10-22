@@ -30,7 +30,7 @@ function init(): void {
 	delegate(document, '.rgh-upload-btn', 'click', triggerUpload);
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.hasRichTextEditor
 	],

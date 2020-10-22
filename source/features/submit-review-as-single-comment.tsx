@@ -108,7 +108,7 @@ function init(): void {
 	updateUI();
 }
 
-void features.add(__filebasename, {}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRFiles
 	],
