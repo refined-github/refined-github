@@ -24,25 +24,25 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 			Git Checkout
 		</button>
 	);
-	const gitOptions = isLocalPr ? [' '] : ['HTTPS', 'SSH'];
+	const checkoutOptions = isLocalPr ? ['local'] : ['HTTPS', 'SSH'];
 	tabContainer.append(
 		<div hidden role="tabpanel" className="p-3">
 			<p className="text-gray text-small">
-				Run in your project repository, pick either one.
+				Run in your project repository{isLocalPr || ', pick either one'}
 			</p>
 
-			{gitOptions.map(gitOption => (
+			{checkoutOptions.map(checkoutOption => (
 				<>
 					{isLocalPr ||
 						<p className="text-gray text-small">
-							{gitOption}
+							{checkoutOption}
 						</p>}
 					<div className="copyable-terminal">
 						<div className="copyable-terminal-button">
 							<clipboard-copy
 								className="btn btn-sm zeroclipboard-button"
 								role="button"
-								for="rgh-checkout-pr-https"
+								for={`rgh-checkout-pr-${checkoutOption}`}
 								aria-label="Copy to clipboard"
 								data-copy-feedback="Copied!"
 							>
@@ -50,13 +50,11 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 							</clipboard-copy>
 						</div>
 						<pre
-							id="rgh-checkout-pr-https"
+							id={`rgh-checkout-pr-${checkoutOption}`}
 							className="copyable-terminal-content"
 						>
 							<span className="user-select-contain">
-								{isLocalPr || gitOption === 'HTTPS' ?
-									`git remote add ${user} ${location.origin}/${user}/${repository}.git\n` :
-									`git remote add ${user} git@${location.hostname}:${user}/${repository}.git\n`}
+								{isLocalPr || `git remote add ${user} ${checkoutOption === 'HTTPS' ? `${location.origin}/${user}` : `git@${location.hostname}:`}/${repository}.git\n`}
 								{isLocalPr || `git fetch ${user} ${getCurrentBranch()!}\n`}
 								git switch {isLocalPr || `--track ${user}/`}{getCurrentBranch()}
 							</span>
