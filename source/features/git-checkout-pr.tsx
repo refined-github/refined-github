@@ -7,6 +7,39 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import {getCurrentBranch, getPRRepositoryInfo} from '../github-helpers';
 
+function checkoutOption(option: string): JSX.Element {
+	const isLocalPr = select('.user-select-contain.head-ref a')!.childElementCount === 1;
+	const {user, repository} = getPRRepositoryInfo();
+	return (
+		<>
+			{isLocalPr || <p className="text-gray text-small my-1">{checkoutOption}</p>}
+			<div className="copyable-terminal">
+				<div className="copyable-terminal-button">
+					<clipboard-copy
+						className="btn btn-sm zeroclipboard-button"
+						role="button"
+						for={`rgh-checkout-pr-${option}`}
+						aria-label="Copy to clipboard"
+						data-copy-feedback="Copied!"
+					>
+						<ClippyIcon/>
+					</clipboard-copy>
+				</div>
+				<pre
+					id={`rgh-checkout-pr-${option}`}
+					className="copyable-terminal-content"
+				>
+					<span className="user-select-contain">
+						{isLocalPr || `git remote add ${user} ${option === 'HTTPS' ? `${location.origin}/${user}` : `git@${location.hostname}:`}/${repository}.git\n`}
+						{isLocalPr || `git fetch ${user} ${getCurrentBranch()!}\n`}
+						git switch {isLocalPr || `--track ${user}/`}{getCurrentBranch()}
+					</span>
+				</pre>
+			</div>
+		</>
+	);
+}
+
 function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	dropdown.classList.add('rgh-git-checkout'); // Mark this as processed
 	const isLocalPr = select('.user-select-contain.head-ref a')!.childElementCount === 1;
@@ -24,41 +57,13 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 		</button>
 	);
 
-	const {user, repository} = getPRRepositoryInfo();
 	const checkoutOptions = isLocalPr ? ['local'] : ['HTTPS', 'SSH'];
 	tabContainer.append(
 		<div hidden role="tabpanel" className="p-3">
 			<p className="text-gray text-small">
 				Run in your project repository{isLocalPr || ', pick either one'}
 			</p>
-			{checkoutOptions.map(checkoutOption => (
-				<>
-					{isLocalPr || <p className="text-gray text-small my-1">{checkoutOption}</p>}
-					<div className="copyable-terminal">
-						<div className="copyable-terminal-button">
-							<clipboard-copy
-								className="btn btn-sm zeroclipboard-button"
-								role="button"
-								for={`rgh-checkout-pr-${checkoutOption}`}
-								aria-label="Copy to clipboard"
-								data-copy-feedback="Copied!"
-							>
-								<ClippyIcon/>
-							</clipboard-copy>
-						</div>
-						<pre
-							id={`rgh-checkout-pr-${checkoutOption}`}
-							className="copyable-terminal-content"
-						>
-							<span className="user-select-contain">
-								{isLocalPr || `git remote add ${user} ${checkoutOption === 'HTTPS' ? `${location.origin}/${user}` : `git@${location.hostname}:`}/${repository}.git\n`}
-								{isLocalPr || `git fetch ${user} ${getCurrentBranch()!}\n`}
-								git switch {isLocalPr || `--track ${user}/`}{getCurrentBranch()}
-							</span>
-						</pre>
-					</div>
-				</>
-			))}
+			{checkoutOptions.map(checkoutOption)}
 		</div>
 	);
 }
