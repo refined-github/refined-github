@@ -17,7 +17,7 @@ function init(): void {
 void features.add(__filebasename, {
 	shortcuts: {
 		c: 'Create a new release',
-		'control enter': 'Publish a release'
+		'ctrl enter': 'Publish a release'
 	},
 	include: [
 		pageDetect.isReleasesOrTags
