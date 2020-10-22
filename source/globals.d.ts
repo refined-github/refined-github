@@ -7,7 +7,7 @@ type FeatureShortcuts = Record<string, string>;
 interface FeatureMeta {
 	id: FeatureID;
 	description: string;
-	screenshot: string | false;
+	screenshot?: string;
 }
 
 interface FeatureConfig {

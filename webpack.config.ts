@@ -13,30 +13,33 @@ import webpack, {Configuration} from 'webpack';
 const readmeContent = readFileSync(path.join(__dirname, 'readme.md'), 'utf-8');
 
 function parseFeatureDetails(id: FeatureID): FeatureMeta {
-	const feature: Partial<FeatureMeta> = {id};
-
 	const lineRegex = new RegExp(`^- \\[\\]\\(# "${id}"\\)(?: 🔥)? (.+)$`, 'm');
 	const lineMatch = lineRegex.exec(readmeContent);
 	if (lineMatch) {
 		const urls: string[] = [];
-		feature.description = lineMatch[1].replace(/\[(.+?)]\((.+?)\)/g, (_match, title, url) => {
-			urls.push(url);
-			return title;
-		});
-		feature.screenshot = urls.find(url => /\.(png|gif)$/i.test(url));
-	} else {
-		// Feature might be highlighted in the readme
-		const imageRegex = new RegExp(`<p><a title="${id}"></a> (.+?)\\n\\t+<p><img src="(.+?)">`);
-		const imageMatch = imageRegex.exec(readmeContent);
-		if (imageMatch) {
-			feature.description = `${imageMatch[1]}.`;
-			feature.screenshot = imageMatch[2];
-		} else {
-			throw new Error(`❌ Feature \`${id}\` needs a description in readme.md. Please refer to the style guide there.`);
-		}
+
+		return {
+			id,
+			description: lineMatch[1].replace(/\[(.+?)]\((.+?)\)/g, (_match, title, url) => {
+				urls.push(url);
+				return title;
+			}),
+			screenshot: urls.find(url => /\.(png|gif)$/i.test(url))
+		};
 	}
 
-	return feature as FeatureMeta;
+	// Feature might be highlighted in the readme
+	const imageRegex = new RegExp(`<p><a title="${id}"></a> (.+?)\\n\\t+<p><img src="(.+?)">`);
+	const imageMatch = imageRegex.exec(readmeContent);
+	if (imageMatch) {
+		return {
+			id,
+			description: `${imageMatch[1]}.`,
+			screenshot: imageMatch[2]
+		};
+	}
+
+	throw new Error(`❌ Feature \`${id}\` needs a description in readme.md. Please refer to the style guide there.`);
 }
 
 function getFeatures(): FeatureID[] {
