@@ -34,7 +34,7 @@ function parseFeatureDetails(readmeContent: string, id: FeatureID): FeatureMeta 
 	if (imageMatch) {
 		return {
 			id,
-			description: `${imageMatch[1]}.`,
+			description: imageMatch[1] + '.',
 			screenshot: imageMatch[2]
 		};
 	}
