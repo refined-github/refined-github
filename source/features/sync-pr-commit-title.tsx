@@ -5,8 +5,8 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
-import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 import concatRegex from '../helpers/concat-regex';
+import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
 const prTitleFieldSelector = '.js-issue-update [name="issue[title]"]';
 const prTitleSubmitSelector = '.js-issue-update [type="submit"]';
