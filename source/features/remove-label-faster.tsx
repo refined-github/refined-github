@@ -9,7 +9,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepoURL, getConversationNumber} from '../github-helpers';
+import {getConversationNumber} from '../github-helpers';
 
 const canNotEditLabels = onetime((): boolean => !select.exists('.sidebar-labels .octicon-gear'));
 
@@ -19,7 +19,7 @@ async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, H
 	const removeLabelButton = event.delegateTarget;
 
 	removeLabelButton.disabled = true;
-	await api.v3(`repos/${getRepoURL()}/issues/${getConversationNumber()!}/labels/${removeLabelButton.dataset.name!}`, {
+	await api.v3(`/issues/${getConversationNumber()!}/labels/${removeLabelButton.dataset.name!}`, {
 		method: 'DELETE'
 	});
 
