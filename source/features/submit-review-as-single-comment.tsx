@@ -91,7 +91,7 @@ async function handleSubmitSingle(event: delegate.Event): Promise<void> {
 		// Wait for the comment to be added
 		await observeOneMutation(lineBeingCommentedOn.parentElement!);
 		commentForm.hidden = false;
-	} catch (error) {
+	} catch (error: unknown) {
 		commentForm.hidden = false;
 
 		// Place comment in console to allow recovery

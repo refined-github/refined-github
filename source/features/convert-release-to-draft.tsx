@@ -22,7 +22,7 @@ async function convertToDraft({delegateTarget: draftButton}: delegate.Event<Mous
 		});
 
 		select('.BtnGroup a[href*="releases/edit"]')!.click(); // Visit "Edit release" page
-	} catch (error) {
+	} catch (error: unknown) {
 		draftButton.textContent = 'Error. Check console or retry';
 		features.error(__filebasename, error);
 	}

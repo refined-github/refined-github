@@ -99,7 +99,7 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 
 		// Hide file from view
 		menuItem.closest('.file')!.remove();
-	} catch (error) {
+	} catch (error: unknown) {
 		showError(menuItem, 'Restore failed. See console for details');
 		features.error(__filebasename, error);
 	}

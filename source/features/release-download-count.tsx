@@ -12,9 +12,7 @@ interface Asset {
 	name: string;
 	downloadCount: number;
 }
-interface Tag {
-	[key: string]: Asset[];
-}
+type Tag = Record<string, Asset[]>;
 async function getAssetsForTag(tags: string[]): Promise<Tag> {
 	const {repository} = await api.v4(`
 		repository(${getRepoGQL()}) {

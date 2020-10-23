@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/consistent-indexed-object-style */
+
 type AnyObject = Record<string, any>;
 type AsyncVoidFunction = () => Promise<void>;
 
@@ -85,6 +87,5 @@ declare module '*.svg' {
 // Make `element.cloneNode()` preserve its type instead of returning Node
 interface Node extends EventTarget {
 	// Not equivalent
-	// eslint-disable-next-line @typescript-eslint/method-signature-style
 	cloneNode(deep?: boolean): this;
 }
