@@ -2,10 +2,10 @@ name: Test
 
 on:
   pull_request:
-    branches: 
+    branches:
       - '*'
   push:
-    branches: 
+    branches:
       - master
       - 'test/*'
 
@@ -44,3 +44,11 @@ jobs:
         with:
           name: refined-github
           path: distribution
+  Safari:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm ci
+      - run: npm run build
+      - uses: maxim-lobanov/setup-xcode@v1
+      - run: npm run pack:safari
