@@ -39,7 +39,7 @@ export const getCurrentBranch = (): string | undefined => {
 
 export const isFirefox = navigator.userAgent.includes('Firefox/');
 
-export const getRepoURL = (): string => location.pathname.slice(1).split('/', 2).join('/').toLowerCase();
+export const getRepoURL = (): string => getRepositoryInfo().url!.toLowerCase();
 
 // The type requires at least one parameter https://stackoverflow.com/a/49910890
 export const buildRepoURL = (...pathParts: Array<string | number> & {0: string}): string => {
