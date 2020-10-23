@@ -36,11 +36,11 @@ async function initReviewButtonEnhancements(): Promise<void> {
 	const reviewDropdownButton = await elementReady<HTMLElement>('.js-reviews-toggle');
 	if (reviewDropdownButton) {
 		reviewDropdownButton.dataset.hotkey = 'v';
-	}
 
-	if (location.hash === '#submit-review') {
-		reviewDropdownButton?.click();
-		location.hash = '';
+		// This feature should be native but isn't currently working #3681
+		if (location.hash === '#submit-review') {
+			reviewDropdownButton.click();
+		}
 	}
 }
 
