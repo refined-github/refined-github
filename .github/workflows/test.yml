@@ -38,6 +38,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
       - run: npm ci
       - run: npm run build
       - uses: actions/upload-artifact@v2
@@ -53,6 +56,5 @@ jobs:
         with:
           name: refined-github
           path: distribution
-      - run: ls -R
       - uses: maxim-lobanov/setup-xcode@v1
       - run: npm run pack:safari
