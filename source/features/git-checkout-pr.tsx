@@ -10,7 +10,7 @@ import {getCurrentBranch, getPRRepositoryInfo} from '../github-helpers';
 const isLocalPr = (): boolean => select('.user-select-contain.head-ref a')!.childElementCount === 1;
 
 function checkoutOption(option: string): JSX.Element {
-	const {user, repository} = getPRRepositoryInfo();
+	const {owner: user, name: repository} = getPRRepositoryInfo();
 	return (
 		<>
 			{isLocalPr() || <p className="text-gray text-small my-1">{option}</p>}

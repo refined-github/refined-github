@@ -12,7 +12,7 @@ import {getCurrentBranch, getPRRepositoryInfo} from '../github-helpers';
 function handlePRMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	dropdown.classList.add('rgh-actionable-link'); // Mark this as processed
 
-	const {user, repository} = getPRRepositoryInfo();
+	const {owner: user, name: repository} = getPRRepositoryInfo();
 	const filePath = dropdown.closest('[data-path]')!.getAttribute('data-path')!;
 
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
