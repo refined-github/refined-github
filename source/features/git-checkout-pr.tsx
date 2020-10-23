@@ -5,7 +5,7 @@ import ClippyIcon from 'octicon/clippy.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getCurrentBranch, getPRRepositoryInfo} from '../github-helpers';
+import {getCurrentBranch} from '../github-helpers';
 
 const connectionType: Record<string, string> = {
 	HTTPS: `${location.origin}/`,
@@ -13,7 +13,7 @@ const connectionType: Record<string, string> = {
 };
 
 function checkoutOption(option: string): JSX.Element {
-	const {owner: user, name: repository} = getPRRepositoryInfo();
+	const [, user, repository] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/', 3);
 	const isLocalPR = option === 'local';
 	return (
 		<>
