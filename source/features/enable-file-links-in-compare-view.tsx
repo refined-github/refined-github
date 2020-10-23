@@ -6,13 +6,13 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import GitHubURL from '../github-helpers/github-url';
-import {getCurrentBranch, getPRRepositoryInfo} from '../github-helpers';
+import {getCurrentBranch} from '../github-helpers';
 
 /** Rebuilds the "View file" link because it points to the base repo and to the commit, instead of the head repo and its branch */
 function handlePRMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	dropdown.classList.add('rgh-actionable-link'); // Mark this as processed
 
-	const {owner: user, name: repository} = getPRRepositoryInfo();
+	const [, user, repository] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/', 3);
 	const filePath = dropdown.closest('[data-path]')!.getAttribute('data-path')!;
 
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
