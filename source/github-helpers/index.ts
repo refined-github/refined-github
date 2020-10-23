@@ -62,10 +62,16 @@ export const getRepoGQL = (): string => {
 export interface RepositoryInfo {
 	owner: string;
 	name: string;
+	url: string;
 }
 export const getRepositoryInfo = (repoUrl: string = location.pathname.slice(1)): Partial<RepositoryInfo> => {
 	const [owner, name] = repoUrl.split('/', 2);
-	return {owner, name};
+	return {owner, name, url: owner + '/' + name};
+};
+
+export const getPRRepositoryInfo = (): Partial<RepositoryInfo> => {
+	const {pathname} = select<HTMLAnchorElement>('.commit-ref.head-ref a')!;
+	return getRepositoryInfo(pathname.slice(1));
 };
 
 export function getForkedRepo(): string | undefined {

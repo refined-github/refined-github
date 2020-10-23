@@ -89,7 +89,8 @@ test('getOwnerAndRepo', t => {
 	location.href = 'https://github.com/sindresorhus/refined-github/pull/148';
 	t.deepEqual(getRepositoryInfo(), {
 		owner: 'sindresorhus',
-		name: 'refined-github'
+		name: 'refined-github',
+		url: 'sindresorhus/refined-github'
 	});
 });
 
