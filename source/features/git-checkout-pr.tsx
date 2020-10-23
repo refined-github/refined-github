@@ -7,13 +7,17 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import {getCurrentBranch, getPRRepositoryInfo} from '../github-helpers';
 
-const isLocalPr = (): boolean => select('.user-select-contain.head-ref a')!.childElementCount === 1;
+const connectionType: Record<string, string> = {
+	HTTPS: `${location.origin}/`,
+	SSH: `git@${location.hostname}:`
+};
 
 function checkoutOption(option: string): JSX.Element {
 	const {owner: user, name: repository} = getPRRepositoryInfo();
+	const isLocalPR = option === 'local';
 	return (
 		<>
-			{isLocalPr() || <p className="text-gray text-small my-1">{option}</p>}
+			{isLocalPR || <p className="text-gray text-small my-1">{option}</p>}
 			<div className="copyable-terminal">
 				<div className="copyable-terminal-button">
 					<clipboard-copy
@@ -31,9 +35,9 @@ function checkoutOption(option: string): JSX.Element {
 					className="copyable-terminal-content"
 				>
 					<span className="user-select-contain">
-						{isLocalPr() || `git remote add ${user} ${option === 'HTTPS' ? `${location.origin}/${user}` : `git@${location.hostname}:`}/${repository}.git\n`}
-						git fetch {user} {getCurrentBranch()!}{'\n'}
-						git switch {isLocalPr() || `--track ${user}/`}{getCurrentBranch()}
+						{isLocalPR || `git remote add ${user} ${connectionType[option]}${user}/${repository}.git\n`}
+						git fetch {isLocalPR ? 'origin' : user} {getCurrentBranch()}{'\n'}
+						git switch {isLocalPR || `--track ${user}/`}{getCurrentBranch()}
 					</span>
 				</pre>
 			</div>
@@ -57,13 +61,13 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 		</button>
 	);
 
-	const checkoutOptions = isLocalPr() ? ['local'] : ['HTTPS', 'SSH'];
+	const isLocalPR = select('.user-select-contain.head-ref a')!.childElementCount === 1;
 	tabContainer.append(
 		<div hidden role="tabpanel" className="p-3">
 			<p className="text-gray text-small">
-				Run in your project repository{isLocalPr() || ', pick either one'}
+				Run in your project repository{isLocalPR || ', pick either one'}
 			</p>
-			{checkoutOptions.map(checkoutOption)}
+			{isLocalPR ? checkoutOption('local') : [checkoutOption('HTTPS'), checkoutOption('SSH')]}
 		</div>
 	);
 }
