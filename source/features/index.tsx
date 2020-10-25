@@ -48,7 +48,7 @@ function logError(id: FeatureID, error: Error | string | unknown, ...extras: unk
 		error.message = 'The element wasn’t found, the selector needs to be updated.';
 	}
 
-	const message = error instanceof Error ? error.message : error as string;
+	const message = error instanceof Error ? error.message : String(error);
 
 	if (message.includes('token')) {
 		console.log(`ℹ️ Refined GitHub → ${id} →`, message);
