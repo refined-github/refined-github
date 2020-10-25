@@ -5,7 +5,6 @@ import ClippyIcon from 'octicon/clippy.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {userForks} from './forked-to';
 import {getCurrentBranch} from '../github-helpers';
 
 const connectionType: Record<string, string> = {
@@ -13,7 +12,7 @@ const connectionType: Record<string, string> = {
 	SSH: `git@${location.hostname}:`
 };
 
-function checkoutOption(option: string, userHasFork?: boolean): JSX.Element {
+function checkoutOption(option: string): JSX.Element {
 	const [, user, repository] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/', 3);
 	const isLocalPR = option === 'local';
 	return (
@@ -37,7 +36,7 @@ function checkoutOption(option: string, userHasFork?: boolean): JSX.Element {
 				>
 					<span className="user-select-contain">
 						{isLocalPR || `git remote add ${user} ${connectionType[option]}${user}/${repository}.git\n`}
-						git fetch {isLocalPR ? (userHasFork ? 'upstream' : 'origin') : user} {getCurrentBranch()}{'\n'}
+						git fetch {isLocalPR ? 'origin' : user} {getCurrentBranch()}{'\n'}
 						git switch {isLocalPR || `--track ${user}/`}{getCurrentBranch()}
 					</span>
 				</pre>
@@ -46,7 +45,7 @@ function checkoutOption(option: string, userHasFork?: boolean): JSX.Element {
 	);
 }
 
-async function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): Promise<void> {
+function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	dropdown.classList.add('rgh-git-checkout'); // Mark this as processed
 	const tabContainer = select('[action="/users/checkout-preference"]', dropdown)!.closest<HTMLElement>('tab-container')!;
 	tabContainer.style.minWidth = '370px';
@@ -68,7 +67,7 @@ async function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): Pr
 			<p className="text-gray text-small">
 				Run in your project repository{isLocalPR || ', pick either one'}
 			</p>
-			{isLocalPR ? checkoutOption('local', Boolean(await userForks())) : [checkoutOption('HTTPS'), checkoutOption('SSH')]}
+			{isLocalPR ? checkoutOption('local') : [checkoutOption('HTTPS'), checkoutOption('SSH')]}
 		</div>
 	);
 }
