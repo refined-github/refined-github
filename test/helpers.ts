@@ -243,7 +243,7 @@ test('preventPrCommitLinkLoss', t => {
 
 function parseBackticks(string: string): string {
 	return getParsedBackticksParts(string).map(
-		(part, index) => index % 2 && part.length >= 1 ? `<code>${part.trim()}</code>` : part
+		(part, index) => index % 2 && part.length > 0 ? `<code>${part.trim()}</code>` : part
 	).join('');
 }
 
