@@ -6,8 +6,8 @@ next to the name of the feature that caused them.
 Usage:
 
 import * as api from '../github-helpers/api';
-If the query starts with `repos/getRepoURL` start the query without a `/`
-const user = await api.v3(`commits`);
+const user = await api.v3(`/users/${username}`);
+const repositoryCommits = await api.v3('commits'); // Without a leading `/`, this is equivalent to `/repo/$current-repository/commits`
 const data = await api.v4('{user(login: "user") {name}}');
 
 Returns:
