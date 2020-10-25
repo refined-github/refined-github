@@ -8,11 +8,11 @@ export default function parseBackticks(description: string): DocumentFragment {
 		if (index % 2 && text.length >= 1) {
 			// `span.sr-only` keeps the backticks copy-pastable but invisible
 			fragment.append(
+				<span className="sr-only">`</span>,
 				<code className="rgh-parse-backticks">
-					<span className="sr-only">`</span>
 					{text.trim()}
-					<span className="sr-only">`</span>
-				</code>
+				</code>,
+				<span className="sr-only">`</span>
 			);
 		} else if (text.length > 0) {
 			fragment.append(text);
