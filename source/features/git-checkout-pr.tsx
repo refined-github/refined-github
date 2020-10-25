@@ -5,15 +5,14 @@ import ClippyIcon from 'octicon/clippy.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getCollaborators} from './highlight-collaborators-and-own-conversations';
-import {getCurrentBranch, getUsername} from '../github-helpers';
+import {getCurrentBranch} from '../github-helpers';
 
 const connectionType: Record<string, string> = {
 	HTTPS: `${location.origin}/`,
 	SSH: `git@${location.hostname}:`
 };
 
-function checkoutOption(option: string, hasWriteAccess?: boolean): JSX.Element {
+function checkoutOption(option: string): JSX.Element {
 	const [, user, repository] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/', 3);
 	const isLocalPR = option === 'local';
 	return (
@@ -36,8 +35,8 @@ function checkoutOption(option: string, hasWriteAccess?: boolean): JSX.Element {
 					className="copyable-terminal-content"
 				>
 					<span className="user-select-contain">
-						{(isLocalPR && hasWriteAccess) || `git remote add ${user} ${connectionType[option]}${user}/${repository}.git\n`}
-						git fetch {isLocalPR && hasWriteAccess ? 'origin' : (isLocalPR ? 'upstream' : user)} {getCurrentBranch()}{'\n'}
+						{isLocalPR || `git remote add ${user} ${connectionType[option]}${user}/${repository}.git\n`}
+						git fetch {isLocalPR ? 'origin' : user} {getCurrentBranch()}{'\n'}
 						git switch {isLocalPR || `--track ${user}/`}{getCurrentBranch()}
 					</span>
 				</pre>
@@ -46,7 +45,7 @@ function checkoutOption(option: string, hasWriteAccess?: boolean): JSX.Element {
 	);
 }
 
-async function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): Promise<void> {
+function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	dropdown.classList.add('rgh-git-checkout'); // Mark this as processed
 	const tabContainer = select('[action="/users/checkout-preference"]', dropdown)!.closest<HTMLElement>('tab-container')!;
 	tabContainer.style.minWidth = '370px';
@@ -68,7 +67,7 @@ async function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): Pr
 			<p className="text-gray text-small">
 				Run in your project repository{isLocalPR || ', pick either one'}
 			</p>
-			{isLocalPR ? checkoutOption('local', (await getCollaborators()).includes(getUsername())) : [checkoutOption('HTTPS'), checkoutOption('SSH')]}
+			{isLocalPR ? checkoutOption('local') : [checkoutOption('HTTPS'), checkoutOption('SSH')]}
 		</div>
 	);
 }

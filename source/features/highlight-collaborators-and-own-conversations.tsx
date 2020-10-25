@@ -8,8 +8,7 @@ import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import {getRepoURL, getUsername} from '../github-helpers';
 
-// eslint-disable-next-line import/prefer-default-export
-export const getCollaborators = cache.function(async (): Promise<string[]> => {
+const getCollaborators = cache.function(async (): Promise<string[]> => {
 	const dom = await fetchDom(getRepoURL() + '/issues/show_menu_content?partial=issues/filters/authors_content');
 	return select
 		.all<HTMLImageElement>('.SelectMenu-item [alt]', dom)
