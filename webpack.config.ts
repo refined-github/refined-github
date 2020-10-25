@@ -12,6 +12,8 @@ import webpack, {Configuration} from 'webpack';
 
 import concatRegex from './source/helpers/concat-regex';
 
+let isWatching = false;
+
 function parseFeatureDetails(readmeContent: string, id: FeatureID): FeatureMeta {
 	const lineRegex = concatRegex(/^- \[]\(# "/, id, /"\)(?: 🔥)? (.+)$/m);
 	const lineMatch = lineRegex.exec(readmeContent);
@@ -39,7 +41,17 @@ function parseFeatureDetails(readmeContent: string, id: FeatureID): FeatureMeta 
 		};
 	}
 
-	throw new Error(`❌ Feature \`${id}\` needs a description in readme.md. Please refer to the style guide there.`);
+	const error = `
+
+	❌ Feature \`${id}\` needs a description in readme.md. Please refer to the style guide there.
+
+	`;
+	if (isWatching) {
+		console.error(error);
+		return {} as any;
+	}
+
+	throw new Error(error);
 }
 
 function getFeatures(): FeatureID[] {
@@ -132,4 +144,9 @@ const config: Configuration = {
 	}
 };
 
-export default config;
+const webpackSetup = (_: string, options: webpack.WebpackOptionsNormalized): Configuration => {
+	isWatching = Boolean(options.watch);
+	return config;
+};
+
+export default webpackSetup;
