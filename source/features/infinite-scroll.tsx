@@ -35,11 +35,7 @@ function init(): void {
 	});
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Automagically expands the newsfeed when you scroll down.',
-	screenshot: false
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isDashboard
 	],

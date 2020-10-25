@@ -17,7 +17,7 @@ async function init(): Promise<false | void> {
 	}
 
 	const defaultBranch = await getDefaultBranch();
-	const currentBranch = getCurrentBranch();
+	const currentBranch = getCurrentBranch()!;
 
 	// Don't show the button if we’re already on the default branch
 	if (defaultBranch === currentBranch) {
@@ -53,11 +53,7 @@ async function init(): Promise<false | void> {
 	branchSelector.style.float = 'none'; // Pre "Repository refresh" layout
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds link the default branch on directory listings and files.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/71886648-2891dc00-316f-11ea-98d8-c5bf6c24d85c.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile,

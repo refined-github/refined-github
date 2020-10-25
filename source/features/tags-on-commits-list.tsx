@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import {getCommitHash} from './mark-merge-commits-in-list';
-import {getRepoURL, getRepoGQL} from '../github-helpers';
+import {buildRepoURL, getRepoURL, getRepoGQL} from '../github-helpers';
 
 interface CommitTags {
 	[name: string]: string[];
@@ -148,7 +148,7 @@ async function init(): Promise<void | false> {
 					<TagIcon/>
 					<span className="ml-1">{targetTags.map((tags, i) => (
 						<>
-							<a href={`/${getRepoURL()}/releases/tag/${tags}`}>{tags}</a>
+							<a href={buildRepoURL('releases/tag', tags)}>{tags}</a>
 							{(i + 1) === targetTags.length ? '' : ', '}
 						</>
 					))}
@@ -167,11 +167,7 @@ async function init(): Promise<void | false> {
 	await cache.set(cacheKey, cached, {days: 1});
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Display the corresponding tags next to commits.',
-	screenshot: 'https://user-images.githubusercontent.com/14323370/66400400-64ba7280-e9af-11e9-8d6c-07b35afde91f.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoCommitList
 	],

@@ -6,8 +6,8 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
-import {getRepoURL} from '../github-helpers';
 import observeElement from '../helpers/simplified-element-observer';
+import {getRepoURL, buildRepoURL} from '../github-helpers';
 
 const getFirstTag = cache.function(async (commit: string): Promise<string | undefined> => {
 	const firstTag = await fetchDom<HTMLAnchorElement>(
@@ -36,7 +36,7 @@ async function init(): Promise<void> {
 			' • ',
 			<TagIcon className="mx-1 text-gray-light v-align-middle"/>,
 			<a
-				href={`/${getRepoURL()}/releases/tag/${tagName}`}
+				href={buildRepoURL('releases/tag', tagName)}
 				className="commit-ref"
 				title={`${tagName} was the first Git tag to include this PR`}
 			>
@@ -46,11 +46,7 @@ async function init(): Promise<void> {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Shows the first Git tag a merged PR was included in.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/81943321-38ac4300-95c9-11ea-8543-0f4858174e1e.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRConversation
 	],

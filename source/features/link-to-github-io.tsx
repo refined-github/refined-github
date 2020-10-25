@@ -41,11 +41,7 @@ async function initRepo(): Promise<void> {
 	);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Add a link to visit the user’s github.io website from its repo.',
-	screenshot: 'https://user-images.githubusercontent.com/31387795/94045261-dbcd5e80-fdec-11ea-83fa-30bb673cc26e.jpg'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepo
 	],
