@@ -93,8 +93,11 @@ async function updateUI(forks: string[]): Promise<void> {
 	}
 }
 
+// eslint-next-disable-line import/prefer-default-export
+export const userForks = async (): Promise<string[] | undefined> => cache.get<string[]>(getCacheKey());
+
 async function init(): Promise<void | false> {
-	const forks = await cache.get<string[]>(getCacheKey());
+	const forks = await userForks();
 	if (forks) {
 		await updateUI(forks);
 	}
