@@ -6,8 +6,8 @@ next to the name of the feature that caused them.
 Usage:
 
 import * as api from '../github-helpers/api';
-If the query starts with `repos/getRepoURL` start the query with a `/`
-const user = await api.v3(`/commits`);
+If the query starts with `repos/getRepoURL` start the query without a `/`
+const user = await api.v3(`commits`);
 const data = await api.v4('{user(login: "user") {name}}');
 
 Returns:
@@ -103,10 +103,7 @@ export const v3 = mem(async (
 ): Promise<RestResponse> => {
 	const {ignoreHTTPStatus, method, body, headers, json} = {...v3defaults, ...options};
 	const {personalToken} = await settings;
-
-	if (query.startsWith('/')) {
-		query = `repos/${getRepoURL()}${query}`;
-	}
+	query = query.startsWith('/') ? query.slice(1) : 'repos/' + getRepoURL() + '/' + query;
 
 	const url = new URL(query, api3);
 	const response = await fetch(url.href, {

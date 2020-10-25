@@ -19,7 +19,7 @@ async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, H
 	const removeLabelButton = event.delegateTarget;
 
 	removeLabelButton.disabled = true;
-	await api.v3(`/issues/${getConversationNumber()!}/labels/${removeLabelButton.dataset.name!}`, {
+	await api.v3(`issues/${getConversationNumber()!}/labels/${removeLabelButton.dataset.name!}`, {
 		method: 'DELETE'
 	});
 

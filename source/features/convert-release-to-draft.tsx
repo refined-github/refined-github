@@ -12,7 +12,7 @@ async function convertToDraft({delegateTarget: draftButton}: delegate.Event<Mous
 		draftButton.append(<LoadingIcon className="ml-2 v-align-text-bottom" width={16}/>);
 
 		const tagName = location.pathname.split('/').pop()!;
-		const release = await api.v3(`/releases/tags/${tagName}`);
+		const release = await api.v3(`releases/tags/${tagName}`);
 		await api.v3(release.url, {
 			method: 'PATCH',
 			body: {

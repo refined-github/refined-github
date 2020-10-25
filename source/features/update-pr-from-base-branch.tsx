@@ -19,7 +19,7 @@ function getBranches(): {base: string; head: string} {
 }
 
 async function mergeBranches(): Promise<AnyObject> {
-	return api.v3(`/pulls/${getConversationNumber()!}/update-branch`, {
+	return api.v3(`pulls/${getConversationNumber()!}/update-branch`, {
 		method: 'PUT',
 		headers: {
 			Accept: 'application/vnd.github.lydian-preview+json'
@@ -85,7 +85,7 @@ async function addButton(): Promise<void> {
 		return;
 	}
 
-	const {status} = await api.v3(`/compare/${base}...${head}`);
+	const {status} = await api.v3(`compare/${base}...${head}`);
 	if (status !== 'diverged') {
 		return;
 	}

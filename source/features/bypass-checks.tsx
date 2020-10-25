@@ -14,7 +14,7 @@ async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
 		return;
 	}
 
-	const directLink = await api.v3(`/check-runs/${runId}`);
+	const directLink = await api.v3(`check-runs/${runId}`);
 	detailsLink.href = directLink.details_url;
 }
 

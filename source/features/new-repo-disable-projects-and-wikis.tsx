@@ -6,12 +6,11 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepoURL} from '../github-helpers';
 
 async function disableWikiAndProjects(): Promise<void> {
 	delete sessionStorage.rghNewRepo;
 
-	await api.v3(`repos/${getRepoURL()}`, {
+	await api.v3('', {
 		method: 'PATCH',
 		body: {
 			has_projects: false,

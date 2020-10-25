@@ -34,7 +34,7 @@ async function loadCommitPatch(commitUrl: string): Promise<string> {
 }
 
 const getLastCommitDate = cache.function(async (login: string): Promise<string | false> => {
-	for await (const page of api.v3paginated(`users/${login}/events`)) {
+	for await (const page of api.v3paginated(`/users/${login}/events`)) {
 		for (const event of page as any) {
 			if (event.type !== 'PushEvent') {
 				continue;
@@ -42,7 +42,7 @@ const getLastCommitDate = cache.function(async (login: string): Promise<string |
 
 			// Start from the latest commit, which is the last one in the list
 			for (const commit of event.payload.commits.reverse() as Commit[]) {
-				const response = await api.v3(commit.url, {ignoreHTTPStatus: true});
+				const response = await api.v3('/' + commit.url, {ignoreHTTPStatus: true});
 				// Commits might not exist anymore even if they are listed in the events
 				// This can happen if the repository was deleted so we can also skip all other commits
 				if (response.httpStatus === 404) {
@@ -58,7 +58,7 @@ const getLastCommitDate = cache.function(async (login: string): Promise<string |
 					continue;
 				}
 
-				const patch = await loadCommitPatch(commit.url);
+				const patch = await loadCommitPatch('/' + commit.url);
 				// The patch of merge commits doesn't include the commit sha so the date might be from another user
 				if (patch.startsWith(`From ${commit.sha} `)) {
 					return /^Date: (.*)$/m.exec(patch)?.[1] ?? false;

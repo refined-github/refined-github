@@ -80,6 +80,5 @@ declare module '*.svg' {
 
 // Make `element.cloneNode()` preserve its type instead of returning Node
 interface Node extends EventTarget {
-	// Not equivalent
 	cloneNode(deep?: boolean): this;
 }

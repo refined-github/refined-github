@@ -27,7 +27,7 @@ const getBranchBaseSha = async (branchName: string): Promise<string> => {
 };
 
 async function createBranch(newBranchName: string, baseSha: string): Promise<true | string> {
-	const response = await api.v3('/git/refs', {
+	const response = await api.v3('git/refs', {
 		method: 'POST',
 		body: {
 			sha: baseSha,
