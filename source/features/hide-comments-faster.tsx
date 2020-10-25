@@ -73,11 +73,7 @@ function init(): void {
 	delegate(document, '.rgh-hide-comments-faster-details', 'toggle', resetDropdowns, true);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Simplifies the UI to hide comments.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/43039221-1ddc91f6-8d29-11e8-9ed4-93459191a510.gif'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.hasComments
 	],

@@ -15,20 +15,11 @@ type BooleanFunction = () => boolean;
 type CallerFunction = (callback: VoidFunction) => void;
 type FeatureInit = () => Promisable<false | void>;
 
-interface FeatureMeta {
-	/**
-	If it's disabled, this should be the issue that explains why, as a reference
-	@example '#123'
-	*/
-	disabled?: string;
-	id: FeatureID;
-	description: string;
-	screenshot: string | false;
-	shortcuts?: FeatureShortcuts;
-}
-
 interface FeatureLoader extends Partial<InternalRunConfig> {
-	/** Whether to wait for DOM ready before runnin `init`. `false` makes `init` run right as soon as `body` is found. @default true */
+	/** This only adds the shortcut to the help screen, it doesn't enable it. @default {} */
+	shortcuts?: FeatureShortcuts;
+
+	/** Whether to wait for DOM ready before running `init`. `false` makes `init` run right as soon as `body` is found. @default true */
 	awaitDomReady?: false;
 
 	/** When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway.  @default false */
@@ -201,29 +192,18 @@ function enforceDefaults(
 }
 
 /** Register a new feature */
-const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void> => {
-	/* Input defaults and validation */
-	const {
-		id = __filebasename,
-		disabled = false,
-		shortcuts = {}
-	} = meta ?? {};
-
+const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> => {
 	/* Feature filtering and running */
 	const options = await globalReady;
-	if (disabled || options[`feature:${id}`] === false) {
-		log('↩️', 'Skipping', id, disabled ? `because of ${disabled}` : '');
+	if (options[`feature:${id}`] === false) {
+		log('↩️', 'Skipping', id);
 		return;
-	}
-
-	// Register feature shortcuts
-	for (const [hotkey, description] of Object.entries(shortcuts)) {
-		shortcutMap.set(hotkey, description);
 	}
 
 	for (const loader of loaders) {
 		// Input defaults and validation
 		const {
+			shortcuts = {},
 			include = [() => true], // Default: every page
 			exclude = [], // Default: nothing
 			init,
@@ -233,6 +213,11 @@ const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<voi
 			onlyAdditionalListeners = false,
 			additionalListeners = []
 		} = loader;
+
+		// Register feature shortcuts
+		for (const [hotkey, description] of Object.entries(shortcuts)) {
+			shortcutMap.set(hotkey, description);
+		}
 
 		// 404 pages should only run 404-only features
 		if (pageDetect.is404() && !include.includes(pageDetect.is404)) {
@@ -265,7 +250,7 @@ This means that the old features will still be on the page and don't need to re-
 
 This marks each as "processed"
 */
-void add(undefined, {
+void add(__filebasename, {
 	init: async () => {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
 		await Promise.resolve();

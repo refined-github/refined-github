@@ -15,6 +15,7 @@ import {
 	prCommitUrlRegex,
 	prCompareUrlRegex
 } from '../source/github-helpers';
+import {getParsedBackticksParts} from '../source/github-helpers/parse-backticks';
 
 test('getConversationNumber', t => {
 	const pairs = new Map<string, string | undefined>([
@@ -237,5 +238,34 @@ test('preventPrCommitLinkLoss', t => {
 		replaceCompareLink('I like [turtles](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191)'),
 		'I like [turtles](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191)',
 		'It should ignore Markdown links'
+	);
+});
+
+function parseBackticks(string: string): string {
+	return getParsedBackticksParts(string).map(
+		(part, index) => index % 2 && part.length >= 1 ? `<code>${part.trim()}</code>` : part
+	).join('');
+}
+
+test('parseBackticks', t => {
+	t.is(
+		parseBackticks('multiple `code spans` between ` other ` text'),
+		'multiple <code>code spans</code> between <code>other</code> text'
+	);
+	t.is(
+		parseBackticks('`code` at the start'),
+		'<code>code</code> at the start'
+	);
+	t.is(
+		parseBackticks('code at the `end`'),
+		'code at the <code>end</code>'
+	);
+	t.is(
+		parseBackticks('single backtick in a code span: `` ` ``'),
+		'single backtick in a code span: <code>`</code>'
+	);
+	t.is(
+		parseBackticks('backtick-delimited string in a code span: `` `foo` ``'),
+		'backtick-delimited string in a code span: <code>`foo`</code>'
 	);
 });

@@ -2,10 +2,10 @@ name: Test
 
 on:
   pull_request:
-    branches: 
+    branches:
       - '*'
   push:
-    branches: 
+    branches:
       - master
       - 'test/*'
 
@@ -38,9 +38,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
       - run: npm ci
       - run: npm run build
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v2
         with:
           name: refined-github
           path: distribution
+  Safari:
+    runs-on: macos-latest
+    needs: Build
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2 # npm install+build seems slow and problematic on macOS
+        with:
+          name: refined-github
+          path: distribution
+      - uses: maxim-lobanov/setup-xcode@v1
+      - run: npm run pack:safari

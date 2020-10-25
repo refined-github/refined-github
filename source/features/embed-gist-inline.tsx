@@ -51,11 +51,7 @@ function init(): void {
 		.forEach(embedGist);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Embeds linked gists. Not supported by Firefox.',
-	screenshot: 'https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.PNG'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.hasComments
 	],

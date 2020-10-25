@@ -42,11 +42,7 @@ function init(): void {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds filters for conversations _in your repos_ and _commented on by you_ in the global conversation search.',
-	screenshot: 'https://user-images.githubusercontent.com/8295888/36827126-8bfc79c4-1d37-11e8-8754-992968b082be.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isGlobalConversationList
 	],
