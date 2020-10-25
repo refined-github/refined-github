@@ -23,11 +23,7 @@ function init(): void {
 	document.body.addEventListener('keyup', listener);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a keyboard shortcut to deselect the current line: `esc`.',
-	screenshot: false
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.hasCode
 	],

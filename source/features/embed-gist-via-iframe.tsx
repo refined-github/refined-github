@@ -25,11 +25,7 @@ function init(): void {
 	embedViaScript.after(embedViaIframe);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a menu item to embed a gist via <iframe>.',
-	screenshot: 'https://user-images.githubusercontent.com/44045911/63633382-6a1b6200-c67a-11e9-9038-aedd62e4f6a8.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isSingleGist
 	],

@@ -100,11 +100,7 @@ async function init(): Promise<void> {
 	});
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Shows the associated pull requests on branches for forked repository’s.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/81504659-7e5ec800-92b8-11ea-9ee6-924110e8cca1.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isBranches
 	],

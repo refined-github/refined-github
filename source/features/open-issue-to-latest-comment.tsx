@@ -23,11 +23,7 @@ function initDashboard(): void {
 	});
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Makes the "comment" icon in issue lists link to the latest comment of the issue.',
-	screenshot: 'https://user-images.githubusercontent.com/14323370/57962709-7019de00-78e8-11e9-8398-7e617ba7a96f.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isConversationList
 	],

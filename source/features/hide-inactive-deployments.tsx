@@ -16,11 +16,7 @@ function init(): void {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Hides inactive deployments in PRs.',
-	screenshot: 'https://github.com/sindresorhus/refined-github/issues/1144'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRConversation
 	],
