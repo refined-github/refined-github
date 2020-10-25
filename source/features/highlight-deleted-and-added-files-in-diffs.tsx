@@ -60,11 +60,7 @@ async function init(): Promise<void | false> {
 	});
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Indicates with an icon whether files in commits and pull requests being added or removed.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/90332474-23262b00-dfb5-11ea-9a03-8fd676ea0fdd.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRFiles,
 		pageDetect.isCommit,
