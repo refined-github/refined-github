@@ -5,12 +5,31 @@ import ClippyIcon from 'octicon/clippy.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getCurrentBranch} from '../github-helpers';
+import {getCurrentBranch, getRepositoryInfo, getUsername} from '../github-helpers';
 
 const connectionType: Record<string, string> = {
 	HTTPS: `${location.origin}/`,
 	SSH: `git@${location.hostname}:`
 };
+
+// Logic found on https://github.com/sindresorhus/refined-github/pull/3596#discussion_r511546864
+function getRemoteName(): string {
+	const [, user] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/', 3);
+	const author = user;
+	if (author === getUsername()) {
+		return 'origin'; // `origin`, don't add remote
+	}
+
+	if (author !== getRepositoryInfo().owner) {
+		return author;
+	}
+
+	if (select('[aria-label="Edit Pull Request title"]')) {
+		return 'origin'; // It's a collaborator, it's likely to be `origin`
+	}
+
+	return 'upstream';
+}
 
 function checkoutOption(option: string): JSX.Element {
 	const [, user, repository] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/', 3);
@@ -36,7 +55,7 @@ function checkoutOption(option: string): JSX.Element {
 				>
 					<span className="user-select-contain">
 						{isLocalPR || `git remote add ${user} ${connectionType[option]}${user}/${repository}.git\n`}
-						git fetch {isLocalPR ? 'origin' : user} {getCurrentBranch()}{'\n'}
+						git fetch {isLocalPR ? getRemoteName() : user} {getCurrentBranch()}{'\n'}
 						git switch {isLocalPR || `--track ${user}/`}{getCurrentBranch()}
 					</span>
 				</pre>
@@ -65,9 +84,9 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	tabContainer.append(
 		<div hidden role="tabpanel" className="p-3">
 			<p className="text-gray text-small">
-				Run in your project repository{isLocalPR || ', pick either one'}
+				Run in your project repository{(isLocalPR || getRemoteName() === 'origin') || ', pick either one'}
 			</p>
-			{isLocalPR ? checkoutOption('local') : [checkoutOption('HTTPS'), checkoutOption('SSH')]}
+			{isLocalPR || getRemoteName() === 'origin' ? checkoutOption('local') : [checkoutOption('HTTPS'), checkoutOption('SSH')]}
 		</div>
 	);
 }
