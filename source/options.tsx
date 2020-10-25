@@ -8,18 +8,37 @@ import fitTextarea from 'fit-textarea';
 import {applyToLink} from 'shorten-repo-url';
 import * as indentTextarea from 'indent-textarea';
 
+import getTextNodes from './helpers/get-text-nodes';
 import {perDomainOptions} from './options-storage';
 import * as domFormatters from './github-helpers/dom-formatters';
 
+function parseSimpleInlineElement(element: Element, tag: string): void {
+	const splittingRegex = new RegExp(`<${tag}>(.+?)</${tag}>`, 'g');
+
+	for (const node of getTextNodes(element)) {
+		const fragment = new DocumentFragment();
+		for (const [index, text] of node.textContent!.split(splittingRegex).entries()) {
+			if (index % 2 && text.length >= 1) {
+				const createdElement = document.createElement(tag);
+				createdElement.textContent = text.trim();
+				fragment.append(createdElement);
+			} else if (text.length > 0) {
+				fragment.append(text);
+			}
+		}
+
+		if (fragment.children.length > 0) {
+			node.replaceWith(fragment);
+		}
+	}
+}
+
 function parseDescription(description: string): DocumentFragment {
 	const descriptionElement = <span>{description}</span>;
-	domFormatters.linkifyIssues(descriptionElement, {
-		baseUrl: 'https://github.com',
-		user: 'sindresorhus',
-		repository: 'refined-github'
-	});
 	domFormatters.linkifyURLs(descriptionElement);
 	domFormatters.parseBackticks(descriptionElement);
+	parseSimpleInlineElement(descriptionElement, 'i');
+	parseSimpleInlineElement(descriptionElement, 'kbd');
 
 	for (const a of select.all('a', descriptionElement)) {
 		applyToLink(a);
@@ -31,24 +50,20 @@ function parseDescription(description: string): DocumentFragment {
 
 function moveDisabledFeaturesToTop(): void {
 	const container = select('.js-features')!;
-	for (const unchecked of select.all('.feature--enabled [type=checkbox]:not(:checked)', container).reverse()) {
+	for (const unchecked of select.all('.feature [type=checkbox]:not(:checked)', container).reverse()) {
 		// .reverse() needed to preserve alphabetical order while prepending
 		container.prepend(unchecked.closest('.feature')!);
 	}
 }
 
-function buildFeatureCheckbox({id, description, screenshot, disabled}: FeatureMeta): HTMLElement {
-	// `undefined` disconnects it from the options
-	const key = disabled ? undefined : `feature:${id}`;
-
+function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLElement {
 	return (
-		<div className={`feature feature--${disabled ? 'disabled' : 'enabled'}`} data-text={`${id} ${description}`.toLowerCase()}>
-			<input type="checkbox" name={key} id={id} disabled={Boolean(disabled)}/>
+		<div className="feature" data-text={`${id} ${description}`.toLowerCase()}>
+			<input type="checkbox" name={`feature:${id}`} id={id}/>
 			<div className="info">
 				<label htmlFor={id}>
 					<span className="feature-name">{id}</span>
 					{' '}
-					{disabled && <small>{parseDescription(`(Disabled because of ${disabled}) `)}</small>}
 					<a href={`https://github.com/sindresorhus/refined-github/blob/master/source/features/${id}.tsx`}>
 						source
 					</a>

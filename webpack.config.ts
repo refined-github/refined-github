@@ -1,45 +1,64 @@
 /// <reference types="./source/globals" />
 
 import path from 'path';
-import {readdirSync, readFileSync} from 'fs';
+import {readFileSync} from 'fs';
 
 import SizePlugin from 'size-plugin';
-import stripIndent from 'strip-indent';
 // @ts-expect-error
 import {ESBuildPlugin} from 'esbuild-loader';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpack, {Configuration} from 'webpack';
 
-function parseFeatureDetails(id: FeatureID): FeatureMeta {
-	const content = readFileSync(`source/features/${id}.tsx`, {encoding: 'utf-8'});
-	const fields = ['disabled', 'description', 'screenshot'] as const;
+import concatRegex from './source/helpers/concat-regex';
 
-	const feature: Partial<FeatureMeta> = {id};
-	for (const field of fields) {
-		const value = new RegExp(`\n\t${field}: '([^\\n]+)'`).exec(content)?.[1];
-		if (value) {
-			const validValue = value.trim().replace(/\\'/g, '’'); // Catch trailing spaces and incorrect apostrophes
-			if (value !== validValue) {
-				throw new Error(stripIndent(`
-					❌ Invalid characters found in \`${id}\`. Apply this patch:
+let isWatching = false;
 
-					- ${field}: '${value}'
-					+ ${field}: '${validValue}'
-				`));
-			}
+function parseFeatureDetails(readmeContent: string, id: FeatureID): FeatureMeta {
+	const lineRegex = concatRegex(/^- \[]\(# "/, id, /"\)(?: 🔥)? (.+)$/m);
+	const lineMatch = lineRegex.exec(readmeContent);
+	if (lineMatch) {
+		const urls: string[] = [];
 
-			feature[field] = value.replace(/\\\\/g, '\\');
-		}
+		return {
+			id,
+			description: lineMatch[1].replace(/\[(.+?)]\((.+?)\)/g, (_match, title, url) => {
+				urls.push(url);
+				return title;
+			}),
+			screenshot: urls.find(url => /\.(png|gif)$/i.test(url))
+		};
 	}
 
-	return feature as FeatureMeta;
+	// Feature might be highlighted in the readme
+	const imageRegex = concatRegex(/<p><a title="/, id, /"><\/a> (.+?)\n\t+<p><img src="(.+?)">/);
+	const imageMatch = imageRegex.exec(readmeContent);
+	if (imageMatch) {
+		return {
+			id,
+			description: imageMatch[1] + '.',
+			screenshot: imageMatch[2]
+		};
+	}
+
+	const error = `
+
+	❌ Feature \`${id}\` needs a description in readme.md. Please refer to the style guide there.
+
+	`;
+	if (isWatching) {
+		console.error(error);
+		return {} as any;
+	}
+
+	throw new Error(error);
 }
 
 function getFeatures(): FeatureID[] {
-	return readdirSync(path.join(__dirname, 'source/features'))
-		.filter(filename => filename !== 'index.tsx' && filename.endsWith('.tsx'))
-		.map(filename => filename.replace('.tsx', '') as FeatureID);
+	return Array.from(
+		readFileSync(path.join(__dirname, 'source/refined-github.ts'), 'utf-8').matchAll(/^import '\.\/features\/([^.]+)';/gm),
+		match => match[1] as FeatureID
+	).sort();
 }
 
 const config: Configuration = {
@@ -93,7 +112,10 @@ const config: Configuration = {
 			),
 
 			__featuresMeta__: webpack.DefinePlugin.runtimeValue(
-				() => JSON.stringify(getFeatures().map(parseFeatureDetails)),
+				() => {
+					const readmeContent = readFileSync(path.join(__dirname, 'readme.md'), 'utf-8');
+					return JSON.stringify(getFeatures().map(id => parseFeatureDetails(readmeContent, id)));
+				},
 				true
 			),
 
@@ -122,4 +144,9 @@ const config: Configuration = {
 	}
 };
 
-export default config;
+const webpackSetup = (_: string, options: webpack.WebpackOptionsNormalized): Configuration => {
+	isWatching = Boolean(options.watch);
+	return config;
+};
+
+export default webpackSetup;

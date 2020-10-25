@@ -15,11 +15,7 @@ function init(): false | void {
 	files.after(previousNext);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds duplicate commit navigation buttons at the bottom of the `Commits` tab page.',
-	screenshot: 'https://user-images.githubusercontent.com/24777/41755271-741773de-75a4-11e8-9181-fcc1c73df633.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRFiles,
 		pageDetect.isPRCommit
