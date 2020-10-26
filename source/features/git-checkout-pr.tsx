@@ -14,8 +14,7 @@ const connectionType: Record<string, string> = {
 
 // Logic found on https://github.com/sindresorhus/refined-github/pull/3596#discussion_r511546864
 function getRemoteName(): string {
-	const [, user] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/', 3);
-	const author = user;
+	const [, author] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/', 2);
 	if (author === getUsername()) {
 		return 'origin'; // `origin`, don't add remote
 	}
