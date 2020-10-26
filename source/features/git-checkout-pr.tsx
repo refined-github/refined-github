@@ -7,11 +7,6 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import {getCurrentBranch, getPRRepositoryInfo, getRepositoryInfo, getUsername} from '../github-helpers';
 
-const connectionType: Record<string, string> = {
-	HTTPS: `${location.origin}/`,
-	SSH: `git@${location.hostname}:`
-};
-
 // Logic found on https://github.com/sindresorhus/refined-github/pull/3596#discussion_r511546864
 function getRemoteName(): string | undefined {
 	const author = getPRRepositoryInfo().owner;
@@ -30,12 +25,15 @@ function getRemoteName(): string | undefined {
 	return 'upstream';
 }
 
+const connectionType: Record<string, string> = {
+	HTTPS: `${location.origin}/`,
+	SSH: `git@${location.hostname}:`
+};
+
 function checkoutOption(option: string): JSX.Element {
-	const [, user, repository] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/', 3);
-	const isLocalPR = option === 'local';
 	return (
 		<>
-			{isLocalPR || <p className="text-gray text-small my-1">{option}</p>}
+			{!getRemoteName() || <p className="text-gray text-small my-1">{option}</p>}
 			<div className="copyable-terminal">
 				<div className="copyable-terminal-button">
 					<clipboard-copy
@@ -53,9 +51,9 @@ function checkoutOption(option: string): JSX.Element {
 					className="copyable-terminal-content"
 				>
 					<span className="user-select-contain">
-						{isLocalPR || `git remote add ${user} ${connectionType[option]}${user}/${repository}.git\n`}
-						git fetch {isLocalPR ? getRemoteName() ?? 'origin' : user} {getCurrentBranch()}{'\n'}
-						git switch {isLocalPR || `--track ${user}/`}{getCurrentBranch()}
+						{!getRemoteName() || `git remote add ${getRemoteName()!} ${connectionType[option]}${getPRRepositoryInfo().url!}.git\n`}
+						git fetch {getRemoteName() ?? 'origin'} {getCurrentBranch()}{'\n'}
+						git switch {!getRemoteName() || `--track ${getPRRepositoryInfo().owner!}/`}{getCurrentBranch()}
 					</span>
 				</pre>
 			</div>
@@ -84,7 +82,7 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 			<p className="text-gray text-small">
 				Run in your project repository{!getRemoteName() || ', pick either one'}
 			</p>
-			{!getRemoteName() ? checkoutOption('local') : [checkoutOption('HTTPS'), checkoutOption('SSH')]}
+			{getRemoteName() ? [checkoutOption('HTTPS'), checkoutOption('SSH')] : checkoutOption('local')}
 		</div>
 	);
 }
@@ -99,7 +97,8 @@ void features.add(__filebasename, {
 		pageDetect.isPR
 	],
 	exclude: [
-		() => select.exists('#partial-discussion-header [title="Status: Merged"]')
+		() => select.exists('#partial-discussion-header [title="Status: Merged"]'),
+		() => select.exists('#partial-discussion-header [title="Status: Closed"]')
 	],
 	init
 });
