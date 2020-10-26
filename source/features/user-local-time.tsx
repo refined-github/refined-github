@@ -34,7 +34,7 @@ async function loadCommitPatch(commitUrl: string): Promise<string> {
 }
 
 const getLastCommitDate = cache.function(async (login: string): Promise<string | false> => {
-	for await (const page of api.v3paginated(`users/${login}/events`)) {
+	for await (const page of api.v3paginated(`/users/${login}/events`)) {
 		for (const event of page as any) {
 			if (event.type !== 'PushEvent') {
 				continue;

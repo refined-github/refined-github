@@ -9,7 +9,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepoURL, getConversationNumber} from '../github-helpers';
+import {getConversationNumber} from '../github-helpers';
 
 const canNotEditLabels = onetime((): boolean => !select.exists('.sidebar-labels .octicon-gear'));
 
@@ -19,7 +19,7 @@ async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, H
 	const removeLabelButton = event.delegateTarget;
 
 	removeLabelButton.disabled = true;
-	await api.v3(`repos/${getRepoURL()}/issues/${getConversationNumber()!}/labels/${removeLabelButton.dataset.name!}`, {
+	await api.v3(`issues/${getConversationNumber()!}/labels/${removeLabelButton.dataset.name!}`, {
 		method: 'DELETE'
 	});
 
@@ -47,7 +47,7 @@ async function init(): Promise<void> {
 					aria-label="Remove this label"
 					className="btn-link tooltipped tooltipped-nw rgh-remove-label-faster"
 					data-name={label.dataset.name}
-					style={/* eslint-disable-line @typescript-eslint/consistent-type-assertions */{
+					style={{
 						'--rgh-remove-label-faster-color': label.style.backgroundColor
 					} as React.CSSProperties}
 				>

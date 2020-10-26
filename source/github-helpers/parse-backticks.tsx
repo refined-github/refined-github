@@ -10,7 +10,7 @@ export function getParsedBackticksParts(string: string): string[] {
 export default function parseBackticks(description: string): DocumentFragment {
 	const fragment = new DocumentFragment();
 	for (const [index, text] of getParsedBackticksParts(description).entries()) {
-		if (index % 2 && text.length >= 1) {
+		if (index % 2 && text.length > 0) {
 			// `span.sr-only` keeps the backticks copy-pastable but invisible
 			fragment.append(
 				<span className="sr-only">`</span>,

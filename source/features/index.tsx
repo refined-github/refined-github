@@ -43,12 +43,12 @@ interface InternalRunConfig {
 
 let log: typeof console.log;
 
-function logError(id: FeatureID, error: Error | string, ...extras: unknown[]): void {
+function logError(id: FeatureID, error: Error | string | unknown, ...extras: unknown[]): void {
 	if (error instanceof TypeError && error.message === 'Object(...)(...) is null') {
 		error.message = 'The element wasn’t found, the selector needs to be updated.';
 	}
 
-	const message = typeof error === 'string' ? error : error.message;
+	const message = error instanceof Error ? error.message : String(error);
 
 	if (message.includes('token')) {
 		console.log(`ℹ️ Refined GitHub → ${id} →`, message);
@@ -126,7 +126,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 			if (await init() !== false && id !== __filebasename) {
 				log('✅', id);
 			}
-		} catch (error) {
+		} catch (error: unknown) {
 			logError(id, error);
 		}
 

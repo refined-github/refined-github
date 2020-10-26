@@ -39,7 +39,7 @@ export const getCurrentBranch = (): string | undefined => {
 
 export const isFirefox = navigator.userAgent.includes('Firefox/');
 
-export const getRepoURL = (): string => location.pathname.slice(1).split('/', 2).join('/').toLowerCase();
+export const getRepoURL = (): string => getRepositoryInfo().url!.toLowerCase();
 
 // The type requires at least one parameter https://stackoverflow.com/a/49910890
 export const buildRepoURL = (...pathParts: Array<string | number> & {0: string}): string => {
@@ -62,10 +62,16 @@ export const getRepoGQL = (): string => {
 export interface RepositoryInfo {
 	owner: string;
 	name: string;
+	url: string;
 }
 export const getRepositoryInfo = (repoUrl: string = location.pathname.slice(1)): Partial<RepositoryInfo> => {
 	const [owner, name] = repoUrl.split('/', 2);
-	return {owner, name};
+	return {owner, name, url: owner + '/' + name};
+};
+
+export const getPRRepositoryInfo = (): Partial<RepositoryInfo> => {
+	const {pathname} = select<HTMLAnchorElement>('.commit-ref.head-ref a')!;
+	return getRepositoryInfo(pathname.slice(1));
 };
 
 export function getForkedRepo(): string | undefined {

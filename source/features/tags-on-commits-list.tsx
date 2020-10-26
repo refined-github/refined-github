@@ -9,9 +9,7 @@ import * as api from '../github-helpers/api';
 import {getCommitHash} from './mark-merge-commits-in-list';
 import {buildRepoURL, getRepoURL, getRepoGQL} from '../github-helpers';
 
-interface CommitTags {
-	[name: string]: string[];
-}
+type CommitTags = Record<string, string[]>;
 
 interface BaseTarget {
 	commitResourcePath: string;
@@ -125,7 +123,7 @@ async function init(): Promise<void | false> {
 		'.js-commits-list-item'
 	]);
 	const lastCommitOnPage = getCommitHash(commitsOnPage[commitsOnPage.length - 1]);
-	let cached = await cache.get<{[commit: string]: string[]}>(cacheKey) ?? {};
+	let cached = await cache.get<Record<string, string[]>>(cacheKey) ?? {};
 	const commitsWithNoTags = [];
 	for (const commit of commitsOnPage) {
 		const targetCommit = getCommitHash(commit);
