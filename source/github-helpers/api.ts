@@ -6,7 +6,8 @@ next to the name of the feature that caused them.
 Usage:
 
 import * as api from '../github-helpers/api';
-const user = await api.v3(`users/${username}`);
+const user = await api.v3(`/users/${username}`);
+const repositoryCommits = await api.v3('commits'); // Without a leading `/`, this is equivalent to `/repo/$current-repository/commits`
 const data = await api.v4('{user(login: "user") {name}}');
 
 Returns:
@@ -29,6 +30,7 @@ import * as pageDetect from 'github-url-detection';
 import {JsonObject, AsyncReturnType} from 'type-fest';
 
 import optionsStorage from '../options-storage';
+import {getRepoURL} from '.';
 
 interface JsonError {
 	message: string;
@@ -102,8 +104,8 @@ export const v3 = mem(async (
 	const {ignoreHTTPStatus, method, body, headers, json} = {...v3defaults, ...options};
 	const {personalToken} = await settings;
 
-	if (query.startsWith('/')) {
-		throw new TypeError('The query parameter must not start with a slash.');
+	if (!query.startsWith('https')) {
+		query = query.startsWith('/') ? query.slice(1) : 'repos/' + getRepoURL() + '/' + query;
 	}
 
 	const url = new URL(query, api3);

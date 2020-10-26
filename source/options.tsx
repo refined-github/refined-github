@@ -18,7 +18,7 @@ function parseSimpleInlineElement(element: Element, tag: string): void {
 	for (const node of getTextNodes(element)) {
 		const fragment = new DocumentFragment();
 		for (const [index, text] of node.textContent!.split(splittingRegex).entries()) {
-			if (index % 2 && text.length >= 1) {
+			if (index % 2 && text.length > 0) {
 				const createdElement = document.createElement(tag);
 				createdElement.textContent = text.trim();
 				fragment.append(createdElement);

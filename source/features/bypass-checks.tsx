@@ -4,7 +4,6 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepoURL} from '../github-helpers';
 
 async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
 	const runId = pageDetect.isActionJobRun(detailsLink) ?
@@ -15,7 +14,7 @@ async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
 		return;
 	}
 
-	const directLink = await api.v3(`repos/${getRepoURL()}/check-runs/${runId}`);
+	const directLink = await api.v3(`check-runs/${runId}`);
 	detailsLink.href = directLink.details_url;
 }
 

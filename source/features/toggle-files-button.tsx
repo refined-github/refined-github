@@ -38,11 +38,7 @@ function addButton(): void {
 
 async function toggleHandler(): Promise<void> {
 	const isHidden = select('.repository-content')!.classList.toggle('rgh-files-hidden');
-	if (isHidden) {
-		await cache.set(cacheKey, true);
-	} else {
-		await cache.delete(cacheKey);
-	}
+	await (isHidden ? cache.set(cacheKey, true) : cache.delete(cacheKey));
 }
 
 async function init(): Promise<void> {

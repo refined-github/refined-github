@@ -10,7 +10,7 @@ import * as textFieldEdit from 'text-field-edit';
 import features from '.';
 import * as api from '../github-helpers/api';
 import LoadingIcon from '../github-helpers/icon-loading';
-import {getRepoURL, getRepoGQL} from '../github-helpers';
+import {getRepoGQL} from '../github-helpers';
 
 const getBranchBaseSha = async (branchName: string): Promise<string> => {
 	const {repository} = await api.v4(`
@@ -27,7 +27,7 @@ const getBranchBaseSha = async (branchName: string): Promise<string> => {
 };
 
 async function createBranch(newBranchName: string, baseSha: string): Promise<true | string> {
-	const response = await api.v3(`repos/${getRepoURL()}/git/refs`, {
+	const response = await api.v3('git/refs', {
 		method: 'POST',
 		body: {
 			sha: baseSha,
