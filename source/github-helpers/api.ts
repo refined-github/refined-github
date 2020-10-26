@@ -103,7 +103,10 @@ export const v3 = mem(async (
 ): Promise<RestResponse> => {
 	const {ignoreHTTPStatus, method, body, headers, json} = {...v3defaults, ...options};
 	const {personalToken} = await settings;
-	query = query.startsWith('/') ? query.slice(1) : 'repos/' + getRepoURL() + '/' + query;
+
+	if (!query.startsWith('https')) {
+		query = query.startsWith('/') ? query.slice(1) : 'repos/' + getRepoURL() + '/' + query;
+	}
 
 	const url = new URL(query, api3);
 	const response = await fetch(url.href, {
