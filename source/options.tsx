@@ -6,7 +6,6 @@ import domify from 'doma';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import fitTextarea from 'fit-textarea';
-import {applyToLink} from 'shorten-repo-url';
 import * as indentTextarea from 'indent-textarea';
 
 import {perDomainOptions} from './options-storage';
@@ -22,10 +21,6 @@ function moveDisabledFeaturesToTop(): void {
 function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLElement {
 	const descriptionElement = domify.one(description) as HTMLParagraphElement;
 	descriptionElement.className = 'description';
-
-	for (const a of select.all('a', descriptionElement)) {
-		applyToLink(a);
-	}
 
 	return (
 		<div className="feature" data-text={`${id} ${description}`.toLowerCase()}>
