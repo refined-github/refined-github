@@ -25,12 +25,12 @@ function getRemoteName(): string | undefined {
 	return 'upstream';
 }
 
-const connectionType: Record<string, string> = {
+const connectionType = {
 	HTTPS: `${location.origin}/`,
 	SSH: `git@${location.hostname}:`
 };
 
-function checkoutOption(remote?: string, remoteType?: string): JSX.Element {
+function checkoutOption(remote?: string, remoteType?: 'HTTPS' | 'SSH'): JSX.Element {
 	return (
 		<>
 			{remote && <p className="text-gray text-small my-1">{remoteType}</p>}
