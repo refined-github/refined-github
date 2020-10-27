@@ -9,6 +9,7 @@ import {ESBuildPlugin} from 'esbuild-loader';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpack, {Configuration} from 'webpack';
+import * as markdown from 'markdown-wasm/dist/markdown.node.js';
 
 import concatRegex from './source/helpers/concat-regex';
 
@@ -22,10 +23,10 @@ function parseFeatureDetails(readmeContent: string, id: FeatureID): FeatureMeta 
 
 		return {
 			id,
-			description: lineMatch[1].replace(/\[(.+?)]\((.+?)\)/g, (_match, title, url) => {
+			description: markdown.parse(lineMatch[1].replace(/\[(.+?)]\((.+?)\)/g, (_match, title, url) => {
 				urls.push(url);
 				return title;
-			}),
+			})),
 			screenshot: urls.find(url => /\.(png|gif)$/i.test(url))
 		};
 	}
@@ -36,7 +37,7 @@ function parseFeatureDetails(readmeContent: string, id: FeatureID): FeatureMeta 
 	if (imageMatch) {
 		return {
 			id,
-			description: imageMatch[1] + '.',
+			description: markdown.parse(imageMatch[1] + '.'),
 			screenshot: imageMatch[2]
 		};
 	}
