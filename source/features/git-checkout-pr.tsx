@@ -25,12 +25,12 @@ function getRemoteName(): string | undefined {
 	return 'upstream';
 }
 
-const connectionType: Record<string, string> = {
+const connectionType = {
 	HTTPS: `${location.origin}/`,
 	SSH: `git@${location.hostname}:`
 };
 
-function checkoutOption(option: string): JSX.Element {
+function checkoutOption(remote?: string, remoteType?: string): JSX.Element {
 	return (
 		<>
 			{!getRemoteName() || <p className="text-gray text-small my-1">{option}</p>}
@@ -51,9 +51,9 @@ function checkoutOption(option: string): JSX.Element {
 					className="copyable-terminal-content"
 				>
 					<span className="user-select-contain">
-						{!getRemoteName() || `git remote add ${getRemoteName()!} ${connectionType[option]}${getPRRepositoryInfo().url!}.git\n`}
+						{remote &&`git remote add ${remote} ${connectionType[remoteType]}${getPRRepositoryInfo().url!}.git\n`}
 						git fetch {getRemoteName() ?? 'origin'} {getCurrentBranch()}{'\n'}
-						git switch {!getRemoteName() || `--track ${getPRRepositoryInfo().owner!}/`}{getCurrentBranch()}
+						git switch {remote &&`--track ${getPRRepositoryInfo().owner!}/`}{getCurrentBranch()}
 					</span>
 				</pre>
 			</div>
@@ -82,7 +82,10 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 			<p className="text-gray text-small">
 				Run in your project repository{!getRemoteName() || ', pick either one'}
 			</p>
-			{getRemoteName() ? [checkoutOption('HTTPS'), checkoutOption('SSH')] : checkoutOption('local')}
+			{remoteName ? [
+			    checkoutOption(remoteName, 'HTTPS'),
+			    checkoutOption(remoteName, 'SSH')
+			] : checkoutOption()}
 		</div>
 	);
 }
