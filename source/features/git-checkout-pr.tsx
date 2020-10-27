@@ -25,7 +25,7 @@ function getRemoteName(): string | undefined {
 	return 'upstream';
 }
 
-const connectionType = {
+const connectionType: Record<string, string> = {
 	HTTPS: `${location.origin}/`,
 	SSH: `git@${location.hostname}:`
 };
@@ -33,13 +33,13 @@ const connectionType = {
 function checkoutOption(remote?: string, remoteType?: string): JSX.Element {
 	return (
 		<>
-			{!getRemoteName() || <p className="text-gray text-small my-1">{option}</p>}
+			{remote && <p className="text-gray text-small my-1">{remoteType}</p>}
 			<div className="copyable-terminal">
 				<div className="copyable-terminal-button">
 					<clipboard-copy
 						className="btn btn-sm zeroclipboard-button"
 						role="button"
-						for={`rgh-checkout-pr-${option}`}
+						for={`rgh-checkout-pr-${remoteType!}`}
 						aria-label="Copy to clipboard"
 						data-copy-feedback="Copied!"
 					>
@@ -47,13 +47,13 @@ function checkoutOption(remote?: string, remoteType?: string): JSX.Element {
 					</clipboard-copy>
 				</div>
 				<pre
-					id={`rgh-checkout-pr-${option}`}
+					id={`rgh-checkout-pr-${remoteType!}`}
 					className="copyable-terminal-content"
 				>
 					<span className="user-select-contain">
-						{remote &&`git remote add ${remote} ${connectionType[remoteType]}${getPRRepositoryInfo().url!}.git\n`}
-						git fetch {getRemoteName() ?? 'origin'} {getCurrentBranch()}{'\n'}
-						git switch {remote &&`--track ${getPRRepositoryInfo().owner!}/`}{getCurrentBranch()}
+						{remote && `git remote add ${remote} ${connectionType[remoteType!]}${getPRRepositoryInfo().url!}.git\n`}
+						git fetch {remote ?? 'origin'} {getCurrentBranch()}{'\n'}
+						git switch {remote && `--track ${getPRRepositoryInfo().owner!}/`}{getCurrentBranch()}
 					</span>
 				</pre>
 			</div>
@@ -77,14 +77,15 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 		</button>
 	);
 
+	const remoteName = getRemoteName();
 	tabContainer.append(
 		<div hidden role="tabpanel" className="p-3">
 			<p className="text-gray text-small">
-				Run in your project repository{!getRemoteName() || ', pick either one'}
+				Run in your project repository{remoteName && ', pick either one'}
 			</p>
 			{remoteName ? [
-			    checkoutOption(remoteName, 'HTTPS'),
-			    checkoutOption(remoteName, 'SSH')
+				checkoutOption(remoteName, 'HTTPS'),
+				checkoutOption(remoteName, 'SSH')
 			] : checkoutOption()}
 		</div>
 	);
@@ -100,8 +101,7 @@ void features.add(__filebasename, {
 		pageDetect.isPR
 	],
 	exclude: [
-		() => select.exists('#partial-discussion-header [title="Status: Merged"]'),
-		() => select.exists('#partial-discussion-header [title="Status: Closed"]')
+		() => select.exists('#partial-discussion-header [title="Status: Merged"], #partial-discussion-header [title="Status: Closed"]')
 	],
 	init
 });
