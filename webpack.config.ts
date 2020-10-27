@@ -9,7 +9,7 @@ import {ESBuildPlugin} from 'esbuild-loader';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpack, {Configuration} from 'webpack';
-import * as markdown from 'markdown-wasm/dist/markdown.node.js';
+import * as markdown from 'markdown-wasm/dist/markdown.node';
 
 import concatRegex from './source/helpers/concat-regex';
 

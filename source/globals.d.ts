@@ -24,7 +24,7 @@ interface Window {
 	content: GlobalFetch;
 }
 
-declare module 'markdown-wasm/dist/markdown.node.js';
+declare module 'markdown-wasm/dist/markdown.node';
 
 declare module 'size-plugin';
 
