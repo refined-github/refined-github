@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -61,6 +61,7 @@
 		1FE2B23A2540F6F000A5D543 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../distribution/manifest.json; sourceTree = "<group>"; };
 		1FE2B23B2540F6F000A5D543 /* options.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = options.html; path = ../../distribution/options.html; sourceTree = "<group>"; };
 		1FE2B23C2540F6F000A5D543 /* build */ = {isa = PBXFileReference; lastKnownFileType = folder; name = build; path = ../../distribution/build; sourceTree = "<group>"; };
+		E3916F37254B228B0048E94C /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +86,7 @@
 		1FE2B2082540F6EE00A5D543 = {
 			isa = PBXGroup;
 			children = (
+				E3916F37254B228B0048E94C /* Shared.xcconfig */,
 				1FE2B2132540F6EE00A5D543 /* Refined GitHub */,
 				1FE2B22A2540F6EF00A5D543 /* Refined GitHub Extension */,
 				1FE2B2272540F6EF00A5D543 /* Frameworks */,
@@ -202,7 +204,7 @@
 				};
 			};
 			buildConfigurationList = 1FE2B20C2540F6EE00A5D543 /* Build configuration list for PBXProject "Refined GitHub" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -285,6 +287,7 @@
 /* Begin XCBuildConfiguration section */
 		1FE2B22F2540F6EF00A5D543 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E3916F37254B228B0048E94C /* Shared.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -341,11 +344,13 @@
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		1FE2B2302540F6EF00A5D543 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E3916F37254B228B0048E94C /* Shared.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -395,6 +400,7 @@
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -409,11 +415,9 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sindresorhus.Refined-GitHub-Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -428,11 +432,9 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sindresorhus.Refined-GitHub-Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -450,10 +452,8 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sindresorhus.Refined-GitHub";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -471,10 +471,8 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sindresorhus.Refined-GitHub";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
