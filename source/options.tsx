@@ -118,7 +118,7 @@ async function highlightNewFeatures(): Promise<void> {
 
 async function generateDom(): Promise<void> {
 	// Generate list
-	select('.js-features')!.append(...features.allFeatures.map(buildFeatureCheckbox));
+	select('.js-features')!.append(...features.featuresMeta.map(buildFeatureCheckbox));
 
 	// Update list from saved options
 	await perDomainOptions.syncForm('form');
