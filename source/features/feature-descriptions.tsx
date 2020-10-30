@@ -18,8 +18,7 @@ function toggleHandler({delegateTarget: button}: delegate.Event): void {
 
 async function init(): Promise<void | false> {
 	const currentFeature = location.pathname.split('/').pop()!.replace(/.tsx|.css/, '');
-	const allFeatures = __featuresMeta__;
-	const currentFeatureInformation = allFeatures.find(feature => feature.id === currentFeature)!;
+	const currentFeatureInformation = features.allFeatures.find(feature => feature.id === currentFeature)!;
 	if (!currentFeatureInformation) {
 		return false;
 	}
