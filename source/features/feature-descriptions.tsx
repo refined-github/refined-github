@@ -5,13 +5,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import GitHubURL from '../github-helpers/github-url';
-import {getRepoURL} from '../github-helpers';
-
-function isRGHFeature(): boolean {
-	const {route, filePath} = new GitHubURL(location.href);
-	return route === 'blob' && filePath.startsWith('source/features/');
-}
+import {getCleanPathname, getCurrentBranch, getRepositoryInfo} from '../github-helpers';
 
 function toggleHandler({delegateTarget: button}: delegate.Event): void {
 	const isHidden = select('.rgh-feature-screenshot')!.classList.toggle('d-none');
@@ -69,7 +63,7 @@ void features.add(__filebasename, {
 		pageDetect.isSingleFile
 	],
 	exclude: [
-		() => getRepoURL() !== 'sindresorhus/refined-github' && isRGHFeature()
+		() => !getCleanPathname().startsWith(`${getRepositoryInfo().owner!}/refined-github/blob/${getCurrentBranch()!}/source/features/`)
 	],
 	awaitDomReady: false,
 	init
