@@ -205,6 +205,7 @@ import './features/esc-to-cancel';
 import './features/easy-toggle-files';
 import './features/quick-repo-deletion';
 import './features/clean-repo-sidebar';
+import './features/feature-descriptions';
 
 // Add global for easier debugging
 (window as any).select = select;
