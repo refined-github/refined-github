@@ -15,11 +15,15 @@ function isRGHFeature(): boolean {
 
 function toggleHandler({delegateTarget: button}: delegate.Event): void {
 	const isHidden = select('.rgh-feature-screenshot')!.classList.toggle('d-none');
-	isHidden ? button.textContent = 'View Screenshot' : button.textContent = 'Hide Screenshot';
+	if (isHidden) {
+		button.textContent = 'View Screenshot';
+	} else {
+		button.textContent = 'Hide Screenshot';
+	}
 }
 
 async function init(): Promise<void | false> {
-	const currentFeature = location.pathname.split('/').pop()!.replace('.tsx', '').replace('.css', '');
+	const currentFeature = location.pathname.split('/').pop()!.replace(/.tsx|.css/, '');
 	const allFeatures = __featuresMeta__;
 	const currentFeatureInformation = allFeatures.find(feature => feature.id === currentFeature)!;
 	if (!currentFeatureInformation) {
@@ -36,7 +40,16 @@ async function init(): Promise<void | false> {
 						{currentFeatureInformation.description}
 					</div>
 				</div>
-				{currentFeatureInformation.screenshot && <button type="button" className="btn btn-primary rgh-toggle-feature-screenshot" name="button">View Screenshot</button>}
+				{
+					currentFeatureInformation.screenshot &&
+						<button
+							type="button"
+							className="btn btn-primary rgh-toggle-feature-screenshot"
+							name="button"
+						>
+							View Screenshot
+						</button>
+				}
 			</div>
 			<div className="Box-row d-flex flex-items-center rgh-feature-screenshot d-none">
 				<div className="flex-auto">
