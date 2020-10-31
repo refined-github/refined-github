@@ -261,7 +261,6 @@ void add(__filebasename, {
 const features = {
 	add,
 	error: logError,
-	featuresMeta: __featuresMeta__,
 	shortcutMap
 };
 
