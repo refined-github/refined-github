@@ -8,7 +8,6 @@ import fitTextarea from 'fit-textarea';
 import {applyToLink} from 'shorten-repo-url';
 import * as indentTextarea from 'indent-textarea';
 
-import features from './features';
 import getTextNodes from './helpers/get-text-nodes';
 import {perDomainOptions} from './options-storage';
 import * as domFormatters from './github-helpers/dom-formatters';
@@ -118,7 +117,7 @@ async function highlightNewFeatures(): Promise<void> {
 
 async function generateDom(): Promise<void> {
 	// Generate list
-	select('.js-features')!.append(...features.featuresMeta.map(buildFeatureCheckbox));
+	select('.js-features')!.append(...__featuresMeta__.map(buildFeatureCheckbox));
 
 	// Update list from saved options
 	await perDomainOptions.syncForm('form');
