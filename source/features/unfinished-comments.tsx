@@ -3,17 +3,17 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-let documentTitle = '';
+let documentTitle: string | null = null;
 
 async function updateDocumentTitle(): Promise<void> {
 	if (document.visibilityState === 'hidden') {
 		if (select.all('textarea').some(textarea => textarea.value.length > 0 && (textarea.offsetWidth > 0 || textarea.offsetHeight > 0))) {
-			console.log('changing title');
 			documentTitle = document.title;
 			document.title = '(Draft comment) ' + document.title;
 		}
-	} else {
+	} else if (documentTitle) {
 		document.title = documentTitle;
+		documentTitle = null;
 	}
 }
 
