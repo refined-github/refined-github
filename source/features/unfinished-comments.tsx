@@ -3,17 +3,19 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-let documentTitle: string | null = null;
+let documentTitle: string | undefined = undefined;
+
+function hasDraftComments(): boolean {
+	return select.all('textarea').some(textarea => textarea.value.length > 0 && textarea.offsetWidth > 0);
+}
 
 async function updateDocumentTitle(): Promise<void> {
-	if (document.visibilityState === 'hidden') {
-		if (select.all('textarea').some(textarea => textarea.value.length > 0 && textarea.offsetWidth > 0) {
-			documentTitle = document.title;
-			document.title = '(Draft comment) ' + document.title;
-		}
-	} else if (documentTitle) {
+	if (documentTitle) {
 		document.title = documentTitle;
-		documentTitle = null;
+		documentTitle = undefined;
+	} else if (document.visibilityState === 'hidden' && hasDraftComments()) {
+		documentTitle = document.title;
+		document.title = '(Draft comment) ' + document.title;
 	}
 }
 
