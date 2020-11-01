@@ -15,13 +15,13 @@ import GitHubURL from '../github-helpers/github-url';
 import {getUsername, getForkedRepo, getRepositoryInfo} from '../github-helpers';
 
 const getForkSourceRepo = (): string => getForkedRepo() ?? getRepositoryInfo()!.url;
-const getCacheKey = (): string => `forked-to:${getUsername()}@${getForkSourceRepo()}`;
+const getCacheKey = (): string => `forked-to:${getForkSourceRepo()}@${getUsername()}`;
 
 const updateCache = cache.function(async (): Promise<string[] | undefined> => {
 	const document = await fetchDom(`/${getForkSourceRepo()}/fork?fragment=1`);
 	const forks = select
 		.all('.octicon-repo-forked', document)
-		.map(({nextSibling}) => nextSibling!.textContent!.trim().toLowerCase());
+		.map(({nextSibling}) => nextSibling!.textContent!.trim());
 
 	return forks.length > 0 ? forks : undefined;
 }, {
