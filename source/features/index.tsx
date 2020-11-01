@@ -17,7 +17,7 @@ type FeatureInit = () => Promisable<false | void>;
 
 interface FeatureLoader extends Partial<InternalRunConfig> {
 	/** This only adds the shortcut to the help screen, it doesn't enable it. @default {} */
-	shortcuts?: FeatureShortcuts;
+	shortcuts?: Record<string, string>;
 
 	/** Whether to wait for DOM ready before running `init`. `false` makes `init` run right as soon as `body` is found. @default true */
 	awaitDomReady?: false;
