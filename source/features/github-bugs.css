@@ -16,8 +16,3 @@
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
 }
-
-/* Align dropdown button on file page #3660 */
-#blob-more-options-details {
-	margin-top: 5.6px;
-}
