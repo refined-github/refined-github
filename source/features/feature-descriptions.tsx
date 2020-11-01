@@ -2,10 +2,8 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import elementReady from 'element-ready';
-import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getCleanPathname, getCurrentBranch, getRepositoryInfo, upperCaseFirst} from '../github-helpers';
 
 function toggleHandler({delegateTarget: button}: delegate.Event): void {
 	const isHidden = select('.rgh-feature-screenshot')!.classList.toggle('d-none');
@@ -18,8 +16,8 @@ function toggleHandler({delegateTarget: button}: delegate.Event): void {
 
 async function init(): Promise<void | false> {
 	const currentFeature = location.pathname.split('/').pop()!.replace(/.tsx|.css/, '');
-	const featureInfo = __featuresMeta__.find(feature => feature.id === currentFeature)!;
-	if (!featureInfo) {
+	const {id, description, screenshot} = __featuresMeta__.find(feature => feature.id === currentFeature) ?? {};
+	if (!id) {
 		return false;
 	}
 
@@ -28,13 +26,13 @@ async function init(): Promise<void | false> {
 		<div className="Box mb-3">
 			<div className="Box-row d-flex flex-items-center">
 				<div className="flex-auto">
-					<strong>{upperCaseFirst(featureInfo.id.replace(/-/g, ' '))}</strong>
+					<strong>{id}</strong>
 					<div className="text-small text-gray-light">
-						{featureInfo.description}
+						{description}
 					</div>
 				</div>
 				{
-					featureInfo.screenshot &&
+					screenshot &&
 						<button
 							type="button"
 							className="btn btn-primary rgh-toggle-feature-screenshot"
@@ -46,8 +44,8 @@ async function init(): Promise<void | false> {
 			</div>
 			<div className="Box-row d-flex flex-items-center rgh-feature-screenshot d-none">
 				<div className="flex-auto">
-					<a href={featureInfo.screenshot}>
-						<img className="width-fit" src={featureInfo.screenshot}/>
+					<a href={screenshot}>
+						<img className="width-fit" src={screenshot}/>
 					</a>
 				</div>
 			</div>
