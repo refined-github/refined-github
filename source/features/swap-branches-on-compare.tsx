@@ -4,10 +4,11 @@ import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
-import {getRepoPath, buildRepoURL} from '../github-helpers';
+import {buildRepoURL, getRepositoryInfo} from '../github-helpers';
 
 function init(): void {
-	const references = getRepoPath()!
+	const references = getRepositoryInfo()!
+		.path
 		.replace('compare/', '')
 		.split('...')
 		.reverse();

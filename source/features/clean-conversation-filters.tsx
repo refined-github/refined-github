@@ -12,7 +12,7 @@ const hasAnyProjects = cache.function(async (): Promise<boolean> => {
 		repository(${getRepoGQL()}) {
 			projects { totalCount }
 		}
-		organization(login: "${getRepositoryInfo().owner!}") {
+		organization(login: "${getRepositoryInfo()!.owner}") {
 			projects { totalCount }
 		}
 	`, {

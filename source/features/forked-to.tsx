@@ -14,7 +14,7 @@ import fetchDom from '../helpers/fetch-dom';
 import GitHubURL from '../github-helpers/github-url';
 import {getRepoURL, getUsername, getForkedRepo} from '../github-helpers';
 
-const getForkSourceRepo = (): string => getForkedRepo() ?? getRepoURL();
+const getForkSourceRepo = (): string => getForkedRepo() ?? getRepoURL()!;
 const getCacheKey = (): string => `forked-to:${getUsername()}@${getForkSourceRepo().toLowerCase()}`;
 
 const updateCache = cache.function(async (): Promise<string[] | undefined> => {

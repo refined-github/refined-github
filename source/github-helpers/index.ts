@@ -6,11 +6,12 @@ import * as pageDetect from 'github-url-detection';
 
 // This never changes, so it can be cached here
 export const getUsername = onetime(pageDetect.utils.getUsername);
-export const {getRepoPath, getCleanPathname} = pageDetect.utils;
+export const {getRepositoryInfo, getCleanPathname} = pageDetect.utils;
+export type RepositoryInfo = pageDetect.RepositoryInfo;
 
 export const getConversationNumber = (): string | undefined => {
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
-		return getCleanPathname().split('/')[3];
+		return location.pathname.split('/')[4];
 	}
 
 	return undefined;
@@ -39,7 +40,7 @@ export const getCurrentBranch = (): string | undefined => {
 
 export const isFirefox = navigator.userAgent.includes('Firefox/');
 
-export const getRepoURL = (): string => getRepositoryInfo().url!.toLowerCase();
+export const getRepoURL = (): string | undefined => getRepositoryInfo()?.url.toLowerCase();
 
 // The type requires at least one parameter https://stackoverflow.com/a/49910890
 export const buildRepoURL = (...pathParts: Array<string | number> & {0: string}): string => {
@@ -50,28 +51,16 @@ export const buildRepoURL = (...pathParts: Array<string | number> & {0: string})
 		}
 	}
 
-	const repoUrl = location.pathname.slice(1).split('/', 2).join('/');
-	return [location.origin, repoUrl, ...pathParts].join('/');
+	return [location.origin, getRepositoryInfo()!.url, ...pathParts].join('/');
 };
 
 export const getRepoGQL = (): string => {
-	const {owner, name} = getRepositoryInfo();
-	return `owner: "${owner!}", name: "${name!}"`;
+	const {owner, name} = getRepositoryInfo()!;
+	return `owner: "${owner}", name: "${name}"`;
 };
 
-export interface RepositoryInfo {
-	owner: string;
-	name: string;
-	url: string;
-}
-export const getRepositoryInfo = (repoUrl: string = location.pathname.slice(1)): Partial<RepositoryInfo> => {
-	const [owner, name] = repoUrl.split('/', 2);
-	return {owner, name, url: owner + '/' + name};
-};
-
-export const getPRRepositoryInfo = (): Partial<RepositoryInfo> => {
-	const {pathname} = select<HTMLAnchorElement>('.commit-ref.head-ref a')!;
-	return getRepositoryInfo(pathname.slice(1));
+export const getPRRepositoryInfo = (): ReturnType<typeof getRepositoryInfo> => {
+	return getRepositoryInfo(select<HTMLAnchorElement>('.commit-ref.head-ref a')!);
 };
 
 export function getForkedRepo(): string | undefined {

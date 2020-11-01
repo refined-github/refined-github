@@ -8,7 +8,7 @@ import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getRepositoryInfo, getForkedRepo} from '../github-helpers';
 
 async function init(): Promise<void> {
-	const forkedRepository = getRepositoryInfo(getForkedRepo());
+	const forkedRepository = getRepositoryInfo(getForkedRepo())!;
 	const sameViewUrl = new GitHubURL(location.href).assign({
 		user: forkedRepository.owner,
 		repository: forkedRepository.name,

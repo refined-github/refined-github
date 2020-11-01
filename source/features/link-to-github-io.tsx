@@ -28,11 +28,11 @@ function initRepoList(): void {
 }
 
 async function initRepo(): Promise<void> {
-	const repoTitle = await elementReady('[itemprop="name"]')!;
+	const repoTitle = await elementReady('[itemprop="name"]');
 	repoTitle!.after(
 		<a
 			className="mr-2"
-			href={`https://${getRepositoryInfo().name!}`}
+			href={`https://${repoTitle!.textContent!.trim()}`}
 			target="_blank"
 			rel="noopener noreferrer"
 		>
@@ -42,11 +42,8 @@ async function initRepo(): Promise<void> {
 }
 
 void features.add(__filebasename, {
-	include: [
-		pageDetect.isRepo
-	],
 	exclude: [
-		() => !getRepositoryInfo()!.name!.endsWith('.github.io')
+		() => !getRepositoryInfo()?.name.endsWith('.github.io')
 	],
 	init: initRepo
 }, {
