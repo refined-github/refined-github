@@ -7,7 +7,7 @@ import features from '.';
 
 async function init(): Promise<void | false> {
 	const currentFeature = /features\/(.*).[a-z]{3}$/.exec(location.pathname)![1];
-	const {description, screenshot} = __featuresMeta__.find(feature => feature.id === currentFeature) ?? {};
+	const {id, description, screenshot} = __featuresMeta__.find(feature => feature.id === currentFeature) ?? {};
 	if (!description) {
 		return false;
 	}
@@ -22,7 +22,7 @@ async function init(): Promise<void | false> {
 				<div className="flex-auto">
 					<strong>{descriptionElement}</strong>
 				</div>
-				{screenshot &&
+				{screenshot && id !== __filebasename &&
 					<details className="details-reset details-overlay details-overlay-dark">
 						<summary className="btn btn-primary" aria-haspopup="dialog">
 							View Screenshot
