@@ -3,7 +3,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-let documentTitle: string | undefined = undefined;
+let documentTitle: string | undefined;
 
 function hasDraftComments(): boolean {
 	return select.all('textarea').some(textarea => textarea.value.length > 0 && textarea.offsetWidth > 0);
