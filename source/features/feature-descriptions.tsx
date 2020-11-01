@@ -59,10 +59,7 @@ async function init(): Promise<void | false> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isSingleFile
-	],
-	exclude: [
-		() => !getCleanPathname().startsWith(`${getRepositoryInfo().owner!}/refined-github/blob/${getCurrentBranch()!}/source/features/`)
+		() => /refined-github\/blob\/\w+\/source\/features\/[\w.-]+$/.test(location.pathname)
 	],
 	awaitDomReady: false,
 	init
