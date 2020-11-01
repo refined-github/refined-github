@@ -1,0 +1,14 @@
+Refined GitHub is a Safari extension that simplifies the GitHub interface and adds useful features.
+
+
+■ Highlights
+
+- Linkifies issue/PR references and URLs in code.
+- Makes whitespace characters visible.
+- Adds one-click merge conflict fixers.
+- Adds the option to wait for checks when merging a PR.
+- Adds reaction avatars showing who reacted to a comment.
+- Adds a button to revert all the changes to a file in a PR.
+- Reduces tabs’ size to 4 spaces instead of 8.
+
+And so much more! See the website for a full list of features.

@@ -24,6 +24,8 @@ interface Window {
 	content: GlobalFetch;
 }
 
+declare module 'markdown-wasm/dist/markdown.node';
+
 declare module 'size-plugin';
 
 declare module 'deep-weak-map' {
