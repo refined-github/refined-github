@@ -46,7 +46,7 @@ async function init(): Promise<void | false> {
 			</div>
 			<div className="Box-row d-flex flex-items-center rgh-feature-screenshot d-none">
 				<div className="flex-auto">
-					<a target="_blank" rel="noopener noreferrer" href={featureInfo.screenshot}>
+					<a href={featureInfo.screenshot}>
 						<img className="width-fit" src={featureInfo.screenshot}/>
 					</a>
 				</div>
