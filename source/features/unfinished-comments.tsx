@@ -7,7 +7,7 @@ let documentTitle: string | null = null;
 
 async function updateDocumentTitle(): Promise<void> {
 	if (document.visibilityState === 'hidden') {
-		if (select.all('textarea').some(textarea => textarea.value.length > 0 && (textarea.offsetWidth > 0 || textarea.offsetHeight > 0))) {
+		if (select.all('textarea').some(textarea => textarea.value.length > 0 && textarea.offsetWidth > 0) {
 			documentTitle = document.title;
 			document.title = '(Draft comment) ' + document.title;
 		}
@@ -18,7 +18,6 @@ async function updateDocumentTitle(): Promise<void> {
 }
 
 function init(): void {
-	documentTitle = document.title;
 	document.addEventListener('visibilitychange', updateDocumentTitle);
 }
 
