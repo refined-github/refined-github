@@ -34,7 +34,6 @@
 	},
 	"background": {
 		"scripts": [
-			"build/browser-polyfill.js",
 			"build/background.js"
 		]
 	},
@@ -49,7 +48,6 @@
 				"build/refined-github.css"
 			],
 			"js": [
-				"build/browser-polyfill.js",
 				"build/refined-github.js"
 			]
 		}
