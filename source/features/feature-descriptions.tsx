@@ -6,7 +6,7 @@ import elementReady from 'element-ready';
 import features from '.';
 
 async function init(): Promise<void | false> {
-	const currentFeature = location.pathname.split('/').pop()!.replace(/.tsx|.css/, '');
+	const currentFeature = /features\/(.*).[a-z]{3}$/.exec(location.pathname)![1];
 	const {description, screenshot} = __featuresMeta__.find(feature => feature.id === currentFeature) ?? {};
 	if (!description) {
 		return false;
