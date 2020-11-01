@@ -1,58 +1,61 @@
 import React from 'dom-chef';
-import select from 'select-dom';
-import delegate from 'delegate-it';
+import XIcon from 'octicon/x.svg';
+import domify from 'doma';
 import elementReady from 'element-ready';
 
 import features from '.';
 
-function toggleHandler({delegateTarget: button}: delegate.Event): void {
-	const isHidden = select('.rgh-feature-screenshot')!.classList.toggle('d-none');
-	if (isHidden) {
-		button.textContent = 'View Screenshot';
-	} else {
-		button.textContent = 'Hide Screenshot';
-	}
-}
-
 async function init(): Promise<void | false> {
 	const currentFeature = location.pathname.split('/').pop()!.replace(/.tsx|.css/, '');
-	const {id, description, screenshot} = __featuresMeta__.find(feature => feature.id === currentFeature) ?? {};
-	if (!id) {
+	const {description, screenshot} = __featuresMeta__.find(feature => feature.id === currentFeature) ?? {};
+	if (!description) {
 		return false;
 	}
+
+	const descriptionElement = domify.one(description)!;
+	descriptionElement.classList.add('mb-0', 'mr-3');
 
 	const branchSelector = await elementReady('[data-hotkey="w"]')!;
 	branchSelector!.closest('.d-flex')!.after(
 		<div className="Box mb-3">
-			<div className="Box-row d-flex flex-items-center">
+			<div className="Box-row d-flex flex-items-center" style={{boxShadow: '0 0 0 2px #d1d5da'}}>
 				<div className="flex-auto">
-					<strong>{id}</strong>
-					<div className="text-small text-gray-light">
-						{description}
-					</div>
+					<strong>{descriptionElement}</strong>
 				</div>
-				{
-					screenshot &&
-						<button
-							type="button"
-							className="btn btn-primary rgh-toggle-feature-screenshot"
-							name="button"
-						>
+				{screenshot &&
+					<details className="details-reset details-overlay details-overlay-dark">
+						<summary className="btn btn-primary" aria-haspopup="dialog">
 							View Screenshot
-						</button>
-				}
-			</div>
-			<div className="Box-row d-flex flex-items-center rgh-feature-screenshot d-none">
-				<div className="flex-auto">
-					<a href={screenshot}>
-						<img className="width-fit" src={screenshot}/>
-					</a>
-				</div>
+						</summary>
+						<details-dialog
+							className="Box Box--overlay d-flex flex-column anim-fade-in fast Box-overlay--wide"
+							role="dialog"
+							aria-modal="true"
+							tabindex="-1"
+						>
+							<div className="Box-header">
+								<button
+									data-close-dialog
+									className="Box-btn-octicon btn-octicon float-right"
+									type="button"
+									aria-label="Close dialog"
+								>
+									<XIcon/>
+								</button>
+							</div>
+							<div className="overflow-auto">
+								<div className="Box-body overflow-auto">
+									<a href={screenshot}>
+										<img className="width-fit" src={screenshot}/>
+									</a>
+								</div>
+
+							</div>
+						</details-dialog>
+					</details>}
 			</div>
 		</div>
 	);
-
-	delegate(document, '.rgh-toggle-feature-screenshot', 'click', toggleHandler);
 }
 
 void features.add(__filebasename, {
