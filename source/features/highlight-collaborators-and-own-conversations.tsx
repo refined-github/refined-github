@@ -6,17 +6,17 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
-import {getRepoURL, getUsername} from '../github-helpers';
+import {buildRepoURL, getRepositoryInfo, getUsername} from '../github-helpers';
 
 const getCollaborators = cache.function(async (): Promise<string[]> => {
-	const dom = await fetchDom(getRepoURL() + '/issues/show_menu_content?partial=issues/filters/authors_content');
+	const dom = await fetchDom(buildRepoURL('/issues/show_menu_content?partial=issues/filters/authors_content'));
 	return select
 		.all<HTMLImageElement>('.SelectMenu-item [alt]', dom)
 		.map(avatar => avatar.alt.slice(1));
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 20},
-	cacheKey: () => 'repo-collaborators:' + getRepoURL()
+	cacheKey: () => 'repo-collaborators:' + getRepositoryInfo()!.url
 });
 
 async function highlightCollaborators(): Promise<void> {

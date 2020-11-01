@@ -7,7 +7,6 @@ import * as pageDetect from 'github-url-detection';
 // This never changes, so it can be cached here
 export const getUsername = onetime(pageDetect.utils.getUsername);
 export const {getRepositoryInfo, getCleanPathname} = pageDetect.utils;
-export type RepositoryInfo = pageDetect.RepositoryInfo;
 
 export const getConversationNumber = (): string | undefined => {
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
@@ -39,8 +38,6 @@ export const getCurrentBranch = (): string | undefined => {
 };
 
 export const isFirefox = navigator.userAgent.includes('Firefox/');
-
-export const getRepoURL = (): string | undefined => getRepositoryInfo()?.url.toLowerCase();
 
 // The type requires at least one parameter https://stackoverflow.com/a/49910890
 export const buildRepoURL = (...pathParts: Array<string | number> & {0: string}): string => {

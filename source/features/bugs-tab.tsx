@@ -8,12 +8,12 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import SearchQuery from '../github-helpers/search-query';
-import {getRepoURL} from '../github-helpers';
+import {getRepositoryInfo} from '../github-helpers';
 
 const numberFormatter = new Intl.NumberFormat();
 const countBugs = cache.function(async (): Promise<number> => {
 	const {search} = await api.v4(`
-		search(type: ISSUE, query: "label:bug is:open is:issue repo:${getRepoURL()}") {
+		search(type: ISSUE, query: "label:bug is:open is:issue repo:${getRepositoryInfo()!.url}") {
 			issueCount
 		}
 	`);
@@ -22,7 +22,7 @@ const countBugs = cache.function(async (): Promise<number> => {
 }, {
 	maxAge: {minutes: 30},
 	staleWhileRevalidate: {days: 4},
-	cacheKey: (): string => __filebasename + ':' + getRepoURL()
+	cacheKey: (): string => __filebasename + ':' + getRepositoryInfo()!.url
 });
 
 async function init(): Promise<void | false> {

@@ -8,7 +8,7 @@ import PullRequestIcon from 'octicon/git-pull-request.svg';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepoGQL, getRepoURL, upperCaseFirst} from '../github-helpers';
+import {getRepoGQL, getRepositoryInfo, upperCaseFirst} from '../github-helpers';
 
 interface PullRequest {
 	number: number;
@@ -56,7 +56,7 @@ const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Rec
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 4},
-	cacheKey: () => 'associatedBranchPullRequests:' + getRepoURL()
+	cacheKey: () => 'associatedBranchPullRequests:' + getRepositoryInfo()!.url
 });
 
 const stateClass: Record<string, string> = {

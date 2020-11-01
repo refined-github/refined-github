@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import * as api from './api';
-import {RepositoryInfo, getRepositoryInfo, getCurrentBranch} from '.';
+import {getRepositoryInfo, getCurrentBranch} from '.';
 
 // This regex should match all of these combinations:
 // "This branch is even with master."
@@ -12,7 +12,7 @@ import {RepositoryInfo, getRepositoryInfo, getCurrentBranch} from '.';
 // "This branch is 1 commit ahead, 27 commits behind master."
 const branchInfoRegex = /([^ ]+)\.$/;
 
-const getDefaultBranch = cache.function(async function (repository?: RepositoryInfo): Promise<string> {
+const getDefaultBranch = cache.function(async function (repository?: pageDetect.RepositoryInfo): Promise<string> {
 	if (arguments.length === 0) {
 		repository = getRepositoryInfo();
 	}
@@ -48,7 +48,7 @@ const getDefaultBranch = cache.function(async function (repository?: RepositoryI
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 20},
-	cacheKey: ([repository = getRepositoryInfo()]) => `default-branch:${repository!.url}`
+	cacheKey: ([repository = getRepositoryInfo()]) => `default-branch:${repository?.url!}`
 });
 
 export default getDefaultBranch;
