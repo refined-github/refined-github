@@ -109,7 +109,7 @@ Thanks for contributing! 🦋🙌
 - [](# "file-finder-buffer") [Lets you start typing your search immediately after invoking the File Finder (<kbd>t</kbd>), instead of having you wait for it to load first.](https://user-images.githubusercontent.com/1402241/75542106-1c811700-5a5a-11ea-8aa5-bea0472c59e2.gif)
 - [](# "preserve-file-finder-term") Preserves the search terms when navigating back and forth between the File Finder and the files.
 - [](# "show-associated-branch-prs-on-fork") [Shows the associated pull requests on branches for forked repositories.](https://user-images.githubusercontent.com/16872793/81504659-7e5ec800-92b8-11ea-9ee6-924110e8cca1.png)
-- [](# "feature-descriptions") [Shows the feature description and screenshot of each RG feature.](https://user-images.githubusercontent.com/16872793/97722116-a4636900-1aa0-11eb-8576-63e5bb0ad538.png)
+- [](# "feature-descriptions") [Shows the description and screenshot of each refined-github feature when visiting the features file](https://user-images.githubusercontent.com/16872793/97794611-b04f4800-1bd2-11eb-94af-ee6217f688a0.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
