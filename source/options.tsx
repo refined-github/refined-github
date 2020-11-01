@@ -2,51 +2,13 @@ import 'webext-base-css/webext-base.css';
 import './options.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
+import domify from 'doma';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import fitTextarea from 'fit-textarea';
-import {applyToLink} from 'shorten-repo-url';
 import * as indentTextarea from 'indent-textarea';
 
-import getTextNodes from './helpers/get-text-nodes';
 import {perDomainOptions} from './options-storage';
-import * as domFormatters from './github-helpers/dom-formatters';
-
-function parseSimpleInlineElement(element: Element, tag: string): void {
-	const splittingRegex = new RegExp(`<${tag}>(.+?)</${tag}>`, 'g');
-
-	for (const node of getTextNodes(element)) {
-		const fragment = new DocumentFragment();
-		for (const [index, text] of node.textContent!.split(splittingRegex).entries()) {
-			if (index % 2 && text.length > 0) {
-				const createdElement = document.createElement(tag);
-				createdElement.textContent = text.trim();
-				fragment.append(createdElement);
-			} else if (text.length > 0) {
-				fragment.append(text);
-			}
-		}
-
-		if (fragment.children.length > 0) {
-			node.replaceWith(fragment);
-		}
-	}
-}
-
-function parseDescription(description: string): DocumentFragment {
-	const descriptionElement = <span>{description}</span>;
-	domFormatters.linkifyURLs(descriptionElement);
-	domFormatters.parseBackticks(descriptionElement);
-	parseSimpleInlineElement(descriptionElement, 'i');
-	parseSimpleInlineElement(descriptionElement, 'kbd');
-
-	for (const a of select.all('a', descriptionElement)) {
-		applyToLink(a);
-	}
-
-	// eslint-disable-next-line react/jsx-no-useless-fragment
-	return <>{[...descriptionElement.childNodes]}</>;
-}
 
 function moveDisabledFeaturesToTop(): void {
 	const container = select('.js-features')!;
@@ -57,6 +19,9 @@ function moveDisabledFeaturesToTop(): void {
 }
 
 function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLElement {
+	const descriptionElement = domify.one(description)!;
+	descriptionElement.className = 'description';
+
 	return (
 		<div className="feature" data-text={`${id} ${description}`.toLowerCase()}>
 			<input type="checkbox" name={`feature:${id}`} id={id}/>
@@ -68,7 +33,7 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 						source
 					</a>
 					{screenshot && <>, <a href={screenshot}>screenshot</a></>}
-					<p className="description">{parseDescription(description)}</p>
+					{descriptionElement}
 				</label>
 			</div>
 		</div>
