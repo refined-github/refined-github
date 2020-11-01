@@ -10,9 +10,9 @@ import * as api from '../github-helpers/api';
 import looseParseInt from '../helpers/loose-parse-int';
 import {appendBefore} from '../helpers/dom-utils';
 import {createDropdownItem} from './more-dropdown';
-import {buildRepoURL, getRepoGQL, getRepositoryInfo} from '../github-helpers';
+import {buildRepoURL, getRepoGQL, getRepo} from '../github-helpers';
 
-const cacheKey = `releases-count:${getRepositoryInfo()!.url}`;
+const cacheKey = `releases-count:${getRepo()!.url}`;
 
 function parseCountFromDom(): number {
 	const releasesCountElement = select('.numbers-summary a[href$="/releases"] .num');

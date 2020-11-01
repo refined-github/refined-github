@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepoGQL, getRepositoryInfo} from '../github-helpers';
+import {getRepoGQL, getRepo} from '../github-helpers';
 
 const reviewsFilterSelector = '#reviews-select-menu';
 
@@ -82,7 +82,7 @@ const hasChecks = cache.function(async (): Promise<boolean> => {
 	return repository.head.history.nodes.some((commit: AnyObject) => commit.statusCheckRollup);
 }, {
 	maxAge: {days: 3},
-	cacheKey: () => __filebasename + ':' + getRepositoryInfo()!.url
+	cacheKey: () => __filebasename + ':' + getRepo()!.url
 });
 
 async function addChecksFilter(): Promise<void> {

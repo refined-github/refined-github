@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import pluralize from '../helpers/pluralize';
-import {getForkedRepo, getUsername, getRepositoryInfo} from '../github-helpers';
+import {getForkedRepo, getUsername, getRepo} from '../github-helpers';
 
 function getLinkCopy(count: number): string {
 	return pluralize(count, 'one open pull request', '$$ open pull requests');
@@ -32,7 +32,7 @@ const countPRs = cache.function(async (forkedRepo: string): Promise<[prCount: nu
 	`);
 
 	// Only show PRs originated from the current repo
-	const prs = search.nodes.filter((pr: AnyObject) => pr.headRepository.nameWithOwner === getRepositoryInfo()!.url);
+	const prs = search.nodes.filter((pr: AnyObject) => pr.headRepository.nameWithOwner === getRepo()!.url);
 
 	// If only one is found, pass the PR number so we can link to the PR directly
 	if (prs.length === 1) {
@@ -43,7 +43,7 @@ const countPRs = cache.function(async (forkedRepo: string): Promise<[prCount: nu
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 2},
-	cacheKey: ([forkedRepo]): string => 'prs-on-forked-repo:' + forkedRepo + ':' + getRepositoryInfo()!.url
+	cacheKey: ([forkedRepo]): string => 'prs-on-forked-repo:' + forkedRepo + ':' + getRepo()!.url
 });
 
 async function getPRs(): Promise<[prCount: number, url: string] | []> {

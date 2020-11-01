@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import {getCommitHash} from './mark-merge-commits-in-list';
-import {buildRepoURL, getRepoGQL, getRepositoryInfo} from '../github-helpers';
+import {buildRepoURL, getRepoGQL, getRepo} from '../github-helpers';
 
 type CommitTags = Record<string, string[]>;
 
@@ -116,7 +116,7 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 }
 
 async function init(): Promise<void | false> {
-	const cacheKey = `tags:${getRepositoryInfo()!.url}`;
+	const cacheKey = `tags:${getRepo()!.url}`;
 
 	const commitsOnPage = select.all([
 		'li.commit', // Pre "Repository refresh" layout

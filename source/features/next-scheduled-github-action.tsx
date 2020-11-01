@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepoGQL, getRepositoryInfo} from '../github-helpers';
+import {getRepoGQL, getRepo} from '../github-helpers';
 
 const getScheduledWorkflows = cache.function(async (): Promise<Record<string, string> | false> => {
 	const {repository: {object: {entries: workflows}}} = await api.v4(`
@@ -44,7 +44,7 @@ const getScheduledWorkflows = cache.function(async (): Promise<Record<string, st
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 10},
-	cacheKey: () => __filebasename + ':' + getRepositoryInfo()!.url
+	cacheKey: () => __filebasename + ':' + getRepo()!.url
 });
 
 async function init(): Promise<false | void> {

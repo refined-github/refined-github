@@ -4,12 +4,12 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getRepositoryInfo} from '../github-helpers';
+import {getRepo} from '../github-helpers';
 
 async function init(): Promise<false | void> {
 	let defaultBranch;
 	if (select.exists('.is-cross-repo')) {
-		const forkedRepository = getRepositoryInfo(select('[title^="head: "]')!.textContent!);
+		const forkedRepository = getRepo(select('[title^="head: "]')!.textContent!);
 		defaultBranch = await getDefaultBranch(forkedRepository);
 	} else {
 		defaultBranch = await getDefaultBranch();

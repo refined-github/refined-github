@@ -5,10 +5,10 @@ import features from '.';
 import GitHubURL from '../github-helpers/github-url';
 import doesFileExist from '../github-helpers/does-file-exist';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getRepositoryInfo, getForkedRepo} from '../github-helpers';
+import {getRepo, getForkedRepo} from '../github-helpers';
 
 async function init(): Promise<void> {
-	const forkedRepository = getRepositoryInfo(getForkedRepo())!;
+	const forkedRepository = getRepo(getForkedRepo())!;
 	const sameViewUrl = new GitHubURL(location.href).assign({
 		user: forkedRepository.owner,
 		repository: forkedRepository.name,

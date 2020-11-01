@@ -5,14 +5,14 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepositoryInfo, getRepoGQL} from '../github-helpers';
+import {getRepo, getRepoGQL} from '../github-helpers';
 
 const hasAnyProjects = cache.function(async (): Promise<boolean> => {
 	const {repository, organization} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			projects { totalCount }
 		}
-		organization(login: "${getRepositoryInfo()!.owner}") {
+		organization(login: "${getRepo()!.owner}") {
 			projects { totalCount }
 		}
 	`, {
@@ -23,7 +23,7 @@ const hasAnyProjects = cache.function(async (): Promise<boolean> => {
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 20},
-	cacheKey: () => `has-projects:${getRepositoryInfo()!.url}`
+	cacheKey: () => `has-projects:${getRepo()!.url}`
 });
 
 function getCount(element: HTMLElement): number {

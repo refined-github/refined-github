@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import observeElement from '../helpers/simplified-element-observer';
-import {buildRepoURL, getRepositoryInfo} from '../github-helpers';
+import {buildRepoURL, getRepo} from '../github-helpers';
 
 const getFirstTag = cache.function(async (commit: string): Promise<string | undefined> => {
 	const firstTag = await fetchDom<HTMLAnchorElement>(
@@ -17,11 +17,11 @@ const getFirstTag = cache.function(async (commit: string): Promise<string | unde
 
 	return firstTag?.textContent!;
 }, {
-	cacheKey: ([commit]) => `first-tag:${getRepositoryInfo()!.url}:${commit}`
+	cacheKey: ([commit]) => `first-tag:${getRepo()!.url}:${commit}`
 });
 
 async function init(): Promise<void> {
-	const mergeCommit = select(`.TimelineItem.js-details-container.Details a[href^="/${getRepositoryInfo()!.url}/commit/" i] > code.link-gray-dark`)!.textContent!;
+	const mergeCommit = select(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.url}/commit/" i] > code.link-gray-dark`)!.textContent!;
 	const tagName = await getFirstTag(mergeCommit);
 
 	if (!tagName) {

@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 // This never changes, so it can be cached here
 export const getUsername = onetime(pageDetect.utils.getUsername);
-export const {getRepositoryInfo, getCleanPathname} = pageDetect.utils;
+export const {getRepositoryInfo: getRepo, getCleanPathname} = pageDetect.utils;
 
 export const getConversationNumber = (): string | undefined => {
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
@@ -48,16 +48,16 @@ export const buildRepoURL = (...pathParts: Array<string | number> & {0: string})
 		}
 	}
 
-	return [location.origin, getRepositoryInfo()!.url, ...pathParts].join('/');
+	return [location.origin, getRepo()!.url, ...pathParts].join('/');
 };
 
 export const getRepoGQL = (): string => {
-	const {owner, name} = getRepositoryInfo()!;
+	const {owner, name} = getRepo()!;
 	return `owner: "${owner}", name: "${name}"`;
 };
 
-export const getPRRepositoryInfo = (): ReturnType<typeof getRepositoryInfo> => {
-	return getRepositoryInfo(select<HTMLAnchorElement>('.commit-ref.head-ref a')!);
+export const getPRRepositoryInfo = (): ReturnType<typeof getRepo> => {
+	return getRepo(select<HTMLAnchorElement>('.commit-ref.head-ref a')!);
 };
 
 export function getForkedRepo(): string | undefined {

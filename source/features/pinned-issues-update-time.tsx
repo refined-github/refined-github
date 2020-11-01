@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import looseParseInt from '../helpers/loose-parse-int';
-import {getRepoGQL, getRepositoryInfo} from '../github-helpers';
+import {getRepoGQL, getRepo} from '../github-helpers';
 
 interface IssueInfo {
 	updatedAt: string;
@@ -26,7 +26,7 @@ const getLastUpdated = cache.function(async (issueNumbers: number[]): Promise<Re
 	return repository;
 }, {
 	maxAge: {minutes: 30},
-	cacheKey: ([issues]) => __filebasename + ':' + getRepositoryInfo()!.url + ':' + String(issues)
+	cacheKey: ([issues]) => __filebasename + ':' + getRepo()!.url + ':' + String(issues)
 });
 
 function getPinnedIssueNumber(pinnedIssue: HTMLElement): number {

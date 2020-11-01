@@ -6,7 +6,7 @@ import tinyVersionCompare from 'tiny-version-compare';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
-import {buildRepoURL, getRepositoryInfo, parseTag} from '../github-helpers';
+import {buildRepoURL, getRepo, parseTag} from '../github-helpers';
 
 interface TagDetails {
 	element: HTMLElement;
@@ -23,7 +23,7 @@ async function getNextPage(): Promise<DocumentFragment> {
 	}
 
 	if (pageDetect.isSingleTag()) {
-		const [, tag = ''] = getRepositoryInfo()!.path.split('releases/tag/', 2); // Already URL-encoded
+		const [, tag = ''] = getRepo()!.path.split('releases/tag/', 2); // Already URL-encoded
 		return fetchDom(buildRepoURL(`tags?after=${tag}`));
 	}
 

@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import * as api from './api';
-import {getRepositoryInfo, getCurrentBranch} from '.';
+import {getRepo, getCurrentBranch} from '.';
 
 // This regex should match all of these combinations:
 // "This branch is even with master."
@@ -14,14 +14,14 @@ const branchInfoRegex = /([^ ]+)\.$/;
 
 const getDefaultBranch = cache.function(async function (repository?: pageDetect.RepositoryInfo): Promise<string> {
 	if (arguments.length === 0) {
-		repository = getRepositoryInfo();
+		repository = getRepo();
 	}
 
 	if (!repository) {
 		throw new Error('getDefaultBranch was called on a non-repository page');
 	}
 
-	if (arguments.length === 0 || JSON.stringify(repository) === JSON.stringify(getRepositoryInfo())) {
+	if (arguments.length === 0 || JSON.stringify(repository) === JSON.stringify(getRepo())) {
 		if (pageDetect.isRepoHome()) {
 			return getCurrentBranch()!;
 		}
@@ -48,7 +48,7 @@ const getDefaultBranch = cache.function(async function (repository?: pageDetect.
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 20},
-	cacheKey: ([repository = getRepositoryInfo()]) => `default-branch:${repository?.url!}`
+	cacheKey: ([repository = getRepo()]) => `default-branch:${repository?.url!}`
 });
 
 export default getDefaultBranch;
