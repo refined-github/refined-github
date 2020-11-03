@@ -28,6 +28,8 @@ declare module 'markdown-wasm/dist/markdown.node';
 
 declare module 'size-plugin';
 
+declare module 'terser-webpack-plugin';
+
 declare module 'deep-weak-map' {
 	export default WeakMap;
 }
