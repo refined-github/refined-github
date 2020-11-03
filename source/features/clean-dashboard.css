@@ -17,7 +17,7 @@
 /* Add background and border Whole list */
 .dashboard .js-all-activity-header + div {
 	background-color: #fff;
-	border: 1px solid #d1d5da;
+	border: 1px solid var(--github-border-color);
 	border-radius: 6px;
 	margin-top: 8px !important;
 }
@@ -63,7 +63,7 @@
 
 /* Grouped events: Show separator */
 .dashboard-rollup-items .body {
-	border-top: 1px solid #e1e4e8;
+	border-top: 1px solid var(--github-border-color);
 	margin-top: 8px;
 }
 

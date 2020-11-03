@@ -1,11 +1,8 @@
 /* eslint-disable @typescript-eslint/consistent-indexed-object-style */
 
 type AnyObject = Record<string, any>;
-type AsyncVoidFunction = () => Promise<void>;
 
 type FeatureID = 'use the __filebasename variable';
-
-type FeatureShortcuts = Record<string, string>;
 interface FeatureMeta {
 	id: FeatureID;
 	description: string;
@@ -30,10 +27,6 @@ declare module 'size-plugin';
 
 declare module 'terser-webpack-plugin';
 
-declare module 'deep-weak-map' {
-	export default WeakMap;
-}
-
 // Custom UI events specific to RGH
 interface GlobalEventHandlersEventMap {
 	'details:toggled': CustomEvent;
@@ -48,20 +41,19 @@ interface GlobalEventHandlersEventMap {
 
 declare namespace JSX {
 	interface Element extends SVGElement, HTMLElement, DocumentFragment {}
-	type BaseIntrinsicElement = IntrinsicElements['div'];
-	type LabelIntrinsicElement = IntrinsicElements['label'];
 	interface IntrinsicElements {
-		'clipboard-copy': IntrinsicElements['button'];
-		'details-dialog': BaseIntrinsicElement & {tabindex: string};
-		'details-menu': BaseIntrinsicElement & {src?: string; preload?: boolean};
-		'has-rgh': BaseIntrinsicElement;
-		'include-fragment': BaseIntrinsicElement & {src?: string};
-		'label': LabelIntrinsicElement & {for?: string};
-		'relative-time': BaseIntrinsicElement & {datetime: string};
-		'time-ago': BaseIntrinsicElement & {datetime: string; format?: string};
+		'clipboard-copy': IntrinsicElements.button;
+		'details-dialog': IntrinsicElements.div & {tabindex: string};
+		'details-menu': IntrinsicElements.div & {src?: string; preload?: boolean};
+		'has-rgh': IntrinsicElements.div;
+		'include-fragment': IntrinsicElements.div & {src?: string};
+		'label': IntrinsicElements.label & {for?: string};
+		'relative-time': IntrinsicElements.div & {datetime: string};
+		'time-ago': IntrinsicElements.div & {datetime: string; format?: string};
 	}
 
-	interface IntrinsicAttributes extends BaseIntrinsicElement {
+	type BaseElement = IntrinsicElements['div'];
+	interface IntrinsicAttributes extends BaseElement {
 		width?: number;
 		height?: number;
 	}
