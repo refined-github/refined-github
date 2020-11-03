@@ -16,7 +16,7 @@ const getCollaborators = cache.function(async (): Promise<string[]> => {
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 20},
-	cacheKey: () => 'repo-collaborators:' + getRepo()!.url
+	cacheKey: () => 'repo-collaborators:' + getRepo()!.nameWithOwner
 });
 
 async function highlightCollaborators(): Promise<void> {

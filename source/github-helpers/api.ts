@@ -105,7 +105,7 @@ export const v3 = mem(async (
 	const {personalToken} = await settings;
 
 	if (!query.startsWith('https')) {
-		query = query.startsWith('/') ? query.slice(1) : 'repos/' + getRepo()!.url + '/' + query;
+		query = query.startsWith('/') ? query.slice(1) : 'repos/' + getRepo()!.nameWithOwner + '/' + query;
 	}
 
 	const url = new URL(query, api3);

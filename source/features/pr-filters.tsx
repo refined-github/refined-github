@@ -82,7 +82,7 @@ const hasChecks = cache.function(async (): Promise<boolean> => {
 	return repository.head.history.nodes.some((commit: AnyObject) => commit.statusCheckRollup);
 }, {
 	maxAge: {days: 3},
-	cacheKey: () => __filebasename + ':' + getRepo()!.url
+	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner
 });
 
 async function addChecksFilter(): Promise<void> {

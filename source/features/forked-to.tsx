@@ -14,7 +14,7 @@ import fetchDom from '../helpers/fetch-dom';
 import GitHubURL from '../github-helpers/github-url';
 import {getUsername, getForkedRepo, getRepo} from '../github-helpers';
 
-const getForkSourceRepo = (): string => getForkedRepo() ?? getRepo()!.url;
+const getForkSourceRepo = (): string => getForkedRepo() ?? getRepo()!.nameWithOwner;
 const getCacheKey = (): string => `forked-to:${getForkSourceRepo()}@${getUsername()}`;
 
 const updateCache = cache.function(async (): Promise<string[] | undefined> => {
@@ -45,7 +45,7 @@ function createLink(baseRepo: string): string {
 
 async function updateUI(forks: string[]): Promise<void> {
 	// Don't add button if you're visiting the only fork available
-	if (forks.length === 1 && forks[0] === getRepo()!.url) {
+	if (forks.length === 1 && forks[0] === getRepo()!.nameWithOwner) {
 		return;
 	}
 
@@ -78,11 +78,11 @@ async function updateUI(forks: string[]): Promise<void> {
 					{forks.map(fork => (
 						<a
 							href={createLink(fork)}
-							className={`select-menu-item ${fork === getRepo()!.url ? 'selected' : ''}`}
+							className={`select-menu-item ${fork === getRepo()!.nameWithOwner ? 'selected' : ''}`}
 							title={`Open your fork at ${fork}`}
 						>
 							<span className="select-menu-item-icon rgh-forked-to-icon">
-								{fork === getRepo()!.url ? <CheckIcon/> : <ForkIcon/>}
+								{fork === getRepo()!.nameWithOwner ? <CheckIcon/> : <ForkIcon/>}
 							</span>
 							{fork}
 						</a>

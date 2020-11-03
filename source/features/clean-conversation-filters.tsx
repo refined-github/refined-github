@@ -23,7 +23,7 @@ const hasAnyProjects = cache.function(async (): Promise<boolean> => {
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 20},
-	cacheKey: () => `has-projects:${getRepo()!.url}`
+	cacheKey: () => `has-projects:${getRepo()!.nameWithOwner}`
 });
 
 function getCount(element: HTMLElement): number {

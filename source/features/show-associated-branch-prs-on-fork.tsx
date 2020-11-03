@@ -56,7 +56,7 @@ const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Rec
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 4},
-	cacheKey: () => 'associatedBranchPullRequests:' + getRepo()!.url
+	cacheKey: () => 'associatedBranchPullRequests:' + getRepo()!.nameWithOwner
 });
 
 const stateClass: Record<string, string> = {

@@ -50,7 +50,7 @@ async function commitFileContent(menuItem: Element, content: string, filePath: s
 	// Check if file was deleted by PR
 	if (menuItem.closest('[data-file-deleted="true"]')) {
 		menuItem.textContent = 'Undeleting…';
-		pathname = `/${getPRRepositoryInfo()!.url}/new/${getCurrentBranch()!}?filename=${filePath}`;
+		pathname = `/${getPRRepositoryInfo()!.nameWithOwner}/new/${getCurrentBranch()!}?filename=${filePath}`;
 	} else {
 		menuItem.textContent = 'Committing…';
 	}

@@ -32,7 +32,7 @@ const countPRs = cache.function(async (forkedRepo: string): Promise<[prCount: nu
 	`);
 
 	// Only show PRs originated from the current repo
-	const prs = search.nodes.filter((pr: AnyObject) => pr.headRepository.nameWithOwner === getRepo()!.url);
+	const prs = search.nodes.filter((pr: AnyObject) => pr.headRepository.nameWithOwner === getRepo()!.nameWithOwner);
 
 	// If only one is found, pass the PR number so we can link to the PR directly
 	if (prs.length === 1) {
@@ -43,7 +43,7 @@ const countPRs = cache.function(async (forkedRepo: string): Promise<[prCount: nu
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 2},
-	cacheKey: ([forkedRepo]): string => 'prs-on-forked-repo:' + forkedRepo + ':' + getRepo()!.url
+	cacheKey: ([forkedRepo]): string => 'prs-on-forked-repo:' + forkedRepo + ':' + getRepo()!.nameWithOwner
 });
 
 async function getPRs(): Promise<[prCount: number, url: string] | []> {

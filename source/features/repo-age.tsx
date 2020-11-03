@@ -68,7 +68,7 @@ const getFirstCommit = cache.function(async (): Promise<[committedDate: string, 
 
 	return getRepoAge(commitSha, commitsCount);
 }, {
-	cacheKey: () => __filebasename + ':' + getRepo()!.url
+	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner
 });
 
 async function init(): Promise<void> {

@@ -17,11 +17,11 @@ const getFirstTag = cache.function(async (commit: string): Promise<string | unde
 
 	return firstTag?.textContent!;
 }, {
-	cacheKey: ([commit]) => `first-tag:${getRepo()!.url}:${commit}`
+	cacheKey: ([commit]) => `first-tag:${getRepo()!.nameWithOwner}:${commit}`
 });
 
 async function init(): Promise<void> {
-	const mergeCommit = select(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.url}/commit/" i] > code.link-gray-dark`)!.textContent!;
+	const mergeCommit = select(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code.link-gray-dark`)!.textContent!;
 	const tagName = await getFirstTag(mergeCommit);
 
 	if (!tagName) {

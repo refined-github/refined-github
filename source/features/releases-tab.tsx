@@ -12,7 +12,7 @@ import {appendBefore} from '../helpers/dom-utils';
 import {createDropdownItem} from './more-dropdown';
 import {buildRepoURL, getRepoGQL, getRepo} from '../github-helpers';
 
-const cacheKey = `releases-count:${getRepo()!.url}`;
+const cacheKey = `releases-count:${getRepo()!.nameWithOwner}`;
 
 function parseCountFromDom(): number {
 	const releasesCountElement = select('.numbers-summary a[href$="/releases"] .num');

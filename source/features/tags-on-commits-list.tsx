@@ -116,7 +116,7 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 }
 
 async function init(): Promise<void | false> {
-	const cacheKey = `tags:${getRepo()!.url}`;
+	const cacheKey = `tags:${getRepo()!.nameWithOwner}`;
 
 	const commitsOnPage = select.all([
 		'li.commit', // Pre "Repository refresh" layout

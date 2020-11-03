@@ -44,7 +44,7 @@ const getScheduledWorkflows = cache.function(async (): Promise<Record<string, st
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 10},
-	cacheKey: () => __filebasename + ':' + getRepo()!.url
+	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner
 });
 
 async function init(): Promise<false | void> {

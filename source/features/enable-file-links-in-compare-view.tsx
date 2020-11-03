@@ -14,7 +14,7 @@ function handlePRMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	const filePath = dropdown.closest('[data-path]')!.getAttribute('data-path')!;
 
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
-	viewFile.pathname = [getPRRepositoryInfo()!.url, 'blob', getCurrentBranch()!, filePath].join('/'); // Do not replace with `GitHubURL`  #3152 #3111 #2595
+	viewFile.pathname = [getPRRepositoryInfo()!.nameWithOwner, 'blob', getCurrentBranch()!, filePath].join('/'); // Do not replace with `GitHubURL`  #3152 #3111 #2595
 }
 
 function handleCompareMenuOpening({delegateTarget: dropdown}: delegate.Event): void {

@@ -90,7 +90,7 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 }, {
 	maxAge: {hours: 2},
 	staleWhileRevalidate: {days: 9},
-	cacheKey: () => __filebasename + ':' + getRepo()!.url
+	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner
 });
 
 async function init(): Promise<void> {

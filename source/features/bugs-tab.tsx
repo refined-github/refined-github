@@ -13,7 +13,7 @@ import {getRepo} from '../github-helpers';
 const numberFormatter = new Intl.NumberFormat();
 const countBugs = cache.function(async (): Promise<number> => {
 	const {search} = await api.v4(`
-		search(type: ISSUE, query: "label:bug is:open is:issue repo:${getRepo()!.url}") {
+		search(type: ISSUE, query: "label:bug is:open is:issue repo:${getRepo()!.nameWithOwner}") {
 			issueCount
 		}
 	`);
@@ -22,7 +22,7 @@ const countBugs = cache.function(async (): Promise<number> => {
 }, {
 	maxAge: {minutes: 30},
 	staleWhileRevalidate: {days: 4},
-	cacheKey: (): string => __filebasename + ':' + getRepo()!.url
+	cacheKey: (): string => __filebasename + ':' + getRepo()!.nameWithOwner
 });
 
 async function init(): Promise<void | false> {
