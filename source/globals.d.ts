@@ -25,6 +25,7 @@ declare module 'markdown-wasm/dist/markdown.node';
 
 declare module 'size-plugin';
 
+// TODO: until https://github.com/DefinitelyTyped/DefinitelyTyped/issues/48806
 declare module 'terser-webpack-plugin';
 
 // Custom UI events specific to RGH
