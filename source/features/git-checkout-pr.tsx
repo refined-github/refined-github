@@ -51,9 +51,9 @@ function checkoutOption(remote?: string, remoteType?: 'HTTPS' | 'SSH'): JSX.Elem
 					className="copyable-terminal-content"
 				>
 					<span className="user-select-contain">
-						{remote && `git remote add ${remote} ${connectionType[remoteType!]}${getPRHeadRepo().url!}.git\n`}
+						{remote && `git remote add ${remote} ${connectionType[remoteType!]}${getPRHeadRepo()!.nameWithOwner}.git\n`}
 						git fetch {remote ?? 'origin'} {getCurrentBranch()}{'\n'}
-						git switch {remote && `--track ${getPRHeadRepo().owner!}/`}{getCurrentBranch()}
+						git switch {remote && `--track ${getPRHeadRepo()!.owner}/`}{getCurrentBranch()}
 					</span>
 				</pre>
 			</div>
