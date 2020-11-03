@@ -4,6 +4,7 @@ import path from 'path';
 import {readFileSync} from 'fs';
 
 import SizePlugin from 'size-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
 // @ts-expect-error
 import {ESBuildPlugin} from 'esbuild-loader';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
@@ -141,6 +142,32 @@ const config: Configuration = {
 			'.tsx',
 			'.ts',
 			'.js'
+		]
+	},
+	optimization: {
+		// Keeps it somewhat readable for AMO reviewers
+		minimizer: [
+			new TerserPlugin({
+				parallel: true,
+				exclude: 'browser-polyfill.min.js', // #3451
+				terserOptions: {
+					mangle: false,
+					compress: {
+						defaults: false,
+						dead_code: true,
+						unused: true,
+						arguments: true,
+						join_vars: false,
+						booleans: false,
+						expression: false,
+						sequences: false
+					},
+					output: {
+						beautify: true,
+						indent_level: 2
+					}
+				}
+			})
 		]
 	}
 };
