@@ -6,7 +6,7 @@ import PullRequestIcon from 'octicon/git-pull-request.svg';
 import features from '.';
 import * as api from '../github-helpers/api';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getRepositoryInfo, getRepoGQL} from '../github-helpers';
+import {getRepoGQL, buildRepoURL} from '../github-helpers';
 
 interface BranchInfo {
 	baseRef: string;
@@ -32,7 +32,6 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	const currentRepository = getRepositoryInfo();
 	const query = buildQuery(prLinks.map(pr => pr.id));
 	const [data, defaultBranch] = await Promise.all([
 		api.v4(query),
@@ -45,7 +44,7 @@ async function init(): Promise<false | void> {
 			continue;
 		}
 
-		const branch = pr.baseRef && `/${currentRepository.owner!}/${currentRepository.name!}/tree/${pr.baseRefName}`;
+		const branch = pr.baseRef && buildRepoURL(`tree/${pr.baseRefName}`);
 
 		prLink.parentElement!.querySelector('.text-small.text-gray')!.append(
 			<span className="issue-meta-section d-inline-block">

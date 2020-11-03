@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import LinkExternalIcon from 'octicon/link-external.svg';
 
 import features from '.';
-import {getRepositoryInfo} from '../github-helpers';
+import {getRepo} from '../github-helpers';
 
 function initRepoList(): void {
 	observe('a[href$=".github.io"][itemprop="name codeRepository"]:not(.rgh-github-io)', {
@@ -28,11 +28,11 @@ function initRepoList(): void {
 }
 
 async function initRepo(): Promise<void> {
-	const repoTitle = await elementReady('[itemprop="name"]')!;
+	const repoTitle = await elementReady('[itemprop="name"]');
 	repoTitle!.after(
 		<a
 			className="mr-2"
-			href={`https://${getRepositoryInfo().name!}`}
+			href={`https://${repoTitle!.textContent!.trim()}`}
 			target="_blank"
 			rel="noopener noreferrer"
 		>
@@ -42,11 +42,8 @@ async function initRepo(): Promise<void> {
 }
 
 void features.add(__filebasename, {
-	include: [
-		pageDetect.isRepo
-	],
 	exclude: [
-		() => !getRepositoryInfo()!.name!.endsWith('.github.io')
+		() => !getRepo()?.name.endsWith('.github.io')
 	],
 	init: initRepo
 }, {
