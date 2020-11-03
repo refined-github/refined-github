@@ -56,7 +56,7 @@ export const getRepoGQL = (): string => {
 	return `owner: "${owner}", name: "${name}"`;
 };
 
-export const getPRRepositoryInfo = (): ReturnType<typeof getRepo> => {
+export const getPRHeadRepo = (): ReturnType<typeof getRepo> => {
 	return getRepo(select<HTMLAnchorElement>('.commit-ref.head-ref a')!);
 };
 

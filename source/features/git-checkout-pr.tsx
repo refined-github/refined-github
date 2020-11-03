@@ -5,16 +5,16 @@ import ClippyIcon from 'octicon/clippy.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getCurrentBranch, getPRRepositoryInfo, getRepositoryInfo, getUsername} from '../github-helpers';
+import {getCurrentBranch, getPRHeadRepo, getRepo, getUsername} from '../github-helpers';
 
 // Logic explained in https://github.com/sindresorhus/refined-github/pull/3596#issuecomment-720910840
 function getRemoteName(): string | undefined {
-	const author = getPRRepositoryInfo().owner;
+	const author = getPRHeadRepo()!.owner;
 	if (author === getUsername()) {
 		return; // `origin`, don't add remote
 	}
 
-	if (author !== getRepositoryInfo().owner) {
+	if (author !== getRepo()!.owner) {
 		return author;
 	}
 
@@ -51,9 +51,9 @@ function checkoutOption(remote?: string, remoteType?: 'HTTPS' | 'SSH'): JSX.Elem
 					className="copyable-terminal-content"
 				>
 					<span className="user-select-contain">
-						{remote && `git remote add ${remote} ${connectionType[remoteType!]}${getPRRepositoryInfo().url!}.git\n`}
+						{remote && `git remote add ${remote} ${connectionType[remoteType!]}${getPRHeadRepo().url!}.git\n`}
 						git fetch {remote ?? 'origin'} {getCurrentBranch()}{'\n'}
-						git switch {remote && `--track ${getPRRepositoryInfo().owner!}/`}{getCurrentBranch()}
+						git switch {remote && `--track ${getPRHeadRepo().owner!}/`}{getCurrentBranch()}
 					</span>
 				</pre>
 			</div>
