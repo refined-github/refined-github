@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import {getCurrentBranch, getPRRepositoryInfo, getRepositoryInfo, getUsername} from '../github-helpers';
 
-// Logic found on https://github.com/sindresorhus/refined-github/pull/3596#discussion_r511546864
+// Logic explained in https://github.com/sindresorhus/refined-github/pull/3596#issuecomment-720910840
 function getRemoteName(): string | undefined {
 	const author = getPRRepositoryInfo().owner;
 	if (author === getUsername()) {
@@ -26,7 +26,7 @@ function getRemoteName(): string | undefined {
 }
 
 const connectionType = {
-	HTTPS: `${location.origin}/`,
+	HTTPS: location.origin + '/',
 	SSH: `git@${location.hostname}:`
 };
 
