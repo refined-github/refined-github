@@ -9,7 +9,7 @@ import fetchDom from '../helpers/fetch-dom';
 import {buildRepoURL, getRepo, getUsername} from '../github-helpers';
 
 const getCollaborators = cache.function(async (): Promise<string[]> => {
-	const dom = await fetchDom(buildRepoURL('/issues/show_menu_content?partial=issues/filters/authors_content'));
+	const dom = await fetchDom(buildRepoURL('issues/show_menu_content?partial=issues/filters/authors_content'));
 	return select
 		.all<HTMLImageElement>('.SelectMenu-item [alt]', dom)
 		.map(avatar => avatar.alt.slice(1));
