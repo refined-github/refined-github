@@ -43,7 +43,7 @@ interface GlobalEventHandlersEventMap {
 declare namespace JSX {
 	interface Element extends SVGElement, HTMLElement, DocumentFragment {}
 	interface IntrinsicElements {
-		'clipboard-copy': IntrinsicElements.button;
+		'clipboard-copy': IntrinsicElements.button & {for?: string};
 		'details-dialog': IntrinsicElements.div & {tabindex: string};
 		'details-menu': IntrinsicElements.div & {src?: string; preload?: boolean};
 		'has-rgh': IntrinsicElements.div;
