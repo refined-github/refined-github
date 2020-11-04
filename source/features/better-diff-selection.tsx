@@ -8,7 +8,7 @@ import features from '.';
 
 function disableDiffSelection(event: Event): void {
 	const target = event.target as HTMLElement;
-	target.closest('tbody')!.dataset.rghSelect = target.closest('td') === target.closest('tr')!.children[1] ? 'left' : 'right';
+	target.closest('tbody')!.dataset.rghSelect = target.closest('td:last-child') ? 'right' : 'left';
 }
 
 function restoreDiffSelection(): void {
