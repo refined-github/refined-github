@@ -12,12 +12,14 @@ function disableDiffSelection(event: Event): void {
 }
 
 function restoreDiffSelection(): void {
-	select('[data-rgh-select]')?.removeAttribute('data-rgh-select');
+	if (document.getSelection()!.isCollapsed) {
+		select('[data-rgh-select]')?.removeAttribute('data-rgh-select');
+	}
 }
 
 function init(): void {
 	delegate(document.body, '.diff-table tr:not(.js-expandable-line) td:nth-child(even)', 'mousedown', disableDiffSelection);
-	document.body.addEventListener('mouseup', restoreDiffSelection);
+	document.body.addEventListener('selectionchange', restoreDiffSelection);
 }
 
 void features.add(__filebasename, {
