@@ -8,19 +8,22 @@ import features from '.';
 
 let selectedDiffTableBody: HTMLElement | undefined;
 
-function init(): void {
-	delegate(document.body, '.diff-table tr:not(.js-expandable-line) td:nth-child(even)', 'mousedown', event => {
-		const target = event.target as HTMLElement;
-		selectedDiffTableBody = target.closest('tbody')!;
-		selectedDiffTableBody.dataset.rghSelect = target.closest('td') === target.closest('tr')!.children[1] ? 'left' : 'right';
-	});
+function disableDiffSelection(event: Event): void {
+	const target = event.target as HTMLElement;
+	selectedDiffTableBody = target.closest('tbody')!;
+	selectedDiffTableBody.dataset.rghSelect = target.closest('td') === target.closest('tr')!.children[1] ? 'left' : 'right';
+}
 
-	document.body.addEventListener('mouseup', () => {
-		if (selectedDiffTableBody) {
-			selectedDiffTableBody.removeAttribute('data-rgh-select');
-			selectedDiffTableBody = undefined;
-		}
-	});
+function restoreDiffSelection(): void {
+	if (selectedDiffTableBody) {
+		selectedDiffTableBody.removeAttribute('data-rgh-select');
+		selectedDiffTableBody = undefined;
+	}
+}
+
+function init(): void {
+	delegate(document.body, '.diff-table tr:not(.js-expandable-line) td:nth-child(even)', 'mousedown', disableDiffSelection);
+	document.body.addEventListener('mouseup', restoreDiffSelection);
 }
 
 void features.add(__filebasename, {
