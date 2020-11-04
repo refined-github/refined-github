@@ -27,5 +27,8 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.hasCode
 	],
+	exclude: [
+		() => !select.exists('meta[name="diff-view"][content="split"]')
+	],
 	init
 });
