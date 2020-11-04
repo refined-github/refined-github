@@ -12,7 +12,7 @@ function init(): void {
 	delegate(document.body, '.diff-table tr:not(.js-expandable-line) td:nth-child(even)', 'mousedown', event => {
 		const target = event.target as HTMLElement;
 		selectedDiffTableBody = target.closest('tbody')!;
-		selectedDiffTableBody.dataset.rghSelect = target.closest('td') === target.closest('tr')!.children[1] ? 'left' : 'right';
+		selectedDiffTableBody.dataset.rghSelect = target.closest('td:last-child') ? 'right' : 'left';
 	});
 
 	document.body.addEventListener('mouseup', () => {
