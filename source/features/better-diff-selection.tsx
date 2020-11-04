@@ -2,7 +2,6 @@ import './better-diff-selection.css';
 
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
@@ -24,10 +23,7 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.hasCode
-	],
-	exclude: [
-		() => !select.exists('meta[name="diff-view"][content="split"]')
+		() => select.exists('meta[name="diff-view"][content="split"]')
 	],
 	init
 });
