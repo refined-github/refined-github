@@ -6,19 +6,13 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-let selectedDiffTableBody: HTMLElement | undefined;
-
 function disableDiffSelection(event: Event): void {
 	const target = event.target as HTMLElement;
-	selectedDiffTableBody = target.closest('tbody')!;
-	selectedDiffTableBody.dataset.rghSelect = target.closest('td') === target.closest('tr')!.children[1] ? 'left' : 'right';
+	target.closest('tbody')!.dataset.rghSelect = target.closest('td') === target.closest('tr')!.children[1] ? 'left' : 'right';
 }
 
 function restoreDiffSelection(): void {
-	if (selectedDiffTableBody) {
-		selectedDiffTableBody.removeAttribute('data-rgh-select');
-		selectedDiffTableBody = undefined;
-	}
+	select('[data-rgh-select]')?.removeAttribute('data-rgh-select');
 }
 
 function init(): void {
