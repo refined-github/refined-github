@@ -17,7 +17,7 @@ function restoreDiffSelection(): void {
 }
 
 function init(): void {
-	delegate(document.body, '.diff-table tr:not(.js-expandable-line) td:nth-child(even)', 'mousedown', disableDiffSelection);
+	delegate(document.body, '.blob-code', 'mousedown', disableDiffSelection);
 	document.body.addEventListener('selectionchange', restoreDiffSelection);
 }
 
