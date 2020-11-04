@@ -9,17 +9,8 @@ let disabledDiffTable: HTMLElement | undefined;
 const leftDiffLines = '.diff-table tr:not(.js-expandable-line) td:nth-child(2)';
 const rightDiffLines = '.diff-table tr:not(.js-expandable-line) td:nth-child(4)';
 
-function getTableBody(element: HTMLElement): HTMLElement {
-	let parent = element;
-	do {
-		parent = parent.parentElement!;
-	} while (parent.tagName !== 'TBODY');
-
-	return parent;
-}
-
 function disableDiffSelection(diffLines: string, clickedElement: HTMLElement): void {
-	disabledDiffTable = getTableBody(clickedElement);
+	disabledDiffTable = clickedElement.closest('tbody') as HTMLElement;
 
 	for (const diffLine of select.all(diffLines, disabledDiffTable)) {
 		diffLine.style.userSelect = 'none';
