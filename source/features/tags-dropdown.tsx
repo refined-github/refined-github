@@ -5,7 +5,7 @@ import OctofaceIcon from '@primer/octicons/build/svg/octoface.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getRepoURL} from '../github-helpers';
+import {buildRepoURL} from '../github-helpers';
 
 // We're reusing the Branch/Tag selector from the repo's Code tab, so we need to update a few things
 function changeTabToTags(): void {
@@ -32,7 +32,7 @@ function init(): void {
 				<details-menu
 					preload
 					className="select-menu-modal position-absolute dropdown-menu-sw"
-					src={`/${getRepoURL()}/ref-list/master?source_action=disambiguate&source_controller=files`}
+					src={buildRepoURL('ref-list/master?source_action=disambiguate&source_controller=files')}
 					role="menu"
 					style={{zIndex: 99}}
 				>

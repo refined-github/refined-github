@@ -12,7 +12,7 @@ import pluralize from '../helpers/pluralize';
 import GitHubURL from '../github-helpers/github-url';
 import {groupButtons} from '../github-helpers/group-buttons';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {buildRepoURL, getCurrentBranch, getRepoURL, getRepoGQL, getLatestVersionTag} from '../github-helpers';
+import {buildRepoURL, getCurrentBranch, getRepoGQL, getLatestVersionTag, getRepo} from '../github-helpers';
 
 interface RepoPublishState {
 	latestTag: string | false;
@@ -75,7 +75,7 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 2},
-	cacheKey: () => `tag-ahead-by:${getRepoURL()}`
+	cacheKey: () => `tag-ahead-by:${getRepo()!.nameWithOwner}`
 });
 
 async function init(): Promise<false | void> {

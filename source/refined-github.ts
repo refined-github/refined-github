@@ -198,6 +198,8 @@ import './features/table-input';
 import './features/link-to-github-io';
 import './features/next-scheduled-github-action';
 import './features/convert-pr-to-draft-improvements';
+import './features/git-checkout-pr';
+import './features/unfinished-comments';
 import './features/feature-descriptions';
 
 // Add global for easier debugging

@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import GitHubURL from '../github-helpers/github-url';
-import {getCurrentBranch, getPRRepositoryInfo} from '../github-helpers';
+import {getCurrentBranch, getPRHeadRepo} from '../github-helpers';
 
 /** Rebuilds the "View file" link because it points to the base repo and to the commit, instead of the head repo and its branch */
 function handlePRMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
@@ -14,7 +14,7 @@ function handlePRMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	const filePath = dropdown.closest('[data-path]')!.getAttribute('data-path')!;
 
 	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
-	viewFile.pathname = [getPRRepositoryInfo().url!, 'blob', getCurrentBranch()!, filePath].join('/'); // Do not replace with `GitHubURL`  #3152 #3111 #2595
+	viewFile.pathname = [getPRHeadRepo()!.nameWithOwner, 'blob', getCurrentBranch()!, filePath].join('/'); // Do not replace with `GitHubURL`  #3152 #3111 #2595
 }
 
 function handleCompareMenuOpening({delegateTarget: dropdown}: delegate.Event): void {

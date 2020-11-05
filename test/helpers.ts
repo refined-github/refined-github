@@ -5,7 +5,6 @@ import pluralize from '../source/helpers/pluralize';
 import looseParseInt from '../source/helpers/loose-parse-int';
 import {
 	getConversationNumber,
-	getRepositoryInfo,
 	parseTag,
 	compareNames,
 	getScopedSelector,
@@ -84,15 +83,6 @@ test('getConversationNumber', t => {
 		location.href = url;
 		t.is(result, getConversationNumber());
 	}
-});
-
-test('getOwnerAndRepo', t => {
-	location.href = 'https://github.com/sindresorhus/refined-github/pull/148';
-	t.deepEqual(getRepositoryInfo(), {
-		owner: 'sindresorhus',
-		name: 'refined-github',
-		url: 'sindresorhus/refined-github'
-	});
 });
 
 test('parseTag', t => {

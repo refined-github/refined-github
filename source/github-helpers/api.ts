@@ -30,7 +30,7 @@ import * as pageDetect from 'github-url-detection';
 import {JsonObject, AsyncReturnType} from 'type-fest';
 
 import optionsStorage from '../options-storage';
-import {getRepoURL} from '.';
+import {getRepo} from '.';
 
 interface JsonError {
 	message: string;
@@ -105,7 +105,7 @@ export const v3 = mem(async (
 	const {personalToken} = await settings;
 
 	if (!query.startsWith('https')) {
-		query = query.startsWith('/') ? query.slice(1) : 'repos/' + getRepoURL() + '/' + query;
+		query = query.startsWith('/') ? query.slice(1) : 'repos/' + getRepo()!.nameWithOwner + '/' + query;
 	}
 
 	const url = new URL(query, api3);

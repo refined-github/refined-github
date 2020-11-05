@@ -3,9 +3,9 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {buildRepoURL, getRepoPath} from '../github-helpers';
+import {buildRepoURL, getRepo} from '../github-helpers';
 
-const isWorkflowFile = (): boolean => pageDetect.isSingleFile() && /\/\.github\/workflows\/.+\.ya?ml$/.test(getRepoPath()!);
+const isWorkflowFile = (): boolean => pageDetect.isSingleFile() && /\/\.github\/workflows\/.+\.ya?ml$/.test(getRepo()!.path);
 
 function init(): void {
 	const actionName = select.all('.blob-code-inner')
