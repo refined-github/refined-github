@@ -34,6 +34,7 @@ import './features/more-dropdown';
 import './features/releases-tab';
 import './features/remove-projects-tab';
 import './features/comment-fields-keyboard-shortcuts';
+import './features/esc-to-cancel';
 import './features/one-key-formatting';
 import './features/tab-to-indent';
 import './features/hide-navigation-hover-highlight';
