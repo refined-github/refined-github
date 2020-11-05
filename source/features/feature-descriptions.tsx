@@ -4,9 +4,37 @@ import domify from 'doma';
 import elementReady from 'element-ready';
 
 import features from '.';
+import * as api from '../github-helpers/api';
+import {getRepoGQL} from '../github-helpers';
+
+interface FileHistory {
+	message: string;
+	oid: string;
+}
+
+const fileHistory = async (featureName: string): Promise<FileHistory | string[]> => {
+	const {repository} = await api.v4(`
+		repository(${getRepoGQL()}) {
+			defaultBranchRef {
+				target {
+					...on Commit {
+						history(first:100, path: "source/features/${featureName}.tsx") {
+							nodes {
+								message
+								oid
+							}
+						}
+					}
+				}
+			}
+		}
+	`);
+	const history = repository.defaultBranchRef.target.history.nodes;
+	return history.filter((commit: FileHistory) => !/^Meta|^Document|^Readme|^Lint|^Update.+dependencies/.exec(commit.message));
+};
 
 async function init(): Promise<void | false> {
-	const currentFeature = /features\/(.*).[a-z]{3}$/.exec(location.pathname)![1];
+	const [, currentFeature] = /features\/([^.]+)/.exec(location.pathname)!;
 	const {id, description, screenshot} = __featuresMeta__.find(feature => feature.id === currentFeature) ?? {};
 	if (!description) {
 		return false;
@@ -56,6 +84,9 @@ async function init(): Promise<void | false> {
 			</div>
 		</div>
 	);
+
+	const history = await fileHistory(id!);
+	console.log(history);
 }
 
 void features.add(__filebasename, {
