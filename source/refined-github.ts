@@ -34,7 +34,6 @@ import './features/more-dropdown';
 import './features/releases-tab';
 import './features/remove-projects-tab';
 import './features/comment-fields-keyboard-shortcuts';
-import './features/esc-to-cancel';
 import './features/one-key-formatting';
 import './features/tab-to-indent';
 import './features/hide-navigation-hover-highlight';
@@ -201,6 +200,7 @@ import './features/next-scheduled-github-action';
 import './features/convert-pr-to-draft-improvements';
 import './features/git-checkout-pr';
 import './features/unfinished-comments';
+import './features/esc-to-cancel';
 
 // Add global for easier debugging
 (window as any).select = select;
