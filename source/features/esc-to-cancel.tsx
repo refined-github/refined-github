@@ -3,20 +3,13 @@ import onetime from 'onetime';
 import delegate from 'delegate-it';
 
 import features from '.';
-import onIssueTitleKeydown from '../github-events/on-issue-title-field-keydown';
 
-function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): void {
-	const field = event.delegateTarget;
+function eventHandler(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void {
 	if (event.key === 'Escape') {
 		const cancelButton = select<HTMLLinkElement>(`
 				.js-cancel-issue-edit
-			`, field.form!);
-		// Cancel if there is a button, else blur the field
-		if (cancelButton) {
-			cancelButton.click();
-		} else {
-			field.blur();
-		}
+			`);
+		cancelButton?.click();
 
 		event.stopImmediatePropagation();
 		event.preventDefault();
@@ -24,7 +17,11 @@ function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>)
 }
 
 function init(): void {
-	onIssueTitleKeydown(eventHandler);
+	delegate<HTMLInputElement, KeyboardEvent>(document, '#issue_title', 'keydown', event => {
+		eventHandler(event);
+	}, {
+		capture: true
+	});
 }
 
 void features.add(__filebasename, {
