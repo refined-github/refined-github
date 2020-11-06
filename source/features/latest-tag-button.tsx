@@ -12,7 +12,7 @@ import pluralize from '../helpers/pluralize';
 import GitHubURL from '../github-helpers/github-url';
 import {groupButtons} from '../github-helpers/group-buttons';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {buildRepoURL, getCurrentBranch, getRepoGQL, getLatestVersionTag, getRepo} from '../github-helpers';
+import {buildRepoURL, getCurrentBranch, getLatestVersionTag, getRepo} from '../github-helpers';
 
 interface RepoPublishState {
 	latestTag: string | false;
@@ -21,7 +21,7 @@ interface RepoPublishState {
 
 const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> => {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			refs(first: 20, refPrefix: "refs/tags/", orderBy: {
 				field: TAG_COMMIT_DATE,
 				direction: DESC

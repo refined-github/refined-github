@@ -10,12 +10,11 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
 import LoadingIcon from '../github-helpers/icon-loading';
-import {getRepoGQL} from '../github-helpers';
 import looseParseInt from '../helpers/loose-parse-int';
 
 const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number, currentFilename: string): Promise<string> => {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			file: object(expression: "${commit}:${currentFilename}") {
 				id
 			}

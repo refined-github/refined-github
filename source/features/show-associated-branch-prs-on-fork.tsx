@@ -8,7 +8,7 @@ import PullRequestIcon from 'octicon/git-pull-request.svg';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepoGQL, getRepo, upperCaseFirst} from '../github-helpers';
+import {getRepo, upperCaseFirst} from '../github-helpers';
 
 interface PullRequest {
 	number: number;
@@ -19,7 +19,7 @@ interface PullRequest {
 
 const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Record<string, PullRequest>> => {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			refs(refPrefix: "refs/heads/", last: 100) {
 				nodes {
 					name

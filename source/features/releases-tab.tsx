@@ -10,7 +10,7 @@ import * as api from '../github-helpers/api';
 import looseParseInt from '../helpers/loose-parse-int';
 import {appendBefore} from '../helpers/dom-utils';
 import {createDropdownItem} from './more-dropdown';
-import {buildRepoURL, getRepoGQL, getRepo} from '../github-helpers';
+import {buildRepoURL, getRepo} from '../github-helpers';
 
 const cacheKey = `releases-count:${getRepo()!.nameWithOwner}`;
 
@@ -31,7 +31,7 @@ function parseCountFromDom(): number {
 
 async function fetchFromApi(): Promise<number> {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			refs(refPrefix: "refs/tags/") {
 				totalCount
 			}

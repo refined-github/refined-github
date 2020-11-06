@@ -161,6 +161,8 @@ export const v4 = mem(async (
 		throw new TypeError('`query` should only be what’s inside \'query {...}\', like \'user(login: "foo") { name }\', but is \n' + query);
 	}
 
+	query = query.replace('repository() {', `repository(owner: "${getRepo()!.owner}", name: "${getRepo()!.name}") {`);
+
 	const response = await fetch(api4, {
 		headers: {
 			'User-Agent': 'Refined GitHub',

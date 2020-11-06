@@ -6,11 +6,10 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import pluralize from '../helpers/pluralize';
-import {getRepoGQL} from '../github-helpers';
 
 const getCommitChanges = cache.function(async (commit: string): Promise<[additions: number, deletions: number]> => {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			object(expression: "${commit}") {
 				... on Commit {
 					additions
