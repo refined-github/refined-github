@@ -4,12 +4,9 @@ import delegate from 'delegate-it';
 
 import features from '.';
 
-function eventHandler(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void {
+function handleEscPress(event: delegate.Event<KeyboardEvent>): void {
 	if (event.key === 'Escape') {
-		const cancelButton = select<HTMLLinkElement>(`
-				.js-cancel-issue-edit
-			`);
-		cancelButton?.click();
+		select('.js-cancel-issue-edit')!.click();
 
 		event.stopImmediatePropagation();
 		event.preventDefault();
@@ -17,16 +14,12 @@ function eventHandler(event: delegate.Event<KeyboardEvent, HTMLInputElement>): v
 }
 
 function init(): void {
-	delegate<HTMLInputElement, KeyboardEvent>(document, '#issue_title', 'keydown', event => {
-		eventHandler(event);
-	}, {
-		capture: true
-	});
+	delegate(document, '#issue_title', 'keydown', handleEscPress);
 }
 
 void features.add(__filebasename, {
 	shortcuts: {
-		esc: 'Cancel issue title edit'
+		esc: 'Cancel editing a conversation title'
 	},
 	awaitDomReady: false,
 	init: onetime(init)
