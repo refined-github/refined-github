@@ -1,3 +1,5 @@
+import delegate from 'delegate-it';
+
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
@@ -21,6 +23,7 @@ async function updateDocumentTitle(): Promise<void> {
 
 function init(): void {
 	document.addEventListener('visibilitychange', updateDocumentTitle);
+	delegate(document.body, 'form', 'submit', updateDocumentTitle);
 }
 
 void features.add(__filebasename, {
