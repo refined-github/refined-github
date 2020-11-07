@@ -1,6 +1,5 @@
-import delegate from 'delegate-it';
-
 import select from 'select-dom';
+import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -12,11 +11,9 @@ function hasDraftComments(): boolean {
 }
 
 function updateDocumentTitle(): void {
-	if (document.visibilityState === 'hidden' && hasDraftComments()) {
-		if (!documentTitle) {
-			documentTitle = document.title;
-			document.title = '(Draft comment) ' + document.title;
-		}
+	if (document.visibilityState === 'hidden' && hasDraftComments() && !documentTitle) {
+		documentTitle = document.title;
+		document.title = '(Draft comment) ' + document.title;
 	} else if (documentTitle) {
 		document.title = documentTitle;
 		documentTitle = undefined;
