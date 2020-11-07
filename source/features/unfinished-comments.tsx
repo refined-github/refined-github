@@ -11,7 +11,7 @@ function hasDraftComments(): boolean {
 	return select.all('textarea').some(textarea => textarea.value.length > 0 && textarea.offsetWidth > 0);
 }
 
-async function updateDocumentTitle(): Promise<void> {
+function updateDocumentTitle(): void {
 	if (documentTitle) {
 		document.title = documentTitle;
 		documentTitle = undefined;
