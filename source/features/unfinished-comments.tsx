@@ -12,17 +12,13 @@ function hasDraftComments(): boolean {
 }
 
 function updateDocumentTitle(): void {
-	resetDocumentTitle();
-	if (document.visibilityState === 'hidden' && hasDraftComments()) {
-		documentTitle = document.title;
-		document.title = '(Draft comment) ' + document.title;
-	}
-}
-
-function resetDocumentTitle(): void {
 	if (documentTitle) {
 		document.title = documentTitle;
 		documentTitle = undefined;
+	}
+	if (document.visibilityState === 'hidden' && hasDraftComments()) {
+		documentTitle = document.title;
+		document.title = '(Draft comment) ' + document.title;
 	}
 }
 
