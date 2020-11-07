@@ -5,9 +5,8 @@ import delegate from 'delegate-it';
 
 import features from '.';
 
-function disableDiffSelection(event: Event): void {
-	const target = event.target as HTMLElement;
-	target.closest('tbody')!.dataset.rghSelect = target.closest('td:last-child') ? 'right' : 'left';
+function disableDiffSelection(event: delegate.Event<MouseEvent, HTMLElement>): void {
+	event.delegateTarget.closest('tbody')!.dataset.rghSelect = event.delegateTarget.closest('td:last-child') ? 'right' : 'left';
 }
 
 function restoreDiffSelection(): void {
