@@ -1,5 +1,4 @@
 import select from 'select-dom';
-import onetime from 'onetime';
 import delegate from 'delegate-it';
 
 import features from '.';
@@ -22,5 +21,5 @@ void features.add(__filebasename, {
 		esc: 'Cancel editing a conversation title'
 	},
 	awaitDomReady: false,
-	init: onetime(init)
+	init
 });
