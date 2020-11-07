@@ -13,8 +13,10 @@ function hasDraftComments(): boolean {
 
 function updateDocumentTitle(): void {
 	if (document.visibilityState === 'hidden' && hasDraftComments()) {
-		documentTitle = document.title;
-		document.title = '(Draft comment) ' + document.title;
+		if (!documentTitle) {
+			documentTitle = document.title;
+			document.title = '(Draft comment) ' + document.title;
+		}
 	} else if (documentTitle) {
 		document.title = documentTitle;
 		documentTitle = undefined;
