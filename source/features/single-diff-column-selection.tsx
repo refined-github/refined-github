@@ -1,4 +1,4 @@
-import './better-diff-selection.css';
+import './single-diff-column-selection.css';
 
 import select from 'select-dom';
 import delegate from 'delegate-it';
