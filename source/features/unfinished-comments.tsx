@@ -18,6 +18,7 @@ function updateDocumentTitle(): void {
 		document.title = documentTitle;
 		documentTitle = undefined;
 	}
+
 	select('.rgh-is-sending-comment')?.classList.remove('rgh-is-sending-comment');
 }
 
