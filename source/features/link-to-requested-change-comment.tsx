@@ -1,8 +1,9 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+
+import {wrap} from '../helpers/dom-utils';
 import features from '.';
-import { wrap } from '../helpers/dom-utils';
 
 function init(): void {
 	for (const reviewItem of select.all('.merge-status-item.review-item')) {
