@@ -8,12 +8,13 @@ import {wrap} from '../helpers/dom-utils';
 import features from '.';
 
 function init(): void {
-	observe('div.js-merge-message-container', {
-		constructor: HTMLDivElement,
+	observe('.review-item .dropdown-item[href^="#pullrequestreview-"]', {
+		constructor: HTMLAnchorElement,
 		add(messageContainer) {
-			for (const reviewItem of select.all('.merge-status-item.review-item', messageContainer)) {
-				const comment = select<HTMLAnchorElement>('.review-status-item details details-menu a', reviewItem)!;
-				wrap(reviewItem, <a href={comment.href}/>);
+			const element = select('.review-status-item div[title*="requested changes"]')?.lastChild;
+
+			if (element) {
+				wrap(element as ChildNode, <a href={messageContainer.href}/>);
 			}
 		}
 	});
