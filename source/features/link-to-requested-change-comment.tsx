@@ -14,7 +14,7 @@ function init(): void {
 			const element = select('.review-status-item div[title*="requested changes"]')?.lastChild;
 
 			if (element) {
-				wrap(element as ChildNode, <a href={messageContainer.href}/>);
+				wrap(element, <a href={messageContainer.href}/>);
 			}
 		}
 	});
