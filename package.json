@@ -44,7 +44,7 @@
 		"copy-text-to-clipboard": "^2.2.0",
 		"debounce-fn": "^4.0.0",
 		"delay": "^4.4.0",
-		"delegate-it": "^2.0.0",
+		"delegate-it": "^2.0.2",
 		"dom-chef": "^4.2.2",
 		"dom-loaded": "^2.0.0",
 		"doma": "^3.0.1",
