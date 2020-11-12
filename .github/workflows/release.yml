@@ -1,6 +1,6 @@
 env: {}
 
-# DO NOT EDIT BELOW - use `npx ghat fregante/ghatemplates/webext --set 'on.schedule=[{"cron": "42 17 * * 4"}]'`
+# DO NOT EDIT BELOW, USE: npx ghat fregante/ghatemplates/webext --set 'on.schedule=[{"cron": "42 17 * * 4"}]'
 
 name: Release
 on:
