@@ -12,7 +12,7 @@ import {appendBefore} from '../helpers/dom-utils';
 import {createDropdownItem} from './more-dropdown';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
-const cacheKey = `releases-count:${getRepo()!.nameWithOwner}`;
+const getCacheKey = (): string => `releases-count:${getRepo()!.nameWithOwner}`;
 
 function parseCountFromDom(): number {
 	const releasesCountElement = select('.numbers-summary a[href$="/releases"] .num');
@@ -44,13 +44,13 @@ async function fetchFromApi(): Promise<number> {
 const getReleaseCount = cache.function(async () => pageDetect.isRepoRoot() ? parseCountFromDom() : fetchFromApi(), {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 3},
-	cacheKey: () => cacheKey
+	cacheKey: getCacheKey
 });
 
 async function init(): Promise<false | void> {
 	// Always prefer the information in the DOM
 	if (pageDetect.isRepoRoot()) {
-		await cache.delete(cacheKey);
+		await cache.delete(getCacheKey());
 	}
 
 	const count = await getReleaseCount();

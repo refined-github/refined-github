@@ -48,7 +48,7 @@ export const buildRepoURL = (...pathParts: Array<string | number> & {0: string})
 		}
 	}
 
-	return [location.origin, getRepo()!.nameWithOwner, ...pathParts].join('/');
+	return [location.origin, getRepo()?.nameWithOwner, ...pathParts].join('/');
 };
 
 export const getPRHeadRepo = (): ReturnType<typeof getRepo> => {
