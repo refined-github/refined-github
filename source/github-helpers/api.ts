@@ -29,8 +29,8 @@ import mem from 'mem';
 import * as pageDetect from 'github-url-detection';
 import {JsonObject, AsyncReturnType} from 'type-fest';
 
-import optionsStorage from '../options-storage';
 import {getRepo} from '.';
+import optionsStorage from '../options-storage';
 
 interface JsonError {
 	message: string;
