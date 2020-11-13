@@ -5,9 +5,9 @@ import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {buildRepoURL} from '../github-helpers';
+import {getRepo} from '../github-helpers';
 
-const fragmentURL = buildRepoURL('show_partial?partial=tree%2Frecently_touched_branches_list');
+const fragmentURL = `/${getRepo()!.nameWithOwner}/show_partial?partial=tree%2Frecently_touched_branches_list`;
 const selector = `[data-url='${fragmentURL}' i], [src='${fragmentURL}' i]`;
 
 // Ajaxed pages will load a new fragment on every ajaxed load, but we only really need the one generated on the first load
