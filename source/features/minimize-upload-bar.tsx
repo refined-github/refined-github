@@ -4,14 +4,10 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function addMinimizeUploadBarClassname(): void {
-	for (const toolbarButton of select.all('md-ref')) {
-		toolbarButton.closest('form')!.classList.add('rgh-minimize-upload-bar');
-	}
-}
-
 function init(): void {
-	addMinimizeUploadBarClassname();
+	for (const commentForm of select.all('.js-previewable-comment-form')) {
+		commentForm.classList.add('rgh-minimize-upload-bar');
+	}
 }
 
 void features.add(__filebasename, {
