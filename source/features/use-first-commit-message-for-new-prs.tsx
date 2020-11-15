@@ -8,7 +8,6 @@ import looseParseInt from '../helpers/loose-parse-int';
 
 async function init(): Promise<void | false> {
 	const commitCount = (await elementReady<HTMLElement>('div.Box.mb-3 .octicon-git-commit'))?.nextElementSibling;
-	console.log(commitCount);
 	if (!commitCount || looseParseInt(commitCount.textContent!) < 2 || !select.exists('#new_pull_request')) {
 		return false;
 	}
