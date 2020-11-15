@@ -6,9 +6,8 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
-	dropdown.classList.add('rgh-marketplace-link'); // Mark this as processed
-	select.last('.dropdown-divider', dropdown)!.before(
+function handleMenuOpening(): void {
+	select.last('.header-nav-current-user ~ .dropdown-divider')!.before(
 		<div className="dropdown-divider"/>,
 		<a className="dropdown-item" href="/marketplace">Marketplace</a>
 	);
