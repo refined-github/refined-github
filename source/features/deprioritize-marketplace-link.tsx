@@ -1,25 +1,26 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
-import domLoaded from 'dom-loaded';
+import delegate from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-async function init(): Promise<void> {
-	const marketPlaceLink = (await elementReady('.Header-link[href="/marketplace"]'));
-	if (marketPlaceLink) {
-		// The Marketplace link seems to have an additional wrapper that other links don't have https://i.imgur.com/KV9rtSq.png
-		marketPlaceLink.closest('.border-top, .mr-3')!.remove();
-	}
-
-	await domLoaded;
-
-	select.last('.header-nav-current-user ~ .dropdown-divider')!.before(
+function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
+	dropdown.classList.add('rgh-marketplace-link'); // Mark this as processed
+	select.last('.dropdown-divider', dropdown)!.before(
 		<div className="dropdown-divider"/>,
 		<a className="dropdown-item" href="/marketplace">Marketplace</a>
 	);
+}
+
+async function init(): Promise<void> {
+	const marketPlaceLink = await elementReady('.Header-link[href="/marketplace"]');
+	// The Marketplace link seems to have an additional wrapper that other links don't have https://i.imgur.com/KV9rtSq.png
+	marketPlaceLink?.closest('.border-top, .mr-3')!.remove();
+
+	delegate(document, 'header div.Header-item [data-feature-preview-indicator-src]:not(.rgh-marketplace-link)', 'toggle', handleMenuOpening, true);
 }
 
 void features.add(__filebasename, {
