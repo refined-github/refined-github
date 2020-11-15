@@ -8,7 +8,7 @@ import fetchDom from '../helpers/fetch-dom';
 import {buildRepoURL} from '../github-helpers';
 
 // Look for the CI icon in the latest 2 days of commits #2990
-const getIcon = onetime(fetchDom.bind(null,
+const getIcon = onetime(async () => fetchDom(
 	buildRepoURL('commits'), [
 		'.commit-group:nth-of-type(-n+2) .commit-build-statuses', // Pre "Repository refresh" layout
 		'.TimelineItem--condensed:nth-of-type(-n+2) .commit-build-statuses'

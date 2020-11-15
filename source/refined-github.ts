@@ -200,6 +200,8 @@ import './features/next-scheduled-github-action';
 import './features/convert-pr-to-draft-improvements';
 import './features/git-checkout-pr';
 import './features/unfinished-comments';
+import './features/single-diff-column-selection';
+import './features/jump-to-change-requested-comment';
 import './features/esc-to-cancel';
 
 // Add global for easier debugging

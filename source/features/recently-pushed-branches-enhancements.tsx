@@ -5,19 +5,14 @@ import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {buildRepoURL} from '../github-helpers';
+import {getRepo} from '../github-helpers';
 
-const fragmentURL = buildRepoURL('show_partial?partial=tree%2Frecently_touched_branches_list');
+const fragmentURL = `/${getRepo()!.nameWithOwner}/show_partial?partial=tree%2Frecently_touched_branches_list`;
 const selector = `[data-url='${fragmentURL}' i], [src='${fragmentURL}' i]`;
 
-// Ajaxed pages will load a new fragment on every ajaxed load;
-// but we only really need the one generated on the first load
+// Ajaxed pages will load a new fragment on every ajaxed load, but we only really need the one generated on the first load
 function removeDuplicateList(): void {
-	const duplicate = select(selector, select('main')!);
-
-	if (duplicate) {
-		duplicate.remove();
-	}
+	select(selector, select('main')!)?.remove();
 }
 
 async function getWidget(): Promise<HTMLElement | false> {
@@ -25,8 +20,7 @@ async function getWidget(): Promise<HTMLElement | false> {
 		return select(selector)!;
 	}
 
-	// We need to verify that the repo has any recently pushed branches or else it will break the page
-	// https://github.com/sindresorhus/refined-github/issues/1964
+	// We need to verify that the repo has any recently pushed branches or else it will break the page #1964
 	const repoRootUrl = location.pathname.split('/', 3).join('/');
 	const response = await fetch(location.origin + repoRootUrl);
 	const html = await response.text();
