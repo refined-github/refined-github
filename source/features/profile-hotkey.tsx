@@ -1,10 +1,13 @@
+import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 
 import features from '.';
 
 function init(): void {
-	select('a[data-ga-click$="text:your profile"]')!.dataset.hotkey = 'g m';
+	// This exists on all pages even gists
+	const {origin} = new URL(select('.js-notification-shelf-include-fragment')!.dataset.baseSrc!);
+	document.body.append(<a className="d-none" data-hotkey="g m" href={origin + '/profile'}/>);
 }
 
 void features.add(__filebasename, {
