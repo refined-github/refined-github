@@ -1,7 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
-import delegate from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -20,7 +19,9 @@ async function init(): Promise<void> {
 		// The Marketplace link seems to have an additional wrapper that other links don't have https://i.imgur.com/KV9rtSq.png
 		?.closest('.border-top, .mr-3')!.remove();
 
-	delegate(document, 'header div.Header-item [data-feature-preview-indicator-src]:not(.rgh-marketplace-link)', 'toggle', handleMenuOpening, true);
+	(await elementReady('[aria-label="View profile and more"]'))
+		?.closest('details')!
+		.addEventListener('toggle', handleMenuOpening, {once: true});
 }
 
 void features.add(__filebasename, {
