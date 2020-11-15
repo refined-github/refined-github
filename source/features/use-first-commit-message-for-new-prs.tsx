@@ -7,14 +7,13 @@ import features from '.';
 import looseParseInt from '../helpers/loose-parse-int';
 
 async function init(): Promise<void | false> {
-	const commitsBucket = await elementReady<HTMLElement>('#commits_bucket');
-	const commitCount = commitsBucket?.previousElementSibling?.querySelector('ul > li:nth-child(1) .text-emphasized');
-
+	const commitCount = (await elementReady<HTMLElement>('div.Box.mb-3 .octicon-git-commit'))?.nextElementSibling;
+	console.log(commitCount);
 	if (!commitCount || looseParseInt(commitCount.textContent!) < 2 || !select.exists('#new_pull_request')) {
 		return false;
 	}
 
-	const [prTitle, ...prMessage] = select('[data-url$="compare/commit"] a[title]', commitsBucket)!.title.split(/\n\n/);
+	const [prTitle, ...prMessage] = select('#commits_bucket [data-url$="compare/commit"] a[title]')!.title.split(/\n\n/);
 
 	textFieldEdit.set(
 		select<HTMLInputElement>('.discussion-topic-header input')!,
