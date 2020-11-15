@@ -136,11 +136,7 @@ async function init(): Promise<false | void> {
 
 	// Update "selected" tab mark
 	if (pageDetect.isReleasesOrTags()) {
-		const selected = select('.reponav-item.selected');
-		if (selected) {
-			selected.classList.remove('js-selected-navigation-item', 'selected');
-		}
-
+		select('.reponav-item.selected')?.classList.remove('js-selected-navigation-item', 'selected');
 		releasesTab.classList.add('js-selected-navigation-item', 'selected');
 		releasesTab.dataset.selectedLinks = 'repo_releases'; // Required for ajaxLoad
 	}
