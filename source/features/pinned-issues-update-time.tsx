@@ -30,7 +30,7 @@ const getLastUpdated = cache.function(async (issueNumbers: number[]): Promise<Re
 });
 
 function getPinnedIssueNumber(pinnedIssue: HTMLElement): number {
-	return looseParseInt(select('.opened-by', pinnedIssue)!.firstChild!.textContent!);
+	return looseParseInt(select('.opened-by', pinnedIssue)!.firstChild!);
 }
 
 async function init(): Promise<void | false> {
