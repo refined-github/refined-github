@@ -2,12 +2,38 @@ import './render-conversation-template.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
+import { flatZip } from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
+import concatRegex from '../helpers/concat-regex';
+import fitTextarea from 'fit-textarea';
+
+/* Like `string.split(regex)`, except that it ignores regex groups */
+function betweenMatches(string: string, regex: RegExp) {
+	const matches = [...string.matchAll(regex)];
+	const between = [];
+	for (const [index, match] of matches.entries()) {
+		if (index === 0 && match.index !== 0) {
+			between.push(string.slice(0, match.index))
+		}
+
+		between.push(string.slice(
+			match.index! + match[0].length,
+			matches[index + 1]?.index
+		));
+	}
+
+	return between;
+}
 
 const placeholder = '%%%#%%%';
+const regex = concatRegex(
+	/(?<initial>^|\n\n)/, // At the beginning or at the start of a paragraph
+	/(?<formatting>\*\*|#+\s+)/, // Bold or heading
+	/(?<label>[^\n]+)/g // Capture the header/label
+);
 
 /** Render using GitHub’s "Preview" feature */
 async function markdownToHTML(markdown: string): Promise<string> {
@@ -29,7 +55,7 @@ function generateForm(html: string): Element {
 
 	// Move the text immediately following the field to the field’s placeholder
 	for (const field of select.all('textarea', renderedTemplate)) {
-		field.placeholder = field.parentElement!.textContent!.trim();
+		field.value = field.parentElement!.textContent!.trim();
 		while (field.nextSibling) {
 			field.nextSibling.remove();
 		}
@@ -41,28 +67,43 @@ function generateForm(html: string): Element {
 async function init(): Promise<void | false> {
 	const originalField = select<HTMLTextAreaElement>('.js-comment-field')!;
 
-	const [preservePRText, template] = originalField.value.split('<!-- Please follow the template -->');
+	const [dynamicallyInjectedCommitText, template] = originalField.value.split('<!-- Please follow the template -->');
 	if (!template) {
 		return false;
 	}
 
 	// This will let us place the textarea’s values back into this string before submission
-	const templateWithPlaceholders = template
-		.replaceAll(/:[*_\s]+\n/g, `$&\n${placeholder}`);
+	const labels = [...template.matchAll(regex)].map(match => (
+		<h3>
+			{match.groups?.label.replace(/\*\*$/, '')}
+		</h3>
+	));
 
-	// Makes comments visible, but only in the rendered template
-	const renderableTemplate = templateWithPlaceholders
-		.replaceAll('<!--', '')
-		.replaceAll('-->', '');
+	const values = betweenMatches(template, regex).map(value => {
+		console.log(value);
 
-	const renderedTemplate = generateForm(await markdownToHTML(renderableTemplate));
+		const nodes = [];
+		value = value.replace(/<!--(.+)-->/, (_, comment) => {
+			nodes.push(<p>{comment}</p>);
+			return '';
+		});
+		nodes.push(<textarea style={{minHeight: 0}}>{value.trim()}</textarea>);
+		return nodes;
+	});
+
+	const renderedTemplate = <div className="comment-body markdown-body">{...flatZip<JSX.Element | JSX.Element[]>([labels, values]).flat()}</div>;
 	select('markdown-toolbar')!.before(renderedTemplate);
+	renderedTemplate.parentElement!.classList.add('flex-lg-column')
 
-	// Set original, template-less text back into the field
-	textFieldEdit.set(originalField, preservePRText);
+	// Set commit text back into the field
+	textFieldEdit.set(originalField, dynamicallyInjectedCommitText);
 
 	// Focus first textarea
 	select('textarea', renderedTemplate)!.focus();
+
+	for (const field of select.all('textarea', renderedTemplate)) {
+		fitTextarea(field);
+	}
 
 	// Merge textareas
 	// TODO: Do this every time the preview is generated (before it's sent to GitHub)
@@ -79,9 +120,7 @@ async function init(): Promise<void | false> {
 	});
 }
 
-void features.add({
-	id: __filebasename
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isNewIssue,
 		pageDetect.isQuickPR,
