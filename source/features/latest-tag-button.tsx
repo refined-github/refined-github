@@ -12,7 +12,7 @@ import pluralize from '../helpers/pluralize';
 import GitHubURL from '../github-helpers/github-url';
 import {groupButtons} from '../github-helpers/group-buttons';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getRepoURL, getCurrentBranch, getRepoGQL, getLatestVersionTag} from '../github-helpers';
+import {buildRepoURL, getCurrentBranch, getRepoGQL, getLatestVersionTag, getRepo} from '../github-helpers';
 
 interface RepoPublishState {
 	latestTag: string | false;
@@ -73,13 +73,9 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 
 	return {latestTag, aheadBy};
 }, {
-	maxAge: {
-		hours: 1
-	},
-	staleWhileRevalidate: {
-		days: 2
-	},
-	cacheKey: () => `tag-ahead-by:${getRepoURL()}`
+	maxAge: {hours: 1},
+	staleWhileRevalidate: {days: 2},
+	cacheKey: () => `tag-ahead-by:${getRepo()!.nameWithOwner}`
 });
 
 async function init(): Promise<false | void> {
@@ -88,7 +84,7 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	const currentBranch = getCurrentBranch();
+	const currentBranch = getCurrentBranch()!;
 	const url = new GitHubURL(location.href);
 	url.assign({
 		route: url.route || 'tree', // If route is missing, it's a repo root
@@ -96,7 +92,7 @@ async function init(): Promise<false | void> {
 	});
 
 	const link = (
-		<a className="btn btn-sm btn-outline ml-2 flex-self-center" href={String(url)}>
+		<a className="btn btn-sm btn-outline ml-2 flex-self-center rgh-latest-tag-button" href={String(url)}>
 			<TagIcon/>
 		</a>
 	);
@@ -126,7 +122,7 @@ async function init(): Promise<false | void> {
 			const compareLink = (
 				<a
 					className="btn btn-sm btn-outline tooltipped tooltipped-ne"
-					href={`/${getRepoURL()}/compare/${latestTag}...${defaultBranch}`}
+					href={buildRepoURL(`compare/${latestTag}...${defaultBranch}`)}
 					aria-label={`Compare ${latestTag}...${defaultBranch}`}
 				>
 					<DiffIcon/>
@@ -138,18 +134,14 @@ async function init(): Promise<false | void> {
 		link.setAttribute('aria-label', 'Visit the latest release');
 	}
 
-	link.classList.add('tooltipped', 'tooltipped-ne', 'rgh-latest-tag-button');
+	link.classList.add('tooltipped', 'tooltipped-ne');
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds link to the latest version tag on directory listings and files.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/74594998-71df2080-5077-11ea-927c-b484ca656e88.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init
 });

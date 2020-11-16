@@ -5,7 +5,7 @@ import OctofaceIcon from '@primer/octicons/build/svg/octoface.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getRepoURL} from '../github-helpers';
+import {buildRepoURL} from '../github-helpers';
 
 // We're reusing the Branch/Tag selector from the repo's Code tab, so we need to update a few things
 function changeTabToTags(): void {
@@ -32,7 +32,7 @@ function init(): void {
 				<details-menu
 					preload
 					className="select-menu-modal position-absolute dropdown-menu-sw"
-					src={`/${getRepoURL()}/ref-list/master?source_action=disambiguate&source_controller=files`}
+					src={buildRepoURL('ref-list/master?source_action=disambiguate&source_controller=files')}
 					role="menu"
 					style={{zIndex: 99}}
 				>
@@ -50,11 +50,7 @@ function init(): void {
 	select('.rgh-tags-dropdown')!.addEventListener('remote-input-success', updateLinksToTag);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a tags dropdown/search on tag/release pages.',
-	screenshot: 'https://user-images.githubusercontent.com/22439276/56373231-27ee9980-621e-11e9-9b21-601919d3dddf.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isReleasesOrTags
 	],

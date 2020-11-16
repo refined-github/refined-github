@@ -1,13 +1,28 @@
 import './view-markdown-source.css';
 import React from 'dom-chef';
+import domify from 'doma';
 import select from 'select-dom';
+import onetime from 'onetime';
 import delegate from 'delegate-it';
-import CodeIcon from 'octicon/code.svg';
-import FileIcon from 'octicon/file.svg';
 import * as pageDetect from 'github-url-detection';
+
+import FileIcon from 'octicon/file.svg';
+import CodeIcon from 'octicon/code.svg';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
+import GitHubURL from '../github-helpers/github-url';
+import {buildRepoURL} from '../github-helpers';
+
+const lineActions = onetime(async () => {
+	// Avoid having to create the entire 60 lines of JSX. The URL is hardcoded to a file we know the DOM exists.
+	const randomKnownFile = 'https://github.com/sindresorhus/refined-github/blob/b1229bbaeb8cf071f0711bc2ed1b40dd96cd7a05/.editorconfig';
+	const html = await browser.runtime.sendMessage({request: randomKnownFile});
+	const blobToolbar = domify(html).querySelector('.BlobToolbar')!;
+	select<HTMLAnchorElement>('#js-view-git-blame', blobToolbar)!.href = new GitHubURL(location.href).assign({route: 'blame'}).href;
+	select<HTMLAnchorElement>('#js-new-issue', blobToolbar)!.href = buildRepoURL('issues/new');
+	return blobToolbar;
+});
 
 const buttonBodyMap = new WeakMap<Element, Element | Promise<Element>>();
 
@@ -53,8 +68,9 @@ async function showSource(): Promise<void> {
 	sourceButton.classList.add('selected');
 	renderedButton.classList.remove('selected');
 	blurButton(sourceButton);
-
 	dispatchEvent(sourceButton, 'rgh:view-markdown-source');
+
+	(await source).before(await lineActions());
 }
 
 async function showRendered(): Promise<void> {
@@ -70,8 +86,9 @@ async function showRendered(): Promise<void> {
 	sourceButton.classList.remove('selected');
 	renderedButton.classList.add('selected');
 	blurButton(renderedButton);
-
 	dispatchEvent(sourceButton, 'rgh:view-markdown-rendered');
+
+	(await lineActions()).remove();
 }
 
 async function init(): Promise<void> {
@@ -105,11 +122,7 @@ async function init(): Promise<void> {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a button to view the source of Markdown files.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/54814836-7bc39c80-4ccb-11e9-8996-9ecf4f6036cb.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isSingleFile
 	],

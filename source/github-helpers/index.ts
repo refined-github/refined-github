@@ -1,16 +1,16 @@
 import select from 'select-dom';
 import onetime from 'onetime';
-import compareVersions from 'tiny-version-compare';
-import * as pageDetect from 'github-url-detection/esm/index.js'; // eslint-disable-line import/extensions -- Required for Node tests compatibility
 import elementReady from 'element-ready';
+import compareVersions from 'tiny-version-compare';
+import * as pageDetect from 'github-url-detection';
 
 // This never changes, so it can be cached here
 export const getUsername = onetime(pageDetect.utils.getUsername);
-export const {getRepoPath, getCleanPathname} = pageDetect.utils;
+export const {getRepositoryInfo: getRepo, getCleanPathname} = pageDetect.utils;
 
 export const getConversationNumber = (): string | undefined => {
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
-		return getCleanPathname().split('/')[3];
+		return location.pathname.split('/')[4];
 	}
 
 	return undefined;
@@ -21,9 +21,15 @@ Tested on isRepoTree, isBlame, isSingleFile, isEditFile, isSingleCommit, isCommi
 Example tag content on public repositories: https://github.com/sindresorhus/refined-github/commits/branch-or-commit/even/with/slashes.atom
 Example tag content on private repositories https://github.com/private/private/commits/master.atom?token=AEAXKWNRHXA2XJ2ZWCMGUUN44LM62
 */
-export const getCurrentBranch = (): string => {
+export const getCurrentBranch = (): string | undefined => {
 	// .last needed for #2799
-	return new URL(select.last<HTMLLinkElement>('[type="application/atom+xml"]')!.href)
+	const feedLink = select.last<HTMLLinkElement>('[type="application/atom+xml"]');
+	// The feedLink is not available on `isIssue` #3641
+	if (!feedLink) {
+		return;
+	}
+
+	return new URL(feedLink.href)
 		.pathname
 		.split('/')
 		.slice(4) // Drops the initial /user/repo/route/ part
@@ -33,19 +39,25 @@ export const getCurrentBranch = (): string => {
 
 export const isFirefox = navigator.userAgent.includes('Firefox/');
 
-export const getRepoURL = (): string => location.pathname.slice(1).split('/', 2).join('/').toLowerCase();
-export const getRepoGQL = (): string => {
-	const {owner, name} = getRepositoryInfo();
-	return `owner: "${owner!}", name: "${name!}"`;
+// The type requires at least one parameter https://stackoverflow.com/a/49910890
+export const buildRepoURL = (...pathParts: Array<string | number> & {0: string}): string => {
+	for (const part of pathParts) {
+		// TODO: Can TypeScript take care of this? With https://devblogs.microsoft.com/typescript/announcing-typescript-4-1-beta/#template-literal-types
+		if (typeof part === 'string' && /^\/|\/$/.test(part)) {
+			throw new TypeError('The path parts shouldn’t start or end with a slash: ' + part);
+		}
+	}
+
+	return [location.origin, getRepo()?.nameWithOwner, ...pathParts].join('/');
 };
 
-export interface RepositoryInfo {
-	owner: string;
-	name: string;
-}
-export const getRepositoryInfo = (repoUrl: string = location.pathname.slice(1)): Partial<RepositoryInfo> => {
-	const [owner, name] = repoUrl.split('/', 2);
-	return {owner, name};
+export const getRepoGQL = (): string => {
+	const {owner, name} = getRepo()!;
+	return `owner: "${owner}", name: "${name}"`;
+};
+
+export const getPRHeadRepo = (): ReturnType<typeof getRepo> => {
+	return getRepo(select<HTMLAnchorElement>('.commit-ref.head-ref a')!);
 };
 
 export function getForkedRepo(): string | undefined {
@@ -98,6 +110,9 @@ const escapeRegex = (string: string): string => string.replace(/[\\^$.*+?()[\]{}
 const prCommitPathnameRegex = /[/][^/]+[/][^/]+[/]pull[/](\d+)[/]commits[/]([\da-f]{7})[\da-f]{33}(?:#[\w-]+)?\b/; // eslint-disable-line unicorn/better-regex
 export const prCommitUrlRegex = new RegExp('\\b' + escapeRegex(location.origin) + prCommitPathnameRegex.source, 'gi');
 
+const prComparePathnameRegex = /[/][^/]+[/][^/]+[/]compare[/](.+)(#diff-[\da-fR-]+)/; // eslint-disable-line unicorn/better-regex
+export const prCompareUrlRegex = new RegExp('\\b' + escapeRegex(location.origin) + prComparePathnameRegex.source, 'gi');
+
 // To be used as replacer callback in string.replace()
 export function preventPrCommitLinkLoss(url: string, pr: string, commit: string, index: number, fullText: string): string {
 	if (fullText[index + url.length] === ')') {
@@ -107,6 +122,15 @@ export function preventPrCommitLinkLoss(url: string, pr: string, commit: string,
 	return `[\`${commit}\` (#${pr})](${url})`;
 }
 
+// To be  used as replacer callback in string.replace() for compare links
+export function preventPrCompareLinkLoss(url: string, compare: string, hash: string, index: number, fullText: string): string {
+	if (fullText[index + url.length] === ')') {
+		return url;
+	}
+
+	return `[\`${compare}\`${hash.slice(0, 16)}](${url})`;
+}
+
 // https://github.com/idimetrix/text-case/blob/master/packages/upper-case-first/src/index.ts
 export function upperCaseFirst(input: string): string {
 	return input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
@@ -114,7 +138,7 @@ export function upperCaseFirst(input: string): string {
 
 /** Is tag or commit, with elementReady */
 export async function isPermalink(): Promise<boolean> {
-	if (/^[\da-f]{40}$/.test(getCurrentBranch())) {
+	if (/^[\da-f]{40}$/.test(getCurrentBranch()!)) {
 		// It's a commit
 		return true;
 	}

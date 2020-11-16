@@ -6,7 +6,7 @@ import tinyVersionCompare from 'tiny-version-compare';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
-import {getRepoPath, getRepoURL, parseTag} from '../github-helpers';
+import {buildRepoURL, getRepo, parseTag} from '../github-helpers';
 
 interface TagDetails {
 	element: HTMLElement;
@@ -22,9 +22,9 @@ async function getNextPage(): Promise<DocumentFragment> {
 		return fetchDom(nextPageLink.href);
 	}
 
-	if (pageDetect.isSingleTagPage()) {
-		const [, tag = ''] = getRepoPath()!.split('releases/tag/', 2); // Already URL-encoded
-		return fetchDom(`/${getRepoURL()}/tags?after=${tag}`);
+	if (pageDetect.isSingleTag()) {
+		const [, tag = ''] = getRepo()!.path.split('releases/tag/', 2); // Already URL-encoded
+		return fetchDom(buildRepoURL(`tags?after=${tag}`));
 	}
 
 	return new DocumentFragment();
@@ -97,7 +97,7 @@ async function init(): Promise<void> {
 						<a
 							className="muted-link tooltipped tooltipped-n"
 							aria-label={'See changes since ' + decodeURIComponent(previousTag)}
-							href={`/${getRepoURL()}/compare/${previousTag}...${allTags[index].tag}`}
+							href={buildRepoURL(`compare/${previousTag}...${allTags[index].tag}`)}
 						>
 							<DiffIcon/> Changelog
 						</a>
@@ -112,11 +112,7 @@ async function init(): Promise<void> {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a link to an automatic changelog for each tag/release.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/57081611-ad4a7180-6d27-11e9-9cb6-c54ec1ac18bb.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isReleasesOrTags
 	],

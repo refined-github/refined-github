@@ -20,15 +20,11 @@ function deinit(): void {
 	window.removeEventListener('keyup', handler);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Enhances the `y` hotkey to also copy the permalink.',
-	screenshot: false
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isSingleFile
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	repeatOnBackButton: true,
 	init,
 	deinit

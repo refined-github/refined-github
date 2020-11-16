@@ -3,8 +3,8 @@ import linkifyURLsCore from 'linkify-urls';
 import linkifyIssuesCore from 'linkify-issues';
 
 import getTextNodes from '../helpers/get-text-nodes';
-import {getRepositoryInfo} from '.';
 import parseBackticksCore from './parse-backticks';
+import {getRepo} from '.';
 
 // Shared class necessary to avoid also shortening the links
 export const linkifiedURLClass = 'rgh-linkified-code';
@@ -12,7 +12,7 @@ export const linkifiedURLClass = 'rgh-linkified-code';
 // If we are not in a repo, relative issue references won't make sense
 // but `user`/`repo` need to be set to avoid breaking errors in `linkify-issues`
 // https://github.com/sindresorhus/refined-github/issues/1305
-const currentRepo = getRepositoryInfo();
+const currentRepo = getRepo()!;
 
 export function linkifyIssues(element: Element, options: Partial<linkifyIssuesCore.TypeDomOptions> = {}): void {
 	const linkified = linkifyIssuesCore(element.textContent!, {

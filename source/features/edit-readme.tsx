@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import PencilIcon from 'octicon/pencil.svg';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -9,7 +10,7 @@ import {isPermalink} from '../github-helpers';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 
 async function init(): Promise<void | false> {
-	const readmeHeader = select('#readme .Box-header h2');
+	const readmeHeader = await elementReady('#readme .Box-header h2');
 	if (!readmeHeader) {
 		return false;
 	}
@@ -48,13 +49,10 @@ async function init(): Promise<void | false> {
 	);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Ensures that the “Edit readme” button always appears (even when you have to make a fork) and works (GitHub’s link does’t work on git tags).',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/62073307-a8378880-b26a-11e9-9e31-be6525d989d2.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoTree
 	],
+	awaitDomReady: false,
 	init
 });

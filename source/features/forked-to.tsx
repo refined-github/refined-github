@@ -12,25 +12,21 @@ import LinkExternalIcon from 'octicon/link-external.svg';
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import GitHubURL from '../github-helpers/github-url';
-import {getRepoURL, getUsername, getForkedRepo} from '../github-helpers';
+import {getUsername, getForkedRepo, getRepo} from '../github-helpers';
 
-const getForkSourceRepo = (): string => getForkedRepo() ?? getRepoURL();
-const getCacheKey = (): string => `forked-to:${getUsername()}@${getForkSourceRepo().toLowerCase()}`;
+const getForkSourceRepo = (): string => getForkedRepo() ?? getRepo()!.nameWithOwner;
+const getCacheKey = (): string => `forked-to:${getForkSourceRepo()}@${getUsername()}`;
 
 const updateCache = cache.function(async (): Promise<string[] | undefined> => {
 	const document = await fetchDom(`/${getForkSourceRepo()}/fork?fragment=1`);
 	const forks = select
 		.all('.octicon-repo-forked', document)
-		.map(({nextSibling}) => nextSibling!.textContent!.trim().toLowerCase());
+		.map(({nextSibling}) => nextSibling!.textContent!.trim());
 
 	return forks.length > 0 ? forks : undefined;
 }, {
-	maxAge: {
-		hours: 1
-	},
-	staleWhileRevalidate: {
-		days: 5
-	},
+	maxAge: {hours: 1},
+	staleWhileRevalidate: {days: 5},
 	cacheKey: getCacheKey
 });
 
@@ -49,7 +45,7 @@ function createLink(baseRepo: string): string {
 
 async function updateUI(forks: string[]): Promise<void> {
 	// Don't add button if you're visiting the only fork available
-	if (forks.length === 1 && forks[0] === getRepoURL()) {
+	if (forks.length === 1 && forks[0] === getRepo()!.nameWithOwner) {
 		return;
 	}
 
@@ -82,11 +78,11 @@ async function updateUI(forks: string[]): Promise<void> {
 					{forks.map(fork => (
 						<a
 							href={createLink(fork)}
-							className={`select-menu-item ${fork === getRepoURL() ? 'selected' : ''}`}
+							className={`select-menu-item ${fork === getRepo()!.nameWithOwner ? 'selected' : ''}`}
 							title={`Open your fork at ${fork}`}
 						>
 							<span className="select-menu-item-icon rgh-forked-to-icon">
-								{fork === getRepoURL() ? <CheckIcon/> : <ForkIcon/>}
+								{fork === getRepo()!.nameWithOwner ? <CheckIcon/> : <ForkIcon/>}
 							</span>
 							{fork}
 						</a>
@@ -115,14 +111,10 @@ async function init(): Promise<void | false> {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a shortcut to your forks next to the `Fork` button on the current repo.',
-	screenshot: 'https://user-images.githubusercontent.com/55841/64077281-17bbf000-cccf-11e9-9123-092063f65357.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepo
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init
 });

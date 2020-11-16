@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepoGQL, getRepoURL} from '../github-helpers';
+import {getRepoGQL, getRepo} from '../github-helpers';
 
 const reviewsFilterSelector = '#reviews-select-menu';
 
@@ -81,10 +81,8 @@ const hasChecks = cache.function(async (): Promise<boolean> => {
 
 	return repository.head.history.nodes.some((commit: AnyObject) => commit.statusCheckRollup);
 }, {
-	maxAge: {
-		days: 3
-	},
-	cacheKey: () => __filebasename + ':' + getRepoURL()
+	maxAge: {days: 3},
+	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner
 });
 
 async function addChecksFilter(): Promise<void> {
@@ -119,14 +117,10 @@ async function init(): Promise<void> {
 	await addChecksFilter();
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds Checks and Draft PR dropdown filters in PR lists.',
-	screenshot: 'https://user-images.githubusercontent.com/202916/74453250-6d9de200-4e82-11ea-8fd4-7c0de57e001a.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRList
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init
 });

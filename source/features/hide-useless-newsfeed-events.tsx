@@ -8,14 +8,10 @@ function init(): void {
 	document.body.classList.add('rgh-no-useless-events');
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Hides inutile newsfeed events (commits, forks, new followers).',
-	screenshot: false
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isDashboard
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: onetime(init)
 });

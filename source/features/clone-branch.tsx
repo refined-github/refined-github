@@ -1,6 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import onetime from 'onetime';
 import delegate from 'delegate-it';
+import {observe} from 'selector-observer';
 import GitBranchIcon from 'octicon/git-branch.svg';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
@@ -8,8 +10,7 @@ import * as textFieldEdit from 'text-field-edit';
 import features from '.';
 import * as api from '../github-helpers/api';
 import LoadingIcon from '../github-helpers/icon-loading';
-import observeElement from '../helpers/simplified-element-observer';
-import {getRepoURL, getRepoGQL} from '../github-helpers';
+import {getRepoGQL} from '../github-helpers';
 
 const getBranchBaseSha = async (branchName: string): Promise<string> => {
 	const {repository} = await api.v4(`
@@ -26,7 +27,7 @@ const getBranchBaseSha = async (branchName: string): Promise<string> => {
 };
 
 async function createBranch(newBranchName: string, baseSha: string): Promise<true | string> {
-	const response = await api.v3(`repos/${getRepoURL()}/git/refs`, {
+	const response = await api.v3('git/refs', {
 		method: 'POST',
 		body: {
 			sha: baseSha,
@@ -71,43 +72,32 @@ async function cloneBranch({delegateTarget: cloneButton}: delegate.Event<MouseEv
 
 async function init(): Promise<void | false> {
 	await api.expectToken();
-	const deleteIcons = select.all([
+	const deleteIconClass = [
 		'branch-filter-item-controller .octicon-trashcan', // Pre "Repository refresh" layout
 		'branch-filter-item .octicon-trashcan'
-	]);
-	// If the user does not have rights to delete a branch, they can’t create one either
-	if (deleteIcons.length === 0) {
-		return false;
-	}
+	].join();
 
-	for (const deleteIcon of deleteIcons) {
-		// Branches with open PRs use `span`, the others use `form`
-		deleteIcon.closest('form, span')!.before(
-			<button
-				type="button"
-				aria-label="Clone this branch"
-				className="link-gray btn-link tooltipped tooltipped-nw ml-3 rgh-clone-branch"
-			>
-				<GitBranchIcon/>
-			</button>
-		);
-	}
+	observe(deleteIconClass, {
+		add(deleteIcon) {
+			// Branches with open PRs use `span`, the others use `form`
+			deleteIcon.closest('form, span')!.before(
+				<button
+					type="button"
+					aria-label="Clone this branch"
+					className="link-gray btn-link tooltipped tooltipped-nw ml-3 rgh-clone-branch"
+				>
+					<GitBranchIcon/>
+				</button>
+			);
+		}
+	});
 
 	delegate(document, '.rgh-clone-branch', 'click', cloneBranch);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Clone a branch from the branches list.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/76802029-2a020500-67ad-11ea-95dc-bee1b1352976.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isBranches
 	],
-	init() {
-		observeElement([
-			'[data-target="branch-filter-controller.results"]', // Pre "Repository refresh" layout
-			'[data-target="branch-filter.result"]'
-		].join(), init);
-	}
+	init: onetime(init)
 });

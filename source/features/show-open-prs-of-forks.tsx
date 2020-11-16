@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import pluralize from '../helpers/pluralize';
-import {getForkedRepo, getUsername, getRepoURL} from '../github-helpers';
+import {getForkedRepo, getUsername, getRepo} from '../github-helpers';
 
 function getLinkCopy(count: number): string {
 	return pluralize(count, 'one open pull request', '$$ open pull requests');
@@ -32,7 +32,7 @@ const countPRs = cache.function(async (forkedRepo: string): Promise<[prCount: nu
 	`);
 
 	// Only show PRs originated from the current repo
-	const prs = search.nodes.filter((pr: AnyObject) => pr.headRepository.nameWithOwner.toLowerCase() === getRepoURL());
+	const prs = search.nodes.filter((pr: AnyObject) => pr.headRepository.nameWithOwner === getRepo()!.nameWithOwner);
 
 	// If only one is found, pass the PR number so we can link to the PR directly
 	if (prs.length === 1) {
@@ -41,13 +41,9 @@ const countPRs = cache.function(async (forkedRepo: string): Promise<[prCount: nu
 
 	return [prs.length];
 }, {
-	maxAge: {
-		hours: 1
-	},
-	staleWhileRevalidate: {
-		days: 2
-	},
-	cacheKey: ([forkedRepo]): string => 'prs-on-forked-repo:' + forkedRepo + ':' + getRepoURL()
+	maxAge: {hours: 1},
+	staleWhileRevalidate: {days: 2},
+	cacheKey: ([forkedRepo]): string => 'prs-on-forked-repo:' + forkedRepo + ':' + getRepo()!.nameWithOwner
 });
 
 async function getPRs(): Promise<[prCount: number, url: string] | []> {
@@ -93,18 +89,14 @@ async function initDeleteHint(): Promise<void | false> {
 	);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'In your forked repos, shows number of your open PRs to the original repo.',
-	screenshot: 'https://user-images.githubusercontent.com/1922624/76398271-e0648500-637c-11ea-8210-53dda1be9d51.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepo
 	],
 	exclude: [
 		() => !pageDetect.isForkedRepo()
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: initHeadHint
 }, {
 	include: [
@@ -113,6 +105,6 @@ void features.add({
 	exclude: [
 		() => !pageDetect.isForkedRepo()
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: initDeleteHint
 });

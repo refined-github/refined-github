@@ -36,11 +36,7 @@ function deinit(): void {
 	window.removeEventListener('pjax:start', unloadHandler);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Preserves the search terms when navigating back and forth between the File Finder and the files.',
-	screenshot: false
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isFileFinder
 	],

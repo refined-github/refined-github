@@ -61,6 +61,19 @@ p {
 	flex-grow: 1;
 }
 
+.js-features kbd {
+	display: inline-block;
+	padding: 3px 5px;
+	font-size: 0.8em;
+	line-height: 10px;
+	color: #444d56;
+	vertical-align: middle;
+	background-color: #fafbfc;
+	border: 1px solid #d1d5da;
+	border-radius: 6px;
+	box-shadow: inset 0 -1px 0 #d1d5da;
+}
+
 .feature-new .feature-name::after {
 	display: inline-block; /* Avoids the strikethrough on disabled features */
 	content: 'New';
@@ -96,4 +109,24 @@ p {
 
 #debugging p:last-child {
 	margin-bottom: 0;
+}
+
+/* Safari only */
+/* TODO: move to `webext-base-css` once stabilized */
+_::-webkit-full-page-media,
+_:future,
+:root {
+	font-family: -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji';
+}
+
+/* Safari only */
+/* TODO: move to `webext-base-css` once stabilized */
+_::-webkit-full-page-media,
+_:future,
+textarea,
+[type='text'] {
+	border: solid 1px rgb(128 128 128);
+	padding: 0.4em;
+	font: inherit;
+	-webkit-appearance: none;
 }

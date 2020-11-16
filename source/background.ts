@@ -1,4 +1,5 @@
 import 'webext-dynamic-content-scripts';
+import cache from 'webext-storage-cache'; // Also needed to regularly clear the cache
 import addDomainPermissionToggle from 'webext-domain-permission-toggle';
 import './options-storage';
 
@@ -30,11 +31,22 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 		}
 
 		await browser.tabs.create({
-			url: 'https://github.com/sindresorhus/refined-github/issues/1137',
+			url: 'https://github.com/sindresorhus/refined-github/issues/3543',
 			active: false
 		});
 	}
+
+	// Hope that the feature was fixed in this version
+	await cache.delete('hotfix');
 });
 
 // GitHub Enterprise support
 addDomainPermissionToggle();
+
+// `background` fetch required to avoid avoid CORB introduced in Chrome 73 https://chromestatus.com/feature/5629709824032768
+// Don’t turn this into an `async` function https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/onMessage#addListener_syntax
+browser.runtime.onMessage.addListener((message): Promise<string> | void => {
+	if (message?.request) {
+		return fetch(message.request).then(async response => response.text());
+	}
+});

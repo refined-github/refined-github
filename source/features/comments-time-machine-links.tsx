@@ -8,7 +8,7 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
 import {appendBefore} from '../helpers/dom-utils';
-import {getRepoURL, isPermalink, getRepoGQL} from '../github-helpers';
+import {buildRepoURL, isPermalink, getRepoGQL} from '../github-helpers';
 
 async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> {
 	const {repository} = await api.v4(`
@@ -62,7 +62,7 @@ function addDropdownLink(comment: HTMLElement, timestamp: string): void {
 		<>
 			<div className="dropdown-divider"/>
 			<a
-				href={`/${getRepoURL()}/tree/HEAD@{${timestamp}}`}
+				href={buildRepoURL(`tree/HEAD@{${timestamp}}`)}
 				className="dropdown-item btn-link"
 				role="menuitem"
 				title="Browse repository like it appeared on this day"
@@ -133,11 +133,7 @@ function init(): void {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds links to browse the repository and linked files at the time of each comment.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/56450896-68076680-635b-11e9-8b24-ebd11cc4e655.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.hasComments
 	],
@@ -151,6 +147,6 @@ void features.add({
 	exclude: [
 		() => !new URLSearchParams(location.search).has('rgh-link-date')
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: showTimemachineBar
 });

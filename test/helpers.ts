@@ -5,14 +5,16 @@ import pluralize from '../source/helpers/pluralize';
 import looseParseInt from '../source/helpers/loose-parse-int';
 import {
 	getConversationNumber,
-	getRepositoryInfo,
 	parseTag,
 	compareNames,
 	getScopedSelector,
 	getLatestVersionTag,
 	preventPrCommitLinkLoss,
-	prCommitUrlRegex
+	preventPrCompareLinkLoss,
+	prCommitUrlRegex,
+	prCompareUrlRegex
 } from '../source/github-helpers';
+import {getParsedBackticksParts} from '../source/github-helpers/parse-backticks';
 
 test('getConversationNumber', t => {
 	const pairs = new Map<string, string | undefined>([
@@ -81,14 +83,6 @@ test('getConversationNumber', t => {
 		location.href = url;
 		t.is(result, getConversationNumber());
 	}
-});
-
-test('getOwnerAndRepo', t => {
-	location.href = 'https://github.com/sindresorhus/refined-github/pull/148';
-	t.deepEqual(getRepositoryInfo(), {
-		owner: 'sindresorhus',
-		name: 'refined-github'
-	});
 });
 
 test('parseTag', t => {
@@ -173,6 +167,10 @@ function replace(string: string): string {
 	return string.replace(prCommitUrlRegex, preventPrCommitLinkLoss);
 }
 
+function replaceCompareLink(string: string): string {
+	return string.replace(prCompareUrlRegex, preventPrCompareLinkLoss);
+}
+
 test('preventPrCommitLinkLoss', t => {
 	t.is(replace('https://www.google.com/'), 'https://www.google.com/');
 	t.is(
@@ -207,5 +205,57 @@ test('preventPrCommitLinkLoss', t => {
 		replace(replace('lorem ipsum dolor https://github.com/sindresorhus/refined-github/pull/3205/commits/1da152b3f8c51dd72d8ae6ad9cc96e0c2d8716f5#diff-932095cc3c0dff00495b4c392d78f0afR60 some random string')),
 		'lorem ipsum dolor [`1da152b` (#3205)](https://github.com/sindresorhus/refined-github/pull/3205/commits/1da152b3f8c51dd72d8ae6ad9cc96e0c2d8716f5#diff-932095cc3c0dff00495b4c392d78f0afR60) some random string',
 		'It should not apply it twice even with hashes'
+	);
+	t.is(
+		replaceCompareLink('https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0'),
+		'https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0',
+		'It should not affect compare URLs without a diff hash'
+	);
+	t.is(
+		replaceCompareLink('https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191'),
+		'[`v11.5.2...v11.6.0`#diff-6be2971b2b](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191)'
+	);
+	t.is(
+		replaceCompareLink('lorem ipsum dolor https://github.com/sindresorhus/refined-github/compare/master...incremental-tag-changelog-link#diff-5b3cf6bcc7c5b1373313553dc6f93a5eR7-R9 some random string'),
+		'lorem ipsum dolor [`master...incremental-tag-changelog-link`#diff-5b3cf6bcc7](https://github.com/sindresorhus/refined-github/compare/master...incremental-tag-changelog-link#diff-5b3cf6bcc7c5b1373313553dc6f93a5eR7-R9) some random string'
+	);
+	t.is(
+		replaceCompareLink(replaceCompareLink('lorem ipsum dolor https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191 some random string')),
+		'lorem ipsum dolor [`v11.5.2...v11.6.0`#diff-6be2971b2b](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191) some random string',
+		'It should not apply it twice'
+	);
+	t.is(
+		replaceCompareLink('I like [turtles](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191)'),
+		'I like [turtles](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191)',
+		'It should ignore Markdown links'
+	);
+});
+
+function parseBackticks(string: string): string {
+	return getParsedBackticksParts(string).map(
+		(part, index) => index % 2 && part.length > 0 ? `<code>${part.trim()}</code>` : part
+	).join('');
+}
+
+test('parseBackticks', t => {
+	t.is(
+		parseBackticks('multiple `code spans` between ` other ` text'),
+		'multiple <code>code spans</code> between <code>other</code> text'
+	);
+	t.is(
+		parseBackticks('`code` at the start'),
+		'<code>code</code> at the start'
+	);
+	t.is(
+		parseBackticks('code at the `end`'),
+		'code at the <code>end</code>'
+	);
+	t.is(
+		parseBackticks('single backtick in a code span: `` ` ``'),
+		'single backtick in a code span: <code>`</code>'
+	);
+	t.is(
+		parseBackticks('backtick-delimited string in a code span: `` `foo` ``'),
+		'backtick-delimited string in a code span: <code>`foo`</code>'
 	);
 });

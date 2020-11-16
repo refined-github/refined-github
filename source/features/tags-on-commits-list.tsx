@@ -7,11 +7,9 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import {getCommitHash} from './mark-merge-commits-in-list';
-import {getRepoURL, getRepoGQL} from '../github-helpers';
+import {buildRepoURL, getRepoGQL, getRepo} from '../github-helpers';
 
-interface CommitTags {
-	[name: string]: string[];
-}
+type CommitTags = Record<string, string[]>;
 
 interface BaseTarget {
 	commitResourcePath: string;
@@ -118,14 +116,14 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 }
 
 async function init(): Promise<void | false> {
-	const cacheKey = `tags:${getRepoURL()}`;
+	const cacheKey = `tags:${getRepo()!.nameWithOwner}`;
 
 	const commitsOnPage = select.all([
 		'li.commit', // Pre "Repository refresh" layout
 		'.js-commits-list-item'
 	]);
 	const lastCommitOnPage = getCommitHash(commitsOnPage[commitsOnPage.length - 1]);
-	let cached = await cache.get<{[commit: string]: string[]}>(cacheKey) ?? {};
+	let cached = await cache.get<Record<string, string[]>>(cacheKey) ?? {};
 	const commitsWithNoTags = [];
 	for (const commit of commitsOnPage) {
 		const targetCommit = getCommitHash(commit);
@@ -148,7 +146,7 @@ async function init(): Promise<void | false> {
 					<TagIcon/>
 					<span className="ml-1">{targetTags.map((tags, i) => (
 						<>
-							<a href={`/${getRepoURL()}/releases/tag/${tags}`}>{tags}</a>
+							<a href={buildRepoURL('releases/tag', tags)}>{tags}</a>
 							{(i + 1) === targetTags.length ? '' : ', '}
 						</>
 					))}
@@ -167,11 +165,7 @@ async function init(): Promise<void | false> {
 	await cache.set(cacheKey, cached, {days: 1});
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Display the corresponding tags next to commits',
-	screenshot: 'https://user-images.githubusercontent.com/14323370/66400400-64ba7280-e9af-11e9-8d6c-07b35afde91f.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoCommitList
 	],

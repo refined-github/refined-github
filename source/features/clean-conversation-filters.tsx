@@ -5,14 +5,14 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepositoryInfo, getRepoURL, getRepoGQL} from '../github-helpers';
+import {getRepo, getRepoGQL} from '../github-helpers';
 
 const hasAnyProjects = cache.function(async (): Promise<boolean> => {
 	const {repository, organization} = await api.v4(`
 		repository(${getRepoGQL()}) {
 			projects { totalCount }
 		}
-		organization(login: "${getRepositoryInfo().owner!}") {
+		organization(login: "${getRepo()!.owner}") {
 			projects { totalCount }
 		}
 	`, {
@@ -21,13 +21,9 @@ const hasAnyProjects = cache.function(async (): Promise<boolean> => {
 
 	return Boolean(repository.projects.totalCount) && Boolean(organization?.projects?.totalCount);
 }, {
-	maxAge: {
-		days: 1
-	},
-	staleWhileRevalidate: {
-		days: 20
-	},
-	cacheKey: () => `has-projects:${getRepoURL()}`
+	maxAge: {days: 1},
+	staleWhileRevalidate: {days: 20},
+	cacheKey: () => `has-projects:${getRepo()!.nameWithOwner}`
 });
 
 function getCount(element: HTMLElement): number {
@@ -75,14 +71,10 @@ async function init(): Promise<void | false> {
 	]);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Hides `Projects` and `Milestones` filters in conversation lists if they are empty.',
-	screenshot: 'https://user-images.githubusercontent.com/37769974/59083449-0ef88f80-8915-11e9-8296-68af1ddcf191.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoConversationList
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init
 });

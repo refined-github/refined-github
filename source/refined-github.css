@@ -4,6 +4,7 @@
 	--github-gray-background: #fafbfc;
 	--github-gray-text: #6a737d;
 	--github-faint-yellow: #fffbdd;
+	--github-border-color: #e1e4e8;
 }
 
 /* Fade out the file icons */
@@ -23,7 +24,8 @@
 }
 
 #js-issues-toolbar .table-list-header-toggle summary {
-	padding: 0 8px !important;
+	padding-left: 8px !important;
+	padding-right: 8px !important;
 }
 
 #js-issues-toolbar .table-list-header-toggle > :last-child > summary {
@@ -125,4 +127,9 @@ pr-branches
 /* Hide duplicate "You can also open this in GitHub Desktop" in PRs’ mergeability box */
 #partial-pull-merging .js-remove-unless-platform {
 	display: none;
+}
+
+/* Increase scrollable area in GitHub Actions #3591 */
+.WorkflowRunLogsScroll {
+	height: auto !important;
 }

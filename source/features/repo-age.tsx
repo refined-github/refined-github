@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepoURL, getRepoGQL} from '../github-helpers';
+import {getRepoGQL, getRepo} from '../github-helpers';
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
 	year: 'numeric',
@@ -68,7 +68,7 @@ const getFirstCommit = cache.function(async (): Promise<[committedDate: string, 
 
 	return getRepoAge(commitSha, commitsCount);
 }, {
-	cacheKey: () => __filebasename + ':' + getRepoURL()
+	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner
 });
 
 async function init(): Promise<void> {
@@ -114,17 +114,13 @@ async function init(): Promise<void> {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds the age of the repository to the stats/numbers bar',
-	screenshot: 'https://user-images.githubusercontent.com/3848317/69256318-95e6af00-0bb9-11ea-84c8-c6996d39da80.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoRoot
 	],
 	exclude: [
 		pageDetect.isEmptyRepoRoot
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init
 });

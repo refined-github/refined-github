@@ -91,7 +91,7 @@ async function handleSubmitSingle(event: delegate.Event): Promise<void> {
 		// Wait for the comment to be added
 		await observeOneMutation(lineBeingCommentedOn.parentElement!);
 		commentForm.hidden = false;
-	} catch (error) {
+	} catch (error: unknown) {
 		commentForm.hidden = false;
 
 		// Place comment in console to allow recovery
@@ -108,11 +108,7 @@ function init(): void {
 	updateUI();
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a button to submit a single PR comment if you mistakenly started a new review.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/60331761-f6394200-99c7-11e9-81c2-c671cba9602a.gif'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRFiles
 	],

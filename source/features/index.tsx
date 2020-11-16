@@ -1,34 +1,26 @@
 import React from 'dom-chef';
+import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';
 import elementReady from 'element-ready';
+import compareVersions from 'tiny-version-compare';
 import * as pageDetect from 'github-url-detection';
 
 import onNewComments from '../github-events/on-new-comments';
-import onNewsfeedLoad from '../github-events/on-newsfeed-load';
 import optionsStorage, {RGHOptions} from '../options-storage';
 
 type BooleanFunction = () => boolean;
 type CallerFunction = (callback: VoidFunction) => void;
 type FeatureInit = () => Promisable<false | void>;
 
-interface FeatureMeta {
-	/**
-	If it's disabled, this should be the issue that explains why, as a reference
-	@example '#123'
-	*/
-	disabled?: string;
-	id: FeatureID;
-	description: string;
-	screenshot: string | false;
-	shortcuts?: FeatureShortcuts;
-}
-
 interface FeatureLoader extends Partial<InternalRunConfig> {
-	/** Whether to wait for DOM ready before runnin `init`. `false` makes `init` run right as soon as `body` is found. @default true */
-	waitForDomReady?: false;
+	/** This only adds the shortcut to the help screen, it doesn't enable it. @default {} */
+	shortcuts?: Record<string, string>;
+
+	/** Whether to wait for DOM ready before running `init`. `false` makes `init` run right as soon as `body` is found. @default true */
+	awaitDomReady?: false;
 
 	/** When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway.  @default false */
 	repeatOnBackButton?: true;
@@ -51,12 +43,12 @@ interface InternalRunConfig {
 
 let log: typeof console.log;
 
-function logError(id: FeatureID, error: Error | string, ...extras: unknown[]): void {
+function logError(id: FeatureID, error: Error | string | unknown, ...extras: unknown[]): void {
 	if (error instanceof TypeError && error.message === 'Object(...)(...) is null') {
 		error.message = 'The element wasn’t found, the selector needs to be updated.';
 	}
 
-	const message = typeof error === 'string' ? error : error.message;
+	const message = error instanceof Error ? error.message : String(error);
 
 	if (message.includes('token')) {
 		console.log(`ℹ️ Refined GitHub → ${id} →`, message);
@@ -103,6 +95,11 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 
 	// Options defaults
 	const options = await optionsStorage.getAll();
+	const hotfix = browser.runtime.getManifest().version === '0.0.0' || await cache.get('hotfix'); // Ignores the cache when loaded locally
+
+	// If features are remotely marked as "seriously breaking" by the maintainers, disable them without having to wait for proper updates to propagate #3529
+	void checkForHotfixes();
+	Object.assign(options, hotfix);
 
 	if (options.customCSS.trim().length > 0) {
 		document.head.append(<style>{options.customCSS}</style>);
@@ -129,7 +126,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 			if (await init() !== false && id !== __filebasename) {
 				log('✅', id);
 			}
-		} catch (error) {
+		} catch (error: unknown) {
 			logError(id, error);
 		}
 
@@ -150,11 +147,30 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 	}
 };
 
+const checkForHotfixes = cache.function(async () => {
+	// The explicit endpoint is necessary because it shouldn't change on GHE
+	const request = await fetch('https://api.github.com/repos/sindresorhus/refined-github/contents/hotfix.json?ref=hotfix');
+	const response = await request.json();
+	const hotfixes: AnyObject | false = JSON.parse(atob(response.content));
+
+	// eslint-disable-next-line @typescript-eslint/prefer-optional-chain -- https://github.com/typescript-eslint/typescript-eslint/issues/1893
+	if (hotfixes && hotfixes.unaffected) {
+		const currentVersion = browser.runtime.getManifest().version;
+		if (compareVersions(hotfixes.unaffected, currentVersion) < 1) {
+			return {};
+		}
+	}
+
+	return hotfixes;
+}, {
+	maxAge: {hours: 6},
+	cacheKey: () => 'hotfix'
+});
+
 const shortcutMap = new Map<string, string>();
 
 const defaultPairs = new Map([
-	[pageDetect.hasComments, onNewComments],
-	[pageDetect.isDashboard, onNewsfeedLoad]
+	[pageDetect.hasComments, onNewComments]
 ]);
 
 function enforceDefaults(
@@ -176,38 +192,32 @@ function enforceDefaults(
 }
 
 /** Register a new feature */
-const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<void> => {
-	/* Input defaults and validation */
-	const {
-		id = __filebasename,
-		disabled = false,
-		shortcuts = {}
-	} = meta ?? {};
-
+const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> => {
 	/* Feature filtering and running */
 	const options = await globalReady;
-	if (disabled || options[`feature:${id}`] === false) {
-		log('↩️', 'Skipping', id, disabled ? `because of ${disabled}` : '');
+	if (options[`feature:${id}`] === false) {
+		log('↩️', 'Skipping', id);
 		return;
-	}
-
-	// Register feature shortcuts
-	for (const [hotkey, description] of Object.entries(shortcuts)) {
-		shortcutMap.set(hotkey, description);
 	}
 
 	for (const loader of loaders) {
 		// Input defaults and validation
 		const {
+			shortcuts = {},
 			include = [() => true], // Default: every page
 			exclude = [], // Default: nothing
 			init,
 			deinit,
-			waitForDomReady = true,
+			awaitDomReady = true,
 			repeatOnBackButton = false,
 			onlyAdditionalListeners = false,
 			additionalListeners = []
 		} = loader;
+
+		// Register feature shortcuts
+		for (const [hotkey, description] of Object.entries(shortcuts)) {
+			shortcutMap.set(hotkey, description);
+		}
 
 		// 404 pages should only run 404-only features
 		if (pageDetect.is404() && !include.includes(pageDetect.is404)) {
@@ -217,7 +227,7 @@ const add = async (meta?: FeatureMeta, ...loaders: FeatureLoader[]): Promise<voi
 		enforceDefaults(id, include, additionalListeners);
 
 		const details = {include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners};
-		if (waitForDomReady) {
+		if (awaitDomReady) {
 			(async () => {
 				await domLoaded;
 				await setupPageLoad(id, details);
@@ -240,7 +250,7 @@ This means that the old features will still be on the page and don't need to re-
 
 This marks each as "processed"
 */
-void add(undefined, {
+void add(__filebasename, {
 	init: async () => {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
 		await Promise.resolve();

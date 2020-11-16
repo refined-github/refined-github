@@ -8,8 +8,9 @@ import features from '.';
 const getBufferField = onetime((): HTMLInputElement => (
 	<input
 		type="text"
-		className="form-control tree-finder-input p-0 ml-1 border-0"
-		style={{marginTop: '-0.19em'}}
+		className="p-0 border-0"
+		style={{backgroundColor: 'transparent', outline: 0}}
+		placeholder="Search file…"
 	/> as unknown as HTMLInputElement
 ));
 
@@ -25,11 +26,13 @@ function pjaxStartHandler(event: CustomEvent): void {
 	const repoName = select('.pagehead h1 strong, [itemprop="name"]')!;
 	repoName.classList.remove('mr-2');
 	repoName.after(
-		<span className="path-divider flex-self-stretch">/</span>,
+		<span className="mx-1 flex-self-stretch">/</span>,
 		<span className="flex-self-stretch mr-2">{bufferField}</span>
 	);
 	bufferField.focus();
-	select('.pagehead-actions')!.remove();
+	for (const element of select.all('.pagehead-actions, .rgh-ci-link, .octotree-bookmark-btn')) {
+		element.remove();
+	}
 }
 
 function pjaxCompleteHandler(): void {
@@ -48,14 +51,10 @@ function init(): void {
 	window.addEventListener('pjax:complete', pjaxCompleteHandler);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Lets you start typing your search immediately after invoking the File Finder (`t`), instead of having you wait for it to load first.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/75542106-1c811700-5a5a-11ea-8aa5-bea0472c59e2.gif'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepo
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: onetime(init)
 });

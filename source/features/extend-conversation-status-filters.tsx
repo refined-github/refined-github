@@ -61,14 +61,10 @@ async function init(): Promise<void | false> {
 	togglableFilters();
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Lets you toggle between is:open/is:closed/is:merged filters in searches.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/73605061-2125ed00-45cc-11ea-8cbd-41a53ae00cd3.gif'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isConversationList
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init
 });

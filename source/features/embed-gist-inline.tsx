@@ -4,7 +4,6 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {isFirefox} from '../github-helpers';
 
 const isGist = (link: HTMLAnchorElement): boolean =>
 	!link.pathname.includes('.') && // Exclude links to embed files
@@ -20,10 +19,10 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 	link.after(info);
 
 	try {
-		const response = await fetch(`${link.href}.json`);
-		const gistData = await response.json();
+		// Get the gist via background.js due to CORB policies introduced in Chrome 73
+		const gistData = await browser.runtime.sendMessage({request: `${link.href}.json`});
 
-		const files = domify.one(gistData.div)!;
+		const files = domify.one(JSON.parse(gistData).div)!;
 		const fileCount = files.children.length;
 
 		if (fileCount > 1) {
@@ -52,17 +51,9 @@ function init(): void {
 		.forEach(embedGist);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Embeds linked gists. Not supported by Firefox.',
-	screenshot: 'https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.PNG'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.hasComments
-	],
-	exclude: [
-		// https://github.com/sindresorhus/refined-github/issues/2022
-		() => isFirefox
 	],
 	init
 });

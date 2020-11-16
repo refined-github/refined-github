@@ -46,14 +46,9 @@ function init(): void {
 	delegate(document, 'button.rgh-quick-mention', 'click', mentionUser);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a button to @mention a user in conversations.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/70406615-f445d580-1a73-11ea-9ab1-bf6bd9aa70a3.gif'
-}, {
+void features.add(__filebasename, {
 	include: [
-		pageDetect.isIssue,
-		pageDetect.isPRConversation
+		pageDetect.isConversation
 	],
 	exclude: [
 		() => select.exists('.conversation-limited') // Conversation is locked

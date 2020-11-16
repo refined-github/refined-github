@@ -8,7 +8,7 @@ const isCommentGroupMinimized = (comment: HTMLElement): boolean =>
 	select.exists('.minimized-comment:not(.d-none)', comment) ||
 	Boolean(comment.closest([
 		'.js-resolvable-thread-contents.d-none', // Regular comments
-		'.js-resolvable-timeline-thread-container:not([open])' // Review comments
+		'details.js-resolvable-timeline-thread-container:not([open])' // Review comments
 	].join()));
 
 function runShortcuts(event: KeyboardEvent): void {
@@ -54,15 +54,11 @@ function init(): void {
 	document.addEventListener('keypress', runShortcuts);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds shortcuts to conversations and PR file lists: `j` focuses the comment/file below; `k` focuses the comment/file above.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/86573176-48665900-bf74-11ea-8996-a5c46cb7bdfd.gif',
+void features.add(__filebasename, {
 	shortcuts: {
 		j: 'Focus the comment/file below',
 		k: 'Focus the comment/file above'
-	}
-}, {
+	},
 	include: [
 		pageDetect.hasComments
 	],

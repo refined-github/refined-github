@@ -6,6 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
+import onNewsfeedLoad from '../github-events/on-newsfeed-load';
 import {getUsername, compareNames} from '../github-helpers';
 
 async function init(): Promise<false | void> {
@@ -66,13 +67,12 @@ async function init(): Promise<false | void> {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds the real name of users by their usernames.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/62075835-5f82ce00-b270-11e9-91eb-4680b70cb3cb.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isDashboard
+	],
+	additionalListeners: [
+		onNewsfeedLoad
 	],
 	init: onetime(init)
 }, {

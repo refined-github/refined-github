@@ -2,58 +2,38 @@ import 'webext-base-css/webext-base.css';
 import './options.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
+import domify from 'doma';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import fitTextarea from 'fit-textarea';
-import {applyToLink} from 'shorten-repo-url';
 import * as indentTextarea from 'indent-textarea';
 
 import {perDomainOptions} from './options-storage';
-import * as domFormatters from './github-helpers/dom-formatters';
-
-function parseDescription(description: string): DocumentFragment {
-	const descriptionElement = <span>{description}</span>;
-	domFormatters.linkifyIssues(descriptionElement, {
-		baseUrl: 'https://github.com',
-		user: 'sindresorhus',
-		repository: 'refined-github'
-	});
-	domFormatters.linkifyURLs(descriptionElement);
-	domFormatters.parseBackticks(descriptionElement);
-
-	for (const a of select.all('a', descriptionElement)) {
-		applyToLink(a);
-	}
-
-	// eslint-disable-next-line react/jsx-no-useless-fragment
-	return <>{[...descriptionElement.childNodes]}</>;
-}
 
 function moveDisabledFeaturesToTop(): void {
 	const container = select('.js-features')!;
-	for (const unchecked of select.all('.feature--enabled [type=checkbox]:not(:checked)', container).reverse()) {
+	for (const unchecked of select.all('.feature [type=checkbox]:not(:checked)', container).reverse()) {
 		// .reverse() needed to preserve alphabetical order while prepending
 		container.prepend(unchecked.closest('.feature')!);
 	}
 }
 
-function buildFeatureCheckbox({id, description, screenshot, disabled}: FeatureMeta): HTMLElement {
-	// `undefined` disconnects it from the options
-	const key = disabled ? undefined : `feature:${id}`;
+function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLElement {
+	const descriptionElement = domify.one(description)!;
+	descriptionElement.className = 'description';
 
 	return (
-		<div className={`feature feature--${disabled ? 'disabled' : 'enabled'}`} data-text={`${id} ${description}`.toLowerCase()}>
-			<input type="checkbox" name={key} id={id} disabled={Boolean(disabled)}/>
+		<div className="feature" data-text={`${id} ${description}`.toLowerCase()}>
+			<input type="checkbox" name={`feature:${id}`} id={id}/>
 			<div className="info">
 				<label htmlFor={id}>
 					<span className="feature-name">{id}</span>
 					{' '}
-					{disabled && <small>{parseDescription(`(Disabled because of ${disabled}) `)}</small>}
 					<a href={`https://github.com/sindresorhus/refined-github/blob/master/source/features/${id}.tsx`}>
 						source
 					</a>
 					{screenshot && <>, <a href={screenshot}>screenshot</a></>}
-					<p className="description">{parseDescription(description)}</p>
+					{descriptionElement}
 				</label>
 			</div>
 		</div>
@@ -124,8 +104,8 @@ function addEventListeners(): void {
 	});
 
 	// Refresh page when permissions are changed (because the dropdown selector needs to be regenerated)
-	browser.permissions.onRemoved!.addListener(() => location.reload());
-	browser.permissions.onAdded!.addListener(() => location.reload());
+	browser.permissions.onRemoved.addListener(() => location.reload());
+	browser.permissions.onAdded.addListener(() => location.reload());
 
 	// Improve textareas editing
 	fitTextarea.watch('textarea');

@@ -5,10 +5,10 @@ import features from '.';
 import GitHubURL from '../github-helpers/github-url';
 import doesFileExist from '../github-helpers/does-file-exist';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getRepositoryInfo, getForkedRepo} from '../github-helpers';
+import {getRepo, getForkedRepo} from '../github-helpers';
 
 async function init(): Promise<void> {
-	const forkedRepository = getRepositoryInfo(getForkedRepo());
+	const forkedRepository = getRepo(getForkedRepo())!;
 	const sameViewUrl = new GitHubURL(location.href).assign({
 		user: forkedRepository.owner,
 		repository: forkedRepository.name,
@@ -20,11 +20,7 @@ async function init(): Promise<void> {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Points the “Forked from user/repository” link to current folder or file in the upstream repository.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/84795784-3722d000-aff8-11ea-9b34-97c01acf4fd4.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isSingleFile,
 		pageDetect.isRepoTree,

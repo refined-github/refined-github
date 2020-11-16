@@ -26,10 +26,10 @@ function batchToggle(event: delegate.Event<MouseEvent, HTMLFormElement>): void {
 	const previousFileState = isChecked(previousFile);
 	const thisFile = event.delegateTarget.closest<HTMLElement>('.js-file')!;
 	const files = select.all('.js-file');
-	const selectedFiles = files.slice(
+	const selectedFiles = files.slice(...[
 		files.indexOf(previousFile) + 1,
 		files.indexOf(thisFile) + 1
-	);
+	].sort((a, b) => a - b));
 
 	for (const file of selectedFiles) {
 		if (isChecked(file) !== previousFileState) {
@@ -48,12 +48,8 @@ function deinit(): void {
 	previousFile = undefined;
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Mark/unmark multiple files as “Viewed” in the PR Files tab. Click on the first checkbox you want to mark/unmark and then `shift`-click another one; all the files between the two checkboxes will be marked/unmarked as “Viewed”.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/79343285-854f2080-7f2e-11ea-8d4c-a9dc163be9be.gif'
-}, {
-	waitForDomReady: false,
+void features.add(__filebasename, {
+	awaitDomReady: false,
 	include: [
 		pageDetect.isPRFiles
 	],

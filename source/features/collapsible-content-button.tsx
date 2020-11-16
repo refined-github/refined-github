@@ -6,27 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
-
-// Wraps string in at least 2 \n on each side,
-// as long as the field doesn't already have them.
-// Code adopted/adapted from GitHub.
-function smartBlockWrap(content: string, field: HTMLTextAreaElement): string {
-	const before = field.value.slice(0, field.selectionStart);
-	const after = field.value.slice(field.selectionEnd);
-	const [whitespaceAtStart] = /\n*$/.exec(before)!;
-	const [whitespaceAtEnd] = /^\n*/.exec(after)!;
-	let newlinesToAppend = '';
-	let newlinesToPrepend = '';
-	if (/\S/.test(before) && whitespaceAtStart.length < 2) {
-		newlinesToPrepend = '\n'.repeat(2 - whitespaceAtStart.length);
-	}
-
-	if (/\S/.test(after) && whitespaceAtEnd.length < 2) {
-		newlinesToAppend = '\n'.repeat(2 - whitespaceAtEnd.length);
-	}
-
-	return newlinesToPrepend + content + newlinesToAppend;
-}
+import smartBlockWrap from '../helpers/smart-block-wrap';
 
 function addContentToDetails(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const field = event.delegateTarget.form!.querySelector('textarea')!;
@@ -42,6 +22,7 @@ function addContentToDetails(event: delegate.Event<MouseEvent, HTMLButtonElement
 		</details>
 	`.replace(/(\n|\b)\t+/g, '$1').trim();
 
+	field.focus();
 	textFieldEdit.insert(field, smartBlockWrap(newContent, field));
 
 	// Restore selection.
@@ -63,11 +44,7 @@ function init(): void {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a button to insert collapsible content (via `<details>`).',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/53678019-0c721280-3cf4-11e9-9c24-4d11a697f67c.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.hasRichTextEditor
 	],

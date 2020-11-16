@@ -10,13 +10,6 @@
 	margin: -5px 0;
 }
 
-/* Reposition committer's avatar on PR commits #3444 */
-.pull-request-tab-content .commit .AvatarStack {
-	display: inline-block;
-	margin-bottom: -4px;
-	margin-right: -4px;
-}
-
 /* Add missing border radius to collapsed PR files #3444 */
 .js-blob-wrapper,
 .file:not(.open) .file-header.file-header--expandable {

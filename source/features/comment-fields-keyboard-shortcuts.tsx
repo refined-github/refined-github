@@ -63,18 +63,14 @@ function init(): void {
 	onCommentFieldKeydown(eventHandler);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds shortcuts to comment fields: `↑` to edit your previous comment; `esc` to blur field or cancel comment.',
-	screenshot: false,
+void features.add(__filebasename, {
 	shortcuts: {
 		'↑': 'Edit your last comment',
 		esc: 'Unfocuses comment field'
-	}
-}, {
+	},
 	include: [
 		pageDetect.hasRichTextEditor
 	],
-	waitForDomReady: false,
+	awaitDomReady: false,
 	init: onetime(init)
 });
