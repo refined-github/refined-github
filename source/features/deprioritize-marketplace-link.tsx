@@ -14,13 +14,15 @@ function handleMenuOpening(): void {
 }
 
 async function init(): Promise<void> {
-	(await elementReady('.Header-link[href="/marketplace"]'))
-		// The Marketplace link seems to have an additional wrapper that other links don't have https://i.imgur.com/KV9rtSq.png
-		?.closest('.border-top, .mr-3')!.remove();
+	const marketplaceLink = await elementReady('.Header-link[href="/marketplace"]');
+	if (marketplaceLink) { // On GHE it can be disabled
+		// The link seems to have an additional wrapper that other links don't have https://i.imgur.com/KV9rtSq.png
+		marketplaceLink.closest('.border-top, .mr-3')!.remove();
 
-	(await elementReady('[aria-label="View profile and more"]'))
-		?.closest('details')!
-		.addEventListener('toggle', handleMenuOpening, {once: true});
+		(await elementReady('[aria-label="View profile and more"]'))!
+			.closest('details')!
+			.addEventListener('toggle', handleMenuOpening, {once: true});
+	}
 }
 
 void features.add(__filebasename, {
