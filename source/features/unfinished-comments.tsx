@@ -7,7 +7,8 @@ import features from '.';
 let documentTitle: string | undefined;
 
 function hasDraftComments(): boolean {
-	return select.all('textarea').some(textarea => textarea.value.length > 0 && textarea.offsetWidth > 0 && !textarea.closest('.rgh-is-sending-comment'));
+	// `[disabled]` excludes the PR description field that `wait-for-build` disables while it waits
+	return select.all('textarea:not([disabled])').some(textarea => textarea.value.length > 0 && textarea.offsetWidth > 0 && !textarea.closest('.rgh-is-sending-comment'));
 }
 
 function updateDocumentTitle(): void {
