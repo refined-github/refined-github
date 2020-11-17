@@ -8,8 +8,10 @@ let documentTitle: string | undefined;
 
 function hasDraftComments(): boolean {
 	// `[disabled]` excludes the PR description field that `wait-for-build` disables while it waits
-	return select.all('textarea:not([disabled])').some(textarea =>
-		textarea.value.length > 0 && textarea.offsetWidth > 0 && !textarea.closest('.rgh-is-sending-comment')
+	return select.all<HTMLTextAreaElement>('textarea:not([disabled])').some(textarea =>
+		textarea.value !== textarea.textContent && // Exclude comments being edited but not yet changed (and empty comment fields)
+		textarea.offsetWidth > 0 && // Exclude invisible fields
+		!textarea.closest('.rgh-is-sending-comment') // Exclude forms being submitted
 	);
 }
 
@@ -27,7 +29,7 @@ function tagSendingForm({delegateTarget: form}: delegate.Event<Event, HTMLFormEl
 	form.classList.add('rgh-is-sending-comment');
 	form.addEventListener('reset', () => {
 		form.classList.remove('rgh-is-sending-comment');
-	}, {once: true})
+	}, {once: true});
 }
 
 function init(): void {
