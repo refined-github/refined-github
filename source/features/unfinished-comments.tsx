@@ -20,11 +20,13 @@ function updateDocumentTitle(): void {
 		documentTitle = undefined;
 	}
 
-	select('.rgh-is-sending-comment')?.classList.remove('rgh-is-sending-comment');
 }
 
-function tagSendingForm({delegateTarget}: delegate.Event<Event, HTMLElement>): void {
-	delegateTarget.classList.add('rgh-is-sending-comment');
+function tagSendingForm({delegateTarget: form}: delegate.Event<Event, HTMLFormElement>): void {
+	form.classList.add('rgh-is-sending-comment');
+	form.addEventListener('reset', () => {
+			form.classList.remove('rgh-is-sending-comment');
+	}, {once: true})
 }
 
 function init(): void {
