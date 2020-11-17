@@ -19,19 +19,18 @@ function updateDocumentTitle(): void {
 		document.title = documentTitle;
 		documentTitle = undefined;
 	}
-
 }
 
 function tagSendingForm({delegateTarget: form}: delegate.Event<Event, HTMLFormElement>): void {
 	form.classList.add('rgh-is-sending-comment');
 	form.addEventListener('reset', () => {
-			form.classList.remove('rgh-is-sending-comment');
+		form.classList.remove('rgh-is-sending-comment');
 	}, {once: true})
 }
 
 function init(): void {
 	document.addEventListener('visibilitychange', updateDocumentTitle);
-	delegate(document.body, 'form', 'submit', tagSendingForm);
+	delegate(document, 'form', 'submit', tagSendingForm);
 }
 
 void features.add(__filebasename, {
