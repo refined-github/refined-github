@@ -7,17 +7,17 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import {getRepo} from '../github-helpers';
 
-const fragmentURL = (): string => `/${getRepo()!.nameWithOwner}/show_partial?partial=tree%2Frecently_touched_branches_list`;
-const selector = (): string => `[data-url='${fragmentURL()}' i], [src='${fragmentURL()}' i]`;
+const fragmentURL = `/${getRepo()!.nameWithOwner}/show_partial?partial=tree%2Frecently_touched_branches_list`;
+const selector = `[data-url='${fragmentURL}' i], [src='${fragmentURL}' i]`;
 
 // Ajaxed pages will load a new fragment on every ajaxed load, but we only really need the one generated on the first load
 function removeDuplicateList(): void {
-	select(selector(), select('main')!)?.remove();
+	select(selector, select('main')!)?.remove();
 }
 
 async function getWidget(): Promise<HTMLElement | false> {
 	if (pageDetect.isRepoRoot()) {
-		return select(selector())!;
+		return select(selector)!;
 	}
 
 	// We need to verify that the repo has any recently pushed branches or else it will break the page #1964
@@ -25,8 +25,8 @@ async function getWidget(): Promise<HTMLElement | false> {
 	const response = await fetch(location.origin + repoRootUrl);
 	const html = await response.text();
 
-	if (html.includes(fragmentURL())) {
-		return <include-fragment src={fragmentURL()}/>;
+	if (html.includes(fragmentURL)) {
+		return <include-fragment src={fragmentURL}/>;
 	}
 
 	return false;
