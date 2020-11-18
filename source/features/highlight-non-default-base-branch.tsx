@@ -5,8 +5,8 @@ import PullRequestIcon from 'octicon/git-pull-request.svg';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import getDefaultBranch from '../github-helpers/get-default-branch';
 import {buildRepoURL} from '../github-helpers';
+import getDefaultBranch from '../github-helpers/get-default-branch';
 
 interface BranchInfo {
 	baseRef: string;
