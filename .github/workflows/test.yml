@@ -10,7 +10,6 @@ on:
       - 'test/*'
 
 jobs:
-
   Security:
     runs-on: ubuntu-latest
     steps:

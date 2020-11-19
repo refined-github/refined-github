@@ -43,4 +43,3 @@ export const groupSiblings = (button: Element): Element => {
 
 	return groupButtons(siblings);
 };
-
