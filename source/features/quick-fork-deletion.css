@@ -1,11 +1,11 @@
-.rgh-deleting-fork {
+:root .rgh-quick-fork-deletion[open] span {
+	position: relative;
+	z-index: 81;
+	font-variant-numeric: tabular-nums;
 	transform-origin: top;
-	animation: rgh-zoom 5s ease-in forwards;
-	z-index: 10000;
 }
 
-@keyframes rgh-zoom {
-	to {
-		transform: scale(4);
-	}
+:root .rgh-quick-fork-deletion[open] summary:before {
+	background-color: var(--color-scale-red-6);
+	opacity: 0.3;
 }
