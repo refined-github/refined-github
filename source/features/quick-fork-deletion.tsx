@@ -24,12 +24,12 @@ function handleToggle(event: delegate.Event<Event, HTMLDetailsElement>): void {
 		// Close the <details> element again
 		event.delegateTarget.open = false;
 	} else {
-		setTimeout(start, 1); // Without the timeout, the same toggle event will also trigger the AbortController
+		setTimeout(start, 1, event.delegateTarget); // Without the timeout, the same toggle event will also trigger the AbortController
 	}
 }
 
-async function buttonTimeout(button: HTMLElement): Promise<boolean> {
-	const abortController = new AbortController();
+async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boolean> {
+	const button = select('.btn', buttonContainer)!;
 	const animation = button.animate({
 		transform: 'scale(4)'
 	}, {
@@ -38,42 +38,42 @@ async function buttonTimeout(button: HTMLElement): Promise<boolean> {
 		duration: 5000
 	});
 
-	abortController.signal.addEventListener('abort', () => {
-		button.textContent = 'Delete fork';
-		animation.cancel();
-	});
-
 	// Watch for cancellations
-	button.closest('details')!.addEventListener('toggle', () => {
+	const abortController = new AbortController();
+	buttonContainer.addEventListener('toggle', () => {
 		abortController.abort();
 	}, {once: true});
 
 	let secondsLeft = 5;
-	do {
-		button.textContent = `Deleting fork in ${pluralize(secondsLeft, '$$ second')}. Cancel?`;
-		await delay(1000); // eslint-disable-line no-await-in-loop
-	} while (--secondsLeft && !abortController.signal.aborted);
+	try {
+		do {
+			button.textContent = `Deleting fork in ${pluralize(secondsLeft, '$$ second')}. Cancel?`;
+			await delay(1000, {signal: abortController.signal}); // eslint-disable-line no-await-in-loop
+		} while (--secondsLeft);
+	} catch {
+		button.textContent = 'Delete fork';
+		animation.cancel();
+	}
 
 	return !abortController.signal.aborted;
 }
 
-async function start(): Promise<void> {
-	const button = select('.rgh-quick-fork-deletion span')!;
-	if (!await buttonTimeout(button)) {
+async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
+	if (!await buttonTimeout(buttonContainer)) {
 		return;
 	}
 
-	button.textContent = 'Deleting fork…';
+	select('.btn', buttonContainer)!.textContent = 'Deleting fork…';
 
-	const {nameWithOwner} = getRepo()!;
 	try {
+		const {nameWithOwner} = getRepo()!;
 		await api.v3('/repos/' + nameWithOwner, {
 			method: 'DELETE'
 		});
 		addNotice(`Repository ${nameWithOwner} deleted`, {showCloseButton: false});
 		select('.application-main')!.remove();
 	} catch (error: unknown) {
-		button.closest('details')!.remove();
+		buttonContainer.closest('li')!.remove();
 		addNotice(
 			<>
 				<p>
