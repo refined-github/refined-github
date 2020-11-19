@@ -31,15 +31,11 @@ async function buttonTimeout(button: HTMLElement): Promise<boolean> {
 
 	let secondsLeft = 5;
 	do {
-		if (abortController.signal.aborted) {
-			return false;
-		}
-
 		button.textContent = `Deleting fork in ${pluralize(secondsLeft, '$$ second')}. Cancel?`;
 		await delay(1000); // eslint-disable-line no-await-in-loop
-	} while (--secondsLeft);
+	} while (--secondsLeft && !abortController.signal.aborted);
 
-	return true;
+	return !abortController.signal.aborted;
 }
 
 async function start(): Promise<void> {
