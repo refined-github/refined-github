@@ -5,7 +5,7 @@
 	transform-origin: top;
 }
 
-:root .rgh-quick-fork-deletion[open] summary:before {
+:root .rgh-quick-fork-deletion[open] summary::before {
 	background-color: var(--color-scale-red-6);
-	opacity: 0.3;
+	opacity: 30%;
 }
