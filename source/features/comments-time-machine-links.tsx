@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import XIcon from 'octicon/x.svg';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -7,6 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
+import addNotice from '../github-widgets/notice-bar';
 import {appendBefore} from '../helpers/dom-utils';
 import {buildRepoURL, isPermalink, getRepoGQL} from '../github-helpers';
 
@@ -107,13 +107,8 @@ async function showTimemachineBar(): Promise<void | false> {
 		url.pathname = parsedUrl.pathname;
 	}
 
-	const closeButton = <button className="flash-close js-flash-close" type="button" aria-label="Dismiss this message"><XIcon/></button>;
-	select('#start-of-content')!.after(
-		<div className="flash flash-full flash-notice">
-			<div className="container-lg px-3">
-				{closeButton} You can also <a className="rgh-link-date" href={String(url)}>view this object as it appeared at the time of the comment</a> (<relative-time datetime={date}/>)
-			</div>
-		</div>
+	addNotice(
+		<>You can also <a className="rgh-link-date" href={String(url)}>view this object as it appeared at the time of the comment</a> (<relative-time datetime={date}/>)</>
 	);
 }
 

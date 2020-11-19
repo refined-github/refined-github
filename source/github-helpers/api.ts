@@ -51,6 +51,7 @@ interface RestResponse extends AnyObject {
 export const escapeKey = (value: string | number): string => '_' + String(value).replace(/[ ./-]/g, '_');
 
 export class RefinedGitHubAPIError extends Error {
+	response: AnyObject;
 	constructor(...messages: string[]) {
 		super(messages.join('\n'));
 	}
@@ -208,11 +209,13 @@ export async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAP
 		);
 	}
 
-	return new RefinedGitHubAPIError(
+	const error = new RefinedGitHubAPIError(
 		'Unable to fetch.',
 		personalToken ?
 			'Ensure that your token has access to this repo.' :
 			'Maybe adding a token in the options will fix this issue.',
 		JSON.stringify(apiResponse, null, '\t') // Beautify
 	);
+	error.response = apiResponse;
+	return error;
 }
