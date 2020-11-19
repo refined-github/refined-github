@@ -35,6 +35,24 @@ async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boole
 		abortController.abort();
 	}, {once: true});
 
+	void api.v3('/').then(({headers}) => {
+		const tokenScopes = headers.get('X-OAuth-Scopes')!;
+		if (!tokenScopes.split(', ').includes('delete_repo')) {
+			abortController.abort();
+			buttonContainer.open = false;
+			addNotice(
+				<>
+					<p>
+						Could not delete the repository. The token you provided does not have the <code>delete_repo</code> scope. It only includes <code>{tokenScopes}</code>
+					</p>
+					<p>
+						You can edit your token on <a href="https://github.com/settings/tokens">GitHub’s settings page</a>.
+					</p>
+				</>
+			);
+		}
+	});
+
 	let secondsLeft = 5;
 	const button = select('.btn', buttonContainer)!;
 	try {
