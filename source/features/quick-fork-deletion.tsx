@@ -104,15 +104,20 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 }
 
 async function init(): Promise<void | false> {
-	const stars = await elementReady('.starring-container .social-count');
-	if (looseParseInt(stars!) > 0) {
+	if (
+		// Only if the user can delete the repository
+		!await elementReady('[data-tab-item="settings-tab"]') ||
+
+		// Only if the repository hasn't been starred
+		looseParseInt(select('.starring-container .social-count')!) > 0
+	) {
 		return false;
 	}
 
 	await api.expectToken();
 
 	// (Ab)use the details element as state and an accessible "click-anywhere-to-cancel" utility
-	stars!.closest('.pagehead-actions')!.prepend(
+	select('.pagehead-actions')!.prepend(
 		<li>
 			<details className="details-reset details-overlay select-menu rgh-quick-fork-deletion">
 				<summary aria-haspopup="menu" role="button">
