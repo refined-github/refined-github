@@ -11,7 +11,6 @@ import * as api from '../github-helpers/api';
 import {getRepo} from '../github-helpers';
 import pluralize from '../helpers/pluralize';
 import addNotice from '../github-widgets/notice-bar';
-import oneEvent from '../helpers/one-event';
 
 async function handleClick(event: delegate.Event): Promise<void> {
 	const button = event.delegateTarget;

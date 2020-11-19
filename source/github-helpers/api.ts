@@ -51,7 +51,7 @@ interface RestResponse extends AnyObject {
 export const escapeKey = (value: string | number): string => '_' + String(value).replace(/[ ./-]/g, '_');
 
 export class RefinedGitHubAPIError extends Error {
-	response: AnyObject;
+	response: AnyObject = {};
 	constructor(...messages: string[]) {
 		super(messages.join('\n'));
 	}
