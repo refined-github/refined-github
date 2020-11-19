@@ -34,6 +34,13 @@ jobs:
       - run: npm ci
       - run: npm run lint
 
+  Types:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm ci
+      - run: npm run build:typescript
+
   Build:
     runs-on: ubuntu-latest
     steps:
@@ -42,11 +49,12 @@ jobs:
         with:
           node-version: 14
       - run: npm ci
-      - run: npm run build
+      - run: npm run build:webpack
       - uses: actions/upload-artifact@v2
         with:
           name: refined-github
           path: distribution
+
   Safari:
     runs-on: macos-latest
     needs: Build
