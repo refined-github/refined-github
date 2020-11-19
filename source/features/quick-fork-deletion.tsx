@@ -39,16 +39,17 @@ async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boole
 	void api.expectTokenScope('delete_repo').catch((error: Error) => {
 		abortController.abort();
 		buttonContainer.open = false;
-		addNotice(
-			<div className="d-flex">
-				<p>Could not delete the repository. {parseBackticks(error.message)}</p>
-				<p><a className="btn btn-sm primary flash-action" href="https://github.com/settings/tokens">Update token…</a></p>
-			</div>,
-			{
-				type: 'error',
-				showCloseButton: false
-			}
-		);
+		addNotice([
+			'Could not delete the repository. ',
+			parseBackticks(error.message)
+		], {
+			type: 'error',
+			action: (
+				<a className="btn btn-sm primary flash-action" href="https://github.com/settings/tokens">
+					Update token…
+				</a>
+			)
+		});
 	});
 
 	let secondsLeft = 5;
@@ -79,7 +80,7 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 		await api.v3('/repos/' + nameWithOwner, {
 			method: 'DELETE'
 		});
-		addNotice(`Repository ${nameWithOwner} deleted`, {showCloseButton: false});
+		addNotice(`Repository ${nameWithOwner} deleted`, {action: false});
 		select('.application-main')!.remove();
 	} catch (error: unknown) {
 		buttonContainer.closest('li')!.remove();

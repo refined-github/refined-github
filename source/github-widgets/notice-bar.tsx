@@ -3,7 +3,7 @@ import XIcon from 'octicon/x.svg';
 import select from 'select-dom';
 
 interface Options {
-	showCloseButton?: boolean;
+	action?: Element | false;
 	type?: 'success' | 'notice' | 'warn' | 'error';
 }
 
@@ -11,19 +11,18 @@ interface Options {
 export default function addNotice(
 	message: string | Node | Array<string | Node>,
 	{
-		showCloseButton = true,
-		type = 'notice'
+		type = 'notice',
+		action = (
+			<button className="flash-close js-flash-close" type="button" aria-label="Dismiss this message">
+				<XIcon/>
+			</button>
+		)
 	}: Options = {}
 ): void {
-	const closeButton = (
-		<button className="flash-close js-flash-close" type="button" aria-label="Dismiss this message">
-			<XIcon/>
-		</button>
-	);
 	select('#start-of-content')!.after(
 		<div className={`flash flash-full flash-${type}`}>
-			<div className="container-lg px-3">
-				{showCloseButton && closeButton} {message}
+			<div className="container-lg px-3 d-flex flex-items-center">
+				<div>{message}</div> {action}
 			</div>
 		</div>
 	);
