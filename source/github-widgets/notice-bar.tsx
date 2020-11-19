@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import XIcon from 'octicon/x.svg';
-import select from "select-dom";
+import select from 'select-dom';
 
 interface Options {
 	showCloseButton?: boolean;
