@@ -81,8 +81,12 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 		await api.v3('/repos/' + nameWithOwner, {
 			method: 'DELETE'
 		});
-		addNotice(`Repository ${nameWithOwner} deleted`, {action: false});
-		select('.application-main')!.remove();
+		if (document.hidden) {
+			void browser.runtime.sendMessage({closeTab: true});
+		} else {
+			addNotice(`Repository ${nameWithOwner} deleted`, {action: false});
+			select('.application-main')!.remove();
+		}
 	} catch (error: unknown) {
 		buttonContainer.closest('li')!.remove(); // Remove button
 		addNotice([
