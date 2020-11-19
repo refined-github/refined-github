@@ -18,7 +18,7 @@ function handleToggle(event: delegate.Event<Event, HTMLDetailsElement>): void {
 	const hasContent = select.exists([
 		'[data-hotkey="g i"] .Counter:not([hidden])', // Open issues
 		'[data-hotkey="g p"] .Counter:not([hidden])', // Open PRs
-		'.rgh-open-prs-of-forks' PRs opened in the source repo
+		'.rgh-open-prs-of-forks' // PRs opened in the source repo
 	]);
 
 	if (hasContent && !confirm('This fork has open issues/PRs, are you sure you want to delete everything?')) {
@@ -26,7 +26,7 @@ function handleToggle(event: delegate.Event<Event, HTMLDetailsElement>): void {
 		event.delegateTarget.open = false;
 	} else {
 		// Without the timeout, the same toggle event will also trigger the AbortController
-		setTimeout(start, 1, event.delegateTarget); 
+		setTimeout(start, 1, event.delegateTarget);
 	}
 }
 
