@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import {getCommitHash} from './mark-merge-commits-in-list';
-import {buildRepoURL, getRepoGQL, getRepo} from '../github-helpers';
+import {buildRepoURL, getRepo} from '../github-helpers';
 
 type CommitTags = Record<string, string[]>;
 
@@ -50,7 +50,7 @@ function isTagTarget(target: CommonTarget): target is TagTarget {
 
 async function getTags(lastCommit: string, after?: string): Promise<CommitTags> {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			refs(
 				first: 100,
 				refPrefix: "refs/tags/",

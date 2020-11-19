@@ -17,7 +17,7 @@ function handleAltClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): v
 	const form = event.delegateTarget.form!;
 	const hiddenItemsCount = Math.min(
 		200, // https://github.com/sindresorhus/refined-github/issues/2931
-		looseParseInt(form.textContent!)
+		looseParseInt(form)
 	);
 
 	const url = new URL(form.action);

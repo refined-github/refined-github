@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepoGQL, getRepo} from '../github-helpers';
+import {getRepo} from '../github-helpers';
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
 	year: 'numeric',
@@ -18,7 +18,7 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
 
 const getRepoAge = async (commitSha: string, commitsCount: number): Promise<[committedDate: string, resourcePath: string]> => {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			defaultBranchRef {
 				target {
 					... on Commit {
@@ -44,7 +44,7 @@ const getRepoAge = async (commitSha: string, commitsCount: number): Promise<[com
 
 const getFirstCommit = cache.function(async (): Promise<[committedDate: string, resourcePath: string]> => {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			defaultBranchRef {
 				target {
 					... on Commit {

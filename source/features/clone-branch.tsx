@@ -10,11 +10,10 @@ import * as textFieldEdit from 'text-field-edit';
 import features from '.';
 import * as api from '../github-helpers/api';
 import LoadingIcon from '../github-helpers/icon-loading';
-import {getRepoGQL} from '../github-helpers';
 
 const getBranchBaseSha = async (branchName: string): Promise<string> => {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			ref(qualifiedName: "${branchName}") {
 				target {
 					oid

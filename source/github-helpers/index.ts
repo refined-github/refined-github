@@ -51,11 +51,6 @@ export const buildRepoURL = (...pathParts: Array<string | number> & {0: string})
 	return [location.origin, getRepo()?.nameWithOwner, ...pathParts].join('/');
 };
 
-export const getRepoGQL = (): string => {
-	const {owner, name} = getRepo()!;
-	return `owner: "${owner}", name: "${name}"`;
-};
-
 export const getPRHeadRepo = (): ReturnType<typeof getRepo> => {
 	return getRepo(select<HTMLAnchorElement>('.commit-ref.head-ref a')!);
 };

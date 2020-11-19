@@ -33,7 +33,9 @@ export default class GitHubURL {
 		return this;
 	}
 
-	private disambiguateReference(ambiguousReference: string[]): {branch: string; filePath: string} {
+	private disambiguateReference(
+		ambiguousReference: string[]
+	): {branch: string; filePath: string} {
 		const branch = ambiguousReference[0];
 		// History pages might use search parameters
 		const filePathFromSearch = this.searchParams.getAll('path[]').join('/');

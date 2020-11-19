@@ -8,7 +8,7 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import fetchDom from '../helpers/fetch-dom';
 import postForm from '../helpers/post-form';
-import {getConversationNumber, getRepoGQL, getCurrentBranch, getPRHeadRepo} from '../github-helpers';
+import {getConversationNumber, getCurrentBranch, getPRHeadRepo} from '../github-helpers';
 
 function showError(menuItem: HTMLButtonElement, error: string): void {
 	menuItem.disabled = true;
@@ -22,7 +22,7 @@ This value is not consistently available on the page (appears in `/files` but no
 */
 const getBaseReference = onetime(async (): Promise<string> => {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			pullRequest(number: ${getConversationNumber()!}) {
 				baseRefOid
 			}
@@ -33,7 +33,7 @@ const getBaseReference = onetime(async (): Promise<string> => {
 
 async function getFile(filePath: string): Promise<{isTruncated: boolean; text: string} | null> {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			file: object(expression: "${await getBaseReference()}:${filePath}") {
 				... on Blob {
 					isTruncated

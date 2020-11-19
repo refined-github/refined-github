@@ -5,8 +5,8 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
+import {getRepo} from '../github-helpers';
 import looseParseInt from '../helpers/loose-parse-int';
-import {getRepoGQL, getRepo} from '../github-helpers';
 
 interface IssueInfo {
 	updatedAt: string;
@@ -14,7 +14,7 @@ interface IssueInfo {
 
 const getLastUpdated = cache.function(async (issueNumbers: number[]): Promise<Record<string, IssueInfo>> => {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			${issueNumbers.map(number => `
 				${api.escapeKey(number)}: issue(number: ${number}) {
 					updatedAt
@@ -30,7 +30,7 @@ const getLastUpdated = cache.function(async (issueNumbers: number[]): Promise<Re
 });
 
 function getPinnedIssueNumber(pinnedIssue: HTMLElement): number {
-	return looseParseInt(select('.opened-by', pinnedIssue)!.firstChild!.textContent!);
+	return looseParseInt(select('.opened-by', pinnedIssue)!.firstChild!);
 }
 
 async function init(): Promise<void | false> {

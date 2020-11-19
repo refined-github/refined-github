@@ -9,7 +9,7 @@ import * as api from '../github-helpers/api';
 import {getUsername, getCleanPathname} from '../github-helpers';
 
 const doesUserFollow = cache.function(async (userA: string, userB: string): Promise<boolean> => {
-	const {httpStatus} = await api.v3(`users/${userA}/following/${userB}`, {
+	const {httpStatus} = await api.v3(`/users/${userA}/following/${userB}`, {
 		json: false,
 		ignoreHTTPStatus: true
 	});
